@@ -69,7 +69,7 @@ const plan = {
   finalizePlan: {
     writes: ['components/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**',
       '_ds_bundle.js', '_ds_bundle.css', '_specimen.css', 'styles.css', 'README.md',
-      '_ds_thumbnail.html',
+      '_ds_thumbnail.html', 'thumbnail.html',
       ANCHOR_FILE, SENTINEL],
     deletes: ['components/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**'],
   },
