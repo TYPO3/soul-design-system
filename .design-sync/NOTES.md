@@ -56,6 +56,18 @@ system is consumed as classes and tokens.
   rounding (`DIFF 12.5 PX`, `--font-size-code · 13.5`). If you change a size
   token, grep the card copy for the number.
 
+## Doing a sync
+
+The repo's half is one command: `npm run sync` (build → verify → status).
+It ends by telling the user to run `/design-sync`, which is the upload.
+
+**After a successful upload, copy the anchor you just pushed to
+`.design-sync/.cache/remote-sync.json`.** `npm run status` reads it to answer
+"what would a sync change". Skip this and status silently reports the last
+state it knew, which is worse than reporting nothing. The cache is
+gitignored, so on a fresh clone status correctly says it has no reference
+point rather than guessing.
+
 ## Re-sync risks
 
 - **`scripts/build.mjs` is the converter.** If the design-sync skill's own

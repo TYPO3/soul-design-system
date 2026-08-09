@@ -7,7 +7,7 @@ description: Build any surface of TYPO3 Support App — documentation pages, pro
 
 The product is a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work. It has one public surface where **the documentation is also the product presentation**: a visitor gets the pitch and keeps scrolling into the reference without a seam.
 
-This file is the operating instruction. `readme.md` is the reasoning behind it — read that when a rule needs to be extended or broken. Every specimen card under `guidelines/` and `components/` is a working HTML file: open the one nearest your task and copy from it rather than inventing a variant.
+This file is the operating instruction. `RATIONALE.md` is the reasoning behind it — read that when a rule needs to be extended or broken. Every specimen card under `guidelines/` and `components/` is a working HTML file: open the one nearest your task and copy from it rather than inventing a variant.
 
 ## Start here, every time
 
@@ -128,7 +128,7 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 | Card, panel, modal, drawer | `components/surfaces/` |
 | Code block, diff | `components/code/` |
 | The documentation surface itself | `ui_kits/documentation/index.dc.html` |
-| The reasoning behind every rule | `readme.md` |
+| The reasoning behind every rule | `RATIONALE.md` |
 
 ## Before you call it done
 

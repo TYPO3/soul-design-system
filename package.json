@@ -38,6 +38,8 @@
     "dev": "npm run gallery && npm run serve",
     "serve": "node scripts/serve.mjs",
     "gallery": "node scripts/gallery.mjs",
+    "sync": "npm run build --silent && npm run verify --silent && npm run status --silent",
+    "status": "node scripts/status.mjs",
     "build": "node scripts/build.mjs",
     "verify": "node scripts/verify.mjs",
     "fit": "node scripts/fit.mjs",

@@ -116,7 +116,7 @@ for (const c of list) {
 // written guidance
 mkdirSync(join(OUT, 'guidelines'), { recursive: true });
 cpSync(join(ROOT, 'SKILL.md'), join(OUT, 'guidelines/build-rules.md'));
-cpSync(join(ROOT, 'readme.md'), join(OUT, 'guidelines/rationale.md'));
+cpSync(join(ROOT, 'RATIONALE.md'), join(OUT, 'guidelines/rationale.md'));
 
 // README: the conventions header, then a generated index of every card
 const conv = join(ROOT, '.design-sync/conventions.md');
