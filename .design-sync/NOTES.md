@@ -230,3 +230,16 @@ the `brand-signet-sizes` card always promised, lifted a step under
 `signet-s.svg` has a square viewBox (`-6 -20 140 140`) because it is the
 favicon file: the mark is 5:4, and a 5:4 mark letterboxed into a square slot
 lands under the system's own 16px floor. L and M keep the natural box.
+
+## The signet is a construction, not the mark
+
+The drawing in `assets/` came from the Dev Companion prototype and is a
+worked example of the rules, not an approved product mark. The cards and
+SKILL.md are framed accordingly: what the system fixes is *how* a signet is
+built — stroke 7 → rounding 3.5 → gap ≥ 7, a 128×100 box, corner radius 20,
+the frame one open path, the marker on the frame's outer edge — and the
+three optical weights (7 / 8.5 / 11) hold whatever the drawing. A product
+adopting this system draws its own to the same construction.
+
+Do not re-word this back into "our mark". The example is kept because a rule
+without a worked example is unusable, not because the mark is settled.

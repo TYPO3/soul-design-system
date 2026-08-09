@@ -109,11 +109,13 @@ Flat canvas at `--surface-canvas`, 60px margin, no outer radius. Nodes `--surfac
 
 ## Brand
 
-**Signet** — a terminal frame holding a short session: two muted lines and one orange answer, top-right corner cut away by a solid orange marker. The marker is not the Soul; it borrows the Soul's two-part reading, its orange and its 1 : 1.44 proportion, and none of its geometry.
+**The signet is a construction, not a fixed drawing.** What this system fixes is *how* one is built; the mark in `assets/` is one worked example of the rules, carried over from the Dev Companion prototype. Treat it as the reference implementation, not as an approved product mark — a product that adopts this system draws its own to the same rules.
 
-Everything follows the stroke: stroke 7 → rounding 3.5 → gap ≥ 7 measured ink to ink. The marker sits on the frame's **outer** edge, not on the box.
+**How to draw one.** Everything follows the stroke: stroke 7 → rounding 3.5 (half the stroke, on frame caps, line ends and the marker's points alike) → gap ≥ 7 measured ink to ink. A 128 × 100 box, corner radius 20 shared by frame and marker. The frame is one open path — both ends are caps, not cuts — and it stops gap + stroke short, because each cap reaches half a stroke further. The marker sits on the frame's **outer** edge, not on the box.
 
-**Three optical sizes, redrawn, never scaled.** `assets/signet-l.svg` (32px+, three lines), `signet-m.svg` (20–31px, middle line dropped), `signet-s.svg` (16–19px, favicon). Pick the file at the link: `<link rel="icon" sizes="16x16" href="signet-s.svg">`.
+**Three optical sizes, redrawn, never scaled.** The weights are the system's, whatever the drawing: 32px and up takes stroke 7 and three lines, 20–31px stroke 8.5 with the middle line dropped, 16–19px stroke 11. Shipped as `assets/signet-l.svg`, `signet-m.svg`, `signet-s.svg`; pick the file at the link, because a media query inside an SVG only sees its own viewport: `<link rel="icon" sizes="16x16" href="signet-s.svg">`. The 16–19px file is square-boxed, since a 5:4 mark letterboxed into a favicon slot lands under the 16px floor.
+
+**What the example mark means, if you keep it.** A terminal frame holding a short session: two muted lines and one orange answer, top-right corner cut away by a solid orange marker. The marker is not the Soul; it borrows the Soul's two-part reading, its orange and its 1 : 1.44 proportion, and none of its geometry.
 
 **Wordmark** — `TYPO3` at 600, an orange pipe, `Support App` at 300. The pipe is separator and caret at once, and the only colour in the mark. Signet is 1.36 × the type size, gap 0.5 ×, clear space half the signet height.
 
