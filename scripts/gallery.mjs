@@ -69,6 +69,11 @@ writeFileSync(join(ROOT, 'gallery.html'), `<!doctype html>
   figcaption code { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
   iframe { border: 1px solid var(--border-subtle); border-radius: var(--radius-card);
            background: var(--surface-canvas); max-width: 100%; display: block; }
+  .warn { border: 1px solid var(--border-accent-quiet); background: var(--surface-accent-quiet);
+          border-radius: var(--radius-card); padding: 13px 15px; margin-bottom: 24px;
+          font-size: 13px; line-height: 1.5; color: var(--text-primary); }
+  .warn code { font-family: var(--font-mono); font-size: 12px; color: var(--text-accent-quiet); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
   button { font-family: var(--font-mono); font-size: 11px; margin-bottom: 18px;
            background: transparent; color: var(--text-secondary);
            border: 1px solid var(--border-strong); border-radius: var(--radius-control);
@@ -97,29 +102,40 @@ ${sections}
      light/dark pair do it on inner subtrees, which the root theme never
      touches. */
   let current = document.documentElement.dataset.theme;
+  const frames = [...document.querySelectorAll('iframe')];
 
-  function apply(frame) {
-    if (frame.dataset.pins && frame.dataset.pins !== 'dark') return true;
-    try {
-      const doc = frame.contentDocument;
-      if (!doc || !doc.documentElement) return true;   // not loaded yet; its load handler will
-      doc.documentElement.dataset.theme = current;
-      return true;
-    } catch (e) {
-      return false;   // cross-origin: opened over file:// instead of the dev server
-    }
+  /* Opened from disk, every iframe is a different origin and its
+     contentDocument is simply null — it does not throw, so a try/catch
+     around it catches nothing and the toggle fails silently. There is no way
+     to reach into them from a file:// page, so say so at load rather than
+     after a click that does nothing. */
+  const offline = location.protocol === 'file:';
+  if (offline) {
+    const b = document.createElement('div');
+    b.className = 'warn';
+    b.innerHTML = '<b>Opened from disk.</b> Every preview is then a separate origin, so the ' +
+      'theme toggle cannot reach into them — no script can. Run <code>npm run dev</code> and ' +
+      'open <code>http://localhost:4173/gallery.html</code> instead. That works from Windows ' +
+      'too: WSL forwards localhost.';
+    document.querySelector('main').prepend(b);
+    document.getElementById('t').disabled = true;
   }
 
-  const frames = [...document.querySelectorAll('iframe')];
+  function apply(frame) {
+    // A specimen that pins a mode IS about that mode; leave it alone.
+    if (frame.dataset.pins && frame.dataset.pins !== 'dark') return;
+    const doc = frame.contentDocument;
+    if (doc && doc.documentElement) doc.documentElement.dataset.theme = current;
+  }
+
+  // Frames are lazy: one scrolled into view after a toggle arrives with its
+  // own pinned theme, so re-apply on every load, not just on click.
   for (const f of frames) f.addEventListener('load', () => apply(f));
 
   document.getElementById('t').onclick = () => {
     current = current === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = current;
-    if (frames.map(apply).some((ok) => !ok)) {
-      document.getElementById('t').textContent =
-        'theme toggle needs the dev server — run npm run dev';
-    }
+    for (const f of frames) apply(f);
   };
 </script>
 </body>
