@@ -64,10 +64,7 @@ console.log(`   ${used.size} distinct classes used, ${defined.size} defined, ${u
 
 console.log('3. local references');
 let refs = 0, broken = 0;
-// the cover is not a card but ships with the system, so it is checked here
-const checked = [...list, { rel: 'thumbnail.html', path: join(ROOT, 'thumbnail.html'),
-  text: readFileSync(join(ROOT, 'thumbnail.html'), 'utf8') }];
-for (const c of checked) {
+for (const c of list) {
   // Only real attributes: escaped example markup (&lt;link href="…"&gt;) is documentation.
   const real = c.text.replace(/&lt;[\s\S]*?&gt;/g, '');
   for (const m of real.matchAll(/(?:href|src)="([^"]+)"/g)) {

@@ -148,3 +148,24 @@ say they have no reference point rather than guessing.
 
 None. `package-validate.mjs` reports 39/39 rendering cleanly, 0 bad, 0 thin,
 0 variants-identical. A warn on a future run is new — look at it.
+
+## Thumbnails and starting points — what the app actually wants
+
+There is **no thumbnail file**. Two invented ones (`_ds_thumbnail.html`,
+`thumbnail.html`) were uploaded and removed again; `hasThumbnailHtml` never
+flipped, because thumbnails are not files. Per Claude Design's own system
+prompt, the thumbnail of a component *is* its `@dsCard`-tagged HTML, and the
+thumbnail of a screen *is* the screen: "The screen itself is the thumbnail."
+To change a thumbnail you edit that HTML. Do not invent a filename again.
+
+`startingPoints` is the empty field worth filling. A consuming project shows
+a **Starting Points picker** that seeds a new design from this system. A
+screen is marked by making `<!-- @startingPoint section="<group>"
+subtitle="<one line>" viewport="<WxH>" -->` the first line of its HTML; a
+component is marked with `@startingPoint` in the JSDoc on its `.d.ts` props
+interface (not applicable here — this system ships no components).
+
+Source: Claude Design's leaked system prompt, corroborated by the fields the
+app actually writes into `_ds_manifest.json` (`startingPoints`, `cards`,
+`templates`). Unofficial, so treat as a strong lead rather than a spec; the
+official help centre documents none of this.

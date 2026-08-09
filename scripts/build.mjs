@@ -106,11 +106,6 @@ cpSync(join(ROOT, 'components.css'), join(OUT, '_ds_bundle.css'));
 cpSync(join(ROOT, '_specimen.css'), join(OUT, '_specimen.css'));
 const styles = read('styles.css').replace('@import "components.css";', '@import "./_ds_bundle.css";');
 
-/* The project's cover. The app reports `hasThumbnailHtml` but the skill
-   documents no filename, so both plausible ones ship until the manifest
-   says which is read. Drop the loser once known. */
-cpSync(join(ROOT, 'thumbnail.html'), join(OUT, '_ds_thumbnail.html'));
-cpSync(join(ROOT, 'thumbnail.html'), join(OUT, 'thumbnail.html'));
 writeFileSync(join(OUT, 'styles.css'), styles);
 
 // namespace stub: no React components, so the namespace is deliberately empty
