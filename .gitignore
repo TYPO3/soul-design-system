@@ -15,3 +15,6 @@ __pycache__/
 
 # ephemeral upload manifest
 /.design-sync/upload-manifest.json
+
+# generated from the @fontsource packages by scripts/fonts.mjs
+/fonts/
