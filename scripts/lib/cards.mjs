@@ -66,6 +66,9 @@ export function cards() {
       viewport: attrs.viewport ?? '700x400',
       width: w,
       height: h,
+      /* The theme the card's own <html> pins. A specimen that exists to show
+         one mode must not be flipped by the gallery's toggle. */
+      theme: /<html[^>]*data-theme="([a-z]+)"/.exec(text)?.[1] ?? 'dark',
       name: pascal(stem),
     };
   }).filter(Boolean);
@@ -108,6 +111,7 @@ export function screens() {
       viewport: attrs.viewport ?? '1440x900',
       width: w,
       height: h,
+      theme: /<html[^>]*data-theme="([a-z]+)"/.exec(text)?.[1] ?? 'dark',
       name: pascal(path.split('/').pop().replace(/\.html$/, '')),
     };
   }).filter(Boolean);

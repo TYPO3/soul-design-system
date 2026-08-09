@@ -14,6 +14,23 @@ The identifiers are the core's own — the same strings `typo3_icon_lookup`
 returns — so design and runtime name the same thing, and a filename here is
 always findable in the package.
 
+Findable by rule, not by search: the identifier's first segment is its
+category, and that is the path. `actions-search` lives at
+`src/actions/actions-search.svg`, `module-dashboard` at
+`src/module/module-dashboard.svg` — inside the package, in the upstream
+repository, and on any CDN that serves either.
+
+| | |
+| --- | --- |
+| Package | `@typo3/icons@5.0.3`, `src/<category>/<identifier>.svg` |
+| Pinned URL | `https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/<category>/<identifier>.svg` |
+| Upstream tip | `https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/src/<category>/<identifier>.svg` |
+| Manifest | `dist/icons.json` — 796 identifiers with their category, 211 deprecated aliases with their current name |
+| Overview | <https://typo3.github.io/TYPO3.Icons/> |
+
+`src/` and `dist/svgs/` render identically; `src/` is the unoptimised file,
+which is the one worth reading before inlining it.
+
 `assets/icons/` is **generated**, not committed: `scripts/icons.mjs` copies
 the declared identifiers out of the installed package. It runs from
 `prepare`, alongside the fonts. Change the `ICONS` list in the script, not

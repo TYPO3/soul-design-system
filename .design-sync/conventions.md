@@ -47,6 +47,31 @@ inline styles — do not mint a `tsa-` name.
 | States | `tsa-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `tsa-loading` `tsa-spinner` `tsa-skeleton` |
 | Brand | `tsa-lockup` `tsa-wordmark` `tsa-wordmark__pipe` `tsa-wordmark__product` |
 
+## Icons
+
+`assets/icons/` — 33 SVGs from [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons)
+(MIT, `@typo3/icons` 5.0.3), named by the identifier TYPO3 core itself uses:
+`assets/icons/actions-search.svg`. Inline the file's contents rather than pointing an
+`<img>` at it — an `<img>` cannot inherit `currentColor`, and colour is the whole point.
+
+**Need one that is not among the 33?** Do not draw it, and do not take it from another
+icon set — fetch it. The identifier's first segment is its category, and that is the
+whole path rule: `actions-search` → `src/actions/actions-search.svg`, `module-dashboard`
+→ `src/module/module-dashboard.svg`. Both of these return the raw SVG:
+
+```
+https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/<category>/<identifier>.svg   # the version this system ships
+https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/src/<category>/<identifier>.svg   # upstream tip
+```
+
+796 icons in 15 categories are available that way — `actions`, `apps`, `avatar`,
+`content`, `default`, `files`, `form`, `information`, `install`, `mimetypes`,
+`miscellaneous`, `module`, `overlay`, `spinner`, `status`. To look one up rather than
+guess, `…/@typo3/icons@5.0.3/dist/icons.json` maps every identifier to its category and
+every deprecated alias to its current name; the set is browsable at
+<https://typo3.github.io/TYPO3.Icons/>. A 404 means the identifier does not exist —
+that is the answer, not a reason to substitute something.
+
 ## Non-negotiable
 
 - **No shadows.** Separation is a hairline plus `--surface-overlay`. The focus ring is

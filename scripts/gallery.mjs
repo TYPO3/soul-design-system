@@ -27,7 +27,8 @@ const sections = [...groups].map(([g, items]) => {
         <code>${c.width}&times;${c.height} &middot; ${esc(c.rel)}</code>
       </figcaption>
       <iframe src="${esc(c.rel)}" width="${c.width}" height="${c.height}"
-              loading="lazy" title="${esc(c.label)}"></iframe>
+              loading="lazy" title="${esc(c.label)}"
+              data-pins="${c.theme}"></iframe>
     </figure>`).join('\n');
   return `  <section id="${esc(g)}">\n    <h2>${esc(g)} <span>${items.length} cards</span></h2>\n${figs}\n  </section>`;
 }).join('\n');
@@ -80,13 +81,39 @@ ${nav}
 ${sections}
 </main>
 <script>
-  // Each card pins its own data-theme, so the toggle has to reach inside them.
+  /* Each card pins its own data-theme, so the toggle has to reach inside the
+     iframe — and keep doing it. The frames are lazy, so one scrolled into
+     view after a toggle arrives with its own pinned theme and would stay on
+     it; applying on every load is what fixes that.
+
+     Two cards pin light because showing the light surface IS their subject.
+     Flipping those to dark would destroy the specimen, so anything that pins
+     something other than the default is left alone. Cards that show a
+     light/dark pair do it on inner subtrees, which the root theme never
+     touches. */
+  let current = document.documentElement.dataset.theme;
+
+  function apply(frame) {
+    if (frame.dataset.pins && frame.dataset.pins !== 'dark') return true;
+    try {
+      const doc = frame.contentDocument;
+      if (!doc || !doc.documentElement) return true;   // not loaded yet; its load handler will
+      doc.documentElement.dataset.theme = current;
+      return true;
+    } catch (e) {
+      return false;   // cross-origin: opened over file:// instead of the dev server
+    }
+  }
+
+  const frames = [...document.querySelectorAll('iframe')];
+  for (const f of frames) f.addEventListener('load', () => apply(f));
+
   document.getElementById('t').onclick = () => {
-    const r = document.documentElement;
-    const next = r.dataset.theme === 'dark' ? 'light' : 'dark';
-    r.dataset.theme = next;
-    for (const f of document.querySelectorAll('iframe')) {
-      try { f.contentDocument.documentElement.dataset.theme = next; } catch (e) {}
+    current = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = current;
+    if (frames.map(apply).some((ok) => !ok)) {
+      document.getElementById('t').textContent =
+        'theme toggle needs the dev server — run npm run dev';
     }
   };
 </script>

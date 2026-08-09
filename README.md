@@ -18,7 +18,7 @@ design agent builds with these real classes instead of generic ones.
 
 ```sh
 npm ci          # installs deps AND generates fonts/ and assets/icons/
-npm run dev     # http://localhost:4173/gallery.html — all 39 cards
+npm run dev     # http://localhost:4173/gallery.html — every card and screen
 ```
 
 `npm ci` is not optional. `fonts/` and `assets/icons/` are generated from
@@ -72,6 +72,7 @@ creates a second one. It compares against the anchor the project stores
 | `components.css` | the `tsa-` class vocabulary every surface is built from |
 | `_specimen.css` | chrome for the cards only — deliberately **not** in the `styles.css` closure, so a rendered design never inherits it |
 | `components/`, `guidelines/` | the 39 specimen cards |
+| `screens/` | whole screens, offered as Starting Points in a consuming project |
 | `assets/` | icons (generated), diagrams, signets |
 | `fonts/` | generated |
 | `scripts/` | the tooling below |
@@ -79,14 +80,15 @@ creates a second one. It compares against the anchor the project stores
 | `RATIONALE.md` | why each rule exists — read before extending or breaking one |
 
 Every card's first line is a `@dsCard` comment carrying its group, label,
-subtitle and viewport. That line is the contract with the Design System pane;
-`npm run verify` enforces it.
+subtitle and viewport; a screen's is `@startingPoint`. Those lines are the
+contract with the Design System pane, and `npm run verify` enforces them.
+A screen is its own thumbnail — there is no thumbnail file anywhere.
 
 ## Scripts
 
 | | |
 | --- | --- |
-| `npm run dev` | gallery of every card, with a theme toggle |
+| `npm run dev` | gallery of every card and screen, with a theme toggle |
 | `npm run sync` | build + verify + what-would-change + upload plan |
 | `npm run synced` | after an upload: record that the project holds this build |
 | `npm run verify` | the gate: headers, class vocabulary, references, viewport fit |
@@ -105,7 +107,14 @@ Chromium once: `npx playwright install chromium`.
 
 Adding a font weight or an icon means editing the `FAMILIES` / `ICONS` list
 in `scripts/fonts.mjs` or `scripts/icons.mjs` — never the generated output.
-A missing icon is contributed to
+The icon's identifier is also its path, by its first segment:
+`actions-search` → `src/actions/actions-search.svg` in `@typo3/icons`, and at
+the same path under
+`https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/` or
+`https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/` — that is how a
+surface pulls one the 33 do not cover. `dist/icons.json` in the package lists
+all 796 identifiers and the deprecated aliases; `THIRD-PARTY.md` records the
+whole provenance. A missing icon is contributed to
 [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons) first; the script
 fails rather than substituting one from another set.
 
