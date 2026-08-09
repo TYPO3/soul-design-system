@@ -19,6 +19,13 @@ body {
   color: var(--text-primary);
 }
 
+/* A specimen that shows a finished artefact — a diagram, an exported image —
+   puts it on the sunken plane so the artefact's own canvas reads as a figure
+   with clear space around it, instead of dissolving into the card. Without
+   this a diagram drawn at --surface-canvas sits on exactly its own colour
+   and loses every boundary. */
+.spec-sunken { background: var(--surface-sunken); }
+
 /* The standard card scaffold: the padded, stacked column every specimen
    lays its examples out in. --spec-gap tunes the stack per card. */
 .spec {

@@ -103,9 +103,28 @@ Solid means there; a dashed outline of the same shape means missing or not yet r
 
 Orange marks the one thing the diagram is about — exactly one element per drawing. When the drawing is about degradation or failure, status colour replaces the accent and orange stays out entirely.
 
-Flat canvas at `--surface-canvas`, 60px margin, no outer radius. Nodes `--surface-raised`, 6px, 1px `--border-subtle`. Connectors 1.5px, orthogonal, one arrowhead, `--text-muted`, no curves. Type floor 13px at drawn size; identifiers in mono.
+### Drawing one — the numbers
 
-**Ship two files per drawing.** Colours as presentation attributes; the dark file is a straight token swap of the light one (`name.svg` / `name-dark.svg`), selected with `<picture>` and `media="(prefers-color-scheme: dark)"`. A `<style>` block inside an SVG is stripped by GitHub. A page that forces its own mode inlines the drawing instead.
+Enough to produce a new diagram that sits in the set without adjustment. Every value below is what the three shipped drawings actually use; deviating is a decision to name, not a default.
+
+| | |
+| --- | --- |
+| Canvas | `viewBox="0 0 1200 H"` — always 1200 wide, height to fit. A plain `<rect width="1200" height="H">` at `--surface-canvas`, **no radius**. |
+| Margin | 60 units on every side. Nothing enters it, including dashed outlines and labels. |
+| Type | Source Sans 3; every identifier, path and flag in Source Code Pro. Title 36 · lead 17 · node title 16 · node body 14 · label, axis and caption 13. **13 is the floor** — a drawing that needs smaller type is carrying too much. |
+| Stroke | 1 for a node outline, 1.5 for a connector or a boundary, 2 for the one accented connector. Nothing heavier. |
+| Radius | 6 for a node or a boundary, 4 for a bar, 2 for a unit square. Radius follows the element's own size and never exceeds 6. |
+| Node | `--surface-raised`, 1px `--border-subtle`, 6px. Peers are identical — told apart by their names, never by hue. |
+| Boundary | Hairline only, **no fill**. Containment is drawn by the line; a filled container makes depth out of colour, which this system does not do. |
+| Connector | 1.5px, orthogonal, one arrowhead, `--text-muted`. No curves. Dashed means optional or not yet, nothing else. |
+| Accent | Exactly one element per drawing carries `--accent`: the thing the diagram is **about** — often a connector rather than a box, since the claim is usually a relation. If the drawing is about degradation, `--status-warn` replaces it and orange stays out entirely. |
+| Actor | The one node the drawing is centred on may be inverted — `--text-primary` fill, no border, its title at 18. This marks *who acts*, and is not the accent, which marks *what is claimed*. At most one per drawing, and only where there is an actor at all: a chart has none. |
+
+**Where it is placed.** On `--surface-sunken`. The drawing brings its own canvas, and that is what makes it read as a figure with clear space — put it on `--surface-canvas` and it dissolves into the page with no boundary at all.
+
+**Colour is written as attributes**, never a `<style>` block — GitHub strips those. Light → dark is a straight token swap: `#1C1A17`→`#EDE9E2` (ink), `#4A453D`→`#A9A299`, `#8A8378`→`#6E6860` (muted), `#FBFAF7`→`#131210` (canvas), `#FFFFFF`→`#171614` (raised), `#E3DFD6`→`#2B2823` (hairline), `#C9C3B7`→`#37332C` (strong), `#A56A00`→`#D9A441` (warn). `#FF8700` is flat in both.
+
+**Ship two files per drawing** — `name.svg` and `name-dark.svg` — selected with `<picture>` and `media="(prefers-color-scheme: dark)"`. A page that forces its own mode inlines the drawing instead.
 
 ## Brand
 
