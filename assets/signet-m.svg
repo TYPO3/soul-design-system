@@ -1,8 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 140 112" role="img" aria-label="TYPO3 Support App">
   <title>TYPO3 Support App</title>
-  
+  <style>
+    /* An image cannot inherit currentColor, so the ink is a mid warm grey
+       that holds on both modes, lifted a step in dark. The accent is flat
+       #FF8700 in both, exactly as --accent is. */
+    .ink  { stroke: #8A8378; }
+    .inkf { fill: #8A8378; }
+    @media (prefers-color-scheme: dark) {
+      .ink  { stroke: #A9A299; }
+      .inkf { fill: #A9A299; }
+    }
+  </style>
+  <!-- M - 20-31px. Stroke 8.5, the faint middle line dropped, marker 36x54. -->
   <path class="ink" d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
   <rect class="inkf" x="22" y="29.75" width="52" height="8.5" rx="4.25"></rect>
-  <rect class="" x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="#FF8700"></rect>
+  <rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="#FF8700"></rect>
   <path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="#FF8700" stroke="#FF8700" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
 </svg>

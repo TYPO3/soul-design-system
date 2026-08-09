@@ -205,3 +205,28 @@ padding" in the cards and "a hairline and 6px, no fill" in the doctrine.
 The prefix is also what lets `npm run verify` tell system classes from a
 screen's own layout classes. Shortening it to `ds-` was offered; the length
 was not worth a repo-wide rename.
+
+## The signet is not an icon
+
+Never put `.tsa-icon` on a signet. It pins width and height to 16px, and CSS
+beats the element's own `width`/`height` attributes — so all three optical
+sizes render identically and `brand-signet-sizes` disproves its own point.
+That happened: a bulk sed during the class refactor rewrote every inline
+`<svg>` the same way, including 81 signets across the eight Brand cards. The
+pixel diff flagged those cards and it was written off as font rounding.
+Signets use `.tsa-signet` / `.tsa-signet--muted`, which set no size.
+
+The three shipped files are one construction now, differing only in what the
+optical size demands (stroke 7 / 8.5 / 11, marker 36×52 / 36×54 / 40×58,
+three bars on L and two on M and S). Before that each mixed three colour
+mechanisms in one file — an undefined `.ink` class, an undefined `.inkf`
+class and a hardcoded hex, plus a leftover `class=""`. Since `.ink` and
+`.inkf` were defined nowhere, the frame was invisible and the bars fell back
+to black in any standalone use: as an `<img>`, and as the favicon they are
+meant to be. Each file now carries its own `<style>` with the mid warm grey
+the `brand-signet-sizes` card always promised, lifted a step under
+`prefers-color-scheme: dark`.
+
+`signet-s.svg` has a square viewBox (`-6 -20 140 140`) because it is the
+favicon file: the mark is 5:4, and a 5:4 mark letterboxed into a square slot
+lands under the system's own 16px floor. L and M keep the natural box.

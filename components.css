@@ -559,6 +559,16 @@
 
 /* ---------------------------------------------------------------- brand -- */
 
+/* The signet is NOT an icon. It ships at three optical sizes with different
+   stroke weights, so it must never be pinned to the icon box — `.tsa-icon`
+   would force it to 16px and every size would render identically. Size it
+   at the element, with width/height or CSS. */
+.tsa-signet {
+  display: block;
+  flex: none;
+}
+.tsa-signet--muted { color: var(--text-secondary); }
+
 /* Signet, wordmark, one orange pipe. The pipe is the third and last place
    the accent is allowed to appear. */
 .tsa-lockup {
