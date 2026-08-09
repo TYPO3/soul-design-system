@@ -61,5 +61,14 @@
     "playwright": "^1.62.1",
     "pngjs": "^7.0.0"
   },
-  "license": "GPL-2.0-or-later"
+  "license": "GPL-2.0-or-later",
+  "author": "Benjamin Kott <benjamin.kott@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjaminkott/typo3-support-design-system.git"
+  },
+  "homepage": "https://github.com/benjaminkott/typo3-support-design-system#readme",
+  "bugs": {
+    "url": "https://github.com/benjaminkott/typo3-support-design-system/issues"
+  }
 }

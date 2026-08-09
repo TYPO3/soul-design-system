@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<title>TYPO3 Support App — design system</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* The project's cover. Built from the system's own classes on purpose:
+     if this page looks wrong, the component layer is wrong. Sized for a
+     1200x630 cover but it fills whatever it is given. */
+  html, body { margin: 0; height: 100%; }
+  body { display: flex; }
+  .cover {
+    flex: 1;
+    padding: 8% 8% 7%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-6);
+    background: var(--surface-canvas);
+  }
+  .strip { margin-top: auto; }
+  .mark { display: flex; align-items: center; gap: 18px; }
+  .mark svg { width: 64px; height: 50px; flex: none; }
+  .name { font-size: clamp(28px, 5vw, 52px); letter-spacing: var(--tracking-display); }
+  .name .pipe {
+    display: inline-block; width: 3px; height: 0.78em; margin: 0 0.22em -0.04em;
+    background: var(--accent);
+  }
+  .name .product { font-weight: var(--weight-light); color: var(--text-secondary); }
+  .lead {
+    font-size: clamp(15px, 1.7vw, 21px);
+    line-height: var(--leading-body);
+    color: var(--text-secondary);
+    max-width: 46ch;
+  }
+  .strip { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .rule { border-top: 1px solid var(--border-subtle); padding-top: 18px; }
+  .swatch { width: 34px; height: 34px; border-radius: var(--radius-control); }
+</style>
+</head>
+<body class="tsa-app">
+  <div class="cover">
+    <div class="mark">
+      <svg viewBox="-6 -6 140 112" role="img" aria-label="TYPO3 Support App">
+        <path d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00"
+              fill="none" stroke="currentColor" stroke-width="8.5"
+              stroke-linejoin="round" stroke-linecap="round"></path>
+        <rect x="22" y="29.75" width="52" height="8.5" rx="4.25" fill="currentColor"></rect>
+        <rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="#FF8700"></rect>
+        <path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="#FF8700" stroke="#FF8700"
+              stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
+      </svg>
+      <div class="name tsa-wordmark">
+        <b>TYPO3</b><span class="pipe"></span><span class="product">Support App</span>
+      </div>
+    </div>
+
+    <p class="lead">
+      Tokens, one component class layer, and 39 specimen cards.
+      Warm paper and a terminal, one orange accent, and no shadows anywhere.
+    </p>
+
+    <div class="strip rule">
+      <button class="tsa-btn tsa-btn--primary">Run the checks</button>
+      <span class="tsa-badge tsa-badge--ok">answered</span>
+      <span class="tsa-mono" style="font-size:14px">typo3_server_scope</span>
+      <span class="swatch" style="background:var(--accent)"></span>
+      <span class="swatch" style="background:var(--surface-raised); border:1px solid var(--border-strong)"></span>
+      <span class="swatch" style="background:var(--surface-inset)"></span>
+      <span class="tsa-label" style="margin-left:auto">39 cards · 8 groups</span>
+    </div>
+  </div>
+</body>
+</html>
