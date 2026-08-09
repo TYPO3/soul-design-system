@@ -36,11 +36,12 @@ system is consumed as classes and tokens.
   does not catch a new one, so watch it in review.
 - **Class prefix is `tsa-`**, state is `.is-*`. `t3-` was avoided: the system's
   own rules forbid implying TYPO3 endorsement.
-- **Fonts are vendored** (`fonts/`, 18 woff2, latin + latin-ext, SIL OFL 1.1,
-  `fonts/OFL.txt` shipped). Previously a Google Fonts `@import`. Verified
-  pixel-identical on 38/39 cards; the 39th is the loading card's spinner.
-  Do not go back to the remote import — a design behind a strict content
-  policy would silently fall back to system-ui.
+- **Fonts ship with the system**, 18 woff2 (latin + latin-ext, SIL OFL 1.1),
+  generated from `@fontsource` — see the Re-sync risks entry for how. They
+  replaced a Google Fonts `@import`; verified pixel-identical on 38/39 cards,
+  the 39th being the loading card's spinner. Do not go back to the remote
+  import: a design behind a strict content policy would silently fall back
+  to system-ui.
 
 ## Fixes applied to the cards (were pre-existing defects)
 
