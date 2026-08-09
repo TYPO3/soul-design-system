@@ -1,16 +1,21 @@
 #!/usr/bin/env node
-/* Generate gallery.html — every specimen card on one page, for development.
+/* Generate gallery.html — every card and screen on one page, for development.
 
-   Each card is iframed at the exact viewport its @dsCard line declares, so
-   what you see here is what the Design System pane will show.
+   Each one is iframed at the exact viewport its marker declares, so what you
+   see here is what the Design System pane will show. Because those numbers
+   are baked in at generation time, the page goes stale the moment a card
+   changes — so the dev server rebuilds it per request rather than leaving
+   you to remember. Run directly, it just writes the file.
 
      npm run dev   # then open http://localhost:4173/gallery.html
 */
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 import { byGroup, cards, ROOT, screens } from './lib/cards.mjs';
 
+export function buildGallery() {
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 const list = [...screens().map((s) => ({ ...s, group: s.section, label: s.name })), ...cards()];
@@ -120,4 +125,10 @@ ${sections}
 </body>
 </html>
 `);
-console.log(`gallery.html — ${list.length} cards in ${groups.size} groups`);
+return { count: list.length, groups: groups.size };
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const r = buildGallery();
+  console.log(`gallery.html — ${r.count} cards and screens in ${r.groups} groups`);
+}

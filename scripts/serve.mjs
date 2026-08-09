@@ -10,6 +10,7 @@ import { createReadStream, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, resolve } from 'node:path';
 
+import { buildGallery } from './gallery.mjs';
 import { ROOT } from './lib/cards.mjs';
 
 const PORT = Number(process.argv[2] ?? 4173);
@@ -38,6 +39,10 @@ createServer((req, res) => {
   let target = path;
   try {
     if (statSync(target).isDirectory()) target = join(target, 'gallery.html');
+    /* The gallery bakes each card's declared viewport into its iframe, so a
+       card edit makes it stale. Rebuilding per request costs milliseconds
+       and removes a step nobody would remember. */
+    if (target === join(DIR, 'gallery.html')) buildGallery();
     statSync(target);
   } catch {
     res.writeHead(404, { 'content-type': 'text/plain' }).end(`not found: ${url}`);
