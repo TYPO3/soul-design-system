@@ -27,18 +27,26 @@ system-ui with no icons, which looks like a design bug and is not one.
 
 ## Sync to claude.ai/design
 
-Two steps, in this order:
+Three steps, in this order:
 
 ```sh
-npm run sync    # builds, verifies, and lists what would change
+npm run sync    # build, verify, what-would-change, and the upload plan
 ```
 ```
-/design-sync    # in Claude Code — does the upload
+/design-sync    # in Claude Code — executes the plan
+```
+```sh
+npm run synced  # record that the project now holds this build
 ```
 
 There is deliberately no `npm run` that uploads: the upload needs the
 `DesignSync` tool bound to your claude.ai login, which a shell script has no
-access to. `npm run sync` gets everything ready and ends by telling you so.
+access to. What the scripts *can* own is everything except the transport, and
+they do — `npm run plan` writes `.design-sync/.cache/upload-plan.json` with
+the five steps in the order they must run, the exact file list, and the exact
+deletes. The agent executes it rather than working it out, because working it
+out by hand is how a batch of renamed font files was once left orphaned in
+the project.
 
 **If verify fails, `npm run sync` stops there and exits non-zero — fix it
 before uploading.** Everything it reports is invisible in review and wrong in
@@ -79,9 +87,11 @@ subtitle and viewport. That line is the contract with the Design System pane;
 | | |
 | --- | --- |
 | `npm run dev` | gallery of every card, with a theme toggle |
-| `npm run sync` | build + verify + what-would-change (then `/design-sync`) |
+| `npm run sync` | build + verify + what-would-change + upload plan |
+| `npm run synced` | after an upload: record that the project holds this build |
 | `npm run verify` | the gate: headers, class vocabulary, references, viewport fit |
 | `npm run status` | what a sync would change |
+| `npm run plan` | the ordered upload plan, with deletes |
 | `npm run build` | assemble `ds-bundle/`, the upload payload |
 | `npm run fit` | does every card fit the viewport it declares |
 | `npm run baseline` / `shots` / `diff` | screenshot before, after, compare |

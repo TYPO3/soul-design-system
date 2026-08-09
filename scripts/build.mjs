@@ -78,6 +78,22 @@ function countFiles(dir) {
   return n;
 }
 
+/* Every path that gets uploaded, relative to the bundle root. Recorded in
+   the anchor so the next sync can compute deletes for ANY file, not just
+   whole components — renaming the font files left 19 orphans in the project
+   that a component-level diff could never have seen. */
+export function uploadFiles(dir, base = dir, out = []) {
+  for (const e of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    const p = join(dir, e.name);
+    const rel = p.slice(base.length + 1);
+    const top = rel.split('/')[0];
+    if (top.startsWith('.') || top === '_screenshots') continue;
+    if (e.isDirectory()) uploadFiles(p, base, out);
+    else out.push(rel);
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 
 rmSync(OUT, { recursive: true, force: true });
@@ -139,6 +155,10 @@ if (readme.length > 31900) {
 writeFileSync(join(OUT, '_ds_needs_recompile'), JSON.stringify({ by: 'design-sync-cli' }));
 writeFileSync(join(OUT, '.ds-build-meta.json'),
   JSON.stringify({ componentCount: list.length, shape: 'css-design-system' }, null, 2));
+/* `files` is written before the anchor exists on disk, so add it by hand —
+   it is uploaded, and the next sync needs to see it in the previous list to
+   avoid proposing it as an orphan. */
+const files = [...new Set([...uploadFiles(OUT), '_ds_sync.json'])].sort();
 writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
   shape: 'css-design-system',
   styleSha: sha12(styles + read('components.css')),
@@ -149,6 +169,7 @@ writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
   sourceHashes: header.sourceHashes,
   auxSha: sha12(readdirSync(join(OUT, 'tokens')).sort().join(',')),
   bundleSha12: sha12(readFileSync(join(OUT, '_ds_bundle.js'))),
+  files,
 }, null, 2));
 
 const groups = byGroup(list);

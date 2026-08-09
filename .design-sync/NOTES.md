@@ -58,8 +58,24 @@ system is consumed as classes and tokens.
 
 ## Doing a sync
 
-The repo's half is one command: `npm run sync` (build → verify → status).
-It ends by telling the user to run `/design-sync`, which is the upload.
+The repo's half is one command: `npm run sync` — build → verify → status →
+plan. It ends by telling the user to run `/design-sync`, which is the upload.
+
+**Execute `.design-sync/.cache/upload-plan.json`. Do not improvise it.**
+`npm run plan` writes it: the finalize_plan globs, and five numbered steps
+in the order they must run, with the exact file and delete lists. It is
+generated from the build and the previous anchor, so it cannot forget a
+renamed file the way a hand-derived list can — that is precisely how 19
+renamed font files were left orphaned in the project.
+
+Deletes come from the anchor's `files` list, which `scripts/build.mjs`
+records. An anchor without that field (anything uploaded before this was
+added) makes the plan say so and refuse to guess: compare `list_files`
+against the build yourself that one time.
+
+**Then run `npm run synced`.** It promotes the pushed anchor into
+`.design-sync/.cache/remote-sync.json`, which is what `status` and `plan`
+compare against next time.
 
 **Run it, and never upload over a red verify.** The chain is `&&`, so a
 failure stops it and `status` never runs — but nothing stops an agent from
@@ -73,21 +89,17 @@ Verify checks mechanics, not judgement. When `status` lists changed cards,
 look at them: `npm run baseline` before a visual change, then `npm run shots
 && npm run diff` after. Anything that moved should have moved on purpose.
 
-**Every push ends with the sentinel, then `_ds_sync.json` — in that order,
-without exception.** The app regenerates `_ds_manifest.json` and
-`_adherence.oxlintrc.json` from the uploaded files when it next opens the
-project, and only the `_ds_needs_recompile` sentinel triggers that. Push
-files without re-arming it and the manifest keeps describing the previous
-upload: that is how the manifest ended up listing font filenames that had
-already been deleted. The anchor goes last because it vouches for
-everything else.
+Why the plan's order matters, since it looks like ceremony: the app
+regenerates `_ds_manifest.json` and `_adherence.oxlintrc.json` from the
+uploaded files when the project is next opened, and only the
+`_ds_needs_recompile` sentinel triggers that. Push files without re-arming
+it and the manifest keeps describing the previous upload — that is how it
+came to list font filenames that had already been deleted. The anchor goes
+last because it vouches for everything before it: uploaded first, a failure
+mid-way leaves it swearing to files the project does not have.
 
-**After a successful upload, copy the anchor you just pushed to
-`.design-sync/.cache/remote-sync.json`.** `npm run status` reads it to answer
-"what would a sync change". Skip this and status silently reports the last
-state it knew, which is worse than reporting nothing. The cache is
-gitignored, so on a fresh clone status correctly says it has no reference
-point rather than guessing.
+The cache is gitignored, so on a fresh clone `status` and `plan` correctly
+say they have no reference point rather than guessing.
 
 ## Re-sync risks
 
