@@ -61,6 +61,18 @@ system is consumed as classes and tokens.
 The repo's half is one command: `npm run sync` (build → verify → status).
 It ends by telling the user to run `/design-sync`, which is the upload.
 
+**Run it, and never upload over a red verify.** The chain is `&&`, so a
+failure stops it and `status` never runs — but nothing stops an agent from
+calling the upload anyway. Don't. Every fault verify reports is one that is
+invisible in review and wrong in every design afterwards: a class defined in
+no stylesheet silently does nothing, a broken reference ships an unstyled
+card, a card that overflows its declared viewport gets cropped in the pane.
+Fix it, re-run, then upload.
+
+Verify checks mechanics, not judgement. When `status` lists changed cards,
+look at them: `npm run baseline` before a visual change, then `npm run shots
+&& npm run diff` after. Anything that moved should have moved on purpose.
+
 **After a successful upload, copy the anchor you just pushed to
 `.design-sync/.cache/remote-sync.json`.** `npm run status` reads it to answer
 "what would a sync change". Skip this and status silently reports the last

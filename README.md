@@ -40,6 +40,16 @@ There is deliberately no `npm run` that uploads: the upload needs the
 `DesignSync` tool bound to your claude.ai login, which a shell script has no
 access to. `npm run sync` gets everything ready and ends by telling you so.
 
+**If verify fails, `npm run sync` stops there and exits non-zero — fix it
+before uploading.** Everything it reports is invisible in review and wrong in
+every design afterwards: a class that no stylesheet defines silently does
+nothing, a broken reference ships an unstyled card, a card that overflows its
+declared viewport gets cropped in the pane.
+
+It checks mechanics, not judgement. When `status` lists changed cards, look at
+them — `npm run baseline` before a visual change, `npm run shots && npm run
+diff` after.
+
 The upload finds the right project by itself — `.design-sync/config.json`
 holds the project id, so a sync always lands in the same place and never
 creates a second one. It compares against the anchor the project stores
