@@ -4,27 +4,20 @@
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="../styles.css" />
-<style>
-  html, body { margin: 0; }
-  body { font-family: var(--font-sans); background: var(--surface-canvas); color: var(--text-primary); }
-  .card { padding: 20px 22px; }
-  .lbl { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--text-muted); }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .tok { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.02em; color: var(--text-muted); }
-</style>
+<link rel="stylesheet" href="../_specimen.css" />
 </head>
 <body>
   <div style="padding:16px 20px;">
     <div style="border:1px solid var(--border-subtle); display:grid; grid-template-columns:var(--width-sidebar) 1fr; height:120px;">
       <div style="border-right:1px solid var(--border-subtle); background:var(--surface-raised); padding:12px; display:flex; flex-direction:column; gap:7px;">
-        <span class="lbl">TOOL SURFACE</span>
+        <span class="spec-lbl">TOOL SURFACE</span>
         <span style="font-family:var(--font-mono); font-size:12px; background:var(--accent); color:var(--text-on-accent); padding:3px 7px; align-self:flex-start;">typo3_rule_lookup</span>
         <span style="font-family:var(--font-mono); font-size:12px; color:var(--text-secondary); padding:3px 7px;">typo3_hint_lookup</span>
       </div>
       <div style="padding:14px 18px;">
         <div style="font-family:var(--font-mono); font-size:18px; color:var(--text-primary);">typo3_rule_lookup</div>
         <div style="height:1px; background:var(--border-subtle); margin:12px 0;"></div>
-        <div class="tok" style="font-size:11px;">--width-sidebar 210 · --gutter-page 48 · --width-content 1080</div>
+        <div class="spec-cap" style="font-size:11px;">--width-sidebar 210 · --gutter-page 48 · --width-content 1080</div>
       </div>
     </div>
   </div>

@@ -1,46 +1,46 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-labelledby="d-title d-desc">
 <title id="d-title">Every source has a precondition (dark)</title>
-<desc id="d-desc">The five sources a TYPO3 Dev Companion tool can answer from, plotted against how much of the machine has to be running. Bundled knowledge and the server&#39;s own checkout answer with nothing running; installed packages need files on disk; the installation source needs a booted installation; network sources need outbound reach.</desc>
+<desc id="d-desc">The five sources a TYPO3 Support App tool can answer from, plotted against how much of the machine has to be running. Bundled knowledge and the server&#39;s own checkout answer with nothing running; installed packages need files on disk; the installation source needs a booted installation; network sources need outbound reach.</desc>
 <rect width="1200" height="750" fill="#131210"></rect>
 <text x="60" y="60" fill="#FF8700" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13" font-weight="600" letter-spacing="1.6">SOURCE DECLARATION = AVAILABILITY</text>
 <text x="60" y="108" fill="#EDE9E2" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="36" font-weight="700" letter-spacing="-0.5">Every source has a precondition</text>
 <text x="60" y="140" fill="#A9A299" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="17">A tool declares its sources, so the answer is known to be reachable before the question is asked.</text>
 <line x1="60" y1="176" x2="1140" y2="176" stroke="#2B2823" stroke-width="1"></line>
-<text x="60" y="248" fill="#A9A299" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13.5" font-weight="600">Required machine state</text>
+<text x="60" y="248" fill="#A9A299" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="14" font-weight="600">Required machine state</text>
 <path d="M228 243 H262" stroke="#6E6860" stroke-width="1.5" fill="none"></path>
 <path d="M257 239 265 243 257 247Z" fill="#6E6860"></path>
 <line x1="300" y1="264" x2="300" y2="598" stroke="#2B2823" stroke-width="1"></line>
-<text x="312" y="248" fill="#6E6860" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="12.5">nothing running</text>
+<text x="312" y="248" fill="#6E6860" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">nothing running</text>
 <line x1="510" y1="264" x2="510" y2="598" stroke="#2B2823" stroke-width="1"></line>
-<text x="522" y="248" fill="#6E6860" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="12.5">files on disk</text>
+<text x="522" y="248" fill="#6E6860" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">files on disk</text>
 <line x1="720" y1="264" x2="720" y2="598" stroke="#2B2823" stroke-width="1"></line>
-<text x="732" y="248" fill="#6E6860" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="12.5">a booted installation</text>
+<text x="732" y="248" fill="#6E6860" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">a booted installation</text>
 <line x1="930" y1="264" x2="930" y2="598" stroke="#2B2823" stroke-width="1"></line>
-<text x="942" y="248" fill="#6E6860" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="12.5">network reach</text>
+<text x="942" y="248" fill="#6E6860" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">network reach</text>
 <line x1="1140" y1="264" x2="1140" y2="598" stroke="#2B2823" stroke-width="1"></line>
 <text x="60" y="315" fill="#EDE9E2" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">knowledge</text>
-<text x="60" y="334" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12.5">Bundled and version-bound.</text>
+<text x="60" y="334" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Bundled and version-bound.</text>
 <rect x="300" y="302" width="840" height="32" rx="4" fill="#FF8700"></rect>
 <text x="60" y="377" fill="#EDE9E2" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">checkout</text>
-<text x="60" y="396" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12.5">This server&#39;s own repository.</text>
+<text x="60" y="396" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">This server&#39;s own repository.</text>
 <rect x="300" y="364" width="840" height="32" rx="4" fill="#EDE9E2"></rect>
 <text x="60" y="439" fill="#EDE9E2" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">packages</text>
-<text x="60" y="458" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12.5">Files read, never executed.</text>
+<text x="60" y="458" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Files read, never executed.</text>
 <rect x="300" y="426" width="210" height="32" rx="4" fill="none" stroke="#6E6860" stroke-width="1" stroke-dasharray="3 3.5"></rect>
 <rect x="510" y="426" width="630" height="32" rx="4" fill="#EDE9E2"></rect>
 <text x="60" y="501" fill="#EDE9E2" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">installation</text>
-<text x="60" y="520" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12.5">Assembled runtime state.</text>
+<text x="60" y="520" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Assembled runtime state.</text>
 <rect x="300" y="488" width="420" height="32" rx="4" fill="none" stroke="#6E6860" stroke-width="1" stroke-dasharray="3 3.5"></rect>
 <rect x="720" y="488" width="420" height="32" rx="4" fill="#EDE9E2"></rect>
 <text x="60" y="563" fill="#EDE9E2" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">network</text>
-<text x="60" y="582" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12.5">Official live services.</text>
+<text x="60" y="582" fill="#6E6860" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Official live services.</text>
 <rect x="300" y="550" width="630" height="32" rx="4" fill="none" stroke="#6E6860" stroke-width="1" stroke-dasharray="3 3.5"></rect>
 <rect x="930" y="550" width="210" height="32" rx="4" fill="#EDE9E2"></rect>
 
 <rect x="60" y="618" width="15" height="15" rx="2" fill="#EDE9E2"></rect>
-<text x="86" y="631" fill="#A9A299" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13.5">available</text>
+<text x="86" y="631" fill="#A9A299" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="14">available</text>
 <rect x="196" y="618" width="15" height="15" rx="2" fill="none" stroke="#6E6860" stroke-width="1" stroke-dasharray="3 3.5"></rect>
-<text x="222" y="631" fill="#A9A299" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13.5">the state this source still needs</text>
+<text x="222" y="631" fill="#A9A299" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="14">the state this source still needs</text>
 <line x1="60" y1="664" x2="1140" y2="664" stroke="#37332C" stroke-width="1"></line>
 <text x="60" y="698" fill="#EDE9E2" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="16" font-weight="600">Bundled knowledge is the only source that spans the whole axis.</text>
 <text x="60" y="724" fill="#A9A299" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="14">The answer carries <tspan font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13" font-weight="600">answeredBy</tspan> where the path varies; an unreachable source is a stated boundary, not an empty result.</text>

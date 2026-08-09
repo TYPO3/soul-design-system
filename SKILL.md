@@ -1,9 +1,9 @@
 ---
-name: typo3-dev-companion-design-system
-description: Build any surface of TYPO3 Dev Companion — documentation pages, product UI, README diagrams, release notes — to its own design system. Load this before writing markup, CSS or SVG for this product.
+name: typo3-support-app-design-system
+description: Build any surface of TYPO3 Support App — documentation pages, product UI, README diagrams, release notes — to its own design system. Load this before writing markup, CSS or SVG for this product.
 ---
 
-# TYPO3 Dev Companion — build rules
+# TYPO3 Support App — build rules
 
 The product is a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work. It has one public surface where **the documentation is also the product presentation**: a visitor gets the pitch and keeps scrolling into the reference without a seam.
 
@@ -25,7 +25,7 @@ Breaking one of these breaks the system, not just the page.
 - **One accent.** `--accent` (#FF8700) marks exactly three things: the active navigation item, the shell prompt in a code block, the pipe in the wordmark. No second accent, no gradient, anywhere.
 - **No shadows.** Not on cards, modals, menus or drawers. Separation is a hairline plus `--surface-overlay`. The focus ring is the single `box-shadow` in the system, and it is a state, not depth.
 - **No emoji.** Status is a colour plus a glyph from `assets/icons/` or the mono font (`✓`).
-- **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-dev-companion install`.
+- **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-support-app install`.
 - **16px is the floor** for both the signet and the icons. Below it: wordmark alone, and no icon at all.
 - **The TYPO3 Soul is not used.** This is not an approved TYPO3 product. No surface may imply endorsement; footers say what the product is, never whose it is.
 - **Hover changes colour and border. Never position, never size.** Nothing scales, lifts or bounces. Transitions 140ms `--ease-out`.
@@ -100,7 +100,7 @@ Everything follows the stroke: stroke 7 → rounding 3.5 → gap ≥ 7 measured 
 
 **Three optical sizes, redrawn, never scaled.** `assets/signet-l.svg` (32px+, three lines), `signet-m.svg` (20–31px, middle line dropped), `signet-s.svg` (16–19px, favicon). Pick the file at the link: `<link rel="icon" sizes="16x16" href="signet-s.svg">`.
 
-**Wordmark** — `TYPO3` at 600, an orange pipe, `Dev Companion` at 300. The pipe is separator and caret at once, and the only colour in the mark. Signet is 1.36 × the type size, gap 0.5 ×, clear space half the signet height.
+**Wordmark** — `TYPO3` at 600, an orange pipe, `Support App` at 300. The pipe is separator and caret at once, and the only colour in the mark. Signet is 1.36 × the type size, gap 0.5 ×, clear space half the signet height.
 
 **Never** — a second colour in the mark, equal weights on the two words, stretching, an orange fill behind it, the large drawing at a small size, the marker in anything but orange.
 
@@ -108,7 +108,7 @@ Everything follows the stroke: stroke 7 → rounding 3.5 → gap ≥ 7 measured 
 
 210px tool rail, 1080px content, 48px gutters. Section boundaries are full-bleed hairlines; content inside respects the measure. **1px grid gaps over a `--border-subtle` background** produce the hairline-separated card grid — the system's signature move.
 
-The header is sticky, translucent canvas with an 8px backdrop blur; nothing else in the system is fixed, transparent or blurred. **It never wraps** — it sheds in a fixed order, widest first: 1120px mode-switch labels, 1040px transport line, 820px navigation into a panel, 620px `Dev Companion` off the wordmark. A header that wraps to two lines breaks the sticky offset everything below is measured against.
+The header is sticky, translucent canvas with an 8px backdrop blur; nothing else in the system is fixed, transparent or blurred. **It never wraps** — it sheds in a fixed order, widest first: 1120px mode-switch labels, 1040px transport line, 820px navigation into a panel, 620px `Support App` off the wordmark. A header that wraps to two lines breaks the sticky offset everything below is measured against.
 
 Every surface carries the mode switch: two segments, `light` and `dark`, the active one filled with the accent — the same treatment as an active navigation item, because it is one.
 

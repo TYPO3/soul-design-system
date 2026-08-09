@@ -1,0 +1,54 @@
+{
+  "name": "@typo3-support-app/design-system",
+  "version": "1.0.0",
+  "description": "The TYPO3 Support App design system — tokens, the component class layer, and the specimen cards that document them.",
+  "keywords": [
+    "design-system",
+    "css",
+    "design-tokens",
+    "typo3"
+  ],
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "styles.css",
+  "style": "styles.css",
+  "exports": {
+    ".": "./styles.css",
+    "./styles.css": "./styles.css",
+    "./components.css": "./components.css",
+    "./specimen.css": "./_specimen.css",
+    "./tokens/*.css": "./tokens/*.css",
+    "./fonts/*": "./fonts/*",
+    "./assets/*": "./assets/*"
+  },
+  "files": [
+    "styles.css",
+    "components.css",
+    "tokens/",
+    "fonts/",
+    "assets/"
+  ],
+  "scripts": {
+    "dev": "npm run gallery && npm run serve",
+    "serve": "node scripts/serve.mjs",
+    "gallery": "node scripts/gallery.mjs",
+    "build": "node scripts/build.mjs",
+    "verify": "node scripts/verify.mjs",
+    "fit": "node scripts/fit.mjs",
+    "shots": "node scripts/shoot.mjs",
+    "baseline": "node scripts/shoot.mjs .design-sync/.cache/baseline",
+    "sheets": "node scripts/sheet.mjs",
+    "diff": "node scripts/diff.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "pixelmatch": "^7.2.0",
+    "playwright": "^1.62.1",
+    "pngjs": "^7.0.0"
+  }
+}

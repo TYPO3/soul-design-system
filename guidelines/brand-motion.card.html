@@ -1,25 +1,19 @@
-<!-- @dsCard group="Brand" viewport="700x150" subtitle="Colour and border only — nothing moves position, nothing bounces" name="States & motion" -->
+<!-- @dsCard group="Brand" viewport="700x90" subtitle="Colour and border only — nothing moves position, nothing bounces" name="States & motion" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="../styles.css" />
-<style>
-  html, body { margin: 0; }
-  body { font-family: var(--font-sans); background: var(--surface-canvas); color: var(--text-primary); }
-  .card { padding: 20px 22px; }
-  .lbl { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--text-muted); }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; }
-</style>
+<link rel="stylesheet" href="../_specimen.css" />
 </head>
 <body>
-  <div class="card" style="display:flex; gap:14px; align-items:center;">
-    <div style="font-family:var(--font-mono); font-size:12.5px; color:var(--text-secondary); padding:6px 12px; border:1px solid var(--border-subtle);">rest</div>
-    <div style="font-family:var(--font-mono); font-size:12.5px; color:var(--text-primary); padding:6px 12px; border:1px solid var(--border-strong); background:var(--surface-inset);">hover</div>
-    <div style="font-family:var(--font-mono); font-size:12.5px; color:var(--text-on-accent); padding:6px 12px; background:var(--accent);">active</div>
-    <div style="font-family:var(--font-mono); font-size:12.5px; color:var(--text-primary); padding:6px 12px; border:1px solid var(--accent); box-shadow:0 0 0 3px var(--accent-ring);">focus</div>
-    <div style="font-family:var(--font-mono); font-size:12.5px; color:var(--text-muted); padding:6px 12px; border:1px solid var(--border-subtle); opacity:0.5;">disabled</div>
-    <span class="lbl" style="margin-left:auto;">140ms · ease-out</span>
+  <div class="spec-pad" style="display:flex; gap:14px; align-items:center;">
+    <div style="font-family:var(--font-mono); font-size:13px; color:var(--text-secondary); padding:6px 12px; border:1px solid var(--border-subtle);">rest</div>
+    <div style="font-family:var(--font-mono); font-size:13px; color:var(--text-primary); padding:6px 12px; border:1px solid var(--border-strong); background:var(--surface-inset);">hover</div>
+    <div style="font-family:var(--font-mono); font-size:13px; color:var(--text-on-accent); padding:6px 12px; background:var(--accent);">active</div>
+    <div style="font-family:var(--font-mono); font-size:13px; color:var(--text-primary); padding:6px 12px; border:1px solid var(--accent); box-shadow:0 0 0 3px var(--accent-ring);">focus</div>
+    <div style="font-family:var(--font-mono); font-size:13px; color:var(--text-muted); padding:6px 12px; border:1px solid var(--border-subtle); opacity:0.5;">disabled</div>
+    <span class="spec-lbl" style="margin-left:auto;">140ms · ease-out</span>
   </div>
 </body>
 </html>

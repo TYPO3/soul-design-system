@@ -1,0 +1,17 @@
+# generated upload bundle
+/ds-bundle/
+
+# generated dev gallery
+/gallery.html
+
+# staged design-sync converter scripts and their deps
+/.ds-sync/
+
+# machine state: screenshots, baselines, diffs, contact sheets
+/.design-sync/.cache/
+
+node_modules/
+__pycache__/
+
+# ephemeral upload manifest
+/.design-sync/upload-manifest.json

@@ -1,4 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500;600&display=swap");
+/* The two families, and nothing else.
+
+   Source Sans 3 carries everything a person wrote. Source Code Pro carries
+   everything the machine reads, writes or names — tool names, arguments,
+   paths, versions, CLI fragments — at every size, including headings.
+
+   The faces are vendored under fonts/ rather than pulled from a font host,
+   so a rendered design is self-contained and sets in the right type even
+   behind a strict content policy or with no network. */
+
+@import "../fonts/fonts.css";
 
 :root {
   --font-sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;

@@ -1,13 +1,13 @@
-# TYPO3 Dev Companion — Design System
+# TYPO3 Support App — Design System
 
-The visual and written system for **TYPO3 Dev Companion**: a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work for the three audiences that do it — the core contributor, the extension author and the site developer.
+The visual and written system for **TYPO3 Support App**: a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work for the three audiences that do it — the core contributor, the extension author and the site developer.
 
 The product has one public surface that has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Everything in this system is built for that single continuous page plus the reference pages behind it.
 
 ## Sources
 
-- Repository: https://github.com/benjaminkott/typo3-dev-companion (branch `main`)
-- Published site: https://benjaminkott.github.io/typo3-dev-companion/
+- Repository: https://github.com/benjaminkott/typo3-support-app (branch `main`)
+- Published site: https://benjaminkott.github.io/typo3-support-app/
 - Existing theme, taken as inventory only, not as a basis: `build/guides/theme/assets/site.css`
 - Existing diagrams: `documentation/images/*.svg` (11 files)
 - Local codebase folder attached as `typo3-cms-mcp`
@@ -20,7 +20,7 @@ Drawn in a 128 × 100 box, and everything follows one value: **stroke 7** → ro
 
 **Three optical sizes, not one drawing scaled.** L (32px and up): stroke 7, three lines. M (20–31px): stroke 8.5, the faint middle line dropped. S (16–19px, favicon): stroke 11, marker 40 × 58. **16px is the floor** — below it, wordmark alone. Shipped as three files — `assets/signet-l.svg`, `signet-m.svg`, `signet-s.svg` — and the size is chosen at the link (`<link rel="icon" sizes="16x16" href="signet-s.svg">`), not inside the asset. A single self-switching file was tried and dropped: media queries inside an SVG only see their own viewport when the file is linked, and not dependably across renderers. Each file follows `prefers-color-scheme`; since an image cannot inherit `currentColor`, the frame is a mid warm grey that holds on both modes.
 
-**Wordmark.** `TYPO3` at weight 600, an orange pipe, `Dev Companion` at weight 300. The pipe is a separator and a caret at once — the terminal reading the product earns — and it is the only colour in the mark. The weight split, not a bullet or a slash, carries the hierarchy: the domain has the mass, the product name is the qualifier it grammatically is. Minimum 12px type.
+**Wordmark.** `TYPO3` at weight 600, an orange pipe, `Support App` at weight 300. The pipe is a separator and a caret at once — the terminal reading the product earns — and it is the only colour in the mark. The weight split, not a bullet or a slash, carries the hierarchy: the domain has the mass, the product name is the qualifier it grammatically is. Minimum 12px type.
 
 **The TYPO3 Soul is not used.** Not as a rule of taste but of standing: this is not an approved TYPO3 product, so the Association's mark is not ours to place. The signet carries no Soul, and no surface implies endorsement — footers say what the product is, never whose it is. Should approval ever come, the decision is still no: the Soul inside our mark would either become the mark (and the sub-product disappears) or be cropped (and we would be altering the Association's asset). The files sit side by side for co-branding, never nested.
 
@@ -38,7 +38,7 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 
 **A mode switch is a product control, not a preference screen.** Every surface offers one: two segments, `light` and `dark`, the active one filled with the accent — the same treatment as an active navigation item, because it is one. The first visit follows `prefers-color-scheme`; the choice is then remembered and written to `data-theme` on `<html>`, so the page background and the native scrollbars follow with it. Setting the attribute deeper than `<html>` themes the subtree but leaves the browser's own chrome behind — which is exactly how scrollbars end up in the wrong mode.
 
-**The header never wraps.** It sheds in a fixed order, widest first: at 1120px the mode switch drops its `light`/`dark` labels and keeps the two icons, at 1040px the transport line goes, at 820px the navigation collapses into a single button and the items move into a panel under the header — full-width rows, the active one filled with the accent, with the transport line at its foot. The mode switch and the mark stay in the bar at every width; below 620px the wordmark drops `Dev Companion` and keeps `TYPO3` plus the signet. A header that wraps to two lines breaks the sticky offset everything below it is measured against.
+**The header never wraps.** It sheds in a fixed order, widest first: at 1120px the mode switch drops its `light`/`dark` labels and keeps the two icons, at 1040px the transport line goes, at 820px the navigation collapses into a single button and the items move into a panel under the header — full-width rows, the active one filled with the accent, with the transport line at its foot. The mode switch and the mark stay in the bar at every width; below 620px the wordmark drops `Support App` and keeps `TYPO3` plus the signet. A header that wraps to two lines breaks the sticky offset everything below it is measured against.
 
 **Scrollbars belong to the surface.** `tokens/colors.css` styles them alongside the tokens: thumb `--border-strong`, `--text-muted` on hover, transparent track, 11px. Any page that loads the tokens gets them; `color-scheme` alone would only flip the ones the browser draws itself.
 
@@ -70,7 +70,7 @@ The product's own writing is the model, and it is distinctive. Keep it.
 
 **Honesty as a style.** Limitations are stated, not softened. The "Experimental" notice is the first thing on the page, not a footnote. Where the server cannot answer, that is written down as a boundary rather than left silent. Never write marketing superlatives — no "powerful", "seamless", "blazing fast", "revolutionise".
 
-**Casing.** Sentence case for headings. Tool names, file paths and CLI fragments verbatim in mono, never title-cased or prettified: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-dev-companion install`.
+**Casing.** Sentence case for headings. Tool names, file paths and CLI fragments verbatim in mono, never title-cased or prettified: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-support-app install`.
 
 **Numbers and versions.** Always concrete: "PHP 8.2+", "12.4, 13.4, 14.3 and main", "0.x". Never "the latest versions".
 

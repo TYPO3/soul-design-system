@@ -1,33 +1,25 @@
-<!-- @dsCard group="Diagrams" viewport="1400x680" subtitle="answer-sources.svg, redrawn to the rules — and shipped as a light/dark pair" name="Worked example" -->
+<!-- @dsCard group="Diagrams" viewport="1400x560" subtitle="answer-sources.svg, redrawn to the rules — and shipped as a light/dark pair" name="Worked example" -->
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="../styles.css" />
-<style>
-  html, body { margin: 0; }
-  body { font-family: var(--font-sans); background: var(--surface-sunken); color: var(--text-primary); }
-  .note { font-size: 12px; line-height: 1.5; color: var(--text-secondary); }
-  .note b { color: var(--text-primary); font-weight: 600; }
-  .tok { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-accent-quiet); }
-  .h { font-size: 10.5px; font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-  picture, img { display: block; width: 100%; height: auto; }
-</style>
+<link rel="stylesheet" href="../_specimen.css" />
 </head>
 <body>
   <div style="padding:18px 20px; display:flex; flex-direction:column; gap:14px;">
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
     <div>
-      <div class="h">answer-sources.svg</div>
-      <img src="../assets/diagrams/answer-sources.svg" alt="Five answer sources plotted against the machine state each one requires." style="border:1px solid var(--border-subtle); border-radius:var(--radius-card);" />
+      <div class="spec-h">answer-sources.svg</div>
+      <img src="../assets/diagrams/answer-sources.svg" alt="Five answer sources plotted against the machine state each one requires." class="spec-figure spec-figure--framed" />
     </div>
     <div>
-      <div class="h">answer-sources-dark.svg</div>
-      <img src="../assets/diagrams/answer-sources-dark.svg" alt="The same chart, dark." style="border:1px solid var(--border-subtle); border-radius:var(--radius-card);" />
+      <div class="spec-h">answer-sources-dark.svg</div>
+      <img src="../assets/diagrams/answer-sources-dark.svg" alt="The same chart, dark." class="spec-figure spec-figure--framed" />
     </div></div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px 26px; border-top:1px solid var(--border-subtle); padding-top:12px;">
-      <div class="note"><b>Two files, not one.</b> A <span class="tok">&lt;style&gt;</span> block inside an SVG is stripped by GitHub and ignored by most markdown pipelines, so a single self-switching file is not shippable. The pair is selected with <span class="tok">&lt;picture&gt;</span>; every colour is an attribute, and the dark file is generated from the light one by a token swap.</div>
-      <div class="note"><b>What changed against the existing set:</b> the five hues are gone, the drop shadow is gone, the 28px outer radius is gone, and every identifier moved to mono. The claim, the five names and the closing line are unchanged.</div>
+      <div class="spec-note"><b>Two files, not one.</b> A <span class="spec-cap">&lt;style&gt;</span> block inside an SVG is stripped by GitHub and ignored by most markdown pipelines, so a single self-switching file is not shippable. The pair is selected with <span class="spec-cap">&lt;picture&gt;</span>; every colour is an attribute, and the dark file is generated from the light one by a token swap.</div>
+      <div class="spec-note"><b>What changed against the existing set:</b> the five hues are gone, the drop shadow is gone, the 28px outer radius is gone, and every identifier moved to mono. The claim, the five names and the closing line are unchanged.</div>
     </div>
   </div>
 </body>

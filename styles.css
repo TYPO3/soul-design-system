@@ -1,6 +1,16 @@
+/* The single entry point. Link this and nothing else.
+
+   Order matters: tokens declare the values, components consume them.
+   Everything reachable from here is what a rendered design receives —
+   the specimen chrome in _specimen.css is deliberately outside this
+   closure, because cards are documentation, not product. */
+
 @import "tokens/fonts.css";
 @import "tokens/colors.css";
 @import "tokens/typography.css";
+@import "tokens/controls.css";
 @import "tokens/spacing.css";
 @import "tokens/radius.css";
 @import "tokens/motion.css";
+
+@import "components.css";

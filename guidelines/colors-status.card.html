@@ -1,32 +1,24 @@
-<!-- @dsCard group="Colors" viewport="700x200" subtitle="Only ever inside code blocks, badges and result rows" name="Status & syntax" -->
+<!-- @dsCard group="Colors" viewport="700x230" subtitle="Only ever inside code blocks, badges and result rows" name="Status & syntax" -->
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="../styles.css" />
-<style>
-  html, body { margin: 0; }
-  body { font-family: var(--font-sans); background: var(--surface-canvas); }
-  .pane { padding: 13px 20px; display: flex; gap: 10px; background: var(--surface-canvas); align-items: flex-start; }
-  .sw { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
-  .chip { height: 34px; }
-  .n { font-family: var(--font-mono); font-size: 10px; color: var(--text-primary); }
-  .h { font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); }
-</style>
+<link rel="stylesheet" href="../_specimen.css" />
 </head>
 <body>
   <div style="display:grid; grid-template-rows:1fr 1fr;">
-    <div class="pane" data-theme="light">
-      <div class="sw"><div class="chip" style="background:var(--status-ok);"></div><div class="n">--status-ok</div><div class="h">#4F7A3A</div></div>
-      <div class="sw"><div class="chip" style="background:var(--status-warn);"></div><div class="n">--status-warn</div><div class="h">#A56A00</div></div>
-      <div class="sw"><div class="chip" style="background:var(--status-error);"></div><div class="n">--status-error</div><div class="h">#A33328</div></div>
-      <div class="sw"><div class="chip" style="background:var(--syntax-string);"></div><div class="n">--syntax-string</div><div class="h">#3F6B2B</div></div>
+    <div class="spec-pane" data-theme="light">
+      <div class="spec-sw"><div class="spec-chip spec-chip--sm" style="background:var(--status-ok);"></div><div class="spec-n">--status-ok</div><div class="spec-hex">#4F7A3A</div></div>
+      <div class="spec-sw"><div class="spec-chip spec-chip--sm" style="background:var(--status-warn);"></div><div class="spec-n">--status-warn</div><div class="spec-hex">#A56A00</div></div>
+      <div class="spec-sw"><div class="spec-chip spec-chip--sm" style="background:var(--status-error);"></div><div class="spec-n">--status-error</div><div class="spec-hex">#A33328</div></div>
+      <div class="spec-sw"><div class="spec-chip spec-chip--sm" style="background:var(--syntax-string);"></div><div class="spec-n">--syntax-string</div><div class="spec-hex">#3F6B2B</div></div>
     </div>
-    <div class="pane" data-theme="dark">
-      <div class="sw"><div class="chip" style="background:var(--status-ok);"></div><div class="n">--status-ok</div><div class="h">#7FA96B</div></div>
-      <div class="sw"><div class="chip" style="background:var(--status-warn);"></div><div class="n">--status-warn</div><div class="h">#D9A441</div></div>
-      <div class="sw"><div class="chip" style="background:var(--status-error);"></div><div class="n">--status-error</div><div class="h">#D4685C</div></div>
-      <div class="sw"><div class="chip" style="background:var(--syntax-string);"></div><div class="n">--syntax-string</div><div class="h">#9CC27F</div></div>
+    <div class="spec-pane" data-theme="dark">
+      <div class="spec-sw"><div class="spec-chip spec-chip--sm" style="background:var(--status-ok);"></div><div class="spec-n">--status-ok</div><div class="spec-hex">#7FA96B</div></div>
+      <div class="spec-sw"><div class="spec-chip spec-chip--sm" style="background:var(--status-warn);"></div><div class="spec-n">--status-warn</div><div class="spec-hex">#D9A441</div></div>
+      <div class="spec-sw"><div class="spec-chip spec-chip--sm" style="background:var(--status-error);"></div><div class="spec-n">--status-error</div><div class="spec-hex">#D4685C</div></div>
+      <div class="spec-sw"><div class="spec-chip spec-chip--sm" style="background:var(--syntax-string);"></div><div class="spec-n">--syntax-string</div><div class="spec-hex">#9CC27F</div></div>
     </div>
   </div>
 </body>

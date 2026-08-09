@@ -1,0 +1,578 @@
+/* TYPO3 Support App — component layer.
+
+   The class vocabulary every surface is built from. Before this file each
+   specimen card re-declared its own .btn and .badge, so the same component
+   existed in eight slightly different versions and none of them was the
+   source of truth. Now there is one.
+
+   Rules this file encodes, from SKILL.md — breaking one breaks the system:
+   - No shadows. Separation is a hairline plus --surface-overlay. The focus
+     ring is the single box-shadow here, and it is a state, not depth.
+   - Hover changes colour and border. Never position, never size.
+   - One accent: the active nav item, the shell prompt, the wordmark pipe.
+   - Mono is semantic — anything the machine reads, writes or names.
+
+   Everything is a `tsa-` class. State is `.is-*` (`.is-active`,
+   `.is-selected`, `.is-disabled`) so a component and its state never
+   collide. Nothing here sets a colour literal: every value is a token. */
+
+/* ---------------------------------------------------------------- root -- */
+
+/* Padding and borders count inside a component's declared width. Without
+   this a `min-width: 200px` card is really 234px wide and three of them
+   stop fitting the row you sized them for. Scoped to the component classes
+   so it cannot surprise a host page's own layout. */
+[class*="tsa-"], [class*="tsa-"]::before, [class*="tsa-"]::after {
+  box-sizing: border-box;
+}
+
+/* Put this on <body> (or the app root) — it establishes the canvas, the
+   sans stack and the default text colour. Without it a surface inherits
+   the browser's Times New Roman on white. */
+.tsa-app {
+  font-family: var(--font-sans);
+  background: var(--surface-canvas);
+  color: var(--text-primary);
+}
+
+/* One ring, everywhere. :focus-visible only — never :focus, which would
+   ring a mouse click too. */
+:where(.tsa-app) :focus-visible,
+.tsa-btn:focus-visible,
+.tsa-link:focus-visible {
+  outline: var(--border-emphasis) solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--accent-ring);
+  border-radius: var(--radius-control);
+}
+
+/* ---------------------------------------------------------------- text -- */
+
+/* Body copy. 17px at 1.65, held to a 66ch measure. */
+.tsa-prose {
+  font-size: var(--font-size-body);
+  line-height: var(--leading-body);
+  max-width: var(--measure-prose);
+  color: var(--text-secondary);
+}
+
+/* A section label: mono, uppercase, tracked out. */
+.tsa-label {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Inline mono for anything the machine named — tool names, paths, flags,
+   versions. Scales with its context instead of pinning a size, so it sits
+   correctly in both a 12px note and 17px body copy. Never title-cased. */
+.tsa-mono {
+  font-family: var(--font-mono);
+  font-size: 0.94em;
+  color: var(--text-primary);
+}
+
+.tsa-link {
+  color: var(--text-link);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.tsa-link:hover { color: var(--text-link-hover); text-decoration: underline; }
+
+/* An external link carries actions-window-open after the label. */
+.tsa-link--external {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Icons are 16px and follow the text colour they sit in — an <img> cannot
+   inherit currentColor, so the SVG is always inlined. 16px is the floor;
+   sizes go 16, 20, 24 or a whole multiple, never 18 or 22. */
+.tsa-icon {
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+.tsa-icon--20 { width: 20px; height: 20px; }
+.tsa-icon--24 { width: 24px; height: 24px; }
+/* A standalone icon that is not inside a coloured control. */
+.tsa-icon--muted { color: var(--text-secondary); }
+
+/* -------------------------------------------------------------- buttons -- */
+
+.tsa-btn {
+  font-family: var(--font-sans);
+  font-size: var(--control-font-size);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-control);
+  padding: var(--control-pad-y) var(--control-pad-x);
+  border: var(--border-hairline) solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--control-gap);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+/* One primary per view — the action that starts work. */
+.tsa-btn--primary { background: var(--accent); color: var(--text-on-accent); }
+.tsa-btn--primary:hover { background: var(--accent-hover); }
+
+.tsa-btn--secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+.tsa-btn--secondary:hover { background: var(--surface-raised); border-color: var(--text-muted); }
+
+.tsa-btn--ghost { background: transparent; color: var(--text-secondary); }
+.tsa-btn--ghost:hover { color: var(--text-primary); }
+
+.tsa-btn--sm {
+  font-size: var(--control-font-size-sm);
+  padding: var(--control-pad-y-sm) var(--control-pad-x-sm);
+}
+
+/* Icon-only is a square. It always carries a title= — the label is not
+   optional just because it is not painted. */
+.tsa-btn--icon {
+  padding: var(--control-pad-y-sm);
+  width: var(--control-icon-box);
+  height: var(--control-icon-box);
+  justify-content: center;
+}
+
+.tsa-btn:disabled,
+.tsa-btn.is-disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* --------------------------------------------------------------- badges -- */
+
+.tsa-badge {
+  font-family: var(--font-mono);
+  font-size: var(--badge-font-size);
+  padding: 3px 8px;
+  border-radius: var(--radius-control);
+  border: var(--border-hairline) solid var(--border-strong);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tsa-badge--accent {
+  border-color: var(--border-accent-quiet);
+  background: var(--surface-accent-quiet);
+  color: var(--text-accent-quiet);
+}
+
+/* Status badges tint their border from the status colour, never fill. */
+.tsa-badge--ok {
+  color: var(--status-ok);
+  border-color: color-mix(in oklch, var(--status-ok) 45%, transparent);
+}
+.tsa-badge--warn {
+  color: var(--status-warn);
+  border-color: color-mix(in oklch, var(--status-warn) 45%, transparent);
+}
+.tsa-badge--error {
+  color: var(--status-error);
+  border-color: color-mix(in oklch, var(--status-error) 45%, transparent);
+}
+
+/* --------------------------------------------------------------- fields -- */
+
+/* A field is sunken, not outlined on the canvas. The accent appears only
+   on focus. */
+.tsa-field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--control-gap);
+  background: var(--surface-sunken);
+  border: var(--border-hairline) solid var(--border-strong);
+  border-radius: var(--radius-control);
+  padding: 7px 11px;
+  color: var(--text-muted);
+  font-size: var(--control-font-size);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+.tsa-field.is-focused,
+.tsa-field:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+.tsa-field.is-invalid { border-color: var(--status-error); }
+.tsa-field.is-filled { color: var(--text-primary); }
+
+/* The bare control inside the field carries no chrome of its own. */
+.tsa-input {
+  all: unset;
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--text-primary);
+}
+
+.tsa-select { justify-content: space-between; color: var(--text-primary); }
+
+/* Error text sits under or beside the field — never as a tooltip. */
+.tsa-field-error {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--note-body-size);
+  color: var(--status-error);
+}
+
+/* --------------------------------------------------------------- tables -- */
+
+/* Density is a choice about the work, not about loudness: compact when the
+   list *is* the work, airy when the rows are read rather than scanned. */
+.tsa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--row-font-medium);
+  --tsa-row-pad: var(--row-pad-medium);
+  --tsa-name: var(--row-name-medium);
+  --tsa-meta: var(--row-meta-medium);
+}
+.tsa-table--compact {
+  font-size: var(--row-font-compact);
+  --tsa-row-pad: var(--row-pad-compact);
+  --tsa-name: var(--row-name-compact);
+  --tsa-meta: var(--row-meta-compact);
+}
+.tsa-table--medium {
+  font-size: var(--row-font-medium);
+  --tsa-row-pad: var(--row-pad-medium);
+  --tsa-name: var(--row-name-medium);
+  --tsa-meta: var(--row-meta-medium);
+}
+.tsa-table--airy {
+  font-size: var(--row-font-airy);
+  --tsa-row-pad: var(--row-pad-airy);
+  --tsa-name: var(--row-name-airy);
+  --tsa-meta: var(--row-meta-airy);
+}
+
+.tsa-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: var(--table-head-size);
+  letter-spacing: var(--table-head-tracking);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--weight-regular);
+  padding: 0 12px var(--tsa-row-pad) 0;
+  border-bottom: var(--border-hairline) solid var(--border-strong);
+}
+
+.tsa-table td {
+  padding: var(--tsa-row-pad) 12px var(--tsa-row-pad) 0;
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.tsa-table th:last-child,
+.tsa-table td:last-child { padding-right: 0; }
+
+/* The machine's own names, in the machine's own font. */
+.tsa-table td.tsa-td-name {
+  font-family: var(--font-mono);
+  font-size: var(--tsa-name);
+  color: var(--text-link);
+}
+.tsa-table td.tsa-td-meta {
+  font-family: var(--font-mono);
+  font-size: var(--tsa-meta);
+  color: var(--text-muted);
+}
+
+/* Never zebra stripes. Background changes on hover or selection only, so a
+   highlighted row means something. */
+.tsa-table tbody tr:hover { background: var(--surface-raised); }
+.tsa-table tbody tr.is-selected { background: var(--surface-accent-quiet); }
+
+/* ------------------------------------------------------------- surfaces -- */
+
+/* A card is a hairline and 6px, no fill. A panel is a raised fill. Sunken
+   is machine output. No shadow on any of them. */
+.tsa-card,
+.tsa-panel,
+.tsa-sunken {
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: var(--tsa-pad, 14px 16px);
+}
+.tsa-panel { background: var(--surface-raised); }
+.tsa-sunken { background: var(--surface-sunken); }
+
+.tsa-surface-title { font-size: var(--font-size-ui); font-weight: var(--weight-semibold); }
+.tsa-surface-body {
+  font-size: var(--note-body-size);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-top: 5px;
+}
+
+/* Overlay is a wash, not a shadow. */
+.tsa-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-overlay);
+}
+
+.tsa-modal {
+  background: var(--surface-raised);
+  border: var(--border-hairline) solid var(--border-strong);
+  border-radius: var(--radius-card);
+  max-width: 560px;
+}
+.tsa-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+  font-size: var(--control-font-size);
+  font-weight: var(--weight-semibold);
+}
+.tsa-modal__body {
+  padding: 13px 14px;
+  font-size: var(--note-body-size);
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.tsa-modal__foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--control-gap);
+  padding: 11px 14px;
+  border-top: var(--border-hairline) solid var(--border-subtle);
+}
+
+/* The drawer comes from the right and is bounded by a hairline. */
+.tsa-drawer {
+  background: var(--surface-raised);
+  border-left: var(--border-hairline) solid var(--border-strong);
+  padding: 12px;
+}
+
+/* ----------------------------------------------------------- navigation -- */
+
+/* Pill nav for sections. Active is a filled block, not a tint. */
+.tsa-pills {
+  display: flex;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--nav-font-size);
+}
+.tsa-pill {
+  padding: 6px 12px;
+  border-radius: var(--radius-control);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+.tsa-pill:hover { color: var(--text-primary); }
+.tsa-pill.is-active { background: var(--accent); color: var(--text-on-accent); }
+
+/* Underline tabs inside a panel. */
+.tsa-tabs {
+  display: flex;
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: var(--tab-font-size);
+}
+.tsa-tab {
+  padding: 9px 14px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.tsa-tab:hover { color: var(--text-secondary); }
+.tsa-tab.is-active {
+  color: var(--text-primary);
+  border-bottom: var(--border-emphasis) solid var(--accent);
+  margin-bottom: -1px;
+}
+
+/* The 210px tool rail. */
+.tsa-rail {
+  width: var(--width-sidebar);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-family: var(--font-mono);
+  font-size: var(--nav-font-size);
+}
+.tsa-rail__item {
+  padding: 5px 9px;
+  border-radius: var(--radius-control);
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.tsa-rail__item:hover { color: var(--text-primary); }
+.tsa-rail__item.is-active { background: var(--accent); color: var(--text-on-accent); }
+
+/* ------------------------------------------------------------ code, diff -- */
+
+/* A code block is a control-scale object: --radius-control, not the card
+   radius. Sunken, because it is machine output. */
+.tsa-code {
+  border: var(--border-hairline) solid var(--border-subtle);
+  background: var(--surface-sunken);
+  border-radius: var(--radius-control);
+  overflow: hidden;
+}
+.tsa-code__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--control-gap);
+  padding: 8px 13px;
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+  color: var(--text-muted);
+}
+.tsa-code__body {
+  margin: 0;
+  padding: 14px 15px;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-code);
+  line-height: var(--leading-code);
+  color: var(--text-secondary);
+  overflow-x: auto;
+}
+/* The shell prompt is one of the three places the accent is allowed. */
+.tsa-code__prompt { color: var(--accent); }
+.tsa-code__cmd { color: var(--text-primary); }
+.tsa-code__comment { color: var(--syntax-comment); }
+.tsa-code__ok { color: var(--status-ok); }
+.tsa-code__string { color: var(--syntax-string); }
+.tsa-code__key { color: var(--syntax-key); }
+
+/* Diff: the one place a status colour may fill a whole line. */
+.tsa-diff {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--diff-font-size);
+  line-height: var(--diff-leading);
+  overflow-x: auto;
+}
+.tsa-diff__line {
+  display: block;
+  padding: 0 15px;
+  color: var(--text-muted);
+}
+.tsa-diff__line--add {
+  background: color-mix(in oklch, var(--status-ok) var(--diff-tint), transparent);
+  color: var(--text-secondary);
+}
+.tsa-diff__line--del {
+  background: color-mix(in oklch, var(--status-error) var(--diff-tint), transparent);
+  color: var(--text-secondary);
+}
+.tsa-diff__line--add .tsa-diff__mark { color: var(--status-ok); }
+.tsa-diff__line--del .tsa-diff__mark { color: var(--status-error); }
+
+/* --------------------------------------------------------------- states -- */
+
+/* An answer always carries its source, its version binding and what it
+   leaves out. This block is the shape that carries exactly that: an icon
+   in the status colour, a title, and a bounded note. */
+.tsa-note {
+  display: flex;
+  gap: 11px;
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 13px 15px;
+}
+.tsa-note__icon { flex: none; margin-top: 1px; color: var(--text-muted); }
+.tsa-note__title { font-size: var(--note-title-size); font-weight: var(--weight-semibold); }
+.tsa-note__body {
+  font-size: var(--note-body-size);
+  line-height: var(--note-body-leading);
+  color: var(--text-secondary);
+  max-width: var(--note-measure);
+  margin-top: 4px;
+}
+
+/* A degraded but usable answer tints the whole block; error and success
+   colour the icon only, so a page of results does not read as an alarm. */
+.tsa-note--warn {
+  border-color: var(--border-accent-quiet);
+  background: var(--surface-accent-quiet);
+}
+.tsa-note--warn .tsa-note__icon { color: var(--status-warn); }
+.tsa-note--error .tsa-note__icon { color: var(--status-error); }
+.tsa-note--ok .tsa-note__icon { color: var(--status-ok); }
+/* A stated boundary is information, not an error. */
+.tsa-note--info .tsa-note__icon { color: var(--text-muted); }
+
+/* Nothing under 200ms. Over 2s the label says why. */
+.tsa-loading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--text-secondary);
+}
+.tsa-loading__label {
+  font-family: var(--font-mono);
+  font-size: var(--nav-font-size);
+  color: var(--text-primary);
+}
+.tsa-spinner {
+  display: inline-flex;
+  animation: tsa-spin 1.1s linear infinite;
+}
+
+/* Skeletons only where the shape is known — a table, a list. Never for a
+   single value. */
+.tsa-skeleton {
+  display: block;
+  height: 9px;
+  border-radius: 4.5px;
+  background: var(--surface-inset);
+  animation: tsa-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes tsa-spin { to { transform: rotate(360deg); } }
+@keyframes tsa-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .tsa-spinner, .tsa-skeleton { animation: none; }
+}
+
+/* ---------------------------------------------------------------- brand -- */
+
+/* Signet, wordmark, one orange pipe. The pipe is the third and last place
+   the accent is allowed to appear. */
+.tsa-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.tsa-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-heading);
+  color: var(--text-primary);
+}
+.tsa-wordmark__pipe {
+  display: inline-block;
+  width: 2px;
+  align-self: stretch;
+  background: var(--accent);
+}
+.tsa-wordmark__product { font-weight: var(--weight-light); color: var(--text-secondary); }

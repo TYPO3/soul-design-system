@@ -1,25 +1,17 @@
-<!-- @dsCard group="Diagrams" viewport="980x680" subtitle="Flat, hairline, one accent — shipped as a light/dark pair" name="Drawing rules" -->
+<!-- @dsCard group="Diagrams" viewport="980x510" subtitle="Flat, hairline, one accent — shipped as a light/dark pair" name="Drawing rules" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="../styles.css" />
-<style>
-  html, body { margin: 0; }
-  body { font-family: var(--font-sans); background: var(--surface-canvas); color: var(--text-primary); }
-  .h { font-size: 11px; font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
-  .rule { font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
-  .rule b { color: var(--text-primary); font-weight: 600; }
-  .tok { font-family: var(--font-mono); font-size: 12px; color: var(--text-accent-quiet); }
-  .spec { border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--surface-raised); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
-</style>
+<link rel="stylesheet" href="../_specimen.css" />
 </head>
 <body>
-  <div style="padding:20px 22px; display:flex; flex-direction:column; gap:18px;">
+  <div class="spec" style="--spec-gap:18px">
 
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
-      <div class="spec">
-        <div class="h">Node</div>
+      <div class="spec-box">
+        <div class="spec-h">Node</div>
         <svg width="100%" height="66" viewBox="0 0 240 66" aria-hidden="true">
           <rect x="1" y="1" width="112" height="64" rx="6" fill="var(--surface-canvas)" stroke="var(--border-subtle)" />
           <rect x="15" y="16" width="62" height="7" rx="3.5" fill="var(--text-primary)" />
@@ -31,19 +23,19 @@
           <rect x="141" y="35" width="84" height="6" rx="3" fill="var(--text-muted)" />
           <rect x="141" y="47" width="52" height="6" rx="3" fill="var(--text-muted)" />
         </svg>
-        <div class="rule">6px radius, hairline, flat fill. The subject of the diagram gets the accent bar — <b>everything else is peer-identical</b>.</div>
+        <div class="spec-rule">6px radius, hairline, flat fill. The subject of the diagram gets the accent bar — <b>everything else is peer-identical</b>.</div>
       </div>
-      <div class="spec">
-        <div class="h">Connector</div>
+      <div class="spec-box">
+        <div class="spec-h">Connector</div>
         <svg width="100%" height="66" viewBox="0 0 240 66" aria-hidden="true">
           <defs><marker id="t" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0 0.5 7 4 0 7.5Z" fill="var(--text-muted)" /></marker></defs>
           <path d="M10 16 H120 V50 H196" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#t)" />
           <path d="M10 50 H70" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#t)" />
         </svg>
-        <div class="rule">1.5px, orthogonal, one arrowhead. No curves. Dashed means <b>optional or not yet</b> — nothing else.</div>
+        <div class="spec-rule">1.5px, orthogonal, one arrowhead. No curves. Dashed means <b>optional or not yet</b> — nothing else.</div>
       </div>
-      <div class="spec">
-        <div class="h">Colour</div>
+      <div class="spec-box">
+        <div class="spec-h">Colour</div>
         <svg width="100%" height="66" viewBox="0 0 240 66" aria-hidden="true">
           <g>
             <rect x="0" y="6" width="42" height="20" rx="4" fill="#6172f3" /><rect x="50" y="6" width="42" height="20" rx="4" fill="#0ba5ec" /><rect x="100" y="6" width="42" height="20" rx="4" fill="#12b76a" /><rect x="150" y="6" width="42" height="20" rx="4" fill="#ff8700" /><rect x="200" y="6" width="40" height="20" rx="4" fill="#667085" />
@@ -51,17 +43,17 @@
             <rect x="0" y="40" width="42" height="20" rx="4" fill="var(--surface-inset)" /><rect x="50" y="40" width="42" height="20" rx="4" fill="var(--surface-inset)" /><rect x="100" y="40" width="42" height="20" rx="4" fill="var(--surface-inset)" /><rect x="150" y="40" width="42" height="20" rx="4" fill="var(--accent)" /><rect x="200" y="40" width="40" height="20" rx="4" fill="var(--surface-inset)" />
           </g>
         </svg>
-        <div class="rule">Peers are told apart by <b>their names, never by hue</b>. Orange marks the one thing the diagram is about. Status colours only in diagrams about status.</div>
+        <div class="spec-rule">Peers are told apart by <b>their names, never by hue</b>. Orange marks the one thing the diagram is about. Status colours only in diagrams about status.</div>
       </div>
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px 26px; border-top:1px solid var(--border-subtle); padding-top:14px;">
-      <div class="rule"><b>Solid means there, dashed outline means not there.</b> One vocabulary across the whole set: a filled shape is what you get, a dashed outline of the same shape is what is missing or not yet reachable — <b>the shortfall has a size, not a sentence</b>. Warn colour on the outline where it is a degradation rather than a precondition.</div>
-      <div class="rule"><b>A picture, not a text block in boxes.</b> If the drawing would still work as a bulleted list, it is not a diagram — meaning has to sit in <b>position, length or alignment</b>. Boxes and arrows are the last resort, not the starting vocabulary.</div>
-      <div class="rule"><b>One claim per diagram.</b> The title states it, the closing line states its consequence. If two claims are needed, that is two diagrams.</div>
-      <div class="rule"><b>Two files, one drawing.</b> Colour is written as attributes, and the dark file is generated from the light one by a token swap. A <span class="tok">&lt;style&gt;</span> block inside an SVG is stripped by GitHub, so a self-switching file is not shippable — the pair is selected with <span class="tok">&lt;picture&gt;</span>.</div>
-      <div class="rule"><b>Type.</b> Source Sans 3, with every identifier in Source Code Pro. Floor is 13px at the drawn size — a diagram that needs smaller type is carrying too much.</div>
-      <div class="rule"><b>No shadows, no gradients, no outer radius.</b> Depth is a hairline. The canvas is a flat rectangle at <span class="tok">--surface-canvas</span> with a 60px margin.</div>
+      <div class="spec-rule"><b>Solid means there, dashed outline means not there.</b> One vocabulary across the whole set: a filled shape is what you get, a dashed outline of the same shape is what is missing or not yet reachable — <b>the shortfall has a size, not a sentence</b>. Warn colour on the outline where it is a degradation rather than a precondition.</div>
+      <div class="spec-rule"><b>A picture, not a text block in boxes.</b> If the drawing would still work as a bulleted list, it is not a diagram — meaning has to sit in <b>position, length or alignment</b>. Boxes and arrows are the last resort, not the starting vocabulary.</div>
+      <div class="spec-rule"><b>One claim per diagram.</b> The title states it, the closing line states its consequence. If two claims are needed, that is two diagrams.</div>
+      <div class="spec-rule"><b>Two files, one drawing.</b> Colour is written as attributes, and the dark file is generated from the light one by a token swap. A <span class="spec-cap">&lt;style&gt;</span> block inside an SVG is stripped by GitHub, so a self-switching file is not shippable — the pair is selected with <span class="spec-cap">&lt;picture&gt;</span>.</div>
+      <div class="spec-rule"><b>Type.</b> Source Sans 3, with every identifier in Source Code Pro. Floor is 13px at the drawn size — a diagram that needs smaller type is carrying too much.</div>
+      <div class="spec-rule"><b>No shadows, no gradients, no outer radius.</b> Depth is a hairline. The canvas is a flat rectangle at <span class="spec-cap">--surface-canvas</span> with a 60px margin.</div>
     </div>
 
   </div>

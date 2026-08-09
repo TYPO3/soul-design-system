@@ -1,0 +1,137 @@
+/* Specimen chrome — for the cards only.
+
+   This is the annotation layer the specimen cards are drawn with: captions,
+   swatch grids, the small notes under an example. It is deliberately NOT
+   imported by styles.css, because a design built with this system must not
+   inherit it — a rendered design gets the token and component layers only.
+
+   Before this file each card carried its own copy of these rules and they
+   had already drifted: `.tok` existed in five different sizes, and `.card`
+   meant "20px of specimen padding" here while meaning "a hairline and 6px,
+   no fill" in the system proper. One definition each, one prefix, no
+   collision with `tsa-`. */
+
+html, body { margin: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--surface-canvas);
+  color: var(--text-primary);
+}
+
+/* The standard card scaffold: the padded, stacked column every specimen
+   lays its examples out in. --spec-gap tunes the stack per card. */
+.spec {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spec-gap, 16px);
+}
+
+/* Just the card's padding, no layout opinion — for specimens that lay
+   themselves out (a grid of type samples, a row of state chips). */
+.spec-pad { padding: 20px 22px; }
+
+.spec-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* The uppercase mono caption that names what an example is showing.
+   This is annotation, never product text. */
+.spec-cap {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* Prose under an example. */
+.spec-note {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+.spec-note b { color: var(--text-primary); font-weight: var(--weight-semibold); }
+
+/* A rule being stated, slightly larger than a note. */
+.spec-rule {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.spec-rule b { color: var(--text-primary); font-weight: var(--weight-semibold); }
+
+/* A section heading inside a specimen. */
+.spec-h {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* The tracked-out label used over a group of swatches or samples. */
+.spec-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* A thing you must not do. */
+.spec-no {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--status-error);
+}
+
+/* Swatch grid: a row of columns, each a colour chip over its name and
+   value. */
+.spec-pane {
+  padding: 14px 20px;
+  display: flex;
+  gap: 12px;
+  background: var(--surface-canvas);
+  align-items: flex-start;
+}
+.spec-sw {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.spec-chip { height: 40px; }
+.spec-chip--sm { height: 34px; }
+.spec-n {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-primary);
+}
+.spec-hex {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* A bordered box holding one worked specimen. */
+.spec-box {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--surface-raised);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Diagram specimens render the shipped SVG at full card width. */
+.spec-figure { display: block; width: 100%; height: auto; }
+.spec-figure--framed {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+}

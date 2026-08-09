@@ -1,0 +1,83 @@
+#!/usr/bin/env node
+/* The repo's own gate. Run it before shipping anything.
+
+   Four things have to hold, and each has gone wrong at least once:
+     1. every card declares a @dsCard header the Design System pane can read
+     2. no card uses a class the stylesheets do not define — a silent no-op
+     3. every local href/src resolves; a card that ships unstyled looks fine
+        in review and wrong everywhere else
+     4. every card fits the viewport it declares, and still renders
+
+     npm run verify
+*/
+import { spawnSync } from 'node:child_process';
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+
+import { cards, ROOT } from './lib/cards.mjs';
+
+const fails = [];
+const list = cards();
+
+console.log('1. @dsCard headers');
+for (const c of list) {
+  if (!/^<!--\s*@dsCard\s+group="[^"]*"[^>]*-->/.test(c.text.split('\n', 1)[0])) {
+    fails.push(`${c.rel}: first line is not a @dsCard comment`);
+  }
+}
+console.log(`   ${list.length} cards`);
+
+console.log('2. class vocabulary');
+const defined = new Set();
+for (const sheet of ['components.css', '_specimen.css']) {
+  for (const m of readFileSync(join(ROOT, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
+    defined.add(m[1]);
+  }
+}
+const used = new Map();
+for (const c of list) {
+  for (const m of c.text.matchAll(/class="([^"]*)"/g)) {
+    for (const cls of m[1].split(/\s+/).filter(Boolean)) {
+      if (!used.has(cls)) used.set(cls, []);
+      used.get(cls).push(c.rel);
+    }
+  }
+}
+let unknown = 0;
+for (const [cls, where] of [...used].sort()) {
+  if (!defined.has(cls)) {
+    unknown++;
+    fails.push(`class "${cls}" is used in ${where.length} card(s) but defined in no stylesheet (first: ${where[0]})`);
+  }
+}
+console.log(`   ${used.size} distinct classes used, ${defined.size} defined, ${unknown} unknown`);
+
+console.log('3. local references');
+let refs = 0, broken = 0;
+for (const c of list) {
+  // Only real attributes: escaped example markup (&lt;link href="…"&gt;) is documentation.
+  const real = c.text.replace(/&lt;[\s\S]*?&gt;/g, '');
+  for (const m of real.matchAll(/(?:href|src)="([^"]+)"/g)) {
+    const ref = m[1];
+    if (/^(https?:|data:|#)/.test(ref)) continue;
+    refs++;
+    if (!existsSync(resolve(dirname(c.path), ref))) {
+      broken++;
+      fails.push(`${c.rel}: ${ref} does not resolve`);
+    }
+  }
+}
+console.log(`   ${refs} references, ${broken} broken`);
+
+console.log('4. render + fit');
+const fit = spawnSync(process.execPath, [join(ROOT, 'scripts/fit.mjs')], { encoding: 'utf8' });
+process.stdout.write(fit.stdout.split('\n').filter((l) => l.includes('CROPPED') || l.includes('cards,')).map((l) => `  ${l.trim()}\n`).join(''));
+if (fit.status !== 0) fails.push('some cards are cropped by the viewport they declare (see above)');
+
+console.log();
+if (fails.length) {
+  console.log(`✗ ${fails.length} problem(s):`);
+  for (const f of fails) console.log('  -', f);
+  process.exit(1);
+}
+console.log('✓ design system is consistent');
