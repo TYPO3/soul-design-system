@@ -11,13 +11,23 @@
      npm run verify
 */
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
 import { cards, ROOT } from './lib/cards.mjs';
 
 const fails = [];
 const list = cards();
+
+/* fonts/ and assets/icons/ are generated from npm packages and gitignored.
+   A clone that skipped `npm ci` has neither, and every card then renders in
+   system-ui with no icons — which looks like a design bug and is not one. */
+console.log('0. generated assets');
+for (const [dir, script] of [['fonts', 'npm run fonts'], ['assets/icons', 'npm run icons']]) {
+  const n = existsSync(join(ROOT, dir)) ? readdirSync(join(ROOT, dir)).length : 0;
+  console.log(`   ${dir}: ${n} files`);
+  if (n === 0) fails.push(`${dir}/ is empty or missing — run \`${script}\` (or \`npm ci\`)`);
+}
 
 console.log('1. @dsCard headers');
 for (const c of list) {

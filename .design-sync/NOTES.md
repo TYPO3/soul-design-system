@@ -73,11 +73,20 @@ system is consumed as classes and tokens.
   says plain `GPL-2.0`). Icons are MIT from TYPO3/TYPO3.Icons, fonts are OFL
   via `@fontsource`; both are recorded in `THIRD-PARTY.md`. `package.json` is
   still `private: true` — flip that only deliberately.
-- **`fonts/` is generated and gitignored.** It comes from the `@fontsource`
-  packages via `scripts/fonts.mjs`, wired to `prepare`. A clone without
-  `npm ci` has no fonts and every card renders in system-ui — if type looks
-  wrong, run `npm run fonts` before debugging anything else. Adding a weight
-  means editing the `FAMILIES` list in that script, nothing else.
+- **`fonts/` and `assets/icons/` are generated and gitignored.** They come
+  from `@fontsource/*` and `@typo3/icons` via `scripts/fonts.mjs` and
+  `scripts/icons.mjs`, both wired to `prepare`. A clone without `npm ci` has
+  neither, and every card then renders in system-ui with no icons — which
+  looks like a design bug and is not one. `npm run verify` checks for this
+  first and says which command to run. Adding a weight or an icon means
+  editing the `FAMILIES` / `ICONS` list in the script, nothing else.
+- **Upstream names are kept verbatim** in both generators — `actions-search.svg`
+  is the TYPO3 icon identifier, `source-sans-3-latin-400-normal.woff2` is the
+  @fontsource filename. Deliberate: a filename in this repo is always findable
+  in the package it came from. Do not "tidy" them.
+- All 33 icons were byte-compared against `@typo3/icons@5.0.3` `src/` before
+  the switch: identical apart from entity-encoded whitespace. `dist/svgs/` is
+  the SVGO-optimised tree and does *not* match — use `src/`, as the script does.
 - The `.ds-sync/` dir holds the skill's staged validator plus a `playwright`
   install used only for `package-validate.mjs`. It is gitignored and
   regenerated; the repo's own tooling uses the root `playwright` devDep.

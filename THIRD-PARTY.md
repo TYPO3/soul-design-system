@@ -7,12 +7,21 @@ None of them is covered by the GPL notice above.
 ## Icons — `assets/icons/`
 
 33 icons from [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons),
-**MIT License**.
+**MIT License**, via the `@typo3/icons` package. The licence text ships
+beside them as `assets/icons/LICENSE-TYPO3.Icons.txt`.
 
 The identifiers are the core's own — the same strings `typo3_icon_lookup`
-returns — so design and runtime name the same thing. A missing icon is
-contributed upstream, never drawn locally and never substituted from another
-set.
+returns — so design and runtime name the same thing, and a filename here is
+always findable in the package.
+
+`assets/icons/` is **generated**, not committed: `scripts/icons.mjs` copies
+the declared identifiers out of the installed package. It runs from
+`prepare`, alongside the fonts. Change the `ICONS` list in the script, not
+the output.
+
+A missing icon is contributed upstream, never drawn locally and never
+substituted from another set — so the script *fails* when a declared
+identifier is not in the package, rather than falling back to anything.
 
 ## Fonts — `fonts/`
 
