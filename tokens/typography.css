@@ -1,0 +1,33 @@
+:root {
+  --font-size-display: 58px;
+  --font-size-h1: 44px;
+  --font-size-h2: 34px;
+  --font-size-h3: 20px;
+  --font-size-lead: 19px;
+  --font-size-body: 17px;
+  --font-size-ui: 15px;
+  --font-size-code: 13.5px;
+  --font-size-micro: 12px;
+  --font-size-label: 11px;
+
+  --leading-display: 1.08;
+  --leading-heading: 1.2;
+  --leading-body: 1.65;
+  --leading-code: 1.9;
+
+  --tracking-display: -0.03em;
+  --tracking-heading: -0.015em;
+  --tracking-body: 0;
+  --tracking-label: 0.09em;
+
+  --weight-thin: 200;
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --measure-prose: 66ch;
+  --measure-lead: 64ch;
+  --measure-display: 18ch;
+}

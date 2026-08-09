@@ -1,0 +1,31 @@
+<!-- @dsCard group="Colors" viewport="700x210" subtitle="Hairlines do the structural work — this system has no shadows" name="Borders" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  html, body { margin: 0; }
+  body { font-family: var(--font-sans); background: var(--surface-canvas); }
+  .pane { padding: 14px 20px; display: flex; gap: 12px; background: var(--surface-canvas); align-items: flex-start; }
+  .sw { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 0; }
+  .chip { height: 40px; background: var(--surface-raised); }
+  .n { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-primary); }
+  .h { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+  <div style="display:grid; grid-template-rows:1fr 1fr;">
+    <div class="pane" data-theme="light">
+      <div class="sw"><div class="chip" style="border:1px solid var(--border-subtle);"></div><div class="n">--border-subtle</div><div class="h">#E3DFD6</div></div>
+      <div class="sw"><div class="chip" style="border:1px solid var(--border-strong);"></div><div class="n">--border-strong</div><div class="h">#C9C3B7</div></div>
+      <div class="sw"><div class="chip" style="border:1px solid var(--border-accent-quiet);"></div><div class="n">--border-accent-quiet</div><div class="h">#F0C089</div></div>
+    </div>
+    <div class="pane" data-theme="dark">
+      <div class="sw"><div class="chip" style="border:1px solid var(--border-subtle);"></div><div class="n">--border-subtle</div><div class="h">#2B2823</div></div>
+      <div class="sw"><div class="chip" style="border:1px solid var(--border-strong);"></div><div class="n">--border-strong</div><div class="h">#37332C</div></div>
+      <div class="sw"><div class="chip" style="border:1px solid var(--border-accent-quiet);"></div><div class="n">--border-accent-quiet</div><div class="h">#4A4437</div></div>
+    </div>
+  </div>
+</body>
+</html>

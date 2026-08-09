@@ -1,0 +1,34 @@
+<!-- @dsCard group="Diagrams" viewport="1400x680" subtitle="Containment carries the claim: one path crosses the boundary" name="System overview — a map with no axis" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  html, body { margin: 0; }
+  body { font-family: var(--font-sans); background: var(--surface-sunken); color: var(--text-primary); }
+  .note { font-size: 12px; line-height: 1.5; color: var(--text-secondary); }
+  .note b { color: var(--text-primary); font-weight: 600; }
+  .tok { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-accent-quiet); }
+  .h { font-size: 10.5px; font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+  img { display: block; width: 100%; height: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-card); }
+</style>
+</head>
+<body>
+  <div style="padding:18px 20px; display:flex; flex-direction:column; gap:14px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+    <div>
+      <div class="h">system-overview.svg</div>
+      <img src="../assets/diagrams/system-overview.svg" alt="The client, the companion subprocess and the local sources sit inside the machine; one read-only path crosses to official services outside." />
+    </div>
+    <div>
+      <div class="h">system-overview-dark.svg</div>
+      <img src="../assets/diagrams/system-overview-dark.svg" alt="The same drawing, dark." />
+    </div></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px 26px; border-top:1px solid var(--border-subtle); padding-top:12px;">
+      <div class="note"><b>The hardest case.</b> An architecture map has no natural axis, so the rules could have collapsed back into boxes and arrows. What carries the meaning instead is <b>containment</b> — the boundary is the drawing, and everything inside it needs no explanation.</div>
+      <div class="note"><b>One accented element.</b> The single crossing line is the only orange in the drawing, and the only arrow that carries a label. Nodes outside the boundary are drawn with a dashed border, so &#8220;not on your machine&#8221; is a property of the shape, not of a legend.</div>
+    </div>
+  </div>
+</body>
+</html>

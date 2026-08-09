@@ -1,0 +1,31 @@
+<!-- @dsCard group="Components" viewport="700x340" subtitle="The one place status colour is allowed to fill a whole line" name="Code block & diff" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  html, body { margin: 0; }
+  body { font-family: var(--font-sans); background: var(--surface-canvas); color: var(--text-primary); }
+  .tok { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.02em; }
+</style>
+</head>
+<body>
+  <div style="padding:20px 22px; display:flex; flex-direction:column; gap:14px;">
+    <div style="border:1px solid var(--border-subtle); background:var(--surface-sunken); border-radius:var(--radius-control); overflow:hidden;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 13px; border-bottom:1px solid var(--border-subtle);">
+        <span class="tok">BASH</span>
+        <span style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px; color:var(--text-muted);"><svg width="16" height="16" style="display:block; flex:none;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">  <g fill="currentColor">   <path d="M14,4h-2V2V1h-1H2H1v1v9v1h1h2v2v1h1h9h1v-1V5V4H14z M4,4v1v6H2V2h9v2H5H4z M14,14H5V5h9V14z"></path>  </g> </svg>copy</span>
+      </div>
+      <pre style="margin:0; padding:14px 15px; font-family:var(--font-mono); font-size:13px; line-height:var(--leading-code); color:var(--text-secondary); overflow-x:auto;"><span style="color:var(--syntax-comment);"># standalone: clone, install once</span>
+<span style="color:var(--accent);">$</span> <span style="color:var(--text-primary);">composer install</span>
+<span style="color:var(--status-ok);">&#10003;</span> published 9 task skills to <span style="color:var(--text-primary);">.agents/skills</span></pre>
+    </div>
+    <div style="border:1px solid var(--border-subtle); background:var(--surface-sunken); border-radius:var(--radius-control); overflow:hidden;">
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 13px; border-bottom:1px solid var(--border-subtle); color:var(--text-muted);"><svg width="16" height="16" style="display:block; flex:none;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"> <g fill="currentColor">  <path d="M12.5,11c0.828,0,1.5,0.672,1.5,1.5S13.328,14,12.5,14S11,13.328,11,12.5S11.672,11,12.5,11 M12.5,10   c-1.378,0-2.5,1.122-2.5,2.5s1.122,2.5,2.5,2.5s2.5-1.122,2.5-2.5S13.878,10,12.5,10L12.5,10z"></path>  <path d="M3.5,2C4.328,2,5,2.672,5,3.5S4.328,5,3.5,5S2,4.328,2,3.5S2.672,2,3.5,2 M3.5,1C2.122,1,1,2.122,1,3.5S2.122,6,3.5,6   S6,4.878,6,3.5S4.878,1,3.5,1L3.5,1z"></path>  <polygon points="8.914,3 10.536,1.379 9.828,0.672 7,3.5 9.828,6.328 10.536,5.621 8.914,4 12,4 12,11 13,11 13,3  "></polygon>  <polygon points="6.172,9.672 5.464,10.379 7.086,12 4,12 4,5 3,5 3,13 7.086,13 5.464,14.621 6.172,15.329 9,12.5  "></polygon> </g> </svg><span class="tok">KNOWLEDGE/HINTS/LABELS.JSON</span></div>
+      <pre style="margin:0; font-family:var(--font-mono); font-size:12.5px; line-height:1.75; overflow-x:auto;"><span style="display:block; padding:0 15px; color:var(--text-muted);">   "domains": ["labels", "xlf"],</span><span style="display:block; padding:0 15px; background:color-mix(in oklch, var(--status-error) 14%, transparent); color:var(--text-secondary);"><span style="color:var(--status-error);">-</span>  "versions": ["12.4"]</span><span style="display:block; padding:0 15px; background:color-mix(in oklch, var(--status-ok) 14%, transparent); color:var(--text-secondary);"><span style="color:var(--status-ok);">+</span>  "versions": ["12.4", "13.4", "14.3"]</span><span style="display:block; padding:0 15px; color:var(--text-muted);">   }</span></pre>
+    </div>
+    <div class="tok">CODE 13&#8239;PX / 1.9 &#183; DIFF 12.5&#8239;PX / 1.75 &#183; DIFF ROWS TINT AT 14% &#183; NO LINE NUMBERS UNLESS THEY ARE REFERENCED</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!-- @dsCard group="Colors" viewport="700x150" subtitle="TYPO3 orange is the only accent — used sparingly" name="Accent" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  html, body { margin: 0; }
+  body { font-family: var(--font-sans); background: var(--surface-canvas); color: var(--text-primary); }
+  .card { padding: 20px 22px; }
+  .lbl { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--text-muted); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="row">
+      <div style="display:flex; flex-direction:column; gap:7px; min-width:104px;">
+        <div style="height:46px; background:var(--accent); border:1px solid var(--border-subtle);"></div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-primary);">--accent</div>
+        <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">#FF8700</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:7px; min-width:104px;">
+        <div style="height:46px; background:var(--accent-hover); border:1px solid var(--border-subtle);"></div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-primary);">--accent-hover</div>
+        <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">#FFA338</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:7px; min-width:104px;">
+        <div style="height:46px; background:#B35A00; border:1px solid var(--border-subtle);"></div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-primary);">--text-link (light)</div>
+        <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">#B35A00</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:7px; min-width:104px;">
+        <div style="height:46px; background:var(--border-accent-quiet); border:1px solid var(--border-subtle);"></div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-primary);">--border-accent-quiet</div>
+        <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">#4A4437</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

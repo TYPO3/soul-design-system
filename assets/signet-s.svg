@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 140 112" role="img" aria-label="TYPO3 Dev Companion">
+  <title>TYPO3 Dev Companion</title>
+  
+  <path class="ink" d="M128 80.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H66.00" fill="none" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path>
+  <rect class="inkf" x="22" y="28.50" width="52" height="11" rx="5.50"></rect>
+  <rect class="" x="22" y="60.50" width="66" height="11" rx="5.50" fill="#FF8700"></rect>
+  <path d="M88.00 0H108.00A20 20 0 0 1 128 20V58.00Z" fill="#FF8700" stroke="#FF8700" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path>
+</svg>
