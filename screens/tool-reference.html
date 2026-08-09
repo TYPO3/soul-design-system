@@ -1,0 +1,142 @@
+<!-- @startingPoint section="Screens" subtitle="The full tool surface at compact density — the list is the work" viewport="1440x900" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<title>TYPO3 Support App — tool reference</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  .shell { min-height: 100vh; display: flex; flex-direction: column; }
+  .head {
+    height: var(--height-header);
+    display: flex; align-items: center; gap: var(--space-6);
+    padding: 0 var(--gutter-page);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .body { flex: 1; padding: var(--space-6) var(--gutter-page); display: flex;
+          flex-direction: column; gap: var(--space-5); }
+  .col { max-width: var(--width-content); width: 100%; display: flex;
+         flex-direction: column; gap: var(--space-5); }
+  h1 { font-size: var(--font-size-h2); letter-spacing: var(--tracking-heading); margin: 0; }
+  .sub { color: var(--text-secondary); font-size: var(--font-size-ui); margin: 0; }
+  .bar { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+  .wordmark { display: inline-flex; align-items: baseline; gap: 7px; font-weight: var(--weight-semibold); }
+  .pipe { display: inline-block; width: 2px; height: 0.8em; background: var(--accent); }
+</style>
+</head>
+<body class="tsa-app">
+<div class="shell">
+
+  <header class="head">
+    <span class="wordmark">TYPO3<span class="pipe"></span><span style="font-weight:var(--weight-light); color:var(--text-secondary)">Support App</span></span>
+    <nav class="tsa-pills" style="margin-left:var(--space-6)">
+      <a class="tsa-pill" href="#">overview</a>
+      <a class="tsa-pill is-active" href="#">tools</a>
+      <a class="tsa-pill" href="#">knowledge</a>
+      <a class="tsa-pill" href="#">install</a>
+    </nav>
+  </header>
+
+  <div class="body">
+    <div class="col">
+      <div>
+        <h1>Tool surface</h1>
+        <p class="sub">Eight tools. Every one is read-only; none writes to your installation.</p>
+      </div>
+
+      <div class="bar">
+        <span class="tsa-field" style="min-width:280px">
+          <svg class="tsa-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M13.92,15c-0.29,0-0.56-0.12-0.76-0.32l-2.89-2.88c-0.98,0.68-2.16,1.04-3.36,1.04C3.65,12.85,1,10.2,1,6.92C1,3.65,3.65,1,6.92,1s5.92,2.65,5.92,5.92c0,1.19-0.36,2.37-1.04,3.36l2.89,2.89c0.19,0.19,0.31,0.47,0.31,0.76C15,14.51,14.51,15,13.92,15z M6.92,2.42c-2.48,0-4.5,2.02-4.5,4.5s2.02,4.5,4.5,4.5s4.5-2.02,4.5-4.5S9.4,2.42,6.92,2.42z"/></g></svg>
+          <span>Filter by name or source</span>
+        </span>
+        <span class="tsa-badge">readOnlyHint</span>
+        <span class="tsa-badge tsa-badge--accent">bundled knowledge</span>
+        <span class="tsa-label" style="margin-left:auto">Compact · 30px rows</span>
+      </div>
+
+      <div class="tsa-tabs">
+        <a class="tsa-tab is-active" href="#">all</a>
+        <a class="tsa-tab" href="#">lookup</a>
+        <a class="tsa-tab" href="#">scope</a>
+      </div>
+
+      <table class="tsa-table tsa-table--compact">
+        <thead><tr><th>Tool</th><th>Verb</th><th>Source</th><th>Versions</th><th>State</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="tsa-td-name">typo3_rule_lookup</td>
+            <td class="tsa-td-meta">lookup</td>
+            <td>bundled knowledge</td>
+            <td class="tsa-td-meta">12.4 · 13.4 · 14.3 · main</td>
+            <td><span class="tsa-badge tsa-badge--ok">answered</span></td>
+          </tr>
+          <tr>
+            <td class="tsa-td-name">typo3_hint_lookup</td>
+            <td class="tsa-td-meta">lookup</td>
+            <td>bundled knowledge</td>
+            <td class="tsa-td-meta">12.4 · 13.4 · 14.3 · main</td>
+            <td><span class="tsa-badge tsa-badge--ok">answered</span></td>
+          </tr>
+          <tr class="is-selected">
+            <td class="tsa-td-name">typo3_icon_lookup</td>
+            <td class="tsa-td-meta">lookup</td>
+            <td>installation</td>
+            <td class="tsa-td-meta">follows the installation</td>
+            <td><span class="tsa-badge tsa-badge--warn">degraded</span></td>
+          </tr>
+          <tr>
+            <td class="tsa-td-name">typo3_label_lookup</td>
+            <td class="tsa-td-meta">lookup</td>
+            <td>installation</td>
+            <td class="tsa-td-meta">follows the installation</td>
+            <td><span class="tsa-badge tsa-badge--ok">answered</span></td>
+          </tr>
+          <tr>
+            <td class="tsa-td-name">typo3_schema_lookup</td>
+            <td class="tsa-td-meta">lookup</td>
+            <td>installation</td>
+            <td class="tsa-td-meta">follows the installation</td>
+            <td><span class="tsa-badge tsa-badge--error">not booted</span></td>
+          </tr>
+          <tr>
+            <td class="tsa-td-name">typo3_changelog_lookup</td>
+            <td class="tsa-td-meta">lookup</td>
+            <td>installation · docs</td>
+            <td class="tsa-td-meta">down to 7.0</td>
+            <td><span class="tsa-badge tsa-badge--ok">answered</span></td>
+          </tr>
+          <tr>
+            <td class="tsa-td-name">typo3_documentation_lookup</td>
+            <td class="tsa-td-meta">lookup</td>
+            <td>docs.typo3.org</td>
+            <td class="tsa-td-meta">requested release</td>
+            <td><span class="tsa-badge tsa-badge--ok">answered</span></td>
+          </tr>
+          <tr>
+            <td class="tsa-td-name">typo3_server_scope</td>
+            <td class="tsa-td-meta">scope</td>
+            <td>this server</td>
+            <td class="tsa-td-meta">&mdash;</td>
+            <td><span class="tsa-badge">no source</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tsa-note tsa-note--info">
+        <span class="tsa-note__icon">
+          <svg class="tsa-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8,2c3.3000002,0,6,2.6999998,6,6s-2.6999998,6-6,6s-6-2.6999998-6-6S4.6999998,2,8,2 M8,1C4.0999999,1,1,4.0999999,1,8s3.0999999,7,7,7s7-3.1000004,7-7S11.8999996,1,8,1L8,1z"/><path d="M7,4.999999C7,4.4477148,7.4477148,4,7.999999,4H8.000001C8.5522852,4,9,4.4477148,9,4.999999V5.000001C9,5.5522852,8.5522852,6,8.000001,6H7.999999C7.4477148,6,7,5.5522852,7,5.000001V4.999999z"/><path d="M7,7.999999C7,7.4477148,7.4477148,7,7.999999,7H8.000001C8.5522852,7,9,7.4477148,9,7.999999v3.0000019C9,11.5522852,8.5522852,12,8.000001,12H7.999999C7.4477148,12,7,11.5522852,7,11.000001V7.999999z"/></g></svg>
+        </span>
+        <div>
+          <div class="tsa-note__title">Three tools need a bootable installation</div>
+          <div class="tsa-note__body">
+            Without one they read the package registry instead, which answers with a
+            subset that looks like the whole. <span class="tsa-mono">ddev start</span>
+            removes the gap.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

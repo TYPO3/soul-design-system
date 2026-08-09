@@ -170,3 +170,38 @@ Source: Claude Design's leaked system prompt, corroborated by the fields the
 app actually writes into `_ds_manifest.json` (`startingPoints`, `cards`,
 `templates`). Unofficial, so treat as a strong lead rather than a spec; the
 official help centre documents none of this.
+
+## CSS-only is a decision, not an omission
+
+Offered twice and declined twice: this system ships **no JavaScript
+components**, and that is deliberate. Do not "improve" it by adding a React
+layer without asking — the product it dresses is plain PHP with an HTML
+surface, and a component library would be a second source of truth for
+markup the product cannot use.
+
+Know what it costs, because the app tells you in the files it generates.
+`_adherence.oxlintrc.json` comes back with `react/forbid-elements: {forbid: []}`,
+`no-restricted-imports: {patterns: []}` and `x-omelette.components: {}` — all
+empty, because those rules steer agents from raw elements towards components
+and there are none. `_ds_bundle.js` is an empty namespace. So the system
+steers **by instruction, not by mechanism**: the conventions header, the 39
+cards and the 3 starting-point screens are the whole enforcement. Nothing
+stops a design agent from hand-rolling a button.
+
+What does still bite mechanically: the token rules. Raw `#FF8700` or `14px`
+in a design is flagged, because tokens are in the config regardless.
+
+If this is ever revisited, the shape that was costed is ~15 thin wrappers
+over the existing classes (`Button` renders `<button class="tsa-btn …">`),
+esbuild, generated `.d.ts` — the CSS layer stays the source of truth and the
+PHP product is unaffected.
+
+## The `tsa-` prefix
+
+Kept on purpose. Designs mix this CSS with agent-written markup, and `.btn`,
+`.card`, `.badge`, `.table` are the most collided-with names in CSS. The bug
+is not hypothetical: before the refactor `.card` meant "20px of specimen
+padding" in the cards and "a hairline and 6px, no fill" in the doctrine.
+The prefix is also what lets `npm run verify` tell system classes from a
+screen's own layout classes. Shortening it to `ds-` was offered; the length
+was not worth a repo-wide rename.

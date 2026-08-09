@@ -14,10 +14,14 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
-import { cards, ROOT } from './lib/cards.mjs';
+import { cards, ROOT, screens } from './lib/cards.mjs';
 
 const fails = [];
 const list = cards();
+const sp = screens();
+/* Screens go through the same checks as cards: they ship with the system and
+   are what a consuming project seeds a new design from. */
+const all = [...list, ...sp];
 
 /* fonts/ and assets/icons/ are generated from npm packages and gitignored.
    A clone that skipped `npm ci` has neither, and every card then renders in
@@ -35,7 +39,12 @@ for (const c of list) {
     fails.push(`${c.rel}: first line is not a @dsCard comment`);
   }
 }
-console.log(`   ${list.length} cards`);
+for (const s of sp) {
+  if (!/^<!--\s*@startingPoint\s+section="[^"]*"[^>]*-->/.test(s.text.split('\n', 1)[0])) {
+    fails.push(`${s.rel}: first line is not a @startingPoint comment`);
+  }
+}
+console.log(`   ${list.length} cards, ${sp.length} starting points`);
 
 console.log('2. class vocabulary');
 const defined = new Set();
@@ -44,10 +53,19 @@ for (const sheet of ['components.css', '_specimen.css']) {
     defined.add(m[1]);
   }
 }
+/* A page-level screen may define its own layout classes in its own <style>
+   — a shell or a header grid is not a component. Those count as defined;
+   anything else is still an invented name that silently does nothing. */
+const localOf = (txt) => {
+  const s = /<style>([\s\S]*?)<\/style>/.exec(txt);
+  return new Set(s ? [...s[1].matchAll(/\.([a-zA-Z][\w-]*)/g)].map((m) => m[1]) : []);
+};
 const used = new Map();
-for (const c of list) {
+for (const c of all) {
+  const local = localOf(c.text);
   for (const m of c.text.matchAll(/class="([^"]*)"/g)) {
     for (const cls of m[1].split(/\s+/).filter(Boolean)) {
+      if (local.has(cls)) continue;
       if (!used.has(cls)) used.set(cls, []);
       used.get(cls).push(c.rel);
     }
@@ -57,14 +75,14 @@ let unknown = 0;
 for (const [cls, where] of [...used].sort()) {
   if (!defined.has(cls)) {
     unknown++;
-    fails.push(`class "${cls}" is used in ${where.length} card(s) but defined in no stylesheet (first: ${where[0]})`);
+    fails.push(`class "${cls}" is used in ${where.length} file(s) but defined in no stylesheet (first: ${where[0]})`);
   }
 }
 console.log(`   ${used.size} distinct classes used, ${defined.size} defined, ${unknown} unknown`);
 
 console.log('3. local references');
 let refs = 0, broken = 0;
-for (const c of list) {
+for (const c of all) {
   // Only real attributes: escaped example markup (&lt;link href="…"&gt;) is documentation.
   const real = c.text.replace(/&lt;[\s\S]*?&gt;/g, '');
   for (const m of real.matchAll(/(?:href|src)="([^"]+)"/g)) {

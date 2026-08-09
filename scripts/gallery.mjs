@@ -9,11 +9,11 @@
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { byGroup, cards, ROOT } from './lib/cards.mjs';
+import { byGroup, cards, ROOT, screens } from './lib/cards.mjs';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-const list = cards();
+const list = [...screens().map((s) => ({ ...s, group: s.section, label: s.name })), ...cards()];
 const groups = byGroup(list);
 
 const nav = [...groups].map(([g, v]) =>

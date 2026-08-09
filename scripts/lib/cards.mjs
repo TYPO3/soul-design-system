@@ -78,6 +78,41 @@ export function cards() {
   return out;
 }
 
+/* Screens under screens/ are the Starting Points a consuming project can
+   seed a new design from. Same contract as a card, different marker and a
+   `section` instead of a `group`: the app reads
+   `<!-- @startingPoint section="…" subtitle="…" viewport="WxH" -->` as the
+   first line. There is no separate thumbnail — the screen is its own. */
+const SP_RE = /@startingPoint\s+([\s\S]*?)-->/;
+
+export function screens() {
+  let files;
+  try {
+    files = walk(join(ROOT, 'screens'));
+  } catch {
+    return [];
+  }
+  return files.sort().map((path) => {
+    const text = readFileSync(path, 'utf8');
+    const m = SP_RE.exec(text.slice(0, 600));
+    if (!m) return null;
+    const attrs = {};
+    for (const a of m[1].matchAll(ATTR_RE)) attrs[a[1]] = a[2];
+    const [w, h] = (attrs.viewport ?? '1440x900').split('x').map(Number);
+    return {
+      path,
+      rel: relative(ROOT, path),
+      text,
+      section: attrs.section ?? 'Screens',
+      subtitle: attrs.subtitle ?? '',
+      viewport: attrs.viewport ?? '1440x900',
+      width: w,
+      height: h,
+      name: pascal(path.split('/').pop().replace(/\.html$/, '')),
+    };
+  }).filter(Boolean);
+}
+
 export function byGroup(list) {
   const g = new Map();
   for (const c of list) {

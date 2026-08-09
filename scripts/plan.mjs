@@ -67,10 +67,10 @@ const plan = {
   projectId,
   localDir: './ds-bundle',
   finalizePlan: {
-    writes: ['components/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**',
+    writes: ['components/**', 'screens/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**',
       '_ds_bundle.js', '_ds_bundle.css', '_specimen.css', 'styles.css', 'README.md',
       ANCHOR_FILE, SENTINEL],
-    deletes: ['components/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**'],
+    deletes: ['components/**', 'screens/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**'],
   },
   steps: [
     { step: 1, action: 'write', why: 'sentinel fences the manifest machinery', files: [SENTINEL] },

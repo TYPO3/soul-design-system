@@ -9,14 +9,25 @@
 
      node scripts/fit.mjs
 */
-import { cards } from './lib/cards.mjs';
+import { cards, screens } from './lib/cards.mjs';
 import { openCard, withPage } from './lib/browser.mjs';
 
 const SLACK = 60;
-const list = cards();
+const list = [...cards(), ...screens()];
 
 const results = await withPage(async ({ map }) =>
   map(list, async (page, card) => {
+    /* A card is a fragment: render it tall and ask how much it actually
+       fills, so an over-declared height shows up as slack. A screen is a
+       whole page, usually with min-height:100vh — measured that way it would
+       always report the tall viewport back. For screens the question is
+       different anyway: does the page overflow the size it declares? */
+    if (card.section) {
+      await openCard(page, card);
+      const over = await page.evaluate(() =>
+        Math.ceil(document.documentElement.scrollHeight - document.documentElement.clientHeight));
+      return { card, content: card.height + Math.max(0, over), screen: true };
+    }
     await openCard(page, card, { height: 2400 });
     const content = await page.evaluate(() => {
       const d = document.documentElement;
@@ -40,5 +51,5 @@ for (const { card, content } of results) {
     console.log(`  slack   ${card.rel}: declares ${card.viewport}, content only ${content}px (-${card.height - content})`);
   }
 }
-console.log(`\n${list.length} cards, ${cropped} cropped`);
+console.log(`\n${list.length} cards + screens, ${cropped} cropped`);
 process.exit(cropped ? 1 : 0);

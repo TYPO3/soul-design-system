@@ -20,7 +20,7 @@ import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import { byGroup, cards, ROOT } from './lib/cards.mjs';
+import { byGroup, cards, ROOT, screens } from './lib/cards.mjs';
 
 const OUT = resolve(process.argv[2] ?? join(ROOT, 'ds-bundle'));
 const NS = 'T3SA';
@@ -130,6 +130,14 @@ for (const c of list) {
   sourceKeys[c.name] = sha12(c.text);
 }
 
+// starting points: screens a consuming project can seed a design from.
+// Same depth in the bundle as in the repo, so their ../styles.css still resolves.
+const sp = screens();
+if (sp.length) {
+  mkdirSync(join(OUT, 'screens'), { recursive: true });
+  for (const s of sp) cpSync(s.path, join(OUT, 'screens', s.path.split('/').pop()));
+}
+
 // written guidance
 mkdirSync(join(OUT, 'guidelines'), { recursive: true });
 cpSync(join(ROOT, 'SKILL.md'), join(OUT, 'guidelines/build-rules.md'));
@@ -138,6 +146,13 @@ cpSync(join(ROOT, 'RATIONALE.md'), join(OUT, 'guidelines/rationale.md'));
 // README: the conventions header, then a generated index of every card
 const conv = join(ROOT, '.design-sync/conventions.md');
 const parts = existsSync(conv) ? [`${readFileSync(conv, 'utf8').trimEnd()}\n\n`] : [];
+if (sp.length) {
+  parts.push('## Starting points\n\n');
+  parts.push('Whole screens to seed a design from. Open one and copy its structure;\n');
+  parts.push('they are built from the same classes as everything else.\n\n');
+  for (const s of sp) parts.push(`- **${s.name}** — ${s.subtitle} \`screens/${s.path.split('/').pop()}\`\n`);
+  parts.push('\n');
+}
 parts.push('## Every card in this system\n\n');
 for (const [group, items] of byGroup(list)) {
   parts.push(`### ${group}\n\n`);
@@ -175,5 +190,5 @@ writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
 
 const groups = byGroup(list);
 console.log(`built ${OUT}`);
-console.log(`  ${list.length} cards in ${groups.size} groups, ${countFiles(OUT)} files`);
+console.log(`  ${list.length} cards in ${groups.size} groups, ${sp.length} starting points, ${countFiles(OUT)} files`);
 console.log(`  groups: ${[...groups].map(([k, v]) => `${k} (${v.length})`).join(', ')}`);

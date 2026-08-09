@@ -28,8 +28,13 @@
 
 /* Put this on <body> (or the app root) — it establishes the canvas, the
    sans stack and the default text colour. Without it a surface inherits
-   the browser's Times New Roman on white. */
+   the browser's Times New Roman on white.
+
+   The margin reset belongs here and not in a separate reset file: on <body>
+   the browser's default 8px gutter makes a full-height page overflow its own
+   viewport by 16px and scroll for no reason. */
 .tsa-app {
+  margin: 0;
   font-family: var(--font-sans);
   background: var(--surface-canvas);
   color: var(--text-primary);
