@@ -92,7 +92,11 @@ if (deletes.length) {
   console.log(`  zu löschen: ${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
 }
 if (!deletable) {
-  console.log('  ! Kein Referenzstand mit Dateiliste — Löschungen konnten nicht berechnet werden.');
-  console.log('    /design-sync muss die Projektdateien einmal selbst abgleichen.');
+  console.log('  ! Kein Referenzstand mit Dateiliste — Löschungen wurden NICHT berechnet.');
+  console.log('    Hol den Anker aus dem Projekt und lauf noch einmal:');
+  console.log('      DesignSync get_file  _ds_sync.json');
+  console.log('      -> .design-sync/.cache/remote-sync.json');
+  console.log('    Trägt er kein "files" (Upload vor dieser Änderung), einmalig');
+  console.log('    list_files gegen den Build halten.');
 }
 console.log('\nNach erfolgreichem Upload:  npm run synced');

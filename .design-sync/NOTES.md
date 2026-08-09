@@ -61,6 +61,14 @@ system is consumed as classes and tokens.
 The repo's half is one command: `npm run sync` — build → verify → status →
 plan. It ends by telling the user to run `/design-sync`, which is the upload.
 
+**First, seed the reference state — before `npm run sync`.** Fetch the
+project's `_ds_sync.json` (`DesignSync get_file`) to
+`.design-sync/.cache/remote-sync.json`. That file is the authority on what
+the project holds; the local cache is only a copy of it and is gitignored,
+so on any machine but the last one that synced, it is absent or stale. With
+it in place the plan computes exact deletes; without it the plan says so and
+computes none.
+
 **Execute `.design-sync/.cache/upload-plan.json`. Do not improvise it.**
 `npm run plan` writes it: the finalize_plan globs, and five numbered steps
 in the order they must run, with the exact file and delete lists. It is
