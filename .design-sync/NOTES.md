@@ -73,6 +73,15 @@ Verify checks mechanics, not judgement. When `status` lists changed cards,
 look at them: `npm run baseline` before a visual change, then `npm run shots
 && npm run diff` after. Anything that moved should have moved on purpose.
 
+**Every push ends with the sentinel, then `_ds_sync.json` — in that order,
+without exception.** The app regenerates `_ds_manifest.json` and
+`_adherence.oxlintrc.json` from the uploaded files when it next opens the
+project, and only the `_ds_needs_recompile` sentinel triggers that. Push
+files without re-arming it and the manifest keeps describing the previous
+upload: that is how the manifest ended up listing font filenames that had
+already been deleted. The anchor goes last because it vouches for
+everything else.
+
 **After a successful upload, copy the anchor you just pushed to
 `.design-sync/.cache/remote-sync.json`.** `npm run status` reads it to answer
 "what would a sync change". Skip this and status silently reports the last
