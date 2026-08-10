@@ -5,21 +5,19 @@ import { Specimen } from './lib/Specimen.tsx';
 
 # Icons
 
-33 icons from [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons). The
-identifiers are the core's own — the same strings `typo3_icon_lookup`
+Every `actions-*` icon from [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons).
+The identifiers are the core's own — the same strings `typo3_icon_lookup`
 returns — so design and runtime name the same thing.
 
 **Where they come from.** The set is generated, never committed:
-`scripts/icons.ts` copies the identifiers it declares out of the
-`@typo3/icons` package, which the container installs and its entrypoint
-materialises.
-An empty `assets/icons/` means `npm ci` has not run; it is not a missing
-file to work around.
+`scripts/icons.ts` copies a whole category out of the `@typo3/icons` package,
+in the layout the package itself uses, so its own manifest resolves against
+what ships. An empty `assets/icons/` means `npm ci` has not run; it is not a
+missing file to work around.
 
-**Getting one that is not in the 33.** An identifier resolves to a path by
-its first segment: `actions-search` → `src/actions/actions-search.svg`. The
-package holds 796 icons across 15 categories, plus `dist/icons.json`, which
-maps every identifier to its category and the 211 deprecated aliases to
+**Getting one outside `actions`.** `dist/icons.json` is the lookup — it names
+an identifier's category and the path to its file, so nothing is guessed from
+the spelling. It also maps the deprecated aliases to
 their current names. Resolve an alias before using it — the old spelling is
 not what `typo3_icon_lookup` returns.
 

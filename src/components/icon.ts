@@ -25,6 +25,8 @@ export type { IconId };
     16 is the floor; below it, no icon at all. */
 export type IconSize = 16 | 20 | 24 | 32 | 48;
 
+const DEFAULT_SIZE = 16;
+
 /* Where the sprite is.
 
    Resolved against this module by default, which is right for the drop-in:
@@ -56,7 +58,7 @@ export class SdsIcon extends SdsElement {
 
   constructor() {
     super();
-    this.size = 16;
+    this.size = DEFAULT_SIZE;
   }
 
   protected override render(): TemplateResult {
@@ -72,8 +74,17 @@ export class SdsIcon extends SdsElement {
        tell which icon they are looking at. */
     const a11y = this.label ? `role="img" aria-label="${this.label}"` : 'aria-hidden="true"';
     const cls = this.className || 'sds-icon';
+    /* A size asked for is written as a style, not only as an attribute:
+       `.sds-icon` sets a width from `--control-icon-size`, and a class beats a
+       presentation attribute — so `size="24"` was a property that did nothing.
+
+       Only when it was asked for. Writing it unconditionally would mean the
+       default 16 overriding `sds-icon--24` on markup that set the class and no
+       size, which is how hand-written markup asks. */
+    const sized = this.size === DEFAULT_SIZE ? '' : ` style="width:${this.size}px;height:${this.size}px"`;
     return html`${unsafeHTML(
-      `<svg width="${this.size}" height="${this.size}" class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">` +
+      `<svg width="${this.size}" height="${this.size}"${sized}` +
+        ` class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">` +
         `<use href="${spriteUrl}#${this.name}"></use></svg>`,
     )}`;
   }

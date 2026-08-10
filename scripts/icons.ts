@@ -108,15 +108,16 @@ writeFileSync(
 
 writeFileSync(
   join(ROOT, 'src', 'components', 'icons.svg.generated.ts'),
-  header('The markup. Node only — the browser uses the sprite.') +
+  header('The markup. For the static export — never imported by src/index.ts.') +
     `import type { IconId } from './icons.generated.ts';\n\n` +
     `export const ICON_SVG: Record<IconId, string> = {\n` +
     ICONS.map((i) => `  ${JSON.stringify(i.identifier)}: ${JSON.stringify(readFileSync(join(OUT, dirname(i.svg), `${i.identifier}.svg`), 'utf8'))},`).join('\n') +
     `\n};\n`,
 );
 
-console.log(`assets/icons/svgs/ — ${ICONS.length} icons from @typo3/icons@${version}, MIT`);
+
+console.log(`assets/icons/svgs/ — ${CATEGORIES.join(', ')} from @typo3/icons@${version}, MIT`);
 console.log(`assets/icons/sprites/ — ${CATEGORIES.length} sprite(s), one request per category`);
 console.log(`assets/icons/icons.json — the lookup, its paths relative to itself`);
-console.log(`src/components/icons.generated.ts — ${ICONS.length} identifiers, typed, for the bundle`);
-console.log(`src/components/icons.svg.generated.ts — the same ${ICONS.length} as markup, for Node`);
+console.log(`src/components/icons.generated.ts — the identifiers, typed, for the bundle`);
+console.log(`src/components/icons.svg.generated.ts — the markup, for the static export`);

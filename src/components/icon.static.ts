@@ -1,18 +1,20 @@
 /* What `sds-icon` looks like once there is no browser to resolve it.
 
    The element renders a `<use>` into the category sprite, which is right
-   everywhere a document is being displayed. A specimen card is not: it is
-   opened with `styles.css` and nothing else, so a reference resolves to
-   nothing and the card shows a hole where a glyph belongs.
+   everywhere a document is displayed. A specimen card is not: it is opened
+   with `styles.css` and nothing else, so a reference resolves to nothing and
+   the card shows a hole where a glyph belongs.
 
-   This turns those references back into the glyph. It lives beside the
-   element rather than inside the render helper because it is the icon
-   component's own knowledge — `render.ts` should not know how an icon is
-   built any more than it knows how a button is.
+   This turns those references back into the glyph. The markup comes from a
+   generated module rather than from the files beside it, and that is not a
+   free choice: the story modules import the render path to build their
+   specimen HTML, so this ends up in Storybook's browser bundle, where
+   `node:fs` does not exist. It costs nothing where it matters — `src/index.ts`
+   never imports the render path, so none of it reaches `soul.js`.
 
-   It is a separate module from `icon.ts` on purpose. The markup table is
-   200 kB of strings, and the browser bundle must not carry them; the only
-   importer of this file runs in Node. */
+   It lives beside the element rather than inside the render helper because it
+   is the icon component's own knowledge: `render.ts` should not know how an
+   icon is built any more than it knows how a button is. */
 
 import { ICON_SVG } from './icons.svg.generated.ts';
 import type { IconId } from './icons.generated.ts';
@@ -27,7 +29,11 @@ const REFERENCE = /<svg([^>]*)><use href="[^"]*#([a-z0-9-]+)"><\/use><\/svg>/g;
     generated card pixel-match its baseline. The shapes are expanded because a
     card is parsed as HTML, where a self-closing tag on a non-void element does
     not close. */
-function inline(svg: string): string {
+function glyph(id: string): string {
+  const svg = ICON_SVG[id as IconId];
+  if (!svg) {
+    throw new Error(`unknown icon "${id}" — add its category to CATEGORIES in scripts/icons.ts and run \`make icons\``);
+  }
   return svg
     .replace(/[\n\t]/g, ' ')
     .replace(/\s*version="1\.1"/, '')
@@ -39,11 +45,6 @@ function inline(svg: string): string {
 
 /** Replace every sprite reference with the glyph it points at. */
 export function inlineIconRefs(html: string): string {
-  return html.replace(REFERENCE, (_whole, attrs: string, id: string) => {
-    const svg = ICON_SVG[id as IconId];
-    if (!svg) {
-      throw new Error(`unknown icon "${id}" — add its category to CATEGORIES in scripts/icons.ts and run \`make icons\``);
-    }
-    return `<svg${attrs}>${inline(svg)}</svg>`;
-  });
+  return html.replace(REFERENCE, (_whole, attrs: string, id: string) =>
+    `<svg${attrs}>${glyph(id)}</svg>`);
 }

@@ -82,8 +82,7 @@ inline styles — do not mint a `sds-` name.
 ## Icons
 
 Every `actions-*` icon from [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons)
-(MIT, `@typo3/icons` 5.0.3) ships — 392 of them — named by the identifier TYPO3 core
-itself uses. The layout mirrors the package, so its own manifest resolves:
+(MIT, `@typo3/icons`) ships, named by the identifier TYPO3 core itself uses. The layout mirrors the package, so its own manifest resolves:
 
 ```
 assets/icons/icons.json                        the lookup — identifier, category, paths
@@ -96,15 +95,14 @@ Reach for `<sds-icon name="actions-search">`; it carries the SVG inline, because
 is not available — a template that inlines with `source()` — take the single file.
 
 **Need one outside `actions`?** Do not draw it, and do not take it from another icon
-set. The package carries 796 across 15 categories; a category is added to `CATEGORIES`
-in `scripts/icons.ts` and shipped whole. These return the raw SVG:
+set. A category is added to `CATEGORIES` in `scripts/icons.ts` and shipped whole. These return the raw SVG:
 
 ```
 https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/<category>/<identifier>.svg   # the version this system ships
 https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/src/<category>/<identifier>.svg   # upstream tip
 ```
 
-796 icons in 15 categories are available that way — `actions`, `apps`, `avatar`,
+Every category is available that way — `actions`, `apps`, `avatar`,
 `content`, `default`, `files`, `form`, `information`, `install`, `mimetypes`,
 `miscellaneous`, `module`, `overlay`, `spinner`, `status`. To look one up rather than
 guess, `…/@typo3/icons@5.0.3/dist/icons.json` maps every identifier to its category and

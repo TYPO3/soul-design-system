@@ -26,7 +26,8 @@ const HTML = `<!doctype html>
   <sds-button variant="primary" label="Run the checks"></sds-button>
   <sds-icon name="actions-search"></sds-icon>
   <sds-icon name="actions-search" class="sds-icon sds-icon--20"></sds-icon>
-  <sds-icon name="actions-search" class="sds-icon sds-icon--24"></sds-icon>
+  <sds-icon name="actions-search" size="24"></sds-icon>
+  <sds-icon name="actions-search" size="32"></sds-icon>
 </body>
 </html>`;
 
@@ -67,10 +68,14 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
      wrong path is a 404 and a blank glyph, and the size comes from the class
      rather than the attribute — both are silent until someone looks. */
   const glyphs = page.locator('svg[data-icon="actions-search"]');
-  await expect(glyphs).toHaveCount(3);
+  await expect(glyphs).toHaveCount(4);
   const sizes = await glyphs.evaluateAll((els) =>
     els.map((e) => Math.round(e.getBoundingClientRect().width)));
-  expect(sizes, 'the size scale is 16, 20, 24 — never 18 or 22').toEqual([16, 20, 24]);
+  /* Both ways of asking. The class is how hand-written markup asks and the
+     property is how an element does; a stylesheet rule beats a presentation
+     attribute, so the property has to be written as a style — and only when
+     it was asked for, or the default would override the class. */
+  expect(sizes, 'default, class, property, and a whole multiple').toEqual([16, 20, 24, 32]);
 
   /* Painted, not merely present: a reference the browser cannot resolve
      leaves an element of the right size with nothing in it. */

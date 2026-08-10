@@ -109,7 +109,7 @@ An answer always carries its source, its version binding and what it leaves out.
 
 **Where they come from.** The set is generated, never committed: `scripts/icons.ts` copies the identifiers it declares out of the `@typo3/icons` npm package (`^5.0.3`, MIT), which the container installs and its entrypoint materialises. An empty `assets/icons/` means the generator has not run — it is not a missing file to work around.
 
-**How to get one outside `actions`.** `dist/icons.json` is the lookup — it names an identifier's category and the path to its file, so nothing has to be guessed from the spelling. The package holds 796 icons across 15 categories (`actions`, `apps`, `avatar`, `content`, `default`, `files`, `form`, `information`, `install`, `mimetypes`, `miscellaneous`, `module`, `overlay`, `spinner`, `status`) plus `dist/icons.json` — the manifest mapping every identifier to its category, and the 211 deprecated aliases to their current names. Resolve an alias before using it; the old spelling is not what `typo3_icon_lookup` returns.
+**How to get one outside `actions`.** `dist/icons.json` is the lookup — it names an identifier's category and the path to its file, so nothing has to be guessed from the spelling. The categories are `actions`, `apps`, `avatar`, `content`, `default`, `files`, `form`, `information`, `install`, `mimetypes`, `miscellaneous`, `module`, `overlay`, `spinner` and `status`; `dist/icons.json` maps every identifier to its category and every deprecated alias to its current name. Resolve an alias before using it; the old spelling is not what `typo3_icon_lookup` returns.
 
 Reach a single file without the package from either of these, both raw SVG:
 

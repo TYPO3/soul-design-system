@@ -426,6 +426,7 @@ var ICON_IDS = [
 ];
 
 // src/components/icon.ts
+var DEFAULT_SIZE = 16;
 var spriteUrl = new URL("./assets/icons/sprites/actions.svg", import.meta.url).href;
 var SdsIcon = class extends SdsElement {
   static {
@@ -441,7 +442,7 @@ var SdsIcon = class extends SdsElement {
   }
   constructor() {
     super();
-    this.size = 16;
+    this.size = DEFAULT_SIZE;
   }
   render() {
     if (!ICON_IDS.includes(this.name)) {
@@ -449,8 +450,9 @@ var SdsIcon = class extends SdsElement {
     }
     const a11y = this.label ? `role="img" aria-label="${this.label}"` : 'aria-hidden="true"';
     const cls = this.className || "sds-icon";
+    const sized = this.size === DEFAULT_SIZE ? "" : ` style="width:${this.size}px;height:${this.size}px"`;
     return html`${unsafeHTML(
-      `<svg width="${this.size}" height="${this.size}" class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}"><use href="${spriteUrl}#${this.name}"></use></svg>`
+      `<svg width="${this.size}" height="${this.size}"${sized} class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}"><use href="${spriteUrl}#${this.name}"></use></svg>`
     )}`;
   }
 };
