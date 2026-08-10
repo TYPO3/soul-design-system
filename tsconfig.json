@@ -1,0 +1,41 @@
+{
+  /* Typechecking only — nothing here emits.
+
+     Node 22.18+ runs `.ts` directly by stripping types, so the scripts and
+     the component sources need no build step and stay what they were: plain
+     files you can run. That is why `verbatimModuleSyntax` and
+     `erasableSyntaxOnly` are on — they fail the typecheck on any construct
+     Node cannot strip (enums, namespaces, parameter properties, decorators),
+     which would otherwise only fail at runtime, on someone else's machine.
+
+     Lit is used WITHOUT decorators for the same reason: `static properties`
+     is the erasable form and does the same job. */
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": false,
+
+    "noEmit": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "useDefineForClassFields": false,
+    "experimentalDecorators": false,
+
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": false
+  },
+  "include": ["src", "stories", "scripts", ".storybook", "tests"],
+  "exclude": ["node_modules", "ds-bundle", "storybook-static", ".ds-sync"]
+}

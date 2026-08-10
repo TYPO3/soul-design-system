@@ -1,0 +1,55 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Specimen } from './lib/Specimen.tsx';
+
+<Meta title="Guidelines/Colours" />
+
+# Colours
+
+Every colour in this system is a semantic token, declared once as
+`light-dark(light, dark)` against `color-scheme: light dark` on `:root`.
+There is no second block for dark mode, which is why light and dark **cannot
+drift**: they are the same declaration.
+
+Force a mode on a subtree with `data-theme="light"` or `data-theme="dark"`.
+Put it on `<html>` for a whole page — set it deeper and the browser's own
+chrome, its scrollbars and form controls, stays in the other mode.
+
+**Never set a colour literal.** Not a hex, not an `rgb()`, not a named
+colour. If nothing here fits, the answer is a new token, not a local value.
+
+## Surfaces
+
+Four planes, and each one means something. A **card** is a hairline and 6px
+with no fill. A **panel** is a raised fill, for when it sits on the canvas
+and has to read as a plane. **Sunken** is machine output — code, logs,
+structured content. The canvas is the ground everything else sits on.
+
+<Specimen src="guidelines/colors-surfaces.card.html" viewport="700x260" title="Surfaces" />
+
+## Text
+
+<Specimen src="guidelines/colors-text.card.html" viewport="700x160" title="Text" />
+
+## Borders
+
+<Specimen src="guidelines/colors-borders.card.html" viewport="700x240" title="Borders" />
+
+## Accent
+
+`--accent` is `#FF8700`, and it marks exactly three things: the active
+navigation item, the shell prompt in a code block, and the pipe in the
+wordmark. No second accent. No gradient. Anywhere.
+
+Use `--accent`, never the raw `--orange-*` scale — that scale exists to
+derive the token and is not for use in a design.
+
+<Specimen src="guidelines/colors-accent.card.html" viewport="700x150" title="Accent" />
+
+## Status and syntax
+
+`--status-ok`, `--status-warn` and `--status-error` appear inside code
+output, badges, result rows and status-about diagrams. **Never as page
+furniture.** A status colour on a heading or a border means the page is
+telling you something is wrong when nothing is.
+
+<Specimen src="guidelines/colors-status.card.html" viewport="700x230" title="Status & syntax" />

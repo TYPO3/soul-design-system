@@ -1,0 +1,65 @@
+/* Control scale.
+
+   The type tokens in typography.css set the *editorial* scale — display,
+   headings, body, lead. Controls run tighter than prose and always have:
+   a 14px button next to 17px body text is deliberate, not an oversight.
+
+   These tokens name the values the components were tuned to, so the second
+   scale is declared rather than accidental. Change a value here and every
+   component that uses it follows; that is the whole point of naming them.
+
+   Converging this scale with typography.css is a real option, but it is a
+   design decision that moves every surface — not a cleanup. */
+
+:root {
+  /* Buttons, fields, selects — anything you click or type in. */
+  --control-font-size: 14px;
+  --control-font-size-sm: 13px;
+  --control-pad-y: 8px;
+  --control-pad-x: 15px;
+  --control-pad-y-sm: 5px;
+  --control-pad-x-sm: 11px;
+  --control-gap: 8px;
+  --control-icon-box: 28px;
+  /* The icon square itself. 16 is the system's floor and the size every
+     control assumes; sizes go 16, 20, 24, never 18 or 22. */
+  --control-icon-size: 16px;
+
+  /* Badges — mono, because a badge names a machine thing. */
+  --badge-font-size: 12px;
+
+  /* Tables. Head is the same at every density; only the rows breathe. */
+  --table-head-size: 10px;
+  --table-head-tracking: 0.11em;
+  --row-pad-compact: 6px;
+  --row-font-compact: 13px;
+  --row-pad-medium: 9px;
+  --row-font-medium: 14px;
+  --row-pad-airy: 14px;
+  --row-font-airy: 15px;
+
+  /* Mono cells run a step below the row's sans, so a tool name and the
+     prose beside it read at the same optical size. */
+  --row-name-compact: 12px;
+  --row-meta-compact: 11px;
+  --row-name-medium: 13px;
+  --row-meta-medium: 12px;
+  --row-name-airy: 13px;
+  --row-meta-airy: 12px;
+
+  /* Code and diff. Code is control-scale, not body-scale — --font-size-code
+     in typography.css is that size, so it is used directly here. */
+  --diff-font-size: 13px;
+  --diff-leading: 1.75;
+  --diff-tint: 14%;
+
+  /* Navigation. */
+  --nav-font-size: 13px;
+  --tab-font-size: 12px;
+
+  /* Status blocks — an answer with its source and its bounds. */
+  --note-title-size: 14px;
+  --note-body-size: 12px;
+  --note-body-leading: 1.45;
+  --note-measure: 64ch;
+}

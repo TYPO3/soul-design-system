@@ -31,9 +31,9 @@ repository, and on any CDN that serves either.
 `src/` and `dist/svgs/` render identically; `src/` is the unoptimised file,
 which is the one worth reading before inlining it.
 
-`assets/icons/` is **generated**, not committed: `scripts/icons.mjs` copies
+`assets/icons/` is **generated**, not committed: `scripts/icons.ts` copies
 the declared identifiers out of the installed package. It runs from
-`prepare`, alongside the fonts. Change the `ICONS` list in the script, not
+the container entrypoint, alongside the fonts. Change the `ICONS` list in the script, not
 the output.
 
 A missing icon is contributed upstream, never drawn locally and never
@@ -50,10 +50,11 @@ identifier is not in the package, rather than falling back to anything.
 | Source Sans 3 | `@fontsource/source-sans-3` |
 | Source Code Pro | `@fontsource/source-code-pro` |
 
-`fonts/` is **generated**, not committed: `scripts/fonts.mjs` copies the
+`fonts/` is **generated**, not committed: `scripts/fonts.ts` copies the
 weights and subsets this system declares (latin and latin-ext, woff2 only)
 out of the installed packages and writes `fonts/fonts.css`. It runs from
-`prepare`, so `npm ci` leaves a working tree. Change the face list in the
+the container entrypoint, so any container starts with a working tree.
+Change the face list in the
 script, not the output.
 
 The faces are copied to disk rather than imported from `node_modules`

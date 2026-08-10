@@ -1,0 +1,22 @@
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-19: 76px;
+
+  --gutter-page: 48px;
+  --width-content: 1080px;
+  --width-sidebar: 210px;
+  --height-header: 56px;
+
+  /* A modal is centred and stops here. The specimen says so in words; this
+     is where the number lives. */
+  --measure-modal: 560px;
+}

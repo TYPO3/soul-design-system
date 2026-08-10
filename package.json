@@ -1,66 +1,66 @@
 {
-  "name": "@typo3-support-app/design-system",
+  "name": "@typo3/support-design-system",
   "version": "1.0.0",
-  "description": "The TYPO3 Support App design system — tokens, the component class layer, and the specimen cards that document them.",
+  "description": "The TYPO3 Support App design system — tokens, the sds- class layer, Lit components, and the specimen cards that document them.",
   "keywords": [
     "design-system",
     "css",
     "design-tokens",
-    "typo3"
+    "typo3",
+    "lit",
+    "web-components"
   ],
   "private": true,
   "type": "module",
   "sideEffects": [
-    "*.css"
+    "*.css",
+    "./src/*.ts",
+    "./src/**/*.ts",
+    "./dist/index.js"
   ],
-  "main": "styles.css",
-  "style": "styles.css",
+  "main": "./dist/index.js",
   "exports": {
-    ".": "./styles.css",
-    "./styles.css": "./styles.css",
-    "./components.css": "./components.css",
-    "./specimen.css": "./_specimen.css",
-    "./tokens/*.css": "./tokens/*.css",
+    ".": {
+      "types": "./dist/types/src/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./src/styles/styles.css",
+    "./components.css": "./src/styles/components.css",
+    "./specimen.css": "./src/styles/_specimen.css",
+    "./tokens/*.css": "./src/tokens/*.css",
     "./fonts/*": "./fonts/*",
     "./assets/*": "./assets/*"
   },
   "files": [
-    "styles.css",
-    "components.css",
-    "tokens/",
+    "dist/",
+    "src/",
     "fonts/",
     "assets/"
   ],
-  "scripts": {
-    "prepare": "npm run fonts && npm run icons",
-    "fonts": "node scripts/fonts.mjs",
-    "icons": "node scripts/icons.mjs",
-    "dev": "npm run gallery && npm run serve",
-    "serve": "node scripts/serve.mjs",
-    "gallery": "node scripts/gallery.mjs",
-    "sync": "npm run build --silent && npm run verify --silent && npm run status --silent && npm run plan --silent",
-    "status": "node scripts/status.mjs",
-    "plan": "node scripts/plan.mjs",
-    "synced": "node scripts/synced.mjs",
-    "build": "node scripts/build.mjs",
-    "verify": "node scripts/verify.mjs",
-    "conventions": "node scripts/conventions.mjs",
-    "fit": "node scripts/fit.mjs",
-    "shots": "node scripts/shoot.mjs",
-    "baseline": "node scripts/shoot.mjs .design-sync/.cache/baseline",
-    "sheets": "node scripts/sheet.mjs",
-    "diff": "node scripts/diff.mjs"
-  },
   "engines": {
-    "node": ">=18"
+    "node": ">=22.18"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@fontsource/source-code-pro": "^5.3.0",
     "@fontsource/source-sans-3": "^5.3.0",
+    "@lit-labs/ssr": "^4.1.0",
+    "@playwright/test": "^1.62.1",
+    "@storybook/addon-a11y": "^10.5.7",
+    "@storybook/addon-docs": "^10.5.7",
+    "@storybook/html-vite": "^10.5.7",
+    "@storybook/web-components-vite": "^10.5.7",
+    "@types/node": "^24.13.3",
+    "@types/pngjs": "^6.0.5",
     "@typo3/icons": "^5.0.3",
+    "esbuild": "^0.28.2",
+    "lit": "^3.3.3",
     "pixelmatch": "^7.2.0",
     "playwright": "^1.62.1",
-    "pngjs": "^7.0.0"
+    "pngjs": "^7.0.0",
+    "storybook": "^10.5.7",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1"
   },
   "license": "GPL-2.0-or-later",
   "author": "Benjamin Kott <benjamin.kott@outlook.com>",
@@ -71,5 +71,10 @@
   "homepage": "https://github.com/benjaminkott/typo3-support-design-system#readme",
   "bugs": {
     "url": "https://github.com/benjaminkott/typo3-support-design-system/issues"
+  },
+  "module": "./dist/index.js",
+  "types": "./dist/types/src/index.d.ts",
+  "peerDependencies": {
+    "lit": "^3.3.0"
   }
 }

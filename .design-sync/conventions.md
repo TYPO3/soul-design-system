@@ -1,18 +1,37 @@
 # TYPO3 Support App — how to build with this system
 
-A CSS design system: **classes and tokens, no JavaScript components.** `_ds_bundle.js`
-is an empty namespace on purpose — there is nothing to import. You build plain
-markup and put these classes on it.
+A CSS design system: **classes and tokens first.** You build plain markup and put
+these classes on it, and that is the whole contract — the product this dresses is
+plain PHP with an HTML surface and runs no JavaScript to be styled.
+
+`_ds_bundle.js` also ships the same system as Lit custom elements:
+
+| | |
+|---|---|
+| Text | `sds-icon` `sds-link` |
+| Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` |
+| Navigation | `sds-pills` `sds-tabs` `sds-rail` |
+| Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
+| Data | `sds-table` `sds-code` `sds-diff` |
+
+They render **light DOM** and emit exactly the classes below, so an element and a
+hand-written `<button class="sds-btn">` are the same markup styled by the same rules.
+Use them where a surface already runs JavaScript; use the classes everywhere else.
+Neither is a fallback for the other, and **the classes stay authoritative** — a
+component that disagrees with `_ds_bundle.css` is a bug in the component.
+
+`sds-modal` draws the modal surface; `sds-dialog` is the behaviour — a real
+`<dialog>` that opens, traps focus and closes on Escape.
 
 ## Setup
 
-Link `styles.css` and put `tsa-app` on the root element. That one class establishes
+Link `styles.css` and put `sds-app` on the root element. That one class establishes
 the canvas, the sans stack and the text colour; without it you inherit the browser's
 Times New Roman on white.
 
 ```html
 <link rel="stylesheet" href="styles.css">
-<body class="tsa-app"> … </body>
+<body class="sds-app"> … </body>
 ```
 
 Both themes ship in one declaration — every colour is `light-dark()` against
@@ -22,7 +41,7 @@ scrollbars and form controls stay in the other mode.
 
 ## The idiom
 
-Classes are prefixed `tsa-`, with `__element`, `--modifier`, and `.is-active` /
+Classes are prefixed `sds-`, with `__element`, `--modifier`, and `.is-active` /
 `.is-disabled` / `.is-focused` / `.is-invalid` / `.is-filled` / `.is-selected` for state.
 
 **Never set a colour, size, radius or duration literal.** Every value is a token:
@@ -32,20 +51,20 @@ Classes are prefixed `tsa-`, with `__element`, `--modifier`, and `.is-active` /
 raw `--orange-*` scale.
 
 **Never invent a class.** If nothing here fits, compose from the tokens with your own
-inline styles — do not mint a `tsa-` name.
+inline styles — do not mint a `sds-` name.
 
 | Family | Classes |
 |---|---|
-| Root, text | `tsa-app` `tsa-prose` `tsa-label` `tsa-mono` `tsa-link` `tsa-link--external` `tsa-icon` `tsa-icon--20` `tsa-icon--24` `tsa-icon--muted` |
-| Buttons | `tsa-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon` |
-| Badges | `tsa-badge` + `--accent` `--ok` `--warn` `--error` |
-| Fields | `tsa-field` `tsa-input` `tsa-select` `tsa-field-error` |
-| Tables | `tsa-table` + `--compact` `--medium` `--airy`; cells `tsa-td-name` `tsa-td-meta` |
-| Surfaces | `tsa-card` `tsa-panel` `tsa-sunken` `tsa-overlay` `tsa-modal__head|__body|__foot` `tsa-drawer` |
-| Navigation | `tsa-pills`/`tsa-pill` `tsa-tabs`/`tsa-tab` `tsa-rail`/`tsa-rail__item` |
-| Code | `tsa-code__head|__body` `tsa-code__prompt|__cmd|__comment|__ok|__string|__key` `tsa-diff` `tsa-diff__line--add|--del` |
-| States | `tsa-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `tsa-loading` `tsa-spinner` `tsa-skeleton` |
-| Brand | `tsa-lockup` `tsa-wordmark` `tsa-wordmark__pipe` `tsa-wordmark__product` |
+| Root, text | `sds-app` `sds-prose` `sds-label` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--20` `sds-icon--24` `sds-icon--muted` |
+| Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon` |
+| Badges | `sds-badge` + `--accent` `--ok` `--warn` `--error` |
+| Fields | `sds-field` `sds-input` `sds-select` `sds-field-error` |
+| Tables | `sds-table` + `--compact` `--medium` `--airy`; cells `sds-td-name` `sds-td-meta` |
+| Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-overlay` `sds-modal__head|__body|__foot` `sds-drawer` |
+| Navigation | `sds-pills`/`sds-pill` `sds-tabs`/`sds-tab` `sds-rail`/`sds-rail__item` |
+| Code | `sds-code__head|__body` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |
+| States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |
+| Brand | `sds-lockup` `sds-wordmark` `sds-wordmark__pipe` `sds-wordmark__product` |
 
 ## Icons
 
@@ -79,13 +98,13 @@ that is the answer, not a reason to substitute something.
 - **One accent.** `--accent` marks exactly three things: the active nav item, the shell
   prompt in a code block, the pipe in the wordmark. No second accent, no gradient.
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, paths,
-  flags, versions — is `tsa-mono`, never title-cased: `typo3_server_scope`, `.mcp.json`.
+  flags, versions — is `sds-mono`, never title-cased: `typo3_server_scope`, `.mcp.json`.
 - **No emoji.** Status is a colour plus an icon from `assets/icons/`.
 - **Hover changes colour and border. Never position, never size.** Nothing lifts or scales.
 - **Icons: 16px floor**, sizes 16/20/24 only, inlined SVG so `currentColor` is inherited.
 - **Sentence case headings**, no marketing superlatives.
 - An answer carries its source and version binding; an error names the command that
-  fixes it. Use `tsa-note--warn` for a degraded-but-usable answer, `--error` for none.
+  fixes it. Use `sds-note--warn` for a degraded-but-usable answer, `--error` for none.
 
 ## Where the truth is
 
@@ -97,18 +116,18 @@ is why. Copy the nearest specimen rather than inventing a variant.
 ## A worked example
 
 ```html
-<div class="tsa-note tsa-note--warn">
-  <span class="tsa-note__icon"><svg class="tsa-icon" viewBox="0 0 16 16">…</svg></span>
+<div class="sds-note sds-note--warn">
+  <span class="sds-note__icon"><svg class="sds-icon" viewBox="0 0 16 16">…</svg></span>
   <div>
-    <div class="tsa-note__title">The installation could not be booted — packages were read instead</div>
-    <div class="tsa-note__body">
+    <div class="sds-note__title">The installation could not be booted — packages were read instead</div>
+    <div class="sds-note__body">
       This answer omits anything a running extension would add.
-      <span class="tsa-mono">ddev start</span> would fix it.
+      <span class="sds-mono">ddev start</span> would fix it.
     </div>
   </div>
 </div>
 <div style="display:flex; gap:var(--space-2); margin-top:var(--space-4)">
-  <button class="tsa-btn tsa-btn--primary">Run the checks</button>
-  <button class="tsa-btn tsa-btn--ghost">Cancel</button>
+  <button class="sds-btn sds-btn--primary">Run the checks</button>
+  <button class="sds-btn sds-btn--ghost">Cancel</button>
 </div>
 ```

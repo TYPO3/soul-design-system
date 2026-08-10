@@ -1,0 +1,154 @@
+/* The specimen scaffolding — the annotation layer a card is drawn with.
+
+   These mirror the classes in `_specimen.css` one for one, and exist so a
+   story composes a card out of named pieces instead of hand-indented HTML.
+   Nothing here belongs to the design system proper: `_specimen.css` is
+   deliberately outside the `styles.css` closure, so a design built with this
+   system never inherits any of it. If you find yourself wanting one of these
+   on a product surface, the thing you want is a component, not a caption.
+
+   **Why these compose strings and not Lit templates.** The components are
+   Lit — that is where the markup lives. But a rendered `TemplateResult` can
+   no longer be indented: the whitespace is fixed inside the template
+   literal, so nesting a row inside a card leaves the row's inner lines at
+   the depth they were written at. Composing the scaffold from strings puts
+   `indent()` back in reach, which is what keeps the generated cards readable
+   and reviewable line by line. Components come in through `part()`, which
+   renders one to its static markup first. */
+
+import type { TemplateResult } from 'lit';
+import { renderStatic } from '../../src/lib/render.ts';
+
+/** Render a component template to the static markup a card ships. */
+export const part = (template: TemplateResult): string => renderStatic(template);
+
+/** Narrow no-break space, U+202F — what this system sets between a number and
+    its unit, so `30 px` cannot break across a line. Named rather than typed,
+    because an invisible character in source is indistinguishable from an
+    ordinary space in review and silently becomes one on the next edit. */
+export const NNBSP = '\u202f';
+
+/** `px(30)` → `30 px` with the narrow space, as the cards set it. */
+export const px = (n: number, unit = 'px'): string => `${n}${NNBSP}${unit}`;
+
+/** The hairline that separates a closing caption from the examples above it. */
+export const DIVIDER = 'border-top:1px solid var(--border-subtle); padding-top:12px;';
+
+/** The same hairline, above a row rather than a caption. */
+export const ROW_DIVIDER = 'border-top:1px solid var(--border-subtle); padding-top:14px;';
+
+/** Escape only what HTML requires. Non-ASCII stays literal: `·` and `—` are
+    the characters, and a numeric entity in a file the pane parses with a
+    regex is a string that never gets decoded. */
+export const esc = (s: string): string =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/**
+ * Indent a block by `n` spaces, so nesting produces readable output.
+ *
+ * Skips the inside of a `<pre>`. Whitespace there is content: indenting the
+ * body of a code block shifts every line of the rendered output to the
+ * right, which is a visible change and not a formatting one. The opening
+ * `<pre …>` tag still moves with its surroundings — it is the lines *after*
+ * it, up to `</pre>`, that must be left exactly as written.
+ */
+export function indent(html: string, n: number): string {
+  const pad = ' '.repeat(n);
+  let inPre = false;
+
+  return html
+    .split('\n')
+    .map((line) => {
+      const out = inPre || !line.trim() ? line : pad + line;
+      const opens = (line.match(/<pre\b/g) ?? []).length;
+      const closes = (line.match(/<\/pre>/g) ?? []).length;
+      if (opens > closes) inPre = true;
+      else if (closes > opens) inPre = false;
+      return out;
+    })
+    .join('\n');
+}
+
+const block = (tag: string, attrs: string, children: readonly string[]): string =>
+  `<${tag}${attrs}>\n${indent(children.filter(Boolean).join('\n'), 2)}\n</${tag}>`;
+
+const attr = (name: string, value?: string): string => (value ? ` ${name}="${value}"` : '');
+
+export interface SpecOptions {
+  /** Sets `--spec-gap` for this card only. */
+  gap?: string;
+}
+
+/** The standard card scaffold: the padded, stacked column of examples. */
+export const spec = (children: readonly string[], { gap }: SpecOptions = {}): string =>
+  block('div', ` class="spec"${gap ? ` style="--spec-gap:${gap}"` : ''}`, children);
+
+/** Just the card's padding, for specimens that lay themselves out. */
+export const specPad = (children: readonly string[], style?: string): string =>
+  block('div', ` class="spec-pad"${attr('style', style)}`, children);
+
+export interface RowOptions {
+  style?: string;
+  /** Draws the hairline separating a row that belongs to a different
+      subject from the ones above it. */
+  divided?: boolean;
+}
+
+/** One row of examples, closed by the mono caption naming what it shows. The
+    caption is annotation and never product text: it says what the row
+    demonstrates rather than repeating the labels inside it. */
+export function specRow(children: readonly string[], caption?: string, { style, divided }: RowOptions = {}): string {
+  const s = [divided ? ROW_DIVIDER : '', style ?? ''].filter(Boolean).join(' ');
+  const items = caption ? [...children, `<span class="spec-cap">${esc(caption)}</span>`] : [...children];
+  return block('div', ` class="spec-row"${attr('style', s)}`, items);
+}
+
+/** A caption standing on its own rather than closing a row — the line that
+    states what the whole card is showing. */
+export const specCap = (text: string, style?: string): string =>
+  `<div class="spec-cap"${attr('style', style)}>${esc(text)}</div>`;
+
+/** Prose under an example. */
+export const specNote = (html: string): string => `<div class="spec-note">${html}</div>`;
+
+/** A rule being stated, a step up from a note. */
+export const specRule = (html: string): string => `<div class="spec-rule">${html}</div>`;
+
+/** A section heading inside a specimen. */
+export const specH = (text: string): string => `<div class="spec-h">${esc(text)}</div>`;
+
+/** The tracked-out label over a group of swatches or samples. */
+export const specLbl = (text: string): string => `<div class="spec-lbl">${esc(text)}</div>`;
+
+/** A free-standing column, for specimens that need one beside another. */
+export const specCol = (children: readonly string[], style: string): string =>
+  block('div', ` style="${style}"`, children);
+
+export interface DsCardInput {
+  /** The file to generate, relative to the repo root. */
+  path: string;
+  group?: string;
+  name: string;
+  subtitle: string;
+  /** The exact size the pane renders the card at. `make fit` fails the
+      build when the content does not fit it, so this is a measurement
+      rather than a preference. */
+  viewport: string;
+  theme?: 'light' | 'dark';
+}
+
+export interface DsCard extends Required<DsCardInput> {
+  width: number;
+  height: number;
+}
+
+/**
+ * Declare the card a story file generates, and how the Design System pane
+ * renders it. This is the `@dsCard` contract from `scripts/lib/cards.ts`,
+ * stated in the story so the story owns it: the card HTML under
+ * `components/` is generated from here by `make cards`.
+ */
+export function dsCard(c: DsCardInput): DsCard {
+  const [w, h] = c.viewport.split('x');
+  return { group: 'Components', theme: 'dark', ...c, width: Number(w), height: Number(h) };
+}

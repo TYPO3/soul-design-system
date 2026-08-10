@@ -1,0 +1,63 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Specimen } from './lib/Specimen.tsx';
+
+<Meta title="Guidelines/Brand" />
+
+# Brand
+
+**The signet is a construction, not a fixed drawing.** What this system fixes
+is *how* one is built. The mark in `assets/` came from the Dev Companion
+prototype and is a worked example of the rules — the reference
+implementation, not an approved product mark. A product adopting this system
+draws its own to the same construction.
+
+> This is **not** an approved TYPO3 product. The TYPO3 Soul is not used, and
+> no surface may imply endorsement — footers say what the product is, never
+> whose it is.
+
+## How one is drawn
+
+Everything follows the stroke: stroke 7 → rounding 3.5 (half the stroke, on
+frame caps, line ends and the marker's points alike) → gap ≥ 7, measured ink
+to ink. A 128 × 100 box, corner radius 20 shared by frame and marker. The
+frame is one open path — both ends are caps, not cuts — and it stops
+gap + stroke short, because each cap reaches half a stroke further. The
+marker sits on the frame's **outer** edge, not on the box.
+
+<Specimen src="guidelines/brand-signet-construction.card.html" viewport="700x1455" title="Signet — construction" />
+
+## Three optical sizes, redrawn, never scaled
+
+32px and up takes stroke 7 and three lines; 20–31px stroke 8.5 with the
+middle line dropped; 16–19px stroke 11. Pick the file at the link, because a
+media query inside an SVG only sees its own viewport.
+
+The 16–19px file is square-boxed: the mark is 5:4, and a 5:4 mark
+letterboxed into a favicon slot lands under the system's own 16px floor.
+
+<Specimen src="guidelines/brand-signet-sizes.card.html" viewport="700x830" title="Signet — sizes" />
+<Specimen src="guidelines/brand-signet-modes.card.html" viewport="700x560" title="Signet — modes & context" />
+
+## Lockup
+
+`TYPO3` at 600, an orange pipe, `Support App` at 300. The pipe is separator
+and caret at once, and the only colour in the mark. Signet is 1.36 × the
+type size, gap 0.5 ×, clear space half the signet height.
+
+<Specimen src="guidelines/brand-lockup.card.html" viewport="700x176" title="Primary lockup" />
+<Specimen src="guidelines/brand-lockup-light.card.html" viewport="700x176" title="Primary lockup — light" />
+<Specimen src="guidelines/brand-lockup-stacked.card.html" viewport="700x190" title="Stacked lockup & app icon" />
+
+## Clear space, edges, motion
+
+<Specimen src="guidelines/brand-clearspace.card.html" viewport="700x200" title="Clear space & minimum size" />
+<Specimen src="guidelines/brand-edges.card.html" viewport="700x180" title="Edges & radii" />
+<Specimen src="guidelines/brand-motion.card.html" viewport="700x90" title="States & motion" />
+
+## Never
+
+A second colour in the mark. Equal weights on the two words. Stretching. An
+orange fill behind it. The large drawing at a small size. The marker in
+anything but orange.
+
+<Specimen src="guidelines/brand-misuse.card.html" viewport="700x180" title="Misuse" />

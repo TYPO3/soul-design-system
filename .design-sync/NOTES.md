@@ -1,68 +1,33 @@
 # design-sync notes — TYPO3 Support App
 
-Repo-specific things a future sync should know before touching anything.
+Everything a future sync should know before touching the claude.ai/design
+upload. **This is one export of the design system, not the system itself** —
+how the repo is built, and every decision that shaped it, is in
+`ARCHITECTURE.md` at the root.
 
-## What this repo is
+## What gets uploaded
 
-An **HTML/CSS design system**, not a React package. There is no `dist/`, no
-component JS, and nothing to bundle. The standard design-sync converter
-(`package-build.mjs`) therefore does **not** apply — `scripts/build.mjs` in
-this repo produces the same upload contract directly. `package-validate.mjs`
-still applies and still has to exit 0; it does, including its render check.
+The design system is CSS, tokens and Lit components; this uploads a **flat
+snapshot** of them. `scripts/build.ts` is the converter — the standard
+design-sync one (`package-build.mjs`) does not apply, because this is not a
+React package. `package-validate.mjs` still applies and still has to exit 0.
 
-`_ds_bundle.js` is an intentionally empty namespace (`window.T3SA = {}`) with
-a valid `@ds-bundle` header. Do not "fix" this by inventing components — the
-system is consumed as classes and tokens.
+The bundle is flat where the repo is not: `styles.css`, `_ds_bundle.css`,
+`_specimen.css` and `tokens/` all sit at its root, while the repo keeps the
+three stylesheets in `styles/`. The converter rewrites both the imports and
+the cards' links on the way out, so **a change to the repo layout is a change
+to `rewriteDepth` and to the `@import` rewriting in `scripts/build.ts`.**
 
-## Layout
-
-- `components.css` — the component layer. Ships as `_ds_bundle.css`; the only
-  difference between the repo and bundle `styles.css` is that one `@import`.
-- `_specimen.css` — chrome for the specimen cards only. Deliberately **not**
-  imported by `styles.css`: a rendered design must not inherit it.
-- `tokens/controls.css` — the control scale (see below).
-- `scripts/` — all tooling, Node only (was Python; ported at the user's
-  request so it runs the same on every machine).
-
-## Decisions that were made on purpose
-
-- **Two type scales, both intentional.** `tokens/typography.css` is the
-  editorial scale (display → body). `tokens/controls.css` names the tighter
-  scale controls were tuned to (14px buttons, 10px table heads). Converging
-  them was offered and declined: it would move every surface. Not drift.
-- **No half-pixel font sizes.** House rule. 121 of them were rounded half-up
-  across the cards; `--font-size-code` went 13.5 → 13px to match the code
-  blocks that already rendered at 13. Keep it that way — `npm run verify`
-  does not catch a new one, so watch it in review.
-- **Class prefix is `tsa-`**, state is `.is-*`. `t3-` was avoided: the system's
-  own rules forbid implying TYPO3 endorsement.
-- **Fonts ship with the system**, 18 woff2 (latin + latin-ext, SIL OFL 1.1),
-  generated from `@fontsource` — see the Re-sync risks entry for how. They
-  replaced a Google Fonts `@import`; verified pixel-identical on 38/39 cards,
-  the 39th being the loading card's spinner. Do not go back to the remote
-  import: a design behind a strict content policy would silently fall back
-  to system-ui.
-
-## Fixes applied to the cards (were pre-existing defects)
-
-- `Density` — the Tool column could not hold `typo3_changelog_lookup`; the
-  name overlapped the Verb column. Fixed by dropping the fixed colgroup.
-- `Surfaces` — the modal's footer buttons were cropped, and the three
-  surfaces wrapped to two rows because padding sat outside their width.
-  Fixed by a `box-sizing: border-box` rule scoped to `[class*="tsa-"]`.
-- **18 card viewports were wrong** (5 cropped their own content, 13 declared
-  far more height than they used). All corrected. `npm run fit` measures this
-  and is part of `npm run verify` — run it after any content edit.
-- Two cards documented their own sizes in prose and went stale after the
-  rounding (`DIFF 12.5 PX`, `--font-size-code · 13.5`). If you change a size
-  token, grep the card copy for the number.
+`_ds_bundle.js` carries the nine Lit elements built from `src/index.ts`, with
+the `@ds-bundle` header listing every tag. It used to be an intentionally
+empty namespace; any note claiming that predates this and is wrong.
 
 ## Doing a sync
 
-The repo's half is one command: `npm run sync` — build → verify → status →
+The repo's half is one command: `make sync` — build → verify → status →
 plan. It ends by telling the user to run `/design-sync`, which is the upload.
 
-**First, seed the reference state — before `npm run sync`.** Fetch the
+**First, seed the reference state — before `make sync`.** Fetch the
 project's `_ds_sync.json` (`DesignSync get_file`) to
 `.design-sync/.cache/remote-sync.json`. That file is the authority on what
 the project holds; the local cache is only a copy of it and is gitignored,
@@ -71,25 +36,35 @@ it in place the plan computes exact deletes; without it the plan says so and
 computes none.
 
 **Execute `.design-sync/.cache/upload-plan.json`. Do not improvise it.**
-`npm run plan` writes it: the finalize_plan globs, and five numbered steps
+`make plan` writes it: the finalize_plan globs, and five numbered steps
 in the order they must run, with the exact file and delete lists. It is
 generated from the build and the previous anchor, so it cannot forget a
 renamed file the way a hand-derived list can — that is precisely how 19
 renamed font files were left orphaned in the project.
 
-Deletes come from the anchor's `files` list, which `scripts/build.mjs`
+Deletes come from the anchor's `files` list, which `scripts/build.ts`
 records. An anchor without that field (anything uploaded before this was
 added) makes the plan say so and refuse to guess: compare `list_files`
 against the build yourself that one time.
 
-The conventions header is checked mechanically: `npm run conventions`, also
+The conventions header is checked mechanically: `make verify`, also
 step 5 of verify. It never rewrites the file — the prose belongs to its
-authors — it only fails when a class or token named there no longer exists
-in the build. Not optional politeness: the header is inlined into the design
-agent's prompt, so a name that does not resolve makes the agent write markup
-that silently does nothing.
+authors — it fails on two kinds of drift, and both matter because the header
+is inlined into the design agent's prompt:
 
-**Then run `npm run synced`.** It promotes the pushed anchor into
+- **A name that no longer exists** — a class or token named there but absent
+  from the build. The agent writes markup that silently does nothing.
+- **An element the header does not name** — a tag the bundle registers but
+  the prose never mentions. Nothing breaks; the element is simply never
+  reached for, because the only document the agent reads does not say it is
+  there. That is how the header went on describing nine custom elements
+  while the bundle shipped seventeen.
+
+Classes are checked in one direction only. `_ds_bundle.css` carries internal
+and state classes the prose deliberately omits; the element list is the public
+surface and is meant to be complete.
+
+**Then run `make synced`.** It promotes the pushed anchor into
 `.design-sync/.cache/remote-sync.json`, which is what `status` and `plan`
 compare against next time.
 
@@ -102,8 +77,8 @@ card, a card that overflows its declared viewport gets cropped in the pane.
 Fix it, re-run, then upload.
 
 Verify checks mechanics, not judgement. When `status` lists changed cards,
-look at them: `npm run baseline` before a visual change, then `npm run shots
-&& npm run diff` after. Anything that moved should have moved on purpose.
+look at them: `make baseline` before a visual change, then `make shots
+&& make diff` after. Anything that moved should have moved on purpose.
 
 Why the plan's order matters, since it looks like ceremony: the app
 regenerates `_ds_manifest.json` and `_adherence.oxlintrc.json` from the
@@ -119,13 +94,15 @@ say they have no reference point rather than guessing.
 
 ## Re-sync risks
 
-- **`scripts/build.mjs` is the converter.** If the design-sync skill's own
+- **`scripts/build.ts` is the converter.** If the design-sync skill's own
   scripts change their output contract, this one will not follow
   automatically — diff `ds-bundle/` against the skill's documented layout.
 - **`.design-sync/conventions.md` is committed and human-editable.** Never
   rewrite it on a re-sync; re-validate that every class and token it names
-  still exists in the build, and report drift. All 69 classes and 15 token
-  prefixes verified at the time of writing.
+  still exists in the build, and report drift. 62 classes, 9 element tags and
+  14 token families verified at the time of writing. It also no longer says
+  "no JavaScript components" — that claim was inlined into the design agent's
+  prompt and became false the day the bundle got components.
 - **`assets/**` is not in the skill's default upload plan.** This repo's cards
   reference `assets/icons` and `assets/diagrams`, so the plan must include
   `assets/**` in both `writes` and `deletes` or icons vanish from the cards.
@@ -135,10 +112,11 @@ say they have no reference point rather than guessing.
   via `@fontsource`; both are recorded in `THIRD-PARTY.md`. `package.json` is
   still `private: true` — flip that only deliberately.
 - **`fonts/` and `assets/icons/` are generated and gitignored.** They come
-  from `@fontsource/*` and `@typo3/icons` via `scripts/fonts.mjs` and
-  `scripts/icons.mjs`, both wired to `prepare`. A clone without `npm ci` has
+  from `@fontsource/*` and `@typo3/icons` via `scripts/fonts.ts` and
+  `scripts/icons.ts`, both run by the container entrypoint when missing. A
+  clone has
   neither, and every card then renders in system-ui with no icons — which
-  looks like a design bug and is not one. `npm run verify` checks for this
+  looks like a design bug and is not one. `make verify` checks for this
   first and says which command to run. Adding a weight or an icon means
   editing the `FAMILIES` / `ICONS` list in the script, nothing else.
 - **Upstream names are kept verbatim** in both generators — `actions-search.svg`
@@ -178,75 +156,17 @@ app actually writes into `_ds_manifest.json` (`startingPoints`, `cards`,
 `templates`). Unofficial, so treat as a strong lead rather than a spec; the
 official help centre documents none of this.
 
-## CSS-only is a decision, not an omission
+## Storybook, and how it must not touch the sync
 
-Offered twice and declined twice: this system ships **no JavaScript
-components**, and that is deliberate. Do not "improve" it by adding a React
-layer without asking — the product it dresses is plain PHP with an HTML
-surface, and a component library would be a second source of truth for
-markup the product cannot use.
+Storybook is the documentation and authoring surface: `make storybook`.
+It uses `@storybook/web-components-vite` — **never the React renderer**, for
+the reason above.
 
-Know what it costs, because the app tells you in the files it generates.
-`_adherence.oxlintrc.json` comes back with `react/forbid-elements: {forbid: []}`,
-`no-restricted-imports: {patterns: []}` and `x-omelette.components: {}` — all
-empty, because those rules steer agents from raw elements towards components
-and there are none. `_ds_bundle.js` is an empty namespace. So the system
-steers **by instruction, not by mechanism**: the conventions header, the 39
-cards and the 3 starting-point screens are the whole enforcement. Nothing
-stops a design agent from hand-rolling a button.
-
-What does still bite mechanically: the token rules. Raw `#FF8700` or `14px`
-in a design is flagged, because tokens are in the config regardless.
-
-If this is ever revisited, the shape that was costed is ~15 thin wrappers
-over the existing classes (`Button` renders `<button class="tsa-btn …">`),
-esbuild, generated `.d.ts` — the CSS layer stays the source of truth and the
-PHP product is unaffected.
-
-## The `tsa-` prefix
-
-Kept on purpose. Designs mix this CSS with agent-written markup, and `.btn`,
-`.card`, `.badge`, `.table` are the most collided-with names in CSS. The bug
-is not hypothetical: before the refactor `.card` meant "20px of specimen
-padding" in the cards and "a hairline and 6px, no fill" in the doctrine.
-The prefix is also what lets `npm run verify` tell system classes from a
-screen's own layout classes. Shortening it to `ds-` was offered; the length
-was not worth a repo-wide rename.
-
-## The signet is not an icon
-
-Never put `.tsa-icon` on a signet. It pins width and height to 16px, and CSS
-beats the element's own `width`/`height` attributes — so all three optical
-sizes render identically and `brand-signet-sizes` disproves its own point.
-That happened: a bulk sed during the class refactor rewrote every inline
-`<svg>` the same way, including 81 signets across the eight Brand cards. The
-pixel diff flagged those cards and it was written off as font rounding.
-Signets use `.tsa-signet` / `.tsa-signet--muted`, which set no size.
-
-The three shipped files are one construction now, differing only in what the
-optical size demands (stroke 7 / 8.5 / 11, marker 36×52 / 36×54 / 40×58,
-three bars on L and two on M and S). Before that each mixed three colour
-mechanisms in one file — an undefined `.ink` class, an undefined `.inkf`
-class and a hardcoded hex, plus a leftover `class=""`. Since `.ink` and
-`.inkf` were defined nowhere, the frame was invisible and the bars fell back
-to black in any standalone use: as an `<img>`, and as the favicon they are
-meant to be. Each file now carries its own `<style>` with the mid warm grey
-the `brand-signet-sizes` card always promised, lifted a step under
-`prefers-color-scheme: dark`.
-
-`signet-s.svg` has a square viewBox (`-6 -20 140 140`) because it is the
-favicon file: the mark is 5:4, and a 5:4 mark letterboxed into a square slot
-lands under the system's own 16px floor. L and M keep the natural box.
-
-## The signet is a construction, not the mark
-
-The drawing in `assets/` came from the Dev Companion prototype and is a
-worked example of the rules, not an approved product mark. The cards and
-SKILL.md are framed accordingly: what the system fixes is *how* a signet is
-built — stroke 7 → rounding 3.5 → gap ≥ 7, a 128×100 box, corner radius 20,
-the frame one open path, the marker on the frame's outer edge — and the
-three optical weights (7 / 8.5 / 11) hold whatever the drawing. A product
-adopting this system draws its own to the same construction.
-
-Do not re-word this back into "our mark". The example is kept because a rule
-without a worked example is unusable, not because the mark is settled.
+**The hazard.** `.ds-sync/lib/detect.mjs` walks up to four directories deep
+looking for a `.storybook/` config dir and switches the source shape to
+`storybook` when it finds one. That shape expects React 18+ and a compiled
+`dist/` of React components, and it is not what this repo is.
+`.design-sync/config.json` pins `"shape": "package"`, which overrides the
+detector, and `scripts/build.ts` remains the converter. **Do not remove that
+pin**, and if a future kit version stops honouring it, the fix is to pin it
+again — not to let the shape flip.

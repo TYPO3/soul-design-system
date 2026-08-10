@@ -1,61 +1,104 @@
 # TYPO3 Support App — design system
 
-Tokens, one component class layer, and 39 specimen cards that document them.
-It is **HTML and CSS**: there are no JavaScript components, and nothing to
-import at runtime. You link one stylesheet and put classes on markup.
+A design system you **build and maintain here**: the tokens, the `sds-` class
+layer, and nine Lit elements. Everything else in this repo is generated from
+those three — the specimen cards, the Storybook pages, the npm package, and
+the guide the claude.ai design agent builds with.
+
+**CSS first.** You link one stylesheet and put classes on markup — that is
+the whole contract, and it needs no JavaScript:
 
 ```html
-<link rel="stylesheet" href="styles.css">
-<body class="tsa-app">
-  <button class="tsa-btn tsa-btn--primary">Run the checks</button>
+<link rel="stylesheet" href="src/styles/styles.css">
+<body class="sds-app">
+  <button class="sds-btn sds-btn--primary">Run the checks</button>
 </body>
 ```
 
-The system also feeds [claude.ai/design](https://claude.ai/design), so the
-design agent builds with these real classes instead of generic ones.
+**Components where you already run JavaScript.** The elements render *light
+DOM* and emit exactly those classes, so `components.css` stays the single
+source of truth and the two are the same markup:
+
+```js
+import '@typo3/support-design-system';   // registers every sds-* element
+
+// <sds-button variant="primary" label="Run the checks"></sds-button>
+```
+
+Neither is a fallback for the other. The product this dresses is plain PHP
+with an HTML surface, which is why the classes have to work alone.
+
+## What is generated from it
+
+| Output | Command | What it is |
+| --- | --- | --- |
+| Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens |
+| `components/*.card.html` | `make cards` | the 7 component specimen cards, rendered from the same Lit templates |
+| `dist/` | `make dist` | the publishable ESM package and its types |
+| `ds-bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
+
+None of them is edited by hand. Change a component in `src/`, change the
+class layer in `styles/`, change a value in `tokens/` — then regenerate.
+
+`ARCHITECTURE.md` says how the pieces are wired and which decisions are
+load-bearing. `SKILL.md` is the operating instruction for designing *with*
+the system, and `RATIONALE.md` says why each of its rules exists.
 
 ## Start
 
+**Docker is the only requirement.** No Node version to match, no `npm ci`, no
+`playwright install` — every task runs in the container, and there is one way
+to run each.
+
 ```sh
-npm ci          # installs deps AND generates fonts/ and assets/icons/
-npm run dev     # http://localhost:4173/gallery.html — every card and screen
+make start   # bring the stack up and report what is running
+make         # every task, with what it does
+make verify  # the gate
+make test    # the Playwright suite
 ```
 
-`npm ci` is not optional. `fonts/` and `assets/icons/` are generated from
-npm packages and are **not** in git; without them every card renders in
-system-ui with no icons, which looks like a design bug and is not one.
+`make start` brings Storybook up and prints its address. It is the one
+surface: the guidelines as written pages with their specimens embedded at the
+exact viewport each declares, every component with live controls and an a11y
+panel, and the three screens.
 
-## Sync to claude.ai/design
+**The port is not fixed.** `make start` picks a free one and reports it, so a
+Storybook you already have running elsewhere cannot make this fail to start.
+Host and container get the same number on purpose — Vite's hot-reload
+websocket addresses the port Storybook was told to listen on, and a mismatch
+kills reloading.
+
+## Exporting the design guide
 
 Three steps, in this order:
 
 ```sh
-npm run sync    # build, verify, what-would-change, and the upload plan
+make sync    # build, verify, what-would-change, and the upload plan
 ```
 ```
 /design-sync    # in Claude Code — executes the plan
 ```
 ```sh
-npm run synced  # record that the project now holds this build
+make synced  # record that the project now holds this build
 ```
 
 There is deliberately no `npm run` that uploads: the upload needs the
 `DesignSync` tool bound to your claude.ai login, which a shell script has no
 access to. What the scripts *can* own is everything except the transport, and
-they do — `npm run plan` writes `.design-sync/.cache/upload-plan.json` with
+they do — `make plan` writes `.design-sync/.cache/upload-plan.json` with
 the five steps in the order they must run, the exact file list, and the exact
 deletes. The agent executes it rather than working it out, because working it
 out by hand is how a batch of renamed font files was once left orphaned in
 the project.
 
-**If verify fails, `npm run sync` stops there and exits non-zero — fix it
+**If verify fails, `make sync` stops there and exits non-zero — fix it
 before uploading.** Everything it reports is invisible in review and wrong in
 every design afterwards: a class that no stylesheet defines silently does
 nothing, a broken reference ships an unstyled card, a card that overflows its
 declared viewport gets cropped in the pane.
 
 It checks mechanics, not judgement. When `status` lists changed cards, look at
-them — `npm run baseline` before a visual change, `npm run shots && npm run
+them — `make baseline` before a visual change, `make shots && npm run
 diff` after.
 
 The upload finds the right project by itself — `.design-sync/config.json`
@@ -67,46 +110,81 @@ creates a second one. It compares against the anchor the project stores
 
 | Path | |
 | --- | --- |
-| `styles.css` | the single entry point — tokens, then the component layer |
-| `tokens/*.css` | colour, type, control scale, spacing, radius, motion |
-| `components.css` | the `tsa-` class vocabulary every surface is built from |
-| `_specimen.css` | chrome for the cards only — deliberately **not** in the `styles.css` closure, so a rendered design never inherits it |
-| `components/`, `guidelines/` | the 39 specimen cards |
-| `screens/` | whole screens, offered as Starting Points in a consuming project |
-| `assets/` | icons (generated), diagrams, signets |
-| `fonts/` | generated |
-| `scripts/` | the tooling below |
+| **`src/`** | **the design system — everything below is generated from it** |
+| `src/tokens/*.css` | colour, type, control scale, spacing, radius, motion — the values |
+| `src/styles/styles.css` | the single entry point: tokens, then the component layer |
+| `src/styles/components.css` | the `sds-` class vocabulary every surface is built from |
+| `src/styles/_specimen.css` | chrome for the cards only — deliberately **not** in the `styles.css` closure, so a rendered design never inherits it |
+| `src/components/*.ts` | the Lit elements and the template functions they render |
+| `src/lib/` | the element base, the icon inliner, the static renderer |
+| `src/index.ts` | the bundle entry — importing it registers every `sds-*` element |
+| | |
+| `stories/*.stories.ts` | the docs, and the specimen each component card is generated from |
+| `docs/*.mdx` | the written guideline pages |
+| `guidelines/` | the 31 token-layer specimens, hand-written |
+| `screens/` | the 3 whole screens, offered as Starting Points in a consuming project |
+| `tests/` | the Playwright suite |
+| `scripts/` | the tooling behind the tasks |
+| `.infra/` | Dockerfile, compose and the entrypoint |
+| | |
+| `components/` | **generated** — the 7 component cards |
+| `fonts/`, `assets/icons/` | **generated** from the npm packages |
+| `ds-bundle/`, `dist/` | **generated** exports |
+| | |
+| `ARCHITECTURE.md` | how this repo is built, and what has already gone wrong |
 | `SKILL.md` | the build rules — the operating instruction |
 | `RATIONALE.md` | why each rule exists — read before extending or breaking one |
 
 Every card's first line is a `@dsCard` comment carrying its group, label,
 subtitle and viewport; a screen's is `@startingPoint`. Those lines are the
-contract with the Design System pane, and `npm run verify` enforces them.
+contract with the Design System pane, and `make verify` enforces them.
 A screen is its own thumbnail — there is no thumbnail file anywhere.
 
-## Scripts
+## Tasks
+
+`make` prints this list. Every one runs in the container.
 
 | | |
 | --- | --- |
-| `npm run dev` | gallery of every card and screen, with a theme toggle |
-| `npm run sync` | build + verify + what-would-change + upload plan |
-| `npm run synced` | after an upload: record that the project holds this build |
-| `npm run verify` | the gate: headers, class vocabulary, references, viewport fit |
-| `npm run status` | what a sync would change |
-| `npm run plan` | the ordered upload plan, with deletes |
-| `npm run build` | assemble `ds-bundle/`, the upload payload |
-| `npm run fit` | does every card fit the viewport it declares |
-| `npm run baseline` / `shots` / `diff` | screenshot before, after, compare |
-| `npm run sheets` | tile screenshots into contact sheets |
-| `npm run fonts` / `icons` | regenerate from the npm packages |
+| `storybook` | the documentation surface, on a port Docker picks |
+| `verify` | the gate: headers, classes, references, fit, card staleness, types, conventions |
+| `test` | the Playwright suite — every story renders, components match their static render, axe |
+| `cards` | regenerate the 7 component cards from their stories |
+| `build` | assemble `ds-bundle/`, the upload payload |
+| `dist` | build the publishable ESM package and its types |
+| `sync` | build + verify + what-would-change + upload plan |
+| `status` / `plan` / `synced` | the sync steps individually |
+| `baseline` / `shots` / `diff` | screenshot before, after, compare |
+| `sheets` | tile screenshots into contact sheets |
+| `fonts` / `icons` | regenerate from the npm packages |
+| `fit` | does every card fit the viewport it declares |
+| `typecheck` | `tsc --noEmit` |
+| `shell` | a prompt inside the image |
 
-`fit`, `shots` and `verify` drive a real browser, so Playwright needs its
-Chromium once: `npx playwright install chromium`.
+`fonts/` and `assets/icons/` are generated from npm packages and are **not**
+in git. The container's entrypoint regenerates them whenever they are
+missing, so a fresh clone needs no setup step — without them every card would
+render in system-ui with no icons, which looks like a design bug and is not
+one.
+
+### Changing a component
+
+Edit `src/<component>.ts`. The card under `components/` is **generated** from
+the story that composes it — `make cards` writes it, and `make verify`
+fails if it is stale. A card edited by hand is silently reverted on the next
+generate.
+
+The cards stay static HTML with no custom elements in them: the Design System
+pane opens them with `styles.css` and no JavaScript, so what ships is the
+markup the element *produces*. `@lit-labs/ssr` does that conversion in Node.
+
+The repo runs its `.ts` sources directly — Node 22.18+ strips types, so there
+is no build step for development. `make dist` exists only for publishing.
 
 ### Changing things
 
 Adding a font weight or an icon means editing the `FAMILIES` / `ICONS` list
-in `scripts/fonts.mjs` or `scripts/icons.mjs` — never the generated output.
+in `scripts/fonts.ts` or `scripts/icons.ts` — never the generated output.
 The icon's identifier is also its path, by its first segment:
 `actions-search` → `src/actions/actions-search.svg` in `@typo3/icons`, and at
 the same path under
@@ -118,8 +196,8 @@ whole provenance. A missing icon is contributed to
 [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons) first; the script
 fails rather than substituting one from another set.
 
-Before a visual refactor, take `npm run baseline`, make the change, then
-`npm run shots && npm run diff`. Anything that moved, moved on purpose.
+Before a visual refactor, take `make baseline`, make the change, then
+`make shots && make diff`. Anything that moved, moved on purpose.
 
 ## Licence
 

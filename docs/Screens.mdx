@@ -1,0 +1,41 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Specimen } from './lib/Specimen.tsx';
+
+<Meta title="Screens" />
+
+# Screens
+
+Whole surfaces, not components. Each one is a **Starting Point**: a consuming
+project offers these in a picker to seed a new design, so they have to be
+finished pages rather than sketches.
+
+They are marked by an `@startingPoint` comment on their first line — section,
+subtitle and the viewport they are rendered at — which is the contract with
+the Design System pane, and `make verify` enforces it. A screen is its own
+thumbnail; there is no thumbnail file anywhere.
+
+Unlike the component cards these are **hand-written**. They compose the
+system rather than demonstrate one piece of it, and there is nothing to
+generate them from.
+
+## The documentation surface
+
+The one place where the documentation *is* the product presentation: a
+visitor gets the pitch and keeps scrolling into the reference without a seam.
+210px tool rail, 1080px content, 48px gutters.
+
+<Specimen src="screens/documentation.html" viewport="1440x900" title="Documentation" />
+
+## An answer
+
+An answer always carries its source, its version binding, and what it leaves
+out. Every state in Guidelines → States exists to carry exactly that.
+
+<Specimen src="screens/answer.html" viewport="1440x900" title="Answer" />
+
+## The tool reference
+
+The full tool surface at compact density — 30px rows, 13px type, because here
+the list *is* the work and scanning beats reading.
+
+<Specimen src="screens/tool-reference.html" viewport="1440x900" title="Tool reference" />

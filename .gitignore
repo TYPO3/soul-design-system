@@ -1,8 +1,6 @@
 # generated upload bundle
 /ds-bundle/
 
-# generated dev gallery
-/gallery.html
 
 # staged design-sync converter scripts and their deps
 /.ds-sync/
@@ -11,7 +9,6 @@
 /.design-sync/.cache/
 
 node_modules/
-__pycache__/
 
 # ephemeral upload manifest
 /.design-sync/upload-manifest.json
@@ -21,3 +18,16 @@ __pycache__/
 
 # generated from @typo3/icons by scripts/icons.mjs
 /assets/icons/
+
+# generated storybook build
+/storybook-static/
+
+# generated from @typo3/icons by scripts/icons.mjs, alongside assets/icons/
+/src/lib/icons.generated.ts
+
+# generated publishable package
+/dist/
+
+# playwright output
+/test-results/
+/playwright-report/

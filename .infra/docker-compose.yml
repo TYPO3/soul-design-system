@@ -1,0 +1,65 @@
+# Running the design system. Docker is the only requirement.
+#
+#   make              # every task
+#   make storybook    # the documentation surface, on a port Docker picks
+#   make verify       # the gate
+#   make test         # the Playwright suite
+#
+# The Makefile at the repo root drives this — you should not need to type
+# `docker compose` yourself.
+
+x-app: &app
+  build:
+    # The repo root, so the image sees the whole tree and picks up the
+    # .dockerignore that lives beside it.
+    context: ..
+    dockerfile: .infra/Dockerfile
+    target: app
+  # Run as whoever owns the working tree. Without this the container writes
+  # ds-bundle/, dist/ and test-results/ as root, and the next run cannot
+  # delete what the last one made. scripts/task.ts fills these in.
+  user: '${SDS_UID:-1000}:${SDS_GID:-1000}'
+  volumes:
+    # The whole project, so edits on the host are live and generated output
+    # lands back on the host — ds-bundle/ especially, since /design-sync
+    # uploads it from there.
+    - ..:/app
+    # …except these. node_modules is platform-specific and belongs to the
+    # image; a host tree built on macOS would put the wrong binaries in front
+    # of Linux. The rest are build output nobody needs on the host, and
+    # keeping them in the container makes a rebuild cheaper.
+    - /app/node_modules
+    - /app/storybook-static
+  # Chromium needs more than Docker's default 64 MB of shared memory. Too
+  # little shows up as tabs crashing mid-run, never as an out-of-memory error.
+  shm_size: 1gb
+
+# Named explicitly. Compose otherwise derives the project name from the
+# directory holding this file — which is now `.infra`, a name generic enough
+# that a second project with the same layout would share containers and
+# volumes with this one.
+name: typo3-support-design-system
+
+services:
+  app:
+    <<: *app
+
+  # The documentation surface: guidelines as written pages, components with
+  # live controls.
+  storybook:
+    <<: *app
+    build:
+      context: ..
+      dockerfile: .infra/Dockerfile
+      target: storybook
+    # The one service whose host and container port must match. Vite's HMR
+    # client connects to the port Storybook was told to listen on; with Docker
+    # choosing a different host port that URL does not exist, the websocket
+    # fails, and hot reload dies — which for a design system means editing a
+    # token and seeing nothing happen.
+    #
+    # So `make start` picks the free port instead of Docker, and both sides
+    # get the same number. Still a free port; only who chooses it moved.
+    command: ['npx', 'storybook', 'dev', '-p', '${SDS_STORYBOOK_PORT:-6007}', '-h', '0.0.0.0', '--ci', '--no-open']
+    ports:
+      - '${SDS_STORYBOOK_PORT:-6007}:${SDS_STORYBOOK_PORT:-6007}'

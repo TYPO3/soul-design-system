@@ -3,43 +3,43 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
-<link rel="stylesheet" href="../../styles.css" />
-<link rel="stylesheet" href="../../_specimen.css" />
+<link rel="stylesheet" href="../../src/styles/styles.css" />
+<link rel="stylesheet" href="../../src/styles/_specimen.css" />
 </head>
 <body>
   <div class="spec">
     <div style="display:flex; gap:14px; flex-wrap:wrap;">
-      <div class="tsa-card" style="flex:1; min-width:200px">
-        <div class="tsa-surface-title">Card</div>
-        <div class="tsa-surface-body">Hairline border, 6&#8239;px radius, no fill. The default container.</div>
+      <div class="sds-card" style="flex:1; min-width:200px">
+        <div class="sds-surface-title">Card</div>
+        <div class="sds-surface-body">Hairline border, 6 px radius, no fill. The default container.</div>
       </div>
-      <div class="tsa-panel" style="flex:1; min-width:200px">
-        <div class="tsa-surface-title">Panel</div>
-        <div class="tsa-surface-body">Raised fill when it sits on the canvas and has to read as a plane.</div>
+      <div class="sds-panel" style="flex:1; min-width:200px">
+        <div class="sds-surface-title">Panel</div>
+        <div class="sds-surface-body">Raised fill when it sits on the canvas and has to read as a plane.</div>
       </div>
-      <div class="tsa-sunken" style="flex:1; min-width:200px">
-        <div class="tsa-surface-title">Sunken</div>
-        <div class="tsa-surface-body">For machine output: code, logs, structured content.</div>
+      <div class="sds-sunken" style="flex:1; min-width:200px">
+        <div class="sds-surface-title">Sunken</div>
+        <div class="sds-surface-body">For machine output: code, logs, structured content.</div>
       </div>
     </div>
     <div style="position:relative; height:210px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); overflow:hidden; background:var(--surface-canvas);">
-      <div class="tsa-overlay"></div>
-      <div class="tsa-modal" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:330px">
-        <div class="tsa-modal__head">
+      <div class="sds-overlay"></div>
+      <div class="sds-modal" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:330px">
+        <div class="sds-modal__head">
           <span>Publish the task skills?</span>
-          <span style="color:var(--text-muted);"><svg width="16" height="16" class="tsa-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"> <g fill="currentColor">  <path d="M11.9,5.5L9.4,8l2.5,2.5c0.2,0.2,0.2,0.5,0,0.7l-0.7,0.7c-0.2,0.2-0.5,0.2-0.7,0L8,9.4l-2.5,2.5c-0.2,0.2-0.5,0.2-0.7,0   l-0.7-0.7c-0.2-0.2-0.2-0.5,0-0.7L6.6,8L4.1,5.5C3.9,5.3,3.9,5,4.1,4.8l0.7-0.7c0.2-0.2,0.5-0.2,0.7,0L8,6.6l2.5-2.5   c0.2-0.2,0.5-0.2,0.7,0l0.7,0.7C12.1,5,12.1,5.3,11.9,5.5z"></path> </g> </svg></span>
+          <span style="color:var(--text-muted);"><svg width="16" height="16" class="sds-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"> <g fill="currentColor">  <path d="M11.9,5.5L9.4,8l2.5,2.5c0.2,0.2,0.2,0.5,0,0.7l-0.7,0.7c-0.2,0.2-0.5,0.2-0.7,0L8,9.4l-2.5,2.5c-0.2,0.2-0.5,0.2-0.7,0   l-0.7-0.7c-0.2-0.2-0.2-0.5,0-0.7L6.6,8L4.1,5.5C3.9,5.3,3.9,5,4.1,4.8l0.7-0.7c0.2-0.2,0.5-0.2,0.7,0L8,6.6l2.5-2.5   c0.2-0.2,0.5-0.2,0.7,0l0.7,0.7C12.1,5,12.1,5.3,11.9,5.5z"></path> </g> </svg></span>
         </div>
-        <div class="tsa-modal__body">This writes into <span class="tsa-mono">.agents/skills</span> and records the setup. Nothing else is touched.</div>
-        <div class="tsa-modal__foot">
-          <button class="tsa-btn tsa-btn--ghost tsa-btn--sm">Cancel</button>
-          <button class="tsa-btn tsa-btn--primary tsa-btn--sm">Publish</button>
+        <div class="sds-modal__body">This writes into <span class="sds-mono">.agents/skills</span> and records the setup. Nothing else is touched.</div>
+        <div class="sds-modal__foot">
+          <button class="sds-btn sds-btn--ghost sds-btn--sm">Cancel</button>
+          <button class="sds-btn sds-btn--primary sds-btn--sm">Publish</button>
         </div>
       </div>
-      <div class="tsa-drawer" style="position:absolute; right:0; top:0; bottom:0; width:120px">
+      <div class="sds-drawer" style="position:absolute; right:0; top:0; bottom:0; width:120px">
         <span class="spec-cap">DRAWER</span>
       </div>
     </div>
-    <div class="spec-cap">OVERLAY --surface-overlay &#183; MODAL CENTRED, MAX 560&#8239;PX &#183; DRAWER FROM THE RIGHT &#183; NO SHADOW ON EITHER</div>
+    <div class="spec-cap">OVERLAY --surface-overlay · MODAL CENTRED, MAX 560 PX · DRAWER FROM THE RIGHT · NO SHADOW ON EITHER</div>
   </div>
 </body>
 </html>

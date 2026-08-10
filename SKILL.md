@@ -72,7 +72,7 @@ An answer always carries its source, its version binding and what it leaves out.
 
 `assets/icons/`, 33 icons from `TYPO3/TYPO3.Icons`. The identifiers are the core's own — the same strings `typo3_icon_lookup` returns — so design and runtime name the same thing.
 
-**Where they come from.** The set is generated, never committed: `scripts/icons.mjs` copies the identifiers it declares out of the `@typo3/icons` npm package (`^5.0.3`, MIT), which `npm ci` installs and `prepare` materialises. An empty `assets/icons/` means `npm ci` has not run — it is not a missing file to work around.
+**Where they come from.** The set is generated, never committed: `scripts/icons.ts` copies the identifiers it declares out of the `@typo3/icons` npm package (`^5.0.3`, MIT), which the container installs and its entrypoint materialises. An empty `assets/icons/` means the generator has not run — it is not a missing file to work around.
 
 **How to get one that is not in the 33.** An identifier resolves to a path by its first segment: `actions-search` → `src/actions/actions-search.svg`, `module-dashboard` → `src/module/module-dashboard.svg`. The package holds 796 icons across 15 categories (`actions`, `apps`, `avatar`, `content`, `default`, `files`, `form`, `information`, `install`, `mimetypes`, `miscellaneous`, `module`, `overlay`, `spinner`, `status`) plus `dist/icons.json` — the manifest mapping every identifier to its category, and the 211 deprecated aliases to their current names. Resolve an alias before using it; the old spelling is not what `typo3_icon_lookup` returns.
 
@@ -85,7 +85,7 @@ https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/<category>/<identifier>.svg
 
 The first is the upstream tip, the second is pinned to the version this system ships — prefer it when the result has to match what is already in `assets/icons/`. The whole set is browsable at <https://typo3.github.io/TYPO3.Icons/>. `src/` rather than `dist/svgs/`: same rendering, but unoptimised and readable for someone deciding what to inline.
 
-To *ship* one, add its identifier to the `ICONS` list in `scripts/icons.mjs` and run `npm run icons` — never drop a file into the generated directory by hand, and never edit one there.
+To *ship* one, add its identifier to the `ICONS` list in `scripts/icons.ts` and run `make icons` — never drop a file into the generated directory by hand, and never edit one there.
 
 **Missing icons are contributed upstream, never drawn locally and never substituted from another set.** The script fails on an identifier the package does not have, rather than falling back to anything.
 
@@ -122,7 +122,7 @@ Enough to produce a new diagram that sits in the set without adjustment. Every v
 
 **Where it is placed.** On `--surface-sunken`. The drawing brings its own canvas, and that is what makes it read as a figure with clear space — put it on `--surface-canvas` and it dissolves into the page with no boundary at all.
 
-**Colour is written as attributes**, never a `<style>` block — GitHub strips those. Light → dark is a straight token swap: `#1C1A17`→`#EDE9E2` (ink), `#4A453D`→`#A9A299`, `#8A8378`→`#6E6860` (muted), `#FBFAF7`→`#131210` (canvas), `#FFFFFF`→`#171614` (raised), `#E3DFD6`→`#2B2823` (hairline), `#C9C3B7`→`#37332C` (strong), `#A56A00`→`#D9A441` (warn). `#FF8700` is flat in both.
+**Colour is written as attributes**, never a `<style>` block — GitHub strips those. Light → dark is a straight token swap: `#1C1A17`→`#EDE9E2` (ink), `#4A453D`→`#A9A299`, `#726C63`→`#878076` (muted), `#FBFAF7`→`#131210` (canvas), `#FFFFFF`→`#171614` (raised), `#E3DFD6`→`#2B2823` (hairline), `#C9C3B7`→`#37332C` (strong), `#986200`→`#D9A441` (warn). `#FF8700` is flat in both.
 
 **Ship two files per drawing** — `name.svg` and `name-dark.svg` — selected with `<picture>` and `media="(prefers-color-scheme: dark)"`. A page that forces its own mode inlines the drawing instead.
 

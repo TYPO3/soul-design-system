@@ -1,0 +1,15 @@
+# Everything generated, platform-specific or irrelevant to a build.
+node_modules
+.git
+ds-bundle
+storybook-static
+dist
+test-results
+playwright-report
+.ds-sync
+.design-sync/.cache
+fonts
+assets/icons
+src/lib/icons.generated.ts
+tsconfig.dist.json
+*.log

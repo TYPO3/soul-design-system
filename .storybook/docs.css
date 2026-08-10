@@ -1,0 +1,47 @@
+/* Make the docs preview block sit on the surface its contents were designed
+   for.
+
+   Storybook paints `.sbdocs-preview` from its own docs theme, which is white
+   and knows nothing about `data-theme`. So in dark mode a component styled
+   for `--surface-canvas` — near-white text, a transparent secondary button,
+   a hairline in `--border-strong` — landed on white and read as broken. It
+   was not broken; it was on the wrong ground.
+
+   Only the preview block is retaken, not the page around it. The prose,
+   tables and headings of a docs page are Storybook's own UI and stay
+   Storybook's; dragging them onto our tokens would leave their dark text on
+   a dark canvas. */
+
+/* `.sbdocs.sbdocs-preview`, not `.sbdocs-preview`: Storybook styles this
+   element through a generated single-class rule, which ties on specificity
+   and wins on source order. The element carries both classes, so naming both
+   is enough — no `!important` needed. */
+.sbdocs.sbdocs-preview,
+.sbdocs.sbdocs-preview .docs-story {
+  background: var(--surface-canvas);
+}
+
+.sbdocs.sbdocs-preview {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  /* The system has no shadows. A hairline does the separating here too. */
+  box-shadow: none;
+}
+
+/* The zoom/reset strip above a story. Storybook gives it a generated class
+   and nothing stable to aim at, so it is addressed structurally: the direct
+   child of the preview that is not the story itself.
+
+   `--surface-raised` rather than the canvas, because that is what this is in
+   the system's own vocabulary — a control surface sitting on a plane, told
+   apart by a hairline and not by a shadow. */
+.sbdocs.sbdocs-preview > div:not(.docs-story) {
+  background: var(--surface-raised);
+  border-bottom-color: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.sbdocs.sbdocs-preview > div:not(.docs-story) button,
+.sbdocs.sbdocs-preview > div:not(.docs-story) a {
+  color: var(--text-secondary);
+}
