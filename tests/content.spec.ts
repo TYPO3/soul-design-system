@@ -46,11 +46,12 @@ test('the head carries the language and a working copy button', async ({ page, c
   await expect(copy).toHaveCount(1);
   await copy.click();
 
-  /* The clipboard holds the block's text, not its markup — and the button
-     says so by swapping the glyph rather than changing colour. */
+  /* The clipboard holds the block and nothing else — asserted whole, because
+     `toContain` passed for a year while the head came with it: a paste began
+     `json copy` and then the first line. What frames a block is not part of
+     it, and the element renders that frame into its own light DOM. */
   const written = await page.evaluate(() => navigator.clipboard.readText());
-  expect(written).toContain('"versions": ["12.4", "13.4", "14.3"]');
-  expect(written).not.toContain('<code');
+  expect(written).toBe('{\n  "domains": ["labels", "xlf"],\n  "versions": ["12.4", "13.4", "14.3"]\n}');
 
   /* The class alone was asserted once and it was not enough: the stylesheet
      hid the duplicate on `is-copied` without ever showing the check, so the

@@ -952,10 +952,20 @@ var SdsCode = class extends SdsElement {
     }
     super.connectedCallback();
   }
-  /** Whatever the block would put on the clipboard: its text, trailing
-      blank lines dropped the way a shell would not want them. */
+  /** Whatever the block would put on the clipboard: what it says, and none of
+        what frames it.
+  
+        Read from the content rather than from the rendering. The element renders
+        light DOM, so its own text is the head as well — `bash` and `copy` landed
+        on the clipboard ahead of the first line, and a paste into a terminal
+        began with the word for the button that had just been pressed.
+  
+        A `$` is dropped for the same reason it is a span of its own: it is the
+        prompt, not the command, and pasted into a shell it is an error on line
+        one. Blank lines at either end go the way a shell would not want them. */
   get text() {
-    return (this.textContent ?? "").replace(/\n+$/, "");
+    const said = this.taken ? this.taken.filter((node) => node.nodeType !== 8).map((node) => node.textContent ?? "").join("") : this.body.map(({ text, code }) => code ? `${text} ${code}` : text).join("\n");
+    return said.replace(/^\n+/, "").replace(/\n+$/, "");
   }
   async toClipboard() {
     try {
