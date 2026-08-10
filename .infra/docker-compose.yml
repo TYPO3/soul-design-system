@@ -63,3 +63,12 @@ services:
     command: ['npx', 'storybook', 'dev', '-p', '${SDS_STORYBOOK_PORT:-6007}', '-h', '0.0.0.0', '--ci', '--no-open']
     ports:
       - '${SDS_STORYBOOK_PORT:-6007}:${SDS_STORYBOOK_PORT:-6007}'
+
+  # The drop-in, kept current. `dist/` is committed and is what a consumer
+  # copies, so it can be a source edit behind without anything saying so —
+  # and Storybook serves it, which makes stale output something you look at.
+  # Its own service rather than a step in the Storybook container: it belongs
+  # to no surface in particular, and `make start` can then report it.
+  dist:
+    <<: *app
+    command: ['node', 'scripts/dist.ts', '--watch']

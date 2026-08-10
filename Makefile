@@ -43,7 +43,7 @@ TASKS := verify test cards typecheck fit ssr build dist fonts icons \
 # The long-running ones. `app` is deliberately not here: it is the one-shot
 # image every task above runs in, and `up` would start it only to watch it
 # exit.
-SERVICES := storybook
+SERVICES := storybook dist
 
 .PHONY: help tasks $(TASKS) start stop restart logs shell clean
 .DEFAULT_GOAL := help
@@ -104,8 +104,10 @@ start:
 	@port=$$(for p in $$(seq 6007 6099); do \
 		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
 	SDS_STORYBOOK_PORT=$$port $(COMPOSE) up -d --build $(SERVICES) && \
-	printf '\n  running:\n    %-10s http://localhost:%-6s  %s\n\n' \
+	printf '\n  running:\n    %-10s http://localhost:%-6s  %s\n' \
 		storybook "$$port" 'guidelines, components with controls, a11y' && \
+	printf '    %-10s %-29s  %s\n\n' \
+		dist '(watching src/ and assets/)' 'rebuilds the drop-in on every edit' && \
 	echo '  make logs    follow it        make stop   take it down' && echo
 
 # `--remove-orphans` for the same reason as above.

@@ -19,6 +19,7 @@
 */
 import { cpSync, existsSync, rmSync, mkdirSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { watch } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 import * as esbuild from 'esbuild';
@@ -30,6 +31,11 @@ import { ROOT } from './lib/cards.ts';
    unchecked it would be a copy that goes stale against its own source, which
    is the failure this system exists to prevent. */
 const CHECK = process.argv.includes('--check');
+/* `--watch` keeps the drop-in current while a source file is being edited, so
+   the surfaces that link it are never a `make dist` behind. Types are left out
+   of it: nothing in the running stack reads them, they are the slowest step by
+   an order of magnitude, and `verify` builds them anyway. */
+const WATCH = process.argv.includes('--watch');
 const OUT = join(ROOT, CHECK ? '.dist-check' : 'dist');
 
 /** Every .d.ts under a directory. */
@@ -114,7 +120,7 @@ for (const file of walkDts(join(OUT, 'types'))) {
 
 /* The drop-in. Lit inside, one stylesheet, and the files both of them ask
    for sitting beside them at the paths they already use. */
-const drop = await esbuild.build({
+const jsOptions: esbuild.BuildOptions = {
   entryPoints: [join(ROOT, 'src', 'index.ts')],
   outfile: join(OUT, 'soul.js'),
   bundle: true,
@@ -123,25 +129,57 @@ const drop = await esbuild.build({
   minify: true,
   legalComments: 'none',
   metafile: true,
-});
+};
 
 /* One stylesheet: the faces, the tokens and the class layer inlined, with
    the woff2 files copied beside it and their URLs rewritten to match. */
-await esbuild.build({
+const cssOptions: esbuild.BuildOptions = {
   entryPoints: [join(ROOT, 'src/styles/styles.css')],
   outfile: join(OUT, 'soul.css'),
   bundle: true,
   minify: true,
   loader: { '.woff2': 'copy' },
   assetNames: 'fonts/[name]',
-});
+};
 
-for (const dir of ['assets']) cpSync(join(ROOT, dir), join(OUT, dir), { recursive: true });
+const copyAssets = (): void => cpSync(join(ROOT, 'assets'), join(OUT, 'assets'), { recursive: true });
+
+if (WATCH) {
+  const stamp = (what: string, errors = 0): void =>
+    console.log(`${new Date().toTimeString().slice(0, 8)}  ${errors ? `FAILED ${what} — ${errors} error(s)` : `rebuilt ${what}`}`);
+
+  /* Say something on every pass. esbuild rebuilds silently, and a watcher you
+     cannot tell is alive is the next thing to go wrong without saying so —
+     the output would simply stop changing. */
+  const announce = (what: string): esbuild.Plugin => ({
+    name: 'announce',
+    setup(build) {
+      build.onEnd((result) => stamp(what, result.errors.length));
+    },
+  });
+
+  /* esbuild watches what it imported, which is `src/` and the faces. The
+     assets are copied rather than imported, so nothing would notice a new
+     icon — they get their own watch. */
+  const contexts = await Promise.all([
+    esbuild.context({ ...jsOptions, plugins: [announce('dist/soul.js')] }),
+    esbuild.context({ ...cssOptions, plugins: [announce('dist/soul.css')] }),
+  ]);
+  for (const ctx of contexts) await ctx.watch();
+  copyAssets();
+  watch(join(ROOT, 'assets'), { recursive: true }, () => { copyAssets(); stamp('dist/assets'); });
+  console.log('watching src/ and assets/ — dist/ stays current');
+  await new Promise(() => {});
+}
+
+const drop = await esbuild.build(jsOptions);
+await esbuild.build(cssOptions);
+copyAssets();
 
 const kb = (p: string): string => `${(readFileSync(join(OUT, p)).length / 1024).toFixed(1)} kB`;
 const bytes = readFileSync(join(OUT, 'index.js')).length;
 const modules = Object.keys(bundle.metafile.inputs).length;
-console.log(`dist/soul.js  — ${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile.inputs).length} modules`);
+console.log(`dist/soul.js  — ${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile?.inputs ?? {}).length} modules`);
 console.log(`dist/soul.css — ${kb('soul.css')}, faces and tokens inlined`);
 console.log(`dist/index.js — ${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`);
 console.log(`dist/types/  — declarations, ${rewritten} rewritten to .js specifiers`);
