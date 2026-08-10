@@ -9,6 +9,25 @@ The system was cut against TYPO3 Support App and still answers to it: a local MC
 
 This file is the operating instruction. `RATIONALE.md` is the reasoning behind it — read that when a rule needs to be extended or broken. Every specimen card under `guidelines/` and `components/` is a working HTML file: open the one nearest your task and copy from it rather than inventing a variant.
 
+## Web components first
+
+The `sds-` custom elements are the interface. Write `<sds-code lang="bash">`,
+not a `<div class="sds-code">` you assembled yourself. The classes exist
+because the elements emit them and because a surface that runs no JavaScript
+has to have something — they are the fallback, not the front door.
+
+Two consequences, both learned the hard way:
+
+- **A component that almost fits is a component with a gap.** Do not close it
+  in your own stylesheet. `sds-table` had no answer for a table wider than its
+  column, so the first outside consumer wrote `display:block; overflow-x:auto;
+  max-width:100%` into its own CSS — three declarations that the next consumer
+  would have written again, differently. The system grew `--scroll` instead.
+- **Anything the classes can do, the element must be able to emit.** That same
+  modifier existed in `components.css` for one commit before `SdsTable` had a
+  property for it, which is exactly long enough for someone to conclude the
+  element is not enough and go back to hand-written markup.
+
 ## Start here, every time
 
 1. Link `styles.css` — it imports every token file. Never redeclare a token value locally.

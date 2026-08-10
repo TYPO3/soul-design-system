@@ -137,6 +137,13 @@ const fit = spawnSync(process.execPath, [join(ROOT, 'scripts/fit.ts')], { encodi
 process.stdout.write(fit.stdout.split('\n').filter((l) => l.includes('CROPPED') || l.includes('cards,')).map((l) => `  ${l.trim()}\n`).join(''));
 if (fit.status !== 0) fails.push('some cards are cropped by the viewport they declare (see above)');
 
+/* Every element renders in Node, not only the seven that appear in a card.
+   See scripts/ssr.ts for why that is the rule and what it does not prove. */
+console.log('4b. every element renders under SSR');
+const ssr = spawnSync(process.execPath, [join(ROOT, 'scripts/ssr.ts')], { encoding: 'utf8' });
+process.stdout.write(ssr.stdout);
+if (ssr.status !== 0) fails.push('an element cannot be rendered outside a browser (see above)');
+
 /* The seven component cards are generated from their stories. A card edited
    by hand looks fine in review and is silently reverted by the next
    `make cards` — so a stale card is a failure, not a warning. */

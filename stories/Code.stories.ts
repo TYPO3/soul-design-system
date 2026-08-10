@@ -9,19 +9,17 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../src/components/code.ts';
-import { codeMeta, comment, ok, shell, type CodeBlockProps, type DiffLine } from '../src/components/code.ts';
+import { type CodeBlockProps, type DiffLine } from '../src/components/code.ts';
 import '../src/components/icon.ts';
 import { dsCard, part, px, spec, specCap } from './lib/specimen.ts';
 
-const COPY = codeMeta(html`<sds-icon name="actions-duplicate"></sds-icon>copy`);
-
 const BASH: CodeBlockProps = {
-  lang: 'BASH',
-  action: COPY,
+  lang: 'bash',
+  copy: true,
   body: [
-    comment('# standalone: clone, install once'),
-    shell('composer install'),
-    ok('published 9 task skills to', '.agents/skills'),
+    { kind: 'comment', text: '# standalone: clone, install once' },
+    { kind: 'shell', text: 'composer install' },
+    { kind: 'ok', text: 'published 9 task skills to', code: '.agents/skills' },
   ],
 };
 
@@ -32,8 +30,8 @@ const DIFF: readonly DiffLine[] = [
   { kind: 'context', text: '}' },
 ];
 
-const sdsCode = ({ lang, action, body }: CodeBlockProps) =>
-  html`<sds-code lang="${lang ?? ''}" .action="${action}" .body="${body}"></sds-code>`;
+const sdsCode = ({ lang, body, copy }: CodeBlockProps) =>
+  html`<sds-code lang="${lang ?? ''}" ?copy="${copy ?? false}" .body="${body}"></sds-code>`;
 
 const sdsDiff = (path: string, body: readonly DiffLine[]) =>
   html`<sds-diff path="${path}" .body="${body}"></sds-diff>`;

@@ -42,6 +42,7 @@ const TASKS: Record<string, Task> = {
   typecheck: { cmd: node('node_modules/typescript/bin/tsc', '--noEmit'), help: 'tsc --noEmit' },
   test: { cmd: ['npx', 'playwright', 'test'], help: 'the Playwright suite' },
   fit: { cmd: node('scripts/fit.ts'), help: 'does every card fit its declared viewport' },
+  ssr: { cmd: node('scripts/ssr.ts'), help: 'does every element render outside a browser' },
 
   // Build artefacts
   build: { cmd: node('scripts/build.ts'), help: 'assemble ds-bundle/, the upload payload' },

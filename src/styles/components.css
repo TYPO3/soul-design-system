@@ -485,6 +485,41 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   color: var(--text-muted);
 }
+/* The language a block is in, and the one affordance its head carries. Both
+   set in the label register — mono, small, tracked, upper case — because a
+   head is machine metadata and not a sentence. */
+.sds-code__lang {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+/* Copying a block is the component's job, not the page's. It was a `.copy`
+   class in the first consumer's own stylesheet, with its own transition and
+   its own two-icon swap — which is the component being rebuilt. */
+.sds-code__copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--text-muted);
+  background: none;
+  border: 0;
+  padding: 0;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.sds-code__copy:hover { color: var(--text-primary); }
+/* Copied is a changed glyph, not a changed colour on the same one: the check
+   replaces the duplicate rather than sitting beside it. */
+.sds-code__glyph,
+.sds-code__copied { display: inline-flex; }
+.sds-code__copy .sds-code__copied,
+.sds-code__copy.is-copied .sds-code__glyph { display: none; }
+.sds-code__copy.is-copied { color: var(--status-ok); }
 .sds-code__body {
   margin: 0;
   padding: 14px 15px;

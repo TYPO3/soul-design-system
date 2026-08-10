@@ -34,6 +34,11 @@ export interface Row {
 
 export interface TableProps {
   density?: Density;
+  /** Let a table wider than its column scroll rather than be cut off.
+      Not `scroll`: `Element.scroll()` is a platform method, and a property by
+      that name shadows it. The typechecker caught it; nothing at runtime
+      would have. */
+  scrollable?: boolean;
   columns: readonly Column[];
   rows: readonly Row[];
 }
@@ -41,17 +46,20 @@ export interface TableProps {
 export class SdsTable extends SdsElement {
   static override properties = {
     density: { type: String, reflect: true },
+    scrollable: { type: Boolean, reflect: true },
     columns: { type: Array },
     rows: { type: Array },
   };
 
   declare density: Density;
+  declare scrollable: boolean;
   declare columns: Column[];
   declare rows: Row[];
 
   constructor() {
     super();
     this.density = 'medium';
+    this.scrollable = false;
     this.columns = [];
     this.rows = [];
   }
@@ -74,7 +82,14 @@ export class SdsTable extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    return html`<table class="sds-table sds-table--${this.density}">
+    /* Every modifier the class layer has must be reachable from here, or the
+       element stops being the way to use this system: `--scroll` was added to
+       `components.css` for a consumer that had written the three declarations
+       itself, and for one commit the element could not produce it. A class the
+       element cannot emit is a class that invites the markup to be written by
+       hand again. */
+    const cls = `sds-table sds-table--${this.density}${this.scrollable ? ' sds-table--scroll' : ''}`;
+    return html`<table class="${cls}">
   <thead><tr>
     ${lines(this.columns.map((c) => html`<th>${c.head}</th>`), 4)}
   </tr></thead>

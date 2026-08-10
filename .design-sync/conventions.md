@@ -1,10 +1,23 @@
 # Soul Design System — how to build with it
 
-A CSS design system: **classes and tokens first.** You build plain markup and put
-these classes on it, and that is the whole contract — the product this dresses is
-plain PHP with an HTML surface and runs no JavaScript to be styled.
+A design system of **custom elements, tokens, and the class layer they emit.**
 
-`_ds_bundle.js` also ships the same system as Lit custom elements:
+**The custom elements are how this system is used.** Reach for the element
+first; write the classes by hand only where a surface genuinely cannot run
+JavaScript. The classes are not the primary interface — they are what the
+elements emit, and what a JavaScript-free surface may fall back to.
+
+Two rules follow, and both are load-bearing:
+
+- **Never rebuild a component in your own stylesheet.** If `sds-code` or
+  `sds-table` almost fits, the gap is a gap in the component. Say so, and it
+  gets added here — the alternative is every consumer writing the same three
+  declarations slightly differently.
+- **Every class-layer feature must be reachable from the element.** A modifier
+  the element cannot emit invites the markup to be hand-written again, and the
+  two layers drift from that moment on.
+
+`_ds_bundle.js` ships the system as Lit custom elements:
 
 | | |
 |---|---|
@@ -62,7 +75,7 @@ inline styles — do not mint a `sds-` name.
 | Tables | `sds-table` + `--compact` `--medium` `--airy` `--scroll`; cells `sds-td-name` `sds-td-meta` |
 | Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-overlay` `sds-modal__head|__body|__foot` `sds-drawer` |
 | Navigation | `sds-pills`/`sds-pill` `sds-tabs`/`sds-tab` `sds-rail`/`sds-rail__item` |
-| Code | `sds-code__head|__body` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |
+| Code | `sds-code__head|__body|__lang|__copy|__glyph|__copied` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |
 | Brand | `sds-lockup` `sds-wordmark` `sds-wordmark__pipe` `sds-wordmark__product` |
 

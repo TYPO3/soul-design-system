@@ -37,7 +37,7 @@ RUN := $(COMPOSE) run --rm --build -T app node scripts/task.ts
 
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
-TASKS := verify test cards typecheck fit build dist fonts icons \
+TASKS := verify test cards typecheck fit ssr build dist fonts icons \
          baseline shots diff sheets sync status plan synced
 
 # The long-running ones. `app` is deliberately not here: it is the one-shot
