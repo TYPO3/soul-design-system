@@ -44,6 +44,7 @@
     "synced": "node scripts/synced.mjs",
     "build": "node scripts/build.mjs",
     "verify": "node scripts/verify.mjs",
+    "conventions": "node scripts/conventions.mjs",
     "fit": "node scripts/fit.mjs",
     "shots": "node scripts/shoot.mjs",
     "baseline": "node scripts/shoot.mjs .design-sync/.cache/baseline",

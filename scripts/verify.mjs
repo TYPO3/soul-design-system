@@ -102,6 +102,11 @@ const fit = spawnSync(process.execPath, [join(ROOT, 'scripts/fit.mjs')], { encod
 process.stdout.write(fit.stdout.split('\n').filter((l) => l.includes('CROPPED') || l.includes('cards,')).map((l) => `  ${l.trim()}\n`).join(''));
 if (fit.status !== 0) fails.push('some cards are cropped by the viewport they declare (see above)');
 
+console.log('5. conventions header');
+const conv = spawnSync(process.execPath, [join(ROOT, 'scripts/conventions.mjs')], { encoding: 'utf8' });
+process.stdout.write(conv.stdout);
+if (conv.status !== 0) fails.push('conventions.md names something the build no longer defines (see above)');
+
 console.log();
 if (fails.length) {
   console.log(`✗ ${fails.length} problem(s):`);
