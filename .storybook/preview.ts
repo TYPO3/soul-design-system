@@ -100,7 +100,10 @@ const preview: Preview = {
         order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Diagrams'], 'Components', 'Screens'],
       },
     },
-    docs: { codePanel: true },
+    /* The markup is the documentation. A canvas defaults to hiding its source
+       behind a toggle, which is one click between a reader and the one thing
+       they came for — the exact element and attributes to copy. Shown. */
+    docs: { codePanel: true, canvas: { sourceState: 'shown' } },
     a11y: {
       // Report, do not fail. The specimens deliberately include states no
       // automated pass can judge — a disabled control, a focus ring drawn on
