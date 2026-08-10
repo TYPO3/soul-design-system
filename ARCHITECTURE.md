@@ -212,6 +212,22 @@ It is now in `initialGlobals` in `.storybook/preview.ts`. The addon is
 installed, the panel still runs on demand, and nothing runs axe on load.
 Verified over four consecutive full runs rather than one.
 
+## The suite had never opened the Storybook shell
+
+Every test but one opens `/iframe.html` — the preview. Nothing opened `/`,
+the manager: sidebar, toolbar, docs chrome, the surface a person looks at.
+That blind spot let a blank documentation site sit behind a fully green run.
+
+`.storybook/manager.ts` passed a partial object as `theme`. Storybook runs
+that through `ensure()`, polished calls `opacify` on a colour the partial
+never set, and `PolishedError #3` takes down the entire manager bundle — an
+empty page, not an error overlay. `theme` must be built by `create()` from
+`storybook/theming/create`; a partial looks right and is not.
+
+`tests/manager.spec.ts` now boots the shell, asserts the sidebar lists
+stories, and fails on any page error. It was checked in both directions:
+green with `create()`, red with the partial it was written for.
+
 ## Two findings worth fixing separately
 
 - **`@dsCard` subtitles are not entity-decoded.** `scripts/lib/cards.ts`
