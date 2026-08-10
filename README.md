@@ -87,9 +87,8 @@ No build runs on install: this package has no `prepare` script, and the CSS
 exports point at `src/`, not at a compiled artefact.
 
 ```js
-import '@typo3/soul-design-system/src/styles/styles.css';  // tokens + class layer
-import '@typo3/soul-design-system/src/tokens/colors.css';  // or one file at a time
-import '@typo3/soul-design-system/src/index.ts';           // every sds- element
+import '@typo3/soul-design-system/dist/soul.css';   // tokens + class layer
+import '@typo3/soul-design-system/dist/soul.js';    // every sds- element
 ```
 
 **The import path is the path in the repository.** There are no friendly
@@ -97,13 +96,19 @@ aliases, on purpose: an alias is a second name for one file, and the two drift
 or, worse, both work and mean slightly different things. What you read here is
 what you write there.
 
-The element entry is TypeScript, which is also not an oversight — a consumer
-that bundles compiles it the way it compiles its own code, and needs `lit` in
-its tree (it is a peer dependency). Nothing is built here for it, the same way
-nothing is built for the stylesheets.
+**Take `dist/` over a git install.** It is committed, it carries its own Lit,
+and it needs nothing installed beside it. `src/` is exported too, but it does
+not compile from a clone: `src/lib/icons.generated.ts` is generated from
+`@typo3/icons` and is not in the repository, so `src/components/icon.ts`
+imports a file that is not there. Reach for `src/` only in a checkout that has
+run the generators.
 
-A prebuilt file is a different audience: a surface with no build step that
-wants a `<script src>`. `make dist` produces one, and it is not published yet.
+Or skip the bundler entirely — copy `dist/` somewhere public and link it:
+
+```html
+<link rel="stylesheet" href="/soul/soul.css">
+<script type="module" src="/soul/soul.js"></script>
+```
 
 **What a git install does and does not carry.** `src/tokens/`, `src/styles/`
 and the brand assets under `assets/` are in the repository and arrive.
