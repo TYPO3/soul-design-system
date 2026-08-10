@@ -81,15 +81,23 @@ inline styles — do not mint a `sds-` name.
 
 ## Icons
 
-`assets/icons/` — 33 SVGs from [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons)
-(MIT, `@typo3/icons` 5.0.3), named by the identifier TYPO3 core itself uses:
-`assets/icons/actions-search.svg`. Inline the file's contents rather than pointing an
-`<img>` at it — an `<img>` cannot inherit `currentColor`, and colour is the whole point.
+Every `actions-*` icon from [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons)
+(MIT, `@typo3/icons` 5.0.3) ships — 392 of them — named by the identifier TYPO3 core
+itself uses. The layout mirrors the package, so its own manifest resolves:
 
-**Need one that is not among the 33?** Do not draw it, and do not take it from another
-icon set — fetch it. The identifier's first segment is its category, and that is the
-whole path rule: `actions-search` → `src/actions/actions-search.svg`, `module-dashboard`
-→ `src/module/module-dashboard.svg`. Both of these return the raw SVG:
+```
+assets/icons/icons.json                        the lookup — identifier, category, paths
+assets/icons/svgs/actions/actions-search.svg   one file
+assets/icons/sprites/actions.svg               the whole category, one request
+```
+
+Reach for `<sds-icon name="actions-search">`; it carries the SVG inline, because an
+`<img>` cannot inherit `currentColor` and colour is the whole point. Where an element
+is not available — a template that inlines with `source()` — take the single file.
+
+**Need one outside `actions`?** Do not draw it, and do not take it from another icon
+set. The package carries 796 across 15 categories; a category is added to `CATEGORIES`
+in `scripts/icons.ts` and shipped whole. These return the raw SVG:
 
 ```
 https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/<category>/<identifier>.svg   # the version this system ships

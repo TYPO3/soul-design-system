@@ -105,11 +105,11 @@ An answer always carries its source, its version binding and what it leaves out.
 
 ## Icons
 
-`assets/icons/`, 33 icons from `TYPO3/TYPO3.Icons`. The identifiers are the core's own — the same strings `typo3_icon_lookup` returns — so design and runtime name the same thing.
+`assets/icons/`, every `actions-*` icon from `TYPO3/TYPO3.Icons`. The identifiers are the core's own — the same strings `typo3_icon_lookup` returns — so design and runtime name the same thing.
 
 **Where they come from.** The set is generated, never committed: `scripts/icons.ts` copies the identifiers it declares out of the `@typo3/icons` npm package (`^5.0.3`, MIT), which the container installs and its entrypoint materialises. An empty `assets/icons/` means the generator has not run — it is not a missing file to work around.
 
-**How to get one that is not in the 33.** An identifier resolves to a path by its first segment: `actions-search` → `src/actions/actions-search.svg`, `module-dashboard` → `src/module/module-dashboard.svg`. The package holds 796 icons across 15 categories (`actions`, `apps`, `avatar`, `content`, `default`, `files`, `form`, `information`, `install`, `mimetypes`, `miscellaneous`, `module`, `overlay`, `spinner`, `status`) plus `dist/icons.json` — the manifest mapping every identifier to its category, and the 211 deprecated aliases to their current names. Resolve an alias before using it; the old spelling is not what `typo3_icon_lookup` returns.
+**How to get one outside `actions`.** `dist/icons.json` is the lookup — it names an identifier's category and the path to its file, so nothing has to be guessed from the spelling. The package holds 796 icons across 15 categories (`actions`, `apps`, `avatar`, `content`, `default`, `files`, `form`, `information`, `install`, `mimetypes`, `miscellaneous`, `module`, `overlay`, `spinner`, `status`) plus `dist/icons.json` — the manifest mapping every identifier to its category, and the 211 deprecated aliases to their current names. Resolve an alias before using it; the old spelling is not what `typo3_icon_lookup` returns.
 
 Reach a single file without the package from either of these, both raw SVG:
 
@@ -118,9 +118,9 @@ https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/src/<category>/<identif
 https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/<category>/<identifier>.svg
 ```
 
-The first is the upstream tip, the second is pinned to the version this system ships — prefer it when the result has to match what is already in `assets/icons/`. The whole set is browsable at <https://typo3.github.io/TYPO3.Icons/>. `src/` rather than `dist/svgs/`: same rendering, but unoptimised and readable for someone deciding what to inline.
+The first is the upstream tip, the second is pinned to the version this system ships. The whole set is browsable at <https://typo3.github.io/TYPO3.Icons/>.
 
-To *ship* one, add its identifier to the `ICONS` list in `scripts/icons.ts` and run `make icons` — never drop a file into the generated directory by hand, and never edit one there.
+To *ship* a category, add it to `CATEGORIES` in `scripts/icons.ts` and run `make icons`. It arrives whole, in the package's own layout — `svgs/<category>/`, `sprites/<category>.svg`, and a manifest whose relative paths resolve against it. Never drop a file into the generated directory by hand, and never edit one there.
 
 **Missing icons are contributed upstream, never drawn locally and never substituted from another set.** The script fails on an identifier the package does not have, rather than falling back to anything.
 

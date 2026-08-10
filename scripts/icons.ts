@@ -16,52 +16,68 @@
 
      make icons
 */
-import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 
 import { ROOT } from './lib/cards.ts';
 
-/* The 33 icons this design system uses. Adding one here is the only step
-   needed to ship it; if it is not upstream yet, contribute it there first. */
-const ICONS = [
-  'actions-arrow-right', 'actions-book', 'actions-check', 'actions-check-circle',
-  'actions-chevron-down', 'actions-chevron-end', 'actions-chevron-start', 'actions-chevron-up',
-  'actions-clock', 'actions-close', 'actions-code', 'actions-code-commit',
-  'actions-code-compare', 'actions-code-pull-request', 'actions-cog', 'actions-database',
-  'actions-debug', 'actions-duplicate', 'actions-exclamation-circle',
-  'actions-exclamation-triangle', 'actions-extension', 'actions-filter', 'actions-history',
-  'actions-info-circle', 'actions-link', 'actions-list', 'actions-menu-alternative',
-  'actions-play', 'actions-question-circle', 'actions-refresh', 'actions-search',
-  'actions-tag', 'actions-window-open',
-];
+/* Which categories this system ships. Everything else about an icon —
+   whether it exists, where its file is, which sprite carries it, what a
+   deprecated spelling resolves to — comes from the package's own manifest.
+   Nothing here scans a directory or guesses a path from an identifier. */
+const CATEGORIES = ['actions'] as const;
 
 const PKG = join(ROOT, 'node_modules', '@typo3', 'icons');
 const OUT = join(ROOT, 'assets', 'icons');
 
-/* `src/` rather than `dist/svgs/`: dist is SVGO-optimised, and these files
-   are read by people deciding what to inline. The rendered result is the
-   same either way. */
-/** `actions-search` lives at `src/actions/actions-search.svg` — the
-    identifier's first segment is its category. */
-const categoryOf = (id: string): string => id.split('-')[0] ?? id;
+interface Manifest {
+  icons: Record<string, { identifier: string; category: string; svg: string; sprite: string }>;
+  aliases: Record<string, string>;
+}
 
-const missing = ICONS.filter((id) => !existsSync(join(PKG, 'src', categoryOf(id), `${id}.svg`)));
+const manifest = JSON.parse(readFileSync(join(PKG, 'dist', 'icons.json'), 'utf8')) as Manifest;
+const ICONS = Object.values(manifest.icons)
+  .filter((i) => (CATEGORIES as readonly string[]).includes(i.category))
+  .sort((a, b) => a.identifier.localeCompare(b.identifier));
+
+const missing = ICONS.filter((i) => !existsSync(join(PKG, 'dist', i.svg)));
 if (missing.length) {
-  console.error(`✗ not in @typo3/icons: ${missing.join(', ')}`);
-  console.error('  Contribute the icon to TYPO3/TYPO3.Icons — do not draw it locally.');
+  console.error(`✗ named by the manifest but not on disk: ${missing.map((i) => i.identifier).join(', ')}`);
   process.exit(1);
 }
 
 rmSync(OUT, { recursive: true, force: true });
-mkdirSync(OUT, { recursive: true });
-for (const id of ICONS) {
-  copyFileSync(join(PKG, 'src', categoryOf(id), `${id}.svg`), join(OUT, `${id}.svg`));
+
+/* The package's own layout, mirrored.
+
+   Three shapes, none of them rebuilt here: a single file is what a Twig
+   `source()` or a build step reaches for, the sprite is one request for a
+   whole category, and the manifest is the lookup — which identifier exists,
+   which category it belongs to, what a deprecated spelling resolves to.
+
+   The manifest's paths are relative to itself (`svgs/actions/x.svg`), so the
+   files have to sit where it says they do. Flattening them and keeping the
+   manifest verbatim would ship a lookup that resolves to nothing. */
+mkdirSync(join(OUT, 'svgs'), { recursive: true });
+mkdirSync(join(OUT, 'sprites'), { recursive: true });
+for (const category of CATEGORIES) {
+  cpSync(join(PKG, 'dist', 'svgs', category), join(OUT, 'svgs', category), { recursive: true });
+  copyFileSync(join(PKG, 'dist', 'sprites', `${category}.svg`), join(OUT, 'sprites', `${category}.svg`));
 }
+
+/* Filtered to what is actually here. Copied verbatim it would name 404 icons
+   this system does not ship — the same shape of lie as a stale token. */
+const shipped = new Set(ICONS.map((i) => i.identifier));
+writeFileSync(join(OUT, 'icons.json'), `${JSON.stringify({
+  icons: Object.fromEntries(ICONS.map((i) => [i.identifier, i])),
+  aliases: Object.fromEntries(Object.entries(manifest.aliases).filter(([, to]) => shipped.has(to))),
+}, null, 0)}\n`);
+
 copyFileSync(join(PKG, 'LICENSE'), join(OUT, 'LICENSE-TYPO3.Icons.txt'));
 
 const version = JSON.parse(readFileSync(join(PKG, 'package.json'), 'utf8')).version;
 
-/* The same 33 icons as one TypeScript module, so a component can inline an
+/* The same icons as one TypeScript module, so a component can inline an
    icon in the browser and the card generator can inline the identical string
    in Node. Reading assets/icons/*.svg directly works only in Node; a Vite
    import of the directory works only in the browser. This file is the one
@@ -69,7 +85,7 @@ const version = JSON.parse(readFileSync(join(PKG, 'package.json'), 'utf8')).vers
    than written by hand — a copy would be free to drift from the SVGs above.
 
    It is emitted as `.ts` for the `IconId` union: with it, `icon('actions-ply')`
-   is a compile error naming the 33 valid identifiers, instead of a throw at
+   is a compile error naming every valid identifier, instead of a throw at
    render time that only shows up once someone opens that card. The union is
    generated from the same list, so it cannot fall behind it.
 
@@ -80,11 +96,13 @@ writeFileSync(
   join(ROOT, 'src', 'lib', 'icons.generated.ts'),
   `/* GENERATED by scripts/icons.ts — @typo3/icons@${version}, MIT. Do not edit.\n` +
     `   Add an identifier to the ICONS list in that script and run \`make icons\`. */\n\n` +
-    `export type IconId =\n${ICONS.map((id) => `  | '${id}'`).join('\n')};\n\n` +
+    `export type IconId =\n${ICONS.map((i) => `  | '${i.identifier}'`).join('\n')};\n\n` +
     `export const ICON_SVG: Record<IconId, string> = {\n` +
-    ICONS.map((id) => `  ${JSON.stringify(id)}: ${JSON.stringify(readFileSync(join(OUT, `${id}.svg`), 'utf8'))},`).join('\n') +
+    ICONS.map((i) => `  ${JSON.stringify(i.identifier)}: ${JSON.stringify(readFileSync(join(OUT, dirname(i.svg), `${i.identifier}.svg`), 'utf8'))},`).join('\n') +
     `\n};\n`,
 );
 
-console.log(`assets/icons/ — ${ICONS.length} icons from @typo3/icons@${version}, MIT`);
+console.log(`assets/icons/svgs/ — ${ICONS.length} icons from @typo3/icons@${version}, MIT`);
+console.log(`assets/icons/sprites/ — ${CATEGORIES.length} sprite(s), one request per category`);
+console.log(`assets/icons/icons.json — the lookup, its paths relative to itself`);
 console.log(`src/lib/icons.generated.ts — the same ${ICONS.length}, typed, importable from Node and the browser`);

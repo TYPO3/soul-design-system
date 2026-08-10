@@ -16,7 +16,7 @@ node_modules/
 # generated from the @fontsource packages by scripts/fonts.mjs
 /fonts/
 
-# generated from @typo3/icons by scripts/icons.mjs
+# generated from @typo3/icons by scripts/icons.ts — the singles and the map
 /assets/icons/
 
 # generated storybook build
