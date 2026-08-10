@@ -41,7 +41,17 @@ const changed = cards.filter((n) => n in was && was[n] !== local.renderHashes[n]
 const removed = Object.keys(was).filter((n) => !(n in local.renderHashes)).sort();
 const styling = remote.styleSha !== local.styleSha;
 
-if (!added.length && !changed.length && !removed.length && !styling) {
+/* Screens ship with the system and are what a consuming project seeds from,
+   so a changed screen is a changed upload. An anchor from before they were
+   hashed has no `screenHashes` at all — treat that as "unknown", not as
+   "unchanged", or the first sync after this lands would report nothing. */
+const wasScreens = remote.screenHashes as Record<string, string> | undefined;
+const nowScreens = (local.screenHashes ?? {}) as Record<string, string>;
+const screensChanged = wasScreens
+  ? Object.keys(nowScreens).filter((n) => wasScreens[n] !== nowScreens[n]).sort()
+  : Object.keys(nowScreens).sort();
+
+if (!added.length && !changed.length && !removed.length && !styling && !screensChanged.length) {
   console.log(`Nichts zu tun — alle ${cards.length} Karten sind auf dem hochgeladenen Stand.`);
   process.exit(0);
 }
@@ -54,5 +64,6 @@ console.log('Ein Sync würde ändern:');
 list('neu', added);
 list('geändert', changed);
 list('entfernt', removed);
+list('Screens geändert', screensChanged);
 if (styling) console.log('  Styling: tokens/components geändert — betrifft jedes gerenderte Design');
 console.log('\nJetzt in Claude Code:  /design-sync');

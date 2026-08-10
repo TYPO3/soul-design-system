@@ -18,7 +18,7 @@
 */
 import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 
 import * as esbuild from 'esbuild';
 
@@ -35,14 +35,46 @@ const NS = 'SDS';
 const sha12 = (b: string | Buffer): string => createHash('sha256').update(b).digest('hex').slice(0, 12);
 const read = (p: string): string => readFileSync(join(ROOT, p), 'utf8');
 
-/** Cards move to components/<Group>/<Name>/ — three levels down from the root. */
-function rewriteDepth(txt: string): string {
+/* Point a page at the bundle's flat root.
+
+   The repo keeps its stylesheets under `src/styles/` and its cards at the
+   top level; the bundle has `styles.css`, `_specimen.css` and `assets/` all
+   at its root, with cards three levels down (`components/<Group>/<Name>/`)
+   and screens one (`screens/`). `up` is the prefix that climbs back.
+
+   Screens used to be copied verbatim, on the reasoning that they sit at the
+   same depth in both trees. That was true and still wrong: it holds only
+   while the stylesheet is at the repo root, and once it moved into
+   `src/styles/` every screen shipped pointing at a directory the bundle does
+   not have. The pane drew them with no CSS at all — which reads as a broken
+   design rather than a missing file. The depth was never the whole story;
+   the directory is. */
+function rewriteDepth(txt: string, up: string): string {
   return txt
-    /* The repo keeps its stylesheets in `styles/`; the bundle is flat and has
-       them at its root. Both the depth and the directory change here. */
-    .replace(/href="(?:\.\.\/)+src\/styles\/styles\.css"/g, 'href="../../../styles.css"')
-    .replace(/href="(?:\.\.\/)+src\/styles\/_specimen\.css"/g, 'href="../../../_specimen.css"')
-    .replace(/src="(?:\.\.\/)+assets\//g, 'src="../../../assets/');
+    .replace(/href="(?:\.\.\/)+src\/styles\/styles\.css"/g, `href="${up}styles.css"`)
+    .replace(/href="(?:\.\.\/)+src\/styles\/_specimen\.css"/g, `href="${up}_specimen.css"`)
+    .replace(/src="(?:\.\.\/)+assets\//g, `src="${up}assets/`);
+}
+
+/* Every local reference in the bundle has to resolve inside the bundle.
+
+   `make verify` checks the repo's own links and cannot see this: the tree it
+   walks is not the tree that ships. `screens/answer.html` pointing at
+   `../src/styles/styles.css` resolves perfectly in the repo and to nothing
+   here, and no step between the two would ever have said so. */
+function unresolvedRefs(): string[] {
+  const bad: string[] = [];
+  for (const rel of uploadFiles(OUT)) {
+    if (!rel.endsWith('.html')) continue;
+    /* Escaped example markup is documentation, not a reference. */
+    const txt = readFileSync(join(OUT, rel), 'utf8').replace(/&lt;[\s\S]*?&gt;/g, '');
+    for (const m of txt.matchAll(/(?:href|src)="([^"]+)"/g)) {
+      const ref = m[1];
+      if (!ref || /^(https?:|data:|#)/.test(ref)) continue;
+      if (!existsSync(resolve(dirname(join(OUT, rel)), ref))) bad.push(`${rel} → ${ref}`);
+    }
+  }
+  return bad;
 }
 
 function classesUsed(txt: string): string[] {
@@ -163,7 +195,7 @@ const sourceKeys: Record<string, string> = {};
 for (const c of list) {
   const dir = join(OUT, 'components', c.group, c.name);
   mkdirSync(dir, { recursive: true });
-  const html = rewriteDepth(c.text);
+  const html = rewriteDepth(c.text, '../../../');
   writeFileSync(join(dir, `${c.name}.html`), html);
   writeFileSync(join(dir, `${c.name}.prompt.md`), promptDoc(c));
   renderHashes[c.name] = sha12(html);
@@ -171,11 +203,20 @@ for (const c of list) {
 }
 
 // starting points: screens a consuming project can seed a design from.
-// Same depth in the bundle as in the repo, so their ../styles.css still resolves.
+// One level down in the bundle, so they climb back one to reach its root.
 const sp = screens();
+/* Hashed like the cards are. Without this the anchor knows nothing about a
+   screen, so `make status` reports "nothing to do" while all three of them
+   have changed — which is what it said on the build that first shipped them
+   without a stylesheet. */
+const screenHashes: Record<string, string> = {};
 if (sp.length) {
   mkdirSync(join(OUT, 'screens'), { recursive: true });
-  for (const s of sp) cpSync(s.path, join(OUT, 'screens', s.path.split('/').pop() ?? s.name));
+  for (const s of sp) {
+    const html = rewriteDepth(s.text, '../');
+    writeFileSync(join(OUT, 'screens', s.path.split('/').pop() ?? s.name), html);
+    screenHashes[s.name] = sha12(html);
+  }
 }
 
 // written guidance
@@ -207,6 +248,15 @@ if (readme.length > 31900) {
   console.log(`  ! README is ${readme.length} chars — the app inlines only the first 32,000`);
 }
 
+/* Before the anchor, which vouches for the bundle: nothing should vouch for
+   one whose own pages cannot find their stylesheet. */
+const badRefs = unresolvedRefs();
+if (badRefs.length) {
+  console.log(`✗ ${badRefs.length} reference(s) do not resolve inside the bundle:`);
+  for (const b of badRefs) console.log(`    ${b}`);
+  process.exit(1);
+}
+
 // sync anchor + sentinel
 writeFileSync(join(OUT, '_ds_needs_recompile'), JSON.stringify({ by: 'design-sync-cli' }));
 writeFileSync(join(OUT, '.ds-build-meta.json'),
@@ -219,6 +269,7 @@ writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
   shape: 'css-design-system',
   styleSha: sha12(styles + read('src/styles/components.css')),
   renderHashes,
+  screenHashes,
   sourceKeys,
   keyRecipe: 'sha256-12 of the card html as emitted',
   scriptsSha: sha12(readFileSync(join(ROOT, 'scripts/build.ts'))),
