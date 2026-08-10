@@ -66,11 +66,11 @@
   "author": "Benjamin Kott <benjamin.kott@outlook.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benjaminkott/typo3-support-design-system.git"
+    "url": "git+https://github.com/benjaminkott/typo3-soul-design-system.git"
   },
-  "homepage": "https://github.com/benjaminkott/typo3-support-design-system#readme",
+  "homepage": "https://github.com/benjaminkott/typo3-soul-design-system#readme",
   "bugs": {
-    "url": "https://github.com/benjaminkott/typo3-support-design-system/issues"
+    "url": "https://github.com/benjaminkott/typo3-soul-design-system/issues"
   },
   "module": "./dist/index.js",
   "types": "./dist/types/src/index.d.ts",

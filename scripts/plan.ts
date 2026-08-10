@@ -58,9 +58,36 @@ if (!local.files) {
   process.exit(1);
 }
 
-const projectId = existsSync(join(ROOT, '.design-sync/config.json'))
-  ? JSON.parse(readFileSync(join(ROOT, '.design-sync/config.json'), 'utf8')).projectId
-  : null;
+/* Which project this pushes to is yours, not the repository's.
+
+   Anyone can sync this system into their own claude.ai design project — that
+   is the point of shipping the converter rather than only the output. What
+   the id does is make the *second* sync land where the first one did: without
+   one, every run is a fresh project and an update is indistinguishable from
+   a new import. With one, the anchor, the deletes and the whole update path
+   in this file mean something.
+
+   It is not a credential. The API authorises the caller's own login, and the
+   id opens nothing for anyone else. It stays out of the committed config
+   because it is per-person, not per-repository — a clone should not inherit
+   someone else's project as its default target.
+
+   Three places, in order, so it can live wherever suits: the environment, an
+   untracked local config, and the committed one — still honoured, for a fork
+   that would rather keep it there. */
+function readProjectId(): string | null {
+  const fromEnv = process.env['SDS_DESIGN_PROJECT'];
+  if (fromEnv) return fromEnv;
+  for (const name of ['config.local.json', 'config.json']) {
+    const p = join(ROOT, '.design-sync', name);
+    if (!existsSync(p)) continue;
+    const id = JSON.parse(readFileSync(p, 'utf8')).projectId as string | undefined;
+    if (id) return id;
+  }
+  return null;
+}
+
+const projectId = readProjectId();
 
 /* Content files: everything except the two that carry their own step. */
 const content = (local.files as string[]).filter((f) => f !== SENTINEL && f !== ANCHOR_FILE);
@@ -105,10 +132,19 @@ mkdirSync(join(ROOT, '.design-sync/.cache'), { recursive: true });
 writeFileSync(OUT, JSON.stringify(plan, null, 2));
 
 console.log(`Upload-Plan → .design-sync/.cache/upload-plan.json`);
-console.log(`  Projekt:  ${projectId ?? '(keines in config.json)'}`);
+console.log(`  Projekt:  ${projectId ?? '(keins gesetzt — siehe unten)'}`);
 console.log(`  1 Sentinel  ·  2 ${content.length} Dateien  ·  3 ${deletes.length} Löschungen  ·  4 Sentinel  ·  5 Anker`);
 if (deletes.length) {
   console.log(`  zu löschen: ${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
+}
+if (!projectId) {
+  console.log('  ! Ohne Projekt-ID legt jeder Sync ein neues Projekt an, statt das');
+  console.log('    bestehende zu aktualisieren — Anker, Löschungen und der ganze');
+  console.log('    Update-Pfad hängen daran. Setz sie einmal, dann trifft jeder');
+  console.log('    weitere Sync dasselbe Projekt:');
+  console.log('      export SDS_DESIGN_PROJECT=<uuid>');
+  console.log('      oder .design-sync/config.local.json  {"projectId": "<uuid>"}');
+  console.log('    Noch kein Projekt? `/design-sync` legt eins an und nennt die ID.');
 }
 if (!deletable) {
   console.log('  ! Kein Referenzstand mit Dateiliste — Löschungen wurden NICHT berechnet.');

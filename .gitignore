@@ -31,3 +31,6 @@ node_modules/
 # playwright output
 /test-results/
 /playwright-report/
+
+# the sync target: a maintainer's, not the repository's
+/.design-sync/config.local.json

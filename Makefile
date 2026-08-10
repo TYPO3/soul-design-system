@@ -63,6 +63,8 @@ help:
 	@echo '  make dist            the publishable ESM package and its types'
 	@echo '  make sync            build + verify + what-would-change + upload plan'
 	@echo '  make status plan synced      the sync steps individually'
+	@echo '                       set SDS_DESIGN_PROJECT to your own design project,'
+	@echo '                       or a re-sync makes a new one instead of updating it'
 	@echo
 	@echo '  make baseline shots diff     screenshot before, after, compare'
 	@echo '  make sheets          tile screenshots into contact sheets'

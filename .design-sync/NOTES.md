@@ -24,6 +24,31 @@ namespace; any note claiming that predates this and is wrong. The count is
 not written down here on purpose — `make verify` checks the header against
 the build, which is the only place it stays true.
 
+## The project id is yours, and it is what makes an update an update
+
+Anyone can sync this system into their own claude.ai design project — that is
+why the converter ships and not only its output. `make sync` is a normal
+target, not a maintainer one.
+
+What the id buys is the *second* sync. Without one, every run imports afresh
+and there is no way to tell an update from a new project: the anchor has
+nothing to compare against, no deletes can be computed, and the pane fills up
+with duplicates. With one, everything in this file works.
+
+It stays out of the committed `config.json` because it is per-person, not
+per-repository — a clone must not inherit someone else's project as its
+default target. It is not a credential either way: the API authorises the
+caller's own login, and the id opens nothing for anyone else.
+
+`scripts/plan.ts` looks in three places, in order:
+
+1. `SDS_DESIGN_PROJECT` in the environment
+2. `.design-sync/config.local.json` — gitignored, `{"projectId": "…"}`
+3. `config.json` itself — still honoured, for a fork that prefers it there
+
+With none of them the plan still writes, and says plainly what to set and why.
+No project yet? `/design-sync` creates one and reports its id.
+
 ## Doing a sync
 
 The repo's half is one command: `make sync` — build → verify → status →

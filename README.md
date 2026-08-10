@@ -74,7 +74,24 @@ kills reloading.
 
 ## Exporting the design guide
 
-Three steps, in this order:
+This is not maintainer-only. Sync it into **your own** claude.ai design
+project and the design agent builds with this system — its tokens, its class
+vocabulary, its specimen cards — instead of inventing its own.
+
+Set your project once, so every later sync updates that project rather than
+importing a fresh copy beside it:
+
+```sh
+export SDS_DESIGN_PROJECT=<uuid>
+# or, untracked and per-clone:
+echo '{"projectId": "<uuid>"}' > .design-sync/config.local.json
+```
+
+No project yet? `/design-sync` creates one and reports its id. The id is not a
+credential — the API authorises your own login — but it is per-person, which
+is why the committed config does not carry one.
+
+Then three steps, in this order:
 
 ```sh
 make sync    # build, verify, what-would-change, and the upload plan
