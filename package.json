@@ -1,7 +1,7 @@
 {
   "name": "@typo3/soul-design-system",
   "version": "1.0.0",
-  "description": "Soul Design System — tokens, the sds- class layer, Lit components, and the specimen cards that document them.",
+  "description": "Soul Design System \u2014 tokens, the sds- class layer, Lit components, and the specimen cards that document them.",
   "keywords": [
     "design-system",
     "css",
@@ -24,12 +24,9 @@
       "types": "./dist/types/src/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./styles.css": "./src/styles/styles.css",
-    "./components.css": "./src/styles/components.css",
-    "./specimen.css": "./src/styles/_specimen.css",
-    "./tokens/*.css": "./src/tokens/*.css",
-    "./fonts/*": "./fonts/*",
-    "./assets/*": "./assets/*"
+    "./src/*": "./src/*",
+    "./assets/*": "./assets/*",
+    "./fonts/*": "./fonts/*"
   },
   "files": [
     "dist/",

@@ -24,7 +24,7 @@ DOM* and emit exactly those classes, so `components.css` stays the single
 source of truth and the two are the same markup:
 
 ```js
-import '@typo3/soul-design-system';   // registers every sds-* element
+import '@typo3/soul-design-system/src/index.ts';
 
 // <sds-button variant="primary" label="Run the checks"></sds-button>
 ```
@@ -87,9 +87,23 @@ No build runs on install: this package has no `prepare` script, and the CSS
 exports point at `src/`, not at a compiled artefact.
 
 ```js
-import '@typo3/soul-design-system/styles.css';        // tokens + the class layer
-import '@typo3/soul-design-system/tokens/colors.css'; // or one file at a time
+import '@typo3/soul-design-system/src/styles/styles.css';  // tokens + class layer
+import '@typo3/soul-design-system/src/tokens/colors.css';  // or one file at a time
+import '@typo3/soul-design-system/src/index.ts';           // every sds- element
 ```
+
+**The import path is the path in the repository.** There are no friendly
+aliases, on purpose: an alias is a second name for one file, and the two drift
+or, worse, both work and mean slightly different things. What you read here is
+what you write there.
+
+The element entry is TypeScript, which is also not an oversight — a consumer
+that bundles compiles it the way it compiles its own code, and needs `lit` in
+its tree (it is a peer dependency). Nothing is built here for it, the same way
+nothing is built for the stylesheets.
+
+A prebuilt file is a different audience: a surface with no build step that
+wants a `<script src>`. `make dist` produces one, and it is not published yet.
 
 **What a git install does and does not carry.** `src/tokens/`, `src/styles/`
 and the brand assets under `assets/` are in the repository and arrive.
@@ -100,7 +114,7 @@ they do not — and deliberately:
 | --- | --- | --- |
 | the 33 icons | `@typo3/icons` | they are TYPO3's, not ours. `scripts/icons.ts` names the identifiers this system uses; copy that list, not the files |
 | the two families | `@fontsource/source-sans-3`, `@fontsource/source-code-pro` | same reason, and your bundler wants its own subsetting |
-| the Lit elements | `make dist`, or a published package later | a build product, and most consumers want the classes |
+| a prebuilt `<script src>` bundle | `make dist`, unpublished | a build product. If you bundle, import `src/index.ts` instead |
 
 A copy of an upstream file is a copy that can go stale against the version
 that produced it — which is exactly the failure this system had to repair in
