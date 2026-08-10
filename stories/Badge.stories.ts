@@ -32,7 +32,7 @@ const sdsBadge = ({ label, tone = 'default', icon }: BadgeProps) =>
 
 const meta: Meta<BadgeProps> = {
   title: 'Components/Badge',
-  tags: ['autodocs'],
+  tags: ['autodocs', '!dev'],
   excludeStories: ['BADGES'],
   render: (args) => sdsBadge(args),
   argTypes: {

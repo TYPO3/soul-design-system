@@ -24,7 +24,7 @@ const sdsSurface = ({ plane = 'card', title, body }: SurfaceProps) =>
 
 const meta: Meta<SurfaceProps> = {
   title: 'Components/Card',
-  tags: ['autodocs'],
+  tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */
   excludeStories: ['specimenHtml'],

@@ -22,7 +22,7 @@ const nav = (tag: 'sds-pills' | 'sds-tabs' | 'sds-rail', { items, active = 0 }: 
 
 const meta: Meta<NavProps> = {
   title: 'Components/Navigation',
-  tags: ['autodocs'],
+  tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */
   excludeStories: ['specimenHtml'],

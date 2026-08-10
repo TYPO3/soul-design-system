@@ -28,7 +28,7 @@ const sdsIcon = ({ name, size = 16, className, title }: IconArgs) =>
 
 const meta: Meta<IconArgs> = {
   title: 'Components/Icon',
-  tags: ['autodocs'],
+  tags: ['autodocs', '!dev'],
   render: (args) => sdsIcon(args),
   argTypes: {
     name: { control: 'select', options: iconIds },

@@ -29,7 +29,7 @@ const sdsButton = ({ variant = 'primary', size = 'md', label = '', icon, title, 
 
 const meta: Meta<ButtonProps> = {
   title: 'Components/Buttons',
-  tags: ['autodocs'],
+  tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */
   excludeStories: ['specimenHtml'],

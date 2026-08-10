@@ -31,7 +31,7 @@ export const scene = (): TemplateResult => html`<sds-overlay></sds-overlay>
 
 const meta: Meta = {
   title: 'Components/Overlay',
-  tags: ['autodocs'],
+  tags: ['autodocs', '!dev'],
   excludeStories: ['scene'],
   parameters: { layout: 'fullscreen' },
 };

@@ -38,7 +38,7 @@ const sdsDiff = (path: string, body: readonly DiffLine[]) =>
 
 const meta: Meta<CodeBlockProps> = {
   title: 'Components/Code',
-  tags: ['autodocs'],
+  tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */
   excludeStories: ['specimenHtml'],

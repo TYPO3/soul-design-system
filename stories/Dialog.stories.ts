@@ -23,7 +23,7 @@ const ACTIONS = [
 
 const meta: Meta<DialogProps> = {
   title: 'Components/Dialog',
-  tags: ['autodocs'],
+  tags: ['autodocs', '!dev'],
   argTypes: {
     heading: { control: 'text' },
     width: { control: { type: 'number', step: 10 } },

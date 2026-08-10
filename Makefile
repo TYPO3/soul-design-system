@@ -90,6 +90,11 @@ $(TASKS):
 # Bring the stack up, and report it. Detached, because it is a surface you
 # look at while working on something else.
 #
+# Under WSL the report also names the VM's own address. A browser on Windows
+# reaches the container through WSL's localhost relay, which is a moving part
+# nobody thinks about until it stops — and then `http://localhost:PORT` is a
+# lie the stack itself printed, while everything inside it is healthy.
+#
 # Everything happens in one recipe, which is the point: the port is searched
 # for *after* the old container has let go of it. Computed at parse time it
 # saw the still-running stack, picked the next number up, and every restart
@@ -106,9 +111,13 @@ start:
 	SDS_STORYBOOK_PORT=$$port $(COMPOSE) up -d --build $(SERVICES) && \
 	printf '\n  running:\n    %-10s http://localhost:%-6s  %s\n' \
 		storybook "$$port" 'guidelines, components with controls, a11y' && \
-	printf '    %-10s %-29s  %s\n\n' \
+	printf '    %-10s %-29s  %s\n' \
 		dist '(watching src/ and assets/)' 'rebuilds the drop-in on every edit' && \
-	echo '  make logs    follow it        make stop   take it down' && echo
+	if grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null; then \
+		ip=$$(ip -4 addr show eth0 2>/dev/null | awk '/inet /{print $$2}' | cut -d/ -f1); \
+		[ -n "$$ip" ] && printf '\n    from Windows, if localhost does not answer:  http://%s:%s/\n' "$$ip" "$$port"; \
+	fi; \
+	echo && echo '  make logs    follow it        make stop   take it down' && echo
 
 # `--remove-orphans` for the same reason as above.
 stop:

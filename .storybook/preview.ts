@@ -71,6 +71,7 @@ export const globalTypes = {
    runs on demand. */
 export const initialGlobals = { theme: 'dark', a11y: { manual: true } };
 
+
 const preview: Preview = {
   decorators: [
     (story, context) => {

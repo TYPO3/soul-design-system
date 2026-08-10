@@ -31,6 +31,13 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
   ],
   framework: { name: '@storybook/web-components-vite', options: {} },
+  /* The container keeps no state between rebuilds, so Storybook's release
+     notice is unread every time the image is rebuilt — which is every task.
+     A notification that cannot be dismissed for good is noise. */
+  core: {
+    disableWhatsNewNotifications: true,
+    disableTelemetry: true,
+  },
   /* The guideline specimens are iframed into the MDX pages exactly as the
      pane renders them, so they are served as real files and resolve their
      own `../styles.css` the way the pane resolves it. Mapped entry by entry
