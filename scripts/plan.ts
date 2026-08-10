@@ -29,6 +29,25 @@ const OUT = join(ROOT, '.design-sync/.cache/upload-plan.json');
 const SENTINEL = '_ds_needs_recompile';
 const ANCHOR_FILE = '_ds_sync.json';
 
+/* The sentinel has no file extension, and that is enough to lose it.
+
+   Uploaded the ordinary way — `localPath`, no `mimeType` — `write_files`
+   answers `written: 1` and the file is not there afterwards: `list_files`
+   omits it and `get_file` 404s. Nothing fails, so a sync looks complete
+   while the one file whose whole job is to say "recompile" never arrives,
+   and the pane keeps serving the manifest it built last time. That is
+   exactly how an upload of 160 current files sat behind a card index six
+   hours old.
+
+   Naming the type explicitly makes it stick. It is passed inline rather
+   than from disk for the same reason: 24 bytes need no file, and the
+   content is the same every time. */
+const SENTINEL_UPLOAD = {
+  mimeType: 'text/plain',
+  data: JSON.stringify({ by: 'design-sync-cli' }),
+  note: 'inline with an explicit mimeType — an extensionless localPath upload is dropped silently',
+};
+
 if (!existsSync(BUILT)) {
   console.log('Kein Build vorhanden — `make build` zuerst.');
   process.exit(1);
@@ -73,10 +92,10 @@ const plan = {
     deletes: ['components/**', 'screens/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**'],
   },
   steps: [
-    { step: 1, action: 'write', why: 'sentinel fences the manifest machinery', files: [SENTINEL] },
+    { step: 1, action: 'write', why: 'sentinel fences the manifest machinery', files: [SENTINEL], ...SENTINEL_UPLOAD },
     { step: 2, action: 'write', why: 'all content, chunked at <=256 files', files: content },
     { step: 3, action: 'delete', why: 'files this build no longer produces', paths: deletes },
-    { step: 4, action: 'write', why: 'sentinel re-armed so the app rebuilds its manifest', files: [SENTINEL] },
+    { step: 4, action: 'write', why: 'sentinel re-armed so the app rebuilds its manifest', files: [SENTINEL], ...SENTINEL_UPLOAD },
     { step: 5, action: 'write', why: 'the anchor vouches for everything above — always last', files: [ANCHOR_FILE] },
   ],
   afterUpload: 'make synced',

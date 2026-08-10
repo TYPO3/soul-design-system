@@ -47,6 +47,25 @@ records. An anchor without that field (anything uploaded before this was
 added) makes the plan say so and refuse to guess: compare `list_files`
 against the build yourself that one time.
 
+**The sentinel needs an explicit `mimeType`, and the plan carries one.**
+`_ds_needs_recompile` has no file extension. Uploaded like everything else —
+`localPath`, no type named — `write_files` answers `written: 1` and the file
+is simply not there: `list_files` omits it, `get_file` 404s. Nothing reports
+a failure, which is the whole problem. The sentinel is what tells the app to
+rebuild `_ds_manifest.json`; without it every content file can be current
+while the pane still serves the index it compiled last time, and the project
+goes on showing a stale "last updated". Steps 1 and 4 of the plan therefore
+carry `mimeType: 'text/plain'` and the 24 bytes inline. Verify it afterwards
+with `get_file _ds_needs_recompile` — a 404 there means the sync did not
+actually land, whatever the write count said.
+
+**What the upload does and does not move.** Writing files does not bump the
+project's `updatedAt`, does not recompile `_ds_manifest.json`, and does not
+regenerate `_adherence.oxlintrc.json`. Those three are the app's own work,
+done when it next opens the project and finds the sentinel. So the honest
+report after a sync is "the files are current, the pane refreshes on next
+open" — not "the project is updated".
+
 The conventions header is checked mechanically: `make verify`, also
 step 5 of verify. It never rewrites the file — the prose belongs to its
 authors — it fails on two kinds of drift, and both matter because the header
