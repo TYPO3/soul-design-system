@@ -64,9 +64,10 @@ export const Labelled: Story = {
   args: { name: 'actions-check-circle', title: 'answered' },
 };
 
-/** The whole set this system ships — 33 identifiers, the core's own. */
+/** Every identifier this system ships, at the 16px floor the whole set is
+    drawn on. The core's own names throughout. */
 export const TheSet: Story = {
   render: () => html`<div style="display:flex; flex-wrap:wrap; gap:14px;">
-    ${iconIds.map((id) => sdsIcon({ name: id, size: 24 }))}
+    ${iconIds.map((id) => sdsIcon({ name: id }))}
   </div>`,
 };
