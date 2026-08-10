@@ -428,6 +428,9 @@ var ICON_IDS = [
 // src/components/icon.ts
 var DEFAULT_SIZE = 16;
 var spriteUrl = new URL("./assets/icons/sprites/actions.svg", import.meta.url).href;
+var setIconSprite = (url) => {
+  spriteUrl = url;
+};
 var SdsIcon = class extends SdsElement {
   static {
     this.properties = {
@@ -1082,6 +1085,7 @@ export {
   define,
   fieldClass,
   iconIds,
-  installHostRule
+  installHostRule,
+  setIconSprite
 };
 //# sourceMappingURL=index.js.map

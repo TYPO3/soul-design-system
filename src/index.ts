@@ -36,7 +36,7 @@ import './components/code.ts';
 
 export { SdsElement, installHostRule, define } from './lib/element.ts';
 
-export { SdsIcon, iconIds, type IconId, type IconSize } from './components/icon.ts';
+export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.ts';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts';
 export { SdsLink, type LinkProps } from './components/link.ts';

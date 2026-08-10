@@ -12,7 +12,7 @@ import './components/dialog.ts';
 import './components/table.ts';
 import './components/code.ts';
 export { SdsElement, installHostRule, define } from './lib/element.js';
-export { SdsIcon, iconIds, type IconId, type IconSize } from './components/icon.js';
+export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.js';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.js';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.js';
 export { SdsLink, type LinkProps } from './components/link.js';

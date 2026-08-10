@@ -87,3 +87,39 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
 
   expect(errors, 'the drop-in should boot clean').toEqual([]);
 });
+
+/* The other way the drop-in is taken: bundled.
+
+   A consumer that runs `soul.js` through a bundler moves the module away from
+   the assets beside it, so the default reference — resolved against the module
+   — points at nothing. Saying where the sprite went is the only fix, and it
+   has to be reachable from the entry: a build that cannot say it ships every
+   icon blank, with nothing but a 404 in the console to go on. */
+test('a bundling consumer can say where the sprite went', async ({ page }) => {
+  await page.route('**/somewhere-else/actions.svg', (route) =>
+    route.fulfill({ path: 'dist/assets/icons/sprites/actions.svg', contentType: 'image/svg+xml' }));
+  await page.route('**/sprite-fixture.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: HTML }));
+  await page.goto('/sprite-fixture.html', { waitUntil: 'load' });
+
+  /* The entry comes in as an argument: a literal specifier here would be a
+     path this project has to resolve, and it is one the browser resolves. */
+  const href = await page.evaluate(async (entry) => {
+    const module = await import(entry) as { setIconSprite: (url: string) => void };
+    module.setIconSprite('/somewhere-else/actions.svg');
+    const icon = document.createElement('sds-icon');
+    icon.setAttribute('name', 'actions-check');
+    icon.id = 'repointed';
+    document.body.append(icon);
+    await (icon as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
+    return icon.querySelector('use')?.getAttribute('href');
+  }, '/dist/soul.js');
+  expect(href).toBe('/somewhere-else/actions.svg#actions-check');
+
+  /* The copy button carries the same glyph from the default sprite, so this
+     asks the one that was just appended. */
+  await expect.poll(
+    () => page.locator('#repointed use').evaluate((el) => el.getBoundingClientRect().width),
+    { message: 'the repointed reference should resolve' },
+  ).toBeGreaterThan(0);
+});
