@@ -427,7 +427,14 @@ var ICON_IDS = [
 
 // src/components/icon.ts
 var DEFAULT_SIZE = 16;
-var spriteUrl = new URL("./assets/icons/sprites/actions.svg", import.meta.url).href;
+function bundledBeside() {
+  try {
+    return new URL("./assets/icons/sprites/actions.svg", import.meta.url).href;
+  } catch {
+    return "assets/icons/sprites/actions.svg";
+  }
+}
+var spriteUrl = bundledBeside();
 var setIconSprite = (url) => {
   spriteUrl = url;
 };

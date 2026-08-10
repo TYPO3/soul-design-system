@@ -123,3 +123,47 @@ test('a bundling consumer can say where the sprite went', async ({ page }) => {
     { message: 'the repointed reference should resolve' },
   ).toBeGreaterThan(0);
 });
+
+/* And the form a bundler actually emits: one classic script, no modules left.
+
+   `import.meta` does not survive that — there is nothing for a module URL to
+   mean — so anything resolved against it at import time throws before a line
+   of the bundle runs. Nothing registers, every element on the page stays an
+   empty box, and the only clue is one `Invalid URL` in the console. It is not
+   a case the drop-in exercises, because the drop-in is a module.
+
+   Bundled here rather than trusted to a fixture: what has to hold is that the
+   current `dist/soul.js` survives the transform, and a checked-in copy of it
+   would stop being the current one. */
+test('the bundle survives being built into a classic script', async ({ page }) => {
+  const { build } = await import('esbuild');
+  const bundled = await build({
+    entryPoints: ['dist/soul.js'],
+    bundle: true,
+    format: 'iife',
+    target: 'es2017',
+    write: false,
+    logLevel: 'silent',
+  });
+
+  await page.route('**/soul.iife.js', (route) =>
+    route.fulfill({ contentType: 'text/javascript', body: bundled.outputFiles[0]!.text }));
+  await page.route('**/iife-fixture.html', (route) => route.fulfill({
+    contentType: 'text/html',
+    body: `<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8">
+<link rel="stylesheet" href="/dist/soul.css">
+<script src="/soul.iife.js"></script>
+</head><body class="sds-app"><sds-icon name="actions-search"></sds-icon></body></html>`,
+  }));
+
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/iife-fixture.html', { waitUntil: 'load' });
+
+  const upgraded = await page.evaluate(() => Promise.race([
+    customElements.whenDefined('sds-icon').then(() => true),
+    new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 5_000)),
+  ]));
+  expect(errors, 'the bundle should evaluate without throwing').toEqual([]);
+  expect(upgraded, 'the elements should register').toBe(true);
+});

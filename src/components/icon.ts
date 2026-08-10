@@ -33,8 +33,23 @@ const DEFAULT_SIZE = 16;
    `dist/soul.js` sits beside `dist/assets/`, wherever that directory was
    copied to. A bundler puts the module somewhere the assets are not, so a
    consumer that bundles says where instead. Get it wrong and every icon is
-   blank with a 404 in the console — there is no silent failure here. */
-let spriteUrl = new URL('./assets/icons/sprites/actions.svg', import.meta.url).href;
+   blank with a 404 in the console — there is no silent failure here.
+
+   Bundled to a classic script there is no module to resolve against at all,
+   and `import.meta.url` is gone: `new URL()` then throws, at import time,
+   which kills the bundle before the consumer reaches `setIconSprite`. The
+   fallback is a path that resolves against the document — wrong often enough
+   that it is not an answer, but a blank glyph is a thing you can see and
+   fix, and a dead bundle is a blank page. */
+function bundledBeside(): string {
+  try {
+    return new URL('./assets/icons/sprites/actions.svg', import.meta.url).href;
+  } catch {
+    return 'assets/icons/sprites/actions.svg';
+  }
+}
+
+let spriteUrl = bundledBeside();
 
 /** Point the icons at a sprite this build serves somewhere else. */
 export const setIconSprite = (url: string): void => {
