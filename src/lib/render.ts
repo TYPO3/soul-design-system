@@ -20,6 +20,8 @@ import type { TemplateResult } from 'lit';
 import { render } from '@lit-labs/ssr';
 import { collectResultSync } from '@lit-labs/ssr/lib/render-result.js';
 
+import { inlineIconRefs } from '../components/icon.static.ts';
+
 /* Lit's SSR emits hydration markers around every binding. They are inert in
    a browser, but a specimen card is never hydrated — nothing on the page
    would ever claim them — and they would be noise in a file people read and
@@ -70,7 +72,7 @@ function flattenElements(html: string): string {
 export function renderStatic(template: TemplateResult): string {
   /* Order matters: unwrap the elements first, because the markers Lit leaves
      inside a shadow root have to go too. */
-  const html = flattenElements(collectResultSync(render(template)))
+  let html = flattenElements(collectResultSync(render(template)))
     .replace(LIT_MARKER, '')
     .replace(LIT_CHILD_MARKER, '');
 
@@ -81,6 +83,11 @@ export function renderStatic(template: TemplateResult): string {
   if (html.includes('<!--lit') || html.includes('<!--/lit')) {
     throw new Error('lit hydration markers survived the strip — check src/lib/render.ts against the installed @lit-labs/ssr');
   }
+
+  /* A card carries no script and no sprite, so a reference resolves to
+     nothing. How an icon becomes a glyph is the icon component's business,
+     not this file's. */
+  html = inlineIconRefs(html);
 
   /* Nothing that needs upgrading may reach a card. This is the guard, not the
      test suite: a custom element in a static file renders as nothing at all,

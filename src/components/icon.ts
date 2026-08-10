@@ -1,25 +1,43 @@
 /* sds-icon — a TYPO3 icon.
 
-   Icons are inlined rather than linked because an `<img>` cannot inherit
-   `currentColor`, and the whole icon rule in SKILL.md is that colour follows
-   the UI. Doing that by hand, once per occurrence, is what the cards used to
-   do; this does it once, so a component and the card generated from it
-   cannot disagree about a glyph.
+   Colour follows the UI, which is the whole icon rule: an `<img>` cannot
+   inherit `currentColor`, so a glyph has to be in the document rather than
+   linked from it.
 
-   The source strings come from `src/lib/icons.generated.ts`, written by
-   `scripts/icons.ts` out of the `@typo3/icons` package alongside
-   `assets/icons/*.svg`. */
+   In a browser that is a `<use>` into the category sprite. The reference is
+   external and that is fine: the shapes carry `fill="currentColor"`, and an
+   inherited property crosses into the shadow tree `<use>` builds, so a glyph
+   takes the colour of whatever it sits in.
+
+   In Node there is nothing to reference, so `renderStatic` replaces every
+   `<use>` with the glyph itself. That markup lives in
+   `icon.static.ts` beside it, which only Node reaches: 200 kB of
+   strings the browser bundle must not carry. */
 
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { define, SdsElement } from '../lib/element.ts';
-import { ICON_SVG, type IconId } from '../lib/icons.generated.ts';
+import { ICON_IDS, type IconId } from './icons.generated.ts';
 
 export type { IconId };
 
 /** The system's size scale: 16, 20, 24 or a whole multiple — never 18 or 22.
     16 is the floor; below it, no icon at all. */
 export type IconSize = 16 | 20 | 24 | 32 | 48;
+
+/* Where the sprite is.
+
+   Resolved against this module by default, which is right for the drop-in:
+   `dist/soul.js` sits beside `dist/assets/`, wherever that directory was
+   copied to. A bundler puts the module somewhere the assets are not, so a
+   consumer that bundles says where instead. Get it wrong and every icon is
+   blank with a 404 in the console — there is no silent failure here. */
+let spriteUrl = new URL('./assets/icons/sprites/actions.svg', import.meta.url).href;
+
+/** Point the icons at a sprite this build serves somewhere else. */
+export const setIconSprite = (url: string): void => {
+  spriteUrl = url;
+};
 
 export class SdsIcon extends SdsElement {
   static override properties = {
@@ -41,37 +59,27 @@ export class SdsIcon extends SdsElement {
     this.size = 16;
   }
 
-  /* The package ships each icon pretty-printed over several lines.
-     Collapsing newlines and tabs to single spaces reproduces, character for
-     character, the inline form the hand-written cards carried — which is what
-     lets the generated cards pixel-match the baseline instead of merely
-     looking the same. `version="1.1"` is dropped (it means nothing in SVG 2)
-     and the self-closing shapes are expanded, because a card is parsed as
-     HTML, where a self-closing tag on a non-void element does not close. */
-  private inline(svg: string): string {
-    return svg
-      .replace(/[\n\t]/g, ' ')
-      .replace(/\s*version="1\.1"/, '')
-      .replace(/<(path|rect|circle|polygon|ellipse|line|polyline)([^>]*?)\s*\/>/g, '<$1$2></$1>')
-      .trimEnd();
-  }
-
   protected override render(): TemplateResult {
-    const svg = ICON_SVG[this.name];
-    if (!svg) {
-      /* Loud rather than blank: a missing glyph in a specimen reads as a
-         design decision, and the fix is a one-line edit in scripts/icons.ts. */
-      throw new Error(`unknown icon "${this.name}" — add it to the ICONS list in scripts/icons.ts and run \`make icons\``);
+    if (!ICON_IDS.includes(this.name)) {
+      /* Loud rather than blank: a missing glyph reads as a design decision,
+         and the fix is a one-line edit in scripts/icons.ts. */
+      throw new Error(`unknown icon "${this.name}" — add its category to CATEGORIES in scripts/icons.ts and run \`make icons\``);
     }
 
+    /* `data-icon` survives into the static export, where the glyph itself is
+       inlined and the identifier would otherwise be lost. It is what lets the
+       parity test compare the two renderings, and what lets a reader of a card
+       tell which icon they are looking at. */
     const a11y = this.label ? `role="img" aria-label="${this.label}"` : 'aria-hidden="true"';
     const cls = this.className || 'sds-icon';
-    const open = `<svg width="${this.size}" height="${this.size}" class="${cls}" ${a11y} `;
-    return html`${unsafeHTML(this.inline(svg).replace(/^<svg\s*/, open))}`;
+    return html`${unsafeHTML(
+      `<svg width="${this.size}" height="${this.size}" class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">` +
+        `<use href="${spriteUrl}#${this.name}"></use></svg>`,
+    )}`;
   }
 }
 
 define('sds-icon', SdsIcon);
 
 /** Every identifier this system ships — what the icons specimen renders. */
-export const iconIds = Object.keys(ICON_SVG) as IconId[];
+export const iconIds: readonly IconId[] = ICON_IDS;

@@ -56,6 +56,15 @@ async function mount(page: Page, markup: string): Promise<string> {
        away — a card is opened with no JavaScript, so it cannot carry an
        element. Unwrapping compares the two renderings rather than the two
        depths they are printed at. */
+    /* An icon is drawn two ways on purpose. The browser references a sprite
+       embedded once per document; the static export has no script and no
+       sprite, so `renderStatic` inlines the glyph. Comparing those bodies
+       would only ever say "they differ", which is the design.
+
+       `data-icon` is on both, so the identifier is compared and the body is
+       not. Everything else about the two renderings still has to agree. */
+    for (const svg of host.querySelectorAll('svg[data-icon]')) svg.replaceChildren();
+
     const strip = (node: Node): void => {
       for (const child of [...node.childNodes]) {
         if (child.nodeType === Node.COMMENT_NODE) {
@@ -80,7 +89,11 @@ async function mount(page: Page, markup: string): Promise<string> {
 /* Whitespace is normalised on both sides. The templates carry the newlines
    and indentation that keep a generated card diffable, and the browser
    reflows them; that difference is formatting and not markup. */
-const flat = (s: string): string => s.replace(/\s+/g, ' ').trim();
+const flat = (s: string): string =>
+  /* The export's inlined glyph, emptied the same way the browser's is. */
+  s.replace(/(<svg[^>]*data-icon="[^"]*"[^>]*>)[\s\S]*?(<\/svg>)/g, '$1$2')
+    .replace(/\s+/g, ' ')
+    .trim();
 
 const HOST = '/iframe.html?id=components-buttons--primary&viewMode=story';
 

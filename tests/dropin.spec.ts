@@ -24,6 +24,9 @@ const HTML = `<!doctype html>
 <body class="sds-app">
   <sds-code lang="json" copy>{ "versions": ["12.4"] }</sds-code>
   <sds-button variant="primary" label="Run the checks"></sds-button>
+  <sds-icon name="actions-search"></sds-icon>
+  <sds-icon name="actions-search" class="sds-icon sds-icon--20"></sds-icon>
+  <sds-icon name="actions-search" class="sds-icon sds-icon--24"></sds-icon>
 </body>
 </html>`;
 
@@ -59,6 +62,23 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
     return [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family);
   });
   expect(loaded, 'the bundled faces should load').toContain('Source Sans 3');
+
+  /* An icon is a `<use>` into the sprite that ships beside the bundle. A
+     wrong path is a 404 and a blank glyph, and the size comes from the class
+     rather than the attribute — both are silent until someone looks. */
+  const glyphs = page.locator('svg[data-icon="actions-search"]');
+  await expect(glyphs).toHaveCount(3);
+  const sizes = await glyphs.evaluateAll((els) =>
+    els.map((e) => Math.round(e.getBoundingClientRect().width)));
+  expect(sizes, 'the size scale is 16, 20, 24 — never 18 or 22').toEqual([16, 20, 24]);
+
+  /* Painted, not merely present: a reference the browser cannot resolve
+     leaves an element of the right size with nothing in it. */
+  const painted = await glyphs.first().evaluate((el) => {
+    const use = el.querySelector('use');
+    return Boolean(use && (use as SVGUseElement).getBoundingClientRect().width > 0);
+  });
+  expect(painted, 'the sprite reference should resolve').toBe(true);
 
   expect(errors, 'the drop-in should boot clean').toEqual([]);
 });

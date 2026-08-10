@@ -23,7 +23,8 @@ node_modules/
 /storybook-static/
 
 # generated from @typo3/icons by scripts/icons.mjs, alongside assets/icons/
-/src/lib/icons.generated.ts
+/src/components/icons.generated.ts
+/src/components/icons.svg.generated.ts
 
 # dist/ is committed on purpose: it is the drop-in a consumer copies over a
 # plain clone, and `make dist ARGS=--check` proves it still matches its source.

@@ -17,6 +17,12 @@ import { addons } from 'storybook/preview-api';
    Listing them here was a second list to keep in step with `src/index.ts`,
    and it fell out of step the moment navigation was split into three. */
 import '../src/index.ts';
+import { setIconSprite } from '../src/components/icon.ts';
+
+/* The icons reference a sprite embedded once per document, and by default it
+   is resolved beside the module — right for the drop-in, wrong here, where
+   Vite serves the module from `src/` and the assets from `/assets`. */
+setIconSprite('/assets/icons/sprites/actions.svg');
 
 
 /* Write the theme onto <html> for the whole preview, not only for stories.

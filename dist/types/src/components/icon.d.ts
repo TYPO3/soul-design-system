@@ -1,10 +1,12 @@
 import { type TemplateResult } from 'lit';
 import { SdsElement } from '../lib/element.js';
-import { type IconId } from '../lib/icons.generated.js';
+import { type IconId } from './icons.generated.js';
 export type { IconId };
 /** The system's size scale: 16, 20, 24 or a whole multiple — never 18 or 22.
     16 is the floor; below it, no icon at all. */
 export type IconSize = 16 | 20 | 24 | 32 | 48;
+/** Point the icons at a sprite this build serves somewhere else. */
+export declare const setIconSprite: (url: string) => void;
 export declare class SdsIcon extends SdsElement {
     static properties: {
         name: {
@@ -27,8 +29,7 @@ export declare class SdsIcon extends SdsElement {
     size: IconSize;
     label?: string;
     constructor();
-    private inline;
     protected render(): TemplateResult;
 }
 /** Every identifier this system ships — what the icons specimen renders. */
-export declare const iconIds: IconId[];
+export declare const iconIds: readonly IconId[];
