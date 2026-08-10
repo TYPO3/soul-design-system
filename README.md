@@ -72,6 +72,40 @@ Host and container get the same number on purpose — Vite's hot-reload
 websocket addresses the port Storybook was told to listen on, and a mismatch
 kills reloading.
 
+## Using it in another project
+
+There is no registry yet, and none is needed — npm resolves a public git
+repository directly, in CI as well as locally:
+
+```json
+"devDependencies": {
+  "@typo3/soul-design-system": "github:benjaminkott/typo3-soul-design-system#<sha>"
+}
+```
+
+No build runs on install: this package has no `prepare` script, and the CSS
+exports point at `src/`, not at a compiled artefact.
+
+```js
+import '@typo3/soul-design-system/styles.css';        // tokens + the class layer
+import '@typo3/soul-design-system/tokens/colors.css'; // or one file at a time
+```
+
+**What a git install does and does not carry.** `src/tokens/`, `src/styles/`
+and the brand assets under `assets/` are in the repository and arrive.
+`assets/icons/`, `fonts/` and `dist/` are generated here and gitignored, so
+they do not — and deliberately:
+
+| you want | take it from | why not from here |
+| --- | --- | --- |
+| the 33 icons | `@typo3/icons` | they are TYPO3's, not ours. `scripts/icons.ts` names the identifiers this system uses; copy that list, not the files |
+| the two families | `@fontsource/source-sans-3`, `@fontsource/source-code-pro` | same reason, and your bundler wants its own subsetting |
+| the Lit elements | `make dist`, or a published package later | a build product, and most consumers want the classes |
+
+A copy of an upstream file is a copy that can go stale against the version
+that produced it — which is exactly the failure this system had to repair in
+its own first consumer. Let npm own the version in both places.
+
 ## Exporting the design guide
 
 This is not maintainer-only. Sync it into **your own** claude.ai design

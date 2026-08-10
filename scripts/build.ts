@@ -152,7 +152,10 @@ cpSync(join(ROOT, 'src', 'styles', '_specimen.css'), join(OUT, '_specimen.css'))
    component layer to its bundle name, and the tokens back to siblings. */
 const styles = read('src/styles/styles.css')
   .replace('@import "components.css";', '@import "./_ds_bundle.css";')
-  .replaceAll('@import "../tokens/', '@import "tokens/');
+  .replaceAll('@import "../tokens/', '@import "tokens/')
+  /* The faces sit one level further up in the repo and at the bundle's root
+     here, same as the tokens. */
+  .replaceAll('@import "../../fonts/', '@import "fonts/');
 
 writeFileSync(join(OUT, 'styles.css'), styles);
 

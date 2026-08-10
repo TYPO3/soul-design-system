@@ -9,6 +9,10 @@
    the specimen chrome in _specimen.css is deliberately outside this
    closure, because cards are documentation, not product. */
 
+/* The faces first, then the family names that point at them. They are
+   separate files on purpose: a consumer that subsets its own type takes
+   `tokens/fonts.css` and skips this line. */
+@import "../../fonts/fonts.css";
 @import "../tokens/fonts.css";
 @import "../tokens/colors.css";
 @import "../tokens/typography.css";
