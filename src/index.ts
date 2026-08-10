@@ -25,14 +25,19 @@ import './components/button.ts';
 import './components/badge.ts';
 import './components/link.ts';
 import './components/field.ts';
+import './components/field-error.ts';
 import './components/pills.ts';
 import './components/tabs.ts';
+import './components/tab-item.ts';
 import './components/rail.ts';
-import './components/card.ts';
+import './components/surface.ts';
 import './components/overlay.ts';
+import './components/modal.ts';
+import './components/drawer.ts';
 import './components/dialog.ts';
 import './components/table.ts';
 import './components/code.ts';
+import './components/diff.ts';
 
 export { SdsElement, installHostRule, define } from './lib/element.ts';
 
@@ -40,26 +45,27 @@ export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './c
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts';
 export { SdsLink, type LinkProps } from './components/link.ts';
-export { SdsField, SdsFieldError, fieldClass, type FieldProps } from './components/field.ts';
-export { type NavProps } from './components/nav-base.ts';
+export { SdsField, fieldClass, type FieldProps } from './components/field.ts';
+export { SdsFieldError } from './components/field-error.ts';
+export { type NavProps, type NavItem, type NavChange } from './components/nav-base.ts';
 export { SdsPills } from './components/pills.ts';
 export { SdsTabs } from './components/tabs.ts';
+export { SdsTabItem } from './components/tab-item.ts';
 export { SdsRail } from './components/rail.ts';
-export { SdsSurface, type SurfaceProps, type Plane } from './components/card.ts';
-export { SdsOverlay, SdsModal, SdsDrawer } from './components/overlay.ts';
+export { SdsSurface, type SurfaceProps, type Plane } from './components/surface.ts';
+export { SdsOverlay } from './components/overlay.ts';
+export { SdsModal } from './components/modal.ts';
+export { SdsDrawer } from './components/drawer.ts';
 export { SdsDialog, type DialogProps } from './components/dialog.ts';
 export { SdsTable, type TableProps, type Column, type Row, type Density } from './components/table.ts';
 export {
   SdsCode,
-  SdsDiff,
   type CodeBlockProps,
   type CodeLine,
   type CodeKind,
   type CodeLang,
-  type DiffProps,
-  type DiffLine,
-  type DiffKind,
 } from './components/code.ts';
+export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.ts';
 
 if (typeof document !== 'undefined') installHostRule();
 
@@ -75,6 +81,7 @@ export const TAGS = [
   'sds-field-error',
   'sds-pills',
   'sds-tabs',
+  'sds-tab-item',
   'sds-rail',
   'sds-surface',
   'sds-overlay',

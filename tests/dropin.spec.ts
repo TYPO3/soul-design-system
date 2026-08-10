@@ -23,7 +23,7 @@ const HTML = `<!doctype html>
 </head>
 <body class="sds-app">
   <sds-code lang="json" copy>{ "versions": ["12.4"] }</sds-code>
-  <sds-button variant="primary" label="Run the checks"></sds-button>
+  <sds-button variant="primary">Run the checks</sds-button>
   <sds-icon name="actions-search"></sds-icon>
   <sds-icon name="actions-search" class="sds-icon sds-icon--20"></sds-icon>
   <sds-icon name="actions-search" size="24"></sds-icon>

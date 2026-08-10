@@ -13,13 +13,19 @@
    another way — the cards keep passing while the components quietly ship
    different markup. This test is the only place that would notice.
 
-   Both sides start from the same tag. There is no second, function-shaped
-   way to produce this markup, so there is nothing else it could be compared
-   against. */
+   Most cases start from the same tag on both sides. Where a component takes
+   its content between the tags — a button's label is markup, not a string —
+   the static side cannot: Lit's SSR emits authored children beside the
+   element's own template and `connectedCallback` never runs in Node to move
+   them. Those components export the markup function the element renders, and
+   the case pairs the element against that function. That pairing is the thing
+   most worth checking, because it is the only place two renderings are
+   written in two forms. */
 
 import { test, expect, type Page } from '@playwright/test';
 import { html, type TemplateResult } from 'lit';
 import { renderStatic } from '../src/lib/render.ts';
+import { buttonMarkup } from '../src/components/button.ts';
 import '../src/index.ts';
 
 /** Mount the markup in the page and read back the light DOM it produced. */
@@ -95,7 +101,7 @@ const flat = (s: string): string =>
     .replace(/\s+/g, ' ')
     .trim();
 
-const HOST = '/iframe.html?id=components-buttons--primary&viewMode=story';
+const HOST = '/iframe.html?id=components-button--primary&viewMode=story';
 
 test.beforeEach(async ({ page }) => {
   await page.goto(HOST);
@@ -105,18 +111,21 @@ test.beforeEach(async ({ page }) => {
 const CASES: { name: string; markup: string; template: TemplateResult }[] = [
   {
     name: 'button, primary with an icon',
-    markup: '<sds-button variant="primary" label="Run the checks" icon="actions-play"></sds-button>',
-    template: html`<sds-button variant="primary" label="Run the checks" icon="actions-play"></sds-button>`,
+    markup: '<sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Run the checks</sds-button>',
+    template: buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>Run the checks`),
   },
   {
     name: 'button, ghost',
-    markup: '<sds-button variant="ghost" label="Cancel"></sds-button>',
-    template: html`<sds-button variant="ghost" label="Cancel"></sds-button>`,
+    markup: '<sds-button variant="ghost">Cancel</sds-button>',
+    template: buttonMarkup({ variant: 'ghost' }, 'Cancel'),
   },
   {
     name: 'button, icon-only with a title',
-    markup: '<sds-button variant="secondary" size="sm" label="" icon="actions-close" title="Close"></sds-button>',
-    template: html`<sds-button variant="secondary" size="sm" label="" icon="actions-close" title="Close"></sds-button>`,
+    markup: '<sds-button variant="secondary" size="sm" title="Close"><sds-icon name="actions-close"></sds-icon></sds-button>',
+    template: buttonMarkup(
+      { variant: 'secondary', size: 'sm', title: 'Close', iconOnly: true },
+      html`<sds-icon name="actions-close"></sds-icon>`,
+    ),
   },
   {
     name: 'field at rest',

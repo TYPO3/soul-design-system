@@ -73,7 +73,9 @@ export const WithIcon: Story = {
   args: { label: 'bundled knowledge', tone: 'accent', icon: 'actions-database' },
 };
 
-/** All five together, which is how the difference is actually judged. */
+/** All five together, which is how the difference is actually judged. The
+    gap is the row's: a badge sets no margin, because what it sits among —
+    a table cell, a heading, a line of prose — decides its spacing. */
 export const Tones: Story = {
-  render: () => html`${BADGES.map(sdsBadge)}`,
+  render: () => html`<div style="display:flex; flex-wrap:wrap; gap:var(--space-2)">${BADGES.map(sdsBadge)}</div>`,
 };

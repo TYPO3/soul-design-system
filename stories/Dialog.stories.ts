@@ -17,8 +17,8 @@ import '../src/components/button.ts';
 import { type DialogProps, type SdsDialog } from '../src/components/dialog.ts';
 
 const ACTIONS = [
-  html`<sds-button variant="ghost" size="sm" label="Cancel"></sds-button>`,
-  html`<sds-button variant="primary" size="sm" label="Publish"></sds-button>`,
+  html`<sds-button variant="ghost" size="sm">Cancel</sds-button>`,
+  html`<sds-button variant="primary" size="sm">Publish</sds-button>`,
 ];
 
 const meta: Meta<DialogProps> = {
@@ -35,10 +35,9 @@ const meta: Meta<DialogProps> = {
   render: ({ heading, width }) => html`
     <sds-button
       variant="primary"
-      label="Publish…"
       @click="${(e: Event) =>
         (e.currentTarget as HTMLElement).parentElement?.querySelector<SdsDialog>('sds-dialog')?.show()}"
-    ></sds-button>
+    >Publish…</sds-button>
     <sds-dialog
       heading="${heading}"
       width="${width ?? 330}"
@@ -55,14 +54,8 @@ type Story = StoryObj<DialogProps>;
     Escape closes it — none of which is written here. */
 export const Default: Story = {};
 
-/** Already open, for looking at the surface without clicking. */
-export const Open: Story = {
-  render: ({ heading }) => html`
-    <sds-dialog
-      open
-      heading="${heading}"
-      .body="${html`This writes into <span class="sds-mono">.agents/skills</span> and records the setup.`}"
-      .actions="${ACTIONS}"
-    ></sds-dialog>
-  `,
-};
+/* No story that opens on load. A dialog that is already open when a page is
+   opened is a dialog nobody asked for — it takes the focus, it makes
+   everything behind it inert, and it demonstrates none of what the component
+   does, which is what happens when somebody presses the button. The surface
+   itself is `sds-modal`, and that has its own page. */

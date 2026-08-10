@@ -1,33 +1,51 @@
 /* The three planes: card, panel and sunken.
 
-   The markup lives in `src/components/card.ts`. They differ only in fill,
+   The markup lives in `src/components/surface.ts`. They differ only in fill,
    because the system has no shadows — a plane is told apart by its fill and
    a hairline and by nothing else.
 
    This file also generates `components/surfaces/surfaces.card.html`, which
    shows the planes *and* the overlays over them. One card, because the claim
-   is about the pair: without a shadow an overlay needs a plane under it to
-   be an overlay of anything. The overlays have their own stories in
-   `Overlay.stories.ts`; the scene is imported from there rather than
-   written twice. */
+   is about the pair: without a shadow an overlay needs a plane under it to be
+   an overlay of anything. The three that float have their own pages —
+   `Overlay.stories.ts`, `Modal.stories.ts`, `Drawer.stories.ts` — and the
+   scene they share is composed here, where the card that needs it is. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
+import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../src/components/card.ts';
-import { type SurfaceProps } from '../src/components/card.ts';
-import { scene } from './Overlay.stories.ts';
+import '../src/components/surface.ts';
+import '../src/components/overlay.ts';
+import '../src/components/modal.ts';
+import '../src/components/drawer.ts';
+import '../src/components/button.ts';
+import { buttonMarkup } from '../src/components/button.ts';
+import { type SurfaceProps } from '../src/components/surface.ts';
 import { dsCard, indent, part, px, spec, specCap } from './lib/specimen.ts';
 
 const sdsSurface = ({ plane = 'card', title, body }: SurfaceProps) =>
   html`<sds-surface plane="${plane}" heading="${title}" .body="${body}"></sds-surface>`;
 
+/** A plane with a wash, a modal and a drawer over it — the only arrangement
+    in which the no-shadow claim can be read at all. The card is generated
+    from this. */
+export const scene = (): TemplateResult => html`<sds-overlay></sds-overlay>
+<sds-modal
+  heading="Publish the task skills?"
+  .body="${html`This writes into <span class="sds-mono">.agents/skills</span> and records the setup. Nothing else is touched.`}"
+  .actions="${[
+    buttonMarkup({ variant: 'ghost', size: 'sm' }, 'Cancel'),
+    buttonMarkup({ variant: 'primary', size: 'sm' }, 'Publish'),
+  ]}"
+></sds-modal>
+<sds-drawer .body="${html`<span class=\"spec-cap\">DRAWER</span>`}"></sds-drawer>`;
+
 const meta: Meta<SurfaceProps> = {
-  title: 'Components/Card',
+  title: 'Components/Surface',
   tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */
-  excludeStories: ['specimenHtml'],
+  excludeStories: ['specimenHtml', 'scene'],
   render: (args) => sdsSurface(args),
   argTypes: {
     plane: { control: 'inline-radio', options: ['card', 'panel', 'sunken'] },

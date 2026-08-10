@@ -69,6 +69,49 @@ function flattenElements(html: string): string {
   return out;
 }
 
+/* Whitespace left inside a tag by an attribute that was not written.
+
+   `<input ... ${cond ? attr : nothing}>` keeps the space in front of the
+   binding whether or not anything lands there, so the export carries
+   `<input class="…" >` where a browser serialises `<input class="…">`. It is
+   invisible, it is not markup, and it made every component with an optional
+   attribute either fail the parity check or grow a branch per attribute.
+
+   Scanned rather than matched: a `>` inside an attribute value is not the end
+   of a tag, and a regex that does not know that would cut a title in half. */
+function tidyTags(html: string): string {
+  let out = '';
+  let inTag = false;
+  let quote = '';
+
+  for (const ch of html) {
+    if (!inTag) {
+      if (ch === '<') inTag = true;
+      out += ch;
+      continue;
+    }
+    if (quote) {
+      if (ch === quote) quote = '';
+      out += ch;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+      out += ch;
+      continue;
+    }
+    if (ch === '>') {
+      out = out.replace(/[ \t]+$/, '');
+      inTag = false;
+      out += ch;
+      continue;
+    }
+    out += ch;
+  }
+
+  return out;
+}
+
 export function renderStatic(template: TemplateResult): string {
   /* Order matters: unwrap the elements first, because the markers Lit leaves
      inside a shadow root have to go too. */
@@ -87,7 +130,7 @@ export function renderStatic(template: TemplateResult): string {
   /* A card carries no script and no sprite, so a reference resolves to
      nothing. How an icon becomes a glyph is the icon component's business,
      not this file's. */
-  html = inlineIconRefs(html);
+  html = tidyTags(inlineIconRefs(html));
 
   /* Nothing that needs upgrading may reach a card. This is the guard, not the
      test suite: a custom element in a static file renders as nothing at all,

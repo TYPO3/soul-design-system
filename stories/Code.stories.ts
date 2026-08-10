@@ -1,16 +1,25 @@
-/* Code block and diff.
+/* The code block.
 
-   The markup lives in `src/components/code.ts`. This is the one place status colour is
-   allowed to fill a whole line: `--status-ok` on a result, the tint on a
-   diff row. Everywhere else status colour marks a badge or a result row and
-   never becomes page furniture. */
+   The markup lives in `src/components/code.ts`. With the diff it shares the
+   one permission the rest of the system does not have: status colour may fill
+   a whole line — `--status-ok` on a result, the tint on a diff row.
+   Everywhere else status colour marks a badge or a result row and never
+   becomes page furniture.
+
+   This file generates `components/code/code.card.html`, which shows the block
+   and the diff together because that permission is what it documents. The
+   diff has its own page in `Diff.stories.ts`; the change it draws is imported
+   from there rather than written twice. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../src/components/code.ts';
-import { type CodeBlockProps, type DiffLine } from '../src/components/code.ts';
+import '../src/components/diff.ts';
 import '../src/components/icon.ts';
+import { type CodeBlockProps } from '../src/components/code.ts';
+import { type DiffLine } from '../src/components/diff.ts';
+import { DIFF } from './Diff.stories.ts';
 import { dsCard, part, px, spec, specCap } from './lib/specimen.ts';
 
 const BASH: CodeBlockProps = {
@@ -22,13 +31,6 @@ const BASH: CodeBlockProps = {
     { kind: 'ok', text: 'published 9 task skills to', code: '.agents/skills' },
   ],
 };
-
-const DIFF: readonly DiffLine[] = [
-  { kind: 'context', text: '"domains": ["labels", "xlf"],' },
-  { kind: 'del', text: '"versions": ["12.4"]' },
-  { kind: 'add', text: '"versions": ["12.4", "13.4", "14.3"]' },
-  { kind: 'context', text: '}' },
-];
 
 const sdsCode = ({ lang, body, copy }: CodeBlockProps) =>
   html`<sds-code lang="${lang ?? ''}" ?copy="${copy ?? false}" .body="${body}"></sds-code>`;
@@ -92,11 +94,6 @@ export const FromContent: Story = {
   render: () => html`<sds-code lang="json" copy>${unsafeHTML(
     '{\n  "domains": ["labels", "xlf"],\n  "versions": ["12.4", "13.4", "14.3"]\n}',
   )}</sds-code>`,
-};
-
-/** No line numbers unless something actually references them. */
-export const Diff: Story = {
-  render: () => sdsDiff('KNOWLEDGE/HINTS/LABELS.JSON', DIFF),
 };
 
 export const specimenHtml = (): string =>

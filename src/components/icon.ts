@@ -22,10 +22,24 @@ import { ICON_IDS, type IconId } from './icons.generated.ts';
 export type { IconId };
 
 /** The system's size scale: 16, 20, 24 or a whole multiple — never 18 or 22.
-    16 is the floor; below it, no icon at all. */
-export type IconSize = 16 | 20 | 24 | 32 | 48;
+    16 is the floor; below it, no icon at all.
 
-const DEFAULT_SIZE = 16;
+    `em` is the exception and the one that is not a number: an icon written
+    inside text — a button's label, a link, a line of prose — is as big as
+    that text and changes with it. A glyph beside 13px type has no business
+    being 16px because 16 is the floor for a glyph standing on its own. */
+export type IconSize = 16 | 20 | 24 | 32 | 48 | 'em';
+
+/* An icon almost always sits inside something that has a text size — a
+   button's label, a badge, a table cell, a line of prose — and matching it is
+   what makes a glyph look placed rather than dropped in. So `em` is the
+   default and a number is the exception: a standalone glyph, an empty state,
+   a signet-scale mark. */
+const DEFAULT_SIZE: IconSize = 'em';
+
+/* What the viewBox is in. The attributes stay in these units whatever the
+   rendered size, because they are the drawing's own. */
+const INTRINSIC = 16;
 
 /* Where the sprite is.
 
@@ -88,17 +102,19 @@ export class SdsIcon extends SdsElement {
        parity test compare the two renderings, and what lets a reader of a card
        tell which icon they are looking at. */
     const a11y = this.label ? `role="img" aria-label="${this.label}"` : 'aria-hidden="true"';
-    const cls = this.className || 'sds-icon';
-    /* A size asked for is written as a style, not only as an attribute:
-       `.sds-icon` sets a width from `--control-icon-size`, and a class beats a
-       presentation attribute — so `size="24"` was a property that did nothing.
-
-       Only when it was asked for. Writing it unconditionally would mean the
-       default 16 overriding `sds-icon--24` on markup that set the class and no
-       size, which is how hand-written markup asks. */
-    const sized = this.size === DEFAULT_SIZE ? '' : ` style="width:${this.size}px;height:${this.size}px"`;
+    /* `sds-icon--em` rather than an inline width: the modifier exists in the
+       class layer, so hand-written markup asks for the same thing the same
+       way. */
+    const cls = this.className || (this.size === 'em' ? 'sds-icon sds-icon--em' : 'sds-icon');
+    /* A size in pixels is written as a style, not only as an attribute:
+       `.sds-icon` sets a width from a token, and a class beats a presentation
+       attribute — so `size="24"` was a property that did nothing. Only where
+       one was asked for: written unconditionally it would override
+       `sds-icon--24` on markup that set the class and no size, which is how
+       hand-written markup asks. */
+    const sized = this.size === 'em' ? '' : ` style="width:${this.size}px;height:${this.size}px"`;
     return html`${unsafeHTML(
-      `<svg width="${this.size}" height="${this.size}"${sized}` +
+      `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized}` +
         ` class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">` +
         `<use href="${spriteUrl}#${this.name}"></use></svg>`,
     )}`;

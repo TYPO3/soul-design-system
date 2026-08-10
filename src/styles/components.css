@@ -104,8 +104,28 @@
 }
 .sds-icon--20 { width: 20px; height: 20px; }
 .sds-icon--24 { width: 24px; height: 24px; }
+/* An icon written inside text takes the size of that text, so a glyph in a
+   13px label is 13px and not the 16px floor a standalone glyph gets. */
+.sds-icon--em { width: 1em; height: 1em; }
 /* A standalone icon that is not inside a coloured control. */
 .sds-icon--muted { color: var(--text-secondary); }
+
+/* Before the script lands there is no element, only a tag that says which
+   glyph and how big. Without this it is `display: contents` — no box at all —
+   and every icon in the chrome pushes its neighbours sideways the moment the
+   bundle arrives. The size it will take is knowable from the markup, so it is
+   taken from the start. */
+sds-icon:not(:defined) {
+  display: inline-block;
+  flex: none;
+  width: var(--control-icon-size);
+  height: var(--control-icon-size);
+}
+sds-icon:not(:defined)[size='20'] { width: 20px; height: 20px; }
+sds-icon:not(:defined)[size='24'] { width: 24px; height: 24px; }
+sds-icon:not(:defined)[size='32'] { width: 32px; height: 32px; }
+sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
+sds-icon:not(:defined)[size='em'] { width: 1em; height: 1em; }
 
 /* -------------------------------------------------------------- buttons -- */
 
@@ -152,6 +172,14 @@
   width: var(--control-icon-box);
   height: var(--control-icon-box);
   justify-content: center;
+}
+
+/* A glyph inside a label is as big as that label. A glyph that IS the control
+   is not a label at all, so it keeps the floor — at `sm` the text is 13px and
+   the square would otherwise hold a 13px mark in a 28px box. */
+.sds-btn--icon .sds-icon {
+  width: var(--control-icon-size);
+  height: var(--control-icon-size);
 }
 
 .sds-btn:disabled,
@@ -403,6 +431,31 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
 
 /* ----------------------------------------------------------- navigation -- */
 
+/* An item is a control: a link where it goes somewhere, a button where it
+   switches something on this page. The button carries a browser default font,
+   border and background that a link does not, so the three items are levelled
+   here rather than three times below. Left alone: colour, padding and the
+   active block, which are each navigation's own. */
+button.sds-pill,
+button.sds-tab,
+button.sds-rail__item {
+  font: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* An item may carry a glyph before its label, which is the only reason these
+   are flex rather than inline text. */
+.sds-pill,
+.sds-tab,
+.sds-rail__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
 /* Pill nav for sections. Active is a filled block, not a tint. */
 .sds-pills {
   display: flex;
@@ -439,6 +492,9 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   border-bottom: var(--border-emphasis) solid var(--accent);
   margin-bottom: -1px;
 }
+/* What a tab stands for. The panels that are not showing keep their content
+   in the document — hidden, so a find-in-page still reaches it. */
+.sds-tab__panel { padding-top: var(--space-4); }
 
 /* The 210px tool rail. */
 .sds-rail {

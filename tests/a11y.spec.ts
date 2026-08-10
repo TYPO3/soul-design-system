@@ -16,10 +16,10 @@ import AxeBuilder from '@axe-core/playwright';
 import { axeIdle, gotoStory } from './lib/story.ts';
 
 const SPECIMENS = [
-  'components-buttons--specimen',
-  'components-fields--specimen',
-  'components-navigation--specimen',
-  'components-card--specimen',
+  'components-button--specimen',
+  'components-field--specimen',
+  'specimens-navigation--specimen',
+  'components-surface--specimen',
   'components-table--specimen',
   'components-table-density--specimen',
   'components-code--specimen',

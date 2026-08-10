@@ -95,8 +95,14 @@ const preview: Preview = {
     // background picker underneath it could only ever be wrong.
     backgrounds: { disable: true },
     controls: { expanded: true, sort: 'requiredFirst' },
+    /* The sections read in the order somebody arrives in; the components
+       inside them read alphabetically, because there is no order to arrive in
+       — a reader is looking one up, and the only sequence that helps is the
+       one the alphabet already taught them. `method` applies wherever `order`
+       has nothing more to say. */
     options: {
       storySort: {
+        method: 'alphabetical',
         order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Diagrams'], 'Components', 'Screens'],
       },
     },

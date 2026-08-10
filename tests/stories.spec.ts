@@ -46,15 +46,27 @@ test('the index lists every component and guideline page', async ({ request }) =
     'Guidelines/Icons',
     'Guidelines/States',
     'Guidelines/Diagrams',
-    'Components/Buttons',
-    'Components/Fields',
-    'Components/Navigation',
-    'Components/Card',
-    'Components/Overlay',
+    /* One page per component, and the list is the check: a component that is
+       split out of a file and never given a page of its own documents
+       nothing. */
     'Components/Badge',
+    'Components/Button',
+    'Components/Code',
+    'Components/Diff',
+    'Components/Dialog',
+    'Components/Drawer',
+    'Components/Field',
+    'Components/Field error',
+    'Components/Icon',
+    'Components/Link',
+    'Components/Modal',
+    'Components/Overlay',
+    'Components/Pills',
+    'Components/Rail',
+    'Components/Surface',
     'Components/Table',
     'Components/Table density',
-    'Components/Code',
+    'Components/Tabs',
   ]) {
     expect(titles, `${expected} should have a page`).toContain(expected);
   }
@@ -167,7 +179,7 @@ test('the docs preview sits on the themed canvas', async ({ page }) => {
   const CANVAS = { dark: 'rgb(19, 18, 16)', light: 'rgb(251, 250, 247)' };
 
   for (const theme of ['dark', 'light'] as const) {
-    await page.goto(`/iframe.html?viewMode=docs&id=components-buttons--docs&globals=theme:${theme}`);
+    await page.goto(`/iframe.html?viewMode=docs&id=components-button--docs&globals=theme:${theme}`);
     await page.waitForSelector('.sds-btn', { timeout: 20_000 });
 
     for (const selector of ['.sbdocs.sbdocs-preview', '.sbdocs.sbdocs-preview .docs-story']) {

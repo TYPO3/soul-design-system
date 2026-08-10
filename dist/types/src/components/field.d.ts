@@ -3,32 +3,24 @@ import './icon.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 export interface FieldProps {
-    /** The text in the field — placeholder-grey unless `filled`. */
+    /** What is in the field — its value when `filled`, its placeholder when not. */
     value?: string;
     icon?: IconId;
-    /** Draws the focus state statically, caret included. */
+    /** Force the focus state for a still picture. Live focus needs nothing. */
     focused?: boolean;
     invalid?: boolean;
-    /** The value is the user's, not a prompt. */
+    /** The value is the user's, not a prompt. Typing sets it too. */
     filled?: boolean;
     /** A select rather than a text field: same sunken box, closed by a chevron. */
     select?: boolean;
+    /** What a select offers. A text field ignores it. */
+    options?: readonly string[];
+    /** What the control is called, for anything that cannot see what it sits
+        beside. A field with no visible label of its own owes one here. */
+    label?: string;
     minWidth?: number;
 }
 export declare function fieldClass({ focused, invalid, filled, select }: FieldProps): string;
-/** Compose a field. */
-/** The message under an invalid field. Never a tooltip — an error the
-    pointer has to find is an error the keyboard never surfaces at all. */
-export declare class SdsFieldError extends SdsElement {
-    static properties: {
-        message: {
-            type: StringConstructor;
-        };
-    };
-    message: string;
-    constructor();
-    protected render(): TemplateResult;
-}
 export declare class SdsField extends SdsElement {
     static properties: {
         value: {
@@ -53,6 +45,12 @@ export declare class SdsField extends SdsElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
+        options: {
+            type: ArrayConstructor;
+        };
+        label: {
+            type: StringConstructor;
+        };
         minWidth: {
             type: NumberConstructor;
             attribute: string;
@@ -64,7 +62,10 @@ export declare class SdsField extends SdsElement {
     invalid: boolean;
     filled: boolean;
     select: boolean;
+    options: readonly string[];
+    label?: string;
     minWidth: number;
     constructor();
+    private onInput;
     protected render(): TemplateResult;
 }

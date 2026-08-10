@@ -1,6 +1,5 @@
 import { type TemplateResult } from 'lit';
 import './icon.ts';
-import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 /** What a line in a code block IS, rather than markup someone assembled.
 
@@ -40,17 +39,6 @@ export interface CodeBlockProps {
     action?: TemplateResult;
     body: readonly CodeLine[];
     copy?: boolean;
-}
-export type DiffKind = 'context' | 'add' | 'del';
-export interface DiffLine {
-    kind: DiffKind;
-    text: string;
-}
-export interface DiffProps {
-    /** The file the diff is of — a path, so it sets in mono. */
-    path: string;
-    icon?: IconId;
-    body: readonly DiffLine[];
 }
 export declare class SdsCode extends SdsElement {
     static properties: {
@@ -98,25 +86,5 @@ export declare class SdsCode extends SdsElement {
     private get copyButton();
     private line;
     private get wrapped();
-    protected render(): TemplateResult;
-}
-export declare class SdsDiff extends SdsElement {
-    static properties: {
-        path: {
-            type: StringConstructor;
-            reflect: boolean;
-        };
-        icon: {
-            type: StringConstructor;
-        };
-        body: {
-            type: ArrayConstructor;
-        };
-    };
-    path: string;
-    icon?: IconId;
-    body: readonly DiffLine[];
-    constructor();
-    private line;
     protected render(): TemplateResult;
 }
