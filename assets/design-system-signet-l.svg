@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 140 112" role="img" aria-label="Soul Design System">
+  <title>Soul Design System</title>
+  <style>
+    /* An image cannot inherit currentColor, so the ink is a mid warm grey
+       that holds on both modes, lifted a step in dark. The accent is flat
+       #FF8700 in both, exactly as --accent is. */
+    .ink  { stroke: #8A8378; }
+    .inkf { fill: #8A8378; }
+    @media (prefers-color-scheme: dark) {
+      .ink  { stroke: #A9A299; }
+      .inkf { fill: #A9A299; }
+    }
+  </style>
+  <!-- L - 32px and up. Stroke 7, rounding 3.5, gap 7.
+
+       The system's mark is the one in this family with no window. A frame
+       reads as a terminal, and a terminal is what the products it dresses
+       are, not what it is. Two crop marks instead: the corners a piece is
+       registered against, which is a craft mark rather than a screen.
+
+       The family is carried by everything else - the 5:4 box, the outer
+       corners at radius 20, the 3.5 rounding, the 7-unit gap, and orange in
+       the top-right corner, which is where both sibling marks put it.
+
+       Inside, three parts of two widths. Not three of the same: a design
+       system is a kit of unequal pieces, and a repeat would say the wrong
+       thing. Outer 11, middle 21, centred in the opening.
+
+       One deliberate break with the siblings: here the accent is a STROKE,
+       not a filled marker. The mark had to stay light - it is the frame
+       everything else is composed inside, and a frame that outweighs its
+       contents is the wrong shape for that. -->
+  <path class="ink" d="M56 96.5H20A16.5 16.5 0 0 1 3.5 80V44" fill="none" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>
+  <rect class="inkf" x="39" y="30.5" width="11" height="39" rx="3.5"></rect>
+  <rect class="inkf" x="53.5" y="30.5" width="21" height="39" rx="3.5"></rect>
+  <rect class="inkf" x="78" y="30.5" width="11" height="39" rx="3.5"></rect>
+  <path d="M72 3.5H108A16.5 16.5 0 0 1 124.5 20V56" fill="none" stroke="#FF8700" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>
+</svg>

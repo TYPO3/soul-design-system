@@ -55,6 +55,27 @@ for (const s of sp) {
 }
 console.log(`   ${list.length} cards, ${sp.length} starting points`);
 
+/* An MDX page iframes a card at a height it states itself, and the card
+   states its own in `@dsCard`. Nothing tied the two together, so a card that
+   grew kept rendering into the old box in Storybook — cropped there and
+   correct in the pane, which is the worst way to be wrong. Three had already
+   drifted when this was added. */
+console.log('1b. specimen heights match their cards');
+const declared = new Map(all.map((c) => [c.rel, c.viewport]));
+let mismatched = 0;
+for (const page of readdirSync(join(ROOT, 'docs')).filter((f) => f.endsWith('.mdx'))) {
+  const text = readFileSync(join(ROOT, 'docs', page), 'utf8');
+  for (const m of text.matchAll(/<Specimen\s+src="([^"]+)"\s+viewport="(\d+x\d+)"/g)) {
+    const [, src = '', vp = ''] = m;
+    const want = declared.get(src);
+    if (want && want !== vp) {
+      mismatched++;
+      fails.push(`docs/${page}: ${src} is embedded at ${vp}, the card declares ${want}`);
+    }
+  }
+}
+console.log(`   ${declared.size} cards, ${mismatched} embedded at the wrong height`);
+
 console.log('2. class vocabulary');
 const defined = new Set();
 for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css']) {

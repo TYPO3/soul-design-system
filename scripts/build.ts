@@ -223,6 +223,11 @@ if (sp.length) {
 mkdirSync(join(OUT, 'guidelines'), { recursive: true });
 cpSync(join(ROOT, 'SKILL.md'), join(OUT, 'guidelines/build-rules.md'));
 cpSync(join(ROOT, 'RATIONALE.md'), join(OUT, 'guidelines/rationale.md'));
+/* The signet construction as something to act on rather than read about. A
+   design adopting this system needs a mark, and the alternative to shipping
+   this is the agent inventing one from the cards — which is how a family
+   acquires a member that shares nothing but a colour. */
+cpSync(join(ROOT, 'SIGNET-PROMPT.md'), join(OUT, 'guidelines/signet-prompt.md'));
 
 // README: the conventions header, then a generated index of every card
 const conv = join(ROOT, '.design-sync/conventions.md');

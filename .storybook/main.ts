@@ -22,6 +22,12 @@ const config: StorybookConfig = {
     '@storybook/addon-docs',
     // A system that documents focus rings and status colour should be able
     // to prove them. The panel runs axe against the rendered story.
+    //
+    // It ships in every build, including the one the Playwright suite serves.
+    // Dropping it there was tried and is not allowed: the tests exist to prove
+    // the shipped surface, and a surface assembled differently for the test is
+    // not the one that ships. The axe collision it causes is handled where it
+    // belongs — see `parameters.a11y` in preview.ts.
     '@storybook/addon-a11y',
   ],
   framework: { name: '@storybook/web-components-vite', options: {} },

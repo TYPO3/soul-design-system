@@ -149,7 +149,7 @@ Dark `--status-warn` was already at 8.04:1 and did not move. The hierarchy
 against `--text-secondary` (8.50:1 light, 7.16:1 dark) is unchanged: muted is
 still clearly quieter, just legible.
 
-**The signets keep the old greys on purpose.** `assets/signet-*.svg` carry
+**The signets keep the old greys on purpose.** `assets/*-signet-*.svg` carry
 `#8A8378`/`#6E6860` as their own ink. A brand mark is a drawing, not text —
 WCAG's text-contrast rule does not apply to it, and moving it would change
 the mark for no accessibility reason. So the signet grey and `--text-muted`
@@ -187,6 +187,30 @@ neither theme. It made one axe test fail on roughly one run in three.
 `tests/lib/story.ts` injects a stylesheet killing transitions and animations
 after every navigation. Anything else that measures colour — a future
 screenshot step, a contrast script — needs the same guard.
+
+## The a11y addon ships in the test build, and `a11y.manual` is a global
+
+axe is one global object with one run at a time; a second caller gets a thrown
+`Axe is already running` rather than a queue. The addon's panel runs axe on
+story render and the Playwright suite runs it deliberately, so the two raced —
+about one run in twenty, which is the worst frequency there is.
+
+Two dead ends are recorded because both look like fixes:
+
+- **`SDS_NO_A11Y_ADDON`** was set in `playwright.config.ts` and read by
+  nothing. The addon shipped into every test build regardless. Removing the
+  addon from the test build is also not the answer, and was rejected: the
+  suite exists to prove the shipped surface, and a surface assembled
+  differently for the test is not that surface.
+- **`parameters.a11y.manual`** is not read by `@storybook/addon-a11y` v10.
+  Its own `dist/preview.d.ts` declares `initialGlobals: { a11y: { manual } }` —
+  it is a **global**. Set in `parameters` it silently does nothing, which is
+  why the setting appeared to be in place for months while the panel went on
+  auto-running.
+
+It is now in `initialGlobals` in `.storybook/preview.ts`. The addon is
+installed, the panel still runs on demand, and nothing runs axe on load.
+Verified over four consecutive full runs rather than one.
 
 ## Two findings worth fixing separately
 
@@ -249,7 +273,7 @@ meant to be. Each file now carries its own `<style>` with the mid warm grey
 the `brand-signet-sizes` card always promised, lifted a step under
 `prefers-color-scheme: dark`.
 
-`signet-s.svg` has a square viewBox (`-6 -20 140 140`) because it is the
+`dev-companion-signet-s.svg` has a square viewBox (`-6 -20 140 140`) because it is the
 favicon file: the mark is 5:4, and a 5:4 mark letterboxed into a square slot
 lands under the system's own 16px floor. L and M keep the natural box.
 

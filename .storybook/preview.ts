@@ -54,7 +54,22 @@ export const globalTypes = {
   },
 };
 
-export const initialGlobals = { theme: 'dark' };
+/* `a11y.manual` is a GLOBAL, not a parameter.
+
+   It was set under `parameters.a11y` for a long time, where the addon simply
+   does not read it — `@storybook/addon-a11y` declares
+   `initialGlobals: { a11y: { manual } }` in its own preview entry. So the
+   panel went on running axe automatically on every story render, and every
+   run raced the axe the Playwright suite starts deliberately: axe is one
+   global with one run at a time, and the loser gets a thrown "Axe is already
+   running" rather than a queue.
+
+   That surfaced as a11y tests passing alone and failing in a full run. The
+   addon is not the problem and is not removed — a test build assembled
+   differently from the shipped one proves nothing. This is the addon's own
+   supported setting for "run when asked, not on load", and the panel still
+   runs on demand. */
+export const initialGlobals = { theme: 'dark', a11y: { manual: true } };
 
 const preview: Preview = {
   decorators: [
@@ -84,12 +99,6 @@ const preview: Preview = {
       // automated pass can judge — a disabled control, a focus ring drawn on
       // an element that does not have focus.
       test: 'todo',
-      /* Do not run axe on every story render. The Playwright suite runs axe
-         itself, with the exclusions that make the result mean something, and
-         two runs in one frame make the second throw "Axe is already
-         running" — which surfaced as tests that passed alone and failed in a
-         full run. The addon's panel still runs on demand. */
-      manual: true,
     },
   },
 };

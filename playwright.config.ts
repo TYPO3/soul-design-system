@@ -44,7 +44,7 @@ export default defineConfig({
     /* The binaries directly, not through npm or npx: the container runs as
        the host's UID with no home of its own, and npm wants a cache it can
        write. There is nothing npm adds here anyway. */
-    command: `SDS_NO_A11Y_ADDON=1 node_modules/.bin/storybook build && node scripts/serve.ts ${PORT} storybook-static`,
+    command: `node_modules/.bin/storybook build && node scripts/serve.ts ${PORT} storybook-static`,
     url: BASE_URL,
     reuseExistingServer: !process.env['CI'],
     timeout: 240_000,
