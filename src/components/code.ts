@@ -15,7 +15,9 @@
    the note in `ARCHITECTURE.md`. */
 
 import { html, type TemplateResult } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './icon.ts';
+import { highlight } from '../lib/highlight.ts';
 import { lines } from '../lib/template.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
@@ -74,6 +76,9 @@ export interface CodeBlockProps {
   /** An affordance for the head that is not the copy button — a filename, a
       count. Set `copy` instead for copying; the component owns that. */
   action?: TemplateResult;
+  /** What the block is, in a sentence, above it. A renderer that captions a
+      fenced block has somewhere to put it. */
+  caption?: string;
   body: readonly CodeLine[];
   copy?: boolean;
 }
@@ -81,6 +86,7 @@ export interface CodeBlockProps {
 export class SdsCode extends SdsElement {
   static override properties = {
     lang: { type: String, reflect: true },
+    caption: { type: String },
     /* Styled lines, which no attribute can carry — a shell prompt, a comment
        and a result are three different spans, and flattening them to a string
        would throw away the only thing the component does. */
@@ -91,6 +97,7 @@ export class SdsCode extends SdsElement {
   };
 
   declare lang: CodeLang;
+  declare caption: string;
   declare body: readonly CodeLine[];
   declare action?: TemplateResult;
   declare copy: boolean;
@@ -112,6 +119,7 @@ export class SdsCode extends SdsElement {
   constructor() {
     super();
     this.lang = '';
+    this.caption = '';
     this.body = [];
     this.copy = false;
     this.copied = false;
@@ -141,13 +149,21 @@ export class SdsCode extends SdsElement {
       prompt, not the command, and pasted into a shell it is an error on line
       one. Blank lines at either end go the way a shell would not want them. */
   private get text(): string {
-    /* Comments are skipped, and they are not the author's: a template that
-       interpolates its content leaves Lit's own markers among the children,
-       and `textContent` reads a comment's body like any other. */
     const said = this.taken
-      ? this.taken.filter((node) => node.nodeType !== 8).map((node) => node.textContent ?? '').join('')
+      ? this.written
       : this.body.map(({ text, code }) => (code ? `${text} ${code}` : text)).join('\n');
     return said.replace(/^\n+/, '').replace(/\n+$/, '');
+  }
+
+  /** The text between the tags. Comments are skipped, and they are not the
+      author's: a template that interpolates its content leaves Lit's own
+      markers among the children, and `textContent` reads a comment's body
+      like any other. */
+  private get written(): string {
+    return (this.taken ?? [])
+      .filter((node) => node.nodeType !== 8)
+      .map((node) => node.textContent ?? '')
+      .join('');
   }
 
   private async toClipboard(): Promise<void> {
@@ -204,11 +220,21 @@ export class SdsCode extends SdsElement {
 
      says the language twice, and the two can disagree unnoticed — `lang`
      paints the head, the class decides the highlighting. The component owns
-     it, so a caller writes the body and nothing else. */
+     it, so a caller writes the body and nothing else.
+
+     And it colours it. A renderer that names a language and leaves the block
+     in one grey has done half the job, and every surface that used this used
+     to finish it — the same highlighter, wired the same way, in each of them.
+     It is the component's, so a consumer links two files and gets colour.
+
+     Where the system does not colour a language the author's own nodes are
+     kept: what was written is better than a guess at what it meant. */
   private get wrapped(): TemplateResult {
-    return this.lang
+    if (!this.lang) return html`<code>${this.taken}</code>`;
+    const coloured = highlight(this.lang, this.text);
+    return coloured === null
       ? html`<code class="language-${this.lang}">${this.taken}</code>`
-      : html`<code>${this.taken}</code>`;
+      : html`<code class="language-${this.lang}">${unsafeHTML(coloured)}</code>`;
   }
 
   protected override render(): TemplateResult {
@@ -220,7 +246,13 @@ export class SdsCode extends SdsElement {
     ${affordance}
   </div>`
       : undefined;
-    return html`<div class="sds-code">
+    /* Above the frame, not inside it: a caption says what the block is, and a
+       reader meets that before the block rather than in its chrome. */
+    const caption = this.caption
+      ? html`<div class="sds-code__caption">${this.caption}</div>`
+      : undefined;
+
+    return html`${caption}<div class="sds-code">
   ${head}
   <pre class="sds-code__body">${this.taken ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
 </div>`;

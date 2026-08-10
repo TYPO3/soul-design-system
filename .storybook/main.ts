@@ -15,11 +15,26 @@
    `.design-sync/NOTES.md` § Storybook. */
 
 import type { StorybookConfig } from '@storybook/web-components-vite';
+import remarkGfm from 'remark-gfm';
 
 const config: StorybookConfig = {
   stories: ['../docs/**/*.mdx', '../stories/**/*.stories.ts'],
   addons: [
-    '@storybook/addon-docs',
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        /* MDX parses CommonMark, and CommonMark has no tables. The default
+           pipeline is parse → mdx → rehype and nothing else, so a `| … |`
+           row set as a paragraph of literal pipe characters — which is what
+           every table on the overview pages was doing.
+
+           Only the parser was missing: the docs theme already styles a
+           `<table>`, which is why `docs.css` leaves prose and tables alone. */
+        mdxPluginOptions: {
+          mdxCompileOptions: { remarkPlugins: [remarkGfm] },
+        },
+      },
+    },
     // A system that documents focus rings and status colour should be able
     // to prove them. The panel runs axe against the rendered story.
     //

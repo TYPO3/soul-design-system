@@ -19,6 +19,7 @@ interface StoryEntry {
   title: string;
   name: string;
   type: 'story' | 'docs';
+  importPath: string;
 }
 
 /* Lit's dev build announces itself on every page. It is expected here and
@@ -191,4 +192,40 @@ test('the docs preview sits on the themed canvas', async ({ page }) => {
         .toBe(CANVAS[theme]);
     }
   }
+});
+
+/* A table written in a page has to arrive as a table.
+
+   MDX parses CommonMark, and CommonMark has no tables — that is a GFM
+   extension, and Storybook's compiler does not load it. So every `| … |` row
+   on these pages set as a paragraph of literal pipe characters, and read as a
+   page whose author had forgotten to finish it. `.storybook/main.ts` adds the
+   plugin; this is what stops it being dropped again, which a Storybook
+   upgrade rewriting that file would do silently.
+
+   Only the hand-written pages: an autodocs page is generated from a story and
+   has no prose to lose. Written as the absence of the delimiter row rather
+   than a count of tables, so it also covers a page that grows its first table
+   later — with one positive assertion so it cannot pass by finding nothing. */
+test('a table written in a docs page renders as a table', async ({ page, request }) => {
+  const res = await request.get('/index.json');
+  const index = (await res.json()) as { entries: Record<string, StoryEntry> };
+  const pages = Object.values(index.entries).filter((e) => e.type === 'docs' && e.importPath.endsWith('.mdx'));
+  expect(pages.length, 'the written pages should be in the index').toBeGreaterThan(0);
+
+  let tables = 0;
+
+  for (const doc of pages) {
+    await page.goto(`/iframe.html?viewMode=docs&id=${doc.id}`);
+    await page.waitForSelector('.sbdocs-content', { timeout: 20_000 });
+
+    /* The delimiter row, which is the one line of a table that has no meaning
+       as prose. If it is on the page as text, the table did not parse. */
+    const text = await page.locator('.sbdocs-content').innerText();
+    expect(text, `${doc.title} left an unparsed table row in its prose`).not.toMatch(/^\s*\|\s*-{3,}/m);
+
+    tables += await page.locator('.sbdocs-content table').count();
+  }
+
+  expect(tables, 'the written pages should render tables at all').toBeGreaterThan(0);
 });

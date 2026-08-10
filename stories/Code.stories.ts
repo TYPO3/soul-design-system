@@ -96,6 +96,38 @@ export const FromContent: Story = {
   )}</sds-code>`,
 };
 
+/** The colour is the component's. A renderer that names a language and leaves
+    the block in one grey has done half the job, and every surface used to
+    finish it with a highlighter of its own — the same one, wired the same way,
+    in each of them.
+
+    Only the languages the system declares are registered, and the palette is
+    the system's three syntax colours. A language it does not colour prints
+    what was written rather than a guess. */
+export const Highlighted: Story = {
+  render: () => html`
+    <sds-code lang="php" copy>&lt;?php
+namespace TYPO3\CMS\Core;
+
+// The scope a question is answered in.
+final class Version
+{
+    public function __construct(private readonly string $number) {}
+}</sds-code>
+    <sds-code lang="yaml" copy>versions:
+  - "13.4"   # LTS
+  - "14.3"
+domains: [labels, xlf]</sds-code>
+  `,
+};
+
+/** A caption says what the block is, above it — where a reader meets it
+    before the block rather than in the block's own chrome. */
+export const Captioned: Story = {
+  render: () => html`<sds-code lang="bash" caption="Installing as a dependency of an existing project" copy>composer require typo3/cms-core
+vendor/bin/typo3 cache:flush</sds-code>`,
+};
+
 export const specimenHtml = (): string =>
   spec(
     [

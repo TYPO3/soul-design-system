@@ -37,6 +37,9 @@ export interface CodeBlockProps {
     /** An affordance for the head that is not the copy button — a filename, a
         count. Set `copy` instead for copying; the component owns that. */
     action?: TemplateResult;
+    /** What the block is, in a sentence, above it. A renderer that captions a
+        fenced block has somewhere to put it. */
+    caption?: string;
     body: readonly CodeLine[];
     copy?: boolean;
 }
@@ -45,6 +48,9 @@ export declare class SdsCode extends SdsElement {
         lang: {
             type: StringConstructor;
             reflect: boolean;
+        };
+        caption: {
+            type: StringConstructor;
         };
         body: {
             type: ArrayConstructor;
@@ -62,6 +68,7 @@ export declare class SdsCode extends SdsElement {
         };
     };
     lang: CodeLang;
+    caption: string;
     body: readonly CodeLine[];
     action?: TemplateResult;
     copy: boolean;
@@ -81,6 +88,11 @@ export declare class SdsCode extends SdsElement {
         prompt, not the command, and pasted into a shell it is an error on line
         one. Blank lines at either end go the way a shell would not want them. */
     private get text();
+    /** The text between the tags. Comments are skipped, and they are not the
+        author's: a template that interpolates its content leaves Lit's own
+        markers among the children, and `textContent` reads a comment's body
+        like any other. */
+    private get written();
     private toClipboard;
     private clipboard;
     private get copyButton();

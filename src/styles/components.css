@@ -589,6 +589,51 @@ button.sds-rail__item {
 .sds-code__string { color: var(--syntax-string); }
 .sds-code__key { color: var(--syntax-key); }
 
+/* What the block is, above it. */
+.sds-code__caption {
+  font-size: var(--note-body-size);
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+/* The highlighter's classes, mapped onto the three syntax colours this system
+   names and onto nothing else. highlight.js emits about thirty; a stylesheet
+   that gave each its own would be inventing twenty-seven colours the system
+   never decided. Everything unlisted reads as ordinary code text, which is
+   the honest answer.
+
+   These were written out in every surface that used the system, each mapping
+   the same classes onto the same three tokens by hand. */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-attr,
+.hljs-attribute,
+.hljs-title,
+.hljs-section,
+.hljs-tag { color: var(--syntax-key); }
+
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-regexp,
+.hljs-addition,
+.hljs-meta-string,
+.hljs-meta { color: var(--syntax-string); }
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion { color: var(--syntax-comment); }
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-subst,
+.hljs-type,
+.hljs-params { color: var(--text-primary); }
+
 /* Diff: the one place a status colour may fill a whole line. */
 .sds-diff {
   margin: 0;
