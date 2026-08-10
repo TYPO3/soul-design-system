@@ -82,6 +82,13 @@ records. An anchor without that field (anything uploaded before this was
 added) makes the plan say so and refuse to guess: compare `list_files`
 against the build yourself that one time.
 
+The conventions header is checked mechanically: `npm run conventions`, also
+step 5 of verify. It never rewrites the file — the prose belongs to its
+authors — it only fails when a class or token named there no longer exists
+in the build. Not optional politeness: the header is inlined into the design
+agent's prompt, so a name that does not resolve makes the agent write markup
+that silently does nothing.
+
 **Then run `npm run synced`.** It promotes the pushed anchor into
 `.design-sync/.cache/remote-sync.json`, which is what `status` and `plan`
 compare against next time.
