@@ -1,4 +1,4 @@
-<!-- @dsCard group="Brand" viewport="700x1455" subtitle="How a signet is built for this system — one rounding throughout: half the stroke" name="Signet — construction" -->
+<!-- @dsCard group="Brand" viewport="700x1785" subtitle="How a signet is built for this system — one rounding throughout: half the stroke" name="Signet — construction" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -16,7 +16,9 @@
         <div class="sds-note__body">
           The mark below is one worked example of them, carried over from the Dev&nbsp;Companion
           prototype &#8212; a reference implementation, not an approved product mark. A product
-          adopting this system draws its own signet to the same construction.
+          adopting this system draws its own signet to the same construction. A second
+          worked example, for TYPO3&nbsp;Tryout, is at the foot of this card: same frame,
+          same marker, same rounding, a different word inside.
         </div>
       </div>
     </div>
@@ -251,6 +253,54 @@
 </svg></div>
         <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">8.5 units</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Heavy. The interior closes up and the lines lose their separation.</div></div>
       </div></div>
+    </div>
+
+    <div class="spec-cap">A SECOND PRODUCT, THE SAME CONSTRUCTION</div>
+
+    <div style="display:flex; gap:30px; align-items:flex-start;">
+      <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; flex:none;">
+        <svg viewBox="-6 -6 140 112" width="123.20" height="98.56" class="sds-signet">
+  <path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+  <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
+  <path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg>
+        <div class="spec-cap">DEV COMPANION</div>
+        <div class="spec-note" style="max-width:20ch;">A session ending in one answer.</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; flex:none;">
+        <svg viewBox="-6 -6 140 112" width="123.20" height="98.56" class="sds-signet">
+  <path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M38 29.5L38 70.5L77 50Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg>
+        <div class="spec-cap">TRYOUT</div>
+        <div class="spec-note" style="max-width:20ch;">Clone, <span class="sds-mono" style="white-space:nowrap;">ddev start</span>, done.</div>
+      </div>
+      <div class="spec-note" style="flex:1; min-width:0;">
+        Everything structural is shared and not up for redrawing: the frame path, the
+        marker at 36&#8239;&#215;&#8239;52, stroke 7, the 3.5 rounding, the 7-unit gap. What a
+        product owns is the interior, and it gets exactly one idea there.
+        <br /><br />
+        The triangle is filled <em>and</em> stroked at the same weight, the way the corner
+        marker is. That is not a shortcut: it makes the round join do the rounding, so its
+        three points come out at 3.5 like every other corner in the mark, without a second
+        construction to keep in step.
+      </div>
+    </div>
+
+    <div style="display:flex; gap:30px; align-items:flex-start;">
+      <div style="display:flex; align-items:flex-end; gap:20px; flex:none; padding-top:6px;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/tryout-signet-l.svg" width="32" height="25.6" alt="" /><span class="spec-cap">L &#183; 32</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/tryout-signet-m.svg" width="24" height="19.2" alt="" /><span class="spec-cap">M &#183; 24</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/tryout-signet-s.svg" width="16" height="16" alt="" /><span class="spec-cap">S &#183; 16</span></div>
+      </div>
+      <div class="spec-note" style="flex:1; min-width:0;">
+        Three files again, redrawn rather than scaled: <span class="sds-mono">tryout-signet-l.svg</span>,
+        <span class="sds-mono">-m.svg</span>, <span class="sds-mono">-s.svg</span>. A heavier stroke
+        inflates the triangle by half a stroke on every side, so its vertices move inward at
+        each step to hold the inked size still. S keeps the square viewBox, because a favicon
+        slot is square.
+      </div>
     </div>
 
   </div>
