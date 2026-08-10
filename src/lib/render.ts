@@ -87,6 +87,30 @@ export function renderStatic(template: TemplateResult): string {
      which is invisible in review and blank in the pane. */
   const leaked = /<(sds-[a-z-]+)\b/.exec(html);
   if (leaked) {
+    /* Two different faults produce a surviving tag, and telling them apart is
+       worth the extra line — one is a bug in this file, the other is the
+       caller using a form that cannot be exported at all.
+
+       An element given content between its tags cannot be flattened. Lit's
+       SSR renderer emits the element's own template and then the authored
+       children after it, and `connectedCallback` never runs in Node — so the
+       component never lifts those children into its body, and what comes back
+       is a frame with an empty middle and the content stranded beside it.
+       There is nothing to unwrap.
+
+       The content form is a browser affordance: a renderer produces the body
+       and the element frames it on upgrade. For anything that has to be
+       exported — every specimen card — pass the body as a property, which is
+       what the stories do. */
+    if (/<\/template>\s*\S/.test(html)) {
+      throw new Error(
+        `<${leaked[1]}> was given content between its tags, and that form cannot be exported. ` +
+          'Lit SSR emits authored children beside the element\'s own template rather than inside ' +
+          'it, and `connectedCallback` never runs here to move them. Pass the body as a property ' +
+          'instead — see the stories. The content form works in a browser, where the element ' +
+          'upgrades and takes its children.',
+      );
+    }
     throw new Error(
       `<${leaked[1]}> reached the static output. A card is opened without JavaScript, so every ` +
         'element has to be flattened to the markup it renders — see flattenElements().',

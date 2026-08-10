@@ -4,19 +4,12 @@
    everything the machine reads, writes or names — tool names, arguments,
    paths, versions, CLI fragments — at every size, including headings.
 
-   The faces themselves are NOT here. This file used to `@import
-   "../../fonts/fonts.css"` and pull every `@font-face` in with it, which made
-   a token file that could only be used by something willing to take our
-   subsetting too. It cost the first outside consumer its build: a
-   documentation site that already builds its own faces from the same
-   `@fontsource` packages could not import two variables without also
-   importing forty woff2 URLs its bundler had no loader for. Over a git
-   install it is worse — `fonts/` is generated and not in the repository, so
-   the import resolves to nothing at all.
+   The faces are not here. They were, by way of an `@import`, which made this
+   a token file only something willing to take our subsetting could use — and
+   over a git install `fonts/` does not exist at all, so the import resolves
+   to nothing.
 
-   `styles.css` imports the faces, right before this file. Link that and a
-   design is self-contained, exactly as before. Take this one alone and you
-   get the two names and nothing else, which is what a token file is. */
+   `styles.css` imports the faces, right before this file. */
 
 :root {
   --font-sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;

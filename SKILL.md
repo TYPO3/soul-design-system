@@ -28,6 +28,22 @@ Two consequences, both learned the hard way:
   property for it, which is exactly long enough for someone to conclude the
   element is not enough and go back to hand-written markup.
 
+## Comments
+
+Write the reason, not the story. A comment earns its place by saying why the
+code is the way it is — a constraint, a trade, a failure it prevents. Anything
+a reader can see in the line below is noise.
+
+- **Never name another project.** No repository, no product, no consumer, no
+  counts taken from one. This system is used by things it does not know about,
+  and a comment that says *the documentation site needed this* dates the moment
+  it is read and means nothing to the next reader. Say what the code needs.
+- **No changelog.** Not what it used to be, not who asked, not when. Git holds
+  that. A note about a past failure belongs only where the failure would
+  otherwise be repeated, and then in a sentence.
+- **As short as it can be and still be true.** Three lines that carry a reason
+  beat fifteen that carry a reason and an anecdote.
+
 ## Start here, every time
 
 1. Link `styles.css` — it imports every token file. Never redeclare a token value locally.

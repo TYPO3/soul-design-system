@@ -290,16 +290,8 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
 
 /* A table wider than the column it sits in.
 
-   Not the default: a table that lays out its own columns is the better
-   thing, and `display: block` gives that up — the browser stops distributing
-   width across the columns and each one takes what its content needs. That
-   is the right trade only when the alternative is the table being cut off,
-   which is what happens to a wide one in a prose column.
-
-   Added because the first surface outside this repo needed it and had
-   written the three declarations into its own stylesheet, which is the
-   component being rebuilt one consumer at a time. A table that cannot be
-   read at a narrow width is the component's problem, not the page's. */
+   Not the default: `display: block` gives up column distribution, and that
+   trade is only right when the alternative is being cut off. */
 .sds-table--scroll {
   display: block;
   max-width: 100%;
@@ -494,9 +486,7 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
 }
-/* Copying a block is the component's job, not the page's. It was a `.copy`
-   class in the first consumer's own stylesheet, with its own transition and
-   its own two-icon swap — which is the component being rebuilt. */
+/* Copying a block is the component's job, not the page's. */
 .sds-code__copy {
   display: inline-flex;
   align-items: center;
@@ -517,8 +507,14 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
    replaces the duplicate rather than sitting beside it. */
 .sds-code__glyph,
 .sds-code__copied { display: inline-flex; }
-.sds-code__copy .sds-code__copied,
+/* Both halves, and both are needed. Hiding the check at rest without showing
+   it again on `is-copied` leaves a button that only ever loses a glyph — the
+   duplicate goes and nothing arrives, which is how this shipped for one
+   commit. The two selectors have the same specificity, so the second wins on
+   order. */
+.sds-code__copy .sds-code__copied { display: none; }
 .sds-code__copy.is-copied .sds-code__glyph { display: none; }
+.sds-code__copy.is-copied .sds-code__copied { display: inline-flex; }
 .sds-code__copy.is-copied { color: var(--status-ok); }
 .sds-code__body {
   margin: 0;

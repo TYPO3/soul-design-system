@@ -41,26 +41,15 @@ export interface CodeLine {
 
 /** The languages this system supports in a code block.
 
-    Declared, not surveyed. The first version of this list was taken from what
-    the Dev Companion documentation happened to contain — 136 JSON blocks, 50
-    YAML, 16 shell — which describes one consumer on one day and says nothing
-    about what the system will stand behind. This says what it will.
+    Declared, not surveyed: this says what the system stands behind, not what
+    some page happens to contain. TYPO3-shaped on purpose. Adding one means the
+    highlighter knows the identifier and a specimen proves it reads right.
 
-    The set is TYPO3-shaped on purpose: `typoscript` and `php` are the domain,
-    `json` and `yaml` are what configures it, `bash` is what runs it, `sql` and
-    `xml` are what it stores and ships, `diff` is what a review reads. Adding
-    one is a decision with two parts — the highlighter the consumer uses has to
-    know the identifier, and a specimen should exist that proves it reads
-    right. Both, or neither.
-
-    Not a closed enum, and that is deliberate: the value reaches this component
-    from a Markdown fence or an author's hand, and refusing to print a word is
-    not a service. What the union buys is the near miss — `yml` for `yaml`,
-    `sh` for `bash` — which highlight.js does not know, quietly leaves
-    unhighlighted, and leaves looking almost right.
-
-    `(string & {})` is what keeps both halves: a plain `| string` would swallow
-    the literals and take the editor's suggestions with them. */
+    Open at the edges, because the value arrives from a Markdown fence and
+    refusing to print a word is not a service. The union catches the near miss
+    — `yml` for `yaml` — which a highlighter answers by quietly highlighting
+    nothing. `(string & {})` keeps the literals from being swallowed by the
+    fallback. */
 export type CodeLang =
   | 'bash'
   | 'css'
@@ -205,6 +194,23 @@ export class SdsCode extends SdsElement {
     }
   }
 
+  /* Content written between the tags, in the `<code>` a code block is
+     supposed to have.
+
+     The element renders that wrapper, and the `language-` class on it, from
+     its own `lang`. A caller writing
+
+       <sds-code lang="json"><code class="language-json">…</code></sds-code>
+
+     says the language twice, and the two can disagree unnoticed — `lang`
+     paints the head, the class decides the highlighting. The component owns
+     it, so a caller writes the body and nothing else. */
+  private get wrapped(): TemplateResult {
+    return this.lang
+      ? html`<code class="language-${this.lang}">${this.taken}</code>`
+      : html`<code>${this.taken}</code>`;
+  }
+
   protected override render(): TemplateResult {
     const affordance = this.action ?? this.copyButton;
     /* A head with neither a language nor an affordance is an empty bar. */
@@ -216,7 +222,7 @@ export class SdsCode extends SdsElement {
       : undefined;
     return html`<div class="sds-code">
   ${head}
-  <pre class="sds-code__body">${this.taken ?? lines(this.body.map((l) => this.line(l)), 0)}</pre>
+  <pre class="sds-code__body">${this.taken ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
 </div>`;
   }
 }
