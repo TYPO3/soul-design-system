@@ -59,7 +59,7 @@ inline styles — do not mint a `sds-` name.
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon` |
 | Badges | `sds-badge` + `--accent` `--ok` `--warn` `--error` |
 | Fields | `sds-field` `sds-input` `sds-select` `sds-field-error` |
-| Tables | `sds-table` + `--compact` `--medium` `--airy`; cells `sds-td-name` `sds-td-meta` |
+| Tables | `sds-table` + `--compact` `--medium` `--airy` `--scroll`; cells `sds-td-name` `sds-td-meta` |
 | Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-overlay` `sds-modal__head|__body|__foot` `sds-drawer` |
 | Navigation | `sds-pills`/`sds-pill` `sds-tabs`/`sds-tab` `sds-rail`/`sds-rail__item` |
 | Code | `sds-code__head|__body` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |

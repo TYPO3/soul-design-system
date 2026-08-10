@@ -288,6 +288,24 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   --sds-meta: var(--row-meta-airy);
 }
 
+/* A table wider than the column it sits in.
+
+   Not the default: a table that lays out its own columns is the better
+   thing, and `display: block` gives that up — the browser stops distributing
+   width across the columns and each one takes what its content needs. That
+   is the right trade only when the alternative is the table being cut off,
+   which is what happens to a wide one in a prose column.
+
+   Added because the first surface outside this repo needed it and had
+   written the three declarations into its own stylesheet, which is the
+   component being rebuilt one consumer at a time. A table that cannot be
+   read at a narrow width is the component's problem, not the page's. */
+.sds-table--scroll {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .sds-table th {
   text-align: left;
   font-family: var(--font-mono);

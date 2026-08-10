@@ -61,6 +61,13 @@ const definedTokens = new Set([...css.matchAll(/(--[a-z0-9-]+)\s*:/g)].flatMap((
    (`sds-code__head|__body`), or as a family base followed by its modifiers
    in a table row (`sds-btn` + `--primary` `--secondary`). */
 const named = new Set<string>();
+/* `--scroll` in a table row is a modifier, not a token — but it is spelled
+   exactly like one, and the token check below would go looking for a custom
+   property by that name. This used to be a hand-kept list of words to ignore
+   (`primary|secondary|ghost|sm|…`), which meant every new modifier failed
+   verify until someone remembered to add it there. A modifier is now whatever
+   the row logic already consumed as one. */
+const modifiers = new Set<string>();
 for (const line of doc.split('\n')) {
   const ticked = [...line.matchAll(/`([^`]+)`/g)].flatMap((m) => (m[1] ? [m[1]] : []));
   for (const item of ticked) {
@@ -82,7 +89,7 @@ for (const line of doc.split('\n')) {
   if (line.startsWith('|')) {
     const base = ticked.find((t) => t.startsWith('sds-'));
     const mods = [...line.matchAll(/`(--[a-z0-9-]+)`/g)].flatMap((m) => (m[1] ? [m[1]] : []));
-    if (base && mods.length) for (const m of mods) named.add(base + m);
+    if (base && mods.length) for (const m of mods) { named.add(base + m); modifiers.add(m); }
   }
 }
 named.delete('sds-');   // the prose names the prefix itself
@@ -90,7 +97,7 @@ named.delete('sds-');   // the prose names the prefix itself
 /* Token prefixes are written with a trailing star (`--surface-*`). */
 const prefixes = [...doc.matchAll(/`(--[a-z0-9-]*)\*`/g)].flatMap((m) => (m[1] ? [m[1]] : []));
 const exactTokens = [...doc.matchAll(/`(--[a-z][a-z0-9-]+)`/g)].flatMap((m) => (m[1] ? [m[1]] : []))
-  .filter((t) => definedTokens.size && !/^--(primary|secondary|ghost|sm|icon|ok|warn|error|info|accent|muted|compact|medium|airy|add|del|external|modifier|20|24)$/.test(t));
+  .filter((t) => definedTokens.size && !modifiers.has(t) && !/^--(modifier)$/.test(t));
 
 const missingClasses = [...named].filter((c) => !definedClasses.has(c) && !definedTags.has(c)).sort();
 const namedTags = [...named].filter((c) => definedTags.has(c));
