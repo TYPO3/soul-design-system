@@ -1,11 +1,11 @@
 ---
-name: typo3-support-app-design-system
-description: Build any surface of TYPO3 Support App — documentation pages, product UI, README diagrams, release notes — to its own design system. Load this before writing markup, CSS or SVG for this product.
+name: soul-design-system
+description: Build any surface to the Soul Design System — documentation pages, product UI, README diagrams, release notes. Load this before writing markup, CSS or SVG.
 ---
 
-# TYPO3 Support App — build rules
+# Soul Design System — build rules
 
-The product is a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work. It has one public surface where **the documentation is also the product presentation**: a visitor gets the pitch and keeps scrolling into the reference without a seam.
+The system was cut against TYPO3 Support App and still answers to it: a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work. It has one public surface where **the documentation is also the product presentation**: a visitor gets the pitch and keeps scrolling into the reference without a seam. That surface is the worked example behind most of the rules below.
 
 This file is the operating instruction. `RATIONALE.md` is the reasoning behind it — read that when a rule needs to be extended or broken. Every specimen card under `guidelines/` and `components/` is a working HTML file: open the one nearest your task and copy from it rather than inventing a variant.
 
@@ -27,7 +27,7 @@ Breaking one of these breaks the system, not just the page.
 - **No emoji.** Status is a colour plus a glyph from `assets/icons/` or the mono font (`✓`).
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-support-app install`.
 - **16px is the floor** for both the signet and the icons. Below it: wordmark alone, and no icon at all.
-- **The TYPO3 Soul is not used.** This is not an approved TYPO3 product. No surface may imply endorsement; footers say what the product is, never whose it is.
+- **The TYPO3 Soul is not used.** This is not an approved TYPO3 product. No surface may imply endorsement; footers say what the product is, never whose it is. The system's *name* is Soul; the Association's *asset* is the TYPO3 Soul. This rule is about the asset, and the name never takes `TYPO3` in front of it.
 - **Hover changes colour and border. Never position, never size.** Nothing scales, lifts or bounces. Transitions 140ms `--ease-out`.
 - **Sentence case headings.** No marketing superlatives — no "powerful", "seamless", "blazing fast".
 
@@ -136,7 +136,7 @@ Enough to produce a new diagram that sits in the set without adjustment. Every v
 
 **What the example mark means, if you keep it.** A terminal frame holding a short session: two muted lines and one orange answer, top-right corner cut away by a solid orange marker. The marker is not the Soul; it borrows the Soul's two-part reading, its orange and its 1 : 1.44 proportion, and none of its geometry.
 
-**Wordmark** — `TYPO3` at 600, an orange pipe, `Support App` at 300. The pipe is separator and caret at once, and the only colour in the mark. Signet is 1.36 × the type size, gap 0.5 ×, clear space half the signet height.
+**Wordmark** — `TYPO3` at 600, an orange pipe, `Soul Design System` at 300. The pipe is separator and caret at once, and the only colour in the mark. Signet is 1.36 × the type size, gap 0.5 ×, clear space half the signet height.
 
 **Never** — a second colour in the mark, equal weights on the two words, stretching, an orange fill behind it, the large drawing at a small size, the marker in anything but orange.
 
@@ -144,7 +144,7 @@ Enough to produce a new diagram that sits in the set without adjustment. Every v
 
 210px tool rail, 1080px content, 48px gutters. Section boundaries are full-bleed hairlines; content inside respects the measure. **1px grid gaps over a `--border-subtle` background** produce the hairline-separated card grid — the system's signature move.
 
-The header is sticky, translucent canvas with an 8px backdrop blur; nothing else in the system is fixed, transparent or blurred. **It never wraps** — it sheds in a fixed order, widest first: 1120px mode-switch labels, 1040px transport line, 820px navigation into a panel, 620px `Support App` off the wordmark. A header that wraps to two lines breaks the sticky offset everything below is measured against.
+The header is sticky, translucent canvas with an 8px backdrop blur; nothing else in the system is fixed, transparent or blurred. **It never wraps** — it sheds in a fixed order, widest first: 1120px mode-switch labels, 1040px transport line, 820px navigation into a panel, 620px `Soul Design System` off the wordmark. A header that wraps to two lines breaks the sticky offset everything below is measured against.
 
 Every surface carries the mode switch: two segments, `light` and `dark`, the active one filled with the accent — the same treatment as an active navigation item, because it is one.
 

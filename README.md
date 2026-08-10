@@ -1,9 +1,13 @@
-# TYPO3 Support App — design system
+# Soul Design System
 
 A design system you **build and maintain here**: the tokens, the `sds-` class
-layer, and nine Lit elements. Everything else in this repo is generated from
-those three — the specimen cards, the Storybook pages, the npm package, and
-the guide the claude.ai design agent builds with.
+layer, and seventeen Lit elements. Everything else in this repo is generated
+from those three — the specimen cards, the Storybook pages, the npm package,
+and the guide the claude.ai design agent builds with.
+
+`sds-` is the system's initials, and they are the reason the prefix survived
+the rename: Soul Design System reads the same as the one it replaced. Not a
+class, a token or a tag had to move.
 
 **CSS first.** You link one stylesheet and put classes on markup — that is
 the whole contract, and it needs no JavaScript:
@@ -20,7 +24,7 @@ DOM* and emit exactly those classes, so `components.css` stays the single
 source of truth and the two are the same markup:
 
 ```js
-import '@typo3/support-design-system';   // registers every sds-* element
+import '@typo3/soul-design-system';   // registers every sds-* element
 
 // <sds-button variant="primary" label="Run the checks"></sds-button>
 ```

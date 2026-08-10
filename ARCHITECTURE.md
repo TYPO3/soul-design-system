@@ -208,10 +208,17 @@ screenshot step, a contrast script — needs the same guard.
 ## The `sds-` prefix
 
 Renamed from `tsa-` at the user's request, together with the JS namespace
-(`T3SA` → `SDS`) and the package name (`@typo3/support-design-system`). The
-initialism matches the package. The rename touched 51 files and was verified
-pixel-identical on all 38 cards — a class rename changes nothing visually as
-long as stylesheet and markup move together.
+(`T3SA` → `SDS`) and the package name. The rename touched 51 files and was
+verified pixel-identical on all 38 cards — a class rename changes nothing
+visually as long as stylesheet and markup move together.
+
+It survived the second rename untouched. When the system became **Soul
+Design System** the initials came out the same, so `sds-`, `SDS` and every
+tag stayed exactly where they were; only prose, the package name
+(`@typo3/soul-design-system`) and the wordmark moved. That is luck rather
+than design, but it is worth recording why nothing had to move: a prefix
+that spells the system's initials survives a rename only when the initials
+do.
 
 A prefix is kept on purpose, whatever its spelling. Designs mix this CSS with agent-written markup, and `.btn`,
 `.card`, `.badge`, `.table` are the most collided-with names in CSS. The bug

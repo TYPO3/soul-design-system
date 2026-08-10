@@ -7,6 +7,18 @@
    modal loses its buttons, or a note loses its last line. Too much slack is
    worth knowing too: it shows up as dead space in the pane.
 
+   Height was the only question here for a long time, and it is not the only
+   way to lose content. A cell with `overflow: hidden` cuts whatever is wider
+   than it, silently, inside a card whose own height is perfectly correct —
+   which is how the misuse card came to read "TYPO3 | Soul Desig" after the
+   wordmark got longer. So every element that actually clips is asked whether
+   anything is being clipped.
+
+   Only elements that clip: `scrollWidth > clientWidth` on an element with
+   `overflow: visible` means the content paints outside its box, which is
+   ordinary and usually deliberate. Two pixels of slack, because sub-pixel
+   layout rounds against images.
+
      node scripts/fit.ts
 */
 import { cards, screens, type Card, type Screen } from './lib/cards.ts';
@@ -43,16 +55,32 @@ const results = await withPage(async ({ map }) =>
       }
       return Math.ceil(Math.max(bottom, d.scrollHeight === 2400 ? 0 : d.scrollHeight));
     });
-    return { card, content };
+    const clipped = await page.evaluate(() => {
+      const hits: string[] = [];
+      for (const el of document.body.querySelectorAll('*')) {
+        const e = el as HTMLElement;
+        if (getComputedStyle(e).overflowX === 'visible') continue;
+        if (e.clientWidth > 0 && e.scrollWidth > e.clientWidth + 2) {
+          const text = (e.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 40);
+          hits.push(`${e.clientWidth}px box holding ${e.scrollWidth}px — "${text}"`);
+        }
+      }
+      return hits;
+    });
+    return { card, content, clipped };
   }));
 
 let cropped = 0;
-for (const { card, content } of results) {
+for (const { card, content, clipped } of results) {
   if (content > card.height) {
     cropped++;
     console.log(`  CROPPED ${card.rel}: declares ${card.viewport}, content is ${content}px (+${content - card.height})`);
   } else if (content < card.height - SLACK) {
     console.log(`  slack   ${card.rel}: declares ${card.viewport}, content only ${content}px (-${card.height - content})`);
+  }
+  for (const hit of clipped ?? []) {
+    cropped++;
+    console.log(`  CLIPPED ${card.rel}: ${hit}`);
   }
 }
 console.log(`\n${list.length} cards + screens, ${cropped} cropped`);

@@ -1,4 +1,4 @@
-# design-sync notes — TYPO3 Support App
+# design-sync notes — Soul Design System
 
 Everything a future sync should know before touching the claude.ai/design
 upload. **This is one export of the design system, not the system itself** —
@@ -18,9 +18,11 @@ three stylesheets in `styles/`. The converter rewrites both the imports and
 the cards' links on the way out, so **a change to the repo layout is a change
 to `rewriteDepth` and to the `@import` rewriting in `scripts/build.ts`.**
 
-`_ds_bundle.js` carries the nine Lit elements built from `src/index.ts`, with
-the `@ds-bundle` header listing every tag. It used to be an intentionally
-empty namespace; any note claiming that predates this and is wrong.
+`_ds_bundle.js` carries the Lit elements built from `src/index.ts`, with the
+`@ds-bundle` header listing every tag. It used to be an intentionally empty
+namespace; any note claiming that predates this and is wrong. The count is
+not written down here on purpose — `make verify` checks the header against
+the build, which is the only place it stays true.
 
 ## Doing a sync
 
@@ -118,8 +120,8 @@ say they have no reference point rather than guessing.
   automatically — diff `ds-bundle/` against the skill's documented layout.
 - **`.design-sync/conventions.md` is committed and human-editable.** Never
   rewrite it on a re-sync; re-validate that every class and token it names
-  still exists in the build, and report drift. 62 classes, 9 element tags and
-  14 token families verified at the time of writing. It also no longer says
+  still exists in the build, and report drift — `make verify` does this and
+  prints the counts, which is why none are repeated here. It also no longer says
   "no JavaScript components" — that claim was inlined into the design agent's
   prompt and became false the day the bundle got components.
 - **`assets/**` is not in the skill's default upload plan.** This repo's cards

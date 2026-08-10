@@ -1,7 +1,7 @@
 {
-  "name": "@typo3/support-design-system",
+  "name": "@typo3/soul-design-system",
   "version": "1.0.0",
-  "description": "The TYPO3 Support App design system — tokens, the sds- class layer, Lit components, and the specimen cards that document them.",
+  "description": "Soul Design System — tokens, the sds- class layer, Lit components, and the specimen cards that document them.",
   "keywords": [
     "design-system",
     "css",

@@ -1,4 +1,4 @@
-# TYPO3 Support App — how to build with this system
+# Soul Design System — how to build with it
 
 A CSS design system: **classes and tokens first.** You build plain markup and put
 these classes on it, and that is the whole contract — the product this dresses is

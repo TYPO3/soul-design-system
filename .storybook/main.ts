@@ -10,7 +10,7 @@
 
    Storybook is a documentation and authoring surface. It is NOT the
    claude.ai/design sync path: `.design-sync/config.json` pins
-   `shape: "package"` and `scripts/build.mjs` stays the converter. The kit's
+   `shape: "package"` and `scripts/build.ts` stays the converter. The kit's
    own detector would otherwise see this directory and switch shapes — see
    `.design-sync/NOTES.md` § Storybook. */
 

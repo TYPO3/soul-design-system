@@ -1,8 +1,10 @@
-# TYPO3 Support App — Design System
+# Soul Design System
 
-The visual and written system for **TYPO3 Support App**: a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work for the three audiences that do it — the core contributor, the extension author and the site developer.
+**The system is the product.** The tokens, the `sds-` class layer and the Lit elements are what is built and maintained here; the specimen cards, the Storybook, the npm package and the guide the design agent reads are all generated from them.
 
-The product has one public surface that has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Everything in this system is built for that single continuous page plus the reference pages behind it.
+It was cut against a real surface and still answers to one: **TYPO3 Support App**, a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work for the three audiences that do it — the core contributor, the extension author and the site developer. That product is the worked example throughout this document, and deliberately so — a system with no surface to answer to drifts into taste.
+
+Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
 
 ## Sources
 
@@ -20,9 +22,11 @@ Drawn in a 128 × 100 box, and everything follows one value: **stroke 7** → ro
 
 **Three optical sizes, not one drawing scaled.** L (32px and up): stroke 7, three lines. M (20–31px): stroke 8.5, the faint middle line dropped. S (16–19px, favicon): stroke 11, marker 40 × 58. **16px is the floor** — below it, wordmark alone. Shipped as three files — `assets/signet-l.svg`, `signet-m.svg`, `signet-s.svg` — and the size is chosen at the link (`<link rel="icon" sizes="16x16" href="signet-s.svg">`), not inside the asset. A single self-switching file was tried and dropped: media queries inside an SVG only see their own viewport when the file is linked, and not dependably across renderers. Each file follows `prefers-color-scheme`; since an image cannot inherit `currentColor`, the frame is a mid warm grey that holds on both modes.
 
-**Wordmark.** `TYPO3` at weight 600, an orange pipe, `Support App` at weight 300. The pipe is a separator and a caret at once — the terminal reading the product earns — and it is the only colour in the mark. The weight split, not a bullet or a slash, carries the hierarchy: the domain has the mass, the product name is the qualifier it grammatically is. Minimum 12px type.
+**Wordmark.** `TYPO3` at weight 600, an orange pipe, `Soul Design System` at weight 300. The pipe is a separator and a caret at once — the terminal reading the product earns — and it is the only colour in the mark. The weight split, not a bullet or a slash, carries the hierarchy: the domain has the mass, the system's name is the qualifier it grammatically is. Minimum 12px type.
 
 **The TYPO3 Soul is not used.** Not as a rule of taste but of standing: this is not an approved TYPO3 product, so the Association's mark is not ours to place. The signet carries no Soul, and no surface implies endorsement — footers say what the product is, never whose it is. Should approval ever come, the decision is still no: the Soul inside our mark would either become the mark (and the sub-product disappears) or be cropped (and we would be altering the Association's asset). The files sit side by side for co-branding, never nested.
+
+**The name is not the mark.** This system is called Soul; the Association's asset is called the TYPO3 Soul. The rule above is about the asset — nothing here places it, nests it or borrows its geometry, and that does not change. The name carries no `TYPO3` in front of it for exactly the same reason: *TYPO3 Soul Design System* would read as the Association's own system, which this is not. `TYPO3` appears in the wordmark, where it names the domain the system serves, and in the npm scope, where it names an organisation — not in the system's name.
 
 **Lockup.** The signet is **1.36 × the type size**, the gap between them **0.5 × the type size**. Clear space is half the signet height on every side. Minimum: 12px type for the full lockup, 16px for the signet alone.
 
@@ -38,7 +42,7 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 
 **A mode switch is a product control, not a preference screen.** Every surface offers one: two segments, `light` and `dark`, the active one filled with the accent — the same treatment as an active navigation item, because it is one. The first visit follows `prefers-color-scheme`; the choice is then remembered and written to `data-theme` on `<html>`, so the page background and the native scrollbars follow with it. Setting the attribute deeper than `<html>` themes the subtree but leaves the browser's own chrome behind — which is exactly how scrollbars end up in the wrong mode.
 
-**The header never wraps.** It sheds in a fixed order, widest first: at 1120px the mode switch drops its `light`/`dark` labels and keeps the two icons, at 1040px the transport line goes, at 820px the navigation collapses into a single button and the items move into a panel under the header — full-width rows, the active one filled with the accent, with the transport line at its foot. The mode switch and the mark stay in the bar at every width; below 620px the wordmark drops `Support App` and keeps `TYPO3` plus the signet. A header that wraps to two lines breaks the sticky offset everything below it is measured against.
+**The header never wraps.** It sheds in a fixed order, widest first: at 1120px the mode switch drops its `light`/`dark` labels and keeps the two icons, at 1040px the transport line goes, at 820px the navigation collapses into a single button and the items move into a panel under the header — full-width rows, the active one filled with the accent, with the transport line at its foot. The mode switch and the mark stay in the bar at every width; below 620px the wordmark drops `Soul Design System` and keeps `TYPO3` plus the signet. A header that wraps to two lines breaks the sticky offset everything below it is measured against.
 
 **Scrollbars belong to the surface.** `tokens/colors.css` styles them alongside the tokens: thumb `--border-strong`, `--text-muted` on hover, transparent track, 11px. Any page that loads the tokens gets them; `color-scheme` alone would only flip the ones the browser draws itself.
 
