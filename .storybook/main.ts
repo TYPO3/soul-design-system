@@ -46,6 +46,10 @@ const config: StorybookConfig = {
     /* The whole directory, at the path the cards resolve to: a guideline
        card served at /guidelines/x.card.html links `../styles/styles.css`. */
     { from: '../src/styles', to: '/styles' },
+    /* What a consumer copies. Served so the drop-in can be opened here rather
+       than only built — an artefact nothing ever loads is an artefact nobody
+       knows is broken. */
+    { from: '../dist', to: '/dist' },
   ],
 };
 

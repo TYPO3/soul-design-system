@@ -147,6 +147,12 @@ if (ssr.status !== 0) fails.push('an element cannot be rendered outside a browse
 /* The seven component cards are generated from their stories. A card edited
    by hand looks fine in review and is silently reverted by the next
    `make cards` — so a stale card is a failure, not a warning. */
+/* The drop-in is committed, so it can go stale against its own source. */
+console.log('4c. the committed drop-in matches its source');
+const dist = spawnSync(process.execPath, [join(ROOT, 'scripts/dist.ts'), '--check'], { encoding: 'utf8' });
+process.stdout.write((dist.stdout ?? '').split('\n').filter((l) => l.includes('out of date') || l.includes('✗')).map((l) => `${l}\n`).join(''));
+if (dist.status !== 0) fails.push('dist/ is out of date — run `make dist` and commit it');
+
 console.log('5. generated cards match their stories');
 const gen = spawnSync(process.execPath, [join(ROOT, 'scripts/cards.ts'), '--check'], { encoding: 'utf8' });
 process.stdout.write(gen.stdout.split('\n').filter((l) => l.includes('STALE') || l.includes('generated cards')).map((l) => `  ${l.trim()}\n`).join(''));

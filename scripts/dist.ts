@@ -1,21 +1,23 @@
 #!/usr/bin/env node
-/* Build the publishable package — ESM modules plus their types.
+/* Build what a consumer takes: a drop-in, and a package.
 
-   The repo itself needs no build: Node runs the `.ts` sources directly by
-   stripping types, and that is what keeps the tooling plain. A *published*
-   package cannot rely on that, because a consumer's bundler resolves `.js`
-   and wants `.d.ts`. So this step exists for `npm publish` and for nothing
-   else — `make storybook`, `verify`, `cards` and Storybook all keep working
-   against `src/` with no `dist/` present at all.
+   The repo itself needs no build — Node runs the `.ts` sources by stripping
+   types. Two audiences do.
 
-   `lit` stays external. Bundling it would give every consumer a private copy
-   of Lit's reactive-element registry, and two copies mean two registries and
-   an element that upgrades under one of them: it is a peer dependency for
-   the same reason React always is.
+   **The drop-in.** `soul.js`, `soul.css` and the assets beside them. Copy the
+   directory somewhere public, link two files, done: no bundler, no `lit` to
+   install, no import map. That is the surface this system was built for — an
+   HTML page rendered by something that is not JavaScript. Lit is bundled in,
+   because a drop-in has nothing to share a copy with.
+
+   **The package.** `index.js` plus types, `lit` external. Bundling it there
+   would give a consumer a second reactive-element registry and an element
+   that upgrades under the wrong one — a peer dependency for the reason React
+   always is.
 
      make dist
 */
-import { rmSync, mkdirSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
+import { cpSync, existsSync, rmSync, mkdirSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
@@ -23,7 +25,12 @@ import * as esbuild from 'esbuild';
 
 import { ROOT } from './lib/cards.ts';
 
-const OUT = join(ROOT, 'dist');
+/* `--check` builds beside the committed output and compares. The drop-in is
+   in git so a consumer can take it over a plain clone; committed and
+   unchecked it would be a copy that goes stale against its own source, which
+   is the failure this system exists to prevent. */
+const CHECK = process.argv.includes('--check');
+const OUT = join(ROOT, CHECK ? '.dist-check' : 'dist');
 
 /** Every .d.ts under a directory. */
 function* walkDts(dir: string): Generator<string> {
@@ -105,7 +112,64 @@ for (const file of walkDts(join(OUT, 'types'))) {
   }
 }
 
+/* The drop-in. Lit inside, one stylesheet, and the files both of them ask
+   for sitting beside them at the paths they already use. */
+const drop = await esbuild.build({
+  entryPoints: [join(ROOT, 'src', 'index.ts')],
+  outfile: join(OUT, 'soul.js'),
+  bundle: true,
+  format: 'esm',
+  target: 'es2022',
+  minify: true,
+  legalComments: 'none',
+  metafile: true,
+});
+
+/* One stylesheet: the faces, the tokens and the class layer inlined, with
+   the woff2 files copied beside it and their URLs rewritten to match. */
+await esbuild.build({
+  entryPoints: [join(ROOT, 'src/styles/styles.css')],
+  outfile: join(OUT, 'soul.css'),
+  bundle: true,
+  minify: true,
+  loader: { '.woff2': 'copy' },
+  assetNames: 'fonts/[name]',
+});
+
+for (const dir of ['assets']) cpSync(join(ROOT, dir), join(OUT, dir), { recursive: true });
+
+const kb = (p: string): string => `${(readFileSync(join(OUT, p)).length / 1024).toFixed(1)} kB`;
 const bytes = readFileSync(join(OUT, 'index.js')).length;
 const modules = Object.keys(bundle.metafile.inputs).length;
+console.log(`dist/soul.js  — ${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile.inputs).length} modules`);
+console.log(`dist/soul.css — ${kb('soul.css')}, faces and tokens inlined`);
 console.log(`dist/index.js — ${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`);
 console.log(`dist/types/  — declarations, ${rewritten} rewritten to .js specifiers`);
+
+if (CHECK) {
+  const live = join(ROOT, 'dist');
+  const walk = (dir: string, base = dir, out: string[] = []): string[] => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, e.name);
+      if (e.isDirectory()) walk(p, base, out);
+      else out.push(p.slice(base.length + 1));
+    }
+    return out;
+  };
+  const fresh = new Set(walk(OUT));
+  const committed = existsSync(live) ? new Set(walk(live)) : new Set<string>();
+  const stale: string[] = [];
+  for (const f of fresh) {
+    if (!committed.has(f)) { stale.push(`missing: ${f}`); continue; }
+    if (!readFileSync(join(OUT, f)).equals(readFileSync(join(live, f)))) stale.push(`differs: ${f}`);
+  }
+  for (const f of committed) if (!fresh.has(f)) stale.push(`no longer built: ${f}`);
+  rmSync(OUT, { recursive: true, force: true });
+
+  console.log(`   ${fresh.size} files, ${stale.length} out of date`);
+  if (stale.length) {
+    for (const s of stale.slice(0, 8)) console.log(`   ✗ ${s}`);
+    console.log('   Run `make dist` and commit the result.');
+    process.exit(1);
+  }
+}

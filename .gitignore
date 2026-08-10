@@ -25,8 +25,11 @@ node_modules/
 # generated from @typo3/icons by scripts/icons.mjs, alongside assets/icons/
 /src/lib/icons.generated.ts
 
-# generated publishable package
-/dist/
+# dist/ is committed on purpose: it is the drop-in a consumer copies over a
+# plain clone, and `make dist ARGS=--check` proves it still matches its source.
+/.dist-check/
+/dist/index.js.map
+/dist/tsconfig.json
 
 # playwright output
 /test-results/
