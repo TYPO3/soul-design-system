@@ -92,7 +92,12 @@ export class SdsField extends SdsElement {
 
   protected override render(): TemplateResult {
     const cls = fieldClass(this);
-    const box = `min-width:${this.minWidth}px`;
+    /* A width, not a floor. This was `min-width`, and `min-width` wins over
+       every other width rule in CSS: a field asking for 260px in a header with
+       240px left pushed the page sideways, and nothing in the row looked
+       wrong. What a caller gives is the width it wants; what it gets is that
+       or the room there is. */
+    const box = `width:${this.minWidth}px; max-width:100%`;
 
     if (this.select) {
       return html`<span class="${cls}" style="${box}"><select class="sds-input" aria-label="${this.label ?? nothing}" @change="${(e: Event) => this.onInput(e)}">${

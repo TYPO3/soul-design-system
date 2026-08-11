@@ -2281,7 +2281,7 @@ var SdsField = class extends SdsElement {
   }
   render() {
     const cls = fieldClass(this);
-    const box = `min-width:${this.minWidth}px`;
+    const box = `width:${this.minWidth}px; max-width:100%`;
     if (this.select) {
       return html7`<span class="${cls}" style="${box}"><select class="sds-input" aria-label="${this.label ?? nothing}" @change="${(e) => this.onInput(e)}">${this.options.length ? this.options.map((option) => html7`<option ?selected="${option === this.value}">${option}</option>`) : html7`<option>${this.value}</option>`}</select><span style="color:var(--text-muted);"><sds-icon name="actions-chevron-down"></sds-icon></span></span>`;
     }

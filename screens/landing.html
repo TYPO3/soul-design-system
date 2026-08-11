@@ -5,46 +5,10 @@
 <meta charset="utf-8" />
 <title>Soul Design System</title>
 <link rel="stylesheet" href="../src/styles/styles.css" />
-<style>
-  .shell { min-height: 100vh; display: flex; flex-direction: column; }
-  .head {
-    height: var(--height-header);
-    display: flex; align-items: center; gap: var(--space-6);
-    padding: 0 var(--gutter-page);
-    border-bottom: var(--border-hairline) solid var(--border-subtle);
-  }
-  .head__end { margin-left: auto; display: flex; align-items: center; gap: var(--space-3); }
-  .page { flex: 1; padding: var(--space-12) var(--gutter-page) var(--space-10); }
-  .column { max-width: var(--width-content); margin: 0 auto; }
-  .hero { display: flex; flex-direction: column; gap: var(--space-5); }
-  .hero h1 {
-    margin: 0;
-    max-width: var(--measure-display);
-    font-size: var(--font-size-display);
-    line-height: var(--leading-display);
-    letter-spacing: var(--tracking-display);
-  }
-  .hero p {
-    margin: 0;
-    font-size: var(--font-size-lead);
-    line-height: var(--leading-body);
-    color: var(--text-secondary);
-    max-width: var(--measure-lead);
-  }
-  .actions { display: flex; gap: var(--space-3); }
-  .split { display: flex; gap: var(--space-12); align-items: flex-start; margin-top: var(--space-12); }
-  .split > * { flex: 1; min-width: 0; }
-  .planes { display: flex; flex-direction: column; gap: var(--space-4); }
-  .foot {
-    border-top: var(--border-hairline) solid var(--border-subtle);
-    padding: var(--space-5) var(--gutter-page);
-    display: flex; gap: var(--space-6); align-items: center;
-  }
-</style>
 </head>
 <body class="sds-app">
-<div class="shell">
-  <header class="head">
+<div class="sds-shell">
+  <header class="sds-bar">
     <a class="sds-lockup" href="#overview">
       <svg class="sds-signet" width="20" height="20" viewBox="-6 -6 140 112" aria-hidden="true"><path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
@@ -55,7 +19,7 @@
   <a class="sds-pill" href="#components">components</a>
   <a class="sds-pill" href="#install">install</a>
 </nav>
-    <div class="head__end">
+    <div class="sds-bar__end">
       <span class="sds-badge sds-badge--accent">1.0.0</span>
       <button class="sds-btn sds-btn--secondary sds-btn--sm">Read the guidelines</button>
       <div class="sds-modes" role="group" aria-label="Colour mode">
@@ -75,20 +39,20 @@
     </div>
   </header>
 
-  <main class="page">
-    <div class="column">
-      <div class="hero">
-        <h1>A system, not a stylesheet</h1>
-        <p>
+  <main class="sds-page">
+    <div class="sds-page__column">
+      <div class="sds-stack">
+        <h1 class="sds-display">A system, not a stylesheet</h1>
+        <p class="sds-lead">
           Tokens, a class layer and the elements over it — one vocabulary, whether
           a surface runs JavaScript or is rendered by PHP. Every rule it holds is
           shown on a card generated from the component that holds it.
         </p>
-        <div class="actions"><button class="sds-btn sds-btn--primary"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg>Start a design</button><button class="sds-btn sds-btn--secondary">Browse the components</button></div>
+        <div class="sds-actions"><button class="sds-btn sds-btn--primary"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg>Start a design</button><button class="sds-btn sds-btn--secondary">Browse the components</button></div>
       </div>
 
-      <div class="split">
-        <div class="planes">
+      <div class="sds-split" style="margin-top:var(--space-12)">
+        <div class="sds-stack">
           <div class="sds-panel" style="flex:1">
   <div class="sds-surface-title">Tokens</div>
   <div class="sds-surface-body">One accent, three syntax colours, no shadows anywhere. Both modes ship in one declaration.</div>
@@ -120,7 +84,7 @@
     </div>
   </main>
 
-  <footer class="foot">
+  <footer class="sds-foot">
     <span class="sds-label">Soul Design System</span>
     <a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
     <a class="sds-link" href="#">Contribute an icon</a>

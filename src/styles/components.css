@@ -61,6 +61,46 @@
   color: var(--text-secondary);
 }
 
+/* The scale, as classes. Guidelines → Type documents the sizes; these are
+   what a page writes to get them, so a heading is never a font-size somebody
+   picked. Each sets its own leading and tracking, because the two move with
+   the size and a heading given only a size is a heading set at body leading.
+
+   The measure belongs to the class too: display type held to 18ch and a lead
+   to 64ch is the difference between a page and a wall. */
+.sds-display {
+  margin: 0;
+  font-size: var(--font-size-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  max-width: var(--measure-display);
+}
+.sds-h1 {
+  margin: 0;
+  font-size: var(--font-size-h1);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+}
+.sds-h2 {
+  margin: 0;
+  font-size: var(--font-size-h2);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+}
+.sds-h3 {
+  margin: 0;
+  font-size: var(--font-size-h3);
+  line-height: var(--leading-heading);
+}
+/* The sentence under a heading. Larger than body copy and held shorter. */
+.sds-lead {
+  margin: 0;
+  font-size: var(--font-size-lead);
+  line-height: var(--leading-body);
+  color: var(--text-secondary);
+  max-width: var(--measure-lead);
+}
+
 /* A section label: mono, uppercase, tracked out. */
 .sds-label {
   font-family: var(--font-mono);
@@ -445,6 +485,133 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   padding: 12px;
 }
 
+/* -------------------------------------------------------------- layout -- */
+
+/* What a whole page is made of.
+
+   A page layout used to be a `<style>` block in whichever file drew the page:
+   a shell, a bar, a body with a rail beside a column, and a set of media
+   queries. Every surface wrote its own, so the breakpoints disagreed, and a
+   header that pushed the page sideways at 1024px was a bug each of them got
+   to have separately.
+
+   These carry no colour and no type beyond what a frame needs — they are
+   where things sit. Everything painted is still a component.
+
+   One rule runs through all of it: the bar **sheds, it never wraps**. A header
+   on two lines moves the offset everything below is measured against, so as
+   the screen narrows it drops what the page below repeats — the section
+   navigation first, then the badge, then the search — and keeps the mark and
+   the mode switch to the end. */
+
+.sds-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sds-bar {
+  height: var(--height-header);
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: 0 var(--gutter-page);
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+}
+/* The cluster that sits against the right edge. */
+.sds-bar__end {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+/* The cluster does not shrink — it sheds, which is what the media queries
+   below do. Shrinking it squeezes its own contents out of it instead, and a
+   box 64px narrower than what is inside it is a header that overflows without
+   anything in the row looking wrong. */
+.sds-bar__end { flex: none; }
+
+/* Nothing else in the bar may set a floor either. A flex item's default
+   minimum is its own content, so one long word stops the row shrinking and
+   pushes the page sideways. The hosts are `display: contents`, so the real
+   flex items are a level below them — hence both. */
+.sds-bar > *,
+.sds-bar > * > * { min-width: 0; }
+/* The field is the one thing that gives before anything is dropped. */
+.sds-bar .sds-field { flex: 0 1 260px; }
+
+/* A rail beside a column. */
+.sds-body {
+  flex: 1;
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-8) var(--gutter-page);
+}
+.sds-body__rail { width: var(--width-sidebar); flex: none; }
+
+/* The column everything is read in. `min-width: 0` because a code block or a
+   table inside it is wider than it looks and would otherwise set the floor. */
+.sds-column {
+  flex: 1;
+  min-width: 0;
+  max-width: var(--width-content);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* A page with no rail: one centred column with the page gutters around it. */
+.sds-page { flex: 1; padding: var(--space-12) var(--gutter-page) var(--space-10); }
+.sds-page__column { max-width: var(--width-content); margin: 0 auto; }
+
+.sds-foot {
+  border-top: var(--border-hairline) solid var(--border-subtle);
+  padding: var(--space-5) var(--gutter-page);
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+/* A stack of blocks, and a row of controls. */
+.sds-stack { display: flex; flex-direction: column; gap: var(--space-4); }
+.sds-actions { display: flex; gap: var(--space-3); }
+/* Two of anything, side by side until there is no room for two. */
+.sds-split { display: flex; gap: var(--space-12); align-items: flex-start; }
+.sds-split > * { flex: 1; min-width: 0; }
+
+/* Where it sheds. Two steps, and the second is where a rail stops being a
+   column beside the text and becomes a fold above it — its groups are already
+   `<details>`, so a closed rail is a few lines and needs no button to open it
+   and no script to run one. */
+@media (max-width: 1140px) {
+  .sds-bar { gap: var(--space-4); padding: 0 var(--space-6); }
+  .sds-bar sds-pills { display: none; }
+  .sds-body { gap: var(--space-8); padding: var(--space-8) var(--space-6); }
+  .sds-page { padding: var(--space-10) var(--space-6) var(--space-8); }
+  .sds-foot { padding: var(--space-5) var(--space-6); }
+}
+@media (max-width: 860px) {
+  .sds-bar { padding: 0 var(--space-4); }
+  .sds-bar sds-badge { display: none; }
+  .sds-body { flex-direction: column; padding: var(--space-6) var(--space-4); }
+  .sds-body__rail { width: auto; }
+  .sds-page { padding: var(--space-8) var(--space-4); }
+  .sds-foot { padding: var(--space-5) var(--space-4); flex-wrap: wrap; gap: var(--space-4); }
+  .sds-split { flex-direction: column; gap: var(--space-8); }
+}
+@media (max-width: 640px) {
+  /* The field goes last of the three. A surface that needs search on a phone
+     puts a button in its place and opens the dialog. */
+  .sds-bar sds-field { display: none; }
+  .sds-actions { flex-wrap: wrap; }
+}
+@media (max-width: 460px) {
+  /* The product half of the wordmark, never the signet: the mark is what
+     identifies the page, and it is 20px. */
+  .sds-bar .sds-wordmark__product,
+  .sds-bar .sds-wordmark__pipe { display: none; }
+}
+
 /* ----------------------------------------------------------- navigation -- */
 
 /* An item is a control: a link where it goes somewhere, a button where it
@@ -516,7 +683,9 @@ button.sds-rail__item {
    treatment as an active navigation item, because it is one. The group is
    bordered so the pair reads as one control rather than as two buttons. */
 .sds-modes {
-  display: flex;
+  /* Inline: it is a control, and a block-level box takes the whole row
+     wherever it is not a flex item — which is most places a header puts it. */
+  display: inline-flex;
   gap: var(--space-1);
   padding: 2px;
   font-family: var(--font-mono);
@@ -596,7 +765,14 @@ button.sds-rail__item {
 
 /* A code block is a control-scale object: --radius-control, not the card
    radius. Sunken, because it is machine output. */
+/* A block never widens the column it sits in. Its longest line is its
+   min-content width, and in a flex column that becomes a floor the whole page
+   is measured against — which is how a 1080px column with a 40-character
+   command in it pushed a 1440px page sideways. The body already scrolls; this
+   is what lets it. */
 .sds-code {
+  min-width: 0;
+  max-width: 100%;
   border: var(--border-hairline) solid var(--border-subtle);
   background: var(--surface-sunken);
   border-radius: var(--radius-control);
@@ -659,6 +835,7 @@ button.sds-rail__item {
 .sds-code__copy.is-copied { color: var(--status-ok); }
 .sds-code__body {
   margin: 0;
+  min-width: 0;
   padding: 14px 15px;
   font-family: var(--font-mono);
   font-size: var(--font-size-code);

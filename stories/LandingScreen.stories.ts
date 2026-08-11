@@ -10,12 +10,11 @@
    every story is opened by the test suite, so a page here is a page under
    test rather than a picture of one.
 
-   The `<style>` block carries layout and nothing else. Every painted value is
-   a token, which is what makes this a starting point rather than a design of
-   its own.
+   It carries no stylesheet of its own: the shell, the bar, the page column and
+   the two-up row are the system's layout classes, and so is where each of them
+   sheds as the screen narrows.
 
-   The `<style>` is inlined into the story as well as into the file: a page
-   layout is layout, and there is nowhere else for it to live. */
+*/
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -53,45 +52,6 @@ const PLANES = [
   },
 ];
 
-/* Layout the system does not own: the page frame, the hero measure and the
-   three-up row. Nothing here paints. */
-const STYLE = `
-.shell { min-height: 100vh; display: flex; flex-direction: column; }
-.head {
-  height: var(--height-header);
-  display: flex; align-items: center; gap: var(--space-6);
-  padding: 0 var(--gutter-page);
-  border-bottom: var(--border-hairline) solid var(--border-subtle);
-}
-.head__end { margin-left: auto; display: flex; align-items: center; gap: var(--space-3); }
-.page { flex: 1; padding: var(--space-12) var(--gutter-page) var(--space-10); }
-.column { max-width: var(--width-content); margin: 0 auto; }
-.hero { display: flex; flex-direction: column; gap: var(--space-5); }
-.hero h1 {
-  margin: 0;
-  max-width: var(--measure-display);
-  font-size: var(--font-size-display);
-  line-height: var(--leading-display);
-  letter-spacing: var(--tracking-display);
-}
-.hero p {
-  margin: 0;
-  font-size: var(--font-size-lead);
-  line-height: var(--leading-body);
-  color: var(--text-secondary);
-  max-width: var(--measure-lead);
-}
-.actions { display: flex; gap: var(--space-3); }
-.split { display: flex; gap: var(--space-12); align-items: flex-start; margin-top: var(--space-12); }
-.split > * { flex: 1; min-width: 0; }
-.planes { display: flex; flex-direction: column; gap: var(--space-4); }
-.foot {
-  border-top: var(--border-hairline) solid var(--border-subtle);
-  padding: var(--space-5) var(--gutter-page);
-  display: flex; gap: var(--space-6); align-items: center;
-}
-`;
-
 /** The page. `flat` composes the form a static file can hold. */
 export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a button's label is content, and
@@ -105,8 +65,8 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     ? buttonMarkup({ variant: 'secondary', size: 'sm' }, 'Read the guidelines')
     : html`<sds-button variant="secondary" size="sm">Read the guidelines</sds-button>`;
 
-  return html`<div class="shell">
-  <header class="head">
+  return html`<div class="sds-shell">
+  <header class="sds-bar">
     <a class="sds-lockup" href="#overview">
       <sds-signet size="20"></sds-signet>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
@@ -117,27 +77,27 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
       { label: 'components', href: '#components' },
       { label: 'install', href: '#install' },
     ]}" active="0"></sds-pills>
-    <div class="head__end">
+    <div class="sds-bar__end">
       <sds-badge label="1.0.0" tone="accent"></sds-badge>
       ${guidelines}
       <sds-theme></sds-theme>
     </div>
   </header>
 
-  <main class="page">
-    <div class="column">
-      <div class="hero">
-        <h1>A system, not a stylesheet</h1>
-        <p>
+  <main class="sds-page">
+    <div class="sds-page__column">
+      <div class="sds-stack">
+        <h1 class="sds-display">A system, not a stylesheet</h1>
+        <p class="sds-lead">
           Tokens, a class layer and the elements over it — one vocabulary, whether
           a surface runs JavaScript or is rendered by PHP. Every rule it holds is
           shown on a card generated from the component that holds it.
         </p>
-        <div class="actions">${start}</div>
+        <div class="sds-actions">${start}</div>
       </div>
 
-      <div class="split">
-        <div class="planes">
+      <div class="sds-split" style="margin-top:var(--space-12)">
+        <div class="sds-stack">
           ${PLANES.map(
             (plane) => html`<sds-surface plane="panel" heading="${plane.heading}" body="${plane.body}" box-style="flex:1"></sds-surface>`,
           )}
@@ -154,7 +114,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </div>
   </main>
 
-  <footer class="foot">
+  <footer class="sds-foot">
     <span class="sds-label">Soul Design System</span>
     <sds-link label="docs.typo3.org" href="https://docs.typo3.org" external></sds-link>
     <sds-link label="Contribute an icon" href="#"></sds-link>
@@ -173,7 +133,6 @@ const meta: Meta = {
       title: 'Soul Design System',
       subtitle: 'The first page: the pitch, what it is made of, and how to start',
       viewport: '1440x900',
-      style: STYLE,
     }),
   },
 };
@@ -184,7 +143,7 @@ type Story = StoryObj;
 /** Click through it: a pill answers, the block copies itself, and the mode
     switch moves the whole page. */
 export const Page: Story = {
-  render: () => html`<style>${STYLE}</style>${landingPage()}`,
+  render: () => landingPage(),
 };
 
 export const screenHtml = (): string => part(landingPage({ flat: true }));
