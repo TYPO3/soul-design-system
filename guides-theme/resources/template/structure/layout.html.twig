@@ -27,9 +27,9 @@
 <title>{{ title }}
     {%- if title!=null and env.projectNode.title!=null %} — {% endif -%}
     {%- if env.projectNode.title -%}{{ env.projectNode.title }}{%- endif -%}</title>
-<link rel="stylesheet" href="{{ asset('styles/soul.css') }}" />
-<link rel="stylesheet" href="{{ asset('styles/document.css') }}" />
-<script type="module" src="{{ asset('styles/soul.js') }}" defer></script>
+<link rel="stylesheet" href="{{ asset('/styles/soul.css') }}" />
+<link rel="stylesheet" href="{{ asset('/styles/document.css') }}" />
+<script type="module" src="{{ asset('/styles/soul.js') }}" defer></script>
 {%~ block head %}
 {%~ endblock %}
 </head>

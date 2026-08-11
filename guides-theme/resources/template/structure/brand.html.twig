@@ -22,7 +22,7 @@
 #}
 <a class="sds-lockup" href="{{ soul.home ? asset(soul.home) : renderLink('/index') }}">
     {%- if soul.signet %}
-        <img class="sds-signet" src="{{ asset(soul.signet) }}" alt="" width="24" height="24" />
+        <img class="sds-signet" src="{{ asset('/' ~ soul.signet) }}" alt="" width="24" height="24" />
     {%- endif %}
     <span class="sds-wordmark">
         <span class="sds-wordmark__product">{{ soul.product|default(env.projectNode.title)|default('Documentation') }}</span>

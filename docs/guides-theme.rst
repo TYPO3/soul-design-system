@@ -53,6 +53,66 @@ Installing
    and note that the Markdown parser does **not** consult it: this theme
    guards against that itself.
 
+In your own package
+===================
+
+The renderer copies an asset it can see a document reach for, and nothing
+else — it does not read stylesheets and it does not know what a theme links.
+Everything below follows from that one sentence.
+
+**1. Require it, and the renderer.**
+
+.. code-block:: bash
+
+   composer require typo3/soul-guides-theme phpdocumentor/guides-cli \
+       phpdocumentor/guides-code
+
+**2. Put the drop-in inside your documentation source**, not beside it:
+
+.. code-block:: text
+
+   docs/
+     guides.xml
+     index.rst
+     styles/            <- copied in by your build, gitignored
+       soul.css
+       document.css
+       soul.js
+
+A ``<link>`` to a file outside the parsed tree is reported as a missing image
+and dropped, and the page ships with no stylesheet at all.
+
+**3. Copy the faces afterwards.** ``soul.css`` asks for ``fonts/`` beside
+itself, and since nothing parses a stylesheet, nothing carries them across.
+Copy them into the *output* once the render is done:
+
+.. code-block:: bash
+
+   cp -r vendor/typo3/soul-design-system/dist/fonts site/styles/fonts
+
+.. warning::
+
+   Skip this and the site falls back to ``system-ui`` while every file it names
+   is present — a page that looks broken with nothing in the log.
+
+**4. Render.**
+
+.. code-block:: bash
+
+   vendor/bin/guides docs --output=site -c docs --fail-on-error
+
+**5. Prove it stands alone.** What gets published is the output directory and
+nothing else: not the repository around it, not ``vendor/``. A reference that
+resolves during a build because that is a checkout resolves to nothing on the
+server. Walk the rendered HTML and check every local ``href`` and ``src``
+lands **inside** the output — this repository's ``make guides`` does exactly
+that and refuses to finish otherwise.
+
+.. seealso::
+
+   ``scripts/guides.ts`` in this repository is a working version of all five
+   steps, including the specimen cards. It is about ninety lines.
+
 What the theme takes over
 =========================
 

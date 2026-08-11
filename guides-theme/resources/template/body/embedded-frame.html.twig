@@ -1,0 +1,33 @@
+{#
+    A frame, and — where it is a specimen — the caption that says what it is.
+
+    Two nodes share this template because they are the same thing: a document
+    of somebody else's, shown inside this one. A video has a title and nothing
+    else to say; a specimen names the card and the size it was measured at,
+    because that number is checked by `make fit` and a reader who wants to know
+    what they are looking at should not have to open the source.
+#}
+{%- if node.hasOption('specimen') -%}
+<figure class="sds-figure">
+    {# Not lazy. A specimen is the evidence on the page, and a frame that
+       loads on scroll is a frame that is blank in every screenshot the gate
+       takes — which is the one place somebody looks at all of them at once. #}
+    <div class="sds-figure__frame">
+        <iframe src="{{ asset(node.url) }}"
+                {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}
+                {%- if node.hasOption('height') %} height="{{ node.option('height') }}"{% endif -%}
+                {%- if node.hasOption('title') %} title="{{ node.option('title') }}"{% endif -%}></iframe>
+    </div>
+    <figcaption class="sds-figure__caption">
+        {{- node.option('title')|default('Specimen') }} · <span class="sds-mono">{{ node.option('viewport') }}</span>
+    </figcaption>
+</figure>
+{%- else -%}
+<iframe src="{{ node.url }}"
+        {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}
+        {%- if node.hasOption('height') %} height="{{ node.option('height') }}"{% endif -%}
+        {%- if node.hasOption('title') %} title="{{ node.option('title') }}"{% endif -%}
+        {%- if node.hasOption('allow') %} allow="{{ node.option('allow') }}"{% endif -%}
+        {%- if node.hasOption('allowfullscreen') and node.option('allowfullscreen') %} allowfullscreen{% endif -%}
+        ></iframe>
+{%- endif -%}

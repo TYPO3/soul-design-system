@@ -19,6 +19,7 @@ once.
    guides-theme
    frontend
    documents
+   guidelines/index
 
 :doc:`As a Claude design system <design-system>`
    An upload the design agent reads: every rule as a written page, every

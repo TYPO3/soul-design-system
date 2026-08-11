@@ -407,6 +407,36 @@ Registry) oder nach ghcr schieben und ziehen.
 - `guides-theme/GAPS.md`: aus der Gap-Liste wird abgearbeitet, was abgearbeitet ist.
 - Diese Datei löschen.
 
+## Veröffentlichen: ein Repo, zwei Registries
+
+Zwei Pakete kommen aus diesem Baum, und nur eines davon lässt sich von hier
+aus veröffentlichen.
+
+**npm braucht keinen Split.** Die `package.json` liegt an der Wurzel, `files`
+nennt `dist/`, `src/`, `fonts/`, `assets/`, und `npm publish` aus der Wurzel
+liefert genau das. Nichts zu tun.
+
+**Composer braucht einen.** Packagist liest die `composer.json` an der Wurzel
+eines Repositories; ein Paket in einem Unterverzeichnis existiert für ihn
+nicht. Also ein **Subtree-Split**: `guides-theme/` wird bei jedem Tag in ein
+eigenes, schreibgeschütztes Repository gedrückt, aus dem Packagist liest. Das
+ist dieselbe Mechanik, die `phpdocumentor/guides` für seine eigenen
+`packages/*` benutzt, und das Werkzeug dafür ist `splitsh-lite` in der CI.
+
+**Und dabei fällt eine Entscheidung, die heute noch offen ist:** das
+abgespaltene Theme braucht die Stylesheets. Ein PHP-Projekt kann kein npm
+ziehen, also muss entweder
+
+- der Split die gebauten Dateien mitnehmen — `dist/soul.css`,
+  `document.css`, `soul.js` und die Schriften wandern beim Release nach
+  `guides-theme/resources/dist/`, und ein Doku-Build braucht nur Composer;
+- oder das Theme setzt voraus, dass jemand anders die Dateien besorgt, und
+  dokumentiert das als Vorbedingung.
+
+Das Erste ist das, was ein Verbraucher erwartet, und es ist der Grund, warum
+die Anleitung in `docs/guides-theme.rst` heute noch auf einen Pfad unter
+`vendor/typo3/soul-design-system/` zeigt, den es so nicht geben wird.
+
 ## Offene Entscheidungen, gesammelt
 
 1. Schreibweise des Specimens, gemeinsam für MDX und Guides (Schritt 5).
@@ -417,3 +447,5 @@ Registry) oder nach ghcr schieben und ziehen.
 5. Läuft `make verify` in CI, und wie kommt das Bild dorthin (Schritt 6).
 6. Ob die Dokument-Schicht später doch in `ds-bundle/` gehört — heute nein,
    aber nur, weil dort niemand Dokumente setzt.
+7. Ob der Composer-Split die gebauten Stylesheets mitnimmt (siehe oben). Das
+   entscheidet, ob ein Doku-Build npm braucht oder nicht.
