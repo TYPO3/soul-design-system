@@ -222,6 +222,28 @@ Pictures
    The caption, which sits under the picture and reads as a label for it
    rather than as a sentence of the text.
 
+Cards
+=====
+
+.. grid::
+
+   .. teaser:: A card with every option on it
+      :to: /nodes
+      :tag: Reference
+      :meta: Both halves at once
+      :src: /_images/placeholder.svg
+      :alt: A placeholder
+
+      What the directive can say is what ``sds-teaser`` draws, and this is the
+      whole of it: the picture, the row above the title, the title as the
+      link, and the two lines that decide whether it is opened.
+
+   .. teaser:: A card with nowhere to go
+
+      Without a target the title is a title. The row above it is dropped
+      rather than left blank, and so is the ground the picture would sit on —
+      a card with a hole in it is what a set of them lines up against.
+
 A document inside this one
 ==========================
 

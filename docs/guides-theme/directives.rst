@@ -134,6 +134,8 @@ One card in a grid: a title, a few sentences, and where it goes.
 
    .. teaser:: As a render guide template
       :to: /guides-theme/index
+      :tag: Package
+      :meta: Composer
 
       A Composer package that turns reStructuredText or Markdown into pages
       set with this system.
@@ -144,6 +146,39 @@ One card in a grid: a title, a few sentences, and where it goes.
    A document, written the way a ``:doc:`` reference is, and resolved per
    page. With it, the title is a link and the whole card follows it on hover;
    without it, the title is a title.
+
+.. confval:: tag
+   :type: string
+
+   What kind of entry it is, in the badge above the title. A fact about the
+   card rather than a result, so it carries no tone and no glyph.
+
+.. confval:: meta
+   :type: string
+
+   When, or anything else in the label register: it sits beside the tag, in
+   the same row, and the row is dropped where neither is written.
+
+.. confval:: art
+   :type: string
+
+   The picture, flush at the top of the card. A path in the documentation
+   source is copied into the output and resolved per page; a URL somewhere
+   else is linked as it stands. An SVG of this project's own is referenced
+   rather than linked, so it takes the page's tokens and follows it into dark
+   — which costs the file the one line :doc:`/guidelines/artwork` asks for.
+
+.. confval:: alt
+   :type: string
+
+   What the picture shows, for a reader who cannot see it. Written and empty
+   says decorative — a card whose art only repeats the title beside it — and
+   left out entirely says nothing was decided, which reads very differently.
+
+**The options are ``sds-teaser``'s properties, all of them.** A directive that
+draws one of this system's components and answers for half of it sends the
+author who wanted the other half to their own stylesheet, which is the one
+thing this system exists to prevent. What the element gains, this gains.
 
 **What is pressable is the title and not the card.** A card wrapped in one
 anchor announces its entire contents as that link's name to a screen reader,

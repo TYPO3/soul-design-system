@@ -9,10 +9,53 @@
 
     This is the markup `sds-teaser` renders, node for node: a renderer and an
     element writing the same class differently is the drift the class layer
-    exists to prevent.
+    exists to prevent. Node for node is the whole card and not the half of it a
+    landing page happened to need first — the picture, the row above the title
+    and the two lines under it are what the element draws, so they are what the
+    directive can say.
+
+    **Written as classes rather than as the elements the component composes.**
+    `sds-teaser` renders `<sds-badge label="…">`, which renders the span below
+    from a property; a renderer writing the element instead would ship a card
+    whose first row is empty until a script runs, and empty for good on a page
+    that runs none. That is the rule the theme is built on, and here it costs
+    nothing: the badge and the label have no behaviour, so the class layer is
+    the whole of them.
 #}
+{%- set art = node.option('art') -%}
+{%- set alt = node.option('alt')|default('') -%}
 <article class="sds-teaser">
+    {%- if art %}
+        {#- The picture, referenced or linked by what it is — see
+            `body/figure.html.twig`, which decides it the same way and says
+            why: a drawing referenced into the page takes the page's tokens
+            and follows it into dark, an `<img>` renders in a document of its
+            own where none are declared. A file somewhere else is linked
+            whatever it is, because a reference reads the file itself and a
+            browser will not do that across origins. -#}
+        {%- set external = art is external_target -%}
+        {%- set source = external ? art : asset(art) -%}
+        <div class="sds-teaser__art">
+            {%- if not external and art ends with '.svg' -%}
+                {#- Named where there is something to say, and hidden where
+                    there is not: an unlabelled picture and a decorative one
+                    are read out very differently, and a card whose art
+                    repeats the title beside it is the second. -#}
+                <svg class="sds-art"{% if alt %} role="img" aria-label="{{ alt }}"{% else %} aria-hidden="true"{% endif %}><use href="{{ source }}#art"></use></svg>
+            {%- else -%}
+                <img class="sds-art" src="{{ source }}" alt="{{ alt }}">
+            {%- endif -%}
+        </div>
+    {%- endif %}
     <div class="sds-teaser__body">
+        {#- The row is dropped rather than left empty: a card whose first line
+            is blank is a card with a hole where a set of them lines up. -#}
+        {%- if node.option('tag') or node.option('meta') %}
+            <div class="sds-row">
+                {%- if node.option('tag') %}<span class="sds-badge">{{ node.option('tag') }}</span>{% endif -%}
+                {%- if node.option('meta') %} <span class="sds-label">{{ node.option('meta') }}</span>{% endif -%}
+            </div>
+        {%- endif %}
         {%- if node.option('title') %}
             <h3 class="sds-teaser__title">
                 {%- if node.option('to') -%}

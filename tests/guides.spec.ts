@@ -211,6 +211,30 @@ test.describe('what the theme repaired', () => {
        node whose template was never written. */
     await expect(page.locator('.admonition')).toHaveCount(0);
   });
+
+  test('a directive that draws a component of ours draws the whole of it', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* `.. teaser::` answered for the title and the link and for nothing else
+       `sds-teaser` has, so a page that wanted the picture or the row above the
+       title had to write three declarations into a stylesheet of its own —
+       which is the failure the class layer exists to prevent, arriving through
+       the one surface that is supposed to prevent it. The card the fixture
+       writes carries every option, and this is that card. */
+    const full = page.locator('.sds-teaser').first();
+    await expect(full.locator('.sds-teaser__art svg use')).toHaveAttribute('href', /#art$/);
+    await expect(full.locator('.sds-row .sds-badge')).toHaveText('Reference');
+    await expect(full.locator('.sds-row .sds-label')).toHaveText('Both halves at once');
+    await expect(full.locator('.sds-teaser__title a')).toHaveAttribute('href', /nodes\.html$/);
+
+    /* And the other half of the same rule: what nobody wrote is not drawn. A
+       row with nothing in it and a ground under a picture that is not there
+       are each a hole in a card that sits in a set of them. */
+    const bare = page.locator('.sds-teaser').nth(1);
+    await expect(bare.locator('.sds-teaser__art')).toHaveCount(0);
+    await expect(bare.locator('.sds-row')).toHaveCount(0);
+    await expect(bare.locator('.sds-teaser__title a')).toHaveCount(0);
+  });
 });
 
 test.describe('what the reader gets before the script does', () => {
