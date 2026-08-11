@@ -101,6 +101,29 @@ Spalte.
 Was hier stand, bleibt als Beschreibung dessen stehen, was Guides ausgibt —
 das Theme muss es weiterhin treffen.
 
+Zur Zeile über Listen gehören drei Entscheidungen, die die Tabelle nicht
+hergibt:
+
+- **Marke und Einzug stehen in `components.css`, nicht in der Dokument-Schicht.**
+  Eine Liste ist auch auf einer Oberfläche eine Liste, und eine Anwendung, die
+  `document.css` nie verlinkt, bekam bis dahin den 40px-Einzug des Browsers.
+  Hier bleibt nur der Rhythmus: Abstand unter dem Block, kleinerer zwischen den
+  Punkten. Das Vokabular dazu ist `.sds-list` und `.sds-list--plain`.
+- **`a.`, `i.`, `#.` entscheidet der Quelltext.** Guides schreibt sie als
+  `type`-Attribut, und ein solches Attribut wiegt in der Kaskade nichts — eine
+  Regel auf `ol` hätte jede Buchstabenliste stumm in eine Zahlenliste
+  verwandelt. Die Regeln sind deshalb mit `:not([type])` gestellt und lassen
+  das Attribut sprechen, wo es steht.
+- **`li.dash` wird bewusst ignoriert.** Welches Zeichen jemand getippt hat, ist
+  keine Aussage über die Liste; ein Strich als Marke wäre der Quelltext, der
+  über das Aussehen der Seite entscheidet. Eine Punktform, eine Regel.
+
+Kein Template-Override für Listen: Guides gibt `<ul>`/`<ol>` blank aus, und
+blank ist genau das, was die Element-Regeln treffen. Die eine Listenstelle im
+Theme, die keine Prosa ist — das lokale Inhaltsverzeichnis in
+`toc-entries.html.twig` — ist über die Namen des Kerns (`.contents`, `.toc`)
+gesetzt und braucht die Klasse nicht.
+
 `.sds-prose` setzt Größe, Zeilenhöhe, Farbe und ein 66ch-Maß. **Kind-Regeln hat
 die Klasse keine.** Alles hier ist heute Browser-Default:
 

@@ -166,6 +166,68 @@ h6 {
   max-width: var(--measure-lead);
 }
 
+/* Bullets and numbers, which the element already says and no class can.
+
+   The last of the things an editor emits with nothing on them, and the one
+   that stayed at the browser's defaults: a 40px indent no other block on the
+   page takes, and a marker in the text colour. `.sds-prose` sets them for a
+   document — but a product surface has lists too, what a field accepts or the
+   three things a dialog is about to do, and it does not link the document
+   layer to get them.
+
+   No size and no colour here, unlike the paragraph above. A list is a
+   container: the register belongs to whatever holds it, 17px in body copy and
+   12px in a note, and a `<ul>` that pinned the body size would be the one
+   thing inside a note ignoring the note.
+
+   The indent is the marker's own width rather than a round number, so an
+   item's text lines up with the text of the paragraph above it. The marker is
+   muted because it is punctuation for the item and not part of what it says.
+   Margins are the container's, like every other element here — a document
+   sets the rhythm between blocks, and that is `document.css`. */
+ul,
+ol {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+li::marker { color: var(--text-muted); }
+
+/* Which marker, and the one place in this file where the shape is not ours to
+   choose. An author who wrote `a.` or `i.` meant letters or numerals, and the
+   renderer says so with the `type` attribute HTML has for exactly that — an
+   attribute that carries no weight at all, so a flat `ol { list-style:
+   decimal }` turns every lettered list on the page back into a numbered one
+   and nothing anywhere reports it. The guard is what leaves the attribute
+   speaking: where it is written, no rule here matches.
+
+   `:where()` for the same reason the undefined icon below uses it — these
+   weigh nothing, so anything that names a list wins over them without having
+   to know they exist. */
+:where(ul:not([type])) { list-style: disc; }
+:where(ul ul:not([type])) { list-style: circle; }
+:where(ol:not([type])) { list-style: decimal; }
+:where(ol ol:not([type])) { list-style: lower-alpha; }
+
+/* What the element cannot say: this list is read rather than scanned, so its
+   items stand apart. The reset above stays tight on purpose — a list of flags
+   under a field is one block of text, and air between its lines would make it
+   two. */
+.sds-list > li + li { margin-top: var(--space-1); }
+
+/* And a list whose items are not sentences: a table of contents, a column of
+   links, a set of pages. Every item is already marked by being a link, and a
+   disc in front of one is a bullet point drawn on a menu.
+
+   The indent goes with the markers at the top level only. Below it the step is
+   what says a section belongs to the one above it, which is the whole of what
+   a nested contents is for. The markers go from every level: `list-style` is
+   inherited, but the nested rule above matches the nested list directly and
+   would hand them straight back. */
+.sds-list--plain { padding-left: 0; }
+.sds-list--plain,
+.sds-list--plain ul,
+.sds-list--plain ol { list-style: none; }
+
 /* A sentence borrowed from somewhere.
 
    Set apart by measure and a rule at its start — position, which is what this

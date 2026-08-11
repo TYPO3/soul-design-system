@@ -49,6 +49,31 @@ Body and lead
    :viewport: 700x240
    :title: Body & lead
 
+Lists
+=====
+
+A list is indented by the width of its own marker, so an item's text lines up
+with the text of the paragraph above it, and the marker is muted — it is
+punctuation for the item, not part of what the item says. The element carries
+all of that: a ``<ul>`` an editor emitted is already set, with no class on it.
+
+Two classes say what the element cannot. ``sds-list`` puts air between items
+that are each a sentence or two; ``sds-list--plain`` takes the markers and the
+top-level indent off a list whose items are links, where every item is marked
+by being a link already.
+
+.. specimen:: guidelines/type-lists.card.html
+   :viewport: 700x260
+   :title: Lists
+
+.. note::
+
+   The one thing the system does not decide is *which* marker an ordered list
+   counts with. A source that said ``a.`` or ``i.`` arrives as the ``type``
+   attribute HTML has for it, and that attribute carries no weight at all — so
+   the rules here are written to leave it alone wherever it is set, rather than
+   quietly turning every lettered list back into a numbered one.
+
 Mono and labels
 ===============
 

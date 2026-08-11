@@ -54,13 +54,23 @@ What it sets
    * - Blocks
      - paragraphs, block quotes, transitions, code blocks and literal blocks
    * - Lists
-     - bullets and numbers, nested, and definition lists
+     - the rhythm of bullets and numbers, nested, and definition lists — the
+       marker and the indent are ``soul.css``, because a screen has lists too
    * - Tables
      - ``caption``, ``th``, ``td``, and the scroll a wide one needs
    * - Figures
      - ``figure``, ``figcaption``, and images held to the column
    * - In the line
      - ``code``, ``kbd``, ``abbr``, ``cite``, ``mark``, ``sup``, ``sub``
+
+.. note::
+
+   Lists are the one row that is not this file's alone. What a list *is* — the
+   marker, the indent at the width of that marker, the muted marker colour —
+   is in ``soul.css``, so a screen that never links the document layer has
+   lists too. What a document adds is the air: a gap under the block and a
+   smaller one between items. See :doc:`guidelines/type` for the classes,
+   ``.sds-list`` and ``.sds-list--plain``.
 
 Six levels without three new sizes
 ==================================

@@ -128,6 +128,10 @@ const CONTENT = `<!doctype html>
   <p>A sentence naming <code id="inline-code">typo3_icon_lookup</code>, which is a thing the machine named.</p>
   <p><a id="bare-a" href="#somewhere">a link nobody classed</a></p>
   <hr id="rule" />
+
+  <ul id="bullets"><li>An item<ul id="nested"><li>One step in</li></ul></li></ul>
+  <ol id="lettered" type="a"><li>The source said a.</li></ol>
+  <ul id="plain" class="sds-list sds-list--plain"><li><a href="#">A list of links</a></li></ul>
 </body>
 </html>`;
 
@@ -162,4 +166,46 @@ test('content that arrives without a class is still the system', async ({ page }
   expect(rule.top).toBe('1px');
   expect(rule.bottom).toBe('0px');
   expect(rule.margin).toBe('0px');
+});
+
+/* Lists, which arrive without a class more often than anything else here and
+   were the last of these elements still at the browser's own defaults.
+
+   The third case is the one worth a test rather than an eye: an ordered list
+   counts the way its *source* said, and the renderer says so with the `type`
+   attribute — which carries no weight in the cascade at all. A single
+   `ol { list-style: decimal }` anywhere in the stylesheet turns every lettered
+   list on every page back into a numbered one, and nothing about that is
+   visible in a screenshot of a list that happens to be numbered anyway. */
+test('a list is set by the element, and the source still picks the marker', async ({ page }) => {
+  await page.route('**/content-fixture.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: CONTENT }));
+  await page.goto('/content-fixture.html', { waitUntil: 'load' });
+
+  const list = (id: string) =>
+    page.locator(`#${id}`).evaluate((el) => {
+      const s = getComputedStyle(el);
+      return { marker: s.listStyleType, indent: s.paddingLeft, margin: s.marginBlockStart };
+    });
+
+  /* Indented by the marker's own width, not by the browser's 40px, and no
+     margin of its own — the rhythm between blocks is the container's. */
+  const bullets = await list('bullets');
+  expect(bullets.marker).toBe('disc');
+  expect(bullets.indent).not.toBe('40px');
+  expect(parseFloat(bullets.indent)).toBeGreaterThan(0);
+  expect(bullets.margin).toBe('0px');
+
+  /* A level in is a different mark, so nesting is visible without indent
+     alone having to carry it. */
+  expect((await list('nested')).marker).toBe('circle');
+
+  /* And the attribute the renderer wrote is left speaking. */
+  expect((await list('lettered')).marker).toBe('lower-alpha');
+
+  /* A list of links is marked by being links. Both halves: no marker, and the
+     indent that was only there to hold one. */
+  const plain = await list('plain');
+  expect(plain.marker).toBe('none');
+  expect(plain.indent).toBe('0px');
 });

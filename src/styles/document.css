@@ -215,12 +215,14 @@
 
 /* --------------------------------------------------------------- lists -- */
 
-/* Indented by the marker's own width rather than by a round number, so the
-   text of a list item lines up with the text of the paragraph above it. */
+/* Only the rhythm. What a list *is* — the marker, the indent at the marker's
+   own width, the muted marker colour — is in the class layer, where a list on
+   a screen that never links this file gets it too. What a document adds is the
+   air: a gap under the block, and a smaller one between items that are each a
+   sentence or two rather than a word. */
 :where(.sds-prose) ul,
 :where(.sds-prose) ol {
   margin: 0 0 var(--space-4);
-  padding-left: var(--space-5);
 }
 :where(.sds-prose) li { margin-bottom: var(--space-1); }
 :where(.sds-prose) li:last-child { margin-bottom: 0; }
@@ -230,11 +232,6 @@
 :where(.sds-prose) li > ol {
   margin: var(--space-1) 0 0;
 }
-:where(.sds-prose) ul { list-style: disc; }
-:where(.sds-prose) ul ul { list-style: circle; }
-:where(.sds-prose) ol { list-style: decimal; }
-:where(.sds-prose) ol ol { list-style: lower-alpha; }
-:where(.sds-prose) li::marker { color: var(--text-muted); }
 
 /* A definition list is the shape a reference falls into whenever it names
    things: a term, and what it is. The term carries the weight because it is

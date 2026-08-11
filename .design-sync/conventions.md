@@ -76,6 +76,7 @@ inline styles — do not mint a `sds-` name.
 |---|---|
 | Root, text | `sds-app` `sds-prose` `sds-label` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--16` `sds-icon--20` `sds-icon--24` `sds-icon--muted` |
 | Type | `sds-display` `sds-h1` `sds-h2` `sds-h3` `sds-lead` |
+| Bullets | `sds-list` for air between items, `sds-list--plain` for a list of links — a bare `ul`/`ol` is already set, marker and indent included, so neither is needed to make a list look right |
 | Layout | `sds-shell` `sds-bar`/`sds-bar__end` `sds-body`/`sds-body__rail` `sds-column` `sds-page` `sds-foot` `sds-sections` `sds-stack` `sds-row` `sds-actions` `sds-split` `sds-grid` |
 | Bands | `sds-bands` `sds-band` `sds-band--quiet` — full-bleed sections whose ground changes, contents on the page measure. Use instead of `sds-page`, never inside one |
 | Site footer | `sds-footer` `sds-footer__groups` `sds-footer__group` `sds-footer__links` `sds-footer__end`; `sds-crumbs` `sds-crumbs__sep` `sds-crumbs__here` |

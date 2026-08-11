@@ -1,0 +1,45 @@
+<!-- @dsCard group="Type" viewport="700x260" subtitle="Bullets and numbers indented by the marker; sds-list--plain for a list of links" name="Lists" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../src/styles/styles.css" />
+<link rel="stylesheet" href="../../src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec-pad" style="display:flex; flex-direction:column; gap:14px;">
+    <div style="display:flex; gap:20px; align-items:flex-start;">
+      <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px; font-size:var(--font-size-body); line-height:var(--leading-body); color:var(--text-secondary);">
+        <div class="spec-lbl">BULLETS</div>
+        <ul class="sds-list">
+          <li>An item, and its text lines up with the paragraph above it
+            <ul>
+              <li>Nested, one step in</li>
+            </ul>
+          </li>
+          <li>A second item</li>
+        </ul>
+      </div>
+      <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px; font-size:var(--font-size-body); line-height:var(--leading-body); color:var(--text-secondary);">
+        <div class="spec-lbl">NUMBERS</div>
+        <ol class="sds-list">
+          <li>A step that is taken in order
+            <ol type="a">
+              <li>Lettered, because the source said so</li>
+            </ol>
+          </li>
+          <li>A second step</li>
+        </ol>
+      </div>
+      <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px; font-size:var(--font-size-body); line-height:var(--leading-body); color:var(--text-secondary);">
+        <div class="spec-lbl">LINKS</div>
+        <ul class="sds-list sds-list--plain">
+          <li><a class="sds-link" href="#">Every item is a link</a></li>
+          <li><a class="sds-link" href="#">so nothing is marked twice</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="spec-cap" style="border-top:1px solid var(--border-subtle); padding-top:12px;">indent --space-5 · marker --text-muted · .sds-list is the air between items</div>
+  </div>
+</body>
+</html>
