@@ -18,7 +18,12 @@ import type { StorybookConfig } from '@storybook/web-components-vite';
 import remarkGfm from 'remark-gfm';
 
 const config: StorybookConfig = {
-  stories: ['../docs/**/*.mdx', '../stories/**/*.stories.ts'],
+  /* Both kinds of Storybook source live under `stories/`. `docs/` used to
+     hold the written pages, and it is the published documentation project
+     now — reStructuredText read by Guides, which this renderer cannot show
+     and should not try to. Two readers, two trees, and neither sees the
+     other's files. */
+  stories: ['../stories/**/*.mdx', '../stories/**/*.stories.ts'],
   addons: [
     {
       name: '@storybook/addon-docs',

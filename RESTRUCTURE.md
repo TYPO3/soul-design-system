@@ -6,7 +6,7 @@ dem letzten Schritt in `ARCHITECTURE.md` — und diese Datei gelöscht.
 Was der Umbau erreichen soll, in einem Satz: das System bekommt eine
 **Dokument-Schicht** neben der Komponenten-Schicht, ein **Theme**, das
 `phpdocumentor/guides` darauf abbildet, und eine **gerenderte Doku-Site**, die
-aus derselben Quelle kommt wie Storybook. Warum, steht in `GUIDES.md`.
+aus derselben Quelle kommt wie Storybook. Warum, steht in `guides-theme/GAPS.md`.
 
 ## Wie es danach aussieht
 
@@ -31,20 +31,28 @@ typo3-design-system/
 │   ├── components/                   34 Dateien, 26 registrierte Elemente
 │   ├── lib/                          element, template, render, highlight, icons
 │   └── index.ts                      der Bündel-Einstieg
-├── docs/                          ~  Quelle für ZWEI Renderer, nicht nur Storybook
-│   ├── *.mdx                         9 Seiten: Prosa + <Specimen src viewport>
-│   └── lib/Specimen.tsx              was Storybook daraus macht
-├── stories/                          73 Stories — jede Karte kommt aus einer
-│   ├── components/  29               die Elemente
-│   ├── specimens/   33               was die Karten zeigen
-│   ├── pages/        6               ganze Seiten
-│   └── lib/          5               figure, page, site, specimen, swatch
+├── docs/                          ~  NUR die publizierte Doku, RST
+│   ├── index.rst                     Landing: die drei Verwendungen
+│   ├── design-system.rst             als Claude Design System
+│   ├── guides-theme.rst              als Render-Guide-Template
+│   ├── frontend.rst                  als eigenständiges Frontend
+│   ├── documents.rst                 die Dokument-Schicht
+│   ├── guidelines/                   die neun Richtlinien — noch zu übersetzen
+│   ├── guides.xml                    Parser, Theme-Pfad, Marke
+│   └── _images/                      was die Seiten zeigen
+├── stories/                       ~  alles, was Storybook liest
+│   ├── guidelines/  9               die MDX-Seiten, hierher gezogen
+│   ├── components/  29              die Elemente
+│   ├── specimens/   33              was die Karten zeigen
+│   ├── pages/        6              ganze Seiten
+│   └── lib/          6              figure, page, site, specimen, swatch, Specimen.tsx
 ├── guides-theme/                  +  das Composer-Paket
-│   ├── composer.json
+│   ├── composer.json                 Abhängigkeiten, PSR-4 — nie ein Lock
+│   ├── src/                          die Konfigurations-Extension, Twig-Globals
 │   ├── resources/config/             Container-Konfiguration
 │   ├── resources/template/           Twig-Overrides gegen die Guides-Pfade
-│   ├── src/                          Directive + Node für das Specimen
-│   └── fixture/                      Kitchen Sink: ein Dokument je Knotenfamilie
+│   ├── acceptance/                   der Acceptance Test: jeder Knoten einmal
+│   └── GAPS.md                       was Guides ausgibt und uns fehlt
 │
 │  ── ERZEUGT ────────────────── nie von Hand anfassen ──
 ├── specimens/                     ~  drei Wurzeleinträge werden einer
@@ -61,7 +69,8 @@ typo3-design-system/
 ├── dist/                             npm-Drop-in, eingecheckt: soul.js,
 │   └── (+ document.css)           ~  soul.css, index.js, types/
 ├── ds-bundle/                        Upload-Nutzlast, flache Wurzel
-├── site/                          +  die Doku-Site, NICHT eingecheckt
+├── site/                          +  die Publish-Wurzel für Pages, NICHT eingecheckt
+│   └── _acceptance/                  die Kontrollinstanz, nicht publiziert
 │
 │  ── WERKZEUG ───────────────────────────────────────────
 ├── scripts/                          17 Tasks + lib/
@@ -85,8 +94,8 @@ typo3-design-system/
 ├── ARCHITECTURE.md                ~  wie das Repo gebaut ist
 ├── SKILL.md                          wie man mit dem System entwirft
 ├── RATIONALE.md                      warum jede Regel existiert
+├── AGENTS.md  CLAUDE.md              wer was liest, und wohin es zeigt
 ├── README.md  SIGNET-PROMPT.md  THIRD-PARTY.md  LICENSE
-├── GUIDES.md                      +  die Gap-Liste
 └── RESTRUCTURE.md                 +  dieser Plan, danach gelöscht
 ```
 
@@ -131,12 +140,11 @@ Damit es niemand ein zweites Mal durchdenkt:
   `config.json` genau dort liest. Zwei von fünf Kandidaten können nicht
   umziehen, und eine Gruppe mit zwei Ausnahmen ist keine. Der Punkt-Präfix
   sortiert sie ohnehin an den Anfang jeder Auflistung.
-- **Die fünf `lib/` bleiben fünf.** `src/`, `scripts/`, `stories/`, `tests/`,
-  `docs/` haben je eines, lokal zu ihrem Verbraucher, und das ist richtig so.
-  Genau eine Doppelung ist echt — `stories/lib/specimen.ts` und
-  `docs/lib/Specimen.tsx` beschreiben dasselbe aus zwei Richtungen, und in
-  Schritt 5 kommt eine dritte Beschreibung in PHP dazu. Das gehört dorthin,
-  nicht hierher vorgezogen.
+- **Vier `lib/` statt fünf.** `src/`, `scripts/`, `stories/`, `tests/` haben je
+  eines, lokal zu ihrem Verbraucher. `docs/lib/` gibt es nicht mehr: die eine
+  Doppelung war echt, `stories/lib/specimen.ts` und `Specimen.tsx` beschreiben
+  dasselbe aus zwei Richtungen, und sie liegen jetzt nebeneinander. Die dritte
+  Beschreibung in PHP kommt, wenn die Richtlinien umziehen.
 
 ## Schritt 0 — der Baum ist grün
 
@@ -337,7 +345,7 @@ Optionslisten, confval, Glossar, Fußnoten, Zitate, Reiter, Abbildungen, Math,
 jede Textrolle.
 
 Niemand liest das. Es ist der Beleg, gegen den jeder weitere Schritt geprüft
-wird, und es macht die Gap-Liste aus `GUIDES.md` sichtbar statt behauptet.
+wird, und es macht die Gap-Liste aus `guides-theme/GAPS.md` sichtbar statt behauptet.
 
 Anzufassen: `tests/` bekommt einen Playwright-Spec, der die gerenderten Seiten
 aufnimmt. Damit reicht das visuelle Tor bis in die Guides-Ausgabe.
@@ -396,7 +404,7 @@ Registry) oder nach ghcr schieben und ziehen.
   `styles.css`-Hülle liegt; das ist genau die Sorte Entscheidung, die diese
   Datei festhält.
 - `README.md`: der zweite Einstiegspunkt, und wann man ihn nimmt.
-- `GUIDES.md`: aus der Gap-Liste wird abgearbeitet, was abgearbeitet ist.
+- `guides-theme/GAPS.md`: aus der Gap-Liste wird abgearbeitet, was abgearbeitet ist.
 - Diese Datei löschen.
 
 ## Offene Entscheidungen, gesammelt

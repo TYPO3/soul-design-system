@@ -19,7 +19,7 @@ reverted by the next generate or fails the gate — both by design.
 | Why a rule exists, before extending or breaking it | `RATIONALE.md` |
 | Drawing a signet to the construction | `SIGNET-PROMPT.md` |
 | Where the icons and fonts came from, and under what licence | `THIRD-PARTY.md` |
-| Work in flight on the phpDocumentor Guides theme (German) | `GUIDES.md`, `RESTRUCTURE.md` |
+| Work in flight on the phpDocumentor Guides theme (German) | `guides-theme/GAPS.md`, `RESTRUCTURE.md` |
 
 `SKILL.md` is the operating instruction and `RATIONALE.md` is its reasoning.
 If a change would deviate from `SKILL.md`, read the matching section of
