@@ -28,9 +28,11 @@ node_modules/
 
 # dist/ is committed on purpose: it is the drop-in a consumer copies over a
 # plain clone, and `make dist ARGS=--check` proves it still matches its source.
+# All of it, with nothing held back: the check reads what the build wrote, so
+# a file ignored here is one it reports missing from every fresh clone — and
+# a sourcemap left out is a `sourceMappingURL` in the committed drop-in that
+# points at nothing.
 /.dist-check/
-/dist/index.js.map
-/dist/tsconfig.json
 
 # Never the lock. This is a library rather than an application: what it must
 # work against is the constraint in composer.json, and a committed lock would
