@@ -33,7 +33,7 @@ const BASH: CodeBlockProps = {
 };
 
 const sdsCode = ({ lang, body, copy }: CodeBlockProps) =>
-  html`<sds-code lang="${lang ?? ''}" ?copy="${copy ?? false}" .body="${body}"></sds-code>`;
+  html`<sds-code code-lang="${lang ?? ''}" ?copy="${copy ?? false}" .body="${body}"></sds-code>`;
 
 const sdsDiff = (path: string, body: readonly DiffLine[]) =>
   html`<sds-diff path="${path}" .body="${body}"></sds-diff>`;
@@ -91,7 +91,7 @@ export const Shell: Story = { args: BASH };
     `connectedCallback` never runs in Node to move them, so `renderStatic`
     refuses it outright rather than exporting an empty frame. */
 export const FromContent: Story = {
-  render: () => html`<sds-code lang="json" copy>${unsafeHTML(
+  render: () => html`<sds-code code-lang="json" copy>${unsafeHTML(
     '{\n  "domains": ["labels", "xlf"],\n  "versions": ["12.4", "13.4", "14.3"]\n}',
   )}</sds-code>`,
 };
@@ -106,7 +106,7 @@ export const FromContent: Story = {
     what was written rather than a guess. */
 export const Highlighted: Story = {
   render: () => html`
-    <sds-code lang="php" copy>&lt;?php
+    <sds-code code-lang="php" copy>&lt;?php
 namespace TYPO3\CMS\Core;
 
 // The scope a question is answered in.
@@ -114,17 +114,42 @@ final class Version
 {
     public function __construct(private readonly string $number) {}
 }</sds-code>
-    <sds-code lang="yaml" copy>versions:
+    <sds-code code-lang="yaml" copy>versions:
   - "13.4"   # LTS
   - "14.3"
 domains: [labels, xlf]</sds-code>
   `,
 };
 
+/** The other direction: the colour arrives with the block.
+
+    A documentation build decides the colour once, on a server, and ships HTML
+    — `phpdocumentor/guides` does it with a PHP port of the same highlighter,
+    so what lands here already carries `hljs-` classes. Those are the classes
+    `components.css` maps, which is why the block below is painted by a
+    component that did no highlighting at all.
+
+    What it hands back is what it was given, `<code>` and all: the wrapper
+    carries which line the block starts at and which lines are emphasised, and
+    a highlighter that rebuilt it would drop both — along with every language
+    a server knows and the thirteen registered here do not. */
+export const AlreadyColoured: Story = {
+  render: () => html`<sds-code code-lang="php" copy>${unsafeHTML(
+    '<code class="language-php line-numbers" data-start="12">'
+    + '<span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Version</span>\n'
+    + '{\n'
+    + '    <span class="hljs-comment">// Handed over coloured, framed here.</span>\n'
+    + '    <span class="hljs-keyword">public</span> <span class="hljs-keyword">function</span> '
+    + '<span class="hljs-title">__construct</span>(<span class="hljs-keyword">private</span> '
+    + '<span class="hljs-type">string</span> $number) {}\n'
+    + '}</code>',
+  )}</sds-code>`,
+};
+
 /** A caption says what the block is, above it — where a reader meets it
     before the block rather than in the block's own chrome. */
 export const Captioned: Story = {
-  render: () => html`<sds-code lang="bash" caption="Installing as a dependency of an existing project" copy>composer require typo3/cms-core
+  render: () => html`<sds-code code-lang="bash" caption="Installing as a dependency of an existing project" copy>composer require typo3/cms-core
 vendor/bin/typo3 cache:flush</sds-code>`,
 };
 

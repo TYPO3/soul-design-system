@@ -70,7 +70,14 @@ export type CodeLang =
 
 export interface CodeBlockProps {
   /** The language, lower case as a fence writes it. Set in the label register
-      by `sds-code__lang`, so the upper case is the stylesheet's, not yours. */
+      by `sds-code__lang`, so the upper case is the stylesheet's, not yours.
+
+      The attribute is `code-lang`, and the mismatch is deliberate: `lang` is a
+      global HTML attribute naming the *human* language of the content, so
+      `lang="json"` told every screen reader to switch to a language tag that
+      does not exist — for the whole block, because the host is
+      `display: contents` and language inherits regardless. Same collision the
+      table's `scrollable` and the note's `heading` were renamed for. */
   lang?: CodeLang;
   /** An affordance for the head that is not the copy button — a filename, a
       count. Set `copy` instead for copying; the component owns that. */
@@ -90,7 +97,7 @@ export interface CodeBlockProps {
 
 export class SdsCode extends SdsElement {
   static override properties = {
-    lang: { type: String, reflect: true },
+    lang: { type: String, reflect: true, attribute: 'code-lang' },
     caption: { type: String },
     source: { type: String },
     /* Styled lines, which no attribute can carry — a shell prompt, a comment
@@ -116,7 +123,7 @@ export class SdsCode extends SdsElement {
      the children are the whole point when the block comes from a renderer
      rather than from a story:
 
-       <sds-code lang="bash" copy><code>…</code></sds-code>
+       <sds-code code-lang="bash" copy><code>…</code></sds-code>
 
      So they are lifted out on connect and handed back to the template as
      nodes. Lit renders a DOM node as a child value, and re-rendering moves
@@ -213,13 +220,41 @@ export class SdsCode extends SdsElement {
     }
   }
 
+  /* Whether the block arrived already coloured.
+
+     Two kinds of caller, one component. A story hands in source and the
+     highlighter here runs over it; a renderer that highlights on its own —
+     a documentation build, where the colour is decided once and shipped as
+     HTML — hands in finished markup. Colouring that a second time is not
+     wrong so much as wasteful: it would flatten the spans back to text and
+     rebuild them from a smaller set of grammars.
+
+     `hljs-` is the signal because it is the contract the two sides already
+     share. `components.css` maps those classes and nothing else, so markup
+     carrying them is markup this system can paint without being told.
+
+     Kept as it came, wrapper and all: the `<code>` around it holds which
+     lines are numbered and which are emphasised, and rewriting it would drop
+     both — along with every language a server-side highlighter knows and the
+     thirteen registered here do not. */
+  private get given(): boolean {
+    /* `nodeType` rather than `instanceof Element`: this getter is reached in
+       Node when a page renders statically, where the constructor it would be
+       compared against does not exist. */
+    return (this.taken ?? []).some((node) => {
+      if (node.nodeType !== 1) return false;
+      const el = node as Element;
+      return el.matches('[class*="hljs-"]') || el.querySelector('[class*="hljs-"]') !== null;
+    });
+  }
+
   /* Content written between the tags, in the `<code>` a code block is
      supposed to have.
 
      The element renders that wrapper, and the `language-` class on it, from
      its own `lang`. A caller writing
 
-       <sds-code lang="json"><code class="language-json">…</code></sds-code>
+       <sds-code code-lang="json"><code class="language-json">…</code></sds-code>
 
      says the language twice, and the two can disagree unnoticed — `lang`
      paints the head, the class decides the highlighting. The component owns
@@ -230,6 +265,9 @@ export class SdsCode extends SdsElement {
      to finish it — the same highlighter, wired the same way, in each of them.
      It is the component's, so a consumer links two files and gets colour.
 
+     Unless the colour arrived with the block. Then it is kept exactly as it
+     came — see `given`.
+
      Where the system does not colour a language the author's own nodes are
      kept: what was written is better than a guess at what it meant. */
   private get wrapped(): TemplateResult {
@@ -237,6 +275,7 @@ export class SdsCode extends SdsElement {
        what is highlighted is `text`, which is already whichever of the two
        this block was given. */
     const written = this.taken ?? this.text;
+    if (this.given) return html`${written}`;
     if (!this.lang) return html`<code>${written}</code>`;
     const coloured = highlight(this.lang, this.text);
     return coloured === null
