@@ -70,16 +70,18 @@ travel posters, speech bubbles, dense detail, fine hatching and decorative
 clutter.
 ```
 
-## The subjects already drawn
+## Choosing the subject
 
-Eight of them, so a full eight-card view never has to repeat an illustration.
-A ninth joins them and does not redraw one:
+One concrete thing, taken from what the heading beside it already names: an
+object, or a person handling an object. The copy carries the subject, and the
+image only sets a register beside it, so the thing itself is enough and the
+idea behind it is not wanted.
 
-- A person receiving an answer at a computer
-- A blank physical index-card drawer
-- One cable leaving a compact enclosure
-- Geological layers as historical depth
-- One module outside an empty socket
-- A lamp and an unwritten folded sheet
-- A flat search ring over blank paper cards
-- Two abstract material swatches in a low holder
+Draw it at rest rather than at work. A drawer with no cards in it, an
+unwritten sheet, one module outside its socket — the moment before or after
+the work reads as an object, where the work itself needs position, sequence
+and quantity, and that is a diagram.
+
+Which subjects a set has spent is a property of that set, not of this prompt.
+It produces one image and knows nothing of the others; a view that shows
+several teasers at once is assembled by someone who can see all of them.

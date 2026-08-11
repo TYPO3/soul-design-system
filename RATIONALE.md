@@ -146,8 +146,11 @@ are allowed inside the bitmap; this is not an exception to the interface's
 no-shadow rule.
 
 `guidelines/illustration-prompt.md` fixes the prompt, negative constraints,
-format and subjects so the set can be extended without inventing the style
-again.
+format and the kind of subject the language takes, so the set can be extended
+without inventing the style again. What it does not carry is a register of the
+images already made: a prompt is handed to someone drawing the next one, and a
+list of the last ones is a changelog that ages into a wrong answer about which
+subjects are free.
 
 ## Diagram language
 

@@ -65,16 +65,20 @@ Pick the stroke, and the rest is decided:
 
 ## The interior is yours, under three conditions
 
-1. **One idea, not two.** One sentence about the product, drawn. The marks
-   already in the family say, each in one idea: a session ending in an answer
-   — a terminal frame around two muted lines and one orange one; the thing you
-   press to start something — a triangle; the parts and the frame around them
-   — three unequal blocks between two crop marks.
+1. **One idea, not two.** One sentence about the product, drawn. Three
+   interiors built this way, written out because you cannot open them: a
+   session ending in an answer — a terminal frame around two muted lines and
+   one orange one; the thing you press to start something — a triangle; the
+   parts and the frame around them — three unequal blocks between two crop
+   marks.
 2. **It must survive 16px.** Draw it, render it at 16, and look. Detail that
    turns to mush is detail that has to go.
-3. **It must not repeat a sibling.** Those three ideas are taken. A fourth
-   reading of a terminal, a second triangle or another set of stacked parts is
-   a member nobody can tell from the one it copies.
+3. **It must be an idea only this product could have.** The generic readings
+   — a terminal, a play triangle, a stack of parts — are the first ones anyone
+   reaches for, which is why a sibling is most likely holding them already.
+   Put another product's name in front of the sentence the interior draws: if
+   it stays true, the mark identifies a category and not a product, and it is
+   one nobody can tell from the sibling it lands on.
 
 ## Two techniques worth stealing
 

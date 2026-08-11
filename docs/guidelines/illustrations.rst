@@ -38,7 +38,7 @@ Drawing another one
 ===================
 
 The rules above with the generator's own vocabulary around them — the medium,
-the negative constraints and the subjects already drawn. It is here in full
+the negative constraints and how a subject is chosen. It is here in full
 rather than behind a link because it is handed over rather than read: copy the
 whole block and replace ``[SUBJECT]``, which is the one field that changes.
 Rewriting the medium or the rendering language starts a second style, and a
