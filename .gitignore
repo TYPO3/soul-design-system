@@ -44,7 +44,8 @@ node_modules/
 /guides-theme/vendor/
 
 # the drop-in, copied into each project so the renderer can reach it
-/guides-theme/reference/styles/
+/guides-theme/acceptance/styles/
+/docs/styles/
 
 # the rendered documentation site — published, never copied, so unlike dist/
 # there is nothing to be gained from committing it

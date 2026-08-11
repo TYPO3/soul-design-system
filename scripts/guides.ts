@@ -7,17 +7,13 @@
    `site` container serves locally at a root of its own so the two are the
    same shape. More than one project goes into it:
 
-     site/              the documentation and the landing page   (from docs/)
-     site/reference/    every node the theme sets, once          (guides-theme/reference/)
+     site/              the manual and the landing page   (from docs/)
+     site/_acceptance/  every node the renderer emits     (guides-theme/acceptance/)
 
-   Only the second one exists today. The first arrives when `docs/` becomes
-   the source both Storybook and this read from — until then the root is empty
-   and the server says so, which is honest: an empty site is a site nobody has
-   rendered.
-
-   The reference is also the fixture. It is the page every claim about a gap is
-   checked against, and it is worth publishing for the same reason the specimen
-   cards are: a rule and a rendering of it, kept together so neither can drift.
+   The second is not documentation. It is the acceptance test for the theme —
+   the page every claim about a gap is checked against — and it is a control
+   surface for whoever works on this, not for a reader. The underscore says so,
+   and the publish step leaves it behind.
 
    Three things happen per project, and only the middle one is interesting.
 
@@ -55,7 +51,13 @@ interface Project {
 }
 
 const PROJECTS: Project[] = [
-  { name: 'reference', source: join(THEME, 'reference'), out: join(SITE, 'reference') },
+  /* The manual and the landing page. Renders into the root, because that is
+     what Pages serves. */
+  { name: 'docs', source: join(ROOT, 'docs'), out: SITE },
+  /* The acceptance test for the theme: every node the renderer can emit, once,
+     where it can be looked at. A control surface rather than a published one —
+     hence the underscore, and hence excluded when the site is published. */
+  { name: 'acceptance', source: join(THEME, 'acceptance'), out: join(SITE, '_acceptance') },
 ];
 
 const run = (cmd: string, args: string[], cwd = ROOT): number =>
@@ -108,4 +110,4 @@ for (const project of PROJECTS) {
 console.log(`
   ${PROJECTS.length} project(s) into site/ — the publish root.
   Open http://localhost:4173/ (the port \`make start\` reports), or photograph a page:
-    make look ARGS='site/reference/index.html 900'`);
+    make look ARGS='site/index.html 900'`);

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    The documentation, as it is published.
+
+    `docs/` holds two kinds of file and two readers. The `.mdx` pages are
+    Storybook's: guidelines with live specimens embedded, which need a
+    component renderer to exist at all. The `.rst` pages are these: the manual
+    and the landing page, rendered by Guides into the publish root.
+
+    Neither reader sees the other's files — Storybook globs `*.mdx`, and
+    `input-format` here is `rst`. Two sources describing one system is a drift
+    risk and it is a knowing one: the texts do not overlap. The guidelines say
+    what the rules are, this says how to use the thing.
+
+    `links_are_relative` because the site is served from a root locally and
+    from a repository path on Pages, and absolute links only work at one of
+    them.
+-->
+<guides xmlns="https://www.phpdoc.org/guides"
+        input-format="rst"
+        links_are_relative="true"
+        default_code_language="text">
+    <project title="Soul Design System" version="1.0"/>
+    <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
+    <base_template_paths>
+        <path>guides-theme/resources/template</path>
+    </base_template_paths>
+</guides>

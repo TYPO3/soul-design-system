@@ -10,13 +10,13 @@ parser reads CommonMark and nothing else, so an admonition, a ``confval``, a
 tab or a text role has no spelling there. A reference is made mostly of those.
 
 Two pages. This one is narrative — the shapes a page of prose falls into. The
-:doc:`reference` is a real one, and it is where the nodes that only a
+:doc:`nodes` is a real one, and it is where the nodes that only a
 reference uses appear.
 
 .. toctree::
    :maxdepth: 2
 
-   reference
+   nodes
 
 .. note::
 
