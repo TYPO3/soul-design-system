@@ -68,7 +68,7 @@ inline styles — do not mint a `sds-` name.
 
 | Family | Classes |
 |---|---|
-| Root, text | `sds-app` `sds-prose` `sds-label` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--20` `sds-icon--24` `sds-icon--em` `sds-icon--muted` |
+| Root, text | `sds-app` `sds-prose` `sds-label` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--16` `sds-icon--20` `sds-icon--24` `sds-icon--muted` |
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon` |
 | Badges | `sds-badge` + `--accent` `--ok` `--warn` `--error` |
 | Fields | `sds-field` `sds-input` `sds-select` `sds-field-error` |

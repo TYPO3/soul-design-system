@@ -1,0 +1,26 @@
+# What the image does not need, and what it costs to send anyway.
+#
+# Without this the build context was 279 MB. Every `make` target builds the
+# image, so every one of them tarred that up, copied it in, and then ran
+# `chmod -R a+rwX /app` across it — a layer that took the best part of a
+# minute and was invalidated by any edit, because `COPY . .` sits in front of
+# it. Nothing here is used by the image, and most of it cannot be: the
+# dependencies are installed inside it and the compose file masks them again
+# with a volume.
+
+# Installed in the image by `npm ci`, and masked by a volume at runtime. This
+# alone is 223 of the 279 MB.
+node_modules/
+
+# History. The container reads the working tree, never the repository.
+.git/
+
+# Machine state: screenshots, baselines and diffs, rewritten by `make shots`.
+.design-sync/.cache/
+
+# Build output, written by the container and read back on the host.
+storybook-static/
+test-results/
+playwright-report/
+ds-bundle/
+.ds-sync/

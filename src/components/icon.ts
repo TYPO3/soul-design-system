@@ -102,10 +102,11 @@ export class SdsIcon extends SdsElement {
        parity test compare the two renderings, and what lets a reader of a card
        tell which icon they are looking at. */
     const a11y = this.label ? `role="img" aria-label="${this.label}"` : 'aria-hidden="true"';
-    /* `sds-icon--em` rather than an inline width: the modifier exists in the
-       class layer, so hand-written markup asks for the same thing the same
-       way. */
-    const cls = this.className || (this.size === 'em' ? 'sds-icon sds-icon--em' : 'sds-icon');
+    /* `.sds-icon` is already `1em`, which is this element's default too — so
+       an unsized icon and hand-written `<svg class="sds-icon">` are the same
+       thing, which is the whole contract between the element and the class
+       layer. */
+    const cls = this.className || 'sds-icon';
     /* A size in pixels is written as a style, not only as an attribute:
        `.sds-icon` sets a width from a token, and a class beats a presentation
        attribute — so `size="24"` was a property that did nothing. Only where

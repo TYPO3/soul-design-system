@@ -93,39 +93,55 @@
   gap: 6px;
 }
 
-/* Icons are 16px and follow the text colour they sit in — an <img> cannot
-   inherit currentColor, so the SVG is always inlined. 16px is the floor;
-   sizes go 16, 20, 24 or a whole multiple, never 18 or 22. */
+/* An icon follows the text colour it sits in — an <img> cannot inherit
+   currentColor, so the SVG is always inlined — and, by default, that text's
+   size. Nearly every glyph sits inside something that has one: a button's
+   label, a badge, a table cell, a line of prose, and matching it is what makes
+   a glyph look placed rather than dropped in.
+
+   A number is the exception, for a glyph standing on its own. 16px is the
+   floor and the scale goes 16, 20, 24 or a whole multiple, never 18 or 22.
+
+   This default is the element's too. `<sds-icon>` with no `size` renders
+   exactly this class and nothing more, so hand-written markup and the element
+   cannot disagree about what an unsized icon is. */
 .sds-icon {
   display: block;
   flex: none;
-  width: var(--control-icon-size);
-  height: var(--control-icon-size);
+  width: 1em;
+  height: 1em;
 }
+.sds-icon--16 { width: var(--control-icon-size); height: var(--control-icon-size); }
 .sds-icon--20 { width: 20px; height: 20px; }
 .sds-icon--24 { width: 24px; height: 24px; }
-/* An icon written inside text takes the size of that text, so a glyph in a
-   13px label is 13px and not the 16px floor a standalone glyph gets. */
-.sds-icon--em { width: 1em; height: 1em; }
 /* A standalone icon that is not inside a coloured control. */
 .sds-icon--muted { color: var(--text-secondary); }
 
 /* Before the script lands there is no element, only a tag that says which
    glyph and how big. Without this it is `display: contents` — no box at all —
    and every icon in the chrome pushes its neighbours sideways the moment the
-   bundle arrives. The size it will take is knowable from the markup, so it is
-   taken from the start. */
-sds-icon:not(:defined) {
+   bundle arrives.
+
+   The sizes mirror the ones above, including the unsized case: reserving the
+   floor for an icon that upgrades to `1em` would trade a jump from nothing for
+   a jump from the wrong size.
+
+   `:where()` so this carries no specificity at all. Written plainly it is one
+   step stronger than `.sds-icon--20`, so a host that asked for a size by class
+   was reserved 1em and upgraded to 20px — a jump, introduced by the rule that
+   exists to prevent one. Everything below is more specific than nothing, so
+   each of them still wins where it applies. */
+:where(sds-icon:not(:defined)) {
   display: inline-block;
   flex: none;
-  width: var(--control-icon-size);
-  height: var(--control-icon-size);
+  width: 1em;
+  height: 1em;
 }
+sds-icon:not(:defined)[size='16'] { width: var(--control-icon-size); height: var(--control-icon-size); }
 sds-icon:not(:defined)[size='20'] { width: 20px; height: 20px; }
 sds-icon:not(:defined)[size='24'] { width: 24px; height: 24px; }
 sds-icon:not(:defined)[size='32'] { width: 32px; height: 32px; }
 sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
-sds-icon:not(:defined)[size='em'] { width: 1em; height: 1em; }
 
 /* -------------------------------------------------------------- buttons -- */
 

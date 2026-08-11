@@ -2028,7 +2028,7 @@ var SdsIcon = class extends SdsElement {
       throw new Error(`unknown icon "${this.name}" \u2014 add its category to CATEGORIES in scripts/icons.ts and run \`make icons\``);
     }
     const a11y = this.label ? `role="img" aria-label="${this.label}"` : 'aria-hidden="true"';
-    const cls = this.className || (this.size === "em" ? "sds-icon sds-icon--em" : "sds-icon");
+    const cls = this.className || "sds-icon";
     const sized = this.size === "em" ? "" : ` style="width:${this.size}px;height:${this.size}px"`;
     return html`${unsafeHTML(
       `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized} class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}"><use href="${spriteUrl}#${this.name}"></use></svg>`
