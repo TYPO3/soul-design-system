@@ -117,7 +117,10 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
   await expect(dialog).toBeVisible();
   /* The page did not navigate to the file — the element took the press. */
   expect(page.url()).toContain('components-figure--zoomable');
-  await expect(dialog.locator('img')).toHaveCount(2);
+  /* The drawing itself and not a picture of it: referenced into this document
+     with `<use>`, which is what lets it take the colours of the page it opened
+     over rather than the ones its own file falls back to. */
+  await expect(dialog.locator('svg.sds-art use')).toHaveAttribute('href', /answer-sources\.svg#art$/);
 
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
