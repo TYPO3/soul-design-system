@@ -1,0 +1,47 @@
+# What an editor is told before anyone runs a formatter.
+#
+# One formatter exists here — php-cs-fixer, and it reaches the theme's PHP
+# and nothing else. Everything in front of it is held by this file, which
+# every editor worth the name reads and which needs no toolchain to work.
+# That is the same bargain the Makefile makes with the host: the rules live
+# where they cost nothing to obey.
+#
+# It is a hint, not a gate. A width written here and broken in a file is
+# nothing the build can see, so the reason for each exception is written
+# beside it — a number nobody can explain is a number the next editor
+# changes.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# The theme's own language, and the templates standing next to it. Four is
+# what `make php` fixes the sources to, and a template holding PHP-shaped
+# markup at a second width reads as two projects.
+[*.{php,twig}]
+indent_size = 4
+
+# reStructuredText counts. A directive's options and its body are indented
+# past the `.. ` that opened it; at any other width they stop belonging to
+# the directive, and the renderer says so in a way that names the wrong line.
+[*.rst]
+indent_size = 3
+
+# Make reads a leading tab as "this line is a recipe". Spaces there are not
+# a style choice, they are a syntax error.
+[Makefile]
+indent_style = tab
+
+# Generated, and compared byte for byte against what wrote them — `make
+# verify` fails on a card that no longer matches its story or a `dist/` that
+# no longer matches `src/`. An editor that trims a line on save would break
+# the gate from a file nobody meant to edit.
+[{specimens,dist}/**]
+trim_trailing_whitespace = false
+insert_final_newline = false
