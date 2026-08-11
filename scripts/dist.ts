@@ -154,6 +154,22 @@ const docCssOptions: esbuild.BuildOptions = {
   minify: true,
 };
 
+/* The pre-paint line, and the only thing here that is not a module.
+
+   It has to run before the page is painted, and a module cannot: `type=module`
+   is deferred whether you ask for it or not. So it ships as a classic script,
+   built on its own — see the head of `src/boot.ts` for what it costs to leave
+   it out. */
+const bootOptions: esbuild.BuildOptions = {
+  entryPoints: [join(ROOT, 'src', 'boot.ts')],
+  outfile: join(OUT, 'soul-boot.js'),
+  bundle: true,
+  format: 'iife',
+  target: 'es2022',
+  minify: true,
+  legalComments: 'none',
+};
+
 const copyAssets = (): void => cpSync(join(ROOT, 'assets'), join(OUT, 'assets'), { recursive: true });
 
 if (WATCH) {
@@ -177,6 +193,7 @@ if (WATCH) {
     esbuild.context({ ...jsOptions, plugins: [announce('dist/soul.js')] }),
     esbuild.context({ ...cssOptions, plugins: [announce('dist/soul.css')] }),
     esbuild.context({ ...docCssOptions, plugins: [announce('dist/document.css')] }),
+    esbuild.context({ ...bootOptions, plugins: [announce('dist/soul-boot.js')] }),
   ]);
   for (const ctx of contexts) await ctx.watch();
   copyAssets();
@@ -188,6 +205,7 @@ if (WATCH) {
 const drop = await esbuild.build(jsOptions);
 await esbuild.build(cssOptions);
 await esbuild.build(docCssOptions);
+await esbuild.build(bootOptions);
 copyAssets();
 
 const kb = (p: string): string => `${(readFileSync(join(OUT, p)).length / 1024).toFixed(1)} kB`;
@@ -196,6 +214,7 @@ const modules = Object.keys(bundle.metafile.inputs).length;
 console.log(`dist/soul.js  — ${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile?.inputs ?? {}).length} modules`);
 console.log(`dist/soul.css — ${kb('soul.css')}, faces and tokens inlined`);
 console.log(`dist/document.css — ${kb('document.css')}, the document layer, linked beside it`);
+console.log(`dist/soul-boot.js — ${kb('soul-boot.js')}, the pre-paint line, not a module`);
 console.log(`dist/index.js — ${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`);
 console.log(`dist/types/  — declarations, ${rewritten} rewritten to .js specifiers`);
 

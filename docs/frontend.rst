@@ -21,6 +21,7 @@ Two shapes
 
       .. code-block:: html
 
+         <script src="/soul/soul-boot.js"></script>
          <link rel="stylesheet" href="/soul/soul.css">
          <script type="module" src="/soul/soul.js"></script>
 
@@ -46,6 +47,20 @@ Two shapes
    Forces a mode on a subtree. Put it on ``<html>`` for a whole page, so the
    browser's own scrollbars and form controls match. Left off, the reader's
    system decides and both modes work — they are the same declaration.
+
+.. confval:: soul-boot.js
+   :type: script
+   :required: where there is a mode switch
+
+   Four lines, loaded **before** the stylesheet and **not** as a module. It
+   reads the stored choice and writes ``data-theme`` before the first paint;
+   ``<sds-theme>`` then shows which side is pressed, because it reads what the
+   document already says rather than its own idea of it.
+
+   Leave it out and a switch still switches — the choice is simply forgotten
+   on the next page, which on a site of many pages is every click. Name
+   another storage key with ``data-key`` on the tag, and give ``sds-theme``
+   the same one.
 
 The page furniture
 ==================

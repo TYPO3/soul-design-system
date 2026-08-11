@@ -25,14 +25,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{{ title }}
-    {%- if title!=null and env.projectNode.title!=null %} — {% endif -%}
-    {%- if env.projectNode.title -%}{{ env.projectNode.title }}{%- endif -%}</title>
-<link rel="stylesheet" href="{{ asset('/styles/soul.css') }}" />
-<link rel="stylesheet" href="{{ asset('/styles/document.css') }}" />
-<script type="module" src="{{ asset('/styles/soul.js') }}" defer></script>
+{% include "structure/head.html.twig" %}
 {%~ block head %}
 {%~ endblock %}
 </head>
@@ -42,7 +35,7 @@
         {% include "structure/brand.html.twig" %}
         {% include "structure/navigation.html.twig" %}
         <div class="sds-bar__end">
-            <sds-theme></sds-theme>
+            <sds-theme key="soul-theme"></sds-theme>
         </div>
     </header>
 

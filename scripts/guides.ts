@@ -118,7 +118,7 @@ for (const project of PROJECTS) {
   const styles = join(project.source, 'styles');
   rmSync(styles, { recursive: true, force: true });
   mkdirSync(styles, { recursive: true });
-  for (const file of ['soul.css', 'document.css', 'soul.js']) {
+  for (const file of ['soul.css', 'document.css', 'soul.js', 'soul-boot.js']) {
     cpSync(join(DROP, file), join(styles, file));
   }
   copyCards(project.source);
