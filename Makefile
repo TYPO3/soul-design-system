@@ -37,7 +37,7 @@ RUN := $(TASK) node scripts/task.ts
 
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
-TASKS := verify test cards typecheck fit ssr build dist fonts icons \
+TASKS := verify test cards typecheck fit ssr build dist guides fonts icons \
          baseline shots diff sheets look sync status plan synced
 
 # The long-running ones. `app` is among them: it holds the environment every
@@ -58,6 +58,7 @@ help:
 	@echo '  make test            the Playwright suite'
 	@echo '  make cards           regenerate the component cards from their stories'
 	@echo
+	@echo '  make guides          render the documentation fixture into site/'
 	@echo '  make build           assemble ds-bundle/, the upload payload'
 	@echo '  make dist            the publishable ESM package and its types'
 	@echo '  make sync            build + verify + what-would-change + upload plan'

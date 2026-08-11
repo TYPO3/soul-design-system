@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    What the renderer needs to be told before it can read this fixture.
+
+    The Markdown parser is a package of its own and is not on by default —
+    without this extension the CLI finds the files, recognises no parsing
+    strategy for them, and reports that a project has no root document.
+
+    `input-format` is the file extension, not the name the CLI help prints:
+    the value goes straight into the filename it looks for, so "Markdown"
+    makes it hunt for `index.Markdown`.
+-->
+<guides xmlns="https://www.phpdoc.org/guides"
+        input-format="md"
+        links_are_relative="true"
+        default_code_language="text">
+    <project title="Soul — Guides fixture" version="1.0"/>
+    <extension class="phpDocumentor\Guides\Markdown\DependencyInjection\MarkdownExtension"/>
+    <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
+    <base_template_paths>
+        <path>guides-theme/resources/template</path>
+    </base_template_paths>
+</guides>

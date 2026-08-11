@@ -15,6 +15,11 @@ node_modules/
 # History. The container reads the working tree, never the repository.
 .git/
 
+# Installed inside, same as node_modules — and the rendered output, which is
+# written by the container rather than sent to it.
+guides-theme/vendor/
+site/
+
 # Machine state: screenshots, baselines and diffs, rewritten by `make shots`.
 .design-sync/.cache/
 

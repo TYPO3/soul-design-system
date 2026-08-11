@@ -32,6 +32,24 @@ node_modules/
 /dist/index.js.map
 /dist/tsconfig.json
 
+# Never the lock. This is a library rather than an application: what it must
+# work against is the constraint in composer.json, and a committed lock would
+# pin a consumer's renderer to whatever version happened to resolve here.
+/guides-theme/composer.lock
+
+# Composer's own tree. Kept in the working directory rather than in an image
+# layer the way node_modules is: it is pure PHP, so it is the same on every
+# platform, and a renderer whose dependencies live on the host can be looked
+# at without opening a container.
+/guides-theme/vendor/
+
+# the drop-in, copied under the fixture so the renderer can reach it
+/guides-theme/fixture/styles/
+
+# the rendered documentation site — published, never copied, so unlike dist/
+# there is nothing to be gained from committing it
+/site/
+
 # playwright output
 /test-results/
 /playwright-report/

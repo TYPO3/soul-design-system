@@ -1,0 +1,44 @@
+{#
+    The page a rendered document sits in.
+
+    The core layout is an `<html>`, a `<title>` and two blocks. This is the
+    same thing wearing the system: the shell that establishes the canvas, the
+    column that holds the measure, and `.sds-prose` around whatever the
+    renderer produced — which is what makes `document.css` apply to a `<p>`
+    nobody could put a class on.
+
+    Two stylesheets and no third. `soul.css` carries the tokens, the faces and
+    the component layer; `document.css` is the layer for elements that arrive
+    bare, and it is a separate file exactly so that a page which is not a
+    document never gets it. See the head of `src/styles/document.css`.
+
+    `soul.js` is deferred and optional on purpose: the colour of a code block
+    is already in the markup the server wrote, and every element this system
+    ships is an upgrade of markup that reads without it. A reader with no
+    JavaScript loses the copy button, not the page.
+#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{ title }}
+    {%- if title!=null and env.projectNode.title!=null %} — {% endif -%}
+    {%- if env.projectNode.title -%}{{ env.projectNode.title }}{%- endif -%}</title>
+<link rel="stylesheet" href="{{ asset('styles/soul.css') }}" />
+<link rel="stylesheet" href="{{ asset('styles/document.css') }}" />
+<script type="module" src="{{ asset('styles/soul.js') }}" defer></script>
+{%~ block head %}
+{%~ endblock %}
+</head>
+<body class="sds-app">
+<div class="sds-page">
+    <div class="sds-column">
+        <article class="sds-prose">
+{%~ block body %}
+{%~ endblock %}
+        </article>
+    </div>
+</div>
+</body>
+</html>

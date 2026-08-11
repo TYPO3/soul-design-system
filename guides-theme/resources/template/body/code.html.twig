@@ -1,0 +1,32 @@
+{#
+    A code block, coloured on the server.
+
+    Two things are decided here and both are in `GUIDES.md`.
+
+    **The colour is the server's.** `guides-code` highlights with a PHP port of
+    highlight.js, so what lands in the page already carries `hljs-` classes —
+    the ones `components.css` maps onto this system's three syntax colours. A
+    reader with no JavaScript sees a coloured block, which is the point of a
+    generator that ships HTML.
+
+    **The language may be missing, and that must not be fatal.** A fenced block
+    in Markdown can carry no language at all, and the Markdown parser leaves it
+    null rather than falling back to the configured default. The highlighter's
+    filter declares a string, so without the `default` here the whole render
+    dies on the first bare fence with a TypeError three packages deep. `text`
+    escapes the block and colours nothing, which is the honest answer when
+    nobody said what it is.
+
+    The caption sits above the block, where this system already puts it.
+#}
+{% if node.raw %}
+    {{ node.value|raw }}
+{%- else -%}
+    {% if node.caption %}
+        <div class="sds-code__caption">{{ renderNode(node.caption) }}</div>
+    {%- endif -%}
+    <pre{% if node.classes %} class="{{ node.classesString }}"{% endif %}><code class="language-{{ node.language|default('text') }}{{ node.startingLineNumber ? ' line-numbers' }}"
+        {%- if node.startingLineNumber %} data-start="{{ node.startingLineNumber }}"{% endif -%}
+        {%- if node.emphasizeLines %} data-emphasize-lines="{{ node.emphasizeLines }}"{% endif -%}
+    >{{- node.value|highlight(node.language|default('text')) -}}</code></pre>
+{%~ endif -%}

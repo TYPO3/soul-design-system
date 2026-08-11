@@ -17,6 +17,27 @@
 # the scripts.
 FROM node:24-bookworm AS base
 
+# PHP, because the documentation renderer is written in it.
+#
+# `phpdocumentor/guides` turns reStructuredText into the HTML this system has
+# to set, and it is a Composer package — there is no JavaScript port and a
+# reimplementation would be a second renderer to keep in step with the first.
+# The promise at the top of this file is about the *host*: it still needs
+# Docker and Make and nothing else. The image is where the languages a task
+# needs are allowed to live, and it now holds two.
+#
+# Bookworm's php-cli is 8.2, one minor above what Guides asks for. The three
+# extensions are not optional: it parses XML configuration, walks UTF-8 source
+# text and unpacks its own dependencies.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      php-cli php-mbstring php-xml php-zip unzip \
+ && rm -rf /var/lib/apt/lists/*
+# From the published image rather than piping an installer through a shell:
+# one pinned major, no network trust decision, and it is how Composer says to
+# do it in a container.
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 # Anything run through `scripts/task.ts` checks this to decide whether it is
 # already inside, or has to shell out to compose. Without it the container
 # would try to run Docker inside Docker.

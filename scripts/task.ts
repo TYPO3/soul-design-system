@@ -44,6 +44,9 @@ const TASKS: Record<string, Task> = {
   fit: { cmd: node('scripts/fit.ts'), help: 'does every card fit its declared viewport' },
   ssr: { cmd: node('scripts/ssr.ts'), help: 'does every element render outside a browser' },
 
+  // The documentation site
+  guides: { cmd: node('scripts/guides.ts'), help: 'render the Guides fixture into site/ with the theme' },
+
   // Build artefacts
   build: { cmd: node('scripts/build.ts'), help: 'assemble ds-bundle/, the upload payload' },
   dist: { cmd: node('scripts/dist.ts'), help: 'build the publishable ESM package and its types' },
