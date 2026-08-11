@@ -1,4 +1,6 @@
 import './components/icon.ts';
+import './components/signet.ts';
+import './components/theme.ts';
 import './components/button.ts';
 import './components/badge.ts';
 import './components/link.ts';
@@ -18,6 +20,8 @@ import './components/code.ts';
 import './components/diff.ts';
 export { SdsElement, installHostRule, define } from './lib/element.js';
 export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.js';
+export { SdsSignet, signetFor, type SignetSize } from './components/signet.js';
+export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.js';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.js';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.js';
 export { SdsLink, type LinkProps } from './components/link.js';
@@ -39,4 +43,4 @@ export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './compone
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-button', 'sds-badge', 'sds-link', 'sds-field', 'sds-field-error', 'sds-pills', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-surface', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-code', 'sds-diff'];
+export declare const TAGS: readonly ['sds-icon', 'sds-signet', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-field', 'sds-field-error', 'sds-pills', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-surface', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-code', 'sds-diff'];

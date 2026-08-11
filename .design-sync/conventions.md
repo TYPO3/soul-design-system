@@ -22,6 +22,7 @@ Two rules follow, and both are load-bearing:
 | | |
 |---|---|
 | Text | `sds-icon` `sds-link` |
+| Brand, chrome | `sds-signet` `sds-theme` |
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` |
 | Navigation | `sds-pills` `sds-tabs`/`sds-tab-item` `sds-rail` |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
@@ -77,7 +78,8 @@ inline styles — do not mint a `sds-` name.
 | Navigation | `sds-pills`/`sds-pill` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__item`/`sds-rail__group` |
 | Code | `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |
-| Brand | `sds-lockup` `sds-wordmark` `sds-wordmark__pipe` `sds-wordmark__product` |
+| Brand | `sds-signet` `sds-lockup` `sds-wordmark` `sds-wordmark__pipe` `sds-wordmark__product` |
+| Chrome | `sds-modes`/`sds-mode` |
 
 ## Icons
 

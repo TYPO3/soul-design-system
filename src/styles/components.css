@@ -512,6 +512,31 @@ button.sds-rail__item {
    in the document — hidden, so a find-in-page still reaches it. */
 .sds-tab__panel { padding-top: var(--space-4); }
 
+/* Light or dark, as two segments with the chosen one filled — the same
+   treatment as an active navigation item, because it is one. The group is
+   bordered so the pair reads as one control rather than as two buttons. */
+.sds-modes {
+  display: flex;
+  gap: var(--space-1);
+  padding: 2px;
+  font-family: var(--font-mono);
+  font-size: var(--tab-font-size);
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+}
+.sds-mode {
+  font: inherit;
+  padding: 3px 9px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  background: none;
+  border: 0;
+  border-radius: 2px;
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+.sds-mode:hover { color: var(--text-primary); }
+.sds-mode.is-active { background: var(--accent); color: var(--text-on-accent); }
+
 /* The 210px tool rail. */
 .sds-rail {
   width: var(--width-sidebar);
@@ -800,11 +825,18 @@ button.sds-rail__item {
 
 /* Signet, wordmark, one orange pipe. The pipe is the third and last place
    the accent is allowed to appear. */
+/* A lockup is a signet and a wordmark on one baseline. It carries the page's
+   ink and no link decoration, because it is nearly always the link home and
+   an anchor would otherwise hand it the browser's blue — which the signet
+   then draws itself in, since its ink is `currentColor`. */
 .sds-lockup {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  color: var(--text-primary);
+  text-decoration: none;
 }
+.sds-lockup:hover { text-decoration: none; }
 .sds-wordmark {
   display: inline-flex;
   align-items: baseline;

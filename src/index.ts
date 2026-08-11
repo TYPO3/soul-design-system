@@ -21,6 +21,8 @@ import { installHostRule } from './lib/element.ts';
 /* The registrations. The re-exports below are classes and types; these bare
    imports are what actually run each module. */
 import './components/icon.ts';
+import './components/signet.ts';
+import './components/theme.ts';
 import './components/button.ts';
 import './components/badge.ts';
 import './components/link.ts';
@@ -42,6 +44,8 @@ import './components/diff.ts';
 export { SdsElement, installHostRule, define } from './lib/element.ts';
 
 export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.ts';
+export { SdsSignet, signetFor, type SignetSize } from './components/signet.ts';
+export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.ts';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts';
 export { SdsLink, type LinkProps } from './components/link.ts';
@@ -74,6 +78,8 @@ if (typeof document !== 'undefined') installHostRule();
     discoverable rather than merely present. */
 export const TAGS = [
   'sds-icon',
+  'sds-signet',
+  'sds-theme',
   'sds-button',
   'sds-badge',
   'sds-link',

@@ -65,9 +65,16 @@ test('the index lists every component and guideline page', async ({ request }) =
     'Components/Pills',
     'Components/Rail',
     'Components/Surface',
+    'Components/Signet',
     'Components/Table',
     'Components/Table density',
     'Components/Tabs',
+    'Components/Theme',
+    /* And the whole layouts. They are live in Storybook on purpose — every
+       story here is opened by the pass below, so a page is a page under test
+       rather than a picture of one. */
+    'Pages/Documentation',
+    'Pages/Landing',
   ]) {
     expect(titles, `${expected} should have a page`).toContain(expected);
   }

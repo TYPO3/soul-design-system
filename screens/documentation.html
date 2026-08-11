@@ -6,106 +6,114 @@
 <title>Soul Design System — documentation</title>
 <link rel="stylesheet" href="../src/styles/styles.css" />
 <style>
-  /* Layout only. Every painted value comes from the component layer. */
   .shell { min-height: 100vh; display: flex; flex-direction: column; }
   .head {
     height: var(--height-header);
     display: flex; align-items: center; gap: var(--space-6);
     padding: 0 var(--gutter-page);
-    border-bottom: 1px solid var(--border-subtle);
+    border-bottom: var(--border-hairline) solid var(--border-subtle);
   }
+  .head__end { margin-left: auto; display: flex; align-items: center; gap: var(--space-3); }
   .body { flex: 1; display: flex; gap: var(--space-12); padding: var(--space-8) var(--gutter-page); }
   .col { flex: 1; max-width: var(--width-content); min-width: 0; display: flex; flex-direction: column; gap: var(--space-5); }
-  h1 { font-size: var(--font-size-h1); line-height: var(--leading-heading);
-       letter-spacing: var(--tracking-display); margin: 0; }
-  h2 { font-size: var(--font-size-h3); margin: var(--space-6) 0 0; }
-  .lead { font-size: var(--font-size-lead); line-height: var(--leading-body);
-          color: var(--text-secondary); max-width: var(--measure-lead); margin: 0; }
-  p { margin: 0; }
-  .wordmark { display: inline-flex; align-items: baseline; gap: 7px; font-weight: var(--weight-semibold); }
-  .pipe { display: inline-block; width: 2px; height: 0.8em; background: var(--accent); }
+  .col h1 {
+    margin: 0;
+    font-size: var(--font-size-h1);
+    line-height: var(--leading-heading);
+    letter-spacing: var(--tracking-display);
+  }
+  .col h2 { margin: var(--space-6) 0 0; font-size: var(--font-size-h3); }
+  .col p { margin: 0; }
+  .lead {
+    font-size: var(--font-size-lead);
+    line-height: var(--leading-body);
+    color: var(--text-secondary);
+    max-width: var(--measure-lead);
+  }
+  .actions { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
 </style>
 </head>
 <body class="sds-app">
 <div class="shell">
-
   <header class="head">
-    <span class="wordmark">TYPO3<span class="pipe"></span><span style="font-weight:var(--weight-light); color:var(--text-secondary)">Soul Design System</span></span>
-    <nav class="sds-pills" style="margin-left:var(--space-6)">
-      <a class="sds-pill is-active" href="#">overview</a>
-      <a class="sds-pill" href="#">tools</a>
-      <a class="sds-pill" href="#">knowledge</a>
-      <a class="sds-pill" href="#">install</a>
-    </nav>
-    <span class="sds-field" style="margin-left:auto; min-width:260px">
-      <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M13.92,15c-0.29,0-0.56-0.12-0.76-0.32l-2.89-2.88c-0.98,0.68-2.16,1.04-3.36,1.04C3.65,12.85,1,10.2,1,6.92C1,3.65,3.65,1,6.92,1s5.92,2.65,5.92,5.92c0,1.19-0.36,2.37-1.04,3.36l2.89,2.89c0.19,0.19,0.31,0.47,0.31,0.76C15,14.51,14.51,15,13.92,15z M6.92,2.42c-2.48,0-4.5,2.02-4.5,4.5s2.02,4.5,4.5,4.5s4.5-2.02,4.5-4.5S9.4,2.42,6.92,2.42z"/></g></svg>
-      <span>Type to search 48 pages</span>
-    </span>
+    <a class="sds-lockup" href="#overview">
+      <svg class="sds-signet" width="20" height="20" viewBox="-6 -6 140 112" aria-hidden="true"><path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
+    </a>
+    <nav class="sds-pills">
+  <a class="sds-pill is-active" href="#overview" aria-current="page">overview</a>
+  <a class="sds-pill" href="#tools">tools</a>
+  <a class="sds-pill" href="#knowledge">knowledge</a>
+  <a class="sds-pill" href="#install">install</a>
+</nav>
+    <div class="head__end">
+      <span class="sds-field" style="min-width:260px"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-search"><g fill="currentColor"><path d="M13.92 15c-.29 0-.56-.12-.76-.32l-2.89-2.88c-.98.68-2.16 1.04-3.36 1.04C3.65 12.85 1 10.2 1 6.92 1 3.65 3.65 1 6.92 1s5.92 2.65 5.92 5.92c0 1.19-.36 2.37-1.04 3.36l2.89 2.89c.19.19.31.47.31.76 0 .58-.49 1.07-1.08 1.07zm-7-12.58c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"></path></g></svg><input class="sds-input" type="text"  placeholder="Search the documentation" aria-label="Search the documentation"></span>
+      <span class="sds-badge sds-badge--accent">0.4.0</span>
+      <div class="sds-modes" role="group" aria-label="Colour mode">
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false"
+      
+>light</button>
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false"
+      
+>dark</button>
+</div>
+    </div>
   </header>
 
   <div class="body">
-    <aside class="sds-rail">
-      <span class="sds-label" style="padding:0 9px var(--space-2)">Tool surface</span>
-      <a class="sds-rail__item is-active" href="#">typo3_rule_lookup</a>
-      <a class="sds-rail__item" href="#">typo3_icon_lookup</a>
-      <a class="sds-rail__item" href="#">typo3_label_lookup</a>
-      <a class="sds-rail__item" href="#">typo3_schema_lookup</a>
-      <a class="sds-rail__item" href="#">typo3_changelog_lookup</a>
-      <a class="sds-rail__item" href="#">typo3_documentation_lookup</a>
-      <a class="sds-rail__item" href="#">typo3_server_scope</a>
+    <aside style="width:var(--width-sidebar); flex:none">
+      <div class="sds-rail">
+  <a class="sds-rail__item" href="#overview">Overview</a>
+  <a class="sds-rail__item" href="#glossary">Glossary</a>
+  <details class="sds-rail__group" open>
+    <summary><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>clients</summary>
+    <a class="sds-rail__item is-active" href="#installing" aria-current="page">Installing the server</a>
+    <a class="sds-rail__item" href="#skill">Writing a task skill</a>
+  </details>
+  <details class="sds-rail__group">
+    <summary><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>tools</summary>
+    <a class="sds-rail__item" href="#icon">typo3_icon_lookup</a>
+    <a class="sds-rail__item" href="#label">typo3_label_lookup</a>
+    <a class="sds-rail__item" href="#schema">typo3_schema_lookup</a>
+  </details>
+  <details class="sds-rail__group">
+    <summary><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>decisions</summary>
+    <a class="sds-rail__item" href="#written">What is written down</a>
+  </details>
+</div>
     </aside>
 
     <main class="col">
-      <div class="sds-note sds-note--warn">
-        <span class="sds-note__icon">
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><circle cx="8" cy="12" r="1"/><path d="M8.5,10h-1L7.054975,5.5497518C7.0255408,5.2554088,7.2566829,5,7.5524936,5H8.447506c0.2958117,0,0.5269527,0.2554088,0.4975185,0.5497518L8.5,10z"/><path d="M8,2.0081444c0.1771402,0,0.6169796,0.05021,0.8746996,0.5153399l5.5364609,9.9918499c0.2499895,0.4511709,0.0741091,0.8442307-0.0131102,0.99228c-0.0872307,0.1480408-0.3457899,0.4923906-0.8615904,0.4923906H2.4635501c-0.5158101,0-0.7743701-0.3443499-0.8615901-0.4923906C1.51473,13.3595648,1.33884,12.9665051,1.58884,12.5153246l5.5364599-9.9918404C7.3830199,2.0583649,7.8228598,2.0081444,8,2.0081444 M8,1.0081491c-0.6843376,0-1.3686752,0.3435555-1.7494001,1.0306654L0.71414,12.0306549c-0.73862,1.3330297,0.22542,2.9693499,1.7494102,2.9693499h11.0729103c1.5239801,0,2.4880209-1.6363201,1.7494001-2.9693403L9.7494001,2.0388145C9.3686752,1.3517046,8.6843376,1.0081491,8,1.0081491L8,1.0081491z"/></g></svg>
-        </span>
-        <div>
-          <div class="sds-note__title">Experimental</div>
-          <div class="sds-note__body">
-            The tool surface is not stable yet. Names and arguments can change between
-            releases, and the bundled knowledge covers 12.4, 13.4, 14.3 and main only.
-          </div>
-        </div>
-      </div>
-
       <h1>It answers before it guesses</h1>
       <p class="lead">
-        A local MCP server in plain PHP for the three audiences that do TYPO3 work.
-        Every answer names the source it came from and the versions it holds for.
+        A local server for the three audiences that do TYPO3 work. Every answer
+        names the source it came from and the versions it holds for.
       </p>
 
       <h2>Install</h2>
       <p class="sds-prose">
-        The server runs as a subprocess of your client. It needs PHP 8.2 or newer and
-        nothing else — no daemon, no database, no network access unless a tool asks
+        It runs as a subprocess of your client. It needs PHP 8.2 or newer and
+        nothing else — no daemon, no database, and no network unless a tool asks
         <span class="sds-mono">docs.typo3.org</span> for a page.
       </p>
 
       <div class="sds-code">
-        <div class="sds-code__head">
-          <span class="sds-label">bash</span>
-          <span style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px">
-            <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M14,4h-2V2V1h-1H2H1v1v9v1h1h2v2v1h1h9h1v-1V5V4H14z M4,4v1v6H2V2h9v2H5H4z M14,14H5V5h9V14z"/></g></svg>copy
-          </span>
-        </div>
-        <pre class="sds-code__body"><span class="sds-code__comment"># standalone: clone, install once</span>
+  <div class="sds-code__head">
+    <span class="sds-code__lang">bash</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><span class="sds-code__comment"># standalone: clone, install once</span>
 <span class="sds-code__prompt">$</span> <span class="sds-code__cmd">composer install</span>
-<span class="sds-code__prompt">$</span> <span class="sds-code__cmd">vendor/bin/typo3-support-app install</span>
-<span class="sds-code__ok">&#10003;</span> published 9 task skills to <span class="sds-code__cmd">.agents/skills</span></pre>
-      </div>
+<span class="sds-code__ok">✓</span> published 9 task skills to <span class="sds-code__cmd">.agents/skills</span></pre>
+</div>
 
-
-      <div style="display:flex; gap:var(--space-3); margin-top:var(--space-4)">
-        <button class="sds-btn sds-btn--primary">
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M5,3.9L11.2,8L5,12.1L5,3.9 M5,2.9c-0.5,0-1,0.4-1,1v8.3c0,0.6,0.5,1,1,1c0.2,0,0.4-0.1,0.6-0.2l6.2-4.1c0.6-0.4,0.6-1.3,0-1.7L5.6,3C5.4,2.9,5.2,2.9,5,2.9L5,2.9z"/></g></svg>
-          Run the checks
-        </button>
-        <button class="sds-btn sds-btn--secondary">
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M12,1H3v14h9c0.552,0,1-0.448,1-1V2C13,1.448,12.552,1,12,1z M12,13v1H4V2h8v9h-1v2H12z"/><path d="M11,3.25C11,3.112,10.888,3,10.75,3h-5.5C5.112,3,5,3.112,5,3.25v2.5C5,5.888,5.112,6,5.25,6h5.5C10.888,6,11,5.888,11,5.75V3.25z"/><rect x="5" y="12" width="2" height="1"/></g></svg>
-          Read the tool surface
-        </button>
-      </div>
+      <div class="actions"><button class="sds-btn sds-btn--primary"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg>Run the checks</button><button class="sds-btn sds-btn--secondary">Read the tool surface</button></div>
     </main>
   </div>
 </div>

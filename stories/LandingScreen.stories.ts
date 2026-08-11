@@ -5,31 +5,32 @@
    Point** — a consuming project offers these in a picker to seed a new
    design — so it has to be a finished page and not a sketch.
 
-   Generated, not hand-written. The three screens that came before this were
-   written by hand, and every one of them ended up carrying a second copy of
-   markup the components already produce: a code block spelled out span by
-   span, an icon pasted in as a path. This composes the elements and
-   `renderStatic` prints them, exactly as a specimen card is made, so a change
-   to a component reaches the page.
+   Live in Storybook and static in `screens/`, from one composition — see
+   `lib/page.ts` for why both exist and where they differ. Live is the point:
+   every story is opened by the test suite, so a page here is a page under
+   test rather than a picture of one.
 
    The `<style>` block carries layout and nothing else. Every painted value is
    a token, which is what makes this a starting point rather than a design of
    its own.
 
-   Not a sidebar page: `Screens` documents these, and this file exists to
-   generate one. */
+   The `<style>` is inlined into the story as well as into the file: a page
+   layout is layout, and there is nowhere else for it to live. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { html, type TemplateResult } from 'lit';
 import '../src/components/pills.ts';
 import '../src/components/surface.ts';
 import '../src/components/badge.ts';
 import '../src/components/code.ts';
 import '../src/components/link.ts';
+import '../src/components/button.ts';
+import '../src/components/signet.ts';
+import '../src/components/theme.ts';
 import { buttonMarkup } from '../src/components/button.ts';
 import { type CodeLine } from '../src/components/code.ts';
-import { dsScreen, indent, part } from './lib/specimen.ts';
+import { dsScreen, part } from './lib/specimen.ts';
+import { type PageMode } from './lib/page.ts';
 
 const INSTALL: readonly CodeLine[] = [
   { kind: 'comment', text: '# one command, and the client finds it' },
@@ -91,11 +92,82 @@ const STYLE = `
 }
 `;
 
+/** The page. `flat` composes the form a static file can hold. */
+export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
+  /* The one place the two renderings differ: a button's label is content, and
+     `renderStatic` flattens no element that was given children. Same function
+     underneath, so the file is the markup the element renders. */
+  const start = flat
+    ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>Start a design`)}${buttonMarkup({ variant: 'secondary' }, 'Browse the components')}`
+    : html`<sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Start a design</sds-button>
+        <sds-button variant="secondary">Browse the components</sds-button>`;
+  const guidelines = flat
+    ? buttonMarkup({ variant: 'secondary', size: 'sm' }, 'Read the guidelines')
+    : html`<sds-button variant="secondary" size="sm">Read the guidelines</sds-button>`;
+
+  return html`<div class="shell">
+  <header class="head">
+    <a class="sds-lockup" href="#overview">
+      <sds-signet size="20"></sds-signet>
+      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
+    </a>
+    <sds-pills .items="${[
+      { label: 'overview', href: '#overview' },
+      { label: 'tokens', href: '#tokens' },
+      { label: 'components', href: '#components' },
+      { label: 'install', href: '#install' },
+    ]}" active="0"></sds-pills>
+    <div class="head__end">
+      <sds-badge label="1.0.0" tone="accent"></sds-badge>
+      ${guidelines}
+      <sds-theme></sds-theme>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="column">
+      <div class="hero">
+        <h1>A system, not a stylesheet</h1>
+        <p>
+          Tokens, a class layer and the elements over it — one vocabulary, whether
+          a surface runs JavaScript or is rendered by PHP. Every rule it holds is
+          shown on a card generated from the component that holds it.
+        </p>
+        <div class="actions">${start}</div>
+      </div>
+
+      <div class="split">
+        <div class="planes">
+          ${PLANES.map(
+            (plane) => html`<sds-surface plane="panel" heading="${plane.heading}" body="${plane.body}" box-style="flex:1"></sds-surface>`,
+          )}
+        </div>
+        <div>
+          <p class="sds-label" style="margin:0 0 var(--space-3)">Install</p>
+          <sds-code lang="bash" .body="${INSTALL}" copy></sds-code>
+          <p class="sds-prose" style="margin:var(--space-4) 0 0">
+            Two files, and nothing to configure. The elements register themselves
+            and the classes are already in the stylesheet.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <span class="sds-label">Soul Design System</span>
+    <sds-link label="docs.typo3.org" href="https://docs.typo3.org" external></sds-link>
+    <sds-link label="Contribute an icon" href="#"></sds-link>
+  </footer>
+</div>`;
+}
+
 const meta: Meta = {
-  title: 'Specimens/Landing',
-  tags: ['!dev'],
-  excludeStories: ['screenHtml'],
+  title: 'Pages/Landing',
+  tags: ['autodocs', '!dev'],
+  excludeStories: ['landingPage', 'screenHtml'],
   parameters: {
+    layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/landing.html',
       title: 'Soul Design System',
@@ -109,69 +181,10 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-const head = (): string => `<header class="head">
-${indent(part(html`<span class="sds-lockup"><span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span></span>`), 2)}
-${indent(part(html`<sds-pills .items="${[
-  { label: 'overview', href: '#overview' },
-  { label: 'tokens', href: '#tokens' },
-  { label: 'components', href: '#components' },
-  { label: 'install', href: '#install' },
-]}" active="0"></sds-pills>`), 2)}
-  <div class="head__end">
-${indent(part(html`<sds-badge label="1.0.0" tone="accent"></sds-badge>`), 4)}
-${indent(part(buttonMarkup({ variant: 'secondary', size: 'sm' }, 'Read the guidelines')), 4)}
-  </div>
-</header>`;
-
-const hero = (): string => `<div class="hero">
-    <h1>A system, not a stylesheet</h1>
-    <p>
-      Tokens, a class layer and the elements over it — one vocabulary, whether a
-      surface runs JavaScript or is rendered by PHP. Every rule it holds is shown
-      on a card generated from the component that holds it.
-    </p>
-    <div class="actions">
-${indent(part(buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>Start a design`)), 6)}
-${indent(part(buttonMarkup({ variant: 'secondary' }, 'Browse the components')), 6)}
-    </div>
-  </div>`;
-
-const planes = (): string => `<div class="planes">
-${PLANES.map((p) =>
-  indent(part(html`<sds-surface plane="panel" heading="${p.heading}" body="${p.body}" box-style="flex:1"></sds-surface>`), 4),
-).join('\n')}
-  </div>`;
-
-const install = (): string => `<div>
-    <p class="sds-label" style="margin:0 0 var(--space-3)">Install</p>
-${indent(part(html`<sds-code lang="bash" .body="${INSTALL}" copy></sds-code>`), 4)}
-    <p class="sds-prose" style="margin:var(--space-4) 0 0">
-      Two files, and nothing to configure. The elements register themselves and the
-      classes are already in the stylesheet.
-    </p>
-  </div>`;
-
-const foot = (): string => `<footer class="foot">
-${indent(part(html`<span class="sds-label">Soul Design System</span>`), 2)}
-${indent(part(html`<sds-link label="docs.typo3.org" href="https://docs.typo3.org" external></sds-link>`), 2)}
-${indent(part(html`<sds-link label="Contribute an icon" href="#"></sds-link>`), 2)}
-</footer>`;
-
-export const screenHtml = (): string => `<div class="shell">
-${indent(head(), 2)}
-  <main class="page">
-    <div class="column">
-      ${hero()}
-      <div class="split">
-        ${planes()}
-        ${install()}
-      </div>
-    </div>
-  </main>
-${indent(foot(), 2)}
-</div>`;
-
-export const Screen: Story = {
-  parameters: { layout: 'fullscreen' },
-  render: () => html`${unsafeHTML(screenHtml())}`,
+/** Click through it: a pill answers, the block copies itself, and the mode
+    switch moves the whole page. */
+export const Page: Story = {
+  render: () => html`<style>${STYLE}</style>${landingPage()}`,
 };
+
+export const screenHtml = (): string => part(landingPage({ flat: true }));
