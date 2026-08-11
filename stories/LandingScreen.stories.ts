@@ -122,9 +122,22 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
+/* No generated page in front of this one — the deliberate exception to the
+   `['autodocs', '!dev']` every component here carries.
+
+   A component's page earns its place: it collects the variants, the controls
+   and the prose into something to read. A whole layout has none of that to
+   collect. It is one story, and what it documents is what it does at a given
+   width — which is exactly what a docs page cannot show, because the viewport
+   tool renders in the story view and nowhere else. So the one entry a reader
+   could reach was the one place the widths were unreachable.
+
+   Untagged, the story itself is what the sidebar lists, and it is a single
+   leaf rather than something to unfold: a component with one story whose name
+   matches its own is hoisted, which is what `name` below is for. The export
+   keeps its own name, because the story id is what the suite addresses. */
 const meta: Meta = {
   title: 'Pages/Landing',
-  tags: ['autodocs', '!dev'],
   excludeStories: ['landingPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
@@ -143,6 +156,7 @@ type Story = StoryObj;
 /** Click through it: a pill answers, the block copies itself, and the mode
     switch moves the whole page. */
 export const Page: Story = {
+  name: 'Landing',
   render: () => landingPage(),
 };
 

@@ -116,9 +116,11 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 </div>`;
 }
 
+/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
+   layout has no variants to collect, and the widths it is documented at are
+   reachable only in the story view. */
 const meta: Meta = {
   title: 'Pages/Documentation',
-  tags: ['autodocs', '!dev'],
   excludeStories: ['documentationPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
@@ -137,6 +139,7 @@ type Story = StoryObj;
 /** Click through it: the rail folds, a pill answers, the field takes typing,
     the block copies itself. */
 export const Page: Story = {
+  name: 'Documentation',
   render: () => documentationPage(),
 };
 

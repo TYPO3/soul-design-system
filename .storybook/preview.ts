@@ -12,6 +12,7 @@ import '../src/styles/styles.css';
 import '../src/styles/_specimen.css';
 import './docs.css';
 import { addons } from 'storybook/preview-api';
+import { VIEWPORTS } from './viewports.ts';
 
 /* One import: the entry registers every element and installs the host rule.
    Listing them here was a second list to keep in step with `src/index.ts`,
@@ -95,6 +96,15 @@ const preview: Preview = {
     // background picker underneath it could only ever be wrong.
     backgrounds: { disable: true },
     controls: { expanded: true, sort: 'requiredFirst' },
+    /* The toolbar is in the core already; what it was missing is a list to
+       choose from — see `viewports.ts` for which sizes and why those.
+
+       Offered everywhere rather than pinned to the pages. The queries live in
+       the class layer, so a component that sits in a bar or a rail sheds with
+       it, and a specimen is the smallest place to see that happen. No default
+       is set: unpicked, a story fills the pane exactly as it did before, which
+       is what the screenshot and story suites open. */
+    viewport: { options: VIEWPORTS },
     /* The sections read in the order somebody arrives in; the components
        inside them read alphabetically, because there is no order to arrive in
        — a reader is looking one up, and the only sequence that helps is the
