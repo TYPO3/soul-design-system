@@ -220,13 +220,13 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 | Focus, loading, empty, error | `guidelines/states-*.card.html` |
 | Icon set and usage | `guidelines/icons-*.card.html`, `assets/icons/` |
 | Illustration rules, prompt and examples | `guidelines/illustration-prompt.md`, `assets/placeholders/` |
-| Diagram rules and three worked examples | `guidelines/diagrams-*.card.html`, `assets/diagrams/` |
+| Diagram rules and the worked examples | `guidelines/diagrams-*.card.html`, `assets/diagrams/` |
 | Buttons, fields | `components/core/` |
 | Tabs, tool rail | `components/navigation/` |
 | Table, badges, density | `components/data/` |
 | Card, panel, modal, drawer | `components/surfaces/` |
 | Code block, diff | `components/code/` |
-| The documentation surface itself | `ui_kits/documentation/index.dc.html` |
+| A whole page to start from, the documentation surface among them | `screens/` |
 | The reasoning behind every rule | `RATIONALE.md` |
 
 ## Before you call it done
