@@ -13,6 +13,32 @@ and the Lit elements are written by hand; the cards, the screens, the package
 and the bundle are generated from them. Editing a generated file is either
 reverted by the next generate or fails the gate — both by design.
 
+## One language
+
+Everything written into this repository is written in English — the documents,
+the code comments, the commit messages, the strings a task prints, the headings
+of a page, the notes left here for the next session. A tree read by people who
+do not share a first language, and worked on by agents that answer in whatever
+language the prompt arrived in, holds together only as long as there is one
+language in it; a second one splits the readership of every line it touches and
+leaves a reader who can act on half the file.
+
+The rule binds what is written down, not the conversation — speak to whoever is
+in the room in whatever language they use, and write English into the tree.
+
+Text in another language is not a note for later. Stop the work in hand,
+translate it, commit that on its own, and only then pick the work back up. It
+is treated like a red gate, and for the same reason: left standing, the next
+reader inherits it and the next agent matches its tone, and by then it is no
+longer one file.
+
+Four places stand in German from before the rule and stay that way by
+decision — `RESTRUCTURE.md`, `guides-theme/GAPS.md`, and the lines
+`scripts/plan.ts` and `scripts/status.ts` print while the Guides theme is being
+restructured. They are the whole exception and it does not grow: do not stop
+work over them, do not translate them halfway, and start nothing new in their
+language. Every other find falls under the paragraph above.
+
 ## Which document answers what
 
 | Question | Read |
