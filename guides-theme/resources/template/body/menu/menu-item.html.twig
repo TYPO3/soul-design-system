@@ -1,24 +1,28 @@
 {#
     One page in the rail, and its children if it has any.
 
-    A page with children is a `<details>`, open when the reader is inside it —
-    `isInRootline` is exactly that question. A page without children is an
-    anchor and nothing more.
+    The current page is the one whose link the renderer resolves to `#`: it
+    generates a URL relative to the page being rendered, and the page's own
+    URL is nothing. `isCurrent` is not set on these nodes, so this is the
+    signal there is — and it is the same one the top navigation reads.
 
-    `is-active` marks the page being read, and it carries `aria-current` for a
-    reader who cannot see the mark. `isCurrent` and `isInRootline` are two
-    different states and only the first one is the page itself.
+    A page with children is a `<details>`, open when the reader is inside it,
+    which is a question the summary cannot ask and the children can: if any of
+    them is the current page, the fold is open.
 #}
 {%- if node.children|length -%}
-    <details class="sds-rail__group"{% if node.isInRootline %} open{% endif %}>
+    {%- set open = node.children|filter(child => renderLink(child.url) == '#')|length > 0 -%}
+    <details class="sds-rail__group"{% if open or node.isInRootline %} open{% endif %}>
         <summary>{{ node.value.toString }}</summary>
-        <a class="sds-rail__item{% if node.isCurrent %} is-active{% endif %}"
-           href="{{ url }}"{% if node.isCurrent %} aria-current="page"{% endif %}>{{ node.value.toString }}</a>
+        {%- set url = renderLink(node.url) -%}
+        <a class="sds-rail__item{% if url == '#' %} is-active{% endif %}"
+           href="{{ url }}"{% if url == '#' %} aria-current="page"{% endif %}>{{ node.value.toString }}</a>
         {%- for child in node.children -%}
             {{ renderNode(child) }}
         {%- endfor -%}
     </details>
 {%- else -%}
-    <a class="sds-rail__item{% if node.isCurrent %} is-active{% endif %}"
-       href="{{ url }}"{% if node.isCurrent %} aria-current="page"{% endif %}>{{ node.value.toString }}</a>
+    {%- set url = renderLink(node.url) -%}
+    <a class="sds-rail__item{% if url == '#' %} is-active{% endif %}"
+       href="{{ url }}"{% if url == '#' %} aria-current="page"{% endif %}>{{ node.value.toString }}</a>
 {%- endif -%}

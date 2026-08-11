@@ -18,11 +18,12 @@
 <guides xmlns="https://www.phpdoc.org/guides"
         input-format="rst"
         links_are_relative="true"
+        theme="soul"
         default_code_language="text">
     <project title="Soul — Guides fixture" version="1.0"/>
     <extension class="phpDocumentor\Guides\Markdown\DependencyInjection\MarkdownExtension"/>
     <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
-    <base_template_paths>
-        <path>guides-theme/resources/template</path>
-    </base_template_paths>
+    <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
+        <product>Acceptance</product>
+    </extension>
 </guides>

@@ -1,0 +1,19 @@
+{#
+    Tabs, as the element that already knows how to be a tablist.
+
+    The core renders a `<ul>` of buttons and every panel underneath it, and
+    leaves the switching to a script the renderer does not ship — so both
+    panels are on the page at once and neither button does anything. This is
+    the same content handed to `sds-tabs`, which lifts the items, draws the
+    bar and wires the arrow keys.
+
+    Without JavaScript the panels stack, which is what the markup says; see
+    `sds-tabs:not(:defined)` in `document.css` for what that looks like.
+#}
+<sds-tabs>
+    {%- for tab in node.tabs %}
+        <sds-tab-item label="{{ renderNode(tab.content)|striptags|trim }}">
+            {{- renderNode(tab.value) -}}
+        </sds-tab-item>
+    {%- endfor %}
+</sds-tabs>

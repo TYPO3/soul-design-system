@@ -152,6 +152,16 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
     {
         $blank = 'structure/header/blank.html.twig';
         $container->prependExtensionConfig('guides', [
+            /* A theme rather than a list of template paths. A path is searched
+               after the packaged templates, so a file replacing one of theirs
+               is never reached; a theme's templates come first, which is what
+               a theme is for. Select it with `theme="soul"`. */
+            'themes' => [
+                'soul' => [
+                    'extends' => 'default',
+                    'templates' => [dirname(__DIR__, 2) . '/resources/template'],
+                ],
+            ],
             'templates' => [
                 ['node' => NavigationTitleNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => LayoutNode::class, 'file' => $blank, 'format' => 'html'],

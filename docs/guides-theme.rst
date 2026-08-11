@@ -22,20 +22,21 @@ Installing
    <guides xmlns="https://www.phpdoc.org/guides"
            input-format="rst"
            links_are_relative="true"
+           theme="soul"
            default_code_language="text">
        <project title="Your project" version="1.0"/>
        <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
-       <base_template_paths>
-           <path>vendor/typo3/soul-guides-theme/resources/template</path>
-       </base_template_paths>
    </guides>
 
-.. confval:: base_template_paths
-   :type: list of path
+.. confval:: theme
+   :type: string
    :required: true
 
-   Where the theme's Twig templates are. Searched before the packaged ones, so
-   a template of the same name replaces the renderer's own.
+   ``soul``. The extension registers it; selecting it is what puts the theme's
+   templates in front of the packaged ones. A list of template *paths* is
+   searched after them instead, which means a file replacing one of the
+   renderer's own is never reached — that is the difference between a path and
+   a theme.
 
 .. confval:: links_are_relative
    :type: bool
