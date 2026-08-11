@@ -10,26 +10,33 @@
    A page rather than a card, so the defaults are a page's: the full height at
    1440 wide, both modes, and no animation so two runs of it are comparable.
 
-     make look ARGS=screens/feature.html
-     make look ARGS='screens/news.html 375'          # at a phone's width
-     make look ARGS='screens/news.html 1440 light'   # one mode only
+     make look ARGS=specimens/screens/feature.html
+     make look ARGS='specimens/screens/news.html 375'   # at a phone's width
+     make look ARGS='specimens/screens/news.html 1440 light'   # one mode only
+
+   A path a card declares works too — `screens/news.html` is what the bundle
+   calls the same file, and typing the name a story wrote should not be an
+   error just because this repo files it one level deeper.
 
    The files land in `test-results/`, which is gitignored and already where
    everything a person is meant to open ends up.
 */
-import { mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 import { basename, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import { withBrowser } from './lib/browser.ts';
-import { ROOT } from './lib/cards.ts';
+import { inRepo, ROOT } from './lib/cards.ts';
 
 const [file, widthArg, modeArg] = process.argv.slice(2);
 if (!file) {
   console.log('usage: node scripts/look.ts <file> [width] [light|dark|both]');
-  console.log('   e.g. node scripts/look.ts screens/feature.html 1440 both');
+  console.log('   e.g. node scripts/look.ts specimens/screens/feature.html 1440 both');
   process.exit(1);
 }
+
+/* As given, or as the bundle names it. Both are the same file. */
+const target = existsSync(join(ROOT, file)) ? file : inRepo(file);
 
 const width = Number(widthArg ?? 1440);
 const modes = modeArg === 'light' || modeArg === 'dark' ? [modeArg] : (['light', 'dark'] as const);
@@ -46,7 +53,7 @@ await withBrowser(async (browser) => {
     const ctx = await browser.newContext({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
     try {
       const page = await ctx.newPage();
-      await page.goto(pathToFileURL(join(ROOT, file)).href);
+      await page.goto(pathToFileURL(join(ROOT, target)).href);
       /* The mode is forced on `<html>` rather than through the emulated
          preference: that is what the theme switch does, and a page has to be
          photographed in the state a reader can actually put it in. */

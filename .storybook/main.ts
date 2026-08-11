@@ -59,14 +59,19 @@ const config: StorybookConfig = {
      rather than serving the repo root, which would copy the build output
      into itself. */
   staticDirs: [
-    { from: '../guidelines', to: '/guidelines' },
-    { from: '../components', to: '/components' },
-    { from: '../screens', to: '/screens' },
+    /* Served at the path a card declares, not at the path it is stored under:
+       the card's own links climb to `/styles/` and `/assets/`, and those are
+       counted from the declared depth. `specimens/` is where the repo keeps
+       them and stops at the file system. */
+    { from: '../specimens/guidelines', to: '/guidelines' },
+    { from: '../specimens/components', to: '/components' },
+    { from: '../specimens/screens', to: '/screens' },
     { from: '../assets', to: '/assets' },
     { from: '../fonts', to: '/fonts' },
     { from: '../src/tokens', to: '/tokens' },
     /* The whole directory, at the path the cards resolve to: a guideline
-       card served at /guidelines/x.card.html links `../styles/styles.css`. */
+       card served at /guidelines/x.card.html links
+       `../src/styles/styles.css`. */
     { from: '../src/styles', to: '/styles' },
     /* What a consumer copies. Served so the drop-in can be opened here rather
        than only built — an artefact nothing ever loads is an artefact nobody

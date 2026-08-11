@@ -18,7 +18,7 @@
 */
 import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 
 import * as esbuild from 'esbuild';
 
@@ -37,10 +37,10 @@ const read = (p: string): string => readFileSync(join(ROOT, p), 'utf8');
 
 /* Point a page at the bundle's flat root.
 
-   The repo keeps its stylesheets under `src/styles/` and its cards at the
-   top level; the bundle has `styles.css`, `_specimen.css` and `assets/` all
-   at its root, with cards three levels down (`components/<Group>/<Name>/`)
-   and screens one (`screens/`). `up` is the prefix that climbs back.
+   The repo keeps its stylesheets under `src/styles/` and its cards under a
+   group; the bundle has `styles.css`, `_specimen.css` and `assets/` all at
+   its root, with cards three levels down (`components/<Group>/<Name>/`) and
+   screens one (`screens/`). What has to be written is the climb back.
 
    Screens used to be copied verbatim, on the reasoning that they sit at the
    same depth in both trees. That was true and still wrong: it holds only
@@ -48,12 +48,23 @@ const read = (p: string): string => readFileSync(join(ROOT, p), 'utf8');
    `src/styles/` every screen shipped pointing at a directory the bundle does
    not have. The pane drew them with no CSS at all — which reads as a broken
    design rather than a missing file. The depth was never the whole story;
-   the directory is. */
-function rewriteDepth(txt: string, up: string): string {
+   the directory is.
+
+   So the directory is what this is given, and the climb is counted from it.
+   It used to be the climb itself — `'../../../'` written beside the cards and
+   `'../'` beside the screens — which is a second place that has to stay true
+   every time either tree moves, and that pair has already fallen out of step
+   twice. A literal cannot be wrong loudly; it is simply wrong. */
+function rewriteRefs(txt: string, dir: string): string {
+  const up = '../'.repeat(relative(OUT, dir).split(sep).filter(Boolean).length);
   return txt
     .replace(/href="(?:\.\.\/)+src\/styles\/styles\.css"/g, `href="${up}styles.css"`)
     .replace(/href="(?:\.\.\/)+src\/styles\/_specimen\.css"/g, `href="${up}_specimen.css"`)
-    .replace(/src="(?:\.\.\/)+assets\//g, `src="${up}assets/`);
+    /* Either attribute. A diagram is an `<img src>` and the link to its own
+       file is an `<a href>`, and a rule that knew only about `src` shipped the
+       second one with the climb it had in the repo — which lands outside the
+       bundle. */
+    .replace(/(src|href)="(?:\.\.\/)+assets\//g, `$1="${up}assets/`);
 }
 
 /* Every local reference in the bundle has to resolve inside the bundle.
@@ -71,7 +82,16 @@ function unresolvedRefs(): string[] {
     for (const m of txt.matchAll(/(?:href|src)="([^"]+)"/g)) {
       const ref = m[1];
       if (!ref || /^(https?:|data:|#)/.test(ref)) continue;
-      if (!existsSync(resolve(dirname(join(OUT, rel)), ref))) bad.push(`${rel} → ${ref}`);
+      const target = resolve(dirname(join(OUT, rel)), ref);
+      /* Leaving the bundle is its own failure, and it has to be asked before
+         existence: one climb too many lands in the repo, where `assets/` and
+         `src/` both exist — so the file is found, the check passes, and what
+         ships resolves to nothing on anybody else's disk. */
+      if (!target.startsWith(OUT + sep)) {
+        bad.push(`${rel} → ${ref} (climbs out of the bundle)`);
+        continue;
+      }
+      if (!existsSync(target)) bad.push(`${rel} → ${ref}`);
     }
   }
   return bad;
@@ -94,7 +114,12 @@ function snippet(txt: string): string {
   return (lines.length > 26 ? [...lines.slice(0, 26), '  <!-- … -->'] : lines).join('\n');
 }
 
-function promptDoc(c: Card): string {
+/* `dir` because the markup in here is the card's, and a path in it has to
+   climb the same way the card beside it climbs. It used to embed the repo's
+   own text: the snippet told a reader to copy an `<img>` whose source sat one
+   directory above the bundle. Nothing loads a fenced block, so nothing ever
+   said so. */
+function promptDoc(c: Card, dir: string): string {
   const cls = classesUsed(c.text);
   const out = [c.subtitle ? `${c.label} — ${c.subtitle}` : c.label, ''];
   out.push(`Group: ${c.group}. Rendered at ${c.viewport}.`, '');
@@ -106,7 +131,7 @@ function promptDoc(c: Card): string {
     'Link `styles.css` — it carries the tokens and the whole component layer.',
     'Copy the markup below rather than inventing a variant; every class in it is',
     'defined in `_ds_bundle.css` and every value comes from a token.', '',
-    '```html', snippet(c.text), '```', '',
+    '```html', snippet(rewriteRefs(c.text, dir)), '```', '',
   );
   return out.join('\n');
 }
@@ -198,15 +223,14 @@ const sourceKeys: Record<string, string> = {};
 for (const c of list) {
   const dir = join(OUT, 'components', c.group, c.name);
   mkdirSync(dir, { recursive: true });
-  const html = rewriteDepth(c.text, '../../../');
+  const html = rewriteRefs(c.text, dir);
   writeFileSync(join(dir, `${c.name}.html`), html);
-  writeFileSync(join(dir, `${c.name}.prompt.md`), promptDoc(c));
+  writeFileSync(join(dir, `${c.name}.prompt.md`), promptDoc(c, dir));
   renderHashes[c.name] = sha12(html);
   sourceKeys[c.name] = sha12(c.text);
 }
 
 // starting points: screens a consuming project can seed a design from.
-// One level down in the bundle, so they climb back one to reach its root.
 const sp = screens();
 /* Hashed like the cards are. Without this the anchor knows nothing about a
    screen, so `make status` reports "nothing to do" while all three of them
@@ -216,7 +240,7 @@ const screenHashes: Record<string, string> = {};
 if (sp.length) {
   mkdirSync(join(OUT, 'screens'), { recursive: true });
   for (const s of sp) {
-    const html = rewriteDepth(s.text, '../');
+    const html = rewriteRefs(s.text, join(OUT, 'screens'));
     writeFileSync(join(OUT, 'screens', s.path.split('/').pop() ?? s.name), html);
     screenHashes[s.name] = sha12(html);
   }

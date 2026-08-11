@@ -3,19 +3,19 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<link rel="stylesheet" href="../src/styles/styles.css" />
-<link rel="stylesheet" href="../src/styles/_specimen.css" />
+<link rel="stylesheet" href="../../src/styles/styles.css" />
+<link rel="stylesheet" href="../../src/styles/_specimen.css" />
 </head>
 <body class="spec-sunken">
   <div style="padding:18px 20px; display:flex; flex-direction:column; gap:14px;">
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
     <div>
       <div class="spec-h">answer-sources.svg</div>
-      <img src="../assets/diagrams/answer-sources.svg" alt="Five answer sources plotted against the machine state each one requires." class="spec-figure spec-figure--framed" />
+      <img src="../../assets/diagrams/answer-sources.svg" alt="Five answer sources plotted against the machine state each one requires." class="spec-figure spec-figure--framed" />
     </div>
     <div>
       <div class="spec-h">answer-sources-dark.svg</div>
-      <img src="../assets/diagrams/answer-sources-dark.svg" alt="The same chart, dark." class="spec-figure spec-figure--framed" />
+      <img src="../../assets/diagrams/answer-sources-dark.svg" alt="The same chart, dark." class="spec-figure spec-figure--framed" />
     </div></div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px 26px; border-top:1px solid var(--border-subtle); padding-top:12px;">
       <div class="spec-note"><b>Two files, not one.</b> A <span class="spec-cap">&lt;style&gt;</span> block inside an SVG is stripped by GitHub and ignored by most markdown pipelines, so a single self-switching file is not shippable. The pair is selected with <span class="spec-cap">&lt;picture&gt;</span>; every colour is an attribute, and the dark file is generated from the light one by a token swap.</div>

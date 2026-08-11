@@ -3,8 +3,8 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
-<link rel="stylesheet" href="../src/styles/styles.css" />
-<link rel="stylesheet" href="../src/styles/_specimen.css" />
+<link rel="stylesheet" href="../../src/styles/styles.css" />
+<link rel="stylesheet" href="../../src/styles/_specimen.css" />
 </head>
 <body>
   <div class="spec" style="--spec-gap:24px">
@@ -104,10 +104,10 @@
         <span style="font-size:14px; font-weight:600;">Three files</span><span style="font-size:12px; color:var(--text-muted);">one per optical size &#8212; the same way favicons are shipped</span>
       </div>
       <div style="display:flex; align-items:flex-end; gap:26px; flex-wrap:wrap;">
-        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/dev-companion-signet-l.svg" alt="" style="height:71.68px; width:89.6px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-l</span></div>
-        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/dev-companion-signet-l.svg" alt="" style="height:35.84px; width:44.8px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-l &#183; 32</span></div>
-        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/dev-companion-signet-m.svg" alt="" style="height:26.88px; width:33.6px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-m &#183; 24</span></div>
-        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/dev-companion-signet-s.svg" alt="" style="height:17.92px; width:22.4px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-s &#183; 16</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../../assets/dev-companion-signet-l.svg" alt="" style="height:71.68px; width:89.6px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-l</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../../assets/dev-companion-signet-l.svg" alt="" style="height:35.84px; width:44.8px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-l &#183; 32</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../../assets/dev-companion-signet-m.svg" alt="" style="height:26.88px; width:33.6px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-m &#183; 24</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../../assets/dev-companion-signet-s.svg" alt="" style="height:17.92px; width:22.4px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-s &#183; 16</span></div>
         <div class="spec-note" style="max-width:32ch;">Media queries inside one SVG only see their own viewport when the file is linked, and not reliably across renderers &#8212; so the size is chosen where it is known: at the link.<br /><br /><span class="spec-cap">&lt;link rel="icon" sizes="16x16" href="signet-s.svg"&gt;</span><br /><br />Each file follows <span class="spec-cap">prefers-color-scheme</span>; an image cannot inherit <span class="spec-cap">currentColor</span>, so the frame is a mid warm grey that holds on both modes.</div>
       </div>
     </div>

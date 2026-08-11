@@ -1,6 +1,7 @@
 /* Card discovery and the @dsCard contract.
 
-   A specimen card is any .html under components/ or guidelines/ whose FIRST
+   A specimen card is any .html under `specimens/components/` or
+   `specimens/guidelines/` whose FIRST
    line is a @dsCard comment. That line is the contract with the Design
    System pane: it supplies the group, the label, the subtitle and the
    viewport the card is rendered at. Everything downstream — the bundle, the
@@ -42,6 +43,19 @@ export interface Card extends Specimen {
 export interface Screen extends Specimen {
   section: string;
 }
+
+/* Where the specimen trees sit in this repo.
+
+   A card's declared path — what a story writes into `parameters.dsCard` — is
+   the path the **bundle** uses, and that is a contract: the pane opens
+   `components/<Group>/<Name>/`, and `make plan` writes and deletes under those
+   names. Where the file lives here is this repo's business and nobody else's,
+   so the difference between the two is said once, in this pair, and everything
+   that touches the disk goes through it. */
+export const SPECIMENS = 'specimens';
+
+/** A declared path, as a path from the repo root. */
+export const inRepo = (declared: string): string => join(SPECIMENS, declared);
 
 function walk(dir: string, out: string[] = []): string[] {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
@@ -85,7 +99,7 @@ const stemOf = (path: string): string => (path.split('/').pop() ?? '').replace(/
 export function cards(): Card[] {
   const found: string[] = [];
   for (const root of ['components', 'guidelines']) {
-    const base = join(ROOT, root);
+    const base = join(ROOT, SPECIMENS, root);
     try {
       if (!statSync(base).isDirectory()) continue;
     } catch {
@@ -139,7 +153,7 @@ export function cards(): Card[] {
 export function screens(): Screen[] {
   let files: string[];
   try {
-    files = walk(join(ROOT, 'screens'));
+    files = walk(join(ROOT, SPECIMENS, 'screens'));
   } catch {
     return [];
   }

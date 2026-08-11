@@ -38,9 +38,13 @@ generated artefacts of npm packages, not sources, and the upload bundle wants
 them at its own root anyway.
 
 **The bundle is flat and the repo is not.** `styles.css`, `_ds_bundle.css`,
-`_specimen.css` and `tokens/` all sit at the root of `ds-bundle/`. So a
-change to this layout is also a change to `rewriteDepth` and to the `@import`
-rewriting in `scripts/build.ts` — that pairing has broken twice.
+`_specimen.css` and `tokens/` all sit at the root of `ds-bundle/`. The climb
+back to that root used to be written out beside each caller — `'../../../'`
+for a card, `'../'` for a screen — so a change to either layout was also a
+change to two literals in `scripts/build.ts`, and that pairing broke twice.
+`rewriteRefs` now counts the climb from the directory the file lands in, and
+no caller states it. What still has to move with the layout is the `@import`
+rewriting, which names paths rather than depths.
 
 ## Decisions that were made on purpose
 

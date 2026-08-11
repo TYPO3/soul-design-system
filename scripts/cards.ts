@@ -3,8 +3,8 @@
 
    The direction of truth for the seven component cards runs story → card:
    `stories/Buttons.stories.ts` composes the specimen out of the templates in
-   `src/button.ts`, and `components/core/buttons.card.html` is written from
-   it. That is the whole point of the arrangement. Before it, a card was
+   `src/button.ts`, and `specimens/components/core/buttons.card.html` is
+   written from it. That is the whole point of the arrangement. Before it, a card was
    hand-written HTML and a story would have been a second copy of the same
    markup — the "second source of truth" `ARCHITECTURE.md` warns about.
    One source, three renderers: the browser upgrades the custom element,
@@ -15,7 +15,8 @@
    markup the element *produces* — which is why the components expose plain
    template functions and `src/lib/render.ts` turns one into static HTML.
 
-   The guideline specimens under `guidelines/` are generated the same way.
+   The guideline specimens under `specimens/guidelines/` are generated the
+   same way.
    They were hand-written for a long time, on the argument that a colour
    swatch or a type sample has no component behind it and nothing to vary —
    which was true of the drawing and never true of the file: the theme, the
@@ -32,7 +33,7 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import { indent, type DsCard, type DsScreen } from '../stories/lib/specimen.ts';
-import { cards, screens, ROOT } from './lib/cards.ts';
+import { cards, inRepo, screens, ROOT } from './lib/cards.ts';
 
 const STORIES = join(ROOT, 'stories');
 
@@ -53,15 +54,28 @@ export interface CardResult {
   existed: boolean;
 }
 
+/* A picture in a specimen is written the way the story sees it — `../assets/`,
+   one climb out of a folder — and eight story files say it that way. Where the
+   file finally lands is not a story's business, so the climb is counted here
+   from the same `up` the stylesheets use, the way `build.ts` counts it again
+   for the bundle. A story that stated a depth would be a fourth place to keep
+   true, and this repo has already paid for three. */
+const withAssets = (html: string, up: string): string =>
+  html.replace(/(src|href)="(?:\.\.\/)+assets\//g, `$1="${up}assets/`);
+
 /* The document shell — deliberately the same six lines every card already
    carried: the `@dsCard` marker the pane reads, the theme pinned on <html>
    so the browser's own scrollbars and form controls match, and the two
    stylesheets. `styles.css` is linked exactly as a consuming surface links
    it; `_specimen.css` draws the captions and goes no further. */
 function shell(card: DsCard, body: string): string {
-  const up = '../'.repeat(card.path.split('/').length - 1);
+  /* From where the file lands, not from what it is called. A card declares
+     the path the bundle knows it by; in this repo it sits one level deeper,
+     under `specimens/`, and a stylesheet link counted from the declared name
+     would climb one step short and resolve to nothing. */
+  const up = '../'.repeat(inRepo(card.path).split('/').length - 1);
   // Pre-aware: the body of a code block is content, not formatting.
-  const indented = indent(body, 2);
+  const indented = indent(withAssets(body, up), 2);
   /* The diagram cards sit their figures on the sunken plane, which is the
      page's ground rather than anything inside the card — so it goes on the
      body, and the story says so rather than wrapping its own div. */
@@ -98,7 +112,7 @@ ${indented}
    the system's now, and a page that cannot say something in them has found a
    gap to fix there rather than a stylesheet to write here. */
 function screenShell(screen: DsScreen, body: string): string {
-  const up = '../'.repeat(screen.path.split('/').length - 1);
+  const up = '../'.repeat(inRepo(screen.path).split('/').length - 1);
 
   return `<!-- @startingPoint section="${screen.section}" subtitle="${screen.subtitle}" viewport="${screen.viewport}" -->
 <!doctype html>
@@ -109,7 +123,7 @@ function screenShell(screen: DsScreen, body: string): string {
 <link rel="stylesheet" href="${up}src/styles/styles.css" />
 </head>
 <body class="sds-app">
-${indent(body, 0)}
+${indent(withAssets(body, up), 0)}
 </body>
 </html>
 `;
@@ -150,7 +164,10 @@ export async function buildCards({ check = false } = {}): Promise<CardResult[]> 
       throw new Error(`${file}: declares parameters.dsScreen but exports no screenHtml() to generate the page from`);
     }
 
-    const path = card ? card.path : (screen as DsScreen).path;
+    /* Declared, then resolved. `orphans()` compares what was written against
+       what is on disk, and the two have to be the same vocabulary — so a
+       result carries the repo path, which is also the one worth printing. */
+    const path = inRepo(card ? card.path : (screen as DsScreen).path);
     const out = join(ROOT, path);
     const next = card
       ? shell(card, (mod.specimenHtml as () => string)())
