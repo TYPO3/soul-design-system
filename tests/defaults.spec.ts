@@ -93,11 +93,12 @@ test('a class always overrides the element it sits on', async ({ page }) => {
 
   /* A paragraph set as a lead takes the lead's size and its shorter measure.
 
-     Shorter in *characters*, which is what a measure is: 64ch against 66ch.
-     In pixels the lead is the wider of the two, because it is set larger — and
-     comparing the two widths directly is the mistake this comment exists to
-     stop the next person making. Dividing each by its own font size takes the
-     size back out, and what is left is the measure. */
+     Shorter in *characters*, which is what a measure is: 560px at 19px
+     against 620px at 17px. The tokens are stated in pixels — a `ch` measured
+     the "0" of whatever it landed on, so one token meant four widths — and in
+     pixels the two are close enough that comparing them directly proves
+     nothing. Dividing each by its own font size takes the size back out, and
+     what is left is the measure. */
   const leadSize = await size(page, 'p-as-lead');
   const proseSize = await size(page, 'bare-p');
   expect(leadSize).toBeGreaterThan(proseSize);

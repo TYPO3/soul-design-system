@@ -156,10 +156,10 @@
 
 /* The measure belongs to the text, not to the column.
 
-   `.sds-prose` holds itself to 66ch, which is right for a page that is
-   sentences. A reference is sentences *and* a forty-column table, a command
-   nobody wants wrapped and a diagram — and clamping those to the width of
-   comfortable reading is how a documentation page ends up with three
+   `.sds-prose` holds itself to the reading column, which is right for a page
+   that is sentences. A reference is sentences *and* a forty-column table, a
+   command nobody wants wrapped and a diagram — and clamping those to the
+   width of comfortable reading is how a documentation page ends up with three
    horizontal scrollbars.
 
    So the container gives up its own limit and hands it to the things made of
@@ -173,8 +173,8 @@
 :where(.sds-prose) dl,
 :where(.sds-prose) blockquote,
 /* The rule too: it is punctuation of the text rather than a block of
-   content, and drawn to the full column under a 66ch paragraph it reads as
-   the end of the page instead of the end of a section. */
+   content, and drawn to the full column under a measured paragraph it reads
+   as the end of the page instead of the end of a section. */
 :where(.sds-prose) hr,
 :where(.sds-prose) h1,
 :where(.sds-prose) h2,

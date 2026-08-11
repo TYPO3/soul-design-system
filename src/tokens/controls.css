@@ -80,5 +80,13 @@
   --note-title-size: 14px;
   --note-body-size: 12px;
   --note-body-leading: 1.45;
-  --note-measure: 64ch;
+  /* Seventy-four characters of the register above, stated as the width it
+     comes to rather than as `64ch`. Same correction as the measures in
+     typography.css and the same reason: `ch` is the width of the "0" in
+     whatever element the token lands on, so one number meant several widths.
+     This one is the dense register's — a note beside a result, a hint under a
+     field. A document rebinds it, because there a note is a paragraph with a
+     border and 12px is the wrong voice; `document.css` is where that is
+     written and why. */
+  --note-measure: 384px;
 }

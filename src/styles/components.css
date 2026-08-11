@@ -99,7 +99,7 @@ hr {
    and an element that brought its own margin would double the gap on every
    page that already composes correctly. */
 
-/* Body copy. 17px at 1.65, held to a 66ch measure. `.sds-prose` is what a
+/* Body copy. 17px at 1.65, held to the reading column. `.sds-prose` is what a
    `<p>` already is, and exists for the elements that are not one. */
 .sds-prose,
 p {
@@ -115,8 +115,10 @@ p {
    picked. Each sets its own leading and tracking, because the two move with
    the size and a heading given only a size is a heading set at body leading.
 
-   The measure belongs to the class too: display type held to 18ch and a lead
-   to 64ch is the difference between a page and a wall. */
+   The measure belongs to the class too: display type held under the reading
+   column and a lead under that is the difference between a page and a wall.
+   The larger the type, the fewer characters the line is read in — which is
+   why the three numbers fall the way they do in `typography.css`. */
 .sds-display {
   margin: 0;
   font-size: var(--font-size-display);
