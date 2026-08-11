@@ -12,8 +12,11 @@ export interface TeaserProps {
     tag?: string;
     /** When, and anything else that belongs in the label register. */
     meta?: string;
-    /** The image. */
-    art?: string;
+    /** The picture. Named `src` because every element in this system that
+        takes a file names it `src` — `sds-image`, `sds-figure`, `sds-embed`,
+        `sds-lightbox` — and a component that is the odd one out is one an
+        author has to look up rather than write. */
+    src?: string;
     alt?: string;
 }
 export declare class SdsTeaser extends SdsElement {
@@ -33,7 +36,7 @@ export declare class SdsTeaser extends SdsElement {
         meta: {
             type: StringConstructor;
         };
-        art: {
+        src: {
             type: StringConstructor;
         };
         alt: {
@@ -45,7 +48,7 @@ export declare class SdsTeaser extends SdsElement {
     href: string;
     tag: string;
     meta: string;
-    art: string;
+    src: string;
     alt: string;
     constructor();
     protected render(): TemplateResult;

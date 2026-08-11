@@ -159,7 +159,7 @@ One card in a grid: a title, a few sentences, and where it goes.
    When, or anything else in the label register: it sits beside the tag, in
    the same row, and the row is dropped where neither is written.
 
-.. confval:: art
+.. confval:: src
    :type: string
 
    The picture, flush at the top of the card. A path in the documentation

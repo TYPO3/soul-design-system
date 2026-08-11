@@ -30,8 +30,11 @@ export interface TeaserProps {
   tag?: string;
   /** When, and anything else that belongs in the label register. */
   meta?: string;
-  /** The image. */
-  art?: string;
+  /** The picture. Named `src` because every element in this system that
+      takes a file names it `src` — `sds-image`, `sds-figure`, `sds-embed`,
+      `sds-lightbox` — and a component that is the odd one out is one an
+      author has to look up rather than write. */
+  src?: string;
   alt?: string;
 }
 
@@ -42,7 +45,7 @@ export class SdsTeaser extends SdsElement {
     href: { type: String },
     tag: { type: String },
     meta: { type: String },
-    art: { type: String },
+    src: { type: String },
     alt: { type: String },
   };
 
@@ -51,7 +54,7 @@ export class SdsTeaser extends SdsElement {
   declare href: string;
   declare tag: string;
   declare meta: string;
-  declare art: string;
+  declare src: string;
   declare alt: string;
 
   constructor() {
@@ -61,14 +64,14 @@ export class SdsTeaser extends SdsElement {
     this.href = '#';
     this.tag = '';
     this.meta = '';
-    this.art = '';
+    this.src = '';
     this.alt = '';
   }
 
   protected override render(): TemplateResult {
-    const medium = this.art
+    const medium = this.src
       ? html`<div class="sds-teaser__art">
-    ${art(this.art, this.alt)}
+    ${art(this.src, this.alt)}
   </div>`
       : '';
 

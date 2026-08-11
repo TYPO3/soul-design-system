@@ -14,14 +14,14 @@ import { html } from 'lit';
 import '../../src/components/teaser.ts';
 import { type TeaserProps } from '../../src/components/teaser.ts';
 
-export const sdsTeaser = ({ heading, body, href, tag, meta, art, alt }: TeaserProps) =>
+export const sdsTeaser = ({ heading, body, href, tag, meta, src, alt }: TeaserProps) =>
   html`<sds-teaser
     heading="${heading}"
     .body="${body}"
     href="${href ?? '#'}"
     tag="${tag ?? ''}"
     meta="${meta ?? ''}"
-    art="${art ?? ''}"
+    src="${src ?? ''}"
     alt="${alt ?? ''}"
   ></sds-teaser>`;
 
@@ -30,7 +30,7 @@ const WITH_ART: TeaserProps = {
   meta: '9 August 2026 · 1.4.0',
   heading: 'Answers now name the source that answered',
   body: 'Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.',
-  art: '/assets/placeholders/tool-source-answer.png',
+  src: '/assets/placeholders/tool-source-answer.png',
   alt: '',
 };
 
@@ -52,7 +52,7 @@ const meta: Meta<TeaserProps> = {
     href: { control: 'text' },
     tag: { control: 'text' },
     meta: { control: 'text' },
-    art: { control: 'text' },
+    src: { control: 'text' },
     alt: { control: 'text' },
   },
   args: WITH_ART,

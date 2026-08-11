@@ -4061,7 +4061,7 @@ var SdsTeaser = class extends SdsElement {
       href: { type: String },
       tag: { type: String },
       meta: { type: String },
-      art: { type: String },
+      src: { type: String },
       alt: { type: String }
     };
   }
@@ -4072,12 +4072,12 @@ var SdsTeaser = class extends SdsElement {
     this.href = "#";
     this.tag = "";
     this.meta = "";
-    this.art = "";
+    this.src = "";
     this.alt = "";
   }
   render() {
-    const medium = this.art ? html35`<div class="sds-teaser__art">
-    ${art(this.art, this.alt)}
+    const medium = this.src ? html35`<div class="sds-teaser__art">
+    ${art(this.src, this.alt)}
   </div>` : "";
     const meta = this.tag || this.meta ? html35`<div class="sds-row">
       ${this.tag ? html35`<sds-badge label="${this.tag}"></sds-badge>` : ""}
@@ -4097,6 +4097,13 @@ define("sds-teaser", SdsTeaser);
 
 // src/components/pagination.ts
 import { html as html36 } from "lit";
+function pageHref(href, page) {
+  return href.includes("{n}") ? href.replace(/\{n\}/g, String(page)) : `${href}${page}`;
+}
+var grouped = (n) => String(n).replace(/\B(?=(\d{3})+$)/g, ",");
+function pageCount(count, perPage) {
+  return Math.max(1, Math.ceil(count / Math.max(1, perPage)));
+}
 function pageNumbers(pages, current) {
   const keep = /* @__PURE__ */ new Set();
   for (let i = 1; i <= pages; i++) {
@@ -4114,34 +4121,56 @@ function pageNumbers(pages, current) {
 var SdsPagination = class extends SdsElement {
   static {
     this.properties = {
-      pages: { type: Number },
+      count: { type: Number },
+      perPage: { type: Number, attribute: "per-page" },
       current: { type: Number, reflect: true },
       href: { type: String },
-      count: { type: String }
+      label: { type: String }
     };
   }
   constructor() {
     super();
-    this.pages = 1;
+    this.count = 0;
+    this.perPage = 10;
     this.current = 1;
-    this.href = "#page-";
-    this.count = "";
+    this.href = "#page-{n}";
+    this.label = "";
+  }
+  /** What the row is drawn from, and the one place the division happens. */
+  get pages() {
+    return pageCount(this.count, this.perPage);
+  }
+  /** Say which page was asked for, and let the answer decide what the press
+      does. Cancelable, because stopping the navigation is the only way a
+      surface that pages in place can take the press over, and it is the same
+      press either way. */
+  ask(event, to) {
+    const change = new CustomEvent("sds-change", {
+      detail: { page: to },
+      bubbles: true,
+      composed: true,
+      cancelable: true
+    });
+    this.dispatchEvent(change);
+    if (!change.defaultPrevented) return;
+    event.preventDefault();
+    this.current = to;
   }
   step(label, to, icon) {
     const off = to < 1 || to > this.pages;
     const cls = `sds-pagination__step${off ? " is-disabled" : ""}`;
     const glyph = html36`<sds-icon name="${icon}"></sds-icon>`;
     const inner = icon === "actions-chevron-start" ? html36`${glyph}${label}` : html36`${label}${glyph}`;
-    return off ? html36`<span class="${cls}" aria-disabled="true">${inner}</span>` : html36`<a class="${cls}" href="${this.href}${to}" rel="${icon === "actions-chevron-start" ? "prev" : "next"}">${inner}</a>`;
+    return off ? html36`<span class="${cls}" aria-disabled="true">${inner}</span>` : html36`<a class="${cls}" href="${pageHref(this.href, to)}" rel="${icon === "actions-chevron-start" ? "prev" : "next"}" @click="${(event) => this.ask(event, to)}">${inner}</a>`;
   }
   render() {
     return html36`<nav class="sds-pagination" aria-label="Pages">
   ${this.step("Previous", this.current - 1, "actions-chevron-start")}
   ${pageNumbers(this.pages, this.current).map(
-      (n) => n === 0 ? html36`<span class="sds-pagination__gap" aria-hidden="true">…</span>` : n === this.current ? html36`<span class="sds-pagination__page is-active" aria-current="page">${n}</span>` : html36`<a class="sds-pagination__page" href="${this.href}${n}">${n}</a>`
+      (n) => n === 0 ? html36`<span class="sds-pagination__gap" aria-hidden="true">…</span>` : n === this.current ? html36`<span class="sds-pagination__page is-active" aria-current="page">${n}</span>` : html36`<a class="sds-pagination__page" href="${pageHref(this.href, n)}" @click="${(event) => this.ask(event, n)}">${n}</a>`
     )}
   ${this.step("Next", this.current + 1, "actions-chevron-end")}
-  ${this.count ? html36`<span class="sds-pagination__count">${this.count}</span>` : ""}
+  ${this.count > 0 ? html36`<span class="sds-pagination__count">${grouped(this.count)}${this.label ? ` ${this.label}` : ""}</span>` : ""}
 </nav>`;
   }
 };

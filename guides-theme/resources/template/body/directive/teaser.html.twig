@@ -22,10 +22,10 @@
     nothing: the badge and the label have no behaviour, so the class layer is
     the whole of them.
 #}
-{%- set art = node.option('art') -%}
+{%- set src = node.option('src') -%}
 {%- set alt = node.option('alt')|default('') -%}
 <article class="sds-teaser">
-    {%- if art %}
+    {%- if src %}
         {#- The picture, referenced or linked by what it is — see
             `body/figure.html.twig`, which decides it the same way and says
             why: a drawing referenced into the page takes the page's tokens
@@ -33,10 +33,10 @@
             own where none are declared. A file somewhere else is linked
             whatever it is, because a reference reads the file itself and a
             browser will not do that across origins. -#}
-        {%- set external = art is external_target -%}
-        {%- set source = external ? art : asset(art) -%}
+        {%- set external = src is external_target -%}
+        {%- set source = external ? src : asset(src) -%}
         <div class="sds-teaser__art">
-            {%- if not external and art ends with '.svg' -%}
+            {%- if not external and src ends with '.svg' -%}
                 {#- Named where there is something to say, and hidden where
                     there is not: an unlabelled picture and a decorative one
                     are read out very differently, and a card whose art

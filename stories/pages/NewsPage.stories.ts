@@ -53,7 +53,7 @@ const ENTRIES: readonly Entry[] = [
     meta: '9 August 2026 · 1.4.0',
     heading: 'Answers now name the source that answered',
     body: 'Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.',
-    art: 'placeholders/tool-source-answer.png',
+    src: 'placeholders/tool-source-answer.png',
     alt: '',
   },
   {
@@ -61,7 +61,7 @@ const ENTRIES: readonly Entry[] = [
     meta: '24 July 2026',
     heading: 'Reading the package registry when the installation will not boot',
     body: 'The fallback returns every declared entry and none of the dynamically registered ones. What makes it usable is that the shortfall travels with the result.',
-    art: 'placeholders/tool-package-registry.png',
+    src: 'placeholders/tool-package-registry.png',
     alt: '',
   },
   {
@@ -69,7 +69,7 @@ const ENTRIES: readonly Entry[] = [
     meta: '2 July 2026',
     heading: 'One line leaves the machine, and it is drawn as the exception',
     body: 'Everything that answers a question is already on the developer’s disk. The single read-only path to the documentation is in the diagram rather than in a footnote.',
-    art: 'placeholders/tool-external-path.png',
+    src: 'placeholders/tool-external-path.png',
     alt: '',
   },
   {
@@ -77,7 +77,7 @@ const ENTRIES: readonly Entry[] = [
     meta: '18 June 2026 · 1.3.0',
     heading: 'Changelog lookups bind down to 7.0',
     body: 'A question about an old installation is answered with what held then, or not at all. Where the bundled knowledge stops, the tool says so instead of answering from the nearest release it has.',
-    art: 'placeholders/tool-changelog-history.png',
+    src: 'placeholders/tool-changelog-history.png',
     alt: '',
   },
   {
@@ -85,7 +85,7 @@ const ENTRIES: readonly Entry[] = [
     meta: '30 May 2026',
     heading: 'Writing a task skill that fails at registration',
     body: 'A skill declares the sources it needs. One that cannot reach any of them says so when the server starts, which is the difference between a broken setup and a wrong answer.',
-    art: 'placeholders/tool-registration.png',
+    src: 'placeholders/tool-registration.png',
     alt: '',
   },
   {
@@ -93,7 +93,7 @@ const ENTRIES: readonly Entry[] = [
     meta: '12 May 2026',
     heading: 'What is written down, and what is not',
     body: 'The decisions kept in the repository, the ones kept in the knowledge base, and why the two lists are deliberately not the same.',
-    art: 'placeholders/tool-written-record.png',
+    src: 'placeholders/tool-written-record.png',
     alt: '',
   },
   {
@@ -101,7 +101,7 @@ const ENTRIES: readonly Entry[] = [
     meta: '28 April 2026',
     heading: 'Searching all sources without hiding where the answer came from',
     body: 'A broad search may reach several bundled indexes. The result keeps each match beside its source, so overlap can be inspected instead of silently merged away.',
-    art: 'placeholders/tool-search.png',
+    src: 'placeholders/tool-search.png',
     alt: '',
   },
   {
@@ -109,7 +109,7 @@ const ENTRIES: readonly Entry[] = [
     meta: '15 April 2026',
     heading: 'Comparing two answers without flattening their differences',
     body: 'The comparison holds each result to the release and source that produced it. A missing field remains a gap rather than becoming an empty value that looks equal.',
-    art: 'placeholders/tool-compare.png',
+    src: 'placeholders/tool-compare.png',
     alt: '',
   },
 ];
@@ -155,7 +155,7 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
               .body="${entry.body}"
               tag="${entry.tag}"
               meta="${entry.meta ?? ''}"
-              art="${entry.art ? `${assets}/${entry.art}` : ''}"
+              src="${entry.src ? `${assets}/${entry.src}` : ''}"
               alt="${entry.alt ?? ''}"
               href="#"
             ></sds-teaser>`,
