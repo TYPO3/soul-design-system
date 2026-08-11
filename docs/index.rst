@@ -22,24 +22,32 @@ once.
    documents
    guidelines/index
 
-:doc:`As a Claude design system <design-system>`
-   An upload the design agent reads: every rule as a written page, every
-   component as a rendered card at a known size, and whole screens to start a
-   design from. Nothing is described in prose that is not also shown.
+.. grid::
 
-:doc:`As a render guide template <guides-theme>`
-   A Composer package that turns reStructuredText or Markdown into pages set
-   with this system — a theme for ``phpdocumentor/guides``, with the document
-   layer that styles what a renderer emits when nobody can put a class on
-   anything.
+   .. teaser:: As a Claude design system
+      :to: /design-system
 
-:doc:`As a standalone frontend design <frontend>`
-   Two files a page links. No bundler, no import map, no framework: markup
-   rendered by PHP, Twig, Fluid or a template string uses the class layer, and
-   the custom elements upgrade it where there is behaviour.
+      An upload the design agent reads: every rule as a written page, every
+      component as a rendered card at a known size, and whole screens to start
+      a design from. Nothing is described in prose that is not also shown.
 
-Three layers, and none of them is above another
-===============================================
+   .. teaser:: As a render guide template
+      :to: /guides-theme
+
+      A Composer package that turns reStructuredText or Markdown into pages
+      set with this system, with the document layer that styles what a
+      renderer emits when nobody can put a class on anything.
+
+   .. teaser:: As a standalone frontend design
+      :to: /frontend
+
+      Two files a page links. No bundler, no import map, no framework: markup
+      rendered by PHP, Twig or Fluid uses the class layer, and the custom
+      elements upgrade it where there is behaviour.
+
+.. band:: Three layers, and none of them is above another
+   :quiet:
+   :id: layers
 
 **Tokens** are the values. Every colour, size, space, radius and duration is
 declared once under a semantic name, and nothing else in the system states a

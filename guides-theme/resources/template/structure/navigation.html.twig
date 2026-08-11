@@ -1,0 +1,27 @@
+{#
+    The top navigation: where a reader can go from anywhere.
+
+    Configuration, like the mark and the footer — a theme that read the
+    toctree here would put every page of a manual in the bar, which is what
+    the rail is for. What belongs up here is the handful of places a site has,
+    and only the site knows them:
+
+        <navigation>
+            <link href="/frontend" label="Frontend"/>
+            <link href="https://example.org" label="Elsewhere" external="true"/>
+        </navigation>
+
+    Pills rather than a list, and the active one is a filled block rather than
+    a tint — the same rule the rest of the system follows, and one of exactly
+    three places the accent appears.
+#}
+{%- if soul.navigation.links is defined and soul.navigation.links %}
+    <nav class="sds-pills" aria-label="Sections">
+        {%- for link in soul.navigation.links %}
+            {%- set url = link.external ? link.href : renderLink(link.href) %}
+            <a class="sds-pill{% if url == '#' %} is-active{% endif %}" href="{{ url }}"
+               {%- if link.external %} target="_blank" rel="noreferrer"{% endif %}
+               {%- if url == '#' %} aria-current="page"{% endif %}>{{ link.label }}</a>
+        {%- endfor %}
+    </nav>
+{%- endif -%}

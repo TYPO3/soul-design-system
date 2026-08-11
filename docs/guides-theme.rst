@@ -113,18 +113,106 @@ that and refuses to finish otherwise.
    ``scripts/guides.ts`` in this repository is a working version of all five
    steps, including the specimen cards. It is about ninety lines.
 
+Marketing pages
+===============
+
+A manual page and a landing page are not the same shape. One is a column
+beside a rail, held to a measure; the other is a run of full-bleed bands with
+no rail at all, because there is nothing to navigate on the way in. A page
+says which it is, at the top, beside its navigation title:
+
+.. code-block:: rst
+
+   :navigation-title: Overview
+   :layout: marketing
+
+Three directives build the rest of it.
+
+.. confval:: band
+   :type: directive
+
+   A full-bleed section. ``:quiet:`` is the second ground, which is what makes
+   a run of bands read as alternating rather than as a wall; ``:id:`` gives it
+   an anchor. The argument is its heading — a section heading written inside a
+   directive is not one, since reStructuredText parses sections at document
+   level, so the line and its underline would both ship as text.
+
+   .. code-block:: rst
+
+      .. band:: What it costs
+         :quiet:
+         :id: pricing
+
+         Any content at all.
+
+.. confval:: grid
+   :type: directive
+
+   Cards that reflow by their own minimum width. No column count: three across
+   on a desk, one on a phone, decided by how narrow a card may get rather than
+   by a breakpoint somebody picked.
+
+.. confval:: teaser
+   :type: directive
+
+   One card in a grid — a title, a few sentences, and where it goes.
+   ``:to:`` names a document, and then the whole card is the link: a teaser
+   whose title alone is clickable asks a reader to aim at four words.
+
+   .. code-block:: rst
+
+      .. grid::
+
+         .. teaser:: What it is
+            :to: /overview
+
+            Two sentences.
+
+The bar and the footer are configuration rather than markup, since they are
+the same on every page:
+
+.. code-block:: xml
+
+   <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
+       <signet>_images/signet.svg</signet>
+       <product>Your product</product>
+       <navigation>
+           <link href="/overview" label="Overview"/>
+           <link href="https://example.org" label="Elsewhere" external="true"/>
+       </navigation>
+       <footer>
+           <group title="Product">
+               <link href="/overview" label="Overview"/>
+           </group>
+           <social href="https://github.com/…" label="GitHub"/>
+           <note>Not an official product.</note>
+       </footer>
+   </extension>
+
+.. note::
+
+   A link inside the project is a **document** — ``/overview``, not
+   ``overview.html``. It is resolved per page, because a bar and a footer
+   render on every one of them and they are not all at the same depth.
+
 What the theme takes over
 =========================
 
 .. table:: Templates this theme replaces
    :widths: auto
 
-   ==========================  =========================================
-   Template                    Why
-   ==========================  =========================================
-   ``structure/layout``        the shell, the column and ``.sds-prose``
-   ``body/code``               the caption above, and a language floor
-   ==========================  =========================================
+   ============================  =========================================
+   Template                      Why
+   ============================  =========================================
+   ``structure/layout``          the shell, the rail, the column
+   ``structure/layout-marketing`` the same shell, a run of bands
+   ``structure/brand``           the mark, from configuration
+   ``structure/navigation``      the bar's sections
+   ``structure/footer``          groups, socials, the note
+   ``body/menu/*``               the rail, and the trail above the title
+   ``body/code``                 the caption above, and a language floor
+   ``body/embedded-frame``       a specimen, and its caption
+   ============================  =========================================
 
 .. warning::
 

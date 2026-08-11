@@ -27,6 +27,12 @@
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
         <signet>_images/signet.svg</signet>
         <product>Soul Design System</product>
+        <navigation>
+            <link href="/design-system" label="Design system"/>
+            <link href="/guides-theme" label="Guides theme"/>
+            <link href="/frontend" label="Frontend"/>
+            <link href="/guidelines/index" label="Guidelines"/>
+        </navigation>
         <footer>
             <group title="Using it">
                 <link href="/design-system" label="As a Claude design system"/>
@@ -41,15 +47,6 @@
             <note>Not an official TYPO3 product.</note>
         </footer>
     </extension>
-    <!-- The navigation title is metadata for the menu, not content. Without
-         this mapping it falls through to "print the text", and a bare word
-         lands in the <head> — which every browser then hoists to the top of
-         the body, outside the shell. `blank` is the renderer's own template
-         for "this node has no output". -->
-    <template node="phpDocumentor\Guides\Nodes\Metadata\NavigationTitleNode"
-              file="structure/header/blank.html.twig" format="html"/>
-    <template node="TYPO3\Soul\GuidesTheme\Nodes\LayoutNode"
-              file="structure/header/blank.html.twig" format="html"/>
     <base_template_paths>
         <path>guides-theme/resources/template</path>
     </base_template_paths>

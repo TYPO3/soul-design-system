@@ -1,0 +1,20 @@
+{#
+    One card, and the whole card is the link.
+
+    A teaser whose title alone is clickable asks a reader to aim at four
+    words; a card is a target the size of a card. Where there is nowhere to
+    go, it is an `<article>` and reads the same.
+#}
+{%- set tag = node.option('to') ? 'a' : 'article' -%}
+<{{ tag }} class="sds-teaser"{% if node.option('to') %} href="{{ renderLink(node.option('to')) }}"{% endif %}>
+    <div class="sds-teaser__body">
+        {%- if node.option('title') %}
+            <h3 class="sds-teaser__title">{{ node.option('title') }}</h3>
+        {%- endif %}
+        <div class="sds-teaser__text">
+            {%- for child in node.children -%}
+                {{ renderNode(child) }}
+            {%- endfor -%}
+        </div>
+    </div>
+</{{ tag }}>

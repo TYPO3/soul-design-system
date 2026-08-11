@@ -8,6 +8,12 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
+use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
+use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
+use TYPO3\Soul\GuidesTheme\Nodes\TeaserNode;
+use phpDocumentor\Guides\Nodes\Metadata\NavigationTitleNode;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\Config\FileLocator;
 
@@ -30,7 +36,7 @@ use function dirname;
  * Both are optional. Without them the bar carries the project title from
  * `<project>`, which is where a name belongs when there is only one.
  */
-final class SoulExtension extends Extension implements ConfigurationInterface
+final class SoulExtension extends Extension implements ConfigurationInterface, PrependExtensionInterface
 {
     public function getAlias(): string
     {
@@ -69,6 +75,23 @@ final class SoulExtension extends Extension implements ConfigurationInterface
 
                    All of it optional. A footer with nothing in it renders as
                    the mark and the year, which is the least a page can say. */
+                /* The handful of places a site has, in the bar. Not the
+                   toctree: that is the rail's job, and a manual's every page
+                   in the bar is not navigation. */
+                ->arrayNode('navigation')
+                    ->fixXmlConfig('link')
+                    ->children()
+                        ->arrayNode('links')
+                            ->arrayPrototype()
+                                ->children()
+                                    ->scalarNode('href')->isRequired()->end()
+                                    ->scalarNode('label')->isRequired()->end()
+                                    ->booleanNode('external')->defaultFalse()->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('footer')
                     ->fixXmlConfig('group')
                     ->fixXmlConfig('social')
@@ -116,6 +139,29 @@ final class SoulExtension extends Extension implements ConfigurationInterface
         return $treeBuilder;
     }
 
+    /**
+     * The theme's own nodes, and the two that print themselves without this.
+     *
+     * A node with no template is rendered as its text, which is how
+     * `:navigation-title:` came to stand in the `<head>` of every page — and
+     * from there, hoisted by the browser, above the shell. Declared here so a
+     * project writes none of it: a theme that needed six lines of mapping in
+     * every consumer's config would be a theme that ships broken by default.
+     */
+    public function prepend(ContainerBuilder $container): void
+    {
+        $blank = 'structure/header/blank.html.twig';
+        $container->prependExtensionConfig('guides', [
+            'templates' => [
+                ['node' => NavigationTitleNode::class, 'file' => $blank, 'format' => 'html'],
+                ['node' => LayoutNode::class, 'file' => $blank, 'format' => 'html'],
+                ['node' => BandNode::class, 'file' => 'body/directive/band.html.twig', 'format' => 'html'],
+                ['node' => GridNode::class, 'file' => 'body/directive/grid.html.twig', 'format' => 'html'],
+                ['node' => TeaserNode::class, 'file' => 'body/directive/teaser.html.twig', 'format' => 'html'],
+            ],
+        ]);
+    }
+
     /** @param array<mixed> $configs */
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -125,6 +171,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface
         $container->setParameter('soul.product', $config['product']);
         $container->setParameter('soul.home', $config['home']);
         $container->setParameter('soul.footer', $config['footer'] ?? []);
+        $container->setParameter('soul.navigation', $config['navigation'] ?? []);
 
         $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
         $loader->load('soul.php');

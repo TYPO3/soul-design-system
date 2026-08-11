@@ -1,0 +1,10 @@
+{#
+    Cards that reflow by their own minimum width rather than at a breakpoint
+    somebody picked: three across on a desk, one on a phone, and nothing in
+    the markup says so.
+#}
+<div class="sds-grid">
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</div>

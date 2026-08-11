@@ -22,15 +22,6 @@
     <project title="Soul — Guides fixture" version="1.0"/>
     <extension class="phpDocumentor\Guides\Markdown\DependencyInjection\MarkdownExtension"/>
     <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
-    <!-- The navigation title is metadata for the menu, not content. Without
-         this mapping it falls through to "print the text", and a bare word
-         lands in the <head> — which every browser then hoists to the top of
-         the body, outside the shell. `blank` is the renderer's own template
-         for "this node has no output". -->
-    <template node="phpDocumentor\Guides\Nodes\Metadata\NavigationTitleNode"
-              file="structure/header/blank.html.twig" format="html"/>
-    <template node="TYPO3\Soul\GuidesTheme\Nodes\LayoutNode"
-              file="structure/header/blank.html.twig" format="html"/>
     <base_template_paths>
         <path>guides-theme/resources/template</path>
     </base_template_paths>

@@ -1,0 +1,19 @@
+{#
+    A band: the ground runs edge to edge, the content does not.
+
+    `.sds-bands` on the page draws the hairline between two of them and makes
+    consecutive bands share one line rather than each drawing its own. The
+    quiet variant is the second ground — what makes a run of bands read as
+    alternating instead of as a wall.
+#}
+<section class="sds-band{% if node.option('quiet') %} sds-band--quiet{% endif %}"
+         {%- if node.option('id') %} id="{{ node.option('id') }}"{% endif %}>
+    <div class="sds-stack">
+        {%- if node.option('title') %}
+            <h2 class="sds-h2">{{ node.option('title') }}</h2>
+        {%- endif %}
+        {%- for child in node.children -%}
+            {{ renderNode(child) }}
+        {%- endfor -%}
+    </div>
+</section>
