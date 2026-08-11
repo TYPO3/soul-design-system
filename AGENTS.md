@@ -191,6 +191,17 @@ regenerated `dist/` output, untracked drafts, a screenshot run. Sweeping it
 into your commit buries a change nobody reviewed under a message that does not
 mention it.
 
+**Commit your own work in small parts, each one as it is finished** — not the
+whole session at the end of it. A part is finished when it stands on its own,
+the gate is green over it, and it could be reverted without taking anything
+else along: one component, one rule, one rendered page, the generated side
+alongside the source that moved it. That is the size at which a message can
+name what changed, a review can disagree with one decision instead of twenty,
+and a bisect lands on something small enough to read. A session that arrives
+as a single commit has thrown that grain away — work that was already done and
+green sits unreviewed beside work that is still in flight, and neither can be
+moved without the other.
+
 ## Four things that fail review
 
 - **A component is shown three times.** A story for every element, a specimen
