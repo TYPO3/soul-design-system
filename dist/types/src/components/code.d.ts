@@ -45,7 +45,13 @@ export interface CodeBlockProps {
         count. Set `copy` instead for copying; the component owns that. */
     action?: TemplateResult;
     /** What the block is, in a sentence, above it. A renderer that captions a
-        fenced block has somewhere to put it. */
+        fenced block has somewhere to put it.
+  
+        A caption may also be written between the tags, as
+        `<div class="sds-code__caption">`, and that is the form for a renderer
+        whose caption carries markup — a literal, a link — and for a page that
+        has to read before the element upgrades. Either way it belongs to the
+        element: see `captioned`. */
     caption?: string;
     /** A block as text, highlighted by `lang` exactly as content between the
         tags is. The two are the same block from two kinds of caller: content
@@ -92,6 +98,7 @@ export declare class SdsCode extends SdsElement {
     copy: boolean;
     copied: boolean;
     private taken;
+    private captioned;
     constructor();
     connectedCallback(): void;
     /** Whatever the block would put on the clipboard: what it says, and none of

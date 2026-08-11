@@ -17,14 +17,14 @@
     escapes the block and colours nothing, which is the honest answer when
     nobody said what it is.
 
-    The caption sits above the block, where this system already puts it.
+    The caption sits above the block and inside the element, where this system
+    already puts it — see `sds-code`. It is written between the tags rather
+    than handed to the `caption` attribute because a caption node carries
+    markup, and an attribute is a string.
 #}
 {% if node.raw %}
     {{ node.value|raw }}
 {%- else -%}
-    {% if node.caption %}
-        <div class="sds-code__caption">{{ renderNode(node.caption) }}</div>
-    {%- endif -%}
     {#- The element, not a hand-built frame.
 
         `sds-code` takes what it is given and, when the colour is already
@@ -34,10 +34,18 @@
         rather than a `<pre>`.
 
         Before it upgrades — and on a page with no JavaScript at all — the
-        `<code>` inside is drawn by `document.css` under `:not(:defined)`. The
-        block reads either way; only the button is missing. -#}
+        caption and the `<code>` inside are drawn by `document.css` under
+        `:not(:defined)`. The block reads either way; only the button is
+        missing.
+
+        The caption and the block are written with nothing between them, and
+        that is not formatting: the element lifts its children out and copies
+        what it finds to the clipboard, so a newline here would land in front
+        of the first line of every pasted block. -#}
     <sds-code code-lang="{{ node.language|default('text') }}" copy
-        {%- if node.classes %} class="{{ node.classesString }}"{% endif %}><code class="language-{{ node.language|default('text') }}{{ node.startingLineNumber ? ' line-numbers' }}"
+        {%- if node.classes %} class="{{ node.classesString }}"{% endif -%}
+        >{%- if node.caption %}<div class="sds-code__caption">{{ renderNode(node.caption) }}</div>{% endif -%}
+        <code class="language-{{ node.language|default('text') }}{{ node.startingLineNumber ? ' line-numbers' }}"
         {%- if node.startingLineNumber %} data-start="{{ node.startingLineNumber }}"{% endif -%}
         {%- if node.emphasizeLines %} data-emphasize-lines="{{ node.emphasizeLines }}"{% endif -%}
     >{{- node.value|highlight(node.language|default('text')) -}}</code></sds-code>

@@ -83,7 +83,13 @@ export interface CodeBlockProps {
       count. Set `copy` instead for copying; the component owns that. */
   action?: TemplateResult;
   /** What the block is, in a sentence, above it. A renderer that captions a
-      fenced block has somewhere to put it. */
+      fenced block has somewhere to put it.
+
+      A caption may also be written between the tags, as
+      `<div class="sds-code__caption">`, and that is the form for a renderer
+      whose caption carries markup — a literal, a link — and for a page that
+      has to read before the element upgrades. Either way it belongs to the
+      element: see `captioned`. */
   caption?: string;
   /** A block as text, highlighted by `lang` exactly as content between the
       tags is. The two are the same block from two kinds of caller: content
@@ -94,6 +100,27 @@ export interface CodeBlockProps {
   body: readonly CodeLine[];
   copy?: boolean;
 }
+
+/* A caption written between the tags, told apart from the block by the class
+   the component itself would emit for it.
+
+   There is no slot to name it with — these elements render light DOM — and a
+   class the stylesheet already defines is the better marker for it anyway: it
+   is what makes the caption read right in the window before the upgrade,
+   where an invented attribute would have styled nothing.
+
+   Nor an element of its own, the way `sds-tab-item` is one. `define()` writes
+   every registered tag into the `display: contents` host rule, so a
+   `sds-code-caption` would be a box that stops existing on upgrade and an
+   unknown inline one before it — its appearance would have to be stated
+   twice, under two names, for one sentence. An element is what something with
+   its own author or its own behaviour gets; see `sds-field-error`. A caption
+   that grows behaviour — an anchor, a number, a copy that includes it — earns
+   one then.
+
+   `nodeType` before `matches`, as in `given`: text nodes are children too. */
+const isCaption = (node: Node): boolean =>
+  node.nodeType === 1 && (node as Element).matches('.sds-code__caption');
 
 export class SdsCode extends SdsElement {
   static override properties = {
@@ -130,6 +157,25 @@ export class SdsCode extends SdsElement {
      the same nodes rather than copying them. */
   private taken: Node[] | null = null;
 
+  /* The caption, where it too was written between the tags.
+
+     A renderer that captions a fenced block holds the caption as nodes rather
+     than as a string: it can carry a literal, a link, an emphasis, and the
+     `caption` attribute would flatten all three. So it is written inside the
+     element, in the class the component itself emits — which is also what a
+     page reads before the element upgrades, and on one that runs no
+     JavaScript at all. Neither is true of an attribute.
+
+     Inside, and that is what this field is for. The theme drew it *beside*
+     the element, which put the one piece of the block the component knows how
+     to place outside the component: nothing kept the two together, and the
+     caption's spacing was the document's rather than the block's.
+
+     Kept apart from `taken`, because everything else here reads that as the
+     block itself — the clipboard would copy the caption, and the highlighter
+     would colour it as if it were a line of code. */
+  private captioned: Node[] | null = null;
+
   constructor() {
     super();
     this.lang = '';
@@ -143,7 +189,10 @@ export class SdsCode extends SdsElement {
   override connectedCallback(): void {
     if (typeof navigator !== 'undefined') this.clipboard = Boolean(navigator.clipboard);
     const written = this.lifted();
-    if (written.length) this.taken = written;
+    const caption = written.filter(isCaption);
+    const said = written.filter((node) => !isCaption(node));
+    if (caption.length) this.captioned = caption;
+    if (said.length) this.taken = said;
     super.connectedCallback();
   }
 
@@ -292,11 +341,18 @@ export class SdsCode extends SdsElement {
     ${affordance}
   </div>`
       : undefined;
-    /* Above the frame, not inside it: a caption says what the block is, and a
-       reader meets that before the block rather than in its chrome. */
-    const caption = this.caption
-      ? html`<div class="sds-code__caption">${this.caption}</div>`
-      : undefined;
+    /* Above the frame and inside the element: a caption says what the block
+       is, and a reader meets that before the block rather than in its chrome —
+       but it is the block's, so it is the element that places it.
+
+       Whichever form it arrived in. The nodes win where there are both: they
+       are what a renderer wrote, and the attribute beside them could only be
+       the same sentence with its markup taken out. */
+    const caption = this.captioned
+      ? html`${this.captioned}`
+      : this.caption
+        ? html`<div class="sds-code__caption">${this.caption}</div>`
+        : undefined;
 
     return html`${caption}<div class="sds-code">
   ${head}

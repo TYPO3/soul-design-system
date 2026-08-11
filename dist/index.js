@@ -9167,6 +9167,7 @@ function highlight(lang, source) {
 }
 
 // src/components/code.ts
+var isCaption = (node) => node.nodeType === 1 && node.matches(".sds-code__caption");
 var SdsCode = class extends SdsElement {
   constructor() {
     super();
@@ -9182,6 +9183,24 @@ var SdsCode = class extends SdsElement {
          nodes. Lit renders a DOM node as a child value, and re-rendering moves
          the same nodes rather than copying them. */
     this.taken = null;
+    /* The caption, where it too was written between the tags.
+    
+         A renderer that captions a fenced block holds the caption as nodes rather
+         than as a string: it can carry a literal, a link, an emphasis, and the
+         `caption` attribute would flatten all three. So it is written inside the
+         element, in the class the component itself emits — which is also what a
+         page reads before the element upgrades, and on one that runs no
+         JavaScript at all. Neither is true of an attribute.
+    
+         Inside, and that is what this field is for. The theme drew it *beside*
+         the element, which put the one piece of the block the component knows how
+         to place outside the component: nothing kept the two together, and the
+         caption's spacing was the document's rather than the block's.
+    
+         Kept apart from `taken`, because everything else here reads that as the
+         block itself — the clipboard would copy the caption, and the highlighter
+         would colour it as if it were a line of code. */
+    this.captioned = null;
     /* A button that cannot do its one job is worse than no button, so a
        browser with no clipboard gets none. That is decided on connect rather
        than at render time: `renderStatic` runs this in Node, where there is no
@@ -9213,7 +9232,10 @@ var SdsCode = class extends SdsElement {
   connectedCallback() {
     if (typeof navigator !== "undefined") this.clipboard = Boolean(navigator.clipboard);
     const written = this.lifted();
-    if (written.length) this.taken = written;
+    const caption = written.filter(isCaption);
+    const said = written.filter((node) => !isCaption(node));
+    if (caption.length) this.captioned = caption;
+    if (said.length) this.taken = said;
     super.connectedCallback();
   }
   /** Whatever the block would put on the clipboard: what it says, and none of
@@ -9330,7 +9352,7 @@ var SdsCode = class extends SdsElement {
     <span class="sds-code__lang">${this.lang}</span>
     ${affordance}
   </div>` : void 0;
-    const caption = this.caption ? html37`<div class="sds-code__caption">${this.caption}</div>` : void 0;
+    const caption = this.captioned ? html37`${this.captioned}` : this.caption ? html37`<div class="sds-code__caption">${this.caption}</div>` : void 0;
     return html37`${caption}<div class="sds-code">
   ${head}
   <pre class="sds-code__body">${this.taken || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>

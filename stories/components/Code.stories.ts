@@ -147,9 +147,27 @@ export const AlreadyColoured: Story = {
 };
 
 /** A caption says what the block is, above it — where a reader meets it
-    before the block rather than in the block's own chrome. */
+    before the block rather than in the block's own chrome. Above the frame
+    and inside the element: where a caption sits is the block's decision, so
+    it is the block that places it, and a page that moves one moves both. */
 export const Captioned: Story = {
   render: () => html`<sds-code code-lang="bash" caption="Installing as a dependency of an existing project" copy>composer require typo3/cms-core
+vendor/bin/typo3 cache:flush</sds-code>`,
+};
+
+/** The same caption, written between the tags.
+
+    Which is the form a renderer needs. A caption node carries markup — a
+    literal, a link, an emphasis — and the attribute above is a string; and a
+    page that has not run the script yet has an attribute that says nothing
+    and markup that already reads. So it is written in the class the component
+    itself emits, and the component keeps it: out of the block, out of the
+    highlighting, and off the clipboard.
+
+    This is what `guides-theme` emits, where the colour arrives with the block
+    as well. */
+export const CaptionedFromContent: Story = {
+  render: () => html`<sds-code code-lang="bash" copy><div class="sds-code__caption">Installing as a dependency of an existing <code>composer.json</code></div>composer require typo3/cms-core
 vendor/bin/typo3 cache:flush</sds-code>`,
 };
 

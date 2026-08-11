@@ -63,6 +63,37 @@ test('the head carries the language and a working copy button', async ({ page, c
   await expect(copy).toHaveText(/copied/);
 });
 
+/* A caption written between the tags is the second thing this form carries,
+   and it must not become the first: everything else the component does with
+   its children reads them as the block. The theme drew the caption beside the
+   element for exactly this reason, and that put the placement of a block's own
+   caption outside the block. */
+test('a caption written between the tags is kept, above the frame and off the clipboard', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await gotoStory(page, 'components-code--captioned-from-content');
+
+  const block = page.locator('sds-code');
+
+  /* Inside the element and above the frame — the order is the assertion, and
+     it is the same order the `caption` attribute renders. */
+  const order = await block.evaluate((el) => [...el.children].map((c) => c.className));
+  expect(order).toEqual(['sds-code__caption', 'sds-code']);
+
+  /* The markup inside it survived, which is the whole reason this form exists
+     beside the attribute. */
+  await expect(block.locator('.sds-code__caption code')).toHaveText('composer.json');
+
+  /* And the block is only the block: not captioned, not highlighted as if the
+     sentence were a line of code. */
+  const body = block.locator('.sds-code__body');
+  await expect(body).not.toContainText('Installing');
+  await expect(body).toContainText('composer require typo3/cms-core');
+
+  await page.locator('.sds-code__copy').click();
+  const written = await page.evaluate(() => navigator.clipboard.readText());
+  expect(written).toBe('composer require typo3/cms-core\nvendor/bin/typo3 cache:flush');
+});
+
 /* The drawing at the size it was drawn.
 
    A 1200px diagram scaled into a page column is a picture of a diagram, and
