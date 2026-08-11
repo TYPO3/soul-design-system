@@ -14,10 +14,16 @@
    test rather than a picture of one.
 
    It carries no stylesheet of its own and no inline layout. The shell, the
-   bar, the page column, the sections, the grids and the two-up row are the
-   system's layout classes, and so is where each of them sheds as the screen
-   narrows. Anything a page here cannot say in them is a gap in the system,
-   and gets fixed there. */
+   bar, the bands, the grids and the two-up row are the system's layout
+   classes, and so is where each of them sheds as the screen narrows. Anything
+   a page here cannot say in them is a gap in the system, and gets fixed there.
+
+   Bands rather than one column of sections. A page that argues needs its
+   ground to change between the parts of the argument — the pitch, who it is
+   for, what it is made of — and a fill that stops at the measure reads as a
+   wide box rather than as a change of ground. It was `.sds-page` for as long
+   as this was the only whole surface here; the moment a second marketing page
+   existed, the two were drawing the same thing differently. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -234,10 +240,10 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </div>
   </header>
 
-  <main class="sds-page">
-    <div class="sds-sections">
+  <main class="sds-bands">
 
-      <section class="sds-split" id="overview">
+    <section class="sds-band" id="overview">
+      <div class="sds-split">
         <div class="sds-stack">
           <div class="sds-row">
             <sds-badge label="1.0.0" tone="accent"></sds-badge>
@@ -256,15 +262,19 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           <span class="sds-label">Three ways in</span>
           ${ways}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="sds-grid">
+    <section class="sds-band sds-band--quiet" id="audiences">
+      <div class="sds-grid">
         ${AUDIENCES.map(
-          (one) => html`<sds-surface plane="panel" label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`,
+          (one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`,
         )}
-      </section>
+      </div>
+    </section>
 
-      <section class="sds-stack" id="foundations">
+    <section class="sds-band" id="foundations">
+      <div class="sds-stack">
         <h2 class="sds-h2">What it is made of</h2>
         <p class="sds-prose">
           Four layers, and each of them is worth having on its own. A surface
@@ -272,9 +282,11 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           takes only the classes still gets both modes.
         </p>
         <sds-table density="compact" scrollable .columns="${LAYERS.columns}" .rows="${LAYERS.rows}"></sds-table>
-      </section>
+      </div>
+    </section>
 
-      <section class="sds-sections" id="components">
+    <section class="sds-band sds-band--quiet" id="components">
+      <div class="sds-sections">
         <div class="sds-stack">
           <h2 class="sds-h2">Three components in full</h2>
           <p class="sds-prose">
@@ -294,9 +306,11 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           <sds-code lang="html" source="${one.source}" copy></sds-code>
         </article>`,
         )}
-      </section>
+      </div>
+    </section>
 
-      <section class="sds-stack" id="sources">
+    <section class="sds-band" id="sources">
+      <div class="sds-stack">
         <h2 class="sds-h2">Where a rule comes from</h2>
         <p class="sds-prose">
           Four places, and every one of them is a file rather than a habit.
@@ -306,9 +320,11 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
             (one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`,
           )}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="sds-stack" id="pipeline">
+    <section class="sds-band sds-band--quiet" id="pipeline">
+      <div class="sds-stack">
         <h2 class="sds-h2">How a specimen gets made</h2>
         <p class="sds-prose">
           The documentation is generated from the components, in four steps
@@ -319,9 +335,11 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
             (one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`,
           )}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="sds-split" id="install">
+    <section class="sds-band" id="install">
+      <div class="sds-split">
         <div class="sds-stack">
           <h2 class="sds-h2">Install</h2>
           <p class="sds-prose">
@@ -340,9 +358,9 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
             without writing the markup out.
           </p>
         </div>
-      </section>
+      </div>
+    </section>
 
-    </div>
   </main>
 
   <footer class="sds-foot">
