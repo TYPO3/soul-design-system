@@ -14,9 +14,21 @@ subtitle and the viewport they are rendered at — which is the contract with
 the Design System pane, and `make verify` enforces it. A screen is its own
 thumbnail; there is no thumbnail file anywhere.
 
-Unlike the component cards these are **hand-written**. They compose the
-system rather than demonstrate one piece of it, and there is nothing to
-generate them from.
+Three of them are **hand-written** and one is not. The landing page is
+generated from `stories/LandingScreen.stories.ts` exactly as a component card
+is: it composes the elements and `renderStatic` prints them. That is the
+direction the rest are going. Hand-writing a screen means writing markup the
+components already produce — a code block spelled out span by span, an icon
+pasted in as a path — and every one of those copies drifts the day a component
+changes.
+
+## The landing page
+
+The first page a project shows: the pitch, what the system is made of, and how
+to start. Every element on it is the real one, so a change to a button or a
+code block arrives here without anybody editing this page.
+
+<Specimen src="screens/landing.html" viewport="1440x900" title="Landing" />
 
 ## The documentation surface
 

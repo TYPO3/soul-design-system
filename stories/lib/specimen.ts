@@ -152,3 +152,34 @@ export function dsCard(c: DsCardInput): DsCard {
   const [w, h] = c.viewport.split('x');
   return { group: 'Components', theme: 'dark', ...c, width: Number(w), height: Number(h) };
 }
+
+export interface DsScreenInput {
+  /** The file to generate, relative to the repo root — under `screens/`. */
+  path: string;
+  section?: string;
+  /** The `<title>` of the page, which is a page and not a specimen. */
+  title: string;
+  subtitle: string;
+  viewport: string;
+  theme?: 'light' | 'dark';
+  /** Layout the page needs and the system does not own — a grid, a column
+      width, a hero. Every painted value still comes from a token. */
+  style?: string;
+}
+
+export interface DsScreen extends Required<DsScreenInput> {
+  width: number;
+  height: number;
+}
+
+/**
+ * Declare the whole screen a story file generates. This is the
+ * `@startingPoint` contract from `scripts/lib/cards.ts`, stated in the story
+ * for the same reason a card's is: a screen composes the components, and
+ * composing them anywhere but where they are defined means writing their
+ * markup a second time.
+ */
+export function dsScreen(s: DsScreenInput): DsScreen {
+  const [w, h] = s.viewport.split('x');
+  return { section: 'Screens', theme: 'dark', style: '', ...s, width: Number(w), height: Number(h) };
+}

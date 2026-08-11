@@ -26,16 +26,19 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { indent, type DsCard } from '../stories/lib/specimen.ts';
+import { indent, type DsCard, type DsScreen } from '../stories/lib/specimen.ts';
 import { ROOT } from './lib/cards.ts';
 
 const STORIES = join(ROOT, 'stories');
 
 interface StoryModule {
-  default?: { parameters?: { dsCard?: DsCard } };
+  default?: { parameters?: { dsCard?: DsCard; dsScreen?: DsScreen } };
   /** The composed specimen markup. A story file opts into card generation by
       exporting this alongside `parameters.dsCard`. */
   specimenHtml?: () => string;
+  /** The composed page. The same opt-in one level up: a screen is a whole
+      surface rather than one component shown by itself. */
+  screenHtml?: () => string;
 }
 
 export interface CardResult {
@@ -70,6 +73,32 @@ ${indented}
 `;
 }
 
+/* A screen's shell. It differs from a card's in three ways and each is the
+   point: the marker is `@startingPoint`, the page has a title because it is a
+   page, and it carries no `_specimen.css` — a starting point is a surface
+   somebody copies, and it must not inherit the captions a specimen is drawn
+   with. */
+function screenShell(screen: DsScreen, body: string): string {
+  const up = '../'.repeat(screen.path.split('/').length - 1);
+  const style = screen.style
+    ? `<style>\n${indent(screen.style.trim(), 2)}\n</style>\n`
+    : '';
+
+  return `<!-- @startingPoint section="${screen.section}" subtitle="${screen.subtitle}" viewport="${screen.viewport}" -->
+<!doctype html>
+<html lang="en" data-theme="${screen.theme}">
+<head>
+<meta charset="utf-8" />
+<title>${screen.title}</title>
+<link rel="stylesheet" href="${up}src/styles/styles.css" />
+${style}</head>
+<body class="sds-app">
+${indent(body, 0)}
+</body>
+</html>
+`;
+}
+
 export async function buildCards({ check = false } = {}): Promise<CardResult[]> {
   const files = readdirSync(STORIES).filter((f) => f.endsWith('.stories.ts')).sort();
   const results: CardResult[] = [];
@@ -77,13 +106,21 @@ export async function buildCards({ check = false } = {}): Promise<CardResult[]> 
   for (const file of files) {
     const mod: StoryModule = await import(pathToFileURL(join(STORIES, file)).href);
     const card = mod.default?.parameters?.dsCard;
-    if (!card) continue;
-    if (!mod.specimenHtml) {
+    const screen = mod.default?.parameters?.dsScreen;
+    if (!card && !screen) continue;
+
+    if (card && !mod.specimenHtml) {
       throw new Error(`${file}: declares parameters.dsCard but exports no specimenHtml() to generate the card from`);
     }
+    if (screen && !mod.screenHtml) {
+      throw new Error(`${file}: declares parameters.dsScreen but exports no screenHtml() to generate the page from`);
+    }
 
-    const out = join(ROOT, card.path);
-    const next = shell(card, mod.specimenHtml());
+    const path = card ? card.path : (screen as DsScreen).path;
+    const out = join(ROOT, path);
+    const next = card
+      ? shell(card, (mod.specimenHtml as () => string)())
+      : screenShell(screen as DsScreen, (mod.screenHtml as () => string)());
 
     let prev: string | null = null;
     try {
@@ -94,7 +131,7 @@ export async function buildCards({ check = false } = {}): Promise<CardResult[]> 
 
     const changed = prev !== next;
     if (changed && !check) writeFileSync(out, next);
-    results.push({ file, path: card.path, changed, existed: prev !== null });
+    results.push({ file, path, changed, existed: prev !== null });
   }
 
   return results;
