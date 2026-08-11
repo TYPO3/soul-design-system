@@ -12,7 +12,7 @@ There was no logo, no brand mark and no webfont binary to inherit. **No mark was
 
 **Signet.** A terminal frame holding a short session: two muted lines and one orange answer, with the top-right corner cut away by a solid orange marker. The marker is *not* the TYPO3 Soul — it takes the Soul's two-part reading, its orange and its 1 : 1.44 proportion, but none of its geometry, which is the right distance for a sub-product.
 
-**The construction is the deliverable, not that drawing.** Three marks are shipped so the claim can be checked rather than believed: `dev-companion-signet-{l,m,s}.svg`, `tryout-signet-{l,m,s}.svg`, and `design-system-signet-{l,m,s}.svg` for the system itself. Box, outer radius, stroke, rounding, gap and the single orange in the top-right corner are identical across all three; only the interior differs, and it carries exactly one idea — a session ending in an answer, the triangle you press to start an instance, the parts and the frame around them. Tryout's triangle is filled *and* stroked at the mark's own weight, the way the corner marker is, so its three points come out at 3.5 through the round join rather than through a second construction that would have to be kept in step. `docs/guidelines/signet-prompt.md` is the construction written as something to act on: the brand page prints it whole so a reader can copy it, and it ships in the bundle as `guidelines/signet-prompt.md`.
+**The construction is the deliverable, not that drawing.** The marks are shipped so the claim can be checked rather than believed: `dev-companion-signet-{l,m,s}.svg`, `tryout-signet-{l,m,s}.svg`, and `design-system-signet-{l,m,s}.svg` for the system itself. Box, outer radius, stroke, rounding, gap and the single orange in the top-right corner are identical across them; only the interior differs, and it carries exactly one idea — a session ending in an answer, the triangle you press to start an instance, the parts and the frame around them. Tryout's triangle is filled *and* stroked at the mark's own weight, the way the corner marker is, so its three points come out at 3.5 through the round join rather than through a second construction that would have to be kept in step. `docs/guidelines/signet-prompt.md` is the construction written as something to act on: the brand page prints it whole so a reader can copy it, and it ships in the bundle as `guidelines/signet-prompt.md`.
 
 **The system's own mark has no window, and its accent is a stroke.** Both are deliberate breaks. A frame reads as a terminal, and a terminal is what the products this dresses *are* — not what it is; so the system's mark is two crop marks, the corners a piece is registered against, with three unequal parts between them. And its orange is a stroked corner where the product marks fill theirs: this mark is the frame everything else is composed inside, and a frame that outweighs its contents is the wrong shape for the job. That is the only licensed deviation. A product mark fills its accent.
 
@@ -46,7 +46,7 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 
 ## Visual foundations
 
-**Colour.** One accent, `--accent` #FF8700, TYPO3 orange. It marks exactly three things: the active navigation item, the shell prompt in a code block, and the small square in the wordmark. Everything else is neutral: five warm-grey surfaces, three text weights, two border strengths. There is no second accent and no gradient anywhere in the system. Status colours (`--status-ok`, `--status-warn`, `--status-error`) appear only inside code output, badges and result rows — never as page furniture.
+**Colour.** One accent, `--accent` #FF8700, TYPO3 orange. It marks exactly three things: the active navigation item, the shell prompt in a code block, and the small square in the wordmark. Everything else is neutral: the warm-grey surfaces, text weights and border strengths declared in `tokens/colors.css`. There is no second accent and no gradient anywhere in the system. Status colours (`--status-ok`, `--status-warn`, `--status-error`) appear only inside code output, badges and result rows — never as page furniture.
 
 **Type.** Source Sans 3 for everything human, Source Code Pro for everything the machine reads or writes: tool names, argument names, labels, version strings, code. A tool name is *always* set in mono, at any size, including as a page heading. Display is 58px/600 at -0.03em; body is 17px/1.65 capped at 620px, which is the reading column every register on a page aligns to; the small uppercase label is 11px at 0.09em. Size tokens live under `--font-size-*`; `--text-*` is reserved for text colour. Weights used: 200 (rare, display only), 400, 500 (mono headings), 600. No italics except a single emphasised word in a display line.
 
@@ -60,7 +60,7 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 
 **Interaction.** Hover changes colour and border, never position and never size. Nothing scales, lifts, or bounces. Active navigation is a filled orange block with dark text — full colour inversion, not a tint. Focus is the orange ring. Disabled is 50% opacity with no colour change. Transitions run 140ms on `--ease-out`; anything longer reads as slow here.
 
-**Density.** Airy for prose (1.65 leading, generous section padding), tight for machine content (code at 1.9 leading but small; table rows at 12–13px vertical padding). The two densities sit next to each other deliberately — that contrast is the character.
+**Density.** Airy for prose (1.65 leading, generous section padding), tight for machine content (code at 1.9 leading but small; table rows on the `--row-pad-*` scale). The two densities sit next to each other deliberately — that contrast is the character.
 
 ## Content fundamentals
 
@@ -86,7 +86,7 @@ Grouped by concern under `components/`, one specimen card per directory:
 
 - `core/` — **Buttons & links** (primary, secondary, ghost, small, icon-only 28 × 28; links underline on hover, external ones carry `actions-window-open`) and **Fields & search** (a field is sunken, not outlined on the canvas; the accent appears only on focus; error text sits under or beside it, never in a tooltip).
 - `navigation/` — **Tabs & tool rail**. Pill nav for sections, underline tabs inside a panel, and the 210px tool rail. Active state is a **filled orange block with dark text** — full inversion, never a tint.
-- `data/` — **Table, badges & status**. 11px vertical row padding, `--border-strong` under the head, `--border-subtle` between rows. Anything the machine named is mono. **No alternating zebra** — background changes only on hover or selection, so a highlighted row means something.
+- `data/` — **Table, badges & status**. Row padding from the `--row-pad-*` scale, `--border-strong` under the head, `--border-subtle` between rows. Anything the machine named is mono. **No alternating zebra** — background changes only on hover or selection, so a highlighted row means something.
 - `surfaces/` — **Card, panel, modal & drawer**. Card = hairline + 4px, no fill. Panel = raised fill. Sunken = machine output. Modal is centred, max 560px, separated by `--surface-overlay` and a border; the drawer comes from the right. **Neither has a shadow.**
 - `code/` — **Code block & diff**. Code 13px / 1.9, diff 12.5px / 1.75, diff rows tinted at 14%. No line numbers unless something refers to them. This is the only place a status colour may fill a whole line.
 
@@ -107,7 +107,7 @@ The product's own honesty rules decide what these look like: an answer always ca
 
 ## Iconography
 
-**The icons are TYPO3's own.** `TYPO3/TYPO3.Icons` is the source; 33 of its 800+ icons are copied into `assets/icons/` for this product. Nothing is drawn locally and nothing is substituted from another set — an icon this product needs and TYPO3 does not have yet is **contributed upstream**, so the two stay one set.
+**The icons are TYPO3's own.** `TYPO3/TYPO3.Icons` is the source; the icons this product needs are copied into `assets/icons/`, and that directory is the list. Nothing is drawn locally and nothing is substituted from another set — an icon this product needs and TYPO3 does not have yet is **contributed upstream**, so the two stay one set.
 
 That is not only tidiness. The identifiers are the core's own — `actions-search`, `actions-code-compare`, `actions-exclamation-triangle` — which is the same string an agent gets back from `typo3_icon_lookup`. Design and runtime name the same thing.
 
@@ -138,7 +138,7 @@ axes, labels and connectors with one quiet person, object or still-life gesture
 drawn as broad, flattened silhouettes; one contained halftone plane supplies
 print character without borrowing the diagram's dashed-state meaning.
 
-The eight 1200 × 750 PNGs under `assets/placeholders/` are one-file assets used
+The 1200 × 750 PNGs under `assets/placeholders/` are one-file assets used
 unchanged in light and dark. A separate dark generation drifted in composition
 and doubled the set for decorative media that already carries its own canvas.
 Overlap, at most two flat tones per object and a shallow shape-like ground wash
@@ -151,7 +151,7 @@ again.
 
 ## Diagram language
 
-The eleven existing diagrams (`documentation/images/`) carry the product's explanation and are the intended visual leitmotif. Rather than eleven one-off redraws, this system defines the **rules** they are drawn by, plus one worked example: `assets/diagrams/answer-sources.svg`.
+The product's existing diagrams carry its explanation and are the intended visual leitmotif. Rather than a set of one-off redraws, this system defines the **rules** they are drawn by, plus one worked example: `assets/diagrams/answer-sources.svg`.
 
 **One claim per diagram.** The title states it, the closing line states its consequence. Two claims are two diagrams.
 
@@ -167,7 +167,7 @@ The eleven existing diagrams (`documentation/images/`) carry the product's expla
 
 **Type.** Source Sans 3 with system fallback; every identifier — tool name, argument, field, version — in Source Code Pro. The floor is 13px at the drawn size; a diagram that needs smaller type is carrying too much.
 
-**Three redrawn so far**, chosen because they stress the rules in different places. `answer-sources` had a natural axis (required machine state) and became a bar chart. `installation-fallback` is a sequence that wanted to be a flowchart — redrawn, the sequence is the reading order and the registry itself is drawn as one square per entry, so the shortfall appears at its real size. `system-overview` has no axis at all; there **containment** carries the claim, and the single crossing line is the only accented element.
+**The ones redrawn so far** were chosen because they stress the rules in different places. `answer-sources` had a natural axis (required machine state) and became a bar chart. `installation-fallback` is a sequence that wanted to be a flowchart — redrawn, the sequence is the reading order and the registry itself is drawn as one square per entry, so the shortfall appears at its real size. `system-overview` has no axis at all; there **containment** carries the claim, and the single crossing line is the only accented element.
 
 **When a drawing is about degradation or failure, status colour replaces the accent** and orange stays out of the chart. One emphasis per diagram, never two.
 
