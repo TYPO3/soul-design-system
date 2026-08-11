@@ -1,0 +1,148 @@
+/* Three optical sizes, three files.
+
+   The mark is redrawn per size rather than scaled: at 16px the crop marks are
+   two thin hooks, so they are drawn heavier and further apart than the large
+   drawing would suggest. The size is chosen at the link, which is what makes
+   this three files and not one.
+
+   `src/components/signet.ts` holds the same three drawings for the element.
+   That duplication is deliberate and named there: one is the artwork, the
+   other is the element, and this card is where the two are compared. */
+
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { dsCard } from '../lib/specimen.ts';
+
+/** The card, as it is drawn. */
+const CARD = `<div class="spec" style="--spec-gap:24px">
+
+  <div class="spec-note" style="max-width:76ch;">
+    Drawn on the Dev&nbsp;Companion mark, which is a worked example and not the
+    system's own. The steps are what this card documents &#8212; stroke 7&#8239;/&#8239;8.5&#8239;/&#8239;11,
+    and what each one costs the interior. Every mark in the family takes them,
+    including <span class="sds-mono">design-system-signet-*.svg</span>.
+  </div>
+
+
+  <div>
+    <div style="display:flex; align-items:baseline; gap:12px; padding-bottom:9px; margin-bottom:14px; border-bottom:1px solid var(--border-subtle);">
+      <span style="font-size:14px; font-weight:600;">Naive scaling</span><span style="font-size:12px; color:var(--text-muted);">one drawing at every size &#8212; what goes wrong</span>
+    </div>
+    <div style="display:flex; align-items:flex-end; gap:26px; flex-wrap:wrap;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="89.60" height="71.68" class="sds-signet">
+<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">64</span></div><div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="44.80" height="35.84" class="sds-signet">
+<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">32</span></div><div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
+<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">24</span></div><div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="28.00" height="22.40" class="sds-signet">
+<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">20</span></div><div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="22.40" height="17.92" class="sds-signet">
+<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">16</span></div>
+      <div class="spec-note" style="max-width:30ch;">Below 24&#8239;px the 7-unit stroke falls under one device pixel, the three lines merge and the gap closes. A grey lozenge with an orange smear.</div>
+    </div>
+  </div>
+
+  <div>
+    <div style="display:flex; align-items:baseline; gap:12px; padding-bottom:9px; margin-bottom:14px; border-bottom:1px solid var(--border-subtle);">
+      <span style="font-size:14px; font-weight:600;">Optical sizes</span><span style="font-size:12px; color:var(--text-muted);">redrawn at three weights &#8212; 16&#8239;px is the floor</span>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <div style="display:flex; align-items:flex-end; gap:26px; flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="89.60" height="71.68" class="sds-signet">
+<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">64</span></div><div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="67.20" height="53.76" class="sds-signet">
+<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">48</span></div><div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="44.80" height="35.84" class="sds-signet">
+<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">32</span></div>
+        <div class="spec-note" style="max-width:34ch;"><span class="sds-mono">L &#183; 32&#8239;px and up</span><br />Stroke 7, three lines, marker 36 &#215; 52. The full statement.</div>
+      </div>
+      <div style="display:flex; align-items:flex-end; gap:26px; flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="39.20" height="31.36" class="sds-signet">
+<path d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="29.75" width="52" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">28</span></div><div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
+<path d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="29.75" width="52" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">24</span></div><div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="28.00" height="22.40" class="sds-signet">
+<path d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="29.75" width="52" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
+<path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">20</span></div>
+        <div class="spec-note" style="max-width:34ch;"><span class="sds-mono">M &#183; 20&#8211;31&#8239;px</span><br />Stroke 8.5, the faint middle line dropped, marker 36 &#215; 54.</div>
+      </div>
+      <div style="display:flex; align-items:flex-end; gap:26px; flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="26.60" height="21.28" class="sds-signet">
+<path d="M128 80.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H66.00" fill="none" stroke="var(--text-secondary)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="28.50" width="52" height="11" rx="5.50" fill="var(--text-muted)" /><rect x="22" y="60.50" width="66" height="11" rx="5.50" fill="var(--accent)" />
+<path d="M88.00 0H108.00A20 20 0 0 1 128 20V58.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">19</span></div><div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg viewBox="-6 -6 140 112" width="22.40" height="17.92" class="sds-signet">
+<path d="M128 80.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H66.00" fill="none" stroke="var(--text-secondary)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="22" y="28.50" width="52" height="11" rx="5.50" fill="var(--text-muted)" /><rect x="22" y="60.50" width="66" height="11" rx="5.50" fill="var(--accent)" />
+<path d="M88.00 0H108.00A20 20 0 0 1 128 20V58.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">16</span></div>
+        <div class="spec-note" style="max-width:34ch;"><span class="sds-mono">S &#183; 16&#8211;19&#8239;px &#183; favicon</span><br />Stroke 11, marker 40 &#215; 58. Coarse enough to land on whole pixels at 16.<br /><span style="color:var(--text-accent-quiet);">16&#8239;px is the minimum. Below it, use the wordmark alone.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div style="display:flex; align-items:baseline; gap:12px; padding-bottom:9px; margin-bottom:14px; border-bottom:1px solid var(--border-subtle);">
+      <span style="font-size:14px; font-weight:600;">Three files</span><span style="font-size:12px; color:var(--text-muted);">one per optical size &#8212; the same way favicons are shipped</span>
+    </div>
+    <div style="display:flex; align-items:flex-end; gap:26px; flex-wrap:wrap;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/dev-companion-signet-l.svg" alt="" style="height:71.68px; width:89.6px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-l</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/dev-companion-signet-l.svg" alt="" style="height:35.84px; width:44.8px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-l &#183; 32</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/dev-companion-signet-m.svg" alt="" style="height:26.88px; width:33.6px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-m &#183; 24</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><img src="../assets/dev-companion-signet-s.svg" alt="" style="height:17.92px; width:22.4px; display:block;" /><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">signet-s &#183; 16</span></div>
+      <div class="spec-note" style="max-width:32ch;">Media queries inside one SVG only see their own viewport when the file is linked, and not reliably across renderers &#8212; so the size is chosen where it is known: at the link.<br /><br /><span class="spec-cap">&lt;link rel="icon" sizes="16x16" href="signet-s.svg"&gt;</span><br /><br />Each file follows <span class="spec-cap">prefers-color-scheme</span>; an image cannot inherit <span class="spec-cap">currentColor</span>, so the frame is a mid warm grey that holds on both modes.</div>
+    </div>
+  </div>
+
+</div>`;
+
+const meta: Meta = {
+  title: 'Specimens/Brand/Signet — sizes',
+  tags: ['!dev'],
+  excludeStories: ['specimenHtml'],
+  parameters: {
+    dsCard: dsCard({
+      path: 'guidelines/brand-signet-sizes.card.html',
+      group: 'Brand',
+      name: 'Signet — sizes',
+      subtitle: 'Three optical sizes, three files — the size is chosen at the link',
+      viewport: '700x903',
+    }),
+  },
+};
+
+export default meta;
+type Story = StoryObj;
+
+export const specimenHtml = (): string => CARD;
+
+export const Specimen: Story = {
+  parameters: { layout: 'fullscreen' },
+  render: () => html`${unsafeHTML(specimenHtml())}`,
+};

@@ -12,7 +12,25 @@
    does. */
 
 import { test, expect } from '@playwright/test';
+import { readdirSync, readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { gotoStory } from './lib/story.ts';
+
+const STORIES = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'stories');
+
+/** How many story files generate a specimen card — the opt-in is exporting
+    `specimenHtml`, which `scripts/cards.ts` looks for. */
+function generators(): number {
+  const walk = (dir: string): string[] =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) return walk(path);
+      return entry.name.endsWith('.stories.ts') ? [path] : [];
+    });
+  return walk(STORIES).filter((path) => /export const specimenHtml\b/.test(readFileSync(path, 'utf8'))).length;
+}
 
 interface StoryEntry {
   id: string;
@@ -117,17 +135,38 @@ for (const theme of ['dark', 'light'] as const) {
    difference the pixel diff cannot see — it never opens Storybook. */
 test('every specimen story renders the classes the system defines', async ({ page, request }) => {
   const specimens = (await storyIds(request)).filter((s) => s.name === 'Specimen');
-  expect(specimens.length, 'each component should have a Specimen story').toBe(7);
+  /* Counted against the story files that generate a card rather than against
+     a number written here. A file opts into card generation by exporting
+     `specimenHtml`, and the story that card is a picture of is the one named
+     Specimen — so the two sets are the same by construction. The literal this
+     replaces was a second number to keep in step, and it was not: it still
+     said 7 while the guideline cards were becoming stories one after another. */
+  expect(specimens.length, 'each story that generates a card should have a Specimen story').toBe(generators());
 
   for (const story of specimens) {
     await gotoStory(page, story.id);
 
-    const classes = await page.evaluate(() =>
-      [...document.querySelectorAll('#storybook-root [class]')]
+    /* Built from the system rather than from values somebody typed: its
+       classes, or — for a card whose whole subject is a token — the tokens
+       themselves.
+
+       Classes alone was the rule while every specimen was a component. It
+       stopped being true the moment the guideline cards became stories: a
+       swatch of `--accent` is a box painted from a custom property, and there
+       is no class for "this colour" and should not be. What both halves rule
+       out is the same thing, which is a specimen that hard-codes what it is a
+       picture of. */
+    const built = await page.evaluate(() => {
+      const root = document.querySelector('#storybook-root');
+      const classes = [...(root?.querySelectorAll('[class]') ?? [])]
         .flatMap((el) => [...el.classList])
-        .filter((c) => c.startsWith('sds-')),
-    );
-    expect(new Set(classes).size, `${story.title} should use sds- classes`).toBeGreaterThan(0);
+        .filter((c) => c.startsWith('sds-'));
+      return { classes: new Set(classes).size, tokens: (root?.innerHTML ?? '').includes('var(--') };
+    });
+    expect(
+      built.classes > 0 || built.tokens,
+      `${story.title} should be drawn from the system — its classes, or its tokens`,
+    ).toBe(true);
 
     /* No custom element may survive into a specimen: the cards generated
        from these stories are opened without any JavaScript, so an element

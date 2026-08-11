@@ -1,0 +1,61 @@
+/* Clear space and the minimum size.
+
+   Half the signet height on every side, measured from the mark and not from
+   the box it happens to be drawn in — a lockup with a wide wordmark would
+   otherwise be given clear space proportional to its text.
+
+   Drawn rather than composed: what the card documents is the space around the
+   mark, so the space has to be visible, which means shading it. */
+
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { dsCard } from '../lib/specimen.ts';
+
+/** The card, as it is drawn. */
+const CARD = `<div style="padding:22px; display:flex; gap:36px; align-items:center; flex-wrap:wrap;">
+  <div style="position:relative; padding:16px; border:1px dashed var(--border-strong); border-radius:var(--radius-card);"><span style="display:inline-flex; align-items:center; gap:12.0px;"><svg viewBox="-6 -6 140 112" width="45.70" height="36.56" class="sds-signet sds-signet--muted">
+<path d="M56 96.5H20A16.5 16.5 0 0 1 3.5 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="39" y="30.5" width="11" height="39" rx="3.5" fill="var(--text-muted)" /><rect x="53.5" y="30.5" width="21" height="39" rx="3.5" fill="var(--text-muted)" /><rect x="78" y="30.5" width="11" height="39" rx="3.5" fill="var(--text-muted)" />
+<path d="M72 3.5H108A16.5 16.5 0 0 1 124.5 20V56" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="display:inline-flex; align-items:center; gap:10.8px; font-size:24px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:2.16px; height:20.40px; background:var(--accent); flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></span></div>
+  <div style="display:flex; flex-direction:column; gap:12px;">
+    <div class="spec-cap">MINIMUM SIZES</div>
+    <div style="display:flex; align-items:center; gap:14px;"><span style="display:inline-flex; align-items:center; gap:6.0px;"><svg viewBox="-6 -6 140 112" width="22.85" height="18.28" class="sds-signet sds-signet--muted">
+<path d="M56 94.5H20A14.5 14.5 0 0 1 5.5 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="39" y="30.5" width="11" height="39" rx="5.5" fill="var(--text-muted)" /><rect x="55.5" y="30.5" width="17" height="39" rx="5.5" fill="var(--text-muted)" /><rect x="78" y="30.5" width="11" height="39" rx="5.5" fill="var(--text-muted)" />
+<path d="M72 5.5H108A14.5 14.5 0 0 1 122.5 20V56" fill="none" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="display:inline-flex; align-items:center; gap:5.4px; font-size:12px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:1.08px; height:10.20px; background:var(--accent); flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></span><span class="spec-note">full lockup, 12&#8239;px type</span></div>
+    <div style="display:flex; align-items:center; gap:14px;"><svg viewBox="-6 -6 140 112" width="22.40" height="17.92" class="sds-signet sds-signet--muted">
+<path d="M56 94.5H20A14.5 14.5 0 0 1 5.5 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="39" y="30.5" width="11" height="39" rx="5.5" fill="var(--text-muted)" /><rect x="55.5" y="30.5" width="17" height="39" rx="5.5" fill="var(--text-muted)" /><rect x="78" y="30.5" width="11" height="39" rx="5.5" fill="var(--text-muted)" />
+<path d="M72 5.5H108A14.5 14.5 0 0 1 122.5 20V56" fill="none" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span class="spec-note">signet alone, 16&#8239;px &#8212; the floor</span></div>
+    <div class="spec-note" style="max-width:40ch; margin-top:2px;">Below 16&#8239;px the frame stroke drops under a device pixel. Use the wordmark on its own instead &#8212; never a smaller signet.</div>
+  </div>
+</div>`;
+
+const meta: Meta = {
+  title: 'Specimens/Brand/Clear space & minimum size',
+  tags: ['!dev'],
+  excludeStories: ['specimenHtml'],
+  parameters: {
+    dsCard: dsCard({
+      path: 'guidelines/brand-clearspace.card.html',
+      group: 'Brand',
+      name: 'Clear space & minimum size',
+      subtitle: 'Clear space is half the signet height on every side',
+      viewport: '700x300',
+    }),
+  },
+};
+
+export default meta;
+type Story = StoryObj;
+
+export const specimenHtml = (): string => CARD;
+
+export const Specimen: Story = {
+  parameters: { layout: 'fullscreen' },
+  render: () => html`${unsafeHTML(specimenHtml())}`,
+};

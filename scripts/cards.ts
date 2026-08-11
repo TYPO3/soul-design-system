@@ -15,9 +15,14 @@
    markup the element *produces* — which is why the components expose plain
    template functions and `src/lib/render.ts` turns one into static HTML.
 
-   The guideline specimens under `guidelines/` are NOT generated. They
-   document the token layer rather than components, have no props to vary,
-   and are embedded into the MDX pages as they stand.
+   The guideline specimens under `guidelines/` are generated the same way.
+   They were hand-written for a long time, on the argument that a colour
+   swatch or a type sample has no component behind it and nothing to vary —
+   which was true of the drawing and never true of the file: the theme, the
+   viewport, the shell and the `@dsCard` header are the same contract a
+   component card has, and every one of them was being kept in step by hand.
+   What they document is still the token layer; what generates them is now the
+   same three lines as everything else.
 
      make cards            # write them
      make cards ARGS=--check # fail if any is stale, for CI and verify
@@ -57,16 +62,24 @@ function shell(card: DsCard, body: string): string {
   const up = '../'.repeat(card.path.split('/').length - 1);
   // Pre-aware: the body of a code block is content, not formatting.
   const indented = indent(body, 2);
+  /* The diagram cards sit their figures on the sunken plane, which is the
+     page's ground rather than anything inside the card — so it goes on the
+     body, and the story says so rather than wrapping its own div. */
+  const cls = card.bodyClass ? ` class="${card.bodyClass}"` : '';
+  /* `both` writes no attribute at all: the card carries both modes inside it,
+     and the document around them must stay in whichever one the reader is
+     in. */
+  const theme = card.theme === 'both' ? '' : ` data-theme="${card.theme}"`;
 
   return `<!-- @dsCard group="${card.group}" viewport="${card.viewport}" subtitle="${card.subtitle}" name="${card.name}" -->
 <!doctype html>
-<html lang="en" data-theme="${card.theme}">
+<html lang="en"${theme}>
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="${up}src/styles/styles.css" />
 <link rel="stylesheet" href="${up}src/styles/_specimen.css" />
 </head>
-<body>
+<body${cls}>
 ${indented}
 </body>
 </html>
@@ -99,8 +112,26 @@ ${indent(body, 0)}
 `;
 }
 
+/* Every story file under `stories/`, at whatever depth.
+
+   The files sit in a folder per group — `components/`, `pages/`,
+   `specimens/` — which is a filing decision and nothing else: Storybook builds
+   its tree from each story's `title`, not from where the file is, so moving
+   one moves nothing a reader sees. What it does change is this, which read the
+   directory flat and would have quietly stopped generating every card the
+   moment the first file moved into a folder. */
+function storyFiles(dir: string, prefix = ''): string[] {
+  return readdirSync(dir, { withFileTypes: true })
+    .flatMap((entry) => {
+      const rel = prefix ? `${prefix}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) return storyFiles(join(dir, entry.name), rel);
+      return entry.name.endsWith('.stories.ts') ? [rel] : [];
+    })
+    .sort();
+}
+
 export async function buildCards({ check = false } = {}): Promise<CardResult[]> {
-  const files = readdirSync(STORIES).filter((f) => f.endsWith('.stories.ts')).sort();
+  const files = storyFiles(STORIES);
   const results: CardResult[] = [];
 
   for (const file of files) {

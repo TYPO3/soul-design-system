@@ -61,6 +61,7 @@ export class SdsMenu extends SdsNav {
   static override properties = {
     ...SdsNav.properties,
     label: { type: String },
+    for: { type: String, reflect: true },
     open: { type: Boolean, state: true },
     collapsed: { type: Boolean, state: true },
   };
@@ -70,6 +71,16 @@ export class SdsMenu extends SdsNav {
 
   /** What the toggle is called, for the reader who cannot see it is a menu. */
   declare label: string;
+  /** The id of a navigation that lives outside the bar — the page rail.
+
+      Given one, this element is that navigation's toggle and holds no items of
+      its own. It is the same button opening the same panel; what differs is
+      only which of the two runs out of room first, and therefore who decides.
+      The sections run out of room in the header, which this element measures.
+      The rail runs out of a *column*, which is the page layout's decision and
+      is made in `components.css` at the width where the rail stops being one.
+      So a menu with `for` does not measure anything: it presses. */
+  declare for: string;
   declare open: boolean;
   declare collapsed: boolean;
 
@@ -82,16 +93,25 @@ export class SdsMenu extends SdsNav {
   constructor() {
     super();
     this.label = 'Menu';
+    this.for = '';
     this.open = false;
     this.collapsed = false;
+  }
+
+  /** The navigation this opens, where that is not its own items. */
+  private get target(): HTMLElement | null {
+    return this.for ? document.getElementById(this.for) : null;
   }
 
   override connectedCallback(): void {
     super.connectedCallback();
     /* The row, not this element: what changes the answer is how much room is
-       left beside the menu, and that moves when the header does. */
-    this.watch = new ResizeObserver(() => this.decide());
-    if (this.parentElement) this.watch.observe(this.parentElement);
+       left beside the menu, and that moves when the header does. Nothing to
+       watch where the layout decides — see `for`. */
+    if (!this.for) {
+      this.watch = new ResizeObserver(() => this.decide());
+      if (this.parentElement) this.watch.observe(this.parentElement);
+    }
     /* A press anywhere else closes it, the way every other menu does. */
     document.addEventListener('pointerdown', this.onOutside);
   }
@@ -99,13 +119,28 @@ export class SdsMenu extends SdsNav {
   override disconnectedCallback(): void {
     this.watch?.disconnect();
     document.removeEventListener('pointerdown', this.onOutside);
+    this.target?.removeEventListener('click', this.onFollow);
     super.disconnectedCallback();
   }
 
   private readonly onOutside = (event: Event): void => {
     if (!this.open) return;
-    if (event.composedPath().includes(this)) return;
+    const path = event.composedPath();
+    if (path.includes(this)) return;
+    /* What it opened counts as inside. A rail folds its groups with
+       `<details>`, and a press on one of those is somebody using the panel,
+       not leaving it — closing there took the list away mid-search. Following
+       a link does close it, which is `onFollow`. */
+    const target = this.target;
+    if (target && path.includes(target)) return;
     this.open = false;
+  };
+
+  /* A navigation the toggle opened has done its job when a page is chosen.
+     Only a link: everything else in there — a fold, a heading — is the reader
+     still looking. */
+  private readonly onFollow = (event: Event): void => {
+    if ((event.target as Element | null)?.closest('a')) this.open = false;
   };
 
   private onKey(event: KeyboardEvent): void {
@@ -152,18 +187,33 @@ export class SdsMenu extends SdsNav {
     if (!collapsed) this.open = false;
   }
 
-  protected override render(): TemplateResult {
-    const shown = !this.collapsed || this.open;
-    return html`<div class="sds-menu${this.collapsed ? ' is-collapsed' : ''}" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">
-  <button
+  /** The button, which is the same button in both cases. */
+  private toggle_(controls: string): TemplateResult {
+    return html`<button
     type="button"
     class="sds-menu__toggle"
     aria-expanded="${this.open ? 'true' : 'false'}"
-    aria-controls="${this.navId}"
+    aria-controls="${controls}"
     aria-label="${this.label}"
-    ?hidden="${!this.collapsed}"
+    ?hidden="${!this.for && !this.collapsed}"
     @click="${() => { this.open = !this.open; }}"
-  ><sds-icon name="${this.open ? 'actions-close' : 'actions-menu'}"></sds-icon></button>
+  ><sds-icon name="${this.open ? 'actions-close' : 'actions-menu'}"></sds-icon></button>`;
+  }
+
+  protected override render(): TemplateResult {
+    /* Opening something else: the button alone. What it opens is already on
+       the page, written where it belongs — a rail is the page's navigation
+       whether or not it is currently a column, and rendering a second copy of
+       it in here would be two of everything a reader is offered. */
+    if (this.for) {
+      return html`<div class="sds-menu sds-menu--for" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">
+  ${this.toggle_(this.for)}
+</div>`;
+    }
+
+    const shown = !this.collapsed || this.open;
+    return html`<div class="sds-menu${this.collapsed ? ' is-collapsed' : ''}" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">
+  ${this.toggle_(this.navId)}
   <nav
     id="${this.navId}"
     class="sds-menu__items${this.collapsed ? ' sds-menu__panel' : ''}"
@@ -186,6 +236,22 @@ export class SdsMenu extends SdsNav {
   }
 
   protected override updated(): void {
+    if (this.for) {
+      /* The open state lives on what was opened. It is a class rather than
+         `hidden`, because above the fold width that element is a column in
+         view and nothing here may take it away. */
+      const target = this.target;
+      if (!target) return;
+      /* Said on the element rather than assumed by the stylesheet: the layout
+         hides what a toggle can open, and until this element exists there is
+         no toggle — a rail hidden with no button to bring it back is the one
+         failure worth ruling out in markup that renders before any script. */
+      target.classList.add('is-collapsible');
+      target.classList.toggle('is-open', this.open);
+      target.removeEventListener('click', this.onFollow);
+      target.addEventListener('click', this.onFollow);
+      return;
+    }
     this.decide();
   }
 }

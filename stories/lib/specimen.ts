@@ -134,7 +134,18 @@ export interface DsCardInput {
       build when the content does not fit it, so this is a measurement
       rather than a preference. */
   viewport: string;
-  theme?: 'light' | 'dark';
+  /** Which mode the card is pinned to. `both` pins neither, and is not a
+      default in disguise: a card that shows the light and the dark pane side
+      by side, or a drawing shipped as a light/dark pair, must not have one of
+      the two forced on the document around it. Pinning `dark` on one of those
+      turned the ground under the figures from paper to terminal, which is a
+      quarter of the card's pixels and no failing check anywhere. */
+  theme?: 'light' | 'dark' | 'both';
+  /** A class on the card's own `<body>`, for the ground a card is drawn on
+      rather than anything in it — `spec-sunken` under the diagram figures.
+      A wrapper div inside the body would leave the page behind it painted in
+      the canvas colour, which is the one place the difference shows. */
+  bodyClass?: string;
 }
 
 export interface DsCard extends Required<DsCardInput> {
@@ -150,7 +161,7 @@ export interface DsCard extends Required<DsCardInput> {
  */
 export function dsCard(c: DsCardInput): DsCard {
   const [w, h] = c.viewport.split('x');
-  return { group: 'Components', theme: 'dark', ...c, width: Number(w), height: Number(h) };
+  return { group: 'Components', theme: 'dark', bodyClass: '', ...c, width: Number(w), height: Number(h) };
 }
 
 export interface DsScreenInput {

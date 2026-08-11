@@ -1,0 +1,88 @@
+/* Six things that break the mark.
+
+   A misuse card is the one specimen that is allowed to be wrong on purpose,
+   and each panel is wrong in exactly one way — recoloured, stretched,
+   outlined, re-spaced, boxed, rotated. One fault per panel, or a reader
+   cannot tell which of two is the one being warned about. */
+
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { dsCard } from '../lib/specimen.ts';
+
+/** The card, as it is drawn. */
+const CARD = `<div class="spec-pad" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:22px 18px;">
+  <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; overflow:hidden;">
+    <div style="height:30px; display:flex; align-items:center;"><span style="display:inline-flex; align-items:center; gap:7.5px;"><svg viewBox="-6 -6 140 112" width="28.56" height="22.85" class="sds-signet sds-signet--muted">
+<path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="39" y="30.5" width="10.5" height="39" rx="4.25" fill="var(--text-muted)" /><rect x="53.75" y="30.5" width="20.5" height="39" rx="4.25" fill="var(--text-muted)" /><rect x="78.5" y="30.5" width="10.5" height="39" rx="4.25" fill="var(--text-muted)" />
+<path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="#4CA3E0" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="display:inline-flex; align-items:center; gap:6.8px; font-size:15px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:1.35px; height:12.75px; background:#4CA3E0; flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></span></div>
+    <span class="spec-no">no second colour</span>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; overflow:hidden;">
+    <div style="height:30px; display:flex; align-items:center;"><span style="display:inline-flex; align-items:center; gap:7.5px;"><svg viewBox="-6 -6 140 112" width="28.56" height="22.85" class="sds-signet sds-signet--muted">
+<path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="39" y="30.5" width="10.5" height="39" rx="4.25" fill="var(--text-muted)" /><rect x="53.75" y="30.5" width="20.5" height="39" rx="4.25" fill="var(--text-muted)" /><rect x="78.5" y="30.5" width="10.5" height="39" rx="4.25" fill="var(--text-muted)" />
+<path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="display:inline-flex; align-items:center; gap:6.8px; font-size:15px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:1.35px; height:12.75px; background:var(--accent); flex:none;"></span><span style="font-weight:600; color:var(--text-primary);">Soul Design System</span></span></span></div>
+    <span class="spec-no">no equal weights</span>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; overflow:hidden;">
+    <div style="height:30px; display:flex; align-items:center;"><span style="display:inline-block; transform:scaleX(1.35); transform-origin:left;"><span style="display:inline-flex; align-items:center; gap:7.5px;"><svg viewBox="-6 -6 140 112" width="28.56" height="22.85" class="sds-signet sds-signet--muted">
+<path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="39" y="30.5" width="10.5" height="39" rx="4.25" fill="var(--text-muted)" /><rect x="53.75" y="30.5" width="20.5" height="39" rx="4.25" fill="var(--text-muted)" /><rect x="78.5" y="30.5" width="10.5" height="39" rx="4.25" fill="var(--text-muted)" />
+<path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="display:inline-flex; align-items:center; gap:6.8px; font-size:15px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:1.35px; height:12.75px; background:var(--accent); flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></span></span></div>
+    <span class="spec-no">never stretched</span>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; overflow:hidden;">
+    <div style="height:30px; display:flex; align-items:center;"><span style="display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; background:var(--accent); border-radius:7px;"><svg viewBox="-6 -6 140 112" width="25.20" height="20.16" class="sds-signet" style="color:var(--text-on-accent);">
+<path d="M56 94.5H20A14.5 14.5 0 0 1 5.5 80V44" fill="none" stroke="var(--text-on-accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="39" y="30.5" width="11" height="39" rx="5.5" fill="var(--text-on-accent)" /><rect x="55.5" y="30.5" width="17" height="39" rx="5.5" fill="var(--text-on-accent)" /><rect x="78" y="30.5" width="11" height="39" rx="5.5" fill="var(--text-on-accent)" />
+<path d="M72 5.5H108A14.5 14.5 0 0 1 122.5 20V56" fill="none" stroke="var(--text-on-accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+</svg></span></div>
+    <span class="spec-no">never on orange</span>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; overflow:hidden;">
+    <div style="height:30px; display:flex; align-items:center;"><svg viewBox="-6 -6 140 112" width="30.80" height="24.64" class="sds-signet sds-signet--muted">
+<path d="M56 96.5H20A16.5 16.5 0 0 1 3.5 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="39" y="30.5" width="11" height="39" rx="3.5" fill="var(--text-muted)" /><rect x="53.5" y="30.5" width="21" height="39" rx="3.5" fill="var(--text-muted)" /><rect x="78" y="30.5" width="11" height="39" rx="3.5" fill="var(--text-muted)" />
+<path d="M72 3.5H108A16.5 16.5 0 0 1 124.5 20V56" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg></div>
+    <span class="spec-no">never the large drawing when small</span>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; overflow:hidden;">
+    <div style="height:30px; display:flex; align-items:center;"><svg viewBox="-6 -6 140 112" width="30.80" height="24.64" class="sds-signet sds-signet--muted">
+<path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="39" y="30.5" width="10.5" height="39" rx="4.25" fill="var(--text-muted)" /><rect x="53.75" y="30.5" width="20.5" height="39" rx="4.25" fill="var(--text-muted)" /><rect x="78.5" y="30.5" width="10.5" height="39" rx="4.25" fill="var(--text-muted)" />
+<path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg></div>
+    <span class="spec-no">the accent corner is always orange</span>
+  </div>
+</div>`;
+
+const meta: Meta = {
+  title: 'Specimens/Brand/Misuse',
+  tags: ['!dev'],
+  excludeStories: ['specimenHtml'],
+  parameters: {
+    dsCard: dsCard({
+      path: 'guidelines/brand-misuse.card.html',
+      group: 'Brand',
+      name: 'Misuse',
+      subtitle: 'Six things that break the mark',
+      viewport: '700x250',
+    }),
+  },
+};
+
+export default meta;
+type Story = StoryObj;
+
+export const specimenHtml = (): string => CARD;
+
+export const Specimen: Story = {
+  parameters: { layout: 'fullscreen' },
+  render: () => html`${unsafeHTML(specimenHtml())}`,
+};

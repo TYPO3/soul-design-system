@@ -123,6 +123,41 @@ test('nothing on a page covers anything else', async ({ page, request }) => {
   }
 });
 
+/* The other navigation, behind the same button.
+
+   Two things run out of room on a page and there is one answer for both: the
+   sections run out of room in the header, and the rail runs out of a column to
+   stand in. Both end up behind a toggle in the bar and both open the same
+   panel. What is asserted here is that the second one is wired at all — the
+   rail is a column while there is one, and reachable rather than gone once
+   there is not, which is the state a breakpoint that merely hid it left it in.
+
+   The rail must also survive having no script: the class that lets the layout
+   hide it is written by the element that opens it, so a page whose bundle
+   never arrives keeps the list. */
+test('the page rail is a column, then a panel behind the same toggle', async ({ page }) => {
+  const rail = page.locator('#page-rail');
+  const toggle = page.locator('.sds-menu--for .sds-menu__toggle');
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await gotoStory(page, 'pages-documentation--page');
+  await expect(rail).toBeVisible();
+  await expect(toggle).toBeHidden();
+
+  await page.setViewportSize({ width: 760, height: 900 });
+  await expect(toggle).toBeVisible();
+  await expect(rail).toBeHidden();
+
+  await toggle.click();
+  await expect(rail).toBeVisible();
+  /* Over the page rather than pushing it: the same drop the sections get. */
+  await expect(rail).toHaveCSS('position', 'absolute');
+
+  await page.keyboard.press('Escape');
+  await expect(rail).toBeHidden();
+  await expect(toggle).toBeFocused();
+});
+
 /* The menu's run-width.
 
    What it does is decided by measurement, so there is no number to assert.

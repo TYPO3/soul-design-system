@@ -2440,10 +2440,20 @@ var SdsMenu = class extends SdsNav {
     this.need = 0;
     this.onOutside = (event) => {
       if (!this.open) return;
-      if (event.composedPath().includes(this)) return;
+      const path = event.composedPath();
+      if (path.includes(this)) return;
+      const target = this.target;
+      if (target && path.includes(target)) return;
       this.open = false;
     };
+    /* A navigation the toggle opened has done its job when a page is chosen.
+       Only a link: everything else in there — a fold, a heading — is the reader
+       still looking. */
+    this.onFollow = (event) => {
+      if (event.target?.closest("a")) this.open = false;
+    };
     this.label = "Menu";
+    this.for = "";
     this.open = false;
     this.collapsed = false;
   }
@@ -2451,19 +2461,27 @@ var SdsMenu = class extends SdsNav {
     this.properties = {
       ...SdsNav.properties,
       label: { type: String },
+      for: { type: String, reflect: true },
       open: { type: Boolean, state: true },
       collapsed: { type: Boolean, state: true }
     };
   }
+  /** The navigation this opens, where that is not its own items. */
+  get target() {
+    return this.for ? document.getElementById(this.for) : null;
+  }
   connectedCallback() {
     super.connectedCallback();
-    this.watch = new ResizeObserver(() => this.decide());
-    if (this.parentElement) this.watch.observe(this.parentElement);
+    if (!this.for) {
+      this.watch = new ResizeObserver(() => this.decide());
+      if (this.parentElement) this.watch.observe(this.parentElement);
+    }
     document.addEventListener("pointerdown", this.onOutside);
   }
   disconnectedCallback() {
     this.watch?.disconnect();
     document.removeEventListener("pointerdown", this.onOutside);
+    this.target?.removeEventListener("click", this.onFollow);
     super.disconnectedCallback();
   }
   onKey(event) {
@@ -2496,20 +2514,29 @@ var SdsMenu = class extends SdsNav {
     this.collapsed = collapsed;
     if (!collapsed) this.open = false;
   }
-  render() {
-    const shown = !this.collapsed || this.open;
-    return html11`<div class="sds-menu${this.collapsed ? " is-collapsed" : ""}" @keydown="${(e) => this.onKey(e)}">
-  <button
+  /** The button, which is the same button in both cases. */
+  toggle_(controls) {
+    return html11`<button
     type="button"
     class="sds-menu__toggle"
     aria-expanded="${this.open ? "true" : "false"}"
-    aria-controls="${this.navId}"
+    aria-controls="${controls}"
     aria-label="${this.label}"
-    ?hidden="${!this.collapsed}"
+    ?hidden="${!this.for && !this.collapsed}"
     @click="${() => {
       this.open = !this.open;
     }}"
-  ><sds-icon name="${this.open ? "actions-close" : "actions-menu"}"></sds-icon></button>
+  ><sds-icon name="${this.open ? "actions-close" : "actions-menu"}"></sds-icon></button>`;
+  }
+  render() {
+    if (this.for) {
+      return html11`<div class="sds-menu sds-menu--for" @keydown="${(e) => this.onKey(e)}">
+  ${this.toggle_(this.for)}
+</div>`;
+    }
+    const shown = !this.collapsed || this.open;
+    return html11`<div class="sds-menu${this.collapsed ? " is-collapsed" : ""}" @keydown="${(e) => this.onKey(e)}">
+  ${this.toggle_(this.navId)}
   <nav
     id="${this.navId}"
     class="sds-menu__items${this.collapsed ? " sds-menu__panel" : ""}"
@@ -2527,6 +2554,15 @@ var SdsMenu = class extends SdsNav {
     }
   }
   updated() {
+    if (this.for) {
+      const target = this.target;
+      if (!target) return;
+      target.classList.add("is-collapsible");
+      target.classList.toggle("is-open", this.open);
+      target.removeEventListener("click", this.onFollow);
+      target.addEventListener("click", this.onFollow);
+      return;
+    }
     this.decide();
   }
 };
