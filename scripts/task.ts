@@ -55,6 +55,7 @@ const TASKS: Record<string, Task> = {
   shots: { cmd: node('scripts/shoot.ts'), help: 'screenshot every card as the after' },
   diff: { cmd: node('scripts/diff.ts'), help: 'compare after against baseline' },
   sheets: { cmd: node('scripts/sheet.ts'), help: 'tile screenshots into contact sheets' },
+  look: { cmd: node('scripts/look.ts'), help: 'photograph one page in both modes — make look ARGS=screens/feature.html' },
 
   // Sync to claude.ai/design
   sync: { cmd: ['sh', '-c', 'node scripts/build.ts && node scripts/verify.ts && node scripts/status.ts && node scripts/plan.ts'], help: 'build + verify + what-would-change + upload plan' },

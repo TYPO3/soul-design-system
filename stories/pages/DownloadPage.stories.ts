@@ -126,10 +126,10 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
 
   const first = WAYS[0] as (typeof WAYS)[number];
   const ways = flat
-    ? html`${tabsBarMarkup(WAYS.map(({ label }) => ({ label })), 0)}<div class="sds-tab__panel"><sds-code lang="bash" .body="${first.body}" copy></sds-code></div>`
+    ? html`${tabsBarMarkup(WAYS.map(({ label }) => ({ label })), 0)}<div class="sds-tab__panel"><sds-code code-lang="bash" .body="${first.body}" copy></sds-code></div>`
     : html`<sds-tabs>
           ${WAYS.map(
-            (way) => html`<sds-tab-item label="${way.label}"><sds-code lang="bash" .body="${way.body}" copy></sds-code></sds-tab-item>`,
+            (way) => html`<sds-tab-item label="${way.label}"><sds-code code-lang="bash" .body="${way.body}" copy></sds-code></sds-tab-item>`,
           )}
         </sds-tabs>`;
 
@@ -187,7 +187,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
         </div>
         <div class="sds-stack">
           <span class="sds-label">Verify</span>
-          <sds-code lang="bash" .body="${VERIFY}" copy></sds-code>
+          <sds-code code-lang="bash" .body="${VERIFY}" copy></sds-code>
         </div>
       </div>
     </section>

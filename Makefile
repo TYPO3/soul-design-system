@@ -38,7 +38,7 @@ RUN := $(TASK) node scripts/task.ts
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
 TASKS := verify test cards typecheck fit ssr build dist fonts icons \
-         baseline shots diff sheets sync status plan synced
+         baseline shots diff sheets look sync status plan synced
 
 # The long-running ones. `app` is among them: it holds the environment every
 # task above runs in, so a task is an `exec` rather than a new container.
@@ -66,6 +66,7 @@ help:
 	@echo '                       or a re-sync makes a new one instead of updating it'
 	@echo
 	@echo '  make baseline shots diff     screenshot before, after, compare'
+	@echo '  make look ARGS=screens/x.html  photograph one page in both modes'
 	@echo '  make sheets          tile screenshots into contact sheets'
 	@echo '  make fonts icons     regenerate from the npm packages'
 	@echo '  make fit typecheck'

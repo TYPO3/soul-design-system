@@ -109,7 +109,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
         <span class="sds-mono">docs.typo3.org</span> for a page.
       </p>
 
-      <sds-code lang="bash" .body="${INSTALL}" copy></sds-code>
+      <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
 
       <div class="sds-actions">${actions}</div>
     </main>

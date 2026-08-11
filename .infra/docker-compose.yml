@@ -33,6 +33,20 @@ x-app: &app
   # Chromium needs more than Docker's default 64 MB of shared memory. Too
   # little shows up as tabs crashing mid-run, never as an out-of-memory error.
   shm_size: 1gb
+  # An init as PID 1, whose whole job is to reap.
+  #
+  # `sleep infinity` is PID 1 in the app container and it reaps nothing. Every
+  # Playwright run leaves chrome processes whose parent has exited, every
+  # esbuild the same, and each of them is re-parented to PID 1 and stays there
+  # as a zombie forever. They cost no memory and they are not free: the process
+  # table is what fills up, and a container that has run the suite a few dozen
+  # times gets slower at starting anything at all. Measured here at 1,580
+  # zombies after a day of `make cards` and `make test`.
+  #
+  # `init: true` puts tini in front, which reaps them as they die. It belongs
+  # on the anchor rather than on `app` alone — the storybook and dist services
+  # spawn the same children.
+  init: true
 
 # Named explicitly. Compose otherwise derives the project name from the
 # directory holding this file — which is now `.infra`, a name generic enough

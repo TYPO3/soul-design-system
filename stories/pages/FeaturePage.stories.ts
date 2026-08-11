@@ -216,7 +216,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         </div>
         <div class="sds-stack">
           <span class="sds-label">A degraded result</span>
-          <sds-code lang="json" source="${RESULT}" copy></sds-code>
+          <sds-code code-lang="json" source="${RESULT}" copy></sds-code>
           <p class="sds-prose">
             <span class="sds-mono">declared</span> is what the tool was allowed to
             read; <span class="sds-mono">answeredBy</span> is what it reached. The
@@ -299,7 +299,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         </div>
         <div class="sds-stack">
           <span class="sds-label">Install</span>
-          <sds-code lang="bash" .body="${INSTALL}" copy></sds-code>
+          <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
           <p class="sds-prose">
             The tools register themselves with their declared sources. One that
             cannot reach any of them says so at registration rather than in the

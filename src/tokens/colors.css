@@ -43,7 +43,11 @@
   --status-warn: light-dark(#986200, #D9A441);
   --status-error: light-dark(#A33328, #D4685C);
   --syntax-string: light-dark(#3F6B2B, #9CC27F);
-  --syntax-key: light-dark(#B35A00, #FFA338);
+  /* #A85400 and not the link's #B35A00: a keyword sits on the sunken plane
+     rather than on the canvas, where that orange lands at 4.24:1 — under the
+     line, on product text, found by running axe over a whole page rather than
+     over a specimen. */
+  --syntax-key: light-dark(#A85400, #FFA338);
   --syntax-comment: light-dark(#726C63, #878076);
 }
 

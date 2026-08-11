@@ -21,8 +21,13 @@ export interface QuoteProps {
   body: string | TemplateResult;
   /** Who said it. A person, a document, a release note. */
   by: string;
-  /** What they are to the subject, where the name alone does not say. */
-  role?: string;
+  /** What it is to the subject, where the name alone does not say — a
+      diagram, a release note, a maintainer.
+      The attribute is `as` and not `role`, and that is not a preference:
+      `role` is the global ARIA attribute, so `role="maintainer"` told every
+      screen reader the element had a role by that name — which does not exist,
+      and axe says so. Same collision `sds-note` renamed `title` for. */
+  as?: string;
   /** Where it can be read in full. */
   href?: string;
 }
@@ -31,20 +36,20 @@ export class SdsQuote extends SdsElement {
   static override properties = {
     body: { type: String },
     by: { type: String },
-    role: { type: String },
+    as: { type: String },
     href: { type: String },
   };
 
   declare body: string | TemplateResult;
   declare by: string;
-  declare role: string;
+  declare as: string;
   declare href: string;
 
   constructor() {
     super();
     this.body = '';
     this.by = '';
-    this.role = '';
+    this.as = '';
     this.href = '';
   }
 
@@ -54,7 +59,7 @@ export class SdsQuote extends SdsElement {
       : html`${this.by}`;
     return html`<figure class="sds-quote">
   <blockquote class="sds-quote__body">${this.body}</blockquote>
-  <figcaption class="sds-quote__by">${who}${this.role ? html` · ${this.role}` : ''}</figcaption>
+  <figcaption class="sds-quote__by">${who}${this.as ? html` · ${this.as}` : ''}</figcaption>
 </figure>`;
   }
 }

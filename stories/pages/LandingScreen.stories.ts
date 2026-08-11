@@ -122,7 +122,7 @@ const COMPONENTS: readonly {
       { cells: ['copy', 'no', 'The copy button. It copies what the block says, never its chrome.'] },
       { cells: ['source', 'no', 'The block as text, where the caller holds the source rather than markup.'] },
     ],
-    source: '<sds-code lang="bash" caption="Install" copy>\n  <code>composer require typo3/soul-design-system</code>\n</sds-code>',
+    source: '<sds-code code-lang="bash" caption="Install" copy>\n  <code>composer require typo3/soul-design-system</code>\n</sds-code>',
   },
   {
     name: 'sds-rail',
@@ -215,10 +215,10 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
   const first = WAYS[0] as (typeof WAYS)[number];
   const ways = flat
-    ? html`${tabsBarMarkup(WAYS.map(({ label }) => ({ label })), 0)}<div class="sds-tab__panel"><sds-code lang="bash" .body="${first.body}" copy></sds-code></div>`
+    ? html`${tabsBarMarkup(WAYS.map(({ label }) => ({ label })), 0)}<div class="sds-tab__panel"><sds-code code-lang="bash" .body="${first.body}" copy></sds-code></div>`
     : html`<sds-tabs>
           ${WAYS.map(
-            (way) => html`<sds-tab-item label="${way.label}"><sds-code lang="bash" .body="${way.body}" copy></sds-code></sds-tab-item>`,
+            (way) => html`<sds-tab-item label="${way.label}"><sds-code code-lang="bash" .body="${way.body}" copy></sds-code></sds-tab-item>`,
           )}
         </sds-tabs>`;
 
@@ -303,7 +303,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
             ${one.marks.map((mark) => html`<sds-badge label="${mark}"></sds-badge>`)}
           </div>
           <sds-table density="compact" scrollable .columns="${one.columns}" .rows="${one.rows}"></sds-table>
-          <sds-code lang="html" source="${one.source}" copy></sds-code>
+          <sds-code code-lang="html" source="${one.source}" copy></sds-code>
         </article>`,
         )}
       </div>
@@ -351,7 +351,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
         </div>
         <div class="sds-stack">
           <span class="sds-label">Install</span>
-          <sds-code lang="bash" .body="${INSTALL}" copy></sds-code>
+          <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
           <p class="sds-prose">
             Pin a version where you depend on it. The class layer is the
             contract; the elements are how a page that runs JavaScript gets it

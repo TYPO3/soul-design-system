@@ -22,7 +22,7 @@ const HTML = `<!doctype html>
 <script type="module" src="/dist/soul.js"></script>
 </head>
 <body class="sds-app">
-  <sds-code lang="json" copy>{ "versions": ["12.4"] }</sds-code>
+  <sds-code code-lang="json" copy>{ "versions": ["12.4"] }</sds-code>
   <sds-button variant="primary">Run the checks</sds-button>
   <sds-icon name="actions-search"></sds-icon>
   <sds-icon name="actions-search" class="sds-icon sds-icon--20"></sds-icon>

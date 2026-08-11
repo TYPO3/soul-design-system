@@ -67,10 +67,10 @@ export const Composed: Story = {
   render: () => html`
     <sds-tabs>
       <sds-tab-item label="install">
-        <sds-code lang="bash" copy>composer require typo3/cms-core</sds-code>
+        <sds-code code-lang="bash" copy>composer require typo3/cms-core</sds-code>
       </sds-tab-item>
       <sds-tab-item label="configure">
-        <sds-code lang="yaml" copy>versions:
+        <sds-code code-lang="yaml" copy>versions:
   - "13.4"
   - "14.3"</sds-code>
       </sds-tab-item>

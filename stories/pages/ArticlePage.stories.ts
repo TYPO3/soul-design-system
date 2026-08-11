@@ -113,7 +113,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
         the saying so is the part that makes the answer usable.
       </p>
 
-      <sds-byline name="Benjamin Kott" role="maintainer" meta="24${NNBSP}July 2026 · 6${NNBSP}min"></sds-byline>
+      <sds-byline name="Benjamin Kott" as="maintainer" meta="24${NNBSP}July 2026 · 6${NNBSP}min"></sds-byline>
 
       <sds-figure
         src="${assets}/diagrams/installation-fallback.svg"
@@ -147,7 +147,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
         because nothing about it invites a second look.
       </p>
 
-      <sds-code lang="json" source="${RESULT}" copy></sds-code>
+      <sds-code code-lang="json" source="${RESULT}" copy></sds-code>
 
       <p class="sds-prose">
         <span class="sds-mono">answeredBy</span> is what reached the question and
@@ -161,7 +161,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-quote
         .body="${'A partial registry never looks complete: source, reason and the unread files travel with the result.'}"
         by="installation-fallback"
-        role="diagram"
+        as="diagram"
       ></sds-quote>
       <p class="sds-prose">
         Dynamic registrations are the whole of the difference — entries an
@@ -185,7 +185,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
         rather than <span class="sds-mono">packages</span>.
       </p>
 
-      <sds-code lang="bash" .body="${BOOT}" copy></sds-code>
+      <sds-code code-lang="bash" .body="${BOOT}" copy></sds-code>
 
       <div class="sds-actions">
         <sds-link label="Repository" href="https://github.com" external icon="actions-brand-github"></sds-link>

@@ -109,7 +109,7 @@ export function aboutPage(_: PageMode = {}): TemplateResult {
         <div class="sds-grid">
           ${PEOPLE.map(
             (person) => html`<sds-surface
-              .body="${html`<sds-byline name="${person.name}" role="${person.role}" meta="${person.since}"></sds-byline>
+              .body="${html`<sds-byline name="${person.name}" as="${person.role}" meta="${person.since}"></sds-byline>
               <span style="display:block; margin-top:10px">${person.answerable}</span>`}"
             ></sds-surface>`,
           )}
@@ -137,7 +137,7 @@ export function aboutPage(_: PageMode = {}): TemplateResult {
           <sds-quote
             .body="${'A partial registry never looks complete: source, reason and the unread files travel with the result.'}"
             by="installation-fallback"
-            role="the drawing this rule came from"
+            as="the drawing this rule came from"
           ></sds-quote>
         </div>
       </div>

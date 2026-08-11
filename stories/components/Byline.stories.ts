@@ -14,8 +14,8 @@ import '../../src/components/byline.ts';
 import { type BylineProps } from '../../src/components/byline.ts';
 import { NNBSP } from '../lib/specimen.ts';
 
-const sdsByline = ({ name, role, meta, initials }: BylineProps) =>
-  html`<sds-byline name="${name}" role="${role ?? ''}" meta="${meta ?? ''}" initials="${initials ?? ''}"></sds-byline>`;
+const sdsByline = ({ name, as: what, meta, initials }: BylineProps) =>
+  html`<sds-byline name="${name}" as="${what ?? ''}" meta="${meta ?? ''}" initials="${initials ?? ''}"></sds-byline>`;
 
 const meta: Meta<BylineProps> = {
   title: 'Components/Byline',
@@ -23,11 +23,11 @@ const meta: Meta<BylineProps> = {
   render: (args) => sdsByline(args),
   argTypes: {
     name: { control: 'text' },
-    role: { control: 'text' },
+    as: { control: 'text' },
     meta: { control: 'text' },
     initials: { control: 'text' },
   },
-  args: { name: 'Benjamin Kott', role: 'maintainer', meta: `24 July 2026 · 6${NNBSP}min` },
+  args: { name: 'Benjamin Kott', as: 'maintainer', meta: `24 July 2026 · 6${NNBSP}min` },
 };
 
 export default meta;
@@ -42,10 +42,10 @@ export const NameOnly: Story = { args: { name: 'Benjamin Kott', meta: '24 July 2
 /** A team rather than a person. The initials come from the name either way —
     first letter of the first and last word, two at most, because three in a
     28px circle is a monogram nobody can read. */
-export const Team: Story = { args: { name: 'Core Team', role: 'maintainers', meta: '12 May 2026' } };
+export const Team: Story = { args: { name: 'Core Team', as: 'maintainers', meta: '12 May 2026' } };
 
 /** Given rather than derived, where the name is one word or the initials are
     something the reader already knows. */
 export const Explicit: Story = {
-  args: { name: 'Dev Companion', initials: 'DC', role: 'release note', meta: '9 August 2026 · 1.4.0' },
+  args: { name: 'Dev Companion', initials: 'DC', as: 'release note', meta: '9 August 2026 · 1.4.0' },
 };

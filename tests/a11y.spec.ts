@@ -123,3 +123,90 @@ for (const theme of ['dark', 'light'] as const) {
     });
   }
 }
+
+/* The whole pages, which is where the machine-checkable part actually lives.
+
+   A specimen is a fragment: it has no landmarks, no heading order, no second
+   control to be confused with, and no form. Everything axe is genuinely good
+   at needs a page — a label that names nothing, a heading level skipped, two
+   controls with the same accessible name, a landmark with no label where there
+   are two of the same kind.
+
+   So this is the sweep that matters for a site, and it was blind for as long
+   as the list above was seven specimens. One test per theme rather than per
+   page: the index decides which pages exist, so nothing here has to be kept in
+   step with what has been built.
+
+   Serious and critical only, for the reason at the top of this file. */
+async function pageIds(request: import('@playwright/test').APIRequestContext): Promise<{ id: string; title: string }[]> {
+  const index = (await (await request.get('/index.json')).json()) as {
+    entries: Record<string, { id: string; title: string; type: string }>;
+  };
+  return Object.values(index.entries).filter((e) => e.type === 'story' && e.title.startsWith('Pages/'));
+}
+
+for (const theme of ['dark', 'light'] as const) {
+  test(`every page has no serious axe violations in ${theme}`, async ({ page, request }) => {
+    const pages = await pageIds(request);
+    expect(pages.length, 'there should be pages to check').toBeGreaterThan(1);
+    test.setTimeout(Math.max(30_000, pages.length * 3_000));
+
+    const failures: string[] = [];
+    for (const story of pages) {
+      await gotoStory(page, story.id, theme);
+      await axeIdle(page);
+
+      const results = await new AxeBuilder({ page })
+        .include('#storybook-root')
+        /* Contrast is the sweep below this one, on the colours rather than on
+           the nodes — a page repeats the same muted label thirty times and
+           what is worth asserting is the colour, once. */
+        .disableRules(['color-contrast'])
+        .analyze();
+
+      for (const v of results.violations) {
+        if (v.impact !== 'serious' && v.impact !== 'critical') continue;
+        failures.push(`${story.title}: ${v.id} — ${v.help} (${v.nodes.length} node(s): ${v.nodes[0]?.target.join(' ')})`);
+      }
+    }
+
+    expect(failures, `serious axe violations on whole pages (${theme})`).toEqual([]);
+  });
+}
+
+/* And the colours those pages are actually made of.
+
+   The specimens above carry the system's controls; a page carries its prose,
+   its labels, its captions and its status text, at the sizes a reader meets
+   them. Same assertion as before — the set of failing foreground colours, not
+   a count and not a selector — so a token dropping below the line is loud and
+   a known one staying there is written down. */
+for (const theme of ['dark', 'light'] as const) {
+  test(`no page introduces a low-contrast colour in ${theme}`, async ({ page, request }) => {
+    const pages = await pageIds(request);
+    test.setTimeout(Math.max(30_000, pages.length * 3_000));
+
+    const found = new Map<string, string>();
+    for (const story of pages) {
+      await gotoStory(page, story.id, theme);
+      await axeIdle(page);
+
+      const results = await new AxeBuilder({ page }).include('#storybook-root').withRules(['color-contrast']).analyze();
+      for (const v of results.violations) {
+        for (const node of v.nodes) {
+          const summary = node.failureSummary ?? '';
+          const fg = /foreground color: (#[0-9a-f]{3,8})/i.exec(summary)?.[1]?.toLowerCase();
+          if (fg) found.set(fg, `${story.title} — ${node.target.join(' ')}`);
+        }
+      }
+    }
+
+    const unexpected = [...found.keys()].filter((c) => !KNOWN_LOW_CONTRAST[theme].includes(c)).sort();
+    expect(
+      unexpected,
+      `new low-contrast foreground colour(s) on a page (${theme}). Either fix the token or add it ` +
+        `to KNOWN_LOW_CONTRAST with a reason.\n` +
+        unexpected.map((c) => `  ${c}: ${found.get(c)}`).join('\n'),
+    ).toEqual([]);
+  });
+}

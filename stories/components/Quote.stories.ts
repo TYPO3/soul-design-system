@@ -13,8 +13,8 @@ import { html } from 'lit';
 import '../../src/components/quote.ts';
 import { type QuoteProps } from '../../src/components/quote.ts';
 
-const sdsQuote = ({ body, by, role, href }: QuoteProps) =>
-  html`<sds-quote .body="${body}" by="${by}" role="${role ?? ''}" href="${href ?? ''}"></sds-quote>`;
+const sdsQuote = ({ body, by, as: what, href }: QuoteProps) =>
+  html`<sds-quote .body="${body}" by="${by}" as="${what ?? ''}" href="${href ?? ''}"></sds-quote>`;
 
 const meta: Meta<QuoteProps> = {
   title: 'Components/Quote',
@@ -23,13 +23,13 @@ const meta: Meta<QuoteProps> = {
   argTypes: {
     body: { control: 'text' },
     by: { control: 'text' },
-    role: { control: 'text' },
+    as: { control: 'text' },
     href: { control: 'text' },
   },
   args: {
     body: 'A partial registry never looks complete. The source, the reason and the unread files travel with the result.',
     by: 'installation-fallback',
-    role: 'diagram',
+    as: 'diagram',
   },
 };
 
@@ -46,7 +46,7 @@ export const Sourced: Story = {
   args: {
     body: 'Every source declares a precondition, so an answer is known to be reachable before the question is asked.',
     by: 'Sources and preconditions',
-    role: 'documentation',
+    as: 'documentation',
     href: '#',
   },
 };
@@ -56,7 +56,7 @@ export const Person: Story = {
   args: {
     body: 'The fallback was never the problem. Not saying it was a fallback was the problem.',
     by: 'Benjamin Kott',
-    role: 'maintainer',
+    as: 'maintainer',
   },
 };
 
