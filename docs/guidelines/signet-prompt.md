@@ -17,11 +17,14 @@ thing left to invent is the interior.
 
 ## The box
 
-- **128 × 100 units**, 5:4. `viewBox="-6 -6 140 112"` for L and M — the extra
-  6 units on each side are for the stroke, which is centred on the path and
-  reaches half a stroke beyond it.
-- **S uses `viewBox="-6 -20 140 140"`**, a square box, because a favicon slot
+- **128 × 100 units**, 5:4. `viewBox="0 0 128 100"` for L and M — the box is
+  the viewBox, with no margin around it, because nothing is drawn that would
+  need one.
+- **S uses `viewBox="0 -14 128 128"`**, a square box, because a favicon slot
   is square and a 5:4 mark letterboxed into one drops under the 16px floor.
+  The −14 centres the same 128 × 100 box in the square, and it is the only
+  offset in the family: all three sizes are drawn in one coordinate system,
+  so the three files can be read against each other line by line.
 - Outer corners of the box: **radius 20**.
 
 ## The one value everything follows
@@ -40,6 +43,12 @@ Pick the stroke, and the rest is decided:
 - **Gap is never less than the stroke**, and it is measured ink to ink, not
   path to path. A stroked path's ink reaches half a stroke past its geometry;
   forgetting that is the most common way these drawings go wrong.
+- **Nothing leaves the box.** The same half stroke applies outwards: every
+  path that draws an outer edge is inset half a stroke, so its ink lands on
+  the box and the viewBox needs no margin to keep it. A frame drawn *on* the
+  box edge is half a stroke too wide on every side and its corners half a
+  stroke too round — beside a sibling drawn to the rule it reads as a
+  different size, and it is clipped by its own viewBox.
 - **Three optical sizes, redrawn, never scaled.** A heavier stroke eats into
   the interior, so the interior gives ground: shapes shrink, and if something
   stops reading, it is dropped rather than kept small. Scaling one drawing to
@@ -72,7 +81,9 @@ Pick the stroke, and the rest is decided:
 - **A filled shape that needs the family's rounding**: give it `fill` *and*
   `stroke` in the same colour at the size's stroke width, with
   `stroke-linejoin="round"`. The join produces the rounding, the shape grows
-  by half a stroke on every side, and you keep one construction instead of two.
+  by half a stroke on every side, and you keep one construction instead of
+  two. Growing on every side is also why its geometry stops half a stroke
+  short of the box corner while its ink lands on it.
   The corner marker every mark carries is drawn this way, and so is the one
   interior in the family that is a triangle — a triangle's three points come
   out at the family's rounding through the round join, without a second
