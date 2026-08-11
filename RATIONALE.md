@@ -204,7 +204,7 @@ The pending lists are the concession, and they are bounded on purpose: they may 
 - `ui_kits/documentation/index.dc.html` — the documentation surface, which is also the product presentation (direction B, chosen from three explored candidates)
 
 - `components/` — component specimen cards (core, navigation, data, surfaces, code)
-- `assets/icons/` — 33 icons from `TYPO3/TYPO3.Icons`
+- `assets/icons/` — the icons this system uses, from `TYPO3/TYPO3.Icons`
 - `assets/diagrams/` — diagrams drawn to the rules above, one file each and referenced rather than linked: `answer-sources`, `installation-fallback`, `system-overview`
 - `assets/placeholders/` — mode-neutral 1200 × 750 tool and article illustrations generated from `guidelines/illustration-prompt.md`
 

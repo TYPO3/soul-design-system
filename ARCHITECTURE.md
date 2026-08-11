@@ -238,9 +238,9 @@ of step 2: that one catches a name used and not defined, this one a name
 defined and never drawn.
 
 **The pending lists shrink and never grow.** `PENDING` in `scripts/coverage.ts`
-holds what the rule does not hold for yet — today one element without a story,
-six classes with no specimen, and 21 elements the Guides render has no node
-for. An entry that has become covered fails as loudly as one that is missing,
+holds what the rule does not hold for yet — the elements without a story, the
+classes with no specimen, and the elements the Guides render has no node for.
+An entry that has become covered fails as loudly as one that is missing,
 so the list cannot outlive the work: it is the work list, not an exemption
 list. Adding to it is a decision, and it needs the same kind of reason the
 entries there already carry.

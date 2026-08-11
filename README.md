@@ -37,7 +37,7 @@ with an HTML surface, which is why the classes have to work alone.
 | Output | Command | What it is |
 | --- | --- | --- |
 | Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens |
-| `specimens/` | `make cards` | all 42 specimen cards and 16 screens, rendered from the stories that compose them |
+| `specimens/` | `make cards` | every specimen card and screen, rendered from the stories that compose them |
 | `site/` | `make guides` | the documentation, rendered from `docs/` by phpDocumentor Guides through this system's own theme |
 | `dist/` | `make dist` | the publishable ESM package and its types |
 | `ds-bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
@@ -62,15 +62,15 @@ make verify  # the gate
 make test    # the Playwright suite
 ```
 
-The gate is thirteen named checks and the suite is eleven spec files, and while
-working you can ask for one of either — `make verify ARGS=classes`, `make test
+The gate is a sequence of named checks and the suite a set of spec files, and
+while working you can ask for one of either — `make verify ARGS=classes`, `make test
 ARGS=tests/parity.spec.ts`. `make verify ARGS=--help` names the checks. A
 partial run says so; only the whole sequence claims the system is consistent.
 
 `make start` brings Storybook up and prints its address. It is the one
 surface: the guidelines as written pages with their specimens embedded at the
 exact viewport each declares, every component with live controls and an a11y
-panel, and the sixteen whole pages.
+panel, and the whole pages beside them.
 
 **The port is not fixed.** `make start` picks a free one and reports it, so a
 Storybook you already have running elsewhere cannot make this fail to start.
@@ -134,8 +134,8 @@ they do not — and deliberately:
 
 | you want | take it from | why not from here |
 | --- | --- | --- |
-| the 33 icons | `@typo3/icons` | they are TYPO3's, not ours. `scripts/icons.ts` names the identifiers this system uses; copy that list, not the files |
-| the two families | `@fontsource/source-sans-3`, `@fontsource/source-code-pro` | same reason, and your bundler wants its own subsetting |
+| the icons | `@typo3/icons` | they are TYPO3's, not ours. `scripts/icons.ts` names the identifiers this system uses; copy that list, not the files |
+| the font families | `@fontsource/source-sans-3`, `@fontsource/source-code-pro` | same reason, and your bundler wants its own subsetting |
 | a prebuilt `<script src>` bundle | `make dist`, unpublished | a build product. If you bundle, import `src/index.ts` instead |
 
 A copy of an upstream file is a copy that can go stale against the version
@@ -161,7 +161,7 @@ No project yet? `/design-sync` creates one and reports its id. The id is not a
 credential — the API authorises your own login — but it is per-person, which
 is why the committed config does not carry one.
 
-Then three steps, in this order:
+Then, in this order:
 
 ```sh
 make sync    # build, verify, what-would-change, and the upload plan
@@ -177,7 +177,7 @@ There is deliberately no `npm run` that uploads: the upload needs the
 `DesignSync` tool bound to your claude.ai login, which a shell script has no
 access to. What the scripts *can* own is everything except the transport, and
 they do — `make plan` writes `.design-sync/.cache/upload-plan.json` with
-the five steps in the order they must run, the exact file list, and the exact
+the steps in the order they must run, the exact file list, and the exact
 deletes. The agent executes it rather than working it out, because working it
 out by hand is how a batch of renamed font files was once left orphaned in
 the project.
@@ -219,7 +219,7 @@ creates a second one. It compares against the anchor the project stores
 | `.infra/` | Dockerfile, compose and the entrypoint |
 | `.github/` | the gate on every push, and the site published from `main` |
 | | |
-| `specimens/` | **generated** — the 42 cards and the 16 screens, the latter offered as Starting Points in a consuming project |
+| `specimens/` | **generated** — the cards and the screens, the latter offered as Starting Points in a consuming project |
 | `fonts/`, `assets/icons/` | **generated** from the npm packages |
 | `ds-bundle/`, `dist/` | **generated** exports |
 | `site/` | **generated** — the publish root, and the one export that is not committed: a drop-in is copied, a site is published |
@@ -242,7 +242,7 @@ A screen is its own thumbnail — there is no thumbnail file anywhere.
 | `storybook` | the documentation surface, on a port Docker picks |
 | `verify` | the gate: headers, classes, coverage, references, fit, card staleness, types, conventions |
 | `test` | the Playwright suite — every story renders, components match their static render, axe |
-| `cards` | regenerate the 42 specimen cards from their stories |
+| `cards` | regenerate the specimen cards from their stories |
 | `guides` | render `docs/` into `site/` with the theme — the documentation as it will be served |
 | `build` | assemble `ds-bundle/`, the upload payload |
 | `dist` | build the publishable ESM package and its types |
@@ -286,8 +286,8 @@ The icon's identifier is also its path, by its first segment:
 the same path under
 `https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/` or
 `https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/` — that is how a
-surface pulls one the 33 do not cover. `dist/icons.json` in the package lists
-all 796 identifiers and the deprecated aliases; `THIRD-PARTY.md` records the
+surface pulls one this set does not cover. `dist/icons.json` in the package
+lists every identifier and the deprecated aliases; `THIRD-PARTY.md` records the
 whole provenance. A missing icon is contributed to
 [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons) first; the script
 fails rather than substituting one from another set.
