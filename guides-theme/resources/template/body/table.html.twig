@@ -1,0 +1,27 @@
+{#
+    A table, in the box that scrolls for it.
+
+    The scroller has to be a box **around** the table. `overflow-x` on the
+    `<table>` itself needs `display: block` to take effect, and that takes the
+    element out of table layout: the row groups left inside generate an
+    anonymous table box of their own, and that box shrink-wraps. The rule
+    meant to rescue a table too wide for its column then quietly narrowed
+    every table that was not too wide — a four-column reference sitting in the
+    left third of the page with nothing beside it.
+
+    Wrapped, nothing about the table changes. It stays a table, fills the
+    column `document.css` gives it, and overflows the box only where its own
+    minimum is wider than the column.
+
+    The rest is the core's, included rather than copied: the class list, the
+    inline widths a `:widths:` option sets, and the four parts.
+#}
+<div class="sds-table-scroll">
+    <table {%- include "body/table/table-classes.html.twig" -%}
+            {%- include "body/table/table-inline-style.html.twig" -%}>
+        {% include "body/table/table-caption.html.twig" %}
+        {% include "body/table/table-colgroups.html.twig" %}
+        {% include "body/table/table-header.html.twig" %}
+        {% include "body/table/table-body.html.twig" %}
+    </table>
+</div>

@@ -414,12 +414,18 @@
    are the medium density's, because a table in a document is being read
    rather than worked in.
 
-   It scrolls inside itself rather than pushing the page sideways: the block
-   above already gave up the measure, and a table wider than the column is the
-   one thing that would otherwise take the whole layout with it. */
+   It runs to the column: the block above already gave up the measure, so a
+   table is one of the things that fills what it was given rather than
+   stopping at the reading width.
+
+   A table wider than the column is the one thing that would otherwise take
+   the whole layout with it, and the scroller for it is `.sds-table-scroll`
+   from the class layer — a box **around** the table, which is where the
+   renderer's template puts it. Not `display: block` on the table itself:
+   that takes the element out of table layout, the row groups inside generate
+   an anonymous table box that shrink-wraps, and every table narrower than
+   its column then stops short of it. */
 :where(.sds-prose) table {
-  display: block;
-  overflow-x: auto;
   width: 100%;
   margin: 0 0 var(--space-4);
   border-collapse: collapse;
