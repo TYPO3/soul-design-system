@@ -1,5 +1,6 @@
 import { type TemplateResult } from 'lit';
 import './icon.ts';
+import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 export interface LinkProps {
     label: string;
@@ -7,6 +8,11 @@ export interface LinkProps {
     /** Opens away from this surface: gets the glyph, and says so to the
         browser as well as to the eye. */
     external?: boolean;
+    /** A glyph before the label — a repository, a chat, a feed. It never
+        replaces the label: four glyphs in this system may stand alone, and all
+        four say something about a result. A row of bare marks is a row of
+        pictures the reader has to already know. */
+    icon?: IconId;
 }
 export declare class SdsLink extends SdsElement {
     static properties: {
@@ -21,10 +27,22 @@ export declare class SdsLink extends SdsElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
+        icon: {
+            type: StringConstructor;
+        };
     };
     label: string;
     href: string;
     external: boolean;
+    icon?: IconId;
     constructor();
+    /** Whether a glyph is about direction rather than about the thing.
+  
+        The icon rule says a glyph leads its label and a direction glyph follows
+        it, and that is a property of the glyph — so the component decides rather
+        than the caller. A boolean here would be a caller's chance to put an
+        arrow in front of a word, which is the one arrangement the rule forbids
+        and the one a hurried page reaches for. */
+    private static leads;
     protected render(): TemplateResult;
 }

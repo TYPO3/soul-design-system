@@ -32,7 +32,14 @@ export interface CodeLine {
 export type CodeLang = 'bash' | 'css' | 'diff' | 'html' | 'javascript' | 'json' | 'markdown' | 'php' | 'sql' | 'text' | 'twig' | 'typescript' | 'typoscript' | 'xml' | 'yaml' | (string & {});
 export interface CodeBlockProps {
     /** The language, lower case as a fence writes it. Set in the label register
-        by `sds-code__lang`, so the upper case is the stylesheet's, not yours. */
+        by `sds-code__lang`, so the upper case is the stylesheet's, not yours.
+  
+        The attribute is `code-lang`, and the mismatch is deliberate: `lang` is a
+        global HTML attribute naming the *human* language of the content, so
+        `lang="json"` told every screen reader to switch to a language tag that
+        does not exist — for the whole block, because the host is
+        `display: contents` and language inherits regardless. Same collision the
+        table's `scrollable` and the note's `heading` were renamed for. */
     lang?: CodeLang;
     /** An affordance for the head that is not the copy button — a filename, a
         count. Set `copy` instead for copying; the component owns that. */
@@ -54,6 +61,7 @@ export declare class SdsCode extends SdsElement {
         lang: {
             type: StringConstructor;
             reflect: boolean;
+            attribute: string;
         };
         caption: {
             type: StringConstructor;
@@ -107,6 +115,7 @@ export declare class SdsCode extends SdsElement {
     private clipboard;
     private get copyButton();
     private line;
+    private get given();
     private get wrapped();
     protected render(): TemplateResult;
 }

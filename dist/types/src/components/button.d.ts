@@ -11,6 +11,19 @@ export interface ButtonProps {
     iconOnly?: boolean;
     title?: string;
     disabled?: boolean;
+    /** What pressing it does to a form around it.
+  
+        `button` by default, and that default is the whole reason this property
+        exists: a `<button>` with no type inside a `<form>` is a submit button,
+        so a filter, a toggle or a Cancel drawn with this element submits the
+        form the moment it is pressed. The browser then also blocks the
+        submission on the first invalid required field and moves the focus
+        there — which is a page doing something nobody asked it to, decided by an
+        attribute nobody wrote.
+  
+        A real submit says so. Then Enter in a text field submits too, which is
+        the behaviour a form should have and only that button should carry. */
+    type?: 'button' | 'submit' | 'reset';
 }
 export declare function buttonClass({ variant, size, iconOnly, disabled }: ButtonProps): string;
 /** The markup a button is, given whatever stands inside it. */
@@ -32,10 +45,15 @@ export declare class SdsButton extends SdsElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
+        type: {
+            type: StringConstructor;
+            reflect: boolean;
+        };
     };
     variant: ButtonVariant;
     size: ButtonSize;
     disabled: boolean;
+    type: 'button' | 'submit' | 'reset';
     private taken;
     constructor();
     connectedCallback(): void;

@@ -1,5 +1,6 @@
 import { type TemplateResult } from 'lit';
 import './icon.ts';
+import './field-error.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 export interface FieldProps {
@@ -19,8 +20,32 @@ export interface FieldProps {
         beside. A field with no visible label of its own owes one here. */
     label?: string;
     minWidth?: number;
+    /** The visible label, which turns this into a field in a *form*.
+  
+        A bare field is right where the surface around it says what it is for — a
+        header, a toolbar, a filter row. In a form nothing does, and a
+        placeholder is not a label: it leaves exactly when it is needed. Set
+        this and the element renders the row a form owes a control — label,
+        control, hint, error — instead of the control alone. */
+    caption?: string;
+    /** What the answer has to be, under the control. Never inside it. */
+    hint?: string;
+    /** What is wrong with what is in it. Sets the invalid state with it, so the
+        colour and the sentence cannot disagree. */
+    error?: string;
+    /** Said in words beside the label, not as an asterisk that needs a legend
+        somewhere else on the page. */
+    required?: boolean;
+    /** The control's id, so the label points at it and an error summary can. */
+    fieldId?: string;
+    name?: string;
+    /** `email`, `tel`, `url` — what the browser validates and which keyboard a
+        phone offers. */
+    type?: string;
+    /** Lines. Anything above one renders a `<textarea>`. */
+    rows?: number;
 }
-export declare function fieldClass({ focused, invalid, filled, select }: FieldProps): string;
+export declare function fieldClass({ focused, invalid, filled, select, rows, error }: FieldProps): string;
 export declare class SdsField extends SdsElement {
     static properties: {
         value: {
@@ -55,6 +80,32 @@ export declare class SdsField extends SdsElement {
             type: NumberConstructor;
             attribute: string;
         };
+        caption: {
+            type: StringConstructor;
+        };
+        hint: {
+            type: StringConstructor;
+        };
+        error: {
+            type: StringConstructor;
+        };
+        required: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
+        fieldId: {
+            type: StringConstructor;
+            attribute: string;
+        };
+        name: {
+            type: StringConstructor;
+        };
+        type: {
+            type: StringConstructor;
+        };
+        rows: {
+            type: NumberConstructor;
+        };
     };
     value: string;
     icon?: IconId;
@@ -65,7 +116,16 @@ export declare class SdsField extends SdsElement {
     options: readonly string[];
     label?: string;
     minWidth: number;
+    caption: string;
+    hint: string;
+    error: string;
+    required: boolean;
+    fieldId: string;
+    name: string;
+    type: string;
+    rows: number;
     constructor();
     private onInput;
     protected render(): TemplateResult;
+    private control;
 }

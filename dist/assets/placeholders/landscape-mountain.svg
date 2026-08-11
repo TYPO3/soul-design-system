@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-labelledby="title desc">
+  <title id="title">Abstract mountain landscape</title>
+  <desc id="desc">A decorative mountain landscape made from flat neutral planes, a dotted shadow and one orange trail marker.</desc>
+  <defs>
+    <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="2" fill="#726C63" />
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="750" fill="#FBFAF7" />
+
+  <path d="M0 492 178 365 276 426 438 292 566 406 737 226 884 386 1018 324 1200 467V750H0Z" fill="#E3DFD6" />
+  <path d="M134 493 438 292 426 425 566 406 737 226 681 420 884 386 1200 527V750H0V566Z" fill="#C9C3B7" />
+  <path d="M346 536 737 226 681 420 812 526 946 432 1200 578V750H0V612Z" fill="#726C63" />
+  <path d="M0 548 278 610 474 545 650 460 812 526 975 750H0Z" fill="#1C1A17" />
+  <path d="M650 460 812 526 905 640 774 589Z" fill="url(#dots)" />
+
+  <path d="M0 584 270 648 482 586 729 690 1200 620V750H0Z" fill="#FFFFFF" stroke="#E3DFD6" stroke-width="1" />
+  <path d="M0 646 260 690 482 633 735 734 1200 678V750H0Z" fill="#4A453D" />
+
+  <rect x="337" y="493" width="8" height="42" rx="4" fill="#FF8700" />
+</svg>
