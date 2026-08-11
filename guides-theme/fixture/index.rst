@@ -1,0 +1,257 @@
+:navigation-title: Overview
+
+=================================
+The Soul design system, as a book
+=================================
+
+This project is the fixture the theme is built against. It is written in
+reStructuredText rather than Markdown for one reason: the Guides Markdown
+parser reads CommonMark and nothing else, so an admonition, a ``confval``, a
+tab or a text role has no spelling there. A reference is made mostly of those.
+
+Two pages. This one is narrative — the shapes a page of prose falls into. The
+:doc:`reference` is a real one, and it is where the nodes that only a
+reference uses appear.
+
+.. toctree::
+   :maxdepth: 2
+
+   reference
+
+.. note::
+
+   Nobody reads this project. Every node kind appears exactly once so that it
+   can be looked at instead of guessed at, and where it looks wrong, that is
+   the finding.
+
+Headings
+========
+
+The page title above is the first level. This is the second.
+
+Third level
+-----------
+
+Fourth level
+~~~~~~~~~~~~
+
+Fifth level
+^^^^^^^^^^^
+
+Sixth level
+"""""""""""
+
+Six levels, because reStructuredText allows six and the type scale names
+three.
+
+Text
+====
+
+A paragraph with *emphasis*, **strong emphasis**, ``an inline literal``, and a
+`link to the renderer <https://docs.phpdoc.org/components/guides/guides/>`__. A
+second sentence, so the measure has something to hold: text is set at
+sixty-six characters and everything wider than words runs to the column.
+
+| A line block keeps the breaks the author put in,
+| which is what an address or a verse needs,
+| and it is also what ``confval`` builds its metadata from.
+
+   A block quote is somebody else's sentences, stepped in and marked at the
+   edge rather than set in italics.
+
+.. rubric:: A rubric
+
+A rubric is a heading that stays out of the outline — the one heading a
+reference uses that no table of contents should list.
+
+----
+
+The transition above is punctuation of the text, not a divider of the page.
+
+Text roles
+----------
+
+The words a manual has to say precisely: press :kbd:`Ctrl-K`, choose
+:guilabel:`Save`, edit :file:`config/system/settings.php`, run
+:command:`composer install`, and note that :abbr:`DS (Design System)` means
+something specific here. A formula may carry :sup:`superscript` and
+:sub:`subscript`, and :dfn:`a term being defined` is marked where it is first
+used.
+
+Lists
+=====
+
+- A bullet
+- A second bullet
+
+  - Nested, one level in
+  - And a second nested item
+
+- A third bullet
+
+1. An enumerated item
+2. A second one
+
+   a. A nested letter
+   b. And another
+
+3. A third
+
+Definition list
+   What the term means, set as ordinary prose one step in. This is the shape a
+   reference falls into whenever it names things.
+
+Second term
+   Terms carry the weight, because that is what somebody scans for.
+
+Admonitions
+===========
+
+Twelve of them, and the system has four tones. The mapping is a design
+decision, and this is where it can be made by looking rather than by argument.
+
+.. note::
+   A note.
+
+.. tip::
+   A tip.
+
+.. hint::
+   A hint.
+
+.. important::
+   Something important.
+
+.. caution::
+   A caution.
+
+.. attention::
+   Attention.
+
+.. warning::
+   A warning.
+
+.. danger::
+   Danger.
+
+.. error::
+   An error.
+
+.. seealso::
+   Somewhere else worth reading. This one has no tone in this system at all.
+
+.. admonition:: A title of its own
+
+   The generic form, which carries whatever title the author wrote.
+
+.. versionadded:: 1.1
+   What arrived.
+
+.. versionchanged:: 1.2
+   What moved.
+
+.. deprecated:: 2.0
+   What is going away.
+
+Code
+====
+
+.. code-block:: php
+   :caption: Where a caption sits, and which lines are marked
+   :linenos:
+   :emphasize-lines: 5
+
+   <?php
+   namespace TYPO3\CMS\Core;
+
+   // The scope a question is answered in.
+   final class Version
+   {
+       public function __construct(private readonly string $number) {}
+   }
+
+.. code-block:: yaml
+
+   versions:
+     - "13.4"   # LTS
+     - "14.3"
+   domains: [labels, xlf]
+
+A literal block introduced by a double colon::
+
+   vendor/bin/typo3 cache:flush
+
+.. code-block:: text
+
+   A block whose language is text: escaped, uncoloured, and the honest
+   answer when nobody said what it is.
+
+Tables
+======
+
+.. table:: A table with a caption of its own
+   :widths: auto
+
+   =========  ==============  ====================
+   Layer      What it is      Where
+   =========  ==============  ====================
+   tokens     the values      ``src/tokens/``
+   classes    the vocabulary  ``src/styles/``
+   elements   the behaviour   ``src/components/``
+   =========  ==============  ====================
+
+.. list-table:: A list table, which is how a wide one is written
+   :header-rows: 1
+
+   * - Command
+     - What it does
+     - When you reach for it
+   * - ``make verify``
+     - headers, classes, references, fit, cards, types, conventions
+     - before calling anything done
+   * - ``make guides``
+     - renders this project into ``site/``
+     - while the theme is being written
+
+Pictures
+========
+
+.. figure:: /_images/placeholder.svg
+   :alt: A placeholder
+
+   The caption, which sits under the picture and reads as a label for it
+   rather than as a sentence of the text.
+
+Footnotes and citations
+=======================
+
+A statement that needs a source [#note]_, and one that cites a work [CIT2026]_.
+
+.. [#note] The footnote itself, at the foot of the document.
+.. [CIT2026] A citation, which is a footnote with a name.
+
+Grouping
+========
+
+.. topic:: A topic
+
+   A block with a title of its own that stays out of the outline.
+
+.. sidebar:: A sidebar
+
+   An aside, which the core templates render as an admonition.
+
+.. container:: a-class-from-the-source
+
+   A container carries whatever class the author wrote, which is a policy
+   question rather than a styling one.
+
+.. hlist::
+   :columns: 3
+
+   - One
+   - Two
+   - Three
+   - Four
+   - Five
+   - Six

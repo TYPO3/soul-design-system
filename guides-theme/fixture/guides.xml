@@ -9,9 +9,14 @@
     `input-format` is the file extension, not the name the CLI help prints:
     the value goes straight into the filename it looks for, so "Markdown"
     makes it hunt for `index.Markdown`.
+
+    The fixture is reStructuredText because a reference is mostly made of
+    nodes Markdown has no spelling for: admonitions, confval, tabs, roles,
+    footnotes, glossaries. The Markdown extension stays registered so that
+    switching one attribute renders a Markdown project instead.
 -->
 <guides xmlns="https://www.phpdoc.org/guides"
-        input-format="md"
+        input-format="rst"
         links_are_relative="true"
         default_code_language="text">
     <project title="Soul — Guides fixture" version="1.0"/>

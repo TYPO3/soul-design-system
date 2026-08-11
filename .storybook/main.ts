@@ -14,8 +14,19 @@
    own detector would otherwise see this directory and switch shapes — see
    `.design-sync/NOTES.md` § Storybook. */
 
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
 import type { StorybookConfig } from '@storybook/web-components-vite';
 import remarkGfm from 'remark-gfm';
+
+/* The rendered documentation site, served beside the cards when there is one.
+
+   `make guides` writes it and `.gitignore` keeps it out, so on a fresh clone
+   the directory does not exist — and a static directory Storybook cannot find
+   is a Storybook that refuses to start. Conditional for that reason and no
+   other. */
+const SITE = join(import.meta.dirname, '..', 'site');
 
 const config: StorybookConfig = {
   stories: ['../docs/**/*.mdx', '../stories/**/*.stories.ts'],
@@ -77,6 +88,7 @@ const config: StorybookConfig = {
        than only built — an artefact nothing ever loads is an artefact nobody
        knows is broken. */
     { from: '../dist', to: '/dist' },
+    ...(existsSync(SITE) ? [{ from: '../site', to: '/site' }] : []),
   ],
 };
 
