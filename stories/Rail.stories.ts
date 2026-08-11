@@ -12,8 +12,13 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../src/components/rail.ts';
 import { type NavProps } from '../src/components/nav-base.ts';
+import { type RailEntry } from '../src/components/rail.ts';
 
-const meta: Meta<NavProps> = {
+interface RailArgs extends Omit<NavProps, 'items'> {
+  items: readonly RailEntry[];
+}
+
+const meta: Meta<RailArgs> = {
   title: 'Components/Rail',
   tags: ['autodocs', '!dev'],
   render: ({ items, active }) =>
@@ -29,9 +34,45 @@ const meta: Meta<NavProps> = {
 };
 
 export default meta;
-type Story = StoryObj<NavProps>;
+type Story = StoryObj<RailArgs>;
 
 export const Default: Story = {};
+
+/** A rail long enough to need sections. A group is a `<details>`, so folding
+    is the platform's — it works before a script does — and the group holding
+    the current item starts open without anyone saying so.
+
+    `active` counts across the whole rail with the groups flattened: a rail has
+    one current item wherever it sits, and "third item of the second group" is
+    thinking about the markup rather than about the page. */
+export const Grouped: Story = {
+  args: {
+    active: 4,
+    items: [
+      { label: 'overview', href: '#overview' },
+      { label: 'glossary', href: '#glossary' },
+      {
+        label: 'clients',
+        items: [
+          { label: 'installing', href: '#installing' },
+          { label: 'writing a skill', href: '#skill' },
+        ],
+      },
+      {
+        label: 'tools',
+        items: [
+          { label: 'typo3_icon_lookup', href: '#icon' },
+          { label: 'typo3_label_lookup', href: '#label' },
+          { label: 'typo3_schema_lookup', href: '#schema' },
+        ],
+      },
+      {
+        label: 'decisions',
+        items: [{ label: 'what is written down', href: '#written' }],
+      },
+    ],
+  },
+};
 
 /** Where a rail lists pages rather than tools, its items are links. */
 export const Links: Story = {

@@ -1,27 +1,108 @@
-/* sds-rail — the 210px tool rail.
+/* sds-rail — the 210px navigation rail.
 
-   Items are tool names, so they set in mono verbatim: never title-cased,
-   never prettified. `typo3_icon_lookup` is what `typo3_icon_lookup` is
-   called.
+   Items are often things the machine named — a tool, a page path — so they set
+   in mono verbatim: never title-cased, never prettified. `typo3_icon_lookup`
+   is what `typo3_icon_lookup` is called.
 
    The active item is a filled block, never a tint: a tint reads as "hovered"
-   or "disabled" depending on what is under it, and this system already
-   spends hover on a colour change. The accent marks the active item — one of
-   the exactly three places `--accent` may appear at all. */
+   or "disabled" depending on what is under it, and this system already spends
+   hover on a colour change. The accent marks the active item — one of the
+   exactly three places `--accent` may appear at all.
 
-import { html, type TemplateResult } from 'lit';
+   A rail long enough to need sections takes groups, which fold:
+
+     .items = ['overview', { label: 'tools', items: [...] }]
+
+   Data rather than composed elements, unlike the tabs: a group holds links and
+   no content of its own, and the caller is usually a renderer with a list of
+   pages rather than a page with markup to place. A group is a `<details>`, so
+   folding is the platform's — it works before any script runs, and the group
+   holding the current item is the one that starts open. */
+
+import { html, nothing, type TemplateResult } from 'lit';
+import './icon.ts';
 import { lines } from '../lib/template.ts';
 import { define } from '../lib/element.ts';
-import { SdsNav } from './nav-base.ts';
+import { SdsNav, navLabel, type NavItem } from './nav-base.ts';
+
+/** A folded section of a rail. */
+export interface RailGroup {
+  label: string;
+  items: readonly NavItem[];
+  /** Open whatever else is true. A group holding the current item opens
+      anyway, which is the case that matters and needs no saying. */
+  open?: boolean;
+}
+
+export type RailEntry = NavItem | RailGroup;
+
+const isGroup = (entry: RailEntry): entry is RailGroup =>
+  typeof entry !== 'string' && Array.isArray((entry as RailGroup).items);
 
 export class SdsRail extends SdsNav {
   protected override readonly block = 'sds-rail';
   protected override readonly item = 'sds-rail__item';
 
+  /* `active` counts across the whole rail, groups flattened, because a rail
+     has one current item wherever it sits. A caller that thinks in
+     "third item of the second group" is thinking about the markup. */
+  private flat(): NavItem[] {
+    return (this.items as readonly RailEntry[]).flatMap((entry) =>
+      isGroup(entry) ? [...entry.items] : [entry],
+    );
+  }
+
   protected override render(): TemplateResult {
-    return html`<div class="${this.block}">
+    const entries = this.items as readonly RailEntry[];
+    if (!entries.some(isGroup)) {
+      return html`<div class="${this.block}">
   ${lines(this.items_(), 2)}
 </div>`;
+    }
+
+    /* One walk, so a group knows which of its items is the current one
+       without counting from the outside. */
+    let at = 0;
+    const rendered = entries.map((entry) => {
+      if (!isGroup(entry)) return this.one(entry, at++);
+      const from = at;
+      const items = entry.items.map((item) => this.one(item, at++));
+      const holdsCurrent = this.active >= from && this.active < at;
+      return html`<details class="sds-rail__group" ?open="${Boolean(entry.open) || holdsCurrent}">
+    <summary><sds-icon name="actions-chevron-down"></sds-icon>${entry.label}</summary>
+    ${lines(items, 4)}
+  </details>`;
+    });
+
+    return html`<div class="${this.block}">
+  ${lines(rendered, 2)}
+</div>`;
+  }
+
+  /** One item, at its position in the flattened rail. */
+  private one(item: NavItem, index: number): TemplateResult {
+    const cls = index === this.active ? `${this.item} is-active` : this.item;
+    const href = typeof item === 'string' ? undefined : item.href;
+    const inside = this.inside_(item);
+    return href
+      ? html`<a class="${cls}" href="${href}" aria-current="${index === this.active ? 'page' : nothing}">${inside}</a>`
+      : html`<button type="button" class="${cls}" aria-current="${index === this.active ? 'true' : nothing}" @click="${() => this.pick(index)}">${inside}</button>`;
+  }
+
+  /* `choose` is the base's, and it reads the label out of `items` — which for
+     a grouped rail is the entries and not the items. Flattened first, so the
+     event says the name of the thing that was pressed. */
+  private pick(index: number): void {
+    const flat = this.flat();
+    if (index === this.active) return;
+    this.active = index;
+    this.dispatchEvent(
+      new CustomEvent('sds-change', {
+        detail: { index, label: navLabel(flat[index] as NavItem) },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 }
 

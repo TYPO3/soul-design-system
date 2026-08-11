@@ -2405,17 +2405,65 @@ var SdsTabs = class extends SdsNav {
 define("sds-tabs", SdsTabs);
 
 // src/components/rail.ts
-import { html as html11 } from "lit";
+import { html as html11, nothing as nothing4 } from "lit";
+var isGroup = (entry) => typeof entry !== "string" && Array.isArray(entry.items);
 var SdsRail = class extends SdsNav {
   constructor() {
     super(...arguments);
     this.block = "sds-rail";
     this.item = "sds-rail__item";
   }
+  /* `active` counts across the whole rail, groups flattened, because a rail
+     has one current item wherever it sits. A caller that thinks in
+     "third item of the second group" is thinking about the markup. */
+  flat() {
+    return this.items.flatMap(
+      (entry) => isGroup(entry) ? [...entry.items] : [entry]
+    );
+  }
   render() {
-    return html11`<div class="${this.block}">
+    const entries = this.items;
+    if (!entries.some(isGroup)) {
+      return html11`<div class="${this.block}">
   ${lines(this.items_(), 2)}
 </div>`;
+    }
+    let at = 0;
+    const rendered = entries.map((entry) => {
+      if (!isGroup(entry)) return this.one(entry, at++);
+      const from = at;
+      const items = entry.items.map((item) => this.one(item, at++));
+      const holdsCurrent = this.active >= from && this.active < at;
+      return html11`<details class="sds-rail__group" ?open="${Boolean(entry.open) || holdsCurrent}">
+    <summary><sds-icon name="actions-chevron-down"></sds-icon>${entry.label}</summary>
+    ${lines(items, 4)}
+  </details>`;
+    });
+    return html11`<div class="${this.block}">
+  ${lines(rendered, 2)}
+</div>`;
+  }
+  /** One item, at its position in the flattened rail. */
+  one(item, index) {
+    const cls = index === this.active ? `${this.item} is-active` : this.item;
+    const href = typeof item === "string" ? void 0 : item.href;
+    const inside = this.inside_(item);
+    return href ? html11`<a class="${cls}" href="${href}" aria-current="${index === this.active ? "page" : nothing4}">${inside}</a>` : html11`<button type="button" class="${cls}" aria-current="${index === this.active ? "true" : nothing4}" @click="${() => this.pick(index)}">${inside}</button>`;
+  }
+  /* `choose` is the base's, and it reads the label out of `items` — which for
+     a grouped rail is the entries and not the items. Flattened first, so the
+     event says the name of the thing that was pressed. */
+  pick(index) {
+    const flat = this.flat();
+    if (index === this.active) return;
+    this.active = index;
+    this.dispatchEvent(
+      new CustomEvent("sds-change", {
+        detail: { index, label: navLabel(flat[index]) },
+        bubbles: true,
+        composed: true
+      })
+    );
   }
 };
 define("sds-rail", SdsRail);
