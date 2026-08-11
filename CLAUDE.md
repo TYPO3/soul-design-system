@@ -1,18 +1,14 @@
 # CLAUDE.md
 
-Read [AGENTS.md](AGENTS.md) first. It routes to every other document, says
-which paths are source and which are generated, and lists the tasks and the
-gate. This file holds nothing beyond it — the three lines below are the ones
-worth having in context before the first tool call.
+`AGENTS.md` is the instruction for this repository, and it is imported below
+rather than pointed at: an import is in context before the first tool call,
+where a pointer is a file somebody still has to decide to open. Everything it
+says — which paths are source and which are generated, the tasks, the gate,
+what fails review — therefore holds here, in one copy, for both readers.
 
-- **Everything runs in the container.** `make <task>`, never `npm run` and
-  never a Node toolchain on the host. `make` alone prints the list.
-- **`make start` takes the stack down before bringing it up.** To see whether
-  it is running, `docker compose -f .infra/docker-compose.yml ps` — restart
-  only when `.infra/` changed.
-- **Do not edit generated files.** `components/`, `guidelines/`, `screens/`,
-  `dist/`, `ds-bundle/`, `fonts/`, `assets/icons/` all come from `src/` and
-  `stories/` via a task. AGENTS.md has the mapping.
+Nothing else belongs in this file. A rule written here as well as there is a
+rule that will drift on one side without anyone noticing; a rule only Claude
+can see is one no other reader can follow or correct, which is what
+`AGENTS.md` says about agent notes and applies to this file first.
 
-Before calling anything done: `make verify` and `make test`, both green, with
-no addon, spec or threshold weakened to get there.
+@AGENTS.md
