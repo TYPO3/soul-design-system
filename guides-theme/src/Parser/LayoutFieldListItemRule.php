@@ -10,9 +10,6 @@ use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
 use phpDocumentor\Guides\RestructuredText\Parser\Productions\FieldList\FieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
 
-use function strtolower;
-use function trim;
-
 /**
  * Reads `:layout:` from the field list at the top of a document.
  *
@@ -24,11 +21,11 @@ final class LayoutFieldListItemRule implements FieldListItemRule
 {
     public function applies(FieldListItemNode $fieldListItemNode): bool
     {
-        return strtolower($fieldListItemNode->getTerm()) === 'layout';
+        return \strtolower($fieldListItemNode->getTerm()) === 'layout';
     }
 
     public function apply(FieldListItemNode $fieldListItemNode, BlockContext $blockContext): MetadataNode
     {
-        return new LayoutNode(strtolower(trim($fieldListItemNode->getPlaintextContent())));
+        return new LayoutNode(\strtolower(\trim($fieldListItemNode->getPlaintextContent())));
     }
 }

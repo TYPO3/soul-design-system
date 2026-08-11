@@ -314,6 +314,25 @@ const CHECKS: readonly Check[] = [
     },
   },
 
+  /* The renderer is written in PHP, and nothing else here reads it. Without
+     this the one part of the repository in another language is also the one
+     part with no shape agreed on — and a theme meant to be read by people
+     who work on TYPO3 every day is the last place to invent a house style. */
+  {
+    name: 'php',
+    step: '6b',
+    label: 'the theme’s sources against the coding standard',
+    run() {
+      const php = spawnSync(process.execPath, [join(ROOT, 'scripts/php.ts'), '--check'], { encoding: 'utf8' });
+      const out = `${php.stdout ?? ''}${php.stderr ?? ''}`;
+      console.log(`   ${(/Found (\d+) of (\d+) files/.exec(out)?.[0]) ?? 'nothing to fix'}`);
+      if (php.status !== 0) {
+        process.stdout.write(out.split('\n').filter((l) => /^\s+\d+\) /.test(l)).map((l) => `  ${l.trim()}\n`).join(''));
+        fails.push('the theme’s PHP has drifted from the coding standard — run `make php`');
+      }
+    },
+  },
+
   {
     name: 'conventions',
     step: '7',

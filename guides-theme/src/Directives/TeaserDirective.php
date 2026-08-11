@@ -34,7 +34,7 @@ final class TeaserDirective extends SubDirective
         BlockContext $blockContext,
         CollectionNode $collectionNode,
         Directive $directive,
-    ): Node|null {
+    ): ?Node {
         return (new TeaserNode($collectionNode->getChildren()))->withOptions([
             'title' => $directive->getData(),
             'to' => $directive->getOption('to')->getValue(),

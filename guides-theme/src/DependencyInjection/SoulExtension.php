@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\DependencyInjection;
 
+use phpDocumentor\Guides\Nodes\Metadata\NavigationTitleNode;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
 use TYPO3\Soul\GuidesTheme\Nodes\TeaserNode;
-use phpDocumentor\Guides\Nodes\Metadata\NavigationTitleNode;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\Config\FileLocator;
-
-use function dirname;
 
 /**
  * What a project using this theme can set, and where it says so.
@@ -163,7 +161,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
             'themes' => [
                 'soul' => [
                     'extends' => 'default',
-                    'templates' => [dirname(__DIR__, 2) . '/resources/template'],
+                    'templates' => [\dirname(__DIR__, 2) . '/resources/template'],
                 ],
             ],
             'templates' => [
@@ -188,7 +186,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
         $container->setParameter('soul.footer', $config['footer'] ?? []);
         $container->setParameter('soul.navigation', $config['navigation'] ?? []);
 
-        $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
+        $loader = new PhpFileLoader($container, new FileLocator(\dirname(__DIR__, 2) . '/resources/config'));
         $loader->load('soul.php');
     }
 }

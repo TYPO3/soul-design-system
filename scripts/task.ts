@@ -48,6 +48,7 @@ const TASKS: Record<string, Task> = {
   fit: { cmd: node('scripts/fit.ts'), help: 'does every card fit its declared viewport' },
   ssr: { cmd: node('scripts/ssr.ts'), help: 'does every element render outside a browser' },
   coverage: { cmd: node('scripts/coverage.ts'), help: 'is every component shown in a story, a class and the Guides render' },
+  php: { cmd: node('scripts/php.ts'), help: 'format the theme’s PHP against typo3/coding-standards — ARGS=--check to only report' },
 
   // The documentation site
   guides: { cmd: node('scripts/guides.ts'), help: 'render the Guides fixture into site/ with the theme' },

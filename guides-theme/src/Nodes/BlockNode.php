@@ -17,6 +17,4 @@ use phpDocumentor\Guides\Nodes\Node;
  *
  * @extends CompoundNode<Node>
  */
-class BlockNode extends CompoundNode
-{
-}
+class BlockNode extends CompoundNode {}

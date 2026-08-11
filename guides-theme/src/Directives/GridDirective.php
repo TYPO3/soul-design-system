@@ -35,7 +35,7 @@ final class GridDirective extends SubDirective
         BlockContext $blockContext,
         CollectionNode $collectionNode,
         Directive $directive,
-    ): Node|null {
+    ): ?Node {
         return new GridNode($collectionNode->getChildren());
     }
 }

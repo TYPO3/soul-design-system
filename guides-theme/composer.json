@@ -15,6 +15,9 @@
     "phpdocumentor/guides-code": "^1.9",
     "phpdocumentor/guides-markdown": "^1.10"
   },
+  "require-dev": {
+    "typo3/coding-standards": "^0.9"
+  },
   "config": {
     "sort-packages": true
   },

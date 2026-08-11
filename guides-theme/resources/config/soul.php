@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
+use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
+use phpDocumentor\Guides\RestructuredText\Parser\Productions\DirectiveContentRule;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use TYPO3\Soul\GuidesTheme\Directives\BandDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\TeaserDirective;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Twig\ThemeExtension;
-use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\Productions\DirectiveContentRule;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 

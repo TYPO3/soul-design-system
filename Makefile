@@ -37,7 +37,7 @@ RUN := $(TASK) node scripts/task.ts
 
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
-TASKS := verify test cards typecheck fit ssr coverage build dist guides fonts icons \
+TASKS := verify test cards typecheck fit ssr coverage php build dist guides fonts icons \
          baseline shots diff sheets look sync status plan synced
 
 # The long-running ones. `app` is among them: it holds the environment every
@@ -74,6 +74,7 @@ help:
 	@echo '  make sheets          tile screenshots into contact sheets'
 	@echo '  make fonts icons     regenerate from the npm packages'
 	@echo '  make coverage        is every component shown in a story, a class and the render'
+	@echo '  make php             format the theme’s PHP; ARGS=--check to only report'
 	@echo '  make fit typecheck'
 	@echo
 	@echo '  make stop            take everything down'

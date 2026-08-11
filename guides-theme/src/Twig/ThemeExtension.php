@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Twig;
 
-use TYPO3\Soul\GuidesTheme\Nodes\Bands;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\TwigFunction;
+use TYPO3\Soul\GuidesTheme\Nodes\Bands;
 
 /**
  * The theme's settings, where a template can read them.
@@ -28,14 +28,13 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
      * @param array<int, array<string, mixed>> $navigation
      */
     public function __construct(
-        private readonly string|null $signet,
-        private readonly string|null $product,
-        private readonly string|null $brand,
-        private readonly string|null $home,
+        private readonly ?string $signet,
+        private readonly ?string $product,
+        private readonly ?string $brand,
+        private readonly ?string $home,
         private readonly array $footer = [],
         private readonly array $navigation = [],
-    ) {
-    }
+    ) {}
 
     /** @return array<string, mixed> */
     public function getGlobals(): array

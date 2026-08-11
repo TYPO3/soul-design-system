@@ -43,6 +43,10 @@ node_modules/
 # at without opening a container.
 /guides-theme/vendor/
 
+# the fixer's memory of what it has already looked at — machine state, and
+# tied to the absolute path it was written under
+/guides-theme/.php-cs-fixer.cache
+
 # the drop-in, copied into each project so the renderer can reach it
 /guides-theme/acceptance/styles/
 /docs/styles/

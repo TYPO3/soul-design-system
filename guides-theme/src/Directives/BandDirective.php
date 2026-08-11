@@ -39,7 +39,7 @@ final class BandDirective extends SubDirective
         BlockContext $blockContext,
         CollectionNode $collectionNode,
         Directive $directive,
-    ): Node|null {
+    ): ?Node {
         /* The title is an option and not a section heading, because a section
            heading inside a directive is not one: reStructuredText parses
            sections at document level, so a page that wrote `====` under a line
