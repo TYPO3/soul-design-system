@@ -1,17 +1,65 @@
 /* How the signet is built.
 
-   The grid, the stroke, the rounding and the crop marks, at the size the
+   The grid, the stroke, the rounding and the marker, at the size the
    construction is legible — one rounding throughout, half the stroke, which
    is the single rule the whole drawing follows.
 
    The artwork is the specimen. This card is a drawing of a drawing, and there
-   is no component that could produce it: the geometry is the subject, so the
-   construction lines, the measurements and the mark itself are one SVG. */
+   is no component that could produce it: the geometry is the subject, so every
+   comparison here is the mark with exactly one value swapped. It is composed
+   from one function rather than from copies, because a card that carries the
+   construction twenty times over is a card where nineteen of them go stale. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { dsCard } from '../lib/specimen.ts';
+
+const INK = 'var(--text-secondary)';
+const LINE = 'var(--text-muted)';
+const ACC = 'var(--accent)';
+
+/** The mark as it is drawn, in the box it is drawn in: 32 units, one per
+    pixel. Every comparison below passes one of these and nothing else. */
+const FRAME = 'M31 20V24A3 3 0 0 1 28 27H4A3 3 0 0 1 1 24V8A3 3 0 0 1 4 5H19';
+const MARKER = 'M23 5H28A3 3 0 0 1 31 8V16Z';
+
+interface Mark {
+  frame?: string;
+  marker?: string;
+  /** The stroke, which the rounding and the lines' weight both follow. */
+  stroke?: number;
+  /** The marker's own stroke, for the one comparison that varies only its
+      rounding and has to leave the frame beside it alone. */
+  markerStroke?: number;
+  /** The three session lines, by length. */
+  lines?: readonly [number, number, number];
+}
+
+const mark = (size: number, o: Mark = {}): string => {
+  const s = o.stroke ?? 2;
+  const [a, b, c] = o.lines ?? [14, 9, 16];
+  return `<svg viewBox="0 0 32 32" width="${size}" height="${size}" class="sds-signet">
+<path d="${o.frame ?? FRAME}" fill="none" stroke="${INK}" stroke-width="${s}" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="6" y="10" width="${a}" height="${s}" rx="${s / 2}" fill="${LINE}" /><rect x="6" y="15" width="${b}" height="${s}" rx="${s / 2}" fill="${LINE}" opacity="0.55" /><rect x="6" y="20" width="${c}" height="${s}" rx="${s / 2}" fill="${ACC}" />
+<path d="${o.marker ?? MARKER}" fill="${ACC}" stroke="${ACC}" stroke-width="${o.markerStroke ?? s}" stroke-linejoin="round" stroke-linecap="round" />
+</svg>`;
+};
+
+/** One comparison: the same mark at two sizes, with a verdict under it. */
+const panel = (chosen: boolean, value: string, note: string, o: Mark): string =>
+  `<div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--${chosen ? 'accent' : 'border-subtle'}); border-radius:var(--radius-card);">
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;">${mark(64, o)}${mark(32, o)}</div>
+      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--${chosen ? 'accent' : 'text-muted'});">${value}</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">${note}</div></div>
+    </div>`;
+
+const group = (title: string, aside: string, panels: string): string =>
+  `<div>
+    <div style="display:flex; align-items:baseline; gap:12px; padding-bottom:10px; margin-bottom:12px; border-bottom:1px solid var(--border-subtle);">
+      <span style="font-size:14px; font-weight:600;">${title}</span><span style="font-size:12px; color:var(--text-muted);">${aside}</span>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">${panels}</div>
+  </div>`;
 
 /** The card, as it is drawn. */
 const CARD = `<div class="spec" style="--spec-gap:22px">
@@ -31,282 +79,126 @@ const CARD = `<div class="spec" style="--spec-gap:22px">
   </div>
 
   <div style="display:flex; align-items:center; gap:34px; flex-wrap:wrap;">
-    <svg viewBox="0 0 128 100" width="112.64" height="88.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg>
+    ${mark(96)}
     <div style="display:flex; flex-direction:column; gap:7px;">
-      <div class="sds-mono">DRAWN IN A 128 &#215; 100 BOX</div>
-      <div class="spec-cap">stroke &#183; 7 units, round caps and round joins</div>
-      <div class="spec-cap">rounding &#183; <span style="color:var(--text-accent-quiet);">3.5 units everywhere</span> &#8212; half the stroke. Frame caps, line ends and the marker&#8217;s three points are one radius</div>
-      <div class="spec-cap">gap &#183; 7 units, ink to ink, never less than the stroke</div>
-      <div class="spec-cap">marker &#183; 36 across, 52 down &#8212; taller than wide, like the Soul</div>
-      <div class="spec-cap">corner radius &#183; 20 units, shared by frame and marker</div>
-      <div class="spec-cap">session lines &#183; 56 / 36 / 66 units, the last one accent</div>
+      <div class="sds-mono">DRAWN AT 32, ONE UNIT PER PIXEL</div>
+      <div class="spec-cap">box &#183; 32 across, 24 down, centred in a square viewBox</div>
+      <div class="spec-cap">stroke &#183; 2 units, round caps and round joins</div>
+      <div class="spec-cap">rounding &#183; <span style="color:var(--text-accent-quiet);">1 unit everywhere</span> &#8212; half the stroke. Frame caps, line ends and the marker&#8217;s three points are one radius</div>
+      <div class="spec-cap">gap &#183; 2 units, ink to ink, never less than the stroke</div>
+      <div class="spec-cap">marker &#183; 10 across, 13 down &#8212; taller than wide, like the Soul</div>
+      <div class="spec-cap">corner radius &#183; 4 units, shared by frame and marker</div>
+      <div class="spec-cap">session lines &#183; 14 / 9 / 16 units, the last one accent</div>
       <div class="sds-mono" style="color:var(--text-secondary);">the frame is one open path &#8212; both ends are caps, not cuts</div>
       <div class="sds-mono" style="color:var(--text-secondary);">the frame path stops gap + stroke short, because both caps reach half a stroke further</div>
+      <div class="sds-mono" style="color:var(--text-secondary);">every straight edge is a whole unit, so every straight edge is a whole pixel</div>
     </div>
-    <div style="display:flex; align-items:center; gap:11px;"><svg viewBox="0 0 128 100" width="38.40" height="30.00" class="sds-signet">
-<path d="M56 96.5H20A16.5 16.5 0 0 1 3.5 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="39" y="30.5" width="11" height="39" rx="3.5" fill="var(--text-muted)" /><rect x="53.5" y="30.5" width="21" height="39" rx="3.5" fill="var(--text-muted)" /><rect x="78" y="30.5" width="11" height="39" rx="3.5" fill="var(--text-muted)" />
-<path d="M72 3.5H108A16.5 16.5 0 0 1 124.5 20V56" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><span style="display:inline-flex; align-items:center; gap:9.9px; font-size:22px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:1.98px; height:18.70px; background:var(--accent); flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></div>
+    <div style="display:flex; align-items:center; gap:11px;"><svg viewBox="0 0 32 32" width="32" height="32" class="sds-signet">
+<path d="M14 27H4A3 3 0 0 1 1 24V15" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="8" y="11" width="3" height="10" rx="1" fill="var(--text-muted)" /><rect x="13" y="11" width="6" height="10" rx="1" fill="var(--text-muted)" /><rect x="21" y="11" width="3" height="10" rx="1" fill="var(--text-muted)" />
+<path d="M18 5H28A3 3 0 0 1 31 8V17" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="display:inline-flex; align-items:center; gap:9.9px; font-size:22px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:2px; height:19px; background:var(--accent); flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></div>
   </div>
 
-  <div>
-    <div style="display:flex; align-items:baseline; gap:12px; padding-bottom:10px; margin-bottom:12px; border-bottom:1px solid var(--border-subtle);">
-      <span style="font-size:14px; font-weight:600;">Marker rounding</span><span style="font-size:12px; color:var(--text-muted);">it has to be the radius the rest of the mark already uses</span>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M89.75 1.25H108A18.75 18.75 0 0 1 126.75 20V54.25Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M89.75 1.25H108A18.75 18.75 0 0 1 126.75 20V54.25Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M89.75 1.25H108A18.75 18.75 0 0 1 126.75 20V54.25Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">2.5 &#183; its own value</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Sharper than the caps beside it. Two rounding systems in one mark, and the eye catches it.</div></div>
-    </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--accent); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--accent);">3.5 &#183; chosen, = &#189; stroke</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">The same radius as the frame caps and the line ends. One rule for the whole mark.</div></div>
-    </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M94.00 5.5H108A14.5 14.5 0 0 1 122.5 20V50.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M94.00 5.5H108A14.5 14.5 0 0 1 122.5 20V50.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M94.00 5.5H108A14.5 14.5 0 0 1 122.5 20V50.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">5.5 &#183; softer than the caps</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Rounder than everything around it; the diagonal stops being a cut.</div></div>
-    </div></div>
-  </div>
+  ${group(
+    'Marker rounding',
+    'it has to be the radius the rest of the mark already uses',
+    panel(false, '0.5 &#183; its own value', 'Sharper than the caps beside it. Two rounding systems in one mark, and the eye catches it.', {
+      markerStroke: 1,
+      marker: 'M22.5 4.5H28.5A3.5 3.5 0 0 1 31.5 8V16.5Z',
+    }) +
+      panel(true, '1 &#183; chosen, = &#189; stroke', 'The same radius as the frame caps and the line ends. One rule for the whole mark.', {}) +
+      panel(false, '2 &#183; softer than the caps', 'Rounder than everything around it; the diagonal stops being a cut.', {
+        markerStroke: 4,
+        marker: 'M24 6H28A2 2 0 0 1 30 8V15Z',
+      }),
+  )}
 
-  <div>
-    <div style="display:flex; align-items:baseline; gap:12px; padding-bottom:10px; margin-bottom:12px; border-bottom:1px solid var(--border-subtle);">
-      <span style="font-size:14px; font-weight:600;">Marker height</span><span style="font-size:12px; color:var(--text-muted);">how far it runs down the right edge</span>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 56.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V42.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 56.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V42.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 56.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V42.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">42 down</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Nearly square. Reads as a corner, not as a form with a direction.</div></div>
-    </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--accent); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--accent);">52 down &#183; chosen</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">A 1 : 1.44 form &#8212; close to the Soul&#8217;s own proportion, and the diagonal gets a real slope.</div></div>
-    </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 76.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V62.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 76.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V62.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 76.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V62.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">62 down</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Long. Strong reference, but it eats the frame&#8217;s right side and crowds the accent line.</div></div>
-    </div></div>
-  </div>
+  ${group(
+    'Marker height',
+    'how far it runs down the right edge',
+    panel(false, '9 down', 'Nearly square. Reads as a corner, not as a form with a direction.', {
+      marker: 'M23 5H28A3 3 0 0 1 31 8V12Z',
+    }) +
+      panel(true, '13 down &#183; chosen', 'A 1 : 1.3 form &#8212; close to the Soul&#8217;s own proportion, and the diagonal gets a real slope.', {}) +
+      panel(false, '18 down', 'Long. Strong reference, but it eats the frame&#8217;s right side and crowds the accent line.', {
+        marker: 'M23 5H28A3 3 0 0 1 31 8V21Z',
+      }),
+  )}
 
-  <div>
-    <div style="display:flex; align-items:baseline; gap:12px; padding-bottom:10px; margin-bottom:12px; border-bottom:1px solid var(--border-subtle);">
-      <span style="font-size:14px; font-weight:600;">Marker width</span><span style="font-size:12px; color:var(--text-muted);">across the top edge</span>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H84.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M98.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H84.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M98.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H84.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M98.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">30 across</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Narrow and steep. Sharpest silhouette, weakest at 17&#8239;px.</div></div>
-    </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--accent); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--accent);">36 across &#183; chosen</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">The width chosen, with the added drop.</div></div>
-    </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H70.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M84.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H70.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M84.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H70.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M84.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">44 across</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Wide enough that the marker stops being a corner and becomes a lid.</div></div>
-    </div></div>
-  </div>
+  ${group(
+    'Marker width',
+    'across the top edge',
+    panel(false, '7 across', 'Narrow and steep. Sharpest silhouette, weakest at 16&#8239;px.', {
+      frame: 'M31 20V24A3 3 0 0 1 28 27H4A3 3 0 0 1 1 24V8A3 3 0 0 1 4 5H22',
+      marker: 'M26 5H28A3 3 0 0 1 31 8V16Z',
+    }) +
+      panel(true, '10 across &#183; chosen', 'The width chosen, with the added drop.', {}) +
+      panel(false, '13 across', 'Wide enough that the marker stops being a corner and becomes a lid.', {
+        frame: 'M31 20V24A3 3 0 0 1 28 27H4A3 3 0 0 1 1 24V8A3 3 0 0 1 4 5H16',
+        marker: 'M20 5H28A3 3 0 0 1 31 8V16Z',
+      }),
+  )}
 
-  <div>
-    <div style="display:flex; align-items:baseline; gap:12px; padding-bottom:10px; margin-bottom:12px; border-bottom:1px solid var(--border-subtle);">
-      <span style="font-size:14px; font-weight:600;">Stroke weight</span><span style="font-size:12px; color:var(--text-muted);">the gap and the rounding both follow it</span>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M125 64.00V80A17 17 0 0 1 108 97H20A17 17 0 0 1 3 80V20A17 17 0 0 1 20 3H80.00" fill="none" stroke="var(--text-secondary)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="27" width="56" height="6" rx="3" fill="var(--text-muted)" /><rect x="22" y="47" width="36" height="6" rx="3" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="67" width="66" height="6" rx="3" fill="var(--accent)" />
-<path d="M92.00 3H108A17 17 0 0 1 125 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M125 64.00V80A17 17 0 0 1 108 97H20A17 17 0 0 1 3 80V20A17 17 0 0 1 20 3H80.00" fill="none" stroke="var(--text-secondary)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="27" width="56" height="6" rx="3" fill="var(--text-muted)" /><rect x="22" y="47" width="36" height="6" rx="3" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="67" width="66" height="6" rx="3" fill="var(--accent)" />
-<path d="M92.00 3H108A17 17 0 0 1 125 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M125 64.00V80A17 17 0 0 1 108 97H20A17 17 0 0 1 3 80V20A17 17 0 0 1 20 3H80.00" fill="none" stroke="var(--text-secondary)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="27" width="56" height="6" rx="3" fill="var(--text-muted)" /><rect x="22" y="47" width="36" height="6" rx="3" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="67" width="66" height="6" rx="3" fill="var(--accent)" />
-<path d="M92.00 3H108A17 17 0 0 1 125 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">6 units</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Finer frame, more air. Goes weak below 20&#8239;px.</div></div>
-    </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--accent); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--accent);">7 units &#183; chosen</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Holds from 17&#8239;px up and matches the weight of the session lines.</div></div>
-    </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
-<path d="M123.75 69.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="25.75" width="56" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="45.75" width="36" height="8.5" rx="4.25" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="65.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
-<path d="M123.75 69.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="25.75" width="56" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="45.75" width="36" height="8.5" rx="4.25" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="65.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
-<path d="M123.75 69.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="25.75" width="56" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="45.75" width="36" height="8.5" rx="4.25" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="65.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg></div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">8.5 units</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Heavy. The interior closes up and the lines lose their separation.</div></div>
-    </div></div>
-  </div>
+  ${group(
+    'Stroke weight',
+    'the gap and the rounding both follow it',
+    panel(false, '1 unit', 'Finer frame, more air. Goes weak below 32&#8239;px, which is where this drawing is for.', {
+      stroke: 1,
+      frame: 'M31.5 20V24A3.5 3.5 0 0 1 28 27.5H4A3.5 3.5 0 0 1 0.5 24V8A3.5 3.5 0 0 1 4 4.5H19',
+      marker: 'M23 4.5H28.5A3.5 3.5 0 0 1 31.5 8V16.5Z',
+    }) +
+      panel(true, '2 units &#183; chosen', 'Two device pixels at 32, and the same weight as the session lines.', {}) +
+      panel(false, '4 units', 'Heavy. The interior closes up and the lines lose their separation.', {
+        stroke: 4,
+        frame: 'M30 20V24A2 2 0 0 1 28 26H4A2 2 0 0 1 2 24V8A2 2 0 0 1 4 6H19',
+        marker: 'M24 6H28A2 2 0 0 1 30 8V15Z',
+      }),
+  )}
 
   <div class="spec-cap">A SECOND PRODUCT, THE SAME CONSTRUCTION</div>
 
   <div style="display:flex; gap:30px; align-items:flex-start;">
     <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; flex:none;">
-      <svg viewBox="0 0 128 100" width="112.64" height="88.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg>
+      ${mark(96)}
       <div class="spec-cap">DEV COMPANION</div>
       <div class="spec-note" style="max-width:20ch;">A session ending in one answer.</div>
     </div>
     <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; flex:none;">
-      <svg viewBox="0 0 128 100" width="112.64" height="88.00" class="sds-signet">
-<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<path d="M38 29.5L38 70.5L77 50Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <svg viewBox="0 0 32 32" width="96" height="96" class="sds-signet">
+<path d="${FRAME}" fill="none" stroke="${INK}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M10 11L10 21L19 16Z" fill="${ACC}" stroke="${ACC}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+<path d="${MARKER}" fill="${ACC}" stroke="${ACC}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
 </svg>
       <div class="spec-cap">TRYOUT</div>
       <div class="spec-note" style="max-width:20ch;">Clone, <span class="sds-mono" style="white-space:nowrap;">ddev start</span>, done.</div>
     </div>
     <div class="spec-note" style="flex:1; min-width:0;">
       Everything structural is shared and not up for redrawing: the frame path, the
-      marker at 36&#8239;&#215;&#8239;52, stroke 7, the 3.5 rounding, the 7-unit gap. What a
+      marker at 10&#8239;&#215;&#8239;13, stroke 2, the 1-unit rounding, the 2-unit gap. What a
       product owns is the interior, and it gets exactly one idea there.
       <br /><br />
       The triangle is filled <em>and</em> stroked at the same weight, the way the corner
       marker is. That is not a shortcut: it makes the round join do the rounding, so its
-      three points come out at 3.5 like every other corner in the mark, without a second
-      construction to keep in step.
+      three points come out at 1 like every other corner in the mark, without a second
+      construction to keep in step. Its base is the one edge a screen can hold, so the
+      base is what sits on a whole unit; the two diagonals never land on a pixel and are
+      not asked to.
     </div>
   </div>
 
   <div style="display:flex; gap:30px; align-items:flex-start;">
     <div style="display:flex; align-items:flex-end; gap:20px; flex:none; padding-top:6px;">
-      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="32" height="25.6" aria-hidden="true"><use href="../assets/tryout-signet-l.svg#art"></use></svg><span class="spec-cap">L &#183; 32</span></div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="24" height="19.2" aria-hidden="true"><use href="../assets/tryout-signet-m.svg#art"></use></svg><span class="spec-cap">M &#183; 24</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="32" height="32" aria-hidden="true"><use href="../assets/tryout-signet-l.svg#art"></use></svg><span class="spec-cap">L &#183; 32</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="../assets/tryout-signet-m.svg#art"></use></svg><span class="spec-cap">M &#183; 24</span></div>
       <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="16" height="16" aria-hidden="true"><use href="../assets/tryout-signet-s.svg#art"></use></svg><span class="spec-cap">S &#183; 16</span></div>
     </div>
     <div class="spec-note" style="flex:1; min-width:0;">
-      Three files again, redrawn rather than scaled: <span class="sds-mono">tryout-signet-l.svg</span>,
-      <span class="sds-mono">-m.svg</span>, <span class="sds-mono">-s.svg</span>. A heavier stroke
-      inflates the triangle by half a stroke on every side, so its vertices move inward at
-      each step to hold the inked size still. S keeps the square viewBox, because a favicon
-      slot is square.
+      Three files again, each drawn in a box of its own size: <span class="sds-mono">tryout-signet-l.svg</span>
+      is 32 units, <span class="sds-mono">-m.svg</span> is 24 and <span class="sds-mono">-s.svg</span> is 16.
+      One unit is one pixel in every one of them, which is what makes a drawing true at the size it
+      is for and at every multiple of it. A heavier stroke inflates the triangle by half a stroke on
+      every side, so its vertices move inward at each step to hold the inked size still.
     </div>
   </div>
 
@@ -322,7 +214,7 @@ const meta: Meta = {
       group: 'Brand',
       name: 'Signet — construction',
       subtitle: 'How a signet is built for this system — one rounding throughout: half the stroke',
-      viewport: '700x1785',
+      viewport: '700x1961',
     }),
   },
 };
