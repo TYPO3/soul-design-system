@@ -35,7 +35,7 @@ Replace `[SUBJECT]` and leave the rest unchanged:
 
 ```text
 Use case: stylized-concept
-Asset type: decorative Storybook teaser illustration, wide 8:5 landscape
+Asset type: decorative teaser illustration, wide 8:5 landscape
 
 Primary request: Create a mature editorial spot-colour illustration of
 [SUBJECT] for a restrained technical design system.
@@ -70,18 +70,16 @@ travel posters, speech bubbles, dense detail, fine hatching and decorative
 clutter.
 ```
 
-## Shipped subjects
+## The subjects already drawn
 
-The base set contains eight distinct images, so a full eight-card view never
-has to repeat an illustration.
+Eight of them, so a full eight-card view never has to repeat an illustration.
+A ninth joins them and does not redraw one:
 
-| File | Subject |
-| --- | --- |
-| `tool-source-answer.png` | A person receiving an answer at a computer |
-| `tool-package-registry.png` | A blank physical index-card drawer |
-| `tool-external-path.png` | One cable leaving a compact enclosure |
-| `tool-changelog-history.png` | Geological layers as historical depth |
-| `tool-registration.png` | One module outside an empty socket |
-| `tool-written-record.png` | A lamp and an unwritten folded sheet |
-| `tool-search.png` | A flat search ring over blank paper cards |
-| `tool-compare.png` | Two abstract material swatches in a low holder |
+- A person receiving an answer at a computer
+- A blank physical index-card drawer
+- One cable leaving a compact enclosure
+- Geological layers as historical depth
+- One module outside an empty socket
+- A lamp and an unwritten folded sheet
+- A flat search ring over blank paper cards
+- Two abstract material swatches in a low holder

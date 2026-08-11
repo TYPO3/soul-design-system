@@ -1,13 +1,8 @@
 # Draw a signet to this construction
 
-Hand this file to an agent, name the product, and it should be able to produce
-three SVG files that belong to the family without seeing any of the existing
-marks. Everything below is the construction; the only thing left to invent is
-the interior.
-
-Three marks already exist and are worth reading first as worked examples:
-`assets/design-system-signet-l.svg`, `dev-companion-signet-l.svg`,
-`tryout-signet-l.svg`.
+Everything here is the construction, and it is written to be complete on its
+own: it assumes you cannot open a single mark already drawn to it. The only
+thing left to invent is the interior.
 
 ---
 
@@ -61,12 +56,16 @@ Pick the stroke, and the rest is decided:
 
 ## The interior is yours, under three conditions
 
-1. **One idea, not two.** The existing marks say: a session ending in an
-   answer; the thing you press; the parts and the frame around them. One
-   sentence about the product, drawn.
+1. **One idea, not two.** One sentence about the product, drawn. The marks
+   already in the family say, each in one idea: a session ending in an answer
+   — a terminal frame around two muted lines and one orange one; the thing you
+   press to start something — a triangle; the parts and the frame around them
+   — three unequal blocks between two crop marks.
 2. **It must survive 16px.** Draw it, render it at 16, and look. Detail that
    turns to mush is detail that has to go.
-3. **It must not repeat a sibling.** Read the three that exist before drawing.
+3. **It must not repeat a sibling.** Those three ideas are taken. A fourth
+   reading of a terminal, a second triangle or another set of stacked parts is
+   a member nobody can tell from the one it copies.
 
 ## Two techniques worth stealing
 
@@ -74,7 +73,10 @@ Pick the stroke, and the rest is decided:
   `stroke` in the same colour at the size's stroke width, with
   `stroke-linejoin="round"`. The join produces the rounding, the shape grows
   by half a stroke on every side, and you keep one construction instead of two.
-  Both the corner marker and Tryout's triangle are drawn this way.
+  The corner marker every mark carries is drawn this way, and so is the one
+  interior in the family that is a triangle — a triangle's three points come
+  out at the family's rounding through the round join, without a second
+  construction that would have to be kept in step with the first.
 - **An outer corner of radius 20 on a stroked path**: give the path radius
   20 − half the stroke, and the ink lands on 20.
 
@@ -83,11 +85,13 @@ Pick the stroke, and the rest is decided:
 Three files, named `<product>-signet-l.svg`, `-m.svg`, `-s.svg`, each with a
 `<title>` and `role="img" aria-label` naming the product, and a comment saying
 what the interior means and what changed at that size. Then render all three
-at 120, 40, 24 and 16px next to an existing mark and look at them — the check
-is whether they read as siblings, and nothing but your own eyes does it.
+at 120, 40, 24 and 16px, side by side, and look at them — the check is whether
+the three read as one mark at every size, and nothing but your own eyes does
+it.
 
-## The one licensed deviation
+## The one deviation, and it is not yours
 
-The design system's own mark uses a **stroked** accent where the product marks
-fill theirs. It is the frame the others are composed inside, and a frame that
-outweighs its contents is the wrong shape. A product mark fills its accent.
+A product mark **fills** its corner marker. One mark in the family strokes it
+instead — the design system's own, which is the frame the others are composed
+inside, and a frame that outweighs its contents is the wrong shape. You are
+drawing a product mark: fill it.
