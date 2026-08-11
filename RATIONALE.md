@@ -6,15 +6,9 @@ It was cut against a real surface and still answers to one: **TYPO3 Support App*
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
 
-## Sources
+## Brand
 
-- Repository: https://github.com/benjaminkott/typo3-support-app (branch `main`)
-- Published site: https://benjaminkott.github.io/typo3-support-app/
-- Existing theme, taken as inventory only, not as a basis: `build/guides/theme/assets/site.css`
-- Existing diagrams: `documentation/images/*.svg` (11 files)
-- Local codebase folder attached as `typo3-cms-mcp`
-
-The repository contains no logo, no brand mark and no webfont binaries. **No mark was invented.** The brand was **designed here**, from the product's own material, and is now decided.
+There was no logo, no brand mark and no webfont binary to inherit. **No mark was invented.** The brand was **designed here**, from the product's own material, and is now decided.
 
 **Signet.** A terminal frame holding a short session: two muted lines and one orange answer, with the top-right corner cut away by a solid orange marker. The marker is *not* the TYPO3 Soul — it takes the Soul's two-part reading, its orange and its 1 : 1.44 proportion, but none of its geometry, which is the right distance for a sub-product.
 
@@ -187,25 +181,12 @@ Referenced, not linked — `<img>` renders its file in a document of its own, wh
 
 That direction is deliberate. A system with two writing ends drifts, and design rules are not code that many people edit in parallel. A rule change is a decision, so it happens in one place and is then distributed.
 
-Exported to the repository: `SKILL.md`, `readme.md`, `styles.css`, `tokens/`, `guidelines/`, `components/`, `assets/`. Not exported: `Foundations Review.dc.html` and `support.js` (the working surface, not the deliverable).
+The build decides what crosses that line — the rules, the stylesheets, the cards and the assets an implementation needs go over; the working surface the system is developed on stays behind. Written out here as well, that list would be a second copy nobody regenerates, and the export would keep being right while the sentence quietly stopped being.
 
 **A component nobody can look at is not part of the system.** The rule — a story, a drawn class, and a page the Guides renderer produced — is not bookkeeping. Each surface fails differently, and that is the whole argument for asking for all three. A story is the only place a variant is stated rather than implied, and it is what the specimen card is generated from. A drawn class is the only proof that the name in the stylesheet and the name the element emits are still the same name; the pair drifted once, in the commit where a modifier existed in `components.css` and the element had no property for it. And a rendered document is the only place a component is surrounded by markup that was not written for it — prose it did not compose, a document layer under it, a renderer that has never heard of this system. A card is built to flatter the component; a page is not.
 
 The same reasoning is why an implementation may not invent a name. A theme that writes `sds-confval` has declared a component, in this system's namespace, that this system cannot render, cannot show in a card and cannot keep true — and the next implementation will declare it again, differently. The gap belongs in the system or nowhere, which is the component rule one level up.
 
 The pending lists are the concession, and they are bounded on purpose: they may only shrink, and an entry that has quietly become covered fails the gate. A list that can grow is an exemption list, and an exemption list is how a rule stops being one.
-
-## Index
-
-- `styles.css` — the entry point; imports everything below
-- `tokens/` — `fonts.css`, `colors.css`, `typography.css`, `spacing.css`, `radius.css`, `motion.css`
-- `SKILL.md` — the operating instruction for an agent building on this system; this file is the reasoning behind it
-- `guidelines/` — specimen cards: colour, type, spacing, brand, states, icons, diagram language
-- `ui_kits/documentation/index.dc.html` — the documentation surface, which is also the product presentation (direction B, chosen from three explored candidates)
-
-- `components/` — component specimen cards (core, navigation, data, surfaces, code)
-- `assets/icons/` — the icons this system uses, from `TYPO3/TYPO3.Icons`
-- `assets/diagrams/` — diagrams drawn to the rules above, one file each and referenced rather than linked: `answer-sources`, `installation-fallback`, `system-overview`
-- `assets/placeholders/` — mode-neutral 1200 × 750 tool and article illustrations generated from `guidelines/illustration-prompt.md`
 
 **Not part of this system, deliberately.** There is no application UI kit. The product is a CLI and an MCP server — sessions and feedback happen in the terminal and in the agent, not in a screen we would have to design. The one surface it has is the documentation page.
