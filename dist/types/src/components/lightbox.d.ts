@@ -36,6 +36,9 @@ export declare class SdsLightbox extends SdsElement {
     open: boolean;
     constructor();
     private get dialog();
+    connectedCallback(): void;
+    disconnectedCallback(): void;
+    private readonly onCommand;
     show(): void;
     close(): void;
     protected updated(): void;

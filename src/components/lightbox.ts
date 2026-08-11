@@ -10,10 +10,21 @@
 
    It shows the same two files a figure does, swapped by the same rule — the
    viewer opening in the mode the reader is not in would be a strange way to
-   discover that the pair mechanism has two implementations. */
+   discover that the pair mechanism has two implementations.
+
+   Opening it is written in markup, by name:
+
+     <sds-button for="the-drawing">Open the drawing</sds-button>
+     <sds-lightbox id="the-drawing" src="…" alt="…"></sds-lightbox>
+
+   `sds-figure` is the other way in and needs none of that: it owns the viewer
+   it renders, so it calls `show()` on it. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';
+/* Type-only, and deliberately so: hearing a command must not drag the element
+   that sends one into every page that opens a drawing. */
+import type { SdsCommand } from './button.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface LightboxProps {
@@ -53,6 +64,27 @@ export class SdsLightbox extends SdsElement {
   private get dialog(): HTMLDialogElement | null {
     return this.querySelector('dialog');
   }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.addEventListener('sds-command', this.onCommand as EventListener);
+  }
+
+  override disconnectedCallback(): void {
+    this.removeEventListener('sds-command', this.onCommand as EventListener);
+    super.disconnectedCallback();
+  }
+
+  /* What a button pointed at this one asks for. `sds-figure` opens its own
+     viewer by calling `show()`, because it owns it; anything else names this
+     element by id and sends the command, so opening a drawing is written in
+     markup rather than in a script that has to find both ends. */
+  private readonly onCommand = (event: CustomEvent<SdsCommand>): void => {
+    const command = event.detail?.command ?? 'show';
+    if (command === 'close') this.close();
+    else if (command === 'toggle') (this.open ? this.close() : this.show());
+    else this.show();
+  };
 
   show(): void {
     this.open = true;

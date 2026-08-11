@@ -28,6 +28,15 @@ export interface ButtonProps {
 export declare function buttonClass({ variant, size, iconOnly, disabled }: ButtonProps): string;
 /** The markup a button is, given whatever stands inside it. */
 export declare function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult;
+/** What a press asks of something else on the page.
+
+    `source` is the button, because a handler that hears the command usually
+    needs to know where it came from — which of three buttons was pressed, and
+    where the focus goes back to. */
+export interface SdsCommand {
+    command: string;
+    source: Element;
+}
 export declare class SdsButton extends SdsElement {
     static properties: {
         variant: {
@@ -49,13 +58,30 @@ export declare class SdsButton extends SdsElement {
             type: StringConstructor;
             reflect: boolean;
         };
+        for: {
+            type: StringConstructor;
+            reflect: boolean;
+        };
+        command: {
+            type: StringConstructor;
+            reflect: boolean;
+        };
     };
     variant: ButtonVariant;
     size: ButtonSize;
     disabled: boolean;
     type: 'button' | 'submit' | 'reset';
+    /** The id of what this button acts on — the same spelling `sds-menu` uses
+        for the navigation it opens, because it is the same relationship. */
+    for: string;
+    /** What it asks of it. `show` unless something else is written, since a
+        button pointed at a viewer, a dialog or a drawer is almost always the one
+        that opens it. */
+    command: string;
     private taken;
     constructor();
     connectedCallback(): void;
+    disconnectedCallback(): void;
+    private readonly onPress;
     protected render(): TemplateResult;
 }

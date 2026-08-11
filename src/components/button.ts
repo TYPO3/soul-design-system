@@ -82,6 +82,16 @@ export function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult 
     : html`<button class="${cls}" type="${type}">${body}</button>`;
 }
 
+/** What a press asks of something else on the page.
+
+    `source` is the button, because a handler that hears the command usually
+    needs to know where it came from — which of three buttons was pressed, and
+    where the focus goes back to. */
+export interface SdsCommand {
+  command: string;
+  source: Element;
+}
+
 export class SdsButton extends SdsElement {
   static override properties = {
     variant: { type: String, reflect: true },
@@ -89,12 +99,21 @@ export class SdsButton extends SdsElement {
     title: { type: String },
     disabled: { type: Boolean, reflect: true },
     type: { type: String, reflect: true },
+    for: { type: String, reflect: true },
+    command: { type: String, reflect: true },
   };
 
   declare variant: ButtonVariant;
   declare size: ButtonSize;
   declare disabled: boolean;
   declare type: 'button' | 'submit' | 'reset';
+  /** The id of what this button acts on — the same spelling `sds-menu` uses
+      for the navigation it opens, because it is the same relationship. */
+  declare for: string;
+  /** What it asks of it. `show` unless something else is written, since a
+      button pointed at a viewer, a dialog or a drawer is almost always the one
+      that opens it. */
+  declare command: string;
 
   /* The label, taken before Lit renders over it — the element renders light
      DOM, so `render()` would otherwise replace exactly what it is for. */
@@ -106,13 +125,46 @@ export class SdsButton extends SdsElement {
     this.size = 'md';
     this.disabled = false;
     this.type = 'button';
+    this.for = '';
+    this.command = 'show';
   }
 
   override connectedCallback(): void {
     const written = this.lifted();
     if (written.length) this.taken = written;
     super.connectedCallback();
+    this.addEventListener('click', this.onPress);
   }
+
+  override disconnectedCallback(): void {
+    this.removeEventListener('click', this.onPress);
+    super.disconnectedCallback();
+  }
+
+  /* The press, sent to whatever the button names.
+
+     The connection is an id and the message is an event, so neither end holds
+     the other: the button knows a name and a verb, the thing that answers
+     knows what to do about it, and a page wires the two in markup rather than
+     in a script that has to find both. The event is dispatched **on the
+     target**, the way the platform's own invokers do it, so what answers only
+     has to listen to itself — and it bubbles, so a page that wants to hear
+     every command still can.
+
+     Without `for` this does nothing at all: a button that starts work in place
+     is the ordinary case, and it keeps its own click. */
+  private readonly onPress = (): void => {
+    if (!this.for || this.disabled) return;
+    const target = document.getElementById(this.for);
+    if (!target) return;
+    target.dispatchEvent(
+      new CustomEvent<SdsCommand>('sds-command', {
+        detail: { command: this.command || 'show', source: this },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  };
 
   protected override render(): TemplateResult {
     /* Icon-only is the square, and it is a fact about the content rather than
