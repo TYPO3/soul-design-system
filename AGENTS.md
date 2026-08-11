@@ -72,7 +72,7 @@ and does not drift.
 | Why a rule exists, before extending or breaking it | `RATIONALE.md` |
 | Drawing a signet to the construction | `docs/guidelines/signet-prompt.md` |
 | Where the icons and fonts came from, and under what licence | `THIRD-PARTY.md` |
-| What the Guides theme still owes, and what it already carries (German) | `guides-theme/GAPS.md` |
+| What the Guides theme still owes (German) | `guides-theme/GAPS.md` |
 | How to take the theme into a project of your own | `docs/guides-theme/` |
 
 `SKILL.md` is the operating instruction and `RATIONALE.md` is its reasoning.
@@ -165,6 +165,7 @@ one) · `types` (`tsc --noEmit`) · `conventions` (the names in
 | `highlight` | every language `CodeLang` promises is actually registered |
 | `manager` | the Storybook shell itself boots |
 | `search` | a hit in the site index resolves from a page below the root |
+| `guides` | the rendered site, opened — the theme's findings, and the page with no script |
 
 Never disable an addon, a spec or a threshold to get a green run.
 

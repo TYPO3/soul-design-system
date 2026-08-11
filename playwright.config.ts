@@ -21,6 +21,15 @@ import { defineConfig, devices } from '@playwright/test';
 export const PORT = 6107;
 export const BASE_URL = `http://localhost:${PORT}`;
 
+/* The rendered documentation, on a port of its own.
+
+   Storybook serves the sources of this system; the site is what a renderer
+   made out of them, and the only place a template meets markup nobody here
+   wrote. It cannot be a route in the first server — the pages resolve their
+   assets relative to a publish root, which is the property under test. */
+export const SITE_PORT = 6108;
+export const SITE_URL = `http://localhost:${SITE_PORT}`;
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -40,15 +49,31 @@ export default defineConfig({
      information. */
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
 
-  webServer: {
-    /* The binaries directly, not through npm or npx: the container runs as
-       the host's UID with no home of its own, and npm wants a cache it can
-       write. There is nothing npm adds here anyway. */
-    command: `node_modules/.bin/storybook build && node scripts/serve.ts ${PORT} storybook-static`,
-    url: BASE_URL,
-    reuseExistingServer: !process.env['CI'],
-    timeout: 240_000,
-    stdout: 'ignore',
-    stderr: 'pipe',
-  },
+  webServer: [
+    {
+      /* The binaries directly, not through npm or npx: the container runs as
+         the host's UID with no home of its own, and npm wants a cache it can
+         write. There is nothing npm adds here anyway. */
+      command: `node_modules/.bin/storybook build && node scripts/serve.ts ${PORT} storybook-static`,
+      url: BASE_URL,
+      reuseExistingServer: !process.env['CI'],
+      timeout: 240_000,
+      stdout: 'ignore',
+      stderr: 'pipe',
+    },
+    {
+      /* Rendered here rather than expected to be lying around. A suite that
+         opens whatever the last `make guides` left behind reports on a tree
+         nobody has any more, and the one thing this spec exists to catch —
+         a template that stopped emitting what it used to — is exactly what
+         a stale render hides. The renderer is PHP over a handful of
+         documents and costs about a second. */
+      command: `node scripts/guides.ts && node scripts/serve.ts ${SITE_PORT} site`,
+      url: SITE_URL,
+      reuseExistingServer: !process.env['CI'],
+      timeout: 240_000,
+      stdout: 'ignore',
+      stderr: 'pipe',
+    },
+  ],
 });
