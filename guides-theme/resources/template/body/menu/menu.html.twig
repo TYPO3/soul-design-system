@@ -15,6 +15,12 @@
 
     A section with no pages under it leaves the rail listing the sections
     themselves, which is the only useful thing left to say.
+
+    `sds-rail` and not a hand-built column: what is written here are the links,
+    which only a renderer knows, and the element is where the rail's own
+    behaviour lives — the wrapper, the heading, and whatever it grows next.
+    Before the script arrives it is the same column, which is the whole point
+    of the class layer.
 #}
 {%- set here = node.menuEntries|filter(entry =>
         renderLink(entry.url) == '#'
@@ -22,9 +28,8 @@
     )|first -%}
 {%- set inside = here and here.children|length > 0 -%}
 
-<nav class="sds-rail" aria-label="Pages">
+<sds-rail label="{{ inside ? here.value.toString : '' }}">
     {%- if inside %}
-        <div class="sds-label">{{ here.value.toString }}</div>
         {%- for entry in here.children -%}
             {{ renderNode(entry) }}
         {%- endfor -%}
@@ -38,4 +43,4 @@
                href="{{ url }}"{% if url == '#' %} aria-current="page"{% endif %}>{{ entry.value.toString }}</a>
         {%- endfor -%}
     {%- endif -%}
-</nav>
+</sds-rail>

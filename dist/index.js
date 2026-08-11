@@ -3139,9 +3139,24 @@ import { html as html21, nothing as nothing8 } from "lit";
 var isGroup = (entry) => typeof entry !== "string" && Array.isArray(entry.items);
 var SdsRail = class extends SdsNav {
   constructor() {
-    super(...arguments);
+    super();
     this.block = "sds-rail";
     this.item = "sds-rail__item";
+    /** The items a server wrote between the tags.
+    
+          Same reason as `sds-menu`: a renderer resolves its own tree — which pages
+          there are, where they are from here, which one is being read, which fold
+          the reader is inside — and every one of those answers would have to be
+          encoded as data and worked out a second time to arrive as `items`. What
+          it writes are the classes below, so the two shapes are one shape. */
+    this.taken = [];
+    this.label = "";
+  }
+  static {
+    this.properties = {
+      ...SdsNav.properties,
+      label: { type: String }
+    };
   }
   /* `active` counts across the whole rail, groups flattened, because a rail
      has one current item wherever it sits. A caller that thinks in
@@ -3151,12 +3166,28 @@ var SdsRail = class extends SdsNav {
       (entry) => isGroup(entry) ? [...entry.items] : [entry]
     );
   }
+  connectedCallback() {
+    const written = this.lifted().filter((node) => node.nodeType === 1);
+    if (written.length) this.taken = written;
+    super.connectedCallback();
+  }
+  /** The heading, where there is one. */
+  heading() {
+    return this.label ? html21`<div class="sds-label">${this.label}</div>` : nothing8;
+  }
   render() {
+    if (this.taken.length) {
+      return html21`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
+  ${this.heading()}
+  ${this.taken}
+</nav>`;
+    }
     const entries = this.items;
     if (!entries.some(isGroup)) {
-      return html21`<div class="${this.block}">
+      return html21`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
+  ${this.heading()}
   ${lines(this.items_(), 2)}
-</div>`;
+</nav>`;
     }
     let at = 0;
     const rendered = entries.map((entry) => {
@@ -3169,9 +3200,10 @@ var SdsRail = class extends SdsNav {
     ${lines(items, 4)}
   </details>`;
     });
-    return html21`<div class="${this.block}">
+    return html21`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
+  ${this.heading()}
   ${lines(rendered, 2)}
-</div>`;
+</nav>`;
   }
   /** One item, at its position in the flattened rail. */
   one(item, index) {

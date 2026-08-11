@@ -40,8 +40,30 @@ const isGroup = (entry: RailEntry): entry is RailGroup =>
   typeof entry !== 'string' && Array.isArray((entry as RailGroup).items);
 
 export class SdsRail extends SdsNav {
+  static override properties = {
+    ...SdsNav.properties,
+    label: { type: String },
+  };
+
   protected override readonly block = 'sds-rail';
   protected override readonly item = 'sds-rail__item';
+
+  /** What this is the list of, standing over it.
+
+      A rail that holds one section of a site says which — the pages of
+      Guidelines are not the pages of a manual, and a column of ten links with
+      nothing above it does not say that. Left empty there is no heading, which
+      is right where the rail is the whole navigation there is. */
+  declare label: string;
+
+  /** The items a server wrote between the tags.
+
+      Same reason as `sds-menu`: a renderer resolves its own tree — which pages
+      there are, where they are from here, which one is being read, which fold
+      the reader is inside — and every one of those answers would have to be
+      encoded as data and worked out a second time to arrive as `items`. What
+      it writes are the classes below, so the two shapes are one shape. */
+  private taken: Element[] = [];
 
   /* `active` counts across the whole rail, groups flattened, because a rail
      has one current item wherever it sits. A caller that thinks in
@@ -52,12 +74,42 @@ export class SdsRail extends SdsNav {
     );
   }
 
+  constructor() {
+    super();
+    this.label = '';
+  }
+
+  override connectedCallback(): void {
+    /* Before Lit renders into this element: after the first render its
+       children are its own output. */
+    const written = this.lifted().filter((node): node is Element => node.nodeType === 1);
+    if (written.length) this.taken = written;
+    super.connectedCallback();
+  }
+
+  /** The heading, where there is one. */
+  private heading(): TemplateResult | typeof nothing {
+    return this.label ? html`<div class="sds-label">${this.label}</div>` : nothing;
+  }
+
   protected override render(): TemplateResult {
+    /* A rail is navigation, so it is a `<nav>` and says what it is a
+       navigation of — a page can hold this one and the sections in the bar,
+       and "navigation, navigation" is what a screen reader announces without
+       it. */
+    if (this.taken.length) {
+      return html`<nav class="${this.block}" aria-label="${this.label || 'Pages'}">
+  ${this.heading()}
+  ${this.taken}
+</nav>`;
+    }
+
     const entries = this.items as readonly RailEntry[];
     if (!entries.some(isGroup)) {
-      return html`<div class="${this.block}">
+      return html`<nav class="${this.block}" aria-label="${this.label || 'Pages'}">
+  ${this.heading()}
   ${lines(this.items_(), 2)}
-</div>`;
+</nav>`;
     }
 
     /* One walk, so a group knows which of its items is the current one
@@ -74,9 +126,10 @@ export class SdsRail extends SdsNav {
   </details>`;
     });
 
-    return html`<div class="${this.block}">
+    return html`<nav class="${this.block}" aria-label="${this.label || 'Pages'}">
+  ${this.heading()}
   ${lines(rendered, 2)}
-</div>`;
+</nav>`;
   }
 
   /** One item, at its position in the flattened rail. */

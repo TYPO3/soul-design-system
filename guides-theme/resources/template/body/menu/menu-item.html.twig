@@ -9,11 +9,16 @@
     A page with children is a `<details>`, open when the reader is inside it,
     which is a question the summary cannot ask and the children can: if any of
     them is the current page, the fold is open.
+
+    The chevron is the fold's only affordance — the browser's own triangle is
+    taken away by the stylesheet — so a summary written without one is a
+    heading nobody can tell is a control. It is the same markup `sds-rail`
+    renders, and it has to be, or the two drift.
 #}
 {%- if node.children|length -%}
     {%- set open = node.children|filter(child => renderLink(child.url) == '#')|length > 0 -%}
     <details class="sds-rail__group"{% if open or node.isInRootline %} open{% endif %}>
-        <summary>{{ node.value.toString }}</summary>
+        <summary><sds-icon name="actions-chevron-down"></sds-icon>{{ node.value.toString }}</summary>
         {%- set url = renderLink(node.url) -%}
         <a class="sds-rail__item{% if url == '#' %} is-active{% endif %}"
            href="{{ url }}"{% if url == '#' %} aria-current="page"{% endif %}>{{ node.value.toString }}</a>

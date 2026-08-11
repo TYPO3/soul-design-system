@@ -11,9 +11,40 @@ export interface RailGroup {
 }
 export type RailEntry = NavItem | RailGroup;
 export declare class SdsRail extends SdsNav {
+    static properties: {
+        items: {
+            type: ArrayConstructor;
+        };
+        active: {
+            type: NumberConstructor;
+            reflect: boolean;
+        };
+        label: {
+            type: StringConstructor;
+        };
+    };
     protected readonly block = "sds-rail";
     protected readonly item = "sds-rail__item";
+    /** What this is the list of, standing over it.
+  
+        A rail that holds one section of a site says which — the pages of
+        Guidelines are not the pages of a manual, and a column of ten links with
+        nothing above it does not say that. Left empty there is no heading, which
+        is right where the rail is the whole navigation there is. */
+    label: string;
+    /** The items a server wrote between the tags.
+  
+        Same reason as `sds-menu`: a renderer resolves its own tree — which pages
+        there are, where they are from here, which one is being read, which fold
+        the reader is inside — and every one of those answers would have to be
+        encoded as data and worked out a second time to arrive as `items`. What
+        it writes are the classes below, so the two shapes are one shape. */
+    private taken;
     private flat;
+    constructor();
+    connectedCallback(): void;
+    /** The heading, where there is one. */
+    private heading;
     protected render(): TemplateResult;
     /** One item, at its position in the flattened rail. */
     private one;

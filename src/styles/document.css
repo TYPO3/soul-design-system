@@ -197,8 +197,21 @@
    like every other block of it in this system. `sds-code` draws the same
    thing with a head and a copy button when JavaScript is there; this is what
    the page looks like before that, and after it if the renderer never asked
-   for one. */
-.sds-prose pre {
+   for one.
+
+   Not the one the element draws. `sds-code` renders `<pre class="sds-code__body">`
+   into a frame that already carries the border, the radius and the plane, and
+   a bare `pre` selector here is one step more specific than the component's
+   own class — so this rule won on every documentation page and drew a second
+   box inside the first, with its own hairline, its own radius and a
+   16px margin stranded below the last line inside the frame.
+
+   The exclusion is the component's own class, because that class is exactly
+   the difference being drawn: a `<pre>` with it is chrome the element owns, a
+   `<pre>` without it is markup the renderer emitted bare. This is the one
+   place the two layers name the same element, and the document layer yields —
+   it is the fallback. */
+.sds-prose pre:not(.sds-code__body) {
   margin: 0 0 var(--space-4);
   padding: var(--space-3) var(--space-4);
   overflow-x: auto;
@@ -211,7 +224,12 @@
   color: var(--text-primary);
 }
 /* The block already set the family and the size; the code inside it must not
-   set them a second time at 0.94 of the first. */
+   set them a second time at 0.94 of the first.
+
+   Every `<pre>`, including the component's — `components.css` states the same
+   thing for `.sds-code__body code`, but at equal specificity and in the file
+   that is linked first, so the inline rule above would win inside the element
+   too. This is the half of the pair that must not be scoped away. */
 .sds-prose pre code {
   font-size: inherit;
   color: inherit;
@@ -248,6 +266,19 @@
   line-height: var(--leading-code);
   color: var(--text-primary);
 }
+/* And the same gap under it once it has upgraded.
+
+   The host is `display: contents`, so the margin above belongs to a box that
+   stops existing the moment the element is defined — the frame inside it is
+   what the document then stacks, and it carries none. Two blocks in a row
+   touched, a paragraph after one sat against its border, and the whole page
+   shifted up by 16px per block as the bundle landed.
+
+   The same value as above for that last reason: what the reader sees before
+   the script and after it is the same page. It is stated here rather than on
+   `.sds-code` because spacing between blocks is what a document decides — a
+   product surface composes its own. */
+.sds-prose .sds-code { margin-bottom: var(--space-4); }
 
 /* ---------------------------------------------------------- in the line -- */
 

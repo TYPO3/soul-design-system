@@ -1092,14 +1092,22 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 }
 /* Sticky for the same reason as the bar: the list of pages is the frame, not
    part of what is being read, and a reader four screens down should not have
-   to come back up to leave the page. */
+   to come back up to leave the page.
+
+   It comes to rest where it started, not against the bar. The offset is the
+   body's own top padding, so the rail pinned and the rail at the top of the
+   page sit on the same line and nothing jumps as it catches — and the bar is
+   translucent, so a list stopping flush under it reads as text through glass
+   rather than as a column that has stopped. The floor is the same distance
+   again, so a rail longer than the screen ends clear of the bottom edge
+   instead of being cut by it. */
 .sds-body__rail {
   width: var(--width-sidebar);
   flex: none;
   position: sticky;
-  top: var(--height-header);
+  top: calc(var(--height-header) + var(--space-8));
   align-self: flex-start;
-  max-height: calc(100vh - var(--height-header));
+  max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
   overflow-y: auto;
 }
 
@@ -1615,6 +1623,23 @@ sds-menu:not(:defined) {
 }
 .sds-rail__item:hover { color: var(--text-primary); }
 .sds-rail__item.is-active { background: var(--accent); color: var(--text-on-accent); }
+/* Before the element upgrades, and on a page where it never will: the column a
+   server wrote. The host is inline until then, so without this the links run
+   together as a paragraph — and the window is every first paint. */
+sds-rail:not(:defined) {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-family: var(--font-mono);
+  font-size: var(--nav-font-size);
+}
+/* What the rail is a list of, where a renderer names it. `.sds-label` sets the
+   type and nothing else — everywhere else it labels a box that brings its own
+   spacing, and here it is a heading standing directly on its list. */
+.sds-rail > .sds-label {
+  margin-bottom: var(--space-2);
+  padding-inline: 9px;
+}
 
 /* A rail long enough to need sections. The fold is a `<details>`, so it works
    before any script does; the marker is the system's chevron and the browser's

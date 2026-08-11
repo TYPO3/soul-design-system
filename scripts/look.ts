@@ -13,6 +13,12 @@
      make look ARGS=specimens/screens/feature.html
      make look ARGS='specimens/screens/news.html 375'   # at a phone's width
      make look ARGS='specimens/screens/news.html 1440 light'   # one mode only
+     make look ARGS='http://site:4173/ 1400 both 800'   # 800px down the page
+
+   Scrolled, it is one screen rather than the whole page — a sticky header and
+   a sticky rail have no second state until something has moved under them, and
+   a full-height picture is taken with the page at the top where they do not
+   have it yet.
 
    A path a card declares works too — `screens/news.html` is what the bundle
    calls the same file, and typing the name a story wrote should not be an
@@ -28,7 +34,7 @@ import { pathToFileURL } from 'node:url';
 import { withBrowser } from './lib/browser.ts';
 import { inRepo, ROOT } from './lib/cards.ts';
 
-const [file, widthArg, modeArg] = process.argv.slice(2);
+const [file, widthArg, modeArg, scrollArg] = process.argv.slice(2);
 if (!file) {
   console.log('usage: node scripts/look.ts <file> [width] [light|dark|both]');
   console.log('   e.g. node scripts/look.ts specimens/screens/feature.html 1440 both');
@@ -53,6 +59,7 @@ const target = existsSync(join(ROOT, file)) ? file : inRepo(file);
 const address = /^https?:/.test(file) ? file : pathToFileURL(join(ROOT, target)).href;
 
 const width = Number(widthArg ?? 1440);
+const scroll = Number(scrollArg ?? 0);
 const modes = modeArg === 'light' || modeArg === 'dark' ? [modeArg] : (['light', 'dark'] as const);
 const OUT = resolve(join(ROOT, 'test-results'));
 mkdirSync(OUT, { recursive: true });
@@ -77,8 +84,13 @@ await withBrowser(async (browser) => {
          that makes them differ for no reason. */
       await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}' });
 
-      const out = join(OUT, `${name}-${width}-${mode}.png`);
-      await page.screenshot({ path: out, fullPage: true });
+      /* A full-height picture is always of the top of the page, whatever the
+         window has been scrolled to — so asking for a scroll is asking for the
+         screen at that point, which is the only place a pinned thing exists. */
+      if (scroll) await page.evaluate((y) => window.scrollTo(0, y), scroll);
+
+      const out = join(OUT, `${name}-${width}-${mode}${scroll ? `-at${scroll}` : ''}.png`);
+      await page.screenshot({ path: out, fullPage: !scroll });
       console.log(`   ${out.replace(`${ROOT}/`, '')}`);
     } finally {
       await ctx.close();
