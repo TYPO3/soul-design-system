@@ -77,9 +77,15 @@ test('every page fits the screen at every width', async ({ page, request }) => {
    panel are over the page on purpose, which is what they are for. */
 test('nothing on a page covers anything else', async ({ page, request }) => {
   const pages = await pageStories(request);
+  const WIDTHS_HERE = [1440, 1024, 860, 640, 375];
+
+  /* Sized like the sweep above, and for the same reason: this opens every page
+     at five widths and compares every pair of boxes on it, so what it costs is
+     a function of how many pages exist. */
+  test.setTimeout(Math.max(30_000, pages.length * WIDTHS_HERE.length * 700));
 
   for (const story of pages) {
-    for (const width of [1440, 1024, 860, 640, 375]) {
+    for (const width of WIDTHS_HERE) {
       await page.setViewportSize({ width, height: 900 });
       await gotoStory(page, story.id);
 
