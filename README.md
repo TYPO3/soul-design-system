@@ -1,9 +1,9 @@
 # Soul Design System
 
 A design system you **build and maintain here**: the tokens, the `sds-` class
-layer, and thirty-seven Lit elements. Everything else in this repo is generated
-from those three — the specimen cards, the Storybook pages, the npm package,
-and the guide the claude.ai design agent builds with.
+layer, and the Lit elements. Everything else in this repo is generated from
+those three — the specimen cards, the Storybook pages, the npm package, and
+the guide the claude.ai design agent builds with.
 
 `sds-` is the system's initials, and they are the reason the prefix survived
 the rename: Soul Design System reads the same as the one it replaced. Not a
@@ -37,7 +37,8 @@ with an HTML surface, which is why the classes have to work alone.
 | Output | Command | What it is |
 | --- | --- | --- |
 | Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens |
-| `components/`, `guidelines/`, `screens/` | `make cards` | all 39 specimen cards and 16 screens, rendered from the stories that compose them |
+| `specimens/` | `make cards` | all 42 specimen cards and 16 screens, rendered from the stories that compose them |
+| `site/` | `make guides` | the documentation, rendered from `docs/` by phpDocumentor Guides through this system's own theme |
 | `dist/` | `make dist` | the publishable ESM package and its types |
 | `ds-bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
 
@@ -94,6 +95,17 @@ exports point at `src/`, not at a compiled artefact.
 ```js
 import '@typo3/soul-design-system/dist/soul.css';   // tokens + class layer
 import '@typo3/soul-design-system/dist/soul.js';    // every sds- element
+```
+
+**A second stylesheet, for documents only.** `dist/document.css` is the
+document layer: element selectors for what a renderer emits and never gives a
+class — headings, paragraphs, lists, quotes, tables, code. It is scoped to
+`.sds-prose`, and it is **not** imported by `soul.css`. An application surface
+wants no opinion about every `<p>` on the page; a page of prose does, and asks
+for it:
+
+```js
+import '@typo3/soul-design-system/dist/document.css';
 ```
 
 **The import path is the path in the repository.** There are no friendly
@@ -193,22 +205,24 @@ creates a second one. It compares against the anchor the project stores
 | `src/tokens/*.css` | colour, type, control scale, spacing, radius, motion — the values |
 | `src/styles/styles.css` | the single entry point: tokens, then the component layer |
 | `src/styles/components.css` | the `sds-` class vocabulary every surface is built from |
+| `src/styles/document.css` | the document layer — what a renderer emits and never classes, scoped to `.sds-prose`. Also **not** in the `styles.css` closure: an application surface takes no opinion about every `<p>` |
 | `src/styles/_specimen.css` | chrome for the cards only — deliberately **not** in the `styles.css` closure, so a rendered design never inherits it |
 | `src/components/*.ts` | the Lit elements and the template functions they render |
 | `src/lib/` | the element base, the icon inliner, the static renderer |
 | `src/index.ts` | the bundle entry — importing it registers every `sds-*` element |
 | | |
-| `stories/` | the docs, and the specimen every card and screen is generated from |
-| `docs/*.mdx` | the written guideline pages |
-| `guidelines/` | **generated** — the 32 token-layer specimens |
-| `screens/` | **generated** — the 16 whole screens, offered as Starting Points in a consuming project |
+| `stories/` | the specimen every card and screen is generated from, and the components with their controls |
+| `docs/**.rst` | the published documentation — the manual, and the ten guideline pages with their specimens embedded |
+| `guides-theme/` | the Composer package that maps phpDocumentor Guides onto this system, and the acceptance render it is checked against |
 | `tests/` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
 | `.infra/` | Dockerfile, compose and the entrypoint |
+| `.github/` | the gate on every push, and the site published from `main` |
 | | |
-| `components/` | **generated** — the 7 component cards |
+| `specimens/` | **generated** — the 42 cards and the 16 screens, the latter offered as Starting Points in a consuming project |
 | `fonts/`, `assets/icons/` | **generated** from the npm packages |
 | `ds-bundle/`, `dist/` | **generated** exports |
+| `site/` | **generated** — the publish root, and the one export that is not committed: a drop-in is copied, a site is published |
 | | |
 | `ARCHITECTURE.md` | how this repo is built, and what has already gone wrong |
 | `SKILL.md` | the build rules — the operating instruction |
@@ -228,7 +242,8 @@ A screen is its own thumbnail — there is no thumbnail file anywhere.
 | `storybook` | the documentation surface, on a port Docker picks |
 | `verify` | the gate: headers, classes, coverage, references, fit, card staleness, types, conventions |
 | `test` | the Playwright suite — every story renders, components match their static render, axe |
-| `cards` | regenerate the 7 component cards from their stories |
+| `cards` | regenerate the 42 specimen cards from their stories |
+| `guides` | render `docs/` into `site/` with the theme — the documentation as it will be served |
 | `build` | assemble `ds-bundle/`, the upload payload |
 | `dist` | build the publishable ESM package and its types |
 | `sync` | build + verify + what-would-change + upload plan |

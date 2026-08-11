@@ -21,17 +21,23 @@ is what they are — a token is not a lesser thing than a component:
 - `src/tokens/*.css` — the values. Nothing else declares one.
 - `src/styles/` — `styles.css` is the single entry point and imports the
   tokens then the component layer. `components.css` is the `sds-` vocabulary.
-  `_specimen.css` is chrome for the cards and is deliberately **outside** the
-  `styles.css` closure, so a rendered design never inherits it.
+  `document.css` is the document layer and `_specimen.css` is chrome for the
+  cards; both are deliberately **outside** the `styles.css` closure — see
+  below.
 - `src/components/*.ts` — the Lit elements, each exporting a plain template
   function beside its class. `src/lib/` holds what they share and
   `src/index.ts` is the bundle entry.
 
+Two directories beside it are source as well, and both are read by something
+other than Storybook: `docs/` is the published documentation, written as RST
+and rendered by phpDocumentor Guides, and `guides-theme/` is the Composer
+package that maps that renderer onto this system. A guideline page there and a
+story here show the same specimen, because the page embeds the same card.
+
 Everything else is generated from those and must not be edited by hand: every
-card under `components/` and `guidelines/`, every screen under `screens/`,
-`fonts/` and `assets/icons/`, the Storybook build, `dist/` and `ds-bundle/`.
-`make verify` fails on a card that no story produces, so the hand-written form
-cannot come back one file at a time.
+card and screen under `specimens/`, `fonts/` and `assets/icons/`, the Storybook
+build, `dist/`, `ds-bundle/` and `site/`. `make verify` fails on a card that no
+story produces, so the hand-written form cannot come back one file at a time.
 
 `fonts/` and `assets/` stay at the root rather than under `src/`: they are
 generated artefacts of npm packages, not sources, and the upload bundle wants
@@ -45,6 +51,60 @@ change to two literals in `scripts/build.ts`, and that pairing broke twice.
 `rewriteRefs` now counts the climb from the directory the file lands in, and
 no caller states it. What still has to move with the layout is the `@import`
 rewriting, which names paths rather than depths.
+
+**Three export surfaces, and only one of them is not committed.** `dist/` is
+the npm drop-in, `ds-bundle/` is the upload payload for the design agent, and
+`site/` is the publish root the rendered documentation lands in. The first two
+are in git because somebody copies them — a consumer takes `dist/` over a
+clone, and the sync uploads `ds-bundle/` file by file. Nobody copies a rendered
+site; it is published, from `main`, by the workflow in `.github/`. Committing
+it would be committing the same pages twice, once as source and once as output.
+
+## Two layers sit outside the entry point, for one reason
+
+`styles.css` imports the tokens and the component layer, and nothing else.
+`document.css` and `_specimen.css` are linked separately by whoever needs them.
+
+The reason is the same in both cases and it is worth stating once: **a
+stylesheet that has an opinion about a bare element cannot be taken back.**
+`document.css` styles `h1`–`h6`, `p`, `ul`, `dl`, `blockquote`, `table`, `code`
+— what a renderer emits and never gives a class to. In a document that is the
+whole point; in an application surface it is a system reaching past the classes
+it was asked for and into markup it does not own. Someone building a settings
+form gets a paragraph rhythm they never asked for and has to undo it.
+
+So the document layer is scoped to `.sds-prose` *and* shipped as its own file.
+The theme wraps the renderer's output in that class; the furniture around it —
+bar, rail, footer — stays with the component layer, which is where it was
+already drawn. `_specimen.css` is outside for the mirror-image reason: it draws
+card chrome, and a design built with this system must never inherit it.
+
+The document layer is not in `ds-bundle/`. That upload is for designing with
+the system, and nobody sets a document in it — one flat root, unchanged.
+
+## Two packages come out of this tree, and they leave by different doors
+
+**npm needs no split.** `package.json` is at the root, `files` names `dist/`,
+`src/`, `fonts/` and `assets/`, and `npm publish` from the root ships exactly
+that.
+
+**Composer does.** Packagist reads the `composer.json` at the root of a
+repository, so a package in a subdirectory does not exist for it. `guides-theme/`
+therefore has to be pushed to a read-only repository of its own on every tag —
+a subtree split, the same mechanic `phpdocumentor/guides` uses for its own
+`packages/*`, with `splitsh-lite` doing the work in CI.
+
+**One decision is still open, and it is the one a consumer feels.** The split
+theme needs the stylesheets, and a PHP project cannot pull npm. Either the
+split carries the built files — `dist/soul.css`, `document.css`, `soul.js` and
+the faces move into `guides-theme/resources/dist/` at release, and a
+documentation build needs Composer and nothing else — or the theme states as a
+precondition that somebody else puts them in place. Today it is the second:
+`docs/guides-theme/installation.rst` tells the reader to copy the drop-in from
+`path/to/soul-design-system/dist/` into their output after the render, and
+leaves how it got onto that machine to them. That instruction is honest and it
+is a step a Composer-only project cannot take without help — which is the
+argument for the first, whenever the split is written.
 
 ## Decisions that were made on purpose
 

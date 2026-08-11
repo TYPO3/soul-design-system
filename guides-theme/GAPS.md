@@ -301,7 +301,10 @@ schreibt. Es steht:
   Screens. Das ist die Buchhaltung. Was dabei herauskommt, öffnet kein Spec:
   keine der Seiten unter `site/` wird geladen, gemessen oder mit einem Bild
   verglichen. Jeder Befund in diesem Dokument gilt deshalb so lange, wie sich
-  jemand erinnert, hingesehen zu haben.
+  jemand erinnert, hingesehen zu haben. Seit `.github/workflows/ci.yml` läuft
+  `make guides` bei jedem Push auf `main` — das fängt ab, was der Renderer
+  selbst meldet (`--fail-on-error`) und was aus der Site herauszeigt. Was auf
+  der Seite steht, sieht auch dieser Lauf nicht an.
 
 ## Gap 5 — Eigenschaften gegen Markup — **der teuerste Posten ist zu**
 
