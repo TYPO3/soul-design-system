@@ -21,8 +21,7 @@ import { mkdirSync } from 'node:fs';
 import { basename, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { chromium } from 'playwright';
-
+import { withBrowser } from './lib/browser.ts';
 import { ROOT } from './lib/cards.ts';
 
 const [file, widthArg, modeArg] = process.argv.slice(2);
@@ -38,25 +37,30 @@ const OUT = resolve(join(ROOT, 'test-results'));
 mkdirSync(OUT, { recursive: true });
 
 const name = basename(file).replace(/\.html$/, '');
-const browser = await chromium.launch();
 
-for (const mode of modes) {
-  const ctx = await browser.newContext({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
-  const page = await ctx.newPage();
-  await page.goto(pathToFileURL(join(ROOT, file)).href);
-  /* The mode is forced on `<html>` rather than through the emulated preference:
-     that is what the theme switch does, and a page has to be photographed in
-     the state a reader can actually put it in. */
-  await page.evaluate((m) => document.documentElement.setAttribute('data-theme', m), mode);
-  await page.evaluate(() => document.fonts.ready);
-  // Two runs must be comparable, and a spinner mid-sweep is the one thing that
-  // makes them differ for no reason.
-  await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}' });
+/* `withBrowser` rather than a launch of its own: it closes the browser when
+   this throws *and* when it is interrupted, and a script that opens one by
+   itself is a script that can leave one running. */
+await withBrowser(async (browser) => {
+  for (const mode of modes) {
+    const ctx = await browser.newContext({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
+    try {
+      const page = await ctx.newPage();
+      await page.goto(pathToFileURL(join(ROOT, file)).href);
+      /* The mode is forced on `<html>` rather than through the emulated
+         preference: that is what the theme switch does, and a page has to be
+         photographed in the state a reader can actually put it in. */
+      await page.evaluate((m) => document.documentElement.setAttribute('data-theme', m), mode);
+      await page.evaluate(() => document.fonts.ready);
+      /* Two runs have to be comparable, and a spinner mid-shot is the one thing
+         that makes them differ for no reason. */
+      await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}' });
 
-  const out = join(OUT, `${name}-${width}-${mode}.png`);
-  await page.screenshot({ path: out, fullPage: true });
-  console.log(`   ${out.replace(`${ROOT}/`, '')}`);
-  await ctx.close();
-}
-
-await browser.close();
+      const out = join(OUT, `${name}-${width}-${mode}.png`);
+      await page.screenshot({ path: out, fullPage: true });
+      console.log(`   ${out.replace(`${ROOT}/`, '')}`);
+    } finally {
+      await ctx.close();
+    }
+  }
+});

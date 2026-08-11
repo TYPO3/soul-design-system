@@ -6,7 +6,7 @@
    Serves the repo root so the cards resolve ../styles.css and ../assets/…
    exactly as they will once uploaded. Pass a port as the first argument. */
 import { createReadStream, existsSync, statSync } from 'node:fs';
-import { createServer } from 'node:http';
+import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { extname, join, normalize, resolve } from 'node:path';
 
 import { ROOT } from './lib/cards.ts';
@@ -26,7 +26,7 @@ const TYPES: Record<string, string> = {
   '.md': 'text/markdown; charset=utf-8',
 };
 
-createServer((req, res) => {
+const handler = (req: IncomingMessage, res: ServerResponse): void => {
   const url = decodeURIComponent((req.url ?? '/').split('?')[0] ?? '/');
   // normalize + prefix check: a request for ../../etc/passwd must not escape DIR
   const path = resolve(join(DIR, normalize(url)));
@@ -50,7 +50,27 @@ createServer((req, res) => {
     'cache-control': 'no-store',
   });
   createReadStream(target).pipe(res);
-}).listen(PORT, () => {
+};
+
+const server = createServer(handler).listen(PORT, () => {
   console.log(`serving ${DIR}`);
   console.log(`  http://localhost:${PORT}/`);
 });
+
+/* Shut down when told to.
+
+   The Playwright runner starts this as its `webServer` and sends SIGTERM when
+   the suite is over. Node's default is to exit on that, which ends the process
+   and leaves whatever was mid-flight to the kernel — good enough until a
+   request is still streaming a font, and then the run's last output is a
+   broken pipe from a server that was already going away.
+
+   `closeAllConnections` is the part that matters: without it a keep-alive
+   socket holds the server open, `close()` never resolves, and the runner waits
+   out its grace period and kills it. */
+for (const signal of ['SIGINT', 'SIGTERM'] as const) {
+  process.once(signal, () => {
+    server.closeAllConnections();
+    server.close(() => process.exit(0));
+  });
+}
