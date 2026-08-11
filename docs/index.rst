@@ -22,7 +22,7 @@ once.
    :hidden:
 
    design-system
-   guides-theme
+   guides-theme/index
    frontend
    documents
    guidelines/index
@@ -37,7 +37,7 @@ once.
       a design from. Nothing is described in prose that is not also shown.
 
    .. teaser:: As a render guide template
-      :to: /guides-theme
+      :to: /guides-theme/index
 
       A Composer package that turns reStructuredText or Markdown into pages
       set with this system, with the document layer that styles what a

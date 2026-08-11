@@ -31,14 +31,14 @@
         <product>Soul Design System</product>
         <navigation>
             <link href="/design-system" label="Design system"/>
-            <link href="/guides-theme" label="Guides theme"/>
+            <link href="/guides-theme/index" label="Guides theme"/>
             <link href="/frontend" label="Frontend"/>
             <link href="/guidelines/index" label="Guidelines"/>
         </navigation>
         <footer>
             <group title="Using it">
                 <link href="/design-system" label="As a Claude design system"/>
-                <link href="/guides-theme" label="As a render guide template"/>
+                <link href="/guides-theme/index" label="As a render guide template"/>
                 <link href="/frontend" label="As a standalone frontend"/>
             </group>
             <group title="The rules">

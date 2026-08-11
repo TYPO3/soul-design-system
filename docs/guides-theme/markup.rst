@@ -1,0 +1,244 @@
+:navigation-title: Core markup
+
+================================
+Core markup, and what it becomes
+================================
+
+Most of a page is not written with this theme's directives. It is written with
+the renderer's own — an admonition, a code block, a table, a ``confval`` — and
+what those come out as is the theme's real subject. This page says what each
+one becomes, and where the answer was a decision rather than a mapping.
+
+Nothing here is something an author writes differently. The source is
+ordinary reStructuredText; the theme is what stands between it and the markup.
+
+.. contents::
+   :local:
+
+Admonitions
+===========
+
+The renderer has twelve types. This system has four tones, and the mapping is
+Sphinx's own grouping rather than a ladder of severity.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Type
+     - Tone
+   * - ``note``, ``hint``, ``important``, ``seealso``, ``todo``, and any
+       generic ``.. admonition::``
+     - ``info`` — the tone that does not tint
+   * - ``tip``
+     - ``ok``
+   * - ``attention``, ``caution``, ``warning``
+     - ``warn``
+   * - ``danger``, ``error``
+     - ``error``
+
+``important`` sits on the quiet side of that line on purpose: Sphinx splits
+these into note-like and warning-like, and ``important`` is emphasis rather
+than a hazard. An author writing it today means what Sphinx means by it, and a
+mapping that turned it into an alarm would change what their page says.
+
+**The type's own word survives the mapping.** ``caution`` and ``danger`` both
+become ``warn``, so the tone can no longer tell them apart — but the glyph's
+accessible name is the type's word and not the tone's, and a reader who cannot
+see the colour still hears which one this was.
+
+**No category heading.** Ten of the twelve carry no title at all, and printing
+"Note" over each one would be exactly the category name ``sds-note`` forbids
+its heading to be. Where an author did write a title, it is theirs and it goes
+in as a label — as text, because a heading is an attribute and markup inside it
+would arrive as visible angle brackets. A title that leans on inline markup is
+a title doing a paragraph's job.
+
+Anything an admonition holds — paragraphs, lists, a whole code block — is
+carried between the element's tags rather than handed to it as a property,
+which is the rule the whole document layer follows here.
+
+Code blocks
+===========
+
+**The colour is the server's.** ``guides-code`` highlights with a PHP port of
+highlight.js, so what lands in the page already carries ``hljs-`` classes, and
+``soul.css`` maps exactly those onto this system's three syntax colours. The
+page is coloured with no JavaScript on it at all, which is the point of a
+generator that ships HTML.
+
+``<sds-code>`` still wraps it, and in a browser it does the same job the other
+way round: markup that already carries ``hljs-`` classes is handed back
+untouched — wrapper, line numbers and emphasised lines included — and what the
+element adds is the head, the language label and the copy button. Only a block
+that arrived uncoloured is coloured by the element.
+
+.. code-block:: text
+   :caption: The caption goes above the block, where this system puts it
+
+   .. code-block:: php
+      :caption: config/system.php
+
+      return ['siteTitle' => 'TYPO3'];
+
+.. warning::
+
+   A fenced Markdown block with **no language** kills a render. The Markdown
+   parser leaves the language ``null``, the highlighter's filter declares a
+   string, and the render dies with a ``TypeError`` three packages deep naming
+   a template nobody wrote. This theme's code template defaults it to ``text``,
+   which escapes the block and colours nothing — the honest answer when nobody
+   said what it is.
+
+Tabs, in both of its spellings
+==============================
+
+``.. tabs::`` and ``.. configuration-block::`` are two directives with
+different markup and the same intent, and both become ``<sds-tabs>``. A reader
+must not have to work out which one an author reached for.
+
+Left alone, neither works: the core renders a row of buttons and every panel
+under it, and the script that would switch them is not something the renderer
+ships. The element builds its own tab bar, wires the arrow keys, and with
+JavaScript off the panels simply stack — which is what the markup says.
+
+.. note::
+
+   What ``configuration-block`` is actually for — choosing PHP once and having
+   every block on the page follow — is not built. That needs an element that
+   knows about its siblings, and it is written down as work rather than
+   half-implemented here.
+
+Reference nodes
+===============
+
+.. confval:: an example
+   :type: string
+   :required: true
+   :default: "this one"
+
+   ``confval`` is the backbone of any TYPO3-adjacent reference, and it renders
+   as a definition list rather than as a card: the document layer already sets
+   ``dt`` and ``dd``, a reference is mostly made of these, and forty in a row
+   have to read as a list and not as forty boxes.
+
+The name is mono, ``required`` is a badge, and the type and the default share
+one line under it — each behind a label, because "type script" with the type
+upper-cased reads as the name of a language. Any further option an author sets
+prints the same way. A ``confval`` holds blocks, including admonitions, so its
+description is not one line of text and is not rendered as though it were.
+
+**Option lists** — the ``.. option::`` directive a command-line reference uses
+— and plain **definition lists** come out through the same document-layer
+rules. A **field list** at the top of a document, the author-version-date
+block, is the one place the theme adds a class the core did not write: without
+it a docinfo block is a bare ``<table>``, and a bare table in a document is a
+data table with ruled rows and a header. It is neither.
+
+Set-apart blocks
+================
+
+``.. topic::`` and ``.. sidebar::`` are both an ``<aside>`` on ``.sds-panel``:
+a hairline, a fill, and a title that labels the box. They are drawn alike
+because they are alike — a digression with a heading — and the core rendering
+``sidebar`` as an admonition is where that went wrong. An admonition says
+something about the reader's situation and carries a glyph that names which
+one; a topic says nothing about the reader.
+
+A sidebar does not float here. In a column held to sixty-six characters there
+is nothing for it to float beside, and a box pulled out of a measure that
+narrow leaves both halves too thin to read.
+
+``.. versionadded::``, ``.. versionchanged::`` and ``.. deprecated::`` are
+notes, and not as loosely as that sounds: "Changed in version 1.2" is a fact
+stated as a heading, and the paragraph under it is what that fact costs
+somebody reading the page today — which is the shape ``sds-note`` already is.
+**Only deprecation carries a tone.** ``warn`` is this system's degraded but
+usable answer, which is exactly what a deprecated thing is; the other two are
+facts about the surface with nothing gone wrong, so they are ``info``, the tone
+that does not tint. On an API page carrying one of these every third paragraph,
+tinting them all would make the page read as an alarm about itself.
+
+Navigation the document asks for
+================================
+
+The **toctree** feeds the rail on every manual page, and where a page writes
+one in its body it prints there too — as a list of documents to read, which
+must not look like the rail beside it saying where the reader is.
+
+``.. contents:: :local:`` is what a long page puts at the top: the sections of
+the page it is on, nested as deep as ``:depth:`` allows. Its entries are built
+from the current document plus an anchor rather than from the renderer's link
+answer, which for the page being rendered is ``#`` — that is how a local
+contents ends up as a row of links pointing at nothing.
+
+**Breadcrumbs** sit above the title, from the same tree. **Footnotes** get the
+number the compiler assigned rather than the label the author typed, so a mark
+in the line and the note at the foot of the page agree — ``[#name]_`` prints
+``[1]`` at both ends.
+
+Tables
+======
+
+A table keeps the class layer's own drawing and gets a box around it that
+scrolls. The box has to be around it: ``overflow-x`` on the table itself needs
+``display: block``, which takes it out of table layout and makes every table
+shrink-wrap — a four-column reference sitting in the left third of the page
+with nothing beside it. Wrapped, nothing about the table changes, and it
+overflows only where its own minimum is wider than the column.
+
+The ``:widths:`` option, the caption and the header rows are the renderer's
+own, and they survive.
+
+Everything else
+===============
+
+What is left is running text — paragraphs, lists, quotes, transitions, inline
+literals, figures, the six heading levels — and no template can reach it,
+because the renderer writes no name on any of it. That is the document layer's
+half of the job, and :doc:`/documents` is where it is written down.
+
+Which template does which
+=========================
+
+.. list-table::
+   :header-rows: 1
+
+   * - Template
+     - What it decides
+   * - ``structure/layout``, ``structure/document``
+     - the shell, and which body the page's ``:layout:`` field asks for
+   * - ``structure/head``
+     - the stylesheets, the preloaded faces, the pre-paint mode script
+   * - ``structure/header``, ``structure/brand``, ``structure/navigation``
+     - the bar: the mark, the sections, the version, search, the mode switch
+   * - ``structure/footer``
+     - groups, socials, the note
+   * - ``structure/sidebar``
+     - ``.. sidebar::`` as a topic rather than an admonition
+   * - ``body/admonition``
+     - twelve types onto four tones
+   * - ``body/code``
+     - the caption above the block, and a language floor
+   * - ``body/table``
+     - the box a wide table scrolls in
+   * - ``body/topic``, ``body/directive/topic``
+     - both spellings of a topic, as one shape
+   * - ``body/version-change``
+     - a note, and a tone only for deprecation
+   * - ``body/field-list``
+     - a docinfo block that is not a data table
+   * - ``body/configuration-block``, ``body/directive/tabs``
+     - two tab directives onto one element
+   * - ``body/directive/confval``
+     - the reference entry, and its labels
+   * - ``body/menu/*``
+     - the rail, the trail, the printed toctree, the local contents
+   * - ``body/embedded-frame``
+     - a frame, and a specimen's caption
+   * - ``inline/footnote``
+     - the mark that matches the note it points at
+   * - ``body/directive/{band,grid,teaser}``
+     - the landing page — see :doc:`directives`
+
+Anything not in that list is the renderer's own template, rendering the
+renderer's own markup, and it lands on the document layer.

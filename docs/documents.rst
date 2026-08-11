@@ -98,6 +98,6 @@ scrolls inside itself rather than taking the layout with it.
 
 .. seealso::
 
-   :doc:`guides-theme` for the renderer side: which templates the theme
+   :doc:`guides-theme/markup` for the renderer side: which templates the theme
    replaces, and why the colour of a code block arrives with the markup rather
    than being applied in the browser.
