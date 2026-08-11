@@ -189,3 +189,32 @@ test('the header navigation collapses rather than disappearing', async ({ page }
   await expect(items).toBeHidden();
   await expect(toggle).toBeFocused();
 });
+
+/* A filter that matches nothing.
+
+   The state a list page usually skips, because the fixture it was built with
+   always had rows. It is reachable here by pressing a filter, which is why it
+   is worth a test at all: what has to hold is that the list is replaced by an
+   answer — one that names how much was read — and that the offer inside it
+   puts the list back rather than merely looking like it could. */
+test('a filter that matches nothing answers, and the answer undoes it', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await gotoStory(page, 'pages-news--page');
+
+  const entries = page.locator('sds-teaser');
+  await expect(entries).toHaveCount(6);
+
+  await page.locator('.sds-pills .sds-pill', { hasText: 'releases' }).click();
+  await expect(entries).toHaveCount(2);
+
+  await page.locator('.sds-pills .sds-pill', { hasText: 'security' }).click();
+  await expect(entries).toHaveCount(0);
+  const empty = page.locator('.sds-empty');
+  await expect(empty).toBeVisible();
+  /* Not "no results": how many were read is the part that makes it an answer
+     rather than a shrug. */
+  await expect(empty).toContainText('All 6 entries were read');
+
+  await empty.locator('button.sds-link').click();
+  await expect(entries).toHaveCount(6);
+});

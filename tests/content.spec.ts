@@ -62,3 +62,32 @@ test('the head carries the language and a working copy button', async ({ page, c
   await expect(copy.locator('.sds-code__glyph')).toBeHidden();
   await expect(copy).toHaveText(/copied/);
 });
+
+/* The drawing at the size it was drawn.
+
+   A 1200px diagram scaled into a page column is a picture of a diagram, and
+   the viewer is the only place the reader gets the thing itself. Three parts
+   have to hold together and only the first is visible in a screenshot: the
+   trigger is a real link to the file, so a surface with no script still opens
+   it; the element takes the press over once it has upgraded; and the platform
+   closes it on Escape and gives the focus back. */
+test('a figure opens its drawing, and stays a link where nothing upgraded', async ({ page }) => {
+  await gotoStory(page, 'components-figure--zoomable');
+
+  const trigger = page.locator('.sds-figure__zoom');
+  /* The href is the fallback, not decoration: without it a script-less surface
+     has a cursor that changes over something that does nothing. */
+  await expect(trigger).toHaveAttribute('href', /answer-sources\.svg$/);
+
+  const dialog = page.locator('dialog.sds-lightbox');
+  await expect(dialog).toBeHidden();
+
+  await trigger.click();
+  await expect(dialog).toBeVisible();
+  /* The page did not navigate to the file — the element took the press. */
+  expect(page.url()).toContain('components-figure--zoomable');
+  await expect(dialog.locator('img')).toHaveCount(2);
+
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+});

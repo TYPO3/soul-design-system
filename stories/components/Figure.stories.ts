@@ -14,8 +14,8 @@ import { html } from 'lit';
 import '../../src/components/figure.ts';
 import { type FigureProps } from '../../src/components/figure.ts';
 
-const sdsFigure = ({ src, dark, alt, caption }: FigureProps) =>
-  html`<sds-figure src="${src}" dark="${dark ?? ''}" alt="${alt}" .caption="${caption ?? ''}"></sds-figure>`;
+const sdsFigure = ({ src, dark, alt, caption, zoomable = false }: FigureProps) =>
+  html`<sds-figure src="${src}" dark="${dark ?? ''}" alt="${alt}" .caption="${caption ?? ''}" ?zoomable="${zoomable}"></sds-figure>`;
 
 /* Storybook serves `assets/` at `/assets`; a page under `screens/` reaches the
    same files at `../assets`. The path is the caller's, which is why this
@@ -36,6 +36,7 @@ const meta: Meta<FigureProps> = {
     dark: { control: 'text' },
     alt: { control: 'text' },
     caption: { control: 'text' },
+    zoomable: { control: 'boolean' },
   },
   args: SOURCES,
 };
@@ -60,6 +61,15 @@ export const Single: Story = {
 export const Uncaptioned: Story = {
   args: { src: SOURCES.src, dark: SOURCES.dark, alt: SOURCES.alt },
 };
+
+/** Pressable, opening the drawing at the size it was drawn — 1200px of
+    diagram is a picture of a diagram once a column has scaled it. Escape
+    closes it, the focus comes back to the figure, and the viewer shows the
+    file for the mode the reader is in.
+
+    The trigger is a link to the file, so a surface with no script still opens
+    the drawing. The element takes the press over once it has upgraded. */
+export const Zoomable: Story = { args: { ...SOURCES, zoomable: true } };
 
 /** Both files at once, each with a mode forced on it — the arrangement a
     guideline card is made of, and the case a stylesheet keyed on descendants

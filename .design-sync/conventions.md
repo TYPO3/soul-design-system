@@ -26,7 +26,7 @@ Two rules follow, and both are load-bearing:
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` |
 | Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` `sds-crumbs` `sds-footer` |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
-| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-teaser` `sds-pagination` |
+| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-lightbox` `sds-teaser` `sds-pagination` |
 | States | `sds-note` `sds-empty` |
 
 They render **light DOM** and emit exactly the classes below, so an element and a
@@ -36,7 +36,10 @@ Neither is a fallback for the other, and **the classes stay authoritative** — 
 component that disagrees with `_ds_bundle.css` is a bug in the component.
 
 `sds-modal` draws the modal surface; `sds-dialog` is the behaviour — a real
-`<dialog>` that opens, traps focus and closes on Escape.
+`<dialog>` that opens, traps focus and closes on Escape. `sds-lightbox` is the
+same behaviour around a drawing rather than a question: a modal stops at
+`--measure-modal` because what is in one is read, and a drawing is looked at.
+Reach it with `<sds-figure zoomable>` rather than by hand.
 
 ## Setup
 
@@ -76,7 +79,7 @@ inline styles — do not mint a `sds-` name.
 | Bands | `sds-bands` `sds-band` `sds-band--quiet` — full-bleed sections whose ground changes, contents on the page measure. Use instead of `sds-page`, never inside one |
 | Site footer | `sds-footer` `sds-footer__groups` `sds-footer__group` `sds-footer__links` `sds-footer__end`; `sds-crumbs` `sds-crumbs__sep` `sds-crumbs__here` |
 | Figures | `sds-stats` `sds-stat` `sds-stat__value` `sds-stat__note`; `sds-figure` `sds-figure__frame` `sds-figure__caption` |
-| Artwork | `sds-art` `sds-art--light` `sds-art--dark` — a drawing that ships as two files, one per mode. Both go in the markup; the stylesheet shows the one the nearest forced mode asks for |
+| Artwork | `sds-art` `sds-art--light` `sds-art--dark` — a drawing that ships as two files, one per mode. Both go in the markup; the stylesheet shows the one the nearest forced mode asks for. `sds-lightbox` `sds-lightbox__art` `sds-figure__zoom` open one at the size it was drawn |
 | Lists | `sds-teaser` `sds-teaser__art` `sds-teaser__body` `sds-teaser__title` `sds-teaser__text`; `sds-pagination` `sds-pagination__page` `sds-pagination__step` `sds-pagination__gap` `sds-pagination__count` |
 | Empty | `sds-empty` `sds-empty--boundary` `sds-empty__icon` `sds-empty__title` `sds-empty__body` — never "no results": name the source asked, what it does not cover, and the nearest real thing |
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon` |

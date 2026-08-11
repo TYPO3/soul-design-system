@@ -175,6 +175,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
           dark="${assets}/diagrams/answer-sources-dark.svg"
           alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach."
           caption="A tool declares its sources, so whether an answer is reachable is known before the question is asked."
+          zoomable
         ></sds-figure>
         <sds-note
           heading="A declaration is resolved, not documented"

@@ -38,6 +38,7 @@ import './components/footer.ts';
 import './components/surface.ts';
 import './components/stat.ts';
 import './components/figure.ts';
+import './components/lightbox.ts';
 import './components/overlay.ts';
 import './components/modal.ts';
 import './components/drawer.ts';
@@ -71,6 +72,7 @@ export { SdsFooter, type FooterProps, type FooterGroup, type FooterLink } from '
 export { SdsSurface, type SurfaceProps, type Plane } from './components/surface.ts';
 export { SdsStat, type StatProps } from './components/stat.ts';
 export { SdsFigure, type FigureProps } from './components/figure.ts';
+export { SdsLightbox, type LightboxProps } from './components/lightbox.ts';
 export { SdsOverlay } from './components/overlay.ts';
 export { SdsModal } from './components/modal.ts';
 export { SdsDrawer } from './components/drawer.ts';
@@ -113,6 +115,7 @@ export const TAGS = [
   'sds-surface',
   'sds-stat',
   'sds-figure',
+  'sds-lightbox',
   'sds-overlay',
   'sds-modal',
   'sds-drawer',
