@@ -88,7 +88,18 @@ Für das Theme heißt das: es gibt `<sds-code lang="x">` mit dem `<code>` des
 Servers darin aus. Ohne JavaScript steht die Farbe trotzdem, weil sie im Markup
 steht; mit JavaScript kommen Kopf, Sprachlabel und Kopieren-Knopf dazu.
 
-## Gap 1 — Fließtext: kein Selektor greift
+## Gap 1 — Fließtext: kein Selektor greift — **geschlossen**
+
+`src/styles/document.css` ist die Antwort darauf: eine Dokument-Schicht als
+Peer zur Komponenten-Schicht, auf `.sds-prose` gescopet und von `styles.css`
+bewusst nicht importiert. Sie deckt die ganze Tabelle unten ab, einschließlich
+h4–h6 — ohne neue Größen-Tokens, weil eine vierte Ebene sich durch Gewicht und
+Luft von ihrem Absatz unterscheidet und nicht durch eine Größe, die es schon
+gibt. Zum Maß: der Text hält 66ch, Tabellen und Codeblöcke laufen bis an die
+Spalte.
+
+Was hier stand, bleibt als Beschreibung dessen stehen, was Guides ausgibt —
+das Theme muss es weiterhin treffen.
 
 `.sds-prose` setzt Größe, Zeilenhöhe, Farbe und ein 66ch-Maß. **Kind-Regeln hat
 die Klasse keine.** Alles hier ist heute Browser-Default:
@@ -269,13 +280,15 @@ festlegen und nicht Code:
 
 Danach in dieser Reihenfolge:
 
-1. **Ein Fixture, das jeden Knoten genau einmal enthält.** Ein kleines
+1. ~~Die Fließtext-Ebene.~~ Steht als `src/styles/document.css` — siehe Gap 1.
+   Sie war die größte einzelne Fläche und die billigste, weil reine Zuordnung
+   auf Tokens.
+2. **Ein Fixture, das jeden Knoten genau einmal enthält.** Ein kleines
    RST-Projekt, gerendert und angesehen. Es kostet wenig und macht alles
    danach sichtbar statt vermutet — und es klärt gleich die Infrastrukturfrage:
-   der Container hier hat Node, Guides braucht PHP 8.1 und Composer.
-2. **`guides.css`, die Fließtext-Ebene.** Gap 1, ohne offene Entscheidungen bis
-   auf eine: h4–h6 gibt es in der Typskala nicht. Das ist die größte einzelne
-   Fläche und die billigste, weil reine Zuordnung auf Tokens.
+   der Container hier hat Node, Guides braucht PHP 8.1 und Composer. Es steht
+   jetzt vor allem anderen: die Dokument-Schicht war ohne Guides zu setzen,
+   jedes weitere Stück nicht mehr.
 3. **Die Dokument-Schicht nimmt Kinder an.** `sds-note` zuerst, weil ohne sie
    kein Theme entsteht; dann `sds-table`, `sds-surface`, `sds-figure`. Form wie
    bei `sds-code`: `lifted()` dazu, Eigenschaften bleiben für die Stories, je

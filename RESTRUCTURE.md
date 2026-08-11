@@ -242,7 +242,7 @@ die Quellen, die sich geändert haben — und
 `../../assets/` zeigt. Kein `renderHash` hat sich bewegt: jede gerenderte Karte
 und jeder Screen ist byte-identisch.
 
-## Schritt 2 — die Dokument-Schicht entsteht, leer
+## Schritt 2 — die Dokument-Schicht — **erledigt**
 
 `src/styles/document.css`. Element-Selektoren für das, was ein Renderer
 ausgibt und keine Klasse trägt: `h1`–`h6`, `p`, `ul`/`ol`/`li`, `dl`/`dt`/`dd`,
@@ -266,11 +266,36 @@ Anzufassen:
   `ds-bundle/`: dieser Upload ist zum Entwerfen mit dem System, nicht zum
   Setzen von Dokumenten. Damit bleibt die flache Bundle-Wurzel unberührt.
 
-**Beweis:** `make dist` liefert die Datei aus, `make verify` bleibt grün, und
-eine Seite, die nur `styles.css` lädt, sieht aus wie vorher.
+**Getan**, und nicht leer: Gap 1 ist vollständig gesetzt — sechs
+Überschriftenebenen, Absätze, Listen samt Verschachtelung,
+Definitionslisten, Zitate, Striche, Inline-Code und Codeblöcke, `kbd`, `abbr`,
+`cite`, `mark`, hoch- und tiefgestellt, Links, Bilder, Abbildungen mit
+Unterschrift, Tabellen mit `caption`.
 
-Inhaltlich ist das Gap 1 aus `GUIDES.md`. Die einzige offene Entscheidung darin:
-h4–h6 gibt es in der Typskala nicht.
+**Zwei Entscheidungen, die dabei fielen** — beide umkehrbar, beide im
+Kopf der Datei begründet:
+
+- **Alles ist auf `.sds-prose` gescopet**, nicht auf blanke Elemente. Sonst
+  bekäme eine Doku-Seite auch in ihrer Leiste und ihrer Rail Meinungen zu
+  jedem Absatz. Das Theme wickelt die Ausgabe des Renderers in diese Klasse;
+  die Möbel drumherum bleiben der Komponenten-Schicht.
+- **h4–h6 ohne neue Tokens.** Drei neue Größen wären Dopplungen —
+  `--font-size-body` und `--font-size-ui` unter anderem Namen. In einem
+  Dokument unterscheidet eine vierte Ebene sich vom Absatz darunter durch
+  Gewicht und Luft, nicht durch Größe; die sechste landet im Label-Register,
+  das der Rest des Systems für die Wörter der Maschine benutzt.
+
+Dazu die Antwort auf die Maß-Frage: **der Text hält 66ch, die Blöcke nicht.**
+Eine Referenz ist Sätze *und* eine vierzigspaltige Tabelle. Der Container gibt
+sein eigenes Limit auf und reicht es an das weiter, was aus Wörtern besteht —
+Absätze, Listen, Zitate, Überschriften und der Strich, der Interpunktion des
+Textes ist. Tabellen, Codeblöcke und Abbildungen laufen bis an die Spalte, und
+eine zu breite Tabelle scrollt in sich selbst.
+
+**Beweis:** `make dist` liefert `dist/document.css` (4,7 kB), `make verify`
+grün mit 494 statt 493 Dateien im Drop-in-Vergleich, `make test` 85 von 85.
+Dazu eine gesetzte Beispielseite in beiden Modi angesehen, statt CSS blind zu
+committen — der volle Strich unter dem 66ch-Absatz fiel genau dort auf.
 
 ## Schritt 3 — `guides-theme/` als Skelett, und PHP im Bild
 
