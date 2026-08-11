@@ -12,7 +12,15 @@
     "Soul Design System — Soul Design System" is a tab nobody wrote. -#}
 <title>{{ title }}
     {%- if env.projectNode.title and title != env.projectNode.title %} — {{ env.projectNode.title }}{% endif -%}</title>
-<script src="{{ asset('/styles/soul-boot.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('/styles/soul.css') }}" />
-<link rel="stylesheet" href="{{ asset('/styles/document.css') }}" />
-<script type="module" src="{{ asset('/styles/soul.js') }}" defer></script>
+<script src="{{ root }}styles/soul-boot.js"></script>
+{#- The two faces a page opens in. Without these the browser learns about
+    them only after parsing the stylesheet, and `font-display: swap` then does
+    what it says: the page sets in the fallback and jumps. Two files, both
+    already being fetched — this only moves them earlier. -#}
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="{{ root }}styles/fonts/source-sans-3-latin-400-normal.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="{{ root }}styles/fonts/source-code-pro-latin-400-normal.woff2" />
+<link rel="stylesheet" href="{{ root }}styles/soul.css" />
+<link rel="stylesheet" href="{{ root }}styles/document.css" />
+<script type="module" src="{{ root }}styles/soul.js" defer></script>

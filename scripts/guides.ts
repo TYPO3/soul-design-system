@@ -91,7 +91,7 @@ function copyCards(source: string): void {
     writeFileSync(target, readFileSync(card.path, 'utf8')
       .replace(/href="(?:\.\.\/)+src\/styles\/styles\.css"/g, `href="${up}styles/soul.css"`)
       .replace(/href="(?:\.\.\/)+src\/styles\/_specimen\.css"/g, `href="${up}styles/_specimen.css"`)
-      .replace(/(src|href)="(?:\.\.\/)+assets\//g, `$1="${up}assets/`));
+      .replace(/(src|href)="(?:\.\.\/)+assets\//g, `$1="${up}styles/assets/`));
   }
 }
 
@@ -115,12 +115,6 @@ if (!existsSync(join(DROP, 'soul.css'))) {
 rmSync(SITE, { recursive: true, force: true });
 
 for (const project of PROJECTS) {
-  const styles = join(project.source, 'styles');
-  rmSync(styles, { recursive: true, force: true });
-  mkdirSync(styles, { recursive: true });
-  for (const file of ['soul.css', 'document.css', 'soul.js', 'soul-boot.js']) {
-    cpSync(join(DROP, file), join(styles, file));
-  }
   copyCards(project.source);
 
   const code = run(join(THEME, 'vendor', 'bin', 'guides'), [
@@ -134,22 +128,31 @@ for (const project of PROJECTS) {
   ]);
   if (code !== 0) process.exit(code);
 
-  /* The faces, afterwards and by hand.
+  /* The drop-in, into the output, in one piece.
 
-     Guides copies an asset it can see a document reach for, and nothing sees
-     these: `soul.css` asks for `fonts/` beside itself, and the renderer does
-     not read stylesheets. Left out, the whole site falls back to system-ui —
-     a page that looks broken while every file it names is present. */
-  cpSync(join(DROP, 'fonts'), join(project.out, 'styles', 'fonts'), { recursive: true });
-  /* What the cards themselves point at — signets, icons, diagrams. Same
-     reason as the faces: nothing parses a card, so nothing copies them. */
-  cpSync(join(ROOT, 'assets'), join(project.out, 'assets'), { recursive: true });
+     Not through the source and `asset()`: the renderer copies what a parsed
+     document points at, and nothing points at the faces — `soul.css` asks for
+     `fonts/` beside itself and nothing reads a stylesheet — or at the icon
+     sprite, which `soul.js` resolves against its own URL. Copied whole, the
+     directory is what a consumer deploys, and every relative path inside it
+     is already right. */
+  const styles = join(project.out, 'styles');
+  mkdirSync(styles, { recursive: true });
+  for (const file of ['soul.css', 'document.css', 'soul.js', 'soul-boot.js']) {
+    cpSync(join(DROP, file), join(styles, file));
+  }
+  cpSync(join(DROP, 'fonts'), join(styles, 'fonts'), { recursive: true });
+  /* Beside the script, not beside the pages: `soul.js` resolves the icon
+     sprite against its own URL, which is what makes the drop-in a directory
+     you copy anywhere. Put the assets one level up and every icon is a blank
+     box with a 404 behind it. The cards point here too. */
+  cpSync(join(ROOT, 'assets'), join(styles, 'assets'), { recursive: true });
   /* The chrome the cards are drawn with. Not part of the drop-in and it must
      not be — a design built with this system inherits the token and component
      layers only — but inside a specimen frame it is what draws the captions.
      Copied here rather than into the source because nothing in a document
      points at it: only the cards do, and nothing parses a card. */
-  cpSync(join(ROOT, 'src', 'styles', '_specimen.css'), join(project.out, 'styles', '_specimen.css'));
+  cpSync(join(ROOT, 'src', 'styles', '_specimen.css'), join(styles, '_specimen.css'));
 }
 
 /* Nothing may point outside the site.
