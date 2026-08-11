@@ -37,7 +37,10 @@ export declare class SdsFigure extends SdsElement {
     alt: string;
     caption: string | TemplateResult;
     zoomable: boolean;
+    private taken;
+    private captioned;
     constructor();
+    connectedCallback(): void;
     /** Take the press over from the link. Only where there is something to take
         it over with: if the viewer has not upgraded, the browser follows the
         href and the reader still gets the drawing. */

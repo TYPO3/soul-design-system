@@ -20,7 +20,7 @@ import type { TemplateResult } from 'lit';
 import { render } from '@lit-labs/ssr';
 import { collectResultSync } from '@lit-labs/ssr/lib/render-result.js';
 
-import { inlineDiagramRefs } from '../components/diagram.static.ts';
+import { inlineArtRefs } from '../components/art.static.ts';
 import { inlineIconRefs } from '../components/icon.static.ts';
 
 /* Lit's SSR emits hydration markers around every binding. They are inert in
@@ -138,7 +138,7 @@ export function renderStatic(template: TemplateResult): string {
      — this only says which order they run in, and that is load-bearing: a
      drawing's `#art` has the shape of an icon reference and would be looked
      up as one. */
-  html = tidyTags(inlineIconRefs(inlineDiagramRefs(html)));
+  html = tidyTags(inlineIconRefs(inlineArtRefs(html)));
 
   /* Nothing that needs upgrading may reach a card. This is the guard, not the
      test suite: a custom element in a static file renders as nothing at all,

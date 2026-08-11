@@ -25,6 +25,7 @@ import { spawnSync } from 'node:child_process';
 import * as esbuild from 'esbuild';
 
 import { ROOT } from './lib/cards.ts';
+import { rulePerLine } from './lib/css.ts';
 
 /* `--check` builds beside the committed output and compares. The drop-in is
    in git so a consumer can take it over a plain clone; committed and
@@ -131,6 +132,21 @@ const jsOptions: esbuild.BuildOptions = {
   metafile: true,
 };
 
+/* The stylesheets are minified and then broken back onto one rule per line.
+   They are committed, and a sheet on a single line is a file two changes can
+   never merge into — see the head of `lib/css.ts`. The bytes a reader pays
+   for it are one newline per rule. */
+const perRule: esbuild.Plugin = {
+  name: 'rule-per-line',
+  setup(build) {
+    build.onEnd((result) => {
+      const out = build.initialOptions.outfile;
+      if (result.errors.length || !out) return;
+      writeFileSync(out, rulePerLine(readFileSync(out, 'utf8')));
+    });
+  },
+};
+
 /* One stylesheet: the faces, the tokens and the class layer inlined, with
    the woff2 files copied beside it and their URLs rewritten to match. */
 const cssOptions: esbuild.BuildOptions = {
@@ -140,6 +156,7 @@ const cssOptions: esbuild.BuildOptions = {
   minify: true,
   loader: { '.woff2': 'copy' },
   assetNames: 'fonts/[name]',
+  plugins: [perRule],
 };
 
 /* The second sheet, and it is second on purpose. `soul.css` is what an
@@ -152,6 +169,7 @@ const docCssOptions: esbuild.BuildOptions = {
   outfile: join(OUT, 'document.css'),
   bundle: true,
   minify: true,
+  plugins: [perRule],
 };
 
 /* The pre-paint line, and the only thing here that is not a module.
@@ -189,11 +207,16 @@ if (WATCH) {
   /* esbuild watches what it imported, which is `src/` and the faces. The
      assets are copied rather than imported, so nothing would notice a new
      icon — they get their own watch. */
+  /* Appended, never assigned: a spread that replaced `plugins` would drop the
+     rewrite above and leave the watched sheets on one line. */
+  const watched = (o: esbuild.BuildOptions, what: string): esbuild.BuildOptions =>
+    ({ ...o, plugins: [...(o.plugins ?? []), announce(what)] });
+
   const contexts = await Promise.all([
-    esbuild.context({ ...jsOptions, plugins: [announce('dist/soul.js')] }),
-    esbuild.context({ ...cssOptions, plugins: [announce('dist/soul.css')] }),
-    esbuild.context({ ...docCssOptions, plugins: [announce('dist/document.css')] }),
-    esbuild.context({ ...bootOptions, plugins: [announce('dist/soul-boot.js')] }),
+    esbuild.context(watched(jsOptions, 'dist/soul.js')),
+    esbuild.context(watched(cssOptions, 'dist/soul.css')),
+    esbuild.context(watched(docCssOptions, 'dist/document.css')),
+    esbuild.context(watched(bootOptions, 'dist/soul-boot.js')),
   ]);
   for (const ctx of contexts) await ctx.watch();
   copyAssets();

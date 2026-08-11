@@ -36,6 +36,19 @@ export interface FigureProps {
   zoomable?: boolean;
 }
 
+/* A caption written between the tags, told apart from the picture by the class
+   the component itself would emit for it — the marker `sds-code` and
+   `sds-embed` both use, and for the same reasons: light DOM has no slot to
+   name it with, and a class the stylesheet already defines is what makes the
+   caption read in the window before the upgrade. */
+const isCaption = (node: Node): boolean =>
+  node.nodeType === 1 && (node as Element).matches('.sds-figure__caption');
+
+/* The newlines a template left between the tags, and the markers Lit leaves
+   among its own bindings. Neither is a picture. */
+const isNothing = (node: Node): boolean =>
+  node.nodeType === 8 || (node.nodeType === 3 && !(node.textContent ?? '').trim());
+
 export class SdsFigure extends SdsElement {
   static override properties = {
     src: { type: String },
@@ -49,12 +62,37 @@ export class SdsFigure extends SdsElement {
   declare caption: string | TemplateResult;
   declare zoomable: boolean;
 
+  /* The picture a renderer wrote, taken before Lit renders over it.
+
+     `src` is the form a story or a product surface uses: a path, and the
+     element decides from it whether the file is referenced or linked. A
+     documentation renderer cannot use that form — it writes HTML, and the
+     picture has to be in the page before any script has run, or a reader
+     without one gets a caption under an empty frame. So it writes the picture
+     itself and this keeps it, exactly as `sds-code` keeps a block that
+     arrived already coloured. */
+  private taken: Node[] | null = null;
+
+  /* And its caption, where that was written between the tags too: a caption
+     from a document carries markup — a literal, a link, an emphasis — and an
+     attribute is a string. */
+  private captioned: Node[] | null = null;
+
   constructor() {
     super();
     this.src = '';
     this.alt = '';
     this.caption = '';
     this.zoomable = false;
+  }
+
+  override connectedCallback(): void {
+    const written = this.lifted().filter((node) => !isNothing(node));
+    const caption = written.filter(isCaption);
+    const picture = written.filter((node) => !isCaption(node));
+    if (caption.length) this.captioned = caption;
+    if (picture.length) this.taken = picture;
+    super.connectedCallback();
   }
 
   /** Take the press over from the link. Only where there is something to take
@@ -68,17 +106,34 @@ export class SdsFigure extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    const picture = art(this.src, this.alt);
+    /* What a renderer wrote, where it wrote one. The two forms answer the
+       same question and the nodes win, because they are already in the page:
+       rewriting them from `src` would replace a picture the reader can see
+       with a second request for the same file. */
+    const picture = this.taken ? html`${this.taken}` : art(this.src, this.alt);
 
     const frame = this.zoomable
       ? html`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>`
       : picture;
 
+    /* Whichever form the caption arrived in — the nodes first, for the same
+       reason and with the same markup in them.
+
+       Kept as it came rather than wrapped: a renderer writes the `<figcaption>`
+       itself, which is the tag it has to be once this element has rendered the
+       `<figure>` around it, and wrapping it would nest one caption inside
+       another. */
+    const caption = this.captioned
+      ? html`${this.captioned}`
+      : this.caption
+        ? html`<figcaption class="sds-figure__caption">${this.caption}</figcaption>`
+        : '';
+
     return html`<figure class="sds-figure">
   <div class="sds-figure__frame">
     ${frame}
   </div>
-  ${this.caption ? html`<figcaption class="sds-figure__caption">${this.caption}</figcaption>` : ''}
+  ${caption}
   ${this.zoomable
     ? html`<sds-lightbox src="${this.src}" alt="${this.alt}" caption="${typeof this.caption === 'string' ? this.caption : ''}"></sds-lightbox>`
     : ''}

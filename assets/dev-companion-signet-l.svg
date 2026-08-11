@@ -1,20 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 100" role="img" aria-label="TYPO3 Support App">
+<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 128 100" role="img" aria-label="TYPO3 Support App">
   <title>TYPO3 Support App</title>
-  <style>
-    /* An image cannot inherit currentColor, so the ink is a mid warm grey
-       that holds on both modes, lifted a step in dark. The accent is flat
-       #FF8700 in both, exactly as --accent is. */
-    .ink  { stroke: #8A8378; }
-    .inkf { fill: #8A8378; }
-    @media (prefers-color-scheme: dark) {
-      .ink  { stroke: #A9A299; }
-      .inkf { fill: #A9A299; }
-    }
-  </style>
+  <!-- Every colour sits on its own shape, as a var() with a hex fallback: a
+       page that declares the tokens gets its own ink, and this file still
+       renders on its own. Nothing colours it from a <style> or from the root,
+       and no comment in here may carry a double dash, which is what makes an
+       SVG malformed and a reference to it draw nothing. See
+       docs/guidelines/artwork.rst. -->
   <!-- L - 32px and up. Stroke 7, three lines, marker 36x52. The full statement. -->
-  <path class="ink" d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>
-  <rect class="inkf" x="22" y="26.5" width="56" height="7" rx="3.5"></rect>
-  <rect class="inkf" x="22" y="46.5" width="36" height="7" rx="3.5" opacity="0.55"></rect>
-  <rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="#FF8700"></rect>
-  <path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="#FF8700" stroke="#FF8700" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path stroke="var(--text-primary, #8A8378)" d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>
+  <rect fill="var(--text-primary, #8A8378)" x="22" y="26.5" width="56" height="7" rx="3.5"></rect>
+  <rect fill="var(--text-primary, #8A8378)" x="22" y="46.5" width="36" height="7" rx="3.5" opacity="0.55"></rect>
+  <rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent, #FF8700)"></rect>
+  <path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent, #FF8700)" stroke="var(--accent, #FF8700)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>
 </svg>

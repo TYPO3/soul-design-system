@@ -109,6 +109,14 @@ The mark
    output with them rather than pointing at something that only exists on the
    machine that built the site. ``_images/`` is the conventional place.
 
+   An SVG is **referenced** into the page rather than linked, so the mark is
+   drawn in the page's ink and follows it into dark. That costs the file three
+   lines — a root named ``id="art"``, a ``viewBox`` on it, and every colour
+   written as a ``var()`` with a hex fallback — and a file that has not been
+   told draws nothing at all. :doc:`/guidelines/artwork` is the rule, and it is
+   worth reading before pointing this at an SVG. Any other format is linked and
+   simply works, the same picture in both modes.
+
    A signet is not an icon. It ships at three optical sizes with different
    construction, and bar height is the small one's job — see
    :doc:`/guidelines/brand` for which file to hand over.
@@ -191,9 +199,13 @@ What is configured is what the tree cannot know:
 
 ``<group>`` is a column of links under a label, and it follows the site's own
 columns; ``<link>`` follows the same document-or-URL rule as the bar's.
-``<social>`` is always a URL and sits at the end of the last line, and
-``<note>`` is the sentence that says what this is not — the place a project
-disclaims an affiliation, beside the product name and the copyright.
+``<social>`` is always a URL and sits at the end of the last line. It carries
+the mark of the service before its name, and there is nothing to set: the host
+says which service it is, so a glyph cannot name one the link does not go to.
+A host the icon set has no brand mark for keeps its label and no glyph — as
+does an instance somebody runs themselves, which is a host no URL can be read
+for. ``<note>`` is the sentence that says what this is not — the place a
+project disclaims an affiliation, beside the product name and the copyright.
 
 .. note::
 

@@ -15,7 +15,7 @@
    a box inside it, so the class goes on `<body>` through `bodyClass` on the
    card rather than on a wrapper here. */
 
-import { inlineDiagramRefs } from '../../src/components/diagram.static.ts';
+import { inlineArtRefs } from '../../src/components/art.static.ts';
 import { DIAGRAM_VIEWBOX } from '../../src/components/diagrams.generated.ts';
 import { indent } from './specimen.ts';
 
@@ -32,7 +32,7 @@ const drawing = ({ file, alt }: Figure): string => {
   if (!viewBox) throw new Error(`${file}: not a drawing this system ships — run \`make diagrams\``);
   return `<div>
   <div class="spec-h">${file}</div>
-  ${inlineDiagramRefs(
+  ${inlineArtRefs(
     `<svg viewBox="${viewBox}" role="img" aria-label="${alt}" class="spec-figure spec-figure--framed"><use href="../../assets/diagrams/${file}#art"></use></svg>`,
   )}
 </div>`;

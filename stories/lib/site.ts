@@ -15,7 +15,7 @@ import '../../src/components/badge.ts';
 import '../../src/components/footer.ts';
 import '../../src/components/menu.ts';
 import '../../src/components/search.ts';
-import '../../src/components/signet.ts';
+import '../../src/components/image.ts';
 import '../../src/components/theme.ts';
 import { type FooterGroup, type FooterLink } from '../../src/components/footer.ts';
 
@@ -109,7 +109,7 @@ export const siteBar = (active: number, home = '#', railFor = ''): TemplateResul
   html`<header class="sds-bar">
     ${railFor ? html`<sds-menu for="${railFor}" label="Sections of this page"></sds-menu>` : ''}
     <a class="sds-lockup" href="${home}">
-      <sds-signet size="20"></sds-signet>
+      <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="20" height="20"></sds-image>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
     </a>
     <sds-menu label="Sections" .items="${SECTIONS}" active="${active}"></sds-menu>

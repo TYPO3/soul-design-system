@@ -233,7 +233,9 @@ const CHECKS: readonly Check[] = [
           const ref = m[1];
           if (!ref || /^(https?:|data:|#)/.test(ref)) continue;
           refs++;
-          if (!existsSync(resolve(dirname(c.path), ref))) {
+          /* A fragment names something inside the file, not a second file: a
+             referenced drawing is written `…/mark.svg#art`. */
+          if (!existsSync(resolve(dirname(c.path), ref.replace(/#.*$/, '')))) {
             broken++;
             fails.push(`${c.rel}: ${ref} does not resolve`);
           }

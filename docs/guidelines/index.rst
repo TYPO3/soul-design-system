@@ -19,6 +19,7 @@ them, so a rule and its rendering cannot drift apart.
    icons
    illustrations
    diagrams
+   artwork
    brand
    forms
    screens

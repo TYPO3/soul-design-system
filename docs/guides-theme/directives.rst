@@ -190,6 +190,11 @@ A rendered card, embedded at the size it was drawn for.
    frame's accessible name, which is the only thing a reader who cannot see
    the card is given.
 
+The frame is an ``sds-embed``, fixed at the viewport above: where the column
+is narrower it scrolls rather than squeezing the card into a width nothing
+ever measured. :doc:`markup` has the other half of that node — a video, which
+is the same directive's opposite and fills the column instead.
+
 The cards have to be inside the documentation source, because the renderer
 copies an asset it can see a document reach for and nothing else. This
 repository's ``make guides`` copies ``specimens/`` into ``docs/_cards/`` before

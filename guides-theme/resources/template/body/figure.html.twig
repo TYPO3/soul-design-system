@@ -1,0 +1,51 @@
+{#
+    A picture, and the claim under it.
+
+    The core writes a bare `<figure>` with the image inside it and a
+    `<figcaption>` under it — correct markup, and nothing in this system: no
+    frame around the picture, no ground under one that does not fill it, and a
+    caption set as running text at the size of the prose beside it. That is the
+    one thing this theme exists to stop, so the node comes out as `sds-figure`,
+    which is where those three are decided for everything else that shows a
+    picture.
+
+    The picture is written here, between the tags, and the element keeps it.
+    That is the theme's rule — the server writes, the element upgrades — and it
+    matters more here than anywhere: a figure whose picture waits for a script
+    is a caption under an empty box for a reader who has none. The element's own
+    `src` form is for a story or a product surface, which know what the file is;
+    a renderer knows only what the author pointed at.
+
+    `sds-art` is what makes it sit in the frame — one rule shared by the drawing
+    and the photograph, because how a picture fills its surface is the same
+    question for both. `align` is not carried over: a figure in a measure this
+    narrow has nothing to float beside, which is the same answer the sidebar
+    gets.
+
+    A drawing of one's own is referenced and everything else is linked, which
+    is the distinction `sds-image` makes and it is made here for the same
+    reason: an SVG referenced into the page is drawn in the page's tokens and
+    follows it into dark, while an `<img>` renders in a document of its own
+    where none of them are declared. It costs the file one line — `id="art"` on
+    its root — and `docs/guidelines/artwork.rst` says what else it has to do.
+    A drawing that has not been told draws nothing, so this is a rule an author
+    reads before pointing at an SVG, not one they discover.
+
+    A file somewhere else is linked whatever it is: a reference reads the file
+    itself, which a browser will not do across origins.
+#}
+{%- set caption = node.document ? renderNode(node.document) : '' -%}
+{%- set external = node.image.value is external_target -%}
+{%- set source = external ? node.image.value : asset(node.image.value) -%}
+{%- set sized -%}
+        {%- if node.image.hasOption('width') %} width="{{ node.image.option('width') }}"{% endif -%}
+        {%- if node.image.hasOption('height') %} height="{{ node.image.option('height') }}"{% endif -%}
+{%- endset -%}
+<sds-figure{% if node.image.hasOption('figclass') %} class="{{ node.image.option('figclass') }}"{% endif %}>
+    {%- if not external and node.image.value ends with '.svg' -%}
+        <svg class="sds-art"{{ sized }} role="img" aria-label="{{ node.image.option('alt')|default('') }}"><use href="{{ source }}#art"></use></svg>
+    {%- else -%}
+        <img class="sds-art" src="{{ source }}" alt="{{ node.image.option('alt')|default('') }}"{{ sized }}>
+    {%- endif -%}
+{% if caption|trim %}<figcaption class="sds-figure__caption">{{ caption|raw }}</figcaption>{% endif %}</sds-figure
+>

@@ -182,7 +182,9 @@ Enough to produce a new diagram that sits in the set without adjustment. Every v
 
 **Ship one file per drawing.** Wrap the shapes in `<g id="art">` and give the root `<svg>` a viewBox. The drawing is then *referenced* into a page — `<svg class="sds-art" viewBox="…"><use href="…/name.svg#art"></use></svg>` — so the tokens reach it and it follows a mode forced on a subtree. An `<img>` renders the file in a document of its own and only ever shows the fallback hexes, which is exactly what it should show when the file is opened on its own.
 
-`sds-figure` writes that reference for the drawings shipped in `assets/diagrams/`, whose viewBoxes `make diagrams` reads out of the files. A drawing added elsewhere is referenced by writing those two tags — there is nothing to configure and no property to pass, and a `src` the system does not know is linked as an image, which is correct for a photograph, an illustration or a signet and wrong only for a drawing that should have been shipped here.
+`sds-figure` writes that reference for the drawings shipped in `assets/diagrams/`, whose viewBoxes `make diagrams` reads out of the files. `sds-image` is the same picture without the caption — a mark in a bar, an illustration on a screen — and both decide the same way, from the file name and nothing else: **every SVG is referenced, everything else is linked.** A raster file has no mode to follow; a drawing does.
+
+**A drawing of your own is referenced too.** Name its root `<svg id="art" viewBox="…">` and write every colour as a `var()` with a hex behind it. The root is what carries the coordinate system across, so nothing has to read the file and no viewBox is passed. Never a `<style>` block and never a colour on the root: both are applied to the shapes after they are referenced, both beat a presentation attribute, and the drawing is then the author's grey on every page there is. A comment may not contain a double dash either — that is malformed XML, and the file draws nothing anywhere. `docs/guidelines/artwork.rst` is the whole rule; a signet a documentation project configures follows it.
 
 ## Brand
 

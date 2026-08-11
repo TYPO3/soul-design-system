@@ -32,6 +32,7 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+import { inlineArtRefs } from '../src/components/art.static.ts';
 import { indent, type DsCard, type DsScreen } from '../stories/lib/specimen.ts';
 import { cards, inRepo, screens, ROOT } from './lib/cards.ts';
 
@@ -74,8 +75,12 @@ function shell(card: DsCard, body: string): string {
      under `specimens/`, and a stylesheet link counted from the declared name
      would climb one step short and resolve to nothing. */
   const up = '../'.repeat(inRepo(card.path).split('/').length - 1);
+  /* A card is opened from disk, where a reference to another file is refused
+     before it is fetched — so the artwork goes where the reference was, the
+     same swap `renderStatic` makes for the component cards. Before the paths
+     are counted: what is inlined has no path left to count. */
   // Pre-aware: the body of a code block is content, not formatting.
-  const indented = indent(withAssets(body, up), 2);
+  const indented = indent(withAssets(inlineArtRefs(body), up), 2);
   /* The diagram cards sit their figures on the sunken plane, which is the
      page's ground rather than anything inside the card — so it goes on the
      body, and the story says so rather than wrapping its own div. */

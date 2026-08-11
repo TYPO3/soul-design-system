@@ -1,6 +1,5 @@
 import './components/icon.ts';
 import './components/search.ts';
-import './components/signet.ts';
 import './components/theme.ts';
 import './components/button.ts';
 import './components/badge.ts';
@@ -21,6 +20,8 @@ import './components/footer.ts';
 import './components/surface.ts';
 import './components/stat.ts';
 import './components/figure.ts';
+import './components/image.ts';
+import './components/embed.ts';
 import './components/lightbox.ts';
 import './components/overlay.ts';
 import './components/modal.ts';
@@ -38,7 +39,6 @@ import './components/note.ts';
 import './components/empty.ts';
 export { SdsElement, installHostRule, define } from './lib/element.js';
 export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.js';
-export { SdsSignet, signetFor, type SignetSize } from './components/signet.js';
 export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.js';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.js';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.js';
@@ -60,6 +60,8 @@ export { SdsFooter, type FooterProps, type FooterGroup, type FooterLink } from '
 export { SdsSurface, type SurfaceProps, type Plane } from './components/surface.js';
 export { SdsStat, type StatProps } from './components/stat.js';
 export { SdsFigure, type FigureProps } from './components/figure.js';
+export { SdsImage, type ImageProps } from './components/image.js';
+export { SdsEmbed, type EmbedProps } from './components/embed.js';
 export { SdsLightbox, type LightboxProps } from './components/lightbox.js';
 export { SdsOverlay } from './components/overlay.js';
 export { SdsModal } from './components/modal.js';
@@ -78,4 +80,4 @@ export { SdsPagination, pageNumbers, type PaginationProps } from './components/p
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-signet', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio-group', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio-group', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];

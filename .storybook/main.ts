@@ -88,6 +88,19 @@ const config: StorybookConfig = {
        card served at /guidelines/x.card.html links
        `../src/styles/styles.css`. */
     { from: '../src/styles', to: '/styles' },
+    /* And at the path it actually asks for. A card climbs `../../src/styles/`
+       from wherever it is stored, and above the publish root that clamps —
+       so the request is for `/src/styles/styles.css` and not the mapping
+       above it. Nothing noticed while the cards were only ever inlined into a
+       story; a story that embeds one the way the design pane does — which is
+       what `sds-embed` is — loads the document itself, and an unstyled card
+       in a frame is the one thing a specimen must not be. */
+    { from: '../src/styles', to: '/src/styles' },
+    /* And what that stylesheet then imports, at the path it imports it from —
+       `../tokens/` beside `src/styles/`. A card whose sheet loads and whose
+       tokens do not is a card drawn in the browser's own defaults, which is
+       worse than one with no stylesheet at all: it looks like a design. */
+    { from: '../src/tokens', to: '/src/tokens' },
     /* What a consumer copies. Served so the drop-in can be opened here rather
        than only built — an artefact nothing ever loads is an artefact nobody
        knows is broken. */

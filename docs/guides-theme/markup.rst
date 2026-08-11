@@ -189,6 +189,29 @@ overflows only where its own minimum is wider than the column.
 The ``:widths:`` option, the caption and the header rows are the renderer's
 own, and they survive.
 
+Embedded documents
+==================
+
+``.. youtube::`` and this theme's own ``specimen`` (:doc:`directives`) are the
+same node — a document of somebody else's, shown inside this one — and both
+become ``<sds-embed>``. Left as the renderer writes it, that node is a bare
+``<iframe>``: the browser's own inset ridge around it, no ground under it, and
+as wide as the ``width`` option says whatever the column can hold.
+
+The element states which of two shapes the frame has, because an embed has no
+proportions of its own to fall back on. A player **fills the column and holds
+its ratio** — its native size is what it was authored at and not what it
+wants, and 560 pixels of player in a narrower column is a player with its
+right-hand side cut off. A specimen **keeps the size it was measured at** and
+scrolls below it, the same answer a wide table gets here: a card reflowed to
+fit would be documenting a layout the gate never checked.
+
+The frame itself is still written by the renderer, between the element's tags,
+and the element lifts it rather than writing a second one — the document is
+fetched once, and the page shows its evidence with no script running. It is
+never lazy: a frame that loads on scroll is blank in every screenshot taken of
+the page, which is the one place somebody looks at all of them at once.
+
 Everything else
 ===============
 
@@ -234,7 +257,7 @@ Which template does which
    * - ``body/menu/*``
      - the rail, the trail, the printed toctree, the local contents
    * - ``body/embedded-frame``
-     - a frame, and a specimen's caption
+     - ``sds-embed``: the frame a video fills and the size a specimen keeps
    * - ``inline/footnote``
      - the mark that matches the note it points at
    * - ``body/directive/{band,grid,teaser}``

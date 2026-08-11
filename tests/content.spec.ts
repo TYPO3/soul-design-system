@@ -94,6 +94,91 @@ test('a caption written between the tags is kept, above the frame and off the cl
   expect(written).toBe('composer require typo3/cms-core\nvendor/bin/typo3 cache:flush');
 });
 
+/* The frame a renderer wrote, kept rather than written again.
+
+   `sds-embed` is the second component with this form and its stakes are
+   different: a code block written twice is a block rendered twice, while a
+   frame written twice is a *document fetched twice* — a video that starts
+   loading, is dropped, and starts again. The whole theme rests on the server
+   writing the frame so a page with no script still shows it, so the element
+   has to take that node and not replace it. */
+test('an embed keeps the frame written between its tags, and fetches it once', async ({ page }) => {
+  await gotoStory(page, 'components-embed--given');
+
+  const embed = page.locator('sds-embed');
+  const frame = embed.locator('.sds-embed__frame');
+  await expect(frame).toHaveCount(1);
+
+  /* One frame, and it is the one the renderer wrote — the same node, moved
+     into the element's own frame rather than a second one beside it. */
+  const frames = embed.locator('iframe');
+  await expect(frames).toHaveCount(1);
+  await expect(frames).toHaveAttribute('src', /colors-borders\.card\.html$/);
+  expect(await frame.locator('> iframe').count(), 'the frame the element renders holds it').toBe(1);
+
+  /* The caption written beside it is placed where the component puts
+     captions — under the frame, with its markup intact. */
+  const order = await embed.locator('.sds-embed').evaluate((el) =>
+    [...el.children].map((c) => c.className));
+  expect(order).toEqual(['sds-embed__frame sds-embed__frame--fixed', 'sds-embed__caption']);
+  await expect(embed.locator('.sds-embed__caption .sds-mono')).toHaveText('700x240');
+});
+
+/* A card is embedded at the size it was measured at, and a player at none.
+
+   The two shapes are the whole component, and neither is visible in a
+   screenshot of a page wide enough for both: what separates them is what
+   happens when the column is narrower than the document inside. */
+test('an embed holds its ratio where it is fluid and its size where it is fixed', async ({ page }) => {
+  await page.setViewportSize({ width: 520, height: 800 });
+  await gotoStory(page, 'components-embed--fixed');
+
+  const fixed = page.locator('.sds-embed__frame--fixed');
+  const inner = await fixed.locator('iframe').evaluate((el) => el.getBoundingClientRect().width);
+  /* Narrower than the card, so the frame scrolls and the card keeps the width
+     its `@dsCard` header declares. A frame that had squeezed it would report
+     the column's width here. */
+  expect(Math.round(inner)).toBe(700);
+  expect(await fixed.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(true);
+
+  await gotoStory(page, 'components-embed--default');
+  const fluid = page.locator('.sds-embed__frame--fluid');
+  const box = await fluid.evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    return { w: r.width, h: r.height };
+  });
+  /* 16 / 9 at whatever width the column is, and the document inside fills it
+     in both directions. */
+  expect(box.w / box.h).toBeCloseTo(16 / 9, 1);
+  const filled = await fluid.evaluate((el) => ({
+    inside: el.clientWidth,
+    frame: el.querySelector('iframe')!.getBoundingClientRect().width,
+  }));
+  expect(Math.round(filled.frame)).toBe(filled.inside);
+});
+
+/* And the same form on the figure, where the stakes are the picture itself.
+
+   A renderer writes the `<img>` because a reader with no script must still
+   see it; an element that rebuilt the picture from `src` would ask for the
+   same file again, and one that ignored the children would render an empty
+   frame with the picture stranded beside it. */
+test('a figure keeps the picture and the caption written between its tags', async ({ page }) => {
+  await gotoStory(page, 'components-figure--given');
+
+  const figure = page.locator('sds-figure');
+  const pictures = figure.locator('img');
+  await expect(pictures).toHaveCount(1);
+  expect(await figure.locator('.sds-figure__frame > img').count(), 'inside the frame, not beside it').toBe(1);
+
+  /* The caption is the renderer's own node, under the picture, with the
+     markup an attribute could not have carried. */
+  const order = await figure.locator('figure.sds-figure').evaluate((el) =>
+    [...el.children].map((c) => c.tagName.toLowerCase()));
+  expect(order).toEqual(['div', 'figcaption']);
+  await expect(figure.locator('figcaption.sds-figure__caption code')).toHaveText('literal');
+});
+
 /* The drawing at the size it was drawn.
 
    A 1200px diagram scaled into a page column is a picture of a diagram, and

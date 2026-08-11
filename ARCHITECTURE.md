@@ -266,10 +266,12 @@ against `--text-secondary` (8.50:1 light, 7.16:1 dark) is unchanged: muted is
 still clearly quieter, just legible.
 
 **The signets keep the old greys on purpose.** `assets/*-signet-*.svg` carry
-`#8A8378`/`#6E6860` as their own ink. A brand mark is a drawing, not text —
-WCAG's text-contrast rule does not apply to it, and moving it would change
-the mark for no accessibility reason. So the signet grey and `--text-muted`
-no longer coincide; they were never the same decision.
+`#8A8378` behind their tokens — `var(--text-primary, #8A8378)`, so the grey is
+what the file renders as where no token is declared and never what a page
+shows. A brand mark is a drawing, not text — WCAG's text-contrast rule does
+not apply to it, and moving it would change the mark for no accessibility
+reason. So the signet grey and `--text-muted` no longer coincide; they were
+never the same decision.
 
 The three diagram pairs under `assets/diagrams/` **were** updated: SKILL.md
 documents their colours as a token swap, so leaving them would have made the
@@ -401,13 +403,52 @@ mechanisms in one file — an undefined `.ink` class, an undefined `.inkf`
 class and a hardcoded hex, plus a leftover `class=""`. Since `.ink` and
 `.inkf` were defined nowhere, the frame was invisible and the bars fell back
 to black in any standalone use: as an `<img>`, and as the favicon they are
-meant to be. Each file now carries its own `<style>` with the mid warm grey
-the `brand-signet-sizes` card always promised, lifted a step under
-`prefers-color-scheme: dark`.
+meant to be. The colour is on the shapes now, as the page's token with the
+mid warm grey behind it, which is the one arrangement that survives being
+referenced — see below.
 
 `dev-companion-signet-s.svg` has a square viewBox (`-6 -20 140 140`) because it is the
 favicon file: the mark is 5:4, and a 5:4 mark letterboxed into a square slot
 lands under the system's own 16px floor. L and M keep the natural box.
+
+## A drawing is referenced, a photograph is linked
+
+There is no signet component. There was one, and it was the drawing pasted
+into TypeScript: three optical sizes as string literals beside the three files
+that already held them, kept in step by hand, and hard-wired to this system's
+own mark — so the one element a consumer could not use was the one about their
+own brand. What it bought was `currentColor` and `var(--accent)`, which an
+`<img>` cannot inherit, and that turned out to be buyable another way.
+
+`src/lib/art.ts` decides, from the file name and nothing else: an SVG is
+referenced with `<use href="file.svg#art">`, anything else is linked with
+`<img>`. `sds-image` is that as an element, `sds-figure` is it with a caption,
+and the Guides theme writes the same two shapes itself in `brand.html.twig`
+and `figure.html.twig` — the theme cannot depend on an element, because a
+picture that waits for a script is a bar with no mark.
+
+Four things were measured before this was built on, and each one is a rule in
+`docs/guidelines/artwork.rst`:
+
+- A `<use>` into a root `<svg id="art" viewBox>` **scales** into the wrapper's
+  width and height. The wrapper therefore states a size and no coordinate
+  system, and nothing has to read the file. `assets/diagrams/` still names a
+  `<g>`, which carries no viewBox, which is why that one directory is read by
+  `scripts/diagrams.ts` and the marks are not.
+- A custom property declared on the page **reaches** the referenced shapes.
+  `fill="var(--text-primary, #8A8378)"` is the page's ink on a page and the
+  grey anywhere else.
+- A `<style>` in the file **is applied** to the shapes after they are
+  referenced, and a rule beats a presentation attribute — so a stylesheet
+  inside a mark defeats the token silently. Same for a `color` on the root,
+  one level up, which is why the shapes cannot say `currentColor`.
+- What the file's own root **inherits does not travel** into the clone. A file
+  cannot carry its own `prefers-color-scheme` switch, and does not need one.
+
+The failure mode is a blank space: a file whose root is not named, or whose
+comment carries a double dash and is therefore malformed XML, draws nothing at
+all. `make diagrams` refuses the second one for the files in this repository;
+for a consumer's file the guideline page is the only guard there is.
 
 ## The signet is a construction, not the mark
 

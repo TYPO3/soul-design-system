@@ -1,21 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 100" role="img" aria-label="TYPO3 Tryout">
+<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 128 100" role="img" aria-label="TYPO3 Tryout">
   <title>TYPO3 Tryout</title>
-  <style>
-    /* An image cannot inherit currentColor, so the ink is a mid warm grey
-       that holds on both modes, lifted a step in dark. The accent is flat
-       #FF8700 in both, exactly as --accent is. */
-    .ink  { stroke: #8A8378; }
-    .inkf { fill: #8A8378; }
-    @media (prefers-color-scheme: dark) {
-      .ink  { stroke: #A9A299; }
-      .inkf { fill: #A9A299; }
-    }
-  </style>
+  <!-- Every colour sits on its own shape, as a var() with a hex fallback: a
+       page that declares the tokens gets its own ink, and this file still
+       renders on its own. Nothing colours it from a <style> or from the root,
+       and no comment in here may carry a double dash, which is what makes an
+       SVG malformed and a reference to it draw nothing. See
+       docs/guidelines/artwork.rst. -->
   <!-- M - 20-31px. Stroke 8.5, marker 36x54. The sibling mark drops its
        faint middle line here; this one has nothing to drop, so the triangle
        is redrawn a little smaller instead - the heavier stroke inflates it
        by 4.25 a side, and the inked size has to stay put. -->
-  <path class="ink" d="M123.75 71.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
-  <path d="M38.75 30.25L38.75 69.75L76 50Z" fill="#FF8700" stroke="#FF8700" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
-  <path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V54.00Z" fill="#FF8700" stroke="#FF8700" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path stroke="var(--text-primary, #8A8378)" d="M123.75 71.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path d="M38.75 30.25L38.75 69.75L76 50Z" fill="var(--accent, #FF8700)" stroke="var(--accent, #FF8700)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V54.00Z" fill="var(--accent, #FF8700)" stroke="var(--accent, #FF8700)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
 </svg>

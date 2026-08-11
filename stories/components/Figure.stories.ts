@@ -78,6 +78,20 @@ export const Uncaptioned: Story = {
     the drawing. The element takes the press over once it has upgraded. */
 export const Zoomable: Story = { args: { ...SOURCES, zoomable: true } };
 
+/** The picture a renderer wrote, kept.
+
+    A documentation renderer writes HTML and knows only the path an author
+    pointed at, so it writes the `<img>` itself and the caption as the block it
+    was — the reader has the picture before any script has run, which is the
+    rule the Guides theme is built on. The element lifts both into its frame
+    rather than requesting the same file a second time. */
+export const Given: Story = {
+  render: () => html`<sds-figure
+    ><img class="sds-art" src="/assets/placeholders/tool-search.png" alt="A cut-paper magnifier lying across three overlapping paper squares."
+    ><figcaption class="sds-figure__caption"><p>The caption a document wrote, with its markup — a <code>literal</code> in it — intact.</p></figcaption></sds-figure
+  >`,
+};
+
 /** The same file twice, each with a mode forced on it — the arrangement a
     guideline card is made of, and the case a `<picture>` gets wrong: it
     follows the system preference and cannot see a mode set on a subtree. */

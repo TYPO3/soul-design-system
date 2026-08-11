@@ -25,7 +25,7 @@ import '../../src/components/field.ts';
 import '../../src/components/code.ts';
 import '../../src/components/badge.ts';
 import '../../src/components/button.ts';
-import '../../src/components/signet.ts';
+import '../../src/components/image.ts';
 import '../../src/components/theme.ts';
 import { buttonMarkup } from '../../src/components/button.ts';
 import { type CodeLine } from '../../src/components/code.ts';
@@ -74,7 +74,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
   <header class="sds-bar">
     <sds-menu for="page-rail" label="Pages"></sds-menu>
     <a class="sds-lockup" href="#overview">
-      <sds-signet size="20"></sds-signet>
+      <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="20" height="20"></sds-image>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
     </a>
     <sds-menu label="Sections" .items="${[

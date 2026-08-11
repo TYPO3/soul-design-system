@@ -57,8 +57,16 @@ const PENDING = {
   ],
   /* Not in the Guides render. Each of these needs either a node the renderer
      already emits or a directive of the theme's own, and until it has one
-     there is no page where it can be looked at in prose. */
+     there is no page where it can be looked at in prose.
+
+     `sds-image` is the one entry here that is not waiting for anything. The
+     theme writes the markup it would have rendered — the reference, or the
+     link — in `brand.html.twig` and `figure.html.twig`, because a picture that
+     waits for a script is a bar with no mark and a caption under an empty box.
+     The element is for surfaces that compose in a browser, and the two agree
+     because `src/lib/art.ts` decides the same thing in both. */
   guides: [
+    'sds-image',
     'sds-button',
     'sds-field',
     'sds-field-error',

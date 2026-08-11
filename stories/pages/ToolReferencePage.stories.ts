@@ -21,7 +21,7 @@ import '../../src/components/badge.ts';
 import '../../src/components/field.ts';
 import '../../src/components/menu.ts';
 import '../../src/components/note.ts';
-import '../../src/components/signet.ts';
+import '../../src/components/image.ts';
 import '../../src/components/table.ts';
 import '../../src/components/tabs.ts';
 import '../../src/components/tab-item.ts';
@@ -105,7 +105,7 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
   return html`<div class="sds-shell">
   <header class="sds-bar">
     <a class="sds-lockup" href="#tools">
-      <sds-signet size="20"></sds-signet>
+      <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="20" height="20"></sds-image>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
     </a>
     <sds-menu label="Sections" .items="${[

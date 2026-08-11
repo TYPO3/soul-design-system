@@ -119,6 +119,25 @@ test.describe('what the theme repaired', () => {
     expect(widths.code).toBeGreaterThan(widths.paragraph);
   });
 
+  test('an embedded document is framed, and stays the size it was measured at', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await page.waitForFunction(() => customElements.get('sds-embed') !== undefined, undefined, { timeout: 15_000 });
+
+    /* The node the renderer emits is a bare `<iframe>`: no ground, no corner,
+       and the browser's own inset ridge around it. One left outside the
+       element is a frame this system never drew. */
+    await expect(page.locator('.sds-prose iframe:not(.sds-embed__frame > iframe)')).toHaveCount(0);
+
+    const frame = page.locator('.sds-embed__frame--fixed');
+    await expect(frame).toHaveCount(1);
+    /* The card is at the viewport its `@dsCard` header declares and the
+       caption says so — the two are the same number, checked here because
+       nothing else compares the page against the card it embeds. */
+    const width = await frame.locator('iframe').evaluate((el) => el.getBoundingClientRect().width);
+    expect(Math.round(width)).toBe(700);
+    await expect(page.locator('.sds-embed__caption .sds-mono')).toHaveText('700x260');
+  });
+
   test('the local contents is a table of contents, not the rail', async ({ page }) => {
     await page.goto(REFERENCE, { waitUntil: 'load' });
 
@@ -195,6 +214,37 @@ test.describe('what the reader gets before the script does', () => {
       await expect(items.nth(i)).toBeVisible();
       expect((await items.nth(i).innerText()).trim().length).toBeGreaterThan(0);
     }
+  });
+
+  test('the evidence on the page is on it, framed, before anything upgrades', async ({ page }) => {
+    /* Narrower than the card it embeds, which is where the difference shows:
+       an iframe is as wide as its `width` attribute says and takes the column
+       with it. */
+    await page.setViewportSize({ width: 520, height: 900 });
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The element writes no frame here — there is no element. What the reader
+       has is the `<iframe>` the renderer wrote, which is the whole reason it
+       is written between the tags rather than left to the component. */
+    const frame = page.locator('sds-embed > iframe');
+    await expect(frame).toBeVisible();
+
+    /* And it is framed by the document layer instead: a block with this
+       system's hairline around it, held to the column rather than running out
+       of it at the width its own attribute states. */
+    const drawn = await frame.evaluate((el) => {
+      const style = getComputedStyle(el);
+      return {
+        display: style.display,
+        border: parseFloat(style.borderTopWidth),
+        width: el.getBoundingClientRect().width,
+        room: (el.parentElement as HTMLElement).getBoundingClientRect().width,
+      };
+    });
+    expect(drawn.display).toBe('block');
+    expect(drawn.border).toBeGreaterThan(0);
+    expect(drawn.width).toBeLessThanOrEqual(drawn.room);
+    expect(drawn.width, 'the column is narrower than the card, so the frame is too').toBeLessThan(700);
   });
 
   test('the page has its text, its navigation and its stylesheet', async ({ page }) => {

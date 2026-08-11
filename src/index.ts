@@ -22,7 +22,6 @@ import { installHostRule } from './lib/element.ts';
    imports are what actually run each module. */
 import './components/icon.ts';
 import './components/search.ts';
-import './components/signet.ts';
 import './components/theme.ts';
 import './components/button.ts';
 import './components/badge.ts';
@@ -43,6 +42,8 @@ import './components/footer.ts';
 import './components/surface.ts';
 import './components/stat.ts';
 import './components/figure.ts';
+import './components/image.ts';
+import './components/embed.ts';
 import './components/lightbox.ts';
 import './components/overlay.ts';
 import './components/modal.ts';
@@ -62,7 +63,6 @@ import './components/empty.ts';
 export { SdsElement, installHostRule, define } from './lib/element.ts';
 
 export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.ts';
-export { SdsSignet, signetFor, type SignetSize } from './components/signet.ts';
 export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.ts';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts';
@@ -84,6 +84,8 @@ export { SdsFooter, type FooterProps, type FooterGroup, type FooterLink } from '
 export { SdsSurface, type SurfaceProps, type Plane } from './components/surface.ts';
 export { SdsStat, type StatProps } from './components/stat.ts';
 export { SdsFigure, type FigureProps } from './components/figure.ts';
+export { SdsImage, type ImageProps } from './components/image.ts';
+export { SdsEmbed, type EmbedProps } from './components/embed.ts';
 export { SdsLightbox, type LightboxProps } from './components/lightbox.ts';
 export { SdsOverlay } from './components/overlay.ts';
 export { SdsModal } from './components/modal.ts';
@@ -113,7 +115,6 @@ if (typeof document !== 'undefined') installHostRule();
     discoverable rather than merely present. */
 export const TAGS = [
   'sds-icon',
-  'sds-signet',
   'sds-theme',
   'sds-button',
   'sds-badge',
@@ -135,6 +136,8 @@ export const TAGS = [
   'sds-surface',
   'sds-stat',
   'sds-figure',
+  'sds-image',
+  'sds-embed',
   'sds-lightbox',
   'sds-overlay',
   'sds-modal',

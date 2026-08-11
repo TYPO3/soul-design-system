@@ -2420,47 +2420,8 @@ var SdsSearch = class extends SdsElement {
 };
 define("sds-search", SdsSearch);
 
-// src/components/signet.ts
-import { html as html7 } from "lit";
-import { unsafeHTML as unsafeHTML2 } from "lit/directives/unsafe-html.js";
-var DRAWINGS = {
-  s: {
-    box: "0 -14 128 128",
-    shapes: '<path d="M56 94.5H20A14.5 14.5 0 0 1 5.5 80V44" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="11" height="39" rx="5.5"></rect><rect fill="currentColor" x="55.5" y="30.5" width="17" height="39" rx="5.5"></rect><rect fill="currentColor" x="78" y="30.5" width="11" height="39" rx="5.5"></rect><path d="M72 5.5H108A14.5 14.5 0 0 1 122.5 20V56" fill="none" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path>'
-  },
-  m: {
-    box: "0 0 128 100",
-    shapes: '<path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>'
-  },
-  l: {
-    box: "0 0 128 100",
-    shapes: '<path d="M56 96.5H20A16.5 16.5 0 0 1 3.5 80V44" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="11" height="39" rx="3.5"></rect><rect fill="currentColor" x="53.5" y="30.5" width="21" height="39" rx="3.5"></rect><rect fill="currentColor" x="78" y="30.5" width="11" height="39" rx="3.5"></rect><path d="M72 3.5H108A16.5 16.5 0 0 1 124.5 20V56" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>'
-  }
-};
-var signetFor = (px) => px < 20 ? "s" : px < 32 ? "m" : "l";
-var SdsSignet = class extends SdsElement {
-  static {
-    this.properties = {
-      size: { type: Number, reflect: true },
-      label: { type: String }
-    };
-  }
-  constructor() {
-    super();
-    this.size = 20;
-  }
-  render() {
-    const drawing = DRAWINGS[signetFor(this.size)];
-    const a11y = this.label ? `role="img" aria-label="${this.label}"` : 'aria-hidden="true"';
-    return html7`${unsafeHTML2(
-      `<svg class="sds-signet" width="${this.size}" height="${this.size}" viewBox="${drawing.box}" ${a11y}>${drawing.shapes}</svg>`
-    )}`;
-  }
-};
-define("sds-signet", SdsSignet);
-
 // src/components/theme.ts
-import { html as html8 } from "lit";
+import { html as html7 } from "lit";
 var themeBoot = (key = "theme") => `var t=localStorage.getItem(${JSON.stringify(key)});if(t){document.documentElement.dataset.theme=t}`;
 function paintFrames(mode) {
   for (const frame of document.querySelectorAll("iframe")) {
@@ -2533,13 +2494,13 @@ var SdsTheme = class extends SdsElement {
     );
   }
   render() {
-    const segment = (theme) => html8`<button
+    const segment = (theme) => html7`<button
       type="button"
       class="sds-mode${this.current === theme ? " is-active" : ""}"
       aria-pressed="${this.current === theme}"
       @click="${() => this.choose(theme)}"
     >${theme}</button>`;
-    return html8`<div class="sds-modes" role="group" aria-label="Colour mode">
+    return html7`<div class="sds-modes" role="group" aria-label="Colour mode">
   ${segment("light")}
   ${segment("dark")}
 </div>`;
@@ -2548,7 +2509,7 @@ var SdsTheme = class extends SdsElement {
 define("sds-theme", SdsTheme);
 
 // src/components/button.ts
-import { html as html9 } from "lit";
+import { html as html8 } from "lit";
 function buttonClass({ variant = "primary", size = "md", iconOnly = false, disabled = false }) {
   const cls = ["sds-btn", `sds-btn--${variant}`];
   if (size === "sm") cls.push("sds-btn--sm");
@@ -2560,9 +2521,9 @@ function buttonMarkup(props, body) {
   const cls = buttonClass(props);
   const type = props.type ?? "button";
   if (props.title) {
-    return props.disabled ? html9`<button class="${cls}" type="${type}" title="${props.title}" disabled>${body}</button>` : html9`<button class="${cls}" type="${type}" title="${props.title}">${body}</button>`;
+    return props.disabled ? html8`<button class="${cls}" type="${type}" title="${props.title}" disabled>${body}</button>` : html8`<button class="${cls}" type="${type}" title="${props.title}">${body}</button>`;
   }
-  return props.disabled ? html9`<button class="${cls}" type="${type}" disabled>${body}</button>` : html9`<button class="${cls}" type="${type}">${body}</button>`;
+  return props.disabled ? html8`<button class="${cls}" type="${type}" disabled>${body}</button>` : html8`<button class="${cls}" type="${type}">${body}</button>`;
 }
 var SdsButton = class extends SdsElement {
   constructor() {
@@ -2635,7 +2596,7 @@ var SdsButton = class extends SdsElement {
 define("sds-button", SdsButton);
 
 // src/components/crumbs.ts
-import { html as html10 } from "lit";
+import { html as html9 } from "lit";
 var SdsCrumbs = class extends SdsElement {
   static {
     this.properties = {
@@ -2649,11 +2610,11 @@ var SdsCrumbs = class extends SdsElement {
     this.label = "Breadcrumb";
   }
   render() {
-    return html10`<nav class="sds-crumbs" aria-label="${this.label}">
+    return html9`<nav class="sds-crumbs" aria-label="${this.label}">
   ${this.items.map((crumb, i) => {
       const here = i === this.items.length - 1;
-      const step = here ? html10`<span class="sds-crumbs__here" aria-current="page">${crumb.label}</span>` : html10`<a href="${crumb.href ?? "#"}">${crumb.label}</a>`;
-      return html10`${i > 0 ? html10`<span class="sds-crumbs__sep" aria-hidden="true">/</span>` : ""}${step}`;
+      const step = here ? html9`<span class="sds-crumbs__here" aria-current="page">${crumb.label}</span>` : html9`<a href="${crumb.href ?? "#"}">${crumb.label}</a>`;
+      return html9`${i > 0 ? html9`<span class="sds-crumbs__sep" aria-hidden="true">/</span>` : ""}${step}`;
     })}
 </nav>`;
   }
@@ -2661,11 +2622,11 @@ var SdsCrumbs = class extends SdsElement {
 define("sds-crumbs", SdsCrumbs);
 
 // src/components/field.ts
-import { html as html12, nothing as nothing3 } from "lit";
-import { unsafeHTML as unsafeHTML3 } from "lit/directives/unsafe-html.js";
+import { html as html11, nothing as nothing3 } from "lit";
+import { unsafeHTML as unsafeHTML2 } from "lit/directives/unsafe-html.js";
 
 // src/components/field-error.ts
-import { html as html11 } from "lit";
+import { html as html10 } from "lit";
 var SdsFieldError = class extends SdsElement {
   static {
     this.properties = { message: { type: String } };
@@ -2675,7 +2636,7 @@ var SdsFieldError = class extends SdsElement {
     this.message = "";
   }
   render() {
-    return html11`<span class="sds-field-error"><sds-icon name="actions-exclamation-circle"></sds-icon>${this.message}</span>`;
+    return html10`<span class="sds-field-error"><sds-icon name="actions-exclamation-circle"></sds-icon>${this.message}</span>`;
   }
 };
 define("sds-field-error", SdsFieldError);
@@ -2744,11 +2705,11 @@ var SdsField = class extends SdsElement {
     const control = this.control();
     if (!this.caption) return control;
     const id = this.fieldId || void 0;
-    return html12`<div class="sds-field-row">
-  <label class="sds-field-label" for="${id ?? nothing3}">${this.caption}${this.required ? html12` <span class="sds-field-req">required</span>` : nothing3}</label>
+    return html11`<div class="sds-field-row">
+  <label class="sds-field-label" for="${id ?? nothing3}">${this.caption}${this.required ? html11` <span class="sds-field-req">required</span>` : nothing3}</label>
   ${control}
-  ${this.hint ? html12`<span class="sds-field-hint">${this.hint}</span>` : nothing3}
-  ${this.error ? html12`<sds-field-error message="${this.error}"></sds-field-error>` : nothing3}
+  ${this.hint ? html11`<span class="sds-field-hint">${this.hint}</span>` : nothing3}
+  ${this.error ? html11`<sds-field-error message="${this.error}"></sds-field-error>` : nothing3}
 </div>`;
   }
   control() {
@@ -2758,21 +2719,21 @@ var SdsField = class extends SdsElement {
     const name = this.name || nothing3;
     const invalid = this.invalid || this.error ? "true" : nothing3;
     if (this.select) {
-      return html12`<span class="${cls}" style="${box}"><select class="sds-input" id="${id}" name="${name}" aria-label="${this.label ?? nothing3}" aria-invalid="${invalid}" ?required="${this.required}" @change="${(e) => this.onInput(e)}">${this.options.length ? this.options.map((option) => html12`<option ?selected="${option === this.value}">${option}</option>`) : html12`<option>${this.value}</option>`}</select><span style="color:var(--text-muted);"><sds-icon name="actions-chevron-down"></sds-icon></span></span>`;
+      return html11`<span class="${cls}" style="${box}"><select class="sds-input" id="${id}" name="${name}" aria-label="${this.label ?? nothing3}" aria-invalid="${invalid}" ?required="${this.required}" @change="${(e) => this.onInput(e)}">${this.options.length ? this.options.map((option) => html11`<option ?selected="${option === this.value}">${option}</option>`) : html11`<option>${this.value}</option>`}</select><span style="color:var(--text-muted);"><sds-icon name="actions-chevron-down"></sds-icon></span></span>`;
     }
     if (this.rows > 1) {
-      const attr = (name2, value) => value ? ` ${name2}="${esc(value)}"` : "";
-      const area = `<textarea class="sds-input" rows="${this.rows}"${attr("id", this.fieldId)}${attr("name", this.name)}${this.filled ? "" : attr("placeholder", this.value)}${attr("aria-label", this.label ?? "")}${this.invalid || this.error ? ' aria-invalid="true"' : ""}${this.required ? " required" : ""}>${this.filled ? esc(this.value) : ""}</textarea>`;
-      return html12`<span class="${cls}" style="${box}" @input="${(e) => this.onInput(e)}">${unsafeHTML3(area)}</span>`;
+      const attr2 = (name2, value) => value ? ` ${name2}="${esc(value)}"` : "";
+      const area = `<textarea class="sds-input" rows="${this.rows}"${attr2("id", this.fieldId)}${attr2("name", this.name)}${this.filled ? "" : attr2("placeholder", this.value)}${attr2("aria-label", this.label ?? "")}${this.invalid || this.error ? ' aria-invalid="true"' : ""}${this.required ? " required" : ""}>${this.filled ? esc(this.value) : ""}</textarea>`;
+      return html11`<span class="${cls}" style="${box}" @input="${(e) => this.onInput(e)}">${unsafeHTML2(area)}</span>`;
     }
-    const caret = this.focused ? html12`<span style="width:2px; height:15px; background:var(--accent);"></span>` : nothing3;
-    return html12`<span class="${cls}" style="${box}">${this.icon ? html12`<sds-icon name="${this.icon}"></sds-icon>` : nothing3}<input class="sds-input" type="${this.type}" id="${id}" name="${name}" value="${this.filled ? this.value : nothing3}" placeholder="${this.filled ? nothing3 : this.value}" aria-label="${this.label ?? nothing3}" aria-invalid="${invalid}" ?required="${this.required}" @input="${(e) => this.onInput(e)}">${caret}</span>`;
+    const caret = this.focused ? html11`<span style="width:2px; height:15px; background:var(--accent);"></span>` : nothing3;
+    return html11`<span class="${cls}" style="${box}">${this.icon ? html11`<sds-icon name="${this.icon}"></sds-icon>` : nothing3}<input class="sds-input" type="${this.type}" id="${id}" name="${name}" value="${this.filled ? this.value : nothing3}" placeholder="${this.filled ? nothing3 : this.value}" aria-label="${this.label ?? nothing3}" aria-invalid="${invalid}" ?required="${this.required}" @input="${(e) => this.onInput(e)}">${caret}</span>`;
   }
 };
 define("sds-field", SdsField);
 
 // src/components/checkbox.ts
-import { html as html13, nothing as nothing4 } from "lit";
+import { html as html12, nothing as nothing4 } from "lit";
 var SdsCheckbox = class extends SdsElement {
   static {
     this.properties = {
@@ -2804,7 +2765,7 @@ var SdsCheckbox = class extends SdsElement {
     );
   }
   render() {
-    return html13`<label class="sds-check">
+    return html12`<label class="sds-check">
   <input
     class="sds-check__mark"
     type="checkbox"
@@ -2817,7 +2778,7 @@ var SdsCheckbox = class extends SdsElement {
   />
   <span class="sds-check__body">
     <span class="sds-check__label">${this.label}</span>
-    ${this.hint ? html13`<span class="sds-check__hint">${this.hint}</span>` : nothing4}
+    ${this.hint ? html12`<span class="sds-check__hint">${this.hint}</span>` : nothing4}
   </span>
 </label>`;
   }
@@ -2825,7 +2786,7 @@ var SdsCheckbox = class extends SdsElement {
 define("sds-checkbox", SdsCheckbox);
 
 // src/components/radio-group.ts
-import { html as html14, nothing as nothing5 } from "lit";
+import { html as html13, nothing as nothing5 } from "lit";
 var SdsRadioGroup = class extends SdsElement {
   static {
     this.properties = {
@@ -2853,12 +2814,12 @@ var SdsRadioGroup = class extends SdsElement {
     );
   }
   render() {
-    return html14`<fieldset class="sds-choices" name="${this.name || nothing5}">
-  <legend class="sds-field-label">${this.legend}${this.required ? html14` <span class="sds-field-req">required</span>` : nothing5}</legend>
-  ${this.hint ? html14`<span class="sds-field-hint">${this.hint}</span>` : nothing5}
+    return html13`<fieldset class="sds-choices" name="${this.name || nothing5}">
+  <legend class="sds-field-label">${this.legend}${this.required ? html13` <span class="sds-field-req">required</span>` : nothing5}</legend>
+  ${this.hint ? html13`<span class="sds-field-hint">${this.hint}</span>` : nothing5}
   ${this.choices.map((choice) => {
       const value = choice.value ?? choice.label;
-      return html14`<label class="sds-check">
+      return html13`<label class="sds-check">
     <input
       class="sds-check__mark"
       type="radio"
@@ -2870,7 +2831,7 @@ var SdsRadioGroup = class extends SdsElement {
     />
     <span class="sds-check__body">
       <span class="sds-check__label">${choice.label}</span>
-      ${choice.hint ? html14`<span class="sds-check__hint">${choice.hint}</span>` : nothing5}
+      ${choice.hint ? html13`<span class="sds-check__hint">${choice.hint}</span>` : nothing5}
     </span>
   </label>`;
     })}
@@ -2880,10 +2841,10 @@ var SdsRadioGroup = class extends SdsElement {
 define("sds-radio-group", SdsRadioGroup);
 
 // src/components/form-errors.ts
-import { html as html16 } from "lit";
+import { html as html15 } from "lit";
 
 // src/components/note.ts
-import { html as html15, nothing as nothing6 } from "lit";
+import { html as html14, nothing as nothing6 } from "lit";
 var SdsNote = class _SdsNote extends SdsElement {
   constructor() {
     super();
@@ -2929,10 +2890,10 @@ var SdsNote = class _SdsNote extends SdsElement {
   }
   render() {
     const said = this.label || _SdsNote.TONE_LABEL[this.tone];
-    return html15`<div class="sds-note sds-note--${this.tone}">
+    return html14`<div class="sds-note sds-note--${this.tone}">
   <span class="sds-note__icon"><sds-icon name="${this.icon ?? _SdsNote.TONE_ICON[this.tone]}" label="${said}"></sds-icon></span>
   <div class="sds-note__content">
-    ${this.heading ? html15`<div class="sds-note__title">${this.heading}</div>` : nothing6}
+    ${this.heading ? html14`<div class="sds-note__title">${this.heading}</div>` : nothing6}
     <div class="sds-note__body">${this.taken ?? this.body}</div>
   </div>
 </div>`;
@@ -2964,15 +2925,15 @@ var SdsFormErrors = class extends SdsElement {
     if (this.announce && this.errors.length) this.focusSummary();
   }
   render() {
-    if (!this.errors.length) return html16``;
+    if (!this.errors.length) return html15``;
     const count = this.errors.length;
     const heading = this.heading || `${count} ${count === 1 ? "answer needs" : "answers need"} changing`;
-    return html16`<div class="sds-form-errors" tabindex="-1" role="alert" aria-live="assertive">
+    return html15`<div class="sds-form-errors" tabindex="-1" role="alert" aria-live="assertive">
   <sds-note
     tone="error"
     heading="${heading}"
-    .body="${html16`<span class="sds-form-errors__list">${this.errors.map(
-      (error) => html16`<a class="sds-link" href="#${error.for ?? ""}">${error.message}</a>`
+    .body="${html15`<span class="sds-form-errors__list">${this.errors.map(
+      (error) => html15`<a class="sds-link" href="#${error.for ?? ""}">${error.message}</a>`
     )}</span>`}"
   ></sds-note>
 </div>`;
@@ -2981,7 +2942,7 @@ var SdsFormErrors = class extends SdsElement {
 define("sds-form-errors", SdsFormErrors);
 
 // src/components/pills.ts
-import { html as html18 } from "lit";
+import { html as html17 } from "lit";
 
 // src/lib/template.ts
 function lines(parts, indent = 0) {
@@ -2996,7 +2957,7 @@ ${" ".repeat(indent)}`;
 }
 
 // src/components/nav-base.ts
-import { html as html17, nothing as nothing7 } from "lit";
+import { html as html16, nothing as nothing7 } from "lit";
 var navLabel = (item) => typeof item === "string" ? item : item.label;
 var navHref = (item) => typeof item === "string" ? void 0 : item.href;
 var navIcon = (item) => typeof item === "string" ? void 0 : item.icon;
@@ -3028,7 +2989,7 @@ var SdsNav = class extends SdsElement {
   /** A glyph before the label, where the item asked for one. */
   inside_(item) {
     const icon = navIcon(item);
-    return icon ? html17`<sds-icon name="${icon}"></sds-icon>${navLabel(item)}` : html17`${navLabel(item)}`;
+    return icon ? html16`<sds-icon name="${icon}"></sds-icon>${navLabel(item)}` : html16`${navLabel(item)}`;
   }
   /** The class an item carries, active included. */
   class_(index) {
@@ -3040,7 +3001,7 @@ var SdsNav = class extends SdsElement {
       const current = i === this.active;
       const href = navHref(item);
       const inside = this.inside_(item);
-      return href ? html17`<a class="${cls}" href="${href}" aria-current="${current ? "page" : nothing7}">${inside}</a>` : html17`<button type="button" class="${cls}" aria-current="${current ? "true" : nothing7}" @click="${() => this.choose(i)}">${inside}</button>`;
+      return href ? html16`<a class="${cls}" href="${href}" aria-current="${current ? "page" : nothing7}">${inside}</a>` : html16`<button type="button" class="${cls}" aria-current="${current ? "true" : nothing7}" @click="${() => this.choose(i)}">${inside}</button>`;
     });
   }
 };
@@ -3053,7 +3014,7 @@ var SdsPills = class extends SdsNav {
     this.item = "sds-pill";
   }
   render() {
-    return html18`<nav class="${this.block}">
+    return html17`<nav class="${this.block}">
   ${lines(this.items_(), 2)}
 </nav>`;
   }
@@ -3061,7 +3022,7 @@ var SdsPills = class extends SdsNav {
 define("sds-pills", SdsPills);
 
 // src/components/menu.ts
-import { html as html19 } from "lit";
+import { html as html18 } from "lit";
 var seq2 = 0;
 function boxes(row) {
   const out = [];
@@ -3215,7 +3176,7 @@ var SdsMenu = class extends SdsNav {
     return this.for ? "actions-menu-sidebar-collapsed" : "actions-list";
   }
   toggle_(controls) {
-    return html19`<button
+    return html18`<button
     type="button"
     class="sds-menu__toggle"
     aria-expanded="${this.open ? "true" : "false"}"
@@ -3229,14 +3190,14 @@ var SdsMenu = class extends SdsNav {
   }
   render() {
     if (this.for) {
-      if (typeof document !== "undefined" && !this.target) return html19``;
-      return html19`<div class="sds-menu sds-menu--for" @keydown="${(e) => this.onKey(e)}">
+      if (typeof document !== "undefined" && !this.target) return html18``;
+      return html18`<div class="sds-menu sds-menu--for" @keydown="${(e) => this.onKey(e)}">
   ${this.toggle_(this.for)}
 </div>`;
     }
     const written = this.taken;
     const shown = !this.collapsed || this.open;
-    return html19`<div class="sds-menu${this.collapsed ? " is-collapsed" : ""}" @keydown="${(e) => this.onKey(e)}">
+    return html18`<div class="sds-menu${this.collapsed ? " is-collapsed" : ""}" @keydown="${(e) => this.onKey(e)}">
   ${this.toggle_(this.navId)}
   <nav
     id="${this.navId}"
@@ -3270,7 +3231,7 @@ var SdsMenu = class extends SdsNav {
 define("sds-menu", SdsMenu);
 
 // src/components/accordion.ts
-import { html as html20, nothing as nothing8 } from "lit";
+import { html as html19, nothing as nothing8 } from "lit";
 var SdsAccordion = class extends SdsElement {
   static {
     this.properties = {
@@ -3286,9 +3247,9 @@ var SdsAccordion = class extends SdsElement {
     this.name = "sds-accordion";
   }
   render() {
-    return html20`<div class="sds-accordion">
+    return html19`<div class="sds-accordion">
   ${this.entries.map(
-      (entry) => html20`<details
+      (entry) => html19`<details
     class="sds-accordion__item"
     name="${this.multiple ? nothing8 : this.name}"
     ?open="${Boolean(entry.open)}"
@@ -3303,10 +3264,10 @@ var SdsAccordion = class extends SdsElement {
 define("sds-accordion", SdsAccordion);
 
 // src/components/tabs.ts
-import { html as html22, nothing as nothing9 } from "lit";
+import { html as html21, nothing as nothing9 } from "lit";
 
 // src/components/tab-item.ts
-import { html as html21 } from "lit";
+import { html as html20 } from "lit";
 var seq3 = 0;
 var SdsTabItem = class extends SdsElement {
   constructor() {
@@ -3333,7 +3294,7 @@ var SdsTabItem = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    return html21`<div class="sds-tab__panel" role="tabpanel" id="${this.panelId}" aria-labelledby="${this.tabId}" ?hidden="${!this.active}">${this.taken}</div>`;
+    return html20`<div class="sds-tab__panel" role="tabpanel" id="${this.panelId}" aria-labelledby="${this.tabId}" ?hidden="${!this.active}">${this.taken}</div>`;
   }
 };
 define("sds-tab-item", SdsTabItem);
@@ -3342,10 +3303,10 @@ define("sds-tab-item", SdsTabItem);
 function tabsBarMarkup(tabs, active, pick, onKey) {
   const buttons = tabs.map((tab, i) => {
     const cls = i === active ? "sds-tab is-active" : "sds-tab";
-    const inside = tab.icon ? html22`<sds-icon name="${tab.icon}"></sds-icon>${tab.label}` : html22`${tab.label}`;
-    return html22`<button type="button" class="${cls}" role="${tab.panelId ? "tab" : nothing9}" id="${tab.tabId ?? nothing9}" aria-controls="${tab.panelId ?? nothing9}" aria-selected="${tab.panelId ? String(i === active) : nothing9}" tabindex="${tab.panelId ? i === active ? 0 : -1 : nothing9}" @click="${() => pick?.(i)}">${inside}</button>`;
+    const inside = tab.icon ? html21`<sds-icon name="${tab.icon}"></sds-icon>${tab.label}` : html21`${tab.label}`;
+    return html21`<button type="button" class="${cls}" role="${tab.panelId ? "tab" : nothing9}" id="${tab.tabId ?? nothing9}" aria-controls="${tab.panelId ?? nothing9}" aria-selected="${tab.panelId ? String(i === active) : nothing9}" tabindex="${tab.panelId ? i === active ? 0 : -1 : nothing9}" @click="${() => pick?.(i)}">${inside}</button>`;
   });
-  return html22`<div class="sds-tabs" role="${tabs[0]?.panelId ? "tablist" : nothing9}" @keydown="${(e) => onKey?.(e)}">
+  return html21`<div class="sds-tabs" role="${tabs[0]?.panelId ? "tablist" : nothing9}" @keydown="${(e) => onKey?.(e)}">
   ${lines(buttons, 2)}
 </div>`;
 }
@@ -3417,7 +3378,7 @@ var SdsTabs = class extends SdsNav {
         panelId: panel.panelId
       };
     });
-    return html22`${tabsBarMarkup(tabs, this.active, (i) => this.choose(i), (e) => this.onKey(e))}${this.panels}`;
+    return html21`${tabsBarMarkup(tabs, this.active, (i) => this.choose(i), (e) => this.onKey(e))}${this.panels}`;
   }
   updated() {
     this.show();
@@ -3426,7 +3387,7 @@ var SdsTabs = class extends SdsNav {
 define("sds-tabs", SdsTabs);
 
 // src/components/rail.ts
-import { html as html23, nothing as nothing10 } from "lit";
+import { html as html22, nothing as nothing10 } from "lit";
 var isGroup = (entry) => typeof entry !== "string" && Array.isArray(entry.items);
 var SdsRail = class extends SdsNav {
   constructor() {
@@ -3464,18 +3425,18 @@ var SdsRail = class extends SdsNav {
   }
   /** The heading, where there is one. */
   heading() {
-    return this.label ? html23`<div class="sds-label">${this.label}</div>` : nothing10;
+    return this.label ? html22`<div class="sds-label">${this.label}</div>` : nothing10;
   }
   render() {
     if (this.taken.length) {
-      return html23`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
+      return html22`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
   ${this.heading()}
   ${this.taken}
 </nav>`;
     }
     const entries = this.items;
     if (!entries.some(isGroup)) {
-      return html23`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
+      return html22`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
   ${this.heading()}
   ${lines(this.items_(), 2)}
 </nav>`;
@@ -3486,12 +3447,12 @@ var SdsRail = class extends SdsNav {
       const from = at;
       const items = entry.items.map((item) => this.one(item, at++));
       const holdsCurrent = this.active >= from && this.active < at;
-      return html23`<details class="sds-rail__group" ?open="${Boolean(entry.open) || holdsCurrent}">
+      return html22`<details class="sds-rail__group" ?open="${Boolean(entry.open) || holdsCurrent}">
     <summary><sds-icon name="actions-chevron-down"></sds-icon>${entry.label}</summary>
     ${lines(items, 4)}
   </details>`;
     });
-    return html23`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
+    return html22`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
   ${this.heading()}
   ${lines(rendered, 2)}
 </nav>`;
@@ -3501,7 +3462,7 @@ var SdsRail = class extends SdsNav {
     const cls = index === this.active ? `${this.item} is-active` : this.item;
     const href = typeof item === "string" ? void 0 : item.href;
     const inside = this.inside_(item);
-    return href ? html23`<a class="${cls}" href="${href}" aria-current="${index === this.active ? "page" : nothing10}">${inside}</a>` : html23`<button type="button" class="${cls}" aria-current="${index === this.active ? "true" : nothing10}" @click="${() => this.pick(index)}">${inside}</button>`;
+    return href ? html22`<a class="${cls}" href="${href}" aria-current="${index === this.active ? "page" : nothing10}">${inside}</a>` : html22`<button type="button" class="${cls}" aria-current="${index === this.active ? "true" : nothing10}" @click="${() => this.pick(index)}">${inside}</button>`;
   }
   /* `choose` is the base's, and it reads the label out of `items` — which for
      a grouped rail is the entries and not the items. Flattened first, so the
@@ -3522,7 +3483,7 @@ var SdsRail = class extends SdsNav {
 define("sds-rail", SdsRail);
 
 // src/components/footer.ts
-import { html as html24 } from "lit";
+import { html as html23 } from "lit";
 var SdsFooter = class _SdsFooter extends SdsElement {
   static {
     this.properties = {
@@ -3538,13 +3499,13 @@ var SdsFooter = class _SdsFooter extends SdsElement {
     this.meta = [];
   }
   static link(item) {
-    return item.icon ? html24`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>` : html24`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}"></sds-link>`;
+    return item.icon ? html23`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>` : html23`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}"></sds-link>`;
   }
   render() {
-    return html24`<footer class="sds-footer">
+    return html23`<footer class="sds-footer">
   <div class="sds-footer__groups">
     ${this.groups.map(
-      (group) => html24`<div class="sds-footer__group">
+      (group) => html23`<div class="sds-footer__group">
       <div class="sds-label">${group.label}</div>
       <div class="sds-footer__links">
         ${group.items.map((item) => _SdsFooter.link(item))}
@@ -3562,7 +3523,7 @@ var SdsFooter = class _SdsFooter extends SdsElement {
 define("sds-footer", SdsFooter);
 
 // src/components/surface.ts
-import { html as html25 } from "lit";
+import { html as html24 } from "lit";
 var SdsSurface = class extends SdsElement {
   static {
     this.properties = {
@@ -3586,9 +3547,9 @@ var SdsSurface = class extends SdsElement {
     this.boxStyle = "flex:1; min-width:200px";
   }
   render() {
-    const label = this.label ? html25`<div class="sds-label">${this.label}</div>` : void 0;
-    const icon = this.icon ? html25`<div class="sds-surface-icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : void 0;
-    return html25`<div class="sds-${this.plane}" style="${this.boxStyle}">
+    const label = this.label ? html24`<div class="sds-label">${this.label}</div>` : void 0;
+    const icon = this.icon ? html24`<div class="sds-surface-icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : void 0;
+    return html24`<div class="sds-${this.plane}" style="${this.boxStyle}">
   ${icon}
   ${label}
   <div class="sds-surface-title">${this.heading}</div>
@@ -3599,7 +3560,7 @@ var SdsSurface = class extends SdsElement {
 define("sds-surface", SdsSurface);
 
 // src/components/stat.ts
-import { html as html26 } from "lit";
+import { html as html25 } from "lit";
 var SdsStat = class extends SdsElement {
   static {
     this.properties = {
@@ -3615,23 +3576,24 @@ var SdsStat = class extends SdsElement {
     this.note = "";
   }
   render() {
-    return html26`<div class="sds-stat">
+    return html25`<div class="sds-stat">
   <div class="sds-stat__value">${this.value}</div>
   <div class="sds-label">${this.label}</div>
-  ${this.note ? html26`<div class="sds-stat__note">${this.note}</div>` : ""}
+  ${this.note ? html25`<div class="sds-stat__note">${this.note}</div>` : ""}
 </div>`;
   }
 };
 define("sds-stat", SdsStat);
 
 // src/components/figure.ts
-import { html as html29 } from "lit";
-
-// src/components/lightbox.ts
 import { html as html28 } from "lit";
 
-// src/lib/art.ts
+// src/components/lightbox.ts
 import { html as html27 } from "lit";
+
+// src/lib/art.ts
+import { html as html26 } from "lit";
+import { unsafeHTML as unsafeHTML3 } from "lit/directives/unsafe-html.js";
 
 // src/components/diagrams.generated.ts
 var DIAGRAM_VIEWBOX = {
@@ -3642,9 +3604,20 @@ var DIAGRAM_VIEWBOX = {
 
 // src/lib/art.ts
 var GROUP = "art";
-function art(src, alt, cls = "sds-art") {
-  const viewBox = DIAGRAM_VIEWBOX[src.split("/").pop()?.replace(/\.svg$/, "") ?? ""];
-  return viewBox ? html27`<svg class="${cls}" viewBox="${viewBox}" role="img" aria-label="${alt}"><use href="${src}#${GROUP}"></use></svg>` : html27`<img class="${cls}" src="${src}" alt="${alt}" />`;
+var DRAWING = /\.svg(?:[?#].*)?$/i;
+var ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
+var attr = (name, value) => value === void 0 || value === "" ? "" : ` ${name}="${String(value).replace(/[&<>"]/g, (c) => ESCAPE[c])}"`;
+function art(src, alt, cls = "sds-art", width, height) {
+  const name = alt ? attr("role", "img") + attr("aria-label", alt) : attr("aria-hidden", "true");
+  const size = attr("width", width) + attr("height", height);
+  if (!DRAWING.test(src)) {
+    const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c]);
+    return html26`${unsafeHTML3(`<img${attr("class", cls)} src="${src}" alt="${escaped}"${size}>`)}`;
+  }
+  const viewBox = DIAGRAM_VIEWBOX[src.split("/").pop()?.replace(DRAWING, "") ?? ""];
+  return html26`${unsafeHTML3(
+    `<svg${attr("class", cls)}${attr("viewBox", viewBox)}${size}${name}><use href="${src}#${GROUP}"></use></svg>`
+  )}`;
 }
 
 // src/components/lightbox.ts
@@ -3707,7 +3680,7 @@ var SdsLightbox = class extends SdsElement {
     }
   }
   render() {
-    return html28`<dialog
+    return html27`<dialog
       class="sds-lightbox"
       aria-label="${this.caption || this.alt}"
       @close="${() => {
@@ -3727,7 +3700,30 @@ var SdsLightbox = class extends SdsElement {
 define("sds-lightbox", SdsLightbox);
 
 // src/components/figure.ts
+var isCaption = (node) => node.nodeType === 1 && node.matches(".sds-figure__caption");
+var isNothing = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
 var SdsFigure = class extends SdsElement {
+  constructor() {
+    super();
+    /* The picture a renderer wrote, taken before Lit renders over it.
+    
+         `src` is the form a story or a product surface uses: a path, and the
+         element decides from it whether the file is referenced or linked. A
+         documentation renderer cannot use that form — it writes HTML, and the
+         picture has to be in the page before any script has run, or a reader
+         without one gets a caption under an empty frame. So it writes the picture
+         itself and this keeps it, exactly as `sds-code` keeps a block that
+         arrived already coloured. */
+    this.taken = null;
+    /* And its caption, where that was written between the tags too: a caption
+       from a document carries markup — a literal, a link, an emphasis — and an
+       attribute is a string. */
+    this.captioned = null;
+    this.src = "";
+    this.alt = "";
+    this.caption = "";
+    this.zoomable = false;
+  }
   static {
     this.properties = {
       src: { type: String },
@@ -3736,12 +3732,13 @@ var SdsFigure = class extends SdsElement {
       zoomable: { type: Boolean, reflect: true }
     };
   }
-  constructor() {
-    super();
-    this.src = "";
-    this.alt = "";
-    this.caption = "";
-    this.zoomable = false;
+  connectedCallback() {
+    const written = this.lifted().filter((node) => !isNothing(node));
+    const caption = written.filter(isCaption);
+    const picture = written.filter((node) => !isCaption(node));
+    if (caption.length) this.captioned = caption;
+    if (picture.length) this.taken = picture;
+    super.connectedCallback();
   }
   /** Take the press over from the link. Only where there is something to take
       it over with: if the viewer has not upgraded, the browser follows the
@@ -3753,18 +3750,129 @@ var SdsFigure = class extends SdsElement {
     viewer.show();
   }
   render() {
-    const picture = art(this.src, this.alt);
-    const frame = this.zoomable ? html29`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>` : picture;
-    return html29`<figure class="sds-figure">
+    const picture = this.taken ? html28`${this.taken}` : art(this.src, this.alt);
+    const frame = this.zoomable ? html28`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>` : picture;
+    const caption = this.captioned ? html28`${this.captioned}` : this.caption ? html28`<figcaption class="sds-figure__caption">${this.caption}</figcaption>` : "";
+    return html28`<figure class="sds-figure">
   <div class="sds-figure__frame">
     ${frame}
   </div>
-  ${this.caption ? html29`<figcaption class="sds-figure__caption">${this.caption}</figcaption>` : ""}
-  ${this.zoomable ? html29`<sds-lightbox src="${this.src}" alt="${this.alt}" caption="${typeof this.caption === "string" ? this.caption : ""}"></sds-lightbox>` : ""}
+  ${caption}
+  ${this.zoomable ? html28`<sds-lightbox src="${this.src}" alt="${this.alt}" caption="${typeof this.caption === "string" ? this.caption : ""}"></sds-lightbox>` : ""}
 </figure>`;
   }
 };
 define("sds-figure", SdsFigure);
+
+// src/components/image.ts
+import "lit";
+var SdsImage = class extends SdsElement {
+  static {
+    this.properties = {
+      src: { type: String },
+      alt: { type: String },
+      width: { type: Number, reflect: true },
+      height: { type: Number, reflect: true },
+      /* The class the caller wrote, read as a property rather than off the
+         host. `this.className` exists only where there is a DOM, and the card
+         generator renders these elements in Node — so a mark written
+         `class="sds-signet"` came out of the export as `sds-art`, which is
+         `width: 100%`, which is a 20px mark filling the bar. Declaring the
+         attribute is what carries it through both renderings. */
+      cls: { attribute: "class", type: String }
+    };
+  }
+  constructor() {
+    super();
+    this.src = "";
+    this.alt = "";
+    this.width = 0;
+    this.height = 0;
+    this.cls = "";
+  }
+  render() {
+    const width = this.width || void 0;
+    const height = this.height || void 0;
+    const cls = this.cls || (width || height ? "" : "sds-art");
+    return art(this.src, this.alt, cls, width, height);
+  }
+};
+define("sds-image", SdsImage);
+
+// src/components/embed.ts
+import { html as html29, nothing as nothing11 } from "lit";
+var isCaption2 = (node) => node.nodeType === 1 && node.matches(".sds-embed__caption");
+var isNothing2 = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
+var SdsEmbed = class extends SdsElement {
+  constructor() {
+    super();
+    /* The frame a renderer wrote, taken before Lit renders over it. */
+    this.taken = null;
+    /* And its caption, where that was written between the tags too. Kept apart
+       from `taken`, which everything else here reads as the frame itself. */
+    this.captioned = null;
+    this.src = "";
+    this.label = "";
+    this.ratio = "";
+    this.width = 0;
+    this.height = 0;
+    this.caption = "";
+    this.allow = "";
+    this.allowfullscreen = false;
+  }
+  static {
+    this.properties = {
+      src: { type: String },
+      label: { type: String },
+      ratio: { type: String },
+      width: { type: Number },
+      height: { type: Number },
+      caption: { type: String },
+      allow: { type: String },
+      allowfullscreen: { type: Boolean }
+    };
+  }
+  connectedCallback() {
+    const written = this.lifted().filter((node) => !isNothing2(node));
+    const caption = written.filter(isCaption2);
+    const framed = written.filter((node) => !isCaption2(node));
+    if (caption.length) this.captioned = caption;
+    if (framed.length) this.taken = framed;
+    super.connectedCallback();
+  }
+  /** Whether the frame is the size it was made for rather than the column's.
+  
+        A size on its own says fixed, and a ratio beside it says the caller has
+        two answers to one question — the ratio is the one that means "fill the
+        column", so it wins and the size is what the document inside is asked
+        for. */
+  get fixed() {
+    return !this.ratio && this.width > 0 && this.height > 0;
+  }
+  /** What goes in the frame: the node a renderer wrote, or the iframe this
+        writes when nobody did.
+  
+        Not lazy, and that is a decision rather than an omission. An embed is the
+        evidence on the page, and a frame that loads on scroll is a frame that is
+        blank in every screenshot taken of it — which is the one place somebody
+        looks at all of them at once. */
+  get framed() {
+    if (this.taken) return this.taken;
+    if (!this.src) return nothing11;
+    const size = this.fixed ? `width:${this.width}px;height:${this.height}px` : nothing11;
+    return html29`<iframe src="${this.src}" title="${this.label || nothing11}" style="${size}" allow="${this.allow || nothing11}" ?allowfullscreen="${this.allowfullscreen}"></iframe>`;
+  }
+  render() {
+    const shape = this.fixed ? "sds-embed__frame--fixed" : "sds-embed__frame--fluid";
+    const style = this.fixed ? nothing11 : `aspect-ratio:${this.ratio || "16 / 9"}`;
+    const caption = this.captioned ? html29`${this.captioned}` : this.caption ? html29`<div class="sds-embed__caption">${this.caption}</div>` : void 0;
+    return html29`<div class="sds-embed">
+  <div class="sds-embed__frame ${shape}" style="${style}">${this.framed}</div>
+  ${caption}
+</div>`;
+  }
+};
+define("sds-embed", SdsEmbed);
 
 // src/components/overlay.ts
 import { html as html30 } from "lit";
@@ -3902,7 +4010,7 @@ var SdsDialog = class extends SdsElement {
 define("sds-dialog", SdsDialog);
 
 // src/components/table.ts
-import { html as html34, nothing as nothing11 } from "lit";
+import { html as html34, nothing as nothing12 } from "lit";
 var SdsTable = class extends SdsElement {
   static {
     this.properties = {
@@ -3924,7 +4032,7 @@ var SdsTable = class extends SdsElement {
   }
   bodyRow(row) {
     const cells = lines(row.cells.map((v, i) => this.cell(v, this.columns[i]?.cls)), 6);
-    return html34`<tr class="${row.selected ? "is-selected" : nothing11}" style="${row.style ?? nothing11}">
+    return html34`<tr class="${row.selected ? "is-selected" : nothing12}" style="${row.style ?? nothing12}">
       ${cells}
     </tr>`;
   }
@@ -9167,7 +9275,7 @@ function highlight(lang, source) {
 }
 
 // src/components/code.ts
-var isCaption = (node) => node.nodeType === 1 && node.matches(".sds-code__caption");
+var isCaption3 = (node) => node.nodeType === 1 && node.matches(".sds-code__caption");
 var SdsCode = class extends SdsElement {
   constructor() {
     super();
@@ -9232,8 +9340,8 @@ var SdsCode = class extends SdsElement {
   connectedCallback() {
     if (typeof navigator !== "undefined") this.clipboard = Boolean(navigator.clipboard);
     const written = this.lifted();
-    const caption = written.filter(isCaption);
-    const said = written.filter((node) => !isCaption(node));
+    const caption = written.filter(isCaption3);
+    const said = written.filter((node) => !isCaption3(node));
     if (caption.length) this.captioned = caption;
     if (said.length) this.taken = said;
     super.connectedCallback();
@@ -9464,7 +9572,6 @@ define("sds-byline", SdsByline);
 if (typeof document !== "undefined") installHostRule();
 var TAGS2 = [
   "sds-icon",
-  "sds-signet",
   "sds-theme",
   "sds-button",
   "sds-badge",
@@ -9486,6 +9593,8 @@ var TAGS2 = [
   "sds-surface",
   "sds-stat",
   "sds-figure",
+  "sds-image",
+  "sds-embed",
   "sds-lightbox",
   "sds-overlay",
   "sds-modal",
@@ -9514,6 +9623,7 @@ export {
   SdsDiff,
   SdsDrawer,
   SdsElement,
+  SdsEmbed,
   SdsEmpty,
   SdsField,
   SdsFieldError,
@@ -9521,6 +9631,7 @@ export {
   SdsFooter,
   SdsFormErrors,
   SdsIcon,
+  SdsImage,
   SdsLightbox,
   SdsLink,
   SdsMenu,
@@ -9533,7 +9644,6 @@ export {
   SdsRadioGroup,
   SdsRail,
   SdsResult,
-  SdsSignet,
   SdsStat,
   SdsSurface,
   SdsTabItem,
@@ -9549,7 +9659,6 @@ export {
   installHostRule,
   pageNumbers,
   setIconSprite,
-  signetFor,
   themeBoot
 };
 //# sourceMappingURL=index.js.map

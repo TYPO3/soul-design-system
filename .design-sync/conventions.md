@@ -22,11 +22,11 @@ Two rules follow, and both are load-bearing:
 | | |
 |---|---|
 | Text | `sds-icon` `sds-link` |
-| Brand, chrome | `sds-signet` `sds-theme` |
+| Brand, chrome | `sds-theme` |
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` `sds-checkbox` `sds-radio-group` `sds-form-errors` |
 | Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` `sds-crumbs` `sds-footer` `sds-accordion` `sds-search` — search fetches its index on the first keystroke and draws `sds-result` rows in the menu's drop |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
-| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-lightbox` `sds-teaser` `sds-result` `sds-pagination` |
+| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-image` `sds-embed` `sds-lightbox` `sds-teaser` `sds-result` `sds-pagination` |
 | States | `sds-note` `sds-empty` |
 | Long text | `sds-quote` `sds-byline` — both take `as` for what the source is; `role` is the ARIA attribute and cannot be used |
 

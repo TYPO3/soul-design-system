@@ -222,6 +222,19 @@ Pictures
    The caption, which sits under the picture and reads as a label for it
    rather than as a sentence of the text.
 
+A document inside this one
+==========================
+
+.. specimen:: guidelines/colors-surfaces.card.html
+   :viewport: 700x260
+   :title: Surfaces
+
+The embedded frame, which arrives here as a specimen and on a manual page as a
+video. Both are the same node and both are drawn by ``sds-embed``; the frame
+itself is written by the renderer, so this reads with no script running at
+all. A page in this fixture reaches no host but its own — a frame that fetched
+a video would make the render depend on a network the container may not have.
+
 Footnotes and citations
 =======================
 

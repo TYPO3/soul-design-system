@@ -82,7 +82,11 @@ function unresolvedRefs(): string[] {
     for (const m of txt.matchAll(/(?:href|src)="([^"]+)"/g)) {
       const ref = m[1];
       if (!ref || /^(https?:|data:|#)/.test(ref)) continue;
-      const target = resolve(dirname(join(OUT, rel)), ref);
+      /* A fragment names something inside the file, not a second file. A
+         referenced drawing is written `…/mark.svg#art`, and resolving that
+         whole string looks for a file with a `#` in its name and reports every
+         drawing in the bundle as missing. */
+      const target = resolve(dirname(join(OUT, rel)), ref.replace(/#.*$/, ''));
       /* Leaving the bundle is its own failure, and it has to be asked before
          existence: one climb too many lands in the repo, where `assets/` and
          `src/` both exist — so the file is found, the check passes, and what

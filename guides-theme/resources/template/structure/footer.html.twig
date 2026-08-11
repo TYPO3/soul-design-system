@@ -92,11 +92,20 @@
         {%- if env.projectNode.copyright %}
             <span>{{ env.projectNode.copyright }}</span>
         {%- endif %}
+        {#- The mark of the service, before its name and never instead of it:
+            four glyphs in this system may stand alone and all four say
+            something about a result, while a row of bare marks is a row of
+            pictures the reader has to already know. Which mark it is comes
+            from the URL — see `Brands` — so nothing here can name a service
+            the link does not go to, and a host with no mark in the set is the
+            label it already was. -#}
         {%- if soul.footer.socials is defined and soul.footer.socials %}
             <span class="sds-row__end">
                 {%- for social in soul.footer.socials %}
                     <a class="sds-link sds-link--external" href="{{ social.href }}"
-                       target="_blank" rel="noreferrer">{{ social.label }}</a>
+                       target="_blank" rel="noreferrer">
+                        {%- if social.icon %}<sds-icon name="{{ social.icon }}"></sds-icon>{% endif -%}
+                        {{ social.label }}</a>
                 {%- endfor %}
             </span>
         {%- endif %}
