@@ -32,6 +32,47 @@ import '@typo3/soul-design-system/src/index.ts';
 Neither is a fallback for the other. The product this dresses is plain PHP
 with an HTML surface, which is why the classes have to work alone.
 
+## Scope
+
+**This dresses community projects, not TYPO3 itself.** Soul is not the design
+guide for the TYPO3 backend, and it is not the design of typo3.org or of any
+other official TYPO3 presence. Those surfaces have their own owners and their
+own rules, and nothing written here speaks for them. Adopting this system does
+not make a project official, and no surface built with it may imply that it
+is — the same rule the signet and the licence note state, from the other end.
+
+What it is for is the tier below: the extensions, tools, services and
+documentation sites the community builds around TYPO3, and first of all the
+ones the project endorses — Friends of TYPO3 among them. Each of those arrives
+with its own stylesheet, its own idea of a button and its own page layout, so a
+reader crossing from one to the next starts over every time. One token set, one
+class vocabulary and one documentation theme mean the second project somebody
+opens works the way the first one did.
+
+Documentation is the half of that which is easy to miss. `docs/` renders
+through `guides-theme/`, so a project's pages come out with the same
+navigation, the same code blocks and the same search as every other project's —
+which is what makes an answer findable across them rather than merely
+published somewhere.
+
+**And it does not stop at documentation.** A project also has to present
+itself — a landing page, a feature or comparison page, a download, the page
+that says who is behind it — and that is usually the point where a project
+leaves its documentation theme behind and hires a look of its own, so the two
+halves of the same project stop resembling each other. The screens under
+`stories/pages/` are those surfaces, finished pages rather than sketches, and
+a consuming project offers them as Starting Points: what a project sells
+itself with is built from the same tokens and the same class vocabulary as
+what it explains itself with. `docs/guidelines/screens.rst` says which layouts
+they stand on.
+
+**And it is still being built.** None of this is settled enough to be treated
+as a stable interface: tokens get renamed, classes are added and dropped, and
+a component's markup changes whenever a page finds out what it was missing.
+There is no release, no deprecation path and nothing to upgrade through — a
+consuming project pins a commit, and moves when it decides to. The direction
+is not in question; the names still are.
+
 ## What is generated from it
 
 | Output | Command | What it is |
@@ -212,7 +253,7 @@ creates a second one. It compares against the anchor the project stores
 | `src/index.ts` | the bundle entry — importing it registers every `sds-*` element |
 | | |
 | `stories/` | the specimen every card and screen is generated from, and the components with their controls |
-| `docs/**.rst` | the published documentation — the manual, and the ten guideline pages with their specimens embedded |
+| `docs/` | the published documentation — the manual, the guideline pages with their specimens embedded, and the prompts those pages print whole |
 | `guides-theme/` | the Composer package that maps phpDocumentor Guides onto this system, and the acceptance render it is checked against |
 | `tests/` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
