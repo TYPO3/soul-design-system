@@ -37,6 +37,27 @@ use TYPO3\Soul\GuidesTheme\Nodes\TeaserNode;
  */
 final class SoulExtension extends Extension implements ConfigurationInterface, PrependExtensionInterface
 {
+    /**
+     * What a tab icon is announced as, by the only thing that knows: its name.
+     *
+     * A `type` is what lets a browser pick between the files without fetching
+     * them first, which is the whole point of listing more than one. It is
+     * read here rather than configured for the same reason a social link's
+     * glyph is: a second place to say what a file is, is a place that can
+     * disagree with the file.
+     *
+     * @var array<string, string>
+     */
+    private const MEDIA_TYPES = [
+        'gif' => 'image/gif',
+        'ico' => 'image/x-icon',
+        'jpeg' => 'image/jpeg',
+        'jpg' => 'image/jpeg',
+        'png' => 'image/png',
+        'svg' => 'image/svg+xml',
+        'webp' => 'image/webp',
+    ];
+
     public function getAlias(): string
     {
         return 'soul';
@@ -46,12 +67,39 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
     {
         $treeBuilder = new TreeBuilder('soul');
         $treeBuilder->getRootNode()
+            ->fixXmlConfig('favicon')
             ->children()
                 /* A path, relative to the documentation root, of a file the
                    renderer can see — so it is copied into the output with the
                    documents rather than pointing at something that only exists
                    on the machine that built the site. */
                 ->scalarNode('signet')->defaultNull()->end()
+                /* The same mark, in the tab. Written as one element per file
+                   and not as one path, because this system draws a signet at
+                   three optical sizes and a browser picks between them at the
+                   link — a media query inside an SVG only sees its own
+                   viewport:
+
+                       <favicon href="_images/signet-s.svg" sizes="16x16"/>
+                       <favicon href="_images/signet-l.svg" sizes="32x32"/>
+
+                   Left out entirely, the signet is the tab icon: a bar with a
+                   mark above a tab with none is one site saying two things,
+                   and the file already has to survive being rendered on its
+                   own — that is what the hex fallback beside every `var()` in
+                   it is for. */
+                ->arrayNode('favicons')
+                    ->arrayPrototype()
+                        ->children()
+                            ->scalarNode('href')->isRequired()->end()
+                            /* The slot this file is drawn for, as the
+                               attribute is spelled: `16x16`. One entry may
+                               leave it out, and then it is the file for
+                               whatever a browser did not find a size for. */
+                            ->scalarNode('sizes')->defaultNull()->end()
+                        ->end()
+                    ->end()
+                ->end()
                 /* The name in the bar, when it is not the project's own title:
                    a manual that documents one product inside a larger project
                    says the product. */
@@ -187,6 +235,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
         $config = $this->processConfiguration($this, $configs);
 
         $container->setParameter('soul.signet', $config['signet']);
+        $container->setParameter('soul.favicons', $this->favicons($config));
         $container->setParameter('soul.product', $config['product']);
         $container->setParameter('soul.brand', $config['brand']);
         $container->setParameter('soul.home', $config['home']);
@@ -204,5 +253,32 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
 
         $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
         $loader->load('soul.php');
+    }
+
+    /**
+     * The tab icons, each with the type its own filename gives it.
+     *
+     * Worked out here and not in the head, for the reason a social glyph is:
+     * it is a fact about the file, and a template that computes is a template
+     * a project ends up copying.
+     *
+     * @param array<string, mixed> $config
+     *
+     * @return array<int, array<string, string|null>>
+     */
+    private function favicons(array $config): array
+    {
+        /** @var array<int, array<string, string|null>> $favicons */
+        $favicons = $config['favicons'] ?? [];
+        if ($favicons === [] && $config['signet'] !== null) {
+            $favicons = [['href' => $config['signet'], 'sizes' => null]];
+        }
+
+        foreach ($favicons as $index => $icon) {
+            $extension = strtolower(pathinfo((string)$icon['href'], \PATHINFO_EXTENSION));
+            $favicons[$index]['type'] = self::MEDIA_TYPES[$extension] ?? null;
+        }
+
+        return $favicons;
     }
 }

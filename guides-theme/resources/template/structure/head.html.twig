@@ -12,6 +12,16 @@
     "Soul Design System — Soul Design System" is a tab nobody wrote. -#}
 <title>{{ title }}
     {%- if env.projectNode.title and title != env.projectNode.title %} — {{ env.projectNode.title }}{% endif -%}</title>
+{#- The mark in the tab. One `<link>` per file the project configured, and the
+    browser picks by the size it needs — which is how a mark drawn at three
+    optical sizes reaches the slot it was drawn for. Written with `asset()`
+    like the signet is, so the path is resolved from the page being rendered
+    and a page below the root reaches the same file. -#}
+{%- for icon in soul.favicons %}
+<link rel="icon" href="{{ asset('/' ~ icon.href) }}"
+      {%- if icon.type %} type="{{ icon.type }}"{% endif %}
+      {%- if icon.sizes %} sizes="{{ icon.sizes }}"{% endif %} />
+{%- endfor %}
 <script src="{{ root }}styles/soul-boot.js"></script>
 {#- The two faces a page opens in. Without these the browser learns about
     them only after parsing the stylesheet, and `font-display: swap` then does

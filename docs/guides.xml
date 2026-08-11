@@ -23,6 +23,10 @@
     <!-- What the bar says and shows. Both optional; without them it carries
          the project title above. -->
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
+        <!-- Also the mark in the tab: with no <favicon> beside it the signet
+             is what the theme links, which is the right answer while there is
+             one drawing in the tree. A project that ships the optical sizes
+             names them there, one <favicon> per slot. -->
         <signet>_images/signet.svg</signet>
         <brand>TYPO3</brand>
         <product>Soul Design System</product>

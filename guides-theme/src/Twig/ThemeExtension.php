@@ -24,11 +24,13 @@ use TYPO3\Soul\GuidesTheme\Nodes\Bands;
 final class ThemeExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
+     * @param array<int, array<string, string|null>> $favicons
      * @param array<string, mixed> $footer
      * @param array<int, array<string, mixed>> $navigation
      */
     public function __construct(
         private readonly ?string $signet,
+        private readonly array $favicons,
         private readonly ?string $product,
         private readonly ?string $brand,
         private readonly ?string $home,
@@ -42,6 +44,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         return [
             'soul' => [
                 'signet' => $this->signet,
+                'favicons' => $this->favicons,
                 'product' => $this->product,
                 'brand' => $this->brand,
                 'home' => $this->home,

@@ -77,6 +77,8 @@ The theme element
 
    <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
        <signet>_images/signet.svg</signet>
+       <favicon href="_images/signet-s.svg" sizes="16x16"/>
+       <favicon href="_images/signet-l.svg" sizes="32x32"/>
        <brand>Acme</brand>
        <product>Your product</product>
        <navigation>
@@ -120,6 +122,24 @@ The mark
    A signet is not an icon. It ships at three optical sizes with different
    construction, and bar height is the small one's job — see
    :doc:`/guidelines/brand` for which file to hand over.
+
+.. confval:: favicon
+   :type: href, sizes
+   :default: the signet
+
+   The mark in the tab. Written once per file rather than as one path, because
+   a browser picks between them at the link: ``sizes`` is the slot a file is
+   drawn for, spelled the way the attribute is, and one entry may leave it out
+   to be the file for everything else. Paths follow the same rule as the
+   signet — inside the documentation tree, where the renderer can see them.
+
+   Set nothing and the signet is the tab icon, which is the right answer for a
+   project with one drawing: a bar with a mark above a tab without one is a
+   site saying two things. Set the sizes where there is more than one drawing.
+   This system ships three, at three optical sizes with different
+   construction, precisely because scaling one of them is what a favicon slot
+   cannot do — see :doc:`/guidelines/brand`. A media query inside the file
+   cannot pick either: linked, an SVG only ever sees its own viewport.
 
 .. confval:: product
    :type: string

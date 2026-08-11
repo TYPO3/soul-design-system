@@ -73,6 +73,29 @@ test.describe('the render', () => {
   });
 });
 
+test.describe('the mark in the tab', () => {
+  test('is on a page below the root, and points at a file that is there', async ({ page }) => {
+    /* The one path the theme writes that no reader ever clicks: a browser
+       fetches a tab icon quietly or not at all, so a wrong one is a site that
+       looks fine on every page and is blank in the one place a reader keeps
+       it. What breaks is the depth — `asset()` resolves per page, and a page
+       below the root is where that arithmetic goes wrong — so it is read from
+       one rather than from the index. */
+    const below = pages('site').find((path) => path.includes('/') && !path.startsWith('_'));
+    expect(below, 'the site should have a page below its root').toBeTruthy();
+    await page.goto(`${SITE_URL}/${below}`, { waitUntil: 'load' });
+
+    const icons = page.locator('link[rel="icon"]');
+    expect(await icons.count(), 'the site has a mark, so its tab carries one').toBeGreaterThan(0);
+
+    for (const href of await icons.evaluateAll((links) => links.map((l) => l.getAttribute('href') ?? ''))) {
+      expect(href, 'resolved from the page, not from a domain root').not.toMatch(/^\//);
+      const response = await page.request.get(new URL(href, page.url()).toString());
+      expect(response.status(), href).toBe(200);
+    }
+  });
+});
+
 test.describe('what the theme repaired', () => {
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
