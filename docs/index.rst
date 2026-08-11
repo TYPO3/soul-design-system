@@ -13,8 +13,13 @@ builds — they are three shapes of the same tokens and the same
 ``components.css``, which is why a change to a colour reaches all of them at
 once.
 
+.. Hidden because the page below says the same five in full sentences. The
+   tree still exists — it is what the bar, the rail and the breadcrumb are
+   built from — it simply does not print itself a second time.
+
 .. toctree::
    :titlesonly:
+   :hidden:
 
    design-system
    guides-theme

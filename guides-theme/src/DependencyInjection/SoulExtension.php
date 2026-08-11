@@ -57,6 +57,10 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                    a manual that documents one product inside a larger project
                    says the product. */
                 ->scalarNode('product')->defaultNull()->end()
+                /* Whose product it is, where that is a second name — the first
+                   half of a lockup, with the accent rule between the two. Left
+                   out, the mark is one name and there is nothing to separate. */
+                ->scalarNode('brand')->defaultNull()->end()
                 /* What the bar links back to. The index of the project it is
                    rendering, unless a site puts its documentation under a
                    marketing page that is not part of it. */
@@ -179,6 +183,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
 
         $container->setParameter('soul.signet', $config['signet']);
         $container->setParameter('soul.product', $config['product']);
+        $container->setParameter('soul.brand', $config['brand']);
         $container->setParameter('soul.home', $config['home']);
         $container->setParameter('soul.footer', $config['footer'] ?? []);
         $container->setParameter('soul.navigation', $config['navigation'] ?? []);

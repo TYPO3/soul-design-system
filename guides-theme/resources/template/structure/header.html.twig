@@ -13,6 +13,13 @@
     {% include "structure/brand.html.twig" %}
     {% include "structure/navigation.html.twig" %}
     <div class="sds-bar__end">
+        {#- The version belongs with what is true of this page rather than in
+            the mark: it is a fact about the documentation the reader is in, it
+            is a badge like every other short fact in this system, and it is
+            the first thing the bar drops when it narrows. -#}
+        {%- if env.projectNode.version %}
+            <sds-badge label="{{ env.projectNode.version }}" tone="accent"></sds-badge>
+        {%- endif %}
         <sds-search index="{{ root }}_search.json" label="Search"></sds-search>
         <sds-theme key="soul-theme"></sds-theme>
     </div>

@@ -23,6 +23,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
     public function __construct(
         private readonly string|null $signet,
         private readonly string|null $product,
+        private readonly string|null $brand,
         private readonly string|null $home,
         private readonly array $footer = [],
         private readonly array $navigation = [],
@@ -36,6 +37,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
             'soul' => [
                 'signet' => $this->signet,
                 'product' => $this->product,
+                'brand' => $this->brand,
                 'home' => $this->home,
                 'footer' => $this->footer,
                 'navigation' => $this->navigation,

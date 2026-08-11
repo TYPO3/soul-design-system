@@ -47,6 +47,21 @@ export declare class SdsMenu extends SdsNav {
         renders inline — the one state the row can be measured in. */
     private need;
     private watch?;
+    /** What is already watched, so re-observing does not call the observer back
+        and ask again forever. */
+    private readonly watched;
+    /** The items a server wrote between the tags, moved into the row.
+  
+        A rendered site knows its own navigation before the page is sent: where
+        each section is from here, and which one the reader is in. Passing that
+        back through `items` would mean encoding it as a property and resolving
+        it a second time in the browser, so what the server wrote is kept — the
+        links themselves, with their `target`, their `rel` and the mark on the
+        current one intact.
+  
+        Written or given, the element does the same thing to them, which is the
+        part that cannot be written by a server: measure whether they fit. */
+    private taken;
     constructor();
     /** The navigation this opens, where that is not its own items. */
     private get target();

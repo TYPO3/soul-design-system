@@ -2819,6 +2819,21 @@ var SdsMenu = class extends SdsNav {
     /** The width the items need in a row. Zero means "not measured yet", which
         renders inline — the one state the row can be measured in. */
     this.need = 0;
+    /** What is already watched, so re-observing does not call the observer back
+        and ask again forever. */
+    this.watched = /* @__PURE__ */ new WeakSet();
+    /** The items a server wrote between the tags, moved into the row.
+    
+          A rendered site knows its own navigation before the page is sent: where
+          each section is from here, and which one the reader is in. Passing that
+          back through `items` would mean encoding it as a property and resolving
+          it a second time in the browser, so what the server wrote is kept — the
+          links themselves, with their `target`, their `rel` and the mark on the
+          current one intact.
+    
+          Written or given, the element does the same thing to them, which is the
+          part that cannot be written by a server: measure whether they fit. */
+    this.taken = [];
     this.onOutside = (event) => {
       if (!this.open) return;
       const path = event.composedPath();
@@ -2852,10 +2867,17 @@ var SdsMenu = class extends SdsNav {
     return this.for ? document.getElementById(this.for) : null;
   }
   connectedCallback() {
+    const written = this.lifted().filter((node) => node.nodeType === 1);
+    if (written.length) this.taken = written;
     super.connectedCallback();
     if (!this.for) {
       this.watch = new ResizeObserver(() => this.decide());
       if (this.parentElement) this.watch.observe(this.parentElement);
+      void document.fonts?.ready.then(() => {
+        this.need = 0;
+        this.collapsed = false;
+        void this.updateComplete.then(() => this.decide());
+      });
     }
     document.addEventListener("pointerdown", this.onOutside);
   }
@@ -2889,6 +2911,11 @@ var SdsMenu = class extends SdsNav {
     const gap = parseFloat(style.columnGap) || 0;
     const others = boxes(row).filter((el) => !this.contains(el));
     const used = others.reduce((sum, el) => sum + widthOf(el), 0) + gap * others.length;
+    for (const el of others) {
+      if (this.watched.has(el)) continue;
+      this.watched.add(el);
+      this.watch?.observe(el);
+    }
     const inner = row.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
     const collapsed = this.need > inner - used;
     if (collapsed === this.collapsed) return;
@@ -2911,10 +2938,12 @@ var SdsMenu = class extends SdsNav {
   }
   render() {
     if (this.for) {
+      if (typeof document !== "undefined" && !this.target) return html17``;
       return html17`<div class="sds-menu sds-menu--for" @keydown="${(e) => this.onKey(e)}">
   ${this.toggle_(this.for)}
 </div>`;
     }
+    const written = this.taken;
     const shown = !this.collapsed || this.open;
     return html17`<div class="sds-menu${this.collapsed ? " is-collapsed" : ""}" @keydown="${(e) => this.onKey(e)}">
   ${this.toggle_(this.navId)}
@@ -2924,7 +2953,7 @@ var SdsMenu = class extends SdsNav {
     aria-label="${this.label}"
     ?hidden="${!shown}"
   >
-    ${lines(this.items_(), 4)}
+    ${written.length ? written : lines(this.items_(), 4)}
   </nav>
 </div>`;
   }

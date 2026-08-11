@@ -46,6 +46,6 @@ return static function (ContainerConfigurator $container): void {
         ->tag('phpdoc.guides.parser.rst.fieldlist')
 
         ->set(ThemeExtension::class)
-        ->args(['%soul.signet%', '%soul.product%', '%soul.home%', '%soul.footer%', '%soul.navigation%'])
+        ->args(['%soul.signet%', '%soul.product%', '%soul.brand%', '%soul.home%', '%soul.footer%', '%soul.navigation%'])
         ->tag('twig.extension');
 };

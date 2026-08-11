@@ -176,6 +176,7 @@ the same on every page:
 
    <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
        <signet>_images/signet.svg</signet>
+       <brand>Acme</brand>
        <product>Your product</product>
        <navigation>
            <link href="/overview" label="Overview"/>
@@ -195,6 +196,16 @@ the same on every page:
    A link inside the project is a **document** — ``/overview``, not
    ``overview.html``. It is resolved per page, because a bar and a footer
    render on every one of them and they are not all at the same depth.
+
+   ``<brand>`` is the half of the mark before the accent rule, and only a site
+   whose product belongs to a larger name needs one. With ``<product>`` alone
+   the mark is that name, in the mark's own weight. The version is not
+   configured at all: it comes from ``<project version="…"/>`` and sits at the
+   other end of the bar as a badge.
+
+   A section in ``<navigation>`` is marked current on its own page and on every
+   page under it, which is the toctree walked upwards — so a guideline marks
+   Guidelines.
 
 What the theme takes over
 =========================

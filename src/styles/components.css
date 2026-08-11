@@ -1442,6 +1442,20 @@ button.sds-rail__item {
    them. The element measures and decides — see `src/components/menu.ts`; what
    is here is only the two shapes it decides between. */
 .sds-menu { display: flex; align-items: center; }
+/* Before the element upgrades, and on a page where it never will: the row a
+   server wrote, laid out as a row. The host is inline until then, so without
+   this the pills sit on the text baseline and wrap mid-navigation — and the
+   window is not theoretical, it is every first paint.
+
+   The same declarations as `.sds-menu__items` because it is the same row; what
+   the element adds is the decision to stop being one. */
+sds-menu:not(:defined) {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--nav-font-size);
+}
 /* Collapsed, the menu is one button, and a button belongs with the other
    controls rather than left standing where four words used to be. It takes
    the free space instead of the end cluster, so the two sit together. */
@@ -1522,10 +1536,16 @@ button.sds-rail__item {
    and the button is not shown until the layout says the rail has nowhere else
    to be. See the 860px block above, which is where that is decided.
 
+   The wrapper is not a box, so that where the button is gone there is nothing
+   left in the row: an empty flex item still takes a gap from the bar it is in,
+   and that gap was one indent of every logo on a page that has a rail. With
+   no box, the button is the row's item in the one state it is in the row.
+
    `:where()` so this carries the specificity of `.sds-menu__toggle` alone. The
    block that turns it back on is in the layout section, which is *earlier* in
    this file, and two rules of equal weight are settled by order — so written
    plainly this one would win everywhere and the toggle would never appear. */
+.sds-menu--for { display: contents; }
 :where(.sds-menu--for) .sds-menu__toggle { display: none; }
 
 /* Underline tabs inside a panel. */

@@ -6,11 +6,22 @@
 
         <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
             <signet>_images/signet.svg</signet>
+            <brand>Acme</brand>
             <product>Your product</product>
         </extension>
 
-    Both are optional. With neither, the bar carries the project title from
-    `<project>`, which is where a name belongs when there is only one.
+    All three are optional. With no product the bar carries the project title
+    from `<project>`, which is where a name belongs when there is only one.
+
+    The pipe is drawn by the stylesheet — a 2px accent rule, and one of exactly
+    three places that colour appears — so it is written as an empty span and
+    never as a `|`. It appears only where there are two halves to separate: a
+    single name is the mark itself, in the mark's own weight, rather than the
+    quiet half of a lockup with nothing beside it.
+
+    The version is not in here. It is a badge at the other end of the bar, with
+    the rest of what is true of the page rather than of the product, and it goes
+    with them when the bar narrows.
 
     The signet path is relative to the documentation root and must be a file
     the renderer can see — beside the documents, so it is copied into the
@@ -24,11 +35,13 @@
     {%- if soul.signet %}
         <img class="sds-signet" src="{{ asset('/' ~ soul.signet) }}" alt="" width="24" height="24" />
     {%- endif %}
+    {%- set name = soul.product|default(env.projectNode.title)|default('Documentation') %}
     <span class="sds-wordmark">
-        <span class="sds-wordmark__product">{{ soul.product|default(env.projectNode.title)|default('Documentation') }}</span>
-        {%- if env.projectNode.version %}
-            <span class="sds-wordmark__pipe" aria-hidden="true">|</span>
-            <span class="sds-mono">{{ env.projectNode.version }}</span>
-        {%- endif %}
+        {%- if soul.brand -%}
+            {{ soul.brand }}<span class="sds-wordmark__pipe" aria-hidden="true"></span>
+            <span class="sds-wordmark__product">{{ name }}</span>
+        {%- else -%}
+            {{ name }}
+        {%- endif -%}
     </span>
 </a>

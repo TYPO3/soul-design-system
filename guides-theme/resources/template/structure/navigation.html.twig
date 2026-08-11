@@ -11,17 +11,27 @@
             <link href="https://example.org" label="Elsewhere" external="true"/>
         </navigation>
 
-    Pills rather than a list, and the active one is a filled block rather than
-    a tint — the same rule the rest of the system follows, and one of exactly
-    three places the accent appears.
+    `sds-menu` and not a bare row of pills: what happens to four words when the
+    header runs out of room is the element's business, measured rather than
+    guessed at a breakpoint. The links are written here because this side knows
+    where they point and which one the reader is in; the element moves them
+    into a panel below the bar when they stop fitting.
+
+    A section is current when the reader is on it *or* under it — the rootline
+    is the toctree walked upwards, so a guideline page marks Guidelines. Marking
+    only the exact page left the bar saying nothing on every page but five.
+
+    The active pill is a filled block rather than a tint, and it is one of
+    exactly three places the accent appears.
 #}
 {%- if soul.navigation.links is defined and soul.navigation.links %}
-    <nav class="sds-pills" aria-label="Sections">
+    <sds-menu label="Sections">
         {%- for link in soul.navigation.links %}
-            {%- set url = link.external ? link.href : renderLink(link.href) %}
-            <a class="sds-pill{% if url == '#' %} is-active{% endif %}" href="{{ url }}"
+            {%- set here = not link.external and link.href|trim('/') in env.currentFileRootline %}
+            <a class="sds-pill{% if here %} is-active{% endif %}"
+               href="{{ link.external ? link.href : renderLink(link.href) }}"
                {%- if link.external %} target="_blank" rel="noreferrer"{% endif %}
-               {%- if url == '#' %} aria-current="page"{% endif %}>{{ link.label }}</a>
+               {%- if here %} aria-current="page"{% endif %}>{{ link.label }}</a>
         {%- endfor %}
-    </nav>
+    </sds-menu>
 {%- endif -%}

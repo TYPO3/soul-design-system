@@ -54,6 +54,33 @@ export const InAHeader: Story = {
   </header>`,
 };
 
+/** The same row, written by a server instead of passed as a property.
+
+    A rendered site resolves its own links before the page is sent — where each
+    one points from this page, and which one the reader is on — so it writes
+    the pills and the element takes them over. Without the script they are
+    still a row of links; with it they collapse like any other. Nothing here is
+    a second way to say what a pill is: it is the same class the element emits.
+  */
+export const WrittenByAServer: Story = {
+  render: () => html`<header class="sds-bar">
+    <a class="sds-lockup" href="#overview">
+      <sds-signet size="20"></sds-signet>
+      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
+    </a>
+    <sds-menu label="Sections">
+      <a class="sds-pill" href="#overview">overview</a>
+      <a class="sds-pill" href="#foundations">foundations</a>
+      <a class="sds-pill is-active" href="#components" aria-current="page">components</a>
+      <a class="sds-pill" href="#install">install</a>
+    </sds-menu>
+    <div class="sds-bar__end">
+      <sds-badge label="1.0.0" tone="accent"></sds-badge>
+      <sds-theme></sds-theme>
+    </div>
+  </header>`,
+};
+
 /** The same element with nothing beside it. It stays a row far longer, which
     is the point: what it does depends on the header it is in, and no other
     surface has to be told what this one's header holds. */
