@@ -4,9 +4,15 @@
    index is a file too: a small JSON the build writes, fetched the first time
    somebody types and not before — a reader who never searches pays nothing.
 
-   What it draws is the class layer's own: `.sds-field` for the input,
-   `.sds-result` for a hit, `.sds-empty` when there are none. The panel is the
-   menu's drop, because that is what this is.
+   What it draws is the system's own: `sds-result` for a hit, `sds-empty` when
+   there are none. Neither is rebuilt here. A result already knows what to mark
+   and how to say where a page is, and a search that wrote those by hand would
+   be the second place a hit is drawn — which is the place the two start to
+   differ.
+
+   The panel is the menu's drop, because that is what this is, and it hangs
+   from the field rather than from whatever box happens to be positioned above
+   it.
 
    Without JavaScript the element is not there at all, and neither is the
    field. That is deliberate: a search box that cannot search is worse than an
@@ -14,6 +20,8 @@
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
+import './result.ts';
+import './empty.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 /** One page, as the index has it. */
@@ -23,6 +31,10 @@ export interface SearchEntry {
   /** The first paragraph, or as much of it as the build kept. */
   text: string;
 }
+
+/** Distinct ids per instance: the field names the panel it opens, and two
+    search fields on one page must not both call it `sds-search-panel`. */
+let seq = 0;
 
 export class SdsSearch extends SdsElement {
   static override properties = {
@@ -40,6 +52,8 @@ export class SdsSearch extends SdsElement {
   declare entries: SearchEntry[] | null;
   declare open: boolean;
 
+  private readonly panelId = `sds-search-${++seq}`;
+
   constructor() {
     super();
     this.index = '';
@@ -48,6 +62,25 @@ export class SdsSearch extends SdsElement {
     this.entries = null;
     this.open = false;
   }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    /* A press anywhere else closes it. Not `blur`: a press on a result blurs
+       the field before the link is followed, so closing there is a race the
+       panel wins about as often as the reader does — and it was being settled
+       with a 150ms guess. */
+    document.addEventListener('pointerdown', this.onOutside);
+  }
+
+  override disconnectedCallback(): void {
+    document.removeEventListener('pointerdown', this.onOutside);
+    super.disconnectedCallback();
+  }
+
+  private readonly onOutside = (event: Event): void => {
+    if (!this.open || event.composedPath().includes(this)) return;
+    this.open = false;
+  };
 
   /* Fetched once, on the first keystroke. */
   private async load(): Promise<void> {
@@ -58,6 +91,18 @@ export class SdsSearch extends SdsElement {
     } catch {
       this.entries = [];
     }
+  }
+
+  /** Where the site's root is, from this page.
+
+      The index lists every page as the build sees them — `guidelines/type.html`
+      from the root — and a reader is rarely standing in the root. Resolved
+      against the index's own address, which *is* the root: it is one file at
+      one place, and the page was told where it is. Left to the browser, a hit
+      one directory down sends the reader to a page beside the one they are on,
+      which does not exist. */
+  private hrefOf(entry: SearchEntry): string {
+    return new URL(entry.url, new URL('.', new URL(this.index, location.href))).href;
   }
 
   private get hits(): SearchEntry[] {
@@ -74,33 +119,113 @@ export class SdsSearch extends SdsElement {
     await this.load();
   }
 
+  /** The links in the drop, in the order they are read.
+
+      Asked of the markup rather than kept as a list, because what is in the
+      panel is drawn by `sds-result` and the class is the contract between
+      them — the same contract the stylesheet works through. */
+  private links(): HTMLAnchorElement[] {
+    return [...this.querySelectorAll<HTMLAnchorElement>('.sds-search__panel a')];
+  }
+
+  /** In the field: down goes into the list, Escape gives the page back.
+
+      Focus moves for real rather than a row being marked as though it had —
+      these are links, and a reader who has arrowed to one should be able to
+      open it in a new tab like any other. */
+  private onFieldKey(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      this.open = false;
+      return;
+    }
+    if (event.key !== 'ArrowDown' || !this.open) return;
+    /* An arrow in a text field otherwise jumps the caret to one end of it. */
+    event.preventDefault();
+    this.links()[0]?.focus();
+  }
+
+  /** In the drop: the arrows walk it, and up from the first goes back to what
+      was typed. Escape closes from anywhere in it, which is where a reader who
+      changed their mind is standing. */
+  private onPanelKey(event: KeyboardEvent): void {
+    const field = this.querySelector<HTMLInputElement>('.sds-input');
+    if (event.key === 'Escape') {
+      this.open = false;
+      field?.focus();
+      return;
+    }
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+    event.preventDefault();
+
+    const links = this.links();
+    const here = links.indexOf(document.activeElement as HTMLAnchorElement);
+    const next = here + (event.key === 'ArrowDown' ? 1 : -1);
+    if (next < 0) field?.focus();
+    else links[Math.min(next, links.length - 1)]?.focus();
+  }
+
+  /** Left entirely — a press elsewhere, or a tab out of the last hit. */
+  private onLeave(event: FocusEvent): void {
+    const to = event.relatedTarget as Node | null;
+    if (to && this.contains(to)) return;
+    this.open = false;
+  }
+
   protected override render(): TemplateResult {
     const hits = this.hits;
-    return html`<span class="sds-field">
-  <sds-icon name="actions-search" size="16"></sds-icon>
-  <input
-    class="sds-input"
-    type="search"
-    .value="${this.query}"
-    placeholder="${this.label}"
-    aria-label="${this.label}"
-    @input="${(e: Event) => void this.type(e)}"
-    @focus="${() => { this.open = this.query.trim().length > 0; }}"
-    @blur="${() => { setTimeout(() => { this.open = false; }, 150); }}"
-  />
-</span>
-${this.open
-      ? html`<div class="sds-menu__panel sds-search__panel">
+    const open = this.open && this.query.trim().length > 0;
+
+    return html`<div class="sds-search" @focusout="${(e: FocusEvent) => this.onLeave(e)}">
+  <span class="sds-field">
+    <sds-icon name="actions-search" size="16"></sds-icon>
+    <input
+      class="sds-input"
+      type="text"
+      autocomplete="off"
+      spellcheck="false"
+      .value="${this.query}"
+      placeholder="${this.label}"
+      aria-label="${this.label}"
+      aria-controls="${this.panelId}"
+      aria-expanded="${open ? 'true' : 'false'}"
+      @input="${(e: Event) => void this.type(e)}"
+      @keydown="${(e: KeyboardEvent) => this.onFieldKey(e)}"
+      @focus="${() => { this.open = this.query.trim().length > 0; }}"
+    />
+  </span>
+  ${open ? this.panel(hits) : nothing}
+</div>`;
+  }
+
+  /** The drop, and what is in it.
+
+      `sds-result` draws a hit, marks what was searched for, and says where the
+      page is — all three are its own, and the query is handed over rather than
+      the marking being done here, because what is highlighted has to be what
+      was actually searched. */
+  private panel(hits: SearchEntry[]): TemplateResult {
+    return html`<div
+  class="sds-menu__panel sds-search__panel"
+  id="${this.panelId}"
+  aria-label="${this.label}"
+  @keydown="${(e: KeyboardEvent) => this.onPanelKey(e)}"
+>
   ${hits.length
-        ? hits.map(
-          (hit) => html`<article class="sds-result">
-    <h3 class="sds-result__title"><a href="${hit.url}">${hit.title}</a></h3>
-    <span class="sds-result__path">${hit.url}</span>
-  </article>`,
-        )
-        : html`<div class="sds-empty"><span class="sds-empty__body">Nothing matches “${this.query}”.</span></div>`}
-</div>`
-      : nothing}`;
+      ? hits.map(
+        (hit) => html`<sds-result
+    heading="${hit.title}"
+    href="${this.hrefOf(hit)}"
+    path="${hit.url}"
+    snippet="${hit.text}"
+    match="${this.query}"
+  ></sds-result>`,
+      )
+      : html`<sds-empty
+    kind="quiet"
+    heading="Nothing here matches “${this.query}”"
+    body="Every page of this site was searched — its titles and its opening lines. What is not indexed is the body of a page, so a word used once deep in one of them will not be found."
+  ></sds-empty>`}
+</div>`;
   }
 }
 

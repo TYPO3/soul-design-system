@@ -336,6 +336,8 @@ sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
   font-family: var(--font-sans);
   font-size: var(--control-font-size);
   font-weight: var(--weight-semibold);
+  line-height: var(--control-leading);
+  min-height: var(--control-height);
   border-radius: var(--radius-control);
   padding: var(--control-pad-y) var(--control-pad-x);
   border: var(--border-hairline) solid transparent;
@@ -365,16 +367,28 @@ sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
 
 .sds-btn--sm {
   font-size: var(--control-font-size-sm);
+  min-height: var(--control-height-sm);
   padding: var(--control-pad-y-sm) var(--control-pad-x-sm);
 }
 
 /* Icon-only is a square. It always carries a title= — the label is not
-   optional just because it is not painted. */
+   optional just because it is not painted.
+
+   The square is the control height, so a button with a mark in it and a
+   button with a word in it stand the same height in the same row. Its side
+   is set both ways because a fixed width against a `min-height` is a box
+   that is only square by arithmetic. */
 .sds-btn--icon {
-  padding: var(--control-pad-y-sm);
-  width: var(--control-icon-box);
-  height: var(--control-icon-box);
+  padding: 0;
+  width: var(--control-height);
+  height: var(--control-height);
+  min-height: var(--control-height);
   justify-content: center;
+}
+.sds-btn--sm.sds-btn--icon {
+  width: var(--control-height-sm);
+  height: var(--control-height-sm);
+  min-height: var(--control-height-sm);
 }
 
 /* A glyph inside a label is as big as that label. A glyph that IS the control
@@ -489,9 +503,11 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   background: var(--surface-sunken);
   border: var(--border-hairline) solid var(--border-strong);
   border-radius: var(--radius-control);
-  padding: 7px 11px;
+  padding: 7px var(--control-pad-x-sm);
   color: var(--text-muted);
   font-size: var(--control-font-size);
+  line-height: var(--control-leading);
+  min-height: var(--control-height);
   transition:
     border-color var(--duration-fast) var(--ease-out),
     box-shadow var(--duration-fast) var(--ease-out);
@@ -559,8 +575,13 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   color: var(--text-muted);
   max-width: var(--note-measure);
 }
-/* A field holding more than one line stops centring its contents. */
-.sds-field--multi { align-items: flex-start; }
+/* A field holding more than one line stops centring its contents — and gives
+   them prose leading. The control leading is for a single line inside a
+   declared height; stacked lines of someone's own writing are prose. */
+.sds-field--multi {
+  align-items: flex-start;
+  line-height: var(--leading-body);
+}
 .sds-field--multi .sds-input { resize: vertical; min-height: 0; }
 
 /* A checkbox and a radio: the platform's own control, in this system's colour.
@@ -1079,6 +1100,12 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-bar > * > * { min-width: 0; }
 /* The field is the one thing that gives before anything is dropped. */
 .sds-bar .sds-field { flex: 0 1 260px; }
+/* The version stands at the control height here. A badge is prose-scale
+   everywhere else, because everywhere else it is a short fact inside a
+   sentence; in the bar it is one bordered box in a row of bordered boxes,
+   and a row whose boxes have three heights is the first thing a reader
+   sees — before the mark, before the search, before any of them. */
+.sds-bar .sds-badge { height: var(--control-height); }
 
 /* A rail beside a column. `position: relative` because the rail becomes a
    panel where there is no column for it, and that panel is anchored here —
@@ -1314,17 +1341,37 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    panel sits, which is a layout question and not the element's. It hangs from
    the field rather than pushing the bar apart, and it is bounded — eight hits
    is a list, forty is a page nobody asked for. */
-.sds-search { position: relative; display: inline-flex; }
-.sds-search .sds-field { width: 260px; max-width: 100%; }
-.sds-search__panel {
+/* The block the element draws, and the box the panel hangs from. Without one
+   the drop finds whatever is positioned above it — which in a bar is the bar,
+   so it hung off the header's right edge rather than off the field. */
+.sds-search {
+  position: relative;
+  display: inline-flex;
+  flex: 0 1 260px;
+  min-width: 0;
+}
+.sds-search .sds-field { width: 100%; }
+/* Two classes, and the second one is why: this is also `.sds-menu__panel`,
+   whose rule spans a bar edge to edge and is written later in this file. Equal
+   weight is settled by order, so the drop took `left: 0` — and a box given
+   both edges *and* a width keeps the start edge, which left it hanging off the
+   left of the field and growing right past it. */
+.sds-search .sds-search__panel {
   position: absolute;
   top: calc(100% + var(--space-2));
+  left: auto;
   right: 0;
   z-index: 40;
   width: min(420px, 90vw);
   max-height: 60vh;
   overflow-y: auto;
   padding: 0 var(--space-4);
+  /* Framed, unlike the bar's drop. That one is the header's row continued and
+     is bounded by the page edges it spans; this one floats over the text, and
+     an unframed panel on a light canvas reads as the page itself having
+     changed rather than as something laid over it. */
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-card);
 }
 .sds-search__panel .sds-result { padding-block: var(--space-3); }
 .sds-search__panel .sds-result__title { font-size: var(--font-size-ui); }
@@ -1475,10 +1522,16 @@ sds-menu:not(:defined) {
   font-family: var(--font-mono);
   font-size: var(--nav-font-size);
 }
+/* A square of the control height, like every other button that is a mark
+   rather than a word — it stands in a row with the search field and the mode
+   pair and has no reason to be the one box that is shorter. */
 .sds-menu__toggle {
   display: inline-flex;
   align-items: center;
-  padding: 7px;
+  justify-content: center;
+  width: var(--control-height);
+  height: var(--control-height);
+  padding: 0;
   color: var(--text-secondary);
   background: none;
   border: var(--border-hairline) solid var(--border-subtle);
@@ -1588,14 +1641,21 @@ sds-menu:not(:defined) {
   display: inline-flex;
   gap: var(--space-1);
   padding: 2px;
+  /* The control height, and the segments fill what is left of it. Two 12px
+     words are the smallest thing in a header, and left to their own padding
+     they made the mode pair the shortest box on the line. */
+  height: var(--control-height);
   font-family: var(--font-mono);
   font-size: var(--tab-font-size);
+  line-height: var(--control-leading);
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-control);
 }
 .sds-mode {
   font: inherit;
-  padding: 3px 9px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 9px;
   cursor: pointer;
   color: var(--text-secondary);
   background: none;

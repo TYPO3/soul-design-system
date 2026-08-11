@@ -15,12 +15,31 @@
   /* Buttons, fields, selects — anything you click or type in. */
   --control-font-size: 14px;
   --control-font-size-sm: 13px;
+
+  /* One height for all of them, declared rather than fallen out of padding.
+     Padding cannot hold a row level: a 12px mono segment, a 13px label and a
+     14px input make three different boxes out of the same padding, and a
+     header is where that is visible — three borders on one line, none of
+     them agreeing. The height decides; the padding only decides how the text
+     sits inside it.
+
+     A floor, not a ceiling. Every control's own padding and leading come in
+     under it, so the floor is what is measured — and a control whose content
+     genuinely outgrows it, a field with two lines in it, still grows. */
+  --control-height: 36px;
+  --control-height-sm: 28px;
+
+  /* Controls do not carry prose leading. `--leading-body` is 1.65, which is
+     right for a paragraph and wrong here: it puts a 14px label in a 23px
+     line box, over half a control's height before any padding is added, and
+     it makes every control's height a function of the body scale. */
+  --control-leading: 1.2;
+
   --control-pad-y: 8px;
   --control-pad-x: 15px;
   --control-pad-y-sm: 5px;
   --control-pad-x-sm: 11px;
   --control-gap: 8px;
-  --control-icon-box: 28px;
   /* The icon square itself. 16 is the system's floor and the size every
      control assumes; sizes go 16, 20, 24, never 18 or 22. */
   --control-icon-size: 16px;
