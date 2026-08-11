@@ -1,47 +1,54 @@
 {#
-    What fills the layout's blocks.
+    What fills the layout, and which body it fills it with.
 
-    The core version defines `head` and `body` and nothing else, because the
-    core layout has nothing else. This adds the two the furniture needs: the
-    rail, which is the project's menu, and the trail above the title.
-
-    `renderMenu('mainmenu')` builds the menu from the toctree. `parts.mainmenu`
-    is the escape hatch for a project that wrote its own with the `menu`
-    directive — asked first, so a project that has one is not overruled.
+    `:layout: marketing` at the top of a document says it is a landing page;
+    anything else is the manual. Decided here because a block cannot choose the
+    template it lives in, and `block('body')` is what lets the same content be
+    poured into either shape.
 #}
-{#- Which shell this page is set in. `:layout: marketing` at the top of a
-    document says so; anything else is the manual. Read here rather than in the
-    layout because the layout is what changes, and a block cannot decide which
-    template it lives in. -#}
+{% extends "structure/layout.html.twig" %}
+
 {% set layout = 'default' %}
 {%- for headerNode in node.headerNodes -%}
     {%- if headerNode.value == 'marketing' %}{% set layout = 'marketing' %}{% endif -%}
 {%- endfor -%}
-{% extends layout == 'marketing' ? "structure/layout-marketing.html.twig" : "structure/layout.html.twig" %}
 
 {% block head %}
     {%- for headerNode in node.headerNodes -%}
         {{ renderNode(headerNode) }}
     {%- endfor -%}
-    {{ parent() }}
-{% endblock %}
-
-{% block menu %}
-    {% if parts.mainmenu %}
-        {% for child in parts.mainmenu -%}
-            {{ renderNode(child) }}
-        {%~ endfor -%}
-    {% else %}
-        {{ renderMenu('mainmenu') }}
-    {% endif %}
-{% endblock %}
-
-{% block breadcrumb %}
-    {{ renderBreadcrumb() }}
 {% endblock %}
 
 {% block body %}
     {% for child in node.children -%}
         {{ renderNode(child) }}
     {%~ endfor -%}
+{% endblock %}
+
+{% block main %}
+    {%- if layout == 'marketing' -%}
+        <main class="sds-bands">
+            {#- One band around whatever the page wrote: `.sds-bands` draws the
+                ground and the hairline between two of them, and a band is what
+                holds content to the page measure. A page that wants more says
+                so with the `band` directive. -#}
+            <section class="sds-band">
+                <div class="sds-prose">{{ block('body') }}</div>
+            </section>
+        </main>
+    {%- else -%}
+        <div class="sds-body">
+            <aside class="sds-body__rail" id="page-rail">
+                {% if parts.mainmenu %}
+                    {% for child in parts.mainmenu %}{{ renderNode(child) }}{% endfor %}
+                {% else %}
+                    {{ renderMenu('mainmenu') }}
+                {% endif %}
+            </aside>
+            <main class="sds-column">
+                {{ renderBreadcrumb() }}
+                <article class="sds-prose">{{ block('body') }}</article>
+            </main>
+        </div>
+    {%- endif -%}
 {% endblock %}

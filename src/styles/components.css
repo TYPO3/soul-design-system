@@ -1300,6 +1300,27 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   .sds-bar .sds-wordmark__pipe { display: none; }
 }
 
+/* The search field and its drop.
+
+   `sds-search` renders the field and the panel; what is here is where the
+   panel sits, which is a layout question and not the element's. It hangs from
+   the field rather than pushing the bar apart, and it is bounded — eight hits
+   is a list, forty is a page nobody asked for. */
+.sds-search { position: relative; display: inline-flex; }
+.sds-search .sds-field { width: 260px; max-width: 100%; }
+.sds-search__panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  z-index: 40;
+  width: min(420px, 90vw);
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 0 var(--space-4);
+}
+.sds-search__panel .sds-result { padding-block: var(--space-3); }
+.sds-search__panel .sds-result__title { font-size: var(--font-size-ui); }
+
 /* ----------------------------------------------------------- navigation -- */
 
 /* Where the page sits, said as a trail.

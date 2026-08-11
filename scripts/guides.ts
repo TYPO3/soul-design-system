@@ -189,6 +189,31 @@ function* walkHtml(dir: string): Generator<string> {
   }
 }
 
+/* The index a reader searches, written from what was rendered rather than
+   from what was parsed: a page that did not make it into the site is not a
+   page anybody can find. Titles and the first paragraph — enough to tell two
+   pages apart, small enough that fetching it costs nothing.
+
+   `_acceptance` is left out: it is a control surface, and a reader searching
+   the manual should not be handed the kitchen sink. */
+function writeIndex(): number {
+  const entries: { title: string; url: string; text: string }[] = [];
+  for (const file of walkHtml(SITE)) {
+    const url = relative(SITE, file).split(sep).join('/');
+    if (url.startsWith('_')) continue;
+    const html = readFileSync(file, 'utf8');
+    const title = /<title>([\s\S]*?)<\/title>/.exec(html)?.[1]?.split('—')[0]?.trim() ?? url;
+    const first = /<article class="sds-prose">[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/.exec(html)?.[1] ?? '';
+    const text = first.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 400);
+    entries.push({ title, url, text });
+  }
+  entries.sort((a, b) => a.url.localeCompare(b.url));
+  writeFileSync(join(SITE, '_search.json'), JSON.stringify(entries));
+  return entries.length;
+}
+
+const indexed = writeIndex();
+
 const broken = escapes();
 if (broken.length) {
   console.error(`\n✗ ${broken.length} reference(s) do not resolve inside site/:`);
@@ -197,6 +222,7 @@ if (broken.length) {
 }
 
 console.log(`
+  ${indexed} pages indexed for search.
   ${PROJECTS.length} project(s) into site/ — the publish root.
   Open http://localhost:4173/ (the port \`make start\` reports), or photograph a page:
     make look ARGS='site/index.html 900'`);

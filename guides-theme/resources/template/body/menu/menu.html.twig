@@ -1,11 +1,41 @@
 {#
-    The rail: the list of pages, as the frame the document is read inside.
+    The rail: the pages of the section the reader is in, not every page there
+    is.
 
-    Not a `<ul>`. The system's rail is a flat run of anchors with `<details>`
-    where a section folds, because a list of pages is navigation rather than
-    prose — and because a fold that works without JavaScript has to be an
-    element the browser already folds.
+    The bar picks the section — Guidelines, Frontend, the design system — and
+    this is what is inside the one that was picked. Rendering the whole tree
+    put the guidelines under a page about the frontend, which is a sitemap
+    rather than navigation.
+
+    Which section that is has to be worked out rather than asked for:
+    `isCurrent` and `isInRootline` are not set on these nodes, so the signal is
+    the link the renderer resolves to `#` — its way of saying "the page you are
+    on". A section is the one whose entry, or one of whose children, resolves
+    to that.
+
+    A section with no pages under it leaves the rail listing the sections
+    themselves, which is the only useful thing left to say.
 #}
+{%- set here = node.menuEntries|filter(entry =>
+        renderLink(entry.url) == '#'
+        or entry.children|filter(child => renderLink(child.url) == '#')|length > 0
+    )|first -%}
+{%- set inside = here and here.children|length > 0 -%}
+
 <nav class="sds-rail" aria-label="Pages">
-    {% include "body/menu/menu-level.html.twig" %}
+    {%- if inside %}
+        <div class="sds-label">{{ here.value.toString }}</div>
+        {%- for entry in here.children -%}
+            {{ renderNode(entry) }}
+        {%- endfor -%}
+    {%- else -%}
+        {#- The sections themselves, one line each. Their pages belong to them
+            and appear when the reader is inside one — a rail that unfolded
+            every section at once would be the sitemap again. -#}
+        {%- for entry in node.menuEntries -%}
+            {%- set url = renderLink(entry.url) -%}
+            <a class="sds-rail__item{% if url == '#' %} is-active{% endif %}"
+               href="{{ url }}"{% if url == '#' %} aria-current="page"{% endif %}>{{ entry.value.toString }}</a>
+        {%- endfor -%}
+    {%- endif -%}
 </nav>

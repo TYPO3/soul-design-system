@@ -1,4 +1,5 @@
 import './components/icon.ts';
+import './components/search.ts';
 import './components/signet.ts';
 import './components/theme.ts';
 import './components/button.ts';
@@ -77,4 +78,4 @@ export { SdsPagination, pageNumbers, type PaginationProps } from './components/p
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-signet', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-field-error', 'sds-checkbox', 'sds-radio-group', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];
+export declare const TAGS: readonly ['sds-icon', 'sds-signet', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio-group', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];

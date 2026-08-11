@@ -1,0 +1,19 @@
+{#
+    The bar. One of them, for every kind of page.
+
+    Its parts are configuration — the mark, the sections, the footer's sibling
+    — so a manual page and a landing page carry the same one and a reader
+    never has to work out which site they are on.
+#}
+<header class="sds-bar">
+    {#- The mobile menu: one button that opens the rail the layout gives this
+        id to. It adds behaviour and takes none away — without JavaScript there
+        is no button, and the rail is where it always was. -#}
+    <sds-menu for="page-rail" label="Pages"></sds-menu>
+    {% include "structure/brand.html.twig" %}
+    {% include "structure/navigation.html.twig" %}
+    <div class="sds-bar__end">
+        <sds-search index="{{ root }}_search.json" label="Search the documentation"></sds-search>
+        <sds-theme key="soul-theme"></sds-theme>
+    </div>
+</header>

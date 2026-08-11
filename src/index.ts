@@ -21,6 +21,7 @@ import { installHostRule } from './lib/element.ts';
 /* The registrations. The re-exports below are classes and types; these bare
    imports are what actually run each module. */
 import './components/icon.ts';
+import './components/search.ts';
 import './components/signet.ts';
 import './components/theme.ts';
 import './components/button.ts';
@@ -119,6 +120,7 @@ export const TAGS = [
   'sds-link',
   'sds-crumbs',
   'sds-field',
+  'sds-search',
   'sds-field-error',
   'sds-checkbox',
   'sds-radio-group',
