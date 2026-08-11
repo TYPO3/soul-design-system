@@ -1,36 +1,52 @@
 /* The mode, before the first paint.
 
-   `sds-theme` reads what the document already says — `data-theme` on the root
-   element — because reading its own idea of it would disagree with what the
-   browser has already painted. Something has to write it, and it cannot be
-   the element: a module is deferred by definition, so by the time it runs the
-   page is on screen and a stored choice arrives as a flash of the other mode.
+   `sds-theme` reads `data-theme` from the root rather than its own idea of
+   it, so something has to write it — and it cannot be a module, which is
+   deferred by definition and would arrive as a flash of the other mode.
 
-   So this is the one script in the system that is NOT a module. It is loaded
-   without `defer` in the head, runs synchronously before the stylesheets do
-   their work, and is four lines long for exactly that reason.
-
-     <script src="soul-boot.js"></script>
+     <script src="soul-boot.js" data-key="soul-theme"></script>
      <link rel="stylesheet" href="soul.css">
 
-   Without it a switch still switches, and the choice is still stored — it is
-   simply forgotten on the next page, which on a documentation site is every
-   click. That is the bug this file exists to prevent.
-
-   The key can be named on the tag, because two products on one origin are two
-   keys:
-
-     <script src="soul-boot.js" data-key="handbook-theme"></script>
-*/
+   Without it the choice is forgotten on the next page, which on a site of
+   many pages is every click. */
 const script = document.currentScript as HTMLScriptElement | null;
 const key = script?.dataset['key'] ?? 'soul-theme';
+const root = document.documentElement;
 
-try {
-  const mode = localStorage.getItem(key);
-  if (mode === 'light' || mode === 'dark') {
-    document.documentElement.dataset['theme'] = mode;
+/** The stored choice, or nothing. Storage can be denied, and a page must
+    still be a page. */
+function chosen(): 'light' | 'dark' | null {
+  try {
+    const mode = localStorage.getItem(key);
+    return mode === 'light' || mode === 'dark' ? mode : null;
+  } catch {
+    return null;
   }
-} catch {
-  /* Storage denied — private mode, or a policy. The reader's own setting
-     stands, which is the default anyway. */
 }
+
+/* Always an explicit mode. Without `data-theme` the page still renders in the
+   reader's setting — `light-dark()` sees to that — but the switch cannot say
+   which, and shows neither side pressed.
+
+   Writing it turns a preference into a decision, and a decision does not
+   follow the machine at dusk. Hence the query is kept, for as long as nobody
+   has chosen. */
+const query = matchMedia('(prefers-color-scheme: dark)');
+
+function follow(): void {
+  if (chosen()) return;
+  root.dataset['theme'] = query.matches ? 'dark' : 'light';
+}
+
+const stored = chosen();
+if (stored) {
+  root.dataset['theme'] = stored;
+} else {
+  follow();
+}
+
+query.addEventListener('change', follow);
+/* Fired when a reader gives the machine back. */
+document.addEventListener('sds-theme-change', (event) => {
+  if ((event as CustomEvent<{ theme: string | null }>).detail.theme === null) follow();
+});

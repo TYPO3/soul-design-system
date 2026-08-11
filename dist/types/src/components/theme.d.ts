@@ -12,6 +12,7 @@ export interface ThemeChange {
         <script>${themeBoot()}</script> */
 export declare const themeBoot: (key?: string) => string;
 export declare class SdsTheme extends SdsElement {
+    #private;
     static properties: {
         key: {
             type: StringConstructor;
@@ -26,6 +27,7 @@ export declare class SdsTheme extends SdsElement {
     current: ThemeChoice | null;
     constructor();
     connectedCallback(): void;
+    disconnectedCallback(): void;
     private choose;
     protected render(): TemplateResult;
 }

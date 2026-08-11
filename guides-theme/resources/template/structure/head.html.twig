@@ -1,26 +1,10 @@
 {#
     The head, once, for both layouts.
 
-    The boot line is the load-bearing part, and it is shipped rather than
-    written here: `soul-boot.js` is part of the system, because every surface
-    with a mode switch needs the same four lines and a theme is not the place
-    to keep a copy of them. `sds-theme` reads the mode from
-    `document.documentElement.dataset.theme` when it upgrades — "what the boot
-    line wrote" — and a site that never writes it hands the element nothing to
-    show, so the switch renders with neither side pressed and the reader's
-    choice is forgotten on the next page. A manual is many pages; that is not
-    a corner case, it is every click.
-
-    It runs before the stylesheets on purpose. A choice applied after first
-    paint is a flash of the other mode, which is worse than no switch at all.
-
-    It is not a module, and that is the point: `type=module` is deferred
-    whether you ask for it or not, so a stored choice applied from `soul.js`
-    would arrive as a flash of the other mode.
-
-    The key is `soul-theme` by default. Two products on one origin are two
-    keys — name another with `data-key` on the tag, and give `sds-theme` the
-    same one.
+    `soul-boot.js` is not a module and is loaded first: it writes `data-theme`
+    before the first paint, from the stored choice or the reader's own
+    setting. Without it the switch has nothing to show and the choice is lost
+    on the next page.
 #}
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />

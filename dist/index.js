@@ -2114,9 +2114,27 @@ var SdsTheme = class extends SdsElement {
     this.key = "theme";
     this.current = null;
   }
+  /* Watching the attribute, not owning it: `soul-boot.js` writes it before
+     the paint and again when the machine's setting changes, and a second tab
+     changes it too. Read once on connect and the switch would show the side
+     the reader is not looking at. */
+  #watch = null;
   connectedCallback() {
     super.connectedCallback();
-    const written = typeof document !== "undefined" ? document.documentElement.dataset["theme"] : void 0;
+    if (typeof document === "undefined") return;
+    this.#read();
+    this.#watch = new MutationObserver(() => this.#read());
+    this.#watch.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  }
+  disconnectedCallback() {
+    this.#watch?.disconnect();
+    this.#watch = null;
+    super.disconnectedCallback();
+  }
+  /* What the document already says. Reading the element's own idea of it
+     would disagree with the paint. */
+  #read() {
+    const written = document.documentElement.dataset["theme"];
     this.current = written === "light" || written === "dark" ? written : null;
   }
   choose(theme) {
