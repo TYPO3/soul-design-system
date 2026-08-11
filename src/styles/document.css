@@ -168,10 +168,7 @@
    link this file. */
 .sds-prose { max-width: none; }
 :where(.sds-prose) p,
-:where(.sds-prose) ul,
-:where(.sds-prose) ol,
-:where(.sds-prose) dl,
-:where(.sds-prose) blockquote,
+:where(.sds-prose) dt,
 /* The rule too: it is punctuation of the text rather than a block of
    content, and drawn to the full column under a measured paragraph it reads
    as the end of the page instead of the end of a section. */
@@ -183,6 +180,36 @@
 :where(.sds-prose) h5,
 :where(.sds-prose) h6 {
   max-width: var(--measure-prose);
+}
+
+/* One level down, and the reason the list itself is not in the set above.
+
+   `ul`, `ol`, `dl` and `blockquote` are not text. They are boxes that hold
+   it, and a box holding the measure passes it to everything inside — which is
+   how a `<dd>` in a definition list cut a code block to 508px while the same
+   block one level out ran to 940, and how a table inside a list scrolled
+   inside 620px with three hundred to spare beside it. A `<blockquote>` needs
+   no rule at all now: it holds paragraphs, and the paragraphs are measured.
+
+   A list item and a definition are the ambiguous pair — text most of the
+   time, a container the rest of it — so they take the measure and give it
+   back the moment they hold a block. */
+:where(.sds-prose) li,
+:where(.sds-prose) dd {
+  max-width: var(--measure-prose);
+}
+/* What counts as holding a block: any child element that is not part of a
+   sentence. A `<code>` or a link in the line leaves the item text and it
+   keeps the measure; a table, a code block, a picture or a nested list makes
+   it a container and the child answers for its own width. A paragraph in
+   there is measured by the rule above, so releasing the item costs the text
+   nothing.
+
+   No `!important` and no ordering trick: `:has()` weighs its heaviest
+   argument, so this pair out-specifies the pair above wherever it matches. */
+:where(.sds-prose) li:has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)),
+:where(.sds-prose) dd:has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)) {
+  max-width: none;
 }
 
 /* A paragraph is set by the block it stands in.
