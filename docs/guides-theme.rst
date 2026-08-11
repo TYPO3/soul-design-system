@@ -121,7 +121,7 @@ beside a rail, held to a measure; the other is a run of full-bleed bands with
 no rail at all, because there is nothing to navigate on the way in. A page
 says which it is, at the top, beside its navigation title:
 
-.. code-block:: rst
+.. code-block:: text
 
    :navigation-title: Overview
    :layout: marketing
@@ -137,7 +137,7 @@ Three directives build the rest of it.
    directive is not one, since reStructuredText parses sections at document
    level, so the line and its underline would both ship as text.
 
-   .. code-block:: rst
+   .. code-block:: text
 
       .. band:: What it costs
          :quiet:
@@ -159,7 +159,7 @@ Three directives build the rest of it.
    ``:to:`` names a document, and then the whole card is the link: a teaser
    whose title alone is clickable asks a reader to aim at four words.
 
-   .. code-block:: rst
+   .. code-block:: text
 
       .. grid::
 
@@ -198,21 +198,27 @@ the same on every page:
 What the theme takes over
 =========================
 
-.. table:: Templates this theme replaces
-   :widths: auto
+.. list-table:: Templates this theme replaces
+   :header-rows: 1
 
-   ============================  =========================================
-   Template                      Why
-   ============================  =========================================
-   ``structure/layout``          the shell, the rail, the column
-   ``structure/layout-marketing`` the same shell, a run of bands
-   ``structure/brand``           the mark, from configuration
-   ``structure/navigation``      the bar's sections
-   ``structure/footer``          groups, socials, the note
-   ``body/menu/*``               the rail, and the trail above the title
-   ``body/code``                 the caption above, and a language floor
-   ``body/embedded-frame``       a specimen, and its caption
-   ============================  =========================================
+   * - Template
+     - Why
+   * - ``structure/layout``
+     - the shell, the rail, the column
+   * - ``structure/layout-marketing``
+     - the same shell, a run of bands
+   * - ``structure/brand``
+     - the mark, from configuration
+   * - ``structure/navigation``
+     - the bar's sections
+   * - ``structure/footer``
+     - groups, socials, the note
+   * - ``body/menu/*``
+     - the rail, and the trail above the title
+   * - ``body/code``
+     - the caption above, and a language floor
+   * - ``body/embedded-frame``
+     - a specimen, and its caption
 
 .. warning::
 

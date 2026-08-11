@@ -217,6 +217,38 @@
   color: inherit;
 }
 
+/* A code block before its element upgrades — and on a page that runs no
+   JavaScript at all.
+
+   A renderer that ships `<sds-code>` ships a block that is already coloured:
+   the server did that, and the element only adds the head and the copy
+   button. But an element the browser has not defined is an inline box, and a
+   `<code>` inside one collapses its whitespace — which turns machine output
+   into a paragraph.
+
+   `:not(:defined)` is exactly the window between the two states, so this is
+   what the block looks like in it: the same sunken plane, the same scroll,
+   the same size. When the element upgrades it takes over and this stops
+   applying, and the two agree because both are drawn from the same tokens. */
+.sds-prose sds-code:not(:defined) {
+  display: block;
+  margin: 0 0 var(--space-4);
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+.sds-prose sds-code:not(:defined) > code {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  overflow-x: auto;
+  white-space: pre;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-code);
+  line-height: var(--leading-code);
+  color: var(--text-primary);
+}
+
 /* ---------------------------------------------------------- in the line -- */
 
 /* A key is a physical thing, so it gets the one border in this section. */

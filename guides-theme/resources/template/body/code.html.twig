@@ -25,8 +25,20 @@
     {% if node.caption %}
         <div class="sds-code__caption">{{ renderNode(node.caption) }}</div>
     {%- endif -%}
-    <pre{% if node.classes %} class="{{ node.classesString }}"{% endif %}><code class="language-{{ node.language|default('text') }}{{ node.startingLineNumber ? ' line-numbers' }}"
+    {#- The element, not a hand-built frame.
+
+        `sds-code` takes what it is given and, when the colour is already
+        there, hands it back untouched — wrapper and all, so the language, the
+        starting line and the emphasised lines survive. What it adds is the
+        head and the copy button, which is the whole reason to use an element
+        rather than a `<pre>`.
+
+        Before it upgrades — and on a page with no JavaScript at all — the
+        `<code>` inside is drawn by `document.css` under `:not(:defined)`. The
+        block reads either way; only the button is missing. -#}
+    <sds-code code-lang="{{ node.language|default('text') }}" copy
+        {%- if node.classes %} class="{{ node.classesString }}"{% endif %}><code class="language-{{ node.language|default('text') }}{{ node.startingLineNumber ? ' line-numbers' }}"
         {%- if node.startingLineNumber %} data-start="{{ node.startingLineNumber }}"{% endif -%}
         {%- if node.emphasizeLines %} data-emphasize-lines="{{ node.emphasizeLines }}"{% endif -%}
-    >{{- node.value|highlight(node.language|default('text')) -}}</code></pre>
+    >{{- node.value|highlight(node.language|default('text')) -}}</code></sds-code>
 {%~ endif -%}

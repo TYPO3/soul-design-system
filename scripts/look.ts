@@ -38,12 +38,26 @@ if (!file) {
 /* As given, or as the bundle names it. Both are the same file. */
 const target = existsSync(join(ROOT, file)) ? file : inRepo(file);
 
+/* A URL is opened as a URL.
+
+   A page that loads an ES module cannot be photographed over `file://` —
+   the browser blocks module scripts there, so every custom element stays
+   unupgraded and the picture is of a page nobody will ever see. The rendered
+   site is served by its own container for exactly this reason, and pointing
+   this at that address is how a screenshot shows what a reader gets:
+
+     make look ARGS='http://localhost:4173/ 1280'
+
+   A card or a screen is still a file, and files are fine: they carry no
+   modules. */
+const address = /^https?:/.test(file) ? file : pathToFileURL(join(ROOT, target)).href;
+
 const width = Number(widthArg ?? 1440);
 const modes = modeArg === 'light' || modeArg === 'dark' ? [modeArg] : (['light', 'dark'] as const);
 const OUT = resolve(join(ROOT, 'test-results'));
 mkdirSync(OUT, { recursive: true });
 
-const name = basename(file).replace(/\.html$/, '');
+const name = (basename(file).replace(/\.html$/, '') || 'index').replace(/[^\w.-]/g, '-');
 
 /* `withBrowser` rather than a launch of its own: it closes the browser when
    this throws *and* when it is interrupted, and a script that opens one by
@@ -53,7 +67,7 @@ await withBrowser(async (browser) => {
     const ctx = await browser.newContext({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
     try {
       const page = await ctx.newPage();
-      await page.goto(pathToFileURL(join(ROOT, target)).href);
+      await page.goto(address);
       /* The mode is forced on `<html>` rather than through the emulated
          preference: that is what the theme switch does, and a page has to be
          photographed in the state a reader can actually put it in. */
