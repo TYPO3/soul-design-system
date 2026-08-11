@@ -142,46 +142,7 @@ const cssOptions: esbuild.BuildOptions = {
   assetNames: 'fonts/[name]',
 };
 
-/* Which glyphs the components reach for, written down.
-
-   A consumer that wants a sprite of its own — because the whole category is
-   199 kB and it draws six icons — can list the ones its own markup names, and
-   cannot list the ones a button or a code block renders inside itself. That
-   is the component's knowledge and this is where it is published, scanned out
-   of the source rather than kept by hand, so a component that starts using a
-   new glyph brings it along.
-
-   Every id is checked against the set that ships: a typo in a component is
-   otherwise a blank glyph in somebody else's build. */
-function componentIcons(): string[] {
-  const dir = join(ROOT, 'src', 'components');
-  const sources = readdirSync(dir).filter((f) => f.endsWith('.ts') && !f.includes('.generated.'));
-  const found = new Set<string>();
-
-  for (const file of sources) {
-    const text = readFileSync(join(dir, file), 'utf8');
-    for (const [, id] of text.matchAll(/['"](actions-[a-z0-9-]+)['"]/g)) found.add(id as string);
-  }
-
-  const manifest = JSON.parse(
-    readFileSync(join(ROOT, 'assets', 'icons', 'icons.json'), 'utf8'),
-  ) as { icons: Record<string, unknown> };
-  const shipped = new Set(Object.keys(manifest.icons));
-  const missing = [...found].filter((id) => !shipped.has(id));
-  if (missing.length) {
-    throw new Error(`a component names an icon this system does not ship: ${missing.join(', ')}`);
-  }
-
-  return [...found].sort();
-}
-
-const copyAssets = (): void => {
-  cpSync(join(ROOT, 'assets'), join(OUT, 'assets'), { recursive: true });
-  writeFileSync(
-    join(OUT, 'assets', 'icons', 'components.json'),
-    `${JSON.stringify(componentIcons(), null, 2)}\n`,
-  );
-};
+const copyAssets = (): void => cpSync(join(ROOT, 'assets'), join(OUT, 'assets'), { recursive: true });
 
 if (WATCH) {
   const stamp = (what: string, errors = 0): void =>
