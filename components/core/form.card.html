@@ -1,0 +1,109 @@
+<!-- @dsCard group="Components" viewport="700x460" subtitle="Label above, hint under, error under both — and a placeholder is not a label" name="A field in a form" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../src/styles/styles.css" />
+<link rel="stylesheet" href="../../src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec">
+    <div class="spec-row">
+      <div class="sds-field-row">
+        <label class="sds-field-label" for="email">Your email <span class="sds-field-req">required</span></label>
+        <span class="sds-field" style="width:260px; max-width:100%"><input class="sds-input" type="email" id="email" name="email"  placeholder="you@example.org"   required></span>
+        <span class="sds-field-hint">Used for the reply and for nothing else.</span>
+  
+      </div>
+      <div class="sds-field-row">
+        <label class="sds-field-label" for="release">Which release is this about?</label>
+        <span class="sds-field is-invalid" style="width:240px; max-width:100%"><input class="sds-input" type="text" id="release" name="release"  placeholder="13.4"  aria-invalid="true"></span>
+  
+        <span class="sds-field-error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>Say which release the question is about</span>
+      </div>
+      <span class="spec-cap">ASKED · WRONG</span>
+    </div>
+    <div class="spec-row">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <label class="sds-check">
+        <input
+          class="sds-check__mark"
+          type="checkbox"
+    
+    
+          checked
+    
+    
+    
+        />
+        <span class="sds-check__body">
+          <span class="sds-check__label">Attach the server scope</span>
+          <span class="sds-check__hint">Versions, reachable sources, degraded tools. No file contents.</span>
+        </span>
+      </label>
+        <fieldset class="sds-choices" name="reply">
+        <legend class="sds-field-label">How should we come back to you?</legend>
+  
+        <label class="sds-check">
+          <input
+            class="sds-check__mark"
+            type="radio"
+            name="reply"
+            value="Email"
+      
+      
+      
+          />
+          <span class="sds-check__body">
+            <span class="sds-check__label">Email</span>
+      
+          </span>
+        </label><label class="sds-check">
+          <input
+            class="sds-check__mark"
+            type="radio"
+            name="reply"
+            value="In the repository"
+      
+      
+      
+          />
+          <span class="sds-check__body">
+            <span class="sds-check__label">In the repository</span>
+      
+          </span>
+        </label><label class="sds-check">
+          <input
+            class="sds-check__mark"
+            type="radio"
+            name="reply"
+            value="No reply"
+      
+      
+      
+          />
+          <span class="sds-check__body">
+            <span class="sds-check__label">No reply</span>
+      
+          </span>
+        </label>
+      </fieldset>
+      </div>
+      <span class="spec-cap">ONE FACT · ONE ANSWER OF THREE</span>
+    </div>
+    <div class="spec-row">
+      <div class="sds-form-errors" tabindex="-1" role="alert" aria-live="assertive">
+        <div class="sds-note sds-note--error">
+        <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg></span>
+        <div>
+          <div class="sds-note__title">2 answers need changing</div>
+          <div class="sds-note__body"><span class="sds-form-errors__list"><a class="sds-link" href="#email">An email address is needed for a reply by email</a><a class="sds-link" href="#release">Say which release the question is about</a></span></div>
+        </div>
+      </div>
+      </div>
+      <span class="spec-cap">WHAT STOPPED IT</span>
+    </div>
+    <div class="spec-cap" style="border-top:1px solid var(--border-subtle); padding-top:12px;">A PLACEHOLDER IS NOT A LABEL · REQUIRED IS SAID IN WORDS · THE TICK IS TEXT COLOUR, NOT THE ACCENT</div>
+  </div>
+</body>
+</html>
