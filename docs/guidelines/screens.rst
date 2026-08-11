@@ -50,7 +50,7 @@ are steps in an argument — a pitch, then who it is for, then what it costs —
 and wrong everywhere else, because a change of ground that means nothing is a
 change of ground the reader stops believing.
 
-Ankommen — the pages that argue
+Arriving — the pages that argue
 ===============================
 
 The landing page
@@ -111,8 +111,8 @@ recording.
    :viewport: 1440x900
    :title: Get started
 
-Finden — the pages that distribute
-==================================
+Finding — the pages that distribute
+===================================
 
 The list
 --------
@@ -149,8 +149,8 @@ current — a map has no *here* on it.
    :viewport: 1440x900
    :title: Sitemap
 
-Lesen — the pages that hold text
-================================
+Reading — the pages that hold text
+==================================
 
 The documentation surface
 -------------------------
@@ -206,8 +206,8 @@ the list *is* the work and scanning beats reading.
    :viewport: 1440x900
    :title: Tool reference
 
-Handeln und Ränder
-==================
+Acting and edges
+================
 
 The form
 --------
