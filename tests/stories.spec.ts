@@ -95,6 +95,7 @@ test('the index lists every component and guideline page', async ({ request }) =
        rather than a picture of one. */
     'Pages/Answer',
     'Pages/Documentation',
+    'Pages/Feature',
     'Pages/Landing',
     'Pages/Tool reference',
   ]) {
@@ -106,6 +107,12 @@ for (const theme of ['dark', 'light'] as const) {
   test(`every story renders cleanly in ${theme}`, async ({ page, request }) => {
     const stories = await storyIds(request);
     expect(stories.length, 'there should be stories to check').toBeGreaterThan(20);
+
+    /* One test opens every story in the index, so its budget is a function of
+       how many there are — not a number that has to be raised by hand every
+       time a component arrives with four stories behind it. The default 30s
+       was that number, and it ran out as a page layout was being added. */
+    test.setTimeout(Math.max(30_000, stories.length * 1_200));
 
     const problems: string[] = [];
     page.on('pageerror', (e) => problems.push(`${String(e).slice(0, 200)}`));

@@ -26,6 +26,7 @@ import './components/theme.ts';
 import './components/button.ts';
 import './components/badge.ts';
 import './components/link.ts';
+import './components/crumbs.ts';
 import './components/field.ts';
 import './components/field-error.ts';
 import './components/pills.ts';
@@ -33,7 +34,10 @@ import './components/menu.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/rail.ts';
+import './components/footer.ts';
 import './components/surface.ts';
+import './components/stat.ts';
+import './components/figure.ts';
 import './components/overlay.ts';
 import './components/modal.ts';
 import './components/drawer.ts';
@@ -51,6 +55,7 @@ export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './compo
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts';
 export { SdsLink, type LinkProps } from './components/link.ts';
+export { SdsCrumbs, type CrumbsProps, type Crumb } from './components/crumbs.ts';
 export { SdsField, fieldClass, type FieldProps } from './components/field.ts';
 export { SdsFieldError } from './components/field-error.ts';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.ts';
@@ -59,7 +64,10 @@ export { SdsMenu } from './components/menu.ts';
 export { SdsTabs } from './components/tabs.ts';
 export { SdsTabItem } from './components/tab-item.ts';
 export { SdsRail } from './components/rail.ts';
+export { SdsFooter, type FooterProps, type FooterGroup, type FooterLink } from './components/footer.ts';
 export { SdsSurface, type SurfaceProps, type Plane } from './components/surface.ts';
+export { SdsStat, type StatProps } from './components/stat.ts';
+export { SdsFigure, type FigureProps } from './components/figure.ts';
 export { SdsOverlay } from './components/overlay.ts';
 export { SdsModal } from './components/modal.ts';
 export { SdsDrawer } from './components/drawer.ts';
@@ -87,6 +95,7 @@ export const TAGS = [
   'sds-button',
   'sds-badge',
   'sds-link',
+  'sds-crumbs',
   'sds-field',
   'sds-field-error',
   'sds-pills',
@@ -94,7 +103,10 @@ export const TAGS = [
   'sds-tabs',
   'sds-tab-item',
   'sds-rail',
+  'sds-footer',
   'sds-surface',
+  'sds-stat',
+  'sds-figure',
   'sds-overlay',
   'sds-modal',
   'sds-drawer',

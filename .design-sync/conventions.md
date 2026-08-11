@@ -24,9 +24,9 @@ Two rules follow, and both are load-bearing:
 | Text | `sds-icon` `sds-link` |
 | Brand, chrome | `sds-signet` `sds-theme` |
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` |
-| Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` |
+| Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` `sds-crumbs` `sds-footer` |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
-| Data | `sds-table` `sds-code` `sds-diff` |
+| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` |
 | States | `sds-note` |
 
 They render **light DOM** and emit exactly the classes below, so an element and a
@@ -73,11 +73,14 @@ inline styles — do not mint a `sds-` name.
 | Root, text | `sds-app` `sds-prose` `sds-label` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--16` `sds-icon--20` `sds-icon--24` `sds-icon--muted` |
 | Type | `sds-display` `sds-h1` `sds-h2` `sds-h3` `sds-lead` |
 | Layout | `sds-shell` `sds-bar`/`sds-bar__end` `sds-body`/`sds-body__rail` `sds-column` `sds-page` `sds-foot` `sds-sections` `sds-stack` `sds-row` `sds-actions` `sds-split` `sds-grid` |
+| Bands | `sds-bands` `sds-band` `sds-band--quiet` — full-bleed sections whose ground changes, contents on the page measure. Use instead of `sds-page`, never inside one |
+| Site footer | `sds-footer` `sds-footer__groups` `sds-footer__group` `sds-footer__links` `sds-footer__end`; `sds-crumbs` `sds-crumbs__sep` `sds-crumbs__here` |
+| Figures | `sds-stats` `sds-stat` `sds-stat__value` `sds-stat__note`; `sds-figure` `sds-figure__frame` `sds-figure__art` `sds-figure__art--light` `sds-figure__art--dark` `sds-figure__caption` |
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon` |
 | Badges | `sds-badge` + `--accent` `--ok` `--warn` `--error` |
 | Fields | `sds-field` `sds-input` `sds-select` `sds-field-error` |
-| Tables | `sds-table` + `--compact` `--medium` `--airy` `--scroll`; cells `sds-td-name` `sds-td-meta` |
-| Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-overlay` `sds-modal__head|__body|__foot` `sds-drawer` |
+| Tables | `sds-table` + `--compact` `--medium` `--airy`, wrapped in `sds-table-scroll` where it may outgrow its column; cells `sds-td-name` `sds-td-meta` |
+| Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-surface-icon` `sds-surface-title` `sds-surface-body` `sds-overlay` `sds-modal__head|__body|__foot` `sds-drawer` |
 | Navigation | `sds-pills`/`sds-pill` `sds-menu`/`sds-menu--for`/`sds-menu__items`/`sds-menu__panel`/`sds-menu__toggle` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__item`/`sds-rail__group` |
 | Code | `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |

@@ -1,7 +1,7 @@
 /* The layout frame.
 
    The three measurements a page is built on, drawn once: a 210px tool rail, a
-   960px page measure, and the 48px gutter between the page and the screen.
+   1200px page measure, and the 48px gutter between the page and the screen.
    The rail's width comes from the token rather than from the number, so the
    drawing moves when the system does.
 
@@ -27,7 +27,7 @@ const column = (): string =>
   `<div style="padding:14px 18px;">
   <div style="font-family:var(--font-mono); font-size:18px; color:var(--text-primary);">typo3_rule_lookup</div>
   <div style="height:1px; background:var(--border-subtle); margin:12px 0;"></div>
-  <div class="spec-cap" style="font-size:11px;">--width-sidebar 210 · --gutter-page 48 · --width-page 960</div>
+  <div class="spec-cap" style="font-size:11px;">--width-sidebar 210 · --gutter-page 48 · --width-page 1200</div>
 </div>`;
 
 const meta: Meta = {
@@ -39,7 +39,7 @@ const meta: Meta = {
       path: 'guidelines/spacing-layout.card.html',
       group: 'Spacing',
       name: 'Layout frame',
-      subtitle: '210px tool rail, 960px page measure, 48px page gutter',
+      subtitle: '210px tool rail, 1200px page measure, 48px page gutter',
       viewport: '700x180',
     }),
   },

@@ -18,11 +18,11 @@
     type="button"
     class="sds-menu__toggle"
     aria-expanded="false"
-    aria-controls="sds-menu-3"
+    aria-controls="sds-menu-4"
     aria-label="Sections"
     hidden><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-menu"><g fill="currentColor"><path d="M9 12v2H7v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 7v2H7V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 2v2H7V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 7v2H2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 2v2H2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 12v2H2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 7v2h-2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 2v2h-2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 12v2h-2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5z"></path></g></svg></button>
   <nav
-    id="sds-menu-3"
+    id="sds-menu-4"
     class="sds-menu__items"
     aria-label="Sections">
     <a class="sds-pill is-active" href="#overview" aria-current="page">overview</a>
@@ -84,14 +84,17 @@
 
       <section class="sds-grid">
         <div class="sds-panel" style="flex:1; min-width:200px">
+  
   <div class="sds-label">audience 01</div>
   <div class="sds-surface-title">Product designer</div>
   <div class="sds-surface-body">Starting points to open, tokens to draw against, and a specimen for every rule — so a decision is looked up rather than remembered.</div>
 </div><div class="sds-panel" style="flex:1; min-width:200px">
+  
   <div class="sds-label">audience 02</div>
   <div class="sds-surface-title">Interface developer</div>
   <div class="sds-surface-body">Custom elements that need no build step and no framework. Light DOM, so the page around them styles them like anything else.</div>
 </div><div class="sds-panel" style="flex:1; min-width:200px">
+  
   <div class="sds-label">audience 03</div>
   <div class="sds-surface-title">Backend developer</div>
   <div class="sds-surface-body">The same class names a template writes by hand. Neither layer is a fallback for the other, and both are checked against the same file.</div>
@@ -105,7 +108,7 @@
           that takes only the tokens still cannot invent a colour; one that
           takes only the classes still gets both modes.
         </p>
-        <table class="sds-table sds-table--compact sds-table--scroll">
+        <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
   <thead><tr>
     <th>Layer</th>
     <th>Ships as</th>
@@ -133,7 +136,7 @@
       <td class="sds-td-meta">the guidelines, and the pane a design opens in</td>
     </tr>
   </tbody>
-</table>
+</table></div>
       </section>
 
       <section class="sds-sections" id="components">
@@ -151,7 +154,7 @@
           <div class="sds-row">
             <span class="sds-badge">element</span><span class="sds-badge">class layer</span><span class="sds-badge">14 grammars</span>
           </div>
-          <table class="sds-table sds-table--compact sds-table--scroll">
+          <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
   <thead><tr>
     <th>Property</th>
     <th>Required</th>
@@ -179,7 +182,7 @@
       <td>The block as text, where the caller holds the source rather than markup.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
           <div class="sds-code">
   <div class="sds-code__head">
     <span class="sds-code__lang">html</span>
@@ -195,7 +198,7 @@
           <div class="sds-row">
             <span class="sds-badge">element</span><span class="sds-badge">class layer</span><span class="sds-badge">works unscripted</span>
           </div>
-          <table class="sds-table sds-table--compact sds-table--scroll">
+          <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
   <thead><tr>
     <th>Property</th>
     <th>Required</th>
@@ -218,7 +221,7 @@
       <td>Per group. A group holding the current item opens regardless.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
           <div class="sds-code">
   <div class="sds-code__head">
     <span class="sds-code__lang">html</span>
@@ -235,7 +238,7 @@
           <div class="sds-row">
             <span class="sds-badge">element</span><span class="sds-badge">class layer</span><span class="sds-badge">measures itself</span>
           </div>
-          <table class="sds-table sds-table--compact sds-table--scroll">
+          <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
   <thead><tr>
     <th>Property</th>
     <th>Required</th>
@@ -258,7 +261,7 @@
       <td>What the toggle is called for a reader who cannot see it is a menu.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
           <div class="sds-code">
   <div class="sds-code__head">
     <span class="sds-code__lang">html</span>
@@ -279,18 +282,22 @@
         </p>
         <div class="sds-grid">
           <div class="sds-card" style="flex:1; min-width:200px">
+  
   <div class="sds-label">source 01</div>
   <div class="sds-surface-title">The tokens file</div>
   <div class="sds-surface-body">One declaration carries both modes. Nothing below it names a colour, so a surface cannot be light-only by accident.</div>
 </div><div class="sds-card" style="flex:1; min-width:200px">
+  
   <div class="sds-label">source 02</div>
   <div class="sds-surface-title">The component</div>
   <div class="sds-surface-body">A card ships the markup its element renders, from the same function. The documentation cannot drift, because there is nothing for it to drift from.</div>
 </div><div class="sds-card" style="flex:1; min-width:200px">
+  
   <div class="sds-label">source 03</div>
   <div class="sds-surface-title">The guidelines</div>
   <div class="sds-surface-body">Written pages, drawn from the artwork files themselves — the construction, the sizes and the clear space are measured, not described.</div>
 </div><div class="sds-card" style="flex:1; min-width:200px">
+  
   <div class="sds-label">source 04</div>
   <div class="sds-surface-title">The checks</div>
   <div class="sds-surface-body">Headers, classes, refs, fit, cards and types, on every change. A rule nothing checks is a preference somebody wrote down.</div>
@@ -306,18 +313,22 @@
         </p>
         <div class="sds-grid">
           <div class="sds-card" style="flex:1; min-width:200px">
+  
   <div class="sds-label">step 01</div>
   <div class="sds-surface-title">A story is written</div>
   <div class="sds-surface-body">The component, with the properties it is being shown at. Nothing is hand-built beside it — a specimen that rebuilds the markup documents the rebuild.</div>
 </div><div class="sds-card" style="flex:1; min-width:200px">
+  
   <div class="sds-label">step 02</div>
   <div class="sds-surface-title">The card is rendered</div>
   <div class="sds-surface-body">Server-side, to flat HTML at the size it declares, with every element replaced by what it produced.</div>
 </div><div class="sds-card" style="flex:1; min-width:200px">
+  
   <div class="sds-label">step 03</div>
   <div class="sds-surface-title">The pane opens it</div>
   <div class="sds-surface-body">With styles.css and no JavaScript at all, which is the state that proves the class layer stands on its own.</div>
 </div><div class="sds-card" style="flex:1; min-width:200px">
+  
   <div class="sds-label">step 04</div>
   <div class="sds-surface-title">The diff catches the rest</div>
   <div class="sds-surface-body">A card that moved is a picture that changed, and it is reviewed as one.</div>

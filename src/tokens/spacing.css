@@ -16,10 +16,18 @@
      are all held to it and centred on it, so a page is one width rather than
      a header at the screen's edge over a column that starts 130px in.
 
-     960 and not the 1080 this was: with the 210px rail and the gutter between,
-     the reading column comes out at 702px — the width every specimen card is
-     drawn at, so a card embedded in a page is shown at its own size. */
-  --width-page: 960px;
+     1200 and not the 960 this was. 960 was picked so the column beside the
+     210px rail came out at exactly the width a specimen card is drawn at — a
+     true alignment, and one that cost every page without a rail a third of the
+     screen: on a laptop a landing page sat in the middle with 240px of canvas
+     either side, and a four-column table had to scroll inside it.
+
+     Nothing that is *read* got wider: prose is held at `--measure-prose`, a
+     lead at `--measure-lead`, display type at `--measure-display`. What got
+     wider is what is scanned — tables, grids of cards, a band's two columns —
+     which is the part that was actually short of room. A card embedded in a
+     column is now narrower than the column it sits in, and that is the trade. */
+  --width-page: 1200px;
   --width-sidebar: 210px;
   --height-header: 56px;
 

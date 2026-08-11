@@ -1,0 +1,353 @@
+<!-- @startingPoint section="Screens" subtitle="One claim in full: what it is, what it changes in a result, and what it does not do" viewport="1440x900" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<title>TYPO3 Dev Companion — feature</title>
+<link rel="stylesheet" href="../src/styles/styles.css" />
+</head>
+<body class="sds-app">
+<div class="sds-shell">
+  <header class="sds-bar">
+    <a class="sds-lockup" href="#feature">
+      <svg class="sds-signet" width="20" height="20" viewBox="-6 -6 140 112" aria-hidden="true"><path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
+    </a>
+    <div class="sds-menu">
+  <button
+    type="button"
+    class="sds-menu__toggle"
+    aria-expanded="false"
+    aria-controls="sds-menu-3"
+    aria-label="Sections"
+    hidden><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-menu"><g fill="currentColor"><path d="M9 12v2H7v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 7v2H7V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 2v2H7V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 7v2H2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 2v2H2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 12v2H2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 7v2h-2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 2v2h-2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 12v2h-2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5z"></path></g></svg></button>
+  <nav
+    id="sds-menu-3"
+    class="sds-menu__items"
+    aria-label="Sections">
+    <a class="sds-pill" href="#">overview</a>
+    <a class="sds-pill is-active" href="#" aria-current="page">features</a>
+    <a class="sds-pill" href="#">documentation</a>
+    <a class="sds-pill" href="#">tools</a>
+    <a class="sds-pill" href="#">releases</a>
+  </nav>
+</div>
+    <div class="sds-bar__end">
+      <span class="sds-badge sds-badge--accent">1.4.0</span>
+      <div class="sds-modes" role="group" aria-label="Colour mode">
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">light</button>
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">dark</button>
+</div>
+    </div>
+  </header>
+
+  <main class="sds-bands">
+
+    <section class="sds-band" id="feature">
+      <div class="sds-stack">
+        <nav class="sds-crumbs" aria-label="Breadcrumb">
+  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><a href="#">Features</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">Answers carry their source</span>
+</nav>
+        <span class="sds-label">Feature</span>
+        <h1 class="sds-display">Every answer says where it came from</h1>
+        <p class="sds-lead">
+          A tool declares the sources it may answer from. The answer carries the
+          one that answered, the releases it holds for, and what it leaves out —
+          and a result that cannot name its source is not returned at all.
+        </p>
+        <div class="sds-actions"><button class="sds-btn sds-btn--primary"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg>Install the server</button><button class="sds-btn sds-btn--secondary">Open the tool reference</button></div>
+        <div class="sds-stats">
+          <div class="sds-stat">
+  <div class="sds-stat__value">5</div>
+  <div class="sds-label">sources</div>
+  <div class="sds-stat__note">Bundled knowledge, this checkout, installed packages, the booted installation, and the network.</div>
+</div><div class="sds-stat">
+  <div class="sds-stat__value">4</div>
+  <div class="sds-label">preconditions</div>
+  <div class="sds-stat__note">From nothing running to outbound reach. Each source declares which one it needs.</div>
+</div><div class="sds-stat">
+  <div class="sds-stat__value">0</div>
+  <div class="sds-label">writes</div>
+  <div class="sds-stat__note">Every source is read. Nothing is written back, and nothing is executed to answer.</div>
+</div><div class="sds-stat">
+  <div class="sds-stat__value">240 ms</div>
+  <div class="sds-label">typical answer</div>
+  <div class="sds-stat__note">From bundled knowledge, with no installation booted and no request leaving the machine.</div>
+</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sds-band sds-band--quiet" id="preconditions">
+      <div class="sds-stack">
+        <h2 class="sds-h2">Every source has a precondition</h2>
+        <p class="sds-prose">
+          The five differ in how much of the machine has to be running before
+          they can answer. Bundled knowledge and the server’s own checkout
+          answer with nothing running; installed packages need files on disk;
+          the installation source needs a booted installation; network sources
+          need outbound reach.
+        </p>
+        <figure class="sds-figure">
+  <div class="sds-figure__frame">
+    <img class="sds-figure__art sds-figure__art--light" src="../assets/diagrams/answer-sources.svg" alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach." />
+    <img class="sds-figure__art sds-figure__art--dark" src="../assets/diagrams/answer-sources-dark.svg" alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach." />
+  </div>
+  <figcaption class="sds-figure__caption">A tool declares its sources, so whether an answer is reachable is known before the question is asked.</figcaption>
+</figure>
+        <div class="sds-note sds-note--info">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
+  <div>
+    <div class="sds-note__title">A declaration is resolved, not documented</div>
+    <div class="sds-note__body">The server checks a tool’s declared sources against the machine it
+            was started on. One it cannot reach is not offered, so a question is
+            never answered by a source that was unavailable when it was asked.</div>
+  </div>
+</div>
+      </div>
+    </section>
+
+    <section class="sds-band" id="sources">
+      <div class="sds-stack">
+        <h2 class="sds-h2">The five sources</h2>
+        <p class="sds-prose">
+          Named as the result names them. What a tool returns in
+          <span class="sds-mono">answeredBy</span> is one of these five strings
+          and never a sentence about one.
+        </p>
+        <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Source</th>
+    <th>What it reads</th>
+    <th>Required machine state</th>
+    <th>Versions</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">knowledge</td>
+      <td>Curated rules and hints, shipped with the server</td>
+      <td>nothing running</td>
+      <td class="sds-td-meta">12.4 · 13.4 · 14.3 · main</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">checkout</td>
+      <td>This server’s own repository</td>
+      <td>nothing running</td>
+      <td class="sds-td-meta">follows the checkout</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">packages</td>
+      <td>Files on disk, read and never executed</td>
+      <td>files on disk</td>
+      <td class="sds-td-meta">follows the installation</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">installation</td>
+      <td>Assembled runtime state</td>
+      <td>a booted installation</td>
+      <td class="sds-td-meta">follows the installation</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">network</td>
+      <td>Official documentation and core services</td>
+      <td>outbound reach</td>
+      <td class="sds-td-meta">requested release</td>
+    </tr>
+  </tbody>
+</table></div>
+      </div>
+    </section>
+
+    <section class="sds-band sds-band--quiet" id="result">
+      <div class="sds-split">
+        <div class="sds-stack">
+          <h2 class="sds-h2">What a result carries</h2>
+          <p class="sds-prose">
+            Four fields beside the answer, and each of them is there to make a
+            claim checkable: which source answered, which were declared, which
+            releases it holds for, and what the answer does not cover.
+          </p>
+          <div class="sds-note sds-note--warn">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
+  <div>
+    <div class="sds-note__title">The installation could not be booted — packages were read instead</div>
+    <div class="sds-note__body">So this result omits anything a running extension would register at
+              runtime. <span class="sds-mono">ddev start</span> would close the gap.</div>
+  </div>
+</div>
+        </div>
+        <div class="sds-stack">
+          <span class="sds-label">A degraded result</span>
+          <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">json</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;answeredBy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;packages&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;declared&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;installation&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;packages&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;versions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;13.4&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;main&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;omitted&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;dynamically registered entries, never read&quot;</span>
+<span class="hljs-punctuation">}</span></code></pre>
+</div>
+          <p class="sds-prose">
+            <span class="sds-mono">declared</span> is what the tool was allowed to
+            read; <span class="sds-mono">answeredBy</span> is what it reached. The
+            two differing is the whole of what “degraded” means here.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sds-band" id="consequences">
+      <div class="sds-stack">
+        <h2 class="sds-h2">Three consequences</h2>
+        <p class="sds-prose">
+          The declaration is one line in a tool. What it buys is spread across
+          every answer that tool ever gives.
+        </p>
+        <div class="sds-grid">
+          <div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-database"><g fill="currentColor"><path d="M2 3.5v9C2 14.142 5.019 15 8 15s6-.858 6-2.5v-9C14 .218 2 .218 2 3.5zM8 2c3.006 0 5 .903 5 1.5-.002.597-1.995 1.5-5 1.5s-4.998-.903-5-1.5C3 2.903 4.994 2 8 2zm5 4.5c-.002.597-1.995 1.5-5 1.5s-4.998-.903-5-1.5V4.932c1.13.701 3.067 1.067 5 1.067 1.933 0 3.87-.366 5-1.067V6.5zm0 1.432v1.569C12.998 10.098 11.005 11 8 11s-4.998-.902-5-1.5V7.933C4.13 8.634 6.067 9 8 9c1.933 0 3.87-.366 5-1.068zM8 14c-3.006 0-5-.902-5-1.5v-1.568C4.13 11.634 6.067 12 8 12c1.933 0 3.87-.366 5-1.068V12.5c0 .598-1.994 1.5-5 1.5z"></path></g></svg></div>
+  <div class="sds-label">in every result</div>
+  <div class="sds-surface-title">The source is named, not implied</div>
+  <div class="sds-surface-body">A tool declares what it may read and returns which of them answered. Two answers that disagree can be told apart by where they came from rather than by which was asked for last.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-circle-half"><g fill="currentColor"><path d="M8 1.5C4.4 1.5 1.5 4.4 1.5 8s2.9 6.5 6.5 6.5v-13z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></div>
+  <div class="sds-label">when it degrades</div>
+  <div class="sds-surface-title">A shortfall travels with the result</div>
+  <div class="sds-surface-body">Where a source is out of reach the next one answers, and the result says what the substitution left out. A partial registry never looks complete.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-tag"><g fill="currentColor"><path d="M6.657 1H1v5.656l8.485 8.485 5.657-5.657L6.657 1zM1.99 6.232V1.99h4.243l7.495 7.494-4.243 4.243L1.99 6.232z"></path><path d="M3.475 3.475A1.75 1.75 0 1 0 5.952 5.95a1.75 1.75 0 0 0-2.477-2.475zm.707.707a.75.75 0 1 1 1.061 1.06.75.75 0 0 1-1.061-1.06zM6.126 8.602l2.475-2.475 3.535 3.536-2.475 2.474z"></path></g></svg></div>
+  <div class="sds-label">across releases</div>
+  <div class="sds-surface-title">A binding, or none at all</div>
+  <div class="sds-surface-body">Every answer holds for named releases. Where a claim cannot be bound to one, it is not returned — an unbounded rule is a rule that is wrong somewhere.</div>
+</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sds-band sds-band--quiet" id="limits">
+      <div class="sds-stack">
+        <h2 class="sds-h2">What it does not do</h2>
+        <p class="sds-prose">
+          A source is a statement about where an answer came from. It is not a
+          statement about whether the answer is right, and the two are worth
+          keeping apart.
+        </p>
+        <div class="sds-note sds-note--info">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
+  <div>
+    <div class="sds-note__title">It does not rank the sources against each other</div>
+    <div class="sds-note__body">Where two could answer, the tool’s own order decides — not a score.
+            A result names the one that answered so the caller can disagree with
+            that order, which is a decision the caller is better placed to make.</div>
+  </div>
+</div>
+        <div class="sds-note sds-note--error">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg></span>
+  <div>
+    <div class="sds-note__title">It cannot vouch for an extension that overrides core behaviour</div>
+    <div class="sds-note__body">The installation source reads assembled runtime state, so what an
+            extension changed is in the answer without being attributed to it.
+            Where that matters, the tool says which releases it checked and stops.</div>
+  </div>
+</div>
+      </div>
+    </section>
+
+    <section class="sds-band" id="read-on">
+      <div class="sds-stack">
+        <h2 class="sds-h2">Read on</h2>
+        <div class="sds-grid">
+          <div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-list-alternative"><g fill="currentColor"><path d="M14.5 2h-13c-.3 0-.5.2-.5.5v11c0 .3.2.5.5.5h13c.3 0 .5-.2.5-.5v-11c0-.3-.2-.5-.5-.5zM14 13H2V3h12v10z"></path><path d="M3 4h2v2H3zM6 4h7v2H6zM3 7h2v2H3zM6 7h7v2H6zM3 10h2v2H3zM6 10h7v2H6z"></path></g></svg></div>
+  <div class="sds-label">reference</div>
+  <div class="sds-surface-title">The eight tools</div>
+  <div class="sds-surface-body">What each one answers from, which releases it holds for, and how it last answered.<br /><a class="sds-link" href="#">Open the tool reference</a></div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-book"><g fill="currentColor"><path d="M12 1H3v14h9a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm0 12v1H4V2h8v9h-1v2h1z"></path><path d="M11 3.25a.25.25 0 0 0-.25-.25h-5.5a.25.25 0 0 0-.25.25v2.5c0 .138.112.25.25.25h5.5a.25.25 0 0 0 .25-.25v-2.5zM5 12h2v1H5z"></path></g></svg></div>
+  <div class="sds-label">documentation</div>
+  <div class="sds-surface-title">Sources and preconditions</div>
+  <div class="sds-surface-body">The five sources in full, and what the server does when one of them cannot be reached.<br /><a class="sds-link" href="#">Read the documentation</a></div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-terminal"><g fill="currentColor"><path d="M14 3v10H2V3h12m0-1H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"></path><path d="M8 10h4v1H8zM6.586 8l-2.828 2.829.706.707L8 8 4.464 4.464l-.706.707z"></path></g></svg></div>
+  <div class="sds-label">guide</div>
+  <div class="sds-surface-title">Writing a task skill</div>
+  <div class="sds-surface-body">How a skill declares the sources it needs, so it fails at registration rather than mid-answer.<br /><a class="sds-link" href="#">Read the guide</a></div>
+</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sds-band sds-band--quiet" id="install">
+      <div class="sds-split">
+        <div class="sds-stack">
+          <h2 class="sds-h2">Install it</h2>
+          <p class="sds-prose">
+            One command, and the client finds the server. PHP 8.2+, and a
+            TYPO3 project it can read — nothing has to be running for the first
+            answer to arrive.
+          </p>
+          <div class="sds-actions"><button class="sds-btn sds-btn--primary"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg>Install the server</button><button class="sds-btn sds-btn--secondary">Open the tool reference</button></div>
+        </div>
+        <div class="sds-stack">
+          <span class="sds-label">Install</span>
+          <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">bash</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><span class="sds-code__comment"># one command, and the client finds it</span>
+<span class="sds-code__prompt">$</span> <span class="sds-code__cmd">composer require typo3/support-app</span>
+<span class="sds-code__ok">✓</span> registered 8 tools in <span class="sds-code__cmd">.mcp.json</span></pre>
+</div>
+          <p class="sds-prose">
+            The tools register themselves with their declared sources. One that
+            cannot reach any of them says so at registration rather than in the
+            middle of an answer.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="sds-footer">
+  <div class="sds-footer__groups">
+    <div class="sds-footer__group">
+      <div class="sds-label">Product</div>
+      <div class="sds-footer__links">
+        <a class="sds-link" href="#">Overview</a><a class="sds-link" href="#">Features</a><a class="sds-link" href="#">Tool reference</a><a class="sds-link" href="#">Releases</a>
+      </div>
+    </div><div class="sds-footer__group">
+      <div class="sds-label">Documentation</div>
+      <div class="sds-footer__links">
+        <a class="sds-link" href="#">Installing the server</a><a class="sds-link" href="#">Writing a task skill</a><a class="sds-link" href="#">Sources and preconditions</a><a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+      </div>
+    </div><div class="sds-footer__group">
+      <div class="sds-label">Project</div>
+      <div class="sds-footer__links">
+        <a class="sds-link" href="#">What is written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
+      </div>
+    </div><div class="sds-footer__group">
+      <div class="sds-label">Legal</div>
+      <div class="sds-footer__links">
+        <a class="sds-link" href="#">Licence</a><a class="sds-link" href="#">Imprint</a><a class="sds-link" href="#">Privacy</a>
+      </div>
+    </div>
+  </div>
+  <div class="sds-footer__end">
+    <span>An independent development tool. Not a product of the TYPO3 Association, and not endorsed by it.</span>
+    <a class="sds-link" href="#">GPL-2.0-or-later</a><a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+  </div>
+</footer>
+</div>
+</body>
+</html>

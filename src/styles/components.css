@@ -374,13 +374,18 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
 
 /* A table wider than the column it sits in.
 
-   Not the default: `display: block` gives up column distribution, and that
-   trade is only right when the alternative is being cut off. */
-.sds-table--scroll {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
-}
+   The scroller is a box **around** the table, never the table itself.
+   `display: block` on a `<table>` looks like the smaller change and is not: it
+   takes the element out of table layout, and the row groups left inside it
+   generate an anonymous table box of their own — one that shrink-wraps its
+   contents. So the modifier meant to rescue a table too wide for its column
+   quietly narrowed every table that was not too wide, and a four-column
+   reference sat in the left two thirds of the page with nothing beside it.
+
+   As a wrapper nothing about the table changes: it stays `width: 100%` and
+   fills its column, and it overflows the scroller only where its own minimum
+   is wider than what it was given. */
+.sds-table-scroll { max-width: 100%; overflow-x: auto; }
 
 .sds-table th {
   text-align: left;
@@ -452,6 +457,87 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   color: var(--text-secondary);
   margin-top: 5px;
 }
+/* A glyph above the label, where a set of cards is told apart at a glance
+   before it is read. Muted, and never in a status colour: a card is a subject,
+   not a result, and colour here would say something the words do not. */
+.sds-surface-icon { color: var(--text-secondary); margin-bottom: 10px; }
+/* The glyph carries the gap on its own, so a card with no label between them
+   is not spaced differently from one that has a label. */
+.sds-surface-icon + .sds-surface-title { margin-top: 0; }
+
+/* A figure: numbers stated as facts.
+
+   The value is the largest thing in it and the label under it says what was
+   counted, because a number whose unit is above it is read twice. Set in sans
+   — mono in this system means the machine named it, and a count is a fact
+   about the software rather than a string it returns. */
+.sds-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: var(--space-6);
+}
+.sds-stat { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sds-stat__value {
+  font-size: var(--font-size-h1);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+.sds-stat__note {
+  font-size: var(--note-body-size);
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* A drawing, and what it claims.
+
+   The frame is sunken because a diagram is machine output in the same sense a
+   log is — it is generated from the thing it describes. The caption is the
+   claim in words, and it is not optional: a drawing whose point has to be
+   inferred is a drawing that means something different to each reader. */
+.sds-figure { margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+/* No padding. A drawing made in this system carries its own margin — it is
+   drawn on its own canvas, at its own scale — so a frame that adds another
+   indents it twice and the drawing arrives smaller than it was drawn. The
+   frame is a hairline and a corner; the fill is only the ground under an image
+   that does not fill it, and the clip is what keeps a full-bleed one inside
+   the corner. */
+.sds-figure__frame {
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+.sds-figure__art { display: block; width: 100%; height: auto; }
+.sds-figure__caption {
+  font-size: var(--note-body-size);
+  line-height: var(--note-body-leading);
+  color: var(--text-muted);
+  max-width: var(--measure-prose);
+}
+
+/* A drawing ships as two files, and which one is shown cannot be
+   `light-dark()` — that resolves a colour, and these are images. Both are in
+   the markup and the mode hides one.
+
+   Which mode that is has to be decided the way `color-scheme` decides it:
+   by the nearest ancestor that forced one. A pair of descendant selectors
+   cannot do that — where a light subtree sits inside a dark one, both match
+   and the file's order settles it rather than the markup's nesting. A custom
+   property can: it inherits, so the nearest declaration is the one that
+   arrives, which is the same mechanism the token layer already runs on.
+
+   A card that shows both modes side by side is exactly this case, and it is
+   what the guidelines are made of. */
+:root { --sds-art-light: block; --sds-art-dark: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) { --sds-art-light: none; --sds-art-dark: block; }
+}
+[data-theme='light'] { --sds-art-light: block; --sds-art-dark: none; }
+[data-theme='dark'] { --sds-art-light: none; --sds-art-dark: block; }
+.sds-figure__art--light { display: var(--sds-art-light); }
+.sds-figure__art--dark { display: var(--sds-art-dark); }
 
 /* Overlay is a wash, not a shadow. */
 .sds-overlay {
@@ -538,7 +624,9 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
 .sds-bar,
 .sds-body,
 .sds-page,
-.sds-foot {
+.sds-band,
+.sds-foot,
+.sds-footer {
   --page-gutter: var(--gutter-page);
   --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
   padding-inline: var(--page-inset);
@@ -638,6 +726,48 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   gap: var(--space-6);
 }
 
+/* The other footer: a site's, rather than a surface's.
+
+   `.sds-foot` is one row, which is all a single screen owes its reader — the
+   way out of the page, and nothing to scroll past. A site of many pages owes
+   more: where the rest of it is, grouped, and the line that says what the
+   product is. Two shapes rather than one with a modifier, because they share
+   no part beyond the hairline above them.
+
+   The groups reflow by their own minimum, like every other set of columns
+   here, so no breakpoint decides how many fit. */
+.sds-footer {
+  border-top: var(--border-hairline) solid var(--border-subtle);
+  padding-block: var(--space-10) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+/* `auto-fill`, where every other set of columns here is `auto-fit`: an empty
+   track is kept rather than collapsed, so two columns stay two columns instead
+   of being stretched half a page apart. A footer's lists are read as a block
+   at the bottom of the page, not as one column per quarter of the measure. */
+.sds-footer__groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(170px, 100%), 1fr));
+  gap: var(--space-6);
+}
+.sds-footer__group { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+.sds-footer__links { display: flex; flex-direction: column; gap: 7px; font-size: var(--nav-font-size); }
+/* The line under the columns: what this is, and the notices that have to
+   travel with it. Separated by a hairline, because it is a different kind of
+   statement from a list of links and reads as one more column without it. */
+.sds-footer__end {
+  border-top: var(--border-hairline) solid var(--border-subtle);
+  padding-top: var(--space-5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-6);
+  font-size: var(--font-size-micro);
+  color: var(--text-muted);
+}
+
 /* A stack of blocks, and a row of controls. */
 .sds-stack { display: flex; flex-direction: column; gap: var(--space-4); }
 /* Centred, because not everything in a row of actions is a button: a link
@@ -677,6 +807,34 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   gap: var(--space-4);
 }
 
+/* A page whose ground changes.
+
+   `.sds-page` is one measure on one canvas, which is the right shape for a
+   page that reports — an answer, a reference, a document. A page that argues
+   needs the other one: a section the eye can tell from its neighbour before
+   reading either, and a fill that stops at the measure reads as a wide box
+   rather than as a change of ground.
+
+   So the band is full-bleed and takes the same inset the bar and the foot
+   take. That is the whole of it: the heading inside a band sits over the first
+   word of every other section on the page, at every width, with nothing
+   declaring it twice.
+
+   `.sds-band` replaces `.sds-page`, it does not sit inside one — two insets on
+   one column would indent the text by a gutter it never asked for. */
+.sds-bands { flex: 1; display: flex; flex-direction: column; }
+.sds-band { padding-block: var(--space-12); }
+
+/* The second ground, and the hairlines that keep two of them apart. Without
+   the rules a quiet band against the canvas is a fill whose edge is the only
+   thing announcing it — and where two quiet bands meet, nothing at all. */
+.sds-band--quiet {
+  background: var(--surface-raised);
+  border-block: var(--border-hairline) solid var(--border-subtle);
+}
+/* Consecutive bands share one line rather than drawing two. */
+.sds-band--quiet + .sds-band--quiet { border-top: 0; }
+
 /* Where it sheds. Two steps, and the second is where a rail stops being a
    column beside the text — from there it is behind the same toggle the section
    navigation uses, which is the whole of the unified concept: **navigation
@@ -692,16 +850,22 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   .sds-bar,
   .sds-body,
   .sds-page,
-  .sds-foot { --page-gutter: var(--space-6); }
+  .sds-band,
+  .sds-foot,
+  .sds-footer { --page-gutter: var(--space-6); }
   .sds-bar { gap: var(--space-4); }
   .sds-body { gap: var(--space-8); }
   .sds-page { padding-block: var(--space-10) var(--space-8); }
+  .sds-band { padding-block: var(--space-10); }
 }
 @media (max-width: 860px) {
   .sds-bar,
   .sds-body,
   .sds-page,
-  .sds-foot { --page-gutter: var(--space-4); }
+  .sds-band,
+  .sds-foot,
+  .sds-footer { --page-gutter: var(--space-4); }
+  .sds-band { padding-block: var(--space-8); }
   .sds-bar sds-badge { display: none; }
   .sds-body { flex-direction: column; padding-block: var(--space-6); }
   .sds-body__rail { width: auto; position: static; max-height: none; }
@@ -737,6 +901,32 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
 }
 
 /* ----------------------------------------------------------- navigation -- */
+
+/* Where the page sits, said as a trail.
+
+   The only navigation here that carries no active mark: a trail is read as a
+   path and its last entry is the page itself, so marking it in the accent
+   would spend the one accent on the thing the reader is already looking at.
+   The current entry is simply the one that is not a link — heavier text, and
+   `aria-current` for a reader who cannot see the weight.
+
+   It wraps, because a deep trail on a phone is two lines and a clipped one is
+   a lie about where you are. */
+.sds-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--nav-font-size);
+  color: var(--text-secondary);
+}
+.sds-crumbs__sep { color: var(--text-muted); user-select: none; }
+.sds-crumbs__here { color: var(--text-primary); font-weight: var(--weight-medium); }
+/* Not `.sds-link`: a trail of five link-coloured words above a heading reads
+   as the loudest thing on the page, and the one thing it must not compete
+   with is the title of the page it names. */
+.sds-crumbs a { color: inherit; text-decoration: none; transition: color var(--duration-fast) var(--ease-out); }
+.sds-crumbs a:hover { color: var(--text-primary); text-decoration: underline; }
 
 /* An item is a control: a link where it goes somewhere, a button where it
    switches something on this page. The button carries a browser default font,
@@ -1113,12 +1303,17 @@ button.sds-rail__item {
 .hljs-quote,
 .hljs-deletion { color: var(--syntax-comment); }
 
+/* Ordinary code text, said out loud. Unlisted classes already read this way,
+   so these are here because the decision was made rather than defaulted into —
+   `punctuation` in particular, which JSON emits for every brace and comma and
+   which a theme is always tempted to grey out. Structure is not annotation. */
 .hljs-number,
 .hljs-literal,
 .hljs-variable,
 .hljs-template-variable,
 .hljs-subst,
 .hljs-type,
+.hljs-punctuation,
 .hljs-params { color: var(--text-primary); }
 
 /* Diff: the one place a status colour may fill a whole line. */

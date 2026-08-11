@@ -13,6 +13,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../src/components/surface.ts';
 import '../../src/components/overlay.ts';
@@ -23,8 +24,8 @@ import { buttonMarkup } from '../../src/components/button.ts';
 import { type SurfaceProps } from '../../src/components/surface.ts';
 import { dsCard, indent, part, px, spec, specCap } from '../lib/specimen.ts';
 
-const sdsSurface = ({ plane = 'card', title, body }: SurfaceProps) =>
-  html`<sds-surface plane="${plane}" heading="${title}" .body="${body}"></sds-surface>`;
+const sdsSurface = ({ plane = 'card', title, body, label, icon }: SurfaceProps) =>
+  html`<sds-surface plane="${plane}" heading="${title}" .body="${body}" label="${label ?? ''}" icon="${ifDefined(icon)}"></sds-surface>`;
 
 /** A plane with a wash, a modal and a drawer over it — the only arrangement
     in which the no-shadow claim can be read at all. The card is generated
@@ -51,6 +52,11 @@ const meta: Meta<SurfaceProps> = {
     plane: { control: 'inline-radio', options: ['card', 'panel', 'sunken'] },
     title: { control: 'text' },
     body: { control: 'text' },
+    label: { control: 'text' },
+    icon: {
+      control: 'select',
+      options: [undefined, 'actions-database', 'actions-book', 'actions-extension', 'actions-tag'],
+    },
   },
   /* The narrow no-break space before a unit is the system's own typography —
      `6 px`, `560 PX` all set with U+202F so a number cannot be split from
@@ -77,6 +83,20 @@ export const Panel: Story = { args: { plane: 'panel', title: 'Panel', body: 'Rai
 
 /** Machine output: code, logs, structured content. */
 export const Sunken: Story = { args: { plane: 'sunken', title: 'Sunken', body: 'For machine output: code, logs, structured content.' } };
+
+/** A glyph above the label, for a set of cards that is scanned before it is
+    read. It sits over the label rather than on the title's line, because a set
+    is scanned down its left edge and a glyph beside a title competes with it.
+    Muted, never in a status colour: a card is a subject, not a result. */
+export const WithIcon: Story = {
+  args: {
+    plane: 'card',
+    icon: 'actions-database',
+    label: 'source 01',
+    title: 'Bundled knowledge',
+    body: 'Curated and version-bound. It answers with nothing running — no installation booted, and no request leaving the machine.',
+  },
+};
 
 export const specimenHtml = (): string =>
   spec([

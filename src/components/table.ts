@@ -90,14 +90,13 @@ export class SdsTable extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    /* Every modifier the class layer has must be reachable from here, or the
-       element stops being the way to use this system: `--scroll` was added to
-       `components.css` for a consumer that had written the three declarations
-       itself, and for one commit the element could not produce it. A class the
-       element cannot emit is a class that invites the markup to be written by
-       hand again. */
-    const cls = `sds-table sds-table--${this.density}${this.scrollable ? ' sds-table--scroll' : ''}`;
-    return html`<table class="${cls}">
+    /* Every name the class layer has must be reachable from here, or the
+       element stops being the way to use this system: a class the element
+       cannot emit is a class that invites the markup to be written by hand
+       again. That is why scrolling is a property rather than a wrapper the
+       caller is expected to remember. */
+    const cls = `sds-table sds-table--${this.density}`;
+    const table = html`<table class="${cls}">
   <thead><tr>
     ${lines(this.columns.map((c) => html`<th>${c.head}</th>`), 4)}
   </tr></thead>
@@ -105,6 +104,9 @@ export class SdsTable extends SdsElement {
     ${lines(this.rows.map((r) => this.bodyRow(r)), 4)}
   </tbody>
 </table>`;
+    /* The scroller is a box around the table rather than a modifier on it —
+       see `.sds-table-scroll` for what the modifier form cost. */
+    return this.scrollable ? html`<div class="sds-table-scroll">${table}</div>` : table;
   }
 }
 

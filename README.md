@@ -1,7 +1,7 @@
 # Soul Design System
 
 A design system you **build and maintain here**: the tokens, the `sds-` class
-layer, and seventeen Lit elements. Everything else in this repo is generated
+layer, and twenty-six Lit elements. Everything else in this repo is generated
 from those three — the specimen cards, the Storybook pages, the npm package,
 and the guide the claude.ai design agent builds with.
 
@@ -37,7 +37,7 @@ with an HTML surface, which is why the classes have to work alone.
 | Output | Command | What it is |
 | --- | --- | --- |
 | Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens |
-| `components/`, `guidelines/`, `screens/` | `make cards` | all 39 specimen cards and 4 screens, rendered from the stories that compose them |
+| `components/`, `guidelines/`, `screens/` | `make cards` | all 39 specimen cards and 5 screens, rendered from the stories that compose them |
 | `dist/` | `make dist` | the publishable ESM package and its types |
 | `ds-bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
 
@@ -64,7 +64,7 @@ make test    # the Playwright suite
 `make start` brings Storybook up and prints its address. It is the one
 surface: the guidelines as written pages with their specimens embedded at the
 exact viewport each declares, every component with live controls and an a11y
-panel, and the three screens.
+panel, and the five whole pages.
 
 **The port is not fixed.** `make start` picks a free one and reports it, so a
 Storybook you already have running elsewhere cannot make this fail to start.
@@ -196,7 +196,7 @@ creates a second one. It compares against the anchor the project stores
 | `stories/` | the docs, and the specimen every card and screen is generated from |
 | `docs/*.mdx` | the written guideline pages |
 | `guidelines/` | **generated** — the 32 token-layer specimens |
-| `screens/` | **generated** — the 4 whole screens, offered as Starting Points in a consuming project |
+| `screens/` | **generated** — the 5 whole screens, offered as Starting Points in a consuming project |
 | `tests/` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
 | `.infra/` | Dockerfile, compose and the entrypoint |

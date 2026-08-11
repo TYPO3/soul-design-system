@@ -1,6 +1,6 @@
 /* The documentation page.
 
-   A tool rail, a 960px page measure, 48px gutters — the layout where the
+   A tool rail, a 1200px page measure, 48px gutters — the layout where the
    documentation *is* the product presentation: a visitor gets the pitch and
    keeps scrolling into the reference without a seam.
 
@@ -128,7 +128,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/documentation.html',
       title: 'Soul Design System — documentation',
-      subtitle: 'Tool rail, 960px measure — the documentation is the product presentation',
+      subtitle: 'Tool rail, 1200px measure — the documentation is the product presentation',
       viewport: '1440x900',
     }),
   },
