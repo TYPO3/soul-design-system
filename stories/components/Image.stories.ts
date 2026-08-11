@@ -86,7 +86,7 @@ export const InABox: Story = {
     signet is, and `.sds-signet` is the same name the fallback markup uses. */
 export const InALockup: Story = {
   render: () => html`<a class="sds-lockup" href="#">
-    <sds-image class="sds-signet" src="/assets/design-system-signet-m.svg" alt="" width="20" height="20"></sds-image>
+    <sds-image class="sds-signet" src="/assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
     <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
   </a>`,
 };

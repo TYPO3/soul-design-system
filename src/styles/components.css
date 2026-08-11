@@ -2205,10 +2205,12 @@ sds-rail:not(:defined) {
 
 /* ---------------------------------------------------------------- brand -- */
 
-/* The signet is NOT an icon. It ships at three optical sizes with different
-   stroke weights, so it must never be pinned to the icon box — `.sds-icon`
-   would force it to 16px and every size would render identically. Size it
-   at the element, with width/height or CSS. */
+/* The signet is NOT an icon. It ships as three drawings, each made in the box
+   it is for — 32, 24, 16 — so it must never be pinned to the icon box:
+   `.sds-icon` would force it to 16px and every drawing would render
+   identically. Size it at the element, with width/height or CSS, and size it
+   to one of the three or a whole multiple of one, because that is where a
+   drawing's edges land on whole pixels. */
 .sds-signet {
   display: block;
   flex: none;
@@ -2229,6 +2231,16 @@ sds-rail:not(:defined) {
   text-decoration: none;
 }
 .sds-lockup:hover { text-decoration: none; }
+/* The mark in a lockup is 24, and it is the lockup that says so rather than
+   every page that writes one. A signet is only crisp at the size its file is
+   drawn for; left to the call site that number gets copied, drifts, and comes
+   back as 20 in one header and 22 in the next, which is a mark rendered
+   between its whole multiples on every page that got it wrong. The element
+   still states the same size, so a surface with no stylesheet gets it too. */
+.sds-lockup .sds-signet {
+  width: 24px;
+  height: 24px;
+}
 /* One line, always. A mark is read as a mark because it is one shape; folded
    over two lines it is two words that happen to be near each other, and in a
    bar of a fixed height the second one is half outside it. */

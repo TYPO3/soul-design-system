@@ -225,7 +225,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
   return html`<div class="sds-shell">
   <header class="sds-bar">
     <a class="sds-lockup" href="#overview">
-      <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="20" height="20"></sds-image>
+      <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
     </a>
     <sds-menu label="Sections" .items="${[

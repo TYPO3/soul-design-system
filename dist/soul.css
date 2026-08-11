@@ -382,6 +382,7 @@ sds-rail:not(:defined){display:flex;flex-direction:column;gap:1px;font-family:va
 .sds-signet--muted{color:var(--text-secondary)}
 .sds-lockup{display:inline-flex;align-items:center;gap:10px;color:var(--text-primary);text-decoration:none}
 .sds-lockup:hover{text-decoration:none}
+.sds-lockup .sds-signet{width:24px;height:24px}
 .sds-wordmark{display:inline-flex;align-items:baseline;gap:7px;font-weight:var(--weight-semibold);letter-spacing:var(--tracking-heading);color:var(--text-primary);white-space:nowrap}
 .sds-wordmark__pipe{display:inline-block;width:2px;align-self:stretch;background:var(--accent)}
 .sds-wordmark__product{font-weight:var(--weight-light);color:var(--text-secondary);min-width:0;overflow:hidden;text-overflow:ellipsis}
