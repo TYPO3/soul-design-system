@@ -1,0 +1,335 @@
+/* Soul Design System — document layer.
+
+   The component layer names things: `.sds-note`, `.sds-table`, `.sds-code`. A
+   renderer that turns Markdown or reStructuredText into HTML names almost
+   nothing. It emits `<p>`, `<ul>`, `<dl>`, `<blockquote>`, `<code>` — and the
+   class it does write comes from the source text rather than from any system.
+   `.sds-prose` sets the size, the leading and the measure of the block and has
+   not one rule for what is inside it, so every one of those elements has been
+   arriving at a browser default.
+
+   This is that missing half, and it is deliberately NOT imported by
+   `styles.css`.
+
+   The reason is the reason `_specimen.css` sits outside the same closure. A
+   product surface — a backend module, an application screen — must not
+   acquire opinions about every paragraph on the page because it linked a
+   design system. So this is a second entry point: link it where a document is
+   being set, and nowhere else.
+
+   Everything here is scoped to `.sds-prose`, which is what makes it safe to
+   link on a page that also has a bar, a rail and a footer. The renderer's
+   output goes inside that class; the furniture around it stays the component
+   layer's.
+
+   It carries no tokens of its own and declares no value. A page that links
+   this links `styles.css` too — it needs the component layer for the shell
+   the document sits in, and that is where the tokens come from. */
+
+/* ------------------------------------------------------------- headings -- */
+
+/* Six levels, three sizes, and that is not a shortcut.
+
+   The editorial scale ends at `--font-size-h3` because a page has a title, a
+   section and a subsection and then it has run out of things a reader can
+   tell apart at a glance. A document has six, and the honest way to give it
+   six is not to invent three more sizes — `h4` at 17px would be
+   `--font-size-body` under another name and `h5` at 15px would be
+   `--font-size-ui`. What separates a fourth-level heading from the paragraph
+   under it is weight and the air above it, which is how a book does it too.
+
+   So the deeper levels drop through the register instead of through the
+   scale, and the last one lands in the label register the rest of the system
+   already uses for a machine's own words. */
+.sds-prose h1 {
+  margin: 0 0 var(--space-4);
+  font-size: var(--font-size-h1);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--text-primary);
+}
+.sds-prose h2 {
+  margin: var(--space-10) 0 var(--space-3);
+  font-size: var(--font-size-h2);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--text-primary);
+}
+.sds-prose h3 {
+  margin: var(--space-8) 0 var(--space-2);
+  font-size: var(--font-size-h3);
+  line-height: var(--leading-heading);
+  color: var(--text-primary);
+}
+.sds-prose h4 {
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: var(--font-size-body);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  color: var(--text-primary);
+}
+.sds-prose h5 {
+  margin: var(--space-5) 0 var(--space-1);
+  font-size: var(--font-size-ui);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  color: var(--text-primary);
+}
+/* The floor. Upper case and tracked out, because at this depth a heading has
+   stopped being a size and become a label for what follows. */
+.sds-prose h6 {
+  margin: var(--space-5) 0 var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+/* A heading is the top of what follows, not a gap after what came before. */
+.sds-prose > :first-child { margin-top: 0; }
+
+/* ------------------------------------------------------------ the block -- */
+
+/* The measure belongs to the text, not to the column.
+
+   `.sds-prose` holds itself to 66ch, which is right for a page that is
+   sentences. A reference is sentences *and* a forty-column table, a command
+   nobody wants wrapped and a diagram — and clamping those to the width of
+   comfortable reading is how a documentation page ends up with three
+   horizontal scrollbars.
+
+   So the container gives up its own limit and hands it to the things made of
+   words. Everything else runs to the column it was given. This overrides a
+   declaration in `components.css` on purpose, and only for the pages that
+   link this file. */
+.sds-prose { max-width: none; }
+.sds-prose p,
+.sds-prose ul,
+.sds-prose ol,
+.sds-prose dl,
+.sds-prose blockquote,
+/* The rule too: it is punctuation of the text rather than a block of
+   content, and drawn to the full column under a 66ch paragraph it reads as
+   the end of the page instead of the end of a section. */
+.sds-prose hr,
+.sds-prose h1,
+.sds-prose h2,
+.sds-prose h3,
+.sds-prose h4,
+.sds-prose h5,
+.sds-prose h6 {
+  max-width: var(--measure-prose);
+}
+
+.sds-prose p { margin: 0 0 var(--space-4); }
+
+/* A rule between sections is a hairline and nothing else — no shadow, no
+   double line, and the space around it does the separating. */
+.sds-prose hr {
+  margin: var(--space-10) 0;
+  border: 0;
+  border-top: var(--border-hairline) solid var(--border-subtle);
+}
+
+/* --------------------------------------------------------------- lists -- */
+
+/* Indented by the marker's own width rather than by a round number, so the
+   text of a list item lines up with the text of the paragraph above it. */
+.sds-prose ul,
+.sds-prose ol {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-5);
+}
+.sds-prose li { margin-bottom: var(--space-1); }
+.sds-prose li:last-child { margin-bottom: 0; }
+/* A nested list is part of its parent item, so it neither adds a gap above
+   itself nor keeps the bottom margin the item already carries. */
+.sds-prose li > ul,
+.sds-prose li > ol {
+  margin: var(--space-1) 0 0;
+}
+.sds-prose ul { list-style: disc; }
+.sds-prose ul ul { list-style: circle; }
+.sds-prose ol { list-style: decimal; }
+.sds-prose ol ol { list-style: lower-alpha; }
+.sds-prose li::marker { color: var(--text-muted); }
+
+/* A definition list is the shape a reference falls into whenever it names
+   things: a term, and what it is. The term carries the weight because it is
+   what somebody scans for; the definition is ordinary prose one step in. */
+.sds-prose dl { margin: 0 0 var(--space-4); }
+.sds-prose dt {
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+.sds-prose dd {
+  margin: var(--space-1) 0 var(--space-3) var(--space-5);
+}
+.sds-prose dd:last-child { margin-bottom: 0; }
+
+/* --------------------------------------------------------------- quote -- */
+
+/* Marked by a rule at its edge and a step in, never by italics: a quotation
+   is somebody else's sentences, not an emphasis on yours. */
+.sds-prose blockquote {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+.sds-prose blockquote > :last-child { margin-bottom: 0; }
+
+/* ---------------------------------------------------------------- code -- */
+
+/* Inline code carries no box. A tinted, bordered, padded chip inside a
+   sentence breaks the line's rhythm at every occurrence, and a reference
+   sentence can hold four of them. The font is the difference, and the font is
+   enough — this is the same reasoning `.sds-mono` is built on, and the same
+   relative size, so the two agree wherever both appear. */
+.sds-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.94em;
+  color: var(--text-primary);
+}
+
+/* A block, on the other hand, is machine output and sits on the sunken plane
+   like every other block of it in this system. `sds-code` draws the same
+   thing with a head and a copy button when JavaScript is there; this is what
+   the page looks like before that, and after it if the renderer never asked
+   for one. */
+.sds-prose pre {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  overflow-x: auto;
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  background: var(--surface-sunken);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-code);
+  line-height: var(--leading-code);
+  color: var(--text-primary);
+}
+/* The block already set the family and the size; the code inside it must not
+   set them a second time at 0.94 of the first. */
+.sds-prose pre code {
+  font-size: inherit;
+  color: inherit;
+}
+
+/* ---------------------------------------------------------- in the line -- */
+
+/* A key is a physical thing, so it gets the one border in this section. */
+.sds-prose kbd {
+  padding: 1px 5px;
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  background: var(--surface-raised);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--text-primary);
+}
+/* An abbreviation says it has more to say. Dotted rather than solid, so it is
+   not read as a link, and `help` because that is what it offers. */
+.sds-prose abbr[title] {
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: help;
+}
+.sds-prose cite { font-style: italic; }
+.sds-prose mark {
+  background: var(--surface-accent-quiet);
+  color: var(--text-primary);
+}
+/* Superscript and subscript raise a footnote mark or a chemical index without
+   opening the line they sit in. */
+.sds-prose sup,
+.sds-prose sub {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.sds-prose sup { top: -0.5em; }
+.sds-prose sub { bottom: -0.25em; }
+
+.sds-prose a {
+  color: var(--text-link);
+  text-decoration: none;
+}
+.sds-prose a:hover {
+  color: var(--text-link-hover);
+  text-decoration: underline;
+}
+.sds-prose strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
+
+/* -------------------------------------------------------------- figures -- */
+
+/* A picture never widens the column it was put in, whatever it was exported
+   at. Height follows, so nothing is squashed to fit. */
+.sds-prose img {
+  max-width: 100%;
+  height: auto;
+}
+.sds-prose figure {
+  margin: 0 0 var(--space-6);
+}
+/* The caption sits under the picture, in the register a caption belongs to:
+   smaller than the prose and quieter, so it reads as a label for the thing
+   above rather than as a sentence of the text. */
+.sds-prose figcaption {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-micro);
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------- table -- */
+
+/* The class layer's table is `.sds-table`, and a renderer cannot put a class
+   on anything. So the same table is described twice — once for markup that
+   can be told what it is, and once for markup that arrives bare. The numbers
+   are the medium density's, because a table in a document is being read
+   rather than worked in.
+
+   It scrolls inside itself rather than pushing the page sideways: the block
+   above already gave up the measure, and a table wider than the column is the
+   one thing that would otherwise take the whole layout with it. */
+.sds-prose table {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+  margin: 0 0 var(--space-4);
+  border-collapse: collapse;
+  font-size: var(--font-size-ui);
+}
+.sds-prose caption {
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-micro);
+  color: var(--text-muted);
+  text-align: left;
+}
+.sds-prose th {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: left;
+  vertical-align: bottom;
+}
+.sds-prose td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+  color: var(--text-secondary);
+  vertical-align: top;
+}
+/* Never zebra stripes — the same rule the class layer states, for the same
+   reason: a row is told apart by its content, not by its background. */
+.sds-prose tbody tr:hover { background: var(--surface-raised); }
+.sds-prose th:first-child,
+.sds-prose td:first-child { padding-left: 0; }
+.sds-prose th:last-child,
+.sds-prose td:last-child { padding-right: 0; }

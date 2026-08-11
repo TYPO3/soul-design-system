@@ -79,7 +79,11 @@ console.log(`   ${declared.size} cards, ${mismatched} embedded at the wrong heig
 
 console.log('2. class vocabulary');
 const defined = new Set();
-for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css']) {
+/* All three sheets, including the one `styles.css` deliberately does not
+   import: a name is defined by the system if some sheet in the system defines
+   it, and a card that used a document-layer name and was told it does not
+   exist would be told a lie about its own repo. */
+for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
   for (const m of readFileSync(join(ROOT, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
     defined.add(m[1]);
   }

@@ -142,6 +142,18 @@ const cssOptions: esbuild.BuildOptions = {
   assetNames: 'fonts/[name]',
 };
 
+/* The second sheet, and it is second on purpose. `soul.css` is what an
+   application surface links; this is what a page linking it *also* links when
+   the thing on it is a document rather than an interface. Shipped apart
+   because a backend module has no paragraphs to have opinions about — see the
+   header of `document.css`. */
+const docCssOptions: esbuild.BuildOptions = {
+  entryPoints: [join(ROOT, 'src/styles/document.css')],
+  outfile: join(OUT, 'document.css'),
+  bundle: true,
+  minify: true,
+};
+
 const copyAssets = (): void => cpSync(join(ROOT, 'assets'), join(OUT, 'assets'), { recursive: true });
 
 if (WATCH) {
@@ -164,6 +176,7 @@ if (WATCH) {
   const contexts = await Promise.all([
     esbuild.context({ ...jsOptions, plugins: [announce('dist/soul.js')] }),
     esbuild.context({ ...cssOptions, plugins: [announce('dist/soul.css')] }),
+    esbuild.context({ ...docCssOptions, plugins: [announce('dist/document.css')] }),
   ]);
   for (const ctx of contexts) await ctx.watch();
   copyAssets();
@@ -174,6 +187,7 @@ if (WATCH) {
 
 const drop = await esbuild.build(jsOptions);
 await esbuild.build(cssOptions);
+await esbuild.build(docCssOptions);
 copyAssets();
 
 const kb = (p: string): string => `${(readFileSync(join(OUT, p)).length / 1024).toFixed(1)} kB`;
@@ -181,6 +195,7 @@ const bytes = readFileSync(join(OUT, 'index.js')).length;
 const modules = Object.keys(bundle.metafile.inputs).length;
 console.log(`dist/soul.js  — ${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile?.inputs ?? {}).length} modules`);
 console.log(`dist/soul.css — ${kb('soul.css')}, faces and tokens inlined`);
+console.log(`dist/document.css — ${kb('document.css')}, the document layer, linked beside it`);
 console.log(`dist/index.js — ${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`);
 console.log(`dist/types/  — declarations, ${rewritten} rewritten to .js specifiers`);
 
