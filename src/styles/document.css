@@ -22,6 +22,21 @@
    output goes inside that class; the furniture around it stays the component
    layer's.
 
+   The scope is written `:where(.sds-prose)` and not `.sds-prose`, so it costs
+   nothing and every rule here weighs what it names and no more. That is the
+   same rule the component layer states about its own element defaults — a
+   class still wins, because a class is more specific than an element — and it
+   has to keep holding a level down: a document holds components, and a
+   component holds prose. A card in the flow of a page is a `<h3>` and a `<p>`
+   inside `.sds-teaser`, and the class layer has already said what those are.
+   Written `.sds-prose h3`, this file would out-specify `.sds-teaser__title`
+   and every component the renderer emits would be set as running text with a
+   card drawn around it.
+
+   What weighs one element has to be linked after the one it agrees with:
+   `styles.css` first, this second, which is the order every surface here
+   links them in.
+
    It carries no tokens of its own and declares no value. A page that links
    this links `styles.css` too — it needs the component layer for the shell
    the document sits in, and that is where the tokens come from. */
@@ -41,34 +56,34 @@
    So the deeper levels drop through the register instead of through the
    scale, and the last one lands in the label register the rest of the system
    already uses for a machine's own words. */
-.sds-prose h1 {
+:where(.sds-prose) h1 {
   margin: 0 0 var(--space-4);
   font-size: var(--font-size-h1);
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-heading);
   color: var(--text-primary);
 }
-.sds-prose h2 {
+:where(.sds-prose) h2 {
   margin: var(--space-10) 0 var(--space-3);
   font-size: var(--font-size-h2);
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-heading);
   color: var(--text-primary);
 }
-.sds-prose h3 {
+:where(.sds-prose) h3 {
   margin: var(--space-8) 0 var(--space-2);
   font-size: var(--font-size-h3);
   line-height: var(--leading-heading);
   color: var(--text-primary);
 }
-.sds-prose h4 {
+:where(.sds-prose) h4 {
   margin: var(--space-6) 0 var(--space-2);
   font-size: var(--font-size-body);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-heading);
   color: var(--text-primary);
 }
-.sds-prose h5 {
+:where(.sds-prose) h5 {
   margin: var(--space-5) 0 var(--space-1);
   font-size: var(--font-size-ui);
   font-weight: var(--weight-semibold);
@@ -77,7 +92,7 @@
 }
 /* The floor. Upper case and tracked out, because at this depth a heading has
    stopped being a size and become a label for what follows. */
-.sds-prose h6 {
+:where(.sds-prose) h6 {
   margin: var(--space-5) 0 var(--space-1);
   font-family: var(--font-mono);
   font-size: var(--font-size-label);
@@ -87,7 +102,7 @@
   color: var(--text-muted);
 }
 /* A heading is the top of what follows, not a gap after what came before. */
-.sds-prose > :first-child { margin-top: 0; }
+:where(.sds-prose) > :first-child { margin-top: 0; }
 
 /* ------------------------------------------------------------ the block -- */
 
@@ -104,29 +119,47 @@
    declaration in `components.css` on purpose, and only for the pages that
    link this file. */
 .sds-prose { max-width: none; }
-.sds-prose p,
-.sds-prose ul,
-.sds-prose ol,
-.sds-prose dl,
-.sds-prose blockquote,
+:where(.sds-prose) p,
+:where(.sds-prose) ul,
+:where(.sds-prose) ol,
+:where(.sds-prose) dl,
+:where(.sds-prose) blockquote,
 /* The rule too: it is punctuation of the text rather than a block of
    content, and drawn to the full column under a 66ch paragraph it reads as
    the end of the page instead of the end of a section. */
-.sds-prose hr,
-.sds-prose h1,
-.sds-prose h2,
-.sds-prose h3,
-.sds-prose h4,
-.sds-prose h5,
-.sds-prose h6 {
+:where(.sds-prose) hr,
+:where(.sds-prose) h1,
+:where(.sds-prose) h2,
+:where(.sds-prose) h3,
+:where(.sds-prose) h4,
+:where(.sds-prose) h5,
+:where(.sds-prose) h6 {
   max-width: var(--measure-prose);
 }
 
-.sds-prose p { margin: 0 0 var(--space-4); }
+/* A paragraph is set by the block it stands in.
+
+   `components.css` gives a bare `<p>` the body size, the body leading and the
+   secondary colour, so that a page which reached for no class at all is still
+   readable. Inside `.sds-prose` those are the three values it would have
+   inherited anyway — and inside a component they are three values it has no
+   business restating. A teaser's copy is the note size, a caption is smaller,
+   a note is quieter; a paragraph that carried 17px in there would be the one
+   thing in the card that ignored the card.
+
+   So the size comes from the container and the margin comes from here. The
+   component trims the outermost of those margins — see `.sds-note__body` —
+   because the padding around it is already the gap. */
+:where(.sds-prose) p {
+  margin: 0 0 var(--space-4);
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
 
 /* A rule between sections is a hairline and nothing else — no shadow, no
    double line, and the space around it does the separating. */
-.sds-prose hr {
+:where(.sds-prose) hr {
   margin: var(--space-10) 0;
   border: 0;
   border-top: var(--border-hairline) solid var(--border-subtle);
@@ -136,49 +169,49 @@
 
 /* Indented by the marker's own width rather than by a round number, so the
    text of a list item lines up with the text of the paragraph above it. */
-.sds-prose ul,
-.sds-prose ol {
+:where(.sds-prose) ul,
+:where(.sds-prose) ol {
   margin: 0 0 var(--space-4);
   padding-left: var(--space-5);
 }
-.sds-prose li { margin-bottom: var(--space-1); }
-.sds-prose li:last-child { margin-bottom: 0; }
+:where(.sds-prose) li { margin-bottom: var(--space-1); }
+:where(.sds-prose) li:last-child { margin-bottom: 0; }
 /* A nested list is part of its parent item, so it neither adds a gap above
    itself nor keeps the bottom margin the item already carries. */
-.sds-prose li > ul,
-.sds-prose li > ol {
+:where(.sds-prose) li > ul,
+:where(.sds-prose) li > ol {
   margin: var(--space-1) 0 0;
 }
-.sds-prose ul { list-style: disc; }
-.sds-prose ul ul { list-style: circle; }
-.sds-prose ol { list-style: decimal; }
-.sds-prose ol ol { list-style: lower-alpha; }
-.sds-prose li::marker { color: var(--text-muted); }
+:where(.sds-prose) ul { list-style: disc; }
+:where(.sds-prose) ul ul { list-style: circle; }
+:where(.sds-prose) ol { list-style: decimal; }
+:where(.sds-prose) ol ol { list-style: lower-alpha; }
+:where(.sds-prose) li::marker { color: var(--text-muted); }
 
 /* A definition list is the shape a reference falls into whenever it names
    things: a term, and what it is. The term carries the weight because it is
    what somebody scans for; the definition is ordinary prose one step in. */
-.sds-prose dl { margin: 0 0 var(--space-4); }
-.sds-prose dt {
+:where(.sds-prose) dl { margin: 0 0 var(--space-4); }
+:where(.sds-prose) dt {
   font-weight: var(--weight-semibold);
   color: var(--text-primary);
 }
-.sds-prose dd {
+:where(.sds-prose) dd {
   margin: var(--space-1) 0 var(--space-3) var(--space-5);
 }
-.sds-prose dd:last-child { margin-bottom: 0; }
+:where(.sds-prose) dd:last-child { margin-bottom: 0; }
 
 /* --------------------------------------------------------------- quote -- */
 
 /* Marked by a rule at its edge and a step in, never by italics: a quotation
    is somebody else's sentences, not an emphasis on yours. */
-.sds-prose blockquote {
+:where(.sds-prose) blockquote {
   margin: 0 0 var(--space-4);
   padding-left: var(--space-4);
   border-left: 2px solid var(--border-subtle);
   color: var(--text-secondary);
 }
-.sds-prose blockquote > :last-child { margin-bottom: 0; }
+:where(.sds-prose) blockquote > :last-child { margin-bottom: 0; }
 
 /* ---------------------------------------------------------------- code -- */
 
@@ -187,7 +220,7 @@
    sentence can hold four of them. The font is the difference, and the font is
    enough — this is the same reasoning `.sds-mono` is built on, and the same
    relative size, so the two agree wherever both appear. */
-.sds-prose code {
+:where(.sds-prose) code {
   font-family: var(--font-mono);
   font-size: 0.94em;
   color: var(--text-primary);
@@ -200,18 +233,19 @@
    for one.
 
    Not the one the element draws. `sds-code` renders `<pre class="sds-code__body">`
-   into a frame that already carries the border, the radius and the plane, and
-   a bare `pre` selector here is one step more specific than the component's
-   own class — so this rule won on every documentation page and drew a second
-   box inside the first, with its own hairline, its own radius and a
-   16px margin stranded below the last line inside the frame.
+   into a frame that already carries the border, the radius and the plane, so
+   this rule drew a second box inside the first: its own hairline, its own
+   radius, and a 16px margin stranded below the last line *inside* the frame.
 
-   The exclusion is the component's own class, because that class is exactly
-   the difference being drawn: a `<pre>` with it is chrome the element owns, a
-   `<pre>` without it is markup the renderer emitted bare. This is the one
-   place the two layers name the same element, and the document layer yields —
-   it is the fallback. */
-.sds-prose pre:not(.sds-code__body) {
+   The exclusion is what stops it, and the scope above does not make it
+   redundant — that is the part worth knowing. `:where()` settles every
+   declaration the component also states, because a class beats an element.
+   The border, the radius and the plane are stated **only here**, so there is
+   nothing on the other side for weight to settle: they would land on the
+   component's `<pre>` at any specificity. The two layers name the same
+   element exactly once, and this is where the document layer yields — it is
+   the fallback, and a fallback does not draw over what it falls back from. */
+:where(.sds-prose) pre:not(.sds-code__body) {
   margin: 0 0 var(--space-4);
   padding: var(--space-3) var(--space-4);
   overflow-x: auto;
@@ -230,7 +264,7 @@
    thing for `.sds-code__body code`, but at equal specificity and in the file
    that is linked first, so the inline rule above would win inside the element
    too. This is the half of the pair that must not be scoped away. */
-.sds-prose pre code {
+:where(.sds-prose) pre code {
   font-size: inherit;
   color: inherit;
 }
@@ -248,7 +282,7 @@
    what the block looks like in it: the same sunken plane, the same scroll,
    the same size. When the element upgrades it takes over and this stops
    applying, and the two agree because both are drawn from the same tokens. */
-.sds-prose sds-code:not(:defined) {
+:where(.sds-prose) sds-code:not(:defined) {
   display: block;
   margin: 0 0 var(--space-4);
   border: var(--border-hairline) solid var(--border-subtle);
@@ -256,7 +290,7 @@
   background: var(--surface-sunken);
   overflow: hidden;
 }
-.sds-prose sds-code:not(:defined) > code {
+:where(.sds-prose) sds-code:not(:defined) > code {
   display: block;
   padding: var(--space-3) var(--space-4);
   overflow-x: auto;
@@ -278,7 +312,7 @@
    the script and after it is the same page. It is stated here rather than on
    `.sds-code` because spacing between blocks is what a document decides — a
    product surface composes its own. */
-.sds-prose .sds-code { margin-bottom: var(--space-4); }
+:where(.sds-prose) .sds-code { margin-bottom: var(--space-4); }
 
 /* ---------------------------------------------------- what is set apart -- */
 
@@ -293,23 +327,23 @@
    glyph and the word it says out loud belong to the element, and a hairline
    that pretended to carry a tone would be the colour-only meaning the
    component exists to avoid. */
-.sds-prose sds-note:not(:defined) {
+:where(.sds-prose) sds-note:not(:defined) {
   display: block;
   margin: 0 0 var(--space-4);
   padding: 13px 15px;
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
 }
-.sds-prose sds-note:not(:defined) > :last-child { margin-bottom: 0; }
+:where(.sds-prose) sds-note:not(:defined) > :last-child { margin-bottom: 0; }
 /* And the same gap under it once it has upgraded — the host is
    `display: contents` by then, so the margin above belongs to a box that has
    stopped existing. Same pairing, and same reason, as `.sds-code`. */
-.sds-prose .sds-note { margin-bottom: var(--space-4); }
+:where(.sds-prose) .sds-note { margin-bottom: var(--space-4); }
 
 /* ---------------------------------------------------------- in the line -- */
 
 /* A key is a physical thing, so it gets the one border in this section. */
-.sds-prose kbd {
+:where(.sds-prose) kbd {
   padding: 1px 5px;
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-control);
@@ -320,53 +354,53 @@
 }
 /* An abbreviation says it has more to say. Dotted rather than solid, so it is
    not read as a link, and `help` because that is what it offers. */
-.sds-prose abbr[title] {
+:where(.sds-prose) abbr[title] {
   text-decoration: underline dotted;
   text-underline-offset: 2px;
   cursor: help;
 }
-.sds-prose cite { font-style: italic; }
-.sds-prose mark {
+:where(.sds-prose) cite { font-style: italic; }
+:where(.sds-prose) mark {
   background: var(--surface-accent-quiet);
   color: var(--text-primary);
 }
 /* Superscript and subscript raise a footnote mark or a chemical index without
    opening the line they sit in. */
-.sds-prose sup,
-.sds-prose sub {
+:where(.sds-prose) sup,
+:where(.sds-prose) sub {
   font-size: 0.75em;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
-.sds-prose sup { top: -0.5em; }
-.sds-prose sub { bottom: -0.25em; }
+:where(.sds-prose) sup { top: -0.5em; }
+:where(.sds-prose) sub { bottom: -0.25em; }
 
-.sds-prose a {
+:where(.sds-prose) a {
   color: var(--text-link);
   text-decoration: none;
 }
-.sds-prose a:hover {
+:where(.sds-prose) a:hover {
   color: var(--text-link-hover);
   text-decoration: underline;
 }
-.sds-prose strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
+:where(.sds-prose) strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
 
 /* -------------------------------------------------------------- figures -- */
 
 /* A picture never widens the column it was put in, whatever it was exported
    at. Height follows, so nothing is squashed to fit. */
-.sds-prose img {
+:where(.sds-prose) img {
   max-width: 100%;
   height: auto;
 }
-.sds-prose figure {
+:where(.sds-prose) figure {
   margin: 0 0 var(--space-6);
 }
 /* The caption sits under the picture, in the register a caption belongs to:
    smaller than the prose and quieter, so it reads as a label for the thing
    above rather than as a sentence of the text. */
-.sds-prose figcaption {
+:where(.sds-prose) figcaption {
   margin-top: var(--space-2);
   font-size: var(--font-size-micro);
   color: var(--text-muted);
@@ -383,7 +417,7 @@
    It scrolls inside itself rather than pushing the page sideways: the block
    above already gave up the measure, and a table wider than the column is the
    one thing that would otherwise take the whole layout with it. */
-.sds-prose table {
+:where(.sds-prose) table {
   display: block;
   overflow-x: auto;
   width: 100%;
@@ -391,13 +425,13 @@
   border-collapse: collapse;
   font-size: var(--font-size-ui);
 }
-.sds-prose caption {
+:where(.sds-prose) caption {
   margin-bottom: var(--space-2);
   font-size: var(--font-size-micro);
   color: var(--text-muted);
   text-align: left;
 }
-.sds-prose th {
+:where(.sds-prose) th {
   padding: var(--space-2) var(--space-3);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   font-family: var(--font-mono);
@@ -409,7 +443,7 @@
   text-align: left;
   vertical-align: bottom;
 }
-.sds-prose td {
+:where(.sds-prose) td {
   padding: var(--space-2) var(--space-3);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   color: var(--text-secondary);
@@ -417,8 +451,8 @@
 }
 /* Never zebra stripes — the same rule the class layer states, for the same
    reason: a row is told apart by its content, not by its background. */
-.sds-prose tbody tr:hover { background: var(--surface-raised); }
-.sds-prose th:first-child,
-.sds-prose td:first-child { padding-left: 0; }
-.sds-prose th:last-child,
-.sds-prose td:last-child { padding-right: 0; }
+:where(.sds-prose) tbody tr:hover { background: var(--surface-raised); }
+:where(.sds-prose) th:first-child,
+:where(.sds-prose) td:first-child { padding-left: 0; }
+:where(.sds-prose) th:last-child,
+:where(.sds-prose) td:last-child { padding-right: 0; }

@@ -861,7 +861,14 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   overflow: hidden;
   transition: border-color var(--duration-fast) var(--ease-out);
 }
-.sds-teaser:has(a:hover) { border-color: var(--border-emphasis); }
+.sds-teaser:has(a:hover) { border-color: var(--border-strong); }
+/* And where a renderer had only the card to hang the link on, the card is the
+   anchor and the same border answers. It is not a phrase in a sentence, so it
+   takes none of what an anchor is given, in either state: the contents keep
+   their own colours and nothing underlines on hover. */
+a.sds-teaser,
+a.sds-teaser:hover { color: inherit; text-decoration: none; }
+a.sds-teaser:hover { border-color: var(--border-strong); }
 /* The medium sits flush at the top: a framed image inside a card would share
    its corner with the card, and a container must not. */
 .sds-teaser__art {
@@ -874,10 +881,16 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   gap: var(--space-2);
   padding: 14px 16px;
 }
-.sds-teaser__title { margin: 0; font-size: var(--font-size-h3); line-height: var(--leading-heading); }
-/* Not `--text-link`: the title is the card's own voice, and a grid of six
-   orange headlines is a page with no hierarchy left to spend. */
-.sds-teaser__title a { color: var(--text-primary); text-decoration: none; }
+/* Not `--text-link`, on the line itself and not only on the anchor in it: the
+   title is the card's own voice wherever the link turned out to be, and a grid
+   of six orange headlines is a page with no hierarchy left to spend. */
+.sds-teaser__title {
+  margin: 0;
+  font-size: var(--font-size-h3);
+  line-height: var(--leading-heading);
+  color: var(--text-primary);
+}
+.sds-teaser__title a { color: inherit; text-decoration: none; }
 .sds-teaser__title a:hover { text-decoration: underline; }
 .sds-teaser__text {
   margin: 0;
@@ -885,6 +898,11 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   line-height: var(--note-body-leading);
   color: var(--text-secondary);
 }
+/* The summary is a sentence when a component writes it and blocks when a
+   renderer does. The outermost margins of those blocks go, for the reason
+   `.sds-note__body` states: the card's padding is already the gap. */
+.sds-teaser__text > :first-child { margin-top: 0; }
+.sds-teaser__text > :last-child { margin-bottom: 0; }
 
 /* One hit in a list of them.
 
@@ -1100,12 +1118,10 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-bar > * > * { min-width: 0; }
 /* The field is the one thing that gives before anything is dropped. */
 .sds-bar .sds-field { flex: 0 1 260px; }
-/* The version stands at the control height here. A badge is prose-scale
-   everywhere else, because everywhere else it is a short fact inside a
-   sentence; in the bar it is one bordered box in a row of bordered boxes,
-   and a row whose boxes have three heights is the first thing a reader
-   sees — before the mark, before the search, before any of them. */
-.sds-bar .sds-badge { height: var(--control-height); }
+/* The badge keeps its own height. It is not a control — nothing is pressed
+   or typed in it — and a version standing as tall as the search field would
+   read as something to press. The controls line up with each other; the fact
+   beside them stays the size a fact is. */
 
 /* A rail beside a column. `position: relative` because the rail becomes a
    panel where there is no column for it, and that panel is anchored here —
