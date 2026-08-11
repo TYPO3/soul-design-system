@@ -1,0 +1,39 @@
+{#
+    What fills the layout's blocks.
+
+    The core version defines `head` and `body` and nothing else, because the
+    core layout has nothing else. This adds the two the furniture needs: the
+    rail, which is the project's menu, and the trail above the title.
+
+    `renderMenu('mainmenu')` builds the menu from the toctree. `parts.mainmenu`
+    is the escape hatch for a project that wrote its own with the `menu`
+    directive — asked first, so a project that has one is not overruled.
+#}
+{% extends "structure/layout.html.twig" %}
+
+{% block head %}
+    {%- for headerNode in node.headerNodes -%}
+        {{ renderNode(headerNode) }}
+    {%- endfor -%}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {% if parts.mainmenu %}
+        {% for child in parts.mainmenu -%}
+            {{ renderNode(child) }}
+        {%~ endfor -%}
+    {% else %}
+        {{ renderMenu('mainmenu') }}
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ renderBreadcrumb() }}
+{% endblock %}
+
+{% block body %}
+    {% for child in node.children -%}
+        {{ renderNode(child) }}
+    {%~ endfor -%}
+{% endblock %}

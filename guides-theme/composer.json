@@ -4,7 +4,10 @@
   "type": "library",
   "license": "GPL-2.0-or-later",
   "authors": [
-    { "name": "Benjamin Kott", "email": "benjamin.kott@outlook.com" }
+    {
+      "name": "Benjamin Kott",
+      "email": "benjamin.kott@outlook.com"
+    }
   ],
   "require": {
     "php": "^8.2",
@@ -14,5 +17,10 @@
   },
   "config": {
     "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "TYPO3\\Soul\\GuidesTheme\\": "src/"
+    }
   }
 }

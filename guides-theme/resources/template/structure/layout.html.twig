@@ -2,9 +2,9 @@
     The page a rendered document sits in.
 
     The core layout is an `<html>`, a `<title>` and two blocks. This is the
-    same thing wearing the system: the shell that establishes the canvas, the
-    column that holds the measure, and `.sds-prose` around whatever the
-    renderer produced — which is what makes `document.css` apply to a `<p>`
+    same thing wearing the system: the bar that stays, the rail beside the
+    column, the column that holds the measure, and `.sds-prose` around whatever
+    the renderer produced — which is what makes `document.css` apply to a `<p>`
     nobody could put a class on.
 
     Two stylesheets and no third. `soul.css` carries the tokens, the faces and
@@ -15,7 +15,9 @@
     `soul.js` is deferred and optional on purpose: the colour of a code block
     is already in the markup the server wrote, and every element this system
     ships is an upgrade of markup that reads without it. A reader with no
-    JavaScript loses the copy button, not the page.
+    JavaScript loses the mode switch and the fold in the rail, not the page.
+
+    The blocks are filled by `structure/document.html.twig`.
 #}
 <!DOCTYPE html>
 <html lang="en">
@@ -32,13 +34,51 @@
 {%~ endblock %}
 </head>
 <body class="sds-app">
-<div class="sds-page">
-    <div class="sds-column">
-        <article class="sds-prose">
+<div class="sds-shell">
+    {#
+        The bar stays. It is the frame the page is read inside — the mark, and
+        the one control that belongs to the reader rather than to the text.
+    #}
+    <header class="sds-bar">
+        {# The mark, and the one template a project replaces to make this its
+           own — see `structure/brand.html.twig`. #}
+        {% include "structure/brand.html.twig" %}
+        <div class="sds-bar__end">
+            {#
+                A mode switch is the one control a documentation page owes its
+                reader. It is an element, so it needs the script — and without
+                it the page still renders in whichever mode the reader's system
+                asked for, which is the honest fallback.
+            #}
+            <sds-theme></sds-theme>
+        </div>
+    </header>
+
+    <div class="sds-body">
+        <aside class="sds-body__rail">
+            {%~ block menu %}
+            {%~ endblock %}
+        </aside>
+
+        <main class="sds-column">
+            {%~ block breadcrumb %}
+            {%~ endblock %}
+
+            <article class="sds-prose">
 {%~ block body %}
 {%~ endblock %}
-        </article>
+            </article>
+        </main>
     </div>
+
+    <footer class="sds-footer">
+        <div class="sds-footer__end">
+            <span class="sds-mono">{{ env.projectNode.title|default('') }}</span>
+            {%- if env.projectNode.copyright %}
+                <span>{{ env.projectNode.copyright }}</span>
+            {%- endif %}
+        </div>
+    </footer>
 </div>
 </body>
 </html>

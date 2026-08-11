@@ -1,0 +1,34 @@
+{#
+    The mark in the bar.
+
+    What it says is configuration, not a template a project has to copy. In its
+    `guides.xml`:
+
+        <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
+            <signet>_images/signet.svg</signet>
+            <product>Your product</product>
+        </extension>
+
+    Both are optional. With neither, the bar carries the project title from
+    `<project>`, which is where a name belongs when there is only one.
+
+    The signet path is relative to the documentation root and must be a file
+    the renderer can see — beside the documents, so it is copied into the
+    output with them rather than pointing at something that exists only on the
+    machine that built the site.
+
+    A signet is NOT an icon: it ships at three optical sizes with different
+    construction, and bar height is the small one's job.
+#}
+<a class="sds-lockup" href="{{ soul.home ? asset(soul.home) : renderLink('/index') }}">
+    {%- if soul.signet %}
+        <img class="sds-signet" src="{{ asset(soul.signet) }}" alt="" width="24" height="24" />
+    {%- endif %}
+    <span class="sds-wordmark">
+        <span class="sds-wordmark__product">{{ soul.product|default(env.projectNode.title)|default('Documentation') }}</span>
+        {%- if env.projectNode.version %}
+            <span class="sds-wordmark__pipe" aria-hidden="true">|</span>
+            <span class="sds-mono">{{ env.projectNode.version }}</span>
+        {%- endif %}
+    </span>
+</a>

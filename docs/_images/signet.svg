@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -20 140 140" role="img" aria-label="Soul Design System">
+  <title>Soul Design System</title>
+  <style>
+    /* An image cannot inherit currentColor, so the ink is a mid warm grey
+       that holds on both modes, lifted a step in dark. The accent is flat
+       #FF8700 in both, exactly as --accent is. */
+    .ink  { stroke: #8A8378; }
+    .inkf { fill: #8A8378; }
+    @media (prefers-color-scheme: dark) {
+      .ink  { stroke: #A9A299; }
+      .inkf { fill: #A9A299; }
+    }
+  </style>
+  <!-- S - 16-19px, favicon. Stroke 11, rounding 5.5, gap 11. Square box,
+       because a favicon slot is square.
+
+       At this size the crop marks carry almost nothing - they are two thin
+       hooks - so the parts have to do the recognising. The middle keeps its
+       lead but gives up more of it than the step would suggest
+       (11 / 17 / 11 rather than 9.5 / 20 / 9.5): outer bars under about a
+       pixel and a half stop reading as parts and start reading as noise. -->
+  <path class="ink" d="M56 94.5H20A14.5 14.5 0 0 1 5.5 80V44" fill="none" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path>
+  <rect class="inkf" x="39" y="30.5" width="11" height="39" rx="5.5"></rect>
+  <rect class="inkf" x="55.5" y="30.5" width="17" height="39" rx="5.5"></rect>
+  <rect class="inkf" x="78" y="30.5" width="11" height="39" rx="5.5"></rect>
+  <path d="M72 5.5H108A14.5 14.5 0 0 1 122.5 20V56" fill="none" stroke="#FF8700" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path>
+</svg>

@@ -22,6 +22,12 @@
         default_code_language="text">
     <project title="Soul Design System" version="1.0"/>
     <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
+    <!-- What the bar says and shows. Both optional; without them it carries
+         the project title above. -->
+    <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
+        <signet>_images/signet.svg</signet>
+        <product>Soul Design System</product>
+    </extension>
     <base_template_paths>
         <path>guides-theme/resources/template</path>
     </base_template_paths>

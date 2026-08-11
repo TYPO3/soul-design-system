@@ -1,0 +1,21 @@
+{#
+    Where the page sits, said as a trail.
+
+    The separator is an element of its own rather than a character glued to the
+    link, so it can be quieter than the words it stands between and so a screen
+    reader is not made to say it. The last entry is the page itself and is not
+    a link: a trail whose last step is a link is a trail that was pasted from
+    the one above it.
+#}
+{%- if rootline|length > 1 -%}
+<nav class="sds-crumbs" aria-label="Breadcrumb">
+    {%- for entry in rootline -%}
+        {%- if not loop.first %}<span class="sds-crumbs__sep" aria-hidden="true">/</span>{% endif -%}
+        {%- if entry.current -%}
+            <span class="sds-crumbs__here" aria-current="page">{{ entry.value.toString }}</span>
+        {%- else -%}
+            <a href="{{ renderLink(entry.url) }}">{{ entry.value.toString }}</a>
+        {%- endif -%}
+    {%- endfor -%}
+</nav>
+{%- endif -%}

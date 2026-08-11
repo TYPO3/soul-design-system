@@ -1,0 +1,11 @@
+{#
+    The rail: the list of pages, as the frame the document is read inside.
+
+    Not a `<ul>`. The system's rail is a flat run of anchors with `<details>`
+    where a section folds, because a list of pages is navigation rather than
+    prose — and because a fold that works without JavaScript has to be an
+    element the browser already folds.
+#}
+<nav class="sds-rail" aria-label="Pages">
+    {% include "body/menu/menu-level.html.twig" %}
+</nav>
