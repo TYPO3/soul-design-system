@@ -28,13 +28,14 @@
 {% block main %}
     {%- if layout == 'marketing' -%}
         <main class="sds-bands">
-            {#- One band around whatever the page wrote: `.sds-bands` draws the
-                ground and the hairline between two of them, and a band is what
-                holds content to the page measure. A page that wants more says
-                so with the `band` directive. -#}
-            <section class="sds-band">
-                <div class="sds-prose">{{ block('body') }}</div>
-            </section>
+            {#- The page as its run of bands. `.sds-bands` draws the ground and
+                the hairline between two of them, and each band holds its own
+                content to the page measure — so they are siblings here and
+                never one inside another. `Bands` is where a page that wrote no
+                `band` directive becomes the single band it looks like. -#}
+            {%- for band in bands(node.children) -%}
+                {{ renderNode(band) }}
+            {%- endfor -%}
         </main>
     {%- else -%}
         <div class="sds-body">

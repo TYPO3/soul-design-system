@@ -79,6 +79,10 @@ to write it. There is no second source of truth for what a button looks like.
    Elements    ``<sds-note tone="warn">``  the thing has behaviour or state
    ==========  ==========================  ===================================
 
+.. The quiet ground ends here: a band runs until the next one opens.
+
+.. band::
+
 What holds across all three
 ===========================
 

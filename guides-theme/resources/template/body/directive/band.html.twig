@@ -5,12 +5,17 @@
     consecutive bands share one line rather than each drawing its own. The
     quiet variant is the second ground — what makes a run of bands read as
     alternating instead of as a wall.
+
+    Every band opens its own `.sds-prose`, because a band is where the page
+    changes ground and what is inside it is still the document. The heading is
+    plain: inside prose the document layer is what sets a heading, and a class
+    here would be the one `h2` on the page ignoring it.
 #}
 <section class="sds-band{% if node.option('quiet') %} sds-band--quiet{% endif %}"
          {%- if node.option('id') %} id="{{ node.option('id') }}"{% endif %}>
-    <div class="sds-stack">
+    <div class="sds-prose">
         {%- if node.option('title') %}
-            <h2 class="sds-h2">{{ node.option('title') }}</h2>
+            <h2>{{ node.option('title') }}</h2>
         {%- endif %}
         {%- for child in node.children -%}
             {{ renderNode(child) }}
