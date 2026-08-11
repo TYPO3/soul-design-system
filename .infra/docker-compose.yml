@@ -41,8 +41,17 @@ x-app: &app
 name: typo3-support-design-system
 
 services:
+  # Where every task runs. It stays up and does nothing, so `make verify` and
+  # the rest are an `exec` into a container that already exists rather than a
+  # new one per command — the tree is bind-mounted, so a source edit is
+  # already inside it and there is nothing to rebuild.
+  #
+  # Only two things live in the image rather than in the mount: the installed
+  # dependencies and the browser. Change `package-lock.json` or the Dockerfile
+  # and the container has to be rebuilt; `.infra/task.sh` notices and says so.
   app:
     <<: *app
+    command: ['sleep', 'infinity']
 
   # The documentation surface: guidelines as written pages, components with
   # live controls.

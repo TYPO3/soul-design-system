@@ -17,6 +17,7 @@
 SHELL := /bin/bash
 
 COMPOSE := docker compose -f .infra/docker-compose.yml
+TASK := .infra/task.sh
 
 # The container writes into the bind-mounted tree, so it runs as whoever owns
 # it. Without this, ds-bundle/ and test-results/ come back owned by root and
@@ -29,21 +30,19 @@ export SDS_GID := $(shell id -g)
 # browser. Still free-port selection, just decided here instead of by Docker,
 # because only one side of the mapping can be chosen late.
 
-# `--build` on every run: compose does not rebuild for `run`, so without it an
-# edited Dockerfile or a moved lockfile silently keeps the old image — and
-# that failure reads as a bug in the code rather than a stale layer. The
-# cache check costs nothing when nothing moved.
-RUN := $(COMPOSE) run --rm --build -T app node scripts/task.ts
+# Into the container that is already up, or a fresh one if none is — see
+# `.infra/task.sh`. Every task used to be its own `run --build`: a container
+# per command, and a cache check over the whole tree before any of them.
+RUN := $(TASK) node scripts/task.ts
 
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
 TASKS := verify test cards typecheck fit ssr build dist fonts icons \
          baseline shots diff sheets sync status plan synced
 
-# The long-running ones. `app` is deliberately not here: it is the one-shot
-# image every task above runs in, and `up` would start it only to watch it
-# exit.
-SERVICES := storybook dist
+# The long-running ones. `app` is among them: it holds the environment every
+# task above runs in, so a task is an `exec` rather than a new container.
+SERVICES := storybook dist app
 
 .PHONY: help tasks $(TASKS) start stop restart logs shell clean
 .DEFAULT_GOAL := help
@@ -113,6 +112,8 @@ start:
 		storybook "$$port" 'guidelines, components with controls, a11y' && \
 	printf '    %-10s %-29s  %s\n' \
 		dist '(watching src/ and assets/)' 'rebuilds the drop-in on every edit' && \
+	printf '    %-10s %-29s  %s\n' \
+		app '(idle)' 'every make task runs in here' && \
 	if grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null; then \
 		ip=$$(ip -4 addr show eth0 2>/dev/null | awk '/inet /{print $$2}' | cut -d/ -f1); \
 		[ -n "$$ip" ] && printf '\n    from Windows, if localhost does not answer:  http://%s:%s/\n' "$$ip" "$$port"; \
@@ -131,7 +132,7 @@ logs:
 	@$(COMPOSE) logs -f $(SERVICES)
 
 shell:
-	@$(COMPOSE) run --rm --build app bash
+	@$(TASK) bash
 
 clean:
 	@$(COMPOSE) down -v --remove-orphans
