@@ -1,4 +1,4 @@
-<!-- @dsCard group="Diagrams" viewport="980x510" subtitle="Flat, hairline, one accent — shipped as a light/dark pair" name="Drawing rules" -->
+<!-- @dsCard group="Diagrams" viewport="980x510" subtitle="Flat, hairline, one accent — one file, in both modes" name="Drawing rules" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -49,7 +49,7 @@
       <div class="spec-rule"><b>Solid means there, dashed outline means not there.</b> One vocabulary across the whole set: a filled shape is what you get, a dashed outline of the same shape is what is missing or not yet reachable — <b>the shortfall has a size, not a sentence</b>. Warn colour on the outline where it is a degradation rather than a precondition.</div>
       <div class="spec-rule"><b>A picture, not a text block in boxes.</b> If the drawing would still work as a bulleted list, it is not a diagram — meaning has to sit in <b>position, length or alignment</b>. Boxes and arrows are the last resort, not the starting vocabulary.</div>
       <div class="spec-rule"><b>One claim per diagram.</b> The title states it, the closing line states its consequence. If two claims are needed, that is two diagrams.</div>
-      <div class="spec-rule"><b>Two files, one drawing.</b> Colour is written as attributes, and the dark file is generated from the light one by a token swap. A <span class="spec-cap">&lt;style&gt;</span> block inside an SVG is stripped by GitHub, so a self-switching file is not shippable — the pair is selected with <span class="spec-cap">&lt;picture&gt;</span>.</div>
+      <div class="spec-rule"><b>One file, both modes.</b> Colour is written as attributes, each of them <span class="spec-cap">var(--token, #light)</span>: referenced into a page the drawing takes its tokens, and opened on its own it falls back to the light hex. A <span class="spec-cap">&lt;style&gt;</span> block would be stripped by GitHub, and an <span class="spec-cap">&lt;img&gt;</span> would never see a token at all.</div>
       <div class="spec-rule"><b>Type.</b> Source Sans 3, with every identifier in Source Code Pro. Floor is 13px at the drawn size — a diagram that needs smaller type is carrying too much.</div>
       <div class="spec-rule"><b>No shadows, no gradients, no outer radius.</b> Depth is a hairline. The canvas is a flat rectangle at <span class="spec-cap">--surface-canvas</span> with a 60px margin.</div>
     </div>

@@ -73,7 +73,23 @@ export declare class SdsMenu extends SdsNav {
     protected choose(index: number): void;
     /** Collapsed or not, from the room the row has rather than from a width. */
     private decide;
-    /** The button, which is the same button in both cases. */
+    /** The button, which is the same button in both cases — and says which of
+        the two it is, because on a narrow page both of them are in the bar at
+        once.
+  
+        Not `actions-menu`. The one named for this is TYPO3's three-by-three grid
+        of squares — an app launcher, and at 16px a dark block that reads as a
+        keypad rather than as a way into anything. The set has no hamburger and
+        this is not the place to draw one; every icon here comes from
+        `@typo3/icons` and stays there.
+  
+        So each says what it opens. The sections are a list of pages, which is a
+        marker and a line four times over. The rail is a column that has been
+        folded away, and the set has the glyph for exactly that — a page with its
+        side panel shut. Two identical buttons 200px apart, one leading out of
+        the page and one into it, is the reader guessing; a label they cannot see
+        is not an answer. */
+    private get glyph();
     private toggle_;
     protected render(): TemplateResult;
     protected willUpdate(changed: PropertyValues<SdsMenu>): void;

@@ -2,12 +2,9 @@ import { type TemplateResult } from 'lit';
 import './lightbox.ts';
 import { SdsElement } from '../lib/element.js';
 export interface FigureProps {
-    /** The drawing. The light file, where there is a pair. */
+    /** The file — a drawing this system ships, or an image. */
     src: string;
-    /** The dark file. Without one, the same drawing is shown in both modes —
-        correct for a photograph, wrong for anything drawn in these tokens. */
-    dark?: string;
-    /** What the drawing shows, for a reader who cannot see it. */
+    /** What the picture shows, for a reader who cannot see it. */
     alt: string;
     /** The claim, in a sentence. */
     caption?: string | TemplateResult;
@@ -25,9 +22,6 @@ export declare class SdsFigure extends SdsElement {
         src: {
             type: StringConstructor;
         };
-        dark: {
-            type: StringConstructor;
-        };
         alt: {
             type: StringConstructor;
         };
@@ -40,7 +34,6 @@ export declare class SdsFigure extends SdsElement {
         };
     };
     src: string;
-    dark: string;
     alt: string;
     caption: string | TemplateResult;
     zoomable: boolean;

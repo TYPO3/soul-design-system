@@ -12,10 +12,8 @@ export interface TeaserProps {
     tag?: string;
     /** When, and anything else that belongs in the label register. */
     meta?: string;
-    /** The image. Used in both modes unless `artDark` supplies a pair. */
+    /** The image. */
     art?: string;
-    /** An optional dark counterpart. Omit it for a mode-neutral image. */
-    artDark?: string;
     alt?: string;
 }
 export declare class SdsTeaser extends SdsElement {
@@ -38,10 +36,6 @@ export declare class SdsTeaser extends SdsElement {
         art: {
             type: StringConstructor;
         };
-        artDark: {
-            type: StringConstructor;
-            attribute: string;
-        };
         alt: {
             type: StringConstructor;
         };
@@ -52,7 +46,6 @@ export declare class SdsTeaser extends SdsElement {
     tag: string;
     meta: string;
     art: string;
-    artDark: string;
     alt: string;
     constructor();
     protected render(): TemplateResult;

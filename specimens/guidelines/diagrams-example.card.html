@@ -1,4 +1,4 @@
-<!-- @dsCard group="Diagrams" viewport="1400x560" subtitle="answer-sources.svg, redrawn to the rules — and shipped as a light/dark pair" name="Worked example" -->
+<!-- @dsCard group="Diagrams" viewport="1400x982" subtitle="answer-sources.svg, redrawn to the rules — one file, in both modes" name="Worked example" -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,17 +8,54 @@
 </head>
 <body class="spec-sunken">
   <div style="padding:18px 20px; display:flex; flex-direction:column; gap:14px;">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
     <div>
       <div class="spec-h">answer-sources.svg</div>
-      <img src="../../assets/diagrams/answer-sources.svg" alt="Five answer sources plotted against the machine state each one requires." class="spec-figure spec-figure--framed" />
+      <svg viewBox="0 0 1200 750" role="img" aria-label="Five answer sources plotted against the machine state each one requires." class="spec-figure spec-figure--framed"><rect width="1200" height="750" fill="var(--surface-canvas, #FBFAF7)"></rect>
+    <text x="60" y="60" fill="var(--accent, #FF8700)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13" font-weight="600" letter-spacing="1.6">SOURCE DECLARATION = AVAILABILITY</text>
+    <text x="60" y="108" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="36" font-weight="700" letter-spacing="-0.5">Every source has a precondition</text>
+    <text x="60" y="140" fill="var(--text-secondary, #4A453D)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="17">A tool declares its sources, so the answer is known to be reachable before the question is asked.</text>
+    <line x1="60" y1="176" x2="1140" y2="176" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
+    <text x="60" y="248" fill="var(--text-secondary, #4A453D)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="14" font-weight="600">Required machine state</text>
+    <path d="M228 243 H262" stroke="var(--text-muted, #726C63)" stroke-width="1.5" fill="none"></path>
+    <path d="M257 239 265 243 257 247Z" fill="var(--text-muted, #726C63)"></path>
+    <line x1="300" y1="264" x2="300" y2="598" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
+    <text x="312" y="248" fill="var(--text-muted, #726C63)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">nothing running</text>
+    <line x1="510" y1="264" x2="510" y2="598" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
+    <text x="522" y="248" fill="var(--text-muted, #726C63)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">files on disk</text>
+    <line x1="720" y1="264" x2="720" y2="598" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
+    <text x="732" y="248" fill="var(--text-muted, #726C63)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">a booted installation</text>
+    <line x1="930" y1="264" x2="930" y2="598" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
+    <text x="942" y="248" fill="var(--text-muted, #726C63)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">network reach</text>
+    <line x1="1140" y1="264" x2="1140" y2="598" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
+    <text x="60" y="315" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">knowledge</text>
+    <text x="60" y="334" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Bundled and version-bound.</text>
+    <rect x="300" y="302" width="840" height="32" rx="4" fill="var(--accent, #FF8700)"></rect>
+    <text x="60" y="377" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">checkout</text>
+    <text x="60" y="396" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">This server&#39;s own repository.</text>
+    <rect x="300" y="364" width="840" height="32" rx="4" fill="var(--text-primary, #1C1A17)"></rect>
+    <text x="60" y="439" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">packages</text>
+    <text x="60" y="458" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Files read, never executed.</text>
+    <rect x="300" y="426" width="210" height="32" rx="4" fill="none" stroke="var(--text-muted, #726C63)" stroke-width="1" stroke-dasharray="3 3.5"></rect>
+    <rect x="510" y="426" width="630" height="32" rx="4" fill="var(--text-primary, #1C1A17)"></rect>
+    <text x="60" y="501" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">installation</text>
+    <text x="60" y="520" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Assembled runtime state.</text>
+    <rect x="300" y="488" width="420" height="32" rx="4" fill="none" stroke="var(--text-muted, #726C63)" stroke-width="1" stroke-dasharray="3 3.5"></rect>
+    <rect x="720" y="488" width="420" height="32" rx="4" fill="var(--text-primary, #1C1A17)"></rect>
+    <text x="60" y="563" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">network</text>
+    <text x="60" y="582" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Official live services.</text>
+    <rect x="300" y="550" width="630" height="32" rx="4" fill="none" stroke="var(--text-muted, #726C63)" stroke-width="1" stroke-dasharray="3 3.5"></rect>
+    <rect x="930" y="550" width="210" height="32" rx="4" fill="var(--text-primary, #1C1A17)"></rect>
+
+    <rect x="60" y="618" width="15" height="15" rx="2" fill="var(--text-primary, #1C1A17)"></rect>
+    <text x="86" y="631" fill="var(--text-secondary, #4A453D)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="14">available</text>
+    <rect x="196" y="618" width="15" height="15" rx="2" fill="none" stroke="var(--text-muted, #726C63)" stroke-width="1" stroke-dasharray="3 3.5"></rect>
+    <text x="222" y="631" fill="var(--text-secondary, #4A453D)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="14">the state this source still needs</text>
+    <line x1="60" y1="664" x2="1140" y2="664" stroke="var(--border-strong, #C9C3B7)" stroke-width="1"></line>
+    <text x="60" y="698" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="16" font-weight="600">Bundled knowledge is the only source that spans the whole axis.</text>
+    <text x="60" y="724" fill="var(--text-secondary, #4A453D)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="14">The answer carries <tspan font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13" font-weight="600">answeredBy</tspan> where the path varies; an unreachable source is a stated boundary, not an empty result.</text></svg>
     </div>
-    <div>
-      <div class="spec-h">answer-sources-dark.svg</div>
-      <img src="../../assets/diagrams/answer-sources-dark.svg" alt="The same chart, dark." class="spec-figure spec-figure--framed" />
-    </div></div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px 26px; border-top:1px solid var(--border-subtle); padding-top:12px;">
-      <div class="spec-note"><b>Two files, not one.</b> A <span class="spec-cap">&lt;style&gt;</span> block inside an SVG is stripped by GitHub and ignored by most markdown pipelines, so a single self-switching file is not shippable. The pair is selected with <span class="spec-cap">&lt;picture&gt;</span>; every colour is an attribute, and the dark file is generated from the light one by a token swap.</div>
+      <div class="spec-note"><b>One file, both modes.</b> Every colour is an attribute written as <span class="spec-cap">var(--token, #light)</span>, so the drawing takes the mode of the page it is referenced into and still renders on its own — in a README or a tab — as the light file it falls back to. What it cannot be is an <span class="spec-cap">&lt;img&gt;</span>: that renders in a document of its own, where no token is declared.</div>
       <div class="spec-note"><b>What changed against the existing set:</b> the five hues are gone, the drop shadow is gone, the 28px outer radius is gone, and every identifier moved to mono. The claim, the five names and the closing line are unchanged.</div>
     </div>
   </div>

@@ -3,7 +3,6 @@ import './icon.ts';
 import { SdsElement } from '../lib/element.js';
 export interface LightboxProps {
     src: string;
-    dark?: string;
     alt: string;
     /** What the drawing claims, in the head — the same sentence the figure
         carries, so opening it is not a change of subject. */
@@ -13,9 +12,6 @@ export interface LightboxProps {
 export declare class SdsLightbox extends SdsElement {
     static properties: {
         src: {
-            type: StringConstructor;
-        };
-        dark: {
             type: StringConstructor;
         };
         alt: {
@@ -30,7 +26,6 @@ export declare class SdsLightbox extends SdsElement {
         };
     };
     src: string;
-    dark: string;
     alt: string;
     caption: string;
     open: boolean;
