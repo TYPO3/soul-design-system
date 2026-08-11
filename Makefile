@@ -42,7 +42,7 @@ TASKS := verify test cards typecheck fit ssr build dist guides fonts icons \
 
 # The long-running ones. `app` is among them: it holds the environment every
 # task above runs in, so a task is an `exec` rather than a new container.
-SERVICES := storybook dist app
+SERVICES := storybook site dist app
 
 .PHONY: help tasks $(TASKS) start stop restart logs shell clean
 .DEFAULT_GOAL := help
@@ -109,9 +109,13 @@ start:
 	@$(COMPOSE) down --remove-orphans >/dev/null 2>&1 || true
 	@port=$$(for p in $$(seq 6007 6099); do \
 		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
-	SDS_STORYBOOK_PORT=$$port $(COMPOSE) up -d --build $(SERVICES) && \
+	site=$$(for p in $$(seq 4173 4199); do \
+		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
+	SDS_STORYBOOK_PORT=$$port SDS_SITE_PORT=$$site $(COMPOSE) up -d --build $(SERVICES) && \
 	printf '\n  running:\n    %-10s http://localhost:%-6s  %s\n' \
 		storybook "$$port" 'guidelines, components with controls, a11y' && \
+	printf '    %-10s http://localhost:%-6s  %s\n' \
+		site "$$site" 'the rendered documentation, as it will be served' && \
 	printf '    %-10s %-29s  %s\n' \
 		dist '(watching src/ and assets/)' 'rebuilds the drop-in on every edit' && \
 	printf '    %-10s %-29s  %s\n' \

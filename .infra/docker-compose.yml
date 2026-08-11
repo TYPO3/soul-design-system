@@ -87,6 +87,24 @@ services:
     ports:
       - '${SDS_STORYBOOK_PORT:-6007}:${SDS_STORYBOOK_PORT:-6007}'
 
+  # The rendered documentation site, at a root of its own.
+  #
+  # Not a static directory inside Storybook, which was the first thing tried
+  # and is the wrong shape twice over. Storybook is the authoring surface *for*
+  # the system; the site is a consumer of it, and borrowing that server gives
+  # it Vite's routing and a sub-path it will never be served under. The four
+  # defects the first render turned up were all of that family — a path that
+  # resolves here and nowhere else. This serves the same bytes GitHub Pages
+  # will, from `/`, with a static file server that has no opinions.
+  #
+  # It starts before `make guides` has ever run, and then serves nothing. That
+  # is honest: an empty site is a site nobody has rendered.
+  site:
+    <<: *app
+    command: ['node', 'scripts/serve.ts', '${SDS_SITE_PORT:-4173}', 'site']
+    ports:
+      - '${SDS_SITE_PORT:-4173}:${SDS_SITE_PORT:-4173}'
+
   # The drop-in, kept current. `dist/` is committed and is what a consumer
   # copies, so it can be a source edit behind without anything saying so —
   # and Storybook serves it, which makes stale output something you look at.

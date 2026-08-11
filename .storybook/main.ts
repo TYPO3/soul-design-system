@@ -14,19 +14,8 @@
    own detector would otherwise see this directory and switch shapes — see
    `.design-sync/NOTES.md` § Storybook. */
 
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
-
 import type { StorybookConfig } from '@storybook/web-components-vite';
 import remarkGfm from 'remark-gfm';
-
-/* The rendered documentation site, served beside the cards when there is one.
-
-   `make guides` writes it and `.gitignore` keeps it out, so on a fresh clone
-   the directory does not exist — and a static directory Storybook cannot find
-   is a Storybook that refuses to start. Conditional for that reason and no
-   other. */
-const SITE = join(import.meta.dirname, '..', 'site');
 
 const config: StorybookConfig = {
   stories: ['../docs/**/*.mdx', '../stories/**/*.stories.ts'],
@@ -64,6 +53,16 @@ const config: StorybookConfig = {
     disableWhatsNewNotifications: true,
     disableTelemetry: true,
   },
+  /* The onboarding checklist is addressed to someone setting Storybook up for
+     the first time — install this addon, write a first story, publish. None of
+     it applies here, and its progress is kept in the cache directory the
+     container discards, so every rebuild greets a finished system with a
+     starter checklist. Both surfaces it appears on are turned off: the sidebar
+     widget and the guide page in the menu. */
+  features: {
+    sidebarOnboardingChecklist: false,
+    menuOnboardingChecklist: false,
+  },
   /* The guideline specimens are iframed into the MDX pages exactly as the
      pane renders them, so they are served as real files and resolve their
      own `../styles.css` the way the pane resolves it. Mapped entry by entry
@@ -88,7 +87,10 @@ const config: StorybookConfig = {
        than only built — an artefact nothing ever loads is an artefact nobody
        knows is broken. */
     { from: '../dist', to: '/dist' },
-    ...(existsSync(SITE) ? [{ from: '../site', to: '/site' }] : []),
+    /* The rendered site is deliberately NOT here. It is served by its own
+       container at its own root — see the `site` service in the compose file
+       for why a sub-path under this server would be a lie about how it
+       ships. */
   ],
 };
 
