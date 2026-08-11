@@ -96,11 +96,25 @@ export function Specimen({ src, viewport, title }: SpecimenProps) {
           colorScheme: 'normal',
         }}
       />
+      {/* The caption has to name its own colour, and it is not one of ours.
+
+          `.sbdocs-wrapper` is white — Storybook's docs theme, which does not
+          follow the toolbar. Storybook colours its own prose dark against it,
+          but a `<figure>` this file writes is not one of its elements, so it
+          inherited `--text-primary` from the preview's `<body>` instead: in
+          the dark default that is near-white text on white paper. It was
+          invisible, not merely quiet. Same reason `docs.css` retakes only the
+          preview block and leaves the page around it alone.
+
+          So: Storybook's own muted prose tone, stated flatly, and the caption
+          stays subordinate through size and mono face rather than through
+          transparency it cannot afford at this size. */}
       <figcaption
         style={{
           fontFamily: 'var(--font-mono, monospace)',
-          fontSize: 11,
-          opacity: 0.6,
+          fontSize: 12,
+          lineHeight: 1.5,
+          color: '#5C6870',
           marginTop: 8,
         }}
       >
