@@ -40,6 +40,12 @@ export interface CodeBlockProps {
     /** What the block is, in a sentence, above it. A renderer that captions a
         fenced block has somewhere to put it. */
     caption?: string;
+    /** A block as text, highlighted by `lang` exactly as content between the
+        tags is. The two are the same block from two kinds of caller: content
+        for a renderer that already holds markup, this for one that holds the
+        source — a story, or a page that has to render statically, where
+        children are not carried at all. */
+    source?: string;
     body: readonly CodeLine[];
     copy?: boolean;
 }
@@ -50,6 +56,9 @@ export declare class SdsCode extends SdsElement {
             reflect: boolean;
         };
         caption: {
+            type: StringConstructor;
+        };
+        source: {
             type: StringConstructor;
         };
         body: {
@@ -69,6 +78,7 @@ export declare class SdsCode extends SdsElement {
     };
     lang: CodeLang;
     caption: string;
+    source: string;
     body: readonly CodeLine[];
     action?: TemplateResult;
     copy: boolean;

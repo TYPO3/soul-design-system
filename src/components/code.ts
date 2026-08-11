@@ -8,11 +8,10 @@
    numbers nobody cites is decoration on the one surface that has the least
    room for it.
 
-   Note the `spec-cap` on the language label: that class lives in
-   `_specimen.css`, which is deliberately NOT part of the `styles.css`
-   closure, so a product surface using `sds-code` receives no styling for it.
-   Reproduced here as the card had it rather than quietly redesigned — see
-   the note in `ARCHITECTURE.md`. */
+   Every class this frame emits is defined in `components.css` — the head's
+   language, the diff's path, the copy button. `_specimen.css` is outside the
+   `styles.css` closure, so a class borrowed from there renders unstyled on
+   every surface that is not a specimen card. Both of these were. */
 
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -79,6 +78,12 @@ export interface CodeBlockProps {
   /** What the block is, in a sentence, above it. A renderer that captions a
       fenced block has somewhere to put it. */
   caption?: string;
+  /** A block as text, highlighted by `lang` exactly as content between the
+      tags is. The two are the same block from two kinds of caller: content
+      for a renderer that already holds markup, this for one that holds the
+      source — a story, or a page that has to render statically, where
+      children are not carried at all. */
+  source?: string;
   body: readonly CodeLine[];
   copy?: boolean;
 }
@@ -87,6 +92,7 @@ export class SdsCode extends SdsElement {
   static override properties = {
     lang: { type: String, reflect: true },
     caption: { type: String },
+    source: { type: String },
     /* Styled lines, which no attribute can carry — a shell prompt, a comment
        and a result are three different spans, and flattening them to a string
        would throw away the only thing the component does. */
@@ -98,6 +104,7 @@ export class SdsCode extends SdsElement {
 
   declare lang: CodeLang;
   declare caption: string;
+  declare source: string;
   declare body: readonly CodeLine[];
   declare action?: TemplateResult;
   declare copy: boolean;
@@ -120,6 +127,7 @@ export class SdsCode extends SdsElement {
     super();
     this.lang = '';
     this.caption = '';
+    this.source = '';
     this.body = [];
     this.copy = false;
     this.copied = false;
@@ -127,13 +135,8 @@ export class SdsCode extends SdsElement {
 
   override connectedCallback(): void {
     if (typeof navigator !== 'undefined') this.clipboard = Boolean(navigator.clipboard);
-    if (this.taken === null && this.childNodes.length > 0) {
-      this.taken = [...this.childNodes];
-      /* `ChildNode.remove` rather than `Node.remove`: a text node between the
-         tags is a Node and has no `remove` on the type, though every one of
-         them here is a ChildNode. */
-      for (const node of this.taken) (node as ChildNode).remove();
-    }
+    const written = this.lifted();
+    if (written.length) this.taken = written;
     super.connectedCallback();
   }
 
@@ -151,7 +154,7 @@ export class SdsCode extends SdsElement {
   private get text(): string {
     const said = this.taken
       ? this.written
-      : this.body.map(({ text, code }) => (code ? `${text} ${code}` : text)).join('\n');
+      : this.source || this.body.map(({ text, code }) => (code ? `${text} ${code}` : text)).join('\n');
     return said.replace(/^\n+/, '').replace(/\n+$/, '');
   }
 
@@ -230,10 +233,14 @@ export class SdsCode extends SdsElement {
      Where the system does not colour a language the author's own nodes are
      kept: what was written is better than a guess at what it meant. */
   private get wrapped(): TemplateResult {
-    if (!this.lang) return html`<code>${this.taken}</code>`;
+    /* `taken` where there was content, the source text where there was not —
+       what is highlighted is `text`, which is already whichever of the two
+       this block was given. */
+    const written = this.taken ?? this.text;
+    if (!this.lang) return html`<code>${written}</code>`;
     const coloured = highlight(this.lang, this.text);
     return coloured === null
-      ? html`<code class="language-${this.lang}">${this.taken}</code>`
+      ? html`<code class="language-${this.lang}">${written}</code>`
       : html`<code class="language-${this.lang}">${unsafeHTML(coloured)}</code>`;
   }
 
@@ -254,7 +261,7 @@ export class SdsCode extends SdsElement {
 
     return html`${caption}<div class="sds-code">
   ${head}
-  <pre class="sds-code__body">${this.taken ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
+  <pre class="sds-code__body">${this.taken || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
 </div>`;
   }
 }

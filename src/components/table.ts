@@ -13,7 +13,7 @@
    when the rows are read rather than scanned, medium (38px) when one
    density has to serve both. */
 
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
@@ -27,8 +27,16 @@ export interface Column {
 }
 
 export interface Row {
-  cells: readonly string[];
-  /** Selection, not striping. */
+  /** Text, or a component where the cell is a piece of state rather than a
+      value — the badge that says how a row answered. A cell that could only
+      be a string is a cell whose status has to be spelled out beside the
+      table or drawn by hand into it. */
+  cells: readonly (string | TemplateResult)[];
+  /** Selection, not striping — `.is-selected`, which the stylesheet already
+      had and the element could not emit, so the one story that needed it
+      wrote the fill inline and the two drifted to different colours. */
+  selected?: boolean;
+  /** Anything about this row the class layer has no name for. */
   style?: string;
 }
 
@@ -64,19 +72,19 @@ export class SdsTable extends SdsElement {
     this.rows = [];
   }
 
-  private cell(value: string, cls: string | undefined): TemplateResult {
+  private cell(value: string | TemplateResult, cls: string | undefined): TemplateResult {
     return cls ? html`<td class="${cls}">${value}</td>` : html`<td>${value}</td>`;
   }
 
   private bodyRow(row: Row): TemplateResult {
     const cells = lines(row.cells.map((v, i) => this.cell(v, this.columns[i]?.cls)), 6);
     /* A filled row is a selected one, never every other one — that is what
-       makes a background mean something when it appears. */
-    return row.style
-      ? html`<tr style="${row.style}">
-      ${cells}
-    </tr>`
-      : html`<tr>
+       makes a background mean something when it appears.
+
+       `nothing` and not an empty string: an attribute bound to it is dropped
+       rather than written empty, so a row with neither is the bare `<tr>` a
+       generated card is read as. */
+    return html`<tr class="${row.selected ? 'is-selected' : nothing}" style="${row.style ?? nothing}">
       ${cells}
     </tr>`;
   }

@@ -9,12 +9,18 @@ export interface SurfaceProps {
     title: string;
     body: string | TemplateResult;
     style?: string;
+    /** The tracked-out line over the title, where a set of these is numbered or
+        named as a set — `AUDIENCE 01`, `SOURCE`, `STEP 02`. */
+    label?: string;
 }
 export declare class SdsSurface extends SdsElement {
     static properties: {
         plane: {
             type: StringConstructor;
             reflect: boolean;
+        };
+        label: {
+            type: StringConstructor;
         };
         heading: {
             type: StringConstructor;
@@ -28,6 +34,7 @@ export declare class SdsSurface extends SdsElement {
         };
     };
     plane: Plane;
+    label: string;
     heading: string;
     body: string | TemplateResult;
     boxStyle: string;

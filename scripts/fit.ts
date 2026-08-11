@@ -38,11 +38,19 @@ const results = await withPage(async ({ map }) =>
        whole page, usually with min-height:100vh — measured that way it would
        always report the tall viewport back. For screens the question is
        different anyway: does the page overflow the size it declares? */
+    /* A screen is a whole page, and a page scrolls: the landing page is four
+       screens tall because a landing page is. Height was asked here for a
+       while and it only ever meant "this page is longer than one viewport",
+       which is not a fault and became one the moment a page was finished.
+
+       Width is the question a screen has to answer. A page wider than the
+       screen it declares is broken at that size, and the pages are measured
+       at nine more in `tests/pages.spec.ts`. */
     if (isScreen(card)) {
       await openCard(page, card);
-      const over = await page.evaluate(() =>
-        Math.ceil(document.documentElement.scrollHeight - document.documentElement.clientHeight));
-      return { card, content: card.height + Math.max(0, over), screen: true };
+      const wide = await page.evaluate(() =>
+        Math.max(0, Math.ceil(document.documentElement.scrollWidth - document.documentElement.clientWidth)));
+      return { card, content: card.height, wide };
     }
     await openCard(page, card, { height: 2400 });
     const content = await page.evaluate(() => {
@@ -71,8 +79,11 @@ const results = await withPage(async ({ map }) =>
   }));
 
 let cropped = 0;
-for (const { card, content, clipped } of results) {
-  if (content > card.height) {
+for (const { card, content, clipped, wide } of results) {
+  if (wide) {
+    cropped++;
+    console.log(`  WIDE    ${card.rel}: declares ${card.viewport}, page is ${card.width + wide}px across (+${wide})`);
+  } else if (content > card.height) {
     cropped++;
     console.log(`  CROPPED ${card.rel}: declares ${card.viewport}, content is ${content}px (+${content - card.height})`);
   } else if (content < card.height - SLACK) {

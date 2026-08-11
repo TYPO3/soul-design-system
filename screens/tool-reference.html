@@ -5,138 +5,143 @@
 <meta charset="utf-8" />
 <title>Soul Design System — tool reference</title>
 <link rel="stylesheet" href="../src/styles/styles.css" />
-<style>
-  .shell { min-height: 100vh; display: flex; flex-direction: column; }
-  .head {
-    height: var(--height-header);
-    display: flex; align-items: center; gap: var(--space-6);
-    padding: 0 var(--gutter-page);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .body { flex: 1; padding: var(--space-6) var(--gutter-page); display: flex;
-          flex-direction: column; gap: var(--space-5); }
-  .col { max-width: var(--width-content); width: 100%; display: flex;
-         flex-direction: column; gap: var(--space-5); }
-  h1 { font-size: var(--font-size-h2); letter-spacing: var(--tracking-heading); margin: 0; }
-  .sub { color: var(--text-secondary); font-size: var(--font-size-ui); margin: 0; }
-  .bar { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
-  .wordmark { display: inline-flex; align-items: baseline; gap: 7px; font-weight: var(--weight-semibold); }
-  .pipe { display: inline-block; width: 2px; height: 0.8em; background: var(--accent); }
-</style>
 </head>
 <body class="sds-app">
-<div class="shell">
-
-  <header class="head">
-    <span class="wordmark">TYPO3<span class="pipe"></span><span style="font-weight:var(--weight-light); color:var(--text-secondary)">Soul Design System</span></span>
-    <nav class="sds-pills" style="margin-left:var(--space-6)">
-      <a class="sds-pill" href="#">overview</a>
-      <a class="sds-pill is-active" href="#">tools</a>
-      <a class="sds-pill" href="#">knowledge</a>
-      <a class="sds-pill" href="#">install</a>
-    </nav>
+<div class="sds-shell">
+  <header class="sds-bar">
+    <a class="sds-lockup" href="#tools">
+      <svg class="sds-signet" width="20" height="20" viewBox="-6 -6 140 112" aria-hidden="true"><path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
+    </a>
+    <div class="sds-menu">
+  <button
+    type="button"
+    class="sds-menu__toggle"
+    aria-expanded="false"
+    aria-controls="sds-menu-3"
+    aria-label="Sections"
+    hidden><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-menu"><g fill="currentColor"><path d="M9 12v2H7v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 7v2H7V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 2v2H7V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 7v2H2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 2v2H2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 12v2H2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 7v2h-2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 2v2h-2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 12v2h-2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5z"></path></g></svg></button>
+  <nav
+    id="sds-menu-3"
+    class="sds-menu__items"
+    aria-label="Sections">
+    <a class="sds-pill" href="#overview">overview</a>
+    <a class="sds-pill is-active" href="#tools" aria-current="page">tools</a>
+    <a class="sds-pill" href="#knowledge">knowledge</a>
+    <a class="sds-pill" href="#install">install</a>
+  </nav>
+</div>
+    <div class="sds-bar__end">
+      <div class="sds-modes" role="group" aria-label="Colour mode">
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">light</button>
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">dark</button>
+</div>
+    </div>
   </header>
 
-  <div class="body">
-    <div class="col">
-      <div>
-        <h1>Tool surface</h1>
-        <p class="sub">Eight tools. Every one is read-only; none writes to your installation.</p>
-      </div>
+  <main class="sds-page">
+    <div class="sds-stack" id="tools">
+      <h1 class="sds-h2">Tool surface</h1>
+      <p class="sds-prose">
+        Eight tools. Every one is read-only; none writes to your installation.
+      </p>
 
-      <div class="bar">
-        <span class="sds-field" style="min-width:280px">
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M13.92,15c-0.29,0-0.56-0.12-0.76-0.32l-2.89-2.88c-0.98,0.68-2.16,1.04-3.36,1.04C3.65,12.85,1,10.2,1,6.92C1,3.65,3.65,1,6.92,1s5.92,2.65,5.92,5.92c0,1.19-0.36,2.37-1.04,3.36l2.89,2.89c0.19,0.19,0.31,0.47,0.31,0.76C15,14.51,14.51,15,13.92,15z M6.92,2.42c-2.48,0-4.5,2.02-4.5,4.5s2.02,4.5,4.5,4.5s4.5-2.02,4.5-4.5S9.4,2.42,6.92,2.42z"/></g></svg>
-          <span>Filter by name or source</span>
-        </span>
+      <div class="sds-row">
+        <span class="sds-field" style="width:280px; max-width:100%"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-search"><g fill="currentColor"><path d="M13.92 15c-.29 0-.56-.12-.76-.32l-2.89-2.88c-.98.68-2.16 1.04-3.36 1.04C3.65 12.85 1 10.2 1 6.92 1 3.65 3.65 1 6.92 1s5.92 2.65 5.92 5.92c0 1.19-.36 2.37-1.04 3.36l2.89 2.89c.19.19.31.47.31.76 0 .58-.49 1.07-1.08 1.07zm-7-12.58c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"></path></g></svg><input class="sds-input" type="text"  placeholder="Filter by name or source" aria-label="Filter the tool list"></span>
         <span class="sds-badge">readOnlyHint</span>
         <span class="sds-badge sds-badge--accent">bundled knowledge</span>
-        <span class="sds-label" style="margin-left:auto">Compact · 30px rows</span>
+        <span class="sds-label sds-row__end">Compact · 30 px rows</span>
       </div>
 
       <div class="sds-tabs">
-        <a class="sds-tab is-active" href="#">all</a>
-        <a class="sds-tab" href="#">lookup</a>
-        <a class="sds-tab" href="#">scope</a>
-      </div>
-
-      <table class="sds-table sds-table--compact">
-        <thead><tr><th>Tool</th><th>Verb</th><th>Source</th><th>Versions</th><th>State</th></tr></thead>
-        <tbody>
-          <tr>
-            <td class="sds-td-name">typo3_rule_lookup</td>
-            <td class="sds-td-meta">lookup</td>
-            <td>bundled knowledge</td>
-            <td class="sds-td-meta">12.4 · 13.4 · 14.3 · main</td>
-            <td><span class="sds-badge sds-badge--ok">answered</span></td>
-          </tr>
-          <tr>
-            <td class="sds-td-name">typo3_hint_lookup</td>
-            <td class="sds-td-meta">lookup</td>
-            <td>bundled knowledge</td>
-            <td class="sds-td-meta">12.4 · 13.4 · 14.3 · main</td>
-            <td><span class="sds-badge sds-badge--ok">answered</span></td>
-          </tr>
-          <tr class="is-selected">
-            <td class="sds-td-name">typo3_icon_lookup</td>
-            <td class="sds-td-meta">lookup</td>
-            <td>installation</td>
-            <td class="sds-td-meta">follows the installation</td>
-            <td><span class="sds-badge sds-badge--warn">degraded</span></td>
-          </tr>
-          <tr>
-            <td class="sds-td-name">typo3_label_lookup</td>
-            <td class="sds-td-meta">lookup</td>
-            <td>installation</td>
-            <td class="sds-td-meta">follows the installation</td>
-            <td><span class="sds-badge sds-badge--ok">answered</span></td>
-          </tr>
-          <tr>
-            <td class="sds-td-name">typo3_schema_lookup</td>
-            <td class="sds-td-meta">lookup</td>
-            <td>installation</td>
-            <td class="sds-td-meta">follows the installation</td>
-            <td><span class="sds-badge sds-badge--error">not booted</span></td>
-          </tr>
-          <tr>
-            <td class="sds-td-name">typo3_changelog_lookup</td>
-            <td class="sds-td-meta">lookup</td>
-            <td>installation · docs</td>
-            <td class="sds-td-meta">down to 7.0</td>
-            <td><span class="sds-badge sds-badge--ok">answered</span></td>
-          </tr>
-          <tr>
-            <td class="sds-td-name">typo3_documentation_lookup</td>
-            <td class="sds-td-meta">lookup</td>
-            <td>docs.typo3.org</td>
-            <td class="sds-td-meta">requested release</td>
-            <td><span class="sds-badge sds-badge--ok">answered</span></td>
-          </tr>
-          <tr>
-            <td class="sds-td-name">typo3_server_scope</td>
-            <td class="sds-td-meta">scope</td>
-            <td>this server</td>
-            <td class="sds-td-meta">&mdash;</td>
-            <td><span class="sds-badge">no source</span></td>
-          </tr>
-        </tbody>
-      </table>
+  <button type="button" class="sds-tab is-active">all</button>
+  <button type="button" class="sds-tab">lookup</button>
+  <button type="button" class="sds-tab">scope</button>
+</div><div class="sds-tab__panel"><table class="sds-table sds-table--compact sds-table--scroll">
+  <thead><tr>
+    <th>Tool</th>
+    <th>Verb</th>
+    <th>Source</th>
+    <th>Versions</th>
+    <th>State</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">typo3_rule_lookup</td>
+      <td class="sds-td-meta">lookup</td>
+      <td>bundled knowledge</td>
+      <td class="sds-td-meta">12.4 · 13.4 · 14.3 · main</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>answered</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">typo3_hint_lookup</td>
+      <td class="sds-td-meta">lookup</td>
+      <td>bundled knowledge</td>
+      <td class="sds-td-meta">12.4 · 13.4 · 14.3 · main</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>answered</span></td>
+    </tr>
+    <tr class="is-selected">
+      <td class="sds-td-name">typo3_icon_lookup</td>
+      <td class="sds-td-meta">lookup</td>
+      <td>installation</td>
+      <td class="sds-td-meta">follows the installation</td>
+      <td><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>degraded</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">typo3_label_lookup</td>
+      <td class="sds-td-meta">lookup</td>
+      <td>installation</td>
+      <td class="sds-td-meta">follows the installation</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>answered</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">typo3_schema_lookup</td>
+      <td class="sds-td-meta">lookup</td>
+      <td>installation</td>
+      <td class="sds-td-meta">follows the installation</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>not booted</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">typo3_changelog_lookup</td>
+      <td class="sds-td-meta">lookup</td>
+      <td>installation · docs</td>
+      <td class="sds-td-meta">down to 7.0</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>answered</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">typo3_documentation_lookup</td>
+      <td class="sds-td-meta">lookup</td>
+      <td>docs.typo3.org</td>
+      <td class="sds-td-meta">requested release</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>answered</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">typo3_server_scope</td>
+      <td class="sds-td-meta">scope</td>
+      <td>this server</td>
+      <td class="sds-td-meta">—</td>
+      <td><span class="sds-badge">no source</span></td>
+    </tr>
+  </tbody>
+</table></div>
 
       <div class="sds-note sds-note--info">
-        <span class="sds-note__icon">
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8,2c3.3000002,0,6,2.6999998,6,6s-2.6999998,6-6,6s-6-2.6999998-6-6S4.6999998,2,8,2 M8,1C4.0999999,1,1,4.0999999,1,8s3.0999999,7,7,7s7-3.1000004,7-7S11.8999996,1,8,1L8,1z"/><path d="M7,4.999999C7,4.4477148,7.4477148,4,7.999999,4H8.000001C8.5522852,4,9,4.4477148,9,4.999999V5.000001C9,5.5522852,8.5522852,6,8.000001,6H7.999999C7.4477148,6,7,5.5522852,7,5.000001V4.999999z"/><path d="M7,7.999999C7,7.4477148,7.4477148,7,7.999999,7H8.000001C8.5522852,7,9,7.4477148,9,7.999999v3.0000019C9,11.5522852,8.5522852,12,8.000001,12H7.999999C7.4477148,12,7,11.5522852,7,11.000001V7.999999z"/></g></svg>
-        </span>
-        <div>
-          <div class="sds-note__title">Three tools need a bootable installation</div>
-          <div class="sds-note__body">
-            Without one they read the package registry instead, which answers with a
-            subset that looks like the whole. <span class="sds-mono">ddev start</span>
-            removes the gap.
-          </div>
-        </div>
-      </div>
-    </div>
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
+  <div>
+    <div class="sds-note__title">Three tools need a bootable installation</div>
+    <div class="sds-note__body">Without one they read the package registry instead, which answers with a
+          subset that looks like the whole. <span class="sds-mono">ddev start</span>
+          removes the gap.</div>
   </div>
+</div>
+    </div>
+  </main>
 </div>
 </body>
 </html>

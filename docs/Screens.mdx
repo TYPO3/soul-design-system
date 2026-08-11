@@ -14,22 +14,25 @@ subtitle and the viewport they are rendered at — which is the contract with
 the Design System pane, and `make verify` enforces it. A screen is its own
 thumbnail; there is no thumbnail file anywhere.
 
-Two of them are **live pages** under **Pages** in the sidebar, and the files
-here are their static export. Open one there and click through it: the rail
-folds, a pill answers, the block copies itself, the mode switch moves the
-whole page. That is the difference that matters — every story is opened by the
-test suite, so a live page is a page under test, and a page of static markup
-proves the layout and nothing else.
+Every one of them is a **live page** under **Pages** in the sidebar, and the
+files here are their static export. Open one there and click through it: the
+rail folds, a pill answers, the tabs filter the list, the block copies itself,
+the mode switch moves the whole page. That is the difference that matters —
+every story is opened by the test suite, so a live page is a page under test,
+and a page of static markup proves the layout and nothing else.
 
 One composition serves both, and the branch appears only where the two
 genuinely differ: a component that takes its content between the tags cannot
 be exported, because Lit's SSR emits authored children beside the element's
 own template. Those use the markup function the element itself renders.
 
-The two that are still **hand-written** — an answer and the tool reference —
-each carry a second copy of markup the components already produce: a code
-block spelled out span by span, an icon pasted in as a path. Every one of
-those copies drifts the day a component changes.
+Two of these were hand-written until recently, and what that cost is worth
+naming: each carried a second copy of markup the components already produce —
+a code frame spelled out span by span, a status glyph pasted in as a path, a
+`<style>` block with a shell and a column of its own. A copy like that drifts
+the day the component changes, and nothing says so. Where one of them needed
+something the system could not say, the answer was to give the system the
+word: `sds-note`, a table cell that can hold a badge, a row that is selected.
 
 ## The landing page
 
@@ -43,7 +46,7 @@ code block arrives here without anybody editing this page.
 
 The one place where the documentation *is* the product presentation: a
 visitor gets the pitch and keeps scrolling into the reference without a seam.
-210px tool rail, 1080px content, 48px gutters.
+210px tool rail, a 960px page measure, 48px gutters.
 
 <Specimen src="screens/documentation.html" viewport="1440x900" title="Documentation" />
 

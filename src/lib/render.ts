@@ -101,7 +101,11 @@ function tidyTags(html: string): string {
       continue;
     }
     if (ch === '>') {
-      out = out.replace(/[ \t]+$/, '');
+      /* Newlines too, not only spaces: a tag written one attribute per line
+         ends with the indentation of the attribute that was not written, so
+         the export carried a blank line inside the tag wherever a component
+         had an optional one. */
+      out = out.replace(/\s+$/, '');
       inTag = false;
       out += ch;
       continue;

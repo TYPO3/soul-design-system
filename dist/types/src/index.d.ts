@@ -7,6 +7,7 @@ import './components/link.ts';
 import './components/field.ts';
 import './components/field-error.ts';
 import './components/pills.ts';
+import './components/menu.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/rail.ts';
@@ -18,6 +19,7 @@ import './components/dialog.ts';
 import './components/table.ts';
 import './components/code.ts';
 import './components/diff.ts';
+import './components/note.ts';
 export { SdsElement, installHostRule, define } from './lib/element.js';
 export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.js';
 export { SdsSignet, signetFor, type SignetSize } from './components/signet.js';
@@ -29,6 +31,7 @@ export { SdsField, fieldClass, type FieldProps } from './components/field.js';
 export { SdsFieldError } from './components/field-error.js';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.js';
 export { SdsPills } from './components/pills.js';
+export { SdsMenu } from './components/menu.js';
 export { SdsTabs } from './components/tabs.js';
 export { SdsTabItem } from './components/tab-item.js';
 export { SdsRail } from './components/rail.js';
@@ -40,7 +43,8 @@ export { SdsDialog, type DialogProps } from './components/dialog.js';
 export { SdsTable, type TableProps, type Column, type Row, type Density } from './components/table.js';
 export { SdsCode, type CodeBlockProps, type CodeLine, type CodeKind, type CodeLang, } from './components/code.js';
 export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.js';
+export { SdsNote, type NoteProps, type NoteTone } from './components/note.js';
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-signet', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-field', 'sds-field-error', 'sds-pills', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-surface', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-code', 'sds-diff'];
+export declare const TAGS: readonly ['sds-icon', 'sds-signet', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-field', 'sds-field-error', 'sds-pills', 'sds-menu', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-surface', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-code', 'sds-diff', 'sds-note'];

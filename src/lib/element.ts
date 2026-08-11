@@ -30,6 +30,33 @@ export class SdsElement extends LitElement {
   protected override createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
+
+  /** The content a caller wrote between the tags, taken out of the way.
+
+      Asked **once**, and that is the whole reason it is here rather than
+      written out in each component that takes content. These elements render
+      into themselves, so after the first render an element's children are its
+      own output — and `connectedCallback` runs again every time an element is
+      moved in the document. A component that looks a second time therefore
+      lifts its own rendering and treats it as what the author wrote: a code
+      block whose content is the head and the `<pre>` it just produced, which
+      reads back as an empty block.
+
+      Nothing moved elements around until tabs began composing them, which is
+      why three components carried the same latent bug and none of them showed
+      it. */
+  #looked = false;
+
+  protected lifted(): Node[] {
+    if (this.#looked) return [];
+    this.#looked = true;
+    const nodes = [...this.childNodes];
+    /* `ChildNode.remove` rather than `Node.remove`: a text node between the
+       tags is a Node and has no `remove` on the type, though every one of
+       them here is a ChildNode. */
+    for (const node of nodes) (node as ChildNode).remove();
+    return nodes;
+  }
 }
 
 /* `display: contents` for every registered host, written from the registry

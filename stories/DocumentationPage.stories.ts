@@ -1,6 +1,6 @@
 /* The documentation page.
 
-   A tool rail, a 1080px column, 48px gutters — the layout where the
+   A tool rail, a 960px page measure, 48px gutters — the layout where the
    documentation *is* the product presentation: a visitor gets the pitch and
    keeps scrolling into the reference without a seam.
 
@@ -19,7 +19,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../src/components/pills.ts';
+import '../src/components/menu.ts';
 import '../src/components/rail.ts';
 import '../src/components/field.ts';
 import '../src/components/code.ts';
@@ -76,12 +76,12 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
       <sds-signet size="20"></sds-signet>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
     </a>
-    <sds-pills .items="${[
+    <sds-menu label="Sections" .items="${[
       { label: 'overview', href: '#overview' },
       { label: 'tools', href: '#tools' },
       { label: 'knowledge', href: '#knowledge' },
       { label: 'install', href: '#install' },
-    ]}" active="0"></sds-pills>
+    ]}" active="0"></sds-menu>
     <div class="sds-bar__end">
       <sds-field value="Search the documentation" icon="actions-search" label="Search the documentation" min-width="260"></sds-field>
       <sds-badge label="0.4.0" tone="accent"></sds-badge>
@@ -127,7 +127,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/documentation.html',
       title: 'Soul Design System — documentation',
-      subtitle: 'Tool rail, 1080px column — the documentation is the product presentation',
+      subtitle: 'Tool rail, 960px measure — the documentation is the product presentation',
       viewport: '1440x900',
     }),
   },

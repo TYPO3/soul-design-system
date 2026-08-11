@@ -8,8 +8,16 @@ export interface Column {
     cls?: string;
 }
 export interface Row {
-    cells: readonly string[];
-    /** Selection, not striping. */
+    /** Text, or a component where the cell is a piece of state rather than a
+        value — the badge that says how a row answered. A cell that could only
+        be a string is a cell whose status has to be spelled out beside the
+        table or drawn by hand into it. */
+    cells: readonly (string | TemplateResult)[];
+    /** Selection, not striping — `.is-selected`, which the stylesheet already
+        had and the element could not emit, so the one story that needed it
+        wrote the fill inline and the two drifted to different colours. */
+    selected?: boolean;
+    /** Anything about this row the class layer has no name for. */
     style?: string;
 }
 export interface TableProps {

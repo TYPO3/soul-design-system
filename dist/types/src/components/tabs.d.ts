@@ -16,7 +16,11 @@ export declare class SdsTabs extends SdsNav {
     protected readonly item = "sds-tab";
     /** The panels written between the tags. */
     private panels;
+    /** Take the items written between the tags, if any are there yet. */
+    private lift;
+    private arriving?;
     connectedCallback(): void;
+    disconnectedCallback(): void;
     protected choose(index: number): void;
     /** Tell each panel whether it is the one. */
     private show;

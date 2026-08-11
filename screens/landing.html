@@ -1,4 +1,4 @@
-<!-- @startingPoint section="Screens" subtitle="The first page: the pitch, what it is made of, and how to start" viewport="1440x900" -->
+<!-- @startingPoint section="Screens" subtitle="The first page: the pitch, who it is for, what it is made of, and how to start" viewport="1440x900" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -13,59 +13,330 @@
       <svg class="sds-signet" width="20" height="20" viewBox="-6 -6 140 112" aria-hidden="true"><path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
     </a>
-    <nav class="sds-pills">
-  <a class="sds-pill is-active" href="#overview" aria-current="page">overview</a>
-  <a class="sds-pill" href="#tokens">tokens</a>
-  <a class="sds-pill" href="#components">components</a>
-  <a class="sds-pill" href="#install">install</a>
-</nav>
+    <div class="sds-menu">
+  <button
+    type="button"
+    class="sds-menu__toggle"
+    aria-expanded="false"
+    aria-controls="sds-menu-2"
+    aria-label="Sections"
+    hidden><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-menu"><g fill="currentColor"><path d="M9 12v2H7v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 7v2H7V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 2v2H7V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 7v2H2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 2v2H2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 12v2H2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 7v2h-2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 2v2h-2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 12v2h-2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5z"></path></g></svg></button>
+  <nav
+    id="sds-menu-2"
+    class="sds-menu__items"
+    aria-label="Sections">
+    <a class="sds-pill is-active" href="#overview" aria-current="page">overview</a>
+    <a class="sds-pill" href="#foundations">foundations</a>
+    <a class="sds-pill" href="#components">components</a>
+    <a class="sds-pill" href="#install">install</a>
+  </nav>
+</div>
     <div class="sds-bar__end">
       <span class="sds-badge sds-badge--accent">1.0.0</span>
-      <button class="sds-btn sds-btn--secondary sds-btn--sm">Read the guidelines</button>
       <div class="sds-modes" role="group" aria-label="Colour mode">
   <button
       type="button"
       class="sds-mode"
-      aria-pressed="false"
-      
->light</button>
+      aria-pressed="false">light</button>
   <button
       type="button"
       class="sds-mode"
-      aria-pressed="false"
-      
->dark</button>
+      aria-pressed="false">dark</button>
 </div>
     </div>
   </header>
 
   <main class="sds-page">
-    <div class="sds-page__column">
-      <div class="sds-stack">
-        <h1 class="sds-display">A system, not a stylesheet</h1>
-        <p class="sds-lead">
-          Tokens, a class layer and the elements over it — one vocabulary, whether
-          a surface runs JavaScript or is rendered by PHP. Every rule it holds is
-          shown on a card generated from the component that holds it.
-        </p>
-        <div class="sds-actions"><button class="sds-btn sds-btn--primary"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg>Start a design</button><button class="sds-btn sds-btn--secondary">Browse the components</button></div>
-      </div>
+    <div class="sds-sections">
 
-      <div class="sds-split" style="margin-top:var(--space-12)">
+      <section class="sds-split" id="overview">
         <div class="sds-stack">
-          <div class="sds-panel" style="flex:1">
-  <div class="sds-surface-title">Tokens</div>
-  <div class="sds-surface-body">One accent, three syntax colours, no shadows anywhere. Both modes ship in one declaration.</div>
-</div><div class="sds-panel" style="flex:1">
-  <div class="sds-surface-title">Components</div>
-  <div class="sds-surface-body">Light-DOM custom elements over the same classes a PHP surface writes by hand. Neither is a fallback for the other.</div>
-</div><div class="sds-panel" style="flex:1">
-  <div class="sds-surface-title">Specimens</div>
-  <div class="sds-surface-body">Every claim on this page is a card generated from the component that makes it, so the documentation cannot drift.</div>
+          <div class="sds-row">
+            <span class="sds-badge sds-badge--accent">1.0.0</span>
+            <span class="sds-label">one accent · two modes · no shadows</span>
+          </div>
+          <h1 class="sds-display">A system, not a stylesheet</h1>
+          <p class="sds-lead">
+            Tokens, a class layer and the elements over it — one vocabulary,
+            whether a surface runs JavaScript or is rendered by PHP. Every rule
+            it holds is shown on a card generated from the component that holds
+            it.
+          </p>
+          <div class="sds-actions"><button class="sds-btn sds-btn--primary"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg>Start a design</button><button class="sds-btn sds-btn--secondary">Browse the components</button></div>
+        </div>
+        <div class="sds-stack">
+          <span class="sds-label">Three ways in</span>
+          <div class="sds-tabs">
+  <button type="button" class="sds-tab is-active">composer</button>
+  <button type="button" class="sds-tab">npm</button>
+  <button type="button" class="sds-tab">drop-in</button>
+</div><div class="sds-tab__panel"><div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">bash</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><span class="sds-code__comment"># a PHP surface writes the classes by hand</span>
+<span class="sds-code__prompt">$</span> <span class="sds-code__cmd">composer require typo3/soul-design-system</span>
+<span class="sds-code__ok">✓</span> linked two files into <span class="sds-code__cmd">public/assets</span></pre>
+</div></div>
+        </div>
+      </section>
+
+      <section class="sds-grid">
+        <div class="sds-panel" style="flex:1; min-width:200px">
+  <div class="sds-label">audience 01</div>
+  <div class="sds-surface-title">Product designer</div>
+  <div class="sds-surface-body">Starting points to open, tokens to draw against, and a specimen for every rule — so a decision is looked up rather than remembered.</div>
+</div><div class="sds-panel" style="flex:1; min-width:200px">
+  <div class="sds-label">audience 02</div>
+  <div class="sds-surface-title">Interface developer</div>
+  <div class="sds-surface-body">Custom elements that need no build step and no framework. Light DOM, so the page around them styles them like anything else.</div>
+</div><div class="sds-panel" style="flex:1; min-width:200px">
+  <div class="sds-label">audience 03</div>
+  <div class="sds-surface-title">Backend developer</div>
+  <div class="sds-surface-body">The same class names a template writes by hand. Neither layer is a fallback for the other, and both are checked against the same file.</div>
+</div>
+      </section>
+
+      <section class="sds-stack" id="foundations">
+        <h2 class="sds-h2">What it is made of</h2>
+        <p class="sds-prose">
+          Four layers, and each of them is worth having on its own. A surface
+          that takes only the tokens still cannot invent a colour; one that
+          takes only the classes still gets both modes.
+        </p>
+        <table class="sds-table sds-table--compact sds-table--scroll">
+  <thead><tr>
+    <th>Layer</th>
+    <th>Ships as</th>
+    <th>Read by</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">tokens</td>
+      <td>tokens.css — custom properties</td>
+      <td class="sds-td-meta">every layer above it, and a design tool</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">classes</td>
+      <td>styles.css</td>
+      <td class="sds-td-meta">a Twig or Fluid template, by hand</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">elements</td>
+      <td>soul.js — light DOM, no build</td>
+      <td class="sds-td-meta">a surface that runs JavaScript</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">specimens</td>
+      <td>generated cards</td>
+      <td class="sds-td-meta">the guidelines, and the pane a design opens in</td>
+    </tr>
+  </tbody>
+</table>
+      </section>
+
+      <section class="sds-sections" id="components">
+        <div class="sds-stack">
+          <h2 class="sds-h2">Three components in full</h2>
+          <p class="sds-prose">
+            One per plane: a block the machine writes, the navigation beside a
+            page, and the navigation above it. Each is documented from the
+            element that renders it.
+          </p>
+        </div>
+        <article class="sds-stack">
+          <h3 class="sds-h3 sds-mono">sds-code</h3>
+          <p class="sds-prose">A fenced block, its head and its copy button. It highlights what it is given rather than leaving that to the page — fourteen grammars, one of them TYPO3’s own, and a caption where a renderer has one to place.</p>
+          <div class="sds-row">
+            <span class="sds-badge">element</span><span class="sds-badge">class layer</span><span class="sds-badge">14 grammars</span>
+          </div>
+          <table class="sds-table sds-table--compact sds-table--scroll">
+  <thead><tr>
+    <th>Property</th>
+    <th>Required</th>
+    <th>Meaning</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">lang</td>
+      <td>no</td>
+      <td>The fence’s language. Sets the head and picks the grammar.</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">caption</td>
+      <td>no</td>
+      <td>What the block is, in a sentence, above the frame.</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">copy</td>
+      <td>no</td>
+      <td>The copy button. It copies what the block says, never its chrome.</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">source</td>
+      <td>no</td>
+      <td>The block as text, where the caller holds the source rather than markup.</td>
+    </tr>
+  </tbody>
+</table>
+          <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">html</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">sds-code</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;bash&quot;</span> <span class="hljs-attr">caption</span>=<span class="hljs-string">&quot;Install&quot;</span> <span class="hljs-attr">copy</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span>composer require typo3/soul-design-system<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">sds-code</span>&gt;</span></code></pre>
+</div>
+        </article><article class="sds-stack">
+          <h3 class="sds-h3 sds-mono">sds-rail</h3>
+          <p class="sds-prose">The tool rail: a flat list, or one long enough to need sections. A section is a `details`, so it folds before any script has run and a closed rail is a few lines rather than a screen of them.</p>
+          <div class="sds-row">
+            <span class="sds-badge">element</span><span class="sds-badge">class layer</span><span class="sds-badge">works unscripted</span>
+          </div>
+          <table class="sds-table sds-table--compact sds-table--scroll">
+  <thead><tr>
+    <th>Property</th>
+    <th>Required</th>
+    <th>Meaning</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">items</td>
+      <td>yes</td>
+      <td>Labels, or entries with an href, an icon, or a group of their own.</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">active</td>
+      <td>no</td>
+      <td>Which item is current. Pressing one moves it and says so.</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">open</td>
+      <td>no</td>
+      <td>Per group. A group holding the current item opens regardless.</td>
+    </tr>
+  </tbody>
+</table>
+          <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">html</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">sds-rail</span> <span class="hljs-attr">active</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">items</span>=<span class="hljs-string">&#x27;[
+  &quot;overview&quot;,
+  { &quot;label&quot;: &quot;tools&quot;, &quot;items&quot;: [&quot;typo3_icon_lookup&quot;] }
+]&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sds-rail</span>&gt;</span></code></pre>
+</div>
+        </article><article class="sds-stack">
+          <h3 class="sds-h3 sds-mono">sds-menu</h3>
+          <p class="sds-prose">The navigation in a header, and what it does as the header runs out. Pills while there is room; a toggle and a panel below the bar when there is not — and which of the two is measured, not declared at a breakpoint somebody picked for one page.</p>
+          <div class="sds-row">
+            <span class="sds-badge">element</span><span class="sds-badge">class layer</span><span class="sds-badge">measures itself</span>
+          </div>
+          <table class="sds-table sds-table--compact sds-table--scroll">
+  <thead><tr>
+    <th>Property</th>
+    <th>Required</th>
+    <th>Meaning</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">items</td>
+      <td>yes</td>
+      <td>The sections of the site, as labels or as entries with an href.</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">active</td>
+      <td>no</td>
+      <td>Which one is current, marked the way every item in this system is.</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">label</td>
+      <td>no</td>
+      <td>What the toggle is called for a reader who cannot see it is a menu.</td>
+    </tr>
+  </tbody>
+</table>
+          <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">html</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">sds-menu</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Sections&quot;</span> <span class="hljs-attr">items</span>=<span class="hljs-string">&#x27;[
+  { &quot;label&quot;: &quot;overview&quot;, &quot;href&quot;: &quot;#overview&quot; },
+  { &quot;label&quot;: &quot;install&quot;, &quot;href&quot;: &quot;#install&quot; }
+]&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sds-menu</span>&gt;</span></code></pre>
+</div>
+        </article>
+      </section>
+
+      <section class="sds-stack" id="sources">
+        <h2 class="sds-h2">Where a rule comes from</h2>
+        <p class="sds-prose">
+          Four places, and every one of them is a file rather than a habit.
+        </p>
+        <div class="sds-grid">
+          <div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-label">source 01</div>
+  <div class="sds-surface-title">The tokens file</div>
+  <div class="sds-surface-body">One declaration carries both modes. Nothing below it names a colour, so a surface cannot be light-only by accident.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-label">source 02</div>
+  <div class="sds-surface-title">The component</div>
+  <div class="sds-surface-body">A card ships the markup its element renders, from the same function. The documentation cannot drift, because there is nothing for it to drift from.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-label">source 03</div>
+  <div class="sds-surface-title">The guidelines</div>
+  <div class="sds-surface-body">Written pages, drawn from the artwork files themselves — the construction, the sizes and the clear space are measured, not described.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-label">source 04</div>
+  <div class="sds-surface-title">The checks</div>
+  <div class="sds-surface-body">Headers, classes, refs, fit, cards and types, on every change. A rule nothing checks is a preference somebody wrote down.</div>
 </div>
         </div>
-        <div>
-          <p class="sds-label" style="margin:0 0 var(--space-3)">Install</p>
+      </section>
+
+      <section class="sds-stack" id="pipeline">
+        <h2 class="sds-h2">How a specimen gets made</h2>
+        <p class="sds-prose">
+          The documentation is generated from the components, in four steps
+          that run on every change.
+        </p>
+        <div class="sds-grid">
+          <div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-label">step 01</div>
+  <div class="sds-surface-title">A story is written</div>
+  <div class="sds-surface-body">The component, with the properties it is being shown at. Nothing is hand-built beside it — a specimen that rebuilds the markup documents the rebuild.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-label">step 02</div>
+  <div class="sds-surface-title">The card is rendered</div>
+  <div class="sds-surface-body">Server-side, to flat HTML at the size it declares, with every element replaced by what it produced.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-label">step 03</div>
+  <div class="sds-surface-title">The pane opens it</div>
+  <div class="sds-surface-body">With styles.css and no JavaScript at all, which is the state that proves the class layer stands on its own.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-label">step 04</div>
+  <div class="sds-surface-title">The diff catches the rest</div>
+  <div class="sds-surface-body">A card that moved is a picture that changed, and it is reviewed as one.</div>
+</div>
+        </div>
+      </section>
+
+      <section class="sds-split" id="install">
+        <div class="sds-stack">
+          <h2 class="sds-h2">Install</h2>
+          <p class="sds-prose">
+            Two files, and nothing to configure. The elements register
+            themselves and the classes are already in the stylesheet — there is
+            no build step to add and no framework to be on.
+          </p>
+          <div class="sds-actions"><button class="sds-btn sds-btn--primary"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg>Start a design</button><button class="sds-btn sds-btn--secondary">Browse the components</button></div>
+        </div>
+        <div class="sds-stack">
+          <span class="sds-label">Install</span>
           <div class="sds-code">
   <div class="sds-code__head">
     <span class="sds-code__lang">bash</span>
@@ -75,12 +346,14 @@
 <span class="sds-code__prompt">$</span> <span class="sds-code__cmd">composer require typo3/soul-design-system</span>
 <span class="sds-code__ok">✓</span> linked two files into <span class="sds-code__cmd">public/assets</span></pre>
 </div>
-          <p class="sds-prose" style="margin:var(--space-4) 0 0">
-            Two files, and nothing to configure. The elements register themselves
-            and the classes are already in the stylesheet.
+          <p class="sds-prose">
+            Pin a version where you depend on it. The class layer is the
+            contract; the elements are how a page that runs JavaScript gets it
+            without writing the markup out.
           </p>
         </div>
-      </div>
+      </section>
+
     </div>
   </main>
 

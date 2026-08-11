@@ -56,7 +56,7 @@ export class SdsDiff extends SdsElement {
 
   protected override render(): TemplateResult {
     return html`<div class="sds-code">
-  <div class="sds-code__head" style="justify-content:flex-start"><sds-icon name="${this.icon ?? 'actions-code-compare'}"></sds-icon><span class="spec-cap">${this.path}</span></div>
+  <div class="sds-code__head" style="justify-content:flex-start"><sds-icon name="${this.icon ?? 'actions-code-compare'}"></sds-icon><span class="sds-code__path">${this.path}</span></div>
   <pre class="sds-diff">${this.body.map((l) => this.line(l))}</pre>
 </div>`;
   }

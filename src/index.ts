@@ -29,6 +29,7 @@ import './components/link.ts';
 import './components/field.ts';
 import './components/field-error.ts';
 import './components/pills.ts';
+import './components/menu.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/rail.ts';
@@ -40,6 +41,7 @@ import './components/dialog.ts';
 import './components/table.ts';
 import './components/code.ts';
 import './components/diff.ts';
+import './components/note.ts';
 
 export { SdsElement, installHostRule, define } from './lib/element.ts';
 
@@ -53,6 +55,7 @@ export { SdsField, fieldClass, type FieldProps } from './components/field.ts';
 export { SdsFieldError } from './components/field-error.ts';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.ts';
 export { SdsPills } from './components/pills.ts';
+export { SdsMenu } from './components/menu.ts';
 export { SdsTabs } from './components/tabs.ts';
 export { SdsTabItem } from './components/tab-item.ts';
 export { SdsRail } from './components/rail.ts';
@@ -70,6 +73,7 @@ export {
   type CodeLang,
 } from './components/code.ts';
 export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.ts';
+export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
 
 if (typeof document !== 'undefined') installHostRule();
 
@@ -86,6 +90,7 @@ export const TAGS = [
   'sds-field',
   'sds-field-error',
   'sds-pills',
+  'sds-menu',
   'sds-tabs',
   'sds-tab-item',
   'sds-rail',
@@ -97,4 +102,5 @@ export const TAGS = [
   'sds-table',
   'sds-code',
   'sds-diff',
+  'sds-note',
 ] as const;

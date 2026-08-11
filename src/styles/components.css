@@ -419,6 +419,15 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
    highlighted row means something. */
 .sds-table tbody tr:hover { background: var(--surface-raised); }
 .sds-table tbody tr.is-selected { background: var(--surface-accent-quiet); }
+/* The selected row leaves the scanning registers.
+
+   `--text-muted` and `--text-link` are tuned against the canvas, and the
+   accent fill moves the ground under them: each lands a hair under 4.5:1 on
+   it — 4.45 and 4.48. Nothing was wrong with either token, and nothing was
+   wrong with the fill; the pair only ever meets on this row. The row being
+   read is also the one row that has no reason to be set for scanning. */
+.sds-table tbody tr.is-selected td.sds-td-name,
+.sds-table tbody tr.is-selected td.sds-td-meta { color: var(--text-primary); }
 
 /* ------------------------------------------------------------- surfaces -- */
 
@@ -435,6 +444,8 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
 .sds-sunken { background: var(--surface-sunken); }
 
 .sds-surface-title { font-size: var(--font-size-ui); font-weight: var(--weight-semibold); }
+/* The label sits over the title with the title's own leading between them. */
+.sds-surface-title:not(:first-child) { margin-top: 6px; }
 .sds-surface-body {
   font-size: var(--note-body-size);
   line-height: 1.5;
@@ -510,13 +521,38 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   flex-direction: column;
 }
 
+/* One measure, and everything on the page is centred on it.
+
+   The bar, the body, the page and the foot are all full-bleed boxes — the
+   hairline under the header and the fill behind it run to the screen's edge,
+   because a rule that stops short reads as a box. What is held is their
+   *contents*: the inline padding is the gutter, or half of what is left over
+   once the measure is taken out, whichever is larger. So the mark in the
+   header sits over the first word of the column, and the footer sits under
+   it, at every width, with no second mechanism to keep in step.
+
+   `--page-inset` is inherited rather than recomputed by whoever needs it: the
+   menu's panel hangs off the bar and has to start where the bar's own
+   contents do. A percentage inside it resolves against the box that uses it,
+   and every box here is the full width of the page, so they all agree. */
+.sds-bar,
+.sds-body,
+.sds-page,
+.sds-foot {
+  --page-gutter: var(--gutter-page);
+  --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
+  padding-inline: var(--page-inset);
+}
+
 .sds-bar {
   height: var(--height-header);
   display: flex;
   align-items: center;
   gap: var(--space-6);
-  padding: 0 var(--gutter-page);
+  padding-block: 0;
   border-bottom: var(--border-hairline) solid var(--border-subtle);
+  /* What the menu's panel is positioned against. */
+  position: relative;
 }
 /* The cluster that sits against the right edge. */
 .sds-bar__end {
@@ -545,28 +581,28 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
   flex: 1;
   display: flex;
   gap: var(--space-12);
-  padding: var(--space-8) var(--gutter-page);
+  padding-block: var(--space-8);
 }
 .sds-body__rail { width: var(--width-sidebar); flex: none; }
 
-/* The column everything is read in. `min-width: 0` because a code block or a
-   table inside it is wider than it looks and would otherwise set the floor. */
+/* The column everything is read in. No width of its own: the measure is the
+   page's, and what is left beside the rail is what this is. `min-width: 0`
+   because a code block or a table inside it is wider than it looks and would
+   otherwise set the floor. */
 .sds-column {
   flex: 1;
   min-width: 0;
-  max-width: var(--width-content);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
 }
 
-/* A page with no rail: one centred column with the page gutters around it. */
-.sds-page { flex: 1; padding: var(--space-12) var(--gutter-page) var(--space-10); }
-.sds-page__column { max-width: var(--width-content); margin: 0 auto; }
+/* A page with no rail: the measure, and nothing beside it. */
+.sds-page { flex: 1; padding-block: var(--space-12) var(--space-10); }
 
 .sds-foot {
   border-top: var(--border-hairline) solid var(--border-subtle);
-  padding: var(--space-5) var(--gutter-page);
+  padding-block: var(--space-5);
   display: flex;
   align-items: center;
   gap: var(--space-6);
@@ -574,30 +610,77 @@ dialog.sds-modal::backdrop { background: var(--surface-overlay); }
 
 /* A stack of blocks, and a row of controls. */
 .sds-stack { display: flex; flex-direction: column; gap: var(--space-4); }
-.sds-actions { display: flex; gap: var(--space-3); }
+/* Centred, because not everything in a row of actions is a button: a link
+   beside one is a line of text in a box the button's height, and stretched it
+   sets at the top of it. */
+.sds-actions { display: flex; align-items: center; gap: var(--space-3); }
+/* A row of small things that may run onto a second line — badges, versions,
+   the two words under a heading. It wraps where `.sds-actions` sheds, because
+   nothing in it is a target and a second line costs nothing. */
+.sds-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+/* The one thing in a row that belongs at the far end of it — how long an
+   answer took, the density a list is set at. Named rather than an inline
+   `margin-left:auto` on the page: layout a page writes for itself is layout
+   nothing else can keep in step. The row wraps, so on a narrow screen this
+   is the last line, aligned right, rather than something clipped. */
+.sds-row__end { margin-left: auto; }
 /* Two of anything, side by side until there is no room for two. */
 .sds-split { display: flex; gap: var(--space-12); align-items: flex-start; }
 .sds-split > * { flex: 1; min-width: 0; }
 
+/* The parts of a page. `.sds-stack` is the rhythm inside one of them; this is
+   the rhythm between them, and it is the only reason a section on a page here
+   needs a class at all. */
+.sds-sections { display: flex; flex-direction: column; gap: var(--space-12); }
+
+/* Cards that reflow by their own minimum instead of at a breakpoint: three
+   across on a page, two in a column beside a rail, one on a phone, with
+   nothing declaring where each of those happens.
+
+   `min(230px, 100%)` and not `230px`: a track with a floor wider than the
+   grid overflows it, which is the whole shape of the bug this system keeps
+   finding — a minimum stated somewhere that the page then has to be wide
+   enough for. */
+.sds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+  gap: var(--space-4);
+}
+
 /* Where it sheds. Two steps, and the second is where a rail stops being a
    column beside the text and becomes a fold above it — its groups are already
    `<details>`, so a closed rail is a few lines and needs no button to open it
-   and no script to run one. */
+   and no script to run one.
+
+   The navigation is not among what is dropped here. It used to be — one
+   breakpoint took it off every surface at 1140px, whether or not that surface
+   had room — and it is `sds-menu`'s own business now, decided by measurement
+   at whatever width the header actually runs out. */
 @media (max-width: 1140px) {
-  .sds-bar { gap: var(--space-4); padding: 0 var(--space-6); }
-  .sds-bar sds-pills { display: none; }
-  .sds-body { gap: var(--space-8); padding: var(--space-8) var(--space-6); }
-  .sds-page { padding: var(--space-10) var(--space-6) var(--space-8); }
-  .sds-foot { padding: var(--space-5) var(--space-6); }
+  .sds-bar,
+  .sds-body,
+  .sds-page,
+  .sds-foot { --page-gutter: var(--space-6); }
+  .sds-bar { gap: var(--space-4); }
+  .sds-body { gap: var(--space-8); }
+  .sds-page { padding-block: var(--space-10) var(--space-8); }
 }
 @media (max-width: 860px) {
-  .sds-bar { padding: 0 var(--space-4); }
+  .sds-bar,
+  .sds-body,
+  .sds-page,
+  .sds-foot { --page-gutter: var(--space-4); }
   .sds-bar sds-badge { display: none; }
-  .sds-body { flex-direction: column; padding: var(--space-6) var(--space-4); }
+  .sds-body { flex-direction: column; padding-block: var(--space-6); }
   .sds-body__rail { width: auto; }
-  .sds-page { padding: var(--space-8) var(--space-4); }
-  .sds-foot { padding: var(--space-5) var(--space-4); flex-wrap: wrap; gap: var(--space-4); }
-  .sds-split { flex-direction: column; gap: var(--space-8); }
+  .sds-page { padding-block: var(--space-8); }
+  .sds-foot { flex-wrap: wrap; gap: var(--space-4); }
+  /* Stacked, and stretched with it: a column of two whose items are their own
+     width leaves each of them as wide as its longest unbreakable line — which
+     is how a page with a code block in it came to be 17px wider than the
+     phone it was measured on. */
+  .sds-split { flex-direction: column; gap: var(--space-8); align-items: stretch; }
+  .sds-sections { gap: var(--space-10); }
 }
 @media (max-width: 640px) {
   /* The field goes last of the three. A surface that needs search on a phone
@@ -655,6 +738,65 @@ button.sds-rail__item {
 }
 .sds-pill:hover { color: var(--text-primary); }
 .sds-pill.is-active { background: var(--accent); color: var(--text-on-accent); }
+
+/* The same pills, plus what happens when the header runs out of room for
+   them. The element measures and decides — see `src/components/menu.ts`; what
+   is here is only the two shapes it decides between. */
+.sds-menu { display: flex; align-items: center; }
+/* Collapsed, the menu is one button, and a button belongs with the other
+   controls rather than left standing where four words used to be. It takes
+   the free space instead of the end cluster, so the two sit together. */
+.sds-bar .sds-menu.is-collapsed { margin-left: auto; }
+.sds-bar:has(.sds-menu.is-collapsed) .sds-bar__end { margin-left: 0; }
+.sds-menu__items {
+  display: flex;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--nav-font-size);
+}
+.sds-menu__toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px;
+  color: var(--text-secondary);
+  background: none;
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.sds-menu__toggle:hover { color: var(--text-primary); }
+.sds-menu__toggle[aria-expanded='true'] {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+.sds-menu__toggle .sds-icon {
+  /* The floor a control gives a glyph, the same one the rail's fold marker
+     and the code block's head use: a button's mark is not a word. */
+  width: var(--control-icon-size);
+  height: var(--control-icon-size);
+}
+/* Below the bar rather than beside it, over whatever the page starts with.
+   Full width because it is the header's own row continued, not a dropdown
+   hanging off a button. */
+.sds-menu__panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--page-inset, var(--gutter-page));
+  background: var(--surface-raised);
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+}
+/* `hidden` outranks the display each of these is given: an author rule beats
+   the browser's own, so a `display` set by class puts a hidden element back
+   on the page. */
+.sds-menu__items[hidden],
+.sds-menu__toggle[hidden] { display: none; }
 
 /* Underline tabs inside a panel. */
 .sds-tabs {
@@ -802,6 +944,17 @@ button.sds-rail__item {
   font-size: var(--font-size-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
+}
+/* The file a diff is of, in the same head and the same register — but not
+   upper case, because a path is a name the machine owns and typing it in
+   another case makes it a different path. `.sds-label` would have shouted it;
+   `spec-cap` was what this used, and that class is in the annotation layer,
+   so every product surface with a diff on it got an unstyled caption. */
+.sds-code__path {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-label);
+  letter-spacing: var(--tracking-label);
+  color: var(--text-muted);
 }
 /* Copying a block is the component's job, not the page's. */
 .sds-code__copy {

@@ -1,6 +1,8 @@
 import { LitElement } from 'lit';
 export declare class SdsElement extends LitElement {
+    #private;
     protected createRenderRoot(): HTMLElement | DocumentFragment;
+    protected lifted(): Node[];
 }
 /** Called by the bundle entry so the rule exists even before the first
     element upgrades. `define()` keeps it current from then on. */

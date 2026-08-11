@@ -21,11 +21,15 @@ export interface SurfaceProps {
   title: string;
   body: string | TemplateResult;
   style?: string;
+  /** The tracked-out line over the title, where a set of these is numbered or
+      named as a set — `AUDIENCE 01`, `SOURCE`, `STEP 02`. */
+  label?: string;
 }
 
 export class SdsSurface extends SdsElement {
   static override properties = {
     plane: { type: String, reflect: true },
+    label: { type: String },
     heading: { type: String },
     body: { type: String },
     /* The host is `display: contents`, so it is not in the box tree and
@@ -35,6 +39,7 @@ export class SdsSurface extends SdsElement {
   };
 
   declare plane: Plane;
+  declare label: string;
   declare heading: string;
   declare body: string | TemplateResult;
   declare boxStyle: string;
@@ -42,13 +47,19 @@ export class SdsSurface extends SdsElement {
   constructor() {
     super();
     this.plane = 'card';
+    this.label = '';
     this.heading = '';
     this.body = '';
     this.boxStyle = 'flex:1; min-width:200px';
   }
 
   protected override render(): TemplateResult {
+    /* Over the title rather than in it: a set of cards that is numbered or
+       sourced says so in the label register, and a title that carries the
+       number reads as part of the sentence. */
+    const label = this.label ? html`<div class="sds-label">${this.label}</div>` : undefined;
     return html`<div class="sds-${this.plane}" style="${this.boxStyle}">
+  ${label}
   <div class="sds-surface-title">${this.heading}</div>
   <div class="sds-surface-body">${this.body}</div>
 </div>`;

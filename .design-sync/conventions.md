@@ -24,9 +24,10 @@ Two rules follow, and both are load-bearing:
 | Text | `sds-icon` `sds-link` |
 | Brand, chrome | `sds-signet` `sds-theme` |
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` |
-| Navigation | `sds-pills` `sds-tabs`/`sds-tab-item` `sds-rail` |
+| Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
 | Data | `sds-table` `sds-code` `sds-diff` |
+| States | `sds-note` |
 
 They render **light DOM** and emit exactly the classes below, so an element and a
 hand-written `<button class="sds-btn">` are the same markup styled by the same rules.
@@ -70,12 +71,14 @@ inline styles — do not mint a `sds-` name.
 | Family | Classes |
 |---|---|
 | Root, text | `sds-app` `sds-prose` `sds-label` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--16` `sds-icon--20` `sds-icon--24` `sds-icon--muted` |
+| Type | `sds-display` `sds-h1` `sds-h2` `sds-h3` `sds-lead` |
+| Layout | `sds-shell` `sds-bar`/`sds-bar__end` `sds-body`/`sds-body__rail` `sds-column` `sds-page` `sds-foot` `sds-sections` `sds-stack` `sds-row` `sds-actions` `sds-split` `sds-grid` |
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon` |
 | Badges | `sds-badge` + `--accent` `--ok` `--warn` `--error` |
 | Fields | `sds-field` `sds-input` `sds-select` `sds-field-error` |
 | Tables | `sds-table` + `--compact` `--medium` `--airy` `--scroll`; cells `sds-td-name` `sds-td-meta` |
 | Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-overlay` `sds-modal__head|__body|__foot` `sds-drawer` |
-| Navigation | `sds-pills`/`sds-pill` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__item`/`sds-rail__group` |
+| Navigation | `sds-pills`/`sds-pill` `sds-menu`/`sds-menu__items`/`sds-menu__panel`/`sds-menu__toggle` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__item`/`sds-rail__group` |
 | Code | `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |
 | Brand | `sds-signet` `sds-lockup` `sds-wordmark` `sds-wordmark__pipe` `sds-wordmark__product` |

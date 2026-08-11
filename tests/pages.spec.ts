@@ -1,0 +1,156 @@
+/* The page layouts, at every width they are meant to survive.
+
+   A page is the only place the layout classes meet each other, and the two
+   ways a layout fails are both invisible to everything else the suite does:
+   the page grows wider than the screen, or two things end up in the same
+   place. The card diff never sees it — a card is a fragment at a fixed width.
+   The fit check never sees it — it asks about height, and it opens each
+   screen at the one size it declares.
+
+   Both failures have already happened here. A field with a `min-width` and a
+   code block whose longest line became its column's floor each pushed a page
+   sideways at a width nobody had opened it at, and the fix for the second one
+   was found by measuring rather than by looking.
+
+   So the pages are measured, at the widths a laptop, a tablet and a phone
+   actually are, and the guarantee is the flat one: a page never overflows. */
+
+import { test, expect } from '@playwright/test';
+import { gotoStory } from './lib/story.ts';
+
+const WIDTHS = [1440, 1280, 1024, 900, 860, 768, 640, 480, 375, 320];
+
+interface StoryEntry {
+  id: string;
+  title: string;
+  name: string;
+  type: 'story' | 'docs';
+}
+
+async function pageStories(request: import('@playwright/test').APIRequestContext): Promise<StoryEntry[]> {
+  const index = (await (await request.get('/index.json')).json()) as { entries: Record<string, StoryEntry> };
+  return Object.values(index.entries).filter((e) => e.type === 'story' && e.title.startsWith('Pages/'));
+}
+
+test('every page fits the screen at every width', async ({ page, request }) => {
+  const pages = await pageStories(request);
+  expect(pages.length, 'there should be page layouts to measure').toBeGreaterThan(1);
+
+  for (const story of pages) {
+    for (const width of WIDTHS) {
+      await page.setViewportSize({ width, height: 900 });
+      await gotoStory(page, story.id);
+
+      const over = await page.evaluate(() => {
+        const d = document.documentElement;
+        if (d.scrollWidth <= d.clientWidth + 1) return null;
+        /* Which box is doing it, because "the page is 17px too wide" is not
+           something you can act on. */
+        const widest = [...document.body.querySelectorAll('*')]
+          .map((el) => ({ el, r: el.getBoundingClientRect() }))
+          .filter(({ r }) => r.width > 0 && r.right > d.clientWidth + 1)
+          .sort((a, b) => b.r.right - a.r.right)[0];
+        const e = widest?.el as HTMLElement | undefined;
+        return {
+          scroll: d.scrollWidth,
+          client: d.clientWidth,
+          worst: e ? `${e.tagName.toLowerCase()}.${String(e.className).trim().split(/\s+/).join('.')}` : 'unknown',
+        };
+      });
+
+      expect(over, `${story.title} at ${width}px: ${JSON.stringify(over)}`).toBeNull();
+    }
+  }
+});
+
+/* Nothing on a page may be painted over anything else.
+
+   Only boxes that hold their own line are compared: an inline `<span>` inside
+   a wrapping paragraph has a bounding rect as wide as the paragraph and
+   overlaps every line above it, which is how text works and not a fault.
+   Anything out of flow is left out too — an overlay, a modal and an open menu
+   panel are over the page on purpose, which is what they are for. */
+test('nothing on a page covers anything else', async ({ page, request }) => {
+  const pages = await pageStories(request);
+
+  for (const story of pages) {
+    for (const width of [1440, 1024, 860, 640, 375]) {
+      await page.setViewportSize({ width, height: 900 });
+      await gotoStory(page, story.id);
+
+      const hits = await page.evaluate(() => {
+        const inFlow = (el: Element): boolean => {
+          for (let node: Element | null = el; node && node !== document.body; node = node.parentElement) {
+            const position = getComputedStyle(node).position;
+            if (position === 'absolute' || position === 'fixed') return false;
+          }
+          return true;
+        };
+
+        const blocks = [...document.body.querySelectorAll<HTMLElement>('*')].filter((el) => {
+          if (!el.textContent?.trim()) return false;
+          if (!el.checkVisibility({ contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true })) return false;
+          if (!/^(block|flex|grid|list-item|table)/.test(getComputedStyle(el).display)) return false;
+          if (!inFlow(el)) return false;
+          /* Leaves only: a section and the heading inside it share their box
+             by definition, and `contains` already covers that pair — this
+             keeps the comparison to what actually paints. */
+          return ![...el.children].some((child) => child.textContent?.trim());
+        });
+
+        const named = (el: Element): string =>
+          `${el.tagName.toLowerCase()}.${String(el.className).trim().split(/\s+/).join('.')}` +
+          `"${(el.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 30)}"`;
+
+        const out: string[] = [];
+        for (let i = 0; i < blocks.length; i++) {
+          for (let j = i + 1; j < blocks.length; j++) {
+            const a = blocks[i] as HTMLElement;
+            const b = blocks[j] as HTMLElement;
+            if (a.contains(b) || b.contains(a)) continue;
+            const ra = a.getBoundingClientRect();
+            const rb = b.getBoundingClientRect();
+            const x = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
+            const y = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
+            if (x > 2 && y > 2) out.push(`${named(a)} over ${named(b)}`);
+          }
+        }
+        return out.slice(0, 4);
+      });
+
+      expect(hits, `${story.title} at ${width}px`).toEqual([]);
+    }
+  }
+});
+
+/* The menu's run-width.
+
+   What it does is decided by measurement, so there is no number to assert.
+   What can be asserted is the shape of the decision: wide enough and the
+   items are a row with no toggle in sight; narrow enough and they are behind
+   one, reachable — which is the part a breakpoint that merely hid them never
+   had. */
+test('the header navigation collapses rather than disappearing', async ({ page }) => {
+  const items = page.locator('.sds-menu__items');
+  const toggle = page.locator('.sds-menu__toggle');
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await gotoStory(page, 'pages-landing--page');
+  await expect(items).toBeVisible();
+  await expect(toggle).toBeHidden();
+
+  await page.setViewportSize({ width: 420, height: 900 });
+  await expect(toggle).toBeVisible();
+  await expect(items).toBeHidden();
+
+  await toggle.click();
+  await expect(items).toBeVisible();
+  await expect(items.locator('.sds-pill')).toHaveCount(4);
+
+  /* Escape closes it, and the toggle takes the focus back — a panel dismissed
+     with the keyboard that leaves the focus inside it has dropped the reader
+     somewhere they cannot see. */
+  await page.keyboard.press('Escape');
+  await expect(items).toBeHidden();
+  await expect(toggle).toBeFocused();
+});

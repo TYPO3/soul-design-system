@@ -12,7 +12,14 @@
   --space-19: 76px;
 
   --gutter-page: 48px;
-  --width-content: 1080px;
+  /* The measure a page runs at. The bar, the body, the column and the foot
+     are all held to it and centred on it, so a page is one width rather than
+     a header at the screen's edge over a column that starts 130px in.
+
+     960 and not the 1080 this was: with the 210px rail and the gutter between,
+     the reading column comes out at 702px — the width every specimen card is
+     drawn at, so a card embedded in a page is shown at its own size. */
+  --width-page: 960px;
   --width-sidebar: 210px;
   --height-header: 56px;
 

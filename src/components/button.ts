@@ -90,10 +90,8 @@ export class SdsButton extends SdsElement {
   }
 
   override connectedCallback(): void {
-    if (!this.taken.length && this.childNodes.length > 0) {
-      this.taken = [...this.childNodes];
-      for (const node of this.taken) (node as ChildNode).remove();
-    }
+    const written = this.lifted();
+    if (written.length) this.taken = written;
     super.connectedCallback();
   }
 

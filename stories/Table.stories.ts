@@ -38,7 +38,7 @@ const CARD_TABLE: TableProps = {
   columns: COLUMNS,
   rows: [
     { cells: ['typo3_rule_lookup', 'bundled knowledge', '12.4 · 13.4 · 14.3 · main'] },
-    { cells: ['typo3_icon_lookup', 'installation', 'follows the installation'], style: 'background:var(--surface-raised);' },
+    { cells: ['typo3_icon_lookup', 'installation', 'follows the installation'], selected: true },
     { cells: ['typo3_documentation_lookup', 'docs.typo3.org', 'requested release'] },
   ],
 };

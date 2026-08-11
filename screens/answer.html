@@ -5,101 +5,76 @@
 <meta charset="utf-8" />
 <title>Soul Design System — answer</title>
 <link rel="stylesheet" href="../src/styles/styles.css" />
-<style>
-  .shell { min-height: 100vh; display: flex; flex-direction: column; }
-  .head {
-    height: var(--height-header);
-    display: flex; align-items: center; gap: var(--space-4);
-    padding: 0 var(--gutter-page);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .body { flex: 1; padding: var(--space-6) var(--gutter-page); }
-  .col { max-width: 840px; display: flex; flex-direction: column; gap: var(--space-5); }
-  h1 { font-size: var(--font-size-h3); margin: 0; }
-  .ask {
-    font-size: var(--font-size-lead); line-height: var(--leading-body);
-    color: var(--text-primary); margin: 0;
-  }
-  .meta { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
-  .wordmark { display: inline-flex; align-items: baseline; gap: 7px; font-weight: var(--weight-semibold); }
-  .pipe { display: inline-block; width: 2px; height: 0.8em; background: var(--accent); }
-</style>
 </head>
 <body class="sds-app">
-<div class="shell">
-
-  <header class="head">
-    <span class="wordmark">TYPO3<span class="pipe"></span><span style="font-weight:var(--weight-light); color:var(--text-secondary)">Soul Design System</span></span>
-    <span class="sds-label" style="margin-left:auto">typo3_changelog_lookup</span>
+<div class="sds-shell">
+  <header class="sds-bar">
+    <a class="sds-lockup" href="#answer">
+      <svg class="sds-signet" width="20" height="20" viewBox="-6 -6 140 112" aria-hidden="true"><path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
+    </a>
+    <div class="sds-bar__end">
+      <span class="sds-badge">typo3_changelog_lookup</span>
+      <div class="sds-modes" role="group" aria-label="Colour mode">
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">light</button>
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">dark</button>
+</div>
+    </div>
   </header>
 
-  <div class="body">
-    <div class="col">
+  <main class="sds-page">
+    <div class="sds-stack" id="answer">
+      <h1 class="sds-h3">Was <span class="sds-mono">TypoScript</span> constant substitution changed in 13.4?</h1>
 
-      <p class="ask">Was <span class="sds-mono">TypoScript</span> constant substitution changed in 13.4?</p>
-
-      <div class="meta">
-        <span class="sds-badge sds-badge--ok">
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M12.1,5.3L11.7,5c-0.1-0.1-0.3-0.1-0.4,0L6.6,9.8l-2-2c-0.1-0.1-0.3-0.1-0.4,0L3.9,8.2c-0.1,0.1-0.1,0.3,0,0.4L6,10.7L6.4,11c0.1,0.1,0.3,0.1,0.4,0l0.4-0.4l4.9-4.9C12.2,5.6,12.2,5.4,12.1,5.3z"/><path d="M8,2c3.3,0,6,2.7,6,6s-2.7,6-6,6s-6-2.7-6-6S4.7,2,8,2 M8,1C4.1,1,1,4.1,1,8s3.1,7,7,7s7-3.1,7-7S11.9,1,8,1L8,1z"/></g></svg>
-          answered
-        </span>
+      <div class="sds-row">
+        <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>answered</span>
         <span class="sds-badge sds-badge--accent">bundled knowledge</span>
         <span class="sds-badge">13.4</span>
-        <span class="sds-label" style="margin-left:auto">answered in 240&#8239;ms</span>
+        <span class="sds-label sds-row__end">answered in 240 ms</span>
       </div>
 
       <div class="sds-note sds-note--ok">
-        <span class="sds-note__icon">
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M12.1,5.3L11.7,5c-0.1-0.1-0.3-0.1-0.4,0L6.6,9.8l-2-2c-0.1-0.1-0.3-0.1-0.4,0L3.9,8.2c-0.1,0.1-0.1,0.3,0,0.4L6,10.7L6.4,11c0.1,0.1,0.3,0.1,0.4,0l0.4-0.4l4.9-4.9C12.2,5.6,12.2,5.4,12.1,5.3z"/><path d="M8,2c3.3,0,6,2.7,6,6s-2.7,6-6,6s-6-2.7-6-6S4.7,2,8,2 M8,1C4.1,1,1,4.1,1,8s3.1,7,7,7s7-3.1,7-7S11.9,1,8,1L8,1z"/></g></svg>
-        </span>
-        <div>
-          <div class="sds-note__title">Answered from bundled knowledge · 13.4</div>
-          <div class="sds-note__body">
-            Holds on 13.4 and main. It does not hold on 12.4, where the old resolution
-            order is still in place, and it says nothing about extensions that override
-            the constant handler.
-          </div>
-        </div>
-      </div>
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+  <div>
+    <div class="sds-note__title">Answered from bundled knowledge · 13.4</div>
+    <div class="sds-note__body">Holds on 13.4 and main. It does not hold on 12.4, where the old
+          resolution order is still in place, and it says nothing about extensions
+          that override the constant handler.</div>
+  </div>
+</div>
 
       <p class="sds-prose">
-        Constants are resolved once, before the setup is parsed, so a constant can no
-        longer depend on a value the setup defines later. Where that dependency existed,
-        the constant now resolves empty rather than to the stale value.
+        Constants are resolved once, before the setup is parsed, so a constant can
+        no longer depend on a value the setup defines later. Where that dependency
+        existed, the constant now resolves empty rather than to the stale value.
       </p>
 
       <div class="sds-code">
-        <div class="sds-code__head" style="justify-content:flex-start">
-          <span class="sds-label">config/sites/main/setup.typoscript</span>
-        </div>
-        <pre class="sds-diff"><span class="sds-diff__line">   page.10.value = {$site.title}</span><span class="sds-diff__line sds-diff__line--del"><span class="sds-diff__mark">-</span>  site.title = {$page.brand}</span><span class="sds-diff__line sds-diff__line--add"><span class="sds-diff__mark">+</span>  site.title = TYPO3 Support App</span><span class="sds-diff__line">   }</span></pre>
-      </div>
+  <div class="sds-code__head" style="justify-content:flex-start"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-code-compare"><g fill="currentColor"><path d="M12.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 12.5 11m0-1c-1.378 0-2.5 1.122-2.5 2.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5zM3.5 2a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 3.5 2m0-1C2.122 1 1 2.122 1 3.5S2.122 6 3.5 6 6 4.878 6 3.5 4.878 1 3.5 1z"></path><path d="m8.914 3 1.622-1.621-.708-.707L7 3.5l2.828 2.828.708-.707L8.914 4H12v7h1V3zM6.172 9.672l-.708.707L7.086 12H4V5H3v8h4.086l-1.622 1.621.708.708L9 12.5z"></path></g></svg><span class="sds-code__path">config/sites/main/setup.typoscript</span></div>
+  <pre class="sds-diff"><span class="sds-diff__line">   page.10.value = {$site.title}</span><span class="sds-diff__line sds-diff__line--del"><span class="sds-diff__mark">-</span>  site.title = {$page.brand}</span><span class="sds-diff__line sds-diff__line--add"><span class="sds-diff__mark">+</span>  site.title = TYPO3 Dev Companion</span><span class="sds-diff__line">   }</span></pre>
+</div>
 
       <div class="sds-note sds-note--warn">
-        <span class="sds-note__icon">
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><circle cx="8" cy="12" r="1"/><path d="M8.5,10h-1L7.054975,5.5497518C7.0255408,5.2554088,7.2566829,5,7.5524936,5H8.447506c0.2958117,0,0.5269527,0.2554088,0.4975185,0.5497518L8.5,10z"/><path d="M8,2.0081444c0.1771402,0,0.6169796,0.05021,0.8746996,0.5153399l5.5364609,9.9918499c0.2499895,0.4511709,0.0741091,0.8442307-0.0131102,0.99228c-0.0872307,0.1480408-0.3457899,0.4923906-0.8615904,0.4923906H2.4635501c-0.5158101,0-0.7743701-0.3443499-0.8615901-0.4923906C1.51473,13.3595648,1.33884,12.9665051,1.58884,12.5153246l5.5364599-9.9918404C7.3830199,2.0583649,7.8228598,2.0081444,8,2.0081444 M8,1.0081491c-0.6843376,0-1.3686752,0.3435555-1.7494001,1.0306654L0.71414,12.0306549c-0.73862,1.3330297,0.22542,2.9693499,1.7494102,2.9693499h11.0729103c1.5239801,0,2.4880209-1.6363201,1.7494001-2.9693403L9.7494001,2.0388145C9.3686752,1.3517046,8.6843376,1.0081491,8,1.0081491L8,1.0081491z"/></g></svg>
-        </span>
-        <div>
-          <div class="sds-note__title">Your installation could not be booted — packages were read instead</div>
-          <div class="sds-note__body">
-            So this answer omits anything a running extension would add to the constant
-            handler. <span class="sds-mono">ddev start</span> would close the gap.
-          </div>
-        </div>
-      </div>
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
+  <div>
+    <div class="sds-note__title">Your installation could not be booted — packages were read instead</div>
+    <div class="sds-note__body">So this answer omits anything a running extension would add to the
+          constant handler. <span class="sds-mono">ddev start</span> would close the gap.</div>
+  </div>
+</div>
 
-      <div style="display:flex; gap:var(--space-3); align-items:center">
-        <button class="sds-btn sds-btn--secondary sds-btn--sm">
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M14,4h-2V2V1h-1H2H1v1v9v1h1h2v2v1h1h9h1v-1V5V4H14z M4,4v1v6H2V2h9v2H5H4z M14,14H5V5h9V14z"/></g></svg>
-          Copy answer
-        </button>
-        <a class="sds-link sds-link--external" href="#">
-          Open the changelog entry
-          <svg class="sds-icon" viewBox="0 0 16 16"><g fill="currentColor"><path d="M2,9h7.3v2c0,0.4,0.5,0.6,0.8,0.4l3.7-3c0.2-0.2,0.2-0.6,0-0.8l-3.7-3C9.8,4.4,9.3,4.6,9.3,5v2H2V9z"/></g></svg>
-        </a>
+      <div class="sds-actions">
+        <button class="sds-btn sds-btn--secondary sds-btn--sm"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg>Copy answer</button>
+        <a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">Open the changelog entry <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
       </div>
     </div>
-  </div>
+  </main>
 </div>
 </body>
 </html>

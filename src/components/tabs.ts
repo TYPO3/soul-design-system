@@ -67,19 +67,44 @@ export class SdsTabs extends SdsNav {
   /** The panels written between the tags. */
   private panels: SdsTabItem[] = [];
 
+  /** Take the items written between the tags, if any are there yet. */
+  private lift(): boolean {
+    const found = [...this.children].filter((c): c is SdsTabItem => c.tagName.toLowerCase() === 'sds-tab-item');
+    if (!found.length) return false;
+    this.panels = found;
+    /* Lifted before Lit renders over them, and handed back below. The labels
+       come off the items, so a composed set says everything once. */
+    this.items = this.panels.map((panel) => {
+      const icon = panel.getAttribute('icon');
+      const label = panel.getAttribute('label') ?? '';
+      return (icon ? { label, icon } : label) as NavItem;
+    });
+    for (const panel of this.panels) panel.remove();
+    return true;
+  }
+
+  /* Children written into a template arrive with it; children produced by a
+     `.map()` in the template around this one arrive after it has connected.
+     Both are the same set of tabs, so the second is waited for rather than
+     rendered as an empty bar — which is what a set of tabs built from data
+     used to be. */
+  private arriving?: MutationObserver;
+
   override connectedCallback(): void {
-    if (!this.panels.length) {
-      this.panels = [...this.children].filter((c): c is SdsTabItem => c.tagName.toLowerCase() === 'sds-tab-item');
-      /* Lifted before Lit renders over them, and handed back below. The
-         labels come off the items, so a composed set says everything once. */
-      this.items = this.panels.map((panel) => {
-        const icon = panel.getAttribute('icon');
-        const label = panel.getAttribute('label') ?? '';
-        return (icon ? { label, icon } : label) as NavItem;
+    if (!this.panels.length && !this.lift()) {
+      this.arriving = new MutationObserver(() => {
+        if (!this.lift()) return;
+        this.arriving?.disconnect();
+        this.requestUpdate();
       });
-      for (const panel of this.panels) panel.remove();
+      this.arriving.observe(this, { childList: true });
     }
     super.connectedCallback();
+  }
+
+  override disconnectedCallback(): void {
+    this.arriving?.disconnect();
+    super.disconnectedCallback();
   }
 
   protected override choose(index: number): void {

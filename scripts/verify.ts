@@ -106,8 +106,18 @@ for (const c of all) {
     }
   }
 }
+/* Names that are markers rather than hooks.
+
+   `language-*` is the fence's grammar, written onto the `<code>` by the code
+   block the way every Markdown renderer writes it — it says what the block is
+   for anything that reads the DOM, and the colour is on the `hljs-` spans
+   inside it. There is nothing for it to be defined as, and it is the only
+   class in the system that is deliberately not a style. */
+const MARKERS = [/^language-[\w-]+$/];
+
 let unknown = 0;
 for (const [cls, where] of [...used].sort()) {
+  if (MARKERS.some((rx) => rx.test(cls))) continue;
   if (!defined.has(cls)) {
     unknown++;
     fails.push(`class "${cls}" is used in ${where.length} file(s) but defined in no stylesheet (first: ${where[0]})`);
