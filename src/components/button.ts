@@ -38,6 +38,19 @@ export interface ButtonProps {
   iconOnly?: boolean;
   title?: string;
   disabled?: boolean;
+  /** What pressing it does to a form around it.
+
+      `button` by default, and that default is the whole reason this property
+      exists: a `<button>` with no type inside a `<form>` is a submit button,
+      so a filter, a toggle or a Cancel drawn with this element submits the
+      form the moment it is pressed. The browser then also blocks the
+      submission on the first invalid required field and moves the focus
+      there — which is a page doing something nobody asked it to, decided by an
+      attribute nobody wrote.
+
+      A real submit says so. Then Enter in a text field submits too, which is
+      the behaviour a form should have and only that button should carry. */
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export function buttonClass({ variant = 'primary', size = 'md', iconOnly = false, disabled = false }: ButtonProps): string {
@@ -51,6 +64,9 @@ export function buttonClass({ variant = 'primary', size = 'md', iconOnly = false
 /** The markup a button is, given whatever stands inside it. */
 export function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult {
   const cls = buttonClass(props);
+  /* Written always, because the default is a decision: without it a button in
+     a form is a submit button. See `type` above for what that costs. */
+  const type = props.type ?? 'button';
   /* Both optional attributes are branched rather than bound: an omitted one
      still leaves the space in front of it in Lit's SSR output —
      `<button class="…" >` — and this markup is written to files that have to
@@ -58,12 +74,12 @@ export function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult 
      alternative is a space nothing can see and every diff can. */
   if (props.title) {
     return props.disabled
-      ? html`<button class="${cls}" title="${props.title}" disabled>${body}</button>`
-      : html`<button class="${cls}" title="${props.title}">${body}</button>`;
+      ? html`<button class="${cls}" type="${type}" title="${props.title}" disabled>${body}</button>`
+      : html`<button class="${cls}" type="${type}" title="${props.title}">${body}</button>`;
   }
   return props.disabled
-    ? html`<button class="${cls}" disabled>${body}</button>`
-    : html`<button class="${cls}">${body}</button>`;
+    ? html`<button class="${cls}" type="${type}" disabled>${body}</button>`
+    : html`<button class="${cls}" type="${type}">${body}</button>`;
 }
 
 export class SdsButton extends SdsElement {
@@ -72,11 +88,13 @@ export class SdsButton extends SdsElement {
     size: { type: String, reflect: true },
     title: { type: String },
     disabled: { type: Boolean, reflect: true },
+    type: { type: String, reflect: true },
   };
 
   declare variant: ButtonVariant;
   declare size: ButtonSize;
   declare disabled: boolean;
+  declare type: 'button' | 'submit' | 'reset';
 
   /* The label, taken before Lit renders over it — the element renders light
      DOM, so `render()` would otherwise replace exactly what it is for. */
@@ -87,6 +105,7 @@ export class SdsButton extends SdsElement {
     this.variant = 'primary';
     this.size = 'md';
     this.disabled = false;
+    this.type = 'button';
   }
 
   override connectedCallback(): void {
@@ -103,7 +122,7 @@ export class SdsButton extends SdsElement {
     ) && this.taken.some((node) => (node as Element).tagName?.toLowerCase() === 'sds-icon');
 
     return buttonMarkup(
-      { variant: this.variant, size: this.size, iconOnly, title: this.title, disabled: this.disabled },
+      { variant: this.variant, size: this.size, iconOnly, title: this.title, disabled: this.disabled, type: this.type },
       this.taken,
     );
   }

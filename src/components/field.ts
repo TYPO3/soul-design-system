@@ -14,9 +14,17 @@
    photographed. Set none of them and the states are the browser's own. */
 
 import { html, nothing, type TemplateResult } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './icon.ts';
+import './field-error.ts';
 import { type IconId } from './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
+
+/** What has to be escaped in an attribute value or in text content. The
+    textarea below is assembled as a string, and a value the user typed goes
+    into it. */
+const esc = (s: string): string =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export interface FieldProps {
   /** What is in the field — its value when `filled`, its placeholder when not. */
@@ -35,13 +43,41 @@ export interface FieldProps {
       beside. A field with no visible label of its own owes one here. */
   label?: string;
   minWidth?: number;
+  /** The visible label, which turns this into a field in a *form*.
+
+      A bare field is right where the surface around it says what it is for — a
+      header, a toolbar, a filter row. In a form nothing does, and a
+      placeholder is not a label: it leaves exactly when it is needed. Set
+      this and the element renders the row a form owes a control — label,
+      control, hint, error — instead of the control alone. */
+  caption?: string;
+  /** What the answer has to be, under the control. Never inside it. */
+  hint?: string;
+  /** What is wrong with what is in it. Sets the invalid state with it, so the
+      colour and the sentence cannot disagree. */
+  error?: string;
+  /** Said in words beside the label, not as an asterisk that needs a legend
+      somewhere else on the page. */
+  required?: boolean;
+  /** The control's id, so the label points at it and an error summary can. */
+  fieldId?: string;
+  name?: string;
+  /** `email`, `tel`, `url` — what the browser validates and which keyboard a
+      phone offers. */
+  type?: string;
+  /** Lines. Anything above one renders a `<textarea>`. */
+  rows?: number;
 }
 
-export function fieldClass({ focused, invalid, filled, select }: FieldProps): string {
+export function fieldClass({ focused, invalid, filled, select, rows, error }: FieldProps): string {
   const cls = ['sds-field'];
   if (select) cls.push('sds-select');
+  if (rows && rows > 1) cls.push('sds-field--multi');
   if (focused) cls.push('is-focused');
-  if (invalid) cls.push('is-invalid');
+  /* An error message and the invalid state are the same fact, so one sets the
+     other: a field that says what is wrong and is not marked wrong is two
+     halves of a state, and the halves drift. */
+  if (invalid || error) cls.push('is-invalid');
   if (filled) cls.push('is-filled');
   return cls.join(' ');
 }
@@ -57,6 +93,14 @@ export class SdsField extends SdsElement {
     options: { type: Array },
     label: { type: String },
     minWidth: { type: Number, attribute: 'min-width' },
+    caption: { type: String },
+    hint: { type: String },
+    error: { type: String },
+    required: { type: Boolean, reflect: true },
+    fieldId: { type: String, attribute: 'field-id' },
+    name: { type: String },
+    type: { type: String },
+    rows: { type: Number },
   };
 
   declare value: string;
@@ -68,6 +112,14 @@ export class SdsField extends SdsElement {
   declare options: readonly string[];
   declare label?: string;
   declare minWidth: number;
+  declare caption: string;
+  declare hint: string;
+  declare error: string;
+  declare required: boolean;
+  declare fieldId: string;
+  declare name: string;
+  declare type: string;
+  declare rows: number;
 
   constructor() {
     super();
@@ -78,6 +130,14 @@ export class SdsField extends SdsElement {
     this.select = false;
     this.options = [];
     this.minWidth = 220;
+    this.caption = '';
+    this.hint = '';
+    this.error = '';
+    this.required = false;
+    this.fieldId = '';
+    this.name = '';
+    this.type = 'text';
+    this.rows = 0;
   }
 
   /* Typing is what makes a value the user's. `is-filled` used to be a state
@@ -91,6 +151,24 @@ export class SdsField extends SdsElement {
   }
 
   protected override render(): TemplateResult {
+    const control = this.control();
+    if (!this.caption) return control;
+
+    /* The row a form owes a control. `for` and the control's own id are the
+       same string, so a press on the label reaches the control and an error
+       summary can send the reader straight to it. */
+    const id = this.fieldId || undefined;
+    return html`<div class="sds-field-row">
+  <label class="sds-field-label" for="${id ?? nothing}">${this.caption}${
+    this.required ? html` <span class="sds-field-req">required</span>` : nothing
+  }</label>
+  ${control}
+  ${this.hint ? html`<span class="sds-field-hint">${this.hint}</span>` : nothing}
+  ${this.error ? html`<sds-field-error message="${this.error}"></sds-field-error>` : nothing}
+</div>`;
+  }
+
+  private control(): TemplateResult {
     const cls = fieldClass(this);
     /* A width, not a floor. This was `min-width`, and `min-width` wins over
        every other width rule in CSS: a field asking for 260px in a header with
@@ -99,12 +177,40 @@ export class SdsField extends SdsElement {
        or the room there is. */
     const box = `width:${this.minWidth}px; max-width:100%`;
 
+    /* Only where a caller gave one. A field in a header has no id and no name
+       and never needed either; a field in a form has both, and the label above
+       it points at the first. */
+    const id = this.fieldId || nothing;
+    const name = this.name || nothing;
+    const invalid = this.invalid || this.error ? 'true' : nothing;
+
     if (this.select) {
-      return html`<span class="${cls}" style="${box}"><select class="sds-input" aria-label="${this.label ?? nothing}" @change="${(e: Event) => this.onInput(e)}">${
+      return html`<span class="${cls}" style="${box}"><select class="sds-input" id="${id}" name="${name}" aria-label="${this.label ?? nothing}" aria-invalid="${invalid}" ?required="${this.required}" @change="${(e: Event) => this.onInput(e)}">${
         this.options.length
           ? this.options.map((option) => html`<option ?selected="${option === this.value}">${option}</option>`)
           : html`<option>${this.value}</option>`
       }</select><span style="color:var(--text-muted);"><sds-icon name="actions-chevron-down"></sds-icon></span></span>`;
+    }
+
+    /* More than one line is a `<textarea>` and not a taller input. The
+       difference is what the browser does with a newline.
+
+       Built as a string rather than as a template, and that is not a style
+       choice: a `<textarea>` is a raw text element, so Lit refuses a binding
+       between its tags — and its content is the only place a value can live
+       where a file with no script still shows it. A property binding would
+       work in a browser and export an empty box.
+
+       The listener therefore sits on the wrapper, where input events from the
+       control reach it by bubbling. */
+    if (this.rows > 1) {
+      const attr = (name: string, value: string): string => (value ? ` ${name}="${esc(value)}"` : '');
+      const area =
+        `<textarea class="sds-input" rows="${this.rows}"${attr('id', this.fieldId)}${attr('name', this.name)}` +
+        `${this.filled ? '' : attr('placeholder', this.value)}${attr('aria-label', this.label ?? '')}` +
+        `${this.invalid || this.error ? ' aria-invalid="true"' : ''}${this.required ? ' required' : ''}>` +
+        `${this.filled ? esc(this.value) : ''}</textarea>`;
+      return html`<span class="${cls}" style="${box}" @input="${(e: Event) => this.onInput(e)}">${unsafeHTML(area)}</span>`;
     }
 
     /* The caret is drawn only where one was asked for, which is only ever a
@@ -114,7 +220,7 @@ export class SdsField extends SdsElement {
       ? html`<span style="width:2px; height:15px; background:var(--accent);"></span>`
       : nothing;
 
-    return html`<span class="${cls}" style="${box}">${this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : nothing}<input class="sds-input" type="text" value="${this.filled ? this.value : nothing}" placeholder="${this.filled ? nothing : this.value}" aria-label="${this.label ?? nothing}" aria-invalid="${this.invalid ? 'true' : nothing}" @input="${(e: Event) => this.onInput(e)}">${caret}</span>`;
+    return html`<span class="${cls}" style="${box}">${this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : nothing}<input class="sds-input" type="${this.type}" id="${id}" name="${name}" value="${this.filled ? this.value : nothing}" placeholder="${this.filled ? nothing : this.value}" aria-label="${this.label ?? nothing}" aria-invalid="${invalid}" ?required="${this.required}" @input="${(e: Event) => this.onInput(e)}">${caret}</span>`;
   }
 }
 

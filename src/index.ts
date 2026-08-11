@@ -29,6 +29,9 @@ import './components/link.ts';
 import './components/crumbs.ts';
 import './components/field.ts';
 import './components/field-error.ts';
+import './components/checkbox.ts';
+import './components/radio-group.ts';
+import './components/form-errors.ts';
 import './components/pills.ts';
 import './components/menu.ts';
 import './components/tabs.ts';
@@ -64,6 +67,9 @@ export { SdsLink, type LinkProps } from './components/link.ts';
 export { SdsCrumbs, type CrumbsProps, type Crumb } from './components/crumbs.ts';
 export { SdsField, fieldClass, type FieldProps } from './components/field.ts';
 export { SdsFieldError } from './components/field-error.ts';
+export { SdsCheckbox, type CheckboxProps } from './components/checkbox.ts';
+export { SdsRadioGroup, type RadioGroupProps, type Choice } from './components/radio-group.ts';
+export { SdsFormErrors, type FormErrorsProps, type FormError } from './components/form-errors.ts';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.ts';
 export { SdsPills } from './components/pills.ts';
 export { SdsMenu } from './components/menu.ts';
@@ -110,6 +116,9 @@ export const TAGS = [
   'sds-crumbs',
   'sds-field',
   'sds-field-error',
+  'sds-checkbox',
+  'sds-radio-group',
+  'sds-form-errors',
   'sds-pills',
   'sds-menu',
   'sds-tabs',

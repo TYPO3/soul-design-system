@@ -36,6 +36,11 @@ test('every page fits the screen at every width', async ({ page, request }) => {
   const pages = await pageStories(request);
   expect(pages.length, 'there should be page layouts to measure').toBeGreaterThan(1);
 
+  /* One test opens every page at every width, so its budget is what that
+     costs — not a number somebody raises by hand each time a page arrives with
+     three states. The default 30s was that number, and it ran out. */
+  test.setTimeout(Math.max(30_000, pages.length * WIDTHS.length * 400));
+
   for (const story of pages) {
     for (const width of WIDTHS) {
       await page.setViewportSize({ width, height: 900 });
@@ -217,4 +222,42 @@ test('a filter that matches nothing answers, and the answer undoes it', async ({
 
   await empty.locator('button.sds-link').click();
   await expect(entries).toHaveCount(6);
+});
+
+/* What a form does when it fails.
+
+   The part that is always claimed and rarely built: a submit that finds
+   something has to say what, where the reader was sent — not only mark the
+   boxes, which is invisible to anyone who cannot see the whole form at once.
+   Three things have to hold together, and none of them shows in a screenshot:
+   the summary appears, it takes the focus, and each line in it reaches the
+   field it names. */
+test('a form that fails says what, and sends the reader to it', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await gotoStory(page, 'pages-contact--page');
+
+  const summary = page.locator('.sds-form-errors');
+  await expect(summary).toHaveCount(0);
+
+  /* Empty the two answers the form cannot do without. */
+  await page.locator('#email').fill('');
+  await page.locator('#message').fill('');
+  await page.getByRole('button', { name: 'Send the report' }).click();
+
+  await expect(summary).toBeVisible();
+  await expect(summary).toBeFocused();
+  const entries = summary.locator('a.sds-link');
+  await expect(entries).toHaveCount(2);
+
+  /* The field carries the same sentence as the line about it, so what is
+     wrong is legible from either end of the form. */
+  await expect(page.locator('sds-field[field-id="message"] .sds-field-error')).toContainText('The message is empty');
+  await expect(page.locator('#message')).toHaveAttribute('aria-invalid', 'true');
+
+  /* Filling both in makes it a form that worked, and the page says what it
+     sent rather than thanking anybody. */
+  await page.locator('#email').fill('you@example.org');
+  await page.locator('#message').fill('typo3_icon_lookup answered “not registered” for an icon that is.');
+  await page.getByRole('button', { name: 'Send the report' }).click();
+  await expect(page.locator('.sds-note--ok')).toContainText('The report was sent');
 });

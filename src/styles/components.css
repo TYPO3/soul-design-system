@@ -440,6 +440,97 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   color: var(--status-error);
 }
 
+/* A field in a form, which is a field plus everything a form owes it.
+
+   A bare `.sds-field` is right in a header, a toolbar, a filter row: the
+   surface around it says what it is for. In a form nothing does, and a
+   placeholder is not a label — it leaves as soon as it is needed, and it is
+   invisible to anyone reading the page as a document.
+
+   So the label is above, always visible, always a real `<label>`; the hint is
+   below the control and not inside it; and the error is under both, because
+   what is wrong belongs where the wrongness is and not in a tooltip nobody on
+   a keyboard can open. */
+.sds-field-row { display: flex; flex-direction: column; gap: 6px; }
+.sds-field-label { font-size: var(--control-font-size); color: var(--text-primary); }
+/* Which fields are required is stated on the required ones, in words. An
+   asterisk is a convention that has to be explained in a legend somewhere, and
+   the legend is always the thing that gets cut. */
+.sds-field-req {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-micro);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.sds-field-hint {
+  font-size: var(--note-body-size);
+  line-height: var(--note-body-leading);
+  color: var(--text-muted);
+  max-width: var(--note-measure);
+}
+/* A field holding more than one line stops centring its contents. */
+.sds-field--multi { align-items: flex-start; }
+.sds-field--multi .sds-input { resize: vertical; min-height: 0; }
+
+/* A checkbox and a radio: the platform's own control, in this system's colour.
+
+   Drawn by the browser rather than by a hand-built box with a glyph in it.
+   What that buys is every behaviour a replacement has to re-implement and
+   usually does not — the keyboard, the indeterminate state, the tap target on
+   a phone, and how it reads out.
+
+   `accent-color` is `--text-primary` and not `--accent`. The accent marks
+   three things in this system and a control the reader ticked is not one of
+   them; a form of nine orange boxes would spend the loudest colour the system
+   has on what somebody typed. */
+.sds-check { display: flex; align-items: flex-start; gap: var(--space-3); }
+.sds-check__mark {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  accent-color: var(--text-primary);
+}
+.sds-check__body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.sds-check__label { font-size: var(--control-font-size); color: var(--text-primary); }
+.sds-check__hint {
+  font-size: var(--note-body-size);
+  line-height: var(--note-body-leading);
+  color: var(--text-muted);
+  max-width: var(--note-measure);
+}
+/* A set of them. `<fieldset>` carries the grouping and the legend, and the
+   browser's own border and padding are taken away rather than styled. */
+.sds-choices { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.sds-choices > .sds-field-label { padding: 0; }
+
+/* The form itself: one column, at the measure a form is filled in rather than
+   the measure a page is read at. A row of fields side by side is faster to
+   scan and slower to complete, and this is the surface where completing is
+   the point. */
+.sds-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: var(--measure-lead);
+}
+
+/* What stopped the form, at the top of it. The box itself is `sds-note` — a
+   failure looks like one thing in this system — and what is here is only the
+   part a note has no shape for: a list of links, one per failure, each
+   pointing at the field it is about.
+
+   The focus ring is the system's. It is focusable at all because a summary
+   nobody is sent to is a summary nobody reads. */
+.sds-form-errors:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-card);
+}
+.sds-form-errors__list { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+.sds-form-errors__list a { width: fit-content; }
+
 /* --------------------------------------------------------------- tables -- */
 
 /* Density is a choice about the work, not about loudness: compact when the

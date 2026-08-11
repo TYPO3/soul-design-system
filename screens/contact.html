@@ -1,16 +1,20 @@
-<!-- @startingPoint section="Screens" subtitle="The distributor: entries narrowed by kind, the empty state that follows, and page two" viewport="1440x900" -->
+<!-- @startingPoint section="Screens" subtitle="A form, what it does when it fails, and what it says when it succeeds" viewport="1440x900" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
-<title>TYPO3 Dev Companion — news</title>
+<title>TYPO3 Dev Companion — report a wrong answer</title>
 <link rel="stylesheet" href="../src/styles/styles.css" />
 </head>
 <body class="sds-app">
 <div class="sds-shell">
+  <!-- No section is current: the form hangs under Project, which is a footer
+       column rather than one of the five the header carries. Marking the
+       nearest one instead would tell the reader they are somewhere they are
+       not. -->
   <header class="sds-bar">
     
-    <a class="sds-lockup" href="#news">
+    <a class="sds-lockup" href="#contact">
       <svg class="sds-signet" width="20" height="20" viewBox="-6 -6 140 112" aria-hidden="true"><path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
     </a>
@@ -19,18 +23,18 @@
     type="button"
     class="sds-menu__toggle"
     aria-expanded="false"
-    aria-controls="sds-menu-8"
+    aria-controls="sds-menu-3"
     aria-label="Sections"
     hidden><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-menu"><g fill="currentColor"><path d="M9 12v2H7v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 7v2H7V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 2v2H7V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 7v2H2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 2v2H2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 12v2H2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 7v2h-2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 2v2h-2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 12v2h-2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5z"></path></g></svg></button>
   <nav
-    id="sds-menu-8"
+    id="sds-menu-3"
     class="sds-menu__items"
     aria-label="Sections">
     <a class="sds-pill" href="#">overview</a>
     <a class="sds-pill" href="#">features</a>
     <a class="sds-pill" href="#">documentation</a>
     <a class="sds-pill" href="#">tools</a>
-    <a class="sds-pill is-active" href="#" aria-current="page">news</a>
+    <a class="sds-pill" href="#">news</a>
   </nav>
 </div>
     <div class="sds-bar__end">
@@ -50,136 +54,179 @@
 
   <main class="sds-bands">
 
-    <section class="sds-band" id="news">
+    <section class="sds-band" id="contact">
       <div class="sds-stack">
         <nav class="sds-crumbs" aria-label="Breadcrumb">
-  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">News</span>
+  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><a href="#">Project</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">Report a wrong answer</span>
 </nav>
-        <h1 class="sds-h1">News</h1>
+        <h1 class="sds-h1">Report a wrong answer</h1>
         <p class="sds-lead">
-          Releases, guides, and what the project decided. Every entry says which
-          release it holds for; nothing here is a roadmap.
+          An answer that names its source can be checked, and one that is wrong
+          can be fixed in the source rather than argued about. This form is how
+          the second half of that happens.
         </p>
       </div>
     </section>
 
-    <section class="sds-band sds-band--quiet" id="entries">
-      <div class="sds-stack">
-        <div class="sds-row">
-          <nav class="sds-pills">
-  <button type="button" class="sds-pill is-active" aria-current="true">all</button>
-  <button type="button" class="sds-pill">releases</button>
-  <button type="button" class="sds-pill">guides</button>
-  <button type="button" class="sds-pill">project</button>
-  <button type="button" class="sds-pill">security</button>
-</nav>
-          <span class="sds-label sds-row__end">6 of 6 entries</span>
-        </div>
-
-        <div class="sds-grid">
-          <article class="sds-teaser">
-  <div class="sds-teaser__art">
-    <img class="sds-art sds-art--light" src="../assets/diagrams/answer-sources.svg" alt="The five sources plotted against how much of the machine has to be running." />
-    <img class="sds-art sds-art--dark" src="../assets/diagrams/answer-sources-dark.svg" alt="The five sources plotted against how much of the machine has to be running." />
-  </div>
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">release</span>
-      <span class="sds-label">9 August 2026 · 1.4.0</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">Answers now name the source that answered</a></h3>
-    <p class="sds-teaser__text">Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.</p>
-  </div>
-</article><article class="sds-teaser">
-  <div class="sds-teaser__art">
-    <img class="sds-art sds-art--light" src="../assets/diagrams/installation-fallback.svg" alt="Three paths through the registry, and what each of them returns." />
-    <img class="sds-art sds-art--dark" src="../assets/diagrams/installation-fallback-dark.svg" alt="Three paths through the registry, and what each of them returns." />
-  </div>
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">guide</span>
-      <span class="sds-label">24 July 2026</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">Reading the package registry when the installation will not boot</a></h3>
-    <p class="sds-teaser__text">The fallback returns every declared entry and none of the dynamically registered ones. What makes it usable is that the shortfall travels with the result.</p>
-  </div>
-</article><article class="sds-teaser">
-  <div class="sds-teaser__art">
-    <img class="sds-art sds-art--light" src="../assets/diagrams/system-overview.svg" alt="The client, the local server and its sources inside the machine, with one read-only path leaving it." />
-    <img class="sds-art sds-art--dark" src="../assets/diagrams/system-overview-dark.svg" alt="The client, the local server and its sources inside the machine, with one read-only path leaving it." />
-  </div>
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">project</span>
-      <span class="sds-label">2 July 2026</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">One line leaves the machine, and it is drawn as the exception</a></h3>
-    <p class="sds-teaser__text">Everything that answers a question is already on the developer’s disk. The single read-only path to the documentation is in the diagram rather than in a footnote.</p>
-  </div>
-</article><article class="sds-teaser">
-  
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">release</span>
-      <span class="sds-label">18 June 2026 · 1.3.0</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">Changelog lookups bind down to 7.0</a></h3>
-    <p class="sds-teaser__text">A question about an old installation is answered with what held then, or not at all. Where the bundled knowledge stops, the tool says so instead of answering from the nearest release it has.</p>
-  </div>
-</article><article class="sds-teaser">
-  
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">guide</span>
-      <span class="sds-label">30 May 2026</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">Writing a task skill that fails at registration</a></h3>
-    <p class="sds-teaser__text">A skill declares the sources it needs. One that cannot reach any of them says so when the server starts, which is the difference between a broken setup and a wrong answer.</p>
-  </div>
-</article><article class="sds-teaser">
-  
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">project</span>
-      <span class="sds-label">12 May 2026</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">What is written down, and what is not</a></h3>
-    <p class="sds-teaser__text">The decisions kept in the repository, the ones kept in the knowledge base, and why the two lists are deliberately not the same.</p>
-  </div>
-</article>
-        </div>
-
-        <nav class="sds-pagination" aria-label="Pages">
-  <span class="sds-pagination__step is-disabled" aria-disabled="true"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-start"><g fill="currentColor"><path d="M6.414 8 9.95 4.464l-.707-.707L5 8l4.243 4.243.707-.707z"></path></g></svg>Previous</span>
-  <span class="sds-pagination__page is-active" aria-current="page">1</span><a class="sds-pagination__page" href="#page-2">2</a><a class="sds-pagination__page" href="#page-3">3</a>
-  <a class="sds-pagination__step" href="#page-2" rel="next">Next<svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg></a>
-  <span class="sds-pagination__count">6 of 18 entries</span>
-</nav>
-      </div>
-    </section>
-
-    <section class="sds-band" id="follow">
+    <section class="sds-band sds-band--quiet" id="report">
       <div class="sds-split">
+        <form class="sds-form">
+          
+
+          <div class="sds-field-row">
+  <label class="sds-field-label" for="email">Your email</label>
+  <span class="sds-field" style="width:420px; max-width:100%"><input class="sds-input" type="email" id="email" name="email"  placeholder="you@example.org"></span>
+  <span class="sds-field-hint">Used for the reply and for nothing else. It is not stored with the report.</span>
+  
+</div>
+
+          <fieldset class="sds-choices" name="reply">
+  <legend class="sds-field-label">How should we come back to you?</legend>
+  
+  <label class="sds-check">
+    <input
+      class="sds-check__mark"
+      type="radio"
+      name="reply"
+      value="email"
+      checked
+      
+      
+    />
+    <span class="sds-check__body">
+      <span class="sds-check__label">Email</span>
+      <span class="sds-check__hint">One reply, to the address above. Nothing else is sent there.</span>
+    </span>
+  </label><label class="sds-check">
+    <input
+      class="sds-check__mark"
+      type="radio"
+      name="reply"
+      value="repository"
+      
+      
+      
+    />
+    <span class="sds-check__body">
+      <span class="sds-check__label">In the repository</span>
+      <span class="sds-check__hint">The report becomes an issue, and the thread is public.</span>
+    </span>
+  </label><label class="sds-check">
+    <input
+      class="sds-check__mark"
+      type="radio"
+      name="reply"
+      value="none"
+      
+      
+      
+    />
+    <span class="sds-check__body">
+      <span class="sds-check__label">No reply</span>
+      <span class="sds-check__hint">It is read and filed. Nothing comes back.</span>
+    </span>
+  </label>
+</fieldset>
+
+          <div class="sds-field-row">
+  <label class="sds-field-label" for="release">Which release is this about?</label>
+  <span class="sds-field sds-select is-filled" style="width:220px; max-width:100%"><select class="sds-input" id="release" name="release"><option>12.4</option><option selected>13.4</option><option>14.3</option><option>main</option></select><span style="color:var(--text-muted);"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></span></span>
+  <span class="sds-field-hint">The release the installation runs, not the one the answer named.</span>
+  
+</div>
+
+          <div class="sds-field-row">
+  <label class="sds-field-label" for="message">What did the tool answer, and what should it have answered? <span class="sds-field-req">required</span></label>
+  <span class="sds-field sds-field--multi" style="width:420px; max-width:100%"><textarea class="sds-input" rows="6" id="message" name="message" placeholder="The tool, the question, and what came back." required></textarea></span>
+  <span class="sds-field-hint">The tool name and the question are enough to reproduce it. A screenshot is not.</span>
+  
+</div>
+
+          <label class="sds-check">
+  <input
+    class="sds-check__mark"
+    type="checkbox"
+    name="scope"
+    
+    checked
+    
+    
+    
+  />
+  <span class="sds-check__body">
+    <span class="sds-check__label">Attach the server scope</span>
+    <span class="sds-check__hint">Sends the versions, which sources were reachable, and which tools are degraded. No file contents, and no credentials.</span>
+  </span>
+</label>
+
+          <label class="sds-check">
+  <input
+    class="sds-check__mark"
+    type="checkbox"
+    name="public"
+    
+    
+    
+    
+    
+  />
+  <span class="sds-check__body">
+    <span class="sds-check__label">This report may be quoted in the changelog</span>
+    <span class="sds-check__hint">Without your address, and without anything the scope carries.</span>
+  </span>
+</label>
+
+          <div class="sds-actions"><button class="sds-btn sds-btn--primary" type="button"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-paperplane"><g fill="currentColor"><path d="M14.577 1.423a.752.752 0 0 0-.812-.165L.796 6.514a.745.745 0 0 0-.465.759c.028.33.264.6.588.67l5.866 1.272 1.273 5.867a.747.747 0 0 0 .734.59.747.747 0 0 0 .694-.468l5.255-12.969a.748.748 0 0 0-.164-.812zM1.922 7.137l10.482-4.249-5.359 5.36-5.123-1.111zm6.941 6.941-1.11-5.123 5.358-5.36-4.248 10.483z"></path></g></svg>Send the report</button></div>
+        </form>
+
         <div class="sds-stack">
-          <h2 class="sds-h2">Follow along</h2>
+          <span class="sds-label">What happens to it</span>
           <p class="sds-prose">
-            Releases are announced here and in the repository. The feed carries
-            the same entries in the same order, with the release each one holds
-            for in its title.
+            It is read by a person. Where the answer came from bundled
+            knowledge, the fix is a change to that knowledge and ships with the
+            next release; where it came from your installation, the reply says
+            what the tool read and why it read that.
           </p>
-          <div class="sds-actions">
-            <a class="sds-link sds-link--external" href="https://github.com" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-github"><g fill="currentColor"><path d="M8.006 1C4.132 1 1 4.155 1 8.058c0 3.12 2.007 5.76 4.79 6.695.348.07.476-.152.476-.338 0-.164-.012-.725-.012-1.31-1.948.422-2.354-.84-2.354-.84-.313-.819-.777-1.029-.777-1.029-.638-.432.046-.432.046-.432.708.047 1.079.724 1.079.724.626 1.075 1.635.772 2.041.585.058-.456.244-.772.44-.947-1.553-.164-3.189-.771-3.189-3.482 0-.771.278-1.402.72-1.893-.07-.175-.314-.9.069-1.87 0 0 .591-.187 1.925.725a6.736 6.736 0 0 1 1.752-.234c.591 0 1.194.082 1.751.234 1.334-.912 1.926-.725 1.926-.725.383.97.139 1.695.07 1.87.452.49.718 1.122.718 1.893 0 2.71-1.635 3.307-3.201 3.482.255.222.476.643.476 1.309 0 .946-.012 1.706-.012 1.94 0 .186.128.409.476.338A7.053 7.053 0 0 0 15 8.058C15.011 4.155 11.868 1 8.006 1Z"></path></g></svg>Repository <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
-            <a class="sds-link" href="#"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-rss"><g fill="currentColor"><path d="M2 4c5.514 0 10 4.486 10 10h2C14 7.372 8.628 2 2 2v2z"></path><path d="M2 8c3.308 0 6 2.692 6 6h2a8 8 0 0 0-8-8v2zM3.5 14a1.5 1.5 0 0 1 0-3 1.5 1.5 0 0 1 0 3z"></path></g></svg>Feed</a>
-          </div>
-        </div>
-        <div class="sds-stack">
           <div class="sds-note sds-note--info">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
   <div>
-    <div class="sds-note__title">An entry is not a version binding</div>
-    <div class="sds-note__body">What a release changed is written in the changelog the tools read.
-              A post says what it was for; the tool says what it holds for.</div>
+    <div class="sds-note__title">Nothing is collected that you did not attach</div>
+    <div class="sds-note__body">The scope is the only thing beyond the six answers, it is optional,
+              and what it holds is listed beside the box. No page on this site
+              carries an analytics script.</div>
   </div>
+</div>
+          <p class="sds-prose">
+            Typical turnaround is two working days — longer where the answer
+            has to be reproduced against a release the project no longer runs.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sds-band" id="elsewhere">
+      <div class="sds-stack">
+        <h2 class="sds-h2">Three things that go elsewhere</h2>
+        <p class="sds-prose">
+          This form is for an answer that was wrong. These are not that, and
+          sending them here makes them slower rather than faster.
+        </p>
+        <div class="sds-grid">
+          <div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-github"><g fill="currentColor"><path d="M8.006 1C4.132 1 1 4.155 1 8.058c0 3.12 2.007 5.76 4.79 6.695.348.07.476-.152.476-.338 0-.164-.012-.725-.012-1.31-1.948.422-2.354-.84-2.354-.84-.313-.819-.777-1.029-.777-1.029-.638-.432.046-.432.046-.432.708.047 1.079.724 1.079.724.626 1.075 1.635.772 2.041.585.058-.456.244-.772.44-.947-1.553-.164-3.189-.771-3.189-3.482 0-.771.278-1.402.72-1.893-.07-.175-.314-.9.069-1.87 0 0 .591-.187 1.925.725a6.736 6.736 0 0 1 1.752-.234c.591 0 1.194.082 1.751.234 1.334-.912 1.926-.725 1.926-.725.383.97.139 1.695.07 1.87.452.49.718 1.122.718 1.893 0 2.71-1.635 3.307-3.201 3.482.255.222.476.643.476 1.309 0 .946-.012 1.706-.012 1.94 0 .186.128.409.476.338A7.053 7.053 0 0 0 15 8.058C15.011 4.155 11.868 1 8.006 1Z"></path></g></svg></div>
+  <div class="sds-label">the repository</div>
+  <div class="sds-surface-title">A bug in the server itself</div>
+  <div class="sds-surface-body">Crashes, a tool that does not register, anything reproducible from a checkout. An issue is faster than this form.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-book"><g fill="currentColor"><path d="M12 1H3v14h9a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm0 12v1H4V2h8v9h-1v2h1z"></path><path d="M11 3.25a.25.25 0 0 0-.25-.25h-5.5a.25.25 0 0 0-.25.25v2.5c0 .138.112.25.25.25h5.5a.25.25 0 0 0 .25-.25v-2.5zM5 12h2v1H5z"></path></g></svg></div>
+  <div class="sds-label">documentation</div>
+  <div class="sds-surface-title">A page that is wrong</div>
+  <div class="sds-surface-body">Documentation is not answered from here. The page itself carries the way to report what it says.</div>
+</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-shield"><g fill="currentColor"><path d="M13 2v6c0 3.067-3.749 5.246-5 5.888C6.747 13.246 3 11.066 3 8V2h10m1-1H2v7c0 4.375 6 7 6 7s6-2.625 6-7V1z"></path></g></svg></div>
+  <div class="sds-label">security</div>
+  <div class="sds-surface-title">Something that should not be public</div>
+  <div class="sds-surface-body">A finding that affects an installation goes to the security address instead, and never through this form.</div>
 </div>
         </div>
       </div>

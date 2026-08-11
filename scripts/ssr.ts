@@ -34,6 +34,11 @@ import { TAGS } from '../src/index.ts';
    supplies the minimum rather than the element relaxing its rule. */
 const REQUIRED: Readonly<Record<string, string>> = {
   'sds-icon': ' name="actions-check"',
+  /* An error summary with no errors in it renders nothing on purpose: an empty
+     red box above a form is a form that looks broken before it has been filled
+     in. So the minimum is one failure, and what is proven here is the same
+     thing as everywhere else — that the element renders in Node. */
+  'sds-form-errors': ` errors='[{"message":"needed"}]'`,
 };
 
 const failures: string[] = [];
