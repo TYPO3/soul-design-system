@@ -215,10 +215,15 @@ test('a filter that matches nothing answers, and the answer undoes it', async ({
   /* Counted off the page rather than written down here: how many entries the
      list holds is the page's business and changes with its content, and a
      literal in this file would fail the day one is added — which is a test
-     failing at the one thing it is not about. */
+     failing at the one thing it is not about.
+
+     Two numbers, because the page shows a page of the list: what is on screen,
+     and what the row of numbers says was read. The answer names the second. */
   const entries = page.locator('sds-teaser');
   const all = await entries.count();
   expect(all, 'the list should hold entries to filter').toBeGreaterThan(2);
+  const read = Number(await page.locator('sds-pagination').getAttribute('count'));
+  expect(read, 'the row should say how many there are in all').toBeGreaterThanOrEqual(all);
 
   await page.locator('.sds-pills .sds-pill', { hasText: 'releases' }).click();
   const some = await entries.count();
@@ -231,7 +236,7 @@ test('a filter that matches nothing answers, and the answer undoes it', async ({
   await expect(empty).toBeVisible();
   /* Not "no results": how much was read is the part that makes it an answer
      rather than a shrug. */
-  await expect(empty).toContainText(new RegExp(`All ${all} entries were read`));
+  await expect(empty).toContainText(new RegExp(`All ${read} entries were read`));
 
   await empty.locator('button.sds-link').click();
   await expect(entries).toHaveCount(all);

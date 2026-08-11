@@ -148,7 +148,7 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
 
         ${list}
 
-        <sds-pagination pages="1" current="1" count="4 results"></sds-pagination>
+        <sds-pagination count="4" per-page="10" current="1" href="?q=typo3&amp;page={n}" label="results"></sds-pagination>
       </div>
     </section>
 

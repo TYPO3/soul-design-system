@@ -37,6 +37,11 @@ import { type PageMode } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'News' }];
 
+/** How many entries a page of this list holds. The row of numbers under it is
+    told the same figure and divides — nothing here states how many pages that
+    comes to. */
+const PER_PAGE = 6;
+
 /** An entry, plus the tag the filter reads. */
 interface Entry extends TeaserProps {
   tag: string;
@@ -136,10 +141,15 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
 
   const current = FILTERS[filter] ?? FILTERS[0];
   const shown = current?.tag ? ENTRIES.filter((e) => e.tag === current.tag) : ENTRIES;
+  /* The page shows a page of the list, not the list. A row of numbers under
+     every entry there is says the second page exists and puts nothing on it,
+     and the count the row divides is then a total nothing on the screen
+     agrees with. */
+  const page = shown.slice(0, PER_PAGE);
 
   const list = shown.length
     ? html`<div class="sds-grid">
-          ${shown.map(
+          ${page.map(
             (entry) => html`<sds-teaser
               heading="${entry.heading}"
               .body="${entry.body}"
@@ -189,7 +199,9 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
 
         ${list}
 
-        <sds-pagination pages="3" current="1" count="${ENTRIES.length} of 18 entries"></sds-pagination>
+        ${shown.length
+          ? html`<sds-pagination count="${shown.length}" per-page="${PER_PAGE}" current="1" href="#entries-{n}" label="entries"></sds-pagination>`
+          : ''}
       </div>
     </section>
 
