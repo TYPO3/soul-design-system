@@ -106,3 +106,60 @@ test('a class always overrides the element it sits on', async ({ page }) => {
   const prose = await page.locator('#bare-p').evaluate((el) => el.getBoundingClientRect().width);
   expect(lead / leadSize, 'a lead is held to fewer characters than body copy').toBeLessThan(prose / proseSize);
 });
+
+/* The rest of what arrives without a class.
+
+   A paragraph was the loud case. These are the quiet ones, and each is a thing
+   an editor emits that the system had no rule for: a link, a phrase in mono, a
+   picture, a rule across the page. The picture is the one that costs
+   something — one wider than its column pushes the whole page sideways, which
+   is the failure the layout classes are full of comments about, arriving
+   through content instead of through markup. */
+const CONTENT = `<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/dist/soul.css" />
+</head>
+<body>
+  <div style="width:200px">
+    <img id="wide" src="/assets/diagrams/answer-sources.svg" width="1200" height="750" alt="" />
+  </div>
+  <p>A sentence naming <code id="inline-code">typo3_icon_lookup</code>, which is a thing the machine named.</p>
+  <p><a id="bare-a" href="#somewhere">a link nobody classed</a></p>
+  <hr id="rule" />
+</body>
+</html>`;
+
+test('content that arrives without a class is still the system', async ({ page }) => {
+  await page.route('**/content-fixture.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: CONTENT }));
+  await page.goto('/content-fixture.html', { waitUntil: 'load' });
+
+  /* A 1200px picture inside a 200px column stays inside it. */
+  const img = await page.locator('#wide').evaluate((el) => el.getBoundingClientRect().width);
+  expect(img, 'an image is held to the box it is in').toBeLessThanOrEqual(200);
+
+  /* Mono, and smaller than the sentence around it rather than the same size,
+     which is what makes a name read as a name. */
+  const code = await page.locator('#inline-code').evaluate((el) => getComputedStyle(el).fontFamily);
+  expect(code).toContain('Source Code Pro');
+
+  /* Not the browser's blue, and not underlined at rest — a link in this system
+     underlines on hover and never before. */
+  const link = await page.locator('#bare-a').evaluate((el) => {
+    const s = getComputedStyle(el);
+    return { color: s.color, decoration: s.textDecorationLine };
+  });
+  expect(link.color).not.toBe('rgb(0, 0, 238)');
+  expect(link.decoration).toBe('none');
+
+  /* One hairline, no radius, no margin of its own. */
+  const rule = await page.locator('#rule').evaluate((el) => {
+    const s = getComputedStyle(el);
+    return { top: s.borderTopWidth, bottom: s.borderBottomWidth, margin: s.marginBlockStart };
+  });
+  expect(rule.top).toBe('1px');
+  expect(rule.bottom).toBe('0px');
+  expect(rule.margin).toBe('0px');
+});

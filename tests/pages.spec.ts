@@ -212,22 +212,29 @@ test('a filter that matches nothing answers, and the answer undoes it', async ({
   await page.setViewportSize({ width: 1440, height: 900 });
   await gotoStory(page, 'pages-news--page');
 
+  /* Counted off the page rather than written down here: how many entries the
+     list holds is the page's business and changes with its content, and a
+     literal in this file would fail the day one is added — which is a test
+     failing at the one thing it is not about. */
   const entries = page.locator('sds-teaser');
-  await expect(entries).toHaveCount(6);
+  const all = await entries.count();
+  expect(all, 'the list should hold entries to filter').toBeGreaterThan(2);
 
   await page.locator('.sds-pills .sds-pill', { hasText: 'releases' }).click();
-  await expect(entries).toHaveCount(2);
+  const some = await entries.count();
+  expect(some).toBeGreaterThan(0);
+  expect(some, 'a filter should narrow the list').toBeLessThan(all);
 
   await page.locator('.sds-pills .sds-pill', { hasText: 'security' }).click();
   await expect(entries).toHaveCount(0);
   const empty = page.locator('.sds-empty');
   await expect(empty).toBeVisible();
-  /* Not "no results": how many were read is the part that makes it an answer
+  /* Not "no results": how much was read is the part that makes it an answer
      rather than a shrug. */
-  await expect(empty).toContainText('All 6 entries were read');
+  await expect(empty).toContainText(new RegExp(`All ${all} entries were read`));
 
   await empty.locator('button.sds-link').click();
-  await expect(entries).toHaveCount(6);
+  await expect(entries).toHaveCount(all);
 });
 
 /* What a form does when it fails.

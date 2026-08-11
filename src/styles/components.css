@@ -26,6 +26,28 @@
   box-sizing: border-box;
 }
 
+/* Two elements that arrive without a class and have nowhere to get one.
+
+   An image is the case that costs something: a picture from an editor is
+   whatever pixel width it was uploaded at, and one wider than the column
+   pushes the whole page sideways — the same failure the layout classes are
+   full of comments about, arriving through content instead of through markup.
+   `height: auto` is what stops the fixed `height` attribute an editor writes
+   from squashing it once the width has been capped.
+
+   A rule is the other. The browser draws two grey lines with a margin; this
+   system separates with one hairline and no radius, and a horizontal rule is
+   the most structural line there is. */
+img {
+  max-width: 100%;
+  height: auto;
+}
+hr {
+  margin: 0;
+  border: 0;
+  border-top: var(--border-hairline) solid var(--border-subtle);
+}
+
 /* Put this on <body> (or the app root) — it establishes the canvas, the
    sans stack and the default text colour. Without it a surface inherits
    the browser's Times New Roman on white.
@@ -207,10 +229,23 @@ h6 {
 /* Inline mono for anything the machine named — tool names, paths, flags,
    versions. Scales with its context instead of pinning a size, so it sits
    correctly in both a 12px note and 17px body copy. Never title-cased. */
-.sds-mono {
+.sds-mono,
+code,
+kbd,
+samp {
   font-family: var(--font-mono);
   font-size: 0.94em;
   color: var(--text-primary);
+}
+/* Inside a block the machine wrote, the block has already decided the size and
+   the colour — `<code>` there is the element `<pre>` is required to contain,
+   not a phrase set in mono inside a sentence. Without this the 0.94em above
+   applies a second time and every code block sets a hair smaller than the size
+   its own class asked for. */
+.sds-code__body code,
+.sds-diff code {
+  font-size: inherit;
+  color: inherit;
 }
 
 .sds-link {
@@ -218,7 +253,14 @@ h6 {
   text-decoration: none;
   transition: color var(--duration-fast) var(--ease-out);
 }
-.sds-link:hover { color: var(--text-link-hover); text-decoration: underline; }
+.sds-link,
+a {
+  color: var(--text-link);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.sds-link:hover,
+a:hover { color: var(--text-link-hover); text-decoration: underline; }
 /* An offer that changes something here rather than going somewhere is a
    button, and it still reads as the link it is — same rule as the navigation
    items, which are links or buttons by what pressing them does. The browser
