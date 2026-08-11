@@ -37,7 +37,7 @@ with an HTML surface, which is why the classes have to work alone.
 | Output | Command | What it is |
 | --- | --- | --- |
 | Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens |
-| `components/*.card.html` | `make cards` | the 7 component specimen cards, rendered from the same Lit templates |
+| `components/`, `guidelines/`, `screens/` | `make cards` | all 39 specimen cards and 4 screens, rendered from the stories that compose them |
 | `dist/` | `make dist` | the publishable ESM package and its types |
 | `ds-bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
 
@@ -193,10 +193,10 @@ creates a second one. It compares against the anchor the project stores
 | `src/lib/` | the element base, the icon inliner, the static renderer |
 | `src/index.ts` | the bundle entry — importing it registers every `sds-*` element |
 | | |
-| `stories/*.stories.ts` | the docs, and the specimen each component card is generated from |
+| `stories/` | the docs, and the specimen every card and screen is generated from |
 | `docs/*.mdx` | the written guideline pages |
-| `guidelines/` | the 31 token-layer specimens, hand-written |
-| `screens/` | the 3 whole screens, offered as Starting Points in a consuming project |
+| `guidelines/` | **generated** — the 32 token-layer specimens |
+| `screens/` | **generated** — the 4 whole screens, offered as Starting Points in a consuming project |
 | `tests/` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
 | `.infra/` | Dockerfile, compose and the entrypoint |
@@ -243,10 +243,11 @@ one.
 
 ### Changing a component
 
-Edit `src/<component>.ts`. The card under `components/` is **generated** from
-the story that composes it — `make cards` writes it, and `make verify`
-fails if it is stale. A card edited by hand is silently reverted on the next
-generate.
+Edit `src/<component>.ts`. Every card is **generated** from the story that
+composes it — `make cards` writes it, and `make verify` fails if one is stale
+*or* if a card on disk has no story behind it. A card edited by hand is
+silently reverted on the next generate; a card written by hand is a build
+failure, which is the same rule stated so it cannot be missed.
 
 The cards stay static HTML with no custom elements in them: the Design System
 pane opens them with `styles.css` and no JavaScript, so what ships is the

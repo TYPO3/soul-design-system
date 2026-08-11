@@ -27,9 +27,11 @@ is what they are — a token is not a lesser thing than a component:
   function beside its class. `src/lib/` holds what they share and
   `src/index.ts` is the bundle entry.
 
-Everything else is generated from those and must not be edited by hand: the
-seven cards under `components/`, `fonts/` and `assets/icons/`, the Storybook
-build, `dist/` and `ds-bundle/`.
+Everything else is generated from those and must not be edited by hand: every
+card under `components/` and `guidelines/`, every screen under `screens/`,
+`fonts/` and `assets/icons/`, the Storybook build, `dist/` and `ds-bundle/`.
+`make verify` fails on a card that no story produces, so the hand-written form
+cannot come back one file at a time.
 
 `fonts/` and `assets/` stay at the root rather than under `src/`: they are
 generated artefacts of npm packages, not sources, and the upload bundle wants
@@ -124,10 +126,18 @@ Two things that bit during the migration and will bite again:
   both and throws if a marker survives, because an HTML comment renders as
   nothing and would be invisible in review.
 
-The whole migration was verified by `make baseline` before and
-`make shots && make diff` after: **38 identical, 0 changed.** The
-generated cards differ from the hand-written ones only in that numeric
-entities became the literal characters they encode.
+Each migration was verified by `make baseline` before and
+`make shots && make diff` after: **38 identical, 0 changed** for the component
+cards, **36 of 39** when the guideline cards followed. The three that moved
+differ by under 0.1%: their glyphs come from the sprite rather than from a
+pasted path. Numeric entities became the literal characters they encode
+throughout.
+
+The pixel diff is the check that made that migration safe, and it earned it:
+six cards carry both modes inside them and must pin neither on `<html>`.
+Pinning one turned the ground under the diagram figures from paper to
+terminal — a quarter of the card — and no other check in the repo would have
+noticed.
 
 ## Contrast: fixed, not tolerated
 

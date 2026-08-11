@@ -30,9 +30,6 @@ interface Specimen {
   viewport: string;
   width: number;
   height: number;
-  /** The theme the file's own `<html>` pins. A specimen that exists to show
-      one mode must not be flipped by a theme toggle around it. */
-  theme: string;
   /** PascalCase, derived from the filename — the name the bundle uses. */
   name: string;
 }
@@ -74,7 +71,6 @@ const attrs = (marker: string): Record<string, string> => {
   return out;
 };
 
-const themeOf = (text: string): string => /<html[^>]*data-theme="([a-z]+)"/.exec(text)?.[1] ?? 'dark';
 
 const sizeOf = (viewport: string): [number, number] => {
   const [w, h] = viewport.split('x');
@@ -120,7 +116,6 @@ export function cards(): Card[] {
         viewport,
         width,
         height,
-        theme: themeOf(text),
         name: pascal(stem),
       };
     })
@@ -169,7 +164,6 @@ export function screens(): Screen[] {
         viewport,
         width,
         height,
-        theme: themeOf(text),
         name: pascal(stemOf(path)),
       };
     })

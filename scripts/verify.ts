@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /* The repo's own gate. Run it before shipping anything.
 
-   Four things have to hold, and each has gone wrong at least once:
+   Six things have to hold, and each has gone wrong at least once:
      1. every card declares a @dsCard header the Design System pane can read
      2. no card uses a class the stylesheets do not define — a silent no-op
      3. every local href/src resolves; a card that ships unstyled looks fine
         in review and wrong everywhere else
      4. every card fits the viewport it declares, and still renders
-     5. every generated card still matches the story it comes from
+     5. every card matches the story it comes from — and every card on disk
+        has one, so a file cannot outlive the story that wrote it
      6. the types the components and the generator share still hold
 
      make verify
@@ -83,23 +84,21 @@ for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css']) {
     defined.add(m[1]);
   }
 }
-/* A page-level screen may define its own layout classes in its own <style>
-   — a shell or a header grid is not a component. Those count as defined;
-   anything else is still an invented name that silently does nothing. */
-const localOf = (txt: string): Set<string> => {
-  const s = /<style>([\s\S]*?)<\/style>/.exec(txt);
-  const block = s?.[1];
-  if (!block) return new Set();
-  return new Set([...block.matchAll(/\.([a-zA-Z][\w-]*)/g)].flatMap((m) => (m[1] ? [m[1]] : [])));
-};
+/* Every class in every card and screen is checked against the stylesheets,
+   with no exemption.
 
-/** class name → the files that use it, for a message that names one. */
+   There used to be one: a screen could carry a `<style>` block and the names
+   it defined counted as defined. That was the escape hatch a page's own
+   layout went through — and while it was open, a name in it was a name no
+   other surface could use and nothing could keep true. Nothing has a
+   `<style>` now, so the exemption is gone rather than merely unused. */
 const used = new Map<string, string[]>();
 for (const c of all) {
-  const local = localOf(c.text);
+  if (c.text.includes('<style>')) {
+    fails.push(`${c.rel}: carries a <style> block — layout belongs in components.css, not in a generated file`);
+  }
   for (const m of c.text.matchAll(/class="([^"]*)"/g)) {
     for (const cls of (m[1] ?? '').split(/\s+/).filter(Boolean)) {
-      if (local.has(cls)) continue;
       const where = used.get(cls) ?? [];
       where.push(c.rel);
       used.set(cls, where);
@@ -163,10 +162,14 @@ const dist = spawnSync(process.execPath, [join(ROOT, 'scripts/dist.ts'), '--chec
 process.stdout.write((dist.stdout ?? '').split('\n').filter((l) => l.includes('out of date') || l.includes('✗')).map((l) => `${l}\n`).join(''));
 if (dist.status !== 0) fails.push('dist/ is out of date — run `make dist` and commit it');
 
-console.log('5. generated cards match their stories');
+console.log('5. every card matches its story, and has one');
 const gen = spawnSync(process.execPath, [join(ROOT, 'scripts/cards.ts'), '--check'], { encoding: 'utf8' });
-process.stdout.write(gen.stdout.split('\n').filter((l) => l.includes('STALE') || l.includes('generated cards')).map((l) => `  ${l.trim()}\n`).join(''));
-if (gen.status !== 0) fails.push('a component card no longer matches its story — run `make cards`');
+process.stdout.write(
+  gen.stdout.split('\n')
+    .filter((l) => l.includes('STALE') || l.includes('ORPHAN') || l.includes('generated cards'))
+    .map((l) => `  ${l.trim()}\n`).join(''),
+);
+if (gen.status !== 0) fails.push('a card no longer matches its story, or has none — see above, and run `make cards`');
 
 /* Types are the contract the components and the card generator share. Node
    strips them without checking them, so nothing else would ever notice. */

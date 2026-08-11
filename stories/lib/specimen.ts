@@ -173,9 +173,6 @@ export interface DsScreenInput {
   subtitle: string;
   viewport: string;
   theme?: 'light' | 'dark';
-  /** Layout the page needs and the system does not own — a grid, a column
-      width, a hero. Every painted value still comes from a token. */
-  style?: string;
 }
 
 export interface DsScreen extends Required<DsScreenInput> {
@@ -192,5 +189,5 @@ export interface DsScreen extends Required<DsScreenInput> {
  */
 export function dsScreen(s: DsScreenInput): DsScreen {
   const [w, h] = s.viewport.split('x');
-  return { section: 'Screens', theme: 'dark', style: '', ...s, width: Number(w), height: Number(h) };
+  return { section: 'Screens', theme: 'dark', ...s, width: Number(w), height: Number(h) };
 }
