@@ -18,6 +18,6 @@ return static function (ContainerConfigurator $container): void {
         ->tag('phpdoc.guides.directive')
 
         ->set(ThemeExtension::class)
-        ->args(['%soul.signet%', '%soul.product%', '%soul.home%'])
+        ->args(['%soul.signet%', '%soul.product%', '%soul.home%', '%soul.footer%'])
         ->tag('twig.extension');
 };

@@ -51,21 +51,22 @@ async function storyIds(request: import('@playwright/test').APIRequestContext): 
   return Object.values(index.entries).filter((e) => e.type === 'story');
 }
 
-test('the index lists every component and guideline page', async ({ request }) => {
+test('the index lists every component and specimen group', async ({ request }) => {
   const res = await request.get('/index.json');
   const index = (await res.json()) as { entries: Record<string, StoryEntry> };
   const titles = new Set(Object.values(index.entries).map((e) => e.title));
 
+  /* The written pages are not here any more: they are reStructuredText under
+     `docs/`, rendered by Guides and published. What Storybook keeps is what
+     only Storybook can do — a component with its controls, and the specimen
+     each card is generated from. So the list checks those, and a specimen
+     group vanishing is still a page that stopped documenting anything. */
+  const groups = new Set([...titles].map((t) => t.split('/').slice(0, 2).join('/')));
+  for (const group of ['Specimens/Brand', 'Specimens/Colours', 'Specimens/Type', 'Specimens/States']) {
+    expect(groups, `${group} should have specimens`).toContain(group);
+  }
+
   for (const expected of [
-    'Introduction',
-    'Guidelines/Brand',
-    'Guidelines/Colours',
-    'Guidelines/Type',
-    'Guidelines/Spacing & layout',
-    'Guidelines/Icons',
-    'Guidelines/States',
-    'Guidelines/Illustrations',
-    'Guidelines/Diagrams',
     /* One page per component, and the list is the check: a component that is
        split out of a file and never given a page of its own documents
        nothing. */
@@ -186,54 +187,6 @@ test('every specimen story renders the classes the system defines', async ({ pag
   }
 });
 
-/* The theme switch has to reach inside the embedded cards.
-
-   A guideline page is mostly iframes, and an iframe does not inherit
-   `data-theme` from the page around it. When these pages replaced the old dev
-   gallery that propagation was lost, and the toolbar looked dead on exactly
-   the pages where most of the system is shown — a silent regression that
-   nothing caught, because every story still rendered fine.
-
-   A card that pins **light** means it and must not be flipped;
-   `brand-lockup-light` exists to show the light lockup. */
-test('the theme switch reaches the cards embedded in a docs page', async ({ page }) => {
-  const NAMES = ['brand-lockup', 'brand-lockup-light'];
-
-  for (const theme of ['dark', 'light'] as const) {
-    await page.goto(`/iframe.html?viewMode=docs&id=guidelines-brand--docs&globals=theme:${theme}`);
-
-    /* The embeds are `loading="lazy"` and the lockups sit well below the fold,
-       behind a 1455px signet card. Without scrolling them in they never load,
-       which passes alone — where the page is idle long enough — and fails
-       under parallel load. */
-    for (const name of NAMES) {
-      const frame = page.locator(`iframe[src$="${name}.card.html"]`);
-      await frame.scrollIntoViewIfNeeded();
-      await expect
-        .poll(
-          () => frame.evaluate((f: HTMLIFrameElement) => f.contentDocument?.documentElement?.dataset['theme'] ?? null),
-          { timeout: 20_000, message: `${name} never loaded` },
-        )
-        .not.toBeNull();
-    }
-
-    const themeOf = (name: string) =>
-      page
-        .locator(`iframe[src$="${name}.card.html"]`)
-        .evaluate((f: HTMLIFrameElement) => f.contentDocument?.documentElement?.dataset['theme']);
-
-    expect(await themeOf('brand-lockup'), `brand-lockup should follow the ${theme} switch`).toBe(theme);
-    expect(await themeOf('brand-lockup-light'), 'a card pinning light keeps it in both modes').toBe('light');
-  }
-});
-
-/* A story must sit on the surface it was designed for.
-
-   Storybook paints the docs preview block from its own docs theme, which is
-   white and knows nothing about `data-theme`. In dark mode that put near-white
-   text and a transparent secondary button on white — the component looked
-   broken when it was merely on the wrong ground. `.storybook/docs.css` takes
-   that block back; this is what stops it drifting again. */
 test('the docs preview sits on the themed canvas', async ({ page }) => {
   const CANVAS = { dark: 'rgb(19, 18, 16)', light: 'rgb(251, 250, 247)' };
 
@@ -250,40 +203,4 @@ test('the docs preview sits on the themed canvas', async ({ page }) => {
         .toBe(CANVAS[theme]);
     }
   }
-});
-
-/* A table written in a page has to arrive as a table.
-
-   MDX parses CommonMark, and CommonMark has no tables — that is a GFM
-   extension, and Storybook's compiler does not load it. So every `| … |` row
-   on these pages set as a paragraph of literal pipe characters, and read as a
-   page whose author had forgotten to finish it. `.storybook/main.ts` adds the
-   plugin; this is what stops it being dropped again, which a Storybook
-   upgrade rewriting that file would do silently.
-
-   Only the hand-written pages: an autodocs page is generated from a story and
-   has no prose to lose. Written as the absence of the delimiter row rather
-   than a count of tables, so it also covers a page that grows its first table
-   later — with one positive assertion so it cannot pass by finding nothing. */
-test('a table written in a docs page renders as a table', async ({ page, request }) => {
-  const res = await request.get('/index.json');
-  const index = (await res.json()) as { entries: Record<string, StoryEntry> };
-  const pages = Object.values(index.entries).filter((e) => e.type === 'docs' && e.importPath.endsWith('.mdx'));
-  expect(pages.length, 'the written pages should be in the index').toBeGreaterThan(0);
-
-  let tables = 0;
-
-  for (const doc of pages) {
-    await page.goto(`/iframe.html?viewMode=docs&id=${doc.id}`);
-    await page.waitForSelector('.sbdocs-content', { timeout: 20_000 });
-
-    /* The delimiter row, which is the one line of a table that has no meaning
-       as prose. If it is on the page as text, the table did not parse. */
-    const text = await page.locator('.sbdocs-content').innerText();
-    expect(text, `${doc.title} left an unparsed table row in its prose`).not.toMatch(/^\s*\|\s*-{3,}/m);
-
-    tables += await page.locator('.sbdocs-content table').count();
-  }
-
-  expect(tables, 'the written pages should render tables at all').toBeGreaterThan(0);
 });

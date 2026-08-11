@@ -37,7 +37,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, write
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-import { cards, ROOT } from './lib/cards.ts';
+import { cards, ROOT, screens } from './lib/cards.ts';
 
 const THEME = join(ROOT, 'guides-theme');
 const SITE = join(ROOT, 'site');
@@ -78,7 +78,10 @@ const PROJECTS: Project[] = [
 function copyCards(source: string): void {
   const out = join(source, '_cards');
   rmSync(out, { recursive: true, force: true });
-  for (const card of cards()) {
+  /* Screens as well as cards. A guideline page about layout embeds whole
+     pages, and they are specimens by the same definition — a rendering of a
+     rule, kept beside the rule. */
+  for (const card of [...cards(), ...screens()]) {
     const rel = relative(join(ROOT, 'specimens'), card.path);
     const target = join(out, rel);
     mkdirSync(join(target, '..'), { recursive: true });

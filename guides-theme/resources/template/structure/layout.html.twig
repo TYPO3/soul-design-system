@@ -71,14 +71,41 @@
         </main>
     </div>
 
-    <footer class="sds-footer">
-        <div class="sds-footer__end">
-            <span class="sds-mono">{{ env.projectNode.title|default('') }}</span>
-            {%- if env.projectNode.copyright %}
-                <span>{{ env.projectNode.copyright }}</span>
-            {%- endif %}
-        </div>
-    </footer>
+    {% include "structure/footer.html.twig" %}
 </div>
+{#
+    The mode, into the frames.
+
+    A specimen is a document of its own, and a document does not inherit the
+    mode the page around it was forced into: `data-theme` on this `<html>` says
+    nothing about the one inside an iframe. Left alone, a reader who switches
+    to dark gets a dark page with light cards in it — which is not a rendering
+    of anything the system does.
+
+    Same origin, so this is four lines rather than a message channel. Without
+    JavaScript nothing here runs and every frame follows the reader's system
+    setting, which is the honest fallback: the page does too.
+#}
+<script>
+(function () {
+  var root = document.documentElement;
+  function paint() {
+    var mode = root.getAttribute('data-theme');
+    document.querySelectorAll('.sds-figure__frame iframe').forEach(function (frame) {
+      try {
+        var inner = frame.contentDocument && frame.contentDocument.documentElement;
+        if (!inner) return;
+        if (mode) inner.setAttribute('data-theme', mode);
+        else inner.removeAttribute('data-theme');
+      } catch (e) { /* not same origin — nothing to do and nothing broken */ }
+    });
+  }
+  document.querySelectorAll('.sds-figure__frame iframe').forEach(function (frame) {
+    frame.addEventListener('load', paint);
+  });
+  new MutationObserver(paint).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  paint();
+})();
+</script>
 </body>
 </html>

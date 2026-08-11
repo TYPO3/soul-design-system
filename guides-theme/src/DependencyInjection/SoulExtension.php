@@ -55,6 +55,62 @@ final class SoulExtension extends Extension implements ConfigurationInterface
                    rendering, unless a site puts its documentation under a
                    marketing page that is not part of it. */
                 ->scalarNode('home')->defaultNull()->end()
+                /* The footer, because a marketing page has one and a manual
+                   does not get to invent it. Groups of links, the social
+                   accounts, and the line that says what this is not:
+
+                       <footer>
+                           <group title="Documentation">
+                               <link href="index.html" label="Overview"/>
+                           </group>
+                           <social href="https://…" label="GitHub"/>
+                           <note>Not an official product.</note>
+                       </footer>
+
+                   All of it optional. A footer with nothing in it renders as
+                   the mark and the year, which is the least a page can say. */
+                ->arrayNode('footer')
+                    ->fixXmlConfig('group')
+                    ->fixXmlConfig('social')
+                    ->children()
+                        ->arrayNode('groups')
+                            ->arrayPrototype()
+                                ->fixXmlConfig('link')
+                                ->children()
+                                    ->scalarNode('title')->defaultNull()->end()
+                                    ->arrayNode('links')
+                                        ->arrayPrototype()
+                                            ->children()
+                                                /* A document, written the way
+                                                   a `:doc:` reference is —
+                                                   `/frontend`, not
+                                                   `frontend.html`. It is
+                                                   resolved per page, because a
+                                                   footer is rendered on every
+                                                   one of them and they are not
+                                                   all at the same depth. An
+                                                   external link is a URL and
+                                                   says so. */
+                                                ->scalarNode('href')->isRequired()->end()
+                                                ->scalarNode('label')->isRequired()->end()
+                                                ->booleanNode('external')->defaultFalse()->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('socials')
+                            ->arrayPrototype()
+                                ->children()
+                                    ->scalarNode('href')->isRequired()->end()
+                                    ->scalarNode('label')->isRequired()->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->scalarNode('note')->defaultNull()->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;
@@ -68,6 +124,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface
         $container->setParameter('soul.signet', $config['signet']);
         $container->setParameter('soul.product', $config['product']);
         $container->setParameter('soul.home', $config['home']);
+        $container->setParameter('soul.footer', $config['footer'] ?? []);
 
         $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
         $loader->load('soul.php');

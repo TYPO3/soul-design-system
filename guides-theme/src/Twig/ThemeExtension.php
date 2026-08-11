@@ -16,10 +16,12 @@ use Twig\Extension\GlobalsInterface;
  */
 final class ThemeExtension extends AbstractExtension implements GlobalsInterface
 {
+    /** @param array<string, mixed> $footer */
     public function __construct(
         private readonly string|null $signet,
         private readonly string|null $product,
         private readonly string|null $home,
+        private readonly array $footer = [],
     ) {
     }
 
@@ -31,6 +33,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
                 'signet' => $this->signet,
                 'product' => $this->product,
                 'home' => $this->home,
+                'footer' => $this->footer,
             ],
         ];
     }

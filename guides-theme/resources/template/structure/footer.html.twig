@@ -1,0 +1,51 @@
+{#
+    The other footer: a site's, rather than a surface's.
+
+    Everything in it is configuration — see `SoulExtension`. A theme that
+    hard-coded a link list would be a theme exactly one project could use, and
+    a marketing page without a footer is a page that stops mid-sentence.
+
+    With nothing configured this is the mark and the note, which is the least a
+    page can say and still be honest about what it is.
+#}
+<footer class="sds-footer">
+    {%- if soul.footer.groups is defined and soul.footer.groups %}
+        <div class="sds-footer__groups">
+            {%- for group in soul.footer.groups %}
+                <div class="sds-footer__group">
+                    {%- if group.title %}<div class="sds-label">{{ group.title }}</div>{% endif %}
+                    <div class="sds-footer__links">
+                        {%- for link in group.links %}
+                            {#- A link inside the project is a *document*, not
+                                a path: `/frontend` resolves per page, while
+                                `frontend.html` resolves from wherever the
+                                reader happens to be standing and lands in
+                                nothing one directory down. -#}
+                            <a class="sds-link{% if link.external %} sds-link--external{% endif %}"
+                               href="{{ link.external ? link.href : renderLink(link.href) }}"
+                               {%- if link.external %} target="_blank" rel="noreferrer"{% endif %}>{{ link.label }}</a>
+                        {%- endfor %}
+                    </div>
+                </div>
+            {%- endfor %}
+        </div>
+    {%- endif %}
+
+    <div class="sds-footer__end">
+        <span class="sds-mono">{{ soul.product|default(env.projectNode.title)|default('') }}</span>
+        {%- if soul.footer.note is defined and soul.footer.note %}
+            <span>{{ soul.footer.note }}</span>
+        {%- endif %}
+        {%- if env.projectNode.copyright %}
+            <span>{{ env.projectNode.copyright }}</span>
+        {%- endif %}
+        {%- if soul.footer.socials is defined and soul.footer.socials %}
+            <span class="sds-row__end">
+                {%- for social in soul.footer.socials %}
+                    <a class="sds-link sds-link--external" href="{{ social.href }}"
+                       target="_blank" rel="noreferrer">{{ social.label }}</a>
+                {%- endfor %}
+            </span>
+        {%- endif %}
+    </div>
+</footer>

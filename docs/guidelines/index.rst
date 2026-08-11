@@ -4,12 +4,67 @@
 Guidelines
 ==========
 
-What the system decided, and what a card that renders the decision looks like.
-Every page here states a rule and then shows it: the specimens are the same
-files the design pane opens and Storybook embeds, generated from the stories
-that produce them, so a rule and its rendering cannot drift apart.
+What the system decided, and a card that renders the decision beside it. Every
+page here states a rule and then shows it: the specimens are the same files the
+design pane opens and Storybook embeds, generated from the stories that produce
+them, so a rule and its rendering cannot drift apart.
 
 .. toctree::
    :titlesonly:
 
    colours
+   type
+   spacing
+   states
+   icons
+   illustrations
+   diagrams
+   brand
+   forms
+   screens
+
+Non-negotiable
+==============
+
+Six rules that are not preferences. Each of them exists because breaking it
+made something worse in a way that took a while to see.
+
+- **One accent.** ``--accent`` marks exactly three things: the active
+  navigation item, the shell prompt in a code block, the pipe in the wordmark.
+- **No shadows.** Separation is a hairline plus ``--surface-overlay``. The
+  focus ring is the single ``box-shadow`` in the system, and it is a state.
+- **No emoji.** Status is a colour plus a glyph from ``assets/icons/``.
+- **Mono is semantic.** Anything the machine reads, writes or names is Source
+  Code Pro, verbatim, at every size.
+- **16px is the floor** for the signet and the icons.
+- **Hover changes colour and border.** Never position, never size.
+
+.. seealso::
+
+   ``SKILL.md`` is the operating instruction and ``RATIONALE.md`` is the
+   reasoning behind it. Read the second before extending or breaking a rule in
+   the first — both ship with the system.
+
+Where the rules live
+====================
+
+.. list-table::
+   :header-rows: 0
+
+   * - ``src/tokens/*.css``
+     - the values: colour, type, control scale, spacing, radius, motion
+   * - ``src/styles/styles.css``
+     - the single entry point — tokens, then the component layer
+   * - ``src/styles/components.css``
+     - the ``sds-`` class vocabulary every surface is built from
+   * - ``src/styles/document.css``
+     - the document layer, linked beside it where prose is being set
+   * - ``src/components/*.ts``
+     - the elements, which emit exactly those classes
+   * - ``stories/**/*.stories.ts``
+     - what every specimen card is generated from
+   * - ``specimens/guidelines/*.card.html``
+     - the token-layer cards embedded in these pages
+
+The direction of truth runs story → card. A card is **generated**: edit the
+story, never the card, and ``make verify`` fails on a card no story produces.

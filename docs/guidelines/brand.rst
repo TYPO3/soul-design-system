@@ -1,0 +1,119 @@
+:navigation-title: Brand
+
+=====
+Brand
+=====
+
+**The signet is a construction, not a fixed drawing.** What this system
+fixes is *how* one is built. The mark in ``assets/`` came from the Dev
+Companion prototype and is a worked example of the rules — the reference
+implementation, not an approved product mark. A product adopting this system
+draws its own to the same construction.
+
+Three are shipped, so the claim can be checked rather than believed:
+``dev-companion-signet-{l,m,s}.svg``, ``tryout-signet-{l,m,s}.svg``, and
+``design-system-signet-{l,m,s}.svg`` for the system itself. Box, outer
+radius, stroke, rounding, gap and the single orange in the top-right corner
+are the same in all three; only the interior differs, and it carries one
+idea.
+
+The system's own mark has no window and its accent is a stroke, both on
+purpose: a frame reads as a terminal, and a terminal is what the products
+are, not what the system is. ``SIGNET-PROMPT.md`` is the construction
+written as something to act on — hand it to an agent with a product name and
+it should produce a mark that belongs here.
+
+.. warning::
+
+   This is **not** an approved TYPO3 product. The TYPO3 Soul is not used,
+   and no surface may imply endorsement — footers say what the product is,
+   never whose it is.
+
+How one is drawn
+================
+
+Everything follows the stroke: stroke 7 → rounding 3.5 (half the stroke, on
+frame caps, line ends and the marker's points alike) → gap ≥ 7, measured ink
+to ink. A 128 × 100 box, corner radius 20 shared by frame and marker. The
+frame is one open path — both ends are caps, not cuts — and it stops
+gap + stroke short, because each cap reaches half a stroke further. The
+marker sits on the frame's **outer** edge, not on the box.
+
+.. specimen:: guidelines/brand-signet-construction.card.html
+   :viewport: 700x1785
+   :title: Signet — construction
+
+Three optical sizes, redrawn, never scaled
+==========================================
+
+32px and up takes stroke 7 and three lines; 20–31px stroke 8.5 with the
+middle line dropped; 16–19px stroke 11. Pick the file at the link, because a
+media query inside an SVG only sees its own viewport.
+
+The 16–19px file is square-boxed: the mark is 5:4, and a 5:4 mark
+letterboxed into a favicon slot lands under the system's own 16px floor.
+
+.. specimen:: guidelines/brand-signet-sizes.card.html
+   :viewport: 700x903
+   :title: Signet — sizes
+
+.. specimen:: guidelines/brand-signet-modes.card.html
+   :viewport: 700x608
+   :title: Signet — modes & context
+
+The family
+==========
+
+Three marks, one construction. What is shared is the box, the outer radius,
+the stroke and its two consequences (rounding, gap), and the single orange
+in the top-right corner. What is not shared is the interior — one idea per
+product.
+
+.. specimen:: guidelines/brand-signet-family.card.html
+   :viewport: 700x574
+   :title: Signet — the family
+
+Lockup
+======
+
+``TYPO3`` at 600, an orange pipe, ``Soul Design System`` at 300. The pipe is
+separator and caret at once, and the only colour in the mark. Signet is
+1.36 × the type size, gap 0.5 ×, clear space half the signet height.
+
+.. specimen:: guidelines/brand-lockup.card.html
+   :viewport: 700x215
+   :title: Primary lockup
+
+.. specimen:: guidelines/brand-lockup-light.card.html
+   :viewport: 700x176
+   :title: Primary lockup — light
+
+.. specimen:: guidelines/brand-lockup-stacked.card.html
+   :viewport: 700x190
+   :title: Stacked lockup & app icon
+
+Clear space, edges, motion
+==========================
+
+.. specimen:: guidelines/brand-clearspace.card.html
+   :viewport: 700x300
+   :title: Clear space & minimum size
+
+.. specimen:: guidelines/brand-edges.card.html
+   :viewport: 700x180
+   :title: Edges & radii
+
+.. specimen:: guidelines/brand-motion.card.html
+   :viewport: 700x90
+   :title: States & motion
+
+Never
+=====
+
+A second colour in the mark. Equal weights on the two words. Stretching. An
+orange fill behind it. The large drawing at a small size. The marker in
+anything but orange.
+
+.. specimen:: guidelines/brand-misuse.card.html
+   :viewport: 700x250
+   :title: Misuse

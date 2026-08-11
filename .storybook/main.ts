@@ -18,12 +18,12 @@ import type { StorybookConfig } from '@storybook/web-components-vite';
 import remarkGfm from 'remark-gfm';
 
 const config: StorybookConfig = {
-  /* Both kinds of Storybook source live under `stories/`. `docs/` used to
-     hold the written pages, and it is the published documentation project
-     now — reStructuredText read by Guides, which this renderer cannot show
-     and should not try to. Two readers, two trees, and neither sees the
-     other's files. */
-  stories: ['../stories/**/*.mdx', '../stories/**/*.stories.ts'],
+  /* Stories, and only stories. The written pages were MDX here until they
+     became the published documentation — reStructuredText read by Guides,
+     which this renderer cannot show and should not try to. What is left is
+     what only Storybook can do: a component with its controls, and the
+     specimen cards beside it. */
+  stories: ['../stories/**/*.stories.ts'],
   addons: [
     {
       name: '@storybook/addon-docs',

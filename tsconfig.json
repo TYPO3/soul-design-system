@@ -32,13 +32,6 @@
     "useDefineForClassFields": false,
     "experimentalDecorators": false,
 
-    /* The specimen embed is the one `.tsx` in the tree: an MDX page is React,
-       and a component it imports has to be. `react-jsx` rather than `react`
-       so the file needs no import of a library this system does not use —
-       the runtime import is written by the compiler and, since nothing here
-       emits, never reaches anything. */
-    "jsx": "react-jsx",
-
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": false
