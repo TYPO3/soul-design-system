@@ -24,7 +24,7 @@ Two rules follow, and both are load-bearing:
 | Text | `sds-icon` `sds-link` |
 | Brand, chrome | `sds-signet` `sds-theme` |
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` `sds-checkbox` `sds-radio-group` `sds-form-errors` |
-| Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` `sds-crumbs` `sds-footer` |
+| Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` `sds-crumbs` `sds-footer` `sds-accordion` |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
 | Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-lightbox` `sds-teaser` `sds-pagination` |
 | States | `sds-note` `sds-empty` |
@@ -91,6 +91,7 @@ inline styles — do not mint a `sds-` name.
 | Choices | `sds-check` `sds-check__mark` `sds-check__body` `sds-check__label` `sds-check__hint` `sds-choices`; `sds-form-errors` `sds-form-errors__list` |
 | Tables | `sds-table` + `--compact` `--medium` `--airy`, wrapped in `sds-table-scroll` where it may outgrow its column; cells `sds-td-name` `sds-td-meta` |
 | Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-surface-icon` `sds-surface-title` `sds-surface-body` `sds-overlay` `sds-modal__head|__body|__foot` `sds-drawer` |
+| Folds | `sds-accordion` `sds-accordion__item` `sds-accordion__head` `sds-accordion__body` — a real `<details>`, so it folds with no script |
 | Navigation | `sds-pills`/`sds-pill` `sds-menu`/`sds-menu--for`/`sds-menu__items`/`sds-menu__panel`/`sds-menu__toggle` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__item`/`sds-rail__group` |
 | Code | `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |

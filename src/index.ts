@@ -34,6 +34,7 @@ import './components/radio-group.ts';
 import './components/form-errors.ts';
 import './components/pills.ts';
 import './components/menu.ts';
+import './components/accordion.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/rail.ts';
@@ -73,6 +74,7 @@ export { SdsFormErrors, type FormErrorsProps, type FormError } from './component
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.ts';
 export { SdsPills } from './components/pills.ts';
 export { SdsMenu } from './components/menu.ts';
+export { SdsAccordion, type AccordionProps, type Entry } from './components/accordion.ts';
 export { SdsTabs } from './components/tabs.ts';
 export { SdsTabItem } from './components/tab-item.ts';
 export { SdsRail } from './components/rail.ts';
@@ -121,6 +123,7 @@ export const TAGS = [
   'sds-form-errors',
   'sds-pills',
   'sds-menu',
+  'sds-accordion',
   'sds-tabs',
   'sds-tab-item',
   'sds-rail',

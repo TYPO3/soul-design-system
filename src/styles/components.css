@@ -451,7 +451,12 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    below the control and not inside it; and the error is under both, because
    what is wrong belongs where the wrongness is and not in a tooltip nobody on
    a keyboard can open. */
-.sds-field-row { display: flex; flex-direction: column; gap: 6px; }
+/* `min-width: 0`, because the control inside states a width and a flex item's
+   own minimum is otherwise its content: a 420px field in a row on a 375px
+   phone made the row 420px wide and pushed the page sideways, with nothing in
+   it looking wrong. The field's `max-width: 100%` can only help once the box
+   around it is allowed to be smaller than what it asked for. */
+.sds-field-row { display: flex; flex-direction: column; gap: 6px; min-width: 0; max-width: 100%; }
 .sds-field-label { font-size: var(--control-font-size); color: var(--text-primary); }
 /* Which fields are required is stated on the required ones, in words. An
    asterisk is a convention that has to be explained in a legend somewhere, and
@@ -1479,6 +1484,52 @@ button.sds-rail__item {
 .sds-rail__group[open] > summary .sds-icon { transform: none; }
 .sds-rail__group > .sds-rail__item { margin-left: var(--space-2); }
 .sds-rail__group:last-child > .sds-rail__item:last-child { margin-bottom: var(--space-2); }
+
+/* A list of questions, each with its answer folded behind it.
+
+   `<details>` for the same reason the rail's sections are: it folds before any
+   script has run, so a page whose bundle never arrives is a list of questions
+   and not a wall of answers. Nothing here is a button drawn to look like one.
+
+   Separated by hairlines rather than boxed. A stack of cards makes each
+   question a thing, and what a reader is scanning is the *list* — the answer
+   they want is found by reading down one column of questions, not by
+   comparing six containers. */
+.sds-accordion { display: flex; flex-direction: column; max-width: var(--measure-prose); }
+.sds-accordion__item { border-bottom: var(--border-hairline) solid var(--border-subtle); }
+.sds-accordion__item:first-child { border-top: var(--border-hairline) solid var(--border-subtle); }
+.sds-accordion__head {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  font-size: var(--font-size-ui);
+  color: var(--text-primary);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.sds-accordion__head::-webkit-details-marker { display: none; }
+.sds-accordion__head:hover { color: var(--text-link); }
+/* The marker keeps the floor rather than the label's size — it is an
+   affordance and not a word. Sideways closed, down open: it points at what
+   pressing it will do. */
+.sds-accordion__head .sds-icon {
+  width: var(--control-icon-size);
+  height: var(--control-icon-size);
+  margin-top: 3px;
+  color: var(--text-muted);
+  transform: rotate(-90deg);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+.sds-accordion__item[open] > .sds-accordion__head .sds-icon { transform: none; }
+.sds-accordion__body {
+  padding: 0 0 var(--space-5) calc(var(--control-icon-size) + var(--space-3));
+  font-size: var(--font-size-body);
+  line-height: var(--leading-body);
+  color: var(--text-secondary);
+}
 
 /* ------------------------------------------------------------ code, diff -- */
 
