@@ -20,8 +20,8 @@ use TYPO3\Soul\GuidesTheme\Nodes\TeaserNode;
  *        A Composer package that turns reStructuredText into pages set with
  *        this system.
  *
- * The whole card is the link when `:to:` names a document — a teaser whose
- * title alone is clickable asks a reader to aim at four words.
+ * The title is the link when `:to:` names a document, and the card follows it
+ * on hover — the shape `sds-teaser` renders, and for its reasons.
  */
 final class TeaserDirective extends SubDirective
 {

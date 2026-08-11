@@ -914,13 +914,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   transition: border-color var(--duration-fast) var(--ease-out);
 }
 .sds-teaser:has(a:hover) { border-color: var(--border-strong); }
-/* And where a renderer had only the card to hang the link on, the card is the
-   anchor and the same border answers. It is not a phrase in a sentence, so it
-   takes none of what an anchor is given, in either state: the contents keep
-   their own colours and nothing underlines on hover. */
-a.sds-teaser,
-a.sds-teaser:hover { color: inherit; text-decoration: none; }
-a.sds-teaser:hover { border-color: var(--border-strong); }
 /* The medium sits flush at the top: a framed image inside a card would share
    its corner with the card, and a container must not. */
 .sds-teaser__art {

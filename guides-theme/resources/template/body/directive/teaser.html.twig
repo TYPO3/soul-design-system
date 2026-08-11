@@ -1,15 +1,26 @@
 {#
-    One card, and the whole card is the link.
+    One card, and the title in it is the link.
 
-    A teaser whose title alone is clickable asks a reader to aim at four
-    words; a card is a target the size of a card. Where there is nowhere to
-    go, it is an `<article>` and reads the same.
+    A card wrapped in one anchor announces its whole contents as that link's
+    name, and takes selecting the text inside it away from the reader. So what
+    is pressable is the line that says where pressing it goes, and the card
+    follows on hover — which is what makes the whole thing feel like the target
+    it deliberately is not. Where there is nowhere to go, the title is a title.
+
+    This is the markup `sds-teaser` renders, node for node: a renderer and an
+    element writing the same class differently is the drift the class layer
+    exists to prevent.
 #}
-{%- set tag = node.option('to') ? 'a' : 'article' -%}
-<{{ tag }} class="sds-teaser"{% if node.option('to') %} href="{{ renderLink(node.option('to')) }}"{% endif %}>
+<article class="sds-teaser">
     <div class="sds-teaser__body">
         {%- if node.option('title') %}
-            <h3 class="sds-teaser__title">{{ node.option('title') }}</h3>
+            <h3 class="sds-teaser__title">
+                {%- if node.option('to') -%}
+                    <a href="{{ renderLink(node.option('to')) }}">{{ node.option('title') }}</a>
+                {%- else -%}
+                    {{ node.option('title') }}
+                {%- endif -%}
+            </h3>
         {%- endif %}
         <div class="sds-teaser__text">
             {%- for child in node.children -%}
@@ -17,4 +28,4 @@
             {%- endfor -%}
         </div>
     </div>
-</{{ tag }}>
+</article>
