@@ -1,4 +1,5 @@
 :navigation-title: Soul
+:layout: marketing
 
 ==================
 Soul Design System

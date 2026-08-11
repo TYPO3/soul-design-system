@@ -9,7 +9,15 @@
     is the escape hatch for a project that wrote its own with the `menu`
     directive — asked first, so a project that has one is not overruled.
 #}
-{% extends "structure/layout.html.twig" %}
+{#- Which shell this page is set in. `:layout: marketing` at the top of a
+    document says so; anything else is the manual. Read here rather than in the
+    layout because the layout is what changes, and a block cannot decide which
+    template it lives in. -#}
+{% set layout = 'default' %}
+{%- for headerNode in node.headerNodes -%}
+    {%- if headerNode.value == 'marketing' %}{% set layout = 'marketing' %}{% endif -%}
+{%- endfor -%}
+{% extends layout == 'marketing' ? "structure/layout-marketing.html.twig" : "structure/layout.html.twig" %}
 
 {% block head %}
     {%- for headerNode in node.headerNodes -%}
