@@ -48,6 +48,8 @@ import './components/teaser.ts';
 import './components/pagination.ts';
 import './components/code.ts';
 import './components/diff.ts';
+import './components/quote.ts';
+import './components/byline.ts';
 import './components/note.ts';
 import './components/empty.ts';
 
@@ -86,6 +88,8 @@ export {
   type CodeLang,
 } from './components/code.ts';
 export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.ts';
+export { SdsQuote, type QuoteProps } from './components/quote.ts';
+export { SdsByline, type BylineProps } from './components/byline.ts';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
 export { SdsEmpty, type EmptyProps, type EmptyKind } from './components/empty.ts';
 export { SdsTeaser, type TeaserProps } from './components/teaser.ts';
@@ -125,6 +129,8 @@ export const TAGS = [
   'sds-pagination',
   'sds-code',
   'sds-diff',
+  'sds-quote',
+  'sds-byline',
   'sds-note',
   'sds-empty',
 ] as const;

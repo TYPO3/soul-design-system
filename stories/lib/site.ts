@@ -91,9 +91,14 @@ export const SITE_META: readonly FooterLink[] = [
   { label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true },
 ];
 
-/** The header, with the section this page is in marked current. */
-export const siteBar = (active: number, home = '#'): TemplateResult =>
+/** The header, with the section this page is in marked current.
+
+    `railFor` is the id of a page rail, where the page has one. The toggle that
+    opens it lives in the bar and appears only at the width the rail has no
+    column of its own — which is the layout's decision, not this file's. */
+export const siteBar = (active: number, home = '#', railFor = ''): TemplateResult =>
   html`<header class="sds-bar">
+    ${railFor ? html`<sds-menu for="${railFor}" label="Sections of this page"></sds-menu>` : ''}
     <a class="sds-lockup" href="${home}">
       <sds-signet size="20"></sds-signet>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>

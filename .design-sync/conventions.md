@@ -28,6 +28,7 @@ Two rules follow, and both are load-bearing:
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
 | Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-lightbox` `sds-teaser` `sds-pagination` |
 | States | `sds-note` `sds-empty` |
+| Long text | `sds-quote` `sds-byline` |
 
 They render **light DOM** and emit exactly the classes below, so an element and a
 hand-written `<button class="sds-btn">` are the same markup styled by the same rules.
@@ -81,6 +82,7 @@ inline styles — do not mint a `sds-` name.
 | Figures | `sds-stats` `sds-stat` `sds-stat__value` `sds-stat__note`; `sds-figure` `sds-figure__frame` `sds-figure__caption` |
 | Artwork | `sds-art` `sds-art--light` `sds-art--dark` — a drawing that ships as two files, one per mode. Both go in the markup; the stylesheet shows the one the nearest forced mode asks for. `sds-lightbox` `sds-lightbox__art` `sds-figure__zoom` open one at the size it was drawn |
 | Lists | `sds-teaser` `sds-teaser__art` `sds-teaser__body` `sds-teaser__title` `sds-teaser__text`; `sds-pagination` `sds-pagination__page` `sds-pagination__step` `sds-pagination__gap` `sds-pagination__count` |
+| Long text | `sds-quote` `sds-quote__body` `sds-quote__by` — the attribution is required; `sds-byline` `sds-byline__mark` `sds-byline__who` `sds-byline__name` `sds-byline__role` |
 | Empty | `sds-empty` `sds-empty--boundary` `sds-empty__icon` `sds-empty__title` `sds-empty__body` — never "no results": name the source asked, what it does not cover, and the nearest real thing |
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon` |
 | Badges | `sds-badge` + `--accent` `--ok` `--warn` `--error` |

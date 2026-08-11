@@ -1,0 +1,268 @@
+<!-- @startingPoint section="Screens" subtitle="One long read: its contents beside it, and the things a text needs standing in the column" viewport="1440x900" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<title>TYPO3 Dev Companion — article</title>
+<link rel="stylesheet" href="../src/styles/styles.css" />
+</head>
+<body class="sds-app">
+<div class="sds-shell">
+  <header class="sds-bar">
+    <div class="sds-menu sds-menu--for">
+  <button
+    type="button"
+    class="sds-menu__toggle"
+    aria-expanded="false"
+    aria-controls="page-rail"
+    aria-label="Sections of this page"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-menu"><g fill="currentColor"><path d="M9 12v2H7v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 7v2H7V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 2v2H7V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 7v2H2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 2v2H2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 12v2H2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 7v2h-2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 2v2h-2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 12v2h-2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5z"></path></g></svg></button>
+</div>
+    <a class="sds-lockup" href="#article">
+      <svg class="sds-signet" width="20" height="20" viewBox="-6 -6 140 112" aria-hidden="true"><path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
+    </a>
+    <div class="sds-menu">
+  <button
+    type="button"
+    class="sds-menu__toggle"
+    aria-expanded="false"
+    aria-controls="sds-menu-2"
+    aria-label="Sections"
+    hidden><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-menu"><g fill="currentColor"><path d="M9 12v2H7v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 7v2H7V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 2v2H7V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 7v2H2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 2v2H2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 12v2H2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 7v2h-2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 2v2h-2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 12v2h-2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5z"></path></g></svg></button>
+  <nav
+    id="sds-menu-2"
+    class="sds-menu__items"
+    aria-label="Sections">
+    <a class="sds-pill" href="#">overview</a>
+    <a class="sds-pill" href="#">features</a>
+    <a class="sds-pill" href="#">documentation</a>
+    <a class="sds-pill" href="#">tools</a>
+    <a class="sds-pill is-active" href="#" aria-current="page">news</a>
+  </nav>
+</div>
+    <div class="sds-bar__end">
+      <span class="sds-badge sds-badge--accent">1.4.0</span>
+      <div class="sds-modes" role="group" aria-label="Colour mode">
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">light</button>
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">dark</button>
+</div>
+    </div>
+  </header>
+
+  <div class="sds-body">
+    <aside class="sds-body__rail" id="page-rail">
+      <div class="sds-rail">
+  <a class="sds-rail__item is-active" href="#fallback" aria-current="page">What the fallback is</a>
+  <a class="sds-rail__item" href="#returns">What it returns</a>
+  <a class="sds-rail__item" href="#omits">What it leaves out</a>
+  <a class="sds-rail__item" href="#gap">Closing the gap</a>
+  <a class="sds-rail__item" href="#read-on">Read on</a>
+</div>
+    </aside>
+
+    <main class="sds-column" id="article">
+      <nav class="sds-crumbs" aria-label="Breadcrumb">
+  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><a href="#">News</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">Reading the package registry</span>
+</nav>
+
+      <div class="sds-row">
+        <span class="sds-badge">guide</span>
+        <span class="sds-badge sds-badge--accent">13.4 · 14.3</span>
+      </div>
+
+      <h1 class="sds-h1">Reading the package registry when the installation will not boot</h1>
+
+      <p class="sds-lead">
+        A tool that needs a booted installation and cannot have one does not
+        fail. It reads the files instead, answers with less, and says so — and
+        the saying so is the part that makes the answer usable.
+      </p>
+
+      <div class="sds-byline">
+  <span class="sds-byline__mark" aria-hidden="true">BK</span>
+  <div class="sds-byline__who">
+    <span class="sds-byline__name">Benjamin Kott <span class="sds-byline__role">· maintainer</span></span>
+    <span class="sds-label">24 July 2026 · 6 min</span>
+  </div>
+</div>
+
+      <figure class="sds-figure">
+  <div class="sds-figure__frame">
+    <a class="sds-figure__zoom" href="../assets/diagrams/installation-fallback.svg" title="Open the drawing at full size"><img class="sds-art sds-art--light" src="../assets/diagrams/installation-fallback.svg" alt="Three paths through the registry: the console command and the booted runtime return every entry, the package-file fallback returns the declared ones and none of the dynamically registered ones." />
+    <img class="sds-art sds-art--dark" src="../assets/diagrams/installation-fallback-dark.svg" alt="Three paths through the registry: the console command and the booted runtime return every entry, the package-file fallback returns the declared ones and none of the dynamically registered ones." /></a>
+  </div>
+  <figcaption class="sds-figure__caption">Each square is one entry the registry could return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.</figcaption>
+  <dialog
+      class="sds-lightbox"
+      aria-label="Each square is one entry the registry could return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.">
+  <div class="sds-modal__head">
+    <span>Each square is one entry the registry could return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
+  </div>
+  <div class="sds-lightbox__art">
+    <img class="sds-art sds-art--light" src="../assets/diagrams/installation-fallback.svg" alt="Three paths through the registry: the console command and the booted runtime return every entry, the package-file fallback returns the declared ones and none of the dynamically registered ones." />
+      <img class="sds-art sds-art--dark" src="../assets/diagrams/installation-fallback-dark.svg" alt="Three paths through the registry: the console command and the booted runtime return every entry, the package-file fallback returns the declared ones and none of the dynamically registered ones." />
+  </div>
+</dialog>
+</figure>
+
+      <h2 class="sds-h3" id="fallback">What the fallback is</h2>
+      <p class="sds-prose">
+        Three paths lead to the same registry and they are not equal. Where a
+        console command exists it runs, and where it does not the runtime is
+        booted in this process. Both return everything the registry holds; they
+        differ in what they cost, not in what they know.
+      </p>
+      <p class="sds-prose">
+        The third path exists because the first two can be unavailable — a
+        failsafe installation, a missing database, an extension that throws
+        while it is being loaded. It reads the package files from disk. It never
+        executes them, which is the reason it can answer at all and also the
+        reason it answers with less.
+      </p>
+
+      <h2 class="sds-h3" id="returns">What it returns</h2>
+      <p class="sds-prose">
+        Every entry a package declares in a file, and nothing that is registered
+        while the application runs. For most installations that is the larger
+        part of the registry, which is precisely what makes the shortfall
+        dangerous: a partial answer that looks complete is worse than no answer,
+        because nothing about it invites a second look.
+      </p>
+
+      <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">json</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;answeredBy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;packages&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;declared&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;installation&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;packages&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;reason&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;the installation could not be booted&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;omitted&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;dynamically registered entries, never read&quot;</span>
+<span class="hljs-punctuation">}</span></code></pre>
+</div>
+
+      <p class="sds-prose">
+        <span class="sds-mono">answeredBy</span> is what reached the question and
+        <span class="sds-mono">declared</span> is what the tool was allowed to
+        read. The two differing is the whole definition of a degraded answer in
+        this server, and it is a comparison a caller can make without knowing
+        anything about registries.
+      </p>
+
+      <h2 class="sds-h3" id="omits">What it leaves out</h2>
+      <figure class="sds-quote">
+  <blockquote class="sds-quote__body">A partial registry never looks complete: source, reason and the unread files travel with the result.</blockquote>
+  <figcaption class="sds-quote__by">installation-fallback · diagram</figcaption>
+</figure>
+      <p class="sds-prose">
+        Dynamic registrations are the whole of the difference — entries an
+        extension adds in its own bootstrap, which exist only once something has
+        run. No file on disk names them, so no amount of reading files finds
+        them, and a tool that pretended otherwise would be inventing.
+      </p>
+
+      <div class="sds-note sds-note--warn">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
+  <div>
+    <div class="sds-note__title">The answer is usable, and it is not the whole registry</div>
+    <div class="sds-note__body">Treat it as a floor rather than a list: everything in it is really
+          registered, and something registered may be missing from it.</div>
+  </div>
+</div>
+
+      <h2 class="sds-h3" id="gap">Closing the gap</h2>
+      <p class="sds-prose">
+        Nothing has to be configured. The fallback is chosen because the two
+        paths above it were unavailable, so making one of them available is the
+        entire fix — and the next answer says <span class="sds-mono">installation</span>
+        rather than <span class="sds-mono">packages</span>.
+      </p>
+
+      <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">bash</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><span class="sds-code__comment"># the gap closes when the runtime can boot</span>
+<span class="sds-code__prompt">$</span> <span class="sds-code__cmd">ddev start</span>
+<span class="sds-code__ok">✓</span> answered by <span class="sds-code__cmd">installation</span></pre>
+</div>
+
+      <div class="sds-actions">
+        <a class="sds-link sds-link--external" href="https://github.com" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-github"><g fill="currentColor"><path d="M8.006 1C4.132 1 1 4.155 1 8.058c0 3.12 2.007 5.76 4.79 6.695.348.07.476-.152.476-.338 0-.164-.012-.725-.012-1.31-1.948.422-2.354-.84-2.354-.84-.313-.819-.777-1.029-.777-1.029-.638-.432.046-.432.046-.432.708.047 1.079.724 1.079.724.626 1.075 1.635.772 2.041.585.058-.456.244-.772.44-.947-1.553-.164-3.189-.771-3.189-3.482 0-.771.278-1.402.72-1.893-.07-.175-.314-.9.069-1.87 0 0 .591-.187 1.925.725a6.736 6.736 0 0 1 1.752-.234c.591 0 1.194.082 1.751.234 1.334-.912 1.926-.725 1.926-.725.383.97.139 1.695.07 1.87.452.49.718 1.122.718 1.893 0 2.71-1.635 3.307-3.201 3.482.255.222.476.643.476 1.309 0 .946-.012 1.706-.012 1.94 0 .186.128.409.476.338A7.053 7.053 0 0 0 15 8.058C15.011 4.155 11.868 1 8.006 1Z"></path></g></svg>Repository <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+        <a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-mastodon"><g fill="currentColor"><path d="M14.587 4.1c-.204-1.505-1.53-2.69-3.1-2.92C11.22 1.141 10.216 1 7.89 1h-.018c-2.327 0-2.826.141-3.091.18-1.528.223-2.922 1.289-3.26 2.81-.164.75-.181 1.581-.15 2.344.042 1.093.05 2.184.151 3.273.07.723.19 1.44.362 2.147.322 1.304 1.624 2.39 2.9 2.832a7.858 7.858 0 0 0 4.242.222c.155-.036.308-.077.46-.124.341-.108.742-.228 1.037-.44a.033.033 0 0 0 .013-.025v-1.055a.031.031 0 0 0-.024-.03.032.032 0 0 0-.014 0 11.88 11.88 0 0 1-2.753.319c-1.596 0-2.025-.75-2.148-1.061a3.257 3.257 0 0 1-.186-.836.03.03 0 0 1 .024-.032h.014c.887.212 1.796.319 2.708.319.22 0 .438 0 .658-.006.917-.025 1.884-.072 2.787-.246l.064-.014c1.424-.27 2.779-1.12 2.917-3.269.005-.085.018-.886.018-.974 0-.299.097-2.117-.015-3.235zm-2.19 5.363h-1.498V5.836c0-.764-.322-1.153-.976-1.153-.72 0-1.08.46-1.08 1.37V8.04H7.355V6.054c0-.91-.36-1.371-1.08-1.371-.65 0-.975.39-.976 1.153v3.627H3.803V5.726c0-.764.197-1.37.591-1.82.407-.449.94-.679 1.602-.679.767 0 1.346.292 1.732.874l.372.618.373-.618c.386-.582.965-.874 1.73-.874.662 0 1.195.23 1.603.679.394.45.591 1.056.591 1.82v3.737z"></path></g></svg>Share on Mastodon <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+        <a class="sds-link" href="#"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>Report a wrong answer</a>
+      </div>
+
+      <h2 class="sds-h3" id="read-on">Read on</h2>
+      <div class="sds-grid">
+        <article class="sds-teaser">
+  
+  <div class="sds-teaser__body">
+    <div class="sds-row">
+      <span class="sds-badge">guide</span>
+      <span class="sds-label">30 May 2026</span>
+    </div>
+    <h3 class="sds-teaser__title"><a href="#">Writing a task skill that fails at registration</a></h3>
+    <p class="sds-teaser__text">A skill declares the sources it needs, so an unreachable one is a startup error rather than a wrong answer.</p>
+  </div>
+</article><article class="sds-teaser">
+  
+  <div class="sds-teaser__body">
+    <div class="sds-row">
+      <span class="sds-badge">release</span>
+      <span class="sds-label">9 August 2026 · 1.4.0</span>
+    </div>
+    <h3 class="sds-teaser__title"><a href="#">Answers now name the source that answered</a></h3>
+    <p class="sds-teaser__text">Every result carries which of the five sources reached it, and what the substitution left out.</p>
+  </div>
+</article>
+      </div>
+    </main>
+  </div>
+
+  <footer class="sds-footer">
+  <div class="sds-footer__groups">
+    <div class="sds-footer__group">
+      <div class="sds-label">Product</div>
+      <div class="sds-footer__links">
+        <a class="sds-link" href="#">Overview</a><a class="sds-link" href="#">Features</a><a class="sds-link" href="#">Tool reference</a><a class="sds-link" href="#">Releases</a>
+      </div>
+    </div><div class="sds-footer__group">
+      <div class="sds-label">Documentation</div>
+      <div class="sds-footer__links">
+        <a class="sds-link" href="#">Installing the server</a><a class="sds-link" href="#">Writing a task skill</a><a class="sds-link" href="#">Sources and preconditions</a><a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+      </div>
+    </div><div class="sds-footer__group">
+      <div class="sds-label">Project</div>
+      <div class="sds-footer__links">
+        <a class="sds-link" href="#">What is written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
+      </div>
+    </div><div class="sds-footer__group">
+      <div class="sds-label">Community</div>
+      <div class="sds-footer__links">
+        <a class="sds-link sds-link--external" href="https://github.com" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-github"><g fill="currentColor"><path d="M8.006 1C4.132 1 1 4.155 1 8.058c0 3.12 2.007 5.76 4.79 6.695.348.07.476-.152.476-.338 0-.164-.012-.725-.012-1.31-1.948.422-2.354-.84-2.354-.84-.313-.819-.777-1.029-.777-1.029-.638-.432.046-.432.046-.432.708.047 1.079.724 1.079.724.626 1.075 1.635.772 2.041.585.058-.456.244-.772.44-.947-1.553-.164-3.189-.771-3.189-3.482 0-.771.278-1.402.72-1.893-.07-.175-.314-.9.069-1.87 0 0 .591-.187 1.925.725a6.736 6.736 0 0 1 1.752-.234c.591 0 1.194.082 1.751.234 1.334-.912 1.926-.725 1.926-.725.383.97.139 1.695.07 1.87.452.49.718 1.122.718 1.893 0 2.71-1.635 3.307-3.201 3.482.255.222.476.643.476 1.309 0 .946-.012 1.706-.012 1.94 0 .186.128.409.476.338A7.053 7.053 0 0 0 15 8.058C15.011 4.155 11.868 1 8.006 1Z"></path></g></svg>Repository <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-slack"><g fill="currentColor"><path d="M6.1 1c-.7 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4h1.4V2.4c0-.8-.6-1.4-1.4-1.4m0 3.7H2.4c-.8 0-1.4.7-1.4 1.4 0 .8.6 1.4 1.4 1.4h3.7c.8 0 1.4-.6 1.4-1.4 0-.7-.6-1.4-1.4-1.4M15 6.1c0-.8-.6-1.4-1.4-1.4s-1.4.6-1.4 1.4v1.4h1.4c.8 0 1.4-.6 1.4-1.4m-3.7 0V2.4c0-.8-.6-1.4-1.4-1.4-.8 0-1.4.6-1.4 1.4v3.7c0 .8.6 1.4 1.4 1.4.7 0 1.4-.6 1.4-1.4M9.9 15c.8 0 1.4-.6 1.4-1.4 0-.8-.6-1.4-1.4-1.4H8.5v1.4c0 .8.6 1.4 1.4 1.4m0-3.7h3.7c.8 0 1.4-.6 1.4-1.4 0-.8-.6-1.4-1.4-1.4H9.9c-.8 0-1.4.6-1.4 1.4 0 .7.6 1.4 1.4 1.4M1 9.9c0 .8.6 1.4 1.4 1.4.8 0 1.4-.6 1.4-1.4V8.5H2.4c-.8 0-1.4.6-1.4 1.4m3.7 0v3.7c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4V9.9c0-.8-.6-1.4-1.4-1.4-.7 0-1.4.6-1.4 1.4"></path></g></svg>Slack <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-mastodon"><g fill="currentColor"><path d="M14.587 4.1c-.204-1.505-1.53-2.69-3.1-2.92C11.22 1.141 10.216 1 7.89 1h-.018c-2.327 0-2.826.141-3.091.18-1.528.223-2.922 1.289-3.26 2.81-.164.75-.181 1.581-.15 2.344.042 1.093.05 2.184.151 3.273.07.723.19 1.44.362 2.147.322 1.304 1.624 2.39 2.9 2.832a7.858 7.858 0 0 0 4.242.222c.155-.036.308-.077.46-.124.341-.108.742-.228 1.037-.44a.033.033 0 0 0 .013-.025v-1.055a.031.031 0 0 0-.024-.03.032.032 0 0 0-.014 0 11.88 11.88 0 0 1-2.753.319c-1.596 0-2.025-.75-2.148-1.061a3.257 3.257 0 0 1-.186-.836.03.03 0 0 1 .024-.032h.014c.887.212 1.796.319 2.708.319.22 0 .438 0 .658-.006.917-.025 1.884-.072 2.787-.246l.064-.014c1.424-.27 2.779-1.12 2.917-3.269.005-.085.018-.886.018-.974 0-.299.097-2.117-.015-3.235zm-2.19 5.363h-1.498V5.836c0-.764-.322-1.153-.976-1.153-.72 0-1.08.46-1.08 1.37V8.04H7.355V6.054c0-.91-.36-1.371-1.08-1.371-.65 0-.975.39-.976 1.153v3.627H3.803V5.726c0-.764.197-1.37.591-1.82.407-.449.94-.679 1.602-.679.767 0 1.346.292 1.732.874l.372.618.373-.618c.386-.582.965-.874 1.73-.874.662 0 1.195.23 1.603.679.394.45.591 1.056.591 1.82v3.737z"></path></g></svg>Mastodon <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-bluesky"><g fill="currentColor"><path d="M4.034 2.67C5.64 3.874 7.367 6.316 8 7.628c.633-1.309 2.36-3.751 3.966-4.956C13.124 1.8 15 1.13 15 3.27c0 .426-.245 3.589-.388 4.103-.5 1.782-2.321 2.239-3.941 1.961 2.83.482 3.55 2.077 1.994 3.672-2.954 3.031-4.244-.759-4.574-1.73-.047-.135-.072-.214-.091-.214s-.044.082-.09.214c-.33.971-1.624 4.761-4.575 1.73-1.554-1.595-.836-3.19 1.994-3.672-1.62.278-3.44-.179-3.938-1.964C1.245 6.857 1 3.694 1 3.268c0-2.14 1.876-1.47 3.034-.6v.003Z"></path></g></svg>Bluesky <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+      </div>
+    </div><div class="sds-footer__group">
+      <div class="sds-label">Legal</div>
+      <div class="sds-footer__links">
+        <a class="sds-link" href="#">Licence</a><a class="sds-link" href="#">Imprint</a><a class="sds-link" href="#">Privacy</a>
+      </div>
+    </div>
+  </div>
+  <div class="sds-footer__end">
+    <span>An independent development tool. Not a product of the TYPO3 Association, and not endorsed by it.</span>
+    <a class="sds-link" href="#">GPL-2.0-or-later</a><a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+  </div>
+</footer>
+</div>
+</body>
+</html>
