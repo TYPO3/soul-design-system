@@ -21,6 +21,7 @@
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';
+import { type IconId } from './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface LinkProps {
@@ -29,6 +30,11 @@ export interface LinkProps {
   /** Opens away from this surface: gets the glyph, and says so to the
       browser as well as to the eye. */
   external?: boolean;
+  /** A glyph before the label — a repository, a chat, a feed. It never
+      replaces the label: four glyphs in this system may stand alone, and all
+      four say something about a result. A row of bare marks is a row of
+      pictures the reader has to already know. */
+  icon?: IconId;
 }
 
 export class SdsLink extends SdsElement {
@@ -36,11 +42,13 @@ export class SdsLink extends SdsElement {
     label: { type: String },
     href: { type: String, reflect: true },
     external: { type: Boolean, reflect: true },
+    icon: { type: String },
   };
 
   declare label: string;
   declare href: string;
   declare external: boolean;
+  declare icon?: IconId;
 
   constructor() {
     super();
@@ -50,9 +58,13 @@ export class SdsLink extends SdsElement {
   }
 
   protected override render(): TemplateResult {
+    /* The mark leads and the direction glyph follows, which is the icon rule
+       stated in one line: a repository or a feed says what the link *is*, and
+       `actions-window-open` says where pressing it goes. */
+    const mark = this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : '';
     return this.external
-      ? html`<a class="sds-link sds-link--external" href="${this.href}" target="_blank" rel="noreferrer">${this.label} <sds-icon name="actions-window-open"></sds-icon></a>`
-      : html`<a class="sds-link" href="${this.href}">${this.label}</a>`;
+      ? html`<a class="sds-link sds-link--external" href="${this.href}" target="_blank" rel="noreferrer">${mark}${this.label} <sds-icon name="actions-window-open"></sds-icon></a>`
+      : html`<a class="sds-link" href="${this.href}">${mark}${this.label}</a>`;
   }
 }
 

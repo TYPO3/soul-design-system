@@ -13,13 +13,18 @@
 
 import { html, type TemplateResult } from 'lit';
 import './link.ts';
+import { type IconId } from './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
-/** A link in a column. `external` gets the glyph and opens away. */
+/** A link in a column. `external` gets the glyph and opens away; `icon` is
+    for the marks a footer is the usual home of — a repository, a chat, a
+    feed. Labelled, always: a row of bare brand glyphs is a row of pictures
+    the reader has to already recognise. */
 export interface FooterLink {
   label: string;
   href?: string;
   external?: boolean;
+  icon?: IconId;
 }
 
 /** One column: what it collects, and what is in it. */
@@ -55,7 +60,9 @@ export class SdsFooter extends SdsElement {
   }
 
   private static link(item: FooterLink): TemplateResult {
-    return html`<sds-link label="${item.label}" href="${item.href ?? '#'}" ?external="${item.external ?? false}"></sds-link>`;
+    return item.icon
+      ? html`<sds-link label="${item.label}" href="${item.href ?? '#'}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>`
+      : html`<sds-link label="${item.label}" href="${item.href ?? '#'}" ?external="${item.external ?? false}"></sds-link>`;
   }
 
   protected override render(): TemplateResult {

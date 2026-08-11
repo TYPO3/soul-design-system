@@ -47,6 +47,18 @@ export const SITE_GROUPS: readonly FooterGroup[] = [
       { label: 'Contributing', href: '#' },
     ],
   },
+  /* Where a mark says what the link is rather than decorating it. Every one
+     of them keeps its label: four glyphs in this system may stand alone, and
+     all four say something about a result. */
+  {
+    label: 'Community',
+    items: [
+      { label: 'Repository', href: 'https://github.com', external: true, icon: 'actions-brand-github' },
+      { label: 'Slack', href: 'https://typo3.org', external: true, icon: 'actions-brand-slack' },
+      { label: 'Mastodon', href: 'https://typo3.org', external: true, icon: 'actions-brand-mastodon' },
+      { label: 'Bluesky', href: 'https://typo3.org', external: true, icon: 'actions-brand-bluesky' },
+    ],
+  },
   {
     label: 'Legal',
     items: [
@@ -91,6 +103,13 @@ export const Default: Story = {};
     of two lists set 400px apart reads as two footers. */
 export const Few: Story = {
   args: { groups: SITE_GROUPS.slice(0, 2), meta: [] },
+};
+
+/** The marks, alone in a column. Each one leads its label and the external
+    glyph follows it: the brand says what the link is, `actions-window-open`
+    says that pressing it leaves the site. */
+export const Marks: Story = {
+  args: { groups: SITE_GROUPS.slice(3, 4), meta: [] },
 };
 
 /** Without the trailing links. The note stays: it is the one part of this

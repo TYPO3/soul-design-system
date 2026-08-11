@@ -126,8 +126,14 @@
 }
 .sds-link:hover { color: var(--text-link-hover); text-decoration: underline; }
 
-/* An external link carries actions-window-open after the label. */
-.sds-link--external {
+/* An external link carries actions-window-open after the label.
+
+   The same row wherever a link carries any glyph at all — a repository, a
+   chat, a feed. `sds-icon` as well as `.sds-icon`, because the class arrives
+   only once the element has upgraded and a link that becomes a flex row on
+   upgrade moves its own label. */
+.sds-link--external,
+.sds-link:has(.sds-icon, sds-icon) {
   display: inline-flex;
   align-items: center;
   gap: 6px;
