@@ -64,6 +64,7 @@ test('the index lists every component and guideline page', async ({ request }) =
     'Guidelines/Spacing & layout',
     'Guidelines/Icons',
     'Guidelines/States',
+    'Guidelines/Illustrations',
     'Guidelines/Diagrams',
     /* One page per component, and the list is the check: a component that is
        split out of a file and never given a page of its own documents

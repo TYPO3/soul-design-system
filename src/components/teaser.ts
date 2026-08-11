@@ -1,6 +1,6 @@
 /* sds-teaser — one entry in a list of them.
 
-   What a list page is made of: a drawing where the entry has one, what it is
+   What a list page is made of: an image where the entry has one, what it is
    and when, the headline, and the two lines that decide whether the reader
    opens it. Everything else a teaser is sometimes given — an author, a reading
    time, a share count — is either in `meta` or is not worth the row.
@@ -10,9 +10,9 @@
    text inside it away from the reader. The card follows on hover instead,
    which is what makes it feel like the target it deliberately is not.
 
-   The drawing is the same pair mechanism a figure uses — `sds-art--light` and
-   `sds-art--dark` — rather than a second one at thumbnail size. Two swaps
-   would differ in the mode nobody is looking at. */
+   A mode-neutral image is the default. Where the subject itself needs a light
+   and dark rendering, the same pair mechanism a figure uses remains available
+   through `sds-art--light` and `sds-art--dark`. */
 
 import { html, type TemplateResult } from 'lit';
 import './badge.ts';
@@ -29,10 +29,9 @@ export interface TeaserProps {
   tag?: string;
   /** When, and anything else that belongs in the label register. */
   meta?: string;
-  /** The drawing. The light file where there is a pair. */
+  /** The image. Used in both modes unless `artDark` supplies a pair. */
   art?: string;
-  /** The dark file. Without one the entry shows no drawing at all rather than
-      the wrong one: a light drawing on the dark canvas is worse than none. */
+  /** An optional dark counterpart. Omit it for a mode-neutral image. */
   artDark?: string;
   alt?: string;
 }
@@ -71,13 +70,14 @@ export class SdsTeaser extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    /* `--light` only where a dark file exists to be swapped for. On its own it
-       would hide the drawing in the mode it has no counterpart for, which is
-       the one failure this pair of classes is here to prevent. */
+    /* `--light` only where a dark file exists to be swapped for. Without a
+       pair, the same mode-neutral image remains visible in both modes. */
     const art = this.art
       ? html`<div class="sds-teaser__art">
-    <img class="sds-art${this.artDark ? ' sds-art--light' : ''}" src="${this.art}" alt="${this.alt}" />
-    ${this.artDark ? html`<img class="sds-art sds-art--dark" src="${this.artDark}" alt="${this.alt}" />` : ''}
+    <img class="sds-art${this.artDark ? ' sds-art--light' : ''}" src="${this.art}" alt="${this.alt}" />${
+      this.artDark ? html`
+    <img class="sds-art sds-art--dark" src="${this.artDark}" alt="${this.alt}" />` : ''
+    }
   </div>`
       : '';
 

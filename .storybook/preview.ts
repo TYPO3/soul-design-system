@@ -113,7 +113,7 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Diagrams'], 'Components', 'Screens'],
+        order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Illustrations', 'Diagrams'], 'Components', 'Screens'],
       },
     },
     /* The markup is the documentation. A canvas defaults to hiding its source

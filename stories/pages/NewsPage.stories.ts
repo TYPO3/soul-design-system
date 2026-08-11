@@ -93,6 +93,22 @@ const ENTRIES: readonly Entry[] = [
     art: 'placeholders/tool-written-record.png',
     alt: '',
   },
+  {
+    tag: 'guide',
+    meta: '28 April 2026',
+    heading: 'Searching all sources without hiding where the answer came from',
+    body: 'A broad search may reach several bundled indexes. The result keeps each match beside its source, so overlap can be inspected instead of silently merged away.',
+    art: 'placeholders/tool-search.png',
+    alt: '',
+  },
+  {
+    tag: 'project',
+    meta: '15 April 2026',
+    heading: 'Comparing two answers without flattening their differences',
+    body: 'The comparison holds each result to the release and source that produced it. A missing field remains a gap rather than becoming an empty value that looks equal.',
+    art: 'placeholders/tool-compare.png',
+    alt: '',
+  },
 ];
 
 /** The ways to narrow the list. `security` is in the row on purpose: a filter

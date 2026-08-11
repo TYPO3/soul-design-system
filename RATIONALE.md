@@ -56,7 +56,7 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 
 **Type.** Source Sans 3 for everything human, Source Code Pro for everything the machine reads or writes: tool names, argument names, labels, version strings, code. A tool name is *always* set in mono, at any size, including as a page heading. Display is 58px/600 at -0.03em; body is 17px/1.65 capped at 66ch; the small uppercase label is 11px at 0.09em. Size tokens live under `--font-size-*`; `--text-*` is reserved for text colour. Weights used: 200 (rare, display only), 400, 500 (mono headings), 600. No italics except a single emphasised word in a display line.
 
-**Backgrounds.** Flat colour only. No photography, no illustration behind text, no repeating texture, no gradient. The only imagery in the system is the diagram set (see below).
+**Backgrounds.** Page grounds stay flat: no photography or illustration behind text, no repeating texture, no gradient. Decorative illustrations may occupy an explicit media slot such as a teaser image; explanatory imagery remains the diagram set.
 
 **Borders and shadows.** Hairlines do all the structural work. `--border-subtle` separates sections and table rows; `--border-strong` marks the head of a table or an active field. **There are no shadows in this system** — not on cards, not on modals, not on menus. A modal is separated by an overlay wash and a border, not by elevation. The one exception is the focus ring, `box-shadow: 0 0 0 3px var(--accent-ring)`, which is a state, not a depth.
 
@@ -131,6 +131,30 @@ That is not only tidiness. The identifiers are the core's own — `actions-searc
 
 **Loading as `<img>` breaks `currentColor`.** Inline the SVG wherever the colour has to follow the UI.
 
+## Illustration language
+
+Tool and article teasers need imagery that can be cropped and reduced without
+destroying information. Reusing a diagram there made the diagram into page
+furniture and made its labels illegible. The placeholder set therefore has a
+separate job: support the subject already named by the copy, never explain it.
+
+The relationship to the diagrams is deliberate but bounded. Both use warm
+neutrals, clean contours and exactly one orange emphasis. Illustrations replace
+axes, labels and connectors with one quiet person, object or still-life gesture
+drawn as broad, flattened silhouettes; one contained halftone plane supplies
+print character without borrowing the diagram's dashed-state meaning.
+
+The eight 1200 × 750 PNGs under `assets/placeholders/` are one-file assets used
+unchanged in light and dark. A separate dark generation drifted in composition
+and doubled the set for decorative media that already carries its own canvas.
+Overlap, at most two flat tones per object and a shallow shape-like ground wash
+are allowed inside the bitmap; this is not an exception to the interface's
+no-shadow rule.
+
+`guidelines/illustration-prompt.md` fixes the prompt, negative constraints,
+format and subjects so the set can be extended without inventing the style
+again.
+
 ## Diagram language
 
 The eleven existing diagrams (`documentation/images/`) carry the product's explanation and are the intended visual leitmotif. Rather than eleven one-off redraws, this system defines the **rules** they are drawn by, plus one worked example: `assets/diagrams/answer-sources.svg`.
@@ -174,5 +198,6 @@ Exported to the repository: `SKILL.md`, `readme.md`, `styles.css`, `tokens/`, `g
 - `components/` — component specimen cards (core, navigation, data, surfaces, code)
 - `assets/icons/` — 33 icons from `TYPO3/TYPO3.Icons`
 - `assets/diagrams/` — diagrams drawn to the rules above, each as a light/dark pair: `answer-sources`, `installation-fallback`, `system-overview`
+- `assets/placeholders/` — mode-neutral 1200 × 750 tool and article illustrations generated from `guidelines/illustration-prompt.md`
 
 **Not part of this system, deliberately.** There is no application UI kit. The product is a CLI and an MCP server — sessions and feedback happen in the terminal and in the agent, not in a screen we would have to design. The one surface it has is the documentation page.

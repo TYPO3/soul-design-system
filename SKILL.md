@@ -128,6 +128,27 @@ To *ship* a category, add it to `CATEGORIES` in `scripts/icons.ts` and run `make
 
 Inline the SVG wherever colour must follow the UI — an `<img>` cannot inherit `currentColor`.
 
+## Illustrations
+
+Illustrations support a tool or article without explaining it. They are not
+small diagrams: no position, connection, count or label in one may carry a
+claim. If the picture has to be understood for the adjacent copy to work, use
+a diagram instead.
+
+The shipped set under `assets/placeholders/` is mode-neutral: one 1200 × 750
+PNG is used unchanged in light and dark. Each image has one person, object or
+still-life gesture, five to eight broad hard-edged silhouettes, a flattened
+almost orthographic view, one contained halftone field and exactly one small
+orange detail. Use overlap and at most two flat tones per object; realistic
+materials, highlights and cast shadows do not belong to the language. A pale
+ground wash inside the raster never licenses a CSS shadow, gradient or
+elevation on the surface around it.
+
+Use `guidelines/illustration-prompt.md` verbatim to extend the set. The subject
+is the only prompt field that changes. These images are decorative support, so
+use an empty `alt` where the adjacent heading and summary already name the
+subject.
+
 ## Diagrams
 
 **One claim per diagram.** The title states it, the closing line states its consequence. Two claims are two diagrams.
@@ -194,6 +215,7 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 | Colour, type, spacing, brand specimens | `guidelines/*.card.html` |
 | Focus, loading, empty, error | `guidelines/states-*.card.html` |
 | Icon set and usage | `guidelines/icons-*.card.html`, `assets/icons/` |
+| Illustration rules, prompt and examples | `guidelines/illustration-prompt.md`, `assets/placeholders/` |
 | Diagram rules and three worked examples | `guidelines/diagrams-*.card.html`, `assets/diagrams/` |
 | Buttons, fields | `components/core/` |
 | Tabs, tool rail | `components/navigation/` |
