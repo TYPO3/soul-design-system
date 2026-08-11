@@ -37,7 +37,11 @@ const TASKS: Record<string, Task> = {
   // The long-running surfaces are brought up by `make start`, not from here.
 
   // The gate and what feeds it
-  verify: { cmd: ['sh', '-c', 'node scripts/build.ts && node scripts/verify.ts'], help: 'the gate: headers, classes, refs, fit, cards, types, conventions' },
+  /* No `sh -c` wrapper: `ARGS` has to reach the script, and appended to a
+     wrapped command it lands on the shell instead — a filtered gate that
+     silently ran all of it. `verify.ts` builds the bundle itself, for the one
+     check that reads it. `make verify ARGS=--help` lists the names. */
+  verify: { cmd: node('scripts/verify.ts'), help: 'the gate: headers, classes, refs, fit, cards, types, conventions — ARGS names a subset' },
   cards: { cmd: node('scripts/cards.ts'), help: 'regenerate the component cards from their stories' },
   typecheck: { cmd: node('node_modules/typescript/bin/tsc', '--noEmit'), help: 'tsc --noEmit' },
   test: { cmd: ['npx', 'playwright', 'test'], help: 'the Playwright suite' },
@@ -63,7 +67,7 @@ const TASKS: Record<string, Task> = {
   look: { cmd: node('scripts/look.ts'), help: 'photograph one page in both modes — make look ARGS=screens/feature.html' },
 
   // Sync to claude.ai/design
-  sync: { cmd: ['sh', '-c', 'node scripts/build.ts && node scripts/verify.ts && node scripts/status.ts && node scripts/plan.ts'], help: 'build + verify + what-would-change + upload plan' },
+  sync: { cmd: ['sh', '-c', 'node scripts/verify.ts && node scripts/status.ts && node scripts/plan.ts'], help: 'build + verify + what-would-change + upload plan' },
   status: { cmd: node('scripts/status.ts'), help: 'what a sync would change' },
   plan: { cmd: node('scripts/plan.ts'), help: 'the ordered upload plan, with deletes' },
   synced: { cmd: node('scripts/synced.ts'), help: 'record that the project holds this build' },

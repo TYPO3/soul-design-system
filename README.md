@@ -61,6 +61,11 @@ make verify  # the gate
 make test    # the Playwright suite
 ```
 
+The gate is thirteen named checks and the suite is eleven spec files, and while
+working you can ask for one of either — `make verify ARGS=classes`, `make test
+ARGS=tests/parity.spec.ts`. `make verify ARGS=--help` names the checks. A
+partial run says so; only the whole sequence claims the system is consistent.
+
 `make start` brings Storybook up and prints its address. It is the one
 surface: the guidelines as written pages with their specimens embedded at the
 exact viewport each declares, every component with live controls and an a11y

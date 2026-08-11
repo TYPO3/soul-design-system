@@ -1,8 +1,12 @@
 # Navigating this repository
 
 Read this first, then the one document below that answers your question. It
-holds no rules of its own — it says where the rules are and what may be
-edited.
+says where the rules are and what may be edited.
+
+It is also where an agent's own notes belong. Anything worth carrying into the
+next session is written down here, in the section it concerns — never into a
+private memory an agent keeps beside the repository. A rule only one reader can
+see is one nobody else can follow, and nobody can correct.
 
 **The whole repository follows from `src/`.** Tokens, the `sds-` class layer
 and the Lit elements are written by hand; the cards, the screens, the package
@@ -80,14 +84,20 @@ ARGS=--check`.
 
 ## The gate
 
-`make verify` runs, in order: generated assets present, `@dsCard` headers,
-specimen heights against their cards, class vocabulary (every class used is
-defined), component coverage (every component is shown — `make coverage`),
-local references, render + fit, SSR of every element, the committed drop-in
-against its source, every card against its story, `tsc --noEmit`, and the
-names in `.design-sync/conventions.md` against the built stylesheets.
+`make verify` runs thirteen checks, in this order — each has a name, and the
+names are how a single one is asked for:
 
-`make test` is ten suites, each guarding something the others cannot see:
+`assets` (the generated fonts and icons are there) · `diagrams` (the modules
+match the drawings) · `headers` (`@dsCard`, `@startingPoint`) · `heights`
+(specimens against the cards they embed) · `classes` (every class used is
+defined) · `coverage` (every component is shown) · `refs` (every local
+reference resolves) · `fit` (render, inside the declared viewport) · `ssr`
+(every element renders outside a browser) · `dist` (the committed drop-in
+against its source) · `cards` (every card against its story, and none without
+one) · `types` (`tsc --noEmit`) · `conventions` (the names in
+`.design-sync/conventions.md` against the built stylesheets).
+
+`make test` is eleven suites, each guarding something the others cannot see:
 
 | Suite | What it holds |
 | --- | --- |
@@ -101,8 +111,43 @@ names in `.design-sync/conventions.md` against the built stylesheets.
 | `content` | content between an element's tags survives its upgrade |
 | `highlight` | every language `CodeLang` promises is actually registered |
 | `manager` | the Storybook shell itself boots |
+| `search` | a hit in the site index resolves from a page below the root |
 
 Never disable an addon, a spec or a threshold to get a green run.
+
+### Not every change needs the whole gate
+
+The gate is what a piece of work is finished against, not the feedback loop
+inside it. While working, run the narrowest thing that can fail on what was
+touched — any check by name, and any spec by path:
+
+```sh
+make verify ARGS=classes            # one check
+make verify ARGS="refs heights"     # two
+make verify ARGS=--help             # the names
+make test ARGS=tests/parity.spec.ts
+make test ARGS="tests/a11y.spec.ts --grep teaser"
+```
+
+| Touched | Run |
+| --- | --- |
+| a component's template or its story | `make verify ARGS=cards`, then the one spec |
+| types only | `make verify ARGS=types` |
+| a class name, in a sheet or on a card | `make verify ARGS=classes` |
+| a new component, class or Guides page | `make verify ARGS=coverage` |
+| a card's height or its viewport | `make verify ARGS="fit heights"` |
+| `src/` with `dist/` committed against it | `make verify ARGS=dist` |
+| a drawing in `assets/diagrams/` | `make verify ARGS=diagrams` |
+
+A partial run says which checks it ran and that it is not the gate; only the
+whole sequence prints `✓ design system is consistent`. A name that is not a
+check is an error, not an empty selection. `conventions` is the one check that
+reads `ds-bundle/`, so selecting it — or running everything — assembles the
+bundle first; the others do not pay for it.
+
+Run the whole gate before calling anything done, before a commit, and whenever
+the change crosses layers — a token, `components.css`, a build script. A narrow
+run is a step, never the answer to "is it green".
 
 ## Recipes
 
