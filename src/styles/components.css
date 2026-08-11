@@ -1402,8 +1402,15 @@ a.sds-teaser:hover { border-color: var(--border-strong); }
 }
 @media (max-width: 640px) {
   /* The field goes last of the three. A surface that needs search on a phone
-     puts a button in its place and opens the dialog. */
-  .sds-bar sds-field { display: none; }
+     puts a button in its place and opens the dialog.
+
+     By the class and not by the tag. `sds-search` draws its own field, so a
+     rule naming `sds-field` matched nothing on the one surface that has a
+     search in its bar — and 260px of field stayed in a 375px row, which is
+     where the mark and the toggle went to overlap. What is hidden is the box,
+     whichever element drew it. */
+  .sds-bar .sds-search,
+  .sds-bar .sds-field { display: none; }
   .sds-actions { flex-wrap: wrap; }
 }
 @media (max-width: 460px) {
@@ -1444,10 +1451,12 @@ a.sds-teaser:hover { border-color: var(--border-strong); }
   max-height: 60vh;
   overflow-y: auto;
   padding: 0 var(--space-4);
-  /* Framed, unlike the bar's drop. That one is the header's row continued and
-     is bounded by the page edges it spans; this one floats over the text, and
-     an unframed panel on a light canvas reads as the page itself having
-     changed rather than as something laid over it. */
+  /* Framed and raised, unlike the bar's drop. That one is the header's row
+     continued, so it is the canvas and is bounded by the page edges it spans;
+     this one floats over the text, and a box laid over a page has to be a
+     plane above it — unframed and in the page's own colour it reads as the
+     page itself having changed rather than as something laid on top. */
+  background: var(--surface-raised);
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
 }
@@ -1579,6 +1588,11 @@ button.sds-rail__item {
   text-decoration: none;
   transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
 }
+/* One pill is one line. Two words in it are the name of one place, and a place
+   whose name has been folded in half is the row admitting it did not fit —
+   which is a decision the menu makes by collapsing, not something a label does
+   quietly on its own. */
+.sds-pill { white-space: nowrap; }
 .sds-pill:hover { color: var(--text-primary); }
 .sds-pill.is-active { background: var(--accent); color: var(--text-on-accent); }
 
@@ -1592,9 +1606,14 @@ button.sds-rail__item {
    window is not theoretical, it is every first paint.
 
    The same declarations as `.sds-menu__items` because it is the same row; what
-   the element adds is the decision to stop being one. */
+   the element adds is the decision to stop being one — so this is the one row
+   that wraps. Until there is an element there is nobody to make that decision,
+   and of the two ways an undecided row can be wrong, a second line costs the
+   bar 30px and the other pushes the phone sideways. Once it upgrades this
+   selector stops matching and the row below it does not wrap at all. */
 sds-menu:not(:defined) {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-1);
   font-family: var(--font-mono);
@@ -1611,11 +1630,27 @@ sds-menu:not(:defined) {
   font-family: var(--font-mono);
   font-size: var(--nav-font-size);
 }
+/* The items are their own width, in the row and in the panel both.
+   `.sds-bar > * > *` puts a floor of zero under every box in the header so one
+   long word cannot push the page sideways, and this row was taking it: the
+   pills shrank, their labels folded onto two lines, and the header quietly
+   became 68px tall rather than saying it had run out of room.
+
+   It is also what the element measures. A shrunk pill measures shrunk, so the
+   width the row *needs* came out smaller the narrower the window got — 452px
+   at 1440 and 348px at 940, chasing the number it was being compared against.
+   Fixed at their own width, the items measure the same at every width, and the
+   only thing that moves is the room left beside them. */
+.sds-menu__items > * { flex: none; }
 /* A square of the control height, like every other button that is a mark
    rather than a word — it stands in a row with the search field and the mode
    pair and has no reason to be the one box that is shorter. */
 .sds-menu__toggle {
   display: inline-flex;
+  /* A square, and squarely the last thing in the row that may give: it is the
+     way to everything the bar has already shed, and a 12px-wide one is a
+     button nobody can hit. */
+  flex: none;
   align-items: center;
   justify-content: center;
   width: var(--control-height);
@@ -1655,7 +1690,18 @@ sds-menu:not(:defined) {
 
    The two differ in one line each — which box they hang off. The sections'
    panel is anchored to the bar and starts below it; the rail's is anchored to
-   the body, whose top edge is the same line. */
+   the body, whose top edge is the same line.
+
+   The canvas, and not the raised plane it used to be drawn on. This is the
+   header's row continued, so it has to be the colour the header is, and the
+   header is the canvas: the bar is 88% canvas over whatever scrolls beneath
+   it, and where the panel opens the bar is pinned at the top of the page with
+   canvas underneath — so 88% of it over 100% of it is exactly it. Raised is a
+   different white, cooler than the canvas by design, and a drop in that white
+   hanging off a bar in this one is two surfaces where the reader was promised
+   one. Opaque rather than the bar's own mix: the bar has 48px of page behind
+   it and this has a page of prose, and a navigation you read the article
+   through is not the same trick at ten times the height. */
 .sds-menu__panel,
 .sds-body__rail.is-open {
   position: absolute;
@@ -1663,7 +1709,7 @@ sds-menu:not(:defined) {
   right: 0;
   z-index: 20;
   padding: var(--space-4) var(--page-inset, var(--gutter-page));
-  background: var(--surface-raised);
+  background: var(--surface-canvas);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   max-height: calc(100vh - var(--height-header));
   overflow-y: auto;
@@ -2160,6 +2206,9 @@ sds-rail:not(:defined) {
   text-decoration: none;
 }
 .sds-lockup:hover { text-decoration: none; }
+/* One line, always. A mark is read as a mark because it is one shape; folded
+   over two lines it is two words that happen to be near each other, and in a
+   bar of a fixed height the second one is half outside it. */
 .sds-wordmark {
   display: inline-flex;
   align-items: baseline;
@@ -2167,6 +2216,7 @@ sds-rail:not(:defined) {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-heading);
   color: var(--text-primary);
+  white-space: nowrap;
 }
 .sds-wordmark__pipe {
   display: inline-block;
@@ -2174,4 +2224,18 @@ sds-rail:not(:defined) {
   align-self: stretch;
   background: var(--accent);
 }
-.sds-wordmark__product { font-weight: var(--weight-light); color: var(--text-secondary); }
+/* The half that gives, and gives by ending rather than by overflowing. The bar
+   puts a floor of zero under everything in it, so a lockup narrower than its
+   own name spills its letters over whatever is beside it — which on a phone
+   was the toggle, printed through the middle of the word. Cut with an
+   ellipsis, the mark stays inside the box it was given. Below 460px the
+   product name is gone entirely and only TYPO3 is left, which never needs
+   this; between there and the full row, this is what a long product name
+   does. */
+.sds-wordmark__product {
+  font-weight: var(--weight-light);
+  color: var(--text-secondary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

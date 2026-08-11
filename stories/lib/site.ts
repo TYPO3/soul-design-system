@@ -14,6 +14,7 @@ import { html, type TemplateResult } from 'lit';
 import '../../src/components/badge.ts';
 import '../../src/components/footer.ts';
 import '../../src/components/menu.ts';
+import '../../src/components/search.ts';
 import '../../src/components/signet.ts';
 import '../../src/components/theme.ts';
 import { type FooterGroup, type FooterLink } from '../../src/components/footer.ts';
@@ -95,7 +96,15 @@ export const SITE_META: readonly FooterLink[] = [
 
     `railFor` is the id of a page rail, where the page has one. The toggle that
     opens it lives in the bar and appears only at the width the rail has no
-    column of its own — which is the layout's decision, not this file's. */
+    column of its own — which is the layout's decision, not this file's.
+
+    The same five parts as the header the guides theme renders, and the search
+    is in the list for that reason rather than because a story needs one: this
+    is the bar `tests/pages.spec.ts` opens at every width, and for as long as it
+    was one box lighter than the shipped one it had 260px of room the real
+    header does not. The narrow widths passed here and overlapped there. With
+    no index given the field finds nothing, which is all a layout test asks of
+    it. */
 export const siteBar = (active: number, home = '#', railFor = ''): TemplateResult =>
   html`<header class="sds-bar">
     ${railFor ? html`<sds-menu for="${railFor}" label="Sections of this page"></sds-menu>` : ''}
@@ -106,6 +115,7 @@ export const siteBar = (active: number, home = '#', railFor = ''): TemplateResul
     <sds-menu label="Sections" .items="${SECTIONS}" active="${active}"></sds-menu>
     <div class="sds-bar__end">
       <sds-badge label="1.4.0" tone="accent"></sds-badge>
+      <sds-search label="Search"></sds-search>
       <sds-theme></sds-theme>
     </div>
   </header>`;

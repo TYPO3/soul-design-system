@@ -241,7 +241,27 @@ export class SdsMenu extends SdsNav {
     if (!collapsed) this.open = false;
   }
 
-  /** The button, which is the same button in both cases. */
+  /** The button, which is the same button in both cases — and says which of
+      the two it is, because on a narrow page both of them are in the bar at
+      once.
+
+      Not `actions-menu`. The one named for this is TYPO3's three-by-three grid
+      of squares — an app launcher, and at 16px a dark block that reads as a
+      keypad rather than as a way into anything. The set has no hamburger and
+      this is not the place to draw one; every icon here comes from
+      `@typo3/icons` and stays there.
+
+      So each says what it opens. The sections are a list of pages, which is a
+      marker and a line four times over. The rail is a column that has been
+      folded away, and the set has the glyph for exactly that — a page with its
+      side panel shut. Two identical buttons 200px apart, one leading out of
+      the page and one into it, is the reader guessing; a label they cannot see
+      is not an answer. */
+  private get glyph(): string {
+    if (this.open) return 'actions-close';
+    return this.for ? 'actions-menu-sidebar-collapsed' : 'actions-list';
+  }
+
   private toggle_(controls: string): TemplateResult {
     return html`<button
     type="button"
@@ -251,7 +271,7 @@ export class SdsMenu extends SdsNav {
     aria-label="${this.label}"
     ?hidden="${!this.for && !this.collapsed}"
     @click="${() => { this.open = !this.open; }}"
-  ><sds-icon name="${this.open ? 'actions-close' : 'actions-menu'}"></sds-icon></button>`;
+  ><sds-icon name="${this.glyph}"></sds-icon></button>`;
   }
 
   protected override render(): TemplateResult {

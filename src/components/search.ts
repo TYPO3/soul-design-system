@@ -171,6 +171,13 @@ export class SdsSearch extends SdsElement {
     this.open = false;
   }
 
+  /* The field says it is a combobox, because that is the only way it is
+     allowed to say the rest. `aria-expanded` and `aria-controls` are not
+     attributes a plain text input may carry: without the role the field was
+     announcing a drop it had no business having, which axe reports as a
+     serious violation and a reader's software has no way to make sense of.
+     The role is also simply what this is — a box you type in that offers a
+     list underneath — so nothing is being claimed here that is not true. */
   protected override render(): TemplateResult {
     const hits = this.hits;
     const open = this.open && this.query.trim().length > 0;
@@ -181,6 +188,8 @@ export class SdsSearch extends SdsElement {
     <input
       class="sds-input"
       type="text"
+      role="combobox"
+      aria-autocomplete="list"
       autocomplete="off"
       spellcheck="false"
       .value="${this.query}"
