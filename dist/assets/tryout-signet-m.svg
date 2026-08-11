@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 128 100" role="img" aria-label="TYPO3 Tryout">
+<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 24 24" role="img" aria-label="TYPO3 Tryout">
   <title>TYPO3 Tryout</title>
   <!-- Every colour sits on its own shape, as a var() with a hex fallback: a
        page that declares the tokens gets its own ink, and this file still
@@ -6,11 +6,14 @@
        and no comment in here may carry a double dash, which is what makes an
        SVG malformed and a reference to it draw nothing. See
        docs/guidelines/artwork.rst. -->
-  <!-- M - 20-31px. Stroke 8.5, marker 36x54. The sibling mark drops its
-       faint middle line here; this one has nothing to drop, so the triangle
-       is redrawn a little smaller instead - the heavier stroke inflates it
-       by 4.25 a side, and the inked size has to stay put. -->
-  <path stroke="var(--text-primary, #8A8378)" d="M123.75 71.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
-  <path d="M38.75 30.25L38.75 69.75L76 50Z" fill="var(--accent, #FF8700)" stroke="var(--accent, #FF8700)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
-  <path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V54.00Z" fill="var(--accent, #FF8700)" stroke="var(--accent, #FF8700)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>
+  <!-- M - drawn at 24, where one unit is one pixel. Stroke 2, rounding 1,
+       gap 2.
+
+       The sibling mark drops its faint middle line here; this one has nothing
+       to drop, so the triangle is redrawn a little smaller instead. The
+       stroke inflates it by one a side, and the inked size has to stay
+       put. -->
+  <path stroke="var(--text-primary, #8A8378)" d="M23 16V18A2 2 0 0 1 21 20H3A2 2 0 0 1 1 18V6A2 2 0 0 1 3 4H13" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path d="M7 9L7 15L13 12Z" fill="var(--accent, #FF8700)" stroke="var(--accent, #FF8700)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path d="M17 4H21A2 2 0 0 1 23 6V11Z" fill="var(--accent, #FF8700)" stroke="var(--accent, #FF8700)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
 </svg>

@@ -13,55 +13,84 @@ thing left to invent is the interior.
 >
 > It joins an existing family. Everything structural below is fixed and is not
 > yours to change — you are inventing the interior and nothing else. Produce
-> three SVG files at the three optical sizes and nothing more.
+> three SVG files, one per drawn size, and nothing more.
 
 ## The box
 
-- **128 × 100 units**, 5:4. `viewBox="0 0 128 100"` for L and M — the box is
-  the viewBox, with no margin around it, because nothing is drawn that would
-  need one.
-- **S uses `viewBox="0 -14 128 128"`**, a square box, because a favicon slot
-  is square and a 5:4 mark letterboxed into one drops under the 16px floor.
-  The −14 centres the same 128 × 100 box in the square, and it is the only
-  offset in the family: all three sizes are drawn in one coordinate system,
-  so the three files can be read against each other line by line.
-- Outer corners of the box: **radius 20**.
+- **A square viewBox at the size the file is for**: `viewBox="0 0 32 32"`,
+  `"0 0 24 24"`, `"0 0 16 16"`. No offset, no margin, no negative origin.
+- **The construction box is 4:3, centred in it** — 32 × 24, 24 × 18, 16 × 12.
+  The mark is drawn in that box; the strip above and below it is air, and it
+  is what makes the file square.
+- Square because every slot a mark lands in is square: a favicon, an avatar,
+  an app icon, the mark well in a bar. One number sizes it, and a caller
+  cannot state the wrong aspect because there is no aspect to state.
+- Outer corners of the construction box: **radius 4 / 3 / 2**.
+
+## One unit is one pixel
+
+This is the rule the three files exist for. Each drawing is made in the box of
+the size it is for, so a unit *is* a device pixel there:
+
+- **Every straight edge is a whole number.** Not the geometry — the *ink*. A
+  filled shape lands on whole numbers directly; a stroked path is centred on
+  its edge, so with an even stroke the centreline is whole (a 2-unit stroke on
+  `x=1` inks 0 to 2) and with a 1-unit stroke it is a half (`x=0.5` inks 0 to
+  1). Half values in a 16 file are the rule working, not an exception to it.
+- **Curves are exempt and always were.** An arc, a diagonal, the point of a
+  triangle: no grid holds them and none is asked to. Only what a screen can
+  hold straight has to land.
+- **A drawing is true at its size and at every whole multiple of it** — 32, 64
+  and 96 for the large file; 24, 48 and 72 for the middle; 16, 32 and 48 for
+  the small. Between those it is a vector like any other, every edge falls
+  mid-pixel, and each line comes out with one hard edge and one soft one. That
+  is what this construction is built to avoid, and it is why the size is
+  chosen at the link.
 
 ## The one value everything follows
 
 Pick the stroke, and the rest is decided:
 
-| | L (32px and up) | M (20–31px) | S (16–19px) |
+| | L (32) | M (24) | S (16) |
 | --- | --- | --- | --- |
-| stroke | 7 | 8.5 | 11 |
-| rounding | 3.5 | 4.25 | 5.5 |
-| minimum gap, ink to ink | 7 | 8.5 | 11 |
-| path radius for a 20 outer corner | 16.5 | 15.75 | 14.5 |
+| viewBox | `0 0 32 32` | `0 0 24 24` | `0 0 16 16` |
+| construction box | 32 × 24 | 24 × 18 | 16 × 12 |
+| stroke | 2 | 2 | 1 |
+| rounding | 1 | 1 | 0.5 |
+| minimum gap, ink to ink | 2 | 2 | 1 |
+| outer corner radius | 4 | 3 | 2 |
+| path radius for that corner | 3 | 2 | 1.5 |
 
 - **Rounding is half the stroke, everywhere.** Line ends, the corners of a
   filled shape, the points of a triangle — one radius, no exceptions.
 - **Gap is never less than the stroke**, and it is measured ink to ink, not
   path to path. A stroked path's ink reaches half a stroke past its geometry;
-  forgetting that is the most common way these drawings go wrong.
+  forgetting that is the most common way these drawings go wrong. A gap under
+  one whole pixel separates nothing, which is the same failure seen from the
+  other end.
 - **Nothing leaves the box.** The same half stroke applies outwards: every
   path that draws an outer edge is inset half a stroke, so its ink lands on
-  the box and the viewBox needs no margin to keep it. A frame drawn *on* the
-  box edge is half a stroke too wide on every side and its corners half a
-  stroke too round — beside a sibling drawn to the rule it reads as a
-  different size, and it is clipped by its own viewBox.
-- **Three optical sizes, redrawn, never scaled.** A heavier stroke eats into
-  the interior, so the interior gives ground: shapes shrink, and if something
-  stops reading, it is dropped rather than kept small. Scaling one drawing to
-  three sizes is the failure this rule exists to prevent.
+  the box.
+- **Three sizes, drawn, never scaled between.** The stroke does not shrink
+  with the box: L and M both carry two pixels of it, so the middle size is the
+  heavier mark of the two. At 16 the stroke goes to one pixel — sixteen pixels
+  have nowhere to put two — and the interior keeps the ink the middle size is
+  drawn with rather than giving ground. **The box shrinks around the interior;
+  the interior does not shrink with it.** If something stops reading at 16 it
+  is dropped, not kept small.
 
 ## Colour
 
-- The ink is a mid warm grey — `#8A8378` light, `#A9A299` dark — switched with
-  `@media (prefers-color-scheme: dark)` inside the file. An `<img>` cannot
-  inherit `currentColor`, which is why the file carries its own colours.
-- The accent is flat **`#FF8700`** in both modes.
+- The ink is a mid warm grey, written as a token with a hex behind it:
+  `fill="var(--text-primary, #8A8378)"`. A page that declares the tokens gets
+  its own ink; the file still renders on its own, where the hex is what it
+  draws as.
+- The accent is flat `var(--accent, #FF8700)`.
 - **Orange appears exactly once**, and it appears **in the top-right corner**.
   That position is the family's one shared gene. Nothing else is coloured.
+- Nothing colours the drawing from a `<style>` block or from the root, and no
+  comment in the file may carry a double dash — that is malformed XML, and a
+  file with one draws nothing wherever it is fetched.
 
 ## The interior is yours, under three conditions
 
@@ -71,8 +100,9 @@ Pick the stroke, and the rest is decided:
    one orange one; the thing you press to start something — a triangle; the
    parts and the frame around them — three unequal blocks between two crop
    marks.
-2. **It must survive 16px.** Draw it, render it at 16, and look. Detail that
-   turns to mush is detail that has to go.
+2. **It must be drawn at 16, not survive being taken there.** Draw the small
+   file on its own grid and look at it at 16. Detail that turns to mush is
+   detail that has to go, and what stays gets the whole pixels it needs.
 3. **It must be an idea only this product could have.** The generic readings
    — a terminal, a play triangle, a stack of parts — are the first ones anyone
    reaches for, which is why a sibling is most likely holding them already.
@@ -87,22 +117,23 @@ Pick the stroke, and the rest is decided:
   `stroke-linejoin="round"`. The join produces the rounding, the shape grows
   by half a stroke on every side, and you keep one construction instead of
   two. Growing on every side is also why its geometry stops half a stroke
-  short of the box corner while its ink lands on it.
+  short of the box corner while its ink lands on it — and, in the 16 file, why
+  its geometry sits on halves like every other 1-unit stroke.
   The corner marker every mark carries is drawn this way, and so is the one
   interior in the family that is a triangle — a triangle's three points come
   out at the family's rounding through the round join, without a second
   construction that would have to be kept in step with the first.
-- **An outer corner of radius 20 on a stroked path**: give the path radius
-  20 − half the stroke, and the ink lands on 20.
+- **An outer corner of radius R on a stroked path**: give the path radius
+  R − half the stroke, and the ink lands on R.
 
 ## What to hand back
 
 Three files, named `<product>-signet-l.svg`, `-m.svg`, `-s.svg`, each with a
-`<title>` and `role="img" aria-label` naming the product, and a comment saying
-what the interior means and what changed at that size. Then render all three
-at 120, 40, 24 and 16px, side by side, and look at them — the check is whether
-the three read as one mark at every size, and nothing but your own eyes does
-it.
+`<title>`, `role="img" aria-label` naming the product, `id="art"` on the root
+so it can be referenced, and a comment saying what the interior means and what
+changed at that size. Then render each one at the size it is drawn for and at
+twice that, side by side, and look at them — the check is whether the three
+read as one mark, and nothing but your own eyes does it.
 
 ## The one deviation, and it is not yours
 

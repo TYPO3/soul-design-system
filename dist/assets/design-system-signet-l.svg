@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 128 100" role="img" aria-label="Soul Design System">
+<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 32 32" role="img" aria-label="Soul Design System">
   <title>Soul Design System</title>
   <!-- Every colour sits on its own shape, as a var() with a hex fallback: a
        page that declares the tokens gets its own ink, and this file still
@@ -6,28 +6,29 @@
        and no comment in here may carry a double dash, which is what makes an
        SVG malformed and a reference to it draw nothing. See
        docs/guidelines/artwork.rst. -->
-  <!-- L - 32px and up. Stroke 7, rounding 3.5, gap 7.
+  <!-- L - drawn at 32, where one unit is one pixel. Every straight edge is a
+       whole number, so the mark is true at 32 and at every multiple of it.
+       Stroke 2, rounding 1, gap 2. The box is 32 x 24, centred; outer corners
+       at radius 4.
 
        The system's mark is the one in this family with no window. A frame
        reads as a terminal, and a terminal is what the products it dresses
        are, not what it is. Two crop marks instead: the corners a piece is
        registered against, which is a craft mark rather than a screen.
 
-       The family is carried by everything else - the 5:4 box, the outer
-       corners at radius 20, the 3.5 rounding, the 7-unit gap, and orange in
-       the top-right corner, which is where both sibling marks put it.
-
        Inside, three parts of two widths. Not three of the same: a design
        system is a kit of unequal pieces, and a repeat would say the wrong
-       thing. Outer 11, middle 21, centred in the opening.
+       thing. The gaps are a full stroke rather than the half stroke this was
+       drawn with before: under a whole pixel a gap separates nothing and the
+       three parts read as one block.
 
        One deliberate break with the siblings: here the accent is a STROKE,
        not a filled marker. The mark had to stay light - it is the frame
        everything else is composed inside, and a frame that outweighs its
        contents is the wrong shape for that. -->
-  <path stroke="var(--text-primary, #8A8378)" d="M56 96.5H20A16.5 16.5 0 0 1 3.5 80V44" fill="none" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>
-  <rect fill="var(--text-primary, #8A8378)" x="39" y="30.5" width="11" height="39" rx="3.5"></rect>
-  <rect fill="var(--text-primary, #8A8378)" x="53.5" y="30.5" width="21" height="39" rx="3.5"></rect>
-  <rect fill="var(--text-primary, #8A8378)" x="78" y="30.5" width="11" height="39" rx="3.5"></rect>
-  <path d="M72 3.5H108A16.5 16.5 0 0 1 124.5 20V56" fill="none" stroke="var(--accent, #FF8700)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path stroke="var(--text-primary, #8A8378)" d="M14 27H4A3 3 0 0 1 1 24V15" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+  <rect fill="var(--text-primary, #8A8378)" x="8" y="11" width="3" height="10" rx="1"></rect>
+  <rect fill="var(--text-primary, #8A8378)" x="13" y="11" width="6" height="10" rx="1"></rect>
+  <rect fill="var(--text-primary, #8A8378)" x="21" y="11" width="3" height="10" rx="1"></rect>
+  <path stroke="var(--accent, #FF8700)" d="M18 5H28A3 3 0 0 1 31 8V17" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
 </svg>

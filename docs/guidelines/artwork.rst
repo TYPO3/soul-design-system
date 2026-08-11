@@ -29,7 +29,7 @@ Three lines, and none of them changes the drawing.
    :header-rows: 0
 
    * - Name the root
-     - ``<svg id="art" viewBox="0 0 128 100">`` — the reference points at
+     - ``<svg id="art" viewBox="0 0 32 32">`` — the reference points at
        ``file.svg#art``, and the root is what carries the coordinate system
        across, so the wrapper needs to state only a size
    * - Colour the shapes

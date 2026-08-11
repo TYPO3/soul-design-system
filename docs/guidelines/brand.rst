@@ -32,45 +32,59 @@ it should produce a mark that belongs here.
 How one is drawn
 ================
 
-Everything follows the stroke: stroke 7 → rounding 3.5 (half the stroke, on
-frame caps, line ends and the marker's points alike) → gap ≥ 7, measured ink
-to ink. A 128 × 100 box, corner radius 20 shared by frame and marker. The
-frame is one open path — both ends are caps, not cuts — and it stops
-gap + stroke short, because each cap reaches half a stroke further. The
-marker sits on the frame's **outer** edge, not on the box.
+Everything follows the stroke: stroke 2 → rounding 1 (half the stroke, on
+frame caps, line ends and the marker's points alike) → gap ≥ 2, measured ink
+to ink. A 32 × 24 box centred in a square viewBox, corner radius 4 shared by
+frame and marker. The frame is one open path — both ends are caps, not
+cuts — and it stops gap + stroke short, because each cap reaches half a
+stroke further. The marker sits on the frame's **outer** edge, not on the box.
+
+Those are units of the file, and a unit is a pixel: the drawing is made in
+the box it is for, so every straight edge is a whole number and lands on a
+whole device pixel.
 
 .. specimen:: guidelines/brand-signet-construction.card.html
-   :viewport: 700x1785
+   :viewport: 700x1961
    :title: Signet — construction
 
-Three optical sizes, redrawn, never scaled
-==========================================
+Three sizes, each drawn in its own box
+======================================
 
-32px and up takes stroke 7 and three lines; 20–31px stroke 8.5 with the
-middle line dropped; 16–19px stroke 11. Pick the file at the link, because a
-media query inside an SVG only sees its own viewport.
+The three files are ``viewBox="0 0 32 32"``, ``0 0 24 24`` and
+``0 0 16 16``: one unit is one pixel at the size the file is for, so a
+drawing is true at that size and at every multiple of it — 32, 64, 96 for
+the large one, 24 and 48 for the middle, 16, 32 and 48 for the small. Between
+those it is a vector like any other and the edges go grey.
 
-The 16–19px file is square-boxed: the mark is 5:4, and a 5:4 mark
-letterboxed into a favicon slot lands under the system's own 16px floor.
+32 takes stroke 2 and three lines; 24 keeps stroke 2 in a smaller box, which
+is a heavier mark, and drops the faint middle line; 16 takes stroke 1,
+because sixteen pixels have nowhere to put two, and keeps the ink of the
+middle size so the mark gets heavier as the box shrinks rather than fainter.
+Pick the file at the link, because a media query inside an SVG only sees its
+own viewport.
+
+Every box is square, which is the shape every slot a mark lands in already
+has — a favicon, an avatar, an app icon, a bar. One number sizes it, and
+there is no aspect to state twice or to get wrong.
 
 .. specimen:: guidelines/brand-signet-sizes.card.html
-   :viewport: 700x903
+   :viewport: 700x922
    :title: Signet — sizes
 
 .. specimen:: guidelines/brand-signet-modes.card.html
-   :viewport: 700x608
+   :viewport: 700x619
    :title: Signet — modes & context
 
 The family
 ==========
 
-Three marks, one construction. What is shared is the box, the outer radius,
-the stroke and its two consequences (rounding, gap), and the single orange
-in the top-right corner. What is not shared is the interior — one idea per
+Three marks, one construction. What is shared is the square box and the 4:3
+construction inside it, the outer radius, the stroke and its two consequences
+(rounding, gap), and the single orange in the top-right corner. What is not shared is the interior — one idea per
 product.
 
 .. specimen:: guidelines/brand-signet-family.card.html
-   :viewport: 700x574
+   :viewport: 700x649
    :title: Signet — the family
 
 Drawing a new one

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 -14 128 128" role="img" aria-label="TYPO3 Support App">
+<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 16 16" role="img" aria-label="TYPO3 Support App">
   <title>TYPO3 Support App</title>
   <!-- Every colour sits on its own shape, as a var() with a hex fallback: a
        page that declares the tokens gets its own ink, and this file still
@@ -6,9 +6,16 @@
        and no comment in here may carry a double dash, which is what makes an
        SVG malformed and a reference to it draw nothing. See
        docs/guidelines/artwork.rst. -->
-  <!-- S - 16-19px, favicon. Stroke 11, marker 40x58, square box. -->
-  <path stroke="var(--text-primary, #8A8378)" d="M122.5 80.00V80A14.5 14.5 0 0 1 108 94.5H20A14.5 14.5 0 0 1 5.5 80V20A14.5 14.5 0 0 1 20 5.5H66.00" fill="none" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path>
-  <rect fill="var(--text-primary, #8A8378)" x="22" y="28.5" width="52" height="11" rx="5.5"></rect>
-  <rect x="22" y="60.5" width="66" height="11" rx="5.5" fill="var(--accent, #FF8700)"></rect>
-  <path d="M88.00 5.5H108A14.5 14.5 0 0 1 122.5 20V58.00Z" fill="var(--accent, #FF8700)" stroke="var(--accent, #FF8700)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path>
+  <!-- S - drawn at 16, where one unit is one pixel, and for the favicon.
+       Stroke 1, rounding 0.5, gap 1. A one-pixel stroke is centred on a half
+       pixel, which is what the halves in here are.
+
+       One pixel of stroke, like both siblings: at two the frame closes on its
+       own contents and there is nothing left inside it to see. Two lines, the
+       shorter grey and the longer the accent, and the longer one stops a
+       stroke short of the marker. -->
+  <path stroke="var(--text-primary, #8A8378)" d="M15.5 10V12A1.5 1.5 0 0 1 14 13.5H2A1.5 1.5 0 0 1 0.5 12V4A1.5 1.5 0 0 1 2 2.5H9" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"></path>
+  <rect fill="var(--text-primary, #8A8378)" x="3" y="5" width="7" height="1" rx="0.5"></rect>
+  <rect fill="var(--accent, #FF8700)" x="3" y="9" width="8" height="1" rx="0.5"></rect>
+  <path d="M11.5 2.5H14A1.5 1.5 0 0 1 15.5 4V7Z" fill="var(--accent, #FF8700)" stroke="var(--accent, #FF8700)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"></path>
 </svg>
