@@ -1,0 +1,165 @@
+# The gate, run by a machine.
+#
+# Until this file existed, `make verify` was something a person typed before
+# committing — which means it held exactly as long as everyone remembered.
+# The same tasks run here, in the same image, through the same Makefile: a
+# workflow that reimplemented the steps would be a second definition of the
+# gate, and the two would drift apart on the first change to either.
+#
+# Two jobs. The gate on every push and every pull request; the rendered site
+# published from `main` only.
+name: CI
+
+# Every push, whatever the branch — a branch nobody has opened a pull request
+# for is exactly where work sits while it is being written. Pull requests are
+# listened for as well, but the job below skips the ones that come from this
+# repository: their commits already arrived as a push, and running both gates
+# the same tree twice.
+on:
+  push:
+  pull_request:
+
+# Nothing here writes to the repository. The publish job asks for more, next
+# to itself, so this line stays true for everything else.
+permissions:
+  contents: read
+
+# A second push to the same branch replaces the first. Pages deployments are
+# serialised separately, in the job that does them.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: verify and test
+    runs-on: ubuntu-latest
+    # A pull request from a fork has no push event of its own here; one from a
+    # branch of this repository does.
+    if: >-
+      github.event_name == 'push'
+      || github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      # Built here rather than left to compose, for one reason: the layer
+      # cache. `npm ci` and the Chromium download are the whole cost of this
+      # image, and neither changes between runs unless `package-lock.json`
+      # does. buildx writes them into the Actions cache and reads them back on
+      # the next run; a plain `docker compose build` has nowhere to keep them
+      # and installs both again every time.
+      #
+      # No registry, on purpose. A pushed image is a second thing that can be
+      # stale against the Dockerfile that describes it, and it has to be
+      # published, tagged and cleaned up by someone.
+      #
+      # The tag is the name compose derives from the project and the service —
+      # `<project>-<service>`, and the project is named in the compose file.
+      # Miss it and `up` finds no image and builds its own, uncached.
+      - name: Build the image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: .infra/Dockerfile
+          target: app
+          tags: typo3-soul-design-system-app:latest
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # The one compose call that is not behind a make target, because it is
+      # the thing make assumes: `.infra/task.sh` execs into a running `app`
+      # and only builds a container of its own when there is none. With the
+      # service up, every task below is an exec into the image built above.
+      # The UID matters for the same reason it does on a developer's machine —
+      # the tree is bind-mounted, and output written as root cannot be read
+      # back by the steps that follow.
+      - name: Bring up the container the tasks run in
+        run: SDS_UID=$(id -u) SDS_GID=$(id -g) docker compose -f .infra/docker-compose.yml up -d app
+
+      # Thirteen checks. This is the line that decides whether the tree is
+      # consistent; everything else in this file exists to make it run.
+      - run: make verify
+
+      # Eleven suites, each holding something verify cannot see: that the
+      # markup renders, in both themes, at every width, without axe findings.
+      - run: make test
+
+      # Only on failure, and only then worth the upload: traces and the
+      # screenshots of what the browser actually had on screen.
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  publish:
+    name: render and publish
+    # Never publish a site the gate has not passed over.
+    needs: gate
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # Writing a deployment is the one thing in this file that leaves a mark
+    # outside the run, so the permissions sit here and not at the top.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    # Deployments queue rather than cancel: a half-replaced site is worse than
+    # a site one commit behind.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      # A cache hit, in the ordinary case: the gate job wrote it minutes ago.
+      - name: Build the image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: .infra/Dockerfile
+          target: app
+          tags: typo3-soul-design-system-app:latest
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Bring up the container the tasks run in
+        run: SDS_UID=$(id -u) SDS_GID=$(id -g) docker compose -f .infra/docker-compose.yml up -d app
+
+      # `dist/` is committed and the gate has just proved it matches its
+      # source, so the render links the same drop-in a consumer copies.
+      - run: make guides
+
+      # The acceptance render is the control surface this theme is checked
+      # against, not documentation — it shows every node the renderer can emit,
+      # deliberately without prose around it. It is built on every run and
+      # published on none.
+      - name: Leave the acceptance render behind
+        run: rm -rf site/_acceptance
+
+      # Pages serves this artifact as it stands, but a repository that is ever
+      # switched back to the branch-based build runs Jekyll over it, and Jekyll
+      # drops every path beginning with an underscore. That is `_cards/`,
+      # `_images/` and `_search.json` — most of what the pages point at.
+      - run: touch site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

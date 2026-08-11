@@ -52,7 +52,7 @@ x-app: &app
 # directory holding this file — which is now `.infra`, a name generic enough
 # that a second project with the same layout would share containers and
 # volumes with this one.
-name: typo3-support-design-system
+name: typo3-soul-design-system
 
 services:
   # Where every task runs. It stays up and does nothing, so `make verify` and
