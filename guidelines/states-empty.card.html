@@ -1,4 +1,4 @@
-<!-- @dsCard group="States" viewport="700x240" subtitle="A boundary is an answer — say which source was asked and what it does not cover" name="Empty & not found" -->
+<!-- @dsCard group="States" viewport="700x260" subtitle="A boundary is an answer — say which source was asked and what it does not cover" name="Empty & not found" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -8,17 +8,20 @@
 </head>
 <body>
   <div class="spec-pad" style="display:flex; gap:14px; flex-wrap:wrap;">
-    <div style="flex:1; min-width:280px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:20px 18px; display:flex; flex-direction:column; gap:10px; align-items:flex-start;">
-      <span style="color:var(--text-muted);"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-search"><g fill="currentColor"><path d="M13.92 15c-.29 0-.56-.12-.76-.32l-2.89-2.88c-.98.68-2.16 1.04-3.36 1.04C3.65 12.85 1 10.2 1 6.92 1 3.65 3.65 1 6.92 1s5.92 2.65 5.92 5.92c0 1.19-.36 2.37-1.04 3.36l2.89 2.89c.19.19.31.47.31.76 0 .58-.49 1.07-1.08 1.07zm-7-12.58c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"></path></g></svg></span>
-      <div style="font-size:16px; font-weight:600;">No icon matches “dashbord”</div>
-      <div class="spec-note" style="max-width:40ch;">The installation was asked and answered; the identifier does not exist in it. Closest registered: <span class="sds-mono" style="color:var(--text-link);">actions-dashboard</span>.</div>
-      <span style="display:inline-flex; align-items:center; gap:7px; font-size:14px; color:var(--text-link); margin-top:2px;">Search all registered icons <svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-arrow-right"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg></span>
+    <div class="sds-empty" style="flex:1; min-width:280px;">
+      <span class="sds-empty__icon"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-search"><g fill="currentColor"><path d="M13.92 15c-.29 0-.56-.12-.76-.32l-2.89-2.88c-.98.68-2.16 1.04-3.36 1.04C3.65 12.85 1 10.2 1 6.92 1 3.65 3.65 1 6.92 1s5.92 2.65 5.92 5.92c0 1.19-.36 2.37-1.04 3.36l2.89 2.89c.19.19.31.47.31.76 0 .58-.49 1.07-1.08 1.07zm-7-12.58c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"></path></g></svg></span>
+      <div class="sds-empty__title">No icon matches “dashbord”</div>
+      <div class="sds-empty__body">The installation was asked and answered; the identifier does not exist in
+          it. Closest registered: <span class="sds-mono">actions-dashboard</span>.</div>
+      <a class="sds-link" href="#">Search all registered icons <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-arrow-right"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg></a>
+  
     </div>
-    <div style="flex:1; min-width:280px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:20px 18px; display:flex; flex-direction:column; gap:10px; align-items:flex-start;">
-      <span style="color:var(--text-accent-quiet);"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
-      <div style="font-size:16px; font-weight:600;">Outside what this server covers</div>
-      <div class="spec-note" style="max-width:40ch;">Frontend rendering has no bundled answer and is not read from the installation. Stated as a boundary rather than left silent.</div>
-      <span class="spec-cap" style="margin-top:2px;">typo3_server_scope · BOUNDARIES</span>
+    <div class="sds-empty sds-empty--boundary" style="flex:1; min-width:280px;">
+      <span class="sds-empty__icon"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
+      <div class="sds-empty__title">Outside what this server covers</div>
+      <div class="sds-empty__body">Frontend rendering has no bundled answer and is not read from the installation. Stated as a boundary rather than left silent.</div>
+  
+      <span class="sds-label">typo3_server_scope · boundaries</span>
     </div>
   </div>
 </body>

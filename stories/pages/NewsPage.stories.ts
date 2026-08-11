@@ -1,0 +1,249 @@
+/* The list page.
+
+   The distributor: everything the site has published, newest first, narrowed
+   by what kind of entry it is, and a way to reach page two. It is the archetype
+   most of a site is made of — news, releases, references, search results are
+   the same page with different rows — so what it has to prove is the set, not
+   any one entry.
+
+   The filter is real. A row of words above a list that never changes is the
+   thing this page exists not to be, and the state it makes reachable is the
+   one a list page is usually missing: a filter that matches nothing. That is
+   `sds-empty`, saying which source was read and offering the way back.
+
+   Which entries are shown is the *page's* state, not a component's, so the
+   page is a function of it and the story re-renders. A component that filtered
+   its own contents would be a component that decided what a list means.
+
+   Live in Storybook and static in `screens/`, from one composition — see
+   `lib/page.ts` for why both exist and where they differ. The static file
+   holds the unfiltered list, which is what a page with no script can be. */
+
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html, render, type TemplateResult } from 'lit';
+import '../../src/components/crumbs.ts';
+import '../../src/components/empty.ts';
+import '../../src/components/link.ts';
+import '../../src/components/note.ts';
+import '../../src/components/pagination.ts';
+import '../../src/components/pills.ts';
+import '../../src/components/teaser.ts';
+import { type Crumb } from '../../src/components/crumbs.ts';
+import { type NavChange } from '../../src/components/nav-base.ts';
+import { type TeaserProps } from '../../src/components/teaser.ts';
+import { siteBar, siteFooter } from '../lib/site.ts';
+import { dsScreen, part } from '../lib/specimen.ts';
+import { type PageMode } from '../lib/page.ts';
+
+const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'News' }];
+
+/** An entry, plus the tag the filter reads. `art` is the light file and
+    `artDark` its counterpart; an entry with only one of the two shows no
+    drawing rather than the wrong one. */
+interface Entry extends TeaserProps {
+  tag: string;
+}
+
+const ENTRIES: readonly Entry[] = [
+  {
+    tag: 'release',
+    meta: '9 August 2026 · 1.4.0',
+    heading: 'Answers now name the source that answered',
+    body: 'Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.',
+    art: 'diagrams/answer-sources.svg',
+    artDark: 'diagrams/answer-sources-dark.svg',
+    alt: 'The five sources plotted against how much of the machine has to be running.',
+  },
+  {
+    tag: 'guide',
+    meta: '24 July 2026',
+    heading: 'Reading the package registry when the installation will not boot',
+    body: 'The fallback returns every declared entry and none of the dynamically registered ones. What makes it usable is that the shortfall travels with the result.',
+    art: 'diagrams/installation-fallback.svg',
+    artDark: 'diagrams/installation-fallback-dark.svg',
+    alt: 'Three paths through the registry, and what each of them returns.',
+  },
+  {
+    tag: 'project',
+    meta: '2 July 2026',
+    heading: 'One line leaves the machine, and it is drawn as the exception',
+    body: 'Everything that answers a question is already on the developer’s disk. The single read-only path to the documentation is in the diagram rather than in a footnote.',
+    art: 'diagrams/system-overview.svg',
+    artDark: 'diagrams/system-overview-dark.svg',
+    alt: 'The client, the local server and its sources inside the machine, with one read-only path leaving it.',
+  },
+  {
+    tag: 'release',
+    meta: '18 June 2026 · 1.3.0',
+    heading: 'Changelog lookups bind down to 7.0',
+    body: 'A question about an old installation is answered with what held then, or not at all. Where the bundled knowledge stops, the tool says so instead of answering from the nearest release it has.',
+  },
+  {
+    tag: 'guide',
+    meta: '30 May 2026',
+    heading: 'Writing a task skill that fails at registration',
+    body: 'A skill declares the sources it needs. One that cannot reach any of them says so when the server starts, which is the difference between a broken setup and a wrong answer.',
+  },
+  {
+    tag: 'project',
+    meta: '12 May 2026',
+    heading: 'What is written down, and what is not',
+    body: 'The decisions kept in the repository, the ones kept in the knowledge base, and why the two lists are deliberately not the same.',
+  },
+];
+
+/** The ways to narrow the list. `security` is in the row on purpose: a filter
+    that matches nothing is a state every list page has and most of them draw
+    as a blank column. */
+const FILTERS = [
+  { label: 'all', tag: '' },
+  { label: 'releases', tag: 'release' },
+  { label: 'guides', tag: 'guide' },
+  { label: 'project', tag: 'project' },
+  { label: 'security', tag: 'security' },
+];
+
+export interface NewsMode extends PageMode {
+  /** Which filter is current, by position in `FILTERS`. */
+  filter?: number;
+  /** Called when another is chosen. Absent in the static rendering, where
+      there is no script to call it. */
+  onFilter?: (index: number) => void;
+}
+
+/** The page. `flat` composes the form a static file can hold. */
+export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}): TemplateResult {
+  /* Storybook serves `assets/` at its root; a file under `screens/` reaches
+     the same directory one level up. The path is the page's to know. */
+  const assets = flat ? '../assets' : '/assets';
+
+  const current = FILTERS[filter] ?? FILTERS[0];
+  const shown = current?.tag ? ENTRIES.filter((e) => e.tag === current.tag) : ENTRIES;
+
+  const list = shown.length
+    ? html`<div class="sds-grid">
+          ${shown.map(
+            (entry) => html`<sds-teaser
+              heading="${entry.heading}"
+              .body="${entry.body}"
+              tag="${entry.tag}"
+              meta="${entry.meta ?? ''}"
+              art="${entry.art ? `${assets}/${entry.art}` : ''}"
+              art-dark="${entry.artDark ? `${assets}/${entry.artDark}` : ''}"
+              alt="${entry.alt ?? ''}"
+              href="#"
+            ></sds-teaser>`,
+          )}
+        </div>`
+    : html`<sds-empty
+          icon="actions-filter"
+          heading="Nothing here is tagged ${current?.label ?? ''}"
+          .body="${html`All ${ENTRIES.length} entries were read and none carries that tag. Tags
+            are applied by hand, so an entry may be about the subject without wearing it.`}"
+          action="Show every entry"
+          @sds-action="${() => onFilter?.(0)}"
+        ></sds-empty>`;
+
+  return html`<div class="sds-shell">
+  ${siteBar(4, '#news')}
+
+  <main class="sds-bands">
+
+    <section class="sds-band" id="news">
+      <div class="sds-stack">
+        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <h1 class="sds-h1">News</h1>
+        <p class="sds-lead">
+          Releases, guides, and what the project decided. Every entry says which
+          release it holds for; nothing here is a roadmap.
+        </p>
+      </div>
+    </section>
+
+    <section class="sds-band sds-band--quiet" id="entries">
+      <div class="sds-stack">
+        <div class="sds-row">
+          <sds-pills
+            .items="${FILTERS.map(({ label }) => ({ label }))}"
+            active="${filter}"
+            @sds-change="${(e: CustomEvent<NavChange>) => onFilter?.(e.detail.index)}"
+          ></sds-pills>
+          <span class="sds-label sds-row__end">${shown.length} of ${ENTRIES.length} entries</span>
+        </div>
+
+        ${list}
+
+        <sds-pagination pages="3" current="1" count="${ENTRIES.length} of 18 entries"></sds-pagination>
+      </div>
+    </section>
+
+    <section class="sds-band" id="follow">
+      <div class="sds-split">
+        <div class="sds-stack">
+          <h2 class="sds-h2">Follow along</h2>
+          <p class="sds-prose">
+            Releases are announced here and in the repository. The feed carries
+            the same entries in the same order, with the release each one holds
+            for in its title.
+          </p>
+          <div class="sds-actions">
+            <sds-link label="Repository" href="https://github.com" external icon="actions-brand-github"></sds-link>
+            <sds-link label="Feed" href="#" icon="actions-rss"></sds-link>
+          </div>
+        </div>
+        <div class="sds-stack">
+          <sds-note
+            heading="An entry is not a version binding"
+            .body="${html`What a release changed is written in the changelog the tools read.
+              A post says what it was for; the tool says what it holds for.`}"
+          ></sds-note>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  ${siteFooter()}
+</div>`;
+}
+
+/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
+   layout has no variants to collect, and the widths it is documented at are
+   reachable only in the story view. */
+const meta: Meta = {
+  title: 'Pages/News',
+  excludeStories: ['newsPage', 'screenHtml'],
+  parameters: {
+    layout: 'fullscreen',
+    dsScreen: dsScreen({
+      path: 'screens/news.html',
+      title: 'TYPO3 Dev Companion — news',
+      subtitle: 'The distributor: entries narrowed by kind, the empty state that follows, and page two',
+      viewport: '1440x900',
+    }),
+  },
+};
+
+export default meta;
+type Story = StoryObj;
+
+/** Click through it: the filter narrows the list for real, `security` reaches
+    the empty state and the offer inside it puts the list back, the drawings
+    follow the mode switch, and the row of numbers says where the list
+    continues. */
+export const Page: Story = {
+  name: 'News',
+  render: () => {
+    /* The page is a function of which filter is current, so pressing one
+       re-renders it. A component that filtered its own contents would be a
+       component that decided what a list means. */
+    const host = document.createElement('div');
+    const draw = (filter: number): void => {
+      render(newsPage({ filter, onFilter: draw }), host);
+    };
+    draw(0);
+    return html`${host}`;
+  },
+};
+
+export const screenHtml = (): string => part(newsPage({ flat: true }));

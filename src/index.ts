@@ -43,9 +43,12 @@ import './components/modal.ts';
 import './components/drawer.ts';
 import './components/dialog.ts';
 import './components/table.ts';
+import './components/teaser.ts';
+import './components/pagination.ts';
 import './components/code.ts';
 import './components/diff.ts';
 import './components/note.ts';
+import './components/empty.ts';
 
 export { SdsElement, installHostRule, define } from './lib/element.ts';
 
@@ -82,6 +85,9 @@ export {
 } from './components/code.ts';
 export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.ts';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
+export { SdsEmpty, type EmptyProps, type EmptyKind } from './components/empty.ts';
+export { SdsTeaser, type TeaserProps } from './components/teaser.ts';
+export { SdsPagination, pageNumbers, type PaginationProps } from './components/pagination.ts';
 
 if (typeof document !== 'undefined') installHostRule();
 
@@ -112,7 +118,10 @@ export const TAGS = [
   'sds-drawer',
   'sds-dialog',
   'sds-table',
+  'sds-teaser',
+  'sds-pagination',
   'sds-code',
   'sds-diff',
   'sds-note',
+  'sds-empty',
 ] as const;

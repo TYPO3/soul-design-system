@@ -13,71 +13,15 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../../src/components/footer.ts';
 import '../../src/components/link.ts';
-import { type FooterGroup, type FooterProps } from '../../src/components/footer.ts';
+import { type FooterProps } from '../../src/components/footer.ts';
+import { SITE_GROUPS, SITE_META, SITE_NOTE } from '../lib/site.ts';
 
 const sdsFooter = ({ groups, note, meta: end }: FooterProps) =>
   html`<sds-footer .groups="${groups}" note="${note}" .meta="${end ?? []}"></sds-footer>`;
 
-/** The columns the site carries on every page. Exported so a page composes
-    these rather than a copy that drifts one link at a time. */
-export const SITE_GROUPS: readonly FooterGroup[] = [
-  {
-    label: 'Product',
-    items: [
-      { label: 'Overview', href: '#' },
-      { label: 'Features', href: '#' },
-      { label: 'Tool reference', href: '#' },
-      { label: 'Releases', href: '#' },
-    ],
-  },
-  {
-    label: 'Documentation',
-    items: [
-      { label: 'Installing the server', href: '#' },
-      { label: 'Writing a task skill', href: '#' },
-      { label: 'Sources and preconditions', href: '#' },
-      { label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true },
-    ],
-  },
-  {
-    label: 'Project',
-    items: [
-      { label: 'What is written down', href: '#' },
-      { label: 'Reporting a wrong answer', href: '#' },
-      { label: 'Contributing', href: '#' },
-    ],
-  },
-  /* Where a mark says what the link is rather than decorating it. Every one
-     of them keeps its label: four glyphs in this system may stand alone, and
-     all four say something about a result. */
-  {
-    label: 'Community',
-    items: [
-      { label: 'Repository', href: 'https://github.com', external: true, icon: 'actions-brand-github' },
-      { label: 'Slack', href: 'https://typo3.org', external: true, icon: 'actions-brand-slack' },
-      { label: 'Mastodon', href: 'https://typo3.org', external: true, icon: 'actions-brand-mastodon' },
-      { label: 'Bluesky', href: 'https://typo3.org', external: true, icon: 'actions-brand-bluesky' },
-    ],
-  },
-  {
-    label: 'Legal',
-    items: [
-      { label: 'Licence', href: '#' },
-      { label: 'Imprint', href: '#' },
-      { label: 'Privacy', href: '#' },
-    ],
-  },
-];
-
-/** The line that has to be on every page of this site. It says what the
-    product is; it never says whose it is. */
-export const SITE_NOTE =
-  'An independent development tool. Not a product of the TYPO3 Association, and not endorsed by it.';
-
 const meta: Meta<FooterProps> = {
   title: 'Components/Footer',
   tags: ['autodocs', '!dev'],
-  excludeStories: ['SITE_GROUPS', 'SITE_NOTE'],
   parameters: { layout: 'fullscreen' },
   render: (args) => sdsFooter(args),
   argTypes: {
@@ -88,14 +32,14 @@ const meta: Meta<FooterProps> = {
   args: {
     groups: SITE_GROUPS,
     note: SITE_NOTE,
-    meta: [{ label: 'GPL-2.0-or-later', href: '#' }, { label: 'v1.0.0', href: '#' }],
+    meta: SITE_META,
   },
 };
 
 export default meta;
 type Story = StoryObj<FooterProps>;
 
-/** Four columns, and the line under them. The columns reflow by their own
+/** The site's own columns, and the line under them. They reflow by their own
     minimum, so nothing here decides how many fit on a phone. */
 export const Default: Story = {};
 

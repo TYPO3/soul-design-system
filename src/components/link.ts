@@ -57,14 +57,26 @@ export class SdsLink extends SdsElement {
     this.external = false;
   }
 
+  /** Whether a glyph is about direction rather than about the thing.
+
+      The icon rule says a glyph leads its label and a direction glyph follows
+      it, and that is a property of the glyph — so the component decides rather
+      than the caller. A boolean here would be a caller's chance to put an
+      arrow in front of a word, which is the one arrangement the rule forbids
+      and the one a hurried page reaches for. */
+  private static leads(icon: IconId): boolean {
+    return !/^actions-(arrow|chevron|caret)-/.test(icon);
+  }
+
   protected override render(): TemplateResult {
-    /* The mark leads and the direction glyph follows, which is the icon rule
-       stated in one line: a repository or a feed says what the link *is*, and
-       `actions-window-open` says where pressing it goes. */
-    const mark = this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : '';
+    /* `actions-window-open` follows for the same reason: it says where
+       pressing the link goes, not what the link is. */
+    const glyph = this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : '';
+    const lead = this.icon && SdsLink.leads(this.icon) ? glyph : '';
+    const trail = this.icon && !SdsLink.leads(this.icon) ? glyph : '';
     return this.external
-      ? html`<a class="sds-link sds-link--external" href="${this.href}" target="_blank" rel="noreferrer">${mark}${this.label} <sds-icon name="actions-window-open"></sds-icon></a>`
-      : html`<a class="sds-link" href="${this.href}">${mark}${this.label}</a>`;
+      ? html`<a class="sds-link sds-link--external" href="${this.href}" target="_blank" rel="noreferrer">${lead}${this.label} ${trail}<sds-icon name="actions-window-open"></sds-icon></a>`
+      : html`<a class="sds-link" href="${this.href}">${lead}${this.label}${trail ? html` ${trail}` : ''}</a>`;
   }
 }
 

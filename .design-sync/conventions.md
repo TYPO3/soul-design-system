@@ -26,8 +26,8 @@ Two rules follow, and both are load-bearing:
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` |
 | Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` `sds-crumbs` `sds-footer` |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
-| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` |
-| States | `sds-note` |
+| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-teaser` `sds-pagination` |
+| States | `sds-note` `sds-empty` |
 
 They render **light DOM** and emit exactly the classes below, so an element and a
 hand-written `<button class="sds-btn">` are the same markup styled by the same rules.
@@ -75,7 +75,10 @@ inline styles — do not mint a `sds-` name.
 | Layout | `sds-shell` `sds-bar`/`sds-bar__end` `sds-body`/`sds-body__rail` `sds-column` `sds-page` `sds-foot` `sds-sections` `sds-stack` `sds-row` `sds-actions` `sds-split` `sds-grid` |
 | Bands | `sds-bands` `sds-band` `sds-band--quiet` — full-bleed sections whose ground changes, contents on the page measure. Use instead of `sds-page`, never inside one |
 | Site footer | `sds-footer` `sds-footer__groups` `sds-footer__group` `sds-footer__links` `sds-footer__end`; `sds-crumbs` `sds-crumbs__sep` `sds-crumbs__here` |
-| Figures | `sds-stats` `sds-stat` `sds-stat__value` `sds-stat__note`; `sds-figure` `sds-figure__frame` `sds-figure__art` `sds-figure__art--light` `sds-figure__art--dark` `sds-figure__caption` |
+| Figures | `sds-stats` `sds-stat` `sds-stat__value` `sds-stat__note`; `sds-figure` `sds-figure__frame` `sds-figure__caption` |
+| Artwork | `sds-art` `sds-art--light` `sds-art--dark` — a drawing that ships as two files, one per mode. Both go in the markup; the stylesheet shows the one the nearest forced mode asks for |
+| Lists | `sds-teaser` `sds-teaser__art` `sds-teaser__body` `sds-teaser__title` `sds-teaser__text`; `sds-pagination` `sds-pagination__page` `sds-pagination__step` `sds-pagination__gap` `sds-pagination__count` |
+| Empty | `sds-empty` `sds-empty--boundary` `sds-empty__icon` `sds-empty__title` `sds-empty__body` — never "no results": name the source asked, what it does not cover, and the nearest real thing |
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon` |
 | Badges | `sds-badge` + `--accent` `--ok` `--warn` `--error` |
 | Fields | `sds-field` `sds-input` `sds-select` `sds-field-error` |

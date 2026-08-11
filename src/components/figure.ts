@@ -7,8 +7,10 @@
 
    A drawing ships as two files, one per mode, and both are in the markup. The
    swap is the stylesheet's: which one shows follows the nearest forced mode
-   the way every colour does, and `.sds-figure__art--*` in `components.css`
-   says why that cannot be `light-dark()` or a `<picture>`.
+   the way every colour does, and `.sds-art--*` in `components.css` says why
+   that cannot be `light-dark()` or a `<picture>`. The same two classes carry
+   the drawing wherever else it appears, so a thumbnail cannot swap by a
+   different rule than the figure it links to.
 
    `alt` goes on both images. Only one of them is in the box tree, so only one
    is in the accessibility tree — the hidden file is not read out twice, and
@@ -52,9 +54,9 @@ export class SdsFigure extends SdsElement {
 
   protected override render(): TemplateResult {
     const art = this.dark
-      ? html`<img class="sds-figure__art sds-figure__art--light" src="${this.src}" alt="${this.alt}" />
-    <img class="sds-figure__art sds-figure__art--dark" src="${this.dark}" alt="${this.alt}" />`
-      : html`<img class="sds-figure__art" src="${this.src}" alt="${this.alt}" />`;
+      ? html`<img class="sds-art sds-art--light" src="${this.src}" alt="${this.alt}" />
+    <img class="sds-art sds-art--dark" src="${this.dark}" alt="${this.alt}" />`
+      : html`<img class="sds-art" src="${this.src}" alt="${this.alt}" />`;
 
     return html`<figure class="sds-figure">
   <div class="sds-figure__frame">

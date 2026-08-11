@@ -5,40 +5,52 @@
    server covers at all. Both say which source was reached, because "no
    results" without that is indistinguishable from a failure.
 
-   The glyphs come from the sprite through `sds-icon`; the two boxes are the
-   card's own drawing — an empty state is a shape a page composes, not a
-   component with properties to vary. */
+   Drawn by `sds-empty` rather than by this file. It was two boxes of inline
+   style here for as long as one surface needed the shape; a filtered list, a
+   search and a page that does not exist need it too, and each of them was
+   about to write the same box. What the card documents is unchanged — it is
+   the difference between the two kinds — and it is now a difference the
+   component has a name for. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/icon.ts';
-import { type IconId } from '../../src/components/icon.ts';
+import '../../src/components/empty.ts';
+import { type EmptyProps } from '../../src/components/empty.ts';
 import { dsCard, indent, part, specPad } from '../lib/specimen.ts';
 
-const BOX =
-  'flex:1; min-width:280px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:20px 18px; display:flex; flex-direction:column; gap:10px; align-items:flex-start;';
+const BOX = 'flex:1; min-width:280px;';
 
-const icon = (name: IconId, size: 16 | 24 = 16): string =>
-  part(html`<sds-icon name="${name}" size="${size}"></sds-icon>`);
+const empty = ({ kind = 'quiet', heading, body, action, href, meta }: EmptyProps): string =>
+  part(html`<sds-empty
+  kind="${kind}"
+  heading="${heading}"
+  .body="${body}"
+  action="${action ?? ''}"
+  href="${href ?? ''}"
+  meta="${meta ?? ''}"
+  box-style="${BOX}"
+></sds-empty>`);
 
 /** The identifier does not exist — and the closest one that does. */
 const notFound = (): string =>
-  `<div style="${BOX}">
-  <span style="color:var(--text-muted);">${icon('actions-search', 24)}</span>
-  <div style="font-size:16px; font-weight:600;">No icon matches “dashbord”</div>
-  <div class="spec-note" style="max-width:40ch;">The installation was asked and answered; the identifier does not exist in it. Closest registered: <span class="sds-mono" style="color:var(--text-link);">actions-dashboard</span>.</div>
-  <span style="display:inline-flex; align-items:center; gap:7px; font-size:14px; color:var(--text-link); margin-top:2px;">Search all registered icons ${icon('actions-arrow-right')}</span>
-</div>`;
+  empty({
+    kind: 'quiet',
+    heading: 'No icon matches “dashbord”',
+    body: html`The installation was asked and answered; the identifier does not exist in
+      it. Closest registered: <span class="sds-mono">actions-dashboard</span>.`,
+    action: 'Search all registered icons',
+    href: '#',
+  });
 
 /** The question is outside the server's scope — stated, not left silent. */
 const outOfScope = (): string =>
-  `<div style="${BOX}">
-  <span style="color:var(--text-accent-quiet);">${icon('actions-info-circle', 24)}</span>
-  <div style="font-size:16px; font-weight:600;">Outside what this server covers</div>
-  <div class="spec-note" style="max-width:40ch;">Frontend rendering has no bundled answer and is not read from the installation. Stated as a boundary rather than left silent.</div>
-  <span class="spec-cap" style="margin-top:2px;">typo3_server_scope · BOUNDARIES</span>
-</div>`;
+  empty({
+    kind: 'boundary',
+    heading: 'Outside what this server covers',
+    body: 'Frontend rendering has no bundled answer and is not read from the installation. Stated as a boundary rather than left silent.',
+    meta: 'typo3_server_scope · boundaries',
+  });
 
 const meta: Meta = {
   title: 'Specimens/States/Empty & not found',
@@ -50,7 +62,7 @@ const meta: Meta = {
       group: 'States',
       name: 'Empty & not found',
       subtitle: 'A boundary is an answer — say which source was asked and what it does not cover',
-      viewport: '700x240',
+      viewport: '700x260',
     }),
   },
 };

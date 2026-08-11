@@ -22,26 +22,21 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../src/components/badge.ts';
 import '../../src/components/button.ts';
 import '../../src/components/code.ts';
 import '../../src/components/crumbs.ts';
 import '../../src/components/figure.ts';
-import '../../src/components/footer.ts';
 import '../../src/components/link.ts';
-import '../../src/components/menu.ts';
 import '../../src/components/note.ts';
-import '../../src/components/signet.ts';
 import '../../src/components/stat.ts';
 import '../../src/components/surface.ts';
 import '../../src/components/table.ts';
-import '../../src/components/theme.ts';
 import { buttonMarkup } from '../../src/components/button.ts';
 import { type CodeLine } from '../../src/components/code.ts';
 import { type Crumb } from '../../src/components/crumbs.ts';
 import { type Column, type Row } from '../../src/components/table.ts';
 import { SOURCE_FACTS } from '../components/Stat.stories.ts';
-import { SITE_GROUPS, SITE_NOTE } from '../components/Footer.stories.ts';
+import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';
 
@@ -49,18 +44,6 @@ const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
   { label: 'Features', href: '#' },
   { label: 'Answers carry their source' },
-];
-
-/* The site's sections. They are other pages rather than places on this one,
-   and a static screen carries no site around it — so the targets are stubs
-   here and the menu is documented by what it does at width, which is the same
-   thing it does on every page. */
-const SECTIONS = [
-  { label: 'overview', href: '#' },
-  { label: 'features', href: '#' },
-  { label: 'documentation', href: '#' },
-  { label: 'tools', href: '#' },
-  { label: 'releases', href: '#' },
 ];
 
 const SOURCES: { columns: readonly Column[]; rows: readonly Row[] } = {
@@ -154,17 +137,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         <sds-button variant="secondary">Open the tool reference</sds-button>`;
 
   return html`<div class="sds-shell">
-  <header class="sds-bar">
-    <a class="sds-lockup" href="#feature">
-      <sds-signet size="20"></sds-signet>
-      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
-    </a>
-    <sds-menu label="Sections" .items="${SECTIONS}" active="1"></sds-menu>
-    <div class="sds-bar__end">
-      <sds-badge label="1.4.0" tone="accent"></sds-badge>
-      <sds-theme></sds-theme>
-    </div>
-  </header>
+  ${siteBar(1, '#feature')}
 
   <main class="sds-bands">
 
@@ -337,10 +310,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
 
   </main>
 
-  <sds-footer .groups="${SITE_GROUPS}" note="${SITE_NOTE}" .meta="${[
-    { label: 'GPL-2.0-or-later', href: '#' },
-    { label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true },
-  ]}"></sds-footer>
+  ${siteFooter()}
 </div>`;
 }
 
