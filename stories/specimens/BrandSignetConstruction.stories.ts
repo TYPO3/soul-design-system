@@ -31,10 +31,10 @@ const CARD = `<div class="spec" style="--spec-gap:22px">
   </div>
 
   <div style="display:flex; align-items:center; gap:34px; flex-wrap:wrap;">
-    <svg viewBox="-6 -6 140 112" width="123.20" height="98.56" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+    <svg viewBox="0 0 128 100" width="112.64" height="88.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg>
     <div style="display:flex; flex-direction:column; gap:7px;">
       <div class="sds-mono">DRAWN IN A 128 &#215; 100 BOX</div>
@@ -47,7 +47,7 @@ const CARD = `<div class="spec" style="--spec-gap:22px">
       <div class="sds-mono" style="color:var(--text-secondary);">the frame is one open path &#8212; both ends are caps, not cuts</div>
       <div class="sds-mono" style="color:var(--text-secondary);">the frame path stops gap + stroke short, because both caps reach half a stroke further</div>
     </div>
-    <div style="display:flex; align-items:center; gap:11px;"><svg viewBox="-6 -6 140 112" width="42.00" height="33.60" class="sds-signet">
+    <div style="display:flex; align-items:center; gap:11px;"><svg viewBox="0 0 128 100" width="38.40" height="30.00" class="sds-signet">
 <path d="M56 96.5H20A16.5 16.5 0 0 1 3.5 80V44" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="39" y="30.5" width="11" height="39" rx="3.5" fill="var(--text-muted)" /><rect x="53.5" y="30.5" width="21" height="39" rx="3.5" fill="var(--text-muted)" /><rect x="78" y="30.5" width="11" height="39" rx="3.5" fill="var(--text-muted)" />
 <path d="M72 3.5H108A16.5 16.5 0 0 1 124.5 20V56" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
@@ -59,48 +59,48 @@ const CARD = `<div class="spec" style="--spec-gap:22px">
       <span style="font-size:14px; font-weight:600;">Marker rounding</span><span style="font-size:12px; color:var(--text-muted);">it has to be the radius the rest of the mark already uses</span>
     </div>
     <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M89.75 -2.25H108.00A22.25 22.25 0 0 1 130.25 20.00V54.25Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M89.75 1.25H108A18.75 18.75 0 0 1 126.75 20V54.25Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M89.75 -2.25H108.00A22.25 22.25 0 0 1 130.25 20.00V54.25Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M89.75 1.25H108A18.75 18.75 0 0 1 126.75 20V54.25Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M89.75 -2.25H108.00A22.25 22.25 0 0 1 130.25 20.00V54.25Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M89.75 1.25H108A18.75 18.75 0 0 1 126.75 20V54.25Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">2.5 &#183; its own value</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Sharper than the caps beside it. Two rounding systems in one mark, and the eye catches it.</div></div>
     </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--accent); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--accent);">3.5 &#183; chosen, = &#189; stroke</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">The same radius as the frame caps and the line ends. One rule for the whole mark.</div></div>
     </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M94.00 2.00H108.00A18.00 18.00 0 0 1 126.00 20.00V50.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M94.00 5.5H108A14.5 14.5 0 0 1 122.5 20V50.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M94.00 2.00H108.00A18.00 18.00 0 0 1 126.00 20.00V50.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M94.00 5.5H108A14.5 14.5 0 0 1 122.5 20V50.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M94.00 2.00H108.00A18.00 18.00 0 0 1 126.00 20.00V50.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M94.00 5.5H108A14.5 14.5 0 0 1 122.5 20V50.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">5.5 &#183; softer than the caps</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Rounder than everything around it; the diagonal stops being a cut.</div></div>
     </div></div>
@@ -111,48 +111,48 @@ const CARD = `<div class="spec" style="--spec-gap:22px">
       <span style="font-size:14px; font-weight:600;">Marker height</span><span style="font-size:12px; color:var(--text-muted);">how far it runs down the right edge</span>
     </div>
     <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 56.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 56.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V42.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 56.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V42.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 56.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V42.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 56.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V42.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 56.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V42.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V42.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">42 down</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Nearly square. Reads as a corner, not as a form with a direction.</div></div>
     </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--accent); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--accent);">52 down &#183; chosen</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">A 1 : 1.44 form &#8212; close to the Soul&#8217;s own proportion, and the diagonal gets a real slope.</div></div>
     </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 76.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 76.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V62.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 76.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V62.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 76.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V62.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 76.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V62.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 76.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V62.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V62.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">62 down</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Long. Strong reference, but it eats the frame&#8217;s right side and crowds the accent line.</div></div>
     </div></div>
@@ -163,48 +163,48 @@ const CARD = `<div class="spec" style="--spec-gap:22px">
       <span style="font-size:14px; font-weight:600;">Marker width</span><span style="font-size:12px; color:var(--text-muted);">across the top edge</span>
     </div>
     <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H84.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H84.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M98.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H84.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M98.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H84.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M98.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H84.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M98.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H84.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M98.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M98.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">30 across</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Narrow and steep. Sharpest silhouette, weakest at 17&#8239;px.</div></div>
     </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--accent); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--accent);">36 across &#183; chosen</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">The width chosen, with the added drop.</div></div>
     </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H70.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H70.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M84.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H70.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M84.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H70.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M84.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H70.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M84.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H70.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M84.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M84.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">44 across</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Wide enough that the marker stops being a corner and becomes a lid.</div></div>
     </div></div>
@@ -215,48 +215,48 @@ const CARD = `<div class="spec" style="--spec-gap:22px">
       <span style="font-size:14px; font-weight:600;">Stroke weight</span><span style="font-size:12px; color:var(--text-muted);">the gap and the rounding both follow it</span>
     </div>
     <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 64.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H80.00" fill="none" stroke="var(--text-secondary)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M125 64.00V80A17 17 0 0 1 108 97H20A17 17 0 0 1 3 80V20A17 17 0 0 1 20 3H80.00" fill="none" stroke="var(--text-secondary)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="27" width="56" height="6" rx="3" fill="var(--text-muted)" /><rect x="22" y="47" width="36" height="6" rx="3" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="67" width="66" height="6" rx="3" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 64.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H80.00" fill="none" stroke="var(--text-secondary)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3H108A17 17 0 0 1 125 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M125 64.00V80A17 17 0 0 1 108 97H20A17 17 0 0 1 3 80V20A17 17 0 0 1 20 3H80.00" fill="none" stroke="var(--text-secondary)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="27" width="56" height="6" rx="3" fill="var(--text-muted)" /><rect x="22" y="47" width="36" height="6" rx="3" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="67" width="66" height="6" rx="3" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 64.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H80.00" fill="none" stroke="var(--text-secondary)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3H108A17 17 0 0 1 125 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M125 64.00V80A17 17 0 0 1 108 97H20A17 17 0 0 1 3 80V20A17 17 0 0 1 20 3H80.00" fill="none" stroke="var(--text-secondary)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="27" width="56" height="6" rx="3" fill="var(--text-muted)" /><rect x="22" y="47" width="36" height="6" rx="3" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="67" width="66" height="6" rx="3" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3H108A17 17 0 0 1 125 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">6 units</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Finer frame, more air. Goes weak below 20&#8239;px.</div></div>
     </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--accent); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--accent);">7 units &#183; chosen</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Holds from 17&#8239;px up and matches the weight of the session lines.</div></div>
     </div>      <div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
-      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="-6 -6 140 112" width="58.80" height="47.04" class="sds-signet">
-<path d="M128 69.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:14px; min-height:50px;"><svg viewBox="0 0 128 100" width="53.76" height="42.00" class="sds-signet">
+<path d="M123.75 69.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="25.75" width="56" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="45.75" width="36" height="8.5" rx="4.25" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="65.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet">
-<path d="M128 69.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet">
+<path d="M123.75 69.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="25.75" width="56" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="45.75" width="36" height="8.5" rx="4.25" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="65.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="23.80" height="19.04" class="sds-signet">
-<path d="M128 69.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="21.76" height="17.00" class="sds-signet">
+<path d="M123.75 69.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="25.75" width="56" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="45.75" width="36" height="8.5" rx="4.25" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="65.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 </svg></div>
       <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">8.5 units</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">Heavy. The interior closes up and the lines lose their separation.</div></div>
     </div></div>
@@ -266,19 +266,19 @@ const CARD = `<div class="spec" style="--spec-gap:22px">
 
   <div style="display:flex; gap:30px; align-items:flex-start;">
     <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; flex:none;">
-      <svg viewBox="-6 -6 140 112" width="123.20" height="98.56" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <svg viewBox="0 0 128 100" width="112.64" height="88.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.5" width="56" height="7" rx="3.5" fill="var(--text-muted)" /><rect x="22" y="46.5" width="36" height="7" rx="3.5" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.5" width="66" height="7" rx="3.5" fill="var(--accent)" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg>
       <div class="spec-cap">DEV COMPANION</div>
       <div class="spec-note" style="max-width:20ch;">A session ending in one answer.</div>
     </div>
     <div style="display:flex; flex-direction:column; gap:9px; align-items:flex-start; flex:none;">
-      <svg viewBox="-6 -6 140 112" width="123.20" height="98.56" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <svg viewBox="0 0 128 100" width="112.64" height="88.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <path d="M38 29.5L38 70.5L77 50Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-<path d="M92.00 0.00H108.00A20.00 20.00 0 0 1 128.00 20.00V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg>
       <div class="spec-cap">TRYOUT</div>
       <div class="spec-note" style="max-width:20ch;">Clone, <span class="sds-mono" style="white-space:nowrap;">ddev start</span>, done.</div>

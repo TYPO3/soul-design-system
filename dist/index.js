@@ -2425,15 +2425,15 @@ import { html as html7 } from "lit";
 import { unsafeHTML as unsafeHTML2 } from "lit/directives/unsafe-html.js";
 var DRAWINGS = {
   s: {
-    box: "-6 -20 140 140",
+    box: "0 -14 128 128",
     shapes: '<path d="M56 94.5H20A14.5 14.5 0 0 1 5.5 80V44" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="11" height="39" rx="5.5"></rect><rect fill="currentColor" x="55.5" y="30.5" width="17" height="39" rx="5.5"></rect><rect fill="currentColor" x="78" y="30.5" width="11" height="39" rx="5.5"></rect><path d="M72 5.5H108A14.5 14.5 0 0 1 122.5 20V56" fill="none" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"></path>'
   },
   m: {
-    box: "-6 -6 140 112",
+    box: "0 0 128 100",
     shapes: '<path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path>'
   },
   l: {
-    box: "-6 -6 140 112",
+    box: "0 0 128 100",
     shapes: '<path d="M56 96.5H20A16.5 16.5 0 0 1 3.5 80V44" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="11" height="39" rx="3.5"></rect><rect fill="currentColor" x="53.5" y="30.5" width="21" height="39" rx="3.5"></rect><rect fill="currentColor" x="78" y="30.5" width="11" height="39" rx="3.5"></rect><path d="M72 3.5H108A16.5 16.5 0 0 1 124.5 20V56" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"></path>'
   }
 };

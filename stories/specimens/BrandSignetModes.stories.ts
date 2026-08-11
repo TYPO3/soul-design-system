@@ -25,39 +25,39 @@ const CARD = `<div class="spec" style="--spec-gap:24px">
     </div>
     <div style="border:1px solid var(--border-subtle); border-radius:var(--radius-card); overflow:hidden; margin-bottom:12px;">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border-subtle);">
-        <div data-theme="dark" style="background:var(--surface-canvas); padding:16px;"><div style="display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap;"><svg viewBox="-6 -6 140 112" width="61.60" height="49.28" class="sds-signet sds-signet--muted">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+        <div data-theme="dark" style="background:var(--surface-canvas); padding:16px;"><div style="display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap;"><svg viewBox="0 0 128 100" width="56.32" height="44.00" class="sds-signet sds-signet--muted">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
-<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet sds-signet--muted">
-<path d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet sds-signet--muted">
+<path d="M123.75 71.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="29.75" width="52" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="22.40" height="17.92" class="sds-signet sds-signet--muted">
-<path d="M128 80.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H66.00" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="20.48" height="16.00" class="sds-signet sds-signet--muted">
+<path d="M122.5 80.00V80A14.5 14.5 0 0 1 108 94.5H20A14.5 14.5 0 0 1 5.5 80V20A14.5 14.5 0 0 1 20 5.5H66.00" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="28.50" width="52" height="11" rx="5.50" fill="var(--text-muted)" /><rect x="22" y="60.50" width="66" height="11" rx="5.50" fill="var(--accent)" />
-<path d="M88.00 0H108.00A20 20 0 0 1 128 20V58.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
-</svg><span style="display:inline-flex; align-items:center; gap:10px; margin-left:6px;"><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet sds-signet--muted">
-<path d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M88.00 5.5H108A14.5 14.5 0 0 1 122.5 20V58.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="display:inline-flex; align-items:center; gap:10px; margin-left:6px;"><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet sds-signet--muted">
+<path d="M123.75 71.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="29.75" width="52" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 </svg><span style="display:inline-flex; align-items:center; gap:7.7px; font-size:17px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:1.53px; height:14.45px; background:var(--accent); flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></span></div></div>
-        <div data-theme="light" style="background:var(--surface-canvas); padding:16px;"><div style="display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap;"><svg viewBox="-6 -6 140 112" width="61.60" height="49.28" class="sds-signet sds-signet--muted">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+        <div data-theme="light" style="background:var(--surface-canvas); padding:16px;"><div style="display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap;"><svg viewBox="0 0 128 100" width="56.32" height="44.00" class="sds-signet sds-signet--muted">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
-<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet sds-signet--muted">
-<path d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet sds-signet--muted">
+<path d="M123.75 71.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="29.75" width="52" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
-</svg><svg viewBox="-6 -6 140 112" width="22.40" height="17.92" class="sds-signet sds-signet--muted">
-<path d="M128 80.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H66.00" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+</svg><svg viewBox="0 0 128 100" width="20.48" height="16.00" class="sds-signet sds-signet--muted">
+<path d="M122.5 80.00V80A14.5 14.5 0 0 1 108 94.5H20A14.5 14.5 0 0 1 5.5 80V20A14.5 14.5 0 0 1 20 5.5H66.00" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="28.50" width="52" height="11" rx="5.50" fill="var(--text-muted)" /><rect x="22" y="60.50" width="66" height="11" rx="5.50" fill="var(--accent)" />
-<path d="M88.00 0H108.00A20 20 0 0 1 128 20V58.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
-</svg><span style="display:inline-flex; align-items:center; gap:10px; margin-left:6px;"><svg viewBox="-6 -6 140 112" width="33.60" height="26.88" class="sds-signet sds-signet--muted">
-<path d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M88.00 5.5H108A14.5 14.5 0 0 1 122.5 20V58.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+</svg><span style="display:inline-flex; align-items:center; gap:10px; margin-left:6px;"><svg viewBox="0 0 128 100" width="30.72" height="24.00" class="sds-signet sds-signet--muted">
+<path d="M123.75 71.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="29.75" width="52" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 </svg><span style="display:inline-flex; align-items:center; gap:7.7px; font-size:17px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:1.53px; height:14.45px; background:var(--accent); flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></span></div></div>
       </div>
     </div>
@@ -73,25 +73,25 @@ const CARD = `<div class="spec" style="--spec-gap:24px">
     </div>
     <div style="display:flex; flex-direction:column; gap:14px;">
       <div style="display:flex; align-items:center; gap:0; background:var(--surface-sunken); border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:6px; width:fit-content;">
-        <span style="display:flex; align-items:center; gap:7px; background:var(--surface-inset); border-radius:4px; padding:6px 12px;"><svg viewBox="-6 -6 140 112" width="22.40" height="17.92" class="sds-signet sds-signet--muted">
-<path d="M128 80.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H66.00" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+        <span style="display:flex; align-items:center; gap:7px; background:var(--surface-inset); border-radius:4px; padding:6px 12px;"><svg viewBox="0 0 128 100" width="20.48" height="16.00" class="sds-signet sds-signet--muted">
+<path d="M122.5 80.00V80A14.5 14.5 0 0 1 108 94.5H20A14.5 14.5 0 0 1 5.5 80V20A14.5 14.5 0 0 1 20 5.5H66.00" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="28.50" width="52" height="11" rx="5.50" fill="var(--text-muted)" />
 <rect x="22" y="60.50" width="66" height="11" rx="5.50" fill="var(--accent)" />
-<path d="M88.00 0H108.00A20 20 0 0 1 128 20V58.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M88.00 5.5H108A14.5 14.5 0 0 1 122.5 20V58.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
 </svg><span style="font-size:12px; color:var(--text-primary);">Soul Design System</span></span>
         <span style="display:flex; align-items:center; gap:7px; padding:6px 12px;"><span style="width:16px; height:16px; border-radius:3px; background:var(--border-strong);"></span><span style="font-size:12px; color:var(--text-muted);">docs.typo3.org</span></span>
       </div>
       <div style="display:flex; align-items:center; gap:10px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:9px 12px; width:fit-content;">
-        <svg viewBox="-6 -6 140 112" width="28.00" height="22.40" class="sds-signet">
-<path d="M128 71.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+        <svg viewBox="0 0 128 100" width="25.60" height="20.00" class="sds-signet">
+<path d="M123.75 71.00V80A15.75 15.75 0 0 1 108 95.75H20A15.75 15.75 0 0 1 4.25 80V20A15.75 15.75 0 0 1 20 4.25H75.00" fill="none" stroke="var(--text-secondary)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="29.75" width="52" height="8.5" rx="4.25" fill="var(--text-muted)" /><rect x="22" y="61.75" width="66" height="8.5" rx="4.25" fill="var(--accent)" />
-<path d="M92.00 0H108.00A20 20 0 0 1 128 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 4.25H108A15.75 15.75 0 0 1 123.75 20V54.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round" />
 </svg><span style="font-family:var(--font-mono); font-size:13px; color:var(--text-primary);">typo3-support-app</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--status-ok);">&#9679; running</span>
       </div>
-      <div style="display:flex; align-items:center; gap:11px;"><svg viewBox="-6 -6 140 112" width="42.00" height="33.60" class="sds-signet">
-<path d="M128 66.00V80A20 20 0 0 1 108 100H20A20 20 0 0 1 0 80V20A20 20 0 0 1 20 0H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+      <div style="display:flex; align-items:center; gap:11px;"><svg viewBox="0 0 128 100" width="38.40" height="30.00" class="sds-signet">
+<path d="M124.5 66.00V80A16.5 16.5 0 0 1 108 96.5H20A16.5 16.5 0 0 1 3.5 80V20A16.5 16.5 0 0 1 20 3.5H78.00" fill="none" stroke="var(--text-secondary)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 <rect x="22" y="26.50" width="56" height="7" rx="3.50" fill="var(--text-muted)" /><rect x="22" y="46.50" width="36" height="7" rx="3.50" fill="var(--text-muted)" opacity="0.55" /><rect x="22" y="66.50" width="66" height="7" rx="3.50" fill="var(--accent)" />
-<path d="M92.00 0H108.00A20 20 0 0 1 128 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+<path d="M92.00 3.5H108A16.5 16.5 0 0 1 124.5 20V52.00Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
 </svg><span style="display:inline-flex; align-items:center; gap:9.9px; font-size:22px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:1.98px; height:18.70px; background:var(--accent); flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></div>
     </div>
   </div>
