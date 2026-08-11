@@ -1,0 +1,28 @@
+{#
+    `.. versionadded::`, `.. versionchanged::`, `.. deprecated::`.
+
+    **This is a note, and not nearly as loosely as it sounds.** `sds-note` says
+    of itself: a title that states the fact, and a bounded line of prose under
+    it saying what the fact costs the reader. A version change is that sentence
+    twice over — "Changed in version 1.2" is the fact, and the paragraph under
+    it is what the change costs somebody reading the page today. Nothing new
+    has to be invented to say it, and a vocabulary that grew a second
+    label-over-prose block would have two of them disagreeing within a release.
+
+    **Only deprecation carries a tone.** `warn` in this system is the degraded
+    but usable answer, which is exactly what a deprecated thing is: it still
+    works, and it is going away. The other two are facts about the surface and
+    nothing has gone wrong in either, so they are `info` — and `info` is the
+    tone that does not tint. That matters on a reference page, where an API
+    with a long history carries one of these every third paragraph: tint them
+    all and the page reads as an alarm about itself, which is the reasoning
+    `sds-note` already states about `warn` being the only filled tone.
+
+    The label the glyph says out loud stays the tone's own. The heading is
+    visible and already names the version, so a truer word here would only be
+    read out twice.
+#}
+{%- set tone = node.type == 'deprecated' ? 'warn' : 'info' -%}
+{#- `versionLabel` arrives formatted — the node has already put the version
+    into "New in version %s". It is text, which is what a heading takes. -#}
+<sds-note tone="{{ tone }}" heading="{{ node.versionLabel }}">{{ renderNode(node.value) }}</sds-note>
