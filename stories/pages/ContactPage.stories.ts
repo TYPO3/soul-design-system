@@ -174,7 +174,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
             .body="${html`Nothing else left this machine. The scope is attached exactly as the
               page showed it, and the address is used for the reply alone.`}"
           ></sds-note>
-          <p class="sds-prose">
+          <p>
             It is read by a person, usually within two working days. A report
             about bundled knowledge that turns out to be wrong becomes a
             changelog entry, and the entry names the release it was fixed in —
@@ -202,7 +202,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
     <section class="sds-band" id="contact">
       <div class="sds-stack">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-        <h1 class="sds-h1">Report a wrong answer</h1>
+        <h1>Report a wrong answer</h1>
         <p class="sds-lead">
           An answer that names its source can be checked, and one that is wrong
           can be fixed in the source rather than argued about. This form is how
@@ -217,7 +217,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
 
         <div class="sds-stack">
           <span class="sds-label">What happens to it</span>
-          <p class="sds-prose">
+          <p>
             It is read by a person. Where the answer came from bundled
             knowledge, the fix is a change to that knowledge and ships with the
             next release; where it came from your installation, the reply says
@@ -229,7 +229,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
               and what it holds is listed beside the box. No page on this site
               carries an analytics script.`}"
           ></sds-note>
-          <p class="sds-prose">
+          <p>
             Typical turnaround is two working days${NNBSP}— longer where the answer
             has to be reproduced against a release the project no longer runs.
           </p>
@@ -239,8 +239,8 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
 
     <section class="sds-band" id="elsewhere">
       <div class="sds-stack">
-        <h2 class="sds-h2">Three things that go elsewhere</h2>
-        <p class="sds-prose">
+        <h2>Three things that go elsewhere</h2>
+        <p>
           This form is for an answer that was wrong. These are not that, and
           sending them here makes them slower rather than faster.
         </p>

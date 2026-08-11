@@ -37,9 +37,9 @@ import { type PageMode } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'News' }];
 
-/** An entry, plus the tag the filter reads. `art` is the light file and
-    `artDark` its counterpart; an entry with only one of the two shows no
-    drawing rather than the wrong one. */
+/** An entry, plus the tag the filter reads. The placeholder illustrations are
+    mode-neutral, so each entry needs only `art`; `artDark` remains available
+    to the component for genuinely mode-specific figures. */
 interface Entry extends TeaserProps {
   tag: string;
 }
@@ -50,45 +50,48 @@ const ENTRIES: readonly Entry[] = [
     meta: '9 August 2026 · 1.4.0',
     heading: 'Answers now name the source that answered',
     body: 'Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.',
-    art: 'diagrams/answer-sources.svg',
-    artDark: 'diagrams/answer-sources-dark.svg',
-    alt: 'The five sources plotted against how much of the machine has to be running.',
+    art: 'placeholders/tool-source-answer.png',
+    alt: '',
   },
   {
     tag: 'guide',
     meta: '24 July 2026',
     heading: 'Reading the package registry when the installation will not boot',
     body: 'The fallback returns every declared entry and none of the dynamically registered ones. What makes it usable is that the shortfall travels with the result.',
-    art: 'diagrams/installation-fallback.svg',
-    artDark: 'diagrams/installation-fallback-dark.svg',
-    alt: 'Three paths through the registry, and what each of them returns.',
+    art: 'placeholders/tool-package-registry.png',
+    alt: '',
   },
   {
     tag: 'project',
     meta: '2 July 2026',
     heading: 'One line leaves the machine, and it is drawn as the exception',
     body: 'Everything that answers a question is already on the developer’s disk. The single read-only path to the documentation is in the diagram rather than in a footnote.',
-    art: 'diagrams/system-overview.svg',
-    artDark: 'diagrams/system-overview-dark.svg',
-    alt: 'The client, the local server and its sources inside the machine, with one read-only path leaving it.',
+    art: 'placeholders/tool-external-path.png',
+    alt: '',
   },
   {
     tag: 'release',
     meta: '18 June 2026 · 1.3.0',
     heading: 'Changelog lookups bind down to 7.0',
     body: 'A question about an old installation is answered with what held then, or not at all. Where the bundled knowledge stops, the tool says so instead of answering from the nearest release it has.',
+    art: 'placeholders/tool-changelog-history.png',
+    alt: '',
   },
   {
     tag: 'guide',
     meta: '30 May 2026',
     heading: 'Writing a task skill that fails at registration',
     body: 'A skill declares the sources it needs. One that cannot reach any of them says so when the server starts, which is the difference between a broken setup and a wrong answer.',
+    art: 'placeholders/tool-registration.png',
+    alt: '',
   },
   {
     tag: 'project',
     meta: '12 May 2026',
     heading: 'What is written down, and what is not',
     body: 'The decisions kept in the repository, the ones kept in the knowledge base, and why the two lists are deliberately not the same.',
+    art: 'placeholders/tool-written-record.png',
+    alt: '',
   },
 ];
 
@@ -152,7 +155,7 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
     <section class="sds-band" id="news">
       <div class="sds-stack">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-        <h1 class="sds-h1">News</h1>
+        <h1>News</h1>
         <p class="sds-lead">
           Releases, guides, and what the project decided. Every entry says which
           release it holds for; nothing here is a roadmap.
@@ -180,8 +183,8 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
     <section class="sds-band" id="follow">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">Follow along</h2>
-          <p class="sds-prose">
+          <h2>Follow along</h2>
+          <p>
             Releases are announced here and in the repository. The feed carries
             the same entries in the same order, with the release each one holds
             for in its title.

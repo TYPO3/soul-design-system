@@ -30,13 +30,13 @@ export const Default: Story = {
   render: ({ active }) => html`
     <sds-tabs active="${active ?? 0}">
       <sds-tab-item label="standalone">
-        <p class="sds-prose">Clone it, install once, then point a project at the binary.</p>
+        <p>Clone it, install once, then point a project at the binary.</p>
       </sds-tab-item>
       <sds-tab-item label="as a dependency">
-        <p class="sds-prose">Require it, and the binary arrives in <span class="sds-mono">vendor/bin</span>.</p>
+        <p>Require it, and the binary arrives in <span class="sds-mono">vendor/bin</span>.</p>
       </sds-tab-item>
       <sds-tab-item label="ddev">
-        <p class="sds-prose">Run it inside the container the site runs in, so the versions agree.</p>
+        <p>Run it inside the container the site runs in, so the versions agree.</p>
       </sds-tab-item>
     </sds-tabs>
   `,
@@ -48,13 +48,13 @@ export const WithIcons: Story = {
   render: () => html`
     <sds-tabs>
       <sds-tab-item label="answer" icon="actions-message">
-        <p class="sds-prose">What the tool said, as it said it.</p>
+        <p>What the tool said, as it said it.</p>
       </sds-tab-item>
       <sds-tab-item label="request" icon="actions-code">
-        <p class="sds-prose">The call that produced it, arguments included.</p>
+        <p>The call that produced it, arguments included.</p>
       </sds-tab-item>
       <sds-tab-item label="timing" icon="actions-clock">
-        <p class="sds-prose">How long it took, and where the time went.</p>
+        <p>How long it took, and where the time went.</p>
       </sds-tab-item>
     </sds-tabs>
   `,

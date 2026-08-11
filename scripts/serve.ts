@@ -74,3 +74,23 @@ for (const signal of ['SIGINT', 'SIGTERM'] as const) {
     server.close(() => process.exit(0));
   });
 }
+
+/* And go when whoever started this is gone.
+
+   A signal covers a run that ends. It does not cover one that is *killed* —
+   an interrupted `make test`, a closed terminal — and that case leaves this
+   process bound to the port with nobody watching it. The next run then finds a
+   server answering, reuses it rather than starting its own, and is served a
+   build from whenever that server was started. The failure it produces is the
+   confusing kind: three tests refused a connection mid-run because a teardown
+   from the previous run finally arrived.
+
+   Orphaned means re-parented to init, which is PID 1 — the container runs one
+   now, which is what makes this a reliable signal rather than a guess. The
+   timer is unref'd so it never holds the loop open by itself. */
+const parent = process.ppid;
+setInterval(() => {
+  if (process.ppid === parent) return;
+  server.closeAllConnections();
+  server.close(() => process.exit(0));
+}, 2_000).unref();

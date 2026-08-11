@@ -122,7 +122,7 @@ export function sitemapPage(_: PageMode = {}): TemplateResult {
     <section class="sds-band" id="sitemap">
       <div class="sds-stack">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-        <h1 class="sds-h1">Sitemap</h1>
+        <h1>Sitemap</h1>
         <p class="sds-lead">
           Every page, and nothing that is not a page. It answers the question a
           search box cannot: whether the thing you are looking for exists here
@@ -152,7 +152,7 @@ export function sitemapPage(_: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="not-here">
       <div class="sds-stack">
-        <h2 class="sds-h2">What is deliberately not here</h2>
+        <h2>What is deliberately not here</h2>
         <sds-note
           heading="The knowledge base has no page per rule"
           .body="${html`What the tools answer from is not a website — it is asked through a

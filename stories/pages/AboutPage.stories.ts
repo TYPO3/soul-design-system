@@ -84,7 +84,7 @@ export function aboutPage(_: PageMode = {}): TemplateResult {
     <section class="sds-band" id="about">
       <div class="sds-stack">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-        <h1 class="sds-h1">Who is behind it</h1>
+        <h1>Who is behind it</h1>
         <p class="sds-lead">
           A tool that answers questions about somebody else’s software has to
           say who is answerable for the answers. This page is that, and the
@@ -100,8 +100,8 @@ export function aboutPage(_: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="people">
       <div class="sds-stack">
-        <h2 class="sds-h2">The people</h2>
-        <p class="sds-prose">
+        <h2>The people</h2>
+        <p>
           Named by what they are answerable for rather than by a title. No
           photographs: a face is a file to fetch, keep in step and licence, and
           none of that is what naming a maintainer is for.
@@ -120,13 +120,13 @@ export function aboutPage(_: PageMode = {}): TemplateResult {
     <section class="sds-band" id="why">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">Why it exists</h2>
-          <p class="sds-prose">
+          <h2>Why it exists</h2>
+          <p>
             A coding agent asked about TYPO3 answers from whatever it read
             during training, which is a mixture of releases nobody can name.
             The answers are fluent and some of them are from 2019.
           </p>
-          <p class="sds-prose">
+          <p>
             This project’s position is that an answer without a source is not an
             answer. Everything else it does — the version bindings, the five
             sources, the shortfall that travels with a degraded result — follows
@@ -145,8 +145,8 @@ export function aboutPage(_: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="funding">
       <div class="sds-stack">
-        <h2 class="sds-h2">How it is paid for, and what happens if it stops</h2>
-        <p class="sds-prose">
+        <h2>How it is paid for, and what happens if it stops</h2>
+        <p>
           Unpaid work, done in the open, under GPL-2.0-or-later. Nothing about
           it is sold and nothing about it is sponsored, which is worth stating
           plainly rather than leaving to be inferred from the absence of a

@@ -105,7 +105,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
         <sds-badge label="13.4 · 14.3" tone="accent"></sds-badge>
       </div>
 
-      <h1 class="sds-h1">Reading the package registry when the installation will not boot</h1>
+      <h1>Reading the package registry when the installation will not boot</h1>
 
       <p class="sds-lead">
         A tool that needs a booted installation and cannot have one does not
@@ -124,13 +124,13 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       ></sds-figure>
 
       <h2 class="sds-h3" id="fallback">What the fallback is</h2>
-      <p class="sds-prose">
+      <p>
         Three paths lead to the same registry and they are not equal. Where a
         console command exists it runs, and where it does not the runtime is
         booted in this process. Both return everything the registry holds; they
         differ in what they cost, not in what they know.
       </p>
-      <p class="sds-prose">
+      <p>
         The third path exists because the first two can be unavailable — a
         failsafe installation, a missing database, an extension that throws
         while it is being loaded. It reads the package files from disk. It never
@@ -139,7 +139,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       </p>
 
       <h2 class="sds-h3" id="returns">What it returns</h2>
-      <p class="sds-prose">
+      <p>
         Every entry a package declares in a file, and nothing that is registered
         while the application runs. For most installations that is the larger
         part of the registry, which is precisely what makes the shortfall
@@ -149,7 +149,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
 
       <sds-code code-lang="json" source="${RESULT}" copy></sds-code>
 
-      <p class="sds-prose">
+      <p>
         <span class="sds-mono">answeredBy</span> is what reached the question and
         <span class="sds-mono">declared</span> is what the tool was allowed to
         read. The two differing is the whole definition of a degraded answer in
@@ -163,7 +163,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
         by="installation-fallback"
         as="diagram"
       ></sds-quote>
-      <p class="sds-prose">
+      <p>
         Dynamic registrations are the whole of the difference — entries an
         extension adds in its own bootstrap, which exist only once something has
         run. No file on disk names them, so no amount of reading files finds
@@ -178,7 +178,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       ></sds-note>
 
       <h2 class="sds-h3" id="gap">Closing the gap</h2>
-      <p class="sds-prose">
+      <p>
         Nothing has to be configured. The fallback is chosen because the two
         paths above it were unavailable, so making one of them available is the
         entire fix — and the next answer says <span class="sds-mono">installation</span>

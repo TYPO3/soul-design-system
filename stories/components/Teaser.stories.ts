@@ -2,7 +2,7 @@
 
    The markup lives in `src/components/teaser.ts`. No `parameters.dsCard`: a
    teaser is judged in a grid of them — whether the titles line up, whether a
-   card with a drawing sits beside one without — and a card is a fragment at a
+   card with an image sits beside one without — and a card is a fragment at a
    fixed size. `Pages/News` shows the grid.
 
    The story that matters is `Mixed`: a set where only some entries have a
@@ -31,9 +31,8 @@ const WITH_ART: TeaserProps = {
   meta: '9 August 2026 · 1.4.0',
   heading: 'Answers now name the source that answered',
   body: 'Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.',
-  art: '/assets/diagrams/answer-sources.svg',
-  artDark: '/assets/diagrams/answer-sources-dark.svg',
-  alt: 'The five sources plotted against how much of the machine has to be running.',
+  art: '/assets/placeholders/tool-source-answer.png',
+  alt: '',
 };
 
 const WITHOUT_ART: TeaserProps = {
@@ -64,7 +63,7 @@ const meta: Meta<TeaserProps> = {
 export default meta;
 type Story = StoryObj<TeaserProps>;
 
-/** With a drawing. It sits flush at the top: a framed image inside a card
+/** With an illustration. It sits flush at the top: a framed image inside a card
     would share the card's corner, and a container must not. */
 export const Default: Story = { args: WITH_ART };
 
@@ -79,7 +78,7 @@ export const Bare: Story = {
 };
 
 /** The grid, which is where a teaser is actually judged: the titles line up,
-    and a card with a drawing sits beside one without. */
+    and a card with an image sits beside one without. */
 export const Mixed: Story = {
   parameters: { layout: 'fullscreen' },
   render: () => html`<div class="sds-grid" style="padding:var(--space-6)">

@@ -3480,8 +3480,8 @@ var SdsTeaser = class extends SdsElement {
   }
   render() {
     const art = this.art ? html31`<div class="sds-teaser__art">
-    <img class="sds-art${this.artDark ? " sds-art--light" : ""}" src="${this.art}" alt="${this.alt}" />
-    ${this.artDark ? html31`<img class="sds-art sds-art--dark" src="${this.artDark}" alt="${this.alt}" />` : ""}
+    <img class="sds-art${this.artDark ? " sds-art--light" : ""}" src="${this.art}" alt="${this.alt}" />${this.artDark ? html31`
+    <img class="sds-art sds-art--dark" src="${this.artDark}" alt="${this.alt}" />` : ""}
   </div>` : "";
     const meta = this.tag || this.meta ? html31`<div class="sds-row">
       ${this.tag ? html31`<sds-badge label="${this.tag}"></sds-badge>` : ""}

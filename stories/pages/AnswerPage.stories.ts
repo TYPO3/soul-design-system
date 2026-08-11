@@ -80,7 +80,7 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
           that override the constant handler.`}"
       ></sds-note>
 
-      <p class="sds-prose">
+      <p>
         Constants are resolved once, before the setup is parsed, so a constant can
         no longer depend on a value the setup defines later. Where that dependency
         existed, the constant now resolves empty rather than to the stale value.

@@ -121,7 +121,7 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
     <section class="sds-band" id="search">
       <div class="sds-stack">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-        <h1 class="sds-h1">Results for <span class="sds-mono">${QUERY}</span></h1>
+        <h1>Results for <span class="sds-mono">${QUERY}</span></h1>
         <sds-field
           caption="Search"
           field-id="q"
@@ -155,8 +155,8 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
     <section class="sds-band" id="scope">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">What was searched</h2>
-          <p class="sds-prose">
+          <h2>What was searched</h2>
+          <p>
             Four sources, and the last of them is your own installation — which
             is searched only where one has been reached. A facet that says zero
             has been asked; a facet that is missing was never available.

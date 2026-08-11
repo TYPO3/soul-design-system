@@ -96,14 +96,14 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
     </aside>
 
     <main class="sds-column">
-      <h1 class="sds-h1">It answers before it guesses</h1>
+      <h1>It answers before it guesses</h1>
       <p class="sds-lead">
         A local server for the three audiences that do TYPO3 work. Every answer
         names the source it came from and the versions it holds for.
       </p>
 
       <h2 class="sds-h3">Install</h2>
-      <p class="sds-prose">
+      <p>
         It runs as a subprocess of your client. It needs PHP 8.2 or newer and
         nothing else — no daemon, no database, and no network unless a tool asks
         <span class="sds-mono">docs.typo3.org</span> for a page.

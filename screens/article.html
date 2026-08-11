@@ -76,7 +76,7 @@
         <span class="sds-badge sds-badge--accent">13.4 · 14.3</span>
       </div>
 
-      <h1 class="sds-h1">Reading the package registry when the installation will not boot</h1>
+      <h1>Reading the package registry when the installation will not boot</h1>
 
       <p class="sds-lead">
         A tool that needs a booted installation and cannot have one does not
@@ -113,13 +113,13 @@
 </figure>
 
       <h2 class="sds-h3" id="fallback">What the fallback is</h2>
-      <p class="sds-prose">
+      <p>
         Three paths lead to the same registry and they are not equal. Where a
         console command exists it runs, and where it does not the runtime is
         booted in this process. Both return everything the registry holds; they
         differ in what they cost, not in what they know.
       </p>
-      <p class="sds-prose">
+      <p>
         The third path exists because the first two can be unavailable — a
         failsafe installation, a missing database, an extension that throws
         while it is being loaded. It reads the package files from disk. It never
@@ -128,7 +128,7 @@
       </p>
 
       <h2 class="sds-h3" id="returns">What it returns</h2>
-      <p class="sds-prose">
+      <p>
         Every entry a package declares in a file, and nothing that is registered
         while the application runs. For most installations that is the larger
         part of the registry, which is precisely what makes the shortfall
@@ -149,7 +149,7 @@
 <span class="hljs-punctuation">}</span></code></pre>
 </div>
 
-      <p class="sds-prose">
+      <p>
         <span class="sds-mono">answeredBy</span> is what reached the question and
         <span class="sds-mono">declared</span> is what the tool was allowed to
         read. The two differing is the whole definition of a degraded answer in
@@ -162,7 +162,7 @@
   <blockquote class="sds-quote__body">A partial registry never looks complete: source, reason and the unread files travel with the result.</blockquote>
   <figcaption class="sds-quote__by">installation-fallback · diagram</figcaption>
 </figure>
-      <p class="sds-prose">
+      <p>
         Dynamic registrations are the whole of the difference — entries an
         extension adds in its own bootstrap, which exist only once something has
         run. No file on disk names them, so no amount of reading files finds
@@ -179,7 +179,7 @@
 </div>
 
       <h2 class="sds-h3" id="gap">Closing the gap</h2>
-      <p class="sds-prose">
+      <p>
         Nothing has to be configured. The fallback is chosen because the two
         paths above it were unavailable, so making one of them available is the
         entire fix — and the next answer says <span class="sds-mono">installation</span>

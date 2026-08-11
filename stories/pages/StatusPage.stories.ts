@@ -90,7 +90,7 @@ export function statusPage(_: PageMode = {}): TemplateResult {
       <div class="sds-stack">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
         <div class="sds-row">
-          <h1 class="sds-h1">Status</h1>
+          <h1>Status</h1>
           <sds-badge label="one source degraded" tone="warn"></sds-badge>
         </div>
         <p class="sds-lead">
@@ -108,8 +108,8 @@ export function statusPage(_: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="sources">
       <div class="sds-stack">
-        <h2 class="sds-h2">The six sources</h2>
-        <p class="sds-prose">
+        <h2>The six sources</h2>
+        <p>
           Two of them are yours and cannot be reported on from here, which is
           stated in the table rather than left as a blank row.
         </p>
@@ -120,8 +120,8 @@ export function statusPage(_: PageMode = {}): TemplateResult {
     <section class="sds-band" id="what-it-means">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">What a degraded source costs you</h2>
-          <p class="sds-prose">
+          <h2>What a degraded source costs you</h2>
+          <p>
             A tool that declared it falls back to the next source it declared and
             says so in the result. Nothing waits, nothing retries silently, and
             no answer arrives without the substitution named in it.
@@ -151,7 +151,7 @@ export function statusPage(_: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="history">
       <div class="sds-stack">
-        <h2 class="sds-h2">What this page is not</h2>
+        <h2>What this page is not</h2>
         <sds-note
           heading="It is one location asking, every five minutes"
           .body="${html`A source that answers here may be unreachable from your network, and

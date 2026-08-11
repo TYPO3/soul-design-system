@@ -53,8 +53,35 @@
 
 /* ---------------------------------------------------------------- text -- */
 
-/* Body copy. 17px at 1.65, held to a 66ch measure. */
-.sds-prose {
+/* The elements are the reset. The classes are for when the element cannot say
+   it.
+
+   A class on every paragraph carries no information — and, worse, it is a
+   class the consumer usually cannot write. A rich-text editor emits `<p>` and
+   `<h2>` and nothing else; a template renders a heading because the content
+   said heading. A stylesheet that dresses only `sds-` classes leaves all of
+   that at the browser's defaults, which is 16px Times-adjacent text under a
+   design system.
+
+   So these are plain element selectors and not scoped to `.sds-app`: linking
+   this stylesheet *is* the opt-in, and a reset that only applies inside one
+   wrapper is a reset that whoever writes the wrapper has to know about.
+
+   A class still wins — `p` is one element, `.sds-prose` is one class, and the
+   class is the more specific of the two by the plainest rule CSS has. That is
+   the whole mechanism behind `<h2 class="sds-h3">`: level two, third size,
+   which is a sentence the markup can only tell with both.
+
+   `margin: 0` is the reset part. Rhythm between blocks belongs to the
+   container here — `.sds-stack`, `.sds-column`, `.sds-sections`, `.sds-band` —
+   and an element that brought its own margin would double the gap on every
+   page that already composes correctly. */
+
+/* Body copy. 17px at 1.65, held to a 66ch measure. `.sds-prose` is what a
+   `<p>` already is, and exists for the elements that are not one. */
+.sds-prose,
+p {
+  margin: 0;
   font-size: var(--font-size-body);
   line-height: var(--leading-body);
   max-width: var(--measure-prose);
@@ -75,21 +102,37 @@
   letter-spacing: var(--tracking-display);
   max-width: var(--measure-display);
 }
-.sds-h1 {
+/* Each size is on the element that usually carries it *and* on a class, and
+   the two are needed for different reasons. An outline decides the level; a
+   page decides the size; and where they disagree the class says so. */
+.sds-h1,
+h1 {
   margin: 0;
   font-size: var(--font-size-h1);
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-heading);
 }
-.sds-h2 {
+.sds-h2,
+h2 {
   margin: 0;
   font-size: var(--font-size-h2);
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-heading);
 }
-.sds-h3 {
+.sds-h3,
+h3 {
   margin: 0;
   font-size: var(--font-size-h3);
+  line-height: var(--leading-heading);
+}
+/* The scale stops at three, and a document does not. Below `h3` everything is
+   the UI register — the size a card's title is set at — because a fourth
+   heading size that nothing on a page uses is a size that drifts. */
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-size: var(--font-size-ui);
   line-height: var(--leading-heading);
 }
 /* The sentence under a heading. Larger than body copy and held shorter. */

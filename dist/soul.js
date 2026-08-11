@@ -180,8 +180,8 @@ ${" ".repeat(e)}`,s=[];return t.forEach((i,o)=>{o&&s.push(n),s.push(i)}),s}var T
     ${B(this.rows.map(s=>this.bodyRow(s)),4)}
   </tbody>
 </table>`;return this.scrollable?a`<div class="sds-table-scroll">${n}</div>`:n}};u("sds-table",ut);var ht=class extends g{static{this.properties={heading:{type:String},body:{type:String},href:{type:String},tag:{type:String},meta:{type:String},art:{type:String},artDark:{type:String,attribute:"art-dark"},alt:{type:String}}}constructor(){super(),this.heading="",this.body="",this.href="#",this.tag="",this.meta="",this.art="",this.artDark="",this.alt=""}render(){let e=this.art?a`<div class="sds-teaser__art">
-    <img class="sds-art${this.artDark?" sds-art--light":""}" src="${this.art}" alt="${this.alt}" />
-    ${this.artDark?a`<img class="sds-art sds-art--dark" src="${this.artDark}" alt="${this.alt}" />`:""}
+    <img class="sds-art${this.artDark?" sds-art--light":""}" src="${this.art}" alt="${this.alt}" />${this.artDark?a`
+    <img class="sds-art sds-art--dark" src="${this.artDark}" alt="${this.alt}" />`:""}
   </div>`:"",n=this.tag||this.meta?a`<div class="sds-row">
       ${this.tag?a`<sds-badge label="${this.tag}"></sds-badge>`:""}
       ${this.meta?a`<span class="sds-label">${this.meta}</span>`:""}

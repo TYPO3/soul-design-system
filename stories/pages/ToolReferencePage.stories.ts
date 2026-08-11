@@ -122,7 +122,7 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
   <main class="sds-page">
     <div class="sds-stack" id="tools">
       <h1 class="sds-h2">Tool surface</h1>
-      <p class="sds-prose">
+      <p>
         Eight tools. Every one is read-only; none writes to your installation.
       </p>
 

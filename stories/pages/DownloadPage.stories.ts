@@ -142,7 +142,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
       <div class="sds-split">
         <div class="sds-stack">
           <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-          <h1 class="sds-h1">Get started</h1>
+          <h1>Get started</h1>
           <p class="sds-lead">
             One local process, started by your client. It needs PHP${NNBSP}8.2 or
             newer and a TYPO3 project it can read — no daemon, no database of its
@@ -164,8 +164,8 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="files">
       <div class="sds-stack">
-        <h2 class="sds-h2">What is published</h2>
-        <p class="sds-prose">
+        <h2>What is published</h2>
+        <p>
           Three files, and two of them are only there so the first can be
           checked. The hashes are shortened here and in full in
           <span class="sds-mono">checksums.txt</span>.
@@ -177,8 +177,8 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="verify">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">Check what you got</h2>
-          <p class="sds-prose">
+          <h2>Check what you got</h2>
+          <p>
             One command, and it answers about the file on your disk rather than
             about the page you downloaded it from. A signature is worth more than
             a hash on the same server as the file — the key is published with the
@@ -194,7 +194,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="after">
       <div class="sds-stack">
-        <h2 class="sds-h2">When it does not answer</h2>
+        <h2>When it does not answer</h2>
         <sds-note
           tone="warn"
           heading="The client starts it and nothing appears"
@@ -209,7 +209,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
             It answers from package files meanwhile, and
             <span class="sds-mono">ddev start</span> closes the gap for a DDEV project.`}"
         ></sds-note>
-        <p class="sds-prose">
+        <p>
           Neither of those is a bug worth reporting until the scope has been
           read — it says which sources were reachable, and that is the answer to
           both questions.

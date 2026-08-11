@@ -98,7 +98,7 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="compare">
       <div class="sds-stack">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-        <h1 class="sds-h1">Which way to run it</h1>
+        <h1>Which way to run it</h1>
         <p class="sds-lead">
           The same server, started from three places. They differ in what is
           running around it, which is the only thing that decides what it can
@@ -121,14 +121,14 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="matrix">
       <div class="sds-stack">
-        <h2 class="sds-h2">What each one can reach</h2>
-        <p class="sds-prose">
+        <h2>What each one can reach</h2>
+        <p>
           Six sources, and the gaps are the reason this table exists. A
           comparison in which everything is present somewhere tells the reader
           nothing they could not have guessed.
         </p>
         <sds-table density="airy" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
-        <p class="sds-prose">
+        <p>
           A dash is not a failure. It is a source that is not reachable from
           there${NNBSP}— and a tool that would need it says so at registration
           rather than answering from the next one down without mentioning it.
@@ -139,8 +139,8 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="pick">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">Pick the first one unless you cannot</h2>
-          <p class="sds-prose">
+          <h2>Pick the first one unless you cannot</h2>
+          <p>
             The other two exist because a machine sometimes cannot boot a
             TYPO3 installation — a pipeline, a review of a project you do not
             run, a skill being written against nothing in particular. Neither is

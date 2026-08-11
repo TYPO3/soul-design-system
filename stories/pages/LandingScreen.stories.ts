@@ -275,8 +275,8 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="foundations">
       <div class="sds-stack">
-        <h2 class="sds-h2">What it is made of</h2>
-        <p class="sds-prose">
+        <h2>What it is made of</h2>
+        <p>
           Four layers, and each of them is worth having on its own. A surface
           that takes only the tokens still cannot invent a colour; one that
           takes only the classes still gets both modes.
@@ -288,8 +288,8 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="components">
       <div class="sds-sections">
         <div class="sds-stack">
-          <h2 class="sds-h2">Three components in full</h2>
-          <p class="sds-prose">
+          <h2>Three components in full</h2>
+          <p>
             One per plane: a block the machine writes, the navigation beside a
             page, and the navigation above it. Each is documented from the
             element that renders it.
@@ -297,8 +297,8 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
         </div>
         ${COMPONENTS.map(
           (one) => html`<article class="sds-stack">
-          <h3 class="sds-h3 sds-mono">${one.name}</h3>
-          <p class="sds-prose">${one.body}</p>
+          <h3 class="sds-mono">${one.name}</h3>
+          <p>${one.body}</p>
           <div class="sds-row">
             ${one.marks.map((mark) => html`<sds-badge label="${mark}"></sds-badge>`)}
           </div>
@@ -311,8 +311,8 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="sources">
       <div class="sds-stack">
-        <h2 class="sds-h2">Where a rule comes from</h2>
-        <p class="sds-prose">
+        <h2>Where a rule comes from</h2>
+        <p>
           Four places, and every one of them is a file rather than a habit.
         </p>
         <div class="sds-grid">
@@ -325,8 +325,8 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="pipeline">
       <div class="sds-stack">
-        <h2 class="sds-h2">How a specimen gets made</h2>
-        <p class="sds-prose">
+        <h2>How a specimen gets made</h2>
+        <p>
           The documentation is generated from the components, in four steps
           that run on every change.
         </p>
@@ -341,8 +341,8 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="install">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">Install</h2>
-          <p class="sds-prose">
+          <h2>Install</h2>
+          <p>
             Two files, and nothing to configure. The elements register
             themselves and the classes are already in the stylesheet — there is
             no build step to add and no framework to be on.
@@ -352,7 +352,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
         <div class="sds-stack">
           <span class="sds-label">Install</span>
           <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
-          <p class="sds-prose">
+          <p>
             Pin a version where you depend on it. The class layer is the
             contract; the elements are how a page that runs JavaScript gets it
             without writing the markup out.

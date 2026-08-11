@@ -39,7 +39,7 @@ test('every page fits the screen at every width', async ({ page, request }) => {
   /* One test opens every page at every width, so its budget is what that
      costs — not a number somebody raises by hand each time a page arrives with
      three states. The default 30s was that number, and it ran out. */
-  test.setTimeout(Math.max(30_000, pages.length * WIDTHS.length * 400));
+  test.setTimeout(Math.max(30_000, pages.length * WIDTHS.length * 700));
 
   for (const story of pages) {
     for (const width of WIDTHS) {

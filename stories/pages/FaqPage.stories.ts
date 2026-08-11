@@ -75,7 +75,7 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="questions">
       <div class="sds-stack">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-        <h1 class="sds-h1">Questions</h1>
+        <h1>Questions</h1>
         <p class="sds-lead">
           The ones that arrive by email every week, answered here so they do not
           have to be. Every answer holds for the releases named in it; where one
@@ -86,8 +86,8 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="machine">
       <div class="sds-stack">
-        <h2 class="sds-h2">What it does to your machine</h2>
-        <p class="sds-prose">
+        <h2>What it does to your machine</h2>
+        <p>
           The five that decide whether this can be installed at all. Opening one
           closes the last, so the list stays a list.
         </p>
@@ -97,7 +97,7 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="running">
       <div class="sds-stack">
-        <h2 class="sds-h2">What running it costs</h2>
+        <h2>What running it costs</h2>
         <sds-accordion name="running" .entries="${RUNNING}"></sds-accordion>
       </div>
     </section>
@@ -105,8 +105,8 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="ask">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">Not here?</h2>
-          <p class="sds-prose">
+          <h2>Not here?</h2>
+          <p>
             The server answers questions about TYPO3 itself, which is what it is
             for. Questions about the server go to the repository, and an answer
             that was wrong goes to the form that collects those.

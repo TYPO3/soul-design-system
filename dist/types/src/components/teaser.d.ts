@@ -12,10 +12,9 @@ export interface TeaserProps {
     tag?: string;
     /** When, and anything else that belongs in the label register. */
     meta?: string;
-    /** The drawing. The light file where there is a pair. */
+    /** The image. Used in both modes unless `artDark` supplies a pair. */
     art?: string;
-    /** The dark file. Without one the entry shows no drawing at all rather than
-        the wrong one: a light drawing on the dark canvas is worse than none. */
+    /** An optional dark counterpart. Omit it for a mode-neutral image. */
     artDark?: string;
     alt?: string;
 }

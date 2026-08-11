@@ -162,8 +162,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="preconditions">
       <div class="sds-stack">
-        <h2 class="sds-h2">Every source has a precondition</h2>
-        <p class="sds-prose">
+        <h2>Every source has a precondition</h2>
+        <p>
           The five differ in how much of the machine has to be running before
           they can answer. Bundled knowledge and the server’s own checkout
           answer with nothing running; installed packages need files on disk;
@@ -188,8 +188,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="sources">
       <div class="sds-stack">
-        <h2 class="sds-h2">The five sources</h2>
-        <p class="sds-prose">
+        <h2>The five sources</h2>
+        <p>
           Named as the result names them. What a tool returns in
           <span class="sds-mono">answeredBy</span> is one of these five strings
           and never a sentence about one.
@@ -201,8 +201,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="result">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">What a result carries</h2>
-          <p class="sds-prose">
+          <h2>What a result carries</h2>
+          <p>
             Four fields beside the answer, and each of them is there to make a
             claim checkable: which source answered, which were declared, which
             releases it holds for, and what the answer does not cover.
@@ -217,7 +217,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         <div class="sds-stack">
           <span class="sds-label">A degraded result</span>
           <sds-code code-lang="json" source="${RESULT}" copy></sds-code>
-          <p class="sds-prose">
+          <p>
             <span class="sds-mono">declared</span> is what the tool was allowed to
             read; <span class="sds-mono">answeredBy</span> is what it reached. The
             two differing is the whole of what “degraded” means here.
@@ -228,8 +228,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="consequences">
       <div class="sds-stack">
-        <h2 class="sds-h2">Three consequences</h2>
-        <p class="sds-prose">
+        <h2>Three consequences</h2>
+        <p>
           The declaration is one line in a tool. What it buys is spread across
           every answer that tool ever gives.
         </p>
@@ -248,8 +248,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet" id="limits">
       <div class="sds-stack">
-        <h2 class="sds-h2">What it does not do</h2>
-        <p class="sds-prose">
+        <h2>What it does not do</h2>
+        <p>
           A source is a statement about where an answer came from. It is not a
           statement about whether the answer is right, and the two are worth
           keeping apart.
@@ -272,7 +272,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="read-on">
       <div class="sds-stack">
-        <h2 class="sds-h2">Read on</h2>
+        <h2>Read on</h2>
         <div class="sds-grid">
           ${RELATED.map(
             (one) => html`<sds-surface
@@ -289,8 +289,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="install">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">Install it</h2>
-          <p class="sds-prose">
+          <h2>Install it</h2>
+          <p>
             One command, and the client finds the server. PHP${NNBSP}8.2+, and a
             TYPO3 project it can read — nothing has to be running for the first
             answer to arrive.
@@ -300,7 +300,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         <div class="sds-stack">
           <span class="sds-label">Install</span>
           <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
-          <p class="sds-prose">
+          <p>
             The tools register themselves with their declared sources. One that
             cannot reach any of them says so at registration rather than in the
             middle of an answer.
