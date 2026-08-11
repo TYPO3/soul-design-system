@@ -21,11 +21,11 @@ final class LayoutFieldListItemRule implements FieldListItemRule
 {
     public function applies(FieldListItemNode $fieldListItemNode): bool
     {
-        return \strtolower($fieldListItemNode->getTerm()) === 'layout';
+        return strtolower($fieldListItemNode->getTerm()) === 'layout';
     }
 
     public function apply(FieldListItemNode $fieldListItemNode, BlockContext $blockContext): MetadataNode
     {
-        return new LayoutNode(\strtolower(\trim($fieldListItemNode->getPlaintextContent())));
+        return new LayoutNode(strtolower(trim($fieldListItemNode->getPlaintextContent())));
     }
 }

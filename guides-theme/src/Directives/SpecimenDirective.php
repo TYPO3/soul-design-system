@@ -43,7 +43,7 @@ final class SpecimenDirective extends BaseDirective
     public function process(BlockContext $blockContext, Directive $directive): EmbeddedFrame
     {
         $viewport = (string)($directive->getOption('viewport')->getValue() ?? self::DEFAULT_VIEWPORT);
-        [$width, $height] = \explode('x', $viewport) + [1 => null];
+        [$width, $height] = explode('x', $viewport) + [1 => null];
 
         /* `_cards/` is written by `make guides` from `specimens/`, with the
            links inside each card rewritten to the site's own stylesheets. It
@@ -51,7 +51,7 @@ final class SpecimenDirective extends BaseDirective
            copies it into the output and resolves it per page. */
         $node = new EmbeddedFrame('/_cards/' . $directive->getData());
 
-        return $node->withOptions(\array_filter([
+        return $node->withOptions(array_filter([
             'width' => $width,
             'height' => $height,
             'title' => $directive->getOption('title')->getValue(),

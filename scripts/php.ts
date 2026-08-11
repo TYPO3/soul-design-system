@@ -42,11 +42,20 @@ if (!existsSync(FIXER)) {
 
 /* `--show-progress=none` because this is read from a log as often as from a
    terminal, and a progress bar written into one is a wall of block
-   characters around the sentence that matters. */
+   characters around the sentence that matters.
+
+   No cache, in either direction. The cache is a file the fixer keeps beside
+   the sources, gitignored, and nothing outside it can invalidate it: a run
+   against a ruleset newer than the one that wrote it hands back files it
+   never opened as clean. That is a gate green here and red on a fresh clone,
+   which is the one thing a gate may not be — and fixing inherits the same
+   blindness, so the repair for a drift the check finally reports would do
+   nothing. Fifteen files take a tenth of a second; there is nothing to buy. */
 const fix = spawnSync(FIXER, [
   'fix',
   '--no-interaction',
   '--show-progress=none',
+  '--using-cache=no',
   ...(check ? ['--dry-run'] : []),
   ...passthrough,
 ], { cwd: THEME, stdio: 'inherit' });

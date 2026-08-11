@@ -68,7 +68,7 @@ final class Bands
                    is built from the title and filled from the second one on. */
                 $head = new SectionNode($node->getTitle());
                 $tail = [];
-                foreach (\array_slice($node->getChildren(), 1) as $child) {
+                foreach (array_slice($node->getChildren(), 1) as $child) {
                     if ($tail !== [] || $this->holdsBand($child)) {
                         $tail[] = $child;
 
