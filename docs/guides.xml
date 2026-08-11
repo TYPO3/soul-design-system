@@ -2,15 +2,12 @@
 <!--
     The documentation, as it is published.
 
-    `docs/` holds two kinds of file and two readers. The `.mdx` pages are
-    Storybook's: guidelines with live specimens embedded, which need a
-    component renderer to exist at all. The `.rst` pages are these: the manual
-    and the landing page, rendered by Guides into the publish root.
-
-    Neither reader sees the other's files — Storybook globs `*.mdx`, and
-    `input-format` here is `rst`. Two sources describing one system is a drift
-    risk and it is a knowing one: the texts do not overlap. The guidelines say
-    what the rules are, this says how to use the thing.
+    `docs/` holds two kinds of file. The `.rst` pages are documents: the
+    manual, the landing page and the guidelines, rendered into the publish
+    root. The `.md` files beside them are not parsed at all — `input-format`
+    is `rst` — and that is what makes them useful: a prompt is handed over
+    whole, so it is kept as the file it is handed over as, and the page that
+    teaches it includes that same file rather than a copy of its text.
 
     `links_are_relative` because the site is served from a root locally and
     from a repository path on Pages, and absolute links only work at one of

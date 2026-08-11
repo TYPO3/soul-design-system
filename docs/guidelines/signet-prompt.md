@@ -13,8 +13,8 @@ Three marks already exist and are worth reading first as worked examples:
 
 ## The prompt
 
-> Draw a signet for **&lt;product&gt;**, which is **&lt;one sentence: what it
-> does, for whom&gt;**.
+> Draw a signet for `<product>`, which is `<one sentence: what it does, for
+> whom>`.
 >
 > It joins an existing family. Everything structural below is fixed and is not
 > yours to change — you are inventing the interior and nothing else. Produce

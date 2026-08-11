@@ -70,7 +70,7 @@ and does not drift.
 | How the pieces are wired, and which decisions are load-bearing | `ARCHITECTURE.md` |
 | How to *design with* the system — the build rules | `SKILL.md` |
 | Why a rule exists, before extending or breaking it | `RATIONALE.md` |
-| Drawing a signet to the construction | `SIGNET-PROMPT.md` |
+| Drawing a signet to the construction | `docs/guidelines/signet-prompt.md` |
 | Where the icons and fonts came from, and under what licence | `THIRD-PARTY.md` |
 | What the Guides theme still owes, and what it already carries (German) | `guides-theme/GAPS.md` |
 | How to take the theme into a project of your own | `docs/guides-theme/` |
@@ -91,7 +91,7 @@ If a change would deviate from `SKILL.md`, read the matching section of
 | `src/components/*.ts` | the Lit elements and their template functions |
 | `src/lib/` | element base, icon inliner, static renderer |
 | `stories/` | the specimen every card and screen is generated from |
-| `docs/**.rst` | the published documentation — the manual and the guideline pages |
+| `docs/` | the published documentation — the manual, the guideline pages, and the prompts they print for copying |
 | `guides-theme/` | the Composer package: templates, directives, and the acceptance render |
 | `tests/*.spec.ts` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |

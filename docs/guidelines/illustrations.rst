@@ -27,13 +27,23 @@ subject. The same file is used unchanged in light and dark mode. Its
 warm-white ground is the canvas of the image, not an attempt to merge into
 the page around it.
 
-The reusable generation prompt, negative constraints and shipped subjects are
-kept in ``guidelines/illustration-prompt.md``. Replace only its ``[SUBJECT]``
-field; changing the medium or rendering language starts a second style.
-
 The set
 =======
 
 .. specimen:: guidelines/illustrations-set.card.html
    :viewport: 1400x700
    :title: Illustrations — the set
+
+Drawing another one
+===================
+
+The rules above with the generator's own vocabulary around them — the medium,
+the negative constraints and the subjects already drawn. It is here in full
+rather than behind a link because it is handed over rather than read: copy the
+whole block and replace ``[SUBJECT]``, which is the one field that changes.
+Rewriting the medium or the rendering language starts a second style, and a
+set in two styles is no longer a set.
+
+.. literalinclude:: illustration-prompt.md
+   :language: markdown
+   :caption: The illustration prompt — replace only the subject

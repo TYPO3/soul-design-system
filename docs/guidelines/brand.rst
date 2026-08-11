@@ -19,8 +19,8 @@ idea.
 
 The system's own mark has no window and its accent is a stroke, both on
 purpose: a frame reads as a terminal, and a terminal is what the products
-are, not what the system is. ``SIGNET-PROMPT.md`` is the construction
-written as something to act on — hand it to an agent with a product name and
+are, not what the system is. The construction is written out as something to
+act on further down this page — hand it to an agent with a product name and
 it should produce a mark that belongs here.
 
 .. warning::
@@ -72,6 +72,21 @@ product.
 .. specimen:: guidelines/brand-signet-family.card.html
    :viewport: 700x574
    :title: Signet — the family
+
+Drawing a new one
+=================
+
+Everything above, written as something to act on. It is here in full and not
+behind a link because it is a thing to hand over rather than a thing to read:
+copy the whole block, name the product, and what comes back should belong to
+the family without its author having seen a single sibling. Take half of it
+and you get a mark that shares a colour and nothing else — every number in it
+follows from the stroke, and the rules that keep three sizes reading as one
+mark are the ones easiest to leave behind.
+
+.. literalinclude:: signet-prompt.md
+   :language: markdown
+   :caption: The signet construction, as a prompt
 
 Lockup
 ======
