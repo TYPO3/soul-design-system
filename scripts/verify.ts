@@ -43,6 +43,16 @@ for (const [dir, script] of GENERATED) {
   if (n === 0) fails.push(`${dir}/ is empty or missing — run \`${script}\``);
 }
 
+/* The drawings' viewBoxes and shapes are read out of the files into two
+   modules. A recomposed drawing that did not go through `make diagrams` ships
+   a wrapper sized to the old coordinate system — squashed by a fraction, and
+   nothing else would notice. */
+console.log('0b. the diagram modules match the drawings');
+const dia = spawnSync(process.execPath, [join(ROOT, 'scripts/diagrams.ts'), '--check'], { encoding: 'utf8' });
+process.stdout.write(dia.stdout);
+process.stdout.write(dia.stderr ?? '');
+if (dia.status !== 0) fails.push('src/components/diagrams*.generated.ts is out of date — run `make diagrams`');
+
 console.log('1. @dsCard headers');
 for (const c of list) {
   if (!/^<!--\s*@dsCard\s+group="[^"]*"[^>]*-->/.test(firstLine(c.text))) {

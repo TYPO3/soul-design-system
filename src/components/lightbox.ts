@@ -8,9 +8,9 @@
    what is inside one is *read*; a drawing is looked at, and a 1200px diagram
    scaled into a page column is a picture of a diagram rather than the diagram.
 
-   It shows the same two files a figure does, swapped by the same rule — the
-   viewer opening in the mode the reader is not in would be a strange way to
-   discover that the pair mechanism has two implementations.
+   It shows the same file a figure does, referenced the same way — the viewer
+   opening in the mode the reader is not in would be a strange way to discover
+   that a drawing is drawn twice.
 
    Opening it is written in markup, by name:
 
@@ -25,11 +25,11 @@ import './icon.ts';
 /* Type-only, and deliberately so: hearing a command must not drag the element
    that sends one into every page that opens a drawing. */
 import type { SdsCommand } from './button.ts';
+import { art } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface LightboxProps {
   src: string;
-  dark?: string;
   alt: string;
   /** What the drawing claims, in the head — the same sentence the figure
       carries, so opening it is not a change of subject. */
@@ -40,14 +40,12 @@ export interface LightboxProps {
 export class SdsLightbox extends SdsElement {
   static override properties = {
     src: { type: String },
-    dark: { type: String },
     alt: { type: String },
     caption: { type: String },
     open: { type: Boolean, reflect: true },
   };
 
   declare src: string;
-  declare dark: string;
   declare alt: string;
   declare caption: string;
   declare open: boolean;
@@ -55,7 +53,6 @@ export class SdsLightbox extends SdsElement {
   constructor() {
     super();
     this.src = '';
-    this.dark = '';
     this.alt = '';
     this.caption = '';
     this.open = false;
@@ -113,11 +110,6 @@ export class SdsLightbox extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    const art = this.dark
-      ? html`<img class="sds-art sds-art--light" src="${this.src}" alt="${this.alt}" />
-      <img class="sds-art sds-art--dark" src="${this.dark}" alt="${this.alt}" />`
-      : html`<img class="sds-art" src="${this.src}" alt="${this.alt}" />`;
-
     return html`<dialog
       class="sds-lightbox"
       aria-label="${this.caption || this.alt}"
@@ -130,7 +122,7 @@ export class SdsLightbox extends SdsElement {
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-lightbox__art">
-    ${art}
+    ${art(this.src, this.alt)}
   </div>
 </dialog>`;
   }

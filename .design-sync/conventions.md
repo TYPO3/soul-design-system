@@ -81,7 +81,7 @@ inline styles — do not mint a `sds-` name.
 | Bands | `sds-bands` `sds-band` `sds-band--quiet` — full-bleed sections whose ground changes, contents on the page measure. Use instead of `sds-page`, never inside one |
 | Site footer | `sds-footer` `sds-footer__groups` `sds-footer__group` `sds-footer__links` `sds-footer__end`; `sds-crumbs` `sds-crumbs__sep` `sds-crumbs__here` |
 | Figures | `sds-stats` `sds-stat` `sds-stat__value` `sds-stat__note`; `sds-figure` `sds-figure__frame` `sds-figure__caption` |
-| Artwork | `sds-art` `sds-art--light` `sds-art--dark` — a drawing that ships as two files, one per mode. Both go in the markup; the stylesheet shows the one the nearest forced mode asks for. `sds-lightbox` `sds-lightbox__art` `sds-figure__zoom` open one at the size it was drawn |
+| Artwork | `sds-art` — one file, in both modes. A photograph is an `<img>`; a drawing is an `<svg>` with a `<use>` into the file, because only a reference lets the tokens reach the shapes. `sds-lightbox` `sds-lightbox__art` `sds-figure__zoom` open one at the size it was drawn |
 | Search | `sds-result` `sds-result__title` `sds-result__path` `sds-result__text`; `sds-mark` for what was searched for inside what was found |
 | Lists | `sds-teaser` `sds-teaser__art` `sds-teaser__body` `sds-teaser__title` `sds-teaser__text`; `sds-pagination` `sds-pagination__page` `sds-pagination__step` `sds-pagination__gap` `sds-pagination__count` |
 | Long text | `sds-quote` `sds-quote__body` `sds-quote__by` — the attribution is required; `sds-byline` `sds-byline__mark` `sds-byline__who` `sds-byline__name` `sds-byline__role` |

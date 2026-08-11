@@ -177,7 +177,9 @@ The eleven existing diagrams (`documentation/images/`) carry the product's expla
 
 **When a drawing is about degradation or failure, status colour replaces the accent** and orange stays out of the chart. One emphasis per diagram, never two.
 
-**Two files, one drawing.** Every colour is written as a presentation attribute, and the dark file is generated from the light one by a straight token swap (`answer-sources.svg` / `answer-sources-dark.svg`). A `<style>` block inside an SVG is stripped by GitHub and ignored by most markdown pipelines, so a single self-switching file is not shippable — the pair is selected with `<picture>` and `media="(prefers-color-scheme: dark)"`. A page that forces its own mode must inline the drawing instead.
+**One file, one drawing.** Every colour is written as a presentation attribute, and every attribute is `var(--token, #light)` — the token this system already declares, with the light hex behind it. A drawing opened on its own, in a README or a tab, has no tokens and renders as the light file it falls back to. Referenced into a page it reads that page's tokens and arrives in that page's mode, including a mode forced on a subtree, which is what a `<picture>` could never do: it follows the system preference and cannot see `data-theme`.
+
+Referenced, not linked — `<img>` renders its file in a document of its own, where no token is declared and the fallback is all there is. So a drawing is a `<use>` into the file, the same mechanism an icon is, and `src/lib/art.ts` is where that decision lives. It ships one file, and the file it ships is the one GitHub can read.
 
 ## Governance
 
@@ -197,7 +199,7 @@ Exported to the repository: `SKILL.md`, `readme.md`, `styles.css`, `tokens/`, `g
 
 - `components/` — component specimen cards (core, navigation, data, surfaces, code)
 - `assets/icons/` — 33 icons from `TYPO3/TYPO3.Icons`
-- `assets/diagrams/` — diagrams drawn to the rules above, each as a light/dark pair: `answer-sources`, `installation-fallback`, `system-overview`
+- `assets/diagrams/` — diagrams drawn to the rules above, one file each and referenced rather than linked: `answer-sources`, `installation-fallback`, `system-overview`
 - `assets/placeholders/` — mode-neutral 1200 × 750 tool and article illustrations generated from `guidelines/illustration-prompt.md`
 
 **Not part of this system, deliberately.** There is no application UI kit. The product is a CLI and an MCP server — sessions and feedback happen in the terminal and in the agent, not in a screen we would have to design. The one surface it has is the documentation page.

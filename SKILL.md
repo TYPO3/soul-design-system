@@ -178,9 +178,11 @@ Enough to produce a new diagram that sits in the set without adjustment. Every v
 
 **Where it is placed.** On `--surface-sunken`. The drawing brings its own canvas, and that is what makes it read as a figure with clear space — put it on `--surface-canvas` and it dissolves into the page with no boundary at all.
 
-**Colour is written as attributes**, never a `<style>` block — GitHub strips those. Light → dark is a straight token swap: `#1C1A17`→`#EDE9E2` (ink), `#4A453D`→`#A9A299`, `#726C63`→`#878076` (muted), `#FBFAF7`→`#131210` (canvas), `#FFFFFF`→`#171614` (raised), `#E3DFD6`→`#2B2823` (hairline), `#C9C3B7`→`#37332C` (strong), `#986200`→`#D9A441` (warn). `#FF8700` is flat in both.
+**Colour is written as attributes**, never a `<style>` block — GitHub strips those. Each attribute is the token with the light hex behind it: `fill="var(--text-primary, #1C1A17)"` (ink), `--text-secondary, #4A453D`, `--text-muted, #726C63`, `--surface-canvas, #FBFAF7`, `--surface-raised, #FFFFFF`, `--border-subtle, #E3DFD6`, `--border-strong, #C9C3B7`, `--status-warn, #986200`, `--accent, #FF8700`.
 
-**Ship two files per drawing** — `name.svg` and `name-dark.svg` — selected with `<picture>` and `media="(prefers-color-scheme: dark)"`. A page that forces its own mode inlines the drawing instead.
+**Ship one file per drawing.** Wrap the shapes in `<g id="art">` and give the root `<svg>` a viewBox. The drawing is then *referenced* into a page — `<svg class="sds-art" viewBox="…"><use href="…/name.svg#art"></use></svg>` — so the tokens reach it and it follows a mode forced on a subtree. An `<img>` renders the file in a document of its own and only ever shows the fallback hexes, which is exactly what it should show when the file is opened on its own.
+
+`sds-figure` writes that reference for the drawings shipped in `assets/diagrams/`, whose viewBoxes `make diagrams` reads out of the files. A drawing added elsewhere is referenced by writing those two tags — there is nothing to configure and no property to pass, and a `src` the system does not know is linked as an image, which is correct for a photograph, an illustration or a signet and wrong only for a drawing that should have been shipped here.
 
 ## Brand
 

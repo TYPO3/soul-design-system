@@ -9,7 +9,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { dsCard } from '../lib/specimen.ts';
-import { figurePair } from '../lib/figure.ts';
+import { figureCard } from '../lib/figure.ts';
 
 const NOTES = [
   '<b>What the rules had to survive here:</b> a fallback chain is naturally a flowchart — decision diamond, two branches, four arrows. Redrawn, the sequence is the reading order and the registry itself is drawn: <b>one square per entry it could return</b>. The gap in the third row is the shortfall, at its real size.',
@@ -27,7 +27,7 @@ const meta: Meta = {
       name: 'Fallback — a sequence without a flowchart',
       subtitle: 'Length is coverage, so the shortfall is visible before it is read',
       theme: 'both',
-      viewport: '1400x580',
+      viewport: '1400x1022',
       bodyClass: 'spec-sunken',
     }),
   },
@@ -37,12 +37,11 @@ export default meta;
 type Story = StoryObj;
 
 export const specimenHtml = (): string =>
-  figurePair(
+  figureCard(
     {
       file: 'installation-fallback.svg',
       alt: 'Three paths to an installation-bound answer; the fallback covers less of the registry and the gap is drawn.',
     },
-    { file: 'installation-fallback-dark.svg', alt: 'The same drawing, dark.' },
     NOTES,
   );
 

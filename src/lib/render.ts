@@ -20,6 +20,7 @@ import type { TemplateResult } from 'lit';
 import { render } from '@lit-labs/ssr';
 import { collectResultSync } from '@lit-labs/ssr/lib/render-result.js';
 
+import { inlineDiagramRefs } from '../components/diagram.static.ts';
 import { inlineIconRefs } from '../components/icon.static.ts';
 
 /* Lit's SSR emits hydration markers around every binding. They are inert in
@@ -131,10 +132,13 @@ export function renderStatic(template: TemplateResult): string {
     throw new Error('lit hydration markers survived the strip — check src/lib/render.ts against the installed @lit-labs/ssr');
   }
 
-  /* A card carries no script and no sprite, so a reference resolves to
-     nothing. How an icon becomes a glyph is the icon component's business,
-     not this file's. */
-  html = tidyTags(inlineIconRefs(html));
+  /* A card carries no script, no sprite and no server, so a reference to
+     another file resolves to nothing. How an icon becomes a glyph and how a
+     drawing becomes shapes is each component's own business, not this file's
+     — this only says which order they run in, and that is load-bearing: a
+     drawing's `#art` has the shape of an icon reference and would be looked
+     up as one. */
+  html = tidyTags(inlineIconRefs(inlineDiagramRefs(html)));
 
   /* Nothing that needs upgrading may reach a card. This is the guard, not the
      test suite: a custom element in a static file renders as nothing at all,

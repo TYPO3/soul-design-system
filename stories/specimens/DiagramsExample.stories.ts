@@ -9,10 +9,10 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { dsCard } from '../lib/specimen.ts';
-import { figurePair } from '../lib/figure.ts';
+import { figureCard } from '../lib/figure.ts';
 
 const NOTES = [
-  '<b>Two files, not one.</b> A <span class="spec-cap">&lt;style&gt;</span> block inside an SVG is stripped by GitHub and ignored by most markdown pipelines, so a single self-switching file is not shippable. The pair is selected with <span class="spec-cap">&lt;picture&gt;</span>; every colour is an attribute, and the dark file is generated from the light one by a token swap.',
+  '<b>One file, both modes.</b> Every colour is an attribute written as <span class="spec-cap">var(--token, #light)</span>, so the drawing takes the mode of the page it is referenced into and still renders on its own — in a README or a tab — as the light file it falls back to. What it cannot be is an <span class="spec-cap">&lt;img&gt;</span>: that renders in a document of its own, where no token is declared.',
   '<b>What changed against the existing set:</b> the five hues are gone, the drop shadow is gone, the 28px outer radius is gone, and every identifier moved to mono. The claim, the five names and the closing line are unchanged.',
 ];
 
@@ -25,9 +25,9 @@ const meta: Meta = {
       path: 'guidelines/diagrams-example.card.html',
       group: 'Diagrams',
       name: 'Worked example',
-      subtitle: 'answer-sources.svg, redrawn to the rules — and shipped as a light/dark pair',
+      subtitle: 'answer-sources.svg, redrawn to the rules — one file, in both modes',
       theme: 'both',
-      viewport: '1400x560',
+      viewport: '1400x982',
       bodyClass: 'spec-sunken',
     }),
   },
@@ -37,9 +37,8 @@ export default meta;
 type Story = StoryObj;
 
 export const specimenHtml = (): string =>
-  figurePair(
+  figureCard(
     { file: 'answer-sources.svg', alt: 'Five answer sources plotted against the machine state each one requires.' },
-    { file: 'answer-sources-dark.svg', alt: 'The same chart, dark.' },
     NOTES,
   );
 

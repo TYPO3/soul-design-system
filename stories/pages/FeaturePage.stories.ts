@@ -172,7 +172,6 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         </p>
         <sds-figure
           src="${assets}/diagrams/answer-sources.svg"
-          dark="${assets}/diagrams/answer-sources-dark.svg"
           alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach."
           caption="A tool declares its sources, so whether an answer is reachable is known before the question is asked."
           zoomable

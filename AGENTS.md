@@ -49,6 +49,7 @@ Generated — never edit, never hand-write a new one:
 | `dist/` | `make dist` (committed on purpose — it is the drop-in) |
 | `ds-bundle/` | `make build` |
 | `fonts/`, `assets/icons/`, `src/components/icons*.generated.ts` | `make fonts`, `make icons` — untracked, the container's entrypoint restores them |
+| `src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `assets/diagrams/` |
 
 A card edited by hand is silently reverted; a card with no story behind it is
 a build failure. The `@dsCard` header on a card and `@startingPoint` on a
@@ -116,6 +117,11 @@ prevent, and anything the classes can do the element must be able to emit.
 `scripts/fonts.ts` or `scripts/icons.ts`, then `make fonts` / `make icons`.
 Never the generated output. A missing icon goes to TYPO3/TYPO3.Icons first —
 the script fails rather than substituting one from another set.
+
+**Add or redraw a diagram** — one file in `assets/diagrams/`, shapes wrapped
+in `<g id="art">`, every colour written `var(--token, #light)`, then
+`make diagrams`. There is no dark copy: the drawing is referenced into a page
+and reads that page's tokens.
 
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.

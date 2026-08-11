@@ -52,6 +52,7 @@ const TASKS: Record<string, Task> = {
   dist: { cmd: node('scripts/dist.ts'), help: 'build the publishable ESM package and its types' },
   fonts: { cmd: node('scripts/fonts.ts'), help: 'regenerate fonts/ from @fontsource' },
   icons: { cmd: node('scripts/icons.ts'), help: 'regenerate assets/icons/ from @typo3/icons' },
+  diagrams: { cmd: node('scripts/diagrams.ts'), help: 'read the drawings’ viewBoxes into src/components/diagrams.generated.ts' },
 
   // Visual regression
   baseline: { cmd: node('scripts/shoot.ts', '.design-sync/.cache/baseline'), help: 'screenshot every card as the before' },

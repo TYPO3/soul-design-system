@@ -37,9 +37,7 @@ import { type PageMode } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'News' }];
 
-/** An entry, plus the tag the filter reads. The placeholder illustrations are
-    mode-neutral, so each entry needs only `art`; `artDark` remains available
-    to the component for genuinely mode-specific figures. */
+/** An entry, plus the tag the filter reads. */
 interface Entry extends TeaserProps {
   tag: string;
 }
@@ -148,7 +146,6 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
               tag="${entry.tag}"
               meta="${entry.meta ?? ''}"
               art="${entry.art ? `${assets}/${entry.art}` : ''}"
-              art-dark="${entry.artDark ? `${assets}/${entry.artDark}` : ''}"
               alt="${entry.alt ?? ''}"
               href="#"
             ></sds-teaser>`,

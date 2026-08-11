@@ -879,34 +879,22 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   max-width: var(--measure-prose);
 }
 
-/* Artwork that ships as two files, one per mode.
+/* Artwork — one file, in both modes.
 
    Its own block and not the figure's, because a figure is not the only thing
-   that carries a drawing — a teaser shows one at thumbnail size with no frame
-   and no caption, and the swap must be the same swap or the two go out of step
-   in the one place nobody looks: the mode a reader is not in.
+   that carries one: a teaser shows an image at thumbnail size with no frame
+   and no caption, and a viewer shows the same drawing a figure does.
 
-   Which file shows cannot be `light-dark()` — that resolves a colour, and
-   these are images — and it cannot be a `<picture>`, which follows the
-   system preference and not a mode forced on a subtree. Both are in the
-   markup and the mode hides one.
+   One rule for two elements, and that is the point. A photograph is an `<img>`
+   and a drawing is an `<svg>` referencing the file, because only the second
+   can be reached by the tokens — `src/lib/art.ts` holds that decision. What
+   they share is how they sit in the surface, so they share the class rather
+   than each having one.
 
-   The decision has to be made the way `color-scheme` makes it: by the nearest
-   ancestor that forced a mode. A pair of descendant selectors cannot — where a
-   light subtree sits inside a dark one both match, and the file's order settles
-   it rather than the markup's nesting. A custom property can: it inherits, so
-   the nearest declaration is the one that arrives, which is the mechanism the
-   token layer already runs on. A card showing both modes at once is exactly
-   that case, and the guidelines are made of them. */
-:root { --sds-art-light: block; --sds-art-dark: none; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) { --sds-art-light: none; --sds-art-dark: block; }
-}
-[data-theme='light'] { --sds-art-light: block; --sds-art-dark: none; }
-[data-theme='dark'] { --sds-art-light: none; --sds-art-dark: block; }
+   `height: auto` needs an aspect ratio to work from. An `<img>` takes it from
+   the file; the referencing `<svg>` takes it from the viewBox it states, which
+   is why that is not optional. */
 .sds-art { display: block; width: 100%; height: auto; }
-.sds-art--light { display: var(--sds-art-light); }
-.sds-art--dark { display: var(--sds-art-dark); }
 
 /* One entry in a list of them.
 

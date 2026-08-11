@@ -14,7 +14,7 @@ import { html } from 'lit';
 import '../../src/components/teaser.ts';
 import { type TeaserProps } from '../../src/components/teaser.ts';
 
-export const sdsTeaser = ({ heading, body, href, tag, meta, art, artDark, alt }: TeaserProps) =>
+export const sdsTeaser = ({ heading, body, href, tag, meta, art, alt }: TeaserProps) =>
   html`<sds-teaser
     heading="${heading}"
     .body="${body}"
@@ -22,7 +22,6 @@ export const sdsTeaser = ({ heading, body, href, tag, meta, art, artDark, alt }:
     tag="${tag ?? ''}"
     meta="${meta ?? ''}"
     art="${art ?? ''}"
-    art-dark="${artDark ?? ''}"
     alt="${alt ?? ''}"
   ></sds-teaser>`;
 
@@ -54,7 +53,6 @@ const meta: Meta<TeaserProps> = {
     tag: { control: 'text' },
     meta: { control: 'text' },
     art: { control: 'text' },
-    artDark: { control: 'text' },
     alt: { control: 'text' },
   },
   args: WITH_ART,

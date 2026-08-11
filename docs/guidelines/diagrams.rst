@@ -48,9 +48,11 @@ The numbers
 .. warning::
 
    **Colour is written as attributes**, never a ``<style>`` block — GitHub
-   strips those. Ship two files per drawing, ``name.svg`` and
-   ``name-dark.svg``, selected with ``<picture>``; a page that forces its own
-   mode inlines the drawing instead.
+   strips those. Each attribute is the token with the light hex behind it,
+   ``fill="var(--text-primary, #1C1A17)"``, so one file serves both modes.
+   Ship that one file, wrap its shapes in ``<g id="art">``, and reference it
+   with ``<use>`` rather than linking it with ``<img>``: a linked file renders
+   in a document of its own, where no token is declared.
 
 Diagrams sit on ``--surface-sunken``. The drawing brings its own canvas, and
 that is what makes it read as a figure with clear space — put it on
@@ -70,13 +72,13 @@ Three shapes of claim, solved three ways — an axis, a sequence, a
 containment.
 
 .. specimen:: guidelines/diagrams-overview.card.html
-   :viewport: 1400x530
+   :viewport: 1400x937
    :title: System overview — a map with no axis
 
 .. specimen:: guidelines/diagrams-example.card.html
-   :viewport: 1400x560
+   :viewport: 1400x982
    :title: Worked example
 
 .. specimen:: guidelines/diagrams-fallback.card.html
-   :viewport: 1400x580
+   :viewport: 1400x1022
    :title: Fallback — a sequence without a flowchart

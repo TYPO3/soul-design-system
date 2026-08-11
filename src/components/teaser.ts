@@ -10,12 +10,13 @@
    text inside it away from the reader. The card follows on hover instead,
    which is what makes it feel like the target it deliberately is not.
 
-   A mode-neutral image is the default. Where the subject itself needs a light
-   and dark rendering, the same pair mechanism a figure uses remains available
-   through `sds-art--light` and `sds-art--dark`. */
+   The image is one file and is shown unchanged in both modes. A photograph is
+   the same photograph whichever mode the page is in, and what a teaser carries
+   is a photograph. */
 
 import { html, type TemplateResult } from 'lit';
 import './badge.ts';
+import { art } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface TeaserProps {
@@ -29,10 +30,8 @@ export interface TeaserProps {
   tag?: string;
   /** When, and anything else that belongs in the label register. */
   meta?: string;
-  /** The image. Used in both modes unless `artDark` supplies a pair. */
+  /** The image. */
   art?: string;
-  /** An optional dark counterpart. Omit it for a mode-neutral image. */
-  artDark?: string;
   alt?: string;
 }
 
@@ -44,7 +43,6 @@ export class SdsTeaser extends SdsElement {
     tag: { type: String },
     meta: { type: String },
     art: { type: String },
-    artDark: { type: String, attribute: 'art-dark' },
     alt: { type: String },
   };
 
@@ -54,7 +52,6 @@ export class SdsTeaser extends SdsElement {
   declare tag: string;
   declare meta: string;
   declare art: string;
-  declare artDark: string;
   declare alt: string;
 
   constructor() {
@@ -65,19 +62,13 @@ export class SdsTeaser extends SdsElement {
     this.tag = '';
     this.meta = '';
     this.art = '';
-    this.artDark = '';
     this.alt = '';
   }
 
   protected override render(): TemplateResult {
-    /* `--light` only where a dark file exists to be swapped for. Without a
-       pair, the same mode-neutral image remains visible in both modes. */
-    const art = this.art
+    const medium = this.art
       ? html`<div class="sds-teaser__art">
-    <img class="sds-art${this.artDark ? ' sds-art--light' : ''}" src="${this.art}" alt="${this.alt}" />${
-      this.artDark ? html`
-    <img class="sds-art sds-art--dark" src="${this.artDark}" alt="${this.alt}" />` : ''
-    }
+    ${art(this.art, this.alt)}
   </div>`
       : '';
 
@@ -92,7 +83,7 @@ export class SdsTeaser extends SdsElement {
         : '';
 
     return html`<article class="sds-teaser">
-  ${art}
+  ${medium}
   <div class="sds-teaser__body">
     ${meta}
     <h3 class="sds-teaser__title"><a href="${this.href}">${this.heading}</a></h3>

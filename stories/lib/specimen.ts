@@ -136,8 +136,9 @@ export interface DsCardInput {
   viewport: string;
   /** Which mode the card is pinned to. `both` pins neither, and is not a
       default in disguise: a card that shows the light and the dark pane side
-      by side, or a drawing shipped as a light/dark pair, must not have one of
-      the two forced on the document around it. Pinning `dark` on one of those
+      by side, or one that shows a drawing taking the mode it is placed in,
+      must not have one of the two forced on the document around it. Pinning
+      `dark` on one of those
       turned the ground under the figures from paper to terminal, which is a
       quarter of the card's pixels and no failing check anywhere. */
   theme?: 'light' | 'dark' | 'both';

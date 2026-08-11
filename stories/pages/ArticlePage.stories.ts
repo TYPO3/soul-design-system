@@ -117,7 +117,6 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
 
       <sds-figure
         src="${assets}/diagrams/installation-fallback.svg"
-        dark="${assets}/diagrams/installation-fallback-dark.svg"
         alt="Three paths through the registry: the console command and the booted runtime return every entry, the package-file fallback returns the declared ones and none of the dynamically registered ones."
         caption="Each square is one entry the registry could return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that."
         zoomable
