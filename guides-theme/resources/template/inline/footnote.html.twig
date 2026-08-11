@@ -1,0 +1,25 @@
+{#
+    The mark in the line that sends a reader to the foot of the page.
+
+    The core prints `node.value`, which is what the author typed between the
+    brackets — for `[#note]_` that is `#note`, and the block at the foot of the
+    page calls the same footnote `[1]`. A reader looking for the note they just
+    saw has nothing to match.
+
+    The number is the target's and not the node's. A footnote written `[1]_`
+    carries its own; one written `[#name]_` or `[#]_` is numbered while the
+    document is compiled, which is the whole reason to write it that way, and
+    until then the node says nought. The target is what the compiler hands back
+    once it has counted — so it is asked first, and the node's own number is
+    the fallback for the form that stated one.
+
+    No class on the mark. It is a `<sup>` with a link in it, and the document
+    layer already says what both of those are; a name here would be a hook in
+    the markup with nothing behind it, which is the one thing this theme is not
+    allowed to write.
+#}
+{%- if node.internalTarget -%}
+    <sup>[<a href="{{- renderTarget(node.internalTarget) -}}">{{- node.internalTarget.number|default(node.number) -}}</a>]</sup>
+{%- else -%}
+    <sup>[{{- node.number -}}]</sup>
+{%- endif -%}

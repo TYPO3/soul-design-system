@@ -1,0 +1,17 @@
+{#
+    `.. sidebar::` — the same thing as a topic, and the core renders it as an
+    admonition.
+
+    That is where it went wrong: an admonition is a warning, a note, a caution
+    — something true of the reader's situation, said with a glyph that names
+    which one. A sidebar is a digression with a heading, which is a topic, and
+    the two are drawn alike here because they are alike.
+
+    It does not float. In a column held to sixty-six characters there is
+    nothing for it to float beside, and a box pulled out of a measure that
+    narrow leaves both halves too thin to read.
+#}
+<aside class="topic sds-panel">
+    <p class="topic-title">{{ renderNode(title) }}</p>
+    {{ renderNode(node) }}
+</aside>

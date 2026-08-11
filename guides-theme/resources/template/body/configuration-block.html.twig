@@ -1,0 +1,27 @@
+{#
+    `.. configuration-block::` — the same setting written in two languages.
+
+    The second tab form in the same output format, and it arrives as its own
+    markup: a `role="tablist"` of buttons, a panel each, and `display: none` on
+    all but the first. The switching is a script the renderer does not ship, so
+    left alone it is a row of buttons that do nothing above a block that cannot
+    be reached.
+
+    It is the same content as `.. tabs::` and it becomes the same element, for
+    the reason that decides every other template here: a reader must not have
+    to learn which directive an author reached for. What is dropped is the
+    tablist markup — `sds-tabs` builds its own, with the arrow keys — and the
+    panel ids, which only that script used.
+
+    One thing this does not yet do is what the directive is for: choosing PHP
+    once and having every block on the page follow. That needs the element to
+    know about its siblings, and it is written down in `guides-theme/GAPS.md`
+    rather than half-built here.
+#}
+<sds-tabs>
+    {%- for tab in node.tabs %}
+        <sds-tab-item label="{{ tab.label }}">
+            {{- renderNode(tab.content) -}}
+        </sds-tab-item>
+    {%- endfor %}
+</sds-tabs>

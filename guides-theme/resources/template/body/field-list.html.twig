@@ -1,0 +1,27 @@
+{#
+    A field list — the author, the version and the date at the top of a
+    document, and any other name-and-value pair the source states.
+
+    The core's own markup, with one thing added: a class. Without it this is a
+    bare `<table>`, and a bare table in a document is a data table — ruled
+    rows, a header in the label register, columns that share the width. A
+    docinfo block is neither ruled nor a header; it is two columns of which the
+    first is a label. The class is what lets `document.css` tell the two apart,
+    and it is the name the core would have written itself had it written one.
+#}
+<table class="field-list{% if node.classes %} {{ node.classesString }}{% endif %}">
+    {% for item in node.children %}
+        <tr>
+            <th>{{ item.term }}</th>
+            <td>
+                {%- if item.children -%}
+                    {%- for definition in item.children -%}
+                        {{ renderNode(definition) }}
+                    {%- endfor -%}
+                {%- else -%}
+                    &nbsp;
+                {%- endif -%}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

@@ -41,6 +41,54 @@
    this links `styles.css` too — it needs the component layer for the shell
    the document sits in, and that is where the tokens come from. */
 
+/* --------------------------------------------------- a component in text -- */
+
+/* A component standing in a document speaks the document's size.
+
+   `--note-body-size` is 12px, and that is right where the component layer was
+   written for: a note beside a result, a hint under a field, a card in a grid
+   of them — a surface whose job is density and whose body copy is 15px. In a
+   document it is wrong twice over. The paragraph above the admonition is 17px
+   and the admonition is that same paragraph with a border around it; and a
+   reference page carries twelve of them, so the page ends up with two voices
+   and no rule for which one is speaking.
+
+   The register is rebound rather than the rules rewritten. Every declaration
+   stays where it belongs — in the component layer, on the class that owns it
+   — and what changes is the value it reads. Nothing here names a part of a
+   component, so nothing here out-specifies one; this is the same restraint
+   the scope above is written for, arrived at from the other side.
+
+   It is rebound on what holds **blocks**, not on the file. A caption under a
+   figure or a code block is a label for the thing above it and stays below
+   the text it labels, which is what `figcaption` and `--font-size-micro` say
+   further down; the same is true of a stat's note and a quotation's
+   attribution. Those keep the 12px register on purpose. */
+:where(.sds-prose) .sds-note,
+:where(.sds-prose) .sds-teaser {
+  --note-title-size: var(--font-size-body);
+  --note-body-size: var(--font-size-body);
+  --note-body-leading: var(--leading-body);
+  /* The box is held to the measure below, so the text fills the box. Capped
+     in both places, a note's sentences stop well short of its own border and
+     the box reads as the wrong size for what is in it. */
+  --note-measure: none;
+}
+
+/* And the box takes the measure the paragraphs around it take. An admonition
+   is prose that was set apart, so it wraps where they wrap: run to the column
+   and it is the one thing on the page announcing itself by width. What is
+   inside then fills it — including a table or a code block, which is as wide
+   as the note and no wider. That is not the exception the block rule makes
+   for those two further down, and it should not be: there they are the
+   document's own blocks, here they are a note's content.
+
+   Both spellings, because the page before the bundle lands is the same page.
+   The upgraded host is `display: contents`, so the cap has to be on the frame
+   the element renders — the same pairing the margins below are written in. */
+:where(.sds-prose) .sds-note,
+:where(.sds-prose) sds-note:not(:defined) { max-width: var(--measure-prose); }
+
 /* ------------------------------------------------------------- headings -- */
 
 /* Six levels, three sizes, and that is not a shortcut.
@@ -462,3 +510,162 @@
 :where(.sds-prose) td:first-child { padding-left: 0; }
 :where(.sds-prose) th:last-child,
 :where(.sds-prose) td:last-child { padding-right: 0; }
+
+/* ------------------------------------------------- what a renderer names -- */
+
+/* The other half of the file, and the reason it is second.
+
+   Everything above is a bare element, because that is what a renderer emits
+   for anything an author wrote as prose. What follows is the handful of names
+   it does write — `contents`, `topic`, `rubric`, `footnote`, `hlist` — for
+   nodes that have no element of their own. They are the core's names and they
+   stay that way: a theme that renamed them would be a theme whose stylesheet
+   only its own templates can use, and every other tool that ever looked at
+   this output knows these. */
+
+/* What is on this page, at the top of it.
+
+   Ruled above and below and set one step down from the prose, because it is
+   apparatus rather than text: a reader either uses it or reads past it, and
+   both are easier when it does not look like a paragraph. Not a rule at the
+   left edge — that belongs to the quotation further up, and two blocks with
+   the same mark are two blocks that say the same thing about themselves.
+
+   `.toc` is the same list with documents in it instead of sections, and the
+   two are drawn alike on purpose: what the reader does with either is scan
+   it. Which of them is on the page is the author's business, not a second
+   design. */
+:where(.sds-prose) .contents,
+:where(.sds-prose) .toc {
+  margin: 0 0 var(--space-6);
+  padding: var(--space-3) 0;
+  border-block: var(--border-hairline) solid var(--border-subtle);
+  max-width: var(--measure-prose);
+  font-size: var(--font-size-ui);
+}
+/* No markers. A contents is a list of places, and a bullet before each one is
+   punctuation for a sentence nobody is reading. */
+:where(.sds-prose) .contents ul,
+:where(.sds-prose) .toc ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+:where(.sds-prose) .contents li ul,
+:where(.sds-prose) .toc li ul { padding-left: var(--space-4); }
+:where(.sds-prose) .contents li,
+:where(.sds-prose) .toc li { margin-bottom: var(--space-1); }
+
+/* A title over something that is not a section: a topic, a sidebar, or the
+   caption an author gave a contents. It is the fourth heading level's
+   register — weight and air, not a size — because that is what this system
+   does once a heading stops being a level. */
+:where(.sds-prose) .topic-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-body);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+/* A digression, in a box the class layer already draws. What is left to say
+   is where it stands in the flow: the measure the paragraphs take, and no
+   margin under its own last line, because the box's padding is the gap. */
+:where(.sds-prose) .topic {
+  margin: 0 0 var(--space-4);
+  max-width: var(--measure-prose);
+}
+:where(.sds-prose) .topic > :last-child { margin-bottom: 0; }
+
+/* A rubric is the one heading a reference uses that no contents should list.
+   It is set exactly like `h4` — the level it would have been — and the whole
+   difference is that it is not one. */
+:where(.sds-prose) .rubric {
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: var(--font-size-body);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  color: var(--text-primary);
+}
+
+/* A horizontal list: short items an author asked to be read across rather
+   than down. The count is in the class, so there is one rule per count and
+   no way to state it once — `columns-N` is what the core writes.
+
+   Columns rather than a grid, because the items are a list and a list flows:
+   a grid would have to be told how many rows, and the answer changes with the
+   number of items. `break-inside` keeps an item that wraps from being split
+   across two columns, which is the one thing that makes a hlist unreadable. */
+:where(.sds-prose) .hlist > ul {
+  columns: 2;
+  column-gap: var(--space-6);
+}
+:where(.sds-prose) .hlist.columns-3 > ul { columns: 3; }
+:where(.sds-prose) .hlist.columns-4 > ul { columns: 4; }
+:where(.sds-prose) .hlist.columns-5 > ul { columns: 5; }
+:where(.sds-prose) .hlist.columns-6 > ul { columns: 6; }
+:where(.sds-prose) .hlist li { break-inside: avoid; }
+
+/* An option list: the flags of a command, and what each one does. The name is
+   something typed at a prompt, so it is set in the mono face like every other
+   piece of machine text here — and the weight comes off, because the font is
+   already the difference and a term that is both bold and mono reads as a
+   heading for the paragraph under it. */
+:where(.sds-prose) .domain-default-option-name {
+  font-family: var(--font-mono);
+  font-size: 0.94em;
+  font-weight: var(--weight-regular);
+  color: var(--text-primary);
+}
+
+/* A field list is docinfo — author, version, date — and it is a table only
+   because that is what the core built it from. So it is undone as a table: no
+   rules between rows, no hover, no header register on the first column, and
+   no full width. Two columns of which the first is a label, as wide as the
+   words in it. */
+:where(.sds-prose) .field-list {
+  width: auto;
+  margin-bottom: var(--space-6);
+  font-size: inherit;
+}
+:where(.sds-prose) .field-list th,
+:where(.sds-prose) .field-list td {
+  padding: 0 var(--space-4) var(--space-1) 0;
+  border-bottom: 0;
+  vertical-align: baseline;
+}
+:where(.sds-prose) .field-list th {
+  font-family: inherit;
+  font-size: var(--font-size-ui);
+  font-weight: var(--weight-semibold);
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+:where(.sds-prose) .field-list tbody tr:hover { background: none; }
+:where(.sds-prose) .field-list p { margin: 0; }
+
+/* A footnote at the foot of the page, and a citation, which is a footnote
+   with a name. The label hangs beside the text rather than above it, so a
+   column of them lines up and the numbers can be found by running an eye down
+   the edge — which is the only thing anybody does with these.
+
+   One step down from the prose: what is down here is the source, and it is
+   read after the sentence that sent the reader to it. */
+:where(.sds-prose) .footnote,
+:where(.sds-prose) .citation {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  max-width: var(--measure-prose);
+  font-size: var(--font-size-ui);
+  color: var(--text-secondary);
+}
+:where(.sds-prose) .footnote-label,
+:where(.sds-prose) .citation-label {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--text-muted);
+}
+:where(.sds-prose) .footnote-content > :last-child,
+:where(.sds-prose) .citation-content > :last-child { margin-bottom: 0; }

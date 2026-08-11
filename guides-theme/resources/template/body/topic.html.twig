@@ -1,0 +1,18 @@
+{#
+    `.. topic::` — a block with a title of its own that stays out of the
+    outline.
+
+    An `<aside>`, because that is what it is: a passage set beside the argument
+    rather than a step in it, and the title is a label for the box rather than
+    a level of the document. `.sds-panel` is the raised ground the class layer
+    already has for exactly this — a hairline, a radius, a fill — so nothing is
+    invented and it matches every other set-apart block on the page.
+
+    Not `sds-note`: an admonition says something about the reader's situation
+    and carries a glyph that names it out loud. A topic says nothing about the
+    reader; it is a digression with a heading.
+#}
+<aside class="topic sds-panel">
+    <p class="topic-title">{{ name }}</p>
+    {{ renderNode(node) }}
+</aside>
