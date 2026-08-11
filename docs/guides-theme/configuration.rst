@@ -84,8 +84,8 @@ The theme element
            <link href="https://example.org" label="Elsewhere" external="true"/>
        </navigation>
        <footer>
-           <group title="Product">
-               <link href="/overview" label="Overview"/>
+           <group title="Elsewhere">
+               <link href="https://example.org" label="Product site" external="true"/>
            </group>
            <social href="https://github.com/…" label="GitHub"/>
            <note>Not an official product.</note>
@@ -93,9 +93,9 @@ The theme element
    </extension>
 
 **The element itself is not optional** — it is what registers the theme — but
-everything inside it is. Written empty, the bar carries the project title and
-the footer carries that title and the copyright, which is the least a page can
-say and still be honest about what it is.
+everything inside it is. Written empty, the bar carries the project title, and
+the footer carries the site's own sections beside that title and the copyright,
+which is the least a page can say and still be honest about what it is.
 
 The mark
 --------
@@ -169,13 +169,19 @@ navigation.
 The footer
 ----------
 
+The columns are the site itself, and nothing configures them: the top level of
+the toctree is one column per section, and under each of them the pages that
+section holds. A page added below a section is in the footer the moment it is
+written, the same way it reaches the rail and the breadcrumb. A section with
+nothing under it is the link itself, and the tree is read two levels deep — a
+section and its pages is a footer, a section and its pages and *their* sections
+is a sitemap, which is a page rather than the end of every page.
+
+What is configured is what the tree cannot know:
+
 .. code-block:: xml
 
    <footer>
-       <group title="Documentation">
-           <link href="/guide/index" label="Guide"/>
-           <link href="/reference/index" label="Reference"/>
-       </group>
        <group title="Elsewhere">
            <link href="https://example.org" label="Product site" external="true"/>
        </group>
@@ -183,11 +189,11 @@ The footer
        <note>Not an official product.</note>
    </footer>
 
-``<group>`` is a column of links under a label; ``<link>`` follows the same
-document-or-URL rule as the bar's. ``<social>`` is always a URL and sits at the
-end of the last line, and ``<note>`` is the sentence that says what this is
-not — the place a project disclaims an affiliation, beside the product name and
-the copyright.
+``<group>`` is a column of links under a label, and it follows the site's own
+columns; ``<link>`` follows the same document-or-URL rule as the bar's.
+``<social>`` is always a URL and sits at the end of the last line, and
+``<note>`` is the sentence that says what this is not — the place a project
+disclaims an affiliation, beside the product name and the copyright.
 
 .. note::
 

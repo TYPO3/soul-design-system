@@ -32,16 +32,11 @@
             <link href="/frontend" label="Frontend"/>
             <link href="/guidelines/index" label="Guidelines"/>
         </navigation>
+        <!-- No groups: the columns are the toctree, section by section, and a
+             page added below one of them is in the footer the moment it is
+             written. What is configured here is only what the tree cannot
+             know. -->
         <footer>
-            <group title="Using it">
-                <link href="/design-system" label="As a Claude design system"/>
-                <link href="/guides-theme/index" label="As a render guide template"/>
-                <link href="/frontend" label="As a standalone frontend"/>
-            </group>
-            <group title="The rules">
-                <link href="/guidelines/index" label="Guidelines"/>
-                <link href="/documents" label="The document layer"/>
-            </group>
             <social href="https://github.com/benjaminkott/typo3-soul-design-system" label="GitHub"/>
             <note>Not an official TYPO3 product.</note>
         </footer>

@@ -1,29 +1,82 @@
 {#
     The other footer: a site's, rather than a surface's.
 
-    Everything in it is configuration — see `SoulExtension`. A theme that
-    hard-coded a link list would be a theme exactly one project could use, and
-    a marketing page without a footer is a page that stops mid-sentence.
+    The columns are the site itself — the top level of the toctree, a column
+    per section, and under each of them the pages it holds. Written out by hand
+    they were a second copy of the tree that no check could see going stale: a
+    page added under a section reaches the rail and the breadcrumb by itself,
+    and the footer kept whatever somebody typed the day it was written.
 
-    With nothing configured this is the mark and the note, which is the least a
-    page can say and still be honest about what it is.
+    Two levels, and no deeper. A section and its pages is a footer; a section,
+    its pages and their sections is the sitemap, and a reader who wants that
+    wants a page, not the end of every page.
+
+    A page that stands directly under the root is not a section and does not
+    get a column to itself — it joins the site's own, the one carrying the
+    product's name. A column whose heading and only entry say the same word
+    twice is a column saying it once, and three of them in a row read as a
+    fault in the renderer.
+
+    `soul.footer.groups` is what the tree cannot know — a licence, a product
+    site, somewhere else entirely — and those columns follow the site's own.
+    Everything else here is configuration too; see `SoulExtension`. With
+    nothing configured and no tree this is the mark and the note, which is the
+    least a page can say and still be honest about what it is.
 #}
+{#- A link inside the project is a *document*, not a path: `/frontend`
+    resolves per page, while `frontend.html` resolves from wherever the reader
+    happens to be standing and lands in nothing one directory down. A menu
+    entry that carries a URL is somebody else's site and is left alone.
+
+    `#` is what the renderer answers for the page being rendered — its way of
+    saying "you are here". The footer lists every page of a site, so one of
+    them is the reader's own on most pages, and it says so rather than looking
+    like a link that goes nowhere. -#}
+{%- macro entry(url, label, external) -%}
+    {%- set href = external ? url : renderLink(url) -%}
+    <a class="sds-link{% if external %} sds-link--external{% endif %}"
+       href="{{ href }}"
+       {%- if external %} target="_blank" rel="noreferrer"{% endif %}
+       {%- if href == '#' %} aria-current="page"{% endif %}>{{ label }}</a>
+{%- endmacro -%}
+{%- import _self as footer -%}
 <footer class="sds-footer">
-    {%- if soul.footer.groups is defined and soul.footer.groups %}
+    {%- set groups = soul.footer.groups is defined ? soul.footer.groups : [] %}
+    {%- set entries = [] %}
+    {%- for menu in env.projectNode.globalMenues %}
+        {%- set entries = entries|merge(menu.menuEntries) %}
+    {%- endfor %}
+    {%- set pages = entries|filter(entry => entry.children|default([]) is empty) %}
+    {%- set sections = entries|filter(entry => entry.children|default([]) is not empty) %}
+
+    {%- if entries or groups %}
         <div class="sds-footer__groups">
-            {%- for group in soul.footer.groups %}
+            {%- if pages %}
+                <div class="sds-footer__group">
+                    <div class="sds-label">{{ soul.product|default(env.projectNode.title)|default('') }}</div>
+                    <div class="sds-footer__links">
+                        {%- for page in pages %}
+                            {{ footer.entry(page.url, page.value.toString, '://' in page.url) }}
+                        {%- endfor %}
+                    </div>
+                </div>
+            {%- endif %}
+            {%- for section in sections %}
+                <div class="sds-footer__group">
+                    <div class="sds-label">{{ section.value.toString }}</div>
+                    <div class="sds-footer__links">
+                        {%- for page in section.children %}
+                            {{ footer.entry(page.url, page.value.toString, '://' in page.url) }}
+                        {%- endfor %}
+                    </div>
+                </div>
+            {%- endfor %}
+            {%- for group in groups %}
                 <div class="sds-footer__group">
                     {%- if group.title %}<div class="sds-label">{{ group.title }}</div>{% endif %}
                     <div class="sds-footer__links">
                         {%- for link in group.links %}
-                            {#- A link inside the project is a *document*, not
-                                a path: `/frontend` resolves per page, while
-                                `frontend.html` resolves from wherever the
-                                reader happens to be standing and lands in
-                                nothing one directory down. -#}
-                            <a class="sds-link{% if link.external %} sds-link--external{% endif %}"
-                               href="{{ link.external ? link.href : renderLink(link.href) }}"
-                               {%- if link.external %} target="_blank" rel="noreferrer"{% endif %}>{{ link.label }}</a>
+                            {{ footer.entry(link.href, link.label, link.external) }}
                         {%- endfor %}
                     </div>
                 </div>

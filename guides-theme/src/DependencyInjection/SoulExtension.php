@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use TYPO3\Soul\GuidesTheme\Brands;
 use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
@@ -64,19 +65,22 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                    marketing page that is not part of it. */
                 ->scalarNode('home')->defaultNull()->end()
                 /* The footer, because a marketing page has one and a manual
-                   does not get to invent it. Groups of links, the social
+                   does not get to invent it. Its columns are the toctree and
+                   are configured nowhere; what is set here is what the tree
+                   cannot know — a column pointing somewhere else, the social
                    accounts, and the line that says what this is not:
 
                        <footer>
-                           <group title="Documentation">
-                               <link href="index.html" label="Overview"/>
+                           <group title="Elsewhere">
+                               <link href="https://…" label="Product site" external="true"/>
                            </group>
                            <social href="https://…" label="GitHub"/>
                            <note>Not an official product.</note>
                        </footer>
 
-                   All of it optional. A footer with nothing in it renders as
-                   the mark and the year, which is the least a page can say. */
+                   All of it optional. A footer with nothing set renders the
+                   site's own sections, the mark and the year, which is the
+                   least a page can say. */
                 /* The handful of places a site has, in the bar. Not the
                    toctree: that is the rail's job, and a manual's every page
                    in the bar is not navigation. */
@@ -125,6 +129,9 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                                 ->end()
                             ->end()
                         ->end()
+                        /* An account somewhere else. There is no glyph to set:
+                           the URL names the service and `Brands` reads the
+                           mark out of it, so the two cannot come apart. */
                         ->arrayNode('socials')
                             ->arrayPrototype()
                                 ->children()
@@ -161,7 +168,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
             'themes' => [
                 'soul' => [
                     'extends' => 'default',
-                    'templates' => [\dirname(__DIR__, 2) . '/resources/template'],
+                    'templates' => [dirname(__DIR__, 2) . '/resources/template'],
                 ],
             ],
             'templates' => [
@@ -183,10 +190,19 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
         $container->setParameter('soul.product', $config['product']);
         $container->setParameter('soul.brand', $config['brand']);
         $container->setParameter('soul.home', $config['home']);
-        $container->setParameter('soul.footer', $config['footer'] ?? []);
+        /* The glyph is worked out here rather than in the template, because it
+           is a fact about the URL and not about the page it is rendered on —
+           and a template that computes is a template a project ends up
+           copying. */
+        $footer = $config['footer'] ?? [];
+        foreach ($footer['socials'] ?? [] as $index => $social) {
+            $footer['socials'][$index]['icon'] = Brands::icon($social['href']);
+        }
+
+        $container->setParameter('soul.footer', $footer);
         $container->setParameter('soul.navigation', $config['navigation'] ?? []);
 
-        $loader = new PhpFileLoader($container, new FileLocator(\dirname(__DIR__, 2) . '/resources/config'));
+        $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
         $loader->load('soul.php');
     }
 }
