@@ -208,6 +208,8 @@ The header is sticky, translucent canvas with an 8px backdrop blur; nothing else
 
 Every surface carries the mode switch: two segments, `light` and `dark`, the active one filled with the accent — the same treatment as an active navigation item, because it is one.
 
+**A page is built out of the page layouts, not out of a shell of your own.** `sds-app` on the body, `sds-shell` around everything, `sds-bar` for the header, and then one of the two bodies: a column beside a rail (`sds-body`, `sds-body__rail`, `sds-column`) for anything that is read in sequence, or a run of full-bleed bands (`sds-bands`, `sds-band`) for a page somebody arrives on. The screens under `specimens/screens/` are those layouts already assembled — start from the nearest one. A renderer, a theme or a template set is bound by this the same way a hand-written page is: it writes no class the stylesheets do not define, and a name it needs and cannot find is a gap in the system, to be closed there.
+
 ## Where things are
 
 | Need | File |
@@ -235,3 +237,5 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 - Every state that can occur has copy that names its source and its boundary.
 - Header sheds rather than wraps at 1120, 1040, 820 and 620.
 - Nothing reachable by pointer only; `:focus-visible` rings present.
+- Nothing new that is only in `src/`: a component is shown in a story, its classes are drawn somewhere, and it appears in a page the Guides renderer produced. `make coverage`.
+- No class invented outside the stylesheets — not in a template, not in a theme, not in a page.

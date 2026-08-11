@@ -189,6 +189,12 @@ That direction is deliberate. A system with two writing ends drifts, and design 
 
 Exported to the repository: `SKILL.md`, `readme.md`, `styles.css`, `tokens/`, `guidelines/`, `components/`, `assets/`. Not exported: `Foundations Review.dc.html` and `support.js` (the working surface, not the deliverable).
 
+**A component nobody can look at is not part of the system.** The rule — a story, a drawn class, and a page the Guides renderer produced — is not bookkeeping. Each surface fails differently, and that is the whole argument for asking for all three. A story is the only place a variant is stated rather than implied, and it is what the specimen card is generated from. A drawn class is the only proof that the name in the stylesheet and the name the element emits are still the same name; the pair drifted once, in the commit where a modifier existed in `components.css` and the element had no property for it. And a rendered document is the only place a component is surrounded by markup that was not written for it — prose it did not compose, a document layer under it, a renderer that has never heard of this system. A card is built to flatter the component; a page is not.
+
+The same reasoning is why an implementation may not invent a name. A theme that writes `sds-confval` has declared a component, in this system's namespace, that this system cannot render, cannot show in a card and cannot keep true — and the next implementation will declare it again, differently. The gap belongs in the system or nowhere, which is the component rule one level up.
+
+The pending lists are the concession, and they are bounded on purpose: they may only shrink, and an entry that has quietly become covered fails the gate. A list that can grow is an exemption list, and an exemption list is how a rule stops being one.
+
 ## Index
 
 - `styles.css` — the entry point; imports everything below

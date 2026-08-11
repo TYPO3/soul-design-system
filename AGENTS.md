@@ -82,9 +82,10 @@ ARGS=--check`.
 
 `make verify` runs, in order: generated assets present, `@dsCard` headers,
 specimen heights against their cards, class vocabulary (every class used is
-defined), local references, render + fit, SSR of every element, the committed
-drop-in against its source, every card against its story, `tsc --noEmit`, and
-the names in `.design-sync/conventions.md` against the built stylesheets.
+defined), component coverage (every component is shown — `make coverage`),
+local references, render + fit, SSR of every element, the committed drop-in
+against its source, every card against its story, `tsc --noEmit`, and the
+names in `.design-sync/conventions.md` against the built stylesheets.
 
 `make test` is ten suites, each guarding something the others cannot see:
 
@@ -108,6 +109,12 @@ Never disable an addon, a spec or a threshold to get a green run.
 **Change a component** — edit `src/components/<name>.ts`, then `make cards`,
 then `make verify`. The card is static HTML with no custom elements in it: the
 Design System pane opens it with `styles.css` and no JavaScript.
+
+**Add a component** — the element in `src/components/`, its classes in
+`src/styles/components.css`, a story in `stories/components/`, then `make
+cards`. It is not done there: give it a place in the Guides render too — a
+template that emits it, or a page of the fixture that asks for it. `make
+coverage` names whichever of the three is still missing.
 
 **Close a gap in a component** — in the component. A consumer writing three
 declarations into their own stylesheet is the failure this system exists to
@@ -139,8 +146,14 @@ regenerated `dist/` output, untracked drafts, a screenshot run. Sweeping it
 into your commit buries a change nobody reviewed under a message that does not
 mention it.
 
-## Three things that fail review
+## Four things that fail review
 
+- **A component is shown three times.** A story for every element, a specimen
+  or an element that draws every class the stylesheets define, and a page the
+  Guides renderer produced — `guides-theme/acceptance/`. Anything built on the
+  system follows the page layouts and invents no class of its own. `make
+  coverage` is the check; `PENDING` in `scripts/coverage.ts` is the work list
+  and only shrinks.
 - **Web components first.** `<sds-code lang="bash">`, never a `div` with the
   classes on it. The classes are the fallback for surfaces that run no
   JavaScript, not the front door.

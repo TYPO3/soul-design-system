@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 /* The repo's own gate. Run it before shipping anything.
 
-   Six things have to hold, and each has gone wrong at least once:
+   Seven things have to hold, and each has gone wrong at least once:
      1. every card declares a @dsCard header the Design System pane can read
      2. no card uses a class the stylesheets do not define — a silent no-op
+     2b. every component is shown somewhere it can be looked at — a story, a
+        drawn class, a page the Guides renderer produced
      3. every local href/src resolves; a card that ships unstyled looks fine
         in review and wrong everywhere else
      4. every card fits the viewport it declares, and still renders
@@ -137,6 +139,15 @@ for (const [cls, where] of [...used].sort()) {
   }
 }
 console.log(`   ${used.size} distinct classes used, ${defined.size} defined, ${unknown} unknown`);
+
+/* The other direction of the same rule. Step 2 catches a name that is used and
+   not defined; this catches one that is defined and never drawn, an element
+   with no story, and an implementation that builds a page out of names of its
+   own. See scripts/coverage.ts for what each surface proves. */
+console.log('2b. every component is shown');
+const cov = spawnSync(process.execPath, [join(ROOT, 'scripts/coverage.ts')], { encoding: 'utf8' });
+process.stdout.write(cov.stdout);
+if (cov.status !== 0) fails.push('a component is missing from a surface it has to be shown on (see above)');
 
 console.log('3. local references');
 let refs = 0, broken = 0;

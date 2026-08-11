@@ -143,6 +143,48 @@ Pinning one turned the ground under the diagram figures from paper to
 terminal — a quarter of the card — and no other check in the repo would have
 noticed.
 
+## A component is shown three times, or it does not exist
+
+Writing an element and a class for it is half the work. The other half is
+putting it where it can be looked at, and there are three places, each
+answering a question the other two cannot:
+
+- **A story**, for every element in `TAGS`. It says what the component is and
+  which variants it has, and it is the source the specimen card is generated
+  from — an element with no story has no card either, so it is missing from
+  the design pane as well as from Storybook.
+- **A drawn class**, for every `sds-` name `components.css` defines. A name
+  nothing renders is a name nobody can check; it drifts against the element
+  that was supposed to emit it and nothing says so. A class counts as drawn
+  when a story, a card, a documentation page *or the element that emits it*
+  names it — a class written at runtime is looked at wherever its element is.
+- **A page the Guides renderer produced.** The theme's fixture under
+  `guides-theme/acceptance/` is where a component meets markup it did not
+  compose: real prose around it, a document layer under it, a renderer that
+  knows nothing about this system. A specimen card is built for the component;
+  a rendered document is not, which is why it finds different things.
+
+The third one is also the rule for anything built *on* the system rather than
+in it. **An implementation follows the page layouts**: it builds its page out
+of the shell every screen under `specimens/screens/` shares — the frame, the
+bar, and either the column beside a rail or the run of full-bleed bands — and
+it writes no class the stylesheets do not define. A theme that invents a name
+in the `sds-` namespace has written a component the system cannot see, cannot
+render in a card and cannot keep true; `sds-confval` is the one that was there
+when this was written.
+
+`make coverage` is the check, and it is step 2b of the gate. It is the mirror
+of step 2: that one catches a name used and not defined, this one a name
+defined and never drawn.
+
+**The pending lists shrink and never grow.** `PENDING` in `scripts/coverage.ts`
+holds what the rule does not hold for yet — today one element without a story,
+six classes with no specimen, and 21 elements the Guides render has no node
+for. An entry that has become covered fails as loudly as one that is missing,
+so the list cannot outlive the work: it is the work list, not an exemption
+list. Adding to it is a decision, and it needs the same kind of reason the
+entries there already carry.
+
 ## Contrast: fixed, not tolerated
 
 `--text-muted` sat at ~3.3:1 on product text — table headers, `sds-td-meta`,

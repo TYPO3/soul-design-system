@@ -221,7 +221,7 @@ A screen is its own thumbnail — there is no thumbnail file anywhere.
 | | |
 | --- | --- |
 | `storybook` | the documentation surface, on a port Docker picks |
-| `verify` | the gate: headers, classes, references, fit, card staleness, types, conventions |
+| `verify` | the gate: headers, classes, coverage, references, fit, card staleness, types, conventions |
 | `test` | the Playwright suite — every story renders, components match their static render, axe |
 | `cards` | regenerate the 7 component cards from their stories |
 | `build` | assemble `ds-bundle/`, the upload payload |
@@ -231,6 +231,7 @@ A screen is its own thumbnail — there is no thumbnail file anywhere.
 | `baseline` / `shots` / `diff` | screenshot before, after, compare |
 | `sheets` | tile screenshots into contact sheets |
 | `fonts` / `icons` | regenerate from the npm packages |
+| `coverage` | is every component shown — a story, a drawn class, a page the Guides renderer produced |
 | `fit` | does every card fit the viewport it declares |
 | `typecheck` | `tsc --noEmit` |
 | `shell` | a prompt inside the image |
