@@ -1,16 +1,16 @@
-<!-- @startingPoint section="Screens" subtitle="The distributor: entries narrowed by kind, the empty state that follows, and page two" viewport="1440x900" -->
+<!-- @startingPoint section="Screens" subtitle="What was found, what was searched, and what a source answering with nothing looks like" viewport="1440x900" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
-<title>TYPO3 Dev Companion — news</title>
+<title>TYPO3 Dev Companion — search</title>
 <link rel="stylesheet" href="../src/styles/styles.css" />
 </head>
 <body class="sds-app">
 <div class="sds-shell">
   <header class="sds-bar">
     
-    <a class="sds-lockup" href="#news">
+    <a class="sds-lockup" href="#search">
       <svg class="sds-signet" width="20" height="20" viewBox="-6 -6 140 112" aria-hidden="true"><path d="M56 95.75H20A15.75 15.75 0 0 1 4.25 80V44" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path><rect fill="currentColor" x="39" y="30.5" width="10.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="53.75" y="30.5" width="20.5" height="39" rx="4.25"></rect><rect fill="currentColor" x="78.5" y="30.5" width="10.5" height="39" rx="4.25"></rect><path d="M72 4.25H108A15.75 15.75 0 0 1 123.75 20V56" fill="none" stroke="var(--accent)" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
       <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
     </a>
@@ -19,18 +19,18 @@
     type="button"
     class="sds-menu__toggle"
     aria-expanded="false"
-    aria-controls="sds-menu-10"
+    aria-controls="sds-menu-12"
     aria-label="Sections"
     hidden><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-menu"><g fill="currentColor"><path d="M9 12v2H7v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 7v2H7V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM9 2v2H7V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 7v2H2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 2v2H2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM4 12v2H2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 7v2h-2V7h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 2v2h-2V2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5zM14 12v2h-2v-2h2m.5-1h-3c-.3 0-.5.2-.5.5v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5z"></path></g></svg></button>
   <nav
-    id="sds-menu-10"
+    id="sds-menu-12"
     class="sds-menu__items"
     aria-label="Sections">
     <a class="sds-pill" href="#">overview</a>
     <a class="sds-pill" href="#">features</a>
     <a class="sds-pill" href="#">documentation</a>
     <a class="sds-pill" href="#">tools</a>
-    <a class="sds-pill is-active" href="#" aria-current="page">news</a>
+    <a class="sds-pill" href="#">news</a>
   </nav>
 </div>
     <div class="sds-bar__end">
@@ -50,135 +50,97 @@
 
   <main class="sds-bands">
 
-    <section class="sds-band" id="news">
+    <section class="sds-band" id="search">
       <div class="sds-stack">
         <nav class="sds-crumbs" aria-label="Breadcrumb">
-  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">News</span>
+  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">Search</span>
 </nav>
-        <h1 class="sds-h1">News</h1>
-        <p class="sds-lead">
-          Releases, guides, and what the project decided. Every entry says which
-          release it holds for; nothing here is a roadmap.
-        </p>
+        <h1 class="sds-h1">Results for <span class="sds-mono">label</span></h1>
+        <div class="sds-field-row">
+  <label class="sds-field-label" for="q">Search</label>
+  <span class="sds-field is-filled" style="width:420px; max-width:100%"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-search"><g fill="currentColor"><path d="M13.92 15c-.29 0-.56-.12-.76-.32l-2.89-2.88c-.98.68-2.16 1.04-3.36 1.04C3.65 12.85 1 10.2 1 6.92 1 3.65 3.65 1 6.92 1s5.92 2.65 5.92 5.92c0 1.19-.36 2.37-1.04 3.36l2.89 2.89c.19.19.31.47.31.76 0 .58-.49 1.07-1.08 1.07zm-7-12.58c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"></path></g></svg><input class="sds-input" type="text" id="q" name="q" value="label"></span>
+  <span class="sds-field-hint">Searches the documentation, the tool reference, the changelog and the news.</span>
+  
+</div>
       </div>
     </section>
 
-    <section class="sds-band sds-band--quiet" id="entries">
+    <section class="sds-band sds-band--quiet" id="hits">
       <div class="sds-stack">
         <div class="sds-row">
           <nav class="sds-pills">
-  <button type="button" class="sds-pill is-active" aria-current="true">all</button>
-  <button type="button" class="sds-pill">releases</button>
-  <button type="button" class="sds-pill">guides</button>
-  <button type="button" class="sds-pill">project</button>
-  <button type="button" class="sds-pill">security</button>
+  <button type="button" class="sds-pill is-active" aria-current="true">everything · 4</button>
+  <button type="button" class="sds-pill">reference · 2</button>
+  <button type="button" class="sds-pill">guides · 1</button>
+  <button type="button" class="sds-pill">changelog · 1</button>
+  <button type="button" class="sds-pill">your installation · 0</button>
 </nav>
-          <span class="sds-label sds-row__end">6 of 6 entries</span>
+          <span class="sds-label sds-row__end">4 of 4 · 240 ms</span>
         </div>
 
-        <div class="sds-grid">
-          <article class="sds-teaser">
-  <div class="sds-teaser__art">
-    <img class="sds-art sds-art--light" src="../assets/diagrams/answer-sources.svg" alt="The five sources plotted against how much of the machine has to be running." />
-    <img class="sds-art sds-art--dark" src="../assets/diagrams/answer-sources-dark.svg" alt="The five sources plotted against how much of the machine has to be running." />
+        <div class="sds-stack">
+          <article class="sds-result">
+  <div class="sds-row">
+    <span class="sds-badge">reference</span>
+    <span class="sds-result__path">Documentation · Tools</span>
+    <span class="sds-label sds-row__end">13.4 · 14.3</span>
   </div>
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">release</span>
-      <span class="sds-label">9 August 2026 · 1.4.0</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">Answers now name the source that answered</a></h3>
-    <p class="sds-teaser__text">Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.</p>
+  <h3 class="sds-result__title"><a href="#">typo3_<mark class="sds-mark">label</mark>_lookup</a></h3>
+  <p class="sds-result__text">Reads <mark class="sds-mark">label</mark>s from the installation. Where it cannot be booted the tool reads the package files instead and says which <mark class="sds-mark">label</mark>s that leaves out.</p>
+</article><article class="sds-result">
+  <div class="sds-row">
+    <span class="sds-badge">guide</span>
+    <span class="sds-result__path">News · Guides</span>
+    <span class="sds-label sds-row__end">24 July 2026</span>
   </div>
-</article><article class="sds-teaser">
-  <div class="sds-teaser__art">
-    <img class="sds-art sds-art--light" src="../assets/diagrams/installation-fallback.svg" alt="Three paths through the registry, and what each of them returns." />
-    <img class="sds-art sds-art--dark" src="../assets/diagrams/installation-fallback-dark.svg" alt="Three paths through the registry, and what each of them returns." />
+  <h3 class="sds-result__title"><a href="#">Reading the package registry when the installation will not boot</a></h3>
+  <p class="sds-result__text">The fallback returns every declared entry — <mark class="sds-mark">label</mark>s among them — and none of the dynamically registered ones. The shortfall travels with the result.</p>
+</article><article class="sds-result">
+  <div class="sds-row">
+    <span class="sds-badge">changelog</span>
+    <span class="sds-result__path">Documentation · Changelog</span>
+    <span class="sds-label sds-row__end">13.4</span>
   </div>
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">guide</span>
-      <span class="sds-label">24 July 2026</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">Reading the package registry when the installation will not boot</a></h3>
-    <p class="sds-teaser__text">The fallback returns every declared entry and none of the dynamically registered ones. What makes it usable is that the shortfall travels with the result.</p>
+  <h3 class="sds-result__title"><a href="#"><mark class="sds-mark">Label</mark> overrides resolve before the extension is loaded</a></h3>
+  <p class="sds-result__text">A <mark class="sds-mark">label</mark> defined in TypoScript and overridden by an extension now resolves in the order the core documents, which changed in 13.4.</p>
+</article><article class="sds-result">
+  <div class="sds-row">
+    <span class="sds-badge">reference</span>
+    <span class="sds-result__path">Documentation · Tools</span>
+    <span class="sds-label sds-row__end">follows the installation</span>
   </div>
-</article><article class="sds-teaser">
-  <div class="sds-teaser__art">
-    <img class="sds-art sds-art--light" src="../assets/diagrams/system-overview.svg" alt="The client, the local server and its sources inside the machine, with one read-only path leaving it." />
-    <img class="sds-art sds-art--dark" src="../assets/diagrams/system-overview-dark.svg" alt="The client, the local server and its sources inside the machine, with one read-only path leaving it." />
-  </div>
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">project</span>
-      <span class="sds-label">2 July 2026</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">One line leaves the machine, and it is drawn as the exception</a></h3>
-    <p class="sds-teaser__text">Everything that answers a question is already on the developer’s disk. The single read-only path to the documentation is in the diagram rather than in a footnote.</p>
-  </div>
-</article><article class="sds-teaser">
-  
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">release</span>
-      <span class="sds-label">18 June 2026 · 1.3.0</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">Changelog lookups bind down to 7.0</a></h3>
-    <p class="sds-teaser__text">A question about an old installation is answered with what held then, or not at all. Where the bundled knowledge stops, the tool says so instead of answering from the nearest release it has.</p>
-  </div>
-</article><article class="sds-teaser">
-  
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">guide</span>
-      <span class="sds-label">30 May 2026</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">Writing a task skill that fails at registration</a></h3>
-    <p class="sds-teaser__text">A skill declares the sources it needs. One that cannot reach any of them says so when the server starts, which is the difference between a broken setup and a wrong answer.</p>
-  </div>
-</article><article class="sds-teaser">
-  
-  <div class="sds-teaser__body">
-    <div class="sds-row">
-      <span class="sds-badge">project</span>
-      <span class="sds-label">12 May 2026</span>
-    </div>
-    <h3 class="sds-teaser__title"><a href="#">What is written down, and what is not</a></h3>
-    <p class="sds-teaser__text">The decisions kept in the repository, the ones kept in the knowledge base, and why the two lists are deliberately not the same.</p>
-  </div>
+  <h3 class="sds-result__title"><a href="#">typo3_icon_lookup</a></h3>
+  <p class="sds-result__text">Returns the identifier the core itself uses. The <mark class="sds-mark">label</mark> of an icon is not part of the answer — identifiers are what the registry holds.</p>
 </article>
         </div>
 
         <nav class="sds-pagination" aria-label="Pages">
   <span class="sds-pagination__step is-disabled" aria-disabled="true"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-start"><g fill="currentColor"><path d="M6.414 8 9.95 4.464l-.707-.707L5 8l4.243 4.243.707-.707z"></path></g></svg>Previous</span>
-  <span class="sds-pagination__page is-active" aria-current="page">1</span><a class="sds-pagination__page" href="#page-2">2</a><a class="sds-pagination__page" href="#page-3">3</a>
-  <a class="sds-pagination__step" href="#page-2" rel="next">Next<svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg></a>
-  <span class="sds-pagination__count">6 of 18 entries</span>
+  <span class="sds-pagination__page is-active" aria-current="page">1</span>
+  <span class="sds-pagination__step is-disabled" aria-disabled="true">Next<svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg></span>
+  <span class="sds-pagination__count">4 results</span>
 </nav>
       </div>
     </section>
 
-    <section class="sds-band" id="follow">
+    <section class="sds-band" id="scope">
       <div class="sds-split">
         <div class="sds-stack">
-          <h2 class="sds-h2">Follow along</h2>
+          <h2 class="sds-h2">What was searched</h2>
           <p class="sds-prose">
-            Releases are announced here and in the repository. The feed carries
-            the same entries in the same order, with the release each one holds
-            for in its title.
+            Four sources, and the last of them is your own installation — which
+            is searched only where one has been reached. A facet that says zero
+            has been asked; a facet that is missing was never available.
           </p>
-          <div class="sds-actions">
-            <a class="sds-link sds-link--external" href="https://github.com" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-github"><g fill="currentColor"><path d="M8.006 1C4.132 1 1 4.155 1 8.058c0 3.12 2.007 5.76 4.79 6.695.348.07.476-.152.476-.338 0-.164-.012-.725-.012-1.31-1.948.422-2.354-.84-2.354-.84-.313-.819-.777-1.029-.777-1.029-.638-.432.046-.432.046-.432.708.047 1.079.724 1.079.724.626 1.075 1.635.772 2.041.585.058-.456.244-.772.44-.947-1.553-.164-3.189-.771-3.189-3.482 0-.771.278-1.402.72-1.893-.07-.175-.314-.9.069-1.87 0 0 .591-.187 1.925.725a6.736 6.736 0 0 1 1.752-.234c.591 0 1.194.082 1.751.234 1.334-.912 1.926-.725 1.926-.725.383.97.139 1.695.07 1.87.452.49.718 1.122.718 1.893 0 2.71-1.635 3.307-3.201 3.482.255.222.476.643.476 1.309 0 .946-.012 1.706-.012 1.94 0 .186.128.409.476.338A7.053 7.053 0 0 0 15 8.058C15.011 4.155 11.868 1 8.006 1Z"></path></g></svg>Repository <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
-            <a class="sds-link" href="#"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-rss"><g fill="currentColor"><path d="M2 4c5.514 0 10 4.486 10 10h2C14 7.372 8.628 2 2 2v2z"></path><path d="M2 8c3.308 0 6 2.692 6 6h2a8 8 0 0 0-8-8v2zM3.5 14a1.5 1.5 0 0 1 0-3 1.5 1.5 0 0 1 0 3z"></path></g></svg>Feed</a>
-          </div>
         </div>
         <div class="sds-stack">
           <div class="sds-note sds-note--info">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
   <div>
-    <div class="sds-note__title">An entry is not a version binding</div>
-    <div class="sds-note__body">What a release changed is written in the changelog the tools read.
-              A post says what it was for; the tool says what it holds for.</div>
+    <div class="sds-note__title">Bundled knowledge is version-bound and your installation is not</div>
+    <div class="sds-note__body">A result from bundled knowledge names the releases it holds for. One
+              from the installation holds for whatever that installation runs, which
+              is why the two are never merged into a single ranking.</div>
   </div>
 </div>
         </div>

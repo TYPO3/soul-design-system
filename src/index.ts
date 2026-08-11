@@ -49,6 +49,7 @@ import './components/drawer.ts';
 import './components/dialog.ts';
 import './components/table.ts';
 import './components/teaser.ts';
+import './components/result.ts';
 import './components/pagination.ts';
 import './components/code.ts';
 import './components/diff.ts';
@@ -101,6 +102,7 @@ export { SdsByline, type BylineProps } from './components/byline.ts';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
 export { SdsEmpty, type EmptyProps, type EmptyKind } from './components/empty.ts';
 export { SdsTeaser, type TeaserProps } from './components/teaser.ts';
+export { SdsResult, type ResultProps } from './components/result.ts';
 export { SdsPagination, pageNumbers, type PaginationProps } from './components/pagination.ts';
 
 if (typeof document !== 'undefined') installHostRule();
@@ -138,6 +140,7 @@ export const TAGS = [
   'sds-dialog',
   'sds-table',
   'sds-teaser',
+  'sds-result',
   'sds-pagination',
   'sds-code',
   'sds-diff',

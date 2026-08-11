@@ -780,6 +780,48 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   color: var(--text-secondary);
 }
 
+/* One hit in a list of them.
+
+   Separated by space and a hairline rather than boxed. A result is not a
+   thing to compare against its neighbours — it is read, discarded and the next
+   one is read, which is what a list is for and what a grid of cards prevents. */
+.sds-result {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-block: var(--space-5);
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+}
+.sds-result:first-child { border-top: var(--border-hairline) solid var(--border-subtle); }
+.sds-result__title { margin: 0; font-size: var(--font-size-h3); line-height: var(--leading-heading); }
+/* The title is the link here, and it *is* link-coloured — unlike a teaser's.
+   A result exists to be opened; a card exists to be read and sometimes
+   opened, and the difference is worth a colour. */
+.sds-result__title a { color: var(--text-link); text-decoration: none; }
+.sds-result__title a:hover { color: var(--text-link-hover); text-decoration: underline; }
+/* Where it is. A path is machine-named, so it is mono wherever it appears. */
+.sds-result__path { font-family: var(--font-mono); font-size: var(--font-size-micro); color: var(--text-muted); }
+.sds-result__text {
+  margin: 0;
+  font-size: var(--note-body-size);
+  line-height: var(--note-body-leading);
+  color: var(--text-secondary);
+  max-width: var(--measure-prose);
+}
+
+/* What was searched for, inside what was found.
+
+   The quiet accent tint and the page's own text colour — not the accent
+   itself, and not a status colour. A match is neither the one thing the page
+   is about nor a result of anything, and a yellow highlighter is a browser
+   default this system has no other use for. */
+.sds-mark {
+  background: var(--surface-accent-quiet);
+  color: var(--text-primary);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
 /* A boundary, drawn as an answer.
 
    Never "no results". The shape carries what the writing rules require of one:
