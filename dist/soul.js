@@ -100,11 +100,11 @@ https://github.com/highlightjs/highlight.js/issues/2277`),k=d,$=y),b===void 0&&(
       ${e.hint?o`<span class="sds-check__hint">${e.hint}</span>`:f}
     </span>
   </label>`})}
-</fieldset>`}};h("sds-radio-group",Ye);var Xe=class t extends g{static{this.TONE_ICON={info:"actions-info-circle",ok:"actions-check-circle",warn:"actions-exclamation-triangle",error:"actions-exclamation-circle"}}static{this.properties={tone:{type:String,reflect:!0},heading:{type:String},body:{type:String},icon:{type:String}}}constructor(){super(),this.tone="info",this.heading="",this.body=""}render(){return o`<div class="sds-note sds-note--${this.tone}">
-  <span class="sds-note__icon"><sds-icon name="${this.icon??t.TONE_ICON[this.tone]}"></sds-icon></span>
-  <div>
-    <div class="sds-note__title">${this.heading}</div>
-    <div class="sds-note__body">${this.body}</div>
+</fieldset>`}};h("sds-radio-group",Ye);var Xe=class t extends g{constructor(){super();this.taken=null;this.tone="info",this.heading="",this.body="",this.label=""}static{this.TONE_ICON={info:"actions-info-circle",ok:"actions-check-circle",warn:"actions-exclamation-triangle",error:"actions-exclamation-circle"}}static{this.TONE_LABEL={info:"Note",ok:"Success",warn:"Warning",error:"Error"}}static{this.properties={tone:{type:String,reflect:!0},heading:{type:String},body:{type:String},icon:{type:String},label:{type:String}}}connectedCallback(){let n=this.lifted();n.length&&(this.taken=n),super.connectedCallback()}render(){let n=this.label||t.TONE_LABEL[this.tone];return o`<div class="sds-note sds-note--${this.tone}">
+  <span class="sds-note__icon"><sds-icon name="${this.icon??t.TONE_ICON[this.tone]}" label="${n}"></sds-icon></span>
+  <div class="sds-note__content">
+    ${this.heading?o`<div class="sds-note__title">${this.heading}</div>`:f}
+    <div class="sds-note__body">${this.taken??this.body}</div>
   </div>
 </div>`}};h("sds-note",Xe);var Qe=class extends g{static{this.properties={errors:{type:Array},heading:{type:String},announce:{type:Boolean,reflect:!0}}}constructor(){super(),this.errors=[],this.heading="",this.announce=!1}focusSummary(){this.querySelector(".sds-form-errors")?.focus()}updated(){this.announce&&this.errors.length&&this.focusSummary()}render(){if(!this.errors.length)return o``;let e=this.errors.length,n=this.heading||`${e} ${e===1?"answer needs":"answers need"} changing`;return o`<div class="sds-form-errors" tabindex="-1" role="alert" aria-live="assertive">
   <sds-note

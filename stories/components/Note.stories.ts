@@ -12,6 +12,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../../src/components/note.ts';
+import '../../src/components/code.ts';
 import { type NoteProps } from '../../src/components/note.ts';
 
 const meta: Meta<NoteProps> = {
@@ -73,4 +74,31 @@ export const Aside: Story = {
       subset that looks like the whole. <span class="sds-mono">ddev start</span>
       removes the gap.`,
   },
+};
+
+/** The form a renderer uses: the body is written between the tags, and there
+    is no heading at all.
+
+    The two paths answer two callers. `.body` is a line of prose a product
+    surface composed, and it exports — every specimen card is made that way.
+    Content between the tags is a document's own markup, which is paragraphs, a
+    list and whole code blocks; an attribute would flatten all three to text and
+    show the tags. Ten of the twelve admonition types a documentation generator
+    emits carry no title, so the word that says which one this is goes to the
+    glyph, where a screen reader gets it and the page does not have to carry a
+    category name on every box.
+
+    This one cannot be exported — see `FromContent` in `Code.stories.ts` for
+    why an element given content between its tags is refused by `renderStatic`
+    rather than shipped with an empty middle. */
+export const FromContent: Story = {
+  render: () => html`<sds-note tone="warn" label="Caution">
+    <p>A cache that is warm from before the change answers with what was true
+      then. Two things follow, and only the second is obvious:</p>
+    <ul>
+      <li>the page a reader sees is the old one</li>
+      <li>every page that <em>links</em> it is stale too</li>
+    </ul>
+    <sds-code code-lang="bash" copy>vendor/bin/typo3 cache:flush</sds-code>
+  </sds-note>`,
 };

@@ -27,6 +27,7 @@
          the project title above. -->
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
         <signet>_images/signet.svg</signet>
+        <brand>TYPO3</brand>
         <product>Soul Design System</product>
         <navigation>
             <link href="/design-system" label="Design system"/>

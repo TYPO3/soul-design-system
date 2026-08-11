@@ -1,0 +1,59 @@
+{#
+    An admonition — twelve of them in the core, four tones in this system.
+
+    **The mapping is Sphinx's own grouping, not a ladder of severity.** Sphinx
+    splits these into note-like and warning-like, and `important` sits on the
+    quiet side of that line: it is emphasis, not a hazard. An author writing
+    `.. important::` today means what Sphinx means by it, so a mapping that
+    made it an alarm would change what their page says. `tip` is the one type
+    that is unambiguously "here is something that helps", which is the tone
+    `ok` names.
+
+    Everything unlisted is `info`. That is not a fallback so much as the
+    generic form's answer: `.. admonition:: A title of its own` arrives with
+    its title slugified into the type name, so the lookup misses by design.
+
+    **No category heading.** Ten of these carry no title at all — the core
+    emits `<div class="admonition note"><p>…</p></div>` and nothing else — and
+    printing "Note" over each one would be exactly the category name
+    `sds-note` forbids its heading to be. The word goes to the glyph, which
+    says it out loud without drawing it, and it is the *type's* word rather
+    than the tone's: `caution` and `danger` both become `warn`, and a reader
+    who cannot see the colour still hears which one this was.
+
+    The title, where there is one, is the author's and it is a label. It goes
+    in as text: `heading` is an attribute, so markup inside it would arrive as
+    visible angle brackets rather than as emphasis. A title that leans on
+    inline markup is a title doing a paragraph's job.
+#}
+{%- set tone = {
+    'tip':        'ok',
+    'attention':  'warn',
+    'caution':    'warn',
+    'warning':    'warn',
+    'danger':     'error',
+    'error':      'error',
+}[name]|default('info') -%}
+{%- set said = {
+    'note':       'Note',
+    'tip':        'Tip',
+    'hint':       'Hint',
+    'important':  'Important',
+    'seealso':    'See also',
+    'attention':  'Attention',
+    'caution':    'Caution',
+    'warning':    'Warning',
+    'danger':     'Danger',
+    'error':      'Error',
+}[name]|default('Note') -%}
+{#- Whatever the caller and the source text put on the box, in one attribute.
+    Two `class=` on one tag is not two class lists; the browser keeps the
+    first and drops the rest. -#}
+{%- set marks = [class, node.classes ? node.classesString]|filter(v => v)|join(' ') -%}
+{#- The element, not a hand-built box. What an admonition holds is paragraphs,
+    lists and whole code blocks, and `sds-note` takes them between its tags for
+    exactly this caller. -#}
+<sds-note tone="{{ tone }}" label="{{ said }}"
+    {%- if title and isTitled %} heading="{{ renderNode(title)|striptags|trim }}"{% endif %}
+    {%- if marks %} class="{{ marks }}"{% endif -%}
+>{% if title and not isTitled %}<p>{{ renderNode(title) }}</p>{% endif %}{{ renderNode(node) }}</sds-note>

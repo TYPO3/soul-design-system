@@ -280,6 +280,32 @@
    product surface composes its own. */
 .sds-prose .sds-code { margin-bottom: var(--space-4); }
 
+/* ---------------------------------------------------- what is set apart -- */
+
+/* An admonition before its element upgrades, for the same reason as the code
+   block above: what a page looks like in the window between parse and upgrade,
+   and on a page that runs no JavaScript at all.
+
+   Less is restored here than there, and the difference is the point. The
+   block's whitespace was load-bearing, so leaving it collapsed broke the
+   content; an admonition is paragraphs, and paragraphs read. What is missing
+   is that it stands apart from them — so this draws the box and stops. The
+   glyph and the word it says out loud belong to the element, and a hairline
+   that pretended to carry a tone would be the colour-only meaning the
+   component exists to avoid. */
+.sds-prose sds-note:not(:defined) {
+  display: block;
+  margin: 0 0 var(--space-4);
+  padding: 13px 15px;
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+}
+.sds-prose sds-note:not(:defined) > :last-child { margin-bottom: 0; }
+/* And the same gap under it once it has upgraded — the host is
+   `display: contents` by then, so the margin above belongs to a box that has
+   stopped existing. Same pairing, and same reason, as `.sds-code`. */
+.sds-prose .sds-note { margin-bottom: var(--space-4); }
+
 /* ---------------------------------------------------------- in the line -- */
 
 /* A key is a physical thing, so it gets the one border in this section. */
