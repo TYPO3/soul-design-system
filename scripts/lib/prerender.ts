@@ -22,8 +22,13 @@ import { TAGS } from '../../packages/frontend/src/index.ts';
    this repository does not define is left exactly as found, so whoever wrote it
    sees it in the output. The attribute run steps over a quoted `>`, which does
    not end a tag and would otherwise cut a title in half. */
+/* `(?![-\w])` is the tag ending. One of these names is a prefix of another —
+   `sds-card` of `sds-card-grid`, `sds-field` of `sds-field-error` — and the
+   attribute run happily swallows the rest, so without it `<sds-card-grid>` is
+   read as an `sds-card` carrying an attribute called `-grid`. The element then
+   renders as the wrong component and its children land outside it. */
 const element = (tags: readonly string[]): RegExp =>
-  new RegExp(`<(${tags.join('|')})((?:"[^"]*"|'[^']*'|[^>"'])*)>([\\s\\S]*?)</\\1>`);
+  new RegExp(`<(${tags.join('|')})(?![-\\w])((?:"[^"]*"|'[^']*'|[^>"'])*)>([\\s\\S]*?)</\\1>`);
 
 /** What one element becomes, given content that is already finished. */
 function one(tag: string, attrs: string, written: string): string {
