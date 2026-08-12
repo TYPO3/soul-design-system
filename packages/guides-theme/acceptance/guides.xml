@@ -2,18 +2,15 @@
 <!--
     What the renderer needs to be told before it can read this fixture.
 
-    The Markdown parser is a package of its own and is not on by default —
-    without this extension the CLI finds the files, recognises no parsing
-    strategy for them, and reports that a project has no root document.
-
     `input-format` is the file extension, not the name the CLI help prints:
     the value goes straight into the filename it looks for, so "Markdown"
     makes it hunt for `index.Markdown`.
 
     The fixture is reStructuredText because a reference is mostly made of
     nodes Markdown has no spelling for: admonitions, confval, tabs, roles,
-    footnotes, glossaries. The Markdown extension stays registered so that
-    switching one attribute renders a Markdown project instead.
+    footnotes, glossaries. The Markdown parser is a package of its own and
+    off by default, and the theme registers it either way, so switching that
+    one attribute renders a Markdown project instead.
 -->
 <guides xmlns="https://www.phpdoc.org/guides"
         input-format="rst"
@@ -21,8 +18,6 @@
         theme="soul"
         default_code_language="text">
     <project title="Soul — Guides fixture" version="1.0"/>
-    <extension class="phpDocumentor\Guides\Markdown\DependencyInjection\MarkdownExtension"/>
-    <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
         <product>Acceptance</product>
         <!-- The sections in the bar, which the fixture carries so the suite

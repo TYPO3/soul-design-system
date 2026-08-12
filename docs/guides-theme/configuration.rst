@@ -52,8 +52,10 @@ What the renderer needs
    :type: string
    :default: "rst"
 
-   ``rst`` or ``md``. See the note in :doc:`installation` on what the Markdown
-   parser cannot spell.
+   ``rst`` or ``md``. Both parsers arrive with the theme, so this is the whole
+   of choosing between them, and it names a file extension: a project is one
+   format, and files in the other are not documents. See the note in
+   :doc:`installation` on what the Markdown parser cannot spell.
 
 The project element
 ===================

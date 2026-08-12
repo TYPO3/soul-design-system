@@ -59,8 +59,9 @@ throw away. PHP 8.2 is the floor.
    ``guides-code`` is not optional the way a highlighter usually is. This
    theme's colour is the server's — the block arrives carrying ``hljs-``
    classes and ``soul.css`` maps them — so without that package every code
-   block on the site renders as unmarked text. :doc:`markup` says what the
-   browser then does and does not add.
+   block on the site renders as unmarked text. It is required by the theme and
+   registered by it, so a project neither installs nor configures it;
+   :doc:`markup` says what the browser then does and does not add.
 
 2. Configure the project
 ========================
@@ -77,15 +78,20 @@ throw away. PHP 8.2 is the floor.
            theme="soul"
            default_code_language="text">
        <project title="Your project" version="1.0"/>
-       <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
        <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension"/>
    </guides>
 
-That is the smallest file that renders with this theme, and both extension
-elements are load-bearing. The second one is what registers the theme:
-``theme="soul"`` selects a theme that has to exist first, and without the
-element the render stops with *Theme "soul" is not registered, available
-themes are: default*.
+That is the smallest file that renders with this theme, and the ``<extension>``
+element is load-bearing: it is what registers the theme. ``theme="soul"``
+selects a theme that has to exist first, and without the element the render
+stops with *Theme "soul" is not registered, available themes are: default*.
+
+The highlighter and the Markdown parser are registered by that same element.
+They are packages the theme requires, and a dependency a project has to name a
+second time in its own configuration is one it can name wrongly — so the file
+that says which theme to use says nothing about how the theme is built. Naming
+either of them anyway is how they are configured, and the theme then leaves the
+project's element alone.
 
 That same element is where the mark, the bar's sections and the footer are
 configured, as children of it. :doc:`configuration` has each setting and what
@@ -111,12 +117,20 @@ icon sprite, the search index — hangs off that answer. A project whose entry
 page is called something else renders pages that reach for assets one
 directory too high.
 
+**Both parsers are there without being asked for.** reStructuredText and
+Markdown are registered by the theme, so ``input-format`` is the whole of
+choosing between them — ``rst`` above, ``md`` for a project written in
+Markdown. It names one file extension and it is read as one: the value goes
+into the filename the renderer looks for, so a project is one format and the
+files in the other are not documents. That is what lets ``docs/`` here keep the
+prompts it hands out as ``.md`` beside the pages that include them.
+
 .. note::
 
-   Both parsers work, and reStructuredText is the one to write a reference
-   in. The Markdown parser reads CommonMark: an admonition, a ``confval``, a
-   tab set or a text role has no spelling there, and a fenced block with no
-   language leaves the language ``null`` rather than falling back to
+   Both work, and reStructuredText is the one to write a reference in. The
+   Markdown parser reads CommonMark: an admonition, a ``confval``, a tab set
+   or a text role has no spelling there, and a fenced block with no language
+   leaves the language ``null`` rather than falling back to
    ``default_code_language``. This theme survives that last one; nothing can
    give Markdown the other four.
 

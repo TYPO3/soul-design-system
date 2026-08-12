@@ -4,9 +4,10 @@
     footer, which are configuration because a page free to write its own is a
     site that disagrees with itself by the third page.
 
-    Both <extension> elements are load-bearing. The first brings the syntax
-    highlighter; the second is what makes a theme called "soul" exist, and
-    without it the render stops on `Theme "soul" is not registered`.
+    The <extension> element is load-bearing: it is what makes a theme called
+    "soul" exist, and without it the render stops on `Theme "soul" is not
+    registered`. It also registers the syntax highlighter and the Markdown
+    parser the theme is published with, so neither is named here.
 -->
 <guides xmlns="https://www.phpdoc.org/guides"
         input-format="rst"
@@ -14,7 +15,6 @@
         theme="soul"
         default_code_language="text">
     <project title="Example Project" version="1.0"/>
-    <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
         <brand>Example</brand>
         <product>Documentation</product>

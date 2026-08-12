@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\DependencyInjection;
 
+use phpDocumentor\Guides\Code\DependencyInjection\CodeExtension;
+use phpDocumentor\Guides\Markdown\DependencyInjection\MarkdownExtension;
 use phpDocumentor\Guides\Nodes\Metadata\NavigationTitleNode;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use TYPO3\Soul\GuidesTheme\Brands;
@@ -207,6 +210,14 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
      */
     public function prepend(ContainerBuilder $container): void
     {
+        /* The two packages this theme requires, registered as if the project
+           had named them. A composer dependency the consumer still has to
+           repeat in their own config is a dependency they can get wrong, and
+           without the first one every code block on the site renders as
+           unmarked text. */
+        $this->registerDependency($container, new CodeExtension());
+        $this->registerDependency($container, new MarkdownExtension());
+
         $blank = 'structure/header/blank.html.twig';
         $container->prependExtensionConfig('guides', [
             /* A theme rather than a list of template paths. A path is searched
@@ -253,6 +264,26 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
 
         $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
         $loader->load('soul.php');
+    }
+
+    /**
+     * A package this theme cannot render without, registered for the project.
+     * It arrives too late in the prepend pass for its own `prepend()` to be
+     * called, so that is done here. A project naming it itself is left alone,
+     * because an element in `guides.xml` is there to configure it.
+     */
+    private function registerDependency(ContainerBuilder $container, ExtensionInterface $extension): void
+    {
+        if ($container->hasExtension($extension->getAlias())) {
+            return;
+        }
+
+        $container->registerExtension($extension);
+        $container->loadFromExtension($extension->getAlias(), []);
+
+        if ($extension instanceof PrependExtensionInterface) {
+            $extension->prepend($container);
+        }
     }
 
     /**

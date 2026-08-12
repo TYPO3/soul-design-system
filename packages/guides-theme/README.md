@@ -39,7 +39,9 @@ composer install
 
 The package brings `phpdocumentor/guides-cli`, `guides-code` and
 `guides-markdown` with it, so that one line is the command, the highlighter and
-the Markdown parser. PHP 8.2 is the floor.
+the Markdown parser — and the theme registers the last two itself, so
+reStructuredText and Markdown both render out of the box and neither is named
+in a project's configuration. PHP 8.2 is the floor.
 
 ## Rendering a site
 
@@ -60,13 +62,13 @@ one bundled file and needs nothing installed.
 <guides xmlns="https://www.phpdoc.org/guides"
         input-format="rst" links_are_relative="true" theme="soul">
     <project title="Your project" version="1.0"/>
-    <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension"/>
 </guides>
 ```
 
-Both `<extension>` elements are load-bearing: `theme="soul"` selects a theme
-that has to exist first, and the second element is what makes it exist.
+The `<extension>` element is load-bearing: `theme="soul"` selects a theme that
+has to exist first, and that element is what makes it exist. `input-format` is
+`rst` or `md`, and picking one is all a project does about it.
 
 ## What is in the package
 
