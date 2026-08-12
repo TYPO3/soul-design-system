@@ -12,14 +12,14 @@ import { dirname, join, relative, resolve, sep } from 'node:path';
 
 import * as esbuild from 'esbuild';
 
-import { FRONTEND, ROOT, byGroup, cards, screens, type Card } from './lib/cards.ts';
+import { FRONTEND, GENERATED, ROOT, byGroup, cards, screens, type Card } from './lib/cards.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
 
 /** `sds-button` → `SdsButton`, the export name the bundle exposes. */
 const pascalTag = (tag: string): string =>
   tag.split('-').map((w) => (w[0] ?? '').toUpperCase() + w.slice(1)).join('');
 
-const OUT = resolve(process.argv[2] ?? join(ROOT, 'ds-bundle'));
+const OUT = resolve(process.argv[2] ?? join(GENERATED, 'bundle'));
 const NS = 'SDS';
 
 const sha12 = (b: string | Buffer): string => createHash('sha256').update(b).digest('hex').slice(0, 12);

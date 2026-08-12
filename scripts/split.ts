@@ -2,7 +2,7 @@
 /* A package under `packages/`, mirrored into the repository it is published
    from.
 
-     make split ARGS=guides-theme   replay its commits into .split/guides-theme
+     make split ARGS=guides-theme   replay its commits into .out/split/guides-theme
      make split ARGS=frontend       the same, for the npm package
      make split ARGS=--check        assemble both and prove they are whole
 
@@ -25,7 +25,7 @@ import { join, relative } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 
-import { ROOT } from './lib/cards.ts';
+import { GENERATED, ROOT } from './lib/cards.ts';
 
 const argv = process.argv.slice(2);
 const CHECK = argv.includes('--check');
@@ -68,7 +68,7 @@ const found = (tree: string, places: readonly string[], proof: string): string |
   places.map((at) => join(tree, at)).find((path) => existsSync(join(path, proof)));
 
 interface Package {
-  /** What `make split ARGS=<name>` is called, and its directory under `.split/`. */
+  /** What `make split ARGS=<name>` is called, and its directory under `.out/split/`. */
   name: string;
   /** Where it is published. */
   remote: string;
@@ -257,7 +257,7 @@ for (const tag of git(['tag', '--list']).split('\n').filter(Boolean)) {
 }
 
 for (const pack of packs) {
-  const out = flag('into') ?? join(ROOT, '.split', pack.name);
+  const out = flag('into') ?? join(GENERATED, 'split', pack.name);
   const remote = flag('remote') ?? pack.remote;
 
   /* Reused where it is already a repository, so a second run replays only what

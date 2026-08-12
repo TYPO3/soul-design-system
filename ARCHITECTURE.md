@@ -36,15 +36,24 @@ story here show the same specimen, because the page embeds the same card.
 
 Everything else is generated from those and must not be edited by hand: every
 card and screen under `specimens/`, `packages/frontend/fonts/` and `packages/frontend/assets/icons/`, the Storybook
-build, `packages/frontend/dist/`, `ds-bundle/` and `site/`. `make verify` fails on a card that no
+build, `packages/frontend/dist/`, `.out/bundle/` and `.out/site/`. `make verify` fails on a card that no
 story produces, so the hand-written form cannot come back one file at a time.
+
+**One root for everything generated that git does not keep: `.out/`.** The
+bundle, the rendered site, the built Storybook, the suite's output and reports,
+the packages assembled for their split repositories. It is written once, as
+`GENERATED` in `scripts/lib/cards.ts`, so `.gitignore` needs one line and
+`make clean` one path. Two kinds of thing stay outside it and both say why in
+`.gitignore`: what another tool chose the location of, and what has to sit
+where something reads it — the drop-in copied beside a page the renderer is
+about to write resolves `styles/` relative to itself.
 
 `packages/frontend/fonts/` and `packages/frontend/assets/` stay at the root rather than under `packages/frontend/src/`: they are
 generated artefacts of npm packages, not sources, and the upload bundle wants
 them at its own root anyway.
 
 **The bundle is flat and the repo is not.** `styles.css`, `_ds_bundle.css`,
-`_specimen.css` and `tokens/` all sit at the root of `ds-bundle/`. The climb
+`_specimen.css` and `tokens/` all sit at the root of `.out/bundle/`. The climb
 back to that root used to be written out beside each caller — `'../../../'`
 for a card, `'../'` for a screen — so a change to either layout was also a
 change to two literals in `scripts/build.ts`, and that pairing broke twice.
@@ -53,10 +62,10 @@ no caller states it. What still has to move with the layout is the `@import`
 rewriting, which names paths rather than depths.
 
 **Three export surfaces, and only one of them is not committed.** `packages/frontend/dist/` is
-the npm drop-in, `ds-bundle/` is the upload payload for the design agent, and
-`site/` is the publish root the rendered documentation lands in. The first two
+the npm drop-in, `.out/bundle/` is the upload payload for the design agent, and
+`.out/site/` is the publish root the rendered documentation lands in. The first two
 are in git because somebody copies them — a consumer takes `packages/frontend/dist/` over a
-clone, and the sync uploads `ds-bundle/` file by file. Nobody copies a rendered
+clone, and the sync uploads `.out/bundle/` file by file. Nobody copies a rendered
 site; it is published, from `main`, by the workflow in `.github/`. Committing
 it would be committing the same pages twice, once as source and once as output.
 
@@ -79,7 +88,7 @@ bar, rail, footer — stays with the component layer, which is where it was
 already drawn. `_specimen.css` is outside for the mirror-image reason: it draws
 card chrome, and a design built with this system must never inherit it.
 
-The document layer is not in `ds-bundle/`. That upload is for designing with
+The document layer is not in `.out/bundle/`. That upload is for designing with
 the system, and nobody sets a document in it — one flat root, unchanged.
 
 ## Two packages come out of this tree, and they leave through `packages/`

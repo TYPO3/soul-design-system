@@ -42,12 +42,12 @@ const TASKS: Record<string, Task> = {
   php: { cmd: node('scripts/php.ts'), help: 'format the theme’s PHP against typo3/coding-standards — ARGS=--check to only report' },
 
   // The documentation site
-  guides: { cmd: node('scripts/guides.ts'), help: 'render the Guides fixture into site/ with the theme' },
+  guides: { cmd: node('scripts/guides.ts'), help: 'render the Guides fixture into .out/site/ with the theme' },
 
   // Build artefacts
-  build: { cmd: node('scripts/build.ts'), help: 'assemble ds-bundle/, the upload payload' },
+  build: { cmd: node('scripts/build.ts'), help: 'assemble .out/bundle/, the upload payload' },
   dist: { cmd: node('scripts/dist.ts'), help: 'build the publishable ESM package and its types' },
-  split: { cmd: node('scripts/split.ts'), help: 'assemble the Guides theme as the package it is published as, into .split/' },
+  split: { cmd: node('scripts/split.ts'), help: 'assemble the Guides theme as the package it is published as, into .out/split/' },
   fonts: { cmd: node('scripts/fonts.ts'), help: 'regenerate fonts/ from @fontsource' },
   icons: { cmd: node('scripts/icons.ts'), help: 'regenerate assets/icons/ from @typo3/icons' },
   diagrams: { cmd: node('scripts/diagrams.ts'), help: 'read the drawings’ viewBoxes into src/components/diagrams.generated.ts' },
@@ -107,8 +107,8 @@ if (spawnSync('docker', ['--version'], { stdio: 'ignore' }).status !== 0) {
 }
 
 /* The container writes into bind-mounted directories, so it has to write as
-   whoever owns them. Without this, `ds-bundle/` and `test-results/` come
-   back owned by root and the next run cannot delete them. */
+   whoever owns them. Without this, everything under `.out/` comes back owned
+   by root and the next run cannot delete it. */
 process.env['SDS_UID'] ??= String(process.getuid?.() ?? 1000);
 process.env['SDS_GID'] ??= String(process.getgid?.() ?? 1000);
 

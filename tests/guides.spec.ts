@@ -12,7 +12,7 @@ import { join, relative, sep } from 'node:path';
 
 import { test, expect, type Page } from '@playwright/test';
 
-import { SITE_URL } from '../playwright.config.ts';
+import { SITE_DIR, SITE_URL } from '../playwright.config.ts';
 
 const FIXTURE = `${SITE_URL}/_acceptance/index.html`;
 const REFERENCE = `${SITE_URL}/_acceptance/nodes.html`;
@@ -34,7 +34,7 @@ function pages(dir: string, root = dir): string[] {
 
 test.describe('the render', () => {
   test('every page the renderer wrote loads, and asks for nothing that is not there', async ({ page }) => {
-    const site = pages('site');
+    const site = pages(SITE_DIR);
     expect(site.length, 'the site should have pages in it').toBeGreaterThan(1);
     test.setTimeout(Math.max(30_000, site.length * 2_000));
 
@@ -66,7 +66,7 @@ test.describe('the render', () => {
        valid, it just says everything twice. */
     /* The copied specimen cards are not pages of the site: they carry no
        bundle, so nothing in them upgrades and nothing here applies. */
-    const site = pages('site').filter((path) => !path.includes('_cards/'));
+    const site = pages(SITE_DIR).filter((path) => !path.includes('_cards/'));
     test.setTimeout(Math.max(60_000, site.length * 3_000));
 
     for (const path of site) {
@@ -100,7 +100,7 @@ test.describe('the mark in the tab', () => {
        so a wrong one is a site that looks fine everywhere and is blank in the
        one place a reader keeps it. What breaks is the depth, so it is read from
        a page below the root rather than from the index. */
-    const below = pages('site').find((path) => path.includes('/') && !path.startsWith('_'));
+    const below = pages(SITE_DIR).find((path) => path.includes('/') && !path.startsWith('_'));
     expect(below, 'the site should have a page below its root').toBeTruthy();
     await page.goto(`${SITE_URL}/${below}`, { waitUntil: 'load' });
 

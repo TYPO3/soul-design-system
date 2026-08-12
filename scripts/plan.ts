@@ -12,9 +12,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { ROOT } from './lib/cards.ts';
+import { GENERATED, ROOT } from './lib/cards.ts';
 
-const BUILT = join(ROOT, 'ds-bundle/_ds_sync.json');
+const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
 const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
 const OUT = join(ROOT, '.design-sync/.cache/upload-plan.json');
 const SENTINEL = '_ds_needs_recompile';
@@ -82,7 +82,7 @@ if (existsSync(ANCHOR)) {
 
 const plan = {
   projectId,
-  localDir: './ds-bundle',
+  localDir: './.out/bundle',
   finalizePlan: {
     writes: ['components/**', 'screens/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**',
       '_ds_bundle.js', '_ds_bundle.css', '_specimen.css', 'styles.css', 'README.md',

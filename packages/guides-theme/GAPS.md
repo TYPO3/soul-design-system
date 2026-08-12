@@ -152,7 +152,7 @@ Nicht Styling, sondern was das Paket können muss.
   die angesprungene Stelle anzeigt, ist nicht entschieden.
 - **Druck.** Kein Druck-Stylesheet.
 - **Niemand sieht, wie die Seite aussieht.** `tests/guides.spec.ts` rendert und
-  öffnet sie: es lädt jede Seite unter `site/` und lässt keinen Fehler und
+  öffnet sie: es lädt jede Seite unter `.out/site/` und lässt keinen Fehler und
   keine fehlende Datei durch, und es hält die Befunde fest, für die dieses
   Theme geschrieben wurde. Was es nicht tut, ist hinsehen — kein Bildvergleich
   und keine Achse gegen die Ausgabe, und jeder Knoten, für den dort keine Zeile

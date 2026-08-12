@@ -1,17 +1,32 @@
-# generated upload bundle
-/ds-bundle/
+# Everything generated that git does not keep — one root, so this file names it
+# once and `scripts/lib/cards.ts` says where it is. Nothing is listed inside it
+# on purpose: a list here is a second copy of what the scripts write. What is
+# ignored below this line is either somebody else's or has to sit where
+# something reads it, and each entry says which.
+/.out/
 
+# What `make dist ARGS=--check` builds to compare against the committed
+# drop-in. Outside `.out/` because it has to be a sibling of `dist/`: the
+# comparison is byte for byte, and the generated tsconfig and the sourcemaps
+# both name their sources relatively — from anywhere else every path differs.
+/packages/frontend/.dist-check/
 
-# staged design-sync converter scripts and their deps
+# Nothing under `packages/frontend/dist/` itself is ignored, and that is
+# deliberate: the drop-in is committed so a consumer can take it over a plain
+# clone, and the check reads what the build wrote. A file held back here is one
+# it reports missing from every fresh clone — and a sourcemap left out is a
+# `sourceMappingURL` in the committed drop-in pointing at nothing.
+
+# The design-sync skill's paths rather than this repository's: the staged
+# converter and its deps, the cache the skill documents and looks for here —
+# screenshots, baselines, diffs, contact sheets, and the anchor a sync compares
+# against, which `make baseline` and `make shots` write into — and the manifest
+# one upload leaves behind. Outside `.out/` because the skill chose where.
 /.ds-sync/
-
-# machine state: screenshots, baselines, diffs, contact sheets
 /.design-sync/.cache/
+/.design-sync/upload-manifest.json
 
 node_modules/
-
-# ephemeral upload manifest
-/.design-sync/upload-manifest.json
 
 # The faces are generated from @fontsource, and committed for the same reason
 # `dist/` is: they are what the package publishes and what a page links, and a
@@ -20,20 +35,9 @@ node_modules/
 # generated from @typo3/icons by scripts/icons.ts — the singles and the map
 /packages/frontend/assets/icons/
 
-# generated storybook build
-/storybook-static/
-
 # generated from @typo3/icons by scripts/icons.mjs, alongside assets/icons/
 /packages/frontend/src/components/icons.generated.ts
 /packages/frontend/src/components/icons.svg.generated.ts
-
-# dist/ is committed on purpose: it is the drop-in a consumer copies over a
-# plain clone, and `make dist ARGS=--check` proves it still matches its source.
-# All of it, with nothing held back: the check reads what the build wrote, so
-# a file ignored here is one it reports missing from every fresh clone — and
-# a sourcemap left out is a `sourceMappingURL` in the committed drop-in that
-# points at nothing.
-/packages/frontend/.dist-check/
 
 # Never the lock. This is a library rather than an application: what it must
 # work against is the constraint in composer.json, and a committed lock would
@@ -60,10 +64,6 @@ node_modules/
 # built rather than a second copy of them
 /docs/guides-theme/_starter/
 
-# the rendered documentation site — published, never copied, so unlike dist/
-# there is nothing to be gained from committing it
-/site/
-
 # what building the starter example leaves behind. `.soul` is the design
 # system: a checkout in a consumer's repository, and here a link back to this
 # one, so the file somebody copies is the file the build runs.
@@ -72,12 +72,5 @@ node_modules/
 /examples/starter/site/
 /examples/starter/composer.lock
 
-# playwright output
-/test-results/
-/playwright-report/
-
 # the sync target: a maintainer's, not the repository's
 /.design-sync/config.local.json
-
-# the theme assembled as its own package, for pushing to the split repository
-/.split/

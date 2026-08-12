@@ -75,7 +75,7 @@ jobs:
         env:
           TOKEN: ${{ secrets.SPLIT_TOKEN }}
         run: |
-          cd .split/${{ inputs.package }}
+          cd .out/split/${{ inputs.package }}
           git remote add origin "https://x-access-token:${TOKEN}@github.com/${{ inputs.repository }}.git" 2>/dev/null || true
           # The branch is replayed history, so a normal push is what it takes;
           # a mirror that needs forcing is one somebody committed into by hand.
@@ -86,7 +86,7 @@ jobs:
 
       - name: What was published
         run: |
-          cd .split/${{ inputs.package }}
+          cd .out/split/${{ inputs.package }}
           {
             echo "### ${{ inputs.repository }}"
             echo

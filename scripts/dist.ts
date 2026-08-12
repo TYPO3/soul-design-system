@@ -29,6 +29,10 @@ const CHECK = process.argv.includes('--check');
    of it: nothing in the running stack reads them, they are the slowest step by
    an order of magnitude, and `verify` builds them anyway. */
 const WATCH = process.argv.includes('--watch');
+/* Beside `dist/` rather than under `.out/` with everything else generated: the
+   check compares bytes, and both the generated tsconfig below and esbuild's
+   sourcemaps name their sources relatively. Only a sibling of the real output
+   produces the same paths. */
 const OUT = join(FRONTEND, CHECK ? '.dist-check' : 'dist');
 
 /** Every .d.ts under a directory. */

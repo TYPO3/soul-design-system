@@ -210,7 +210,7 @@ Tables
      - headers, classes, references, fit, cards, types, conventions
      - before calling anything done
    * - ``make guides``
-     - renders this project into ``site/``
+     - renders this project into ``.out/site/``
      - while the theme is being written
 
 Pictures

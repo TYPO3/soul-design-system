@@ -80,9 +80,13 @@ is not in question; the names still are.
 | --- | --- | --- |
 | Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens |
 | `specimens/` | `make cards` | every specimen card and screen, rendered from the stories that compose them |
-| `site/` | `make guides` | the documentation, rendered from `docs/` by phpDocumentor Guides through this system's own theme |
+| `.out/site/` | `make guides` | the documentation, rendered from `docs/` by phpDocumentor Guides through this system's own theme |
 | `packages/frontend/dist/` | `make dist` | the publishable ESM package and its types |
-| `ds-bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
+| `.out/bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
+
+`.out/` is where everything generated goes that git does not keep — those two,
+the built Storybook, the suite's output, the assembled split packages. One
+root, and `make clean` removes it whole.
 
 None of them is edited by hand. Change a component in `packages/frontend/src/`, change the
 class layer in `styles/`, change a value in `tokens/` — then regenerate.
@@ -265,8 +269,8 @@ creates a second one. It compares against the anchor the project stores
 | `specimens/` | **generated** — the cards and the screens, the latter offered as Starting Points in a consuming project |
 | `packages/frontend/fonts/` | **generated** from `@fontsource`, and committed — the package publishes it |
 | `packages/frontend/assets/icons/` | **generated** from `@typo3/icons`, untracked |
-| `ds-bundle/`, `packages/frontend/dist/` | **generated** exports |
-| `site/` | **generated** — the publish root, and the one export that is not committed: a drop-in is copied, a site is published |
+| `packages/frontend/dist/` | **generated** — the drop-in, committed |
+| `.out/` | **generated** — everything git does not keep: the upload payload, the publish root, the built Storybook, the suite's output. A drop-in is copied, a site is published |
 | | |
 | `ARCHITECTURE.md` | how this repo is built, and what has already gone wrong |
 | `SKILL.md` | the build rules — the operating instruction |
@@ -287,8 +291,8 @@ A screen is its own thumbnail — there is no thumbnail file anywhere.
 | `verify` | the gate: headers, classes, coverage, references, fit, card staleness, types, conventions |
 | `test` | the Playwright suite — every story renders, components match their static render, axe |
 | `cards` | regenerate the specimen cards from their stories |
-| `guides` | render `docs/` into `site/` with the theme — the documentation as it will be served |
-| `build` | assemble `ds-bundle/`, the upload payload |
+| `guides` | render `docs/` into `.out/site/` with the theme — the documentation as it will be served |
+| `build` | assemble `.out/bundle/`, the upload payload |
 | `dist` | build the publishable ESM package and its types |
 | `sync` | build + verify + what-would-change + upload plan |
 | `status` / `plan` / `synced` | the sync steps individually |

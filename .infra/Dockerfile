@@ -78,16 +78,16 @@ RUN npm ci --no-audit --no-fund --ignore-scripts \
 
 COPY . .
 
-# The image runs as an arbitrary UID and writes into /app — ds-bundle/, dist/,
-# storybook-static/. Writable by anyone is right for a development image and
+# The image runs as an arbitrary UID and writes into /app — everything under
+# .out/, and dist/. Writable by anyone is right for a development image and
 # wrong for a published one; this is the former. node_modules is skipped
 # because the layer above already granted it, and repeating it here would copy
 # the installed dependencies into a layer that every commit invalidates.
 #
-# storybook-static/ is created empty on purpose: compose keeps it in an
+# .out/storybook/ is created empty on purpose: compose keeps it in an
 # anonymous volume seeded from this path, and with no directory here Docker
 # creates that volume owned by root, which the container then cannot write.
-RUN mkdir -p /app/storybook-static /app/test-results /app/playwright-report \
+RUN mkdir -p /app/.out/storybook /app/.out/test-results /app/.out/playwright-report \
  && chmod a+rwX /app \
  && find /app -mindepth 1 -maxdepth 1 ! -name node_modules -exec chmod -R a+rwX {} +
 

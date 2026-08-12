@@ -12,10 +12,10 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { ROOT } from './lib/cards.ts';
+import { GENERATED, ROOT } from './lib/cards.ts';
 
 const DOC = join(ROOT, '.design-sync/conventions.md');
-const OUT = join(ROOT, 'ds-bundle');
+const OUT = join(GENERATED, 'bundle');
 
 if (!existsSync(DOC)) {
   console.log('   no conventions.md — nothing to check');

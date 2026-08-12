@@ -16,12 +16,12 @@ x-app: &app
     dockerfile: .infra/Dockerfile
     target: app
   # Run as whoever owns the working tree. Without this the container writes
-  # ds-bundle/, dist/ and test-results/ as root, and the next run cannot
-  # delete what the last one made. scripts/task.ts fills these in.
+  # .out/ and dist/ as root, and the next run cannot delete what the last one
+  # made. scripts/task.ts fills these in.
   user: '${SDS_UID:-1000}:${SDS_GID:-1000}'
   volumes:
     # The whole project, so edits on the host are live and generated output
-    # lands back on the host — ds-bundle/ especially, since /design-sync
+    # lands back on the host — .out/bundle/ especially, since /design-sync
     # uploads it from there.
     - ..:/app
     # …except these. node_modules is platform-specific and belongs to the
@@ -29,7 +29,7 @@ x-app: &app
     # of Linux. The rest are build output nobody needs on the host, and
     # keeping them in the container makes a rebuild cheaper.
     - /app/node_modules
-    - /app/storybook-static
+    - /app/.out/storybook
   # Chromium needs more than Docker's default 64 MB of shared memory. Too
   # little shows up as tabs crashing mid-run, never as an out-of-memory error.
   shm_size: 1gb
@@ -101,7 +101,7 @@ services:
   # is honest: an empty site is a site nobody has rendered.
   site:
     <<: *app
-    command: ['node', 'scripts/serve.ts', '${SDS_SITE_PORT:-4173}', 'site']
+    command: ['node', 'scripts/serve.ts', '${SDS_SITE_PORT:-4173}', '.out/site']
     ports:
       - '${SDS_SITE_PORT:-4173}:${SDS_SITE_PORT:-4173}'
 

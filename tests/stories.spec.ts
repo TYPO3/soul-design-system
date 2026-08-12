@@ -43,7 +43,7 @@ const EXPECTED = [/Lit is in dev mode/];
 
 async function storyIds(request: import('@playwright/test').APIRequestContext): Promise<StoryEntry[]> {
   const res = await request.get('/index.json');
-  expect(res.ok(), 'storybook-static/index.json should be served').toBeTruthy();
+  expect(res.ok(), 'the built Storybook’s index.json should be served').toBeTruthy();
   const index = (await res.json()) as { entries: Record<string, StoryEntry> };
   return Object.values(index.entries).filter((e) => e.type === 'story');
 }

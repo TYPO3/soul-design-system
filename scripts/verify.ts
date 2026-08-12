@@ -7,7 +7,7 @@
    run that silently checked nothing reads exactly like a clean one.
 
    The build runs first, but only for `conventions`, the one check that reads
-   `ds-bundle/`. That is also why arguments are passed directly rather than
+   `.out/bundle/`. That is also why arguments are passed directly rather than
    through a `sh -c` wrapper, where the filter would land on the shell. */
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
@@ -33,7 +33,7 @@ interface Check {
   step: string;
   /** What it holds, in the line it prints and in `--help`. */
   label: string;
-  /** Reads `ds-bundle/`, so selecting it is what makes the build run. */
+  /** Reads `.out/bundle/`, so selecting it is what makes the build run. */
   bundle?: true;
   run: () => void;
 }

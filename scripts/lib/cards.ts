@@ -19,7 +19,13 @@ export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
    own tooling reads and writes — everything else here is about it. */
 export const FRONTEND = join(ROOT, 'packages', 'frontend');
 
-const SKIP = new Set(['node_modules', 'ds-bundle', 'fonts', 'assets']);
+/* Everything generated that git does not keep — the bundle, the rendered site,
+   the built Storybook, the suite's output, the screenshots. One root, so
+   `.gitignore` names it once and a path that moves moves here rather than in
+   eight scripts. What stays outside it is what something reads in place. */
+export const GENERATED = join(ROOT, '.out');
+
+const SKIP = new Set(['node_modules', '.out', 'fonts', 'assets']);
 const CARD_RE = /@dsCard\s+([\s\S]*?)-->/;
 const SP_RE = /@startingPoint\s+([\s\S]*?)-->/;
 const ATTR_RE = /(\w+)="([^"]*)"/g;

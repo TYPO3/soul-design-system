@@ -11,9 +11,9 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { ROOT } from './lib/cards.ts';
+import { GENERATED, ROOT } from './lib/cards.ts';
 
-const BUILT = join(ROOT, 'ds-bundle/_ds_sync.json');
+const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
 const CACHE = join(ROOT, '.design-sync/.cache/remote-sync.json');
 
 if (!existsSync(BUILT)) {

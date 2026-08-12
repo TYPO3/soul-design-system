@@ -11,7 +11,7 @@ that upload.
 
 .. code-block:: bash
 
-   make build      # assemble the payload into ds-bundle/
+   make build      # assemble the payload into .out/bundle/
    make status     # what a sync would change
    make plan       # the ordered upload plan, with deletes
    make sync       # build, verify, status, plan in one go
@@ -19,12 +19,12 @@ that upload.
 What gets uploaded
 ==================
 
-``make build`` writes ``ds-bundle/``. The bundle is **flat** where the repo is
+``make build`` writes ``.out/bundle/``. The bundle is **flat** where the repo is
 not, because that is the shape the pane expects:
 
 .. code-block:: text
 
-   ds-bundle/
+   .out/bundle/
      styles.css          the entry point a rendered design links
      _ds_bundle.css      the class layer
      _ds_bundle.js       the elements, bundled

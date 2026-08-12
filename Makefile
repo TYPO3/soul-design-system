@@ -20,8 +20,8 @@ COMPOSE := docker compose -f .infra/docker-compose.yml
 TASK := .infra/task.sh
 
 # The container writes into the bind-mounted tree, so it runs as whoever owns
-# it. Without this, ds-bundle/ and test-results/ come back owned by root and
-# the next run cannot delete what the last one made.
+# it. Without this, everything under .out/ comes back owned by root and the
+# next run cannot delete what the last one made.
 export SDS_UID := $(shell id -u)
 export SDS_GID := $(shell id -g)
 
@@ -61,8 +61,8 @@ help:
 	@echo '                       one spec: make test ARGS=tests/parity.spec.ts'
 	@echo '  make cards           regenerate the component cards from their stories'
 	@echo
-	@echo '  make guides          render the documentation fixture into site/'
-	@echo '  make build           assemble ds-bundle/, the upload payload'
+	@echo '  make guides          render the documentation fixture into .out/site/'
+	@echo '  make build           assemble .out/bundle/, the upload payload'
 	@echo '  make dist            the publishable ESM package and its types'
 	@echo '  make sync            build + verify + what-would-change + upload plan'
 	@echo '  make status plan synced      the sync steps individually'
@@ -147,5 +147,5 @@ shell:
 
 clean:
 	@$(COMPOSE) down -v --remove-orphans
-	@rm -rf ds-bundle packages/frontend/dist storybook-static test-results playwright-report .split
+	@rm -rf .out packages/frontend/dist
 	@echo 'removed containers, volumes and build output'

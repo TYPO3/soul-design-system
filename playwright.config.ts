@@ -5,7 +5,7 @@
    that every story renders at all, that the custom elements produce the same
    markup the static cards ship, and that the specimens survive an axe pass.
 
-   Tests run against `storybook-static`, not `storybook dev`. A built
+   Tests run against a built Storybook, not `storybook dev`. A built
    Storybook is deterministic and starts in a second; the dev server
    recompiles on demand, so a slow first story looks like a flaky test. The
    trade is that `make test` builds first — `reuseExistingServer` keeps that
@@ -29,13 +29,22 @@ export const BASE_URL = `http://localhost:${PORT}`;
    assets relative to a publish root, which is the property under test. */
 export const SITE_PORT = 6108;
 export const SITE_URL = `http://localhost:${SITE_PORT}`;
+/* The publish root on disk. Served below, and walked by the guides suite to
+   ask what the renderer actually wrote — one spelling for both. */
+export const SITE_DIR = '.out/site';
 
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env['CI'],
   retries: process.env['CI'] ? 1 : 0,
-  reporter: process.env['CI'] ? [['github'], ['html', { open: 'never' }]] : [['list']],
+  reporter: process.env['CI']
+    ? [['github'], ['html', { open: 'never', outputFolder: '.out/playwright-report' }]]
+    : [['list']],
+
+  /* Both under the one ignored root, rather than the two directories Playwright
+     would otherwise scatter at the repo root — see `.gitignore`. */
+  outputDir: './.out/test-results',
 
   use: {
     baseURL: BASE_URL,
@@ -54,7 +63,7 @@ export default defineConfig({
       /* The binaries directly, not through npm or npx: the container runs as
          the host's UID with no home of its own, and npm wants a cache it can
          write. There is nothing npm adds here anyway. */
-      command: `node_modules/.bin/storybook build && node scripts/serve.ts ${PORT} storybook-static`,
+      command: `node_modules/.bin/storybook build -o .out/storybook && node scripts/serve.ts ${PORT} .out/storybook`,
       url: BASE_URL,
       reuseExistingServer: !process.env['CI'],
       timeout: 240_000,
@@ -68,7 +77,7 @@ export default defineConfig({
          a template that stopped emitting what it used to — is exactly what
          a stale render hides. The renderer is PHP over a handful of
          documents and costs about a second. */
-      command: `node scripts/guides.ts && node scripts/serve.ts ${SITE_PORT} site`,
+      command: `node scripts/guides.ts && node scripts/serve.ts ${SITE_PORT} ${SITE_DIR}`,
       url: SITE_URL,
       reuseExistingServer: !process.env['CI'],
       timeout: 240_000,

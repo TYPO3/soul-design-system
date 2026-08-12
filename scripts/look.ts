@@ -3,7 +3,7 @@
 
    `make shots` answers *did this move*; this answers **what does it look
    like**, with a page's defaults: full height at 1440, both modes, no
-   animation, into `test-results/`. Scrolled, it is one screen.
+   animation, into `.out/test-results/`. Scrolled, it is one screen.
 
      make look ARGS='specimens/screens/news.html 375'   # at a phone's width
      make look ARGS='specimens/screens/news.html 1440 light'   # one mode only
@@ -14,7 +14,7 @@ import { basename, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import { withBrowser } from './lib/browser.ts';
-import { inRepo, ROOT } from './lib/cards.ts';
+import { inRepo, GENERATED, ROOT } from './lib/cards.ts';
 
 const [file, widthArg, modeArg, scrollArg] = process.argv.slice(2);
 if (!file) {
@@ -36,7 +36,7 @@ const address = /^https?:/.test(file) ? file : pathToFileURL(join(ROOT, target))
 const width = Number(widthArg ?? 1440);
 const scroll = Number(scrollArg ?? 0);
 const modes = modeArg === 'light' || modeArg === 'dark' ? [modeArg] : (['light', 'dark'] as const);
-const OUT = resolve(join(ROOT, 'test-results'));
+const OUT = resolve(join(GENERATED, 'test-results'));
 mkdirSync(OUT, { recursive: true });
 
 const name = (basename(file).replace(/\.html$/, '') || 'index').replace(/[^\w.-]/g, '-');

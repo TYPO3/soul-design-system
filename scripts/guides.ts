@@ -3,7 +3,7 @@
 
      make guides
 
-   `site/` is published **standalone**: the repository around it does not go
+   `.out/site/` is published **standalone**: the repository around it does not go
    with it, so everything the pages need is copied inside and the last step here
    proves nothing points out. The one interesting part is that the stylesheets
    go into the *source* tree — Guides copies assets referenced from the
@@ -13,11 +13,11 @@ import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } fr
 import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-import { FRONTEND, ROOT, cards, screens } from './lib/cards.ts';
+import { FRONTEND, GENERATED, ROOT, cards, screens } from './lib/cards.ts';
 import { dropIn, finish } from './lib/site.ts';
 
 const THEME = join(ROOT, 'packages', 'guides-theme');
-const SITE = join(ROOT, 'site');
+const SITE = join(GENERATED, 'site');
 const DROP = join(FRONTEND, 'dist');
 
 interface Project {
@@ -141,7 +141,7 @@ for (const project of PROJECTS) {
 const { drawn, indexed, broken } = finish(SITE);
 
 if (broken.length) {
-  console.error(`\n✗ ${broken.length} reference(s) do not resolve inside site/:`);
+  console.error(`\n✗ ${broken.length} reference(s) do not resolve inside the site:`);
   for (const line of broken.slice(0, 12)) console.error(`  - ${line}`);
   process.exit(1);
 }
@@ -149,6 +149,6 @@ if (broken.length) {
 console.log(`
   ${drawn} pages carry their elements already rendered.
   ${indexed} pages indexed for search.
-  ${PROJECTS.length} project(s) into site/ — the publish root.
+  ${PROJECTS.length} project(s) into .out/site/ — the publish root.
   Open http://localhost:4173/ (the port \`make start\` reports), or photograph a page:
-    make look ARGS='site/index.html 900'`);
+    make look ARGS='.out/site/index.html 900'`);

@@ -1,14 +1,10 @@
 # Everything generated, platform-specific or irrelevant to a build.
 node_modules
 .git
-ds-bundle
-storybook-static
+.out
 packages/frontend/dist
-test-results
-playwright-report
 .ds-sync
 .design-sync/.cache
-.split
 packages/frontend/assets/icons
 packages/frontend/src/components/icons.generated.ts
 packages/frontend/src/components/icons.svg.generated.ts

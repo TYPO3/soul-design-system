@@ -142,7 +142,7 @@ say they have no reference point rather than guessing.
 
 - **`scripts/build.ts` is the converter.** If the design-sync skill's own
   scripts change their output contract, this one will not follow
-  automatically — diff `ds-bundle/` against the skill's documented layout.
+  automatically — diff `.out/bundle/` against the skill's documented layout.
 - **`.design-sync/conventions.md` is committed and human-editable.** Never
   rewrite it on a re-sync; re-validate that every class and token it names
   still exists in the build, and report drift — `make verify` does this and

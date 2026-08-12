@@ -15,17 +15,14 @@ node_modules/
 # History. The container reads the working tree, never the repository.
 .git/
 
-# Installed inside, same as node_modules — and the rendered output, which is
-# written by the container rather than sent to it.
+# Installed inside, same as node_modules.
 packages/guides-theme/vendor/
-site/
 
-# Machine state: screenshots, baselines and diffs, rewritten by `make shots`.
+# Everything generated: written by the container and read back on the host,
+# never sent to it. One line, because the tree keeps it under one root.
+.out/
+
+# Machine state: screenshots, baselines and diffs, rewritten by `make shots`,
+# and the converter the design-sync skill stages beside them.
 .design-sync/.cache/
-
-# Build output, written by the container and read back on the host.
-storybook-static/
-test-results/
-playwright-report/
-ds-bundle/
 .ds-sync/

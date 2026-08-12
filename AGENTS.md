@@ -106,9 +106,9 @@ there — `packages/frontend/` to npm as `@typo3/soul-frontend`, and
 `packages/guides-theme/` to Packagist as `typo3/soul-guides-theme`. Nothing
 else in the tree leaves, and a directory put there is a promise that it will.
 
-`make split ARGS=<name>` assembles one and replays its commits into `.split/`;
-`make split ARGS=--check` is the gate's question — that both still make
-packages a project could install. This repository stays the only place either
+`make split ARGS=<name>` assembles one and replays its commits into
+`.out/split/`; `make split ARGS=--check` is the gate's question — that both
+still make packages a project could install. This repository stays the only place either
 is written: the mirrors are read-only, and a commit made in one is overwritten
 by the next release.
 
@@ -137,12 +137,24 @@ Generated — never edit, never hand-write a new one:
 | --- | --- |
 | `specimens/` | `make cards` |
 | `packages/frontend/dist/` | `make dist` (committed on purpose — it is the drop-in) |
-| `ds-bundle/` | `make build` |
-| `site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs |
+| `.out/bundle/` | `make build` |
+| `.out/site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs |
 | `docs/guides-theme/_starter/` | `make guides` — the example's own files, copied in so the manual quotes what is built rather than a second copy of it |
 | `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
 | `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — untracked, the container's entrypoint restores them |
 | `packages/frontend/src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `packages/frontend/assets/diagrams/` |
+
+**Everything generated that git does not keep is under `.out/`** — the bundle,
+the rendered site, the built Storybook, the suite's output and reports, the
+packages assembled for their split repositories. One root, so a task's output
+is somewhere a reader can find without a list to consult: `GENERATED` in
+`scripts/lib/cards.ts` is where the path is written, and `make clean` removes
+it whole. What stays ignored outside it is either somebody else's — the
+design-sync skill's `.ds-sync/` and `.design-sync/.cache/`, `node_modules/` —
+or has to sit where something reads it: the drop-in copied beside a page the
+renderer is about to write, and `packages/frontend/.dist-check/`, which is a
+sibling of `dist/` because the check compares bytes and the paths inside the
+output are relative.
 
 A card edited by hand is silently reverted; a card with no story behind it is
 a build failure. The `@dsCard` header on a card and `@startingPoint` on a
@@ -198,6 +210,7 @@ one) · `types` (`tsc --noEmit`) · `conventions` (the names in
 | `dropin` | `packages/frontend/dist/` works the way a consumer copies it |
 | `defaults` | unclassed content — what a page gets before it reaches for a class |
 | `content` | content between an element's tags survives its upgrade |
+| `forms` | a form of these elements submits what it shows, and a reset puts back what the markup said |
 | `highlight` | every language `CodeLang` promises is actually registered |
 | `manager` | the Storybook shell itself boots |
 | `search` | a hit in the site index resolves from a page below the root |
@@ -232,7 +245,7 @@ make test ARGS="tests/a11y.spec.ts --grep teaser"
 A partial run says which checks it ran and that it is not the gate; only the
 whole sequence prints `✓ design system is consistent`. A name that is not a
 check is an error, not an empty selection. `conventions` is the one check that
-reads `ds-bundle/`, so selecting it — or running everything — assembles the
+reads `.out/bundle/`, so selecting it — or running everything — assembles the
 bundle first; the others do not pay for it.
 
 Run the whole gate before calling anything done, before a commit, and whenever
@@ -240,7 +253,7 @@ the change crosses layers — a token, `components.css`, a build script. A narro
 run is a step, never the answer to "is it green".
 
 `.github/workflows/ci.yml` runs `make verify` and `make test` on every push, in
-the same image, and publishes `site/` from `main`. That is a net under the
+the same image, and publishes `.out/site/` from `main`. That is a net under the
 rule, not a replacement for it: a red run there is a commit already pushed, and
 whoever reads it has to work out what the tree looked like instead of watching
 it fail in front of them.

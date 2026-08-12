@@ -96,8 +96,8 @@ jobs:
         with:
           name: playwright-report
           path: |
-            playwright-report/
-            test-results/
+            .out/playwright-report/
+            .out/test-results/
           retention-days: 7
 
       # Rendered here rather than in the publishing job, because the image is
@@ -113,17 +113,17 @@ jobs:
           # against, not documentation — every node the renderer can emit,
           # deliberately without prose around it. Built on every run,
           # published on none.
-          rm -rf site/_acceptance
+          rm -rf .out/site/_acceptance
           # Pages serves this artifact as it stands, but a repository ever
           # switched back to the branch-based build runs Jekyll over it, and
           # Jekyll drops every path beginning with an underscore — `_cards/`,
           # `_images/`, `_search.json`, most of what the pages point at.
-          touch site/.nojekyll
+          touch .out/site/.nojekyll
 
       - if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: .out/site
 
   starter:
     name: the documented build, without the container
@@ -133,7 +133,7 @@ jobs:
     if: >-
       github.event_name == 'push'
       || github.event.pull_request.head.repo.full_name != github.repository
-    # Deliberately slower than reading `site/` out of the job above. What is
+    # Deliberately slower than reading `.out/site/` out of the job above. What is
     # being proven is not that the example renders — it is that the three
     # commands `examples/starter/` tells a reader to run are the three commands
     # that work, on a machine with no make, no Docker and nothing of ours
