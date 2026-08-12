@@ -6,10 +6,10 @@
 # workflow that reimplemented the steps would be a second definition of the
 # gate, and the two would drift apart on the first change to either.
 #
-# Two jobs, and only the first of them has an image. The gate runs on every
-# push and every pull request, and on `main` it renders the site as well —
-# publishing is a step that needs no container, so it is the only thing left
-# to the second job.
+# Only the gate has an image. It runs on every push and every pull request,
+# and on `main` it renders the site as well — publishing that site, and
+# mirroring the packages into the repositories they are released from, need no
+# container and wait below it for it to come back green.
 name: CI
 
 # Every push, whatever the branch — a branch nobody has opened a pull request
@@ -208,3 +208,17 @@ jobs:
 
       - id: deploy
         uses: actions/deploy-pages@v4
+
+  # The packages, into the repositories they are installed from. Every push to
+  # `main` and no other event: a mirror that waits for somebody to start it is
+  # one a consumer installs behind this tree, and a pull request is not a tree
+  # anybody may install. `needs: gate` for the same reason `publish` has it.
+  mirror:
+    name: mirror the packages
+    needs: gate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/split.yml
+    with:
+      package: all
+      branch: main
+    secrets: inherit

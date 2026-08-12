@@ -205,6 +205,16 @@ const report = (pkg: string): void => {
   console.log(`   ${files.length} files, ${(bytes / 1024 / 1024).toFixed(1)} MB`);
 };
 
+/* ---- where they go, for whoever has to authenticate to it ---- */
+
+/* One name and one address per line. The workflow rewrites these into an
+   https URL carrying a token — a runner has no key for an SSH remote — and
+   asking here is what keeps the addresses written once. */
+if (argv.includes('--remotes')) {
+  for (const pack of PACKAGES) console.log(`${pack.name} ${pack.remote}`);
+  process.exit(0);
+}
+
 /* ---- the gate's question: do these trees make packages that stand alone ---- */
 
 if (CHECK) {

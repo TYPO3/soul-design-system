@@ -7,22 +7,35 @@
 # push and nothing else — what goes into a package is decided in the task, so
 # `make split` on a desk and this workflow cannot produce different packages.
 #
-# Started by hand, because publishing is a decision. Tags come from this
-# repository's own tags rather than from an input: a release is a tag here
-# first, and the mirror carries it over.
+# Called by `ci.yml` on every push to `main`, once the gate is green over that
+# tree: a mirror somebody has to remember to start is a mirror that is behind,
+# and a consumer installing from it gets a release nobody made. Startable by
+# hand as well, for a rerun or for one package on its own.
+#
+# Where each package is published is declared in the task too, and asked for
+# here rather than written down a second time. Tags come from this
+# repository's own tags: a release is a tag here first, and the mirror carries
+# it over.
 name: Split a package
 
 on:
+  workflow_call:
+    inputs:
+      package:
+        description: One package under packages/, or all of them
+        type: string
+        default: all
+      branch:
+        description: The branch the package is mirrored on
+        type: string
+        default: main
   workflow_dispatch:
     inputs:
       package:
         description: Which package under packages/ to publish
         type: choice
-        options: [guides-theme, frontend]
-        required: true
-      repository:
-        description: The repository to push to, as owner/name
-        required: true
+        options: [all, guides-theme, frontend]
+        default: all
       branch:
         description: The branch the package is mirrored on
         default: main
@@ -30,6 +43,13 @@ on:
 
 permissions:
   contents: read
+
+# One mirror run at a time. Two replaying the same history race each other,
+# and the loser is a non-fast-forward nobody asked for. Queued rather than
+# cancelled: a cancelled run leaves the mirror behind instead of merely late.
+concurrency:
+  group: split
+  cancel-in-progress: false
 
 jobs:
   split:
@@ -56,41 +76,36 @@ jobs:
       - name: The drop-in matches its source
         run: node scripts/dist.ts --check
 
-      # Clone the mirror first, so the replay continues that history instead of
-      # starting a new one — the task reads where it stopped from the trailer on
-      # the last commit over there.
-      - name: Assemble the package
+      # The task clones each mirror before it replays into it, so it is handed
+      # the address it declares with a token in front — a runner has no key for
+      # an SSH remote, and a clone that fails silently starts the history over.
+      - name: Assemble and push
         env:
           TOKEN: ${{ secrets.SPLIT_TOKEN }}
+          PACKAGE: ${{ inputs.package }}
+          BRANCH: ${{ inputs.branch }}
         run: |
           if [ -z "$TOKEN" ]; then
-            echo "::error::SPLIT_TOKEN is not set — create a token with write access to ${{ inputs.repository }}"
+            echo "::error::SPLIT_TOKEN is not set — create a token with write access to the mirrors"
             exit 1
           fi
-          node scripts/split.ts ${{ inputs.package }} \
-            --branch=${{ inputs.branch }} \
-            --remote="https://x-access-token:${TOKEN}@github.com/${{ inputs.repository }}.git"
-
-      - name: Push it
-        env:
-          TOKEN: ${{ secrets.SPLIT_TOKEN }}
-        run: |
-          cd .out/split/${{ inputs.package }}
-          git remote add origin "https://x-access-token:${TOKEN}@github.com/${{ inputs.repository }}.git" 2>/dev/null || true
-          # The branch is replayed history, so a normal push is what it takes;
-          # a mirror that needs forcing is one somebody committed into by hand.
-          git push origin "${{ inputs.branch }}"
-          # Tags never move: a release that changes is a release nobody can
-          # rely on, and `--tags` refuses rather than overwriting.
-          git push --tags origin
-
-      - name: What was published
-        run: |
-          cd .out/split/${{ inputs.package }}
-          {
-            echo "### ${{ inputs.repository }}"
-            echo
-            echo "Branch \`${{ inputs.branch }}\` now at \`$(git rev-parse --short HEAD)\` — $(git rev-list --count HEAD) commit(s)."
-            echo
-            git tag --points-at HEAD | sed 's/^/Tagged /'
-          } >> "$GITHUB_STEP_SUMMARY"
+          while read -r name remote; do
+            [ "$PACKAGE" = all ] || [ "$PACKAGE" = "$name" ] || continue
+            url="https://x-access-token:${TOKEN}@github.com/${remote#git@github.com:}"
+            node scripts/split.ts "$name" --branch="$BRANCH" --remote="$url"
+            cd ".out/split/$name"
+            # The branch is replayed history, so a normal push is what it takes;
+            # a mirror that needs forcing is one somebody committed into by hand.
+            git push "$url" "$BRANCH"
+            # Tags never move: a release that changes is a release nobody can
+            # rely on, and `--tags` refuses rather than overwriting.
+            git push --tags "$url"
+            {
+              echo "### ${remote#git@github.com:}"
+              echo
+              echo "Branch \`$BRANCH\` now at \`$(git rev-parse --short HEAD)\` — $(git rev-list --count HEAD) commit(s)."
+              echo
+              git tag --points-at HEAD | sed 's/^/Tagged /'
+            } >> "$GITHUB_STEP_SUMMARY"
+            cd - >/dev/null
+          done <<< "$(node scripts/split.ts --remotes)"
