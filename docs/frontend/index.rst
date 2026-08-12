@@ -12,6 +12,8 @@ add.
 .. toctree::
    :titlesonly:
 
+   layout
+   components/index
    documents
 
 Two shapes
@@ -67,77 +69,72 @@ Two shapes
    another storage key with ``data-key`` on the tag, and give ``sds-theme``
    the same one.
 
-The page furniture
-==================
+.. confval:: soul.css
+   :type: stylesheet
+   :required: true
 
-A page is made of four things, and each is a class rather than a component
-because a server can write them:
+   The tokens and the ``sds-`` class vocabulary, in one file. It is not scoped
+   to a class: linking it *is* the opt-in, which is what lets a bare ``<p>`` or
+   ``<h2>`` be set without an editor writing a class it does not know about.
+
+.. confval:: document.css
+   :type: stylesheet
+   :required: where a document is being set
+
+   A second entry point, scoped to ``.sds-prose``, for everything a
+   Markdown or reStructuredText renderer produces without a name.
+   ``soul.css`` deliberately does not import it — see :doc:`documents`.
+
+Three layers, and the one contract between them
+===============================================
+
+**Tokens** hold the decisions. Every colour, size, space, radius and duration
+is declared under a semantic name, and light and dark sit in the same
+declaration.
+
+**Classes** are the vocabulary. ``sds-`` names what a thing *is* —
+``.sds-card``, ``.sds-note--warn``, ``.sds-table--compact`` — and gives
+server-rendered markup the whole visual system without any JavaScript.
+
+**Elements** add behaviour. Every one of them renders **light DOM** and emits
+exactly the classes above, so an element upgrades the markup that was already
+there instead of introducing a second contract. There is no shadow root and no
+encapsulation anywhere in this system: ``sds-`` is it.
 
 .. code-block:: html
 
-   <body class="sds-app">
-     <div class="sds-shell">
-       <header class="sds-bar">…</header>
-       <div class="sds-body">
-         <aside class="sds-body__rail">…</aside>
-         <main class="sds-column">…</main>
-       </div>
-       <footer class="sds-footer">…</footer>
-     </div>
-   </body>
+   <!-- The same pixels, from either column. -->
+   <sds-badge tone="ok" label="passed"></sds-badge>
+   <span class="sds-badge sds-badge--ok">passed</span>
 
-.. confval:: .sds-app
-   :type: class
-   :required: true
+Use the element where there is state, behaviour or a decision the markup would
+have to repeat; use the class where a server already knows the answer and
+nothing on the page will change it.
 
-   Establishes the canvas: the ground colour, the text colour and the type. It
-   belongs on ``<body>`` or the application root, and without it every surface
-   inside is drawn on whatever the browser decided.
+.. important::
 
-.. confval:: .sds-column
-   :type: class
+   **Web components first.** ``<sds-code code-lang="bash">``, never a ``div``
+   with the classes on it. The classes are the fallback for surfaces that run
+   no JavaScript — not the front door — and a page that writes an element's
+   own ``sds-x__y`` names has taken a copy of something only the system may
+   change.
 
-   The column everything is read in. It has no width of its own — the measure
-   comes from what is in it, which is what lets a table run wide while the
-   prose beside it stays at sixty-six characters.
+Where to read on
+================
 
-Placing a control
-=================
-
-Every element renders light DOM and emits the classes below, so both columns
-of this table produce the same pixels. Use the element when there is state or
-behaviour, and the class when a server already knows the answer.
-
-.. list-table:: The vocabulary, in pairs
+.. list-table::
    :header-rows: 1
 
-   * - Element
-     - Class equivalent
-     - What it is for
-   * - ``<sds-button variant="primary">``
-     - ``<button class="sds-btn sds-btn--primary">``
-     - one primary per view: the action that starts work
-   * - ``<sds-note tone="warn">``
-     - ``<div class="sds-note sds-note--warn">``
-     - what an answer carries besides the answer
-   * - ``<sds-badge tone="ok">``
-     - ``<span class="sds-badge sds-badge--ok">``
-     - a status, stated in a word and a glyph
-   * - ``<sds-table density="compact">``
-     - ``<table class="sds-table sds-table--compact">``
-     - density is a choice about the work, not about loudness
-   * - ``<sds-code code-lang="bash" copy>``
-     - ``<pre class="sds-code__body">``
-     - machine output, on the sunken plane
-   * - ``<sds-tabs>`` + ``<sds-tab-item>``
-     - ``.sds-tabs`` / ``.sds-tab``
-     - switching the content of a panel, not the page
-
-.. note::
-
-   The attribute is ``code-lang`` and not ``lang``. ``lang`` is a global HTML
-   attribute naming the *human* language of the content, and ``lang="json"``
-   tells every screen reader to switch to a language tag that does not exist.
+   * - Page
+     - What it answers
+   * - :doc:`layout`
+     - the page itself: bar, rail, column, bands, footer, and where the
+       layout sheds as the window narrows
+   * - :doc:`components/index`
+     - every element — what it is for, what it takes, what goes between its
+       tags, and the classes it emits
+   * - :doc:`documents`
+     - the second stylesheet, for prose a renderer produced
 
 Rules that are not negotiable
 =============================
@@ -158,5 +155,5 @@ Rules that are not negotiable
 
    The written rules and the reasoning behind each of them ship with the
    system as ``SKILL.md`` and ``RATIONALE.md``. What is here is the interface;
-   those are the argument. :doc:`documents` is the second stylesheet, for
-   prose a renderer produced rather than a surface somebody named.
+   those are the argument. :doc:`/design-system/index` is the same decisions
+   with the rendered evidence beside them.

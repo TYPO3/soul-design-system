@@ -1,0 +1,298 @@
+:navigation-title: Page layout
+
+===========
+Page layout
+===========
+
+A page is furniture before it is components, and the furniture is classes
+rather than elements because a server can write all of it. Nothing here
+declares a width and nothing here is a component: what a page is made of is
+stated once, so no surface writes its own breakpoints.
+
+.. code-block:: html
+
+   <body class="sds-app">
+     <div class="sds-shell">
+       <header class="sds-bar">…</header>
+       <div class="sds-body">
+         <aside class="sds-body__rail">…</aside>
+         <main class="sds-column">…</main>
+       </div>
+       <footer class="sds-footer">…</footer>
+     </div>
+   </body>
+
+The canvas and the frame
+========================
+
+.. confval:: .sds-app
+   :name: sds-app
+   :type: class
+   :required: true
+
+   Establishes the canvas: the ground colour, the text colour and the sans
+   stack. It belongs on ``<body>`` or the application root, and without it
+   every surface inside is drawn on whatever the browser decided.
+
+   The margin reset lives here rather than in a reset file of its own: on
+   ``<body>`` the browser's own gutter makes a full-height page overflow its
+   viewport and scroll for no reason.
+
+.. confval:: .sds-shell
+   :name: sds-shell
+   :type: class
+
+   The column the whole page is: full height, bar at the top, footer at the
+   bottom, and whatever is between them taking the rest.
+
+.. confval:: .sds-bar
+   :name: sds-bar
+   :type: class
+
+   The header. Sticky rather than fixed, so nothing below it needs to know its
+   height, and the one translucent surface in a system with no shadows — solid
+   it reads as a lid, transparent it lets letters run through the mark.
+
+   **The bar sheds, it never wraps.** A header on two lines moves the offset
+   everything below it is measured against, so as the window narrows the bar
+   drops what it can spare instead: first the version badge, then the search
+   field, then the product half of the wordmark. The mark and the navigation
+   stay.
+
+.. confval:: .sds-bar__end
+   :name: sds-bar-end
+   :type: class
+
+   The cluster against the right edge — the mode switch, the search, whatever
+   a surface puts there. It does not shrink; it sheds, because a box narrower
+   than its own contents is a header that overflows without anything in the
+   row looking wrong.
+
+.. confval:: .sds-footer
+   :name: sds-footer
+   :type: class
+
+   The end of a **site**: link columns, and the line that says what the
+   product is. It is a different ground rather than a ruled-off area of the
+   same one — a hairline between two areas of one ground is a horizontal rule
+   across the window, saying nothing except that something ended.
+
+.. confval:: .sds-foot
+   :name: sds-foot
+   :type: class
+
+   The end of a **screen**: one row with the way out of this page, which is
+   all a single surface owes its reader. Two shapes rather than one with a
+   modifier, because they share almost no part.
+
+The two bodies a page can have
+==============================
+
+Everything is one of two layouts, and the choice is not decoration. It is the
+same distinction :doc:`/design-system/screens` draws between a page that
+reports and a page that argues.
+
+.. tabs::
+
+   .. tab:: A column, with or without a rail
+
+      .. code-block:: html
+
+         <div class="sds-body">
+           <aside class="sds-body__rail"><sds-rail …></sds-rail></aside>
+           <main class="sds-column">…</main>
+         </div>
+
+      Right for an answer, a reference, a document. Where there is nothing to
+      list beside the text, ``.sds-page`` is the same measure with no rail
+      and no column beside it.
+
+   .. tab:: Bands, whose ground changes
+
+      .. code-block:: html
+
+         <div class="sds-bands">
+           <section class="sds-band">…</section>
+           <section class="sds-band sds-band--quiet">…</section>
+         </div>
+
+      Right where the parts of the page are steps in an argument — the pitch,
+      then who it is for, then what it costs — and wrong everywhere else,
+      because a change of ground that means nothing is a change of ground the
+      reader stops believing.
+
+.. confval:: .sds-body
+   :name: sds-body
+   :type: class
+
+   A rail beside a column. It is also what becomes a single stack once there
+   is no room for two.
+
+.. confval:: .sds-body__rail
+   :name: sds-body-rail
+   :type: class
+
+   Where the navigation stands. Sticky for the bar's reason — the list of
+   pages is the frame, not part of what is read — and it comes to rest where
+   it started rather than against the bar, so nothing jumps as it catches.
+
+   Below the width at which a column beside the text stops fitting, the rail
+   is behind the toggle in the bar instead. The toggle writes
+   ``is-collapsible`` onto it before the stylesheet may hide anything: a rail
+   hidden with no button to bring it back is a navigation with no way in, and
+   on a page whose script never ran that is the whole navigation.
+
+.. confval:: .sds-column
+   :name: sds-column
+   :type: class
+
+   The column everything is read in. It has no width of its own — the measure
+   comes from what is in it, which is what lets a table run wide while the
+   prose beside it stays at sixty-six characters.
+
+.. confval:: .sds-page
+   :name: sds-page
+   :type: class
+
+   One measure on one canvas, with nothing beside it. It replaces
+   ``.sds-body``, never wraps it.
+
+.. confval:: .sds-bands
+   :name: sds-bands
+   :type: class
+
+   A page whose ground changes. It replaces ``.sds-page`` — two insets would
+   indent the text twice.
+
+.. confval:: .sds-band
+   :name: sds-band
+   :type: class
+
+   One full-bleed section. ``.sds-band--quiet`` is the second ground, with the
+   hairlines that keep two of them apart; consecutive quiet bands share one
+   line rather than drawing two.
+
+The measure, and the numbers behind it
+======================================
+
+The bar, the body, the page, the bands and both footers are full-bleed, and
+what is held to the measure is their *contents*. A fill that stops short reads
+as a wide box rather than as a change of ground.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Token
+     - Value
+     - What it decides
+   * - ``--width-page``
+     - 1200px
+     - the measure the page is centred on
+   * - ``--width-sidebar``
+     - 210px
+     - the rail
+   * - ``--height-header``
+     - 56px
+     - the bar, and what the rail's sticky offset is measured from
+   * - ``--gutter-page``
+     - 48px
+     - the inset, before it is narrowed by the steps below
+
+.. note::
+
+   The inset is inherited rather than recomputed, because things that hang off
+   the bar — the menu panel, the search drop — have to start where its
+   contents do.
+
+Where it sheds
+==============
+
+Four steps, and each is a thing the page can no longer afford rather than a
+device it was drawn for.
+
+.. list-table::
+   :header-rows: 1
+
+   * - At most
+     - What changes
+   * - 1140px
+     - the gutters narrow, and the vertical rhythm with them
+   * - 860px
+     - the rail stops being a column and goes behind the toggle in the bar;
+       the version badge leaves the bar; two-column splits stack
+   * - 640px
+     - the search field leaves the bar — a surface that needs search on a
+       phone puts a button in its place
+   * - 460px
+     - the wordmark keeps the signet and the brand, and drops the product
+
+.. important::
+
+   Whether the sections in the bar are a row or a panel is **not** one of
+   these. ``sds-menu`` measures what its items need against the room the row
+   has left, because a bar holds a product name as long as the product is
+   called — see :doc:`components/navigation`.
+
+Layout a page may reach for
+===========================
+
+Named, rather than written inline on the page, for one reason: layout a page
+writes for itself is layout nothing else can keep in step.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Class
+     - What it lays out
+   * - ``.sds-sections``
+     - the rhythm *between* the parts of a page
+   * - ``.sds-stack``
+     - the rhythm *inside* one of them
+   * - ``.sds-actions``
+     - a row of controls, centred — a link beside a button is a line of text
+       in a box the button's height
+   * - ``.sds-row``
+     - a row of small things that may run onto a second line: badges, a
+       version, the two words under a heading
+   * - ``.sds-row__end``
+     - the one thing in such a row that belongs at the far end of it
+   * - ``.sds-split``
+     - two of anything, side by side until there is no room for two
+   * - ``.sds-grid``
+     - the wall a set of cards is read in, reflowing by its own minimum;
+       ``sds-card-grid`` is the element that writes it
+   * - ``.sds-stats``
+     - a set of figures, reflowing the same way
+   * - ``.sds-form``
+     - one column of fields, at the measure a form is *filled in* rather than
+       the one a page is read at
+
+.. warning::
+
+   None of these is a place to put a colour, a border or a type size. A class
+   here says how far apart things stand and nothing else, which is what lets
+   the same page frame hold a marketing band and a tool reference.
+
+The mark in the bar
+===================
+
+.. code-block:: html
+
+   <a class="sds-lockup" href="/">
+     <sds-image class="sds-signet" src="/soul/assets/signet.svg" alt=""
+       width="24" height="24"></sds-image>
+     <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe"
+       aria-hidden="true"></span><span class="sds-wordmark__product">Soul</span></span>
+   </a>
+
+The lockup states the mark's size itself, because a signet is crisp only at
+the size its file was drawn for and a number left to each call site drifts. The
+pipe is the third and last place ``--accent`` may appear. On a narrow bar the
+product and the pipe go and the mark stays — the mark is what identifies the
+page.
+
+.. seealso::
+
+   :doc:`/design-system/brand` for which drawing to hand over at which size,
+   and :doc:`/design-system/screens` for the finished pages these parts were
+   taken from.

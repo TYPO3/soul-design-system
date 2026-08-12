@@ -129,3 +129,9 @@ Three states exist and most forms ship one. Pages → Contact has all three: the
 form, what it does when it fails, and what it says when it worked — including
 what was sent, what happens to it, and how long that takes. A page that says
 "thank you" and stops has taken something and given nothing back.
+
+.. seealso::
+
+   :doc:`/frontend/components/forms` is the same set of controls as a
+   reference: every attribute each one takes, what a reset puts back, and the
+   markup a server writes where no script will run.
