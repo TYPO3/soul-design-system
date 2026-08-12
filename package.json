@@ -34,7 +34,7 @@
     "vite": "^8.2.1"
   },
   "license": "MIT",
-  "author": "Benjamin Kott <benjamin.kott@outlook.com>",
+  "author": "The TYPO3 Project (https://typo3.org/)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/benjaminkott/typo3-soul-design-system.git"
