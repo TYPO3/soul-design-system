@@ -1,20 +1,16 @@
 #!/usr/bin/env node
 /* The step after the renderer, for a project that has only Composer.
 
-   `vendor/bin/guides` writes documents; this turns them into the site. It is
-   built into the drop-in as `soul-finish.js` — one file, no dependencies to
-   install, run with the Node that is on every CI image anyway:
+   `vendor/bin/guides` writes documents; this turns them into the site. Built
+   into the drop-in as `soul-finish.js` — one file, no dependencies, run with
+   the Node every CI image has anyway:
 
      node path/to/dist/soul-finish.js site
 
-   It copies itself no further than the four files and two directories a page
-   links, draws every element ahead of the browser so the page reads with the
-   script switched off, writes the index the bar searches, and refuses a
-   reference that leaves the output. `scripts/lib/site.ts` is all four, and
-   `make guides` calls the same functions — a documented step that drifts from
-   the one we run is worse than no documented step. */
+   `scripts/lib/site.ts` is the whole of it, and `make guides` calls the same
+   functions: a documented step that drifts from the one we run is worse. */
 import { existsSync, statSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { finish } from './lib/site.ts';
@@ -51,6 +47,13 @@ if (!existsSync(root) || !statSync(root).isDirectory()) {
 const drop = argv.includes('--no-drop-in')
   ? undefined
   : resolve(flag('drop-in') ?? dirname(fileURLToPath(import.meta.url)));
+
+/* Said here rather than left to the reference check, which would report every
+   page in the site instead of the one directory that was wrong. */
+if (drop && !existsSync(join(drop, 'soul.css'))) {
+  console.error(`✗ ${drop} holds no soul.css — name the drop-in with --drop-in=<dir>, or --no-drop-in if the output already has it`);
+  process.exit(1);
+}
 
 const { drawn, indexed, broken } = finish(root, {
   drop,

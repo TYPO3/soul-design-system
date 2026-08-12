@@ -1,24 +1,11 @@
 /* The rendered documentation, opened.
 
-   Everything else in the gate reads sources. `make coverage` reads the
-   templates and the fixture's own text and answers a bookkeeping question —
-   every element has a place in the render, the theme invents no class name.
-   Nothing opens what came out. So every claim the theme makes about the
-   output has, until here, held exactly as long as somebody remembered looking
-   at it, and each one that quietly stopped being true would have stayed that
-   way.
-
-   That is the whole reason this file exists, and it decides what belongs in
-   it: not "does the page look right", which is a screenshot's job and a
-   person's, but the findings the theme was written to fix. Each test below is
-   one of them — a thing that was wrong once, was repaired in a template or in
-   the document layer, and has nothing else holding it down.
-
-   The fixture is the subject. `guides-theme/acceptance/` carries every node
-   kind exactly once with no prose around it, which is what makes it readable
-   as a control surface and useless as documentation. It is rendered by the
-   server this suite starts, not found lying around: a stale render hides
-   precisely the regression this is looking for. */
+   Everything else in the gate reads sources; nothing opens what came out. That
+   decides what belongs here: not "does the page look right", which is a
+   screenshot's job, but the findings the theme was written to fix — each one
+   repaired in a template or the document layer, with nothing else holding it
+   down. `guides-theme/acceptance/` is the subject, rendered by the server this
+   suite starts, because a stale render hides the regression this looks for. */
 
 import { readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
@@ -73,16 +60,10 @@ test.describe('the render', () => {
   });
 
   test('an element that upgrades replaces the rendering it arrived with', async ({ page }) => {
-    /* The failure this exists for was on the published site: every element
-       that renders purely from its properties — the search, the theme switch,
-       the breadcrumb, a set of tabs — appeared twice. Lit renders *after* the
-       children it finds rather than emptying the container, so an element
-       handed its own prerendered markup keeps that and draws a second copy
-       beside it. Only the components that read their own content escaped it,
-       because taking the children out is what reading them does.
-
-       It is silent in every other suite. Nothing 404s, nothing logs, the page
-       is valid — it just says everything twice. */
+    /* Lit renders *after* the children it finds rather than emptying the
+       container, so an element handed its own prerendered markup keeps it and
+       draws a second copy beside it. Silent everywhere else: the page is
+       valid, it just says everything twice. */
     /* The copied specimen cards are not pages of the site: they carry no
        bundle, so nothing in them upgrades and nothing here applies. */
     const site = pages('site').filter((path) => !path.includes('_cards/'));
@@ -115,12 +96,10 @@ test.describe('the render', () => {
 
 test.describe('the mark in the tab', () => {
   test('is on a page below the root, and points at a file that is there', async ({ page }) => {
-    /* The one path the theme writes that no reader ever clicks: a browser
-       fetches a tab icon quietly or not at all, so a wrong one is a site that
-       looks fine on every page and is blank in the one place a reader keeps
-       it. What breaks is the depth — `asset()` resolves per page, and a page
-       below the root is where that arithmetic goes wrong — so it is read from
-       one rather than from the index. */
+    /* The one path no reader ever clicks: a browser fetches a tab icon quietly,
+       so a wrong one is a site that looks fine everywhere and is blank in the
+       one place a reader keeps it. What breaks is the depth, so it is read from
+       a page below the root rather than from the index. */
     const below = pages('site').find((path) => path.includes('/') && !path.startsWith('_'));
     expect(below, 'the site should have a page below its root').toBeTruthy();
     await page.goto(`${SITE_URL}/${below}`, { waitUntil: 'load' });
@@ -204,12 +183,10 @@ test.describe('what the theme repaired', () => {
   test('the local contents is a table of contents, not the rail', async ({ page }) => {
     await page.goto(REFERENCE, { waitUntil: 'load' });
 
-    /* The core sends the rail, the printed toctree and `.. contents::`
-       through one template, so a theme that overrides that file speaks for
-       all three. It did, and the result was a row of rail items each marked
-       as the current page and each pointing at `#` — `renderLink` answers `#`
-       for the document being rendered, and a section of it is that answer
-       plus an anchor. */
+    /* The core sends the rail, the printed toctree and `.. contents::` through
+       one template, so a theme overriding it speaks for all three. `renderLink`
+       answers `#` for the document being rendered, which is how every rail item
+       became the current page pointing at nothing. */
     const toc = page.locator('nav.contents');
     await expect(toc).toBeVisible();
     await expect(toc.locator('.sds-rail__item')).toHaveCount(0);
@@ -255,12 +232,10 @@ test.describe('what the theme repaired', () => {
   test('a directive that draws a component of ours draws the whole of it', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    /* `.. teaser::` answered for the title and the link and for nothing else
-       `sds-teaser` has, so a page that wanted the picture or the row above the
-       title had to write three declarations into a stylesheet of its own —
-       which is the failure the class layer exists to prevent, arriving through
-       the one surface that is supposed to prevent it. The card the fixture
-       writes carries every option, and this is that card. */
+    /* A directive that answers for the title and the link alone leaves a page
+       wanting the picture writing declarations into a stylesheet of its own,
+       which is the failure the class layer exists to prevent. The card the
+       fixture writes carries every option, and this is that card. */
     /* And it is the element that draws it, not a `div` wearing its classes:
        the front door is the same one everywhere, so the card a renderer
        produces cannot drift from the card a product writes. */
@@ -309,6 +284,25 @@ test.describe('what the reader gets before the script does', () => {
     }
   });
 
+  test('an element inside an element is drawn once', async ({ page }) => {
+    await page.goto(REFERENCE, { waitUntil: 'load' });
+
+    /* SSR renders every tag it can reach, including the ones in the content a
+       parent is handed, so a child that arrived already rendered used to be
+       rendered again by each element enclosing it — a code block two elements
+       deep read as three empty frames above the full one. Counted rather than
+       looked at: every copy but the last is empty, and an empty frame is
+       exactly what nobody notices in a screenshot. */
+    const panels = page.locator('sds-tabs sds-tab-item .sds-tab__panel');
+    expect(await panels.count()).toBe(await page.locator('sds-tabs sds-tab-item').count());
+
+    const blocks = page.locator('sds-tabs sds-code .sds-code');
+    expect(await blocks.count()).toBe(await page.locator('sds-tabs sds-code').count());
+    for (let i = 0; i < (await blocks.count()); i++) {
+      expect((await blocks.nth(i).innerText()).trim().length).toBeGreaterThan(0);
+    }
+  });
+
   test('a card is a card with no script to draw it', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
@@ -340,11 +334,8 @@ test.describe('what the reader gets before the script does', () => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
     /* The frame is the element's own, drawn before the page was published —
-       see `scripts/lib/prerender.ts`. This used to be an `<iframe>` the
-       renderer had written between the tags and the document layer had to
-       draw a border around, because an addressed element renders nothing
-       until it upgrades. It is the whole difference the prerender makes, and
-       it is checked here rather than anywhere else: this is the one suite
+       see `scripts/lib/prerender.ts`. That is the whole difference the
+       prerender makes, and it is checked here because this is the one suite
        that runs with scripting off. */
     const frame = page.locator('.sds-embed__frame--fixed');
     await expect(frame).toBeVisible();
