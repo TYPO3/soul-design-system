@@ -10,6 +10,7 @@
 
 import { html, type TemplateResult } from 'lit';
 import './link.ts';
+import './image.ts';
 import { type IconId } from './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
@@ -35,8 +36,17 @@ export interface FooterProps {
   /** What this is. Stated, never implied — and never whose it is. */
   note: string;
   /** The machine's name for it, set as the machine's. A product, a package,
-      a repository — verbatim, and never title-cased. */
+      a repository — verbatim, and never title-cased. It is the name in the
+      lockup: the end of a site says which site, and the mark alone is a
+      picture the reader has to already know. */
   product?: string;
+  /** The mark, as the file it is drawn in. Same file the bar carries, and the
+      same distinction: an SVG is referenced into the page and follows it into
+      dark, anything else is linked. */
+  signet?: string;
+  /** Whose product it is, where that is a second name — the first half of the
+      lockup, with the accent rule between the two. The bar's own form. */
+  brand?: string;
   /** Whose it is and from when. A separate line from the note because it is a
       separate claim, and a footer that runs the two together reads as though
       the sentence were part of the notice. */
@@ -54,6 +64,8 @@ export class SdsFooter extends SdsElement {
     groups: { type: Array },
     note: { type: String },
     product: { type: String },
+    signet: { type: String },
+    brand: { type: String },
     copyright: { type: String },
     meta: { type: Array },
     marks: { type: Array },
@@ -62,6 +74,8 @@ export class SdsFooter extends SdsElement {
   declare groups: readonly FooterGroup[];
   declare note: string;
   declare product: string;
+  declare signet: string;
+  declare brand: string;
   declare copyright: string;
   declare meta: readonly FooterLink[];
   declare marks: readonly FooterLink[];
@@ -71,6 +85,8 @@ export class SdsFooter extends SdsElement {
     this.groups = [];
     this.note = '';
     this.product = '';
+    this.signet = '';
+    this.brand = '';
     this.copyright = '';
     this.meta = [];
     this.marks = [];
@@ -82,23 +98,55 @@ export class SdsFooter extends SdsElement {
       : html`<sds-link label="${item.label}" href="${item.href ?? '#'}" ?external="${item.external ?? false}"></sds-link>`;
   }
 
+  /* The mark and the name, in the lockup the bar draws — one construction, so
+     the two ends of a site cannot say the name two ways. The mark is hidden
+     from a reader who cannot see it rather than announced: the wordmark beside
+     it already spells what it says. */
+  private lockup(): TemplateResult | '' {
+    if (!this.signet && !this.product) return '';
+    return html`<span class="sds-lockup">
+      ${this.signet
+        ? html`<sds-image class="sds-signet" src="${this.signet}" alt="" width="24" height="24"></sds-image>`
+        : ''}
+      ${this.product
+        ? html`<span class="sds-wordmark">${
+            this.brand
+              ? html`${this.brand}<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${this.product}</span>`
+              : html`${this.product}`
+          }</span>`
+        : ''}
+    </span>`;
+  }
+
   protected override render(): TemplateResult {
+    /* What the site is, before the list of its pages: a footer opening with
+       the mark and the sentence reads as the end of that site, and one opening
+       with a column of links reads as more navigation. */
+    const brand = this.lockup();
+    const said = brand || this.note
+      ? html`<div class="sds-footer__brand">
+      ${brand}
+      ${this.note ? html`<p class="sds-footer__note">${this.note}</p>` : ''}
+    </div>`
+      : '';
+
     return html`<footer class="sds-footer">
-  ${this.groups.length
-    ? html`<div class="sds-footer__groups">
-    ${this.groups.map(
-      (group) => html`<div class="sds-footer__group">
-      <div class="sds-label">${group.label}</div>
-      <div class="sds-footer__links">
-        ${group.items.map((item) => SdsFooter.link(item))}
-      </div>
-    </div>`,
-    )}
-  </div>`
-    : ''}
+  <div class="sds-footer__top">
+    ${said}
+    ${this.groups.length
+      ? html`<div class="sds-footer__groups">
+      ${this.groups.map(
+        (group) => html`<div class="sds-footer__group">
+        <div class="sds-label">${group.label}</div>
+        <div class="sds-footer__links">
+          ${group.items.map((item) => SdsFooter.link(item))}
+        </div>
+      </div>`,
+      )}
+    </div>`
+      : ''}
+  </div>
   <div class="sds-footer__end">
-    ${this.product ? html`<span class="sds-mono">${this.product}</span>` : ''}
-    ${this.note ? html`<span>${this.note}</span>` : ''}
     ${this.copyright ? html`<span>${this.copyright}</span>` : ''}
     ${this.meta.map((item) => SdsFooter.link(item))}
     ${this.marks.length

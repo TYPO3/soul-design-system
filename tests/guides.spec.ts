@@ -332,6 +332,41 @@ test.describe('what the theme repaired', () => {
     await expect(page).toHaveURL(/index\.html$/);
   });
 
+  test('the end of the site says which site it is the end of', async ({ page }) => {
+    /* The bar is long gone by the time a reader is down here, and a footer
+       that opens with a column of links reads as more navigation. The mark and
+       the sentence are drawn out of the same settings the bar uses, so the two
+       ends of a site cannot name it two different ways. */
+    await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
+
+    const brand = page.locator('sds-footer .sds-footer__brand');
+    await expect(brand).toHaveCount(1);
+    /* The same name in the same order. Compared with the whitespace taken out:
+       the two lockups are written in different templates and a flex gap does
+       the spacing in both, so what a space is in the markup is not a fact
+       about either of them. */
+    const named = (text: string): string => text.replace(/\s+/g, '');
+    expect(named(await brand.locator('.sds-lockup .sds-wordmark').innerText()))
+      .toBe(named(await page.locator('.sds-bar .sds-lockup .sds-wordmark').innerText()));
+    await expect(brand.locator('.sds-lockup svg.sds-signet use')).toHaveAttribute('href', /#art$/);
+    expect((await brand.locator('.sds-footer__note').innerText()).trim().length).toBeGreaterThan(0);
+
+    /* Beside the columns, not above them: one row that wraps where there is no
+       room for two, and no breakpoint deciding when. */
+    const [markBox, linksBox] = await Promise.all([
+      brand.boundingBox(),
+      page.locator('sds-footer .sds-footer__groups').boundingBox(),
+    ]);
+    expect(markBox?.x).toBeLessThan(linksBox?.x ?? 0);
+    expect(markBox?.y).toBeCloseTo(linksBox?.y ?? 0, 0);
+
+    /* And whose it is, under all of it and on its own line — the renderer's
+       own `copyright`, which the fixture sets and this site does not, so it is
+       asked for where it was written. */
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await expect(page.locator('sds-footer .sds-footer__end span').first()).toHaveText(/^©/);
+  });
+
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

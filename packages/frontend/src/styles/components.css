@@ -1297,11 +1297,35 @@ html:has(.sds-bar) {
   flex-direction: column;
   gap: var(--space-8);
 }
+/* What the site is, and then where the rest of it is — the mark beside the
+   columns rather than over them, so the two blocks are read as one row and a
+   narrow window stacks them without a rule saying when. */
+.sds-footer__top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+.sds-footer__brand {
+  flex: 0 1 260px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+/* The sentence that says what this is. Not the micro register the line below
+   is set in: it is the one thing in a footer somebody reads rather than scans,
+   and fine print is what a page uses to be forgiven for what it says. */
+.sds-footer__note {
+  margin: 0;
+  font-size: var(--font-size-ui);
+  line-height: var(--leading-body);
+  color: var(--text-muted);
+}
 /* `auto-fill`, where every other set of columns here is `auto-fit`: an empty
    track is kept rather than collapsed, so two columns stay two columns instead
    of being stretched half a page apart. A footer's lists are read as a block
    at the bottom of the page, not as one column per quarter of the measure. */
 .sds-footer__groups {
+  flex: 1 1 340px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(170px, 100%), 1fr));
   gap: var(--space-6);

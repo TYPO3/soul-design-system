@@ -416,6 +416,7 @@ is.
 .. code-block:: html
 
    <sds-footer note="Not an official TYPO3 product." product="soul-frontend"
+     signet="/_images/signet.svg" brand="TYPO3"
      copyright="© 2026 The TYPO3 Project"
      .groups="${[{ label: 'Documentation', items: [{ label: 'Frontend', href: '/frontend/' }] }]}"
      .marks="${[{ label: 'GitHub', href: 'https://github.com/…', external: true,
@@ -437,12 +438,35 @@ is.
    property rather than a slot a page may forget to fill, because no surface
    here may imply an endorsement it does not have.
 
+   It sits under the lockup rather than in the line at the bottom, and not in
+   the micro register that line is set in: it is the one thing in a footer
+   somebody reads rather than scans, and fine print is what a page uses to be
+   forgiven for what it says.
+
 .. confval:: product
    :name: sds-footer-product
    :type: string
 
    The machine's name for it, set as the machine's: a product, a package, a
-   repository — verbatim, and never title-cased.
+   repository — verbatim, and never title-cased. It is the name in the lockup:
+   a reader who scrolled this far has left the bar behind, and the mark alone
+   is a picture they have to already know.
+
+.. confval:: signet
+   :name: sds-footer-signet
+   :type: string
+
+   The mark, as the file it is drawn in — the same file the bar carries, and
+   the same distinction ``sds-image`` makes everywhere: an SVG is referenced
+   into the page and follows it into dark, anything else is linked.
+
+.. confval:: brand
+   :name: sds-footer-brand
+   :type: string
+
+   Whose product it is, where that is a second name: the first half of the
+   lockup, with the accent rule between the two. Left out, the mark is one
+   name and there is nothing to separate.
 
 .. confval:: copyright
    :name: sds-footer-copyright

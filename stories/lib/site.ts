@@ -111,4 +111,5 @@ export const siteBar = (active: number, home = '#', railFor = ''): TemplateResul
 
 /** The end of the site. */
 export const siteFooter = (): TemplateResult =>
-  html`<sds-footer .groups="${SITE_GROUPS}" note="${SITE_NOTE}" .meta="${SITE_META}"></sds-footer>`;
+  html`<sds-footer .groups="${SITE_GROUPS}" note="${SITE_NOTE}" .meta="${SITE_META}"
+    signet="../assets/design-system-signet-m.svg" brand="TYPO3" product="Dev Companion"></sds-footer>`;

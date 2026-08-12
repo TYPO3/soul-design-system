@@ -91,9 +91,15 @@
     {%- set marks = marks|merge([mark]) -%}
 {%- endfor -%}
 
+{#- The mark, at the other end of the site from the bar and drawn out of the
+    same setting. A footer that names the site it ends is the one place a
+    reader who scrolled to the bottom can be told where they are; the bar has
+    gone by then. -#}
 <sds-footer
     groups="{{ groups|json_encode }}"
     product="{{ product }}"
+    {%- if soul.signet %} signet="{{ asset('/' ~ soul.signet) }}"{% endif -%}
+    {%- if soul.brand %} brand="{{ soul.brand }}"{% endif -%}
     {%- if soul.footer.note is defined and soul.footer.note %} note="{{ soul.footer.note }}"{% endif -%}
     {%- if env.projectNode.copyright %} copyright="{{ env.projectNode.copyright }}"{% endif -%}
     {%- if marks %} marks="{{ marks|json_encode }}"{% endif -%}

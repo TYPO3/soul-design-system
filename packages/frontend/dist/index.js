@@ -3569,13 +3569,93 @@ var SdsRail = class extends SdsNav {
 define("sds-rail", SdsRail);
 
 // packages/frontend/src/components/footer.ts
+import { html as html25 } from "lit";
+
+// packages/frontend/src/components/image.ts
+import "lit";
+
+// packages/frontend/src/lib/art.ts
 import { html as html24 } from "lit";
+import { unsafeHTML as unsafeHTML3 } from "lit/directives/unsafe-html.js";
+
+// packages/frontend/src/components/diagrams.generated.ts
+var DIAGRAM_VIEWBOX = {
+  "answer-sources": "0 0 1200 750",
+  "installation-fallback": "0 0 1200 786",
+  "system-overview": "0 0 1200 726"
+};
+
+// packages/frontend/src/lib/art.ts
+var GROUP = "art";
+var DRAWING = /\.svg(?:[?#].*)?$/i;
+var ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
+var ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
+var attr = (name, value) => value === void 0 || value === "" ? "" : ` ${name}="${String(value).replace(/[&<>"]/g, (c) => ESCAPE[c])}"`;
+function art(src, alt, options = {}) {
+  const { cls = "sds-art", width, height, linked = false } = options;
+  const name = alt ? attr("role", "img") + attr("aria-label", alt) : attr("aria-hidden", "true");
+  const size = attr("width", width) + attr("height", height);
+  if (linked || !DRAWING.test(src) || ELSEWHERE.test(src)) {
+    const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c]);
+    return html24`${unsafeHTML3(`<img${attr("class", cls)} src="${src}" alt="${escaped}"${size}>`)}`;
+  }
+  const viewBox = DIAGRAM_VIEWBOX[src.split("/").pop()?.replace(DRAWING, "") ?? ""];
+  return html24`${unsafeHTML3(
+    `<svg${attr("class", cls)}${attr("viewBox", viewBox)}${size}${name}><use href="${src}#${GROUP}"></use></svg>`
+  )}`;
+}
+
+// packages/frontend/src/components/image.ts
+var SdsImage = class extends SdsElement {
+  static {
+    this.properties = {
+      src: { type: String },
+      alt: { type: String },
+      width: { type: Number, reflect: true },
+      height: { type: Number, reflect: true },
+      linked: { type: Boolean },
+      /* The class the caller wrote, read as a property rather than off the host:
+         `this.className` exists only where there is a DOM, and these render in
+         Node too. Declaring the attribute is what carries it through both. */
+      cls: { attribute: "class", type: String }
+    };
+  }
+  constructor() {
+    super();
+    this.src = "";
+    this.alt = "";
+    this.width = 0;
+    this.height = 0;
+    this.linked = false;
+    this.cls = "";
+  }
+  /** What a server wrote between the tags, dropped. The element takes no
+      content — the picture follows from `src` — but it does take a fallback:
+      the same picture in the class layer, for a surface rendering before any
+      script and for a reader who runs none. The element redraws it and the
+      server's copy goes, or light DOM leaves two pictures in one box. */
+  connectedCallback() {
+    this.lifted();
+    super.connectedCallback();
+  }
+  render() {
+    const width = this.width || void 0;
+    const height = this.height || void 0;
+    const cls = this.cls || (width || height ? "" : "sds-art");
+    return art(this.src, this.alt, { cls, width, height, linked: this.linked });
+  }
+};
+define("sds-image", SdsImage);
+
+// packages/frontend/src/components/footer.ts
 var SdsFooter = class _SdsFooter extends SdsElement {
   static {
     this.properties = {
       groups: { type: Array },
       note: { type: String },
       product: { type: String },
+      signet: { type: String },
+      brand: { type: String },
       copyright: { type: String },
       meta: { type: Array },
       marks: { type: Array }
@@ -3586,31 +3666,50 @@ var SdsFooter = class _SdsFooter extends SdsElement {
     this.groups = [];
     this.note = "";
     this.product = "";
+    this.signet = "";
+    this.brand = "";
     this.copyright = "";
     this.meta = [];
     this.marks = [];
   }
   static link(item) {
-    return item.icon ? html24`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>` : html24`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}"></sds-link>`;
+    return item.icon ? html25`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>` : html25`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}"></sds-link>`;
+  }
+  /* The mark and the name, in the lockup the bar draws — one construction, so
+     the two ends of a site cannot say the name two ways. The mark is hidden
+     from a reader who cannot see it rather than announced: the wordmark beside
+     it already spells what it says. */
+  lockup() {
+    if (!this.signet && !this.product) return "";
+    return html25`<span class="sds-lockup">
+      ${this.signet ? html25`<sds-image class="sds-signet" src="${this.signet}" alt="" width="24" height="24"></sds-image>` : ""}
+      ${this.product ? html25`<span class="sds-wordmark">${this.brand ? html25`${this.brand}<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${this.product}</span>` : html25`${this.product}`}</span>` : ""}
+    </span>`;
   }
   render() {
-    return html24`<footer class="sds-footer">
-  ${this.groups.length ? html24`<div class="sds-footer__groups">
-    ${this.groups.map(
-      (group) => html24`<div class="sds-footer__group">
-      <div class="sds-label">${group.label}</div>
-      <div class="sds-footer__links">
-        ${group.items.map((item) => _SdsFooter.link(item))}
-      </div>
-    </div>`
+    const brand = this.lockup();
+    const said = brand || this.note ? html25`<div class="sds-footer__brand">
+      ${brand}
+      ${this.note ? html25`<p class="sds-footer__note">${this.note}</p>` : ""}
+    </div>` : "";
+    return html25`<footer class="sds-footer">
+  <div class="sds-footer__top">
+    ${said}
+    ${this.groups.length ? html25`<div class="sds-footer__groups">
+      ${this.groups.map(
+      (group) => html25`<div class="sds-footer__group">
+        <div class="sds-label">${group.label}</div>
+        <div class="sds-footer__links">
+          ${group.items.map((item) => _SdsFooter.link(item))}
+        </div>
+      </div>`
     )}
-  </div>` : ""}
+    </div>` : ""}
+  </div>
   <div class="sds-footer__end">
-    ${this.product ? html24`<span class="sds-mono">${this.product}</span>` : ""}
-    ${this.note ? html24`<span>${this.note}</span>` : ""}
-    ${this.copyright ? html24`<span>${this.copyright}</span>` : ""}
+    ${this.copyright ? html25`<span>${this.copyright}</span>` : ""}
     ${this.meta.map((item) => _SdsFooter.link(item))}
-    ${this.marks.length ? html24`<span class="sds-row__end">${this.marks.map((item) => _SdsFooter.link(item))}</span>` : ""}
+    ${this.marks.length ? html25`<span class="sds-row__end">${this.marks.map((item) => _SdsFooter.link(item))}</span>` : ""}
   </div>
 </footer>`;
   }
@@ -3618,7 +3717,7 @@ var SdsFooter = class _SdsFooter extends SdsElement {
 define("sds-footer", SdsFooter);
 
 // packages/frontend/src/components/surface.ts
-import { html as html25 } from "lit";
+import { html as html26 } from "lit";
 var PLANE = {
   raised: "sds-panel",
   sunken: "sds-sunken"
@@ -3656,9 +3755,9 @@ var SdsSurface = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    const label = this.label ? html25`<div class="sds-label">${this.label}</div>` : void 0;
-    const icon = this.icon ? html25`<div class="sds-surface-icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : void 0;
-    return html25`<div class="${PLANE[this.plane] ?? PLANE.raised}" style="${this.boxStyle}">
+    const label = this.label ? html26`<div class="sds-label">${this.label}</div>` : void 0;
+    const icon = this.icon ? html26`<div class="sds-surface-icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : void 0;
+    return html26`<div class="${PLANE[this.plane] ?? PLANE.raised}" style="${this.boxStyle}">
   ${icon}
   ${label}
   <div class="sds-surface-title">${this.heading}</div>
@@ -3669,7 +3768,7 @@ var SdsSurface = class extends SdsElement {
 define("sds-surface", SdsSurface);
 
 // packages/frontend/src/components/stat.ts
-import { html as html26 } from "lit";
+import { html as html27 } from "lit";
 var SdsStat = class extends SdsElement {
   static {
     this.properties = {
@@ -3685,10 +3784,10 @@ var SdsStat = class extends SdsElement {
     this.note = "";
   }
   render() {
-    return html26`<div class="sds-stat">
+    return html27`<div class="sds-stat">
   <div class="sds-stat__value">${this.value}</div>
   <div class="sds-label">${this.label}</div>
-  ${this.note ? html26`<div class="sds-stat__note">${this.note}</div>` : ""}
+  ${this.note ? html27`<div class="sds-stat__note">${this.note}</div>` : ""}
 </div>`;
   }
 };
@@ -3699,39 +3798,6 @@ import { html as html29 } from "lit";
 
 // packages/frontend/src/components/lightbox.ts
 import { html as html28 } from "lit";
-
-// packages/frontend/src/lib/art.ts
-import { html as html27 } from "lit";
-import { unsafeHTML as unsafeHTML3 } from "lit/directives/unsafe-html.js";
-
-// packages/frontend/src/components/diagrams.generated.ts
-var DIAGRAM_VIEWBOX = {
-  "answer-sources": "0 0 1200 750",
-  "installation-fallback": "0 0 1200 786",
-  "system-overview": "0 0 1200 726"
-};
-
-// packages/frontend/src/lib/art.ts
-var GROUP = "art";
-var DRAWING = /\.svg(?:[?#].*)?$/i;
-var ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
-var ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
-var attr = (name, value) => value === void 0 || value === "" ? "" : ` ${name}="${String(value).replace(/[&<>"]/g, (c) => ESCAPE[c])}"`;
-function art(src, alt, options = {}) {
-  const { cls = "sds-art", width, height, linked = false } = options;
-  const name = alt ? attr("role", "img") + attr("aria-label", alt) : attr("aria-hidden", "true");
-  const size = attr("width", width) + attr("height", height);
-  if (linked || !DRAWING.test(src) || ELSEWHERE.test(src)) {
-    const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c]);
-    return html27`${unsafeHTML3(`<img${attr("class", cls)} src="${src}" alt="${escaped}"${size}>`)}`;
-  }
-  const viewBox = DIAGRAM_VIEWBOX[src.split("/").pop()?.replace(DRAWING, "") ?? ""];
-  return html27`${unsafeHTML3(
-    `<svg${attr("class", cls)}${attr("viewBox", viewBox)}${size}${name}><use href="${src}#${GROUP}"></use></svg>`
-  )}`;
-}
-
-// packages/frontend/src/components/lightbox.ts
 var SdsLightbox = class extends SdsElement {
   constructor() {
     super();
@@ -3877,49 +3943,6 @@ var SdsFigure = class extends SdsElement {
   }
 };
 define("sds-figure", SdsFigure);
-
-// packages/frontend/src/components/image.ts
-import "lit";
-var SdsImage = class extends SdsElement {
-  static {
-    this.properties = {
-      src: { type: String },
-      alt: { type: String },
-      width: { type: Number, reflect: true },
-      height: { type: Number, reflect: true },
-      linked: { type: Boolean },
-      /* The class the caller wrote, read as a property rather than off the host:
-         `this.className` exists only where there is a DOM, and these render in
-         Node too. Declaring the attribute is what carries it through both. */
-      cls: { attribute: "class", type: String }
-    };
-  }
-  constructor() {
-    super();
-    this.src = "";
-    this.alt = "";
-    this.width = 0;
-    this.height = 0;
-    this.linked = false;
-    this.cls = "";
-  }
-  /** What a server wrote between the tags, dropped. The element takes no
-      content — the picture follows from `src` — but it does take a fallback:
-      the same picture in the class layer, for a surface rendering before any
-      script and for a reader who runs none. The element redraws it and the
-      server's copy goes, or light DOM leaves two pictures in one box. */
-  connectedCallback() {
-    this.lifted();
-    super.connectedCallback();
-  }
-  render() {
-    const width = this.width || void 0;
-    const height = this.height || void 0;
-    const cls = this.cls || (width || height ? "" : "sds-art");
-    return art(this.src, this.alt, { cls, width, height, linked: this.linked });
-  }
-};
-define("sds-image", SdsImage);
 
 // packages/frontend/src/components/embed.ts
 import { html as html30, nothing as nothing12 } from "lit";

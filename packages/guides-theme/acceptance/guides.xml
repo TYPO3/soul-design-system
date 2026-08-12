@@ -17,7 +17,10 @@
         links_are_relative="true"
         theme="soul"
         default_code_language="text">
-    <project title="Soul — Guides fixture" version="0.1.0-dev"/>
+    <!-- The copyright is the renderer's own attribute and prints in the
+         footer. Set here because the fixture is what proves a setting
+         renders: one nothing writes is one nothing checks. -->
+    <project title="Soul — Guides fixture" version="0.1.0-dev" copyright="© 2026 The fixture"/>
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
         <product>Acceptance</product>
         <!-- The sections in the bar, which the fixture carries so the suite

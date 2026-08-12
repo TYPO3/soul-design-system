@@ -14,7 +14,7 @@
         links_are_relative="true"
         theme="soul"
         default_code_language="text">
-    <project title="Example Project" version="1.0"/>
+    <project title="Example Project" version="1.0" copyright="© 2026 Example Project"/>
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
         <brand>Example</brand>
         <product>Documentation</product>

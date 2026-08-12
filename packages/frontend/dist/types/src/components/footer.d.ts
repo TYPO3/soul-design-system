@@ -1,5 +1,6 @@
 import { type TemplateResult } from 'lit';
 import './link.ts';
+import './image.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 /** A link in a column. `external` gets the glyph and opens away; `icon` is
@@ -22,8 +23,17 @@ export interface FooterProps {
     /** What this is. Stated, never implied — and never whose it is. */
     note: string;
     /** The machine's name for it, set as the machine's. A product, a package,
-        a repository — verbatim, and never title-cased. */
+        a repository — verbatim, and never title-cased. It is the name in the
+        lockup: the end of a site says which site, and the mark alone is a
+        picture the reader has to already know. */
     product?: string;
+    /** The mark, as the file it is drawn in. Same file the bar carries, and the
+        same distinction: an SVG is referenced into the page and follows it into
+        dark, anything else is linked. */
+    signet?: string;
+    /** Whose product it is, where that is a second name — the first half of the
+        lockup, with the accent rule between the two. The bar's own form. */
+    brand?: string;
     /** Whose it is and from when. A separate line from the note because it is a
         separate claim, and a footer that runs the two together reads as though
         the sentence were part of the notice. */
@@ -46,6 +56,12 @@ export declare class SdsFooter extends SdsElement {
         product: {
             type: StringConstructor;
         };
+        signet: {
+            type: StringConstructor;
+        };
+        brand: {
+            type: StringConstructor;
+        };
         copyright: {
             type: StringConstructor;
         };
@@ -59,10 +75,13 @@ export declare class SdsFooter extends SdsElement {
     groups: readonly FooterGroup[];
     note: string;
     product: string;
+    signet: string;
+    brand: string;
     copyright: string;
     meta: readonly FooterLink[];
     marks: readonly FooterLink[];
     constructor();
     private static link;
+    private lockup;
     protected render(): TemplateResult;
 }

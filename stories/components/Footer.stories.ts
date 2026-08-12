@@ -16,8 +16,9 @@ import '../../packages/frontend/src/components/link.ts';
 import { type FooterProps } from '../../packages/frontend/src/components/footer.ts';
 import { SITE_GROUPS, SITE_META, SITE_NOTE } from '../lib/site.ts';
 
-const sdsFooter = ({ groups, note, meta: end }: FooterProps) =>
-  html`<sds-footer .groups="${groups}" note="${note}" .meta="${end ?? []}"></sds-footer>`;
+const sdsFooter = ({ groups, note, meta: end, signet, brand, product }: FooterProps) =>
+  html`<sds-footer .groups="${groups}" note="${note}" .meta="${end ?? []}"
+    signet="${signet ?? ''}" brand="${brand ?? ''}" product="${product ?? ''}"></sds-footer>`;
 
 const meta: Meta<FooterProps> = {
   title: 'Components/Footer',
@@ -28,11 +29,17 @@ const meta: Meta<FooterProps> = {
     groups: { control: 'object' },
     note: { control: 'text' },
     meta: { control: 'object' },
+    signet: { control: 'text' },
+    brand: { control: 'text' },
+    product: { control: 'text' },
   },
   args: {
     groups: SITE_GROUPS,
     note: SITE_NOTE,
     meta: SITE_META,
+    signet: '/assets/design-system-signet-m.svg',
+    brand: 'TYPO3',
+    product: 'Dev Companion',
   },
 };
 
@@ -59,3 +66,8 @@ export const Marks: Story = {
 /** Without the trailing links. The note stays: it is the one part of this
     component a page may not leave out. */
 export const NoteOnly: Story = { args: { meta: [] } };
+
+/** No mark configured. The block is still there and still says what this is —
+    a site with no signet is a site, and the sentence is what the reader who
+    scrolled this far came for. */
+export const Unmarked: Story = { args: { signet: '', brand: '', product: '' } };
