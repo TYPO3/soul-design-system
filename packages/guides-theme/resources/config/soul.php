@@ -9,6 +9,7 @@ use TYPO3\Soul\GuidesTheme\Directives\BandDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\TeaserDirective;
+use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Twig\ThemeExtension;
 
@@ -45,7 +46,12 @@ return static function (ContainerConfigurator $container): void {
         ->set(LayoutFieldListItemRule::class)
         ->tag('phpdoc.guides.parser.rst.fieldlist')
 
+        /* The rail's list, worked out where it can be read. It resolves links
+           itself, so it takes the renderer's url generator — autowired, unlike
+           the extension below, whose arguments are all settings. */
+        ->set(Rail::class)
+
         ->set(ThemeExtension::class)
-        ->args(['%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%', '%soul.footer%', '%soul.navigation%'])
+        ->args(['%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%', '%soul.footer%', '%soul.navigation%', service(Rail::class)])
         ->tag('twig.extension');
 };

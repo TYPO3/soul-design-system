@@ -9,14 +9,16 @@ reStructuredText rather than Markdown for one reason: the Guides Markdown
 parser reads CommonMark and nothing else, so an admonition, a ``confval``, a
 tab or a text role has no spelling there. A reference is made mostly of those.
 
-Two pages. This one is narrative — the shapes a page of prose falls into. The
+This one is narrative — the shapes a page of prose falls into. The
 :doc:`nodes` is a real one, and it is where the nodes that only a
-reference uses appear.
+reference uses appear. :doc:`depth/index` is neither: it is a tree, and it is
+there because navigation is the one thing a page cannot show about itself.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    nodes
+   depth/index
 
 .. note::
 

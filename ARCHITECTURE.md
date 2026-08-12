@@ -263,6 +263,36 @@ Pinning one turned the ground under the diagram figures from paper to
 terminal — a quarter of the card — and no other check in the repo would have
 noticed.
 
+## The rail is a section, and a section is found upwards
+
+The bar picks a section and the rail is what is inside the one that was
+picked, so every page has to answer which section it belongs to. The theme
+answered it downwards: walk the top-level entries, and take the one whose own
+link — or one of whose children's links — the renderer resolves to `#`, its
+way of saying "the page you are on". That reaches exactly two levels. A page
+three deep matched nothing, fell through to the branch meant for a project
+with no sections at all, and got the list of sections back instead of the
+pages around it. `sds-rail` then marked its first item, because a rail with no
+`active` falls back to zero — so the reader was told they were on a page they
+had never opened.
+
+The rootline is the answer and it has no depth to run out of: the tree walked
+upwards from the current document, which the renderer already computes and
+hands the menu node. The section is the top-level entry that appears in it.
+That is what the bar had always used, in `structure/navigation.html.twig`, and
+the two now agree by construction rather than by coincidence at shallow
+depths.
+
+Which is also why the list moved out of the template into
+`packages/guides-theme/src/Navigation/Rail.php`. A rail is one level of folding over a tree of
+any depth — the section's children, each with everything below it — and
+flattening a tree is recursion, which a Twig template cannot express without
+becoming a program in the wrong language. It was a program in the wrong
+language: eighty lines of index arithmetic that no check could see was wrong,
+because the fixture it rendered against was flat. `acceptance/depth/` is that
+gap closed — a section, a page inside it, a page with pages under it, and a
+page three levels from the root.
+
 ## The pages are rendered before the browser gets them
 
 `make guides` runs every element in the output through `@lit-labs/ssr` in Node

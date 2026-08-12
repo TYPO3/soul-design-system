@@ -27,6 +27,7 @@
         <navigation>
             <link href="/index" label="Fixture"/>
             <link href="/nodes" label="Nodes"/>
+            <link href="/depth/index" label="Depth"/>
         </navigation>
     </extension>
 </guides>

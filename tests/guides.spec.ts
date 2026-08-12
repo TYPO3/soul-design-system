@@ -199,6 +199,39 @@ test.describe('what the theme repaired', () => {
     }
   });
 
+  test('the rail is the section the page is in, however deep the page sits', async ({ page }) => {
+    /* The section used to be looked for two levels down, by matching the link
+       the renderer resolves to `#`. From a page below that nothing matched and
+       the rail fell back to the list of sections — the pages around the reader
+       gone, on every page of a manual that nests. */
+    await page.goto(`${ACCEPTANCE_URL}/depth/group/far.html`, { waitUntil: 'load' });
+
+    const rail = page.locator('.sds-rail');
+    await expect(rail.locator('.sds-label')).toHaveText('Depth');
+    await expect(rail.locator('.sds-rail__item', { hasText: 'Near' })).toHaveCount(1);
+
+    /* And the group is open, because it holds the page the reader is on —
+       three levels from the root, which is the whole point of the fixture. */
+    const here = rail.locator('.sds-rail__item.is-active');
+    await expect(here).toHaveText('Far');
+    await expect(here).toHaveAttribute('aria-current', 'page');
+    await expect(rail.locator('.sds-rail__group[open]')).toHaveCount(1);
+  });
+
+  test('a rail with no page of its own in it marks none of them', async ({ page }) => {
+    /* `active` counts over the flattened rail and the element falls back to
+       zero, so a page whose rail does not list it — the root, whose rail is
+       the sections — had its first item filled in the accent and announced as
+       the page the reader was on. The template writes -1 rather than leaving
+       the attribute off. */
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    const rail = page.locator('.sds-rail');
+    expect(await rail.locator('.sds-rail__item').count()).toBeGreaterThan(1);
+    await expect(rail.locator('.sds-rail__item.is-active')).toHaveCount(0);
+    await expect(rail.locator('[aria-current="page"]')).toHaveCount(0);
+  });
+
   test('the inline footnote mark names the number the block carries', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
