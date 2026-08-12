@@ -59,6 +59,14 @@ node_modules/
 # there is nothing to be gained from committing it
 /site/
 
+# what building the starter example leaves behind. `.soul` is the design
+# system: a checkout in a consumer's repository, and here a link back to this
+# one, so the file somebody copies is the file the build runs.
+/examples/starter/.soul
+/examples/starter/vendor/
+/examples/starter/site/
+/examples/starter/composer.lock
+
 # playwright output
 /test-results/
 /playwright-report/

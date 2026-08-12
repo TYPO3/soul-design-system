@@ -1,0 +1,17 @@
+{
+  "name": "example/documentation",
+  "description": "A documentation site rendered with the Soul Guides theme.",
+  "type": "project",
+  "license": "MIT",
+  "repositories": [
+    {
+      "type": "path",
+      "url": ".soul/guides-theme"
+    }
+  ],
+  "require": {
+    "typo3/soul-guides-theme": "*"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

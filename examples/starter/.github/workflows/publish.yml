@@ -1,0 +1,94 @@
+# Render the documentation and publish it to GitHub Pages.
+#
+# Two jobs, because they need different permissions: the first turns documents
+# into a site and uploads it, the second is the only thing allowed to deploy.
+#
+# Nothing here is specific to this example. Point the render step at your own
+# documentation directory and this file is the whole build.
+name: Documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+# A second push to a branch replaces the first. Deployments queue instead —
+# a half-replaced site is worse than a site one commit behind.
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The design system, for two things Composer cannot bring: the drop-in
+      # the pages link, and the step that runs after the render.
+      #
+      # It is a checkout because the theme is not on Packagist yet — see the
+      # `repositories` entry in composer.json, which points at this path. Pin
+      # `ref` to a tag rather than a branch, so a site is rebuilt against the
+      # version it was written for.
+      - uses: actions/checkout@v4
+        with:
+          repository: benjaminkott/typo3-soul-design-system
+          ref: main
+          path: .soul
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      # The finishing step is one bundled file with no dependencies, but it is
+      # Node, and the version is named rather than inherited.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - run: composer install --no-interaction --no-progress
+
+      # `--fail-on-error` turns a reference the renderer could not resolve into
+      # a red build. Without it a broken link is a line in a log nobody reads.
+      - name: Render the documents
+        run: vendor/bin/guides docs --output=site -c docs --fail-on-error
+
+      # Everything between a render and a site: the drop-in copied to the site
+      # root, every element drawn so the pages read with no script, the search
+      # index written, and a refusal to publish a reference that leaves the
+      # output. The script sits in the drop-in and copies what is beside it.
+      - name: Finish the site
+        run: node .soul/dist/soul-finish.js site
+
+      # Pages serves this artifact as it stands, but a repository switched to
+      # the branch-based build runs Jekyll, which drops every path starting
+      # with an underscore — including `_search.json` and `_images/`.
+      - run: touch site/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  publish:
+    needs: render
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/configure-pages@v5
+      - id: deploy
+        uses: actions/deploy-pages@v4

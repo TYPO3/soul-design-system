@@ -125,6 +125,55 @@ jobs:
         with:
           path: site
 
+  starter:
+    name: the documented build, without the container
+    runs-on: ubuntu-latest
+    # The same skip as the gate: a pull request from a branch of this
+    # repository already arrived as a push.
+    if: >-
+      github.event_name == 'push'
+      || github.event.pull_request.head.repo.full_name != github.repository
+    # Deliberately slower than reading `site/` out of the job above. What is
+    # being proven is not that the example renders — it is that the three
+    # commands `examples/starter/` tells a reader to run are the three commands
+    # that work, on a machine with no make, no Docker and nothing of ours
+    # installed. An instruction that stops being true stops this build.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # In a consumer's repository `.soul` is a checkout of this one — see the
+      # workflow in the example. Here it is this checkout, so what is tested is
+      # the tree as it stands rather than whatever was last released.
+      - name: Put the design system where the example expects it
+        run: ln -s ../.. examples/starter/.soul
+
+      - name: The three commands the example documents
+        working-directory: examples/starter
+        run: |
+          composer install --no-interaction --no-progress
+          vendor/bin/guides docs --output=site -c docs --fail-on-error
+          node .soul/dist/soul-finish.js site
+
+      # The finishing step already refuses a reference that leaves the site.
+      # What is asked here is the other half of the promise: that the pages
+      # carry their elements drawn, and that the search field has an index.
+      - name: What a reader was promised
+        working-directory: examples/starter
+        run: |
+          test -s site/_search.json
+          grep -q 'class="sds-teaser"' site/index.html
+          grep -q 'class="sds-code__body"' site/guide/writing.html
+          grep -q 'class="sds-rail' site/guide/index.html
+
   publish:
     name: publish
     # Never publish a site the gate has not passed over.
