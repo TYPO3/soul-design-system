@@ -309,7 +309,7 @@ test.describe('what the theme repaired', () => {
        order it offers has to be the order the rail lists. */
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    const foot = page.locator('main.sds-column > footer.sds-foot');
+    const foot = page.locator('main.sds-column > sds-pager > nav.sds-pager');
     await expect(foot).toHaveCount(1);
     /* The first page of a manual has nothing behind it, and it is in the tree
        all the same: a toctree lists what is under a page and never the page it
@@ -317,7 +317,18 @@ test.describe('what the theme repaired', () => {
        about. */
     await expect(foot.locator('a[rel="prev"]')).toHaveCount(0);
     const next = foot.locator('a[rel="next"]');
-    await expect(next).toHaveAttribute('aria-label', /^Next page: /);
+    /* The direction is on the glyph, so it joins the page title in the name
+       instead of replacing it: a name written over the whole control would
+       have said a sentence the reader cannot see in place of the one they can.
+       Read in the order the two stand in, the arrow trailing the label. */
+    await expect(next).toHaveAccessibleName(/Next page$/);
+    expect((await next.innerText()).trim().length).toBeGreaterThan(0);
+
+    /* A press that goes somewhere is a link and looks like a control, which is
+       the one place `a:hover` outweighs `.sds-btn` — the underline it brings
+       is invisible in every screenshot and wrong on every button. */
+    await next.hover();
+    expect(await next.evaluate((el) => getComputedStyle(el).textDecorationLine)).toBe('none');
 
     /* And it goes there. */
     const onward = (await next.getAttribute('href')) ?? '';
@@ -326,7 +337,7 @@ test.describe('what the theme repaired', () => {
 
     /* From the second page on, both ways are offered and the one back is the
        page just left. */
-    const back = page.locator('footer.sds-foot a[rel="prev"]');
+    const back = page.locator('nav.sds-pager a[rel="prev"]');
     await expect(back).toHaveCount(1);
     await back.click();
     await expect(page).toHaveURL(/index\.html$/);

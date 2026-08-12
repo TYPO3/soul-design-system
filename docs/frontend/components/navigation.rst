@@ -312,6 +312,57 @@ Where a list continues.
    ``sds-change`` and calls ``preventDefault()`` — the same press, not a second
    mode.
 
+sds-pager
+=========
+
+The way on from a page, where a page is read in order: the one behind and the
+one ahead, and nothing between them. Not ``sds-pagination`` — that numbers a
+set a reader moves around inside, this is a line they are walking along.
+
+.. code-block:: html
+
+   <sds-pager previous-href="/guide/install" previous-label="Installing the server"
+     next-href="/guide/skills" next-label="Writing a task skill"></sds-pager>
+
+.. confval:: previous-href
+   :name: sds-pager-previous-href
+   :type: string
+
+.. confval:: previous-label
+   :name: sds-pager-previous-label
+   :type: string
+
+   Both halves or neither: a control with a target and no name cannot be read,
+   and one with a name and no target does nothing. Missing, that end of the row
+   is empty — an inert control is a control a reader tries.
+
+.. confval:: next-href
+   :name: sds-pager-next-href
+   :type: string
+
+.. confval:: next-label
+   :name: sds-pager-next-label
+   :type: string
+
+.. confval:: label
+   :name: sds-pager-label
+   :type: string
+   :default: "Pages either side of this one"
+
+   What the row is called for a reader who cannot see that it is one.
+
+.. note::
+
+   Four strings and not one object per side. A label and a target each fit in
+   an attribute, so no caller's idea of what a page *is* reaches the component:
+   a documentation renderer walking a toctree and an application reading a
+   database fill exactly the same four.
+
+   The direction is carried by the glyph, whose own accessible name is
+   ``Previous page`` / ``Next page``. It joins the page title rather than
+   replacing it — a name written over the whole control would say a sentence
+   the reader cannot see in place of the one they can.
+
 sds-search
 ==========
 

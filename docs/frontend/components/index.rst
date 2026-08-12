@@ -96,6 +96,9 @@ rather than left to be lower-cased:
    * - ``perPage``
      - ``per-page``
      - ``sds-pagination``
+   * - ``previousHref``, ``previousLabel``, ``nextHref``, ``nextLabel``
+     - ``previous-href``, ``previous-label``, ``next-href``, ``next-label``
+     - ``sds-pager``
 
 .. note::
 

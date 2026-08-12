@@ -8,27 +8,19 @@
     tree flattened, which is the order the rail lists and the order somebody
     reading a manual front to back would take.
 
-    `.sds-foot` is the shape the class layer already has for it — one row, the
-    way out of this page, and all a single page owes its reader. The links are
-    buttons because that is what a reader presses at the end of a page, and the
-    glyph carries the direction; the label carries the page.
+    What that order becomes is `sds-pager`'s, not this file's. Which end each
+    control sits at, which glyph carries the direction and what a reader who
+    cannot see it hears are decisions about a component, and a template that
+    made them would be a second place they could be made differently.
 
-    An accessible name is written for each, direction first: the glyph says
-    which way to somebody looking, and a name that is only the page title says
-    it to nobody else. It contains the visible label, so the two agree.
+    Handed over as four attributes and not as one object: a label and a target
+    each fit in a string, so nothing of this renderer's data model reaches the
+    component, and a caller working from some other tree fills the same four.
 #}
 {%- set steps = pager() -%}
 {%- if steps.previous or steps.next %}
-<footer class="sds-foot">
-    {%- if steps.previous %}
-    <a class="sds-btn sds-btn--secondary" href="{{ steps.previous.href }}" rel="prev"
-       aria-label="Previous page: {{ steps.previous.label }}"
-        ><sds-icon name="actions-arrow-left" size="16"></sds-icon>{{ steps.previous.label }}</a>
-    {%- endif %}
-    {%- if steps.next %}
-    <a class="sds-btn sds-btn--secondary sds-row__end" href="{{ steps.next.href }}" rel="next"
-       aria-label="Next page: {{ steps.next.label }}"
-        >{{ steps.next.label }}<sds-icon name="actions-arrow-right" size="16"></sds-icon></a>
-    {%- endif %}
-</footer>
+<sds-pager
+    {%- if steps.previous %} previous-href="{{ steps.previous.href }}" previous-label="{{ steps.previous.label }}"{% endif -%}
+    {%- if steps.next %} next-href="{{ steps.next.href }}" next-label="{{ steps.next.label }}"{% endif -%}
+></sds-pager>
 {%- endif -%}

@@ -30,6 +30,14 @@ export interface ButtonProps {
       the form the moment it is pressed. A real submit says so — and then Enter
       in a text field submits too, which only that button should carry. */
   type?: 'button' | 'submit' | 'reset';
+  /** Where it goes, for the press that is a link rather than an action. It
+      renders an `<a>` and nothing else changes: same classes, same shape, and
+      the browser's own middle-click, hover target and status line, none of
+      which a `<button>` with a handler on it has. */
+  href?: string;
+  /** What that link is to this page — `prev`, `next`, `external`. Only with
+      `href`, being the anchor's own attribute. */
+  rel?: string;
 }
 
 export function buttonClass({ variant = 'primary', size = 'md', iconOnly = false, disabled = false }: ButtonProps): string {
@@ -40,8 +48,29 @@ export function buttonClass({ variant = 'primary', size = 'md', iconOnly = false
   return cls.join(' ');
 }
 
+/* The same control as an anchor. A link cannot be disabled — a control that
+   must not be followed is one that is not written — so the state is dropped
+   here rather than drawn as a grey link the browser follows anyway. */
+function linkMarkup(props: ButtonProps, body: unknown): TemplateResult {
+  const cls = buttonClass({ ...props, disabled: false });
+  const href = props.href ?? '';
+  if (props.rel) {
+    return props.title
+      ? html`<a class="${cls}" href="${href}" rel="${props.rel}" title="${props.title}">${body}</a>`
+      : html`<a class="${cls}" href="${href}" rel="${props.rel}">${body}</a>`;
+  }
+  return props.title
+    ? html`<a class="${cls}" href="${href}" title="${props.title}">${body}</a>`
+    : html`<a class="${cls}" href="${href}">${body}</a>`;
+}
+
 /** The markup a button is, given whatever stands inside it. */
 export function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult {
+  /* A press that goes somewhere is a link and is written as one. The class
+     layer has always allowed it — the skip link is an `<a class="sds-btn">` —
+     and an element that could not emit it left every such control to be
+     hand-written, which is the drift this system exists to stop. */
+  if (props.href) return linkMarkup(props, body);
   const cls = buttonClass(props);
   /* Written always, because the default is a decision: without it a button in
      a form is a submit button. See `type` above for what that costs. */
@@ -78,6 +107,8 @@ export class SdsButton extends SdsElement {
     title: { type: String },
     disabled: { type: Boolean, reflect: true },
     type: { type: String, reflect: true },
+    href: { type: String },
+    rel: { type: String },
     for: { type: String, reflect: true },
     command: { type: String, reflect: true },
     iconOnly: { type: Boolean, attribute: 'icon-only', reflect: true },
@@ -87,6 +118,9 @@ export class SdsButton extends SdsElement {
   declare size: ButtonSize;
   declare disabled: boolean;
   declare type: 'button' | 'submit' | 'reset';
+  /** Where it goes, where the press is a link rather than an action. */
+  declare href: string;
+  declare rel: string;
   /** The id of what this button acts on — the same spelling `sds-menu` uses
       for the navigation it opens, because it is the same relationship. */
   declare for: string;
@@ -110,6 +144,8 @@ export class SdsButton extends SdsElement {
     this.size = 'md';
     this.disabled = false;
     this.type = 'button';
+    this.href = '';
+    this.rel = '';
     this.for = '';
     this.command = 'show';
     this.iconOnly = false;
@@ -156,7 +192,10 @@ export class SdsButton extends SdsElement {
         this.taken.some((node) => (node as Element).tagName?.toLowerCase() === 'sds-icon'));
 
     return buttonMarkup(
-      { variant: this.variant, size: this.size, iconOnly, title: this.title, disabled: this.disabled, type: this.type },
+      {
+        variant: this.variant, size: this.size, iconOnly, title: this.title,
+        disabled: this.disabled, type: this.type, href: this.href, rel: this.rel,
+      },
       this.taken.length ? this.taken : (this.content ?? this.taken),
     );
   }

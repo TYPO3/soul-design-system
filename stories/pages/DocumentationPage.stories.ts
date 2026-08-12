@@ -23,6 +23,7 @@ import '../../packages/frontend/src/components/image.ts';
 import '../../packages/frontend/src/components/theme.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/card-grid.ts';
+import '../../packages/frontend/src/components/pager.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
@@ -210,6 +211,13 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
       </p>
 
       ${signposts}
+
+      <!-- The way on, at the foot of a page that is read in order. The rail
+           says where this page sits; this says which page comes next. -->
+      <sds-pager
+        previous-href="#installing" previous-label="Installing the server"
+        next-href="#skill" next-label="Writing a task skill"
+      ></sds-pager>
     </main>
   </div>
 </div>`;

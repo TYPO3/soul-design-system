@@ -49,6 +49,7 @@ import './components/card-grid.ts';
 import './components/teaser.ts';
 import './components/result.ts';
 import './components/pagination.ts';
+import './components/pager.ts';
 import './components/code.ts';
 import './components/diff.ts';
 import './components/quote.ts';
@@ -108,6 +109,7 @@ export { SdsCardGrid, type CardGridProps, type CardGridVariant } from './compone
 export { SdsTeaser, type TeaserProps } from './components/teaser.ts';
 export { SdsResult, type ResultProps } from './components/result.ts';
 export { SdsPagination, pageNumbers, type PaginationProps } from './components/pagination.ts';
+export { SdsPager, type PagerProps } from './components/pager.ts';
 
 if (typeof document !== 'undefined') installHostRule();
 
@@ -151,6 +153,7 @@ export const TAGS = [
   'sds-teaser',
   'sds-result',
   'sds-pagination',
+  'sds-pager',
   'sds-code',
   'sds-diff',
   'sds-quote',

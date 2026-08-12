@@ -323,11 +323,18 @@ sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
   display: inline-flex;
   align-items: center;
   gap: var(--control-gap);
+  text-decoration: none;
   transition:
     background var(--duration-fast) var(--ease-out),
     border-color var(--duration-fast) var(--ease-out),
     color var(--duration-fast) var(--ease-out);
 }
+
+/* This class is worn by anchors too — a press that goes somewhere is a link —
+   and `a:hover` is a type *and* a pseudo-class, which outweighs a bare class.
+   So the state has to be named here as well, or every such control grows an
+   underline under the pointer that no button in this system has. */
+.sds-btn:hover { text-decoration: none; }
 
 /* One primary per view — the action that starts work. */
 .sds-btn--primary { background: var(--accent); color: var(--text-on-accent); }
@@ -1161,7 +1168,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   left: var(--space-3);
   translate: 0 calc(-100% - var(--space-3));
   background: var(--surface-raised);
-  text-decoration: none;
 }
 .sds-skip:focus-visible { translate: none; }
 
@@ -1623,6 +1629,12 @@ html:has(.sds-bar) {
 .sds-pagination__gap { padding: 6px 4px; color: var(--text-muted); user-select: none; }
 /* What the numbers are of, at the end of the row. */
 .sds-pagination__count { margin-left: auto; color: var(--text-muted); }
+
+/* The other one: the page before and the page after, at the foot of a page
+   read in order. The row is `.sds-foot` and is not drawn twice, so the whole
+   of this is which end each control sits at — said on the next rather than
+   between the two, or a page with only a next would have it on the left. */
+.sds-pager > .sds-pager__next { margin-left: auto; }
 
 /* An item is a control: a link where it goes somewhere, a button where it
    switches something on this page. The button carries a browser default font,

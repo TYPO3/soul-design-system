@@ -17,6 +17,14 @@ export interface ButtonProps {
         the form the moment it is pressed. A real submit says so — and then Enter
         in a text field submits too, which only that button should carry. */
     type?: 'button' | 'submit' | 'reset';
+    /** Where it goes, for the press that is a link rather than an action. It
+        renders an `<a>` and nothing else changes: same classes, same shape, and
+        the browser's own middle-click, hover target and status line, none of
+        which a `<button>` with a handler on it has. */
+    href?: string;
+    /** What that link is to this page — `prev`, `next`, `external`. Only with
+        `href`, being the anchor's own attribute. */
+    rel?: string;
 }
 export declare function buttonClass({ variant, size, iconOnly, disabled }: ButtonProps): string;
 /** The markup a button is, given whatever stands inside it. */
@@ -51,6 +59,12 @@ export declare class SdsButton extends SdsElement {
             type: StringConstructor;
             reflect: boolean;
         };
+        href: {
+            type: StringConstructor;
+        };
+        rel: {
+            type: StringConstructor;
+        };
         for: {
             type: StringConstructor;
             reflect: boolean;
@@ -69,6 +83,9 @@ export declare class SdsButton extends SdsElement {
     size: ButtonSize;
     disabled: boolean;
     type: 'button' | 'submit' | 'reset';
+    /** Where it goes, where the press is a link rather than an action. */
+    href: string;
+    rel: string;
     /** The id of what this button acts on — the same spelling `sds-menu` uses
         for the navigation it opens, because it is the same relationship. */
     for: string;
