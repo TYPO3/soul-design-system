@@ -13,6 +13,7 @@ import '../packages/frontend/src/styles/_specimen.css';
 import './docs.css';
 import { addons } from 'storybook/preview-api';
 import { VIEWPORTS } from './viewports.ts';
+import { readable } from './source.ts';
 
 /* One import: the entry registers every element and installs the host rule.
    Listing them here was a second list to keep in step with the package's `src/index.ts`,
@@ -102,8 +103,15 @@ const preview: Preview = {
     },
     /* The markup is the documentation. A canvas defaults to hiding its source
        behind a toggle, which is one click between a reader and the one thing
-       they came for — the exact element and attributes to copy. Shown. */
-    docs: { codePanel: true, canvas: { sourceState: 'shown' } },
+       they came for — the exact element and attributes to copy. Shown, and
+       laid out on the way there: what the renderer hands over is the story's
+       own whitespace, which is none at all wherever a template was written on
+       one line. See `source.ts`. */
+    docs: {
+      codePanel: true,
+      canvas: { sourceState: 'shown' },
+      source: { transform: readable },
+    },
     a11y: {
       // Report, do not fail. The specimens deliberately include states no
       // automated pass can judge — a disabled control, a focus ring drawn on
