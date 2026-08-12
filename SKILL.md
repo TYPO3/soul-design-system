@@ -74,8 +74,11 @@ a reader can see in the line below is noise.
 - **No changelog.** Not what it used to be, not who asked, not when. Git holds
   that. A note about a past failure belongs only where the failure would
   otherwise be repeated, and then in a sentence.
-- **As short as it can be and still be true.** Three lines that carry a reason
-  beat fifteen that carry a reason and an anecdote.
+- **Five lines, ten at the top of a file.** Counting the `/*` and the `*/`. A
+  block that wants more is carrying something besides the reason — the line
+  below restated, a second example, an aside. A reason that genuinely needs
+  fifteen lines is a decision about the system and belongs in `RATIONALE.md`,
+  where it is read on purpose.
 
 ## Start here, every time
 
