@@ -18,10 +18,10 @@ const CARD = `<div style="padding:22px; display:flex; align-items:flex-end; gap:
 <path d="M18 5H28A3 3 0 0 1 31 8V17" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
 </svg><span style="display:inline-flex; align-items:center; gap:8.6px; font-size:19px; letter-spacing:-0.018em; line-height:1; white-space:nowrap;"><span style="font-weight:600; color:var(--text-primary);">TYPO3</span><span style="display:inline-block; width:2px; height:16px; background:var(--accent); flex:none;"></span><span style="font-weight:300; color:var(--text-secondary);">Soul Design System</span></span></span>
   <div style="display:flex; align-items:flex-end; gap:14px;">
-    <span style="display:inline-flex; align-items:center; justify-content:center; width:56px; height:56px; background:var(--surface-inset); border-radius:12px;"><svg viewBox="0 0 24 24" width="32" height="32" class="sds-signet sds-signet--muted">
-<path d="M10 20H3A2 2 0 0 1 1 18V11" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
-<rect x="6" y="8" width="2" height="8" rx="1" fill="var(--text-muted)" /><rect x="10" y="8" width="4" height="8" rx="1" fill="var(--text-muted)" /><rect x="16" y="8" width="2" height="8" rx="1" fill="var(--text-muted)" />
-<path d="M14 4H21A2 2 0 0 1 23 6V13" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+    <span style="display:inline-flex; align-items:center; justify-content:center; width:56px; height:56px; background:var(--surface-inset); border-radius:12px;"><svg viewBox="0 0 32 32" width="32" height="32" class="sds-signet sds-signet--muted">
+<path d="M14 27H4A3 3 0 0 1 1 24V15" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+<rect x="8" y="11" width="3" height="10" rx="1" fill="var(--text-muted)" /><rect x="13" y="11" width="6" height="10" rx="1" fill="var(--text-muted)" /><rect x="21" y="11" width="3" height="10" rx="1" fill="var(--text-muted)" />
+<path d="M18 5H28A3 3 0 0 1 31 8V17" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
 </svg></span>
     <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; background:var(--surface-inset); border-radius:9px;"><svg viewBox="0 0 24 24" width="24" height="24" class="sds-signet sds-signet--muted">
 <path d="M10 20H3A2 2 0 0 1 1 18V11" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
