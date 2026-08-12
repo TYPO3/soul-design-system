@@ -219,7 +219,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
       { label: 'install', href: '#install' },
     ]}" active="0"></sds-menu>
     <div class="sds-bar__end">
-      <sds-badge label="1.0.0" tone="accent"></sds-badge>
+      <sds-badge label="0.1-dev" tone="accent"></sds-badge>
       <sds-theme></sds-theme>
     </div>
   </header>
@@ -230,7 +230,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
       <div class="sds-split">
         <div class="sds-stack">
           <div class="sds-row">
-            <sds-badge label="1.0.0" tone="accent"></sds-badge>
+            <sds-badge label="0.1-dev" tone="accent"></sds-badge>
             <span class="sds-label">one accent · two modes · no shadows</span>
           </div>
           <h1 class="sds-display">A system, not a stylesheet</h1>

@@ -43,7 +43,7 @@ export const InAHeader: Story = {
     </a>
     <sds-menu label="Sections" .items="${SECTIONS}" active="0"></sds-menu>
     <div class="sds-bar__end">
-      <sds-badge label="1.0.0" tone="accent"></sds-badge>
+      <sds-badge label="0.1-dev" tone="accent"></sds-badge>
       <sds-theme></sds-theme>
     </div>
   </header>`,
@@ -67,7 +67,7 @@ export const WrittenByAServer: Story = {
       <a class="sds-pill" href="#install">install</a>
     </sds-menu>
     <div class="sds-bar__end">
-      <sds-badge label="1.0.0" tone="accent"></sds-badge>
+      <sds-badge label="0.1-dev" tone="accent"></sds-badge>
       <sds-theme></sds-theme>
     </div>
   </header>`,
