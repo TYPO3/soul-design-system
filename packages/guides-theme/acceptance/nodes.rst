@@ -106,9 +106,11 @@ Words this reference defines
       A rendered example of a rule, kept beside the rule so the two cannot
       drift.
 
-   drop-in
+   drop-in : noun
       The built stylesheet and script a consuming site links, as opposed to
-      the sources they are built from.
+      the sources they are built from. The word after the colon is a
+      classifier, which is what a term is allowed to be given besides its
+      definition.
 
 Document metadata
 =================

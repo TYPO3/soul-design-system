@@ -1,0 +1,34 @@
+{#
+    `.. glossary::` — the words a project defines, and where they are defined.
+
+    The core writes the definition list into a div and stops, so a page can
+    name forty terms and point at none of them. Each term gets the id its own
+    words make and the mark a heading carries, which is the whole difference
+    between a list of definitions and a glossary a sentence elsewhere can link
+    into.
+
+    Rebuilt rather than handed to `renderNode`, because the id belongs on the
+    `<dt>` and nothing else can put it there. A body that holds no terms — a
+    paragraph, a nested directive — falls back to the core's rendering rather
+    than coming out empty.
+#}
+{%- set entries = terms(node.value) -%}
+{%- if entries is empty -%}
+    {{ renderNode(node.value) }}
+{%- else -%}
+<dl>
+    {%- for entry in entries -%}
+        {%- set anchor = entry.term.toString|anchor -%}
+        <dt id="{{ anchor }}">
+            {{- renderNode(entry.term) -}}
+            {%- for classifier in entry.classifiers %} <span class="classifier-delimiter">:</span>
+                <span class="classifier">{{- renderNode(classifier) -}}</span>
+            {%- endfor -%}
+            <a class="sds-permalink" href="#{{ anchor }}" aria-label="Permalink to {{ entry.term.toString }}">#</a>
+        </dt>
+        {%- for definition in entry.children -%}
+            <dd>{{- renderNode(definition) -}}</dd>
+        {%- endfor -%}
+    {%- endfor %}
+</dl>
+{%- endif -%}

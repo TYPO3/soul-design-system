@@ -12,6 +12,7 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Nodes\Bands;
+use TYPO3\Soul\GuidesTheme\Nodes\Terms;
 
 /**
  * The theme's settings, where a template can read them.
@@ -83,6 +84,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
     {
         return [
             new TwigFunction('bands', Bands::of(...)),
+            new TwigFunction('terms', Terms::of(...)),
             new TwigFunction('rail', $this->rail(...), ['needs_context' => true]),
         ];
     }

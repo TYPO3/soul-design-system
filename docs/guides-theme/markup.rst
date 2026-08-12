@@ -287,6 +287,10 @@ literals, the six heading levels — and no template can reach it,
 because the renderer writes no name on any of it. That is the document layer's
 half of the job, and :doc:`/frontend/documents` is where it is written down.
 
+A heading is the one place both halves meet: the six levels are the document
+layer's, and the ``#`` beside one is a template's, because the id it points at
+is on the section and only the renderer knows it.
+
 Which template does which
 =========================
 
@@ -305,6 +309,8 @@ Which template does which
      - groups, socials, the note
    * - ``structure/sidebar``
      - ``.. sidebar::`` as a topic rather than an admonition
+   * - ``structure/header-title``
+     - the mark that hands over the place a heading names
    * - ``body/admonition``
      - twelve types onto four tones
    * - ``body/code``
@@ -321,6 +327,8 @@ Which template does which
      - two tab directives onto one element
    * - ``body/directive/confval``
      - the reference entry, and its labels
+   * - ``body/directive/glossary``
+     - a definition list whose terms can be pointed at
    * - ``body/menu/*``
      - the rail, the trail, the printed toctree, the local contents
    * - ``body/figure``, ``body/image``

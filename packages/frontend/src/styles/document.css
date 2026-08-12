@@ -221,6 +221,17 @@
   margin: var(--space-1) 0 var(--space-3) var(--space-5);
 }
 :where(.sds-prose) dd:last-child { margin-bottom: 0; }
+/* A term may be given its kind — `term : noun`. The kind is not the term: it
+   drops to the register the definition is written in, so a reader scanning the
+   column sees the words being defined and not what they are. */
+:where(.sds-prose) .classifier,
+:where(.sds-prose) .classifier-delimiter {
+  font-weight: var(--weight-regular);
+  color: var(--text-secondary);
+}
+/* Landing on one term out of forty says which one — the mark a confval and a
+   heading already make. */
+:where(.sds-prose) dt:target { color: var(--text-accent-quiet); }
 
 /* --------------------------------------------------------------- quote -- */
 

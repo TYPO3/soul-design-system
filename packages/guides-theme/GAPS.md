@@ -101,7 +101,6 @@ Klasse noch Komponente gibt.
 
 | Knoten | Markup | Warum es zählt |
 | --- | --- | --- |
-| **Glossar** | `div` + `dl` mit Ankern | |
 | **Annotationsliste** | Sammelknoten | |
 | **Zeilenblock** | `div.line-block` > `div.line` | Funktioniert heute nur, weil `div` umbricht — eine Regel hat er nicht. Auch von confval benutzt |
 | **Math** | `<math>` bzw. MathJax-Ausgabe | Keine Schrift, keine Regel dafür |
@@ -150,8 +149,8 @@ Nicht Styling, sondern was das Paket können muss.
   angenommen und verworfen: wohin ein Sprung in eine zusammengefaltete Antwort
   landet — und ob er sie aufklappt — ist nicht entschieden. `:header-level:`
   ebenso, denn die Zusammenfassung ist ein Bedienelement und keine Überschrift.
-- **`:target`.** Für Überschrift und confval ist es entschieden: die
-  angesprungene Stelle färbt ihren Namen ruhig im Akzent. Für Glossar,
+- **`:target`.** Für Überschrift, confval und Glossarbegriff ist es
+  entschieden: die angesprungene Stelle färbt ihren Namen ruhig im Akzent. Für
   Fußnoten und Karten steht es aus, und die Antwort ist dieselbe oder eine
   begründete andere.
 - **Druck.** Kein Druck-Stylesheet.

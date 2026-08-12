@@ -179,6 +179,39 @@ test.describe('what the theme repaired', () => {
     await expect(page.locator('.sds-prose h1 a.sds-permalink')).toHaveCount(0);
   });
 
+  test('a glossary defines words a sentence elsewhere can point at', async ({ page }) => {
+    await page.goto(REFERENCE, { waitUntil: 'load' });
+
+    /* The core renders a definition list and anchors nothing, so a page can
+       define a word and have no way of saying where it did. */
+    const entries = await page.evaluate(() =>
+      [...document.querySelectorAll('#words-this-reference-defines dt[id]')].map((term) => ({
+        id: term.id,
+        words: (term.firstChild?.textContent ?? '').trim(),
+        href: term.querySelector('a.sds-permalink')?.getAttribute('href') ?? null,
+        classifier: term.querySelector('.classifier')?.textContent?.trim() ?? null,
+      })));
+
+    expect(entries.length).toBeGreaterThan(2);
+    expect(entries.filter((e) => e.href !== `#${e.id}`)).toEqual([]);
+    /* The id is the term's own words, not its position in the list: a glossary
+       that renumbers when a word is added breaks every link into it. */
+    expect(entries.map((e) => e.id)).toEqual(entries.map((e) => e.words.replace(/\s+/g, '-').toLowerCase()));
+
+    /* And the kind a term may be given arrives with it, in the register of the
+       definition rather than of the term. */
+    const kinds = entries.filter((e) => e.classifier !== null);
+    expect(kinds.length).toBeGreaterThan(0);
+    const [dim, term] = await page.evaluate(() => {
+      const colour = (el: Element | null): string => (el ? getComputedStyle(el).color : '');
+      return [
+        colour(document.querySelector('#words-this-reference-defines .classifier')),
+        colour(document.querySelector('#words-this-reference-defines dt[id]')),
+      ];
+    });
+    expect(dim).not.toBe(term);
+  });
+
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

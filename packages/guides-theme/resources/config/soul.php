@@ -16,6 +16,7 @@ use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\TeaserDirective;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
+use TYPO3\Soul\GuidesTheme\Twig\AnchorExtension;
 use TYPO3\Soul\GuidesTheme\Twig\LinkExtension;
 use TYPO3\Soul\GuidesTheme\Twig\ThemeExtension;
 
@@ -77,6 +78,11 @@ return static function (ContainerConfigurator $container): void {
         /* Where a reference points, for a template handing a target to a
            component instead of writing the link itself. */
         ->set(LinkExtension::class)
+        ->tag('twig.extension')
+
+        /* And the other half: the id for a place the parser anchored nowhere,
+           named by the normalizer that names every other anchor. */
+        ->set(AnchorExtension::class)
         ->tag('twig.extension')
 
         ->set(ThemeExtension::class)

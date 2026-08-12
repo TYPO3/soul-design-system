@@ -26,6 +26,8 @@
 :where(.sds-prose) dt{font-weight:var(--weight-semibold);color:var(--text-primary)}
 :where(.sds-prose) dd{margin:var(--space-1) 0 var(--space-3) var(--space-5)}
 :where(.sds-prose) dd:last-child{margin-bottom:0}
+:where(.sds-prose) .classifier,:where(.sds-prose) .classifier-delimiter{font-weight:var(--weight-regular);color:var(--text-secondary)}
+:where(.sds-prose) dt:target{color:var(--text-accent-quiet)}
 :where(.sds-prose) blockquote{margin:0 0 var(--space-4);padding-left:var(--space-4);border-left:2px solid var(--border-subtle);color:var(--text-secondary)}
 :where(.sds-prose) blockquote>:last-child{margin-bottom:0}
 :where(.sds-prose) code{font-family:var(--font-mono);font-size:.94em;color:var(--text-primary)}
