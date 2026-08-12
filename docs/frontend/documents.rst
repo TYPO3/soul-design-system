@@ -63,7 +63,8 @@ What it sets
    * - Figures
      - ``figure``, ``figcaption``, and images held to the column
    * - In the line
-     - ``code``, ``kbd``, ``abbr``, ``cite``, ``mark``, ``sup``, ``sub``
+     - ``code``, ``kbd``, ``abbr``, ``cite``, ``mark``, ``sup``, ``sub``, and
+       ``math`` — a formula, set as the source it arrived as
 
 .. note::
 

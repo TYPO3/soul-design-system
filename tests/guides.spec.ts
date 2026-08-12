@@ -238,6 +238,29 @@ test.describe('what the theme repaired', () => {
     expect(rows.some((r) => r.left > edge)).toBe(true);
   });
 
+  test('a formula is shown as the source it arrived as', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The renderer typesets nothing and hands the source through, and MathML
+       layout drops text that is not inside a token element — so a formula left
+       in that layout is a blank space in the sentence. */
+    const inline = page.locator('.sds-prose p math').first();
+    await expect(inline).toHaveText(/mc\^2/);
+    expect((await inline.boundingBox())?.width).toBeGreaterThan(0);
+
+    const block = page.locator('.sds-prose .section > math').first();
+    await expect(block).toHaveText(/\\frac/);
+    expect((await block.boundingBox())?.width).toBeGreaterThan(0);
+
+    /* Both say what they are: a machine's own words, in the register the rest
+       of the page keeps for those. */
+    const [formula, literal] = await page.evaluate(() => {
+      const font = (el: Element | null): string => (el ? getComputedStyle(el).fontFamily : '');
+      return [font(document.querySelector('.sds-prose math')), font(document.querySelector('.sds-prose code'))];
+    });
+    expect(formula).toBe(literal);
+  });
+
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

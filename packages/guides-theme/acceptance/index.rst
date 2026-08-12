@@ -83,6 +83,16 @@ something specific here. A formula may carry :sup:`superscript` and
 :sub:`subscript`, and :dfn:`a term being defined` is marked where it is first
 used.
 
+A formula is handed through as the source it was written as — :math:`E = mc^2`
+in a sentence, and on a line of its own:
+
+.. math::
+
+   \frac{a}{b} = \frac{c}{d}
+
+Nothing here typesets it. The renderer writes what the author wrote, so it is
+set as what it is rather than as a formula it is not.
+
 Lists
 =====
 

@@ -454,6 +454,24 @@
 }
 :where(.sds-prose) strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
 
+/* A formula arrives as the source somebody wrote, because the renderer
+   typesets nothing — and MathML layout drops text that is not inside a token
+   element, so under it a formula is a blank space in the sentence. `display`
+   takes it back out of that layout and the mono register says what it is: a
+   machine's own words. Real MathML has children, and is left to the browser. */
+:where(.sds-prose) math:not(:has(*)) {
+  display: inline;
+  font-family: var(--font-mono);
+  font-size: 0.94em;
+  color: var(--text-primary);
+}
+/* The directive stands on a line of its own; the role stands in a sentence. */
+:where(.sds-prose) .section > math:not(:has(*)),
+:where(.sds-prose) > math:not(:has(*)) {
+  display: block;
+  margin: 0 0 var(--space-4);
+}
+
 /* -------------------------------------------------------------- figures -- */
 
 /* A picture never widens the column it was put in, whatever it was exported
