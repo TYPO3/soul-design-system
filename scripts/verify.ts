@@ -11,7 +11,7 @@
    through a `sh -c` wrapper, where the filter would land on the shell. */
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 
 import { FRONTEND, cards, ROOT, screens } from './lib/cards.ts';
 
@@ -96,30 +96,48 @@ const CHECKS: readonly Check[] = [
     },
   },
 
-  /* An MDX page iframes a card at a height it states itself, and the card
-     states its own in `@dsCard`. Nothing tied the two together, so a card that
-     grew kept rendering into the old box in Storybook — cropped there and
-     correct in the pane, which is the worst way to be wrong. Three had already
-     drifted when this was added. */
+  /* A page embeds a card at a size it states itself, and the card states its
+     own in `@dsCard`. Nothing ties the two together, so a card that grows keeps
+     rendering into the old box — cropped on the page and correct in the pane,
+     which is the worst way to be wrong. Three had already drifted when this was
+     first written, against the MDX pages the documentation was then; it read
+     those long after the last one became reStructuredText, which is to say it
+     guarded nothing. */
   {
     name: 'heights',
     step: '1b',
     label: 'specimens match the cards they embed',
     run() {
-      const declared = new Map(all.map((c) => [c.rel, c.viewport]));
+      /* The directive names a path under `_cards/`, and a card knows itself by
+         its path in the repository — so the two meet at the tail. */
+      const declared = new Map(all.map((c) => [c.rel.split('specimens/')[1] ?? c.rel, c.viewport]));
+      /* What the directive draws where the page does not say — see
+         `docs/guides-theme/directives.rst`, which is where this number is the
+         documented default rather than a guess. */
+      const DEFAULT_VIEWPORT = '700x260';
+      let embedded = 0;
       let mismatched = 0;
-      for (const page of readdirSync(join(ROOT, 'docs')).filter((f) => f.endsWith('.mdx'))) {
-        const text = readFileSync(join(ROOT, 'docs', page), 'utf8');
-        for (const m of text.matchAll(/<Specimen\s+src="([^"]+)"\s+viewport="(\d+x\d+)"/g)) {
-          const [, src = '', vp = ''] = m;
+
+      const pages = (dir: string): string[] => readdirSync(dir, { withFileTypes: true })
+        .flatMap((e) => (e.isDirectory() ? pages(join(dir, e.name)) : e.name.endsWith('.rst') ? [join(dir, e.name)] : []));
+
+      for (const page of pages(join(ROOT, 'docs'))) {
+        const text = readFileSync(page, 'utf8');
+        for (const m of text.matchAll(/^\.\.\s+specimen::\s+(\S+)\s*$((?:\n[ \t]+\S.*)*)/gm)) {
+          const [, src = '', options = ''] = m;
+          embedded++;
+          const vp = /:viewport:\s*(\d+x\d+)/.exec(options)?.[1] ?? DEFAULT_VIEWPORT;
           const want = declared.get(src);
-          if (want && want !== vp) {
+          if (!want) {
             mismatched++;
-            fails.push(`docs/${page}: ${src} is embedded at ${vp}, the card declares ${want}`);
+            fails.push(`${relative(ROOT, page)}: embeds ${src}, which is not a generated card`);
+          } else if (want !== vp) {
+            mismatched++;
+            fails.push(`${relative(ROOT, page)}: ${src} is embedded at ${vp}, the card declares ${want}`);
           }
         }
       }
-      console.log(`   ${declared.size} cards, ${mismatched} embedded at the wrong height`);
+      console.log(`   ${embedded} specimens embedded, ${mismatched} at a size the card does not declare`);
     },
   },
 
