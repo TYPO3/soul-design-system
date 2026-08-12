@@ -79,7 +79,14 @@ export class SdsTabs extends SdsNav {
       const label = panel.getAttribute('label') ?? '';
       return (icon ? { label, icon } : label) as NavItem;
     });
-    for (const panel of this.panels) panel.remove();
+    /* Told that something is now deciding which of them is shown. A panel that
+       nobody manages draws itself open — see `sds-tab-item` — which is what a
+       page rendered ahead of the browser needs and what a set of tabs must
+       take over the moment it exists. */
+    for (const panel of this.panels) {
+      panel.managed = true;
+      panel.remove();
+    }
     return true;
   }
 
@@ -138,17 +145,33 @@ export class SdsTabs extends SdsNav {
   }
 
   protected override render(): TemplateResult {
-    const tabs: TabHandle[] = this.panels.map((panel, i) => {
-      const item = this.items[i];
-      return {
-        label: typeof item === 'string' ? item : (item?.label ?? ''),
-        icon: typeof item === 'string' ? undefined : item?.icon,
-        tabId: panel.tabId,
-        panelId: panel.panelId,
-      };
+    const named = (item: NavItem | undefined) => ({
+      label: typeof item === 'string' ? item : (item?.label ?? ''),
+      icon: typeof item === 'string' ? undefined : item?.icon,
     });
 
-    return html`${tabsBarMarkup(tabs, this.active, (i) => this.choose(i), (e) => this.onKey(e))}${this.panels}`;
+    /* The bar off the panels where there are panels, and off the labels alone
+       where there are not.
+
+       There are none in Node — a page rendered before the browser has no
+       children to lift, see `SdsElement` — and a set of tabs is the one
+       component that cannot be told what it holds by the markup it was handed:
+       the labels are on the items inside it. So `items` is what says them, and
+       a set that is rendered ahead of time is addressed the way every other
+       element here is. What it cannot have yet is the wiring, because the ids
+       belong to panels that were rendered elsewhere: no `tablist`, and buttons
+       that do nothing until the set upgrades — which is honest, since without
+       a script they could not switch anything anyway. */
+    const tabs: TabHandle[] = this.panels.length
+      ? this.panels.map((panel, i) => ({
+          ...named(this.items[i]),
+          tabId: panel.tabId,
+          panelId: panel.panelId,
+        }))
+      : this.items.map(named);
+
+    const held = this.panels.length ? this.panels : this.content;
+    return html`${tabsBarMarkup(tabs, this.active, (i) => this.choose(i), (e) => this.onKey(e))}${held}`;
   }
 
   protected override updated(): void {

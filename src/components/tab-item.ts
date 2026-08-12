@@ -38,6 +38,15 @@ export class SdsTabItem extends SdsElement {
   declare icon?: IconId;
   declare active: boolean;
 
+  /** Whether a set of tabs is deciding which panel is shown.
+
+      A panel decides for itself until one is. That is not a special case: it
+      is what a panel *is* on a page where nothing switches it — rendered ahead
+      of the browser, or read with no script at all — and hiding every one of
+      them there leaves a set of tabs whose content is in the document and
+      invisible in it. The set claims them the moment it exists. */
+  managed = false;
+
   /** The id its tab points at, and the id its tab carries. */
   readonly panelId: string;
   readonly tabId: string;
@@ -63,7 +72,7 @@ export class SdsTabItem extends SdsElement {
     /* Hidden rather than unrendered: what is in the other panels stays in the
        document, so a find-in-page reaches it and switching back costs nothing
        — and anything with state in there keeps it. */
-    return html`<div class="sds-tab__panel" role="tabpanel" id="${this.panelId}" aria-labelledby="${this.tabId}" ?hidden="${!this.active}">${this.taken}</div>`;
+    return html`<div class="sds-tab__panel" role="tabpanel" id="${this.panelId}" aria-labelledby="${this.tabId}" ?hidden="${this.managed && !this.active}">${this.taken ?? this.content}</div>`;
   }
 }
 

@@ -19,10 +19,18 @@
 import { ICON_SVG } from './icons.svg.generated.ts';
 import type { IconId } from './icons.generated.ts';
 
-/* Any href ending in `#identifier`. The browser reference carries the
-   sprite's URL in front of it, resolved against wherever the module sits —
-   in Node a `file://` path, which must never reach a card. */
-const REFERENCE = /<svg([^>]*)><use href="[^"]*#([a-z0-9-]+)"><\/use><\/svg>/g;
+/* A reference into a sprite, and only into a sprite. The browser reference
+   carries the sprite's URL in front of the identifier, resolved against
+   wherever the module sits — in Node a `file://` path, which must never reach
+   a card.
+
+   The path is part of the pattern rather than left to the order things run in.
+   A drawing referenced into a page has the same shape — `<use href="…#art">`
+   — and this used to match it too, so a page whose art was meant to stay a
+   reference had that reference looked up in the icon set and failed the build
+   on an icon nobody named. The card path happens to resolve its drawings
+   first, which hid it; nothing about that ordering is visible from here. */
+const REFERENCE = /<svg([^>]*)><use href="[^"]*\/sprites\/[^"]*#([a-z0-9-]+)"><\/use><\/svg>/g;
 
 /** The package ships each glyph pretty-printed over several lines. Collapsed
     to the inline form the cards have always carried, which is what lets a

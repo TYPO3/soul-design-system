@@ -1568,6 +1568,7 @@ var require_core = __commonJS({
 
 // src/lib/element.ts
 import { LitElement } from "lit";
+var CONTENT = "data-sds-content";
 var SdsElement = class extends LitElement {
   /* Render into the element itself — see above. */
   createRenderRoot() {
@@ -1591,11 +1592,14 @@ var SdsElement = class extends LitElement {
   lifted() {
     if (this.#looked) return [];
     this.#looked = true;
-    const nodes = [...this.childNodes];
+    const kept = this.querySelector(`:scope > template[${CONTENT}]`);
+    const nodes = kept ? [...kept.content.childNodes] : [...this.childNodes];
+    if (kept) for (const node of [...this.childNodes]) node.remove();
     for (const node of nodes) node.remove();
     return nodes;
   }
 };
+var isBlank = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
 var registered = /* @__PURE__ */ new Set();
 function writeHostRule(doc) {
   if (!registered.size) return;
@@ -2561,6 +2565,7 @@ var SdsButton = class extends SdsElement {
     this.type = "button";
     this.for = "";
     this.command = "show";
+    this.iconOnly = false;
   }
   static {
     this.properties = {
@@ -2570,7 +2575,8 @@ var SdsButton = class extends SdsElement {
       disabled: { type: Boolean, reflect: true },
       type: { type: String, reflect: true },
       for: { type: String, reflect: true },
-      command: { type: String, reflect: true }
+      command: { type: String, reflect: true },
+      iconOnly: { type: Boolean, attribute: "icon-only", reflect: true }
     };
   }
   connectedCallback() {
@@ -2584,12 +2590,12 @@ var SdsButton = class extends SdsElement {
     super.disconnectedCallback();
   }
   render() {
-    const iconOnly = this.taken.every(
+    const iconOnly = this.iconOnly || this.taken.every(
       (node) => node.nodeType === 8 || (node.textContent ?? "").trim() === ""
     ) && this.taken.some((node) => node.tagName?.toLowerCase() === "sds-icon");
     return buttonMarkup(
       { variant: this.variant, size: this.size, iconOnly, title: this.title, disabled: this.disabled, type: this.type },
-      this.taken
+      this.taken.length ? this.taken : this.content ?? this.taken
     );
   }
 };
@@ -2894,7 +2900,7 @@ var SdsNote = class _SdsNote extends SdsElement {
   <span class="sds-note__icon"><sds-icon name="${this.icon ?? _SdsNote.TONE_ICON[this.tone]}" label="${said}"></sds-icon></span>
   <div class="sds-note__content">
     ${this.heading ? html14`<div class="sds-note__title">${this.heading}</div>` : nothing6}
-    <div class="sds-note__body">${this.taken ?? this.body}</div>
+    <div class="sds-note__body">${this.taken ?? this.content ?? this.body}</div>
   </div>
 </div>`;
   }
@@ -3195,7 +3201,7 @@ var SdsMenu = class extends SdsNav {
   ${this.toggle_(this.for)}
 </div>`;
     }
-    const written = this.taken;
+    const written = this.taken ?? this.content;
     const shown = !this.collapsed || this.open;
     return html18`<div class="sds-menu${this.collapsed ? " is-collapsed" : ""}" @keydown="${(e) => this.onKey(e)}">
   ${this.toggle_(this.navId)}
@@ -3272,6 +3278,14 @@ var seq3 = 0;
 var SdsTabItem = class extends SdsElement {
   constructor() {
     super();
+    /** Whether a set of tabs is deciding which panel is shown.
+    
+          A panel decides for itself until one is. That is not a special case: it
+          is what a panel *is* on a page where nothing switches it — rendered ahead
+          of the browser, or read with no script at all — and hiding every one of
+          them there leaves a set of tabs whose content is in the document and
+          invisible in it. The set claims them the moment it exists. */
+    this.managed = false;
     this.taken = null;
     this.label = "";
     this.active = false;
@@ -3294,7 +3308,7 @@ var SdsTabItem = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    return html20`<div class="sds-tab__panel" role="tabpanel" id="${this.panelId}" aria-labelledby="${this.tabId}" ?hidden="${!this.active}">${this.taken}</div>`;
+    return html20`<div class="sds-tab__panel" role="tabpanel" id="${this.panelId}" aria-labelledby="${this.tabId}" ?hidden="${this.managed && !this.active}">${this.taken ?? this.content}</div>`;
   }
 };
 define("sds-tab-item", SdsTabItem);
@@ -3328,7 +3342,10 @@ var SdsTabs = class extends SdsNav {
       const label = panel.getAttribute("label") ?? "";
       return icon ? { label, icon } : label;
     });
-    for (const panel of this.panels) panel.remove();
+    for (const panel of this.panels) {
+      panel.managed = true;
+      panel.remove();
+    }
     return true;
   }
   connectedCallback() {
@@ -3369,16 +3386,17 @@ var SdsTabs = class extends SdsNav {
     });
   }
   render() {
-    const tabs = this.panels.map((panel, i) => {
-      const item = this.items[i];
-      return {
-        label: typeof item === "string" ? item : item?.label ?? "",
-        icon: typeof item === "string" ? void 0 : item?.icon,
-        tabId: panel.tabId,
-        panelId: panel.panelId
-      };
+    const named = (item) => ({
+      label: typeof item === "string" ? item : item?.label ?? "",
+      icon: typeof item === "string" ? void 0 : item?.icon
     });
-    return html21`${tabsBarMarkup(tabs, this.active, (i) => this.choose(i), (e) => this.onKey(e))}${this.panels}`;
+    const tabs = this.panels.length ? this.panels.map((panel, i) => ({
+      ...named(this.items[i]),
+      tabId: panel.tabId,
+      panelId: panel.panelId
+    })) : this.items.map(named);
+    const held = this.panels.length ? this.panels : this.content;
+    return html21`${tabsBarMarkup(tabs, this.active, (i) => this.choose(i), (e) => this.onKey(e))}${held}`;
   }
   updated() {
     this.show();
@@ -3428,10 +3446,11 @@ var SdsRail = class extends SdsNav {
     return this.label ? html22`<div class="sds-label">${this.label}</div>` : nothing10;
   }
   render() {
-    if (this.taken.length) {
+    const written = this.taken.length ? this.taken : this.content;
+    if (written) {
       return html22`<nav class="${this.block}" aria-label="${this.label || "Pages"}">
   ${this.heading()}
-  ${this.taken}
+  ${written}
 </nav>`;
     }
     const entries = this.items;
@@ -3750,7 +3769,8 @@ var SdsFigure = class extends SdsElement {
     viewer.show();
   }
   render() {
-    const picture = this.taken ? html28`${this.taken}` : art(this.src, this.alt);
+    const given = this.taken ?? this.content;
+    const picture = given ? html28`${given}` : art(this.src, this.alt);
     const frame = this.zoomable ? html28`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>` : picture;
     const caption = this.captioned ? html28`${this.captioned}` : this.caption ? html28`<figcaption class="sds-figure__caption">${this.caption}</figcaption>` : "";
     return html28`<figure class="sds-figure">
@@ -3876,7 +3896,7 @@ var SdsEmbed = class extends SdsElement {
         blank in every screenshot taken of it — which is the one place somebody
         looks at all of them at once. */
   get framed() {
-    if (this.taken) return this.taken;
+    if (this.taken ?? this.content) return this.taken ?? this.content;
     if (!this.src) return nothing11;
     const size = this.fixed ? `width:${this.width}px;height:${this.height}px` : nothing11;
     return html29`<iframe src="${this.src}" title="${this.label || nothing11}" style="${size}" allow="${this.allow || nothing11}" ?allowfullscreen="${this.allowfullscreen}"></iframe>`;
@@ -4072,28 +4092,17 @@ define("sds-table", SdsTable);
 
 // src/components/teaser.ts
 import { html as html35 } from "lit";
-var isPart = (node, part) => node.nodeType === 1 && node.matches(part);
-var isNothing3 = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
 var SdsTeaser = class extends SdsElement {
   constructor() {
     super();
-    /* The picture a renderer wrote, and the body it wrote, taken before Lit
-       renders over them. The two are kept apart because the frame around the
-       picture is the card's own part and a renderer writes it: reading the pair
-       back as one block would put the summary inside the ground the picture
-       sits on. */
+    /* The summary a caller wrote between the tags, taken before Lit renders over
+       it. The one thing about an entry that an attribute cannot hold: a summary
+       out of a document is paragraphs, and sometimes a list. Everything else the
+       card draws arrives as a property. */
     this.taken = null;
-    this.written = null;
-    /* Anything else between the tags is the summary. A surface that knows the
-       entry but not how to spell the card — a product template with a paragraph
-       in hand — writes that paragraph and nothing else, and the row and the
-       title come from the properties beside it. Left unclaimed it would be
-       dropped, and content a component silently loses is the worst of the three
-       outcomes. */
-    this.summary = null;
     this.heading = "";
     this.body = "";
-    this.href = "#";
+    this.href = "";
     this.tag = "";
     this.meta = "";
     this.src = "";
@@ -4111,32 +4120,28 @@ var SdsTeaser = class extends SdsElement {
     };
   }
   connectedCallback() {
-    const written = this.lifted().filter((node) => !isNothing3(node));
-    const picture = written.filter((node) => isPart(node, ".sds-teaser__image"));
-    const body = written.filter((node) => isPart(node, ".sds-teaser__body"));
-    const rest = written.filter((node) => !picture.includes(node) && !body.includes(node));
-    if (picture.length) this.taken = picture;
-    if (body.length) this.written = body;
-    if (rest.length) this.summary = rest;
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
     super.connectedCallback();
   }
   render() {
-    const medium = this.taken ? html35`${this.taken}` : this.src ? html35`<div class="sds-teaser__image">
+    const medium = this.src ? html35`<div class="sds-teaser__image">
     ${art(this.src, this.alt)}
   </div>` : "";
     const meta = this.tag || this.meta ? html35`<div class="sds-row">
       ${this.tag ? html35`<sds-badge label="${this.tag}"></sds-badge>` : ""}
       ${this.meta ? html35`<span class="sds-label">${this.meta}</span>` : ""}
     </div>` : "";
-    const text = this.summary ? html35`<div class="sds-teaser__text">${this.summary}</div>` : html35`<p class="sds-teaser__text">${this.body}</p>`;
-    const body = this.written ? html35`${this.written}` : html35`<div class="sds-teaser__body">
-    ${meta}
-    <h3 class="sds-teaser__title"><a href="${this.href}">${this.heading}</a></h3>
-    ${text}
-  </div>`;
+    const written = this.taken ?? this.content;
+    const text = written ? html35`<div class="sds-teaser__text">${written}</div>` : html35`<p class="sds-teaser__text">${this.body}</p>`;
+    const title = this.href ? html35`<a href="${this.href}">${this.heading}</a>` : html35`${this.heading}`;
     return html35`<article class="sds-teaser">
   ${medium}
-  ${body}
+  <div class="sds-teaser__body">
+    ${meta}
+    <h3 class="sds-teaser__title">${title}</h3>
+    ${text}
+  </div>
 </article>`;
   }
 };
@@ -9495,6 +9500,7 @@ var SdsCode = class extends SdsElement {
        both — along with every language a server-side highlighter knows and the
        thirteen registered here do not. */
   get given() {
+    if (this.content) return true;
     return (this.taken ?? []).some((node) => {
       if (node.nodeType !== 1) return false;
       const el = node;
@@ -9524,7 +9530,7 @@ var SdsCode = class extends SdsElement {
        Where the system does not colour a language the author's own nodes are
        kept: what was written is better than a guess at what it meant. */
   get wrapped() {
-    const written = this.taken ?? this.text;
+    const written = this.taken ?? this.content ?? this.text;
     if (this.given) return html37`${written}`;
     if (!this.lang) return html37`<code>${written}</code>`;
     const coloured = highlight(this.lang, this.text);
@@ -9539,7 +9545,7 @@ var SdsCode = class extends SdsElement {
     const caption = this.captioned ? html37`${this.captioned}` : this.caption ? html37`<div class="sds-code__caption">${this.caption}</div>` : void 0;
     return html37`${caption}<div class="sds-code">
   ${head}
-  <pre class="sds-code__body">${this.taken || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
+  <pre class="sds-code__body">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
 </div>`;
   }
 };

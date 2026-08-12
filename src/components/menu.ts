@@ -294,7 +294,7 @@ export class SdsMenu extends SdsNav {
 </div>`;
     }
 
-    const written = this.taken;
+    const written = this.taken ?? this.content;
     const shown = !this.collapsed || this.open;
     return html`<div class="sds-menu${this.collapsed ? ' is-collapsed' : ''}" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">
   ${this.toggle_(this.navId)}

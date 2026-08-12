@@ -148,7 +148,7 @@ export class SdsEmbed extends SdsElement {
       blank in every screenshot taken of it — which is the one place somebody
       looks at all of them at once. */
   private get framed(): unknown {
-    if (this.taken) return this.taken;
+    if (this.taken ?? this.content) return this.taken ?? this.content;
     /* Nothing to show, and an empty `src` is not nothing: a browser resolves
        it against the current document and embeds the page in itself. */
     if (!this.src) return nothing;

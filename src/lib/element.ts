@@ -25,11 +25,36 @@
 
 import { LitElement } from 'lit';
 
+/** The name the prerenderer keeps a caller's own content under.
+
+    An element rendered ahead of the browser has its rendering as its children,
+    and the next thing to run is the element itself asking what it was given.
+    Without somewhere to put the original it would read its own output back —
+    a card whose summary is the whole card — so the prerenderer moves what was
+    written into an inert `<template>` and this is how both sides find it. */
+export const CONTENT = 'data-sds-content';
+
 export class SdsElement extends LitElement {
   /* Render into the element itself — see above. */
   protected override createRenderRoot(): HTMLElement | DocumentFragment {
     return this;
   }
+
+  /** What a caller wrote between the tags, for a renderer that cannot write
+      between them.
+
+      Node has no children to lift: `@lit-labs/ssr` builds the element, calls
+      `render()` and never runs `connectedCallback`, so anything a component
+      reads out of its own subtree is empty there. That is the whole reason the
+      static export used to refuse elements with content in them. A property
+      is a channel that exists in both places — the prerenderer sets it, the
+      browser leaves it alone and lifts the children instead — and it is why
+      every component below reads `this.taken ?? this.content` rather than one
+      or the other.
+
+      Not an attribute: what it holds is markup, which is the one thing an
+      attribute cannot carry. */
+  declare content?: unknown;
 
   /** The content a caller wrote between the tags, taken out of the way.
 
@@ -50,7 +75,13 @@ export class SdsElement extends LitElement {
   protected lifted(): Node[] {
     if (this.#looked) return [];
     this.#looked = true;
-    const nodes = [...this.childNodes];
+    /* A page this element was already rendered into has its own output as the
+       children and the caller's content beside it, kept in a `<template>` so
+       no browser draws it twice. That template is what was written; everything
+       else here is last render's work and goes. */
+    const kept = this.querySelector(`:scope > template[${CONTENT}]`) as HTMLTemplateElement | null;
+    const nodes = kept ? [...kept.content.childNodes] : [...this.childNodes];
+    if (kept) for (const node of [...this.childNodes]) (node as ChildNode).remove();
     /* `ChildNode.remove` rather than `Node.remove`: a text node between the
        tags is a Node and has no `remove` on the type, though every one of
        them here is a ChildNode. */
@@ -58,6 +89,14 @@ export class SdsElement extends LitElement {
     return nodes;
   }
 }
+
+/** The newlines a template left between the tags, and the markers Lit leaves
+    among its own bindings. Neither is content a caller wrote, and every
+    element that reads what it was given has to drop both before counting —
+    a component that treats one newline as content renders a part nobody
+    asked for. */
+export const isBlank = (node: Node): boolean =>
+  node.nodeType === 8 || (node.nodeType === 3 && !(node.textContent ?? '').trim());
 
 /* `display: contents` for every registered host, written from the registry
    rather than from a list.

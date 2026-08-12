@@ -14,20 +14,26 @@
    the same photograph whichever mode the page is in, and what a teaser carries
    is a photograph.
 
-   **Two forms, and the written one wins.** A story and a product surface set
-   properties: they know the entry, and a summary in a string is what they
-   have. A documentation renderer cannot — a summary from a document is
-   paragraphs, a title may be a resolved link, and none of it can be squeezed
-   through an attribute — so it writes the parts between the tags and this
-   keeps them, exactly as `sds-code` keeps a block that arrived already
-   coloured. It is also what a reader with no JavaScript gets: the card is in
-   the page before any script has run, and the element does no more than frame
-   what is already there. */
+   **The card is addressed, not built.** Everything about an entry that fits in
+   a string is a property — the headline, where it goes, the kind, the date,
+   the picture — and a caller sets those and is done. Only the summary may be
+   written between the tags, because a summary out of a document is paragraphs
+   and there is no attribute that carries those.
+
+   That line is the contract, and this element lost it for a while. A renderer
+   that could not pass markup wrote the card's own parts instead —
+   `.sds-teaser__body`, `.sds-teaser__title` — and the element did no more than
+   frame markup somebody else had already built: every internal name became
+   public API, neither side could change without the other, and the reason to
+   have a component at all was gone. What made it possible to take back is that
+   the pages are now rendered ahead of the browser — see
+   `scripts/lib/prerender.ts` — so a property reaches a reader who runs no
+   script, which is the only thing writing the parts ever bought. */
 
 import { html, type TemplateResult } from 'lit';
 import './badge.ts';
 import { art } from '../lib/art.ts';
-import { define, SdsElement } from '../lib/element.ts';
+import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 export interface TeaserProps {
   heading: string;
@@ -48,19 +54,6 @@ export interface TeaserProps {
   alt?: string;
 }
 
-/* What a renderer wrote, told apart by the class the component itself would
-   emit for it — the marker `sds-figure` and `sds-code` both use, and for the
-   same reasons: light DOM has no slot to name a part with, and a class the
-   stylesheet already defines is what makes the part read in the window before
-   the upgrade. */
-const isPart = (node: Node, part: string): boolean =>
-  node.nodeType === 1 && (node as Element).matches(part);
-
-/* The newlines a template left between the tags, and the markers Lit leaves
-   among its own bindings. Neither is a part of a card. */
-const isNothing = (node: Node): boolean =>
-  node.nodeType === 8 || (node.nodeType === 3 && !(node.textContent ?? '').trim());
-
 export class SdsTeaser extends SdsElement {
   static override properties = {
     heading: { type: String },
@@ -80,27 +73,17 @@ export class SdsTeaser extends SdsElement {
   declare src: string;
   declare alt: string;
 
-  /* The picture a renderer wrote, and the body it wrote, taken before Lit
-     renders over them. The two are kept apart because the frame around the
-     picture is the card's own part and a renderer writes it: reading the pair
-     back as one block would put the summary inside the ground the picture
-     sits on. */
+  /* The summary a caller wrote between the tags, taken before Lit renders over
+     it. The one thing about an entry that an attribute cannot hold: a summary
+     out of a document is paragraphs, and sometimes a list. Everything else the
+     card draws arrives as a property. */
   private taken: Node[] | null = null;
-  private written: Node[] | null = null;
-
-  /* Anything else between the tags is the summary. A surface that knows the
-     entry but not how to spell the card — a product template with a paragraph
-     in hand — writes that paragraph and nothing else, and the row and the
-     title come from the properties beside it. Left unclaimed it would be
-     dropped, and content a component silently loses is the worst of the three
-     outcomes. */
-  private summary: Node[] | null = null;
 
   constructor() {
     super();
     this.heading = '';
     this.body = '';
-    this.href = '#';
+    this.href = '';
     this.tag = '';
     this.meta = '';
     this.src = '';
@@ -108,28 +91,17 @@ export class SdsTeaser extends SdsElement {
   }
 
   override connectedCallback(): void {
-    const written = this.lifted().filter((node) => !isNothing(node));
-    const picture = written.filter((node) => isPart(node, '.sds-teaser__image'));
-    const body = written.filter((node) => isPart(node, '.sds-teaser__body'));
-    const rest = written.filter((node) => !picture.includes(node) && !body.includes(node));
-    if (picture.length) this.taken = picture;
-    if (body.length) this.written = body;
-    if (rest.length) this.summary = rest;
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
     super.connectedCallback();
   }
 
   protected override render(): TemplateResult {
-    /* What a renderer wrote, where it wrote one. The two forms answer the same
-       question and the nodes win, because they are already in the page:
-       rewriting them from `src` would replace a picture the reader can see
-       with a second request for the same file. */
-    const medium = this.taken
-      ? html`${this.taken}`
-      : this.src
-        ? html`<div class="sds-teaser__image">
+    const medium = this.src
+      ? html`<div class="sds-teaser__image">
     ${art(this.src, this.alt)}
   </div>`
-        : '';
+      : '';
 
     /* The row is dropped rather than left empty: a card whose first line is
        blank is a card with a hole where a set of them lines up. */
@@ -144,26 +116,27 @@ export class SdsTeaser extends SdsElement {
     /* A summary written between the tags is blocks — a renderer's summary is
        paragraphs and a list is not unheard of — so it is held in a `div`. The
        property form stays a `p`: it is a sentence, and a paragraph is what a
-       sentence goes in. */
-    const text = this.summary
-      ? html`<div class="sds-teaser__text">${this.summary}</div>`
+       sentence goes in. `content` is the same written form arriving where there
+       are no children to lift — see `SdsElement`. */
+    const written = this.taken ?? this.content;
+    const text = written
+      ? html`<div class="sds-teaser__text">${written}</div>`
       : html`<p class="sds-teaser__text">${this.body}</p>`;
 
-    /* The body a renderer wrote, whole. Its row and its title carry markup
-       this element cannot be handed — a title that resolved to a link, a
-       literal in a summary — and it arrives already spelt in the card's own
-       parts, so the element frames it and writes nothing over it. */
-    const body = this.written
-      ? html`${this.written}`
-      : html`<div class="sds-teaser__body">
-    ${meta}
-    <h3 class="sds-teaser__title"><a href="${this.href}">${this.heading}</a></h3>
-    ${text}
-  </div>`;
+    /* Where there is nowhere to go, the title is a title. A card whose
+       headline is an anchor to nothing is a control that does nothing, and a
+       reader who presses it learns the card cannot be trusted. */
+    const title = this.href
+      ? html`<a href="${this.href}">${this.heading}</a>`
+      : html`${this.heading}`;
 
     return html`<article class="sds-teaser">
   ${medium}
-  ${body}
+  <div class="sds-teaser__body">
+    ${meta}
+    <h3 class="sds-teaser__title">${title}</h3>
+    ${text}
+  </div>
 </article>`;
   }
 }

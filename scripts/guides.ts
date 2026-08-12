@@ -38,6 +38,7 @@ import { dirname, join, relative, resolve, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 import { cards, ROOT, screens } from './lib/cards.ts';
+import { prerender } from './lib/prerender.ts';
 
 const THEME = join(ROOT, 'guides-theme');
 const SITE = join(ROOT, 'site');
@@ -215,6 +216,32 @@ function writeIndex(): number {
   return entries.length;
 }
 
+/* Every element in the site, rendered before the browser gets there.
+
+   This is what makes the theme's templates able to *address* a component
+   rather than rebuild one — see `scripts/lib/prerender.ts`, which is where the
+   reasoning is. It runs over the rendered output rather than inside the PHP,
+   because the renderer is a Composer package and these components are TypeScript:
+   the one place both exist is here, after one has finished and before anything
+   is published.
+
+   Before the search index, so what a reader searches for is what a reader
+   sees: a card's title lives in the element until this runs, and an index
+   built first would hold the empty tag instead of the headline in it. */
+function prerenderSite(): number {
+  let touched = 0;
+  for (const file of walkHtml(SITE)) {
+    const page = readFileSync(file, 'utf8');
+    const done = prerender(page);
+    if (done === page) continue;
+    writeFileSync(file, done);
+    touched++;
+  }
+  return touched;
+}
+
+const drawn = prerenderSite();
+
 const indexed = writeIndex();
 
 const broken = escapes();
@@ -225,6 +252,7 @@ if (broken.length) {
 }
 
 console.log(`
+  ${drawn} pages carry their elements already rendered.
   ${indexed} pages indexed for search.
   ${PROJECTS.length} project(s) into site/ — the publish root.
   Open http://localhost:4173/ (the port \`make start\` reports), or photograph a page:

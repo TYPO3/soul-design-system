@@ -97,10 +97,11 @@ export class SdsRail extends SdsNav {
        navigation of — a page can hold this one and the sections in the bar,
        and "navigation, navigation" is what a screen reader announces without
        it. */
-    if (this.taken.length) {
+    const written = this.taken.length ? this.taken : this.content;
+    if (written) {
       return html`<nav class="${this.block}" aria-label="${this.label || 'Pages'}">
   ${this.heading()}
-  ${this.taken}
+  ${written}
 </nav>`;
     }
 

@@ -101,6 +101,7 @@ export class SdsButton extends SdsElement {
     type: { type: String, reflect: true },
     for: { type: String, reflect: true },
     command: { type: String, reflect: true },
+    iconOnly: { type: Boolean, attribute: 'icon-only', reflect: true },
   };
 
   declare variant: ButtonVariant;
@@ -114,6 +115,15 @@ export class SdsButton extends SdsElement {
       button pointed at a viewer, a dialog or a drawer is almost always the one
       that opens it. */
   declare command: string;
+  /** That the label is one glyph and the button is the square.
+
+      Inferred from the label where the label can be read, which is most of the
+      time and is why it was only ever inferred. It cannot be read when the
+      label arrives as markup rather than as nodes — a page rendered before the
+      browser, see `SdsElement` — and a button that loses its shape there is a
+      round control gone rectangular in a bar. So it is also something a caller
+      can simply say. */
+  declare iconOnly: boolean;
 
   /* The label, taken before Lit renders over it — the element renders light
      DOM, so `render()` would otherwise replace exactly what it is for. */
@@ -127,6 +137,7 @@ export class SdsButton extends SdsElement {
     this.type = 'button';
     this.for = '';
     this.command = 'show';
+    this.iconOnly = false;
   }
 
   override connectedCallback(): void {
@@ -169,13 +180,16 @@ export class SdsButton extends SdsElement {
   protected override render(): TemplateResult {
     /* Icon-only is the square, and it is a fact about the content rather than
        a property to set: a button whose whole label is one glyph is one. */
-    const iconOnly = this.taken.every(
-      (node) => node.nodeType === 8 || (node.textContent ?? '').trim() === '',
-    ) && this.taken.some((node) => (node as Element).tagName?.toLowerCase() === 'sds-icon');
+    const iconOnly =
+      this.iconOnly ||
+      (this.taken.every(
+        (node) => node.nodeType === 8 || (node.textContent ?? '').trim() === '',
+      ) &&
+        this.taken.some((node) => (node as Element).tagName?.toLowerCase() === 'sds-icon'));
 
     return buttonMarkup(
       { variant: this.variant, size: this.size, iconOnly, title: this.title, disabled: this.disabled, type: this.type },
-      this.taken,
+      this.taken.length ? this.taken : (this.content ?? this.taken),
     );
   }
 }

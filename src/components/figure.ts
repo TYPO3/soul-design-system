@@ -110,7 +110,8 @@ export class SdsFigure extends SdsElement {
        same question and the nodes win, because they are already in the page:
        rewriting them from `src` would replace a picture the reader can see
        with a second request for the same file. */
-    const picture = this.taken ? html`${this.taken}` : art(this.src, this.alt);
+    const given = this.taken ?? this.content;
+    const picture = given ? html`${given}` : art(this.src, this.alt);
 
     const frame = this.zoomable
       ? html`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>`

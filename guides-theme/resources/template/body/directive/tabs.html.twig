@@ -4,15 +4,24 @@
     The core renders a `<ul>` of buttons and every panel underneath it, and
     leaves the switching to a script the renderer does not ship — so both
     panels are on the page at once and neither button does anything. This is
-    the same content handed to `sds-tabs`, which lifts the items, draws the
-    bar and wires the arrow keys.
+    the same content handed to `sds-tabs`, which draws the bar and wires the
+    arrow keys.
 
-    Without JavaScript the panels stack, which is what the markup says; see
-    `sds-tabs:not(:defined)` in `document.css` for what that looks like.
+    **The labels are a property.** A set of tabs is the one component here that
+    cannot be told what it holds by the markup around it — the labels sit on
+    the items inside it, and an element rendered before the browser has no
+    items to read them off. So they are said once, on the set, the way every
+    other option in this theme is said. The panels are still written between
+    the tags, because a panel is a section of the document and there is no
+    attribute that holds one.
 #}
-<sds-tabs>
+{%- set labels = [] -%}
+{%- for tab in node.tabs -%}
+    {%- set labels = labels|merge([renderNode(tab.content)|striptags|trim]) -%}
+{%- endfor -%}
+<sds-tabs items="{{ labels|json_encode }}">
     {%- for tab in node.tabs %}
-        <sds-tab-item label="{{ renderNode(tab.content)|striptags|trim }}">
+        <sds-tab-item label="{{ labels[loop.index0] }}">
             {{- renderNode(tab.value) -}}
         </sds-tab-item>
     {%- endfor %}

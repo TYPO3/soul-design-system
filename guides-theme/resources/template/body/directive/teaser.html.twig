@@ -1,87 +1,48 @@
 {#
-    One card, and the title in it is the link.
+    One card, and the element draws all of it.
 
-    A card wrapped in one anchor announces its whole contents as that link's
-    name, and takes selecting the text inside it away from the reader. So what
-    is pressable is the line that says where pressing it goes, and the card
-    follows on hover — which is what makes the whole thing feel like the target
-    it deliberately is not. Where there is nowhere to go, the title is a title.
+    **Every option is a property.** The directive says what the entry is — the
+    title, where it goes, the kind, the date, the picture — and each of those
+    lands on `sds-teaser` as an attribute. Nothing here says what a card looks
+    like: not the frame, not the row above the title, not what a title is
+    wrapped in. That is the whole point of there being a component. This
+    template used to spell `.sds-teaser__body` and `.sds-teaser__title` because
+    the element read its own parts back to find them, which made every internal
+    name public API and left the element framing markup this file had already
+    built — a card that could not be changed on one side without the other.
 
-    **The element, not a hand-built card.** `sds-teaser` is the front door and
-    a `div` with its classes on it is the fallback, which is the rule for every
-    other node this theme writes — and it is what makes the card the element's
-    to change: the frame around it is drawn once, in one file, and a page the
-    renderer produced cannot drift from a page a product wrote.
+    What paid for that arrangement was the reader with no JavaScript, and it is
+    not needed any more: `make guides` renders every element in the output ahead
+    of the browser — `scripts/lib/prerender.ts` — so a property reaches a page
+    that runs no script at all.
 
-    The parts are still written here, between the tags, and the element keeps
-    them. That is the theme's other rule — the server writes, the element
-    upgrades — and a card is where it bites hardest: a title, a picture and a
-    summary that waited for a script would leave a reader with none looking at
-    an empty box in a grid of them. What arrives through an attribute is what
-    an attribute can carry, and a card is made of none of it: the title may
-    have resolved to a link, the summary is paragraphs.
+    The summary is the one thing still written between the tags, because it is
+    the one thing an attribute cannot hold: out of a document a summary is
+    paragraphs, and sometimes a list.
 
-    So the parts carry the classes the element itself emits for them — the
-    markers it reads its own card back by, and the same ones `sds-figure` and
-    `sds-code` use. Node for node is the whole card and not the half of it a
-    landing page happened to need first.
-
-    **The badge is written as its class rather than as `sds-badge`.** That
-    element renders its span from a property, so one written here would be an
-    empty row until a script ran, and empty for good on a page that runs none.
-    It costs nothing: the badge and the label have no behaviour, so the class
-    layer is the whole of them.
+    The title is the link and the card is not. A card wrapped in one anchor
+    announces its whole contents as that link's name, and takes selecting the
+    text inside it away from the reader — so what is pressable is the line that
+    says where pressing it goes, and the card follows on hover. Where there is
+    nowhere to go, the element leaves the title a title.
 #}
 {#- The picture goes by the name every other directive that takes a file uses:
     what an option is called belongs to the language it is written in, and
-    `.. figure::` and `.. image::` already gave the file that name. -#}
+    `.. figure::` and `.. image::` already gave the file that name.
+
+    Resolved here and not in the element: what a path means is the renderer's
+    business — which document it was written in, and whether it points out of
+    the site — and the element is handed the URL that came of it. -#}
 {%- set src = node.option('src') -%}
-{%- set alt = node.option('alt')|default('') -%}
-<sds-teaser>
-    {%- if src %}
-        {#- The picture, referenced or linked by what it is — see
-            `body/figure.html.twig`, which decides it the same way and says
-            why: a drawing referenced into the page takes the page's tokens
-            and follows it into dark, an `<img>` renders in a document of its
-            own where none are declared. A file somewhere else is linked
-            whatever it is, because a reference reads the file itself and a
-            browser will not do that across origins. -#}
-        {%- set external = src is external_target -%}
-        {%- set source = external ? src : asset(src) -%}
-        <div class="sds-teaser__image">
-            {%- if not external and src ends with '.svg' -%}
-                {#- Named where there is something to say, and hidden where
-                    there is not: an unlabelled picture and a decorative one
-                    are read out very differently, and a card whose art
-                    repeats the title beside it is the second. -#}
-                <svg class="sds-art"{% if alt %} role="img" aria-label="{{ alt }}"{% else %} aria-hidden="true"{% endif %}><use href="{{ source }}#art"></use></svg>
-            {%- else -%}
-                <img class="sds-art" src="{{ source }}" alt="{{ alt }}">
-            {%- endif -%}
-        </div>
-    {%- endif %}
-    <div class="sds-teaser__body">
-        {#- The row is dropped rather than left empty: a card whose first line
-            is blank is a card with a hole where a set of them lines up. -#}
-        {%- if node.option('tag') or node.option('meta') %}
-            <div class="sds-row">
-                {%- if node.option('tag') %}<span class="sds-badge">{{ node.option('tag') }}</span>{% endif -%}
-                {%- if node.option('meta') %} <span class="sds-label">{{ node.option('meta') }}</span>{% endif -%}
-            </div>
-        {%- endif %}
-        {%- if node.option('title') %}
-            <h3 class="sds-teaser__title">
-                {%- if node.option('href') -%}
-                    <a href="{{ renderLink(node.option('href')) }}">{{ node.option('title') }}</a>
-                {%- else -%}
-                    {{ node.option('title') }}
-                {%- endif -%}
-            </h3>
-        {%- endif %}
-        <div class="sds-teaser__text">
-            {%- for child in node.children -%}
-                {{ renderNode(child) }}
-            {%- endfor -%}
-        </div>
-    </div>
+{%- set source = src ? (src is external_target ? src : asset(src)) : '' -%}
+<sds-teaser
+    heading="{{ node.option('title') }}"
+    {%- if node.option('href') %} href="{{ renderLink(node.option('href')) }}"{% endif %}
+    {%- if node.option('tag') %} tag="{{ node.option('tag') }}"{% endif %}
+    {%- if node.option('meta') %} meta="{{ node.option('meta') }}"{% endif %}
+    {%- if source %} src="{{ source }}" alt="{{ node.option('alt')|default('') }}"{% endif %}
+>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
 </sds-teaser>

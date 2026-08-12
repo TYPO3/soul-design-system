@@ -117,6 +117,74 @@ function tidyTags(html: string): string {
   return out;
 }
 
+/* Where a declarative shadow root opens. */
+const SSR_SHADOW = /<template shadowroot[^>]*>/;
+/* And any template at all, which is what has to be counted to find where that
+   one closes: a rendering can hold templates of its own — the content an
+   element was handed, kept for the browser — and a match on the first
+   `</template>` would cut the shadow root off at somebody else's closing tag. */
+const ANY_TEMPLATE = /<template\b[^>]*>|<\/template>/g;
+
+/** Replace every declarative shadow root with what is inside it. */
+function unwrapShadows(html: string): string {
+  let out = html;
+  for (let open = SSR_SHADOW.exec(out); open; open = SSR_SHADOW.exec(out)) {
+    const from = open.index + open[0].length;
+    ANY_TEMPLATE.lastIndex = from;
+    let depth = 1;
+    let close = -1;
+    for (let m = ANY_TEMPLATE.exec(out); m; m = ANY_TEMPLATE.exec(out)) {
+      depth += m[0] === '</template>' ? -1 : 1;
+      if (depth === 0) {
+        close = m.index;
+        break;
+      }
+    }
+    if (close < 0) {
+      throw new Error('a declarative shadow root was never closed — check src/lib/render.ts against the installed @lit-labs/ssr');
+    }
+    out = out.slice(0, open.index) + out.slice(from, close) + out.slice(close + '</template>'.length);
+  }
+  return out;
+}
+
+/**
+ * Render a template to markup that still holds this system's elements.
+ *
+ * The other function here exports a card: every element is flattened away,
+ * because the Design System pane opens those files with no JavaScript at all
+ * and an unupgraded tag would be an empty box. A page is the opposite case —
+ * it *does* load the bundle, and the tags have to survive so they upgrade and
+ * behave. What it needs from Node is only that the markup is already there for
+ * the frame before that happens, and for a reader who runs no script.
+ *
+ * So this keeps every tag and unwraps only what `@lit-labs/ssr` puts around an
+ * element's own rendering. These are light-DOM components: the declarative
+ * shadow root is an artefact of how SSR renders, not of how they behave, and
+ * taking it off is what makes the two agree.
+ */
+export function renderUpgradable(template: TemplateResult): string {
+  let html = unwrapShadows(collectResultSync(render(template)));
+  /* `defer-hydration` is what SSR marks an element with so a hydrating client
+     knows not to upgrade it yet. Nothing here hydrates — these are light-DOM
+     components that re-render over their own output — so it would only be an
+     attribute on every element in the site that no reader and no script ever
+     looks at. */
+  html = html.replace(/ defer-hydration/g, '').replace(LIT_MARKER, '').replace(LIT_CHILD_MARKER, '');
+  if (html.includes('<!--lit') || html.includes('<!--/lit')) {
+    throw new Error('lit hydration markers survived the strip — check src/lib/render.ts against the installed @lit-labs/ssr');
+  }
+  /* The glyphs are inlined and the drawings are not, and the difference is
+     where each one's file is. A drawing is referenced by the URL the page
+     itself gave — `/_images/…`, which is a path in the site and resolves in
+     the browser exactly as written. A sprite is resolved against the module
+     that asked for it, and in Node that is a path on the build machine: it is
+     right for the element once it has upgraded and names nothing at all in the
+     markup written here. Inlining is what makes this rendering stand on its
+     own, which is the whole reason it exists. */
+  return tidyTags(inlineIconRefs(html));
+}
+
 export function renderStatic(template: TemplateResult): string {
   /* Order matters: unwrap the elements first, because the markers Lit leaves
      inside a shadow root have to go too. */

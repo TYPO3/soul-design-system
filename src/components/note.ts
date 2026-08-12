@@ -116,7 +116,7 @@ export class SdsNote extends SdsElement {
   <span class="sds-note__icon"><sds-icon name="${this.icon ?? SdsNote.TONE_ICON[this.tone]}" label="${said}"></sds-icon></span>
   <div class="sds-note__content">
     ${this.heading ? html`<div class="sds-note__title">${this.heading}</div>` : nothing}
-    <div class="sds-note__body">${this.taken ?? this.body}</div>
+    <div class="sds-note__body">${this.taken ?? this.content ?? this.body}</div>
   </div>
 </div>`;
   }

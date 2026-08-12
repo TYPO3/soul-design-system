@@ -287,6 +287,11 @@ export class SdsCode extends SdsElement {
      both — along with every language a server-side highlighter knows and the
      thirteen registered here do not. */
   private get given(): boolean {
+    /* Markup handed over as a property is by definition already spelt: it is
+       what a renderer wrote, arriving where there are no children to read it
+       out of — see `SdsElement`. There is nothing in it to inspect and nothing
+       to decide, so it is kept the way written nodes are kept. */
+    if (this.content) return true;
     /* `nodeType` rather than `instanceof Element`: this getter is reached in
        Node when a page renders statically, where the constructor it would be
        compared against does not exist. */
@@ -323,7 +328,7 @@ export class SdsCode extends SdsElement {
     /* `taken` where there was content, the source text where there was not —
        what is highlighted is `text`, which is already whichever of the two
        this block was given. */
-    const written = this.taken ?? this.text;
+    const written = this.taken ?? this.content ?? this.text;
     if (this.given) return html`${written}`;
     if (!this.lang) return html`<code>${written}</code>`;
     const coloured = highlight(this.lang, this.text);
@@ -356,7 +361,7 @@ export class SdsCode extends SdsElement {
 
     return html`${caption}<div class="sds-code">
   ${head}
-  <pre class="sds-code__body">${this.taken || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
+  <pre class="sds-code__body">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
 </div>`;
   }
 }

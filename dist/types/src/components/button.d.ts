@@ -66,6 +66,11 @@ export declare class SdsButton extends SdsElement {
             type: StringConstructor;
             reflect: boolean;
         };
+        iconOnly: {
+            type: BooleanConstructor;
+            attribute: string;
+            reflect: boolean;
+        };
     };
     variant: ButtonVariant;
     size: ButtonSize;
@@ -78,6 +83,15 @@ export declare class SdsButton extends SdsElement {
         button pointed at a viewer, a dialog or a drawer is almost always the one
         that opens it. */
     command: string;
+    /** That the label is one glyph and the button is the square.
+  
+        Inferred from the label where the label can be read, which is most of the
+        time and is why it was only ever inferred. It cannot be read when the
+        label arrives as markup rather than as nodes — a page rendered before the
+        browser, see `SdsElement` — and a button that loses its shape there is a
+        round control gone rectangular in a bar. So it is also something a caller
+        can simply say. */
+    iconOnly: boolean;
     private taken;
     constructor();
     connectedCallback(): void;
