@@ -291,6 +291,8 @@ Which template does which
      - the mark that matches the note it points at
    * - ``body/directive/{band,grid,teaser}``
      - the landing page — see :doc:`directives`
+   * - ``body/directive/{card-grid,card}``
+     - the cards a manual is signposted with — see :doc:`directives`
 
 Anything not in that list is the renderer's own template, rendering the
 renderer's own markup, and it lands on the document layer.

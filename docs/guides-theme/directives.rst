@@ -4,14 +4,15 @@
 Directives
 ==========
 
-Four directives and one document field, which is everything this theme adds to
-what an author can write. They are registered by the extension, so a project
-that selected the theme can use them immediately — there is nothing to add to
-``guides.xml`` and no template to copy.
+The directives this theme adds to what an author can write, and one document
+field. They are registered by the extension, so a project that selected the
+theme can use them immediately — there is nothing to add to ``guides.xml`` and
+no template to copy.
 
-Three of them build a landing page: a page of a different shape than a manual
-page, and the renderer has no vocabulary for it. The fourth embeds a rendered
-specimen at the size it was measured at.
+Some of them build a landing page: a page of a different shape than a manual
+page, and the renderer has no vocabulary for it. ``card-grid`` and ``card``
+signpost a manual, and are spelled the way a TYPO3 manual already spells them.
+The last embeds a rendered specimen at the size it was measured at.
 
 .. contents::
    :local:
@@ -230,6 +231,164 @@ site is rendered before the page is published, so the picture, the row, the
 title and the summary are in the document with no script involved; in a browser
 the element upgrades over that rendering. This is the theme-wide arrangement,
 not the teaser's own — see :doc:`markup`.
+
+card-grid
+=========
+
+The cards a manual is signposted with, in the spelling a TYPO3 manual already
+uses — so a documentation set written for the Bootstrap theme renders here
+without being rewritten.
+
+.. code-block:: text
+
+   .. card-grid::
+      :columns: 1
+      :columns-md: 2
+
+      .. card:: :ref:`Introduction <introduction>`
+
+         Written for somebody who has just arrived.
+
+.. confval:: columns
+   :type: integer
+
+   How many cards a row was written for. Read together with ``columns-sm``,
+   ``columns-md`` and ``columns-lg`` as a single question — how much room does
+   a card in here need — and answered with a minimum width instead of a track
+   count, so the grid goes on reflowing and no page names a breakpoint.
+
+   Two or fewer is the wide grid, five or more the dense one, and everything
+   between is the grid every other set of cards on the site uses. The largest
+   of the counts decides, the smaller ones being the same page at a narrower
+   width, which the grid already answers on its own.
+
+.. confval:: gap
+   :type: integer
+
+   Accepted and dropped. The space between cards is the system's spacing
+   scale, and a page that set it would be a page holding an opinion the next
+   release of the design system has to honour.
+
+.. confval:: card-height
+   :type: integer
+
+   Accepted and dropped: the cards in a row are already the same height, which
+   is what a grid row does.
+
+.. confval:: class
+   :name: card-grid-class
+   :type: string
+
+   Carried onto the grid as it stands. An author who wrote it meant it for
+   their own stylesheet, and silently dropping what a theme does not
+   understand is the one thing it must not do.
+
+That source, on this page — two across, and the second card carrying
+everything a card can:
+
+.. card-grid::
+   :columns: 1
+   :columns-md: 2
+
+   .. card:: :doc:`installation`
+
+      One Composer package, one copy step, and a document called ``index`` at
+      the root.
+
+   .. card:: :doc:`publishing`
+      :label: Chapter
+      :icon: actions-book
+      :footer: Three commands
+      :action: Read it
+
+      The job a project runs, command for command, and what each of them
+      leaves behind.
+
+card
+====
+
+One card: a title that goes somewhere, and what is behind it.
+
+.. code-block:: text
+
+   .. card:: :ref:`Installation <installation>`
+      :label: Chapter
+      :icon: actions-book
+      :footer: Three commands
+      :action: Read it
+
+      What the package needs, and the three commands that render a project
+      with it.
+
+.. confval:: href
+   :name: card-href
+   :type: string
+
+   A document, written the way a ``:doc:`` reference is, and resolved per
+   page. It is the same thing the title's own reference says, for a card whose
+   title is plain text — and where both are written, this one wins.
+
+.. confval:: label
+   :type: string
+
+   The tracked-out line over the title, for a set of cards that is named or
+   numbered as a set: ``CHAPTER 02``, ``FOR EDITORS``.
+
+.. confval:: icon
+   :type: string
+
+   A glyph above the label, for a set told apart before it is read. The name
+   is an icon of this system — see :doc:`/guidelines/icons`.
+
+.. confval:: src
+   :name: card-src
+   :type: string
+
+   The picture, flush at the top of the card. Resolved exactly as a teaser's
+   is, and named ``src`` for the same reason.
+
+.. confval:: alt
+   :name: card-alt
+   :type: string
+
+   What the picture shows. Written and empty says decorative; left out says
+   nothing was decided.
+
+.. confval:: footer
+   :type: string
+
+   One line under a hairline at the foot of the card: what the reader gets
+   there, who it is for, what state it is in.
+
+.. confval:: action
+   :type: string
+
+   The call to action, in words — ``Read it``. It is not a button and not a
+   second link: the whole card already goes there, so this is the line that
+   says so, and the arrow after it leans out when the card is under the
+   pointer. Drawn only where the card has somewhere to go.
+
+.. confval:: class
+   :name: card-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**The title carries the target.** ``.. card:: :ref:`Introduction
+<introduction>``` is how a TYPO3 manual writes a card, so the words of the
+reference become the heading and the reference itself becomes where the card
+goes. A plain title with ``:href:`` says the same thing the other way round.
+
+**The whole card is the link, and there is exactly one.** The title's anchor
+is stretched over the frame, so what a screen reader announces is the title
+while what a pointer can hit is the card — and a second anchor inside it would
+be a second destination under one frame, which is why there is no option for a
+button. A link written into the prose of a card still works, and is a card
+asking to be two cards.
+
+The node is ``sds-card`` itself, the options are its properties and the
+template writes none of its markup — the same arrangement, and the same
+reasons, as the teaser above.
 
 specimen
 ========

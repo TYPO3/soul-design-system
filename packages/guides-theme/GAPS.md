@@ -143,11 +143,12 @@ Nicht Styling, sondern was das Paket können muss.
 - **Ein Sprunglink auf `#main-content` fehlt.** Das Layout setzt die Spalte,
   aber nichts springt an ihren Anfang, und mit Rail und Leiste davor ist das
   eine lange Reise.
-- **Karten und Akkordeon.** `card`, `card-grid`, `card-group`, `accordion` sind
-  Theme-Direktiven, keine Kern-Knoten — in TYPO3-Dokumentation aber verbreitet.
-  Wer sie will, schreibt Node- und Directive-Klassen. `.sds-card` deckt den
-  Rahmen ab, nicht Kopf/Fuß/Bild/Raster. `band`, `grid` und `teaser` sind der
-  Beleg, dass es geht, und zugleich der Umfang pro Stück.
+- **`card-group` und `accordion`.** Theme-Direktiven, keine Kern-Knoten — in
+  TYPO3-Dokumentation aber verbreitet. `card` und `card-grid` gibt es jetzt:
+  `sds-card` zeichnet Bild, Kopf, Körper und Fuß, das Raster kommt in drei
+  Breiten, und die Spaltenangaben der Bootstrap-Schreibweise werden als Frage
+  nach dem Platz gelesen statt als Spuren gezählt. Wer die beiden übrigen will,
+  schreibt Node- und Directive-Klassen nach demselben Muster.
 - **`:target`.** Anker sind überall (confval, Glossar, Fußnoten, Karten). Was
   die angesprungene Stelle anzeigt, ist nicht entschieden.
 - **Druck.** Kein Druck-Stylesheet.
