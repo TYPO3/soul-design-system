@@ -15,14 +15,14 @@ import { addons } from 'storybook/preview-api';
 import { VIEWPORTS } from './viewports.ts';
 
 /* One import: the entry registers every element and installs the host rule.
-   Listing them here was a second list to keep in step with `src/index.ts`,
+   Listing them here was a second list to keep in step with the package's `src/index.ts`,
    and it fell out of step the moment navigation was split into three. */
 import '../packages/frontend/src/index.ts';
 import { setIconSprite } from '../packages/frontend/src/components/icon.ts';
 
 /* The icons reference a sprite embedded once per document, and by default it
    is resolved beside the module — right for the drop-in, wrong here, where
-   Vite serves the module from `src/` and the assets from `/assets`. */
+   Vite serves the module from the package and the assets from `/assets`. */
 setIconSprite('/assets/icons/sprites/actions.svg');
 
 

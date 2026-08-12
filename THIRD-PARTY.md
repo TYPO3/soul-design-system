@@ -43,7 +43,7 @@ identifier is not in the package, rather than falling back to anything.
 ## Fonts — `packages/frontend/fonts/`
 
 **SIL Open Font License 1.1.** The licence text ships beside the files as
-`fonts/LICENSE-SourceSans3.txt` and `fonts/LICENSE-SourceCodePro.txt`.
+`packages/frontend/fonts/LICENSE-SourceSans3.txt` and its Source Code Pro twin.
 
 | Family | Package |
 | --- | --- |
@@ -52,7 +52,7 @@ identifier is not in the package, rather than falling back to anything.
 
 `packages/frontend/fonts/` is **generated**, not committed: `scripts/fonts.ts` copies the
 weights and subsets this system declares (latin and latin-ext, woff2 only)
-out of the installed packages and writes `fonts/fonts.css`. It runs from
+out of the installed packages and writes `packages/frontend/fonts/fonts.css`. It runs from
 the container entrypoint, so any container starts with a working tree.
 Change the face list in the
 script, not the output.

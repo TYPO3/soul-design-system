@@ -1,7 +1,7 @@
 #!/bin/sh
 # Make the tree complete before anything runs.
 #
-# `fonts/` and `assets/icons/` are generated from npm packages and are not in
+# `assets/icons/` is generated from an npm package and is not in
 # git. The image builds them, but the compose file bind-mounts the project
 # over /app so an edit on the host is visible inside — and that mount hides
 # whatever the image put there. A host that has never run these generators

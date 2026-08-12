@@ -122,7 +122,7 @@ start:
 	printf '    %-10s http://localhost:%-6s  %s\n' \
 		site "$$site" 'the rendered documentation, as it will be served' && \
 	printf '    %-10s %-29s  %s\n' \
-		dist '(watching src/ and assets/)' 'rebuilds the drop-in on every edit' && \
+		dist '(watching the frontend package)' 'rebuilds the drop-in on every edit' && \
 	printf '    %-10s %-29s  %s\n' \
 		app '(idle)' 'every make task runs in here' && \
 	if grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null; then \
@@ -147,5 +147,5 @@ shell:
 
 clean:
 	@$(COMPOSE) down -v --remove-orphans
-	@rm -rf ds-bundle dist storybook-static test-results playwright-report
+	@rm -rf ds-bundle packages/frontend/dist storybook-static test-results playwright-report .split
 	@echo 'removed containers, volumes and build output'

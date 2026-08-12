@@ -13,7 +13,7 @@ class, a token or a tag had to move.
 the whole contract, and it needs no JavaScript:
 
 ```html
-<link rel="stylesheet" href="src/styles/styles.css">
+<link rel="stylesheet" href="soul.css">
 <body class="sds-app">
   <button class="sds-btn sds-btn--primary">Run the checks</button>
 </body>
