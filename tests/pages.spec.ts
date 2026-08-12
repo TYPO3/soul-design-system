@@ -9,10 +9,12 @@
    So the pages are measured, at the widths a laptop, a tablet and a phone
    actually are, and the guarantee is flat: a page never overflows. */
 
-import { test, expect } from '@playwright/test';
-import { gotoStory } from './lib/story.ts';
+import { test, expect, type Page } from '@playwright/test';
+import { gotoStory, resizeStory } from './lib/story.ts';
 
 const WIDTHS = [1440, 1280, 1024, 900, 860, 768, 640, 480, 375, 320];
+const OVERLAP_WIDTHS = new Set([1440, 1024, 860, 640, 375]);
+const PAGE_SHARDS = 6;
 
 interface StoryEntry {
   id: string;
@@ -26,105 +28,98 @@ async function pageStories(request: import('@playwright/test').APIRequestContext
   return Object.values(index.entries).filter((e) => e.type === 'story' && e.title.startsWith('Pages/'));
 }
 
-test('every page fits the screen at every width', async ({ page, request }) => {
-  const pages = await pageStories(request);
-  expect(pages.length, 'there should be page layouts to measure').toBeGreaterThan(1);
-
-  /* One test opens every page at every width, so its budget is what that
-     costs — not a number somebody raises by hand each time a page arrives with
-     three states. The default 30s was that number, and it ran out. */
-  test.setTimeout(Math.max(30_000, pages.length * WIDTHS.length * 700));
-
-  for (const story of pages) {
-    for (const width of WIDTHS) {
-      await page.setViewportSize({ width, height: 900 });
-      await gotoStory(page, story.id);
-
-      const over = await page.evaluate(() => {
-        const d = document.documentElement;
-        if (d.scrollWidth <= d.clientWidth + 1) return null;
-        /* Which box is doing it, because "the page is 17px too wide" is not
-           something you can act on. */
-        const widest = [...document.body.querySelectorAll('*')]
-          .map((el) => ({ el, r: el.getBoundingClientRect() }))
-          .filter(({ r }) => r.width > 0 && r.right > d.clientWidth + 1)
-          .sort((a, b) => b.r.right - a.r.right)[0];
-        const e = widest?.el as HTMLElement | undefined;
-        return {
-          scroll: d.scrollWidth,
-          client: d.clientWidth,
-          worst: e ? `${e.tagName.toLowerCase()}.${String(e.className).trim().split(/\s+/).join('.')}` : 'unknown',
-        };
-      });
-
-      expect(over, `${story.title} at ${width}px: ${JSON.stringify(over)}`).toBeNull();
-    }
-  }
-});
+async function pageOverflow(page: Page): Promise<{ scroll: number; client: number; worst: string } | null> {
+  return page.evaluate(() => {
+    const d = document.documentElement;
+    if (d.scrollWidth <= d.clientWidth + 1) return null;
+    /* Name the responsible box because an overflow width alone is not actionable. */
+    const widest = [...document.body.querySelectorAll('*')]
+      .map((el) => ({ el, r: el.getBoundingClientRect() }))
+      .filter(({ r }) => r.width > 0 && r.right > d.clientWidth + 1)
+      .sort((a, b) => b.r.right - a.r.right)[0];
+    const e = widest?.el as HTMLElement | undefined;
+    return {
+      scroll: d.scrollWidth,
+      client: d.clientWidth,
+      worst: e ? `${e.tagName.toLowerCase()}.${String(e.className).trim().split(/\s+/).join('.')}` : 'unknown',
+    };
+  });
+}
 
 /* Nothing on a page may be painted over anything else. Only boxes holding their
    own line are compared: an inline `<span>` in a wrapping paragraph has a rect
    as wide as the paragraph and overlaps every line above it, which is how text
    works. Anything out of flow is left out — an overlay is over the page on
    purpose. */
-test('nothing on a page covers anything else', async ({ page, request }) => {
-  const pages = await pageStories(request);
-  const WIDTHS_HERE = [1440, 1024, 860, 640, 375];
+async function pageOverlaps(page: Page): Promise<string[]> {
+  return page.evaluate(() => {
+    const inFlow = (el: Element): boolean => {
+      for (let node: Element | null = el; node && node !== document.body; node = node.parentElement) {
+        const position = getComputedStyle(node).position;
+        if (position === 'absolute' || position === 'fixed') return false;
+      }
+      return true;
+    };
 
-  /* Sized like the sweep above, and for the same reason: this opens every page
-     at five widths and compares every pair of boxes on it, so what it costs is
-     a function of how many pages exist. */
-  test.setTimeout(Math.max(30_000, pages.length * WIDTHS_HERE.length * 700));
+    const blocks = [...document.body.querySelectorAll<HTMLElement>('*')].filter((el) => {
+      if (!el.textContent?.trim()) return false;
+      if (!el.checkVisibility({ contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true })) return false;
+      if (!/^(block|flex|grid|list-item|table)/.test(getComputedStyle(el).display)) return false;
+      if (!inFlow(el)) return false;
+      /* Leaves only: a section and the heading inside it share their box
+         by definition, and `contains` already covers that pair — this
+         keeps the comparison to what actually paints. */
+      return ![...el.children].some((child) => child.textContent?.trim());
+    });
 
-  for (const story of pages) {
-    for (const width of WIDTHS_HERE) {
-      await page.setViewportSize({ width, height: 900 });
+    const named = (el: Element): string =>
+      `${el.tagName.toLowerCase()}.${String(el.className).trim().split(/\s+/).join('.')}` +
+      `"${(el.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 30)}"`;
+
+    const out: string[] = [];
+    for (let i = 0; i < blocks.length; i++) {
+      for (let j = i + 1; j < blocks.length; j++) {
+        const a = blocks[i] as HTMLElement;
+        const b = blocks[j] as HTMLElement;
+        if (a.contains(b) || b.contains(a)) continue;
+        const ra = a.getBoundingClientRect();
+        const rb = b.getBoundingClientRect();
+        const x = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
+        const y = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
+        if (x > 2 && y > 2) out.push(`${named(a)} over ${named(b)}`);
+      }
+    }
+    return out.slice(0, 4);
+  });
+}
+
+for (let shard = 0; shard < PAGE_SHARDS; shard++) {
+  test(`every page fits without overlap, shard ${shard + 1}`, async ({ page, request }) => {
+    const pages = await pageStories(request);
+    expect(pages.length, 'there should be page layouts to measure').toBeGreaterThan(1);
+    const assigned = pages.filter((_, index) => index % PAGE_SHARDS === shard);
+
+    /* A story is loaded once, then resized in place. Fixed shards let each
+       worker share the sweep while the timeout follows the live page index. */
+    test.setTimeout(Math.max(30_000, assigned.length * WIDTHS.length * 700));
+
+    for (const story of assigned) {
+      await page.setViewportSize({ width: WIDTHS[0]!, height: 900 });
       await gotoStory(page, story.id);
 
-      const hits = await page.evaluate(() => {
-        const inFlow = (el: Element): boolean => {
-          for (let node: Element | null = el; node && node !== document.body; node = node.parentElement) {
-            const position = getComputedStyle(node).position;
-            if (position === 'absolute' || position === 'fixed') return false;
-          }
-          return true;
-        };
+      for (const width of WIDTHS) {
+        await resizeStory(page, width);
+        const over = await pageOverflow(page);
+        expect(over, `${story.title} at ${width}px: ${JSON.stringify(over)}`).toBeNull();
 
-        const blocks = [...document.body.querySelectorAll<HTMLElement>('*')].filter((el) => {
-          if (!el.textContent?.trim()) return false;
-          if (!el.checkVisibility({ contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true })) return false;
-          if (!/^(block|flex|grid|list-item|table)/.test(getComputedStyle(el).display)) return false;
-          if (!inFlow(el)) return false;
-          /* Leaves only: a section and the heading inside it share their box
-             by definition, and `contains` already covers that pair — this
-             keeps the comparison to what actually paints. */
-          return ![...el.children].some((child) => child.textContent?.trim());
-        });
-
-        const named = (el: Element): string =>
-          `${el.tagName.toLowerCase()}.${String(el.className).trim().split(/\s+/).join('.')}` +
-          `"${(el.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 30)}"`;
-
-        const out: string[] = [];
-        for (let i = 0; i < blocks.length; i++) {
-          for (let j = i + 1; j < blocks.length; j++) {
-            const a = blocks[i] as HTMLElement;
-            const b = blocks[j] as HTMLElement;
-            if (a.contains(b) || b.contains(a)) continue;
-            const ra = a.getBoundingClientRect();
-            const rb = b.getBoundingClientRect();
-            const x = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
-            const y = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
-            if (x > 2 && y > 2) out.push(`${named(a)} over ${named(b)}`);
-          }
+        if (OVERLAP_WIDTHS.has(width)) {
+          const hits = await pageOverlaps(page);
+          expect(hits, `${story.title} at ${width}px`).toEqual([]);
         }
-        return out.slice(0, 4);
-      });
-
-      expect(hits, `${story.title} at ${width}px`).toEqual([]);
+      }
     }
-  }
-});
+  });
+}
 
 /* The other navigation, behind the same button. Two things run out of room and
    there is one answer for both, so what is asserted is that the second is wired

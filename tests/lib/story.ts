@@ -10,6 +10,40 @@ import type { Page } from '@playwright/test';
 
 export type Theme = 'dark' | 'light';
 
+async function settleElements(page: Page): Promise<void> {
+  /* A resize can make a parent render a nested element, so settle twice. */
+  await page.evaluate(async () => {
+    const settle = async (): Promise<void> => {
+      await Promise.all(
+        [...document.querySelectorAll('*')]
+          .filter((el) => el.tagName.includes('-'))
+          .map(async (el) => {
+            await customElements.whenDefined(el.tagName.toLowerCase());
+            await (el as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete;
+          }),
+      );
+    };
+    await settle();
+    await settle();
+  });
+}
+
+export async function resizeStory(page: Page, width: number, height = 900): Promise<void> {
+  await page.setViewportSize({ width, height });
+  await page.evaluate(
+    () => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))),
+  );
+  await settleElements(page);
+}
+
+export async function setStoryTheme(page: Page, theme: Theme): Promise<void> {
+  await page.evaluate((want) => {
+    document.documentElement.dataset['theme'] = want;
+  }, theme);
+  await page.waitForFunction((want) => document.documentElement.dataset['theme'] === want, theme);
+  await settleElements(page);
+}
+
 export async function gotoStory(page: Page, id: string, theme?: Theme): Promise<void> {
   const url = `/iframe.html?id=${id}&viewMode=story${theme ? `&globals=theme:${theme}` : ''}`;
   await page.goto(url);
@@ -30,20 +64,7 @@ export async function gotoStory(page: Page, id: string, theme?: Theme): Promise<
      element upgrades asynchronously, so a colour read too early is read off
      markup that does not exist yet. Twice, because a nested element only exists
      once its parent has rendered. */
-  await page.evaluate(async () => {
-    const settle = async (): Promise<void> => {
-      await Promise.all(
-        [...document.querySelectorAll('*')]
-          .filter((el) => el.tagName.includes('-'))
-          .map(async (el) => {
-            await customElements.whenDefined(el.tagName.toLowerCase());
-            await (el as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete;
-          }),
-      );
-    };
-    await settle();
-    await settle();
-  });
+  await settleElements(page);
 
   /* Fonts change measured contrast and layout alike, and the specimens set
      in a vendored family that arrives over the network like any other. */

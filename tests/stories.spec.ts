@@ -13,7 +13,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { gotoStory } from './lib/story.ts';
+import { gotoStory, setStoryTheme } from './lib/story.ts';
 
 const STORIES = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'stories');
 
@@ -40,6 +40,7 @@ interface StoryEntry {
 /* Lit's dev build announces itself on every page. It is expected here and
    never in the published bundle, which esbuild builds in production mode. */
 const EXPECTED = [/Lit is in dev mode/];
+const STORY_SHARDS = 6;
 
 async function storyIds(request: import('@playwright/test').APIRequestContext): Promise<StoryEntry[]> {
   const res = await request.get('/index.json');
@@ -108,16 +109,15 @@ test('the index lists every component and specimen group', async ({ request }) =
   }
 });
 
-for (const theme of ['dark', 'light'] as const) {
-  test(`every story renders cleanly in ${theme}`, async ({ page, request }) => {
+for (let shard = 0; shard < STORY_SHARDS; shard++) {
+  test(`every story renders cleanly in both themes, shard ${shard + 1}`, async ({ page, request }) => {
     const stories = await storyIds(request);
     expect(stories.length, 'there should be stories to check').toBeGreaterThan(20);
+    const assigned = stories.filter((_, index) => index % STORY_SHARDS === shard);
 
-    /* One test opens every story in the index, so its budget is a function of
-       how many there are — not a number that has to be raised by hand every
-       time a component arrives with four stories behind it. The default 30s
-       was that number, and it ran out as a page layout was being added. */
-    test.setTimeout(Math.max(30_000, stories.length * 1_200));
+    /* Both themes are one CSS declaration and the toolbar changes only
+       `data-theme`, so a story need not be downloaded twice to exercise both. */
+    test.setTimeout(Math.max(30_000, assigned.length * 1_500));
 
     const problems: string[] = [];
     page.on('pageerror', (e) => problems.push(`${String(e).slice(0, 200)}`));
@@ -128,16 +128,21 @@ for (const theme of ['dark', 'light'] as const) {
       problems.push(`[${m.type()}] ${text.slice(0, 200)}`);
     });
 
-    for (const story of stories) {
+    for (const story of assigned) {
       problems.length = 0;
-      await gotoStory(page, story.id, theme);
+      await gotoStory(page, story.id, 'dark');
 
       /* An empty root is a story that "rendered" nothing. Storybook reports
          no error for it, and it looks like a deliberate blank specimen. */
       const filled = await page.locator('#storybook-root').innerHTML();
-      expect(filled.trim(), `${story.title} / ${story.name} rendered nothing`).not.toBe('');
+      expect(filled.trim(), `${story.title} / ${story.name} rendered nothing in dark`).not.toBe('');
+      expect(problems, `${story.title} / ${story.name} in dark`).toEqual([]);
 
-      expect(problems, `${story.title} / ${story.name}`).toEqual([]);
+      problems.length = 0;
+      await setStoryTheme(page, 'light');
+      const lightFilled = await page.locator('#storybook-root').innerHTML();
+      expect(lightFilled.trim(), `${story.title} / ${story.name} rendered nothing in light`).not.toBe('');
+      expect(problems, `${story.title} / ${story.name} in light`).toEqual([]);
     }
   });
 }
@@ -145,43 +150,47 @@ for (const theme of ['dark', 'light'] as const) {
 /* The specimen stories are the ones the cards are generated from, so a
    difference between what Storybook shows and what the card ships would be a
    difference the pixel diff cannot see — it never opens Storybook. */
-test('every specimen story renders the classes the system defines', async ({ page, request }) => {
+test('every card generator has a specimen story', async ({ request }) => {
   const specimens = (await storyIds(request)).filter((s) => s.name === 'Specimen');
   /* Counted against the story files that generate a card rather than a number
      written here. A file opts in by exporting `specimenHtml`, and the story a
      card is a picture of is the one named Specimen, so the two sets are the
      same by construction. */
   expect(specimens.length, 'each story that generates a card should have a Specimen story').toBe(generators());
-
-  for (const story of specimens) {
-    await gotoStory(page, story.id);
-
-    /* Built from the system rather than from values somebody typed: its
-       classes, or — for a card whose subject is a token — the tokens
-       themselves. A swatch of `--accent` is a box painted from a custom
-       property, and there is no class for "this colour". Both halves rule out
-       the same thing: a specimen that hard-codes what it is a picture of. */
-    const built = await page.evaluate(() => {
-      const root = document.querySelector('#storybook-root');
-      const classes = [...(root?.querySelectorAll('[class]') ?? [])]
-        .flatMap((el) => [...el.classList])
-        .filter((c) => c.startsWith('sds-'));
-      return { classes: new Set(classes).size, tokens: (root?.innerHTML ?? '').includes('var(--') };
-    });
-    expect(
-      built.classes > 0 || built.tokens,
-      `${story.title} should be drawn from the system — its classes, or its tokens`,
-    ).toBe(true);
-
-    /* No custom element may survive into a specimen: the cards generated
-       from these stories are opened without any JavaScript, so an element
-       here would be an empty box there. */
-    const elements = await page.evaluate(() =>
-      [...document.querySelectorAll('#storybook-root *')].map((el) => el.tagName.toLowerCase()).filter((t) => t.startsWith('sds-')),
-    );
-    expect(elements, `${story.title} specimen must be static markup`).toEqual([]);
-  }
 });
+
+for (let shard = 0; shard < STORY_SHARDS; shard++) {
+  test(`every specimen story renders the system, shard ${shard + 1}`, async ({ page, request }) => {
+    const specimens = (await storyIds(request))
+      .filter((story) => story.name === 'Specimen')
+      .filter((_, index) => index % STORY_SHARDS === shard);
+
+    for (const story of specimens) {
+      await gotoStory(page, story.id);
+
+      /* The subject is drawn from system classes or tokens, not literal values. */
+      const built = await page.evaluate(() => {
+        const root = document.querySelector('#storybook-root');
+        const classes = [...(root?.querySelectorAll('[class]') ?? [])]
+          .flatMap((el) => [...el.classList])
+          .filter((c) => c.startsWith('sds-'));
+        return { classes: new Set(classes).size, tokens: (root?.innerHTML ?? '').includes('var(--') };
+      });
+      expect(
+        built.classes > 0 || built.tokens,
+        `${story.title} should be drawn from the system — its classes, or its tokens`,
+      ).toBe(true);
+
+      /* Cards open without JavaScript, so no custom element may survive. */
+      const elements = await page.evaluate(() =>
+        [...document.querySelectorAll('#storybook-root *')]
+          .map((el) => el.tagName.toLowerCase())
+          .filter((tag) => tag.startsWith('sds-')),
+      );
+      expect(elements, `${story.title} specimen must be static markup`).toEqual([]);
+    }
+  });
+}
 
 test('the docs preview sits on the themed canvas', async ({ page }) => {
   const CANVAS = { dark: 'rgb(19, 18, 16)', light: 'rgb(251, 250, 247)' };
