@@ -183,6 +183,19 @@ test('the header navigation collapses rather than disappearing', async ({ page }
   await expect(toggle).toBeFocused();
 });
 
+test('the landing story opens with the composed hero', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await gotoStory(page, 'pages-landing--page');
+
+  const hero = page.locator('#overview > .sds-split');
+  const columns = hero.locator(':scope > .sds-stack');
+  await expect(columns).toHaveCount(2);
+  const widths = await columns.evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().width));
+  expect(Math.abs(widths[0]! - widths[1]!)).toBeLessThan(2);
+  await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('src', /design-system-workbench\.png$/);
+  await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('alt', '');
+});
+
 /* A filter that matches nothing — the state a list page skips, because the
    fixture it was built with always had rows. What has to hold is that the list
    is replaced by an answer naming how much was read, and that the offer inside

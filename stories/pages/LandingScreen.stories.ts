@@ -19,46 +19,16 @@ import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/code.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/table.ts';
-import '../../packages/frontend/src/components/tabs.ts';
-import '../../packages/frontend/src/components/tab-item.ts';
 import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/figure.ts';
 import '../../packages/frontend/src/components/image.ts';
 import '../../packages/frontend/src/components/theme.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
-import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';
-
-/** The three ways in, as the head of the page offers them. */
-const WAYS: readonly { label: string; body: readonly CodeLine[] }[] = [
-  {
-    label: 'composer',
-    body: [
-      { kind: 'comment', text: '# a PHP surface writes the classes by hand' },
-      { kind: 'shell', text: 'composer require typo3/soul-design-system' },
-      { kind: 'ok', text: 'linked two files into', code: 'public/assets' },
-    ],
-  },
-  {
-    label: 'npm',
-    body: [
-      { kind: 'comment', text: '# a surface that runs JavaScript gets the elements too' },
-      { kind: 'shell', text: 'npm install @typo3/soul-frontend' },
-      { kind: 'ok', text: 'the elements register themselves from', code: 'soul.js' },
-    ],
-  },
-  {
-    label: 'drop-in',
-    body: [
-      { kind: 'comment', text: '# no toolchain at all: copy dist/ and link it' },
-      { kind: 'plain', text: '<link rel="stylesheet" href="soul/styles.css">' },
-      { kind: 'plain', text: '<script type="module" src="soul/soul.js"></script>' },
-    ],
-  },
-];
 
 const AUDIENCES = [
   {
@@ -224,15 +194,6 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     : html`<sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Start a design</sds-button>
         <sds-button variant="secondary">Browse the components</sds-button>`;
 
-  const first = WAYS[0] as (typeof WAYS)[number];
-  const ways = flat
-    ? html`${tabsBarMarkup(WAYS.map(({ label }) => ({ label })), 0)}<div class="sds-tab__panel"><sds-code code-lang="bash" .body="${first.body}" copy></sds-code></div>`
-    : html`<sds-tabs>
-          ${WAYS.map(
-            (way) => html`<sds-tab-item label="${way.label}"><sds-code code-lang="bash" .body="${way.body}" copy></sds-code></sds-tab-item>`,
-          )}
-        </sds-tabs>`;
-
   return html`<div class="sds-shell">
   <header class="sds-bar">
     <a class="sds-lockup" href="#overview">
@@ -270,8 +231,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           <div class="sds-actions">${start}</div>
         </div>
         <div class="sds-stack">
-          <span class="sds-label">Three ways in</span>
-          ${ways}
+          <sds-figure src="../assets/placeholders/design-system-workbench.png" alt=""></sds-figure>
         </div>
       </div>
     </section>
