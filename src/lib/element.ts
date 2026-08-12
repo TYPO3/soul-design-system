@@ -72,6 +72,30 @@ export class SdsElement extends LitElement {
       it. */
   #looked = false;
 
+  /** Clear a rendering this element already has before it makes another one.
+
+      Lit renders *after* whatever children it finds — it does not own the
+      container and will not empty it — so an element that arrives with its own
+      prerendered markup in it ends up holding two copies. A component that
+      reads its own content never sees this, because `lifted()` takes every
+      child out on the way past; one that renders purely from properties never
+      looks at its children at all, and every one of those doubled on the
+      published site the first time the pages were rendered ahead of the
+      browser.
+
+      So it is asked here, where both kinds go through. Only when the marker is
+      there: it says this element was rendered by the build, and it is the one
+      thing that tells its own last output apart from content a caller wrote —
+      an element in a page that was never prerendered still keeps whatever it
+      was given. Nothing is left behind either, the marker included: what
+      `lifted()` needed out of it, it already has. */
+  override connectedCallback(): void {
+    if (this.querySelector(`:scope > template[${CONTENT}]`)) {
+      for (const node of [...this.childNodes]) (node as ChildNode).remove();
+    }
+    super.connectedCallback();
+  }
+
   protected lifted(): Node[] {
     if (this.#looked) return [];
     this.#looked = true;

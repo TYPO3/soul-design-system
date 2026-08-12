@@ -71,6 +71,46 @@ test.describe('the render', () => {
       expect(bad, `${path}`).toEqual([]);
     }
   });
+
+  test('an element that upgrades replaces the rendering it arrived with', async ({ page }) => {
+    /* The failure this exists for was on the published site: every element
+       that renders purely from its properties — the search, the theme switch,
+       the breadcrumb, a set of tabs — appeared twice. Lit renders *after* the
+       children it finds rather than emptying the container, so an element
+       handed its own prerendered markup keeps that and draws a second copy
+       beside it. Only the components that read their own content escaped it,
+       because taking the children out is what reading them does.
+
+       It is silent in every other suite. Nothing 404s, nothing logs, the page
+       is valid — it just says everything twice. */
+    /* The copied specimen cards are not pages of the site: they carry no
+       bundle, so nothing in them upgrades and nothing here applies. */
+    const site = pages('site').filter((path) => !path.includes('_cards/'));
+    test.setTimeout(Math.max(60_000, site.length * 3_000));
+
+    for (const path of site) {
+      await page.goto(`${SITE_URL}/${path}`, { waitUntil: 'load' });
+
+      /* The marker the build leaves is consumed by whatever upgrades over it.
+         One still in the document is an element that never cleared what it was
+         given, which is the same thing as an element showing it twice. */
+      await expect(
+        page.locator('template[data-sds-content]'),
+        `${path}: an element kept the markup it was rendered with`,
+      ).toHaveCount(0);
+
+      /* And said a second way, on the elements the failure was actually seen
+         on: each of these renders one node and nothing else, so two is the
+         whole symptom. The marker above is the general rule and this is the
+         thing a reader of the report recognises. */
+      const doubled = await page.evaluate(() =>
+        [...document.querySelectorAll('sds-crumbs, sds-theme, sds-search, sds-badge')]
+          .filter((el) => el.children.length > 1)
+          .map((el) => `${el.tagName.toLowerCase()} drew ${el.children.length}`),
+      );
+      expect(doubled, `${path}: an element drew itself more than once`).toEqual([]);
+    }
+  });
 });
 
 test.describe('the mark in the tab', () => {
