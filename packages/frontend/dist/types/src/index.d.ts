@@ -13,6 +13,7 @@ import './components/form-errors.ts';
 import './components/pills.ts';
 import './components/menu.ts';
 import './components/accordion.ts';
+import './components/accordion-item.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/rail.ts';
@@ -29,6 +30,7 @@ import './components/drawer.ts';
 import './components/dialog.ts';
 import './components/table.ts';
 import './components/card.ts';
+import './components/card-grid.ts';
 import './components/teaser.ts';
 import './components/result.ts';
 import './components/pagination.ts';
@@ -54,6 +56,7 @@ export { type NavProps, type NavItem, type NavChange } from './components/nav-ba
 export { SdsPills } from './components/pills.js';
 export { SdsMenu } from './components/menu.js';
 export { SdsAccordion, type AccordionProps, type Entry } from './components/accordion.js';
+export { SdsAccordionItem } from './components/accordion-item.js';
 export { SdsTabs } from './components/tabs.js';
 export { SdsTabItem } from './components/tab-item.js';
 export { SdsRail } from './components/rail.js';
@@ -76,10 +79,11 @@ export { SdsByline, type BylineProps } from './components/byline.js';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.js';
 export { SdsEmpty, type EmptyProps, type EmptyKind } from './components/empty.js';
 export { SdsCard, type CardProps } from './components/card.js';
+export { SdsCardGrid, type CardGridProps, type CardGridVariant } from './components/card-grid.js';
 export { SdsTeaser, type TeaserProps } from './components/teaser.js';
 export { SdsResult, type ResultProps } from './components/result.js';
 export { SdsPagination, pageNumbers, type PaginationProps } from './components/pagination.js';
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-card', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-card', 'sds-card-grid', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];

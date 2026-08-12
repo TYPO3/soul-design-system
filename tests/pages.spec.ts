@@ -252,3 +252,46 @@ test('a form that fails says what, and sends the reader to it', async ({ page })
   await page.getByRole('button', { name: 'Send the report' }).click();
   await expect(page.locator('.sds-note--ok')).toContainText('The report was sent');
 });
+
+/* A set of cards, at the widths where the row runs out. `auto-fit` fills a row
+   and drops the remainder onto the next one, so four cards in a three-wide row
+   wrap as three and one — a card on its own beside two tracks of nothing, and
+   in a flush set a bite out of the wall. `sds-card-grid` measures how many the
+   row holds and steps down to a count that divides, which is a decision no
+   stylesheet can make: it is arithmetic over how many cards there are.
+
+   Asserted as a shape rather than a number, the way the menu's run-width is:
+   no row of a wrapped set holds a single card. */
+test('a set of cards wraps into even rows, never one on its own', async ({ page }) => {
+  await gotoStory(page, 'components-card-grid--flush');
+  const cards = page.locator('.sds-grid--flush .sds-card');
+  const count = await cards.count();
+  expect(count, 'the story should hold a set worth wrapping').toBeGreaterThan(3);
+
+  for (const width of WIDTHS) {
+    await page.setViewportSize({ width, height: 900 });
+    /* The element measures, so the answer arrives a frame after the resize. */
+    await page.waitForFunction(
+      (n) => document.querySelectorAll('.sds-grid--flush .sds-card').length === n,
+      count,
+      { timeout: 5_000 },
+    );
+    await page.waitForTimeout(120);
+
+    const rows = await cards.evaluateAll((els) => {
+      const tally = new Map<number, number>();
+      for (const el of els) {
+        const top = Math.round(el.getBoundingClientRect().top);
+        tally.set(top, (tally.get(top) ?? 0) + 1);
+      }
+      return [...tally.values()];
+    });
+
+    /* The last row against the ones above it. Not "no row holds one card": at
+       a phone's width every row holds one, and a single column is as even as
+       a set gets. What is being refused is a tail shorter than the courses
+       above it by more than one — three and one, five and one. */
+    const last = rows[rows.length - 1] as number;
+    expect(last, `${width}px wrapped as ${rows.join('+')}`).toBeGreaterThanOrEqual((rows[0] as number) - 1);
+  }
+});

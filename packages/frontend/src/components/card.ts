@@ -40,7 +40,7 @@ export interface CardProps {
   footer?: string;
   /** The call to action, in words — `Read the chapter`. Not a button and not a
       second link: the whole card already goes there, so this is the line that
-      says so, and it leans on the arrow when the card is hovered. */
+      says so. */
   action?: string;
 }
 
@@ -104,20 +104,27 @@ export class SdsCard extends SdsElement {
       : '';
     const label = this.label ? html`<div class="sds-label">${this.label}</div>` : '';
 
-    /* The written form is blocks and the property form is a sentence, so one
-       goes in a `div` and the other in the `p` a sentence belongs in.
-       `content` is the written form arriving where there are no children to
-       lift — see `SdsElement`. */
+    /* Blocks go in a `div` and a sentence in the `p` a sentence belongs in.
+       Which it is, is what the caller handed over: a string is a sentence, and
+       markup passed as the property is not — a page composing a byline and a
+       line under it would otherwise get a `div` inside a `p`, which no browser
+       keeps. `content` is the written form arriving where there are no
+       children to lift — see `SdsElement`. */
     const written = this.taken ?? this.content;
-    const text = written
-      ? html`<div class="sds-card__text">${written}</div>`
+    const blocks = written ?? (typeof this.body === 'string' ? undefined : this.body);
+    const text = blocks
+      ? html`<div class="sds-card__text">${blocks}</div>`
       : html`<p class="sds-card__text">${this.body}</p>`;
 
     /* Where there is nowhere to go, the title is a title — and the card is
        then not a target either, since this anchor is what stretches over it. */
-    const title = this.href
+    const named = this.href
       ? html`<a href="${this.href}">${this.heading}</a>`
       : html`${this.heading}`;
+    /* No heading, no heading: a card holding a byline or a figure names itself
+       inside its own body, and an empty `h3` there is a level in the document
+       outline with nothing under it. */
+    const title = this.heading ? html`<h3 class="sds-card__title">${named}</h3>` : '';
 
     /* Drawn only where there is somewhere to go, since it says the card goes
        there. A span and not an anchor: the title's link is stretched over the
@@ -141,7 +148,7 @@ export class SdsCard extends SdsElement {
   <div class="sds-card__body">
     ${icon}
     ${label}
-    <h3 class="sds-card__title">${title}</h3>
+    ${title}
     ${text}
   </div>
   ${foot}

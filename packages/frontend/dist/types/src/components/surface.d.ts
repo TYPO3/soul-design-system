@@ -2,10 +2,11 @@ import { type TemplateResult } from 'lit';
 import './icon.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
-/** `card` is a hairline and 6px with no fill — the default container.
-    `panel` is a raised fill, for when it sits on the canvas and has to read
-    as a plane. `sunken` is machine output: code, logs, structured content. */
-export type Plane = 'card' | 'panel' | 'sunken';
+/** `raised` sits on the canvas and has to read as a plane. `sunken` is machine
+    output: code, logs, structured content. Named for the fill each one is —
+    the tokens are `--surface-raised` and `--surface-sunken` — rather than for
+    the box, which is the same box. */
+export type Plane = 'raised' | 'sunken';
 export interface SurfaceProps {
     plane?: Plane;
     title: string;

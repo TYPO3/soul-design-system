@@ -3,8 +3,9 @@
    The markup lives in `src/components/card.ts`. No `parameters.dsCard`, for the
    reason `Teaser.stories.ts` states: a card is judged in a set of them, at the
    width a document gives it, and a card file is a fragment at a fixed size.
-   `Grid`, `Wide` and `Dense` are those sets, and the acceptance render is where
-   one meets a real page.
+   The set is `CardGrid.stories.ts` — a grid of two is not a grid of six, and
+   that is a decision the grid makes, not the card. The acceptance render is
+   where one meets a real page.
 
    The story that matters is `Written`: out of a document the body is blocks,
    not a sentence, and an element that assumes a sentence loses the list under
@@ -106,36 +107,4 @@ export const Written: Story = {
   >`,
 };
 
-/** The set, which is where a card is actually judged: the titles line up, one
-    with a picture sits beside one without, and the feet share a line. */
-export const Grid: Story = {
-  parameters: { layout: 'fullscreen' },
-  render: () => html`<div class="sds-grid" style="padding:var(--space-6)">
-    ${[PROMOTIONAL, WITH_FOOT, CHAPTER].map(sdsCard)}
-  </div>`,
-};
 
-/** Two across: what a card holds decides the grid, not a column count. A card
-    carrying a picture and a paragraph needs the room two of them get. */
-export const Wide: Story = {
-  parameters: { layout: 'fullscreen' },
-  render: () => html`<div class="sds-grid sds-grid--wide" style="padding:var(--space-6)">
-    ${[PROMOTIONAL, { ...CHAPTER, src: PROMOTIONAL.src, alt: '' }].map(sdsCard)}
-  </div>`,
-};
-
-/** Five or six across: a card that is a name and a glyph is read in a set, and
-    the body is the one line that says which one it is. */
-export const Dense: Story = {
-  parameters: { layout: 'fullscreen' },
-  render: () => html`<div class="sds-grid sds-grid--dense" style="padding:var(--space-6)">
-    ${[
-      { icon: 'actions-book', heading: 'Manual', body: 'Every page, in order.' },
-      { icon: 'actions-database', heading: 'Reference', body: 'Every option, alphabetically.' },
-      { icon: 'actions-extension', heading: 'Extensions', body: 'What plugs into it.' },
-      { icon: 'actions-tag', heading: 'Releases', body: 'What changed, and when.' },
-      { icon: 'actions-book', heading: 'Glossary', body: 'The words this manual uses.' },
-      { icon: 'actions-database', heading: 'Index', body: 'Everything, by name.' },
-    ].map((c) => sdsCard(c as CardProps))}
-  </div>`,
-};

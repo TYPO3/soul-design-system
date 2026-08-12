@@ -14,7 +14,7 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/empty.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/link.ts';
-import '../../packages/frontend/src/components/surface.ts';
+import '../../packages/frontend/src/components/card.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';
@@ -89,12 +89,14 @@ export function notFoundPage(_: PageMode = {}): TemplateResult {
         </p>
         <div class="sds-grid">
           ${NEAREST.map(
-            (one) => html`<sds-surface
+            (one) => html`<sds-card
               icon="${one.icon}"
               label="${one.label}"
               heading="${one.heading}"
-              .body="${html`${one.body}<br /><sds-link label="${one.link}" href="#"></sds-link>`}"
-            ></sds-surface>`,
+              body="${one.body}"
+              href="#"
+              action="${one.link}"
+            ></sds-card>`,
           )}
         </div>
       </div>

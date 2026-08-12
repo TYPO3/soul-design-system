@@ -19,6 +19,7 @@ import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/surface.ts';
+import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
@@ -263,12 +264,14 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         <h2>Read on</h2>
         <div class="sds-grid">
           ${RELATED.map(
-            (one) => html`<sds-surface
+            (one) => html`<sds-card
               icon="${one.icon}"
               label="${one.label}"
               heading="${one.heading}"
-              .body="${html`${one.body}<br /><sds-link label="${one.link}" href="#"></sds-link>`}"
-            ></sds-surface>`,
+              body="${one.body}"
+              href="#"
+              action="${one.link}"
+            ></sds-card>`,
           )}
         </div>
       </div>

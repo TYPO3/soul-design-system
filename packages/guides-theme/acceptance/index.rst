@@ -281,6 +281,27 @@ needs, and the whole card is the link.
       whole of it: the picture, the glyph and the row above the title, the
       title, the foot, and the words that say what pressing the card does.
 
+``:gap: 0`` is the one gutter a page may ask for, because it is a shape rather
+than a distance: the cards share a hairline and the set reads as one block.
+
+.. card-grid::
+   :columns: 3
+   :gap: 0
+
+   .. card:: :doc:`nodes`
+
+      A tile has no frame and no corner of its own — both belong to the wall
+      around it — and it does not rise under the pointer, because a tile that
+      lifts tears the lines it shares.
+
+   .. card:: The line between two of them
+      :href: /nodes
+      :action: Read it
+
+      It is the wall's ground showing through a gap one hairline wide. A grid
+      that reflows cannot know which tile sits on an edge, so no tile can be
+      told to drop the border it shares.
+
 .. card-grid::
    :columns: 6
 

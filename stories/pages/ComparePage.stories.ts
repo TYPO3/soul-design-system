@@ -17,7 +17,7 @@ import '../../packages/frontend/src/components/crumbs.ts';
 import '../../packages/frontend/src/components/icon.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
-import '../../packages/frontend/src/components/surface.ts';
+import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
@@ -100,11 +100,11 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="ways">
       <div class="sds-grid">
         ${WAYS.map(
-          (way) => html`<sds-surface
+          (way) => html`<sds-card
             label="${way.label}"
             heading="${way.heading}"
             .body="${html`${way.body}<br /><span class="sds-label">${way.note}</span>`}"
-          ></sds-surface>`,
+          ></sds-card>`,
         )}
       </div>
     </section>

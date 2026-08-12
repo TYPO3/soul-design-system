@@ -1,5 +1,5 @@
 import { type TemplateResult } from 'lit';
-import './icon.ts';
+import './accordion-item.ts';
 import { SdsElement } from '../lib/element.js';
 /** One question. `open` is for the one a page wants standing open — the first
     answer on a page of them, usually, so the shape of an answer is visible
@@ -10,6 +10,9 @@ export interface Entry {
     open?: boolean;
 }
 export interface AccordionProps {
+    /** The questions, where a page has them as data. An answer that is blocks —
+        what a documentation renderer hands over — is written between the tags as
+        `sds-accordion-item` instead, and then this stays empty. */
     entries: readonly Entry[];
     /** More than one at a time. The platform's own exclusivity is otherwise on,
         and it is on because a list is easier to read than a wall. */
@@ -34,6 +37,12 @@ export declare class SdsAccordion extends SdsElement {
     entries: readonly Entry[];
     multiple: boolean;
     name: string;
+    /** The questions written between the tags, for answers that are blocks
+        rather than a string a property can hold. Taken before Lit renders over
+        them, and handed back below. */
+    private taken;
     constructor();
+    connectedCallback(): void;
     protected render(): TemplateResult;
+    protected updated(): void;
 }

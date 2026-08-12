@@ -22,7 +22,7 @@ export interface CardProps {
     footer?: string;
     /** The call to action, in words — `Read the chapter`. Not a button and not a
         second link: the whole card already goes there, so this is the line that
-        says so, and it leans on the arrow when the card is hovered. */
+        says so. */
     action?: string;
 }
 export declare class SdsCard extends SdsElement {

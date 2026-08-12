@@ -861,16 +861,17 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-card__text > :first-child { margin-top: 0; }
 .sds-card__text > :last-child { margin-bottom: 0; }
 /* What the card leaves the reader with: a line about the target, the action,
-   or both. Under a hairline and pushed to the bottom, so a row of cards has
-   its actions on one line however long the prose above them ran. */
+   or both. Pushed to the bottom, so a row of cards has its actions on one line
+   however long the prose above them ran. No rule over it — a card this size
+   has one frame already, and a second line inside it divides four square
+   centimetres into two rooms. The space and the register do that. */
 .sds-card__foot {
   margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  border-top: var(--border-hairline) solid var(--border-subtle);
-  padding: var(--space-2) 16px;
+  padding: var(--space-4) 16px var(--space-2);
 }
 .sds-card__note {
   font-size: var(--note-body-size);
@@ -1257,11 +1258,17 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 /* The other footer: a site's, rather than a surface's. `.sds-foot` is one row,
    all a single screen owes its reader; a site of many pages owes where the rest
    of it is, grouped, and the line saying what the product is. Two shapes rather
-   than one with a modifier, because they share no part beyond the hairline. The
-   groups reflow by their own minimum, so no breakpoint decides how many fit. */
+   than one with a modifier, because they share almost no part. The groups
+   reflow by their own minimum, so no breakpoint decides how many fit.
+
+   A ground, and no rule above it. A hairline drawn between two areas of the
+   same ground is a horizontal rule across the window — the one thing on the
+   page that says nothing except that something ends. The step in the ground
+   says the same thing by being a different surface, which is what the footer
+   is, and it is how the bar is told from the page at the other end. */
 .sds-footer {
-  border-top: var(--border-hairline) solid var(--border-subtle);
-  padding-block: var(--space-10) var(--space-6);
+  background: var(--surface-sunken);
+  padding-block: var(--space-10);
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
@@ -1277,6 +1284,12 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 }
 .sds-footer__group { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
 .sds-footer__links { display: flex; flex-direction: column; gap: 7px; font-size: var(--nav-font-size); }
+/* A footer is a directory, not a place the accent appears — `--accent` marks
+   three things and a list of every page is not one of them. It is also what
+   the ground costs: the link orange is 4.29:1 on the sunken plane, which is
+   the finding `--syntax-key` already carries for the same colour. */
+.sds-footer :is(a, .sds-link) { color: var(--text-secondary); }
+.sds-footer :is(a, .sds-link):hover { color: var(--text-primary); text-decoration: underline; }
 /* The line under the columns: what this is, and the notices that have to
    travel with it. Separated by a hairline, because it is a different kind of
    statement from a list of links and reads as one more column without it. */
@@ -1321,17 +1334,59 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    where each happens. `min(230px, 100%)` and not `230px`, because a track with
    a floor wider than the grid overflows it — a minimum stated somewhere that
    the page then has to be wide enough for. */
+/* The minimum is a custom property because two readers need it: this rule, and
+   `sds-card-grid`, which measures how many the row holds so a set of four does
+   not wrap as three and one. A second copy of the number in TypeScript is the
+   copy that goes stale. */
 .sds-grid {
+  --grid-min: 230px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
   gap: var(--space-4);
 }
 /* The same grid told what its cards hold, not how many columns to draw. A card
    carrying a picture and a paragraph needs the room two of them get; a card
    that is a name and a glyph is read in a set of five or six. Both still
    reflow, so a phone gets one and nothing here names a breakpoint. */
-.sds-grid--wide { grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); }
-.sds-grid--dense { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); }
+.sds-grid--wide { --grid-min: 340px; }
+.sds-grid--dense { --grid-min: 150px; }
+
+/* The gutter taken out: one wall rather than a set of cards. Composes with
+   either width above, because how much room a card needs and whether the set
+   is separated are different questions.
+
+   The line between two tiles is this ground showing through a gap a hairline
+   wide. A grid that reflows cannot know which tile is on an edge — there is no
+   column count to count from — so no tile can be told to drop the border it
+   shares, and the ground is the only thing that draws one line where two meet
+   at every width. */
+.sds-grid--flush {
+  gap: var(--border-hairline);
+  background: var(--border-subtle);
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+/* A tile has no frame and no corner — both belong to the wall — and it fills,
+   because what it does not paint is the line showing through. It does not
+   rise either: a tile that lifts tears the two lines it shares.
+
+   Not `> *`: an element renders its class node inside a host that is
+   `display: contents`, so the grid item is that node and the tag around it
+   paints nothing. */
+.sds-grid--flush .sds-card {
+  --card-lift: 0px;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-canvas);
+}
+/* The ring turns inwards. It is drawn outside the box, and the wall clips its
+   corners — so on an edge tile the one mark that says where the keyboard is
+   would be the one thing cut off. */
+.sds-grid--flush .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) {
+  outline-offset: calc(-1 * var(--border-emphasis) - 2px);
+  box-shadow: none;
+}
 
 /* A page whose ground changes. `.sds-page` is one measure on one canvas; a page
    that argues needs a section the eye tells from its neighbour first, and a

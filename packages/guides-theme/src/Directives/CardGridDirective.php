@@ -28,9 +28,12 @@ use TYPO3\Soul\GuidesTheme\Nodes\CardGridNode;
  * wide grid, five or more the dense one, and everything between is the grid
  * every other set of cards on the site uses.
  *
- * `:gap:` and `:card-height:` are accepted and dropped: the gap is the
+ * `:gap: 0` is the one gutter a page may ask for, because it is not a distance
+ * but a shape: the cards share a hairline and read as one block. Every other
+ * `:gap:`, and `:card-height:`, are accepted and dropped — the gap is the
  * system's spacing scale and equal heights are what a grid row already does.
- * Both exist so a manual written for the Bootstrap theme renders unchanged.
+ * All of them exist so a manual written for the Bootstrap theme renders
+ * unchanged.
  */
 final class CardGridDirective extends SubDirective
 {
@@ -48,7 +51,7 @@ final class CardGridDirective extends SubDirective
         Directive $directive,
     ): ?Node {
         return (new CardGridNode($collectionNode->getChildren()))->withOptions([
-            'variant' => $this->variant($this->columns($directive)),
+            'variant' => $this->variant($directive),
             'class' => $directive->getOption('class')->getValue(),
         ]);
     }
@@ -65,8 +68,16 @@ final class CardGridDirective extends SubDirective
         return $columns;
     }
 
-    private function variant(int $columns): string
+    private function variant(Directive $directive): string
     {
+        /* The wall wins the question. A page that asked for no gutter asked
+           about the shape of the set, and how much room one card needs is then
+           the grid's to answer. */
+        if ($directive->hasOption('gap') && (int)$directive->getOption('gap')->getValue() === 0) {
+            return 'flush';
+        }
+
+        $columns = $this->columns($directive);
         if ($columns > 0 && $columns <= 2) {
             return 'wide';
         }

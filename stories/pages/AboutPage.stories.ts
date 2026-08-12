@@ -18,7 +18,7 @@ import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/quote.ts';
 import '../../packages/frontend/src/components/stat.ts';
-import '../../packages/frontend/src/components/surface.ts';
+import '../../packages/frontend/src/components/card.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
@@ -101,10 +101,10 @@ export function aboutPage(_: PageMode = {}): TemplateResult {
         </p>
         <div class="sds-grid">
           ${PEOPLE.map(
-            (person) => html`<sds-surface
+            (person) => html`<sds-card
               .body="${html`<sds-byline name="${person.name}" as="${person.role}" meta="${person.since}"></sds-byline>
               <span style="display:block; margin-top:10px">${person.answerable}</span>`}"
-            ></sds-surface>`,
+            ></sds-card>`,
           )}
         </div>
       </div>

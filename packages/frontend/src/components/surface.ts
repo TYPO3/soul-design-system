@@ -1,22 +1,35 @@
-/* sds-surface — the three planes, which differ only in fill.
+/* sds-surface — a filled plane holding a statement.
 
    The system has no shadows, so a plane is told apart by its fill and a
    hairline and by nothing else. A container must not share its corner with
    its contents, which is why `--radius-card` (6px) is one step larger than
    `--radius-control` (4px). Nothing here sets either by hand.
 
-   One element covers all three: they are the same thing at different depths,
-   and three tags would invite treating them as three components. */
+   The fill is what this element is for, and it is why the plane with none is
+   not one of its answers: an unfilled hairline plane carrying a title and
+   prose is `sds-card`, down to the class it writes. Two components that draw
+   the same box are one component with two names, and the name that survived
+   is the one that also goes somewhere. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';
 import { type IconId } from './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
-/** `card` is a hairline and 6px with no fill — the default container.
-    `panel` is a raised fill, for when it sits on the canvas and has to read
-    as a plane. `sunken` is machine output: code, logs, structured content. */
-export type Plane = 'card' | 'panel' | 'sunken';
+/** `raised` sits on the canvas and has to read as a plane. `sunken` is machine
+    output: code, logs, structured content. Named for the fill each one is —
+    the tokens are `--surface-raised` and `--surface-sunken` — rather than for
+    the box, which is the same box. */
+export type Plane = 'raised' | 'sunken';
+
+/** The class each plane is. `raised` writes `sds-panel`, which is the name the
+    class layer has always had for that fill and which a template writes by
+    hand — see the theme's sidebar. Renaming it would move one name into two
+    places to make a second name agree with a token. */
+const PLANE: Record<Plane, string> = {
+  raised: 'sds-panel',
+  sunken: 'sds-sunken',
+};
 
 export interface SurfaceProps {
   plane?: Plane;
@@ -53,7 +66,7 @@ export class SdsSurface extends SdsElement {
 
   constructor() {
     super();
-    this.plane = 'card';
+    this.plane = 'raised';
     this.label = '';
     this.heading = '';
     this.body = '';
@@ -71,7 +84,7 @@ export class SdsSurface extends SdsElement {
     const icon = this.icon
       ? html`<div class="sds-surface-icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`
       : undefined;
-    return html`<div class="sds-${this.plane}" style="${this.boxStyle}">
+    return html`<div class="${PLANE[this.plane] ?? PLANE.raised}" style="${this.boxStyle}">
   ${icon}
   ${label}
   <div class="sds-surface-title">${this.heading}</div>

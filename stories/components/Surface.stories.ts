@@ -1,27 +1,36 @@
-/* The three planes: card, panel and sunken.
+/* The filled planes: raised and sunken.
 
-   The markup lives in `src/components/surface.ts`. They differ only in fill,
-   because the system has no shadows — a plane is told apart by its fill and a
-   hairline and by nothing else.
+   The markup lives in `src/components/surface.ts`. The two differ only in
+   fill, because the system has no shadows — a plane is told apart by its fill
+   and a hairline and by nothing else.
 
-   The card shows the planes *and* the overlays over them, because the claim is
-   about the pair: without a shadow an overlay needs a plane under it to be an
-   overlay of anything. The three that float have their own pages. */
+   The plane with no fill is `sds-card` and stands first on the specimen, so
+   the three boxes a page can reach for are in one picture with the element
+   that draws each. It is the odd one there on purpose: its title is a heading
+   in the document outline and sets larger, which is the difference between a
+   plane holding a statement and a card that goes somewhere. The fills alone,
+   with nothing else varying, are `guidelines/colors-surfaces`.
+
+   The card shows the planes *and* the overlays over them, because that claim
+   is about the pair too: without a shadow an overlay needs a plane under it to
+   be an overlay of anything. The three that float have their own pages. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/surface.ts';
+import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/overlay.ts';
 import '../../packages/frontend/src/components/modal.ts';
 import '../../packages/frontend/src/components/drawer.ts';
 import '../../packages/frontend/src/components/button.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type SurfaceProps } from '../../packages/frontend/src/components/surface.ts';
+import { sdsCard } from './Card.stories.ts';
 import { dsCard, indent, part, px, spec, specCap } from '../lib/specimen.ts';
 
-const sdsSurface = ({ plane = 'card', title, body, label, icon }: SurfaceProps) =>
+const sdsSurface = ({ plane = 'raised', title, body, label, icon }: SurfaceProps) =>
   html`<sds-surface plane="${plane}" heading="${title}" .body="${body}" label="${label ?? ''}" icon="${ifDefined(icon)}"></sds-surface>`;
 
 /** A plane with a wash, a modal and a drawer over it — the only arrangement
@@ -46,7 +55,7 @@ const meta: Meta<SurfaceProps> = {
   excludeStories: ['specimenHtml', 'scene'],
   render: (args) => sdsSurface(args),
   argTypes: {
-    plane: { control: 'inline-radio', options: ['card', 'panel', 'sunken'] },
+    plane: { control: 'inline-radio', options: ['raised', 'sunken'] },
     title: { control: 'text' },
     body: { control: 'text' },
     label: { control: 'text' },
@@ -58,11 +67,11 @@ const meta: Meta<SurfaceProps> = {
   /* The narrow no-break space before a unit is the system's own typography —
      `6 px`, `560 PX` all set with U+202F so a number cannot be split from
      its unit across a line. It belongs in the copy, not in CSS. */
-  args: { plane: 'card', title: 'Card', body: `Hairline border, ${px(6)} radius, no fill. The default container.` },
+  args: { plane: 'raised', title: 'Raised', body: 'Raised fill, for when it sits on the canvas and has to read as a plane.' },
   parameters: {
     dsCard: dsCard({
       path: 'components/surfaces/surfaces.card.html',
-      name: 'Card, panel, modal & drawer',
+      name: 'The planes, and what floats over them',
       subtitle: 'No shadows anywhere — a wash and a border do the separating',
       viewport: '700x420',
     }),
@@ -72,11 +81,8 @@ const meta: Meta<SurfaceProps> = {
 export default meta;
 type Story = StoryObj<SurfaceProps>;
 
-/** A hairline and 6px, no fill — the default container. */
-export const Card: Story = { args: { plane: 'card', title: 'Card', body: `Hairline border, ${px(6)} radius, no fill. The default container.` } };
-
 /** A raised fill, for when it sits on the canvas and has to read as a plane. */
-export const Panel: Story = { args: { plane: 'panel', title: 'Panel', body: 'Raised fill when it sits on the canvas and has to read as a plane.' } };
+export const Raised: Story = { args: { plane: 'raised', title: 'Raised', body: 'Raised fill, for when it sits on the canvas and has to read as a plane.' } };
 
 /** Machine output: code, logs, structured content. */
 export const Sunken: Story = { args: { plane: 'sunken', title: 'Sunken', body: 'For machine output: code, logs, structured content.' } };
@@ -87,7 +93,7 @@ export const Sunken: Story = { args: { plane: 'sunken', title: 'Sunken', body: '
     Muted, never in a status colour: a card is a subject, not a result. */
 export const WithIcon: Story = {
   args: {
-    plane: 'card',
+    plane: 'raised',
     icon: 'actions-database',
     label: 'source 01',
     title: 'Bundled knowledge',
@@ -97,7 +103,15 @@ export const WithIcon: Story = {
 
 export const specimenHtml = (): string =>
   spec([
-    `<div style="display:flex; gap:14px; flex-wrap:wrap;">\n${indent([Card, Panel, Sunken].map((s) => part(sdsSurface(s.args as SurfaceProps))).join('\n'), 2)}\n</div>`,
+    /* The unfilled plane first, drawn by the element that owns it. Three boxes
+       differing in one thing each is the whole of the claim. */
+    `<div style="display:flex; gap:14px; flex-wrap:wrap;">\n${indent(
+      [
+        part(sdsCard({ heading: 'Card', body: `Hairline border, ${px(6)} radius, no fill.`, href: '' })),
+        ...[Raised, Sunken].map((s) => part(sdsSurface(s.args as SurfaceProps))),
+      ].join('\n'),
+      2,
+    )}\n</div>`,
     `<div style="position:relative; height:210px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); overflow:hidden; background:var(--surface-canvas);">\n${indent(part(scene()), 2)}\n</div>`,
     specCap(`OVERLAY --surface-overlay · MODAL CENTRED, MAX ${px(560, 'PX')} · DRAWER FROM THE RIGHT · NO SHADOW ON EITHER`),
   ]);
