@@ -504,11 +504,12 @@
 
 /* --------------------------------------------------------------- table -- */
 
-/* A renderer cannot put a class on anything, so the same table is described
-   twice: once for markup that can be told what it is, once for markup that
-   arrives bare. Medium density, being read rather than worked in. A wider one
-   scrolls inside `.sds-table-scroll`, a box **around** it — `display: block`
-   would leave table layout and shrink-wrap every narrower table. */
+/* The same table described twice, and this is the half for markup that arrives
+   bare — a renderer with no element behind it can put a class on nothing. The
+   guides theme hands its tables to `sds-table` and is drawn by the class layer
+   instead, so the two have to agree: medium density, read rather than worked
+   in, and a wider one scrolling inside `.sds-table-scroll`, a box **around**
+   it — `display: block` would leave table layout and shrink-wrap the rest. */
 :where(.sds-prose) table {
   width: 100%;
   margin: 0 0 var(--space-4);

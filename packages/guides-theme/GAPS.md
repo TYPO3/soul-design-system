@@ -125,14 +125,13 @@ Verhalten im Element, kein Template.
 Ein Generator kennt nur Attribute und Kinder: eine Story setzt Eigenschaften,
 ein Twig-Template schreibt Markup. Ein Element, das Light DOM aus seinen
 Eigenschaften rendert, überschreibt dabei seine Kinder — das Markup ist weg.
-`lifted()` ist die Form, die das löst; `sds-code` und `sds-note` sind der
-Beleg, dass sie trägt. Offen ist, was eine Doku-Seite als nächstes braucht:
+`lifted()` ist die Form, die das löst; `sds-code`, `sds-note`, `sds-figure` und
+`sds-table` sind der Beleg, dass sie trägt. Offen ist, was eine Doku-Seite als
+nächstes braucht:
 
 | Element | Heute | Was ein Knoten braucht |
 | --- | --- | --- |
-| `sds-table` | `columns`, `rows` als Arrays | Eine Zelle mit Link, `<code>` oder Hervorhebung lässt sich nicht als JSON-Attribut ausdrücken. Dazu `colspan`, `rowspan`, `<caption>` |
 | `sds-surface` | `body: { type: String }` | Trägt `topic`, `sidebar`, später Karten — alles mit Prosa darin |
-| `sds-figure` | `caption: string \| TemplateResult` | Bildunterschriften tragen Links und Rollen |
 | `sds-stat`, `sds-modal`, `sds-dialog`, `sds-drawer` | dasselbe Muster | Für eine Doku-Seite zweitrangig |
 
 ## Auslieferung und Verhalten
@@ -181,7 +180,6 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 ## In welcher Reihenfolge
 
-1. **`sds-table` und `sds-surface`** — Form wie bei `sds-code` und `sds-figure`:
-   `lifted()` dazu, Eigenschaften bleiben für die Stories, je ein Beleg als
-   Story.
+1. **`sds-surface`** — Form wie bei `sds-table`: `lifted()` dazu,
+   Eigenschaften bleiben für die Stories, ein Beleg als Story.
 2. **Die drei fremden Markups** und das Verhalten des `configuration-block`.

@@ -285,6 +285,24 @@ test.describe('what the theme repaired', () => {
     expect(own).toEqual(['0px', '0px', 'none', 'rgba(0, 0, 0, 0)']);
   });
 
+  test('a table is the component drawing markup a document wrote', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The cells are the document's, because a cell carries a link or a
+       literal and no property could hold one. Everything the table *is* comes
+       from the element, so a page here and a page of a product are the same
+       table rather than two that resemble each other. */
+    const first = page.locator('sds-table').first();
+    await expect(first).toHaveCount(1);
+    await expect(first.locator('> .sds-table-scroll > table.sds-table')).toHaveCount(1);
+    expect(await first.locator('td code').count()).toBeGreaterThan(0);
+
+    /* And no table on the page is drawn any other way. */
+    const loose = await page.locator('.sds-prose table').evaluateAll((tables) =>
+      tables.filter((t) => !t.closest('sds-table') && !t.classList.contains('field-list')).length);
+    expect(loose).toBe(0);
+  });
+
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

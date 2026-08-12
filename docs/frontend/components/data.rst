@@ -41,10 +41,18 @@ sds-table
    remember: a class the element cannot emit is a class that invites the markup
    to be written by hand again.
 
+.. confval:: width
+   :name: sds-table-width
+   :type: string
+
+   How wide the table itself is, where a source said so. The class layer has
+   no name for it and cannot have one: it is a fact about these contents
+   rather than a kind of table, which is the reason a row carries ``style``
+   too.
+
 .. confval:: columns
    :name: sds-table-columns
    :type: "{ head, cls? }[]"
-   :required: true
 
    ``cls`` is the cell class for the whole column — ``sds-td-name`` for the
    identifier the machine owns, ``sds-td-meta`` for anything secondary.
@@ -52,11 +60,29 @@ sds-table
 .. confval:: rows
    :name: sds-table-rows
    :type: "{ cells, selected?, style? }[]"
-   :required: true
 
    A cell is text, or a component where it is a piece of state rather than a
    value — the badge that says how a row answered. ``selected`` emits
    ``is-selected``.
+
+.. note::
+
+   The rows may also be written **between the tags**, as the table's own
+   children:
+
+   .. code-block:: html
+
+      <sds-table scrollable>
+        <caption>What each lookup answers with.</caption>
+        <thead><tr><th>Tool</th><th>Source</th></tr></thead>
+        <tbody><tr><td><code>typo3_icon_lookup</code></td><td colspan="2">…</td></tr></tbody>
+      </sds-table>
+
+   That is the form a renderer uses. A cell in a document carries a link, a
+   literal or an emphasis; ``colspan``, ``rowspan`` and a caption have no
+   property at all; and the rows have to be on the page before any script
+   runs. What the table *is* — the class, the density, the box it scrolls in —
+   stays the element's either way.
 
 .. specimen:: components/data/density.card.html
    :viewport: 700x800

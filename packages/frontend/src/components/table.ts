@@ -9,7 +9,7 @@
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
-import { define, SdsElement } from '../lib/element.ts';
+import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 export type Density = 'compact' | 'medium' | 'airy';
 
@@ -41,29 +41,49 @@ export interface TableProps {
       that name shadows it. The typechecker caught it; nothing at runtime
       would have. */
   scrollable?: boolean;
-  columns: readonly Column[];
-  rows: readonly Row[];
+  /** How wide the table itself is, where a source said. The class layer has no
+      name for it and cannot have one: it is a fact about these contents rather
+      than a kind of table — the same reason a row carries `style`. */
+  width?: string;
+  columns?: readonly Column[];
+  rows?: readonly Row[];
 }
 
 export class SdsTable extends SdsElement {
   static override properties = {
     density: { type: String, reflect: true },
     scrollable: { type: Boolean, reflect: true },
+    width: { type: String },
     columns: { type: Array },
     rows: { type: Array },
   };
 
   declare density: Density;
   declare scrollable: boolean;
+  declare width: string;
   declare columns: Column[];
   declare rows: Row[];
+
+  /* The table a document wrote, taken before Lit renders over it. A cell there
+     carries a link, a literal, an emphasis — none of which survives a JSON
+     attribute — and `colspan`, `rowspan` and a caption have no property at
+     all. What is written between the tags is the table's own children, so the
+     element still draws the `<table>` and still decides its density. */
+  private taken: Node[] | null = null;
 
   constructor() {
     super();
     this.density = 'medium';
     this.scrollable = false;
+    this.width = '';
     this.columns = [];
     this.rows = [];
+  }
+
+  override connectedCallback(): void {
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
+    super.connectedCallback();
   }
 
   private cell(value: string | TemplateResult, cls: string | undefined): TemplateResult {
@@ -87,7 +107,14 @@ export class SdsTable extends SdsElement {
        again. That is why scrolling is a property rather than a wrapper the
        caller is expected to remember. */
     const cls = `sds-table sds-table--${this.density}`;
-    const table = html`<table class="${cls}">
+    const style = this.width ? `width: ${this.width}` : nothing;
+    /* What a document wrote, where it wrote one: its rows are already markup
+       and rebuilding them from properties would only be a second chance to
+       lose a cell. Everything the table itself is stays the element's. */
+    const given = this.taken ?? this.content;
+    const table = given
+      ? html`<table class="${cls}" style="${style}">${given}</table>`
+      : html`<table class="${cls}" style="${style}">
   <thead><tr>
     ${lines(this.columns.map((c) => html`<th>${c.head}</th>`), 4)}
   </tr></thead>

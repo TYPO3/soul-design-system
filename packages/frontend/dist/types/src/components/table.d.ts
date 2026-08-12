@@ -27,8 +27,12 @@ export interface TableProps {
         that name shadows it. The typechecker caught it; nothing at runtime
         would have. */
     scrollable?: boolean;
-    columns: readonly Column[];
-    rows: readonly Row[];
+    /** How wide the table itself is, where a source said. The class layer has no
+        name for it and cannot have one: it is a fact about these contents rather
+        than a kind of table — the same reason a row carries `style`. */
+    width?: string;
+    columns?: readonly Column[];
+    rows?: readonly Row[];
 }
 export declare class SdsTable extends SdsElement {
     static properties: {
@@ -40,6 +44,9 @@ export declare class SdsTable extends SdsElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
+        width: {
+            type: StringConstructor;
+        };
         columns: {
             type: ArrayConstructor;
         };
@@ -49,9 +56,12 @@ export declare class SdsTable extends SdsElement {
     };
     density: Density;
     scrollable: boolean;
+    width: string;
     columns: Column[];
     rows: Row[];
+    private taken;
     constructor();
+    connectedCallback(): void;
     private cell;
     private bodyRow;
     protected render(): TemplateResult;

@@ -215,15 +215,23 @@ in the line and the note at the foot of the page agree — ``[#name]_`` prints
 Tables
 ======
 
-A table keeps the class layer's own drawing and gets a box around it that
-scrolls. The box has to be around it: ``overflow-x`` on the table itself needs
-``display: block``, which takes it out of table layout and makes every table
-shrink-wrap — a four-column reference sitting in the left third of the page
-with nothing beside it. Wrapped, nothing about the table changes, and it
-overflows only where its own minimum is wider than the column.
+A table becomes ``<sds-table>``, and what goes between the tags is the table's
+own children — the caption, the ``<colgroup>`` a ``:widths:`` option worked
+out, the head and the body, cells and all. A cell carries a link, a literal or
+an emphasis, and ``colspan`` and ``rowspan`` are on it; none of that fits in a
+property, which is why this is the one component a document hands markup to
+rather than values.
 
-The ``:widths:`` option, the caption and the header rows are the renderer's
-own, and they survive.
+The ``<table>`` itself is the element's, and so is its density and the box it
+scrolls in. That box has to be *around* the table: ``overflow-x`` on the table
+itself needs ``display: block``, which takes it out of table layout and makes
+every table shrink-wrap — a four-column reference sitting in the left third of
+the page with nothing beside it. Wrapped, nothing about the table changes, and
+it overflows only where its own minimum is wider than the column.
+
+What does not survive is the renderer's own class list — ``colwidths-auto``,
+``align-*``, ``grid-*``. No stylesheet here defines them, so they drew nothing
+before either. ``:width:`` does survive, as the element's own property.
 
 Pictures
 ========
@@ -336,7 +344,7 @@ Which template does which
    * - ``body/code``
      - the caption above the block, and a language floor
    * - ``body/table``
-     - the box a wide table scrolls in
+     - ``sds-table``: the rows as markup, the table itself as the element's
    * - ``body/topic``, ``body/directive/topic``
      - both spellings of a topic, as one shape
    * - ``body/version-change``

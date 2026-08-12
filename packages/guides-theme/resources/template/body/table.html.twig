@@ -1,27 +1,27 @@
 {#
-    A table, in the box that scrolls for it.
+    A table, addressed rather than drawn.
 
-    The scroller has to be a box **around** the table. `overflow-x` on the
-    `<table>` itself needs `display: block` to take effect, and that takes the
-    element out of table layout: the row groups left inside generate an
-    anonymous table box of their own, and that box shrink-wraps. The rule
-    meant to rescue a table too wide for its column then quietly narrowed
-    every table that was not too wide — a four-column reference sitting in the
-    left third of the page with nothing beside it.
+    What a document writes is the table's own children — the caption, the
+    column widths a `:widths:` option worked out, the head and the body, cells
+    and all, because a cell carries a link or a literal and no property could.
+    The `<table>` itself, its density and the box it scrolls in are the
+    element's, which is what keeps a page of this theme and a page of a product
+    the same table.
 
-    Wrapped, nothing about the table changes. It stays a table, fills the
-    column `document.css` gives it, and overflows the box only where its own
-    minimum is wider than the column.
+    Always scrollable: `document.css` gives a table the column, and one whose
+    own minimum is wider than that has to go somewhere. The box is around the
+    table and never the table itself — `overflow-x` on a `<table>` needs
+    `display: block`, which leaves table layout and shrink-wraps every table
+    that was not too wide in the first place.
 
-    The rest is the core's, included rather than copied: the class list, the
-    inline widths a `:widths:` option sets, and the four parts.
+    What is not carried over is the core's own class list — `colwidths-auto`,
+    `align-*`, `grid-*`. No stylesheet here defines them, so they drew nothing
+    before and name nothing now.
 #}
-<div class="sds-table-scroll">
-    <table {%- include "body/table/table-classes.html.twig" -%}
-            {%- include "body/table/table-inline-style.html.twig" -%}>
-        {% include "body/table/table-caption.html.twig" %}
-        {% include "body/table/table-colgroups.html.twig" %}
-        {% include "body/table/table-header.html.twig" %}
-        {% include "body/table/table-body.html.twig" %}
-    </table>
-</div>
+<sds-table scrollable
+    {%- if tableNode.hasOption('width') %} width="{{ tableNode.option('width') }}"{% endif %}>
+    {%- include "body/table/table-caption.html.twig" -%}
+    {%- include "body/table/table-colgroups.html.twig" -%}
+    {%- include "body/table/table-header.html.twig" -%}
+    {%- include "body/table/table-body.html.twig" -%}
+</sds-table>

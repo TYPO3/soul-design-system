@@ -4117,20 +4117,33 @@ define("sds-dialog", SdsDialog);
 // packages/frontend/src/components/table.ts
 import { html as html35, nothing as nothing13 } from "lit";
 var SdsTable = class extends SdsElement {
+  constructor() {
+    super();
+    /* The table a document wrote, taken before Lit renders over it. A cell there
+       carries a link, a literal, an emphasis — none of which survives a JSON
+       attribute — and `colspan`, `rowspan` and a caption have no property at
+       all. What is written between the tags is the table's own children, so the
+       element still draws the `<table>` and still decides its density. */
+    this.taken = null;
+    this.density = "medium";
+    this.scrollable = false;
+    this.width = "";
+    this.columns = [];
+    this.rows = [];
+  }
   static {
     this.properties = {
       density: { type: String, reflect: true },
       scrollable: { type: Boolean, reflect: true },
+      width: { type: String },
       columns: { type: Array },
       rows: { type: Array }
     };
   }
-  constructor() {
-    super();
-    this.density = "medium";
-    this.scrollable = false;
-    this.columns = [];
-    this.rows = [];
+  connectedCallback() {
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
+    super.connectedCallback();
   }
   cell(value, cls) {
     return cls ? html35`<td class="${cls}">${value}</td>` : html35`<td>${value}</td>`;
@@ -4143,7 +4156,9 @@ var SdsTable = class extends SdsElement {
   }
   render() {
     const cls = `sds-table sds-table--${this.density}`;
-    const table = html35`<table class="${cls}">
+    const style = this.width ? `width: ${this.width}` : nothing13;
+    const given = this.taken ?? this.content;
+    const table = given ? html35`<table class="${cls}" style="${style}">${given}</table>` : html35`<table class="${cls}" style="${style}">
   <thead><tr>
     ${lines(this.columns.map((c) => html35`<th>${c.head}</th>`), 4)}
   </tr></thead>

@@ -83,6 +83,31 @@ export const Default: Story = {};
 export const Compact: Story = { args: { ...CARD_TABLE, density: 'compact' } };
 export const Airy: Story = { args: { ...CARD_TABLE, density: 'airy' } };
 
+/** The form a renderer uses: the table's own children between the tags. A cell
+    of a document carries a link, a literal or an emphasis, `colspan` and a
+    caption have no property at all, and a page has to hold the rows before any
+    script runs. What the table *is* — the class, the density, the box it
+    scrolls in — stays the element's either way. */
+export const FromContent: Story = {
+  render: () => html`<sds-table scrollable
+    ><caption>What each lookup answers with, and where it reads it.</caption
+    ><thead>
+      <tr><th>Tool</th><th>Source</th><th>Versions</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="sds-td-name"><code>typo3_rule_lookup</code></td>
+        <td>bundled knowledge</td>
+        <td class="sds-td-meta">12.4 · 13.4 · 14.3 · main</td>
+      </tr>
+      <tr>
+        <td class="sds-td-name"><code>typo3_icon_lookup</code></td>
+        <td colspan="2">the installation, and <em>only</em> the installation</td>
+      </tr>
+    </tbody></sds-table
+  >`,
+};
+
 export const specimenHtml = (): string =>
   spec([
     part(sdsTable(CARD_TABLE)),
