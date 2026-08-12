@@ -59,11 +59,7 @@ const PENDING = {
     'sds-quote',
     'sds-byline',
   ],
-  /* Classes the theme writes that no stylesheet defines. `sds-confval` is a
-     hook in this system's namespace with nothing behind it, and it is settled
-     by defining the name or dropping it — never by a template that goes on
-     writing it. */
-  themeClasses: ['sds-confval'],
+  themeClasses: [] as string[],
 };
 
 /* The shell every page layout under `specimens/screens/` is built out of: the

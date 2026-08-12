@@ -28,7 +28,7 @@ Two rules follow, and both are load-bearing:
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` — `sds-surface` is a *filled* plane and takes `plane="raised|sunken"`; the plane with no fill is a card, and `sds-card` draws it |
 | Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-image` `sds-embed` `sds-lightbox` `sds-card`/`sds-card-grid` `sds-teaser` `sds-result` `sds-pagination` — `sds-card` is a way into something and the whole of it is the link; `sds-teaser` is one entry in a list, where only the title is; `sds-card-grid` takes cards and carries how wide the set runs |
 | States | `sds-note` `sds-empty` |
-| Long text | `sds-quote` `sds-byline` — both take `as` for what the source is; `role` is the ARIA attribute and cannot be used |
+| Long text | `sds-quote` `sds-byline` `sds-confval` — the first two take `as` for what the source is; `role` is the ARIA attribute and cannot be used. `sds-confval` is one configuration value in a reference: `name`, `anchor`, `required`, `type`, `default`, and `facts` for whatever else the source named |
 
 They render **light DOM** and emit exactly the classes below, so an element and a
 hand-written `<button class="sds-btn">` are the same markup styled by the same rules.
@@ -98,6 +98,7 @@ inline styles — do not mint a `sds-` name.
 | Navigation | `sds-pills`/`sds-pill` `sds-menu`/`sds-menu--for`/`sds-menu__items`/`sds-menu__panel`/`sds-menu__toggle` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__item`/`sds-rail__group` |
 | Code | `<sds-code code-lang="bash">` — the attribute is `code-lang`, because `lang` names the human language of the content. `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |
+| Reference | `sds-confval` with `__term` `__name` `__mark` `__detail` `__facts` `__body` — a hairline above each entry and no box around one; the facts stand in a row on the inset surface |
 | Brand | `sds-signet` `sds-lockup` `sds-wordmark` `sds-wordmark__pipe` `sds-wordmark__product` |
 | Chrome | `sds-modes`/`sds-mode` |
 

@@ -2,35 +2,32 @@
     A configuration value: the name a reader searches for, what it takes, and
     what happens if they leave it alone.
 
+    The element draws all of it — see `teaser.html.twig` for why every option
+    is a property and no markup of a component is written here. What used to
+    stand in this file was a hand-built definition list carrying a class no
+    stylesheet defined, which is how a reference ended up styled by the
+    document layer's `dt` and `dd` and by nothing that knew what it was.
+
     The core template labels the default `Type:` — the same word it uses for
     the type, two lines above. That is an upstream defect and this is where it
     stops being one.
 
-    A definition list rather than a card: `document.css` already sets `dt` and
-    `dd`, a reference is mostly made of these, and forty of them in a row must
-    read as a list and not as forty boxes.
+    **The facts go in as text**, through `plain` — see `ThemeExtension`.
+    `:type:` and `:default:` are parsed inline, so they can hold a link, and an
+    attribute flattens one to its words. That is the trade: a type is written
+    `array<string>` as often as it is written as a reference, and markup in a
+    value that reads `<string>` is markup that eats half the type. The
+    description keeps every block it was written with.
 #}
-<dl class="sds-confval">
-    <dt{% if node.isNoindex == false %} id="{{ node.anchor }}"{% endif %}>
-        <code class="sds-mono">{{ node.plainContent }}</code>
-        {%- if node.required %} <span class="sds-badge sds-badge--warn">required</span>{% endif -%}
-    </dt>
-    <dd>
-        {%- if node.type or node.default != null %}
-            {#- The key is a label and the value is not: upper-cased, "type
-                script" reads as the name of a language. -#}
-            <p>
-                {%- if node.type %}<span class="sds-label">type</span>
-                    <span class="sds-mono">{{ renderNode(node.type) }}</span>{% endif -%}
-                {%- if node.type and node.default != null %} · {% endif -%}
-                {%- if node.default != null %}<span class="sds-label">default</span>
-                    <span class="sds-mono">{{ renderNode(node.default) }}</span>{% endif -%}
-            </p>
-        {%- endif %}
-        {%- for key, option in node.additionalOptions %}
-            <p><span class="sds-label">{{ key }}</span>
-                <span class="sds-mono">{{ renderNode(option) }}</span></p>
-        {%- endfor %}
-        {{ renderNode(node.value) }}
-    </dd>
-</dl>
+{%- set facts = [] -%}
+{%- for key, option in node.additionalOptions -%}
+    {%- set facts = facts|merge([{ label: key, value: renderNode(option)|plain }]) -%}
+{%- endfor -%}
+<sds-confval
+    name="{{ node.plainContent }}"
+    {%- if node.isNoindex == false %} anchor="{{ node.anchor }}"{% endif %}
+    {%- if node.required %} required{% endif %}
+    {%- if node.type %} type="{{ renderNode(node.type)|plain }}"{% endif %}
+    {%- if node.default != null %} default="{{ renderNode(node.default)|plain }}"{% endif %}
+    {%- if facts %} facts="{{ facts|json_encode }}"{% endif -%}
+>{{ renderNode(node.value) }}</sds-confval>

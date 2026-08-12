@@ -40,6 +40,7 @@ import './components/quote.ts';
 import './components/byline.ts';
 import './components/note.ts';
 import './components/empty.ts';
+import './components/confval.ts';
 export { SdsElement, installHostRule, define } from './lib/element.js';
 export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.js';
 export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.js';
@@ -78,6 +79,7 @@ export { SdsQuote, type QuoteProps } from './components/quote.js';
 export { SdsByline, type BylineProps } from './components/byline.js';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.js';
 export { SdsEmpty, type EmptyProps, type EmptyKind } from './components/empty.js';
+export { SdsConfval, type ConfvalProps, type Fact } from './components/confval.js';
 export { SdsCard, type CardProps } from './components/card.js';
 export { SdsCardGrid, type CardGridProps, type CardGridVariant } from './components/card-grid.js';
 export { SdsTeaser, type TeaserProps } from './components/teaser.js';
@@ -86,4 +88,4 @@ export { SdsPagination, pageNumbers, type PaginationProps } from './components/p
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-card', 'sds-card-grid', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-card', 'sds-card-grid', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty', 'sds-confval'];

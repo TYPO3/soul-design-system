@@ -1,0 +1,51 @@
+<!-- @dsCard group="Components" viewport="700x400" subtitle="A reference entry — the name, the facts a machine checks, and the prose under both" name="Configuration values" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/styles.css" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec">
+    <dl class="sds-confval">
+      <dt class="sds-confval__term" id="confval-sitetitle">
+        <code class="sds-confval__name">siteTitle</code>
+        <span class="sds-badge">required</span>
+        <a class="sds-confval__mark" href="#confval-sitetitle" aria-label="Link to siteTitle">#</a>
+      </dt>
+      <dd class="sds-confval__detail">
+        <dl class="sds-confval__facts">
+          <dt class="sds-label">type</dt>
+          <dd class="sds-mono">string</dd>
+          <dt class="sds-label">default</dt>
+          <dd class="sds-mono">&quot;TYPO3&quot;</dd>
+        </dl>
+        <div class="sds-confval__body">The name the site calls itself — the browser tab, the header lockup, and
+          the fallback for any page that declares no title of its own.</div>
+      </dd>
+    </dl>
+    <dl class="sds-confval">
+      <dt class="sds-confval__term" id="confval-cache-lifetime">
+        <code class="sds-confval__name">cache.lifetime</code>
+    
+        <a class="sds-confval__mark" href="#confval-cache-lifetime" aria-label="Link to cache.lifetime">#</a>
+      </dt>
+      <dd class="sds-confval__detail">
+        <dl class="sds-confval__facts">
+          <dt class="sds-label">type</dt>
+          <dd class="sds-mono">int</dd>
+          <dt class="sds-label">default</dt>
+          <dd class="sds-mono">86400</dd>
+          <dt class="sds-label">unit</dt>
+          <dd class="sds-mono">seconds</dd>
+        </dl>
+        <div class="sds-confval__body">How long a rendered page may be served from cache.
+          <span class="sds-mono">0</span> disables caching, which is a development
+          setting and never a production one.</div>
+      </dd>
+    </dl>
+    <div class="spec-cap" style="border-top:1px solid var(--border-subtle); padding-top:12px;">HAIRLINE ABOVE EACH ENTRY, NO BOX AROUND ONE · NAME AND VALUES MONO · FACTS IN ONE ROW ON --surface-inset · REQUIRED IS A BADGE, OPTIONAL IS SILENCE</div>
+  </div>
+</body>
+</html>

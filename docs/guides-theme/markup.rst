@@ -145,16 +145,23 @@ Reference nodes
    :required: true
    :default: "this one"
 
-   ``confval`` is the backbone of any TYPO3-adjacent reference, and it renders
-   as a definition list rather than as a card: the document layer already sets
-   ``dt`` and ``dd``, a reference is mostly made of these, and forty in a row
-   have to read as a list and not as forty boxes.
+   ``confval`` is the backbone of any TYPO3-adjacent reference, and it becomes
+   ``sds-confval`` — see :doc:`/frontend/components/data`. It has a component
+   of its own because a reference is dozens of these in a column, and how they
+   read together is a design rather than a mapping.
 
-The name is mono, ``required`` is a badge, and the type and the default share
-one line under it — each behind a label, because "type script" with the type
-upper-cased reads as the name of a language. Any further option an author sets
-prints the same way. A ``confval`` holds blocks, including admonitions, so its
-description is not one line of text and is not rendered as though it were.
+The name is mono and carries the anchor, ``required`` is a badge, and the type,
+the default and any further option the author set stand in a grid under the
+name — each behind its own label, because "type script" with the type
+upper-cased reads as the name of a language. An entry is separated by a
+hairline and nothing else: forty boxes in a column are not a list. A
+``confval`` holds blocks, including admonitions, so its description is not one
+line of text and is not rendered as though it were.
+
+``:type:`` and ``:default:`` are parsed inline and reach the element as text.
+That is a decision and not an oversight: a type is written ``array<string>`` as
+often as it is written as a reference, and a value that is read as markup is a
+value with half of itself missing.
 
 **Option lists** — the ``.. option::`` directive a command-line reference uses
 — and plain **definition lists** come out through the same document-layer

@@ -183,6 +183,72 @@ The frame is the code block's — same border, same head — because a diff is
 machine output like any other. What it does not share is the body, which is why
 it is an element of its own rather than a mode of ``sds-code``.
 
+sds-confval
+===========
+
+One configuration value in a reference: the name a reader searches for, the
+facts a machine would check against, and prose that runs to whole blocks.
+
+.. specimen:: components/data/confval.card.html
+   :viewport: 700x400
+   :title: Configuration values
+
+.. code-block:: html
+
+   <sds-confval name="cache.lifetime" anchor="confval-cache-lifetime"
+     type="int" default="86400" required
+   >How long a rendered page may be served from cache.</sds-confval>
+
+.. confval:: name
+   :name: sds-confval-name
+   :type: string
+   :required: true
+
+   The value being documented, verbatim. Mono, like everything else the
+   machine named, and never prettified.
+
+.. confval:: anchor
+   :name: sds-confval-anchor
+   :type: string
+
+   Where a link to this one entry lands, and what the mark beside the name
+   points at. Without it the entry carries no address and the mark is left
+   off — which is what a value excluded from the index wants.
+
+.. confval:: required
+   :name: sds-confval-required
+   :type: boolean
+   :default: false
+
+   A badge beside the name. Stated where it is true and silent where it is
+   not: a reference of fifty values, half of them marked "optional", says
+   nothing twice as loudly.
+
+.. confval:: type
+   :name: sds-confval-type
+   :type: string
+
+.. confval:: default
+   :name: sds-confval-default
+   :type: string
+
+   The two the reference always states, in that order and never alphabetised:
+   a reader comparing two entries compares them line by line.
+
+.. confval:: facts
+   :name: sds-confval-facts
+   :type: "{ label, value }[]"
+
+   Anything else the source named, printed the same way and in the order it
+   was named. The label is whatever it was called and is set as a label, so
+   ``since`` stays ``since``.
+
+An entry is a hairline and what stands under it — no box, because a reference
+is dozens of these in a column and drawn as boxes it stops being a list. The
+facts sit in a grid of their own so a long union type wraps inside its column
+instead of pushing the labels out of line, and the description keeps every
+block it was written with, admonitions included.
+
 .. seealso::
 
    :doc:`/design-system/type` for the register these blocks set in, and

@@ -180,9 +180,6 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
   Jedes braucht entweder einen Knoten, den der Kern ohnehin emittiert, oder
   eine eigene Direktive. Die Liste schrumpft nur: ein Eintrag, der gedeckt ist,
   lässt das Gate genauso rot werden wie ein fehlender.
-- **`sds-confval` ist ein Haken im Namensraum dieses Systems, hinter dem kein
-  Stylesheet steht.** Er wird entschieden, indem der Name definiert oder fallen
-  gelassen wird, nicht von einem Template, das ihn weiter schreibt.
 
 ## In welcher Reihenfolge
 

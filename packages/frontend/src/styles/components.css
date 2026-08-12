@@ -2109,6 +2109,80 @@ sds-rail:not(:defined) {
 .sds-diff__line--add .sds-diff__mark { color: var(--status-ok); }
 .sds-diff__line--del .sds-diff__mark { color: var(--status-error); }
 
+/* ------------------------------------------------------------ reference -- */
+
+/* One configuration value, and the list it stands in. A hairline above each
+   entry and no box around it: a reference is dozens of these in a column, and
+   drawn as boxes it stops being a list. */
+.sds-confval {
+  /* An entry is made of words, so it wraps where words wrap — and the rule
+     above it with them: drawn to the full column, a hairline would separate
+     two paragraphs of text with a line half of which has nothing under it. */
+  max-width: var(--measure-prose);
+  margin: 0 0 var(--space-4);
+  padding-top: var(--space-3);
+  border-top: var(--border-hairline) solid var(--border-subtle);
+}
+.sds-confval__term {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  /* The bar is sticky, so an entry jumped to would arrive underneath it. */
+  scroll-margin-top: calc(var(--height-header) + var(--space-4));
+}
+.sds-confval__name {
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+/* The address of this one entry, in the character an address is written with.
+   Quiet until it is wanted rather than absent until hover: a mark that appears
+   under the pointer is a mark a touch reader never finds. */
+.sds-confval__mark {
+  font-family: var(--font-mono);
+  color: var(--border-strong);
+  text-decoration: none;
+}
+.sds-confval__mark:hover { color: var(--text-link); }
+/* Landing on one out of forty says which one. */
+.sds-confval__term:target .sds-confval__name { color: var(--text-accent-quiet); }
+
+.sds-confval__detail { margin: 0; }
+
+/* What a machine would check, set apart from the prose that explains it and
+   kept to one line where it fits: a reference is dozens of entries deep, and
+   three facts stacked in each is a page of column. Shrink-wrapped, because a
+   fact is as wide as it is, and it wraps rather than scrolling. */
+.sds-confval__facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-2);
+  row-gap: var(--space-1);
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-control);
+  background: var(--surface-inset);
+  font-size: var(--font-size-ui);
+}
+.sds-confval__facts dt,
+.sds-confval__facts dd { margin: 0; max-width: none; }
+/* The air between two facts, against the air inside one: a label belongs to
+   the value on its right, and equal gaps would leave that to be guessed. */
+.sds-confval__facts dt ~ dt { margin-left: var(--space-3); }
+/* A label is muted against the canvas it was measured on. Eleven pixels on the
+   inset surface is the one place that drops under contrast, so it steps up a
+   register rather than the surface losing its fill. */
+.sds-confval__facts .sds-label { color: var(--text-secondary); }
+
+/* The description is blocks — paragraphs, a list, an admonition — and they
+   bring their own margins. The outermost two are the entry's own spacing. */
+.sds-confval__body > :first-child { margin-top: 0; }
+.sds-confval__body > :last-child { margin-bottom: 0; }
+
 /* --------------------------------------------------------------- states -- */
 
 /* An answer always carries its source, its version binding and what it

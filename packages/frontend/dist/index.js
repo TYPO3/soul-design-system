@@ -28,9 +28,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// ../../node_modules/highlight.js/lib/core.js
+// node_modules/highlight.js/lib/core.js
 var require_core = __commonJS({
-  "../../node_modules/highlight.js/lib/core.js"(exports, module) {
+  "node_modules/highlight.js/lib/core.js"(exports, module) {
     function deepFreeze(obj) {
       if (obj instanceof Map) {
         obj.clear = obj.delete = obj.set = function() {
@@ -918,10 +918,10 @@ var require_core = __commonJS({
     }
     var version = "11.11.1";
     var HTMLInjectionError = class extends Error {
-      constructor(reason, html44) {
+      constructor(reason, html45) {
         super(reason);
         this.name = "HTMLInjectionError";
-        this.html = html44;
+        this.html = html45;
       }
     };
     var escape = escapeHTML;
@@ -4436,11 +4436,11 @@ define("sds-pagination", SdsPagination);
 import { html as html40 } from "lit";
 import { unsafeHTML as unsafeHTML4 } from "lit/directives/unsafe-html.js";
 
-// ../../node_modules/highlight.js/es/core.js
+// node_modules/highlight.js/es/core.js
 var import_core = __toESM(require_core(), 1);
 var core_default = import_core.default;
 
-// ../../node_modules/highlight.js/es/languages/bash.js
+// node_modules/highlight.js/es/languages/bash.js
 function bash(hljs) {
   const regex = hljs.regex;
   const VAR = {};
@@ -4834,7 +4834,7 @@ function bash(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/css.js
+// node_modules/highlight.js/es/languages/css.js
 var MODES = (hljs) => {
   return {
     IMPORTANT: {
@@ -5771,7 +5771,7 @@ function css(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/diff.js
+// node_modules/highlight.js/es/languages/diff.js
 function diff(hljs) {
   const regex = hljs.regex;
   return {
@@ -5824,7 +5824,7 @@ function diff(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/javascript.js
+// node_modules/highlight.js/es/languages/javascript.js
 var IDENT_RE = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS = [
   "as",
@@ -6525,7 +6525,7 @@ function javascript(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/json.js
+// node_modules/highlight.js/es/languages/json.js
 function json(hljs) {
   const ATTRIBUTE = {
     className: "attr",
@@ -6565,7 +6565,7 @@ function json(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/markdown.js
+// node_modules/highlight.js/es/languages/markdown.js
 function markdown(hljs) {
   const regex = hljs.regex;
   const INLINE_HTML = {
@@ -6797,7 +6797,7 @@ function markdown(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/php.js
+// node_modules/highlight.js/es/languages/php.js
 function php(hljs) {
   const regex = hljs.regex;
   const NOT_PERL_ETC = /(?![A-Za-z0-9])(?![$])/;
@@ -7398,7 +7398,7 @@ function php(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/plaintext.js
+// node_modules/highlight.js/es/languages/plaintext.js
 function plaintext(hljs) {
   return {
     name: "Plain text",
@@ -7410,7 +7410,7 @@ function plaintext(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/sql.js
+// node_modules/highlight.js/es/languages/sql.js
 function sql(hljs) {
   const regex = hljs.regex;
   const COMMENT_MODE = hljs.COMMENT("--", "$");
@@ -8053,7 +8053,7 @@ function sql(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/twig.js
+// node_modules/highlight.js/es/languages/twig.js
 function twig(hljs) {
   const regex = hljs.regex;
   const FUNCTION_NAMES = [
@@ -8292,7 +8292,7 @@ function twig(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/typescript.js
+// node_modules/highlight.js/es/languages/typescript.js
 var IDENT_RE2 = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS2 = [
   "as",
@@ -9106,7 +9106,7 @@ function typescript(hljs) {
   return tsLanguage;
 }
 
-// ../../node_modules/highlight.js/es/languages/xml.js
+// node_modules/highlight.js/es/languages/xml.js
 function xml(hljs) {
   const regex = hljs.regex;
   const TAG_NAME_RE = regex.concat(/[\p{L}_]/u, regex.optional(/[\p{L}0-9_.-]*:/u), /[\p{L}0-9_.-]*/u);
@@ -9332,7 +9332,7 @@ function xml(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/yaml.js
+// node_modules/highlight.js/es/languages/yaml.js
 function yaml(hljs) {
   const LITERALS3 = "true false yes no null";
   const URI_CHARACTERS = "[\\w#;/?:@&=+$,.~*'()[\\]]+";
@@ -9799,6 +9799,71 @@ var SdsByline = class extends SdsElement {
 };
 define("sds-byline", SdsByline);
 
+// packages/frontend/src/components/confval.ts
+import { html as html44, nothing as nothing14 } from "lit";
+var SdsConfval = class extends SdsElement {
+  constructor() {
+    super();
+    /* What a caller wrote between the tags — see `SdsElement.lifted()`. */
+    this.taken = null;
+    this.name = "";
+    this.anchor = "";
+    this.required = false;
+    this.type = "";
+    this.default = "";
+    this.facts = [];
+    this.body = "";
+  }
+  static {
+    this.properties = {
+      name: { type: String },
+      anchor: { type: String },
+      required: { type: Boolean, reflect: true },
+      type: { type: String },
+      default: { type: String },
+      facts: { type: Array },
+      body: { type: String }
+    };
+  }
+  connectedCallback() {
+    const written = this.lifted();
+    if (written.length) this.taken = written;
+    super.connectedCallback();
+  }
+  /** The two the directive names first, then whatever else the source set.
+      Order is fixed rather than alphabetical: a reader comparing two entries
+      compares them line by line. */
+  get stated() {
+    return [
+      ...this.type ? [{ label: "type", value: this.type }] : [],
+      ...this.default ? [{ label: "default", value: this.default }] : [],
+      ...this.facts
+    ];
+  }
+  fact({ label, value }) {
+    return html44`<dt class="sds-label">${label}</dt>
+      <dd class="sds-mono">${value}</dd>`;
+  }
+  render() {
+    const facts = this.stated;
+    const mark = this.anchor ? html44`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing14;
+    return html44`<dl class="sds-confval">
+  <dt class="sds-confval__term" id="${this.anchor || nothing14}">
+    <code class="sds-confval__name">${this.name}</code>
+    ${this.required ? html44`<sds-badge label="required"></sds-badge>` : nothing14}
+    ${mark}
+  </dt>
+  <dd class="sds-confval__detail">
+    ${facts.length ? html44`<dl class="sds-confval__facts">
+      ${lines(facts.map((f) => this.fact(f)), 6)}
+    </dl>` : nothing14}
+    <div class="sds-confval__body">${this.taken ?? this.content ?? this.body}</div>
+  </dd>
+</dl>`;
+  }
+};
+define("sds-confval", SdsConfval);
+
 // packages/frontend/src/index.ts
 if (typeof document !== "undefined") installHostRule();
 var TAGS2 = [
@@ -9843,7 +9908,8 @@ var TAGS2 = [
   "sds-quote",
   "sds-byline",
   "sds-note",
-  "sds-empty"
+  "sds-empty",
+  "sds-confval"
 ];
 export {
   SdsAccordion,
@@ -9855,6 +9921,7 @@ export {
   SdsCardGrid,
   SdsCheckbox,
   SdsCode,
+  SdsConfval,
   SdsCrumbs,
   SdsDialog,
   SdsDiff,

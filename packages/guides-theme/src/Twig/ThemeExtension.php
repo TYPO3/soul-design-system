@@ -8,6 +8,7 @@ use phpDocumentor\Guides\Nodes\Menu\MenuNode;
 use phpDocumentor\Guides\RenderContext;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Nodes\Bands;
@@ -55,6 +56,26 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
                 'navigation' => $this->navigation,
             ],
         ];
+    }
+
+    /** @return TwigFilter[] */
+    public function getFilters(): array
+    {
+        return [new TwigFilter('plain', $this->plain(...))];
+    }
+
+    /**
+     * A rendered node as the words in it, for a value that has to travel in an
+     * attribute.
+     *
+     * Rendering escapes and Twig escapes again on the way into the attribute,
+     * so a type written `"string"` arrives as `&amp;quot;string&amp;quot;` and
+     * is read by nobody. Decoded here and escaped once by Twig, it arrives as
+     * it was written.
+     */
+    public function plain(string $rendered): string
+    {
+        return trim(html_entity_decode(strip_tags($rendered), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
     }
 
     /** @return TwigFunction[] */
