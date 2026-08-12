@@ -221,8 +221,14 @@ test.describe('what the theme repaired', () => {
        which is the failure the class layer exists to prevent, arriving through
        the one surface that is supposed to prevent it. The card the fixture
        writes carries every option, and this is that card. */
+    /* And it is the element that draws it, not a `div` wearing its classes:
+       the front door is the same one everywhere, so the card a renderer
+       produces cannot drift from the card a product writes. */
+    await expect(page.locator('sds-teaser')).toHaveCount(2);
+    await expect(page.locator('.sds-teaser:not(sds-teaser > .sds-teaser)')).toHaveCount(0);
+
     const full = page.locator('.sds-teaser').first();
-    await expect(full.locator('.sds-teaser__art svg use')).toHaveAttribute('href', /#art$/);
+    await expect(full.locator('.sds-teaser__image svg use')).toHaveAttribute('href', /#art$/);
     await expect(full.locator('.sds-row .sds-badge')).toHaveText('Reference');
     await expect(full.locator('.sds-row .sds-label')).toHaveText('Both halves at once');
     await expect(full.locator('.sds-teaser__title a')).toHaveAttribute('href', /nodes\.html$/);
@@ -231,7 +237,7 @@ test.describe('what the theme repaired', () => {
        row with nothing in it and a ground under a picture that is not there
        are each a hole in a card that sits in a set of them. */
     const bare = page.locator('.sds-teaser').nth(1);
-    await expect(bare.locator('.sds-teaser__art')).toHaveCount(0);
+    await expect(bare.locator('.sds-teaser__image')).toHaveCount(0);
     await expect(bare.locator('.sds-row')).toHaveCount(0);
     await expect(bare.locator('.sds-teaser__title a')).toHaveCount(0);
   });
@@ -261,6 +267,29 @@ test.describe('what the reader gets before the script does', () => {
       await expect(items.nth(i)).toBeVisible();
       expect((await items.nth(i).innerText()).trim().length).toBeGreaterThan(0);
     }
+  });
+
+  test('a card is a card with no script to draw it', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* Everything in the card was written by the renderer, so all of it reads
+       here — a card whose title or picture waited for a script would be an
+       empty box in a grid of them. */
+    const card = page.locator('sds-teaser').first();
+    await expect(card.locator('.sds-teaser__title a')).toBeVisible();
+    await expect(card.locator('.sds-teaser__image svg')).toBeVisible();
+    await expect(card.locator('.sds-row .sds-badge')).toBeVisible();
+
+    /* What the element owns is the node around them, and the document layer
+       draws it until the element exists: without it the parts are loose in
+       the grid, one cell each and no card anywhere. */
+    const frame = await card.evaluate((el) => {
+      const style = getComputedStyle(el);
+      return { display: style.display, border: parseFloat(style.borderTopWidth), radius: style.borderTopLeftRadius };
+    });
+    expect(frame.display).toBe('flex');
+    expect(frame.border).toBeGreaterThan(0);
+    expect(parseFloat(frame.radius)).toBeGreaterThan(0);
   });
 
   test('the evidence on the page is on it, framed, before anything upgrades', async ({ page }) => {

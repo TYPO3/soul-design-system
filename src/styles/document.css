@@ -446,6 +446,30 @@
    then, so what the document stacks is the figure inside it. */
 :where(.sds-prose) .sds-figure { margin-bottom: var(--space-4); }
 
+/* A card before its element upgrades, and on a page that runs no JavaScript
+   at all.
+
+   Everything inside it was written by the renderer and carries the card's own
+   parts, so the picture, the row and the title are already drawn. What the
+   element owns is the one node around them, and without it the parts are
+   loose: in a grid each becomes a cell of its own, and outside one they stack
+   with nothing saying where the card ends. So this is that node, on the host,
+   until the article inside it exists.
+
+   The frame is stated twice — here and on `.sds-teaser` — which is the cost
+   of every rule in this section and is why they are all so short: the element
+   draws the card, and this draws the window before it. Both read the same
+   tokens, so the two cannot say different things about a corner or a
+   hairline; what they could disagree about is whether a frame is there at
+   all, and that is what the acceptance page is opened to check. */
+:where(.sds-prose) sds-teaser:not(:defined) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+}
+
 /* An embedded document before its element upgrades, and on a page that runs
    no JavaScript at all.
 

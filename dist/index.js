@@ -3790,6 +3790,25 @@ var SdsImage = class extends SdsElement {
     this.height = 0;
     this.cls = "";
   }
+  /** What a server wrote between the tags, dropped.
+  
+        This element takes no content: the picture follows from `src` and
+        nothing else. What it does take is a *fallback* — the same picture
+        written out in the class layer, for a surface that renders before any
+        script does and for a reader who runs none. The Guides theme is that
+        surface, and the mark in its bar is the case that matters: it is the
+        site's identity, and it may not wait for a bundle.
+  
+        So the contract is `sds-code`'s, with the halves swapped. There, what
+        the server wrote is what the element goes on showing; here the element
+        redraws it and the server's copy goes, because two pictures in one box
+        is what light DOM gives you otherwise. Either way the element is the
+        front door and the class layer stands behind it, which is the rule this
+        element could not follow before. */
+  connectedCallback() {
+    this.lifted();
+    super.connectedCallback();
+  }
   render() {
     const width = this.width || void 0;
     const height = this.height || void 0;
@@ -4053,7 +4072,33 @@ define("sds-table", SdsTable);
 
 // src/components/teaser.ts
 import { html as html35 } from "lit";
+var isPart = (node, part) => node.nodeType === 1 && node.matches(part);
+var isNothing3 = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
 var SdsTeaser = class extends SdsElement {
+  constructor() {
+    super();
+    /* The picture a renderer wrote, and the body it wrote, taken before Lit
+       renders over them. The two are kept apart because the frame around the
+       picture is the card's own part and a renderer writes it: reading the pair
+       back as one block would put the summary inside the ground the picture
+       sits on. */
+    this.taken = null;
+    this.written = null;
+    /* Anything else between the tags is the summary. A surface that knows the
+       entry but not how to spell the card — a product template with a paragraph
+       in hand — writes that paragraph and nothing else, and the row and the
+       title come from the properties beside it. Left unclaimed it would be
+       dropped, and content a component silently loses is the worst of the three
+       outcomes. */
+    this.summary = null;
+    this.heading = "";
+    this.body = "";
+    this.href = "#";
+    this.tag = "";
+    this.meta = "";
+    this.src = "";
+    this.alt = "";
+  }
   static {
     this.properties = {
       heading: { type: String },
@@ -4065,31 +4110,33 @@ var SdsTeaser = class extends SdsElement {
       alt: { type: String }
     };
   }
-  constructor() {
-    super();
-    this.heading = "";
-    this.body = "";
-    this.href = "#";
-    this.tag = "";
-    this.meta = "";
-    this.src = "";
-    this.alt = "";
+  connectedCallback() {
+    const written = this.lifted().filter((node) => !isNothing3(node));
+    const picture = written.filter((node) => isPart(node, ".sds-teaser__image"));
+    const body = written.filter((node) => isPart(node, ".sds-teaser__body"));
+    const rest = written.filter((node) => !picture.includes(node) && !body.includes(node));
+    if (picture.length) this.taken = picture;
+    if (body.length) this.written = body;
+    if (rest.length) this.summary = rest;
+    super.connectedCallback();
   }
   render() {
-    const medium = this.src ? html35`<div class="sds-teaser__art">
+    const medium = this.taken ? html35`${this.taken}` : this.src ? html35`<div class="sds-teaser__image">
     ${art(this.src, this.alt)}
   </div>` : "";
     const meta = this.tag || this.meta ? html35`<div class="sds-row">
       ${this.tag ? html35`<sds-badge label="${this.tag}"></sds-badge>` : ""}
       ${this.meta ? html35`<span class="sds-label">${this.meta}</span>` : ""}
     </div>` : "";
-    return html35`<article class="sds-teaser">
-  ${medium}
-  <div class="sds-teaser__body">
+    const text = this.summary ? html35`<div class="sds-teaser__text">${this.summary}</div>` : html35`<p class="sds-teaser__text">${this.body}</p>`;
+    const body = this.written ? html35`${this.written}` : html35`<div class="sds-teaser__body">
     ${meta}
     <h3 class="sds-teaser__title"><a href="${this.href}">${this.heading}</a></h3>
-    <p class="sds-teaser__text">${this.body}</p>
-  </div>
+    ${text}
+  </div>`;
+    return html35`<article class="sds-teaser">
+  ${medium}
+  ${body}
 </article>`;
   }
 };

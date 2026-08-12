@@ -30,21 +30,21 @@ once.
 .. grid::
 
    .. teaser:: As a Claude design system
-      :to: /design-system
+      :href: /design-system
 
       An upload the design agent reads: every rule as a written page, every
       component as a rendered card at a known size, and whole screens to start
       a design from. Nothing is described in prose that is not also shown.
 
    .. teaser:: As a render guide template
-      :to: /guides-theme/index
+      :href: /guides-theme/index
 
       A Composer package that turns reStructuredText or Markdown into pages
       set with this system, with the document layer that styles what a
       renderer emits when nobody can put a class on anything.
 
    .. teaser:: As a standalone frontend design
-      :to: /frontend
+      :href: /frontend
 
       Two files a page links. No bundler, no import map, no framework: markup
       rendered by PHP, Twig or Fluid uses the class layer, and the custom

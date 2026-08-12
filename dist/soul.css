@@ -164,7 +164,7 @@ dialog.sds-lightbox::backdrop{background:var(--surface-overlay)}
 .sds-art{display:block;width:100%;height:auto}
 .sds-teaser{display:flex;flex-direction:column;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-card);overflow:hidden;transition:border-color var(--duration-fast) var(--ease-out)}
 .sds-teaser:has(a:hover){border-color:var(--border-strong)}
-.sds-teaser__art{background:var(--surface-sunken);border-bottom:var(--border-hairline) solid var(--border-subtle)}
+.sds-teaser__image{background:var(--surface-sunken);border-bottom:var(--border-hairline) solid var(--border-subtle)}
 .sds-teaser__body{display:flex;flex-direction:column;gap:var(--space-2);padding:14px 16px}
 .sds-teaser__title{margin:0;font-size:var(--font-size-h3);line-height:var(--leading-heading);color:var(--text-primary)}
 .sds-teaser__title a{color:inherit;text-decoration:none}

@@ -7,24 +7,37 @@
     follows on hover — which is what makes the whole thing feel like the target
     it deliberately is not. Where there is nowhere to go, the title is a title.
 
-    This is the markup `sds-teaser` renders, node for node: a renderer and an
-    element writing the same class differently is the drift the class layer
-    exists to prevent. Node for node is the whole card and not the half of it a
-    landing page happened to need first — the picture, the row above the title
-    and the two lines under it are what the element draws, so they are what the
-    directive can say.
+    **The element, not a hand-built card.** `sds-teaser` is the front door and
+    a `div` with its classes on it is the fallback, which is the rule for every
+    other node this theme writes — and it is what makes the card the element's
+    to change: the frame around it is drawn once, in one file, and a page the
+    renderer produced cannot drift from a page a product wrote.
 
-    **Written as classes rather than as the elements the component composes.**
-    `sds-teaser` renders `<sds-badge label="…">`, which renders the span below
-    from a property; a renderer writing the element instead would ship a card
-    whose first row is empty until a script runs, and empty for good on a page
-    that runs none. That is the rule the theme is built on, and here it costs
-    nothing: the badge and the label have no behaviour, so the class layer is
-    the whole of them.
+    The parts are still written here, between the tags, and the element keeps
+    them. That is the theme's other rule — the server writes, the element
+    upgrades — and a card is where it bites hardest: a title, a picture and a
+    summary that waited for a script would leave a reader with none looking at
+    an empty box in a grid of them. What arrives through an attribute is what
+    an attribute can carry, and a card is made of none of it: the title may
+    have resolved to a link, the summary is paragraphs.
+
+    So the parts carry the classes the element itself emits for them — the
+    markers it reads its own card back by, and the same ones `sds-figure` and
+    `sds-code` use. Node for node is the whole card and not the half of it a
+    landing page happened to need first.
+
+    **The badge is written as its class rather than as `sds-badge`.** That
+    element renders its span from a property, so one written here would be an
+    empty row until a script ran, and empty for good on a page that runs none.
+    It costs nothing: the badge and the label have no behaviour, so the class
+    layer is the whole of them.
 #}
+{#- The picture goes by the name every other directive that takes a file uses:
+    what an option is called belongs to the language it is written in, and
+    `.. figure::` and `.. image::` already gave the file that name. -#}
 {%- set src = node.option('src') -%}
 {%- set alt = node.option('alt')|default('') -%}
-<article class="sds-teaser">
+<sds-teaser>
     {%- if src %}
         {#- The picture, referenced or linked by what it is — see
             `body/figure.html.twig`, which decides it the same way and says
@@ -35,7 +48,7 @@
             browser will not do that across origins. -#}
         {%- set external = src is external_target -%}
         {%- set source = external ? src : asset(src) -%}
-        <div class="sds-teaser__art">
+        <div class="sds-teaser__image">
             {%- if not external and src ends with '.svg' -%}
                 {#- Named where there is something to say, and hidden where
                     there is not: an unlabelled picture and a decorative one
@@ -58,8 +71,8 @@
         {%- endif %}
         {%- if node.option('title') %}
             <h3 class="sds-teaser__title">
-                {%- if node.option('to') -%}
-                    <a href="{{ renderLink(node.option('to')) }}">{{ node.option('title') }}</a>
+                {%- if node.option('href') -%}
+                    <a href="{{ renderLink(node.option('href')) }}">{{ node.option('title') }}</a>
                 {%- else -%}
                     {{ node.option('title') }}
                 {%- endif -%}
@@ -71,4 +84,4 @@
             {%- endfor -%}
         </div>
     </div>
-</article>
+</sds-teaser>

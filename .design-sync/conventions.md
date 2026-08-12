@@ -83,7 +83,7 @@ inline styles — do not mint a `sds-` name.
 | Figures | `sds-stats` `sds-stat` `sds-stat__value` `sds-stat__note`; `sds-figure` `sds-figure__frame` `sds-figure__caption` |
 | Artwork | `sds-art` — one file, in both modes. A photograph is an `<img>`; a drawing is an `<svg>` with a `<use>` into the file, because only a reference lets the tokens reach the shapes. `sds-lightbox` `sds-lightbox__art` `sds-figure__zoom` open one at the size it was drawn |
 | Search | `sds-result` `sds-result__title` `sds-result__path` `sds-result__text`; `sds-mark` for what was searched for inside what was found |
-| Lists | `sds-teaser` `sds-teaser__art` `sds-teaser__body` `sds-teaser__title` `sds-teaser__text`; `sds-pagination` `sds-pagination__page` `sds-pagination__step` `sds-pagination__gap` `sds-pagination__count` |
+| Lists | `sds-teaser` `sds-teaser__image` `sds-teaser__body` `sds-teaser__title` `sds-teaser__text`; `sds-pagination` `sds-pagination__page` `sds-pagination__step` `sds-pagination__gap` `sds-pagination__count` |
 | Long text | `sds-quote` `sds-quote__body` `sds-quote__by` — the attribution is required; `sds-byline` `sds-byline__mark` `sds-byline__who` `sds-byline__name` `sds-byline__role` |
 | Empty | `sds-empty` `sds-empty--boundary` `sds-empty__icon` `sds-empty__title` `sds-empty__body` — never "no results": name the source asked, what it does not cover, and the nearest real thing |
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon`. Hand-written markup writes `type="button"` unless it is the form's submit — a `<button>` with no type inside a `<form>` submits it |

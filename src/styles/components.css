@@ -956,7 +956,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-teaser:has(a:hover) { border-color: var(--border-strong); }
 /* The medium sits flush at the top: a framed image inside a card would share
    its corner with the card, and a container must not. */
-.sds-teaser__art {
+.sds-teaser__image {
   background: var(--surface-sunken);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
 }

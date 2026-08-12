@@ -110,12 +110,12 @@ Cards that reflow by their own minimum width.
    .. grid::
 
       .. teaser:: What it is
-         :to: /overview
+         :href: /overview
 
          Two sentences.
 
       .. teaser:: What it costs
-         :to: /pricing
+         :href: /pricing
 
          Two more.
 
@@ -133,14 +133,14 @@ One card in a grid: a title, a few sentences, and where it goes.
 .. code-block:: text
 
    .. teaser:: As a render guide template
-      :to: /guides-theme/index
+      :href: /guides-theme/index
       :tag: Package
       :meta: Composer
 
       A Composer package that turns reStructuredText or Markdown into pages
       set with this system.
 
-.. confval:: to
+.. confval:: href
    :type: string
 
    A document, written the way a ``:doc:`` reference is, and resolved per
@@ -168,6 +168,9 @@ One card in a grid: a title, a few sentences, and where it goes.
    rather than linked, so it takes the page's tokens and follows it into dark
    — which costs the file the one line :doc:`/guidelines/artwork` asks for.
 
+   The name is ``src`` here and on the element, because that is what
+   everything in this system that takes a file is called.
+
 .. confval:: alt
    :type: string
 
@@ -175,17 +178,26 @@ One card in a grid: a title, a few sentences, and where it goes.
    says decorative — a card whose art only repeats the title beside it — and
    left out entirely says nothing was decided, which reads very differently.
 
-**The options are ``sds-teaser``'s properties, all of them.** A directive that
-draws one of this system's components and answers for half of it sends the
-author who wanted the other half to their own stylesheet, which is the one
-thing this system exists to prevent. What the element gains, this gains.
+**The options are ``sds-teaser``'s properties, all of them, spelt the way the
+element spells them.** A directive that draws one of this system's components
+and answers for half of it sends the author who wanted the other half to their
+own stylesheet, which is the one thing this system exists to prevent — and one
+that renames what it does carry makes them translate a card they have already
+read. ``href`` links and ``src`` takes a file here for the same reason they do
+everywhere else. What the element gains, this gains.
 
 **What is pressable is the title and not the card.** A card wrapped in one
 anchor announces its entire contents as that link's name to a screen reader,
 and takes selecting the text inside it away from everybody else. The card
 following on hover is what makes it feel like the target it deliberately is
-not — and this is the markup ``sds-teaser`` renders, node for node, so a
-rendered page and a hand-built one cannot drift.
+not.
+
+The node is ``sds-teaser`` itself and not a ``div`` wearing its classes — the
+element is the front door here as everywhere else, so the card is drawn in one
+file and a rendered page cannot drift from one a product wrote. Its parts are
+written into it by the renderer and the element keeps them, which is what a
+reader with no JavaScript reads: the picture, the title and the summary are in
+the page before any script has run.
 
 specimen
 ========

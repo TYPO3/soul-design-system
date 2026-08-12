@@ -228,7 +228,7 @@ Cards
 .. grid::
 
    .. teaser:: A card with every option on it
-      :to: /nodes
+      :href: /nodes
       :tag: Reference
       :meta: Both halves at once
       :src: /_images/placeholder.svg

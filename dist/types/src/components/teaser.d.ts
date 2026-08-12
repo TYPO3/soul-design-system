@@ -50,6 +50,10 @@ export declare class SdsTeaser extends SdsElement {
     meta: string;
     src: string;
     alt: string;
+    private taken;
+    private written;
+    private summary;
     constructor();
+    connectedCallback(): void;
     protected render(): TemplateResult;
 }
