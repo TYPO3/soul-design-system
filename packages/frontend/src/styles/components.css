@@ -1811,7 +1811,12 @@ sds-menu[for]:not(:defined),
   font-family: var(--font-mono);
   font-size: var(--nav-font-size);
 }
+/* An item is a row of the rail, so it says so itself. The `inline-flex` it
+   shares with a pill carried only as long as every item was a flex item of the
+   column — a group's are not, and inside a block box eight inline items flow as
+   a paragraph and pair up two to a line. */
 .sds-rail__item {
+  display: flex;
   padding: 5px 9px;
   border-radius: var(--radius-control);
   color: var(--text-secondary);
@@ -1841,6 +1846,15 @@ sds-rail:not(:defined) {
    before any script does; the marker is the system's chevron and the browser's
    own triangle is taken away. */
 .sds-rail__group { display: contents; }
+/* The box the browser puts between a group and the items it holds, which
+   `display: contents` above does not reach through: the items are laid out
+   inside it, not in the rail. The column is declared again here so a grouped
+   item keeps the rhythm of an ungrouped one. */
+.sds-rail__group::details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
 .sds-rail__group > summary {
   list-style: none;
   cursor: pointer;

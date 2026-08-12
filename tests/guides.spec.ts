@@ -233,6 +233,32 @@ test.describe('what the theme repaired', () => {
     await expect(rail.locator('.sds-rail__group[open]')).toHaveCount(1);
   });
 
+  test('a page inside a group is a row of the rail like any other', async ({ page }) => {
+    /* The items of a group are laid out in the fold's own box rather than in the
+       rail, so the column the group declared by disappearing never reached them:
+       inline items in a block box, flowing as a paragraph, two short page titles
+       to a line. Measured rather than asserted about a class, because what broke
+       was the layout and not the markup. */
+    await page.goto(`${ACCEPTANCE_URL}/depth/group/far.html`, { waitUntil: 'load' });
+
+    const rail = page.locator('.sds-rail');
+    const width = await rail.evaluate((el) => el.getBoundingClientRect().width);
+    const rows = await rail
+      .locator('.sds-rail__group[open] > .sds-rail__item')
+      .evaluateAll((items) =>
+        items.map((el) => {
+          const box = el.getBoundingClientRect();
+          return { label: el.textContent?.trim() ?? '', top: Math.round(box.top), width: box.width };
+        }),
+      );
+    expect(rows.length, 'the open group should hold more than one page').toBeGreaterThan(1);
+
+    for (const row of rows) {
+      expect(row.width, `${row.label} takes the rail's width`).toBeGreaterThan(width * 0.8);
+    }
+    expect(new Set(rows.map((row) => row.top)).size, 'every page on a line of its own').toBe(rows.length);
+  });
+
   test('a section that is one page carries no rail, and no button to open one', async ({ page }) => {
     /* Such a page used to get the list of sections instead, every one of them
        folded open — a sitemap hung off a page belonging to none of it, and the
