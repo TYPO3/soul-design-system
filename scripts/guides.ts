@@ -14,11 +14,14 @@ import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 import { FRONTEND, GENERATED, ROOT, cards, screens } from './lib/cards.ts';
-import { dropIn, finish } from './lib/site.ts';
 
 const THEME = join(ROOT, 'packages', 'guides-theme');
 const SITE = join(GENERATED, 'site');
 const DROP = join(FRONTEND, 'dist');
+/* The step after the render, taken out of the drop-in rather than imported
+   from `lib/site.ts`: it is that file bundled, so this runs what a reader
+   runs — and it is why this task needs a Node and nothing installed. */
+const FINISH = join(DROP, 'soul-finish.js');
 
 interface Project {
   /** What it is called in the output and in the log. */
@@ -92,8 +95,8 @@ if (!existsSync(join(THEME, 'vendor', 'bin', 'guides'))) {
 /* The drop-in, not the sources: what a consuming site links is one built
    stylesheet and one built script, and rendering against anything else would
    prove the theme works with something nobody ships. */
-if (!existsSync(join(DROP, 'soul.css'))) {
-  console.error('dist/soul.css is missing — run `make dist` first');
+if (!existsSync(join(DROP, 'soul.css')) || !existsSync(FINISH)) {
+  console.error('dist/ is incomplete — run `make dist` first');
   process.exit(1);
 }
 
@@ -115,12 +118,13 @@ for (const project of PROJECTS) {
   ]);
   if (code !== 0) process.exit(code);
 
-  /* The drop-in, into the output, in one piece — the same copy a project with
-     only Composer makes, out of the same function. Not through the source and
-     `asset()`: the renderer copies what a parsed document points at, and
-     nothing points at the faces or at the icon sprite. */
+  /* The drop-in into the output and the elements drawn, by the file a project
+     with only Composer runs — one `styles/` per project, because each one is
+     linked from where its own pages sit. Not through the source and `asset()`:
+     the renderer copies what a parsed document points at, and nothing points
+     at the faces or at the icon sprite. */
   const styles = join(project.out, 'styles');
-  dropIn(DROP, styles);
+  mkdirSync(styles, { recursive: true });
   /* The chrome the cards are drawn with. Not part of the drop-in and it must
      not be — a design built with this system inherits the token and component
      layers only — but inside a specimen frame it is what draws the captions.
@@ -131,24 +135,21 @@ for (const project of PROJECTS) {
      from the same place: story fixtures rather than drop-in, and no document
      points at them — only a card does, and nothing parses a card. */
   cpSync(join(FRONTEND, 'assets', 'placeholders'), join(styles, 'assets', 'placeholders'), { recursive: true });
-}
-
-/* The three steps between a render and a site — every element drawn ahead of
-   the browser, the index the bar searches, and the refusal of a reference that
-   leaves the output. They are `scripts/lib/site.ts`, which is also what
-   `dist/soul-finish.js` is: what is published here and what the documentation
-   tells another project to run are the same code. */
-const { drawn, indexed, broken } = finish(SITE);
-
-if (broken.length) {
-  console.error(`\n✗ ${broken.length} reference(s) do not resolve inside the site:`);
-  for (const line of broken.slice(0, 12)) console.error(`  - ${line}`);
-  process.exit(1);
+  /* Last, because it ends by refusing a reference that leaves the output and
+     the two copies above are references — everything a page points at has to
+     be beside it before that question is asked. Once per project and never
+     twice over a page: drawing an element that is already markup does not
+     leave it alone, it renders the rendering. */
+  const finished = run(process.execPath, [
+    FINISH, project.out, `--drop-in=${DROP}`,
+    /* One index, the published site's — and it leaves out every path that
+       begins with an underscore, so the control surface is in nobody's. */
+    ...(project.name === 'docs' ? [] : ['--no-search']),
+  ]);
+  if (finished !== 0) process.exit(1);
 }
 
 console.log(`
-  ${drawn} pages carry their elements already rendered.
-  ${indexed} pages indexed for search.
   ${PROJECTS.length} project(s) into .out/site/ — the publish root.
   Open http://localhost:4173/ (the port \`make start\` reports), or photograph a page:
     make look ARGS='.out/site/index.html 900'`);
