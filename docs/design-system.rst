@@ -1,13 +1,12 @@
-:navigation-title: Claude design system
+:navigation-title: Design with Claude
 
-===============================
-As a Claude design system
-===============================
+==================
+Design with Claude
+==================
 
-The design agent at claude.ai/design works from an uploaded system: a
-stylesheet, a set of tokens, and — the part that decides whether the output
-looks like anything — rendered examples it can look at. This package builds
-that upload.
+Claude at claude.ai/design works from an uploaded system: a stylesheet, a set
+of tokens, written guidelines and — the part that decides whether the output
+belongs — rendered examples it can inspect. This package builds that upload.
 
 .. code-block:: bash
 
@@ -58,9 +57,9 @@ Why cards and not descriptions
 ==============================
 
 Every component ships as a static HTML card rendered at a declared viewport,
-generated from the same story that documents it in Storybook. One source,
-three renderers: the browser upgrades the custom element, Storybook renders the
-story, and the card generator writes the file.
+generated from the same story that documents it in Storybook. The browser
+upgrades the custom element, Storybook renders the story, and the card
+generator writes the file from that shared source.
 
 .. warning::
 

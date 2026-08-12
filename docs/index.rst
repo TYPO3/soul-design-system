@@ -1,107 +1,141 @@
 :navigation-title: Soul
 :layout: marketing
 
-==================
-Soul Design System
-==================
+===================================
+One system, from design to delivery
+===================================
 
-Tokens, a class vocabulary and thirty-seven web components, for surfaces whose
-job is to give somebody an answer and say where it came from.
+Soul gives TYPO3 community projects a shared visual language for product
+pages, documentation and interface code — so every hand-off starts from the
+same decisions.
 
-One system, three ways to take it. They are not three products and not three
-builds — they are three shapes of the same tokens and the same
-``components.css``, which is why a change to a colour reaches all of them at
-once.
+Start with measured screens and rendered components. Publish from
+reStructuredText or Markdown. Ship plain classes or web components. Every
+route resolves to the same tokens and the same markup contract.
 
-.. Hidden because the page below says the same five in full sentences. The
-   tree still exists — it is what the bar, the rail and the breadcrumb are
-   built from — it simply does not print itself a second time.
+.. The sections below make these routes visible, while the hidden tree remains
+   the source for the bar, the rail and the breadcrumb.
 
 .. toctree::
    :titlesonly:
    :hidden:
 
-   design-system
+   guidelines/index
    guides-theme/index
    frontend
    documents
-   guidelines/index
 
-.. grid::
+.. card-grid::
+   :columns: 3
+   :gap: 0
 
-   .. teaser:: As a Claude design system
+   .. card:: Design with Claude
       :href: /design-system
+      :label: Design system
+      :icon: actions-brush
+      :action: Start designing with Claude
 
-      An upload the design agent reads: every rule as a written page, every
-      component as a rendered card at a known size, and whole screens to start
-      a design from. Nothing is described in prose that is not also shown.
+      Give Claude the written guidelines, rendered components and finished
+      screens it needs to design with the same system developers ship.
 
-   .. teaser:: As a render guide template
+   .. card:: Publish documentation as part of the product
       :href: /guides-theme/index
+      :label: For documentation teams
+      :icon: actions-book
+      :action: Explore the Guides theme
 
-      A Composer package that turns reStructuredText or Markdown into pages
-      set with this system, with the document layer that styles what a
-      renderer emits when nobody can put a class on anything.
+      Turn reStructuredText or Markdown into a site whose navigation, search
+      and content components already belong to the interface around it.
 
-   .. teaser:: As a standalone frontend design
+   .. card:: Ship the interface without a framework
       :href: /frontend
+      :label: For developers
+      :icon: actions-code
+      :action: Use the frontend
 
-      Two files a page links. No bundler, no import map, no framework: markup
-      rendered by PHP, Twig or Fluid uses the class layer, and the custom
-      elements upgrade it where there is behaviour.
+      Link the class layer directly, then add the custom elements where a
+      surface needs behaviour. Server-rendered markup remains the contract.
 
-.. band:: Three layers, and none of them is above another
+.. band:: The same decisions survive every hand-off
    :quiet:
+   :id: outcomes
+
+Design systems often stop at a design file or a component library. Soul keeps
+the design evidence, the documentation renderer, the class vocabulary and the
+elements connected to the same sources.
+
+.. card-grid::
+   :columns: 2
+   :gap: 0
+
+   .. card:: Readers keep their bearings
+      :label: Across community projects
+      :icon: actions-eye
+
+      Product pages, guides and working interfaces use the same navigation,
+      type, controls and states. The next project feels familiar before its
+      content is familiar.
+
+   .. card:: Changes keep their source
+      :label: Across design and code
+      :icon: actions-code-merge
+
+      A colour changes in a token, a component changes in its element, and a
+      specimen is regenerated from the story. The hand-off carries evidence
+      instead of a second interpretation.
+
+.. band:: One contract, whichever route a project takes
    :id: layers
 
-**Tokens** are the values. Every colour, size, space, radius and duration is
-declared once under a semantic name, and nothing else in the system states a
-literal. A colour is ``light-dark(light, dark)`` against a root that declares
-``color-scheme`` — which is why the two modes cannot drift apart: they are the
-same declaration.
+**Tokens** hold the decisions. Every colour, size, space, radius and duration
+is declared under a semantic name. Light and dark sit in the same declaration,
+so one mode cannot quietly drift from the other.
 
 **Classes** are the vocabulary. ``sds-`` names what a thing *is* —
-``.sds-card``, ``.sds-note--warn``, ``.sds-table--compact`` — and state is
-``.is-*``.
+``.sds-card``, ``.sds-note--warn``, ``.sds-table--compact`` — and gives
+server-rendered markup the complete visual system without requiring
+JavaScript.
 
-**Elements** are the behaviour. Each renders light DOM and emits exactly the
-classes above, so a component is an upgrade of markup rather than a second way
-to write it. There is no second source of truth for what a button looks like.
+**Elements** add behaviour. Each renders light DOM and emits the classes
+above, so a component upgrades the existing contract instead of introducing a
+second one.
 
-.. table:: Which layer to reach for
+.. table:: Choose the entry point the surface needs
    :widths: auto
 
    ==========  ==========================  ===================================
    Layer       Written as                  Reach for it when
    ==========  ==========================  ===================================
    Tokens      ``var(--surface-card)``     a value is needed at all
-   Classes     ``class="sds-card"``        a server produced the markup
-   Elements    ``<sds-note tone="warn">``  the thing has behaviour or state
+   Classes     ``class="sds-card"``        a server produces the markup
+   Elements    ``<sds-note tone="warn">``  the surface has behaviour or state
    ==========  ==========================  ===================================
 
-.. The quiet ground ends here: a band runs until the next one opens.
+.. band:: Start where the work is
+   :quiet:
+   :id: start
 
-.. band::
+The system does not ask every project to adopt the same toolchain. It asks
+each toolchain to speak the same visual language.
 
-What holds across all three
-===========================
+.. card-grid::
+   :columns: 2
+   :gap: 0
 
-**Two modes, one declaration.** Force one with ``data-theme="light"`` or
-``"dark"`` on a subtree; put it on ``<html>`` for a whole page, so the
-browser's own scrollbars and form controls match. Left alone, the reader's
-system decides.
+   .. card:: Explore the rules and their specimens
+      :href: /guidelines/index
+      :label: Design system
+      :icon: actions-eye-link
+      :action: Explore the design system
 
-**Fonts ship with it.** Eighteen woff2 faces under the SIL Open Font License,
-because a design behind a strict content policy must not silently fall back to
-``system-ui``.
+      See the colour, type, spacing, state and brand decisions beside the
+      rendered evidence that keeps each rule concrete.
 
-**Never a literal.** Not a hex, not an ``rgb()``, not a pixel size picked by
-hand. If nothing fits, the answer is a new token rather than a local value —
-that rule is what keeps the three shapes the same system.
+   .. card:: Render a project of your own
+      :href: /guides-theme/example
+      :label: Put it to work
+      :icon: actions-template
+      :action: Copy the example project
 
-.. note::
-
-   The rules themselves — the colour decisions, the type scale, the spacing,
-   the brand — live in Storybook beside the specimens that prove them. This
-   manual is about *using* the system; those pages are about what it decided
-   and why.
+      Start from a complete Guides project, then replace its content while the
+      shell, search, navigation and publishing workflow stay in place.

@@ -12,6 +12,8 @@
 :where(.sds-prose) li,:where(.sds-prose) dd{max-width:var(--measure-prose)}
 :where(.sds-prose) li:has(>:not(a,code,kbd,abbr,strong,em,mark,small,span,sup,sub,br)),:where(.sds-prose) dd:has(>:not(a,code,kbd,abbr,strong,em,mark,small,span,sup,sub,br)){max-width:none}
 :where(.sds-prose) p{margin:0 0 var(--space-4);font-size:inherit;line-height:inherit;color:inherit}
+.sds-bands>.sds-band:first-child :where(.sds-prose) h1{font-size:var(--font-size-display);line-height:var(--leading-display);letter-spacing:var(--tracking-display);max-width:var(--measure-display);text-wrap:balance}
+.sds-bands>.sds-band:first-child :where(.sds-prose) h1+p{max-width:var(--measure-lead);font-size:var(--font-size-lead);line-height:var(--leading-body);text-wrap:pretty}
 :where(.sds-prose) hr{margin:var(--space-10) 0;border:0;border-top:var(--border-hairline) solid var(--border-subtle)}
 :where(.sds-prose) ul,:where(.sds-prose) ol{margin:0 0 var(--space-4)}
 :where(.sds-prose) li{margin-bottom:var(--space-1)}

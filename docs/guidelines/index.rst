@@ -1,8 +1,8 @@
-:navigation-title: Guidelines
+:navigation-title: Design system
 
-==========
-Guidelines
-==========
+=============
+Design system
+=============
 
 What the system decided, and a card that renders the decision beside it. Every
 page here states a rule and then shows it: the specimens are the same files the
@@ -12,6 +12,7 @@ them, so a rule and its rendering cannot drift apart.
 .. toctree::
    :titlesonly:
 
+   ../design-system
    colours
    type
    spacing
@@ -27,8 +28,8 @@ them, so a rule and its rendering cannot drift apart.
 Non-negotiable
 ==============
 
-Six rules that are not preferences. Each of them exists because breaking it
-made something worse in a way that took a while to see.
+These rules are not preferences. Each exists because breaking it made
+something worse in a way that took a while to see.
 
 - **One accent.** ``--accent`` marks exactly three things: the active
   navigation item, the shell prompt in a code block, the pipe in the wordmark.

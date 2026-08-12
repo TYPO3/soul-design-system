@@ -147,6 +147,22 @@
   color: inherit;
 }
 
+/* A marketing page arrives with its claim, so the opening title and sentence
+   use the display register without making document source name classes. */
+.sds-bands > .sds-band:first-child :where(.sds-prose) h1 {
+  font-size: var(--font-size-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  max-width: var(--measure-display);
+  text-wrap: balance;
+}
+.sds-bands > .sds-band:first-child :where(.sds-prose) h1 + p {
+  max-width: var(--measure-lead);
+  font-size: var(--font-size-lead);
+  line-height: var(--leading-body);
+  text-wrap: pretty;
+}
+
 /* A rule between sections is a hairline and nothing else — no shadow, no
    double line, and the space around it does the separating. */
 :where(.sds-prose) hr {

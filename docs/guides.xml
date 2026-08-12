@@ -30,10 +30,9 @@
         <brand>TYPO3</brand>
         <product>Soul Design System</product>
         <navigation>
-            <link href="/design-system" label="Design system"/>
+            <link href="/guidelines/index" label="Design system"/>
             <link href="/guides-theme/index" label="Guides theme"/>
             <link href="/frontend" label="Frontend"/>
-            <link href="/guidelines/index" label="Guidelines"/>
         </navigation>
         <!-- No groups: the columns are the toctree, section by section, and a
              page added below one of them is in the footer the moment it is
