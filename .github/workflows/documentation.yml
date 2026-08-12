@@ -25,8 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # `scripts/guides.ts` installs the renderer into the theme itself when it
-      # is not there, so what has to be here is the PHP under it.
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
@@ -36,18 +34,38 @@ jobs:
         with:
           node-version: '24'
 
-      # The cards these pages embed, out of the committed `specimens/` and into
-      # the documents beside them. It generates nothing, which is why it can run
-      # here: `make cards` writes them with Lit, and this only puts them where a
-      # renderer will look.
+      # Ours, and a reader's project has neither: the specimen cards these pages
+      # embed, out of the committed `specimens/` and into the documents beside
+      # them. Both tasks generate nothing, which is why they run here at all —
+      # writing a card needs Lit, copying one needs a Node.
       - run: node scripts/embed.ts
 
+      # A reader's, verbatim — `docs/guides-theme/_starter/publish.yml` prints
+      # these three and this job runs them. The theme is the one the mirror
+      # pushed a job ago, and it brings the renderer, the templates and the
+      # drop-in with it.
+      - name: The renderer
+        env:
+          RENDERER: ${{ runner.temp }}/renderer
+        run: |
+          mkdir -p "$RENDERER"
+          cd "$RENDERER"
+          composer init --no-interaction --name=typo3/soul-documentation
+          composer config repositories.soul vcs https://github.com/benjaminkott/typo3-soul-guides-theme
+          composer require --no-interaction --no-progress typo3/soul-guides-theme:dev-main
+
       # `docs` and not the theme's control surface: this job renders what it
-      # uploads. The task installs the theme either way — on a desk from a path
-      # repository on this tree, here from the mirror the job before this one
-      # pushed to, with the `composer.json` the manual prints. `--released` is
-      # that one difference and the whole of it.
-      - run: node scripts/guides.ts --released docs
+      # uploads.
+      - name: Render the documents
+        run: ${{ runner.temp }}/renderer/vendor/bin/guides docs --output=.out/site -c docs --fail-on-error
+
+      # Ours again, between the render and the step that finishes it: the chrome
+      # the embedded cards are drawn with, which is deliberately not in the
+      # drop-in and so arrives from nowhere else.
+      - run: node scripts/chrome.ts .out/site
+
+      - name: Finish the site
+        run: node ${{ runner.temp }}/renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js .out/site
 
       # Pages serves this artifact as it stands, but a repository ever switched
       # back to the branch-based build runs Jekyll over it, and Jekyll drops

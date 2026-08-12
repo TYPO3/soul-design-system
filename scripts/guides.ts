@@ -9,11 +9,11 @@
    go into the *source* tree — Guides copies assets referenced from the
    documents it parsed and drops a `<link>` to anything outside it, so the
    drop-in is copied in as `styles/` where `asset()` can rewrite it per page. */
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-import { FRONTEND, GENERATED, ROOT } from './lib/cards.ts';
+import { GENERATED, ROOT, cardChrome } from './lib/cards.ts';
 import { PACKAGES, publicUrl } from './lib/packages.ts';
 import { PROJECTS } from './lib/projects.ts';
 
@@ -110,23 +110,9 @@ for (const project of rendering) {
   ]);
   if (code !== 0) process.exit(code);
 
-  /* The drop-in into the output and the elements drawn, by the file a project
-     with only Composer runs — one `styles/` per project, because each one is
-     linked from where its own pages sit. Not through the source and `asset()`:
-     the renderer copies what a parsed document points at, and nothing points
-     at the faces or at the icon sprite. */
-  const styles = join(project.out, 'styles');
-  mkdirSync(styles, { recursive: true });
-  /* The chrome the cards are drawn with. Not part of the drop-in and it must
-     not be — a design built with this system inherits the token and component
-     layers only — but inside a specimen frame it is what draws the captions.
-     Copied here rather than into the source because nothing in a document
-     points at it: only the cards do, and nothing parses a card. */
-  cpSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), join(styles, '_specimen.css'));
-  /* And the photography those cards are drawn with, for the same reason and
-     from the same place: story fixtures rather than drop-in, and no document
-     points at them — only a card does, and nothing parses a card. */
-  cpSync(join(FRONTEND, 'assets', 'placeholders'), join(styles, 'assets', 'placeholders'), { recursive: true });
+  /* What this site has beyond a reader's project, before the step they share:
+     the chrome its embedded cards are drawn with. */
+  cardChrome(project.out);
   /* Last, because it ends by refusing a reference that leaves the output and
      the two copies above are references — everything a page points at has to
      be beside it before that question is asked. Once per project and never

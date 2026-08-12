@@ -8,7 +8,7 @@
    fit check, the screenshots — reads cards through here, so there is one
    parser and not five. */
 
-import { mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -229,4 +229,17 @@ export function embedCards(source: string): number {
     written++;
   }
   return written;
+}
+
+/* The chrome a specimen card is drawn with, into a rendered root. Not part of
+   the drop-in and it must not be — a design built with this system inherits the
+   token and component layers only — but a page that embeds a card needs it, and
+   nothing in a document points at it, so no renderer carries it in. */
+export function cardChrome(root: string): void {
+  const styles = join(root, 'styles');
+  mkdirSync(styles, { recursive: true });
+  cpSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), join(styles, '_specimen.css'));
+  /* And the photography those cards are drawn with, from the same place and for
+     the same reason: story fixtures rather than drop-in. */
+  cpSync(join(FRONTEND, 'assets', 'placeholders'), join(styles, 'assets', 'placeholders'), { recursive: true });
 }

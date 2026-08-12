@@ -132,12 +132,15 @@ write the search index, refuse a reference that leaves the output — and it
 arrives inside the theme package, because a PHP project cannot ask npm for a
 stylesheet.
 
-**This site is built as one of those projects.** `make guides` installs the
-theme into `.out/consumer/` and takes the renderer, the templates and the
-drop-in out of that `vendor/` — it imports none of them from the tree, and it
-renders rather than prepares: the cards its pages embed are put beside those
-pages by `make embed`, which reads `specimens/` and generates nothing, so the
-one step that needs no install is the one the publishing runner can take. The
+**This site is built as one of those projects.** `make guides` builds the
+renderer with the three Composer commands the manual prints and takes the
+templates and the drop-in out of the `vendor/` they produce — it imports none
+of them from the tree. The publishing workflow does not call that task at all:
+it runs those three commands itself, as a reader's own workflow does, and adds
+only the two steps a reader has no use for — `make embed` for the specimen
+cards these pages embed and `make chrome` for what they are drawn with. Both
+read `specimens/` and generate nothing, which is why a runner with no npm
+install can take them. The
 renderer is built by the three Composer commands the manual prints —
 `init`, `config repositories.soul`, `require` — with one thing named
 differently on a desk: the repository is the package `scripts/lib/packages.ts`
