@@ -10,6 +10,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../../packages/frontend/src/components/accordion.ts';
+import '../../packages/frontend/src/components/code.ts';
 import { type AccordionProps, type Entry } from '../../packages/frontend/src/components/accordion.ts';
 
 const sdsAccordion = ({ entries, multiple = false, name }: AccordionProps) =>
@@ -78,4 +79,27 @@ export const Multiple: Story = { args: { multiple: true } };
     shape of an answer is visible without pressing anything. */
 export const AllClosed: Story = {
   args: { entries: QUESTIONS.map((entry) => ({ ...entry, open: false })) },
+};
+
+/** The other way in, and the one a documentation renderer takes: the question
+    on `sds-accordion-item`, the answer between its tags. An answer written by
+    a page is paragraphs, a list and a code block, and none of that fits in an
+    attribute. The set is named once and hands the group to the items. */
+export const Composed: Story = {
+  render: () => html`<sds-accordion name="composed">
+    <sds-accordion-item question="What can an answer hold?" open>
+      <p>
+        Whatever the page put there. This one is two paragraphs and a command,
+        which is the shape an answer in a manual actually has.
+      </p>
+      <p>The second paragraph, so the fold has something to reveal.</p>
+      <sds-code code-lang="bash" .body="${[{ kind: 'shell', text: 'make verify' }]}"></sds-code>
+    </sds-accordion-item>
+    <sds-accordion-item question="Who decides which one is open?">
+      <p>
+        The platform. Every answer in a set carries the set's name, so opening
+        this one closed the one above it, and no listener anywhere was involved.
+      </p>
+    </sds-accordion-item>
+  </sds-accordion>`,
 };

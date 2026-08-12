@@ -10,7 +10,7 @@
    trace — one `<details>` in the document needs no component. */
 
 import { html, nothing, type TemplateResult } from 'lit';
-import './icon.ts';
+import './accordion-item.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 /** One question. `open` is for the one a page wants standing open — the first
@@ -23,6 +23,9 @@ export interface Entry {
 }
 
 export interface AccordionProps {
+  /** The questions, where a page has them as data. An answer that is blocks —
+      what a documentation renderer hands over — is written between the tags as
+      `sds-accordion-item` instead, and then this stays empty. */
   entries: readonly Entry[];
   /** More than one at a time. The platform's own exclusivity is otherwise on,
       and it is on because a list is easier to read than a wall. */
@@ -43,6 +46,11 @@ export class SdsAccordion extends SdsElement {
   declare multiple: boolean;
   declare name: string;
 
+  /** The questions written between the tags, for answers that are blocks
+      rather than a string a property can hold. Taken before Lit renders over
+      them, and handed back below. */
+  private taken: Node[] | null = null;
+
   constructor() {
     super();
     this.entries = [];
@@ -50,19 +58,37 @@ export class SdsAccordion extends SdsElement {
     this.name = 'sds-accordion';
   }
 
+  override connectedCallback(): void {
+    const written = this.lifted();
+    if (written.length) this.taken = written;
+    super.connectedCallback();
+  }
+
   protected override render(): TemplateResult {
+    const held = this.taken ?? this.content;
     return html`<div class="sds-accordion">
-  ${this.entries.map(
-    (entry) => html`<details
-    class="sds-accordion__item"
+  ${this.entries.length
+    ? this.entries.map(
+        (entry) => html`<sds-accordion-item
+    question="${entry.question}"
     name="${this.multiple ? nothing : this.name}"
     ?open="${Boolean(entry.open)}"
-  >
-    <summary class="sds-accordion__head"><sds-icon name="actions-chevron-down"></sds-icon>${entry.question}</summary>
-    <div class="sds-accordion__body">${entry.answer}</div>
-  </details>`,
-  )}
+    .content="${entry.answer}"
+  ></sds-accordion-item>`,
+      )
+    : held}
 </div>`;
+  }
+
+  /* A set is named once and `<details name>` wants that name on every answer in
+     it, so the items written between the tags are told rather than a page
+     saying it on each. Nothing runs here outside a browser: what a renderer
+     writes ahead of one, it writes onto the items itself. */
+  protected override updated(): void {
+    const group = this.multiple ? '' : this.name;
+    for (const item of this.querySelectorAll(':scope > .sds-accordion > sds-accordion-item')) {
+      (item as HTMLElement & { name: string }).name = group;
+    }
   }
 }
 

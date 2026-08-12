@@ -5,6 +5,8 @@ declare(strict_types=1);
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
 use phpDocumentor\Guides\RestructuredText\Parser\Productions\DirectiveContentRule;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use TYPO3\Soul\GuidesTheme\Directives\AccordionDirective;
+use TYPO3\Soul\GuidesTheme\Directives\AccordionItemDirective;
 use TYPO3\Soul\GuidesTheme\Directives\BandDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardGridDirective;
@@ -49,6 +51,14 @@ return static function (ContainerConfigurator $container): void {
         ->set(CardDirective::class)
         ->tag('phpdoc.guides.directive')
         ->set(CardGridDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* The questions a manual folds its answers behind, spelled the way
+           TYPO3 documentation spells them — see `AccordionDirective` for why
+           the set hands its group to the answers in it. */
+        ->set(AccordionDirective::class)
+        ->tag('phpdoc.guides.directive')
+        ->set(AccordionItemDirective::class)
         ->tag('phpdoc.guides.directive')
 
         /* `:layout:` at the top of a document, read like `:navigation-title:`

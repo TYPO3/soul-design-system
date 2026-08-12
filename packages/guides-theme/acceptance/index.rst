@@ -295,6 +295,49 @@ needs, and the whole card is the link.
       Without a target the title is a title, the card is not a target, and no
       action is drawn under it.
 
+Questions with their answers folded away
+========================================
+
+The fold is a ``<details>``, so it works with no script on the page and
+find-in-page opens the answer it lands in. One answer stands open, because the
+shape of an answer is worth seeing without pressing anything.
+
+.. accordion::
+   :name: what-it-holds
+
+   .. accordion-item:: What can an answer hold?
+      :open:
+
+      Blocks, which is the whole reason the answer is written between the tags
+      rather than said as an option:
+
+      - a list is one of them,
+      - and a code block is another.
+
+      .. code-block:: bash
+
+         make verify
+
+   .. accordion-item:: Who decides which one is open?
+
+      The platform. Every answer in the set carries the set's name, so opening
+      this one closed the one above it, and nothing on the page listened for
+      anything.
+
+``:multiple:`` empties that name, for a set whose answers are meant to be
+compared rather than found.
+
+.. accordion::
+   :multiple:
+
+   .. accordion-item:: The first of two that stay open together
+
+      Both can stand open at once, which is what a comparison needs.
+
+   .. accordion-item:: And the second
+
+      Opening this one leaves the one above it exactly as it was.
+
 A document inside this one
 ==========================
 

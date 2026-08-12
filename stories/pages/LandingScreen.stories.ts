@@ -11,8 +11,10 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
+import '../../packages/frontend/src/components/accordion.ts';
 import '../../packages/frontend/src/components/menu.ts';
 import '../../packages/frontend/src/components/surface.ts';
+import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/code.ts';
 import '../../packages/frontend/src/components/link.ts';
@@ -25,6 +27,7 @@ import '../../packages/frontend/src/components/theme.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
+import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';
@@ -186,6 +189,30 @@ const INSTALL: readonly CodeLine[] = [
   { kind: 'ok', text: 'linked two files into', code: 'public/assets' },
 ];
 
+/** What a team asks before it takes the system on. Folded, and the first one
+    open, so the shape of an answer is visible without pressing anything. */
+const ADOPTION: readonly Entry[] = [
+  {
+    question: 'Do we have to use the web components?',
+    answer: html`No. The class layer is the contract and it is the whole
+      vocabulary — the elements are how a page that runs JavaScript gets that
+      markup without writing it out. A page that renders on a server keeps the
+      classes and loses nothing.`,
+    open: true,
+  },
+  {
+    question: 'What happens to our own stylesheet?',
+    answer: html`It shrinks to what is genuinely yours. Anything you find
+      yourself declaring twice is a gap in a component, and closing it there is
+      the whole arrangement — a system everybody patches locally is a system
+      nobody can change centrally.`,
+  },
+  {
+    question: 'Which framework does it need?',
+    answer: 'None. Two files, no build step, and nothing about the page it is on — the elements register themselves and the tokens are custom properties.',
+  },
+];
+
 /** The page. `flat` composes the form a static file can hold. */
 export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
   /* The two places the renderings differ, and both for the same reason: a
@@ -219,7 +246,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
       { label: 'install', href: '#install' },
     ]}" active="0"></sds-menu>
     <div class="sds-bar__end">
-      <sds-badge label="0.1-dev" tone="accent"></sds-badge>
+      <sds-badge label="0.1.0-dev" tone="accent"></sds-badge>
       <sds-theme></sds-theme>
     </div>
   </header>
@@ -230,7 +257,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
       <div class="sds-split">
         <div class="sds-stack">
           <div class="sds-row">
-            <sds-badge label="0.1-dev" tone="accent"></sds-badge>
+            <sds-badge label="0.1.0-dev" tone="accent"></sds-badge>
             <span class="sds-label">one accent · two modes · no shadows</span>
           </div>
           <h1 class="sds-display">A system, not a stylesheet</h1>
@@ -252,7 +279,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="audiences">
       <div class="sds-grid">
         ${AUDIENCES.map(
-          (one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`,
+          (one) => html`<sds-card label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-card>`,
         )}
       </div>
     </section>
@@ -316,13 +343,24 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
         </p>
         <div class="sds-grid">
           ${PIPELINE.map(
-            (one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`,
+            (one) => html`<sds-card label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-card>`,
           )}
         </div>
       </div>
     </section>
 
-    <section class="sds-band" id="install">
+    <section class="sds-band" id="questions">
+      <div class="sds-stack">
+        <h2>What is asked before it is adopted</h2>
+        <p>
+          Three of them, folded: a page that argues has to answer these, and a
+          reader who has none of them is already at the install step.
+        </p>
+        <sds-accordion name="adoption" .entries="${ADOPTION}"></sds-accordion>
+      </div>
+    </section>
+
+    <section class="sds-band sds-band--quiet" id="install">
       <div class="sds-split">
         <div class="sds-stack">
           <h2>Install</h2>

@@ -331,6 +331,37 @@ test.describe('what the theme repaired', () => {
     await expect(page.locator('.sds-grid--wide')).toHaveCount(1);
     await expect(page.locator('.sds-grid--dense')).toHaveCount(1);
   });
+
+  test('a set of questions is folded by the platform, not by a listener', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The group is what makes a set exclusive, and it has to be on every answer
+       in it — the set is named once in the source, and the answers were told.
+       An answer that missed it is an answer that closes nothing, which reads as
+       working right up to the moment two are open. */
+    const named = page.locator('sds-accordion[name="what-it-holds"] details.sds-accordion__item');
+    await expect(named).toHaveCount(2);
+    for (const name of await named.evaluateAll((els) => els.map((el) => el.getAttribute('name')))) {
+      expect(name).toBe('what-it-holds');
+    }
+
+    /* And the behaviour that follows from it: opening the second closed the
+       first, with nothing on the page listening for anything. */
+    await named.nth(1).locator('summary').click();
+    await expect(named.nth(1)).toHaveAttribute('open', '');
+    await expect(named.nth(0)).not.toHaveAttribute('open', '');
+
+    /* `:multiple:` is the same set with the group taken out, so the answers are
+       independent and both stay open. */
+    const many = page.locator('sds-accordion[multiple] details.sds-accordion__item');
+    await expect(many).toHaveCount(2);
+    for (const name of await many.evaluateAll((els) => els.map((el) => el.getAttribute('name')))) {
+      expect(name).toBeNull();
+    }
+    await many.nth(0).locator('summary').click();
+    await many.nth(1).locator('summary').click();
+    await expect(many.nth(0)).toHaveAttribute('open', '');
+  });
 });
 
 test.describe('what the reader gets before the script does', () => {
@@ -357,6 +388,22 @@ test.describe('what the reader gets before the script does', () => {
       await expect(items.nth(i)).toBeVisible();
       expect((await items.nth(i).innerText()).trim().length).toBeGreaterThan(0);
     }
+  });
+
+  test('a question folds and an answer reads with no script to fold it', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The whole reason the fold is a `<details>`: it works here. An accordion
+       built out of a button and a listener is a page of headings with the
+       answers hidden under them and nothing that opens one. */
+    const answers = page.locator('sds-accordion[name="what-it-holds"] details.sds-accordion__item');
+    await expect(answers).toHaveCount(2);
+    await expect(answers.nth(0).locator('.sds-accordion__body')).toBeVisible();
+    await expect(answers.nth(1).locator('.sds-accordion__body')).toBeHidden();
+
+    await answers.nth(1).locator('summary').click();
+    await expect(answers.nth(1).locator('.sds-accordion__body')).toBeVisible();
+    await expect(answers.nth(0).locator('.sds-accordion__body')).toBeHidden();
   });
 
   test('an element inside an element is drawn once', async ({ page }) => {

@@ -1,0 +1,19 @@
+{#
+    A set of questions with their answers folded behind them.
+
+    The element and not a `<details>` of this template's own: the fold, the
+    marker that turns with it and the exclusivity are what `sds-accordion`
+    draws, and a template writing them has taken a copy of markup only the
+    system may change.
+
+    The group is on the set here and on every answer below, because that is
+    where `<details name>` reads it — see `AccordionDirective`.
+#}
+<sds-accordion
+    name="{{ node.option('name') }}"
+    {%- if node.option('multiple') %} multiple{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-accordion>

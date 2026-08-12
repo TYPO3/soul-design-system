@@ -38,7 +38,7 @@
   </nav>
 </div>
     <div class="sds-bar__end">
-      <span class="sds-badge sds-badge--accent">0.1-dev</span>
+      <span class="sds-badge sds-badge--accent">0.1.0-dev</span>
       <div class="sds-modes" role="group" aria-label="Colour mode">
   <button
       type="button"
@@ -58,7 +58,7 @@
       <div class="sds-split">
         <div class="sds-stack">
           <div class="sds-row">
-            <span class="sds-badge sds-badge--accent">0.1-dev</span>
+            <span class="sds-badge sds-badge--accent">0.1.0-dev</span>
             <span class="sds-label">one accent · two modes · no shadows</span>
           </div>
           <h1 class="sds-display">A system, not a stylesheet</h1>
@@ -91,22 +91,34 @@
 
     <section class="sds-band sds-band--quiet" id="audiences">
       <div class="sds-grid">
-        <div class="sds-card" style="flex:1; min-width:200px">
+        <article class="sds-card">
   
-  <div class="sds-label">audience 01</div>
-  <div class="sds-surface-title">Product designer</div>
-  <div class="sds-surface-body">Starting points to open, tokens to draw against, and a specimen for every rule — so a decision is looked up rather than remembered.</div>
-</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-card__body">
+    
+    <div class="sds-label">audience 01</div>
+    <h3 class="sds-card__title">Product designer</h3>
+    <p class="sds-card__text">Starting points to open, tokens to draw against, and a specimen for every rule — so a decision is looked up rather than remembered.</p>
+  </div>
   
-  <div class="sds-label">audience 02</div>
-  <div class="sds-surface-title">Interface developer</div>
-  <div class="sds-surface-body">Custom elements that need no build step and no framework. Light DOM, so the page around them styles them like anything else.</div>
-</div><div class="sds-card" style="flex:1; min-width:200px">
+</article><article class="sds-card">
   
-  <div class="sds-label">audience 03</div>
-  <div class="sds-surface-title">Backend developer</div>
-  <div class="sds-surface-body">The same class names a template writes by hand. Neither layer is a fallback for the other, and both are checked against the same file.</div>
-</div>
+  <div class="sds-card__body">
+    
+    <div class="sds-label">audience 02</div>
+    <h3 class="sds-card__title">Interface developer</h3>
+    <p class="sds-card__text">Custom elements that need no build step and no framework. Light DOM, so the page around them styles them like anything else.</p>
+  </div>
+  
+</article><article class="sds-card">
+  
+  <div class="sds-card__body">
+    
+    <div class="sds-label">audience 03</div>
+    <h3 class="sds-card__title">Backend developer</h3>
+    <p class="sds-card__text">The same class names a template writes by hand. Neither layer is a fallback for the other, and both are checked against the same file.</p>
+  </div>
+  
+</article>
       </div>
     </section>
 
@@ -295,22 +307,22 @@
           Four places, and every one of them is a file rather than a habit.
         </p>
         <div class="sds-grid">
-          <div class="sds-card" style="flex:1; min-width:200px">
+          <div class="sds-panel" style="flex:1; min-width:200px">
   
   <div class="sds-label">source 01</div>
   <div class="sds-surface-title">The tokens file</div>
   <div class="sds-surface-body">One declaration carries both modes. Nothing below it names a colour, so a surface cannot be light-only by accident.</div>
-</div><div class="sds-card" style="flex:1; min-width:200px">
+</div><div class="sds-panel" style="flex:1; min-width:200px">
   
   <div class="sds-label">source 02</div>
   <div class="sds-surface-title">The component</div>
   <div class="sds-surface-body">A card ships the markup its element renders, from the same function. The documentation cannot drift, because there is nothing for it to drift from.</div>
-</div><div class="sds-card" style="flex:1; min-width:200px">
+</div><div class="sds-panel" style="flex:1; min-width:200px">
   
   <div class="sds-label">source 03</div>
   <div class="sds-surface-title">The guidelines</div>
   <div class="sds-surface-body">Written pages, drawn from the artwork files themselves — the construction, the sizes and the clear space are measured, not described.</div>
-</div><div class="sds-card" style="flex:1; min-width:200px">
+</div><div class="sds-panel" style="flex:1; min-width:200px">
   
   <div class="sds-label">source 04</div>
   <div class="sds-surface-title">The checks</div>
@@ -328,32 +340,83 @@
           that run on every change.
         </p>
         <div class="sds-grid">
-          <div class="sds-card" style="flex:1; min-width:200px">
+          <article class="sds-card">
   
-  <div class="sds-label">step 01</div>
-  <div class="sds-surface-title">A story is written</div>
-  <div class="sds-surface-body">The component, with the properties it is being shown at. Nothing is hand-built beside it — a specimen that rebuilds the markup documents the rebuild.</div>
-</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-card__body">
+    
+    <div class="sds-label">step 01</div>
+    <h3 class="sds-card__title">A story is written</h3>
+    <p class="sds-card__text">The component, with the properties it is being shown at. Nothing is hand-built beside it — a specimen that rebuilds the markup documents the rebuild.</p>
+  </div>
   
-  <div class="sds-label">step 02</div>
-  <div class="sds-surface-title">The card is rendered</div>
-  <div class="sds-surface-body">Server-side, to flat HTML at the size it declares, with every element replaced by what it produced.</div>
-</div><div class="sds-card" style="flex:1; min-width:200px">
+</article><article class="sds-card">
   
-  <div class="sds-label">step 03</div>
-  <div class="sds-surface-title">The pane opens it</div>
-  <div class="sds-surface-body">With styles.css and no JavaScript at all, which is the state that proves the class layer stands on its own.</div>
-</div><div class="sds-card" style="flex:1; min-width:200px">
+  <div class="sds-card__body">
+    
+    <div class="sds-label">step 02</div>
+    <h3 class="sds-card__title">The card is rendered</h3>
+    <p class="sds-card__text">Server-side, to flat HTML at the size it declares, with every element replaced by what it produced.</p>
+  </div>
   
-  <div class="sds-label">step 04</div>
-  <div class="sds-surface-title">The diff catches the rest</div>
-  <div class="sds-surface-body">A card that moved is a picture that changed, and it is reviewed as one.</div>
-</div>
+</article><article class="sds-card">
+  
+  <div class="sds-card__body">
+    
+    <div class="sds-label">step 03</div>
+    <h3 class="sds-card__title">The pane opens it</h3>
+    <p class="sds-card__text">With styles.css and no JavaScript at all, which is the state that proves the class layer stands on its own.</p>
+  </div>
+  
+</article><article class="sds-card">
+  
+  <div class="sds-card__body">
+    
+    <div class="sds-label">step 04</div>
+    <h3 class="sds-card__title">The diff catches the rest</h3>
+    <p class="sds-card__text">A card that moved is a picture that changed, and it is reviewed as one.</p>
+  </div>
+  
+</article>
         </div>
       </div>
     </section>
 
-    <section class="sds-band" id="install">
+    <section class="sds-band" id="questions">
+      <div class="sds-stack">
+        <h2>What is asked before it is adopted</h2>
+        <p>
+          Three of them, folded: a page that argues has to answer these, and a
+          reader who has none of them is already at the install step.
+        </p>
+        <div class="sds-accordion">
+  <details
+    class="sds-accordion__item"
+    name="adoption"
+    open>
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Do we have to use the web components?</summary>
+    <div class="sds-accordion__body">No. The class layer is the contract and it is the whole
+      vocabulary — the elements are how a page that runs JavaScript gets that
+      markup without writing it out. A page that renders on a server keeps the
+      classes and loses nothing.</div>
+  </details><details
+    class="sds-accordion__item"
+    name="adoption">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>What happens to our own stylesheet?</summary>
+    <div class="sds-accordion__body">It shrinks to what is genuinely yours. Anything you find
+      yourself declaring twice is a gap in a component, and closing it there is
+      the whole arrangement — a system everybody patches locally is a system
+      nobody can change centrally.</div>
+  </details><details
+    class="sds-accordion__item"
+    name="adoption">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Which framework does it need?</summary>
+    <div class="sds-accordion__body">None. Two files, no build step, and nothing about the page it is on — the elements register themselves and the tokens are custom properties.</div>
+  </details>
+</div>
+      </div>
+    </section>
+
+    <section class="sds-band sds-band--quiet" id="install">
       <div class="sds-split">
         <div class="sds-stack">
           <h2>Install</h2>

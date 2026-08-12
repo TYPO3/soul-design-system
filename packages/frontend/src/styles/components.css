@@ -1818,9 +1818,17 @@ sds-rail:not(:defined) {
    never arrives is a list of questions and not a wall of answers. Separated by
    hairlines rather than boxed — what a reader scans is the *list*, found by
    reading down one column and not by comparing six containers. */
-.sds-accordion { display: flex; flex-direction: column; max-width: var(--measure-prose); }
-.sds-accordion__item { border-bottom: var(--border-hairline) solid var(--border-subtle); }
-.sds-accordion__item:first-child { border-top: var(--border-hairline) solid var(--border-subtle); }
+/* The line above every question and one under the set, rather than a line
+   under each and a `:first-child` for the top: an answer that arrives in an
+   element of its own is the first child of that element, and every line in the
+   list would double. Same rule drawn where nothing structural can miss it. */
+.sds-accordion {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--measure-prose);
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+}
+.sds-accordion__item { border-top: var(--border-hairline) solid var(--border-subtle); }
 .sds-accordion__head {
   list-style: none;
   cursor: pointer;

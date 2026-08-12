@@ -48,7 +48,6 @@ const PENDING = {
     'sds-radio',
     'sds-form-errors',
     'sds-pills',
-    'sds-accordion',
     'sds-surface',
     'sds-stat',
     'sds-overlay',

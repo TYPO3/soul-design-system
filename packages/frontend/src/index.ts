@@ -28,6 +28,7 @@ import './components/form-errors.ts';
 import './components/pills.ts';
 import './components/menu.ts';
 import './components/accordion.ts';
+import './components/accordion-item.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/rail.ts';
@@ -71,6 +72,7 @@ export { type NavProps, type NavItem, type NavChange } from './components/nav-ba
 export { SdsPills } from './components/pills.ts';
 export { SdsMenu } from './components/menu.ts';
 export { SdsAccordion, type AccordionProps, type Entry } from './components/accordion.ts';
+export { SdsAccordionItem } from './components/accordion-item.ts';
 export { SdsTabs } from './components/tabs.ts';
 export { SdsTabItem } from './components/tab-item.ts';
 export { SdsRail } from './components/rail.ts';
@@ -124,6 +126,7 @@ export const TAGS = [
   'sds-pills',
   'sds-menu',
   'sds-accordion',
+  'sds-accordion-item',
   'sds-tabs',
   'sds-tab-item',
   'sds-rail',

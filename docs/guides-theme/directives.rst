@@ -11,8 +11,9 @@ no template to copy.
 
 Some of them build a landing page: a page of a different shape than a manual
 page, and the renderer has no vocabulary for it. ``card-grid`` and ``card``
-signpost a manual, and are spelled the way a TYPO3 manual already spells them.
-The last embeds a rendered specimen at the size it was measured at.
+signpost a manual and ``accordion`` folds its answers away, both spelled the
+way a TYPO3 manual already spells them. The last embeds a rendered specimen at
+the size it was measured at.
 
 .. contents::
    :local:
@@ -389,6 +390,111 @@ asking to be two cards.
 The node is ``sds-card`` itself, the options are its properties and the
 template writes none of its markup — the same arrangement, and the same
 reasons, as the teaser above.
+
+accordion
+=========
+
+Questions with their answers folded behind them, in the spelling a TYPO3
+manual already uses.
+
+.. code-block:: text
+
+   .. accordion::
+      :name: running-it
+
+      .. accordion-item:: What does it need installed?
+         :open:
+
+         PHP 8.2 or newer, and a project it can read.
+
+      .. accordion-item:: Can it run in CI?
+
+         Yes, and it answers less there.
+
+.. confval:: name
+   :name: accordion-name
+   :type: string
+
+   What the set is called. It is the group the answers fold in, so opening one
+   closes the last — and a page with two sets gives them different names, or
+   one closes the other's answers. A set that writes none is given one.
+
+.. confval:: multiple
+   :type: flag
+
+   More than one answer open at a time, for a set whose answers are meant to be
+   compared rather than found. Without it a set is exclusive, because a list is
+   easier to read than a wall.
+
+.. confval:: class
+   :name: accordion-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**The fold is a** ``<details>``. It works before any script runs, the keyboard
+reaches it, find-in-page opens the answer it lands in, and what closes the
+others is the platform rather than a listener — which is why the answers carry
+the set's name and why a page never writes one on an item.
+
+accordion-item
+==============
+
+One question, and the blocks folded behind it.
+
+.. code-block:: text
+
+   .. accordion-item:: What does it need installed?
+      :open:
+
+      PHP 8.2 or newer, and a project it can read. No daemon, and no database
+      of its own.
+
+.. confval:: open
+   :type: flag
+
+   Standing open. For the first answer on a page of them, usually, so the shape
+   of an answer is visible without pressing anything. ``:show:`` is the same
+   flag under the name the Bootstrap theme gave it.
+
+.. confval:: header-level
+   :name: accordion-item-header-level
+   :type: integer
+
+   Accepted and dropped. What a set of questions is folded by is a control and
+   not a heading, so it takes no level in the outline.
+
+.. confval:: name
+   :name: accordion-item-name
+   :type: string
+
+   Accepted and dropped. Where a link into a single answer should land is not
+   decided — see ``GAPS.md`` in the package.
+
+.. confval:: class
+   :name: accordion-item-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**The question is the argument and the answer is what follows it.** That is not
+a preference: an answer is paragraphs, lists and code blocks, which is what no
+attribute carries. The node is ``sds-accordion-item`` itself and the template
+writes none of its markup — the same arrangement as the cards above.
+
+That source, on this page:
+
+.. accordion::
+   :name: what-a-theme-answers
+
+   .. accordion-item:: What does it need installed?
+      :open:
+
+      PHP 8.2 or newer, and a project it can read — see :doc:`installation`.
+
+   .. accordion-item:: Can it run in CI?
+
+      Yes. :doc:`publishing` is the job, command for command.
 
 specimen
 ========
