@@ -1,9 +1,9 @@
 /* One answer out of a few, all of them visible.
 
    The markup lives in `src/components/radio-group.ts`. No `parameters.dsCard`:
-   what a card would show is three of the browser's own radios, and what is
-   worth documenting is when to reach for this at all — which is a comparison
-   with `sds-field select` rather than a picture.
+   what a card would show is three radios, and what is worth documenting is
+   when to reach for this at all — which is a comparison with `sds-field
+   select` rather than a picture.
 
    A few, and visible. Above roughly five answers the set stops being scannable
    and becomes a list, and a list the reader must read to answer one question

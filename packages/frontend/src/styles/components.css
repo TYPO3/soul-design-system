@@ -546,21 +546,61 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 }
 .sds-field--multi .sds-input { resize: vertical; min-height: 0; }
 
-/* A checkbox and a radio: the platform's own control in this system's colour,
-   drawn by the browser rather than by a box with a glyph in it — which buys
-   the keyboard, the indeterminate state, the tap target and how it reads out.
-   `accent-color` is `--text-primary`, because the accent marks three things and
-   a ticked box is not one of them. */
+/* A checkbox and a radio: the real input, painted here rather than left to the
+   browser. `appearance: none` takes the paint and nothing else — the keyboard,
+   the tap target, the value it posts and how it reads out are still the
+   input's. What it replaces is a grey the platform picks on its own, which
+   sits beside a field of this system's making and matches none of it. */
 .sds-check { display: flex; align-items: flex-start; gap: var(--space-3); }
 .sds-check__mark {
+  appearance: none;
   flex: none;
   width: 16px;
   height: 16px;
-  margin: 2px 0 0;
-  accent-color: var(--text-primary);
+  margin: 1px 0 0;
+  background: var(--surface-sunken);
+  border: var(--border-hairline) solid var(--border-strong);
+  border-radius: var(--radius-control);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
 }
-.sds-check__body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.sds-check__label { font-size: var(--control-font-size); color: var(--text-primary); }
+.sds-check__mark[type="radio"] { border-radius: 50%; }
+.sds-check:hover .sds-check__mark:not(:disabled) { border-color: var(--text-muted); }
+/* Ticked fills with `--text-primary`, because the accent marks three things
+   and a ticked box is not one of them. The dot and the tick are that fill
+   inverted: `difference` against white gets both modes out of one declaration,
+   where a drawn glyph needs a light copy, a dark one and a rule choosing. The
+   knockout that would also do it is a mask, and a mask clips the focus ring. */
+.sds-check__mark:checked,
+.sds-check__mark[type="checkbox"]:indeterminate {
+  background-color: var(--text-primary);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-blend-mode: difference;
+  border-color: var(--text-primary);
+}
+.sds-check__mark[type="radio"]:checked {
+  background-image: radial-gradient(circle at center, #FFF 2.6px, transparent 3.4px);
+}
+.sds-check__mark[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.9 8.3l2.9 2.9 5.3-5.9' fill='none' stroke='%23FFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+/* Neither on nor off. `:indeterminate` on a radio is every button of a group
+   with nothing chosen, which is why this one names its type. */
+.sds-check__mark[type="checkbox"]:indeterminate {
+  background-image: linear-gradient(#FFF, #FFF);
+  background-size: 8px 2px;
+}
+.sds-check__mark:disabled { opacity: 0.5; }
+/* Control leading on the label, so the box beside it is centred on one line
+   and the hint below is the label's own rather than a second row. */
+.sds-check__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sds-check__label {
+  font-size: var(--control-font-size);
+  line-height: var(--control-leading);
+  color: var(--text-primary);
+}
 .sds-check__hint {
   font-size: var(--note-body-size);
   line-height: var(--note-body-leading);
@@ -570,7 +610,12 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 /* A set of them. `<fieldset>` carries the grouping and the legend, and the
    browser's own border and padding are taken away rather than styled. */
 .sds-choices { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
-.sds-choices > .sds-field-label { padding: 0; }
+/* The rendered `<legend>` is lifted out of the fieldset's content box and is
+   no flex item, so the column's `gap` never reached it and the question sat on
+   the first answer. The margin is that gap, written by hand — and the shorter
+   one where a hint follows, which belongs to the question and not to the set. */
+.sds-choices > .sds-field-label { padding: 0; margin-bottom: var(--space-4); }
+.sds-choices:has(> .sds-field-hint) > .sds-field-label { margin-bottom: var(--space-1); }
 
 /* The form itself: one column, at the measure a form is filled in rather than
    the measure a page is read at. A row of fields side by side is faster to

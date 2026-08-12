@@ -1,10 +1,10 @@
 /* sds-checkbox — one thing that is either so or not.
 
    The platform's own control in this system's colours, not a box with a glyph
-   in it: a replacement re-implements the keyboard, the tap target, the
-   indeterminate state and how it all reads out, and skips whichever part nobody
-   on the team tests with. A set where exactly one may be true is
-   `sds-radio-group` — a different question, a different control.
+   in it: the stylesheet takes the paint and leaves the keyboard, the tap
+   target, the indeterminate state and how it all reads out with the input. A
+   set where exactly one may be true is `sds-radio-group` — a different
+   question, a different control.
 
    A real `<label>` wraps both, so the words are part of the target: a 16px box
    is hard to hit and the sentence beside it is not. */
