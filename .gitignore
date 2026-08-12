@@ -37,23 +37,23 @@ node_modules/
 # Never the lock. This is a library rather than an application: what it must
 # work against is the constraint in composer.json, and a committed lock would
 # pin a consumer's renderer to whatever version happened to resolve here.
-/guides-theme/composer.lock
+/packages/guides-theme/composer.lock
 
 # Composer's own tree. Kept in the working directory rather than in an image
 # layer the way node_modules is: it is pure PHP, so it is the same on every
 # platform, and a renderer whose dependencies live on the host can be looked
 # at without opening a container.
-/guides-theme/vendor/
+/packages/guides-theme/vendor/
 
 # the fixer's memory of what it has already looked at — machine state, and
 # tied to the absolute path it was written under
-/guides-theme/.php-cs-fixer.cache
+/packages/guides-theme/.php-cs-fixer.cache
 
 # the drop-in, copied into each project so the renderer can reach it
-/guides-theme/acceptance/styles/
+/packages/guides-theme/acceptance/styles/
 /docs/styles/
 /docs/_cards/
-/guides-theme/acceptance/_cards/
+/packages/guides-theme/acceptance/_cards/
 
 # the starter example, copied in so the manual can quote the files that are
 # built rather than a second copy of them
@@ -77,3 +77,6 @@ node_modules/
 
 # the sync target: a maintainer's, not the repository's
 /.design-sync/config.local.json
+
+# the theme assembled as its own package, for pushing to the split repository
+/.split/

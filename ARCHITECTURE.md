@@ -30,7 +30,7 @@ is what they are — a token is not a lesser thing than a component:
 
 Two directories beside it are source as well, and both are read by something
 other than Storybook: `docs/` is the published documentation, written as RST
-and rendered by phpDocumentor Guides, and `guides-theme/` is the Composer
+and rendered by phpDocumentor Guides, and `packages/guides-theme/` is the Composer
 package that maps that renderer onto this system. A guideline page there and a
 story here show the same specimen, because the page embeds the same card.
 
@@ -89,10 +89,17 @@ the system, and nobody sets a document in it — one flat root, unchanged.
 that.
 
 **Composer does.** Packagist reads the `composer.json` at the root of a
-repository, so a package in a subdirectory does not exist for it. `guides-theme/`
-therefore has to be pushed to a read-only repository of its own on every tag —
-a subtree split, the same mechanic `phpdocumentor/guides` uses for its own
-`packages/*`, with `splitsh-lite` doing the work in CI.
+repository, so a package in a subdirectory does not exist for it. Everything
+under `packages/` is therefore pushed to a read-only repository of its own —
+that is what the directory means, and the only thing it means.
+
+**It is assembled, not split out of the history.** `splitsh-lite` reproduces a
+subdirectory's commits exactly, which is the one thing that cannot work here:
+the package has to contain files the monorepo does not have in that place —
+the drop-in. So `scripts/split.ts` builds the repository whole, and the branch
+it is pushed to is a mirror of one commit rather than a second history
+somebody could commit into. Only a tag is a release, because only a tag is
+what Composer resolves.
 
 **Neither door delivers a documentation build on its own, and the gap is what
 a consumer feels.** The theme is PHP; the stylesheets are not, and neither is
@@ -113,7 +120,7 @@ the gate builds it that way on every push.
 Packagist — Packagist reads the root `composer.json` of a repository, and this
 one's root is the npm package — so `examples/starter/composer.json` requires it
 from a path repository against the checkout it needs anyway. When the split is
-written it should carry `dist/` into `guides-theme/resources/`, and a
+written it should carry `dist/` into `packages/guides-theme/resources/`, and a
 documentation build then needs Composer alone; until then the checkout is both
 the package and the drop-in, and the example is where that is written down.
 
@@ -270,7 +277,7 @@ answering a question the other two cannot:
   when a story, a card, a documentation page *or the element that emits it*
   names it — a class written at runtime is looked at wherever its element is.
 - **A page the Guides renderer produced.** The theme's fixture under
-  `guides-theme/acceptance/` is where a component meets markup it did not
+  `packages/guides-theme/acceptance/` is where a component meets markup it did not
   compose: real prose around it, a document layer under it, a renderer that
   knows nothing about this system. A specimen card is built for the component;
   a rendered document is not, which is why it finds different things.

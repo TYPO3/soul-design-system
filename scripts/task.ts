@@ -47,6 +47,7 @@ const TASKS: Record<string, Task> = {
   // Build artefacts
   build: { cmd: node('scripts/build.ts'), help: 'assemble ds-bundle/, the upload payload' },
   dist: { cmd: node('scripts/dist.ts'), help: 'build the publishable ESM package and its types' },
+  split: { cmd: node('scripts/split.ts'), help: 'assemble the Guides theme as the package it is published as, into .split/' },
   fonts: { cmd: node('scripts/fonts.ts'), help: 'regenerate fonts/ from @fontsource' },
   icons: { cmd: node('scripts/icons.ts'), help: 'regenerate assets/icons/ from @typo3/icons' },
   diagrams: { cmd: node('scripts/diagrams.ts'), help: 'read the drawings’ viewBoxes into src/components/diagrams.generated.ts' },

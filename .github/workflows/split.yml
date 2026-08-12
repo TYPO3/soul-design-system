@@ -1,0 +1,80 @@
+# The Guides theme, pushed to the repository it is published from.
+#
+# Packagist reads the `composer.json` at the root of a repository, and this
+# one's root is the npm package — so the theme has to stand alone somewhere
+# else. `scripts/split.ts` assembles that repository: `packages/guides-theme/` at the
+# root, and the drop-in it needs under `resources/dist/`. This file is the
+# push, and nothing else: what goes in the package is decided in the task, so
+# `make split` on a desk and this workflow cannot produce different packages.
+#
+# Started by hand, because publishing is a decision. Give it the target and,
+# for a release, the tag — a run without one only refreshes the branch, and a
+# branch is not something Composer resolves.
+name: Split the Guides theme
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: The repository to push to, as owner/name
+        default: benjaminkott/typo3-soul-guides-theme
+        required: true
+      tag:
+        description: The release to publish, e.g. v1.0.0 — empty refreshes the branch only
+        required: false
+      branch:
+        description: The branch the package is mirrored on
+        default: main
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  split:
+    name: assemble and push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # No container and no install: the task reads the tree and copies files,
+      # and Node runs it by stripping the types.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # The committed drop-in is what the package carries, so a stale one would
+      # be published as though it were the source. The gate proves this on
+      # every push; it is asked again here because a release is the one moment
+      # nobody gets to check afterwards.
+      - name: The drop-in matches its source
+        run: node scripts/dist.ts --check
+
+      - name: Assemble the package
+        run: node scripts/split.ts --tag=${{ inputs.tag }} --branch=${{ inputs.branch }}
+
+      # A token with write access to the target repository, and nothing else.
+      # Not `GITHUB_TOKEN`: that one is scoped to this repository, which is the
+      # one place this job does not write.
+      - name: Push it
+        env:
+          TOKEN: ${{ secrets.SPLIT_TOKEN }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::SPLIT_TOKEN is not set — create a token with write access to ${{ inputs.repository }}"
+            exit 1
+          fi
+          cd .split
+          git remote add origin "https://x-access-token:${TOKEN}@github.com/${{ inputs.repository }}.git"
+          # Force, because the branch is a mirror of one assembled commit
+          # rather than a history anybody adds to. A tag is never forced: a
+          # release that moves is a release nobody can rely on.
+          git push --force origin "${{ inputs.branch }}"
+          if [ -n "$TAG" ]; then git push origin "$TAG"; fi
+
+      - name: What was published
+        run: |
+          echo "### ${{ inputs.repository }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Branch \`${{ inputs.branch }}\` refreshed${{ inputs.tag && format(', tagged `{0}`', inputs.tag) || '' }}." >> "$GITHUB_STEP_SUMMARY"

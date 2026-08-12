@@ -250,6 +250,22 @@ const CHECKS: readonly Check[] = [
     },
   },
 
+  /* The theme is published as a package of its own, assembled rather than
+     split out of the history — it has to contain the drop-in, which does not
+     live in `guides-theme/`. Assembling it here is what keeps a renamed
+     template or a moved file from being found at release time. */
+  {
+    name: 'split',
+    step: '4d',
+    label: 'the theme assembles into a package that stands alone',
+    run() {
+      const split = spawnSync(process.execPath, [join(ROOT, 'scripts/split.ts'), '--check'], { encoding: 'utf8' });
+      process.stdout.write(split.stdout ?? '');
+      process.stdout.write(split.stderr ?? '');
+      if (split.status !== 0) fails.push('the Guides theme does not assemble into a complete package — see `make split ARGS=--check`');
+    },
+  },
+
   /* The seven component cards are generated from their stories. A card edited
      by hand looks fine in review and is silently reverted by the next
      `make cards` — so a stale card is a failure, not a warning. */
