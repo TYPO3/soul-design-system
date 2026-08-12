@@ -48,6 +48,8 @@ export declare class SdsSurface extends SdsElement {
     heading: string;
     body: string | TemplateResult;
     boxStyle: string;
+    private taken;
     constructor();
+    connectedCallback(): void;
     protected render(): TemplateResult;
 }

@@ -3624,6 +3624,19 @@ var PLANE = {
   sunken: "sds-sunken"
 };
 var SdsSurface = class extends SdsElement {
+  constructor() {
+    super();
+    /* The statement, where it was written between the tags. A plane on a product
+       surface holds a sentence somebody composed, which fits in a property; one
+       in a document holds whatever the passage was — paragraphs, a list, a block
+       of its own — and that is markup or it is nothing. */
+    this.taken = null;
+    this.plane = "raised";
+    this.label = "";
+    this.heading = "";
+    this.body = "";
+    this.boxStyle = "flex:1; min-width:200px";
+  }
   static {
     this.properties = {
       plane: { type: String, reflect: true },
@@ -3637,13 +3650,10 @@ var SdsSurface = class extends SdsElement {
       boxStyle: { type: String, attribute: "box-style" }
     };
   }
-  constructor() {
-    super();
-    this.plane = "raised";
-    this.label = "";
-    this.heading = "";
-    this.body = "";
-    this.boxStyle = "flex:1; min-width:200px";
+  connectedCallback() {
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
+    super.connectedCallback();
   }
   render() {
     const label = this.label ? html25`<div class="sds-label">${this.label}</div>` : void 0;
@@ -3652,7 +3662,7 @@ var SdsSurface = class extends SdsElement {
   ${icon}
   ${label}
   <div class="sds-surface-title">${this.heading}</div>
-  <div class="sds-surface-body">${this.body}</div>
+  <div class="sds-surface-body">${this.taken ?? this.content ?? this.body}</div>
 </div>`;
   }
 };
@@ -4122,8 +4132,10 @@ var SdsTable = class extends SdsElement {
     /* The table a document wrote, taken before Lit renders over it. A cell there
        carries a link, a literal, an emphasis — none of which survives a JSON
        attribute — and `colspan`, `rowspan` and a caption have no property at
-       all. What is written between the tags is the table's own children, so the
-       element still draws the `<table>` and still decides its density. */
+       all. What is handed over is the table's own children, so the element still
+       draws the `<table>` and still decides its density. A `<thead>` outside a
+       `<table>` is dropped by the parser, so those children reach here from a
+       `<template>` or a property and never from markup typed into a page. */
     this.taken = null;
     this.density = "medium";
     this.scrollable = false;

@@ -67,8 +67,10 @@ export class SdsTable extends SdsElement {
   /* The table a document wrote, taken before Lit renders over it. A cell there
      carries a link, a literal, an emphasis — none of which survives a JSON
      attribute — and `colspan`, `rowspan` and a caption have no property at
-     all. What is written between the tags is the table's own children, so the
-     element still draws the `<table>` and still decides its density. */
+     all. What is handed over is the table's own children, so the element still
+     draws the `<table>` and still decides its density. A `<thead>` outside a
+     `<table>` is dropped by the parser, so those children reach here from a
+     `<template>` or a property and never from markup typed into a page. */
   private taken: Node[] | null = null;
 
   constructor() {

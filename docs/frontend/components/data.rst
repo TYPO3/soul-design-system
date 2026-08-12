@@ -67,8 +67,8 @@ sds-table
 
 .. note::
 
-   The rows may also be written **between the tags**, as the table's own
-   children:
+   The rows may also be **given as markup** — the table's own children, the
+   caption and the ``<colgroup>`` included:
 
    .. code-block:: html
 
@@ -78,11 +78,18 @@ sds-table
         <tbody><tr><td><code>typo3_icon_lookup</code></td><td colspan="2">…</td></tr></tbody>
       </sds-table>
 
-   That is the form a renderer uses. A cell in a document carries a link, a
-   literal or an emphasis; ``colspan``, ``rowspan`` and a caption have no
-   property at all; and the rows have to be on the page before any script
-   runs. What the table *is* — the class, the density, the box it scrolls in —
-   stays the element's either way.
+   That is the form a renderer uses, and only a renderer: a cell in a document
+   carries a link, a literal or an emphasis, ``colspan``, ``rowspan`` and a
+   caption have no property at all, and the rows have to be on the page before
+   any script runs. What the table *is* — the class, the density, the box it
+   scrolls in — stays the element's either way.
+
+   **A page cannot be written that way by hand.** The HTML parser drops a
+   ``<thead>`` that is not inside a ``<table>``, so the markup above survives
+   only where it is parsed inside a ``<template>`` — which is where the
+   finishing step puts it, and what the ``content`` property carries for a
+   caller composing the rows in JavaScript. Written by hand, use the
+   properties.
 
 .. specimen:: components/data/density.card.html
    :viewport: 700x800

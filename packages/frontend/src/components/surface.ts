@@ -14,7 +14,7 @@
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';
 import { type IconId } from './icon.ts';
-import { define, SdsElement } from '../lib/element.ts';
+import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 /** `raised` sits on the canvas and has to read as a plane. `sunken` is machine
     output: code, logs, structured content. Named for the fill each one is —
@@ -64,6 +64,12 @@ export class SdsSurface extends SdsElement {
   declare body: string | TemplateResult;
   declare boxStyle: string;
 
+  /* The statement, where it was written between the tags. A plane on a product
+     surface holds a sentence somebody composed, which fits in a property; one
+     in a document holds whatever the passage was — paragraphs, a list, a block
+     of its own — and that is markup or it is nothing. */
+  private taken: Node[] | null = null;
+
   constructor() {
     super();
     this.plane = 'raised';
@@ -71,6 +77,12 @@ export class SdsSurface extends SdsElement {
     this.heading = '';
     this.body = '';
     this.boxStyle = 'flex:1; min-width:200px';
+  }
+
+  override connectedCallback(): void {
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
+    super.connectedCallback();
   }
 
   protected override render(): TemplateResult {
@@ -88,7 +100,7 @@ export class SdsSurface extends SdsElement {
   ${icon}
   ${label}
   <div class="sds-surface-title">${this.heading}</div>
-  <div class="sds-surface-body">${this.body}</div>
+  <div class="sds-surface-body">${this.taken ?? this.content ?? this.body}</div>
 </div>`;
   }
 }

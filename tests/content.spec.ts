@@ -196,3 +196,47 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
 });
+
+/* A table takes the rows as markup: a cell carries a link or a literal,
+   `colspan` is on the cell, and a caption has no property at all. What the
+   table *is* stays the element's, so the two forms cannot draw two different
+   tables.
+
+   Handed over as `content` rather than written between the tags, and that is
+   the form and not a shortcut: the parser drops a `<thead>` that is not inside
+   a `<table>`, so these rows survive only where they were parsed inside a
+   `<template>` — which is what the property carries and what the finishing
+   step leaves in the page. */
+test('a table draws the rows it was given as markup', async ({ page }) => {
+  await gotoStory(page, 'components-table--from-content');
+
+  const table = page.locator('sds-table > .sds-table-scroll > table.sds-table');
+  await expect(table, 'the element draws the table, the document fills it').toHaveCount(1);
+  await expect(table).toHaveClass(/sds-table--medium/);
+
+  /* The rows are inside that table and not stranded beside it, which is what a
+     lost `connectedCallback` would leave behind. */
+  const order = await table.evaluate((el) => [...el.children].map((c) => c.tagName.toLowerCase()));
+  expect(order).toEqual(['caption', 'thead', 'tbody']);
+  await expect(table.locator('td code').first()).toHaveText('typo3_rule_lookup');
+  await expect(table.locator('td[colspan="2"] em')).toHaveText('only');
+});
+
+/* And a plane holds whatever the passage was. The property form is a sentence
+   somebody composed; a document's is paragraphs and a list, and only one of
+   the two fits in an attribute. */
+test('a surface holds the passage written between its tags', async ({ page }) => {
+  await gotoStory(page, 'components-surface--from-content');
+
+  const plane = page.locator('sds-surface > .sds-panel');
+  await expect(plane).toHaveCount(1);
+  await expect(plane.locator('.sds-surface-title')).toHaveText('What a topic is');
+
+  const body = plane.locator('.sds-surface-body');
+  await expect(body.locator('p')).toHaveCount(1);
+  await expect(body.locator('ul li')).toHaveCount(2);
+
+  const stray = await page.locator('sds-surface').evaluate((el) =>
+    [...el.children].filter((c) => !c.classList.contains('sds-panel')).length);
+  expect(stray, 'the element should hold nothing but the plane it renders').toBe(0);
+});

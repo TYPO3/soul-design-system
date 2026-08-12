@@ -125,13 +125,12 @@ Verhalten im Element, kein Template.
 Ein Generator kennt nur Attribute und Kinder: eine Story setzt Eigenschaften,
 ein Twig-Template schreibt Markup. Ein Element, das Light DOM aus seinen
 Eigenschaften rendert, überschreibt dabei seine Kinder — das Markup ist weg.
-`lifted()` ist die Form, die das löst; `sds-code`, `sds-note`, `sds-figure` und
-`sds-table` sind der Beleg, dass sie trägt. Offen ist, was eine Doku-Seite als
-nächstes braucht:
+`lifted()` ist die Form, die das löst; `sds-code`, `sds-note`, `sds-figure`,
+`sds-table` und `sds-surface` sind der Beleg, dass sie trägt. Offen ist, was
+eine Doku-Seite als nächstes braucht:
 
 | Element | Heute | Was ein Knoten braucht |
 | --- | --- | --- |
-| `sds-surface` | `body: { type: String }` | Trägt `topic`, `sidebar`, später Karten — alles mit Prosa darin |
 | `sds-stat`, `sds-modal`, `sds-dialog`, `sds-drawer` | dasselbe Muster | Für eine Doku-Seite zweitrangig |
 
 ## Auslieferung und Verhalten
@@ -180,6 +179,10 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 ## In welcher Reihenfolge
 
-1. **`sds-surface`** — Form wie bei `sds-table`: `lifted()` dazu,
-   Eigenschaften bleiben für die Stories, ein Beleg als Story.
+1. **`topic` und `sidebar` auf `sds-surface` umstellen.** Das Element nimmt
+   jetzt Markup, die Templates zeichnen die Platte aber weiter selbst — und das
+   ist die Stelle, an der `sds-surface` in den Render käme. Zwei Entscheidungen
+   stehen davor: das `<aside>`, das die drei Templates heute bewusst schreiben
+   und das die Komponente nicht kennt, und die `:class:`-Angabe des Autors, die
+   auf einem `display: contents`-Host keine Fläche mehr trifft.
 2. **Die drei fremden Markups** und das Verhalten des `configuration-block`.

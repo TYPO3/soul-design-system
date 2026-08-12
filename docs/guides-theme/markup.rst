@@ -215,12 +215,17 @@ in the line and the note at the foot of the page agree — ``[#name]_`` prints
 Tables
 ======
 
-A table becomes ``<sds-table>``, and what goes between the tags is the table's
-own children — the caption, the ``<colgroup>`` a ``:widths:`` option worked
-out, the head and the body, cells and all. A cell carries a link, a literal or
-an emphasis, and ``colspan`` and ``rowspan`` are on it; none of that fits in a
-property, which is why this is the one component a document hands markup to
-rather than values.
+A table becomes ``<sds-table>``, and what the theme writes inside it is the
+table's own children — the caption, the ``<colgroup>`` a ``:widths:`` option
+worked out, the head and the body, cells and all. A cell carries a link, a
+literal or an emphasis, and ``colspan`` and ``rowspan`` are on it; none of that
+fits in a property, which is why this is the one component a document hands
+markup to rather than values.
+
+It survives because every element is rendered before the page is published:
+what the finishing step leaves in the page is the drawn table and, beside it,
+the rows in a ``<template>``, which is the one place the parser keeps a
+``<thead>`` that is not inside a ``<table>``.
 
 The ``<table>`` itself is the element's, and so is its density and the box it
 scrolls in. That box has to be *around* the table: ``overflow-x`` on the table

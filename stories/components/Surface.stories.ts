@@ -101,6 +101,22 @@ export const WithIcon: Story = {
   },
 };
 
+/** The form a document uses: the statement between the tags. A plane on a
+    product surface holds a sentence somebody composed and a property carries
+    it; a passage set beside an argument is paragraphs, a list, a block of its
+    own, and that is markup or it is nothing. */
+export const FromContent: Story = {
+  render: () => html`<sds-surface heading="What a topic is" box-style="max-width:520px">
+    <p>A block with a title of its own that stays out of the outline — a
+      digression, not a step in the argument.</p>
+    <ul>
+      <li>it is not an admonition: nothing here is true of the reader</li>
+      <li>it does not float, because a column of sixty-six characters has
+        nothing for it to float beside</li>
+    </ul>
+  </sds-surface>`,
+};
+
 export const specimenHtml = (): string =>
   spec([
     /* The unfilled plane first, drawn by the element that owns it. Three boxes

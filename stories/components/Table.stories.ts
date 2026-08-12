@@ -88,24 +88,24 @@ export const Airy: Story = { args: { ...CARD_TABLE, density: 'airy' } };
     caption have no property at all, and a page has to hold the rows before any
     script runs. What the table *is* — the class, the density, the box it
     scrolls in — stays the element's either way. */
+const GIVEN_ROWS = `<caption>What each lookup answers with, and where it reads it.</caption>
+<thead>
+  <tr><th>Tool</th><th>Source</th><th>Versions</th></tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="sds-td-name"><code>typo3_rule_lookup</code></td>
+    <td>bundled knowledge</td>
+    <td class="sds-td-meta">12.4 · 13.4 · 14.3 · main</td>
+  </tr>
+  <tr>
+    <td class="sds-td-name"><code>typo3_icon_lookup</code></td>
+    <td colspan="2">the installation, and <em>only</em> the installation</td>
+  </tr>
+</tbody>`;
+
 export const FromContent: Story = {
-  render: () => html`<sds-table scrollable
-    ><caption>What each lookup answers with, and where it reads it.</caption
-    ><thead>
-      <tr><th>Tool</th><th>Source</th><th>Versions</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="sds-td-name"><code>typo3_rule_lookup</code></td>
-        <td>bundled knowledge</td>
-        <td class="sds-td-meta">12.4 · 13.4 · 14.3 · main</td>
-      </tr>
-      <tr>
-        <td class="sds-td-name"><code>typo3_icon_lookup</code></td>
-        <td colspan="2">the installation, and <em>only</em> the installation</td>
-      </tr>
-    </tbody></sds-table
-  >`,
+  render: () => html`<sds-table scrollable .content="${html`${unsafeHTML(GIVEN_ROWS)}`}"></sds-table>`,
 };
 
 export const specimenHtml = (): string =>

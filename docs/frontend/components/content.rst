@@ -46,6 +46,11 @@ A filled plane holding a statement.
    :name: sds-surface-body
    :type: string | markup
 
+   It may also be written **between the tags**, which is the form a document
+   uses: a plane on a product surface holds a sentence somebody composed and a
+   property carries it, while a passage set beside an argument is paragraphs, a
+   list or a block of its own — markup, or nothing.
+
 .. confval:: label
    :name: sds-surface-label
    :type: string
