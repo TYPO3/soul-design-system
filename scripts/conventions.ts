@@ -1,16 +1,13 @@
 #!/usr/bin/env node
 /* Check that every name in .design-sync/conventions.md still exists.
 
-   That file is prepended to the uploaded README and inlined into the design
-   agent's prompt. An agent trusts it completely: name a class that does not
-   resolve and it writes markup that silently does nothing — invisible in
-   review, wrong in every design afterwards. So the names have to be checked
-   against the built stylesheets, not against memory.
+   That file is inlined into the design agent's prompt and trusted completely:
+   name a class that does not resolve and the agent writes markup that silently
+   does nothing. So the names are checked against the built stylesheets rather
+   than against memory. It never rewrites the file — drift is reported for a
+   human to resolve, because the prose is theirs.
 
-   It never rewrites the file. Drift is reported for a human to resolve,
-   because the prose is theirs.
-
-     make verify      # also runs as the last step of make verify
+     make verify
 */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -35,13 +32,11 @@ const css = readFileSync(join(OUT, '_ds_bundle.css'), 'utf8')
 
 const definedClasses = new Set([...css.matchAll(/\.([a-zA-Z][\w-]*)/g)].flatMap((m) => (m[1] ? [m[1]] : [])));
 
-/* Custom element tags are named in the same prose and in the same backticks,
-   but they are not classes and never appear in the CSS — the elements render
-   light DOM and put the classes on what they produce. The authority for a tag
-   is the bundle that registers it, so they are checked against the
-   `@ds-bundle` header rather than against the stylesheet. A tag named here
-   that nothing registers is the same failure as a class nothing defines: the
-   agent writes it, and it stays an unknown element forever. */
+/* Tags are named in the same prose and the same backticks but never appear in
+   the CSS, the elements putting their classes on what they produce. So the
+   authority is the bundle that registers them, checked against the `@ds-bundle`
+   header — a tag nothing registers is the same failure as a class nothing
+   defines: the agent writes it and it stays an unknown element forever. */
 interface BundleHeader {
   components?: { tag?: string }[];
 }
@@ -61,12 +56,10 @@ const definedTokens = new Set([...css.matchAll(/(--[a-z0-9-]+)\s*:/g)].flatMap((
    (`sds-code__head|__body`), or as a family base followed by its modifiers
    in a table row (`sds-btn` + `--primary` `--secondary`). */
 const named = new Set<string>();
-/* `--scroll` in a table row is a modifier, not a token — but it is spelled
-   exactly like one, and the token check below would go looking for a custom
-   property by that name. This used to be a hand-kept list of words to ignore
-   (`primary|secondary|ghost|sm|…`), which meant every new modifier failed
-   verify until someone remembered to add it there. A modifier is now whatever
-   the row logic already consumed as one. */
+/* `--scroll` in a table row is a modifier, not a token, but is spelled exactly
+   like one and the token check below would look for a custom property by that
+   name. A modifier is whatever the row logic already consumed as one — a
+   hand-kept list of words to ignore fails every time a new modifier is added. */
 const modifiers = new Set<string>();
 for (const line of doc.split('\n')) {
   const ticked = [...line.matchAll(/`([^`]+)`/g)].flatMap((m) => (m[1] ? [m[1]] : []));
@@ -102,18 +95,11 @@ const exactTokens = [...doc.matchAll(/`(--[a-z][a-z0-9-]+)`/g)].flatMap((m) => (
 const missingClasses = [...named].filter((c) => !definedClasses.has(c) && !definedTags.has(c)).sort();
 const namedTags = [...named].filter((c) => definedTags.has(c));
 
-/* And the other direction, for tags only.
-
-   A name that no longer resolves makes the agent write something broken. A
-   tag the bundle registers but this file never mentions is quieter and lasts
-   longer: the element exists, works, and is styled — and nothing ever reaches
-   for it, because the only document the agent reads does not say it is there.
-   That is how this header went on describing nine elements while the bundle
-   shipped seventeen.
-
-   Classes are not checked this way on purpose. `_ds_bundle.css` carries
-   internal and state classes that the prose deliberately does not list; the
-   tag list is the public surface and is meant to be complete. */
+/* And the other direction, for tags only. A tag the bundle registers but this
+   file never mentions is the quieter failure: the element exists and works, and
+   nothing ever reaches for it, because the only document the agent reads does
+   not say it is there. Classes are not checked this way — the stylesheet
+   carries internal names the prose deliberately does not list. */
 const unnamedTags = [...definedTags].filter((t) => !named.has(t)).sort();
 const missingPrefixes = [...new Set(prefixes)]
   .filter((p) => ![...definedTokens].some((d) => d.startsWith(p))).sort();

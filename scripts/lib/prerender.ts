@@ -67,14 +67,11 @@ function one(tag: string, attrs: string, written: string): string {
 export function prerender(page: string, tags: readonly string[] = TAGS): string {
   const pattern = element(tags);
 
-  /* A finished element is put aside and a marker left where it stood.
-
-     SSR renders every tag it can reach, and it reaches into the content a
-     parent is handed: a child that arrived already rendered is rendered again
-     by each element enclosing it, each time with no content to draw, so a code
-     block two elements deep leaves as three empty frames and one full one. The
-     parent never sees the tag now, and the markers are filled back in at the
-     end, so each element is rendered exactly once. */
+  /* A finished element is put aside and a marker left where it stood. SSR
+     reaches into the content a parent is handed, so a child that arrived
+     rendered would be rendered again by every element enclosing it, each time
+     with nothing to draw. Behind a marker the parent never sees the tag, and
+     each element is rendered exactly once. */
   const put: string[] = [];
   const marker = /<!--sds-part:(\d+)-->/g;
   const aside = (markup: string): string => `<!--sds-part:${put.push(markup) - 1}-->`;

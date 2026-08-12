@@ -39,15 +39,11 @@ for (const n of names) {
     continue;
   }
   const out = new PNG({ width: ia.width, height: ia.height });
-  /* Exact. Everything renders in the container now — same Chromium, same
-     fonts, same machine — and two consecutive runs of all 38 cards differ by
-     zero pixels, so there is no antialiasing noise to absorb.
-
-     The old 0.1 was not a small allowance. Changing `--text-muted` from
-     #6E6860 to #878076 moves 2143 pixels on one card and 0.1 reported none
-     of them: a deliberate token change, invisible to the tool meant to catch
-     exactly that. If this ever turns noisy, raise it knowing what it costs —
-     0.05 already misses a third of that change. */
+  /* Exact. Everything renders in the container — same Chromium, same fonts,
+     same machine — so two consecutive runs differ by zero pixels and there is
+     no antialiasing noise to absorb. An allowance is not small: 0.1 hides a
+     deliberate token change outright, which is the one thing this exists to
+     catch. If it ever turns noisy, raise it knowing that. */
   const n_diff = pixelmatch(ia.data, ib.data, out.data, ia.width, ia.height, { threshold: 0 });
   if (n_diff === 0) { same++; continue; }
   const pct = (100 * n_diff) / (ia.width * ia.height);

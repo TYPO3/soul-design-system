@@ -20,18 +20,11 @@ export interface Mapper {
   map<T, R>(items: readonly T[], job: (page: Page, item: T, index: number) => Promise<R>): Promise<R[]>;
 }
 
-/** Launch a browser, hand it over, and close it whatever happens.
-
-    `finally` covers the script throwing. It does not cover the script being
-    *killed* — a Ctrl-C, or the SIGTERM `make` sends when a task is
-    interrupted — and that is the case that leaves something behind: the
-    process dies, the browser it started does not, and it is re-parented to the
-    container's init and stays there until the container does.
-
-    So the signals are handled too, and handled once here rather than in each
-    of the scripts that opens a browser. Every one of them goes through this
-    function; a script that launches chromium by itself is a script that can
-    orphan one. */
+/** Launch a browser, hand it over, and close it whatever happens. `finally`
+    covers the script throwing but not the script being *killed*, which is the
+    case that leaves a browser re-parented to the container's init until the
+    container goes. So the signals are handled here, once: a script that
+    launches chromium by itself is a script that can orphan one. */
 export async function withBrowser<R>(fn: (browser: Browser) => Promise<R>): Promise<R> {
   const browser = await chromium.launch();
 

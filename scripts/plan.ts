@@ -1,22 +1,13 @@
 #!/usr/bin/env node
 /* Produce the exact upload plan, in the order it must be executed.
 
-   The upload itself needs the DesignSync tool and a claude.ai login, so an
-   agent performs it — but it must not have to work out *what* to push or in
-   *what order*. Both are mechanical, and improvising them is how the last
-   sync left 19 renamed font files orphaned in the project and a manifest
-   describing an upload that no longer existed.
-
-   The order is not a style preference:
+   An agent performs the upload and must not work out what to push, or in what
+   order. Neither is a preference:
      1. sentinel   fences the app's manifest machinery while we write
      2. writes     everything the build produces (idempotent, so full)
      3. deletes    remote files this build no longer produces
      4. sentinel   re-armed, so the app rebuilds its manifest on next open
      5. anchor     last, because it vouches for all of the above
-
-   Writes `.design-sync/.cache/upload-plan.json` and prints a summary.
-
-     make plan
 */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -29,19 +20,11 @@ const OUT = join(ROOT, '.design-sync/.cache/upload-plan.json');
 const SENTINEL = '_ds_needs_recompile';
 const ANCHOR_FILE = '_ds_sync.json';
 
-/* The sentinel has no file extension, and that is enough to lose it.
-
-   Uploaded the ordinary way — `localPath`, no `mimeType` — `write_files`
-   answers `written: 1` and the file is not there afterwards: `list_files`
-   omits it and `get_file` 404s. Nothing fails, so a sync looks complete
-   while the one file whose whole job is to say "recompile" never arrives,
-   and the pane keeps serving the manifest it built last time. That is
-   exactly how an upload of 160 current files sat behind a card index six
-   hours old.
-
-   Naming the type explicitly makes it stick. It is passed inline rather
-   than from disk for the same reason: 24 bytes need no file, and the
-   content is the same every time. */
+/* The sentinel has no file extension, and that is enough to lose it: uploaded
+   the ordinary way `write_files` answers `written: 1` and the file is not there
+   afterwards. Nothing fails, so a sync looks complete while the one file whose
+   job is to say "recompile" never arrives. Naming the type explicitly makes it
+   stick, and it is passed inline — the content is the same every time. */
 const SENTINEL_UPLOAD = {
   mimeType: 'text/plain',
   data: JSON.stringify({ by: 'design-sync-cli' }),
@@ -58,23 +41,11 @@ if (!local.files) {
   process.exit(1);
 }
 
-/* Which project this pushes to is yours, not the repository's.
-
-   Anyone can sync this system into their own claude.ai design project — that
-   is the point of shipping the converter rather than only the output. What
-   the id does is make the *second* sync land where the first one did: without
-   one, every run is a fresh project and an update is indistinguishable from
-   a new import. With one, the anchor, the deletes and the whole update path
-   in this file mean something.
-
-   It is not a credential. The API authorises the caller's own login, and the
-   id opens nothing for anyone else. It stays out of the committed config
-   because it is per-person, not per-repository — a clone should not inherit
-   someone else's project as its default target.
-
-   Three places, in order, so it can live wherever suits: the environment, an
-   untracked local config, and the committed one — still honoured, for a fork
-   that would rather keep it there. */
+/* Which project this pushes to is yours, not the repository's: the id makes the
+   *second* sync land where the first did, and without one every run is a fresh
+   project. Not a credential, but per-person, so a clone does not inherit
+   somebody else's. Three places, in order: the environment, an untracked local
+   config, the committed one. */
 function readProjectId(): string | null {
   const fromEnv = process.env['SDS_DESIGN_PROJECT'];
   if (fromEnv) return fromEnv;

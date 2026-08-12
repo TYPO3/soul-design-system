@@ -2,15 +2,11 @@
 /* What would a sync change?
 
    Compares the freshly built `_ds_sync.json` against the anchor of the last
-   upload. The anchor is the file the design project itself stores: it holds
-   a hash per card, so the comparison answers "which cards actually moved"
-   rather than "which files did I touch".
+   upload — the file the design project itself stores, a hash per card, so the
+   answer is "which cards moved" rather than "which files did I touch". With no
+   cached anchor it prints what a first upload would push and exits 0.
 
      make status
-
-   With no cached anchor this prints what a first upload would push and
-   exits 0 — that is a normal state on a fresh clone, not an error. The
-   anchor is cached by the sync itself (see README, "Sync").
 */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';

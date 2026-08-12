@@ -57,17 +57,11 @@ const server = createServer(handler).listen(PORT, () => {
   console.log(`  http://localhost:${PORT}/`);
 });
 
-/* Shut down when told to.
-
-   The Playwright runner starts this as its `webServer` and sends SIGTERM when
-   the suite is over. Node's default is to exit on that, which ends the process
-   and leaves whatever was mid-flight to the kernel — good enough until a
-   request is still streaming a font, and then the run's last output is a
-   broken pipe from a server that was already going away.
-
-   `closeAllConnections` is the part that matters: without it a keep-alive
-   socket holds the server open, `close()` never resolves, and the runner waits
-   out its grace period and kills it. */
+/* Shut down when told to. Node's default on SIGTERM ends the process and leaves
+   whatever was mid-flight to the kernel, which is good enough until a request
+   is still streaming a font. `closeAllConnections` is the part that matters:
+   without it a keep-alive socket holds the server open, `close()` never
+   resolves, and the runner waits out its grace period and kills it. */
 for (const signal of ['SIGINT', 'SIGTERM'] as const) {
   process.once(signal, () => {
     server.closeAllConnections();
@@ -75,19 +69,11 @@ for (const signal of ['SIGINT', 'SIGTERM'] as const) {
   });
 }
 
-/* And go when whoever started this is gone.
-
-   A signal covers a run that ends. It does not cover one that is *killed* —
-   an interrupted `make test`, a closed terminal — and that case leaves this
-   process bound to the port with nobody watching it. The next run then finds a
-   server answering, reuses it rather than starting its own, and is served a
-   build from whenever that server was started. The failure it produces is the
-   confusing kind: three tests refused a connection mid-run because a teardown
-   from the previous run finally arrived.
-
-   Orphaned means re-parented to init, which is PID 1 — the container runs one
-   now, which is what makes this a reliable signal rather than a guess. The
-   timer is unref'd so it never holds the loop open by itself. */
+/* And go when whoever started this is gone. A signal covers a run that ends,
+   not one that is *killed*, which leaves this bound to the port: the next run
+   finds a server answering, reuses it, and is served a stale build. Orphaned
+   means re-parented to PID 1, which the container runs, so this is a reliable
+   signal rather than a guess. The timer is unref'd. */
 const parent = process.ppid;
 setInterval(() => {
   if (process.ppid === parent) return;

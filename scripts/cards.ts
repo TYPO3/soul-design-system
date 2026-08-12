@@ -1,32 +1,13 @@
 #!/usr/bin/env node
 /* Generate the component specimen cards from their stories.
 
-   The direction of truth for the seven component cards runs story → card:
-   `stories/Buttons.stories.ts` composes the specimen out of the templates in
-   `src/button.ts`, and `specimens/components/core/buttons.card.html` is
-   written from it. That is the whole point of the arrangement. Before it, a card was
-   hand-written HTML and a story would have been a second copy of the same
-   markup — the "second source of truth" `ARCHITECTURE.md` warns about.
-   One source, three renderers: the browser upgrades the custom element,
-   Storybook renders the story, and this writes the file.
+   Truth runs story → card: a story composes the specimen out of the component's
+   own templates, and the card is written from it. One source, three renderers —
+   the browser, Storybook, this. A card cannot contain `<sds-button>`, because
+   the pane opens these with `styles.css` and no JavaScript.
 
-   A card cannot contain `<sds-button>`. The Design System pane opens these
-   files with `styles.css` and no JavaScript at all, so what ships is the
-   markup the element *produces* — which is why the components expose plain
-   template functions and `src/lib/render.ts` turns one into static HTML.
-
-   The guideline specimens under `specimens/guidelines/` are generated the
-   same way.
-   They were hand-written for a long time, on the argument that a colour
-   swatch or a type sample has no component behind it and nothing to vary —
-   which was true of the drawing and never true of the file: the theme, the
-   viewport, the shell and the `@dsCard` header are the same contract a
-   component card has, and every one of them was being kept in step by hand.
-   What they document is still the token layer; what generates them is now the
-   same three lines as everything else.
-
-     make cards            # write them
-     make cards ARGS=--check # fail if any is stale, for CI and verify
+     make cards              # write them
+     make cards ARGS=--check # fail if any is stale
 */
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -56,11 +37,9 @@ export interface CardResult {
 }
 
 /* A picture in a specimen is written the way the story sees it — `../assets/`,
-   one climb out of a folder — and eight story files say it that way. Where the
-   file finally lands is not a story's business, so the climb is counted here
-   from the same `up` the stylesheets use, the way `build.ts` counts it again
-   for the bundle. A story that stated a depth would be a fourth place to keep
-   true, and this repo has already paid for three. */
+   one climb out of a folder. Where the file lands is not a story's business, so
+   the climb is counted here from the same `up` the stylesheets use; a story
+   that stated a depth would be one more place to keep true. */
 const withAssets = (html: string, up: string): string =>
   html.replace(/(src|href)="(?:\.\.\/)+assets\//g, `$1="${up}assets/`);
 
@@ -105,17 +84,11 @@ ${indented}
 `;
 }
 
-/* A screen's shell. It differs from a card's in three ways and each is the
-   point: the marker is `@startingPoint`, the page has a title because it is a
-   page, and it carries no `_specimen.css` — a starting point is a surface
-   somebody copies, and it must not inherit the captions a specimen is drawn
-   with.
-
-   No `<style>`. A screen used to be allowed one, and every screen used it: a
-   shell, a bar, a body and a set of media queries per page, so four pages
-   carried four layouts and the breakpoints disagreed. The layout classes are
-   the system's now, and a page that cannot say something in them has found a
-   gap to fix there rather than a stylesheet to write here. */
+/* A screen's shell differs from a card's in three ways, and each is the point:
+   the marker is `@startingPoint`, the page has a title, and it carries no
+   `_specimen.css` — a starting point is copied and must not inherit a
+   specimen's captions. No `<style>` either: a page that cannot say something in
+   the layout classes has found a gap to fix there. */
 function screenShell(screen: DsScreen, body: string): string {
   const up = '../'.repeat(inRepo(screen.path).split('/').length - 1);
 
@@ -134,14 +107,10 @@ ${indent(withAssets(body, up), 0)}
 `;
 }
 
-/* Every story file under `stories/`, at whatever depth.
-
-   The files sit in a folder per group — `components/`, `pages/`,
-   `specimens/` — which is a filing decision and nothing else: Storybook builds
-   its tree from each story's `title`, not from where the file is, so moving
-   one moves nothing a reader sees. What it does change is this, which read the
-   directory flat and would have quietly stopped generating every card the
-   moment the first file moved into a folder. */
+/* Every story file under `stories/`, at whatever depth. The folder per group is
+   a filing decision and nothing else — Storybook builds its tree from each
+   story's `title` — so moving one moves nothing a reader sees. Read flat, this
+   would quietly stop generating a card the moment its file moved. */
 function storyFiles(dir: string, prefix = ''): string[] {
   return readdirSync(dir, { withFileTypes: true })
     .flatMap((entry) => {
@@ -193,16 +162,11 @@ export async function buildCards({ check = false } = {}): Promise<CardResult[]> 
   return results;
 }
 
-/**
- * Card files on disk that no story produces.
- *
- * This is the rule that keeps the arrangement from quietly coming apart. A
- * card whose story is deleted, or one written by hand into `guidelines/`,
- * stays on disk and keeps being shipped: it is a real file with a real
- * `@dsCard` header, so the pane renders it, `make fit` measures it and the
- * pixel diff compares it — and nothing anywhere says it has no source. That
- * is exactly the state this repo just spent thirty-two cards leaving.
- */
+/** Card files on disk that no story produces — the rule that keeps the
+    arrangement from quietly coming apart. A card whose story is deleted, or one
+    written by hand, stays on disk and keeps being shipped: the pane renders it,
+    `make fit` measures it and the diff compares it, and nothing anywhere says
+    it has no source. */
 function orphans(generated: readonly CardResult[]): string[] {
   const written = new Set(generated.map((r) => r.path));
   return [...cards(), ...screens()].map((c) => c.rel).filter((rel) => !written.has(rel)).sort();

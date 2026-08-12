@@ -1,18 +1,8 @@
 #!/usr/bin/env node
 /* Assemble the claude.ai/design upload bundle from this repo.
 
-   This design system is HTML and CSS — there is no React package to compile,
-   so the standard design-sync converter does not apply. The output contract
-   is the same either way, and this produces it:
-
-     _ds_bundle.js    namespace stub carrying the @ds-bundle header
-     _ds_bundle.css   the component layer (components.css)
-     styles.css       tokens + _ds_bundle.css — the whole design-facing closure
-     components/<Group>/<Name>/<Name>.html      the specimen card
-                      .../<Name>.prompt.md      what the design agent reads
-     tokens/ fonts/ assets/ guidelines/ README.md
-     _ds_sync.json    content hashes, so a re-sync knows what moved
-     _ds_needs_recompile  sentinel the app's self-check consumes
+   This system is HTML and CSS, so the standard design-sync converter does not
+   apply; the output contract is the same either way and this produces it.
 
      node scripts/build.ts [outdir]
 */
@@ -35,26 +25,11 @@ const NS = 'SDS';
 const sha12 = (b: string | Buffer): string => createHash('sha256').update(b).digest('hex').slice(0, 12);
 const read = (p: string): string => readFileSync(join(ROOT, p), 'utf8');
 
-/* Point a page at the bundle's flat root.
-
-   The repo keeps its stylesheets under `src/styles/` and its cards under a
-   group; the bundle has `styles.css`, `_specimen.css` and `assets/` all at
-   its root, with cards three levels down (`components/<Group>/<Name>/`) and
-   screens one (`screens/`). What has to be written is the climb back.
-
-   Screens used to be copied verbatim, on the reasoning that they sit at the
-   same depth in both trees. That was true and still wrong: it holds only
-   while the stylesheet is at the repo root, and once it moved into
-   `src/styles/` every screen shipped pointing at a directory the bundle does
-   not have. The pane drew them with no CSS at all — which reads as a broken
-   design rather than a missing file. The depth was never the whole story;
-   the directory is.
-
-   So the directory is what this is given, and the climb is counted from it.
-   It used to be the climb itself — `'../../../'` written beside the cards and
-   `'../'` beside the screens — which is a second place that has to stay true
-   every time either tree moves, and that pair has already fallen out of step
-   twice. A literal cannot be wrong loudly; it is simply wrong. */
+/* Point a page at the bundle's flat root. The repo keeps its stylesheets under
+   `src/styles/` and the bundle keeps them at its root, so what has to be
+   written is the climb back. Counted from the directory a page lands in, never
+   written out: a literal is a second place that has to stay true every time
+   either tree moves, and it cannot be wrong loudly. */
 function rewriteRefs(txt: string, dir: string): string {
   const up = '../'.repeat(relative(OUT, dir).split(sep).filter(Boolean).length);
   return txt
@@ -68,11 +43,9 @@ function rewriteRefs(txt: string, dir: string): string {
 }
 
 /* Every local reference in the bundle has to resolve inside the bundle.
-
-   `make verify` checks the repo's own links and cannot see this: the tree it
-   walks is not the tree that ships. `screens/answer.html` pointing at
-   `../src/styles/styles.css` resolves perfectly in the repo and to nothing
-   here, and no step between the two would ever have said so. */
+   `make verify` checks the repo's own links and cannot see this, because the
+   tree it walks is not the tree that ships: a path into `src/styles/` resolves
+   perfectly there and to nothing here. */
 function unresolvedRefs(): string[] {
   const bad: string[] = [];
   for (const rel of uploadFiles(OUT)) {
@@ -188,18 +161,11 @@ const styles = read('src/styles/styles.css')
 
 writeFileSync(join(OUT, 'styles.css'), styles);
 
-/* The real bundle. This namespace used to be deliberately empty — the system
-   shipped classes and tokens and nothing to import. It now ships the Lit
-   elements in src/ as well, so the design agent can reach them and
-   `_adherence.oxlintrc.json` comes back with rules in it instead of empty
-   lists.
-
-   The elements render LIGHT DOM and emit the same `sds-` classes, so
-   `_ds_bundle.css` remains the single source of truth for styling and a
-   hand-written `<button class="sds-btn">` is styled identically. The
-   specimen cards stay static HTML with no custom elements in them: the pane
-   opens them without this bundle, which is why `scripts/cards.ts` renders
-   the same templates to markup instead. */
+/* The real bundle: the namespace carries the Lit elements in `src/`, so the
+   design agent can reach them. They render light DOM and emit the same `sds-`
+   classes, which keeps `_ds_bundle.css` the single source for styling. The
+   cards stay static HTML — the pane opens them without this bundle, which is
+   why `scripts/cards.ts` renders the same templates to markup. */
 const bundleSrc = join(ROOT, 'src', 'index.ts');
 const built = await esbuild.build({
   entryPoints: [bundleSrc],
@@ -254,14 +220,10 @@ if (sp.length) {
 mkdirSync(join(OUT, 'guidelines'), { recursive: true });
 cpSync(join(ROOT, 'SKILL.md'), join(OUT, 'guidelines/build-rules.md'));
 cpSync(join(ROOT, 'RATIONALE.md'), join(OUT, 'guidelines/rationale.md'));
-/* The two prompts, as something to act on rather than read about. A design
-   adopting this system needs a mark and it needs pictures, and the
-   alternative to shipping these is the agent inventing both from the cards —
-   which is how a family acquires a member that shares nothing but a colour.
-
-   They live beside the pages that print them, because a prompt is the same
-   file whether a reader copies it out of the documentation or an agent is
-   handed it here. */
+/* The two prompts, as something to act on rather than read about: a design
+   adopting this system needs a mark and pictures, and the alternative is the
+   agent inventing both from the cards. They live beside the pages that print
+   them, a prompt being the same file however it is reached. */
 cpSync(join(ROOT, 'docs/guidelines/signet-prompt.md'), join(OUT, 'guidelines/signet-prompt.md'));
 cpSync(join(ROOT, 'docs/guidelines/illustration-prompt.md'), join(OUT, 'guidelines/illustration-prompt.md'));
 

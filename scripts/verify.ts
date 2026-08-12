@@ -1,38 +1,14 @@
 #!/usr/bin/env node
 /* The repo's own gate. Run it before shipping anything.
 
-   Seven things have to hold, and each has gone wrong at least once:
-     1. every card declares a @dsCard header the Design System pane can read
-     2. no card uses a class the stylesheets do not define — a silent no-op
-     2b. every component is shown somewhere it can be looked at — a story, a
-        drawn class, a page the Guides renderer produced
-     3. every local href/src resolves; a card that ships unstyled looks fine
-        in review and wrong everywhere else
-     4. every card fits the viewport it declares, and still renders
-     5. every card matches the story it comes from — and every card on disk
-        has one, so a file cannot outlive the story that wrote it
-     6. the types the components and the generator share still hold
+   Each check has a name and `--help` lists them; naming any runs only those —
+   `make verify ARGS="refs fit"`. A partial run says so in its last line and
+   never claims consistency, and an unrecognised name is an error: a filtered
+   run that silently checked nothing reads exactly like a clean one.
 
-     make verify
-
-   Each check has a name, and naming any of them runs only those — the loop
-   while working on one thing, rather than the whole sequence:
-
-     make verify ARGS=classes
-     make verify ARGS="refs heights"
-     make verify ARGS=--help      the names
-
-   A partial run says so in its last line and never claims consistency: it is
-   a step, and `make verify` with no argument is still what a change is
-   finished against. An unrecognised name is an error rather than an empty
-   selection — a filtered run that silently checked nothing would read exactly
-   like a clean one.
-
-   The build runs first, but only when something selected reads `ds-bundle/`,
-   which is `conventions` alone. That is also why this takes its arguments
-   directly instead of through a `sh -c` wrapper: appended to a wrapper they
-   land on the shell, and the filter is silently dropped.
-*/
+   The build runs first, but only for `conventions`, the one check that reads
+   `ds-bundle/`. That is also why arguments are passed directly rather than
+   through a `sh -c` wrapper, where the filter would land on the shell. */
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -162,15 +138,10 @@ const CHECKS: readonly Check[] = [
           defined.add(m[1]);
         }
       }
-      /* Every class in every card and screen is checked against the
-         stylesheets, with no exemption.
-
-         There used to be one: a screen could carry a `<style>` block and the
-         names it defined counted as defined. That was the escape hatch a
-         page's own layout went through — and while it was open, a name in it
-         was a name no other surface could use and nothing could keep true.
-         Nothing has a `<style>` now, so the exemption is gone rather than
-         merely unused. */
+      /* Every class in every card and screen, against the stylesheets, with no
+         exemption. A `<style>` block whose names counted as defined would be
+         the escape hatch a page's own layout goes through, and a name in one is
+         a name no other surface can use. */
       const used = new Map<string, string[]>();
       for (const c of all) {
         if (c.text.includes('<style>')) {
@@ -184,13 +155,11 @@ const CHECKS: readonly Check[] = [
           }
         }
       }
-      /* Names that are markers rather than hooks.
-
-         `language-*` is the fence's grammar, written onto the `<code>` by the
-         code block the way every Markdown renderer writes it — it says what
-         the block is for anything that reads the DOM, and the colour is on the
-         `hljs-` spans inside it. There is nothing for it to be defined as, and
-         it is the only class in the system that is deliberately not a style. */
+      /* Names that are markers rather than hooks. `language-*` is the fence's
+         grammar, written onto the `<code>` the way every Markdown renderer
+         writes it: it says what the block is for anything reading the DOM, and
+         the colour is on the `hljs-` spans inside. There is nothing for it to
+         be defined as — the one class here deliberately not a style. */
       const MARKERS = [/^language-[\w-]+$/];
 
       let unknown = 0;

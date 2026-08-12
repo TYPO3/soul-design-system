@@ -1,34 +1,14 @@
 #!/usr/bin/env node
 /* Where a component has to be visible, and what an implementation may invent.
 
-     node scripts/coverage.ts        (step 2b of `make verify`)
+   A component that exists only in `src/` is one the next person writes again.
+   Three surfaces have to show it: the story, which the card is generated from;
+   the class layer, where a name nothing draws rots unchecked; and the Guides
+   render, where it meets markup it does not control.
 
-   A component that exists only in `src/` is a component the next person
-   writes again. Three surfaces have to show it, and each answers a different
-   question:
-
-     the story        — what it is and which variants it has. The story is
-                        also the source the specimen card is generated from,
-                        so a component without one has no card either.
-     the class layer  — every name the stylesheets define is drawn somewhere.
-                        A name nothing shows is a name nobody can check, and
-                        it rots in silence.
-     the Guides render — the document layer under a real renderer, with real
-                        prose around it. It is where a component meets the
-                        markup it does not control, and that is a different
-                        proof from a specimen that was composed for it.
-
-   And one rule for whoever builds on the system rather than in it: an
-   implementation follows the page layouts. It writes no class the stylesheets
-   do not define, and it builds its page out of the shell every screen shares
-   — otherwise the layout exists twice, and the second copy is the one nothing
-   keeps true.
-
-   What counts as shown is deliberately generous, because the alternative is a
-   check people work around: a class counts if a story, a card, a documentation
-   page or an element that emits it names it. A class an element writes at
-   runtime is drawn wherever that element is, and the element's own story is
-   where it is looked at. */
+   And one rule for whoever builds on the system: an implementation follows the
+   page layouts and invents no class, or the layout exists twice. What counts as
+   shown is deliberately generous — else this is a check people work around. */
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 
@@ -55,16 +35,11 @@ const PENDING = {
     'sds-loading',
     'sds-loading__label',
   ],
-  /* Not in the Guides render. Each of these needs either a node the renderer
-     already emits or a directive of the theme's own, and until it has one
-     there is no page where it can be looked at in prose.
-
-     "The render" is what the pages hold, not what the templates spell. An
-     element the theme addresses brings everything it draws with it — the
-     search on every page draws its own hits and its own empty state, and a
-     figure draws the viewer it opens into — so those are covered by the
-     element that draws them and left this list when the theme stopped
-     rebuilding components and started addressing them. */
+  /* Not in the Guides render: each needs a node the renderer emits or a
+     directive of the theme's own before there is a page to look at it in.
+     "The render" is what the pages hold, not what the templates spell — an
+     element the theme addresses brings everything it draws with it, so a
+     figure's viewer is covered by the figure. */
   guides: [
     'sds-button',
     'sds-field',
@@ -86,11 +61,9 @@ const PENDING = {
     'sds-byline',
   ],
   /* Classes the theme writes that no stylesheet defines. `sds-confval` is a
-     hook in this system's own namespace with nothing behind it, and it is
-     decided by defining the name or dropping it, not by a template that keeps
-     writing it. `footnote-ref` was the second and took the other answer: the
-     mark is a `<sup>` with a link in it, both of which the document layer
-     already sets, so the name went. */
+     hook in this system's namespace with nothing behind it, and it is settled
+     by defining the name or dropping it — never by a template that goes on
+     writing it. */
   themeClasses: ['sds-confval'],
 };
 
@@ -169,14 +142,11 @@ console.log(`   ${classes.filter(isDrawn).length} of ${classes.length} classes`)
 
 console.log('   every element appears in the Guides render');
 
-/* What each element renders, read out of its own source. A template that
-   names an element puts everything that element draws on the page too, and
-   since the theme was changed to *address* components rather than rebuild
-   them, that is where most of them now arrive: nothing writes `<sds-link>`
-   any more, `sds-footer` does, and the footer is on every page. Following the
-   composition is what keeps this check saying "is it in the render" rather
-   than "is its name in a Twig file", which is not the same question and was
-   only ever the same by accident. */
+/* What each element renders, read out of its own source: a template naming an
+   element puts everything that element draws on the page too, which is how most
+   of them arrive now that the theme addresses components rather than rebuilding
+   them. Following the composition keeps this asking "is it in the render"
+   rather than "is its name in a template". */
 const emitted = new Map<string, string[]>();
 for (const file of walk(join(ROOT, 'src', 'components'), ['.ts'])) {
   const source = readFileSync(file, 'utf8');
@@ -215,20 +185,11 @@ console.log(`   ${TAGS.filter(inGuides).length} of ${TAGS.length} elements, ${PE
 
 console.log('   the theme names no component\u2019s own part');
 
-/* A part belongs to the element that draws it, and to nothing else.
-
-   `sds-teaser__body` is a name `sds-teaser` chose for a node inside itself. A
-   template that writes it has made that name public API: the card cannot grow
-   a wrapper, move its row or rename anything without the theme changing in the
-   same commit, and the element is left framing markup somebody else built —
-   which is the failure this whole system exists to prevent, arriving through
-   the surface that is supposed to prevent it. It is exactly what the theme did
-   until the render started drawing its elements ahead of the browser, and the
-   only thing standing between here and there again is this.
-
-   Only parts of elements that exist. `sds-bar__end` and `sds-wordmark__pipe`
-   name no component — they are the class layer's own vocabulary, which the
-   theme is entitled to write, and the check above is what holds them. */
+/* A part belongs to the element that draws it and to nothing else. A template
+   writing `sds-teaser__body` has made that name public API: the card can then
+   move nothing without the theme changing in the same commit. Only parts of
+   elements that exist — `sds-bar__end` names no component, that being the class
+   layer's vocabulary, which the theme may write. */
 for (const m of theme.matchAll(/\b(sds-[a-z-]+)__[a-z-]+/g)) {
   const owner = m[1] as string;
   /* `TAGS` is a tuple of literals, so the tag has to be widened to be asked

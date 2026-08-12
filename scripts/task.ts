@@ -1,22 +1,13 @@
 #!/usr/bin/env node
 /* One entry point, one way to run anything: in the container.
 
-   This is the definition of what each task runs — one map, read inside the
-   container. The `Makefile` at the repo root is how a human gets into a
-   container in the first place; it deliberately knows nothing about what the
-   tasks do, so there is one place to change a command and one place to
-   change how it is launched.
+   The map below is what each task runs. The `Makefile` is how a human gets into
+   a container and knows nothing about the tasks, so there is one place to
+   change a command and one to change how it is launched. From the host this
+   hands the task to `docker compose` — the `SDS_IN_CONTAINER` check below.
 
-   It still works from the host, where it hands the task to
-   `docker compose` — that path is what the `SDS_IN_CONTAINER` check below
-   is for, and it is why running this directly does the same thing as
-   `make <task>`.
-
-     make verify             # the normal way in
+     make verify            # the normal way in
      node scripts/task.ts   # lists every task
-
-   Outputs land on the host because the compose file bind-mounts them —
-   `ds-bundle/` in particular, since `/design-sync` uploads it from here.
 */
 import { spawn, spawnSync } from 'node:child_process';
 
@@ -105,13 +96,10 @@ if (process.env['SDS_IN_CONTAINER']) {
   process.exit(r.status ?? 1);
 }
 
-/* On the host: hand it to compose. The image is built on demand — compose
-   caches it, so this is a no-op once the dependencies have not moved.
-
-   This check used to read `!spawnSync(...).status === 0`, which negates
-   first and compares a boolean to a number: always false, so a machine
-   without Docker got a raw spawn error instead of the sentence below. The
-   typecheck that came with converting this file is what found it. */
+/* On the host: hand it to compose. The image is built on demand and compose
+   caches it, so this is a no-op while the dependencies have not moved. The
+   comparison is written out rather than negated, so a machine without Docker
+   gets the sentence below instead of a raw spawn error. */
 if (spawnSync('docker', ['--version'], { stdio: 'ignore' }).status !== 0) {
   console.error('Docker is required — this repo runs nothing on the host.');
   process.exit(1);

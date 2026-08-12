@@ -1,31 +1,13 @@
 #!/usr/bin/env node
 /* Look at one whole page, in both modes.
 
-   `make shots` photographs every card at the size its `@dsCard` line declares,
-   which is the refactor safety net and answers a different question: *did this
-   move*. This one answers the first question anybody has about a page they
-   just composed — **what does it look like** — and it exists because that
-   question was being answered by writing the same throwaway script twice.
+   `make shots` answers *did this move*; this answers **what does it look
+   like**, with a page's defaults: full height at 1440, both modes, no
+   animation, into `test-results/`. Scrolled, it is one screen.
 
-   A page rather than a card, so the defaults are a page's: the full height at
-   1440 wide, both modes, and no animation so two runs of it are comparable.
-
-     make look ARGS=specimens/screens/feature.html
      make look ARGS='specimens/screens/news.html 375'   # at a phone's width
      make look ARGS='specimens/screens/news.html 1440 light'   # one mode only
      make look ARGS='http://site:4173/ 1400 both 800'   # 800px down the page
-
-   Scrolled, it is one screen rather than the whole page — a sticky header and
-   a sticky rail have no second state until something has moved under them, and
-   a full-height picture is taken with the page at the top where they do not
-   have it yet.
-
-   A path a card declares works too — `screens/news.html` is what the bundle
-   calls the same file, and typing the name a story wrote should not be an
-   error just because this repo files it one level deeper.
-
-   The files land in `test-results/`, which is gitignored and already where
-   everything a person is meant to open ends up.
 */
 import { existsSync, mkdirSync } from 'node:fs';
 import { basename, join, resolve } from 'node:path';
@@ -44,18 +26,11 @@ if (!file) {
 /* As given, or as the bundle names it. Both are the same file. */
 const target = existsSync(join(ROOT, file)) ? file : inRepo(file);
 
-/* A URL is opened as a URL.
-
-   A page that loads an ES module cannot be photographed over `file://` —
-   the browser blocks module scripts there, so every custom element stays
-   unupgraded and the picture is of a page nobody will ever see. The rendered
-   site is served by its own container for exactly this reason, and pointing
-   this at that address is how a screenshot shows what a reader gets:
-
-     make look ARGS='http://localhost:4173/ 1280'
-
-   A card or a screen is still a file, and files are fine: they carry no
-   modules. */
+/* A URL is opened as a URL. A page loading an ES module cannot be photographed
+   over `file://` — the browser blocks module scripts there, so every element
+   stays unupgraded and the picture is of a page nobody will ever see. The
+   rendered site is served by its own container for exactly this reason. A card
+   or a screen is still a file, and files carry no modules. */
 const address = /^https?:/.test(file) ? file : pathToFileURL(join(ROOT, target)).href;
 
 const width = Number(widthArg ?? 1440);

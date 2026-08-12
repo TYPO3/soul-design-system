@@ -1,26 +1,14 @@
 #!/usr/bin/env node
 /* Does every card fit the viewport its @dsCard line declares?
 
-   The card is rendered at its declared width with the height unconstrained,
-   and the document is asked how tall its content actually is. If that
-   exceeds the declared height the product card crops it — which is how a
-   modal loses its buttons, or a note loses its last line. Too much slack is
-   worth knowing too: it shows up as dead space in the pane.
+   The card is rendered at its declared width with the height unconstrained and
+   asked how tall its content is. Over the declared height the product card
+   crops it — a modal losing its buttons — and too much slack is dead space.
 
-   Height was the only question here for a long time, and it is not the only
-   way to lose content. A cell with `overflow: hidden` cuts whatever is wider
-   than it, silently, inside a card whose own height is perfectly correct —
-   which is how the misuse card came to read "TYPO3 | Soul Desig" after the
-   wordmark got longer. So every element that actually clips is asked whether
-   anything is being clipped.
-
-   Only elements that clip: `scrollWidth > clientWidth` on an element with
-   `overflow: visible` means the content paints outside its box, which is
-   ordinary and usually deliberate. Two pixels of slack, because sub-pixel
-   layout rounds against images.
-
-     node scripts/fit.ts
-*/
+   Height is not the only way to lose content: a cell with `overflow: hidden`
+   silently cuts whatever is wider than it inside a card of correct height. So
+   every element that clips is asked whether anything is clipped — only those,
+   since content painting outside a `visible` box is ordinary. */
 import { cards, screens, type Card, type Screen } from './lib/cards.ts';
 import { openCard, withPage } from './lib/browser.ts';
 
@@ -38,14 +26,10 @@ const results = await withPage(async ({ map }) =>
        whole page, usually with min-height:100vh — measured that way it would
        always report the tall viewport back. For screens the question is
        different anyway: does the page overflow the size it declares? */
-    /* A screen is a whole page, and a page scrolls: the landing page is four
-       screens tall because a landing page is. Height was asked here for a
-       while and it only ever meant "this page is longer than one viewport",
-       which is not a fault and became one the moment a page was finished.
-
-       Width is the question a screen has to answer. A page wider than the
-       screen it declares is broken at that size, and the pages are measured
-       at nine more in `tests/pages.spec.ts`. */
+    /* A screen is a whole page and a page scrolls, so height here would only
+       ever mean "longer than one viewport", which is not a fault. Width is the
+       question: a page wider than the screen it declares is broken at that
+       size, and `tests/pages.spec.ts` measures the rest. */
     if (isScreen(card)) {
       await openCard(page, card);
       const wide = await page.evaluate(() =>

@@ -1,16 +1,13 @@
 /* Break a minified stylesheet back onto one rule per line.
 
-   `dist/` is committed, which is what lets a consumer take the drop-in over a
-   plain clone — and a minified stylesheet is one line, so every change to it
-   is a change to *the* line. Two people touching different components collide
-   on a hunk neither of them wrote, and git has nothing to merge with: no line
-   boundary means no common ground. A rule to a line gives the diff the same
-   grain the source has, so the generated side merges wherever the source did.
+   `dist/` is committed, and a minified stylesheet is one line, so every change
+   to it is a change to *the* line: two people touching different components
+   collide on a hunk neither wrote, and git has no common ground to merge with.
+   A rule to a line gives the generated side the grain the source has.
 
-   Only the whitespace between rules comes back. Selectors, values and names
-   stay exactly as the minifier wrote them, and a rule whose block holds
-   nothing but declarations stays on its single line — the point is a seam
-   every rule, not a pretty-printed sheet. */
+   Only the whitespace between rules comes back — selectors and values stay as
+   the minifier wrote them. The point is a seam every rule, not a pretty
+   sheet. */
 
 /** A statement in a stylesheet: a declaration or at-rule (`body` null), or a
     rule with a block. Style rules, at-rules and keyframe steps are all this

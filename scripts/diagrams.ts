@@ -1,34 +1,14 @@
 #!/usr/bin/env node
-/* Read the referenced artwork into the modules that need it.
+/* Read the referenced artwork into the modules that need it — `make diagrams`,
+   or `ARGS=--check` to ask whether they are still in step.
 
-   Artwork is referenced into the page rather than linked as an image, so that
-   its colours are the page's tokens — `src/lib/art.ts` says why. That costs
-   two things the files themselves have to supply.
-
-   **The viewBox.** `<use>` carries the shapes across and not the size, so
-   something has to state the coordinate system, and the component writing the
-   wrapper has never opened the file. A mark names its root `<svg>`, which
-   carries its own viewBox and needs nothing from here. A drawing under
-   `assets/diagrams/` names a `<g>`, which carries none — so the coordinate
-   systems are read out of those files. A hand-kept list would drift the first
-   time a drawing was recomposed, and a drifted viewBox is a drawing squashed
-   by a fraction: visible, but not obviously a stale constant.
-
-   **The markup.** A specimen card is opened from disk with no server, where a
-   reference to another file resolves to nothing — the same reason
-   `icon.static.ts` exists, and this is its counterpart for artwork. Only the
-   static render path imports it, so the weight never reaches `soul.js`.
-
-   Two directories, because the two are different things and only one of them
-   is this system's own. `assets/diagrams/` is drawn here, for these pages.
-   `assets/*.svg` at the top holds the marks — worked examples of the signet
-   construction, and third-party logos that are nobody's to rewrite. A file up
-   there is read only when it says it may be, by naming its root `id="art"`,
-   which is the same line a project writes into its own signet.
-
-     make diagrams
-     make diagrams ARGS=--check    are the modules still in step
-*/
+   Artwork is referenced rather than linked so its colours are the page's
+   tokens, and the files then owe two things. The viewBox, since `<use>` carries
+   the shapes and not the size and a drawing names a `<g>`, which carries none —
+   kept by hand a viewBox drifts, and a drifted one is a drawing squashed by a
+   fraction. And the markup, because a card opened from disk resolves a
+   reference to nothing; only the static render path imports that, so `soul.js`
+   never pays for it. */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -54,12 +34,10 @@ const viewBoxOf = (file: string, text: string): string => {
 };
 
 /* A double dash inside a comment is illegal XML, and an SVG is parsed as XML
-   the moment it is fetched — as a reference, as an image, in a favicon slot.
-   The file then renders nothing at all, in every one of those places at once,
-   and the only thing on the page saying so is a blank space. It is easy to
-   write by accident, because the token names these files are full of are
-   spelled with two of them: a note explaining `var(--token, #hex)` breaks the
-   drawing it is explaining. */
+   the moment it is fetched, so the file renders nothing anywhere and the only
+   sign of it is a blank space. Easy to write by accident, because the token
+   names these files are full of are spelled with two: a note explaining
+   `var(--token, #hex)` breaks the drawing it is explaining. */
 const wellFormed = (file: string, text: string): void => {
   for (const comment of text.matchAll(/<!--([\s\S]*?)-->/g)) {
     if ((comment[1] ?? '').includes('--')) {
@@ -80,18 +58,11 @@ const drawings = readdirSync(DIR)
     return { name: file.replace(/\.svg$/, ''), viewBox, shapes: shapes.trim() };
   });
 
-/* A mark goes into the card whole, as a nested `<svg>` rather than as loose
-   shapes. That is what carries the coordinate system across: the wrapper the
-   component wrote states a size and no viewBox, because in a browser the
-   referenced root supplies one — and a nested `<svg viewBox>` scales into its
-   parent's box exactly the way `<use>` does.
-
-   What comes out is the drawing and nothing else. The file's own name and
-   notes are for whoever opens it: the wrapper around the reference already
-   says what the picture is, in the words the page needed rather than the ones
-   the mark was drawn under, and a card carrying both would read the same thing
-   out twice and carry a paragraph of prose per signet on it. The `id` goes
-   with them, or a card showing one mark twice ships it twice. */
+/* A mark goes into the card whole, as a nested `<svg>` rather than loose
+   shapes: that is what carries the coordinate system across, since the wrapper
+   states a size and no viewBox. What comes out is the drawing and nothing else
+   — the wrapper already says what the picture is, and the `id` goes too, or a
+   card showing one mark twice ships it twice. */
 const CARRIED = [
   [/<\?xml[^>]*\?>\s*/g, ''],
   [/\s*<!--[\s\S]*?-->/g, ''],

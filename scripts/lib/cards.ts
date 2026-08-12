@@ -44,14 +44,11 @@ export interface Screen extends Specimen {
   section: string;
 }
 
-/* Where the specimen trees sit in this repo.
-
-   A card's declared path — what a story writes into `parameters.dsCard` — is
-   the path the **bundle** uses, and that is a contract: the pane opens
-   `components/<Group>/<Name>/`, and `make plan` writes and deletes under those
-   names. Where the file lives here is this repo's business and nobody else's,
-   so the difference between the two is said once, in this pair, and everything
-   that touches the disk goes through it. */
+/* Where the specimen trees sit in this repo. A card's declared path — what a
+   story writes into `parameters.dsCard` — is the path the **bundle** uses, and
+   that is a contract. Where the file lives here is nobody else's business, so
+   the difference is said once, in this pair, and everything that touches the
+   disk goes through it. */
 export const SPECIMENS = 'specimens';
 
 /** A declared path, as a path from the repo root. */

@@ -2,16 +2,10 @@
 /* Materialise fonts/ from the @fontsource packages.
 
    The brand faces are a dependency, not a checked-in binary: npm owns the
-   version, and `fonts/` is generated. It still has to end up as real files
-   on disk, because a rendered design resolves `styles.css` and its imports
-   — it cannot reach into node_modules.
-
-   Only the weights and subsets this system actually uses are copied, and
-   only woff2: every browser that can run these designs supports it, and the
-   .woff fallback would double the payload for nothing.
-
-   Run by the container entrypoint whenever fonts/ is missing, so any
-   container starts with a working tree.
+   version and `fonts/` is generated. It still has to be real files on disk,
+   because a rendered design resolves `styles.css` and cannot reach into
+   node_modules. Only the weights and subsets this system uses, and only woff2.
+   Run by the container entrypoint whenever `fonts/` is missing.
 
      make fonts
 */
