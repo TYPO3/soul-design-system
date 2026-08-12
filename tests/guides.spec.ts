@@ -259,6 +259,27 @@ test.describe('what the theme repaired', () => {
     expect(new Set(rows.map((row) => row.top)).size, 'every page on a line of its own').toBe(rows.length);
   });
 
+  test('the folds of a rail sit under its pages', async ({ page }) => {
+    /* A fold between two pages breaks the column a reader is scanning, and the
+       tree is written for reading order rather than for that. The fixture's
+       section writes its group before its last page, so the order here is the
+       rail's own and not the toctree's. */
+    await page.goto(`${ACCEPTANCE_URL}/depth/group/far.html`, { waitUntil: 'load' });
+
+    const rail = page.locator('.sds-rail');
+    const order = await rail.evaluate((el) =>
+      [...el.querySelectorAll(':scope > .sds-rail__item, .sds-rail__group')].map((row) =>
+        row.matches('.sds-rail__group') ? 'fold' : 'page',
+      ),
+    );
+    expect(order, 'a page after a fold in the tree is still drawn before it').toEqual([
+      ...order.filter((row) => row === 'page'),
+      ...order.filter((row) => row === 'fold'),
+    ]);
+    expect(order.filter((row) => row === 'fold').length, 'the section should hold a fold').toBeGreaterThan(0);
+    expect(order.filter((row) => row === 'page').length, 'and pages before it').toBeGreaterThan(1);
+  });
+
   test('every row of the rail starts on the same edge', async ({ page }) => {
     /* Three edges once: the heading and the top-level pages at 9, a group's pages
        indented to 17, and the group's own heading pushed to 33 by the chevron in

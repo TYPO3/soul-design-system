@@ -19,7 +19,8 @@ use phpDocumentor\Guides\Renderer\UrlGenerator\UrlGeneratorInterface;
  * has no rail at all — the bar naming it is the whole of what there is to say.
  *
  * The rail folds once, so a page with a tree under it is a group holding the
- * whole of that tree.
+ * whole of that tree — and the folds sit under the pages, not in the order the
+ * tree happened to write them.
  */
 final class Rail
 {
@@ -73,14 +74,28 @@ final class Rail
            page it is named after, for the same reason: the heading over the
            list is not a link, so a reader standing on the section's index would
            be the one page missing from it. */
-        $items = $own === null ? [] : [$this->link($own, $context)];
-        $active = $own !== null && $own->getUrl() === $current ? 0 : -1;
-        $flat = count($items);
+        $rows = $own === null ? [] : [[$own]];
 
+        /* The folds go last, whatever order the tree put them in: a page is a
+           row and a group is a heading with rows under it, so one standing
+           between the pages breaks the column a reader is scanning. */
+        $folds = [];
         foreach ($entries as $entry) {
             $below = $this->descendants($entry);
+            if ($below === []) {
+                $rows[] = [$entry];
+                continue;
+            }
+
+            $folds[] = [$entry, ...$below];
+        }
+
+        $items = [];
+        $active = -1;
+        $flat = 0;
+        foreach ([...$rows, ...$folds] as $pages) {
             $links = [];
-            foreach ([$entry, ...$below] as $page) {
+            foreach ($pages as $page) {
                 if ($page->getUrl() === $current) {
                     $active = $flat;
                 }
@@ -89,13 +104,13 @@ final class Rail
                 ++$flat;
             }
 
-            /* A page with pages under it is a group. Its own link is the first
-               item inside the fold rather than the summary, because a summary
-               that is also a link is a control with two jobs and the fold wins
-               the press. */
-            $items[] = $below === []
+            /* A group's own link is the first item inside the fold rather than
+               the summary, because a summary that is also a link is a control
+               with two jobs and the fold wins the press. A row of one is the
+               page itself: only a fold carries more than its own link. */
+            $items[] = count($links) === 1
                 ? $links[0]
-                : ['label' => $this->label($entry), 'items' => $links];
+                : ['label' => $this->label($pages[0]), 'items' => $links];
         }
 
         return ['label' => $label, 'items' => $items, 'active' => $active];
