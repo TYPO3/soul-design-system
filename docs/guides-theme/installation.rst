@@ -4,20 +4,49 @@
 Installation
 ============
 
-Five steps, and the fourth is the one every first attempt gets wrong: the
-renderer copies an asset it can see a document reach for, and nothing else. It
-does not read stylesheets, and it does not know what a theme links.
+Four steps, and the last one is the one every first attempt leaves out: a
+render is not a site. The renderer copies an asset it can see a document reach
+for and nothing else — it does not read stylesheets, and it does not know what
+a theme links.
+
+.. tip::
+
+   :doc:`example` is all four steps already taken, as a directory to copy. Read
+   this page to know what is in it; start from that.
 
 1. Require the renderer and the theme
 =====================================
 
+The theme is **not on Packagist yet**, so it is required out of a checkout of
+the design system — which is where the drop-in and the finishing step have to
+come from anyway, since a stylesheet is not a PHP dependency.
+
 .. code-block:: bash
 
-   composer require typo3/soul-guides-theme
+   git clone --depth 1 https://github.com/benjaminkott/typo3-soul-design-system .soul
+
+.. code-block:: json
+   :caption: composer.json
+
+   {
+       "repositories": [
+           { "type": "path", "url": ".soul/guides-theme" }
+       ],
+       "require": {
+           "typo3/soul-guides-theme": "*"
+       },
+       "minimum-stability": "dev"
+   }
 
 The theme requires ``phpdocumentor/guides-cli``, ``guides-code`` and
-``guides-markdown``, so a single package brings the command, the highlighter
-and the Markdown parser with it. PHP 8.2 is the floor.
+``guides-markdown``, so one package brings the command, the highlighter and the
+Markdown parser with it. PHP 8.2 is the floor.
+
+.. note::
+
+   When the package is registered, the ``repositories`` entry goes away and
+   this step becomes ``composer require typo3/soul-guides-theme``. The checkout
+   stays either way: it is what carries ``dist/``.
 
 .. note::
 
@@ -85,27 +114,25 @@ directory too high.
    ``default_code_language``. This theme survives that last one; nothing can
    give Markdown the other four.
 
-4. Render, then copy the drop-in into the output
-================================================
+4. Render, then finish the site
+===============================
 
 .. code-block:: bash
 
    vendor/bin/guides docs --output=site -c docs --fail-on-error
-   cp -r path/to/soul-design-system/dist/. site/styles/
+   node .soul/dist/soul-finish.js site
 
-The theme's ``<head>`` links ``styles/`` at the site root, and it links it
-directly rather than through ``asset()``. That is deliberate: ``asset()``
-carries what a parsed document points at, and no document points at a font
-file, at the icon sprite or at the second stylesheet — nothing reads CSS, and
-``soul.js`` resolves the sprite against its own URL. Copied whole, after the
-render, the directory is a self-contained thing whose internal paths are
-already right.
+The first command writes documents. The second is the one this page exists to
+say out loud: it copies the drop-in to the site root, draws every element on
+every page ahead of the browser, writes the search index, and refuses to
+finish on a reference that leaves the output.
 
 .. code-block:: text
 
    site/
      index.html
-     styles/            <- the drop-in, copied in; not in the source tree
+     _search.json       the index the field in the bar fetches
+     styles/            <- the drop-in, put there by the step above
        soul-boot.js     sets the mode before the first paint
        soul.css
        document.css
@@ -113,13 +140,19 @@ already right.
        fonts/
        assets/
 
+The theme's ``<head>`` links ``styles/`` at the site root directly rather than
+through ``asset()``, which carries only what a parsed document points at — and
+no document points at a font file, at the icon sprite or at the second
+stylesheet. Put there whole, after the render, the directory is self-contained
+and every path inside it is already right.
+
 .. warning::
 
-   Copy the whole directory, not the four files. ``soul.css`` asks for
-   ``fonts/`` beside itself and ``soul.js`` asks for ``assets/`` beside
-   itself, so a site missing either serves pages that fall back to
-   ``system-ui`` or draw every icon as a blank box — with nothing in the
-   render log, because the render was fine.
+   Copying by hand instead, copy the **whole** directory. ``soul.css`` asks for
+   ``fonts/`` beside itself and ``soul.js`` resolves the icon sprite against
+   its own URL, so a site missing either serves pages that fall back to
+   ``system-ui`` or draw every icon as a blank box — with nothing in the render
+   log, because the render was fine.
 
 .. important::
 
@@ -127,56 +160,51 @@ already right.
    ``src/`` and what has been proven is that the theme works with something
    nobody ships.
 
-5. Prove it stands alone
-========================
+What the finishing step does, and why it is not the renderer's job
+==================================================================
 
-What gets published is the output directory: not the repository around it,
-not ``vendor/``. A reference that resolves during a build because that build
-happened in a checkout resolves to nothing on the server, and it fails as a
-page with no stylesheet rather than as an error somebody reads.
+**It draws the elements.** Every template in this theme *addresses* a
+component — ``<sds-teaser heading="…">`` — and writes none of its markup, which
+is the whole point of there being components. An addressed element draws
+nothing until it upgrades, so the markup is written into the page before it is
+published, and in a browser the element upgrades over its own rendering. Skip
+this and a reader with no script gets an empty box where a card belongs.
 
-So walk the rendered HTML, take every local ``href`` and ``src``, and check
-each one lands **inside** the output. ``--fail-on-error`` covers the
-references the renderer knows about — a missing document, an image it could
-not find — and says nothing about the ones a theme or a copy step introduced.
-
-.. seealso::
-
-   ``scripts/guides.ts`` in this repository is a working version of all five
-   steps, plus the specimen cards and the search index, in about ninety lines.
-   ``make guides`` runs it and refuses to finish on a reference that leaves
-   the site.
-
-The search index
-================
-
-The bar carries a search field, and the index behind it is a file: the theme
-asks for ``_search.json`` at the site root, and **nothing writes it for you**.
-The renderer has no search of its own, and a theme cannot write one — the
-index describes the output, which only exists once the render is done.
+**It writes the search index.** The bar fetches ``_search.json`` from the site
+root, and nothing else writes it: the renderer has no search of its own, and a
+theme cannot write one, because the index describes the output and the output
+only exists once the render is done.
 
 .. code-block:: text
 
    [{"title": "Installation", "url": "guides-theme/installation.html",
-     "text": "Five steps, and the fourth is the one every first attempt …"}]
+     "text": "Four steps, and the last one is the one every first attempt …"}]
 
 A title, a URL relative to the site root, and enough text to tell two pages
-apart. This repository builds it by walking the rendered HTML for ``<title>``
-and the first paragraph, which is a couple of dozen lines and needs no parser.
-Left out, the field opens, finds nothing, and says so — the fetch fails and
-the reader is told the search found no matches, which is a poor answer to give
-somebody on every page of a site.
+apart. Left out — ``--no-search`` — the field opens, finds nothing and says so,
+which is a poor answer to give somebody on every page of a site.
+
+**It proves the site stands alone.** What gets published is the output
+directory: not the repository around it, not ``vendor/``, not the checkout the
+drop-in came from. So every local ``href`` and ``src`` in the rendered HTML is
+checked to land inside the output, and anything that does not is an error
+rather than a page with no stylesheet on the server. ``--fail-on-error``
+covers the references the renderer knows about and says nothing about the ones
+a theme or a copy step introduced.
+
+:doc:`publishing` has its options, and the workflow that runs all of it.
+
+.. seealso::
+
+   ``make guides`` in this repository is the same three commands, plus the
+   specimen cards — and it calls the same code the finishing step is built
+   from, so this page cannot document something we do not run.
 
 Rendering more than one project
 ===============================
 
 The output directory takes several renders, and this is how a fixture, an API
 reference or a changelog ends up beside a manual: one ``guides.xml`` each, one
-CLI call each, each with its own ``--output`` under the same root. Copy the
-drop-in once per output that has a ``<head>`` of its own, since ``styles/`` is
-resolved from each site's own root.
-
-A directory whose name starts with an underscore is a good place for anything
-that is a control surface rather than a page — this repository renders its
-theme fixture into ``_acceptance/`` and leaves it out of the search index and
-out of what gets published.
+CLI call each, each with its own ``--output`` under the same root. This site is
+two of them. :doc:`publishing` says which parts of the finishing step run once
+per output and which run once over the root.

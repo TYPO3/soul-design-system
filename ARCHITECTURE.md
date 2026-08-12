@@ -94,17 +94,28 @@ therefore has to be pushed to a read-only repository of its own on every tag —
 a subtree split, the same mechanic `phpdocumentor/guides` uses for its own
 `packages/*`, with `splitsh-lite` doing the work in CI.
 
-**One decision is still open, and it is the one a consumer feels.** The split
-theme needs the stylesheets, and a PHP project cannot pull npm. Either the
-split carries the built files — `dist/soul.css`, `document.css`, `soul.js` and
-the faces move into `guides-theme/resources/dist/` at release, and a
-documentation build needs Composer and nothing else — or the theme states as a
-precondition that somebody else puts them in place. Today it is the second:
-`docs/guides-theme/installation.rst` tells the reader to copy the drop-in from
-`path/to/soul-design-system/dist/` into their output after the render, and
-leaves how it got onto that machine to them. That instruction is honest and it
-is a step a Composer-only project cannot take without help — which is the
-argument for the first, whenever the split is written.
+**Neither door delivers a documentation build on its own, and the gap is what
+a consumer feels.** The theme is PHP; the stylesheets are not, and neither is
+the step that draws this system's elements before a browser sees them. A PHP
+project cannot pull npm, so a Composer-only build renders documents that link
+nothing and hold empty cards.
+
+So the drop-in carries that step. `dist/soul-finish.js` is
+`scripts/lib/site.ts` bundled for Node — copy the drop-in, draw every element,
+write the search index, refuse a reference that leaves the output — and
+`make guides` calls the same functions rather than its own copy, which is what
+keeps the documented build and ours from being two builds. A consuming project
+needs PHP, Composer and the Node that is on every CI image, and one checkout
+of this repository for the drop-in: `examples/starter/` is that project, and
+the gate builds it that way on every push.
+
+**Two things are still open, and both are the split.** The theme is not on
+Packagist — Packagist reads the root `composer.json` of a repository, and this
+one's root is the npm package — so `examples/starter/composer.json` requires it
+from a path repository against the checkout it needs anyway. When the split is
+written it should carry `dist/` into `guides-theme/resources/`, and a
+documentation build then needs Composer alone; until then the checkout is both
+the package and the drop-in, and the example is where that is written down.
 
 ## Decisions that were made on purpose
 

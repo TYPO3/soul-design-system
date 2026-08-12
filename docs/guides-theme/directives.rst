@@ -100,6 +100,15 @@ A page that writes no band at all is the single band it looks like.
 On a page whose layout is not ``marketing``, a band still renders — it is a
 section inside the column, which is what it looks like.
 
+.. band:: This heading is a band, on a manual page
+   :quiet:
+   :id: a-band
+
+The paragraph you are reading is inside it, and it is inside the column rather
+than running edge to edge, because the shape a band takes is the page's to
+decide and not the band's. The landing page of :doc:`the example project
+<example>` is the same directive where it is at home.
+
 grid
 ====
 
@@ -118,6 +127,24 @@ Cards that reflow by their own minimum width.
          :href: /pricing
 
          Two more.
+
+That source, on this page:
+
+.. grid::
+
+   .. teaser:: What it is
+      :href: /guides-theme/index
+      :tag: Overview
+
+      Two sentences, a badge above the title, and the whole card following the
+      title on hover.
+
+   .. teaser:: What it costs
+      :href: /guides-theme/installation
+      :tag: Installation
+
+      One Composer package, one copy step, and a document called ``index`` at
+      the root.
 
 No column count, and that is the design: three across on a desk, two on a
 tablet, one on a phone, decided by how narrow a card may get rather than by a
@@ -214,6 +241,13 @@ A rendered card, embedded at the size it was drawn for.
    .. specimen:: guidelines/colors-surfaces.card.html
       :viewport: 700x260
       :title: Surfaces
+
+And that source, on this page — the same file Storybook opens and the same one
+the design pane exports:
+
+.. specimen:: guidelines/colors-surfaces.card.html
+   :viewport: 700x260
+   :title: Surfaces
 
 .. confval:: the card
    :type: string

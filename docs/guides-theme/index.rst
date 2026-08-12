@@ -14,6 +14,8 @@ it, and so is the fixture the theme is checked against.
    :titlesonly:
 
    installation
+   example
+   publishing
    configuration
    directives
    markup
@@ -83,6 +85,9 @@ elements around real markup rather than elements fed by attributes.
 
 .. seealso::
 
-   :doc:`installation` is the shortest path to a rendered site.
-   :doc:`markup` says what the renderer's own nodes come out as, including the
-   twelve admonition types and the two spellings of a tab set.
+   :doc:`installation` is the shortest path to a rendered site, and
+   :doc:`example` is a whole project already at the end of it — copy the
+   directory rather than assembling one. :doc:`publishing` is the workflow that
+   builds it in CI. :doc:`markup` says what the renderer's own nodes come out
+   as, including the twelve admonition types and the two spellings of a tab
+   set.

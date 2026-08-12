@@ -55,6 +55,10 @@ node_modules/
 /docs/_cards/
 /guides-theme/acceptance/_cards/
 
+# the starter example, copied in so the manual can quote the files that are
+# built rather than a second copy of them
+/docs/guides-theme/_starter/
+
 # the rendered documentation site — published, never copied, so unlike dist/
 # there is nothing to be gained from committing it
 /site/

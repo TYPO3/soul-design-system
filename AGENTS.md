@@ -62,6 +62,26 @@ the rule itself and is written down exactly. A number recording something that
 happened once, like how many cards a past change moved, is a fact about a past
 and does not drift.
 
+## How long a comment may be
+
+**Five lines, and ten for the one at the top of a file.** That is the whole
+budget, it counts the `/*` and the `*/`, and a block that needs more is a block
+carrying something other than the reason. Cut the something else, not the
+reason: what the line below already says, what it used to be, when it broke,
+which page it broke on, the second worked example, the aside that begins
+"Note that". A comment ends where a reader who has the constraint would stop
+reading.
+
+Length was written as a preference before — "as short as it can be and still be
+true" — and preferences lose to whatever is being explained at the time. The
+number is here because it can be counted while writing, and because a reason
+that genuinely takes fifteen lines is a decision about the system, which
+belongs in `ARCHITECTURE.md` or `RATIONALE.md` where it is read on purpose
+rather than found by whoever opens the file.
+
+The budget binds comments. A message a task prints, an error thrown at a caller
+and the documents themselves are not comments and say what they have to say.
+
 ## Which document answers what
 
 | Question | Read |
@@ -93,6 +113,7 @@ If a change would deviate from `SKILL.md`, read the matching section of
 | `stories/` | the specimen every card and screen is generated from |
 | `docs/` | the published documentation — the manual, the guideline pages, and the prompts they print for copying |
 | `guides-theme/` | the Composer package: templates, directives, and the acceptance render |
+| `examples/starter/` | the project a consumer copies — built by the gate the way its own workflow describes, so it is a fixture and not a sample |
 | `tests/*.spec.ts` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
 | `.storybook/`, `.infra/`, `.github/` | the documentation surface, the container, the gate on every push |
@@ -105,6 +126,7 @@ Generated — never edit, never hand-write a new one:
 | `dist/` | `make dist` (committed on purpose — it is the drop-in) |
 | `ds-bundle/` | `make build` |
 | `site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs |
+| `docs/guides-theme/_starter/` | `make guides` — the example's own files, copied in so the manual quotes what is built rather than a second copy of it |
 | `fonts/`, `assets/icons/`, `src/components/icons*.generated.ts` | `make fonts`, `make icons` — untracked, the container's entrypoint restores them |
 | `src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `assets/diagrams/` |
 
@@ -235,6 +257,13 @@ in `<g id="art">`, every colour written `var(--token, #light)`, then
 `make diagrams`. There is no dark copy: the drawing is referenced into a page
 and reads that page's tokens.
 
+**Change what a consuming project has to run** — the steps are
+`scripts/lib/site.ts`, shipped as `dist/soul-finish.js`, and the project that
+runs them is `examples/starter/`. Change those; the manual quotes the example's
+files rather than restating them, and the gate builds the example the way its
+own workflow describes. A step documented but not run there is a step nothing
+holds to.
+
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.
 
@@ -281,7 +310,7 @@ moved without the other.
   published so this costs a reader with no script nothing; see `SKILL.md`.
 - **Comments carry the reason, not the story.** No changelog, no anecdote, and
   never the name of another project — this system is used by things it does
-  not know about.
+  not know about. Five lines, ten at the top of a file; see above.
 - **One accent.** `--accent` marks three things and nothing else; `--orange-*`
   is the raw scale and never appears in a design.
 
