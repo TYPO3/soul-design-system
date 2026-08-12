@@ -55,14 +55,23 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
     .evaluate((el) => getComputedStyle(el).backgroundColor);
   expect(button, 'the primary button should carry the accent').toBe('rgb(255, 135, 0)');
 
-  /* The faces travel with it: `soul.css` copies the woff2 files beside itself
-     and rewrites their URLs, and a wrong path here is invisible until a page
-     sets in the fallback. */
-  const loaded = await page.evaluate(async () => {
+  /* The variable faces travel with the bundle. They cover the weight axis and
+     stay optional so a late response never replaces text after paint. */
+  const faces = await page.evaluate(async () => {
     await document.fonts.ready;
-    return [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family);
+    return [...document.fonts].map((f) => ({
+      display: f.display,
+      family: f.family,
+      status: f.status,
+      style: f.style,
+      weight: f.weight,
+    }));
   });
-  expect(loaded, 'the bundled faces should load').toContain('Source Sans 3');
+  expect(faces.some((f) => f.family === 'Source Sans 3' && f.status === 'loaded'),
+    'the bundled faces should load').toBe(true);
+  expect(faces.filter((f) => f.family === 'Source Sans 3' || f.family === 'Source Code Pro')
+    .every((f) => f.weight === '200 900' && f.display === 'optional'),
+  'every bundled face should be variable and resist a late swap').toBe(true);
 
   /* An icon is a `<use>` into the sprite that ships beside the bundle. A
      wrong path is a 404 and a blank glyph, and the size comes from the class

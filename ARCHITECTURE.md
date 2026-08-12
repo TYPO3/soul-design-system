@@ -178,8 +178,8 @@ site is rendered along it, with the same file a reader runs.
   does not catch a new one, so watch it in review.
 - **Class prefix is `sds-`**, state is `.is-*`. `t3-` was avoided: the system's
   own rules forbid implying TYPO3 endorsement.
-- **Fonts ship with the system**, 18 woff2 (latin + latin-ext, SIL OFL 1.1),
-  generated from `@fontsource` — see the Re-sync risks entry for how. They
+- **Fonts ship with the system** as variable woff2 (latin + latin-ext, SIL OFL
+  1.1), generated from `@fontsource` — see the Re-sync risks entry for how. They
   replaced a Google Fonts `@import`; verified pixel-identical on 37/38 cards,
   the last being the loading card's spinner. Do not go back to the remote
   import: a design behind a strict content policy would silently fall back

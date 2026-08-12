@@ -305,7 +305,7 @@ coverage` names whichever of the three is still missing.
 declarations into their own stylesheet is the failure this system exists to
 prevent, and anything the classes can do the element must be able to emit.
 
-**Add a font weight or an icon** — edit the `FAMILIES` / `ICONS` list in
+**Add a font family, style or icon** — edit the `FAMILIES` / `ICONS` list in
 `scripts/fonts.ts` or `scripts/icons.ts`, then `make fonts` / `make icons`.
 Never the generated output. A missing icon goes to TYPO3/TYPO3.Icons first —
 the script fails rather than substituting one from another set.

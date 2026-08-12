@@ -4,10 +4,9 @@
    everything the machine reads, writes or names — tool names, arguments,
    paths, versions, CLI fragments — at every size, including headings.
 
-   The faces are not here. An `@import` would make this a token file only
-   something willing to take our subsetting could use, and over a git install
-   `fonts/` does not exist at all. `styles.css` imports them, right before
-   this file. */
+   The variable faces are not here. An `@import` would make this a token file
+   only something willing to take our subsetting could use, and over a git
+   install `fonts/` does not exist at all. `styles.css` imports them first. */
 
 :root {
   --font-sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;

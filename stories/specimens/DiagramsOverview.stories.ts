@@ -27,7 +27,7 @@ const meta: Meta = {
       name: 'System overview — a map with no axis',
       subtitle: 'Containment carries the claim: one path crosses the boundary',
       theme: 'both',
-      viewport: '1400x937',
+      viewport: '1400x955',
       bodyClass: 'spec-sunken',
     }),
   },

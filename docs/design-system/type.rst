@@ -18,6 +18,12 @@ with no network at all. They are generated from ``@fontsource`` by
 ``make fonts`` and are not in git — the container regenerates them whenever
 they are missing, so a fresh clone needs no setup step.
 
+Each upright family uses a variable face across the weight axis; Source Sans
+also ships its variable italic face. The page preloads the upright latin faces,
+and ``font-display: optional`` keeps a late response from replacing a fallback
+after paint. The first visit may stay in the fallback on a slow connection;
+later visits use the cached face without a layout-changing swap.
+
 There are **two scales, both intentional**: ``tokens/typography.css`` is the
 editorial scale (display → body), and ``tokens/controls.css`` names the
 tighter scale controls were tuned to — 14px buttons, 10px table heads.

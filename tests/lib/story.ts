@@ -8,6 +8,8 @@
 
 import type { Page } from '@playwright/test';
 
+import { loadFonts } from '../../scripts/lib/browser.ts';
+
 export type Theme = 'dark' | 'light';
 
 async function settleElements(page: Page): Promise<void> {
@@ -68,7 +70,7 @@ export async function gotoStory(page: Page, id: string, theme?: Theme): Promise<
 
   /* Fonts change measured contrast and layout alike, and the specimens set
      in a vendored family that arrives over the network like any other. */
-  await page.evaluate(() => document.fonts.ready);
+  await loadFonts(page);
 
   /* Freeze transitions before anything measures. Switching `data-theme` changes
      every token at once and several components carry `transition: color`, so

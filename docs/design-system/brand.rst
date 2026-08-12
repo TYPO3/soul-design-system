@@ -68,7 +68,7 @@ has — a favicon, an avatar, an app icon, a bar. One number sizes it, and
 there is no aspect to state twice or to get wrong.
 
 .. specimen:: guidelines/brand-signet-sizes.card.html
-   :viewport: 700x922
+   :viewport: 700x923
    :title: Signet — sizes
 
 .. specimen:: guidelines/brand-signet-modes.card.html

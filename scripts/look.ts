@@ -13,7 +13,7 @@ import { existsSync, mkdirSync } from 'node:fs';
 import { basename, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { withBrowser } from './lib/browser.ts';
+import { loadFonts, withBrowser } from './lib/browser.ts';
 import { inRepo, GENERATED, ROOT } from './lib/cards.ts';
 
 const [file, widthArg, modeArg, scrollArg] = process.argv.slice(2);
@@ -54,7 +54,7 @@ await withBrowser(async (browser) => {
          preference: that is what the theme switch does, and a page has to be
          photographed in the state a reader can actually put it in. */
       await page.evaluate((m) => document.documentElement.setAttribute('data-theme', m), mode);
-      await page.evaluate(() => document.fonts.ready);
+      await loadFonts(page);
       /* Two runs have to be comparable, and a spinner mid-shot is the one thing
          that makes them differ for no reason. */
       await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}' });

@@ -20,6 +20,19 @@ export interface Mapper {
   map<T, R>(items: readonly T[], job: (page: Page, item: T, index: number) => Promise<R>): Promise<R[]>;
 }
 
+/** Force the design faces for deterministic measurements. `optional` leaves
+    real navigation free to keep its fallback when a face arrives late. */
+export async function loadFonts(page: Page): Promise<void> {
+  await page.evaluate(async () => {
+    await Promise.all([
+      document.fonts.load('400 1em "Source Sans 3"'),
+      document.fonts.load('italic 400 1em "Source Sans 3"'),
+      document.fonts.load('400 1em "Source Code Pro"'),
+    ]);
+    await document.fonts.ready;
+  });
+}
+
 /** Launch a browser, hand it over, and close it whatever happens. `finally`
     covers the script throwing but not the script being *killed*, which is the
     case that leaves a browser re-parented to the container's init until the
@@ -78,7 +91,7 @@ export async function withPage<R>(
   });
 }
 
-/** Load a card and wait for its webfonts, so type never measures mid-swap. */
+/** Load a card and its webfonts, so type is measured deterministically. */
 export async function openCard(
   page: Page,
   card: Openable,
@@ -89,5 +102,5 @@ export async function openCard(
     height: height ?? card.height,
   });
   await page.goto(pathToFileURL(card.path).href, { waitUntil: 'load' });
-  await page.evaluate(() => document.fonts.ready);
+  await loadFonts(page);
 }

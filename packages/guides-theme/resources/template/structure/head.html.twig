@@ -23,14 +23,13 @@
       {%- if icon.sizes %} sizes="{{ icon.sizes }}"{% endif %} />
 {%- endfor %}
 <script src="{{ root }}styles/soul-boot.js"></script>
-{#- The two faces a page opens in. Without these the browser learns about
-    them only after parsing the stylesheet, and `font-display: swap` then does
-    what it says: the page sets in the fallback and jumps. Two files, both
-    already being fetched — this only moves them earlier. -#}
+{#- The variable faces a page opens in. The preload starts them before the
+    stylesheet is parsed; `font-display: optional` keeps a late response from
+    replacing the fallback after paint. Each file covers every used weight. -#}
 <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="{{ root }}styles/fonts/source-sans-3-latin-400-normal.woff2" />
+      href="{{ root }}styles/fonts/source-sans-3-latin-wght-normal.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="{{ root }}styles/fonts/source-code-pro-latin-400-normal.woff2" />
+      href="{{ root }}styles/fonts/source-code-pro-latin-wght-normal.woff2" />
 <link rel="stylesheet" href="{{ root }}styles/soul.css" />
 <link rel="stylesheet" href="{{ root }}styles/document.css" />
 <script type="module" src="{{ root }}styles/soul.js" defer></script>

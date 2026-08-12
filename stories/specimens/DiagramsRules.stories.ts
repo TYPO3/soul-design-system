@@ -102,7 +102,7 @@ const meta: Meta = {
       group: 'Diagrams',
       name: 'Drawing rules',
       subtitle: 'Flat, hairline, one accent — one file, in both modes',
-      viewport: '980x510',
+      viewport: '980x517',
     }),
   },
 };

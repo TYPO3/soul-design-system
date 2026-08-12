@@ -47,15 +47,14 @@ identifier is not in the package, rather than falling back to anything.
 
 | Family | Package |
 | --- | --- |
-| Source Sans 3 | `@fontsource/source-sans-3` |
-| Source Code Pro | `@fontsource/source-code-pro` |
+| Source Sans 3 | `@fontsource-variable/source-sans-3` |
+| Source Code Pro | `@fontsource-variable/source-code-pro` |
 
 `packages/frontend/fonts/` is **generated**, not committed: `scripts/fonts.ts` copies the
-weights and subsets this system declares (latin and latin-ext, woff2 only)
+styles and subsets this system declares (latin and latin-ext, variable woff2)
 out of the installed packages and writes `packages/frontend/fonts/fonts.css`. It runs from
 the container entrypoint, so any container starts with a working tree.
-Change the face list in the
-script, not the output.
+Change the family list in the script, not the output.
 
 The faces are copied to disk rather than imported from `node_modules`
 because a rendered design resolves `styles.css` and its `@import` closure —
