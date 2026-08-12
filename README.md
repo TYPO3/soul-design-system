@@ -263,7 +263,8 @@ creates a second one. It compares against the anchor the project stores
 | `.github/` | the gate on every push, and the site published from `main` |
 | | |
 | `specimens/` | **generated** — the cards and the screens, the latter offered as Starting Points in a consuming project |
-| `packages/frontend/fonts/`, `packages/frontend/assets/icons/` | **generated** from the npm packages |
+| `packages/frontend/fonts/` | **generated** from `@fontsource`, and committed — the package publishes it |
+| `packages/frontend/assets/icons/` | **generated** from `@typo3/icons`, untracked |
 | `ds-bundle/`, `packages/frontend/dist/` | **generated** exports |
 | `site/` | **generated** — the publish root, and the one export that is not committed: a drop-in is copied, a site is published |
 | | |

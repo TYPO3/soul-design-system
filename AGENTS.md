@@ -140,7 +140,8 @@ Generated — never edit, never hand-write a new one:
 | `ds-bundle/` | `make build` |
 | `site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs |
 | `docs/guides-theme/_starter/` | `make guides` — the example's own files, copied in so the manual quotes what is built rather than a second copy of it |
-| `packages/frontend/fonts/`, `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make fonts`, `make icons` — untracked, the container's entrypoint restores them |
+| `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
+| `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — untracked, the container's entrypoint restores them |
 | `packages/frontend/src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `packages/frontend/assets/diagrams/` |
 
 A card edited by hand is silently reverted; a card with no story behind it is

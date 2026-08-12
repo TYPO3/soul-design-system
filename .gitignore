@@ -13,8 +13,9 @@ node_modules/
 # ephemeral upload manifest
 /.design-sync/upload-manifest.json
 
-# generated from the @fontsource packages by scripts/fonts.mjs
-/packages/frontend/fonts/
+# The faces are generated from @fontsource, and committed for the same reason
+# `dist/` is: they are what the package publishes and what a page links, and a
+# mirror can only ship what git has. `make fonts` rebuilds them.
 
 # generated from @typo3/icons by scripts/icons.ts — the singles and the map
 /packages/frontend/assets/icons/
