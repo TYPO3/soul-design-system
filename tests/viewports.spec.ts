@@ -1,21 +1,13 @@
 /* Every state the layout has is a state you can select.
 
-   The toolbar's entries are ordinary screen sizes, which is what a person
-   picking one is thinking about. The stylesheet thinks in something else: four
-   `max-width` queries that cut the scale into five bands, each of which draws
-   the page differently. The two lists have no reason to agree, and nothing
-   makes them — so a size list can quietly miss a band, and then a state of the
-   layout exists with no way to look at it. That is the failure this catches,
-   and it looks like nothing at all: a menu of six plausible sizes, one of which
-   is not there.
+   The toolbar's entries are ordinary screen sizes; the stylesheet thinks in
+   `max-width` queries that cut the scale into bands. The two lists have no
+   reason to agree, so a size list can quietly miss a band — and then a state of
+   the layout exists with no way to look at it.
 
-   Not a check that the sizes *are* the breakpoints. They are deliberately not;
-   naming a menu after the rules it lands on reads as jargon. This asks only
-   that the menu reaches everywhere, which stays true however the sizes are
-   named and survives a breakpoint moving — until it moves far enough to empty
-   a band, which is exactly when somebody should hear about it.
-
-   No browser: both sides are files. */
+   Not a check that the sizes *are* the breakpoints; they are deliberately not.
+   This asks only that the menu reaches everywhere. No browser: both sides are
+   files. */
 
 import { test, expect } from '@playwright/test';
 import { readFileSync, readdirSync } from 'node:fs';

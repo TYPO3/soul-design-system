@@ -1,14 +1,9 @@
 /* Every language the system says it colours, actually coloured.
 
-   `CodeLang` is a promise: it says what this system stands behind, and a menu
-   in Storybook offers each one. Nothing checked that the grammar behind a name
-   was registered, or that it was the right one — `html` is xml's grammar and
-   `text` is plaintext's, and a mapping that quietly lost an entry would show
-   as a block that sets in one grey. Which is also what a language nobody
-   declared looks like, so it would never be reported.
-
-   The samples are chosen to produce a token, not to be interesting: one
-   comment, one string, one keyword is enough to say the grammar ran. */
+   `CodeLang` is a promise, and a mapping that quietly lost an entry shows as a
+   block set in one grey — which is also what an undeclared language looks like,
+   so it would never be reported. The samples are chosen to produce a token, not
+   to be interesting: one comment, one string, one keyword. */
 
 import { test, expect } from '@playwright/test';
 import { highlight, highlights } from '../src/lib/highlight.ts';

@@ -1,15 +1,11 @@
 /* Accessibility, on the specimens that can honestly be judged by a machine.
 
-   SKILL.md commits to specific things — `:focus-visible` rings, contrast that
-   holds in both modes, nothing reachable by pointer only. axe can check some
-   of that and cannot check the rest, so this asserts on the part it can and
-   says plainly where the line is.
-
-   Only serious and critical violations fail. The specimens deliberately show
-   states no automated pass can interpret: a disabled control that is meant
-   to look disabled, a focus ring drawn on an element that does not have
-   focus, a caption in `--text-muted` that is annotation rather than content.
-   Failing on `minor` here would train everyone to ignore the run. */
+   SKILL.md commits to `:focus-visible` rings, contrast in both modes and
+   nothing reachable by pointer only. axe checks some of that, so this asserts
+   on the part it can. Only serious and critical violations fail: the specimens
+   deliberately show states no automated pass can interpret — a control drawn
+   disabled, a ring on an element that does not have focus — and failing on
+   `minor` would train everyone to ignore the run. */
 
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
@@ -48,32 +44,14 @@ for (const theme of ['dark', 'light'] as const) {
   }
 }
 
-/* Contrast, held to a baseline rather than to zero.
-
-   `--text-muted` does not reach 4.5:1 as normal-size text on any of this
-   system's surfaces — roughly 3.4:1 on the dark canvas. It is used for
-   product text, not only for annotation: table headers, `sds-td-meta` cells,
-   inactive tabs, a field's placeholder. That is a real WCAG AA shortfall and
-   it is a design decision to resolve, not something a test should quietly
-   paper over or unilaterally "fix" by moving a token that every surface
-   depends on.
-
-   So the assertion is on the *set of foreground colours* that fail, not on
-   the count or the selectors. A known token staying below the line keeps the
-   suite green and stays written down here; a second token dropping below it,
-   or `--text-muted` spreading to a new kind of surface, turns the suite red.
-   Selectors would be too brittle to assert on and a raw count would drift
-   with every added row.
-
-   Fix the token and this list gets shorter — delete the entry and the test
-   locks the improvement in. */
+/* Contrast, held to a baseline rather than to zero. A token below 4.5:1 is a
+   design decision to resolve, not something a test papers over — so the
+   assertion is on the *set of failing foreground colours*. A known one stays
+   written down here; a second turns the suite red. Selectors would be brittle
+   and a count would drift with every added row. */
 const KNOWN_LOW_CONTRAST: Record<'dark' | 'light', string[]> = {
-  /* `--text-muted` and `--syntax-comment` used to sit here at ~3.3:1 on
-     product text — table headers, `sds-td-meta`, an inactive tab, a
-     placeholder, a code comment. They were fixed rather than tolerated:
-     `#8A8378`/`#6E6860` became `#726C63`/`#878076`, which clears 4.5:1 on
-     the worst surface each appears on with a little room to spare.
-     `--status-warn` went the same way on the light canvas. */
+  /* Empty on purpose: the tokens that used to sit here were fixed rather than
+     tolerated, and an entry added back is a decision, not a workaround. */
   dark: [],
   light: [
     /* The disabled button's own text. WCAG 1.4.3 explicitly exempts disabled
@@ -124,20 +102,11 @@ for (const theme of ['dark', 'light'] as const) {
   }
 }
 
-/* The whole pages, which is where the machine-checkable part actually lives.
-
-   A specimen is a fragment: it has no landmarks, no heading order, no second
-   control to be confused with, and no form. Everything axe is genuinely good
-   at needs a page — a label that names nothing, a heading level skipped, two
-   controls with the same accessible name, a landmark with no label where there
-   are two of the same kind.
-
-   So this is the sweep that matters for a site, and it was blind for as long
-   as the list above was seven specimens. One test per theme rather than per
-   page: the index decides which pages exist, so nothing here has to be kept in
-   step with what has been built.
-
-   Serious and critical only, for the reason at the top of this file. */
+/* The whole pages, which is where the machine-checkable part lives. A specimen
+   is a fragment with no landmarks, no heading order and no form, and everything
+   axe is genuinely good at needs a page. One test per theme rather than per
+   page: the index decides which pages exist, so nothing here is kept in step
+   with what has been built. */
 async function pageIds(request: import('@playwright/test').APIRequestContext): Promise<{ id: string; title: string }[]> {
   const index = (await (await request.get('/index.json')).json()) as {
     entries: Record<string, { id: string; title: string; type: string }>;
@@ -174,13 +143,10 @@ for (const theme of ['dark', 'light'] as const) {
   });
 }
 
-/* And the colours those pages are actually made of.
-
-   The specimens above carry the system's controls; a page carries its prose,
-   its labels, its captions and its status text, at the sizes a reader meets
-   them. Same assertion as before — the set of failing foreground colours, not
-   a count and not a selector — so a token dropping below the line is loud and
-   a known one staying there is written down. */
+/* And the colours those pages are actually made of: the specimens carry the
+   system's controls, a page carries prose, labels, captions and status text at
+   the sizes a reader meets them. Same assertion as above — the set of failing
+   foreground colours, not a count and not a selector. */
 for (const theme of ['dark', 'light'] as const) {
   test(`no page introduces a low-contrast colour in ${theme}`, async ({ page, request }) => {
     const pages = await pageIds(request);

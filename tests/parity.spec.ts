@@ -1,26 +1,13 @@
 /* The invariant the whole arrangement rests on.
 
-   A component is written once, as an element, and rendered two ways: Lit
-   renders it in the browser when the element upgrades, and `@lit-labs/ssr`
-   renders it in Node when `make cards` writes the static specimen card. The
-   Design System pane only ever sees the second one — it opens the cards with
-   `styles.css` and no JavaScript at all.
+   A component is written once and rendered two ways: by Lit when the element
+   upgrades, and by `@lit-labs/ssr` when `make cards` writes the card. Nothing
+   else checks that the two agree — let them disagree and the cards keep passing
+   while the components ship different markup.
 
-   So the two renderings have to agree, and nothing else checks that they do.
-   The pixel diff compares cards against cards. The typecheck sees one source.
-   If Lit's client renderer and its SSR renderer ever disagree — a version
-   bump, a directive that behaves differently, an attribute that serialises
-   another way — the cards keep passing while the components quietly ship
-   different markup. This test is the only place that would notice.
-
-   Most cases start from the same tag on both sides. Where a component takes
-   its content between the tags — a button's label is markup, not a string —
-   the static side cannot: Lit's SSR emits authored children beside the
-   element's own template and `connectedCallback` never runs in Node to move
-   them. Those components export the markup function the element renders, and
-   the case pairs the element against that function. That pairing is the thing
-   most worth checking, because it is the only place two renderings are
-   written in two forms. */
+   Where a component takes its content between the tags the static side cannot,
+   so those export the markup function the element renders and the case pairs
+   the two. That pairing is the part most worth checking. */
 
 import { test, expect, type Page } from '@playwright/test';
 import { html, type TemplateResult } from 'lit';
@@ -50,25 +37,15 @@ async function mount(page: Page, markup: string): Promise<string> {
     await settle();
     await settle();
 
-    /* Two normalisations, and both have a reason.
-
-       Lit's client renderer leaves comment markers between bindings so it can
-       find them again on the next update. Its SSR renderer leaves different
-       ones, and `src/lib/render.ts` strips those because a static card is
-       never hydrated. Neither set is markup.
-
-       And components compose components: a button holds an `<sds-icon>`,
-       which the browser upgrades in place while the static export flattens it
-       away — a card is opened with no JavaScript, so it cannot carry an
-       element. Unwrapping compares the two renderings rather than the two
-       depths they are printed at. */
-    /* An icon is drawn two ways on purpose. The browser references a sprite
-       embedded once per document; the static export has no script and no
-       sprite, so `renderStatic` inlines the glyph. Comparing those bodies
-       would only ever say "they differ", which is the design.
-
-       `data-icon` is on both, so the identifier is compared and the body is
-       not. Everything else about the two renderings still has to agree. */
+    /* Two normalisations. Lit's client renderer leaves comment markers between
+       bindings and its SSR renderer leaves different ones, and neither set is
+       markup. And components compose components, which the browser upgrades in
+       place while the static export flattens away — so unwrapping compares the
+       two renderings rather than the two depths they are printed at. */
+    /* An icon is drawn two ways on purpose: the browser references a sprite,
+       and the static export, having none, inlines the glyph. Comparing those
+       bodies would only ever say "they differ", so `data-icon` is compared
+       instead. Everything else about the two renderings still has to agree. */
     for (const svg of host.querySelectorAll('svg[data-icon]')) svg.replaceChildren();
 
     const strip = (node: Node): void => {

@@ -1,16 +1,10 @@
 /* The Storybook shell itself boots.
 
-   Everything else in this suite opens `/iframe.html` — the preview, where the
-   stories live. Nothing opened `/`, the manager: the sidebar, the toolbar,
-   the docs chrome, the surface a person actually looks at. So a manager that
-   crashed on load was invisible to a green run, and that is not theoretical:
-   `.storybook/manager.ts` passed a partial object as `theme`, Storybook ran
-   it through `ensure()`, polished threw `PolishedError #3` on a colour the
-   partial never set, and the whole shell rendered as an empty white page.
-   Forty-three tests passed while the documentation surface was blank.
-
-   The manager is configured in a file the preview never imports, so nothing
-   about the preview can stand in for this. */
+   Everything else in this suite opens `/iframe.html`, the preview. Nothing
+   opens `/` — the sidebar, the toolbar, the surface a person actually looks at
+   — so a manager that crashes on load is invisible to a green run. The manager
+   is configured in a file the preview never imports, so nothing about the
+   preview can stand in for this. */
 
 import { test, expect } from '@playwright/test';
 
@@ -41,11 +35,10 @@ test('the manager shell boots, with its sidebar and no page errors', async ({ pa
 });
 
 /* The viewport list is configured in the preview and rendered by the manager,
-   so `tests/viewports.spec.ts` — which compares two files — cannot see whether
-   any of it arrives. Both halves are checked here: that the entries reach the
-   toolbar in the order they are written, and that choosing one resizes the
-   preview. A menu that lists six sizes and moves nothing is the failure worth
-   catching, because it looks exactly like a working one. */
+   so `tests/viewports.spec.ts`, comparing two files, cannot see whether any of
+   it arrives. Both halves are checked here: the entries reach the toolbar in
+   the order written, and choosing one resizes the preview. A menu that moves
+   nothing looks exactly like a working one. */
 test('the toolbar offers the sizes, and picking one resizes the preview', async ({ page }) => {
   await page.goto('/?path=/story/pages-landing--page', { waitUntil: 'networkidle' });
   await page.waitForSelector('#storybook-explorer-tree', { timeout: 30_000 });

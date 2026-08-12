@@ -1,17 +1,13 @@
 /* Content written between an element's tags survives its upgrade.
 
-   `sds-code` has two ways in. `.body` is data it turns into spans, and every
-   specimen card is made that way — so `make cards` and the pixel diff already
-   watch it. Content between the tags had nothing watching it: the element
-   renders light DOM, so `render()` replaces its children, and the whole
-   feature is the one line in `connectedCallback` that lifts them out first.
-   Delete that line and every content-form block becomes an empty frame, with
-   the props path green and the cards identical.
+   `sds-code` has two ways in, and the property path is already watched by the
+   cards and the pixel diff. Content between the tags is not: the element
+   renders light DOM, so `render()` replaces its children, and the whole feature
+   is the one line in `connectedCallback` that lifts them out first. Delete it
+   and every content-form block is an empty frame with the cards identical.
 
-   `renderStatic` refuses this form deliberately, which is checked here too:
-   a card cannot carry an element, and Lit SSR strands authored children beside
-   the element's template rather than inside it. The browser is where this form
-   is meant to work, so the browser is where it is proven. */
+   `renderStatic` refuses this form deliberately, which is checked here too. The
+   browser is where the form works, so the browser is where it is proven. */
 
 import { test, expect } from '@playwright/test';
 import { gotoStory } from './lib/story.ts';
@@ -94,14 +90,10 @@ test('a caption written between the tags is kept, above the frame and off the cl
   expect(written).toBe('composer require typo3/cms-core\nvendor/bin/typo3 cache:flush');
 });
 
-/* The frame a renderer wrote, kept rather than written again.
-
-   `sds-embed` is the second component with this form and its stakes are
-   different: a code block written twice is a block rendered twice, while a
-   frame written twice is a *document fetched twice* — a video that starts
-   loading, is dropped, and starts again. The whole theme rests on the server
-   writing the frame so a page with no script still shows it, so the element
-   has to take that node and not replace it. */
+/* The frame a renderer wrote, kept rather than written again. A block rendered
+   twice is a nuisance; a frame written twice is a *document fetched twice* — a
+   video that starts loading, is dropped and starts again. The theme rests on
+   the server writing the frame, so the element takes that node. */
 test('an embed keeps the frame written between its tags, and fetches it once', async ({ page }) => {
   await gotoStory(page, 'components-embed--given');
 
@@ -157,12 +149,10 @@ test('an embed holds its ratio where it is fluid and its size where it is fixed'
   expect(Math.round(filled.frame)).toBe(filled.inside);
 });
 
-/* And the same form on the figure, where the stakes are the picture itself.
-
-   A renderer writes the `<img>` because a reader with no script must still
-   see it; an element that rebuilt the picture from `src` would ask for the
-   same file again, and one that ignored the children would render an empty
-   frame with the picture stranded beside it. */
+/* And the same form on the figure, where the stakes are the picture itself: a
+   renderer writes the `<img>` for a reader with no script, an element
+   rebuilding it from `src` would fetch the file again, and one ignoring the
+   children would frame nothing with the picture stranded beside it. */
 test('a figure keeps the picture and the caption written between its tags', async ({ page }) => {
   await gotoStory(page, 'components-figure--given');
 
@@ -179,14 +169,10 @@ test('a figure keeps the picture and the caption written between its tags', asyn
   await expect(figure.locator('figcaption.sds-figure__caption code')).toHaveText('literal');
 });
 
-/* The drawing at the size it was drawn.
-
-   A 1200px diagram scaled into a page column is a picture of a diagram, and
-   the viewer is the only place the reader gets the thing itself. Three parts
-   have to hold together and only the first is visible in a screenshot: the
-   trigger is a real link to the file, so a surface with no script still opens
-   it; the element takes the press over once it has upgraded; and the platform
-   closes it on Escape and gives the focus back. */
+/* The drawing at the size it was drawn, which the viewer is the only place to
+   get. Three parts hold together and only the first shows in a screenshot: the
+   trigger is a real link, so a surface with no script still opens it; the
+   element takes the press over on upgrade; and Escape gives the focus back. */
 test('a figure opens its drawing, and stays a link where nothing upgraded', async ({ page }) => {
   await gotoStory(page, 'components-figure--zoomable');
 

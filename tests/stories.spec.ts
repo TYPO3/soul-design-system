@@ -1,15 +1,12 @@
 /* Every story renders, in both themes, without saying anything on the way.
 
-   A story that throws still shows *something* in Storybook — an error
-   overlay, or a blank frame that reads as an empty specimen. Neither is
-   visible in a screenshot diff, because the diff only compares the cards.
-   This walks the built index and opens every story for real.
+   A story that throws still shows *something* — an error overlay, or a blank
+   frame that reads as an empty specimen — and the screenshot diff only compares
+   cards. So this walks the built index and opens every story for real.
 
-   Console output is part of the assertion. A missing icon throws, an
-   unregistered element is silent, and a Lit warning about a duplicate
-   registration is the first sign that the bundle got imported twice — all of
-   them are things you only ever find by reading the console, which nobody
-   does. */
+   Console output is part of the assertion: an unregistered element is silent,
+   and a Lit warning about a duplicate registration is the first sign the bundle
+   was imported twice. */
 
 import { test, expect } from '@playwright/test';
 import { readdirSync, readFileSync } from 'node:fs';
@@ -144,27 +141,20 @@ for (const theme of ['dark', 'light'] as const) {
    difference the pixel diff cannot see — it never opens Storybook. */
 test('every specimen story renders the classes the system defines', async ({ page, request }) => {
   const specimens = (await storyIds(request)).filter((s) => s.name === 'Specimen');
-  /* Counted against the story files that generate a card rather than against
-     a number written here. A file opts into card generation by exporting
-     `specimenHtml`, and the story that card is a picture of is the one named
-     Specimen — so the two sets are the same by construction. The literal this
-     replaces was a second number to keep in step, and it was not: it still
-     said 7 while the guideline cards were becoming stories one after another. */
+  /* Counted against the story files that generate a card rather than a number
+     written here. A file opts in by exporting `specimenHtml`, and the story a
+     card is a picture of is the one named Specimen, so the two sets are the
+     same by construction. */
   expect(specimens.length, 'each story that generates a card should have a Specimen story').toBe(generators());
 
   for (const story of specimens) {
     await gotoStory(page, story.id);
 
     /* Built from the system rather than from values somebody typed: its
-       classes, or — for a card whose whole subject is a token — the tokens
-       themselves.
-
-       Classes alone was the rule while every specimen was a component. It
-       stopped being true the moment the guideline cards became stories: a
-       swatch of `--accent` is a box painted from a custom property, and there
-       is no class for "this colour" and should not be. What both halves rule
-       out is the same thing, which is a specimen that hard-codes what it is a
-       picture of. */
+       classes, or — for a card whose subject is a token — the tokens
+       themselves. A swatch of `--accent` is a box painted from a custom
+       property, and there is no class for "this colour". Both halves rule out
+       the same thing: a specimen that hard-codes what it is a picture of. */
     const built = await page.evaluate(() => {
       const root = document.querySelector('#storybook-root');
       const classes = [...(root?.querySelectorAll('[class]') ?? [])]

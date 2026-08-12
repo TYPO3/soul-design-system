@@ -1,22 +1,13 @@
 /* What a page gets before it reaches for a class.
 
-   A consumer's own content arrives without classes — a rich-text editor emits
-   `<p>` and `<h2>`, a template renders a heading because the content said
-   heading — so the elements are the reset and the classes are what you write
-   when the element cannot say it.
+   A consumer's own content arrives without classes, so the elements are the
+   reset and the classes are what you write when the element cannot say it. The
+   fixture's body carries **no** `sds-app` on purpose: linking the stylesheet is
+   the opt-in.
 
-   The fixture's body carries **no** `sds-app`, on purpose: linking the
-   stylesheet is the opt-in, and a reset that only applies inside one wrapper
-   is a reset that whoever writes the wrapper has to know about.
-
-   Two halves, and the second is the one that breaks quietly: a class must
-   still win over the element it sits on. Nothing about that is visible in a
-   screenshot, and an `!important` or a rule that reached for an id would flip
-   it while every page still looked right — until one page needed a level and a
-   size to disagree.
-
-   Assembled the way `dropin.spec.ts` assembles its page, and against `dist/`
-   for the same reason: that is the file a consumer links. */
+   The second half is the one that breaks quietly — a class must still win over
+   the element it sits on, which no screenshot shows. Against `dist/`, because
+   that is the file a consumer links. */
 
 import { test, expect } from '@playwright/test';
 
@@ -91,14 +82,10 @@ test('a class always overrides the element it sits on', async ({ page }) => {
   /* And the other direction, where a level is set larger than its own step. */
   expect(await size(page, 'one-at-display')).toBeGreaterThan(await size(page, 'bare-h1'));
 
-  /* A paragraph set as a lead takes the lead's size and its shorter measure.
-
-     Shorter in *characters*, which is what a measure is: 560px at 19px
-     against 620px at 17px. The tokens are stated in pixels — a `ch` measured
-     the "0" of whatever it landed on, so one token meant four widths — and in
-     pixels the two are close enough that comparing them directly proves
-     nothing. Dividing each by its own font size takes the size back out, and
-     what is left is the measure. */
+  /* A paragraph set as a lead takes the lead's size and its shorter measure —
+     shorter in *characters*, which is what a measure is. The tokens are stated
+     in pixels and the two are close enough there that comparing them directly
+     proves nothing, so each is divided by its own font size. */
   const leadSize = await size(page, 'p-as-lead');
   const proseSize = await size(page, 'bare-p');
   expect(leadSize).toBeGreaterThan(proseSize);
@@ -108,14 +95,10 @@ test('a class always overrides the element it sits on', async ({ page }) => {
   expect(lead / leadSize, 'a lead is held to fewer characters than body copy').toBeLessThan(prose / proseSize);
 });
 
-/* The rest of what arrives without a class.
-
-   A paragraph was the loud case. These are the quiet ones, and each is a thing
-   an editor emits that the system had no rule for: a link, a phrase in mono, a
-   picture, a rule across the page. The picture is the one that costs
-   something — one wider than its column pushes the whole page sideways, which
-   is the failure the layout classes are full of comments about, arriving
-   through content instead of through markup. */
+/* The rest of what arrives without a class: a link, a phrase in mono, a
+   picture, a rule across the page. The picture is the one that costs something
+   — one wider than its column pushes the whole page sideways, arriving through
+   content instead of through markup. */
 const CONTENT = `<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -169,15 +152,11 @@ test('content that arrives without a class is still the system', async ({ page }
   expect(rule.margin).toBe('0px');
 });
 
-/* Lists, which arrive without a class more often than anything else here and
-   were the last of these elements still at the browser's own defaults.
-
-   The third case is the one worth a test rather than an eye: an ordered list
-   counts the way its *source* said, and the renderer says so with the `type`
-   attribute — which carries no weight in the cascade at all. A single
-   `ol { list-style: decimal }` anywhere in the stylesheet turns every lettered
-   list on every page back into a numbered one, and nothing about that is
-   visible in a screenshot of a list that happens to be numbered anyway. */
+/* Lists, which arrive without a class more often than anything else here. The
+   third case is worth a test rather than an eye: an ordered list counts the way
+   its *source* said, and the `type` attribute saying so carries no weight in
+   the cascade — one `ol { list-style: decimal }` renumbers every lettered list
+   on every page, invisibly. */
 test('a list is set by the element, and the source still picks the marker', async ({ page }) => {
   await page.route('**/content-fixture.html', (route) =>
     route.fulfill({ contentType: 'text/html', body: CONTENT }));

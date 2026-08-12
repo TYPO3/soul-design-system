@@ -1,19 +1,13 @@
 /* The page layouts, at every width they are meant to survive.
 
-   A page is the only place the layout classes meet each other, and the two
-   ways a layout fails are both invisible to everything else the suite does:
-   the page grows wider than the screen, or two things end up in the same
-   place. The card diff never sees it — a card is a fragment at a fixed width.
-   The fit check never sees it — it asks about height, and it opens each
-   screen at the one size it declares.
-
-   Both failures have already happened here. A field with a `min-width` and a
-   code block whose longest line became its column's floor each pushed a page
-   sideways at a width nobody had opened it at, and the fix for the second one
-   was found by measuring rather than by looking.
+   A page is the only place the layout classes meet each other, and both ways a
+   layout fails are invisible to everything else: the page grows wider than the
+   screen, or two things end up in the same place. The card diff sees neither —
+   a card is a fragment at a fixed width — and the fit check asks about height
+   at the one size a screen declares.
 
    So the pages are measured, at the widths a laptop, a tablet and a phone
-   actually are, and the guarantee is the flat one: a page never overflows. */
+   actually are, and the guarantee is flat: a page never overflows. */
 
 import { test, expect } from '@playwright/test';
 import { gotoStory } from './lib/story.ts';
@@ -68,13 +62,11 @@ test('every page fits the screen at every width', async ({ page, request }) => {
   }
 });
 
-/* Nothing on a page may be painted over anything else.
-
-   Only boxes that hold their own line are compared: an inline `<span>` inside
-   a wrapping paragraph has a bounding rect as wide as the paragraph and
-   overlaps every line above it, which is how text works and not a fault.
-   Anything out of flow is left out too — an overlay, a modal and an open menu
-   panel are over the page on purpose, which is what they are for. */
+/* Nothing on a page may be painted over anything else. Only boxes holding their
+   own line are compared: an inline `<span>` in a wrapping paragraph has a rect
+   as wide as the paragraph and overlaps every line above it, which is how text
+   works. Anything out of flow is left out — an overlay is over the page on
+   purpose. */
 test('nothing on a page covers anything else', async ({ page, request }) => {
   const pages = await pageStories(request);
   const WIDTHS_HERE = [1440, 1024, 860, 640, 375];
@@ -134,18 +126,11 @@ test('nothing on a page covers anything else', async ({ page, request }) => {
   }
 });
 
-/* The other navigation, behind the same button.
-
-   Two things run out of room on a page and there is one answer for both: the
-   sections run out of room in the header, and the rail runs out of a column to
-   stand in. Both end up behind a toggle in the bar and both open the same
-   panel. What is asserted here is that the second one is wired at all — the
-   rail is a column while there is one, and reachable rather than gone once
-   there is not, which is the state a breakpoint that merely hid it left it in.
-
-   The rail must also survive having no script: the class that lets the layout
-   hide it is written by the element that opens it, so a page whose bundle
-   never arrives keeps the list. */
+/* The other navigation, behind the same button. Two things run out of room and
+   there is one answer for both, so what is asserted is that the second is wired
+   at all: the rail is a column while there is one, and reachable rather than
+   gone once there is not. It must also survive having no script — the class
+   that lets the layout hide it is written by the element that opens it. */
 test('the page rail is a column, then a panel behind the same toggle', async ({ page }) => {
   const rail = page.locator('#page-rail');
   const toggle = page.locator('.sds-menu--for .sds-menu__toggle');
@@ -169,13 +154,10 @@ test('the page rail is a column, then a panel behind the same toggle', async ({ 
   await expect(toggle).toBeFocused();
 });
 
-/* The menu's run-width.
-
-   What it does is decided by measurement, so there is no number to assert.
-   What can be asserted is the shape of the decision: wide enough and the
-   items are a row with no toggle in sight; narrow enough and they are behind
-   one, reachable — which is the part a breakpoint that merely hid them never
-   had. */
+/* The menu's run-width. What it does is decided by measurement, so there is no
+   number to assert — only the shape of the decision: wide enough and the items
+   are a row with no toggle; narrow enough and they are behind one, reachable,
+   which is what a breakpoint that merely hid them never had. */
 test('the header navigation collapses rather than disappearing', async ({ page }) => {
   const items = page.locator('.sds-menu__items');
   const toggle = page.locator('.sds-menu__toggle');
@@ -201,24 +183,18 @@ test('the header navigation collapses rather than disappearing', async ({ page }
   await expect(toggle).toBeFocused();
 });
 
-/* A filter that matches nothing.
-
-   The state a list page usually skips, because the fixture it was built with
-   always had rows. It is reachable here by pressing a filter, which is why it
-   is worth a test at all: what has to hold is that the list is replaced by an
-   answer — one that names how much was read — and that the offer inside it
-   puts the list back rather than merely looking like it could. */
+/* A filter that matches nothing — the state a list page skips, because the
+   fixture it was built with always had rows. What has to hold is that the list
+   is replaced by an answer naming how much was read, and that the offer inside
+   it puts the list back rather than merely looking as if it could. */
 test('a filter that matches nothing answers, and the answer undoes it', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await gotoStory(page, 'pages-news--page');
 
-  /* Counted off the page rather than written down here: how many entries the
-     list holds is the page's business and changes with its content, and a
-     literal in this file would fail the day one is added — which is a test
-     failing at the one thing it is not about.
-
-     Two numbers, because the page shows a page of the list: what is on screen,
-     and what the row of numbers says was read. The answer names the second. */
+  /* Counted off the page rather than written here: how many entries the list
+     holds is the page's business, and a literal would fail the day one is added
+     — a test failing at the one thing it is not about. Two numbers, because the
+     page shows one page of the list, and the answer names the second. */
   const entries = page.locator('sds-teaser');
   const all = await entries.count();
   expect(all, 'the list should hold entries to filter').toBeGreaterThan(2);
@@ -242,14 +218,11 @@ test('a filter that matches nothing answers, and the answer undoes it', async ({
   await expect(entries).toHaveCount(all);
 });
 
-/* What a form does when it fails.
-
-   The part that is always claimed and rarely built: a submit that finds
-   something has to say what, where the reader was sent — not only mark the
-   boxes, which is invisible to anyone who cannot see the whole form at once.
-   Three things have to hold together, and none of them shows in a screenshot:
-   the summary appears, it takes the focus, and each line in it reaches the
-   field it names. */
+/* What a form does when it fails: a submit that finds something has to say
+   what, where the reader was sent, rather than only marking boxes nobody sees
+   who cannot take in the whole form. Three things hold together and none shows
+   in a screenshot — the summary appears, takes the focus, and each line in it
+   reaches the field it names. */
 test('a form that fails says what, and sends the reader to it', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await gotoStory(page, 'pages-contact--page');

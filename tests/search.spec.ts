@@ -1,17 +1,13 @@
 /* The site search, on a page that is not the site root.
 
-   A rendered documentation site has no server, so the index is a file the
-   build writes and every entry in it is a path from the root — that is the
-   only place the build can name a page from. A reader, though, is usually
-   standing somewhere else, and a hit written into the page as it came out of
-   the index resolves against *their* directory: `guidelines/colours.html`
-   opened from `/guidelines/type.html` asks for `/guidelines/guidelines/…`,
-   which is nothing.
+   The index is a file the build writes, and every entry in it is a path from
+   the root, which is the only place a build can name a page from. A reader is
+   usually standing elsewhere, and a hit written into the page as it came out of
+   the index resolves against *their* directory.
 
-   Nothing else could catch that. The gate renders the element with no index at
-   all, the site is photographed at rest, and a screenshot of a search field
-   with a panel under it looks correct from any directory. So this opens the
-   panel from two directories deep and follows what is in it. */
+   Nothing else catches that: a screenshot of a search field with a panel under
+   it looks correct from any directory. So this opens the panel from two
+   directories deep and follows what is in it. */
 
 import { test, expect } from '@playwright/test';
 

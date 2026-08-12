@@ -287,12 +287,10 @@ test.describe('what the reader gets before the script does', () => {
   test('an element inside an element is drawn once', async ({ page }) => {
     await page.goto(REFERENCE, { waitUntil: 'load' });
 
-    /* SSR renders every tag it can reach, including the ones in the content a
-       parent is handed, so a child that arrived already rendered used to be
-       rendered again by each element enclosing it — a code block two elements
-       deep read as three empty frames above the full one. Counted rather than
-       looked at: every copy but the last is empty, and an empty frame is
-       exactly what nobody notices in a screenshot. */
+    /* SSR reaches into the content a parent is handed, so a child that arrived
+       already rendered would be rendered again by every element enclosing it —
+       empty frames above the full one. Counted rather than looked at: an empty
+       frame is exactly what nobody notices in a screenshot. */
     const panels = page.locator('sds-tabs sds-tab-item .sds-tab__panel');
     expect(await panels.count()).toBe(await page.locator('sds-tabs sds-tab-item').count());
 

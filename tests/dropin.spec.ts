@@ -88,17 +88,11 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
   expect(errors, 'the drop-in should boot clean').toEqual([]);
 });
 
-/* Nothing moves when the bundle lands.
-
-   A host is `display: contents`, so before the script an `<sds-icon>` is no
-   box at all and every icon in a header, a sidebar or a button pushes its
-   neighbours sideways the moment the elements upgrade. The stylesheet
-   reserves the box the tag will take — which only helps if the reserved box
-   is the one the element then renders, and those are two rules in two files
-   that nothing held together.
-
-   Measured on both sides of the upgrade, which is the only way to see it:
-   each is right on its own and the pair is what matters. */
+/* Nothing moves when the bundle lands. A host is `display: contents`, so before
+   the script an `<sds-icon>` is no box and every icon pushes its neighbours
+   sideways on upgrade. The stylesheet reserves the box the tag will take, which
+   helps only if it is the box the element then renders — two rules in two files
+   that nothing else holds together. Measured on both sides of the upgrade. */
 test('an icon takes the same space before the script and after', async ({ page }) => {
   const MARKUP = ['', 'size="16"', 'size="20"', 'size="24"', 'size="32"', 'class="sds-icon sds-icon--20"']
     .map((attrs) => `<span style="font-size:13px"><sds-icon name="actions-search" ${attrs}></sds-icon></span>`)
@@ -137,13 +131,11 @@ test('an icon takes the same space before the script and after', async ({ page }
   expect(await boxes('sds-icon svg'), 'the reserved box should be the one the element renders').toEqual(before);
 });
 
-/* The other way the drop-in is taken: bundled.
-
-   A consumer that runs `soul.js` through a bundler moves the module away from
-   the assets beside it, so the default reference — resolved against the module
-   — points at nothing. Saying where the sprite went is the only fix, and it
-   has to be reachable from the entry: a build that cannot say it ships every
-   icon blank, with nothing but a 404 in the console to go on. */
+/* The other way the drop-in is taken: bundled. A bundler moves the module away
+   from the assets beside it, so the reference resolved against the module points
+   at nothing. Saying where the sprite went is the only fix, and it has to be
+   reachable from the entry — a build that cannot say it ships every icon
+   blank. */
 test('a bundling consumer can say where the sprite went', async ({ page }) => {
   await page.route('**/somewhere-else/actions.svg', (route) =>
     route.fulfill({ path: 'dist/assets/icons/sprites/actions.svg', contentType: 'image/svg+xml' }));
@@ -174,16 +166,10 @@ test('a bundling consumer can say where the sprite went', async ({ page }) => {
 });
 
 /* And the form a bundler actually emits: one classic script, no modules left.
-
-   `import.meta` does not survive that — there is nothing for a module URL to
-   mean — so anything resolved against it at import time throws before a line
-   of the bundle runs. Nothing registers, every element on the page stays an
-   empty box, and the only clue is one `Invalid URL` in the console. It is not
-   a case the drop-in exercises, because the drop-in is a module.
-
-   Bundled here rather than trusted to a fixture: what has to hold is that the
-   current `dist/soul.js` survives the transform, and a checked-in copy of it
-   would stop being the current one. */
+   `import.meta` does not survive that, so anything resolved against it at
+   import time throws before a line of the bundle runs — nothing registers, and
+   the only clue is one `Invalid URL` in the console. Bundled here rather than
+   from a fixture, which would stop being the current `soul.js`. */
 test('the bundle survives being built into a classic script', async ({ page }) => {
   const { build } = await import('esbuild');
   const bundled = await build({
