@@ -17,26 +17,30 @@ a theme links.
 1. Require the renderer and the theme
 =====================================
 
-The theme is **not on Packagist yet**, so it is required out of a checkout of
-the design system — which is where the drop-in and the finishing step have to
-come from anyway, since a stylesheet is not a PHP dependency.
-
-.. code-block:: bash
-
-   git clone --depth 1 https://github.com/benjaminkott/typo3-soul-design-system .soul
+One package, and there is nothing else to fetch. The theme is **not on
+Packagist yet**, so the repository it is published from is named — everything
+else about the require is ordinary.
 
 .. code-block:: json
    :caption: composer.json
 
    {
        "repositories": [
-           { "type": "path", "url": ".soul/packages/guides-theme" }
+           {
+               "type": "vcs",
+               "url": "https://github.com/benjaminkott/typo3-soul-guides-theme"
+           }
        ],
        "require": {
-           "typo3/soul-guides-theme": "*"
+           "typo3/soul-guides-theme": "dev-main"
        },
-       "minimum-stability": "dev"
+       "minimum-stability": "dev",
+       "prefer-stable": true
    }
+
+.. code-block:: bash
+
+   composer install
 
 The theme requires ``phpdocumentor/guides-cli``, ``guides-code`` and
 ``guides-markdown``, so one package brings the command, the highlighter and the
@@ -44,9 +48,20 @@ Markdown parser with it. PHP 8.2 is the floor.
 
 .. note::
 
+   A stylesheet is not a PHP dependency, which is why this package carries one
+   rather than asking for it: ``vendor/typo3/soul-guides-theme/resources/dist/``
+   is the drop-in — ``soul.css``, ``document.css``, ``soul.js``,
+   ``soul-boot.js``, the faces, the icon sprites, and the finishing step of
+   step 4. The install above is the whole of getting it, and no checkout of the
+   design system is part of this.
+
+.. note::
+
    When the package is registered, the ``repositories`` entry goes away and
-   this step becomes ``composer require typo3/soul-guides-theme``. The checkout
-   stays either way: it is what carries ``packages/frontend/dist/``.
+   this step becomes ``composer require typo3/soul-guides-theme``. Ask for a
+   tag rather than ``dev-main`` as soon as there is one: a branch is a moving
+   target, and a site rebuilt against one can change on a commit nobody in
+   your repository made.
 
 .. note::
 
@@ -120,7 +135,7 @@ directory too high.
 .. code-block:: bash
 
    vendor/bin/guides docs --output=site -c docs --fail-on-error
-   node .soul/packages/frontend/dist/soul-finish.js site
+   node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
 
 The first command writes documents. The second is the one this page exists to
 say out loud: it copies the drop-in to the site root, draws every element on
@@ -149,16 +164,17 @@ and every path inside it is already right.
 .. warning::
 
    Copying by hand instead, copy the **whole** directory. ``soul.css`` asks for
-   ``packages/frontend/fonts/`` beside itself and ``soul.js`` resolves the icon sprite against
-   its own URL, so a site missing either serves pages that fall back to
+   ``fonts/`` beside itself and ``soul.js`` resolves the icon sprite against its
+   own URL, so a site missing either serves pages that fall back to
    ``system-ui`` or draw every icon as a blank box — with nothing in the render
    log, because the render was fine.
 
 .. important::
 
-   ``packages/frontend/dist/`` is the built drop-in, not the sources. Render a site against
-   ``packages/frontend/src/`` and what has been proven is that the theme works with something
-   nobody ships.
+   ``resources/dist/`` in the package is built output, and the design system's
+   sources are not in it and are not what a page links. Point a site at a
+   checkout of ``packages/frontend/src/`` and what has been proven is that the
+   theme works with something nobody ships.
 
 What the finishing step does, and why it is not the renderer's job
 ==================================================================

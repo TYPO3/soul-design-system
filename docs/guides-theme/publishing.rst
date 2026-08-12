@@ -14,7 +14,7 @@ every push.
 
    composer install
    vendor/bin/guides docs --output=site -c docs --fail-on-error
-   node .soul/packages/frontend/dist/soul-finish.js site
+   node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
 
 .. contents::
    :local:
@@ -41,12 +41,13 @@ third command's job.
 The finishing step
 ==================
 
-``soul-finish.js`` ships inside the drop-in and needs nothing installed — it is
-one bundled file for the Node that is on every CI image already.
+``soul-finish.js`` ships inside the drop-in, which ships inside the theme, so
+``composer install`` is what put it there. It needs nothing installed of its
+own — one bundled file for the Node that is on every CI image already.
 
 .. code-block:: bash
 
-   node path/to/dist/soul-finish.js <output-dir> [options]
+   node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js <output-dir> [options]
 
 .. confval:: the output directory
    :type: string
@@ -104,10 +105,10 @@ The workflow
 
 Four things in it are worth reading rather than copying.
 
-**The second checkout.** The theme is a Composer package; the drop-in and the
-finishing step are not, and cannot be — a stylesheet is not a PHP dependency.
-Both arrive as a checkout of the design system, and ``composer.json`` requires
-the theme out of that same directory:
+**One checkout, and one install.** The drop-in and the finishing step are not
+Composer packages and cannot be — a stylesheet is not a PHP dependency — so
+the theme carries them, and ``composer.json`` names the repository the theme
+itself is published from until it is on Packagist:
 
 .. literalinclude:: _starter/composer.json
    :language: json
@@ -115,9 +116,10 @@ the theme out of that same directory:
 
 .. important::
 
-   Pin ``ref:`` to a tag. A site rebuilt against a moving branch is a site
-   whose look can change on a commit nobody in your repository made — and the
-   next build after that one is the one that has to be explained.
+   Ask for a tag rather than ``dev-main`` as soon as there is one. A site
+   rebuilt against a moving branch is a site whose look can change on a commit
+   nobody in your repository made — and the next build after that one is the
+   one that has to be explained.
 
 **The Node version is named.** Inherited, it is whatever the runner image
 happens to ship this month.

@@ -13,16 +13,23 @@ overwritten by the next one. Issues and pull requests belong in
 
 ## Installing it
 
-Not on Packagist yet, so name the repository:
+Not on Packagist yet, so name the repository. There is no tag either, so the
+branch is what a project asks for — swap it for a constraint as soon as there
+is a release to name:
 
 ```json
 {
     "repositories": [
-        { "type": "vcs", "url": "https://github.com/benjaminkott/typo3-soul-guides-theme" }
+        {
+            "type": "vcs",
+            "url": "https://github.com/benjaminkott/typo3-soul-guides-theme"
+        }
     ],
     "require": {
-        "typo3/soul-guides-theme": "^1.0"
-    }
+        "typo3/soul-guides-theme": "dev-main"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
 ```
 

@@ -11,7 +11,7 @@ three with a checkout in front and a deploy behind.
 
    composer install
    vendor/bin/guides docs --output=site -c docs --fail-on-error
-   node .soul/packages/frontend/dist/soul-finish.js site
+   node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
 
 What each one is for
 ====================
@@ -36,36 +36,45 @@ the one a project usually finds out about last:
 
    The last one is the check that matters after publishing has gone wrong
    once. What is served is the output directory alone — not the repository
-   around it, not the checkout the drop-in came from — so a link that resolves
-   during the build because the build happened in a checkout resolves to
-   nothing on the server. It arrives as a page with no stylesheet rather than
-   as an error somebody reads.
+   around it, not the ``vendor/`` the drop-in came from — so a link that
+   resolves during the build because the build happened in a working copy
+   resolves to nothing on the server. It arrives as a page with no stylesheet
+   rather than as an error somebody reads.
 
 Where the design system comes from
 ==================================
 
-The theme is a Composer package; the drop-in and the finishing step are not,
-and cannot be — a stylesheet is not a PHP dependency. Both arrive with a
-second checkout, and ``composer.json`` requires the theme from it as a path
-repository:
+Out of ``vendor/``, with the theme. A stylesheet is nothing Composer can be
+asked for on its own, so the package carries the drop-in — the stylesheets,
+the script, the faces, the icon sprite and ``soul-finish.js`` — under
+``resources/dist/``, and ``composer install`` is the whole of getting it.
 
 .. code-block:: json
    :caption: composer.json
 
    {
        "repositories": [
-           { "type": "path", "url": ".soul/packages/guides-theme" }
+           {
+               "type": "vcs",
+               "url": "https://github.com/benjaminkott/typo3-soul-guides-theme"
+           }
        ],
        "require": {
-           "typo3/soul-guides-theme": "*"
+           "typo3/soul-guides-theme": "dev-main"
        },
-       "minimum-stability": "dev"
+       "minimum-stability": "dev",
+       "prefer-stable": true
    }
+
+The ``repositories`` entry is there because the package is not on Packagist
+yet: Composer is told which repository the name lives in, and everything else
+about the require is ordinary.
 
 .. note::
 
-   Pin the checkout to a tag. A site rebuilt against a moving branch is a site
-   whose look can change on a commit nobody in this repository made.
+   Ask for a tag rather than ``dev-main`` as soon as there is one. A site
+   rebuilt against a moving branch is a site whose look can change on a commit
+   nobody in this repository made.
 
 Serving it while writing
 ========================

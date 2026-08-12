@@ -27,19 +27,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # The design system, for two things Composer cannot bring: the drop-in
-      # the pages link, and the step that runs after the render.
-      #
-      # It is a checkout because the theme is not on Packagist yet — see the
-      # `repositories` entry in composer.json, which points at this path. Pin
-      # `ref` to a tag rather than a branch, so a site is rebuilt against the
-      # version it was written for.
-      - uses: actions/checkout@v4
-        with:
-          repository: benjaminkott/typo3-soul-design-system
-          ref: main
-          path: .soul
-
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
@@ -61,9 +48,10 @@ jobs:
       # Everything between a render and a site: the drop-in copied to the site
       # root, every element drawn so the pages read with no script, the search
       # index written, and a refusal to publish a reference that leaves the
-      # output. The script sits in the drop-in and copies what is beside it.
+      # output. The script sits in the drop-in the theme package carries and
+      # copies what is beside it, so `composer install` above brought it.
       - name: Finish the site
-        run: node .soul/packages/frontend/dist/soul-finish.js site
+        run: node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
 
       # Pages serves this artifact as it stands, but a repository switched to
       # the branch-based build runs Jekyll, which drops every path starting

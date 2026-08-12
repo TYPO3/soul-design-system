@@ -156,18 +156,18 @@ jobs:
         with:
           node-version: '22'
 
-      # In a consumer's repository `.soul` is a checkout of this one — see the
-      # workflow in the example. Here it is this checkout, so what is tested is
-      # the tree as it stands rather than whatever was last released.
-      - name: Put the design system where the example expects it
-        run: ln -s ../.. examples/starter/.soul
-
+      # Nothing is substituted: the theme arrives from the repository the
+      # example names, at the version it asks for, carrying the drop-in and the
+      # finishing step. That is what this job can prove and the gate above
+      # cannot — that what was published installs and renders. The theme in
+      # *this* tree is what `make guides` renders up there, and it reaches the
+      # mirror only after this run has gone green.
       - name: The three commands the example documents
         working-directory: examples/starter
         run: |
           composer install --no-interaction --no-progress
           vendor/bin/guides docs --output=site -c docs --fail-on-error
-          node .soul/packages/frontend/dist/soul-finish.js site
+          node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
 
       # The finishing step already refuses a reference that leaves the site.
       # What is asked here is the other half of the promise: that the pages

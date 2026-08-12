@@ -19,7 +19,7 @@ What is in it
 .. code-block:: text
 
    examples/starter/
-     composer.json                    the theme, out of a checkout
+     composer.json                    the theme, named by its repository
      .github/workflows/publish.yml    render, finish, publish
      docs/
        guides.xml                     the project, the bar, the footer
@@ -53,10 +53,10 @@ The dependency
    :caption: composer.json
 
 The ``repositories`` entry is the part that goes away: the theme is not on
-Packagist yet, so it is required out of a checkout of this repository — the
-same checkout the drop-in and the finishing step come from. When the package
-is registered, those four lines and the second checkout in the workflow are
-deleted and nothing else changes.
+Packagist yet, so Composer is told which repository the name lives in. When
+the package is registered, those lines are deleted and nothing else changes —
+the drop-in and the finishing step arrive inside the package either way, which
+is why nothing here checks out the design system.
 
 The two page shapes
 ===================
@@ -107,13 +107,12 @@ Running it
 
 .. code-block:: bash
 
-   git clone --depth 1 https://github.com/benjaminkott/typo3-soul-design-system .soul
    composer install
    vendor/bin/guides docs --output=site -c docs --fail-on-error
-   node .soul/packages/frontend/dist/soul-finish.js site
+   node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
    php -S localhost:8000 -t site
 
-The third command writes documents; the fourth is what turns them into a site.
+The second command writes documents; the third is what turns them into a site.
 :doc:`publishing` says what each of its four jobs is for, and what it refuses
 to publish.
 
