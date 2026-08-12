@@ -1,15 +1,12 @@
 /* A document from somewhere else, in a frame this page controls.
 
    The markup lives in `src/components/embed.ts`. No `parameters.dsCard`: what
-   this component decides is how a frame behaves at widths a card cannot have
-   — one shape follows the column and the other refuses to — and a picture of
-   it at a single fixed viewport would show two boxes and none of the point.
-   The stories are read by dragging the frame narrower.
+   this decides is how a frame behaves at widths a card cannot have, and a
+   picture at one fixed viewport shows two boxes and none of the point. Read
+   the stories by dragging the frame narrower.
 
-   Every `src` here is a document this repository serves, and that is not
-   incidental. A story reaching a video host would fetch it in every run of the
-   suite that opens every story, on a machine that may have no network at all,
-   and the component cannot tell one document from another anyway. */
+   Every `src` is a document this repository serves: a story reaching a video
+   host would fetch it in every run, on a machine that may have no network. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -62,12 +59,10 @@ type Story = StoryObj<EmbedProps>;
     as there is room for, and never wider than that. */
 export const Default: Story = { args: SCREEN };
 
-/** The size it was made for, and no other.
-
-    A card declares the viewport it was measured at, and this is that number.
-    Drag the frame narrower than 700px and it scrolls rather than reflowing the
-    card: a specimen shown at a width nothing ever checked is a specimen
-    documenting a layout that may not exist. */
+/** The size it was made for, and no other: a card declares the viewport it was
+    measured at, and this is that number. Narrower, the frame scrolls rather
+    than reflowing — a specimen at a width nothing checked documents a layout
+    that may not exist. */
 export const Fixed: Story = {
   args: {
     src: '/guidelines/colors-surfaces.card.html',
@@ -90,13 +85,10 @@ export const Uncaptioned: Story = {
   args: { src: SCREEN.src, label: SCREEN.label, ratio: SCREEN.ratio, caption: '' },
 };
 
-/** The frame a renderer wrote, kept.
-
-    A generator that ships HTML writes the `<iframe>` itself so the reader has
-    the document before any script runs. The element lifts that node into its
-    frame rather than writing a second one — the document is fetched once, and
-    the caption written beside it in the class the component emits is placed
-    where the component puts captions. */
+/** The frame a renderer wrote, kept. A generator shipping HTML writes the
+    `<iframe>` so the reader has the document before any script runs, and the
+    element lifts that node rather than writing a second one — fetched once, and
+    the caption placed where the component puts captions. */
 export const Given: Story = {
   render: () => html`<sds-embed width="700" height="240"
     ><iframe src="/guidelines/colors-borders.card.html" width="700" height="240" title="The border tokens"></iframe

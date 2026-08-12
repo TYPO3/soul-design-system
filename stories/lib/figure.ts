@@ -1,19 +1,13 @@
 /* The diagram cards' own scaffolding.
 
-   Three of the four diagram specimens are the same card: a drawing, named by
-   its file, with two notes under it saying what the drawing had to survive.
-   Written out per card that was three copies of one layout.
+   Most of the diagram specimens are the same card: a drawing named by its file,
+   with two notes under it saying what the drawing had to survive.
 
-   The drawing is referenced rather than linked, which is the part that must
-   not drift: a card that showed the file through an `<img>` would show it in
-   the light it was drawn in whatever mode the card was shot in, and these
-   cards are shot in both. `src/lib/art.ts` holds the reason; the reference is
-   written out here rather than through `sds-figure`, because what these cards
-   document is the drawing and not the frame around it.
-
-   The figures sit on the sunken plane, which is the card's ground rather than
-   a box inside it, so the class goes on `<body>` through `bodyClass` on the
-   card rather than on a wrapper here. */
+   The drawing is referenced rather than linked, which is the part that must not
+   drift — through an `<img>` it would show in the light it was drawn in
+   whatever mode the card was shot in, and these are shot in both. Written out
+   rather than through `sds-figure`, because what these document is the drawing
+   and not the frame. The plane is the card's ground, so it goes on `<body>`. */
 
 import { inlineArtRefs } from '../../src/components/art.static.ts';
 import { DIAGRAM_VIEWBOX } from '../../src/components/diagrams.generated.ts';

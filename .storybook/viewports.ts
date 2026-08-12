@@ -2,33 +2,20 @@
 
    Ordinary screens with ordinary names, because that is what somebody reaching
    for this menu is thinking: show me the phone. Naming each entry after the
-   rule it lands on — "rail folds", "wordmark shortens" — was tried and reads as
-   jargon in a list you use ten times an hour.
+   rule it lands on reads as jargon in a list used ten times an hour.
 
-   What the names cost is the guarantee the names used to carry, and it is
-   worth stating because it is easy to lose by editing this list: the four
-   `max-width` queries in `components.css` cut the scale into five bands, and
-   the layout looks different in each. A list of sizes that misses a band makes
-   that state unreachable — no entry to pick, nothing to see, and nothing to say
-   so. `tests/viewports.spec.ts` reads the queries back out of the stylesheets
-   and holds this list to covering every band, whatever the entries are called.
-   That is why 480 is here between the tablet and the phone: without it, the
-   width where the search field is gone but the wordmark is still whole cannot
-   be selected at all.
-
-   Heights are plausible rather than measured — the pane scrolls, and nothing
-   these widths show depends on one. */
+   What the names cost is the guarantee they used to carry: the `max-width`
+   queries cut the scale into bands, and a list missing one makes that state
+   unreachable with nothing to say so. `tests/viewports.spec.ts` reads the
+   queries out of the stylesheets and holds this list to every band. */
 
 import type { Viewport, ViewportMap } from 'storybook/viewport';
 
 interface Size {
-  /* The key, and what a URL carries: `?globals=viewport:phone`.
-
-     A word rather than the width, which is what this was first: an object
-     keyed `'1440'` and `'860'` comes back out of `Object.entries` sorted
-     ascending, because a key that reads as an array index is ordered as one —
-     so the toolbar listed the phone first and the desk last, and the reading
-     order of the whole list was upside down. */
+  /* The key, and what a URL carries: `?globals=viewport:phone`. A word rather
+     than the width, because a key that reads as an array index is ordered as
+     one — `Object.entries` sorts `'1440'` and `'860'` ascending, and the
+     toolbar lists the phone first with the whole order upside down. */
   key: string;
   name: string;
   width: number;

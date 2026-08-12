@@ -1,20 +1,13 @@
 /* The specimen scaffolding — the annotation layer a card is drawn with.
 
-   These mirror the classes in `_specimen.css` one for one, and exist so a
-   story composes a card out of named pieces instead of hand-indented HTML.
-   Nothing here belongs to the design system proper: `_specimen.css` is
-   deliberately outside the `styles.css` closure, so a design built with this
-   system never inherits any of it. If you find yourself wanting one of these
-   on a product surface, the thing you want is a component, not a caption.
+   These mirror the classes in `_specimen.css` one for one, so a story composes
+   a card out of named pieces instead of hand-indented HTML. Nothing here
+   belongs to the system proper: wanting one of these on a product surface means
+   wanting a component, not a caption.
 
-   **Why these compose strings and not Lit templates.** The components are
-   Lit — that is where the markup lives. But a rendered `TemplateResult` can
-   no longer be indented: the whitespace is fixed inside the template
-   literal, so nesting a row inside a card leaves the row's inner lines at
-   the depth they were written at. Composing the scaffold from strings puts
-   `indent()` back in reach, which is what keeps the generated cards readable
-   and reviewable line by line. Components come in through `part()`, which
-   renders one to its static markup first. */
+   Strings rather than Lit templates, because a rendered `TemplateResult` cannot
+   be indented — the whitespace is fixed inside the literal. Components come in
+   through `part()`, which renders one to its static markup first. */
 
 import type { TemplateResult } from 'lit';
 import { renderStatic } from '../../src/lib/render.ts';
@@ -43,15 +36,10 @@ export const ROW_DIVIDER = 'border-top:1px solid var(--border-subtle); padding-t
 export const esc = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-/**
- * Indent a block by `n` spaces, so nesting produces readable output.
- *
- * Skips the inside of a `<pre>`. Whitespace there is content: indenting the
- * body of a code block shifts every line of the rendered output to the
- * right, which is a visible change and not a formatting one. The opening
- * `<pre …>` tag still moves with its surroundings — it is the lines *after*
- * it, up to `</pre>`, that must be left exactly as written.
- */
+/** Indent a block by `n` spaces, so nesting produces readable output. Skips the
+    inside of a `<pre>`, where whitespace is content and indenting it shifts
+    every rendered line right. The opening tag still moves with its
+    surroundings; the lines after it are left exactly as written. */
 export function indent(html: string, n: number): string {
   const pad = ' '.repeat(n);
   let inPre = false;
@@ -134,13 +122,10 @@ export interface DsCardInput {
       build when the content does not fit it, so this is a measurement
       rather than a preference. */
   viewport: string;
-  /** Which mode the card is pinned to. `both` pins neither, and is not a
-      default in disguise: a card that shows the light and the dark pane side
-      by side, or one that shows a drawing taking the mode it is placed in,
-      must not have one of the two forced on the document around it. Pinning
-      `dark` on one of those
-      turned the ground under the figures from paper to terminal, which is a
-      quarter of the card's pixels and no failing check anywhere. */
+  /** Which mode the card is pinned to. `both` pins neither and is not a default
+      in disguise: a card showing the two panes side by side, or a drawing
+      taking the mode it is placed in, must not have one forced on the document
+      around it — and nothing checks that it was. */
   theme?: 'light' | 'dark' | 'both';
   /** A class on the card's own `<body>`, for the ground a card is drawn on
       rather than anything in it — `spec-sunken` under the diagram figures.
@@ -154,12 +139,9 @@ export interface DsCard extends Required<DsCardInput> {
   height: number;
 }
 
-/**
- * Declare the card a story file generates, and how the Design System pane
- * renders it. This is the `@dsCard` contract from `scripts/lib/cards.ts`,
- * stated in the story so the story owns it: the card HTML under
- * `components/` is generated from here by `make cards`.
- */
+/** Declare the card a story file generates, and how the pane renders it — the
+    `@dsCard` contract from `scripts/lib/cards.ts`, stated in the story so the
+    story owns it. */
 export function dsCard(c: DsCardInput): DsCard {
   const [w, h] = c.viewport.split('x');
   return { group: 'Components', theme: 'dark', bodyClass: '', ...c, width: Number(w), height: Number(h) };
@@ -181,13 +163,10 @@ export interface DsScreen extends Required<DsScreenInput> {
   height: number;
 }
 
-/**
- * Declare the whole screen a story file generates. This is the
- * `@startingPoint` contract from `scripts/lib/cards.ts`, stated in the story
- * for the same reason a card's is: a screen composes the components, and
- * composing them anywhere but where they are defined means writing their
- * markup a second time.
- */
+/** Declare the whole screen a story file generates — the `@startingPoint`
+    contract from `scripts/lib/cards.ts`, stated in the story for the reason a
+    card's is: composing components anywhere but where they are defined means
+    writing their markup a second time. */
 export function dsScreen(s: DsScreenInput): DsScreen {
   const [w, h] = s.viewport.split('x');
   return { section: 'Screens', theme: 'dark', ...s, width: Number(w), height: Number(h) };

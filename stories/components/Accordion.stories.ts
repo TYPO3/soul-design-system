@@ -1,14 +1,11 @@
 /* Questions with their answers folded behind them.
 
    The markup lives in `src/components/accordion.ts`. No `parameters.dsCard`: a
-   card is a still picture and half of what this is is what pressing it does —
-   which the stories can be clicked through and a card cannot.
+   card is a still picture and half of this is what pressing it does.
 
-   Two things are worth reading here rather than looking at. It is a real
-   `<details>`, so it folds before any script has run and find-in-page opens
-   the answer it lands in. And it is exclusive by default, through `name` on
-   the element rather than through a listener: a set where every answer can
-   stand open is a set the reader closes by hand to see the list again. */
+   Two things read rather than looked at: it is a real `<details>`, so it folds
+   before any script and find-in-page opens the answer it lands in; and it is
+   exclusive through `name` rather than a listener. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

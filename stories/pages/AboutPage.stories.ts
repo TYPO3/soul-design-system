@@ -1,20 +1,13 @@
 /* Who is behind it.
 
-   The page a project owes anyone deciding whether to run its code, and the one
-   most often written as a mission statement. What a reader is actually asking
-   is narrower and answerable: who maintains this, what are they answerable
-   for, how is it paid for, and what happens to it if they stop.
+   The page a project owes anyone deciding whether to run its code, most often
+   written as a mission statement. What a reader is asking is narrower: who
+   maintains this, what are they answerable for, how is it paid for, and what
+   happens if they stop.
 
-   So the page is people, a decision record and a funding line — and no
-   photographs. `sds-byline` marks a person with initials rather than a face,
-   for the reason written where it lives: a portrait is a file to fetch, keep
-   in step and licence, and none of that is what naming a maintainer is for.
-
-   Nothing new was needed. A person is a card with a byline in it, which is two
-   components that already exist meeting for the first time.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. */
+   So the page is people, a decision record and a funding line, and no
+   photographs — `sds-byline` marks a person with initials. Nothing new was
+   needed: a person is a card with a byline in it. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

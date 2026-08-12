@@ -1,18 +1,13 @@
 /* Storybook config — web components, deliberately not React.
 
-   This system ships classes and tokens and now ships Lit elements too.
-   `@storybook/web-components-vite` is the renderer that matches both: a
-   story returns a Lit template, and a custom element is markup, so the same
-   story documents `buttonTemplate()` today and `<sds-button>` tomorrow. The
-   React renderer would have required a React layer to document a system
-   that has none — the thing `ARCHITECTURE.md` records as declined
-   twice.
+   `@storybook/web-components-vite` matches what this ships: a story returns a
+   Lit template and a custom element is markup, so one story documents the
+   template function and the element alike. The React renderer would require a
+   React layer to document a system that has none.
 
-   Storybook is a documentation and authoring surface. It is NOT the
-   claude.ai/design sync path: `.design-sync/config.json` pins
-   `shape: "package"` and `scripts/build.ts` stays the converter. The kit's
-   own detector would otherwise see this directory and switch shapes — see
-   `.design-sync/NOTES.md` § Storybook. */
+   This is a documentation surface, NOT the sync path: `.design-sync/config.json`
+   pins `shape: "package"`, or the kit's own detector sees this directory and
+   switches shapes. */
 
 import type { StorybookConfig } from '@storybook/web-components-vite';
 import remarkGfm from 'remark-gfm';
@@ -28,26 +23,20 @@ const config: StorybookConfig = {
     {
       name: '@storybook/addon-docs',
       options: {
-        /* MDX parses CommonMark, and CommonMark has no tables. The default
-           pipeline is parse → mdx → rehype and nothing else, so a `| … |`
-           row set as a paragraph of literal pipe characters — which is what
-           every table on the overview pages was doing.
-
-           Only the parser was missing: the docs theme already styles a
-           `<table>`, which is why `docs.css` leaves prose and tables alone. */
+        /* MDX parses CommonMark, which has no tables, so without this a
+           `| … |` row sets as a paragraph of literal pipe characters. Only the
+           parser is missing — the docs theme already styles a `<table>`, which
+           is why `docs.css` leaves prose and tables alone. */
         mdxPluginOptions: {
           mdxCompileOptions: { remarkPlugins: [remarkGfm] },
         },
       },
     },
-    // A system that documents focus rings and status colour should be able
-    // to prove them. The panel runs axe against the rendered story.
-    //
-    // It ships in every build, including the one the Playwright suite serves.
-    // Dropping it there was tried and is not allowed: the tests exist to prove
-    // the shipped surface, and a surface assembled differently for the test is
-    // not the one that ships. The axe collision it causes is handled where it
-    // belongs — see `parameters.a11y` in preview.ts.
+    /* A system that documents focus rings and status colour should be able to
+       prove them, so the panel runs axe against the rendered story. It ships in
+       every build, the one the Playwright suite serves included: a surface
+       assembled differently for the test is not the one that ships. The axe
+       collision that causes is handled in `preview.ts`. */
     '@storybook/addon-a11y',
   ],
   framework: { name: '@storybook/web-components-vite', options: {} },
@@ -58,12 +47,10 @@ const config: StorybookConfig = {
     disableWhatsNewNotifications: true,
     disableTelemetry: true,
   },
-  /* The onboarding checklist is addressed to someone setting Storybook up for
-     the first time — install this addon, write a first story, publish. None of
-     it applies here, and its progress is kept in the cache directory the
-     container discards, so every rebuild greets a finished system with a
-     starter checklist. Both surfaces it appears on are turned off: the sidebar
-     widget and the guide page in the menu. */
+  /* The onboarding checklist is for somebody setting Storybook up, and its
+     progress lives in the cache directory the container discards — so every
+     rebuild greets a finished system with a starter checklist. Both surfaces
+     are turned off: the sidebar widget and the guide page. */
   features: {
     sidebarOnboardingChecklist: false,
     menuOnboardingChecklist: false,
@@ -88,13 +75,10 @@ const config: StorybookConfig = {
        card served at /guidelines/x.card.html links
        `../src/styles/styles.css`. */
     { from: '../src/styles', to: '/styles' },
-    /* And at the path it actually asks for. A card climbs `../../src/styles/`
-       from wherever it is stored, and above the publish root that clamps —
-       so the request is for `/src/styles/styles.css` and not the mapping
-       above it. Nothing noticed while the cards were only ever inlined into a
-       story; a story that embeds one the way the design pane does — which is
-       what `sds-embed` is — loads the document itself, and an unstyled card
-       in a frame is the one thing a specimen must not be. */
+    /* And at the path it actually asks for: a card climbs `../../src/styles/`
+       from wherever it is stored, which clamps above the publish root, so the
+       request is for `/src/styles/styles.css`. It only shows where a story
+       embeds a card as a document rather than inlining it. */
     { from: '../src/styles', to: '/src/styles' },
     /* And what that stylesheet then imports, at the path it imports it from —
        `../tokens/` beside `src/styles/`. A card whose sheet loads and whose

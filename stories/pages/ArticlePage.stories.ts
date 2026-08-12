@@ -1,23 +1,13 @@
 /* The article.
 
-   What the list page links to, and the archetype every long read on a site is:
-   a title, who is answerable for it, one column of running text with the
-   things a text needs standing in it — a drawing, a borrowed sentence, a block
-   the machine wrote — and a way to reach any part of it from the top.
+   What the list page links to, and the archetype every long read is: a title,
+   who is answerable for it, one column of running text with the things a text
+   needs standing in it, and a way to reach any part of it from the top.
 
    The rail is that way, and it is the same `sds-rail` the documentation page
-   uses. An article's contents are a list of links beside a column, which is
-   what the rail already is; a second component called "table of contents"
-   would be that one under another name, and the two would drift at the first
-   width where one folded and the other did not.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ.
-
-   What this page deliberately does not carry: bullet lists, numbered steps, a
-   definition list. Those are document flow rather than components, they belong
-   to the document layer, and inventing a second vocabulary for them here would
-   be the drift this system spends its checks preventing. */
+   uses — a second component called "table of contents" would be that one under
+   another name. What the page does not carry is bullet lists and definition
+   lists: those are document flow. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

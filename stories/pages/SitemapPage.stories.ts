@@ -1,19 +1,13 @@
 /* Everything the site has, on one page.
 
-   The archetype that is usually a generated list nobody reads, and it earns
-   its place for one reason: it is the only page that shows the shape of the
-   site rather than a path through it. A reader who cannot find something looks
-   here before they search, because a list of everything answers "does this
-   exist at all" and a search box does not.
+   Usually a generated list nobody reads, and it earns its place for one reason:
+   it is the only page showing the shape of the site rather than a path through
+   it. A list of everything answers "does this exist at all" and a search box
+   does not.
 
-   It is `sds-rail`, which is the system's list of links beside a page — three
-   of them side by side, with their groups standing open. A sitemap is not a
-   different kind of list from a rail; it is the same list without a column
-   next to it, and a second component for it would fold at a different width
-   than the rail does.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. */
+   It is `sds-rail` three times over, groups standing open. A sitemap is the
+   same list without a column next to it, and a second component for it would
+   fold at a different width. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

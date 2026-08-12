@@ -1,21 +1,13 @@
 /* What is answering, and what is not.
 
    The page every project puts up after the first outage and nobody designs
-   before it. For this product it is narrower than the usual one and more
-   useful: nothing here is a service the reader depends on being up — the
-   server runs on their machine — so what a status page can honestly report is
-   the *sources*, and which of them are reachable from outside.
+   before it. Here nothing is a service the reader depends on being up, so what
+   it honestly reports is the *sources* and which are reachable.
 
-   Which makes it the one page where the status colours belong on the page
-   itself rather than inside a result. They still appear exactly where the
-   rules put them: in badges and in result rows, never as page furniture.
-
-   Everything else here is a table, badges, notes and stats. No component was
-   added for it, and none should have been — a status page that needs its own
-   vocabulary is a status page nobody can compare to the rest of the site.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. */
+   Which makes it the one page where status colours belong on the page rather
+   than inside a result — still in badges and result rows, never as furniture.
+   No component was added for it: a status page with its own vocabulary is one
+   nobody can compare to the rest of the site. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

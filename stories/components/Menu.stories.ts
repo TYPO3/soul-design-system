@@ -1,17 +1,12 @@
 /* The header navigation, and its run-width.
 
-   The markup lives in `src/components/menu.ts`. Pills while the header has
-   room for them, a toggle and a panel below it when it does not — and the
-   element decides which, by measuring, rather than a breakpoint deciding for
-   every surface at once.
+   The markup lives in `src/components/menu.ts`. Pills while the header has room
+   for them, a toggle and a panel when it does not — decided by measuring rather
+   than by a breakpoint set for every surface at once.
 
-   Drag the Storybook canvas narrower on the story below and watch it change
-   its mind. The width it changes at is not a number written anywhere: it is
-   where these four words stop fitting beside this mark and this badge.
-
-   No `parameters.dsCard`: a card is a still picture at a fixed width, and the
-   whole of this component is what happens between two widths. It is drawn on
-   the landing and documentation pages instead, which are live. */
+   Drag the canvas narrower and watch it change its mind; the width is not a
+   number written anywhere. No `parameters.dsCard`: a card is a still picture,
+   and the whole of this is what happens between two widths. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -54,14 +49,11 @@ export const InAHeader: Story = {
   </header>`,
 };
 
-/** The same row, written by a server instead of passed as a property.
-
-    A rendered site resolves its own links before the page is sent — where each
-    one points from this page, and which one the reader is on — so it writes
-    the pills and the element takes them over. Without the script they are
-    still a row of links; with it they collapse like any other. Nothing here is
-    a second way to say what a pill is: it is the same class the element emits.
-  */
+/** The same row, written by a server instead of passed as a property. A
+    rendered site resolves its own links before the page is sent, so it writes
+    the pills and the element takes them over: without the script they are still
+    a row of links, with it they collapse like any other. Same class either
+    way. */
 export const WrittenByAServer: Story = {
   render: () => html`<header class="sds-bar">
     <a class="sds-lockup" href="#overview">

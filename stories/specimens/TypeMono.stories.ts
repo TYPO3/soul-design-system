@@ -1,14 +1,12 @@
 /* Mono, and the label register.
 
-   Source Code Pro carries everything the machine reads, writes or names — a
-   tool name, a path, a flag, a version — at every size, and none of it is
-   ever title-cased. The label register is the same face at 11px, tracked out
-   and upper case, for the line *over* a group rather than inside it.
+   Source Code Pro carries everything the machine reads, writes or names, at
+   every size, and none of it is ever title-cased. The label register is the
+   same face at 11px, tracked out and upper case, for the line *over* a group.
 
    The block at the bottom is drawn rather than composed from `sds-code`: what
-   this card documents is the face and the leading, and a code block would put
-   its own frame, head and copy button in front of them. The block itself is
-   read on the Code card. */
+   this documents is the face and the leading, and a code block would put its
+   own frame and copy button in front of them. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

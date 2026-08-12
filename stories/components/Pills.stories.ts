@@ -1,15 +1,12 @@
 /* Pill navigation.
 
    The markup lives in `src/components/pills.ts`, over the base the three
-   navigations share in `nav-base.ts`. One rule across all three: the active
-   item is a filled block, never a tint.
+   navigations share. One rule across all three: the active item is a filled
+   block, never a tint.
 
    For the sections of a page. Pressing one makes it current and says so with
-   `sds-change`; an item that goes somewhere is a link instead, and then the
-   browser decides what current means next.
-
-   No `parameters.dsCard`: the three share one card, composed in
-   `Navigation.stories.ts`. */
+   `sds-change`; one that goes somewhere is a link and the browser decides. No
+   `parameters.dsCard`: the three share one card. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

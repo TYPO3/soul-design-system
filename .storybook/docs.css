@@ -1,16 +1,11 @@
 /* Make the docs preview block sit on the surface its contents were designed
-   for.
+   for. Storybook paints `.sbdocs-preview` from its own docs theme, which is
+   white and knows nothing about `data-theme`, so in dark mode a component
+   styled for the canvas lands on white and reads as broken.
 
-   Storybook paints `.sbdocs-preview` from its own docs theme, which is white
-   and knows nothing about `data-theme`. So in dark mode a component styled
-   for `--surface-canvas` — near-white text, a transparent secondary button,
-   a hairline in `--border-strong` — landed on white and read as broken. It
-   was not broken; it was on the wrong ground.
-
-   Only the preview block is retaken, not the page around it. The prose,
-   tables and headings of a docs page are Storybook's own UI and stay
-   Storybook's; dragging them onto our tokens would leave their dark text on
-   a dark canvas. */
+   Only the preview block is retaken. The prose and tables around it are
+   Storybook's own UI, and on our tokens their dark text would sit on a dark
+   canvas. */
 
 /* `.sbdocs.sbdocs-preview`, not `.sbdocs-preview`: Storybook styles this
    element through a generated single-class rule, which ties on specificity
@@ -28,13 +23,10 @@
   box-shadow: none;
 }
 
-/* The zoom/reset strip above a story. Storybook gives it a generated class
-   and nothing stable to aim at, so it is addressed structurally: the direct
-   child of the preview that is not the story itself.
-
-   `--surface-raised` rather than the canvas, because that is what this is in
-   the system's own vocabulary — a control surface sitting on a plane, told
-   apart by a hairline and not by a shadow. */
+/* The zoom/reset strip above a story. Storybook gives it a generated class and
+   nothing stable to aim at, so it is addressed structurally: the direct child
+   of the preview that is not the story. `--surface-raised`, because that is
+   what it is here — a control surface told apart by a hairline. */
 .sbdocs.sbdocs-preview > div:not(.docs-story) {
   background: var(--surface-raised);
   border-bottom-color: var(--border-subtle);

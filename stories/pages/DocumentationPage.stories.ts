@@ -4,17 +4,10 @@
    documentation *is* the product presentation: a visitor gets the pitch and
    keeps scrolling into the reference without a seam.
 
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. The live one is the
-   point of this file: the rail folds, the pills answer, the field takes
-   typing, and every story is opened by the test suite, so the layout is under
-   test rather than merely drawn.
-
-   It carries no stylesheet of its own. A page layout used to be a `<style>`
-   block in whichever file drew the page — a shell, a bar, a body, and a set of
-   media queries — so every surface wrote its own and the breakpoints
-   disagreed. The layout classes are the system's now, which is what makes this
-   a composition rather than a design. */
+   Live and static from one composition — see `lib/page.ts`. The live one is the
+   point of this file: the rail folds, the pills answer, the field takes typing,
+   and every story is opened by the test suite. It carries no stylesheet of its
+   own, which is what makes it a composition rather than a design. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

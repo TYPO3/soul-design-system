@@ -1,15 +1,11 @@
 /* Focus, as the States guideline shows it.
 
-   The one card in this system that may not use the components it documents.
-   A focus ring exists only while something has focus, and a specimen card is
-   opened without a script and never focused — so the ring is drawn here, on
-   plain markup, at the values `components.css` sets. Handing this to
-   `sds-button` would produce three controls at rest and a card that documents
-   nothing.
-
-   That is also why the numbers are written out: this card is where the
-   `outline`/`outline-offset`/halo triple is read, and a reader comparing it
-   against the stylesheet has to see them. */
+   The one card that may not use the components it documents. A focus ring
+   exists only while something has focus, and a card is opened without a script
+   and never focused — so the ring is drawn here, on plain markup, at the values
+   `components.css` sets. Handing it to `sds-button` would produce three
+   controls at rest. That is also why the numbers are written out: this is where
+   the `outline`/`outline-offset`/halo triple is read. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

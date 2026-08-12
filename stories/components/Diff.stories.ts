@@ -2,13 +2,9 @@
 
    The markup lives in `src/components/diff.ts`. With the code block it shares
    the one permission the rest of the system does not have: status colour may
-   fill a whole line. The tint is 14%, so a changed line reads as changed
-   without the row becoming the loudest thing on the surface.
-
-   No line numbers unless something actually references them.
-
-   No `parameters.dsCard`: a diff is drawn on the code card, next to the block
-   whose frame it shares. */
+   fill a whole line, at 14%, so a changed line reads as changed without
+   becoming the loudest thing on the surface. No line numbers unless something
+   references them. No `parameters.dsCard`: it is drawn on the code card. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

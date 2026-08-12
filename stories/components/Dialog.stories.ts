@@ -1,14 +1,10 @@
 /* The dialog.
 
-   `sds-modal` draws the modal surface and is what the specimen card
-   documents — a card is a still picture and has nothing to open.
-   `sds-dialog` is the behaviour: it uses the platform's `<dialog>`, so
-   opening it makes the rest of the page inert, moves the focus in, traps it,
-   and returns it on close. Escape works because the platform makes it work.
-
-   No `parameters.dsCard`: a dialog that has to be opened cannot be a static
-   specimen, which is exactly why the surface and the behaviour are two
-   components. */
+   `sds-modal` draws the surface and is what the card documents, a card being a
+   still picture with nothing to open. `sds-dialog` is the behaviour, on the
+   platform's `<dialog>`: the page goes inert, the focus moves in and comes
+   back, and Escape works because the platform makes it work. No
+   `parameters.dsCard`, which is why the two are two components. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

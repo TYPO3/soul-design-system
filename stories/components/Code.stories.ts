@@ -1,15 +1,11 @@
 /* The code block.
 
-   The markup lives in `src/components/code.ts`. With the diff it shares the
-   one permission the rest of the system does not have: status colour may fill
-   a whole line — `--status-ok` on a result, the tint on a diff row.
-   Everywhere else status colour marks a badge or a result row and never
-   becomes page furniture.
+   The markup lives in `src/components/code.ts`. With the diff it shares the one
+   permission the rest of the system does not have: status colour may fill a
+   whole line. Everywhere else it marks a badge and never becomes furniture.
 
-   This file generates `components/code/code.card.html`, which shows the block
-   and the diff together because that permission is what it documents. The
-   diff has its own page in `Diff.stories.ts`; the change it draws is imported
-   from there rather than written twice. */
+   The card shows the block and the diff together, because that permission is
+   what it documents; the change is imported from `Diff.stories.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -77,33 +73,21 @@ type Story = StoryObj<CodeBlockProps>;
     whole system where `--accent` appears. */
 export const Shell: Story = { args: BASH };
 
-/** The form a renderer uses: the body is written between the tags.
-
-    The two paths are not interchangeable and the difference is worth knowing.
-    `.body` is data the element turns into spans — a shell line, a comment, a
-    result — and it renders anywhere, including the static export every
-    specimen card is made by. Content between the tags is markup somebody else
-    produced, here a highlighter's `<code>`, and the element frames it when it
-    upgrades — including the `<code class="language-…">` a highlighter looks
-    for, which the element writes from its own `lang` so the language is never
-    stated twice. That one is a browser affordance: Lit's SSR renderer emits
-    authored children beside the element's template rather than inside it, and
-    `connectedCallback` never runs in Node to move them, so `renderStatic`
-    refuses it outright rather than exporting an empty frame. */
+/** The form a renderer uses: the body is written between the tags. `.body` is
+    data the element turns into spans and renders anywhere, the static export
+    included; content between the tags is markup somebody else produced, and the
+    element frames it on upgrade. That one is a browser affordance —
+    `renderStatic` refuses it rather than exporting an empty frame. */
 export const FromContent: Story = {
   render: () => html`<sds-code code-lang="json" copy>${unsafeHTML(
     '{\n  "domains": ["labels", "xlf"],\n  "versions": ["12.4", "13.4", "14.3"]\n}',
   )}</sds-code>`,
 };
 
-/** The colour is the component's. A renderer that names a language and leaves
-    the block in one grey has done half the job, and every surface used to
-    finish it with a highlighter of its own — the same one, wired the same way,
-    in each of them.
-
-    Only the languages the system declares are registered, and the palette is
-    the system's three syntax colours. A language it does not colour prints
-    what was written rather than a guess. */
+/** The colour is the component's: a renderer that names a language and leaves
+    the block in one grey has done half the job. Only the languages the system
+    declares are registered, and the palette is its three syntax colours — a
+    language it does not colour prints what was written rather than a guess. */
 export const Highlighted: Story = {
   render: () => html`
     <sds-code code-lang="php" copy>&lt;?php
@@ -121,18 +105,11 @@ domains: [labels, xlf]</sds-code>
   `,
 };
 
-/** The other direction: the colour arrives with the block.
-
-    A documentation build decides the colour once, on a server, and ships HTML
-    — `phpdocumentor/guides` does it with a PHP port of the same highlighter,
-    so what lands here already carries `hljs-` classes. Those are the classes
-    `components.css` maps, which is why the block below is painted by a
-    component that did no highlighting at all.
-
-    What it hands back is what it was given, `<code>` and all: the wrapper
-    carries which line the block starts at and which lines are emphasised, and
-    a highlighter that rebuilt it would drop both — along with every language
-    a server knows and the thirteen registered here do not. */
+/** The other direction: the colour arrives with the block. A documentation
+    build decides it once and ships HTML carrying `hljs-` classes, which are the
+    classes `components.css` maps — so the block below is painted by a component
+    that highlighted nothing. What it hands back is what it was given, `<code>`
+    and all: the wrapper carries which lines are numbered and emphasised. */
 export const AlreadyColoured: Story = {
   render: () => html`<sds-code code-lang="php" copy>${unsafeHTML(
     '<code class="language-php line-numbers" data-start="12">'
@@ -155,17 +132,11 @@ export const Captioned: Story = {
 vendor/bin/typo3 cache:flush</sds-code>`,
 };
 
-/** The same caption, written between the tags.
-
-    Which is the form a renderer needs. A caption node carries markup — a
-    literal, a link, an emphasis — and the attribute above is a string; and a
-    page that has not run the script yet has an attribute that says nothing
-    and markup that already reads. So it is written in the class the component
-    itself emits, and the component keeps it: out of the block, out of the
-    highlighting, and off the clipboard.
-
-    This is what `guides-theme` emits, where the colour arrives with the block
-    as well. */
+/** The same caption, written between the tags, which is the form a renderer
+    needs: a caption node carries markup where the attribute is a string, and a
+    page that has not run the script has markup that already reads. Written in
+    the class the component emits, so it stays out of the block, the
+    highlighting and the clipboard. */
 export const CaptionedFromContent: Story = {
   render: () => html`<sds-code code-lang="bash" copy><div class="sds-code__caption">Installing as a dependency of an existing <code>composer.json</code></div>composer require typo3/cms-core
 vendor/bin/typo3 cache:flush</sds-code>`,

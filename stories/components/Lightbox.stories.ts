@@ -1,18 +1,12 @@
 /* The viewer a drawing opens into.
 
    `sds-figure` is the way in — `zoomable` gives it a trigger and it opens this.
-   That is why the element had no story of its own for a long time, and why it
-   needs one anyway: the figure documents the frame around a drawing, and this
-   documents the surface the drawing gets when the frame is out of the way.
+   The figure documents the frame around a drawing; this documents the surface
+   the drawing gets once the frame is out of the way.
 
    No `parameters.dsCard`: a viewer that has to be opened cannot be a static
-   specimen — a card is a still picture and has nothing to press. What a card
-   would show is the modal surface, and `sds-modal` has one.
-
-   The mode is the point of `Default`, and it can only be judged by switching
-   modes while the viewer is open: the drawing is referenced into the page by
-   the same rule the figure uses, so it never opens in the mode the reader
-   left. */
+   specimen. The mode is the point of `Default` and can only be judged by
+   switching while the viewer is open. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -52,14 +46,11 @@ const meta: Meta<LightboxProps> = {
 export default meta;
 type Story = StoryObj<LightboxProps>;
 
-/** Press it: the page behind goes inert, the focus moves in, Escape closes it
-    and hands the focus back — the platform's `<dialog>`, the same one
-    `sds-dialog` uses, and none of it written here.
-
-    The drawing is shown at the size it was drawn rather than at
-    `--measure-modal`. A modal stops at a measure because what is inside one is
-    read; this is looked at, and a 1200px diagram held to a column of prose is
-    a picture of a diagram. */
+/** Press it: the page behind goes inert, the focus moves in, Escape hands it
+    back — the platform's `<dialog>`, none of it written here. The drawing is
+    shown at the size it was drawn rather than at `--measure-modal`: a modal
+    stops at a measure because what is inside one is read, and this is looked
+    at. */
 export const Default: Story = { args: SOURCES };
 
 /** No caption. The head then carries the alternative text, because a viewer

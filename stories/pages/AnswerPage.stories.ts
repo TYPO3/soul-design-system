@@ -6,14 +6,7 @@
    installation was in when it was asked. An answer without those is a guess
    somebody typed confidently.
 
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ.
-
-   It was hand-written HTML until now, and what that cost is visible in the
-   diff: the code frame was spelled out span by span, each note's glyph was a
-   pasted SVG path, and the layout was a `<style>` block with a shell, a head
-   and a column of its own. Every one of those is a second copy of something a
-   component already produces, drifting from the day it was pasted. */
+   Live and static from one composition — see `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

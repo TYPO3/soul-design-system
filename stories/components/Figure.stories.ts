@@ -1,15 +1,12 @@
 /* A picture and the claim it makes.
 
    The markup lives in `src/components/figure.ts`. No `parameters.dsCard`: the
-   diagram rules already have four cards under `Guidelines → Diagrams`, and
-   they document the drawings. This documents the frame around one — which is
-   a different thing and does not need a fifth picture of the same artwork.
+   diagram cards under `Guidelines → Diagrams` document the drawings, and this
+   documents the frame around one.
 
-   Two stories carry the point and both are read by switching modes.
-   `BothModes` shows the drawing: one file, referenced into the page, arriving
-   in the mode of whatever it was placed in. `Photograph` shows the other half
-   of the frame — a raster file, linked, the same in both modes because there
-   is nothing in it for a mode to change. The switch is in the toolbar. */
+   Two stories carry the point, both read by switching modes: the drawing is one
+   file referenced into the page and arrives in the mode it was placed in, and
+   the photograph is linked and the same in both. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -49,13 +46,10 @@ type Story = StoryObj<FigureProps>;
     reads the same tokens the page does. */
 export const Default: Story = { args: SOURCES };
 
-/** A raster image in the same frame. There is no viewBox to be had, so it is
-    linked rather than referenced — and nothing is lost by that, because there
-    is nothing in a photograph for a mode to change. Switch modes: the frame,
-    the ground and the caption follow, and the picture stays the picture.
-
-    Not `zoomable`. The trigger earns its place where the drawing is wider than
-    the column holding it; an illustration shown whole is already shown. */
+/** A raster image in the same frame: no viewBox to be had, so it is linked
+    rather than referenced, and nothing is lost — there is nothing in a
+    photograph for a mode to change. Not `zoomable`: the trigger earns its place
+    where a drawing is wider than its column, and this is shown whole. */
 export const Photograph: Story = {
   args: {
     src: '/assets/placeholders/tool-search.png',
@@ -70,21 +64,16 @@ export const Uncaptioned: Story = {
   args: { src: SOURCES.src, alt: SOURCES.alt },
 };
 
-/** Pressable, opening the drawing at the size it was drawn — 1200px of
-    diagram is a picture of a diagram once a column has scaled it. Escape
-    closes it, and the focus comes back to the figure.
-
-    The trigger is a link to the file, so a surface with no script still opens
-    the drawing. The element takes the press over once it has upgraded. */
+/** Pressable, opening the drawing at the size it was drawn — a wide diagram is
+    a picture of a diagram once a column has scaled it. Escape closes it and the
+    focus comes back. The trigger is a link to the file, so a surface with no
+    script still opens it, and the element takes the press over on upgrade. */
 export const Zoomable: Story = { args: { ...SOURCES, zoomable: true } };
 
-/** The picture a renderer wrote, kept.
-
-    A documentation renderer writes HTML and knows only the path an author
-    pointed at, so it writes the `<img>` itself and the caption as the block it
-    was — the reader has the picture before any script has run, which is the
-    rule the Guides theme is built on. The element lifts both into its frame
-    rather than requesting the same file a second time. */
+/** The picture a renderer wrote, kept. A renderer writes HTML and knows only
+    the path an author pointed at, so it writes the `<img>` and the caption
+    itself — the reader has the picture before any script runs. The element
+    lifts both into its frame rather than requesting the file again. */
 export const Given: Story = {
   render: () => html`<sds-figure
     ><img class="sds-art" src="/assets/placeholders/tool-search.png" alt="A cut-paper magnifier lying across three overlapping paper squares."

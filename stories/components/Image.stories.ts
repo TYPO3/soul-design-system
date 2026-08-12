@@ -1,16 +1,12 @@
 /* A picture that takes the colours of the page it lands in.
 
-   The markup lives in `src/components/image.ts`, the mechanism in
-   `src/lib/art.ts`, and the rule for whoever draws the file in
-   `Guidelines → Artwork`. No `parameters.dsCard`: a card is opened from disk
-   with no server, where the reference this element exists to write is refused
-   before it is fetched — the card generator inlines the artwork so the
-   specimens still draw, and a card of this component would therefore be a
-   picture of the one thing it does not do.
+   The markup lives in `src/components/image.ts` and the mechanism in
+   `src/lib/art.ts`. No `parameters.dsCard`: a card is opened from disk, where
+   the reference this element exists to write is refused before it is fetched,
+   so a card of it would be a picture of the one thing it does not do.
 
-   Read every story by switching the mode in the toolbar. That is the whole
-   claim: one file, no light copy and no dark copy, and the marks below are
-   the same files a favicon links. */
+   Read every story by switching the mode. That is the whole claim: one file,
+   no light copy and no dark copy. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

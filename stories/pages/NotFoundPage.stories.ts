@@ -1,20 +1,13 @@
 /* The page that is not there.
 
-   The one surface nobody designs and everybody ships, and the rules this
-   system already holds say exactly what it owes: name what was asked, say it
-   answered, say what it does not cover, and offer the nearest real thing. A
-   404 that says "page not found" over a large number has done none of that.
+   The one surface nobody designs and everybody ships, and the rules already say
+   what it owes: name what was asked, say it answered, say what it does not
+   cover, offer the nearest real thing. A 404 that says "page not found" over a
+   large number has done none of that.
 
-   So it is `sds-empty` — the same component the filtered list and the search
-   use, because it is the same statement. What is different is only that the
-   thing asked for was a page, and the page can say which one.
-
-   The chrome stays. A reader who arrives here from somewhere else needs the
-   way out that every other page has, and a 404 stripped of the header is a
-   page that has also lost the navigation.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. */
+   So it is `sds-empty`, the same component the filtered list and the search use,
+   because it is the same statement. The chrome stays: a reader arriving here
+   needs the way out every other page has. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

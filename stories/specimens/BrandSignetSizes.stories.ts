@@ -1,14 +1,10 @@
 /* Three optical sizes, three files.
 
-   The mark is redrawn per size rather than scaled, and each drawing is drawn
-   in a box of its own size — 32, 24, 16 — so one unit is one pixel and every
-   straight edge lands on a whole one. A drawing is true at the size it is for
-   and at every multiple of it; between those it is a vector like any other,
-   and the edges go grey.
-
-   The card references the shipped files rather than pasting their geometry:
-   what it documents is which file to reach for, and a copy of the drawing in
-   here would be a second one to keep in step. */
+   The mark is redrawn per size rather than scaled, each in a box of its own
+   size — 32, 24, 16 — so one unit is one pixel and every straight edge lands on
+   a whole one. Between a size and its multiples it is a vector like any other,
+   and the edges go grey. The card references the shipped files rather than
+   pasting their geometry, which would be a second copy to keep in step. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

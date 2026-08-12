@@ -1,21 +1,13 @@
 /* The questions page.
 
-   The archetype a site reaches for when the same five questions arrive by
-   email every week, and the one most likely to become a wall: every answer
-   written out, in full, one after another, until the page is longer than the
-   documentation it was supposed to save the reader from.
+   The archetype most likely to become a wall of answers written out in full,
+   until the page is longer than the documentation it was to save the reader
+   from. So it is a *list of questions* with the answers folded behind them:
+   `sds-accordion` is a real `<details>`, so the fold works with no script and
+   find-in-page opens the answer it lands in.
 
-   So the page is a *list of questions* and the answers are folded behind them.
-   `sds-accordion` is a real `<details>`, which is what makes that honest: the
-   fold works with no script, find-in-page opens the answer it lands in, and
-   the keyboard reaches every one of them.
-
-   Two groups, because these are two kinds of question — what the software does
-   to your machine, and what it costs to run. A single list of eleven is a list
-   nobody scans to the end of.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. */
+   Two groups, because these are two kinds of question: what the software does
+   to your machine, and what it costs to run. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

@@ -1,23 +1,13 @@
 /* The comparison.
 
-   Two ways of running the same server, and the page that says which one a
-   reader wants. The archetype is a pricing page and it is drawn like one
-   everywhere: three columns, a highlighted middle, and a matrix in which
-   everything is present somewhere so that nothing looks missing.
+   The archetype is drawn everywhere as three columns and a matrix in which
+   everything is present somewhere, so nothing looks missing. This one takes the
+   opposite position: a comparison is useful only where it says what each side
+   **cannot** do, so the gaps are real and are the point.
 
-   This one takes the opposite position, and it is the system's own: a
-   comparison is only useful where it says what each side **cannot** do. So the
-   matrix has real gaps, the gaps are the point, and the column that is
-   recommended says why rather than being coloured differently.
-
-   The marks are `actions-check-circle` with an accessible name, never a bare
-   glyph — that icon is one of the four allowed to stand without a visible
-   label because it means *answered*, and a matrix of ticks read out as
-   nothing at all is a matrix only sighted readers can use. An absent thing is
-   an em dash and a name, for the same reason.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. */
+   The marks carry an accessible name, never a bare glyph — a matrix of ticks
+   read out as nothing is one only sighted readers can use, and an absent thing
+   is an em dash and a name. Live and static — see `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

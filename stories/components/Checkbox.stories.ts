@@ -1,14 +1,10 @@
 /* One thing that is either so or not.
 
-   The markup lives in `src/components/checkbox.ts`. No `parameters.dsCard`:
-   the control is the browser's own, and a card of it would be a picture of
-   Chrome's checkbox at 16px. What is worth documenting is the two decisions
-   around it — that the label is part of the target, and that the tick is not
-   in the accent — and both are in the stories.
-
-   The colour is `--text-primary` and not `--accent`. The accent marks three
-   things in this system; a form of nine ticked boxes would spend the loudest
-   colour it has on what somebody typed. */
+   The markup lives in `src/components/checkbox.ts`. No `parameters.dsCard`: the
+   control is the browser's own, and a card of it is a picture of Chrome at
+   16px. The two decisions worth documenting are in the stories — the label is
+   part of the target, and the tick is `--text-primary`, because the accent
+   marks three things and a form of ticked boxes is not one. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

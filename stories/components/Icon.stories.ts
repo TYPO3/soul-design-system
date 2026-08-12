@@ -1,15 +1,11 @@
 /* Icons.
 
-   The markup lives in `src/components/icon.ts`. No `parameters.dsCard`: the
-   set and its rules are documented in Guidelines → Icons, on the two cards
-   that already exist for them. This page is the component — what a caller
-   passes and what comes back.
+   The markup lives in `src/components/icon.ts`. No `parameters.dsCard`: the set
+   and its rules are documented under Guidelines → Icons, and this page is the
+   component — what a caller passes and what comes back.
 
    The SVG is inlined rather than linked because an `<img>` cannot inherit
-   `currentColor`, and the whole icon rule is that colour follows the UI.
-   Every other component imports the template, not the element: the specimen
-   cards are opened without JavaScript, where an unupgraded `<sds-icon>`
-   would be an empty box. */
+   `currentColor`, and the icon rule is that colour follows the UI. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

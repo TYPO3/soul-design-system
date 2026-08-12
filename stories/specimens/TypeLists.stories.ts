@@ -1,19 +1,12 @@
 /* Bullets, numbers, and the list that is a list of links.
 
-   What the card shows is the class layer on its own, which is what a screen
-   gets: the marker, the indent at the marker's own width, and the muted marker
-   colour. The air between the items is `.sds-list`, and it is on the first two
-   columns only — a column of one-line links does not want it, which is why it
-   is a class and not part of the reset.
-
-   The lettered level is written with the `type` attribute a renderer emits for
-   a source that said `a.`. It is the one thing on this card the system
-   deliberately does not decide.
-
-   Set at the body register with inline styles rather than by wrapping the
-   columns in `.sds-prose`: that class brings a measure and the block rhythm
-   with it, and what is being shown here is the list itself and not the
-   document it usually stands in. */
+   What the card shows is the class layer on its own: the marker, the indent at
+   the marker's own width, the muted marker colour. The air between items is
+   `.sds-list` and is on the first two columns only, a column of one-line links
+   not wanting it — which is why it is a class and not part of the reset. The
+   lettered level is the `type` attribute a renderer emits, and the one thing
+   here the system deliberately does not decide. Set at the body register
+   without `.sds-prose`, which would bring a measure and the block rhythm. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { DIVIDER, dsCard, specCap, specCol, specLbl, specPad } from '../lib/specimen.ts';

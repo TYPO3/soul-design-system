@@ -1,23 +1,13 @@
 /* The list page.
 
-   The distributor: everything the site has published, newest first, narrowed
-   by what kind of entry it is, and a way to reach page two. It is the archetype
-   most of a site is made of — news, releases, references, search results are
-   the same page with different rows — so what it has to prove is the set, not
-   any one entry.
+   The distributor: everything published, newest first, narrowed by kind, with a
+   way to page. News, releases, references and search results are the same page
+   with different rows, so what it proves is the set and not any one entry.
 
-   The filter is real. A row of words above a list that never changes is the
-   thing this page exists not to be, and the state it makes reachable is the
-   one a list page is usually missing: a filter that matches nothing. That is
-   `sds-empty`, saying which source was read and offering the way back.
-
-   Which entries are shown is the *page's* state, not a component's, so the
-   page is a function of it and the story re-renders. A component that filtered
-   its own contents would be a component that decided what a list means.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. The static file
-   holds the unfiltered list, which is what a page with no script can be. */
+   The filter is real, and the state it makes reachable is the one a list page
+   is usually missing: a filter that matches nothing. Which entries are shown is
+   the *page's* state — a component that filtered its own contents would decide
+   what a list means. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';

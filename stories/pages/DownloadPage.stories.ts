@@ -1,24 +1,13 @@
 /* Getting it, and knowing what you got.
 
-   The page a project owes anyone who is about to run its code on their own
-   machine. It is drawn everywhere as a button and a version number, and what
-   it actually has to carry is the three questions a careful reader asks
-   before pressing it: which of these is mine, is this the file the project
-   published, and what happens if it does not work.
+   The page a project owes anyone about to run its code, drawn everywhere as a
+   button and a version number. What it carries is the three questions a reader
+   asks first: which of these is mine, is this the file the project published,
+   and what happens if it does not work.
 
-   Hence the checksums in the table and the mono they are set in — they are
-   machine-named things, and the whole point of one is that it can be compared
-   character for character. Hence too the verification block being a command
-   rather than a sentence saying to verify.
-
-   No new components. That is worth saying: a page can be finished without the
-   system growing, and this one is tabs, a table, code blocks, notes and the
-   site's own chrome. Where a page needs something new, the need is real; where
-   it does not, inventing something is how a system gets a second way to draw a
-   list.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. */
+   Hence the checksums, the mono they are set in, and the verification block
+   being a command rather than a sentence saying to verify. No new components:
+   inventing one where it is not needed is how a system gets a second list. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

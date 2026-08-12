@@ -2,14 +2,10 @@
 
    The markup lives in `src/components/theme.ts`. Two segments with the chosen
    one filled — the same treatment as an active navigation item, because it is
-   one: a set of choices with one of them current.
-
-   Never a switch and never a moon. A switch says on-or-off about a thing that
-   has three states, and a moon says either which mode you are in or which one
-   you would get, depending on who is reading it.
-
-   No `parameters.dsCard`: it is drawn on the documentation page, in the header
-   where it belongs. */
+   one. Never a switch and never a moon: a switch says on-or-off about a thing
+   with three states, and a moon says either which mode you are in or which one
+   you would get. No `parameters.dsCard`: it is drawn on the documentation
+   page. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -23,13 +19,10 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Press one and the document follows; press the one that is current and the
-    machine gets its say back. That third state is the default and the one
-    most readers are on, and a control with no way back to it takes it away
-    the moment anybody presses anything.
-
-    Storybook's own toolbar writes `data-theme` too, so the two will disagree
-    here — the toolbar is the harness, this is the page. */
+/** Press one and the document follows; press the current one and the machine
+    gets its say back. That third state is the default most readers are on, and
+    a control with no way back to it takes it away. Storybook's toolbar writes
+    `data-theme` too, so the two disagree here. */
 export const Default: Story = {
   render: () => html`<sds-theme></sds-theme>`,
 };

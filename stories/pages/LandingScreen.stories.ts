@@ -1,29 +1,13 @@
 /* The landing page.
 
-   A whole surface rather than a component: the first page a project shows,
-   with the pitch, who it is for, what it is made of, three components read in
-   full, where its rules come from, and how to start. It is a **Starting
-   Point** — a consuming project offers these in a picker to seed a new
-   design — so it has to be a finished page and not a sketch, and a page that
-   stops after the pitch teaches nothing about how the system sets a table, a
-   grid of cards, or a section that runs for three screens.
+   A whole surface and a **Starting Point** a consuming project seeds a design
+   from, so it has to be finished rather than a sketch: a page that stops after
+   the pitch teaches nothing about how the system sets a table or a grid.
 
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. Live is the point:
-   every story is opened by the test suite, so a page here is a page under
-   test rather than a picture of one.
-
-   It carries no stylesheet of its own and no inline layout. The shell, the
-   bar, the bands, the grids and the two-up row are the system's layout
-   classes, and so is where each of them sheds as the screen narrows. Anything
-   a page here cannot say in them is a gap in the system, and gets fixed there.
-
-   Bands rather than one column of sections. A page that argues needs its
-   ground to change between the parts of the argument — the pitch, who it is
-   for, what it is made of — and a fill that stops at the measure reads as a
-   wide box rather than as a change of ground. It was `.sds-page` for as long
-   as this was the only whole surface here; the moment a second marketing page
-   existed, the two were drawing the same thing differently. */
+   It carries no stylesheet of its own and no inline layout: the shell, the bar,
+   the bands and the grids are the system's classes, and so is where each sheds.
+   Bands rather than one column of sections, because a page that argues needs
+   its ground to change. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -371,20 +355,11 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* No generated page in front of this one — the deliberate exception to the
-   `['autodocs', '!dev']` every component here carries.
-
-   A component's page earns its place: it collects the variants, the controls
-   and the prose into something to read. A whole layout has none of that to
-   collect. It is one story, and what it documents is what it does at a given
-   width — which is exactly what a docs page cannot show, because the viewport
-   tool renders in the story view and nowhere else. So the one entry a reader
-   could reach was the one place the widths were unreachable.
-
-   Untagged, the story itself is what the sidebar lists, and it is a single
-   leaf rather than something to unfold: a component with one story whose name
-   matches its own is hoisted, which is what `name` below is for. The export
-   keeps its own name, because the story id is what the suite addresses. */
+/* No generated page in front of this one — the exception to the `['autodocs',
+   '!dev']` every component carries. What a layout documents is what it does at
+   a given width, which a docs page cannot show: the viewport tool renders in
+   the story view alone. Untagged, the story itself is what the sidebar lists,
+   hoisted to a single leaf by `name` below. */
 const meta: Meta = {
   title: 'Pages/Landing',
   excludeStories: ['landingPage', 'screenHtml'],

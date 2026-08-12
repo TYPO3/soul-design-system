@@ -1,14 +1,10 @@
 /* The colour cards' own scaffolding.
 
-   Three of the five colour specimens are the same drawing with different
-   values in it: a chip, the token that names it, the hex it resolves to, and
-   the whole set repeated once per mode. Written out per card that was three
-   copies of one layout, and the pane markup had to be kept in step by hand.
-
-   Like `specimen.ts`, these compose strings rather than templates, so the
-   generated card stays indented and reviewable line by line. The classes are
-   `_specimen.css`'s — annotation, outside the `styles.css` closure, and
-   nothing a product surface ever inherits. */
+   Most of the colour specimens are the same drawing with different values in
+   it: a chip, the token naming it, the hex it resolves to, and the set repeated
+   once per mode. Like `specimen.ts`, these compose strings rather than
+   templates, so the card stays indented and reviewable. The classes are
+   `_specimen.css`'s — annotation, and nothing a product surface inherits. */
 
 import { indent } from './specimen.ts';
 
@@ -38,14 +34,10 @@ export const fill = (value: string): string => `background:var(${value}); border
 /** A hairline shown as itself: the chip is the border and nothing else. */
 export const hairline = (value: string): string => `border:1px solid var(${value});`;
 
-/**
- * The same set in both modes, one pane above the other.
- *
- * The panes carry their own `data-theme`, which is the whole point of the
- * card: a token is a pair of values and showing one of them documents half
- * the system. Nothing outside the panes paints, so the card's root pins no
- * mode of its own.
- */
+/** The same set in both modes, one pane above the other. The panes carry their
+    own `data-theme`, which is the point: a token is a pair of values, and
+    showing one documents half the system. Nothing outside them paints, so the
+    card's root pins no mode. */
 export const modes = (light: readonly string[], dark: readonly string[]): string =>
   `<div style="display:grid; grid-template-rows:1fr 1fr;">
   <div class="spec-pane" data-theme="light">

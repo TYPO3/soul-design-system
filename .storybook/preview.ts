@@ -26,12 +26,10 @@ import { setIconSprite } from '../src/components/icon.ts';
 setIconSprite('/assets/icons/sprites/actions.svg');
 
 
-/* Write the theme onto <html> for the whole preview, not only for stories.
-
-   The decorator below does it per story, which is where a pinned specimen is
-   honoured — but a guideline page is MDX with no stories in it, so no
-   decorator ever runs and the toolbar looked dead on exactly the pages that
-   are mostly embedded cards. Listening on the channel covers both, and it is
+/* Write the theme onto <html> for the whole preview, not only for stories. The
+   decorator below does it per story, which is where a pinned specimen is
+   honoured — but a guideline page is MDX with no stories, so no decorator runs
+   and the toolbar reads as dead. Listening on the channel covers both, and is
    not a hook, so it is legal outside a story. */
 const applyTheme = (theme: string): void => {
   document.documentElement.dataset['theme'] = theme;
@@ -61,21 +59,10 @@ export const globalTypes = {
   },
 };
 
-/* `a11y.manual` is a GLOBAL, not a parameter.
-
-   It was set under `parameters.a11y` for a long time, where the addon simply
-   does not read it — `@storybook/addon-a11y` declares
-   `initialGlobals: { a11y: { manual } }` in its own preview entry. So the
-   panel went on running axe automatically on every story render, and every
-   run raced the axe the Playwright suite starts deliberately: axe is one
-   global with one run at a time, and the loser gets a thrown "Axe is already
-   running" rather than a queue.
-
-   That surfaced as a11y tests passing alone and failing in a full run. The
-   addon is not the problem and is not removed — a test build assembled
-   differently from the shipped one proves nothing. This is the addon's own
-   supported setting for "run when asked, not on load", and the panel still
-   runs on demand. */
+/* `a11y.manual` is a GLOBAL, not a parameter: under `parameters.a11y` the addon
+   does not read it and the panel runs axe on every story render, racing the axe
+   the Playwright suite starts deliberately — axe is one global with one run at a
+   time, and the loser is thrown "Axe is already running" rather than queued. */
 export const initialGlobals = { theme: 'dark', a11y: { manual: true } };
 
 
@@ -96,14 +83,11 @@ const preview: Preview = {
     // background picker underneath it could only ever be wrong.
     backgrounds: { disable: true },
     controls: { expanded: true, sort: 'requiredFirst' },
-    /* The toolbar is in the core already; what it was missing is a list to
-       choose from — see `viewports.ts` for which sizes and why those.
-
-       Offered everywhere rather than pinned to the pages. The queries live in
-       the class layer, so a component that sits in a bar or a rail sheds with
-       it, and a specimen is the smallest place to see that happen. No default
-       is set: unpicked, a story fills the pane exactly as it did before, which
-       is what the screenshot and story suites open. */
+    /* The toolbar is in the core; what it needs is a list to choose from — see
+       `viewports.ts`. Offered everywhere rather than pinned to the pages: the
+       queries live in the class layer, so a component in a bar sheds with it,
+       and a specimen is the smallest place to see that. No default, so a story
+       fills the pane as the screenshot suite expects. */
     viewport: { options: VIEWPORTS },
     /* The sections read in the order somebody arrives in; the components
        inside them read alphabetically, because there is no order to arrive in

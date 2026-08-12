@@ -38,13 +38,10 @@ type Story = StoryObj<RailArgs>;
 
 export const Default: Story = {};
 
-/** A rail long enough to need sections. A group is a `<details>`, so folding
-    is the platform's — it works before a script does — and the group holding
-    the current item starts open without anyone saying so.
-
-    `active` counts across the whole rail with the groups flattened: a rail has
-    one current item wherever it sits, and "third item of the second group" is
-    thinking about the markup rather than about the page. */
+/** A rail long enough to need sections. A group is a `<details>`, so folding is
+    the platform's and the group holding the current item starts open. `active`
+    counts across the whole rail with the groups flattened: a rail has one
+    current item wherever it sits. */
 export const Grouped: Story = {
   args: {
     active: 4,

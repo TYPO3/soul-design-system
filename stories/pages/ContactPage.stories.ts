@@ -1,27 +1,14 @@
 /* The form, and the two states that follow it.
 
-   A page where the reader has to do something rather than read something, and
-   the archetype behind every one of those: contact, download, settings, a
-   report. What it has to carry is not the controls — those are components —
-   but the three states a form is actually in. Most forms are drawn in the
-   first one and shipped without the other two.
+   What a form page carries is not the controls but the three states a form is
+   in, most being drawn in the first alone:
 
-     the form      labels above, hints under, nothing required that is not
-                   said to be required.
-     it failed     a summary at the top, focused and announced, each entry a
-                   link to the field it is about — and the fields marked too,
-                   because the summary is for whoever cannot see them.
-     it was sent   what was sent, what happens next, and how long that takes.
-                   A page that says "thank you" and nothing else has taken
-                   something and given nothing back.
+     the form      labels above, hints under, nothing silently required
+     it failed     a summary at the top, focused, each entry a link to its field
+     it was sent   what was sent, what happens next, and how long that takes
 
-   The submit is real: it reads what is in the controls and produces the
-   failures from it, which is why the error state on this page is reachable by
-   pressing a button rather than by opening a second story.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. The static file
-   holds the form, which is the state a page with no script can be in. */
+   The submit is real, so the error state is reachable by pressing a button
+   rather than by a second story. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';

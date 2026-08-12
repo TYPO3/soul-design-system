@@ -1,24 +1,13 @@
 /* A feature, read in full.
 
    The page a product site owes each of its claims: what the thing is, how it
-   works, what it changes in the result, what it costs, and what it does not
-   do. It is the surface that decides whether a system can hold marketing at
-   all — everything else here reports, and this one argues.
+   works, what it changes, what it costs, and what it does not do. It decides
+   whether a system can hold marketing at all — everything else reports.
 
-   Two rules follow from that, and both are the system's rather than this
-   page's. A page that argues needs its **ground** to change between sections,
-   which is what `.sds-band` is; and the argument has to end in the same place
-   every other page of the site ends, which is what `sds-footer` is. Neither
-   existed while the only whole surfaces here were a landing page, two
-   references and an answer.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ.
-
-   Nothing on it is written twice: the facts, the columns of the footer and
-   the drawing all come from where they are already documented. A marketing
-   page is the surface most likely to grow its own copy of something, because
-   it is the one nobody expects to be generated. */
+   Two rules follow, and both are the system's: a page that argues needs its
+   **ground** to change between sections, which is `.sds-band`, and it has to
+   end where every other page ends, which is `sds-footer`. Nothing on it is
+   written twice. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

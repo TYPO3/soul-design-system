@@ -1,16 +1,12 @@
 /* How an icon is used: the sizes, the colour, and the four that may stand
    alone.
 
-   16px is the floor and the reason is the drawing itself — TYPO3.Icons are
-   hinted for a 16-unit grid, so 18 and 22 land between grid lines and the
-   shapes break down below 16. Colour is `currentColor` and nothing else, so
-   an icon is coloured by the text it sits in rather than by a fill somebody
-   picked for it.
+   16px is the floor and the reason is the drawing itself — the icons are hinted
+   for a 16-unit grid, so 18 and 22 land between grid lines and the shapes break
+   down below 16. Colour is `currentColor` and nothing else.
 
-   Fifteen glyphs, and every one of them was a pasted path before this. They
-   are names now, which is also the check: a name that does not exist throws
-   when the card is generated, where a wrong path just drew the wrong
-   picture. */
+   Every glyph is a name rather than a path, which is also the check: a name
+   that does not exist throws when the card is generated. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

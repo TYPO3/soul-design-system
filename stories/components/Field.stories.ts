@@ -1,14 +1,11 @@
 /* Fields and search.
 
    The markup lives in `src/components/field.ts`. A field is sunken, never
-   outlined on the canvas, and the accent appears on it in exactly one place:
-   focus.
+   outlined on the canvas, and the accent appears on it in one place: focus.
 
    Type in the ones below and tab between them — they are controls. The two
-   stories that force a state are marked as what they are: a still picture
-   cannot hold focus or invalidity, and the specimen card is a still picture.
-
-   This file generates `components/core/input.card.html`. */
+   stories that force a state are marked as what they are, a still picture
+   being unable to hold focus or invalidity. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

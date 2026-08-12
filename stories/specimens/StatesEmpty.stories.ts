@@ -1,16 +1,13 @@
 /* Empty and not-found, as the States guideline shows them.
 
    Two boundaries that look alike and are not: one where the source was asked
-   and answered with nothing, one where the question is outside what this
-   server covers at all. Both say which source was reached, because "no
-   results" without that is indistinguishable from a failure.
+   and answered with nothing, one where the question is outside what this server
+   covers. Both say which source was reached, because "no results" without that
+   cannot be told from a failure.
 
-   Drawn by `sds-empty` rather than by this file. It was two boxes of inline
-   style here for as long as one surface needed the shape; a filtered list, a
-   search and a page that does not exist need it too, and each of them was
-   about to write the same box. What the card documents is unchanged — it is
-   the difference between the two kinds — and it is now a difference the
-   component has a name for. */
+   Drawn by `sds-empty` rather than by this file — a filtered list, a search and
+   a page that does not exist all need the same box, and the difference between
+   the two kinds is one the component has a name for. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

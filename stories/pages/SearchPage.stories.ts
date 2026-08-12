@@ -1,19 +1,13 @@
 /* The search results.
 
-   The page that answers a question the reader asked, which makes it the one
-   list page where every rule this system holds about answers applies directly:
-   say which sources were read, say how many were found, and where none were,
-   say that the source answered rather than that nothing exists.
+   The one list page where every rule about answers applies directly: say which
+   sources were read, how many were found, and where none were, that the source
+   answered rather than that nothing exists.
 
-   So the page carries three things most result pages do not. The query is in
-   the field, still editable, because a search that clears its own box makes
-   refining it retyping it. The facets say how many are behind each of them, so
-   narrowing is a decision rather than a guess. And the empty state is the same
-   `sds-empty` the filtered list uses — the boundary is the answer.
-
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. The static file
-   holds the results, which is the state a page with no script can be in. */
+   So it carries three things most result pages do not. The query stays in the
+   field, because a search that clears its own box makes refining it retyping
+   it; the facets say how many are behind each; and the empty state is the same
+   `sds-empty` the filtered list uses. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';

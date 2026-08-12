@@ -4,11 +4,10 @@
    construction is legible — one rounding throughout, half the stroke, which
    is the single rule the whole drawing follows.
 
-   The artwork is the specimen. This card is a drawing of a drawing, and there
-   is no component that could produce it: the geometry is the subject, so every
-   comparison here is the mark with exactly one value swapped. It is composed
-   from one function rather than from copies, because a card that carries the
-   construction twenty times over is a card where nineteen of them go stale. */
+   The artwork is the specimen: the geometry is the subject, so every comparison
+   is the mark with one value swapped, and no component could produce it.
+   Composed from one function rather than copies, or the card carries the
+   construction many times over and all but one go stale. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

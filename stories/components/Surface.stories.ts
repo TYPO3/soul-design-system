@@ -1,15 +1,12 @@
 /* The three planes: card, panel and sunken.
 
    The markup lives in `src/components/surface.ts`. They differ only in fill,
-   because the system has no shadows — a plane is told apart by its fill and
-   a hairline and by nothing else.
+   because the system has no shadows — a plane is told apart by its fill and a
+   hairline and by nothing else.
 
-   This file also generates `components/surfaces/surfaces.card.html`, which
-   shows the planes *and* the overlays over them. One card, because the claim
-   is about the pair: without a shadow an overlay needs a plane under it to be
-   an overlay of anything. The three that float have their own pages —
-   `Overlay.stories.ts`, `Modal.stories.ts`, `Drawer.stories.ts` — and the
-   scene they share is composed here, where the card that needs it is. */
+   The card shows the planes *and* the overlays over them, because the claim is
+   about the pair: without a shadow an overlay needs a plane under it to be an
+   overlay of anything. The three that float have their own pages. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

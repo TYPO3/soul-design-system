@@ -76,12 +76,10 @@ export const Boundary: Story = {
   },
 };
 
-/** A filter that matched nothing. The source is the list itself, so what the
-    body has to name is the filter — and the action undoes it, which is the
-    nearest real thing there is to offer.
-
-    No `href`: undoing a filter changes this page rather than leaving it, so
-    the offer is a button and says `sds-action` when it is pressed. */
+/** A filter that matched nothing. The source is the list itself, so the body
+    names the filter and the action undoes it — the nearest real thing to offer.
+    No `href`, because undoing a filter changes this page rather than leaving
+    it, so the offer is a button and says `sds-action`. */
 export const Filtered: Story = {
   args: {
     kind: 'quiet',

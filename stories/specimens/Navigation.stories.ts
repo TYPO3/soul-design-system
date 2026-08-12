@@ -1,14 +1,10 @@
 /* The navigation specimen card.
 
-   Pills, tabs and the rail are documented one per file — `Pills.stories.ts`,
-   `Tabs.stories.ts`, `Rail.stories.ts`. What is left here is the card they
-   share, `components/navigation/navigation.card.html`, which shows the three
-   beside each other because the rule being documented is the one they have in
-   common: the active item is a filled block, never a tint.
-
-   This file is not a page. It carries no `autodocs`, so nothing of it appears
-   in the sidebar — a reader looking for tabs wants the tab component, not the
-   composition a still picture is made of. */
+   Pills, tabs and the rail are documented one per file. What is left here is
+   the card they share, which shows the three beside each other because the rule
+   documented is the one they have in common: the active item is a filled block,
+   never a tint. Not a page — it carries no `autodocs`, so a reader looking for
+   tabs finds the tab component rather than this composition. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -24,13 +20,10 @@ const nav = (tag: 'sds-pills' | 'sds-rail', { items, active = 0 }: NavProps) =>
     ? html`<sds-pills .items="${items}" active="${active}"></sds-pills>`
     : html`<sds-rail .items="${items}" active="${active}"></sds-rail>`;
 
-/* A card is opened without a script, so nothing on it can be pressed and what
-   it shows is which item is current.
-
-   The tab bar comes from `tabsBarMarkup` rather than from `<sds-tabs>`: tabs
-   are composed of items that carry their own panels, and `renderStatic`
-   flattens no element that was given children. It is the function the element
-   renders, so the card cannot drift from the browser. */
+/* A card is opened without a script, so nothing can be pressed and what it
+   shows is which item is current. The tab bar comes from `tabsBarMarkup` rather
+   than `<sds-tabs>`, `renderStatic` flattening no element given children — the
+   same function the element renders, so the card cannot drift. */
 const PILLS: NavProps = { items: ['overview', 'tools', 'knowledge'], active: 0 };
 const TABS = [{ label: 'standalone' }, { label: 'as a dependency' }, { label: 'ddev' }];
 const RAIL: NavProps = { items: ['typo3_icon_lookup', 'typo3_label_lookup', 'typo3_schema_lookup'], active: 0 };

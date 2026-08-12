@@ -76,21 +76,11 @@ export const Aside: Story = {
   },
 };
 
-/** The form a renderer uses: the body is written between the tags, and there
-    is no heading at all.
-
-    The two paths answer two callers. `.body` is a line of prose a product
-    surface composed, and it exports — every specimen card is made that way.
-    Content between the tags is a document's own markup, which is paragraphs, a
-    list and whole code blocks; an attribute would flatten all three to text and
-    show the tags. Ten of the twelve admonition types a documentation generator
-    emits carry no title, so the word that says which one this is goes to the
-    glyph, where a screen reader gets it and the page does not have to carry a
-    category name on every box.
-
-    This one cannot be exported — see `FromContent` in `Code.stories.ts` for
-    why an element given content between its tags is refused by `renderStatic`
-    rather than shipped with an empty middle. */
+/** The form a renderer uses: the body between the tags, and no heading at all.
+    `.body` is prose a product surface composed and it exports; content between
+    the tags is a document's own markup, which an attribute would flatten. Most
+    admonitions carry no title, so the word goes to the glyph. This form cannot
+    be exported — see `FromContent` in `Code.stories.ts`. */
 export const FromContent: Story = {
   render: () => html`<sds-note tone="warn" label="Caution">
     <p>A cache that is warm from before the change answers with what was true

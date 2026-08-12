@@ -1,15 +1,11 @@
 /* Badges.
 
-   The markup lives in `src/components/badge.ts`. This file has no
-   `parameters.dsCard`, so it generates no specimen card: badges are shown on
-   the table card, which is where they first appear in the product, and a
-   second card of five chips would document nothing the first does not.
-   `scripts/cards.ts` skips any story file that declares no card, so a story
-   is free to be documentation only.
+   The markup lives in `src/components/badge.ts`. No `parameters.dsCard`, so no
+   card: badges are shown on the table card, where they first appear in the
+   product. A story is free to be documentation only.
 
-   `accent` names the source of an answer; the status tones are the result of
-   one. That distinction is the whole vocabulary — a badge says either where
-   something came from or how it went. */
+   `accent` names the source of an answer and the status tones are the result of
+   one. That distinction is the whole vocabulary. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

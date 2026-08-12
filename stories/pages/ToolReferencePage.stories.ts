@@ -1,19 +1,12 @@
 /* The tool reference.
 
-   Eight tools at compact density — 30px rows, 13px type — because here the
-   list *is* the work and scanning beats reading. Density is a judgement about
-   the reader, and this is the surface that judgement was written for.
+   Compact density — 30px rows, 13px type — because here the list *is* the work
+   and scanning beats reading. Density is a judgement about the reader, and this
+   is the surface that judgement was written for.
 
-   Live in Storybook and static in `screens/`, from one composition — see
-   `lib/page.ts` for why both exist and where they differ. Live matters more
-   here than on any other page: the tabs filter the list rather than drawing a
-   row of words above a table that never changes, which is what the
-   hand-written file could show.
-
-   Two gaps in the system had to be closed before this page could be composed
-   rather than drawn, and both were the same gap: a state a cell carries and a
-   row that is selected are things the class layer had names for and the table
-   element could not emit. See `src/components/table.ts`. */
+   Live matters more here than on any other page: the tabs filter the list
+   rather than drawing a row of words above a table that never changes. See
+   `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

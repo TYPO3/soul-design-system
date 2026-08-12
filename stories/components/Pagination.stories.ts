@@ -1,16 +1,11 @@
 /* Where a list continues.
 
    The markup lives in `src/components/pagination.ts`. No `parameters.dsCard`:
-   what a card would show is one row of numbers, and what is worth documenting
-   is which numbers appear — the ends, the neighbours of the current one, and
-   where a run is left out. That is a story per case, not one picture.
+   what is worth documenting is which numbers appear — the ends, the neighbours
+   of the current one, and where a run is left out — which is a story per case.
 
-   `Middle` and `Dense` are the two the rule was written for: a gap standing in
-   for a single number is longer than the number and says less.
-
-   Every story says how many there are and how many go on a page, never how
-   many pages that is — the row divides, and a story that stated both would be
-   the one place the two could disagree. */
+   Every story says how many there are and how many go on a page, never how many
+   pages that is: the row divides, and stating both is where they disagree. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

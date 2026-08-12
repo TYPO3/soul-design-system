@@ -1,16 +1,12 @@
 /* Buttons.
 
-   The markup lives in `src/components/button.ts`. This file documents it and
-   composes the specimen that `components/core/buttons.card.html` is generated
-   from — see `scripts/cards.ts`. Edit the component there, the specimen here,
-   and the card nowhere.
+   The markup lives in `src/components/button.ts`; this composes the specimen
+   the card is generated from. Edit the component there, the specimen here, the
+   card nowhere.
 
-   The label is content, so a story writes a button the way a surface writes
-   one. The card cannot: `renderStatic` flattens no element that was given
-   children, so it is composed from `buttonMarkup`, which is the same function
-   the element renders. Links are shown on this card too, next to the controls
-   they sit among — when a thing is a button and when it is a link is the
-   comparison worth documenting. */
+   The label is content, so a story writes a button the way a surface does. The
+   card cannot — `renderStatic` flattens no element given children — so it is
+   composed from `buttonMarkup`, the same function the element renders. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

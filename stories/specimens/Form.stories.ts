@@ -1,19 +1,13 @@
 /* The form layer, as one card.
 
-   `components/core/input.card.html` documents a field where the surface around
-   it says what it is for — a header, a toolbar, a filter row. This documents
-   the other case, which is a field inside a **form**, where nothing else says
-   it and the control owes a label, a hint and, when it is wrong, a sentence.
+   The fields card documents a field where the surface around it says what it is
+   for. This is the other case: a field inside a **form**, where nothing else
+   does and the control owes a label, a hint and, when it is wrong, a sentence.
+   Its own card, because a reader picking between them has to see them apart.
 
-   Its own card rather than more rows on that one: the two are different
-   decisions and a reader picking between them has to see them apart. The
-   fields card answers *what does a field look like*; this one answers *what
-   does a form owe the person filling it in*.
-
-   Everything here is drawn by the elements. A form is exactly the place a
-   specimen is tempted to fake — a `<span>` shaped like a checkbox photographs
-   perfectly and cannot be ticked — so the card ships what the components
-   render and nothing else. */
+   Everything here is drawn by the elements. A form is where a specimen is
+   tempted to fake — a `<span>` shaped like a checkbox photographs perfectly and
+   cannot be ticked. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

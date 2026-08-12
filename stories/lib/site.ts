@@ -1,14 +1,11 @@
 /* What every page of one site has in common.
 
    A page layout is the system's; what a *site* repeats is not — its sections,
-   its columns of links, the line that says what the product is. Those were
-   about to be a copy per page, and the second copy is where they start to
-   disagree: a footer with four columns on one page and five on the next is
-   not a design decision anybody made.
-
-   So the chrome is written once and each page says which section it is in.
-   Nothing here is a component: it is this site's content, and a second site
-   built on this system would have its own file exactly like it. */
+   its columns of links, the line saying what the product is. A copy per page is
+   where those start to disagree, and a footer with four columns on one page and
+   five on the next is not a decision anybody made. So the chrome is written
+   once and each page says which section it is in. Nothing here is a
+   component. */
 
 import { html, type TemplateResult } from 'lit';
 import '../../src/components/badge.ts';
@@ -92,19 +89,11 @@ export const SITE_META: readonly FooterLink[] = [
   { label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true },
 ];
 
-/** The header, with the section this page is in marked current.
-
-    `railFor` is the id of a page rail, where the page has one. The toggle that
-    opens it lives in the bar and appears only at the width the rail has no
-    column of its own — which is the layout's decision, not this file's.
-
-    The same five parts as the header the guides theme renders, and the search
-    is in the list for that reason rather than because a story needs one: this
-    is the bar `tests/pages.spec.ts` opens at every width, and for as long as it
-    was one box lighter than the shipped one it had 260px of room the real
-    header does not. The narrow widths passed here and overlapped there. With
-    no index given the field finds nothing, which is all a layout test asks of
-    it. */
+/** The header, with this page's section marked current. `railFor` is the id of
+    a page rail where there is one. The same parts as the header the guides
+    theme renders, search included, because this is the bar
+    `tests/pages.spec.ts` opens at every width — one box lighter, it has room
+    the real header does not. */
 export const siteBar = (active: number, home = '#', railFor = ''): TemplateResult =>
   html`<header class="sds-bar">
     ${railFor ? html`<sds-menu for="${railFor}" label="Sections of this page"></sds-menu>` : ''}
