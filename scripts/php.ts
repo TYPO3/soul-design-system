@@ -7,7 +7,7 @@
 
    The renderer is the one part of this repository written in another language,
    and the one part nothing else holds to a shape. The ruleset is
-   `typo3/coding-standards`, in `guides-theme/.php-cs-fixer.dist.php`. The fixer
+   `typo3/coding-standards`, in `packages/guides-theme/.php-cs-fixer.dist.php`. The fixer
    lives in a gitignored `vendor/` and is installed on first run. */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -15,7 +15,7 @@ import { spawnSync } from 'node:child_process';
 
 import { ROOT } from './lib/cards.ts';
 
-const THEME = join(ROOT, 'guides-theme');
+const THEME = join(ROOT, 'packages', 'guides-theme');
 const FIXER = join(THEME, 'vendor', 'bin', 'php-cs-fixer');
 
 const args = process.argv.slice(2);

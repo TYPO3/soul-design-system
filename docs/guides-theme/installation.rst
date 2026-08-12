@@ -30,7 +30,7 @@ come from anyway, since a stylesheet is not a PHP dependency.
 
    {
        "repositories": [
-           { "type": "path", "url": ".soul/guides-theme" }
+           { "type": "path", "url": ".soul/packages/guides-theme" }
        ],
        "require": {
            "typo3/soul-guides-theme": "*"

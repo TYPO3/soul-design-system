@@ -25,5 +25,13 @@
     <extension class="phpDocumentor\Guides\Code\DependencyInjection\CodeExtension"/>
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
         <product>Acceptance</product>
+        <!-- The sections in the bar, which the fixture carries so the suite
+             can open one: they are the part of the header a server resolves
+             and hands over, and a bar rendered with none of them is a bar
+             nothing has asked to write. -->
+        <navigation>
+            <link href="/index" label="Fixture"/>
+            <link href="/nodes" label="Nodes"/>
+        </navigation>
     </extension>
 </guides>

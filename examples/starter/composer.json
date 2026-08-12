@@ -6,7 +6,7 @@
   "repositories": [
     {
       "type": "path",
-      "url": ".soul/guides-theme"
+      "url": ".soul/packages/guides-theme"
     }
   ],
   "require": {

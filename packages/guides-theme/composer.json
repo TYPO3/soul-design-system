@@ -1,14 +1,26 @@
 {
   "name": "typo3/soul-guides-theme",
-  "description": "The Soul design system as a theme for phpDocumentor Guides — templates that emit the sds- vocabulary, and the fixture that proves them.",
+  "description": "The Soul design system as a theme for phpDocumentor Guides — templates that emit the sds- vocabulary, four directives the renderer does not have, and the drop-in a page links.",
   "type": "library",
   "license": "GPL-2.0-or-later",
+  "keywords": [
+    "phpdocumentor",
+    "guides",
+    "theme",
+    "documentation",
+    "design-system",
+    "typo3"
+  ],
   "authors": [
     {
       "name": "Benjamin Kott",
       "email": "benjamin.kott@outlook.com"
     }
   ],
+  "support": {
+    "issues": "https://github.com/benjaminkott/typo3-soul-design-system/issues",
+    "source": "https://github.com/benjaminkott/typo3-soul-design-system"
+  },
   "require": {
     "php": "^8.2",
     "phpdocumentor/guides-cli": "^1.9",

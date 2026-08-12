@@ -4,7 +4,7 @@
    decides what belongs here: not "does the page look right", which is a
    screenshot's job, but the findings the theme was written to fix — each one
    repaired in a template or the document layer, with nothing else holding it
-   down. `guides-theme/acceptance/` is the subject, rendered by the server this
+   down. `packages/guides-theme/acceptance/` is the subject, rendered by the server this
    suite starts, because a stale render hides the regression this looks for. */
 
 import { readdirSync, statSync } from 'node:fs';

@@ -50,7 +50,7 @@ class vocabulary and one documentation theme mean the second project somebody
 opens works the way the first one did.
 
 Documentation is the half of that which is easy to miss. `docs/` renders
-through `guides-theme/`, so a project's pages come out with the same
+through `packages/guides-theme/`, so a project's pages come out with the same
 navigation, the same code blocks and the same search as every other project's —
 which is what makes an answer findable across them rather than merely
 published somewhere. Taking it is a directory to copy and three commands:
@@ -255,7 +255,7 @@ creates a second one. It compares against the anchor the project stores
 | | |
 | `stories/` | the specimen every card and screen is generated from, and the components with their controls |
 | `docs/` | the published documentation — the manual, the guideline pages with their specimens embedded, and the prompts those pages print whole |
-| `guides-theme/` | the Composer package that maps phpDocumentor Guides onto this system, and the acceptance render it is checked against |
+| `packages/guides-theme/` | the Composer package that maps phpDocumentor Guides onto this system, and the acceptance render it is checked against |
 | `examples/starter/` | a documentation project to copy — the theme, both page shapes and the workflow that publishes it, built by the gate the way its own instructions describe |
 | `tests/` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |

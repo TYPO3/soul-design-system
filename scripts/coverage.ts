@@ -15,7 +15,7 @@ import { extname, join } from 'node:path';
 import { ROOT, SPECIMENS } from './lib/cards.ts';
 import { TAGS } from '../src/index.ts';
 
-const THEME = join(ROOT, 'guides-theme');
+const THEME = join(ROOT, 'packages', 'guides-theme');
 
 /* What the rule does not hold for yet.
 

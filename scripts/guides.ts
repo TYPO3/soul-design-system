@@ -16,7 +16,7 @@ import { spawnSync } from 'node:child_process';
 import { cards, ROOT, screens } from './lib/cards.ts';
 import { dropIn, finish } from './lib/site.ts';
 
-const THEME = join(ROOT, 'guides-theme');
+const THEME = join(ROOT, 'packages', 'guides-theme');
 const SITE = join(ROOT, 'site');
 const DROP = join(ROOT, 'dist');
 

@@ -33,7 +33,7 @@ reader inherits it and the next agent matches its tone, and by then it is no
 longer one file.
 
 The places that stand in German from before the rule stay that way by
-decision — `guides-theme/GAPS.md`, and the lines `scripts/plan.ts` and
+decision — `packages/guides-theme/GAPS.md`, and the lines `scripts/plan.ts` and
 `scripts/status.ts` print while the Guides theme is being worked
 on. They are the whole exception and it does not grow: do not stop
 work over them, do not translate them halfway, and start nothing new in their
@@ -92,7 +92,7 @@ and the documents themselves are not comments and say what they have to say.
 | Why a rule exists, before extending or breaking it | `RATIONALE.md` |
 | Drawing a signet to the construction | `docs/guidelines/signet-prompt.md` |
 | Where the icons and fonts came from, and under what licence | `THIRD-PARTY.md` |
-| What the Guides theme still owes (German) | `guides-theme/GAPS.md` |
+| What the Guides theme still owes (German) | `packages/guides-theme/GAPS.md` |
 | How to take the theme into a project of your own | `docs/guides-theme/` |
 
 `SKILL.md` is the operating instruction and `RATIONALE.md` is its reasoning.
@@ -112,7 +112,7 @@ If a change would deviate from `SKILL.md`, read the matching section of
 | `src/lib/` | element base, icon inliner, static renderer |
 | `stories/` | the specimen every card and screen is generated from |
 | `docs/` | the published documentation — the manual, the guideline pages, and the prompts they print for copying |
-| `guides-theme/` | the Composer package: templates, directives, and the acceptance render |
+| `packages/guides-theme/` | the Composer package: templates, directives, and the acceptance render |
 | `examples/starter/` | the project a consumer copies — built by the gate the way its own workflow describes, so it is a fixture and not a sample |
 | `tests/*.spec.ts` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
@@ -295,7 +295,7 @@ moved without the other.
 
 - **A component is shown three times.** A story for every element, a specimen
   or an element that draws every class the stylesheets define, and a page the
-  Guides renderer produced — `guides-theme/acceptance/`. Anything built on the
+  Guides renderer produced — `packages/guides-theme/acceptance/`. Anything built on the
   system follows the page layouts and invents no class of its own. `make
   coverage` is the check; `PENDING` in `scripts/coverage.ts` is the work list
   and only shrinks.
