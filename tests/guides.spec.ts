@@ -261,6 +261,30 @@ test.describe('what the theme repaired', () => {
     expect(formula).toBe(literal);
   });
 
+  test('a class an author wrote is carried and means nothing more', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    const box = page.locator('.sds-prose .a-class-from-the-source');
+    await expect(box, 'the name reaches the markup as it was written').toHaveCount(1);
+
+    /* What is inside is document content and is set like any other. The box is
+       not: a rule matching a name from somebody's source would make every
+       author's private vocabulary public API of this system. */
+    const [inside, plain, own] = await page.evaluate(() => {
+      const size = (el: Element | null): string => (el ? getComputedStyle(el).fontSize : '');
+      const container = document.querySelector('.a-class-from-the-source');
+      const style = container ? getComputedStyle(container) : null;
+      return [
+        size(document.querySelector('.a-class-from-the-source p')),
+        size(document.querySelector('.sds-prose .section > p')),
+        [style?.borderTopWidth, style?.paddingTop, style?.backgroundImage, style?.backgroundColor],
+      ];
+    });
+
+    expect(inside).toBe(plain);
+    expect(own).toEqual(['0px', '0px', 'none', 'rgba(0, 0, 0, 0)']);
+  });
+
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

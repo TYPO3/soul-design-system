@@ -416,8 +416,10 @@ Grouping
 
 .. container:: a-class-from-the-source
 
-   A container carries whatever class the author wrote, which is a policy
-   question rather than a styling one.
+   A container carries whatever class the author wrote, and the class means
+   nothing more here than it did in the source. The text inside it is still
+   set, because it is text; the box around it is not, because nobody said
+   what it is.
 
 .. hlist::
    :columns: 3

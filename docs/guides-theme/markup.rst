@@ -291,6 +291,26 @@ A heading is the one place both halves meet: the six levels are the document
 layer's, and the ``#`` beside one is a template's, because the id it points at
 is on the section and only the renderer knows it.
 
+The classes an author writes
+============================
+
+``.. container:: whatever`` and ``:class:`` put a name straight into the markup
+that no system chose. The name is carried through untouched, and it means
+nothing more than it did in the source.
+
+**Nothing here will ever grow a rule that matches one.** A stylesheet that
+started drawing ``.a-class-from-the-source`` would make every author's private
+vocabulary public API of this design system, and two projects that happened to
+pick the same word would be handed each other's design. What is inside the
+container is still set, because it is document content; the box around it is
+not, because nobody said what it is.
+
+The system's own names are the exception that proves it: they are defined here,
+and the class layer is deliberately hand-writable — a surface with no
+JavaScript is what it exists for. ``.. container:: sds-panel`` therefore works
+and is honest about what it gets: the class layer's drawing of a panel, and not
+one thing a component would have added on top of it.
+
 Which template does which
 =========================
 

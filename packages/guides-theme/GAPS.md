@@ -58,6 +58,13 @@ Die Regeln, an die jede offene Zeile unten gebunden ist:
   Bauteil einer Komponente benennt, also auch kein Spezifitätskampf.
 - **Die Namen des Kerns werden nicht umbenannt.** Eine Ausgabe, die kein
   anderes Werkzeug mehr liest, ist kein Gewinn.
+- **Eine Klasse aus dem Quelltext trägt durch und bedeutet nichts.** Was
+  `.. container::` oder `:class:` ins Markup schreibt, hat kein System gewählt;
+  eine Regel, die so einen Namen trifft, macht das private Vokabular jedes
+  Autors zur öffentlichen Schnittstelle dieses Designsystems. Der Inhalt wird
+  gesetzt, der Kasten nicht. Die eigenen `sds-`-Namen sind die Ausnahme, die es
+  belegt: sie sind hier definiert und die Klassenschicht ist absichtlich von
+  Hand schreibbar.
 
 ## Welche Schicht was tut
 
@@ -99,15 +106,6 @@ sammelt Fußnoten und Zitate ein und rendert seine Kinder ohne ein eigenes
 Element — es gibt nichts im Markup, dem eine Klasse oder eine Komponente
 entsprechen könnte. Sichtbar werden `.footnote` und `.citation`, und die haben
 ihre Regel in `document.css`.
-
-## Knoten ohne Gegenstück
-
-Jede Zeile ist ein Knoten, den Guides rendert und für den es bei uns weder
-Klasse noch Komponente gibt.
-
-| Knoten | Markup | Warum es zählt |
-| --- | --- | --- |
-| **Container / wrap** | `div` mit **beliebigen** Klassen aus dem Quelltext | Braucht eine Policy: was darf ein Autor an Klassen setzen |
 
 ## Gegenstück da, Markup fremd
 
@@ -183,9 +181,7 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 ## In welcher Reihenfolge
 
-1. **Die Knoten ohne Gegenstück** — in der Reihenfolge, in der das Fixture sie
-   hässlich zeigt.
-2. **`sds-table`, `sds-surface`, `sds-figure`** — Form wie bei `sds-code`:
+1. **`sds-table` und `sds-surface`** — Form wie bei `sds-code` und `sds-figure`:
    `lifted()` dazu, Eigenschaften bleiben für die Stories, je ein Beleg als
    Story.
-3. **Die drei fremden Markups** und das Verhalten des `configuration-block`.
+2. **Die drei fremden Markups** und das Verhalten des `configuration-block`.
