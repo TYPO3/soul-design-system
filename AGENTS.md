@@ -139,6 +139,7 @@ Generated — never edit, never hand-write a new one:
 | `.out/bundle/` | `make build` |
 | `.out/site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs. Everything in it is published, which is why the theme's control surface is the root beside it |
 | `.out/acceptance/` | `make guides` — the theme's control surface, rendered every run and published never. A root of its own, because a page below somebody else's root does not resolve its assets the way a published one does |
+| `.out/theme/`, `.out/consumer/` | `make guides` — the theme assembled as the package it is published as, and the Composer project this site is built as. The manifest is `docs/guides-theme/_starter/composer.json` with one entry changed: a path repository on this tree, or the mirror under `--released` |
 | `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
 | `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — untracked, the container's entrypoint restores them |
 | `packages/frontend/src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `packages/frontend/assets/diagrams/` |
@@ -255,10 +256,9 @@ run is a step, never the answer to "is it green".
 
 `.github/workflows/ci.yml` runs `make verify` and `make test` on every push, in
 the same image. On `main` and behind that gate it mirrors the packages, then
-renders and deploys `.out/site/` — that render needs no container, and the day
-it does is the day it has grown something worth removing. All of it is a net
-under the rule, not a replacement for it: a red run there is a commit already
-pushed, and
+renders and deploys `.out/site/` — from the theme it has just pushed, with no
+container, because a reader has none either. All of it is a net under the rule,
+not a replacement for it: a red run there is a commit already pushed, and
 whoever reads it has to work out what the tree looked like instead of watching
 it fail in front of them.
 
@@ -290,11 +290,11 @@ and reads that page's tokens.
 
 **Change what a consuming project has to run** — the steps are
 `scripts/lib/site.ts`, shipped as `packages/frontend/dist/soul-finish.js`. Change those, then
-`make dist`: `make guides` runs the built file rather than the source, so an
-unbuilt change reaches this site as the old one. What a project is told to
-write is `docs/guides-theme/_starter/`, quoted whole into the manual — and
-rendering this site is that same path, so a step that stops working there
-stops the site.
+`make dist`: `make guides` installs the theme package and runs the built file
+out of it, so an unbuilt change reaches this site as the old one. What a
+project is told to write is `docs/guides-theme/_starter/composer.json`, quoted
+whole into the manual and used as this site's own manifest — a step that stops
+working for a reader stops the site.
 
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.

@@ -10,26 +10,29 @@
    documents it parsed and drops a `<link>` to anything outside it, so the
    drop-in is copied in as `styles/` where `asset()` can rewrite it per page. */
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { join, relative, resolve } from 'node:path';
+import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 import { FRONTEND, GENERATED, ROOT, cards, screens } from './lib/cards.ts';
+import { PACKAGES } from './lib/packages.ts';
 
 const THEME = join(ROOT, 'packages', 'guides-theme');
 const SITE = join(GENERATED, 'site');
 const ACCEPTANCE = join(GENERATED, 'acceptance');
 
-/* Where the renderer and the drop-in come from. Unflagged it is this tree —
-   the theme beside these sources, and the drop-in the frontend package builds.
-   `--vendor=<dir>` takes both out of an installed `typo3/soul-guides-theme`
-   instead, which is what a reader has: the published site is rendered that
-   way, so what is documented is what runs. */
-const VENDOR = process.argv.slice(2).find((a) => a.startsWith('--vendor='))?.split('=').slice(1).join('=');
-const INSTALLED = VENDOR ? resolve(ROOT, VENDOR) : undefined;
-const GUIDES = join(INSTALLED ?? join(THEME, 'vendor'), 'bin', 'guides');
-const DROP = INSTALLED ? join(INSTALLED, 'typo3', 'soul-guides-theme', 'resources', 'dist') : join(FRONTEND, 'dist');
+/* This site is built the way the manual tells a project to build one: the
+   theme is installed, and the renderer, the templates and the drop-in all come
+   out of `vendor/`. What differs is one entry in the manifest — a path
+   repository on the tree in front of you, the mirror with `--released`. */
+const STARTER = join(ROOT, 'docs', 'guides-theme', '_starter', 'composer.json');
+const CONSUMER = join(GENERATED, 'consumer');
+const PACKAGED = join(GENERATED, 'theme');
+const RELEASED = process.argv.slice(2).includes('--released');
+
+const GUIDES = join(CONSUMER, 'vendor', 'bin', 'guides');
+const DROP = join(CONSUMER, 'vendor', 'typo3', 'soul-guides-theme', 'resources', 'dist');
 /* The step after the render, run rather than imported: it is `lib/site.ts`
-   bundled, so this is the file the manual tells a project to call. */
+   bundled, and inside the package it is the file the manual prints. */
 const FINISH = join(DROP, 'soul-finish.js');
 
 interface Project {
@@ -81,24 +84,44 @@ function copyCards(source: string): void {
 const run = (cmd: string, args: string[], cwd = ROOT): number =>
   spawnSync(cmd, args, { cwd, stdio: 'inherit' }).status ?? 1;
 
-if (!INSTALLED && !existsSync(GUIDES)) {
-  console.log('installing the renderer (first run only)');
-  const code = run('composer', ['install', '--no-interaction', '--no-progress'], THEME);
+const manifest = JSON.parse(readFileSync(STARTER, 'utf8')) as {
+  repositories?: unknown[];
+  require: Record<string, string>;
+};
+
+if (!RELEASED) {
+  /* Assembled rather than pointed straight at `packages/guides-theme/`: the
+     package is that directory plus the drop-in the other package builds, and a
+     path repository installs whatever it is handed. The same assembly the
+     mirror pushes, out of `lib/packages.ts`. */
+  rmSync(PACKAGED, { recursive: true, force: true });
+  mkdirSync(PACKAGED, { recursive: true });
+  PACKAGES.find((pack) => pack.name === 'guides-theme')?.assemble(ROOT, PACKAGED);
+  manifest.repositories = [{ type: 'path', url: PACKAGED, options: { symlink: true } }];
+  /* A directory is not a branch. Composer versions a path package it cannot ask
+     git about as `1.0.0+no-version-set`, which `dev-main` never matches. */
+  manifest.require['typo3/soul-guides-theme'] = '*';
+}
+
+mkdirSync(CONSUMER, { recursive: true });
+const wanted = `${JSON.stringify(manifest, null, 2)}\n`;
+const at = join(CONSUMER, 'composer.json');
+const changed = !existsSync(at) || readFileSync(at, 'utf8') !== wanted;
+if (changed) writeFileSync(at, wanted);
+
+if (changed || !existsSync(GUIDES)) {
+  console.log(RELEASED ? 'installing the published theme' : 'installing the theme from this tree');
+  /* No cache when it is the mirror: `dev-main` moved minutes ago, and the
+     commit Composer remembers is the one before that push. Run *in* the
+     project rather than with `--working-dir`, which 2.10 no longer accepts
+     after the command. */
+  const install = ['install', '--no-interaction', '--no-progress', ...(RELEASED ? ['--no-cache'] : [])];
+  const code = run('composer', install, CONSUMER);
   if (code !== 0) process.exit(code);
 }
 
-if (!existsSync(GUIDES)) {
-  console.error(`✗ no renderer at ${GUIDES} — run \`composer install\` in ${INSTALLED}/..`);
-  process.exit(1);
-}
-
-/* The drop-in, not the sources: what a consuming site links is one built
-   stylesheet and one built script, and rendering against anything else would
-   prove the theme works with something nobody ships. */
-if (!existsSync(join(DROP, 'soul.css')) || !existsSync(FINISH)) {
-  console.error(INSTALLED
-    ? `✗ ${DROP} carries no drop-in — the installed theme is not one this system assembled`
-    : 'dist/ is incomplete — run `make dist` first');
+if (!existsSync(FINISH)) {
+  console.error(`✗ the installed theme carries no drop-in at ${DROP} — run \`make dist\` first`);
   process.exit(1);
 }
 
@@ -141,10 +164,6 @@ for (const project of PROJECTS) {
      leave it alone, it renders the rendering. */
   const finished = run(process.execPath, [
     FINISH, project.out,
-    /* Named only where it has to be. Inside an installed theme the drop-in is
-       the directory this file sits in, which is where it looks by default —
-       so that call is the one the manual prints, argument for argument. */
-    ...(INSTALLED ? [] : [`--drop-in=${DROP}`]),
     /* An index is a thing a reader searches, and only one of these is read
        by one. */
     ...(project.name === 'docs' ? [] : ['--no-search']),

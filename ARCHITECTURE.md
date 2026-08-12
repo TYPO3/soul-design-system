@@ -128,13 +128,19 @@ nothing and hold empty cards.
 
 So the drop-in carries that step. `packages/frontend/dist/soul-finish.js` is
 `scripts/lib/site.ts` bundled for Node — copy the drop-in, draw every element,
-write the search index, refuse a reference that leaves the output — and
-`make guides` **runs that file** rather than importing what it was built from.
-Not a copy of the documented step and not a second implementation of it: the
-same bytes a reader is handed, which is why rendering this site needs a PHP,
-a Node and nothing installed. A consuming project needs no more than that, and
-`docs/guides-theme/_starter/` is the two files it starts from, quoted into the
-manual from where they live rather than described beside it.
+write the search index, refuse a reference that leaves the output — and it
+arrives inside the theme package, because a PHP project cannot ask npm for a
+stylesheet.
+
+**This site is built as one of those projects.** `make guides` installs the
+theme into `.out/consumer/` and takes the renderer, the templates and the
+drop-in out of that `vendor/` — it imports none of them from the tree. The
+manifest is `docs/guides-theme/_starter/composer.json`, the file the manual
+prints, with one entry changed on a desk: a path repository on the package
+`scripts/lib/packages.ts` assembles, where CI reads `dev-main` from the mirror
+the job before it pushed to. Both renders were compared over one commit and are
+byte-identical, which is the only way a documented path stays true — it is the
+path.
 
 **The mirror needs one thing no file here can carry: a token.** The job pushes
 into repositories this run does not belong to, and `GITHUB_TOKEN` is scoped to

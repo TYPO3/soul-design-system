@@ -1,13 +1,12 @@
 # The site, rendered and published.
 #
-# Called from `ci.yml` on `main`, behind the gate and behind the mirror: this
-# site is the manual that tells a reader to install those packages, and one
-# published ahead of them names a release that is not there yet.
+# Called from `ci.yml` on `main`, behind the gate and behind the mirror — and
+# behind it for two reasons now. This site is the manual that tells a reader to
+# install those packages, and it is *built* by installing them: the theme the
+# job before this one pushed is what renders these pages.
 #
-# No container, no install, nothing generated on the way in: a PHP for the
-# renderer and a Node for the step after it, which is what a reader's own
-# project has. The day this file needs the gate's image is the day the render
-# has grown something worth removing rather than a step worth adding here.
+# No container, therefore. A PHP, a Node and Composer are what a reader has, and
+# they are all this needs.
 name: Documentation
 
 on:
@@ -37,22 +36,11 @@ jobs:
         with:
           node-version: '24'
 
-      # The theme, installed the way a reader installs it — with the very
-      # `composer.json` the manual prints, so the file that is documented is the
-      # file this site is built with. `dev-main` is the mirror's branch, and the
-      # job that pushed it ran before this one: no cache, or Composer serves the
-      # commit from before that push.
-      - name: The theme, from the package
-        run: |
-          mkdir -p .out/consumer
-          cp docs/guides-theme/_starter/composer.json .out/consumer/composer.json
-          composer install --no-interaction --no-progress --no-cache -d .out/consumer
-
-      # Renderer and drop-in out of that `vendor/`, nothing of this tree's own
-      # build in front of them. What stays ours is what a reader's project does
-      # not have: the specimen cards these pages embed, and the chrome they are
-      # drawn with.
-      - run: node scripts/guides.ts --vendor=.out/consumer/vendor
+      # The task installs the theme and renders against it either way — on a
+      # desk from a path repository on this tree, here from the mirror the job
+      # before this one pushed to, with the `composer.json` the manual prints.
+      # `--released` is that one difference and the whole of it.
+      - run: node scripts/guides.ts --released
 
       # Pages serves this artifact as it stands, but a repository ever switched
       # back to the branch-based build runs Jekyll over it, and Jekyll drops
