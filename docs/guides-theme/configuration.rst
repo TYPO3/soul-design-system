@@ -97,9 +97,10 @@ The theme element
    </extension>
 
 **The element itself is not optional** — it is what registers the theme — but
-everything inside it is. Written empty, the bar carries the project title, and
-the footer carries the site's own sections beside that title and the copyright,
-which is the least a page can say and still be honest about what it is.
+everything inside it is. Written empty, the bar carries the project title and
+the site's own sections, and the footer carries those sections again with the
+pages under them, beside that title and the copyright — which is the least a
+page can say and still be honest about what it is.
 
 The mark
 --------
@@ -180,9 +181,16 @@ The bar's sections
        <link href="https://github.com/…" label="Source" external="true"/>
    </navigation>
 
-The handful of places a site has, and only the site knows them. Not the
-toctree: that is the rail's job, and a manual's every page in the bar is not
-navigation.
+The handful of places a site has. Left out, the bar carries the top level of
+the toctree — the same source the footer's columns come from, so a project that
+configures nothing still has a bar to move around in. What is written here wins
+over that, because which of a site's sections are its front doors is the one
+thing the tree cannot know: this manual leaves a page out of its bar that the
+tree has, and adds nothing the tree has not.
+
+Not the toctree entire: that is the rail's job, and a manual's every page in
+the bar is not navigation. A site whose top level *is* every page is a site
+that should write the handful it wants.
 
 .. confval:: link
    :type: href, label, external

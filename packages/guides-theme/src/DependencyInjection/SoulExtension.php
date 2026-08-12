@@ -132,9 +132,10 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                    All of it optional. A footer with nothing set renders the
                    site's own sections, the mark and the year, which is the
                    least a page can say. */
-                /* The handful of places a site has, in the bar. Not the
-                   toctree: that is the rail's job, and a manual's every page
-                   in the bar is not navigation. */
+                /* The handful of places a site has, in the bar. Left out, it
+                   is the top level of the tree, so a project that says nothing
+                   still has one; the toctree entire is the rail's job, and a
+                   manual's every page in the bar is not navigation. */
                 ->arrayNode('navigation')
                     ->fixXmlConfig('link')
                     ->children()

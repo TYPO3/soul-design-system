@@ -1,32 +1,38 @@
 {#
     The top navigation: where a reader can go from anywhere.
 
-    Configuration, like the mark and the footer — a theme that read the
-    toctree here would put every page of a manual in the bar, which is what
-    the rail is for. What belongs up here is the handful of places a site has,
-    and only the site knows them:
-
-        <navigation>
-            <link href="/frontend" label="Frontend"/>
-            <link href="https://example.org" label="Elsewhere" external="true"/>
-        </navigation>
+    Configured, or else the top level of the tree — where the footer's columns
+    come from too, so a site that has said nothing still has a bar. A written
+    list wins over it: which of a site's sections are its front doors is the
+    one thing the tree cannot know.
 
     `sds-menu` and not a bare row of pills: what happens to four words when the
     header runs out of room is the element's business, measured rather than
-    guessed at a breakpoint. The links are written here because this side knows
-    where they point and which one the reader is in; the element moves them
-    into a panel below the bar when they stop fitting.
-
-    A section is current when the reader is on it *or* under it — the rootline
-    is the toctree walked upwards, so a guideline page marks Guidelines. Marking
-    only the exact page left the bar saying nothing on every page but five.
-
-    The active pill is a filled block rather than a tint, and it is one of
-    exactly three places the accent appears.
+    guessed at a breakpoint.
 #}
-{%- if soul.navigation.links is defined and soul.navigation.links %}
+{#- The links as data. A section entry points at its own document and a page
+    at itself; an entry carrying a URL is somebody else's site and is left
+    alone, the way the footer leaves one alone. -#}
+{%- set links = soul.navigation.links is defined ? soul.navigation.links : [] -%}
+{%- if links is empty -%}
+    {%- for menu in env.projectNode.globalMenues -%}
+        {%- for entry in menu.menuEntries -%}
+            {%- set links = links|merge([{
+                href: entry.url,
+                label: entry.value.toString,
+                external: '://' in entry.url,
+            }]) -%}
+        {%- endfor -%}
+    {%- endfor -%}
+{%- endif -%}
+{%- if links %}
     <sds-menu label="Sections">
-        {%- for link in soul.navigation.links %}
+        {#- A section is current when the reader is on it *or* under it — the
+            rootline is the tree walked upwards, so a guideline page marks
+            Guidelines. Marking only the exact page left the bar saying nothing
+            on every page but five. The active pill is a filled block rather
+            than a tint, one of exactly three places the accent appears. -#}
+        {%- for link in links %}
             {%- set here = not link.external and link.href|trim('/') in env.currentFileRootline %}
             <a class="sds-pill{% if here %} is-active{% endif %}"
                href="{{ link.external ? link.href : renderLink(link.href) }}"
