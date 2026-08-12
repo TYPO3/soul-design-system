@@ -117,6 +117,12 @@ and is the same picture in both. Either works — the SVG is worth the three lin
 above, because a mark that does not take the page's ink is the one thing on the
 bar that looks pasted on.
 
+**Name the drawing made for 24.** The bar draws its mark at 24, and a signet is
+crisp only in the box it was drawn for: point at the 16 file and it is scaled by
+1.5, which puts every straight edge in it on a half pixel and every one-unit
+stroke across two of them. The other optical sizes belong in the tab instead,
+one ``<favicon>`` per slot — see :doc:`/guides-theme/configuration`.
+
 Draw the mark itself to the construction: :doc:`brand` has the rules, and
 ``docs/design-system/signet-prompt.md`` is that construction written as something
 to hand to a drawing tool.

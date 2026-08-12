@@ -77,6 +77,23 @@ const CHECKS: readonly Check[] = [
     },
   },
 
+  /* A tree points at its mark from `guides.xml`, and the file has to sit beside
+     the documents for the renderer to carry it. That copy is the one place the
+     wrong optical size can get in without anything noticing: a signet named
+     for 16 and drawn at 24 is scaled by 1.5, and every edge in it lands on a
+     half pixel. */
+  {
+    name: 'marks',
+    step: '0c',
+    label: 'the documents\' marks match the drawings',
+    run() {
+      const em = spawnSync(process.execPath, [join(ROOT, 'scripts/embed.ts'), '--check'], { encoding: 'utf8' });
+      process.stdout.write(em.stdout);
+      process.stdout.write(em.stderr ?? '');
+      if (em.status !== 0) fails.push('a mark beside the documents is out of date — run `make embed`');
+    },
+  },
+
   {
     name: 'headers',
     step: '1',

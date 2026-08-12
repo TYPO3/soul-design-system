@@ -231,6 +231,31 @@ export function embedCards(source: string): number {
   return written;
 }
 
+/* The marks a document tree points at, from the drawings the frontend holds.
+   Copied for the reason the cards are: `asset()` only carries what a parsed
+   document points at, so the file has to sit beside the documents. It is
+   generated rather than kept there by hand because a mark shown outside the
+   box it was drawn for lands between whole pixels, and nothing else can see it. */
+export function embedMarks(source: string, marks: Readonly<Record<string, string>>, check = false): string[] {
+  const out = join(source, '_images');
+  if (!check) mkdirSync(out, { recursive: true });
+  const stale: string[] = [];
+  for (const [name, asset] of Object.entries(marks)) {
+    const want = readFileSync(join(FRONTEND, 'assets', asset));
+    const target = join(out, name);
+    let have: Buffer | null = null;
+    try {
+      have = readFileSync(target);
+    } catch {
+      /* Not there at all, which is the same answer as out of date. */
+    }
+    if (have?.equals(want)) continue;
+    stale.push(`${relative(ROOT, target)} ← assets/${asset}`);
+    if (!check) writeFileSync(target, want);
+  }
+  return stale;
+}
+
 /* The chrome a specimen card is drawn with, into a rendered root. Not part of
    the drop-in and it must not be — a design built with this system inherits the
    token and component layers only — but a page that embeds a card needs it, and

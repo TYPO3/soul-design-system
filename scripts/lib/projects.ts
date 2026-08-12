@@ -17,6 +17,10 @@ export interface Project {
   out: string;
   /** What that root is, for whoever ran the render. */
   what: string;
+  /** The marks its `guides.xml` points at, as `<file in _images/>: <asset>`.
+      A signet is crisp only in the box it was drawn for, so the file a tree
+      names is copied from the drawing rather than kept beside it by hand. */
+  marks?: Readonly<Record<string, string>>;
 }
 
 export const PROJECTS: readonly Project[] = [
@@ -27,6 +31,13 @@ export const PROJECTS: readonly Project[] = [
     source: join(ROOT, 'docs'),
     out: join(GENERATED, 'site'),
     what: 'the publish root, and everything in it is published',
+    /* The bar draws at 24 and the two favicon slots are 16 and 32, which is
+       why three sizes are named and which asset each one is. */
+    marks: {
+      'signet.svg': 'design-system-signet-m.svg',
+      'signet-s.svg': 'design-system-signet-s.svg',
+      'signet-l.svg': 'design-system-signet-l.svg',
+    },
   },
   /* The acceptance test for the theme: every node the renderer can emit, once,
      where it can be looked at. A control surface rather than a published one,

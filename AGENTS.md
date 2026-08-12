@@ -164,6 +164,7 @@ Generated — never edit, never hand-write a new one:
 | `.out/acceptance/` | `make guides` — the theme's control surface, rendered every run and published never. A root of its own, because a page below somebody else's root does not resolve its assets the way a published one does |
 | `.out/theme/`, `.out/consumer/` | `make guides` — the theme assembled as the package it is published as, and the renderer built against it by the three Composer commands the manual prints. `--released` names the mirror instead, which is how the published render is reproduced on a desk |
 | `docs/_cards/`, `packages/guides-theme/acceptance/_cards/` | `make embed`, and `make cards` ends with it — the generated cards where the documents that embed them can reach them. Beside those documents rather than under `.out/`, because a renderer only carries what a parsed page points at |
+| `docs/_images/signet*.svg` | `make embed` — committed, and copied from `packages/frontend/assets/`, which is where a mark is drawn. `marks` in `scripts/lib/projects.ts` says which file is which drawing: a signet is crisp only in the box it was made for, and a hand copy is how the wrong one reaches a header |
 | `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
 | `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — untracked, the container's entrypoint restores them |
 | `packages/frontend/src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `packages/frontend/assets/diagrams/` |
@@ -213,7 +214,8 @@ ARGS=--check`.
 names are how a single one is asked for:
 
 `assets` (the generated fonts and icons are there) · `diagrams` (the modules
-match the drawings) · `headers` (`@dsCard`, `@startingPoint`) · `heights`
+match the drawings) · `marks` (the documents' signets against those same
+drawings) · `headers` (`@dsCard`, `@startingPoint`) · `heights`
 (specimens against the cards they embed) · `classes` (every class used is
 defined) · `coverage` (every component is shown) · `refs` (every local
 reference resolves) · `fit` (render, inside the declared viewport) · `ssr`
@@ -267,6 +269,7 @@ make test ARGS="tests/a11y.spec.ts --grep teaser"
 | a card's height or its viewport | `make verify ARGS="fit heights"` |
 | `packages/frontend/src/` with `packages/frontend/dist/` committed against it | `make verify ARGS=dist` |
 | a drawing in `packages/frontend/assets/diagrams/` | `make verify ARGS=diagrams` |
+| a mark in `packages/frontend/assets/`, or the signet a `guides.xml` names | `make verify ARGS=marks` |
 
 A partial run says which checks it ran and that it is not the gate; only the
 whole sequence prints `✓ design system is consistent`. A name that is not a
