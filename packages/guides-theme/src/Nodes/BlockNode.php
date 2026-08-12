@@ -8,12 +8,10 @@ use phpDocumentor\Guides\Nodes\CompoundNode;
 use phpDocumentor\Guides\Nodes\Node;
 
 /**
- * A block of a marketing page: a band, a grid, a teaser.
+ * A block of a marketing page.
  *
- * One node for three directives, because they are the same thing to a
- * renderer — a run of content with a class on it — and differ only in which
- * template draws them. The template is chosen by the directive that built the
- * node, not by a `switch` here.
+ * The directives share one shape because each is a run of content with
+ * options; the node class selects the template that draws it.
  *
  * @extends CompoundNode<Node>
  */

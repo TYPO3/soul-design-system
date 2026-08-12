@@ -52,6 +52,39 @@ never have to work out which site they are on. What changes is the body.
    like: ``:laoyut: marketing`` prints the word and the value above the title
    of a page that is still a manual.
 
+hero
+====
+
+The opening claim of a marketing page, set beside one decorative image. It
+goes immediately after the document title so that the title remains the page's
+real heading, browser title and source for navigation.
+
+.. code-block:: text
+
+   ======================
+   Design and ship as one
+   ======================
+
+   .. hero:: /_images/design-system-workbench.png
+
+      The opening summary belongs inside the directive.
+
+      A second paragraph can make the promise concrete.
+
+The argument is the image source. The theme composes the existing split, stack
+and figure vocabulary; at a narrow viewport that split becomes a column by the
+same rule as every other split in the system. Content that follows the hero
+before the next band remains part of the opening section.
+
+.. confval:: alt
+   :name: hero-alt
+   :type: string
+   :default: ""
+
+   What the image shows when it contributes meaning not carried by the copy.
+   Leave it out for a decorative illustration whose subject is already named
+   beside it.
+
 band
 ====
 

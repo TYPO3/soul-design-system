@@ -55,6 +55,27 @@ final class Bands
     private function fill(array $nodes): void
     {
         foreach ($nodes as $node) {
+            if ($node instanceof SectionNode && $this->opensWithHero($node)) {
+                $children = $node->getChildren();
+                /** @var HeroNode $hero */
+                $hero = $children[1];
+                $copy = new SectionNode($node->getTitle());
+                foreach ($hero->getChildren() as $child) {
+                    $copy->addChildNode($child);
+                }
+
+                $tail = array_slice($children, 2);
+                $content = [$copy];
+                while ($tail !== [] && !$this->holdsBand($tail[0])) {
+                    $content[] = array_shift($tail);
+                }
+
+                $this->open[] = (new HeroNode($content))->withOptions($hero->getOptions());
+                $this->fill($tail);
+
+                continue;
+            }
+
             if ($node instanceof BandNode) {
                 $this->close();
                 $this->options = $node->getOptions();
@@ -86,6 +107,11 @@ final class Bands
 
             $this->open[] = $node;
         }
+    }
+
+    private function opensWithHero(SectionNode $node): bool
+    {
+        return ($node->getChildren()[1] ?? null) instanceof HeroNode;
     }
 
     private function holdsBand(Node $node): bool

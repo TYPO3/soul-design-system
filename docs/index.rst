@@ -5,25 +5,27 @@
 One system, from design to delivery
 ===================================
 
-Soul gives TYPO3 community projects a shared visual language for product
-pages, documentation and interface code — so every hand-off starts from the
-same decisions.
+.. hero:: /_images/design-system-workbench.png
 
-Start with measured screens and rendered components. Publish from
-reStructuredText or Markdown. Ship plain classes or web components. Every
-route resolves to the same tokens and the same markup contract.
+   Soul gives TYPO3 community projects a shared visual language for product
+   pages, documentation and interface code — so every hand-off starts from the
+   same decisions.
 
-.. The sections below make these routes visible, while the hidden tree remains
-   the source for the bar, the rail and the breadcrumb.
+   Start with measured screens and rendered components. Publish from
+   reStructuredText or Markdown. Ship plain classes or web components. Every
+   route resolves to the same tokens and the same markup contract.
 
-.. toctree::
-   :titlesonly:
-   :hidden:
+   .. The sections below make these routes visible, while the hidden tree remains
+      the source for the bar, the rail and the breadcrumb.
 
-   design-system/index
-   guides-theme/index
-   frontend
-   documents
+   .. toctree::
+      :titlesonly:
+      :hidden:
+
+      design-system/index
+      guides-theme/index
+      frontend
+      documents
 
 .. card-grid::
    :columns: 3

@@ -22,6 +22,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardGridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
+use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
 use TYPO3\Soul\GuidesTheme\Nodes\TeaserNode;
 
@@ -240,6 +241,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => LayoutNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => BandNode::class, 'file' => 'body/directive/band.html.twig', 'format' => 'html'],
                 ['node' => GridNode::class, 'file' => 'body/directive/grid.html.twig', 'format' => 'html'],
+                ['node' => HeroNode::class, 'file' => 'body/directive/hero.html.twig', 'format' => 'html'],
                 ['node' => TeaserNode::class, 'file' => 'body/directive/teaser.html.twig', 'format' => 'html'],
                 ['node' => CardNode::class, 'file' => 'body/directive/card.html.twig', 'format' => 'html'],
                 ['node' => CardGridNode::class, 'file' => 'body/directive/card-grid.html.twig', 'format' => 'html'],

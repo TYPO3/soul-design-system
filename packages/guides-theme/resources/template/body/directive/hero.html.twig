@@ -1,0 +1,14 @@
+{# The existing split, stack and figure compose the page's opening claim. #}
+<div class="sds-sections">
+    <div class="sds-split">
+        <div class="sds-stack">
+            {{- renderNode(node.children|first) -}}
+        </div>
+        <div class="sds-stack">
+            <sds-figure src="{{ asset(node.option('src')) }}" alt="{{ node.option('alt') }}"></sds-figure>
+        </div>
+    </div>
+    {%- for child in node.children|slice(1) -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</div>

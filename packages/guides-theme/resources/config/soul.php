@@ -11,6 +11,7 @@ use TYPO3\Soul\GuidesTheme\Directives\BandDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardGridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
+use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\TeaserDirective;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
@@ -27,21 +28,22 @@ return static function (ContainerConfigurator $container): void {
         ->autoconfigure()
         /* A directive that holds content parses it with a rule, and the rule
            is an interface the container cannot guess. Bound once here rather
-           than in each of the three. */
+           than in each implementation. */
         ->instanceof(SubDirective::class)
         ->bind('$startingRule', service(DirectiveContentRule::class))
 
-        /* The one directive this theme brings. Tagged the way every directive
-           is, so the parser finds it without the project saying anything. */
+        /* The specimen directive is tagged so the parser finds it without the
+           project saying anything. */
         ->set(SpecimenDirective::class)
         ->tag('phpdoc.guides.directive')
 
-        /* The marketing blocks. Three directives, one node shape — see
-           `BlockNode`. */
+        /* The marketing blocks share the node shape described by `BlockNode`. */
         ->set(BandDirective::class)
-        ->tag('phpdoc.guides.directive')
+            ->tag('phpdoc.guides.directive')
         ->set(GridDirective::class)
-        ->tag('phpdoc.guides.directive')
+            ->tag('phpdoc.guides.directive')
+        ->set(HeroDirective::class)
+            ->tag('phpdoc.guides.directive')
         ->set(TeaserDirective::class)
         ->tag('phpdoc.guides.directive')
 

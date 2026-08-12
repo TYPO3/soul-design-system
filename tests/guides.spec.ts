@@ -92,6 +92,21 @@ test.describe('the render', () => {
       expect(doubled, `${path}: an element drew itself more than once`).toEqual([]);
     }
   });
+
+  test('a marketing hero composes the existing layout vocabulary', async ({ page }) => {
+    await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
+
+    const hero = page.locator('.sds-band').first().locator('.sds-sections > .sds-split');
+    await expect(hero.locator(':scope > .sds-stack')).toHaveCount(2);
+    const widths = await hero.locator(':scope > .sds-stack').evaluateAll((nodes) =>
+      nodes.map((node) => node.getBoundingClientRect().width),
+    );
+    expect(Math.abs(widths[0]! - widths[1]!)).toBeLessThan(2);
+    await expect(hero.locator('.sds-stack h1')).toHaveText('One system, from design to delivery');
+    await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('src', /design-system-workbench\.png$/);
+    await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('alt', '');
+    await expect(page.locator('.sds-band').first().locator('.sds-sections > sds-card-grid > .sds-grid')).toBeVisible();
+  });
 });
 
 test.describe('the mark in the tab', () => {
