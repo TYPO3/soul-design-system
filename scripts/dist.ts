@@ -1,19 +1,11 @@
 #!/usr/bin/env node
 /* Build what a consumer takes: a drop-in, and a package.
 
-   The repo itself needs no build — Node runs the `.ts` sources by stripping
-   types. Two audiences do.
-
-   **The drop-in.** `soul.js`, `soul.css` and the assets beside them. Copy the
-   directory somewhere public, link two files, done: no bundler, no `lit` to
-   install, no import map. That is the surface this system was built for — an
-   HTML page rendered by something that is not JavaScript. Lit is bundled in,
-   because a drop-in has nothing to share a copy with.
-
-   **The package.** `index.js` plus types, `lit` external. Bundling it there
-   would give a consumer a second reactive-element registry and an element
-   that upgrades under the wrong one — a peer dependency for the reason React
-   always is.
+   The repo needs no build — Node runs the `.ts` sources by stripping types.
+   Two audiences do. **The drop-in** is `soul.js`, `soul.css` and the assets
+   beside them: copy the directory somewhere public and link two files, Lit
+   bundled in. **The package** is `index.js` plus types and keeps `lit`
+   external — bundled, a consumer gets a second reactive-element registry.
 
      make dist
 */
@@ -104,11 +96,10 @@ if (tsc.status !== 0) {
 }
 
 /* The sources import each other with explicit `.ts` specifiers, which is what
-   lets one set of files serve Node's type stripper and Vite alike. A
-   published `.d.ts` must not carry them: a consumer's TypeScript resolves
-   `./lib/element.js` to `./lib/element.d.ts` and would reject the `.ts`
-   spelling outright. Rewritten here rather than trusted to
-   `rewriteRelativeImportExtensions`, which does not reach declaration emit. */
+   lets one set of files serve Node's type stripper and Vite alike. A published
+   `.d.ts` must not carry them — a consumer's TypeScript rejects the spelling
+   outright — and `rewriteRelativeImportExtensions` does not reach declaration
+   emit, so it is done here. */
 let rewritten = 0;
 for (const file of walkDts(join(OUT, 'types'))) {
   const before = readFileSync(file, 'utf8');
@@ -172,18 +163,32 @@ const docCssOptions: esbuild.BuildOptions = {
   plugins: [perRule],
 };
 
-/* The pre-paint line, and the only thing here that is not a module.
-
-   It has to run before the page is painted, and a module cannot: `type=module`
-   is deferred whether you ask for it or not. So it ships as a classic script,
-   built on its own — see the head of `src/boot.ts` for what it costs to leave
-   it out. */
+/* The pre-paint line, and the only thing here that is not a module: it has to
+   run before the page is painted, and `type=module` is deferred whether you ask
+   for it or not. So it ships as a classic script, built on its own — the head
+   of `src/boot.ts` says what leaving it out costs. */
 const bootOptions: esbuild.BuildOptions = {
   entryPoints: [join(ROOT, 'src', 'boot.ts')],
   outfile: join(OUT, 'soul-boot.js'),
   bundle: true,
   format: 'iife',
   target: 'es2022',
+  minify: true,
+  legalComments: 'none',
+};
+
+/* The step after a documentation render, shipped with the drop-in it needs. A
+   project with only Composer can render documents and copy a directory; what it
+   cannot do is draw this system's elements before the browser arrives. So the
+   step travels with the stylesheets, as one file for the Node every CI image
+   already has — see `scripts/soul-finish.ts`. */
+const finishOptions: esbuild.BuildOptions = {
+  entryPoints: [join(ROOT, 'scripts', 'soul-finish.ts')],
+  outfile: join(OUT, 'soul-finish.js'),
+  bundle: true,
+  format: 'esm',
+  platform: 'node',
+  target: 'node22',
   minify: true,
   legalComments: 'none',
 };
@@ -229,6 +234,7 @@ const drop = await esbuild.build(jsOptions);
 await esbuild.build(cssOptions);
 await esbuild.build(docCssOptions);
 await esbuild.build(bootOptions);
+await esbuild.build(finishOptions);
 copyAssets();
 
 const kb = (p: string): string => `${(readFileSync(join(OUT, p)).length / 1024).toFixed(1)} kB`;
@@ -238,6 +244,7 @@ console.log(`dist/soul.js  — ${kb('soul.js')}, lit bundled, from ${Object.keys
 console.log(`dist/soul.css — ${kb('soul.css')}, faces and tokens inlined`);
 console.log(`dist/document.css — ${kb('document.css')}, the document layer, linked beside it`);
 console.log(`dist/soul-boot.js — ${kb('soul-boot.js')}, the pre-paint line, not a module`);
+console.log(`dist/soul-finish.js — ${kb('soul-finish.js')}, the step after a render, for Node`);
 console.log(`dist/index.js — ${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`);
 console.log(`dist/types/  — declarations, ${rewritten} rewritten to .js specifiers`);
 

@@ -3,42 +3,18 @@
 
      make guides
 
-   `site/` is the publish root — what GitHub Pages will serve, and what the
-   `site` container serves locally at a root of its own so the two are the
-   same shape. It is published **standalone**: the repository around it does
-   not go with it, so everything the pages need is copied inside and the last
-   step here proves that nothing points out. More than one project goes into it:
-
-     site/              the manual and the landing page   (from docs/)
-     site/_acceptance/  every node the renderer emits     (guides-theme/acceptance/)
-
-   The second is not documentation. It is the acceptance test for the theme —
-   the page every claim about a gap is checked against — and it is a control
-   surface for whoever works on this, not for a reader. The underscore says so,
-   and the publish step leaves it behind.
-
-   Three things happen per project, and only the middle one is interesting.
-
-   **Dependencies.** The renderer is a Composer package and its tree lives in
-   the working directory rather than in an image layer — pure PHP, identical on
-   every platform, and readable without opening a container. Installed on first
-   run, so nobody has to know that.
-
-   **The stylesheets go into the source tree.** Guides copies assets it finds
-   referenced from the documents it parsed; a `<link>` to a file outside that
-   tree is reported as a missing image and dropped. So the drop-in is copied
-   into the project as `styles/`, where `asset()` can find it and rewrite the
-   URL per page — which is also what makes a page below the root resolve it.
-   That directory is generated and gitignored.
-
-   **The render.** One CLI call per project. Each `guides.xml` says which
-   parser to use and where the theme's templates are. */
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative, resolve, sep } from 'node:path';
+   `site/` is published **standalone**: the repository around it does not go
+   with it, so everything the pages need is copied inside and the last step here
+   proves nothing points out. The one interesting part is that the stylesheets
+   go into the *source* tree — Guides copies assets referenced from the
+   documents it parsed and drops a `<link>` to anything outside it, so the
+   drop-in is copied in as `styles/` where `asset()` can rewrite it per page. */
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 import { cards, ROOT, screens } from './lib/cards.ts';
-import { prerender } from './lib/prerender.ts';
+import { dropIn, finish } from './lib/site.ts';
 
 const THEME = join(ROOT, 'guides-theme');
 const SITE = join(ROOT, 'site');
@@ -63,19 +39,11 @@ const PROJECTS: Project[] = [
   { name: 'acceptance', source: join(THEME, 'acceptance'), out: join(SITE, '_acceptance') },
 ];
 
-/* The specimen cards, where the documents can reach them.
-
-   A guideline page shows the card that renders the rule it states — the same
-   file Storybook iframes and the same one the design pane opens. It is a whole
-   document with a stylesheet of its own, so it is embedded rather than
-   inlined, and it has to be copied into the documentation source: `asset()`
-   only carries what a parsed document points at.
-
-   The links inside are rewritten on the way, the same job `build.ts` does for
-   the upload bundle. A card links the repo's own `src/styles/`, which exists
-   nowhere in a rendered site; from `_cards/x.html` the site's stylesheets are
-   one directory up. Counted rather than written down — the same lesson as
-   everywhere else in this repo. */
+/* The specimen cards, where the documents can reach them. A guideline page
+   embeds the card that renders the rule it states, and a card is a whole
+   document with a stylesheet of its own, so it has to be copied into the
+   source: `asset()` only carries what a parsed document points at. The links
+   inside are rewritten on the way, counted rather than written down. */
 function copyCards(source: string): void {
   const out = join(source, '_cards');
   rmSync(out, { recursive: true, force: true });
@@ -129,25 +97,12 @@ for (const project of PROJECTS) {
   ]);
   if (code !== 0) process.exit(code);
 
-  /* The drop-in, into the output, in one piece.
-
-     Not through the source and `asset()`: the renderer copies what a parsed
-     document points at, and nothing points at the faces — `soul.css` asks for
-     `fonts/` beside itself and nothing reads a stylesheet — or at the icon
-     sprite, which `soul.js` resolves against its own URL. Copied whole, the
-     directory is what a consumer deploys, and every relative path inside it
-     is already right. */
+  /* The drop-in, into the output, in one piece — the same copy a project with
+     only Composer makes, out of the same function. Not through the source and
+     `asset()`: the renderer copies what a parsed document points at, and
+     nothing points at the faces or at the icon sprite. */
   const styles = join(project.out, 'styles');
-  mkdirSync(styles, { recursive: true });
-  for (const file of ['soul.css', 'document.css', 'soul.js', 'soul-boot.js']) {
-    cpSync(join(DROP, file), join(styles, file));
-  }
-  cpSync(join(DROP, 'fonts'), join(styles, 'fonts'), { recursive: true });
-  /* Beside the script, not beside the pages: `soul.js` resolves the icon
-     sprite against its own URL, which is what makes the drop-in a directory
-     you copy anywhere. Put the assets one level up and every icon is a blank
-     box with a 404 behind it. The cards point here too. */
-  cpSync(join(ROOT, 'assets'), join(styles, 'assets'), { recursive: true });
+  dropIn(DROP, styles);
   /* The chrome the cards are drawn with. Not part of the drop-in and it must
      not be — a design built with this system inherits the token and component
      layers only — but inside a specimen frame it is what draws the captions.
@@ -156,95 +111,13 @@ for (const project of PROJECTS) {
   cpSync(join(ROOT, 'src', 'styles', '_specimen.css'), join(styles, '_specimen.css'));
 }
 
-/* Nothing may point outside the site.
+/* The three steps between a render and a site — every element drawn ahead of
+   the browser, the index the bar searches, and the refusal of a reference that
+   leaves the output. They are `scripts/lib/site.ts`, which is also what
+   `dist/soul-finish.js` is: what is published here and what the documentation
+   tells another project to run are the same code. */
+const { drawn, indexed, broken } = finish(SITE);
 
-   What is published is `site/` and nothing else — not the repository around
-   it, not `dist/`, not `specimens/`. A reference that resolves here because
-   this happens to be a checkout is a reference that resolves to nothing on the
-   server, and the failure arrives as a page with no stylesheet rather than as
-   an error anybody sees. So it is asked here, once, over every file the site
-   ships: cards included, since those are documents too.
-
-   The same check the upload bundle gets, for the same reason and after the
-   same defect. */
-function escapes(): string[] {
-  const bad: string[] = [];
-  for (const file of walkHtml(SITE)) {
-    const text = readFileSync(file, 'utf8').replace(/&lt;[\s\S]*?&gt;/g, '');
-    for (const m of text.matchAll(/(?:href|src)="([^"]+)"/g)) {
-      const ref = m[1];
-      if (!ref || /^(https?:|data:|mailto:|#)/.test(ref)) continue;
-      const target = resolve(dirname(file), ref.split('#')[0] ?? ref);
-      if (!target.startsWith(SITE + sep)) {
-        bad.push(`${relative(SITE, file)} → ${ref} (leaves the site)`);
-      } else if (!existsSync(target)) {
-        bad.push(`${relative(SITE, file)} → ${ref}`);
-      }
-    }
-  }
-  return bad;
-}
-
-function* walkHtml(dir: string): Generator<string> {
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    const p = join(dir, entry.name);
-    if (entry.isDirectory()) yield* walkHtml(p);
-    else if (entry.name.endsWith('.html')) yield p;
-  }
-}
-
-/* The index a reader searches, written from what was rendered rather than
-   from what was parsed: a page that did not make it into the site is not a
-   page anybody can find. Titles and the first paragraph — enough to tell two
-   pages apart, small enough that fetching it costs nothing.
-
-   `_acceptance` is left out: it is a control surface, and a reader searching
-   the manual should not be handed the kitchen sink. */
-function writeIndex(): number {
-  const entries: { title: string; url: string; text: string }[] = [];
-  for (const file of walkHtml(SITE)) {
-    const url = relative(SITE, file).split(sep).join('/');
-    if (url.startsWith('_')) continue;
-    const html = readFileSync(file, 'utf8');
-    const title = /<title>([\s\S]*?)<\/title>/.exec(html)?.[1]?.split('—')[0]?.trim() ?? url;
-    const first = /<article class="sds-prose">[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/.exec(html)?.[1] ?? '';
-    const text = first.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 400);
-    entries.push({ title, url, text });
-  }
-  entries.sort((a, b) => a.url.localeCompare(b.url));
-  writeFileSync(join(SITE, '_search.json'), JSON.stringify(entries));
-  return entries.length;
-}
-
-/* Every element in the site, rendered before the browser gets there.
-
-   This is what makes the theme's templates able to *address* a component
-   rather than rebuild one — see `scripts/lib/prerender.ts`, which is where the
-   reasoning is. It runs over the rendered output rather than inside the PHP,
-   because the renderer is a Composer package and these components are TypeScript:
-   the one place both exist is here, after one has finished and before anything
-   is published.
-
-   Before the search index, so what a reader searches for is what a reader
-   sees: a card's title lives in the element until this runs, and an index
-   built first would hold the empty tag instead of the headline in it. */
-function prerenderSite(): number {
-  let touched = 0;
-  for (const file of walkHtml(SITE)) {
-    const page = readFileSync(file, 'utf8');
-    const done = prerender(page);
-    if (done === page) continue;
-    writeFileSync(file, done);
-    touched++;
-  }
-  return touched;
-}
-
-const drawn = prerenderSite();
-
-const indexed = writeIndex();
-
-const broken = escapes();
 if (broken.length) {
   console.error(`\n✗ ${broken.length} reference(s) do not resolve inside site/:`);
   for (const line of broken.slice(0, 12)) console.error(`  - ${line}`);
