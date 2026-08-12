@@ -99,6 +99,29 @@ and the documents themselves are not comments and say what they have to say.
 If a change would deviate from `SKILL.md`, read the matching section of
 `RATIONALE.md` before deciding, not after.
 
+## A page lives where the menu puts it
+
+**In `docs/`, the tree on disk is the tree in the navigation.** A page that
+appears under a section in the menu is a file in that section's directory; the
+section's own page is the `index.rst` beside its children, and its `toctree`
+names only what lies below it. A page with no children stays a single file and
+becomes a directory with an `index.rst` on the day it gets any. A `../` in a
+`toctree` is the rule already broken — it puts a page under one heading for a
+reader and somewhere else for whoever opens the directory.
+
+This binds the whole move, not the file: renaming a menu entry renames the
+directory, and moving a page between sections moves the file, its entry in the
+old `toctree` and the links that pointed at it. `make verify ARGS=refs` names
+whatever stayed behind, and a page still reachable from a stale path is not a
+reason to leave the tree split.
+
+The menu is the only map most readers are given, and an editor arrives from
+either side of it — from the published page, knowing the path they clicked, or
+from the checkout, knowing the file. A structure that agrees with the menu
+answers both with the same lookup; one that does not charges a search every
+time, and the drift is invisible to everyone except the person who happens to
+need the page that moved.
+
 ## What `packages/` means
 
 Everything under it is pushed to a repository of its own and published from
