@@ -79,7 +79,13 @@ jobs:
       # the tree is bind-mounted, and output written as root cannot be read
       # back by the steps that follow.
       - name: Bring up the container the tasks run in
-        run: SDS_UID=$(id -u) SDS_GID=$(id -g) docker compose -f .infra/docker-compose.yml up -d app
+        run: |
+          # A fresh checkout has no `.out/`, and Docker creates a missing
+          # bind-mount path as root — which leaves the whole directory
+          # unwritable for the UID below. `make` does this too; this is the
+          # one compose call that does not go through it.
+          mkdir -p .out/storybook
+          SDS_UID=$(id -u) SDS_GID=$(id -g) docker compose -f .infra/docker-compose.yml up -d app
 
       # The line that decides whether the tree is consistent; everything else
       # in this file exists to make it run.
