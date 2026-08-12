@@ -129,19 +129,29 @@ nothing and hold empty cards.
 So the drop-in carries that step. `packages/frontend/dist/soul-finish.js` is
 `scripts/lib/site.ts` bundled for Node — copy the drop-in, draw every element,
 write the search index, refuse a reference that leaves the output — and
-`make guides` calls the same functions rather than its own copy, which is what
-keeps the documented build and ours from being two builds. A consuming project
-needs PHP, Composer and the Node that is on every CI image, and one checkout
-of this repository for the drop-in: `examples/starter/` is that project, and
-the gate builds it that way on every push.
+`make guides` **runs that file** rather than importing what it was built from.
+Not a copy of the documented step and not a second implementation of it: the
+same bytes a reader is handed, which is why rendering this site needs a PHP,
+a Node and nothing installed. A consuming project needs no more than that, and
+`examples/starter/` is that project written down.
 
-**What is still open is registration, not mechanism.** Neither package is
-published yet: the mirrors have to be pushed once, and the names claimed on
-Packagist and npm. Until then `examples/starter/composer.json` requires the
-theme from a path repository against a checkout of this repository — which is
-also where its drop-in comes from — and the example is where that is written
-down. The package the mirror produces has been installed and rendered from,
-so what is untested is the registration and nothing else.
+**The mirror needs one thing no file here can carry: a token.** The job pushes
+into repositories this run does not belong to, and `GITHUB_TOKEN` is scoped to
+the one it does — so `SPLIT_TOKEN` is a secret on this repository, a
+fine-grained token with `Contents: write` on the two mirrors and no other
+grant. Missing, the job stops on that sentence instead of pushing half a
+release. It is the whole setup, and it is needed once:
+
+```sh
+gh secret set SPLIT_TOKEN
+```
+
+**What is still open is registration, not mechanism.** Neither name is claimed
+on Packagist or npm yet. Until then `examples/starter/composer.json` names the
+theme's mirror as a VCS repository and asks for `dev-main`, and the drop-in
+arrives inside that package — the example is where this is written down.
+Nothing in CI installs it: what holds the documented path honest is that this
+site is rendered along it, with the same file a reader runs.
 
 ## Decisions that were made on purpose
 

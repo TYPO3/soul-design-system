@@ -260,7 +260,7 @@ creates a second one. It compares against the anchor the project stores
 | `stories/` | the specimen every card and screen is generated from, and the components with their controls |
 | `docs/` | the published documentation — the manual, the guideline pages with their specimens embedded, and the prompts those pages print whole |
 | `packages/guides-theme/` | the Composer package that maps phpDocumentor Guides onto this system, and the acceptance render it is checked against |
-| `examples/starter/` | a documentation project to copy — the theme, both page shapes and the workflow that publishes it, built by the gate the way its own instructions describe |
+| `examples/starter/` | a documentation project to copy — the theme, both page shapes and the workflow that publishes it |
 | `tests/` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
 | `.infra/` | Dockerfile, compose and the entrypoint |

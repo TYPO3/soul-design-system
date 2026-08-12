@@ -126,7 +126,7 @@ by the next release.
 | `stories/` | the specimen every card and screen is generated from |
 | `docs/` | the published documentation — the manual, the guideline pages, and the prompts they print for copying |
 | `packages/guides-theme/` | the Composer package: templates, directives, and the acceptance render |
-| `examples/starter/` | the project a consumer copies — built by the gate the way its own workflow describes, so it is a fixture and not a sample |
+| `examples/starter/` | the project a consumer copies — the theme, both page shapes and the workflow that publishes them |
 | `tests/*.spec.ts` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
 | `.storybook/`, `.infra/`, `.github/` | the documentation surface, the container, the gate on every push |
@@ -194,9 +194,11 @@ match the drawings) · `headers` (`@dsCard`, `@startingPoint`) · `heights`
 defined) · `coverage` (every component is shown) · `refs` (every local
 reference resolves) · `fit` (render, inside the declared viewport) · `ssr`
 (every element renders outside a browser) · `dist` (the committed drop-in
-against its source) · `cards` (every card against its story, and none without
-one) · `types` (`tsc --noEmit`) · `conventions` (the names in
-`.design-sync/conventions.md` against the built stylesheets).
+against its source) · `split` (each package assembles into something a project
+could install) · `cards` (every card against its story, and none without
+one) · `types` (`tsc --noEmit`) · `php` (the theme's sources against the coding
+standard) · `conventions` (the names in `.design-sync/conventions.md` against
+the built stylesheets).
 
 `make test` runs these suites, each guarding something the others cannot see:
 
@@ -253,8 +255,11 @@ the change crosses layers — a token, `components.css`, a build script. A narro
 run is a step, never the answer to "is it green".
 
 `.github/workflows/ci.yml` runs `make verify` and `make test` on every push, in
-the same image, and publishes `.out/site/` from `main`. That is a net under the
-rule, not a replacement for it: a red run there is a commit already pushed, and
+the same image. On `main` and behind that gate it mirrors the packages, then
+renders and deploys `.out/site/` — that render needs no container, and the day
+it does is the day it has grown something worth removing. All of it is a net
+under the rule, not a replacement for it: a red run there is a commit already
+pushed, and
 whoever reads it has to work out what the tree looked like instead of watching
 it fail in front of them.
 
@@ -286,10 +291,11 @@ and reads that page's tokens.
 
 **Change what a consuming project has to run** — the steps are
 `scripts/lib/site.ts`, shipped as `packages/frontend/dist/soul-finish.js`, and the project that
-runs them is `examples/starter/`. Change those; the manual quotes the example's
-files rather than restating them, and the gate builds the example the way its
-own workflow describes. A step documented but not run there is a step nothing
-holds to.
+runs them is `examples/starter/`. Change those, then `make dist`: `make guides`
+runs the built file rather than the source, so an unbuilt change reaches this
+site as the old one. The manual quotes the example's files rather than
+restating them, and rendering this site is the path being documented — a step
+that stops working there stops the site.
 
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.
