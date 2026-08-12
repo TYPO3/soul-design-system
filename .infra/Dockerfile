@@ -15,7 +15,11 @@
 # here and installing the browser afterwards keeps the two independent — a
 # Playwright bump changes one line and cannot move the runtime out from under
 # the scripts.
-FROM node:24-bookworm AS base
+#
+# `-slim`, because the difference is a compiler toolchain and a set of
+# version-control clients nothing here asks for — most of a gigabyte that CI
+# moves on every run. `npm ci` runs with `--ignore-scripts`; nothing compiles.
+FROM node:24-bookworm-slim AS base
 
 # PHP, because the documentation renderer is written in it.
 #
@@ -61,23 +65,28 @@ COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund --ignore-scripts \
  && npx playwright install --with-deps chromium \
  && chmod -R a+rX /ms-playwright \
+ # Vite and Storybook write their caches inside node_modules, which the
+ # container's UID does not own. It happens in this layer rather than after
+ # the source is copied: a recursive chmod writes every file it touches into
+ # its own layer, and one placed below `COPY . .` is rebuilt on every commit.
+ && chmod -R a+rwX node_modules \
  # npm and npx write here, and the container runs as a UID with no home.
  && mkdir -p /tmp/.npm && chmod -R a+rwX /tmp/.npm
 
 COPY . .
 
-# The image is run as an arbitrary UID, and the build writes into /app —
-# ds-bundle/, dist/ and storybook-static/. Writable by anyone is
-# right for a development image and wrong for a published one; this is the
-# former.
+# The image runs as an arbitrary UID and writes into /app — ds-bundle/, dist/,
+# storybook-static/. Writable by anyone is right for a development image and
+# wrong for a published one; this is the former. node_modules is skipped
+# because the layer above already granted it, and repeating it here would copy
+# the installed dependencies into a layer that every commit invalidates.
 #
-# storybook-static/ is created here even though it is empty, and that is the
-# load-bearing part: compose keeps it in an anonymous volume, and Docker
-# seeds such a volume from the image path it shadows. With no directory
-# there, it creates one owned by root — which the container, running as the
-# host's UID, then cannot write.
+# storybook-static/ is created empty on purpose: compose keeps it in an
+# anonymous volume seeded from this path, and with no directory here Docker
+# creates that volume owned by root, which the container then cannot write.
 RUN mkdir -p /app/storybook-static /app/test-results /app/playwright-report \
- && chmod -R a+rwX /app
+ && chmod a+rwX /app \
+ && find /app -mindepth 1 -maxdepth 1 ! -name node_modules -exec chmod -R a+rwX {} +
 
 COPY .infra/docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
