@@ -7,6 +7,9 @@
 :where(.sds-prose) h5{margin:var(--space-5) 0 var(--space-1);font-size:var(--font-size-ui);font-weight:var(--weight-semibold);line-height:var(--leading-heading);color:var(--text-primary)}
 :where(.sds-prose) h6{margin:var(--space-5) 0 var(--space-1);font-family:var(--font-mono);font-size:var(--font-size-label);font-weight:var(--weight-medium);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--text-muted)}
 :where(.sds-prose)>:first-child{margin-top:0}
+:where(.sds-prose) .sds-permalink{margin-left:var(--space-2);font-family:var(--font-mono);font-size:.7em;font-weight:var(--weight-regular);color:var(--border-strong);text-decoration:none}
+:where(.sds-prose) .sds-permalink:hover{color:var(--text-link)}
+:where(.sds-prose) .section:target>:is(h1,h2,h3,h4,h5,h6){color:var(--text-accent-quiet)}
 .sds-prose{max-width:none}
 :where(.sds-prose) p,:where(.sds-prose) dt,:where(.sds-prose) hr,:where(.sds-prose) h1,:where(.sds-prose) h2,:where(.sds-prose) h3,:where(.sds-prose) h4,:where(.sds-prose) h5,:where(.sds-prose) h6{max-width:var(--measure-prose)}
 :where(.sds-prose) li,:where(.sds-prose) dd{max-width:var(--measure-prose)}

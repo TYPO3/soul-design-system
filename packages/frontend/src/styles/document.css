@@ -91,6 +91,26 @@
 /* A heading is the top of what follows, not a gap after what came before. */
 :where(.sds-prose) > :first-child { margin-top: 0; }
 
+/* A heading names a place, and the id a renderer puts on the section around it
+   is the only thing that says where. This is how that place is handed over —
+   the glyph `sds-confval` already carries beside a name, so a page has one
+   idiom for "link to this" and not two. Relative, because it stands beside
+   headings from the display size down to the label register. */
+:where(.sds-prose) .sds-permalink {
+  margin-left: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  font-weight: var(--weight-regular);
+  color: var(--border-strong);
+  text-decoration: none;
+}
+:where(.sds-prose) .sds-permalink:hover { color: var(--text-link); }
+/* Landing on one section out of thirty says which one — the same mark the
+   confval makes, because it is the same arrival. */
+:where(.sds-prose) .section:target > :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--text-accent-quiet);
+}
+
 /* ------------------------------------------------------------ the block -- */
 
 /* The measure belongs to the text, not to the column. A reference is sentences

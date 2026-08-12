@@ -1,0 +1,16 @@
+{#
+    A heading, and the way to hand somebody the place it names.
+
+    The core writes the heading alone and puts the id on the section around it,
+    so every heading on a page is a target nothing can point at. The mark is
+    the one `sds-confval` already draws beside a name — same glyph, same
+    behaviour — under the document layer's own class, so a page has one idiom
+    for "link to this" rather than two.
+
+    Not on the page title: a link to the top of a page is the address the
+    reader is already holding.
+#}
+<h{{ node.level }}{% if node.classes %} class="{{ node.classesString }}"{% endif %}>
+    {{- renderNode(node.value) -}}
+    {%- if node.level > 1 and node.id %}<a class="sds-permalink" href="#{{ node.id }}" aria-label="Permalink to {{ node.toString }}">#</a>{% endif -%}
+</h{{ node.level }}>

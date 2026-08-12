@@ -105,7 +105,6 @@ Klasse noch Komponente gibt.
 | **Annotationsliste** | Sammelknoten | |
 | **Zeilenblock** | `div.line-block` > `div.line` | Funktioniert heute nur, weil `div` umbricht — eine Regel hat er nicht. Auch von confval benutzt |
 | **Math** | `<math>` bzw. MathJax-Ausgabe | Keine Schrift, keine Regel dafür |
-| **Permalink zur Überschrift** | Im Kern gar nicht; Themes hängen ein Ankerzeichen an | Ohne das ist keine Überschrift verlinkbar |
 | **Container / wrap** | `div` mit **beliebigen** Klassen aus dem Quelltext | Braucht eine Policy: was darf ein Autor an Klassen setzen |
 
 ## Gegenstück da, Markup fremd
@@ -151,8 +150,10 @@ Nicht Styling, sondern was das Paket können muss.
   angenommen und verworfen: wohin ein Sprung in eine zusammengefaltete Antwort
   landet — und ob er sie aufklappt — ist nicht entschieden. `:header-level:`
   ebenso, denn die Zusammenfassung ist ein Bedienelement und keine Überschrift.
-- **`:target`.** Anker sind überall (confval, Glossar, Fußnoten, Karten). Was
-  die angesprungene Stelle anzeigt, ist nicht entschieden.
+- **`:target`.** Für Überschrift und confval ist es entschieden: die
+  angesprungene Stelle färbt ihren Namen ruhig im Akzent. Für Glossar,
+  Fußnoten und Karten steht es aus, und die Antwort ist dieselbe oder eine
+  begründete andere.
 - **Druck.** Kein Druck-Stylesheet.
 - **Niemand sieht, wie die Seite aussieht.** `tests/guides.spec.ts` rendert und
   öffnet sie: es lädt jede Seite unter `.out/site/` und lässt keinen Fehler und

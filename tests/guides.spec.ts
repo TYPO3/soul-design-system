@@ -151,6 +151,34 @@ test.describe('what the theme repaired', () => {
     expect(await page.locator(`${target} .sds-prose`).count()).toBe(1);
   });
 
+  test('a heading hands over the place it names', async ({ page }) => {
+    await page.goto(REFERENCE, { waitUntil: 'load' });
+
+    /* The id is on the section, the heading is inside it, and nothing in the
+       core's output joins the two — so every section of every page is a place
+       a reader can be sent to and cannot send anybody to. */
+    const marks = await page.evaluate(() =>
+      [...document.querySelectorAll('.sds-prose .section')]
+        .map((section) => {
+          const heading = section.querySelector(':scope > :is(h1, h2, h3, h4, h5, h6)');
+          return {
+            id: section.id,
+            level: heading?.tagName ?? '',
+            href: heading?.querySelector('a.sds-permalink')?.getAttribute('href') ?? null,
+          };
+        })
+        /* The page is a section too, and its heading is the title. */
+        .filter((m) => m.level !== 'H1'));
+
+    expect(marks.length).toBeGreaterThan(2);
+    expect(marks.filter((m) => m.href !== `#${m.id}`)).toEqual([]);
+    for (const { id } of marks) await expect(page.locator(`#${id}`)).toHaveCount(1);
+
+    /* And not on the title: a link to the top of a page is the address the
+       reader followed to get here. */
+    await expect(page.locator('.sds-prose h1 a.sds-permalink')).toHaveCount(0);
+  });
+
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

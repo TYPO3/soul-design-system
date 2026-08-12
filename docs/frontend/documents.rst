@@ -50,7 +50,8 @@ What it sets
    * - Group
      - Covers
    * - Headings
-     - ``h1``–``h6``, all six levels
+     - ``h1``–``h6``, all six levels, and ``.sds-permalink`` — the mark that
+       hands over the place a heading names
    * - Blocks
      - paragraphs, block quotes, transitions, code blocks and literal blocks
    * - Lists
