@@ -392,6 +392,28 @@ test.describe('what the reader gets before the script does', () => {
     });
     expect(bar.mark).toBeCloseTo(bar.inset, 0);
   });
+
+  test('the sections the server resolved are in the bar, and the bar stays on the page', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The sections are configuration the renderer resolves per page and writes
+       between the tags — the element measures them, it does not own them. Kept
+       only where an element could lift them, they were a `<template>` nobody
+       can see and a bar with no navigation in it. */
+    const pills = page.locator('.sds-bar .sds-menu__items .sds-pill');
+    expect(await pills.count()).toBeGreaterThan(1);
+    await expect(pills.first()).toBeVisible();
+
+    /* And the width they need, at one no measurement can fold them at: nothing
+       has measured, so the row wraps and the bar grows instead of the page
+       running out sideways under it. */
+    await page.setViewportSize({ width: 380, height: 900 });
+    const room = await page.evaluate(() => ({
+      wide: document.documentElement.scrollWidth,
+      window: window.innerWidth,
+    }));
+    expect(room.wide).toBeLessThanOrEqual(room.window);
+  });
 });
 
 test.describe('the colour the server already wrote', () => {

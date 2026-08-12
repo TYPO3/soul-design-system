@@ -238,7 +238,12 @@ export class SdsMenu extends SdsNav {
 </div>`;
     }
 
-    const written = this.taken ?? this.content;
+    /* Empty rather than absent where nothing was lifted, so the fallback is
+       the length and not a `??` that a `[]` never reaches — which is how a
+       prerendered bar came to hold an empty `<nav>` and a page with no script
+       lost its sections. `lifted()` runs in a browser only; in Node the same
+       links arrive as `content`. */
+    const written = this.taken.length ? this.taken : this.content;
     const shown = !this.collapsed || this.open;
     return html`<div class="sds-menu${this.collapsed ? ' is-collapsed' : ''}" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">
   ${this.toggle_(this.navId)}
@@ -248,7 +253,7 @@ export class SdsMenu extends SdsNav {
     aria-label="${this.label}"
     ?hidden="${!shown}"
   >
-    ${written.length ? written : lines(this.items_(), 4)}
+    ${written || lines(this.items_(), 4)}
   </nav>
 </div>`;
   }

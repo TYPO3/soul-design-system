@@ -1402,6 +1402,17 @@ sds-menu:not(:defined) {
   font-family: var(--font-mono);
   font-size: var(--nav-font-size);
 }
+/* And the row itself, which on a prerendered page the server wrote inside the
+   wrapper: nothing has measured yet, so nothing can fold it into a button, and
+   a row that cannot fold keeps its own width and wraps. The bar wraps with it
+   and takes the height that costs, for as long as that is the state it is in —
+   a header of two rows beats a page that scrolls sideways under one. */
+sds-menu:not(:defined) .sds-menu__items { flex-wrap: wrap; min-width: min-content; }
+.sds-bar:has(sds-menu:not(:defined)) {
+  flex-wrap: wrap;
+  height: auto;
+  min-height: var(--height-header);
+}
 /* Collapsed, the menu is one button, and a button belongs with the other
    controls rather than left standing where four words used to be. It takes
    the free space instead of the end cluster, so the two sit together. */

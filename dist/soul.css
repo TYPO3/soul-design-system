@@ -275,8 +275,8 @@ button.sds-pill,button.sds-tab,button.sds-rail__item{font:inherit;border:0;backg
 .sds-pill.is-active{background:var(--accent);color:var(--text-on-accent)}
 .sds-menu{display:flex;align-items:center}
 sds-menu:not(:defined){display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-1);font-family:var(--font-mono);font-size:var(--nav-font-size)}
-sds-menu:not(:defined) .sds-menu__items{flex-wrap:wrap}
-.sds-bar:has(sds-menu:not(:defined)){height:auto;min-height:var(--height-header)}
+sds-menu:not(:defined) .sds-menu__items{flex-wrap:wrap;min-width:min-content}
+.sds-bar:has(sds-menu:not(:defined)){flex-wrap:wrap;height:auto;min-height:var(--height-header)}
 .sds-bar .sds-menu.is-collapsed{margin-left:auto}
 .sds-bar:has(.sds-menu.is-collapsed) .sds-bar__end{margin-left:0}
 .sds-menu__items{display:flex;gap:var(--space-1);font-family:var(--font-mono);font-size:var(--nav-font-size)}
