@@ -85,7 +85,7 @@ export default defineConfig({
          a template that stopped emitting what it used to — is exactly what
          a stale render hides. The renderer is PHP over a handful of
          documents and costs about a second. */
-      command: `node scripts/guides.ts && node scripts/serve.ts ${SITE_PORT} ${SITE_DIR}`,
+      command: `node scripts/embed.ts && node scripts/guides.ts && node scripts/serve.ts ${SITE_PORT} ${SITE_DIR}`,
       url: SITE_URL,
       reuseExistingServer: !process.env['CI'],
       timeout: 240_000,

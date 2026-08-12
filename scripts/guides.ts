@@ -13,12 +13,9 @@ import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } fr
 import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-import { FRONTEND, GENERATED, ROOT, cards, screens } from './lib/cards.ts';
+import { FRONTEND, GENERATED, ROOT } from './lib/cards.ts';
 import { PACKAGES } from './lib/packages.ts';
-
-const THEME = join(ROOT, 'packages', 'guides-theme');
-const SITE = join(GENERATED, 'site');
-const ACCEPTANCE = join(GENERATED, 'acceptance');
+import { PROJECTS } from './lib/projects.ts';
 
 /* This site is built the way the manual tells a project to build one: the
    theme is installed, and the renderer, the templates and the drop-in all come
@@ -34,52 +31,6 @@ const DROP = join(CONSUMER, 'vendor', 'typo3', 'soul-guides-theme', 'resources',
 /* The step after the render, run rather than imported: it is `lib/site.ts`
    bundled, and inside the package it is the file the manual prints. */
 const FINISH = join(DROP, 'soul-finish.js');
-
-interface Project {
-  /** What it is called in the output and in the log. */
-  name: string;
-  /** The documents, and the `guides.xml` beside them. */
-  source: string;
-  /** Its own root: a rendered site resolves everything relative to one. */
-  out: string;
-}
-
-const PROJECTS: Project[] = [
-  /* The manual and the landing page. Renders into the publish root, because
-     that is what Pages serves. */
-  { name: 'docs', source: join(ROOT, 'docs'), out: SITE },
-  /* The acceptance test for the theme: every node the renderer can emit, once,
-     where it can be looked at. A control surface rather than a published one,
-     so it is a root of its own beside the publish root and not a directory
-     inside it — what is published is then the whole of what was rendered
-     there, with nothing to remember to take back out. */
-  { name: 'acceptance', source: join(THEME, 'acceptance'), out: ACCEPTANCE },
-];
-
-/* The specimen cards, where the documents can reach them. A guideline page
-   embeds the card that renders the rule it states, and a card is a whole
-   document with a stylesheet of its own, so it has to be copied into the
-   source: `asset()` only carries what a parsed document points at. The links
-   inside are rewritten on the way, counted rather than written down. */
-function copyCards(source: string): void {
-  const out = join(source, '_cards');
-  rmSync(out, { recursive: true, force: true });
-  /* Screens as well as cards. A guideline page about layout embeds whole
-     pages, and they are specimens by the same definition — a rendering of a
-     rule, kept beside the rule. */
-  for (const card of [...cards(), ...screens()]) {
-    const rel = relative(join(ROOT, 'specimens'), card.path);
-    const target = join(out, rel);
-    mkdirSync(join(target, '..'), { recursive: true });
-    /* Two levels: `_cards/<group>/<file>` in the output, so the climb is
-       counted from where each card lands rather than assumed flat. */
-    const up = '../'.repeat(rel.split('/').length);
-    writeFileSync(target, readFileSync(card.path, 'utf8')
-      .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/styles\.css"/g, `href="${up}styles/soul.css"`)
-      .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/_specimen\.css"/g, `href="${up}styles/_specimen.css"`)
-      .replace(/(src|href)="(?:\.\.\/)+packages\/frontend\/assets\//g, `$1="${up}styles/assets/`));
-  }
-}
 
 const run = (cmd: string, args: string[], cwd = ROOT): number =>
   spawnSync(cmd, args, { cwd, stdio: 'inherit' }).status ?? 1;
@@ -128,7 +79,13 @@ if (!existsSync(FINISH)) {
 for (const project of PROJECTS) rmSync(project.out, { recursive: true, force: true });
 
 for (const project of PROJECTS) {
-  copyCards(project.source);
+  /* Put there by `make embed`, which `make cards` ends with: the guideline
+     pages point at cards, and a renderer told to fail on a reference it cannot
+     resolve would report every one of them instead of the one thing missing. */
+  if (!existsSync(join(project.source, '_cards'))) {
+    console.error(`✗ ${project.name} has no _cards/ beside its documents — run \`make embed\` first`);
+    process.exit(1);
+  }
   const code = run(GUIDES, [
     project.source,
     `--output=${project.out}`,

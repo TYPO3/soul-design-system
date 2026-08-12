@@ -15,7 +15,8 @@ import { pathToFileURL } from 'node:url';
 
 import { inlineArtRefs } from '../packages/frontend/src/components/art.static.ts';
 import { indent, type DsCard, type DsScreen } from '../stories/lib/specimen.ts';
-import { cards, inRepo, screens, ROOT } from './lib/cards.ts';
+import { cards, embedCards, inRepo, screens, ROOT } from './lib/cards.ts';
+import { PROJECTS } from './lib/projects.ts';
 
 const STORIES = join(ROOT, 'stories');
 
@@ -184,6 +185,13 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   }
   for (const rel of stray) console.log(`   ORPHAN    ${rel}  ←  nothing`);
   console.log(`   ${results.length} generated cards, ${stale.length} ${check ? 'stale' : 'written'}, ${stray.length} orphaned`);
+
+  /* And where the documents can reach them, so a tree that has just generated
+     its cards is one the render can be pointed at. Not on `--check`: that run
+     is a question about the tree and answers it without changing one. */
+  if (!check) {
+    for (const project of PROJECTS) console.log(`   ${embedCards(project.source)} beside ${project.name}`);
+  }
 
   if (check && stale.length) {
     console.error(`\n✗ ${stale.length} card(s) do not match their story. Run \`make cards\` and commit the result.`);

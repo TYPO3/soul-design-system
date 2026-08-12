@@ -134,7 +134,10 @@ stylesheet.
 
 **This site is built as one of those projects.** `make guides` installs the
 theme into `.out/consumer/` and takes the renderer, the templates and the
-drop-in out of that `vendor/` — it imports none of them from the tree. The
+drop-in out of that `vendor/` — it imports none of them from the tree, and it
+renders rather than prepares: the cards its pages embed are put beside those
+pages by `make embed`, which reads `specimens/` and generates nothing, so the
+one step that needs no install is the one the publishing runner can take. The
 manifest is `docs/guides-theme/_starter/composer.json`, the file the manual
 prints, with one entry changed on a desk: a path repository on the package
 `scripts/lib/packages.ts` assembles, where CI reads `dev-main` from the mirror

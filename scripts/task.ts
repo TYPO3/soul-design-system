@@ -33,7 +33,8 @@ const TASKS: Record<string, Task> = {
      silently ran all of it. `verify.ts` builds the bundle itself, for the one
      check that reads it. `make verify ARGS=--help` lists the names. */
   verify: { cmd: node('scripts/verify.ts'), help: 'the gate: headers, classes, refs, fit, cards, types, conventions — ARGS names a subset' },
-  cards: { cmd: node('scripts/cards.ts'), help: 'regenerate the component cards from their stories' },
+  cards: { cmd: node('scripts/cards.ts'), help: 'regenerate the component cards from their stories, and embed them' },
+  embed: { cmd: node('scripts/embed.ts'), help: 'put the generated cards where the documents that embed them can reach them' },
   typecheck: { cmd: node('node_modules/typescript/bin/tsc', '--noEmit'), help: 'tsc --noEmit' },
   test: { cmd: ['npx', 'playwright', 'test'], help: 'the Playwright suite' },
   fit: { cmd: node('scripts/fit.ts'), help: 'does every card fit its declared viewport' },

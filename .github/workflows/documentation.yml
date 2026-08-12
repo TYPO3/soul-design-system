@@ -36,6 +36,12 @@ jobs:
         with:
           node-version: '24'
 
+      # The cards these pages embed, out of the committed `specimens/` and into
+      # the documents beside them. It generates nothing, which is why it can run
+      # here: `make cards` writes them with Lit, and this only puts them where a
+      # renderer will look.
+      - run: node scripts/embed.ts
+
       # The task installs the theme and renders against it either way — on a
       # desk from a path repository on this tree, here from the mirror the job
       # before this one pushed to, with the `composer.json` the manual prints.

@@ -8,7 +8,7 @@
    fit check, the screenshots — reads cards through here, so there is one
    parser and not five. */
 
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -201,4 +201,32 @@ export function byGroup<T extends { group: string }>(list: readonly T[]): Map<st
     else g.set(c.group, [c]);
   }
   return new Map([...g.entries()].sort(([a], [b]) => a.localeCompare(b)));
+}
+
+/* The specimen cards, where the documents can reach them. A guideline page
+   embeds the card that renders the rule it states, and a card is a whole
+   document with a stylesheet of its own, so it has to be copied into the
+   source: `asset()` only carries what a parsed document points at. The links
+   inside are rewritten on the way, counted rather than written down. */
+export function embedCards(source: string): number {
+  const out = join(source, '_cards');
+  rmSync(out, { recursive: true, force: true });
+  /* Screens as well as cards. A guideline page about layout embeds whole
+     pages, and they are specimens by the same definition — a rendering of a
+     rule, kept beside the rule. */
+  let written = 0;
+  for (const card of [...cards(), ...screens()]) {
+    const rel = relative(join(ROOT, 'specimens'), card.path);
+    const target = join(out, rel);
+    mkdirSync(join(target, '..'), { recursive: true });
+    /* Two levels: `_cards/<group>/<file>` in the output, so the climb is
+       counted from where each card lands rather than assumed flat. */
+    const up = '../'.repeat(rel.split('/').length);
+    writeFileSync(target, readFileSync(card.path, 'utf8')
+      .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/styles\.css"/g, `href="${up}styles/soul.css"`)
+      .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/_specimen\.css"/g, `href="${up}styles/_specimen.css"`)
+      .replace(/(src|href)="(?:\.\.\/)+packages\/frontend\/assets\//g, `$1="${up}styles/assets/`));
+    written++;
+  }
+  return written;
 }
