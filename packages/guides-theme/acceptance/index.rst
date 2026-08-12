@@ -246,6 +246,55 @@ Cards
       rather than left blank, and so is the ground the picture would sit on —
       a card with a hole in it is what a set of them lines up against.
 
+The cards a manual is signposted with
+=====================================
+
+The other card, and the spelling a TYPO3 manual already uses: the target is
+written into the title, the column counts are read as how much room a card
+needs, and the whole card is the link.
+
+.. card-grid::
+   :columns: 1
+   :columns-md: 2
+   :gap: 4
+   :card-height: 100
+
+   .. card:: :doc:`nodes`
+
+      The title is a reference and nothing else says where this goes. What is
+      between the tags is blocks, which is the one thing an attribute cannot
+      carry:
+
+      - a list is one of them,
+      - and a second paragraph is another.
+
+   .. card:: A card with every option on it
+      :href: /nodes
+      :label: Chapter 02
+      :icon: actions-book
+      :src: /_images/placeholder.svg
+      :alt: A placeholder
+      :footer: Both halves at once
+      :action: Read it
+
+      What the directive can say is what ``sds-card`` draws, and this is the
+      whole of it: the picture, the glyph and the row above the title, the
+      title, the foot, and the words that say what pressing the card does.
+
+.. card-grid::
+   :columns: 6
+
+   .. card:: :doc:`nodes`
+      :icon: actions-database
+
+      Five or six across, where a card is a name and a glyph.
+
+   .. card:: A card with nowhere to go
+      :icon: actions-tag
+
+      Without a target the title is a title, the card is not a target, and no
+      action is drawn under it.
+
 A document inside this one
 ==========================
 

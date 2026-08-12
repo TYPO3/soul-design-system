@@ -26,7 +26,7 @@ Two rules follow, and both are load-bearing:
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` `sds-checkbox` `sds-radio` `sds-form-errors` |
 | Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` `sds-crumbs` `sds-footer` `sds-accordion` `sds-search` — search fetches its index on the first keystroke and draws `sds-result` rows in the menu's drop |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` |
-| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-image` `sds-embed` `sds-lightbox` `sds-teaser` `sds-result` `sds-pagination` |
+| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-image` `sds-embed` `sds-lightbox` `sds-card` `sds-teaser` `sds-result` `sds-pagination` — `sds-card` is a way into something and the whole of it is the link; `sds-teaser` is one entry in a list, where only the title is |
 | States | `sds-note` `sds-empty` |
 | Long text | `sds-quote` `sds-byline` — both take `as` for what the source is; `role` is the ARIA attribute and cannot be used |
 
@@ -77,12 +77,13 @@ inline styles — do not mint a `sds-` name.
 | Root, text | `sds-app` `sds-prose` `sds-label` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--16` `sds-icon--20` `sds-icon--24` `sds-icon--muted` |
 | Type | `sds-display` `sds-h1` `sds-h2` `sds-h3` `sds-lead` |
 | Bullets | `sds-list` for air between items, `sds-list--plain` for a list of links — a bare `ul`/`ol` is already set, marker and indent included, so neither is needed to make a list look right |
-| Layout | `sds-shell` `sds-bar`/`sds-bar__end` `sds-body`/`sds-body__rail` `sds-column` `sds-page` `sds-foot` `sds-sections` `sds-stack` `sds-row` `sds-actions` `sds-split` `sds-grid` |
+| Layout | `sds-shell` `sds-bar`/`sds-bar__end` `sds-body`/`sds-body__rail` `sds-column` `sds-page` `sds-foot` `sds-sections` `sds-stack` `sds-row` `sds-actions` `sds-split` `sds-grid` `sds-grid--wide` `sds-grid--dense` — the two say how much room a card in the grid needs, never how many columns to draw |
 | Bands | `sds-bands` `sds-band` `sds-band--quiet` — full-bleed sections whose ground changes, contents on the page measure. Use instead of `sds-page`, never inside one |
 | Site footer | `sds-footer` `sds-footer__groups` `sds-footer__group` `sds-footer__links` `sds-footer__end`; `sds-crumbs` `sds-crumbs__sep` `sds-crumbs__here` |
 | Figures | `sds-stats` `sds-stat` `sds-stat__value` `sds-stat__note`; `sds-figure` `sds-figure__frame` `sds-figure__caption` |
 | Artwork | `sds-art` — one file, in both modes. A photograph is an `<img>`; a drawing is an `<svg>` with a `<use>` into the file, because only a reference lets the tokens reach the shapes. `sds-lightbox` `sds-lightbox__art` `sds-figure__zoom` open one at the size it was drawn |
 | Search | `sds-result` `sds-result__title` `sds-result__path` `sds-result__text`; `sds-mark` for what was searched for inside what was found |
+| Cards | `sds-card` `sds-card__media` `sds-card__icon` `sds-card__body` `sds-card__title` `sds-card__text` `sds-card__foot` `sds-card__note` `sds-card__action` — the title's anchor is stretched over the frame, so a card carries one link and the call to action is words |
 | Lists | `sds-teaser` `sds-teaser__image` `sds-teaser__body` `sds-teaser__title` `sds-teaser__text`; `sds-pagination` `sds-pagination__page` `sds-pagination__step` `sds-pagination__gap` `sds-pagination__count` |
 | Long text | `sds-quote` `sds-quote__body` `sds-quote__by` — the attribution is required; `sds-byline` `sds-byline__mark` `sds-byline__who` `sds-byline__name` `sds-byline__role` |
 | Empty | `sds-empty` `sds-empty--boundary` `sds-empty__icon` `sds-empty__title` `sds-empty__body` — never "no results": name the source asked, what it does not cover, and the nearest real thing |

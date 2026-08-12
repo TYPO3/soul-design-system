@@ -289,6 +289,48 @@ test.describe('what the theme repaired', () => {
     await expect(bare.locator('.sds-row')).toHaveCount(0);
     await expect(bare.locator('.sds-teaser__title a')).toHaveCount(0);
   });
+
+  test('a card takes its target out of its own title', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* `.. card:: :doc:`nodes`` is how a TYPO3 manual says where a card goes:
+       the words of the reference are the heading and the reference itself is
+       the link. Nothing resolves it for a template handing a component a
+       property, which is what `LinkExtension` is for — so this is the test
+       that the two ends of that arrangement still meet. */
+    const referenced = page.locator('sds-card').first();
+    await expect(referenced.locator('.sds-card__title a')).toHaveText('Reference');
+    await expect(referenced.locator('.sds-card__title a')).toHaveAttribute('href', /nodes\.html$/);
+
+    /* And the card that carries every option, so a page wanting one of them
+       never has to write a declaration of its own. */
+    const full = page.locator('sds-card').nth(1);
+    await expect(full.locator('.sds-card__media svg use')).toHaveAttribute('href', /#art$/);
+    await expect(full.locator('.sds-card__icon .sds-icon')).toHaveCount(1);
+    await expect(full.locator('.sds-label')).toHaveText('Chapter 02');
+    await expect(full.locator('.sds-card__note')).toHaveText('Both halves at once');
+    await expect(full.locator('.sds-card__action')).toContainText('Read it');
+
+    /* One link and no more: the title's, stretched over the frame by the class
+       layer. A second anchor would be a second destination under one card. */
+    await expect(full.locator('a')).toHaveCount(1);
+
+    /* Nowhere to go, nothing drawn: no link on the title, and no action under
+       prose that would send the reader somewhere the card does not name. */
+    const last = page.locator('sds-card').last();
+    await expect(last.locator('.sds-card__title a')).toHaveCount(0);
+    await expect(last.locator('.sds-card__action')).toHaveCount(0);
+  });
+
+  test('the column counts of a card grid become how much room a card gets', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* A count is a breakpoint somebody picked; the grid reflows by a minimum
+       width instead, so the counts are read as which of the three widths was
+       meant. Two or fewer is wide, five or more is dense. */
+    await expect(page.locator('.sds-grid--wide')).toHaveCount(1);
+    await expect(page.locator('.sds-grid--dense')).toHaveCount(1);
+  });
 });
 
 test.describe('what the reader gets before the script does', () => {

@@ -1,0 +1,15 @@
+{#
+    A grid of cards, spelled the way TYPO3 documentation spells it.
+
+    The same grid `grid.html.twig` writes, in one of its three widths: how much
+    room a card needs is a question about the cards, and the directive has
+    already turned the column counts into that answer. Nothing here decides
+    anything — see `CardGridDirective` for why a count becomes a minimum width.
+#}
+{%- set variant = node.option('variant') ? ' sds-grid--' ~ node.option('variant') : '' -%}
+{%- set given = node.option('class') ? ' ' ~ node.option('class') : '' -%}
+<div class="sds-grid{{ variant }}{{ given }}">
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</div>

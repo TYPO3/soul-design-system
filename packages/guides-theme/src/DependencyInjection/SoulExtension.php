@@ -17,6 +17,8 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use TYPO3\Soul\GuidesTheme\Brands;
 use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
+use TYPO3\Soul\GuidesTheme\Nodes\CardGridNode;
+use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
 use TYPO3\Soul\GuidesTheme\Nodes\TeaserNode;
@@ -237,6 +239,8 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => BandNode::class, 'file' => 'body/directive/band.html.twig', 'format' => 'html'],
                 ['node' => GridNode::class, 'file' => 'body/directive/grid.html.twig', 'format' => 'html'],
                 ['node' => TeaserNode::class, 'file' => 'body/directive/teaser.html.twig', 'format' => 'html'],
+                ['node' => CardNode::class, 'file' => 'body/directive/card.html.twig', 'format' => 'html'],
+                ['node' => CardGridNode::class, 'file' => 'body/directive/card-grid.html.twig', 'format' => 'html'],
             ],
         ]);
     }

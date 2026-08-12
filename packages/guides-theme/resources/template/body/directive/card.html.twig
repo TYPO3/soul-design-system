@@ -1,0 +1,27 @@
+{#
+    One card, and the element draws all of it — see `teaser.html.twig` for why
+    every option is a property and no markup of a component is written here.
+
+    The title is where TYPO3 documentation puts the target: `.. card::
+    :ref:`Installation <installation>``. So the words of it are the heading and
+    the reference is where the card goes, and the element decides what a title
+    is wrapped in and how far the link reaches — which is over the whole card.
+    `:href:` is the same thing said as a path, and wins where both are written.
+#}
+{%- set src = node.option('src') -%}
+{%- set source = src ? (src is external_target ? src : asset(src)) : '' -%}
+{%- set href = node.option('href') ? renderLink(node.option('href')) : linkUrl(node.link) -%}
+<sds-card
+    heading="{{ node.title.toString }}"
+    {%- if href %} href="{{ href }}"{% endif %}
+    {%- if node.option('label') %} label="{{ node.option('label') }}"{% endif %}
+    {%- if node.option('icon') %} icon="{{ node.option('icon') }}"{% endif %}
+    {%- if source %} src="{{ source }}" alt="{{ node.option('alt')|default('') }}"{% endif %}
+    {%- if node.option('footer') %} footer="{{ node.option('footer') }}"{% endif %}
+    {%- if node.option('action') %} action="{{ node.option('action') }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-card>

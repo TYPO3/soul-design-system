@@ -1,0 +1,152 @@
+/* sds-card — a way into something: a chapter, a product, a page.
+
+   A picture at the top, the row that says what kind of thing it is, the title
+   that goes there, the prose, and a foot carrying the action. Everything but
+   the prose is a property, and everything but the picture may be left out.
+
+   **The whole card is the target and the title is the link.** The anchor is
+   stretched over the frame by the class layer, so the name a reader hears is
+   the title while the hit area is the card. One link, therefore: the call to
+   action is words rather than a second anchor to the same place.
+
+   Not a teaser and not a surface: a teaser is one entry in a list and carries
+   when and what kind, a surface is the bare plane. What this one holds is
+   document content — several blocks of it, written between the tags — and
+   `.sds-card` is the plane it is drawn on, so the frame is stated once. */
+
+import { html, type TemplateResult } from 'lit';
+import './icon.ts';
+import { type IconId } from './icon.ts';
+import { art } from '../lib/art.ts';
+import { define, isBlank, SdsElement } from '../lib/element.ts';
+
+export interface CardProps {
+  heading: string;
+  /** What is behind the title. Blocks out of a document, a sentence out of a
+      property — both land in the same part. */
+  body: string | TemplateResult;
+  href?: string;
+  /** The picture. Named `src` because everything in this system that takes a
+      file names it `src`. */
+  src?: string;
+  alt?: string;
+  /** The tracked-out line over the title, where a set of cards is named or
+      numbered as a set — `CHAPTER 02`, `FOR EDITORS`. */
+  label?: string;
+  /** A glyph above the label, where a set is told apart before it is read. */
+  icon?: IconId;
+  /** One line under a hairline: what the reader gets there, who it is for,
+      what state it is in. A label register, so it does not compete. */
+  footer?: string;
+  /** The call to action, in words — `Read the chapter`. Not a button and not a
+      second link: the whole card already goes there, so this is the line that
+      says so, and it leans on the arrow when the card is hovered. */
+  action?: string;
+}
+
+export class SdsCard extends SdsElement {
+  static override properties = {
+    heading: { type: String },
+    body: { type: String },
+    href: { type: String },
+    src: { type: String },
+    alt: { type: String },
+    label: { type: String },
+    icon: { type: String },
+    footer: { type: String },
+    action: { type: String },
+  };
+
+  declare heading: string;
+  declare body: string | TemplateResult;
+  declare href: string;
+  declare src: string;
+  declare alt: string;
+  declare label: string;
+  declare icon?: IconId;
+  declare footer: string;
+  declare action: string;
+
+  /* What a caller wrote between the tags, taken before Lit renders over it.
+     The one thing about a card an attribute cannot hold: out of a document the
+     body is paragraphs, and often a list beside them. */
+  private taken: Node[] | null = null;
+
+  constructor() {
+    super();
+    this.heading = '';
+    this.body = '';
+    this.href = '';
+    this.src = '';
+    this.alt = '';
+    this.label = '';
+    this.footer = '';
+    this.action = '';
+  }
+
+  override connectedCallback(): void {
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
+    super.connectedCallback();
+  }
+
+  protected override render(): TemplateResult {
+    const medium = this.src
+      ? html`<div class="sds-card__media">
+    ${art(this.src, this.alt)}
+  </div>`
+      : '';
+
+    /* Above the label rather than beside the title, for the reason
+       `sds-surface` states: a set of cards is scanned down its left edge. */
+    const icon = this.icon
+      ? html`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`
+      : '';
+    const label = this.label ? html`<div class="sds-label">${this.label}</div>` : '';
+
+    /* The written form is blocks and the property form is a sentence, so one
+       goes in a `div` and the other in the `p` a sentence belongs in.
+       `content` is the written form arriving where there are no children to
+       lift — see `SdsElement`. */
+    const written = this.taken ?? this.content;
+    const text = written
+      ? html`<div class="sds-card__text">${written}</div>`
+      : html`<p class="sds-card__text">${this.body}</p>`;
+
+    /* Where there is nowhere to go, the title is a title — and the card is
+       then not a target either, since this anchor is what stretches over it. */
+    const title = this.href
+      ? html`<a href="${this.href}">${this.heading}</a>`
+      : html`${this.heading}`;
+
+    /* Drawn only where there is somewhere to go, since it says the card goes
+       there. A span and not an anchor: the title's link is stretched over the
+       whole card, and a second one under it would be a second destination. */
+    const action =
+      this.action && this.href
+        ? html`<span class="sds-card__action">${this.action}<sds-icon name="actions-arrow-right" size="16"></sds-icon></span>`
+        : '';
+    /* The foot is dropped when it would be empty, so a row of cards has no
+       hollow last line to line up against. */
+    const foot =
+      this.footer || action
+        ? html`<div class="sds-card__foot">
+    ${this.footer ? html`<span class="sds-card__note">${this.footer}</span>` : ''}
+    ${action}
+  </div>`
+        : '';
+
+    return html`<article class="sds-card">
+  ${medium}
+  <div class="sds-card__body">
+    ${icon}
+    ${label}
+    <h3 class="sds-card__title">${title}</h3>
+    ${text}
+  </div>
+  ${foot}
+</article>`;
+  }
+}
+
+define('sds-card', SdsCard);

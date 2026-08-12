@@ -17,7 +17,10 @@
    every declaration stays on the class that owns it. On what holds **blocks**
    only — a caption is a label and keeps the smaller register. */
 :where(.sds-prose) .sds-note,
-:where(.sds-prose) .sds-teaser {
+:where(.sds-prose) .sds-teaser,
+/* The card that names its own parts, and not the plane of the same name: a
+   surface is written in the dense register on purpose. */
+:where(.sds-prose) .sds-card:has(> .sds-card__body) {
   --note-title-size: var(--font-size-body);
   --note-body-size: var(--font-size-body);
   --note-body-leading: var(--leading-body);
@@ -319,6 +322,13 @@
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
 }
+
+/* And a card of the other kind, in the same two situations. The frame is not
+   stated again — the card draws it — but the host is the cell until it
+   upgrades, and the card inside it stops at its content, so a row of them
+   would draw frames of three different heights. */
+:where(.sds-prose) sds-card:not(:defined) { display: flex; }
+:where(.sds-prose) sds-card:not(:defined) > .sds-card { flex: 1; }
 
 /* An embedded document before its element upgrades, and on a page that runs
    none. Until then there is only the iframe a renderer wrote: an inline box

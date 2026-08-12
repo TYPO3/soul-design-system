@@ -28,6 +28,7 @@ import './components/modal.ts';
 import './components/drawer.ts';
 import './components/dialog.ts';
 import './components/table.ts';
+import './components/card.ts';
 import './components/teaser.ts';
 import './components/result.ts';
 import './components/pagination.ts';
@@ -74,10 +75,11 @@ export { SdsQuote, type QuoteProps } from './components/quote.js';
 export { SdsByline, type BylineProps } from './components/byline.js';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.js';
 export { SdsEmpty, type EmptyProps, type EmptyKind } from './components/empty.js';
+export { SdsCard, type CardProps } from './components/card.js';
 export { SdsTeaser, type TeaserProps } from './components/teaser.js';
 export { SdsResult, type ResultProps } from './components/result.js';
 export { SdsPagination, pageNumbers, type PaginationProps } from './components/pagination.js';
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-card', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];
