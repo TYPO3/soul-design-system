@@ -34,18 +34,13 @@
     A file somewhere else is linked whatever it is: a reference reads the file
     itself, which a browser will not do across origins.
 #}
-{%- set caption = node.document ? renderNode(node.document) : '' -%}
-{%- set external = node.image.value is external_target -%}
-{%- set source = external ? node.image.value : asset(node.image.value) -%}
-{%- set sized -%}
-        {%- if node.image.hasOption('width') %} width="{{ node.image.option('width') }}"{% endif -%}
-        {%- if node.image.hasOption('height') %} height="{{ node.image.option('height') }}"{% endif -%}
-{%- endset -%}
-<sds-figure{% if node.image.hasOption('figclass') %} class="{{ node.image.option('figclass') }}"{% endif %}>
-    {%- if not external and node.image.value ends with '.svg' -%}
-        <svg class="sds-art"{{ sized }} role="img" aria-label="{{ node.image.option('alt')|default('') }}"><use href="{{ source }}#art"></use></svg>
-    {%- else -%}
-        <img class="sds-art" src="{{ source }}" alt="{{ node.image.option('alt')|default('') }}"{{ sized }}>
-    {%- endif -%}
-{% if caption|trim %}<figcaption class="sds-figure__caption">{{ caption|raw }}</figcaption>{% endif %}</sds-figure
->
+{%- set caption = node.document ? renderNode(node.document)|striptags|trim : '' -%}
+{%- set source = node.image.value is external_target ? node.image.value : asset(node.image.value) -%}
+<sds-figure
+    src="{{ source }}"
+    alt="{{ node.image.option('alt')|default('') }}"
+    {%- if caption %} caption="{{ caption }}"{% endif -%}
+    {%- if node.image.hasOption('width') %} width="{{ node.image.option('width') }}"{% endif -%}
+    {%- if node.image.hasOption('height') %} height="{{ node.image.option('height') }}"{% endif -%}
+    {%- if node.image.hasOption('figclass') %} class="{{ node.image.option('figclass') }}"{% endif -%}
+></sds-figure>

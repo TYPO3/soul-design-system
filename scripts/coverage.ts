@@ -57,7 +57,14 @@ const PENDING = {
   ],
   /* Not in the Guides render. Each of these needs either a node the renderer
      already emits or a directive of the theme's own, and until it has one
-     there is no page where it can be looked at in prose. */
+     there is no page where it can be looked at in prose.
+
+     "The render" is what the pages hold, not what the templates spell. An
+     element the theme addresses brings everything it draws with it — the
+     search on every page draws its own hits and its own empty state, and a
+     figure draws the viewer it opens into — so those are covered by the
+     element that draws them and left this list when the theme stopped
+     rebuilding components and started addressing them. */
   guides: [
     'sds-button',
     'sds-field',
@@ -69,17 +76,14 @@ const PENDING = {
     'sds-accordion',
     'sds-surface',
     'sds-stat',
-    'sds-lightbox',
     'sds-overlay',
     'sds-modal',
     'sds-drawer',
     'sds-dialog',
-    'sds-result',
     'sds-pagination',
     'sds-diff',
     'sds-quote',
     'sds-byline',
-    'sds-empty',
   ],
   /* Classes the theme writes that no stylesheet defines. `sds-confval` is a
      hook in this system's own namespace with nothing behind it, and it is
@@ -164,7 +168,43 @@ for (const cls of classes) {
 console.log(`   ${classes.filter(isDrawn).length} of ${classes.length} classes`);
 
 console.log('   every element appears in the Guides render');
-const inGuides = (tag: string): boolean => theme.includes(tag) || fixture.includes(tag);
+
+/* What each element renders, read out of its own source. A template that
+   names an element puts everything that element draws on the page too, and
+   since the theme was changed to *address* components rather than rebuild
+   them, that is where most of them now arrive: nothing writes `<sds-link>`
+   any more, `sds-footer` does, and the footer is on every page. Following the
+   composition is what keeps this check saying "is it in the render" rather
+   than "is its name in a Twig file", which is not the same question and was
+   only ever the same by accident. */
+const emitted = new Map<string, string[]>();
+for (const file of walk(join(ROOT, 'src', 'components'), ['.ts'])) {
+  const source = readFileSync(file, 'utf8');
+  const defines = source.match(/define\('(sds-[a-z-]+)'/);
+  if (!defines?.[1]) continue;
+  /* Comments first, and they are the whole reason this is not a plain match:
+     the sources here name other elements constantly in prose — what a
+     component deliberately is not, what its neighbour calls the same option —
+     and reading those as composition would credit half the system to any file
+     that explains itself. What is left is markup. */
+  const markup = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+  emitted.set(
+    defines[1],
+    [...markup.matchAll(/<(sds-[a-z-]+)/g)].map((m) => m[1] as string),
+  );
+}
+
+/* One walk out from what the theme names, so an element three deep in a
+   composition is credited the same as one the template wrote itself. */
+const reached = new Set<string>();
+const follow = (tag: string): void => {
+  if (reached.has(tag)) return;
+  reached.add(tag);
+  for (const next of emitted.get(tag) ?? []) follow(next);
+};
+for (const tag of TAGS) if (theme.includes(tag) || fixture.includes(tag)) follow(tag);
+
+const inGuides = (tag: string): boolean => reached.has(tag);
 missing = pending(PENDING.guides, inGuides, 'guides');
 for (const tag of TAGS) {
   if (!inGuides(tag) && !missing.has(tag)) {

@@ -47,6 +47,14 @@ const GROUP = 'art';
    file something other than an SVG. */
 const DRAWING = /\.svg(?:[?#].*)?$/i;
 
+/* A file on somebody else's server. Linked whatever it is, for the reason
+   above: a reference reads the file itself, and a browser will not do that
+   across origins — so a drawing referenced from another host arrives as
+   nothing at all. Knowing this belongs here rather than in each surface that
+   points at a file; the Guides theme used to decide it a second time, in a
+   template, and a surface that forgot to would have shown an empty box. */
+const ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
+
 /* Composed as a string rather than as bindings, because half of these
    attributes are not written at all. A binding that resolves to `nothing`
    removes its attribute and leaves the space in front of it, and a specimen
@@ -81,7 +89,7 @@ export function art(
   const name = alt ? attr('role', 'img') + attr('aria-label', alt) : attr('aria-hidden', 'true');
   const size = attr('width', width) + attr('height', height);
 
-  if (!DRAWING.test(src)) {
+  if (!DRAWING.test(src) || ELSEWHERE.test(src)) {
     /* `alt` is written even when it is empty: on an image that is the whole
        difference between decorative and unlabelled, and the two are read out
        very differently. */

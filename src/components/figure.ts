@@ -54,12 +54,20 @@ export class SdsFigure extends SdsElement {
     src: { type: String },
     alt: { type: String },
     caption: { type: String },
+    width: { type: Number },
+    height: { type: Number },
     zoomable: { type: Boolean, reflect: true },
   };
 
   declare src: string;
   declare alt: string;
   declare caption: string | TemplateResult;
+  /** The picture's own size, where a document declared one. A figure fills its
+      column and needs neither; a drawing that states a width in the source is
+      stating a fact about the file, and dropping it left the renderer writing
+      the `<img>` itself to keep it. */
+  declare width?: number;
+  declare height?: number;
   declare zoomable: boolean;
 
   /* The picture a renderer wrote, taken before Lit renders over it.
@@ -111,7 +119,7 @@ export class SdsFigure extends SdsElement {
        rewriting them from `src` would replace a picture the reader can see
        with a second request for the same file. */
     const given = this.taken ?? this.content;
-    const picture = given ? html`${given}` : art(this.src, this.alt);
+    const picture = given ? html`${given}` : art(this.src, this.alt, 'sds-art', this.width, this.height);
 
     const frame = this.zoomable
       ? html`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>`

@@ -16,11 +16,16 @@
     A section with no pages under it leaves the rail listing the sections
     themselves, which is the only useful thing left to say.
 
-    `sds-rail` and not a hand-built column: what is written here are the links,
-    which only a renderer knows, and the element is where the rail's own
-    behaviour lives — the wrapper, the heading, and whatever it grows next.
-    Before the script arrives it is the same column, which is the whole point
-    of the class layer.
+    **The rail is given its list, not built out of one.** `sds-rail` takes
+    entries as data — that is its documented form, and a group is
+    `{ label, items }` — so what this file produces is the list and nothing
+    else. It used to write `.sds-rail__item` and `.sds-rail__group` and the
+    `<details>` around them, which is the element's own markup spelt in a
+    second place: the fold, the chevron, the active mark and where `aria-current`
+    goes were all stated twice and could only ever agree by hand.
+
+    Which one is current travels as an index, because that is what the rail
+    counts in — one number over the flattened list, groups included.
 #}
 {%- set here = node.menuEntries|filter(entry =>
         renderLink(entry.url) == '#'
@@ -28,19 +33,54 @@
     )|first -%}
 {%- set inside = here and here.children|length > 0 -%}
 
-<sds-rail label="{{ inside ? here.value.toString : '' }}">
-    {%- if inside %}
-        {%- for entry in here.children -%}
-            {{ renderNode(entry) }}
-        {%- endfor -%}
-    {%- else -%}
-        {#- The sections themselves, one line each. Their pages belong to them
-            and appear when the reader is inside one — a rail that unfolded
-            every section at once would be the sitemap again. -#}
-        {%- for entry in node.menuEntries -%}
+{%- set items = [] -%}
+{%- set active = -1 -%}
+{%- set flat = 0 -%}
+
+{%- if inside -%}
+    {%- for entry in here.children -%}
+        {%- if entry.children|length -%}
+            {#- A page with pages under it is a group. Its own link is the first
+                item inside the fold rather than the summary, because a summary
+                that is also a link is a control with two jobs and the fold
+                wins the press. -#}
+            {%- set group = [] -%}
             {%- set url = renderLink(entry.url) -%}
-            <a class="sds-rail__item{% if url == '#' %} is-active{% endif %}"
-               href="{{ url }}"{% if url == '#' %} aria-current="page"{% endif %}>{{ entry.value.toString }}</a>
-        {%- endfor -%}
-    {%- endif -%}
-</sds-rail>
+            {%- if url == '#' %}{% set active = flat %}{% endif -%}
+            {%- set group = group|merge([{ label: entry.value.toString, href: url }]) -%}
+            {%- set flat = flat + 1 -%}
+            {%- for child in entry.children -%}
+                {%- set curl = renderLink(child.url) -%}
+                {%- if curl == '#' %}{% set active = flat %}{% endif -%}
+                {%- set group = group|merge([{ label: child.value.toString, href: curl }]) -%}
+                {%- set flat = flat + 1 -%}
+            {%- endfor -%}
+            {%- set items = items|merge([{
+                label: entry.value.toString,
+                items: group,
+                open: entry.isInRootline
+            }]) -%}
+        {%- else -%}
+            {%- set url = renderLink(entry.url) -%}
+            {%- if url == '#' %}{% set active = flat %}{% endif -%}
+            {%- set items = items|merge([{ label: entry.value.toString, href: url }]) -%}
+            {%- set flat = flat + 1 -%}
+        {%- endif -%}
+    {%- endfor -%}
+{%- else -%}
+    {#- The sections themselves, one line each. Their pages belong to them and
+        appear when the reader is inside one — a rail that unfolded every
+        section at once would be the sitemap again. -#}
+    {%- for entry in node.menuEntries -%}
+        {%- set url = renderLink(entry.url) -%}
+        {%- if url == '#' %}{% set active = flat %}{% endif -%}
+        {%- set items = items|merge([{ label: entry.value.toString, href: url }]) -%}
+        {%- set flat = flat + 1 -%}
+    {%- endfor -%}
+{%- endif -%}
+
+<sds-rail
+    label="{{ inside ? here.value.toString : '' }}"
+    items="{{ items|json_encode }}"
+    {%- if active >= 0 %} active="{{ active }}"{% endif -%}
+></sds-rail>

@@ -7,50 +7,49 @@
     because that number is checked by `make fit` and a reader who wants to know
     what they are looking at should not have to open the source.
 
-    **The element, not a bare `<iframe>`.** What the two need is a frame that
-    is sized, bordered and captioned the way every other block on the page is,
-    and `sds-embed` is where that is decided once — see its own file for the
-    two shapes and why an embed has to state which one it is. Left to the
-    renderer this was a raw frame with the browser's 1996 ridge around it, as
-    wide as its `width` attribute said and running straight out of any column
-    narrower than that.
+    **The element, and nothing but the address of it.** What the two need is a
+    frame that is sized, bordered and captioned the way every other block on
+    the page is, and `sds-embed` is where that is decided once — see its own
+    file for the two shapes and why an embed has to state which one it is. Left
+    to the renderer this was a raw frame with the browser's 1996 ridge around
+    it, as wide as its `width` attribute said and running straight out of any
+    column narrower than that.
 
-    The frame itself is still written here, between the tags, and the element
-    lifts it rather than writing a second one. That is the rule the whole theme
-    is built on: the server writes, the element upgrades. A reader with no
-    JavaScript has the video and the card — framed by `document.css`, which
-    holds exactly this window — and nothing about the page waits on a script
-    to show its evidence.
+    The `<iframe>` used to be written here and lifted by the element. It is a
+    property now, like everything else: `make guides` renders each element
+    before the page is published — `scripts/lib/prerender.ts` — so a reader
+    with no JavaScript has the frame without this file having to draw one.
 
-    Not lazy, for the same reason: a specimen is the evidence on the page, and
-    a frame that loads on scroll is a frame that is blank in every screenshot
-    the gate takes — which is the one place somebody looks at all of them at
-    once.
+    Not lazy, and that is the element's decision rather than this file's: a
+    specimen is the evidence on the page, and a frame that loads on scroll is
+    a frame that is blank in every screenshot the gate takes — which is the one
+    place somebody looks at all of them at once.
 #}
 {%- if node.hasOption('specimen') -%}
 {#- Fixed. The card declares the viewport it was measured at and this is that
     number, so the frame keeps it and scrolls where the column is narrower;
-    a card reflowed to fit would be documenting a layout nothing checked. -#}
-<sds-embed
+    a card reflowed to fit would be documenting a layout nothing checked.
+
+    The caption is a sentence and arrives as one. It used to carry the viewport
+    in `.sds-mono`, which is a register this file was choosing on the page's
+    behalf — what a caption says belongs to the document, how it is set belongs
+    to the component. -#}
+<sds-embed src="{{ asset(node.url) }}"
+    label="{{ node.option('title')|default('Specimen') }}"
+    caption="{{ node.option('title')|default('Specimen') }} · {{ node.option('viewport') }}"
     {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}
     {%- if node.hasOption('height') %} height="{{ node.option('height') }}"{% endif -%}
-    ><iframe src="{{ asset(node.url) }}"
-        {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}
-        {%- if node.hasOption('height') %} height="{{ node.option('height') }}"{% endif %}
-        title="{{ node.option('title')|default('Specimen') }}"></iframe
-    ><div class="sds-embed__caption">{{- node.option('title')|default('Specimen') }} · <span class="sds-mono">{{ node.option('viewport') }}</span></div></sds-embed
->
+></sds-embed>
 {%- else -%}
 {#- Fluid. A player's `width` and `height` are its native size and not the
     size it wants: it fills the column it is given and holds the shape those
     two state, which is the one thing about it that must not change. -#}
-<sds-embed ratio="{{ node.option('width')|default(560) }} / {{ node.option('height')|default(315) }}"
-    ><iframe src="{{ node.url }}"
-        {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}
-        {%- if node.hasOption('height') %} height="{{ node.option('height') }}"{% endif -%}
-        {%- if node.hasOption('title') %} title="{{ node.option('title') }}"{% endif -%}
-        {%- if node.hasOption('allow') %} allow="{{ node.option('allow') }}"{% endif -%}
-        {%- if node.hasOption('allowfullscreen') and node.option('allowfullscreen') %} allowfullscreen{% endif -%}
-        ></iframe></sds-embed
->
+<sds-embed src="{{ node.url }}"
+    ratio="{{ node.option('width')|default(560) }} / {{ node.option('height')|default(315) }}"
+    {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}
+    {%- if node.hasOption('height') %} height="{{ node.option('height') }}"{% endif -%}
+    {%- if node.hasOption('title') %} label="{{ node.option('title') }}"{% endif -%}
+    {%- if node.hasOption('allow') %} allow="{{ node.option('allow') }}"{% endif -%}
+    {%- if node.hasOption('allowfullscreen') and node.option('allowfullscreen') %} allowfullscreen{% endif -%}
+></sds-embed>
 {%- endif -%}

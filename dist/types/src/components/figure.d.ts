@@ -28,6 +28,12 @@ export declare class SdsFigure extends SdsElement {
         caption: {
             type: StringConstructor;
         };
+        width: {
+            type: NumberConstructor;
+        };
+        height: {
+            type: NumberConstructor;
+        };
         zoomable: {
             type: BooleanConstructor;
             reflect: boolean;
@@ -36,6 +42,12 @@ export declare class SdsFigure extends SdsElement {
     src: string;
     alt: string;
     caption: string | TemplateResult;
+    /** The picture's own size, where a document declared one. A figure fills its
+        column and needs neither; a drawing that states a width in the source is
+        stating a fact about the file, and dropping it left the renderer writing
+        the `<img>` itself to keep it. */
+    width?: number;
+    height?: number;
     zoomable: boolean;
     private taken;
     private captioned;

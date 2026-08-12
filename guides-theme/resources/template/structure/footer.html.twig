@@ -23,91 +23,78 @@
     nothing configured and no tree this is the mark and the note, which is the
     least a page can say and still be honest about what it is.
 #}
-{#- A link inside the project is a *document*, not a path: `/frontend`
-    resolves per page, while `frontend.html` resolves from wherever the reader
-    happens to be standing and lands in nothing one directory down. A menu
-    entry that carries a URL is somebody else's site and is left alone.
+{#- The columns and the line under them, as data. `sds-footer` takes groups, a
+    note and the marks — that is its form — and this file's job is to work out
+    what the tree says and hand it over. It used to build the footer itself,
+    `sds-footer__group` and `sds-footer__links` and all, which is the element's
+    own markup written in a file that is not the element: a column that grew a
+    rule, or a heading that changed register, would have had to be changed in
+    both, and only one of them is checked.
+
+    A link inside the project is a *document*, not a path: `/frontend` resolves
+    per page, while `frontend.html` resolves from wherever the reader happens
+    to be standing and lands in nothing one directory down. A menu entry that
+    carries a URL is somebody else's site and is left alone.
 
     `#` is what the renderer answers for the page being rendered — its way of
-    saying "you are here". The footer lists every page of a site, so one of
-    them is the reader's own on most pages, and it says so rather than looking
-    like a link that goes nowhere. -#}
-{%- macro entry(url, label, external) -%}
-    {%- set href = external ? url : renderLink(url) -%}
-    <a class="sds-link{% if external %} sds-link--external{% endif %}"
-       href="{{ href }}"
-       {%- if external %} target="_blank" rel="noreferrer"{% endif %}
-       {%- if href == '#' %} aria-current="page"{% endif %}>{{ label }}</a>
-{%- endmacro -%}
-{%- import _self as footer -%}
-<footer class="sds-footer">
-    {%- set groups = soul.footer.groups is defined ? soul.footer.groups : [] %}
-    {%- set entries = [] %}
-    {%- for menu in env.projectNode.globalMenues %}
-        {%- set entries = entries|merge(menu.menuEntries) %}
-    {%- endfor %}
-    {%- set pages = entries|filter(entry => entry.children|default([]) is empty) %}
-    {%- set sections = entries|filter(entry => entry.children|default([]) is not empty) %}
+    saying "you are here" — and the element draws that item as the current one
+    rather than as a link that goes nowhere. -#}
+{%- set configured = soul.footer.groups is defined ? soul.footer.groups : [] -%}
+{%- set entries = [] -%}
+{%- for menu in env.projectNode.globalMenues -%}
+    {%- set entries = entries|merge(menu.menuEntries) -%}
+{%- endfor -%}
+{%- set pages = entries|filter(entry => entry.children|default([]) is empty) -%}
+{%- set sections = entries|filter(entry => entry.children|default([]) is not empty) -%}
+{%- set product = soul.product|default(env.projectNode.title)|default('') -%}
 
-    {%- if entries or groups %}
-        <div class="sds-footer__groups">
-            {%- if pages %}
-                <div class="sds-footer__group">
-                    <div class="sds-label">{{ soul.product|default(env.projectNode.title)|default('') }}</div>
-                    <div class="sds-footer__links">
-                        {%- for page in pages %}
-                            {{ footer.entry(page.url, page.value.toString, '://' in page.url) }}
-                        {%- endfor %}
-                    </div>
-                </div>
-            {%- endif %}
-            {%- for section in sections %}
-                <div class="sds-footer__group">
-                    <div class="sds-label">{{ section.value.toString }}</div>
-                    <div class="sds-footer__links">
-                        {%- for page in section.children %}
-                            {{ footer.entry(page.url, page.value.toString, '://' in page.url) }}
-                        {%- endfor %}
-                    </div>
-                </div>
-            {%- endfor %}
-            {%- for group in groups %}
-                <div class="sds-footer__group">
-                    {%- if group.title %}<div class="sds-label">{{ group.title }}</div>{% endif %}
-                    <div class="sds-footer__links">
-                        {%- for link in group.links %}
-                            {{ footer.entry(link.href, link.label, link.external) }}
-                        {%- endfor %}
-                    </div>
-                </div>
-            {%- endfor %}
-        </div>
-    {%- endif %}
+{%- set groups = [] -%}
+{#- A page that stands directly under the root joins the site's own column, the
+    one carrying the product's name. -#}
+{%- if pages -%}
+    {%- set items = [] -%}
+    {%- for page in pages -%}
+        {%- set away = '://' in page.url -%}
+        {%- set items = items|merge([{ label: page.value.toString, href: away ? page.url : renderLink(page.url), external: away }]) -%}
+    {%- endfor -%}
+    {%- set groups = groups|merge([{ label: product, items: items }]) -%}
+{%- endif -%}
+{%- for section in sections -%}
+    {%- set items = [] -%}
+    {%- for page in section.children -%}
+        {%- set away = '://' in page.url -%}
+        {%- set items = items|merge([{ label: page.value.toString, href: away ? page.url : renderLink(page.url), external: away }]) -%}
+    {%- endfor -%}
+    {%- set groups = groups|merge([{ label: section.value.toString, items: items }]) -%}
+{%- endfor -%}
+{#- What the tree cannot know — a licence, a product site, somewhere else
+    entirely — following the site's own columns. -#}
+{%- for group in configured -%}
+    {%- set items = [] -%}
+    {%- for entry in group.links -%}
+        {%- set away = entry.external|default(false) -%}
+        {%- set items = items|merge([{ label: entry.label, href: away ? entry.href : renderLink(entry.href), external: away }]) -%}
+    {%- endfor -%}
+    {%- set groups = groups|merge([{ label: group.title|default(''), items: items }]) -%}
+{%- endfor -%}
 
-    <div class="sds-footer__end">
-        <span class="sds-mono">{{ soul.product|default(env.projectNode.title)|default('') }}</span>
-        {%- if soul.footer.note is defined and soul.footer.note %}
-            <span>{{ soul.footer.note }}</span>
-        {%- endif %}
-        {%- if env.projectNode.copyright %}
-            <span>{{ env.projectNode.copyright }}</span>
-        {%- endif %}
-        {#- The mark of the service, before its name and never instead of it:
-            four glyphs in this system may stand alone and all four say
-            something about a result, while a row of bare marks is a row of
-            pictures the reader has to already know. Which mark it is comes
-            from the URL — see `Brands` — so nothing here can name a service
-            the link does not go to, and a host with no mark in the set is the
-            label it already was. -#}
-        {%- if soul.footer.socials is defined and soul.footer.socials %}
-            <span class="sds-row__end">
-                {%- for social in soul.footer.socials %}
-                    <a class="sds-link sds-link--external" href="{{ social.href }}"
-                       target="_blank" rel="noreferrer">
-                        {%- if social.icon %}<sds-icon name="{{ social.icon }}"></sds-icon>{% endif -%}
-                        {{ social.label }}</a>
-                {%- endfor %}
-            </span>
-        {%- endif %}
-    </div>
-</footer>
+{#- The mark of the service, before its name and never instead of it: four
+    glyphs in this system may stand alone and all four say something about a
+    result, while a row of bare marks is a row of pictures the reader has to
+    already know. Which mark it is comes from the URL — see `Brands` — so
+    nothing here can name a service the link does not go to, and a host with no
+    mark in the set is the label it already was. -#}
+{%- set marks = [] -%}
+{%- for social in soul.footer.socials|default([]) -%}
+    {%- set mark = { label: social.label, href: social.href, external: true } -%}
+    {%- if social.icon %}{% set mark = mark|merge({ icon: social.icon }) %}{% endif -%}
+    {%- set marks = marks|merge([mark]) -%}
+{%- endfor -%}
+
+<sds-footer
+    groups="{{ groups|json_encode }}"
+    product="{{ product }}"
+    {%- if soul.footer.note is defined and soul.footer.note %} note="{{ soul.footer.note }}"{% endif -%}
+    {%- if env.projectNode.copyright %} copyright="{{ env.projectNode.copyright }}"{% endif -%}
+    {%- if marks %} marks="{{ marks|json_encode }}"{% endif -%}
+></sds-footer>

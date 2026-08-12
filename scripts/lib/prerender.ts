@@ -83,10 +83,16 @@ function one(tag: string, attrs: string, written: string): string {
     .replace(new RegExp(`</${tag}>$`), '');
 
   /* The template first, so a component that reads its children back finds what
-     was written before it finds anything else. No content leaves no template:
-     there would be nothing in it, and an empty one is a node every page in the
-     site carries for no reader. */
-  const kept = written ? `<template ${CONTENT}>${written}</template>` : '';
+     was written before it finds anything else.
+
+     Written even when it is empty, and that is the whole of the marker. An
+     element's children after this are its own rendering, and the one question
+     it asks on upgrade is what the caller wrote — an empty answer and no
+     answer at all are different, and a missing template makes them look the
+     same: the element lifts the frame it drew last time and draws a second one
+     around it. So the template is always there and says what was written,
+     including that nothing was. */
+  const kept = `<template ${CONTENT}>${written}</template>`;
   return `<${tag}${attrs}>${kept}${inside}</${tag}>`;
 }
 

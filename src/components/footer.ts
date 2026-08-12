@@ -37,26 +37,46 @@ export interface FooterProps {
   groups: readonly FooterGroup[];
   /** What this is. Stated, never implied — and never whose it is. */
   note: string;
+  /** The machine's name for it, set as the machine's. A product, a package,
+      a repository — verbatim, and never title-cased. */
+  product?: string;
+  /** Whose it is and from when. A separate line from the note because it is a
+      separate claim, and a footer that runs the two together reads as though
+      the sentence were part of the notice. */
+  copyright?: string;
   /** What has to travel with it: a licence, a version, a legal page. */
   meta?: readonly FooterLink[];
+  /** Where else it lives — a repository, a chat, a feed. At the far end of the
+      line, because they are the one thing in a footer a reader looks for by
+      position rather than by reading. */
+  marks?: readonly FooterLink[];
 }
 
 export class SdsFooter extends SdsElement {
   static override properties = {
     groups: { type: Array },
     note: { type: String },
+    product: { type: String },
+    copyright: { type: String },
     meta: { type: Array },
+    marks: { type: Array },
   };
 
   declare groups: readonly FooterGroup[];
   declare note: string;
+  declare product: string;
+  declare copyright: string;
   declare meta: readonly FooterLink[];
+  declare marks: readonly FooterLink[];
 
   constructor() {
     super();
     this.groups = [];
     this.note = '';
+    this.product = '';
+    this.copyright = '';
     this.meta = [];
+    this.marks = [];
   }
 
   private static link(item: FooterLink): TemplateResult {
@@ -67,7 +87,8 @@ export class SdsFooter extends SdsElement {
 
   protected override render(): TemplateResult {
     return html`<footer class="sds-footer">
-  <div class="sds-footer__groups">
+  ${this.groups.length
+    ? html`<div class="sds-footer__groups">
     ${this.groups.map(
       (group) => html`<div class="sds-footer__group">
       <div class="sds-label">${group.label}</div>
@@ -76,10 +97,16 @@ export class SdsFooter extends SdsElement {
       </div>
     </div>`,
     )}
-  </div>
+  </div>`
+    : ''}
   <div class="sds-footer__end">
-    <span>${this.note}</span>
+    ${this.product ? html`<span class="sds-mono">${this.product}</span>` : ''}
+    ${this.note ? html`<span>${this.note}</span>` : ''}
+    ${this.copyright ? html`<span>${this.copyright}</span>` : ''}
     ${this.meta.map((item) => SdsFooter.link(item))}
+    ${this.marks.length
+      ? html`<span class="sds-row__end">${this.marks.map((item) => SdsFooter.link(item))}</span>`
+      : ''}
   </div>
 </footer>`;
   }

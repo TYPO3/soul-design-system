@@ -1,21 +1,28 @@
 {#
     Where the page sits, said as a trail.
 
-    The separator is an element of its own rather than a character glued to the
-    link, so it can be quieter than the words it stands between and so a screen
-    reader is not made to say it. The last entry is the page itself and is not
-    a link: a trail whose last step is a link is a trail that was pasted from
+    **The element, addressed.** This template used to build the trail itself —
+    `sds-crumbs`, `sds-crumbs__sep`, `sds-crumbs__here` — which is the whole of
+    a component written out in a file that is not the component. What the
+    renderer knows is the rootline; everything after that is the trail's own:
+    that the separator is a character rather than a glyph and is not read out,
+    that the last entry is the page and carries `aria-current` instead of a
+    link, and that the trail spends no accent on where the reader already is.
+    Each of those is stated once, in `src/components/crumbs.ts`, and this hands
+    over the list.
+
+    The last entry keeps no `href` on purpose, and the element would drop one
+    anyway: a trail whose last step is a link is a trail that was pasted from
     the one above it.
 #}
 {%- if rootline|length > 1 -%}
-<nav class="sds-crumbs" aria-label="Breadcrumb">
+    {%- set items = [] -%}
     {%- for entry in rootline -%}
-        {%- if not loop.first %}<span class="sds-crumbs__sep" aria-hidden="true">/</span>{% endif -%}
-        {%- if entry.current -%}
-            <span class="sds-crumbs__here" aria-current="page">{{ entry.value.toString }}</span>
-        {%- else -%}
-            <a href="{{ renderLink(entry.url) }}">{{ entry.value.toString }}</a>
-        {%- endif -%}
+        {%- set items = items|merge([
+            entry.current
+                ? { label: entry.value.toString }
+                : { label: entry.value.toString, href: renderLink(entry.url) }
+        ]) -%}
     {%- endfor -%}
-</nav>
+    <sds-crumbs items="{{ items|json_encode }}"></sds-crumbs>
 {%- endif -%}

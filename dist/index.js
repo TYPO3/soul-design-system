@@ -3508,21 +3508,27 @@ var SdsFooter = class _SdsFooter extends SdsElement {
     this.properties = {
       groups: { type: Array },
       note: { type: String },
-      meta: { type: Array }
+      product: { type: String },
+      copyright: { type: String },
+      meta: { type: Array },
+      marks: { type: Array }
     };
   }
   constructor() {
     super();
     this.groups = [];
     this.note = "";
+    this.product = "";
+    this.copyright = "";
     this.meta = [];
+    this.marks = [];
   }
   static link(item) {
     return item.icon ? html23`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>` : html23`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}"></sds-link>`;
   }
   render() {
     return html23`<footer class="sds-footer">
-  <div class="sds-footer__groups">
+  ${this.groups.length ? html23`<div class="sds-footer__groups">
     ${this.groups.map(
       (group) => html23`<div class="sds-footer__group">
       <div class="sds-label">${group.label}</div>
@@ -3531,10 +3537,13 @@ var SdsFooter = class _SdsFooter extends SdsElement {
       </div>
     </div>`
     )}
-  </div>
+  </div>` : ""}
   <div class="sds-footer__end">
-    <span>${this.note}</span>
+    ${this.product ? html23`<span class="sds-mono">${this.product}</span>` : ""}
+    ${this.note ? html23`<span>${this.note}</span>` : ""}
+    ${this.copyright ? html23`<span>${this.copyright}</span>` : ""}
     ${this.meta.map((item) => _SdsFooter.link(item))}
+    ${this.marks.length ? html23`<span class="sds-row__end">${this.marks.map((item) => _SdsFooter.link(item))}</span>` : ""}
   </div>
 </footer>`;
   }
@@ -3624,12 +3633,13 @@ var DIAGRAM_VIEWBOX = {
 // src/lib/art.ts
 var GROUP = "art";
 var DRAWING = /\.svg(?:[?#].*)?$/i;
+var ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
 var ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
 var attr = (name, value) => value === void 0 || value === "" ? "" : ` ${name}="${String(value).replace(/[&<>"]/g, (c) => ESCAPE[c])}"`;
 function art(src, alt, cls = "sds-art", width, height) {
   const name = alt ? attr("role", "img") + attr("aria-label", alt) : attr("aria-hidden", "true");
   const size = attr("width", width) + attr("height", height);
-  if (!DRAWING.test(src)) {
+  if (!DRAWING.test(src) || ELSEWHERE.test(src)) {
     const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c]);
     return html26`${unsafeHTML3(`<img${attr("class", cls)} src="${src}" alt="${escaped}"${size}>`)}`;
   }
@@ -3748,6 +3758,8 @@ var SdsFigure = class extends SdsElement {
       src: { type: String },
       alt: { type: String },
       caption: { type: String },
+      width: { type: Number },
+      height: { type: Number },
       zoomable: { type: Boolean, reflect: true }
     };
   }
@@ -3770,7 +3782,7 @@ var SdsFigure = class extends SdsElement {
   }
   render() {
     const given = this.taken ?? this.content;
-    const picture = given ? html28`${given}` : art(this.src, this.alt);
+    const picture = given ? html28`${given}` : art(this.src, this.alt, "sds-art", this.width, this.height);
     const frame = this.zoomable ? html28`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>` : picture;
     const caption = this.captioned ? html28`${this.captioned}` : this.caption ? html28`<figcaption class="sds-figure__caption">${this.caption}</figcaption>` : "";
     return html28`<figure class="sds-figure">

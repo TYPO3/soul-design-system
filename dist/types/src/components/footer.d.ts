@@ -21,8 +21,19 @@ export interface FooterProps {
     groups: readonly FooterGroup[];
     /** What this is. Stated, never implied — and never whose it is. */
     note: string;
+    /** The machine's name for it, set as the machine's. A product, a package,
+        a repository — verbatim, and never title-cased. */
+    product?: string;
+    /** Whose it is and from when. A separate line from the note because it is a
+        separate claim, and a footer that runs the two together reads as though
+        the sentence were part of the notice. */
+    copyright?: string;
     /** What has to travel with it: a licence, a version, a legal page. */
     meta?: readonly FooterLink[];
+    /** Where else it lives — a repository, a chat, a feed. At the far end of the
+        line, because they are the one thing in a footer a reader looks for by
+        position rather than by reading. */
+    marks?: readonly FooterLink[];
 }
 export declare class SdsFooter extends SdsElement {
     static properties: {
@@ -32,13 +43,25 @@ export declare class SdsFooter extends SdsElement {
         note: {
             type: StringConstructor;
         };
+        product: {
+            type: StringConstructor;
+        };
+        copyright: {
+            type: StringConstructor;
+        };
         meta: {
+            type: ArrayConstructor;
+        };
+        marks: {
             type: ArrayConstructor;
         };
     };
     groups: readonly FooterGroup[];
     note: string;
+    product: string;
+    copyright: string;
     meta: readonly FooterLink[];
+    marks: readonly FooterLink[];
     constructor();
     private static link;
     protected render(): TemplateResult;

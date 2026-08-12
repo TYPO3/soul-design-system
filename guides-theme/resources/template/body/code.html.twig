@@ -33,19 +33,19 @@
         head and the copy button, which is the whole reason to use an element
         rather than a `<pre>`.
 
-        Before it upgrades — and on a page with no JavaScript at all — the
-        caption and the `<code>` inside are drawn by `document.css` under
-        `:not(:defined)`. The block reads either way; only the button is
-        missing.
+        The caption is a property. It says what the block is, and where that
+        sentence sits and how it is set is the element's — this template used
+        to write `.sds-code__caption` itself, which is the component's own name
+        for its own part and not something a renderer should have to know.
 
-        The caption and the block are written with nothing between them, and
-        that is not formatting: the element lifts its children out and copies
-        what it finds to the clipboard, so a newline here would land in front
-        of the first line of every pasted block. -#}
+        The block is still written between the tags, because it is the one
+        thing here an attribute cannot hold, and it is written with nothing in
+        front of it: the element copies what it finds to the clipboard, so a
+        newline would land at the top of every pasted block. -#}
     <sds-code code-lang="{{ node.language|default('text') }}" copy
+        {%- if node.caption %} caption="{{ renderNode(node.caption)|striptags|trim }}"{% endif -%}
         {%- if node.classes %} class="{{ node.classesString }}"{% endif -%}
-        >{%- if node.caption %}<div class="sds-code__caption">{{ renderNode(node.caption) }}</div>{% endif -%}
-        <code class="language-{{ node.language|default('text') }}{{ node.startingLineNumber ? ' line-numbers' }}"
+        ><code class="language-{{ node.language|default('text') }}{{ node.startingLineNumber ? ' line-numbers' }}"
         {%- if node.startingLineNumber %} data-start="{{ node.startingLineNumber }}"{% endif -%}
         {%- if node.emphasizeLines %} data-emphasize-lines="{{ node.emphasizeLines }}"{% endif -%}
     >{{- node.value|highlight(node.language|default('text')) -}}</code></sds-code>

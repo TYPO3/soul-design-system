@@ -110,7 +110,7 @@ test.describe('what the theme repaired', () => {
       return {
         prose: px(document.querySelector('.sds-prose > .section > p')),
         note: px(document.querySelector('sds-note p')),
-        caption: px(document.querySelector('figcaption p')),
+        caption: px(document.querySelector('figcaption')),
       };
     });
 
@@ -158,7 +158,7 @@ test.describe('what the theme repaired', () => {
        nothing else compares the page against the card it embeds. */
     const width = await frame.locator('iframe').evaluate((el) => el.getBoundingClientRect().width);
     expect(Math.round(width)).toBe(700);
-    await expect(page.locator('.sds-embed__caption .sds-mono')).toHaveText('700x260');
+    await expect(page.locator('.sds-embed__caption')).toContainText('700x260');
   });
 
   test('the local contents is a table of contents, not the rail', async ({ page }) => {
@@ -299,26 +299,33 @@ test.describe('what the reader gets before the script does', () => {
     await page.setViewportSize({ width: 520, height: 900 });
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    /* The element writes no frame here — there is no element. What the reader
-       has is the `<iframe>` the renderer wrote, which is the whole reason it
-       is written between the tags rather than left to the component. */
-    const frame = page.locator('sds-embed > iframe');
+    /* The frame is the element's own, drawn before the page was published —
+       see `scripts/lib/prerender.ts`. This used to be an `<iframe>` the
+       renderer had written between the tags and the document layer had to
+       draw a border around, because an addressed element renders nothing
+       until it upgrades. It is the whole difference the prerender makes, and
+       it is checked here rather than anywhere else: this is the one suite
+       that runs with scripting off. */
+    const frame = page.locator('.sds-embed__frame--fixed');
     await expect(frame).toBeVisible();
+    await expect(frame.locator('iframe')).toBeVisible();
 
-    /* And it is framed by the document layer instead: a block with this
-       system's hairline around it, held to the column rather than running out
-       of it at the width its own attribute states. */
+    /* The frame the element draws, and the ground and corner that come with
+       it — not a border the document layer had to put on a bare `<iframe>`
+       because there was nothing else on the page to carry one. And held to
+       the column rather than running out of it at the width its own attribute
+       states. */
     const drawn = await frame.evaluate((el) => {
       const style = getComputedStyle(el);
       return {
-        display: style.display,
         border: parseFloat(style.borderTopWidth),
+        radius: parseFloat(style.borderTopLeftRadius),
         width: el.getBoundingClientRect().width,
         room: (el.parentElement as HTMLElement).getBoundingClientRect().width,
       };
     });
-    expect(drawn.display).toBe('block');
     expect(drawn.border).toBeGreaterThan(0);
+    expect(drawn.radius).toBeGreaterThan(0);
     expect(drawn.width).toBeLessThanOrEqual(drawn.room);
     expect(drawn.width, 'the column is narrower than the card, so the frame is too').toBeLessThan(700);
   });
