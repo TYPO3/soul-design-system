@@ -104,7 +104,7 @@ Generated — never edit, never hand-write a new one:
 | `specimens/` | `make cards` |
 | `dist/` | `make dist` (committed on purpose — it is the drop-in) |
 | `ds-bundle/` | `make build` |
-| `site/` | `make guides` — untracked: a drop-in is copied, a site is published |
+| `site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs |
 | `fonts/`, `assets/icons/`, `src/components/icons*.generated.ts` | `make fonts`, `make icons` — untracked, the container's entrypoint restores them |
 | `src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `assets/diagrams/` |
 
@@ -273,6 +273,12 @@ moved without the other.
 - **Web components first.** `<sds-code lang="bash">`, never a `div` with the
   classes on it. The classes are the fallback for surfaces that run no
   JavaScript, not the front door.
+- **A component is addressed, never rebuilt.** Everything that fits in a string
+  is a property; between the tags goes only what an attribute cannot carry, and
+  that is content rather than structure. A `sds-x__y` class is `sds-x`'s own
+  name for its own node and may be written nowhere else — `make coverage`
+  fails on one in the theme. The Guides pages are rendered before they are
+  published so this costs a reader with no script nothing; see `SKILL.md`.
 - **Comments carry the reason, not the story.** No changelog, no anecdote, and
   never the name of another project — this system is used by things it does
   not know about.

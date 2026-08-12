@@ -194,10 +194,15 @@ not.
 
 The node is ``sds-teaser`` itself and not a ``div`` wearing its classes — the
 element is the front door here as everywhere else, so the card is drawn in one
-file and a rendered page cannot drift from one a product wrote. Its parts are
-written into it by the renderer and the element keeps them, which is what a
-reader with no JavaScript reads: the picture, the title and the summary are in
-the page before any script has run.
+file and a rendered page cannot drift from one a product wrote. The template
+writes none of the card: it sets the options above and lets the element draw
+its own markup, which is what makes the card the component's to change.
+
+A reader with no JavaScript gets the whole of it anyway. Every element in the
+site is rendered before the page is published, so the picture, the row, the
+title and the summary are in the document with no script involved; in a browser
+the element upgrades over that rendering. This is the theme-wide arrangement,
+not the teaser's own — see :doc:`markup`.
 
 specimen
 ========

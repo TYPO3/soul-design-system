@@ -15,6 +15,34 @@ ordinary reStructuredText; the theme is what stands between it and the markup.
 .. contents::
    :local:
 
+The elements are rendered before the page is published
+======================================================
+
+One arrangement runs under everything below, so it is worth saying once.
+
+Every template here *addresses* a component — ``<sds-teaser heading="…">``,
+``<sds-rail items="…">`` — and writes none of its markup. That is the whole
+point of there being components: what a card looks like is decided in one file,
+and a page this theme renders cannot drift from a page a product wrote.
+
+On its own that would cost the reader with no JavaScript everything, because an
+element addressed by attributes draws nothing until it upgrades. So it is
+rendered earlier instead: ``make guides`` runs every element in the output
+through the same renderer the design system uses to export its specimen cards,
+and writes the markup back into the page inside the element's own tag. The
+document that is published already holds the card, the rail and the frame; in
+a browser the element upgrades over its own rendering and takes over the
+behaviour.
+
+Two things follow that are visible from the outside:
+
+- **A page works with scripting off.** Not a reduced version of it — the same
+  markup, minus the parts that are behaviour: a tab bar that cannot switch, a
+  copy button that cannot copy.
+- **A directive's options are the element's properties.** If a component grows
+  one, the directive gains it in the same commit, and it is spelt the same way
+  on both sides. Nothing in this theme is a translation of a component.
+
 Admonitions
 ===========
 
@@ -98,8 +126,9 @@ must not have to work out which one an author reached for.
 
 Left alone, neither works: the core renders a row of buttons and every panel
 under it, and the script that would switch them is not something the renderer
-ships. The element builds its own tab bar, wires the arrow keys, and with
-JavaScript off the panels simply stack — which is what the markup says.
+ships. The element builds its own tab bar and wires the arrow keys. With
+JavaScript off the bar is there and the panels stack open under it, because a
+button that cannot switch anything must not hide what it would have switched.
 
 .. note::
 

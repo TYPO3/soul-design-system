@@ -28,6 +28,39 @@ Two consequences, both learned the hard way:
   property for it, which is exactly long enough for someone to conclude the
   element is not enough and go back to hand-written markup.
 
+### Address a component, never rebuild one
+
+Everything about a thing that fits in a string is a property. Between the tags
+goes only what an attribute cannot carry — prose, a code block, a section of a
+document — and it is content, never structure.
+
+**A `sds-x__y` class belongs to `sds-x` and to nothing else.** Writing one puts
+the element's internal names into somebody else's file: the component cannot
+grow a wrapper, move a row or rename a part without every surface that draws
+one changing in the same commit, and the element is reduced to framing markup
+that was already built. `make coverage` fails on a part written outside the
+component that owns it.
+
+The Guides theme did exactly this, and its reason was the honest one: an
+addressed element draws nothing until it upgrades, so a card's title waited for
+a script. The answer is not a weaker contract — it is to run the contract
+earlier. `make guides` renders every element in the output in Node before the
+site is published (`scripts/lib/prerender.ts`), so the markup is on the page
+for a reader who runs no script at all, and the element upgrades over its own
+rendering.
+
+Two things follow for a component:
+
+- **It must render in Node.** `make verify ARGS=ssr` is that rule; nothing may
+  reach for `document`, `navigator` or `customElements` while rendering.
+- **Content arrives two ways.** In a browser the element lifts its children; in
+  Node there are none, so the same content is handed over as the `content`
+  property — `this.taken ?? this.content` is the shape, and `SdsElement` says
+  why. Anything a component decides by *inspecting* its children (a button
+  working out that its label is one glyph) has to be sayable as a property too,
+  or it is a decision that silently changes when a page is rendered ahead of
+  the browser.
+
 ## Comments
 
 Write the reason, not the story. A comment earns its place by saying why the

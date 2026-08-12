@@ -213,6 +213,34 @@ for (const tag of TAGS) {
 }
 console.log(`   ${TAGS.filter(inGuides).length} of ${TAGS.length} elements, ${PENDING.guides.length} pending`);
 
+console.log('   the theme names no component\u2019s own part');
+
+/* A part belongs to the element that draws it, and to nothing else.
+
+   `sds-teaser__body` is a name `sds-teaser` chose for a node inside itself. A
+   template that writes it has made that name public API: the card cannot grow
+   a wrapper, move its row or rename anything without the theme changing in the
+   same commit, and the element is left framing markup somebody else built —
+   which is the failure this whole system exists to prevent, arriving through
+   the surface that is supposed to prevent it. It is exactly what the theme did
+   until the render started drawing its elements ahead of the browser, and the
+   only thing standing between here and there again is this.
+
+   Only parts of elements that exist. `sds-bar__end` and `sds-wordmark__pipe`
+   name no component — they are the class layer's own vocabulary, which the
+   theme is entitled to write, and the check above is what holds them. */
+for (const m of theme.matchAll(/\b(sds-[a-z-]+)__[a-z-]+/g)) {
+  const owner = m[1] as string;
+  /* `TAGS` is a tuple of literals, so the tag has to be widened to be asked
+     about at all — the question is whether a string is one of them, which is
+     exactly what the narrow type will not let a caller ask. */
+  if (!(TAGS as readonly string[]).includes(owner)) continue;
+  fails.push(
+    `${m[0]}: a template writes a part of <${owner}>. The part is the element\u2019s — ` +
+      'address the element and let it draw its own markup.',
+  );
+}
+
 console.log('   the theme writes no name the system does not define');
 const defined = new Set<string>();
 for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
