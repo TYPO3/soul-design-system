@@ -247,7 +247,7 @@ Everything else
 What is left is running text — paragraphs, lists, quotes, transitions, inline
 literals, figures, the six heading levels — and no template can reach it,
 because the renderer writes no name on any of it. That is the document layer's
-half of the job, and :doc:`/documents` is where it is written down.
+half of the job, and :doc:`/frontend/documents` is where it is written down.
 
 Which template does which
 =========================

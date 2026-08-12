@@ -24,8 +24,7 @@ One system, from design to delivery
 
       design-system/index
       guides-theme/index
-      frontend
-      documents
+      frontend/index
 
 .. card-grid::
    :columns: 3
@@ -50,7 +49,7 @@ One system, from design to delivery
       and content components already belong to the interface around it.
 
    .. card:: Ship the interface without a framework
-      :href: /frontend
+      :href: /frontend/index
       :label: For developers
       :icon: actions-code
       :action: Use the frontend

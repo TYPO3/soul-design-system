@@ -34,7 +34,7 @@
         <navigation>
             <link href="/design-system/index" label="Design system"/>
             <link href="/guides-theme/index" label="Guides theme"/>
-            <link href="/frontend" label="Frontend"/>
+            <link href="/frontend/index" label="Frontend"/>
         </navigation>
         <!-- No groups: the columns are the toctree, section by section, and a
              page added below one of them is in the footer the moment it is

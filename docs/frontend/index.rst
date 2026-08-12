@@ -9,6 +9,11 @@ PHP, Twig, Fluid or a template string uses the class layer with no JavaScript
 at all; the custom elements upgrade that markup where there is behaviour to
 add.
 
+.. toctree::
+   :titlesonly:
+
+   documents
+
 Two shapes
 ==========
 
@@ -153,4 +158,5 @@ Rules that are not negotiable
 
    The written rules and the reasoning behind each of them ship with the
    system as ``SKILL.md`` and ``RATIONALE.md``. What is here is the interface;
-   those are the argument.
+   those are the argument. :doc:`documents` is the second stylesheet, for
+   prose a renderer produced rather than a surface somebody named.
