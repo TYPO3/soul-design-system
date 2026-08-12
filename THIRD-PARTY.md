@@ -16,8 +16,8 @@ always findable in the package.
 
 Findable by rule, not by search: the identifier's first segment is its
 category, and that is the path. `actions-search` lives at
-`packages/frontend/src/actions/actions-search.svg`, `module-dashboard` at
-`packages/frontend/src/module/module-dashboard.svg` — inside the package, in the upstream
+`src/actions/actions-search.svg`, `module-dashboard` at
+`src/module/module-dashboard.svg` — inside `@typo3/icons`, in the upstream
 repository, and on any CDN that serves either.
 
 | | |

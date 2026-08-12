@@ -326,11 +326,11 @@ is no build step for development. `make dist` exists only for publishing.
 Adding a font weight or an icon means editing the `FAMILIES` / `ICONS` list
 in `scripts/fonts.ts` or `scripts/icons.ts` — never the generated output.
 The icon's identifier is also its path, by its first segment:
-`actions-search` → `packages/frontend/src/actions/actions-search.svg` in `@typo3/icons`, and at
+`actions-search` → `src/actions/actions-search.svg` in `@typo3/icons`, and at
 the same path under
 `https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/` or
 `https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/` — that is how a
-surface pulls one this set does not cover. `packages/frontend/dist/icons.json` in the package
+surface pulls one this set does not cover. `dist/icons.json` in that package
 lists every identifier and the deprecated aliases; `THIRD-PARTY.md` records the
 whole provenance. A missing icon is contributed to
 [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons) first; the script
