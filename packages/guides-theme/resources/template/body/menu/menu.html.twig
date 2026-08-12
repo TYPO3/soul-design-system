@@ -23,10 +23,16 @@
     `active` is written even when it is -1. It counts over the flattened list,
     groups included, and left off the element falls back to its first item —
     a page the reader is not on, marked as the one they are.
+
+    An empty list is no rail at all, not an empty one: a section that is a
+    single page has nothing to navigate, and the layout reads this being empty
+    as the page having no rail.
 #}
 {%- set list = rail(node) -%}
+{%- if list.items is not empty -%}
 <sds-rail
     label="{{ list.label }}"
     items="{{ list.items|json_encode }}"
     active="{{ list.active }}"
 ></sds-rail>
+{%- endif -%}

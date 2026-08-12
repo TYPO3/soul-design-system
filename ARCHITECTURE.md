@@ -293,6 +293,25 @@ because the fixture it rendered against was flat. `acceptance/depth/` is that
 gap closed — a section, a page inside it, a page with pages under it, and a
 page three levels from the root.
 
+Finding the section upwards left one case still answered by the old fallback:
+a section that is a single page. Those have nothing under them, so they landed
+on the branch meant for a project with no sections at all and got every other
+section's tree, folded open — a sitemap belonging to no page the reader was on,
+which changed shape the moment they followed one of its links. Such a page now
+carries no rail, and the button in the bar that opens one goes with it.
+`sds-menu for=` already drops itself where it finds no target, but it finds one
+by asking a document and the page is written before there is one, so
+`structure/document.html.twig` renders the rail ahead of both and the body and
+the bar read whether it came out empty. The root is not that case: its section
+is the site, so its rail is the sections, under no heading and with nothing in
+it marked.
+
+What is left is the section's own page. The rail's heading is a heading and not
+a link, so a section listing only its children left a reader standing on its
+index as the one page missing from it, with nothing marked. It is the first
+item now — where a folded group already puts the page it is named after, and
+for the same reason.
+
 ## The pages are rendered before the browser gets them
 
 `make guides` runs every element in the output through `@lit-labs/ssr` in Node

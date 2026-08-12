@@ -15,8 +15,8 @@ use phpDocumentor\Guides\Renderer\UrlGenerator\UrlGeneratorInterface;
  * The rail's list: the pages of the section the reader is in.
  *
  * Which section that is comes from the rootline, so a page at any depth finds
- * it. Read instead off the link that resolves to `#`, it was only ever found
- * two levels down and everything deeper lost its rail to the sections.
+ * it. The root's own section is the site, and a section that is a single page
+ * has no rail at all — the bar naming it is the whole of what there is to say.
  *
  * The rail folds once, so a page with a tree under it is a group holding the
  * whole of that tree.
@@ -33,16 +33,49 @@ final class Rail
     public function of(MenuNode $node, RenderContext $context): array
     {
         $section = $this->section($node);
-        $children = $section instanceof InternalMenuEntryNode ? $section->getChildren() : [];
 
-        /* A section with no pages under it leaves the rail listing the sections
-           themselves, which is the only useful thing left to say. */
-        $entries = $children === [] ? $node->getMenuEntries() : $children;
+        /* No section in the rootline is the root page itself, and the root's
+           section is the site: the sections are what is under it, so they are
+           its rail. Under no heading — a list of everything there is answers
+           to the site's own name, which the bar already carries. */
+        if ($section === null) {
+            return $this->list('', null, $node->getMenuEntries(), $node, $context);
+        }
+
+        /* A section that is one page has no rail at all. Falling back to the
+           sections there hung every other section's tree off a page belonging
+           to none of them, and the shape changed under the reader the moment
+           they followed one of those links. */
+        if ($section->getChildren() === []) {
+            return ['label' => '', 'items' => [], 'active' => -1];
+        }
+
+        return $this->list($this->label($section), $section, $section->getChildren(), $node, $context);
+    }
+
+    /**
+     * One list: a heading, the page it is named after, and the tree under it.
+     *
+     * @param list<MenuEntryNode> $entries
+     *
+     * @return array{label: string, items: list<array<string, mixed>>, active: int}
+     */
+    private function list(
+        string $label,
+        ?MenuEntryNode $own,
+        array $entries,
+        MenuNode $node,
+        RenderContext $context,
+    ): array {
         $current = $node instanceof NavMenuNode ? $node->getCurrentPath() : null;
 
-        $items = [];
-        $active = -1;
-        $flat = 0;
+        /* The section's own page, first and ungrouped — where a group puts the
+           page it is named after, for the same reason: the heading over the
+           list is not a link, so a reader standing on the section's index would
+           be the one page missing from it. */
+        $items = $own === null ? [] : [$this->link($own, $context)];
+        $active = $own !== null && $own->getUrl() === $current ? 0 : -1;
+        $flat = count($items);
 
         foreach ($entries as $entry) {
             $below = $this->descendants($entry);
@@ -65,11 +98,7 @@ final class Rail
                 : ['label' => $this->label($entry), 'items' => $links];
         }
 
-        return [
-            'label' => $children === [] ? '' : $this->label($section),
-            'items' => $items,
-            'active' => $active,
-        ];
+        return ['label' => $label, 'items' => $items, 'active' => $active];
     }
 
     /** The entry the reader is on or under, whatever depth they are at. */

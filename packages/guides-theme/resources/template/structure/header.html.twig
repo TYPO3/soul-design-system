@@ -8,8 +8,15 @@
 <header class="sds-bar">
     {#- The mobile menu: one button that opens the rail the layout gives this
         id to. It adds behaviour and takes none away — without JavaScript there
-        is no button, and the rail is where it always was. -#}
-    <sds-menu for="page-rail" label="Pages"></sds-menu>
+        is no button, and the rail is where it always was.
+
+        Only where there is a rail to open. The element drops itself when it
+        finds no target, but it finds one by asking a document, and the page is
+        rendered before there is one — so a page with no rail shipped a button
+        that did nothing until a script took it away. -#}
+    {%- if rail|default('')|trim %}
+        <sds-menu for="page-rail" label="Pages"></sds-menu>
+    {%- endif %}
     {% include "structure/brand.html.twig" %}
     {% include "structure/navigation.html.twig" %}
     <div class="sds-bar__end">

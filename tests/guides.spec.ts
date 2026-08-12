@@ -218,6 +218,38 @@ test.describe('what the theme repaired', () => {
     await expect(rail.locator('.sds-rail__group[open]')).toHaveCount(1);
   });
 
+  test('a section that is one page carries no rail, and no button to open one', async ({ page }) => {
+    /* Such a page used to get the list of sections instead, every one of them
+       folded open — a sitemap hung off a page belonging to none of it, and the
+       rail changed shape the moment the reader followed one of those links.
+       The bar already says which section they are in. */
+    await page.goto(`${ACCEPTANCE_URL}/nodes.html`, { waitUntil: 'load' });
+
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('.sds-rail')).toHaveCount(0);
+    await expect(page.locator('#page-rail')).toHaveCount(0);
+    /* And the toggle goes with it. The element drops itself once it finds no
+       target, but it asks a document — so before any script there was a button
+       standing in the bar with nothing behind it. */
+    await expect(page.locator('.sds-bar .sds-menu--for')).toHaveCount(0);
+  });
+
+  test('the page a rail is named after is the first page in it', async ({ page }) => {
+    /* The heading over a rail is a heading, not a link, so a section whose rail
+       held only its children left the reader standing on the index as the one
+       page missing from it — and with nothing marked, since `active` counts
+       over pages the rail lists. */
+    await page.goto(`${ACCEPTANCE_URL}/depth/index.html`, { waitUntil: 'load' });
+
+    const rail = page.locator('.sds-rail');
+    await expect(rail.locator('.sds-label')).toHaveText('Depth');
+    await expect(rail.locator('.sds-rail__item').first()).toHaveText('Depth');
+
+    const here = rail.locator('.sds-rail__item.is-active');
+    await expect(here).toHaveText('Depth');
+    await expect(here).toHaveAttribute('aria-current', 'page');
+  });
+
   test('a rail with no page of its own in it marks none of them', async ({ page }) => {
     /* `active` counts over the flattened rail and the element falls back to
        zero, so a page whose rail does not list it — the root, whose rail is
