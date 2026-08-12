@@ -24,19 +24,17 @@
   --note-title-size: var(--font-size-body);
   --note-body-size: var(--font-size-body);
   --note-body-leading: var(--leading-body);
-  /* The box is held to the measure below, so the text fills the box. Capped
-     in both places, a note's sentences stop well short of its own border and
-     the box reads as the wrong size for what is in it. */
+  /* The 384px a note is written to on a product surface is a column inside a
+     document's column. The box runs to the page's own width here, so the text
+     fills it rather than stopping short of a border it has no reason to. */
   --note-measure: none;
 }
 
-/* And the box takes the measure the paragraphs take: an admonition is prose set
-   apart, so it wraps where they wrap, and what is inside fills it. The block
-   rule further down excepts the document's own blocks, not a note's content.
-   Both spellings, because the upgraded host is `display: contents` and the cap
-   has to land on the frame the element renders. */
-:where(.sds-prose) .sds-note,
-:where(.sds-prose) sds-note:not(:defined) { max-width: var(--measure-prose); }
+/* The box runs to the column, and the words in it keep the measure — the rule
+   the whole layer is built on, and an admonition is not the exception it was
+   written as. A note held to the measure is a second column inside the first,
+   and a page of them reads as text with a narrower page beside it. */
+:where(.sds-prose) .sds-note p { max-width: none; }
 
 /* ------------------------------------------------------------- headings -- */
 
