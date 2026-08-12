@@ -12,10 +12,10 @@ import { join, relative, sep } from 'node:path';
 
 import { test, expect, type Page } from '@playwright/test';
 
-import { SITE_DIR, SITE_URL } from '../playwright.config.ts';
+import { ACCEPTANCE_URL, SITE_DIR, SITE_URL } from '../playwright.config.ts';
 
-const FIXTURE = `${SITE_URL}/_acceptance/index.html`;
-const REFERENCE = `${SITE_URL}/_acceptance/nodes.html`;
+const FIXTURE = `${ACCEPTANCE_URL}/index.html`;
+const REFERENCE = `${ACCEPTANCE_URL}/nodes.html`;
 
 /* A wide viewport, because two of the tests below are about width: the
    measure the prose holds and the width the blocks are allowed to take. At a

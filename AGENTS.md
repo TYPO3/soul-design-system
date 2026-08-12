@@ -138,7 +138,8 @@ Generated — never edit, never hand-write a new one:
 | `specimens/` | `make cards` |
 | `packages/frontend/dist/` | `make dist` (committed on purpose — it is the drop-in) |
 | `.out/bundle/` | `make build` |
-| `.out/site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs |
+| `.out/site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs. Everything in it is published, which is why the theme's control surface is the root beside it |
+| `.out/acceptance/` | `make guides` — the theme's control surface, rendered every run and published never. A root of its own, because a page below somebody else's root does not resolve its assets the way a published one does |
 | `docs/guides-theme/_starter/` | `make guides` — the example's own files, copied in so the manual quotes what is built rather than a second copy of it |
 | `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
 | `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — untracked, the container's entrypoint restores them |

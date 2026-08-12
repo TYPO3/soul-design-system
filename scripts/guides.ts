@@ -17,6 +17,7 @@ import { FRONTEND, GENERATED, ROOT, cards, screens } from './lib/cards.ts';
 
 const THEME = join(ROOT, 'packages', 'guides-theme');
 const SITE = join(GENERATED, 'site');
+const ACCEPTANCE = join(GENERATED, 'acceptance');
 const DROP = join(FRONTEND, 'dist');
 /* The step after the render, taken out of the drop-in rather than imported
    from `lib/site.ts`: it is that file bundled, so this runs what a reader
@@ -28,18 +29,20 @@ interface Project {
   name: string;
   /** The documents, and the `guides.xml` beside them. */
   source: string;
-  /** Where it lands under the publish root. */
+  /** Its own root: a rendered site resolves everything relative to one. */
   out: string;
 }
 
 const PROJECTS: Project[] = [
-  /* The manual and the landing page. Renders into the root, because that is
-     what Pages serves. */
+  /* The manual and the landing page. Renders into the publish root, because
+     that is what Pages serves. */
   { name: 'docs', source: join(ROOT, 'docs'), out: SITE },
   /* The acceptance test for the theme: every node the renderer can emit, once,
-     where it can be looked at. A control surface rather than a published one —
-     hence the underscore, and hence excluded when the site is published. */
-  { name: 'acceptance', source: join(THEME, 'acceptance'), out: join(SITE, '_acceptance') },
+     where it can be looked at. A control surface rather than a published one,
+     so it is a root of its own beside the publish root and not a directory
+     inside it — what is published is then the whole of what was rendered
+     there, with nothing to remember to take back out. */
+  { name: 'acceptance', source: join(THEME, 'acceptance'), out: ACCEPTANCE },
 ];
 
 /* The specimen cards, where the documents can reach them. A guideline page
@@ -100,7 +103,7 @@ if (!existsSync(join(DROP, 'soul.css')) || !existsSync(FINISH)) {
   process.exit(1);
 }
 
-rmSync(SITE, { recursive: true, force: true });
+for (const project of PROJECTS) rmSync(project.out, { recursive: true, force: true });
 
 for (const project of PROJECTS) {
   copyCards(project.source);
@@ -142,14 +145,15 @@ for (const project of PROJECTS) {
      leave it alone, it renders the rendering. */
   const finished = run(process.execPath, [
     FINISH, project.out, `--drop-in=${DROP}`,
-    /* One index, the published site's — and it leaves out every path that
-       begins with an underscore, so the control surface is in nobody's. */
+    /* An index is a thing a reader searches, and only one of these is read
+       by one. */
     ...(project.name === 'docs' ? [] : ['--no-search']),
   ]);
   if (finished !== 0) process.exit(1);
 }
 
 console.log(`
-  ${PROJECTS.length} project(s) into .out/site/ — the publish root.
+  .out/site/ — the publish root, and everything in it is published.
+  .out/acceptance/ — the theme's control surface, rendered every run, published never.
   Open http://localhost:4173/ (the port \`make start\` reports), or photograph a page:
     make look ARGS='.out/site/index.html 900'`);

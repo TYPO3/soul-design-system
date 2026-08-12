@@ -43,11 +43,6 @@ jobs:
       # whole of what a reader's own build needs.
       - run: node scripts/guides.ts
 
-      # The acceptance render is the control surface the theme is checked
-      # against, not documentation — every node the renderer can emit, without
-      # prose around it. Built on every run, published on none.
-      - run: rm -rf .out/site/_acceptance
-
       # Pages serves this artifact as it stands, but a repository ever switched
       # back to the branch-based build runs Jekyll over it, and Jekyll drops
       # every path beginning with an underscore — `_cards/`, `_images/`,

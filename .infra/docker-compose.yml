@@ -105,6 +105,17 @@ services:
     ports:
       - '${SDS_SITE_PORT:-4173}:${SDS_SITE_PORT:-4173}'
 
+  # The theme's control surface, on a port of its own for the same reason the
+  # site has one: it is a second rendered site, and a page below somebody
+  # else's root resolves its assets differently than a published one does.
+  # Inside `.out/site/` it was also a directory the publishing step had to
+  # remember to take back out.
+  acceptance:
+    <<: *app
+    command: ['node', 'scripts/serve.ts', '${SDS_ACCEPTANCE_PORT:-4174}', '.out/acceptance']
+    ports:
+      - '${SDS_ACCEPTANCE_PORT:-4174}:${SDS_ACCEPTANCE_PORT:-4174}'
+
   # The drop-in, kept current. `dist/` is committed and is what a consumer
   # copies, so it can be a source edit behind without anything saying so —
   # and Storybook serves it, which makes stale output something you look at.

@@ -42,7 +42,7 @@ TASKS := verify test cards typecheck fit ssr coverage php build dist split guide
 
 # The long-running ones. `app` is among them: it holds the environment every
 # task above runs in, so a task is an `exec` rather than a new container.
-SERVICES := storybook site dist app
+SERVICES := storybook site acceptance dist app
 
 .PHONY: help tasks $(TASKS) mounts start stop restart logs shell clean
 .DEFAULT_GOAL := help
@@ -124,11 +124,16 @@ start:
 		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
 	site=$$(for p in $$(seq 4173 4199); do \
 		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
-	SDS_STORYBOOK_PORT=$$port SDS_SITE_PORT=$$site $(COMPOSE) up -d --build $(SERVICES) && \
+	acceptance=$$(for p in $$(seq $$((site + 1)) 4199); do \
+		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
+	SDS_STORYBOOK_PORT=$$port SDS_SITE_PORT=$$site SDS_ACCEPTANCE_PORT=$$acceptance \
+	$(COMPOSE) up -d --build $(SERVICES) && \
 	printf '\n  running:\n    %-10s http://localhost:%-6s  %s\n' \
 		storybook "$$port" 'guidelines, components with controls, a11y' && \
 	printf '    %-10s http://localhost:%-6s  %s\n' \
 		site "$$site" 'the rendered documentation, as it will be served' && \
+	printf '    %-10s http://localhost:%-6s  %s\n' \
+		acceptance "$$acceptance" 'every node the renderer can emit, published never' && \
 	printf '    %-10s %-29s  %s\n' \
 		dist '(watching the frontend package)' 'rebuilds the drop-in on every edit' && \
 	printf '    %-10s %-29s  %s\n' \

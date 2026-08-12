@@ -81,6 +81,7 @@ is not in question; the names still are.
 | Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens |
 | `specimens/` | `make cards` | every specimen card and screen, rendered from the stories that compose them |
 | `.out/site/` | `make guides` | the documentation, rendered from `docs/` by phpDocumentor Guides through this system's own theme |
+| `.out/acceptance/` | `make guides` | every node the renderer can emit, in a root of its own — what the theme is checked against, and published never |
 | `packages/frontend/dist/` | `make dist` | the publishable ESM package and its types |
 | `.out/bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
 

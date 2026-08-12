@@ -33,6 +33,14 @@ export const SITE_URL = `http://localhost:${SITE_PORT}`;
    ask what the renderer actually wrote — one spelling for both. */
 export const SITE_DIR = '.out/site';
 
+/* The theme's control surface is a second site, so it gets a second root and a
+   server of its own. Inside the publish root it would be a directory somebody
+   has to remember to take back out before uploading — and a page one level
+   below a root does not resolve its assets the way a published one does. */
+export const ACCEPTANCE_PORT = 6109;
+export const ACCEPTANCE_URL = `http://localhost:${ACCEPTANCE_PORT}`;
+export const ACCEPTANCE_DIR = '.out/acceptance';
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -79,6 +87,17 @@ export default defineConfig({
          documents and costs about a second. */
       command: `node scripts/guides.ts && node scripts/serve.ts ${SITE_PORT} ${SITE_DIR}`,
       url: SITE_URL,
+      reuseExistingServer: !process.env['CI'],
+      timeout: 240_000,
+      stdout: 'ignore',
+      stderr: 'pipe',
+    },
+    {
+      /* The render above writes both roots, so this one only serves. It answers
+         before that render has finished, and no test starts until every server
+         here answers — which is after it. */
+      command: `node scripts/serve.ts ${ACCEPTANCE_PORT} ${ACCEPTANCE_DIR}`,
+      url: ACCEPTANCE_URL,
       reuseExistingServer: !process.env['CI'],
       timeout: 240_000,
       stdout: 'ignore',
