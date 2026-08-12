@@ -85,7 +85,7 @@ export const SITE_NOTE =
   'An independent development tool. Not a product of the TYPO3 Association, and not endorsed by it.';
 
 export const SITE_META: readonly FooterLink[] = [
-  { label: 'GPL-2.0-or-later', href: '#' },
+  { label: 'MIT', href: '#' },
   { label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true },
 ];
 

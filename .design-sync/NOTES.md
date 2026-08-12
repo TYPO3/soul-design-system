@@ -152,11 +152,11 @@ say they have no reference point rather than guessing.
 - **`packages/frontend/assets/**` is not in the skill's default upload plan.** This repo's cards
   reference `packages/frontend/assets/icons` and `packages/frontend/assets/diagrams`, so the plan must include
   `packages/frontend/assets/**` in both `writes` and `deletes` or icons vanish from the cards.
-- **Licensing is settled**: GPL-2.0-or-later, matching TYPO3 CMS (whose
-  `composer.json` is the authoritative source, not the GitHub summary, which
-  says plain `GPL-2.0`). Icons are MIT from TYPO3/TYPO3.Icons, fonts are OFL
-  via `@fontsource`; both are recorded in `THIRD-PARTY.md`. `package.json` is
-  still `private: true` — flip that only deliberately.
+- **Licensing is settled**: MIT, so a project may take a piece of this into a
+  tree of its own without the tree following. Icons are MIT from
+  TYPO3/TYPO3.Icons, fonts are OFL via `@fontsource`; both are recorded in
+  `THIRD-PARTY.md`. `package.json` is still `private: true` — flip that only
+  deliberately.
 - **`packages/frontend/fonts/` and `packages/frontend/assets/icons/` are generated and gitignored.** They come
   from `@fontsource/*` and `@typo3/icons` via `scripts/fonts.ts` and
   `scripts/icons.ts`, both run by the container entrypoint when missing. A

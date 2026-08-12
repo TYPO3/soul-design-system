@@ -86,5 +86,5 @@ project to copy* prints the two files a project needs, whole.
 
 ## Licence
 
-GPL-2.0-or-later. The icons and the faces it ships carry their own — see
+MIT. The icons and the faces it ships carry their own — see
 `THIRD-PARTY.md` in the monorepo.

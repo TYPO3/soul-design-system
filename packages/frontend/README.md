@@ -60,5 +60,5 @@ design built on it follows.
 
 ## Licence
 
-GPL-2.0-or-later. The icons and the faces carry their own — see
+MIT. The icons and the faces carry their own — see
 `THIRD-PARTY.md` in the monorepo.

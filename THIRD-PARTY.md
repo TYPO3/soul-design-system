@@ -1,8 +1,8 @@
 # Third-party material
 
-The design system itself is GPL-2.0-or-later, matching TYPO3 CMS (see
-`LICENSE`). It also redistributes the following, each under its own licence.
-None of them is covered by the GPL notice above.
+The design system itself is MIT (see `LICENSE`). It also redistributes the
+following, each under its own licence. None of them is covered by the notice
+above.
 
 ## Icons — `packages/frontend/assets/icons/`
 

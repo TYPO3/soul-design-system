@@ -140,7 +140,7 @@ export function aboutPage(_: PageMode = {}): TemplateResult {
       <div class="sds-stack">
         <h2>How it is paid for, and what happens if it stops</h2>
         <p>
-          Unpaid work, done in the open, under GPL-2.0-or-later. Nothing about
+          Unpaid work, done in the open, under MIT. Nothing about
           it is sold and nothing about it is sponsored, which is worth stating
           plainly rather than leaving to be inferred from the absence of a
           pricing page.

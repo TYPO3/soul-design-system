@@ -139,7 +139,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
           </p>
           <div class="sds-row">
             <sds-badge label="1.4.0" tone="accent"></sds-badge>
-            <sds-badge label="GPL-2.0-or-later"></sds-badge>
+            <sds-badge label="MIT"></sds-badge>
             <sds-badge label="PHP 8.2+"></sds-badge>
           </div>
           <div class="sds-actions">${start}</div>

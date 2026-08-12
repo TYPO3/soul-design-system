@@ -345,8 +345,8 @@ Before a visual refactor, take `make baseline`, make the change, then
 
 ## Licence
 
-GPL-2.0-or-later, matching TYPO3 CMS — see `LICENSE`. Icons are MIT and the
-fonts are SIL OFL 1.1; both are recorded in `THIRD-PARTY.md`.
+MIT — see `LICENSE`. Icons are MIT and the fonts are SIL OFL 1.1; both are
+recorded in `THIRD-PARTY.md`.
 
 This is **not** an approved TYPO3 product and no surface may imply
 endorsement.
