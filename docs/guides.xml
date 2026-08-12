@@ -22,11 +22,13 @@
     <!-- What the bar says and shows. Both optional; without them it carries
          the project title above. -->
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
-        <!-- Also the mark in the tab: with no <favicon> beside it the signet
-             is what the theme links, which is the right answer while there is
-             one drawing in the tree. A project that ships the optical sizes
-             names them there, one <favicon> per slot. -->
+        <!-- The bar draws its mark at 24, so the file named here is the 24
+             drawing. The optical sizes are separate files and are named per
+             slot below: with no <favicon> the signet is what the theme links,
+             and the tab would get the 24 mark squeezed into 16. -->
         <signet>_images/signet.svg</signet>
+        <favicon href="_images/signet-s.svg" sizes="16x16"/>
+        <favicon href="_images/signet-l.svg" sizes="32x32"/>
         <brand>TYPO3</brand>
         <product>Soul Design System</product>
         <navigation>

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 16 16" role="img" aria-label="Soul Design System">
+<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 24 24" role="img" aria-label="Soul Design System">
   <title>Soul Design System</title>
   <!-- Every colour sits on its own shape, as a var() with a hex fallback: a
        page that declares the tokens gets its own ink, and this file still
@@ -6,27 +6,17 @@
        and no comment in here may carry a double dash, which is what makes an
        SVG malformed and a reference to it draw nothing. See
        docs/design-system/artwork.rst. -->
-  <!-- S - drawn at 16, where one unit is one pixel, and for the favicon.
-       Stroke 1, rounding 0.5, gap 1. The box is 16 x 12, centred; outer
-       corners at radius 2.
+  <!-- M - drawn at 24, where one unit is one pixel. Stroke 2, rounding 1,
+       gap 2. The box is 24 x 18, centred; outer corners at radius 3.
 
-       The halves are the point rather than an exception: a one-pixel stroke
-       is centred on a half pixel, so its ink lands on 0 and 1 and not across
-       both. Every straight edge in here is still a whole number.
-
-       One pixel of stroke, not two. Sixteen pixels hold three parts, two gaps
-       and two crop marks across, and at two pixels a part the gaps have
-       nowhere left to be. So the stroke goes to the thinnest thing a screen
-       can draw whole and the parts carry the recognising instead. They keep
-       the 2 / 4 / 2 the M is drawn with, which in a box two thirds the size
-       is a heavier mark rather than the same one made smaller.
-
-       At this size the crop marks carry almost nothing. They are two hooks,
-       and both stop at the middle rather than reaching along the edge, which
-       is room the parts need more than the corners do. -->
-  <path stroke="var(--text-primary, #8A8378)" d="M7 13.5H2A1.5 1.5 0 0 1 0.5 12V8" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"></path>
-  <rect fill="var(--text-primary, #8A8378)" x="3" y="5" width="2" height="6" rx="0.5"></rect>
-  <rect fill="var(--text-primary, #8A8378)" x="6" y="5" width="4" height="6" rx="0.5"></rect>
-  <rect fill="var(--text-primary, #8A8378)" x="11" y="5" width="2" height="6" rx="0.5"></rect>
-  <path stroke="var(--accent, #FF8700)" d="M9 2.5H14A1.5 1.5 0 0 1 15.5 4V8" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"></path>
+       Two pixels of stroke on a 24px mark, the same ink as L carries at 32:
+       the smaller the mark, the heavier it is in proportion to itself. That
+       weight eats into the opening, so the parts give up what it takes and
+       the gaps stay a full stroke, because a gap is the first thing to
+       disappear and the last thing that may. -->
+  <path stroke="var(--text-primary, #8A8378)" d="M10 20H3A2 2 0 0 1 1 18V11" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+  <rect fill="var(--text-primary, #8A8378)" x="6" y="8" width="2" height="8" rx="1"></rect>
+  <rect fill="var(--text-primary, #8A8378)" x="10" y="8" width="4" height="8" rx="1"></rect>
+  <rect fill="var(--text-primary, #8A8378)" x="16" y="8" width="2" height="8" rx="1"></rect>
+  <path stroke="var(--accent, #FF8700)" d="M14 4H21A2 2 0 0 1 23 6V13" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
 </svg>
