@@ -8,6 +8,10 @@ export interface LightboxProps {
         carries, so opening it is not a change of subject. */
     caption?: string;
     open?: boolean;
+    /** The picture is linked rather than referenced — an SVG that never named
+        `id="art"`. Passed on by the figure that opens this one, so the drawing
+        at full size is the drawing in the page. */
+    linked?: boolean;
 }
 export declare class SdsLightbox extends SdsElement {
     static properties: {
@@ -24,11 +28,15 @@ export declare class SdsLightbox extends SdsElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
+        linked: {
+            type: BooleanConstructor;
+        };
     };
     src: string;
     alt: string;
     caption: string;
     open: boolean;
+    linked: boolean;
     constructor();
     private get dialog();
     connectedCallback(): void;

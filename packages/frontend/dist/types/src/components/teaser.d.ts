@@ -18,6 +18,10 @@ export interface TeaserProps {
         author has to look up rather than write. */
     src?: string;
     alt?: string;
+    /** The picture is linked rather than referenced — an SVG that never named
+        `id="art"`. Written by the build, which is what can read the file;
+        `src/lib/art.ts` holds the reasoning. */
+    linked?: boolean;
 }
 export declare class SdsTeaser extends SdsElement {
     static properties: {
@@ -42,6 +46,9 @@ export declare class SdsTeaser extends SdsElement {
         alt: {
             type: StringConstructor;
         };
+        linked: {
+            type: BooleanConstructor;
+        };
     };
     heading: string;
     body: string | TemplateResult;
@@ -50,6 +57,7 @@ export declare class SdsTeaser extends SdsElement {
     meta: string;
     src: string;
     alt: string;
+    linked: boolean;
     private taken;
     constructor();
     connectedCallback(): void;

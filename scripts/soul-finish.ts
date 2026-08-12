@@ -55,11 +55,19 @@ if (drop && !existsSync(join(drop, 'soul.css'))) {
   process.exit(1);
 }
 
-const { drawn, indexed, broken } = finish(root, {
+const { drawn, indexed, broken, linked } = finish(root, {
   drop,
   styles: flag('styles'),
   search: argv.includes('--no-search') ? false : flag('search'),
 });
+
+/* Said, and not fatal: the picture is on the page either way, and which of the
+   two a project wants is a decision about the drawing rather than the build. */
+if (linked.length) {
+  console.log(`\n! ${linked.length} drawing(s) are shown as an image — no id="art" in the file:`);
+  for (const line of linked.slice(0, 12)) console.log(`  - ${line}`);
+  console.log('\n  They keep the colours they were exported with and do not follow the page\n  into dark. Naming the root <svg id="art"> is the whole of it.');
+}
 
 if (broken.length) {
   console.error(`\n✗ ${broken.length} reference(s) do not resolve inside ${root}:`);

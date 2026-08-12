@@ -1,10 +1,10 @@
 /* The one picture a figure, a viewer, a teaser or a lockup shows.
 
    **Every SVG is referenced, everything else is linked.** An `<img>` renders
-   its file in a document of its own, where no token is declared and every fill
-   falls back to its light hex; a `<use>` builds a shadow tree that inherited
-   properties cross, so one file takes the mode of whatever it sits in. Being
-   referenced costs a file one line — `id="art"` on the root.
+   its file in a document of its own where no token is declared; a `<use>` builds
+   a shadow tree that inherited properties cross, so one file takes the mode of
+   whatever it sits in. It costs the file one line — `id="art"` on the root, and
+   one that never paid it is linked — a reference to nothing draws nothing.
 
    `<use>` carries no size across: a file naming its root carries its own
    `viewBox`, and `make diagrams` reads one out of each drawing that does not. */
@@ -35,24 +35,30 @@ const ESCAPE: Readonly<Record<string, string>> = { '&': '&amp;', '<': '&lt;', '>
 const attr = (name: string, value: string | number | undefined): string =>
   value === undefined || value === '' ? '' : ` ${name}="${String(value).replace(/[&<>"]/g, (c) => ESCAPE[c] as string)}"`;
 
-/** The picture, as whatever it has to be to arrive in the right mode. `cls` is
-    what the surface hangs its own sizing on; a width and height are for a
-    picture the stylesheet does not size, like a mark in a bar — a figure passes
-    neither and fills its column. */
-export function art(
-  src: string,
-  alt: string,
-  cls = 'sds-art',
-  width?: number,
-  height?: number,
-): TemplateResult {
+export interface ArtOptions {
+  /** What the surface hangs its own sizing on. */
+  cls?: string;
+  /** For a picture the stylesheet does not size, like a mark in a bar — a
+      figure passes neither and fills its column. */
+  width?: number;
+  height?: number;
+  /** Linked whatever the name says. A drawing that never named `id="art"`
+      resolves to nothing when it is referenced, and only a renderer with the
+      file in front of it can know that — `scripts/lib/site.ts` reads the file
+      and writes this onto the element, so the picture arrives. */
+  linked?: boolean;
+}
+
+/** The picture, as whatever it has to be to arrive in the right mode. */
+export function art(src: string, alt: string, options: ArtOptions = {}): TemplateResult {
+  const { cls = 'sds-art', width, height, linked = false } = options;
   /* `aria-label` on the wrapper, not the `<title>` in the file: only one is
      read, and the author wrote this one beside the picture. Empty says
      decorative, which is not the same as left unnamed. */
   const name = alt ? attr('role', 'img') + attr('aria-label', alt) : attr('aria-hidden', 'true');
   const size = attr('width', width) + attr('height', height);
 
-  if (!DRAWING.test(src) || ELSEWHERE.test(src)) {
+  if (linked || !DRAWING.test(src) || ELSEWHERE.test(src)) {
     /* Written even when empty: on an image that is the difference between
        decorative and unlabelled. */
     const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c] as string);

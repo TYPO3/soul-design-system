@@ -13,6 +13,10 @@ export interface ImageProps {
         a square box is drawn 5:4 and centred, never stretched to fit. */
     width?: number;
     height?: number;
+    /** The picture is linked rather than referenced — an SVG that never named
+        `id="art"`. Written by the build, which is what can read the file;
+        `src/lib/art.ts` holds the reasoning. */
+    linked?: boolean;
 }
 export declare class SdsImage extends SdsElement {
     static properties: {
@@ -30,6 +34,9 @@ export declare class SdsImage extends SdsElement {
             type: NumberConstructor;
             reflect: boolean;
         };
+        linked: {
+            type: BooleanConstructor;
+        };
         cls: {
             attribute: string;
             type: StringConstructor;
@@ -39,6 +46,7 @@ export declare class SdsImage extends SdsElement {
     alt: string;
     width: number;
     height: number;
+    linked: boolean;
     cls: string;
     constructor();
     /** What a server wrote between the tags, dropped. The element takes no

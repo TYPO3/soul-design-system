@@ -9,12 +9,11 @@
     which is where those three are decided for everything else that shows a
     picture.
 
-    The picture is written here, between the tags, and the element keeps it.
-    That is the theme's rule — the server writes, the element upgrades — and it
-    matters more here than anywhere: a figure whose picture waits for a script
-    is a caption under an empty box for a reader who has none. The element's own
-    `src` form is for a story or a product surface, which know what the file is;
-    a renderer knows only what the author pointed at.
+    The picture is drawn into the page by the finishing step — `soul-finish.js`,
+    over the rendered output — and not by a template writing the element's own
+    markup. That is what lets this address the component: a figure whose picture
+    waits for a script would be a caption under an empty box for a reader who
+    runs none, and by the time the page is published there is no waiting left.
 
     `sds-art` is what makes it sit in the frame — one rule shared by the drawing
     and the photograph, because how a picture fills its surface is the same
@@ -28,8 +27,9 @@
     follows it into dark, while an `<img>` renders in a document of its own
     where none of them are declared. It costs the file one line — `id="art"` on
     its root — and `docs/design-system/artwork.rst` says what else it has to do.
-    A drawing that has not been told draws nothing, so this is a rule an author
-    reads before pointing at an SVG, not one they discover.
+    A drawing that never paid it is shown as an image instead: the finishing
+    step reads the file, and a picture in its exported colours beats a hole in
+    the page. What it does not do is follow the reader into dark.
 
     A file somewhere else is linked whatever it is: a reference reads the file
     itself, which a browser will not do across origins.

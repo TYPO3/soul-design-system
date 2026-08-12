@@ -26,6 +26,10 @@ export interface ImageProps {
       a square box is drawn 5:4 and centred, never stretched to fit. */
   width?: number;
   height?: number;
+  /** The picture is linked rather than referenced — an SVG that never named
+      `id="art"`. Written by the build, which is what can read the file;
+      `src/lib/art.ts` holds the reasoning. */
+  linked?: boolean;
 }
 
 export class SdsImage extends SdsElement {
@@ -34,6 +38,7 @@ export class SdsImage extends SdsElement {
     alt: { type: String },
     width: { type: Number, reflect: true },
     height: { type: Number, reflect: true },
+    linked: { type: Boolean },
     /* The class the caller wrote, read as a property rather than off the host:
        `this.className` exists only where there is a DOM, and these render in
        Node too. Declaring the attribute is what carries it through both. */
@@ -44,6 +49,7 @@ export class SdsImage extends SdsElement {
   declare alt: string;
   declare width: number;
   declare height: number;
+  declare linked: boolean;
   declare cls: string;
 
   constructor() {
@@ -52,6 +58,7 @@ export class SdsImage extends SdsElement {
     this.alt = '';
     this.width = 0;
     this.height = 0;
+    this.linked = false;
     this.cls = '';
   }
 
@@ -74,7 +81,7 @@ export class SdsImage extends SdsElement {
        collision. The class goes on the picture itself, where the stylesheet
        expects it — the fallback markup is written that way by hand. */
     const cls = this.cls || (width || height ? '' : 'sds-art');
-    return art(this.src, this.alt, cls, width, height);
+    return art(this.src, this.alt, { cls, width, height, linked: this.linked });
   }
 }
 

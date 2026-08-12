@@ -26,6 +26,10 @@ export interface FigureProps {
       element only takes the press over once it has upgraded. Worth it for
       anything drawn wider than its column, pointless for a photograph. */
   zoomable?: boolean;
+  /** The picture is linked rather than referenced — an SVG that never named
+      `id="art"`. Written by the build, which is what can read the file;
+      `src/lib/art.ts` holds the reasoning. */
+  linked?: boolean;
 }
 
 /* A caption written between the tags, told apart from the picture by the class
@@ -49,6 +53,7 @@ export class SdsFigure extends SdsElement {
     width: { type: Number },
     height: { type: Number },
     zoomable: { type: Boolean, reflect: true },
+    linked: { type: Boolean },
   };
 
   declare src: string;
@@ -61,6 +66,7 @@ export class SdsFigure extends SdsElement {
   declare width?: number;
   declare height?: number;
   declare zoomable: boolean;
+  declare linked: boolean;
 
   /* The picture a renderer wrote, taken before Lit renders over it. `src` is
      the form a story or a product surface uses; a renderer writing HTML cannot,
@@ -80,6 +86,7 @@ export class SdsFigure extends SdsElement {
     this.alt = '';
     this.caption = '';
     this.zoomable = false;
+    this.linked = false;
   }
 
   override connectedCallback(): void {
@@ -107,7 +114,9 @@ export class SdsFigure extends SdsElement {
        rewriting them from `src` would replace a picture the reader can see
        with a second request for the same file. */
     const given = this.taken ?? this.content;
-    const picture = given ? html`${given}` : art(this.src, this.alt, 'sds-art', this.width, this.height);
+    const picture = given
+      ? html`${given}`
+      : art(this.src, this.alt, { width: this.width, height: this.height, linked: this.linked });
 
     const frame = this.zoomable
       ? html`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>`
@@ -129,7 +138,7 @@ export class SdsFigure extends SdsElement {
   </div>
   ${caption}
   ${this.zoomable
-    ? html`<sds-lightbox src="${this.src}" alt="${this.alt}" caption="${typeof this.caption === 'string' ? this.caption : ''}"></sds-lightbox>`
+    ? html`<sds-lightbox src="${this.src}" alt="${this.alt}" ?linked="${this.linked}" caption="${typeof this.caption === 'string' ? this.caption : ''}"></sds-lightbox>`
     : ''}
 </figure>`;
   }

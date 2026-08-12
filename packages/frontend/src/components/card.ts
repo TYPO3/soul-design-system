@@ -30,6 +30,10 @@ export interface CardProps {
       file names it `src`. */
   src?: string;
   alt?: string;
+  /** The picture is linked rather than referenced — an SVG that never named
+      `id="art"`. Written by the build, which is what can read the file;
+      `src/lib/art.ts` holds the reasoning. */
+  linked?: boolean;
   /** The tracked-out line over the title, where a set of cards is named or
       numbered as a set — `CHAPTER 02`, `FOR EDITORS`. */
   label?: string;
@@ -51,6 +55,7 @@ export class SdsCard extends SdsElement {
     href: { type: String },
     src: { type: String },
     alt: { type: String },
+    linked: { type: Boolean },
     label: { type: String },
     icon: { type: String },
     footer: { type: String },
@@ -62,6 +67,7 @@ export class SdsCard extends SdsElement {
   declare href: string;
   declare src: string;
   declare alt: string;
+  declare linked: boolean;
   declare label: string;
   declare icon?: IconId;
   declare footer: string;
@@ -79,6 +85,7 @@ export class SdsCard extends SdsElement {
     this.href = '';
     this.src = '';
     this.alt = '';
+    this.linked = false;
     this.label = '';
     this.footer = '';
     this.action = '';
@@ -93,7 +100,7 @@ export class SdsCard extends SdsElement {
   protected override render(): TemplateResult {
     const medium = this.src
       ? html`<div class="sds-card__media">
-    ${art(this.src, this.alt)}
+    ${art(this.src, this.alt, { linked: this.linked })}
   </div>`
       : '';
 

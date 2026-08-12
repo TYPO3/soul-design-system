@@ -3707,10 +3707,11 @@ var DRAWING = /\.svg(?:[?#].*)?$/i;
 var ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
 var ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
 var attr = (name, value) => value === void 0 || value === "" ? "" : ` ${name}="${String(value).replace(/[&<>"]/g, (c) => ESCAPE[c])}"`;
-function art(src, alt, cls = "sds-art", width, height) {
+function art(src, alt, options = {}) {
+  const { cls = "sds-art", width, height, linked = false } = options;
   const name = alt ? attr("role", "img") + attr("aria-label", alt) : attr("aria-hidden", "true");
   const size = attr("width", width) + attr("height", height);
-  if (!DRAWING.test(src) || ELSEWHERE.test(src)) {
+  if (linked || !DRAWING.test(src) || ELSEWHERE.test(src)) {
     const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c]);
     return html27`${unsafeHTML3(`<img${attr("class", cls)} src="${src}" alt="${escaped}"${size}>`)}`;
   }
@@ -3738,13 +3739,15 @@ var SdsLightbox = class extends SdsElement {
     this.alt = "";
     this.caption = "";
     this.open = false;
+    this.linked = false;
   }
   static {
     this.properties = {
       src: { type: String },
       alt: { type: String },
       caption: { type: String },
-      open: { type: Boolean, reflect: true }
+      open: { type: Boolean, reflect: true },
+      linked: { type: Boolean }
     };
   }
   get dialog() {
@@ -3792,7 +3795,7 @@ var SdsLightbox = class extends SdsElement {
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-lightbox__art">
-    ${art(this.src, this.alt)}
+    ${art(this.src, this.alt, { linked: this.linked })}
   </div>
 </dialog>`;
   }
@@ -3819,6 +3822,7 @@ var SdsFigure = class extends SdsElement {
     this.alt = "";
     this.caption = "";
     this.zoomable = false;
+    this.linked = false;
   }
   static {
     this.properties = {
@@ -3827,7 +3831,8 @@ var SdsFigure = class extends SdsElement {
       caption: { type: String },
       width: { type: Number },
       height: { type: Number },
-      zoomable: { type: Boolean, reflect: true }
+      zoomable: { type: Boolean, reflect: true },
+      linked: { type: Boolean }
     };
   }
   connectedCallback() {
@@ -3849,7 +3854,7 @@ var SdsFigure = class extends SdsElement {
   }
   render() {
     const given = this.taken ?? this.content;
-    const picture = given ? html29`${given}` : art(this.src, this.alt, "sds-art", this.width, this.height);
+    const picture = given ? html29`${given}` : art(this.src, this.alt, { width: this.width, height: this.height, linked: this.linked });
     const frame = this.zoomable ? html29`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>` : picture;
     const caption = this.captioned ? html29`${this.captioned}` : this.caption ? html29`<figcaption class="sds-figure__caption">${this.caption}</figcaption>` : "";
     return html29`<figure class="sds-figure">
@@ -3857,7 +3862,7 @@ var SdsFigure = class extends SdsElement {
     ${frame}
   </div>
   ${caption}
-  ${this.zoomable ? html29`<sds-lightbox src="${this.src}" alt="${this.alt}" caption="${typeof this.caption === "string" ? this.caption : ""}"></sds-lightbox>` : ""}
+  ${this.zoomable ? html29`<sds-lightbox src="${this.src}" alt="${this.alt}" ?linked="${this.linked}" caption="${typeof this.caption === "string" ? this.caption : ""}"></sds-lightbox>` : ""}
 </figure>`;
   }
 };
@@ -3872,6 +3877,7 @@ var SdsImage = class extends SdsElement {
       alt: { type: String },
       width: { type: Number, reflect: true },
       height: { type: Number, reflect: true },
+      linked: { type: Boolean },
       /* The class the caller wrote, read as a property rather than off the host:
          `this.className` exists only where there is a DOM, and these render in
          Node too. Declaring the attribute is what carries it through both. */
@@ -3884,6 +3890,7 @@ var SdsImage = class extends SdsElement {
     this.alt = "";
     this.width = 0;
     this.height = 0;
+    this.linked = false;
     this.cls = "";
   }
   /** What a server wrote between the tags, dropped. The element takes no
@@ -3899,7 +3906,7 @@ var SdsImage = class extends SdsElement {
     const width = this.width || void 0;
     const height = this.height || void 0;
     const cls = this.cls || (width || height ? "" : "sds-art");
-    return art(this.src, this.alt, cls, width, height);
+    return art(this.src, this.alt, { cls, width, height, linked: this.linked });
   }
 };
 define("sds-image", SdsImage);
@@ -4163,6 +4170,7 @@ var SdsCard = class extends SdsElement {
     this.href = "";
     this.src = "";
     this.alt = "";
+    this.linked = false;
     this.label = "";
     this.footer = "";
     this.action = "";
@@ -4174,6 +4182,7 @@ var SdsCard = class extends SdsElement {
       href: { type: String },
       src: { type: String },
       alt: { type: String },
+      linked: { type: Boolean },
       label: { type: String },
       icon: { type: String },
       footer: { type: String },
@@ -4187,7 +4196,7 @@ var SdsCard = class extends SdsElement {
   }
   render() {
     const medium = this.src ? html36`<div class="sds-card__media">
-    ${art(this.src, this.alt)}
+    ${art(this.src, this.alt, { linked: this.linked })}
   </div>` : "";
     const icon = this.icon ? html36`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : "";
     const label = this.label ? html36`<div class="sds-label">${this.label}</div>` : "";
@@ -4311,6 +4320,7 @@ var SdsTeaser = class extends SdsElement {
     this.meta = "";
     this.src = "";
     this.alt = "";
+    this.linked = false;
   }
   static {
     this.properties = {
@@ -4320,7 +4330,8 @@ var SdsTeaser = class extends SdsElement {
       tag: { type: String },
       meta: { type: String },
       src: { type: String },
-      alt: { type: String }
+      alt: { type: String },
+      linked: { type: Boolean }
     };
   }
   connectedCallback() {
@@ -4330,7 +4341,7 @@ var SdsTeaser = class extends SdsElement {
   }
   render() {
     const medium = this.src ? html38`<div class="sds-teaser__image">
-    ${art(this.src, this.alt)}
+    ${art(this.src, this.alt, { linked: this.linked })}
   </div>` : "";
     const meta = this.tag || this.meta ? html38`<div class="sds-row">
       ${this.tag ? html38`<sds-badge label="${this.tag}"></sds-badge>` : ""}

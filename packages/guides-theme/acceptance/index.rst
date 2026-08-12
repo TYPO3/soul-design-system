@@ -227,6 +227,13 @@ Pictures
 .. image:: /_images/placeholder.svg
    :alt: A placeholder, dropped into the page without a claim under it
 
+.. figure:: /_images/unprepared.svg
+   :alt: A drawing that names no id="art"
+
+   A drawing that was never prepared to be referenced. The finishing step reads
+   the file and shows it as an image, in the colours it was exported with —
+   which is what is lost, rather than the picture.
+
 Cards
 =====
 

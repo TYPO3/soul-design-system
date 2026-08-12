@@ -596,8 +596,12 @@ Four things were measured before this was built on, and each one is a rule in
 
 The failure mode is a blank space: a file whose root is not named, or whose
 comment carries a double dash and is therefore malformed XML, draws nothing at
-all. `make diagrams` refuses the second one for the files in this repository;
-for a consumer's file the guideline page is the only guard there is.
+all. `make diagrams` refuses the second one for the files in this repository.
+The first is caught where the file can be read — `link()` in
+`scripts/lib/site.ts` marks an unprepared drawing `linked` before the page is
+drawn, so the picture arrives as an `<img>` and the run names the file. That is
+also why the flag is a property on every element that shows a picture: only the
+build knows, and the element would otherwise decide again on upgrade.
 
 ## The signet is a construction, not the mark
 

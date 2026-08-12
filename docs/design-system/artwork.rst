@@ -131,12 +131,18 @@ When it draws nothing
 =====================
 
 A reference that resolves to nothing leaves a blank space, which is the one
-failure this contract has. Three causes, in the order to check them:
+failure this contract has. The causes, in the order to check them:
 
-- the root is not named ``id="art"``
 - a comment carries a double dash, so the file is not well-formed
 - the file is on another origin — a browser will not read one across origins,
   so a picture from somewhere else is linked whatever it is
+
+A root that is not named ``id="art"`` used to be the first of those and is not
+one any more: the finishing step reads every drawing a page points at and shows
+an unprepared one as an image, naming it in the run. The picture arrives, in the
+colours it was exported with, and it is the one on the page that does not follow
+the reader into dark. A malformed file is still a blank — nothing can tell one
+from a drawing that simply has no shapes.
 
 Specimen cards are the deliberate exception. They are opened from disk with no
 server, where every file is its own origin and no reference resolves at all —

@@ -24,6 +24,10 @@ export interface LightboxProps {
       carries, so opening it is not a change of subject. */
   caption?: string;
   open?: boolean;
+  /** The picture is linked rather than referenced — an SVG that never named
+      `id="art"`. Passed on by the figure that opens this one, so the drawing
+      at full size is the drawing in the page. */
+  linked?: boolean;
 }
 
 export class SdsLightbox extends SdsElement {
@@ -32,12 +36,14 @@ export class SdsLightbox extends SdsElement {
     alt: { type: String },
     caption: { type: String },
     open: { type: Boolean, reflect: true },
+    linked: { type: Boolean },
   };
 
   declare src: string;
   declare alt: string;
   declare caption: string;
   declare open: boolean;
+  declare linked: boolean;
 
   constructor() {
     super();
@@ -45,6 +51,7 @@ export class SdsLightbox extends SdsElement {
     this.alt = '';
     this.caption = '';
     this.open = false;
+    this.linked = false;
   }
 
   private get dialog(): HTMLDialogElement | null {
@@ -111,7 +118,7 @@ export class SdsLightbox extends SdsElement {
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-lightbox__art">
-    ${art(this.src, this.alt)}
+    ${art(this.src, this.alt, { linked: this.linked })}
   </div>
 </dialog>`;
   }

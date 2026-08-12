@@ -222,6 +222,8 @@ Enough to produce a new diagram that sits in the set without adjustment. Every v
 
 **A drawing of your own is referenced too.** Name its root `<svg id="art" viewBox="…">` and write every colour as a `var()` with a hex behind it. The root is what carries the coordinate system across, so nothing has to read the file and no viewBox is passed. Never a `<style>` block and never a colour on the root: both are applied to the shapes after they are referenced, both beat a presentation attribute, and the drawing is then the author's grey on every page there is. A comment may not contain a double dash either — that is malformed XML, and the file draws nothing anywhere. `docs/design-system/artwork.rst` is the whole rule; a signet a documentation project configures follows it.
 
+**A drawing that was never told is shown as an image.** The finishing step reads every file a rendered page points at and marks an unprepared one `linked`, which is the one thing that overrides the name: the picture arrives in the colours it was exported with and stays in them on a dark page. Nothing outside a build writes that flag — a surface with the files in front of it prepares them instead.
+
 ## Brand
 
 **The signet is a construction, not a fixed drawing.** What this system fixes is *how* one is built; the mark in `packages/frontend/assets/` is one worked example of the rules, carried over from the Dev Companion prototype. Treat it as the reference implementation, not as an approved product mark — a product that adopts this system draws its own to the same rules.

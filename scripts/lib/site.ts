@@ -3,9 +3,9 @@
    `phpdocumentor/guides` writes documents. It does not know that the elements
    on a page have to be drawn before a reader without a script arrives, that the
    bar searches an index nothing has written, or that a stylesheet it never
-   parsed has to stand beside the output. Those are the three steps between a
-   render and a site. They live here rather than in `scripts/guides.ts` because
-   the same three run in a project that has only Composer, out of
+   parsed has to stand beside the output. Those are the steps between a render
+   and a site. They live here rather than in `scripts/guides.ts` because
+   the same ones run in a project that has only Composer, out of
    `dist/soul-finish.js` — one implementation, so the site published here and
    the site somebody else builds are built by the same code. */
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -39,6 +39,45 @@ export function dropIn(from: string, into: string): string[] {
     copied.push(name);
   }
   return copied;
+}
+
+/* The elements that show a picture, and what tells an SVG from anything else.
+   The tag ending steps over a name that is a prefix of another one. */
+const SHOWS = ['sds-figure', 'sds-image', 'sds-teaser', 'sds-card'];
+const PICTURE = new RegExp(`<(?:${SHOWS.join('|')})(?![-\\w])(?:"[^"]*"|'[^']*'|[^>"'])*>`, 'g');
+const SVG = /\.svg(?:[?#].*)?$/i;
+const PREPARED = /\bid\s*=\s*["']?art\b/;
+const ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
+
+/* A drawing is referenced into the page so it carries the page's tokens, and
+   one that never named `id="art"` is a reference to nothing — a blank space
+   where the picture was. Here the file is at hand, which is the whole reason
+   this runs here: an unprepared drawing is marked `linked` and the element
+   draws it as an `<img>`, in the colours it was exported with. */
+export function link(root: string): string[] {
+  const linked = new Set<string>();
+  const prepared = new Map<string, boolean>();
+  for (const file of pages(root)) {
+    const page = readFileSync(file, 'utf8');
+    const done = page.replace(PICTURE, (tag) => {
+      const src = /\ssrc="([^"]*)"/.exec(tag)?.[1];
+      if (!src || !SVG.test(src) || ELSEWHERE.test(src) || /\slinked(?=[\s/>=])/.test(tag)) return tag;
+      const target = resolve(dirname(file), (src.split(/[?#]/)[0] ?? src));
+      /* Left to the reference check, which says the same thing about every
+         file a page points at rather than about drawings alone. */
+      if (!target.startsWith(root + sep) || !existsSync(target)) return tag;
+      let known = prepared.get(target);
+      if (known === undefined) {
+        known = PREPARED.test(readFileSync(target, 'utf8'));
+        prepared.set(target, known);
+      }
+      if (known) return tag;
+      linked.add(relative(root, target).split(sep).join('/'));
+      return `${tag.replace(/\/?>$/, '')} linked>`;
+    });
+    if (done !== page) writeFileSync(file, done);
+  }
+  return [...linked].sort();
 }
 
 /* Every element in the site, rendered before the browser gets there — what lets
@@ -108,16 +147,20 @@ export interface Finished {
   indexed: number | null;
   /** References that do not resolve inside the site. */
   broken: string[];
+  /** Drawings shown as an image, having never been prepared to be referenced. */
+  linked: string[];
 }
 
-/** The three steps between a render and a site, in the one order that works:
-    drawing before indexing, because a card's title lives in the element until
-    it is drawn; checking last, because the copy step is one of the things that
-    can break a reference. */
+/** The steps between a render and a site, in the one order that works: the
+    drawings before the drawing, because an element is drawn from the tag as it
+    stands; indexing after that, because a card's title lives in the element
+    until it is drawn; checking last, because the copy step is one of the things
+    that can break a reference. */
 export function finish(root: string, options: { drop?: string; styles?: string; search?: string | false } = {}): Finished {
   const { drop, styles = 'styles', search = '_search.json' } = options;
   if (drop) dropIn(drop, join(root, styles));
+  const linked = link(root);
   const drawn = draw(root);
   const indexed = search === false ? null : index(root, search);
-  return { drawn, indexed, broken: escapes(root) };
+  return { drawn, indexed, broken: escapes(root), linked };
 }

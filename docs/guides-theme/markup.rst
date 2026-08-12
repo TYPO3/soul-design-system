@@ -248,6 +248,11 @@ SVG is drawn in the page's own tokens and follows it into dark, while an
 costs the drawing one line — ``id="art"`` on its root — and
 :doc:`/design-system/artwork` says what else it has to do.
 
+An SVG that never paid it is shown as an image rather than as a blank space:
+the finishing step reads the file before it draws the page, and says in the run
+which drawings those were. So a picture dropped into a project arrives whatever
+was done to it, and the line buys the mode, not the picture.
+
 ``:target:`` stays a link around the picture. ``:align:`` is dropped, for the
 reason the sidebar is: a measure this narrow has nothing to float beside.
 

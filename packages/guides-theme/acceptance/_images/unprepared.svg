@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" width="1200" height="500" role="img" aria-label="unprepared">
+  <rect width="1200" height="500" fill="#EDEAE3"/>
+  <rect x="0.5" y="0.5" width="1199" height="499" fill="none" stroke="#C9C3B7"/>
+  <text x="600" y="258" text-anchor="middle" font-family="Source Code Pro, monospace" font-size="22" fill="#726C63">exported elsewhere</text>
+</svg>

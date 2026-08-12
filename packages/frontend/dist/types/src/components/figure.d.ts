@@ -13,6 +13,10 @@ export interface FigureProps {
         element only takes the press over once it has upgraded. Worth it for
         anything drawn wider than its column, pointless for a photograph. */
     zoomable?: boolean;
+    /** The picture is linked rather than referenced — an SVG that never named
+        `id="art"`. Written by the build, which is what can read the file;
+        `src/lib/art.ts` holds the reasoning. */
+    linked?: boolean;
 }
 export declare class SdsFigure extends SdsElement {
     static properties: {
@@ -35,6 +39,9 @@ export declare class SdsFigure extends SdsElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
+        linked: {
+            type: BooleanConstructor;
+        };
     };
     src: string;
     alt: string;
@@ -46,6 +53,7 @@ export declare class SdsFigure extends SdsElement {
     width?: number;
     height?: number;
     zoomable: boolean;
+    linked: boolean;
     private taken;
     private captioned;
     constructor();

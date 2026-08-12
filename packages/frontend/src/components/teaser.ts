@@ -31,6 +31,10 @@ export interface TeaserProps {
       author has to look up rather than write. */
   src?: string;
   alt?: string;
+  /** The picture is linked rather than referenced — an SVG that never named
+      `id="art"`. Written by the build, which is what can read the file;
+      `src/lib/art.ts` holds the reasoning. */
+  linked?: boolean;
 }
 
 export class SdsTeaser extends SdsElement {
@@ -42,6 +46,7 @@ export class SdsTeaser extends SdsElement {
     meta: { type: String },
     src: { type: String },
     alt: { type: String },
+    linked: { type: Boolean },
   };
 
   declare heading: string;
@@ -51,6 +56,7 @@ export class SdsTeaser extends SdsElement {
   declare meta: string;
   declare src: string;
   declare alt: string;
+  declare linked: boolean;
 
   /* The summary a caller wrote between the tags, taken before Lit renders over
      it. The one thing about an entry that an attribute cannot hold: a summary
@@ -67,6 +73,7 @@ export class SdsTeaser extends SdsElement {
     this.meta = '';
     this.src = '';
     this.alt = '';
+    this.linked = false;
   }
 
   override connectedCallback(): void {
@@ -78,7 +85,7 @@ export class SdsTeaser extends SdsElement {
   protected override render(): TemplateResult {
     const medium = this.src
       ? html`<div class="sds-teaser__image">
-    ${art(this.src, this.alt)}
+    ${art(this.src, this.alt, { linked: this.linked })}
   </div>`
       : '';
 

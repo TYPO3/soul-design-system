@@ -449,15 +449,34 @@ test.describe('what the theme repaired', () => {
     /* `.. figure::` and `.. image::` are the same picture to a reader; only one
        of them says what it is for. The core writes the second as a bare `<img>`
        standing on the page ground, which is a drawing exported on white sitting
-       in a hole in dark — so both are the element, and neither is an `<img>`
-       the document layer has to catch. */
-    await expect(page.locator('.sds-prose img')).toHaveCount(0);
+       in a hole in dark — so both are the element, and no picture in the prose
+       stands outside a frame the document layer would have to catch. */
+    await expect(page.locator('.sds-prose img:not(.sds-figure__frame img)')).toHaveCount(0);
     const framed = page.locator('.sds-prose sds-figure .sds-figure__frame');
-    await expect(framed).toHaveCount(2);
+    await expect(framed).toHaveCount(3);
 
     /* And what separates them: the caption is the claim, so the picture that
        makes none is drawn without one rather than under an empty line. */
-    await expect(page.locator('.sds-prose .sds-figure__caption')).toHaveCount(1);
+    await expect(page.locator('.sds-prose .sds-figure__caption')).toHaveCount(2);
+  });
+
+  test('a drawing that was never prepared is shown, not left blank', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* A reference into a file that names no `id="art"` resolves to nothing and
+       leaves a hole where the picture was. The finishing step is what has the
+       file in front of it: it marks the element `linked`, and the picture
+       arrives as an image — in the colours it was exported with, which is the
+       whole of what being unprepared costs. */
+    const unprepared = page.locator('.sds-prose sds-figure[linked]');
+    await expect(unprepared).toHaveCount(1);
+    await expect(unprepared.locator('img.sds-art')).toBeVisible();
+    await expect(unprepared.locator('img.sds-art')).toHaveAttribute('src', /unprepared\.svg$/);
+
+    /* The prepared drawing beside it is still referenced, so the flag is read
+       off the file and not written onto every picture in the page. */
+    const prepared = page.locator('.sds-prose sds-figure:not([linked])').first();
+    await expect(prepared.locator('svg use')).toHaveAttribute('href', /#art$/);
   });
 
   test('the column counts of a card grid become how much room a card gets', async ({ page }) => {
