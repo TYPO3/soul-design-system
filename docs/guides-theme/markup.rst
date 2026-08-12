@@ -344,6 +344,8 @@ Which template does which
      - ``.. sidebar::`` as a topic rather than an admonition
    * - ``structure/header-title``
      - the mark that hands over the place a heading names
+   * - ``structure/pager``
+     - the pages either side of this one, where a project asked for them
    * - ``body/admonition``
      - twelve types onto four tones
    * - ``body/code``

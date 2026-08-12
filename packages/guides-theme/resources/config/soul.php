@@ -14,6 +14,7 @@ use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\TeaserDirective;
+use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Twig\AnchorExtension;
@@ -75,6 +76,11 @@ return static function (ContainerConfigurator $container): void {
            the extension below, whose arguments are all settings. */
         ->set(Rail::class)
 
+        /* And the way on from the page being rendered, worked out the same
+           way and for the same reason: the order a manual is read in is the
+           tree walked, which a template can only fake. */
+        ->set(Pager::class)
+
         /* Where a reference points, for a template handing a target to a
            component instead of writing the link itself. */
         ->set(LinkExtension::class)
@@ -86,6 +92,9 @@ return static function (ContainerConfigurator $container): void {
         ->tag('twig.extension')
 
         ->set(ThemeExtension::class)
-        ->args(['%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%', '%soul.footer%', '%soul.navigation%', service(Rail::class)])
+        ->args([
+            '%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%',
+            '%soul.footer%', '%soul.navigation%', '%soul.pager%', service(Rail::class), service(Pager::class),
+        ])
         ->tag('twig.extension');
 };

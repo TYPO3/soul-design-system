@@ -101,6 +101,13 @@ Regel dafür in `document.css` ist damit unerreichbar, obwohl sie stimmt. Das
 ist der Parser und nicht das Theme; die Reparatur wäre eine eigene
 Production-Rule hier oder ein Patch dort.
 
+Eine Fuß-Navigation rendert der Kern nicht. Der Block dafür steht in seinem
+eigenen `structure/footer.html.twig` auskommentiert, es gibt weder `next` noch
+`prev` zu lesen — was hier als fremdes Markup geführt wurde, war nie eine
+Ausgabe, die man hätte umschreiben können. Gebaut ist sie jetzt trotzdem:
+`Navigation\Pager` rechnet die Nachbarseiten aus dem Baum, `<pager>` schaltet
+sie ein.
+
 Die Annotationsliste ist kein Gegenstück-Problem, sondern gar keins. Der Knoten
 sammelt Fußnoten und Zitate ein und rendert seine Kinder ohne ein eigenes
 Element — es gibt nichts im Markup, dem eine Klasse oder eine Komponente
@@ -113,7 +120,6 @@ ihre Regel in `document.css`.
 | --- | --- | --- |
 | `div.tabs` > `ul > li > button[data-tabs][data-target]` + `div.tab-content` | `sds-tabs` + `sds-tab-item` | Zweite, andere Tab-Form im selben Ausgabeformat. Sie kommt aus keinem hier installierten Paket und ist deshalb nie gerendert worden |
 | `figure.uml-diagram` mit einem Bild | Diagramm-Richtlinie mit Hell/Dunkel-Paar | Guides rendert eine Datei. Im dunklen Modus ist sie falsch |
-| Fuß-Navigation: `div.rst-footer-buttons` > `a.btn.btn-neutral` mit `span.fa.fa-arrow-circle-left` | `.sds-btn`, `sds-icon` | Icon-Font-Klassen statt unserer Glyphen |
 
 Dazu ein Verhalten statt eines Markups: der `configuration-block` wird zu
 `sds-tabs` wie `.. tabs::` auch, aber was die Direktive eigentlich verspricht,
@@ -185,4 +191,4 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
    stehen davor: das `<aside>`, das die drei Templates heute bewusst schreiben
    und das die Komponente nicht kennt, und die `:class:`-Angabe des Autors, die
    auf einem `display: contents`-Host keine Fläche mehr trifft.
-2. **Die drei fremden Markups** und das Verhalten des `configuration-block`.
+2. **Die zwei fremden Markups** und das Verhalten des `configuration-block`.

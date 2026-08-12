@@ -87,6 +87,7 @@ The theme element
            <link href="/overview" label="Overview"/>
            <link href="https://example.org" label="Elsewhere" external="true"/>
        </navigation>
+       <pager>true</pager>
        <footer>
            <group title="Elsewhere">
                <link href="https://example.org" label="Product site" external="true"/>
@@ -203,6 +204,29 @@ that should write the handful it wants.
    which is the toctree walked upwards: a page three levels inside the guide
    still marks Guide. Marking only the exact page leaves the bar saying nothing
    on all but a handful of pages.
+
+The way on
+----------
+
+.. confval:: pager
+   :type: boolean
+   :default: false
+
+   The pages either side of this one, as two links at the end of the column.
+   The order is the toctree flattened — the order the rail lists, and the
+   order somebody reading front to back would take — with the root first,
+   because a toctree lists what is under a page and never the page it is
+   written on.
+
+   Off unless a project says otherwise, and that is a decision rather than
+   caution: the renderer computes no such thing, so this is the theme offering
+   a path, and a reference nobody reads front to back is a reference where
+   that path is a row of noise under every page. A manual that *is* read in
+   order says ``true``.
+
+   A page the tree does not hold gets no row at all. An orphan is reached from
+   somewhere else, and a way onward from a page that is not on the way is a
+   path this theme invented.
 
 The footer
 ----------

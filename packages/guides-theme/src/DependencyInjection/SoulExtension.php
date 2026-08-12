@@ -120,6 +120,19 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                    rendering, unless a site puts its documentation under a
                    marketing page that is not part of it. */
                 ->scalarNode('home')->defaultNull()->end()
+                /* The way on from a page: the pages either side of it in the
+                   order the tree reads, at the end of the column.
+
+                       <pager>true</pager>
+
+                   Off by default, and that is a decision rather than caution.
+                   The renderer computes no such thing — its own prev/next
+                   block has been commented out of the core template for
+                   years — so this is the theme offering a path, and a
+                   reference nobody reads front to back is a reference where
+                   that path is a row of noise under every page. A manual says
+                   true. */
+                ->booleanNode('pager')->defaultFalse()->end()
                 /* The footer, because a marketing page has one and a manual
                    does not get to invent it. Its columns are the toctree and
                    are configured nowhere; what is set here is what the tree
@@ -272,6 +285,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
 
         $container->setParameter('soul.footer', $footer);
         $container->setParameter('soul.navigation', $config['navigation'] ?? []);
+        $container->setParameter('soul.pager', $config['pager']);
 
         $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
         $loader->load('soul.php');

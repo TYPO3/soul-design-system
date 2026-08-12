@@ -303,6 +303,35 @@ test.describe('what the theme repaired', () => {
     expect(loose).toBe(0);
   });
 
+  test('the way on from a page is the page the tree reads next', async ({ page }) => {
+    /* The renderer computes no prev/next — its own block has been commented
+       out of the core template for years — so this is the theme's, and the
+       order it offers has to be the order the rail lists. */
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    const foot = page.locator('main.sds-column > footer.sds-foot');
+    await expect(foot).toHaveCount(1);
+    /* The first page of a manual has nothing behind it, and it is in the tree
+       all the same: a toctree lists what is under a page and never the page it
+       is written on, so the root is the one document the walk has to be told
+       about. */
+    await expect(foot.locator('a[rel="prev"]')).toHaveCount(0);
+    const next = foot.locator('a[rel="next"]');
+    await expect(next).toHaveAttribute('aria-label', /^Next page: /);
+
+    /* And it goes there. */
+    const onward = (await next.getAttribute('href')) ?? '';
+    await next.click();
+    await expect(page).toHaveURL(new RegExp(`${onward}$`));
+
+    /* From the second page on, both ways are offered and the one back is the
+       page just left. */
+    const back = page.locator('footer.sds-foot a[rel="prev"]');
+    await expect(back).toHaveCount(1);
+    await back.click();
+    await expect(page).toHaveURL(/index\.html$/);
+  });
+
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

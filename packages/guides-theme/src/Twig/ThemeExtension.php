@@ -10,6 +10,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Nodes\Bands;
 use TYPO3\Soul\GuidesTheme\Nodes\Terms;
@@ -40,7 +41,9 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         private readonly ?string $home,
         private readonly array $footer,
         private readonly array $navigation,
+        private readonly bool $pager,
         private readonly Rail $rail,
+        private readonly Pager $pages,
     ) {}
 
     /** @return array<string, mixed> */
@@ -55,6 +58,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
                 'home' => $this->home,
                 'footer' => $this->footer,
                 'navigation' => $this->navigation,
+                'pager' => $this->pager,
             ],
         ];
     }
@@ -86,6 +90,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('bands', Bands::of(...)),
             new TwigFunction('terms', Terms::of(...)),
             new TwigFunction('rail', $this->rail(...), ['needs_context' => true]),
+            new TwigFunction('pager', $this->pager(...), ['needs_context' => true]),
         ];
     }
 
@@ -102,5 +107,20 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         }
 
         return $this->rail->of($node, $renderContext);
+    }
+
+    /**
+     * @param array{env?: RenderContext} $context
+     *
+     * @return array{previous: array{label: string, href: string}|null, next: array{label: string, href: string}|null}
+     */
+    public function pager(array $context): array
+    {
+        $renderContext = $context['env'] ?? null;
+        if (!$renderContext instanceof RenderContext) {
+            throw new \RuntimeException('The way on is the way on from a page, so there has to be a page being rendered');
+        }
+
+        return $this->pages->of($renderContext);
     }
 }

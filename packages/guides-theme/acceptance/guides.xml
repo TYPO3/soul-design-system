@@ -29,5 +29,10 @@
             <link href="/nodes" label="Nodes"/>
             <link href="/depth/index" label="Depth"/>
         </navigation>
+        <!-- The way on from a page, which the renderer computes nowhere and
+             this theme therefore has to. On here because the fixture is what
+             the suite opens: a setting nothing renders is a setting nothing
+             checks. -->
+        <pager>true</pager>
     </extension>
 </guides>

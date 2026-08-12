@@ -1,0 +1,34 @@
+{#
+    The way on from this page: the pages either side of it, at the end of the
+    column.
+
+    Nothing of the renderer's is being replaced here — its own prev/next block
+    has been commented out of the core template for years, and there is no
+    `next` or `prev` to read. So the order comes from `Navigation\Pager`: the
+    tree flattened, which is the order the rail lists and the order somebody
+    reading a manual front to back would take.
+
+    `.sds-foot` is the shape the class layer already has for it — one row, the
+    way out of this page, and all a single page owes its reader. The links are
+    buttons because that is what a reader presses at the end of a page, and the
+    glyph carries the direction; the label carries the page.
+
+    An accessible name is written for each, direction first: the glyph says
+    which way to somebody looking, and a name that is only the page title says
+    it to nobody else. It contains the visible label, so the two agree.
+#}
+{%- set steps = pager() -%}
+{%- if steps.previous or steps.next %}
+<footer class="sds-foot">
+    {%- if steps.previous %}
+    <a class="sds-btn sds-btn--secondary" href="{{ steps.previous.href }}" rel="prev"
+       aria-label="Previous page: {{ steps.previous.label }}"
+        ><sds-icon name="actions-arrow-left" size="16"></sds-icon>{{ steps.previous.label }}</a>
+    {%- endif %}
+    {%- if steps.next %}
+    <a class="sds-btn sds-btn--secondary sds-row__end" href="{{ steps.next.href }}" rel="next"
+       aria-label="Next page: {{ steps.next.label }}"
+        >{{ steps.next.label }}<sds-icon name="actions-arrow-right" size="16"></sds-icon></a>
+    {%- endif %}
+</footer>
+{%- endif -%}

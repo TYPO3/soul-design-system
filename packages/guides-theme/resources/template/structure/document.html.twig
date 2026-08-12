@@ -62,6 +62,10 @@
             <main class="sds-column" id="main-content">
                 {{ renderBreadcrumb() }}
                 <article class="sds-prose">{{ block('body') }}</article>
+                {#- Inside the column and after the article, because it is the
+                    way out of *this page* rather than part of the site: the
+                    site's own end is the footer below, on every page alike. -#}
+                {%- if soul.pager %}{% include "structure/pager.html.twig" %}{% endif -%}
             </main>
         </div>
     {%- endif -%}
