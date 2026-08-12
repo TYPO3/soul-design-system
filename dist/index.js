@@ -3165,7 +3165,7 @@ var SdsMenu = class extends SdsNav {
   ${this.toggle_(this.for)}
 </div>`;
     }
-    const written = this.taken ?? this.content;
+    const written = this.taken.length ? this.taken : this.content;
     const shown = !this.collapsed || this.open;
     return html18`<div class="sds-menu${this.collapsed ? " is-collapsed" : ""}" @keydown="${(e) => this.onKey(e)}">
   ${this.toggle_(this.navId)}
@@ -3175,7 +3175,7 @@ var SdsMenu = class extends SdsNav {
     aria-label="${this.label}"
     ?hidden="${!shown}"
   >
-    ${written.length ? written : lines(this.items_(), 4)}
+    ${written || lines(this.items_(), 4)}
   </nav>
 </div>`;
   }

@@ -150,7 +150,7 @@ ${" ".repeat(t)}`,s=[];return e.forEach((i,n)=>{n&&s.push(r),s.push(i)}),s}var W
     @click="${()=>{this.open=!this.open}}"
   ><sds-icon name="${this.glyph}"></sds-icon></button>`}render(){if(this.for)return typeof document<"u"&&!this.target?d``:d`<div class="sds-menu sds-menu--for" @keydown="${i=>this.onKey(i)}">
   ${this.toggle_(this.for)}
-</div>`;let r=this.taken??this.content,s=!this.collapsed||this.open;return d`<div class="sds-menu${this.collapsed?" is-collapsed":""}" @keydown="${i=>this.onKey(i)}">
+</div>`;let r=this.taken.length?this.taken:this.content,s=!this.collapsed||this.open;return d`<div class="sds-menu${this.collapsed?" is-collapsed":""}" @keydown="${i=>this.onKey(i)}">
   ${this.toggle_(this.navId)}
   <nav
     id="${this.navId}"
@@ -158,7 +158,7 @@ ${" ".repeat(t)}`,s=[];return e.forEach((i,n)=>{n&&s.push(r),s.push(i)}),s}var W
     aria-label="${this.label}"
     ?hidden="${!s}"
   >
-    ${r.length?r:J(this.items_(),4)}
+    ${r||J(this.items_(),4)}
   </nav>
 </div>`}willUpdate(r){r.has("items")&&(this.need=0,this.collapsed=!1)}updated(){if(this.for){let r=this.target;if(!r)return;r.classList.add("is-collapsible"),r.classList.toggle("is-open",this.open),r.removeEventListener("click",this.onFollow),r.addEventListener("click",this.onFollow);return}this.decide()}};_("sds-menu",ir);var nr=class extends y{static{this.properties={entries:{type:Array},multiple:{type:Boolean,reflect:!0},name:{type:String}}}constructor(){super(),this.entries=[],this.multiple=!1,this.name="sds-accordion"}render(){return d`<div class="sds-accordion">
   ${this.entries.map(t=>d`<details

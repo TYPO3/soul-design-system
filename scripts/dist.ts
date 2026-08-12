@@ -10,7 +10,7 @@
      make dist
 */
 import { cpSync, existsSync, rmSync, mkdirSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 import { watch } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
@@ -193,7 +193,16 @@ const finishOptions: esbuild.BuildOptions = {
   legalComments: 'none',
 };
 
-const copyAssets = (): void => cpSync(join(ROOT, 'assets'), join(OUT, 'assets'), { recursive: true });
+/* What a page fetches: the sprites `soul.js` resolves against its own URL, the
+   drawings a document references, the marks. Not `icons/svgs`, which is the
+   sprite's source and is read by `make icons` alone, and not `placeholders/`,
+   which is this system's own story photography — 8.7 MB of it, in every clone
+   and every copy anybody makes of the drop-in. */
+const NOT_IN_THE_DROP_IN = [join('icons', 'svgs'), 'placeholders'];
+const copyAssets = (): void => cpSync(join(ROOT, 'assets'), join(OUT, 'assets'), {
+  recursive: true,
+  filter: (source) => !NOT_IN_THE_DROP_IN.includes(relative(join(ROOT, 'assets'), source)),
+});
 
 if (WATCH) {
   const stamp = (what: string, errors = 0): void =>

@@ -127,6 +127,10 @@ for (const project of PROJECTS) {
      Copied here rather than into the source because nothing in a document
      points at it: only the cards do, and nothing parses a card. */
   cpSync(join(ROOT, 'src', 'styles', '_specimen.css'), join(styles, '_specimen.css'));
+  /* And the photography those cards are drawn with, for the same reason and
+     from the same place: story fixtures rather than drop-in, and no document
+     points at them — only a card does, and nothing parses a card. */
+  cpSync(join(ROOT, 'assets', 'placeholders'), join(styles, 'assets', 'placeholders'), { recursive: true });
 }
 
 /* The three steps between a render and a site — every element drawn ahead of
