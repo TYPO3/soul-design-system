@@ -15,12 +15,19 @@ export interface Project {
   source: string;
   /** Its own root: a rendered site resolves everything relative to one. */
   out: string;
+  /** What that root is, for whoever ran the render. */
+  what: string;
 }
 
 export const PROJECTS: readonly Project[] = [
   /* The manual and the landing page. Renders into the publish root, because
      that is what Pages serves. */
-  { name: 'docs', source: join(ROOT, 'docs'), out: join(GENERATED, 'site') },
+  {
+    name: 'docs',
+    source: join(ROOT, 'docs'),
+    out: join(GENERATED, 'site'),
+    what: 'the publish root, and everything in it is published',
+  },
   /* The acceptance test for the theme: every node the renderer can emit, once,
      where it can be looked at. A control surface rather than a published one,
      so it is a root of its own beside the publish root and not a directory
@@ -30,5 +37,6 @@ export const PROJECTS: readonly Project[] = [
     name: 'acceptance',
     source: join(ROOT, 'packages', 'guides-theme', 'acceptance'),
     out: join(GENERATED, 'acceptance'),
+    what: 'the theme\'s control surface, rendered every run and published never',
   },
 ];

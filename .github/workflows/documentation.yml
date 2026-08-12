@@ -42,11 +42,12 @@ jobs:
       # renderer will look.
       - run: node scripts/embed.ts
 
-      # The task installs the theme and renders against it either way — on a
-      # desk from a path repository on this tree, here from the mirror the job
-      # before this one pushed to, with the `composer.json` the manual prints.
-      # `--released` is that one difference and the whole of it.
-      - run: node scripts/guides.ts --released
+      # `docs` and not the theme's control surface: this job renders what it
+      # uploads. The task installs the theme either way — on a desk from a path
+      # repository on this tree, here from the mirror the job before this one
+      # pushed to, with the `composer.json` the manual prints. `--released` is
+      # that one difference and the whole of it.
+      - run: node scripts/guides.ts --released docs
 
       # Pages serves this artifact as it stands, but a repository ever switched
       # back to the branch-based build runs Jekyll over it, and Jekyll drops

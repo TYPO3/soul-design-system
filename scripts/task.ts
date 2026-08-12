@@ -43,7 +43,7 @@ const TASKS: Record<string, Task> = {
   php: { cmd: node('scripts/php.ts'), help: 'format the theme’s PHP against typo3/coding-standards — ARGS=--check to only report' },
 
   // The documentation site
-  guides: { cmd: node('scripts/guides.ts'), help: 'render the Guides fixture into .out/site/ with the theme' },
+  guides: { cmd: node('scripts/guides.ts'), help: 'render the documents with the installed theme — ARGS names one project, e.g. docs' },
 
   // Build artefacts
   build: { cmd: node('scripts/build.ts'), help: 'assemble .out/bundle/, the upload payload' },

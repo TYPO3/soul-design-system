@@ -24,7 +24,19 @@ import { PROJECTS } from './lib/projects.ts';
 const STARTER = join(ROOT, 'docs', 'guides-theme', '_starter', 'composer.json');
 const CONSUMER = join(GENERATED, 'consumer');
 const PACKAGED = join(GENERATED, 'theme');
-const RELEASED = process.argv.slice(2).includes('--released');
+const argv = process.argv.slice(2);
+const RELEASED = argv.includes('--released');
+
+/* Named projects, or all of them — `make guides ARGS=docs` is what publishing
+   runs, because the control surface beside the publish root is the gate's
+   question and no reader's. */
+const wanted = argv.filter((arg) => !arg.startsWith('--'));
+const rendering = PROJECTS.filter((project) => wanted.length === 0 || wanted.includes(project.name));
+const unknown = wanted.filter((name) => !PROJECTS.some((project) => project.name === name));
+if (unknown.length) {
+  console.error(`✗ no project called ${unknown.join(', ')} — there is ${PROJECTS.map((p) => p.name).join(' and ')}`);
+  process.exit(1);
+}
 
 const GUIDES = join(CONSUMER, 'vendor', 'bin', 'guides');
 const DROP = join(CONSUMER, 'vendor', 'typo3', 'soul-guides-theme', 'resources', 'dist');
@@ -55,10 +67,10 @@ if (!RELEASED) {
 }
 
 mkdirSync(CONSUMER, { recursive: true });
-const wanted = `${JSON.stringify(manifest, null, 2)}\n`;
+const manifestJson = `${JSON.stringify(manifest, null, 2)}\n`;
 const at = join(CONSUMER, 'composer.json');
-const changed = !existsSync(at) || readFileSync(at, 'utf8') !== wanted;
-if (changed) writeFileSync(at, wanted);
+const changed = !existsSync(at) || readFileSync(at, 'utf8') !== manifestJson;
+if (changed) writeFileSync(at, manifestJson);
 
 if (changed || !existsSync(GUIDES)) {
   console.log(RELEASED ? 'installing the published theme' : 'installing the theme from this tree');
@@ -76,9 +88,9 @@ if (!existsSync(FINISH)) {
   process.exit(1);
 }
 
-for (const project of PROJECTS) rmSync(project.out, { recursive: true, force: true });
+for (const project of rendering) rmSync(project.out, { recursive: true, force: true });
 
-for (const project of PROJECTS) {
+for (const project of rendering) {
   /* Put there by `make embed`, which `make cards` ends with: the guideline
      pages point at cards, and a renderer told to fail on a reference it cannot
      resolve would report every one of them instead of the one thing missing. */
@@ -129,7 +141,6 @@ for (const project of PROJECTS) {
 }
 
 console.log(`
-  .out/site/ — the publish root, and everything in it is published.
-  .out/acceptance/ — the theme's control surface, rendered every run, published never.
+${rendering.map((project) => `  ${relative(ROOT, project.out)}/ — ${project.what}`).join('\n')}
   Open http://localhost:4173/ (the port \`make start\` reports), or photograph a page:
     make look ARGS='.out/site/index.html 900'`);
