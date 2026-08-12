@@ -82,6 +82,7 @@
     <summary>decisions<svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
     <a class="sds-rail__item" href="#written">What is written down</a>
   </details>
+  <a class="sds-rail__item" href="#settings">Settings</a>
 </nav>
     </aside>
 
@@ -110,6 +111,50 @@
 </div>
 
       <div class="sds-actions"><button class="sds-btn sds-btn--primary" type="button"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg>Run the checks</button><button class="sds-btn sds-btn--secondary" type="button">Read the tool surface</button></div>
+
+      <h2 class="sds-h3" id="settings">Settings</h2>
+      <p>
+        What a project has to set, and what it can leave alone. One entry per
+        value: the name it is written under, the facts a machine checks, and a
+        sentence saying what happens either way.
+      </p>
+
+      <dl class="sds-confval">
+  <dt class="sds-confval__term" id="confval-sitetitle">
+    <code class="sds-confval__name">siteTitle</code>
+    <span class="sds-badge">required</span>
+    <a class="sds-confval__mark" href="#confval-sitetitle" aria-label="Link to siteTitle">#</a>
+  </dt>
+  <dd class="sds-confval__detail">
+    <dl class="sds-confval__facts">
+      <dt class="sds-label">type</dt>
+      <dd class="sds-mono">string</dd>
+      <dt class="sds-label">default</dt>
+      <dd class="sds-mono">&quot;TYPO3&quot;</dd>
+    </dl>
+    <div class="sds-confval__body">The name the site calls itself — the browser tab, the header lockup, and
+      the fallback for any page that declares no title of its own.</div>
+  </dd>
+</dl><dl class="sds-confval">
+  <dt class="sds-confval__term" id="confval-cache-lifetime">
+    <code class="sds-confval__name">cache.lifetime</code>
+    
+    <a class="sds-confval__mark" href="#confval-cache-lifetime" aria-label="Link to cache.lifetime">#</a>
+  </dt>
+  <dd class="sds-confval__detail">
+    <dl class="sds-confval__facts">
+      <dt class="sds-label">type</dt>
+      <dd class="sds-mono">int</dd>
+      <dt class="sds-label">default</dt>
+      <dd class="sds-mono">86400</dd>
+      <dt class="sds-label">unit</dt>
+      <dd class="sds-mono">seconds</dd>
+    </dl>
+    <div class="sds-confval__body">How long a rendered page may be served from cache.
+      <span class="sds-mono">0</span> disables caching, which is a development
+      setting and never a production one.</div>
+  </dd>
+</dl>
 
       <h2 class="sds-h3">Before you file an issue</h2>
       <p>

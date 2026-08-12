@@ -30,6 +30,7 @@ import { type IconId } from '../../packages/frontend/src/components/icon.ts';
 import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';
+import { SETTINGS, sdsConfval } from '../components/Confval.stories.ts';
 
 const RAIL: readonly RailEntry[] = [
   { label: 'Overview', href: '#overview' },
@@ -50,6 +51,7 @@ const RAIL: readonly RailEntry[] = [
     ],
   },
   { label: 'decisions', items: [{ label: 'What is written down', href: '#written' }] },
+  { label: 'Settings', href: '#settings' },
 ];
 
 /** The signpost under the overview, as a wall rather than a set: four ways on
@@ -180,6 +182,15 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
       <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
 
       <div class="sds-actions">${actions}</div>
+
+      <h2 class="sds-h3" id="settings">Settings</h2>
+      <p>
+        What a project has to set, and what it can leave alone. One entry per
+        value: the name it is written under, the facts a machine checks, and a
+        sentence saying what happens either way.
+      </p>
+
+      ${SETTINGS.map((one) => sdsConfval(one))}
 
       <h2 class="sds-h3">Before you file an issue</h2>
       <p>
