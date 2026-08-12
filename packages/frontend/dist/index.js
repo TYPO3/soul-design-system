@@ -2727,6 +2727,7 @@ var SdsCheckbox = class extends SdsElement {
       label: { type: String },
       hint: { type: String },
       checked: { type: Boolean, reflect: true },
+      indeterminate: { type: Boolean, reflect: true },
       name: { type: String },
       value: { type: String },
       required: { type: Boolean, reflect: true },
@@ -2738,15 +2739,18 @@ var SdsCheckbox = class extends SdsElement {
     this.label = "";
     this.hint = "";
     this.checked = false;
+    this.indeterminate = false;
     this.name = "";
     this.value = "";
     this.required = false;
     this.disabled = false;
   }
   /* Ticking is what makes it checked. A caller that had to write the state
-     back is a caller that will forget once. */
+     back is a caller that will forget once — and a mixed box that is ticked is
+     no longer mixed, which the input has already decided by the time this runs. */
   onChange(event) {
     this.checked = event.target.checked;
+    this.indeterminate = false;
     this.dispatchEvent(
       new CustomEvent("sds-change", { detail: this.checked, bubbles: true, composed: true })
     );
@@ -2759,6 +2763,7 @@ var SdsCheckbox = class extends SdsElement {
     name="${this.name || nothing4}"
     value="${this.value || nothing4}"
     ?checked="${this.checked}"
+    .indeterminate="${this.indeterminate}"
     ?required="${this.required}"
     ?disabled="${this.disabled}"
     @change="${this.onChange}"

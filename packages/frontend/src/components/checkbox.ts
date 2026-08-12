@@ -17,6 +17,9 @@ export interface CheckboxProps {
   /** What ticking it commits to, where the label cannot say it in a line. */
   hint?: string;
   checked?: boolean;
+  /** Neither on nor off: the box stands for a set only some of which is
+      ticked. Ticking it resolves to on, the way the platform resolves it. */
+  indeterminate?: boolean;
   name?: string;
   value?: string;
   required?: boolean;
@@ -28,6 +31,7 @@ export class SdsCheckbox extends SdsElement {
     label: { type: String },
     hint: { type: String },
     checked: { type: Boolean, reflect: true },
+    indeterminate: { type: Boolean, reflect: true },
     name: { type: String },
     value: { type: String },
     required: { type: Boolean, reflect: true },
@@ -37,6 +41,7 @@ export class SdsCheckbox extends SdsElement {
   declare label: string;
   declare hint: string;
   declare checked: boolean;
+  declare indeterminate: boolean;
   declare name: string;
   declare value: string;
   declare required: boolean;
@@ -47,6 +52,7 @@ export class SdsCheckbox extends SdsElement {
     this.label = '';
     this.hint = '';
     this.checked = false;
+    this.indeterminate = false;
     this.name = '';
     this.value = '';
     this.required = false;
@@ -54,9 +60,11 @@ export class SdsCheckbox extends SdsElement {
   }
 
   /* Ticking is what makes it checked. A caller that had to write the state
-     back is a caller that will forget once. */
+     back is a caller that will forget once — and a mixed box that is ticked is
+     no longer mixed, which the input has already decided by the time this runs. */
   private onChange(event: Event): void {
     this.checked = (event.target as HTMLInputElement).checked;
+    this.indeterminate = false;
     this.dispatchEvent(
       new CustomEvent<boolean>('sds-change', { detail: this.checked, bubbles: true, composed: true }),
     );
@@ -70,6 +78,7 @@ export class SdsCheckbox extends SdsElement {
     name="${this.name || nothing}"
     value="${this.value || nothing}"
     ?checked="${this.checked}"
+    .indeterminate="${this.indeterminate}"
     ?required="${this.required}"
     ?disabled="${this.disabled}"
     @change="${this.onChange}"
