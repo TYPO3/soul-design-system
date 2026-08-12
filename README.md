@@ -127,7 +127,7 @@ repository directly, in CI as well as locally:
 
 ```json
 "devDependencies": {
-  "@typo3/soul-frontend": "github:benjaminkott/typo3-soul-design-system#<sha>"
+  "@typo3/soul-frontend": "github:benjaminkott/typo3-soul-frontend#<tag>"
 }
 ```
 
