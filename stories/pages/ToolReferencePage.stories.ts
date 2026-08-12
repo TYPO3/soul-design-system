@@ -23,7 +23,7 @@ import { type BadgeTone } from '../../packages/frontend/src/components/badge.ts'
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
 import { dsScreen, NNBSP, part, px } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 /** What a tool is, as the reference reads it: what it is called, what it
     does, where its answers come from, which releases they hold for, and how
@@ -96,6 +96,7 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
       </sds-tabs>`;
 
   return html`<div class="sds-shell">
+  ${skipLink()}
   <header class="sds-bar">
     <a class="sds-lockup" href="#tools">
       <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
@@ -112,7 +113,7 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
     </div>
   </header>
 
-  <main class="sds-page">
+  <main class="sds-page" id="main-content">
     <div class="sds-stack" id="tools">
       <h1 class="sds-h2">Tool surface</h1>
       <p>

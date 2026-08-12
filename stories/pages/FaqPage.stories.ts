@@ -22,7 +22,7 @@ import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { QUESTIONS } from '../components/Accordion.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Questions' }];
 
@@ -60,9 +60,10 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
     : html`<sds-button variant="primary"><sds-icon name="actions-message"></sds-icon>Ask it yourself</sds-button>`;
 
   return html`<div class="sds-shell">
+  ${skipLink()}
   ${siteBar(-1, '#questions')}
 
-  <main class="sds-bands">
+  <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="questions">
       <div class="sds-stack">

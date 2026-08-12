@@ -131,6 +131,26 @@ test.describe('the mark in the tab', () => {
 });
 
 test.describe('what the theme repaired', () => {
+  test('the first press lands on the way past the chrome', async ({ page }) => {
+    await page.goto(REFERENCE, { waitUntil: 'load' });
+
+    /* Off the top of the page, and reachable there — a link taken out of the
+       flow with `display: none` is invisible to the one reader it is for, and
+       one that stays visible is a control every other reader has to look at. */
+    const skip = page.locator('.sds-skip');
+    expect((await skip.boundingBox())?.y).toBeLessThan(0);
+
+    await page.keyboard.press('Tab');
+    await expect(skip, 'nothing in the bar comes before it').toBeFocused();
+    expect((await skip.boundingBox())?.y).toBeGreaterThanOrEqual(0);
+
+    /* And it goes somewhere: the bar, the rail and the breadcrumbs are what
+       stands between the top of the page and the text of it. */
+    const target = (await skip.getAttribute('href')) ?? '';
+    await expect(page.locator(target)).toHaveCount(1);
+    expect(await page.locator(`${target} .sds-prose`).count()).toBe(1);
+  });
+
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

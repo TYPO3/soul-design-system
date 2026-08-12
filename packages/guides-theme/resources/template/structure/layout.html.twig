@@ -26,6 +26,10 @@
 {%~ endblock %}
 </head>
 <body class="sds-app">
+{#- Before the shell, because it is the first thing a keyboard reaches and the
+    bar, the rail and the breadcrumbs all stand between the top of the page and
+    the text of it. The target is `structure/document.html.twig`'s `<main>`. -#}
+<a class="sds-skip sds-btn sds-btn--secondary" href="#main-content">Skip to content</a>
 <div class="sds-shell">
     {% include "structure/header.html.twig" %}
 

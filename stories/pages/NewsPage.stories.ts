@@ -23,7 +23,7 @@ import { type NavChange } from '../../packages/frontend/src/components/nav-base.
 import { type TeaserProps } from '../../packages/frontend/src/components/teaser.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'News' }];
 
@@ -161,9 +161,10 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
         ></sds-empty>`;
 
   return html`<div class="sds-shell">
+  ${skipLink()}
   ${siteBar(4, '#news')}
 
-  <main class="sds-bands">
+  <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="news">
       <div class="sds-stack">

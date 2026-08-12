@@ -26,7 +26,7 @@ import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type FormError } from '../../packages/frontend/src/components/form-errors.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
@@ -178,13 +178,14 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
         </div>`;
 
   return html`<div class="sds-shell">
+  ${skipLink()}
   <!-- No section is current: the form hangs under Project, which is a footer
        column rather than one of the five the header carries. Marking the
        nearest one instead would tell the reader they are somewhere they are
        not. -->
   ${siteBar(-1, '#contact')}
 
-  <main class="sds-bands">
+  <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="contact">
       <div class="sds-stack">

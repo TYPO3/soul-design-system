@@ -19,7 +19,7 @@ import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Sitemap' }];
 
@@ -109,9 +109,10 @@ const COLUMNS: readonly { title: string; items: readonly RailEntry[] }[] = [
 /** The page. `flat` composes the form a static file can hold. */
 export function sitemapPage(_: PageMode = {}): TemplateResult {
   return html`<div class="sds-shell">
+  ${skipLink()}
   ${siteBar(-1, '#sitemap')}
 
-  <main class="sds-bands">
+  <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="sitemap">
       <div class="sds-stack">

@@ -22,7 +22,7 @@ import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Status' }];
 
@@ -74,9 +74,10 @@ const FACTS = [
 /** The page. `flat` composes the form a static file can hold. */
 export function statusPage(_: PageMode = {}): TemplateResult {
   return html`<div class="sds-shell">
+  ${skipLink()}
   ${siteBar(-1, '#status')}
 
-  <main class="sds-bands">
+  <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="status">
       <div class="sds-stack">

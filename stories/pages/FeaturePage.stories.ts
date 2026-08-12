@@ -28,7 +28,7 @@ import { type Column, type Row } from '../../packages/frontend/src/components/ta
 import { SOURCE_FACTS } from '../components/Stat.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
@@ -127,9 +127,10 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         <sds-button variant="secondary">Open the tool reference</sds-button>`;
 
   return html`<div class="sds-shell">
+  ${skipLink()}
   ${siteBar(1, '#feature')}
 
-  <main class="sds-bands">
+  <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="feature">
       <div class="sds-stack">

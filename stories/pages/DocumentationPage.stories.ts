@@ -29,7 +29,7 @@ import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type IconId } from '../../packages/frontend/src/components/icon.ts';
 import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 import { SETTINGS, sdsConfval } from '../components/Confval.stories.ts';
 
 const RAIL: readonly RailEntry[] = [
@@ -141,6 +141,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
       <sds-button variant="secondary">Read the tool surface</sds-button>`;
 
   return html`<div class="sds-shell">
+  ${skipLink()}
   <header class="sds-bar">
     <sds-menu for="page-rail" label="Pages"></sds-menu>
     <a class="sds-lockup" href="#overview">
@@ -165,7 +166,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
       <sds-rail .items="${RAIL}" active="2"></sds-rail>
     </aside>
 
-    <main class="sds-column">
+    <main class="sds-column" id="main-content">
       <h1>It answers before it guesses</h1>
       <p class="sds-lead">
         A local server for the three audiences that do TYPO3 work. Every answer

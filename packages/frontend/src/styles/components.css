@@ -1149,6 +1149,22 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   flex-direction: column;
 }
 
+/* The way past the bar and the rail, which stand before the column on every
+   page. Off the top rather than hidden: `display: none` and `visibility:
+   hidden` both take it out of the tab order, which leaves the link on the page
+   and out of reach of the one reader it exists for. Fixed, so it neither moves
+   what follows it nor scrolls away from the press that revealed it. */
+.sds-skip {
+  position: fixed;
+  z-index: 40;
+  top: var(--space-3);
+  left: var(--space-3);
+  translate: 0 calc(-100% - var(--space-3));
+  background: var(--surface-raised);
+  text-decoration: none;
+}
+.sds-skip:focus-visible { translate: none; }
+
 /* One measure, everything centred on it. The bar, body, page and foot are
    full-bleed — a rule that stops short reads as a box — and what is held is
    their *contents*. `--page-inset` is inherited rather than recomputed, because

@@ -12,11 +12,12 @@ stated once, so no surface writes its own breakpoints.
 .. code-block:: html
 
    <body class="sds-app">
+     <a class="sds-skip sds-btn sds-btn--secondary" href="#main-content">Skip to content</a>
      <div class="sds-shell">
        <header class="sds-bar">…</header>
        <div class="sds-body">
          <aside class="sds-body__rail">…</aside>
-         <main class="sds-column">…</main>
+         <main class="sds-column" id="main-content">…</main>
        </div>
        <footer class="sds-footer">…</footer>
      </div>
@@ -44,6 +45,19 @@ The canvas and the frame
 
    The column the whole page is: full height, bar at the top, footer at the
    bottom, and whatever is between them taking the rest.
+
+.. confval:: .sds-skip
+   :name: sds-skip
+   :type: class
+
+   The first tab stop, and the way past the bar, the rail and the breadcrumbs
+   into the text. It is a link like any other — give it ``.sds-btn`` for the
+   shape — and it points at the ``id`` the page's ``<main>`` carries.
+
+   It sits off the top of the page until it is focused, rather than being
+   hidden: ``display: none`` and ``visibility: hidden`` both take a link out
+   of the tab order, which leaves it on the page and out of reach of the one
+   reader it exists for.
 
 .. confval:: .sds-bar
    :name: sds-bar

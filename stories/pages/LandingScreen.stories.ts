@@ -28,7 +28,7 @@ import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 const AUDIENCES = [
   {
@@ -195,6 +195,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
         <sds-button variant="secondary">Browse the components</sds-button>`;
 
   return html`<div class="sds-shell">
+  ${skipLink()}
   <header class="sds-bar">
     <a class="sds-lockup" href="#overview">
       <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
@@ -212,7 +213,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </div>
   </header>
 
-  <main class="sds-bands">
+  <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="overview">
       <div class="sds-split">

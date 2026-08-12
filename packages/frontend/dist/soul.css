@@ -206,6 +206,8 @@ dialog.sds-lightbox::backdrop{background:var(--surface-overlay)}
 .sds-modal__foot{display:flex;justify-content:flex-end;gap:var(--control-gap);padding:11px 14px;border-top:var(--border-hairline) solid var(--border-subtle)}
 .sds-drawer{background:var(--surface-raised);border-left:var(--border-hairline) solid var(--border-strong);padding:12px}
 .sds-shell{min-height:100vh;display:flex;flex-direction:column}
+.sds-skip{position:fixed;z-index:40;top:var(--space-3);left:var(--space-3);translate:0 calc(-100% - var(--space-3));background:var(--surface-raised);text-decoration:none}
+.sds-skip:focus-visible{translate:none}
 .sds-bar,.sds-body,.sds-page,.sds-band,.sds-foot,.sds-footer{--page-gutter: var(--gutter-page);--page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);padding-inline:var(--page-inset)}
 .sds-bar{position:sticky;top:0;z-index:30;height:var(--height-header);display:flex;align-items:center;gap:var(--space-6);padding-block:0;background:color-mix(in srgb,var(--surface-canvas) 88%,transparent);backdrop-filter:blur(8px);border-bottom:var(--border-hairline) solid var(--border-subtle)}
 .sds-bar__end{margin-left:auto;display:flex;align-items:center;gap:var(--space-3)}

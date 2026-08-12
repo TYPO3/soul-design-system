@@ -20,7 +20,7 @@ import '../../packages/frontend/src/components/theme.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type DiffLine } from '../../packages/frontend/src/components/diff.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 /** The change the answer is about. A constant that depended on a value the
     setup defines later now resolves empty, so the dependency is inverted. */
@@ -43,6 +43,7 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
     : html`<sds-button variant="secondary" size="sm"><sds-icon name="actions-duplicate"></sds-icon>Copy answer</sds-button>`;
 
   return html`<div class="sds-shell">
+  ${skipLink()}
   <header class="sds-bar">
     <a class="sds-lockup" href="#answer">
       <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
@@ -54,7 +55,7 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
     </div>
   </header>
 
-  <main class="sds-page">
+  <main class="sds-page" id="main-content">
     <div class="sds-stack" id="answer">
       <h1 class="sds-h3">Was <span class="sds-mono">TypoScript</span> constant substitution changed in 13.4?</h1>
 

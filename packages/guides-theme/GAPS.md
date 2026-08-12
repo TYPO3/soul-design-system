@@ -140,9 +140,6 @@ Beleg, dass sie trägt. Offen ist, was eine Doku-Seite als nächstes braucht:
 
 Nicht Styling, sondern was das Paket können muss.
 
-- **Ein Sprunglink auf `#main-content` fehlt.** Das Layout setzt die Spalte,
-  aber nichts springt an ihren Anfang, und mit Rail und Leiste davor ist das
-  eine lange Reise.
 - **`card-group`.** Theme-Direktive, kein Kern-Knoten — in TYPO3-Dokumentation
   aber verbreitet. `card`, `card-grid`, `accordion` und `accordion-item` gibt
   es jetzt: `sds-card` zeichnet Bild, Kopf, Körper und Fuß, das Raster kommt in

@@ -23,7 +23,7 @@ import { type NavChange } from '../../packages/frontend/src/components/nav-base.
 import { type ResultProps } from '../../packages/frontend/src/components/result.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Search' }];
 
@@ -108,9 +108,10 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
         ></sds-empty>`;
 
   return html`<div class="sds-shell">
+  ${skipLink()}
   ${siteBar(-1, '#search')}
 
-  <main class="sds-bands">
+  <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="search">
       <div class="sds-stack">
