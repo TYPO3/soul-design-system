@@ -1197,6 +1197,14 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   backdrop-filter: blur(8px);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
 }
+/* The bar rests over the top of the page, so anything jumped to arrives behind
+   it. One offset on the scroller answers that for every target there is — a
+   section, an entry, a note — where a `scroll-margin` per target is a rule each
+   new one has to be told. Asked with `:has()`, because a page that carries no
+   bar of ours has nothing standing over its top and keeps it. */
+html:has(.sds-bar) {
+  scroll-padding-top: calc(var(--height-header) + var(--space-4));
+}
 /* The cluster that sits against the right edge. */
 .sds-bar__end {
   margin-left: auto;
@@ -2145,8 +2153,6 @@ sds-rail:not(:defined) {
   align-items: baseline;
   gap: var(--space-2);
   margin: 0 0 var(--space-2);
-  /* The bar is sticky, so an entry jumped to would arrive underneath it. */
-  scroll-margin-top: calc(var(--height-header) + var(--space-4));
 }
 .sds-confval__name {
   font-weight: var(--weight-semibold);
