@@ -10,7 +10,8 @@
 # Called by `ci.yml` on every push to `main`, once the gate is green over that
 # tree: a mirror somebody has to remember to start is a mirror that is behind,
 # and a consumer installing from it gets a release nobody made. Startable by
-# hand as well, for a rerun or for one package on its own.
+# hand as well, for a rerun or for one package on its own — over a tree the
+# gate has passed, because nothing below checks one again.
 #
 # Where each package is published is declared in the task too, and asked for
 # here rather than written down a second time. Tags come from this
@@ -64,17 +65,12 @@ jobs:
           fetch-tags: true
 
       # No container and no install: the task reads the tree and copies files,
-      # and Node runs it by stripping the types.
+      # and Node runs it by stripping the types. Rebuilding the committed
+      # drop-in to compare it against its source would need both — it is the
+      # gate's `dist` check, over this same commit, before this job may start.
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      # The committed drop-in is what the theme package carries, so a stale one
-      # would be published as though it were the source. The gate proves this on
-      # every push; it is asked again here because a release is the one moment
-      # nobody gets to check afterwards.
-      - name: The drop-in matches its source
-        run: node scripts/dist.ts --check
 
       # The task clones each mirror before it replays into it, so it is handed
       # the address it declares with a token in front — a runner has no key for
