@@ -287,7 +287,7 @@ sds-menu:not(:defined){display:flex;flex-wrap:wrap;align-items:center;gap:var(--
 .sds-menu__panel{top:100%;flex-direction:column;align-items:flex-start;gap:var(--space-1)}
 .sds-body__rail.is-open{top:0}
 .sds-menu__items[hidden],.sds-menu__toggle[hidden]{display:none}
-.sds-menu--for{display:contents}
+sds-menu[for]:not(:defined),.sds-menu--for{display:contents}
 :where(.sds-menu--for) .sds-menu__toggle{display:none}
 .sds-tabs{display:flex;border-bottom:var(--border-hairline) solid var(--border-subtle);font-family:var(--font-mono);font-size:var(--tab-font-size)}
 .sds-tab{padding:9px 14px;color:var(--text-muted);text-decoration:none;transition:color var(--duration-fast) var(--ease-out)}

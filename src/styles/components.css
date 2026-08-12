@@ -1483,10 +1483,11 @@ sds-menu:not(:defined) {
 .sds-menu__toggle[hidden] { display: none; }
 
 /* A menu that opens something else is only its button, and the button waits for
-   the layout to say the rail has nowhere else to be. The wrapper is not a box,
-   so nothing is left in the row where the button is gone — an empty flex item
-   still takes its gap. `:where()`, because the block that turns it back on is
-   *earlier* in this file and equal weights are settled by order. */
+   the layout to say the rail has nowhere else to be. Neither the host nor the
+   wrapper is a box, so nothing is left in the row where the button is gone — an
+   empty flex item still takes the bar's gap, in front of the mark. `:where()`,
+   because the rule turning the button back on is *earlier* and order settles. */
+sds-menu[for]:not(:defined),
 .sds-menu--for { display: contents; }
 :where(.sds-menu--for) .sds-menu__toggle { display: none; }
 

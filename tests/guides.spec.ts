@@ -374,6 +374,24 @@ test.describe('what the reader gets before the script does', () => {
     expect(measured.family).not.toMatch(/^Times/);
     expect(measured.width).toBeLessThan(900);
   });
+
+  test('the mark starts where the page does, with no toggle standing in front of it', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* Wide enough that the rail is a column, so its toggle is not drawn. An
+       undrawn button whose host is still a box is an empty flex item, and an
+       empty flex item takes the bar's gap — which put the mark a gap inside
+       the inset every other row on the page starts at, until the script came
+       and the host rule moved it back. */
+    const bar = await page.evaluate(() => {
+      const el = document.querySelector('.sds-bar')!;
+      return {
+        inset: parseFloat(getComputedStyle(el).paddingLeft),
+        mark: document.querySelector('.sds-lockup')!.getBoundingClientRect().x,
+      };
+    });
+    expect(bar.mark).toBeCloseTo(bar.inset, 0);
+  });
 });
 
 test.describe('the colour the server already wrote', () => {
