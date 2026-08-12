@@ -70,7 +70,7 @@ jobs:
       # gate's `dist` check, over this same commit, before this job may start.
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
 
       # The task clones each mirror before it replays into it, so it is handed
       # the address it declares with a token in front — a runner has no key for

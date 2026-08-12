@@ -10,7 +10,7 @@
    documents it parsed and drops a `<link>` to anything outside it, so the
    drop-in is copied in as `styles/` where `asset()` can rewrite it per page. */
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { join, relative, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 import { FRONTEND, GENERATED, ROOT, cards, screens } from './lib/cards.ts';
@@ -18,10 +18,18 @@ import { FRONTEND, GENERATED, ROOT, cards, screens } from './lib/cards.ts';
 const THEME = join(ROOT, 'packages', 'guides-theme');
 const SITE = join(GENERATED, 'site');
 const ACCEPTANCE = join(GENERATED, 'acceptance');
-const DROP = join(FRONTEND, 'dist');
-/* The step after the render, taken out of the drop-in rather than imported
-   from `lib/site.ts`: it is that file bundled, so this runs what a reader
-   runs — and it is why this task needs a Node and nothing installed. */
+
+/* Where the renderer and the drop-in come from. Unflagged it is this tree —
+   the theme beside these sources, and the drop-in the frontend package builds.
+   `--vendor=<dir>` takes both out of an installed `typo3/soul-guides-theme`
+   instead, which is what a reader has: the published site is rendered that
+   way, so what is documented is what runs. */
+const VENDOR = process.argv.slice(2).find((a) => a.startsWith('--vendor='))?.split('=').slice(1).join('=');
+const INSTALLED = VENDOR ? resolve(ROOT, VENDOR) : undefined;
+const GUIDES = join(INSTALLED ?? join(THEME, 'vendor'), 'bin', 'guides');
+const DROP = INSTALLED ? join(INSTALLED, 'typo3', 'soul-guides-theme', 'resources', 'dist') : join(FRONTEND, 'dist');
+/* The step after the render, run rather than imported: it is `lib/site.ts`
+   bundled, so this is the file the manual tells a project to call. */
 const FINISH = join(DROP, 'soul-finish.js');
 
 interface Project {
@@ -73,17 +81,24 @@ function copyCards(source: string): void {
 const run = (cmd: string, args: string[], cwd = ROOT): number =>
   spawnSync(cmd, args, { cwd, stdio: 'inherit' }).status ?? 1;
 
-if (!existsSync(join(THEME, 'vendor', 'bin', 'guides'))) {
+if (!INSTALLED && !existsSync(GUIDES)) {
   console.log('installing the renderer (first run only)');
   const code = run('composer', ['install', '--no-interaction', '--no-progress'], THEME);
   if (code !== 0) process.exit(code);
+}
+
+if (!existsSync(GUIDES)) {
+  console.error(`✗ no renderer at ${GUIDES} — run \`composer install\` in ${INSTALLED}/..`);
+  process.exit(1);
 }
 
 /* The drop-in, not the sources: what a consuming site links is one built
    stylesheet and one built script, and rendering against anything else would
    prove the theme works with something nobody ships. */
 if (!existsSync(join(DROP, 'soul.css')) || !existsSync(FINISH)) {
-  console.error('dist/ is incomplete — run `make dist` first');
+  console.error(INSTALLED
+    ? `✗ ${DROP} carries no drop-in — the installed theme is not one this system assembled`
+    : 'dist/ is incomplete — run `make dist` first');
   process.exit(1);
 }
 
@@ -91,7 +106,7 @@ for (const project of PROJECTS) rmSync(project.out, { recursive: true, force: tr
 
 for (const project of PROJECTS) {
   copyCards(project.source);
-  const code = run(join(THEME, 'vendor', 'bin', 'guides'), [
+  const code = run(GUIDES, [
     project.source,
     `--output=${project.out}`,
     '-c', project.source,
@@ -125,7 +140,11 @@ for (const project of PROJECTS) {
      twice over a page: drawing an element that is already markup does not
      leave it alone, it renders the rendering. */
   const finished = run(process.execPath, [
-    FINISH, project.out, `--drop-in=${DROP}`,
+    FINISH, project.out,
+    /* Named only where it has to be. Inside an installed theme the drop-in is
+       the directory this file sits in, which is where it looks by default —
+       so that call is the one the manual prints, argument for argument. */
+    ...(INSTALLED ? [] : [`--drop-in=${DROP}`]),
     /* An index is a thing a reader searches, and only one of these is read
        by one. */
     ...(project.name === 'docs' ? [] : ['--no-search']),
