@@ -1,0 +1,83 @@
+# The site, rendered and published.
+#
+# Called from `ci.yml` on `main`, behind the gate and behind the mirror: this
+# site is the manual that tells a reader to install those packages, and one
+# published ahead of them names a release that is not there yet.
+#
+# No container, no install, nothing generated on the way in: a PHP for the
+# renderer and a Node for the step after it, which is what a reader's own
+# project has. The day this file needs the gate's image is the day the render
+# has grown something worth removing rather than a step worth adding here.
+name: Documentation
+
+on:
+  workflow_call:
+  # By hand as well: putting the site back after a bad deploy should not need
+  # a commit invented for it.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    name: render the site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # `scripts/guides.ts` installs the renderer into the theme itself when it
+      # is not there, so what has to be here is the PHP under it.
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Nothing is installed and nothing is generated first. The drop-in is
+      # committed, the elements are drawn by the file inside it, and the
+      # renderer is a Composer package the task fetches itself — which is the
+      # whole of what a reader's own build needs.
+      - run: node scripts/guides.ts
+
+      # The acceptance render is the control surface the theme is checked
+      # against, not documentation — every node the renderer can emit, without
+      # prose around it. Built on every run, published on none.
+      - run: rm -rf .out/site/_acceptance
+
+      # Pages serves this artifact as it stands, but a repository ever switched
+      # back to the branch-based build runs Jekyll over it, and Jekyll drops
+      # every path beginning with an underscore — `_cards/`, `_images/`,
+      # `_search.json`, most of what the pages point at.
+      - run: touch .out/site/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .out/site
+
+  publish:
+    name: publish
+    needs: render
+    runs-on: ubuntu-latest
+    # Writing a deployment is the one thing here that leaves a mark outside the
+    # run, so the permissions sit on the job that does it.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    # Deployments queue rather than cancel: a half-replaced site is worse than
+    # a site one commit behind.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/configure-pages@v5
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

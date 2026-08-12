@@ -6,10 +6,10 @@
 # workflow that reimplemented the steps would be a second definition of the
 # gate, and the two would drift apart on the first change to either.
 #
-# Only the gate has an image. It runs on every push and every pull request,
-# and on `main` it renders the site as well — publishing that site, and
-# mirroring the packages into the repositories they are released from, need no
-# container and wait below it for it to come back green.
+# Only the gate has an image, and it runs on every push and every pull request.
+# What follows runs on `main` only and behind it, in one order: the packages
+# are mirrored into the repositories they are released from, and then the site
+# that tells a reader to install them is rendered and deployed.
 name: CI
 
 # Every push, whatever the branch — a branch nobody has opened a pull request
@@ -106,113 +106,10 @@ jobs:
             .out/test-results/
           retention-days: 7
 
-      # Rendered here rather than in the publishing job, because the image is
-      # already in this one — a job of its own pays the whole cost of building
-      # and loading it again for a single task. `dist/` is committed and the
-      # gate has just proved it matches its source, so the render links the
-      # same drop-in a consumer copies.
-      - name: Render the site
-        if: github.ref == 'refs/heads/main'
-        run: |
-          make guides
-          # The acceptance render is the control surface this theme is checked
-          # against, not documentation — every node the renderer can emit,
-          # deliberately without prose around it. Built on every run,
-          # published on none.
-          rm -rf .out/site/_acceptance
-          # Pages serves this artifact as it stands, but a repository ever
-          # switched back to the branch-based build runs Jekyll over it, and
-          # Jekyll drops every path beginning with an underscore — `_cards/`,
-          # `_images/`, `_search.json`, most of what the pages point at.
-          touch .out/site/.nojekyll
-
-      - if: github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .out/site
-
-  starter:
-    name: the documented build, without the container
-    runs-on: ubuntu-latest
-    # The same skip as the gate: a pull request from a branch of this
-    # repository already arrived as a push.
-    if: >-
-      github.event_name == 'push'
-      || github.event.pull_request.head.repo.full_name != github.repository
-    # Deliberately slower than reading `.out/site/` out of the job above. What is
-    # being proven is not that the example renders — it is that the three
-    # commands `examples/starter/` tells a reader to run are the three commands
-    # that work, on a machine with no make, no Docker and nothing of ours
-    # installed. An instruction that stops being true stops this build.
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          coverage: none
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      # Nothing is substituted: the theme arrives from the repository the
-      # example names, at the version it asks for, carrying the drop-in and the
-      # finishing step. That is what this job can prove and the gate above
-      # cannot — that what was published installs and renders. The theme in
-      # *this* tree is what `make guides` renders up there, and it reaches the
-      # mirror only after this run has gone green.
-      - name: The three commands the example documents
-        working-directory: examples/starter
-        run: |
-          composer install --no-interaction --no-progress
-          vendor/bin/guides docs --output=site -c docs --fail-on-error
-          node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
-
-      # The finishing step already refuses a reference that leaves the site.
-      # What is asked here is the other half of the promise: that the pages
-      # carry their elements drawn, and that the search field has an index.
-      - name: What a reader was promised
-        working-directory: examples/starter
-        run: |
-          test -s site/_search.json
-          grep -q 'class="sds-teaser"' site/index.html
-          grep -q 'class="sds-code__body"' site/guide/writing.html
-          grep -q 'class="sds-rail' site/guide/index.html
-
-  publish:
-    name: publish
-    # Never publish a site the gate has not passed over.
-    needs: gate
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    # Writing a deployment is the one thing in this file that leaves a mark
-    # outside the run, so the permissions sit here and not at the top.
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    # Deployments queue rather than cancel: a half-replaced site is worse than
-    # a site one commit behind.
-    concurrency:
-      group: pages
-      cancel-in-progress: false
-    # The artifact arrives from the job above. Nothing here reads the tree or
-    # runs a task, so this job has no checkout and no container: it takes what
-    # the gate rendered and puts it where Pages serves it from.
-    steps:
-      - uses: actions/configure-pages@v5
-
-      - id: deploy
-        uses: actions/deploy-pages@v4
-
   # The packages, into the repositories they are installed from. Every push to
   # `main` and no other event: a mirror that waits for somebody to start it is
   # one a consumer installs behind this tree, and a pull request is not a tree
-  # anybody may install. `needs: gate` for the same reason `publish` has it.
+  # anybody may install. `needs: gate` for the same reason the site has it.
   mirror:
     name: mirror the packages
     needs: gate
@@ -222,3 +119,18 @@ jobs:
       package: all
       branch: main
     secrets: inherit
+
+  # The site, rendered and deployed by `documentation.yml` — the shape the
+  # example hands a reader, on our own documentation. Behind the mirror rather
+  # than beside it: these pages name those packages. The deployment is the one
+  # thing in this file that leaves a mark outside the run, and a called
+  # workflow gets no more than the job calling it, so the permissions sit here.
+  documentation:
+    name: the site
+    needs: [gate, mirror]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/documentation.yml
