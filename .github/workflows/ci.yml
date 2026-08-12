@@ -46,12 +46,10 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
-      # Built here rather than left to compose, for one reason: the layer
-      # cache. `npm ci` and the Chromium download are the whole cost of this
-      # image, and neither changes between runs unless `package-lock.json`
-      # does. buildx writes them into the Actions cache and reads them back on
-      # the next run; a plain `docker compose build` has nowhere to keep them
-      # and installs both again every time.
+      # The image is only the toolchain. Source arrives through Compose's /app
+      # mount, so a normal commit changes no image layer. Buildx restores the
+      # finished layers from one named Actions cache and loads them into the
+      # fresh runner; only a manifest or Dockerfile change builds new ones.
       #
       # No registry, on purpose. A pushed image is a second thing that can be
       # stale against the Dockerfile that describes it, and it has to be
@@ -60,7 +58,7 @@ jobs:
       # The tag is the name compose derives from the project and the service —
       # `<project>-<service>`, and the project is named in the compose file.
       # Miss it and `up` finds no image and builds its own, uncached.
-      - name: Build the image
+      - name: Load the toolchain image
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -68,8 +66,10 @@ jobs:
           target: app
           tags: typo3-soul-design-system-app:latest
           load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: |
+            type=gha,scope=toolchain
+            type=gha
+          cache-to: type=gha,scope=toolchain,mode=min
 
       # The one compose call that is not behind a make target, because it is
       # the thing make assumes: `.infra/task.sh` execs into a running `app`

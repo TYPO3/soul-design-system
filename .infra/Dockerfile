@@ -69,27 +69,20 @@ RUN npm ci --no-audit --no-fund --ignore-scripts \
  && npx playwright install --with-deps chromium \
  && chmod -R a+rX /ms-playwright \
  # Vite and Storybook write their caches inside node_modules, which the
- # container's UID does not own. It happens in this layer rather than after
- # the source is copied: a recursive chmod writes every file it touches into
- # its own layer, and one placed below `COPY . .` is rebuilt on every commit.
+ # container's UID does not own. Permission is part of the dependency layer,
+ # so changing mounted source cannot invalidate it.
  && chmod -R a+rwX node_modules \
  # npm and npx write here, and the container runs as a UID with no home.
  && mkdir -p /tmp/.npm && chmod -R a+rwX /tmp/.npm
 
-COPY . .
+# The nested Storybook volume is seeded from here and must be writable by the
+# arbitrary UID Compose assigns. Everything else below /app comes from the
+# checkout mount and keeps the checkout owner's permissions.
+RUN mkdir -p /app/.out/storybook && chmod -R a+rwX /app/.out
 
-# The image runs as an arbitrary UID and writes into /app — everything under
-# .out/, and dist/. Writable by anyone is right for a development image and
-# wrong for a published one; this is the former. node_modules is skipped
-# because the layer above already granted it, and repeating it here would copy
-# the installed dependencies into a layer that every commit invalidates.
-#
-# .out/storybook/ is created empty on purpose: compose keeps it in an
-# anonymous volume seeded from this path, and with no directory here Docker
-# creates that volume owned by root, which the container then cannot write.
-RUN mkdir -p /app/.out/storybook /app/.out/test-results /app/.out/playwright-report \
- && chmod a+rwX /app \
- && find /app -mindepth 1 -maxdepth 1 ! -name node_modules -exec chmod -R a+rwX {} +
+# Source is never copied into the image. Compose mounts the checkout at /app;
+# keeping a second copy here made every source edit a new image and then hid
+# that copy behind the mount. Only node_modules survives as a nested volume.
 
 COPY .infra/docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]

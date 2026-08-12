@@ -1,11 +1,10 @@
-# Everything generated, platform-specific or irrelevant to a build.
-node_modules
-.git
-.out
-packages/frontend/dist
-.ds-sync
-.design-sync/.cache
-packages/frontend/assets/icons
-packages/frontend/src/components/icons.generated.ts
-packages/frontend/src/components/icons.svg.generated.ts
-*.log
+# A toolchain image reads only the manifests and its entrypoint. Source is
+# mounted at runtime, so it is neither a build input nor a cache invalidator.
+**
+!package.json
+!package-lock.json
+!packages/
+!packages/frontend/
+!packages/frontend/package.json
+!.infra/
+!.infra/docker-entrypoint.sh
