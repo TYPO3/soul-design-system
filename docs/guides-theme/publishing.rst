@@ -5,10 +5,9 @@ Publishing it, in CI
 =====================
 
 Three commands turn a directory of documents into the site this manual is. The
-workflow below is those three with a checkout in front and a deploy behind,
-and it is not an illustration: it is the file in
-:doc:`examples/starter <example>`, and the gate in this repository runs it on
-every push.
+workflow below is those three with a checkout in front and a deploy behind —
+the same three this site is rendered with, and the last of them is a file out
+of the package rather than a script you are asked to write.
 
 .. code-block:: bash
 

@@ -126,7 +126,6 @@ by the next release.
 | `stories/` | the specimen every card and screen is generated from |
 | `docs/` | the published documentation — the manual, the guideline pages, and the prompts they print for copying |
 | `packages/guides-theme/` | the Composer package: templates, directives, and the acceptance render |
-| `examples/starter/` | the project a consumer copies — the theme, both page shapes and the workflow that publishes them |
 | `tests/*.spec.ts` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
 | `.storybook/`, `.infra/`, `.github/` | the documentation surface, the container, the gate on every push |
@@ -140,7 +139,6 @@ Generated — never edit, never hand-write a new one:
 | `.out/bundle/` | `make build` |
 | `.out/site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs. Everything in it is published, which is why the theme's control surface is the root beside it |
 | `.out/acceptance/` | `make guides` — the theme's control surface, rendered every run and published never. A root of its own, because a page below somebody else's root does not resolve its assets the way a published one does |
-| `docs/guides-theme/_starter/` | `make guides` — the example's own files, copied in so the manual quotes what is built rather than a second copy of it |
 | `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
 | `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — untracked, the container's entrypoint restores them |
 | `packages/frontend/src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `packages/frontend/assets/diagrams/` |
@@ -291,12 +289,12 @@ in `<g id="art">`, every colour written `var(--token, #light)`, then
 and reads that page's tokens.
 
 **Change what a consuming project has to run** — the steps are
-`scripts/lib/site.ts`, shipped as `packages/frontend/dist/soul-finish.js`, and the project that
-runs them is `examples/starter/`. Change those, then `make dist`: `make guides`
-runs the built file rather than the source, so an unbuilt change reaches this
-site as the old one. The manual quotes the example's files rather than
-restating them, and rendering this site is the path being documented — a step
-that stops working there stops the site.
+`scripts/lib/site.ts`, shipped as `packages/frontend/dist/soul-finish.js`. Change those, then
+`make dist`: `make guides` runs the built file rather than the source, so an
+unbuilt change reaches this site as the old one. What a project is told to
+write is `docs/guides-theme/_starter/`, quoted whole into the manual — and
+rendering this site is that same path, so a step that stops working there
+stops the site.
 
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.

@@ -53,8 +53,8 @@ Documentation is the half of that which is easy to miss. `docs/` renders
 through `packages/guides-theme/`, so a project's pages come out with the same
 navigation, the same code blocks and the same search as every other project's —
 which is what makes an answer findable across them rather than merely
-published somewhere. Taking it is a directory to copy and three commands:
-`examples/starter/`, and `docs/guides-theme/` is what each of them does.
+published somewhere. Taking it is two files and three commands, printed whole
+in `docs/guides-theme/`.
 
 **And it does not stop at documentation.** A project also has to present
 itself — a landing page, a feature or comparison page, a download, the page
@@ -261,7 +261,6 @@ creates a second one. It compares against the anchor the project stores
 | `stories/` | the specimen every card and screen is generated from, and the components with their controls |
 | `docs/` | the published documentation — the manual, the guideline pages with their specimens embedded, and the prompts those pages print whole |
 | `packages/guides-theme/` | the Composer package that maps phpDocumentor Guides onto this system, and the acceptance render it is checked against |
-| `examples/starter/` | a documentation project to copy — the theme, both page shapes and the workflow that publishes it |
 | `tests/` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
 | `.infra/` | Dockerfile, compose and the entrypoint |

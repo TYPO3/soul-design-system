@@ -70,22 +70,6 @@ function copyCards(source: string): void {
   }
 }
 
-/* The starter example, where the manual can quote it.
-
-   A page that prints a workflow somebody is meant to copy must print the file
-   that is actually built, not a second copy of it going stale in prose — so
-   the three files are copied in and `literalinclude`d. Flattened, and no
-   `.rst` among them: everything the parser recognises in the source tree is
-   parsed as a document, and the example's pages are not this site's pages. */
-function copyStarter(source: string): void {
-  const out = join(source, 'guides-theme', '_starter');
-  rmSync(out, { recursive: true, force: true });
-  mkdirSync(out, { recursive: true });
-  for (const from of ['.github/workflows/publish.yml', 'composer.json', 'docs/guides.xml']) {
-    cpSync(join(ROOT, 'examples', 'starter', from), join(out, from.split('/').pop() as string));
-  }
-}
-
 const run = (cmd: string, args: string[], cwd = ROOT): number =>
   spawnSync(cmd, args, { cwd, stdio: 'inherit' }).status ?? 1;
 
@@ -107,9 +91,6 @@ for (const project of PROJECTS) rmSync(project.out, { recursive: true, force: tr
 
 for (const project of PROJECTS) {
   copyCards(project.source);
-  /* The manual quotes the example; the fixture has nothing to say about it. */
-  if (project.name === 'docs') copyStarter(project.source);
-
   const code = run(join(THEME, 'vendor', 'bin', 'guides'), [
     project.source,
     `--output=${project.out}`,

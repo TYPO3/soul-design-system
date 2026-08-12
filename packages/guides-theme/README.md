@@ -81,8 +81,8 @@ that has to exist first, and the second element is what makes it exist.
 
 [The theme's own manual](https://benjaminkott.github.io/typo3-soul-design-system/guides-theme/index.html)
 is rendered with it: installation, every setting in `guides.xml`, the four
-directives, and what each node the renderer emits comes out as. A project to
-copy rather than assemble sits in `examples/starter/` in the monorepo.
+directives, and what each node the renderer emits comes out as. The page *A
+project to copy* prints the two files a project needs, whole.
 
 ## Licence
 

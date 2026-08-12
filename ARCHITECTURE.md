@@ -133,7 +133,8 @@ write the search index, refuse a reference that leaves the output — and
 Not a copy of the documented step and not a second implementation of it: the
 same bytes a reader is handed, which is why rendering this site needs a PHP,
 a Node and nothing installed. A consuming project needs no more than that, and
-`examples/starter/` is that project written down.
+`docs/guides-theme/_starter/` is the two files it starts from, quoted into the
+manual from where they live rather than described beside it.
 
 **The mirror needs one thing no file here can carry: a token.** The job pushes
 into repositories this run does not belong to, and `GITHUB_TOKEN` is scoped to
@@ -147,9 +148,9 @@ gh secret set SPLIT_TOKEN
 ```
 
 **What is still open is registration, not mechanism.** Neither name is claimed
-on Packagist or npm yet. Until then `examples/starter/composer.json` names the
-theme's mirror as a VCS repository and asks for `dev-main`, and the drop-in
-arrives inside that package — the example is where this is written down.
+on Packagist or npm yet. Until then the `composer.json` the manual prints names
+the theme's mirror as a VCS repository and asks for `dev-main`, and the drop-in
+arrives inside that package.
 Nothing in CI installs it: what holds the documented path honest is that this
 site is rendered along it, with the same file a reader runs.
 

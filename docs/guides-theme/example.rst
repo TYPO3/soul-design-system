@@ -4,33 +4,30 @@
 A project to copy
 ===================
 
-``examples/starter/`` in this repository is a whole documentation site: a
-landing page, a manual page beside a rail, search, both modes, and the
-workflow that publishes it. Copy the directory, point the render step at your
-own documents, and the parts below are the only ones you have to touch.
+A documentation site is two files and a directory of documents: the theme as a
+dependency, and the project's own settings beside them. Both are printed here
+in full — take them, point the render step at your own documents, and what a
+landing page and a manual page need is the rest of this page. Search, both
+modes, the bar and the footer arrive with the theme and are asked for nowhere.
 
-It is also a fixture. The gate builds it on every push the way
-:doc:`publishing` says to — PHP, Composer, Node, no ``make`` and no container —
-so an instruction that stops being true stops the build rather than the reader.
+The commands in :doc:`publishing` are the ones this site is rendered with —
+PHP, Composer, Node, no ``make`` and no container — and the step after the
+render is the same file in both cases, out of the package.
 
-What is in it
-=============
+What a project holds
+====================
 
 .. code-block:: text
 
-   examples/starter/
-     composer.json                    the theme, named by its repository
-     .github/workflows/publish.yml    render, finish, publish
-     docs/
-       guides.xml                     the project, the bar, the footer
-       index.rst                      the landing page
-       guide/
-         index.rst                    the manual shape
-         writing.rst                  what the renderer's own directives become
-         publishing.rst               the three commands, from the inside
+   composer.json                    the theme, named by its repository
+   .github/workflows/publish.yml    render, finish, publish
+   docs/
+     guides.xml                     the project, the bar, the footer
+     index.rst                      the landing page
+     guide/                         the manual pages
 
-Two of those files are the ones a project gets wrong, so they are printed here
-in full rather than described.
+The workflow is printed in :doc:`publishing`, next to what it refuses to
+publish. The two below are the ones a project gets wrong.
 
 The configuration
 =================
@@ -118,8 +115,6 @@ to publish.
 
 .. seealso::
 
-   ``examples/starter/docs/guide/writing.rst`` is a page about what the
-   renderer's own directives come out as — which makes the rendered version of
-   it the shortest way to see the theme's answer to admonitions, code, tabs,
-   tables and a reference entry at once. :doc:`markup` is the same ground
-   written down.
+   :doc:`markup` is the theme's answer to what the renderer already emits —
+   admonitions, code, tabs, tables and a reference entry — with the markup that
+   produces each one beside it.

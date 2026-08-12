@@ -60,17 +60,5 @@ node_modules/
 /docs/_cards/
 /packages/guides-theme/acceptance/_cards/
 
-# the starter example, copied in so the manual can quote the files that are
-# built rather than a second copy of them
-/docs/guides-theme/_starter/
-
-# what building the starter example leaves behind. `.soul` is the design
-# system: a checkout in a consumer's repository, and here a link back to this
-# one, so the file somebody copies is the file the build runs.
-/examples/starter/.soul
-/examples/starter/vendor/
-/examples/starter/site/
-/examples/starter/composer.lock
-
 # the sync target: a maintainer's, not the repository's
 /.design-sync/config.local.json
