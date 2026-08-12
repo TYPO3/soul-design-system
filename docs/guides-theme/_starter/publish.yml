@@ -3,8 +3,9 @@
 # Two jobs, because they need different permissions: the first turns documents
 # into a site and uploads it, the second is the only thing allowed to deploy.
 #
-# Nothing here is specific to this example. Point the render step at your own
-# documentation directory and this file is the whole build.
+# Nothing here is specific to any one project. Point the render step at your own
+# documentation directory and this file is the whole build — the repository it
+# runs on holds documents and this file, and no PHP manifest at all.
 name: Documentation
 
 on:
@@ -29,29 +30,42 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           coverage: none
 
       # The finishing step is one bundled file with no dependencies, but it is
       # Node, and the version is named rather than inherited.
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
 
-      - run: composer install --no-interaction --no-progress
+      # The renderer, built where it is used and thrown away with the runner.
+      # A documentation project is documents; requiring the theme into the
+      # repository itself would put a `composer.json` and a lock file next to
+      # them that nothing else ever reads. The theme brings the renderer with
+      # it, so this one `require` is the whole dependency.
+      - name: The renderer
+        env:
+          RENDERER: ${{ runner.temp }}/renderer
+        run: |
+          mkdir -p "$RENDERER"
+          cd "$RENDERER"
+          composer init --no-interaction --name=example/documentation
+          composer config repositories.soul vcs https://github.com/benjaminkott/typo3-soul-guides-theme
+          composer require --no-interaction --no-progress typo3/soul-guides-theme:dev-main
 
       # `--fail-on-error` turns a reference the renderer could not resolve into
       # a red build. Without it a broken link is a line in a log nobody reads.
       - name: Render the documents
-        run: vendor/bin/guides docs --output=site -c docs --fail-on-error
+        run: ${{ runner.temp }}/renderer/vendor/bin/guides docs --output=site -c docs --fail-on-error
 
       # Everything between a render and a site: the drop-in copied to the site
       # root, every element drawn so the pages read with no script, the search
       # index written, and a refusal to publish a reference that leaves the
-      # output. The script sits in the drop-in the theme package carries and
-      # copies what is beside it, so `composer install` above brought it.
+      # output. The file sits inside the theme package and copies what is
+      # beside it, so the `require` above brought it.
       - name: Finish the site
-        run: node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
+        run: node ${{ runner.temp }}/renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
 
       # Pages serves this artifact as it stands, but a repository switched to
       # the branch-based build runs Jekyll, which drops every path starting

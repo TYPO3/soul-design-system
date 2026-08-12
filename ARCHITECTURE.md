@@ -138,10 +138,10 @@ drop-in out of that `vendor/` — it imports none of them from the tree, and it
 renders rather than prepares: the cards its pages embed are put beside those
 pages by `make embed`, which reads `specimens/` and generates nothing, so the
 one step that needs no install is the one the publishing runner can take. The
-manifest is `docs/guides-theme/_starter/composer.json`, the file the manual
-prints, with one entry changed on a desk: a path repository on the package
-`scripts/lib/packages.ts` assembles, where CI reads `dev-main` from the mirror
-the job before it pushed to. Both renders were compared over one commit and are
+renderer is built by the three Composer commands the manual prints —
+`init`, `config repositories.soul`, `require` — with one thing named
+differently on a desk: the repository is the package `scripts/lib/packages.ts`
+assembles, where CI names the mirror the job before it pushed to. Both renders were compared over one commit and are
 byte-identical, which is the only way a documented path stays true — it is the
 path.
 

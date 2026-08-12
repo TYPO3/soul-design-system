@@ -139,7 +139,7 @@ Generated — never edit, never hand-write a new one:
 | `.out/bundle/` | `make build` |
 | `.out/site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs. Everything in it is published, which is why the theme's control surface is the root beside it |
 | `.out/acceptance/` | `make guides` — the theme's control surface, rendered every run and published never. A root of its own, because a page below somebody else's root does not resolve its assets the way a published one does |
-| `.out/theme/`, `.out/consumer/` | `make guides` — the theme assembled as the package it is published as, and the Composer project this site is built as. The manifest is `docs/guides-theme/_starter/composer.json` with one entry changed: a path repository on this tree, or the mirror under `--released` |
+| `.out/theme/`, `.out/consumer/` | `make guides` — the theme assembled as the package it is published as, and the renderer built against it by the three Composer commands the manual prints. `--released` names the mirror instead of the assembly |
 | `docs/_cards/`, `packages/guides-theme/acceptance/_cards/` | `make embed`, and `make cards` ends with it — the generated cards where the documents that embed them can reach them. Beside those documents rather than under `.out/`, because a renderer only carries what a parsed page points at |
 | `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
 | `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — untracked, the container's entrypoint restores them |
@@ -293,9 +293,9 @@ and reads that page's tokens.
 `scripts/lib/site.ts`, shipped as `packages/frontend/dist/soul-finish.js`. Change those, then
 `make dist`: `make guides` installs the theme package and runs the built file
 out of it, so an unbuilt change reaches this site as the old one. What a
-project is told to write is `docs/guides-theme/_starter/composer.json`, quoted
-whole into the manual and used as this site's own manifest — a step that stops
-working for a reader stops the site.
+project is told to run is `docs/guides-theme/_starter/publish.yml`, quoted
+whole into the manual and taken command for command by `make guides` — a step
+that stops working for a reader stops the site.
 
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.

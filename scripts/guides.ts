@@ -14,14 +14,13 @@ import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 import { FRONTEND, GENERATED, ROOT } from './lib/cards.ts';
-import { PACKAGES } from './lib/packages.ts';
+import { PACKAGES, publicUrl } from './lib/packages.ts';
 import { PROJECTS } from './lib/projects.ts';
 
-/* This site is built the way the manual tells a project to build one: the
-   theme is installed, and the renderer, the templates and the drop-in all come
-   out of `vendor/`. What differs is one entry in the manifest — a path
-   repository on the tree in front of you, the mirror with `--released`. */
-const STARTER = join(ROOT, 'docs', 'guides-theme', '_starter', 'composer.json');
+/* This site is built the way the manual tells a project to build one: an empty
+   manifest, the theme's repository named, the theme required, and the renderer
+   and drop-in taken out of the `vendor/` that produces. What differs is where
+   that repository is — the package assembled from this tree, or the mirror. */
 const CONSUMER = join(GENERATED, 'consumer');
 const PACKAGED = join(GENERATED, 'theme');
 const argv = process.argv.slice(2);
@@ -47,40 +46,42 @@ const FINISH = join(DROP, 'soul-finish.js');
 const run = (cmd: string, args: string[], cwd = ROOT): number =>
   spawnSync(cmd, args, { cwd, stdio: 'inherit' }).status ?? 1;
 
-const manifest = JSON.parse(readFileSync(STARTER, 'utf8')) as {
-  repositories?: unknown[];
-  require: Record<string, string>;
-};
+const theme = PACKAGES.find((pack) => pack.name === 'guides-theme');
+if (!theme) throw new Error('there is no guides-theme package to render with');
 
+/* On a desk the repository is the package as it would be published — this tree
+   plus the drop-in the other package builds — reassembled every run, because a
+   path repository is a symlink and an edited template has to arrive without a
+   reinstall. */
 if (!RELEASED) {
-  /* Assembled rather than pointed straight at `packages/guides-theme/`: the
-     package is that directory plus the drop-in the other package builds, and a
-     path repository installs whatever it is handed. The same assembly the
-     mirror pushes, out of `lib/packages.ts`. */
   rmSync(PACKAGED, { recursive: true, force: true });
   mkdirSync(PACKAGED, { recursive: true });
-  PACKAGES.find((pack) => pack.name === 'guides-theme')?.assemble(ROOT, PACKAGED);
-  manifest.repositories = [{ type: 'path', url: PACKAGED, options: { symlink: true } }];
-  /* A directory is not a branch. Composer versions a path package it cannot ask
-     git about as `1.0.0+no-version-set`, which `dev-main` never matches. */
-  manifest.require['typo3/soul-guides-theme'] = '*';
+  theme.assemble(ROOT, PACKAGED);
 }
 
-mkdirSync(CONSUMER, { recursive: true });
-const manifestJson = `${JSON.stringify(manifest, null, 2)}\n`;
-const at = join(CONSUMER, 'composer.json');
-const changed = !existsSync(at) || readFileSync(at, 'utf8') !== manifestJson;
-if (changed) writeFileSync(at, manifestJson);
+const from = RELEASED ? publicUrl(theme.remote) : PACKAGED;
+const renderer = `${RELEASED ? 'vcs' : 'path'} ${from}\n`;
+const marker = join(CONSUMER, '.renderer');
 
-if (changed || !existsSync(GUIDES)) {
-  console.log(RELEASED ? 'installing the published theme' : 'installing the theme from this tree');
-  /* No cache when it is the mirror: `dev-main` moved minutes ago, and the
-     commit Composer remembers is the one before that push. Run *in* the
-     project rather than with `--working-dir`, which 2.10 no longer accepts
-     after the command. */
-  const install = ['install', '--no-interaction', '--no-progress', ...(RELEASED ? ['--no-cache'] : [])];
-  const code = run('composer', install, CONSUMER);
-  if (code !== 0) process.exit(code);
+/* Three commands, and they are the three the manual prints. Redone when the
+   repository changes or the renderer is not there: `composer require` resolves
+   `dev-main` afresh, which is what makes a mirror pushed minutes ago the one
+   this renders with. No `--no-cache` — the git driver refuses to run without a
+   cache directory at all. */
+if (!existsSync(GUIDES) || !existsSync(marker) || readFileSync(marker, 'utf8') !== renderer) {
+  console.log(RELEASED ? 'building the renderer from the published theme' : 'building the renderer from this tree');
+  rmSync(CONSUMER, { recursive: true, force: true });
+  mkdirSync(CONSUMER, { recursive: true });
+  const composer = (...args: string[]): void => {
+    if (run('composer', [...args, '--no-interaction'], CONSUMER) !== 0) process.exit(1);
+  };
+  composer('init', '--name=typo3/soul-documentation');
+  composer('config', 'repositories.soul', RELEASED ? 'vcs' : 'path', from);
+  /* `dev-main` is the branch the mirror publishes and what the manual prints.
+     A path repository is versioned from the checkout around it, so on a branch
+     of your own that name is somebody else's — `*@dev` takes what is there. */
+  composer('require', '--no-progress', `typo3/soul-guides-theme:${RELEASED ? 'dev-main' : '*@dev'}`);
+  writeFileSync(marker, renderer);
 }
 
 if (!existsSync(FINISH)) {

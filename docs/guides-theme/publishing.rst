@@ -4,16 +4,21 @@
 Publishing it, in CI
 =====================
 
-Three commands turn a directory of documents into the site this manual is. The
-workflow below is those three with a checkout in front and a deploy behind —
-the same three this site is rendered with, and the last of them is a file out
+Three commands turn a directory of documents into the site this manual is: one
+builds the renderer, one writes the documents, one turns what was written into
+a site. The workflow below is those three with a checkout in front and a deploy
+behind — the same three this site is rendered with, and the last is a file out
 of the package rather than a script you are asked to write.
 
 .. code-block:: bash
 
-   composer install
+   composer require typo3/soul-guides-theme:dev-main
    vendor/bin/guides docs --output=site -c docs --fail-on-error
    node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
+
+The first runs in a directory of its own — a documentation repository holds
+documents, not a PHP manifest — and needs one line in front of it until the
+package is on Packagist. :doc:`installation` has both.
 
 .. contents::
    :local:
@@ -41,7 +46,7 @@ The finishing step
 ==================
 
 ``soul-finish.js`` ships inside the drop-in, which ships inside the theme, so
-``composer install`` is what put it there. It needs nothing installed of its
+the ``require`` above is what put it there. It needs nothing installed of its
 own — one bundled file for the Node that is on every CI image already.
 
 .. code-block:: bash
@@ -104,14 +109,12 @@ The workflow
 
 Four things in it are worth reading rather than copying.
 
-**One checkout, and one install.** The drop-in and the finishing step are not
-Composer packages and cannot be — a stylesheet is not a PHP dependency — so
-the theme carries them, and ``composer.json`` names the repository the theme
-itself is published from until it is on Packagist:
-
-.. literalinclude:: _starter/composer.json
-   :language: json
-   :caption: composer.json
+**One checkout, and a renderer built beside it.** The repository holds
+documents and this file — no manifest, no lock file. The drop-in and the
+finishing step are not Composer packages and cannot be, a stylesheet being no
+PHP dependency, so the theme carries them: one ``require`` into a directory
+under ``runner.temp`` brings the command, the templates and the stylesheets at
+once, and the runner throws all of it away again.
 
 .. important::
 
@@ -158,15 +161,20 @@ page that gets published, mode switch and search included.
 More than one project under one root
 ====================================
 
-The output directory takes several renders: one ``guides.xml`` each, one CLI
-call each, each with its own ``--output`` under the same root. This site is
-two — the manual, and the theme's acceptance fixture under ``_acceptance/``.
+A render is one ``guides.xml``, one CLI call and one ``--output``, and nothing
+stops a build from doing that several times. Finish each output separately:
+``styles/`` is resolved from a site's own root, so each root needs its own
+drop-in, and each gets its own index.
 
-Finish each output that has a ``<head>`` of its own, since ``styles/`` is
-resolved from each site's own root, and write the index once over the root
-that gets published. A directory whose name starts with an underscore is left
-out of the index by the finishing step, which is what makes it the right place
-for a control surface.
+Give every project a root of its own rather than a directory inside another
+one. A page one level below somebody else's root does not resolve its assets
+the way a published page does, and what is published is then the whole of what
+was rendered there — with nothing to remember to take back out. This site is
+two: the manual, and the theme's control surface beside it, which is built on
+every run and published on none.
+
+Where a project does keep something inside the published root, a name beginning
+with an underscore is left out of the search index by the finishing step.
 
 .. seealso::
 

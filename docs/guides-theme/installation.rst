@@ -11,40 +11,31 @@ a theme links.
 
 .. tip::
 
-   :doc:`example` is all four steps already taken, as a directory to copy. Read
-   this page to know what is in it; start from that.
+   :doc:`example` is all four steps already taken, printed whole. Read this
+   page to know what they are; copy from that one.
 
-1. Require the renderer and the theme
-=====================================
+1. Build the renderer
+=====================
 
-One package, and there is nothing else to fetch. The theme is **not on
-Packagist yet**, so the repository it is published from is named — everything
-else about the require is ordinary.
-
-.. code-block:: json
-   :caption: composer.json
-
-   {
-       "repositories": [
-           {
-               "type": "vcs",
-               "url": "https://github.com/benjaminkott/typo3-soul-guides-theme"
-           }
-       ],
-       "require": {
-           "typo3/soul-guides-theme": "dev-main"
-       },
-       "minimum-stability": "dev",
-       "prefer-stable": true
-   }
+One package, and there is nothing else to fetch — the theme brings the
+renderer, the highlighter and the Markdown parser with it. Built where it is
+used rather than required into the repository: a documentation project is
+documents, and a ``composer.json`` beside them is a file nothing else in that
+repository ever reads.
 
 .. code-block:: bash
 
-   composer install
+   mkdir -p .renderer && cd .renderer
+   composer init --no-interaction --name=example/documentation
+   composer config repositories.soul vcs https://github.com/benjaminkott/typo3-soul-guides-theme
+   composer require typo3/soul-guides-theme:dev-main
 
-The theme requires ``phpdocumentor/guides-cli``, ``guides-code`` and
-``guides-markdown``, so one package brings the command, the highlighter and the
-Markdown parser with it. PHP 8.2 is the floor.
+The middle line is the one that goes away: the theme is **not on Packagist
+yet**, so the repository it is published from is named. Everything else about
+the require is ordinary.
+
+``vendor/bin/guides`` is then the command, out of a directory a build can
+throw away. PHP 8.2 is the floor.
 
 .. note::
 
@@ -57,11 +48,11 @@ Markdown parser with it. PHP 8.2 is the floor.
 
 .. note::
 
-   When the package is registered, the ``repositories`` entry goes away and
-   this step becomes ``composer require typo3/soul-guides-theme``. Ask for a
-   tag rather than ``dev-main`` as soon as there is one: a branch is a moving
-   target, and a site rebuilt against one can change on a commit nobody in
-   your repository made.
+   When the package is registered, the ``config`` line goes away and this step
+   is one ``composer require typo3/soul-guides-theme``. Ask for a tag rather
+   than ``dev-main`` as soon as there is one: a branch is a moving target, and
+   a site rebuilt against one can change on a commit nobody in your repository
+   made.
 
 .. note::
 

@@ -4,11 +4,11 @@
 A project to copy
 ===================
 
-A documentation site is two files and a directory of documents: the theme as a
-dependency, and the project's own settings beside them. Both are printed here
-in full — take them, point the render step at your own documents, and what a
-landing page and a manual page need is the rest of this page. Search, both
-modes, the bar and the footer arrive with the theme and are asked for nowhere.
+A documentation site is a directory of documents, one settings file and one
+workflow. Both files are printed here in full — take them, point the render
+step at your own documents, and what a landing page and a manual page need is
+the rest of this page. Search, both modes, the bar and the footer arrive with
+the theme and are asked for nowhere.
 
 The commands in :doc:`publishing` are the ones this site is rendered with —
 PHP, Composer, Node, no ``make`` and no container — and the step after the
@@ -19,15 +19,14 @@ What a project holds
 
 .. code-block:: text
 
-   composer.json                    the theme, named by its repository
-   .github/workflows/publish.yml    render, finish, publish
+   .github/workflows/publish.yml    the renderer, render, finish, publish
    docs/
      guides.xml                     the project, the bar, the footer
      index.rst                      the landing page
      guide/                         the manual pages
 
-The workflow is printed in :doc:`publishing`, next to what it refuses to
-publish. The two below are the ones a project gets wrong.
+No manifest among them: the renderer is built by the workflow, in a directory
+the runner discards. The two files are below.
 
 The configuration
 =================
@@ -42,18 +41,16 @@ the bar carries the project title and the footer carries the site's own
 sections. :doc:`configuration` has each setting and what happens when it is
 left out.
 
-The dependency
-==============
+The workflow
+============
 
-.. literalinclude:: _starter/composer.json
-   :language: json
-   :caption: composer.json
+.. literalinclude:: _starter/publish.yml
+   :language: yaml
+   :caption: .github/workflows/publish.yml
 
-The ``repositories`` entry is the part that goes away: the theme is not on
-Packagist yet, so Composer is told which repository the name lives in. When
-the package is registered, those lines are deleted and nothing else changes —
-the drop-in and the finishing step arrive inside the package either way, which
-is why nothing here checks out the design system.
+The renderer is built in the job that uses it and goes away with the runner —
+three Composer lines, no manifest in the repository. :doc:`publishing` reads
+the rest of this file, including what it refuses to publish.
 
 The two page shapes
 ===================
@@ -104,14 +101,15 @@ Running it
 
 .. code-block:: bash
 
-   composer install
+   composer require typo3/soul-guides-theme:dev-main   # in a directory of its own
    vendor/bin/guides docs --output=site -c docs --fail-on-error
    node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
    php -S localhost:8000 -t site
 
 The second command writes documents; the third is what turns them into a site.
-:doc:`publishing` says what each of its four jobs is for, and what it refuses
-to publish.
+:doc:`installation` has the two configuration lines the first one still needs,
+and :doc:`publishing` says what the workflow's jobs are for and what they
+refuse to publish.
 
 .. seealso::
 
