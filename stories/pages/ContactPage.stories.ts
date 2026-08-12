@@ -19,7 +19,7 @@ import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/form-errors.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
-import '../../packages/frontend/src/components/radio-group.ts';
+import '../../packages/frontend/src/components/radio.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
@@ -106,12 +106,12 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
             error="${failed('email')}"
           ></sds-field>
 
-          <sds-radio-group
+          <sds-radio
             legend="How should we come back to you?"
             name="reply"
             .choices="${REPLY}"
             value="email"
-          ></sds-radio-group>
+          ></sds-radio>
 
           <sds-field
             caption="Which release is this about?"

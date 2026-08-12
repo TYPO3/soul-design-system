@@ -13,7 +13,7 @@ import { axeIdle, gotoStory } from './lib/story.ts';
 
 const SPECIMENS = [
   'components-button--specimen',
-  'components-field--specimen',
+  'forms-field--specimen',
   'specimens-navigation--specimen',
   'components-surface--specimen',
   'components-table--specimen',

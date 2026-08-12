@@ -73,8 +73,6 @@ test('the index lists every component and specimen group', async ({ request }) =
     'Components/Diff',
     'Components/Dialog',
     'Components/Drawer',
-    'Components/Field',
-    'Components/Field error',
     'Components/Icon',
     'Components/Image',
     'Components/Link',
@@ -89,6 +87,14 @@ test('the index lists every component and specimen group', async ({ request }) =
     'Components/Table density',
     'Components/Tabs',
     'Components/Theme',
+    /* The parts of a form are their own section: they are looked up together,
+       by somebody building one, and a reader after a field does not want to
+       arrive by way of the figure and the footer. */
+    'Forms/Field',
+    'Forms/Field error',
+    'Forms/Form errors',
+    'Forms/Checkbox',
+    'Forms/Radio',
     /* And the whole layouts. They are live in Storybook on purpose — every
        story here is opened by the pass below, so a page is a page under test
        rather than a picture of one. */

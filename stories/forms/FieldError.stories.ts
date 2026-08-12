@@ -14,7 +14,7 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/field-error.ts';
 
 const meta: Meta<{ message: string }> = {
-  title: 'Components/Field error',
+  title: 'Forms/Field error',
   tags: ['autodocs', '!dev'],
   render: ({ message }) => html`<sds-field-error message="${message}"></sds-field-error>`,
   argTypes: { message: { control: 'text' } },

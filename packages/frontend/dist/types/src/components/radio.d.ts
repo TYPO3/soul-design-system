@@ -6,7 +6,7 @@ export interface Choice {
     value?: string;
     hint?: string;
 }
-export interface RadioGroupProps {
+export interface RadioProps {
     /** What is being asked. Rendered as the `<legend>`. */
     legend: string;
     name: string;
@@ -16,7 +16,8 @@ export interface RadioGroupProps {
     hint?: string;
     required?: boolean;
 }
-export declare class SdsRadioGroup extends SdsElement {
+export declare class SdsRadio extends SdsElement {
+    #private;
     static properties: {
         legend: {
             type: StringConstructor;
@@ -45,6 +46,8 @@ export declare class SdsRadioGroup extends SdsElement {
     hint: string;
     required: boolean;
     constructor();
+    protected willUpdate(): void;
+    connectedCallback(): void;
     private choose;
     protected render(): TemplateResult;
 }

@@ -281,7 +281,7 @@ was closed in the component rather than in the page:
    * - questions that fold
      - ``sds-accordion``
    * - a form anybody can answer
-     - ``sds-checkbox``, ``sds-radio-group``, ``sds-form-errors``, and
+     - ``sds-checkbox``, ``sds-radio``, ``sds-form-errors``, and
        ``sds-field`` grew the row a form owes a control
 
 And four bugs the pages found, each of them older than the page that found it:

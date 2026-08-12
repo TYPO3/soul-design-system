@@ -19,6 +19,12 @@ export declare class SdsElement extends LitElement {
         hold two copies. The marker says the build wrote that markup; content a
         caller wrote carries none and stays. */
     connectedCallback(): void;
+    /** Run `fn` once the form around this element has been reset, for a control
+        that keeps state of its own. The listener has to sit on the form: `reset`
+        is fired there and bubbles up, never down. A microtask, because the
+        handler runs before the controls are put back. */
+    protected whenFormReset(fn: () => void): void;
+    disconnectedCallback(): void;
     protected lifted(): Node[];
 }
 /** The newlines a template leaves between tags, and the markers Lit leaves

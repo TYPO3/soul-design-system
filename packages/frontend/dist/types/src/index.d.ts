@@ -8,7 +8,7 @@ import './components/crumbs.ts';
 import './components/field.ts';
 import './components/field-error.ts';
 import './components/checkbox.ts';
-import './components/radio-group.ts';
+import './components/radio.ts';
 import './components/form-errors.ts';
 import './components/pills.ts';
 import './components/menu.ts';
@@ -47,7 +47,7 @@ export { SdsCrumbs, type CrumbsProps, type Crumb } from './components/crumbs.js'
 export { SdsField, fieldClass, type FieldProps } from './components/field.js';
 export { SdsFieldError } from './components/field-error.js';
 export { SdsCheckbox, type CheckboxProps } from './components/checkbox.js';
-export { SdsRadioGroup, type RadioGroupProps, type Choice } from './components/radio-group.js';
+export { SdsRadio, type RadioProps, type Choice } from './components/radio.js';
 export { SdsFormErrors, type FormErrorsProps, type FormError } from './components/form-errors.js';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.js';
 export { SdsPills } from './components/pills.js';
@@ -80,4 +80,4 @@ export { SdsPagination, pageNumbers, type PaginationProps } from './components/p
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio-group', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty'];

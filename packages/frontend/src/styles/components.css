@@ -551,13 +551,24 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    the tap target, the value it posts and how it reads out are still the
    input's. What it replaces is a grey the platform picks on its own, which
    sits beside a field of this system's making and matches none of it. */
-.sds-check { display: flex; align-items: flex-start; gap: var(--space-3); }
+.sds-check { display: flex; align-items: flex-start; gap: var(--space-3); cursor: pointer; }
+/* Unavailable is the whole row. A full-strength sentence beside a greyed box
+   reads as a label that lost its control, rather than as one answer that is
+   not on offer. */
+.sds-check:has(.sds-check__mark:disabled) { opacity: 0.5; cursor: not-allowed; }
 .sds-check__mark {
   appearance: none;
   flex: none;
   width: 16px;
   height: 16px;
-  margin: 1px 0 0;
+  /* Centred in the line box its label sets, which is why the mark carries the
+     type tokens without drawing a glyph: `1lh` is that box, and the mark stays
+     on the first line if the control leading or the label's size ever moves. A
+     hand-written margin is right for one pair of numbers and silently wrong
+     for the next. */
+  font-size: var(--control-font-size);
+  line-height: var(--control-leading);
+  margin: calc((1lh - 16px) / 2) 0 0;
   background: var(--surface-sunken);
   border: var(--border-hairline) solid var(--border-strong);
   border-radius: var(--radius-control);
@@ -566,7 +577,18 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
     border-color var(--duration-fast) var(--ease-out);
 }
 .sds-check__mark[type="radio"] { border-radius: 50%; }
-.sds-check:hover .sds-check__mark:not(:disabled) { border-color: var(--text-muted); }
+/* Hover is colour and border and nothing else — the whole row is the target,
+   so the box answers a pointer anywhere along the sentence. A ticked box
+   steps its fill instead, which is the same move on the other ground. */
+.sds-check:hover > .sds-check__mark:not(:disabled) {
+  background-color: var(--surface-inset);
+  border-color: var(--text-muted);
+}
+.sds-check:hover > .sds-check__mark:checked:not(:disabled),
+.sds-check:hover > .sds-check__mark[type="checkbox"]:indeterminate:not(:disabled) {
+  background-color: var(--text-secondary);
+  border-color: var(--text-secondary);
+}
 /* Ticked fills with `--text-primary`, because the accent marks three things
    and a ticked box is not one of them. The dot and the tick are that fill
    inverted: `difference` against white gets both modes out of one declaration,
@@ -581,7 +603,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   border-color: var(--text-primary);
 }
 .sds-check__mark[type="radio"]:checked {
-  background-image: radial-gradient(circle at center, #FFF 2.6px, transparent 3.4px);
+  background-image: radial-gradient(circle at center, #FFF 3px, transparent 3.7px);
 }
 .sds-check__mark[type="checkbox"]:checked {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.9 8.3l2.9 2.9 5.3-5.9' fill='none' stroke='%23FFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -592,7 +614,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   background-image: linear-gradient(#FFF, #FFF);
   background-size: 8px 2px;
 }
-.sds-check__mark:disabled { opacity: 0.5; }
 /* Control leading on the label, so the box beside it is centred on one line
    and the hint below is the label's own rather than a second row. */
 .sds-check__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }

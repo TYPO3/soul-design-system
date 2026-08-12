@@ -14,6 +14,7 @@ export interface CheckboxProps {
     disabled?: boolean;
 }
 export declare class SdsCheckbox extends SdsElement {
+    #private;
     static properties: {
         label: {
             type: StringConstructor;
@@ -53,6 +54,8 @@ export declare class SdsCheckbox extends SdsElement {
     required: boolean;
     disabled: boolean;
     constructor();
+    protected willUpdate(): void;
+    connectedCallback(): void;
     private onChange;
     protected render(): TemplateResult;
 }

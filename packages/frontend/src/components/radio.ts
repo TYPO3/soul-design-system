@@ -1,10 +1,10 @@
-/* sds-radio-group — one answer out of a few, all of them visible.
+/* sds-radio — one answer out of a few, all of them visible.
 
-   The group is the component and a single radio is not: what makes one a choice
-   is the set it belongs to, the name they share and the fact that exactly one
-   holds, and rendering them one at a time leaves the caller to keep the three
-   in step. `<fieldset>` and `<legend>` carry the grouping, with the browser's
-   border and padding taken away rather than restyled.
+   The set is the component and a single button is not: what makes one a choice
+   is the set it belongs to, the name they share and that exactly one holds, and
+   rendering them one at a time leaves the caller to keep the three in step. So
+   the element is named for the control and takes the whole question, with
+   `<fieldset>` and `<legend>` carrying the grouping.
 
    Where the answers are many, or the reader knows the one they want, that is a
    select. Above roughly five the set stops being scannable. */
@@ -19,7 +19,7 @@ export interface Choice {
   hint?: string;
 }
 
-export interface RadioGroupProps {
+export interface RadioProps {
   /** What is being asked. Rendered as the `<legend>`. */
   legend: string;
   name: string;
@@ -30,7 +30,7 @@ export interface RadioGroupProps {
   required?: boolean;
 }
 
-export class SdsRadioGroup extends SdsElement {
+export class SdsRadio extends SdsElement {
   static override properties = {
     legend: { type: String },
     name: { type: String },
@@ -57,6 +57,23 @@ export class SdsRadioGroup extends SdsElement {
     this.required = false;
   }
 
+  /* The answer the markup came with, which is what a reset puts back.
+     `?checked` writes the `checked` *attribute* — the input's default — so
+     mirroring the chosen value into it would make a reset restore the last
+     click instead of the answer the page was drawn with. */
+  #initial?: string;
+
+  protected override willUpdate(): void {
+    this.#initial ??= this.value;
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.whenFormReset(() => {
+      this.value = this.#initial ?? '';
+    });
+  }
+
   private choose(choice: Choice): void {
     this.value = choice.value ?? choice.label;
     this.dispatchEvent(
@@ -78,7 +95,8 @@ export class SdsRadioGroup extends SdsElement {
       type="radio"
       name="${this.name}"
       value="${value}"
-      ?checked="${value === this.value}"
+      ?checked="${value === (this.#initial ?? this.value)}"
+      .checked="${value === this.value}"
       ?required="${this.required}"
       @change="${() => this.choose(choice)}"
     />
@@ -92,4 +110,4 @@ export class SdsRadioGroup extends SdsElement {
   }
 }
 
-define('sds-radio-group', SdsRadioGroup);
+define('sds-radio', SdsRadio);

@@ -1588,6 +1588,22 @@ var SdsElement = class extends LitElement {
     }
     super.connectedCallback();
   }
+  #reset;
+  /** Run `fn` once the form around this element has been reset, for a control
+      that keeps state of its own. The listener has to sit on the form: `reset`
+      is fired there and bubbles up, never down. A microtask, because the
+      handler runs before the controls are put back. */
+  whenFormReset(fn) {
+    this.#reset?.abort();
+    const form = this.closest("form");
+    if (!form) return;
+    this.#reset = new AbortController();
+    form.addEventListener("reset", () => queueMicrotask(fn), { signal: this.#reset.signal });
+  }
+  disconnectedCallback() {
+    this.#reset?.abort();
+    super.disconnectedCallback();
+  }
   lifted() {
     if (this.#looked) return [];
     this.#looked = true;
@@ -2745,6 +2761,19 @@ var SdsCheckbox = class extends SdsElement {
     this.required = false;
     this.disabled = false;
   }
+  /* What the markup said, which is what a reset puts back. `?checked` writes
+     the `checked` *attribute* — the input's default — so mirroring the live
+     state into it would make a reset restore the last click instead. */
+  #initial;
+  willUpdate() {
+    this.#initial ??= this.checked;
+  }
+  connectedCallback() {
+    super.connectedCallback();
+    this.whenFormReset(() => {
+      this.checked = this.#initial ?? false;
+    });
+  }
   /* Ticking is what makes it checked. A caller that had to write the state
      back is a caller that will forget once — and a mixed box that is ticked is
      no longer mixed, which the input has already decided by the time this runs. */
@@ -2762,7 +2791,8 @@ var SdsCheckbox = class extends SdsElement {
     type="checkbox"
     name="${this.name || nothing4}"
     value="${this.value || nothing4}"
-    ?checked="${this.checked}"
+    ?checked="${this.#initial ?? this.checked}"
+    .checked="${this.checked}"
     .indeterminate="${this.indeterminate}"
     ?required="${this.required}"
     ?disabled="${this.disabled}"
@@ -2777,9 +2807,9 @@ var SdsCheckbox = class extends SdsElement {
 };
 define("sds-checkbox", SdsCheckbox);
 
-// packages/frontend/src/components/radio-group.ts
+// packages/frontend/src/components/radio.ts
 import { html as html13, nothing as nothing5 } from "lit";
-var SdsRadioGroup = class extends SdsElement {
+var SdsRadio = class extends SdsElement {
   static {
     this.properties = {
       legend: { type: String },
@@ -2799,6 +2829,20 @@ var SdsRadioGroup = class extends SdsElement {
     this.hint = "";
     this.required = false;
   }
+  /* The answer the markup came with, which is what a reset puts back.
+     `?checked` writes the `checked` *attribute* — the input's default — so
+     mirroring the chosen value into it would make a reset restore the last
+     click instead of the answer the page was drawn with. */
+  #initial;
+  willUpdate() {
+    this.#initial ??= this.value;
+  }
+  connectedCallback() {
+    super.connectedCallback();
+    this.whenFormReset(() => {
+      this.value = this.#initial ?? "";
+    });
+  }
   choose(choice) {
     this.value = choice.value ?? choice.label;
     this.dispatchEvent(
@@ -2817,7 +2861,8 @@ var SdsRadioGroup = class extends SdsElement {
       type="radio"
       name="${this.name}"
       value="${value}"
-      ?checked="${value === this.value}"
+      ?checked="${value === (this.#initial ?? this.value)}"
+      .checked="${value === this.value}"
       ?required="${this.required}"
       @change="${() => this.choose(choice)}"
     />
@@ -2830,7 +2875,7 @@ var SdsRadioGroup = class extends SdsElement {
 </fieldset>`;
   }
 };
-define("sds-radio-group", SdsRadioGroup);
+define("sds-radio", SdsRadio);
 
 // packages/frontend/src/components/form-errors.ts
 import { html as html15 } from "lit";
@@ -9559,7 +9604,7 @@ var TAGS2 = [
   "sds-search",
   "sds-field-error",
   "sds-checkbox",
-  "sds-radio-group",
+  "sds-radio",
   "sds-form-errors",
   "sds-pills",
   "sds-menu",
@@ -9619,7 +9664,7 @@ export {
   SdsPagination,
   SdsPills,
   SdsQuote,
-  SdsRadioGroup,
+  SdsRadio,
   SdsRail,
   SdsResult,
   SdsStat,

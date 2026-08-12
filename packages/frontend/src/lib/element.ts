@@ -47,6 +47,25 @@ export class SdsElement extends LitElement {
     super.connectedCallback();
   }
 
+  #reset?: AbortController;
+
+  /** Run `fn` once the form around this element has been reset, for a control
+      that keeps state of its own. The listener has to sit on the form: `reset`
+      is fired there and bubbles up, never down. A microtask, because the
+      handler runs before the controls are put back. */
+  protected whenFormReset(fn: () => void): void {
+    this.#reset?.abort();
+    const form = this.closest('form');
+    if (!form) return;
+    this.#reset = new AbortController();
+    form.addEventListener('reset', () => queueMicrotask(fn), { signal: this.#reset.signal });
+  }
+
+  override disconnectedCallback(): void {
+    this.#reset?.abort();
+    super.disconnectedCallback();
+  }
+
   protected lifted(): Node[] {
     if (this.#looked) return [];
     this.#looked = true;

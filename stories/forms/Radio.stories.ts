@@ -1,6 +1,6 @@
 /* One answer out of a few, all of them visible.
 
-   The markup lives in `src/components/radio-group.ts`. No `parameters.dsCard`:
+   The markup lives in `src/components/radio.ts`. No `parameters.dsCard`:
    what a card would show is three radios, and what is worth documenting is
    when to reach for this at all — which is a comparison with `sds-field
    select` rather than a picture.
@@ -11,19 +11,19 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../packages/frontend/src/components/radio-group.ts';
+import '../../packages/frontend/src/components/radio.ts';
 import '../../packages/frontend/src/components/field.ts';
-import { type RadioGroupProps } from '../../packages/frontend/src/components/radio-group.ts';
+import { type RadioProps } from '../../packages/frontend/src/components/radio.ts';
 
-const sdsRadioGroup = ({ legend, name, choices, value, hint, required }: RadioGroupProps) =>
-  html`<sds-radio-group
+const sdsRadio = ({ legend, name, choices, value, hint, required }: RadioProps) =>
+  html`<sds-radio
     legend="${legend}"
     name="${name}"
     .choices="${choices}"
     value="${value ?? ''}"
     hint="${hint ?? ''}"
     ?required="${required ?? false}"
-  ></sds-radio-group>`;
+  ></sds-radio>`;
 
 const REPLY = [
   { label: 'Email', hint: 'One reply, to the address above.' },
@@ -31,10 +31,10 @@ const REPLY = [
   { label: 'No reply', hint: 'The report is read and filed. Nothing comes back.' },
 ];
 
-const meta: Meta<RadioGroupProps> = {
-  title: 'Components/Radio group',
+const meta: Meta<RadioProps> = {
+  title: 'Forms/Radio',
   tags: ['autodocs', '!dev'],
-  render: (args) => sdsRadioGroup(args),
+  render: (args) => sdsRadio(args),
   argTypes: {
     legend: { control: 'text' },
     name: { control: 'text' },
@@ -46,7 +46,7 @@ const meta: Meta<RadioGroupProps> = {
 };
 
 export default meta;
-type Story = StoryObj<RadioGroupProps>;
+type Story = StoryObj<RadioProps>;
 
 /** The question is the legend and the answers are the set. Each may carry
     what choosing it means — which is the whole reason this is not a select. */
@@ -80,7 +80,7 @@ export const Plain: Story = {
     and does not need to read the others. */
 export const OrASelect: Story = {
   render: () => html`<div style="display:flex; gap:var(--space-12); flex-wrap:wrap; align-items:flex-start">
-    ${sdsRadioGroup({ legend: 'How should we come back to you?', name: 'reply-a', choices: REPLY, value: 'Email' })}
+    ${sdsRadio({ legend: 'How should we come back to you?', name: 'reply-a', choices: REPLY, value: 'Email' })}
     <sds-field
       caption="Which release is this about?"
       select

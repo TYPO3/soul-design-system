@@ -45,7 +45,7 @@ const PENDING = {
     'sds-field',
     'sds-field-error',
     'sds-checkbox',
-    'sds-radio-group',
+    'sds-radio',
     'sds-form-errors',
     'sds-pills',
     'sds-accordion',

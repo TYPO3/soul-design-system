@@ -3,7 +3,7 @@
    The platform's own control in this system's colours, not a box with a glyph
    in it: the stylesheet takes the paint and leaves the keyboard, the tap
    target, the indeterminate state and how it all reads out with the input. A
-   set where exactly one may be true is `sds-radio-group` — a different
+   set where exactly one may be true is `sds-radio` — a different
    question, a different control.
 
    A real `<label>` wraps both, so the words are part of the target: a 16px box
@@ -59,6 +59,22 @@ export class SdsCheckbox extends SdsElement {
     this.disabled = false;
   }
 
+  /* What the markup said, which is what a reset puts back. `?checked` writes
+     the `checked` *attribute* — the input's default — so mirroring the live
+     state into it would make a reset restore the last click instead. */
+  #initial?: boolean;
+
+  protected override willUpdate(): void {
+    this.#initial ??= this.checked;
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.whenFormReset(() => {
+      this.checked = this.#initial ?? false;
+    });
+  }
+
   /* Ticking is what makes it checked. A caller that had to write the state
      back is a caller that will forget once — and a mixed box that is ticked is
      no longer mixed, which the input has already decided by the time this runs. */
@@ -77,7 +93,8 @@ export class SdsCheckbox extends SdsElement {
     type="checkbox"
     name="${this.name || nothing}"
     value="${this.value || nothing}"
-    ?checked="${this.checked}"
+    ?checked="${this.#initial ?? this.checked}"
+    .checked="${this.checked}"
     .indeterminate="${this.indeterminate}"
     ?required="${this.required}"
     ?disabled="${this.disabled}"

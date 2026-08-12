@@ -15,7 +15,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/checkbox.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/form-errors.ts';
-import '../../packages/frontend/src/components/radio-group.ts';
+import '../../packages/frontend/src/components/radio.ts';
 import { DIVIDER, dsCard, part, spec, specCap, specRow } from '../lib/specimen.ts';
 
 /** A field as a form asks for one: the label above it, the hint under it. */
@@ -54,12 +54,12 @@ const choices = (): string =>
     hint="Versions, reachable sources, degraded tools. No file contents."
     checked
   ></sds-checkbox>
-  <sds-radio-group
+  <sds-radio
     legend="How should we come back to you?"
     name="reply"
     value="email"
     .choices="${[{ label: 'Email' }, { label: 'In the repository' }, { label: 'No reply' }]}"
-  ></sds-radio-group>
+  ></sds-radio>
 </div>`);
 
 /** What stopped the form, at the top of it. Every line is a link to the field

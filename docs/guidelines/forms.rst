@@ -84,7 +84,7 @@ the focus on load moves a reader who was going somewhere else.
 Choices
 =======
 
-``sds-checkbox`` is one fact: a consent, an opt-in. ``sds-radio-group`` is
+``sds-checkbox`` is one fact: a consent, an opt-in. ``sds-radio`` is
 one answer out of a few, all of them visible — and the *group* is the
 component, because a radio on its own cannot be unset and means nothing.
 

@@ -12,19 +12,20 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/checkbox.ts';
 import { type CheckboxProps } from '../../packages/frontend/src/components/checkbox.ts';
 
-const sdsCheckbox = ({ label, hint, checked = false, indeterminate, name, required, disabled }: CheckboxProps) =>
+const sdsCheckbox = ({ label, hint, checked = false, indeterminate, name, value, required, disabled }: CheckboxProps) =>
   html`<sds-checkbox
     label="${label}"
     hint="${hint ?? ''}"
     ?checked="${checked}"
     ?indeterminate="${indeterminate ?? false}"
     name="${name ?? ''}"
+    value="${value ?? ''}"
     ?required="${required ?? false}"
     ?disabled="${disabled ?? false}"
   ></sds-checkbox>`;
 
 const meta: Meta<CheckboxProps> = {
-  title: 'Components/Checkbox',
+  title: 'Forms/Checkbox',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsCheckbox(args),
   argTypes: {
@@ -32,6 +33,8 @@ const meta: Meta<CheckboxProps> = {
     hint: { control: 'text' },
     checked: { control: 'boolean' },
     indeterminate: { control: 'boolean' },
+    name: { control: 'text' },
+    value: { control: 'text' },
     required: { control: 'boolean' },
     disabled: { control: 'boolean' },
   },
@@ -47,6 +50,32 @@ export const Default: Story = {};
 
 /** Ticked. Not in the accent, which has three jobs already. */
 export const Checked: Story = { args: { label: 'Send me the answer by email', checked: true } };
+
+/** What the form receives. These render into the light DOM, so the `<input>`
+    is a real descendant of the `<form>` and is submitted with the rest: `name`
+    is what it is called there, `value` what it sends when ticked. A box with
+    no `value` sends `on` — the platform's answer, not this system's — and an
+    unticked box sends nothing at all. */
+export const Named: Story = {
+  args: { label: 'Attach the server scope', name: 'scope', value: 'server', checked: true },
+};
+
+/** A set of them under one question, and no element for it: n boxes are n
+    answers that happen to share a heading, where `sds-radio` is one answer and
+    has to own the set to keep the name and the chosen value in step. What
+    holds these together is the `<fieldset>` — the same `sds-choices` the radio
+    draws, addressed here rather than rebuilt. */
+export const Group: Story = {
+  render: () => html`<fieldset class="sds-choices" name="send">
+    <legend class="sds-field-label">What may we send you?</legend>
+    <span class="sds-field-hint">Each one is its own answer, and none of them decides another.</span>
+    ${[
+      { label: 'Release notes', hint: 'When a version ships, and what changed in it.', checked: true },
+      { label: 'Security advisories', hint: 'Only what reaches a version you run.', checked: true },
+      { label: 'Everything else', hint: 'Events, surveys, and the occasional experiment.' },
+    ].map((choice) => sdsCheckbox({ ...choice, name: 'send' }))}
+  </fieldset>`,
+};
 
 /** Mixed: the box answers for a set only some of which is ticked, and ticking
     it resolves to on. The input has no attribute for this — it is a property
