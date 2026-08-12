@@ -186,7 +186,7 @@ ${" ".repeat(t)}`,s=[];return e.forEach((i,n)=>{n&&s.push(r),s.push(i)}),s}var W
   ${this.heading()}
   ${J(this.items_(),2)}
 </nav>`;let i=0,n=s.map(o=>{if(!ks(o))return this.one(o,i++);let h=i,p=o.items.map(v=>this.one(v,i++)),g=this.active>=h&&this.active<i;return d`<details class="sds-rail__group" ?open="${!!o.open||g}">
-    <summary><sds-icon name="actions-chevron-down"></sds-icon>${o.label}</summary>
+    <summary>${o.label}<sds-icon name="actions-chevron-down"></sds-icon></summary>
     ${J(p,4)}
   </details>`});return d`<nav class="${this.block}" aria-label="${this.label||"Pages"}">
   ${this.heading()}

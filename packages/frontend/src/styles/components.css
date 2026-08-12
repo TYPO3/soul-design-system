@@ -1872,18 +1872,21 @@ sds-rail:not(:defined) {
 }
 .sds-rail__group > summary::-webkit-details-marker { display: none; }
 .sds-rail__group > summary:hover { color: var(--text-secondary); }
-/* The chevron points at what it will do: sideways closed, down open. It keeps
-   the floor rather than the label's size — a glyph is as big as the label it
-   sits in, and an 11px fold marker is a smudge on the one control in the rail.
-   It is an affordance, not a word. */
+/* Sideways closed, down open — it points at what pressing it will do, and keeps
+   the control floor rather than the label's size: an 11px marker is a smudge on
+   the one control in the rail. At the far edge, because a leading one costs a
+   gutter the rail cannot pay — the longest title already needs 169px of 210. */
 .sds-rail__group > summary .sds-icon {
   width: var(--control-icon-size);
   height: var(--control-icon-size);
+  margin-left: auto;
   transform: rotate(-90deg);
   transition: transform var(--duration-fast) var(--ease-out);
 }
 .sds-rail__group[open] > summary .sds-icon { transform: none; }
-.sds-rail__group > .sds-rail__item { margin-left: var(--space-2); }
+/* A group's pages are not indented. What groups them is the heading over them,
+   and an indent moves the filled block of the current one — so the accent sat at
+   a different edge depending on which page a reader was on. */
 .sds-rail__group:last-child > .sds-rail__item:last-child { margin-bottom: var(--space-2); }
 
 /* A list of questions, each with its answer folded behind it. `<details>` for

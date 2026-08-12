@@ -106,8 +106,11 @@ export class SdsRail extends SdsNav {
       const from = at;
       const items = entry.items.map((item) => this.one(item, at++));
       const holdsCurrent = this.active >= from && this.active < at;
+      /* The marker sits after the label, not before it: a rail is one column of
+         rows, and a chevron in front of the heading is the only thing in it that
+         starts anywhere else. */
       return html`<details class="sds-rail__group" ?open="${Boolean(entry.open) || holdsCurrent}">
-    <summary><sds-icon name="actions-chevron-down"></sds-icon>${entry.label}</summary>
+    <summary>${entry.label}<sds-icon name="actions-chevron-down"></sds-icon></summary>
     ${lines(items, 4)}
   </details>`;
     });

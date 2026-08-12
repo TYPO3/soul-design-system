@@ -259,6 +259,33 @@ test.describe('what the theme repaired', () => {
     expect(new Set(rows.map((row) => row.top)).size, 'every page on a line of its own').toBe(rows.length);
   });
 
+  test('every row of the rail starts on the same edge', async ({ page }) => {
+    /* Three edges once: the heading and the top-level pages at 9, a group's pages
+       indented to 17, and the group's own heading pushed to 33 by the chevron in
+       front of it. The rail is one column of rows, so a reader on a grouped page
+       found the filled block of the current one at an edge of its own. */
+    await page.goto(`${ACCEPTANCE_URL}/depth/group/far.html`, { waitUntil: 'load' });
+
+    const edges = await page.locator('.sds-rail').evaluate((rail) => {
+      /* Where the words start, not where the box does: the chevron used to sit
+         inside the heading's box and move nothing but the text. */
+      const text = (el: Element): number => {
+        const first = [...el.childNodes].find((node) => node.nodeType === 3 && node.textContent?.trim());
+        const range = document.createRange();
+        range.selectNodeContents(first ?? el);
+        return Math.round(range.getBoundingClientRect().left);
+      };
+      const rows = [...rail.querySelectorAll('.sds-label, .sds-rail__item, .sds-rail__group > summary')];
+      return rows.map((el) => ({ label: el.textContent?.trim().slice(0, 24) ?? '', left: text(el) }));
+    });
+
+    expect(edges.length, 'the rail should have a heading, a group and pages').toBeGreaterThan(3);
+    const [first, ...rest] = edges;
+    for (const row of rest) {
+      expect(row.left, `${row.label} starts where ${first?.label} does`).toBe(first?.left);
+    }
+  });
+
   test('a section that is one page carries no rail, and no button to open one', async ({ page }) => {
     /* Such a page used to get the list of sections instead, every one of them
        folded open — a sitemap hung off a page belonging to none of it, and the

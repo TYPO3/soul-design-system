@@ -28,9 +28,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// node_modules/highlight.js/lib/core.js
+// ../../node_modules/highlight.js/lib/core.js
 var require_core = __commonJS({
-  "node_modules/highlight.js/lib/core.js"(exports, module) {
+  "../../node_modules/highlight.js/lib/core.js"(exports, module) {
     function deepFreeze(obj) {
       if (obj instanceof Map) {
         obj.clear = obj.delete = obj.set = function() {
@@ -3534,7 +3534,7 @@ var SdsRail = class extends SdsNav {
       const items = entry.items.map((item) => this.one(item, at++));
       const holdsCurrent = this.active >= from && this.active < at;
       return html23`<details class="sds-rail__group" ?open="${Boolean(entry.open) || holdsCurrent}">
-    <summary><sds-icon name="actions-chevron-down"></sds-icon>${entry.label}</summary>
+    <summary>${entry.label}<sds-icon name="actions-chevron-down"></sds-icon></summary>
     ${lines(items, 4)}
   </details>`;
     });
@@ -4436,11 +4436,11 @@ define("sds-pagination", SdsPagination);
 import { html as html40 } from "lit";
 import { unsafeHTML as unsafeHTML4 } from "lit/directives/unsafe-html.js";
 
-// node_modules/highlight.js/es/core.js
+// ../../node_modules/highlight.js/es/core.js
 var import_core = __toESM(require_core(), 1);
 var core_default = import_core.default;
 
-// node_modules/highlight.js/es/languages/bash.js
+// ../../node_modules/highlight.js/es/languages/bash.js
 function bash(hljs) {
   const regex = hljs.regex;
   const VAR = {};
@@ -4834,7 +4834,7 @@ function bash(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/css.js
+// ../../node_modules/highlight.js/es/languages/css.js
 var MODES = (hljs) => {
   return {
     IMPORTANT: {
@@ -5771,7 +5771,7 @@ function css(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/diff.js
+// ../../node_modules/highlight.js/es/languages/diff.js
 function diff(hljs) {
   const regex = hljs.regex;
   return {
@@ -5824,7 +5824,7 @@ function diff(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/javascript.js
+// ../../node_modules/highlight.js/es/languages/javascript.js
 var IDENT_RE = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS = [
   "as",
@@ -6525,7 +6525,7 @@ function javascript(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/json.js
+// ../../node_modules/highlight.js/es/languages/json.js
 function json(hljs) {
   const ATTRIBUTE = {
     className: "attr",
@@ -6565,7 +6565,7 @@ function json(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/markdown.js
+// ../../node_modules/highlight.js/es/languages/markdown.js
 function markdown(hljs) {
   const regex = hljs.regex;
   const INLINE_HTML = {
@@ -6797,7 +6797,7 @@ function markdown(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/php.js
+// ../../node_modules/highlight.js/es/languages/php.js
 function php(hljs) {
   const regex = hljs.regex;
   const NOT_PERL_ETC = /(?![A-Za-z0-9])(?![$])/;
@@ -7398,7 +7398,7 @@ function php(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/plaintext.js
+// ../../node_modules/highlight.js/es/languages/plaintext.js
 function plaintext(hljs) {
   return {
     name: "Plain text",
@@ -7410,7 +7410,7 @@ function plaintext(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/sql.js
+// ../../node_modules/highlight.js/es/languages/sql.js
 function sql(hljs) {
   const regex = hljs.regex;
   const COMMENT_MODE = hljs.COMMENT("--", "$");
@@ -8053,7 +8053,7 @@ function sql(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/twig.js
+// ../../node_modules/highlight.js/es/languages/twig.js
 function twig(hljs) {
   const regex = hljs.regex;
   const FUNCTION_NAMES = [
@@ -8292,7 +8292,7 @@ function twig(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/typescript.js
+// ../../node_modules/highlight.js/es/languages/typescript.js
 var IDENT_RE2 = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS2 = [
   "as",
@@ -9106,7 +9106,7 @@ function typescript(hljs) {
   return tsLanguage;
 }
 
-// node_modules/highlight.js/es/languages/xml.js
+// ../../node_modules/highlight.js/es/languages/xml.js
 function xml(hljs) {
   const regex = hljs.regex;
   const TAG_NAME_RE = regex.concat(/[\p{L}_]/u, regex.optional(/[\p{L}0-9_.-]*:/u), /[\p{L}0-9_.-]*/u);
@@ -9332,7 +9332,7 @@ function xml(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/yaml.js
+// ../../node_modules/highlight.js/es/languages/yaml.js
 function yaml(hljs) {
   const LITERALS3 = "true false yes no null";
   const URI_CHARACTERS = "[\\w#;/?:@&=+$,.~*'()[\\]]+";

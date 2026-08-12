@@ -163,7 +163,7 @@ ${" ".repeat(e)}`,s=[];return n.forEach((i,a)=>{a&&s.push(t),s.push(i)}),s}var R
   ${this.heading()}
   ${B(this.items_(),2)}
 </nav>`;let i=0,a=s.map(o=>{if(!Jt(o))return this.one(o,i++);let c=i,l=o.items.map(h=>this.one(h,i++)),p=this.active>=c&&this.active<i;return r`<details class="sds-rail__group" ?open="${!!o.open||p}">
-    <summary><sds-icon name="actions-chevron-down"></sds-icon>${o.label}</summary>
+    <summary>${o.label}<sds-icon name="actions-chevron-down"></sds-icon></summary>
     ${B(l,4)}
   </details>`});return r`<nav class="${this.block}" aria-label="${this.label||"Pages"}">
   ${this.heading()}
