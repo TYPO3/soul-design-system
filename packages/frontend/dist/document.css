@@ -11,7 +11,7 @@
 :where(.sds-prose) .sds-permalink:hover{color:var(--text-link)}
 :where(.sds-prose) .section:target>:is(h1,h2,h3,h4,h5,h6){color:var(--text-accent-quiet)}
 .sds-prose{max-width:none}
-:where(.sds-prose) p,:where(.sds-prose) dt,:where(.sds-prose) hr,:where(.sds-prose) h1,:where(.sds-prose) h2,:where(.sds-prose) h3,:where(.sds-prose) h4,:where(.sds-prose) h5,:where(.sds-prose) h6{max-width:var(--measure-prose)}
+:where(.sds-prose) p,:where(.sds-prose) dt,:where(.sds-prose) .line,:where(.sds-prose) hr,:where(.sds-prose) h1,:where(.sds-prose) h2,:where(.sds-prose) h3,:where(.sds-prose) h4,:where(.sds-prose) h5,:where(.sds-prose) h6{max-width:var(--measure-prose)}
 :where(.sds-prose) li,:where(.sds-prose) dd{max-width:var(--measure-prose)}
 :where(.sds-prose) li:has(>:not(a,code,kbd,abbr,strong,em,mark,small,span,sup,sub,br)),:where(.sds-prose) dd:has(>:not(a,code,kbd,abbr,strong,em,mark,small,span,sup,sub,br)){max-width:none}
 :where(.sds-prose) p{margin:0 0 var(--space-4);font-size:inherit;line-height:inherit;color:inherit}
@@ -28,6 +28,9 @@
 :where(.sds-prose) dd:last-child{margin-bottom:0}
 :where(.sds-prose) .classifier,:where(.sds-prose) .classifier-delimiter{font-weight:var(--weight-regular);color:var(--text-secondary)}
 :where(.sds-prose) dt:target{color:var(--text-accent-quiet)}
+:where(.sds-prose) .line-block{margin:0 0 var(--space-4)}
+:where(.sds-prose) .line-block .line-block{margin:0 0 0 var(--space-5)}
+:where(.sds-prose) .line{min-height:1lh}
 :where(.sds-prose) blockquote{margin:0 0 var(--space-4);padding-left:var(--space-4);border-left:2px solid var(--border-subtle);color:var(--text-secondary)}
 :where(.sds-prose) blockquote>:last-child{margin-bottom:0}
 :where(.sds-prose) code{font-family:var(--font-mono);font-size:.94em;color:var(--text-primary)}

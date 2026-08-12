@@ -5,9 +5,8 @@ Reference
 =========
 
 What a real reference page is made of. The narrative page next door shows the
-shapes prose falls into; this one shows the four nodes that only appear when
-software is being documented — and the design system has a counterpart for
-none of them.
+shapes prose falls into; this one shows the nodes that only appear when
+software is being documented.
 
 .. contents::
    :local:

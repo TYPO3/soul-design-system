@@ -102,7 +102,6 @@ Klasse noch Komponente gibt.
 | Knoten | Markup | Warum es zählt |
 | --- | --- | --- |
 | **Annotationsliste** | Sammelknoten | |
-| **Zeilenblock** | `div.line-block` > `div.line` | Funktioniert heute nur, weil `div` umbricht — eine Regel hat er nicht. Auch von confval benutzt |
 | **Math** | `<math>` bzw. MathJax-Ausgabe | Keine Schrift, keine Regel dafür |
 | **Container / wrap** | `div` mit **beliebigen** Klassen aus dem Quelltext | Braucht eine Policy: was darf ein Autor an Klassen setzen |
 

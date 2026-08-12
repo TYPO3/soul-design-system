@@ -121,6 +121,9 @@
 .sds-prose { max-width: none; }
 :where(.sds-prose) p,
 :where(.sds-prose) dt,
+/* A line is a sentence that was told where to end. It wraps at the measure
+   like any other, and the author's break is the one that carries meaning. */
+:where(.sds-prose) .line,
 /* The rule too: it is punctuation of the text rather than a block of
    content, and drawn to the full column under a measured paragraph it reads
    as the end of the page instead of the end of a section. */
@@ -232,6 +235,16 @@
 /* Landing on one term out of forty says which one — the mark a confval and a
    heading already make. */
 :where(.sds-prose) dt:target { color: var(--text-accent-quiet); }
+
+/* --------------------------------------------------------------- lines -- */
+
+/* `| a line` — an address, a stanza, a signature: text where the break is part
+   of what is said. So nothing here may close one up. The block carries the air
+   a paragraph carries, an indented run keeps its step, and an empty line keeps
+   a line's height, which is the whole reason a stanza has a gap in it. */
+:where(.sds-prose) .line-block { margin: 0 0 var(--space-4); }
+:where(.sds-prose) .line-block .line-block { margin: 0 0 0 var(--space-5); }
+:where(.sds-prose) .line { min-height: 1lh; }
 
 /* --------------------------------------------------------------- quote -- */
 

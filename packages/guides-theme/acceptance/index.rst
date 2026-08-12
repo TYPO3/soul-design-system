@@ -55,8 +55,11 @@ second sentence, so the measure has something to hold: text is set at
 sixty-six characters and everything wider than words runs to the column.
 
 | A line block keeps the breaks the author put in,
-| which is what an address or a verse needs,
-| and it is also what ``confval`` builds its metadata from.
+| which is what an address or a verse needs.
+|
+| A line left empty is a line, and an indented run keeps its step:
+|     one line in,
+|     and a second under it.
 
    A block quote is somebody else's sentences, stepped in and marked at the
    edge rather than set in italics.

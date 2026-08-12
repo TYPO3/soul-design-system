@@ -53,7 +53,8 @@ What it sets
      - ``h1``–``h6``, all six levels, and ``.sds-permalink`` — the mark that
        hands over the place a heading names
    * - Blocks
-     - paragraphs, block quotes, transitions, code blocks and literal blocks
+     - paragraphs, block quotes, transitions, code blocks and literal blocks,
+       and line blocks — where the break is the content
    * - Lists
      - the rhythm of bullets and numbers, nested, and definition lists — the
        marker and the indent are ``soul.css``, because a screen has lists too

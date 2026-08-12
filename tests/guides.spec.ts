@@ -212,6 +212,32 @@ test.describe('what the theme repaired', () => {
     expect(dim).not.toBe(term);
   });
 
+  test('a line block keeps the breaks it was written with', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    const rows = await page.evaluate(() =>
+      [...document.querySelectorAll('.sds-prose .line-block .line')].map((line) => {
+        const box = line.getBoundingClientRect();
+        return { text: (line.textContent ?? '').trim(), top: box.top, left: box.left, height: box.height };
+      }));
+
+    /* The break is the content here, so nothing may close one up: every line
+       is a row of its own, in the order it was written. */
+    expect(rows.length).toBeGreaterThan(3);
+    expect(new Set(rows.map((r) => r.top)).size).toBe(rows.length);
+    expect(rows.map((r) => r.top)).toEqual([...rows].map((r) => r.top).sort((a, b) => a - b));
+
+    /* A line nobody wrote in is the gap in a stanza, and a `div` with nothing
+       in it has no height at all. */
+    const blank = rows.filter((r) => r.text === '');
+    expect(blank.length).toBeGreaterThan(0);
+    expect(Math.min(...blank.map((r) => r.height))).toBeGreaterThan(0);
+
+    /* And an indented run keeps the step it was indented by. */
+    const edge = Math.min(...rows.map((r) => r.left));
+    expect(rows.some((r) => r.left > edge)).toBe(true);
+  });
+
   test('a component in the text speaks the size of the text', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
