@@ -224,6 +224,9 @@ Pictures
    The caption, which sits under the picture and reads as a label for it
    rather than as a sentence of the text.
 
+.. image:: /_images/placeholder.svg
+   :alt: A placeholder, dropped into the page without a claim under it
+
 Cards
 =====
 

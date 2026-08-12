@@ -225,6 +225,32 @@ overflows only where its own minimum is wider than the column.
 The ``:widths:`` option, the caption and the header rows are the renderer's
 own, and they survive.
 
+Pictures
+========
+
+``.. figure::`` and ``.. image::`` are the same picture to a reader, and both
+become ``<sds-figure>``. What the renderer writes on its own is a bare
+``<figure>`` — no frame around the picture, no ground under one that does not
+fill the column it was put in, and a caption set as running text at the size of
+the prose beside it. A drawing exported on white then stands in a hole on a
+dark page, and one exported on nothing has no edge saying where it ends.
+
+The two directives differ in one thing, and it is the caption: a figure is a
+picture the author made a claim about, an image is one they dropped in. The
+claim is drawn under the frame in the register a caption belongs to, quieter
+and smaller than the text; a picture that makes none gets the frame alone,
+rather than an empty line under it.
+
+A drawing this system ships is *referenced* into the page and everything else
+is linked. That distinction is the element's and it matters here: a referenced
+SVG is drawn in the page's own tokens and follows it into dark, while an
+``<img>`` renders in a document of its own where none of them are declared. It
+costs the drawing one line — ``id="art"`` on its root — and
+:doc:`/design-system/artwork` says what else it has to do.
+
+``:target:`` stays a link around the picture. ``:align:`` is dropped, for the
+reason the sidebar is: a measure this narrow has nothing to float beside.
+
 Embedded documents
 ==================
 
@@ -252,7 +278,7 @@ Everything else
 ===============
 
 What is left is running text — paragraphs, lists, quotes, transitions, inline
-literals, figures, the six heading levels — and no template can reach it,
+literals, the six heading levels — and no template can reach it,
 because the renderer writes no name on any of it. That is the document layer's
 half of the job, and :doc:`/frontend/documents` is where it is written down.
 
@@ -292,6 +318,8 @@ Which template does which
      - the reference entry, and its labels
    * - ``body/menu/*``
      - the rail, the trail, the printed toctree, the local contents
+   * - ``body/figure``, ``body/image``
+     - ``sds-figure``: the frame both get, and the caption only one has
    * - ``body/embedded-frame``
      - ``sds-embed``: the frame a video fills and the size a specimen keeps
    * - ``inline/footnote``

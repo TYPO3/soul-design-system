@@ -1,0 +1,29 @@
+{#
+    A picture on its own — `.. image::`, which is a figure with nothing claimed
+    under it.
+
+    The core writes a bare `<img>` into the prose, and a picture standing on the
+    page ground with no edge around it is the same failure `figure.html.twig`
+    exists to stop: a drawing exported on white sits in a hole in dark, and one
+    that does not fill its column has nothing saying where it ends. So the node
+    comes out as `sds-figure` too — the frame, the ground and `sds-art` are
+    decided once, for everything that shows a picture.
+
+    What it does not get is a caption, and that is the whole difference between
+    the two directives: a figure is a picture an author made a claim about, an
+    image is one they dropped in. The element draws the frame without one.
+
+    `:target:` stays a link around the picture, where the core put it as well.
+    `:align:` and `:title:` are dropped — a column this narrow has nothing to
+    float beside, and a tooltip is a label only a mouse can read.
+#}
+{%- set source = node.value is external_target ? node.value : asset(node.value) -%}
+{%- if node.target %}<a href="{{ node.target.url }}">{% endif -%}
+<sds-figure
+    src="{{ source }}"
+    alt="{{ node.option('alt')|default('') }}"
+    {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}
+    {%- if node.hasOption('height') %} height="{{ node.option('height') }}"{% endif -%}
+    {%- if node.classesString %} class="{{ node.classesString }}"{% endif -%}
+></sds-figure>
+{%- if node.target %}</a>{% endif -%}

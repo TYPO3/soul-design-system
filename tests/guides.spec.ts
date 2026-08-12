@@ -443,6 +443,23 @@ test.describe('what the theme repaired', () => {
     await expect(last.locator('.sds-card__action')).toHaveCount(0);
   });
 
+  test('a picture is framed whether or not there is a claim under it', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* `.. figure::` and `.. image::` are the same picture to a reader; only one
+       of them says what it is for. The core writes the second as a bare `<img>`
+       standing on the page ground, which is a drawing exported on white sitting
+       in a hole in dark — so both are the element, and neither is an `<img>`
+       the document layer has to catch. */
+    await expect(page.locator('.sds-prose img')).toHaveCount(0);
+    const framed = page.locator('.sds-prose sds-figure .sds-figure__frame');
+    await expect(framed).toHaveCount(2);
+
+    /* And what separates them: the caption is the claim, so the picture that
+       makes none is drawn without one rather than under an empty line. */
+    await expect(page.locator('.sds-prose .sds-figure__caption')).toHaveCount(1);
+  });
+
   test('the column counts of a card grid become how much room a card gets', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
