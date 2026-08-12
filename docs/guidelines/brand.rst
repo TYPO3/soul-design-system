@@ -5,7 +5,7 @@ Brand
 =====
 
 **The signet is a construction, not a fixed drawing.** What this system
-fixes is *how* one is built. The mark in ``assets/`` came from the Dev
+fixes is *how* one is built. The mark in ``packages/frontend/assets/`` came from the Dev
 Companion prototype and is a worked example of the rules — the reference
 implementation, not an approved product mark. A product adopting this system
 draws its own to the same construction.

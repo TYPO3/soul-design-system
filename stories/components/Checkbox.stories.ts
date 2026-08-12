@@ -8,8 +8,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/checkbox.ts';
-import { type CheckboxProps } from '../../src/components/checkbox.ts';
+import '../../packages/frontend/src/components/checkbox.ts';
+import { type CheckboxProps } from '../../packages/frontend/src/components/checkbox.ts';
 
 const sdsCheckbox = ({ label, hint, checked = false, name, required, disabled }: CheckboxProps) =>
   html`<sds-checkbox

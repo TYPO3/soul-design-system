@@ -9,9 +9,9 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/modal.ts';
-import '../../src/components/overlay.ts';
-import '../../src/components/button.ts';
+import '../../packages/frontend/src/components/modal.ts';
+import '../../packages/frontend/src/components/overlay.ts';
+import '../../packages/frontend/src/components/button.ts';
 
 const ACTIONS = [
   html`<sds-button variant="ghost" size="sm">Cancel</sds-button>`,

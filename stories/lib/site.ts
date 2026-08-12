@@ -8,13 +8,13 @@
    component. */
 
 import { html, type TemplateResult } from 'lit';
-import '../../src/components/badge.ts';
-import '../../src/components/footer.ts';
-import '../../src/components/menu.ts';
-import '../../src/components/search.ts';
-import '../../src/components/image.ts';
-import '../../src/components/theme.ts';
-import { type FooterGroup, type FooterLink } from '../../src/components/footer.ts';
+import '../../packages/frontend/src/components/badge.ts';
+import '../../packages/frontend/src/components/footer.ts';
+import '../../packages/frontend/src/components/menu.ts';
+import '../../packages/frontend/src/components/search.ts';
+import '../../packages/frontend/src/components/image.ts';
+import '../../packages/frontend/src/components/theme.ts';
+import { type FooterGroup, type FooterLink } from '../../packages/frontend/src/components/footer.ts';
 
 /* The site's sections. They are other pages rather than places on this one,
    and a static screen carries no site around it — so the targets are stubs and

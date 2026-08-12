@@ -10,8 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/image.ts';
-import { type ImageProps } from '../../src/components/image.ts';
+import '../../packages/frontend/src/components/image.ts';
+import { type ImageProps } from '../../packages/frontend/src/components/image.ts';
 
 /* Storybook serves `assets/` at `/assets`; a page under `screens/` reaches the
    same files at `../assets`. The path is the caller's, which is why this

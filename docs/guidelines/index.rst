@@ -34,7 +34,7 @@ made something worse in a way that took a while to see.
   navigation item, the shell prompt in a code block, the pipe in the wordmark.
 - **No shadows.** Separation is a hairline plus ``--surface-overlay``. The
   focus ring is the single ``box-shadow`` in the system, and it is a state.
-- **No emoji.** Status is a colour plus a glyph from ``assets/icons/``.
+- **No emoji.** Status is a colour plus a glyph from ``packages/frontend/assets/icons/``.
 - **Mono is semantic.** Anything the machine reads, writes or names is Source
   Code Pro, verbatim, at every size.
 - **16px is the floor** for the signet and the icons.
@@ -52,15 +52,15 @@ Where the rules live
 .. list-table::
    :header-rows: 0
 
-   * - ``src/tokens/*.css``
+   * - ``packages/frontend/src/tokens/*.css``
      - the values: colour, type, control scale, spacing, radius, motion
-   * - ``src/styles/styles.css``
+   * - ``packages/frontend/src/styles/styles.css``
      - the single entry point — tokens, then the component layer
-   * - ``src/styles/components.css``
+   * - ``packages/frontend/src/styles/components.css``
      - the ``sds-`` class vocabulary every surface is built from
-   * - ``src/styles/document.css``
+   * - ``packages/frontend/src/styles/document.css``
      - the document layer, linked beside it where prose is being set
-   * - ``src/components/*.ts``
+   * - ``packages/frontend/src/components/*.ts``
      - the elements, which emit exactly those classes
    * - ``stories/**/*.stories.ts``
      - what every specimen card is generated from

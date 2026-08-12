@@ -10,8 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/figure.ts';
-import { type FigureProps } from '../../src/components/figure.ts';
+import '../../packages/frontend/src/components/figure.ts';
+import { type FigureProps } from '../../packages/frontend/src/components/figure.ts';
 
 const sdsFigure = ({ src, alt, caption, zoomable = false }: FigureProps) =>
   html`<sds-figure src="${src}" alt="${alt}" .caption="${caption ?? ''}" ?zoomable="${zoomable}"></sds-figure>`;

@@ -11,9 +11,9 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/footer.ts';
-import '../../src/components/link.ts';
-import { type FooterProps } from '../../src/components/footer.ts';
+import '../../packages/frontend/src/components/footer.ts';
+import '../../packages/frontend/src/components/link.ts';
+import { type FooterProps } from '../../packages/frontend/src/components/footer.ts';
 import { SITE_GROUPS, SITE_META, SITE_NOTE } from '../lib/site.ts';
 
 const sdsFooter = ({ groups, note, meta: end }: FooterProps) =>

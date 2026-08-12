@@ -9,8 +9,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/pagination.ts';
-import { type PageChange, type PaginationProps } from '../../src/components/pagination.ts';
+import '../../packages/frontend/src/components/pagination.ts';
+import { type PageChange, type PaginationProps } from '../../packages/frontend/src/components/pagination.ts';
 
 const sdsPagination = ({ count, perPage = 10, current = 1, href, label }: PaginationProps) =>
   html`<sds-pagination count="${count}" per-page="${perPage}" current="${current}" href="${href ?? '#page-{n}'}" label="${label ?? ''}"></sds-pagination>`;

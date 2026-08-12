@@ -10,9 +10,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/field.ts';
-import '../../src/components/field-error.ts';
-import { type FieldProps } from '../../src/components/field.ts';
+import '../../packages/frontend/src/components/field.ts';
+import '../../packages/frontend/src/components/field-error.ts';
+import { type FieldProps } from '../../packages/frontend/src/components/field.ts';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { DIVIDER, dsCard, part, spec, specCap, specRow } from '../lib/specimen.ts';
 

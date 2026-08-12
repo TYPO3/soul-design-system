@@ -12,10 +12,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/checkbox.ts';
-import '../../src/components/field.ts';
-import '../../src/components/form-errors.ts';
-import '../../src/components/radio-group.ts';
+import '../../packages/frontend/src/components/checkbox.ts';
+import '../../packages/frontend/src/components/field.ts';
+import '../../packages/frontend/src/components/form-errors.ts';
+import '../../packages/frontend/src/components/radio-group.ts';
 import { DIVIDER, dsCard, part, spec, specCap, specRow } from '../lib/specimen.ts';
 
 /** A field as a form asks for one: the label above it, the hint under it. */

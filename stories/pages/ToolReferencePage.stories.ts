@@ -10,18 +10,18 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../src/components/badge.ts';
-import '../../src/components/field.ts';
-import '../../src/components/menu.ts';
-import '../../src/components/note.ts';
-import '../../src/components/image.ts';
-import '../../src/components/table.ts';
-import '../../src/components/tabs.ts';
-import '../../src/components/tab-item.ts';
-import '../../src/components/theme.ts';
-import { type BadgeTone } from '../../src/components/badge.ts';
-import { type Column, type Row } from '../../src/components/table.ts';
-import { tabsBarMarkup } from '../../src/components/tabs.ts';
+import '../../packages/frontend/src/components/badge.ts';
+import '../../packages/frontend/src/components/field.ts';
+import '../../packages/frontend/src/components/menu.ts';
+import '../../packages/frontend/src/components/note.ts';
+import '../../packages/frontend/src/components/image.ts';
+import '../../packages/frontend/src/components/table.ts';
+import '../../packages/frontend/src/components/tabs.ts';
+import '../../packages/frontend/src/components/tab-item.ts';
+import '../../packages/frontend/src/components/theme.ts';
+import { type BadgeTone } from '../../packages/frontend/src/components/badge.ts';
+import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
+import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
 import { dsScreen, NNBSP, part, px } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';
 

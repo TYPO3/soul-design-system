@@ -24,7 +24,7 @@ DOM* and emit exactly those classes, so `components.css` stays the single
 source of truth and the two are the same markup:
 
 ```js
-import '@typo3/soul-design-system/src/index.ts';
+import '@typo3/soul-frontend/src/index.ts';
 
 // <sds-button variant="primary" label="Run the checks"></sds-button>
 ```
@@ -81,10 +81,10 @@ is not in question; the names still are.
 | Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens |
 | `specimens/` | `make cards` | every specimen card and screen, rendered from the stories that compose them |
 | `site/` | `make guides` | the documentation, rendered from `docs/` by phpDocumentor Guides through this system's own theme |
-| `dist/` | `make dist` | the publishable ESM package and its types |
+| `packages/frontend/dist/` | `make dist` | the publishable ESM package and its types |
 | `ds-bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
 
-None of them is edited by hand. Change a component in `src/`, change the
+None of them is edited by hand. Change a component in `packages/frontend/src/`, change the
 class layer in `styles/`, change a value in `tokens/` — then regenerate.
 
 `ARCHITECTURE.md` says how the pieces are wired and which decisions are
@@ -127,19 +127,19 @@ repository directly, in CI as well as locally:
 
 ```json
 "devDependencies": {
-  "@typo3/soul-design-system": "github:benjaminkott/typo3-soul-design-system#<sha>"
+  "@typo3/soul-frontend": "github:benjaminkott/typo3-soul-design-system#<sha>"
 }
 ```
 
 No build runs on install: this package has no `prepare` script, and the CSS
-exports point at `src/`, not at a compiled artefact.
+exports point at `packages/frontend/src/`, not at a compiled artefact.
 
 ```js
-import '@typo3/soul-design-system/dist/soul.css';   // tokens + class layer
-import '@typo3/soul-design-system/dist/soul.js';    // every sds- element
+import '@typo3/soul-frontend/dist/soul.css';   // tokens + class layer
+import '@typo3/soul-frontend/dist/soul.js';    // every sds- element
 ```
 
-**A second stylesheet, for documents only.** `dist/document.css` is the
+**A second stylesheet, for documents only.** `packages/frontend/dist/document.css` is the
 document layer: element selectors for what a renderer emits and never gives a
 class — headings, paragraphs, lists, quotes, tables, code. It is scoped to
 `.sds-prose`, and it is **not** imported by `soul.css`. An application surface
@@ -147,7 +147,7 @@ wants no opinion about every `<p>` on the page; a page of prose does, and asks
 for it:
 
 ```js
-import '@typo3/soul-design-system/dist/document.css';
+import '@typo3/soul-frontend/dist/document.css';
 ```
 
 **The import path is the path in the repository.** There are no friendly
@@ -155,30 +155,30 @@ aliases, on purpose: an alias is a second name for one file, and the two drift
 or, worse, both work and mean slightly different things. What you read here is
 what you write there.
 
-**Take `dist/` over a git install.** It is committed, it carries its own Lit,
-and it needs nothing installed beside it. `src/` is exported too, but it does
-not compile from a clone: `src/lib/icons.generated.ts` is generated from
-`@typo3/icons` and is not in the repository, so `src/components/icon.ts`
-imports a file that is not there. Reach for `src/` only in a checkout that has
+**Take `packages/frontend/dist/` over a git install.** It is committed, it carries its own Lit,
+and it needs nothing installed beside it. `packages/frontend/src/` is exported too, but it does
+not compile from a clone: `packages/frontend/src/lib/icons.generated.ts` is generated from
+`@typo3/icons` and is not in the repository, so `packages/frontend/src/components/icon.ts`
+imports a file that is not there. Reach for `packages/frontend/src/` only in a checkout that has
 run the generators.
 
-Or skip the bundler entirely — copy `dist/` somewhere public and link it:
+Or skip the bundler entirely — copy `packages/frontend/dist/` somewhere public and link it:
 
 ```html
 <link rel="stylesheet" href="/soul/soul.css">
 <script type="module" src="/soul/soul.js"></script>
 ```
 
-**What a git install does and does not carry.** `src/tokens/`, `src/styles/`
-and the brand assets under `assets/` are in the repository and arrive.
-`assets/icons/`, `fonts/` and `dist/` are generated here and gitignored, so
+**What a git install does and does not carry.** `packages/frontend/src/tokens/`, `packages/frontend/src/styles/`
+and the brand assets under `packages/frontend/assets/` are in the repository and arrive.
+`packages/frontend/assets/icons/`, `packages/frontend/fonts/` and `packages/frontend/dist/` are generated here and gitignored, so
 they do not — and deliberately:
 
 | you want | take it from | why not from here |
 | --- | --- | --- |
 | the icons | `@typo3/icons` | they are TYPO3's, not ours. `scripts/icons.ts` names the identifiers this system uses; copy that list, not the files |
 | the font families | `@fontsource/source-sans-3`, `@fontsource/source-code-pro` | same reason, and your bundler wants its own subsetting |
-| a prebuilt `<script src>` bundle | `make dist`, unpublished | a build product. If you bundle, import `src/index.ts` instead |
+| a prebuilt `<script src>` bundle | `make dist`, unpublished | a build product. If you bundle, import `packages/frontend/src/index.ts` instead |
 
 A copy of an upstream file is a copy that can go stale against the version
 that produced it — which is exactly the failure this system had to repair in
@@ -243,15 +243,15 @@ creates a second one. It compares against the anchor the project stores
 
 | Path | |
 | --- | --- |
-| **`src/`** | **the design system — everything below is generated from it** |
-| `src/tokens/*.css` | colour, type, control scale, spacing, radius, motion — the values |
-| `src/styles/styles.css` | the single entry point: tokens, then the component layer |
-| `src/styles/components.css` | the `sds-` class vocabulary every surface is built from |
-| `src/styles/document.css` | the document layer — what a renderer emits and never classes, scoped to `.sds-prose`. Also **not** in the `styles.css` closure: an application surface takes no opinion about every `<p>` |
-| `src/styles/_specimen.css` | chrome for the cards only — deliberately **not** in the `styles.css` closure, so a rendered design never inherits it |
-| `src/components/*.ts` | the Lit elements and the template functions they render |
-| `src/lib/` | the element base, the icon inliner, the static renderer |
-| `src/index.ts` | the bundle entry — importing it registers every `sds-*` element |
+| **`packages/frontend/src/`** | **the design system — everything below is generated from it** |
+| `packages/frontend/src/tokens/*.css` | colour, type, control scale, spacing, radius, motion — the values |
+| `packages/frontend/src/styles/styles.css` | the single entry point: tokens, then the component layer |
+| `packages/frontend/src/styles/components.css` | the `sds-` class vocabulary every surface is built from |
+| `packages/frontend/src/styles/document.css` | the document layer — what a renderer emits and never classes, scoped to `.sds-prose`. Also **not** in the `styles.css` closure: an application surface takes no opinion about every `<p>` |
+| `packages/frontend/src/styles/_specimen.css` | chrome for the cards only — deliberately **not** in the `styles.css` closure, so a rendered design never inherits it |
+| `packages/frontend/src/components/*.ts` | the Lit elements and the template functions they render |
+| `packages/frontend/src/lib/` | the element base, the icon inliner, the static renderer |
+| `packages/frontend/src/index.ts` | the bundle entry — importing it registers every `sds-*` element |
 | | |
 | `stories/` | the specimen every card and screen is generated from, and the components with their controls |
 | `docs/` | the published documentation — the manual, the guideline pages with their specimens embedded, and the prompts those pages print whole |
@@ -263,8 +263,8 @@ creates a second one. It compares against the anchor the project stores
 | `.github/` | the gate on every push, and the site published from `main` |
 | | |
 | `specimens/` | **generated** — the cards and the screens, the latter offered as Starting Points in a consuming project |
-| `fonts/`, `assets/icons/` | **generated** from the npm packages |
-| `ds-bundle/`, `dist/` | **generated** exports |
+| `packages/frontend/fonts/`, `packages/frontend/assets/icons/` | **generated** from the npm packages |
+| `ds-bundle/`, `packages/frontend/dist/` | **generated** exports |
 | `site/` | **generated** — the publish root, and the one export that is not committed: a drop-in is copied, a site is published |
 | | |
 | `ARCHITECTURE.md` | how this repo is built, and what has already gone wrong |
@@ -299,7 +299,7 @@ A screen is its own thumbnail — there is no thumbnail file anywhere.
 | `typecheck` | `tsc --noEmit` |
 | `shell` | a prompt inside the image |
 
-`fonts/` and `assets/icons/` are generated from npm packages and are **not**
+`packages/frontend/fonts/` and `packages/frontend/assets/icons/` are generated from npm packages and are **not**
 in git. The container's entrypoint regenerates them whenever they are
 missing, so a fresh clone needs no setup step — without them every card would
 render in system-ui with no icons, which looks like a design bug and is not
@@ -307,7 +307,7 @@ one.
 
 ### Changing a component
 
-Edit `src/<component>.ts`. Every card is **generated** from the story that
+Edit `packages/frontend/src/<component>.ts`. Every card is **generated** from the story that
 composes it — `make cards` writes it, and `make verify` fails if one is stale
 *or* if a card on disk has no story behind it. A card edited by hand is
 silently reverted on the next generate; a card written by hand is a build
@@ -325,11 +325,11 @@ is no build step for development. `make dist` exists only for publishing.
 Adding a font weight or an icon means editing the `FAMILIES` / `ICONS` list
 in `scripts/fonts.ts` or `scripts/icons.ts` — never the generated output.
 The icon's identifier is also its path, by its first segment:
-`actions-search` → `src/actions/actions-search.svg` in `@typo3/icons`, and at
+`actions-search` → `packages/frontend/src/actions/actions-search.svg` in `@typo3/icons`, and at
 the same path under
 `https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/` or
 `https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/` — that is how a
-surface pulls one this set does not cover. `dist/icons.json` in the package
+surface pulls one this set does not cover. `packages/frontend/dist/icons.json` in the package
 lists every identifier and the deprecated aliases; `THIRD-PARTY.md` records the
 whole provenance. A missing icon is contributed to
 [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons) first; the script

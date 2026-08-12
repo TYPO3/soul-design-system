@@ -10,8 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/quote.ts';
-import { type QuoteProps } from '../../src/components/quote.ts';
+import '../../packages/frontend/src/components/quote.ts';
+import { type QuoteProps } from '../../packages/frontend/src/components/quote.ts';
 
 const sdsQuote = ({ body, by, as: what, href }: QuoteProps) =>
   html`<sds-quote .body="${body}" by="${by}" as="${what ?? ''}" href="${href ?? ''}"></sds-quote>`;

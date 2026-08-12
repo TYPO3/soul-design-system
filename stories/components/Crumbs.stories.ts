@@ -10,8 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/crumbs.ts';
-import { type Crumb, type CrumbsProps } from '../../src/components/crumbs.ts';
+import '../../packages/frontend/src/components/crumbs.ts';
+import { type Crumb, type CrumbsProps } from '../../packages/frontend/src/components/crumbs.ts';
 
 const sdsCrumbs = ({ items, label }: CrumbsProps) =>
   html`<sds-crumbs .items="${items}" label="${label ?? 'Breadcrumb'}"></sds-crumbs>`;

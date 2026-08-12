@@ -161,7 +161,7 @@ jobs:
         run: |
           composer install --no-interaction --no-progress
           vendor/bin/guides docs --output=site -c docs --fail-on-error
-          node .soul/dist/soul-finish.js site
+          node .soul/packages/frontend/dist/soul-finish.js site
 
       # The finishing step already refuses a reference that leaves the site.
       # What is asked here is the other half of the promise: that the pages

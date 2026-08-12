@@ -10,8 +10,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/icon.ts';
-import { type IconId } from '../../src/components/icon.ts';
+import '../../packages/frontend/src/components/icon.ts';
+import { type IconId } from '../../packages/frontend/src/components/icon.ts';
 import { dsCard, indent, NNBSP, part, spec } from '../lib/specimen.ts';
 
 /** The ring, as every control gets it. */

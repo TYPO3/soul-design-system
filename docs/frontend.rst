@@ -33,12 +33,12 @@ Two shapes
 
       .. code-block:: bash
 
-         npm install @typo3/soul-design-system lit
+         npm install @typo3/soul-frontend lit
 
       .. code-block:: javascript
 
-         import '@typo3/soul-design-system';
-         import '@typo3/soul-design-system/dist/soul.css';
+         import '@typo3/soul-frontend';
+         import '@typo3/soul-frontend/dist/soul.css';
 
 .. confval:: data-theme
    :type: "light" | "dark"

@@ -11,10 +11,10 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../src/components/empty.ts';
-import '../../src/components/field.ts';
-import '../../src/components/link.ts';
-import '../../src/components/surface.ts';
+import '../../packages/frontend/src/components/empty.ts';
+import '../../packages/frontend/src/components/field.ts';
+import '../../packages/frontend/src/components/link.ts';
+import '../../packages/frontend/src/components/surface.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';

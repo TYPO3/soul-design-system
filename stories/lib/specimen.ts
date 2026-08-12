@@ -10,7 +10,7 @@
    through `part()`, which renders one to its static markup first. */
 
 import type { TemplateResult } from 'lit';
-import { renderStatic } from '../../src/lib/render.ts';
+import { renderStatic } from '../../packages/frontend/src/lib/render.ts';
 
 /** Render a component template to the static markup a card ships. */
 export const part = (template: TemplateResult): string => renderStatic(template);

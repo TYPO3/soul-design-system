@@ -11,9 +11,9 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/note.ts';
-import '../../src/components/code.ts';
-import { type NoteProps } from '../../src/components/note.ts';
+import '../../packages/frontend/src/components/note.ts';
+import '../../packages/frontend/src/components/code.ts';
+import { type NoteProps } from '../../packages/frontend/src/components/note.ts';
 
 const meta: Meta<NoteProps> = {
   title: 'Components/Note',

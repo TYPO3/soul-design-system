@@ -1566,7 +1566,7 @@ var require_core = __commonJS({
   }
 });
 
-// src/lib/element.ts
+// packages/frontend/src/lib/element.ts
 import { LitElement } from "lit";
 var CONTENT = "data-sds-content";
 var SdsElement = class extends LitElement {
@@ -1618,11 +1618,11 @@ function define(tag, ctor) {
   if (!customElements.get(tag)) customElements.define(tag, ctor);
 }
 
-// src/components/icon.ts
+// packages/frontend/src/components/icon.ts
 import { html } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
-// src/components/icons.generated.ts
+// packages/frontend/src/components/icons.generated.ts
 var ICON_IDS = [
   "actions-accessibility",
   "actions-approve",
@@ -2018,7 +2018,7 @@ var ICON_IDS = [
   "actions-workspace"
 ];
 
-// src/components/icon.ts
+// packages/frontend/src/components/icon.ts
 var DEFAULT_SIZE = "em";
 var INTRINSIC = 16;
 function bundledBeside() {
@@ -2063,13 +2063,13 @@ var SdsIcon = class extends SdsElement {
 define("sds-icon", SdsIcon);
 var iconIds = ICON_IDS;
 
-// src/components/search.ts
+// packages/frontend/src/components/search.ts
 import { html as html6, nothing as nothing2 } from "lit";
 
-// src/components/result.ts
+// packages/frontend/src/components/result.ts
 import { html as html3, nothing } from "lit";
 
-// src/components/badge.ts
+// packages/frontend/src/components/badge.ts
 import { html as html2 } from "lit";
 var SdsBadge = class _SdsBadge extends SdsElement {
   static {
@@ -2100,7 +2100,7 @@ var SdsBadge = class _SdsBadge extends SdsElement {
 };
 define("sds-badge", SdsBadge);
 
-// src/components/result.ts
+// packages/frontend/src/components/result.ts
 var SdsResult = class extends SdsElement {
   static {
     this.properties = {
@@ -2157,10 +2157,10 @@ var SdsResult = class extends SdsElement {
 };
 define("sds-result", SdsResult);
 
-// src/components/empty.ts
+// packages/frontend/src/components/empty.ts
 import { html as html5 } from "lit";
 
-// src/components/link.ts
+// packages/frontend/src/components/link.ts
 import { html as html4 } from "lit";
 var SdsLink = class _SdsLink extends SdsElement {
   static {
@@ -2193,7 +2193,7 @@ var SdsLink = class _SdsLink extends SdsElement {
 };
 define("sds-link", SdsLink);
 
-// src/components/empty.ts
+// packages/frontend/src/components/empty.ts
 var SdsEmpty = class _SdsEmpty extends SdsElement {
   static {
     this.KIND_ICON = {
@@ -2243,7 +2243,7 @@ var SdsEmpty = class _SdsEmpty extends SdsElement {
 };
 define("sds-empty", SdsEmpty);
 
-// src/components/search.ts
+// packages/frontend/src/components/search.ts
 var seq = 0;
 var SdsSearch = class extends SdsElement {
   constructor() {
@@ -2412,7 +2412,7 @@ var SdsSearch = class extends SdsElement {
 };
 define("sds-search", SdsSearch);
 
-// src/components/theme.ts
+// packages/frontend/src/components/theme.ts
 import { html as html7 } from "lit";
 var themeBoot = (key = "theme") => `var t=localStorage.getItem(${JSON.stringify(key)});if(t){document.documentElement.dataset.theme=t}`;
 function paintFrames(mode) {
@@ -2500,7 +2500,7 @@ var SdsTheme = class extends SdsElement {
 };
 define("sds-theme", SdsTheme);
 
-// src/components/button.ts
+// packages/frontend/src/components/button.ts
 import { html as html8 } from "lit";
 function buttonClass({ variant = "primary", size = "md", iconOnly = false, disabled = false }) {
   const cls = ["sds-btn", `sds-btn--${variant}`];
@@ -2582,7 +2582,7 @@ var SdsButton = class extends SdsElement {
 };
 define("sds-button", SdsButton);
 
-// src/components/crumbs.ts
+// packages/frontend/src/components/crumbs.ts
 import { html as html9 } from "lit";
 var SdsCrumbs = class extends SdsElement {
   static {
@@ -2608,11 +2608,11 @@ var SdsCrumbs = class extends SdsElement {
 };
 define("sds-crumbs", SdsCrumbs);
 
-// src/components/field.ts
+// packages/frontend/src/components/field.ts
 import { html as html11, nothing as nothing3 } from "lit";
 import { unsafeHTML as unsafeHTML2 } from "lit/directives/unsafe-html.js";
 
-// src/components/field-error.ts
+// packages/frontend/src/components/field-error.ts
 import { html as html10 } from "lit";
 var SdsFieldError = class extends SdsElement {
   static {
@@ -2628,7 +2628,7 @@ var SdsFieldError = class extends SdsElement {
 };
 define("sds-field-error", SdsFieldError);
 
-// src/components/field.ts
+// packages/frontend/src/components/field.ts
 var esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 function fieldClass({ focused, invalid, filled, select, rows, error }) {
   const cls = ["sds-field"];
@@ -2719,7 +2719,7 @@ var SdsField = class extends SdsElement {
 };
 define("sds-field", SdsField);
 
-// src/components/checkbox.ts
+// packages/frontend/src/components/checkbox.ts
 import { html as html12, nothing as nothing4 } from "lit";
 var SdsCheckbox = class extends SdsElement {
   static {
@@ -2772,7 +2772,7 @@ var SdsCheckbox = class extends SdsElement {
 };
 define("sds-checkbox", SdsCheckbox);
 
-// src/components/radio-group.ts
+// packages/frontend/src/components/radio-group.ts
 import { html as html13, nothing as nothing5 } from "lit";
 var SdsRadioGroup = class extends SdsElement {
   static {
@@ -2827,10 +2827,10 @@ var SdsRadioGroup = class extends SdsElement {
 };
 define("sds-radio-group", SdsRadioGroup);
 
-// src/components/form-errors.ts
+// packages/frontend/src/components/form-errors.ts
 import { html as html15 } from "lit";
 
-// src/components/note.ts
+// packages/frontend/src/components/note.ts
 import { html as html14, nothing as nothing6 } from "lit";
 var SdsNote = class _SdsNote extends SdsElement {
   constructor() {
@@ -2888,7 +2888,7 @@ var SdsNote = class _SdsNote extends SdsElement {
 };
 define("sds-note", SdsNote);
 
-// src/components/form-errors.ts
+// packages/frontend/src/components/form-errors.ts
 var SdsFormErrors = class extends SdsElement {
   static {
     this.properties = {
@@ -2928,10 +2928,10 @@ var SdsFormErrors = class extends SdsElement {
 };
 define("sds-form-errors", SdsFormErrors);
 
-// src/components/pills.ts
+// packages/frontend/src/components/pills.ts
 import { html as html17 } from "lit";
 
-// src/lib/template.ts
+// packages/frontend/src/lib/template.ts
 function lines(parts, indent = 0) {
   const gap = `
 ${" ".repeat(indent)}`;
@@ -2943,7 +2943,7 @@ ${" ".repeat(indent)}`;
   return out;
 }
 
-// src/components/nav-base.ts
+// packages/frontend/src/components/nav-base.ts
 import { html as html16, nothing as nothing7 } from "lit";
 var navLabel = (item) => typeof item === "string" ? item : item.label;
 var navHref = (item) => typeof item === "string" ? void 0 : item.href;
@@ -2993,7 +2993,7 @@ var SdsNav = class extends SdsElement {
   }
 };
 
-// src/components/pills.ts
+// packages/frontend/src/components/pills.ts
 var SdsPills = class extends SdsNav {
   constructor() {
     super(...arguments);
@@ -3008,7 +3008,7 @@ var SdsPills = class extends SdsNav {
 };
 define("sds-pills", SdsPills);
 
-// src/components/menu.ts
+// packages/frontend/src/components/menu.ts
 import { html as html18 } from "lit";
 var seq2 = 0;
 function boxes(row) {
@@ -3200,7 +3200,7 @@ var SdsMenu = class extends SdsNav {
 };
 define("sds-menu", SdsMenu);
 
-// src/components/accordion.ts
+// packages/frontend/src/components/accordion.ts
 import { html as html19, nothing as nothing8 } from "lit";
 var SdsAccordion = class extends SdsElement {
   static {
@@ -3233,10 +3233,10 @@ var SdsAccordion = class extends SdsElement {
 };
 define("sds-accordion", SdsAccordion);
 
-// src/components/tabs.ts
+// packages/frontend/src/components/tabs.ts
 import { html as html21, nothing as nothing9 } from "lit";
 
-// src/components/tab-item.ts
+// packages/frontend/src/components/tab-item.ts
 import { html as html20 } from "lit";
 var seq3 = 0;
 var SdsTabItem = class extends SdsElement {
@@ -3274,7 +3274,7 @@ var SdsTabItem = class extends SdsElement {
 };
 define("sds-tab-item", SdsTabItem);
 
-// src/components/tabs.ts
+// packages/frontend/src/components/tabs.ts
 function tabsBarMarkup(tabs, active, pick, onKey) {
   const buttons = tabs.map((tab, i) => {
     const cls = i === active ? "sds-tab is-active" : "sds-tab";
@@ -3365,7 +3365,7 @@ var SdsTabs = class extends SdsNav {
 };
 define("sds-tabs", SdsTabs);
 
-// src/components/rail.ts
+// packages/frontend/src/components/rail.ts
 import { html as html22, nothing as nothing10 } from "lit";
 var isGroup = (entry) => typeof entry !== "string" && Array.isArray(entry.items);
 var SdsRail = class extends SdsNav {
@@ -3459,7 +3459,7 @@ var SdsRail = class extends SdsNav {
 };
 define("sds-rail", SdsRail);
 
-// src/components/footer.ts
+// packages/frontend/src/components/footer.ts
 import { html as html23 } from "lit";
 var SdsFooter = class _SdsFooter extends SdsElement {
   static {
@@ -3508,7 +3508,7 @@ var SdsFooter = class _SdsFooter extends SdsElement {
 };
 define("sds-footer", SdsFooter);
 
-// src/components/surface.ts
+// packages/frontend/src/components/surface.ts
 import { html as html24 } from "lit";
 var SdsSurface = class extends SdsElement {
   static {
@@ -3545,7 +3545,7 @@ var SdsSurface = class extends SdsElement {
 };
 define("sds-surface", SdsSurface);
 
-// src/components/stat.ts
+// packages/frontend/src/components/stat.ts
 import { html as html25 } from "lit";
 var SdsStat = class extends SdsElement {
   static {
@@ -3571,24 +3571,24 @@ var SdsStat = class extends SdsElement {
 };
 define("sds-stat", SdsStat);
 
-// src/components/figure.ts
+// packages/frontend/src/components/figure.ts
 import { html as html28 } from "lit";
 
-// src/components/lightbox.ts
+// packages/frontend/src/components/lightbox.ts
 import { html as html27 } from "lit";
 
-// src/lib/art.ts
+// packages/frontend/src/lib/art.ts
 import { html as html26 } from "lit";
 import { unsafeHTML as unsafeHTML3 } from "lit/directives/unsafe-html.js";
 
-// src/components/diagrams.generated.ts
+// packages/frontend/src/components/diagrams.generated.ts
 var DIAGRAM_VIEWBOX = {
   "answer-sources": "0 0 1200 750",
   "installation-fallback": "0 0 1200 786",
   "system-overview": "0 0 1200 726"
 };
 
-// src/lib/art.ts
+// packages/frontend/src/lib/art.ts
 var GROUP = "art";
 var DRAWING = /\.svg(?:[?#].*)?$/i;
 var ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
@@ -3607,7 +3607,7 @@ function art(src, alt, cls = "sds-art", width, height) {
   )}`;
 }
 
-// src/components/lightbox.ts
+// packages/frontend/src/components/lightbox.ts
 var SdsLightbox = class extends SdsElement {
   constructor() {
     super();
@@ -3686,7 +3686,7 @@ var SdsLightbox = class extends SdsElement {
 };
 define("sds-lightbox", SdsLightbox);
 
-// src/components/figure.ts
+// packages/frontend/src/components/figure.ts
 var isCaption = (node) => node.nodeType === 1 && node.matches(".sds-figure__caption");
 var isNothing = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
 var SdsFigure = class extends SdsElement {
@@ -3750,7 +3750,7 @@ var SdsFigure = class extends SdsElement {
 };
 define("sds-figure", SdsFigure);
 
-// src/components/image.ts
+// packages/frontend/src/components/image.ts
 import "lit";
 var SdsImage = class extends SdsElement {
   static {
@@ -3791,7 +3791,7 @@ var SdsImage = class extends SdsElement {
 };
 define("sds-image", SdsImage);
 
-// src/components/embed.ts
+// packages/frontend/src/components/embed.ts
 import { html as html29, nothing as nothing11 } from "lit";
 var isCaption2 = (node) => node.nodeType === 1 && node.matches(".sds-embed__caption");
 var isNothing2 = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
@@ -3859,7 +3859,7 @@ var SdsEmbed = class extends SdsElement {
 };
 define("sds-embed", SdsEmbed);
 
-// src/components/overlay.ts
+// packages/frontend/src/components/overlay.ts
 import { html as html30 } from "lit";
 var SdsOverlay = class extends SdsElement {
   render() {
@@ -3868,7 +3868,7 @@ var SdsOverlay = class extends SdsElement {
 };
 define("sds-overlay", SdsOverlay);
 
-// src/components/modal.ts
+// packages/frontend/src/components/modal.ts
 import { html as html31 } from "lit";
 var SdsModal = class extends SdsElement {
   static {
@@ -3903,7 +3903,7 @@ var SdsModal = class extends SdsElement {
 };
 define("sds-modal", SdsModal);
 
-// src/components/drawer.ts
+// packages/frontend/src/components/drawer.ts
 import { html as html32 } from "lit";
 var SdsDrawer = class extends SdsElement {
   static {
@@ -3925,7 +3925,7 @@ var SdsDrawer = class extends SdsElement {
 };
 define("sds-drawer", SdsDrawer);
 
-// src/components/dialog.ts
+// packages/frontend/src/components/dialog.ts
 import { html as html33 } from "lit";
 var SdsDialog = class extends SdsElement {
   static {
@@ -3994,7 +3994,7 @@ var SdsDialog = class extends SdsElement {
 };
 define("sds-dialog", SdsDialog);
 
-// src/components/table.ts
+// packages/frontend/src/components/table.ts
 import { html as html34, nothing as nothing12 } from "lit";
 var SdsTable = class extends SdsElement {
   static {
@@ -4036,7 +4036,7 @@ var SdsTable = class extends SdsElement {
 };
 define("sds-table", SdsTable);
 
-// src/components/teaser.ts
+// packages/frontend/src/components/teaser.ts
 import { html as html35 } from "lit";
 var SdsTeaser = class extends SdsElement {
   constructor() {
@@ -4093,7 +4093,7 @@ var SdsTeaser = class extends SdsElement {
 };
 define("sds-teaser", SdsTeaser);
 
-// src/components/pagination.ts
+// packages/frontend/src/components/pagination.ts
 import { html as html36 } from "lit";
 function pageHref(href, page) {
   return href.includes("{n}") ? href.replace(/\{n\}/g, String(page)) : `${href}${page}`;
@@ -4174,7 +4174,7 @@ var SdsPagination = class extends SdsElement {
 };
 define("sds-pagination", SdsPagination);
 
-// src/components/code.ts
+// packages/frontend/src/components/code.ts
 import { html as html37 } from "lit";
 import { unsafeHTML as unsafeHTML4 } from "lit/directives/unsafe-html.js";
 
@@ -9275,7 +9275,7 @@ function yaml(hljs) {
   };
 }
 
-// src/lib/highlight.ts
+// packages/frontend/src/lib/highlight.ts
 var GRAMMARS = {
   bash,
   css,
@@ -9301,7 +9301,7 @@ function highlight(lang, source) {
   return core_default.highlight(source, { language: lang, ignoreIllegals: true }).value;
 }
 
-// src/components/code.ts
+// packages/frontend/src/components/code.ts
 var isCaption3 = (node) => node.nodeType === 1 && node.matches(".sds-code__caption");
 var SdsCode = class extends SdsElement {
   constructor() {
@@ -9442,7 +9442,7 @@ var SdsCode = class extends SdsElement {
 };
 define("sds-code", SdsCode);
 
-// src/components/diff.ts
+// packages/frontend/src/components/diff.ts
 import { html as html38 } from "lit";
 var SdsDiff = class extends SdsElement {
   static {
@@ -9474,7 +9474,7 @@ var SdsDiff = class extends SdsElement {
 };
 define("sds-diff", SdsDiff);
 
-// src/components/quote.ts
+// packages/frontend/src/components/quote.ts
 import { html as html39 } from "lit";
 var SdsQuote = class extends SdsElement {
   static {
@@ -9502,7 +9502,7 @@ var SdsQuote = class extends SdsElement {
 };
 define("sds-quote", SdsQuote);
 
-// src/components/byline.ts
+// packages/frontend/src/components/byline.ts
 import { html as html40 } from "lit";
 var SdsByline = class extends SdsElement {
   static {
@@ -9541,7 +9541,7 @@ var SdsByline = class extends SdsElement {
 };
 define("sds-byline", SdsByline);
 
-// src/index.ts
+// packages/frontend/src/index.ts
 if (typeof document !== "undefined") installHostRule();
 var TAGS2 = [
   "sds-icon",

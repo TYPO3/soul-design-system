@@ -13,7 +13,7 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
-import { cards, ROOT, screens } from './lib/cards.ts';
+import { FRONTEND, cards, ROOT, screens } from './lib/cards.ts';
 
 const fails: string[] = [];
 
@@ -54,7 +54,7 @@ const CHECKS: readonly Check[] = [
         ['assets/icons', 'make icons'],
       ];
       for (const [dir, script] of GENERATED) {
-        const n = existsSync(join(ROOT, dir)) ? readdirSync(join(ROOT, dir)).length : 0;
+        const n = existsSync(join(FRONTEND, dir)) ? readdirSync(join(FRONTEND, dir)).length : 0;
         console.log(`   ${dir}: ${n} files`);
         if (n === 0) fails.push(`${dir}/ is empty or missing — run \`${script}\``);
       }
@@ -73,7 +73,7 @@ const CHECKS: readonly Check[] = [
       const dia = spawnSync(process.execPath, [join(ROOT, 'scripts/diagrams.ts'), '--check'], { encoding: 'utf8' });
       process.stdout.write(dia.stdout);
       process.stdout.write(dia.stderr ?? '');
-      if (dia.status !== 0) fails.push('src/components/diagrams*.generated.ts is out of date — run `make diagrams`');
+      if (dia.status !== 0) fails.push('packages/frontend/src/components/diagrams*.generated.ts is out of date — run `make diagrams`');
     },
   },
 
@@ -134,7 +134,7 @@ const CHECKS: readonly Check[] = [
          defines it, and a card that used a document-layer name and was told it
          does not exist would be told a lie about its own repo. */
       for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
-        for (const m of readFileSync(join(ROOT, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
+        for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
           defined.add(m[1]);
         }
       }

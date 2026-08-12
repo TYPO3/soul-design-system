@@ -12,8 +12,8 @@ import { dirname, join, relative, resolve, sep } from 'node:path';
 
 import * as esbuild from 'esbuild';
 
-import { byGroup, cards, ROOT, screens, type Card } from './lib/cards.ts';
-import { TAGS } from '../src/index.ts';
+import { FRONTEND, ROOT, byGroup, cards, screens, type Card } from './lib/cards.ts';
+import { TAGS } from '../packages/frontend/src/index.ts';
 
 /** `sds-button` → `SdsButton`, the export name the bundle exposes. */
 const pascalTag = (tag: string): string =>
@@ -23,23 +23,23 @@ const OUT = resolve(process.argv[2] ?? join(ROOT, 'ds-bundle'));
 const NS = 'SDS';
 
 const sha12 = (b: string | Buffer): string => createHash('sha256').update(b).digest('hex').slice(0, 12);
-const read = (p: string): string => readFileSync(join(ROOT, p), 'utf8');
+const read = (p: string): string => readFileSync(join(FRONTEND, p), 'utf8');
 
-/* Point a page at the bundle's flat root. The repo keeps its stylesheets under
-   `src/styles/` and the bundle keeps them at its root, so what has to be
+/* Point a page at the bundle's flat root. The repo keeps its stylesheets in
+   the frontend package and the bundle keeps them at its root, so what has to be
    written is the climb back. Counted from the directory a page lands in, never
    written out: a literal is a second place that has to stay true every time
    either tree moves, and it cannot be wrong loudly. */
 function rewriteRefs(txt: string, dir: string): string {
   const up = '../'.repeat(relative(OUT, dir).split(sep).filter(Boolean).length);
   return txt
-    .replace(/href="(?:\.\.\/)+src\/styles\/styles\.css"/g, `href="${up}styles.css"`)
-    .replace(/href="(?:\.\.\/)+src\/styles\/_specimen\.css"/g, `href="${up}_specimen.css"`)
+    .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/styles\.css"/g, `href="${up}styles.css"`)
+    .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/_specimen\.css"/g, `href="${up}_specimen.css"`)
     /* Either attribute. A diagram is an `<img src>` and the link to its own
        file is an `<a href>`, and a rule that knew only about `src` shipped the
        second one with the climb it had in the repo — which lands outside the
        bundle. */
-    .replace(/(src|href)="(?:\.\.\/)+assets\//g, `$1="${up}assets/`);
+    .replace(/(src|href)="(?:\.\.\/)+packages\/frontend\/assets\//g, `$1="${up}assets/`);
 }
 
 /* Every local reference in the bundle has to resolve inside the bundle.
@@ -144,10 +144,10 @@ mkdirSync(OUT, { recursive: true });
 const list = cards();
 
 // styling closure
-cpSync(join(ROOT, 'src', 'tokens'), join(OUT, 'tokens'), { recursive: true });
-for (const d of ['fonts', 'assets']) cpSync(join(ROOT, d), join(OUT, d), { recursive: true });
-cpSync(join(ROOT, 'src', 'styles', 'components.css'), join(OUT, '_ds_bundle.css'));
-cpSync(join(ROOT, 'src', 'styles', '_specimen.css'), join(OUT, '_specimen.css'));
+cpSync(join(FRONTEND, 'src', 'tokens'), join(OUT, 'tokens'), { recursive: true });
+for (const d of ['fonts', 'assets']) cpSync(join(FRONTEND, d), join(OUT, d), { recursive: true });
+cpSync(join(FRONTEND, 'src', 'styles', 'components.css'), join(OUT, '_ds_bundle.css'));
+cpSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), join(OUT, '_specimen.css'));
 /* The repo keeps its stylesheets in `styles/` and the tokens one level up;
    the bundle is flat, with `styles.css`, `_ds_bundle.css` and `tokens/` all
    at its root. So both kinds of import are rewritten on the way out — the
@@ -166,7 +166,7 @@ writeFileSync(join(OUT, 'styles.css'), styles);
    classes, which keeps `_ds_bundle.css` the single source for styling. The
    cards stay static HTML — the pane opens them without this bundle, which is
    why `scripts/cards.ts` renders the same templates to markup. */
-const bundleSrc = join(ROOT, 'src', 'index.ts');
+const bundleSrc = join(FRONTEND, 'src', 'index.ts');
 const built = await esbuild.build({
   entryPoints: [bundleSrc],
   bundle: true,

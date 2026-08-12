@@ -12,8 +12,8 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 
-import { ROOT, SPECIMENS } from './lib/cards.ts';
-import { TAGS } from '../src/index.ts';
+import { FRONTEND, ROOT, SPECIMENS } from './lib/cards.ts';
+import { TAGS } from '../packages/frontend/src/index.ts';
 
 const THEME = join(ROOT, 'packages', 'guides-theme');
 
@@ -98,7 +98,7 @@ const shown = [
   read(walk(join(ROOT, 'docs'), ['.mdx', '.rst', '.html'])),
   read(walk(join(ROOT, SPECIMENS), ['.html'])),
   /* An element's own source: the classes it emits are drawn wherever it is. */
-  read(walk(join(ROOT, 'src', 'components'), ['.ts'])),
+  read(walk(join(FRONTEND, 'src', 'components'), ['.ts'])),
 ].join('\n');
 
 const templates = walk(join(THEME, 'resources', 'template'), ['.twig']);
@@ -129,7 +129,7 @@ console.log(`   ${TAGS.filter(hasStory).length} of ${TAGS.length} elements`);
 console.log('   every class the system defines is drawn somewhere');
 const classes = [
   ...new Set(
-    [...readFileSync(join(ROOT, 'src/styles/components.css'), 'utf8').matchAll(/\.(sds-[\w-]*)/g)]
+    [...readFileSync(join(FRONTEND, 'src/styles/components.css'), 'utf8').matchAll(/\.(sds-[\w-]*)/g)]
       .map((m) => m[1] as string),
   ),
 ].sort();
@@ -148,7 +148,7 @@ console.log('   every element appears in the Guides render');
    them. Following the composition keeps this asking "is it in the render"
    rather than "is its name in a template". */
 const emitted = new Map<string, string[]>();
-for (const file of walk(join(ROOT, 'src', 'components'), ['.ts'])) {
+for (const file of walk(join(FRONTEND, 'src', 'components'), ['.ts'])) {
   const source = readFileSync(file, 'utf8');
   const defines = source.match(/define\('(sds-[a-z-]+)'/);
   if (!defines?.[1]) continue;
@@ -205,7 +205,7 @@ for (const m of theme.matchAll(/\b(sds-[a-z-]+)__[a-z-]+/g)) {
 console.log('   the theme writes no name the system does not define');
 const defined = new Set<string>();
 for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
-  for (const m of readFileSync(join(ROOT, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) defined.add(m[1] as string);
+  for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) defined.add(m[1] as string);
 }
 const written = new Set<string>();
 for (const m of theme.matchAll(/class="([^"]*)"/g)) {

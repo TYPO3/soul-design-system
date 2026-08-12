@@ -11,8 +11,8 @@
 */
 import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 
-import { renderStatic } from '../src/lib/render.ts';
-import { TAGS } from '../src/index.ts';
+import { renderStatic } from '../packages/frontend/src/lib/render.ts';
+import { TAGS } from '../packages/frontend/src/index.ts';
 
 /* What an element cannot render without — a contract rather than an
    inconvenience: `<sds-icon>` with no name has nothing to draw, and throws

@@ -12,8 +12,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/icon.ts';
-import { type IconId } from '../../src/components/icon.ts';
+import '../../packages/frontend/src/components/icon.ts';
+import { type IconId } from '../../packages/frontend/src/components/icon.ts';
 import { dsCard, DIVIDER, indent, part, spec } from '../lib/specimen.ts';
 
 /** The sample, in the order the set lists them. The `title` is what a reader

@@ -18,7 +18,7 @@ three stylesheets in `styles/`. The converter rewrites both the imports and
 the cards' links on the way out, so **a change to the repo layout is a change
 to `rewriteDepth` and to the `@import` rewriting in `scripts/build.ts`.**
 
-`_ds_bundle.js` carries the Lit elements built from `src/index.ts`, with the
+`_ds_bundle.js` carries the Lit elements built from `packages/frontend/src/index.ts`, with the
 `@ds-bundle` header listing every tag. It used to be an intentionally empty
 namespace; any note claiming that predates this and is wrong. The count is
 not written down here on purpose — `make verify` checks the header against
@@ -149,15 +149,15 @@ say they have no reference point rather than guessing.
   prints the counts, which is why none are repeated here. It also no longer says
   "no JavaScript components" — that claim was inlined into the design agent's
   prompt and became false the day the bundle got components.
-- **`assets/**` is not in the skill's default upload plan.** This repo's cards
-  reference `assets/icons` and `assets/diagrams`, so the plan must include
-  `assets/**` in both `writes` and `deletes` or icons vanish from the cards.
+- **`packages/frontend/assets/**` is not in the skill's default upload plan.** This repo's cards
+  reference `packages/frontend/assets/icons` and `packages/frontend/assets/diagrams`, so the plan must include
+  `packages/frontend/assets/**` in both `writes` and `deletes` or icons vanish from the cards.
 - **Licensing is settled**: GPL-2.0-or-later, matching TYPO3 CMS (whose
   `composer.json` is the authoritative source, not the GitHub summary, which
   says plain `GPL-2.0`). Icons are MIT from TYPO3/TYPO3.Icons, fonts are OFL
   via `@fontsource`; both are recorded in `THIRD-PARTY.md`. `package.json` is
   still `private: true` — flip that only deliberately.
-- **`fonts/` and `assets/icons/` are generated and gitignored.** They come
+- **`packages/frontend/fonts/` and `packages/frontend/assets/icons/` are generated and gitignored.** They come
   from `@fontsource/*` and `@typo3/icons` via `scripts/fonts.ts` and
   `scripts/icons.ts`, both run by the container entrypoint when missing. A
   clone has
@@ -169,9 +169,9 @@ say they have no reference point rather than guessing.
   is the TYPO3 icon identifier, `source-sans-3-latin-400-normal.woff2` is the
   @fontsource filename. Deliberate: a filename in this repo is always findable
   in the package it came from. Do not "tidy" them.
-- All 33 icons were byte-compared against `@typo3/icons@5.0.3` `src/` before
-  the switch: identical apart from entity-encoded whitespace. `dist/svgs/` is
-  the SVGO-optimised tree and does *not* match — use `src/`, as the script does.
+- All 33 icons were byte-compared against `@typo3/icons@5.0.3` `packages/frontend/src/` before
+  the switch: identical apart from entity-encoded whitespace. `packages/frontend/dist/svgs/` is
+  the SVGO-optimised tree and does *not* match — use `packages/frontend/src/`, as the script does.
 - The `.ds-sync/` dir holds the skill's staged validator plus a `playwright`
   install used only for `package-validate.mjs`. It is gitignored and
   regenerated; the repo's own tooling uses the root `playwright` devDep.
@@ -211,7 +211,7 @@ the reason above.
 **The hazard.** `.ds-sync/lib/detect.mjs` walks up to four directories deep
 looking for a `.storybook/` config dir and switches the source shape to
 `storybook` when it finds one. That shape expects React 18+ and a compiled
-`dist/` of React components, and it is not what this repo is.
+`packages/frontend/dist/` of React components, and it is not what this repo is.
 `.design-sync/config.json` pins `"shape": "package"`, which overrides the
 detector, and `scripts/build.ts` remains the converter. **Do not remove that
 pin**, and if a future kit version stops honouring it, the fix is to pin it

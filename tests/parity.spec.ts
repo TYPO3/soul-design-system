@@ -11,9 +11,9 @@
 
 import { test, expect, type Page } from '@playwright/test';
 import { html, type TemplateResult } from 'lit';
-import { renderStatic } from '../src/lib/render.ts';
-import { buttonMarkup } from '../src/components/button.ts';
-import '../src/index.ts';
+import { renderStatic } from '../packages/frontend/src/lib/render.ts';
+import { buttonMarkup } from '../packages/frontend/src/components/button.ts';
+import '../packages/frontend/src/index.ts';
 
 /** Mount the markup in the page and read back the light DOM it produced. */
 async function mount(page: Page, markup: string): Promise<string> {

@@ -63,7 +63,7 @@ jobs:
       # index written, and a refusal to publish a reference that leaves the
       # output. The script sits in the drop-in and copies what is beside it.
       - name: Finish the site
-        run: node .soul/dist/soul-finish.js site
+        run: node .soul/packages/frontend/dist/soul-finish.js site
 
       # Pages serves this artifact as it stands, but a repository switched to
       # the branch-based build runs Jekyll, which drops every path starting

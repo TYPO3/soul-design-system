@@ -11,21 +11,21 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../src/components/menu.ts';
-import '../../src/components/surface.ts';
-import '../../src/components/badge.ts';
-import '../../src/components/code.ts';
-import '../../src/components/link.ts';
-import '../../src/components/table.ts';
-import '../../src/components/tabs.ts';
-import '../../src/components/tab-item.ts';
-import '../../src/components/button.ts';
-import '../../src/components/image.ts';
-import '../../src/components/theme.ts';
-import { buttonMarkup } from '../../src/components/button.ts';
-import { tabsBarMarkup } from '../../src/components/tabs.ts';
-import { type CodeLine } from '../../src/components/code.ts';
-import { type Column, type Row } from '../../src/components/table.ts';
+import '../../packages/frontend/src/components/menu.ts';
+import '../../packages/frontend/src/components/surface.ts';
+import '../../packages/frontend/src/components/badge.ts';
+import '../../packages/frontend/src/components/code.ts';
+import '../../packages/frontend/src/components/link.ts';
+import '../../packages/frontend/src/components/table.ts';
+import '../../packages/frontend/src/components/tabs.ts';
+import '../../packages/frontend/src/components/tab-item.ts';
+import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/image.ts';
+import '../../packages/frontend/src/components/theme.ts';
+import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
+import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
+import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';
 
@@ -43,7 +43,7 @@ const WAYS: readonly { label: string; body: readonly CodeLine[] }[] = [
     label: 'npm',
     body: [
       { kind: 'comment', text: '# a surface that runs JavaScript gets the elements too' },
-      { kind: 'shell', text: 'npm install @typo3/soul-design-system' },
+      { kind: 'shell', text: 'npm install @typo3/soul-frontend' },
       { kind: 'ok', text: 'the elements register themselves from', code: 'soul.js' },
     ],
   },

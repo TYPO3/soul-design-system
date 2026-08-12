@@ -10,9 +10,9 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/lightbox.ts';
-import '../../src/components/button.ts';
-import { type LightboxProps } from '../../src/components/lightbox.ts';
+import '../../packages/frontend/src/components/lightbox.ts';
+import '../../packages/frontend/src/components/button.ts';
+import { type LightboxProps } from '../../packages/frontend/src/components/lightbox.ts';
 
 /* Storybook serves `assets/` at `/assets`; a page under `screens/` reaches the
    same files at `../assets`. The path is the caller's, which is why this

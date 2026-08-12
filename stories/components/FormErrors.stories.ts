@@ -10,8 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/form-errors.ts';
-import { type FormErrorsProps } from '../../src/components/form-errors.ts';
+import '../../packages/frontend/src/components/form-errors.ts';
+import { type FormErrorsProps } from '../../packages/frontend/src/components/form-errors.ts';
 
 const sdsFormErrors = ({ errors, heading }: FormErrorsProps) =>
   html`<sds-form-errors .errors="${errors}" heading="${heading ?? ''}"></sds-form-errors>`;

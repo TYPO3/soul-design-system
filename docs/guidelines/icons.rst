@@ -12,10 +12,10 @@ name the same thing.
 **Where they come from.** The set is generated, never committed:
 ``scripts/icons.ts`` copies a whole category out of the ``@typo3/icons``
 package, in the layout the package itself uses, so its own manifest resolves
-against what ships. An empty ``assets/icons/`` means ``npm ci`` has not run;
+against what ships. An empty ``packages/frontend/assets/icons/`` means ``npm ci`` has not run;
 it is not a missing file to work around.
 
-**Getting one outside** ``actions``. ``dist/icons.json`` is the lookup — it
+**Getting one outside** ``actions``. ``packages/frontend/dist/icons.json`` is the lookup — it
 names an identifier's category and the path to its file, so nothing is
 guessed from the spelling. It also maps the deprecated aliases to their
 current names. Resolve an alias before using it — the old spelling is not
@@ -47,7 +47,7 @@ Rules
 - Icon before its label with an 8px gap — except direction icons, which
   follow.
 - Inline the SVG wherever colour must follow the UI. An ``<img>`` cannot
-  inherit ``currentColor``, which is why ``src/lib/icon.ts`` inlines rather
+  inherit ``currentColor``, which is why ``packages/frontend/src/lib/icon.ts`` inlines rather
   than links.
 
 Only four icons may stand without a label: ``actions-check-circle``

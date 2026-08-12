@@ -11,16 +11,16 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
-import '../../src/components/crumbs.ts';
-import '../../src/components/empty.ts';
-import '../../src/components/link.ts';
-import '../../src/components/note.ts';
-import '../../src/components/pagination.ts';
-import '../../src/components/pills.ts';
-import '../../src/components/teaser.ts';
-import { type Crumb } from '../../src/components/crumbs.ts';
-import { type NavChange } from '../../src/components/nav-base.ts';
-import { type TeaserProps } from '../../src/components/teaser.ts';
+import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/empty.ts';
+import '../../packages/frontend/src/components/link.ts';
+import '../../packages/frontend/src/components/note.ts';
+import '../../packages/frontend/src/components/pagination.ts';
+import '../../packages/frontend/src/components/pills.ts';
+import '../../packages/frontend/src/components/teaser.ts';
+import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type NavChange } from '../../packages/frontend/src/components/nav-base.ts';
+import { type TeaserProps } from '../../packages/frontend/src/components/teaser.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';

@@ -55,7 +55,10 @@ ENV SDS_IN_CONTAINER=1 \
 
 WORKDIR /app
 
+# The workspace root and the one package in it: `npm ci` resolves both, and
+# a lock file copied without the manifest it locks is a failed install.
 COPY package.json package-lock.json ./
+COPY packages/frontend/package.json packages/frontend/
 
 # `--ignore-scripts` is required, not tidiness: this package's `prepare` runs
 # `scripts/fonts.ts` and `scripts/icons.ts`, and only the two manifests

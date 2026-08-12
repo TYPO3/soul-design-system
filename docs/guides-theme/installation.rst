@@ -46,7 +46,7 @@ Markdown parser with it. PHP 8.2 is the floor.
 
    When the package is registered, the ``repositories`` entry goes away and
    this step becomes ``composer require typo3/soul-guides-theme``. The checkout
-   stays either way: it is what carries ``dist/``.
+   stays either way: it is what carries ``packages/frontend/dist/``.
 
 .. note::
 
@@ -120,7 +120,7 @@ directory too high.
 .. code-block:: bash
 
    vendor/bin/guides docs --output=site -c docs --fail-on-error
-   node .soul/dist/soul-finish.js site
+   node .soul/packages/frontend/dist/soul-finish.js site
 
 The first command writes documents. The second is the one this page exists to
 say out loud: it copies the drop-in to the site root, draws every element on
@@ -149,15 +149,15 @@ and every path inside it is already right.
 .. warning::
 
    Copying by hand instead, copy the **whole** directory. ``soul.css`` asks for
-   ``fonts/`` beside itself and ``soul.js`` resolves the icon sprite against
+   ``packages/frontend/fonts/`` beside itself and ``soul.js`` resolves the icon sprite against
    its own URL, so a site missing either serves pages that fall back to
    ``system-ui`` or draw every icon as a blank box — with nothing in the render
    log, because the render was fine.
 
 .. important::
 
-   ``dist/`` is the built drop-in, not the sources. Render a site against
-   ``src/`` and what has been proven is that the theme works with something
+   ``packages/frontend/dist/`` is the built drop-in, not the sources. Render a site against
+   ``packages/frontend/src/`` and what has been proven is that the theme works with something
    nobody ships.
 
 What the finishing step does, and why it is not the renderer's job

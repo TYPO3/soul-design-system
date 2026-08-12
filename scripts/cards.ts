@@ -13,7 +13,7 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { inlineArtRefs } from '../src/components/art.static.ts';
+import { inlineArtRefs } from '../packages/frontend/src/components/art.static.ts';
 import { indent, type DsCard, type DsScreen } from '../stories/lib/specimen.ts';
 import { cards, inRepo, screens, ROOT } from './lib/cards.ts';
 
@@ -36,12 +36,12 @@ export interface CardResult {
   existed: boolean;
 }
 
-/* A picture in a specimen is written the way the story sees it — `../assets/`,
+/* A picture in a specimen is written the way the story sees it — `../packages/frontend/assets/`,
    one climb out of a folder. Where the file lands is not a story's business, so
    the climb is counted here from the same `up` the stylesheets use; a story
    that stated a depth would be one more place to keep true. */
 const withAssets = (html: string, up: string): string =>
-  html.replace(/(src|href)="(?:\.\.\/)+assets\//g, `$1="${up}assets/`);
+  html.replace(/(src|href)="(?:\.\.\/)+(?:packages\/frontend\/)?assets\//g, `$1="${up}packages/frontend/assets/`);
 
 /* The document shell — deliberately the same six lines every card already
    carried: the `@dsCard` marker the pane reads, the theme pinned on <html>
@@ -74,8 +74,8 @@ function shell(card: DsCard, body: string): string {
 <html lang="en"${theme}>
 <head>
 <meta charset="utf-8" />
-<link rel="stylesheet" href="${up}src/styles/styles.css" />
-<link rel="stylesheet" href="${up}src/styles/_specimen.css" />
+<link rel="stylesheet" href="${up}packages/frontend/src/styles/styles.css" />
+<link rel="stylesheet" href="${up}packages/frontend/src/styles/_specimen.css" />
 </head>
 <body${cls}>
 ${indented}
@@ -98,7 +98,7 @@ function screenShell(screen: DsScreen, body: string): string {
 <head>
 <meta charset="utf-8" />
 <title>${screen.title}</title>
-<link rel="stylesheet" href="${up}src/styles/styles.css" />
+<link rel="stylesheet" href="${up}packages/frontend/src/styles/styles.css" />
 </head>
 <body class="sds-app">
 ${indent(withAssets(body, up), 0)}

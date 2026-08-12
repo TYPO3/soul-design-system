@@ -8,9 +8,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/table.ts';
-import { type Column, type TableProps } from '../../src/components/table.ts';
-import '../../src/components/badge.ts';
+import '../../packages/frontend/src/components/table.ts';
+import { type Column, type TableProps } from '../../packages/frontend/src/components/table.ts';
+import '../../packages/frontend/src/components/badge.ts';
 import { BADGES } from './Badge.stories.ts';
 import { DIVIDER, dsCard, part, px, spec, specCap, specRow } from '../lib/specimen.ts';
 

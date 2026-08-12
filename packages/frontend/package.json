@@ -1,0 +1,61 @@
+{
+  "name": "@typo3/soul-frontend",
+  "version": "1.0.0",
+  "description": "The Soul design system as a frontend: tokens, the sds- class layer, and the Lit elements that upgrade it.",
+  "keywords": [
+    "design-system",
+    "css",
+    "design-tokens",
+    "typo3",
+    "lit",
+    "web-components"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css",
+    "./src/*.ts",
+    "./src/**/*.ts",
+    "./dist/index.js"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/src/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./src/*": "./src/*",
+    "./assets/*": "./assets/*",
+    "./fonts/*": "./fonts/*"
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "fonts/",
+    "assets/",
+    "!assets/placeholders",
+    "!assets/icons/svgs"
+  ],
+  "engines": {
+    "node": ">=22.18"
+  },
+  "peerDependencies": {
+    "lit": "^3.3.0"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1"
+  },
+  "license": "GPL-2.0-or-later",
+  "author": "Benjamin Kott <benjamin.kott@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjaminkott/typo3-soul-design-system.git",
+    "directory": "packages/frontend"
+  },
+  "homepage": "https://github.com/benjaminkott/typo3-soul-design-system#readme",
+  "bugs": {
+    "url": "https://github.com/benjaminkott/typo3-soul-design-system/issues"
+  }
+}

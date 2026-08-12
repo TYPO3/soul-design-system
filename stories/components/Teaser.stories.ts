@@ -11,8 +11,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/teaser.ts';
-import { type TeaserProps } from '../../src/components/teaser.ts';
+import '../../packages/frontend/src/components/teaser.ts';
+import { type TeaserProps } from '../../packages/frontend/src/components/teaser.ts';
 
 export const sdsTeaser = ({ heading, body, href, tag, meta, src, alt }: TeaserProps) =>
   html`<sds-teaser

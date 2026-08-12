@@ -13,9 +13,9 @@ import { html } from 'lit';
 import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
-import { renderUpgradable } from '../../src/lib/render.ts';
-import { CONTENT } from '../../src/lib/element.ts';
-import { TAGS } from '../../src/index.ts';
+import { renderUpgradable } from '../../packages/frontend/src/lib/render.ts';
+import { CONTENT } from '../../packages/frontend/src/lib/element.ts';
+import { TAGS } from '../../packages/frontend/src/index.ts';
 
 /* One of this system's elements, with whatever it was given and whatever was
    written between its tags. Built from `TAGS` rather than `sds-[a-z-]+`: a tag

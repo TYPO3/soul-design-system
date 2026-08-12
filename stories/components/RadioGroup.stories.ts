@@ -11,9 +11,9 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/radio-group.ts';
-import '../../src/components/field.ts';
-import { type RadioGroupProps } from '../../src/components/radio-group.ts';
+import '../../packages/frontend/src/components/radio-group.ts';
+import '../../packages/frontend/src/components/field.ts';
+import { type RadioGroupProps } from '../../packages/frontend/src/components/radio-group.ts';
 
 const sdsRadioGroup = ({ legend, name, choices, value, hint, required }: RadioGroupProps) =>
   html`<sds-radio-group

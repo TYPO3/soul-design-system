@@ -11,14 +11,14 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../src/components/accordion.ts';
-import '../../src/components/button.ts';
-import '../../src/components/crumbs.ts';
-import '../../src/components/link.ts';
-import '../../src/components/note.ts';
-import { buttonMarkup } from '../../src/components/button.ts';
-import { type Entry } from '../../src/components/accordion.ts';
-import { type Crumb } from '../../src/components/crumbs.ts';
+import '../../packages/frontend/src/components/accordion.ts';
+import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/link.ts';
+import '../../packages/frontend/src/components/note.ts';
+import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
+import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { QUESTIONS } from '../components/Accordion.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';

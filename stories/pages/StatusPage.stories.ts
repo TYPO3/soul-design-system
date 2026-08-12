@@ -11,15 +11,15 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../src/components/badge.ts';
-import '../../src/components/crumbs.ts';
-import '../../src/components/link.ts';
-import '../../src/components/note.ts';
-import '../../src/components/stat.ts';
-import '../../src/components/table.ts';
-import { type BadgeTone } from '../../src/components/badge.ts';
-import { type Crumb } from '../../src/components/crumbs.ts';
-import { type Column, type Row } from '../../src/components/table.ts';
+import '../../packages/frontend/src/components/badge.ts';
+import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/link.ts';
+import '../../packages/frontend/src/components/note.ts';
+import '../../packages/frontend/src/components/stat.ts';
+import '../../packages/frontend/src/components/table.ts';
+import { type BadgeTone } from '../../packages/frontend/src/components/badge.ts';
+import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';

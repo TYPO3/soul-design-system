@@ -10,9 +10,9 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/rail.ts';
-import { type NavProps } from '../../src/components/nav-base.ts';
-import { type RailEntry } from '../../src/components/rail.ts';
+import '../../packages/frontend/src/components/rail.ts';
+import { type NavProps } from '../../packages/frontend/src/components/nav-base.ts';
+import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
 
 interface RailArgs extends Omit<NavProps, 'items'> {
   items: readonly RailEntry[];

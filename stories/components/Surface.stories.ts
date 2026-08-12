@@ -12,13 +12,13 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/surface.ts';
-import '../../src/components/overlay.ts';
-import '../../src/components/modal.ts';
-import '../../src/components/drawer.ts';
-import '../../src/components/button.ts';
-import { buttonMarkup } from '../../src/components/button.ts';
-import { type SurfaceProps } from '../../src/components/surface.ts';
+import '../../packages/frontend/src/components/surface.ts';
+import '../../packages/frontend/src/components/overlay.ts';
+import '../../packages/frontend/src/components/modal.ts';
+import '../../packages/frontend/src/components/drawer.ts';
+import '../../packages/frontend/src/components/button.ts';
+import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { type SurfaceProps } from '../../packages/frontend/src/components/surface.ts';
 import { dsCard, indent, part, px, spec, specCap } from '../lib/specimen.ts';
 
 const sdsSurface = ({ plane = 'card', title, body, label, icon }: SurfaceProps) =>

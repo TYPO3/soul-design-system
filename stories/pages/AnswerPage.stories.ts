@@ -10,15 +10,15 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../src/components/badge.ts';
-import '../../src/components/button.ts';
-import '../../src/components/diff.ts';
-import '../../src/components/link.ts';
-import '../../src/components/note.ts';
-import '../../src/components/image.ts';
-import '../../src/components/theme.ts';
-import { buttonMarkup } from '../../src/components/button.ts';
-import { type DiffLine } from '../../src/components/diff.ts';
+import '../../packages/frontend/src/components/badge.ts';
+import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/diff.ts';
+import '../../packages/frontend/src/components/link.ts';
+import '../../packages/frontend/src/components/note.ts';
+import '../../packages/frontend/src/components/image.ts';
+import '../../packages/frontend/src/components/theme.ts';
+import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { type DiffLine } from '../../packages/frontend/src/components/diff.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';
 

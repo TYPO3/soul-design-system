@@ -12,8 +12,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import '../../src/components/link.ts';
-import { type LinkProps } from '../../src/components/link.ts';
+import '../../packages/frontend/src/components/link.ts';
+import { type LinkProps } from '../../packages/frontend/src/components/link.ts';
 
 const meta: Meta<LinkProps> = {
   title: 'Components/Link',

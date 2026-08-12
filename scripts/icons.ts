@@ -12,7 +12,7 @@
 import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
-import { ROOT } from './lib/cards.ts';
+import { FRONTEND, ROOT } from './lib/cards.ts';
 
 /* Which categories this system ships. Everything else about an icon —
    whether it exists, where its file is, which sprite carries it, what a
@@ -21,7 +21,7 @@ import { ROOT } from './lib/cards.ts';
 const CATEGORIES = ['actions'] as const;
 
 const PKG = join(ROOT, 'node_modules', '@typo3', 'icons');
-const OUT = join(ROOT, 'assets', 'icons');
+const OUT = join(FRONTEND, 'assets', 'icons');
 
 interface Manifest {
   icons: Record<string, { identifier: string; category: string; svg: string; sprite: string }>;
@@ -76,7 +76,7 @@ const header = (what: string): string =>
   `   Add a category to CATEGORIES in that script and run \`make icons\`. */\n\n`;
 
 writeFileSync(
-  join(ROOT, 'src', 'components', 'icons.generated.ts'),
+  join(FRONTEND, 'src', 'components', 'icons.generated.ts'),
   header('The identifiers. Safe for the browser bundle.') +
     `export type IconId =\n${ICONS.map((i) => `  | '${i.identifier}'`).join('\n')};\n\n` +
     `export const ICON_IDS: readonly IconId[] = [\n` +
@@ -85,7 +85,7 @@ writeFileSync(
 );
 
 writeFileSync(
-  join(ROOT, 'src', 'components', 'icons.svg.generated.ts'),
+  join(FRONTEND, 'src', 'components', 'icons.svg.generated.ts'),
   header('The markup. For the static export — never imported by src/index.ts.') +
     `import type { IconId } from './icons.generated.ts';\n\n` +
     `export const ICON_SVG: Record<IconId, string> = {\n` +

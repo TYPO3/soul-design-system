@@ -10,8 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/byline.ts';
-import { type BylineProps } from '../../src/components/byline.ts';
+import '../../packages/frontend/src/components/byline.ts';
+import { type BylineProps } from '../../packages/frontend/src/components/byline.ts';
 import { NNBSP } from '../lib/specimen.ts';
 
 const sdsByline = ({ name, as: what, meta, initials }: BylineProps) =>

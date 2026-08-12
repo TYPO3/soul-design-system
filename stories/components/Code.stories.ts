@@ -10,11 +10,11 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/code.ts';
-import '../../src/components/diff.ts';
-import '../../src/components/icon.ts';
-import { type CodeBlockProps } from '../../src/components/code.ts';
-import { type DiffLine } from '../../src/components/diff.ts';
+import '../../packages/frontend/src/components/code.ts';
+import '../../packages/frontend/src/components/diff.ts';
+import '../../packages/frontend/src/components/icon.ts';
+import { type CodeBlockProps } from '../../packages/frontend/src/components/code.ts';
+import { type DiffLine } from '../../packages/frontend/src/components/diff.ts';
 import { DIFF } from './Diff.stories.ts';
 import { dsCard, part, px, spec, specCap } from '../lib/specimen.ts';
 

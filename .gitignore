@@ -14,17 +14,17 @@ node_modules/
 /.design-sync/upload-manifest.json
 
 # generated from the @fontsource packages by scripts/fonts.mjs
-/fonts/
+/packages/frontend/fonts/
 
 # generated from @typo3/icons by scripts/icons.ts — the singles and the map
-/assets/icons/
+/packages/frontend/assets/icons/
 
 # generated storybook build
 /storybook-static/
 
 # generated from @typo3/icons by scripts/icons.mjs, alongside assets/icons/
-/src/components/icons.generated.ts
-/src/components/icons.svg.generated.ts
+/packages/frontend/src/components/icons.generated.ts
+/packages/frontend/src/components/icons.svg.generated.ts
 
 # dist/ is committed on purpose: it is the drop-in a consumer copies over a
 # plain clone, and `make dist ARGS=--check` proves it still matches its source.
@@ -32,7 +32,7 @@ node_modules/
 # a file ignored here is one it reports missing from every fresh clone — and
 # a sourcemap left out is a `sourceMappingURL` in the committed drop-in that
 # points at nothing.
-/.dist-check/
+/packages/frontend/.dist-check/
 
 # Never the lock. This is a library rather than an application: what it must
 # work against is the constraint in composer.json, and a committed lock would

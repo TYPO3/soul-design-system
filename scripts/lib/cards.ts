@@ -14,6 +14,11 @@ import { fileURLToPath } from 'node:url';
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
+/* The frontend package: the tokens, the class layer and the elements, plus
+   what is built from them. It is the one place under `packages/` this repo's
+   own tooling reads and writes — everything else here is about it. */
+export const FRONTEND = join(ROOT, 'packages', 'frontend');
+
 const SKIP = new Set(['node_modules', 'ds-bundle', 'fonts', 'assets']);
 const CARD_RE = /@dsCard\s+([\s\S]*?)-->/;
 const SP_RE = /@startingPoint\s+([\s\S]*?)-->/;

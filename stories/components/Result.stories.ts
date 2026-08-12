@@ -11,8 +11,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/result.ts';
-import { type ResultProps } from '../../src/components/result.ts';
+import '../../packages/frontend/src/components/result.ts';
+import { type ResultProps } from '../../packages/frontend/src/components/result.ts';
 
 export const sdsResult = ({ heading, href, path, snippet, match, kind, meta }: ResultProps) =>
   html`<sds-result

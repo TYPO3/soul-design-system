@@ -11,12 +11,12 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../src/components/crumbs.ts';
-import '../../src/components/field.ts';
-import '../../src/components/note.ts';
-import '../../src/components/rail.ts';
-import { type Crumb } from '../../src/components/crumbs.ts';
-import { type RailEntry } from '../../src/components/rail.ts';
+import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/field.ts';
+import '../../packages/frontend/src/components/note.ts';
+import '../../packages/frontend/src/components/rail.ts';
+import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';

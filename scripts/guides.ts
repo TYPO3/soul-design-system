@@ -13,12 +13,12 @@ import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } fr
 import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-import { cards, ROOT, screens } from './lib/cards.ts';
+import { FRONTEND, ROOT, cards, screens } from './lib/cards.ts';
 import { dropIn, finish } from './lib/site.ts';
 
 const THEME = join(ROOT, 'packages', 'guides-theme');
 const SITE = join(ROOT, 'site');
-const DROP = join(ROOT, 'dist');
+const DROP = join(FRONTEND, 'dist');
 
 interface Project {
   /** What it is called in the output and in the log. */
@@ -58,9 +58,9 @@ function copyCards(source: string): void {
        counted from where each card lands rather than assumed flat. */
     const up = '../'.repeat(rel.split('/').length);
     writeFileSync(target, readFileSync(card.path, 'utf8')
-      .replace(/href="(?:\.\.\/)+src\/styles\/styles\.css"/g, `href="${up}styles/soul.css"`)
-      .replace(/href="(?:\.\.\/)+src\/styles\/_specimen\.css"/g, `href="${up}styles/_specimen.css"`)
-      .replace(/(src|href)="(?:\.\.\/)+assets\//g, `$1="${up}styles/assets/`));
+      .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/styles\.css"/g, `href="${up}styles/soul.css"`)
+      .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/_specimen\.css"/g, `href="${up}styles/_specimen.css"`)
+      .replace(/(src|href)="(?:\.\.\/)+packages\/frontend\/assets\//g, `$1="${up}styles/assets/`));
   }
 }
 
@@ -126,11 +126,11 @@ for (const project of PROJECTS) {
      layers only — but inside a specimen frame it is what draws the captions.
      Copied here rather than into the source because nothing in a document
      points at it: only the cards do, and nothing parses a card. */
-  cpSync(join(ROOT, 'src', 'styles', '_specimen.css'), join(styles, '_specimen.css'));
+  cpSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), join(styles, '_specimen.css'));
   /* And the photography those cards are drawn with, for the same reason and
      from the same place: story fixtures rather than drop-in, and no document
      points at them — only a card does, and nothing parses a card. */
-  cpSync(join(ROOT, 'assets', 'placeholders'), join(styles, 'assets', 'placeholders'), { recursive: true });
+  cpSync(join(FRONTEND, 'assets', 'placeholders'), join(styles, 'assets', 'placeholders'), { recursive: true });
 }
 
 /* The three steps between a render and a site — every element drawn ahead of

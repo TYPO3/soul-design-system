@@ -11,7 +11,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/field-error.ts';
+import '../../packages/frontend/src/components/field-error.ts';
 
 const meta: Meta<{ message: string }> = {
   title: 'Components/Field error',

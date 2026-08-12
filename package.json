@@ -1,39 +1,11 @@
 {
-  "name": "@typo3/soul-design-system",
+  "name": "soul",
   "version": "1.0.0",
-  "description": "Soul Design System — tokens, the sds- class layer, Lit components, and the specimen cards that document them.",
-  "keywords": [
-    "design-system",
-    "css",
-    "design-tokens",
-    "typo3",
-    "lit",
-    "web-components"
-  ],
+  "description": "The Soul design system: the sources, the specimens, the gate, and the packages that leave this tree.",
   "private": true,
   "type": "module",
-  "sideEffects": [
-    "*.css",
-    "./src/*.ts",
-    "./src/**/*.ts",
-    "./dist/index.js"
-  ],
-  "main": "./dist/index.js",
-  "exports": {
-    ".": {
-      "types": "./dist/types/src/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./dist/*": "./dist/*",
-    "./src/*": "./src/*",
-    "./assets/*": "./assets/*",
-    "./fonts/*": "./fonts/*"
-  },
-  "files": [
-    "dist/",
-    "src/",
-    "fonts/",
-    "assets/"
+  "workspaces": [
+    "packages/frontend"
   ],
   "engines": {
     "node": ">=22.18"
@@ -70,13 +42,5 @@
   "homepage": "https://github.com/benjaminkott/typo3-soul-design-system#readme",
   "bugs": {
     "url": "https://github.com/benjaminkott/typo3-soul-design-system/issues"
-  },
-  "module": "./dist/index.js",
-  "types": "./dist/types/src/index.d.ts",
-  "peerDependencies": {
-    "lit": "^3.3.0"
-  },
-  "dependencies": {
-    "highlight.js": "^11.11.1"
   }
 }

@@ -9,10 +9,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/pills.ts';
-import { tabsBarMarkup } from '../../src/components/tabs.ts';
-import '../../src/components/rail.ts';
-import { type NavProps } from '../../src/components/nav-base.ts';
+import '../../packages/frontend/src/components/pills.ts';
+import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
+import '../../packages/frontend/src/components/rail.ts';
+import { type NavProps } from '../../packages/frontend/src/components/nav-base.ts';
 import { dsCard, part, specCol, specPad } from '../lib/specimen.ts';
 
 const nav = (tag: 'sds-pills' | 'sds-rail', { items, active = 0 }: NavProps) =>

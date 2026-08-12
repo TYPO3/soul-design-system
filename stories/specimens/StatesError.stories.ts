@@ -12,8 +12,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/note.ts';
-import { type NoteProps } from '../../src/components/note.ts';
+import '../../packages/frontend/src/components/note.ts';
+import { type NoteProps } from '../../packages/frontend/src/components/note.ts';
 import { dsCard, DIVIDER, part, spec } from '../lib/specimen.ts';
 
 /** Three levels, three colours, one shape. */

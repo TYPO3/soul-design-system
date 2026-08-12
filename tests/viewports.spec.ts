@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 
 import { VIEWPORT_WIDTHS, VIEWPORTS } from '../.storybook/viewports.ts';
 
-const STYLES = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'styles');
+const STYLES = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'packages', 'frontend', 'src', 'styles');
 
 function stylesheets(dir: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {

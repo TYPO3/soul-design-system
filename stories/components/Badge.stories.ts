@@ -9,8 +9,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/badge.ts';
-import { type BadgeProps } from '../../src/components/badge.ts';
+import '../../packages/frontend/src/components/badge.ts';
+import { type BadgeProps } from '../../packages/frontend/src/components/badge.ts';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 /** The set the table card shows, in the order it shows them. Exported so the

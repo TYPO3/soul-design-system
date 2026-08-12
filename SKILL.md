@@ -95,7 +95,7 @@ Breaking one of these breaks the system, not just the page.
 
 - **One accent.** `--accent` (#FF8700) marks exactly three things: the active navigation item, the shell prompt in a code block, the pipe in the wordmark. No second accent, no gradient, anywhere.
 - **No shadows.** Not on cards, modals, menus or drawers. Separation is a hairline plus `--surface-overlay`. The focus ring is the single `box-shadow` in the system, and it is a state, not depth.
-- **No emoji.** Status is a colour plus a glyph from `assets/icons/` or the mono font (`✓`).
+- **No emoji.** Status is a colour plus a glyph from `packages/frontend/assets/icons/` or the mono font (`✓`).
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-support-app install`.
 - **16px is the floor** for both the signet and the icons. Below it: wordmark alone, and no icon at all.
 - **The TYPO3 Soul is not used.** This is not an approved TYPO3 product. No surface may imply endorsement; footers say what the product is, never whose it is. The system's *name* is Soul; the Association's *asset* is the TYPO3 Soul. This rule is about the asset, and the name never takes `TYPO3` in front of it.
@@ -141,11 +141,11 @@ An answer always carries its source, its version binding and what it leaves out.
 
 ## Icons
 
-`assets/icons/`, every `actions-*` icon from `TYPO3/TYPO3.Icons`. The identifiers are the core's own — the same strings `typo3_icon_lookup` returns — so design and runtime name the same thing.
+`packages/frontend/assets/icons/`, every `actions-*` icon from `TYPO3/TYPO3.Icons`. The identifiers are the core's own — the same strings `typo3_icon_lookup` returns — so design and runtime name the same thing.
 
-**Where they come from.** The set is generated, never committed: `scripts/icons.ts` copies the identifiers it declares out of the `@typo3/icons` npm package (`^5.0.3`, MIT), which the container installs and its entrypoint materialises. An empty `assets/icons/` means the generator has not run — it is not a missing file to work around.
+**Where they come from.** The set is generated, never committed: `scripts/icons.ts` copies the identifiers it declares out of the `@typo3/icons` npm package (`^5.0.3`, MIT), which the container installs and its entrypoint materialises. An empty `packages/frontend/assets/icons/` means the generator has not run — it is not a missing file to work around.
 
-**How to get one outside `actions`.** `dist/icons.json` is the lookup — it names an identifier's category and the path to its file, so nothing has to be guessed from the spelling. The categories are `actions`, `apps`, `avatar`, `content`, `default`, `files`, `form`, `information`, `install`, `mimetypes`, `miscellaneous`, `module`, `overlay`, `spinner` and `status`; `dist/icons.json` maps every identifier to its category and every deprecated alias to its current name. Resolve an alias before using it; the old spelling is not what `typo3_icon_lookup` returns.
+**How to get one outside `actions`.** `packages/frontend/dist/icons.json` is the lookup — it names an identifier's category and the path to its file, so nothing has to be guessed from the spelling. The categories are `actions`, `apps`, `avatar`, `content`, `default`, `files`, `form`, `information`, `install`, `mimetypes`, `miscellaneous`, `module`, `overlay`, `spinner` and `status`; `packages/frontend/dist/icons.json` maps every identifier to its category and every deprecated alias to its current name. Resolve an alias before using it; the old spelling is not what `typo3_icon_lookup` returns.
 
 Reach a single file without the package from either of these, both raw SVG:
 
@@ -171,7 +171,7 @@ small diagrams: no position, connection, count or label in one may carry a
 claim. If the picture has to be understood for the adjacent copy to work, use
 a diagram instead.
 
-The shipped set under `assets/placeholders/` is mode-neutral: one 1200 × 750
+The shipped set under `packages/frontend/assets/placeholders/` is mode-neutral: one 1200 × 750
 PNG is used unchanged in light and dark. Each image has one person, object or
 still-life gesture, five to eight broad hard-edged silhouettes, a flattened
 almost orthographic view, one contained halftone field and exactly one small
@@ -189,7 +189,7 @@ subject.
 
 **One claim per diagram.** The title states it, the closing line states its consequence. Two claims are two diagrams.
 
-**If the drawing would still work as a bulleted list, it is not a diagram.** Meaning is carried by position, length or alignment. Boxes and arrows are the last resort, not the starting vocabulary — see `assets/diagrams/` for how three different shapes of claim were solved (an axis, a sequence, a containment).
+**If the drawing would still work as a bulleted list, it is not a diagram.** Meaning is carried by position, length or alignment. Boxes and arrows are the last resort, not the starting vocabulary — see `packages/frontend/assets/diagrams/` for how three different shapes of claim were solved (an axis, a sequence, a containment).
 
 Solid means there; a dashed outline of the same shape means missing or not yet reachable — so a shortfall has a size, not a sentence. Where the missing part is a degradation rather than a precondition, the dashed outline carries `--status-warn`.
 
@@ -218,17 +218,17 @@ Enough to produce a new diagram that sits in the set without adjustment. Every v
 
 **Ship one file per drawing.** Wrap the shapes in `<g id="art">` and give the root `<svg>` a viewBox. The drawing is then *referenced* into a page — `<svg class="sds-art" viewBox="…"><use href="…/name.svg#art"></use></svg>` — so the tokens reach it and it follows a mode forced on a subtree. An `<img>` renders the file in a document of its own and only ever shows the fallback hexes, which is exactly what it should show when the file is opened on its own.
 
-`sds-figure` writes that reference for the drawings shipped in `assets/diagrams/`, whose viewBoxes `make diagrams` reads out of the files. `sds-image` is the same picture without the caption — a mark in a bar, an illustration on a screen — and both decide the same way, from the file name and nothing else: **every SVG is referenced, everything else is linked.** A raster file has no mode to follow; a drawing does.
+`sds-figure` writes that reference for the drawings shipped in `packages/frontend/assets/diagrams/`, whose viewBoxes `make diagrams` reads out of the files. `sds-image` is the same picture without the caption — a mark in a bar, an illustration on a screen — and both decide the same way, from the file name and nothing else: **every SVG is referenced, everything else is linked.** A raster file has no mode to follow; a drawing does.
 
 **A drawing of your own is referenced too.** Name its root `<svg id="art" viewBox="…">` and write every colour as a `var()` with a hex behind it. The root is what carries the coordinate system across, so nothing has to read the file and no viewBox is passed. Never a `<style>` block and never a colour on the root: both are applied to the shapes after they are referenced, both beat a presentation attribute, and the drawing is then the author's grey on every page there is. A comment may not contain a double dash either — that is malformed XML, and the file draws nothing anywhere. `docs/guidelines/artwork.rst` is the whole rule; a signet a documentation project configures follows it.
 
 ## Brand
 
-**The signet is a construction, not a fixed drawing.** What this system fixes is *how* one is built; the mark in `assets/` is one worked example of the rules, carried over from the Dev Companion prototype. Treat it as the reference implementation, not as an approved product mark — a product that adopts this system draws its own to the same rules.
+**The signet is a construction, not a fixed drawing.** What this system fixes is *how* one is built; the mark in `packages/frontend/assets/` is one worked example of the rules, carried over from the Dev Companion prototype. Treat it as the reference implementation, not as an approved product mark — a product that adopts this system draws its own to the same rules.
 
 **How to draw one.** Everything follows the stroke: stroke 7 → rounding 3.5 (half the stroke, on frame caps, line ends and the marker's points alike) → gap ≥ 7 measured ink to ink. A 128 × 100 box, corner radius 20 shared by frame and marker. The frame is one open path — both ends are caps, not cuts — and it stops gap + stroke short, because each cap reaches half a stroke further. The marker sits on the frame's **outer** edge, not on the box.
 
-**Three optical sizes, redrawn, never scaled.** The weights are the system's, whatever the drawing: 32px and up takes stroke 7 and three lines, 20–31px stroke 8.5 with the middle line dropped, 16–19px stroke 11. Shipped as `assets/<product>-signet-l.svg`, `-m.svg`, `-s.svg`; pick the file at the link, because a media query inside an SVG only sees its own viewport: `<link rel="icon" sizes="16x16" href="dev-companion-signet-s.svg">`. The 16–19px file is square-boxed, since a 5:4 mark letterboxed into a favicon slot lands under the 16px floor.
+**Three optical sizes, redrawn, never scaled.** The weights are the system's, whatever the drawing: 32px and up takes stroke 7 and three lines, 20–31px stroke 8.5 with the middle line dropped, 16–19px stroke 11. Shipped as `packages/frontend/assets/<product>-signet-l.svg`, `-m.svg`, `-s.svg`; pick the file at the link, because a media query inside an SVG only sees its own viewport: `<link rel="icon" sizes="16x16" href="dev-companion-signet-s.svg">`. The 16–19px file is square-boxed, since a 5:4 mark letterboxed into a favicon slot lands under the 16px floor.
 
 **Drawing a new signet is a defined job, not an invention.** Three marks ship as worked examples — `design-system-`, `dev-companion-` and `tryout-signet-*.svg` — and `guidelines/signet-prompt.md` is the construction written as something to act on: hand it a product name and it produces a mark that belongs to the family. Do not draw one freehand from the cards.
 
@@ -256,9 +256,9 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 | Token values | `tokens/colors.css`, `fonts.css`, `typography.css`, `spacing.css`, `radius.css`, `motion.css` |
 | Colour, type, spacing, brand specimens | `guidelines/*.card.html` |
 | Focus, loading, empty, error | `guidelines/states-*.card.html` |
-| Icon set and usage | `guidelines/icons-*.card.html`, `assets/icons/` |
-| Illustration rules, prompt and examples | `guidelines/illustration-prompt.md`, `assets/placeholders/` |
-| Diagram rules and the worked examples | `guidelines/diagrams-*.card.html`, `assets/diagrams/` |
+| Icon set and usage | `guidelines/icons-*.card.html`, `packages/frontend/assets/icons/` |
+| Illustration rules, prompt and examples | `guidelines/illustration-prompt.md`, `packages/frontend/assets/placeholders/` |
+| Diagram rules and the worked examples | `guidelines/diagrams-*.card.html`, `packages/frontend/assets/diagrams/` |
 | Buttons, fields | `components/core/` |
 | Tabs, tool rail | `components/navigation/` |
 | Table, badges, density | `components/data/` |
@@ -275,5 +275,5 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 - Every state that can occur has copy that names its source and its boundary.
 - Header sheds rather than wraps at 1120, 1040, 820 and 620.
 - Nothing reachable by pointer only; `:focus-visible` rings present.
-- Nothing new that is only in `src/`: a component is shown in a story, its classes are drawn somewhere, and it appears in a page the Guides renderer produced. `make coverage`.
+- Nothing new that is only in `packages/frontend/src/`: a component is shown in a story, its classes are drawn somewhere, and it appears in a page the Guides renderer produced. `make coverage`.
 - No class invented outside the stylesheets — not in a template, not in a theme, not in a page.

@@ -9,8 +9,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/icon.ts';
-import { iconIds, type IconId, type IconSize } from '../../src/components/icon.ts';
+import '../../packages/frontend/src/components/icon.ts';
+import { iconIds, type IconId, type IconSize } from '../../packages/frontend/src/components/icon.ts';
 
 interface IconArgs {
   name: IconId;

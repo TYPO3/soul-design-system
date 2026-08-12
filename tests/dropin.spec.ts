@@ -138,7 +138,7 @@ test('an icon takes the same space before the script and after', async ({ page }
    blank. */
 test('a bundling consumer can say where the sprite went', async ({ page }) => {
   await page.route('**/somewhere-else/actions.svg', (route) =>
-    route.fulfill({ path: 'dist/assets/icons/sprites/actions.svg', contentType: 'image/svg+xml' }));
+    route.fulfill({ path: 'packages/frontend/dist/assets/icons/sprites/actions.svg', contentType: 'image/svg+xml' }));
   await page.route('**/sprite-fixture.html', (route) =>
     route.fulfill({ contentType: 'text/html', body: HTML }));
   await page.goto('/sprite-fixture.html', { waitUntil: 'load' });
@@ -173,7 +173,7 @@ test('a bundling consumer can say where the sprite went', async ({ page }) => {
 test('the bundle survives being built into a classic script', async ({ page }) => {
   const { build } = await import('esbuild');
   const bundled = await build({
-    entryPoints: ['dist/soul.js'],
+    entryPoints: ['packages/frontend/dist/soul.js'],
     bundle: true,
     format: 'iife',
     target: 'es2017',

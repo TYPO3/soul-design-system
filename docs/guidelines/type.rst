@@ -9,10 +9,10 @@ Two families, and the split between them is semantic rather than decorative.
 **Source Sans 3** carries everything a person wrote. **Source Code Pro**
 carries everything the machine reads, writes or names — tool names,
 arguments, paths, versions, CLI fragments — at *every* size, including
-headings. ``--font-size-body``, ``src/tokens/colors.css``,
+headings. ``--font-size-body``, ``packages/frontend/src/tokens/colors.css``,
 ``make verify``. Never title-cased, never prettified.
 
-Both are vendored under ``fonts/`` rather than pulled from a font host, so a
+Both are vendored under ``packages/frontend/fonts/`` rather than pulled from a font host, so a
 rendered design sets in the right type behind a strict content policy or
 with no network at all. They are generated from ``@fontsource`` by
 ``make fonts`` and are not in git — the container regenerates them whenever

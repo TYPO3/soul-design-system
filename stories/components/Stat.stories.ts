@@ -10,8 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/stat.ts';
-import { type StatProps } from '../../src/components/stat.ts';
+import '../../packages/frontend/src/components/stat.ts';
+import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
 import { NNBSP } from '../lib/specimen.ts';
 
 const sdsStat = ({ value, label, note }: StatProps) =>

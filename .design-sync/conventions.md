@@ -139,7 +139,7 @@ that is the answer, not a reason to substitute something.
   prompt in a code block, the pipe in the wordmark. No second accent, no gradient.
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, paths,
   flags, versions — is `sds-mono`, never title-cased: `typo3_server_scope`, `.mcp.json`.
-- **No emoji.** Status is a colour plus an icon from `assets/icons/`.
+- **No emoji.** Status is a colour plus an icon from `packages/frontend/assets/icons/`.
 - **Hover changes colour and border. Never position, never size.** Nothing lifts or scales.
 - **Icons: 16px floor**, sizes 16/20/24 only, inlined SVG so `currentColor` is inherited.
 - **Sentence case headings**, no marketing superlatives.

@@ -12,8 +12,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/empty.ts';
-import { type EmptyProps } from '../../src/components/empty.ts';
+import '../../packages/frontend/src/components/empty.ts';
+import { type EmptyProps } from '../../packages/frontend/src/components/empty.ts';
 import { dsCard, indent, part, specPad } from '../lib/specimen.ts';
 
 const BOX = 'flex:1; min-width:280px;';

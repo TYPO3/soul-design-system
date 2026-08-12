@@ -6,7 +6,7 @@
    to be interesting: one comment, one string, one keyword. */
 
 import { test, expect } from '@playwright/test';
-import { highlight, highlights } from '../src/lib/highlight.ts';
+import { highlight, highlights } from '../packages/frontend/src/lib/highlight.ts';
 import { gotoStory } from './lib/story.ts';
 
 /* A line of each, with something in it the grammar has to recognise. */

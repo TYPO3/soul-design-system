@@ -8,8 +8,8 @@
    specimen; if a product surface does, something is wrong. */
 
 import type { Preview } from '@storybook/web-components-vite';
-import '../src/styles/styles.css';
-import '../src/styles/_specimen.css';
+import '../packages/frontend/src/styles/styles.css';
+import '../packages/frontend/src/styles/_specimen.css';
 import './docs.css';
 import { addons } from 'storybook/preview-api';
 import { VIEWPORTS } from './viewports.ts';
@@ -17,8 +17,8 @@ import { VIEWPORTS } from './viewports.ts';
 /* One import: the entry registers every element and installs the host rule.
    Listing them here was a second list to keep in step with `src/index.ts`,
    and it fell out of step the moment navigation was split into three. */
-import '../src/index.ts';
-import { setIconSprite } from '../src/components/icon.ts';
+import '../packages/frontend/src/index.ts';
+import { setIconSprite } from '../packages/frontend/src/components/icon.ts';
 
 /* The icons reference a sprite embedded once per document, and by default it
    is resolved beside the module — right for the drop-in, wrong here, where

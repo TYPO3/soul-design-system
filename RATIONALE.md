@@ -18,7 +18,7 @@ There was no logo, no brand mark and no webfont binary to inherit. **No mark was
 
 Drawn in a 128 × 100 box, and everything follows one value: **stroke 7** → rounding 3.5 (half the stroke, on frame caps, line ends and the marker's three points alike) → **gap ≥ 7, measured ink to ink**. Marker 36 across, 52 down; corner radius 20, shared by frame and marker. The frame is one open path, so its two ends are round caps rather than cuts, and the path stops gap + stroke short because both caps reach half a stroke further. The marker sits on the frame's *outer* edge, not on the box.
 
-**Three optical sizes, not one drawing scaled.** L (32px and up): stroke 7, three lines. M (20–31px): stroke 8.5, the faint middle line dropped. S (16–19px, favicon): stroke 11, marker 40 × 58. **16px is the floor** — below it, wordmark alone. Shipped as three files per mark — `assets/<product>-signet-{l,m,s}.svg` — and the size is chosen at the link (`<link rel="icon" sizes="16x16" href="dev-companion-signet-s.svg">`), not inside the asset. A single self-switching file was tried and dropped: media queries inside an SVG only see their own viewport when the file is linked, and not dependably across renderers. Nor does a file carry its own light and dark: it names its root `id="art"` and colours its shapes `var(--text-primary, #8A8378)`, so a page that references it gets the page's ink and every other use falls back to a mid warm grey that holds on both modes. A `<style>` in the file would defeat that, and `ARCHITECTURE.md` has what was measured.
+**Three optical sizes, not one drawing scaled.** L (32px and up): stroke 7, three lines. M (20–31px): stroke 8.5, the faint middle line dropped. S (16–19px, favicon): stroke 11, marker 40 × 58. **16px is the floor** — below it, wordmark alone. Shipped as three files per mark — `packages/frontend/assets/<product>-signet-{l,m,s}.svg` — and the size is chosen at the link (`<link rel="icon" sizes="16x16" href="dev-companion-signet-s.svg">`), not inside the asset. A single self-switching file was tried and dropped: media queries inside an SVG only see their own viewport when the file is linked, and not dependably across renderers. Nor does a file carry its own light and dark: it names its root `id="art"` and colours its shapes `var(--text-primary, #8A8378)`, so a page that references it gets the page's ink and every other use falls back to a mid warm grey that holds on both modes. A `<style>` in the file would defeat that, and `ARCHITECTURE.md` has what was measured.
 
 **Wordmark.** `TYPO3` at weight 600, an orange pipe, `Soul Design System` at weight 300. The pipe is a separator and a caret at once — the terminal reading the product earns — and it is the only colour in the mark. The weight split, not a bullet or a slash, carries the hierarchy: the domain has the mass, the system's name is the qualifier it grammatically is. Minimum 12px type.
 
@@ -107,7 +107,7 @@ The product's own honesty rules decide what these look like: an answer always ca
 
 ## Iconography
 
-**The icons are TYPO3's own.** `TYPO3/TYPO3.Icons` is the source; the icons this product needs are copied into `assets/icons/`, and that directory is the list. Nothing is drawn locally and nothing is substituted from another set — an icon this product needs and TYPO3 does not have yet is **contributed upstream**, so the two stay one set.
+**The icons are TYPO3's own.** `TYPO3/TYPO3.Icons` is the source; the icons this product needs are copied into `packages/frontend/assets/icons/`, and that directory is the list. Nothing is drawn locally and nothing is substituted from another set — an icon this product needs and TYPO3 does not have yet is **contributed upstream**, so the two stay one set.
 
 That is not only tidiness. The identifiers are the core's own — `actions-search`, `actions-code-compare`, `actions-exclamation-triangle` — which is the same string an agent gets back from `typo3_icon_lookup`. Design and runtime name the same thing.
 
@@ -138,7 +138,7 @@ axes, labels and connectors with one quiet person, object or still-life gesture
 drawn as broad, flattened silhouettes; one contained halftone plane supplies
 print character without borrowing the diagram's dashed-state meaning.
 
-The 1200 × 750 PNGs under `assets/placeholders/` are one-file assets used
+The 1200 × 750 PNGs under `packages/frontend/assets/placeholders/` are one-file assets used
 unchanged in light and dark. A separate dark generation drifted in composition
 and doubled the set for decorative media that already carries its own canvas.
 Overlap, at most two flat tones per object and a shallow shape-like ground wash
@@ -154,7 +154,7 @@ subjects are free.
 
 ## Diagram language
 
-The product's existing diagrams carry its explanation and are the intended visual leitmotif. Rather than a set of one-off redraws, this system defines the **rules** they are drawn by, plus one worked example: `assets/diagrams/answer-sources.svg`.
+The product's existing diagrams carry its explanation and are the intended visual leitmotif. Rather than a set of one-off redraws, this system defines the **rules** they are drawn by, plus one worked example: `packages/frontend/assets/diagrams/answer-sources.svg`.
 
 **One claim per diagram.** The title states it, the closing line states its consequence. Two claims are two diagrams.
 
@@ -176,7 +176,7 @@ The product's existing diagrams carry its explanation and are the intended visua
 
 **One file, one drawing.** Every colour is written as a presentation attribute, and every attribute is `var(--token, #light)` — the token this system already declares, with the light hex behind it. A drawing opened on its own, in a README or a tab, has no tokens and renders as the light file it falls back to. Referenced into a page it reads that page's tokens and arrives in that page's mode, including a mode forced on a subtree, which is what a `<picture>` could never do: it follows the system preference and cannot see `data-theme`.
 
-Referenced, not linked — `<img>` renders its file in a document of its own, where no token is declared and the fallback is all there is. So a drawing is a `<use>` into the file, the same mechanism an icon is, and `src/lib/art.ts` is where that decision lives. It ships one file, and the file it ships is the one GitHub can read.
+Referenced, not linked — `<img>` renders its file in a document of its own, where no token is declared and the fallback is all there is. So a drawing is a `<use>` into the file, the same mechanism an icon is, and `packages/frontend/src/lib/art.ts` is where that decision lives. It ships one file, and the file it ships is the one GitHub can read.
 
 ## Governance
 

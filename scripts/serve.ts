@@ -3,7 +3,7 @@
 
      npm run serve   # serves what is already there
 
-   Serves the repo root so the cards resolve ../styles.css and ../assets/…
+   Serves the repo root so the cards resolve ../styles.css and ../packages/frontend/assets/…
    exactly as they will once uploaded. Pass a port as the first argument. */
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';

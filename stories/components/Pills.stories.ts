@@ -10,8 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/pills.ts';
-import { type NavProps } from '../../src/components/nav-base.ts';
+import '../../packages/frontend/src/components/pills.ts';
+import { type NavProps } from '../../packages/frontend/src/components/nav-base.ts';
 
 const meta: Meta<NavProps> = {
   title: 'Components/Pills',

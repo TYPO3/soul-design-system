@@ -10,8 +10,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/table.ts';
-import { type Column, type Density, type Row, type TableProps } from '../../src/components/table.ts';
+import '../../packages/frontend/src/components/table.ts';
+import { type Column, type Density, type Row, type TableProps } from '../../packages/frontend/src/components/table.ts';
 import { TOOLS } from './Table.stories.ts';
 import { dsCard, esc, indent, part, px, spec } from '../lib/specimen.ts';
 

@@ -11,7 +11,7 @@ three with a checkout in front and a deploy behind.
 
    composer install
    vendor/bin/guides docs --output=site -c docs --fail-on-error
-   node .soul/dist/soul-finish.js site
+   node .soul/packages/frontend/dist/soul-finish.js site
 
 What each one is for
 ====================

@@ -16,7 +16,7 @@ import { spawnSync } from 'node:child_process';
 
 import * as esbuild from 'esbuild';
 
-import { ROOT } from './lib/cards.ts';
+import { FRONTEND, ROOT } from './lib/cards.ts';
 import { rulePerLine } from './lib/css.ts';
 
 /* `--check` builds beside the committed output and compares. The drop-in is
@@ -29,7 +29,7 @@ const CHECK = process.argv.includes('--check');
    of it: nothing in the running stack reads them, they are the slowest step by
    an order of magnitude, and `verify` builds them anyway. */
 const WATCH = process.argv.includes('--watch');
-const OUT = join(ROOT, CHECK ? '.dist-check' : 'dist');
+const OUT = join(FRONTEND, CHECK ? '.dist-check' : 'dist');
 
 /** Every .d.ts under a directory. */
 function* walkDts(dir: string): Generator<string> {
@@ -47,7 +47,7 @@ mkdirSync(OUT, { recursive: true });
    them would only give a consumer more requests for the same bytes, and the
    entry registers every element anyway. */
 const bundle = await esbuild.build({
-  entryPoints: [join(ROOT, 'src', 'index.ts')],
+  entryPoints: [join(FRONTEND, 'src', 'index.ts')],
   outfile: join(OUT, 'index.js'),
   bundle: true,
   format: 'esm',
@@ -63,15 +63,16 @@ const bundle = await esbuild.build({
    way out, which is what lets one set of sources serve both Node's stripper
    and a published package. */
 const tsconfig = {
-  extends: '../tsconfig.json',
+  extends: '../../../tsconfig.json',
   compilerOptions: {
     noEmit: false,
     declaration: true,
     emitDeclarationOnly: true,
     rewriteRelativeImportExtensions: true,
     allowImportingTsExtensions: true,
-    /* Both explicit: with the config inside dist/, tsc would otherwise
-       infer the root as dist/ and reject every source above it. */
+    /* Both explicit: with the config inside dist/, tsc would otherwise infer
+       the root as dist/ and reject every source above it. The climb is to the
+       package, not the repo — `src/` sits beside this output. */
     rootDir: '..',
     outDir: 'types',
   },
@@ -113,7 +114,7 @@ for (const file of walkDts(join(OUT, 'types'))) {
 /* The drop-in. Lit inside, one stylesheet, and the files both of them ask
    for sitting beside them at the paths they already use. */
 const jsOptions: esbuild.BuildOptions = {
-  entryPoints: [join(ROOT, 'src', 'index.ts')],
+  entryPoints: [join(FRONTEND, 'src', 'index.ts')],
   outfile: join(OUT, 'soul.js'),
   bundle: true,
   format: 'esm',
@@ -141,7 +142,7 @@ const perRule: esbuild.Plugin = {
 /* One stylesheet: the faces, the tokens and the class layer inlined, with
    the woff2 files copied beside it and their URLs rewritten to match. */
 const cssOptions: esbuild.BuildOptions = {
-  entryPoints: [join(ROOT, 'src/styles/styles.css')],
+  entryPoints: [join(FRONTEND, 'src/styles/styles.css')],
   outfile: join(OUT, 'soul.css'),
   bundle: true,
   minify: true,
@@ -156,7 +157,7 @@ const cssOptions: esbuild.BuildOptions = {
    because a backend module has no paragraphs to have opinions about — see the
    header of `document.css`. */
 const docCssOptions: esbuild.BuildOptions = {
-  entryPoints: [join(ROOT, 'src/styles/document.css')],
+  entryPoints: [join(FRONTEND, 'src/styles/document.css')],
   outfile: join(OUT, 'document.css'),
   bundle: true,
   minify: true,
@@ -168,7 +169,7 @@ const docCssOptions: esbuild.BuildOptions = {
    for it or not. So it ships as a classic script, built on its own — the head
    of `src/boot.ts` says what leaving it out costs. */
 const bootOptions: esbuild.BuildOptions = {
-  entryPoints: [join(ROOT, 'src', 'boot.ts')],
+  entryPoints: [join(FRONTEND, 'src', 'boot.ts')],
   outfile: join(OUT, 'soul-boot.js'),
   bundle: true,
   format: 'iife',
@@ -199,9 +200,9 @@ const finishOptions: esbuild.BuildOptions = {
    which is this system's own story photography — 8.7 MB of it, in every clone
    and every copy anybody makes of the drop-in. */
 const NOT_IN_THE_DROP_IN = [join('icons', 'svgs'), 'placeholders'];
-const copyAssets = (): void => cpSync(join(ROOT, 'assets'), join(OUT, 'assets'), {
+const copyAssets = (): void => cpSync(join(FRONTEND, 'assets'), join(OUT, 'assets'), {
   recursive: true,
-  filter: (source) => !NOT_IN_THE_DROP_IN.includes(relative(join(ROOT, 'assets'), source)),
+  filter: (source) => !NOT_IN_THE_DROP_IN.includes(relative(join(FRONTEND, 'assets'), source)),
 });
 
 if (WATCH) {
@@ -231,10 +232,14 @@ if (WATCH) {
     esbuild.context(watched(cssOptions, 'dist/soul.css')),
     esbuild.context(watched(docCssOptions, 'dist/document.css')),
     esbuild.context(watched(bootOptions, 'dist/soul-boot.js')),
+    /* The finishing step too, or a watch run leaves the drop-in without the
+       one file a documentation build calls — and the gate, which compares a
+       fresh build against this directory, reports it as out of date. */
+    esbuild.context(watched(finishOptions, 'dist/soul-finish.js')),
   ]);
   for (const ctx of contexts) await ctx.watch();
   copyAssets();
-  watch(join(ROOT, 'assets'), { recursive: true }, () => { copyAssets(); stamp('dist/assets'); });
+  watch(join(FRONTEND, 'assets'), { recursive: true }, () => { copyAssets(); stamp('dist/assets'); });
   console.log('watching src/ and assets/ — dist/ stays current');
   await new Promise(() => {});
 }
@@ -258,7 +263,7 @@ console.log(`dist/index.js — ${(bytes / 1024).toFixed(1)} kB from ${modules} m
 console.log(`dist/types/  — declarations, ${rewritten} rewritten to .js specifiers`);
 
 if (CHECK) {
-  const live = join(ROOT, 'dist');
+  const live = join(FRONTEND, 'dist');
   const walk = (dir: string, base = dir, out: string[] = []): string[] => {
     for (const e of readdirSync(dir, { withFileTypes: true })) {
       const p = join(dir, e.name);

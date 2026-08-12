@@ -16,12 +16,12 @@
 # remember.
 set -e
 
-if [ ! -d /app/fonts ] || [ -z "$(ls -A /app/fonts 2>/dev/null)" ]; then
+if [ ! -d /app/packages/frontend/fonts ] || [ -z "$(ls -A /app/packages/frontend/fonts 2>/dev/null)" ]; then
   echo "fonts/ is empty — generating" >&2
   node /app/scripts/fonts.ts >&2
 fi
 
-if [ ! -f /app/src/lib/icons.generated.ts ] || [ ! -d /app/assets/icons ] || [ -z "$(ls -A /app/assets/icons 2>/dev/null)" ]; then
+if [ ! -f /app/packages/frontend/src/components/icons.generated.ts ] || [ ! -d /app/packages/frontend/assets/icons ] || [ -z "$(ls -A /app/packages/frontend/assets/icons 2>/dev/null)" ]; then
   echo "assets/icons is incomplete — generating" >&2
   node /app/scripts/icons.ts >&2
 fi

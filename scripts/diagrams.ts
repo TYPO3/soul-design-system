@@ -12,9 +12,9 @@
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { ROOT } from './lib/cards.ts';
+import { FRONTEND, ROOT } from './lib/cards.ts';
 
-const ASSETS = join(ROOT, 'assets');
+const ASSETS = join(FRONTEND, 'assets');
 const DIR = join(ASSETS, 'diagrams');
 
 /** The group `<use>` points at in a drawing. Every one of them names it the
@@ -118,7 +118,7 @@ const MODULES: readonly (readonly [file: string, text: string])[] = [
 const check = process.argv.includes('--check');
 let stale = 0;
 for (const [file, text] of MODULES) {
-  const out = join(ROOT, 'src', 'components', file);
+  const out = join(FRONTEND, 'src', 'components', file);
   if (check) {
     if (readFileSync(out, 'utf8') !== text) {
       console.error(`✗ src/components/${file} is out of date — run \`make diagrams\``);

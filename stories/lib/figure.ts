@@ -9,8 +9,8 @@
    rather than through `sds-figure`, because what these document is the drawing
    and not the frame. The plane is the card's ground, so it goes on `<body>`. */
 
-import { inlineArtRefs } from '../../src/components/art.static.ts';
-import { DIAGRAM_VIEWBOX } from '../../src/components/diagrams.generated.ts';
+import { inlineArtRefs } from '../../packages/frontend/src/components/art.static.ts';
+import { DIAGRAM_VIEWBOX } from '../../packages/frontend/src/components/diagrams.generated.ts';
 import { indent } from './specimen.ts';
 
 /** A drawing: what it is called, and what it draws for a reader who cannot

@@ -68,27 +68,35 @@ const config: StorybookConfig = {
     { from: '../specimens/guidelines', to: '/guidelines' },
     { from: '../specimens/components', to: '/components' },
     { from: '../specimens/screens', to: '/screens' },
-    { from: '../assets', to: '/assets' },
-    { from: '../fonts', to: '/fonts' },
-    { from: '../src/tokens', to: '/tokens' },
+    { from: '../packages/frontend/assets', to: '/assets' },
+    { from: '../packages/frontend/fonts', to: '/fonts' },
+    { from: '../packages/frontend/src/tokens', to: '/tokens' },
     /* The whole directory, at the path the cards resolve to: a guideline
        card served at /guidelines/x.card.html links
-       `../src/styles/styles.css`. */
-    { from: '../src/styles', to: '/styles' },
-    /* And at the path it actually asks for: a card climbs `../../src/styles/`
+       `../packages/frontend/src/styles/styles.css`. */
+    { from: '../packages/frontend/src/styles', to: '/styles' },
+    /* And at the path it actually asks for: a card climbs `../../packages/frontend/src/styles/`
        from wherever it is stored, which clamps above the publish root, so the
        request is for `/src/styles/styles.css`. It only shows where a story
        embeds a card as a document rather than inlining it. */
-    { from: '../src/styles', to: '/src/styles' },
+    { from: '../packages/frontend/src/styles', to: '/packages/frontend/src/styles' },
     /* And what that stylesheet then imports, at the path it imports it from —
        `../tokens/` beside `src/styles/`. A card whose sheet loads and whose
        tokens do not is a card drawn in the browser's own defaults, which is
        worse than one with no stylesheet at all: it looks like a design. */
-    { from: '../src/tokens', to: '/src/tokens' },
+    { from: '../packages/frontend/src/tokens', to: '/packages/frontend/src/tokens' },
+    /* And the faces that sheet imports, two levels above itself — a card whose
+       stylesheet loads and whose faces do not is a card set in system-ui, which
+       is a difference nobody notices in a screenshot. */
+    { from: '../packages/frontend/fonts', to: '/packages/frontend/fonts' },
+    /* And the pictures, at the path a generated card climbs to: a card states
+       where the file is in the repository, because it is also opened from disk
+       in the design pane, where nothing is served at all. */
+    { from: '../packages/frontend/assets', to: '/packages/frontend/assets' },
     /* What a consumer copies. Served so the drop-in can be opened here rather
        than only built — an artefact nothing ever loads is an artefact nobody
        knows is broken. */
-    { from: '../dist', to: '/dist' },
+    { from: '../packages/frontend/dist', to: '/dist' },
     /* The rendered site is deliberately NOT here. It is served by its own
        container at its own root — see the `site` service in the compose file
        for why a sub-path under this server would be a lie about how it

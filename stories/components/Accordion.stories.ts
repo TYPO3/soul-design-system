@@ -9,8 +9,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/accordion.ts';
-import { type AccordionProps, type Entry } from '../../src/components/accordion.ts';
+import '../../packages/frontend/src/components/accordion.ts';
+import { type AccordionProps, type Entry } from '../../packages/frontend/src/components/accordion.ts';
 
 const sdsAccordion = ({ entries, multiple = false, name }: AccordionProps) =>
   html`<sds-accordion .entries="${entries}" ?multiple="${multiple}" name="${name ?? 'sds-accordion'}"></sds-accordion>`;

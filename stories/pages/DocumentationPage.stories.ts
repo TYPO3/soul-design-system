@@ -12,17 +12,17 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/menu.ts';
-import '../../src/components/rail.ts';
-import '../../src/components/field.ts';
-import '../../src/components/code.ts';
-import '../../src/components/badge.ts';
-import '../../src/components/button.ts';
-import '../../src/components/image.ts';
-import '../../src/components/theme.ts';
-import { buttonMarkup } from '../../src/components/button.ts';
-import { type CodeLine } from '../../src/components/code.ts';
-import { type RailEntry } from '../../src/components/rail.ts';
+import '../../packages/frontend/src/components/menu.ts';
+import '../../packages/frontend/src/components/rail.ts';
+import '../../packages/frontend/src/components/field.ts';
+import '../../packages/frontend/src/components/code.ts';
+import '../../packages/frontend/src/components/badge.ts';
+import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/image.ts';
+import '../../packages/frontend/src/components/theme.ts';
+import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
+import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode } from '../lib/page.ts';
 

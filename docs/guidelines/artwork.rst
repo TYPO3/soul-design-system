@@ -135,5 +135,5 @@ failure this contract has. Three causes, in the order to check them:
 Specimen cards are the deliberate exception. They are opened from disk with no
 server, where every file is its own origin and no reference resolves at all —
 so the card generator puts the artwork where the reference was. That is
-``scripts/diagrams.ts`` and ``src/components/art.static.ts``, and it is why a
+``scripts/diagrams.ts`` and ``packages/frontend/src/components/art.static.ts``, and it is why a
 card shows the drawing and a page shows a reference to it.

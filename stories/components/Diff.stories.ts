@@ -8,8 +8,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/diff.ts';
-import { type DiffLine, type DiffProps } from '../../src/components/diff.ts';
+import '../../packages/frontend/src/components/diff.ts';
+import { type DiffLine, type DiffProps } from '../../packages/frontend/src/components/diff.ts';
 
 /** The change the code card shows. Exported so the card composes this one
     rather than keeping a second copy of it. */

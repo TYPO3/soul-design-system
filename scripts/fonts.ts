@@ -12,7 +12,7 @@
 import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { ROOT } from './lib/cards.ts';
+import { FRONTEND, ROOT } from './lib/cards.ts';
 
 /* The faces the design system declares. Adding a weight here is the only
    step needed to ship it — everything else follows. */
@@ -33,7 +33,7 @@ const FAMILIES = [
 ];
 const SUBSETS = ['latin', 'latin-ext'];
 
-const OUT = join(ROOT, 'fonts');
+const OUT = join(FRONTEND, 'fonts');
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 

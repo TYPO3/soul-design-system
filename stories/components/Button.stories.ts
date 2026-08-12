@@ -11,10 +11,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../src/components/button.ts';
-import '../../src/components/link.ts';
-import { buttonMarkup, type ButtonProps, type ButtonSize, type ButtonVariant } from '../../src/components/button.ts';
-import { type IconId } from '../../src/components/icon.ts';
+import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/link.ts';
+import { buttonMarkup, type ButtonProps, type ButtonSize, type ButtonVariant } from '../../packages/frontend/src/components/button.ts';
+import { type IconId } from '../../packages/frontend/src/components/icon.ts';
 
 import { dsCard, part, spec, specRow } from '../lib/specimen.ts';
 

@@ -8,9 +8,9 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/dialog.ts';
-import '../../src/components/button.ts';
-import { type DialogProps, type SdsDialog } from '../../src/components/dialog.ts';
+import '../../packages/frontend/src/components/dialog.ts';
+import '../../packages/frontend/src/components/button.ts';
+import { type DialogProps, type SdsDialog } from '../../packages/frontend/src/components/dialog.ts';
 
 const ACTIONS = [
   html`<sds-button variant="ghost" size="sm">Cancel</sds-button>`,

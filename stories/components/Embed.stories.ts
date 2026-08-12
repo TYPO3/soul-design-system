@@ -10,8 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/embed.ts';
-import { type EmbedProps } from '../../src/components/embed.ts';
+import '../../packages/frontend/src/components/embed.ts';
+import { type EmbedProps } from '../../packages/frontend/src/components/embed.ts';
 
 const sdsEmbed = ({ src, label, ratio, width, height, caption, allow, allowfullscreen }: EmbedProps) =>
   html`<sds-embed

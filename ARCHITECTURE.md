@@ -1,7 +1,7 @@
 # How this repo is built
 
 The design system is the product: the tokens in `tokens/`, the class layer in
-`styles/components.css`, and the Lit elements in `src/`. Everything else is
+`styles/components.css`, and the Lit elements in `packages/frontend/src/`. Everything else is
 generated from those — the specimen cards, the Storybook pages, the npm
 package, and the design-guide bundle that `.design-sync/` uploads.
 
@@ -15,18 +15,18 @@ nothing else.
 
 ## Layout
 
-`src/` is the design system. Three layers, peers of one another, because that
+`packages/frontend/src/` is the design system. Three layers, peers of one another, because that
 is what they are — a token is not a lesser thing than a component:
 
-- `src/tokens/*.css` — the values. Nothing else declares one.
-- `src/styles/` — `styles.css` is the single entry point and imports the
+- `packages/frontend/src/tokens/*.css` — the values. Nothing else declares one.
+- `packages/frontend/src/styles/` — `styles.css` is the single entry point and imports the
   tokens then the component layer. `components.css` is the `sds-` vocabulary.
   `document.css` is the document layer and `_specimen.css` is chrome for the
   cards; both are deliberately **outside** the `styles.css` closure — see
   below.
-- `src/components/*.ts` — the Lit elements, each exporting a plain template
-  function beside its class. `src/lib/` holds what they share and
-  `src/index.ts` is the bundle entry.
+- `packages/frontend/src/components/*.ts` — the Lit elements, each exporting a plain template
+  function beside its class. `packages/frontend/src/lib/` holds what they share and
+  `packages/frontend/src/index.ts` is the bundle entry.
 
 Two directories beside it are source as well, and both are read by something
 other than Storybook: `docs/` is the published documentation, written as RST
@@ -35,11 +35,11 @@ package that maps that renderer onto this system. A guideline page there and a
 story here show the same specimen, because the page embeds the same card.
 
 Everything else is generated from those and must not be edited by hand: every
-card and screen under `specimens/`, `fonts/` and `assets/icons/`, the Storybook
-build, `dist/`, `ds-bundle/` and `site/`. `make verify` fails on a card that no
+card and screen under `specimens/`, `packages/frontend/fonts/` and `packages/frontend/assets/icons/`, the Storybook
+build, `packages/frontend/dist/`, `ds-bundle/` and `site/`. `make verify` fails on a card that no
 story produces, so the hand-written form cannot come back one file at a time.
 
-`fonts/` and `assets/` stay at the root rather than under `src/`: they are
+`packages/frontend/fonts/` and `packages/frontend/assets/` stay at the root rather than under `packages/frontend/src/`: they are
 generated artefacts of npm packages, not sources, and the upload bundle wants
 them at its own root anyway.
 
@@ -52,10 +52,10 @@ change to two literals in `scripts/build.ts`, and that pairing broke twice.
 no caller states it. What still has to move with the layout is the `@import`
 rewriting, which names paths rather than depths.
 
-**Three export surfaces, and only one of them is not committed.** `dist/` is
+**Three export surfaces, and only one of them is not committed.** `packages/frontend/dist/` is
 the npm drop-in, `ds-bundle/` is the upload payload for the design agent, and
 `site/` is the publish root the rendered documentation lands in. The first two
-are in git because somebody copies them — a consumer takes `dist/` over a
+are in git because somebody copies them — a consumer takes `packages/frontend/dist/` over a
 clone, and the sync uploads `ds-bundle/` file by file. Nobody copies a rendered
 site; it is published, from `main`, by the workflow in `.github/`. Committing
 it would be committing the same pages twice, once as source and once as output.
@@ -82,24 +82,34 @@ card chrome, and a design built with this system must never inherit it.
 The document layer is not in `ds-bundle/`. That upload is for designing with
 the system, and nobody sets a document in it — one flat root, unchanged.
 
-## Two packages come out of this tree, and they leave by different doors
+## Two packages come out of this tree, and they leave through `packages/`
 
-**npm needs no split.** `package.json` is at the root, `files` names `dist/`,
-`src/`, `fonts/` and `assets/`, and `npm publish` from the root ships exactly
-that.
+**Both leave the same way, and that is the point of the directory.** A package
+under `packages/` is pushed to a repository of its own and published from
+there; nothing else in the tree leaves. `packages/frontend/` is the npm
+package — the tokens, the class layer, the elements, and the drop-in built from
+them — and `packages/guides-theme/` is the Composer package.
 
-**Composer does.** Packagist reads the `composer.json` at the root of a
+The root is a private workspace: it holds the devDependencies, the tooling, the
+specimens and the gate, and it is not a package anybody installs. That is what
+the move bought — before it, the repository root *was* the npm package, so the
+whole tree was something a consumer resolved paths into.
+
+**Composer forced the question.** Packagist reads the `composer.json` at the root of a
 repository, so a package in a subdirectory does not exist for it. Everything
 under `packages/` is therefore pushed to a read-only repository of its own —
 that is what the directory means, and the only thing it means.
 
-**It is assembled, not split out of the history.** `splitsh-lite` reproduces a
-subdirectory's commits exactly, which is the one thing that cannot work here:
-the package has to contain files the monorepo does not have in that place —
-the drop-in. So `scripts/split.ts` builds the repository whole, and the branch
-it is pushed to is a mirror of one commit rather than a second history
-somebody could commit into. Only a tag is a release, because only a tag is
-what Composer resolves.
+**It is assembled per commit, not split out of the history.** `splitsh-lite`
+reproduces a subdirectory's commits exactly, which is the one thing that cannot
+work for the theme: its package has to contain a directory this tree does not
+have in that place — the drop-in. So `scripts/split.ts` replays instead. Every
+commit that touches a package is assembled and committed over there with the
+author, date and message it had here, plus a `Split-From:` trailer that says
+where the mirror stopped, so the next run continues rather than repeats. A tag
+here becomes a tag there, on an empty commit where the package itself did not
+change — a release has to exist before it can be tagged, and only a tag is what
+Composer resolves.
 
 **Neither door delivers a documentation build on its own, and the gap is what
 a consumer feels.** The theme is PHP; the stylesheets are not, and neither is
@@ -107,7 +117,7 @@ the step that draws this system's elements before a browser sees them. A PHP
 project cannot pull npm, so a Composer-only build renders documents that link
 nothing and hold empty cards.
 
-So the drop-in carries that step. `dist/soul-finish.js` is
+So the drop-in carries that step. `packages/frontend/dist/soul-finish.js` is
 `scripts/lib/site.ts` bundled for Node — copy the drop-in, draw every element,
 write the search index, refuse a reference that leaves the output — and
 `make guides` calls the same functions rather than its own copy, which is what
@@ -116,13 +126,13 @@ needs PHP, Composer and the Node that is on every CI image, and one checkout
 of this repository for the drop-in: `examples/starter/` is that project, and
 the gate builds it that way on every push.
 
-**Two things are still open, and both are the split.** The theme is not on
-Packagist — Packagist reads the root `composer.json` of a repository, and this
-one's root is the npm package — so `examples/starter/composer.json` requires it
-from a path repository against the checkout it needs anyway. When the split is
-written it should carry `dist/` into `packages/guides-theme/resources/`, and a
-documentation build then needs Composer alone; until then the checkout is both
-the package and the drop-in, and the example is where that is written down.
+**What is still open is registration, not mechanism.** Neither package is
+published yet: the mirrors have to be pushed once, and the names claimed on
+Packagist and npm. Until then `examples/starter/composer.json` requires the
+theme from a path repository against a checkout of this repository — which is
+also where its drop-in comes from — and the example is where that is written
+down. The package the mirror produces has been installed and rendered from,
+so what is untested is the registration and nothing else.
 
 ## Decisions that were made on purpose
 
@@ -172,8 +182,8 @@ source of truth: `components.css` is still it.
 
 What the system now ships, and what it costs:
 
-- Nine Lit elements in `src/`, bundled into `_ds_bundle.js` and published as
-  ESM from `dist/`. `_adherence.oxlintrc.json` should now come back with real
+- Nine Lit elements in `packages/frontend/src/`, bundled into `_ds_bundle.js` and published as
+  ESM from `packages/frontend/dist/`. `_adherence.oxlintrc.json` should now come back with real
   entries instead of the empty `react/forbid-elements`,
   `no-restricted-imports` and `x-omelette.components` it used to — **check
   this on the next sync**, it is the first upload where that can be true.
@@ -190,8 +200,8 @@ The seven cards under `components/` are **generated** — edit
 `stories/*.stories.ts`, never the card. `make cards` writes them and
 `make cards ARGS=--check` fails on a stale one, which is step 5 of verify.
 
-The chain is: a component template in `src/` → `@lit-labs/ssr` renders it to
-static markup (`src/lib/render.ts`) → the story composes the specimen out of
+The chain is: a component template in `packages/frontend/src/` → `@lit-labs/ssr` renders it to
+static markup (`packages/frontend/src/lib/render.ts`) → the story composes the specimen out of
 those strings → the generator wraps it in the `@dsCard` shell. The 31
 guideline specimens under `guidelines/` are **not** generated: they document
 the token layer, have no props to vary, and are embedded into the MDX docs
@@ -204,7 +214,7 @@ Two things that bit during the migration and will bite again:
   body shifts every rendered line to the right — a visible change that reads
   as a formatting change.
 - **Lit SSR emits markers.** `<!--lit-part-->` around bindings, and a `<?>`
-  when a template's entire content is bindings. `src/lib/render.ts` strips
+  when a template's entire content is bindings. `packages/frontend/src/lib/render.ts` strips
   both and throws if a marker survives, because an HTML comment renders as
   nothing and would be invisible in review.
 
@@ -323,7 +333,7 @@ Dark `--status-warn` was already at 8.04:1 and did not move. The hierarchy
 against `--text-secondary` (8.50:1 light, 7.16:1 dark) is unchanged: muted is
 still clearly quieter, just legible.
 
-**The signets keep the old greys on purpose.** `assets/*-signet-*.svg` carry
+**The signets keep the old greys on purpose.** `packages/frontend/assets/*-signet-*.svg` carry
 `#8A8378` behind their tokens — `var(--text-primary, #8A8378)`, so the grey is
 what the file renders as where no token is declared and never what a page
 shows. A brand mark is a drawing, not text — WCAG's text-contrast rule does
@@ -331,7 +341,7 @@ not apply to it, and moving it would change the mark for no accessibility
 reason. So the signet grey and `--text-muted` no longer coincide; they were
 never the same decision.
 
-The three diagram pairs under `assets/diagrams/` **were** updated: SKILL.md
+The three diagram pairs under `packages/frontend/assets/diagrams/` **were** updated: SKILL.md
 documents their colours as a token swap, so leaving them would have made the
 drawings drift from the tokens they claim to follow. The two colour cards
 that print the hex values in prose were updated for the same reason — that is
@@ -379,7 +389,7 @@ Two dead ends are recorded because both look like fixes:
   suite exists to prove the shipped surface, and a surface assembled
   differently for the test is not that surface.
 - **`parameters.a11y.manual`** is not read by `@storybook/addon-a11y` v10.
-  Its own `dist/preview.d.ts` declares `initialGlobals: { a11y: { manual } }` —
+  Its own `packages/frontend/dist/preview.d.ts` declares `initialGlobals: { a11y: { manual } }` —
   it is a **global**. Set in `parameters` it silently does nothing, which is
   why the setting appeared to be in place for months while the panel went on
   auto-running.
@@ -431,7 +441,7 @@ visually as long as stylesheet and markup move together.
 It survived the second rename untouched. When the system became **Soul
 Design System** the initials came out the same, so `sds-`, `SDS` and every
 tag stayed exactly where they were; only prose, the package name
-(`@typo3/soul-design-system`) and the wordmark moved. That is luck rather
+(`@typo3/soul-frontend`) and the wordmark moved. That is luck rather
 than design, but it is worth recording why nothing had to move: a prefix
 that spells the system's initials survives a rename only when the initials
 do.
@@ -478,7 +488,7 @@ own mark — so the one element a consumer could not use was the one about their
 own brand. What it bought was `currentColor` and `var(--accent)`, which an
 `<img>` cannot inherit, and that turned out to be buyable another way.
 
-`src/lib/art.ts` decides, from the file name and nothing else: an SVG is
+`packages/frontend/src/lib/art.ts` decides, from the file name and nothing else: an SVG is
 referenced with `<use href="file.svg#art">`, anything else is linked with
 `<img>`. `sds-image` is that as an element, `sds-figure` is it with a caption,
 and the Guides theme writes the same two shapes itself in `brand.html.twig`
@@ -490,7 +500,7 @@ Four things were measured before this was built on, and each one is a rule in
 
 - A `<use>` into a root `<svg id="art" viewBox>` **scales** into the wrapper's
   width and height. The wrapper therefore states a size and no coordinate
-  system, and nothing has to read the file. `assets/diagrams/` still names a
+  system, and nothing has to read the file. `packages/frontend/assets/diagrams/` still names a
   `<g>`, which carries no viewBox, which is why that one directory is read by
   `scripts/diagrams.ts` and the marks are not.
 - A custom property declared on the page **reaches** the referenced shapes.
@@ -510,7 +520,7 @@ for a consumer's file the guideline page is the only guard there is.
 
 ## The signet is a construction, not the mark
 
-The drawing in `assets/` came from the Dev Companion prototype and is a
+The drawing in `packages/frontend/assets/` came from the Dev Companion prototype and is a
 worked example of the rules, not an approved product mark. The cards and
 SKILL.md are framed accordingly: what the system fixes is *how* a signet is
 built — stroke 7 → rounding 3.5 → gap ≥ 7, a 128×100 box, corner radius 20,

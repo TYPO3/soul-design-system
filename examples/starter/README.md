@@ -25,7 +25,7 @@ stops the build rather than the reader.
 git clone --depth 1 https://github.com/benjaminkott/typo3-soul-design-system .soul
 composer install
 vendor/bin/guides docs --output=site -c docs --fail-on-error
-node .soul/dist/soul-finish.js site
+node .soul/packages/frontend/dist/soul-finish.js site
 php -S localhost:8000 -t site
 ```
 

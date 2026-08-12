@@ -10,10 +10,10 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../src/components/menu.ts';
-import '../../src/components/badge.ts';
-import '../../src/components/image.ts';
-import '../../src/components/theme.ts';
+import '../../packages/frontend/src/components/menu.ts';
+import '../../packages/frontend/src/components/badge.ts';
+import '../../packages/frontend/src/components/image.ts';
+import '../../packages/frontend/src/components/theme.ts';
 
 const SECTIONS = [
   { label: 'overview', href: '#overview' },

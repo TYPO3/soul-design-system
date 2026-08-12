@@ -12,8 +12,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import '../../src/components/empty.ts';
-import { type EmptyProps } from '../../src/components/empty.ts';
+import '../../packages/frontend/src/components/empty.ts';
+import { type EmptyProps } from '../../packages/frontend/src/components/empty.ts';
 
 const sdsEmpty = ({ kind = 'quiet', heading, body, icon, action, href, meta }: EmptyProps) =>
   html`<sds-empty

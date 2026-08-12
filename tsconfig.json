@@ -36,6 +36,6 @@
     "allowJs": true,
     "checkJs": false
   },
-  "include": ["src", "stories", "scripts", ".storybook", "tests"],
+  "include": ["packages/frontend/src", "stories", "scripts", ".storybook", "tests"],
   "exclude": ["node_modules", "ds-bundle", "storybook-static", ".ds-sync"]
 }
