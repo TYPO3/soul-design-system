@@ -5,7 +5,7 @@
        renders on its own. Nothing colours it from a <style> or from the root,
        and no comment in here may carry a double dash, which is what makes an
        SVG malformed and a reference to it draw nothing. See
-       docs/guidelines/artwork.rst. -->
+       docs/design-system/artwork.rst. -->
   <!-- S - drawn at 16, where one unit is one pixel, and for the favicon.
        Stroke 1, rounding 0.5, gap 1. A one-pixel stroke is centred on a half
        pixel, which is what the halves in here are.

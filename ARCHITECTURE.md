@@ -577,7 +577,7 @@ and `figure.html.twig` — the theme cannot depend on an element, because a
 picture that waits for a script is a bar with no mark.
 
 Four things were measured before this was built on, and each one is a rule in
-`docs/guidelines/artwork.rst`:
+`docs/design-system/artwork.rst`:
 
 - A `<use>` into a root `<svg id="art" viewBox>` **scales** into the wrapper's
   width and height. The wrapper therefore states a size and no coordinate

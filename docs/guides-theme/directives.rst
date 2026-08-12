@@ -195,7 +195,7 @@ One card in a grid: a title, a few sentences, and where it goes.
    source is copied into the output and resolved per page; a URL somewhere
    else is linked as it stands. An SVG of this project's own is referenced
    rather than linked, so it takes the page's tokens and follows it into dark
-   — which costs the file the one line :doc:`/guidelines/artwork` asks for.
+   — which costs the file the one line :doc:`/design-system/artwork` asks for.
 
    The name is ``src`` here and on the element, because that is what
    everything in this system that takes a file is called.
@@ -339,7 +339,7 @@ One card: a title that goes somewhere, and what is behind it.
    :type: string
 
    A glyph above the label, for a set told apart before it is read. The name
-   is an icon of this system — see :doc:`/guidelines/icons`.
+   is an icon of this system — see :doc:`/design-system/icons`.
 
 .. confval:: src
    :name: card-src

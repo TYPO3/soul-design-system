@@ -90,7 +90,7 @@ and the documents themselves are not comments and say what they have to say.
 | How the pieces are wired, and which decisions are load-bearing | `ARCHITECTURE.md` |
 | How to *design with* the system — the build rules | `SKILL.md` |
 | Why a rule exists, before extending or breaking it | `RATIONALE.md` |
-| Drawing a signet to the construction | `docs/guidelines/signet-prompt.md` |
+| Drawing a signet to the construction | `docs/design-system/signet-prompt.md` |
 | Where the icons and fonts came from, and under what licence | `THIRD-PARTY.md` |
 | What the Guides theme still owes (German) | `packages/guides-theme/GAPS.md` |
 | How to take the theme into a project of your own | `docs/guides-theme/` |

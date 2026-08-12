@@ -118,7 +118,7 @@ above, because a mark that does not take the page's ink is the one thing on the
 bar that looks pasted on.
 
 Draw the mark itself to the construction: :doc:`brand` has the rules, and
-``docs/guidelines/signet-prompt.md`` is that construction written as something
+``docs/design-system/signet-prompt.md`` is that construction written as something
 to hand to a drawing tool.
 
 When it draws nothing

@@ -30,7 +30,7 @@
         <brand>TYPO3</brand>
         <product>Soul Design System</product>
         <navigation>
-            <link href="/guidelines/index" label="Design system"/>
+            <link href="/design-system/index" label="Design system"/>
             <link href="/guides-theme/index" label="Guides theme"/>
             <link href="/frontend" label="Frontend"/>
         </navigation>

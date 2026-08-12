@@ -5,7 +5,7 @@
        renders on its own. Nothing colours it from a <style> or from the root,
        and no comment in here may carry a double dash, which is what makes an
        SVG malformed and a reference to it draw nothing. See
-       docs/guidelines/artwork.rst. -->
+       docs/design-system/artwork.rst. -->
   <!-- L - drawn at 32, where one unit is one pixel. Stroke 2, rounding 1,
        gap 2. The full statement: three lines, and the marker the frame opens
        for. -->

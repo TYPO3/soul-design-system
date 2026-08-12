@@ -12,7 +12,7 @@ them, so a rule and its rendering cannot drift apart.
 .. toctree::
    :titlesonly:
 
-   ../design-system
+   design-with-claude
    colours
    type
    spacing

@@ -20,7 +20,7 @@ route resolves to the same tokens and the same markup contract.
    :titlesonly:
    :hidden:
 
-   guidelines/index
+   design-system/index
    guides-theme/index
    frontend
    documents
@@ -30,7 +30,7 @@ route resolves to the same tokens and the same markup contract.
    :gap: 0
 
    .. card:: Design with Claude
-      :href: /design-system
+      :href: /design-system/design-with-claude
       :label: Design system
       :icon: actions-brush
       :action: Start designing with Claude
@@ -123,7 +123,7 @@ each toolchain to speak the same visual language.
    :gap: 0
 
    .. card:: Explore the rules and their specimens
-      :href: /guidelines/index
+      :href: /design-system/index
       :label: Design system
       :icon: actions-eye-link
       :action: Explore the design system

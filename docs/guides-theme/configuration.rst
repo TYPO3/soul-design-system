@@ -118,13 +118,13 @@ The mark
    drawn in the page's ink and follows it into dark. That costs the file three
    lines — a root named ``id="art"``, a ``viewBox`` on it, and every colour
    written as a ``var()`` with a hex fallback — and a file that has not been
-   told draws nothing at all. :doc:`/guidelines/artwork` is the rule, and it is
+   told draws nothing at all. :doc:`/design-system/artwork` is the rule, and it is
    worth reading before pointing this at an SVG. Any other format is linked and
    simply works, the same picture in both modes.
 
    A signet is not an icon. It ships at three optical sizes with different
    construction, and bar height is the small one's job — see
-   :doc:`/guidelines/brand` for which file to hand over.
+   :doc:`/design-system/brand` for which file to hand over.
 
 .. confval:: favicon
    :type: href, sizes
@@ -141,7 +141,7 @@ The mark
    site saying two things. Set the sizes where there is more than one drawing.
    This system ships three, at three optical sizes with different
    construction, precisely because scaling one of them is what a favicon slot
-   cannot do — see :doc:`/guidelines/brand`. A media query inside the file
+   cannot do — see :doc:`/design-system/brand`. A media query inside the file
    cannot pick either: linked, an SVG only ever sees its own viewport.
 
 .. confval:: product

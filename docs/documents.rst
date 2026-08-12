@@ -69,7 +69,7 @@ What it sets
    marker, the indent at the width of that marker, the muted marker colour —
    is in ``soul.css``, so a screen that never links the document layer has
    lists too. What a document adds is the air: a gap under the block and a
-   smaller one between items. See :doc:`guidelines/type` for the classes,
+   smaller one between items. See :doc:`design-system/type` for the classes,
    ``.sds-list`` and ``.sds-list--plain``.
 
 Six levels without three new sizes

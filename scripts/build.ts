@@ -224,8 +224,8 @@ cpSync(join(ROOT, 'RATIONALE.md'), join(OUT, 'guidelines/rationale.md'));
    adopting this system needs a mark and pictures, and the alternative is the
    agent inventing both from the cards. They live beside the pages that print
    them, a prompt being the same file however it is reached. */
-cpSync(join(ROOT, 'docs/guidelines/signet-prompt.md'), join(OUT, 'guidelines/signet-prompt.md'));
-cpSync(join(ROOT, 'docs/guidelines/illustration-prompt.md'), join(OUT, 'guidelines/illustration-prompt.md'));
+cpSync(join(ROOT, 'docs/design-system/signet-prompt.md'), join(OUT, 'guidelines/signet-prompt.md'));
+cpSync(join(ROOT, 'docs/design-system/illustration-prompt.md'), join(OUT, 'guidelines/illustration-prompt.md'));
 
 // README: the conventions header, then a generated index of every card
 const conv = join(ROOT, '.design-sync/conventions.md');

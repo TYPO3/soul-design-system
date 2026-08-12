@@ -64,7 +64,7 @@ halves of the same project stop resembling each other. The screens under
 `stories/pages/` are those surfaces, finished pages rather than sketches, and
 a consuming project offers them as Starting Points: what a project sells
 itself with is built from the same tokens and the same class vocabulary as
-what it explains itself with. `docs/guidelines/screens.rst` says which layouts
+what it explains itself with. `docs/design-system/screens.rst` says which layouts
 they stand on.
 
 **And it is still being built.** None of this is settled enough to be treated
