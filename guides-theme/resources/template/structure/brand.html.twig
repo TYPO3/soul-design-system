@@ -42,10 +42,16 @@
     SVG signet that does not follow it draws nothing rather than drawing
     wrong.
 
-    No element here. Every other component in this theme is written by the
-    renderer and upgraded in the browser, and this is markup with nothing to
-    upgrade into: the mark in the bar is the site's identity, and a reader with
-    scripting off is a reader who should still see it.
+    The element, with the markup it renders written inside it. That is this
+    theme's rule everywhere — the server writes, the element upgrades — and
+    the mark in the bar is the case it exists for: it is the site's identity,
+    and a reader with scripting off is a reader who should still see it. On
+    upgrade `sds-image` draws the same picture from `src` and drops what is
+    between the tags, so the two never both appear.
+
+    Which is also why the branch below is written once and only as the
+    fallback. `sds-image` makes the same distinction from the file name, so
+    the element is the front door and this is what stands behind it.
 
     A signet is NOT an icon: it ships as three drawings, each made in the box
     it is for, and 24 is the one this bar is the size of. A project that
@@ -54,11 +60,13 @@
 #}
 <a class="sds-lockup" href="{{ soul.home ? asset(soul.home) : renderLink('/index') }}">
     {%- if soul.signet %}
-        {%- if soul.signet ends with '.svg' %}
+    <sds-image class="sds-signet" src="{{ asset('/' ~ soul.signet) }}" alt="" width="24" height="24"
+        >{%- if soul.signet ends with '.svg' -%}
         <svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="{{ asset('/' ~ soul.signet) }}#art"></use></svg>
-        {%- else %}
+        {%- else -%}
         <img class="sds-signet" src="{{ asset('/' ~ soul.signet) }}" alt="" width="24" height="24" />
-        {%- endif %}
+        {%- endif -%}
+    </sds-image>
     {%- endif %}
     {%- set name = soul.product|default(env.projectNode.title)|default('Documentation') %}
     <span class="sds-wordmark">
