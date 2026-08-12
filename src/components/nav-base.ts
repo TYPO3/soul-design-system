@@ -1,20 +1,12 @@
 /* What pills, tabs and the rail share.
 
-   The three differ in their wrapper and in the class on an item. Everything
-   else — which one is active, what an item is, how they are spaced, what
-   happens when one is pressed — is the same navigation, so it is written once
-   here and the three name their difference.
+   The three differ in their wrapper and in the class on an item; everything
+   else is the same navigation and is written once here.
 
-   An item is a control, not a picture of one. It used to be a `<span>`: not
-   focusable, not pressable, and `active` was a number a caller had to keep in
-   step by hand. Nothing about which item is current is the caller's work —
-   pressing one makes it current, and the element says so with `sds-change` so
-   whatever is beside it can follow.
-
-   An item that goes somewhere is a link and says `href`. It is left to the
-   browser: navigating away is not a state this element keeps.
-
-   Not a component: it registers no tag and is never used directly. */
+   An item is a control, not a picture of one — focusable and pressable, and
+   pressing it makes it current, announced with `sds-change` so whatever is
+   beside it can follow. One that goes somewhere says `href` and is left to the
+   browser. Not a component: it registers no tag. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';

@@ -25,20 +25,15 @@ export declare class SdsRail extends SdsNav {
     };
     protected readonly block = "sds-rail";
     protected readonly item = "sds-rail__item";
-    /** What this is the list of, standing over it.
-  
-        A rail that holds one section of a site says which — the pages of
-        Guidelines are not the pages of a manual, and a column of ten links with
-        nothing above it does not say that. Left empty there is no heading, which
-        is right where the rail is the whole navigation there is. */
+    /** What this is the list of, standing over it. A rail holding one section of
+        a site says which; a column of ten links with nothing above it does not.
+        Left empty there is no heading, which is right where the rail is the whole
+        navigation there is. */
     label: string;
-    /** The items a server wrote between the tags.
-  
-        Same reason as `sds-menu`: a renderer resolves its own tree — which pages
-        there are, where they are from here, which one is being read, which fold
-        the reader is inside — and every one of those answers would have to be
-        encoded as data and worked out a second time to arrive as `items`. What
-        it writes are the classes below, so the two shapes are one shape. */
+    /** The items a server wrote between the tags. Same reason as `sds-menu`: a
+        renderer resolves its own tree, and every one of those answers would have
+        to be encoded and worked out again to arrive as `items`. What it writes
+        are the classes below, so the two shapes are one shape. */
     private taken;
     private flat;
     constructor();

@@ -1,34 +1,13 @@
 /* sds-note — what an answer carries besides the answer.
 
-   Its source, the versions it holds for, and what it leaves out. That is the
-   shape: a glyph in the status colour, a title that states the fact, and a
-   bounded line of prose under it saying what the fact costs the reader.
+   A glyph in the status colour, a title that states the fact, and a bounded
+   line of prose saying what the fact costs the reader. The tones are not
+   decoration: `ok` names where an answer came from, `warn` a degraded one,
+   `error` none, `info` a fact about the surface. Only `warn` tints the block.
 
-   The tones are not four decorations. `ok` names where an answer came from,
-   `warn` is a degraded but usable one, `error` is none, and `info` is a fact
-   about the surface rather than about a result — and only `warn` tints the
-   whole block, because a page of results whose every note is filled reads as
-   an alarm about the page.
-
-   A note is one of the few things in this system whose glyph is not optional:
-   the tone is a colour, and a colour alone leaves the meaning to anyone who
-   can tell the four apart. Same reasoning as `sds-badge`, and the same
-   mapping, so a badge and a note about the same result agree.
-
-   `heading` rather than `title`: `title` is a global HTML attribute, and a
-   reactive property by that name would set the browser's tooltip on every
-   note in the page.
-
-   Two kinds of caller, one component — the shape `sds-code` already has. A
-   product surface sets properties: a heading it composed and a line of prose
-   under it. A renderer writes markup between the tags, because what a
-   documentation generator puts in an admonition is paragraphs, lists and
-   whole code blocks, and none of that survives being flattened into an
-   attribute. The heading is optional for that caller: twelve admonition types
-   arrive carrying no title at all, and printing the category name over each
-   one would be exactly the "category name" this component's own heading
-   forbids. The word goes to the glyph instead, where it is read out and not
-   drawn. */
+   The glyph is not optional, because a colour alone leaves the meaning to
+   whoever can tell four apart. `heading` rather than `title`, a global
+   attribute that would set a tooltip on every note. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
@@ -51,13 +30,11 @@ export interface NoteProps {
   body?: string | TemplateResult;
   /** An explicit glyph, where the tone's own says less than the note does. */
   icon?: IconId;
-  /** What the glyph says out loud.
-
-      The tone is a colour, and four colours cannot be the only carrier of a
-      meaning. Each tone names its own word, and a caller may say a truer one:
-      a renderer collapsing twelve admonition types onto four tones knows
-      which of them this was, so `caution` and `danger` still announce
-      themselves apart after both have become `warn`. */
+  /** What the glyph says out loud, because a colour cannot be the only carrier
+      of a meaning. Each tone names its own word and a caller may say a truer
+      one: a renderer collapsing many admonition types onto four tones knows
+      which this was, so `caution` and `danger` stay apart after both are
+      `warn`. */
   label?: string;
 }
 

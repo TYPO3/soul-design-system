@@ -1,14 +1,11 @@
 /* sds-byline — who wrote it, and when.
 
-   The line under the title of anything that was written by someone rather than
-   generated. It is a component and not a row a page assembles because the
-   order is the point: who, then what they are to the subject, then when. A
-   page that puts the date first has published a date.
+   A component rather than a row a page assembles, because the order is the
+   point: who, then what they are to the subject, then when. A page that puts
+   the date first has published a date.
 
-   The mark is initials, never a photograph. A face is a file a page has to
-   fetch, keep in step and have a licence for, and none of those is the reason
-   a byline exists — which is to say who is answerable for the text. Initials
-   say that at 28px and cost nothing. */
+   The mark is initials, never a photograph — a face is a file to fetch, keep in
+   step and hold a licence for, and none of that says who is answerable. */
 
 import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';

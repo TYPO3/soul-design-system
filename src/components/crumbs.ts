@@ -1,18 +1,12 @@
 /* sds-crumbs — where the page sits, as a trail.
 
-   The last entry is the page itself and is not a link: a link to here is a
-   control that does nothing, and a reader who follows it learns that the trail
-   cannot be trusted. It carries `aria-current="page"` rather than being
-   inferred from position, because position is not something assistive tech
-   can see.
+   The last entry is the page itself and is not a link, and says so with
+   `aria-current="page"` rather than leaving it to be inferred from position.
 
-   No active mark, unlike every other navigation in this system. The trail is
-   read as a path and its end is where the reader already is — spending the one
-   accent on that would leave nothing to mark the thing they came to do.
-
-   The separator is a character and not an icon: it is punctuation between two
-   words, at the size of the words, and a 16px glyph between two 13px labels
-   sits a pixel off no matter where it is nudged. */
+   No active mark, unlike every other navigation here: the trail is read as a
+   path and its end is where the reader already is, so spending the accent there
+   would leave nothing to mark what they came to do. The separator is a
+   character, not an icon — punctuation between two words, at their size. */
 
 import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';

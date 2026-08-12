@@ -1,17 +1,11 @@
 /* Table, badges and status.
 
-   Never zebra stripes. A row's background changes on hover or on selection
-   and nowhere else — that is what makes a filled row mean something. The
-   raised row in the specimen is a selected one, not every other one.
+   Never zebra stripes. A row's background changes on hover or on selection and
+   nowhere else — that is what makes a filled row mean something.
 
-   The badge that used to live here now has its own module — see
-   `badge.ts`; the table specimen is where it first appeared, which was never
-   a reason for it to be defined here.
-
-   Density is a judgement about the reader, not about the data: compact
-   (30px rows, 13px type) when the list *is* the work, airy (48px, 15px)
-   when the rows are read rather than scanned, medium (38px) when one
-   density has to serve both. */
+   Density is a judgement about the reader, not about the data: compact (30px
+   rows, 13px type) when the list *is* the work, airy (48px, 15px) when the rows
+   are read rather than scanned, medium (38px) when one has to serve both. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
@@ -78,12 +72,9 @@ export class SdsTable extends SdsElement {
 
   private bodyRow(row: Row): TemplateResult {
     const cells = lines(row.cells.map((v, i) => this.cell(v, this.columns[i]?.cls)), 6);
-    /* A filled row is a selected one, never every other one — that is what
-       makes a background mean something when it appears.
-
-       `nothing` and not an empty string: an attribute bound to it is dropped
-       rather than written empty, so a row with neither is the bare `<tr>` a
-       generated card is read as. */
+    /* A filled row is a selected one, never every other one. `nothing` and not
+       an empty string: an attribute bound to it is dropped rather than written
+       empty, so a row with neither is the bare `<tr>` a card is read as. */
     return html`<tr class="${row.selected ? 'is-selected' : nothing}" style="${row.style ?? nothing}">
       ${cells}
     </tr>`;

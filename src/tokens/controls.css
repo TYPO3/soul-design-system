@@ -1,31 +1,23 @@
 /* Control scale.
 
-   The type tokens in typography.css set the *editorial* scale — display,
-   headings, body, lead. Controls run tighter than prose and always have:
-   a 14px button next to 17px body text is deliberate, not an oversight.
+   The type tokens in typography.css set the *editorial* scale. Controls run
+   tighter than prose and always have: a 14px button next to 17px body text is
+   deliberate, not an oversight. These name the values the components were tuned
+   to, so the second scale is declared rather than accidental.
 
-   These tokens name the values the components were tuned to, so the second
-   scale is declared rather than accidental. Change a value here and every
-   component that uses it follows; that is the whole point of naming them.
-
-   Converging this scale with typography.css is a real option, but it is a
-   design decision that moves every surface — not a cleanup. */
+   Converging the two is a real option, but it is a design decision that moves
+   every surface — not a cleanup. */
 
 :root {
   /* Buttons, fields, selects — anything you click or type in. */
   --control-font-size: 14px;
   --control-font-size-sm: 13px;
 
-  /* One height for all of them, declared rather than fallen out of padding.
-     Padding cannot hold a row level: a 12px mono segment, a 13px label and a
-     14px input make three different boxes out of the same padding, and a
-     header is where that is visible — three borders on one line, none of
-     them agreeing. The height decides; the padding only decides how the text
-     sits inside it.
-
-     A floor, not a ceiling. Every control's own padding and leading come in
-     under it, so the floor is what is measured — and a control whose content
-     genuinely outgrows it, a field with two lines in it, still grows. */
+  /* One height for all of them, declared rather than fallen out of padding: a
+     12px segment, a 13px label and a 14px input make three different boxes out
+     of the same padding, and a header shows all three on one line. A floor and
+     not a ceiling — every control's padding comes in under it, and one whose
+     content outgrows it, a field with two lines, still grows. */
   --control-height: 36px;
   --control-height-sm: 28px;
 
@@ -80,13 +72,10 @@
   --note-title-size: 14px;
   --note-body-size: 12px;
   --note-body-leading: 1.45;
-  /* Seventy-four characters of the register above, stated as the width it
-     comes to rather than as `64ch`. Same correction as the measures in
-     typography.css and the same reason: `ch` is the width of the "0" in
-     whatever element the token lands on, so one number meant several widths.
-     This one is the dense register's — a note beside a result, a hint under a
-     field. A document rebinds it, because there a note is a paragraph with a
-     border and 12px is the wrong voice; `document.css` is where that is
-     written and why. */
+  /* Seventy-four characters of the register above, stated as the width it comes
+     to rather than as `64ch`: `ch` is the width of the "0" in whatever element
+     the token lands on, so one number would mean several widths. This is the
+     dense register's — a note beside a result, a hint under a field. A document
+     rebinds it in `document.css`, where a note is a paragraph. */
   --note-measure: 384px;
 }

@@ -1,19 +1,12 @@
 /* Colouring a fenced block.
 
-   The system declares which languages it stands behind, so it registers those
-   and no others: highlight.js ships nearly two hundred, and a bundle carrying
-   the ones nobody here writes is a bundle nobody should have to download. The
-   list is `CodeLang` and this is the same list, resolved to the grammars.
+   Only the languages `CodeLang` names are registered — highlight.js ships
+   nearly two hundred, and nobody should download the rest. In the template
+   rather than to the DOM afterwards, so it works in Node: a card that shipped
+   grey while the browser showed colour would document the wrong thing.
 
-   Highlighting is done in the template rather than to the DOM afterwards. A
-   pure string in, a pure string out means it works in Node too — a specimen
-   card is written there, and a card that shipped grey while the browser
-   showed colour would be documenting the wrong thing.
-
-   The palette is not highlight.js's. Its stylesheets name dozens of colours;
-   this system names three, and `components.css` maps the classes onto exactly
-   those. Anything a fourth colour would have gone to reads as ordinary text,
-   which is the honest answer when a system has not decided a colour for it. */
+   The palette is this system's three colours, mapped in `components.css`.
+   Whatever a fourth would have coloured reads as ordinary text. */
 
 import hljs from 'highlight.js/lib/core';
 import bash from 'highlight.js/lib/languages/bash';

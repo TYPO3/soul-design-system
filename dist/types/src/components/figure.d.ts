@@ -8,13 +8,10 @@ export interface FigureProps {
     alt: string;
     /** The claim, in a sentence. */
     caption?: string | TemplateResult;
-    /** Pressable, opening the drawing at the size it was drawn.
-  
-        The trigger is a link to the file. A surface running no script still
-        opens the drawing with it, and the element takes the press over once it
-        has upgraded — so this is never a control that looks like one and does
-        nothing. Worth it for anything drawn wider than the column it sits in,
-        and pointless for a photograph shown whole. */
+    /** Pressable, opening the drawing at the size it was drawn. The trigger is a
+        link to the file, so a surface running no script still opens it and the
+        element only takes the press over once it has upgraded. Worth it for
+        anything drawn wider than its column, pointless for a photograph. */
     zoomable?: boolean;
 }
 export declare class SdsFigure extends SdsElement {

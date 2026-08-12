@@ -36,13 +36,10 @@ export declare class SdsLink extends SdsElement {
     external: boolean;
     icon?: IconId;
     constructor();
-    /** Whether a glyph is about direction rather than about the thing.
-  
-        The icon rule says a glyph leads its label and a direction glyph follows
-        it, and that is a property of the glyph — so the component decides rather
-        than the caller. A boolean here would be a caller's chance to put an
-        arrow in front of a word, which is the one arrangement the rule forbids
-        and the one a hurried page reaches for. */
+    /** Whether a glyph is about direction rather than about the thing. A glyph
+        leads its label and a direction glyph follows it, which is a property of
+        the glyph — so the component decides. A boolean here would be a caller's
+        chance to put an arrow in front of a word. */
     private static leads;
     protected render(): TemplateResult;
 }

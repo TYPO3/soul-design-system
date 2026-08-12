@@ -1,18 +1,13 @@
 /* sds-radio-group — one answer out of a few, all of them visible.
 
-   The group is the component and a single radio is not, because a radio on its
-   own is a control that cannot be unset and means nothing: what makes it a
-   choice is the set it belongs to, the name they share, and the fact that
-   exactly one of them holds. A component that rendered one at a time would
-   leave the caller to keep those three in step.
+   The group is the component and a single radio is not: what makes one a choice
+   is the set it belongs to, the name they share and the fact that exactly one
+   holds, and rendering them one at a time leaves the caller to keep the three
+   in step. `<fieldset>` and `<legend>` carry the grouping, with the browser's
+   border and padding taken away rather than restyled.
 
-   `<fieldset>` and `<legend>` carry the grouping. The browser's own border and
-   padding are taken away rather than restyled — the group is told apart by the
-   legend and the space around it, which is how everything else here is.
-
-   A few, and visible. Where the answers are many or the reader knows the one
-   they want, that is a select — `sds-field select`. The line is roughly five:
-   above that the set stops being scannable and starts being a list. */
+   Where the answers are many, or the reader knows the one they want, that is a
+   select. Above roughly five the set stops being scannable. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';

@@ -6,12 +6,9 @@ export interface QuoteProps {
     body: string | TemplateResult;
     /** Who said it. A person, a document, a release note. */
     by: string;
-    /** What it is to the subject, where the name alone does not say — a
-        diagram, a release note, a maintainer.
-        The attribute is `as` and not `role`, and that is not a preference:
-        `role` is the global ARIA attribute, so `role="maintainer"` told every
-        screen reader the element had a role by that name — which does not exist,
-        and axe says so. Same collision `sds-note` renamed `title` for. */
+    /** What it is to the subject, where the name alone does not say. The
+        attribute is `as` and not `role`: `role` is the global ARIA attribute, so
+        `role="maintainer"` claims a role that does not exist, and axe says so. */
     as?: string;
     /** Where it can be read in full. */
     href?: string;

@@ -1,18 +1,12 @@
 /* sds-icon — a TYPO3 icon.
 
    Colour follows the UI, which is the whole icon rule: an `<img>` cannot
-   inherit `currentColor`, so a glyph has to be in the document rather than
-   linked from it.
-
-   In a browser that is a `<use>` into the category sprite. The reference is
-   external and that is fine: the shapes carry `fill="currentColor"`, and an
-   inherited property crosses into the shadow tree `<use>` builds, so a glyph
-   takes the colour of whatever it sits in.
-
-   In Node there is nothing to reference, so `renderStatic` replaces every
-   `<use>` with the glyph itself. That markup lives in
-   `icon.static.ts` beside it, which only Node reaches: 200 kB of
-   strings the browser bundle must not carry. */
+   inherit `currentColor`, so a glyph is in the document rather than linked
+   from it. In a browser that is a `<use>` into the category sprite — the shapes
+   carry `fill="currentColor"` and an inherited property crosses into the shadow
+   tree it builds. In Node there is nothing to reference, so `renderStatic`
+   swaps in the glyph from `icon.static.ts`, which the browser bundle never
+   loads. */
 
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -22,12 +16,9 @@ import { ICON_IDS, type IconId } from './icons.generated.ts';
 export type { IconId };
 
 /** The system's size scale: 16, 20, 24 or a whole multiple — never 18 or 22.
-    16 is the floor; below it, no icon at all.
-
-    `em` is the exception and the one that is not a number: an icon written
-    inside text — a button's label, a link, a line of prose — is as big as
-    that text and changes with it. A glyph beside 13px type has no business
-    being 16px because 16 is the floor for a glyph standing on its own. */
+    16 is the floor; below it, no icon at all. `em` is the exception: an icon
+    written inside text is as big as that text and changes with it, because the
+    floor is for a glyph standing on its own. */
 export type IconSize = 16 | 20 | 24 | 32 | 48 | 'em';
 
 /* An icon almost always sits inside something that has a text size — a
@@ -41,20 +32,11 @@ const DEFAULT_SIZE: IconSize = 'em';
    rendered size, because they are the drawing's own. */
 const INTRINSIC = 16;
 
-/* Where the sprite is.
-
-   Resolved against this module by default, which is right for the drop-in:
-   `dist/soul.js` sits beside `dist/assets/`, wherever that directory was
-   copied to. A bundler puts the module somewhere the assets are not, so a
-   consumer that bundles says where instead. Get it wrong and every icon is
-   blank with a 404 in the console — there is no silent failure here.
-
-   Bundled to a classic script there is no module to resolve against at all,
-   and `import.meta.url` is gone: `new URL()` then throws, at import time,
-   which kills the bundle before the consumer reaches `setIconSprite`. The
-   fallback is a path that resolves against the document — wrong often enough
-   that it is not an answer, but a blank glyph is a thing you can see and
-   fix, and a dead bundle is a blank page. */
+/* Where the sprite is. Resolved against this module by default, which is right
+   for the drop-in; a consumer that bundles says where instead. Bundled to a
+   classic script `import.meta.url` is gone and `new URL()` would throw at
+   import time, so the fallback resolves against the document — often wrong, but
+   a blank glyph can be seen and fixed and a dead bundle is a blank page. */
 function bundledBeside(): string {
   try {
     return new URL('./assets/icons/sprites/actions.svg', import.meta.url).href;
@@ -107,12 +89,10 @@ export class SdsIcon extends SdsElement {
        thing, which is the whole contract between the element and the class
        layer. */
     const cls = this.className || 'sds-icon';
-    /* A size in pixels is written as a style, not only as an attribute:
-       `.sds-icon` sets a width from a token, and a class beats a presentation
-       attribute — so `size="24"` was a property that did nothing. Only where
-       one was asked for: written unconditionally it would override
-       `sds-icon--24` on markup that set the class and no size, which is how
-       hand-written markup asks. */
+    /* A size in pixels is a style, not only an attribute: `.sds-icon` sets a
+       width from a token and a class beats a presentation attribute. Only where
+       one was asked for — written unconditionally it would override
+       `sds-icon--24`, which is how hand-written markup asks. */
     const sized = this.size === 'em' ? '' : ` style="width:${this.size}px;height:${this.size}px"`;
     return html`${unsafeHTML(
       `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized}` +

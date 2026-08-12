@@ -1,35 +1,22 @@
 /* What `sds-icon` looks like once there is no browser to resolve it.
 
-   The element renders a `<use>` into the category sprite, which is right
-   everywhere a document is displayed. A specimen card is not: it is opened
-   with `styles.css` and nothing else, so a reference resolves to nothing and
-   the card shows a hole where a glyph belongs.
+   The element renders a `<use>` into the category sprite, and a card opened
+   with `styles.css` and nothing else resolves that to a hole. This turns the
+   references back into glyphs, out of a generated module rather than the files
+   beside it: the story modules pull the render path into Storybook's browser
+   bundle, where `node:fs` does not exist. `src/index.ts` never imports it.
 
-   This turns those references back into the glyph. The markup comes from a
-   generated module rather than from the files beside it, and that is not a
-   free choice: the story modules import the render path to build their
-   specimen HTML, so this ends up in Storybook's browser bundle, where
-   `node:fs` does not exist. It costs nothing where it matters — `src/index.ts`
-   never imports the render path, so none of it reaches `soul.js`.
-
-   It lives beside the element rather than inside the render helper because it
-   is the icon component's own knowledge: `render.ts` should not know how an
-   icon is built any more than it knows how a button is. */
+   Beside the element, not inside the renderer: `render.ts` should no more know
+   how an icon is built than how a button is. */
 
 import { ICON_SVG } from './icons.svg.generated.ts';
 import type { IconId } from './icons.generated.ts';
 
-/* A reference into a sprite, and only into a sprite. The browser reference
-   carries the sprite's URL in front of the identifier, resolved against
-   wherever the module sits — in Node a `file://` path, which must never reach
-   a card.
-
-   The path is part of the pattern rather than left to the order things run in.
-   A drawing referenced into a page has the same shape — `<use href="…#art">`
-   — and this used to match it too, so a page whose art was meant to stay a
-   reference had that reference looked up in the icon set and failed the build
-   on an icon nobody named. The card path happens to resolve its drawings
-   first, which hid it; nothing about that ordering is visible from here. */
+/* A reference into a sprite, and only into a sprite: the browser reference
+   carries the sprite's URL in front of the identifier, which in Node is a
+   `file://` path and must never reach a card. The path is part of the pattern
+   rather than left to the order things run in — a referenced drawing has the
+   same `<use href="…#art">` shape, and would be looked up as an icon. */
 const REFERENCE = /<svg([^>]*)><use href="[^"]*\/sprites\/[^"]*#([a-z0-9-]+)"><\/use><\/svg>/g;
 
 /** The package ships each glyph pretty-printed over several lines. Collapsed

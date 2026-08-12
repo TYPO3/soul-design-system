@@ -1,30 +1,13 @@
 /* sds-tabs — switching the content of a panel rather than the page.
 
-   The active item is a filled block, never a tint: a tint reads as "hovered"
-   or "disabled" depending on what is under it, and this system already
-   spends hover on a colour change. The accent marks the active item — one of
-   the exactly three places `--accent` may appear at all.
+   The active item is a filled block, never a tint: a tint reads as "hovered" or
+   "disabled" depending on what is under it. A tab is a label and a panel, and
+   `sds-tab-item` holds the two together — written apart, keeping them in step
+   is the caller's problem and this is a row of words.
 
-   A tab is a label and a panel, and the component holds the two together:
-
-     <sds-tabs>
-       <sds-tab-item label="standalone">…</sds-tab-item>
-       <sds-tab-item label="as a dependency">…</sds-tab-item>
-     </sds-tabs>
-
-   There is no other form. Written apart — a list of strings here, a switch
-   over an index there — keeping the two in step is the caller's problem and
-   the component is a row of words. The items are lifted out on connect, the
-   same way `sds-code` keeps a fenced block, and handed back below the bar.
-
-   This is a real tablist, so each tab names the panel it controls and the
-   arrow keys move between them: that is what a screen reader user expects the
-   moment `role="tab"` is on the page.
-
-   `tabsBarMarkup` is the bar itself, exported for the specimen card — which
-   is written by `renderStatic` and can hold no element that was given
-   children. One function, two renderers, so the card cannot drift from what
-   a browser draws. */
+   A real tablist, so each tab names the panel it controls and the arrow keys
+   move between them. `tabsBarMarkup` is the bar alone, for the card:
+   `renderStatic` can flatten no element that was given children. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
@@ -151,17 +134,10 @@ export class SdsTabs extends SdsNav {
     });
 
     /* The bar off the panels where there are panels, and off the labels alone
-       where there are not.
-
-       There are none in Node — a page rendered before the browser has no
-       children to lift, see `SdsElement` — and a set of tabs is the one
-       component that cannot be told what it holds by the markup it was handed:
-       the labels are on the items inside it. So `items` is what says them, and
-       a set that is rendered ahead of time is addressed the way every other
-       element here is. What it cannot have yet is the wiring, because the ids
-       belong to panels that were rendered elsewhere: no `tablist`, and buttons
-       that do nothing until the set upgrades — which is honest, since without
-       a script they could not switch anything anyway. */
+       where there are not: in Node there are no children to lift, see
+       `SdsElement`, so `items` is what says them. What a prerendered set cannot
+       have is the wiring — no `tablist`, and buttons that do nothing until it
+       upgrades, which is honest, since nothing could switch anyway. */
     const tabs: TabHandle[] = this.panels.length
       ? this.panels.map((panel, i) => ({
           ...named(this.items[i]),

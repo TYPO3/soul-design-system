@@ -1,34 +1,13 @@
 /* sds-teaser — one entry in a list of them.
 
-   What a list page is made of: an image where the entry has one, what it is
-   and when, the headline, and the two lines that decide whether the reader
-   opens it. Everything else a teaser is sometimes given — an author, a reading
-   time, a share count — is either in `meta` or is not worth the row.
+   An image where the entry has one, what it is and when, the headline, and the
+   two lines that decide whether it is opened. Anything else is in `meta`.
 
    **The title is the link and the card is not.** A card wrapped in one anchor
-   announces its entire contents as that link's name, and takes selecting the
-   text inside it away from the reader. The card follows on hover instead,
-   which is what makes it feel like the target it deliberately is not.
-
-   The image is one file and is shown unchanged in both modes. A photograph is
-   the same photograph whichever mode the page is in, and what a teaser carries
-   is a photograph.
-
-   **The card is addressed, not built.** Everything about an entry that fits in
-   a string is a property — the headline, where it goes, the kind, the date,
-   the picture — and a caller sets those and is done. Only the summary may be
-   written between the tags, because a summary out of a document is paragraphs
-   and there is no attribute that carries those.
-
-   That line is the contract, and this element lost it for a while. A renderer
-   that could not pass markup wrote the card's own parts instead —
-   `.sds-teaser__body`, `.sds-teaser__title` — and the element did no more than
-   frame markup somebody else had already built: every internal name became
-   public API, neither side could change without the other, and the reason to
-   have a component at all was gone. What made it possible to take back is that
-   the pages are now rendered ahead of the browser — see
-   `scripts/lib/prerender.ts` — so a property reaches a reader who runs no
-   script, which is the only thing writing the parts ever bought. */
+   announces its whole contents as that link's name; it follows on hover
+   instead. **And it is addressed, not built** — everything that fits in a
+   string is a property, and only the summary may be written between the tags,
+   because a summary out of a document is paragraphs. */
 
 import { html, type TemplateResult } from 'lit';
 import './badge.ts';

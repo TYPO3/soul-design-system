@@ -1,23 +1,13 @@
 /* sds-theme — light or dark, as two segments with the chosen one filled.
 
-   The same treatment as an active navigation item, because it is one: a set
-   of choices with one of them current. Never a switch and never a moon: a
-   switch says on-or-off about a thing that has three states — light, dark, and
-   the machine's — and a moon says which mode you are in or which one you would
-   get, depending on who is reading it.
+   The same treatment as an active navigation item, because it is one. Never a
+   switch and never a moon: there are three states, not two — light, dark, and
+   the machine's, which is what a reader who has pressed neither gets. Pressing
+   the current one gives the machine back.
 
-   Three states, and the third is the point. A reader who has pressed neither
-   follows their machine, and `color-scheme: light dark` with `light-dark()`
-   tokens means that costs nothing: the page is already correct before this
-   element exists. Pressing one writes `data-theme` on the document and stores
-   it; pressing the one that is current gives the machine back.
-
-   The stored choice has to be read before the first paint or the page shows
-   the other mode for a frame, and that is a line of script in the document
-   head — too early for any element. This reads what that line already wrote.
-
-   Storage is `localStorage` under a key a consumer can name, because two
-   surfaces on one origin are two products and should not fight over it. */
+   The stored choice has to be read before the first paint or the page shows the
+   other mode for a frame, so a line in the document head does that and this
+   reads what it wrote. `localStorage`, under a key a consumer can name. */
 
 import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';

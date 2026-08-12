@@ -1,14 +1,12 @@
 /* The mode, before the first paint.
 
-   `sds-theme` reads `data-theme` from the root rather than its own idea of
-   it, so something has to write it — and it cannot be a module, which is
-   deferred by definition and would arrive as a flash of the other mode.
+   `sds-theme` reads `data-theme` from the root, so something has to write it —
+   and it cannot be a module, which is deferred by definition and would arrive
+   as a flash of the other mode. Without this the choice is forgotten on the
+   next page, which on a site of many is every click.
 
      <script src="soul-boot.js" data-key="soul-theme"></script>
-     <link rel="stylesheet" href="soul.css">
-
-   Without it the choice is forgotten on the next page, which on a site of
-   many pages is every click. */
+     <link rel="stylesheet" href="soul.css"> */
 const script = document.currentScript as HTMLScriptElement | null;
 const key = script?.dataset['key'] ?? 'soul-theme';
 const root = document.documentElement;
@@ -24,13 +22,11 @@ function chosen(): 'light' | 'dark' | null {
   }
 }
 
-/* Always an explicit mode. Without `data-theme` the page still renders in the
-   reader's setting — `light-dark()` sees to that — but the switch cannot say
-   which, and shows neither side pressed.
-
-   Writing it turns a preference into a decision, and a decision does not
-   follow the machine at dusk. Hence the query is kept, for as long as nobody
-   has chosen. */
+/* Always an explicit mode: without `data-theme` the page still renders in the
+   reader's setting, but the switch cannot say which and shows neither side
+   pressed. Writing it turns a preference into a decision, and a decision does
+   not follow the machine at dusk — so the query is kept until somebody
+   chooses. */
 const query = matchMedia('(prefers-color-scheme: dark)');
 
 function follow(): void {

@@ -1,16 +1,13 @@
 /* sds-checkbox — one thing that is either so or not.
 
-   The platform's own control, in this system's colours. Not a box with a glyph
-   in it: what a replacement has to re-implement is the keyboard, the tap
-   target, the indeterminate state and how the whole thing reads out, and the
-   ones that skip a part of that skip the part nobody on the team tests with.
+   The platform's own control in this system's colours, not a box with a glyph
+   in it: a replacement re-implements the keyboard, the tap target, the
+   indeterminate state and how it all reads out, and skips whichever part nobody
+   on the team tests with. A set where exactly one may be true is
+   `sds-radio-group` — a different question, a different control.
 
-   A checkbox is a single fact — consent, an opt-in, a switch on a setting. A
-   set of them where exactly one may be true is `sds-radio-group`, which is a
-   different question and says so with a different control.
-
-   The label is a real `<label>` wrapping both, so the words are part of the
-   target. A 16px box is a hard thing to hit and the sentence beside it is not. */
+   A real `<label>` wraps both, so the words are part of the target: a 16px box
+   is hard to hit and the sentence beside it is not. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';

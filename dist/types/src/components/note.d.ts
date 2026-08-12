@@ -17,13 +17,11 @@ export interface NoteProps {
     body?: string | TemplateResult;
     /** An explicit glyph, where the tone's own says less than the note does. */
     icon?: IconId;
-    /** What the glyph says out loud.
-  
-        The tone is a colour, and four colours cannot be the only carrier of a
-        meaning. Each tone names its own word, and a caller may say a truer one:
-        a renderer collapsing twelve admonition types onto four tones knows
-        which of them this was, so `caution` and `danger` still announce
-        themselves apart after both have become `warn`. */
+    /** What the glyph says out loud, because a colour cannot be the only carrier
+        of a meaning. Each tone names its own word and a caller may say a truer
+        one: a renderer collapsing many admonition types onto four tones knows
+        which this was, so `caution` and `danger` stay apart after both are
+        `warn`. */
     label?: string;
 }
 export declare class SdsNote extends SdsElement {

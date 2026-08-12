@@ -1,15 +1,13 @@
 /* sds-stat — a number stated as a fact.
 
    The value first and largest, the label under it, and a line saying what the
-   number is bounded by. That third part is the reason this is a component
-   rather than two divs: a figure with no bound is a claim, and the writing
-   rules here do not allow one. "5 sources" says nothing until it says which
-   five and when they are reachable.
+   number is bounded by. The third is why this is a component rather than two
+   divs: a figure with no bound is a claim, and "5 sources" says nothing until
+   it says which five.
 
-   Set in sans. Mono in this system means the machine named the thing — a tool
-   name, a path, a version — and a count is a fact about the software rather
-   than a string it returns. A version *is* one, which is why `note` takes a
-   template and a version inside it sets in `sds-mono` like anywhere else. */
+   Set in sans. Mono means the machine named the thing, and a count is a fact
+   about the software rather than a string it returns — a version is one, which
+   is why `note` takes a template. */
 
 import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';

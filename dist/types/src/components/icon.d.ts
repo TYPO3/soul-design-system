@@ -3,12 +3,9 @@ import { SdsElement } from '../lib/element.js';
 import { type IconId } from './icons.generated.js';
 export type { IconId };
 /** The system's size scale: 16, 20, 24 or a whole multiple — never 18 or 22.
-    16 is the floor; below it, no icon at all.
-
-    `em` is the exception and the one that is not a number: an icon written
-    inside text — a button's label, a link, a line of prose — is as big as
-    that text and changes with it. A glyph beside 13px type has no business
-    being 16px because 16 is the floor for a glyph standing on its own. */
+    16 is the floor; below it, no icon at all. `em` is the exception: an icon
+    written inside text is as big as that text and changes with it, because the
+    floor is for a glyph standing on its own. */
 export type IconSize = 16 | 20 | 24 | 32 | 48 | 'em';
 /** Point the icons at a sprite this build serves somewhere else. */
 export declare const setIconSprite: (url: string) => void;

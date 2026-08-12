@@ -43,14 +43,10 @@ export declare class SdsSearch extends SdsElement {
     disconnectedCallback(): void;
     private readonly onOutside;
     private load;
-    /** Where the site's root is, from this page.
-  
-        The index lists every page as the build sees them — `guidelines/type.html`
-        from the root — and a reader is rarely standing in the root. Resolved
-        against the index's own address, which *is* the root: it is one file at
-        one place, and the page was told where it is. Left to the browser, a hit
-        one directory down sends the reader to a page beside the one they are on,
-        which does not exist. */
+    /** Where the site's root is, from this page. The index lists every page as
+        the build sees them, and a reader is rarely standing in the root — so it
+        is resolved against the index's own address, which *is* the root. Left to
+        the browser, a hit one directory down names a page that does not exist. */
     private hrefOf;
     private get hits();
     private type;
@@ -73,11 +69,9 @@ export declare class SdsSearch extends SdsElement {
     /** Left entirely — a press elsewhere, or a tab out of the last hit. */
     private onLeave;
     protected render(): TemplateResult;
-    /** The drop, and what is in it.
-  
-        `sds-result` draws a hit, marks what was searched for, and says where the
-        page is — all three are its own, and the query is handed over rather than
-        the marking being done here, because what is highlighted has to be what
-        was actually searched. */
+    /** The drop, and what is in it. `sds-result` draws a hit, marks what was
+        searched for and says where the page is — the query is handed over rather
+        than the marking done here, because what is highlighted has to be what was
+        actually searched. */
     private panel;
 }

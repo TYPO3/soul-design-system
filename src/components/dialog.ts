@@ -1,19 +1,13 @@
 /* sds-dialog — a modal that is actually a dialog.
 
-   `sds-modal` draws the modal *surface*: a box, a head, a body, a foot, and
-   an overlay behind it. That is what the specimen card documents and what
-   the design guide needs, because a card is a still picture and has nothing
-   to open.
+   `sds-modal` draws the surface, which is what a card can document: a card is a
+   still picture and has nothing to open. This is the behaviour — opening,
+   taking the focus and giving it back, Escape, the page behind it inert — on
+   the platform's `<dialog>`, which does all of it correctly.
 
-   A product needs the behaviour as well: something that opens, takes the
-   focus, gives it back, closes on Escape, and tells assistive tech that the
-   page behind it is inert. That is a different job, and this is it. It uses
-   the platform's own `<dialog>`, which already does all of that correctly
-   and is a great deal harder to get right by hand than it looks.
-
-   The two are deliberately not one component. A dialog that could not be
-   drawn without being opened would be undocumentable, and a surface that
-   grabbed the focus would be unusable in a specimen. */
+   Deliberately not one component: a dialog that had to be opened to be drawn
+   would be undocumentable, and a surface that grabbed the focus unusable in a
+   specimen. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';

@@ -11,18 +11,11 @@ export interface ButtonProps {
     iconOnly?: boolean;
     title?: string;
     disabled?: boolean;
-    /** What pressing it does to a form around it.
-  
-        `button` by default, and that default is the whole reason this property
-        exists: a `<button>` with no type inside a `<form>` is a submit button,
-        so a filter, a toggle or a Cancel drawn with this element submits the
-        form the moment it is pressed. The browser then also blocks the
-        submission on the first invalid required field and moves the focus
-        there — which is a page doing something nobody asked it to, decided by an
-        attribute nobody wrote.
-  
-        A real submit says so. Then Enter in a text field submits too, which is
-        the behaviour a form should have and only that button should carry. */
+    /** What pressing it does to a form around it. `button` by default, which is
+        the whole reason the property exists: a `<button>` with no type inside a
+        `<form>` submits it, so a filter or a Cancel drawn with this element sends
+        the form the moment it is pressed. A real submit says so — and then Enter
+        in a text field submits too, which only that button should carry. */
     type?: 'button' | 'submit' | 'reset';
 }
 export declare function buttonClass({ variant, size, iconOnly, disabled }: ButtonProps): string;
@@ -83,14 +76,10 @@ export declare class SdsButton extends SdsElement {
         button pointed at a viewer, a dialog or a drawer is almost always the one
         that opens it. */
     command: string;
-    /** That the label is one glyph and the button is the square.
-  
-        Inferred from the label where the label can be read, which is most of the
-        time and is why it was only ever inferred. It cannot be read when the
-        label arrives as markup rather than as nodes — a page rendered before the
-        browser, see `SdsElement` — and a button that loses its shape there is a
-        round control gone rectangular in a bar. So it is also something a caller
-        can simply say. */
+    /** That the label is one glyph and the button is the square. Inferred where
+        the label can be read, which it cannot be when it arrives as markup rather
+        than nodes — see `SdsElement`, and a button that loses its shape there is
+        a round control gone rectangular in a bar. So a caller can also say it. */
     iconOnly: boolean;
     private taken;
     constructor();

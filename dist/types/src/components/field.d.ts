@@ -20,13 +20,11 @@ export interface FieldProps {
         beside. A field with no visible label of its own owes one here. */
     label?: string;
     minWidth?: number;
-    /** The visible label, which turns this into a field in a *form*.
-  
-        A bare field is right where the surface around it says what it is for — a
-        header, a toolbar, a filter row. In a form nothing does, and a
-        placeholder is not a label: it leaves exactly when it is needed. Set
-        this and the element renders the row a form owes a control — label,
-        control, hint, error — instead of the control alone. */
+    /** The visible label, which turns this into a field in a *form*. A bare field
+        is right where the surface says what it is for — a header, a filter row.
+        In a form nothing does, and a placeholder leaves exactly when it is
+        needed. Set this and the element renders label, control, hint and error
+        instead of the control alone. */
     caption?: string;
     /** What the answer has to be, under the control. Never inside it. */
     hint?: string;

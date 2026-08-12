@@ -1,23 +1,13 @@
 /* sds-rail — the 210px navigation rail.
 
-   Items are often things the machine named — a tool, a page path — so they set
-   in mono verbatim: never title-cased, never prettified. `typo3_icon_lookup`
-   is what `typo3_icon_lookup` is called.
-
-   The active item is a filled block, never a tint: a tint reads as "hovered"
-   or "disabled" depending on what is under it, and this system already spends
-   hover on a colour change. The accent marks the active item — one of the
-   exactly three places `--accent` may appear at all.
-
-   A rail long enough to need sections takes groups, which fold:
+   Items are often things the machine named, so they set in mono verbatim. The
+   active one is a filled block in the accent, never a tint.
 
      .items = ['overview', { label: 'tools', items: [...] }]
 
    Data rather than composed elements, unlike the tabs: a group holds links and
-   no content of its own, and the caller is usually a renderer with a list of
-   pages rather than a page with markup to place. A group is a `<details>`, so
-   folding is the platform's — it works before any script runs, and the group
-   holding the current item is the one that starts open. */
+   no content of its own. It is a `<details>`, so the fold works before any
+   script and the group holding the current item starts open. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
@@ -48,21 +38,16 @@ export class SdsRail extends SdsNav {
   protected override readonly block = 'sds-rail';
   protected override readonly item = 'sds-rail__item';
 
-  /** What this is the list of, standing over it.
-
-      A rail that holds one section of a site says which — the pages of
-      Guidelines are not the pages of a manual, and a column of ten links with
-      nothing above it does not say that. Left empty there is no heading, which
-      is right where the rail is the whole navigation there is. */
+  /** What this is the list of, standing over it. A rail holding one section of
+      a site says which; a column of ten links with nothing above it does not.
+      Left empty there is no heading, which is right where the rail is the whole
+      navigation there is. */
   declare label: string;
 
-  /** The items a server wrote between the tags.
-
-      Same reason as `sds-menu`: a renderer resolves its own tree — which pages
-      there are, where they are from here, which one is being read, which fold
-      the reader is inside — and every one of those answers would have to be
-      encoded as data and worked out a second time to arrive as `items`. What
-      it writes are the classes below, so the two shapes are one shape. */
+  /** The items a server wrote between the tags. Same reason as `sds-menu`: a
+      renderer resolves its own tree, and every one of those answers would have
+      to be encoded and worked out again to arrive as `items`. What it writes
+      are the classes below, so the two shapes are one shape. */
   private taken: Element[] = [];
 
   /* `active` counts across the whole rail, groups flattened, because a rail

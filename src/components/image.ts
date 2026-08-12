@@ -1,27 +1,13 @@
 /* sds-image — a picture that arrives in the mode of the page it lands in.
 
-   A drawing this system did not draw is still a drawing: a project's signet, a
-   product's mark, an illustration somebody made for one page. Linked as an
-   image every one of them renders in a document of its own, where the tokens
-   are not declared — so it keeps whichever grey its author baked in, on a page
-   that has since gone dark. That is the failure this element exists to remove,
-   and `src/lib/art.ts` is where the mechanism is written down.
+   An SVG is referenced into the page and a raster file is linked; the caller
+   says neither, the file name is the whole distinction. A drawing linked as an
+   image renders in a document of its own, where no token is declared, and keeps
+   whichever grey its author baked in — `src/lib/art.ts` holds the mechanism.
 
-   So an SVG is referenced into the page and a raster file is linked, and the
-   caller says neither: the file name is the whole distinction. What an SVG has
-   to do to be referenced is name its root `id="art"` — one attribute, no
-   restructuring — and put its colours in `var(--token, #hex)` rather than in a
-   `<style>` block, because a rule inside the file beats the attribute the
-   reference would have coloured. `docs/guidelines/artwork.rst` is that as an
-   instruction, and it is the page to send anyone who asks how to hand this
-   system a mark of their own.
-
-   `sds-figure` is this with a caption and a claim, and the two share the same
-   function rather than each writing markup: a picture in a document is a
-   figure, and a picture in a bar is not. Where a mark is what a surface shows,
-   this is the element — the class it is given is the one it renders with, so a
-   signet in a lockup is `<sds-image class="sds-signet">` and nothing here has
-   to know what a signet is. */
+   `sds-figure` is this with a caption. The class a caller gives is the one it
+   renders with, so a signet is `<sds-image class="sds-signet">` and nothing
+   here has to know what a signet is. */
 
 import { type TemplateResult } from 'lit';
 import { art } from '../lib/art.ts';
@@ -48,12 +34,9 @@ export class SdsImage extends SdsElement {
     alt: { type: String },
     width: { type: Number, reflect: true },
     height: { type: Number, reflect: true },
-    /* The class the caller wrote, read as a property rather than off the
-       host. `this.className` exists only where there is a DOM, and the card
-       generator renders these elements in Node — so a mark written
-       `class="sds-signet"` came out of the export as `sds-art`, which is
-       `width: 100%`, which is a 20px mark filling the bar. Declaring the
-       attribute is what carries it through both renderings. */
+    /* The class the caller wrote, read as a property rather than off the host:
+       `this.className` exists only where there is a DOM, and these render in
+       Node too. Declaring the attribute is what carries it through both. */
     cls: { attribute: 'class', type: String },
   };
 
@@ -72,21 +55,11 @@ export class SdsImage extends SdsElement {
     this.cls = '';
   }
 
-  /** What a server wrote between the tags, dropped.
-
-      This element takes no content: the picture follows from `src` and
-      nothing else. What it does take is a *fallback* — the same picture
-      written out in the class layer, for a surface that renders before any
-      script does and for a reader who runs none. The Guides theme is that
-      surface, and the mark in its bar is the case that matters: it is the
-      site's identity, and it may not wait for a bundle.
-
-      So the contract is `sds-code`'s, with the halves swapped. There, what
-      the server wrote is what the element goes on showing; here the element
-      redraws it and the server's copy goes, because two pictures in one box
-      is what light DOM gives you otherwise. Either way the element is the
-      front door and the class layer stands behind it, which is the rule this
-      element could not follow before. */
+  /** What a server wrote between the tags, dropped. The element takes no
+      content — the picture follows from `src` — but it does take a fallback:
+      the same picture in the class layer, for a surface rendering before any
+      script and for a reader who runs none. The element redraws it and the
+      server's copy goes, or light DOM leaves two pictures in one box. */
   override connectedCallback(): void {
     this.lifted();
     super.connectedCallback();
@@ -95,17 +68,11 @@ export class SdsImage extends SdsElement {
   protected override render(): TemplateResult {
     const width = this.width || undefined;
     const height = this.height || undefined;
-    /* A size states the box, and nothing else may then decide it. `.sds-art`
-       is `width: 100%` — the right answer for a picture filling the column it
-       was placed in, and the wrong one for a 64px mark, where a class beats a
-       presentation attribute and the drawing is drawn the width of the page.
-       So the default class is the unsized case only; a caller that asks for a
-       size and a class gets both, and owns the collision.
-
-       The class goes on the picture itself, which is where the stylesheet
-       expects it: the class layer is the markup a surface running no script
-       writes by hand, and an element that renders something else is an element
-       the fallback cannot stand in for. Same contract as `sds-icon`. */
+    /* A size states the box and nothing else may then decide it: `.sds-art` is
+       `width: 100%`, and a class beats a presentation attribute, so the default
+       class is the unsized case only. A caller asking for both owns the
+       collision. The class goes on the picture itself, where the stylesheet
+       expects it — the fallback markup is written that way by hand. */
     const cls = this.cls || (width || height ? '' : 'sds-art');
     return art(this.src, this.alt, cls, width, height);
   }

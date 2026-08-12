@@ -1,19 +1,13 @@
 /* sds-accordion — questions with their answers folded behind them.
 
-   `<details>` and `<summary>`, for the same reason the rail's sections are:
-   the fold works before any script has run, the keyboard reaches it because it
-   is a real disclosure, and find-in-page opens the one it lands in. A button
-   drawn to look like a summary has none of that and looks identical.
+   `<details>` and `<summary>`, like the rail's sections: the fold works before
+   any script runs, the keyboard reaches it, and find-in-page opens the one it
+   lands in. A button drawn to look like a summary looks identical and has none
+   of that. Exclusive through `name` rather than a listener, so the platform
+   closes the others; `multiple` where the answers are meant to be compared.
 
-   Exclusive by default, through `name` on the details rather than through a
-   listener: the platform closes the others itself. A set where every answer
-   can be open at once is a set the reader has to close by hand to see the
-   list again — which is what they came for. Where the answers are meant to be
-   compared, `multiple` says so.
-
-   What it is *for* is a list of questions. Anything where the folded part is
-   the point — a log, a stack trace, a diff — is not this: it is one `details`
-   in the flow of a document, and it does not need a component. */
+   For a list of questions. Where the folded part is the point — a log, a stack
+   trace — one `<details>` in the document needs no component. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';

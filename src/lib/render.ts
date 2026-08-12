@@ -1,20 +1,13 @@
 /* Render a Lit template to the static HTML a specimen card ships.
 
-   The cards under `components/` are opened by the Design System pane with
-   `styles.css` and nothing else — no bundle, no module, no custom element
-   upgrade. So a card cannot contain `<sds-button>`: it has to contain the
-   markup that element *produces*. This is what turns one into the other, at
-   build time, in Node.
+   The Design System pane opens a card with `styles.css` and nothing else, so a
+   card cannot contain `<sds-button>` — it has to contain the markup that
+   element produces. Component templates are plain functions returning a
+   `TemplateResult` for exactly that reason: the element renders one in the
+   browser, this renders the same one into a file, and nothing is written twice.
 
-   That is also why the component templates are plain functions returning a
-   `TemplateResult` rather than methods on the element. The function is the
-   single source: the element renders it in the browser, and this renders it
-   into a file. Nothing is written twice, so nothing can drift.
-
-   Whitespace survives. Lit keeps whatever is inside the template literal, so
-   a template written with newlines and indentation produces HTML with the
-   same newlines and indentation — which is why the generated cards stay
-   diffable line by line instead of arriving as one long string. */
+   Lit keeps the whitespace inside a template literal, which is what makes the
+   generated cards diffable line by line. */
 
 import type { TemplateResult } from 'lit';
 import { render } from '@lit-labs/ssr';
@@ -23,19 +16,14 @@ import { collectResultSync } from '@lit-labs/ssr/lib/render-result.js';
 import { inlineArtRefs } from '../components/art.static.ts';
 import { inlineIconRefs } from '../components/icon.static.ts';
 
-/* Lit's SSR emits hydration markers around every binding. They are inert in
-   a browser, but a specimen card is never hydrated — nothing on the page
-   would ever claim them — and they would be noise in a file people read and
-   review. Stripping them is safe precisely because these cards are static
-   and stay static. */
+/* Hydration markers Lit's SSR emits around every binding. Nothing here
+   hydrates, so they would only be noise in a file people read and review. */
 const LIT_MARKER = /<!--\/?lit-(?:part|node)[^>]*-->/g;
 
 /* A template whose entire content is bindings — `html\`${icon}${label}\`` —
-   makes Lit's SSR close it with a `<?>` child-part marker. Browsers parse
-   that as a bogus comment and render nothing, so it is invisible in review
-   and harmless at runtime, which is exactly what makes it worth removing
-   here rather than in every template: the alternative is a rule every
-   component author has to know and none of them can see they broke. */
+   is closed with a `<?>` child-part marker. It renders as nothing and so is
+   invisible in review, which is why it goes here rather than becoming a rule
+   every component author has to know. */
 const LIT_CHILD_MARKER = /<\?>/g;
 
 /* An element as `@lit-labs/ssr` emits it: the tag, a declarative shadow root
@@ -43,23 +31,10 @@ const LIT_CHILD_MARKER = /<\?>/g;
    repeated application unwraps from the inside out. */
 const SSR_ELEMENT = /<(sds-[a-z-]+)\b[^>]*>\s*<template[^>]*>([\s\S]*?)<\/template>\s*<\/\1>/;
 
-/* Replace every element with the markup it rendered.
-
-   The components compose components — a button asks for `<sds-icon>` rather
-   than pasting a drawing into its own markup, so changing how an icon is
-   built stays one edit in one file. A specimen card cannot carry any of that:
-   the Design System pane opens those files with `styles.css` and no
-   JavaScript at all, and an unupgraded custom element is an empty box where
-   a glyph belongs.
-
-   So composition lives in the source and the export is flat — the same tree,
-   printed at two depths. Nothing is reconstructed here: SSR already rendered
-   each element, and this only takes it out of its wrapper.
-
-   Note that `ssr` puts the output in a declarative shadow root even for our
-   light-DOM elements. That is a detail of how it renders, not of how the
-   element behaves in a browser, and unwrapping it is what makes the two
-   agree. */
+/* Replace every element with the markup it rendered. Components compose
+   components and a card can carry none of it: an unupgraded element is an empty
+   box where a glyph belongs. Nothing is reconstructed — SSR rendered each one
+   already, into a shadow root this only takes it back out of. */
 function flattenElements(html: string): string {
   let out = html;
   /* Innermost first, so an element inside an element unwraps too. Bounded
@@ -70,16 +45,10 @@ function flattenElements(html: string): string {
   return out;
 }
 
-/* Whitespace left inside a tag by an attribute that was not written.
-
-   `<input ... ${cond ? attr : nothing}>` keeps the space in front of the
-   binding whether or not anything lands there, so the export carries
-   `<input class="…" >` where a browser serialises `<input class="…">`. It is
-   invisible, it is not markup, and it made every component with an optional
-   attribute either fail the parity check or grow a branch per attribute.
-
-   Scanned rather than matched: a `>` inside an attribute value is not the end
-   of a tag, and a regex that does not know that would cut a title in half. */
+/* Whitespace left inside a tag by an attribute that was not written:
+   `<input ... ${cond ? attr : nothing}>` keeps the space either way and a
+   browser serialises none, so without this every component with an optional
+   attribute fails parity. Scanned, because a `>` in a value does not end a tag. */
 function tidyTags(html: string): string {
   let out = '';
   let inTag = false;
@@ -102,10 +71,8 @@ function tidyTags(html: string): string {
       continue;
     }
     if (ch === '>') {
-      /* Newlines too, not only spaces: a tag written one attribute per line
-         ends with the indentation of the attribute that was not written, so
-         the export carried a blank line inside the tag wherever a component
-         had an optional one. */
+      /* Newlines too: a tag written one attribute per line otherwise keeps
+         the indentation of the attribute that was not written. */
       out = out.replace(/\s+$/, '');
       inTag = false;
       out += ch;
@@ -119,10 +86,8 @@ function tidyTags(html: string): string {
 
 /* Where a declarative shadow root opens. */
 const SSR_SHADOW = /<template shadowroot[^>]*>/;
-/* And any template at all, which is what has to be counted to find where that
-   one closes: a rendering can hold templates of its own — the content an
-   element was handed, kept for the browser — and a match on the first
-   `</template>` would cut the shadow root off at somebody else's closing tag. */
+/* And any template at all, counted to find where that one closes: a rendering
+   holds templates of its own, so the first `</template>` is somebody else's. */
 const ANY_TEMPLATE = /<template\b[^>]*>|<\/template>/g;
 
 /** Replace every declarative shadow root with what is inside it. */
@@ -148,40 +113,23 @@ function unwrapShadows(html: string): string {
   return out;
 }
 
-/**
- * Render a template to markup that still holds this system's elements.
- *
- * The other function here exports a card: every element is flattened away,
- * because the Design System pane opens those files with no JavaScript at all
- * and an unupgraded tag would be an empty box. A page is the opposite case —
- * it *does* load the bundle, and the tags have to survive so they upgrade and
- * behave. What it needs from Node is only that the markup is already there for
- * the frame before that happens, and for a reader who runs no script.
- *
- * So this keeps every tag and unwraps only what `@lit-labs/ssr` puts around an
- * element's own rendering. These are light-DOM components: the declarative
- * shadow root is an artefact of how SSR renders, not of how they behave, and
- * taking it off is what makes the two agree.
- */
+/** Render a template to markup that still holds this system's elements. A page
+    loads the bundle, so its tags have to survive and upgrade; it needs the
+    markup only to be there already, for the first frame and for a reader who
+    runs no script. Only the declarative shadow root comes off. */
 export function renderUpgradable(template: TemplateResult): string {
   let html = unwrapShadows(collectResultSync(render(template)));
-  /* `defer-hydration` is what SSR marks an element with so a hydrating client
-     knows not to upgrade it yet. Nothing here hydrates — these are light-DOM
-     components that re-render over their own output — so it would only be an
-     attribute on every element in the site that no reader and no script ever
-     looks at. */
+  /* `defer-hydration` tells a hydrating client not to upgrade yet. Nothing
+     here hydrates — these re-render over their own output — so it would be an
+     attribute on every element in the site that nothing ever reads. */
   html = html.replace(/ defer-hydration/g, '').replace(LIT_MARKER, '').replace(LIT_CHILD_MARKER, '');
   if (html.includes('<!--lit') || html.includes('<!--/lit')) {
     throw new Error('lit hydration markers survived the strip — check src/lib/render.ts against the installed @lit-labs/ssr');
   }
-  /* The glyphs are inlined and the drawings are not, and the difference is
-     where each one's file is. A drawing is referenced by the URL the page
-     itself gave — `/_images/…`, which is a path in the site and resolves in
-     the browser exactly as written. A sprite is resolved against the module
-     that asked for it, and in Node that is a path on the build machine: it is
-     right for the element once it has upgraded and names nothing at all in the
-     markup written here. Inlining is what makes this rendering stand on its
-     own, which is the whole reason it exists. */
+  /* Glyphs are inlined and drawings are not, because a drawing is referenced
+     by a path in the site and resolves as written, while a sprite resolves
+     against the module that asked for it — in Node, a path on the build
+     machine, naming nothing in the markup written here. */
   return tidyTags(inlineIconRefs(html));
 }
 
@@ -201,11 +149,8 @@ export function renderStatic(template: TemplateResult): string {
   }
 
   /* A card carries no script, no sprite and no server, so a reference to
-     another file resolves to nothing. How an icon becomes a glyph and how a
-     drawing becomes shapes is each component's own business, not this file's
-     — this only says which order they run in, and that is load-bearing: a
-     drawing's `#art` has the shape of an icon reference and would be looked
-     up as one. */
+     another file resolves to nothing. The order is load-bearing: a drawing's
+     `#art` has the shape of an icon reference and would be looked up as one. */
   html = tidyTags(inlineIconRefs(inlineArtRefs(html)));
 
   /* Nothing that needs upgrading may reach a card. This is the guard, not the
@@ -213,21 +158,11 @@ export function renderStatic(template: TemplateResult): string {
      which is invisible in review and blank in the pane. */
   const leaked = /<(sds-[a-z-]+)\b/.exec(html);
   if (leaked) {
-    /* Two different faults produce a surviving tag, and telling them apart is
-       worth the extra line — one is a bug in this file, the other is the
-       caller using a form that cannot be exported at all.
-
-       An element given content between its tags cannot be flattened. Lit's
-       SSR renderer emits the element's own template and then the authored
-       children after it, and `connectedCallback` never runs in Node — so the
-       component never lifts those children into its body, and what comes back
-       is a frame with an empty middle and the content stranded beside it.
-       There is nothing to unwrap.
-
-       The content form is a browser affordance: a renderer produces the body
-       and the element frames it on upgrade. For anything that has to be
-       exported — every specimen card — pass the body as a property, which is
-       what the stories do. */
+    /* Two faults leave a tag standing, and they are worth telling apart: a bug
+       in this file, or a caller using a form that cannot be exported. An
+       element given content between its tags is the second — SSR emits the
+       authored children beside the element's template and `connectedCallback`
+       never runs here to move them, so there is nothing to unwrap. */
     if (/<\/template>\s*\S/.test(html)) {
       throw new Error(
         `<${leaked[1]}> was given content between its tags, and that form cannot be exported. ` +

@@ -1,43 +1,13 @@
 /* sds-pagination — where a list continues.
 
-   Numbered, and every number an `href`. "Load more" has no address: the page a
-   reader was on becomes a place they can only reach by scrolling to it again,
-   and nothing they send to someone else points at what they were reading.
+   Numbered, and every number an `href`: a page reachable only by scrolling is
+   one a reader cannot send to anyone. The address is a whole URL with `{n}`
+   where the number goes, because a list is as often at `?q=…&page=2&sort=date`
+   as at the end of a path. Every number also fires `sds-change`, for a surface
+   that pages in place and calls `preventDefault()` — not a second mode.
 
-   The address is written whole, with `{n}` standing where the number goes.
-   A prefix the number is appended to only reaches the pages whose number ends
-   the URL, and a list is as often at `?q=typo3&page=2&sort=date` — where the
-   caller would have to rewrite the query it already has to put the number
-   last.
-
-   Every number is also a press the row announces. The address and the event
-   are not two modes a caller picks between: the link is what the page is
-   worth on its own, and `sds-change` is how a surface that pages in place
-   hears about it. That surface calls `preventDefault()` on the event — the
-   navigation is dropped and the row moves itself, so the numbers are right
-   without the caller writing `current` back.
-
-   The page they are on is the active item of a navigation and is drawn like
-   every other one — the accent, filled — and it is text rather than a link,
-   because a control that navigates to where you already are is a control that
-   does nothing.
-
-   Which numbers are shown is the component's, not the caller's: the first, the
-   last, and the ones around the current, with a gap standing in for the rest.
-   A caller that had to work that out would work it out differently on each
-   page it built.
-
-   How many pages there are is not asked for. The row is told how many there
-   are in all and how many go on a page, and divides — a caller that hands over
-   both a total and a page count has handed over the same fact twice, and the
-   day a filter takes the list from 84 to 12 it is the division nobody
-   remembered to redo that draws nine pages of nothing.
-
-   The count at the end is that number and the word for what was counted, and
-   the two are kept apart. One string — "84 entries" — is a number a caller has
-   already formatted and a noun this system cannot see, so nothing can group
-   the digits, and a total the element has to read out of a sentence is not one
-   it can divide. */
+   The row is told the total and the page size and divides, so nothing hands
+   over the same fact twice. The current page is text, not a link. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';

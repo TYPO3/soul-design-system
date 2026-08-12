@@ -1,17 +1,12 @@
 /* sds-form-errors — what stopped the form, at the top of it.
 
-   A form that fails validation marks the fields and stops. That is enough for
-   anyone who can see the whole form at once and is nothing at all for anyone
-   who cannot: a reader on a phone is sent back to a page that looks unchanged,
-   and a reader on a screen reader is told nothing happened.
+   Marking the fields is enough for a reader who sees the whole form at once and
+   nothing at all for one who does not: a phone is sent back to a page that
+   looks unchanged, a screen reader is told nothing happened.
 
-   So the summary is where the reader was sent — first, focusable, announced,
-   and every entry a link to the field it is about. That is the shape assistive
-   technology expects and the shape a hurried form always skips, which is why
-   it is a component rather than a paragraph a page writes.
-
-   It renders `sds-note` rather than re-drawing the error block: what a failure
-   looks like in this system is decided once. */
+   So the summary is where the reader lands — first, focusable, announced, every
+   entry a link to the field it is about. It renders `sds-note` rather than
+   drawing the error block again. */
 
 import { html, type TemplateResult } from 'lit';
 import './note.ts';

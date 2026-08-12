@@ -1,17 +1,13 @@
 /* sds-field — a text field and a select.
 
-   A field is sunken, never outlined on the canvas, and the accent appears on
-   it in exactly one place: focus.
+   Sunken, never outlined on the canvas, and the accent appears on it in exactly
+   one place: focus. A real `<input>` or `<select>` inside the box, so the ring
+   comes from `:focus-within` and the browser does the rest — anything drawn
+   instead looks right in a screenshot and cannot be typed in or read out.
 
-   It is a control, not a picture of one. It used to render a `<span>` with a
-   drawn caret, which looked right in a screenshot and could not be typed in,
-   tabbed to, or read out — a demo of a field rather than a field. What it
-   renders now is an `<input>` (or a `<select>`) inside the sunken box, so the
-   focus ring comes from `:focus-within` and the browser does the rest.
-
-   The state properties stay, and are for one thing: a specimen card is a
-   still picture and cannot hold focus or invalidity long enough to be
-   photographed. Set none of them and the states are the browser's own. */
+   The state properties exist for the specimen alone, which is a still picture
+   and cannot hold focus or invalidity. Set none and the states are the
+   browser's. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -43,13 +39,11 @@ export interface FieldProps {
       beside. A field with no visible label of its own owes one here. */
   label?: string;
   minWidth?: number;
-  /** The visible label, which turns this into a field in a *form*.
-
-      A bare field is right where the surface around it says what it is for — a
-      header, a toolbar, a filter row. In a form nothing does, and a
-      placeholder is not a label: it leaves exactly when it is needed. Set
-      this and the element renders the row a form owes a control — label,
-      control, hint, error — instead of the control alone. */
+  /** The visible label, which turns this into a field in a *form*. A bare field
+      is right where the surface says what it is for — a header, a filter row.
+      In a form nothing does, and a placeholder leaves exactly when it is
+      needed. Set this and the element renders label, control, hint and error
+      instead of the control alone. */
   caption?: string;
   /** What the answer has to be, under the control. Never inside it. */
   hint?: string;
@@ -192,17 +186,11 @@ export class SdsField extends SdsElement {
       }</select><span style="color:var(--text-muted);"><sds-icon name="actions-chevron-down"></sds-icon></span></span>`;
     }
 
-    /* More than one line is a `<textarea>` and not a taller input. The
-       difference is what the browser does with a newline.
-
-       Built as a string rather than as a template, and that is not a style
-       choice: a `<textarea>` is a raw text element, so Lit refuses a binding
-       between its tags — and its content is the only place a value can live
-       where a file with no script still shows it. A property binding would
-       work in a browser and export an empty box.
-
-       The listener therefore sits on the wrapper, where input events from the
-       control reach it by bubbling. */
+    /* More than one line is a `<textarea>`, not a taller input: the difference
+       is what the browser does with a newline. Built as a string because Lit
+       refuses a binding between the tags of a raw text element, and its content
+       is the only place a value lives where a file with no script still shows
+       it. So the listener sits on the wrapper, reached by bubbling. */
     if (this.rows > 1) {
       const attr = (name: string, value: string): string => (value ? ` ${name}="${esc(value)}"` : '');
       const area =

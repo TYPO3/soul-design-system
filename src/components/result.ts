@@ -1,20 +1,13 @@
 /* sds-result — one hit in a list of them.
 
-   Four parts, and the second is the one search results usually leave out:
-   what was found, **where it is**, the sentence it was found in, and what kind
-   of thing it is. A list of titles and snippets makes the reader open a page
-   to learn whether it was the reference, the changelog or a guide — which is
-   the question they were answering by searching.
+   What was found, **where it is**, the sentence it was found in, and what kind
+   of thing it is. The second is what a list of titles and snippets leaves out,
+   and the reader opens a page to learn it.
 
-   The match is marked by this element and not by the caller. What is
-   highlighted has to be what was searched for; a page that marks by hand marks
-   what it *thinks* it searched for, and the two part company the first time a
-   query is normalised, trimmed or lower-cased on the way in.
-
-   Not `sds-teaser`. A teaser is an invitation to something the reader has not
-   asked about; a result is an answer to something they did, and the parts
-   differ accordingly — no drawing, a path instead of a date, and a snippet cut
-   from the text rather than a summary written for it. */
+   The match is marked here, not by the caller: what is highlighted has to be
+   what was searched for, and a page marking by hand marks what it thinks it
+   searched for — the two part the first time a query is normalised. Not
+   `sds-teaser`: that invites, this answers. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './badge.ts';

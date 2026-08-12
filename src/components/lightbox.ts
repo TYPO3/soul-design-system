@@ -1,24 +1,13 @@
 /* sds-lightbox — a drawing at the size it was drawn.
 
-   The behaviour is the platform's `<dialog>`, exactly as `sds-dialog` uses it:
-   it opens modally, makes the page behind it inert, takes the focus and gives
-   it back, and closes on Escape. None of that is worth writing twice.
-
-   The surface is not the modal's. A modal stops at `--measure-modal` because
-   what is inside one is *read*; a drawing is looked at, and a 1200px diagram
-   scaled into a page column is a picture of a diagram rather than the diagram.
-
-   It shows the same file a figure does, referenced the same way — the viewer
-   opening in the mode the reader is not in would be a strange way to discover
-   that a drawing is drawn twice.
-
-   Opening it is written in markup, by name:
+   The behaviour is the platform's `<dialog>`, as `sds-dialog` uses it. The
+   surface is not the modal's: a modal stops at `--measure-modal` because what
+   is inside one is read, and a drawing is looked at.
 
      <sds-button for="the-drawing">Open the drawing</sds-button>
      <sds-lightbox id="the-drawing" src="…" alt="…"></sds-lightbox>
 
-   `sds-figure` is the other way in and needs none of that: it owns the viewer
-   it renders, so it calls `show()` on it. */
+   `sds-figure` needs none of that: it owns the viewer and calls `show()`. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';

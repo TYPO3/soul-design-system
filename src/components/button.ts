@@ -1,27 +1,13 @@
 /* sds-button — the action that starts work.
 
-   One primary per view. Everything else is secondary or ghost; a second
-   primary makes neither of them mean anything.
+   One primary per view; a second makes neither mean anything. The label is
+   content, not a string — a name in mono, a count and a glyph are all things a
+   button's label is often enough.
 
-   The label is content:
-
-     <sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Run the checks</sds-button>
-
-   It used to be a `label=` string with an `icon=` beside it, which could
-   carry a word and nothing else — not a name in mono, not a count, not two
-   glyphs. A button's label is markup often enough that a string was the
-   wrong shape for it.
-
-   `buttonMarkup` is what the element renders, and it is exported for the one
-   caller that has no element: a specimen card is written by `renderStatic`,
-   which cannot flatten an element that was given children — Lit's SSR emits
-   them beside the element's own template and `connectedCallback` never runs
-   in Node to move them. One function, two renderers, so the card and the
-   browser cannot drift.
-
-   `buttonClass` is exported for the same reason one layer down: the class
-   list *is* the contract with `components.css`, and a PHP surface writing
-   plain markup needs it. */
+   `buttonMarkup` is what the element renders, exported for the caller that has
+   no element: `renderStatic` cannot flatten an element that was given children.
+   `buttonClass` one layer down, because the class list is the contract with
+   `components.css` and a surface writing plain markup needs it. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';
@@ -38,18 +24,11 @@ export interface ButtonProps {
   iconOnly?: boolean;
   title?: string;
   disabled?: boolean;
-  /** What pressing it does to a form around it.
-
-      `button` by default, and that default is the whole reason this property
-      exists: a `<button>` with no type inside a `<form>` is a submit button,
-      so a filter, a toggle or a Cancel drawn with this element submits the
-      form the moment it is pressed. The browser then also blocks the
-      submission on the first invalid required field and moves the focus
-      there — which is a page doing something nobody asked it to, decided by an
-      attribute nobody wrote.
-
-      A real submit says so. Then Enter in a text field submits too, which is
-      the behaviour a form should have and only that button should carry. */
+  /** What pressing it does to a form around it. `button` by default, which is
+      the whole reason the property exists: a `<button>` with no type inside a
+      `<form>` submits it, so a filter or a Cancel drawn with this element sends
+      the form the moment it is pressed. A real submit says so — and then Enter
+      in a text field submits too, which only that button should carry. */
   type?: 'button' | 'submit' | 'reset';
 }
 
@@ -115,14 +94,10 @@ export class SdsButton extends SdsElement {
       button pointed at a viewer, a dialog or a drawer is almost always the one
       that opens it. */
   declare command: string;
-  /** That the label is one glyph and the button is the square.
-
-      Inferred from the label where the label can be read, which is most of the
-      time and is why it was only ever inferred. It cannot be read when the
-      label arrives as markup rather than as nodes — a page rendered before the
-      browser, see `SdsElement` — and a button that loses its shape there is a
-      round control gone rectangular in a bar. So it is also something a caller
-      can simply say. */
+  /** That the label is one glyph and the button is the square. Inferred where
+      the label can be read, which it cannot be when it arrives as markup rather
+      than nodes — see `SdsElement`, and a button that loses its shape there is
+      a round control gone rectangular in a bar. So a caller can also say it. */
   declare iconOnly: boolean;
 
   /* The label, taken before Lit renders over it — the element renders light
@@ -152,18 +127,11 @@ export class SdsButton extends SdsElement {
     super.disconnectedCallback();
   }
 
-  /* The press, sent to whatever the button names.
-
-     The connection is an id and the message is an event, so neither end holds
-     the other: the button knows a name and a verb, the thing that answers
-     knows what to do about it, and a page wires the two in markup rather than
-     in a script that has to find both. The event is dispatched **on the
-     target**, the way the platform's own invokers do it, so what answers only
-     has to listen to itself — and it bubbles, so a page that wants to hear
-     every command still can.
-
-     Without `for` this does nothing at all: a button that starts work in place
-     is the ordinary case, and it keeps its own click. */
+  /* The press, sent to whatever the button names. An id and an event, so
+     neither end holds the other and a page wires the two in markup. Dispatched
+     **on the target**, the way the platform's own invokers do it, so what
+     answers listens to itself — and it bubbles, so a page that wants every
+     command still hears them. Without `for` the button keeps its own click. */
   private readonly onPress = (): void => {
     if (!this.for || this.disabled) return;
     const target = document.getElementById(this.for);

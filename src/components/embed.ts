@@ -1,30 +1,13 @@
 /* sds-embed — a document from somewhere else, in a frame this page controls.
 
-   An iframe is the one thing on a page that the page did not write: a video,
-   a map, a card this system's own generator produced. It arrives carrying a
-   size of its own, with no relation to the column it lands in, and browsers
-   draw it with an inset border out of 1996. That is what this frames — the
-   hairline and the corner every other block here has, the sunken plane the
-   document already uses for machine output, and a caption saying what the
-   reader is looking at.
+   An iframe arrives carrying a size with no relation to the column it lands in,
+   and browsers draw it with an inset border out of 1996; this gives it the
+   hairline and sunken plane every other block here has.
 
-   Two shapes, and the difference is what the embed is *for*.
-
-   A video has a ratio and no size. It fills the column and holds `16 / 9`
-   whatever the column does, because 560 pixels of player is a player with its
-   right-hand side cut off as soon as the column is narrower than that.
-
-   A specimen has a size and no ratio. It was measured at the viewport its
-   card declares, and a card shown at any other width is a card documenting
-   something that was never checked — so the frame keeps that size and scrolls
-   when there is less room, which is the answer a wide table already gets
-   here.
-
-   And it takes the frame it is given. A renderer that ships HTML writes the
-   iframe itself, so the reader has the document before any script has run;
-   this lifts that node and wraps it rather than writing a second one, which
-   would fetch the same document twice. Same arrangement as `sds-code`, and
-   for the same reason. */
+   A video has a ratio and no size and fills the column, because a fixed 560 is
+   a player with its side cut off. A specimen has a size and no ratio, measured
+   at the viewport its card declares, so the frame keeps it and scrolls. An
+   iframe a renderer wrote is lifted, not written again. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';
@@ -32,15 +15,10 @@ import { define, SdsElement } from '../lib/element.ts';
 export interface EmbedProps {
   /** The document to put in the frame. */
   src: string;
-  /** What the frame holds, in a few words. It becomes the frame's accessible
-      name, which is the only thing a screen reader has to go on — an unnamed
-      frame is announced as "frame" and skipped.
-
-      Not `title`, which is a global HTML attribute: written on the host it
-      would be a tooltip over everything inside, because `display: contents`
-      leaves the attribute inheriting onto the frame and the caption both.
-      Same collision the block's `code-lang`, the table's `scrollable` and the
-      note's `heading` were renamed for. */
+  /** What the frame holds, in a few words: it becomes the accessible name, and
+      an unnamed frame is announced as "frame" and skipped. Not `title`, a
+      global attribute, which on a `display: contents` host would be a tooltip
+      over the frame and the caption both. */
   label: string;
   /** The shape the frame holds while it fills the column, as CSS writes it —
       `16 / 9`. This is what a video, a map or anything else that has no size
@@ -51,13 +29,10 @@ export interface EmbedProps {
       wide, and it scrolls rather than reflowing what it holds. */
   width?: number;
   height?: number;
-  /** The claim, in a sentence, under the frame.
-
-      A caption may also be written between the tags as
-      `<div class="sds-embed__caption">`, and that is the form for a renderer
-      whose caption carries markup — a size in the mono face, a link — and for
-      a page that has to read before the element upgrades. Either way it
-      belongs to the element: see `captioned`. */
+  /** The claim, in a sentence, under the frame. It may also be written between
+      the tags as `<div class="sds-embed__caption">` — the form for a caption
+      carrying markup, and for a page read before the element upgrades. Either
+      way it belongs to the element: see `captioned`. */
   caption?: string;
   /** The permissions policy the frame is granted. A video player asks for
       `encrypted-media; picture-in-picture; web-share`; a card asks for
@@ -130,23 +105,16 @@ export class SdsEmbed extends SdsElement {
     super.connectedCallback();
   }
 
-  /** Whether the frame is the size it was made for rather than the column's.
-
-      A size on its own says fixed, and a ratio beside it says the caller has
-      two answers to one question — the ratio is the one that means "fill the
-      column", so it wins and the size is what the document inside is asked
-      for. */
+  /** Whether the frame is the size it was made for rather than the column's. A
+      size alone says fixed; a ratio beside it is the answer that means "fill
+      the column", so it wins and the size is what the document is asked for. */
   private get fixed(): boolean {
     return !this.ratio && this.width > 0 && this.height > 0;
   }
 
   /** What goes in the frame: the node a renderer wrote, or the iframe this
-      writes when nobody did.
-
-      Not lazy, and that is a decision rather than an omission. An embed is the
-      evidence on the page, and a frame that loads on scroll is a frame that is
-      blank in every screenshot taken of it — which is the one place somebody
-      looks at all of them at once. */
+      writes when nobody did. Not lazy, deliberately — an embed is the evidence
+      on the page, and one that loads on scroll is blank in every screenshot. */
   private get framed(): unknown {
     if (this.taken ?? this.content) return this.taken ?? this.content;
     /* Nothing to show, and an empty `src` is not nothing: a browser resolves
@@ -157,15 +125,11 @@ export class SdsEmbed extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    /* The shape is a class rather than a rule the element writes out, because
-       what "fixed" and "fluid" mean is the stylesheet's business — one holds
-       its size and scrolls, the other fills the column and holds a ratio. The
-       ratio itself is the only thing here no class can carry.
-
-       Both names in full, and not one stem with the ending interpolated: a
-       class assembled from pieces appears nowhere in the source, so `make
-       coverage` cannot see that anything draws it and the name reads as dead
-       to every search that goes looking for it. */
+    /* A class rather than a rule the element writes: what "fixed" and "fluid"
+       mean is the stylesheet's business, and the ratio is the only thing here
+       no class can carry. Both names in full rather than a stem with the ending
+       interpolated — a class assembled from pieces appears nowhere in the
+       source, so `make coverage` and every search read it as dead. */
     const shape = this.fixed ? 'sds-embed__frame--fixed' : 'sds-embed__frame--fluid';
     const style = this.fixed ? nothing : `aspect-ratio:${this.ratio || '16 / 9'}`;
     /* Whichever form the caption arrived in. The nodes win where there are

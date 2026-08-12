@@ -2,14 +2,11 @@
 
    `.sds-foot` is the other one: a single row with the way out of this page,
    which is all one screen owes its reader. A site of many pages owes the rest
-   of itself — grouped, so the columns are read as sections rather than as a
-   list somebody stopped writing.
+   of itself, grouped so the columns read as sections.
 
-   The last line is the reason the two are separate components rather than one
-   with a modifier. It says what the product is, and it is the surface where
-   that has to be unambiguous: no surface here may imply an endorsement it does
-   not have, so the line is a required property and not a slot a page may
-   forget to fill. */
+   The last line says what the product is, and no surface here may imply an
+   endorsement it does not have — so it is a required property rather than a
+   slot a page may forget to fill. */
 
 import { html, type TemplateResult } from 'lit';
 import './link.ts';

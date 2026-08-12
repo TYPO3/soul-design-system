@@ -1570,42 +1570,18 @@ var require_core = __commonJS({
 import { LitElement } from "lit";
 var CONTENT = "data-sds-content";
 var SdsElement = class extends LitElement {
-  /* Render into the element itself — see above. */
   createRenderRoot() {
     return this;
   }
-  /** The content a caller wrote between the tags, taken out of the way.
-  
-        Asked **once**, and that is the whole reason it is here rather than
-        written out in each component that takes content. These elements render
-        into themselves, so after the first render an element's children are its
-        own output — and `connectedCallback` runs again every time an element is
-        moved in the document. A component that looks a second time therefore
-        lifts its own rendering and treats it as what the author wrote: a code
-        block whose content is the head and the `<pre>` it just produced, which
-        reads back as an empty block.
-  
-        Nothing moved elements around until tabs began composing them, which is
-        why three components carried the same latent bug and none of them showed
-        it. */
+  /** Asked once. These elements render into themselves, so after the first
+      render the children are the element's own output — and `connectedCallback`
+      runs again every time an element is moved in the document. A second look
+      lifts that output and treats it as what the author wrote. */
   #looked = false;
-  /** Clear a rendering this element already has before it makes another one.
-  
-        Lit renders *after* whatever children it finds — it does not own the
-        container and will not empty it — so an element that arrives with its own
-        prerendered markup in it ends up holding two copies. A component that
-        reads its own content never sees this, because `lifted()` takes every
-        child out on the way past; one that renders purely from properties never
-        looks at its children at all, and every one of those doubled on the
-        published site the first time the pages were rendered ahead of the
-        browser.
-  
-        So it is asked here, where both kinds go through. Only when the marker is
-        there: it says this element was rendered by the build, and it is the one
-        thing that tells its own last output apart from content a caller wrote —
-        an element in a page that was never prerendered still keeps whatever it
-        was given. Nothing is left behind either, the marker included: what
-        `lifted()` needed out of it, it already has. */
+  /** Lit renders *after* whatever children it finds rather than emptying the
+      container, so an element arriving with its own prerendered markup would
+      hold two copies. The marker says the build wrote that markup; content a
+      caller wrote carries none and stays. */
   connectedCallback() {
     if (this.querySelector(`:scope > template[${CONTENT}]`)) {
       for (const node of [...this.childNodes]) node.remove();
@@ -2201,13 +2177,10 @@ var SdsLink = class _SdsLink extends SdsElement {
     this.href = "#";
     this.external = false;
   }
-  /** Whether a glyph is about direction rather than about the thing.
-  
-        The icon rule says a glyph leads its label and a direction glyph follows
-        it, and that is a property of the glyph — so the component decides rather
-        than the caller. A boolean here would be a caller's chance to put an
-        arrow in front of a word, which is the one arrangement the rule forbids
-        and the one a hurried page reaches for. */
+  /** Whether a glyph is about direction rather than about the thing. A glyph
+      leads its label and a direction glyph follows it, which is a property of
+      the glyph — so the component decides. A boolean here would be a caller's
+      chance to put an arrow in front of a word. */
   static leads(icon) {
     return !/^actions-(arrow|chevron|caret)-/.test(icon);
   }
@@ -2314,14 +2287,10 @@ var SdsSearch = class extends SdsElement {
       this.entries = [];
     }
   }
-  /** Where the site's root is, from this page.
-  
-        The index lists every page as the build sees them — `guidelines/type.html`
-        from the root — and a reader is rarely standing in the root. Resolved
-        against the index's own address, which *is* the root: it is one file at
-        one place, and the page was told where it is. Left to the browser, a hit
-        one directory down sends the reader to a page beside the one they are on,
-        which does not exist. */
+  /** Where the site's root is, from this page. The index lists every page as
+      the build sees them, and a reader is rarely standing in the root — so it
+      is resolved against the index's own address, which *is* the root. Left to
+      the browser, a hit one directory down names a page that does not exist. */
   hrefOf(entry) {
     return new URL(entry.url, new URL(".", new URL(this.index, location.href))).href;
   }
@@ -2381,13 +2350,11 @@ var SdsSearch = class extends SdsElement {
     if (to && this.contains(to)) return;
     this.open = false;
   }
-  /* The field says it is a combobox, because that is the only way it is
-     allowed to say the rest. `aria-expanded` and `aria-controls` are not
-     attributes a plain text input may carry: without the role the field was
-     announcing a drop it had no business having, which axe reports as a
-     serious violation and a reader's software has no way to make sense of.
-     The role is also simply what this is — a box you type in that offers a
-     list underneath — so nothing is being claimed here that is not true. */
+  /* The field says it is a combobox, because that is the only way it may say
+     the rest: `aria-expanded` and `aria-controls` are not attributes a plain
+     text input carries, and axe reports the pair without the role as a serious
+     violation. It is also what this is — a box you type in that offers a list
+     underneath. */
   render() {
     const hits = this.hits;
     const open = this.open && this.query.trim().length > 0;
@@ -2416,12 +2383,10 @@ var SdsSearch = class extends SdsElement {
   ${open ? this.panel(hits) : nothing2}
 </div>`;
   }
-  /** The drop, and what is in it.
-  
-        `sds-result` draws a hit, marks what was searched for, and says where the
-        page is — all three are its own, and the query is handed over rather than
-        the marking being done here, because what is highlighted has to be what
-        was actually searched. */
+  /** The drop, and what is in it. `sds-result` draws a hit, marks what was
+      searched for and says where the page is — the query is handed over rather
+      than the marking done here, because what is highlighted has to be what was
+      actually searched. */
   panel(hits) {
     return html6`<div
   class="sds-menu__panel sds-search__panel"
@@ -2558,18 +2523,11 @@ var SdsButton = class extends SdsElement {
     /* The label, taken before Lit renders over it — the element renders light
        DOM, so `render()` would otherwise replace exactly what it is for. */
     this.taken = [];
-    /* The press, sent to whatever the button names.
-    
-         The connection is an id and the message is an event, so neither end holds
-         the other: the button knows a name and a verb, the thing that answers
-         knows what to do about it, and a page wires the two in markup rather than
-         in a script that has to find both. The event is dispatched **on the
-         target**, the way the platform's own invokers do it, so what answers only
-         has to listen to itself — and it bubbles, so a page that wants to hear
-         every command still can.
-    
-         Without `for` this does nothing at all: a button that starts work in place
-         is the ordinary case, and it keeps its own click. */
+    /* The press, sent to whatever the button names. An id and an event, so
+       neither end holds the other and a page wires the two in markup. Dispatched
+       **on the target**, the way the platform's own invokers do it, so what
+       answers listens to itself — and it bubbles, so a page that wants every
+       command still hears them. Without `for` the button keeps its own click. */
     this.onPress = () => {
       if (!this.for || this.disabled) return;
       const target = document.getElementById(this.for);
@@ -3084,17 +3042,11 @@ var SdsMenu = class extends SdsNav {
     /** What is already watched, so re-observing does not call the observer back
         and ask again forever. */
     this.watched = /* @__PURE__ */ new WeakSet();
-    /** The items a server wrote between the tags, moved into the row.
-    
-          A rendered site knows its own navigation before the page is sent: where
-          each section is from here, and which one the reader is in. Passing that
-          back through `items` would mean encoding it as a property and resolving
-          it a second time in the browser, so what the server wrote is kept — the
-          links themselves, with their `target`, their `rel` and the mark on the
-          current one intact.
-    
-          Written or given, the element does the same thing to them, which is the
-          part that cannot be written by a server: measure whether they fit. */
+    /** The items a server wrote between the tags, moved into the row. A rendered
+        site resolves its own navigation before the page is sent, and passing that
+        back through `items` would encode and resolve it a second time — so the
+        links are kept as written, `target`, `rel` and current mark intact. Either
+        way the element does the part a server cannot: measure whether they fit. */
     this.taken = [];
     this.onOutside = (event) => {
       if (!this.open) return;
@@ -3184,22 +3136,11 @@ var SdsMenu = class extends SdsNav {
     this.collapsed = collapsed;
     if (!collapsed) this.open = false;
   }
-  /** The button, which is the same button in both cases — and says which of
-        the two it is, because on a narrow page both of them are in the bar at
-        once.
-  
-        Not `actions-menu`. The one named for this is TYPO3's three-by-three grid
-        of squares — an app launcher, and at 16px a dark block that reads as a
-        keypad rather than as a way into anything. The set has no hamburger and
-        this is not the place to draw one; every icon here comes from
-        `@typo3/icons` and stays there.
-  
-        So each says what it opens. The sections are a list of pages, which is a
-        marker and a line four times over. The rail is a column that has been
-        folded away, and the set has the glyph for exactly that — a page with its
-        side panel shut. Two identical buttons 200px apart, one leading out of
-        the page and one into it, is the reader guessing; a label they cannot see
-        is not an answer. */
+  /** The button, which is the same button in both cases — and says which of the
+      two it is, because on a narrow page both are in the bar at once. Not
+      `actions-menu`, which is an app launcher and at 16px reads as a keypad;
+      the set has no hamburger and this is not the place to draw one. So each
+      says what it opens: a list of pages, or a column folded away. */
   get glyph() {
     if (this.open) return "actions-close";
     return this.for ? "actions-menu-sidebar-collapsed" : "actions-list";
@@ -3301,13 +3242,10 @@ var seq3 = 0;
 var SdsTabItem = class extends SdsElement {
   constructor() {
     super();
-    /** Whether a set of tabs is deciding which panel is shown.
-    
-          A panel decides for itself until one is. That is not a special case: it
-          is what a panel *is* on a page where nothing switches it — rendered ahead
-          of the browser, or read with no script at all — and hiding every one of
-          them there leaves a set of tabs whose content is in the document and
-          invisible in it. The set claims them the moment it exists. */
+    /** Whether a set of tabs is deciding which panel is shown. A panel decides
+        for itself until one is — which is what a panel is on a page where nothing
+        switches it, and hiding every one there leaves content in the document and
+        invisible in it. The set claims them the moment it exists. */
     this.managed = false;
     this.taken = null;
     this.label = "";
@@ -3435,13 +3373,10 @@ var SdsRail = class extends SdsNav {
     super();
     this.block = "sds-rail";
     this.item = "sds-rail__item";
-    /** The items a server wrote between the tags.
-    
-          Same reason as `sds-menu`: a renderer resolves its own tree — which pages
-          there are, where they are from here, which one is being read, which fold
-          the reader is inside — and every one of those answers would have to be
-          encoded as data and worked out a second time to arrive as `items`. What
-          it writes are the classes below, so the two shapes are one shape. */
+    /** The items a server wrote between the tags. Same reason as `sds-menu`: a
+        renderer resolves its own tree, and every one of those answers would have
+        to be encoded and worked out again to arrive as `items`. What it writes
+        are the classes below, so the two shapes are one shape. */
     this.taken = [];
     this.label = "";
   }
@@ -3757,15 +3692,11 @@ var isNothing = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.t
 var SdsFigure = class extends SdsElement {
   constructor() {
     super();
-    /* The picture a renderer wrote, taken before Lit renders over it.
-    
-         `src` is the form a story or a product surface uses: a path, and the
-         element decides from it whether the file is referenced or linked. A
-         documentation renderer cannot use that form — it writes HTML, and the
-         picture has to be in the page before any script has run, or a reader
-         without one gets a caption under an empty frame. So it writes the picture
-         itself and this keeps it, exactly as `sds-code` keeps a block that
-         arrived already coloured. */
+    /* The picture a renderer wrote, taken before Lit renders over it. `src` is
+       the form a story or a product surface uses; a renderer writing HTML cannot,
+       because the picture has to be on the page before any script runs or a
+       reader gets a caption under an empty frame. Kept exactly as `sds-code`
+       keeps a block that arrived coloured. */
     this.taken = null;
     /* And its caption, where that was written between the tags too: a caption
        from a document carries markup — a literal, a link, an emphasis — and an
@@ -3828,12 +3759,9 @@ var SdsImage = class extends SdsElement {
       alt: { type: String },
       width: { type: Number, reflect: true },
       height: { type: Number, reflect: true },
-      /* The class the caller wrote, read as a property rather than off the
-         host. `this.className` exists only where there is a DOM, and the card
-         generator renders these elements in Node — so a mark written
-         `class="sds-signet"` came out of the export as `sds-art`, which is
-         `width: 100%`, which is a 20px mark filling the bar. Declaring the
-         attribute is what carries it through both renderings. */
+      /* The class the caller wrote, read as a property rather than off the host:
+         `this.className` exists only where there is a DOM, and these render in
+         Node too. Declaring the attribute is what carries it through both. */
       cls: { attribute: "class", type: String }
     };
   }
@@ -3845,21 +3773,11 @@ var SdsImage = class extends SdsElement {
     this.height = 0;
     this.cls = "";
   }
-  /** What a server wrote between the tags, dropped.
-  
-        This element takes no content: the picture follows from `src` and
-        nothing else. What it does take is a *fallback* — the same picture
-        written out in the class layer, for a surface that renders before any
-        script does and for a reader who runs none. The Guides theme is that
-        surface, and the mark in its bar is the case that matters: it is the
-        site's identity, and it may not wait for a bundle.
-  
-        So the contract is `sds-code`'s, with the halves swapped. There, what
-        the server wrote is what the element goes on showing; here the element
-        redraws it and the server's copy goes, because two pictures in one box
-        is what light DOM gives you otherwise. Either way the element is the
-        front door and the class layer stands behind it, which is the rule this
-        element could not follow before. */
+  /** What a server wrote between the tags, dropped. The element takes no
+      content — the picture follows from `src` — but it does take a fallback:
+      the same picture in the class layer, for a surface rendering before any
+      script and for a reader who runs none. The element redraws it and the
+      server's copy goes, or light DOM leaves two pictures in one box. */
   connectedCallback() {
     this.lifted();
     super.connectedCallback();
@@ -3914,22 +3832,15 @@ var SdsEmbed = class extends SdsElement {
     if (framed.length) this.taken = framed;
     super.connectedCallback();
   }
-  /** Whether the frame is the size it was made for rather than the column's.
-  
-        A size on its own says fixed, and a ratio beside it says the caller has
-        two answers to one question — the ratio is the one that means "fill the
-        column", so it wins and the size is what the document inside is asked
-        for. */
+  /** Whether the frame is the size it was made for rather than the column's. A
+      size alone says fixed; a ratio beside it is the answer that means "fill
+      the column", so it wins and the size is what the document is asked for. */
   get fixed() {
     return !this.ratio && this.width > 0 && this.height > 0;
   }
   /** What goes in the frame: the node a renderer wrote, or the iframe this
-        writes when nobody did.
-  
-        Not lazy, and that is a decision rather than an omission. An embed is the
-        evidence on the page, and a frame that loads on scroll is a frame that is
-        blank in every screenshot taken of it — which is the one place somebody
-        looks at all of them at once. */
+      writes when nobody did. Not lazy, deliberately — an embed is the evidence
+      on the page, and one that loads on scroll is blank in every screenshot. */
   get framed() {
     if (this.taken ?? this.content) return this.taken ?? this.content;
     if (!this.src) return nothing11;
@@ -9395,42 +9306,22 @@ var isCaption3 = (node) => node.nodeType === 1 && node.matches(".sds-code__capti
 var SdsCode = class extends SdsElement {
   constructor() {
     super();
-    /* Content written between the tags, taken before Lit renders over it.
-    
-         The element renders light DOM, so `render()` replaces its children — and
-         the children are the whole point when the block comes from a renderer
-         rather than from a story:
-    
-           <sds-code code-lang="bash" copy><code>…</code></sds-code>
-    
-         So they are lifted out on connect and handed back to the template as
-         nodes. Lit renders a DOM node as a child value, and re-rendering moves
-         the same nodes rather than copying them. */
+    /* Content written between the tags, taken before Lit renders over it: light
+       DOM means `render()` replaces the children, and the children are the whole
+       point where a renderer wrote the block. Lifted on connect and handed back
+       as nodes — Lit renders a node as a child value, and re-rendering moves the
+       same nodes rather than copying them. */
     this.taken = null;
-    /* The caption, where it too was written between the tags.
-    
-         A renderer that captions a fenced block holds the caption as nodes rather
-         than as a string: it can carry a literal, a link, an emphasis, and the
-         `caption` attribute would flatten all three. So it is written inside the
-         element, in the class the component itself emits — which is also what a
-         page reads before the element upgrades, and on one that runs no
-         JavaScript at all. Neither is true of an attribute.
-    
-         Inside, and that is what this field is for. The theme drew it *beside*
-         the element, which put the one piece of the block the component knows how
-         to place outside the component: nothing kept the two together, and the
-         caption's spacing was the document's rather than the block's.
-    
-         Kept apart from `taken`, because everything else here reads that as the
-         block itself — the clipboard would copy the caption, and the highlighter
-         would colour it as if it were a line of code. */
+    /* The caption, where it too was written between the tags — as nodes, because
+       it carries a literal, a link or an emphasis and an attribute would flatten
+       all three. Inside the element, so the block places it; drawn beside it,
+       nothing keeps the two together. Kept apart from `taken`, which everything
+       else here reads as the block itself. */
     this.captioned = null;
-    /* A button that cannot do its one job is worse than no button, so a
-       browser with no clipboard gets none. That is decided on connect rather
-       than at render time: `renderStatic` runs this in Node, where there is no
-       `navigator` at all, and a guard on the object itself would silently drop
-       the affordance from every specimen card — which is a picture of the
-       component and should show what it has. */
+    /* A button that cannot do its one job is worse than none, so a browser
+       without a clipboard gets none. Decided on connect rather than at render:
+       `renderStatic` runs in Node, where a guard on `navigator` itself would drop
+       the button from every specimen card. */
     this.clipboard = true;
     this.lang = "";
     this.caption = "";
@@ -9463,16 +9354,10 @@ var SdsCode = class extends SdsElement {
     super.connectedCallback();
   }
   /** Whatever the block would put on the clipboard: what it says, and none of
-        what frames it.
-  
-        Read from the content rather than from the rendering. The element renders
-        light DOM, so its own text is the head as well — `bash` and `copy` landed
-        on the clipboard ahead of the first line, and a paste into a terminal
-        began with the word for the button that had just been pressed.
-  
-        A `$` is dropped for the same reason it is a span of its own: it is the
-        prompt, not the command, and pasted into a shell it is an error on line
-        one. Blank lines at either end go the way a shell would not want them. */
+      what frames it. Read from the content, not the rendering — light DOM means
+      the element's own text is the head too, so a paste would begin with the
+      language and the word on the button. The `$` goes for the same reason it
+      is a span of its own: it is the prompt, and in a shell it is an error. */
   get text() {
     const said = this.taken ? this.written : this.source || this.body.map(({ text, code }) => code ? `${text} ${code}` : text).join("\n");
     return said.replace(/^\n+/, "").replace(/\n+$/, "");
@@ -9517,23 +9402,11 @@ var SdsCode = class extends SdsElement {
         return html37`${text}${tail}`;
     }
   }
-  /* Whether the block arrived already coloured.
-  
-       Two kinds of caller, one component. A story hands in source and the
-       highlighter here runs over it; a renderer that highlights on its own —
-       a documentation build, where the colour is decided once and shipped as
-       HTML — hands in finished markup. Colouring that a second time is not
-       wrong so much as wasteful: it would flatten the spans back to text and
-       rebuild them from a smaller set of grammars.
-  
-       `hljs-` is the signal because it is the contract the two sides already
-       share. `components.css` maps those classes and nothing else, so markup
-       carrying them is markup this system can paint without being told.
-  
-       Kept as it came, wrapper and all: the `<code>` around it holds which
-       lines are numbered and which are emphasised, and rewriting it would drop
-       both — along with every language a server-side highlighter knows and the
-       thirteen registered here do not. */
+  /* Whether the block arrived already coloured. A build that highlights on its
+     own hands in finished markup, and colouring it again would flatten the
+     spans back to text and rebuild them from fewer grammars. `hljs-` is the
+     signal because `components.css` maps those classes and nothing else. Kept
+     wrapper and all: the `<code>` holds which lines are numbered. */
   get given() {
     if (this.content) return true;
     return (this.taken ?? []).some((node) => {
@@ -9542,28 +9415,11 @@ var SdsCode = class extends SdsElement {
       return el.matches('[class*="hljs-"]') || el.querySelector('[class*="hljs-"]') !== null;
     });
   }
-  /* Content written between the tags, in the `<code>` a code block is
-       supposed to have.
-  
-       The element renders that wrapper, and the `language-` class on it, from
-       its own `lang`. A caller writing
-  
-         <sds-code code-lang="json"><code class="language-json">…</code></sds-code>
-  
-       says the language twice, and the two can disagree unnoticed — `lang`
-       paints the head, the class decides the highlighting. The component owns
-       it, so a caller writes the body and nothing else.
-  
-       And it colours it. A renderer that names a language and leaves the block
-       in one grey has done half the job, and every surface that used this used
-       to finish it — the same highlighter, wired the same way, in each of them.
-       It is the component's, so a consumer links two files and gets colour.
-  
-       Unless the colour arrived with the block. Then it is kept exactly as it
-       came — see `given`.
-  
-       Where the system does not colour a language the author's own nodes are
-       kept: what was written is better than a guess at what it meant. */
+  /* Content written between the tags, in the `<code>` a code block is supposed
+     to have. The element renders that wrapper and its `language-` class from
+     `lang`, so a caller cannot say the language twice and have the two
+     disagree — one paints the head, the other decides the highlighting. It
+     colours the block too, unless the colour arrived with it; see `given`. */
   get wrapped() {
     const written = this.taken ?? this.content ?? this.text;
     if (this.given) return html37`${written}`;

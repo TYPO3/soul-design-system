@@ -1,20 +1,13 @@
-/* The bundle entry — what `window.SDS` becomes, and what the npm package
-   exports.
+/* The bundle entry — what `window.SDS` becomes, and what the package exports.
+   Importing it registers every element; importing one component module
+   registers that one and whatever it composes.
 
-   Importing this registers every element. Importing a single component
-   module registers that one and whatever it composes, because a component
-   that uses another imports it.
+   `renderStatic` is deliberately NOT re-exported: it pulls in `@lit-labs/ssr`,
+   which the browser entry would drag in for a function no browser ever calls.
 
-   `renderStatic` is deliberately NOT re-exported here. It pulls in
-   `@lit-labs/ssr`, which is a Node library, and exporting it from the
-   browser entry dragged the whole of it into the bundle — 257 kB for a
-   function no browser ever calls. The card generator imports it straight
-   from `src/lib/render.ts` instead.
-
-   `installHostRule()` is called on import rather than left to the consumer.
-   The rule it injects (`display: contents` on every `sds-` host) has to be
-   in place before an element upgrades, or the first frame lays out with the
-   custom element still in the box tree and every flex gap shifts. */
+   `installHostRule()` runs on import: `display: contents` has to be in place
+   before an element upgrades, or the first frame lays out with the host still
+   in the box tree. */
 
 import { installHostRule } from './lib/element.ts';
 

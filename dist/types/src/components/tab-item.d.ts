@@ -21,12 +21,9 @@ export declare class SdsTabItem extends SdsElement {
     label: string;
     icon?: IconId;
     active: boolean;
-    /** Whether a set of tabs is deciding which panel is shown.
-  
-        A panel decides for itself until one is. That is not a special case: it
-        is what a panel *is* on a page where nothing switches it — rendered ahead
-        of the browser, or read with no script at all — and hiding every one of
-        them there leaves a set of tabs whose content is in the document and
+    /** Whether a set of tabs is deciding which panel is shown. A panel decides
+        for itself until one is — which is what a panel is on a page where nothing
+        switches it, and hiding every one there leaves content in the document and
         invisible in it. The set claims them the moment it exists. */
     managed: boolean;
     /** The id its tab points at, and the id its tab carries. */

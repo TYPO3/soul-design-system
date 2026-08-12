@@ -1,20 +1,12 @@
 /* sds-tab-item — one tab, and the content it stands for.
 
-   A tab is a label and a panel. Writing them apart — a list of strings here,
-   a switch statement over an index there — makes the caller keep the two in
-   step, and the pairing is the entire component. So the item carries both:
+   A tab is a label and a panel, and the pairing is the entire component:
 
-     <sds-tabs>
-       <sds-tab-item label="standalone">…</sds-tab-item>
-       <sds-tab-item label="as a dependency">…</sds-tab-item>
-     </sds-tabs>
+     <sds-tabs><sds-tab-item label="standalone">…</sds-tab-item></sds-tabs>
 
-   The element renders light DOM, so `render()` would replace what was written
-   between the tags. It is lifted out on connect and handed back to the
-   template as nodes, the same way `sds-code` keeps a fenced block.
-
-   Which item is showing is `sds-tabs`'s answer, not this one's: it sets
-   `active` on each. Nothing here reads its own position. */
+   Light DOM, so `render()` would replace what was written between the tags: it
+   is lifted on connect and handed back as nodes. Which item shows is
+   `sds-tabs`'s answer — nothing here reads its own position. */
 
 import { html, type TemplateResult } from 'lit';
 import { type IconId } from './icon.ts';
@@ -38,12 +30,9 @@ export class SdsTabItem extends SdsElement {
   declare icon?: IconId;
   declare active: boolean;
 
-  /** Whether a set of tabs is deciding which panel is shown.
-
-      A panel decides for itself until one is. That is not a special case: it
-      is what a panel *is* on a page where nothing switches it — rendered ahead
-      of the browser, or read with no script at all — and hiding every one of
-      them there leaves a set of tabs whose content is in the document and
+  /** Whether a set of tabs is deciding which panel is shown. A panel decides
+      for itself until one is — which is what a panel is on a page where nothing
+      switches it, and hiding every one there leaves content in the document and
       invisible in it. The set claims them the moment it exists. */
   managed = false;
 

@@ -1,23 +1,13 @@
 /* sds-empty — a boundary, drawn as an answer.
 
-   Never "no results". The rule this system holds is that an answer carries its
-   source, its bounds and what it leaves out, and an empty one is still an
-   answer: the source was asked and it replied with nothing. A page that only
-   says "nothing found" has thrown all three away, and the reader cannot tell
-   it from a failure.
+   Never "no results". An answer carries its source, its bounds and what it
+   leaves out, and an empty one is still an answer — a page that only says
+   "nothing found" cannot be told from a failure. So the parts are properties:
+   what was asked and answered, what it does not cover, what to do instead.
 
-   So the parts are properties rather than sentences a page is trusted to
-   remember: what was asked and answered, what it does not cover, and the
-   nearest real thing to do instead. It was a shape composed by hand for as
-   long as one surface needed it; three do now — a filtered list, a search, and
-   a page that does not exist — and each was writing the same box.
-
-   Two kinds, and they are not decorations. `quiet` is an empty result: the
-   source answered, and nothing about that is an event. `boundary` is a
-   statement about scope — the question is outside what this server covers —
-   which is a deliberate answer and the reason `actions-info-circle` is one of
-   the four glyphs allowed to stand alone. Neither takes a status colour:
-   nothing failed. */
+   `quiet` is an empty result, and nothing about that is an event. `boundary`
+   says the question is outside what this server covers, which is a deliberate
+   answer. Neither takes a status colour: nothing failed. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';

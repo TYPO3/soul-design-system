@@ -1,22 +1,13 @@
 /* sds-search — finding a page in a site that has no server.
 
-   A rendered documentation site is files. There is nothing to ask, so the
-   index is a file too: a small JSON the build writes, fetched the first time
-   somebody types and not before — a reader who never searches pays nothing.
+   A rendered site is files, so the index is a file too: a small JSON the build
+   writes, fetched the first time somebody types. It draws `sds-result` and
+   `sds-empty` rather than rebuilding either.
 
-   What it draws is the system's own: `sds-result` for a hit, `sds-empty` when
-   there are none. Neither is rebuilt here. A result already knows what to mark
-   and how to say where a page is, and a search that wrote those by hand would
-   be the second place a hit is drawn — which is the place the two start to
-   differ.
-
-   The panel is the menu's drop, because that is what this is, and it hangs
-   from the field rather than from whatever box happens to be positioned above
-   it.
-
-   Without JavaScript the element is not there at all, and neither is the
-   field. That is deliberate: a search box that cannot search is worse than an
-   honest absence, and the rail beside it still lists every page. */
+   The panel is the menu's drop, hung from the field rather than from whatever
+   box happens to be positioned above it. Without JavaScript neither the element
+   nor the field is there: a search box that cannot search is worse than an
+   honest absence, and the rail still lists every page. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
@@ -93,14 +84,10 @@ export class SdsSearch extends SdsElement {
     }
   }
 
-  /** Where the site's root is, from this page.
-
-      The index lists every page as the build sees them — `guidelines/type.html`
-      from the root — and a reader is rarely standing in the root. Resolved
-      against the index's own address, which *is* the root: it is one file at
-      one place, and the page was told where it is. Left to the browser, a hit
-      one directory down sends the reader to a page beside the one they are on,
-      which does not exist. */
+  /** Where the site's root is, from this page. The index lists every page as
+      the build sees them, and a reader is rarely standing in the root — so it
+      is resolved against the index's own address, which *is* the root. Left to
+      the browser, a hit one directory down names a page that does not exist. */
   private hrefOf(entry: SearchEntry): string {
     return new URL(entry.url, new URL('.', new URL(this.index, location.href))).href;
   }
@@ -171,13 +158,11 @@ export class SdsSearch extends SdsElement {
     this.open = false;
   }
 
-  /* The field says it is a combobox, because that is the only way it is
-     allowed to say the rest. `aria-expanded` and `aria-controls` are not
-     attributes a plain text input may carry: without the role the field was
-     announcing a drop it had no business having, which axe reports as a
-     serious violation and a reader's software has no way to make sense of.
-     The role is also simply what this is — a box you type in that offers a
-     list underneath — so nothing is being claimed here that is not true. */
+  /* The field says it is a combobox, because that is the only way it may say
+     the rest: `aria-expanded` and `aria-controls` are not attributes a plain
+     text input carries, and axe reports the pair without the role as a serious
+     violation. It is also what this is — a box you type in that offers a list
+     underneath. */
   protected override render(): TemplateResult {
     const hits = this.hits;
     const open = this.open && this.query.trim().length > 0;
@@ -206,12 +191,10 @@ export class SdsSearch extends SdsElement {
 </div>`;
   }
 
-  /** The drop, and what is in it.
-
-      `sds-result` draws a hit, marks what was searched for, and says where the
-      page is — all three are its own, and the query is handed over rather than
-      the marking being done here, because what is highlighted has to be what
-      was actually searched. */
+  /** The drop, and what is in it. `sds-result` draws a hit, marks what was
+      searched for and says where the page is — the query is handed over rather
+      than the marking done here, because what is highlighted has to be what was
+      actually searched. */
   private panel(hits: SearchEntry[]): TemplateResult {
     return html`<div
   class="sds-menu__panel sds-search__panel"

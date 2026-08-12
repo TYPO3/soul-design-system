@@ -1,69 +1,21 @@
 /* Soul Design System — document layer.
 
-   The component layer names things: `.sds-note`, `.sds-table`, `.sds-code`. A
-   renderer that turns Markdown or reStructuredText into HTML names almost
-   nothing. It emits `<p>`, `<ul>`, `<dl>`, `<blockquote>`, `<code>` — and the
-   class it does write comes from the source text rather than from any system.
-   `.sds-prose` sets the size, the leading and the measure of the block and has
-   not one rule for what is inside it, so every one of those elements has been
-   arriving at a browser default.
+   A renderer turning Markdown into HTML names almost nothing, and `.sds-prose`
+   sets the block and not one thing inside it. This is that half, deliberately
+   not imported by `styles.css`: a product surface must not acquire opinions
+   about every paragraph because it linked a design system. Link it where a
+   document is set, after `styles.css`, and nowhere else.
 
-   This is that missing half, and it is deliberately NOT imported by
-   `styles.css`.
-
-   The reason is the reason `_specimen.css` sits outside the same closure. A
-   product surface — a backend module, an application screen — must not
-   acquire opinions about every paragraph on the page because it linked a
-   design system. So this is a second entry point: link it where a document is
-   being set, and nowhere else.
-
-   Everything here is scoped to `.sds-prose`, which is what makes it safe to
-   link on a page that also has a bar, a rail and a footer. The renderer's
-   output goes inside that class; the furniture around it stays the component
-   layer's.
-
-   The scope is written `:where(.sds-prose)` and not `.sds-prose`, so it costs
-   nothing and every rule here weighs what it names and no more. That is the
-   same rule the component layer states about its own element defaults — a
-   class still wins, because a class is more specific than an element — and it
-   has to keep holding a level down: a document holds components, and a
-   component holds prose. A card in the flow of a page is a `<h3>` and a `<p>`
-   inside `.sds-teaser`, and the class layer has already said what those are.
-   Written `.sds-prose h3`, this file would out-specify `.sds-teaser__title`
-   and every component the renderer emits would be set as running text with a
-   card drawn around it.
-
-   What weighs one element has to be linked after the one it agrees with:
-   `styles.css` first, this second, which is the order every surface here
-   links them in.
-
-   It carries no tokens of its own and declares no value. A page that links
-   this links `styles.css` too — it needs the component layer for the shell
-   the document sits in, and that is where the tokens come from. */
+   Everything is scoped `:where(.sds-prose)`, so a rule weighs what it names and
+   no more — written `.sds-prose h3` it would out-specify a component's own. */
 
 /* --------------------------------------------------- a component in text -- */
 
-/* A component standing in a document speaks the document's size.
-
-   `--note-body-size` is 12px, and that is right where the component layer was
-   written for: a note beside a result, a hint under a field, a card in a grid
-   of them — a surface whose job is density and whose body copy is 15px. In a
-   document it is wrong twice over. The paragraph above the admonition is 17px
-   and the admonition is that same paragraph with a border around it; and a
-   reference page carries twelve of them, so the page ends up with two voices
-   and no rule for which one is speaking.
-
-   The register is rebound rather than the rules rewritten. Every declaration
-   stays where it belongs — in the component layer, on the class that owns it
-   — and what changes is the value it reads. Nothing here names a part of a
-   component, so nothing here out-specifies one; this is the same restraint
-   the scope above is written for, arrived at from the other side.
-
-   It is rebound on what holds **blocks**, not on the file. A caption under a
-   figure or a code block is a label for the thing above it and stays below
-   the text it labels, which is what `figcaption` and `--font-size-micro` say
-   further down; the same is true of a stat's note and a quotation's
-   attribution. Those keep the 12px register on purpose. */
+/* A component standing in a document speaks the document's size: an admonition
+   is the 17px paragraph above it with a border around it, not the dense
+   register a 15px surface is written in. Rebound rather than rewritten, so
+   every declaration stays on the class that owns it. On what holds **blocks**
+   only — a caption is a label and keeps the smaller register. */
 :where(.sds-prose) .sds-note,
 :where(.sds-prose) .sds-teaser {
   --note-title-size: var(--font-size-body);
@@ -75,35 +27,21 @@
   --note-measure: none;
 }
 
-/* And the box takes the measure the paragraphs around it take. An admonition
-   is prose that was set apart, so it wraps where they wrap: run to the column
-   and it is the one thing on the page announcing itself by width. What is
-   inside then fills it — including a table or a code block, which is as wide
-   as the note and no wider. That is not the exception the block rule makes
-   for those two further down, and it should not be: there they are the
-   document's own blocks, here they are a note's content.
-
-   Both spellings, because the page before the bundle lands is the same page.
-   The upgraded host is `display: contents`, so the cap has to be on the frame
-   the element renders — the same pairing the margins below are written in. */
+/* And the box takes the measure the paragraphs take: an admonition is prose set
+   apart, so it wraps where they wrap, and what is inside fills it. The block
+   rule further down excepts the document's own blocks, not a note's content.
+   Both spellings, because the upgraded host is `display: contents` and the cap
+   has to land on the frame the element renders. */
 :where(.sds-prose) .sds-note,
 :where(.sds-prose) sds-note:not(:defined) { max-width: var(--measure-prose); }
 
 /* ------------------------------------------------------------- headings -- */
 
-/* Six levels, three sizes, and that is not a shortcut.
-
-   The editorial scale ends at `--font-size-h3` because a page has a title, a
-   section and a subsection and then it has run out of things a reader can
-   tell apart at a glance. A document has six, and the honest way to give it
-   six is not to invent three more sizes — `h4` at 17px would be
-   `--font-size-body` under another name and `h5` at 15px would be
-   `--font-size-ui`. What separates a fourth-level heading from the paragraph
-   under it is weight and the air above it, which is how a book does it too.
-
-   So the deeper levels drop through the register instead of through the
-   scale, and the last one lands in the label register the rest of the system
-   already uses for a machine's own words. */
+/* Six levels, three sizes. The editorial scale ends at `--font-size-h3`
+   because a page runs out of things a reader tells apart at a glance, and
+   inventing three more sizes would only rename the body and UI registers. What
+   separates a fourth-level heading from its paragraph is weight and the air
+   above it, so the deeper levels drop through the register, not the scale. */
 :where(.sds-prose) h1 {
   margin: 0 0 var(--space-4);
   font-size: var(--font-size-h1);
@@ -154,18 +92,11 @@
 
 /* ------------------------------------------------------------ the block -- */
 
-/* The measure belongs to the text, not to the column.
-
-   `.sds-prose` holds itself to the reading column, which is right for a page
-   that is sentences. A reference is sentences *and* a forty-column table, a
-   command nobody wants wrapped and a diagram — and clamping those to the
-   width of comfortable reading is how a documentation page ends up with three
-   horizontal scrollbars.
-
-   So the container gives up its own limit and hands it to the things made of
-   words. Everything else runs to the column it was given. This overrides a
-   declaration in `components.css` on purpose, and only for the pages that
-   link this file. */
+/* The measure belongs to the text, not to the column. A reference is sentences
+   *and* a forty-column table, a command nobody wants wrapped, a diagram —
+   clamping those to the width of comfortable reading is how a page ends up with
+   three horizontal scrollbars. So the container gives its limit to the things
+   made of words, and everything else runs to the column it was given. */
 .sds-prose { max-width: none; }
 :where(.sds-prose) p,
 :where(.sds-prose) dt,
@@ -182,49 +113,30 @@
   max-width: var(--measure-prose);
 }
 
-/* One level down, and the reason the list itself is not in the set above.
-
-   `ul`, `ol`, `dl` and `blockquote` are not text. They are boxes that hold
-   it, and a box holding the measure passes it to everything inside — which is
-   how a `<dd>` in a definition list cut a code block to 508px while the same
-   block one level out ran to 940, and how a table inside a list scrolled
-   inside 620px with three hundred to spare beside it. A `<blockquote>` needs
-   no rule at all now: it holds paragraphs, and the paragraphs are measured.
-
-   A list item and a definition are the ambiguous pair — text most of the
-   time, a container the rest of it — so they take the measure and give it
-   back the moment they hold a block. */
+/* One level down, and why the list is not in the set above: `ul`, `dl` and
+   `blockquote` are boxes that hold text, and a box holding the measure passes
+   it to everything inside — a table in a list would scroll inside the reading
+   column with room to spare. An item and a definition are the ambiguous pair,
+   so they take the measure and give it back once they hold a block. */
 :where(.sds-prose) li,
 :where(.sds-prose) dd {
   max-width: var(--measure-prose);
 }
-/* What counts as holding a block: any child element that is not part of a
-   sentence. A `<code>` or a link in the line leaves the item text and it
-   keeps the measure; a table, a code block, a picture or a nested list makes
-   it a container and the child answers for its own width. A paragraph in
-   there is measured by the rule above, so releasing the item costs the text
-   nothing.
-
-   No `!important` and no ordering trick: `:has()` weighs its heaviest
-   argument, so this pair out-specifies the pair above wherever it matches. */
+/* What counts as holding a block: any child that is not part of a sentence. A
+   `<code>` or a link leaves the item text and it keeps the measure; a table, a
+   picture or a nested list makes it a container and the child answers for its
+   own width. No `!important` and no ordering trick — `:has()` weighs its
+   heaviest argument, so this pair out-specifies the one above. */
 :where(.sds-prose) li:has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)),
 :where(.sds-prose) dd:has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)) {
   max-width: none;
 }
 
-/* A paragraph is set by the block it stands in.
-
-   `components.css` gives a bare `<p>` the body size, the body leading and the
-   secondary colour, so that a page which reached for no class at all is still
-   readable. Inside `.sds-prose` those are the three values it would have
-   inherited anyway — and inside a component they are three values it has no
-   business restating. A teaser's copy is the note size, a caption is smaller,
-   a note is quieter; a paragraph that carried 17px in there would be the one
-   thing in the card that ignored the card.
-
-   So the size comes from the container and the margin comes from here. The
-   component trims the outermost of those margins — see `.sds-note__body` —
-   because the padding around it is already the gap. */
+/* A paragraph is set by the block it stands in. The size, leading and colour
+   `components.css` gives a bare `<p>` are what it would inherit inside
+   `.sds-prose` anyway, and inside a component they are three values it has no
+   business restating. So the size comes from the container and the margin from
+   here; the component trims the outermost, its padding being the gap. */
 :where(.sds-prose) p {
   margin: 0 0 var(--space-4);
   font-size: inherit;
@@ -298,25 +210,11 @@
   color: var(--text-primary);
 }
 
-/* A block, on the other hand, is machine output and sits on the sunken plane
-   like every other block of it in this system. `sds-code` draws the same
-   thing with a head and a copy button when JavaScript is there; this is what
-   the page looks like before that, and after it if the renderer never asked
-   for one.
-
-   Not the one the element draws. `sds-code` renders `<pre class="sds-code__body">`
-   into a frame that already carries the border, the radius and the plane, so
-   this rule drew a second box inside the first: its own hairline, its own
-   radius, and a 16px margin stranded below the last line *inside* the frame.
-
-   The exclusion is what stops it, and the scope above does not make it
-   redundant — that is the part worth knowing. `:where()` settles every
-   declaration the component also states, because a class beats an element.
-   The border, the radius and the plane are stated **only here**, so there is
-   nothing on the other side for weight to settle: they would land on the
-   component's `<pre>` at any specificity. The two layers name the same
-   element exactly once, and this is where the document layer yields — it is
-   the fallback, and a fallback does not draw over what it falls back from. */
+/* A block is machine output and sits on the sunken plane — but not the one
+   `sds-code` renders its `<pre>` into, which carries the border, radius and
+   plane already. The exclusion stops the second box, and the scope does not
+   make it redundant: `:where()` settles only what the component also states,
+   and these three are stated **only here**. The fallback yields. */
 :where(.sds-prose) pre:not(.sds-code__body) {
   margin: 0 0 var(--space-4);
   padding: var(--space-3) var(--space-4);
@@ -329,38 +227,20 @@
   line-height: var(--leading-code);
   color: var(--text-primary);
 }
-/* The block already set the family and the size; the code inside it must not
-   set them a second time at 0.94 of the first.
-
-   Every `<pre>`, including the component's — `components.css` states the same
-   thing for `.sds-code__body code`, but at equal specificity and in the file
-   that is linked first, so the inline rule above would win inside the element
-   too. This is the half of the pair that must not be scoped away. */
+/* The block set the family and size; the code inside must not set them again at
+   0.94 of the first. Every `<pre>`, the component's included: `components.css`
+   states the same at equal specificity in the file linked first, so the inline
+   rule above would win inside the element too. */
 :where(.sds-prose) pre code {
   font-size: inherit;
   color: inherit;
 }
 
-/* A code block before its element upgrades — and on a page that runs no
-   JavaScript at all.
-
-   A renderer that ships `<sds-code>` ships a block that is already coloured:
-   the server did that, and the element only adds the head and the copy
-   button. But an element the browser has not defined is an inline box, and a
-   `<code>` inside one collapses its whitespace — which turns machine output
-   into a paragraph.
-
-   `:not(:defined)` is exactly the window between the two states, so this is
-   what the block looks like in it: the same sunken plane, the same scroll,
-   the same size. When the element upgrades it takes over and this stops
-   applying, and the two agree because both are drawn from the same tokens.
-
-   The plane is drawn on the `<code>` and not on the host, and the difference
-   is the caption. A renderer writes it inside the element — that is where the
-   element itself puts it, and an attribute would say nothing at all here —
-   so a frame on the host would have swallowed the caption into the block it
-   names. The host is the stack of the two, exactly as it is once it has
-   upgraded, and `overflow: hidden` goes with the border it was clipping. */
+/* A code block before its element upgrades, and on a page that runs none. An
+   undefined element is inline, and a `<code>` inside one collapses its
+   whitespace — machine output turned into a paragraph. The plane goes on the
+   `<code>` and not the host, or the frame would swallow the caption beside
+   it. */
 :where(.sds-prose) sds-code:not(:defined) {
   display: block;
   margin: 0 0 var(--space-4);
@@ -378,33 +258,20 @@
   line-height: var(--leading-code);
   color: var(--text-primary);
 }
-/* And the same gap under it once it has upgraded.
-
-   The host is `display: contents`, so the margin above belongs to a box that
-   stops existing the moment the element is defined — the frame inside it is
-   what the document then stacks, and it carries none. Two blocks in a row
-   touched, a paragraph after one sat against its border, and the whole page
-   shifted up by 16px per block as the bundle landed.
-
-   The same value as above for that last reason: what the reader sees before
-   the script and after it is the same page. It is stated here rather than on
-   `.sds-code` because spacing between blocks is what a document decides — a
-   product surface composes its own. */
+/* And the same gap under it once it has upgraded. The host is
+   `display: contents`, so the margin above belongs to a box that stops existing
+   on upgrade, and the frame the document then stacks carries none. The same
+   value, so the page does not shift as the bundle lands. Here rather than on
+   `.sds-code`, because spacing between blocks is what a document decides. */
 :where(.sds-prose) .sds-code { margin-bottom: var(--space-4); }
 
 /* ---------------------------------------------------- what is set apart -- */
 
-/* An admonition before its element upgrades, for the same reason as the code
-   block above: what a page looks like in the window between parse and upgrade,
-   and on a page that runs no JavaScript at all.
-
-   Less is restored here than there, and the difference is the point. The
-   block's whitespace was load-bearing, so leaving it collapsed broke the
-   content; an admonition is paragraphs, and paragraphs read. What is missing
-   is that it stands apart from them — so this draws the box and stops. The
-   glyph and the word it says out loud belong to the element, and a hairline
-   that pretended to carry a tone would be the colour-only meaning the
-   component exists to avoid. */
+/* An admonition before its element upgrades, for the reason the code block
+   above is. Less is restored, and that is the point: the block's whitespace was
+   load-bearing, while an admonition is paragraphs and paragraphs read. Only
+   standing apart is missing, so this draws the box and stops — a hairline
+   pretending to carry a tone is the colour-only meaning the component avoids. */
 :where(.sds-prose) sds-note:not(:defined) {
   display: block;
   margin: 0 0 var(--space-4);
@@ -418,15 +285,10 @@
    stopped existing. Same pairing, and same reason, as `.sds-code`. */
 :where(.sds-prose) .sds-note { margin-bottom: var(--space-4); }
 
-/* A picture before its element upgrades, and on a page that runs no
-   JavaScript at all.
-
-   Less is needed than for the two blocks above, and the reason is the same
-   one that makes `sds-art` its own rule: the picture is written by the
-   renderer and already carries that class, so it sits in the column at the
-   right size the moment it is parsed. What is missing is the frame around it
-   and the stack it and the caption make — an undefined element is inline, so
-   the two sit on one line with a space between them. */
+/* A picture before its element upgrades, and on a page that runs none. The
+   renderer wrote it carrying `sds-art`, so it is already the right size in the
+   column. What is missing is the frame and the stack it makes with the caption:
+   an undefined element is inline, so the two sit on one line. */
 :where(.sds-prose) sds-figure:not(:defined) {
   display: flex;
   flex-direction: column;
@@ -446,22 +308,10 @@
    then, so what the document stacks is the figure inside it. */
 :where(.sds-prose) .sds-figure { margin-bottom: var(--space-4); }
 
-/* A card before its element upgrades, and on a page that runs no JavaScript
-   at all.
-
-   Everything inside it was written by the renderer and carries the card's own
-   parts, so the picture, the row and the title are already drawn. What the
-   element owns is the one node around them, and without it the parts are
-   loose: in a grid each becomes a cell of its own, and outside one they stack
-   with nothing saying where the card ends. So this is that node, on the host,
-   until the article inside it exists.
-
-   The frame is stated twice — here and on `.sds-teaser` — which is the cost
-   of every rule in this section and is why they are all so short: the element
-   draws the card, and this draws the window before it. Both read the same
-   tokens, so the two cannot say different things about a corner or a
-   hairline; what they could disagree about is whether a frame is there at
-   all, and that is what the acceptance page is opened to check. */
+/* A card before its element upgrades, and on a page that runs none. The parts
+   inside are drawn already; what the element owns is the node around them,
+   without which each becomes a cell of its own in a grid. The frame is stated
+   twice, here and on `.sds-teaser`, from the same tokens. */
 :where(.sds-prose) sds-teaser:not(:defined) {
   display: flex;
   flex-direction: column;
@@ -471,18 +321,10 @@
 }
 
 /* An embedded document before its element upgrades, and on a page that runs
-   no JavaScript at all.
-
-   The frame the element draws is a box it renders, so before it exists there
-   is only the iframe a renderer wrote — an inline box with the browser's own
-   inset ridge around it, as wide as its `width` attribute says whatever the
-   column can hold. Three of those four are wrong on a page, and all three are
-   answered here: it becomes a block, it takes this system's border, and it
-   stops at the column instead of running out of it.
-
-   The caption needs nothing: it is written in the class the element itself
-   emits, so it is already drawn by `components.css` and only its position
-   changes on upgrade. */
+   none. Until then there is only the iframe a renderer wrote: an inline box
+   with the browser's inset ridge, as wide as its `width` attribute says
+   whatever the column holds. So it becomes a block, takes this system's border
+   and stops at the column. The caption is already drawn by `components.css`. */
 :where(.sds-prose) sds-embed:not(:defined) { display: block; margin: 0 0 var(--space-4); }
 :where(.sds-prose) sds-embed:not(:defined) > iframe {
   display: block;
@@ -576,23 +418,11 @@
 
 /* --------------------------------------------------------------- table -- */
 
-/* The class layer's table is `.sds-table`, and a renderer cannot put a class
-   on anything. So the same table is described twice — once for markup that
-   can be told what it is, and once for markup that arrives bare. The numbers
-   are the medium density's, because a table in a document is being read
-   rather than worked in.
-
-   It runs to the column: the block above already gave up the measure, so a
-   table is one of the things that fills what it was given rather than
-   stopping at the reading width.
-
-   A table wider than the column is the one thing that would otherwise take
-   the whole layout with it, and the scroller for it is `.sds-table-scroll`
-   from the class layer — a box **around** the table, which is where the
-   renderer's template puts it. Not `display: block` on the table itself:
-   that takes the element out of table layout, the row groups inside generate
-   an anonymous table box that shrink-wraps, and every table narrower than
-   its column then stops short of it. */
+/* A renderer cannot put a class on anything, so the same table is described
+   twice: once for markup that can be told what it is, once for markup that
+   arrives bare. Medium density, being read rather than worked in. A wider one
+   scrolls inside `.sds-table-scroll`, a box **around** it — `display: block`
+   would leave table layout and shrink-wrap every narrower table. */
 :where(.sds-prose) table {
   width: 100%;
   margin: 0 0 var(--space-4);
@@ -633,28 +463,17 @@
 
 /* ------------------------------------------------- what a renderer names -- */
 
-/* The other half of the file, and the reason it is second.
+/* The other half of the file. Everything above is a bare element, which is what
+   a renderer emits for prose; what follows is the handful of names it does
+   write — `contents`, `topic`, `rubric`, `footnote`, `hlist` — for nodes with
+   no element of their own. They stay the core's names: renamed, the stylesheet
+   would only work with the templates that renamed them. */
 
-   Everything above is a bare element, because that is what a renderer emits
-   for anything an author wrote as prose. What follows is the handful of names
-   it does write — `contents`, `topic`, `rubric`, `footnote`, `hlist` — for
-   nodes that have no element of their own. They are the core's names and they
-   stay that way: a theme that renamed them would be a theme whose stylesheet
-   only its own templates can use, and every other tool that ever looked at
-   this output knows these. */
-
-/* What is on this page, at the top of it.
-
-   Ruled above and below and set one step down from the prose, because it is
-   apparatus rather than text: a reader either uses it or reads past it, and
-   both are easier when it does not look like a paragraph. Not a rule at the
-   left edge — that belongs to the quotation further up, and two blocks with
-   the same mark are two blocks that say the same thing about themselves.
-
-   `.toc` is the same list with documents in it instead of sections, and the
-   two are drawn alike on purpose: what the reader does with either is scan
-   it. Which of them is on the page is the author's business, not a second
-   design. */
+/* What is on this page, at the top of it. Ruled above and below and one step
+   down from the prose, because it is apparatus: a reader uses it or reads past
+   it, and both are easier when it is not a paragraph. No rule at the left edge
+   — that mark belongs to the quotation. `.toc` is the same list with documents
+   in it and is drawn alike, because scanning it is the same act. */
 :where(.sds-prose) .contents,
 :where(.sds-prose) .toc {
   margin: 0 0 var(--space-6);
@@ -706,14 +525,11 @@
   color: var(--text-primary);
 }
 
-/* A horizontal list: short items an author asked to be read across rather
-   than down. The count is in the class, so there is one rule per count and
-   no way to state it once — `columns-N` is what the core writes.
-
-   Columns rather than a grid, because the items are a list and a list flows:
-   a grid would have to be told how many rows, and the answer changes with the
-   number of items. `break-inside` keeps an item that wraps from being split
-   across two columns, which is the one thing that makes a hlist unreadable. */
+/* A horizontal list: short items an author asked to be read across. The count
+   is in the class — `columns-N` is what the core writes — so there is a rule
+   per count and no way to state it once. Columns rather than a grid, because a
+   list flows and a grid would have to be told how many rows. `break-inside`
+   keeps a wrapped item off two columns. */
 :where(.sds-prose) .hlist > ul {
   columns: 2;
   column-gap: var(--space-6);
@@ -764,13 +580,11 @@
 :where(.sds-prose) .field-list tbody tr:hover { background: none; }
 :where(.sds-prose) .field-list p { margin: 0; }
 
-/* A footnote at the foot of the page, and a citation, which is a footnote
-   with a name. The label hangs beside the text rather than above it, so a
-   column of them lines up and the numbers can be found by running an eye down
-   the edge — which is the only thing anybody does with these.
-
-   One step down from the prose: what is down here is the source, and it is
-   read after the sentence that sent the reader to it. */
+/* A footnote at the foot of the page, and a citation, which is a footnote with
+   a name. The label hangs beside the text rather than above it, so a column of
+   them lines up and an eye run down the edge finds one — the only thing anybody
+   does with these. One step down from the prose: this is the source, read after
+   the sentence that sent the reader to it. */
 :where(.sds-prose) .footnote,
 :where(.sds-prose) .citation {
   display: flex;

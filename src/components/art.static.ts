@@ -1,24 +1,13 @@
 /* What referenced artwork looks like once there is no server to resolve it.
 
-   `art()` references the file with `<use>`, which is what lets the page's
-   tokens reach the shapes. A specimen card is opened from disk: every file is
-   its own origin there, the reference is refused before it is fetched, and the
-   card shows an empty frame where the drawing belongs.
+   A card is opened from disk, where every file is its own origin: the `<use>`
+   is refused before it is fetched. So the artwork is put where the reference
+   was, out of a generated module rather than the files beside it — the story
+   modules pull this into Storybook's bundle, where `node:fs` does not exist.
 
-   So the artwork is put where the reference was. Same trade as
-   `icon.static.ts`, and for the same reason — it comes from a generated module
-   rather than from the files beside it, because the story modules import this
-   path into Storybook's browser bundle, where `node:fs` does not exist.
-   `src/index.ts` never imports it, so none of it reaches `soul.js`.
-
-   Inlining also settles the colours the only other way they could be settled:
-   the shapes are now in the document, so `var(--text-primary)` resolves
-   against the card the same as it would against a page.
-
-   The two kinds go in differently, and `scripts/diagrams.ts` says why: a
-   drawing's wrapper already carries its coordinate system, so the shapes go in
-   loose, while a mark's wrapper carries only a size and the mark arrives as a
-   nested `<svg>` bringing its own. */
+   The two go in differently, and `scripts/diagrams.ts` says why: a drawing's
+   wrapper carries its coordinate system, so its shapes go in loose, while a
+   mark arrives as a nested `<svg>` bringing its own. */
 
 import { DIAGRAM_SHAPES, MARK_SVG } from './diagrams.svg.generated.ts';
 

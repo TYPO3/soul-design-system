@@ -12,21 +12,11 @@
   --space-19: 76px;
 
   --gutter-page: 48px;
-  /* The measure a page runs at. The bar, the body, the column and the foot
-     are all held to it and centred on it, so a page is one width rather than
-     a header at the screen's edge over a column that starts 130px in.
-
-     1200 and not the 960 this was. 960 was picked so the column beside the
-     210px rail came out at exactly the width a specimen card is drawn at — a
-     true alignment, and one that cost every page without a rail a third of the
-     screen: on a laptop a landing page sat in the middle with 240px of canvas
-     either side, and a four-column table had to scroll inside it.
-
-     Nothing that is *read* got wider: prose is held at `--measure-prose`, a
-     lead at `--measure-lead`, display type at `--measure-display`. What got
-     wider is what is scanned — tables, grids of cards, a band's two columns —
-     which is the part that was actually short of room. A card embedded in a
-     column is now narrower than the column it sits in, and that is the trade. */
+  /* The measure a page runs at: the bar, the body, the column and the foot are
+     all held to it and centred on it, so a page is one width. Nothing that is
+     *read* runs this wide — prose, a lead and display type are each held to
+     their own measure. This is what is scanned: tables, grids of cards, a
+     band's two columns, which is the part short of room. */
   --width-page: 1200px;
   --width-sidebar: 210px;
   --height-header: 56px;

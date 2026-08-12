@@ -1,15 +1,12 @@
 /* Specimen chrome — for the cards only.
 
-   This is the annotation layer the specimen cards are drawn with: captions,
-   swatch grids, the small notes under an example. It is deliberately NOT
-   imported by styles.css, because a design built with this system must not
-   inherit it — a rendered design gets the token and component layers only.
+   The annotation layer the specimen cards are drawn with: captions, swatch
+   grids, the small notes under an example. Deliberately NOT imported by
+   styles.css, because a design built with this system must not inherit it — a
+   rendered design gets the token and component layers only.
 
-   Before this file each card carried its own copy of these rules and they
-   had already drifted: `.tok` existed in five different sizes, and `.card`
-   meant "20px of specimen padding" here while meaning "a hairline and 6px,
-   no fill" in the system proper. One definition each, one prefix, no
-   collision with `sds-`. */
+   One definition each, under one prefix, so nothing here collides with
+   `sds-` or means one thing on a card and another in the system. */
 
 html, body { margin: 0; }
 
@@ -55,11 +52,9 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* Paints a hover state for a card. A specimen cannot be pointed at, so a
-   state that only exists under the pointer has to be drawn — and it is drawn
-   here, in the annotation layer, rather than by giving the component a
-   property it would never have in a product.
-
+/* Paints a hover state for a card. A specimen cannot be pointed at, so a state
+   that exists only under the pointer is drawn here, in the annotation layer,
+   rather than by giving the component a property no product would use.
    Mirrors `.sds-link:hover`; if that changes, this has to follow. */
 .spec-hover .sds-link { color: var(--text-link-hover); text-decoration: underline; }
 
