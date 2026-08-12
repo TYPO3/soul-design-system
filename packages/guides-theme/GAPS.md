@@ -94,6 +94,12 @@ Regel dafür in `document.css` ist damit unerreichbar, obwohl sie stimmt. Das
 ist der Parser und nicht das Theme; die Reparatur wäre eine eigene
 Production-Rule hier oder ein Patch dort.
 
+Die Annotationsliste ist kein Gegenstück-Problem, sondern gar keins. Der Knoten
+sammelt Fußnoten und Zitate ein und rendert seine Kinder ohne ein eigenes
+Element — es gibt nichts im Markup, dem eine Klasse oder eine Komponente
+entsprechen könnte. Sichtbar werden `.footnote` und `.citation`, und die haben
+ihre Regel in `document.css`.
+
 ## Knoten ohne Gegenstück
 
 Jede Zeile ist ein Knoten, den Guides rendert und für den es bei uns weder
@@ -101,7 +107,6 @@ Klasse noch Komponente gibt.
 
 | Knoten | Markup | Warum es zählt |
 | --- | --- | --- |
-| **Annotationsliste** | Sammelknoten | |
 | **Container / wrap** | `div` mit **beliebigen** Klassen aus dem Quelltext | Braucht eine Policy: was darf ein Autor an Klassen setzen |
 
 ## Gegenstück da, Markup fremd
