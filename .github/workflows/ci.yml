@@ -6,8 +6,10 @@
 # workflow that reimplemented the steps would be a second definition of the
 # gate, and the two would drift apart on the first change to either.
 #
-# Two jobs. The gate on every push and every pull request; the rendered site
-# published from `main` only.
+# Two jobs, and only the first of them has an image. The gate runs on every
+# push and every pull request, and on `main` it renders the site as well —
+# publishing is a step that needs no container, so it is the only thing left
+# to the second job.
 name: CI
 
 # Every push, whatever the branch — a branch nobody has opened a pull request
@@ -79,12 +81,12 @@ jobs:
       - name: Bring up the container the tasks run in
         run: SDS_UID=$(id -u) SDS_GID=$(id -g) docker compose -f .infra/docker-compose.yml up -d app
 
-      # Thirteen checks. This is the line that decides whether the tree is
-      # consistent; everything else in this file exists to make it run.
+      # The line that decides whether the tree is consistent; everything else
+      # in this file exists to make it run.
       - run: make verify
 
-      # Eleven suites, each holding something verify cannot see: that the
-      # markup renders, in both themes, at every width, without axe findings.
+      # The suites, each holding something verify cannot see: that the markup
+      # renders, in both themes, at every width, without axe findings.
       - run: make test
 
       # Only on failure, and only then worth the upload: traces and the
@@ -98,8 +100,33 @@ jobs:
             test-results/
           retention-days: 7
 
+      # Rendered here rather than in the publishing job, because the image is
+      # already in this one — a job of its own pays the whole cost of building
+      # and loading it again for a single task. `dist/` is committed and the
+      # gate has just proved it matches its source, so the render links the
+      # same drop-in a consumer copies.
+      - name: Render the site
+        if: github.ref == 'refs/heads/main'
+        run: |
+          make guides
+          # The acceptance render is the control surface this theme is checked
+          # against, not documentation — every node the renderer can emit,
+          # deliberately without prose around it. Built on every run,
+          # published on none.
+          rm -rf site/_acceptance
+          # Pages serves this artifact as it stands, but a repository ever
+          # switched back to the branch-based build runs Jekyll over it, and
+          # Jekyll drops every path beginning with an underscore — `_cards/`,
+          # `_images/`, `_search.json`, most of what the pages point at.
+          touch site/.nojekyll
+
+      - if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
   publish:
-    name: render and publish
+    name: publish
     # Never publish a site the gate has not passed over.
     needs: gate
     if: github.ref == 'refs/heads/main'
@@ -118,48 +145,11 @@ jobs:
     concurrency:
       group: pages
       cancel-in-progress: false
+    # The artifact arrives from the job above. Nothing here reads the tree or
+    # runs a task, so this job has no checkout and no container: it takes what
+    # the gate rendered and puts it where Pages serves it from.
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: docker/setup-buildx-action@v3
-
-      # A cache hit, in the ordinary case: the gate job wrote it minutes ago.
-      - name: Build the image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: .infra/Dockerfile
-          target: app
-          tags: typo3-soul-design-system-app:latest
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Bring up the container the tasks run in
-        run: SDS_UID=$(id -u) SDS_GID=$(id -g) docker compose -f .infra/docker-compose.yml up -d app
-
-      # `dist/` is committed and the gate has just proved it matches its
-      # source, so the render links the same drop-in a consumer copies.
-      - run: make guides
-
-      # The acceptance render is the control surface this theme is checked
-      # against, not documentation — it shows every node the renderer can emit,
-      # deliberately without prose around it. It is built on every run and
-      # published on none.
-      - name: Leave the acceptance render behind
-        run: rm -rf site/_acceptance
-
-      # Pages serves this artifact as it stands, but a repository that is ever
-      # switched back to the branch-based build runs Jekyll over it, and Jekyll
-      # drops every path beginning with an underscore. That is `_cards/`,
-      # `_images/` and `_search.json` — most of what the pages point at.
-      - run: touch site/.nojekyll
-
       - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
 
       - id: deploy
         uses: actions/deploy-pages@v4
