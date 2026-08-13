@@ -1,11 +1,10 @@
 {#
     `.. configuration-block::` — the same setting written in two languages.
 
-    The second tab form in the same output format, and it arrives as its own
-    markup: a `role="tablist"` of buttons, a panel each, and `display: none` on
-    all but the first. The switching is a script the renderer does not ship, so
-    left alone it is a row of buttons that do nothing above a block that cannot
-    be reached.
+    The core gives this node a tab markup of its own: a `role="tablist"` of
+    buttons, a panel each, and `display: none` on all but the first. The
+    switching is a script the renderer does not ship, so left alone it is a row
+    of buttons that do nothing above a block that cannot be reached.
 
     It is the same content as `.. tabs::` and it becomes the same element, for
     the reason that decides every other template here: a reader must not have
@@ -13,12 +12,20 @@
     tablist markup — `sds-tabs` builds its own, with the arrow keys — and the
     panel ids, which only that script used.
 
-    One thing this does not yet do is what the directive is for: choosing PHP
-    once and having every block on the page follow. That needs the element to
-    know about its siblings, and it is written down in `guides-theme/GAPS.md`
-    rather than half-built here.
+    **The labels are a property**, for the reason `body/directive/tabs` states:
+    an element rendered before the browser has no items to read them off, so a
+    set that says them only on its panels arrives with an empty bar.
+
+    `sync` is what this directive is for and `.. tabs::` is not: the same
+    setting appears on a page four times, and the language is chosen once. The
+    word is fixed here rather than offered to an author — two blocks of the
+    same document that did not agree would be the bug this prevents.
 #}
-<sds-tabs>
+{%- set labels = [] -%}
+{%- for tab in node.tabs -%}
+    {%- set labels = labels|merge([tab.label]) -%}
+{%- endfor -%}
+<sds-tabs sync="configuration" items="{{ labels|json_encode }}">
     {%- for tab in node.tabs %}
         <sds-tab-item label="{{ tab.label }}">
             {{- renderNode(tab.content) -}}

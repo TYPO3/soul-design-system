@@ -168,12 +168,19 @@ ships. The element builds its own tab bar and wires the arrow keys. With
 JavaScript off the bar is there and the panels stack open under it, because a
 button that cannot switch anything must not hide what it would have switched.
 
-.. note::
+**What ``configuration-block`` is for, and ``.. tabs::`` is not:** the same
+setting appears on a page four times, and the reader chooses a language once.
+Every block of a document follows the choice, and it outlives the page — a
+manual is read across ten of them. That is ``sds-tabs`` carrying ``sync``, a
+word the template sets and an author does not: two blocks of one document that
+disagreed would be the bug it prevents. A ``.. tabs::`` set beside them, whose
+labels the author wrote, follows nothing and is followed by nothing.
 
-   What ``configuration-block`` is actually for — choosing PHP once and having
-   every block on the page follow — is not built. That needs an element that
-   knows about its siblings, and it is written down as work rather than
-   half-implemented here.
+The choice is an order rather than a word. A reader who picks ``bash`` in the
+one block that offers it has not stopped preferring PHP to YAML everywhere
+else, so every word they choose is kept, most recent first, and each set takes
+the first of them it has. A set that has none of them keeps the panel it is
+showing rather than falling back to its first.
 
 Reference nodes
 ===============

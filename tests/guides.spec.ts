@@ -10,7 +10,7 @@
 import { readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Locator, type Page } from '@playwright/test';
 
 import { ACCEPTANCE_URL, SITE_DIR, SITE_URL } from '../playwright.config.ts';
 
@@ -657,6 +657,35 @@ test.describe('what the theme repaired', () => {
     await expect(planes.locator('.sds-label')).toHaveText('Rule 02');
   });
 
+  test('the language is chosen once, and every configuration block follows', async ({ page }) => {
+    await page.goto(REFERENCE, { waitUntil: 'load' });
+
+    /* What `configuration-block` is for, and what `.. tabs::` is not: the same
+       setting stated in several places, chosen once. The set whose labels an
+       author wrote agrees with nobody, which is why it carries no `sync`. */
+    const agreeing = page.locator('sds-tabs[sync]');
+    await expect(agreeing).toHaveCount(2);
+    const own = page.locator('sds-tabs:not([sync])');
+    const current = (set: Locator) => set.locator('button.sds-tab.is-active');
+
+    await agreeing.first().locator('button.sds-tab', { hasText: 'Php' }).click();
+    await expect(current(agreeing.nth(1))).toHaveText('Php');
+    await expect(current(own), 'a set nobody syncs is left alone').toHaveText('YAML');
+
+    /* By the word rather than the position: the second block offers a third
+       language, and choosing it moves nothing, because the first block has no
+       such tab and must not fall back to its own first panel. */
+    await agreeing.nth(1).locator('button.sds-tab', { hasText: 'Bash' }).click();
+    await expect(current(agreeing.first())).toHaveText('Php');
+
+    /* And it outlives the page — a manual is read across ten of them — as an
+       order rather than as one word: picking bash where it was offered did not
+       stop the reader preferring PHP to YAML in the block that has neither. */
+    await page.reload({ waitUntil: 'load' });
+    await expect(current(agreeing.nth(1))).toHaveText('Bash');
+    await expect(current(agreeing.first())).toHaveText('Php');
+  });
+
   test('a diff is drawn as one, and its rows are coloured by the server', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
@@ -901,6 +930,20 @@ test.describe('what the reader gets before the script does', () => {
   test('the code is coloured by the server, so it is coloured without a browser', async ({ page }) => {
     await page.goto(REFERENCE, { waitUntil: 'load' });
     expect(await coloured(page)).toBeGreaterThan(1);
+  });
+
+  test('every tab set arrives with its bar, however its labels were said', async ({ page }) => {
+    await page.goto(REFERENCE, { waitUntil: 'load' });
+
+    /* A set rendered before the browser has no children to read its labels
+       off, so they are a property — and a template that says them only on the
+       panels ships a bar with nothing in it. Silent: the panels are all there
+       and open, and only the row of words is missing. */
+    const sets = page.locator('sds-tabs');
+    expect(await sets.count()).toBeGreaterThan(1);
+    for (let i = 0; i < (await sets.count()); i++) {
+      await expect(sets.nth(i).locator('.sds-tabs button.sds-tab').first()).toBeVisible();
+    }
   });
 
   test('both sides of a tab set are readable when nothing can switch them', async ({ page }) => {

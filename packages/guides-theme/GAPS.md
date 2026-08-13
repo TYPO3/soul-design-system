@@ -141,11 +141,6 @@ ihre Regel in `document.css`.
 | --- | --- | --- |
 | `figure.uml-diagram` mit einem Bild | Diagramm-Richtlinie mit Hell/Dunkel-Paar | Guides rendert eine Datei. Im dunklen Modus ist sie falsch |
 
-Dazu ein Verhalten statt eines Markups: der `configuration-block` wird zu
-`sds-tabs` wie `.. tabs::` auch, aber was die Direktive eigentlich verspricht,
-steht aus — PHP einmal wählen und jeden Block der Seite folgen lassen. Das ist
-Verhalten im Element, kein Template.
-
 ## Elemente, die kein Markup annehmen
 
 Ein Generator kennt nur Attribute und Kinder: eine Story setzt Eigenschaften,
@@ -208,4 +203,5 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 ## In welcher Reihenfolge
 
-1. **Das fremde Markup** und das Verhalten des `configuration-block`.
+1. **Das fremde Markup:** `figure.uml-diagram` rendert eine Datei, und im
+   dunklen Modus ist sie falsch.

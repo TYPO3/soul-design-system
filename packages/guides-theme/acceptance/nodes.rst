@@ -92,6 +92,25 @@ Two ways to write the same thing
 
       ['domains' => ['example.org', 'www.example.org']]
 
+A second one, further down the same page. Choosing a language in either moves
+the other, and the set above — whose labels an author wrote — stays where it
+is. Its third tab is a language the other block does not offer, which is the
+case that must not throw a set back to its first panel.
+
+.. configuration-block::
+
+   .. code-block:: yaml
+
+      cache: { lifetime: 86400 }
+
+   .. code-block:: php
+
+      ['cache' => ['lifetime' => 86400]]
+
+   .. code-block:: bash
+
+      vendor/bin/typo3 cache:flush
+
 Words this reference defines
 ============================
 
