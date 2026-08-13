@@ -83,8 +83,9 @@ and body which the register tokens can no longer keep together.
 Display and headings
 ====================
 
-Sentence case. No marketing superlatives — nothing is "powerful", "seamless"
-or "blazing fast".
+Headings use sentence case. :doc:`writing` carries the rest of the voice: how
+claims are bounded, why machine names stay verbatim and why promotional
+superlatives do not belong in a precise interface.
 
 A heading sets itself: ``h1`` to ``h3`` carry the size their level usually
 has, so an outline written as plain HTML is already set, and below ``h3``

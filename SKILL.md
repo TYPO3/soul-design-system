@@ -132,9 +132,11 @@ A container must not share its corner with its contents — that is why the card
 
 The product's own writing is the model. Declarative, third-person, present tense; the subject is usually the software. Never "we"; "you" only for the reader's own machine.
 
-Sentences may be long and clause-stacked, but every claim is bounded — which versions it holds for, which source answered, what it leaves out. Limitations are stated, not softened: the "Experimental" notice is the first thing on the page, not a footnote. Numbers are concrete ("PHP 8.2+", "12.4, 13.4, 14.3 and main"), never "the latest versions".
+Sentences may be long and clause-stacked, but every claim is bounded — which versions it holds for, which source answered, what it leaves out. Limitations are stated beside the claim they limit, not softened or moved to a footnote. Numbers are concrete ("PHP 8.2+", "12.4, 13.4, 14.3 and main"), never "the latest versions".
 
 Everything ships in English regardless of the conversation language — the knowledge base matches lexically, so this is functional, not stylistic.
+
+A design value is written exactly. An inventory is not copied into prose: name the component index, task help or directory that owns the list instead of recording how many entries it has today.
 
 ## States
 

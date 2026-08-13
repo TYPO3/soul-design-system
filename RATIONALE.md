@@ -1,35 +1,17 @@
 # Soul Design System
 
 Design reasons are moving beside their rules in the published documentation.
-The brand, artwork, colour, interaction, type, density, spacing, layout and
-radius decisions now live on their pages under `docs/design-system/`; the class
-and component contract lives under `docs/frontend/`. This file temporarily
-holds the reasons not yet moved and is reduced as each topic finds its permanent
-page.
+The brand, artwork, colour, interaction, type, writing, density, spacing,
+layout and radius decisions now live on their pages under
+`docs/design-system/`; the class and component contract lives under
+`docs/frontend/`. This file temporarily holds the reasons not yet moved and is
+reduced as each topic finds its permanent page.
 
 **The system is the product.** The tokens, the `sds-` class layer and the Lit elements are what is built and maintained here; the specimen cards, the Storybook, the npm package and the guide the design agent reads are all generated from them.
 
 It was cut against a real surface and still answers to one: **TYPO3 Support App**, a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work for the three audiences that do it — the core contributor, the extension author and the site developer. That product is the worked example throughout this document, and deliberately so — a system with no surface to answer to drifts into taste.
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
-
-## Content fundamentals
-
-The product's own writing is the model, and it is distinctive. Keep it.
-
-**Voice.** Declarative, third-person, present tense. The subject is usually the software: "It answers before the installation does." "The conventions are the core's own." Never "we", rarely "you" — "you" appears only for the reader's own machine ("the project you are working in", "pin a commit where you depend on it").
-
-**Sentences.** Long, clause-stacked, and precise; a sentence is allowed to carry three ideas if the ideas depend on each other. What is *not* allowed is vagueness. Every claim is bounded: which versions it holds for, which source answered, what it leaves out. "A statement that does not hold on every covered TYPO3 line carries the ones it does."
-
-**Honesty as a style.** Limitations are stated, not softened. The "Experimental" notice is the first thing on the page, not a footnote. Where the server cannot answer, that is written down as a boundary rather than left silent. Never write marketing superlatives — no "powerful", "seamless", "blazing fast", "revolutionise".
-
-**Casing.** Sentence case for headings. Tool names, file paths and CLI fragments verbatim in mono, never title-cased or prettified: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-support-app install`.
-
-**Numbers and versions.** Always concrete: "PHP 8.2+", "12.4, 13.4, 14.3 and main", "0.x". Never "the latest versions".
-
-**Emoji: none.** Not in the product, not in this system. Status is carried by a colour and a glyph from the mono font (`✓`), never by an emoji.
-
-**Language.** The product, the knowledge base and this design system are written in English, whatever language the conversation is in — the matching in the knowledge base is lexical, so English is a functional requirement, not a preference.
 
 ## Components
 
