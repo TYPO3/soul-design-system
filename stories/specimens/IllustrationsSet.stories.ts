@@ -1,9 +1,9 @@
 /* The illustration set, together rather than one card at a time.
 
    The story proves the two constraints that disappear when an image is seen
-   alone: all eight belong to one visual language, and the same PNG remains in
-   place when the surrounding surface changes mode. The filenames stay under
-   the images because this is also the picker for future card stories. */
+   alone: the images belong to one visual language, and the same PNG remains
+   in place when the surrounding surface changes mode. The filenames stay
+   under the images because this is also the picker for future card stories. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -44,7 +44,7 @@ const meta: Meta = {
       path: 'guidelines/illustrations-set.card.html',
       group: 'Illustrations',
       name: 'The set',
-      subtitle: 'Eight mode-neutral editorial images — broad shapes, one halftone field, one accent',
+      subtitle: 'Mode-neutral editorial imagery — broad shapes, one halftone field, one accent',
       theme: 'both',
       viewport: '1400x700',
       bodyClass: 'spec-sunken',

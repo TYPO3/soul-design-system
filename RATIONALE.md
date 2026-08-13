@@ -13,33 +13,6 @@ It was cut against a real surface and still answers to one: **TYPO3 Support App*
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
 
-## Illustration language
-
-The cards a tool or an article is announced in need imagery that can be cropped
-and reduced without destroying information. Reusing a diagram there made the
-diagram into page furniture and made its labels illegible. The placeholder set therefore has a
-separate job: support the subject already named by the copy, never explain it.
-
-The relationship to the diagrams is deliberate but bounded. Both use warm
-neutrals, clean contours and exactly one orange emphasis. Illustrations replace
-axes, labels and connectors with one quiet person, object or still-life gesture
-drawn as broad, flattened silhouettes; one contained halftone plane supplies
-print character without borrowing the diagram's dashed-state meaning.
-
-The 1200 × 750 PNGs under `packages/frontend/assets/placeholders/` are one-file assets used
-unchanged in light and dark. A separate dark generation drifted in composition
-and doubled the set for decorative media that already carries its own canvas.
-Overlap, at most two flat tones per object and a shallow shape-like ground wash
-are allowed inside the bitmap; this is not an exception to the interface's
-no-shadow rule.
-
-`guidelines/illustration-prompt.md` fixes the prompt, negative constraints,
-format and the kind of subject the language takes, so the set can be extended
-without inventing the style again. What it does not carry is a register of the
-images already made: a prompt is handed to someone drawing the next one, and a
-list of the last ones is a changelog that ages into a wrong answer about which
-subjects are free.
-
 ## Diagram language
 
 The product's existing diagrams carry its explanation and are the intended visual leitmotif. Rather than a set of one-off redraws, this system defines the **rules** they are drawn by, plus one worked example: `packages/frontend/assets/diagrams/answer-sources.svg`.
