@@ -18,10 +18,12 @@ import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/quote.ts';
 import '../../packages/frontend/src/components/stat.ts';
+import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/card.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
-import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
+import { dsScreen, part } from '../lib/specimen.ts';
+import { sdsStat } from '../components/Stat.stories.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Who is behind it' }];
@@ -49,20 +51,24 @@ const PEOPLE = [
   },
 ];
 
-const FACTS = [
+const FACTS: readonly StatProps[] = [
   {
     value: '41',
     label: 'wrong answers fixed',
+    icon: 'actions-check',
     note: `Reported by readers, each one a changelog entry naming the release it was fixed in.`,
   },
   {
     value: '0',
     label: 'analytics scripts',
+    icon: 'actions-file-shield',
     note: 'On this site and in the server. What is known about a reader is what they typed into a form.',
   },
   {
-    value: `2${NNBSP}days`,
+    value: '2',
+    unit: 'days',
     label: 'typical reply',
+    icon: 'actions-clock',
     note: 'Longer where an answer has to be reproduced against a release the project no longer runs.',
   },
 ];
@@ -84,11 +90,7 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
           say who is answerable for the answers. This page is that, and the
           three things that follow from it.
         </p>
-        <div class="sds-stats">
-          ${FACTS.map(
-            (fact) => html`<sds-stat value="${fact.value}" label="${fact.label}" .note="${fact.note}"></sds-stat>`,
-          )}
-        </div>
+        ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
       </div>
     </section>
 

@@ -25,7 +25,7 @@ import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/component
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
-import { SOURCE_FACTS } from '../components/Stat.stories.ts';
+import { sdsStat, SOURCE_FACTS } from '../components/Stat.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
@@ -143,11 +143,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
           and a result that cannot name its source is not returned at all.
         </p>
         <div class="sds-actions">${start}</div>
-        <div class="sds-stats">
-          ${SOURCE_FACTS.map(
-            (fact) => html`<sds-stat value="${fact.value}" label="${fact.label}" .note="${fact.note ?? ''}"></sds-stat>`,
-          )}
-        </div>
+        ${grid(SOURCE_FACTS.map(sdsStat), { flat, variant: 'dense' })}
       </div>
     </section>
 

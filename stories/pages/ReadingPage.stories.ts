@@ -214,9 +214,7 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
         copy
       ></sds-code>
 
-      <div class="sds-stats">
-        ${FACTS.map(sdsStat)}
-      </div>
+      ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
 
       <h2 class="sds-h3" id="questions">Questions</h2>
       ${sdsAccordion({ entries: QUESTIONS, name: 'reading' })}

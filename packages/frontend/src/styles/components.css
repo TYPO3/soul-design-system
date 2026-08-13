@@ -1012,18 +1012,33 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    the label under it says what was counted, because a number whose unit is
    above it is read twice. Set in sans — mono means the machine named it, and a
    count is a fact about the software rather than a string it returns. */
-.sds-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
-  gap: var(--space-6);
-}
+/* No layout of its own: a set of figures is a set read side by side, which is
+   what `sds-grid` is. A second grid here would be the same decision made
+   twice, and only one of the two would learn what the wall learns next. */
 .sds-stat { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+/* Muted and never in a status colour, for the reason a card's glyph is: a
+   figure is a subject, not a result. A box of its own inside the figure's
+   line, because the icon's host draws nothing — and on the number's baseline,
+   where it reads as part of the figure rather than as a mark above it. */
+.sds-stat__icon {
+  display: inline-flex;
+  margin-right: var(--space-2-5);
+  color: var(--text-secondary);
+}
 .sds-stat__value {
   font-size: var(--font-size-h1);
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-heading);
   font-weight: var(--weight-semibold);
   color: var(--text-primary);
+}
+/* What qualifies the figure — the unit it is in, or the whole it is out of.
+   A step down and a shade back, because it is read after the number and never
+   instead of it; the figure keeps the weight it was given. */
+.sds-stat__unit {
+  font-size: var(--font-size-h3);
+  font-weight: var(--weight-regular);
+  color: var(--text-secondary);
 }
 .sds-stat__note {
   font-size: var(--aside-size);
@@ -1540,6 +1555,13 @@ html:has(.sds-bar) {
 /* And no lit frame either, for the reason a tile has no frame at all: the line
    it would light belongs to the wall and to the tile beside it. */
 .sds-grid--flush .sds-card::before { content: none; }
+/* A figure is a tile in the same wall. The padding and the ground come from
+   the wall rather than from the stat, so a set of numbers anywhere else stays
+   what it is — bare, on the page's own ground, and never a row of boxes. */
+.sds-grid--flush .sds-stat {
+  padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
+  background: var(--surface-canvas);
+}
 /* The ring turns inwards. It is drawn outside the box, and the wall clips its
    corners — so on an edge tile the one mark that says where the keyboard is
    would be the one thing cut off. */

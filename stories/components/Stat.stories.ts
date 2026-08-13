@@ -10,12 +10,19 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import '../../packages/frontend/src/components/grid.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
-import { NNBSP } from '../lib/specimen.ts';
 
-export const sdsStat = ({ value, label, note }: StatProps) =>
-  html`<sds-stat value="${value}" label="${label}" .note="${note ?? ''}"></sds-stat>`;
+export const sdsStat = ({ value, unit, label, of, icon, note }: StatProps) =>
+  html`<sds-stat
+    value="${value}"
+    unit="${unit ?? ''}"
+    label="${label}"
+    of="${of ?? ''}"
+    icon="${icon ?? ''}"
+    .note="${note ?? ''}"
+  ></sds-stat>`;
 
 /** The set the feature page shows, in the order it shows them. Exported so
     the page composes these rather than its own copy. */
@@ -23,23 +30,28 @@ export const SOURCE_FACTS: readonly StatProps[] = [
   {
     value: '5',
     label: 'sources',
+    icon: 'actions-database',
     note: 'Bundled knowledge, this checkout, installed packages, the booted installation, and the network.',
   },
   {
     value: '4',
     label: 'preconditions',
+    icon: 'actions-list',
     note: 'From nothing running to outbound reach. Each source declares which one it needs.',
   },
   {
     value: '0',
     label: 'writes',
+    icon: 'actions-file-shield',
     note: 'Every source is read. Nothing is written back, and nothing is executed to answer.',
   },
   {
-    /* The narrow no-break space before a unit is the system's own typography:
-       a number cannot be split from what it counts across a line. */
-    value: `240${NNBSP}ms`,
+    /* The unit is its own property: the element sets it a step down and joins
+       it with the narrow no-break space a number may not be split from. */
+    value: '240',
+    unit: 'ms',
     label: 'typical answer',
+    icon: 'actions-clock',
     note: 'From bundled knowledge, with no installation booted and no request leaving the machine.',
   },
 ];
@@ -51,7 +63,10 @@ const meta: Meta<StatProps> = {
   render: (args) => sdsStat(args),
   argTypes: {
     value: { control: 'text' },
+    unit: { control: 'text' },
     label: { control: 'text' },
+    of: { control: 'text' },
+    icon: { control: 'text' },
     note: { control: 'text' },
   },
   args: SOURCE_FACTS[0] as StatProps,
@@ -75,8 +90,52 @@ export const Zero: Story = { args: SOURCE_FACTS[2] as StatProps };
     reader has to take on trust. */
 export const Unbounded: Story = { args: { value: '5', label: 'sources' } };
 
-/** The row, which is how they are actually read — the values line up and the
-    notes are compared, so the grid is the specimen and not any one of them. */
-export const Row: Story = {
-  render: () => html`<div class="sds-stats">${SOURCE_FACTS.map(sdsStat)}</div>`,
+/** A figure that is a part of something states the whole, in the register a
+    unit is set in. Only where the number really is a share: a measurement is
+    out of nothing. Words rather than a bar, so every figure in a set keeps
+    the same three lines and their notes start together. */
+export const Share: Story = {
+  args: {
+    value: '2',
+    of: '3',
+    label: 'network sources answering',
+    icon: 'actions-globe',
+    note: 'One is slow and one is unreachable from the checker. Both are read-only and neither is required to answer.',
+  },
+};
+
+/** One of each kind, which is what a set is in practice: a count, a share of a
+    stated whole, a measurement in a unit, and a zero that is the claim. They
+    are read against each other, so the set is the specimen and not any one of
+    them — and every kind keeps the same three lines, which is what lets the
+    notes be compared across the row. */
+const MIXED: readonly StatProps[] = [
+  SOURCE_FACTS[0] as StatProps,
+  {
+    value: '2',
+    of: '3',
+    label: 'network sources answering',
+    icon: 'actions-globe',
+    note: 'One is slow and one is unreachable from the checker. Neither is required to answer.',
+  },
+  SOURCE_FACTS[3] as StatProps,
+  SOURCE_FACTS[2] as StatProps,
+];
+
+/** The set. `sds-grid` lays it out, like any other set read side by side, and
+    `dense` is the width a figure holds: a number and the line under it, four
+    or five across, where a card carrying a paragraph would take the room of
+    two. */
+/* Named rather than exported as `Set`: the export would shadow the global one
+   for the whole module, and the sidebar reads the name either way. */
+export const AsASet: Story = {
+  name: 'Set',
+  render: () => html`<sds-grid variant="dense">${MIXED.map(sdsStat)}</sds-grid>`,
+};
+
+/** The same set as one wall. The gutter is out, so the figures share a
+    hairline and the ground under each is the wall's, not the stat's — which is
+    why a figure anywhere else is still bare. Nothing about the stat changes. */
+export const Wall: Story = {
+  render: () => html`<sds-grid variant="flush">${MIXED.map(sdsStat)}</sds-grid>`,
 };

@@ -174,9 +174,10 @@ dialog.sds-lightbox::backdrop{background:var(--surface-overlay)}
 .sds-card__foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding:var(--block-pad-y) var(--block-pad-x)}
 .sds-card__note{font-size:var(--aside-size);line-height:var(--aside-leading);color:var(--text-muted)}
 .sds-card__action{display:inline-flex;align-items:center;gap:var(--space-1-5);margin-left:auto;font-size:var(--aside-size);font-weight:var(--weight-semibold);color:var(--text-link);white-space:nowrap}
-.sds-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:var(--space-6)}
 .sds-stat{display:flex;flex-direction:column;gap:var(--space-1);min-width:0}
+.sds-stat__icon{display:inline-flex;margin-right:var(--space-2-5);color:var(--text-secondary)}
 .sds-stat__value{font-size:var(--font-size-h1);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);font-weight:var(--weight-semibold);color:var(--text-primary)}
+.sds-stat__unit{font-size:var(--font-size-h3);font-weight:var(--weight-regular);color:var(--text-secondary)}
 .sds-stat__note{font-size:var(--aside-size);line-height:1.5;color:var(--text-secondary)}
 .sds-figure{margin:0 0 var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)}
 .sds-figure__frame{border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface-sunken);overflow:hidden}
@@ -249,6 +250,7 @@ html:has(.sds-bar){scroll-padding-top:calc(var(--height-header) + var(--space-4)
 .sds-grid--flush{gap:var(--border-hairline);background:var(--border-subtle);border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-card);overflow:hidden}
 .sds-grid--flush .sds-card{--card-lift: 0px;border:0;border-radius:0;background:var(--surface-canvas)}
 .sds-grid--flush .sds-card:before{content:none}
+.sds-grid--flush .sds-stat{padding:var(--sds-pad, var(--block-pad-y) var(--block-pad-x));background:var(--surface-canvas)}
 .sds-grid--flush .sds-card:has(>.sds-card__body>.sds-card__title a:focus-visible){outline-offset:calc(-1 * var(--border-emphasis) - 2px);box-shadow:none}
 .sds-bands{flex:1;display:flex;flex-direction:column}
 .sds-band{padding-block:var(--space-12)}

@@ -16,13 +16,15 @@ import '../../packages/frontend/src/components/crumbs.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/stat.ts';
+import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { type BadgeTone } from '../../packages/frontend/src/components/badge.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { sdsStat } from '../components/Stat.stories.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Status' }];
 
@@ -52,27 +54,34 @@ const ROWS: readonly Row[] = [
   { cells: ['releases.typo3.org', 'Outbound reach from your machine', badge('unreachable', 'error'), `4${NNBSP}min ago`] },
 ];
 
-const FACTS = [
+const FACTS: readonly StatProps[] = [
   {
-    value: '2 of 3',
+    /* The whole is its own property, so the figure is a share the element can
+       draw rather than a sentence a page happened to type into a value. */
+    value: '2',
+    of: '3',
     label: 'network sources answering',
+    icon: 'actions-globe',
     note: html`One is slow and one is unreachable from the checker. Both are read-only
       and neither stops a tool that does not need them.`,
   },
   {
     value: '0',
     label: 'of your sources here',
+    icon: 'actions-file-shield',
     note: 'Packages and the installation are on your machine. Nothing about them is visible to this page, by construction.',
   },
   {
-    value: `4${NNBSP}min`,
+    value: '4',
+    unit: 'min',
     label: 'since the last check',
+    icon: 'actions-clock',
     note: 'Checked every five minutes from one location, which is a claim about that location and not about yours.',
   },
 ];
 
 /** The page. `flat` composes the form a static file can hold. */
-export function statusPage(_: PageMode = {}): TemplateResult {
+export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
   return html`<div class="sds-shell">
   ${skipLink()}
   ${siteBar(-1, '#status')}
@@ -91,11 +100,7 @@ export function statusPage(_: PageMode = {}): TemplateResult {
           your machine. What this page can report is which of the sources it may
           read are reachable from outside, and one of them is not.
         </p>
-        <div class="sds-stats">
-          ${FACTS.map(
-            (fact) => html`<sds-stat value="${fact.value}" label="${fact.label}" .note="${fact.note}"></sds-stat>`,
-          )}
-        </div>
+        ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
       </div>
     </section>
 

@@ -3992,25 +3992,42 @@ define("sds-surface", SdsSurface);
 
 // packages/frontend/src/components/stat.ts
 import { html as html30 } from "lit";
+var NNBSP = "\u202F";
+var NBSP = "\xA0";
 var SdsStat = class extends SdsElement {
+  constructor() {
+    super();
+    /* The bound as a caller wrote it between the tags, taken before Lit renders
+       over it. A sentence fits in the property; out of a document the same
+       sentence carries a link, and that is what an attribute cannot hold. */
+    this.taken = null;
+    this.value = "";
+    this.unit = "";
+    this.label = "";
+    this.of = "";
+    this.note = "";
+  }
   static {
     this.properties = {
       value: { type: String },
+      unit: { type: String },
       label: { type: String },
+      of: { type: String },
+      icon: { type: String },
       note: { type: String }
     };
   }
-  constructor() {
-    super();
-    this.value = "";
-    this.label = "";
-    this.note = "";
+  connectedCallback() {
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
+    super.connectedCallback();
   }
   render() {
+    const bound = this.taken ?? this.content ?? (this.note || void 0);
     return html30`<div class="sds-stat">
-  <div class="sds-stat__value">${this.value}</div>
+  <div class="sds-stat__value">${this.icon ? html30`<span class="sds-stat__icon"><sds-icon name="${this.icon}" size="24"></sds-icon></span>` : ""}${this.value}${this.unit ? html30`<span class="sds-stat__unit">${NNBSP}${this.unit}</span>` : ""}${this.of ? html30`<span class="sds-stat__unit">${NBSP}of${NBSP}${this.of}</span>` : ""}</div>
   <div class="sds-label">${this.label}</div>
-  ${this.note ? html30`<div class="sds-stat__note">${this.note}</div>` : ""}
+  ${bound ? html30`<div class="sds-stat__note">${bound}</div>` : ""}
 </div>`;
   }
 };

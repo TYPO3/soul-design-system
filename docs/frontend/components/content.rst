@@ -203,17 +203,44 @@ the line saying what the number is bounded by.
 
 .. code-block:: html
 
-   <sds-stat value="240 ms" label="median answer"
+   <sds-stat value="240" unit="ms" label="median answer" icon="actions-clock"
      note="Measured over the last release, on a warm index."></sds-stat>
+
+A figure is rarely read alone. A set of them goes into ``sds-grid`` above, like
+any other set read side by side — the stat carries the number and the grid
+decides how many stand in a row, so four never wrap as three and one.
+
+.. code-block:: html
+
+   <sds-grid variant="dense">
+     <sds-stat value="5" label="sources" note="…"></sds-stat>
+     <sds-stat value="0" label="writes" note="…"></sds-stat>
+   </sds-grid>
+
+``dense`` is the width a figure holds: a number and the line under it stands
+four or five across, where a card carrying a paragraph takes the room of two.
+Every other width works, and so does ``flush`` — there the figures share a
+hairline and the wall gives each one its ground. **The frame is the wall's, not
+the stat's**: a figure anywhere else stays bare, so a set of numbers on a page
+is not a row of boxes.
 
 .. confval:: value
    :name: sds-stat-value
    :type: string
    :required: true
 
-   Concrete — ``5``, ``240 ms``, ``12.4+`` — never "many". Set in sans: mono
+   Concrete — ``5``, ``240``, ``12.4+`` — never "many". Set in sans: mono
    means the machine named the thing, and a count is a fact about the software
    rather than a string it returns.
+
+.. confval:: unit
+   :name: sds-stat-unit
+   :type: string
+
+   What the figure is in — ``ms``, ``%``, ``kB``. Its own property rather than
+   part of the value: the element sets it a step down and joins it with the
+   narrow no-break space a number may not be split from, and a page that has
+   to know that codepoint is a page that will forget it.
 
 .. confval:: label
    :name: sds-stat-label
@@ -221,6 +248,23 @@ the line saying what the number is bounded by.
    :required: true
 
    What was counted, in the label register.
+
+.. confval:: of
+   :name: sds-stat-of
+   :type: string
+
+   The whole the figure is a part of, said after it — ``2 of 3`` — a step down
+   and a shade back, the way a unit is. **Only where the figure really is a
+   part**: a measurement is out of nothing. It is words and not a bar, because
+   a set of figures is read across its notes, and a drawing under one of them
+   pushes that line out of step with the rest.
+
+.. confval:: icon
+   :name: sds-stat-icon
+   :type: IconId
+
+   A glyph over the figure. Muted and never in a status colour, for the reason
+   a card's is: a figure is a subject, not a result.
 
 .. confval:: note
    :name: sds-stat-note
