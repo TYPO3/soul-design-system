@@ -88,27 +88,6 @@ site is rendered along it, with the same file a reader runs.
 
 ## Decisions that were made on purpose
 
-- **The space scale is halved below 16px.** `--space-0-5`, `-1-5`, `-2-5` and
-  `-3-5` are not a loosening of the 4px grid but the part of it that was
-  missing: the small end is where a glyph beside a word and a label over its
-  value are read, and where the scale had no step the value got typed instead.
-  `components.css` held a literal for nearly every integer from 1 to 16 —
-  6px alone appeared fourteen times, and ten boxed blocks carried ten
-  different paddings. Above 16 nothing has ever needed a half-step, and the
-  scale does not gain one.
-- **The reading column's rhythm is a gap plus what a heading buys.** A flex
-  gap cannot be undercut, so the gap is the flow step and each heading adds
-  its own margin above — 40, 32, 24 by level. It was one flat gap for
-  everything, which is a column with no hierarchy in it at all.
-- **`make rhythm` reads the steps out of the token files.** It renders a
-  screen and measures it against them, so it holds no second copy of the scale
-  and cannot drift from it. Listing the step *names* was tried first and was
-  the same mistake one layer up: the list went stale the moment one was
-  renamed, and the tool reported every 13px value as a defect. A whole-pixel size off the scale is a literal
-  somebody typed; a fractional one is an optical `em`, the correction mono
-  carries beside sans, which is a ratio of its context and can never land on
-  a step. It says which, and fails only on the first. A drawing is reported
-  apart: `SKILL.md` pins its own scale, down to a 13px floor.
 - **Class prefix is `sds-`**, state is `.is-*`. `t3-` was avoided: the system's
   own rules forbid implying TYPO3 endorsement.
 

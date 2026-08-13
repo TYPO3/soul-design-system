@@ -38,6 +38,43 @@ block start their text on the same edge however they are stacked.
    :viewport: 700x130
    :title: Space scale
 
+Reading rhythm
+==============
+
+A reading column runs on ``--space-4`` between neighbouring blocks. A heading
+adds its own air above that flow step: ``--space-10`` above a second level,
+``--space-8`` above a third and ``--space-6`` above a fourth. The decreasing
+purchase carries hierarchy after the heading sizes stop changing.
+
+This cannot be expressed as one flex gap. A gap is a minimum between every
+pair of children and cannot be undercut for the quieter transition into a
+paragraph or list. The shared flow step therefore belongs to the column and
+the additional distance belongs to the heading whose level gives it meaning.
+A flow where a heading receives the same air as a paragraph has no hierarchy,
+whatever its type size says.
+
+The lower step follows a different ownership rule because authored blocks also
+appear inside components. :doc:`/frontend/documents` explains when the element
+keeps that step and when a container with its own gap takes it back.
+
+Keeping the scale enforceable
+=============================
+
+``make rhythm`` renders the starting points and measures their font sizes,
+padding and gaps against the ``--font-size-*`` and ``--space-*`` values read
+directly from the token files. The check carries no list of token names, so a
+renamed or added step cannot leave a second copy behind.
+
+A whole-pixel font size outside the type scale is a local value that should
+have been a role. A fractional computed font size may be an ``em`` correction
+relative to its context, so the report identifies it without treating it as a
+new scale step. Diagrams carry their own measured type rules and are reported
+separately.
+
+A positive layout gap outside the space scale fails the check. That makes the
+scale a constraint on rendered relationships rather than merely a palette of
+variables a stylesheet may choose to ignore.
+
 Layout frame
 ============
 
@@ -67,4 +104,6 @@ Radius follows what a thing *is*, not how loud it should look.
      - Cards, panels, modals
 
 A container must not share its corner with its contents. That is the whole
-reason the card is one step larger than the control inside it.
+reason the card is one step larger than the control inside it. Hard edges stay
+where they perform structural work rather than becoming a louder version of a
+control or container.

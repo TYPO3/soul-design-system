@@ -1,9 +1,9 @@
 # Soul Design System
 
-Design reasons are moving beside their rules in the published documentation;
-`docs/design-system/type.rst` now owns the type and density decisions. This
-file temporarily holds the reasons not yet moved and is reduced as each topic
-finds its permanent page.
+Design reasons are moving beside their rules in the published documentation.
+The type, density, spacing, layout and radius decisions now live on their
+pages under `docs/design-system/`. This file temporarily holds the reasons not
+yet moved and is reduced as each topic finds its permanent page.
 
 **The system is the product.** The tokens, the `sds-` class layer and the Lit elements are what is built and maintained here; the specimen cards, the Storybook, the npm package and the guide the design agent reads are all generated from them.
 
@@ -56,10 +56,6 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 **Backgrounds.** Page grounds stay flat: no photography or illustration behind text, no repeating texture, no gradient. Decorative illustrations may occupy an explicit media slot such as a card's picture; explanatory imagery remains the diagram set.
 
 **Borders and shadows.** Hairlines do all the structural work. `--border-subtle` separates sections and table rows; `--border-strong` marks the head of a table or an active field. **There are no shadows in this system** — not on cards, not on modals, not on menus. A modal is separated by an overlay wash and a border, not by elevation. The one exception is the focus ring, `box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring)`, which is a state, not a depth.
-
-**Corners.** The split is by *role*, not by loudness. 0px is structural: full-bleed section rules, table lines, the header underline, the hairline grid — the geometry that holds the page together. 4px (`--radius-control`) is for anything a person clicks, types into or picks up — buttons, fields, selects, tabs, badges, and code blocks, which are objects at the same scale. A **card is 6px**, one step larger, because a card usually contains those things and a container must not share its corner with its contents: buttons, tabs, active navigation, badges, cards, inputs, code blocks. This is a tool that is supposed to take work off someone; it should not feel like a spec sheet. The hard edges stay where they are doing structural work, and nowhere else.
-
-**Layout.** A 210px tool rail on the left, 1080px of content, 48px page gutters. Section boundaries are full-bleed hairlines; the content inside them respects the measure. Grid gaps of 1px over a `--border-subtle` background produce the hairline-separated card grids — that is the system's signature layout move. The header is sticky with a translucent canvas and an 8px backdrop blur; nothing else in the system is fixed, transparent or blurred.
 
 **Interaction.** Hover changes colour and border, never position and never size. Nothing scales, lifts, or bounces. Active navigation is a filled orange block with dark text — full colour inversion, not a tint. Focus is the orange ring. Disabled is 50% opacity with no colour change. Transitions run 140ms on `--ease-out`; anything longer reads as slow here.
 
