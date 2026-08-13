@@ -3361,7 +3361,10 @@ var SdsHeader = class extends SdsNav {
     const written = this.lifted().filter((node) => node.nodeType === 1);
     if (written.length) this.taken = written;
     super.connectedCallback();
-    this.watch = new ResizeObserver(() => this.decide());
+    this.watch = new ResizeObserver(() => {
+      this.place();
+      this.decide();
+    });
     void document.fonts?.ready.then(() => {
       this.needNav = 0;
       this.needSearch = 0;

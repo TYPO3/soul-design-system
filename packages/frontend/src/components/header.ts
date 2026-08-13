@@ -149,7 +149,15 @@ export class SdsHeader extends SdsNav {
     const written = this.lifted().filter((node): node is Element => node.nodeType === 1);
     if (written.length) this.taken = written;
     super.connectedCallback();
-    this.watch = new ResizeObserver(() => this.decide());
+    /* Both questions, because a window that moved answers both: how much room
+       the row has left, and whether the layout still lays the rail beside the
+       text. Asking only the first left the rail standing on a stacked page —
+       nothing in the row had changed at that width, so nothing re-rendered,
+       and the one place that looked was never reached. */
+    this.watch = new ResizeObserver(() => {
+      this.place();
+      this.decide();
+    });
     /* Measured in the fallback face, the sections come out narrower than they
        will be — so the answer is asked for again once the real one is there,
        from the one state they can be measured in. */

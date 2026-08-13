@@ -163,6 +163,18 @@ test('the page rail is a column, then part of the bar\u2019s one drawer', async 
   await page.setViewportSize({ width: 1280, height: 900 });
   await expect(rail).toBeVisible();
   await expect(page.locator('.sds-body > #page-rail')).toHaveCount(1);
+
+  /* The width where the rail is the only thing that moves. The field is behind
+     the button on both sides of it, so nothing about the row changes as it is
+     crossed — and a bar that asked only what still fits never re-rendered and
+     never looked. The rail sat on a stacked page with the button beside it
+     claiming to hold it, in every window that was resized rather than opened. */
+  await page.setViewportSize({ width: 900, height: 900 });
+  await expect(page.locator('.sds-body > #page-rail')).toHaveCount(1);
+  await page.setViewportSize({ width: 856, height: 900 });
+  await expect(drawer.locator('#page-rail')).toHaveCount(1);
+  await page.setViewportSize({ width: 900, height: 900 });
+  await expect(page.locator('.sds-body > #page-rail')).toHaveCount(1);
 });
 
 /* The bar's run-width. What it does is decided by measurement, so there is no
