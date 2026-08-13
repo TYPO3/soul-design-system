@@ -1,4 +1,5 @@
 import { type TemplateResult } from 'lit';
+import './badge.ts';
 import './icon.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
@@ -16,9 +17,13 @@ export interface CardProps {
         `id="art"`. Written by the build, which is what can read the file;
         `src/lib/art.ts` holds the reasoning. */
     linked?: boolean;
-    /** The tracked-out line over the title, where a set of cards is named or
-        numbered as a set — `CHAPTER 02`, `FOR EDITORS`. */
+    /** The tracked-out line over the title: what a set of cards is named or
+        numbered as — `CHAPTER 02`, `FOR EDITORS` — or when the entry is from,
+        which is the same register and the same line. */
     label?: string;
+    /** What kind of entry it is. A badge, because it is a fact about the entry
+        rather than a result — no tone. It shares the line with the label. */
+    tag?: string;
     /** A glyph above the label, where a set is told apart before it is read. */
     icon?: IconId;
     /** One line under a hairline: what the reader gets there, who it is for,
@@ -52,6 +57,9 @@ export declare class SdsCard extends SdsElement {
         label: {
             type: StringConstructor;
         };
+        tag: {
+            type: StringConstructor;
+        };
         icon: {
             type: StringConstructor;
         };
@@ -69,6 +77,7 @@ export declare class SdsCard extends SdsElement {
     alt: string;
     linked: boolean;
     label: string;
+    tag: string;
     icon?: IconId;
     footer: string;
     action: string;

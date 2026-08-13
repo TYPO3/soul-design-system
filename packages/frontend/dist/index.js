@@ -4209,6 +4209,7 @@ var SdsCard = class extends SdsElement {
     this.alt = "";
     this.linked = false;
     this.label = "";
+    this.tag = "";
     this.footer = "";
     this.action = "";
   }
@@ -4221,6 +4222,7 @@ var SdsCard = class extends SdsElement {
       alt: { type: String },
       linked: { type: Boolean },
       label: { type: String },
+      tag: { type: String },
       icon: { type: String },
       footer: { type: String },
       action: { type: String }
@@ -4236,7 +4238,10 @@ var SdsCard = class extends SdsElement {
     ${art(this.src, this.alt, { linked: this.linked })}
   </div>` : "";
     const icon = this.icon ? html35`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : "";
-    const label = this.label ? html35`<div class="sds-label">${this.label}</div>` : "";
+    const label = this.tag || this.label ? html35`<div class="sds-row">
+      ${this.tag ? html35`<sds-badge label="${this.tag}"></sds-badge>` : ""}
+      ${this.label ? html35`<span class="sds-label">${this.label}</span>` : ""}
+    </div>` : "";
     const written = this.taken ?? this.content;
     const blocks = written ?? (typeof this.body === "string" ? void 0 : this.body);
     const text = blocks ? html35`<div class="sds-card__text">${blocks}</div>` : html35`<p class="sds-card__text">${this.body}</p>`;

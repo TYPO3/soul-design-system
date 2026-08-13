@@ -1,20 +1,20 @@
-/* sds-card — a way into something: a chapter, a product, a page.
+/* sds-card — a way into something: a chapter, a product, a news entry, a page.
 
-   A picture at the top, the row that says what kind of thing it is, the title
-   that goes there, the prose, and a foot carrying the action. Everything but
-   the prose is a property, and everything but the picture may be left out.
+   A picture at the top, the row saying what kind of thing it is and when, the
+   title that goes there, the prose, and a foot carrying the action. Everything
+   but the prose is a property, and everything but the picture may be left out.
 
    **The whole card is the target and the title is the link.** The anchor is
    stretched over the frame by the class layer, so the name a reader hears is
    the title while the hit area is the card. One link, therefore: the call to
    action is words rather than a second anchor to the same place.
 
-   Not a teaser and not a surface: a teaser is one entry in a list and carries
-   when and what kind, a surface is the bare plane. What this one holds is
-   document content — several blocks of it, written between the tags — and
-   `.sds-card` is the plane it is drawn on, so the frame is stated once. */
+   Not a surface, which is the bare plane. What this one holds is document
+   content — several blocks of it, written between the tags — and `.sds-card`
+   is the plane it is drawn on, so the frame is stated once. */
 
 import { html, type TemplateResult } from 'lit';
+import './badge.ts';
 import './icon.ts';
 import { type IconId } from './icon.ts';
 import { art } from '../lib/art.ts';
@@ -34,9 +34,13 @@ export interface CardProps {
       `id="art"`. Written by the build, which is what can read the file;
       `src/lib/art.ts` holds the reasoning. */
   linked?: boolean;
-  /** The tracked-out line over the title, where a set of cards is named or
-      numbered as a set — `CHAPTER 02`, `FOR EDITORS`. */
+  /** The tracked-out line over the title: what a set of cards is named or
+      numbered as — `CHAPTER 02`, `FOR EDITORS` — or when the entry is from,
+      which is the same register and the same line. */
   label?: string;
+  /** What kind of entry it is. A badge, because it is a fact about the entry
+      rather than a result — no tone. It shares the line with the label. */
+  tag?: string;
   /** A glyph above the label, where a set is told apart before it is read. */
   icon?: IconId;
   /** One line under a hairline: what the reader gets there, who it is for,
@@ -57,6 +61,7 @@ export class SdsCard extends SdsElement {
     alt: { type: String },
     linked: { type: Boolean },
     label: { type: String },
+    tag: { type: String },
     icon: { type: String },
     footer: { type: String },
     action: { type: String },
@@ -69,6 +74,7 @@ export class SdsCard extends SdsElement {
   declare alt: string;
   declare linked: boolean;
   declare label: string;
+  declare tag: string;
   declare icon?: IconId;
   declare footer: string;
   declare action: string;
@@ -87,6 +93,7 @@ export class SdsCard extends SdsElement {
     this.alt = '';
     this.linked = false;
     this.label = '';
+    this.tag = '';
     this.footer = '';
     this.action = '';
   }
@@ -109,7 +116,16 @@ export class SdsCard extends SdsElement {
     const icon = this.icon
       ? html`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`
       : '';
-    const label = this.label ? html`<div class="sds-label">${this.label}</div>` : '';
+    /* The kind and the label on one line, and the line is dropped rather than
+       left empty: a card whose first row is blank is a card with a hole where
+       a set of them lines up. */
+    const label =
+      this.tag || this.label
+        ? html`<div class="sds-row">
+      ${this.tag ? html`<sds-badge label="${this.tag}"></sds-badge>` : ''}
+      ${this.label ? html`<span class="sds-label">${this.label}</span>` : ''}
+    </div>`
+        : '';
 
     /* Blocks go in a `div` and a sentence in the `p` a sentence belongs in.
        Which it is, is what the caller handed over: a string is a sentence, and
