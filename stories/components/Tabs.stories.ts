@@ -77,3 +77,40 @@ export const Composed: Story = {
     </sds-tabs>
   `,
 };
+
+/** Sets that agree. A page showing one setting in several places asks the
+    reader to choose a language once, so a set carrying `sync` moves the others
+    carrying the same word — by the label and not by the position, and the
+    choice is remembered for the next page. A set writing no `sync` is nobody
+    else's business, which is why the third one below stays put. */
+export const Synced: Story = {
+  render: () => html`
+    <sds-tabs sync="story">
+      <sds-tab-item label="YAML">
+        <sds-code code-lang="yaml" copy>domains: ["example.org"]</sds-code>
+      </sds-tab-item>
+      <sds-tab-item label="PHP">
+        <sds-code code-lang="php" copy>['domains' => ['example.org']]</sds-code>
+      </sds-tab-item>
+    </sds-tabs>
+    <sds-tabs sync="story">
+      <sds-tab-item label="YAML">
+        <sds-code code-lang="yaml" copy>cache: { lifetime: 86400 }</sds-code>
+      </sds-tab-item>
+      <sds-tab-item label="PHP">
+        <sds-code code-lang="php" copy>['cache' => ['lifetime' => 86400]]</sds-code>
+      </sds-tab-item>
+      <sds-tab-item label="bash">
+        <sds-code code-lang="bash" copy>vendor/bin/typo3 cache:flush</sds-code>
+      </sds-tab-item>
+    </sds-tabs>
+    <sds-tabs>
+      <sds-tab-item label="YAML">
+        <p>Its labels are the author's, so it follows nothing.</p>
+      </sds-tab-item>
+      <sds-tab-item label="PHP">
+        <p>And nothing follows it.</p>
+      </sds-tab-item>
+    </sds-tabs>
+  `,
+};

@@ -284,6 +284,22 @@ step is the caller's problem and the bar is a row of words.
    For a tab whose subject has one — a file type, a tool — never as decoration
    on a set that reads fine without.
 
+.. confval:: sync
+   :name: sds-tabs-sync
+   :type: string
+
+   On ``sds-tabs``. A word, and every set carrying the same one follows the
+   choice made in any of them. For a page stating one thing in several places —
+   the same setting in YAML and PHP, the same command for three shells — where
+   choosing it once is the point and choosing it four times is the annoyance.
+
+   Sets are matched **by the label, not the position**: a set offering YAML and
+   TypoScript has no PHP, and one that has none of the chosen words keeps the
+   panel it is showing rather than falling back to its first. The choice
+   outlives the page and is an order rather than a word — picking ``bash`` where
+   it was offered does not stop a reader preferring PHP to YAML where it was
+   not. A set writing no ``sync`` follows nothing and is followed by nothing.
+
 A real tablist: each tab names the panel it controls, the arrow keys move
 between them, Home and End go to the ends, and the focus follows the selection.
 Panels that are not current are **hidden rather than unrendered**, so

@@ -12,7 +12,7 @@
 import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
 import { define } from '../lib/element.ts';
-import { SdsNav, type NavItem } from './nav-base.ts';
+import { SdsNav, navLabel, type NavItem } from './nav-base.ts';
 import { SdsTabItem } from './tab-item.ts';
 import { type IconId } from './icon.ts';
 
@@ -44,8 +44,29 @@ export function tabsBarMarkup(
 }
 
 export class SdsTabs extends SdsNav {
+  static override properties = {
+    /* Lit merges what a subclass declares with what it inherits; the type
+       does not, so the base's are named again here. */
+    ...SdsNav.properties,
+    /** The word that makes sets follow each other. Named for what it does
+        rather than for what the set is called: a page showing one setting in
+        four places asks the reader to choose a language once, and a set
+        writing nothing here is a set nobody else moves. */
+    sync: { type: String, reflect: true },
+  };
+
+  /* Left unset rather than empty: `reflect` writes `sync=""` for an empty
+     string, and a set that follows nobody would then answer to `[sync]` —
+     for a stylesheet, for a test, and for the registry below. */
+  declare sync?: string;
+
   protected override readonly block = 'sds-tabs';
   protected override readonly item = 'sds-tab';
+
+  /* Every set on the page that follows a word, so one of them can reach the
+     others. A registry rather than an event on the document: what agrees is
+     these elements, and a page may hold sets that agree about nothing. */
+  static readonly agreeing = new Set<SdsTabs>();
 
   /** The panels written between the tags. */
   private panels: SdsTabItem[] = [];
@@ -89,17 +110,82 @@ export class SdsTabs extends SdsNav {
       });
       this.arriving.observe(this, { childList: true });
     }
+    if (this.sync) SdsTabs.agreeing.add(this);
     super.connectedCallback();
   }
 
   override disconnectedCallback(): void {
     this.arriving?.disconnect();
+    SdsTabs.agreeing.delete(this);
     super.disconnectedCallback();
   }
 
   protected override choose(index: number): void {
     super.choose(index);
     this.show();
+    this.agree();
+  }
+
+  /** Where the choice is kept. One key per group, so two sets that agree
+      about nothing on the same origin do not overwrite each other. */
+  private get store(): string {
+    return `sds-tabs:${this.sync}`;
+  }
+
+  private get labels(): string[] {
+    return this.items.map(navLabel);
+  }
+
+  /* **A preference is an order, not a word.** A reader who picks bash in the
+     one block that offers it has not stopped preferring PHP to YAML
+     everywhere else, so what is kept is every word they have chosen, most
+     recent first, and a set takes the first of them it has. */
+  private get preferred(): string[] {
+    const kept = localStorage.getItem(this.store);
+    if (!kept) return [];
+    try {
+      return JSON.parse(kept) as string[];
+    } catch {
+      /* Somebody else's value under our key, or one from a version that wrote
+         a bare word. Neither is worth breaking a page over. */
+      return [kept];
+    }
+  }
+
+  /* Tell the sets that follow the same word, and remember it for the next
+     page. A manual is read across ten of them, and choosing the language
+     again on each is the same annoyance one level up. */
+  private agree(): void {
+    if (!this.sync) return;
+    const label = this.labels[this.active];
+    if (label === undefined) return;
+    localStorage.setItem(this.store, JSON.stringify([label, ...this.preferred.filter((w) => w !== label)]));
+    for (const other of SdsTabs.agreeing) {
+      if (other !== this && other.sync === this.sync) other.follow(label);
+    }
+  }
+
+  /* Move because another set did, without saying it back. By the word and not
+     by the position: a block offering YAML and TypoScript has no PHP, and one
+     that does not have the word keeps the panel it is showing rather than
+     falling back to its first. */
+  private follow(label: string): boolean {
+    const at = this.labels.indexOf(label);
+    if (at === -1) return false;
+    super.choose(at);
+    this.show();
+    return true;
+  }
+
+  /* What was chosen before, applied once there is something to match it
+     against — the items arrive with the markup or a frame later, and asking
+     before they are there would silently settle on nothing. */
+  private recalled = false;
+
+  private recall(): void {
+    if (this.recalled || !this.sync || !this.items.length) return;
+    this.recalled = true;
+    for (const label of this.preferred) if (this.follow(label)) return;
   }
 
   /** Tell each panel whether it is the one. */
@@ -151,6 +237,7 @@ export class SdsTabs extends SdsNav {
   }
 
   protected override updated(): void {
+    this.recall();
     this.show();
   }
 }

@@ -3723,13 +3723,35 @@ function tabsBarMarkup(tabs, active, pick, onKey) {
   ${lines(buttons, 2)}
 </div>`;
 }
-var SdsTabs = class extends SdsNav {
+var SdsTabs = class _SdsTabs extends SdsNav {
   constructor() {
     super(...arguments);
     this.block = "sds-tabs";
     this.item = "sds-tab";
     /** The panels written between the tags. */
     this.panels = [];
+    /* What was chosen before, applied once there is something to match it
+       against — the items arrive with the markup or a frame later, and asking
+       before they are there would silently settle on nothing. */
+    this.recalled = false;
+  }
+  static {
+    this.properties = {
+      /* Lit merges what a subclass declares with what it inherits; the type
+         does not, so the base's are named again here. */
+      ...SdsNav.properties,
+      /** The word that makes sets follow each other. Named for what it does
+          rather than for what the set is called: a page showing one setting in
+          four places asks the reader to choose a language once, and a set
+          writing nothing here is a set nobody else moves. */
+      sync: { type: String, reflect: true }
+    };
+  }
+  static {
+    /* Every set on the page that follows a word, so one of them can reach the
+       others. A registry rather than an event on the document: what agrees is
+       these elements, and a page may hold sets that agree about nothing. */
+    this.agreeing = /* @__PURE__ */ new Set();
   }
   /** Take the items written between the tags, if any are there yet. */
   lift() {
@@ -3756,15 +3778,67 @@ var SdsTabs = class extends SdsNav {
       });
       this.arriving.observe(this, { childList: true });
     }
+    if (this.sync) _SdsTabs.agreeing.add(this);
     super.connectedCallback();
   }
   disconnectedCallback() {
     this.arriving?.disconnect();
+    _SdsTabs.agreeing.delete(this);
     super.disconnectedCallback();
   }
   choose(index) {
     super.choose(index);
     this.show();
+    this.agree();
+  }
+  /** Where the choice is kept. One key per group, so two sets that agree
+      about nothing on the same origin do not overwrite each other. */
+  get store() {
+    return `sds-tabs:${this.sync}`;
+  }
+  get labels() {
+    return this.items.map(navLabel);
+  }
+  /* **A preference is an order, not a word.** A reader who picks bash in the
+     one block that offers it has not stopped preferring PHP to YAML
+     everywhere else, so what is kept is every word they have chosen, most
+     recent first, and a set takes the first of them it has. */
+  get preferred() {
+    const kept = localStorage.getItem(this.store);
+    if (!kept) return [];
+    try {
+      return JSON.parse(kept);
+    } catch {
+      return [kept];
+    }
+  }
+  /* Tell the sets that follow the same word, and remember it for the next
+     page. A manual is read across ten of them, and choosing the language
+     again on each is the same annoyance one level up. */
+  agree() {
+    if (!this.sync) return;
+    const label = this.labels[this.active];
+    if (label === void 0) return;
+    localStorage.setItem(this.store, JSON.stringify([label, ...this.preferred.filter((w) => w !== label)]));
+    for (const other of _SdsTabs.agreeing) {
+      if (other !== this && other.sync === this.sync) other.follow(label);
+    }
+  }
+  /* Move because another set did, without saying it back. By the word and not
+     by the position: a block offering YAML and TypoScript has no PHP, and one
+     that does not have the word keeps the panel it is showing rather than
+     falling back to its first. */
+  follow(label) {
+    const at = this.labels.indexOf(label);
+    if (at === -1) return false;
+    super.choose(at);
+    this.show();
+    return true;
+  }
+  recall() {
+    if (this.recalled || !this.sync || !this.items.length) return;
+    this.recalled = true;
+    for (const label of this.preferred) if (this.follow(label)) return;
   }
   /** Tell each panel whether it is the one. */
   show() {
@@ -3798,6 +3872,7 @@ var SdsTabs = class extends SdsNav {
     return html27`${tabsBarMarkup(tabs, this.active, (i) => this.choose(i), (e) => this.onKey(e))}${held}`;
   }
   updated() {
+    this.recall();
     this.show();
   }
 };
