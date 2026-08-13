@@ -240,21 +240,35 @@ li > ol { margin-bottom: 0; }
 /* Who wrote it, and when. The mark is initials — a face is a file to fetch,
    keep in step and licence, and none of that is what a byline is for. */
 .sds-byline { display: flex; align-items: center; gap: var(--space-3); }
+/* 32px is exactly the two lines beside it — the mark measures the block it
+   belongs to, not a control it is not one of. Tracking is added after the
+   last letter as well, so it comes back as padding on the left, where
+   centring halves it and the monogram lands on the middle of the circle. */
 .sds-byline__mark {
   flex: none;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-pill);
   background: var(--surface-inset);
   color: var(--text-secondary);
   font-family: var(--font-mono);
-  font-size: var(--font-size-micro);
+  font-size: var(--font-size-dense);
   letter-spacing: var(--tracking-label);
+  padding-left: var(--tracking-label);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.sds-byline__who { display: flex; flex-direction: column; gap: var(--space-0-5); min-width: 0; }
+/* Two stacked labels, not prose. Body leading puts a 14px name in a 25px line
+   box, which drifts the pair apart and makes the block taller than any mark
+   it could stand beside. */
+.sds-byline__who {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
+  line-height: var(--control-leading);
+  min-width: 0;
+}
 .sds-byline__name { font-size: var(--font-size-ui); color: var(--text-primary); }
 .sds-byline__role { color: var(--text-muted); }
 

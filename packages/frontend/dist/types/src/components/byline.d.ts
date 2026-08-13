@@ -35,7 +35,7 @@ export declare class SdsByline extends SdsElement {
     initials: string;
     constructor();
     /** First letters of the first and last word — two at most. Three initials
-        in a 28px circle is a monogram nobody can read. */
+        in a 32px circle is a monogram nobody can read. */
     private get mark();
     protected render(): TemplateResult;
 }
