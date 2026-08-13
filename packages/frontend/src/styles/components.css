@@ -1234,9 +1234,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   line-height: 1.55;
   color: var(--text-secondary);
 }
-/* The padding is the gap under the last block, so the block does not bring a
-   second one — the same trim a note and a card's summary make. */
-.sds-modal__body > :last-child,
 .sds-modal__foot {
   display: flex;
   justify-content: flex-end;
@@ -2255,10 +2252,6 @@ sds-rail:not(:defined) {
   line-height: var(--leading-body);
   color: var(--text-secondary);
 }
-/* The last block in an answer keeps its step to itself: the space under it is
-   drawn below, and a component's own block carries that step under its host. */
-.sds-accordion__body > :last-child,
-
 /* The space under an answer, drawn rather than padded. Padding is outside the
    height a row can shrink, so as `padding-bottom` it was a floor the fold
    stopped on and then jumped off — the same step, at the start of every open
