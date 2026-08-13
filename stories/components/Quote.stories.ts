@@ -65,9 +65,9 @@ export const Person: Story = {
   },
 };
 
-/** Long enough to be worth borrowing, short enough to read at lead size. A
-    paragraph in quotation marks is a paragraph, and belongs in the column with
-    the rest of them. */
+/** Long enough to be worth borrowing, short enough to stand at heading size.
+    A paragraph in quotation marks is a paragraph, and belongs in the column
+    with the rest of them. */
 export const TooLong: Story = {
   args: {
     body: 'A tool declares the sources it may answer from, the server resolves that declaration against the machine it was started on, a source it cannot reach is not offered, and the result carries the one that answered along with the releases it holds for and everything it left out.',

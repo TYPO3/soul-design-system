@@ -252,9 +252,10 @@ smaller kind of thing than the author of the page it sits in.
    :type: string | markup
    :required: true
 
-   Long enough to be worth borrowing, short enough to read at lead size. No
-   quotation marks are drawn: the block is set apart by its measure and a rule
-   at its start — position rather than ornament.
+   Long enough to be worth borrowing, short enough to stand at heading size:
+   a borrowed sentence is a statement and is set like one. No quotation marks
+   are drawn — the block is set apart by its measure, its size and a rule at
+   its start, which is position rather than ornament.
 
 .. confval:: by
    :name: sds-quote-by

@@ -14,8 +14,8 @@ import { define, SdsElement } from '../lib/element.ts';
 import './byline.ts';
 
 export interface QuoteProps {
-  /** The sentence. Long enough to be worth borrowing, short enough to read at
-      lead size — a paragraph in quotation marks is a paragraph. */
+  /** The sentence. Long enough to be worth borrowing, short enough to stand
+      at heading size — a paragraph in quotation marks is a paragraph. */
   body: string | TemplateResult;
   /** Who said it. A person, a document, a release note. */
   by: string;

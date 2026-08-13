@@ -223,12 +223,18 @@ li > ol { margin-bottom: 0; }
   border-inline-start: 3px solid var(--border-strong);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
+/* A borrowed sentence is a statement, not running text: set at the size of a
+   section heading and led like one, because at reading leading the same words
+   spread into a paragraph that happened to be indented. The weight stays the
+   paragraph's — size is what sets it apart from the text, and weight is what
+   keeps the heading it can stand under louder than it. */
 .sds-quote__body {
   margin: 0;
-  font-size: var(--font-size-lead);
-  line-height: var(--leading-body);
+  font-size: var(--font-size-h3);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
   color: var(--text-primary);
   max-width: var(--measure-lead);
 }
