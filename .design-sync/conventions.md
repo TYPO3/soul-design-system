@@ -25,7 +25,7 @@ Two rules follow, and both are load-bearing:
 | Brand, chrome | `sds-theme` |
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` `sds-checkbox` `sds-radio` `sds-form-errors` |
 | Navigation | `sds-pills` `sds-menu` `sds-tabs`/`sds-tab-item` `sds-rail` `sds-crumbs` `sds-footer` `sds-accordion`/`sds-accordion-item` `sds-search` — search fetches its index on the first keystroke and draws `sds-result` rows in the menu's drop |
-| Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-drawer` `sds-dialog` — `sds-surface` is a *filled* plane and takes `plane="raised|sunken"`; the plane with no fill is a card, and `sds-card` draws it |
+| Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-dialog` — `sds-surface` is a *filled* plane and takes `plane="raised|sunken"`; the plane with no fill is a card, and `sds-card` draws it |
 | Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-image` `sds-embed` `sds-lightbox` `sds-card`/`sds-card-grid` `sds-teaser` `sds-result` `sds-pagination` `sds-pager` — `sds-card` is a way into something and the whole of it is the link; `sds-teaser` is one entry in a list, where only the title is; `sds-card-grid` takes cards and carries how wide the set runs |
 | States | `sds-note` `sds-empty` |
 | Long text | `sds-quote` `sds-byline` `sds-confval` — the first two take `as` for what the source is; `role` is the ARIA attribute and cannot be used. `sds-confval` is one configuration value in a reference: `name`, `anchor`, `required`, `type`, `default`, and `facts` for whatever else the source named |
@@ -93,7 +93,7 @@ inline styles — do not mint a `sds-` name.
 | Form | `sds-form` `sds-field-row` `sds-field-label` `sds-field-req` `sds-field-hint` — a field in a form owes a visible label, a hint under the control and an error under both; a placeholder is not a label |
 | Choices | `sds-check` `sds-check__mark` `sds-check__body` `sds-check__label` `sds-check__hint` `sds-choices`; `sds-form-errors` `sds-form-errors__list` |
 | Tables | `sds-table` + `--compact` `--medium` `--airy`, wrapped in `sds-table-scroll` where it may outgrow its column; cells `sds-td-name` `sds-td-meta` |
-| Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-surface-icon` `sds-surface-title` `sds-surface-body` `sds-overlay` `sds-modal__head|__body|__foot` `sds-drawer` |
+| Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-surface-icon` `sds-surface-title` `sds-surface-body` `sds-overlay` `sds-modal__head|__body|__foot` |
 | Folds | `sds-accordion` `sds-accordion__item` `sds-accordion__head` `sds-accordion__body` — a real `<details>`, so it folds with no script; an answer that is blocks rather than a string goes in `sds-accordion-item` between the tags |
 | Navigation | `sds-pills`/`sds-pill` `sds-menu`/`sds-menu--for`/`sds-menu__items`/`sds-menu__panel`/`sds-menu__toggle` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__item`/`sds-rail__group` |
 | Code | `<sds-code code-lang="bash">` — the attribute is `code-lang`, because `lang` names the human language of the content. `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |

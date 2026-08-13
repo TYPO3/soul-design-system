@@ -42,7 +42,7 @@ Empty and not found
    not a failure: it gets ``actions-info-circle``, not an error colour.
 
 .. specimen:: guidelines/states-empty.card.html
-   :viewport: 700x260
+   :viewport: 700x276
    :title: Empty & not found
 
 Errors and degraded answers
@@ -57,5 +57,5 @@ change that.
 knowledge · 12.4, 13.4". Never praise, never a "done" toast.
 
 .. specimen:: guidelines/states-error.card.html
-   :viewport: 700x430
+   :viewport: 700x460
    :title: Errors & degraded answers

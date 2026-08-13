@@ -94,7 +94,7 @@ To force a mode on a subtree, set `data-theme="light"` or `data-theme="dark"`. S
 Breaking one of these breaks the system, not just the page.
 
 - **One accent.** `--accent` (#FF8700) marks exactly three things: the active navigation item, the shell prompt in a code block, the pipe in the wordmark. No second accent, no gradient, anywhere.
-- **No shadows.** Not on cards, modals, menus or drawers. Separation is a hairline plus `--surface-overlay`. The focus ring is the single `box-shadow` in the system, and it is a state, not depth.
+- **No shadows.** Not on cards, modals or menus. Separation is a hairline plus `--surface-overlay`. The focus ring is the single `box-shadow` in the system, and it is a state, not depth.
 - **No emoji.** Status is a colour plus a glyph from `packages/frontend/assets/icons/` or the mono font (`✓`).
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-support-app install`.
 - **16px is the floor** for both the signet and the icons. Below it: wordmark alone, and no icon at all.
@@ -110,11 +110,11 @@ Breaking one of these breaks the system, not just the page.
 | --- | --- | --- |
 | Structural | `0` | Section rules, table lines, header underline, hairline grids |
 | Control | `--radius-control` 4px | Buttons, fields, selects, tabs, badges, **code blocks** |
-| Container | `--radius-card` 6px | Cards, panels, modals, drawers |
+| Container | `--radius-card` 6px | Cards, panels, modals |
 
 A container must not share its corner with its contents — that is why the card is one step larger.
 
-**Table density.** Compact (30px rows, 13px type) when the list *is* the work: the full tool table, label lists, changelogs. Airy (48px rows, 15px type) when the rows are read rather than scanned: three worked tools, prose-adjacent reference. Medium (38px) if one density must serve both. Never zebra stripes — background changes only on hover or selection, so a highlighted row means something.
+**Table density.** Compact (30px rows, 13px type) when the list *is* the work: the full tool table, label lists, changelogs. Airy (48px rows, 14px type) when the rows are read rather than scanned: three worked tools, prose-adjacent reference. Medium (38px) if one density must serve both. Never zebra stripes — background changes only on hover or selection, so a highlighted row means something.
 
 **Status colour** (`--status-ok`, `--status-warn`, `--status-error`) appears only inside code output, badges, result rows and status-about diagrams. Never as page furniture.
 

@@ -90,7 +90,7 @@ out — the one the rest of the system keeps for a machine's own words.
 .. note::
 
    Three new size tokens would have been duplicates. ``--font-size-h4`` at
-   17px is ``--font-size-body`` under another name. What separates a
+   16px is ``--font-size-body`` under another name. What separates a
    fourth-level heading from the paragraph under it is weight and the air
    above it, which is how a book does it too.
 

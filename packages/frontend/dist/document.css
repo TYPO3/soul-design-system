@@ -1,5 +1,3 @@
-:where(.sds-prose){--block-title-size: var(--font-size-body);--entry-title-size: var(--font-size-h3);--block-body-size: var(--font-size-body);--block-body-leading: var(--leading-body);--block-measure: none}
-:where(.sds-prose) .sds-note p{max-width:none}
 :where(.sds-prose) h1{margin:0 0 var(--space-4);font-size:var(--font-size-h1);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);color:var(--text-primary)}
 :where(.sds-prose) h2{margin:var(--space-10) 0 var(--space-3);font-size:var(--font-size-h2);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);color:var(--text-primary)}
 :where(.sds-prose) h3{margin:var(--space-8) 0 var(--space-2);font-size:var(--font-size-h3);line-height:var(--leading-heading);color:var(--text-primary)}

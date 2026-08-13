@@ -382,7 +382,7 @@ test.describe('what the theme repaired', () => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
     /* The admonition is the paragraph above it with a frame around it, and it
-       used to be the component layer's 12px — right beside 17px prose, twice
+       used to be the component layer's 12px — right beside 16px prose, twice
        on every page of a reference. What is a caption stays small on purpose,
        and that is the other half of the rule: it has to still be true, or the
        repair was a global size change wearing a scope. */

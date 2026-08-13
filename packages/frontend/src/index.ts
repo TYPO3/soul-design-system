@@ -41,7 +41,6 @@ import './components/embed.ts';
 import './components/lightbox.ts';
 import './components/overlay.ts';
 import './components/modal.ts';
-import './components/drawer.ts';
 import './components/dialog.ts';
 import './components/table.ts';
 import './components/card.ts';
@@ -88,7 +87,6 @@ export { SdsEmbed, type EmbedProps } from './components/embed.ts';
 export { SdsLightbox, type LightboxProps } from './components/lightbox.ts';
 export { SdsOverlay } from './components/overlay.ts';
 export { SdsModal } from './components/modal.ts';
-export { SdsDrawer } from './components/drawer.ts';
 export { SdsDialog, type DialogProps } from './components/dialog.ts';
 export { SdsTable, type TableProps, type Column, type Row, type Density } from './components/table.ts';
 export {
@@ -145,7 +143,6 @@ export const TAGS = [
   'sds-lightbox',
   'sds-overlay',
   'sds-modal',
-  'sds-drawer',
   'sds-dialog',
   'sds-table',
   'sds-card',

@@ -48,7 +48,7 @@ const meta: Meta = {
       group: 'States',
       name: 'Errors & degraded answers',
       subtitle: 'Never a bare failure — say what was reached, what was read instead, and what that leaves out',
-      viewport: '700x430',
+      viewport: '700x460',
     }),
   },
 };

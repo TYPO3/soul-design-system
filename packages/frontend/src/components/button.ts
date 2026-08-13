@@ -125,8 +125,8 @@ export class SdsButton extends SdsElement {
       for the navigation it opens, because it is the same relationship. */
   declare for: string;
   /** What it asks of it. `show` unless something else is written, since a
-      button pointed at a viewer, a dialog or a drawer is almost always the one
-      that opens it. */
+      button pointed at a viewer or a dialog is almost always the one that
+      opens it. */
   declare command: string;
   /** That the label is one glyph and the button is the square. Inferred where
       the label can be read, which it cannot be when it arrives as markup rather

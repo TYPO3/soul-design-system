@@ -10,7 +10,7 @@ is also why the specimen draws the modal inside a bordered box rather than
 floating it over the page.
 
 .. specimen:: components/surfaces/surfaces.card.html
-   :viewport: 700x420
+   :viewport: 700x493
    :title: The planes, and what floats over them
 
 The surface and the behaviour are separate
@@ -100,32 +100,12 @@ floating surface.
    laid out — which is the same reason ``sds-surface`` and ``sds-empty`` take a
    ``box-style``.
 
-sds-drawer
-==========
-
-From the right, full height, and carrying no shadow either. A drawer is where
-something is worked on **beside** the page rather than instead of it.
-
-.. confval:: body
-   :name: sds-drawer-body
-   :type: string | markup
-
-.. confval:: width
-   :name: sds-drawer-width
-   :type: number
-   :default: 120
-
-   A property because a drawer is as wide as what it holds: a list of
-   identifiers and a form are not the same drawer.
-
-Like the modal it is a surface and not a behaviour.
-
 sds-overlay
 ===========
 
 The wash a floating surface sits on — ``--surface-overlay``, never a shadow. It
-takes nothing and draws nothing else: what floats on it is a modal or a drawer,
-and each of those is its own element.
+takes nothing and draws nothing else: what floats on it is a modal, and that is
+its own element.
 
 .. code-block:: html
 

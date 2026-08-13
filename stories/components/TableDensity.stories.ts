@@ -94,7 +94,7 @@ export const Compact: Story = { args: props('compact') };
 /** 38px rows. When one density has to serve both readings. */
 export const Medium: Story = { args: props('medium') };
 
-/** 48px rows, 15px type. When the rows are read rather than scanned. */
+/** 48px rows, 14px type. When the rows are read rather than scanned. */
 export const Airy: Story = { args: props('airy') };
 
 export const specimenHtml = (): string => spec(DENSITIES.map(densityRow), { gap: '24px' });

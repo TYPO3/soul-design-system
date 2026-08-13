@@ -130,8 +130,8 @@ export const specimenHtml = (): string =>
         'LINKS UNDERLINE ON HOVER · EXTERNAL CARRIES actions-window-open',
         /* The size belongs to the row, not to the component: `sds-link` sets
            colour and hover only and takes its size from whatever it sits in,
-           and here it sits among 15px controls. */
-        { divided: true, style: 'font-size:15px;' },
+           and here it sits among 14px controls. */
+        { divided: true, style: 'font-size:var(--font-size-ui);' },
     ),
   ]);
 

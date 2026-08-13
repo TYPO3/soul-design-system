@@ -52,7 +52,6 @@ const PENDING = {
     'sds-stat',
     'sds-overlay',
     'sds-modal',
-    'sds-drawer',
     'sds-dialog',
     'sds-pagination',
     'sds-diff',

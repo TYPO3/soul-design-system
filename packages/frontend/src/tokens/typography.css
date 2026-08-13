@@ -9,8 +9,10 @@
   --font-size-h2: 34px;
   --font-size-h3: 20px;
   --font-size-lead: 19px;
-  --font-size-body: 17px;
-  --font-size-ui: 15px;
+  --font-size-body: 16px;
+  /* A control runs tighter than the paragraph beside it, and at 15 it no
+     longer did: one pixel is not a register. */
+  --font-size-ui: 14px;
   --font-size-dense: 13px;
   --font-size-micro: 12px;
   --font-size-label: 11px;

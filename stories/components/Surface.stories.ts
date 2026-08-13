@@ -13,7 +13,7 @@
 
    The card shows the planes *and* the overlays over them, because that claim
    is about the pair too: without a shadow an overlay needs a plane under it to
-   be an overlay of anything. The three that float have their own pages. */
+   be an overlay of anything. What floats has a page of its own. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -23,7 +23,6 @@ import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/overlay.ts';
 import '../../packages/frontend/src/components/modal.ts';
-import '../../packages/frontend/src/components/drawer.ts';
 import '../../packages/frontend/src/components/button.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type SurfaceProps } from '../../packages/frontend/src/components/surface.ts';
@@ -33,9 +32,8 @@ import { dsCard, indent, part, px, spec, specCap } from '../lib/specimen.ts';
 const sdsSurface = ({ plane = 'raised', title, body, label, icon }: SurfaceProps) =>
   html`<sds-surface plane="${plane}" heading="${title}" .body="${body}" label="${label ?? ''}" icon="${ifDefined(icon)}"></sds-surface>`;
 
-/** A plane with a wash, a modal and a drawer over it — the only arrangement
-    in which the no-shadow claim can be read at all. The card is generated
-    from this. */
+/** A plane with a wash and a modal over it — the only arrangement in which
+    the no-shadow claim can be read at all. The card is generated from this. */
 export const scene = (): TemplateResult => html`<sds-overlay></sds-overlay>
 <sds-modal
   heading="Publish the task skills?"
@@ -44,8 +42,7 @@ export const scene = (): TemplateResult => html`<sds-overlay></sds-overlay>
     buttonMarkup({ variant: 'ghost', size: 'sm' }, 'Cancel'),
     buttonMarkup({ variant: 'primary', size: 'sm' }, 'Publish'),
   ]}"
-></sds-modal>
-<sds-drawer .body="${html`<span class=\"spec-cap\">DRAWER</span>`}"></sds-drawer>`;
+></sds-modal>`;
 
 const meta: Meta<SurfaceProps> = {
   title: 'Components/Surface',
@@ -73,7 +70,7 @@ const meta: Meta<SurfaceProps> = {
       path: 'components/surfaces/surfaces.card.html',
       name: 'The planes, and what floats over them',
       subtitle: 'No shadows anywhere — a wash and a border do the separating',
-      viewport: '700x420',
+      viewport: '700x493',
     }),
   },
 };
@@ -129,7 +126,7 @@ export const specimenHtml = (): string =>
       2,
     )}\n</div>`,
     `<div style="position:relative; height:210px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); overflow:hidden; background:var(--surface-canvas);">\n${indent(part(scene()), 2)}\n</div>`,
-    specCap(`OVERLAY --surface-overlay · MODAL CENTRED, MAX ${px(560, 'PX')} · DRAWER FROM THE RIGHT · NO SHADOW ON EITHER`),
+    specCap(`OVERLAY --surface-overlay · MODAL CENTRED, MAX ${px(560, 'PX')} · NO SHADOW UNDER IT`),
   ]);
 
 export const Specimen: Story = {

@@ -70,15 +70,15 @@
   --nav-font-size: var(--font-size-dense);
   --tab-font-size: var(--font-size-micro);
 
-  /* Titled blocks. A block's title and its body are one pair and move as one:
-     `document.css` rebinds them together, so a title cannot keep a size its
-     own body has left. An *entry* — a card, a teaser, a result — is a block
-     whose title is a destination, and it is the louder of the two registers
-     because of that, not because those components each picked a size. */
-  --block-title-size: var(--font-size-ui);
-  --entry-title-size: var(--font-size-body);
-  --block-body-size: var(--font-size-dense);
-  --block-body-leading: 1.45;
+  /* Titled blocks. A block holding sentences is read, so it is set in the
+     reading register wherever it stands: there is no second register for it
+     and nothing to rebind. What is dense is what the machine wrote — a
+     control, a row, a code block, an aside — and each says so itself. */
+  --block-title-size: var(--font-size-body);
+  /* An *entry* is a block whose title is a destination — a card, a teaser, a
+     result. The one distinction a block carries, and it is in the title. */
+  --entry-title-size: var(--font-size-h3);
+  --block-body-size: var(--font-size-body);
 
   /* A line *about* the thing beside it — a caption, a hint, an error, an
      attribution, the note under a value. It is not the block's body and does
@@ -86,6 +86,10 @@
      this stays the dense line that names it. */
   --aside-size: var(--font-size-dense);
   --aside-leading: 1.45;
+  /* Seventy-four characters of that register, stated as the width it comes to
+     rather than as `64ch`: `ch` is the width of the "0" in whatever element the
+     token lands on, so one number would mean several widths. */
+  --aside-measure: 384px;
 
   /* One box, one padding. Every boxed block shares the horizontal value, so a
      card, a note, a modal and a code block start their text on the same edge
@@ -94,10 +98,4 @@
   --block-pad-x: var(--space-4);
   --block-pad-y: var(--space-3-5);
   --block-pad-y-tight: var(--space-2);
-  /* Seventy-four characters of the register above, stated as the width it comes
-     to rather than as `64ch`: `ch` is the width of the "0" in whatever element
-     the token lands on, so one number would mean several widths. This is the
-     dense register's — a note beside a result, a hint under a field. A document
-     rebinds it in `document.css`, where a block is a paragraph. */
-  --block-measure: 384px;
 }

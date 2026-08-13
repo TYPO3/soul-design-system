@@ -26,7 +26,6 @@ import './components/embed.ts';
 import './components/lightbox.ts';
 import './components/overlay.ts';
 import './components/modal.ts';
-import './components/drawer.ts';
 import './components/dialog.ts';
 import './components/table.ts';
 import './components/card.ts';
@@ -71,7 +70,6 @@ export { SdsEmbed, type EmbedProps } from './components/embed.js';
 export { SdsLightbox, type LightboxProps } from './components/lightbox.js';
 export { SdsOverlay } from './components/overlay.js';
 export { SdsModal } from './components/modal.js';
-export { SdsDrawer } from './components/drawer.js';
 export { SdsDialog, type DialogProps } from './components/dialog.js';
 export { SdsTable, type TableProps, type Column, type Row, type Density } from './components/table.js';
 export { SdsCode, type CodeBlockProps, type CodeLine, type CodeKind, type CodeLang, } from './components/code.js';
@@ -90,4 +88,4 @@ export { SdsPager, type PagerProps } from './components/pager.js';
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-drawer', 'sds-dialog', 'sds-table', 'sds-card', 'sds-card-grid', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty', 'sds-confval'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-card-grid', 'sds-teaser', 'sds-result', 'sds-pagination', 'sds-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-empty', 'sds-confval'];

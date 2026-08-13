@@ -13,7 +13,7 @@ What follows is not styling. Every rule here is about whether the form can be
 answered by somebody who cannot see all of it at once.
 
 .. specimen:: components/core/form.card.html
-   :viewport: 700x477
+   :viewport: 700x486
    :title: A field in a form
 
 A placeholder is not a label

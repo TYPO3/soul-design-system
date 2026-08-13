@@ -59,7 +59,7 @@ const meta: Meta = {
       group: 'States',
       name: 'Empty & not found',
       subtitle: 'A boundary is an answer — say which source was asked and what it does not cover',
-      viewport: '700x260',
+      viewport: '700x276',
     }),
   },
 };

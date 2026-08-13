@@ -128,7 +128,7 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
       <h2 class="sds-h3" id="registers">The two registers</h2>
       <p>
         A page is written in one of two voices and never between them. Running
-        text is the reading register: a paragraph at 17px, held to a measure,
+        text is the reading register: a paragraph at 16px, held to a measure,
         with headings above it that get quieter as they get deeper. A product
         surface is the dense register: the same scale, four steps down, because
         a surface is scanned rather than read.

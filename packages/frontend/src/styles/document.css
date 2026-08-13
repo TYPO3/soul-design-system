@@ -9,33 +9,6 @@
    Everything is scoped `:where(.sds-prose)`, so a rule weighs what it names and
    no more — written `.sds-prose h3` it would out-specify a component's own. */
 
-/* --------------------------------------------------- a component in text -- */
-
-/* A component standing in a document speaks the document's size: an admonition
-   is the 17px paragraph above it with a border around it, not the dense
-   register a 15px surface is written in. Set on the document and inherited by
-   whatever stands in it, so no block has to be named here to be reached — and
-   an aside, a row and a code block keep their density because each says so
-   with a token the document does not touch. */
-:where(.sds-prose) {
-  --block-title-size: var(--font-size-body);
-  /* Both registers move, or the pair that did not is the one that jumps: an
-     entry's title is a destination and stays the louder of the two here. */
-  --entry-title-size: var(--font-size-h3);
-  --block-body-size: var(--font-size-body);
-  --block-body-leading: var(--leading-body);
-  /* The 384px a note is written to on a product surface is a column inside a
-     document's column. The box runs to the page's own width here, so the text
-     fills it rather than stopping short of a border it has no reason to. */
-  --block-measure: none;
-}
-
-/* The box runs to the column, and the words in it keep the measure — the rule
-   the whole layer is built on, and an admonition is not the exception it was
-   written as. A note held to the measure is a second column inside the first,
-   and a page of them reads as text with a narrower page beside it. */
-:where(.sds-prose) .sds-note p { max-width: none; }
-
 /* ------------------------------------------------------------- headings -- */
 
 /* Six levels, three sizes. The editorial scale ends at `--font-size-h3`

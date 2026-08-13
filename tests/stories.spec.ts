@@ -73,7 +73,6 @@ test('the index lists every component and specimen group', async ({ request }) =
     'Components/Code',
     'Components/Diff',
     'Components/Dialog',
-    'Components/Drawer',
     'Components/Icon',
     'Components/Image',
     'Components/Link',

@@ -27,8 +27,8 @@ later visits use the cached face without a layout-changing swap.
 There is **one scale**. ``tokens/typography.css`` holds every size, and
 ``tokens/controls.css`` binds the component roles to it — a button is
 ``--font-size-ui``, a table head is ``--font-size-label`` — without writing a
-value of its own. Controls still set tighter than prose, a 15px button against
-17px body text, but on the same steps: a size a component needs is one the
+value of its own. Controls still set tighter than prose, a 14px button against
+16px body text, but on the same steps: a size a component needs is one the
 scale already names, or the scale is what gains it.
 
 No half-pixel font sizes. House rule.

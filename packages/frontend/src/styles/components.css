@@ -72,7 +72,7 @@ body {
   line-height: var(--leading-body);
 }
 
-/* Body copy. 17px at 1.65, held to the reading column. `.sds-prose` is what a
+/* Body copy. 16px at 1.65, held to the reading column. `.sds-prose` is what a
    `<p>` already is, and exists for the elements that are not one. */
 .sds-prose,
 p {
@@ -232,7 +232,7 @@ li::marker { color: var(--text-muted); }
 
 /* Inline mono for anything the machine named — tool names, paths, flags,
    versions. Scales with its context instead of pinning a size, so it sits
-   correctly in both a 12px note and 17px body copy. Never title-cased. */
+   correctly in both a 12px note and 16px body copy. Never title-cased. */
 .sds-mono,
 code,
 kbd,
@@ -410,7 +410,7 @@ sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
      position independent of whether it carries a glyph. */
   vertical-align: middle;
   /* And its height independent too: the icon is 16px, so the text line is
-     given the same box rather than the 15px its font would ask for. */
+     given the same box rather than the 14px its font would ask for. */
   line-height: var(--control-icon-size);
   /* A badge is one short fact and is read as one line. Left to wrap it breaks
      at whatever the text offers — a hyphen in a version, a space between two
@@ -554,7 +554,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   font-size: var(--aside-size);
   line-height: var(--aside-leading);
   color: var(--text-muted);
-  max-width: var(--block-measure);
 }
 /* A field holding more than one line stops centring its contents — and gives
    them prose leading. The control leading is for a single line inside a
@@ -645,7 +644,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   font-size: var(--aside-size);
   line-height: var(--aside-leading);
   color: var(--text-muted);
-  max-width: var(--block-measure);
 }
 /* A set of them. `<fieldset>` carries the grouping and the legend, and the
    browser's own border and padding are taken away rather than styled. */
@@ -868,7 +866,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-card__text {
   margin: 0;
   font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  line-height: var(--leading-body);
   color: var(--text-secondary);
 }
 /* The outermost margins of a document's blocks go: the card's padding is
@@ -1032,7 +1030,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-teaser__text {
   margin: 0;
   font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  line-height: var(--leading-body);
   color: var(--text-secondary);
 }
 /* The summary is a sentence when a component writes it and blocks when a
@@ -1065,7 +1063,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-result__text {
   margin: 0;
   font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  line-height: var(--leading-body);
   color: var(--text-secondary);
   max-width: var(--measure-prose);
 }
@@ -1103,9 +1101,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-empty__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
 .sds-empty__body {
   font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  line-height: var(--leading-body);
   color: var(--text-secondary);
-  max-width: var(--block-measure);
 }
 
 /* Overlay is a wash, not a shadow. */
@@ -1142,13 +1139,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   gap: var(--control-gap);
   padding: var(--block-pad-y-tight) var(--block-pad-x);
   border-top: var(--border-hairline) solid var(--border-subtle);
-}
-
-/* The drawer comes from the right and is bounded by a hairline. */
-.sds-drawer {
-  background: var(--surface-raised);
-  border-left: var(--border-hairline) solid var(--border-strong);
-  padding: var(--block-pad-y) var(--block-pad-x);
 }
 
 /* -------------------------------------------------------------- layout -- */
@@ -1286,16 +1276,6 @@ html:has(.sds-bar) {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  /* A reading column is a document that never reached a renderer, so a block
-     standing in it is read at the page's own size — the rebind `document.css`
-     makes, for the layout with the same job. Set here and inherited, with no
-     list of blocks to keep in step: what must stay dense already says so with
-     a token of its own — an aside, a row, a code block. */
-  --block-title-size: var(--font-size-body);
-  --entry-title-size: var(--font-size-h3);
-  --block-body-size: var(--font-size-body);
-  --block-body-leading: var(--leading-body);
-  --block-measure: none;
 }
 .sds-column > :is(h2, .sds-h2) { margin-top: var(--space-6); }
 .sds-column > :is(h3, .sds-h3) { margin-top: var(--space-4); }
@@ -2028,8 +2008,8 @@ sds-rail:not(:defined) {
   width: var(--control-icon-size);
   height: var(--control-icon-size);
   /* Centred on the first line rather than nudged onto it: the question is
-     15px on a surface and 17px in a document, and a typed offset is right
-     for one of them. */
+     the same size as the answer under it, and a typed offset would only ever
+     suit one line height. */
   margin-top: calc((1lh - var(--control-icon-size)) / 2);
   color: var(--text-muted);
   transform: rotate(-90deg);
@@ -2039,7 +2019,7 @@ sds-rail:not(:defined) {
 .sds-accordion__body {
   padding: 0 0 var(--space-5) calc(var(--control-icon-size) + var(--space-3));
   font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  line-height: var(--leading-body);
   color: var(--text-secondary);
 }
 
@@ -2312,7 +2292,7 @@ sds-rail:not(:defined) {
   color: var(--text-muted);
 }
 /* The floor, not the surrounding text's size: a note sits in a page whose
-   body copy is 17px, and an icon that follows it is larger than the title it
+   body copy is 16px, and an icon that follows it is larger than the title it
    stands beside. Same reason the code head pins its own. */
 .sds-note__icon .sds-icon { width: var(--control-icon-size); height: var(--control-icon-size); }
 /* Everything beside the glyph. `min-width: 0` because a flex item's floor is
@@ -2323,9 +2303,8 @@ sds-rail:not(:defined) {
 .sds-note__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
 .sds-note__body {
   font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  line-height: var(--leading-body);
   color: var(--text-secondary);
-  max-width: var(--block-measure);
   margin-top: var(--space-1);
 }
 /* The gap is the one under a title, so a note that has none does not sit on

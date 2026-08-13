@@ -6,7 +6,7 @@
    button and when it is a link.
 
    A link always sets in the type around it. `sds-link` sets colour and
-   hover and nothing else, so it reads at 15px among controls and at 17px in
+   hover and nothing else, so it reads at 14px among controls and at 16px in
    body copy without any caller pinning a size. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';

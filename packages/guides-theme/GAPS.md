@@ -88,7 +88,7 @@ noch nicht gibt. Für eine Rolle wie `guilabel` oder `kbd` ist ein Custom
 Element der falsche Preis: eine Klasse und eine CSS-Regel tun es, und Guides
 setzt die Klasse ohnehin schon.
 
-**Anwendung** — `sds-modal`, `sds-dialog`, `sds-drawer`, `sds-overlay`,
+**Anwendung** — `sds-modal`, `sds-dialog`, `sds-overlay`,
 `sds-field`, `sds-field-error`. In einer Doku-Seite kommt davon nichts vor,
 außer wir stellen die Suche.
 
@@ -137,7 +137,7 @@ eine Doku-Seite als nächstes braucht:
 
 | Element | Heute | Was ein Knoten braucht |
 | --- | --- | --- |
-| `sds-stat`, `sds-modal`, `sds-dialog`, `sds-drawer` | dasselbe Muster | Für eine Doku-Seite zweitrangig |
+| `sds-stat`, `sds-modal`, `sds-dialog` | dasselbe Muster | Für eine Doku-Seite zweitrangig |
 
 ## Auslieferung und Verhalten
 
