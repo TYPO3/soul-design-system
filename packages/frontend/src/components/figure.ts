@@ -9,10 +9,9 @@
    nothing in it for a mode to change. `src/lib/art.ts` tells the two apart. */
 
 import { html, type TemplateResult } from 'lit';
-import './lightbox.ts';
-import { type SdsLightbox } from './lightbox.ts';
 import { art } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
+import { zoom } from '../lib/zoom.ts';
 
 export interface FigureProps {
   /** The file — a drawing this system ships, or an image. */
@@ -98,16 +97,6 @@ export class SdsFigure extends SdsElement {
     super.connectedCallback();
   }
 
-  /** Take the press over from the link. Only where there is something to take
-      it over with: if the viewer has not upgraded, the browser follows the
-      href and the reader still gets the drawing. */
-  private zoom(event: Event): void {
-    const viewer = this.querySelector('sds-lightbox') as SdsLightbox | null;
-    if (!viewer?.show) return;
-    event.preventDefault();
-    viewer.show();
-  }
-
   protected override render(): TemplateResult {
     /* What a renderer wrote, where it wrote one. The two forms answer the
        same question and the nodes win, because they are already in the page:
@@ -118,9 +107,17 @@ export class SdsFigure extends SdsElement {
       ? html`${given}`
       : art(this.src, this.alt, { width: this.width, height: this.height, linked: this.linked });
 
-    const frame = this.zoomable
-      ? html`<a class="sds-zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>`
-      : picture;
+    /* The viewer carries the claim into its head, where the caption is a
+       sentence; a caption written between the tags is markup and the viewer
+       takes an attribute, so that one arrives as the alt text instead. */
+    const press = this.zoomable
+      ? zoom(this, picture, {
+          src: this.src,
+          alt: this.alt,
+          linked: this.linked,
+          caption: typeof this.caption === 'string' ? this.caption : '',
+        })
+      : null;
 
     /* Whichever form the caption arrived in, nodes first. Kept as it came
        rather than wrapped: a renderer writes the `<figcaption>` itself, which
@@ -134,12 +131,10 @@ export class SdsFigure extends SdsElement {
 
     return html`<figure class="sds-figure">
   <div class="sds-figure__frame">
-    ${frame}
+    ${press ? press.trigger : picture}
   </div>
   ${caption}
-  ${this.zoomable
-    ? html`<sds-lightbox src="${this.src}" alt="${this.alt}" ?linked="${this.linked}" caption="${typeof this.caption === 'string' ? this.caption : ''}"></sds-lightbox>`
-    : ''}
+  ${press ? press.viewer : ''}
 </figure>`;
   }
 }

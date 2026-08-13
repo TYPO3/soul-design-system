@@ -10,10 +10,9 @@
    here has to know what a signet is. */
 
 import { html, type TemplateResult } from 'lit';
-import './lightbox.ts';
-import { type SdsLightbox } from './lightbox.ts';
 import { art } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
+import { zoom } from '../lib/zoom.ts';
 
 export interface ImageProps {
   /** The file. An SVG is referenced, anything else is linked. */
@@ -82,16 +81,6 @@ export class SdsImage extends SdsElement {
     super.connectedCallback();
   }
 
-  /** Take the press over from the link. Only where there is something to take
-      it over with: if the viewer has not upgraded, the browser follows the
-      href and the reader still gets the picture. */
-  private zoom(event: Event): void {
-    const viewer = this.querySelector('sds-lightbox') as SdsLightbox | null;
-    if (!viewer?.show) return;
-    event.preventDefault();
-    viewer.show();
-  }
-
   protected override render(): TemplateResult {
     const width = this.width || undefined;
     const height = this.height || undefined;
@@ -103,11 +92,9 @@ export class SdsImage extends SdsElement {
     const cls = this.cls || (width || height ? '' : 'sds-art');
     const picture = art(this.src, this.alt, { cls, width, height, linked: this.linked });
     if (!this.zoomable) return picture;
-    /* The viewer is a sibling of the trigger and not inside it: a `<dialog>`
-       within the link would be a dialog inside an anchor, and the press that
-       opens it would be the press that follows the href. */
-    return html`<a class="sds-zoom" href="${this.src}" title="Open the picture at full size" @click="${this.zoom}">${picture}</a>
-<sds-lightbox src="${this.src}" alt="${this.alt}" ?linked="${this.linked}"></sds-lightbox>`;
+    const { trigger, viewer } = zoom(this, picture, { src: this.src, alt: this.alt, linked: this.linked });
+    return html`${trigger}
+${viewer}`;
   }
 }
 

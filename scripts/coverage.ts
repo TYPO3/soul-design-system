@@ -142,6 +142,18 @@ console.log('   every element appears in the Guides render');
    them. Following the composition keeps this asking "is it in the render"
    rather than "is its name in a template". */
 const emitted = new Map<string, string[]>();
+
+/* What a helper under `src/lib/` writes on the element's behalf, read as the
+   element's own markup. A part two components share is a module rather than a
+   copy in each, and without this, extracting one would take whatever it draws
+   out of the render while the page it produces stays exactly the same. */
+const helped = (source: string): string =>
+  [...source.matchAll(/from '\.\.\/lib\/([\w.-]+)'/g)]
+    .map((m) => join(FRONTEND, 'src', 'lib', m[1] as string))
+    .filter((path) => existsSync(path))
+    .map((path) => readFileSync(path, 'utf8'))
+    .join('\n');
+
 for (const file of walk(join(FRONTEND, 'src', 'components'), ['.ts'])) {
   const source = readFileSync(file, 'utf8');
   const defines = source.match(/define\('(sds-[a-z-]+)'/);
@@ -151,7 +163,7 @@ for (const file of walk(join(FRONTEND, 'src', 'components'), ['.ts'])) {
      component deliberately is not, what its neighbour calls the same option —
      and reading those as composition would credit half the system to any file
      that explains itself. What is left is markup. */
-  const markup = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+  const markup = `${source}\n${helped(source)}`.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
   emitted.set(
     defines[1],
     [...markup.matchAll(/<(sds-[a-z-]+)/g)].map((m) => m[1] as string),
