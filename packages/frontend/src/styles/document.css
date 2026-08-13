@@ -258,12 +258,12 @@
   color: var(--text-primary);
 }
 
-/* A block is machine output and sits on the sunken plane — but not the one
-   `sds-code` renders its `<pre>` into, which carries the border, radius and
-   plane already. The exclusion stops the second box, and the scope does not
-   make it redundant: `:where()` settles only what the component also states,
-   and these three are stated **only here**. The fallback yields. */
-:where(.sds-prose) pre:not(.sds-code__body) {
+/* A block is machine output and sits on the sunken plane — but not the ones a
+   component renders its `<pre>` into: `sds-code` and `sds-diff` both carry the
+   border, radius and plane on the frame around it. The exclusion stops the
+   second box, and the scope does not make it redundant: `:where()` settles only
+   what the component also states, and these three are stated **only here**. */
+:where(.sds-prose) pre:not(.sds-code__body, .sds-diff) {
   margin: 0 0 var(--space-4);
   padding: var(--space-3) var(--space-4);
   overflow-x: auto;
