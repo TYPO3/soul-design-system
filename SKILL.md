@@ -120,6 +120,8 @@ A container must not share its corner with its contents — that is why the card
 
 **A card is a hairline and 6px, no fill.** A panel is a raised fill. Sunken is machine output.
 
+**A titled block carries a pair, not two sizes.** Anything with a heading over its own text takes one of two registers, and both halves move together. A *block* — note, surface, empty state, modal, accordion — is `--block-title-size` over `--block-body-size`. An *entry*, whose title is a destination you open — card, teaser, result — is `--entry-title-size` over that same body. `document.css` rebinds both at once, so a block standing in prose reads at the page's own size. Never set a block's title from `--font-size-*` directly: that is exactly how a title ends up a register away from the text beneath it.
+
 ## Writing
 
 The product's own writing is the model. Declarative, third-person, present tense; the subject is usually the software. Never "we"; "you" only for the reader's own machine.

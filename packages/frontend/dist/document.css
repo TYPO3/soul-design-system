@@ -1,4 +1,4 @@
-:where(.sds-prose) .sds-note,:where(.sds-prose) .sds-teaser,:where(.sds-prose) .sds-card:has(>.sds-card__body){--note-title-size: var(--font-size-body);--note-body-size: var(--font-size-body);--note-body-leading: var(--leading-body);--note-measure: none}
+:where(.sds-prose) .sds-note,:where(.sds-prose) .sds-teaser,:where(.sds-prose) .sds-accordion,:where(.sds-prose) .sds-card:has(>.sds-card__body){--block-title-size: var(--font-size-body);--entry-title-size: var(--font-size-h3);--block-body-size: var(--font-size-body);--block-body-leading: var(--leading-body);--block-measure: none}
 :where(.sds-prose) .sds-note p{max-width:none}
 :where(.sds-prose) h1{margin:0 0 var(--space-4);font-size:var(--font-size-h1);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);color:var(--text-primary)}
 :where(.sds-prose) h2{margin:var(--space-10) 0 var(--space-3);font-size:var(--font-size-h2);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);color:var(--text-primary)}

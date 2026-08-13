@@ -18,16 +18,22 @@
    only — a caption is a label and keeps the smaller register. */
 :where(.sds-prose) .sds-note,
 :where(.sds-prose) .sds-teaser,
+/* An answer holds the paragraphs, lists and code blocks a directive handed
+   over, so it is the document's own text with a question folded over it. */
+:where(.sds-prose) .sds-accordion,
 /* The card that names its own parts, and not the plane of the same name: a
    surface is written in the dense register on purpose. */
 :where(.sds-prose) .sds-card:has(> .sds-card__body) {
-  --note-title-size: var(--font-size-body);
-  --note-body-size: var(--font-size-body);
-  --note-body-leading: var(--leading-body);
+  --block-title-size: var(--font-size-body);
+  /* Both registers move, or the pair that did not is the one that jumps: an
+     entry's title is a destination and stays the louder of the two here. */
+  --entry-title-size: var(--font-size-h3);
+  --block-body-size: var(--font-size-body);
+  --block-body-leading: var(--leading-body);
   /* The 384px a note is written to on a product surface is a column inside a
      document's column. The box runs to the page's own width here, so the text
      fills it rather than stopping short of a border it has no reason to. */
-  --note-measure: none;
+  --block-measure: none;
 }
 
 /* The box runs to the column, and the words in it keep the measure — the rule

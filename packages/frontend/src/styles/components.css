@@ -188,7 +188,7 @@ li::marker { color: var(--text-muted); }
   max-width: var(--measure-lead);
 }
 .sds-quote__by {
-  font-size: var(--note-body-size);
+  font-size: var(--block-body-size);
   color: var(--text-muted);
 }
 
@@ -516,7 +516,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: var(--note-body-size);
+  font-size: var(--block-body-size);
   color: var(--status-error);
 }
 
@@ -543,10 +543,10 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   color: var(--text-muted);
 }
 .sds-field-hint {
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-muted);
-  max-width: var(--note-measure);
+  max-width: var(--block-measure);
 }
 /* A field holding more than one line stops centring its contents — and gives
    them prose leading. The control leading is for a single line inside a
@@ -634,10 +634,10 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   color: var(--text-primary);
 }
 .sds-check__hint {
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-muted);
-  max-width: var(--note-measure);
+  max-width: var(--block-measure);
 }
 /* A set of them. `<fieldset>` carries the grouping and the legend, and the
    browser's own border and padding are taken away rather than styled. */
@@ -769,11 +769,11 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-panel { background: var(--surface-raised); }
 .sds-sunken { background: var(--surface-sunken); }
 
-.sds-surface-title { font-size: var(--font-size-ui); font-weight: var(--weight-semibold); }
+.sds-surface-title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); }
 /* The label sits over the title with the title's own leading between them. */
 .sds-surface-title:not(:first-child) { margin-top: 6px; }
 .sds-surface-body {
-  font-size: var(--note-body-size);
+  font-size: var(--block-body-size);
   line-height: 1.5;
   color: var(--text-secondary);
   margin-top: 5px;
@@ -849,7 +849,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    title is the card's own voice wherever the link turned out to be. */
 .sds-card__title {
   margin: 0;
-  font-size: var(--font-size-h3);
+  font-size: var(--entry-title-size);
   line-height: var(--leading-heading);
   color: var(--text-primary);
 }
@@ -859,8 +859,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-card__title a { color: inherit; text-decoration: none; }
 .sds-card__text {
   margin: 0;
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-secondary);
 }
 /* The outermost margins of a document's blocks go: the card's padding is
@@ -881,8 +881,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   padding: var(--space-4) 16px var(--space-2);
 }
 .sds-card__note {
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-muted);
 }
 /* What the card does, said in words. Not a control: the card is the link, and
@@ -893,7 +893,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   align-items: center;
   gap: 6px;
   margin-left: auto;
-  font-size: var(--note-body-size);
+  font-size: var(--block-body-size);
   font-weight: var(--weight-semibold);
   color: var(--text-link);
   white-space: nowrap;
@@ -917,7 +917,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   color: var(--text-primary);
 }
 .sds-stat__note {
-  font-size: var(--note-body-size);
+  font-size: var(--block-body-size);
   line-height: 1.5;
   color: var(--text-secondary);
 }
@@ -938,8 +938,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   overflow: hidden;
 }
 .sds-figure__caption {
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-muted);
   max-width: var(--measure-prose);
 }
@@ -972,8 +972,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    document rather than stretching a plane out beside it. */
 .sds-embed__frame--fixed { width: max-content; max-width: 100%; overflow: auto; }
 .sds-embed__caption {
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-muted);
   max-width: var(--measure-prose);
 }
@@ -1015,7 +1015,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    of six orange headlines is a page with no hierarchy left to spend. */
 .sds-teaser__title {
   margin: 0;
-  font-size: var(--font-size-h3);
+  font-size: var(--entry-title-size);
   line-height: var(--leading-heading);
   color: var(--text-primary);
 }
@@ -1023,8 +1023,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-teaser__title a:hover { text-decoration: underline; }
 .sds-teaser__text {
   margin: 0;
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-secondary);
 }
 /* The summary is a sentence when a component writes it and blocks when a
@@ -1046,7 +1046,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   border-bottom: var(--border-hairline) solid var(--border-subtle);
 }
 .sds-result:first-child { border-top: var(--border-hairline) solid var(--border-subtle); }
-.sds-result__title { margin: 0; font-size: var(--font-size-h3); line-height: var(--leading-heading); }
+.sds-result__title { margin: 0; font-size: var(--entry-title-size); line-height: var(--leading-heading); }
 /* The title is the link here, and it *is* link-coloured — unlike a teaser's.
    A result exists to be opened; a card exists to be read and sometimes
    opened, and the difference is worth a colour. */
@@ -1056,8 +1056,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-result__path { font-family: var(--font-mono); font-size: var(--font-size-micro); color: var(--text-muted); }
 .sds-result__text {
   margin: 0;
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-secondary);
   max-width: var(--measure-prose);
 }
@@ -1092,12 +1092,12 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    at all. Status colour appears in neither: nothing failed. */
 .sds-empty__icon { color: var(--text-muted); }
 .sds-empty--boundary .sds-empty__icon { color: var(--text-accent-quiet); }
-.sds-empty__title { font-size: var(--font-size-ui); font-weight: var(--weight-semibold); }
+.sds-empty__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); }
 .sds-empty__body {
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-secondary);
-  max-width: var(--note-measure);
+  max-width: var(--block-measure);
 }
 
 /* Overlay is a wash, not a shadow. */
@@ -1119,12 +1119,12 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   justify-content: space-between;
   padding: 11px 14px;
   border-bottom: var(--border-hairline) solid var(--border-subtle);
-  font-size: var(--control-font-size);
+  font-size: var(--block-title-size);
   font-weight: var(--weight-semibold);
 }
 .sds-modal__body {
   padding: 13px 14px;
-  font-size: var(--note-body-size);
+  font-size: var(--block-body-size);
   line-height: 1.55;
   color: var(--text-secondary);
 }
@@ -1560,7 +1560,7 @@ html:has(.sds-bar) {
   border-radius: var(--radius-card);
 }
 .sds-search__panel .sds-result { padding-block: var(--space-3); }
-.sds-search__panel .sds-result__title { font-size: var(--font-size-ui); }
+.sds-search__panel .sds-result__title { font-size: var(--block-title-size); }
 /* An empty answer in the drop is not a card in it. `sds-empty` draws its own
    box because it usually stands in a column with nothing around it; here the
    panel is already the box, and the two hairlines read as a card that failed
@@ -1973,7 +1973,11 @@ sds-rail:not(:defined) {
   align-items: flex-start;
   gap: var(--space-3);
   padding: var(--space-4) 0;
-  font-size: var(--font-size-ui);
+  /* The pair every block with a title carries, so a question follows the
+     register it stands in instead of naming a size of its own. It was the one
+     head set below its own body, which reads as a caption over an article. */
+  font-size: var(--block-title-size);
+  font-weight: var(--weight-semibold);
   color: var(--text-primary);
   transition: color var(--duration-fast) var(--ease-out);
 }
@@ -1993,8 +1997,8 @@ sds-rail:not(:defined) {
 .sds-accordion__item[open] > .sds-accordion__head .sds-icon { transform: none; }
 .sds-accordion__body {
   padding: 0 0 var(--space-5) calc(var(--control-icon-size) + var(--space-3));
-  font-size: var(--font-size-body);
-  line-height: var(--leading-body);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-secondary);
 }
 
@@ -2101,7 +2105,7 @@ sds-rail:not(:defined) {
 
 /* What the block is, above it. */
 .sds-code__caption {
-  font-size: var(--note-body-size);
+  font-size: var(--block-body-size);
   color: var(--text-muted);
   margin-bottom: var(--space-2);
 }
@@ -2263,12 +2267,12 @@ sds-rail:not(:defined) {
    would otherwise make its longest line the width of the note, and the note
    the width of the page. Same reason `.sds-code` states it. */
 .sds-note__content { min-width: 0; }
-.sds-note__title { font-size: var(--note-title-size); font-weight: var(--weight-semibold); }
+.sds-note__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); }
 .sds-note__body {
-  font-size: var(--note-body-size);
-  line-height: var(--note-body-leading);
+  font-size: var(--block-body-size);
+  line-height: var(--block-body-leading);
   color: var(--text-secondary);
-  max-width: var(--note-measure);
+  max-width: var(--block-measure);
   margin-top: 4px;
 }
 /* The gap is the one under a title, so a note that has none does not sit on

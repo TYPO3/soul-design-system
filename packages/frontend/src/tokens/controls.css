@@ -68,14 +68,19 @@
   --nav-font-size: var(--font-size-code);
   --tab-font-size: var(--font-size-micro);
 
-  /* Status blocks — an answer with its source and its bounds. */
-  --note-title-size: var(--font-size-ui);
-  --note-body-size: var(--font-size-micro);
-  --note-body-leading: 1.45;
+  /* Titled blocks. A block's title and its body are one pair and move as one:
+     `document.css` rebinds them together, so a title cannot keep a size its
+     own body has left. An *entry* — a card, a teaser, a result — is a block
+     whose title is a destination, and it is the louder of the two registers
+     because of that, not because those components each picked a size. */
+  --block-title-size: var(--font-size-ui);
+  --entry-title-size: var(--font-size-body);
+  --block-body-size: var(--font-size-micro);
+  --block-body-leading: 1.45;
   /* Seventy-four characters of the register above, stated as the width it comes
      to rather than as `64ch`: `ch` is the width of the "0" in whatever element
      the token lands on, so one number would mean several widths. This is the
      dense register's — a note beside a result, a hint under a field. A document
-     rebinds it in `document.css`, where a note is a paragraph. */
-  --note-measure: 384px;
+     rebinds it in `document.css`, where a block is a paragraph. */
+  --block-measure: 384px;
 }

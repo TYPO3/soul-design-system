@@ -175,6 +175,15 @@ site is rendered along it, with the same file a reader runs.
   own; by the time it was converged only buttons (14 → 15px) and table heads
   (10 → 11px) still sat off the editorial steps, and that was the whole cost.
   Controls still set tighter than prose — that part was never the problem.
+- **A block's title and its body are one pair.** Two registers carry every
+  titled block: `--block-*` for a note, surface, empty state, modal or
+  accordion, `--entry-*` for the ones whose title is a destination — card,
+  teaser, result. `document.css` rebinds both together. They were `--note-*`
+  while only a note used them, and by the time most blocks did, a body could
+  change register while the title over it stayed put; the distance between the
+  two ran 0, 2 and 5 steps depending on which component you looked at, and the
+  accordion's question sat a step *below* its own answer. The pair is the fix:
+  a component picks a register, never a size.
 - **No half-pixel font sizes.** House rule. 121 of them were rounded half-up
   across the cards; `--font-size-code` went 13.5 → 13px to match the code
   blocks that already rendered at 13. Keep it that way — `make verify`
