@@ -75,7 +75,6 @@ const summary = (): string =>
 
 const meta: Meta = {
   title: 'Specimens/Form layer',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

@@ -36,7 +36,6 @@ const line = ({ size, token, hex, sample, link }: Voice): string => {
 
 const meta: Meta = {
   title: 'Specimens/Colours/Text',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

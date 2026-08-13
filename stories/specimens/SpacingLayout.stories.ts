@@ -32,7 +32,6 @@ const column = (): string =>
 
 const meta: Meta = {
   title: 'Specimens/Spacing/Layout frame',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

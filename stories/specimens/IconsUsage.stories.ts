@@ -107,7 +107,6 @@ const labelled = (): string =>
 
 const meta: Meta = {
   title: 'Specimens/Icons/Usage',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

@@ -38,7 +38,6 @@ const image = ({ file, subject }: (typeof IMAGES)[number]): string => `<figure s
 
 const meta: Meta = {
   title: 'Specimens/Illustrations/The set',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

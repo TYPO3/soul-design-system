@@ -37,7 +37,6 @@ const CARD = `<div style="padding:22px; display:flex; gap:36px; align-items:cent
 
 const meta: Meta = {
   title: 'Specimens/Brand/Clear space & minimum size',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

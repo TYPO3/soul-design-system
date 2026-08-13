@@ -39,7 +39,6 @@ const CARD = `<div style="padding:22px; display:flex; align-items:flex-end; gap:
 
 const meta: Meta = {
   title: 'Specimens/Brand/Stacked lockup & app icon',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

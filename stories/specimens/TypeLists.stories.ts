@@ -42,7 +42,6 @@ const PLAIN = `<ul class="sds-list sds-list--plain">
 
 const meta: Meta = {
   title: 'Specimens/Type/Lists',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

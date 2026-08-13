@@ -19,7 +19,6 @@ const H2 =
 
 const meta: Meta = {
   title: 'Specimens/Type/Display & headings',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

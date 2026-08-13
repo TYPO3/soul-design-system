@@ -40,7 +40,6 @@ const column = ({ paint, name, hex }: Column): string =>
 
 const meta: Meta = {
   title: 'Specimens/Colours/Accent',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

@@ -30,7 +30,6 @@ const RAIL: NavProps = { items: ['typo3_icon_lookup', 'typo3_label_lookup', 'typ
 
 const meta: Meta = {
   title: 'Specimens/Navigation',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

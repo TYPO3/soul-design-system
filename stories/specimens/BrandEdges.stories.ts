@@ -40,7 +40,6 @@ const CARD = `<div class="spec">
 
 const meta: Meta = {
   title: 'Specimens/Brand/Edges & radii',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

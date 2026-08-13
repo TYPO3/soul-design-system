@@ -64,7 +64,6 @@ const CARD = `<div class="spec-pad" style="display:grid; grid-template-columns:r
 
 const meta: Meta = {
   title: 'Specimens/Brand/Misuse',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

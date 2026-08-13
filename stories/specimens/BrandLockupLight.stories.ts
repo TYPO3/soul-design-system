@@ -30,7 +30,6 @@ const CARD = `<div style="padding:24px 22px; display:flex; flex-direction:column
 
 const meta: Meta = {
   title: 'Specimens/Brand/Primary lockup — light',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

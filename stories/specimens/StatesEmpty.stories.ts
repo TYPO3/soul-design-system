@@ -51,7 +51,6 @@ const outOfScope = (): string =>
 
 const meta: Meta = {
   title: 'Specimens/States/Empty & not found',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

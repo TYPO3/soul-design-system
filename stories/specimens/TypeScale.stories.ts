@@ -57,7 +57,6 @@ const step = ({ token, size, drawn, tracking, leading, mono, sample }: Step): st
 
 const meta: Meta = {
   title: 'Specimens/Type/Type scale',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

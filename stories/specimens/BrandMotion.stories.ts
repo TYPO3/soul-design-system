@@ -25,7 +25,6 @@ const CARD = `<div class="spec-pad" style="display:flex; gap:14px; align-items:c
 
 const meta: Meta = {
   title: 'Specimens/Brand/States & motion',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

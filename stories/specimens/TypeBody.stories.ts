@@ -20,7 +20,6 @@ const BODY =
 
 const meta: Meta = {
   title: 'Specimens/Type/Body & lead',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

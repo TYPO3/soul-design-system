@@ -18,7 +18,6 @@ const NOTES = [
 
 const meta: Meta = {
   title: 'Specimens/Diagrams/System overview',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

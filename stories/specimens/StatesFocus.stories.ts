@@ -33,7 +33,6 @@ const rules = (): string =>
 
 const meta: Meta = {
   title: 'Specimens/States/Focus & keyboard',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

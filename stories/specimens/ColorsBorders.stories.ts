@@ -23,7 +23,6 @@ const row = (mode: 'light' | 'dark'): readonly string[] =>
 
 const meta: Meta = {
   title: 'Specimens/Colours/Borders',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

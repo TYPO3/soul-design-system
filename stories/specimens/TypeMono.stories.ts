@@ -25,7 +25,6 @@ const block = (): string =>
 
 const meta: Meta = {
   title: 'Specimens/Type/Mono & labels',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

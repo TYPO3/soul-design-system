@@ -82,7 +82,6 @@ const CARD = `<div class="spec" style="--spec-gap:20px">
 
 const meta: Meta = {
   title: 'Specimens/Brand/Signet — the family',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

@@ -94,7 +94,6 @@ ${indent(drawing, 2)}
 
 const meta: Meta = {
   title: 'Specimens/Diagrams/Drawing rules',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

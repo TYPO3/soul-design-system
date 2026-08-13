@@ -37,7 +37,6 @@ const skeleton = (): string =>
 
 const meta: Meta = {
   title: 'Specimens/States/Loading',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

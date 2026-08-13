@@ -44,7 +44,6 @@ const NOTE =
 
 const meta: Meta = {
   title: 'Specimens/Icons/The set',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

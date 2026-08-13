@@ -23,7 +23,6 @@ const step = (px: number): string =>
 
 const meta: Meta = {
   title: 'Specimens/Spacing/Space scale',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({

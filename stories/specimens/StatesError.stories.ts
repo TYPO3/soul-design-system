@@ -5,9 +5,9 @@
    shows is what a product surface gets — and a change to the note arrives
    here without anybody editing this card.
 
-   Not a page. No `autodocs`, so nothing of it appears in the sidebar as
-   documentation: `Note.stories.ts` is where the component is read. This is
-   the still picture the guideline embeds. */
+   Not a page. No `autodocs`, so it stands in the sidebar as the still picture
+   the guideline embeds rather than as documentation of the note — that is
+   `Note.stories.ts`, where the component is read. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -40,7 +40,6 @@ const note = ({ tone, heading, body }: NoteProps): TemplateResult =>
 
 const meta: Meta = {
   title: 'Specimens/States/Errors & degraded answers',
-  tags: ['!dev'],
   excludeStories: ['specimenHtml'],
   parameters: {
     dsCard: dsCard({
