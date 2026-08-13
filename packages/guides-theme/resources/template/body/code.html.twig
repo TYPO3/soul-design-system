@@ -1,7 +1,7 @@
 {#
     A code block, coloured on the server.
 
-    Two things are decided here and both are in `guides-theme/GAPS.md`.
+    The decisions behind this template are in `guides-theme/GAPS.md`.
 
     **The colour is the server's.** `guides-code` highlights with a PHP port of
     highlight.js, so what lands in the page already carries `hljs-` classes —
@@ -24,6 +24,18 @@
 #}
 {% if node.raw %}
     {{ node.value|raw }}
+{%- elseif node.language == 'diff' -%}
+    {#- A diff is machine output in the same frame and a different body: the
+        rows carry status colour, which is the one place in this system a fill
+        marks a line. It arrives as the language an author already writes, so
+        no page is rewritten to get it, and the caption names the file the way
+        the element's `path` does. The rows are read by `diff_rows` because
+        `sds-diff__line` is the element's name for its own node — a template
+        writing one has made it public API. -#}
+    <sds-diff body="{{ node.value|diff_rows|json_encode }}"
+        {%- if node.caption %} path="{{ renderNode(node.caption)|striptags|trim }}"{% endif -%}
+        {%- if node.classes %} class="{{ node.classesString }}"{% endif -%}
+    ></sds-diff>
 {%- else -%}
     {#- The element, not a hand-built frame.
 

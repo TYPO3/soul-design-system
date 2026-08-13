@@ -23,6 +23,7 @@ use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Twig\AnchorExtension;
+use TYPO3\Soul\GuidesTheme\Twig\DiffExtension;
 use TYPO3\Soul\GuidesTheme\Twig\LinkExtension;
 use TYPO3\Soul\GuidesTheme\Twig\ThemeExtension;
 
@@ -115,6 +116,12 @@ return static function (ContainerConfigurator $container): void {
         /* And the other half: the id for a place the parser anchored nowhere,
            named by the normalizer that names every other anchor. */
         ->set(AnchorExtension::class)
+        ->tag('twig.extension')
+
+        /* And the rows of a diff, read out of the block a `code-block:: diff`
+           carries — see `DiffExtension` for why the reading is not the
+           template's and not the element's. */
+        ->set(DiffExtension::class)
         ->tag('twig.extension')
 
         ->set(ThemeExtension::class)

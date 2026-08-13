@@ -201,6 +201,24 @@ A literal block introduced by a double colon::
    A block whose language is text: escaped, uncoloured, and the honest
    answer when nobody said what it is.
 
+A block whose language is ``diff`` is a different body in the same frame: the
+rows carry status colour, the caption names the file, and the two file headers
+of the format are left as context — the head above them already says which file
+this is.
+
+.. code-block:: diff
+   :caption: composer.json
+
+   --- a/composer.json
+   +++ b/composer.json
+    {
+        "require": {
+   -        "typo3/cms-core": "^12.4",
+   +        "typo3/cms-core": "^13.4",
+            "typo3/soul-guides-theme": "^1.0"
+        }
+    }
+
 Tables
 ======
 

@@ -105,6 +105,47 @@ that arrived uncoloured is coloured by the element.
 
       return ['siteTitle' => 'TYPO3'];
 
+A diff is the one language that changes the body
+================================================
+
+``.. code-block:: diff`` is drawn by ``sds-diff`` rather than ``sds-code``:
+the same frame and the same head, and rows that carry status colour — the one
+place in this system a fill marks a line. It is the spelling an author already
+writes, so a page that documents an upgrade gets it without being rewritten,
+and ``:caption:`` names the file the way the element's own ``path`` does.
+
+.. code-block:: text
+
+   .. code-block:: diff
+      :caption: composer.json
+
+      --- a/composer.json
+      +++ b/composer.json
+       {
+      -    "typo3/cms-core": "^12.4"
+      +    "typo3/cms-core": "^13.4"
+       }
+
+That source, on this page:
+
+.. code-block:: diff
+   :caption: composer.json
+
+   --- a/composer.json
+   +++ b/composer.json
+    {
+   -    "typo3/cms-core": "^12.4"
+   +    "typo3/cms-core": "^13.4"
+    }
+
+The two file headers of the format stay context rather than reading as a line
+added and a line removed — the head above them already says which file this
+is. Everything else unmarked is context, which covers ``@@`` and
+``diff --git`` without either being named. The rows are read on the server, so
+a reader with no JavaScript gets the colour too; ``:linenos:`` and
+``:emphasize-lines:`` do not apply, because a diff states which lines changed
+and a gutter of numbers nobody cites is decoration.
+
 .. warning::
 
    A fenced Markdown block with **no language** kills a render. The Markdown

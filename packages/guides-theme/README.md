@@ -97,6 +97,7 @@ the element, because an author who wrote it meant it for their own stylesheet.
 | `.. button-bar::` | The presses of a page on one line, centred against each other so a link beside a button sits right. Named the way `card-grid` is, and layout rather than a component, so it has no variant. `:class:` |
 | `.. accordion::` | A set of questions with their answers folded behind them, exclusive unless `:multiple:`. `:name:` is the group, and two sets on a page need different ones; a set that writes none is given one. `:class:` |
 | `.. accordion-item:: <question>` | One question, and the blocks folded behind it. `:open:` stands it open (`:show:` is the Bootstrap theme's name for the same flag), `:class:`; `:header-level:` and `:name:` are accepted and dropped |
+| `.. code-block:: diff` | Not a directive of the theme's — the core's, drawn differently. A block whose language is `diff` becomes `sds-diff` instead of `sds-code`: the same frame and head, and rows carrying status colour, read on the server so a page needs no script for them. `:caption:` names the file; the format's `+++` and `---` headers stay context, and `:linenos:` and `:emphasize-lines:` do not apply |
 | `.. specimen:: <card>` | A rendered card of the project's own, embedded in a frame at the size it was measured at. The argument is a path under `_cards/` in the documentation source. `:viewport:` (`700x260`), `:title:` |
 
 A landing page, and the manual page beside it:

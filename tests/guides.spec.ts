@@ -657,6 +657,27 @@ test.describe('what the theme repaired', () => {
     await expect(planes.locator('.sds-label')).toHaveText('Rule 02');
   });
 
+  test('a diff is drawn as one, and its rows are coloured by the server', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The language an author already writes, drawn by the other element: same
+       frame, same head, and a body where a fill marks the line. */
+    const diff = page.locator('sds-diff');
+    await expect(diff).toHaveCount(1);
+    await expect(diff.locator('.sds-code__path')).toHaveText('composer.json');
+    await expect(diff.locator('.sds-diff__line--del')).toContainText('"^12.4"');
+    await expect(diff.locator('.sds-diff__line--add')).toContainText('"^13.4"');
+
+    /* The two file headers are context: the head above them already says which
+       file this is, and tinting them says a file was added and removed. */
+    const headers = diff.locator('.sds-diff__line', { hasText: 'a/composer.json' });
+    await expect(headers.locator('.sds-diff__mark')).toHaveCount(0);
+
+    /* And it is not the code block: a diff that fell through would arrive as
+       an `sds-code` carrying the same text. */
+    await expect(page.locator('sds-code[code-lang="diff"]')).toHaveCount(0);
+  });
+
   test('a borrowed sentence keeps its markup and names where it came from', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

@@ -50,7 +50,6 @@ const PENDING = {
     'sds-modal',
     'sds-dialog',
     'sds-pagination',
-    'sds-diff',
   ],
   themeClasses: [] as string[],
 };
