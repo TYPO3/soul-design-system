@@ -18,6 +18,7 @@ together in this repository.
    :titlesonly:
 
    source-and-output
+   component-evidence
 
 Start with the source
 =====================
@@ -26,3 +27,11 @@ Every maintained artefact has one hand-written source. A generated file can be
 useful evidence and may be committed for a consumer, but it is never the place
 where a change begins. :doc:`source-and-output` maps each output back to the
 source and task that own it.
+
+Require visible evidence
+========================
+
+An element in source is not enough to make it a maintained component.
+:doc:`component-evidence` explains why stories, drawn classes and the Guides
+render catch different failures, and how ``make verify ARGS=coverage`` keeps
+temporary gaps from becoming permanent exemptions.
