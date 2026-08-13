@@ -5,6 +5,18 @@ layer, and the Lit elements. Everything else in this repo is generated from
 those three — the specimen cards, the Storybook pages, the npm package, and
 the guide the claude.ai design agent builds with.
 
+**Status: experimental.** There is no stable release, registry package,
+deprecation path or upgrade path yet. A consuming project pins a commit or a
+tag from one of the package mirrors and moves deliberately; token, class and
+component names may still change.
+
+| I want to | Start with |
+| --- | --- |
+| use the class layer or the web components | [Using it in another project](#using-it-in-another-project) |
+| publish a documentation site | [`docs/guides-theme/example.rst`](docs/guides-theme/example.rst) |
+| explore the design rules and specimens | [`docs/design-system/index.rst`](docs/design-system/index.rst) |
+| change this repository | [Maintaining it here](#maintaining-it-here) |
+
 `sds-` is the system's initials, and they are the reason the prefix survived
 the rename: Soul Design System reads the same as the one it replaced. Not a
 class, a token or a tag had to move.
@@ -24,9 +36,9 @@ DOM* and emit exactly those classes, so `components.css` stays the single
 source of truth and the two are the same markup:
 
 ```js
-import '@typo3/soul-frontend/src/index.ts';
+import '@typo3/soul-frontend';
 
-// <sds-button variant="primary" label="Run the checks"></sds-button>
+// <sds-button variant="primary">Run the checks</sds-button>
 ```
 
 Neither is a fallback for the other. The product this dresses is plain PHP
@@ -67,13 +79,6 @@ itself with is built from the same tokens and the same class vocabulary as
 what it explains itself with. `docs/design-system/screens.rst` says which layouts
 they stand on.
 
-**And it is still being built.** None of this is settled enough to be treated
-as a stable interface: tokens get renamed, classes are added and dropped, and
-a component's markup changes whenever a page finds out what it was missing.
-There is no release, no deprecation path and nothing to upgrade through — a
-consuming project pins a commit, and moves when it decides to. The direction
-is not in question; the names still are.
-
 ## What is generated from it
 
 | Output | Command | What it is |
@@ -85,18 +90,20 @@ is not in question; the names still are.
 | `packages/frontend/dist/` | `make dist` | the publishable ESM package and its types |
 | `.out/bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these real classes instead of generic ones |
 
-`.out/` is where everything generated goes that git does not keep — those two,
-the built Storybook, the suite's output, the assembled split packages. One
-root, and `make clean` removes it whole.
+`.out/` is the root for generated output that git does not keep: the rendered
+site, the built Storybook, the suite's output and the assembled split packages.
+`make clean` removes it whole.
 
-None of them is edited by hand. Change a component in `packages/frontend/src/`, change the
-class layer in `styles/`, change a value in `tokens/` — then regenerate.
+None of them is edited by hand. Change a component in
+`packages/frontend/src/components/`, the class layer in
+`packages/frontend/src/styles/components.css`, or a value in
+`packages/frontend/src/tokens/` — then regenerate.
 
 `ARCHITECTURE.md` says how the pieces are wired and which decisions are
 load-bearing. `SKILL.md` is the operating instruction for designing *with*
 the system, and `RATIONALE.md` says why each of its rules exists.
 
-## Start
+## Maintaining it here
 
 **Docker is the only requirement.** No Node version to match, no `npm ci`, no
 `playwright install` — every task runs in the container, and there is one way
@@ -127,8 +134,9 @@ kills reloading.
 
 ## Using it in another project
 
-There is no registry yet, and none is needed — npm resolves a public git
-repository directly, in CI as well as locally:
+There is no npm registry release yet. Until there is one, install the public
+frontend mirror by a tag or commit; a branch is a moving target and can change
+without a commit in the consuming project:
 
 ```json
 "devDependencies": {
@@ -136,13 +144,19 @@ repository directly, in CI as well as locally:
 }
 ```
 
-No build runs on install: this package has no `prepare` script, and the CSS
-exports point at `packages/frontend/src/`, not at a compiled artefact.
+The mirror is assembled from `packages/frontend/` and carries the committed
+`dist/`, fonts and brand assets. No build runs on install: the package entry is
+`dist/index.js`, with Lit as a peer dependency.
 
 ```js
+import '@typo3/soul-frontend';                 // every sds- element
 import '@typo3/soul-frontend/dist/soul.css';   // tokens + class layer
-import '@typo3/soul-frontend/dist/soul.js';    // every sds- element
 ```
+
+Install `lit` beside it. Do not import `src/index.ts` from a git dependency:
+the source tree refers to generated icon modules that are restored in this
+repository, while the package entry and the committed drop-in already contain
+what a consumer needs.
 
 **A second stylesheet, for documents only.** `packages/frontend/dist/document.css` is the
 document layer: element selectors for what a renderer emits and never gives a
@@ -160,34 +174,20 @@ aliases, on purpose: an alias is a second name for one file, and the two drift
 or, worse, both work and mean slightly different things. What you read here is
 what you write there.
 
-**Take `packages/frontend/dist/` over a git install.** It is committed, it carries its own Lit,
-and it needs nothing installed beside it. `packages/frontend/src/` is exported too, but it does
-not compile from a clone: `packages/frontend/src/lib/icons.generated.ts` is generated from
-`@typo3/icons` and is not in the repository, so `packages/frontend/src/components/icon.ts`
-imports a file that is not there. Reach for `packages/frontend/src/` only in a checkout that has
-run the generators.
-
-Or skip the bundler entirely — copy `packages/frontend/dist/` somewhere public and link it:
+Or skip the bundler entirely — copy `dist/` from the frontend mirror somewhere
+public and link the drop-in. Copy the directory whole: the stylesheet resolves
+the fonts beside itself and the script resolves the icon sprite inside it.
 
 ```html
+<script src="/soul/soul-boot.js"></script>
 <link rel="stylesheet" href="/soul/soul.css">
 <script type="module" src="/soul/soul.js"></script>
 ```
 
-**What a git install does and does not carry.** `packages/frontend/src/tokens/`, `packages/frontend/src/styles/`
-and the brand assets under `packages/frontend/assets/` are in the repository and arrive.
-`packages/frontend/assets/icons/`, `packages/frontend/fonts/` and `packages/frontend/dist/` are generated here and gitignored, so
-they do not — and deliberately:
-
-| you want | take it from | why not from here |
-| --- | --- | --- |
-| the icons | `@typo3/icons` | they are TYPO3's, not ours. `scripts/icons.ts` names the identifiers this system uses; copy that list, not the files |
-| the font families | `@fontsource/source-sans-3`, `@fontsource/source-code-pro` | same reason, and your bundler wants its own subsetting |
-| a prebuilt `<script src>` bundle | `make dist`, unpublished | a build product. If you bundle, import `packages/frontend/src/index.ts` instead |
-
-A copy of an upstream file is a copy that can go stale against the version
-that produced it — which is exactly the failure this system had to repair in
-its own first consumer. Let npm own the version in both places.
+`soul-boot.js` is needed only where the page offers a mode switch and should be
+loaded before the stylesheet. `soul.js` is the drop-in build and carries Lit;
+the package entry above leaves Lit external. Do not mix the two JavaScript
+entries on one page.
 
 ## Exporting the design guide
 
@@ -236,8 +236,7 @@ nothing, a broken reference ships an unstyled card, a card that overflows its
 declared viewport gets cropped in the pane.
 
 It checks mechanics, not judgement. When `status` lists changed cards, look at
-them — `make baseline` before a visual change, `make shots && npm run
-diff` after.
+them — `make baseline` before a visual change, `make shots && make diff` after.
 
 The upload finds the right project by itself — `.design-sync/config.json`
 holds the project id, so a sync always lands in the same place and never
@@ -304,19 +303,18 @@ A screen is its own thumbnail — there is no thumbnail file anywhere.
 | `typecheck` | `tsc --noEmit` |
 | `shell` | a prompt inside the image |
 
-`packages/frontend/fonts/` and `packages/frontend/assets/icons/` are generated from npm packages and are **not**
-in git. The container's entrypoint regenerates them whenever they are
-missing, so a fresh clone needs no setup step — without them every card would
-render in system-ui with no icons, which looks like a design bug and is not
-one.
+`packages/frontend/fonts/` is generated from `@fontsource` and committed because
+the package publishes it. `packages/frontend/assets/icons/` is generated from
+`@typo3/icons` and untracked. The container's entrypoint restores generated
+assets when they are missing, so a fresh clone needs no setup step.
 
 ### Changing a component
 
-Edit `packages/frontend/src/<component>.ts`. Every card is **generated** from the story that
-composes it — `make cards` writes it, and `make verify` fails if one is stale
-*or* if a card on disk has no story behind it. A card edited by hand is
-silently reverted on the next generate; a card written by hand is a build
-failure, which is the same rule stated so it cannot be missed.
+Edit `packages/frontend/src/components/<name>.ts`. Every card is **generated**
+from the story that composes it — `make cards` writes it, and `make verify`
+fails if one is stale *or* if a card on disk has no story behind it. A card
+edited by hand is silently reverted on the next generate; a card written by
+hand is a build failure, which is the same rule stated so it cannot be missed.
 
 The cards stay static HTML with no custom elements in them: the Design System
 pane opens them with `styles.css` and no JavaScript, so what ships is the
