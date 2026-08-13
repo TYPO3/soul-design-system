@@ -144,8 +144,8 @@ The question of what belongs to the shell decides at the same time who is fed
 and who has to accept markup.
 
 **Shell** — writes the layout once, appears in no document: `sds-theme`,
-`sds-crumbs`, `sds-rail`, `sds-menu`, `sds-pills`, `sds-footer`, `sds-signet`,
-plus the classes `.sds-shell`, `.sds-bar`, `.sds-body`, `.sds-column`,
+`sds-crumbs`, `sds-rail`, `sds-header`, `sds-pills`, `sds-footer`, plus the
+classes `.sds-signet`, `.sds-shell`, `.sds-bar`, `.sds-body`, `.sds-column`,
 `.sds-page`. Fed from Guides objects — menu tree, breadcrumbs, project title —
 whose content is pure labelling. Attributes are enough for that; nobody here
 needs children.

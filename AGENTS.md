@@ -231,7 +231,8 @@ names are how a single one is asked for:
 match the drawings) · `marks` (the documents' signets against those same
 drawings) · `headers` (`@dsCard`, `@startingPoint`) · `heights`
 (specimens against the cards they embed) · `classes` (every class used is
-defined) · `coverage` (every component is shown) · `refs` (every local
+defined) · `coverage` (every component is shown) · `names` (every `sds-` name
+a document writes exists) · `refs` (every local
 reference resolves) · `fit` (render, inside the declared viewport) · `ssr`
 (every element renders outside a browser) · `dist` (the committed drop-in
 against its source) · `split` (each package assembles into something a project
@@ -279,6 +280,7 @@ make test ARGS="tests/a11y.spec.ts --grep card"
 | a component's template or its story | `make verify ARGS=cards`, then the one spec |
 | types only | `make verify ARGS=types` |
 | a class name, in a sheet or on a card | `make verify ARGS=classes` |
+| a document naming a class, an element or an event | `make verify ARGS=names` |
 | a new component, class or Guides page | `make verify ARGS=coverage` |
 | a card's height or its viewport | `make verify ARGS="fit heights"` |
 | `packages/frontend/src/` with `packages/frontend/dist/` committed against it | `make verify ARGS=dist` |

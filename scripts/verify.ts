@@ -10,15 +10,73 @@
    `.out/bundle/`. That is also why arguments are passed directly rather than
    through a `sh -c` wrapper, where the filter would land on the shell. */
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 
+import { TAGS } from '../packages/frontend/src/index.ts';
 import { FRONTEND, cards, ROOT, screens } from './lib/cards.ts';
 
 const fails: string[] = [];
 
 /** The marker has to be the very first line, so that is what is tested. */
 const firstLine = (text: string): string => text.split('\n', 1)[0] ?? '';
+
+/** Every class the system defines, from all three sheets — including the one
+    `styles.css` deliberately does not import: a name is defined if some sheet
+    in the system defines it, and a surface told otherwise is told a lie about
+    its own repository. */
+function definedClasses(): Set<string> {
+  const defined = new Set<string>();
+  for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
+    for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
+      defined.add(m[1] as string);
+    }
+  }
+  return defined;
+}
+
+/** Every event the elements dispatch, read out of the sources that dispatch
+    them. A document names these beside the elements and the classes, and they
+    go stale the same way. */
+function definedEvents(): Set<string> {
+  const events = new Set<string>();
+  const walk = (dir: string): void => {
+    for (const entry of readdirSync(dir)) {
+      const path = join(dir, entry);
+      if (statSync(path).isDirectory()) walk(path);
+      else if (entry.endsWith('.ts')) {
+        for (const m of readFileSync(path, 'utf8').matchAll(/new (?:Custom)?Event(?:<[^>]*>)?\('(sds-[a-z-]+)'/g)) {
+          events.add(m[1] as string);
+        }
+      }
+    }
+  };
+  walk(join(FRONTEND, 'src'));
+  return events;
+}
+
+/** What is read as instruction: the root files, the manual, and what a package
+    carries into its own repository. Not `.design-sync/conventions.md` — the
+    `conventions` check holds that one against the built bundle, which is the
+    same question asked harder. */
+function documents(): string[] {
+  const out = readdirSync(ROOT).filter((f) => f.endsWith('.md')).map((f) => join(ROOT, f));
+  const walk = (dir: string): void => {
+    for (const entry of readdirSync(dir)) {
+      const path = join(dir, entry);
+      if (statSync(path).isDirectory()) walk(path);
+      else if (/\.(rst|md)$/.test(entry)) out.push(path);
+    }
+  };
+  walk(join(ROOT, 'docs'));
+  for (const pkg of readdirSync(join(ROOT, 'packages'))) {
+    for (const file of ['README.md', 'GAPS.md']) {
+      const path = join(ROOT, 'packages', pkg, file);
+      if (existsSync(path)) out.push(path);
+    }
+  }
+  return out;
+}
 const list = cards();
 const sp = screens();
 /* Screens go through the same checks as cards: they ship with the system and
@@ -163,16 +221,7 @@ const CHECKS: readonly Check[] = [
     step: '2',
     label: 'every name used is defined',
     run() {
-      const defined = new Set();
-      /* All three sheets, including the one `styles.css` deliberately does not
-         import: a name is defined by the system if some sheet in the system
-         defines it, and a card that used a document-layer name and was told it
-         does not exist would be told a lie about its own repo. */
-      for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
-        for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
-          defined.add(m[1]);
-        }
-      }
+      const defined = definedClasses();
       /* Every class in every card and screen, against the stylesheets, with no
          exemption. A `<style>` block whose names counted as defined would be
          the escape hatch a page's own layout goes through, and a name in one is
@@ -221,6 +270,46 @@ const CHECKS: readonly Check[] = [
       const cov = spawnSync(process.execPath, [join(ROOT, 'scripts/coverage.ts')], { encoding: 'utf8' });
       process.stdout.write(cov.stdout);
       if (cov.status !== 0) fails.push('a component is missing from a surface it has to be shown on (see above)');
+    },
+  },
+
+  /* The third direction: a name a document writes. Prose is where a name
+     outlives the code that had it — nothing renders it, so nothing breaks —
+     and a page naming an element the registry has never heard of teaches a
+     reader to write markup that stays inert. `conventions` asked this of one
+     file; every other document was unheld. */
+  {
+    name: 'names',
+    step: '2c',
+    label: 'every sds- name a document writes exists',
+    run() {
+      const defined = definedClasses();
+      for (const tag of TAGS) defined.add(tag);
+      for (const event of definedEvents()) defined.add(event);
+      const docs = documents();
+      /* `sds-x__y` is how the rule about part names is stated, about no
+         component in particular. A confval's `:name:` is spelt out of the
+         element and the property it documents — an anchor, not a name the
+         system defines. */
+      const used = new Map<string, string[]>();
+      for (const path of docs) {
+        const rel = relative(ROOT, path);
+        const text = readFileSync(path, 'utf8').replace(/^\s*:name:.*$/gm, '');
+        for (const m of text.matchAll(/(?<![\w-])(sds-[a-z0-9]+(?:[-_]+[a-z0-9]+)*)/g)) {
+          const name = m[1] as string;
+          if (/^sds-x(__y)?$/.test(name)) continue;
+          const where = used.get(name) ?? [];
+          if (!where.includes(rel)) where.push(rel);
+          used.set(name, where);
+        }
+      }
+      let unknown = 0;
+      for (const [name, where] of [...used].sort()) {
+        if (defined.has(name)) continue;
+        unknown++;
+        fails.push(`"${name}" is written in ${where.join(', ')} and is neither a class nor an element`);
+      }
+      console.log(`   ${used.size} names in ${docs.length} documents, ${unknown} unknown`);
     },
   },
 

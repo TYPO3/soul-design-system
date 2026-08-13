@@ -359,8 +359,8 @@ on the branch meant for a project with no sections at all and got every other
 section's tree, folded open — a sitemap belonging to no page the reader was on,
 which changed shape the moment they followed one of its links. Such a page now
 carries no rail, and the button in the bar that opens one goes with it.
-`sds-menu for=` already drops itself where it finds no target, but it finds one
-by asking a document and the page is written before there is one, so
+`sds-header rail=` already drops the button where it finds no rail, but it
+finds one by asking a document and the page is written before there is one, so
 `structure/document.html.twig` renders the rail ahead of both and the body and
 the bar read whether it came out empty. The root is not that case: its section
 is the site, so its rail is the sections, under no heading and with nothing in
