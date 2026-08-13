@@ -188,7 +188,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="contact">
-      <div class="sds-stack">
+      <div class="sds-stack sds-stack--tight">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
         <h1>Report a wrong answer</h1>
         <p class="sds-lead">

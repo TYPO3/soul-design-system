@@ -130,7 +130,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="get">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-stack sds-stack--tight">
           <sds-crumbs .items="${TRAIL}"></sds-crumbs>
           <h1>Get started</h1>
           <p class="sds-lead">

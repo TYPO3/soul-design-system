@@ -60,7 +60,7 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 
 **Interaction.** Hover changes colour and border, never position and never size. Nothing scales, lifts, or bounces. Active navigation is a filled orange block with dark text — full colour inversion, not a tint. Focus is the orange ring. Disabled is 50% opacity with no colour change. Transitions run 140ms on `--ease-out`; anything longer reads as slow here.
 
-**Density.** Airy for prose (1.65 leading, generous section padding), tight for machine content (code at 1.9 leading but small; table rows on the `--row-pad-*` scale). The two densities sit next to each other deliberately — that contrast is the character.
+**Density.** Airy for prose (1.65 leading, generous section padding), tight for machine content (code at 1.9 leading but small; table rows on the `--row-pad-*` scale). The two densities sit next to each other deliberately — that contrast is the character. **The line falls between prose and machine content, not between running text and a box.** A note, a card or a surface holding sentences takes the page's own size wherever it stands in something being read — a `.sds-prose` document or a `.sds-column` reading column — while a code block, a compact row and a caption keep their density in exactly the same place. A box of sentences set four steps below the paragraph above it was never the contrast this paragraph is defending; it was the block having no way to hear where it was standing.
 
 ## Content fundamentals
 

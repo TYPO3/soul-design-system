@@ -66,7 +66,7 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="questions">
-      <div class="sds-stack">
+      <div class="sds-stack sds-stack--tight">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
         <h1>Questions</h1>
         <p class="sds-lead">

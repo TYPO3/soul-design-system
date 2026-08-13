@@ -97,21 +97,20 @@
     </aside>
 
     <main class="sds-column" id="main-content">
-      <nav class="sds-crumbs" aria-label="Breadcrumb">
+      <div class="sds-stack sds-stack--tight">
+        <nav class="sds-crumbs" aria-label="Breadcrumb">
   <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">How this is set</span>
 </nav>
-
-      <div class="sds-row">
-        <span class="sds-badge">reference</span>
+        <div class="sds-row">
+          <span class="sds-badge">reference</span>
+        </div>
+        <h1>How this page is set</h1>
+        <p class="sds-lead">
+          Every size on it comes off one scale and every gap off one grid. That
+          is not a house style — it is the only thing that lets a reader tell a
+          heading from a title from a label without reading any of them first.
+        </p>
       </div>
-
-      <h1>How this page is set</h1>
-
-      <p class="sds-lead">
-        Every size on it comes off one scale and every gap off one grid. That is
-        not a house style — it is the only thing that lets a reader tell a
-        heading from a title from a label without reading any of them first.
-      </p>
 
       <h2 class="sds-h3" id="registers">The two registers</h2>
       <p>
@@ -135,7 +134,7 @@
           </tr><tr>
             <td>Reading</td><td class="sds-td-name">20 / 19 / 17</td><td>A third heading, a lead, and the paragraph everything else is measured against.</td>
           </tr><tr>
-            <td>Dense</td><td class="sds-td-name">15 / 13</td><td>A block on a product surface, and every control on it.</td>
+            <td>Dense</td><td class="sds-td-name">15 / 13</td><td>A surface that is scanned, every control on it, and everything the machine wrote.</td>
           </tr><tr>
             <td>Label</td><td class="sds-td-name">12 / 11</td><td>A machine name, a table head, a caption. Never a sentence.</td>
           </tr>
@@ -224,7 +223,7 @@
 }</code></pre>
 </div>
 
-      <div class="sds-row">
+      <div class="sds-stats">
         <div class="sds-stat">
   <div class="sds-stat__value">10</div>
   <div class="sds-label">type steps</div>
@@ -249,10 +248,11 @@
     name="reading"
     open>
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Why is a block smaller than the text around it?</summary>
-    <div class="sds-accordion__body">On a product surface it is not smaller than anything — the
-      surface is written in the dense register throughout. In a document it
-      stops being dense: the block takes the page's own size, so an admonition
-      is the paragraph above it with a border around it.</div>
+    <div class="sds-accordion__body">Where it is scanned it is not smaller than anything, because
+      everything around it is written in the dense register too. Where it is
+      read — a document, or a reading column like this one — the block takes
+      the page's own size, and an admonition is the paragraph above it with a
+      border around it.</div>
   </details><details
     class="sds-accordion__item"
     name="reading">

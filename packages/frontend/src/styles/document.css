@@ -13,17 +13,11 @@
 
 /* A component standing in a document speaks the document's size: an admonition
    is the 17px paragraph above it with a border around it, not the dense
-   register a 15px surface is written in. Rebound rather than rewritten, so
-   every declaration stays on the class that owns it. On what holds **blocks**
-   only — a caption is a label and keeps the smaller register. */
-:where(.sds-prose) .sds-note,
-:where(.sds-prose) .sds-teaser,
-/* An answer holds the paragraphs, lists and code blocks a directive handed
-   over, so it is the document's own text with a question folded over it. */
-:where(.sds-prose) .sds-accordion,
-/* The card that names its own parts, and not the plane of the same name: a
-   surface is written in the dense register on purpose. */
-:where(.sds-prose) .sds-card:has(> .sds-card__body) {
+   register a 15px surface is written in. Set on the document and inherited by
+   whatever stands in it, so no block has to be named here to be reached — and
+   an aside, a row and a code block keep their density because each says so
+   with a token the document does not touch. */
+:where(.sds-prose) {
   --block-title-size: var(--font-size-body);
   /* Both registers move, or the pair that did not is the one that jumps: an
      entry's title is a destination and stays the louder of the two here. */

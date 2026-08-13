@@ -87,7 +87,7 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="compare">
-      <div class="sds-stack">
+      <div class="sds-stack sds-stack--tight">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
         <h1>Which way to run it</h1>
         <p class="sds-lead">
@@ -104,7 +104,8 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
           (way) => html`<sds-card
             label="${way.label}"
             heading="${way.heading}"
-            .body="${html`${way.body}<br /><span class="sds-label">${way.note}</span>`}"
+            body="${way.body}"
+            note="${way.note}"
           ></sds-card>`,
         )}
       </div>

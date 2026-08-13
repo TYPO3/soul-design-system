@@ -184,6 +184,15 @@ site is rendered along it, with the same file a reader runs.
   two ran 0, 2 and 5 steps depending on which component you looked at, and the
   accordion's question sat a step *below* its own answer. The pair is the fix:
   a component picks a register, never a size.
+- **A block is dense because it is scanned, not because it is a box.** The
+  rebind fires in a `.sds-column` reading column as well as in `.sds-prose`,
+  so a note or a card holding sentences on a product page reads at the page's
+  size. `RATIONALE.md` defends the density contrast as the system's character
+  and names what it is between — prose and *machine content* — so this applies
+  that rule rather than bending it: code, compact rows and captions keep their
+  density in the same paragraph. A surface joins by `:has(> .sds-surface-title)`
+  because it renders a plane and has no root class of its own; it had been left
+  out for that reason and read as a decision.
 - **The space scale is halved below 16px.** `--space-0-5`, `-1-5`, `-2-5` and
   `-3-5` are not a loosening of the 4px grid but the part of it that was
   missing: the small end is where a glyph beside a word and a label over its

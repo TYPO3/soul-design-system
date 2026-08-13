@@ -115,7 +115,7 @@ export function sitemapPage(_: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="sitemap">
-      <div class="sds-stack">
+      <div class="sds-stack sds-stack--tight">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
         <h1>Sitemap</h1>
         <p class="sds-lead">

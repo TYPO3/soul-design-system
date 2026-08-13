@@ -80,14 +80,20 @@
   --block-body-size: var(--font-size-dense);
   --block-body-leading: 1.45;
 
+  /* A line *about* the thing beside it — a caption, a hint, an error, an
+     attribution, the note under a value. It is not the block's body and does
+     not follow it into a document: what is being read there is the block, and
+     this stays the dense line that names it. */
+  --aside-size: var(--font-size-dense);
+  --aside-leading: 1.45;
+
   /* One box, one padding. Every boxed block shares the horizontal value, so a
      card, a note, a modal and a code block start their text on the same edge
      however they are stacked. Only the vertical changes, and only between a
-     strip, an ordinary box and the block whose subject is that it is empty. */
+     strip above or below a body and the body itself. */
   --block-pad-x: var(--space-4);
   --block-pad-y: var(--space-3-5);
   --block-pad-y-tight: var(--space-2);
-  --block-pad-y-roomy: var(--space-5);
   /* Seventy-four characters of the register above, stated as the width it comes
      to rather than as `64ch`: `ch` is the width of the "0" in whatever element
      the token lands on, so one number would mean several widths. This is the

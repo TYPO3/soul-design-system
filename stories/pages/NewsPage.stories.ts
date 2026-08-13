@@ -167,7 +167,7 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="news">
-      <div class="sds-stack">
+      <div class="sds-stack sds-stack--tight">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
         <h1>News</h1>
         <p class="sds-lead">

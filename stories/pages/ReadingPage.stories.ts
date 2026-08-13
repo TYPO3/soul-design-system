@@ -51,17 +51,18 @@ const CONTENTS: readonly RailEntry[] = [
 const REGISTERS = [
   ['Display', '58 / 44 / 34', 'A page opener and the two headings under it. Once each.'],
   ['Reading', '20 / 19 / 17', 'A third heading, a lead, and the paragraph everything else is measured against.'],
-  ['Dense', '15 / 13', 'A block on a product surface, and every control on it.'],
+  ['Dense', '15 / 13', 'A surface that is scanned, every control on it, and everything the machine wrote.'],
   ['Label', '12 / 11', 'A machine name, a table head, a caption. Never a sentence.'],
 ] as const;
 
 const QUESTIONS: readonly Entry[] = [
   {
     question: 'Why is a block smaller than the text around it?',
-    answer: html`On a product surface it is not smaller than anything — the
-      surface is written in the dense register throughout. In a document it
-      stops being dense: the block takes the page's own size, so an admonition
-      is the paragraph above it with a border around it.`,
+    answer: html`Where it is scanned it is not smaller than anything, because
+      everything around it is written in the dense register too. Where it is
+      read — a document, or a reading column like this one — the block takes
+      the page's own size, and an admonition is the paragraph above it with a
+      border around it.`,
     open: true,
   },
   {
@@ -111,19 +112,18 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
     </aside>
 
     <main class="sds-column" id="main-content">
-      <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-
-      <div class="sds-row">
-        <sds-badge label="reference"></sds-badge>
+      <div class="sds-stack sds-stack--tight">
+        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <div class="sds-row">
+          <sds-badge label="reference"></sds-badge>
+        </div>
+        <h1>How this page is set</h1>
+        <p class="sds-lead">
+          Every size on it comes off one scale and every gap off one grid. That
+          is not a house style — it is the only thing that lets a reader tell a
+          heading from a title from a label without reading any of them first.
+        </p>
       </div>
-
-      <h1>How this page is set</h1>
-
-      <p class="sds-lead">
-        Every size on it comes off one scale and every gap off one grid. That is
-        not a house style — it is the only thing that lets a reader tell a
-        heading from a title from a label without reading any of them first.
-      </p>
 
       <h2 class="sds-h3" id="registers">The two registers</h2>
       <p>
@@ -217,7 +217,7 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
         copy
       ></sds-code>
 
-      <div class="sds-row">
+      <div class="sds-stats">
         <sds-stat value="10" label="type steps" note="every size on every surface"></sds-stat>
         <sds-stat value="14" label="space steps" note="halved below 16px, thinning above 24"></sds-stat>
         <sds-stat value="2" label="block registers" note="quiet, and the one that goes somewhere"></sds-stat>

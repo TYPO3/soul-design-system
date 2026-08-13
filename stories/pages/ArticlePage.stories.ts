@@ -89,20 +89,19 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
     </aside>
 
     <main class="sds-column" id="main-content">
-      <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-
-      <div class="sds-row">
-        <sds-badge label="guide"></sds-badge>
-        <sds-badge label="13.4 · 14.3" tone="accent"></sds-badge>
+      <div class="sds-stack sds-stack--tight">
+        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <div class="sds-row">
+          <sds-badge label="guide"></sds-badge>
+          <sds-badge label="13.4 · 14.3" tone="accent"></sds-badge>
+        </div>
+        <h1>Reading the package registry when the installation will not boot</h1>
+        <p class="sds-lead">
+          A tool that needs a booted installation and cannot have one does not
+          fail. It reads the files instead, answers with less, and says so — and
+          the saying so is the part that makes the answer usable.
+        </p>
       </div>
-
-      <h1>Reading the package registry when the installation will not boot</h1>
-
-      <p class="sds-lead">
-        A tool that needs a booted installation and cannot have one does not
-        fail. It reads the files instead, answers with less, and says so — and
-        the saying so is the part that makes the answer usable.
-      </p>
 
       <sds-byline name="Benjamin Kott" as="maintainer" meta="24${NNBSP}July 2026 · 6${NNBSP}min"></sds-byline>
 

@@ -114,7 +114,7 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="search">
-      <div class="sds-stack">
+      <div class="sds-stack sds-stack--tight">
         <sds-crumbs .items="${TRAIL}"></sds-crumbs>
         <h1>Results for <span class="sds-mono">${QUERY}</span></h1>
         <sds-field

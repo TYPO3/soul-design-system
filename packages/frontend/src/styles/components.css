@@ -196,7 +196,7 @@ li::marker { color: var(--text-muted); }
   max-width: var(--measure-lead);
 }
 .sds-quote__by {
-  font-size: var(--block-body-size);
+  font-size: var(--aside-size);
   color: var(--text-muted);
 }
 
@@ -524,7 +524,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: inline-flex;
   align-items: center;
   gap: var(--space-1-5);
-  font-size: var(--block-body-size);
+  font-size: var(--aside-size);
   color: var(--status-error);
 }
 
@@ -551,8 +551,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   color: var(--text-muted);
 }
 .sds-field-hint {
-  font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  font-size: var(--aside-size);
+  line-height: var(--aside-leading);
   color: var(--text-muted);
   max-width: var(--block-measure);
 }
@@ -642,8 +642,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   color: var(--text-primary);
 }
 .sds-check__hint {
-  font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  font-size: var(--aside-size);
+  line-height: var(--aside-leading);
   color: var(--text-muted);
   max-width: var(--block-measure);
 }
@@ -889,8 +889,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   padding: var(--space-4) var(--space-4) var(--space-2);
 }
 .sds-card__note {
-  font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  font-size: var(--aside-size);
+  line-height: var(--aside-leading);
   color: var(--text-muted);
 }
 /* What the card does, said in words. Not a control: the card is the link, and
@@ -901,7 +901,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   align-items: center;
   gap: var(--space-1-5);
   margin-left: auto;
-  font-size: var(--block-body-size);
+  font-size: var(--aside-size);
   font-weight: var(--weight-semibold);
   color: var(--text-link);
   white-space: nowrap;
@@ -925,7 +925,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   color: var(--text-primary);
 }
 .sds-stat__note {
-  font-size: var(--block-body-size);
+  font-size: var(--aside-size);
   line-height: 1.5;
   color: var(--text-secondary);
 }
@@ -946,8 +946,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   overflow: hidden;
 }
 .sds-figure__caption {
-  font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  font-size: var(--aside-size);
+  line-height: var(--aside-leading);
   color: var(--text-muted);
   max-width: var(--measure-prose);
 }
@@ -980,8 +980,8 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    document rather than stretching a plane out beside it. */
 .sds-embed__frame--fixed { width: max-content; max-width: 100%; overflow: auto; }
 .sds-embed__caption {
-  font-size: var(--block-body-size);
-  line-height: var(--block-body-leading);
+  font-size: var(--aside-size);
+  line-height: var(--aside-leading);
   color: var(--text-muted);
   max-width: var(--measure-prose);
 }
@@ -1092,7 +1092,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   gap: var(--space-2-5);
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
-  padding: var(--block-pad-y-roomy) var(--block-pad-x);
+  padding: var(--block-pad-y) var(--block-pad-x);
 }
 /* Muted by default: an empty result is not an event. The quiet accent is for
    a stated boundary, which is a deliberate answer about scope rather than the
@@ -1125,7 +1125,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--block-pad-y) var(--block-pad-x);
+  padding: var(--block-pad-y-tight) var(--block-pad-x);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   font-size: var(--block-title-size);
   font-weight: var(--weight-semibold);
@@ -1140,7 +1140,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: flex;
   justify-content: flex-end;
   gap: var(--control-gap);
-  padding: var(--block-pad-y) var(--block-pad-x);
+  padding: var(--block-pad-y-tight) var(--block-pad-x);
   border-top: var(--border-hairline) solid var(--border-subtle);
 }
 
@@ -1286,12 +1286,24 @@ html:has(.sds-bar) {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  /* A reading column is a document that never reached a renderer, so a block
+     standing in it is read at the page's own size — the rebind `document.css`
+     makes, for the layout with the same job. Set here and inherited, with no
+     list of blocks to keep in step: what must stay dense already says so with
+     a token of its own — an aside, a row, a code block. */
+  --block-title-size: var(--font-size-body);
+  --entry-title-size: var(--font-size-h3);
+  --block-body-size: var(--font-size-body);
+  --block-body-leading: var(--leading-body);
+  --block-measure: none;
 }
 .sds-column > :is(h2, .sds-h2) { margin-top: var(--space-6); }
 .sds-column > :is(h3, .sds-h3) { margin-top: var(--space-4); }
 .sds-column > h4 { margin-top: var(--space-2); }
 /* A heading is the top of what follows, not a gap after what came before. */
 .sds-column > :first-child { margin-top: 0; }
+
+
 
 /* A page with no rail: the measure, and nothing beside it. */
 .sds-page { flex: 1; padding-block: var(--space-12) var(--space-10); }
@@ -1379,6 +1391,10 @@ html:has(.sds-bar) {
 
 /* A stack of blocks, and a row of controls. */
 .sds-stack { display: flex; flex-direction: column; gap: var(--space-4); }
+/* A title is one thing — the trail above it, the eyebrow, the heading and the
+   lead under it — and read as four it is four. Tight enough to group, and the
+   flow gap starts below it rather than inside. */
+.sds-stack--tight { gap: var(--space-2); }
 /* Centred, because not everything in a row of actions is a button: a link
    beside one is a line of text in a box the button's height, and stretched it
    sets at the top of it. */
@@ -1503,6 +1519,8 @@ html:has(.sds-bar) {
   .sds-footer { --page-gutter: var(--space-4); }
   .sds-band { padding-block: var(--space-8); }
   .sds-bar sds-badge { display: none; }
+  /* The height a desktop can spare is height a phone is reading with. */
+  :root { --height-header: 56px; }
   .sds-body { flex-direction: column; padding-block: var(--space-6); }
   .sds-body__rail { width: auto; position: static; max-height: none; }
   /* The rail's toggle exists only here, where the rail has no column of its
@@ -2128,7 +2146,7 @@ sds-rail:not(:defined) {
 
 /* What the block is, above it. */
 .sds-code__caption {
-  font-size: var(--block-body-size);
+  font-size: var(--aside-size);
   color: var(--text-muted);
   margin-bottom: var(--space-2);
 }

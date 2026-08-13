@@ -28,7 +28,9 @@
      band's two columns, which is the part short of room. */
   --width-page: 1200px;
   --width-sidebar: 210px;
-  --height-header: 56px;
+  /* The bar. Room to stand on a desktop; a phone gives the height back to
+     the page, which is the thing being read. */
+  --height-header: 72px;
 
   /* A modal is centred and stops here. The specimen says so in words; this
      is where the number lives. */

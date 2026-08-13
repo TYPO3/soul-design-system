@@ -168,11 +168,13 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
     </aside>
 
     <main class="sds-column" id="main-content">
-      <h1>It answers before it guesses</h1>
-      <p class="sds-lead">
-        A local server for the three audiences that do TYPO3 work. Every answer
-        names the source it came from and the versions it holds for.
-      </p>
+      <div class="sds-stack sds-stack--tight">
+        <h1>It answers before it guesses</h1>
+        <p class="sds-lead">
+          A local server for the three audiences that do TYPO3 work. Every answer
+          names the source it came from and the versions it holds for.
+        </p>
+      </div>
 
       <h2 class="sds-h3">Install</h2>
       <p>
