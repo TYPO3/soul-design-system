@@ -64,6 +64,13 @@ the body stops laying the page rail beside the text, the rail joins them.
 All three wait in **one** drawer under **one** button, because a reader on a
 phone looking for the way somewhere presses once.
 
+**And what waits in there is one tree, not a stack of lists.** The rail is the
+pages of the section the reader is in, so it hangs under that section, set in
+against a rule: two flat lists in one panel say only that there are two of
+them, and which of the two is the level the reader is standing on is left to
+be guessed. A rail that belongs under no section listed in the bar keeps its
+own heading and stands below them all.
+
 **The decision is measured, not declared.** A bar holds a product name for as
 long as the product is called, so a breakpoint would be wrong on the next site:
 the element measures what the sections and the field need against the room the
@@ -135,9 +142,10 @@ width at which the two disagree and it oscillates.
 
    The id of the page rail. The bar does not own it: a rail is the page's own
    navigation and stands in its column while there is one. Once the layout has
-   stacked the body the element **moves** that same node into its drawer and
-   puts it back on the way out — moved, never copied, so a reader is never
-   offered two of anything and nothing is written twice.
+   stacked the body the element **moves** that same node into its drawer, under
+   the section it is the pages of, and puts it back on the way out — moved,
+   never copied, so a reader is never offered two of anything and nothing is
+   written twice.
 
    Without a script the rail simply stays where the page put it. A list of
    pages is worth a screen's height, and hiding one behind a button that is
