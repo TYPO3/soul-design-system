@@ -4,6 +4,11 @@
 Diagrams
 ========
 
+Diagrams carry the explanation that prose alone would make slower to see, and
+form the system's visual leitmotif. A shared grammar keeps them from becoming
+one-off redraws whose colour, geometry and meaning have to be relearned each
+time.
+
 **One claim per diagram.** The title states it, the closing line states its
 consequence. Two claims are two diagrams.
 
@@ -28,22 +33,28 @@ The numbers
    :header-rows: 0
 
    * - Canvas
-     - ``viewBox="0 0 1200 H"`` — always 1200 wide, height to fit, no radius
+     - ``viewBox="0 0 1200 H"`` — always 1200 wide, height to fit, no radius,
+       shadow, gradient or texture
    * - Margin
      - 60 units every side. Nothing enters it, labels included
    * - Type
-     - Title 36 · lead 17 · node title 16 · node body 14 · label 13. **13 is
-       the floor**
+     - Source Sans 3; identifiers, paths and flags in Source Code Pro. Title
+       36 · lead 17 · node title 16 · node body 14 · label 13. **13 is the
+       floor**
    * - Stroke
      - 1 node outline, 1.5 connector or boundary, 2 for the one accented
        connector
    * - Radius
      - 6 node or boundary, 4 bar, 2 unit square. Never above 6
+   * - Node
+     - ``--surface-raised``, 1px ``--border-subtle``, radius 6. Peers share
+       one treatment and are distinguished by their names, not their hues
    * - Boundary
      - Hairline only, **no fill** — a filled container makes depth out of
        colour
    * - Connector
-     - 1.5px, orthogonal, one arrowhead, ``--text-muted``. No curves
+     - 1.5px, orthogonal, one arrowhead, ``--text-muted``. No curves; dashed
+       means optional or not yet and nothing else
 
 .. warning::
 
@@ -68,8 +79,9 @@ Drawing rules
 Worked examples
 ===============
 
-Three shapes of claim, solved three ways — an axis, a sequence, a
-containment.
+Different shapes of claim need different structures. The examples below use
+an axis, a sequence and containment rather than forcing every explanation into
+boxes joined by arrows.
 
 .. specimen:: guidelines/diagrams-overview.card.html
    :viewport: 1400x959

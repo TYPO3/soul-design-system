@@ -13,27 +13,7 @@ It was cut against a real surface and still answers to one: **TYPO3 Support App*
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
 
-## Diagram language
-
-The product's existing diagrams carry its explanation and are the intended visual leitmotif. Rather than a set of one-off redraws, this system defines the **rules** they are drawn by, plus one worked example: `packages/frontend/assets/diagrams/answer-sources.svg`.
-
-**One claim per diagram.** The title states it, the closing line states its consequence. Two claims are two diagrams.
-
-**Flat.** Canvas is a plain rectangle at `--surface-canvas` with a 60px margin and no outer radius. No shadow, no gradient, no texture. Depth is a hairline — nodes are `--surface-raised` at 6px radius with a 1px `--border-subtle`.
-
-**A diagram is a picture, not a text block in boxes.** If the drawing would still work as a bulleted list, it is not a diagram. Meaning has to be carried by **position, length or alignment** — the worked example plots the five sources against the machine state each one requires, so the fact that bundled knowledge spans the whole axis is visible before a word is read. Boxes and arrows are the last resort, not the starting vocabulary.
-
-**Solid means there, dashed outline means not there.** One vocabulary across the whole set: a filled shape is what you get, a dashed outline of the same shape is what is missing or not yet reachable. It is why the drawings read before they are read — the shortfall has a size, not a sentence. Where the missing part is a degradation rather than a precondition, the dashed outline carries `--status-warn` instead of `--text-muted`.
-
-**Colour has one job.** The existing set uses five hues to tell five peers apart; here peers are told apart by their names and look identical. Orange marks the one thing the diagram is about — exactly one element per drawing. Status colours appear only in diagrams that are about status.
-
-**Connectors.** 1.5px, orthogonal, one arrowhead, `--text-muted`. No curves. Dashed means optional or not-yet, and nothing else.
-
-**Type.** Source Sans 3 with system fallback; every identifier — tool name, argument, field, version — in Source Code Pro. The floor is 13px at the drawn size; a diagram that needs smaller type is carrying too much.
-
-**The ones redrawn so far** were chosen because they stress the rules in different places. `answer-sources` had a natural axis (required machine state) and became a bar chart. `installation-fallback` is a sequence that wanted to be a flowchart — redrawn, the sequence is the reading order and the registry itself is drawn as one square per entry, so the shortfall appears at its real size. `system-overview` has no axis at all; there **containment** carries the claim, and the single crossing line is the only accented element.
-
-**When a drawing is about degradation or failure, status colour replaces the accent** and orange stays out of the chart. One emphasis per diagram, never two.
+## Diagram files
 
 **One file, one drawing.** Every colour is written as a presentation attribute, and every attribute is `var(--token, #light)` — the token this system already declares, with the light hex behind it. A drawing opened on its own, in a README or a tab, has no tokens and renders as the light file it falls back to. Referenced into a page it reads that page's tokens and arrives in that page's mode, including a mode forced on a subtree, which is what a `<picture>` could never do: it follows the system preference and cannot see `data-theme`.
 
