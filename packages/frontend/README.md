@@ -43,6 +43,108 @@ The package entry is `dist/index.js`, which leaves `lit` external — never
 dependency for that reason: two copies of it in a page give a consumer a second
 reactive-element registry, and elements upgrade under the wrong one.
 
+## What a page can write
+
+**The element is the front door.** `<sds-code code-lang="bash">`, never a `div`
+with the classes on it: the classes are what the elements emit and what a
+surface running no JavaScript falls back to. Everything that fits in a string
+is a property, and between the tags goes only what an attribute cannot carry —
+content, never structure.
+
+A property written `.like="${this}"` below is a list or a piece of markup, so
+it is set from JavaScript or bound by a template; everything else is an
+attribute a server writes directly. Where a property's name is two words, the
+attribute is spelt out: `icon-only`, `code-lang`, `box-style`, `field-id`,
+`min-width`, `per-page`, `previous-href`. And three names had to differ from
+the ones the platform already has — `heading` rather than `title`, `as` rather
+than `role`, `code-lang` rather than `lang` — because each of those would have
+been quietly overridden.
+
+| Element | What it is, and what it takes |
+| --- | --- |
+| `<sds-button>` | The action that starts work, or the press that is a link. `variant` (`primary`, `secondary`, `ghost`), `size` (`sm`), `disabled`, `title`. `type` is `button` unless it is the form's submit — a `<button>` with no type inside a `<form>` submits it. `href` and `rel` draw the same control as an `<a>`, with the middle click and the status line a browser already has; `icon-only` makes a glyph the whole control and `title` its name; `for` and `command` (`show` unless written) address another element. The label goes between the tags |
+| `<sds-link>` | A link, and always an `<a>` with an `href`. `label`, `href`, `external` marks and names one that leaves, `icon` a glyph before it, `bare` drops the underline where the surrounding text is not prose |
+| `<sds-badge>` | A small, named piece of state. `label`, `tone` (`default`, `accent`, `ok`, `warn`, `error`), `icon` |
+| `<sds-icon>` | One icon from the set, inlined into the document rather than linked, so `currentColor` reaches it. `name` is the TYPO3 identifier, `size` is `16`, `20`, `24` or a whole multiple and defaults to `em`, `label` names it where it stands without words — without one it is hidden from assistive tech rather than read out beside its own text |
+| `<sds-theme>` | Light or dark, as two segments with the chosen one filled. `key` is where the choice is kept — the same one `soul-boot.js` reads, or the mode is written here and looked for elsewhere on the next page — and `compact` drops the words, leaving the glyphs |
+| `<sds-surface>` | A filled plane holding a statement. `plane` (`raised`, `sunken` for machine output), `heading`, `body`, `label`, `icon`, `box-style` — the host is `display: contents`, so a width belongs on the element that is actually laid out |
+| `<sds-card>` | A way into something, and the whole frame is the one link. `heading`, `body`, `href`, `src` and `alt`, `label`, `tag`, `icon`, `footer`, `action` — the call to action is words, not a second control |
+| `<sds-grid>` | The wall a set is read in, reflowing by the width its items need rather than by a column count. `variant` (`default`, `wide`, `dense`, `flush`) says how much room an item holds — a reader with no script gets the reflowing grid the stylesheet declares, and the element evens out the last row once it can measure |
+| `<sds-stat>` | A number stated as a fact. `value`, `unit`, `label`, `of` for the whole it is a part of, `icon`, `note` — the line that bounds the figure, and a figure with no bound is a boast |
+| `<sds-quote>` | A sentence borrowed from somewhere. `by` is required, `as` what they are to the subject, `meta` when, `initials` the monogram, `href` where it can be read in full, `body` or the sentence between the tags |
+| `<sds-byline>` | Who wrote it, and when. `name`, `as`, `meta`, `initials`, `href`, `unmarked` for the line that carries no monogram |
+| `<sds-note>` | What an answer carries besides the answer. `tone` (`info`, `ok`, `warn`, `error`), `heading`, `body`, `icon`, `label` |
+| `<sds-table>` | Rows and columns, with the scroll a wide one needs. `density` (`compact`, `medium`, `airy`), `scrollable`, `width`, `.columns`, `.rows` |
+| `<sds-code>` | A fenced block, its head and its copy button. `code-lang`, `caption`, `copy`, `action`, and the code as `source`, as `body`, or between the tags — content that already carries `hljs-` classes is kept exactly as it came, so a server that highlighted it is not undone |
+| `<sds-diff>` | A file's changes, coloured by row on the server. `path`, `icon`, `body` |
+| `<sds-confval>` | One configuration value in a reference. `name`, `anchor`, `required`, `type`, `default`, `.facts` for whatever else the source named, `body` |
+| `<sds-image>` | A picture, and nothing around it. `src`, `alt`, `width`, `height`, `zoomable` makes it a press that opens at full size, `class` |
+| `<sds-figure>` | A picture and the claim it makes. `src`, `alt`, `caption`, `width`, `height`, `zoomable` |
+| `<sds-embed>` | A document from somewhere else, in a frame this page controls. `src`, `label`, `ratio`, `width`, `height`, `caption`, `allow`, `allowfullscreen` |
+| `<sds-lightbox>` | A drawing opened at the size it was drawn — the platform's `<dialog>`, reached with `zoomable` above rather than by hand. `src`, `alt`, `caption`, `open` |
+| `<sds-header>` | The bar at the top of a page, which measures what still fits in it and folds the rest into one drawer with the page rail. `.items`, `active`, `home`, `signet`, `brand`, `product`, `version`, `tone`, `search`, `index` for what search reads, `rail`, `label`, `theme-key` |
+| `<sds-rail>` | The navigation rail beside a column. `.items`, `active`, `label` |
+| `<sds-pills>` | Navigation for the sections of a page. `.items`, `active` |
+| `<sds-tabs>`, `<sds-tab-item>` | One set of panels, one of them shown. The set takes `.items`, `active` and `sync` — the word that makes sets follow each other, so one setting shown in four places is chosen once and the choice outlives the page; an item takes `label`, `icon`, `active` and its panel between the tags |
+| `<sds-crumbs>` | Where the page sits, as a trail. `.items`, `label` |
+| `<sds-accordion>`, `<sds-accordion-item>` | Questions with their answers folded behind them, on a real `<details>`, so they fold with no script. The set takes `.entries`, `multiple` and `name` — the group they fold in; an item takes `question`, `open`, `name`, `anchor`, and the blocks behind it between the tags |
+| `<sds-search>` | Finding a page in a site that has no server: the index is fetched on the first keystroke and the hits are drawn under the field. `index`, `label` |
+| `<sds-result>` | One hit in a list of them. `heading`, `href`, `path`, `snippet`, `match` for what was searched for inside it, `kind`, `meta` |
+| `<sds-pagination>` | Where a list continues. `count`, `per-page`, `current`, `href`, `label` |
+| `<sds-pager>` | The way on from a page that is read in order — not the one that numbers a set. `previous-href`, `previous-label`, `next-href`, `next-label`, `label` |
+| `<sds-footer>` | How a page ends, and where the rest of the site is. `.groups`, `note`, `product`, `signet`, `brand`, `copyright`, `meta`, `.marks` — every part falls away where nothing is set |
+| `<sds-field>` | A text field, a text area and a select, in one element, each the platform's own control. `label`, `value`, `type`, `name`, `field-id`, `rows`, `select` with `.options`, `hint`, `error` — which sets the invalid state with it — `required`, `min-width`, `icon`, `caption`. `focused`, `invalid` and `filled` draw a state a still render has to hold; set none and the states are the browser's |
+| `<sds-field-error>` | The message under an invalid field, with its own glyph, because colour alone is not a message. `message` |
+| `<sds-checkbox>` | One thing that is either so or not. `label`, `hint`, `checked`, `indeterminate`, `name`, `value`, `required`, `disabled` |
+| `<sds-radio>` | One answer out of a few, all of them visible. `legend`, `name`, `.choices`, `value`, `hint`, `required` |
+| `<sds-form-errors>` | What stopped the form, at the top of it. `.errors`, `heading`, `announce` |
+| `<sds-dialog>` | A surface that opens over the page, takes the focus and gives it back, on the platform's `<dialog>`. `heading` — also its accessible name — `body`, `.actions` (ghost first, primary last), `width`, `open`; `show()` and `close()`, and it answers a button that names it with `for` |
+| `<sds-modal>` | The surface alone, with nothing that opens or closes it, for a page that positions its own. `heading`, `body`, `.actions`, `width` |
+| `<sds-overlay>` | The wash a floating surface sits on. It takes nothing |
+
+Every event bubbles and is composed, so a page listens on the element rather
+than on whatever is inside it:
+
+| Event | From | `detail` |
+| --- | --- | --- |
+| `sds-change` | `sds-pills`, `sds-header`, `sds-rail`, `sds-tabs` | `{ index, label }` — the item that became current |
+| `sds-change` | `sds-pagination` | `{ page }`, one-based. Cancelable: `preventDefault()` pages in place instead of following the link |
+| `sds-change` | `sds-checkbox`, `sds-radio` | the new state, or the chosen value |
+| `sds-input` | `sds-field` | what is in the field now |
+| `sds-command` | `sds-button` with `for` | `{ command, source }`, dispatched **on the element named by** `for`, the way the platform's own invokers do it |
+| `sds-theme-change` | `sds-theme` | `{ theme }` — `"light"`, `"dark"`, or `null` for the machine's |
+
+## And the classes underneath
+
+Every element renders **light DOM** and emits the classes `soul.css` defines,
+so an element and a hand-written `<button class="sds-btn">` are the same markup
+under the same rules. Put `sds-app` on the root element — it establishes the
+canvas, the type and the text colour — and `sds-prose` on a document, where
+`document.css` is linked.
+
+Names are prefixed `sds-`, with `__part`, `--modifier` and `.is-active` /
+`.is-disabled` / `.is-focused` / `.is-invalid` / `.is-filled` / `.is-selected`
+for state. **A `sds-x__y` class is `sds-x`'s own name for its own node**: a
+page may write `.sds-card` and `.sds-note--warn`, and may not write
+`.sds-card__foot`, because the day that node changes every hand-written copy of
+it is a surface nobody will fix. Never invent an `sds-` name either — compose
+from the tokens instead. `soul.css` is the full list, and it is grouped the way
+the table above is: the page shell (`sds-shell`, `sds-body`, `sds-column`,
+`sds-bands`, `sds-page`), the type (`sds-display`, `sds-h1`…`sds-h3`,
+`sds-lead`, `sds-list`), and one family per component.
+
+Every value is a token — `--surface-*`, `--text-*`, `--border-*`, `--accent`,
+`--status-*`, `--syntax-*`, `--font-*`, `--space-1…16`, `--radius-*`,
+`--duration-*`. Never a literal colour, size, radius or duration, and never the
+raw `--orange-*` scale that `--accent` is drawn from. Both modes ship in one
+declaration: every colour is `light-dark()` against `color-scheme: light dark`,
+so the two cannot drift. Force one with `data-theme="light"` or `"dark"` on
+`<html>`, or the browser's own scrollbars and form controls stay in the other.
+
+**If an element cannot say something a page needs, the gap is in the element.**
+A consumer writing three declarations into their own stylesheet is the outcome
+this system exists to prevent — say so upstream rather than working around it.
+
 ## What is in it
 
 | Path | |
