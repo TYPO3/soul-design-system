@@ -1,6 +1,11 @@
-{# The existing split, stack and figure compose the page's opening claim. #}
+{# The existing split, stack and figure compose the page's opening claim.
+   Its picture is the one that does not open at full size: it stands beside
+   the claim as decoration, and there is nothing in it to read closer.
+
+   The two are level and not top-aligned, because decoration hanging from the
+   first line of a claim reads as a column that ran out of words. #}
 <div class="sds-sections">
-    <div class="sds-split">
+    <div class="sds-split sds-split--center">
         <div class="sds-stack">
             {{- renderNode(node.children|first) -}}
         </div>
