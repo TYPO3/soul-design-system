@@ -22,7 +22,7 @@ export default meta;
 type Story = StoryObj;
 
 /** `--surface-overlay` over whatever it is given, and nothing else. What
-    floats on it is a modal or a drawer, each its own element. */
+    floats on it is a modal, and that is its own element. */
 export const Default: Story = {
   render: () => html`<div style="position:relative; height:120px; background:var(--surface-canvas);"><sds-overlay></sds-overlay></div>`,
 };

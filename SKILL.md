@@ -268,7 +268,7 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 | Buttons, fields | `components/core/` |
 | Tabs, tool rail | `components/navigation/` |
 | Table, badges, density | `components/data/` |
-| Card, panel, modal, drawer | `components/surfaces/` |
+| Card, panel, modal | `components/surfaces/` |
 | Code block, diff | `components/code/` |
 | A whole page to start from, the documentation surface among them | `screens/` |
 | The reasoning behind every rule | `RATIONALE.md` |
