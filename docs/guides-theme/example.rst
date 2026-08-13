@@ -26,7 +26,7 @@ What a project holds
      guide/                         the manual pages
 
 No manifest among them: the renderer is built by the workflow, in a directory
-the runner discards. The two files are below.
+the runner discards. Both files are below.
 
 The configuration
 =================
@@ -49,8 +49,8 @@ The workflow
    :caption: .github/workflows/publish.yml
 
 The renderer is built in the job that uses it and goes away with the runner —
-three Composer lines, no manifest in the repository. :doc:`publishing` reads
-the rest of this file, including what it refuses to publish.
+a handful of Composer lines, no manifest in the repository. :doc:`publishing`
+reads the rest of this file, including what it refuses to publish.
 
 The two page shapes
 ===================
@@ -78,6 +78,23 @@ on.
 
       guide/index
 
+   .. hero:: /_images/workbench.png
+
+      What this project is, in the sentence somebody arriving needs.
+
+   .. button-bar::
+
+      .. button:: :doc:`guide/index`
+         :icon: actions-download
+
+      .. button:: The source
+         :href: https://github.com/example/project
+         :variant: secondary
+         :rel: external
+
+   .. band:: What it holds
+      :quiet:
+
    .. grid::
 
       .. card:: Write a page
@@ -86,15 +103,15 @@ on.
 
          What a manual page is made of.
 
-   .. band:: What a band is
-      :quiet:
-
-   Everything from here, up to the next band.
-
 The hidden toctree is not a formality. It is what the rail, the breadcrumb and
 the footer columns are built from, and a landing page that lists its sections
 in prose but writes no tree is a site whose every other page has nothing to
 navigate with.
+
+The rest of the shape follows from that opening: the hero makes the claim, the
+row of presses is the way on, and everything after a ``band`` belongs to it
+until the next one starts. :doc:`directives` has each of them with its options
+and a rendered example.
 
 Running it
 ==========
@@ -107,9 +124,9 @@ Running it
    php -S localhost:8000 -t site
 
 The second command writes documents; the third is what turns them into a site.
-:doc:`installation` has the two configuration lines the first one still needs,
-and :doc:`publishing` says what the workflow's jobs are for and what they
-refuse to publish.
+:doc:`installation` has the configuration lines the first one still needs, and
+:doc:`publishing` says what the workflow's jobs are for and what they refuse
+to publish.
 
 .. seealso::
 
