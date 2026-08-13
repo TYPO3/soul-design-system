@@ -65,6 +65,15 @@ Die Regeln, an die jede offene Zeile unten gebunden ist:
   gesetzt, der Kasten nicht. Die eigenen `sds-`-Namen sind die Ausnahme, die es
   belegt: sie sind hier definiert und die Klassenschicht ist absichtlich von
   Hand schreibbar.
+- **Die zweite Tab-Form wird nicht unterstützt, in keiner Form.** `div.tabs`
+  mit `button[data-tabs][data-target]` und `div.tab-content` kommt aus keinem
+  hier installierten Paket und ist deshalb nie gerendert worden. Ein Template
+  gegen eine Ausgabe zu schreiben, die niemand ansehen kann, ist geraten, und
+  geratenes Markup prüft weder ein Check noch ein Test: es steht im Baum und
+  stimmt oder stimmt nicht, und niemand erfährt welches davon. `.. tabs::` und
+  `.. configuration-block::` sind die Schreibweisen, die es gibt, und beide
+  werden `sds-tabs`. Bringt ein Paket die andere doch mit, kommt sie mit einer
+  Ausgabe, die man ansehen kann — dann wird entschieden, vorher nicht.
 - **Ein Exkurs im Fließtext ist keine Fläche aus einem Satz.** `topic` und
   `sidebar` sind ein Kasten, den der Leser überspringen darf und den die
   Gliederung nicht listet: nie einer aus einem Satz, nie gescannt, nie steht
@@ -90,9 +99,8 @@ reichen Attribute; Kinder braucht hier niemand.
 
 **Dokument** — bildet RST-Knoten ab und steht mitten im Fließtext: `sds-note`,
 `sds-code`, `sds-table`, `sds-figure`, `sds-tabs`, `sds-diff`, `sds-surface`,
-`sds-quote`.
-Hier ist Markup annehmen keine Bequemlichkeit, sondern die Bedingung: der
-Inhalt eines Knotens ist beliebiger Inhalt.
+`sds-quote`. Hier ist Markup annehmen keine Bequemlichkeit, sondern die
+Bedingung: der Inhalt eines Knotens ist beliebiger Inhalt.
 
 **Im Satz** — `sds-icon`, `sds-link`, `sds-badge`, und die Textrollen, die es
 noch nicht gibt. Für eine Rolle wie `guilabel` oder `kbd` ist ein Custom
@@ -131,7 +139,6 @@ ihre Regel in `document.css`.
 
 | Guides | Bei uns | Was fehlt |
 | --- | --- | --- |
-| `div.tabs` > `ul > li > button[data-tabs][data-target]` + `div.tab-content` | `sds-tabs` + `sds-tab-item` | Zweite, andere Tab-Form im selben Ausgabeformat. Sie kommt aus keinem hier installierten Paket und ist deshalb nie gerendert worden |
 | `figure.uml-diagram` mit einem Bild | Diagramm-Richtlinie mit Hell/Dunkel-Paar | Guides rendert eine Datei. Im dunklen Modus ist sie falsch |
 
 Dazu ein Verhalten statt eines Markups: der `configuration-block` wird zu
@@ -201,4 +208,4 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 ## In welcher Reihenfolge
 
-1. **Die zwei fremden Markups** und das Verhalten des `configuration-block`.
+1. **Das fremde Markup** und das Verhalten des `configuration-block`.
