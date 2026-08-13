@@ -65,9 +65,10 @@ Two shapes
    document already says rather than its own idea of it.
 
    Leave it out and a switch still switches — the choice is simply forgotten
-   on the next page, which on a site of many pages is every click. Name
-   another storage key with ``data-key`` on the tag, and give ``sds-theme``
-   the same one.
+   on the next page, which on a site of many pages is every click. The choice
+   is kept under ``soul-theme``, which is ``sds-theme``'s own default too;
+   name another with ``data-key`` on the tag and give the element the same one,
+   or the mode is decided in one place and looked for in another.
 
 .. confval:: soul.css
    :type: stylesheet

@@ -97,7 +97,9 @@ export declare class SdsHeader extends SdsNav {
     rail: string;
     /** What the toggle is called, for a reader who cannot see it is a menu. */
     label: string;
-    /** Where `sds-theme` keeps the reader's choice, where it keeps one. */
+    /** Where `sds-theme` keeps the reader's choice, where it keeps one. Written
+        onto it only when a bar names one: an empty attribute is a name too, and
+        it is not the one the pre-paint script reads. */
     themeKey: string;
     open: boolean;
     compactTheme: boolean;

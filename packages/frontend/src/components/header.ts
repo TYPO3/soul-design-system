@@ -95,7 +95,9 @@ export class SdsHeader extends SdsNav {
   declare rail: string;
   /** What the toggle is called, for a reader who cannot see it is a menu. */
   declare label: string;
-  /** Where `sds-theme` keeps the reader's choice, where it keeps one. */
+  /** Where `sds-theme` keeps the reader's choice, where it keeps one. Written
+      onto it only when a bar names one: an empty attribute is a name too, and
+      it is not the one the pre-paint script reads. */
   declare themeKey: string;
   declare open: boolean;
   declare compactTheme: boolean;
@@ -398,7 +400,9 @@ export class SdsHeader extends SdsNav {
   <div class="sds-bar__end">
     ${this.version ? html`<sds-badge label="${this.version}" tone="${this.tone}"></sds-badge>` : ''}
     ${wantsSearch && !this.foldSearch ? this.field() : ''}
-    <sds-theme key="${this.themeKey}" ?compact="${this.compactTheme}"></sds-theme>
+    ${this.themeKey
+      ? html`<sds-theme key="${this.themeKey}" ?compact="${this.compactTheme}"></sds-theme>`
+      : html`<sds-theme ?compact="${this.compactTheme}"></sds-theme>`}
     ${drawer ? this.toggle_() : ''}
   </div>
   ${drawer

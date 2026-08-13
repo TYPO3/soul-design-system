@@ -34,9 +34,10 @@ export interface ThemeChange {
 /** The line a document runs before its first paint, so a stored choice is in
     place before anything is drawn. Returned as source rather than run here:
     it belongs in the head, and by the time an element exists it is too late.
+    The same default `soul-boot.js` has, both ends reading one name.
 
         <script>${themeBoot()}</script> */
-export const themeBoot = (key = 'theme'): string =>
+export const themeBoot = (key = 'soul-theme'): string =>
   `var t=localStorage.getItem(${JSON.stringify(key)});if(t){document.documentElement.dataset.theme=t}`;
 
 /* A frame is a document of its own and does not inherit the mode from the
@@ -62,7 +63,10 @@ export class SdsTheme extends SdsElement {
     current: { type: String, state: true },
   };
 
-  /** Where the choice is stored. Two products on one origin are two keys. */
+  /** Where the choice is stored. Two products on one origin are two keys, and
+      the default is `soul-boot.js`'s: what writes the mode before the paint and
+      what shows which side is pressed have to read the same name, or the choice
+      is made here and looked for somewhere else on the next page. */
   declare key: string;
   /** The words dropped, the glyphs left standing. Set from outside, because
       what has run out of room is the row and not the control — the bar sheds
@@ -72,7 +76,7 @@ export class SdsTheme extends SdsElement {
 
   constructor() {
     super();
-    this.key = 'theme';
+    this.key = 'soul-theme';
     this.compact = false;
     this.current = null;
   }

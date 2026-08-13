@@ -5,9 +5,12 @@
    as a flash of the other mode. Without this the choice is forgotten on the
    next page, which on a site of many is every click.
 
-     <script src="soul-boot.js" data-key="soul-theme"></script>
+     <script src="soul-boot.js"></script>
      <link rel="stylesheet" href="soul.css"> */
 const script = document.currentScript as HTMLScriptElement | null;
+/* `sds-theme` defaults to this same name, so a page that names neither still
+   has both ends reading one key. `data-key` is for the second product on an
+   origin, and then the element is given the same one. */
 const key = script?.dataset['key'] ?? 'soul-theme';
 const root = document.documentElement;
 

@@ -239,11 +239,11 @@ press rather than one state to flip.
 .. confval:: key
    :name: sds-theme-key
    :type: string
-   :default: "theme"
+   :default: "soul-theme"
 
-   Where the choice is stored. Two products on one origin are two keys, and the
-   boot script in the document head has to be given the same one — see
-   :doc:`/frontend/index`.
+   Where the choice is stored. The boot script in the document head has the
+   same default, both ends reading one name; two products on one origin are
+   two keys, and then each end is told which — see :doc:`/frontend/index`.
 
 .. confval:: compact
    :name: sds-theme-compact

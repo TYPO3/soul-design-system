@@ -2351,7 +2351,7 @@ var GLYPH = {
   light: "actions-brightness-high",
   dark: "actions-moon"
 };
-var themeBoot = (key = "theme") => `var t=localStorage.getItem(${JSON.stringify(key)});if(t){document.documentElement.dataset.theme=t}`;
+var themeBoot = (key = "soul-theme") => `var t=localStorage.getItem(${JSON.stringify(key)});if(t){document.documentElement.dataset.theme=t}`;
 function paintFrames(mode) {
   for (const frame of document.querySelectorAll("iframe")) {
     try {
@@ -2373,7 +2373,7 @@ var SdsTheme = class extends SdsElement {
   }
   constructor() {
     super();
-    this.key = "theme";
+    this.key = "soul-theme";
     this.compact = false;
     this.current = null;
   }
@@ -3545,7 +3545,7 @@ var SdsHeader = class extends SdsNav {
   <div class="sds-bar__end">
     ${this.version ? html23`<sds-badge label="${this.version}" tone="${this.tone}"></sds-badge>` : ""}
     ${wantsSearch && !this.foldSearch ? this.field() : ""}
-    <sds-theme key="${this.themeKey}" ?compact="${this.compactTheme}"></sds-theme>
+    ${this.themeKey ? html23`<sds-theme key="${this.themeKey}" ?compact="${this.compactTheme}"></sds-theme>` : html23`<sds-theme ?compact="${this.compactTheme}"></sds-theme>`}
     ${drawer ? this.toggle_() : ""}
   </div>
   ${drawer ? html23`${this.open ? html23`<sds-overlay @click="${() => {
