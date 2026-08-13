@@ -54,6 +54,8 @@ shared names and markup.
 inside ``.sds-prose``; an application taking the component layer must not gain
 an opinion about every paragraph. ``styles/_specimen.css`` also stays separate
 because card chrome is evidence around a design, not part of the design.
+The document layer is absent from the design-agent bundle for the same reason:
+that surface composes interface designs rather than setting documents.
 
 Sources beside it
 =================

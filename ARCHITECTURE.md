@@ -11,46 +11,6 @@ instruction for designing with the system, `RATIONALE.md` holds design reasons
 not yet moved beside their rules, and `.design-sync/NOTES.md` covers the design
 guide upload alone.
 
-## Two layers sit outside the entry point, for one reason
-
-`styles.css` imports the tokens and the component layer, and nothing else.
-`document.css` and `_specimen.css` are linked separately by whoever needs them.
-
-The reason is the same in both cases and it is worth stating once: **a
-stylesheet that has an opinion about a bare element cannot be taken back.**
-`document.css` styles `h1`–`h6`, `p`, `ul`, `dl`, `blockquote`, `table`, `code`
-— what a renderer emits and never gives a class to. In a document that is the
-whole point; in an application surface it is a system reaching past the classes
-it was asked for and into markup it does not own. Someone building a settings
-form gets a paragraph rhythm they never asked for and has to undo it.
-
-So the document layer is scoped to `.sds-prose` *and* shipped as its own file.
-The theme wraps the renderer's output in that class; the furniture around it —
-bar, rail, footer — stays with the component layer, which is where it was
-already drawn. `_specimen.css` is outside for the mirror-image reason: it draws
-card chrome, and a design built with this system must never inherit it.
-
-The document layer is not in `.out/bundle/`. That upload is for designing with
-the system, and nobody sets a document in it — one flat root, unchanged.
-
-**The step under a block is the one thing the component layer takes back from
-it.** A `<p>` carries `--space-4` below itself, a heading less as it deepens, a
-list the same as a paragraph — stated on the elements in `components.css`, not
-in the layer scoped to `.sds-prose`. The line above still holds for everything
-else: what stays in the document layer is the air *above* a heading, the tables,
-the quotations and the names only a renderer writes. But the box authored blocks
-land in is as often a component's as a document's — an answer folded behind a
-question, a note, a modal — and none of those is `.sds-prose`. Before this, two
-paragraphs inside one of them touched on every surface that links `styles.css`
-alone, which is Storybook, the cards, and every product built on the system.
-
-The price is that a container stating its own step has to take the element's
-back, or the two stack: `.sds-column`, `.sds-stack` and the rest zero the
-margins of what they hold, one rule near the elements it undoes. The blocks a
-component draws — `.sds-code`, `.sds-note`, `.sds-figure`, `.sds-embed` — carry
-the same step and are reached through the host they sit under, which is
-`display: contents`. `tests/defaults.spec.ts` holds both halves.
-
 ## Two packages come out of this tree, and they leave through `packages/`
 
 **Both leave the same way, and that is the point of the directory.** A package

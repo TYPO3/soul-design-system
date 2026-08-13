@@ -23,10 +23,10 @@ Linking it
 .. important::
 
    It is a **second entry point**, and ``soul.css`` deliberately does not
-   import it. A backend module or an application screen has no paragraphs to
-   have opinions about, and must not acquire any because it linked a design
-   system. Link the second file where a document is being set, and nowhere
-   else.
+   import it. A stylesheet that has an opinion about a bare element cannot be
+   taken back: an application linking the component layer must not gain rules
+   for every paragraph, heading and table on the page. Link the second file
+   where a document is being set, and nowhere else.
 
 Everything in it is scoped to ``.sds-prose`` — written ``:where(.sds-prose)``,
 so a rule weighs what it names and no more and a component's own rule still
@@ -87,6 +87,27 @@ What it sets
    lists too. What a document adds is the air: a gap under the block and a
    smaller one between items. See :doc:`/design-system/type` for the classes,
    ``.sds-list`` and ``.sds-list--plain``.
+
+Where block spacing lives
+=========================
+
+A paragraph, list or heading carries its own step below it in ``soul.css``,
+even though most of its other prose rules live here. Authored blocks also sit
+inside notes, accordion answers, cards and modal bodies, none of which has to
+be a document. Keeping the lower step in the component layer prevents two
+paragraphs in one of those surfaces from touching when ``document.css`` is not
+linked.
+
+The document layer adds what only a reading flow can know: the air above a
+heading, the treatment of tables and quotations, and the names a renderer
+writes. A container that declares its own gap takes the blocks' lower margins
+back, so ``.sds-column``, ``.sds-stack`` and component bodies produce one step
+rather than stacking two.
+
+This split is a contract rather than an implementation accident. A container
+of authored blocks either lets those blocks keep their step or owns the gap
+and removes it; it never does both. ``tests/defaults.spec.ts`` exercises both
+sides.
 
 What is on this page
 ====================
