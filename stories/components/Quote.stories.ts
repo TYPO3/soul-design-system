@@ -36,9 +36,9 @@ const meta: Meta<QuoteProps> = {
 export default meta;
 type Story = StoryObj<QuoteProps>;
 
-/** With what it is attributed to. The attribution is not optional: a
-    quotation with no source in a product's own writing is the product quoting
-    itself for emphasis. */
+/** A document said it, so no monogram is drawn: the mark is initials, and a
+    filename has none. The attribution is not optional either way — a quotation
+    with no source is the product quoting itself for emphasis. */
 export const Default: Story = {};
 
 /** Where it can be read in full, the attribution is the link. */
@@ -47,16 +47,21 @@ export const Sourced: Story = {
     body: 'Every source declares a precondition, so an answer is known to be reachable before the question is asked.',
     by: 'Sources and preconditions',
     as: 'documentation',
+    meta: '12.4 release notes',
     href: '#',
   },
 };
 
-/** A person, where a person said it. */
+/** A person, where a person said it — the same byline that stands at the top
+    of an article, because authorship is one thing wherever it is claimed. The
+    initials are given: a quote cannot tell a name from a filename. */
 export const Person: Story = {
   args: {
     body: 'The fallback was never the problem. Not saying it was a fallback was the problem.',
     by: 'Benjamin Kott',
+    initials: 'BK',
     as: 'maintainer',
+    meta: '24 July 2026',
   },
 };
 

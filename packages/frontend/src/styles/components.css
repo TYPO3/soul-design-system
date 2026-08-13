@@ -232,10 +232,10 @@ li > ol { margin-bottom: 0; }
   color: var(--text-primary);
   max-width: var(--measure-lead);
 }
-.sds-quote__by {
-  font-size: var(--aside-size);
-  color: var(--text-muted);
-}
+/* The attribution is a byline and brings its own type — the caption is only
+   where it sits. Set in caption size it said the sentence outranked whoever is
+   answerable for it, which is the opposite of why the source is required. */
+.sds-quote__by { margin: 0; }
 
 /* Who wrote it, and when. The mark is initials — a face is a file to fetch,
    keep in step and licence, and none of that is what a byline is for. */

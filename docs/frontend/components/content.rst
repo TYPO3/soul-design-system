@@ -237,6 +237,10 @@ required, and that is the whole of why this is a component: an unattributed
 quotation in a product's own writing reads as the product quoting itself for
 emphasis.
 
+The attribution is a ``sds-byline``, not a caption — authorship looks the
+same wherever it is claimed, and the source of a borrowed sentence is not a
+smaller kind of thing than the author of the page it sits in.
+
 .. code-block:: html
 
    <sds-quote by="The 12.4 release notes" as="changelog"
@@ -269,7 +273,22 @@ emphasis.
    :name: sds-quote-href
    :type: string
 
-   Where it can be read in full.
+   Where it can be read in full. The attribution carries the link.
+
+.. confval:: meta
+   :name: sds-quote-meta
+   :type: string
+
+   When, and anything else in the label register: a release, a revision.
+
+.. confval:: initials
+   :name: sds-quote-initials
+   :type: string
+
+   The mark, drawn only where these are given. A byline derives initials from
+   the name because a byline is a person; a quote does not, because half of
+   what is worth quoting is a document, and a monogram of a filename is a
+   person invented for a source that has none.
 
 sds-byline
 ==========
@@ -305,6 +324,20 @@ when. A page that puts the date first has published a date.
    The mark. Taken from the name where it is not given, and two letters at
    most. Never a photograph: a face is a file to fetch, keep in step and hold a
    licence for, and none of that says who is answerable.
+
+.. confval:: href
+   :name: sds-byline-href
+   :type: string
+
+   Where the name leads — a profile, or the source it is attributed to.
+
+.. confval:: unmarked
+   :name: sds-byline-unmarked
+   :type: boolean
+
+   No monogram, for an attribution that is not a person: a document, a release
+   note, a file. Initials derived from a filename are a person invented for a
+   source that has none.
 
 sds-note
 ========

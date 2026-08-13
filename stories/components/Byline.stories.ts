@@ -14,8 +14,15 @@ import '../../packages/frontend/src/components/byline.ts';
 import { type BylineProps } from '../../packages/frontend/src/components/byline.ts';
 import { NNBSP } from '../lib/specimen.ts';
 
-const sdsByline = ({ name, as: what, meta, initials }: BylineProps) =>
-  html`<sds-byline name="${name}" as="${what ?? ''}" meta="${meta ?? ''}" initials="${initials ?? ''}"></sds-byline>`;
+const sdsByline = ({ name, as: what, meta, initials, href, unmarked }: BylineProps) =>
+  html`<sds-byline
+    name="${name}"
+    as="${what ?? ''}"
+    meta="${meta ?? ''}"
+    initials="${initials ?? ''}"
+    href="${href ?? ''}"
+    ?unmarked="${unmarked ?? false}"
+  ></sds-byline>`;
 
 const meta: Meta<BylineProps> = {
   title: 'Components/Byline',
@@ -26,6 +33,8 @@ const meta: Meta<BylineProps> = {
     as: { control: 'text' },
     meta: { control: 'text' },
     initials: { control: 'text' },
+    href: { control: 'text' },
+    unmarked: { control: 'boolean' },
   },
   args: { name: 'Benjamin Kott', as: 'maintainer', meta: `24 July 2026 · 6${NNBSP}min` },
 };
@@ -48,4 +57,15 @@ export const Team: Story = { args: { name: 'Core Team', as: 'maintainers', meta:
     something the reader already knows. */
 export const Explicit: Story = {
   args: { name: 'Dev Companion', initials: 'DC', as: 'release note', meta: '9 August 2026 · 1.4.0' },
+};
+
+/** Where the name leads somewhere — a profile, or the source it is attributed
+    to. The link is on the name and nothing else: a date is not a destination. */
+export const Linked: Story = { args: { href: '#' } };
+
+/** Not a person, so no monogram. `sds-quote` stands its attribution this way
+    for a document: initials derived from a filename are a person invented for
+    a source that has none. */
+export const Unmarked: Story = {
+  args: { name: 'The 12.4 release notes', as: 'changelog', meta: '12.4.0', unmarked: true },
 };

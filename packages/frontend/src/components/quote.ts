@@ -5,11 +5,13 @@
    product quoting itself for emphasis, and nothing else here is allowed
    emphasis without a source either.
 
-   No quotation marks are drawn. The block is set apart by its measure and a
-   rule at its start — position rather than ornament. */
+   It is a `sds-byline`, not a caption: authorship is one thing and looks the
+   same wherever it is claimed. A caption-sized line under a borrowed sentence
+   said the source mattered less than the sentence. */
 
 import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';
+import './byline.ts';
 
 export interface QuoteProps {
   /** The sentence. Long enough to be worth borrowing, short enough to read at
@@ -23,6 +25,13 @@ export interface QuoteProps {
   as?: string;
   /** Where it can be read in full. */
   href?: string;
+  /** When, and anything else in the label register: a release, a revision. */
+  meta?: string;
+  /** Their initials, and the mark is drawn only where they are given. A byline
+      derives them from the name because a byline is a person; a quote does
+      not, because half of what is worth quoting is a document, and a monogram
+      of a filename is a person invented for a source that has none. */
+  initials?: string;
 }
 
 export class SdsQuote extends SdsElement {
@@ -31,12 +40,16 @@ export class SdsQuote extends SdsElement {
     by: { type: String },
     as: { type: String },
     href: { type: String },
+    meta: { type: String },
+    initials: { type: String },
   };
 
   declare body: string | TemplateResult;
   declare by: string;
   declare as: string;
   declare href: string;
+  declare meta: string;
+  declare initials: string;
 
   constructor() {
     super();
@@ -44,15 +57,21 @@ export class SdsQuote extends SdsElement {
     this.by = '';
     this.as = '';
     this.href = '';
+    this.meta = '';
+    this.initials = '';
   }
 
   protected override render(): TemplateResult {
-    const who = this.href
-      ? html`<a class="sds-link" href="${this.href}">${this.by}</a>`
-      : html`${this.by}`;
     return html`<figure class="sds-quote">
   <blockquote class="sds-quote__body">${this.body}</blockquote>
-  <figcaption class="sds-quote__by">${who}${this.as ? html` · ${this.as}` : ''}</figcaption>
+  <figcaption class="sds-quote__by"><sds-byline
+    name="${this.by}"
+    as="${this.as}"
+    meta="${this.meta}"
+    href="${this.href}"
+    initials="${this.initials}"
+    ?unmarked="${!this.initials}"
+  ></sds-byline></figcaption>
 </figure>`;
   }
 }

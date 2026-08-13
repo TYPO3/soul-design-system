@@ -23,6 +23,12 @@ export interface BylineProps {
   meta?: string;
   /** Their initials. Taken from the name when it is not given. */
   initials?: string;
+  /** Where the name leads — a profile, or the source it is attributed to. */
+  href?: string;
+  /** No monogram. For an attribution that is not a person: a document, a
+      release note, a file. Initials derived from a filename are a person
+      invented for a source that has none. */
+  unmarked?: boolean;
 }
 
 export class SdsByline extends SdsElement {
@@ -31,12 +37,16 @@ export class SdsByline extends SdsElement {
     as: { type: String },
     meta: { type: String },
     initials: { type: String },
+    href: { type: String },
+    unmarked: { type: Boolean },
   };
 
   declare name: string;
   declare as: string;
   declare meta: string;
   declare initials: string;
+  declare href: string;
+  declare unmarked: boolean;
 
   constructor() {
     super();
@@ -44,6 +54,8 @@ export class SdsByline extends SdsElement {
     this.as = '';
     this.meta = '';
     this.initials = '';
+    this.href = '';
+    this.unmarked = false;
   }
 
   /** First letters of the first and last word — two at most. Three initials
@@ -57,10 +69,11 @@ export class SdsByline extends SdsElement {
   }
 
   protected override render(): TemplateResult {
+    const who = this.href ? html`<a class="sds-link" href="${this.href}">${this.name}</a>` : html`${this.name}`;
     return html`<div class="sds-byline">
-  <span class="sds-byline__mark" aria-hidden="true">${this.mark}</span>
+  ${this.unmarked ? '' : html`<span class="sds-byline__mark" aria-hidden="true">${this.mark}</span>`}
   <div class="sds-byline__who">
-    <span class="sds-byline__name">${this.name}${this.as ? html` <span class="sds-byline__role">· ${this.as}</span>` : ''}</span>
+    <span class="sds-byline__name">${who}${this.as ? html` <span class="sds-byline__role">· ${this.as}</span>` : ''}</span>
     ${this.meta ? html`<span class="sds-label">${this.meta}</span>` : ''}
   </div>
 </div>`;
