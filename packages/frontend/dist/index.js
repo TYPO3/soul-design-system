@@ -4018,6 +4018,13 @@ var SdsFooter = class _SdsFooter extends SdsElement {
   static link(item) {
     return item.icon ? html29`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>` : html29`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}"></sds-link>`;
   }
+  /* What a column names, where that is a page. Not `sds-link`: the heading
+     keeps the label's register and the label's colour, and at the links' it
+     reads as the first entry of the list it names. The trail above a heading
+     is written the same way and for the same reason — see `.sds-crumbs a`. */
+  static heading(group) {
+    return group.href ? html29`<a class="sds-label sds-footer__heading" href="${group.href}">${group.label}</a>` : html29`<div class="sds-label">${group.label}</div>`;
+  }
   /* A mark, at the end of the line where marks are looked for: the glyph
      alone, at the size a mark is read at, named for whoever cannot see it.
      One with no glyph in the set is the labelled link it always was — the
@@ -4050,7 +4057,7 @@ var SdsFooter = class _SdsFooter extends SdsElement {
     ${this.groups.length ? html29`<div class="sds-footer__groups">
       ${this.groups.map(
       (group) => html29`<div class="sds-footer__group">
-        <div class="sds-label">${group.label}</div>
+        ${_SdsFooter.heading(group)}
         <div class="sds-footer__links">
           ${group.items.map((item) => _SdsFooter.link(item))}
         </div>

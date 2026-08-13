@@ -65,7 +65,12 @@
         {%- set away = '://' in page.url -%}
         {%- set items = items|merge([{ label: page.value.toString, href: away ? page.url : renderLink(page.url), external: away }]) -%}
     {%- endfor -%}
-    {%- set groups = groups|merge([{ label: section.value.toString, items: items }]) -%}
+    {#- The heading is the section's own page. A column names a section the
+        reader can otherwise only reach from the bar, and the bar is a written
+        list of front doors that this one may not be on — which is how a
+        section with pages under it ended up published and linked from
+        nowhere. -#}
+    {%- set groups = groups|merge([{ label: section.value.toString, href: renderLink(section.url), items: items }]) -%}
 {%- endfor -%}
 {#- What the tree cannot know — a licence, a product site, somewhere else
     entirely — following the site's own columns. -#}

@@ -1564,6 +1564,11 @@ html:has(.sds-bar) {
 /* The colour only: the underline is the link's own, and stating it again here
    put one under a mark that is a glyph and has no word to carry it. */
 .sds-footer :is(a, .sds-link):hover { color: var(--text-primary); }
+/* A heading that is also a page, where the section it names has one. It keeps
+   the label's colour rather than taking the links': at theirs it is the first
+   entry of its own list, and what it names is the list. The underline under
+   the pointer is the whole of the affordance, and every link here has it. */
+.sds-footer .sds-footer__heading { color: var(--text-muted); }
 /* The line under the columns: what this is, and the notices that have to
    travel with it. Set apart by space and not by a rule — a hairline between
    two areas of one ground is a horizontal rule across the window, which is

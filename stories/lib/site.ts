@@ -26,8 +26,13 @@ export const SECTIONS = [
 
 /** The columns the footer carries on every page. */
 export const SITE_GROUPS: readonly FooterGroup[] = [
+  /* A column headed by a section of the site: the heading is that section's own
+     page, which the columns are the only route to. A column that collects links
+     belonging together rather than a section — the marks, the notices — is a
+     page nowhere and heads nothing. */
   {
     label: 'Product',
+    href: '#',
     items: [
       { label: 'Overview', href: '#' },
       { label: 'Features', href: '#' },
@@ -37,6 +42,7 @@ export const SITE_GROUPS: readonly FooterGroup[] = [
   },
   {
     label: 'Documentation',
+    href: '#',
     items: [
       { label: 'Installing the server', href: '#' },
       { label: 'Writing a task skill', href: '#' },

@@ -14,9 +14,14 @@ export interface FooterLink {
     external?: boolean;
     icon?: IconId;
 }
-/** One column: what it collects, and what is in it. */
+/** One column: what it collects, and what is in it. `href` is the page the
+    heading itself names, where the thing it collects has one — a section with
+    a page of its own is reachable from its column or from nowhere, and
+    repeating its name as the first entry under it is a column saying the same
+    word twice. */
 export interface FooterGroup {
     label: string;
+    href?: string;
     items: readonly FooterLink[];
 }
 export interface FooterProps {
@@ -85,6 +90,7 @@ export declare class SdsFooter extends SdsElement {
     marks: readonly FooterLink[];
     constructor();
     private static link;
+    private static heading;
     private static mark;
     private lockup;
     protected render(): TemplateResult;

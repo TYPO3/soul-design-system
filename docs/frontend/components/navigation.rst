@@ -647,10 +647,18 @@ nothing was set, so the second is the first with less in it.
 
 .. confval:: groups
    :name: sds-footer-groups
-   :type: "{ label, items }[]"
+   :type: "{ label, href?, items }[]"
 
    The columns. They reflow by their own minimum, so no breakpoint decides how
    many fit.
+
+   ``href`` makes the heading the page it names, where what the column collects
+   is a section with a page of its own: that page is reachable from its column
+   or from nowhere, and repeating its name as the first entry under it is a
+   column saying the same word twice. The heading keeps the label's colour
+   rather than taking the links' — at theirs it reads as the first entry of the
+   list it names. A column that collects links belonging together rather than a
+   section leaves it out.
 
 .. confval:: note
    :name: sds-footer-note

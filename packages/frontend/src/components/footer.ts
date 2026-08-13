@@ -28,9 +28,14 @@ export interface FooterLink {
   icon?: IconId;
 }
 
-/** One column: what it collects, and what is in it. */
+/** One column: what it collects, and what is in it. `href` is the page the
+    heading itself names, where the thing it collects has one — a section with
+    a page of its own is reachable from its column or from nowhere, and
+    repeating its name as the first entry under it is a column saying the same
+    word twice. */
 export interface FooterGroup {
   label: string;
+  href?: string;
   items: readonly FooterLink[];
 }
 
@@ -103,6 +108,16 @@ export class SdsFooter extends SdsElement {
       : html`<sds-link label="${item.label}" href="${item.href ?? '#'}" ?external="${item.external ?? false}"></sds-link>`;
   }
 
+  /* What a column names, where that is a page. Not `sds-link`: the heading
+     keeps the label's register and the label's colour, and at the links' it
+     reads as the first entry of the list it names. The trail above a heading
+     is written the same way and for the same reason — see `.sds-crumbs a`. */
+  private static heading(group: FooterGroup): TemplateResult {
+    return group.href
+      ? html`<a class="sds-label sds-footer__heading" href="${group.href}">${group.label}</a>`
+      : html`<div class="sds-label">${group.label}</div>`;
+  }
+
   /* A mark, at the end of the line where marks are looked for: the glyph
      alone, at the size a mark is read at, named for whoever cannot see it.
      One with no glyph in the set is the labelled link it always was — the
@@ -159,7 +174,7 @@ export class SdsFooter extends SdsElement {
       ? html`<div class="sds-footer__groups">
       ${this.groups.map(
         (group) => html`<div class="sds-footer__group">
-        <div class="sds-label">${group.label}</div>
+        ${SdsFooter.heading(group)}
         <div class="sds-footer__links">
           ${group.items.map((item) => SdsFooter.link(item))}
         </div>

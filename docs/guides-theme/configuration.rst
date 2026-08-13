@@ -239,6 +239,11 @@ nothing under it is the link itself, and the tree is read two levels deep — a
 section and its pages is a footer, a section and its pages and *their* sections
 is a sitemap, which is a page rather than the end of every page.
 
+The heading of such a column is that section's own page. The bar carries a
+written list of front doors and a section may not be on it, so the footer is
+where a reader reaches one that is not — a column that named a section without
+linking it published a page nothing on the site pointed at.
+
 What is configured is what the tree cannot know:
 
 .. code-block:: xml
