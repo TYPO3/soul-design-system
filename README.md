@@ -102,8 +102,8 @@ None of them is edited by hand. Change a component in
 [`docs/maintaining/`](docs/maintaining/index.rst) says how sources become the
 artefacts this repository ships. `ARCHITECTURE.md` still holds the decisions
 not yet moved beside the part they govern. `SKILL.md` is the operating
-instruction for designing *with* the system, and `RATIONALE.md` says why each
-of its rules exists.
+instruction for designing *with* the system. The published design-system pages
+put reasons beside their rules; `RATIONALE.md` holds those not yet moved.
 
 ## Maintaining it here
 
@@ -276,7 +276,7 @@ creates a second one. It compares against the anchor the project stores
 | `docs/maintaining/` | how the sources, tasks and generated outputs are wired |
 | `ARCHITECTURE.md` | architecture decisions not yet moved into the published documentation |
 | `SKILL.md` | the build rules — the operating instruction |
-| `RATIONALE.md` | why each rule exists — read before extending or breaking one |
+| `RATIONALE.md` | design reasons not yet moved beside their published rules |
 
 Every card's first line is a `@dsCard` comment carrying its group, label,
 subtitle and viewport; a screen's is `@startingPoint`. Those lines are the

@@ -88,15 +88,16 @@ and the documents themselves are not comments and say what they have to say.
 | Where a source lives and which output a task derives from it | `docs/maintaining/source-and-output.rst` |
 | How the pieces are wired, and which decisions are load-bearing | `ARCHITECTURE.md` |
 | How to *design with* the system — the build rules | `SKILL.md` |
-| Why a rule exists, before extending or breaking it | `RATIONALE.md` |
+| Why a design rule exists | its page under `docs/design-system/`, then `RATIONALE.md` if it has not moved yet |
 | Drawing a signet to the construction | `docs/design-system/signet-prompt.md` |
 | Where the icons and fonts came from, and under what licence | `THIRD-PARTY.md` |
 | What the Guides theme still owes | `packages/guides-theme/GAPS.md` |
 | How to take the theme into a project of your own | `docs/guides-theme/` |
 
-`SKILL.md` is the operating instruction and `RATIONALE.md` is its reasoning.
-If a change would deviate from `SKILL.md`, read the matching section of
-`RATIONALE.md` before deciding, not after.
+`SKILL.md` is the operating instruction. The matching published page carries
+the rule and its reason; `RATIONALE.md` temporarily carries any reason not yet
+moved. If a change would deviate from `SKILL.md`, read both places before
+deciding, not after.
 
 ## A page lives where the menu puts it
 

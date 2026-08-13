@@ -44,9 +44,9 @@ something worse in a way that took a while to see.
 
 .. seealso::
 
-   ``SKILL.md`` is the operating instruction and ``RATIONALE.md`` is the
-   reasoning behind it. Read the second before extending or breaking a rule in
-   the first — both ship with the system.
+   ``SKILL.md`` is the operating instruction. The pages in this section put
+   each rule beside its reason; ``RATIONALE.md`` temporarily holds reasons not
+   yet moved here. Read both before extending or breaking a rule.
 
 Where the rules live
 ====================

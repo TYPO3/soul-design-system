@@ -88,31 +88,6 @@ site is rendered along it, with the same file a reader runs.
 
 ## Decisions that were made on purpose
 
-- **One type scale, bound by role.** `tokens/typography.css` holds every size.
-  `tokens/controls.css` names the roles a component knows itself by — button,
-  table head, tab, note title — and every one of them is a `--font-size-*`,
-  never a literal. The two were separate while controls carried sizes of their
-  own; by the time it was converged only buttons (14 → 15px) and table heads
-  (10 → 11px) still sat off the editorial steps, and that was the whole cost.
-  Controls still set tighter than prose — that part was never the problem.
-- **A block's title and its body are one pair.** Two registers carry every
-  titled block: `--block-*` for a note, surface, empty state, modal or
-  accordion, `--entry-*` for the ones whose title is a destination — card,
-  result. `document.css` rebinds both together. They were `--note-*`
-  while only a note used them, and by the time most blocks did, a body could
-  change register while the title over it stayed put; the distance between the
-  two ran 0, 2 and 5 steps depending on which component you looked at, and the
-  accordion's question sat a step *below* its own answer. The pair is the fix:
-  a component picks a register, never a size.
-- **A block is dense because it is scanned, not because it is a box.** The
-  rebind fires in a `.sds-column` reading column as well as in `.sds-prose`,
-  so a note or a card holding sentences on a product page reads at the page's
-  size. `RATIONALE.md` defends the density contrast as the system's character
-  and names what it is between — prose and *machine content* — so this applies
-  that rule rather than bending it: code, compact rows and captions keep their
-  density in the same paragraph. A surface joins by `:has(> .sds-surface-title)`
-  because it renders a plane and has no root class of its own; it had been left
-  out for that reason and read as a decision.
 - **The space scale is halved below 16px.** `--space-0-5`, `-1-5`, `-2-5` and
   `-3-5` are not a loosening of the 4px grid but the part of it that was
   missing: the small end is where a glyph beside a word and a label over its
@@ -134,18 +109,8 @@ site is rendered along it, with the same file a reader runs.
   carries beside sans, which is a ratio of its context and can never land on
   a step. It says which, and fails only on the first. A drawing is reported
   apart: `SKILL.md` pins its own scale, down to a 13px floor.
-- **No half-pixel font sizes.** House rule. 121 of them were rounded half-up
-  across the cards; `--font-size-dense` went 13.5 → 13px to match the code
-  blocks that already rendered at 13. Keep it that way — `make verify`
-  does not catch a new one, so watch it in review.
 - **Class prefix is `sds-`**, state is `.is-*`. `t3-` was avoided: the system's
   own rules forbid implying TYPO3 endorsement.
-- **Fonts ship with the system** as variable woff2 (latin + latin-ext, SIL OFL
-  1.1), generated from `@fontsource` — see the Re-sync risks entry for how. They
-  replaced a Google Fonts `@import`; verified pixel-identical on 37/38 cards,
-  the last being the loading card's spinner. Do not go back to the remote
-  import: a design behind a strict content policy would silently fall back
-  to system-ui.
 
 ## Fixes applied to the cards (were pre-existing defects)
 

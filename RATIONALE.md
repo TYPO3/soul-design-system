@@ -1,5 +1,10 @@
 # Soul Design System
 
+Design reasons are moving beside their rules in the published documentation;
+`docs/design-system/type.rst` now owns the type and density decisions. This
+file temporarily holds the reasons not yet moved and is reduced as each topic
+finds its permanent page.
+
 **The system is the product.** The tokens, the `sds-` class layer and the Lit elements are what is built and maintained here; the specimen cards, the Storybook, the npm package and the guide the design agent reads are all generated from them.
 
 It was cut against a real surface and still answers to one: **TYPO3 Support App**, a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work for the three audiences that do it — the core contributor, the extension author and the site developer. That product is the worked example throughout this document, and deliberately so — a system with no surface to answer to drifts into taste.
@@ -48,8 +53,6 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 
 **Colour.** One accent, `--accent` #FF8700, TYPO3 orange. It marks exactly three things: the active navigation item, the shell prompt in a code block, and the small square in the wordmark. Everything else is neutral: the warm-grey surfaces, text weights and border strengths declared in `tokens/colors.css`. There is no second accent. There is one gradient: `--accent-glow` lit into the top of a card's frame under the pointer and let go of on the way down. A card that answers with a fill alone says almost nothing on the dark canvas, where raised and canvas are four values apart, and the system has no shadow to raise it with — so the accent is used as light on the hairline rather than as a fourth thing it marks. It is a state, like the focus ring, and it is drawn on its own layer so the pointer fades one number. Status colours (`--status-ok`, `--status-warn`, `--status-error`) appear only inside code output, badges and result rows — never as page furniture.
 
-**Type.** Source Sans 3 for everything human, Source Code Pro for everything the machine reads or writes: tool names, argument names, labels, version strings, code. A tool name is *always* set in mono, at any size, including as a page heading. Display is 58px/600 at -0.03em; body is 16px/1.65 capped at 620px, which is the reading column every register on a page aligns to; the small uppercase label is 11px at 0.09em. Size tokens live under `--font-size-*`; `--text-*` is reserved for text colour. Weights used: 200 (rare, display only), 400, 500 (mono headings), 600. No italics except a single emphasised word in a display line. Variable faces keep weight changes from adding fetches; the upright latin faces are preloaded, and `font-display: optional` chooses a stable fallback over a late layout-changing swap.
-
 **Backgrounds.** Page grounds stay flat: no photography or illustration behind text, no repeating texture, no gradient. Decorative illustrations may occupy an explicit media slot such as a card's picture; explanatory imagery remains the diagram set.
 
 **Borders and shadows.** Hairlines do all the structural work. `--border-subtle` separates sections and table rows; `--border-strong` marks the head of a table or an active field. **There are no shadows in this system** — not on cards, not on modals, not on menus. A modal is separated by an overlay wash and a border, not by elevation. The one exception is the focus ring, `box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring)`, which is a state, not a depth.
@@ -59,8 +62,6 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 **Layout.** A 210px tool rail on the left, 1080px of content, 48px page gutters. Section boundaries are full-bleed hairlines; the content inside them respects the measure. Grid gaps of 1px over a `--border-subtle` background produce the hairline-separated card grids — that is the system's signature layout move. The header is sticky with a translucent canvas and an 8px backdrop blur; nothing else in the system is fixed, transparent or blurred.
 
 **Interaction.** Hover changes colour and border, never position and never size. Nothing scales, lifts, or bounces. Active navigation is a filled orange block with dark text — full colour inversion, not a tint. Focus is the orange ring. Disabled is 50% opacity with no colour change. Transitions run 140ms on `--ease-out`; anything longer reads as slow here.
-
-**Density.** Airy for prose (1.65 leading, generous section padding), tight for machine content (code at 1.9 leading but small; table rows on the `--row-pad-*` scale). The two densities sit next to each other deliberately — that contrast is the character. **The line falls between prose and machine content, not between running text and a box.** A note, a card or a surface holding sentences takes the page's own size wherever it stands in something being read — a `.sds-prose` document or a `.sds-column` reading column — while a code block, a compact row and a caption keep their density in exactly the same place. A box of sentences set four steps below the paragraph above it was never the contrast this paragraph is defending; it was the block having no way to hear where it was standing.
 
 ## Content fundamentals
 
