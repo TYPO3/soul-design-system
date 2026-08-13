@@ -38,19 +38,19 @@ One system, from design to delivery
       screens it needs to design with the same system developers ship.
 
    .. card:: Publish documentation as part of the product
-      :href: /guides-theme/index
+      :href: /guides-theme/quickstart
       :label: For documentation teams
       :icon: actions-book
-      :action: Explore the Guides theme
+      :action: Publish a first site
 
       Turn reStructuredText or Markdown into a site whose navigation, search
       and content components already belong to the interface around it.
 
    .. card:: Ship the interface without a framework
-      :href: /frontend/index
+      :href: /frontend/quickstart
       :label: For developers
       :icon: actions-code
-      :action: Use the frontend
+      :action: Build a first surface
 
       Link the class layer directly, then add the custom elements where a
       surface needs behaviour. Server-rendered markup remains the contract.

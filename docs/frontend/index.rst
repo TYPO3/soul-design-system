@@ -12,9 +12,15 @@ add.
 .. toctree::
    :titlesonly:
 
+   quickstart
    layout
    components/index
    documents
+
+.. tip::
+
+   :doc:`quickstart` puts a working surface on a page from either the package
+   or the drop-in, before the reference below explains each part.
 
 Two shapes
 ==========

@@ -14,12 +14,18 @@ against.
 .. toctree::
    :titlesonly:
 
+   quickstart
    installation
    example
    publishing
    configuration
    directives
    markup
+
+.. tip::
+
+   :doc:`quickstart` starts from an empty directory and ends at a local site.
+   :doc:`example` is the complete project and publishing workflow to copy.
 
 Two halves, and no third
 ========================
