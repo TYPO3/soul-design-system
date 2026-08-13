@@ -70,7 +70,7 @@ const meta: Meta<SurfaceProps> = {
       path: 'components/surfaces/surfaces.card.html',
       name: 'The planes, and what floats over them',
       subtitle: 'No shadows anywhere — a wash and a border do the separating',
-      viewport: '700x493',
+      viewport: '700x501',
     }),
   },
 };

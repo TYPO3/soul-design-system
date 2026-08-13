@@ -95,7 +95,7 @@
      card, a note, a modal and a code block start their text on the same edge
      however they are stacked. Only the vertical changes, and only between a
      strip above or below a body and the body itself. */
-  --block-pad-x: var(--space-4);
-  --block-pad-y: var(--space-3-5);
+  --block-pad-x: var(--space-5);
+  --block-pad-y: var(--space-4);
   --block-pad-y-tight: var(--space-2);
 }

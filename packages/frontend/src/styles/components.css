@@ -942,7 +942,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: var(--space-4) var(--space-4) var(--space-2);
+  padding: var(--block-pad-y) var(--block-pad-x);
 }
 .sds-card__note {
   font-size: var(--aside-size);

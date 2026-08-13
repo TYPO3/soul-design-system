@@ -44,7 +44,7 @@ the box it is for, so every straight edge is a whole number and lands on a
 whole device pixel.
 
 .. specimen:: guidelines/brand-signet-construction.card.html
-   :viewport: 700x2083
+   :viewport: 700x2087
    :title: Signet — construction
 
 Three sizes, each drawn in its own box
@@ -84,7 +84,7 @@ construction inside it, the outer radius, the stroke and its two consequences
 product.
 
 .. specimen:: guidelines/brand-signet-family.card.html
-   :viewport: 700x676
+   :viewport: 700x700
    :title: Signet — the family
 
 Drawing a new one
