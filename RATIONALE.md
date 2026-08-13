@@ -13,21 +13,6 @@ It was cut against a real surface and still answers to one: **TYPO3 Support App*
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
 
-## States
-
-The product's own honesty rules decide what these look like: an answer always carries its source, its version binding and what it leaves out — so the UI states are shaped to carry exactly that.
-
-**Focus.** One ring on every control, and one place it is written: `--border-emphasis` wide in `--accent`, standing `--focus-offset` off the box, plus a halo `--focus-halo` wide in `--accent-ring`. Every surface that draws it is named in that one rule and says only how it differs — a card keeps its own corner, a tile in a flush wall turns the ring inwards because the wall would clip it, a fold does the same and insets the halo. A field that already has an accent border keeps the halo alone. The values were copied by hand before, and the copies had begun to disagree: a card ringed at 5px against a rule that said 3. Always `:focus-visible`, never `:focus` — a mouse click should not light the ring. Nothing in the system is reachable by pointer only.
-
-**Loading.** Under 200ms show nothing; a flash of skeleton is worse than a pause. Over 2s the label has to say *why* — "booting the installation", "reading packages instead", "searching docs.typo3.org". Skeleton rows only where the shape is already known (a table, a list), never for a single value. The spinner is `actions-refresh` rotating, 1.1s linear.
-
-**Empty and not found.** Never just "no results". Say which source was asked, that it answered, and what it does not cover — plus the nearest real thing. A boundary is a legitimate answer here and is presented as one, with `actions-info-circle` rather than an error colour.
-
-**Errors.** Three levels, three colours, one shape (icon left, bold line, explanation under it):
-- **Warning** — a degraded answer that is still useful: what was reached, what was read instead, what that leaves out, and the command that would fix it.
-- **Error** — no answer, with the command or environment variable that would change that.
-- **Success** — only when the *source* matters ("answered from bundled knowledge · 12.4, 13.4"). Never as praise, never as a toast that says "done".
-
 ## Iconography
 
 **The icons are TYPO3's own.** `TYPO3/TYPO3.Icons` is the source; the icons this product needs are copied into `packages/frontend/assets/icons/`, and that directory is the list. Nothing is drawn locally and nothing is substituted from another set — an icon this product needs and TYPO3 does not have yet is **contributed upstream**, so the two stay one set.

@@ -44,7 +44,8 @@ existing control unavailable without giving it a new meaning.
 Loading
 =======
 
-Nothing under 200ms. Over 2s the label says *why*: "booting the installation",
+Nothing under 200ms: a flash of loading UI reads as a state change rather than
+useful progress. Over 2s the label says *why*: "booting the installation",
 "reading packages instead", "searching docs.typo3.org". Skeletons only where
 the shape is already known.
 
@@ -67,6 +68,10 @@ Empty and not found
 
 Errors and degraded answers
 ===========================
+
+Warning, error and success share the same note structure: an icon, a direct
+heading and an explanation. The structure identifies feedback; colour and icon
+identify its tone, so colour never has to carry the distinction alone.
 
 A **warning** is a degraded but usable answer: what was reached, what was
 read instead, what that leaves out, and the command that fixes it. An
