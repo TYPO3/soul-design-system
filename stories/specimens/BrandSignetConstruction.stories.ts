@@ -49,7 +49,7 @@ const mark = (size: number, o: Mark = {}): string => {
 const panel = (chosen: boolean, value: string, note: string, o: Mark): string =>
   `<div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--${chosen ? 'accent' : 'border-subtle'}); border-radius:var(--radius-card);">
       <div style="display:flex; align-items:center; gap:14px; min-height:50px;">${mark(64, o)}${mark(32, o)}</div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--${chosen ? 'accent' : 'text-muted'});">${value}</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">${note}</div></div>
+      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--${chosen ? 'text-accent-quiet' : 'text-muted'});">${value}</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">${note}</div></div>
     </div>`;
 
 const group = (title: string, aside: string, panels: string): string =>

@@ -11,35 +11,62 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { axeIdle, gotoStory } from './lib/story.ts';
 
-const SPECIMENS = [
-  'components-button--specimen',
-  'forms-field--specimen',
-  'specimens-navigation--specimen',
-  'components-surface--specimen',
-  'components-table--specimen',
-  'components-table-density--specimen',
-  'components-code--specimen',
-];
+interface StoryEntry {
+  id: string;
+  title: string;
+  name: string;
+  type: string;
+}
+
+async function storyIds(request: import('@playwright/test').APIRequestContext): Promise<StoryEntry[]> {
+  const index = (await (await request.get('/index.json')).json()) as { entries: Record<string, StoryEntry> };
+  return Object.values(index.entries).filter((e) => e.type === 'story');
+}
+
+/** Every story a card is generated from, minus the whole pages, which have
+    their own sweep below. Read out of the index rather than listed here: a
+    list kept by hand is one a new component is quietly missing from, and
+    nothing says so — the page sweep has read the index for that reason all
+    along, and this one had not. */
+async function specimenIds(request: import('@playwright/test').APIRequestContext): Promise<StoryEntry[]> {
+  return (await storyIds(request)).filter((e) => e.name === 'Specimen' && !e.title.startsWith('Pages/'));
+}
+
+/* Sharded so the sweep stays parallel, the way the render pass in
+   `stories.spec.ts` is. Each specimen is opened once per test and gets one
+   axe run on that page: several `analyze()` calls against the same page hit
+   "Axe is already running" — axe is a single global with one run at a time,
+   and awaiting the previous call is not enough to clear it. */
+const SPECIMEN_SHARDS = 4;
 
 for (const theme of ['dark', 'light'] as const) {
-  for (const id of SPECIMENS) {
-    test(`${id} has no serious axe violations in ${theme}`, async ({ page }) => {
-      await gotoStory(page, id, theme);
-      await axeIdle(page);
+  for (let shard = 0; shard < SPECIMEN_SHARDS; shard++) {
+    test(`specimens have no serious axe violations in ${theme}, shard ${shard + 1}`, async ({ page, request }) => {
+      const specimens = await specimenIds(request);
+      expect(specimens.length, 'there should be specimens to check').toBeGreaterThan(10);
+      const assigned = specimens.filter((_, index) => index % SPECIMEN_SHARDS === shard);
+      test.setTimeout(Math.max(30_000, assigned.length * 3_000));
 
-      const results = await new AxeBuilder({ page })
-        .include('#storybook-root')
-        /* Colour contrast is checked separately below, on the surfaces where
-           the result means something. Run here it flags every muted caption
-           in the specimen chrome, which is annotation and not product text. */
-        .disableRules(['color-contrast'])
-        .analyze();
+      const failures: string[] = [];
+      for (const story of assigned) {
+        await gotoStory(page, story.id, theme);
+        await axeIdle(page);
 
-      const serious = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
-      expect(
-        serious.map((v) => `${v.id}: ${v.nodes.length} node(s) — ${v.help}`),
-        `${id} (${theme})`,
-      ).toEqual([]);
+        const results = await new AxeBuilder({ page })
+          .include('#storybook-root')
+          /* Colour contrast is checked separately below, on the surfaces where
+             the result means something. Run here it flags every muted caption
+             in the specimen chrome, which is annotation and not product text. */
+          .disableRules(['color-contrast'])
+          .analyze();
+
+        for (const v of results.violations) {
+          if (v.impact !== 'serious' && v.impact !== 'critical') continue;
+          failures.push(`${story.title}: ${v.id} — ${v.help} (${v.nodes.length} node(s): ${v.nodes[0]?.target.join(' ')})`);
+        }
+      }
+
+      expect(failures, `serious axe violations on specimens (${theme})`).toEqual([]);
     });
   }
 }
@@ -50,51 +77,58 @@ for (const theme of ['dark', 'light'] as const) {
    written down here; a second turns the suite red. Selectors would be brittle
    and a count would drift with every added row. */
 const KNOWN_LOW_CONTRAST: Record<'dark' | 'light', string[]> = {
-  /* Empty on purpose: the tokens that used to sit here were fixed rather than
-     tolerated, and an entry added back is a decision, not a workaround. */
-  dark: [],
+  dark: [
+    /* A control drawn disabled, in the specimen that states the four states
+       side by side: `--text-muted` at half opacity. Same exemption as the
+       button below — 1.4.3 does not apply to a control that is unavailable,
+       and looking unavailable is the whole job of the colour. */
+    '#4d4943',
+  ],
   light: [
     /* The disabled button's own text. WCAG 1.4.3 explicitly exempts disabled
        controls, and looking unavailable is the entire job of the colour —
        this one is correct as it stands and is not a shortfall to fix. */
     '#8c8a87',
+    /* The same disabled state in the states specimen, on the lighter ground. */
+    '#b7b3ad',
   ],
 };
 
 for (const theme of ['dark', 'light'] as const) {
-  for (const id of SPECIMENS) {
-    test(`${id} has no new low-contrast colours in ${theme}`, async ({ page }) => {
-      /* One axe run per test, deliberately. Several `analyze()` calls against
-         the same page hit "Axe is already running" — axe is a single global
-         with one run at a time, and awaiting the previous call is not enough
-         to clear it. Splitting also names the specimen in the failure. */
-      await gotoStory(page, id, theme);
-      await axeIdle(page);
-
-      const results = await new AxeBuilder({ page })
-        .include('#storybook-root')
-        .withRules(['color-contrast'])
-        /* `.spec-cap` and friends are the specimen's own annotation layer,
-           styled by `_specimen.css`, which never ships to a product. */
-        .exclude('.spec-cap')
-        .exclude('.spec-note')
-        .exclude('.spec-lbl')
-        .exclude('.spec-h')
-        .analyze();
+  for (let shard = 0; shard < SPECIMEN_SHARDS; shard++) {
+    test(`specimens introduce no low-contrast colour in ${theme}, shard ${shard + 1}`, async ({ page, request }) => {
+      const assigned = (await specimenIds(request)).filter((_, index) => index % SPECIMEN_SHARDS === shard);
+      test.setTimeout(Math.max(30_000, assigned.length * 3_000));
 
       const found = new Map<string, string>();
-      for (const v of results.violations) {
-        for (const node of v.nodes) {
-          const summary = node.failureSummary ?? '';
-          const fg = /foreground color: (#[0-9a-f]{3,8})/i.exec(summary)?.[1]?.toLowerCase();
-          if (fg) found.set(fg, `${node.target.join(' ')} — ${summary.split('\n')[1]?.trim() ?? v.help}`);
+      for (const story of assigned) {
+        await gotoStory(page, story.id, theme);
+        await axeIdle(page);
+
+        const results = await new AxeBuilder({ page })
+          .include('#storybook-root')
+          .withRules(['color-contrast'])
+          /* `.spec-cap` and friends are the specimen's own annotation layer,
+             styled by `_specimen.css`, which never ships to a product. */
+          .exclude('.spec-cap')
+          .exclude('.spec-note')
+          .exclude('.spec-lbl')
+          .exclude('.spec-h')
+          .analyze();
+
+        for (const v of results.violations) {
+          for (const node of v.nodes) {
+            const summary = node.failureSummary ?? '';
+            const fg = /foreground color: (#[0-9a-f]{3,8})/i.exec(summary)?.[1]?.toLowerCase();
+            if (fg) found.set(fg, `${story.title} — ${node.target.join(' ')}`);
+          }
         }
       }
 
       const unexpected = [...found.keys()].filter((c) => !KNOWN_LOW_CONTRAST[theme].includes(c)).sort();
       expect(
         unexpected,
-        `new low-contrast foreground colour(s) in ${id} (${theme}). Either fix the token or add it ` +
+        `new low-contrast foreground colour(s) on a specimen (${theme}). Either fix the token or add it ` +
           `to KNOWN_LOW_CONTRAST with a reason.\n` +
           unexpected.map((c) => `  ${c}: ${found.get(c)}`).join('\n'),
       ).toEqual([]);
@@ -107,11 +141,8 @@ for (const theme of ['dark', 'light'] as const) {
    axe is genuinely good at needs a page. One test per theme rather than per
    page: the index decides which pages exist, so nothing here is kept in step
    with what has been built. */
-async function pageIds(request: import('@playwright/test').APIRequestContext): Promise<{ id: string; title: string }[]> {
-  const index = (await (await request.get('/index.json')).json()) as {
-    entries: Record<string, { id: string; title: string; type: string }>;
-  };
-  return Object.values(index.entries).filter((e) => e.type === 'story' && e.title.startsWith('Pages/'));
+async function pageIds(request: import('@playwright/test').APIRequestContext): Promise<StoryEntry[]> {
+  return (await storyIds(request)).filter((e) => e.title.startsWith('Pages/'));
 }
 
 for (const theme of ['dark', 'light'] as const) {
