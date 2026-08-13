@@ -135,6 +135,22 @@ by being a link already.
 Mono and labels
 ===============
 
+A mono run inside a sentence comes down to ``--font-mono-optical``. Every
+glyph in Source Code Pro carries the same advance, so a phrase set in it at
+the size around it reads a step larger than that size and pushes the line
+apart. The token is a ratio of its context rather than a step in the scale,
+which is what lets a 13px note and 16px body copy each get their own answer
+from one value. It is stated once, in ``tokens/fonts.css``, and every mono run
+— ``code``, ``kbd``, ``samp``, ``.sds-mono``, an option name, a formula the
+renderer left as source — reads it from there.
+
+Inline code carries no box and no colour of its own. A tinted, bordered,
+padded chip breaks the line's rhythm at every occurrence, and a reference
+sentence can hold four of them; a second ink would have to come from a palette
+where orange is already the link and green, amber and red already mean a
+status, so it would either collide with a link or claim a meaning the run does
+not have. The face is the difference, and the face is enough.
+
 .. specimen:: guidelines/type-mono.card.html
    :viewport: 700x201
    :title: Mono & labels

@@ -341,15 +341,15 @@ code,
 kbd,
 samp {
   font-family: var(--font-mono);
-  font-size: 0.94em;
+  font-size: var(--font-mono-optical);
   color: var(--text-primary);
   overflow-wrap: anywhere;
 }
 /* Inside a block the machine wrote, the block has already decided the size and
    the colour — `<code>` there is the element `<pre>` is required to contain,
-   not a phrase set in mono inside a sentence. Without this the 0.94em above
-   applies a second time and every code block sets a hair smaller than the size
-   its own class asked for. */
+   not a phrase set in mono inside a sentence. Without this the optical ratio
+   above applies a second time and every code block sets a step smaller than
+   the size its own class asked for. */
 .sds-code__body code,
 .sds-diff code {
   font-size: inherit;

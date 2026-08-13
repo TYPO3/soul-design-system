@@ -33,7 +33,6 @@
 :where(.sds-prose) blockquote>:last-child{margin-bottom:0}
 :where(.sds-prose) .sds-quote__body{padding-inline-start:0;border-inline-start:0}
 :where(.sds-prose) .sds-quote__by{font-size:inherit;color:inherit}
-:where(.sds-prose) code{font-family:var(--font-mono);font-size:.94em;color:var(--text-primary)}
 :where(.sds-prose) pre:not(.sds-code__body,.sds-diff){margin:0 0 var(--space-4);padding:var(--space-3) var(--space-4);overflow-x:auto;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-sunken);font-family:var(--font-mono);font-size:var(--font-size-dense);line-height:var(--leading-code);color:var(--text-primary)}
 :where(.sds-prose) pre code{font-size:inherit;color:inherit}
 :where(.sds-prose) sds-code:not(:defined){display:block;margin:0 0 var(--space-4)}
@@ -60,7 +59,7 @@
 :where(.sds-prose) :is(p,li,dd,td,th) a{text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-underline-offset:2px}
 :where(.sds-prose) :is(p,li,dd,td,th) a:hover{text-decoration-color:currentColor}
 :where(.sds-prose) strong{font-weight:var(--weight-semibold);color:var(--text-primary)}
-:where(.sds-prose) math:not(:has(*)){display:inline;font-family:var(--font-mono);font-size:.94em;color:var(--text-primary)}
+:where(.sds-prose) math:not(:has(*)){display:inline;font-family:var(--font-mono);font-size:var(--font-mono-optical);color:var(--text-primary)}
 :where(.sds-prose) .section>math:not(:has(*)),:where(.sds-prose)>math:not(:has(*)){display:block;margin:0 0 var(--space-4)}
 :where(.sds-prose) img{max-width:100%;height:auto}
 :where(.sds-prose) figure{margin:0 0 var(--space-6)}
@@ -102,7 +101,7 @@
 :where(.sds-prose) .hlist.columns-5>ul{columns:5}
 :where(.sds-prose) .hlist.columns-6>ul{columns:6}
 :where(.sds-prose) .hlist li{break-inside:avoid}
-:where(.sds-prose) .domain-default-option-name{font-family:var(--font-mono);font-size:.94em;font-weight:var(--weight-regular);color:var(--text-primary)}
+:where(.sds-prose) .domain-default-option-name{font-family:var(--font-mono);font-size:var(--font-mono-optical);font-weight:var(--weight-regular);color:var(--text-primary)}
 :where(.sds-prose) .field-list{width:auto;margin-bottom:var(--space-6);font-size:inherit}
 :where(.sds-prose) .field-list th,:where(.sds-prose) .field-list td{padding:0 var(--space-4) var(--space-1) 0;border-bottom:0;vertical-align:baseline}
 :where(.sds-prose) .field-list th{font-family:inherit;font-size:var(--font-size-ui);font-weight:var(--weight-semibold);letter-spacing:normal;text-transform:none;color:var(--text-muted);white-space:nowrap}

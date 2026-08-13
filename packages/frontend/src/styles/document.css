@@ -247,17 +247,6 @@
 
 /* ---------------------------------------------------------------- code -- */
 
-/* Inline code carries no box. A tinted, bordered, padded chip inside a
-   sentence breaks the line's rhythm at every occurrence, and a reference
-   sentence can hold four of them. The font is the difference, and the font is
-   enough — this is the same reasoning `.sds-mono` is built on, and the same
-   relative size, so the two agree wherever both appear. */
-:where(.sds-prose) code {
-  font-family: var(--font-mono);
-  font-size: 0.94em;
-  color: var(--text-primary);
-}
-
 /* A block is machine output and sits on the sunken plane — but not the ones a
    component renders its `<pre>` into: `sds-code` and `sds-diff` both carry the
    border, radius and plane on the frame around it. The exclusion stops the
@@ -276,9 +265,9 @@
   color: var(--text-primary);
 }
 /* The block set the family and size; the code inside must not set them again at
-   0.94 of the first. Every `<pre>`, the component's included: `components.css`
-   states the same at equal specificity in the file linked first, so the inline
-   rule above would win inside the element too. */
+   the optical ratio of the first. Every `<pre>`, the component's included:
+   `components.css` states the same at equal specificity in the file linked
+   first, so the inline rule there would win inside the element too. */
 :where(.sds-prose) pre code {
   font-size: inherit;
   color: inherit;
@@ -448,7 +437,7 @@
 :where(.sds-prose) math:not(:has(*)) {
   display: inline;
   font-family: var(--font-mono);
-  font-size: 0.94em;
+  font-size: var(--font-mono-optical);
   color: var(--text-primary);
 }
 /* The directive stands on a line of its own; the role stands in a sentence. */
@@ -732,7 +721,7 @@
    heading for the paragraph under it. */
 :where(.sds-prose) .domain-default-option-name {
   font-family: var(--font-mono);
-  font-size: 0.94em;
+  font-size: var(--font-mono-optical);
   font-weight: var(--weight-regular);
   color: var(--text-primary);
 }

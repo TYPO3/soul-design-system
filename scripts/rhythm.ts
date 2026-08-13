@@ -29,6 +29,18 @@ function steps(prefix: string): number[] {
   return [...found].sort((a, b) => a - b);
 }
 
+/** The ratio a mono run is set at, read where it is declared for the reason
+    the steps are. A step times this ratio is the optical correction and not a
+    number somebody typed — it only reads as typed on the steps where it
+    happens to land whole. */
+function ratio(name: string): number {
+  for (const file of readdirSync(TOKENS).filter((f) => f.endsWith('.css'))) {
+    const m = readFileSync(join(TOKENS, file), 'utf8').match(new RegExp(`--${name}:\\s*([\\d.]+)em`));
+    if (m) return Number(m[1]);
+  }
+  throw new Error(`--${name} is declared in no token file`);
+}
+
 /** What one box reported back. */
 interface Box {
   label: string;
@@ -52,6 +64,7 @@ interface Report extends Measured {
 
 const SCALE = steps('font-size');
 const GRID = steps('space');
+const OPTICAL = new Set(SCALE.map((s) => Math.round(s * ratio('font-mono-optical') * 100) / 100));
 
 const wanted = process.argv[2];
 const list = screens().filter((s) => !wanted || s.rel.includes(wanted));
@@ -150,13 +163,14 @@ for (const { screen, report } of measured) {
     console.log(`  ${gap}  ${b.label.padEnd(30)} ${`${b.size}px`.padStart(6)}/${b.leading}${pad}${flag}`);
   }
 
-  /* A fractional size is a relative one — the optical correction mono carries
-     beside sans, which is a ratio of its context and cannot land on a step.
-     A whole pixel off the scale is a number somebody typed, and only that
-     fails: the distinction is the point of measuring rather than grepping. */
+  /* A relative size is the optical correction mono carries beside sans: a
+     ratio of its context, so either it lands off the steps entirely or it is a
+     step times that one ratio. A whole pixel that is neither is a number
+     somebody typed, and only that fails — the distinction is the point of
+     measuring rather than grepping. */
   console.log('\n  every size the page sets');
   for (const { size, sample } of sizes) {
-    const relative = !Number.isInteger(size);
+    const relative = !Number.isInteger(size) || OPTICAL.has(size);
     const bad = !scale.includes(size) && !relative;
     if (bad) off++;
     const mark = bad ? 'OFF SCALE' : relative ? 'relative' : '';
