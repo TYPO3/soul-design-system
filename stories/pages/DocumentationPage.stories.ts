@@ -13,7 +13,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/accordion.ts';
-import '../../packages/frontend/src/components/menu.ts';
+import '../../packages/frontend/src/components/header.ts';
 import '../../packages/frontend/src/components/rail.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/code.ts';
@@ -143,24 +143,22 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 
   return html`<div class="sds-shell">
   ${skipLink()}
-  <header class="sds-bar">
-    <sds-menu for="page-rail" label="Pages"></sds-menu>
-    <a class="sds-lockup" href="#overview">
-      <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
-      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
-    </a>
-    <sds-menu label="Sections" .items="${[
+  <sds-header
+    home="#overview"
+    signet="../assets/design-system-signet-m.svg"
+    brand="TYPO3"
+    product="Dev Companion"
+    version="0.4.0"
+    search
+    rail="page-rail"
+    .items="${[
       { label: 'overview', href: '#overview' },
       { label: 'tools', href: '#tools' },
       { label: 'knowledge', href: '#knowledge' },
       { label: 'install', href: '#install' },
-    ]}" active="0"></sds-menu>
-    <div class="sds-bar__end">
-      <sds-field value="Search the documentation" icon="actions-search" label="Search the documentation" min-width="260"></sds-field>
-      <sds-badge label="0.4.0" tone="accent"></sds-badge>
-      <sds-theme></sds-theme>
-    </div>
-  </header>
+    ]}"
+    active="0"
+  ></sds-header>
 
   <div class="sds-body">
     <aside class="sds-body__rail" id="page-rail">

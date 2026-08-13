@@ -1,5 +1,4 @@
 import { type TemplateResult } from 'lit';
-import './lightbox.ts';
 import { SdsElement } from '../lib/element.js';
 export interface FigureProps {
     /** The file — a drawing this system ships, or an image. */
@@ -58,9 +57,5 @@ export declare class SdsFigure extends SdsElement {
     private captioned;
     constructor();
     connectedCallback(): void;
-    /** Take the press over from the link. Only where there is something to take
-        it over with: if the viewer has not upgraded, the browser follows the
-        href and the reader still gets the drawing. */
-    private zoom;
     protected render(): TemplateResult;
 }

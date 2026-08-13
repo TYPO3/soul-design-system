@@ -31,3 +31,11 @@ export const Default: Story = {
 export const OwnKey: Story = {
   render: () => html`<sds-theme key="companion-theme"></sds-theme>`,
 };
+
+/** The words dropped, the marks left standing. Set by whatever is short of
+    room — in a bar that is `sds-header`, which sheds these two words before it
+    sheds anything a reader came for. The word is still said to a reader who
+    cannot see the mark. */
+export const Compact: Story = {
+  render: () => html`<sds-theme compact></sds-theme>`,
+};

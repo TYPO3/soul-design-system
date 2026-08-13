@@ -1,4 +1,5 @@
 import { type TemplateResult } from 'lit';
+import './icon.ts';
 import { SdsElement } from '../lib/element.js';
 export type ThemeChoice = 'light' | 'dark';
 /** What `sds-theme-change` carries: the choice, or null for the machine's. */
@@ -17,6 +18,10 @@ export declare class SdsTheme extends SdsElement {
         key: {
             type: StringConstructor;
         };
+        compact: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
         current: {
             type: StringConstructor;
             state: boolean;
@@ -24,6 +29,10 @@ export declare class SdsTheme extends SdsElement {
     };
     /** Where the choice is stored. Two products on one origin are two keys. */
     key: string;
+    /** The words dropped, the glyphs left standing. Set from outside, because
+        what has run out of room is the row and not the control — the bar sheds
+        these two words before it sheds anything a reader came for. */
+    compact: boolean;
     current: ThemeChoice | null;
     constructor();
     connectedCallback(): void;

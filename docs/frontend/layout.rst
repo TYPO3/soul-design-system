@@ -234,20 +234,18 @@ device it was drawn for.
    * - 1140px
      - the gutters narrow, and the vertical rhythm with them
    * - 860px
-     - the rail stops being a column and goes behind the toggle in the bar;
-       the version badge leaves the bar; two-column splits stack
-   * - 640px
-     - the search field leaves the bar — a surface that needs search on a
-       phone puts a button in its place
+     - the rail stops being a column and joins the bar's drawer; the version
+       badge leaves the bar; two-column splits stack
    * - 460px
      - the wordmark keeps the signet and the brand, and drops the product
 
 .. important::
 
-   Whether the sections in the bar are a row or a panel is **not** one of
-   these. ``sds-menu`` measures what its items need against the room the row
-   has left, because a bar holds a product name as long as the product is
-   called — see :doc:`components/navigation`.
+   What the bar does with the search field and the sections is **not** one of
+   these. ``sds-header`` measures what they need against the room the row has
+   left, because a bar holds a product name as long as the product is called;
+   what it can no longer hold waits in one drawer rather than being dropped —
+   see :doc:`components/navigation`.
 
 Layout a page may reach for
 ===========================
@@ -277,8 +275,6 @@ writes for itself is layout nothing else can keep in step.
    * - ``.sds-grid``
      - the wall a set is read in, reflowing by its own minimum; ``sds-grid``
        is the element that writes it, and a page reaches for that
-   * - ``.sds-stats``
-     - a set of figures, reflowing the same way
    * - ``.sds-form``
      - one column of fields, at the measure a form is *filled in* rather than
        the one a page is read at

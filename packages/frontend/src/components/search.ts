@@ -4,10 +4,10 @@
    writes, fetched the first time somebody types. It draws `sds-result` rather
    than rebuilding one.
 
-   The panel is the menu's drop, hung from the field rather than from whatever
-   box happens to be positioned above it. Without JavaScript neither the element
-   nor the field is there: a search box that cannot search is worse than an
-   honest absence, and the rail still lists every page. */
+   The hits drop from the field rather than from whatever box happens to be
+   positioned above it. Without JavaScript neither the element nor the field is
+   there: a search box that cannot search is worse than an honest absence, and
+   the rail still lists every page. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
@@ -200,7 +200,7 @@ export class SdsSearch extends SdsElement {
       that broke. */
   private panel(hits: SearchEntry[]): TemplateResult {
     return html`<div
-  class="sds-menu__panel sds-search__panel"
+  class="sds-search__panel"
   id="${this.panelId}"
   aria-label="${this.label}"
   @keydown="${(e: KeyboardEvent) => this.onPanelKey(e)}"

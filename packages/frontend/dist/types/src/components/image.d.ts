@@ -1,5 +1,4 @@
 import { type TemplateResult } from 'lit';
-import './lightbox.ts';
 import { SdsElement } from '../lib/element.js';
 export interface ImageProps {
     /** The file. An SVG is referenced, anything else is linked. */
@@ -66,9 +65,5 @@ export declare class SdsImage extends SdsElement {
         script and for a reader who runs none. The element redraws it and the
         server's copy goes, or light DOM leaves two pictures in one box. */
     connectedCallback(): void;
-    /** Take the press over from the link. Only where there is something to take
-        it over with: if the viewer has not upgraded, the browser follows the
-        href and the reader still gets the picture. */
-    private zoom;
     protected render(): TemplateResult;
 }

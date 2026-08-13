@@ -12,7 +12,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/field.ts';
-import '../../packages/frontend/src/components/menu.ts';
+import '../../packages/frontend/src/components/header.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/image.ts';
 import '../../packages/frontend/src/components/table.ts';
@@ -97,21 +97,19 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
 
   return html`<div class="sds-shell">
   ${skipLink()}
-  <header class="sds-bar">
-    <a class="sds-lockup" href="#tools">
-      <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
-      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
-    </a>
-    <sds-menu label="Sections" .items="${[
+  <sds-header
+    home="#tools"
+    signet="../assets/design-system-signet-m.svg"
+    brand="TYPO3"
+    product="Dev Companion"
+    .items="${[
       { label: 'overview', href: '#overview' },
       { label: 'tools', href: '#tools' },
       { label: 'knowledge', href: '#knowledge' },
       { label: 'install', href: '#install' },
-    ]}" active="1"></sds-menu>
-    <div class="sds-bar__end">
-      <sds-theme></sds-theme>
-    </div>
-  </header>
+    ]}"
+    active="1"
+  ></sds-header>
 
   <main class="sds-page" id="main-content">
     <div class="sds-stack" id="tools">

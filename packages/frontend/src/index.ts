@@ -26,7 +26,7 @@ import './components/checkbox.ts';
 import './components/radio.ts';
 import './components/form-errors.ts';
 import './components/pills.ts';
-import './components/menu.ts';
+import './components/header.ts';
 import './components/accordion.ts';
 import './components/accordion-item.ts';
 import './components/tabs.ts';
@@ -70,7 +70,7 @@ export { SdsRadio, type RadioProps, type Choice } from './components/radio.ts';
 export { SdsFormErrors, type FormErrorsProps, type FormError } from './components/form-errors.ts';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.ts';
 export { SdsPills } from './components/pills.ts';
-export { SdsMenu } from './components/menu.ts';
+export { SdsHeader } from './components/header.ts';
 export { SdsAccordion, type AccordionProps, type Entry } from './components/accordion.ts';
 export { SdsAccordionItem } from './components/accordion-item.ts';
 export { SdsTabs } from './components/tabs.ts';
@@ -124,7 +124,7 @@ export const TAGS = [
   'sds-radio',
   'sds-form-errors',
   'sds-pills',
-  'sds-menu',
+  'sds-header',
   'sds-accordion',
   'sds-accordion-item',
   'sds-tabs',

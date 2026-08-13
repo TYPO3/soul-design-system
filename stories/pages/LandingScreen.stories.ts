@@ -12,7 +12,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/accordion.ts';
-import '../../packages/frontend/src/components/menu.ts';
+import '../../packages/frontend/src/components/header.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/badge.ts';
@@ -96,16 +96,16 @@ const COMPONENTS: readonly {
     source: '<sds-rail active="1" items=\'[\n  "overview",\n  { "label": "tools", "items": ["typo3_icon_lookup"] }\n]\'></sds-rail>',
   },
   {
-    name: 'sds-menu',
-    body: 'The navigation in a header, and what it does as the header runs out. Pills while there is room; a toggle and a panel below the bar when there is not — and which of the two is measured, not declared at a breakpoint somebody picked for one page.',
+    name: 'sds-header',
+    body: 'The bar at the top of a page, and what it does as the page runs out. A row while there is room; one button and one drawer holding the field, the sections and the page rail when there is not — and which of the two is measured, not declared at a breakpoint somebody picked for one page.',
     marks: ['element', 'class layer', 'measures itself'],
     columns: [{ head: 'Property', cls: 'sds-td-name' }, { head: 'Required' }, { head: 'Meaning' }],
     rows: [
-      { cells: ['items', 'yes', 'The sections of the site, as labels or as entries with an href.'] },
-      { cells: ['active', 'no', 'Which one is current, marked the way every item in this system is.'] },
-      { cells: ['label', 'no', 'What the toggle is called for a reader who cannot see it is a menu.'] },
+      { cells: ['product', 'yes', 'The name in the lockup, with brand and signet where there are two halves.'] },
+      { cells: ['items', 'no', 'The sections of the site, or the links a server wrote between the tags.'] },
+      { cells: ['rail', 'no', 'The id of the page rail, which joins the drawer once it has no column.'] },
     ],
-    source: '<sds-menu label="Sections" items=\'[\n  { "label": "overview", "href": "#overview" },\n  { "label": "install", "href": "#install" }\n]\'></sds-menu>',
+    source: '<sds-header product="Soul" signet="signet.svg" search items=\'[\n  { "label": "overview", "href": "#overview" }\n]\'></sds-header>',
   },
 ];
 
@@ -198,22 +198,20 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
   return html`<div class="sds-shell">
   ${skipLink()}
-  <header class="sds-bar">
-    <a class="sds-lockup" href="#overview">
-      <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
-      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
-    </a>
-    <sds-menu label="Sections" .items="${[
+  <sds-header
+    home="#overview"
+    signet="../assets/design-system-signet-m.svg"
+    brand="TYPO3"
+    product="Soul Design System"
+    version="0.1.0-dev"
+    .items="${[
       { label: 'overview', href: '#overview' },
       { label: 'foundations', href: '#foundations' },
       { label: 'components', href: '#components' },
       { label: 'install', href: '#install' },
-    ]}" active="0"></sds-menu>
-    <div class="sds-bar__end">
-      <sds-badge label="0.1.0-dev" tone="accent"></sds-badge>
-      <sds-theme></sds-theme>
-    </div>
-  </header>
+    ]}"
+    active="0"
+  ></sds-header>
 
   <main class="sds-bands" id="main-content">
 

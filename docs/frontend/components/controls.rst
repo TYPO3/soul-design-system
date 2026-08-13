@@ -230,9 +230,11 @@ as an active navigation item, because it is one.
 
    <sds-theme></sds-theme>
 
-Never a switch and never a moon: there are three states, not two — light, dark,
-and the machine's, which is what a reader who has pressed neither gets.
-Pressing the current one gives the machine back.
+Never a switch, and never one moon standing for the pair: there are three
+states, not two — light, dark, and the machine's, which is what a reader who
+has pressed neither gets. Pressing the current one gives the machine back.
+Each segment carries its own mark, so the pair still reads as two things to
+press rather than one state to flip.
 
 .. confval:: key
    :name: sds-theme-key
@@ -242,6 +244,17 @@ Pressing the current one gives the machine back.
    Where the choice is stored. Two products on one origin are two keys, and the
    boot script in the document head has to be given the same one — see
    :doc:`/frontend/index`.
+
+.. confval:: compact
+   :name: sds-theme-compact
+   :type: boolean
+
+   The words dropped and the marks left standing, for a row that has run out of
+   room for them. Set from outside, because what is short of room is never the
+   control itself: in a bar it is ``sds-header``, and these two words are the
+   first thing it sheds — before the search field, and long before a section.
+   The word a segment no longer draws is still said to a reader who cannot see
+   the mark.
 
 .. note::
 

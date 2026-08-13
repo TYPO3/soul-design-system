@@ -1,33 +1,30 @@
 {#
     The bar. One of them, for every kind of page.
 
-    Its parts are configuration — the mark, the sections, the footer's sibling
-    — so a manual page and a landing page carry the same one and a reader
-    never has to work out which site they are on.
-#}
-<header class="sds-bar">
-    {#- The mobile menu: one button that opens the rail the layout gives this
-        id to. It adds behaviour and takes none away — without JavaScript there
-        is no button, and the rail is where it always was.
+    Its parts are configuration — the mark, the sections, the version, the
+    search, the rail it takes in when the page has no column for one — so a
+    manual page and a landing page carry the same bar and a reader never has to
+    work out which site they are on. What a project sets, and where, is
+    `docs/guides-theme/configuration.rst`.
 
-        Only where there is a rail to open. The element drops itself when it
-        finds no target, but it finds one by asking a document, and the page is
-        rendered before there is one — so a page with no rail shipped a button
-        that did nothing until a script took it away. -#}
-    {%- if rail|default('')|trim %}
-        <sds-menu for="page-rail" label="Pages"></sds-menu>
-    {%- endif %}
-    {% include "structure/brand.html.twig" %}
-    {% include "structure/navigation.html.twig" %}
-    <div class="sds-bar__end">
-        {#- The version belongs with what is true of this page rather than in
-            the mark: it is a fact about the documentation the reader is in, it
-            is a badge like every other short fact in this system, and it is
-            the first thing the bar drops when it narrows. -#}
-        {%- if env.projectNode.version %}
-            <sds-badge label="{{ env.projectNode.version }}" tone="accent"></sds-badge>
-        {%- endif %}
-        <sds-search index="{{ root }}_search.json" label="Search"></sds-search>
-        <sds-theme key="soul-theme"></sds-theme>
-    </div>
-</header>
+    The sections are written between the tags rather than handed over as data:
+    this renderer has resolved its own tree already, and the element does the
+    part a server cannot — measure what still fits in the row, and hold the
+    rest behind one button.
+#}
+<sds-header
+    home="{{ soul.home ? asset(soul.home) : renderLink('/index') }}"
+    {%- if soul.signet %} signet="{{ asset('/' ~ soul.signet) }}"{% endif %}
+    {%- if soul.brand %} brand="{{ soul.brand }}"{% endif %}
+    product="{{ soul.product|default(env.projectNode.title)|default('Documentation') }}"
+    {#- The version is a fact about the documentation the reader is in rather
+        than part of the product's name, which is why it is a badge at the
+        other end of the bar and not a third line in the mark. -#}
+    {%- if env.projectNode.version %} version="{{ env.projectNode.version }}"{% endif %}
+    index="{{ root }}_search.json"
+    {#- Only where the page has one. The element takes the rail in once the
+        layout has no column for it; named a rail that is not there, it would
+        be a button standing in the bar with nothing behind it. -#}
+    {%- if rail|default('')|trim %} rail="page-rail"{% endif %}
+    theme-key="soul-theme"
+>{% include "structure/navigation.html.twig" %}</sds-header>

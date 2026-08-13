@@ -6,9 +6,10 @@
     list wins over it: which of a site's sections are its front doors is the
     one thing the tree cannot know.
 
-    `sds-menu` and not a bare row of pills: what happens to four words when the
-    header runs out of room is the element's business, measured rather than
-    guessed at a breakpoint.
+    The links and nothing around them. They are written between the tags of
+    `sds-header`, which measures what happens to four words when the bar runs
+    out of room — guessed at a breakpoint, that answer is wrong on the next
+    site.
 #}
 {#- The links as data. A section entry points at its own document and a page
     at itself; an entry carrying a URL is somebody else's site and is left
@@ -25,19 +26,15 @@
         {%- endfor -%}
     {%- endfor -%}
 {%- endif -%}
-{%- if links %}
-    <sds-menu label="Sections">
-        {#- A section is current when the reader is on it *or* under it — the
-            rootline is the tree walked upwards, so a guideline page marks
-            Guidelines. Marking only the exact page left the bar saying nothing
-            on every page but five. The active pill is a filled block rather
-            than a tint, one of exactly three places the accent appears. -#}
-        {%- for link in links %}
-            {%- set here = not link.external and link.href|trim('/') in env.currentFileRootline %}
-            <a class="sds-pill{% if here %} is-active{% endif %}"
-               href="{{ link.external ? link.href : renderLink(link.href) }}"
-               {%- if link.external %} target="_blank" rel="noreferrer"{% endif %}
-               {%- if here %} aria-current="page"{% endif %}>{{ link.label }}</a>
-        {%- endfor %}
-    </sds-menu>
-{%- endif -%}
+{#- A section is current when the reader is on it *or* under it — the rootline
+    is the tree walked upwards, so a guideline page marks Guidelines. Marking
+    only the exact page left the bar saying nothing on every page but five. The
+    active pill is a filled block rather than a tint, one of exactly three
+    places the accent appears. -#}
+{%- for link in links %}
+    {%- set here = not link.external and link.href|trim('/') in env.currentFileRootline %}
+    <a class="sds-pill{% if here %} is-active{% endif %}"
+       href="{{ link.external ? link.href : renderLink(link.href) }}"
+       {%- if link.external %} target="_blank" rel="noreferrer"{% endif %}
+       {%- if here %} aria-current="page"{% endif %}>{{ link.label }}</a>
+{%- endfor -%}

@@ -289,7 +289,9 @@ li > ol { margin-bottom: 0; }
 
 /* Inline mono for anything the machine named — tool names, paths, flags,
    versions. Scales with its context instead of pinning a size, so it sits
-   correctly in both a 12px note and 16px body copy. Never title-cased. */
+   correctly in both a 12px note and 16px body copy. Never title-cased, and it
+   breaks where it has to: a path with no space in it is one word, and one word
+   wider than a phone is a page that scrolls sideways to be read. */
 .sds-mono,
 code,
 kbd,
@@ -297,6 +299,7 @@ samp {
   font-family: var(--font-mono);
   font-size: 0.94em;
   color: var(--text-primary);
+  overflow-wrap: anywhere;
 }
 /* Inside a block the machine wrote, the block has already decided the size and
    the colour — `<code>` there is the element `<pre>` is required to contain,
@@ -1202,6 +1205,16 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    full-bleed — a rule that stops short reads as a box — and what is held is
    their *contents*. `--page-inset` is inherited rather than recomputed, because
    the menu's panel hangs off the bar and starts where its contents do. */
+/* Registered so it can be animated, which is the whole reason it is a property
+   of its own: the inset is a `max()` of this and the centring, and the centring
+   tracks the window. Animate the padding itself and the page rubber-bands
+   behind a drag; animate the gutter and only the step moves — in the widths
+   where the step is what the inset is, which is where it steps. */
+@property --page-gutter {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
 .sds-bar,
 .sds-body,
 .sds-page,
@@ -1211,6 +1224,12 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   --page-gutter: var(--gutter-page);
   --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
   padding-inline: var(--page-inset);
+  /* What a band change actually moves: the gutter, the bar's height, and the
+     gap beside a rail. Everything else here is `auto` and does not animate. */
+  transition:
+    --page-gutter var(--duration-fast) var(--ease-out),
+    min-height var(--duration-fast) var(--ease-out),
+    column-gap var(--duration-fast) var(--ease-out);
 }
 
 /* The bar stays: it is the frame the page is read inside. Sticky and not fixed,
@@ -1221,9 +1240,17 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   position: sticky;
   top: 0;
   z-index: 30;
-  height: var(--height-header);
+  /* A floor rather than a height, and a row that may wrap: between a window
+     changing width and the element having measured it there is a frame where
+     the row is over-full, and the two ways out of one are a second line or
+     pills painted over the controls. A header of two rows for one frame beats
+     a bar that overlapped itself. At rest it never wraps — that is the whole
+     of what the element measures. */
+  min-height: var(--height-header);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  align-content: center;
   gap: var(--space-6);
   padding-block: 0;
   background: color-mix(in srgb, var(--surface-canvas) 88%, transparent);
@@ -1257,8 +1284,11 @@ html:has(.sds-bar) {
    flex items are a level below them — hence both. */
 .sds-bar > *,
 .sds-bar > * > * { min-width: 0; }
-/* The field is the one thing that gives before anything is dropped. */
-.sds-bar .sds-field { flex: 0 1 260px; }
+/* In the bar the field keeps its size. It used to be the one thing that gave
+   before anything was dropped, which bought the row 100px and cost the reader
+   a box too narrow to read what they had typed — it goes to the drawer whole
+   instead, and the bar is measured knowing it will not shrink. */
+.sds-bar__end .sds-search { flex-shrink: 0; }
 /* The badge keeps its own height. It is not a control — nothing is pressed
    or typed in it — and a version standing as tall as the search field would
    read as something to press. The controls line up with each other; the fact
@@ -1273,6 +1303,9 @@ html:has(.sds-bar) {
   display: flex;
   gap: var(--space-12);
   padding-block: var(--space-8);
+  /* Whether the rail still has a column. The bar reads it back rather than
+     deciding a second time at a width of its own — see the media query. */
+  --rail-folded: 0;
 }
 /* Sticky for the bar's reason: the list of pages is the frame, not part of what
    is read. It comes to rest where it started rather than against the bar — the
@@ -1467,10 +1500,11 @@ html:has(.sds-bar) {
   grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
   gap: var(--space-4);
 }
-/* The same grid told what its cards hold, not how many columns to draw. A card
+/* The same grid told what its items hold, not how many columns to draw. A card
    carrying a picture and a paragraph needs the room two of them get; a card
-   that is a name and a glyph is read in a set of five or six. Both still
-   reflow, so a phone gets one and nothing here names a breakpoint. */
+   that is a name and a glyph, or a figure and the line under it, is read in a
+   set of five or six. Both still reflow, so a phone gets one and nothing here
+   names a breakpoint. */
 .sds-grid--wide { --grid-min: 340px; }
 .sds-grid--dense { --grid-min: 150px; }
 
@@ -1532,9 +1566,10 @@ html:has(.sds-bar) {
 .sds-band--quiet + .sds-band--quiet { border-top: 0; }
 
 /* Where it sheds. The second step is where a rail stops being a column beside
-   the text and goes behind the toggle: **navigation with no room becomes a
-   panel off the bar**. The sections are not dropped at a breakpoint at all —
-   that is `sds-menu`'s measurement; whether a column exists is layout's. */
+   the text and goes into the bar's drawer: **navigation with no room becomes
+   a panel off the bar**. The sections and the field are not dropped at a
+   breakpoint at all — that is `sds-header`'s measurement; whether a column
+   exists is layout's, and `--rail-folded` is how it says so. */
 @media (max-width: 1140px) {
   .sds-bar,
   .sds-body,
@@ -1558,17 +1593,13 @@ html:has(.sds-bar) {
   .sds-bar sds-badge { display: none; }
   /* The height a desktop can spare is height a phone is reading with. */
   :root { --height-header: 56px; }
-  .sds-body { flex-direction: column; padding-block: var(--space-6); }
+  /* The flag and the stacking are one decision, said in one rule so the two
+     cannot drift: below this width the rail has no column, and the bar takes
+     it into its drawer. Without a script it stays where it is, above the text
+     — a list of pages is worth a screen's height and is never hidden behind a
+     button that is not there. */
+  .sds-body { flex-direction: column; padding-block: var(--space-6); --rail-folded: 1; }
   .sds-body__rail { width: auto; position: static; max-height: none; }
-  /* The rail's toggle exists only here, where the rail has no column of its
-     own. Above this the rail *is* the navigation, in view, and a button that
-     hides it would be a button for making the page worse. */
-  .sds-menu--for .sds-menu__toggle { display: inline-flex; }
-  /* And the rail waits behind it — but only once a toggle has said it is
-     there. `is-collapsible` is written by the element that opens it, on the
-     element it opens: without the script there is no button, and a rail hidden
-     behind a button nobody has is a navigation with no way in. */
-  .sds-body__rail.is-collapsible:not(.is-open) { display: none; }
   .sds-page { padding-block: var(--space-8); }
   .sds-foot { flex-wrap: wrap; gap: var(--space-4); }
   /* Stacked, and stretched with it: a column of two whose items are their own
@@ -1579,13 +1610,6 @@ html:has(.sds-bar) {
   .sds-sections { gap: var(--space-10); }
 }
 @media (max-width: 640px) {
-  /* The field goes last of the three; a surface needing search on a phone puts
-     a button in its place. By the class and not the tag: `sds-search` draws its
-     own field, so a rule naming `sds-field` would match nothing on the one
-     surface with a search in its bar. What is hidden is the box, whichever
-     element drew it. */
-  .sds-bar .sds-search,
-  .sds-bar .sds-field { display: none; }
   .sds-actions { flex-wrap: wrap; }
   /* The closing line wraps here, and a set of marks pushed to the far end of a
      line it is alone on sits against the right edge under text that starts at
@@ -1613,15 +1637,13 @@ html:has(.sds-bar) {
   min-width: 0;
 }
 .sds-search .sds-field { width: 100%; }
-/* Two classes, and the second one is why: this is also `.sds-menu__panel`,
-   whose rule spans a bar edge to edge and is written later in this file. Equal
-   weight is settled by order, so the drop took `left: 0` — and a box given
-   both edges *and* a width keeps the start edge, which left it hanging off the
-   left of the field and growing right past it. */
+/* Hung from the end of the field rather than from the start of it. A box given
+   both edges *and* a width keeps the start edge, which is how this drop came
+   to hang off the left of the field and grow right past it — so it is given
+   the one edge it is anchored to. */
 .sds-search .sds-search__panel {
   position: absolute;
   top: calc(100% + var(--space-2));
-  left: auto;
   right: 0;
   z-index: 40;
   width: min(420px, 90vw);
@@ -1763,57 +1785,47 @@ button.sds-rail__item {
 .sds-pill:hover { color: var(--text-primary); }
 .sds-pill.is-active { background: var(--accent); color: var(--text-on-accent); }
 
-/* The same pills, plus what happens when the header runs out of room for
-   them. The element measures and decides — see `src/components/menu.ts`; what
-   is here is only the two shapes it decides between. */
-.sds-menu { display: flex; align-items: center; }
-/* Before the element upgrades, and on a page where it never will: the row a
-   server wrote, laid out as one — the host is inline until then. The same
-   declarations as `.sds-menu__items`, except that this is the one row that
-   wraps, nobody having decided to stop being a row yet. */
-sds-menu:not(:defined) {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-1);
-  font-family: var(--font-mono);
-  font-size: var(--nav-font-size);
-}
-/* And the row itself, which on a prerendered page the server wrote inside the
-   wrapper: nothing has measured yet, so nothing can fold it into a button, and
-   a row that cannot fold keeps its own width and wraps. The bar wraps with it
-   and takes the height that costs, for as long as that is the state it is in —
-   a header of two rows beats a page that scrolls sideways under one. */
-sds-menu:not(:defined) .sds-menu__items { flex-wrap: wrap; min-width: min-content; }
-.sds-bar:has(sds-menu:not(:defined)) {
-  flex-wrap: wrap;
-  height: auto;
-  min-height: var(--height-header);
-}
-/* Collapsed, the menu is one button, and a button belongs with the other
-   controls rather than left standing where four words used to be. It takes
-   the free space instead of the end cluster, so the two sit together. */
-.sds-bar .sds-menu.is-collapsed { margin-left: auto; }
-.sds-bar:has(.sds-menu.is-collapsed) .sds-bar__end { margin-left: 0; }
-.sds-menu__items {
+/* The same pills, plus what happens when the bar runs out of room for them.
+   The element measures and decides — see `src/components/header.ts`; what is
+   here is only the shapes it decides between. */
+.sds-bar__nav {
   display: flex;
   gap: var(--space-1);
   font-family: var(--font-mono);
   font-size: var(--nav-font-size);
 }
-/* The items are their own width, in the row and in the panel both. The header's
+/* The items are their own width, in the row and in the drawer both. The bar's
    floor of zero would otherwise let the pills shrink and their labels fold, so
    the bar grew instead of saying it had run out of room — and a shrunk pill
    measures shrunk, so the width the row *needs* chased the number it was being
    compared against. Fixed, only the room beside them moves. */
-.sds-menu__items > * { flex: none; }
+.sds-bar__nav > * { flex: none; }
+/* And the row's nav does not give either, so an over-full row puts it on a
+   second line rather than squeezing a box its own items overflow. In the
+   drawer it is a column and this does not apply. */
+.sds-bar > .sds-bar__nav { flex: none; }
+/* Before the element upgrades, and on a page where it never will: the bar a
+   server wrote, standing as it was written. Nothing has measured yet, so
+   nothing can be folded into a button, and a row that cannot fold keeps its
+   own width and wraps. The bar takes the height that costs — a header of two
+   rows beats a page that scrolls sideways under one. */
+sds-header:not(:defined) { display: contents; }
+sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content; }
+/* And the one thing the layout still has to answer for. Below this width the
+   field does not fit beside anything, and unupgraded there is no drawer to put
+   it in and nothing measuring whether it fits — so it goes, the way it went
+   before any of this was measured. A field that searches nothing until a
+   script arrives is no loss until one has. */
+@media (max-width: 640px) {
+  sds-header:not(:defined) .sds-search { display: none; }
+}
 /* A square of the control height, like every other button that is a mark
    rather than a word — it stands in a row with the search field and the mode
    pair and has no reason to be the one box that is shorter. */
-.sds-menu__toggle {
+.sds-bar__toggle {
   display: inline-flex;
   /* A square, and squarely the last thing in the row that may give: it is the
-     way to everything the bar has already shed, and a 12px-wide one is a
+     way to everything the bar has already put away, and a 12px-wide one is a
      button nobody can hit. */
   flex: none;
   align-items: center;
@@ -1828,56 +1840,61 @@ sds-menu:not(:defined) .sds-menu__items { flex-wrap: wrap; min-width: min-conten
   cursor: pointer;
   transition: color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
 }
-.sds-menu__toggle:hover { color: var(--text-primary); }
-.sds-menu__toggle[aria-expanded='true'] {
+.sds-bar__toggle:hover { color: var(--text-primary); }
+.sds-bar__toggle[aria-expanded='true'] {
   color: var(--text-primary);
   border-color: var(--border-strong);
 }
-.sds-menu__toggle .sds-icon {
+.sds-bar__toggle .sds-icon {
   /* The floor a control gives a glyph, the same one the rail's fold marker
      and the code block's head use: a button's mark is not a word. */
   width: var(--control-icon-size);
   height: var(--control-icon-size);
 }
-/* What a toggle in the bar opens. Two navigations arrive here and are the same
-   object, written once so they cannot drift; they differ only in which box they
-   hang off. Full width because it is the header's row continued, and on the
-   canvas because that is the colour the header is — a drop in the cooler raised
-   white is two surfaces where the reader was promised one. */
-.sds-menu__panel,
-.sds-body__rail.is-open {
+/* What the button opens: the bar's own row, continued under it. One drawer and
+   not three, because a reader on a phone looking for the way somewhere presses
+   once — the field, the sections and the page's rail are in here in the order
+   the row let them go. Full width, and on the canvas because that is the colour
+   the bar is: a drop in the cooler raised white is two surfaces. */
+.sds-bar__drawer {
   position: absolute;
+  top: 100%;
   left: 0;
   right: 0;
   z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-4);
   padding: var(--space-4) var(--page-inset, var(--gutter-page));
   background: var(--surface-canvas);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   max-height: calc(100vh - var(--height-header));
   overflow-y: auto;
 }
-.sds-menu__panel {
-  top: 100%;
+/* A column in here, and the field as wide as the drawer: what is laid out is a
+   list of places to go, not a row that happened to wrap. It takes the rail's
+   measure rather than the row's, because the rail is directly under it and two
+   lists whose text starts four pixels apart read as an indent nobody meant. */
+.sds-bar__drawer .sds-bar__nav {
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-1);
+  align-items: stretch;
+  gap: var(--border-hairline);
 }
-.sds-body__rail.is-open { top: 0; }
-
-/* `hidden` outranks the display each of these is given: an author rule beats
-   the browser's own, so a `display` set by class puts a hidden element back
-   on the page. */
-.sds-menu__items[hidden],
-.sds-menu__toggle[hidden] { display: none; }
-
-/* A menu that opens something else is only its button, and the button waits for
-   the layout to say the rail has nowhere else to be. Neither the host nor the
-   wrapper is a box, so nothing is left in the row where the button is gone — an
-   empty flex item still takes the bar's gap, in front of the mark. `:where()`,
-   because the rule turning the button back on is *earlier* and order settles. */
-sds-menu[for]:not(:defined),
-.sds-menu--for { display: contents; }
-:where(.sds-menu--for) .sds-menu__toggle { display: none; }
+.sds-bar__drawer .sds-pill { padding: var(--space-1) var(--space-2); }
+/* And the rail takes the drawer's measure rather than the column's it came
+   from: a 210px list of pages inside a 420px drawer is a column that was
+   moved without being told where to. */
+.sds-bar__drawer .sds-rail { width: 100%; }
+.sds-bar__drawer .sds-search { flex: none; width: 100%; }
+/* Where a folded rail waits — the page's own node, moved rather than copied.
+   Empty until the layout has taken its column away, and an empty box in a
+   flex column still takes the gap above it. */
+.sds-bar__rail:empty { display: none; }
+/* `hidden` outranks the display a class gives: an author rule beats the
+   browser's own, so a `display` set by class puts a hidden element back on
+   the page. */
+.sds-bar__drawer[hidden] { display: none; }
 
 /* Underline tabs inside a panel. */
 .sds-tabs {
@@ -1925,6 +1942,7 @@ sds-menu[for]:not(:defined),
   font: inherit;
   display: inline-flex;
   align-items: center;
+  gap: var(--space-1-5);
   padding: 0 var(--space-2);
   cursor: pointer;
   color: var(--text-secondary);
@@ -1935,6 +1953,17 @@ sds-menu[for]:not(:defined),
 }
 .sds-mode:hover { color: var(--text-primary); }
 .sds-mode.is-active { background: var(--accent); color: var(--text-on-accent); }
+/* The mark a segment keeps when its word is dropped, at the floor a control
+   gives a glyph — the same one the bar's button and the rail's fold marker
+   use. It stands beside the word rather than instead of it: the pair is two
+   things to press, and a reader who can see both reads the shorter one. */
+.sds-mode .sds-icon {
+  width: var(--control-icon-size);
+  height: var(--control-icon-size);
+}
+/* The word beside the mark, on one line always: the pair is among the shortest
+   boxes in a row, and a "light" broken in half would make it the tallest. */
+.sds-mode__label { white-space: nowrap; }
 
 /* The 210px tool rail. */
 .sds-rail {
@@ -2473,6 +2502,14 @@ sds-rail:not(:defined) {
 
 @media (prefers-reduced-motion: reduce) {
   .sds-spinner, .sds-skeleton { animation: none; }
+  /* The page steps between layout bands, and the step stays: what goes is the
+     travel across it. A new width is simply the width. */
+  .sds-bar,
+  .sds-body,
+  .sds-page,
+  .sds-band,
+  .sds-foot,
+  .sds-footer { transition: none; }
   /* The answer is there or it is not. The fold still works — what goes is the
      travel, which is the part that moves the page under a reader. */
   .sds-accordion__item::details-content,

@@ -11,7 +11,7 @@ import './components/checkbox.ts';
 import './components/radio.ts';
 import './components/form-errors.ts';
 import './components/pills.ts';
-import './components/menu.ts';
+import './components/header.ts';
 import './components/accordion.ts';
 import './components/accordion-item.ts';
 import './components/tabs.ts';
@@ -53,7 +53,7 @@ export { SdsRadio, type RadioProps, type Choice } from './components/radio.js';
 export { SdsFormErrors, type FormErrorsProps, type FormError } from './components/form-errors.js';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.js';
 export { SdsPills } from './components/pills.js';
-export { SdsMenu } from './components/menu.js';
+export { SdsHeader } from './components/header.js';
 export { SdsAccordion, type AccordionProps, type Entry } from './components/accordion.js';
 export { SdsAccordionItem } from './components/accordion-item.js';
 export { SdsTabs } from './components/tabs.js';
@@ -84,4 +84,4 @@ export { SdsPager, type PagerProps } from './components/pager.js';
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-menu', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-grid', 'sds-result', 'sds-pagination', 'sds-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-crumbs', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-pills', 'sds-header', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-grid', 'sds-result', 'sds-pagination', 'sds-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];

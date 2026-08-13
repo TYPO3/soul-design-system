@@ -121,61 +121,120 @@ for (let shard = 0; shard < PAGE_SHARDS; shard++) {
   });
 }
 
-/* The other navigation, behind the same button. Two things run out of room and
-   there is one answer for both, so what is asserted is that the second is wired
-   at all: the rail is a column while there is one, and reachable rather than
-   gone once there is not. It must also survive having no script — the class
-   that lets the layout hide it is written by the element that opens it. */
-test('the page rail is a column, then a panel behind the same toggle', async ({ page }) => {
+/* One button, and everything the bar could not hold behind it. Two navigations
+   and a field run out of room and there is one answer for all three, so what is
+   asserted is that the rail is wired into it: a column while there is one, and
+   in the same drawer as the rest once there is not. Moved rather than copied —
+   a reader offered two of the same list has to work out which one is real. */
+test('the page rail is a column, then part of the bar\u2019s one drawer', async ({ page }) => {
   const rail = page.locator('#page-rail');
-  const toggle = page.locator('.sds-menu--for .sds-menu__toggle');
+  const drawer = page.locator('.sds-bar__drawer');
+  const toggle = page.locator('.sds-bar__toggle');
 
   await page.setViewportSize({ width: 1280, height: 900 });
   await gotoStory(page, 'pages-documentation--page');
   await expect(rail).toBeVisible();
-  await expect(toggle).toBeHidden();
+  await expect(drawer.locator('#page-rail')).toHaveCount(0);
 
   await page.setViewportSize({ width: 760, height: 900 });
   await expect(toggle).toBeVisible();
   await expect(rail).toBeHidden();
+  /* In the drawer, and only there: one node, which is the page's own. */
+  await expect(drawer.locator('#page-rail')).toHaveCount(1);
+  await expect(rail).toHaveCount(1);
 
   await toggle.click();
   await expect(rail).toBeVisible();
-  /* Over the page rather than pushing it: the same drop the sections get. */
-  await expect(rail).toHaveCSS('position', 'absolute');
+  /* Over the page rather than pushing it down. */
+  await expect(drawer).toHaveCSS('position', 'absolute');
 
   await page.keyboard.press('Escape');
   await expect(rail).toBeHidden();
   await expect(toggle).toBeFocused();
+
+  /* And back in its column on the way out, where the page put it. */
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect(rail).toBeVisible();
+  await expect(page.locator('.sds-body > #page-rail')).toHaveCount(1);
 });
 
-/* The menu's run-width. What it does is decided by measurement, so there is no
-   number to assert — only the shape of the decision: wide enough and the items
-   are a row with no toggle; narrow enough and they are behind one, reachable,
-   which is what a breakpoint that merely hid them never had. */
-test('the header navigation collapses rather than disappearing', async ({ page }) => {
-  const items = page.locator('.sds-menu__items');
-  const toggle = page.locator('.sds-menu__toggle');
+/* The bar's run-width. What it does is decided by measurement, so there is no
+   number to assert — only the shape of the decision: wide enough and the
+   sections are a row with no button; narrow enough and they are behind one,
+   reachable, which is what a breakpoint that merely hid them never had. */
+test('the header navigation folds rather than disappearing', async ({ page }) => {
+  const nav = page.locator('.sds-bar__nav');
+  const toggle = page.locator('.sds-bar__toggle');
 
   await page.setViewportSize({ width: 1440, height: 900 });
   await gotoStory(page, 'pages-landing--page');
-  await expect(items).toBeVisible();
+  await expect(nav).toBeVisible();
   await expect(toggle).toBeHidden();
 
   await page.setViewportSize({ width: 420, height: 900 });
   await expect(toggle).toBeVisible();
-  await expect(items).toBeHidden();
+  await expect(nav).toBeHidden();
 
   await toggle.click();
-  await expect(items).toBeVisible();
-  await expect(items.locator('.sds-pill')).toHaveCount(4);
+  await expect(nav).toBeVisible();
+  await expect(nav.locator('.sds-pill')).toHaveCount(4);
 
   /* Escape closes it, and the toggle takes the focus back — a panel dismissed
      with the keyboard that leaves the focus inside it has dropped the reader
      somewhere they cannot see. */
   await page.keyboard.press('Escape');
-  await expect(items).toBeHidden();
+  await expect(nav).toBeHidden();
   await expect(toggle).toBeFocused();
+});
+
+/* The field goes before the sections do, and it goes whole. It used to be the
+   one thing that gave, which bought the row 100px and left a box too narrow to
+   read what had been typed into it; on a phone it left the bar entirely and
+   there was nothing to press in its place. */
+test('the search field moves into the drawer rather than shrinking or leaving', async ({ page }) => {
+  const inRow = page.locator('.sds-bar__end .sds-search');
+  const inDrawer = page.locator('.sds-bar__drawer .sds-search');
+  const toggle = page.locator('.sds-bar__toggle');
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await gotoStory(page, 'pages-news--page');
+  await expect(inRow).toBeVisible();
+
+  await page.setViewportSize({ width: 420, height: 900 });
+  await expect(inRow).toHaveCount(0);
+  await toggle.click();
+  await expect(inDrawer.locator('.sds-input')).toBeVisible();
+});
+
+/* The step between layout bands is crossed, not jumped. Only the gutter is
+   animated and never the inset itself: the inset is a `max()` of the gutter and
+   the centring, the centring tracks the window, and a page that eases after a
+   drag reads as a page lagging behind one.
+
+   Opened without `gotoStory`, which freezes every transition so that nothing
+   else here measures a value belonging to neither state. */
+test('the bar crosses the step between layout bands rather than jumping it', async ({ page }) => {
+  const inset = (): Promise<string> =>
+    page.evaluate(() => getComputedStyle(document.querySelector('.sds-bar')!).paddingLeft);
+
+  await page.setViewportSize({ width: 900, height: 900 });
+  await page.goto('/iframe.html?id=pages-landing--page&viewMode=story');
+  await page.waitForSelector('.sds-bar', { state: 'attached', timeout: 15_000 });
+  expect(await inset()).toBe('24px');
+
+  await page.setViewportSize({ width: 800, height: 900 });
+  const crossing = await page.evaluate(
+    () => new Promise<string>((done) => {
+      requestAnimationFrame(() => setTimeout(
+        () => done(getComputedStyle(document.querySelector('.sds-bar')!).paddingLeft),
+        40,
+      ));
+    }),
+  );
+  expect(parseFloat(crossing)).toBeGreaterThan(16);
+  expect(parseFloat(crossing)).toBeLessThan(24);
+
+  await expect.poll(inset).toBe('16px');
 });
 
 test('the landing story opens with the composed hero', async ({ page }) => {

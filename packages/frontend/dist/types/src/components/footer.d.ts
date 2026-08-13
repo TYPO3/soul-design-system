@@ -5,8 +5,9 @@ import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 /** A link in a column. `external` gets the glyph and opens away; `icon` is
     for the marks a footer is the usual home of — a repository, a chat, a
-    feed. Labelled, always: a row of bare brand glyphs is a row of pictures
-    the reader has to already recognise. */
+    feed. In a column the glyph leads the label; as a mark in `marks` it is
+    the whole of the link, which is the one place in this system a brand glyph
+    stands alone. */
 export interface FooterLink {
     label: string;
     href?: string;
@@ -19,6 +20,8 @@ export interface FooterGroup {
     items: readonly FooterLink[];
 }
 export interface FooterProps {
+    /** The columns, where there are any. A page with none is a page with none:
+        the block goes and what is left closes up. */
     groups: readonly FooterGroup[];
     /** What this is. Stated, never implied — and never whose it is. */
     note: string;
@@ -82,6 +85,7 @@ export declare class SdsFooter extends SdsElement {
     marks: readonly FooterLink[];
     constructor();
     private static link;
+    private static mark;
     private lockup;
     protected render(): TemplateResult;
 }

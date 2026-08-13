@@ -564,10 +564,10 @@ test.describe('what the theme repaired', () => {
     await expect(page.locator('h1')).toBeVisible();
     await expect(page.locator('.sds-rail')).toHaveCount(0);
     await expect(page.locator('#page-rail')).toHaveCount(0);
-    /* And the toggle goes with it. The element drops itself once it finds no
-       target, but it asks a document — so before any script there was a button
-       standing in the bar with nothing behind it. */
-    await expect(page.locator('.sds-bar .sds-menu--for')).toHaveCount(0);
+    /* And no button stands in the bar for one. The bar is named a rail or it
+       is not: a page rendered with the attribute set to nothing would offer a
+       drawer whose only contents were never on the page. */
+    await expect(page.locator('.sds-bar__toggle')).toHaveCount(0);
   });
 
   test('the page a rail is named after is the first page in it', async ({ page }) => {
@@ -734,9 +734,13 @@ test.describe('what the theme repaired', () => {
 
     /* A count is a breakpoint somebody picked; the grid reflows by a minimum
        width instead, so the counts are read as which of the three widths was
-       meant. Two or fewer is wide, five or more is dense. */
-    await expect(page.locator('.sds-grid--wide')).toHaveCount(1);
-    await expect(page.locator('.sds-grid--dense')).toHaveCount(1);
+       meant. Two or fewer is wide, five or more is dense.
+
+       Cards, because that is what this translation is about: a page may hold
+       a set of anything else at a width it asked for directly, and counting
+       every grid would make this fail on a section that never had counts. */
+    await expect(page.locator('.sds-grid--wide:has(.sds-card)')).toHaveCount(1);
+    await expect(page.locator('.sds-grid--dense:has(.sds-card)')).toHaveCount(1);
   });
 
   test('a set of questions is folded by the platform, not by a listener', async ({ page }) => {
@@ -934,7 +938,7 @@ test.describe('what the reader gets before the script does', () => {
        between the tags — the element measures them, it does not own them. Kept
        only where an element could lift them, they were a `<template>` nobody
        can see and a bar with no navigation in it. */
-    const pills = page.locator('.sds-bar .sds-menu__items .sds-pill');
+    const pills = page.locator('.sds-bar__nav .sds-pill');
     expect(await pills.count()).toBeGreaterThan(1);
     await expect(pills.first()).toBeVisible();
 

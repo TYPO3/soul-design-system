@@ -163,8 +163,8 @@ export class SdsButton extends SdsElement {
   /** Where it goes, where the press is a link rather than an action. */
   declare href: string;
   declare rel: string;
-  /** The id of what this button acts on — the same spelling `sds-menu` uses
-      for the navigation it opens, because it is the same relationship. */
+  /** The id of what this button acts on — the label element's spelling for the
+      same relationship, and the one a reader of the markup already knows. */
   declare for: string;
   /** What it asks of it. `show` unless something else is written, since a
       button pointed at a viewer or a dialog is almost always the one that

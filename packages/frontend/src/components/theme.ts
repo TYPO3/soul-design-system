@@ -1,18 +1,30 @@
 /* sds-theme — light or dark, as two segments with the chosen one filled.
 
    The same treatment as an active navigation item, because it is one. Never a
-   switch and never a moon: there are three states, not two — light, dark, and
-   the machine's, which is what a reader who has pressed neither gets. Pressing
-   the current one gives the machine back.
+   switch and never one moon standing for the pair: there are three states, not
+   two — light, dark, and the machine's, which is what a reader who has pressed
+   neither gets. Pressing the current one gives the machine back.
+
+   Each segment carries its own glyph, and the words go where the row has no
+   room for them: a mark is what is left when a label cannot be afforded.
 
    The stored choice has to be read before the first paint or the page shows the
    other mode for a frame, so a line in the document head does that and this
    reads what it wrote. `localStorage`, under a key a consumer can name. */
 
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
+import './icon.ts';
+import { type IconId } from './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export type ThemeChoice = 'light' | 'dark';
+
+/** One mark per segment. Not a set of two states in one glyph: each says which
+    mode it *is*, so the pair still reads as two things to press. */
+const GLYPH: Record<ThemeChoice, IconId> = {
+  light: 'actions-brightness-high',
+  dark: 'actions-moon',
+};
 
 /** What `sds-theme-change` carries: the choice, or null for the machine's. */
 export interface ThemeChange {
@@ -46,16 +58,22 @@ function paintFrames(mode: string | null): void {
 export class SdsTheme extends SdsElement {
   static override properties = {
     key: { type: String },
+    compact: { type: Boolean, reflect: true },
     current: { type: String, state: true },
   };
 
   /** Where the choice is stored. Two products on one origin are two keys. */
   declare key: string;
+  /** The words dropped, the glyphs left standing. Set from outside, because
+      what has run out of room is the row and not the control — the bar sheds
+      these two words before it sheds anything a reader came for. */
+  declare compact: boolean;
   declare current: ThemeChoice | null;
 
   constructor() {
     super();
     this.key = 'theme';
+    this.compact = false;
     this.current = null;
   }
 
@@ -119,12 +137,17 @@ export class SdsTheme extends SdsElement {
   }
 
   protected override render(): TemplateResult {
+    /* The word is the name where it is drawn; where it is not, the same word
+       is said to a reader who cannot see the mark. */
     const segment = (theme: ThemeChoice): TemplateResult => html`<button
       type="button"
       class="sds-mode${this.current === theme ? ' is-active' : ''}"
       aria-pressed="${this.current === theme}"
+      aria-label="${this.compact ? theme : nothing}"
       @click="${() => this.choose(theme)}"
-    >${theme}</button>`;
+    ><sds-icon name="${GLYPH[theme]}"></sds-icon>${
+      this.compact ? '' : html`<span class="sds-mode__label">${theme}</span>`
+    }</button>`;
 
     /* A group rather than a radio set: neither being pressed is a state, and
        a radio group has no way to say it. */

@@ -30,7 +30,7 @@ export declare class SdsRail extends SdsNav {
         Left empty there is no heading, which is right where the rail is the whole
         navigation there is. */
     label: string;
-    /** The items a server wrote between the tags. Same reason as `sds-menu`: a
+    /** The items a server wrote between the tags. Same reason as `sds-header`: a
         renderer resolves its own tree, and every one of those answers would have
         to be encoded and worked out again to arrive as `items`. What it writes
         are the classes below, so the two shapes are one shape. */

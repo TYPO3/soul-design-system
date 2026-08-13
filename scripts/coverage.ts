@@ -65,8 +65,12 @@ const PENDING = {
    frame, the bar, and the two bodies a page can have — a column beside a rail,
    or a run of full-bleed bands. An implementation that draws a page uses
    these. One that invents its own frame has left the system, and the pages it
-   renders drift from the screens the system ships. */
-const SHELL = ['sds-app', 'sds-shell', 'sds-bar', 'sds-body', 'sds-column', 'sds-bands', 'sds-band'];
+   renders drift from the screens the system ships.
+
+   The bar is the one of them that is addressed rather than written: what a
+   header does as it runs out of room is measured, and a template that spelled
+   `.sds-bar` by hand would be a row that cannot fold. */
+const SHELL = ['sds-app', 'sds-shell', 'sds-header', 'sds-body', 'sds-column', 'sds-bands', 'sds-band'];
 
 function walk(dir: string, exts: readonly string[]): string[] {
   if (!existsSync(dir)) return [];

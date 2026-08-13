@@ -15,8 +15,7 @@ import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/diff.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
-import '../../packages/frontend/src/components/image.ts';
-import '../../packages/frontend/src/components/theme.ts';
+import '../../packages/frontend/src/components/header.ts';
 import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type DiffLine } from '../../packages/frontend/src/components/diff.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
@@ -44,16 +43,14 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
 
   return html`<div class="sds-shell">
   ${skipLink()}
-  <header class="sds-bar">
-    <a class="sds-lockup" href="#answer">
-      <sds-image class="sds-signet" src="../assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
-      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
-    </a>
-    <div class="sds-bar__end">
-      <sds-badge label="typo3_changelog_lookup"></sds-badge>
-      <sds-theme></sds-theme>
-    </div>
-  </header>
+  <sds-header
+    home="#answer"
+    signet="../assets/design-system-signet-m.svg"
+    brand="TYPO3"
+    product="Dev Companion"
+    version="typo3_changelog_lookup"
+    tone="default"
+  ></sds-header>
 
   <main class="sds-page" id="main-content">
     <div class="sds-stack" id="answer">

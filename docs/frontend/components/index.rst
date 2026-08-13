@@ -145,7 +145,7 @@ rather than on whatever is inside it.
      - From
      - ``detail``
    * - ``sds-change``
-     - ``sds-pills``, ``sds-menu``, ``sds-rail``, ``sds-tabs``
+     - ``sds-pills``, ``sds-header``, ``sds-rail``, ``sds-tabs``
      - ``{ index, label }`` — the item that became current
    * - ``sds-change``
      - ``sds-pagination``

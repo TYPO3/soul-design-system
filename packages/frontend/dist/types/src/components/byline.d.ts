@@ -13,6 +13,12 @@ export interface BylineProps {
     meta?: string;
     /** Their initials. Taken from the name when it is not given. */
     initials?: string;
+    /** Where the name leads — a profile, or the source it is attributed to. */
+    href?: string;
+    /** No monogram. For an attribution that is not a person: a document, a
+        release note, a file. Initials derived from a filename are a person
+        invented for a source that has none. */
+    unmarked?: boolean;
 }
 export declare class SdsByline extends SdsElement {
     static properties: {
@@ -28,11 +34,19 @@ export declare class SdsByline extends SdsElement {
         initials: {
             type: StringConstructor;
         };
+        href: {
+            type: StringConstructor;
+        };
+        unmarked: {
+            type: BooleanConstructor;
+        };
     };
     name: string;
     as: string;
     meta: string;
     initials: string;
+    href: string;
+    unmarked: boolean;
     constructor();
     /** First letters of the first and last word — two at most. Three initials
         in a 32px circle is a monogram nobody can read. */

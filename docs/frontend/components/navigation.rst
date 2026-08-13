@@ -17,7 +17,7 @@ item that goes somewhere says ``href`` and is left to the browser.
    :name: navigation-items
    :type: "(string | { label, href?, icon? })[]"
 
-   What ``sds-pills``, ``sds-menu``, ``sds-rail`` and ``sds-tabs`` are lists
+   What ``sds-pills``, ``sds-header``, ``sds-rail`` and ``sds-tabs`` are lists
    of. A bare string is a label; an object adds where it goes and a glyph
    before it.
 
@@ -37,49 +37,124 @@ item that goes somewhere says ``href`` and is left to the browser.
    ``aria-controls``. Current-within-a-set is what is true of a pill or a rail
    item.
 
-sds-menu
-========
+sds-header
+==========
 
-The navigation in a header, and what it does as the header runs out of room.
-Pills in a row while there is room; a toggle and a panel below the bar when
-there is not.
+The bar at the top of a page: the mark, the sections of the site, and the
+controls at the end of the row. It is the whole bar and not a part of one — a
+page addresses it and writes no ``.sds-bar`` of its own, because what a header
+does as the page narrows is measured, and a row written by hand cannot fold.
 
 .. code-block:: html
 
-   <sds-menu label="Sections" .items="${SECTIONS}" active="1"></sds-menu>
+   <sds-header home="/" signet="_images/signet.svg" brand="Acme" product="Your product"
+     version="13.4" index="_search.json" rail="page-rail"
+     .items="${SECTIONS}" active="1"></sds-header>
 
    <!-- Or, for a renderer that has already resolved its own navigation. -->
-   <sds-menu label="Sections">
+   <sds-header product="Your product" index="_search.json">
      <a class="sds-pill is-active" href="/design-system/" aria-current="page">Design system</a>
      <a class="sds-pill" href="/frontend/">Frontend</a>
-   </sds-menu>
+   </sds-header>
 
-**The decision is measured, not declared.** A bar holds a product name as long
-as the product is called, so a breakpoint would be wrong on the next site: the
-element measures what its items need against the room the row has left, with
-itself out of the sum. Collapsed, the panel is the same navigation moved —
-never a second copy.
+**What no longer fits is put away, never dropped.** As the row runs out of
+room the field goes first — a field squeezed to a stub is a control that is
+there and cannot be used — and the sections after it; below the width where
+the body stops laying the page rail beside the text, the rail joins them.
+All three wait in **one** drawer under **one** button, because a reader on a
+phone looking for the way somewhere presses once.
+
+**The decision is measured, not declared.** A bar holds a product name for as
+long as the product is called, so a breakpoint would be wrong on the next site:
+the element measures what the sections and the field need against the room the
+row has left, with the button that appears in their place taken out of the sum.
+Nothing in the measurement depends on which state it is in, so there is no
+width at which the two disagree and it oscillates.
+
+.. confval:: home
+   :name: sds-header-home
+   :type: string
+
+   Where the mark goes: the way home, from anywhere on the site.
+
+.. confval:: signet
+   :name: sds-header-signet
+   :type: string
+
+   The mark, as the file it is drawn in. An SVG is referenced into the page and
+   follows it into dark; anything else is linked — the distinction
+   ``sds-image`` makes from the file name. It is the same construction the
+   footer draws, so the two ends of a site cannot say the name two ways.
+
+.. confval:: brand
+   :name: sds-header-brand
+   :type: string
+
+.. confval:: product
+   :name: sds-header-product
+   :type: string
+
+   The name, in the machine's own spelling and never title-cased. With a
+   ``brand`` beside it the accent rule is drawn between the two; alone, the
+   name is the mark itself rather than the quiet half of a lockup with nothing
+   next to it.
+
+.. confval:: version
+   :name: sds-header-version
+   :type: string
+
+   What is true of the documentation the reader is in, as the badge beside the
+   controls — a fact about this page rather than part of the product's name,
+   and the first thing the bar drops as it narrows.
+
+.. confval:: tone
+   :name: sds-header-tone
+   :type: "default | accent | ok | warn | error"
+   :default: accent
+
+   The badge's tone. Accent, that fact being a version nine times in ten; a
+   screen whose bar names something else — the tool that answered, the source
+   a page came from — says so, because the accent is how a reader is told
+   which version they are reading.
+
+.. confval:: search
+   :name: sds-header-search
+   :type: boolean
+
+.. confval:: index
+   :name: sds-header-index
+   :type: string
+
+   Where the search index is, relative to the page; setting it asks for the
+   field as well, a site with an index having a search. ``search`` alone draws
+   a field with nothing behind it, which is a specimen rather than a site.
+
+.. confval:: rail
+   :name: sds-header-rail
+   :type: string
+
+   The id of the page rail. The bar does not own it: a rail is the page's own
+   navigation and stands in its column while there is one. Once the layout has
+   stacked the body the element **moves** that same node into its drawer and
+   puts it back on the way out — moved, never copied, so a reader is never
+   offered two of anything and nothing is written twice.
+
+   Without a script the rail simply stays where the page put it. A list of
+   pages is worth a screen's height, and hiding one behind a button that is
+   not there is a navigation with no way in.
 
 .. confval:: label
-   :name: sds-menu-label
+   :name: sds-header-label
    :type: string
    :default: "Menu"
 
-   What the toggle is called, for a reader who cannot see that it is a menu.
+   What the toggle is called, for a reader who cannot see it is a menu.
 
-.. confval:: for
-   :name: sds-menu-for
+.. confval:: theme-key
+   :name: sds-header-theme-key
    :type: string
 
-   The id of a navigation that lives **outside** the bar — the page rail. Given
-   one, this element is that navigation's toggle and holds no items of its own:
-   the sections run out of room in the header, which this measures, and the
-   rail runs out of a *column*, which the layout decides. So a menu with
-   ``for`` presses, and never measures.
-
-   It draws nothing at all where that element is not on the page, so the same
-   bar can sit on every page without each layout remembering to leave the
-   button out.
+   Where ``sds-theme`` keeps the reader's choice, where it keeps one.
 
 .. note::
 
