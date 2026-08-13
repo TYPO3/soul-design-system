@@ -135,6 +135,22 @@ still make packages a project could install. This repository stays the only plac
 is written: the mirrors are read-only, and a commit made in one is overwritten
 by the next release.
 
+**A package's README names everything the package adds, in full and in short
+form.** Every directive of the theme's own with its options, every field a
+document may write, every setting — enough that somebody can write a page from
+that one file, with the rendered manual linked for the long version. What the
+package gains lands there in the same commit, and a surface listed nowhere is
+half-shipped.
+
+Whoever reads that file has only the mirror: the monorepo's documents are not
+in it, `docs/` was never split, and the manual is a site somewhere else that a
+reader has to already know exists. An agent picking the package up reads the
+README and then the sources, and reconstructs from a directory of classes what
+one table would have told it — or, worse, writes a `div` with the classes on it
+because it never found out a directive was there. It is *no document counts the
+parts* read from the other end: never write how many there are, always write
+which ones they are.
+
 ## What may be edited
 
 | Path | |
@@ -304,6 +320,14 @@ coverage` names whichever of the three is still missing.
 **Close a gap in a component** — in the component. A consumer writing three
 declarations into their own stylesheet is the failure this system exists to
 prevent, and anything the classes can do the element must be able to emit.
+
+**Add a directive to the Guides theme** — the directive in
+`packages/guides-theme/src/Directives/` and whatever node it returns, its
+template under `resources/template/body/directive/`, the registration in
+`resources/config/soul.php`, a page of `packages/guides-theme/acceptance/` that
+uses it, its section in `docs/guides-theme/directives.rst` with a rendered
+example, and its row in the package's own README — see above for why that last
+one is not optional. Then `make guides` and `make verify`.
 
 **Add a font family, style or icon** — edit the `FAMILIES` / `ICONS` list in
 `scripts/fonts.ts` or `scripts/icons.ts`, then `make fonts` / `make icons`.
