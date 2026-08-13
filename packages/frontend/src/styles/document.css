@@ -342,6 +342,17 @@
    then, so what the document stacks is the figure inside it. */
 :where(.sds-prose) .sds-figure { margin-bottom: var(--space-4); }
 
+/* A control written into the text is a block of it, and a row of them is one
+   block whatever stands in the row. The gap is on the control rather than on
+   its host, for the reason `.sds-code`'s is: the host is `display: contents`
+   once it upgrades. Only this system's own button, because a `.sds-btn` in the
+   text belongs to whatever drew it — the close of a viewer is not a paragraph.
+   Inside a row the gap is the row's own, and a margin on a flex item is one the
+   centring has to carry: the line would stop being one line. */
+:where(.sds-prose) sds-button > .sds-btn,
+:where(.sds-prose) .sds-actions { margin-bottom: var(--space-4); }
+:where(.sds-prose) .sds-actions sds-button > .sds-btn { margin-bottom: 0; }
+
 /* A card before its element upgrades, and on a page that runs none. The frame
    is not stated again — the card draws it — but the host is the cell until it
    upgrades, and the card inside it stops at its content, so a row of them

@@ -43,6 +43,8 @@
 :where(.sds-prose) sds-figure:not(:defined){display:flex;flex-direction:column;gap:var(--space-3);margin:0 0 var(--space-4)}
 :where(.sds-prose) sds-figure:not(:defined)>.sds-art{box-sizing:border-box;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface-sunken)}
 :where(.sds-prose) .sds-figure{margin-bottom:var(--space-4)}
+:where(.sds-prose) sds-button>.sds-btn,:where(.sds-prose) .sds-actions{margin-bottom:var(--space-4)}
+:where(.sds-prose) .sds-actions sds-button>.sds-btn{margin-bottom:0}
 :where(.sds-prose) sds-card:not(:defined){display:flex}
 :where(.sds-prose) sds-card:not(:defined)>.sds-card{flex:1}
 :where(.sds-prose) sds-embed:not(:defined){display:block;margin:0 0 var(--space-4)}
