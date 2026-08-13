@@ -21,7 +21,7 @@ import '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/table.ts';
-import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
@@ -122,7 +122,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a button's label is content, and
      `renderStatic` flattens no element that was given children. */
   const start = flat
-    ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>Install the server`)}${buttonMarkup({ variant: 'secondary' }, 'Open the tool reference')}`
+    ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>${buttonLabel('Install the server')}`)}${buttonMarkup({ variant: 'secondary' }, 'Open the tool reference')}`
     : html`<sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Install the server</sds-button>
         <sds-button variant="secondary">Open the tool reference</sds-button>`;
 

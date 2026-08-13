@@ -19,7 +19,7 @@ import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/table.ts';
-import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
@@ -77,7 +77,7 @@ const WAYS = [
 /** The page. `flat` composes the form a static file can hold. */
 export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
   const start = flat
-    ? buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-download"></sds-icon>Install it in a project`)
+    ? buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-download"></sds-icon>${buttonLabel('Install it in a project')}`)
     : html`<sds-button variant="primary"><sds-icon name="actions-download"></sds-icon>Install it in a project</sds-button>`;
 
   return html`<div class="sds-shell">

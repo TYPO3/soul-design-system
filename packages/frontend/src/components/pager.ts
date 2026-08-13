@@ -16,7 +16,7 @@
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';
-import { buttonMarkup } from './button.ts';
+import { buttonLabel, buttonMarkup } from './button.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface PagerProps {
@@ -67,14 +67,14 @@ export class SdsPager extends SdsElement {
     const back = this.previousHref && this.previousLabel
       ? SdsPager.step(
           this.previousHref,
-          html`<sds-icon name="actions-arrow-left" size="16" label="Previous page"></sds-icon>${this.previousLabel}`,
+          html`<sds-icon name="actions-arrow-left" size="16" label="Previous page"></sds-icon>${buttonLabel(this.previousLabel)}`,
           'prev',
         )
       : '';
     const on = this.nextHref && this.nextLabel
       ? SdsPager.step(
           this.nextHref,
-          html`${this.nextLabel}<sds-icon name="actions-arrow-right" size="16" label="Next page"></sds-icon>`,
+          html`${buttonLabel(this.nextLabel)}<sds-icon name="actions-arrow-right" size="16" label="Next page"></sds-icon>`,
           'next',
         )
       : '';

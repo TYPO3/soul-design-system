@@ -23,7 +23,7 @@ import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/figure.ts';
 import '../../packages/frontend/src/components/image.ts';
 import '../../packages/frontend/src/components/theme.ts';
-import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
@@ -190,7 +190,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
      `renderStatic` flattens no element that was given children. Same
      functions underneath, so the file is the markup the elements render. */
   const start = flat
-    ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>Start a design`)}${buttonMarkup({ variant: 'secondary' }, 'Browse the components')}`
+    ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>${buttonLabel('Start a design')}`)}${buttonMarkup({ variant: 'secondary' }, 'Browse the components')}`
     : html`<sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Start a design</sds-button>
         <sds-button variant="secondary">Browse the components</sds-button>`;
 

@@ -395,6 +395,12 @@ sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
    underline under the pointer that no button in this system has. */
 .sds-btn:hover { text-decoration: none; }
 
+/* Everything a caller wrote that is not a glyph, in one item. Written beside
+   each other the parts of a label are items of their own, and this row places
+   an item by its box — so a word and a version in mono, being two faces, sit
+   on two baselines. Here they share a line box and set as one line of text. */
+.sds-btn__label { display: block; }
+
 /* One primary per view — the action that starts work. */
 .sds-btn--primary { background: var(--accent); color: var(--text-on-accent); }
 .sds-btn--primary:hover { background: var(--accent-hover); }

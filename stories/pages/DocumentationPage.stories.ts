@@ -24,7 +24,7 @@ import '../../packages/frontend/src/components/theme.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/grid.ts';
 import '../../packages/frontend/src/components/pager.ts';
-import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type IconId } from '../../packages/frontend/src/components/icon.ts';
@@ -137,7 +137,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
     : html`<sds-grid variant="flush">${cards}</sds-grid>`;
 
   const actions = flat
-    ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>Run the checks`)}${buttonMarkup({ variant: 'secondary' }, 'Read the tool surface')}`
+    ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>${buttonLabel('Run the checks')}`)}${buttonMarkup({ variant: 'secondary' }, 'Read the tool surface')}`
     : html`<sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Run the checks</sds-button>
       <sds-button variant="secondary">Read the tool surface</sds-button>`;
 

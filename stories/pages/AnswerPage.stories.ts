@@ -17,7 +17,7 @@ import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/image.ts';
 import '../../packages/frontend/src/components/theme.ts';
-import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type DiffLine } from '../../packages/frontend/src/components/diff.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { type PageMode, skipLink } from '../lib/page.ts';
@@ -38,7 +38,7 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
   const copy = flat
     ? buttonMarkup(
         { variant: 'secondary', size: 'sm' },
-        html`<sds-icon name="actions-duplicate"></sds-icon>Copy answer`,
+        html`<sds-icon name="actions-duplicate"></sds-icon>${buttonLabel('Copy answer')}`,
       )
     : html`<sds-button variant="secondary" size="sm"><sds-icon name="actions-duplicate"></sds-icon>Copy answer</sds-button>`;
 

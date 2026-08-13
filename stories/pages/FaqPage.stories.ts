@@ -16,7 +16,7 @@ import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/crumbs.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
-import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { QUESTIONS } from '../components/Accordion.stories.ts';
@@ -56,7 +56,7 @@ const RUNNING: readonly Entry[] = [
 /** The page. `flat` composes the form a static file can hold. */
 export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
   const ask = flat
-    ? buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-message"></sds-icon>Ask it yourself`)
+    ? buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-message"></sds-icon>${buttonLabel('Ask it yourself')}`)
     : html`<sds-button variant="primary"><sds-icon name="actions-message"></sds-icon>Ask it yourself</sds-button>`;
 
   return html`<div class="sds-shell">

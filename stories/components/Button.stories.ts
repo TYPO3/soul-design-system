@@ -13,7 +13,7 @@ import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/link.ts';
-import { buttonMarkup, type ButtonProps, type ButtonSize, type ButtonVariant } from '../../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup, type ButtonProps, type ButtonSize, type ButtonVariant } from '../../packages/frontend/src/components/button.ts';
 import { type IconId } from '../../packages/frontend/src/components/icon.ts';
 
 import { dsCard, part, spec, specRow } from '../lib/specimen.ts';
@@ -43,7 +43,7 @@ const sdsButton = ({ variant, size, label, icon, title, disabled }: ButtonArgs):
 const staticButton = ({ variant, size, label, icon, title, disabled }: ButtonArgs) =>
   buttonMarkup(
     { variant, size, title, disabled, iconOnly: !label } as ButtonProps,
-    html`${icon ? html`<sds-icon name="${icon}"></sds-icon>` : ''}${label}`,
+    html`${icon ? html`<sds-icon name="${icon}"></sds-icon>` : ''}${label ? buttonLabel(label) : ''}`,
   );
 
 const meta: Meta<ButtonArgs> = {

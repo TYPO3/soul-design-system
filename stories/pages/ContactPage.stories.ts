@@ -21,7 +21,7 @@ import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/radio.ts';
 import '../../packages/frontend/src/components/surface.ts';
-import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type FormError } from '../../packages/frontend/src/components/form-errors.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
@@ -82,7 +82,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
   /* The one place the two renderings differ: a button's label is content, and
      `renderStatic` flattens no element that was given children. */
   const send = flat
-    ? buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-paperplane"></sds-icon>Send the report`)
+    ? buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-paperplane"></sds-icon>${buttonLabel('Send the report')}`)
     : html`<sds-button variant="primary" @click="${() => onSubmit?.()}"><sds-icon name="actions-paperplane"></sds-icon>Send the report</sds-button>`;
   const again = flat
     ? buttonMarkup({ variant: 'secondary' }, 'Report another answer')

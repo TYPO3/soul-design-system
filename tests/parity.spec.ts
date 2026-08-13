@@ -12,7 +12,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { html, type TemplateResult } from 'lit';
 import { renderStatic } from '../packages/frontend/src/lib/render.ts';
-import { buttonMarkup } from '../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup } from '../packages/frontend/src/components/button.ts';
 import '../packages/frontend/src/index.ts';
 
 /** Mount the markup in the page and read back the light DOM it produced. */
@@ -89,7 +89,7 @@ const CASES: { name: string; markup: string; template: TemplateResult }[] = [
   {
     name: 'button, primary with an icon',
     markup: '<sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Run the checks</sds-button>',
-    template: buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>Run the checks`),
+    template: buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>${buttonLabel('Run the checks')}`),
   },
   {
     name: 'button, ghost',

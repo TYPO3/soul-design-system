@@ -11,7 +11,7 @@
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';
-import { define, SdsElement } from '../lib/element.ts';
+import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 export type ButtonSize = 'md' | 'sm';
@@ -48,6 +48,17 @@ export function buttonClass({ variant = 'primary', size = 'md', iconOnly = false
   return cls.join(' ');
 }
 
+const LABEL = 'sds-btn__label';
+
+/** The label as the one node it is.
+
+    `.sds-btn` is a flex row, so a word and a version in mono written beside
+    each other become two items placed by their boxes — and two faces never
+    centre onto one baseline, at any size or leading. In one item they share a
+    line box and are aligned as the text they are. */
+export const buttonLabel = (body: unknown): TemplateResult =>
+  html`<span class="${LABEL}">${body}</span>`;
+
 /* The same control as an anchor. A link cannot be disabled — a control that
    must not be followed is one that is not written — so the state is dropped
    here rather than drawn as a grey link the browser follows anyway. */
@@ -66,11 +77,14 @@ function linkMarkup(props: ButtonProps, body: unknown): TemplateResult {
 
 /** The markup a button is, given whatever stands inside it. */
 export function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult {
+  /* A string cannot hold a glyph, so it is a label whole and is written as
+     one. Markup can, and there whoever wrote it says where the label is. */
+  const inner = typeof body === 'string' && body ? buttonLabel(body) : body;
   /* A press that goes somewhere is a link and is written as one. The class
      layer has always allowed it — the skip link is an `<a class="sds-btn">` —
      and an element that could not emit it left every such control to be
      hand-written, which is the drift this system exists to stop. */
-  if (props.href) return linkMarkup(props, body);
+  if (props.href) return linkMarkup(props, inner);
   const cls = buttonClass(props);
   /* Written always, because the default is a decision: without it a button in
      a form is a submit button. See `type` above for what that costs. */
@@ -82,12 +96,40 @@ export function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult 
      alternative is a space nothing can see and every diff can. */
   if (props.title) {
     return props.disabled
-      ? html`<button class="${cls}" type="${type}" title="${props.title}" disabled>${body}</button>`
-      : html`<button class="${cls}" type="${type}" title="${props.title}">${body}</button>`;
+      ? html`<button class="${cls}" type="${type}" title="${props.title}" disabled>${inner}</button>`
+      : html`<button class="${cls}" type="${type}" title="${props.title}">${inner}</button>`;
   }
   return props.disabled
-    ? html`<button class="${cls}" type="${type}" disabled>${body}</button>`
-    : html`<button class="${cls}" type="${type}">${body}</button>`;
+    ? html`<button class="${cls}" type="${type}" disabled>${inner}</button>`
+    : html`<button class="${cls}" type="${type}">${inner}</button>`;
+}
+
+/* Written between the tags, a glyph arrives as a node beside the words. It
+   stays a sibling — the row's gap is what it is for — and everything else is
+   one label. A label a caller wrote themselves is left alone, or an upgrade
+   would put a second span around the one already in the markup. */
+const isGlyph = (node: Node): boolean => {
+  const el = node as Element;
+  return el.tagName?.toLowerCase() === 'sds-icon' || (el.classList?.contains('sds-icon') ?? false);
+};
+
+function labelled(nodes: Node[]): unknown[] {
+  const out: unknown[] = [];
+  let run: Node[] = [];
+  /* A run of nothing but whitespace is not a label: flex draws no such item,
+     and wrapped it would become one — a gap either side of nothing. */
+  const close = (): void => {
+    if (run.some((node) => !isBlank(node))) out.push(buttonLabel(run));
+    run = [];
+  };
+  for (const node of nodes) {
+    if (isGlyph(node) || (node as Element).classList?.contains(LABEL)) {
+      close();
+      out.push(node);
+    } else run.push(node);
+  }
+  close();
+  return out;
 }
 
 /** What a press asks of something else on the page.
@@ -196,7 +238,7 @@ export class SdsButton extends SdsElement {
         variant: this.variant, size: this.size, iconOnly, title: this.title,
         disabled: this.disabled, type: this.type, href: this.href, rel: this.rel,
       },
-      this.taken.length ? this.taken : (this.content ?? this.taken),
+      this.taken.length ? labelled(this.taken) : (this.content ?? this.taken),
     );
   }
 }

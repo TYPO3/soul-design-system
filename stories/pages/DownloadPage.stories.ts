@@ -20,7 +20,7 @@ import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/table.ts';
 import '../../packages/frontend/src/components/tabs.ts';
 import '../../packages/frontend/src/components/tab-item.ts';
-import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
+import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
@@ -109,7 +109,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
      button's label and a tab's panel are written between the tags, and
      `renderStatic` flattens no element that was given children. */
   const start = flat
-    ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-download"></sds-icon>Download 1.4.0`)}${buttonMarkup({ variant: 'secondary' }, 'Read the install guide')}`
+    ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-download"></sds-icon>${buttonLabel('Download 1.4.0')}`)}${buttonMarkup({ variant: 'secondary' }, 'Read the install guide')}`
     : html`<sds-button variant="primary"><sds-icon name="actions-download"></sds-icon>Download 1.4.0</sds-button>
         <sds-button variant="secondary">Read the install guide</sds-button>`;
 
