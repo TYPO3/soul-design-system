@@ -211,6 +211,91 @@ row. The element is ``sds-grid`` in :doc:`/frontend/components/content`.
    own stylesheet, and dropping what a theme does not understand is the one
    thing it must not do.
 
+split
+=====
+
+Two of anything, side by side until there is no room for two.
+
+.. example:: A picture beside the sentences it is of
+
+   .. split::
+      :align: center
+
+      A paragraph and a picture are two blocks,
+      so they stand as two columns and nothing
+      here says which is which.
+
+      .. figure:: /_images/design-system-workbench.png
+         :alt: The workbench, beside the paragraph
+
+**Every block in it is a column.** That is the whole rule, and it is why the
+example above needs nothing to mark its halves — a paragraph is one block and
+a figure is another. The moment a side is a heading, its paragraph and a press,
+those are three columns unless something says where the side ends, and
+``half`` is that something. No width and no count anywhere: the halves fold
+under each other by their own minimum, the way every set in this system
+reflows. The class is ``.sds-split`` in :doc:`/frontend/layout`.
+
+.. confval:: align
+   :name: split-align
+   :type: start | center | end
+
+   Where the shorter half stands against the taller one — at the top, level
+   with it, or at the foot. ``start`` is what a split gets unless it says
+   otherwise, and ``center`` is what a line beside a picture usually wants.
+
+.. confval:: leads
+   :name: split-leads
+   :type: start | end
+
+   Which half is read first once the two have stacked. ``start`` is the order
+   they are written in; ``end`` puts the second half above the first, which is
+   a picture standing to the end of the line on a page and above the sentence
+   it illustrates on a phone. It changes nothing while the two fit side by
+   side — reading order is not source order at every width, and this is the
+   one thing about that which the layout cannot work out for itself.
+
+.. confval:: class
+   :name: split-class
+   :type: string
+
+   Carried onto the split, because an author who wrote it meant it for their
+   own stylesheet, and dropping what a theme does not understand is the one
+   thing it must not do.
+
+half
+====
+
+One side of a split: the blocks that stand together as a single column.
+
+.. example:: A side of several blocks, beside a side of one
+
+   .. split::
+      :leads: end
+
+      .. half::
+
+         **Two paragraphs, one side.** This is the
+         first of them, and it is not a column.
+
+         This is the second, and without the
+         ``half`` around both it would be one.
+
+      .. half::
+
+         .. figure:: /_images/design-system-workbench.png
+            :alt: The workbench, read before the text on a phone
+
+It takes no position of its own: where a half stands is the split's decision,
+because the other half is what it is standing against. Written anywhere else
+it is simply the blocks it holds, in the rhythm a page keeps between them.
+
+.. confval:: class
+   :name: half-class
+   :type: string
+
+   Carried onto the column, for the reason ``split`` carries it.
+
 card
 ====
 

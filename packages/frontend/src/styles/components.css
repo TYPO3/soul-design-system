@@ -1568,9 +1568,11 @@ html:has(.sds-bar) {
    the rail away is the width a breakpoint here would ask about, so the wider
    column stacked and the narrower one stayed in two. */
 .sds-split {
-  /* What a half holds: a heading and its paragraph, a figure and its line —
-     the room `.sds-grid--wide` gives a card carrying the same. */
-  --split-min: 340px;
+  /* What a half holds: a heading and its paragraph, a figure and its line.
+     The number is a container, not a preference — a documentation page leaves
+     684px between its two rails and a frame inside it 642px, and two halves
+     and the gutter over that is a split that stacks where it is most wanted. */
+  --split-min: 280px;
   display: flex;
   flex-wrap: wrap;
   /* The row gap is only ever seen once it has wrapped, so the stacked step is
@@ -1580,8 +1582,24 @@ html:has(.sds-bar) {
 }
 /* `min-width: 0` because a code block or a table inside a half is wider than
    it looks, and a stacked half would otherwise be as wide as its longest
-   unbreakable line — which is a page wider than the phone reading it. */
-.sds-split > * { flex: 1 1 var(--split-min); min-width: 0; }
+   unbreakable line — which is a page wider than the phone reading it.
+
+   The second selector is a half that is an element: the host is
+   `display: contents`, so the block it draws is the half and a rule that only
+   read the child would leave the picture at whatever size it came out at. */
+.sds-split > *,
+.sds-split > * > [class*="sds-"] { flex: 1 1 var(--split-min); min-width: 0; }
+/* Where the shorter half stands against the taller one. Level with it for a
+   line beside a picture, and at the foot for two halves that end together. */
+.sds-split--center { align-items: center; }
+.sds-split--end { align-items: flex-end; }
+/* Which half leads once there is no room for two. `wrap-reverse` stacks the
+   lines bottom to top, so the second one arrives first at no width anybody
+   named; it turns the cross axis over with them, which is why the alignment
+   below reads inverted and is the same three positions on the page. */
+.sds-split--leads-end { flex-wrap: wrap-reverse; align-items: flex-end; }
+.sds-split--leads-end.sds-split--center { align-items: center; }
+.sds-split--leads-end.sds-split--end { align-items: flex-start; }
 
 /* The parts of a page. `.sds-stack` is the rhythm inside one of them; this is
    the rhythm between them, and it is the only reason a section on a page here

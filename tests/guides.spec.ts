@@ -893,7 +893,7 @@ test.describe('what the theme repaired', () => {
        stands outside a frame the document layer would have to catch. */
     await expect(page.locator('.sds-prose img:not(.sds-figure__frame img)')).toHaveCount(0);
     const framed = page.locator('.sds-prose sds-figure .sds-figure__frame');
-    await expect(framed).toHaveCount(4);
+    await expect(framed).toHaveCount(6);
 
     /* And what separates them: the caption is the claim, so the one picture
        that makes none is drawn without one rather than under an empty line. */

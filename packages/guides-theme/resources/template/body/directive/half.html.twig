@@ -1,0 +1,10 @@
+{#
+    One side of a split: the blocks that stand as a single column, in the
+    rhythm the page keeps between them.
+#}
+{%- set given = node.option('class') ? ' ' ~ node.option('class') : '' -%}
+<div class="sds-stack{{ given }}">
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</div>

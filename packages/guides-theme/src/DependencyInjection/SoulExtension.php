@@ -24,9 +24,11 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
+use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
 use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode;
+use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SurfaceNode;
 
@@ -258,6 +260,8 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => LayoutNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => BandNode::class, 'file' => 'body/directive/band.html.twig', 'format' => 'html'],
                 ['node' => GridNode::class, 'file' => 'body/directive/grid.html.twig', 'format' => 'html'],
+                ['node' => SplitNode::class, 'file' => 'body/directive/split.html.twig', 'format' => 'html'],
+                ['node' => HalfNode::class, 'file' => 'body/directive/half.html.twig', 'format' => 'html'],
                 ['node' => HeroNode::class, 'file' => 'body/directive/hero.html.twig', 'format' => 'html'],
                 ['node' => StatNode::class, 'file' => 'body/directive/stat.html.twig', 'format' => 'html'],
                 ['node' => SurfaceNode::class, 'file' => 'body/directive/surface.html.twig', 'format' => 'html'],

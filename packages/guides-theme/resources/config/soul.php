@@ -14,9 +14,11 @@ use TYPO3\Soul\GuidesTheme\Directives\ButtonDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ExampleDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
+use TYPO3\Soul\GuidesTheme\Directives\HalfDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
 use TYPO3\Soul\GuidesTheme\Directives\QuoteDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
+use TYPO3\Soul\GuidesTheme\Directives\SplitDirective;
 use TYPO3\Soul\GuidesTheme\Directives\StatDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SurfaceDirective;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
@@ -51,6 +53,11 @@ return static function (ContainerConfigurator $container): void {
         ->set(GridDirective::class)
             ->tag('phpdoc.guides.directive')
         ->set(HeroDirective::class)
+            ->tag('phpdoc.guides.directive')
+        ->set(SplitDirective::class)
+            ->tag('phpdoc.guides.directive')
+        /* A column of a split, and only there — see `HalfDirective`. */
+        ->set(HalfDirective::class)
             ->tag('phpdoc.guides.directive')
         ->set(StatDirective::class)
             ->tag('phpdoc.guides.directive')

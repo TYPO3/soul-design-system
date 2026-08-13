@@ -272,6 +272,12 @@ writes for itself is layout nothing else can keep in step.
      - the one thing in such a row that belongs at the far end of it
    * - ``.sds-split``
      - two of anything, side by side until there is no room for two
+   * - ``.sds-split--center``, ``.sds-split--end``
+     - where the shorter half stands against the taller one: level with it, or
+       at its foot. Nothing said, it stands at the top
+   * - ``.sds-split--leads-end``
+     - the second half read first once the two have stacked — a picture beside
+       the sentence on a page and above it on a phone
    * - ``.sds-grid``
      - the wall a set is read in, reflowing by its own minimum; ``sds-grid``
        is the element that writes it, and a page reaches for that

@@ -245,8 +245,13 @@ html:has(.sds-bar){scroll-padding-top:calc(var(--height-header) + var(--space-4)
 .sds-actions{display:flex;align-items:center;gap:var(--space-3)}
 .sds-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2)}
 .sds-row__end{margin-inline-start:auto}
-.sds-split{--split-min: 340px;display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-12);align-items:flex-start}
-.sds-split>*{flex:1 1 var(--split-min);min-width:0}
+.sds-split{--split-min: 280px;display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-12);align-items:flex-start}
+.sds-split>*,.sds-split>*>[class*=sds-]{flex:1 1 var(--split-min);min-width:0}
+.sds-split--center{align-items:center}
+.sds-split--end{align-items:flex-end}
+.sds-split--leads-end{flex-wrap:wrap-reverse;align-items:flex-end}
+.sds-split--leads-end.sds-split--center{align-items:center}
+.sds-split--leads-end.sds-split--end{align-items:flex-start}
 .sds-sections{display:flex;flex-direction:column;gap:var(--space-12)}
 .sds-grid{--grid-min: 230px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(var(--grid-min),100%),1fr));gap:var(--space-4)}
 .sds-grid--wide{--grid-min: 340px}

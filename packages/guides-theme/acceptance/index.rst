@@ -273,6 +273,47 @@ Pictures
    gives it a ground its colours were drawn for and keeps it in both modes —
    the one surface here that does not follow the reader into dark.
 
+Two halves
+==========
+
+A picture beside the sentences it is of, which is the shape neither a figure
+in the column nor a set of cards makes. Every block in the split is a column,
+so the first of these needs nothing to say where its halves are — a paragraph
+and a picture are two blocks and stand as two.
+
+.. split::
+
+   The half on the left is this paragraph and nothing else. At a width that
+   holds one column it stacks under the picture in the order it is written,
+   which is the default and is what a reader of the source expects.
+
+   .. figure:: /_images/placeholder.svg
+      :alt: A placeholder, standing beside the paragraph rather than under it
+
+      A picture in a half keeps its frame and its claim. Only where it stands
+      changed.
+
+.. split::
+   :align: center
+   :leads: end
+
+   .. half::
+
+      Several blocks are one half only when something says so, and this is it.
+
+      The picture leads here: it stands to the end of the line on a page and
+      above this paragraph on a phone, because what illustrates a sentence is
+      read before it once there is one column. The two are level rather than
+      aligned at the top, which is what ``center`` is for — a short half beside
+      a tall one is a caption of it, not a column that ran out.
+
+   .. half::
+
+      .. figure:: /_images/placeholder.svg
+         :alt: A placeholder, level with the text and read before it
+
+         The half that leads, and the claim under it is part of what leads.
+
 Figures
 =======
 
