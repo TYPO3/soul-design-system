@@ -21,10 +21,40 @@ chrome, its scrollbars and form controls, stays in the other mode.
 Surfaces
 ========
 
-Four planes, and each one means something. A **card** is a hairline and 6px
-with no fill. A **panel** is a raised fill, for when it sits on the canvas and
-has to read as a plane. **Sunken** is machine output — code, logs, structured
-content. The canvas is the ground everything else sits on.
+Each plane means something, and a thing that means nothing sits on the canvas.
+A **card** is a hairline and 6px with no fill of its own.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Token
+     - The plane
+     - Reach for it when
+   * - ``--surface-canvas``
+     - the ground
+     - ``.sds-app`` puts it under the page, and everything else sits on it
+   * - ``--surface-raised``
+     - lifted off that ground
+     - a panel or a modal has to read as a plane of its own, a table row
+       answers a pointer
+   * - ``--surface-sunken``
+     - machine output
+     - a code block, a log, the ground a diagram is drawn on
+   * - ``--surface-inset``
+     - a well inside another surface
+     - a skeleton, a tick box under the pointer, the facts on a reference entry
+   * - ``--surface-accent-quiet``
+     - the one tinted plane
+     - a selected row, an accent badge — with ``--border-accent-quiet`` as its
+       frame and ``--text-accent-quiet`` as its ink
+   * - ``--surface-overlay``
+     - the wash under a floating surface
+     - a dialog is open. In a system with no shadows it is the whole of how
+       one plane is separated from another
+   * - ``--surface-art``
+     - the ground under a picture that brought its own colours
+     - **it does not flip.** A drawing exported elsewhere is light whatever
+       the page is
 
 .. specimen:: guidelines/colors-surfaces.card.html
    :viewport: 700x270
@@ -33,12 +63,46 @@ content. The canvas is the ground everything else sits on.
 Text
 ====
 
+.. list-table::
+   :header-rows: 1
+
+   * - Token
+     - Carries
+   * - ``--text-primary``
+     - what the reader came for
+   * - ``--text-secondary``
+     - the line beside it, and the glyph that stands with a label
+   * - ``--text-muted``
+     - what the machine named — a path, a separator, a step that cannot be
+       taken
+   * - ``--text-link``, ``--text-link-hover``
+     - a link in running text, and the same link under the pointer
+   * - ``--text-accent-quiet``
+     - ink on the tinted plane
+   * - ``--text-on-accent``
+     - ink on the accent fill. It does not flip either — the accent is one
+       colour in both modes, so what stands on it is one colour too
+
 .. specimen:: guidelines/colors-text.card.html
    :viewport: 700x176
    :title: Text
 
 Borders
 =======
+
+.. list-table::
+   :header-rows: 1
+
+   * - Token
+     - Draws
+   * - ``--border-subtle``
+     - the hairline that does the structural work: a card's frame, a table's
+       rules, the gaps a grid is separated by
+   * - ``--border-strong``
+     - the frame a control carries — a secondary button, a badge, a field —
+       and the line under a table head
+   * - ``--border-accent-quiet``
+     - the frame of the tinted plane, and nothing else
 
 .. specimen:: guidelines/colors-borders.card.html
    :viewport: 700x240
