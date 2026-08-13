@@ -32,12 +32,12 @@ const SENTINEL_UPLOAD = {
 };
 
 if (!existsSync(BUILT)) {
-  console.log('Kein Build vorhanden — `make build` zuerst.');
+  console.log('No build here — run `make build` first.');
   process.exit(1);
 }
 const local = JSON.parse(readFileSync(BUILT, 'utf8'));
 if (!local.files) {
-  console.log('Der Build kennt keine Dateiliste — `make build` mit der aktuellen build.ts.');
+  console.log('The build knows no file list — run `make build` with the current build.ts.');
   process.exit(1);
 }
 
@@ -102,27 +102,27 @@ const plan = {
 mkdirSync(join(ROOT, '.design-sync/.cache'), { recursive: true });
 writeFileSync(OUT, JSON.stringify(plan, null, 2));
 
-console.log(`Upload-Plan → .design-sync/.cache/upload-plan.json`);
-console.log(`  Projekt:  ${projectId ?? '(keins gesetzt — siehe unten)'}`);
-console.log(`  1 Sentinel  ·  2 ${content.length} Dateien  ·  3 ${deletes.length} Löschungen  ·  4 Sentinel  ·  5 Anker`);
+console.log(`Upload plan → .design-sync/.cache/upload-plan.json`);
+console.log(`  Project:  ${projectId ?? '(none set — see below)'}`);
+console.log(`  1 sentinel  ·  2 ${content.length} files  ·  3 ${deletes.length} deletes  ·  4 sentinel  ·  5 anchor`);
 if (deletes.length) {
-  console.log(`  zu löschen: ${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
+  console.log(`  to delete: ${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
 }
 if (!projectId) {
-  console.log('  ! Ohne Projekt-ID legt jeder Sync ein neues Projekt an, statt das');
-  console.log('    bestehende zu aktualisieren — Anker, Löschungen und der ganze');
-  console.log('    Update-Pfad hängen daran. Setz sie einmal, dann trifft jeder');
-  console.log('    weitere Sync dasselbe Projekt:');
+  console.log('  ! With no project id every sync creates a new project instead of');
+  console.log('    updating the one that is there — the anchor, the deletes and the');
+  console.log('    whole update path hang on it. Set it once, and every further');
+  console.log('    sync lands in the same project:');
   console.log('      export SDS_DESIGN_PROJECT=<uuid>');
-  console.log('      oder .design-sync/config.local.json  {"projectId": "<uuid>"}');
-  console.log('    Noch kein Projekt? `/design-sync` legt eins an und nennt die ID.');
+  console.log('      or .design-sync/config.local.json  {"projectId": "<uuid>"}');
+  console.log('    No project yet? `/design-sync` creates one and names the id.');
 }
 if (!deletable) {
-  console.log('  ! Kein Referenzstand mit Dateiliste — Löschungen wurden NICHT berechnet.');
-  console.log('    Hol den Anker aus dem Projekt und lauf noch einmal:');
+  console.log('  ! No reference state with a file list — deletes were NOT computed.');
+  console.log('    Fetch the anchor from the project and run again:');
   console.log('      DesignSync get_file  _ds_sync.json');
   console.log('      -> .design-sync/.cache/remote-sync.json');
-  console.log('    Trägt er kein "files" (Upload vor dieser Änderung), einmalig');
-  console.log('    list_files gegen den Build halten.');
+  console.log('    If it carries no "files" (an upload from before this change),');
+  console.log('    hold list_files against the build once.');
 }
-console.log('\nNach erfolgreichem Upload:  make synced');
+console.log('\nAfter a successful upload:  make synced');

@@ -17,16 +17,16 @@ const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
 const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
 
 if (!existsSync(BUILT)) {
-  console.log('Kein Build vorhanden — `make build` zuerst.');
+  console.log('No build here — run `make build` first.');
   process.exit(1);
 }
 const local = JSON.parse(readFileSync(BUILT, 'utf8'));
 const cards = Object.keys(local.renderHashes).sort();
 
 if (!existsSync(ANCHOR)) {
-  console.log(`Kein Referenzstand zwischengespeichert.`);
-  console.log(`  ${cards.length} Karten würden hochgeladen (alles).`);
-  console.log(`  /design-sync holt den echten Stand aus dem Projekt und lädt nur Geändertes hoch.`);
+  console.log(`No reference state cached.`);
+  console.log(`  ${cards.length} cards would be uploaded (all of them).`);
+  console.log(`  /design-sync reads the real state from the project and uploads only what changed.`);
   process.exit(0);
 }
 
@@ -48,7 +48,7 @@ const screensChanged = wasScreens
   : Object.keys(nowScreens).sort();
 
 if (!added.length && !changed.length && !removed.length && !styling && !screensChanged.length) {
-  console.log(`Nichts zu tun — alle ${cards.length} Karten sind auf dem hochgeladenen Stand.`);
+  console.log(`Nothing to do — every one of the ${cards.length} cards is at the uploaded state.`);
   process.exit(0);
 }
 
@@ -56,10 +56,10 @@ const list = (label: string, names: readonly string[]): void => {
   if (!names.length) return;
   console.log(`  ${label} (${names.length}): ${names.join(', ')}`);
 };
-console.log('Ein Sync würde ändern:');
-list('neu', added);
-list('geändert', changed);
-list('entfernt', removed);
-list('Screens geändert', screensChanged);
-if (styling) console.log('  Styling: tokens/components geändert — betrifft jedes gerenderte Design');
-console.log('\nJetzt in Claude Code:  /design-sync');
+console.log('A sync would change:');
+list('added', added);
+list('changed', changed);
+list('removed', removed);
+list('screens changed', screensChanged);
+if (styling) console.log('  Styling: tokens/components changed — this reaches every rendered design');
+console.log('\nNow, in Claude Code:  /design-sync');
