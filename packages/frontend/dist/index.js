@@ -3184,7 +3184,7 @@ var SdsLightbox = class extends SdsElement {
     <span>${this.caption || this.alt}</span>
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
-  <div class="sds-lightbox__art">
+  <div class="sds-lightbox__art${this.linked ? " sds-lightbox__art--exported" : ""}">
     ${art(this.src, this.alt, { linked: this.linked })}
   </div>
 </dialog>`;
@@ -4198,7 +4198,7 @@ var SdsFigure = class extends SdsElement {
     }) : null;
     const caption = this.captioned ? html32`${this.captioned}` : this.caption ? html32`<figcaption class="sds-figure__caption">${this.caption}</figcaption>` : "";
     return html32`<figure class="sds-figure">
-  <div class="sds-figure__frame">
+  <div class="sds-figure__frame${this.linked ? " sds-figure__frame--exported" : ""}">
     ${press ? press.trigger : picture}
   </div>
   ${caption}
@@ -4480,7 +4480,7 @@ var SdsCard = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    const medium = this.src ? html37`<div class="sds-card__media">
+    const medium = this.src ? html37`<div class="sds-card__media${this.linked ? " sds-card__media--exported" : ""}">
     ${art(this.src, this.alt, { linked: this.linked })}
   </div>` : "";
     const icon = this.icon ? html37`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : "";

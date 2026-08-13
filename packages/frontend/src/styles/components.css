@@ -1547,9 +1547,26 @@ html:has(.sds-bar) {
    nothing else can keep in step. The row wraps, so on a narrow screen this
    is the last line, aligned right, rather than something clipped. */
 .sds-row__end { margin-inline-start: auto; }
-/* Two of anything, side by side until there is no room for two. */
-.sds-split { display: flex; gap: var(--space-12); align-items: flex-start; }
-.sds-split > * { flex: 1; min-width: 0; }
+/* Two of anything, side by side until there is no room for two — its own
+   minimum, the way `.sds-grid` reflows. A width the window states cannot see
+   this: beside a rail the same window leaves 555px, and the width that folds
+   the rail away is the width a breakpoint here would ask about, so the wider
+   column stacked and the narrower one stayed in two. */
+.sds-split {
+  /* What a half holds: a heading and its paragraph, a figure and its line —
+     the room `.sds-grid--wide` gives a card carrying the same. */
+  --split-min: 340px;
+  display: flex;
+  flex-wrap: wrap;
+  /* The row gap is only ever seen once it has wrapped, so the stacked step is
+     stated here rather than at a second width. */
+  gap: var(--space-8) var(--space-12);
+  align-items: flex-start;
+}
+/* `min-width: 0` because a code block or a table inside a half is wider than
+   it looks, and a stacked half would otherwise be as wide as its longest
+   unbreakable line — which is a page wider than the phone reading it. */
+.sds-split > * { flex: 1 1 var(--split-min); min-width: 0; }
 
 /* The parts of a page. `.sds-stack` is the rhythm inside one of them; this is
    the rhythm between them, and it is the only reason a section on a page here
@@ -1680,11 +1697,6 @@ html:has(.sds-bar) {
   .sds-body__rail { width: auto; position: static; max-height: none; }
   .sds-page { padding-block: var(--space-8); }
   .sds-foot { flex-wrap: wrap; gap: var(--space-4); }
-  /* Stacked, and stretched with it: a column of two whose items are their own
-     width leaves each of them as wide as its longest unbreakable line — which
-     is how a page with a code block in it came to be 17px wider than the
-     phone it was measured on. */
-  .sds-split { flex-direction: column; gap: var(--space-8); align-items: stretch; }
   .sds-sections { gap: var(--space-10); }
 }
 @media (max-width: 640px) {
