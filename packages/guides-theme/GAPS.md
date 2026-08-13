@@ -181,12 +181,13 @@ ihre Regel in `document.css`.
 Nicht Styling, sondern was das Paket können muss.
 
 - **Niemand sieht, wie die Seite aussieht.** `tests/guides.spec.ts` rendert und
-  öffnet sie: es lädt jede Seite unter `.out/site/` und lässt keinen Fehler und
-  keine fehlende Datei durch, und es hält die Befunde fest, für die dieses
-  Theme geschrieben wurde. Was es nicht tut, ist hinsehen — kein Bildvergleich
-  und keine Achse gegen die Ausgabe, und jeder Knoten, für den dort keine Zeile
-  steht, ist weiterhin ungeprüft. Was dazukommt, bekommt seine Zeile dort;
-  sonst wandert es still wieder auf.
+  öffnet sie, lässt keinen Fehler und keine fehlende Datei durch, hält die
+  Befunde fest, für die dieses Theme geschrieben wurde, und lässt axe über jede
+  gerenderte Seite in beiden Modi laufen — das ist der Teil, der findet, woran
+  niemand gedacht hat. Was bleibt, ist das Bild: kein Screenshot der Ausgabe
+  wird mit einem früheren verglichen, und jeder Knoten, für den keine Zeile
+  dort steht, ist nur so weit geprüft, wie eine Maschine ihn lesen kann. Was
+  dazukommt, bekommt seine Zeile dort; sonst wandert es still wieder auf.
 
 ## Die Deckungsregel
 

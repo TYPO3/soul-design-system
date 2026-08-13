@@ -11,8 +11,10 @@ import { readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 
 import { test, expect, type Locator, type Page } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 
-import { ACCEPTANCE_URL, SITE_DIR, SITE_URL } from '../playwright.config.ts';
+import { ACCEPTANCE_DIR, ACCEPTANCE_URL, SITE_DIR, SITE_URL } from '../playwright.config.ts';
+import { axeIdle } from './lib/story.ts';
 
 const FIXTURE = `${ACCEPTANCE_URL}/index.html`;
 const REFERENCE = `${ACCEPTANCE_URL}/nodes.html`;
@@ -1198,4 +1200,41 @@ test.describe('the colour the server already wrote', () => {
     const kept = await page.locator('sds-code code[data-start]').first();
     await expect(kept).toHaveAttribute('data-start', /\d+/);
   });
+});
+
+/* The one part of this suite that does not know what it is looking for.
+
+   Everything above asserts a finding the theme was written to fix, which means
+   it can only catch what somebody already thought of. axe reads the rendered
+   page as a machine can — the roles, the names, the order, the contrast — over
+   every page of the acceptance render and in both modes, because a document
+   layer that is right in one is not thereby right in the other. Serious and
+   critical only, for the reason `a11y.spec.ts` gives. */
+test.describe('what nobody thought to assert', () => {
+  /* The pages the renderer wrote. A card under `_cards/` is a copy of a
+     specimen put where a parsed page can point at it — it proves nothing about
+     the renderer, which is the same reason `make coverage` will not count one,
+     and the page that embeds it names it on the frame. */
+  const rendered = pages(ACCEPTANCE_DIR).filter((path) => !path.startsWith('_cards/'));
+
+  for (const theme of ['dark', 'light'] as const) {
+    test(`every rendered page survives axe in ${theme}`, async ({ page }) => {
+      expect(rendered.length, 'the acceptance render should have pages in it').toBeGreaterThan(1);
+      test.setTimeout(Math.max(60_000, rendered.length * 10_000));
+
+      const found: string[] = [];
+      for (const path of rendered) {
+        await page.goto(`${ACCEPTANCE_URL}/${path}`, { waitUntil: 'load' });
+        await page.evaluate((mode) => document.documentElement.setAttribute('data-theme', mode), theme);
+        await axeIdle(page);
+
+        const results = await new AxeBuilder({ page }).analyze();
+        for (const v of results.violations) {
+          if (v.impact !== 'serious' && v.impact !== 'critical') continue;
+          found.push(`${path}: ${v.id} — ${v.help} (${v.nodes.length} node(s), first: ${v.nodes[0]?.target.join(' ')})`);
+        }
+      }
+      expect(found).toEqual([]);
+    });
+  }
 });

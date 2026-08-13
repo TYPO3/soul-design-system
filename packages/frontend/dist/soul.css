@@ -191,6 +191,7 @@ dialog.sds-lightbox::backdrop{background:var(--surface-overlay)}
 .sds-embed__frame>iframe{display:block;border:0}
 .sds-embed__frame--fluid>iframe{width:100%;height:100%}
 .sds-embed__frame--fixed{width:max-content;max-width:100%;overflow:auto}
+.sds-embed__frame:focus-visible{outline:var(--border-emphasis) solid var(--accent);outline-offset:2px}
 .sds-embed__caption{font-size:var(--aside-size);line-height:var(--aside-leading);color:var(--text-muted);max-width:var(--measure-prose)}
 .sds-art{display:block;width:100%;height:auto}
 .sds-result{display:flex;flex-direction:column;gap:var(--space-1-5);padding-block:var(--space-5);border-bottom:var(--border-hairline) solid var(--border-subtle)}

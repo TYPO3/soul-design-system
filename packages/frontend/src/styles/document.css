@@ -426,6 +426,18 @@
   color: var(--text-link-hover);
   text-decoration: underline;
 }
+/* And inside a sentence it is underlined: colour alone is nothing to a reader
+   who does not see this orange, and against body text it stands at 1.3:1 in
+   dark, which no token reaches 3:1 while there is one accent. Quiet, and only
+   where a link sits *in* text — one that is a block of its own is told apart
+   by standing alone. Given the weight of its own elements, the class layer
+   saying `a { text-decoration: none }` above every weightless rule. */
+:where(.sds-prose) :is(p, li, dd, td, th) a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 2px;
+}
+:where(.sds-prose) :is(p, li, dd, td, th) a:hover { text-decoration-color: currentColor; }
 :where(.sds-prose) strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
 
 /* A formula arrives as the source somebody wrote, because the renderer

@@ -1153,6 +1153,12 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    table gets here for the same reason; above it the frame stops at the
    document rather than stretching a plane out beside it. */
 .sds-embed__frame--fixed { width: max-content; max-width: 100%; overflow: auto; }
+/* And it is a tab stop while it scrolls, so the ring the rest of the system
+   draws is drawn here too. */
+.sds-embed__frame:focus-visible {
+  outline: var(--border-emphasis) solid var(--accent);
+  outline-offset: 2px;
+}
 .sds-embed__caption {
   font-size: var(--aside-size);
   line-height: var(--aside-leading);

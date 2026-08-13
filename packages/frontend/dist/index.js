@@ -4286,7 +4286,7 @@ var SdsEmbed = class extends SdsElement {
     const style = this.fixed ? nothing13 : `aspect-ratio:${this.ratio || "16 / 9"}`;
     const caption = this.captioned ? html33`${this.captioned}` : this.caption ? html33`<div class="sds-embed__caption">${this.caption}</div>` : void 0;
     return html33`<div class="sds-embed">
-  <div class="sds-embed__frame ${shape}" style="${style}">${this.framed}</div>
+  <div class="sds-embed__frame ${shape}" style="${style}" tabindex="${this.fixed ? "0" : nothing13}">${this.framed}</div>
   ${caption}
 </div>`;
   }

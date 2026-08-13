@@ -57,6 +57,8 @@
 :where(.sds-prose) sub{bottom:-.25em}
 :where(.sds-prose a){color:var(--text-link);text-decoration:none}
 :where(.sds-prose a:hover){color:var(--text-link-hover);text-decoration:underline}
+:where(.sds-prose) :is(p,li,dd,td,th) a{text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-underline-offset:2px}
+:where(.sds-prose) :is(p,li,dd,td,th) a:hover{text-decoration-color:currentColor}
 :where(.sds-prose) strong{font-weight:var(--weight-semibold);color:var(--text-primary)}
 :where(.sds-prose) math:not(:has(*)){display:inline;font-family:var(--font-mono);font-size:.94em;color:var(--text-primary)}
 :where(.sds-prose) .section>math:not(:has(*)),:where(.sds-prose)>math:not(:has(*)){display:block;margin:0 0 var(--space-4)}

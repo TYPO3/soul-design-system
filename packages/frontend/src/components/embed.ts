@@ -141,8 +141,12 @@ export class SdsEmbed extends SdsElement {
         ? html`<div class="sds-embed__caption">${this.caption}</div>`
         : undefined;
 
+    /* A frame that keeps its measured width scrolls below it, and a region that
+       scrolls has to be reachable by the key that scrolls it — a pointer is not
+       the only way down a page. Only where it scrolls: a tab stop on a frame
+       that fits is a stop at nothing. */
     return html`<div class="sds-embed">
-  <div class="sds-embed__frame ${shape}" style="${style}">${this.framed}</div>
+  <div class="sds-embed__frame ${shape}" style="${style}" tabindex="${this.fixed ? '0' : nothing}">${this.framed}</div>
   ${caption}
 </div>`;
   }
