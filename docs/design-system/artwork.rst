@@ -41,7 +41,9 @@ Three lines, and none of them changes the drawing.
 The hex is not dead weight. It is what the file renders as on its own — opened
 in a tab, linked from a README, sitting in a favicon slot — where there are no
 tokens to read. On a page that declares them, the token wins and the hex is
-never reached.
+never reached. The fallback belongs to the drawing rather than to the text
+scale, so a text-contrast adjustment does not silently redraw a standalone
+brand mark.
 
 .. warning::
 
@@ -102,6 +104,12 @@ A signet of your own
 
 The mark in a documentation bar is configured, not shipped: it is a file in the
 documentation tree, and this system has no opinion about what it depicts.
+
+There is no signet component. Embedding the drawing in an element would copy
+the optical files into TypeScript and bind a consumer to this system's own
+mark. ``sds-image`` supplies the artwork mechanism instead, while
+``.sds-signet`` supplies only the layout behaviour a mark needs and leaves its
+size to the caller.
 
 .. code-block:: xml
    :caption: guides.xml

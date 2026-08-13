@@ -10,12 +10,11 @@ Companion prototype and is a worked example of the rules — the reference
 implementation, not an approved product mark. A product adopting this system
 draws its own to the same construction.
 
-Three are shipped, so the claim can be checked rather than believed:
-``dev-companion-signet-{l,m,s}.svg``, ``tryout-signet-{l,m,s}.svg``, and
-``design-system-signet-{l,m,s}.svg`` for the system itself. Box, outer
-radius, stroke, rounding, gap and the single orange in the top-right corner
-are the same in all three; only the interior differs, and it carries one
-idea.
+The worked family under ``packages/frontend/assets/*-signet-{l,m,s}.svg``
+makes the claim checkable rather than asking a reader to believe it. The Dev
+Companion, Tryout and design-system examples share the box, outer radius,
+stroke, rounding, gap and the single orange in the top-right corner; only the
+interior differs, and it carries one idea.
 
 The system's own mark has no window and its accent is a stroke, both on
 purpose: a frame reads as a terminal, and a terminal is what the products
@@ -28,6 +27,12 @@ it should produce a mark that belongs here.
    This is **not** an approved TYPO3 product. The TYPO3 Soul is not used,
    and no surface may imply endorsement — footers say what the product is,
    never whose it is.
+
+``TYPO3`` in the wordmark names the domain the system serves, not the owner of
+the system. The Association's asset is therefore neither nested nor cropped
+into this mark: nesting would make it the mark and erase the product, while
+cropping would alter an asset that is not ours. Where co-branding is needed,
+the marks sit beside one another.
 
 How one is drawn
 ================
@@ -47,10 +52,10 @@ whole device pixel.
    :viewport: 700x2087
    :title: Signet — construction
 
-Three sizes, three boxes
-========================
+Optical sizes and their boxes
+=============================
 
-The three files are ``viewBox="0 0 32 32"``, ``0 0 24 24`` and
+The optical files use ``viewBox="0 0 32 32"``, ``0 0 24 24`` and
 ``0 0 16 16``: one unit is one pixel at the size the file is for, so a
 drawing is true at that size and at every multiple of it — 32, 64, 96 for
 the large one, 24 and 48 for the middle, 16, 32 and 48 for the small. Between
@@ -67,6 +72,19 @@ Every box is square, which is the shape every slot a mark lands in already
 has — a favicon, an avatar, an app icon, a bar. One number sizes it, and
 there is no aspect to state twice or to get wrong.
 
+A signet is not an icon
+=======================
+
+Never put ``.sds-icon`` on a signet. Icon rules size a glyph from the text it
+sits in, while each signet file is drawn for a particular pixel box. Applying
+the icon class would erase that choice and make the optical files render at
+the same inherited size.
+
+``.sds-signet`` deliberately sets display and flow but no dimensions. The
+element or lockup that places the mark states its width and height, and chooses
+the matching file. This keeps size at the place where the available box is
+known without turning a brand mark into a UI glyph.
+
 .. specimen:: guidelines/brand-signet-sizes.card.html
    :viewport: 700x937
    :title: Signet — sizes
@@ -78,10 +96,10 @@ there is no aspect to state twice or to get wrong.
 The family
 ==========
 
-Three marks, one construction. What is shared is the square box and the 4:3
-construction inside it, the outer radius, the stroke and its two consequences
-(rounding, gap), and the single orange in the top-right corner. What is not shared is the interior — one idea per
-product.
+One construction, distinct interiors. What is shared is the square box and
+the 4:3 construction inside it, the outer radius, the stroke and its two
+consequences (rounding, gap), and the single orange in the top-right corner.
+What is not shared is the interior — one idea per product.
 
 .. specimen:: guidelines/brand-signet-family.card.html
    :viewport: 700x700
@@ -95,8 +113,8 @@ behind a link because it is a thing to hand over rather than a thing to read:
 copy the whole block, name the product, and what comes back should belong to
 the family without its author having seen a single sibling. Take half of it
 and you get a mark that shares a colour and nothing else — every number in it
-follows from the stroke, and the rules that keep three sizes reading as one
-mark are the ones easiest to leave behind.
+follows from the stroke, and the rules that keep the optical sizes reading as
+one mark are the ones easiest to leave behind.
 
 .. literalinclude:: signet-prompt.md
    :language: markdown

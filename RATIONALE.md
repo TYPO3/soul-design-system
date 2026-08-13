@@ -1,40 +1,16 @@
 # Soul Design System
 
 Design reasons are moving beside their rules in the published documentation.
-The type, density, spacing, layout and radius decisions now live on their
-pages under `docs/design-system/`; the class and component contract lives under
-`docs/frontend/`. This file temporarily holds the reasons not yet moved and is
-reduced as each topic finds its permanent page.
+The brand, artwork, type, density, spacing, layout and radius decisions now
+live on their pages under `docs/design-system/`; the class and component
+contract lives under `docs/frontend/`. This file temporarily holds the reasons
+not yet moved and is reduced as each topic finds its permanent page.
 
 **The system is the product.** The tokens, the `sds-` class layer and the Lit elements are what is built and maintained here; the specimen cards, the Storybook, the npm package and the guide the design agent reads are all generated from them.
 
 It was cut against a real surface and still answers to one: **TYPO3 Support App**, a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work for the three audiences that do it — the core contributor, the extension author and the site developer. That product is the worked example throughout this document, and deliberately so — a system with no surface to answer to drifts into taste.
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
-
-## Brand
-
-There was no logo, no brand mark and no webfont binary to inherit. **No mark was invented.** The brand was **designed here**, from the product's own material, and is now decided.
-
-**Signet.** A terminal frame holding a short session: two muted lines and one orange answer, with the top-right corner cut away by a solid orange marker. The marker is *not* the TYPO3 Soul — it takes the Soul's two-part reading, its orange and its 1 : 1.44 proportion, but none of its geometry, which is the right distance for a sub-product.
-
-**The construction is the deliverable, not that drawing.** The marks are shipped so the claim can be checked rather than believed: `dev-companion-signet-{l,m,s}.svg`, `tryout-signet-{l,m,s}.svg`, and `design-system-signet-{l,m,s}.svg` for the system itself. Box, outer radius, stroke, rounding, gap and the single orange in the top-right corner are identical across them; only the interior differs, and it carries exactly one idea — a session ending in an answer, the triangle you press to start an instance, the parts and the frame around them. Tryout's triangle is filled *and* stroked at the mark's own weight, the way the corner marker is, so its three points come out at 3.5 through the round join rather than through a second construction that would have to be kept in step. `docs/design-system/signet-prompt.md` is the construction written as something to act on: the brand page prints it whole so a reader can copy it, and it ships in the bundle as `guidelines/signet-prompt.md`.
-
-**The system's own mark has no window, and its accent is a stroke.** Both are deliberate breaks. A frame reads as a terminal, and a terminal is what the products this dresses *are* — not what it is; so the system's mark is two crop marks, the corners a piece is registered against, with three unequal parts between them. And its orange is a stroked corner where the product marks fill theirs: this mark is the frame everything else is composed inside, and a frame that outweighs its contents is the wrong shape for the job. That is the only licensed deviation. A product mark fills its accent.
-
-Drawn in a 128 × 100 box, and everything follows one value: **stroke 7** → rounding 3.5 (half the stroke, on frame caps, line ends and the marker's three points alike) → **gap ≥ 7, measured ink to ink**. Marker 36 across, 52 down; corner radius 20, shared by frame and marker. The frame is one open path, so its two ends are round caps rather than cuts, and the path stops gap + stroke short because both caps reach half a stroke further. The marker sits on the frame's *outer* edge, not on the box.
-
-**Three optical sizes, not one drawing scaled.** L (32px and up): stroke 7, three lines. M (20–31px): stroke 8.5, the faint middle line dropped. S (16–19px, favicon): stroke 11, marker 40 × 58. **16px is the floor** — below it, wordmark alone. Shipped as three files per mark — `packages/frontend/assets/<product>-signet-{l,m,s}.svg` — and the size is chosen at the link (`<link rel="icon" sizes="16x16" href="dev-companion-signet-s.svg">`), not inside the asset. A single self-switching file was tried and dropped: media queries inside an SVG only see their own viewport when the file is linked, and not dependably across renderers. Nor does a file carry its own light and dark: it names its root `id="art"` and colours its shapes `var(--text-primary, #8A8378)`, so a page that references it gets the page's ink and every other use falls back to a mid warm grey that holds on both modes. A `<style>` in the file would defeat that, and `ARCHITECTURE.md` has what was measured.
-
-**Wordmark.** `TYPO3` at weight 600, an orange pipe, `Soul Design System` at weight 300. The pipe is a separator and a caret at once — the terminal reading the product earns — and it is the only colour in the mark. The weight split, not a bullet or a slash, carries the hierarchy: the domain has the mass, the system's name is the qualifier it grammatically is. Minimum 12px type.
-
-**The TYPO3 Soul is not used.** Not as a rule of taste but of standing: this is not an approved TYPO3 product, so the Association's mark is not ours to place. The signet carries no Soul, and no surface implies endorsement — footers say what the product is, never whose it is. Should approval ever come, the decision is still no: the Soul inside our mark would either become the mark (and the sub-product disappears) or be cropped (and we would be altering the Association's asset). The files sit side by side for co-branding, never nested.
-
-**The name is not the mark.** This system is called Soul; the Association's asset is called the TYPO3 Soul. The rule above is about the asset — nothing here places it, nests it or borrows its geometry, and that does not change. The name carries no `TYPO3` in front of it for exactly the same reason: *TYPO3 Soul Design System* would read as the Association's own system, which this is not. `TYPO3` appears in the wordmark, where it names the domain the system serves, and in the npm scope, where it names an organisation — not in the system's name.
-
-**Lockup.** The signet is **1.36 × the type size**, the gap between them **0.5 × the type size**. Clear space is half the signet height on every side. Minimum: 12px type for the full lockup, 16px for the signet alone.
-
-**Never.** A second colour anywhere in the mark. The two words in equal weights. Stretched. On an orange fill. The large drawing used at a small size. The corner marker in anything but orange. See `guidelines/brand-lockup.card.html`, `brand-signet-construction.card.html`, `brand-signet-sizes.card.html`, `brand-signet-modes.card.html`, `brand-clearspace.card.html` and `brand-misuse.card.html`.
 
 ## Direction
 
