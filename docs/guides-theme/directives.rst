@@ -4,16 +4,24 @@
 Directives
 ==========
 
-The directives this theme adds to what an author can write, and one document
+The directives this theme adds to what an author can write, and the document
 field. They are registered by the extension, so a project that selected the
 theme can use them immediately — there is nothing to add to ``guides.xml`` and
 no template to copy.
 
-Some of them build a landing page: a page of a different shape than a manual
-page, and the renderer has no vocabulary for it. ``card-grid`` and ``card``
-signpost a manual and ``accordion`` folds its answers away, both spelled the
-way a TYPO3 manual already spells them. The last embeds a rendered specimen at
-the size it was measured at.
+``layout``, ``hero``, ``band`` and ``grid`` build a landing page: a page of a
+different shape than a manual page, and the renderer has no vocabulary for it.
+``card-grid``, ``card`` and ``accordion`` signpost a manual and fold its
+answers away, each spelled the way a TYPO3 manual already spells them.
+``stat`` states a figure, ``button`` and ``button-bar`` are how a page sends a
+reader on, and ``specimen`` embeds a rendered card at the size it was measured
+at.
+
+Each of them draws an element of this system and takes that element's own
+options, spelt the way the element spells them — so ``href`` links and ``src``
+takes a file here as everywhere else, and what a component gains the directive
+gains with it. Every section below names the element it draws, and
+:doc:`/frontend/components/index` is where that element's own reference is.
 
 layout
 ======
@@ -182,7 +190,7 @@ No column count, and that is the design: three across on a desk, two on a
 tablet, one on a phone, decided by how narrow an item may get rather than by a
 breakpoint somebody picked. It holds cards, figures, or anything else read as
 a set — each item draws itself and the grid only decides how many stand in a
-row.
+row. The element is ``sds-grid`` in :doc:`/frontend/components/content`.
 
 .. confval:: the argument
    :name: grid-variant
@@ -237,9 +245,12 @@ without being rewritten.
 .. confval:: gap
    :type: integer
 
-   Accepted and dropped. The space between cards is the system's spacing
-   scale, and a page that set it would be a page holding an opinion the next
-   release of the design system has to honour.
+   ``0`` is the one gutter a page may ask for, because it is not a distance
+   but a shape: the cards share a hairline and read as one block, which is
+   the grid's ``flush``. Every other value is accepted and dropped — the
+   space between cards is the system's spacing scale, and a page that set it
+   would be a page holding an opinion the next release of the design system
+   has to honour.
 
 .. confval:: card-height
    :type: integer
@@ -270,7 +281,7 @@ everything a card can:
    .. card:: :doc:`publishing`
       :label: Chapter
       :icon: actions-book
-      :footer: Three commands
+      :footer: For CI
       :action: Read it
 
       The job a project runs, command for command, and what each of them
@@ -286,11 +297,11 @@ One card: a title that goes somewhere, and what is behind it.
    .. card:: :ref:`Installation <installation>`
       :label: Chapter
       :icon: actions-book
-      :footer: Three commands
+      :footer: For a desk
       :action: Read it
 
-      What the package needs, and the three commands that render a project
-      with it.
+      What the package needs, and the commands that render a project with
+      it.
 
 .. confval:: href
    :name: card-href
@@ -379,7 +390,8 @@ and answers for half of it sends the author who wanted the other half to their
 own stylesheet, which is the one thing this system exists to prevent — and one
 that renames what it does carry makes them translate a card they have already
 read. ``href`` links and ``src`` takes a file here for the same reason they do
-everywhere else. What the element gains, this gains.
+everywhere else. What the element gains, this gains — its reference is
+``sds-card`` in :doc:`/frontend/components/content`.
 
 The node is ``sds-card`` itself and not a ``div`` wearing its classes — the
 element is the front door here as everywhere else, so the card is drawn in one
@@ -488,7 +500,8 @@ out of a document that line carries links.
 ``dense`` — the width a number and the line under it holds. ``flush`` works
 too: there the figures share a hairline and the wall gives each its ground.
 The frame in a wall is the wall's, so a figure anywhere else stays bare and a
-row of numbers on a page is not a row of boxes.
+row of numbers on a page is not a row of boxes. The element is ``sds-stat``
+in :doc:`/frontend/components/content`, beside the grid it stands in.
 
 button
 ======
@@ -603,6 +616,9 @@ was written would put a link inside the control; the reference becomes the
 control's target instead. That is the same trade the card makes with its
 title, and it is why both are read off the node rather than in a template.
 
+The element is ``sds-button`` in :doc:`/frontend/components/controls`, and it
+has the properties this leaves out as well as the ones above.
+
 button-bar
 ==========
 
@@ -628,7 +644,9 @@ Named the way ``card-grid`` is — what it holds, and the shape it holds them
 in. A row of controls is layout rather than a component, so it has no variant:
 the whole of it is that what stands in it sits on one line, centred against
 each other, which is what a link beside a button needs. It holds whatever a
-page puts in it, and one press in it is the primary.
+page puts in it, and one press in it is the primary. What it emits is
+``.sds-actions`` — the row in :doc:`/frontend/layout`, written by the theme
+the way ``band`` writes its section.
 
 accordion
 =========
@@ -674,7 +692,8 @@ manual already uses.
 **The fold is a** ``<details>``. It works before any script runs, the keyboard
 reaches it, find-in-page opens the answer it lands in, and what closes the
 others is the platform rather than a listener — which is why the answers carry
-the set's name and why a page never writes one on an item.
+the set's name and why a page never writes one on an item. The element is
+``sds-accordion`` in :doc:`/frontend/components/navigation`.
 
 accordion-item
 ==============
@@ -780,10 +799,11 @@ the design pane exports:
    frame's accessible name, which is the only thing a reader who cannot see
    the card is given.
 
-The frame is an ``sds-embed``, fixed at the viewport above: where the column
-is narrower it scrolls rather than squeezing the card into a width nothing
-ever measured. :doc:`markup` has the other half of that node — a video, which
-is the same directive's opposite and fills the column instead.
+The frame is an ``sds-embed`` — the element in
+:doc:`/frontend/components/media` — fixed at the viewport above: where the
+column is narrower it scrolls rather than squeezing the card into a width
+nothing ever measured. :doc:`markup` has the other half of that node — a
+video, which is the same directive's opposite and fills the column instead.
 
 The cards have to be inside the documentation source, because the renderer
 copies an asset it can see a document reach for and nothing else. This
