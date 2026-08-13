@@ -554,8 +554,15 @@
   padding-inline-start: 0;
   list-style: none;
 }
+/* Indented, and standing off the entry it hangs under. Flush against it, a
+   sub-entry had less air above it than any two entries in the list have
+   between them, and the pair read as one wrapped line. Half a step: it is the
+   gap a level owes its own parent, not the one two entries owe each other. */
 :where(.sds-prose) .contents li ul,
-:where(.sds-prose) .toc li ul { padding-inline-start: var(--space-4); }
+:where(.sds-prose) .toc li ul {
+  margin-top: var(--space-1);
+  padding-inline-start: var(--space-4);
+}
 :where(.sds-prose) .contents li,
 :where(.sds-prose) .toc li { margin-bottom: var(--space-1); }
 /* The label a template writes over the list, standing directly on it. */
@@ -648,11 +655,20 @@
     margin-bottom: var(--space-2);
     line-height: var(--leading-heading);
   }
-  /* And a level down stands closer than the level above it stands apart, so a
-     section and the headings under it read as one group rather than as seven
-     entries in a row. */
-  :where(.sds-prose) .sds-aside .contents li li { margin-bottom: var(--space-1); }
-  :where(.sds-prose) .sds-aside .contents li ul { padding-inline-start: var(--space-3); }
+  /* And one gap, whatever level an entry is on: the indent says which, and a
+     second gap saying it again only makes the column uneven — a group set
+     tighter than its neighbours is a rhythm the eye reads before it reads any
+     of the words. So the nested list stands off by the step it interrupts. */
+  :where(.sds-prose) .sds-aside .contents li ul {
+    margin-top: var(--space-2);
+    padding-inline-start: var(--space-3);
+  }
+  /* And two levels of them. The column is where a reader jumps from, and a
+     fourth-level heading is not a jump anybody makes from a rail: drawn, the
+     levels below the second are identical muted lines a step apart, each with
+     less measure than the one above and nothing but that step saying which is
+     which. The list in the flow is at the measure and keeps all six. */
+  :where(.sds-prose) .sds-aside .contents li li ul { display: none; }
 }
 
 /* A title over something that is not a section: a topic, or a sidebar, which
