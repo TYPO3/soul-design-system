@@ -61,12 +61,25 @@ test('bare elements are already dressed, with no wrapper class', async ({ page }
   expect(h1, 'h1 should not be at the browser default').not.toBe(32);
   expect(h2, 'h2 should not be at the browser default').not.toBe(24);
 
-  /* Margins are the container's job — an element that brought its own would
-     double every gap on a page that already composes correctly. */
+  /* The air *above* is the container's: it is what says which level a heading
+     is, and an element bringing its own would decide that from below. */
   for (const id of ['bare-h1', 'bare-h2', 'bare-p']) {
     const margin = await page.locator(`#${id}`).evaluate((el) => getComputedStyle(el).marginBlockStart);
-    expect(margin, `${id} should carry no margin of its own`).toBe('0px');
+    expect(margin, `${id} should carry no margin above it`).toBe('0px');
   }
+
+  /* The step *below* is the element's, because the box a paragraph lands in is
+     as often a component's as a document's — an answer, a note, a modal — and
+     none of those is `.sds-prose`. Two paragraphs with nothing between them is
+     what this file exists to catch. */
+  const under = (id: string) =>
+    page.locator(`#${id}`).evaluate((el) => getComputedStyle(el).marginBlockEnd);
+  expect(await under('bare-p'), 'a paragraph carries the step under it').toBe('16px');
+  /* And it shrinks with the level, the way the document layer sets it: the
+     deeper the heading, the closer what it introduces. */
+  expect(await under('bare-h1')).toBe('16px');
+  expect(await under('bare-h2')).toBe('12px');
+  expect(await under('bare-h4')).toBe('8px');
 
   /* Body copy is held to a measure. A paragraph that runs the width of a
      1280px viewport is unreadable however well it is set. */
@@ -113,6 +126,8 @@ const CONTENT = `<!doctype html>
   <p><a id="bare-a" href="#somewhere">a link nobody classed</a></p>
   <hr id="rule" />
 
+  <div class="sds-column"><p id="in-column">A paragraph where the container states the step.</p></div>
+
   <ul id="bullets"><li>An item<ul id="nested"><li>One step in</li></ul></li></ul>
   <ol id="lettered" type="a"><li>The source said a.</li></ol>
   <ul id="plain" class="sds-list sds-list--plain"><li><a href="#">A list of links</a></li></ul>
@@ -142,6 +157,11 @@ test('content that arrives without a class is still the system', async ({ page }
   expect(link.color).not.toBe('rgb(0, 0, 238)');
   expect(link.decoration).toBe('none');
 
+  /* And where the container states the step itself, the element gives its own
+     up: a gap and a margin stacked are neither of the two values. */
+  const inColumn = await page.locator('#in-column').evaluate((el) => getComputedStyle(el).marginBlockEnd);
+  expect(inColumn, 'a column states its own step, so the paragraph drops its').toBe('0px');
+
   /* One hairline, no radius, no margin of its own. */
   const rule = await page.locator('#rule').evaluate((el) => {
     const s = getComputedStyle(el);
@@ -165,20 +185,24 @@ test('a list is set by the element, and the source still picks the marker', asyn
   const list = (id: string) =>
     page.locator(`#${id}`).evaluate((el) => {
       const s = getComputedStyle(el);
-      return { marker: s.listStyleType, indent: s.paddingLeft, margin: s.marginBlockStart };
+      return { marker: s.listStyleType, indent: s.paddingLeft, above: s.marginBlockStart, under: s.marginBlockEnd };
     });
 
-  /* Indented by the marker's own width, not by the browser's 40px, and no
-     margin of its own — the rhythm between blocks is the container's. */
+  /* Indented by the marker's own width, not by the browser's 40px, and the
+     step under it is the one every other block carries. */
   const bullets = await list('bullets');
   expect(bullets.marker).toBe('disc');
   expect(bullets.indent).not.toBe('40px');
   expect(parseFloat(bullets.indent)).toBeGreaterThan(0);
-  expect(bullets.margin).toBe('0px');
+  expect(bullets.above).toBe('0px');
+  expect(bullets.under).toBe('16px');
 
   /* A level in is a different mark, so nesting is visible without indent
-     alone having to carry it. */
+     alone having to carry it. And a nested list is part of the item it hangs
+     under rather than a block after it, so it adds no step of its own — that
+     one closes with the item, and a second one would open a gap mid-list. */
   expect((await list('nested')).marker).toBe('circle');
+  expect((await list('nested')).under).toBe('0px');
 
   /* And the attribute the renderer wrote is left speaking. */
   expect((await list('lettered')).marker).toBe('lower-alpha');

@@ -91,6 +91,24 @@ card chrome, and a design built with this system must never inherit it.
 The document layer is not in `.out/bundle/`. That upload is for designing with
 the system, and nobody sets a document in it — one flat root, unchanged.
 
+**The step under a block is the one thing the component layer takes back from
+it.** A `<p>` carries `--space-4` below itself, a heading less as it deepens, a
+list the same as a paragraph — stated on the elements in `components.css`, not
+in the layer scoped to `.sds-prose`. The line above still holds for everything
+else: what stays in the document layer is the air *above* a heading, the tables,
+the quotations and the names only a renderer writes. But the box authored blocks
+land in is as often a component's as a document's — an answer folded behind a
+question, a note, a modal — and none of those is `.sds-prose`. Before this, two
+paragraphs inside one of them touched on every surface that links `styles.css`
+alone, which is Storybook, the cards, and every product built on the system.
+
+The price is that a container stating its own step has to take the element's
+back, or the two stack: `.sds-column`, `.sds-stack` and the rest zero the
+margins of what they hold, one rule near the elements it undoes. The blocks a
+component draws — `.sds-code`, `.sds-note`, `.sds-figure`, `.sds-embed` — carry
+the same step and are reached through the host they sit under, which is
+`display: contents`. `tests/defaults.spec.ts` holds both halves.
+
 ## Two packages come out of this tree, and they leave through `packages/`
 
 **Both leave the same way, and that is the point of the directory.** A package

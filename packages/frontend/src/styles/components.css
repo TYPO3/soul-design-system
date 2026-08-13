@@ -159,6 +159,43 @@ li::marker { color: var(--text-muted); }
 :where(ol:not([type])) { list-style: decimal; }
 :where(ol ol:not([type])) { list-style: lower-alpha; }
 
+/* The step below a block, which the element carries because nothing else can:
+   content arrives unclassed, and the box it lands in — an answer, a note, a
+   modal — is a component's rather than a document's. Below only: the air above
+   a heading is what says which level it is, and that is the container's to
+   give. A container with a step of its own takes these back, further down. */
+.sds-display,
+.sds-lead,
+.sds-h1,
+h1,
+p,
+ul,
+ol { margin-bottom: var(--space-4); }
+.sds-h2,
+h2 { margin-bottom: var(--space-3); }
+.sds-h3,
+h3,
+h4,
+h5,
+h6 { margin-bottom: var(--space-2); }
+
+/* A nested list is part of the item it hangs under rather than a block after
+   it, so it adds no step: what closes that item is the item. */
+li > ul,
+li > ol { margin-bottom: 0; }
+
+/* And a container that states its own step takes those margins back: a gap and
+   a margin are the same answer twice, and stacked they are neither. The second
+   selector is the blocks a component draws — the host around one is
+   `display: contents`, so what carries the step is a level further down. */
+:is(.sds-column, .sds-stack, .sds-sections, .sds-split, .sds-grid,
+    .sds-card__body, .sds-teaser__body, .sds-figure, .sds-embed, .sds-quote) > *,
+:is(.sds-column, .sds-stack, .sds-sections, .sds-split, .sds-grid,
+    .sds-card__body, .sds-teaser__body, .sds-figure, .sds-embed, .sds-quote)
+  > * > :is(.sds-code, .sds-note, .sds-figure, .sds-embed) {
+  margin-block: 0;
+}
+
 /* What the element cannot say: this list is read rather than scanned, so its
    items stand apart. The reset above stays tight on purpose — a list of flags
    under a field is one block of text, and air between its lines would make it
@@ -932,7 +969,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    machine output in the sense a log is — generated from the thing it describes.
    The caption is the claim in words and is not optional: a drawing whose point
    has to be inferred means something different to each reader. */
-.sds-figure { margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.sds-figure { margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
 /* No padding: a drawing carries its own margin, so a frame that adds another
    indents it twice and it arrives smaller than it was drawn. The frame is a
    hairline and a corner; the fill is the ground under an image that does not
@@ -955,7 +992,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    sized, since a picture arrives with its own proportions and an iframe does
    not. So two shapes: a player has a ratio and fills the column, a specimen
    keeps the size it was measured at, and the element writes which. */
-.sds-embed { margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.sds-embed { margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
 .sds-embed__frame {
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
@@ -1133,6 +1170,10 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   line-height: 1.55;
   color: var(--text-secondary);
 }
+/* The padding is the gap under the last block, so the block does not bring a
+   second one — the same trim a note and a card's summary make. */
+.sds-modal__body > :last-child,
+.sds-modal__body > :last-child > :last-child { margin-bottom: 0; }
 .sds-modal__foot {
   display: flex;
   justify-content: flex-end;
@@ -2038,6 +2079,11 @@ sds-rail:not(:defined) {
   line-height: var(--leading-body);
   color: var(--text-secondary);
 }
+/* The last block in an answer keeps its step to itself: the space under it is
+   drawn below, and a component's own block carries that step under its host. */
+.sds-accordion__body > :last-child,
+.sds-accordion__body > :last-child > :last-child { margin-bottom: 0; }
+
 /* The space under an answer, drawn rather than padded. Padding is outside the
    height a row can shrink, so as `padding-bottom` it was a floor the fold
    stopped on and then jumped off — the same step, at the start of every open
@@ -2081,6 +2127,7 @@ sds-rail:not(:defined) {
    command in it pushed a 1440px page sideways. The body already scrolls; this
    is what lets it. */
 .sds-code {
+  margin-bottom: var(--space-4);
   min-width: 0;
   max-width: 100%;
   border: var(--border-hairline) solid var(--border-subtle);
@@ -2324,6 +2371,7 @@ sds-rail:not(:defined) {
    leaves out. This block is the shape that carries exactly that: an icon
    in the status colour, a title, and a bounded note. */
 .sds-note {
+  margin-bottom: var(--space-4);
   display: flex;
   gap: var(--space-3);
   border: var(--border-hairline) solid var(--border-subtle);

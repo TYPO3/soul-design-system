@@ -32,6 +32,16 @@ body {
   gap: var(--spec-gap, 16px);
 }
 
+/* Every stack here states its own step, so what it holds gives up the one the
+   element layer gives it — the same trade `components.css` makes, restated
+   because these classes are outside that closure. A component's own block sits
+   under a `display: contents` host, which is the second selector. */
+:is(.spec, .spec-row, .spec-box, .spec-pane, .spec-sw) > *,
+:is(.spec, .spec-row, .spec-box, .spec-pane, .spec-sw)
+  > * > :is(.sds-code, .sds-note, .sds-figure, .sds-embed) {
+  margin-block: 0;
+}
+
 /* Just the card's padding, no layout opinion — for specimens that lay
    themselves out (a grid of type samples, a row of state chips). */
 .spec-pad { padding: 20px 22px; }

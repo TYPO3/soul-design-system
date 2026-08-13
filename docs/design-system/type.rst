@@ -71,7 +71,7 @@ top-level indent off a list whose items are links, where every item is marked
 by being a link already.
 
 .. specimen:: guidelines/type-lists.card.html
-   :viewport: 700x260
+   :viewport: 700x280
    :title: Lists
 
 .. note::

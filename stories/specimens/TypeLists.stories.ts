@@ -6,7 +6,8 @@
    not wanting it — which is why it is a class and not part of the reset. The
    lettered level is the `type` attribute a renderer emits, and the one thing
    here the system deliberately does not decide. Set at the body register
-   without `.sds-prose`, which would bring a measure and the block rhythm. */
+   without `.sds-prose`, which would bring a measure — the step under a list is
+   the element's own and is here without it. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { DIVIDER, dsCard, specCap, specCol, specLbl, specPad } from '../lib/specimen.ts';
@@ -49,7 +50,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Lists',
       subtitle: 'Bullets and numbers indented by the marker; sds-list--plain for a list of links',
-      viewport: '700x260',
+      viewport: '700x280',
     }),
   },
 };
