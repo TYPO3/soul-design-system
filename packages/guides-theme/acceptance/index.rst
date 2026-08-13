@@ -317,6 +317,30 @@ what machine output is drawn on.
       The sunken fill, for machine output. It is the same plane and the same
       parts; only the ground it is drawn on says what kind of thing is on it.
 
+Borrowed sentences
+==================
+
+A sentence out of somewhere else, with where it came from. The first is a
+person and carries a monogram; the second is a document, which has no initials
+and is given none — a monogram of a filename is a person invented for a source
+that has none.
+
+.. quote:: Benjamin Kott
+   :as: maintainer
+   :meta: 24 July 2026
+   :initials: BK
+
+   The fallback was never the problem. *Not saying* it was a fallback was the
+   problem.
+
+.. quote:: Sources and preconditions
+   :as: documentation
+   :meta: 12.4 release notes
+   :href: /nodes
+
+   Every source declares a precondition, so an answer is known to be reachable
+   before the question is asked.
+
 Presses
 =======
 

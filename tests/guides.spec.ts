@@ -657,6 +657,28 @@ test.describe('what the theme repaired', () => {
     await expect(planes.locator('.sds-label')).toHaveText('Rule 02');
   });
 
+  test('a borrowed sentence keeps its markup and names where it came from', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The node the parser leaves nothing behind for: an indented block with an
+       attribution comes out a definition list, so a manual quotes through this
+       directive or not at all. */
+    const quotes = page.locator('#borrowed-sentences sds-quote');
+    await expect(quotes).toHaveCount(2);
+
+    /* The sentence is markup out of the document, which is why it is written
+       between the tags rather than handed over as a property. */
+    await expect(quotes.first().locator('.sds-quote__body em')).toHaveText('Not saying');
+
+    /* The attribution is a byline wherever it stands, and the monogram is
+       drawn for the person and withheld from the document: initials of a
+       filename are a person invented for a source that has none. */
+    await expect(quotes.first().locator('.sds-byline__mark')).toHaveText('BK');
+    const sourced = quotes.nth(1);
+    await expect(sourced.locator('.sds-byline__mark')).toHaveCount(0);
+    await expect(sourced.locator('.sds-byline a')).toHaveAttribute('href', /nodes\.html$/);
+  });
+
   test('a directive that draws a component of ours draws the whole of it', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

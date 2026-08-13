@@ -1,0 +1,26 @@
+{#
+    One borrowed sentence, and the element draws all of it.
+
+    **Every option is a property**, and the sentence is written between the
+    tags — the one thing about a quotation an attribute cannot hold, because
+    out of a document it carries links and emphasis. Nothing here draws the
+    attribution: who said it, what they are to the subject and when are one row
+    in one order, and that order is what the component is.
+#}
+{#- Where a borrowed sentence can be read in full is usually not in this
+    manual, so the target is left alone where it points off the site and
+    resolved where it points into it — the guard `card` puts on its picture. -#}
+{%- set given = node.option('href') -%}
+{%- set href = given ? (given is external_target ? given : renderLink(given)) : '' -%}
+<sds-quote
+    by="{{ node.option('by') }}"
+    {%- if node.option('as') %} as="{{ node.option('as') }}"{% endif %}
+    {%- if node.option('meta') %} meta="{{ node.option('meta') }}"{% endif %}
+    {%- if node.option('initials') %} initials="{{ node.option('initials') }}"{% endif %}
+    {%- if href %} href="{{ href }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-quote>

@@ -89,7 +89,8 @@ Brotkrumen, Projekttitel —, und deren Inhalt sind reine Beschriftungen. Dafür
 reichen Attribute; Kinder braucht hier niemand.
 
 **Dokument** — bildet RST-Knoten ab und steht mitten im Fließtext: `sds-note`,
-`sds-code`, `sds-table`, `sds-figure`, `sds-tabs`, `sds-diff`, `sds-surface`.
+`sds-code`, `sds-table`, `sds-figure`, `sds-tabs`, `sds-diff`, `sds-surface`,
+`sds-quote`.
 Hier ist Markup annehmen keine Bequemlichkeit, sondern die Bedingung: der
 Inhalt eines Knotens ist beliebiger Inhalt.
 
@@ -109,7 +110,9 @@ Ein Blockzitat kommt als Definitionsliste heraus. Der eingerückte Block in
 und `<blockquote>` erscheint in der ganzen Ausgabe kein einziges Mal — die
 Regel dafür in `document.css` ist damit unerreichbar, obwohl sie stimmt. Das
 ist der Parser und nicht das Theme; die Reparatur wäre eine eigene
-Production-Rule hier oder ein Patch dort.
+Production-Rule hier oder ein Patch dort. Zitieren kann eine Seite trotzdem:
+`.. quote::` ist die Direktive, die der Knoten nicht hergibt, und sie verlangt
+die Quelle, die ein Blockzitat nur anbieten würde.
 
 Eine Fuß-Navigation rendert der Kern nicht. Der Block dafür steht in seinem
 eigenen `structure/footer.html.twig` auskommentiert, es gibt weder `next` noch
@@ -142,8 +145,8 @@ Ein Generator kennt nur Attribute und Kinder: eine Story setzt Eigenschaften,
 ein Twig-Template schreibt Markup. Ein Element, das Light DOM aus seinen
 Eigenschaften rendert, überschreibt dabei seine Kinder — das Markup ist weg.
 `lifted()` ist die Form, die das löst; `sds-code`, `sds-note`, `sds-figure`,
-`sds-table` und `sds-surface` sind der Beleg, dass sie trägt. Offen ist, was
-eine Doku-Seite als nächstes braucht:
+`sds-table`, `sds-surface` und `sds-quote` sind der Beleg, dass sie trägt.
+Offen ist, was eine Doku-Seite als nächstes braucht:
 
 | Element | Heute | Was ein Knoten braucht |
 | --- | --- | --- |
@@ -188,7 +191,7 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 - **Ein Teil der Elemente hat im Render noch keinen Ort.** Sie stehen
   namentlich in `PENDING.guides` in `scripts/coverage.ts` — Formularteile,
-  Overlays, die Ergebnisliste, Paginierung, Zitat, Byline, der leere Zustand.
+  Overlays, die Ergebnisliste, Paginierung, der leere Zustand.
   Jedes braucht entweder einen Knoten, den der Kern ohnehin emittiert, oder
   eine eigene Direktive. Die Liste schrumpft nur: ein Eintrag, der gedeckt ist,
   lässt das Gate genauso rot werden wie ein fehlender.

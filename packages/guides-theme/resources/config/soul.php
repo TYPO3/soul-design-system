@@ -15,6 +15,7 @@ use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardGridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
+use TYPO3\Soul\GuidesTheme\Directives\QuoteDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\StatDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SurfaceDirective;
@@ -54,6 +55,11 @@ return static function (ContainerConfigurator $container): void {
             ->tag('phpdoc.guides.directive')
         ->set(SurfaceDirective::class)
             ->tag('phpdoc.guides.directive')
+
+        /* A sentence borrowed from somewhere, which the parser leaves no core
+           node for — see `QuoteDirective`. */
+        ->set(QuoteDirective::class)
+        ->tag('phpdoc.guides.directive')
 
         /* The cards a manual is signposted with, spelled the way TYPO3
            documentation spells them — see `CardGridDirective` for what becomes

@@ -13,9 +13,9 @@ no template to copy.
 different shape than a manual page, and the renderer has no vocabulary for it.
 ``card-grid``, ``card`` and ``accordion`` signpost a manual and fold its
 answers away, each spelled the way a TYPO3 manual already spells them.
-``stat`` states a figure and ``surface`` states a sentence, ``button`` and
-``button-bar`` are how a page sends a reader on, and ``specimen`` embeds a
-rendered card at the size it was measured at.
+``stat`` states a figure, ``surface`` states a sentence and ``quote`` borrows
+one, ``button`` and ``button-bar`` are how a page sends a reader on, and
+``specimen`` embeds a rendered card at the size it was measured at.
 
 Each of them draws an element of this system and takes that element's own
 options, spelt the way the element spells them — so ``href`` links and ``src``
@@ -586,6 +586,89 @@ not list stays an ``<aside>``, and is not one of a set.
 hold. A plane on its own is a plane in the flow and renders, but a single one
 says nothing the paragraph above it did not. The element is ``sds-surface`` in
 :doc:`/frontend/components/content`.
+
+quote
+=====
+
+A sentence borrowed from somewhere, with where it came from.
+
+.. code-block:: text
+
+   .. quote:: Benjamin Kott
+      :as: maintainer
+      :meta: 24 July 2026
+      :initials: BK
+
+      The fallback was never the problem. *Not saying* it was a fallback was
+      the problem.
+
+That source, on this page:
+
+.. quote:: Benjamin Kott
+   :as: maintainer
+   :meta: 24 July 2026
+   :initials: BK
+
+   The fallback was never the problem. *Not saying* it was a fallback was the
+   problem.
+
+.. confval:: the argument
+   :name: quote-by
+   :type: string
+   :required: true
+
+   Who said it — a person, a document, a release note. It is the argument and
+   not an option because the element requires it: an unattributed quotation in
+   a product's own writing reads as the product quoting itself for emphasis,
+   and a required thing said as an option is a thing that gets left out.
+
+.. confval:: as
+   :name: quote-as
+   :type: string
+
+   What they are to the subject, where the name alone does not say it — a
+   maintainer, a reviewer, the documentation. Spelt ``as`` and not ``role``,
+   because ``role`` is the global ARIA attribute and would claim a role that
+   does not exist.
+
+.. confval:: meta
+   :name: quote-meta
+   :type: string
+
+   When, and anything else in the label register: a date, a release, a
+   revision.
+
+.. confval:: initials
+   :name: quote-initials
+   :type: string
+
+   Their initials, and the monogram is drawn only where they are given. A
+   byline derives them from a name; a quotation does not, because half of what
+   is worth quoting is a document — and a monogram of a filename is a person
+   invented for a source that has none.
+
+.. confval:: href
+   :name: quote-href
+   :type: string
+
+   Where it can be read in full; the attribution becomes that link. A target
+   pointing out of the site is left as it stands, and one pointing into it is
+   resolved like any other reference.
+
+.. confval:: class
+   :name: quote-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**The sentence goes between the tags**, because out of a document it carries
+links and emphasis, which an attribute cannot hold. A block quote would be the
+spelling to reach for and it is not available: the parser resolves an indented
+block with an attribution line into a definition list, so ``<blockquote>``
+never reaches a template — this directive is how a manual quotes anything at
+all. The element is ``sds-quote`` in :doc:`/frontend/components/content`, and
+the attribution it draws is ``sds-byline``, which is why there is no option
+here for the order of that row.
 
 button
 ======
