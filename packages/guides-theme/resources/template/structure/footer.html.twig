@@ -78,12 +78,11 @@
     {%- set groups = groups|merge([{ label: group.title|default(''), items: items }]) -%}
 {%- endfor -%}
 
-{#- The mark of the service, before its name and never instead of it: four
-    glyphs in this system may stand alone and all four say something about a
-    result, while a row of bare marks is a row of pictures the reader has to
-    already know. Which mark it is comes from the URL — see `Brands` — so
-    nothing here can name a service the link does not go to, and a host with no
-    mark in the set is the label it already was. -#}
+{#- The mark of the service, which is what `sds-footer` draws at the end of
+    its line: the glyph alone, named for whoever cannot see it. Which mark it
+    is comes from the URL — see `Brands` — so nothing here can name a service
+    the link does not go to, and a host with no mark in the set stays the
+    labelled link it already was. -#}
 {%- set marks = [] -%}
 {%- for social in soul.footer.socials|default([]) -%}
     {%- set mark = { label: social.label, href: social.href, external: true } -%}

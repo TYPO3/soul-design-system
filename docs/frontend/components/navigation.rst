@@ -461,9 +461,10 @@ snippets leaves out, and the reader opens a page to learn it.
 sds-footer
 ==========
 
-The end of a **site**, not the end of a screen: where the rest of itself is,
-grouped so the columns read as sections, and the line saying what the product
-is.
+How a page ends. A **site** says where the rest of itself is, grouped so the
+columns read as sections; a **screen** with no site around it says what it is
+and the way out. One shape either way: every part of it falls away where
+nothing was set, so the second is the first with less in it.
 
 .. code-block:: html
 
@@ -473,6 +474,11 @@ is.
      .groups="${[{ label: 'Documentation', items: [{ label: 'Frontend', href: '/frontend/' }] }]}"
      .marks="${[{ label: 'GitHub', href: 'https://github.com/…', external: true,
                   icon: 'actions-brand-github' }]}"></sds-footer>
+
+   <!-- A screen with no site around it: the same element, less set. -->
+   <sds-footer product="soul-frontend" note="Not an official TYPO3 product."
+     .meta="${[{ label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true }]}"
+   ></sds-footer>
 
 .. confval:: groups
    :name: sds-footer-groups
@@ -539,7 +545,14 @@ is.
 
    Where else it lives — a repository, a chat, a feed. At the far end of the
    line, because they are the one thing in a footer a reader looks for by
-   position rather than by reading. Labelled, always.
+   position rather than by reading.
+
+   Drawn as the marks they are: the glyph at 24, no word beside it and no
+   external glyph after it. The label is what the link is called and is on the
+   element for whoever cannot see it. This is the one place a brand glyph
+   stands alone — in a column the same link is labelled, because there it is
+   read rather than looked for. An entry with no mark in the set keeps its
+   label, so an account is never a link nobody can name.
 
 .. note::
 

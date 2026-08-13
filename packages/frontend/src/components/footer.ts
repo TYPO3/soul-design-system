@@ -1,10 +1,12 @@
-/* sds-footer — the end of a site, not the end of a screen.
+/* sds-footer — how a page ends.
 
-   `.sds-foot` is the other one: a single row with the way out of this page,
-   which is all one screen owes its reader. A site of many pages owes the rest
-   of itself, grouped so the columns read as sections.
+   One shape, and every part of it falls away when nothing is set: a site of
+   many pages owes the rest of itself in columns, a single screen owes what it
+   is and the way out of it, and that is the same footer with less in it. No
+   variant to choose — a page states what it has, and the ending it gets is
+   what it stated.
 
-   The last line says what the product is, and no surface here may imply an
+   The last thing said is what the product is, and no surface here may imply an
    endorsement it does not have — so it is a required property rather than a
    slot a page may forget to fill. */
 
@@ -16,8 +18,9 @@ import { define, SdsElement } from '../lib/element.ts';
 
 /** A link in a column. `external` gets the glyph and opens away; `icon` is
     for the marks a footer is the usual home of — a repository, a chat, a
-    feed. Labelled, always: a row of bare brand glyphs is a row of pictures
-    the reader has to already recognise. */
+    feed. In a column the glyph leads the label; as a mark in `marks` it is
+    the whole of the link, which is the one place in this system a brand glyph
+    stands alone. */
 export interface FooterLink {
   label: string;
   href?: string;
@@ -32,6 +35,8 @@ export interface FooterGroup {
 }
 
 export interface FooterProps {
+  /** The columns, where there are any. A page with none is a page with none:
+      the block goes and what is left closes up. */
   groups: readonly FooterGroup[];
   /** What this is. Stated, never implied — and never whose it is. */
   note: string;
@@ -98,6 +103,16 @@ export class SdsFooter extends SdsElement {
       : html`<sds-link label="${item.label}" href="${item.href ?? '#'}" ?external="${item.external ?? false}"></sds-link>`;
   }
 
+  /* A mark, at the end of the line where marks are looked for: the glyph
+     alone, at the size a mark is read at, named for whoever cannot see it.
+     One with no glyph in the set is the labelled link it always was — the
+     alternative is an account nobody can reach. */
+  private static mark(item: FooterLink): TemplateResult {
+    return item.icon
+      ? html`<sds-link bare label="${item.label}" href="${item.href ?? '#'}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>`
+      : SdsFooter.link(item);
+  }
+
   /* The mark and the name, in the lockup the bar draws — one construction, so
      the two ends of a site cannot say the name two ways. The mark is hidden
      from a reader who cannot see it rather than announced: the wordmark beside
@@ -130,8 +145,15 @@ export class SdsFooter extends SdsElement {
     </div>`
       : '';
 
+    /* Each block goes when there is nothing in it, rather than standing as an
+       empty box the next one is spaced away from: a footer of one line is one
+       line, not a line under a hand's width of nothing. */
+    const closing = this.copyright || this.meta.length || this.marks.length;
+    const top = said || this.groups.length;
+
     return html`<footer class="sds-footer">
-  <div class="sds-footer__top">
+  ${top
+    ? html`<div class="sds-footer__top">
     ${said}
     ${this.groups.length
       ? html`<div class="sds-footer__groups">
@@ -145,14 +167,17 @@ export class SdsFooter extends SdsElement {
       )}
     </div>`
       : ''}
-  </div>
-  <div class="sds-footer__end">
+  </div>`
+    : ''}
+  ${closing
+    ? html`<div class="sds-footer__end">
     ${this.copyright ? html`<span>${this.copyright}</span>` : ''}
     ${this.meta.map((item) => SdsFooter.link(item))}
     ${this.marks.length
-      ? html`<span class="sds-row__end">${this.marks.map((item) => SdsFooter.link(item))}</span>`
+      ? html`<span class="sds-footer__marks">${this.marks.map((item) => SdsFooter.mark(item))}</span>`
       : ''}
-  </div>
+  </div>`
+    : ''}
 </footer>`;
   }
 }

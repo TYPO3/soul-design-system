@@ -18,12 +18,13 @@ import { type LinkProps } from '../../packages/frontend/src/components/link.ts';
 const meta: Meta<LinkProps> = {
   title: 'Components/Link',
   tags: ['autodocs', '!dev'],
-  render: ({ label, href = '#', external = false, icon }) =>
-    html`<sds-link label="${label}" href="${href}" ?external="${external}" icon="${ifDefined(icon)}"></sds-link>`,
+  render: ({ label, href = '#', external = false, icon, bare = false }) =>
+    html`<sds-link label="${label}" href="${href}" ?external="${external}" ?bare="${bare}" icon="${ifDefined(icon)}"></sds-link>`,
   argTypes: {
     label: { control: 'text' },
     href: { control: 'text' },
     external: { control: 'boolean' },
+    bare: { control: 'boolean' },
     icon: {
       control: 'select',
       options: [undefined, 'actions-brand-github', 'actions-brand-slack', 'actions-brand-mastodon', 'actions-rss'],
@@ -52,8 +53,17 @@ export const External: Story = { args: { label: 'docs.typo3.org', href: 'https:/
 /** A mark before the label, for the links a footer is the usual home of — a
     repository, a chat, a feed. The brand glyph leads because it says what the
     link *is*; the direction glyph follows because it says where pressing it
-    goes. The label stays: only four glyphs in this system may stand alone, and
-    all four say something about a result. */
+    goes. In a sentence or a column the label stays: a word that is read may
+    not be a picture. */
 export const WithMark: Story = {
   args: { label: 'Repository', href: 'https://github.com', external: true, icon: 'actions-brand-github' },
+};
+
+/** The mark alone, at 24 and with no glyph after it — for the row of accounts
+    at the end of a footer, which is looked for by position rather than read.
+    What it is called is still on the element, as `aria-label` and as the
+    tooltip a pointer gets, so the picture can be named by anybody who needs
+    it named. */
+export const Bare: Story = {
+  args: { label: 'Repository', href: 'https://github.com', external: true, icon: 'actions-brand-github', bare: true },
 };

@@ -17,6 +17,7 @@ import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/code.ts';
+import '../../packages/frontend/src/components/footer.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/table.ts';
 import '../../packages/frontend/src/components/button.ts';
@@ -29,6 +30,7 @@ import { type Entry } from '../../packages/frontend/src/components/accordion.ts'
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
+import { SITE_NOTE } from '../lib/site.ts';
 
 const AUDIENCES = [
   {
@@ -349,11 +351,10 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
   </main>
 
-  <footer class="sds-foot">
-    <span class="sds-label">Soul Design System</span>
-    <sds-link label="docs.typo3.org" href="https://docs.typo3.org" external></sds-link>
-    <sds-link label="Contribute an icon" href="#"></sds-link>
-  </footer>
+  <sds-footer product="Soul Design System" note="${SITE_NOTE}" .meta="${[
+    { label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true },
+    { label: 'Contribute an icon', href: '#' },
+  ]}"></sds-footer>
 </div>`;
 }
 

@@ -92,7 +92,7 @@ ${indent(
     4,
   )}
   </div>
-  <div class="spec-note" style="max-width:36ch;">These four are the only icons allowed to stand alone. Everything else carries a label.</div>
+  <div class="spec-note" style="max-width:36ch;">These four stand alone in text. Everything else carries a label, a footer's marks aside.</div>
 </div>`;
 
 /* ------------------------------------------------------ beside a label -- */
