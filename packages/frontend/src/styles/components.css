@@ -2001,6 +2001,17 @@ sds-rail:not(:defined) {
 }
 .sds-accordion__head::-webkit-details-marker { display: none; }
 .sds-accordion__head:hover { color: var(--text-link); }
+/* The one ring, turned inward. A question is full-bleed and its box ends on the
+   hairline above it and the answer below, so the ring as it is drawn everywhere
+   else lands on both; inset, it stands in the row's own padding. Written out
+   rather than left to the rule at the top, which asks for `.sds-app` — a list of
+   questions is embedded in surfaces that never had one. */
+.sds-accordion__head:focus-visible {
+  outline: var(--border-emphasis) solid var(--accent);
+  outline-offset: calc(-2px - var(--border-emphasis));
+  box-shadow: inset 0 0 0 3px var(--accent-ring);
+  border-radius: var(--radius-control);
+}
 /* The marker keeps the floor rather than the label's size — it is an
    affordance and not a word. Sideways closed, down open: it points at what
    pressing it will do. */
@@ -2013,15 +2024,43 @@ sds-rail:not(:defined) {
   margin-top: calc((1lh - var(--control-icon-size)) / 2);
   color: var(--text-muted);
   transform: rotate(-90deg);
-  transition: transform var(--duration-fast) var(--ease-out);
+  /* The marker turns for as long as the answer takes. Two durations on one
+     press read as two things happening. */
+  transition: transform var(--duration-base) var(--ease-out);
 }
 .sds-accordion__item[open] > .sds-accordion__head .sds-icon { transform: none; }
 .sds-accordion__body {
+  /* A grid item's own floor is its content, which is what keeps a collapsed
+     row from reaching zero. */
+  min-height: 0;
   padding: 0 0 var(--space-5) calc(var(--control-icon-size) + var(--space-3));
   font-size: var(--block-body-size);
   line-height: var(--leading-body);
   color: var(--text-secondary);
 }
+/* The fold, on the box the browser puts around an answer. A row from `0fr` to
+   `1fr` is the answer's own height without measuring it, which is what a
+   pixel height would need a script for; `content-visibility` is carried along
+   so the closed answer still leaves the tree at the end. Where the box has no
+   name yet the fold is instant, and nothing else changes. */
+.sds-accordion__item::details-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  /* Clipped, or a collapsed answer is still drawn. The margin is the ring: an
+     answer holds links and a code block with a copy on it, and a clip on the
+     edge exactly cuts the ring off the ones that sit against it. */
+  overflow: clip;
+  overflow-clip-margin: 5px;
+  /* The answer goes before the room it stands in does, and arrives after. A
+     height alone cuts a sentence through the middle at every frame, which is
+     what a fold reads as when it looks abrupt. */
+  opacity: 0;
+  transition:
+    grid-template-rows var(--duration-base) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out),
+    content-visibility var(--duration-base) allow-discrete;
+}
+.sds-accordion__item[open]::details-content { grid-template-rows: 1fr; opacity: 1; }
 
 /* ------------------------------------------------------------ code, diff -- */
 
@@ -2361,6 +2400,10 @@ sds-rail:not(:defined) {
 
 @media (prefers-reduced-motion: reduce) {
   .sds-spinner, .sds-skeleton { animation: none; }
+  /* The answer is there or it is not. The fold still works — what goes is the
+     travel, which is the part that moves the page under a reader. */
+  .sds-accordion__item::details-content,
+  .sds-accordion__head .sds-icon { transition: none; }
   /* A card is the one thing here that moves under the pointer. Held still by
      the distance it is written from; the fill and the hairline still answer. */
   .sds-card:has(> .sds-card__body) {
