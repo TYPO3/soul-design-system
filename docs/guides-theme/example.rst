@@ -56,11 +56,10 @@ The two page shapes
 ===================
 
 **The landing page** writes ``:layout: marketing`` at the top and is a run of
-full-bleed bands with no rail. **Every other page** writes no such field and
-is the manual shape — the toctree in a rail on the left, the trail above the
-title, the text held to sixty-six characters. Both carry the same bar and the
-same footer, because a reader must never have to work out which site they are
-on.
+full-bleed bands with no rail. **Every other page** writes no such field and is
+the manual shape, a column beside a rail. Both carry the same bar and the same
+footer, because a reader must never have to work out which site they are on;
+:doc:`directives` has what each shape is made of.
 
 .. code-block:: text
    :caption: docs/index.rst

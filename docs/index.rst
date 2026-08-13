@@ -84,18 +84,9 @@ elements connected to the same sources.
 .. band:: One contract, whichever route a project takes
    :id: layers
 
-**Tokens** hold the decisions. Every colour, size, space, radius and duration
-is declared under a semantic name. Light and dark sit in the same declaration,
-so one mode cannot quietly drift from the other.
-
-**Classes** are the vocabulary. ``sds-`` names what a thing *is* —
-``.sds-card``, ``.sds-note--warn``, ``.sds-table--compact`` — and gives
-server-rendered markup the complete visual system without requiring
-JavaScript.
-
-**Elements** add behaviour. Each renders light DOM and emits the classes
-above, so a component upgrades the existing contract instead of introducing a
-second one.
+Three layers, and a surface reaches for whichever one it needs. Each is
+written in terms of the one under it, so a page that mixes them is still one
+system.
 
 .. table:: Choose the entry point the surface needs
    :widths: auto
@@ -103,10 +94,13 @@ second one.
    ==========  ==========================  ===================================
    Layer       Written as                  Reach for it when
    ==========  ==========================  ===================================
-   Tokens      ``var(--surface-card)``     a value is needed at all
+   Tokens      ``var(--surface-raised)``   a value is needed at all
    Classes     ``class="sds-card"``        a server produces the markup
    Elements    ``<sds-note tone="warn">``  the surface has behaviour or state
    ==========  ==========================  ===================================
+
+:doc:`frontend/index` says what each layer holds and which of them a given
+surface should be written in.
 
 .. band:: Start where the work is
    :quiet:

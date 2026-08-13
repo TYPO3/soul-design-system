@@ -57,12 +57,11 @@ What a page comes out as
 Every page is the shell each screen in this system is built from —
 ``sds-app``, ``sds-shell``, ``sds-bar`` — and under it one of two bodies.
 
-A **manual page** is a column beside a rail: the toctree on the left, the
-trail above the title, the text held to sixty-six characters, blocks running
-to the column. A **landing page** is a run of full-bleed bands with no rail,
-because there is nothing to navigate on the way in. A page says which it is at
-the top, beside its navigation title, and :doc:`directives` is where that field
-and the directives that build a landing page are written down.
+A **manual page** is a column beside a rail. A **landing page** is a run of
+full-bleed bands with no rail, because there is nothing to navigate on the way
+in. A page says which it is in the ``:layout:`` field at the top, beside its
+navigation title — :doc:`directives` is where that field, both shapes and the
+directives that build a landing page are written down.
 
 The bar is the same on both. It carries the mark, the handful of sections a
 site has, the version as a badge, the search field and the mode switch, and on

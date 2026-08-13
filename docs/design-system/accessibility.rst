@@ -41,16 +41,13 @@ rather than a bar.
 A glyph says what it is
 =======================
 
-Only these may stand without a label — ``actions-check-circle`` (answered),
-``actions-exclamation-triangle`` (version-bound),
-``actions-exclamation-circle`` (installation not bootable) and
-``actions-info-circle`` (a stated boundary). They earned it by appearing in
-one meaning only, everywhere.
+A handful of glyphs may stand without a label, and they earned it by appearing
+in one meaning only, everywhere: :doc:`icons` names them and says what each
+one means. Everything else takes a label.
 
-Everything else takes a label. An icon-only control is the case worth naming:
-the label becomes the control's accessible name rather than being dropped, so
-a square button is still announced as what it does — see
-:doc:`/frontend/components/controls`.
+An icon-only control is the case worth naming: the label becomes the control's
+accessible name rather than being dropped, so a square button is still
+announced as what it does — see :doc:`/frontend/components/controls`.
 
 Both modes are one declaration
 ==============================

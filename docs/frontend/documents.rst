@@ -126,7 +126,8 @@ out — the one the rest of the system keeps for a machine's own words.
 The measure
 ===========
 
-Text holds sixty-six characters. Blocks do not.
+Text holds sixty-six characters — ``--measure-prose``, which is where that
+number is written down. Blocks do not.
 
 A reference is sentences *and* a forty-column table, a command nobody wants
 wrapped, and a diagram. Clamping those to the width of comfortable reading is
