@@ -35,24 +35,38 @@ const PENDING = {
     'sds-loading',
     'sds-loading__label',
   ],
-  /* Not in the Guides render: each needs a node the renderer emits or a
+  /* Not in the Guides render yet: each needs a node the renderer emits or a
      directive of the theme's own before there is a page to look at it in.
      "The render" is what the pages hold, not what the templates spell — an
      element the theme addresses brings everything it draws with it, so a
      figure's viewer is covered by the figure. */
-  guides: [
-    'sds-field',
-    'sds-field-error',
-    'sds-checkbox',
-    'sds-radio',
-    'sds-form-errors',
-    'sds-pills',
-    'sds-modal',
-    'sds-dialog',
-    'sds-pagination',
-  ],
+  guides: [] as string[],
   themeClasses: [] as string[],
 };
+
+/* What a document has no node for — not a work list, and never becomes one.
+
+   A manual has no form to fill in, no application chrome and no page numbers.
+   Held to `PENDING`'s discipline from the other side: one of these turning up
+   in the render is this classification being wrong, and the check says so. */
+const ELSEWHERE = [
+  /* A page is read, not filled in. The bar's search draws `.sds-field`, which
+     is the class layer's name and not this element. */
+  'sds-field',
+  'sds-field-error',
+  'sds-checkbox',
+  'sds-radio',
+  'sds-form-errors',
+  /* Something a page opens over itself, which a document does not do. */
+  'sds-modal',
+  'sds-dialog',
+  /* The bar draws its own row of pills, as `sds-header`'s content. A second
+     one standing in a document would be a second navigation. */
+  'sds-pills',
+  /* Numbered pages. The way on from a manual page is `sds-pager` — the tree
+     read in order, rather than one list cut into pages. */
+  'sds-pagination',
+];
 
 /* The shell every page layout under `specimens/screens/` is built out of: the
    frame, the bar, and the two bodies a page can have — a column beside a rail,
@@ -179,12 +193,24 @@ for (const tag of TAGS) if (theme.includes(tag) || fixture.includes(tag)) follow
 
 const inGuides = (tag: string): boolean => reached.has(tag);
 missing = pending(PENDING.guides, inGuides, 'guides');
+const elsewhere = new Set(ELSEWHERE);
+for (const tag of ELSEWHERE) {
+  if (inGuides(tag)) {
+    fails.push(
+      `${tag} is in the render — it is not outside a document after all. ` +
+        'Say where it belongs in scripts/coverage.ts rather than leaving it in ELSEWHERE.',
+    );
+  }
+}
 for (const tag of TAGS) {
-  if (!inGuides(tag) && !missing.has(tag)) {
+  if (!inGuides(tag) && !missing.has(tag) && !elsewhere.has(tag)) {
     fails.push(`${tag}: neither a template emits it nor the fixture asks for it — it is untested in a document`);
   }
 }
-console.log(`   ${TAGS.filter(inGuides).length} of ${TAGS.length} elements, ${PENDING.guides.length} pending`);
+console.log(
+  `   ${TAGS.filter(inGuides).length} of ${TAGS.length} elements` +
+    `, ${PENDING.guides.length} pending, ${ELSEWHERE.length} outside a document`,
+);
 
 console.log('   the theme names no component\u2019s own part');
 

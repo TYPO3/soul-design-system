@@ -389,8 +389,10 @@ moved without the other.
   or an element that draws every class the stylesheets define, and a page the
   Guides renderer produced — `packages/guides-theme/acceptance/`. Anything built on the
   system follows the page layouts and invents no class of its own. `make
-  coverage` is the check; `PENDING` in `scripts/coverage.ts` is the work list
-  and only shrinks.
+  coverage` is the check. `PENDING` in `scripts/coverage.ts` is the work list
+  and only shrinks; `ELSEWHERE` beside it is the other answer — an element a
+  document has no node for, which is a classification rather than a debt and
+  fails just as loudly if it ever does turn up in the render.
 - **Web components first.** `<sds-code lang="bash">`, never a `div` with the
   classes on it. The classes are the fallback for surfaces that run no
   JavaScript, not the front door.

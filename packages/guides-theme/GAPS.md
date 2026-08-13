@@ -189,12 +189,15 @@ nicht für sie geschrieben wurde. Ein Beleg im Fixture (`acceptance/`) zählt,
 eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 über den Renderer.
 
-- **Ein Teil der Elemente hat im Render noch keinen Ort.** Sie stehen
-  namentlich in `PENDING.guides` in `scripts/coverage.ts` — Formularteile,
-  Overlays, die Ergebnisliste, Paginierung, der leere Zustand.
-  Jedes braucht entweder einen Knoten, den der Kern ohnehin emittiert, oder
-  eine eigene Direktive. Die Liste schrumpft nur: ein Eintrag, der gedeckt ist,
-  lässt das Gate genauso rot werden wie ein fehlender.
+- **Was fehlt, ist nicht dasselbe wie was hier nichts zu suchen hat.**
+  `PENDING.guides` in `scripts/coverage.ts` ist die Schuld: ein Element, das
+  einen Knoten oder eine eigene Direktive braucht, und die Liste schrumpft nur
+  — ein gedeckter Eintrag macht das Gate genauso rot wie ein fehlender.
+  `ELSEWHERE` daneben ist die andere Antwort und keine Schuld: Formularteile,
+  Overlays, die Pillen-Navigation und die Paginierung. Ein Handbuch hat kein
+  Formular zum Ausfüllen, keine Anwendungs-Chrome und keine nummerierten
+  Seiten — sein Weg weiter ist der `sds-pager`. Taucht eins davon doch im
+  Render auf, war die Einordnung falsch, und der Check sagt es.
 
 ## In welcher Reihenfolge
 
