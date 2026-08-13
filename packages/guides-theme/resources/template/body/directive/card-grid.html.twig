@@ -8,8 +8,8 @@
     becomes a width and why `:gap: 0` is the one gutter a page may ask for.
 #}
 {%- set given = node.option('class') ? ' class="' ~ node.option('class') ~ '"' : '' -%}
-<sds-card-grid variant="{{ node.option('variant') }}"{{ given|raw }}>
+<sds-grid variant="{{ node.option('variant') }}"{{ given|raw }}>
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}
-</sds-card-grid>
+</sds-grid>

@@ -151,23 +151,23 @@ is words rather than a second anchor to the same place.
    The call to action, in words. Drawn only where there is an ``href``, since
    it says the card goes there.
 
-sds-card-grid
-=============
+sds-grid
+========
 
-The wall a set of cards is read in. Cards go between the tags, because a card
-is content and a grid of two is not a grid of six.
+The wall a set is read in. What goes between the tags is whatever is read side
+by side — cards, teasers, planes — because a grid of two is not a grid of six.
 
 .. code-block:: html
 
-   <sds-card-grid variant="flush">
+   <sds-grid variant="flush">
      <sds-card heading="…" href="…"></sds-card>
      <sds-card heading="…" href="…"></sds-card>
-   </sds-card-grid>
+   </sds-grid>
 
 .. confval:: variant
-   :name: sds-card-grid-variant
-   :type: "" | "wide" | "dense" | "flush"
-   :default: ""
+   :name: sds-grid-variant
+   :type: "default" | "wide" | "dense" | "flush"
+   :default: "default"
 
    How wide the set runs, or whether it runs as a wall at all. ``flush`` is the
    gutter taken out — the cards share a hairline and the set reads as one block.
@@ -175,8 +175,8 @@ is content and a grid of two is not a grid of six.
 .. note::
 
    **No column count.** The grid reflows by a minimum width, so a page says
-   what its cards hold and no page names a breakpoint. What the element adds on
-   top is evenness: four cards in a three-wide row would wrap as three and one,
+   what its items hold and no page names a breakpoint. What the element adds on
+   top is evenness: four items in a three-wide row would wrap as three and one,
    so it lays them out two and two.
 
 sds-teaser

@@ -82,6 +82,6 @@ final class CardGridDirective extends SubDirective
             return 'wide';
         }
 
-        return $columns >= 5 ? 'dense' : '';
+        return $columns >= 5 ? 'dense' : 'default';
     }
 }

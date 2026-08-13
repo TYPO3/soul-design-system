@@ -1404,7 +1404,7 @@ html:has(.sds-bar) {
    a floor wider than the grid overflows it — a minimum stated somewhere that
    the page then has to be wide enough for. */
 /* The minimum is a custom property because two readers need it: this rule, and
-   `sds-card-grid`, which measures how many the row holds so a set of four does
+   `sds-grid`, which measures how many the row holds so a set of four does
    not wrap as three and one. A second copy of the number in TypeScript is the
    copy that goes stale. */
 .sds-grid {

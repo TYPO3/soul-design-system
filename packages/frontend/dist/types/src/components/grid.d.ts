@@ -3,22 +3,23 @@ import { SdsElement } from '../lib/element.js';
 /** How wide the set runs, or whether it runs as a wall at all. `flush` is the
     gutter taken out — the cards share a hairline and the set reads as one
     block, which is a shape rather than a distance and so is a name here rather
-    than a number. */
-export type CardGridVariant = '' | 'wide' | 'dense' | 'flush';
-export interface CardGridProps {
-    variant?: CardGridVariant;
+    than a number. `default` is a name too: the width every set gets unless it
+    says otherwise is a decision, and an unnamed one cannot be asked for. */
+export type GridVariant = 'default' | 'wide' | 'dense' | 'flush';
+export interface GridProps {
+    variant?: GridVariant;
 }
 /**
- * The columns a count of cards may be laid out in.
+ * The columns a count of items may be laid out in.
  *
  * `auto-fit` fills a row and drops what is left over onto the next one, so
- * four cards in a three-wide row wrap as three and one — a card on its own
- * beside two tracks of nothing, and in a flush set a bite out of the wall.
+ * four items in a three-wide row wrap as three and one — one on its own beside
+ * two tracks of nothing, and in a flush set a bite out of the wall.
  * A last row is even enough when it is full, or one short of full: four across
  * three becomes two and two, five across three stays three and two.
  */
 export declare function evenColumns(count: number, fits: number): number;
-export declare class SdsCardGrid extends SdsElement {
+export declare class SdsGrid extends SdsElement {
     static properties: {
         variant: {
             type: StringConstructor;
@@ -31,7 +32,7 @@ export declare class SdsCardGrid extends SdsElement {
             state: boolean;
         };
     };
-    variant: CardGridVariant;
+    variant: GridVariant;
     columns: number;
     private taken;
     private watch?;

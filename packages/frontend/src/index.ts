@@ -44,7 +44,7 @@ import './components/modal.ts';
 import './components/dialog.ts';
 import './components/table.ts';
 import './components/card.ts';
-import './components/card-grid.ts';
+import './components/grid.ts';
 import './components/teaser.ts';
 import './components/result.ts';
 import './components/pagination.ts';
@@ -103,7 +103,7 @@ export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
 export { SdsEmpty, type EmptyProps, type EmptyKind } from './components/empty.ts';
 export { SdsConfval, type ConfvalProps, type Fact } from './components/confval.ts';
 export { SdsCard, type CardProps } from './components/card.ts';
-export { SdsCardGrid, type CardGridProps, type CardGridVariant } from './components/card-grid.ts';
+export { SdsGrid, type GridProps, type GridVariant } from './components/grid.ts';
 export { SdsTeaser, type TeaserProps } from './components/teaser.ts';
 export { SdsResult, type ResultProps } from './components/result.ts';
 export { SdsPagination, pageNumbers, type PaginationProps } from './components/pagination.ts';
@@ -146,7 +146,7 @@ export const TAGS = [
   'sds-dialog',
   'sds-table',
   'sds-card',
-  'sds-card-grid',
+  'sds-grid',
   'sds-teaser',
   'sds-result',
   'sds-pagination',

@@ -105,7 +105,7 @@ test.describe('the render', () => {
     await expect(hero.locator('.sds-stack h1')).toHaveText('One system, from design to delivery');
     await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('src', /design-system-workbench\.png$/);
     await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('alt', '');
-    await expect(page.locator('.sds-band').first().locator('.sds-sections > sds-card-grid > .sds-grid')).toBeVisible();
+    await expect(page.locator('.sds-band').first().locator('.sds-sections > sds-grid > .sds-grid')).toBeVisible();
   });
 });
 

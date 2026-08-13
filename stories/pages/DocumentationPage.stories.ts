@@ -22,7 +22,7 @@ import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/image.ts';
 import '../../packages/frontend/src/components/theme.ts';
 import '../../packages/frontend/src/components/card.ts';
-import '../../packages/frontend/src/components/card-grid.ts';
+import '../../packages/frontend/src/components/grid.ts';
 import '../../packages/frontend/src/components/pager.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
@@ -133,8 +133,8 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
     ></sds-card>`,
   );
   const signposts = flat
-    ? html`<sds-card-grid variant="flush" .content="${cards}"></sds-card-grid>`
-    : html`<sds-card-grid variant="flush">${cards}</sds-card-grid>`;
+    ? html`<sds-grid variant="flush" .content="${cards}"></sds-grid>`
+    : html`<sds-grid variant="flush">${cards}</sds-grid>`;
 
   const actions = flat
     ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>Run the checks`)}${buttonMarkup({ variant: 'secondary' }, 'Read the tool surface')}`

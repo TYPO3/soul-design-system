@@ -1,9 +1,10 @@
-/* The wall a set of cards is read in.
+/* The wall a set is read in.
 
    Its own file rather than three stories in `Card.stories.ts`, because what is
-   being shown here is the set and not the card: how wide it runs is a decision
-   about how much room a card needs, and `flush` is a decision about whether the
-   set is separated at all. The card is the same card in all four.
+   being shown here is the set and not what is in it: how wide it runs is a
+   decision about how much room an item needs, and `flush` is a decision about
+   whether the set is separated at all. Cards throughout, being the set a page
+   most often lays out, but a teaser or a plane is laid out by the same wall.
 
    No `parameters.dsCard`, for the reason `Card.stories.ts` states: a grid is
    judged at the width a document gives it, and a card file is a fragment at a
@@ -11,8 +12,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../packages/frontend/src/components/card-grid.ts';
-import { type CardGridProps } from '../../packages/frontend/src/components/card-grid.ts';
+import '../../packages/frontend/src/components/grid.ts';
+import { type GridProps } from '../../packages/frontend/src/components/grid.ts';
 import { type CardProps } from '../../packages/frontend/src/components/card.ts';
 import { sdsCard } from './Card.stories.ts';
 
@@ -39,25 +40,18 @@ const CHAPTERS: readonly CardProps[] = [
   },
 ];
 
-const meta: Meta<CardGridProps> = {
-  title: 'Components/Card grid',
+const meta: Meta<GridProps> = {
+  title: 'Components/Grid',
   tags: ['autodocs', '!dev'],
-  parameters: { layout: 'fullscreen' },
-  argTypes: {
-    variant: { control: 'inline-radio', options: ['', 'wide', 'dense', 'flush'] },
-  },
-  render: ({ variant }) =>
-    html`<sds-card-grid variant="${variant ?? ''}" style="margin:var(--space-6)"
-      >${CHAPTERS.map(sdsCard)}</sds-card-grid
-    >`,
+  render: ({ variant }) => html`<sds-grid variant="${variant ?? 'default'}">${CHAPTERS.map(sdsCard)}</sds-grid>`,
 };
 
 export default meta;
-type Story = StoryObj<CardGridProps>;
+type Story = StoryObj<GridProps>;
 
 /** Three across on a page, two beside a rail, one on a phone — reflowed by the
-    cards' own minimum, with nothing here naming a breakpoint. */
-export const Grid: Story = { args: {} };
+    items' own minimum, with nothing here naming a breakpoint. */
+export const Default: Story = { args: {} };
 
 /** Two across: a card carrying a picture and a paragraph needs the room two of
     them get. */

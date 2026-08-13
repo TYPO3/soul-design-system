@@ -23,10 +23,10 @@ import { TAGS } from '../../packages/frontend/src/index.ts';
    sees it in the output. The attribute run steps over a quoted `>`, which does
    not end a tag and would otherwise cut a title in half. */
 /* `(?![-\w])` is the tag ending. One of these names is a prefix of another —
-   `sds-card` of `sds-card-grid`, `sds-field` of `sds-field-error` — and the
-   attribute run happily swallows the rest, so without it `<sds-card-grid>` is
-   read as an `sds-card` carrying an attribute called `-grid`. The element then
-   renders as the wrong component and its children land outside it. */
+   `sds-field` of `sds-field-error`, `sds-accordion` of `sds-accordion-item` —
+   and the attribute run happily swallows the rest, so without it
+   `<sds-field-error>` is read as an `sds-field` carrying an attribute called
+   `-error`. It renders as the wrong component, children outside it and all. */
 const element = (tags: readonly string[]): RegExp =>
   new RegExp(`<(${tags.join('|')})(?![-\\w])((?:"[^"]*"|'[^']*'|[^>"'])*)>([\\s\\S]*?)</\\1>`);
 

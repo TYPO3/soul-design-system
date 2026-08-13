@@ -264,14 +264,14 @@ test('a form that fails says what, and sends the reader to it', async ({ page })
 /* A set of cards, at the widths where the row runs out. `auto-fit` fills a row
    and drops the remainder onto the next one, so four cards in a three-wide row
    wrap as three and one — a card on its own beside two tracks of nothing, and
-   in a flush set a bite out of the wall. `sds-card-grid` measures how many the
+   in a flush set a bite out of the wall. `sds-grid` measures how many the
    row holds and steps down to a count that divides, which is a decision no
    stylesheet can make: it is arithmetic over how many cards there are.
 
    Asserted as a shape rather than a number, the way the menu's run-width is:
    no row of a wrapped set holds a single card. */
 test('a set of cards wraps into even rows, never one on its own', async ({ page }) => {
-  await gotoStory(page, 'components-card-grid--flush');
+  await gotoStory(page, 'components-grid--flush');
   const cards = page.locator('.sds-grid--flush .sds-card');
   const count = await cards.count();
   expect(count, 'the story should hold a set worth wrapping').toBeGreaterThan(3);

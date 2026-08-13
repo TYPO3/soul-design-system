@@ -273,8 +273,8 @@ writes for itself is layout nothing else can keep in step.
    * - ``.sds-split``
      - two of anything, side by side until there is no room for two
    * - ``.sds-grid``
-     - the wall a set of cards is read in, reflowing by its own minimum;
-       ``sds-card-grid`` is the element that writes it
+     - the wall a set is read in, reflowing by its own minimum; ``sds-grid``
+       is the element that writes it, and a page reaches for that
    * - ``.sds-stats``
      - a set of figures, reflowing the same way
    * - ``.sds-form``

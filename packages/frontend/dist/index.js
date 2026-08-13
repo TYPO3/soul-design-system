@@ -4274,10 +4274,10 @@ var SdsCard = class extends SdsElement {
 };
 define("sds-card", SdsCard);
 
-// packages/frontend/src/components/card-grid.ts
-import { html as html36 } from "lit";
+// packages/frontend/src/components/grid.ts
+import { html as html36, nothing as nothing14 } from "lit";
 var VARIANT = {
-  "": "",
+  default: "",
   wide: "sds-grid--wide",
   dense: "sds-grid--dense",
   flush: "sds-grid--flush"
@@ -4289,14 +4289,14 @@ function evenColumns(count, fits) {
   }
   return 1;
 }
-var SdsCardGrid = class extends SdsElement {
+var SdsGrid = class extends SdsElement {
   constructor() {
     super();
-    /* The cards a caller wrote between the tags, taken before Lit renders over
-       them. Nothing else about the set is content: what a card is, is the card's
-       own business, and the grid never reaches inside one. */
+    /* What a caller wrote between the tags, taken before Lit renders over it.
+       Nothing else about the set is content: what an item is, is its own
+       business, and the grid never reaches inside one. */
     this.taken = null;
-    this.variant = "";
+    this.variant = "default";
     this.columns = 0;
   }
   static {
@@ -4347,11 +4347,11 @@ var SdsCardGrid = class extends SdsElement {
   }
   render() {
     const modifier = VARIANT[this.variant] ?? "";
-    const columns = this.columns > 0 ? `grid-template-columns:repeat(${this.columns},minmax(0,1fr))` : "";
+    const columns = this.columns > 0 ? `grid-template-columns:repeat(${this.columns},minmax(0,1fr))` : nothing14;
     return html36`<div class="${modifier ? `sds-grid ${modifier}` : "sds-grid"}" style="${columns}">${this.taken ?? this.content}</div>`;
   }
 };
-define("sds-card-grid", SdsCardGrid);
+define("sds-grid", SdsGrid);
 
 // packages/frontend/src/components/teaser.ts
 import { html as html37 } from "lit";
@@ -9907,7 +9907,7 @@ var SdsByline = class extends SdsElement {
 define("sds-byline", SdsByline);
 
 // packages/frontend/src/components/confval.ts
-import { html as html44, nothing as nothing14 } from "lit";
+import { html as html44, nothing as nothing15 } from "lit";
 var SdsConfval = class extends SdsElement {
   constructor() {
     super();
@@ -9953,17 +9953,17 @@ var SdsConfval = class extends SdsElement {
   }
   render() {
     const facts = this.stated;
-    const mark = this.anchor ? html44`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing14;
+    const mark = this.anchor ? html44`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing15;
     return html44`<dl class="sds-confval">
-  <dt class="sds-confval__term" id="${this.anchor || nothing14}">
+  <dt class="sds-confval__term" id="${this.anchor || nothing15}">
     <code class="sds-confval__name">${this.name}</code>
-    ${this.required ? html44`<sds-badge label="required"></sds-badge>` : nothing14}
+    ${this.required ? html44`<sds-badge label="required"></sds-badge>` : nothing15}
     ${mark}
   </dt>
   <dd class="sds-confval__detail">
     ${facts.length ? html44`<dl class="sds-confval__facts">
       ${lines(facts.map((f) => this.fact(f)), 6)}
-    </dl>` : nothing14}
+    </dl>` : nothing15}
     <div class="sds-confval__body">${this.taken ?? this.content ?? this.body}</div>
   </dd>
 </dl>`;
@@ -10005,7 +10005,7 @@ var TAGS2 = [
   "sds-dialog",
   "sds-table",
   "sds-card",
-  "sds-card-grid",
+  "sds-grid",
   "sds-teaser",
   "sds-result",
   "sds-pagination",
@@ -10025,7 +10025,6 @@ export {
   SdsButton,
   SdsByline,
   SdsCard,
-  SdsCardGrid,
   SdsCheckbox,
   SdsCode,
   SdsConfval,
@@ -10040,6 +10039,7 @@ export {
   SdsFigure,
   SdsFooter,
   SdsFormErrors,
+  SdsGrid,
   SdsIcon,
   SdsImage,
   SdsLightbox,
