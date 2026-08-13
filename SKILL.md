@@ -140,7 +140,7 @@ Everything ships in English regardless of the conversation language — the know
 
 An answer always carries its source, its version binding and what it leaves out. The UI states exist to carry exactly that.
 
-- **Focus** — `outline: 2px solid var(--accent)` at `outline-offset: 2px` plus a `--accent-ring` halo. Always `:focus-visible`, never `:focus`.
+- **Focus** — an outline `--border-emphasis` wide in `--accent` at `--focus-offset`, plus a `--focus-halo` of `--accent-ring`. Never a number of your own: a surface that turns the ring inwards or drops the halo says so with those tokens. Always `:focus-visible`, never `:focus`.
 - **Loading** — nothing under 200ms. Over 2s the label says *why*: "booting the installation", "reading packages instead", "searching docs.typo3.org". Skeletons only where the shape is known.
 - **Empty / not found** — never "no results". Name the source asked, say it answered, say what it does not cover, offer the nearest real thing. A deliberate boundary gets `actions-info-circle`, not an error colour.
 - **Warning** — a degraded but usable answer: what was reached, what was read instead, what that leaves out, and the command that fixes it.

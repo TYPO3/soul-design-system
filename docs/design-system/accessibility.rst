@@ -12,8 +12,9 @@ the system asks this before it asks anything else.
 The ring is the only shadow
 ===========================
 
-``outline: 2px solid var(--accent)`` at ``outline-offset: 2px``, with an
-``--accent-ring`` halo. It is the single ``box-shadow`` in the system, and it
+``--border-emphasis`` of ``--accent`` at ``--focus-offset``, with a
+``--focus-halo`` of ``--accent-ring`` behind it — see :doc:`states` for the
+values those hold. It is the single ``box-shadow`` in the system, and it
 is a state rather than depth — which is why :doc:`colours` forbids shadows
 everywhere else. A ring nobody can mistake for a raised surface is a ring that
 still reads on a page full of surfaces.

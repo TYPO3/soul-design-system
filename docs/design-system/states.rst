@@ -11,9 +11,11 @@ a spinner with a shrug.
 Focus
 =====
 
-``outline: 2px solid var(--accent)`` at ``outline-offset: 2px``, plus an
-``--accent-ring`` halo. Always ``:focus-visible``, never ``:focus`` — a click
-should not leave a ring behind.
+An outline ``--border-emphasis`` wide in ``--accent``, standing
+``--focus-offset`` off the box, plus a halo ``--focus-halo`` wide in
+``--accent-ring`` — 2px, 2px and 3px, and every surface that draws the ring
+reads those three tokens rather than the numbers. Always ``:focus-visible``,
+never ``:focus`` — a click should not leave a ring behind.
 
 Nothing in this system is reachable by pointer only.
 

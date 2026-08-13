@@ -19,7 +19,7 @@ import { dsCard, indent, NNBSP, part, spec } from '../lib/specimen.ts';
     not a value further. It said 5px here while the rule says 3, which is what
     a second copy of a value does the moment nobody is comparing them. */
 const RING =
-  'outline:var(--border-emphasis) solid var(--accent); outline-offset:2px; box-shadow:0 0 0 3px var(--accent-ring); border-radius:var(--radius-control);';
+  'outline:var(--border-emphasis) solid var(--accent); outline-offset:var(--focus-offset); box-shadow:0 0 0 var(--focus-halo) var(--accent-ring); border-radius:var(--radius-control);';
 
 /* Explicitly 16: these sit in 13–14px text, and an unsized icon follows the
    text it is in — the floor is the point on a card about controls. */
@@ -36,7 +36,7 @@ const controls = (): string =>
 <a href="#" class="sds-link" style="${RING}">typo3_server_scope</a>`;
 
 const rules = (): string =>
-  `<div class="spec-note" style="max-width:42ch;">The ring is the same on every control: <span class="sds-mono">outline: var(--border-emphasis) solid var(--accent)</span> with <span class="sds-mono">outline-offset: 2px</span>, plus a 3${NNBSP}px halo in <span class="spec-cap">--accent-ring</span>. A field that already has an accent border keeps the halo alone.</div>
+  `<div class="spec-note" style="max-width:42ch;">The ring is the same on every control, and written once: <span class="spec-cap">--border-emphasis</span> of <span class="spec-cap">--accent</span>, standing <span class="spec-cap">--focus-offset</span> off the box, plus a halo <span class="spec-cap">--focus-halo</span> wide in <span class="spec-cap">--accent-ring</span> &#8212; 2, 2 and 3${NNBSP}px. A field that already has an accent border keeps the halo alone.</div>
 <div class="spec-note" style="max-width:38ch;"><span class="sds-mono">:focus-visible</span>, never <span class="spec-cap">:focus</span> — a mouse click should not light the ring. Focus order follows the source. Nothing in this system is reachable by pointer only.</div>`;
 
 const meta: Meta = {

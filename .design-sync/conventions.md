@@ -66,8 +66,12 @@ Classes are prefixed `sds-`, with `__element`, `--modifier`, and `.is-active` /
 **Never set a colour, size, radius or duration literal.** Every value is a token:
 `--surface-*`, `--text-*`, `--border-*`, `--accent*`, `--status-*`, `--syntax-*`,
 `--font-*`, `--weight-*`, `--leading-*`, `--tracking-*`, `--measure-*`, `--space-1…16`,
-`--radius-none|control|card|pill`, `--duration-*`, `--ease-*`. Use `--accent`, never the
-raw `--orange-*` scale.
+`--radius-none|control|card|pill`, `--focus-offset|--focus-halo`, `--duration-*`,
+`--ease-*`. Use `--accent`, never the raw `--orange-*` scale.
+
+The focus ring is drawn from the last two plus `--border-emphasis` and
+`--accent-ring`, and from nothing else: a surface that turns it inwards or
+drops the halo writes that with the same tokens, never with a number.
 
 **Never invent a class.** If nothing here fits, compose from the tokens with your own
 inline styles — do not mint a `sds-` name.
