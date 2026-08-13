@@ -12,7 +12,7 @@ use TYPO3\Soul\GuidesTheme\Directives\BandDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ButtonBarDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ButtonDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
-use TYPO3\Soul\GuidesTheme\Directives\CardGridDirective;
+use TYPO3\Soul\GuidesTheme\Directives\ExampleDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
 use TYPO3\Soul\GuidesTheme\Directives\QuoteDirective;
@@ -62,12 +62,8 @@ return static function (ContainerConfigurator $container): void {
         ->set(QuoteDirective::class)
         ->tag('phpdoc.guides.directive')
 
-        /* The cards a manual is signposted with, spelled the way TYPO3
-           documentation spells them — see `CardGridDirective` for what becomes
-           of the column counts. */
+        /* One card, whose title carries where it goes — see `CardDirective`. */
         ->set(CardDirective::class)
-        ->tag('phpdoc.guides.directive')
-        ->set(CardGridDirective::class)
         ->tag('phpdoc.guides.directive')
 
         /* The press a page asks for, and the row the presses stand in — see
@@ -83,6 +79,11 @@ return static function (ContainerConfigurator $container): void {
         ->set(AccordionDirective::class)
         ->tag('phpdoc.guides.directive')
         ->set(AccordionItemDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* What was written and what it renders as, from one body — see
+           `ExampleDirective` for why the print cannot be a second copy. */
+        ->set(ExampleDirective::class)
         ->tag('phpdoc.guides.directive')
 
         /* `:layout:` at the top of a document, read like `:navigation-title:`

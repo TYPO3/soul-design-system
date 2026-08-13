@@ -189,6 +189,7 @@ h6 { margin-bottom: var(--space-2); }
 .sds-code,
 .sds-confval,
 .sds-embed,
+.sds-example,
 .sds-figure,
 .sds-grid,
 .sds-note,
@@ -888,6 +889,17 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 }
 .sds-panel { background: var(--surface-raised); }
 .sds-sunken { background: var(--surface-sunken); }
+
+/* A rendering put on a page to be looked at rather than read — what a piece of
+   markup produces, beside the markup. Dashed and unfilled: the frame is not
+   part of the page, and what stands in it keeps the ground it would really
+   stand on. The one dashed line in the system, which is what lets it say that
+   and nothing else. */
+.sds-example {
+  border: var(--border-hairline) dashed var(--border-strong);
+  border-radius: var(--radius-card);
+  padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
+}
 
 .sds-surface-title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
 /* The label sits over the title with the title's own leading between them. */

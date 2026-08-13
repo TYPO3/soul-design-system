@@ -1,0 +1,22 @@
+{#
+    `.. example::` — the source, and under it that source rendered.
+
+    The block is drawn by the template every other code block is drawn by, so
+    it is highlighted on the server and carries the copy button: what a reader
+    takes away is the body that produced the thing below it.
+
+    `.sds-example` is the frame: dashed and unfilled, which is what says the
+    box is not part of the page and leaves what is inside it on the ground it
+    would really stand on. Nothing is invented — the class layer draws it.
+
+    `.sds-stack` inside it is the rhythm between the blocks, which also takes
+    the margin off the last one — the box's padding is the gap.
+#}
+{{ renderNode(node.source) }}
+<div class="sds-example{% if node.option('class') %} {{ node.option('class') }}{% endif %}">
+    <div class="sds-stack">
+        {%- for child in node.children -%}
+            {{ renderNode(child) }}
+        {%- endfor -%}
+    </div>
+</div>

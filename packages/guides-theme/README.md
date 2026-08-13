@@ -88,17 +88,17 @@ the element, because an author who wrote it meant it for their own stylesheet.
 | `.. hero:: <image>` | The opening copy of a landing page beside one decorative image. Goes right after the document title, which stays the page's heading. `:alt:` |
 | `.. band:: [heading]` | A full-bleed section. It *opens* a section rather than wrapping one — what follows belongs to it until the next band. `:quiet:` is the second ground, `:id:` an anchor |
 | `.. grid:: [width]` | A set read side by side, reflowing by its own minimum width — no column count. The argument is `default`, `wide`, `dense` or `flush`, said as what the items hold; `:variant:` says it as an option. `:class:` |
-| `.. card-grid::` | The same set in the spelling a TYPO3 manual uses, so a documentation set written for the Bootstrap theme renders unchanged. `:columns:`, `:columns-sm:`, `:columns-md:`, `:columns-lg:` are read as one question and answered with a minimum width; `:gap: 0` is the wall, every other `:gap:` and `:card-height:` are accepted and dropped. `:class:` |
 | `.. card:: <title>` | One card, whose title carries where it goes — a `:ref:`, a `:doc:` or a link — and the whole frame becomes that one link. `:href:` says the target as a path instead, `:label:`, `:tag:`, `:icon:`, `:src:`, `:alt:`, `:footer:`, `:action:`, `:class:` |
 | `.. stat:: <figure>` | One number stated as a fact. The body is the line that bounds it and is not optional in practice — a figure with no bound is a boast. `:unit:`, `:label:`, `:of:` (the whole it is a part of, drawn as a share), `:icon:`, `:class:` |
 | `.. surface:: <title>` | One filled plane stating something in place, and one of a set: it goes in a `grid` the way `stat` does. It states rather than goes somewhere, which is the line between it and `card`, and it is not what `topic` is — a digression in the reading flow stays an `<aside>`. `:plane:` (`raised`, `sunken` for machine output), `:label:` the tracked-out line over the title, `:icon:` a glyph above it, `:class:` |
 | `.. quote:: <who>` | A sentence borrowed from somewhere, with where it came from. The attribution is the argument because the element requires one, and the sentence goes between the tags — out of a document it carries links. A block quote is not the spelling: the parser resolves one into a definition list, so `<blockquote>` never reaches a template. `:as:` what they are to the subject, `:meta:` when, `:initials:` the monogram and it is drawn only where they are given, `:href:` where it can be read in full, `:class:` |
 | `.. button:: <label>` | One press. The label carries where it goes — a `:ref:`, a `:doc:` or a link — and given a target the control is drawn as a link, with the middle click and the status line a browser already has. `:href:` says the target as a path instead, `:variant:` (`primary`, `secondary`, `ghost`), `:size:` (`sm`), `:icon:` a glyph before the label, `:icon-only:` makes the glyph the whole control and the label its name, `:title:`, `:rel:`, `:disabled:`, `:class:`; `type`, `for` and `command` are not offered — a document has no form to submit and no element to command |
-| `.. button-bar::` | The presses of a page on one line, centred against each other so a link beside a button sits right. Named the way `card-grid` is, and layout rather than a component, so it has no variant. `:class:` |
+| `.. button-bar::` | The presses of a page on one line, centred against each other so a link beside a button sits right. Named for what it holds, and layout rather than a component, so it has no variant. `:class:` |
 | `.. accordion::` | A set of questions with their answers folded behind them, exclusive unless `:multiple:`. `:name:` is the group, and two sets on a page need different ones; a set that writes none is given one. `:class:` |
 | `.. accordion-item:: <question>` | One question, and the blocks folded behind it. `:open:` stands it open (`:show:` is the Bootstrap theme's name for the same flag), `:class:`; `:header-level:` and `:name:` are accepted and dropped |
 | `.. configuration-block::` | Not a directive of the theme's — the core's, drawn differently. The same setting written in several languages, one tab per block, labelled by the block's language. It becomes `sds-tabs` exactly as `.. tabs::` does, and carries `sync`, so every configuration block of a page follows one choice and the choice outlives the page |
 | `.. code-block:: diff` | Not a directive of the theme's — the core's, drawn differently. A block whose language is `diff` becomes `sds-diff` instead of `sds-code`: the same frame and head, and rows carrying status colour, read on the server so a page needs no script for them. `:caption:` names the file; the format's `+++` and `---` headers stay context, and `:linenos:` and `:emphasize-lines:` do not apply |
+| `.. example:: [caption]` | A piece of markup and, under it, that markup rendered — printed from the lines the parser was handed and parsed from those same lines, so what a reader copies is what produced the thing below it. The argument is the caption over the block. `:language:` colours the print (`text`, since no highlighter here knows reStructuredText), `:class:` lands on the frame the rendering stands in — `.sds-example`, dashed and unfilled, which is what says the box is not part of the page. Not for `band`, `hero` or `:layout:` — those are the shape of a page, and a band nested in anything stops at its parent's width |
 | `.. specimen:: <card>` | A rendered card of the project's own, embedded in a frame at the size it was measured at. The argument is a path under `_cards/` in the documentation source. `:viewport:` (`700x260`), `:title:` |
 
 A landing page, and the manual page beside it:
@@ -138,9 +138,7 @@ Design and ship as one
 ```
 
 ```rst
-.. card-grid::
-   :columns: 1
-   :columns-md: 2
+.. grid:: wide
 
    .. card:: :doc:`installation`
       :label: Chapter 01

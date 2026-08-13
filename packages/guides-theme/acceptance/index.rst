@@ -429,18 +429,15 @@ that decide whether it is opened.
       rather than left blank, and so is the ground the picture would sit on —
       a card with a hole in it is what a set of them lines up against.
 
-The cards a manual is signposted with
-=====================================
+How much room one of a set needs
+================================
 
-The same card, in the spelling a TYPO3 manual already uses: the target is
-written into the title, the column counts are read as how much room a card
-needs, and the whole card is the link.
+The same cards, in the sets that say how much room one of them holds rather
+than how many stand in a row. ``wide`` is a card carrying a picture and a
+paragraph, and the target is written into the title, which makes the whole
+card the link.
 
-.. card-grid::
-   :columns: 1
-   :columns-md: 2
-   :gap: 4
-   :card-height: 100
+.. grid:: wide
 
    .. card:: :doc:`nodes`
 
@@ -466,12 +463,10 @@ needs, and the whole card is the link.
       above the title, the title, the foot, and the words that say what
       pressing the card does.
 
-``:gap: 0`` is the one gutter a page may ask for, because it is a shape rather
-than a distance: the cards share a hairline and the set reads as one block.
+``flush`` is the gutter taken out, because it is a shape rather than a
+distance: the cards share a hairline and the set reads as one block.
 
-.. card-grid::
-   :columns: 3
-   :gap: 0
+.. grid:: flush
 
    .. card:: :doc:`nodes`
 
@@ -487,8 +482,7 @@ than a distance: the cards share a hairline and the set reads as one block.
       that reflows cannot know which tile sits on an edge, so no tile can be
       told to drop the border it shares.
 
-.. card-grid::
-   :columns: 6
+.. grid:: dense
 
    .. card:: :doc:`nodes`
       :icon: actions-database
@@ -543,6 +537,37 @@ compared rather than found.
    .. accordion-item:: And the second
 
       Opening this one leaves the one above it exactly as it was.
+
+Something shown as it is written
+================================
+
+.. example:: A surface, from the body above it
+
+   .. surface:: Read, never write
+      :icon: actions-file-shield
+      :label: Rule
+
+      Every source is read. Nothing is written back.
+
+The block and the plane under it are the one body: printed from the lines the
+parser was handed, then rendered from those same lines, so this page cannot
+show markup that produces something else. The frame around the rendering is
+the one dashed line in the system and carries no fill — it says the box is not
+part of the page, and leaves the plane inside it on the ground it would really
+stand on.
+
+.. example::
+
+   An example holds blocks and not only components, so this is what ordinary
+   content looks like inside one:
+
+   - a list is one of them,
+   - and a paragraph was the other.
+
+A second one with no argument, which is a block with no caption above it. The
+print is ``text``: no highlighter on this site knows reStructuredText, and a
+language the server cannot colour is better said than faked — ``:language:``
+is there for a project whose examples are written in something one does know.
 
 A document inside this one
 ==========================

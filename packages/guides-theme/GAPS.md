@@ -84,6 +84,15 @@ Die Regeln, an die jede offene Zeile unten gebunden ist:
   `.. configuration-block::` sind die Schreibweisen, die es gibt, und beide
   werden `sds-tabs`. Bringt ein Paket die andere doch mit, kommt sie mit einer
   Ausgabe, die man ansehen kann — dann wird entschieden, vorher nicht.
+- **`card-grid` gibt es nicht mehr, und das ist eine Entscheidung.** Die
+  Schreibweise war eine zweite Tür auf dasselbe Raster: `:columns:` und
+  `:gap:` wurden in `wide`, `dense` und `flush` übersetzt, `:card-height:`
+  angenommen und verworfen. Zwei Namen für eine Sache heißt, dass jede Seite
+  sich für einen entscheidet und der Leser beide kennen muss, und die zweite
+  spricht in Spalten und Breakpoints — genau das, was `grid` nicht tut. Wer
+  eine TYPO3-Dokumentation herüberholt, schreibt `.. grid::` mit einer der
+  drei Breiten; die Spaltenzahl war ohnehin nie eine Spur, sondern eine Frage
+  nach dem Platz.
 - **Ein Exkurs im Fließtext ist keine Fläche aus einem Satz.** `topic` und
   `sidebar` sind ein Kasten, den der Leser überspringen darf und den die
   Gliederung nicht listet: nie einer aus einem Satz, nie gescannt, nie steht
@@ -163,11 +172,11 @@ Offen ist, was eine Doku-Seite als nächstes braucht:
 Nicht Styling, sondern was das Paket können muss.
 
 - **`card-group`.** Theme-Direktive, kein Kern-Knoten — in TYPO3-Dokumentation
-  aber verbreitet. `card`, `card-grid`, `accordion` und `accordion-item` gibt
-  es jetzt: `sds-card` zeichnet Bild, Kopf, Körper und Fuß, das Raster kommt in
-  drei Breiten, die Spaltenangaben der Bootstrap-Schreibweise werden als Frage
-  nach dem Platz gelesen statt als Spuren gezählt, und die Antworten liegen
-  hinter einem `<details>`, das ohne Skript aufgeht. Wer die übrige will,
+  aber verbreitet. `card`, `accordion` und `accordion-item` gibt es jetzt:
+  `sds-card` zeichnet Bild, Kopf, Körper und Fuß, das Raster kommt in drei
+  Breiten und wird als Frage nach dem Platz geschrieben statt in Spalten
+  gezählt, und die Antworten liegen hinter einem `<details>`, das ohne Skript
+  aufgeht. Wer die übrige will,
   schreibt Node- und Directive-Klassen nach demselben Muster.
 - **Ein Link auf eine einzelne Antwort.** `:name:` am `accordion-item` wird
   angenommen und verworfen: wohin ein Sprung in eine zusammengefaltete Antwort

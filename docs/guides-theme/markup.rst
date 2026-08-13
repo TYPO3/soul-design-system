@@ -433,7 +433,7 @@ Which template does which
      - the mark that matches the note it points at
    * - ``body/directive/{band,grid}``
      - the landing page — see :doc:`directives`
-   * - ``body/directive/{card-grid,card}``
+   * - ``body/directive/card``
      - the cards a manual is signposted with — see :doc:`directives`
    * - ``body/directive/{accordion,accordion-item}``
      - the questions a page folds its answers behind — see :doc:`directives`

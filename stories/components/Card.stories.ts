@@ -2,7 +2,7 @@
 
    The markup lives in `src/components/card.ts`. No `parameters.dsCard`: a card
    is judged in a set of them, at the width a document gives it, and a card file
-   is a fragment at a fixed size. The set is `CardGrid.stories.ts` — a grid of
+   is a fragment at a fixed size. The set is `Grid.stories.ts` — a grid of
    two is not a grid of six, and that is a decision the grid makes, not the
    card. The acceptance render is where one meets a real page.
 

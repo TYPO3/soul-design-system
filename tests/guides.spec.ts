@@ -791,7 +791,7 @@ test.describe('what the theme repaired', () => {
        the link. Nothing resolves it for a template handing a component a
        property, which is what `LinkExtension` is for — so this is the test
        that the two ends of that arrangement still meet. */
-    const signposts = page.locator('#the-cards-a-manual-is-signposted-with');
+    const signposts = page.locator('#how-much-room-one-of-a-set-needs');
     const referenced = signposts.locator('sds-card').first();
     await expect(referenced.locator('.sds-card__title a')).toHaveText('Reference');
     await expect(referenced.locator('.sds-card__title a')).toHaveAttribute('href', /nodes\.html$/);
@@ -897,20 +897,6 @@ test.describe('what the theme repaired', () => {
        off the file and not written onto every picture in the page. */
     const prepared = page.locator('.sds-prose sds-figure:not([linked])').first();
     await expect(prepared.locator('svg use')).toHaveAttribute('href', /#art$/);
-  });
-
-  test('the column counts of a card grid become how much room a card gets', async ({ page }) => {
-    await page.goto(FIXTURE, { waitUntil: 'load' });
-
-    /* A count is a breakpoint somebody picked; the grid reflows by a minimum
-       width instead, so the counts are read as which of the three widths was
-       meant. Two or fewer is wide, five or more is dense.
-
-       Cards, because that is what this translation is about: a page may hold
-       a set of anything else at a width it asked for directly, and counting
-       every grid would make this fail on a section that never had counts. */
-    await expect(page.locator('.sds-grid--wide:has(.sds-card)')).toHaveCount(1);
-    await expect(page.locator('.sds-grid--dense:has(.sds-card)')).toHaveCount(1);
   });
 
   test('a set of questions is folded by the platform, not by a listener', async ({ page }) => {

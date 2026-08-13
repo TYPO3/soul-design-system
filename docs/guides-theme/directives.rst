@@ -11,17 +11,21 @@ no template to copy.
 
 ``layout``, ``hero``, ``band`` and ``grid`` build a landing page: a page of a
 different shape than a manual page, and the renderer has no vocabulary for it.
-``card-grid``, ``card`` and ``accordion`` signpost a manual and fold its
-answers away, each spelled the way a TYPO3 manual already spells them.
+``card`` and ``accordion`` signpost a manual and fold its answers away, each
+spelled the way a TYPO3 manual already spells them.
 ``stat`` states a figure, ``surface`` states a sentence and ``quote`` borrows
-one, ``button`` and ``button-bar`` are how a page sends a reader on, and
-``specimen`` embeds a rendered card at the size it was measured at.
+one, ``button`` and ``button-bar`` are how a page sends a reader on,
+``example`` shows a piece of markup and what it renders as, and ``specimen``
+embeds a rendered card at the size it was measured at.
 
 Each of them draws an element of this system and takes that element's own
 options, spelt the way the element spells them — so ``href`` links and ``src``
 takes a file here as everywhere else, and what a component gains the directive
 gains with it. Every section below names the element it draws, and
 :doc:`/frontend/components/index` is where that element's own reference is.
+
+Every example on this page is written once: the block is the body that drew
+the thing under it, which is what ``example`` is for.
 
 layout
 ======
@@ -64,11 +68,7 @@ The opening claim of a marketing page, set beside one decorative image. It
 goes immediately after the document title so that the title remains the page's
 real heading, browser title and source for navigation.
 
-.. code-block:: text
-
-   ======================
-   Design and ship as one
-   ======================
+.. example:: The opening claim, beside its one image
 
    .. hero:: /_images/design-system-workbench.png
 
@@ -76,7 +76,8 @@ real heading, browser title and source for navigation.
 
       A second paragraph can make the promise concrete.
 
-The argument is the image source. The theme composes the existing split, stack
+The document title stands above it in the source and is not part of it. The
+argument is the image source. The theme composes the existing split, stack
 and figure vocabulary; at a narrow viewport that split becomes a column by the
 same rule as every other split in the system. Content that follows the hero
 before the next band remains part of the opening section.
@@ -96,6 +97,28 @@ band
 A full-bleed section of a landing page: the ground runs edge to edge and the
 content inside is held to the page measure.
 
+.. example:: A band on a manual page, which is the page you are on
+
+   .. band:: This heading is a band, on a manual page
+      :quiet:
+      :id: a-band
+
+   And the paragraph after it, beside the section
+   rather than inside it: what follows a band
+   belongs to it on a page built out of bands,
+   and this page is not one.
+
+On a page whose layout is not ``marketing``, that is the whole of it — a
+section inside the column rather than a ground running edge to edge, because
+the shape a band takes is the page's to decide and not the band's.
+
+**A band does not wrap a page in itself, it opens one.** What follows belongs
+to it until the next band starts, and what stands before the first one is a
+band as well — a page opens on the canvas. That is the whole of the syntax,
+and it has a reason beyond looking tidy in the source: a band is full-bleed and
+takes the page inset itself, so a band nested in another indents its text by a
+gutter nobody asked for and stops at the width of its parent.
+
 .. code-block:: text
 
    .. band:: What it costs
@@ -108,12 +131,10 @@ content inside is held to the page measure.
 
    And this is back on the canvas.
 
-**A band does not wrap a page in itself, it opens one.** What follows belongs
-to it until the next band starts, and what stands before the first one is a
-band as well — a page opens on the canvas. That is the whole of the syntax,
-and it has a reason beyond looking tidy in the source: a band is full-bleed and
-takes the page inset itself, so a band nested in another indents its text by a
-gutter nobody asked for and stops at the width of its parent.
+That one is printed rather than shown, and it is the only source on this page
+that is: what a band does with the content after it happens where the page is
+built out of bands, so rendered here it would be two sections with the text
+loose between them — which is what the example above is showing.
 
 A page that writes no band at all is the single band it looks like.
 
@@ -137,54 +158,32 @@ A page that writes no band at all is the single band it looks like.
    sections at document level, so a line with ``====`` under it written in here
    ships both the line and the equals signs as text.
 
-On a page whose layout is not ``marketing``, a band still renders — it is a
-section inside the column, which is what it looks like.
-
-.. band:: This heading is a band, on a manual page
-   :quiet:
-   :id: a-band
-
-The paragraph you are reading is inside it, and it is inside the column rather
-than running edge to edge, because the shape a band takes is the page's to
-decide and not the band's. The landing page of :doc:`the example project
-<example>` is the same directive where it is at home.
+The landing page of :doc:`the example project <example>` is the same directive
+where it is at home, with the run of them doing what the source says.
 
 grid
 ====
 
 A set read side by side, reflowing by its own minimum width.
 
-.. code-block:: text
+.. example:: A set of two, on this page
 
-   .. grid:: dense
+   .. grid::
 
       .. card:: What it is
-         :href: /overview
+         :href: /guides-theme/index
+         :tag: Overview
 
-         Two sentences.
+         Two sentences, a badge above the title,
+         and the whole card lit at the top of its
+         frame under the pointer.
 
       .. card:: What it costs
-         :href: /pricing
+         :href: /guides-theme/installation
+         :tag: Installation
 
-         Two more.
-
-That source, on this page:
-
-.. grid::
-
-   .. card:: What it is
-      :href: /guides-theme/index
-      :tag: Overview
-
-      Two sentences, a badge above the title, and the whole card lit at the top
-      of its frame under the pointer.
-
-   .. card:: What it costs
-      :href: /guides-theme/installation
-      :tag: Installation
-
-      One Composer package, one copy step, and a document called ``index`` at
-      the root.
+         One Composer package, one copy step, and
+         a document called ``index`` at the root.
 
 No column count, and that is the design: three across on a desk, two on a
 tablet, one on a phone, decided by how narrow an item may get rather than by a
@@ -212,96 +211,21 @@ row. The element is ``sds-grid`` in :doc:`/frontend/components/content`.
    own stylesheet, and dropping what a theme does not understand is the one
    thing it must not do.
 
-card-grid
-=========
-
-The cards a manual is signposted with, in the spelling a TYPO3 manual already
-uses — so a documentation set written for the Bootstrap theme renders here
-without being rewritten.
-
-.. code-block:: text
-
-   .. card-grid::
-      :columns: 1
-      :columns-md: 2
-
-      .. card:: :ref:`Introduction <introduction>`
-
-         Written for somebody who has just arrived.
-
-.. confval:: columns
-   :type: integer
-
-   How many cards a row was written for. Read together with ``columns-sm``,
-   ``columns-md`` and ``columns-lg`` as a single question — how much room does
-   a card in here need — and answered with a minimum width instead of a track
-   count, so the grid goes on reflowing and no page names a breakpoint.
-
-   Two or fewer is the wide grid, five or more the dense one, and everything
-   between is the grid every other set of cards on the site uses. The largest
-   of the counts decides, the smaller ones being the same page at a narrower
-   width, which the grid already answers on its own.
-
-.. confval:: gap
-   :type: integer
-
-   ``0`` is the one gutter a page may ask for, because it is not a distance
-   but a shape: the cards share a hairline and read as one block, which is
-   the grid's ``flush``. Every other value is accepted and dropped — the
-   space between cards is the system's spacing scale, and a page that set it
-   would be a page holding an opinion the next release of the design system
-   has to honour.
-
-.. confval:: card-height
-   :type: integer
-
-   Accepted and dropped: the cards in a row are already the same height, which
-   is what a grid row does.
-
-.. confval:: class
-   :name: card-grid-class
-   :type: string
-
-   Carried onto the grid as it stands. An author who wrote it meant it for
-   their own stylesheet, and silently dropping what a theme does not
-   understand is the one thing it must not do.
-
-That source, on this page — two across, and the second card carrying
-everything a card can:
-
-.. card-grid::
-   :columns: 1
-   :columns-md: 2
-
-   .. card:: :doc:`installation`
-
-      One Composer package, one copy step, and a document called ``index`` at
-      the root.
-
-   .. card:: :doc:`publishing`
-      :label: Chapter
-      :icon: actions-book
-      :footer: For CI
-      :action: Read it
-
-      The job a project runs, command for command, and what each of them
-      leaves behind.
-
 card
 ====
 
 One card: a title that goes somewhere, and what is behind it.
 
-.. code-block:: text
+.. example:: One card, carrying everything a card can
 
-   .. card:: :ref:`Installation <installation>`
+   .. card:: :doc:`installation`
       :label: Chapter
       :icon: actions-book
       :footer: For a desk
       :action: Read it
 
-      What the package needs, and the commands that render a project with
-      it.
+      What the package needs, and the commands that
+      render a project with it.
 
 .. confval:: href
    :name: card-href
@@ -411,7 +335,7 @@ stat
 One number stated as a fact: the figure, what was counted, and the line that
 bounds it.
 
-.. code-block:: text
+.. example:: Two figures, at the width a number holds
 
    .. grid:: dense
 
@@ -427,23 +351,6 @@ bounds it.
          :label: sources answering
 
          One is slow and one is unreachable from the checker.
-
-That source, on this page:
-
-.. grid:: dense
-
-   .. stat:: 240
-      :unit: ms
-      :label: median answer
-      :icon: actions-clock
-
-      Measured over the last release, on a warm index.
-
-   .. stat:: 2
-      :of: 3
-      :label: sources answering
-
-      One is slow and one is unreachable from the checker.
 
 .. confval:: the argument
    :name: stat-value
@@ -508,7 +415,7 @@ surface
 
 One filled plane, stating something in place.
 
-.. code-block:: text
+.. example:: Two planes, read across each other
 
    .. grid::
 
@@ -520,21 +427,8 @@ One filled plane, stating something in place.
       .. surface:: One answer, one origin
          :label: Rule 02
 
-         Two answers that disagree are told apart by where they came from.
-
-That source, on this page:
-
-.. grid::
-
-   .. surface:: Read, never write
-      :icon: actions-file-shield
-
-      Every source is read. Nothing is written back.
-
-   .. surface:: One answer, one origin
-      :label: Rule 02
-
-      Two answers that disagree are told apart by where they came from.
+         Two answers that disagree are told apart by
+      where they came from.
 
 .. confval:: the argument
    :name: surface-heading
@@ -592,25 +486,15 @@ quote
 
 A sentence borrowed from somewhere, with where it came from.
 
-.. code-block:: text
+.. example:: A sentence, and who it belongs to
 
    .. quote:: Benjamin Kott
       :as: maintainer
       :meta: 24 July 2026
       :initials: BK
 
-      The fallback was never the problem. *Not saying* it was a fallback was
-      the problem.
-
-That source, on this page:
-
-.. quote:: Benjamin Kott
-   :as: maintainer
-   :meta: 24 July 2026
-   :initials: BK
-
-   The fallback was never the problem. *Not saying* it was a fallback was the
-   problem.
+      The fallback was never the problem. *Not saying*
+      it was a fallback was the problem.
 
 .. confval:: the argument
    :name: quote-by
@@ -675,19 +559,7 @@ button
 
 One press, and where it goes.
 
-.. code-block:: text
-
-   .. button:: :doc:`installation`
-      :icon: actions-download
-
-   .. button:: The renderer
-      :href: https://docs.phpdoc.org/components/guides/guides/
-      :variant: secondary
-      :rel: external
-
-That source, on this page:
-
-.. button-bar::
+.. example:: One press on its own, and the one beside it
 
    .. button:: :doc:`installation`
       :icon: actions-download
@@ -791,15 +663,16 @@ button-bar
 
 The controls of a page, standing in one row.
 
-.. code-block:: text
+.. example:: The presses of a page, on one line
 
    .. button-bar::
 
       .. button:: :doc:`installation`
 
-      .. button:: Read the manual
-         :href: https://example.org/manual
+      .. button:: The renderer
+         :href: https://docs.phpdoc.org/components/guides/guides/
          :variant: secondary
+         :rel: external
 
 .. confval:: class
    :name: button-bar-class
@@ -807,8 +680,7 @@ The controls of a page, standing in one row.
 
    Carried onto the row, for the reason the grid's is.
 
-Named the way ``card-grid`` is — what it holds, and the shape it holds them
-in. A row of controls is layout rather than a component, so it has no variant:
+Named for what it holds and the shape it holds them in. A row of controls is layout rather than a component, so it has no variant:
 the whole of it is that what stands in it sits on one line, centred against
 each other, which is what a link beside a button needs. It holds whatever a
 page puts in it, and one press in it is the primary. What it emits is
@@ -821,19 +693,20 @@ accordion
 Questions with their answers folded behind them, in the spelling a TYPO3
 manual already uses.
 
-.. code-block:: text
+.. example:: A set of two, one of them open
 
    .. accordion::
-      :name: running-it
+      :name: what-a-theme-answers
 
       .. accordion-item:: What does it need installed?
          :open:
 
-         PHP 8.2 or newer, and a project it can read.
+         PHP 8.2 or newer, and a project it can read —
+         see :doc:`installation`.
 
       .. accordion-item:: Can it run in CI?
 
-         Yes, and it answers less there.
+         Yes. :doc:`publishing` is the job, command for command.
 
 .. confval:: name
    :name: accordion-name
@@ -867,13 +740,13 @@ accordion-item
 
 One question, and the blocks folded behind it.
 
-.. code-block:: text
+.. example:: One question on its own, standing open
 
    .. accordion-item:: What does it need installed?
       :open:
 
-      PHP 8.2 or newer, and a project it can read. No daemon, and no database
-      of its own.
+      PHP 8.2 or newer, and a project it can read.
+      No daemon, and no database of its own.
 
 .. confval:: open
    :type: flag
@@ -907,37 +780,78 @@ a preference: an answer is paragraphs, lists and code blocks, which is what no
 attribute carries. The node is ``sds-accordion-item`` itself and the template
 writes none of its markup — the same arrangement as the cards above.
 
-That source, on this page:
+example
+=======
 
-.. accordion::
-   :name: what-a-theme-answers
+What was written, and under it what it renders as — out of the one body.
 
-   .. accordion-item:: What does it need installed?
-      :open:
+.. example:: An example, shown by an example
 
-      PHP 8.2 or newer, and a project it can read — see :doc:`installation`.
+   .. example:: A press, and where it goes
 
-   .. accordion-item:: Can it run in CI?
+      .. button:: :doc:`installation`
+         :icon: actions-download
 
-      Yes. :doc:`publishing` is the job, command for command.
+**The block a reader copies is the block that was run.** A page that prints
+markup in a ``code-block`` and then writes it a second time to render it holds
+two copies of one example, and the copy nobody checks is the one being taken
+away. Here the print is made of the lines the parser was handed and the
+rendering is parsed from those same lines, so the two cannot come apart —
+which is what ``specimen`` below does for a card, a level up.
+
+.. confval:: the argument
+   :name: example-caption
+   :type: string
+
+   The caption over the block: what this one shows. Left out, the block
+   carries nothing but its language and the button that copies it.
+
+.. confval:: language
+   :name: example-language
+   :type: string
+   :default: "text"
+
+   What the print is coloured as. ``text`` by default because no highlighter
+   on this site knows reStructuredText, and a language the server cannot
+   colour is better said than faked; a project whose examples are written in
+   something it does know says so here.
+
+.. confval:: class
+   :name: example-class
+   :type: string
+
+   Carried onto the frame the rendering stands in, for the reason the grid's
+   is.
+
+**The frame is dashed, and it is the only dashed line in the system.** That is
+what it is for: a solid one would be a box on the page, and what is inside
+this one is not part of the page — it is a thing shown, at the end of a run of
+things read. It is ``.sds-example``, and it carries no fill either, so a card
+or a surface in it stands on the ground it would really stand on rather than
+on a plane the manual put under it.
+
+The options are not in the print, because the parser has already taken them
+off the body by the time the directive sees it.
+
+**What an example cannot show is a page.** The frame is a box in the column,
+so a band inside one is the section a band is on a manual page rather than the
+full-bleed ground it becomes on a marketing one — which is what the band above
+is in an example to show. What follows a band belongs to it only where the
+page is built out of bands, so a source that opens two of them renders here as
+two sections with the text loose between them, and that one stays a
+``code-block`` beside prose that says so. ``:layout:`` is a field rather than
+a directive and has nowhere to go in a body at all.
 
 specimen
 ========
 
 A rendered card, embedded at the size it was drawn for.
 
-.. code-block:: text
+.. example:: The same file Storybook opens, and the design pane exports
 
    .. specimen:: guidelines/colors-surfaces.card.html
       :viewport: 700x270
       :title: Surfaces
-
-And that source, on this page — the same file Storybook opens and the same one
-the design pane exports:
-
-.. specimen:: guidelines/colors-surfaces.card.html
-   :viewport: 700x270
-   :title: Surfaces
 
 .. confval:: the card
    :type: string

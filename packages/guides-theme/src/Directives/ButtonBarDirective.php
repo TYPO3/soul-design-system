@@ -22,7 +22,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonBarNode;
  *           :href: https://example.org/manual
  *           :variant: secondary
  *
- * Named the way `card-grid` is — what it holds, and the shape it holds them in.
+ * Named for what it holds, and the shape it holds them in.
  * A row of controls is layout and not a component, so it is `.sds-actions` and
  * carries no variant: the whole of it is that the things in it sit on one line
  * and are centred against each other, which is what a link beside a button

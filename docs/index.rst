@@ -26,9 +26,7 @@ One system, from design to delivery
       guides-theme/index
       frontend/index
 
-.. card-grid::
-   :columns: 3
-   :gap: 0
+.. grid:: flush
 
    .. card:: Design with Claude
       :href: /design-system/design-with-claude
@@ -65,9 +63,7 @@ Design systems often stop at a design file or a component library. Soul keeps
 the design evidence, the documentation renderer, the class vocabulary and the
 elements connected to the same sources.
 
-.. card-grid::
-   :columns: 2
-   :gap: 0
+.. grid:: flush
 
    .. card:: Readers keep their bearings
       :label: Across community projects
@@ -119,9 +115,7 @@ second one.
 The system does not ask every project to adopt the same toolchain. It asks
 each toolchain to speak the same visual language.
 
-.. card-grid::
-   :columns: 2
-   :gap: 0
+.. grid:: flush
 
    .. card:: Explore the rules and their specimens
       :href: /design-system/index
