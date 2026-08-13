@@ -86,11 +86,6 @@ arrives inside that package.
 Nothing in CI installs it: what holds the documented path honest is that this
 site is rendered along it, with the same file a reader runs.
 
-## Decisions that were made on purpose
-
-- **Class prefix is `sds-`**, state is `.is-*`. `t3-` was avoided: the system's
-  own rules forbid implying TYPO3 endorsement.
-
 ## Fixes applied to the cards (were pre-existing defects)
 
 - `Density` — the Tool column could not hold `typo3_changelog_lookup`; the
@@ -104,33 +99,6 @@ site is rendered along it, with the same file a reader runs.
 - Two cards documented their own sizes in prose and went stale after the
   rounding (`DIFF 12.5 PX`, `--font-size-dense · 13.5`). If you change a size
   token, grep the card copy for the number.
-
-## CSS-only was a decision — and it was revisited
-
-For a long time this system shipped **no JavaScript components**, on purpose,
-and that is recorded here because the reasoning still matters. The objection
-was never "components are bad": it was that a React layer would be a second
-source of truth for markup the product — plain PHP with an HTML surface —
-cannot use. The offer was declined twice on exactly that ground.
-
-**Web components dissolve that objection**, which is why the answer changed.
-A custom element rendering light DOM emits the same `sds-` classes, and the
-PHP product can use the classes with no JavaScript at all. There is no second
-source of truth: `components.css` is still it.
-
-What the system now ships, and what it costs:
-
-- The Lit elements in `packages/frontend/src/`, bundled into `_ds_bundle.js` and published as
-  ESM from `packages/frontend/dist/`. `_adherence.oxlintrc.json` should now come back with real
-  entries instead of the empty `react/forbid-elements`,
-  `no-restricted-imports` and `x-omelette.components` it used to — **check
-  this on the next sync**, it is the first upload where that can be true.
-- The specimen cards stay **static HTML with no custom elements in them**.
-  The pane opens them with `styles.css` and no JavaScript, so a card
-  containing `<sds-button>` would render nothing. `scripts/cards.ts` renders
-  the same Lit templates to markup instead — see below.
-- The token rules still bite mechanically either way: raw `#FF8700` or `14px`
-  in a design is flagged, because tokens are in the config regardless.
 
 ## Cards are generated from stories
 
@@ -430,29 +398,6 @@ green with `create()`, red with the partial it was written for.
   no styling for it. `make verify` cannot catch this: step 2 unions both
   stylesheets when deciding whether a class is defined. Reproduced as it was
   rather than quietly redesigned.
-
-## The `sds-` prefix
-
-Renamed from `tsa-` at the user's request, together with the JS namespace
-(`T3SA` → `SDS`) and the package name. The rename touched 51 files and was
-verified pixel-identical on all 38 cards — a class rename changes nothing
-visually as long as stylesheet and markup move together.
-
-It survived the second rename untouched. When the system became **Soul
-Design System** the initials came out the same, so `sds-`, `SDS` and every
-tag stayed exactly where they were; only prose, the package name
-(`@typo3/soul-frontend`) and the wordmark moved. That is luck rather
-than design, but it is worth recording why nothing had to move: a prefix
-that spells the system's initials survives a rename only when the initials
-do.
-
-A prefix is kept on purpose, whatever its spelling. Designs mix this CSS with agent-written markup, and `.btn`,
-`.card`, `.badge`, `.table` are the most collided-with names in CSS. The bug
-is not hypothetical: before the refactor `.card` meant "20px of specimen
-padding" in the cards and "a hairline and 6px, no fill" in the doctrine.
-The prefix is also what lets `make verify` tell system classes from a
-screen's own layout classes. Shortening it to `ds-` was offered; the length
-was not worth a repo-wide rename.
 
 ## The signet is not an icon
 

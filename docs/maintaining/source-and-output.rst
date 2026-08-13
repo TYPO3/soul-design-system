@@ -65,6 +65,12 @@ from a story. Change the story or the component template it calls, then run
 ``make cards``. A hand edit under ``specimens/`` is replaced by that task and
 is rejected by the gate.
 
+The generated cards are static HTML rather than unresolved custom elements.
+The design surface opens them with the stylesheets and no JavaScript, so the
+card generator renders the same Lit templates ahead of time. Both routes still
+arrive at the class vocabulary in ``components.css``; the static consumer does
+not create another component implementation.
+
 ``docs/`` is the source of the published manual. The theme under
 ``packages/guides-theme/`` maps its reStructuredText and Markdown onto the same
 components and class vocabulary. ``make guides`` renders the pair together,

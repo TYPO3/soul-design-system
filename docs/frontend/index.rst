@@ -127,8 +127,8 @@ The JavaScript is built to ``es2022``, which is a lower bar than the CSS and
 never the thing that decides. Nothing here uses a shadow root, a container
 query or ``@layer``.
 
-Three layers, one contract
-==========================
+One contract across the layers
+==============================
 
 **Tokens** hold the decisions. Every colour, size, space, radius and duration
 is declared under a semantic name, and light and dark sit in the same
@@ -143,6 +143,14 @@ exactly the classes above, so an element upgrades the markup that was already
 there instead of introducing a second contract. There is no shadow root and no
 encapsulation anywhere in this system: ``sds-`` is it.
 
+The classes came first because the product that proved the system renders HTML
+in PHP and has to work without a JavaScript component runtime. A framework
+wrapper would have created another source for markup that this surface could
+not use. Custom elements change that answer: light DOM lets an element emit
+the same class vocabulary a server writes, so ``components.css`` remains the
+source of the pixels and JavaScript adds behaviour rather than another visual
+implementation.
+
 .. code-block:: html
 
    <!-- The same pixels, from either column. -->
@@ -152,6 +160,25 @@ encapsulation anywhere in this system: ``sds-`` is it.
 Use the element where there is state, behaviour or a decision the markup would
 have to repeat; use the class where a server already knows the answer and
 nothing on the page will change it.
+
+The namespace states ownership
+==============================
+
+``sds-`` is the system's own prefix. ``t3-`` would imply that these names
+belong to an official TYPO3 surface, which this community system does not.
+Blocks start with the prefix, their private parts append a double underscore,
+modifiers append a double hyphen and transient state uses ``.is-*``.
+
+The prefix also keeps common names such as ``card``, ``button`` and ``badge``
+from colliding with application styles. It gives the gate the same boundary a
+reader sees: an ``sds-`` name belongs to the system, while a screen's layout
+classes belong to that screen.
+
+Only the system declares names in that namespace. If a consumer needs an
+``sds-`` component or modifier that does not exist, the gap is closed here so
+the element, class layer, specimen and rendered documentation can agree on it.
+A local invention cannot be rendered, tested or changed with the system and
+will be declared differently by the next consumer.
 
 .. important::
 
