@@ -148,7 +148,6 @@
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-display);
   max-width: var(--measure-display);
-  text-wrap: balance;
 }
 .sds-bands > .sds-band:first-child :where(.sds-prose) h1 + p {
   max-width: var(--measure-lead);

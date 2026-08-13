@@ -138,6 +138,27 @@ h6 {
   font-size: var(--font-size-ui);
   line-height: var(--leading-heading);
 }
+/* Every headline balances its own lines. A heading is read as a shape before
+   it is read as a sentence, and one word left alone on the last line is a
+   shape saying something the words do not. Headings only: the property
+   inherits, and a browser balances a few lines at most, so a paragraph asking
+   for it pays the second pass and gets nothing back. */
+.sds-display,
+.sds-h1,
+h1,
+.sds-h2,
+h2,
+.sds-h3,
+h3,
+h4,
+h5,
+h6,
+.sds-card__title,
+.sds-result__title,
+.sds-note__title {
+  text-wrap: balance;
+}
+
 /* The sentence under a heading. Larger than body copy and held shorter. */
 .sds-lead {
   margin: 0;
