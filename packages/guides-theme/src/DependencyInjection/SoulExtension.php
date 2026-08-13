@@ -19,6 +19,8 @@ use TYPO3\Soul\GuidesTheme\Brands;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionItemNode;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
 use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
+use TYPO3\Soul\GuidesTheme\Nodes\ButtonBarNode;
+use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardGridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
@@ -258,6 +260,8 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => StatNode::class, 'file' => 'body/directive/stat.html.twig', 'format' => 'html'],
                 ['node' => CardNode::class, 'file' => 'body/directive/card.html.twig', 'format' => 'html'],
                 ['node' => CardGridNode::class, 'file' => 'body/directive/card-grid.html.twig', 'format' => 'html'],
+                ['node' => ButtonNode::class, 'file' => 'body/directive/button.html.twig', 'format' => 'html'],
+                ['node' => ButtonBarNode::class, 'file' => 'body/directive/button-bar.html.twig', 'format' => 'html'],
                 ['node' => AccordionNode::class, 'file' => 'body/directive/accordion.html.twig', 'format' => 'html'],
                 ['node' => AccordionItemNode::class, 'file' => 'body/directive/accordion-item.html.twig', 'format' => 'html'],
             ],

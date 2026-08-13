@@ -490,6 +490,146 @@ too: there the figures share a hairline and the wall gives each its ground.
 The frame in a wall is the wall's, so a figure anywhere else stays bare and a
 row of numbers on a page is not a row of boxes.
 
+button
+======
+
+One press, and where it goes.
+
+.. code-block:: text
+
+   .. button:: :doc:`installation`
+      :icon: actions-download
+
+   .. button:: The renderer
+      :href: https://docs.phpdoc.org/components/guides/guides/
+      :variant: secondary
+      :rel: external
+
+That source, on this page:
+
+.. button-bar::
+
+   .. button:: :doc:`installation`
+      :icon: actions-download
+
+   .. button:: The renderer
+      :href: https://docs.phpdoc.org/components/guides/guides/
+      :variant: secondary
+      :rel: external
+
+.. confval:: the argument
+   :name: button-label
+   :type: string
+   :required: true
+
+   The label, and where the press goes with it. Written as a reference, a
+   ``:doc:`` or an external link, the words are the label and the reference is
+   the target — the way a card's title carries the same thing. It is the
+   argument rather than an option because it is what the control says.
+
+.. confval:: href
+   :name: button-href
+   :type: string
+
+   The target said as a path instead, and it wins where both are written.
+
+.. confval:: variant
+   :name: button-variant
+   :type: string
+   :default: "primary"
+
+   ``primary``, ``secondary`` or ``ghost``. One primary per view: a second
+   makes neither of them mean anything.
+
+.. confval:: size
+   :name: button-size
+   :type: string
+   :default: "md"
+
+   ``sm`` for the smaller control — a press beside a line of text rather than
+   under a section.
+
+.. confval:: icon
+   :name: button-icon
+   :type: string
+
+   A glyph before the label, and it is an icon of this system — see
+   :doc:`/design-system/icons`.
+
+.. confval:: icon-only
+   :type: flag
+
+   The glyph is the whole control and the button is a square. It needs a name,
+   and the label is it: the words become the control's title instead of being
+   drawn.
+
+.. confval:: title
+   :name: button-title
+   :type: string
+
+   What the control is called where the label does not say it, and what a
+   pointer resting on it reads.
+
+.. confval:: rel
+   :name: button-rel
+   :type: string
+
+   What the target is to this page — ``external``, ``prev``, ``next``. Only
+   with a target, being the anchor's own attribute.
+
+.. confval:: disabled
+   :type: flag
+
+   The control is there and cannot be pressed. It is dropped where the press
+   goes somewhere: a link cannot be disabled, and a grey one the browser
+   follows anyway is worse than none.
+
+.. confval:: class
+   :name: button-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**A press on a rendered page is a link.** Given somewhere to go the element
+draws an ``<a>``, which is what gives the reader the middle click, the hover
+target and the status line the browser already has — none of which a control
+with a listener on it has. A button with nowhere to go does nothing when
+pressed, so ``type``, ``for`` and ``command`` are not offered: a document has
+no form to submit and no element to command, and a page that needs them is an
+application rather than a manual.
+
+**The label is the words and not the markup.** A reference rendered where it
+was written would put a link inside the control; the reference becomes the
+control's target instead. That is the same trade the card makes with its
+title, and it is why both are read off the node rather than in a template.
+
+button-bar
+==========
+
+The controls of a page, standing in one row.
+
+.. code-block:: text
+
+   .. button-bar::
+
+      .. button:: :doc:`installation`
+
+      .. button:: Read the manual
+         :href: https://example.org/manual
+         :variant: secondary
+
+.. confval:: class
+   :name: button-bar-class
+   :type: string
+
+   Carried onto the row, for the reason the grid's is.
+
+Named the way ``card-grid`` is — what it holds, and the shape it holds them
+in. A row of controls is layout rather than a component, so it has no variant:
+the whole of it is that what stands in it sits on one line, centred against
+each other, which is what a link beside a button needs. It holds whatever a
+page puts in it, and one press in it is the primary.
+
 accordion
 =========
 

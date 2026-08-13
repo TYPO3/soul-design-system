@@ -91,6 +91,8 @@ the element, because an author who wrote it meant it for their own stylesheet.
 | `.. card-grid::` | The same set in the spelling a TYPO3 manual uses, so a documentation set written for the Bootstrap theme renders unchanged. `:columns:`, `:columns-sm:`, `:columns-md:`, `:columns-lg:` are read as one question and answered with a minimum width; `:gap: 0` is the wall, every other `:gap:` and `:card-height:` are accepted and dropped. `:class:` |
 | `.. card:: <title>` | One card, whose title carries where it goes — a `:ref:`, a `:doc:` or a link — and the whole frame becomes that one link. `:href:` says the target as a path instead, `:label:`, `:tag:`, `:icon:`, `:src:`, `:alt:`, `:footer:`, `:action:`, `:class:` |
 | `.. stat:: <figure>` | One number stated as a fact. The body is the line that bounds it and is not optional in practice — a figure with no bound is a boast. `:unit:`, `:label:`, `:of:` (the whole it is a part of, drawn as a share), `:icon:`, `:class:` |
+| `.. button:: <label>` | One press. The label carries where it goes — a `:ref:`, a `:doc:` or a link — and given a target the control is drawn as a link, with the middle click and the status line a browser already has. `:href:` says the target as a path instead, `:variant:` (`primary`, `secondary`, `ghost`), `:size:` (`sm`), `:icon:` a glyph before the label, `:icon-only:` makes the glyph the whole control and the label its name, `:title:`, `:rel:`, `:disabled:`, `:class:`; `type`, `for` and `command` are not offered — a document has no form to submit and no element to command |
+| `.. button-bar::` | The presses of a page on one line, centred against each other so a link beside a button sits right. Named the way `card-grid` is, and layout rather than a component, so it has no variant. `:class:` |
 | `.. accordion::` | A set of questions with their answers folded behind them, exclusive unless `:multiple:`. `:name:` is the group, and two sets on a page need different ones; a set that writes none is given one. `:class:` |
 | `.. accordion-item:: <question>` | One question, and the blocks folded behind it. `:open:` stands it open (`:show:` is the Bootstrap theme's name for the same flag), `:class:`; `:header-level:` and `:name:` are accepted and dropped |
 | `.. specimen:: <card>` | A rendered card of the project's own, embedded in a frame at the size it was measured at. The argument is a path under `_cards/` in the documentation source. `:viewport:` (`700x260`), `:title:` |
@@ -119,6 +121,16 @@ Design and ship as one
       :label: median answer
 
       Measured over the last release, on a warm index.
+
+.. button-bar::
+
+   .. button:: :doc:`installation`
+      :icon: actions-download
+
+   .. button:: The renderer
+      :href: https://docs.phpdoc.org/components/guides/guides/
+      :variant: secondary
+      :rel: external
 ```
 
 ```rst

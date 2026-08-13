@@ -1,0 +1,37 @@
+{#
+    One button, and the element draws all of it.
+
+    **Every option is a property** — the variant, the size, the state, where it
+    goes. Nothing here says what a button looks like: not the shape, not the
+    height, not what the label is wrapped in. That is what the component is for.
+
+    Two things are not attributes. The label is written between the tags,
+    because that is where `sds-button` takes it and because a glyph beside the
+    words is a node — which is the other one: `:icon:` becomes `sds-icon`
+    composed into the control, exactly as a page of this system writes it.
+
+    The label is the argument's words and not its markup. A reference rendered
+    in place would put an `<a>` inside the control; the reference is where the
+    press goes instead, and it lands on the element as `href`. `:href:` is the
+    same thing said as a path, and wins where both are written.
+#}
+{%- set href = node.option('href') ? renderLink(node.option('href')) : linkUrl(node.link) -%}
+{%- set label = node.title.toString -%}
+{%- set glyph = node.option('icon') -%}
+{#- A control whose whole label is a glyph is named by nothing else, so the
+    words that would have been the label become the title. The element cannot
+    work the shape out for itself here: it is handed markup rather than nodes
+    when a page is rendered ahead of the browser, and a square button that lost
+    its shape is a round control gone rectangular in a row. -#}
+{%- set only = glyph and node.option('icon-only') -%}
+{%- set title = node.option('title') ?: (only ? label : '') -%}
+<sds-button
+    {%- if href %} href="{{ href }}"{% endif %}
+    {%- if node.option('variant') %} variant="{{ node.option('variant') }}"{% endif %}
+    {%- if node.option('size') %} size="{{ node.option('size') }}"{% endif %}
+    {%- if only %} icon-only{% endif %}
+    {%- if title %} title="{{ title }}"{% endif %}
+    {%- if node.option('rel') %} rel="{{ node.option('rel') }}"{% endif %}
+    {%- if node.option('disabled') %} disabled{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+>{% if glyph %}<sds-icon name="{{ glyph }}"></sds-icon>{% endif %}{% if not only %}{{ label }}{% endif %}</sds-button>

@@ -1,0 +1,18 @@
+{#
+    The controls of a page, on one line.
+
+    A class and not a component, which is the one place a template of this
+    theme may write markup itself: `.sds-actions` is the class layer's own name
+    for a row of controls, defined in `components.css` and deliberately
+    hand-writable, the way `band` writes its section. A part of a component is
+    something else entirely and is never written here.
+
+    Centred rather than stretched, because not everything in a row of actions is
+    a button — a link beside one is a line of text in a box that height. The row
+    is the whole of what this adds; every control in it draws itself.
+#}
+<div class="sds-actions{% if node.option('class') %} {{ node.option('class') }}{% endif %}">
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</div>

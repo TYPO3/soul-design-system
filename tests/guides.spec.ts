@@ -693,6 +693,49 @@ test.describe('what the theme repaired', () => {
     await expect(last.locator('.sds-card__action')).toHaveCount(0);
   });
 
+  test('a press that goes somewhere is a link, and the row of them is one line', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The element and not a `div` wearing `.sds-btn`: the control is drawn in
+       one file, so a press a renderer produced cannot drift from one a product
+       wrote. */
+    const bar = page.locator('#presses .sds-actions').first();
+    await expect(bar.locator('sds-button')).toHaveCount(4);
+    await expect(page.locator('#presses .sds-btn:not(sds-button .sds-btn)')).toHaveCount(0);
+
+    /* Given somewhere to go the element draws an anchor, and the target came
+       out of the label — `.. button:: :doc:`nodes`` says both at once. That is
+       what `LinkExtension` is for, and this is the test that the two ends of
+       the arrangement still meet. */
+    await expect(bar.locator('a.sds-btn').first()).toHaveAttribute('href', /nodes\.html$/);
+
+    /* And with nowhere to go it is a button, which is a control that does
+       nothing on a page — so the one in the fixture says it cannot be pressed
+       rather than pretending it can. */
+    const dead = bar.locator('button.sds-btn');
+    await expect(dead).toHaveCount(1);
+    await expect(dead).toBeDisabled();
+
+    /* A glyph as the whole label is a square control, and the words that would
+       have been the label name it instead. The shape is written by the theme
+       because nothing can read a label back out of markup — see the template. */
+    const glyph = bar.locator('.sds-btn--icon');
+    await expect(glyph).toHaveAttribute('title', 'Copy');
+    await expect(glyph).toHaveText('');
+
+    /* One line, because that is the whole of what the row adds — and centred
+       rather than stretched, which is why it is the middles that agree: the
+       small control and the square are not the height of the others, and a
+       link beside a button is neither. */
+    const middles = await bar.locator('.sds-btn').evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const box = node.getBoundingClientRect();
+        return box.top + box.height / 2;
+      }),
+    );
+    expect(Math.max(...middles) - Math.min(...middles), 'a row of controls shares one middle').toBeLessThanOrEqual(1);
+  });
+
   test('a picture is framed whether or not there is a claim under it', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

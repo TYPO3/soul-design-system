@@ -41,7 +41,6 @@ const PENDING = {
      element the theme addresses brings everything it draws with it, so a
      figure's viewer is covered by the figure. */
   guides: [
-    'sds-button',
     'sds-field',
     'sds-field-error',
     'sds-checkbox',

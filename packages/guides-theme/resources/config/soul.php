@@ -9,6 +9,8 @@ use TYPO3\Soul\GuidesTheme\Compiler\OnThisPage;
 use TYPO3\Soul\GuidesTheme\Directives\AccordionDirective;
 use TYPO3\Soul\GuidesTheme\Directives\AccordionItemDirective;
 use TYPO3\Soul\GuidesTheme\Directives\BandDirective;
+use TYPO3\Soul\GuidesTheme\Directives\ButtonBarDirective;
+use TYPO3\Soul\GuidesTheme\Directives\ButtonDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardGridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
@@ -56,6 +58,13 @@ return static function (ContainerConfigurator $container): void {
         ->set(CardDirective::class)
         ->tag('phpdoc.guides.directive')
         ->set(CardGridDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* The press a page asks for, and the row the presses stand in — see
+           `ButtonDirective` for why the label carries where it goes. */
+        ->set(ButtonDirective::class)
+        ->tag('phpdoc.guides.directive')
+        ->set(ButtonBarDirective::class)
         ->tag('phpdoc.guides.directive')
 
         /* The questions a manual folds its answers behind, spelled the way

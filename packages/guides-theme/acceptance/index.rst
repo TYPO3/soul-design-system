@@ -288,6 +288,43 @@ lines, so the notes are read across the set rather than each on its own.
       Every source is read. Nothing is written back, and nothing is executed
       to answer.
 
+Presses
+=======
+
+The controls of a page, on one line. The first is the one press this section
+is about; a second primary beside it would make neither mean anything. The
+label of the first carries where it goes, which is how a card says the same
+thing, and the last is the glyph alone — named by its title, because nothing
+else names it.
+
+.. button-bar::
+
+   .. button:: :doc:`nodes`
+      :icon: actions-book
+
+   .. button:: The renderer
+      :href: https://docs.phpdoc.org/components/guides/guides/
+      :variant: secondary
+      :rel: external
+
+   .. button:: A press with nowhere to go
+      :variant: ghost
+      :size: sm
+      :disabled:
+
+   .. button:: Copy
+      :href: /nodes
+      :icon: actions-clipboard
+      :icon-only:
+
+A button stands on its own as readily as in a row, and a press that goes
+somewhere is a link — the browser's own middle click and status line, which no
+control with a listener on it has.
+
+.. button:: Read the reference
+   :href: /nodes
+   :icon: actions-arrow-right
+
 Cards
 =====
 
