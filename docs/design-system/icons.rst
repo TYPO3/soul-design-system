@@ -42,8 +42,11 @@ Rules
   neither is a number anybody had to choose.
 - A number is for a glyph standing on its own — an empty state, a mark beside
   nothing. Then: 16, 20, 24 or a whole multiple. **Never 18 or 22.** 16 is
-  the floor; below it, no icon at all. Ask with ``size="24"`` on the element
-  or ``sds-icon--24`` in markup.
+  the floor; below it, no icon at all. The element is asked with
+  ``size="24"``, markup with ``sds-icon--16``, ``sds-icon--20`` or
+  ``sds-icon--24`` — the steps a page reaches for by hand. Above them the
+  element is the only way to ask, because a size a page picks once is a style
+  rather than a name the system carries.
 - Icon before its label with an 8px gap — except direction icons, which
   follow.
 - Inline the SVG wherever colour must follow the UI. An ``<img>`` cannot

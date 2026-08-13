@@ -46,6 +46,16 @@ Display and headings
 Sentence case. No marketing superlatives — nothing is "powerful", "seamless"
 or "blazing fast".
 
+A heading sets itself: ``h1`` to ``h3`` carry the size their level usually
+has, so an outline written as plain HTML is already set, and below ``h3``
+everything is the UI register. ``sds-h1``, ``sds-h2`` and ``sds-h3`` are for
+where the two disagree — a section that stands third in the outline and reads
+as the first thing on the page. The level is the document's and the size is
+the page's; the class is how the page says so without moving the heading in
+the outline. ``sds-display`` is not one of them: it is the opening line of a
+page rather than a step in the outline, and it says nothing about level at
+all.
+
 .. specimen:: guidelines/type-display.card.html
    :viewport: 700x180
    :title: Display & headings
