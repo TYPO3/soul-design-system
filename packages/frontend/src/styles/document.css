@@ -776,3 +776,8 @@
 }
 :where(.sds-prose) .footnote-content > :last-child,
 :where(.sds-prose) .citation-content > :last-child { margin-bottom: 0; }
+/* Landing on one note out of twenty says which one — the mark a heading, a
+   confval and a term already make. The label is what the sentence pointed at,
+   so the label is what answers. */
+:where(.sds-prose) .footnote:target .footnote-label,
+:where(.sds-prose) .citation:target .citation-label { color: var(--text-accent-quiet); }

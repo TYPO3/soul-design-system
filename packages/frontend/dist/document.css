@@ -109,3 +109,4 @@
 :where(.sds-prose) .footnote,:where(.sds-prose) .citation{display:flex;gap:var(--space-2);margin-bottom:var(--space-2);max-width:var(--measure-prose);font-size:var(--font-size-ui);color:var(--text-secondary)}
 :where(.sds-prose) .footnote-label,:where(.sds-prose) .citation-label{flex:none;font-family:var(--font-mono);font-size:.9em;color:var(--text-muted)}
 :where(.sds-prose) .footnote-content>:last-child,:where(.sds-prose) .citation-content>:last-child{margin-bottom:0}
+:where(.sds-prose) .footnote:target .footnote-label,:where(.sds-prose) .citation:target .citation-label{color:var(--text-accent-quiet)}

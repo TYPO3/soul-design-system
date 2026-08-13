@@ -616,6 +616,26 @@ test.describe('what the theme repaired', () => {
     }
   });
 
+  test('the note a mark sends the reader to says which one it is', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    const label = page.locator('#footnote-1 > .footnote-label');
+    const resting = await label.evaluate((el) => getComputedStyle(el).color);
+
+    /* A stack of notes is a stack of rows that look alike, and the browser
+       scrolls to one of them without saying where it stopped. */
+    const section = await page.locator('.sds-prose .section[id]').first().getAttribute('id');
+    await page.goto(`${FIXTURE}#${section}`, { waitUntil: 'load' });
+    const heading = await page
+      .locator(`#${section} > :is(h1, h2, h3, h4, h5, h6)`)
+      .evaluate((el) => getComputedStyle(el).color);
+
+    await page.goto(`${FIXTURE}#footnote-1`, { waitUntil: 'load' });
+    const arrived = await label.evaluate((el) => getComputedStyle(el).color);
+    expect(arrived).not.toBe(resting);
+    /* And says it the way every other arrival on this page says it. */
+    expect(arrived).toBe(heading);
+  });
+
   test('a sidebar is an aside, and nothing on the page is a bare admonition', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
