@@ -13,12 +13,6 @@ It was cut against a real surface and still answers to one: **TYPO3 Support App*
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
 
-## Diagram files
-
-**One file, one drawing.** Every colour is written as a presentation attribute, and every attribute is `var(--token, #light)` — the token this system already declares, with the light hex behind it. A drawing opened on its own, in a README or a tab, has no tokens and renders as the light file it falls back to. Referenced into a page it reads that page's tokens and arrives in that page's mode, including a mode forced on a subtree, which is what a `<picture>` could never do: it follows the system preference and cannot see `data-theme`.
-
-Referenced, not linked — `<img>` renders its file in a document of its own, where no token is declared and the fallback is all there is. So a drawing is a `<use>` into the file, the same mechanism an icon is, and `packages/frontend/src/lib/art.ts` is where that decision lives. It ships one file, and the file it ships is the one GitHub can read.
-
 ## Governance
 
 **This design system project is the source of truth.** Rules are decided here, where the specimen cards render and a change can be seen. The copy that ships inside the product repository — `.claude/skills/design-system/` — is a build artefact: an agent reads it and never writes back to it.

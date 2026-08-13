@@ -63,7 +63,8 @@ The numbers
    ``fill="var(--text-primary, #1C1A17)"``, so one file serves both modes.
    Ship that one file, wrap its shapes in ``<g id="art">``, and reference it
    with ``<use>`` rather than linking it with ``<img>``: a linked file renders
-   in a document of its own, where no token is declared.
+   in a document of its own, where no token is declared. :doc:`artwork` holds
+   the complete file contract and its failure modes.
 
 Diagrams sit on ``--surface-sunken``. The drawing brings its own canvas, and
 that is what makes it read as a figure with clear space — put it on

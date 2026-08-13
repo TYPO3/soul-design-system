@@ -20,6 +20,12 @@ whichever colour its author baked in on a page that has since gone dark.
 There is no light copy and no dark copy. One file, referenced, reading the
 tokens of the page around it.
 
+A ``<picture>`` with light and dark sources would still answer only the
+operating-system preference. It cannot see ``data-theme`` on the subtree where
+the drawing was placed, so a reader's explicit choice could change the page
+without changing its artwork. A referenced file inherits from that exact
+place and follows both system preference and local override.
+
 What a file has to do
 =====================
 
