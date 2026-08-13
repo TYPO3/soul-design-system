@@ -32,11 +32,10 @@ is treated like a red gate, and for the same reason: left standing, the next
 reader inherits it and the next agent matches its tone, and by then it is no
 longer one file.
 
-There is no exception, and there is no file the rule is suspended over. The
-three that stood in German from before it — the theme's `GAPS.md` and the lines
-`scripts/plan.ts` and `scripts/status.ts` print — were translated rather than
-carried, because a rule with a standing exception is read as a preference, and
-the exception is what a later reader matches.
+No file is exempt from it. A rule carrying a standing exception is read as a
+preference, and the exception is what a later reader matches — including in
+the files it never names, which is where the last German line in this tree was
+found.
 
 ## No document counts the parts
 
