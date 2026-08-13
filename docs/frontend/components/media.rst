@@ -236,6 +236,11 @@ page behind it goes inert, the focus moves in and comes back, and Escape
 closes. The surface is not the modal's: a modal stops at a reading measure
 because what is inside one is read, and a drawing is looked at.
 
+The surface is a stage rather than a box around the file — as much of the
+screen as it can take without touching the edges — and the picture is fitted
+into it and stands in the middle, whichever way round it is. One smaller than
+the stage keeps its own size, since enlarging it only makes it blurrier.
+
 .. code-block:: html
 
    <sds-button for="the-drawing">Open the drawing</sds-button>

@@ -99,10 +99,11 @@ sds-icon:not(:defined)[size="48"]{width:48px;height:48px}
 .sds-badge--error{color:var(--status-error);border-color:color-mix(in oklch,var(--status-error) 45%,transparent)}
 dialog.sds-modal{padding:0;border:var(--border-hairline) solid var(--border-subtle);color:var(--text-primary);max-width:var(--measure-modal)}
 dialog.sds-modal::backdrop{background:var(--surface-overlay)}
-dialog.sds-lightbox{padding:0;width:min(92vw,1400px);max-width:none;max-height:92vh;background:var(--surface-raised);border:var(--border-hairline) solid var(--border-strong);border-radius:var(--radius-card);color:var(--text-primary);overflow:hidden}
+dialog.sds-lightbox{padding:0;width:min(92vw,1400px);max-width:none;inset-block:4vh;height:auto;max-height:none;background:var(--surface-raised);border:var(--border-hairline) solid var(--border-strong);border-radius:var(--radius-card);color:var(--text-primary);overflow:hidden}
 dialog.sds-lightbox[open]{display:flex;flex-direction:column}
 dialog.sds-lightbox::backdrop{background:var(--surface-overlay)}
-.sds-lightbox__art{min-height:0;overflow:auto;background:var(--surface-sunken)}
+.sds-lightbox__art{flex:1;min-height:0;padding:var(--space-4);overflow:hidden;background:var(--surface-sunken)}
+.sds-lightbox__art>.sds-art{width:100%;height:100%;object-fit:scale-down}
 .sds-zoom{display:block;cursor:zoom-in}
 .sds-field{display:inline-flex;align-items:center;gap:var(--control-gap);background:var(--surface-sunken);border:var(--border-hairline) solid var(--border-strong);border-radius:var(--radius-control);padding:var(--space-1-5) var(--control-pad-x-sm);color:var(--text-muted);font-size:var(--control-font-size);line-height:var(--control-leading);min-height:var(--control-height);transition:border-color var(--duration-fast) var(--ease-out),box-shadow var(--duration-fast) var(--ease-out)}
 .sds-field.is-focused,.sds-field:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}

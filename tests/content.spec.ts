@@ -193,6 +193,12 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
      over rather than the ones its own file falls back to. */
   await expect(dialog.locator('svg.sds-art use')).toHaveAttribute('href', /answer-sources\.svg#art$/);
 
+  /* The whole drawing, in one screen: a viewer that scrolls shows a picture cut
+     off at the foot, which is the one thing opening it was supposed to fix. */
+  const pane = dialog.locator('.sds-lightbox__art');
+  expect(await pane.evaluate((el) => el.scrollHeight - el.clientHeight)).toBeLessThanOrEqual(0);
+  expect(await pane.evaluate((el) => el.scrollWidth - el.clientWidth)).toBeLessThanOrEqual(0);
+
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
 });
