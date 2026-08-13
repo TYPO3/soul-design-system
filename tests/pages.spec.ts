@@ -245,6 +245,10 @@ test('the search field moves into the drawer rather than shrinking or leaving', 
 
    Opened without `gotoStory`, which freezes every transition so that nothing
    else here measures a value belonging to neither state. */
+interface WindowWithCrossing extends Window {
+  crossing?: string;
+}
+
 test('the bar crosses the step between layout bands rather than jumping it', async ({ page }) => {
   const inset = (): Promise<string> =>
     page.evaluate(() => getComputedStyle(document.querySelector('.sds-bar')!).paddingLeft);
@@ -254,17 +258,32 @@ test('the bar crosses the step between layout bands rather than jumping it', asy
   await page.waitForSelector('.sds-bar', { state: 'attached', timeout: 15_000 });
   expect(await inset()).toBe('24px');
 
+  /* Sampled on the transition's own timeline, not the clock: a loaded machine
+     is past all 140ms before a `setTimeout` fires, and the value read then is
+     the finished one, which proves nothing either way. The step is caught as it
+     starts, held, and read at a point that is by construction mid-flight. */
+  await page.evaluate(() => {
+    const bar = document.querySelector('.sds-bar')!;
+    bar.addEventListener('transitionrun', (event) => {
+      if ((event as TransitionEvent).propertyName !== '--page-gutter') return;
+      const step = bar.getAnimations()
+        .find((a) => (a as CSSTransition).transitionProperty === '--page-gutter')!;
+      step.pause();
+      step.currentTime = 40;
+      (window as WindowWithCrossing).crossing = getComputedStyle(bar).paddingLeft;
+      step.play();
+    });
+  });
+
   await page.setViewportSize({ width: 800, height: 900 });
-  const crossing = await page.evaluate(
-    () => new Promise<string>((done) => {
-      requestAnimationFrame(() => setTimeout(
-        () => done(getComputedStyle(document.querySelector('.sds-bar')!).paddingLeft),
-        40,
-      ));
-    }),
+  const held = await page.waitForFunction(
+    () => (window as WindowWithCrossing).crossing,
+    undefined,
+    { timeout: 5_000 },
   );
-  expect(parseFloat(crossing)).toBeGreaterThan(16);
-  expect(parseFloat(crossing)).toBeLessThan(24);
+  const crossing = parseFloat((await held.jsonValue())!);
+  expect(crossing).toBeGreaterThan(16);
+  expect(crossing).toBeLessThan(24);
 
   await expect.poll(inset).toBe('16px');
 });
