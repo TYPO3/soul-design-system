@@ -170,7 +170,7 @@ To *ship* a category, add it to `CATEGORIES` in `scripts/icons.ts` and run `make
 
 **Missing icons are contributed upstream, never drawn locally and never substituted from another set.** The script fails on an identifier the package does not have, rather than falling back to anything.
 
-16 × 16 viewBox, filled paths, `fill="currentColor"` at `--text-secondary`. Sizes 16, 20, 24 or a whole multiple — never 18 or 22. Icon before its label with an 8px gap, except direction icons, which follow. Only four icons may stand without a label: `actions-check-circle` (answered), `actions-exclamation-triangle` (version-bound), `actions-exclamation-circle` (installation not bootable), `actions-info-circle` (a stated boundary).
+16 × 16 viewBox, filled paths, `fill="currentColor"`. Neutral standalone icons use `--text-secondary`; `--accent` marks an active item and status colours belong only to status icons. Sizes 16, 20, 24 or a whole multiple — never 18 or 22. Icon before its label with an 8px gap, except direction icons, which follow. These state icons may stand without visible text: `actions-check-circle` (answered), `actions-exclamation-triangle` (version-bound), `actions-exclamation-circle` (installation not bootable), `actions-info-circle` (a stated boundary). Give a standalone `sds-icon` a `label`; every other icon sits beside visible text.
 
 Inline the SVG wherever colour must follow the UI — an `<img>` cannot inherit `currentColor`.
 

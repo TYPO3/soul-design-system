@@ -1,5 +1,5 @@
-/* How an icon is used: the sizes, the colour, and the four that may stand
-   alone.
+/* How an icon is used: the sizes, the colour, and the state glyphs that may
+   stand alone without visible text.
 
    16px is the floor and the reason is the drawing itself — the icons are hinted
    for a 16-unit grid, so 18 and 22 land between grid lines and the shapes break
@@ -71,8 +71,7 @@ ${indent(COLOURS.map(({ name, colour }) => tinted(name, colour)).join('\n'), 4)}
 
 /* --------------------------------------------------- standing on its own -- */
 
-/** The four an answer may carry with no label beside it. Everything else
-    gets words. */
+/** The state meanings an answer may carry without visible text beside them. */
 const ALONE: readonly { name: IconId; says: string }[] = [
   { name: 'actions-check-circle', says: 'answered' },
   { name: 'actions-exclamation-triangle', says: 'version-bound — check the line' },
@@ -82,7 +81,7 @@ const ALONE: readonly { name: IconId; says: string }[] = [
 
 const alone = (): string =>
   `<div style="display:flex; flex-direction:column; gap:9px;">
-  <span class="spec-cap">MEANING WITHOUT A LABEL</span>
+  <span class="spec-cap">WITHOUT VISIBLE TEXT</span>
   <div style="display:flex; flex-direction:column; gap:7px;">
 ${indent(
     ALONE.map(
@@ -92,7 +91,7 @@ ${indent(
     4,
   )}
   </div>
-  <div class="spec-note" style="max-width:36ch;">These four stand alone in text. Everything else carries a label, a footer's marks aside.</div>
+  <div class="spec-note" style="max-width:36ch;">These may stand alone with a label. All other icons need visible text.</div>
 </div>`;
 
 /* ------------------------------------------------------ beside a label -- */

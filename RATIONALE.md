@@ -13,26 +13,6 @@ It was cut against a real surface and still answers to one: **TYPO3 Support App*
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
 
-## Iconography
-
-**The icons are TYPO3's own.** `TYPO3/TYPO3.Icons` is the source; the icons this product needs are copied into `packages/frontend/assets/icons/`, and that directory is the list. Nothing is drawn locally and nothing is substituted from another set — an icon this product needs and TYPO3 does not have yet is **contributed upstream**, so the two stay one set.
-
-That is not only tidiness. The identifiers are the core's own — `actions-search`, `actions-code-compare`, `actions-exclamation-triangle` — which is the same string an agent gets back from `typo3_icon_lookup`. Design and runtime name the same thing.
-
-**Form.** 16 × 16 viewBox, solid (filled) paths, `fill="currentColor"`. Note the deliberate mismatch: the icon set is filled, the signet is stroked. The signet is a mark, the icons are UI — they are not meant to look like the same family.
-
-**Sizes.** 16 beside 15–17px text, 20 in toolbars and buttons, 24 in empty states. **16px is the floor** — TYPO3.Icons are drawn and hinted for a 16-unit grid and optimised for exactly that size; below it the shapes break down. Sizes between grid steps (18, 22) blur them, so: 16, 20, 24, or a whole multiple.
-
-**Colour.** `currentColor`, defaulting to `--text-secondary`. `--accent` only marks an active item. Status colours only on status icons.
-
-**Standing alone.** Exactly four icons may appear without a label, because they carry a meaning this product uses constantly: `actions-check-circle` (answered), `actions-exclamation-triangle` (version-bound — check the line), `actions-exclamation-circle` (the installation could not be booted), `actions-info-circle` (a boundary, stated on purpose). Everything else is labelled.
-
-**Placement.** Icon before its label with an 8px gap — except a direction icon, which follows it.
-
-**No emoji, anywhere.** Status is a colour and a glyph from the icon set or the mono font (`✓`).
-
-**Loading as `<img>` breaks `currentColor`.** Inline the SVG wherever the colour has to follow the UI.
-
 ## Illustration language
 
 The cards a tool or an article is announced in need imagery that can be cropped

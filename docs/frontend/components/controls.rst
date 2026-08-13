@@ -255,7 +255,7 @@ A TYPO3 icon, in the document rather than linked from it, so it inherits
 .. seealso::
 
    :doc:`/design-system/icons` for the set, where a missing one comes from, and
-   the four glyphs that may stand alone in running text.
+   which state glyphs may stand alone in running text.
 
 .. _component-sds-theme:
 

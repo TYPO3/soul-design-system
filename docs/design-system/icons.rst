@@ -34,8 +34,13 @@ generated directory by hand.
 Rules
 =====
 
-- 16 × 16 viewBox, filled paths, ``fill="currentColor"`` at
-  ``--text-secondary``.
+- TYPO3 UI glyphs use a 16 × 16 viewBox and filled paths with
+  ``fill="currentColor"``. The signet is deliberately stroked instead: one is
+  interface vocabulary, the other a brand mark, and they do not pretend to be
+  one drawing family.
+- Neutral standalone icons use ``--text-secondary``. ``--accent`` marks only
+  an active item; status colours belong only to icons that communicate that
+  status.
 - **An icon is as big as the text it sits in.** That is the default and it
   needs no asking: ``<sds-icon>`` and ``class="sds-icon"`` are both ``1em``,
   so a glyph in a 13px label is 13px and one in body copy is 17px, and
@@ -53,10 +58,13 @@ Rules
   inherit ``currentColor``, which is why ``packages/frontend/src/lib/icon.ts`` inlines rather
   than links.
 
-Only four icons may stand without a label: ``actions-check-circle``
-(answered), ``actions-exclamation-triangle`` (version-bound),
+These state icons have a stable meaning without visible text beside them and
+may stand alone: ``actions-check-circle`` (answered),
+``actions-exclamation-triangle`` (version-bound),
 ``actions-exclamation-circle`` (installation not bootable) and
-``actions-info-circle`` (a stated boundary).
+``actions-info-circle`` (a stated boundary). Give a standalone ``sds-icon`` a
+``label`` for assistive technology. Every other icon sits beside visible text
+and is hidden from assistive technology rather than announced twice.
 
 The set
 =======
