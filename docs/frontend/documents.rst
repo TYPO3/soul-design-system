@@ -28,8 +28,10 @@ Linking it
    system. Link the second file where a document is being set, and nowhere
    else.
 
-Everything in it is scoped to ``.sds-prose``, which is what makes it safe on a
-page that also has a bar, a rail and a footer:
+Everything in it is scoped to ``.sds-prose`` — written ``:where(.sds-prose)``,
+so a rule weighs what it names and no more and a component's own rule still
+wins — which is what makes it safe on a page that also has a bar, a rail and a
+footer:
 
 .. code-block:: html
 
@@ -65,6 +67,17 @@ What it sets
    * - In the line
      - ``code``, ``kbd``, ``abbr``, ``cite``, ``mark``, ``sup``, ``sub``, and
        ``math`` — a formula, set as the source it arrived as
+   * - Before the script
+     - ``sds-note``, ``sds-figure``, ``sds-card``, ``sds-code`` and
+       ``sds-embed`` while they are ``:not(:defined)`` — the frame each one is
+       missing on a page whose script has not run yet, or never will
+   * - What a renderer names
+     - the handful of classes it writes for nodes with no element of their
+       own: ``.contents`` and ``.toc``, ``.topic``, ``.rubric``,
+       ``.field-list``, ``.footnote``, ``.citation``, ``.hlist`` and the
+       classifiers of a definition list. They stay the renderer's own names —
+       renamed, the stylesheet would only work with the templates that renamed
+       them
 
 .. note::
 
@@ -74,6 +87,22 @@ What it sets
    lists too. What a document adds is the air: a gap under the block and a
    smaller one between items. See :doc:`/design-system/type` for the classes,
    ``.sds-list`` and ``.sds-list--plain``.
+
+What is on this page
+====================
+
+A contents list is a block where the author wrote it, and at the one width the
+page has room to give it stands beside the column instead: from 1296px —
+``--width-page`` and its two gutters, where the page stops growing — a
+``.sds-aside`` around it leaves the flow, rests at the line the rail rests at,
+and the column gives up the width rather than the box taking it. So the page
+reads rail, text, contents with the same width either side, and narrower than
+that the list simply stays where it was.
+
+It carries two levels there and all six in the flow. The column is what a
+reader jumps *from*, and a fourth-level heading is not a jump anybody makes
+from a rail: drawn, the deeper levels are identical muted lines a step apart,
+each with less measure than the one above.
 
 Six levels, three sizes
 =======================
