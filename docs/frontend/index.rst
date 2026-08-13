@@ -85,6 +85,41 @@ Two shapes
    Markdown or reStructuredText renderer produces without a name.
    ``soul.css`` deliberately does not import it — see :doc:`documents`.
 
+What it needs of a browser
+==========================
+
+**Chrome and Edge 129, Safari 17.5, Firefox 130** — browsers from autumn 2024
+and anything newer. The floor is not a policy, it is what the features below
+cost, and each of them is load-bearing rather than a convenience:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Feature
+     - What depends on it
+   * - ``light-dark()``
+     - every colour token. Both modes are one declaration, which is the whole
+       reason they cannot drift — see :doc:`/design-system/colours`
+   * - the ``lh`` unit
+     - a glyph centred on the line it stands beside, at whatever line height
+       that line turns out to have
+   * - ``<details name>``
+     - a set of answers where opening one closes the last, done by the
+       platform instead of a listener
+   * - ``:dir()``
+     - the glyphs that mean *onward*, turned where the text runs the other way
+
+.. warning::
+
+   Below the floor a page does not degrade — it renders **unstyled**. An
+   unsupported ``light-dark()`` makes every colour token invalid at once, so
+   the page loses its palette rather than a feature. A project that must serve
+   older browsers should say so before it adopts the system, not after.
+
+The JavaScript is built to ``es2022``, which is a lower bar than the CSS and
+never the thing that decides. Nothing here uses a shadow root, a container
+query or ``@layer``.
+
 Three layers, one contract
 ==========================
 
