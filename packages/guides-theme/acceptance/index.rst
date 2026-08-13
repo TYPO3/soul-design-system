@@ -247,6 +247,47 @@ Pictures
    the file and shows it as an image, in the colours it was exported with —
    which is what is lost, rather than the picture.
 
+Figures
+=======
+
+Numbers stated as facts, at the width a figure holds. Each carries the line
+that bounds it — without one a number is a boast — and the third is a share of
+a stated whole, which it says in words. Every one of them has the same three
+lines, so the notes are read across the set rather than each on its own.
+
+.. grid:: dense
+
+   .. stat:: 5
+      :label: sources
+      :icon: actions-database
+
+      Bundled knowledge, this checkout, installed packages, the booted
+      installation, and the network.
+
+   .. stat:: 240
+      :unit: ms
+      :label: typical answer
+      :icon: actions-clock
+
+      From bundled knowledge, with no installation booted and no request
+      leaving the machine. The line may carry a :doc:`reference <nodes>`,
+      which is why it is written between the tags.
+
+   .. stat:: 2
+      :of: 3
+      :label: network sources answering
+      :icon: actions-globe
+
+      One is slow and one is unreachable from the checker. Neither is required
+      to answer.
+
+   .. stat:: 0
+      :label: writes
+      :icon: actions-file-shield
+
+      Every source is read. Nothing is written back, and nothing is executed
+      to answer.
+
 Cards
 =====
 

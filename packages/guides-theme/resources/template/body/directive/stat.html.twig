@@ -1,0 +1,21 @@
+{#
+    One figure, and the element draws all of it.
+
+    **Every option is a property**, and the line that bounds the number is
+    written between the tags — the one thing about a figure an attribute
+    cannot hold, because out of a document it carries links. Nothing here says
+    what a figure looks like: not the size of the number, not where the unit
+    sits, not the bar under a share. That is what the component is for.
+#}
+<sds-stat
+    value="{{ node.option('value') }}"
+    {%- if node.option('unit') %} unit="{{ node.option('unit') }}"{% endif %}
+    {%- if node.option('label') %} label="{{ node.option('label') }}"{% endif %}
+    {%- if node.option('of') %} of="{{ node.option('of') }}"{% endif %}
+    {%- if node.option('icon') %} icon="{{ node.option('icon') }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-stat>

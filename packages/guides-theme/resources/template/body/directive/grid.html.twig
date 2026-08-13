@@ -1,10 +1,15 @@
 {#
-    Cards that reflow by their own minimum width rather than at a breakpoint
+    A set that reflows by its own minimum width rather than at a breakpoint
     somebody picked: three across on a desk, one on a phone, and nothing in
     the markup says so.
+
+    The element and not a `div` wearing its class: that is the system's own
+    name for its own node, and only the element measures how many the row
+    holds — which is what keeps a set of four from wrapping as three and one.
 #}
-<div class="sds-grid">
+{%- set given = node.option('class') ? ' class="' ~ node.option('class') ~ '"' : '' -%}
+<sds-grid variant="{{ node.option('variant')|default('default') }}"{{ given|raw }}>
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}
-</div>
+</sds-grid>

@@ -147,11 +147,11 @@ decide and not the band's. The landing page of :doc:`the example project
 grid
 ====
 
-Cards that reflow by their own minimum width.
+A set read side by side, reflowing by its own minimum width.
 
 .. code-block:: text
 
-   .. grid::
+   .. grid:: dense
 
       .. card:: What it is
          :href: /overview
@@ -182,9 +182,30 @@ That source, on this page:
       the root.
 
 No column count, and that is the design: three across on a desk, two on a
-tablet, one on a phone, decided by how narrow a card may get rather than by a
-breakpoint somebody picked. It takes no options, and it holds cards — anything
-else inside it is laid out by the same rule and left to fend for itself.
+tablet, one on a phone, decided by how narrow an item may get rather than by a
+breakpoint somebody picked. It holds cards, figures, or anything else read as
+a set — each item draws itself and the grid only decides how many stand in a
+row.
+
+.. confval:: the argument
+   :name: grid-variant
+   :type: default | wide | dense | flush
+
+   How much room one item needs, said as what the items hold rather than as a
+   number: ``wide`` for a card carrying a picture and a paragraph, ``dense``
+   for a figure or a name and a glyph, ``flush`` for the gutter taken out so
+   the set shares a hairline and reads as one wall. Left off, the set gets the
+   width every set gets. A name the element does not define is not an
+   invitation to invent one — it falls back rather than passing through.
+   ``:variant:`` says the same thing as an option.
+
+.. confval:: class
+   :name: grid-class
+   :type: string
+
+   Carried onto the element, because an author who wrote it meant it for their
+   own stylesheet, and dropping what a theme does not understand is the one
+   thing it must not do.
 
 card-grid
 =========
@@ -374,6 +395,103 @@ site is rendered before the page is published, so the picture, the row, the
 title and the summary are in the document with no script involved; in a browser
 the element upgrades over that rendering. This is the theme-wide arrangement,
 not the card's own — see :doc:`markup`.
+
+stat
+====
+
+One number stated as a fact: the figure, what was counted, and the line that
+bounds it.
+
+.. code-block:: text
+
+   .. grid:: dense
+
+      .. stat:: 240
+         :unit: ms
+         :label: median answer
+         :icon: actions-clock
+
+         Measured over the last release, on a warm index.
+
+      .. stat:: 2
+         :of: 3
+         :label: sources answering
+
+         One is slow and one is unreachable from the checker.
+
+That source, on this page:
+
+.. grid:: dense
+
+   .. stat:: 240
+      :unit: ms
+      :label: median answer
+      :icon: actions-clock
+
+      Measured over the last release, on a warm index.
+
+   .. stat:: 2
+      :of: 3
+      :label: sources answering
+
+      One is slow and one is unreachable from the checker.
+
+.. confval:: the argument
+   :name: stat-value
+   :type: string
+   :required: true
+
+   The figure — ``5``, ``240``, ``12.4+`` — never "many". It is the argument
+   rather than an option because it is what the line is about.
+
+.. confval:: unit
+   :name: stat-unit
+   :type: string
+
+   What the figure is in — ``ms``, ``%``, ``kB``. The element sets it a step
+   down and joins it to the number with the narrow no-break space a figure may
+   not be split from, so no page has to know that character.
+
+.. confval:: label
+   :name: stat-label
+   :type: string
+
+   What was counted, under the figure and in the label register.
+
+.. confval:: of
+   :name: stat-of
+   :type: string
+
+   The whole the figure is a part of, said after it — ``2 of 3``. Only where
+   the figure really is a part: a measurement is out of nothing. It is words
+   and not a bar, so every figure in a set keeps the same shape and their notes
+   start on one line.
+
+.. confval:: icon
+   :name: stat-icon
+   :type: string
+
+   A glyph on the figure's line, before the number. Muted and never in a
+   status colour, for the reason a card's is: a figure is a subject, not a
+   result.
+
+.. confval:: class
+   :name: stat-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**The body is the bound, and it is not optional in practice.** "5 sources"
+says nothing until it says which five, and a figure with no bound is a claim
+rather than a fact — which is the whole reason ``sds-stat`` is a component and
+not two divs. It is written between the tags rather than as an option because
+out of a document that line carries links.
+
+**A set of figures is a set**, so it goes in ``grid`` like any other, at
+``dense`` — the width a number and the line under it holds. ``flush`` works
+too: there the figures share a hairline and the wall gives each its ground.
+The frame in a wall is the wall's, so a figure anywhere else stays bare and a
+row of numbers on a page is not a row of boxes.
 
 accordion
 =========

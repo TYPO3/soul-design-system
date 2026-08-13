@@ -12,20 +12,31 @@ use phpDocumentor\Guides\RestructuredText\Parser\Directive;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 
 /**
- * Cards that reflow by their own minimum width.
+ * A set read side by side, reflowing by its own minimum width.
  *
- *     .. grid::
+ *     .. grid:: dense
  *
- *        .. card:: What it is
+ *        .. stat:: 240
+ *           :unit: ms
+ *           :label: median answer
  *
- *           Two sentences.
+ *           Measured over the last release.
  *
  * No column count, and that is the design: three across on a desk, two on a
- * tablet and one on a phone, decided by how narrow a card may get rather than
+ * tablet and one on a phone, decided by how narrow an item may get rather than
  * by a breakpoint somebody picked.
+ *
+ * The argument is that minimum, said as what the items hold rather than as a
+ * number — `wide` for a card carrying a picture and a paragraph, `dense` for a
+ * figure or a name and a glyph, `flush` for the gutter taken out so the set
+ * reads as one wall. Anything else is the width every set gets unless it says
+ * otherwise, because a name nobody defined is not a licence to invent one.
  */
 final class GridDirective extends SubDirective
 {
+    /** What the element answers to. See `GridVariant` in `grid.ts`. */
+    private const VARIANTS = ['default', 'wide', 'dense', 'flush'];
+
     public function getName(): string
     {
         return 'grid';
@@ -36,6 +47,16 @@ final class GridDirective extends SubDirective
         CollectionNode $collectionNode,
         Directive $directive,
     ): ?Node {
-        return new GridNode($collectionNode->getChildren());
+        /* The width is the one decision the set makes about itself, so it is
+           the argument rather than an option; `:variant:` is the same thing
+           written the way an option-only directive would say it. */
+        $asked = $directive->getData() !== ''
+            ? $directive->getData()
+            : $directive->getOption('variant')->getValue();
+
+        return (new GridNode($collectionNode->getChildren()))->withOptions([
+            'variant' => in_array($asked, self::VARIANTS, true) ? $asked : 'default',
+            'class' => $directive->getOption('class')->getValue(),
+        ]);
     }
 }
