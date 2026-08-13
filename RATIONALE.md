@@ -13,16 +13,6 @@ It was cut against a real surface and still answers to one: **TYPO3 Support App*
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
 
-## Components
-
-Grouped by concern under `components/`, one specimen card per directory:
-
-- `core/` — **Buttons & links** (primary, secondary, ghost, small, icon-only 28 × 28; links underline on hover, external ones carry `actions-window-open`) and **Fields & search** (a field is sunken, not outlined on the canvas; the accent appears only on focus; error text sits under or beside it, never in a tooltip).
-- `navigation/` — **Tabs & tool rail**. Pill nav for sections, underline tabs inside a panel, and the 210px tool rail. Active state is a **filled orange block with dark text** — full inversion, never a tint.
-- `data/` — **Table, badges & status**. Row padding from the `--row-pad-*` scale, `--border-strong` under the head, `--border-subtle` between rows. Anything the machine named is mono. **No alternating zebra** — background changes only on hover or selection, so a highlighted row means something.
-- `surfaces/` — **Card, panel & modal**. Card = hairline + 4px, no fill. Panel = raised fill. Sunken = machine output. Modal is centred, max 560px, separated by `--surface-overlay` and a border. **Neither has a shadow.**
-- `code/` — **Code block & diff**. Code 13px / 1.9, diff 12.5px / 1.75, diff rows tinted at 14%. No line numbers unless something refers to them. This is the only place a status colour may fill a whole line.
-
 ## States
 
 The product's own honesty rules decide what these look like: an answer always carries its source, its version binding and what it leaves out — so the UI states are shaped to carry exactly that.

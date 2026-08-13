@@ -9,6 +9,11 @@ classes the stylesheet defines. There is no shadow root to pierce, no slot to
 name and nothing to theme twice: the element is a shorter, safer way to write
 markup the class layer already describes.
 
+The reference pages follow the concerns named in the navigation rather than
+the implementation directories. That grouping is for browsing; the index
+below remains alphabetical, because somebody looking up an element already
+knows its name and should not have to know which concern owns it.
+
 .. toctree::
    :titlesonly:
 
