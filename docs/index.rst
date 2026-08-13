@@ -25,6 +25,7 @@ One system, from design to delivery
       design-system/index
       guides-theme/index
       frontend/index
+      maintaining/index
 
 .. grid:: flush
 

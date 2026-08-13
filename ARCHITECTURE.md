@@ -1,73 +1,15 @@
 # How this repo is built
 
-The design system is the product: the tokens in `tokens/`, the class layer in
-`styles/components.css`, and the Lit elements in `packages/frontend/src/`. Everything else is
-generated from those — the specimen cards, the Storybook pages, the npm
-package, and the design-guide bundle that `.design-sync/` uploads.
+The repository map now lives in the published maintainer documentation:
+[`docs/maintaining/source-and-output.rst`](docs/maintaining/source-and-output.rst)
+names the authoritative sources, the tasks that read them and the generated
+artefacts they produce.
 
-`SKILL.md` is the operating instruction for *designing* with the system and
-`RATIONALE.md` says why each of those rules exists. This file is about the
-repo: how the pieces are wired, what has already gone wrong, and which
-decisions are load-bearing.
-
-`.design-sync/NOTES.md` covers one export — the claude.ai/design upload — and
-nothing else.
-
-## Layout
-
-`packages/frontend/src/` is the design system. Three layers, peers of one another, because that
-is what they are — a token is not a lesser thing than a component:
-
-- `packages/frontend/src/tokens/*.css` — the values. Nothing else declares one.
-- `packages/frontend/src/styles/` — `styles.css` is the single entry point and imports the
-  tokens then the component layer. `components.css` is the `sds-` vocabulary.
-  `document.css` is the document layer and `_specimen.css` is chrome for the
-  cards; both are deliberately **outside** the `styles.css` closure — see
-  below.
-- `packages/frontend/src/components/*.ts` — the Lit elements, each exporting a plain template
-  function beside its class. `packages/frontend/src/lib/` holds what they share and
-  `packages/frontend/src/index.ts` is the bundle entry.
-
-Two directories beside it are source as well, and both are read by something
-other than Storybook: `docs/` is the published documentation, written as RST
-and rendered by phpDocumentor Guides, and `packages/guides-theme/` is the Composer
-package that maps that renderer onto this system. A guideline page there and a
-story here show the same specimen, because the page embeds the same card.
-
-Everything else is generated from those and must not be edited by hand: every
-card and screen under `specimens/`, `packages/frontend/fonts/` and `packages/frontend/assets/icons/`, the Storybook
-build, `packages/frontend/dist/`, `.out/bundle/` and `.out/site/`. `make verify` fails on a card that no
-story produces, so the hand-written form cannot come back one file at a time.
-
-**One root for everything generated that git does not keep: `.out/`.** The
-bundle, the rendered site, the built Storybook, the suite's output and reports,
-the packages assembled for their split repositories. It is written once, as
-`GENERATED` in `scripts/lib/cards.ts`, so `.gitignore` needs one line and
-`make clean` one path. Two kinds of thing stay outside it and both say why in
-`.gitignore`: what another tool chose the location of, and what has to sit
-where something reads it — the drop-in copied beside a page the renderer is
-about to write resolves `styles/` relative to itself.
-
-`packages/frontend/fonts/` and `packages/frontend/assets/` stay at the root rather than under `packages/frontend/src/`: they are
-generated artefacts of npm packages, not sources, and the upload bundle wants
-them at its own root anyway.
-
-**The bundle is flat and the repo is not.** `styles.css`, `_ds_bundle.css`,
-`_specimen.css` and `tokens/` all sit at the root of `.out/bundle/`. The climb
-back to that root used to be written out beside each caller — `'../../../'`
-for a card, `'../'` for a screen — so a change to either layout was also a
-change to two literals in `scripts/build.ts`, and that pairing broke twice.
-`rewriteRefs` now counts the climb from the directory the file lands in, and
-no caller states it. What still has to move with the layout is the `@import`
-rewriting, which names paths rather than depths.
-
-**Three export surfaces, and only one of them is not committed.** `packages/frontend/dist/` is
-the npm drop-in, `.out/bundle/` is the upload payload for the design agent, and
-`.out/site/` is the publish root the rendered documentation lands in. The first two
-are in git because somebody copies them — a consumer takes `packages/frontend/dist/` over a
-clone, and the sync uploads `.out/bundle/` file by file. Nobody copies a rendered
-site; it is published, from `main`, by the workflow in `.github/`. Committing
-it would be committing the same pages twice, once as source and once as output.
+This file temporarily holds the architecture decisions that have not yet moved
+beside the part of the system they govern. `SKILL.md` remains the operating
+instruction for designing with the system, `RATIONALE.md` holds design reasons
+not yet moved beside their rules, and `.design-sync/NOTES.md` covers the design
+guide upload alone.
 
 ## Two layers sit outside the entry point, for one reason
 

@@ -85,6 +85,7 @@ and the documents themselves are not comments and say what they have to say.
 | Question | Read |
 | --- | --- |
 | What is this, how do I run it, what is generated from what | `README.md` |
+| Where a source lives and which output a task derives from it | `docs/maintaining/source-and-output.rst` |
 | How the pieces are wired, and which decisions are load-bearing | `ARCHITECTURE.md` |
 | How to *design with* the system — the build rules | `SKILL.md` |
 | Why a rule exists, before extending or breaking it | `RATIONALE.md` |

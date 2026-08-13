@@ -1,0 +1,28 @@
+:navigation-title: Maintaining
+
+======================
+Maintaining the system
+======================
+
+This section is for work on Soul itself: finding the authoritative source,
+understanding what a task generates from it, and changing the repository
+without editing an artefact that will be replaced on the next build.
+
+The product-facing rules stay with the surfaces they govern. Design decisions
+and their reasons live under :doc:`/design-system/index`; the frontend contract
+lives under :doc:`/frontend/index`; the documentation renderer lives under
+:doc:`/guides-theme/index`. These pages describe how those sources are wired
+together in this repository.
+
+.. toctree::
+   :titlesonly:
+
+   source-and-output
+
+Start with the source
+=====================
+
+Every maintained artefact has one hand-written source. A generated file can be
+useful evidence and may be committed for a consumer, but it is never the place
+where a change begins. :doc:`source-and-output` maps each output back to the
+source and task that own it.

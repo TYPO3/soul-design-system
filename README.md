@@ -99,9 +99,11 @@ None of them is edited by hand. Change a component in
 `packages/frontend/src/styles/components.css`, or a value in
 `packages/frontend/src/tokens/` — then regenerate.
 
-`ARCHITECTURE.md` says how the pieces are wired and which decisions are
-load-bearing. `SKILL.md` is the operating instruction for designing *with*
-the system, and `RATIONALE.md` says why each of its rules exists.
+[`docs/maintaining/`](docs/maintaining/index.rst) says how sources become the
+artefacts this repository ships. `ARCHITECTURE.md` still holds the decisions
+not yet moved beside the part they govern. `SKILL.md` is the operating
+instruction for designing *with* the system, and `RATIONALE.md` says why each
+of its rules exists.
 
 ## Maintaining it here
 
@@ -271,7 +273,8 @@ creates a second one. It compares against the anchor the project stores
 | `packages/frontend/dist/` | **generated** — the drop-in, committed |
 | `.out/` | **generated** — everything git does not keep: the upload payload, the publish root, the built Storybook, the suite's output. A drop-in is copied, a site is published |
 | | |
-| `ARCHITECTURE.md` | how this repo is built, and what has already gone wrong |
+| `docs/maintaining/` | how the sources, tasks and generated outputs are wired |
+| `ARCHITECTURE.md` | architecture decisions not yet moved into the published documentation |
 | `SKILL.md` | the build rules — the operating instruction |
 | `RATIONALE.md` | why each rule exists — read before extending or breaking one |
 
