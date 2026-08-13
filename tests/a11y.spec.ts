@@ -71,28 +71,16 @@ for (const theme of ['dark', 'light'] as const) {
   }
 }
 
-/* Contrast, held to a baseline rather than to zero. A token below 4.5:1 is a
-   design decision to resolve, not something a test papers over — so the
-   assertion is on the *set of failing foreground colours*. A known one stays
-   written down here; a second turns the suite red. Selectors would be brittle
-   and a count would drift with every added row. */
-const KNOWN_LOW_CONTRAST: Record<'dark' | 'light', string[]> = {
-  dark: [
-    /* A control drawn disabled, in the specimen that states the four states
-       side by side: `--text-muted` at half opacity. Same exemption as the
-       button below — 1.4.3 does not apply to a control that is unavailable,
-       and looking unavailable is the whole job of the colour. */
-    '#4d4943',
-  ],
-  light: [
-    /* The disabled button's own text. WCAG 1.4.3 explicitly exempts disabled
-       controls, and looking unavailable is the entire job of the colour —
-       this one is correct as it stands and is not a shortfall to fix. */
-    '#8c8a87',
-    /* The same disabled state in the states specimen, on the lighter ground. */
-    '#b7b3ad',
-  ],
-};
+/* Contrast, held to zero and not to a baseline. The assertion is on the *set
+   of failing foreground colours* rather than on selectors, which would be
+   brittle, or on a count, which would drift with every added row.
+
+   There is no list of tolerated colours. What such a list held was either a
+   token to fix or a control that is unavailable — and WCAG exempts the second
+   already, so the way to say it is the state in the markup, where a reader
+   with a screen reader is told the same thing. axe skips a node that is
+   disabled; a hex written down here is skipped by nobody and outlives whatever
+   drew it. */
 
 for (const theme of ['dark', 'light'] as const) {
   for (let shard = 0; shard < SPECIMEN_SHARDS; shard++) {
@@ -125,12 +113,12 @@ for (const theme of ['dark', 'light'] as const) {
         }
       }
 
-      const unexpected = [...found.keys()].filter((c) => !KNOWN_LOW_CONTRAST[theme].includes(c)).sort();
+      const failing = [...found.keys()].sort();
       expect(
-        unexpected,
-        `new low-contrast foreground colour(s) on a specimen (${theme}). Either fix the token or add it ` +
-          `to KNOWN_LOW_CONTRAST with a reason.\n` +
-          unexpected.map((c) => `  ${c}: ${found.get(c)}`).join('\n'),
+        failing,
+        `low-contrast foreground colour(s) on a specimen (${theme}). Fix the token, or — where the ` +
+          `colour is saying a control is unavailable — say that in the markup and axe stops asking.\n` +
+          failing.map((c) => `  ${c}: ${found.get(c)}`).join('\n'),
       ).toEqual([]);
     });
   }
@@ -198,12 +186,12 @@ for (const theme of ['dark', 'light'] as const) {
       }
     }
 
-    const unexpected = [...found.keys()].filter((c) => !KNOWN_LOW_CONTRAST[theme].includes(c)).sort();
+    const failing = [...found.keys()].sort();
     expect(
-      unexpected,
-      `new low-contrast foreground colour(s) on a page (${theme}). Either fix the token or add it ` +
-        `to KNOWN_LOW_CONTRAST with a reason.\n` +
-        unexpected.map((c) => `  ${c}: ${found.get(c)}`).join('\n'),
+      failing,
+      `low-contrast foreground colour(s) on a page (${theme}). Fix the token, or — where the colour ` +
+        `is saying a control is unavailable — say that in the markup and axe stops asking.\n` +
+        failing.map((c) => `  ${c}: ${found.get(c)}`).join('\n'),
     ).toEqual([]);
   });
 }
