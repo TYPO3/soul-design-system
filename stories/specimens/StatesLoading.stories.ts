@@ -20,7 +20,7 @@ const SPINNER = '<svg width="16" height="16" class="sds-icon sds-icon--16" aria-
 /** A wait that says what is being waited on. */
 const named = (): string =>
   `<div style="${BOX}">
-  <div style="display:flex; align-items:center; gap:9px; color:var(--text-secondary);"><span class="sds-spinner">${SPINNER}</span><span style="font-family:var(--font-mono); font-size:13px; color:var(--text-primary);">booting the installation…</span></div>
+  <div class="sds-loading"><span class="sds-spinner">${SPINNER}</span><span class="sds-loading__label">booting the installation…</span></div>
   <div class="spec-note" style="margin-top:8px;">Named work, with the thing being waited on in mono.</div>
 </div>`;
 

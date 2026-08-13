@@ -25,15 +25,13 @@ const THEME = join(ROOT, 'packages', 'guides-theme');
 const PENDING = {
   stories: [] as string[],
   /* Named in the stylesheets, drawn nowhere. The syntax colours are written by
-     the highlighter rather than by a template, and the loading state and the
-     two size-by-class escape hatches were declared ahead of a specimen. */
+     the highlighter rather than by a template, and the two size-by-class
+     escape hatches were declared ahead of a specimen. */
   classes: [
     'sds-code__key',
     'sds-code__string',
     'sds-h1',
     'sds-icon--20',
-    'sds-loading',
-    'sds-loading__label',
   ],
   /* Not in the Guides render yet: each needs a node the renderer emits or a
      directive of the theme's own before there is a page to look at it in.
