@@ -13,13 +13,7 @@ It was cut against a real surface and still answers to one: **TYPO3 Support App*
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
 
-## Governance
-
-**This design system project is the source of truth.** Rules are decided here, where the specimen cards render and a change can be seen. The copy that ships inside the product repository — `.claude/skills/design-system/` — is a build artefact: an agent reads it and never writes back to it.
-
-That direction is deliberate. A system with two writing ends drifts, and design rules are not code that many people edit in parallel. A rule change is a decision, so it happens in one place and is then distributed.
-
-The build decides what crosses that line — the rules, the stylesheets, the cards and the assets an implementation needs go over; the working surface the system is developed on stays behind. Written out here as well, that list would be a second copy nobody regenerates, and the export would keep being right while the sentence quietly stopped being.
+## Component evidence
 
 **A component nobody can look at is not part of the system.** The rule — a story, a drawn class, and a page the Guides renderer produced — is not bookkeeping. Each surface fails differently, and that is the whole argument for asking for all three. A story is the only place a variant is stated rather than implied, and it is what the specimen card is generated from. A drawn class is the only proof that the name in the stylesheet and the name the element emits are still the same name; the pair drifted once, in the commit where a modifier existed in `components.css` and the element had no property for it. And a rendered document is the only place a component is surrounded by markup that was not written for it — prose it did not compose, a document layer under it, a renderer that has never heard of this system. A card is built to flatter the component; a page is not.
 

@@ -8,6 +8,17 @@ A change moves from an authoritative source, through a named task, into the
 artefacts that readers and consuming projects use. Edit the source on the left
 of this map; use the output on the right to inspect or ship the result.
 
+That direction is one-way. Rules are decided and reviewed in this repository,
+where their specimens and pages can be rendered; generated bundles and package
+mirrors are consumers, not another place to author the system. A change made
+at an output returns through its source and generator. Two writing ends would
+turn one design decision into competing copies.
+
+The build owns the delivery boundary. ``scripts/build.ts`` decides what enters
+the design upload, and the package assembly in ``scripts/lib/packages.ts``
+decides what leaves through each package. Keeping another inventory here would
+let the prose stay unchanged while the executable boundary moved.
+
 .. list-table::
    :header-rows: 1
 
