@@ -71,6 +71,12 @@ them, and which of the two is the level the reader is standing on is left to
 be guessed. A rail that belongs under no section listed in the bar keeps its
 own heading and stands below them all.
 
+An open drawer is the bar's row continued, so it is the canvas and it spans the
+page — nothing about its own surface says it is in front, and the system has no
+shadow to say it with. The page under it is washed instead, in the plane a
+modal sits on, and pressing that wash is a way back out alongside the toggle
+and the escape key.
+
 **The decision is measured, not declared.** A bar holds a product name for as
 long as the product is called, so a breakpoint would be wrong on the next site:
 the element measures what the sections and the field need against the room the

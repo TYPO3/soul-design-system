@@ -16,6 +16,7 @@ import { define } from '../lib/element.ts';
 import { SdsNav } from './nav-base.ts';
 import './icon.ts';
 import './badge.ts';
+import './overlay.ts';
 import { type BadgeTone } from './badge.ts';
 import './search.ts';
 import './theme.ts';
@@ -401,7 +402,8 @@ export class SdsHeader extends SdsNav {
     ${drawer ? this.toggle_() : ''}
   </div>
   ${drawer
-    ? html`<div class="sds-bar__drawer" id="${this.drawerId}" ?hidden="${!this.open}" @click="${this.onFollow}">
+    ? html`${this.open ? html`<sds-overlay @click="${() => { this.open = false; }}"></sds-overlay>
+  ` : ''}<div class="sds-bar__drawer" id="${this.drawerId}" ?hidden="${!this.open}" @click="${this.onFollow}">
     ${wantsSearch && this.foldSearch ? this.field() : ''}
     ${hasNav && this.foldNav ? this.nav_(slot) : slot}
   </div>`

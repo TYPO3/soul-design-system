@@ -49,7 +49,6 @@ const PENDING = {
     'sds-form-errors',
     'sds-pills',
     'sds-surface',
-    'sds-overlay',
     'sds-modal',
     'sds-dialog',
     'sds-pagination',

@@ -2,6 +2,7 @@ import { type TemplateResult, type PropertyValues } from 'lit';
 import { SdsNav } from './nav-base.js';
 import './icon.ts';
 import './badge.ts';
+import './overlay.ts';
 import { type BadgeTone } from './badge.js';
 import './search.ts';
 import './theme.ts';

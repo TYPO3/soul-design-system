@@ -1944,6 +1944,17 @@ sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content
    browser's own, so a `display` set by class puts a hidden element back on
    the page. */
 .sds-bar__drawer[hidden] { display: none; }
+/* What an open drawer stands on. It is the canvas and it spans the page, so
+   nothing about its own surface says it is in front — and the system has no
+   shadow to say it with. The page is pushed back instead: the same wash a
+   modal sits on, addressed rather than drawn again, hung from where the drawer
+   hangs and covering everything under it. */
+.sds-bar .sds-overlay {
+  top: 100%;
+  bottom: auto;
+  height: 100vh;
+  z-index: 10;
+}
 
 /* Underline tabs inside a panel. */
 .sds-tabs {

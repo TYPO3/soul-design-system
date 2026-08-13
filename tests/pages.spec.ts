@@ -198,12 +198,25 @@ test('the header navigation folds rather than disappearing', async ({ page }) =>
   await expect(nav).toBeVisible();
   await expect(nav.locator('.sds-pill')).toHaveCount(4);
 
+  /* The drawer is the canvas and it spans the page, so nothing about its own
+     surface says it is in front — and there are no shadows here to say it
+     with. The page under it is washed instead, and pressing that wash is a way
+     back out. Pressed low, below where the drawer reaches: the point has to be
+     the wash and not the panel standing on it. */
+  const wash = page.locator('.sds-bar .sds-overlay');
+  await expect(wash).toBeVisible();
+  await wash.click({ position: { x: 8, y: 780 } });
+  await expect(nav).toBeHidden();
+
   /* Escape closes it, and the toggle takes the focus back — a panel dismissed
      with the keyboard that leaves the focus inside it has dropped the reader
      somewhere they cannot see. */
+  await toggle.click();
+  await expect(nav).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(nav).toBeHidden();
   await expect(toggle).toBeFocused();
+  await expect(wash).toHaveCount(0);
 });
 
 /* The field goes before the sections do, and it goes whole. It used to be the
