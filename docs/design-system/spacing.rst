@@ -4,19 +4,21 @@
 Spacing and layout
 ==================
 
-210px tool rail, a 960px page measure, 48px gutters. Section boundaries are
-full-bleed hairlines; the content inside them respects the measure.
+A 210px rail, a 1200px page measure, 48px gutters — ``--width-sidebar``,
+``--width-page`` and ``--gutter-page``, so no surface writes a width of its
+own. Section boundaries are full-bleed hairlines; the content inside them
+respects the measure.
 
 **1px grid gaps over a** ``--border-subtle`` **background** produce the
 hairline-separated card grid — the system's signature move, and the reason
 it needs no shadows to separate anything.
 
 The header is sticky, translucent canvas with an 8px backdrop blur. Nothing
-else in the system is fixed, transparent or blurred. It **never wraps**: it
-sheds in a fixed order, widest first — 1120px mode-switch labels, 1040px
-transport line, 820px navigation into a panel, 620px ``Soul Design System``
-off the wordmark. A header that wraps to two lines breaks the sticky offset
-everything below is measured against.
+else in the system is fixed, transparent or blurred. It **never wraps**: a
+header on two lines moves the sticky offset everything below is measured
+against, so as the window narrows it sheds instead. :doc:`/frontend/layout`
+has the order it sheds in and the width each step happens at — one table, so
+a breakpoint is written down once.
 
 Space scale
 ===========
