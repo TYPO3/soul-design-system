@@ -17,12 +17,12 @@ const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
 const CACHE = join(ROOT, '.design-sync/.cache/remote-sync.json');
 
 if (!existsSync(BUILT)) {
-  console.log('Kein Build vorhanden — nichts zu vermerken.');
+  console.log('No build here — nothing to record.');
   process.exit(1);
 }
 mkdirSync(join(ROOT, '.design-sync/.cache'), { recursive: true });
 copyFileSync(BUILT, CACHE);
 
 const a = JSON.parse(readFileSync(CACHE, 'utf8'));
-console.log(`Vermerkt: ${Object.keys(a.renderHashes).length} Karten, ${a.files?.length ?? '?'} Dateien sind hochgeladen.`);
-console.log('  `make status` vergleicht ab jetzt gegen diesen Stand.');
+console.log(`Recorded: ${Object.keys(a.renderHashes).length} cards, ${a.files?.length ?? '?'} files are uploaded.`);
+console.log('  `make status` compares against this state from now on.');
