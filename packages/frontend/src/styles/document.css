@@ -6,8 +6,8 @@
    about every paragraph because it linked a design system. Link it where a
    document is set, after `styles.css`, and nowhere else.
 
-   Everything is scoped `:where(.sds-prose)`, so a rule weighs what it names and
-   no more — written `.sds-prose h3` it would out-specify a component's own. */
+   Nearly all of it is scoped `:where(.sds-prose)`, so a rule weighs what it
+   names and no more: `.sds-prose h3` would out-specify a component's own. */
 
 /* ------------------------------------------------------------- headings -- */
 
@@ -542,6 +542,53 @@
 :where(.sds-prose) .toc li ul { padding-left: var(--space-4); }
 :where(.sds-prose) .contents li,
 :where(.sds-prose) .toc li { margin-bottom: var(--space-1); }
+
+/* Where the page is at its full measure, what is on this page leaves the
+   column and stands beside it — a third column, resting at the line the rail
+   rests at, so the page reads rail, text, contents with the same width either
+   side. Only the sections of the page being read: `.toc` is a list of other
+   documents and is read once, in the flow, where the author put it.
+
+   1296px is `--width-page` and its two gutters, which is where the page stops
+   growing. It is the one width with room to give: the column is 942px there
+   and keeps the measure after it has given up 258px. Narrower, and taking that
+   much would leave the text short, so the list stays in the flow. */
+@media (min-width: 1296px) {
+  /* The column gives the width up rather than the float taking it. A float is
+     stepped around by lines of text and by nothing else, so a table or a code
+     block would have run underneath. The breadcrumb and the pager narrow with
+     it: the column is one width from the top of the page to the bottom. It is
+     the one rule here whose subject is not a prose block — the width can only
+     be given up by the thing that has it. */
+  :where(.sds-column):has(> :where(.sds-prose) .contents) {
+    padding-inline-end: calc(var(--width-sidebar) + var(--space-12));
+  }
+  /* Out of the column and into what it gave up — the negative margin is that
+     reserve, so the box lands past the text with the gap between them. Sticky
+     for the rail's reason and at the rail's line, so the two come to rest
+     together, and bounded for the rail's reason as well. A heading is written
+     for the measure, not for a column this narrow, so its longest word breaks
+     rather than putting a scrollbar under the list. */
+  :where(.sds-column) > :where(.sds-prose) .contents {
+    float: right;
+    width: var(--width-sidebar);
+    max-width: none;
+    margin: 0 calc(-1 * (var(--width-sidebar) + var(--space-12))) 0 0;
+    position: sticky;
+    top: calc(var(--height-header) + var(--space-8));
+    max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
+    overflow-y: auto;
+    overflow-wrap: break-word;
+  }
+  /* An entry wraps in a column this narrow, and at the leading of a paragraph
+     the second line of one entry sits as far from the first as the next entry
+     does. So the lines of an entry close up and the entries move apart: what a
+     reader has to see here is where one heading ends and the next begins. */
+  :where(.sds-column) > :where(.sds-prose) .contents li {
+    margin-bottom: var(--space-2);
+    line-height: var(--leading-heading);
+  }
+}
 
 /* A title over something that is not a section: a topic, a sidebar, or the
    caption an author gave a contents. It is the fourth heading level's

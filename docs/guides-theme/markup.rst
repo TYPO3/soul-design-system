@@ -207,6 +207,15 @@ from the current document plus an anchor rather than from the renderer's link
 answer, which for the page being rendered is ``#`` — that is how a local
 contents ends up as a row of links pointing at nothing.
 
+Where the page is at its full measure, that list leaves the column and stands
+beside it on the right, resting at the line the rail rests at, so the sections
+of the page are reachable from anywhere in it. The column gives the width up
+rather than the list taking it, which is why nothing runs underneath. A window
+narrower than the page measure has no width to give, and the list is a block in
+the flow again, where it was written. Where that is, is worth choosing: it
+starts where it stands, so a contents written under the title stands beside the
+title and one written after three paragraphs starts three paragraphs down.
+
 **Breadcrumbs** sit above the title, from the same tree. **Footnotes** get the
 number the compiler assigned rather than the label the author typed, so a mark
 in the line and the note at the foot of the page agree — ``[#name]_`` prints

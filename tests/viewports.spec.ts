@@ -1,9 +1,9 @@
 /* Every state the layout has is a state you can select.
 
    The toolbar's entries are ordinary screen sizes; the stylesheet thinks in
-   `max-width` queries that cut the scale into bands. The two lists have no
-   reason to agree, so a size list can quietly miss a band — and then a state of
-   the layout exists with no way to look at it.
+   width queries that cut the scale into bands. The two lists have no reason to
+   agree, so a size list can quietly miss a band — and then a state of the
+   layout exists with no way to look at it.
 
    Not a check that the sizes *are* the breakpoints; they are deliberately not.
    This asks only that the menu reaches everywhere. No browser: both sides are
@@ -26,13 +26,17 @@ function stylesheets(dir: string): string[] {
   });
 }
 
-/** Every width the class layer sheds at, widest first. */
+/* Every width the layer changes at, widest first, as the last width *below*
+   the change. A `max-width` query is that already; a `min-width` one starts at
+   the width it names, so the band under it ends one pixel earlier. Said as one
+   number either way, the band arithmetic below does not have to know which
+   query drew the line. */
 function breakpoints(): number[] {
   const widths = new Set<number>();
   for (const sheet of stylesheets(STYLES)) {
-    for (const [, width] of readFileSync(sheet, 'utf8').matchAll(/@media[^{]*?\(\s*max-width:\s*(\d+)px\s*\)/g)) {
-      widths.add(Number(width));
-    }
+    const css = readFileSync(sheet, 'utf8');
+    for (const [, width] of css.matchAll(/@media[^{]*?\(\s*max-width:\s*(\d+)px\s*\)/g)) widths.add(Number(width));
+    for (const [, width] of css.matchAll(/@media[^{]*?\(\s*min-width:\s*(\d+)px\s*\)/g)) widths.add(Number(width) - 1);
   }
   return [...widths].sort((a, b) => b - a);
 }
