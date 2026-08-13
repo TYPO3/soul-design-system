@@ -24,10 +24,12 @@ and ``font-display: optional`` keeps a late response from replacing a fallback
 after paint. The first visit may stay in the fallback on a slow connection;
 later visits use the cached face without a layout-changing swap.
 
-There are **two scales, both intentional**: ``tokens/typography.css`` is the
-editorial scale (display → body), and ``tokens/controls.css`` names the
-tighter scale controls were tuned to — 14px buttons, 10px table heads.
-Converging them was considered and declined; it would move every surface.
+There is **one scale**. ``tokens/typography.css`` holds every size, and
+``tokens/controls.css`` binds the component roles to it — a button is
+``--font-size-ui``, a table head is ``--font-size-label`` — without writing a
+value of its own. Controls still set tighter than prose, a 15px button against
+17px body text, but on the same steps: a size a component needs is one the
+scale already names, or the scale is what gains it.
 
 No half-pixel font sizes. House rule.
 

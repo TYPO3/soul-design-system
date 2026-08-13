@@ -168,10 +168,13 @@ site is rendered along it, with the same file a reader runs.
 
 ## Decisions that were made on purpose
 
-- **Two type scales, both intentional.** `tokens/typography.css` is the
-  editorial scale (display → body). `tokens/controls.css` names the tighter
-  scale controls were tuned to (14px buttons, 10px table heads). Converging
-  them was offered and declined: it would move every surface. Not drift.
+- **One type scale, bound by role.** `tokens/typography.css` holds every size.
+  `tokens/controls.css` names the roles a component knows itself by — button,
+  table head, tab, note title — and every one of them is a `--font-size-*`,
+  never a literal. The two were separate while controls carried sizes of their
+  own; by the time it was converged only buttons (14 → 15px) and table heads
+  (10 → 11px) still sat off the editorial steps, and that was the whole cost.
+  Controls still set tighter than prose — that part was never the problem.
 - **No half-pixel font sizes.** House rule. 121 of them were rounded half-up
   across the cards; `--font-size-code` went 13.5 → 13px to match the code
   blocks that already rendered at 13. Keep it that way — `make verify`

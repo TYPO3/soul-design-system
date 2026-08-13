@@ -1,20 +1,19 @@
 /* Control scale.
 
-   The type tokens in typography.css set the *editorial* scale. Controls run
-   tighter than prose and always have: a 14px button next to 17px body text is
-   deliberate, not an oversight. These name the values the components were tuned
-   to, so the second scale is declared rather than accidental.
-
-   Converging the two is a real option, but it is a design decision that moves
-   every surface — not a cleanup. */
+   Controls run tighter than prose — a 15px button next to 17px body text is
+   deliberate — but they run tighter on the *same* steps. Every size here is a
+   `--font-size-*` from typography.css under the name the component knows it
+   by, so a role can be retuned without inventing a step. A literal written
+   into this file is a size the scale does not have, and that is what to catch
+   in review. */
 
 :root {
   /* Buttons, fields, selects — anything you click or type in. */
-  --control-font-size: 14px;
-  --control-font-size-sm: 13px;
+  --control-font-size: var(--font-size-ui);
+  --control-font-size-sm: var(--font-size-code);
 
   /* One height for all of them, declared rather than fallen out of padding: a
-     12px segment, a 13px label and a 14px input make three different boxes out
+     12px segment, a 13px label and a 15px input make three different boxes out
      of the same padding, and a header shows all three on one line. A floor and
      not a ceiling — every control's padding comes in under it, and one whose
      content outgrows it, a field with two lines, still grows. */
@@ -22,7 +21,7 @@
   --control-height-sm: 28px;
 
   /* Controls do not carry prose leading. `--leading-body` is 1.65, which is
-     right for a paragraph and wrong here: it puts a 14px label in a 23px
+     right for a paragraph and wrong here: it puts a 15px label in a 25px
      line box, over half a control's height before any padding is added, and
      it makes every control's height a function of the body scale. */
   --control-leading: 1.2;
@@ -37,40 +36,41 @@
   --control-icon-size: 16px;
 
   /* Badges — mono, because a badge names a machine thing. */
-  --badge-font-size: 12px;
+  --badge-font-size: var(--font-size-micro);
 
-  /* Tables. Head is the same at every density; only the rows breathe. */
-  --table-head-size: 10px;
+  /* Tables. The head is a label and is sized as one, the same at every
+     density; only the rows breathe. Medium and airy read at one size and
+     differ in padding — the step between them is air, not type. */
+  --table-head-size: var(--font-size-label);
   --table-head-tracking: 0.11em;
   --row-pad-compact: 6px;
-  --row-font-compact: 13px;
+  --row-font-compact: var(--font-size-code);
   --row-pad-medium: 9px;
-  --row-font-medium: 14px;
+  --row-font-medium: var(--font-size-ui);
   --row-pad-airy: 14px;
-  --row-font-airy: 15px;
+  --row-font-airy: var(--font-size-ui);
 
   /* Mono cells run a step below the row's sans, so a tool name and the
      prose beside it read at the same optical size. */
-  --row-name-compact: 12px;
-  --row-meta-compact: 11px;
-  --row-name-medium: 13px;
-  --row-meta-medium: 12px;
-  --row-name-airy: 13px;
-  --row-meta-airy: 12px;
+  --row-name-compact: var(--font-size-micro);
+  --row-meta-compact: var(--font-size-label);
+  --row-name-medium: var(--font-size-code);
+  --row-meta-medium: var(--font-size-micro);
+  --row-name-airy: var(--font-size-code);
+  --row-meta-airy: var(--font-size-micro);
 
-  /* Code and diff. Code is control-scale, not body-scale — --font-size-code
-     in typography.css is that size, so it is used directly here. */
-  --diff-font-size: 13px;
+  /* Code and diff. */
+  --diff-font-size: var(--font-size-code);
   --diff-leading: 1.75;
   --diff-tint: 14%;
 
   /* Navigation. */
-  --nav-font-size: 13px;
-  --tab-font-size: 12px;
+  --nav-font-size: var(--font-size-code);
+  --tab-font-size: var(--font-size-micro);
 
   /* Status blocks — an answer with its source and its bounds. */
-  --note-title-size: 14px;
-  --note-body-size: 12px;
+  --note-title-size: var(--font-size-ui);
+  --note-body-size: var(--font-size-micro);
   --note-body-leading: 1.45;
   /* Seventy-four characters of the register above, stated as the width it comes
      to rather than as `64ch`: `ch` is the width of the "0" in whatever element
