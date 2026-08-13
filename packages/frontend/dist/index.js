@@ -3591,6 +3591,7 @@ var SdsAccordionItem = class extends SdsElement {
     this.question = "";
     this.open = false;
     this.name = "";
+    this.anchor = "";
   }
   static {
     this.properties = {
@@ -3600,13 +3601,28 @@ var SdsAccordionItem = class extends SdsElement {
       open: { type: Boolean, reflect: true },
       /** The set this answer folds in — `<details name>`, which is the platform's
           own exclusivity. Empty where the set was told `multiple`. */
-      name: { type: String, reflect: true }
+      name: { type: String, reflect: true },
+      /** The address of this one answer. It lands on the answer and not on the
+          question: a fold whose content is jumped *into* is opened by the
+          platform, and one jumped *at* stays shut. */
+      anchor: { type: String, reflect: true }
     };
   }
   connectedCallback() {
     const written = this.lifted();
     if (written.length) this.taken = written;
     super.connectedCallback();
+  }
+  /* The browser unfolds an answer a fragment points into and scrolls to it,
+     before any of this runs — and then the upgrade writes that answer again
+     and the arrival is gone with the node it happened to. Made once more here,
+     by the element that took it away. */
+  firstUpdated() {
+    if (!this.anchor || globalThis.location?.hash !== `#${this.anchor}`) return;
+    this.open = true;
+    void this.updateComplete.then(
+      () => requestAnimationFrame(() => this.querySelector(`#${CSS.escape(this.anchor)}`)?.scrollIntoView())
+    );
   }
   render() {
     return html24`<details
@@ -3615,7 +3631,7 @@ var SdsAccordionItem = class extends SdsElement {
     ?open="${this.open}"
   >
     <summary class="sds-accordion__head"><sds-icon name="actions-chevron-down"></sds-icon>${this.question}</summary>
-    <div class="sds-accordion__body">${this.taken ?? this.content}</div>
+    <div class="sds-accordion__body" id="${this.anchor || nothing9}">${this.taken ?? this.content}</div>
   </details>`;
   }
 };
@@ -3652,6 +3668,7 @@ var SdsAccordion = class extends SdsElement {
       (entry) => html25`<sds-accordion-item
     question="${entry.question}"
     name="${this.multiple ? nothing10 : this.name}"
+    anchor="${entry.anchor ?? nothing10}"
     ?open="${Boolean(entry.open)}"
     .content="${entry.answer}"
   ></sds-accordion-item>`

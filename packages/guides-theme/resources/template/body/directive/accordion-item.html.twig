@@ -5,10 +5,16 @@
     the tags because a paragraph, a list and a code block are not what an
     attribute carries. Which set it folds in was handed down by the directive,
     a renderer having no upgrade in which the set could hand it down itself.
+
+    The page's address for one answer arrives as `anchor` and lands on the
+    answer: a fold is opened by the platform where a fragment points into it,
+    and left shut where it points at it. The set is `group` here and `name` on
+    the element, `name` on a node being taken by the address already.
 #}
 <sds-accordion-item
     question="{{ node.option('question') }}"
-    {%- if node.option('name') %} name="{{ node.option('name') }}"{% endif %}
+    {%- if node.option('group') %} name="{{ node.option('group') }}"{% endif %}
+    {%- if node.option('anchor') %} anchor="{{ node.option('anchor') }}"{% endif %}
     {%- if node.option('open') %} open{% endif %}
     {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
     {%- for child in node.children -%}

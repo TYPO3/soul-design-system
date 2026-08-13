@@ -105,6 +105,19 @@ Die Regeln, an die jede offene Zeile unten gebunden ist:
   ist. Eine Karte ist keins — sie trägt kein `id`, weil sie selbst der Weg
   weiter ist, und wer auf eine Gruppe von Karten zeigt, zeigt auf die
   Überschrift darüber. Was künftig ein Ziel wird, nimmt dieselbe Marke.
+- **Die Adresse einer Antwort steht an der Antwort.** `:name:` am
+  `accordion-item` wird das `id` des Antwortkörpers und nicht das des
+  Aufklappers: die Plattform klappt einen Fold auf, in den ein Fragment zeigt,
+  und lässt den zu, auf den es zeigt. Ein Link in eine gefaltete Antwort
+  braucht damit weder eine Regel noch einen Listener, und die Ankunft färbt
+  nichts — sie geht auf, was mehr sagt als jede Marke. Zurückzunehmen hat das
+  Element nur, was sein eigenes Upgrade zerstört: der Sprung des Browsers hängt
+  an Knoten, die es neu schreibt. Bewegung gibt es dabei keine — ein Fold, der
+  bei der Ankunft abläuft, zieht den Boden unter dem Sprung weg, und
+  `:has(:target)` stellt das Set still, für die Seite ohne Skript mit. Die
+  Gruppe des Sets heißt seitdem `:group:`: `:name:` bedeutet in einem Dokument
+  überall die Adresse, und ein Knoten trägt sie unter diesem Schlüssel, ob eine
+  Direktive sie liest oder nicht.
 - **Es wird nicht gedruckt.** Kein Druck-Stylesheet, und das ist keine offene
   Zeile: eine Handbuchseite wird gelesen, wo sie steht. Auf Papier trägt nichts
   von dem mehr, was sie ausmacht — kein Link, keine Suche, keine Rail, kein
@@ -167,10 +180,6 @@ ihre Regel in `document.css`.
 
 Nicht Styling, sondern was das Paket können muss.
 
-- **Ein Link auf eine einzelne Antwort.** `:name:` am `accordion-item` wird
-  angenommen und verworfen: wohin ein Sprung in eine zusammengefaltete Antwort
-  landet — und ob er sie aufklappt — ist nicht entschieden. `:header-level:`
-  ebenso, denn die Zusammenfassung ist ein Bedienelement und keine Überschrift.
 - **Niemand sieht, wie die Seite aussieht.** `tests/guides.spec.ts` rendert und
   öffnet sie: es lädt jede Seite unter `.out/site/` und lässt keinen Fehler und
   keine fehlende Datei durch, und es hält die Befunde fest, für die dieses

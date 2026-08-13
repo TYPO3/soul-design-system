@@ -8,6 +8,8 @@ export interface Entry {
     question: string;
     answer: string | TemplateResult;
     open?: boolean;
+    /** Where a page links to this one answer. See `sds-accordion-item`. */
+    anchor?: string;
 }
 export interface AccordionProps {
     /** The questions, where a page has them as data. An answer that is blocks —

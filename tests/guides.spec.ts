@@ -949,6 +949,45 @@ test.describe('what the theme repaired', () => {
     await many.nth(1).locator('summary').click();
     await expect(many.nth(0)).toHaveAttribute('open', '');
   });
+
+  test('a link to one answer opens that answer, and the reader lands on the question', async ({ page }) => {
+    const fold = page.locator('details.sds-accordion__item:has(> #who-opens)');
+    const question = fold.locator('summary');
+    /* Arriving is arriving somewhere nameable: an answer whose question is off
+       the top of the screen has opened for somebody who cannot see what it
+       answers. */
+    const landed = () =>
+      expect
+        .poll(
+          () =>
+            question.evaluate((el) => {
+              const box = el.getBoundingClientRect();
+              return box.top >= 0 && box.bottom <= window.innerHeight;
+            }),
+          { message: 'the question is in the viewport' },
+        )
+        .toBe(true);
+
+    /* Cold, with the address in the URL. The platform unfolds an answer a
+       fragment points into — which is why the address is on the answer and not
+       on the question — and the element makes that arrival again, the upgrade
+       having written over the node it happened to. */
+    await page.goto(`${FIXTURE}#who-opens`, { waitUntil: 'load' });
+    await expect(fold).toHaveAttribute('open', '');
+    await landed();
+
+    /* And from a link on the page itself, which is the same arrival with the
+       document already standing. */
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await expect(fold).not.toHaveAttribute('open', '');
+    await page.locator('.sds-prose a[href="#who-opens"]').first().click();
+    await expect(fold).toHaveAttribute('open', '');
+    await landed();
+
+    /* The fold stays the reader's: nothing holds it open against a press. */
+    await question.click();
+    await expect(fold).not.toHaveAttribute('open', '');
+  });
 });
 
 test.describe('what the reader gets before the script does', () => {

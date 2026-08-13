@@ -503,7 +503,7 @@ find-in-page opens the answer it lands in. One answer stands open, because the
 shape of an answer is worth seeing without pressing anything.
 
 .. accordion::
-   :name: what-it-holds
+   :group: what-it-holds
 
    .. accordion-item:: What can an answer hold?
       :open:
@@ -519,13 +519,16 @@ shape of an answer is worth seeing without pressing anything.
          make verify
 
    .. accordion-item:: Who decides which one is open?
+      :name: who-opens
 
       The platform. Every answer in the set carries the set's name, so opening
       this one closed the one above it, and nothing on the page listened for
       anything.
 
 ``:multiple:`` empties that name, for a set whose answers are meant to be
-compared rather than found.
+compared rather than found. An answer that was given a ``:name:`` has an
+address of its own: `this one <#who-opens>`__ opens on arrival, because the
+platform unfolds what a fragment points into.
 
 .. accordion::
    :multiple:

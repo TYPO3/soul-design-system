@@ -20,6 +20,8 @@ export interface Entry {
   question: string;
   answer: string | TemplateResult;
   open?: boolean;
+  /** Where a page links to this one answer. See `sds-accordion-item`. */
+  anchor?: string;
 }
 
 export interface AccordionProps {
@@ -72,6 +74,7 @@ export class SdsAccordion extends SdsElement {
         (entry) => html`<sds-accordion-item
     question="${entry.question}"
     name="${this.multiple ? nothing : this.name}"
+    anchor="${entry.anchor ?? nothing}"
     ?open="${Boolean(entry.open)}"
     .content="${entry.answer}"
   ></sds-accordion-item>`,

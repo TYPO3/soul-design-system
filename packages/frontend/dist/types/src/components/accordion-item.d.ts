@@ -19,12 +19,21 @@ export declare class SdsAccordionItem extends SdsElement {
             type: StringConstructor;
             reflect: boolean;
         };
+        /** The address of this one answer. It lands on the answer and not on the
+            question: a fold whose content is jumped *into* is opened by the
+            platform, and one jumped *at* stays shut. */
+        anchor: {
+            type: StringConstructor;
+            reflect: boolean;
+        };
     };
     question: string;
     open: boolean;
     name: string;
+    anchor: string;
     private taken;
     constructor();
     connectedCallback(): void;
+    protected firstUpdated(): void;
     protected render(): TemplateResult;
 }

@@ -2284,6 +2284,12 @@ sds-rail:not(:defined) {
     content-visibility var(--duration-base) allow-discrete;
 }
 .sds-accordion__item[open]::details-content { grid-template-rows: 1fr; opacity: 1; }
+/* An answer reached by its own address arrives open, and the one it closed
+   arrives shut. A fold that plays out on arrival is the ground moving under a
+   reader who pressed nothing, and the scroll that was aimed at it lands where
+   the page stood rather than where it settles. Stated on the set, because what
+   moves the ground is the other answer closing. */
+.sds-accordion:has(:target) .sds-accordion__item::details-content { transition: none; }
 
 /* ------------------------------------------------------------ code, diff -- */
 

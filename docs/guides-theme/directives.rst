@@ -696,7 +696,7 @@ manual already uses.
 .. example:: A set of two, one of them open
 
    .. accordion::
-      :name: what-a-theme-answers
+      :group: what-a-theme-answers
 
       .. accordion-item:: What does it need installed?
          :open:
@@ -708,13 +708,17 @@ manual already uses.
 
          Yes. :doc:`publishing` is the job, command for command.
 
-.. confval:: name
-   :name: accordion-name
+.. confval:: group
+   :name: accordion-group
    :type: string
 
    What the set is called. It is the group the answers fold in, so opening one
    closes the last — and a page with two sets gives them different names, or
    one closes the other's answers. A set that writes none is given one.
+
+   It is ``:group:`` and not ``:name:`` because an answer takes ``:name:`` in
+   the meaning every other directive gives it — the address something is
+   linked to. One spelling for both would be two meanings a page apart.
 
 .. confval:: multiple
    :type: flag
@@ -766,8 +770,10 @@ One question, and the blocks folded behind it.
    :name: accordion-item-name
    :type: string
 
-   Accepted and dropped. Where a link into a single answer should land is not
-   decided — see ``GAPS.md`` in the package.
+   The address of this one answer, for a page that links to it — written on the
+   answer and not on the question. A fold whose content a fragment points into
+   is opened by the platform; one that a fragment points at stays shut, which
+   is why a link that has to show the answer aims inside it.
 
 .. confval:: class
    :name: accordion-item-class

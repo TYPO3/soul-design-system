@@ -16,7 +16,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
  * Questions with their answers folded behind them.
  *
  *     .. accordion::
- *        :name: install
+ *        :group: install
  *
  *        .. accordion-item:: What does it need installed?
  *           :open:
@@ -37,6 +37,14 @@ use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
  * A set nobody named gets one, rather than sharing a default with every other
  * set on the page: two exclusive groups that close each other's answers is the
  * one thing a name is for.
+ *
+ * The group is `:group:` and not `:name:`, which it was: `:name:` is what a
+ * document says everywhere else to give something an address, and an answer
+ * takes it in that meaning. One spelling meaning two things inside one pair of
+ * directives is the worse half of the two-doors problem — and it was not only
+ * a reader's problem. A node carries `:name:` as `name` whether or not a
+ * directive reads it, so the group handed down under that key was overwritten
+ * by an answer's own address, and the set stopped closing.
  */
 final class AccordionDirective extends SubDirective
 {
@@ -54,7 +62,7 @@ final class AccordionDirective extends SubDirective
         Directive $directive,
     ): ?Node {
         $multiple = $directive->hasOption('multiple');
-        $name = (string)($directive->getOption('name')->getValue() ?? '');
+        $name = (string)($directive->getOption('group')->getValue() ?? '');
         if ($name === '') {
             $this->unnamed++;
             $name = 'accordion-' . $this->unnamed;
@@ -63,7 +71,7 @@ final class AccordionDirective extends SubDirective
         $group = $multiple ? '' : $name;
         $children = array_map(
             static fn(Node $child): Node => $child instanceof AccordionItemNode
-                ? $child->withKeepExistingOptions(['name' => $group])
+                ? $child->withKeepExistingOptions(['group' => $group])
                 : $child,
             $collectionNode->getChildren(),
         );

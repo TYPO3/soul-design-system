@@ -25,9 +25,12 @@ use TYPO3\Soul\GuidesTheme\Nodes\AccordionItemNode;
  *
  * `:show:` is the same flag under the name the Bootstrap theme gave it, so a
  * manual written for that theme opens the same answer here. `:header-level:`
- * and `:name:` are accepted and dropped — a summary is a control and not a
- * heading, and where a link into one answer lands is not decided; both are in
- * `GAPS.md` rather than half-answered here.
+ * is accepted and dropped: a summary is a control and not a heading.
+ *
+ * `:name:` is the address of one answer, and it is put on the answer rather
+ * than on the question — the platform opens a fold that a fragment points
+ * *into* and leaves one shut that it points *at*. The element spells that
+ * `anchor`, `name` there being the set a `<details>` closes with.
  */
 final class AccordionItemDirective extends SubDirective
 {
@@ -44,6 +47,7 @@ final class AccordionItemDirective extends SubDirective
         return (new AccordionItemNode($collectionNode->getChildren()))->withOptions([
             'question' => $directive->getData(),
             'open' => $directive->hasOption('open') || $directive->hasOption('show'),
+            'anchor' => $directive->getOption('name')->getValue(),
             /* An author who wrote `:class:` meant it for their own stylesheet,
                and dropping what a theme does not understand is the one thing
                it must not do. Carried the way `card` carries it. */
