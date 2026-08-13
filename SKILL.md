@@ -93,7 +93,7 @@ To force a mode on a subtree, set `data-theme="light"` or `data-theme="dark"`. S
 
 Breaking one of these breaks the system, not just the page.
 
-- **One accent.** `--accent` (#FF8700) marks exactly three things: the active navigation item, the shell prompt in a code block, the pipe in the wordmark. No second accent, no gradient, anywhere.
+- **One accent.** `--accent` (#FF8700) marks exactly three things: the active navigation item, the shell prompt in a code block, the pipe in the wordmark. No second accent, anywhere. The accent is also the one thing a surface may be *lit* with: `--accent-glow` in the top of a card's frame under the pointer, falling away down it. That is the single gradient in the system, it is a state rather than a mark, and it is not a licence for a second one.
 - **No shadows.** Not on cards, modals or menus. Separation is a hairline plus `--surface-overlay`. The focus ring is the single `box-shadow` in the system, and it is a state, not depth.
 - **No emoji.** Status is a colour plus a glyph from `packages/frontend/assets/icons/` or the mono font (`✓`).
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-support-app install`.
@@ -278,7 +278,7 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 ## Before you call it done
 
 - Both modes checked — not by trusting the tokens, but by looking. Anything inlined rather than linked (`currentColor`, a forced `data-theme` subtree) is where they drift.
-- No shadow, no gradient, no second accent, no emoji added.
+- No shadow, no second accent, no emoji added; no gradient other than a card's lit frame.
 - Every machine-named string in mono, verbatim.
 - Every state that can occur has copy that names its source and its boundary.
 - Header sheds rather than wraps at 1120, 1040, 820 and 620.

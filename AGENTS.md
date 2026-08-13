@@ -377,7 +377,9 @@ moved without the other.
   never the name of another project — this system is used by things it does
   not know about. Five lines, ten at the top of a file; see above.
 - **One accent.** `--accent` marks three things and nothing else; `--orange-*`
-  is the raw scale and never appears in a design.
+  is the raw scale and never appears in a design. It is also the one colour a
+  surface may be *lit* with — `--accent-glow` in the top of a card's frame
+  under the pointer, and the single gradient in the system.
 
 `SKILL.md` has the rest, including the checklist to run before calling
 anything done.

@@ -862,12 +862,29 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   padding: 0;
   transition:
     border-color var(--duration-fast) var(--ease-out),
     background var(--duration-fast) var(--ease-out),
     transform var(--duration-fast) var(--ease-out);
+}
+/* The lit frame, kept on a layer of its own so the pointer fades one number
+   and nothing jumps: a gradient in the background would land on a different
+   box and switch rather than travel. The ring is the border box with its own
+   middle cut out, which is what the two masks do. */
+.sds-card:has(> .sds-card__body)::before {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--border-hairline));
+  z-index: 1;
+  border-radius: var(--radius-card);
+  padding: var(--border-hairline);
+  background: linear-gradient(var(--accent-glow), transparent 45%);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-out);
 }
 /* The whole card is the target, and one anchor does it: the title's, stretched
    over the frame. Wrapping the card in the anchor instead would read its whole
@@ -878,14 +895,20 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    in the source, so being positioned is enough. The card itself carries one
    link and no more: the call to action is words, not a second anchor. */
 .sds-card__text :is(a, button) { position: relative; }
-/* A rise and a fill, since the system has no shadow to raise anything with.
-   Only where the title is a link: a card that goes nowhere does not move, and
-   the keyboard gets the same answer the pointer does. */
+/* A rise, a fill, and the accent lit into the top of the frame and let go of
+   on the way down — light falling on the card from where the reader is, which
+   is what this system has instead of an elevation. Only where the title is a
+   link: a card that goes nowhere does not move, and the keyboard gets the same
+   answer the pointer does. */
 .sds-card:has(> .sds-card__body > .sds-card__title a):hover,
 .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) {
   border-color: var(--border-strong);
   background: var(--surface-raised);
   transform: translateY(var(--card-lift));
+}
+.sds-card:has(> .sds-card__body > .sds-card__title a):hover::before,
+.sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible)::before {
+  opacity: 1;
 }
 /* And the ring goes round the frame, not round the words. What answers the
    press is the card, so a ring round the title would point at a part of it —
@@ -896,9 +919,14 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   outline-offset: 2px;
   box-shadow: 0 0 0 3px var(--accent-ring);
 }
+/* The card cannot clip its contents — the lit frame is drawn outside its
+   padding box — so the picture takes the corner it sits in itself, one
+   hairline in from the frame's own. */
 .sds-card__media {
   background: var(--surface-sunken);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
+  border-radius: calc(var(--radius-card) - var(--border-hairline)) calc(var(--radius-card) - var(--border-hairline)) 0 0;
+  overflow: hidden;
 }
 .sds-card__body {
   display: flex;
@@ -1484,6 +1512,9 @@ html:has(.sds-bar) {
   border-radius: 0;
   background: var(--surface-canvas);
 }
+/* And no lit frame either, for the reason a tile has no frame at all: the line
+   it would light belongs to the wall and to the tile beside it. */
+.sds-grid--flush .sds-card::before { content: none; }
 /* The ring turns inwards. It is drawn outside the box, and the wall clips its
    corners — so on an edge tile the one mark that says where the keyboard is
    would be the one thing cut off. */
@@ -2457,6 +2488,7 @@ sds-rail:not(:defined) {
     --card-lift: 0px;
     transition: none;
   }
+  .sds-card:has(> .sds-card__body)::before { transition: none; }
 }
 
 /* ---------------------------------------------------------------- brand -- */
