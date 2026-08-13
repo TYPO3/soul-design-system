@@ -24,12 +24,9 @@ const THEME = join(ROOT, 'packages', 'guides-theme');
    which is what turns it into a work list rather than an exemption. */
 const PENDING = {
   stories: [] as string[],
-  /* Named in the stylesheets, drawn nowhere. The syntax colours are written by
-     the highlighter rather than by a template, and the two size-by-class
-     escape hatches were declared ahead of a specimen. */
+  /* Named in the stylesheets, drawn nowhere: the two size-by-class escape
+     hatches were declared ahead of a specimen. */
   classes: [
-    'sds-code__key',
-    'sds-code__string',
     'sds-h1',
     'sds-icon--20',
   ],

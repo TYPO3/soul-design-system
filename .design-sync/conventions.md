@@ -95,7 +95,7 @@ inline styles — do not mint a `sds-` name.
 | Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-surface-icon` `sds-surface-title` `sds-surface-body` `sds-overlay` `sds-modal__head|__body|__foot` |
 | Folds | `sds-accordion` `sds-accordion__item` `sds-accordion__head` `sds-accordion__body` — a real `<details>`, so it folds with no script; an answer that is blocks rather than a string goes in `sds-accordion-item` between the tags |
 | Navigation | `sds-pills`/`sds-pill` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__item`/`sds-rail__group` — the bar's own parts are under Layout |
-| Code | `<sds-code code-lang="bash">` — the attribute is `code-lang`, because `lang` names the human language of the content. `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok|__string|__key` `sds-diff` `sds-diff__line--add|--del` |
+| Code | `<sds-code code-lang="bash">` — the attribute is `code-lang`, because `lang` names the human language of the content. `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok` `sds-diff` `sds-diff__line--add|--del` |
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |
 | Reference | `sds-confval` with `__term` `__name` `__mark` `__detail` `__facts` `__body` — a hairline above each entry and no box around one; the facts stand in a row on the inset surface |
 | Brand | `sds-signet` `sds-lockup` `sds-wordmark` `sds-wordmark__pipe` `sds-wordmark__product` |

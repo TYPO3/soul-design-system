@@ -2438,8 +2438,6 @@ sds-rail:not(:defined) {
 .sds-code__cmd { color: var(--text-primary); }
 .sds-code__comment { color: var(--syntax-comment); }
 .sds-code__ok { color: var(--status-ok); }
-.sds-code__string { color: var(--syntax-string); }
-.sds-code__key { color: var(--syntax-key); }
 
 /* What the block is, above it. */
 .sds-code__caption {

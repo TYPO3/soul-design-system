@@ -397,8 +397,6 @@ sds-rail:not(:defined){display:flex;flex-direction:column;gap:var(--border-hairl
 .sds-code__cmd{color:var(--text-primary)}
 .sds-code__comment{color:var(--syntax-comment)}
 .sds-code__ok{color:var(--status-ok)}
-.sds-code__string{color:var(--syntax-string)}
-.sds-code__key{color:var(--syntax-key)}
 .sds-code__caption{font-size:var(--aside-size);color:var(--text-muted);margin-bottom:var(--space-2)}
 .hljs-keyword,.hljs-selector-tag,.hljs-selector-class,.hljs-selector-pseudo,.hljs-built_in,.hljs-name,.hljs-attr,.hljs-attribute,.hljs-title,.hljs-section,.hljs-tag{color:var(--syntax-key)}
 .hljs-string,.hljs-symbol,.hljs-bullet,.hljs-regexp,.hljs-addition,.hljs-meta-string,.hljs-meta{color:var(--syntax-string)}
