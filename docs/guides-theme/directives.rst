@@ -9,14 +9,57 @@ field. They are registered by the extension, so a project that selected the
 theme can use them immediately — there is nothing to add to ``guides.xml`` and
 no template to copy.
 
-``layout``, ``hero``, ``band`` and ``grid`` build a landing page: a page of a
-different shape than a manual page, and the renderer has no vocabulary for it.
-``card`` and ``accordion`` signpost a manual and fold its answers away, each
-spelled the way a TYPO3 manual already spells them.
-``stat`` states a figure, ``surface`` states a sentence and ``quote`` borrows
-one, ``button`` and ``button-bar`` are how a page sends a reader on,
-``example`` shows a piece of markup and what it renders as, and ``specimen``
-embeds a rendered card at the size it was measured at.
+.. list-table::
+   :header-rows: 1
+
+   * - Written
+     - What it is for
+     - Draws
+   * - ``:layout:``
+     - a field, not a directive: which of the two shapes the page is built in
+     - —
+   * - ``hero``
+     - the opening claim of a landing page, beside one image
+     - ``.sds-split`` and ``sds-figure``
+   * - ``band``
+     - a full-bleed section of a landing page, and everything after it
+     - ``.sds-band``
+   * - ``grid``
+     - a set read side by side, reflowing by its own minimum width
+     - ``sds-grid``
+   * - ``split``
+     - two of anything, side by side until there is no room for two
+     - ``.sds-split``
+   * - ``half``
+     - one side of a split, where that side is several blocks
+     - ``.sds-stack``
+   * - ``card``
+     - a way into something: a title that goes somewhere, and what is behind it
+     - ``sds-card``
+   * - ``stat``
+     - one number stated as a fact
+     - ``sds-stat``
+   * - ``surface``
+     - one filled plane, stating something in place
+     - ``sds-surface``
+   * - ``quote``
+     - a sentence borrowed from somewhere, with where it came from
+     - ``sds-quote``
+   * - ``button``
+     - one press, and where it goes
+     - ``sds-button``
+   * - ``button-bar``
+     - the presses of a page, standing in one row
+     - ``.sds-actions``
+   * - ``accordion``, ``accordion-item``
+     - questions with their answers folded behind them
+     - ``sds-accordion``
+   * - ``example``
+     - a piece of markup and, under it, what it renders as
+     - ``sds-code`` in ``.sds-example``
+   * - ``specimen``
+     - a rendered card, embedded at the size it was measured at
+     - ``sds-embed``
 
 Each of them draws an element of this system and takes that element's own
 options, spelt the way the element spells them — so ``href`` links and ``src``

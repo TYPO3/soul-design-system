@@ -20,6 +20,136 @@ markup the class layer already describes.
    forms
    overlays
 
+Every element, and where to read it
+===================================
+
+Alphabetical, because a reader looking one up already knows its name and not
+which group it was filed under.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Element
+     - What it is
+     - Reference
+   * - ``sds-accordion``, ``sds-accordion-item``
+     - questions with their answers folded behind them
+     - :doc:`navigation`
+   * - ``sds-badge``
+     - a small, named piece of state
+     - :doc:`controls`
+   * - ``sds-button``
+     - the action that starts work, or the press that is a link
+     - :doc:`controls`
+   * - ``sds-byline``
+     - who wrote it, and when
+     - :doc:`content`
+   * - ``sds-card``
+     - a way into something: a chapter, a product, a news entry, a page
+     - :doc:`content`
+   * - ``sds-checkbox``
+     - one thing that is either so or not
+     - :doc:`forms`
+   * - ``sds-code``
+     - a fenced block, its head and its copy button
+     - :doc:`data`
+   * - ``sds-confval``
+     - one configuration value in a reference
+     - :doc:`data`
+   * - ``sds-crumbs``
+     - where the page sits, as a trail
+     - :doc:`navigation`
+   * - ``sds-diff``
+     - a file's changes
+     - :doc:`data`
+   * - ``sds-dialog``
+     - a surface that opens over the page, and what opens it
+     - :doc:`overlays`
+   * - ``sds-embed``
+     - a document from somewhere else, in a frame this page controls
+     - :doc:`media`
+   * - ``sds-field``
+     - a text field, a text area and a select, in one element
+     - :doc:`forms`
+   * - ``sds-field-error``
+     - the message under an invalid field
+     - :doc:`forms`
+   * - ``sds-figure``
+     - a picture and the claim it makes
+     - :doc:`media`
+   * - ``sds-footer``
+     - how a page ends, and where the rest of the site is
+     - :doc:`navigation`
+   * - ``sds-form-errors``
+     - what stopped the form, at the top of it
+     - :doc:`forms`
+   * - ``sds-grid``
+     - the wall a set is read in
+     - :doc:`content`
+   * - ``sds-header``
+     - the bar at the top of a page
+     - :doc:`navigation`
+   * - ``sds-icon``
+     - one icon from the set, in the document rather than linked
+     - :doc:`controls`
+   * - ``sds-image``
+     - a picture, and nothing around it
+     - :doc:`media`
+   * - ``sds-lightbox``
+     - a drawing opened at the size it was drawn
+     - :doc:`media`
+   * - ``sds-link``
+     - a link, and always an ``<a>`` with an ``href``
+     - :doc:`controls`
+   * - ``sds-modal``
+     - the surface alone, with nothing that opens or closes it
+     - :doc:`overlays`
+   * - ``sds-note``
+     - what an answer carries besides the answer
+     - :doc:`content`
+   * - ``sds-overlay``
+     - the wash a floating surface sits on
+     - :doc:`overlays`
+   * - ``sds-pager``
+     - the way on from a page that is read in order
+     - :doc:`navigation`
+   * - ``sds-pagination``
+     - where a list continues
+     - :doc:`navigation`
+   * - ``sds-pills``
+     - navigation for the sections of a page
+     - :doc:`navigation`
+   * - ``sds-quote``
+     - a sentence borrowed from somewhere, with where it came from
+     - :doc:`content`
+   * - ``sds-radio``
+     - one answer out of a few, all of them visible
+     - :doc:`forms`
+   * - ``sds-rail``
+     - the navigation rail beside a column
+     - :doc:`navigation`
+   * - ``sds-result``
+     - one hit in a list of them
+     - :doc:`navigation`
+   * - ``sds-search``
+     - finding a page in a site that has no server
+     - :doc:`navigation`
+   * - ``sds-stat``
+     - a number stated as a fact
+     - :doc:`content`
+   * - ``sds-surface``
+     - a filled plane holding a statement
+     - :doc:`content`
+   * - ``sds-table``
+     - rows and columns, with the scroll a wide one needs
+     - :doc:`data`
+   * - ``sds-tabs``, ``sds-tab-item``
+     - one set of panels, one of them shown
+     - :doc:`navigation`
+   * - ``sds-theme``
+     - light or dark, as two segments with the chosen one filled
+     - :doc:`controls`
+
 Addressed, never rebuilt
 ========================
 
