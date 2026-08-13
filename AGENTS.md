@@ -324,7 +324,10 @@ prevent, and anything the classes can do the element must be able to emit.
 **Add a directive to the Guides theme** — the directive in
 `packages/guides-theme/src/Directives/` and whatever node it returns, its
 template under `resources/template/body/directive/`, the registration in
-`resources/config/soul.php`, a page of `packages/guides-theme/acceptance/` that
+`resources/config/soul.php`, **the node's template in the `templates` list in
+`SoulExtension.php`** — a node with none renders as its own text, which is a
+page that comes out looking merely unstyled — a page of
+`packages/guides-theme/acceptance/` that
 uses it, its section in `docs/guides-theme/directives.rst` with a rendered
 example, and its row in the package's own README — see above for why that last
 one is not optional. Then `make guides` and `make verify`.
