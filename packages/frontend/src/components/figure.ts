@@ -119,7 +119,7 @@ export class SdsFigure extends SdsElement {
       : art(this.src, this.alt, { width: this.width, height: this.height, linked: this.linked });
 
     const frame = this.zoomable
-      ? html`<a class="sds-figure__zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>`
+      ? html`<a class="sds-zoom" href="${this.src}" title="Open the drawing at full size" @click="${this.zoom}">${picture}</a>`
       : picture;
 
     /* Whichever form the caption arrived in, nodes first. Kept as it came

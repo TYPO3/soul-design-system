@@ -26,13 +26,14 @@ const MARK = {
 const meta: Meta<ImageProps> = {
   title: 'Components/Image',
   tags: ['autodocs', '!dev'],
-  render: ({ src, alt, width, height }) =>
-    html`<sds-image src="${src}" alt="${alt}" width="${width ?? 0}" height="${height ?? 0}"></sds-image>`,
+  render: ({ src, alt, width, height, zoomable = false }) =>
+    html`<sds-image src="${src}" alt="${alt}" width="${width ?? 0}" height="${height ?? 0}" ?zoomable="${zoomable}"></sds-image>`,
   argTypes: {
     src: { control: 'text' },
     alt: { control: 'text' },
     width: { control: 'number' },
     height: { control: 'number' },
+    zoomable: { control: 'boolean' },
   },
   args: MARK,
 };
@@ -54,6 +55,20 @@ export const Photograph: Story = {
     alt: 'A cut-paper magnifier lying across three overlapping paper squares, one of them a field of halftone dots, with a single orange ring at the end of the handle.',
     width: 240,
     height: 240,
+  },
+};
+
+/** A drawing wider than the column it landed in, and a way back out of it: the
+    press opens the viewer, and where nothing upgraded the trigger is still a
+    link to the file. This is what `sds-figure zoomable` does for a picture that
+    makes its claim in a sentence — a picture without one asks for it here. */
+export const Zoomable: Story = {
+  args: {
+    src: '/assets/diagrams/answer-sources.svg',
+    alt: 'The five sources plotted against how much of the machine has to be running.',
+    width: 0,
+    height: 0,
+    zoomable: true,
   },
 };
 

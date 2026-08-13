@@ -40,7 +40,7 @@ component that disagrees with `_ds_bundle.css` is a bug in the component.
 `<dialog>` that opens, traps focus and closes on Escape. `sds-lightbox` is the
 same behaviour around a drawing rather than a question: a modal stops at
 `--measure-modal` because what is in one is read, and a drawing is looked at.
-Reach it with `<sds-figure zoomable>` rather than by hand.
+Reach it with `<sds-figure zoomable>` or `<sds-image zoomable>` rather than by hand.
 
 ## Setup
 
@@ -81,7 +81,7 @@ inline styles — do not mint a `sds-` name.
 | Bands | `sds-bands` `sds-band` `sds-band--quiet` — full-bleed sections whose ground changes, contents on the page measure. Use instead of `sds-page`, never inside one |
 | Site footer | `sds-footer` `sds-footer__top` `sds-footer__brand` `sds-footer__note` `sds-footer__groups` `sds-footer__group` `sds-footer__links` `sds-footer__end`; `sds-crumbs` `sds-crumbs__sep` `sds-crumbs__here` |
 | Figures | `sds-stats` `sds-stat` `sds-stat__value` `sds-stat__note`; `sds-figure` `sds-figure__frame` `sds-figure__caption` |
-| Artwork | `sds-art` — one file, in both modes. A photograph is an `<img>`; a drawing is an `<svg>` with a `<use>` into the file, because only a reference lets the tokens reach the shapes. `sds-lightbox` `sds-lightbox__art` `sds-figure__zoom` open one at the size it was drawn |
+| Artwork | `sds-art` — one file, in both modes. A photograph is an `<img>`; a drawing is an `<svg>` with a `<use>` into the file, because only a reference lets the tokens reach the shapes. `sds-lightbox` `sds-lightbox__art` `sds-zoom` open one at the size it was drawn |
 | Search | `sds-result` `sds-result__title` `sds-result__path` `sds-result__text`; `sds-mark` for what was searched for inside what was found |
 | Cards | `sds-card` `sds-card__media` `sds-card__icon` `sds-card__body` `sds-card__title` `sds-card__text` `sds-card__foot` `sds-card__note` `sds-card__action` — the title's anchor is stretched over the frame, so a card carries one link and the call to action is words |
 | Lists | `sds-pager` `sds-pager__next` — the page before and the page after, at the foot of a page read in order; not `sds-pagination`, which numbers a set. `sds-teaser` `sds-teaser__image` `sds-teaser__body` `sds-teaser__title` `sds-teaser__text`; `sds-pagination` `sds-pagination__page` `sds-pagination__step` `sds-pagination__gap` `sds-pagination__count` |

@@ -20,6 +20,7 @@ A picture, and nothing around it.
 .. code-block:: html
 
    <sds-image src="/art/pipeline.svg" alt="Source, build, published site"></sds-image>
+   <sds-image src="/art/pipeline.svg" alt="Source, build, published site" zoomable></sds-image>
    <sds-image class="sds-signet" src="/soul/assets/signet.svg" alt=""
      width="24" height="24"></sds-image>
 
@@ -49,6 +50,16 @@ A picture, and nothing around it.
    Both, for a picture no stylesheet sizes. The file's own coordinate system
    keeps the proportions inside them: a 5:4 mark given a square box is drawn
    5:4 and centred, never stretched to fit.
+
+.. confval:: zoomable
+   :name: sds-image-zoomable
+   :type: boolean
+   :default: false
+
+   Pressable, opening the picture at the size it was made. The trigger is a
+   link to the file, so a surface running no script still opens it and the
+   element only takes the press over once it has upgraded. What a picture
+   shrunk into its column asks for, and what a mark in a lockup never does.
 
 .. confval:: class
    :name: sds-image-class

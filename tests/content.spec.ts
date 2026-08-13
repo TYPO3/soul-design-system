@@ -176,7 +176,7 @@ test('a figure keeps the picture and the caption written between its tags', asyn
 test('a figure opens its drawing, and stays a link where nothing upgraded', async ({ page }) => {
   await gotoStory(page, 'components-figure--zoomable');
 
-  const trigger = page.locator('.sds-figure__zoom');
+  const trigger = page.locator('.sds-zoom');
   /* The href is the fallback, not decoration: without it a script-less surface
      has a cursor that changes over something that does nothing. */
   await expect(trigger).toHaveAttribute('href', /answer-sources\.svg$/);
@@ -192,6 +192,30 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
      with `<use>`, which is what lets it take the colours of the page it opened
      over rather than the ones its own file falls back to. */
   await expect(dialog.locator('svg.sds-art use')).toHaveAttribute('href', /answer-sources\.svg#art$/);
+
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+});
+
+/* The same three parts on the element with no caption under it. A figure is the
+   way in for a picture that states its claim in a sentence; a picture without
+   one had no way in at all, and the viewer is the only place the drawing is at
+   the size it was made. The viewer's name falls back to the alt text, which is
+   the only sentence an image carries. */
+test('an image opens its picture, and stays a link where nothing upgraded', async ({ page }) => {
+  await gotoStory(page, 'components-image--zoomable');
+
+  const trigger = page.locator('.sds-zoom');
+  await expect(trigger).toHaveAttribute('href', /answer-sources\.svg$/);
+
+  const dialog = page.locator('dialog.sds-lightbox');
+  await expect(dialog).toBeHidden();
+
+  await trigger.click();
+  await expect(dialog).toBeVisible();
+  expect(page.url()).toContain('components-image--zoomable');
+  await expect(dialog.locator('svg.sds-art use')).toHaveAttribute('href', /answer-sources\.svg#art$/);
+  await expect(dialog).toHaveAttribute('aria-label', /five sources/);
 
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();

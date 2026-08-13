@@ -527,8 +527,9 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 }
 /* The trigger is a link to the file, so a surface with no script still opens
    the drawing; the element takes the press over once it has upgraded. It is
-   not a control that looks like one and does nothing. */
-.sds-figure__zoom { display: block; cursor: zoom-in; }
+   not a control that looks like one and does nothing. Named for what it does
+   rather than for a figure: `sds-image` opens a viewer on the same terms. */
+.sds-zoom { display: block; cursor: zoom-in; }
 
 /* --------------------------------------------------------------- fields -- */
 

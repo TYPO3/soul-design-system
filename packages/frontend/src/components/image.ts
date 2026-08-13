@@ -9,7 +9,9 @@
    renders with, so a signet is `<sds-image class="sds-signet">` and nothing
    here has to know what a signet is. */
 
-import { type TemplateResult } from 'lit';
+import { html, type TemplateResult } from 'lit';
+import './lightbox.ts';
+import { type SdsLightbox } from './lightbox.ts';
 import { art } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
@@ -26,6 +28,11 @@ export interface ImageProps {
       a square box is drawn 5:4 and centred, never stretched to fit. */
   width?: number;
   height?: number;
+  /** Pressable, opening the picture at the size it was made. The trigger is a
+      link to the file, so a surface running no script still opens it and the
+      element only takes the press over once it has upgraded. What a picture
+      shrunk into its column asks for, and what a mark in a lockup never does. */
+  zoomable?: boolean;
   /** The picture is linked rather than referenced — an SVG that never named
       `id="art"`. Written by the build, which is what can read the file;
       `src/lib/art.ts` holds the reasoning. */
@@ -38,6 +45,7 @@ export class SdsImage extends SdsElement {
     alt: { type: String },
     width: { type: Number, reflect: true },
     height: { type: Number, reflect: true },
+    zoomable: { type: Boolean, reflect: true },
     linked: { type: Boolean },
     /* The class the caller wrote, read as a property rather than off the host:
        `this.className` exists only where there is a DOM, and these render in
@@ -49,6 +57,7 @@ export class SdsImage extends SdsElement {
   declare alt: string;
   declare width: number;
   declare height: number;
+  declare zoomable: boolean;
   declare linked: boolean;
   declare cls: string;
 
@@ -58,6 +67,7 @@ export class SdsImage extends SdsElement {
     this.alt = '';
     this.width = 0;
     this.height = 0;
+    this.zoomable = false;
     this.linked = false;
     this.cls = '';
   }
@@ -72,6 +82,16 @@ export class SdsImage extends SdsElement {
     super.connectedCallback();
   }
 
+  /** Take the press over from the link. Only where there is something to take
+      it over with: if the viewer has not upgraded, the browser follows the
+      href and the reader still gets the picture. */
+  private zoom(event: Event): void {
+    const viewer = this.querySelector('sds-lightbox') as SdsLightbox | null;
+    if (!viewer?.show) return;
+    event.preventDefault();
+    viewer.show();
+  }
+
   protected override render(): TemplateResult {
     const width = this.width || undefined;
     const height = this.height || undefined;
@@ -81,7 +101,13 @@ export class SdsImage extends SdsElement {
        collision. The class goes on the picture itself, where the stylesheet
        expects it — the fallback markup is written that way by hand. */
     const cls = this.cls || (width || height ? '' : 'sds-art');
-    return art(this.src, this.alt, { cls, width, height, linked: this.linked });
+    const picture = art(this.src, this.alt, { cls, width, height, linked: this.linked });
+    if (!this.zoomable) return picture;
+    /* The viewer is a sibling of the trigger and not inside it: a `<dialog>`
+       within the link would be a dialog inside an anchor, and the press that
+       opens it would be the press that follows the href. */
+    return html`<a class="sds-zoom" href="${this.src}" title="Open the picture at full size" @click="${this.zoom}">${picture}</a>
+<sds-lightbox src="${this.src}" alt="${this.alt}" ?linked="${this.linked}"></sds-lightbox>`;
   }
 }
 

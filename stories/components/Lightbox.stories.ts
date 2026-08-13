@@ -1,8 +1,9 @@
 /* The viewer a drawing opens into.
 
-   `sds-figure` is the way in — `zoomable` gives it a trigger and it opens this.
-   The figure documents the frame around a drawing; this documents the surface
-   the drawing gets once the frame is out of the way.
+   `sds-figure` and `sds-image` are the way in — `zoomable` gives either a
+   trigger and it opens this. Those two document the frame around a drawing, or
+   its absence; this documents the surface the drawing gets once the frame is
+   out of the way.
 
    No `parameters.dsCard`: a viewer that has to be opened cannot be a static
    specimen. The mode is the point of `Default` and can only be judged by
