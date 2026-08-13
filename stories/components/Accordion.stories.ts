@@ -13,6 +13,22 @@ import '../../packages/frontend/src/components/accordion.ts';
 import '../../packages/frontend/src/components/code.ts';
 import { type AccordionProps, type Entry } from '../../packages/frontend/src/components/accordion.ts';
 
+/** One question, written out. The demos below are composed of these rather than
+    handed the same questions as a property: a property leaves no markup, and
+    the source panel under a story that passes one shows an element with nothing
+    in it — which is the one thing a reader came to copy. */
+export const sdsAccordionItem = ({ question, answer, open }: Entry) =>
+  html`<sds-accordion-item question="${question}" ?open="${Boolean(open)}">${answer}</sds-accordion-item>`;
+
+/** The set as a page writes it. Demos only: a screen is exported as a card with
+    no browser behind it, and an element given content between its tags cannot
+    be — see `renderStatic` in `lib/render.ts`. That is what `sdsAccordion` is
+    for, and it is the form the screens take. */
+const composed = ({ entries, multiple = false, name }: AccordionProps) =>
+  html`<sds-accordion ?multiple="${multiple}" name="${name ?? 'sds-accordion'}">
+  ${entries.map((entry) => sdsAccordionItem(entry))}
+</sds-accordion>`;
+
 export const sdsAccordion = ({ entries, multiple = false, name }: AccordionProps) =>
   html`<sds-accordion .entries="${entries}" ?multiple="${multiple}" name="${name ?? 'sds-accordion'}"></sds-accordion>`;
 
@@ -54,8 +70,8 @@ export const QUESTIONS: readonly Entry[] = [
 const meta: Meta<AccordionProps> = {
   title: 'Components/Accordion',
   tags: ['autodocs', '!dev'],
-  excludeStories: ['QUESTIONS'],
-  render: (args) => sdsAccordion(args),
+  excludeStories: ['QUESTIONS', 'sdsAccordion', 'sdsAccordionItem'],
+  render: (args) => composed(args),
   argTypes: {
     multiple: { control: 'boolean' },
     name: { control: 'text' },
@@ -66,13 +82,21 @@ const meta: Meta<AccordionProps> = {
 export default meta;
 type Story = StoryObj<AccordionProps>;
 
-/** Exclusive: opening one closes the last. The platform does it, from `name`
-    on each `<details>` — there is no listener here to get wrong. */
+/** A set is its items: one `sds-accordion-item` per question, and the set says
+    only what holds for all of them. Exclusive — opening one closes the last —
+    which the platform does from `name` on each `<details>`, so there is no
+    listener here to get wrong. */
 export const Default: Story = {};
 
 /** More than one at a time, for a set whose answers are meant to be compared
-    rather than found. */
-export const Multiple: Story = { args: { multiple: true } };
+    rather than found. It is also the quieter fold: exclusive closes one answer
+    while another opens, and the question under the pointer moves. */
+export const Multiple: Story = {
+  args: {
+    multiple: true,
+    entries: QUESTIONS.map((entry, i) => ({ ...entry, open: i < 2 })),
+  },
+};
 
 /** All closed. Correct where the questions are the page and the reader is
     scanning for one; the default set above stands its first answer open so the
@@ -81,11 +105,10 @@ export const AllClosed: Story = {
   args: { entries: QUESTIONS.map((entry) => ({ ...entry, open: false })) },
 };
 
-/** The other way in, and the one a documentation renderer takes: the question
-    on `sds-accordion-item`, the answer between its tags. An answer written by
-    a page is paragraphs, a list and a code block, and none of that fits in an
-    attribute. The set is named once and hands the group to the items. */
-export const Composed: Story = {
+/** What an item can hold, which is the reason the answer goes between the tags:
+    paragraphs, a list, a code block — none of it fits in an attribute, and all
+    of it is what a documentation renderer hands over. */
+export const Blocks: Story = {
   render: () => html`<sds-accordion name="composed">
     <sds-accordion-item question="What can an answer hold?" open>
       <p>
@@ -102,4 +125,13 @@ export const Composed: Story = {
       </p>
     </sds-accordion-item>
   </sds-accordion>`,
+};
+
+/** The other way in, for a page that already holds its questions as data: the
+    set takes them as `entries` and writes the items itself. It is also the only
+    form a screen can take, because a card is exported without a browser. The
+    panel below shows an empty element and says the truth — a property leaves no
+    markup, which is why every demo above is written out. */
+export const FromData: Story = {
+  render: (args) => sdsAccordion({ ...args, name: args.name ?? 'from-data' }),
 };
