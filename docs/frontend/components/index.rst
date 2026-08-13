@@ -20,8 +20,8 @@ markup the class layer already describes.
    forms
    overlays
 
-A component is addressed, never rebuilt
-=======================================
+Addressed, never rebuilt
+========================
 
 **Everything that fits in a string is a property.** Between the tags goes only
 what an attribute cannot carry — and that is *content*, never structure: the
@@ -51,8 +51,8 @@ nobody will fix.
    element**. A consumer writing three declarations into their own stylesheet
    is the outcome this system exists to prevent — see :doc:`/design-system/index`.
 
-Properties, attributes, and what a server can write
-===================================================
+Properties and attributes
+=========================
 
 Strings, numbers and booleans are attributes and a server writes them
 directly. Anything that is a list or a piece of markup is a **property**, set
@@ -107,8 +107,8 @@ rather than left to be lower-cased:
    ``flex`` set on the tag would land on nothing. What the property carries is
    given to the element that is actually laid out.
 
-Names that had to differ from the obvious one
-=============================================
+Names that had to differ
+========================
 
 Three of them, and each is a global HTML or ARIA attribute that a component
 would otherwise have quietly overridden.

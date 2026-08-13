@@ -326,6 +326,9 @@ sds-header:not(:defined) .sds-bar__nav{flex-wrap:wrap;min-width:min-content}
 .sds-bar__drawer .sds-bar__nav{flex-direction:column;align-items:stretch;gap:var(--border-hairline)}
 .sds-bar__drawer .sds-pill{padding:var(--space-1) var(--space-2)}
 .sds-bar__drawer .sds-rail{width:100%}
+.sds-bar__nav>.sds-bar__rail{margin-top:var(--space-3)}
+.sds-bar__nav>.is-active+.sds-bar__rail{margin:var(--space-1) 0 var(--space-2) var(--space-2);padding-left:var(--space-1);border-left:var(--border-hairline) solid var(--border-subtle)}
+.sds-bar__nav>.is-active+.sds-bar__rail .sds-rail>.sds-label{display:none}
 .sds-bar__drawer .sds-search{flex:none;width:100%}
 .sds-bar__rail:empty{display:none}
 .sds-bar__drawer[hidden]{display:none}

@@ -20,8 +20,8 @@ whichever colour its author baked in on a page that has since gone dark.
 There is no light copy and no dark copy. One file, referenced, reading the
 tokens of the page around it.
 
-What a file has to do to be referenced
-======================================
+What a file has to do
+=====================
 
 Three lines, and none of them changes the drawing.
 
@@ -54,8 +54,8 @@ never reached.
    as "a var() with a hex fallback". ``make diagrams`` refuses a file that
    carries one.
 
-Why the colour cannot go anywhere else
-======================================
+Where the colour has to live
+============================
 
 A reference clones the shapes into the page, and what travels with them is
 narrower than it looks.

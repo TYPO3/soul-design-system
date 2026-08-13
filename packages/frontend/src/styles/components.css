@@ -1896,8 +1896,9 @@ sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content
 }
 /* A column in here, and the field as wide as the drawer: what is laid out is a
    list of places to go, not a row that happened to wrap. It takes the rail's
-   measure rather than the row's, because the rail is directly under it and two
-   lists whose text starts four pixels apart read as an indent nobody meant. */
+   measure rather than the row's, because the pages of a section hang inside
+   this list and the two levels are one tree — they share a measure, and what
+   separates them is the indent below. */
 .sds-bar__drawer .sds-bar__nav {
   flex-direction: column;
   align-items: stretch;
@@ -1908,6 +1909,23 @@ sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content
    from: a 210px list of pages inside a 420px drawer is a column that was
    moved without being told where to. */
 .sds-bar__drawer .sds-rail { width: 100%; }
+/* The pages of a section, hanging under the section itself. The rail lands in
+   the sections rather than under them, so the drawer answers "where am I" with
+   one tree — two flat lists in one panel say only that there are two of them,
+   and which is the level the reader is on is left to be guessed. */
+.sds-bar__nav > .sds-bar__rail { margin-top: var(--space-3); }
+/* Set in against the rule that carries the level. Only where a section is
+   standing above it: a rail that found no section of its own is a list in its
+   own right and keeps both its place and its heading. */
+.sds-bar__nav > .is-active + .sds-bar__rail {
+  margin: var(--space-1) 0 var(--space-2) var(--space-2);
+  padding-left: var(--space-1);
+  border-left: var(--border-hairline) solid var(--border-subtle);
+}
+/* The pill above it already carries the section's name, and a heading repeating
+   it one line lower is the same word twice. The `<nav>` keeps its label, so a
+   reader who cannot see the pill is still told what the list is. */
+.sds-bar__nav > .is-active + .sds-bar__rail .sds-rail > .sds-label { display: none; }
 .sds-bar__drawer .sds-search { flex: none; width: 100%; }
 /* Where a folded rail waits — the page's own node, moved rather than copied.
    Empty until the layout has taken its column away, and an empty box in a

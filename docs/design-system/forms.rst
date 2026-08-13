@@ -50,16 +50,16 @@ somewhere else on the page, and the legend is the thing that gets cut.
 decides which keyboard a phone offers and what the platform validates before
 anything of ours runs.
 
-An error is a sentence, in one place
-====================================
+An error is a sentence
+======================
 
 ``error`` sets the message *and* the invalid state, because a field that says
 what is wrong without being marked wrong is two halves of one state, and halves
 drift. The sentence sits under the control — never as a tooltip, which is an
 error the pointer has to find and the keyboard never surfaces at all.
 
-The summary is the part that is always skipped
-==============================================
+The summary nobody writes
+=========================
 
 Marking the boxes is enough for a reader who can see the whole form. For anyone
 who cannot, a failed submit looks like a page that did nothing.

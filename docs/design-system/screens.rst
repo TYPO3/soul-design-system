@@ -50,8 +50,8 @@ are steps in an argument — a pitch, then who it is for, then what it costs —
 and wrong everywhere else, because a change of ground that means nothing is a
 change of ground the reader stops believing.
 
-Arriving — the pages that argue
-===============================
+Arriving — pages that argue
+===========================
 
 The landing page
 ----------------
@@ -111,8 +111,8 @@ recording.
    :viewport: 1440x900
    :title: Get started
 
-Finding — the pages that distribute
-===================================
+Finding — pages that distribute
+===============================
 
 The list
 --------
@@ -149,8 +149,8 @@ current — a map has no *here* on it.
    :viewport: 1440x900
    :title: Sitemap
 
-Reading — the pages that hold text
-==================================
+Reading — pages that hold text
+==============================
 
 The documentation surface
 -------------------------
@@ -247,8 +247,8 @@ the status colours — and they still sit only in badges and result rows.
    :viewport: 1440x900
    :title: Status
 
-What the pages made the system grow
-===================================
+What the pages asked for
+========================
 
 Every one of these came from a page that could not say something, and every one
 was closed in the component rather than in the page:

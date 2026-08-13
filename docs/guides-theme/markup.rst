@@ -12,8 +12,8 @@ one becomes, and where the answer was a decision rather than a mapping.
 Nothing here is something an author writes differently. The source is
 ordinary reStructuredText; the theme is what stands between it and the markup.
 
-The elements are rendered before the page is published
-======================================================
+Rendered before publishing
+==========================
 
 One arrangement runs under everything below, so it is worth saying once.
 

@@ -145,6 +145,17 @@ export declare class SdsHeader extends SdsNav {
         column of its own. */
     private decide;
     private field;
+    /** The sections as parts, and which of them the reader is in. Three shapes
+        arrive here: lifted from the page, handed over as markup, or as data.
+        Empty rather than absent where nothing was lifted, so the fallback is the
+        length and not a `??` that a `[]` never reaches — which is how a
+        prerendered bar came to hold an empty `<nav>` and a page with no script
+        lost its sections. `lifted()` runs in a browser only. */
+    private sections;
+    /** The sections: a row in the bar, a column in the drawer. Given `rail`, the
+        box the page's own rail is moved into hangs under the section whose pages
+        it holds — so the drawer is one tree, and not two lists a reader has to
+        tell apart by guessing which is the level they are on. */
     private nav_;
     private toggle_;
     protected render(): TemplateResult;

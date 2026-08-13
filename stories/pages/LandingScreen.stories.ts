@@ -103,7 +103,7 @@ const COMPONENTS: readonly {
     rows: [
       { cells: ['product', 'yes', 'The name in the lockup, with brand and signet where there are two halves.'] },
       { cells: ['items', 'no', 'The sections of the site, or the links a server wrote between the tags.'] },
-      { cells: ['rail', 'no', 'The id of the page rail, which joins the drawer once it has no column.'] },
+      { cells: ['rail', 'no', 'The id of the page rail, which hangs under its own section in the drawer once it has no column.'] },
     ],
     source: '<sds-header product="Soul" signet="signet.svg" search items=\'[\n  { "label": "overview", "href": "#overview" }\n]\'></sds-header>',
   },

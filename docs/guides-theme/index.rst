@@ -20,8 +20,8 @@ it, and so is the fixture the theme is checked against.
    directives
    markup
 
-Two halves, and one of them alone is not a theme
-================================================
+Two halves, and no third
+========================
 
 A Guides theme is a Composer package with two parts and no third: Twig
 templates that override the renderer's own by path, and container
@@ -70,8 +70,8 @@ a narrow screen the button that opens the rail. All of it is
 each page wrote for itself is a bar that disagrees with itself by the third
 page.
 
-The page reads with the script switched off
-===========================================
+It reads with the script off
+============================
 
 The renderer writes static HTML and the server is where the work happens: a
 code block arrives already coloured, tab panels are all in the markup, the

@@ -336,8 +336,8 @@ field it names.
 It renders ``sds-note`` rather than drawing the error block again: what a
 failure looks like is decided once.
 
-What a form does when it is sent, and when it is reset
-======================================================
+Sent, and reset
+===============
 
 Two behaviours worth knowing before a form is assembled out of these.
 

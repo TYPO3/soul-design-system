@@ -181,8 +181,8 @@ and every path inside it is already right.
    checkout of ``packages/frontend/src/`` and what has been proven is that the
    theme works with something nobody ships.
 
-What the finishing step does, and why it is not the renderer's job
-==================================================================
+What the finishing step does
+============================
 
 **It draws the elements.** Every template in this theme *addresses* a
 component — ``<sds-card heading="…">`` — and writes none of its markup, which
@@ -221,8 +221,8 @@ a theme or a copy step introduced.
    specimen cards — and it calls the same code the finishing step is built
    from, so this page cannot document something we do not run.
 
-Rendering more than one project
-===============================
+More than one project
+=====================
 
 The output directory takes several renders, and this is how a fixture, an API
 reference or a changelog ends up beside a manual: one ``guides.xml`` each, one

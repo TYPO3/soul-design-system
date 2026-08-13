@@ -20,8 +20,8 @@ The first runs in a directory of its own — a documentation repository holds
 documents, not a PHP manifest — and needs one line in front of it until the
 package is on Packagist. :doc:`installation` has both.
 
-The renderer, and what it does not do
-=====================================
+What the renderer does not do
+=============================
 
 The second command writes documents and stops there. It knows nothing about
 the three things a page in this theme still needs, and each of them is
@@ -133,8 +133,8 @@ the run, so it is the only one holding ``pages: write``, and it waits for the
 render. Deployments queue rather than cancel: a half-replaced site is worse
 than a site one commit behind.
 
-Once, in the repository's settings
-==================================
+Once, in the settings
+=====================
 
 GitHub Pages has to be told to take its content from Actions —
 **Settings → Pages → Source → GitHub Actions**. Left on a branch, the workflow
@@ -155,8 +155,8 @@ directory of static files. There is no server-side anything in the output:
 That is also how to look at it while writing — the page served there is the
 page that gets published, mode switch and search included.
 
-More than one project under one root
-====================================
+Several projects, one root
+==========================
 
 A render is one ``guides.xml``, one CLI call and one ``--output``, and nothing
 stops a build from doing that several times. Finish each output separately:

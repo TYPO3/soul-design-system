@@ -71,8 +71,8 @@ Beside each card is a ``.prompt.md``: what the component is, which classes it
 uses, and its markup as a block to copy. That is what the agent reads when it
 places one.
 
-What the gate checks before an upload
-=====================================
+What the gate checks
+====================
 
 .. code-block:: bash
 

@@ -75,8 +75,8 @@ What it sets
    smaller one between items. See :doc:`/design-system/type` for the classes,
    ``.sds-list`` and ``.sds-list--plain``.
 
-Six levels without three new sizes
-==================================
+Six levels, three sizes
+=======================
 
 The editorial scale names three headings, because a page has a title, a
 section and a subsection and then it has run out of things a reader can tell

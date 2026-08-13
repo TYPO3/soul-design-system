@@ -148,6 +148,13 @@ test('the page rail is a column, then part of the bar\u2019s one drawer', async 
   /* Over the page rather than pushing it down. */
   await expect(drawer).toHaveCSS('position', 'absolute');
 
+  /* And once the sections are in there too, the rail hangs under the one whose
+     pages it holds — the drawer is one tree, and a reader is told which of the
+     two levels they are standing on rather than being handed two lists. */
+  await page.setViewportSize({ width: 420, height: 900 });
+  await expect(page.locator('.sds-bar__nav > .is-active + .sds-bar__rail > #page-rail')).toHaveCount(1);
+  await expect(rail).toHaveCount(1);
+
   await page.keyboard.press('Escape');
   await expect(rail).toBeHidden();
   await expect(toggle).toBeFocused();

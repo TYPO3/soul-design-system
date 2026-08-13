@@ -47,8 +47,8 @@ whole device pixel.
    :viewport: 700x2087
    :title: Signet — construction
 
-Three sizes, each drawn in its own box
-======================================
+Three sizes, three boxes
+========================
 
 The three files are ``viewBox="0 0 32 32"``, ``0 0 24 24`` and
 ``0 0 16 16``: one unit is one pixel at the size the file is for, so a

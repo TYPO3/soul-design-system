@@ -13,8 +13,8 @@ floating it over the page.
    :viewport: 700x501
    :title: The planes, and what floats over them
 
-The surface and the behaviour are separate
-==========================================
+Surface and behaviour, apart
+============================
 
 ``sds-modal`` draws the surface, which is what a card can document: a card is a
 still picture and has nothing to open. ``sds-dialog`` is the behaviour —

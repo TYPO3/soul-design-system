@@ -3483,10 +3483,31 @@ var SdsHeader = class extends SdsNav {
   field() {
     return html22`<sds-search index="${this.index}"></sds-search>`;
   }
-  nav_() {
-    const written = this.taken.length ? this.taken : this.content;
+  /** The sections as parts, and which of them the reader is in. Three shapes
+      arrive here: lifted from the page, handed over as markup, or as data.
+      Empty rather than absent where nothing was lifted, so the fallback is the
+      length and not a `??` that a `[]` never reaches — which is how a
+      prerendered bar came to hold an empty `<nav>` and a page with no script
+      lost its sections. `lifted()` runs in a browser only. */
+  sections() {
+    if (this.taken.length) {
+      return {
+        parts: [...this.taken],
+        at: this.taken.findIndex((el) => el.matches(".is-active, [aria-current]"))
+      };
+    }
+    if (this.content) return { parts: [this.content], at: -1 };
+    return { parts: this.items_(), at: this.active < this.items.length ? this.active : -1 };
+  }
+  /** The sections: a row in the bar, a column in the drawer. Given `rail`, the
+      box the page's own rail is moved into hangs under the section whose pages
+      it holds — so the drawer is one tree, and not two lists a reader has to
+      tell apart by guessing which is the level they are on. */
+  nav_(rail) {
+    const { parts, at } = this.sections();
+    const inside = !rail ? parts : at < 0 ? [...parts, rail] : [...parts.slice(0, at + 1), rail, ...parts.slice(at + 1)];
     return html22`<nav class="sds-bar__nav" aria-label="Sections">
-    ${written || lines(this.items_(), 4)}
+    ${lines(inside, 4)}
   </nav>`;
   }
   toggle_() {
@@ -3505,6 +3526,7 @@ var SdsHeader = class extends SdsNav {
     const hasNav = Boolean(this.taken.length || this.content || this.items.length);
     const wantsSearch = this.search || Boolean(this.index);
     const drawer = this.foldNav || this.foldSearch || this.foldRail;
+    const slot = html22`<div class="sds-bar__rail"></div>`;
     return html22`<header class="sds-bar" @keydown="${(e) => this.onKey(e)}">
   ${lockup({ signet: this.signet, brand: this.brand, product: this.product, href: this.home || "#" })}
   ${hasNav && !this.foldNav ? this.nav_() : ""}
@@ -3516,8 +3538,7 @@ var SdsHeader = class extends SdsNav {
   </div>
   ${drawer ? html22`<div class="sds-bar__drawer" id="${this.drawerId}" ?hidden="${!this.open}" @click="${this.onFollow}">
     ${wantsSearch && this.foldSearch ? this.field() : ""}
-    ${hasNav && this.foldNav ? this.nav_() : ""}
-    <div class="sds-bar__rail"></div>
+    ${hasNav && this.foldNav ? this.nav_(slot) : slot}
   </div>` : ""}
 </header>`;
   }
@@ -3527,6 +3548,7 @@ var SdsHeader = class extends SdsNav {
       this.foldNav = false;
     }
     if (changed.has("foldRail") && !this.foldRail) this.release();
+    if (changed.has("foldNav")) this.release();
   }
   updated() {
     if (!this.watched) {

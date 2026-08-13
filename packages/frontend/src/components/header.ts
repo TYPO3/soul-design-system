@@ -2,8 +2,9 @@
 
    Mark, sections and controls in a row while there is room. What no longer
    fits is not dropped: it waits in one drawer under one button — the search,
-   the sections and the rail of the page below — because a reader looking for
-   the way somewhere has one place to press.
+   the sections, and the page's rail hanging under the section it is the pages
+   of — because a reader looking for the way somewhere has one place to press
+   and one tree to read.
 
    Measured, never declared: a bar holds a product name for as long as the
    product is called, so a breakpoint written here is wrong on the next site. */
@@ -325,14 +326,38 @@ export class SdsHeader extends SdsNav {
     return html`<sds-search index="${this.index}"></sds-search>`;
   }
 
-  private nav_(): TemplateResult {
-    const written = this.taken.length ? this.taken : this.content;
-    /* Empty rather than absent where nothing was lifted, so the fallback is the
-       length and not a `??` that a `[]` never reaches — which is how a
-       prerendered bar came to hold an empty `<nav>` and a page with no script
-       lost its sections. `lifted()` runs in a browser only. */
+  /** The sections as parts, and which of them the reader is in. Three shapes
+      arrive here: lifted from the page, handed over as markup, or as data.
+      Empty rather than absent where nothing was lifted, so the fallback is the
+      length and not a `??` that a `[]` never reaches — which is how a
+      prerendered bar came to hold an empty `<nav>` and a page with no script
+      lost its sections. `lifted()` runs in a browser only. */
+  private sections(): { parts: unknown[]; at: number } {
+    if (this.taken.length) {
+      return {
+        parts: [...this.taken],
+        at: this.taken.findIndex((el) => el.matches('.is-active, [aria-current]')),
+      };
+    }
+    /* Markup handed over whole is one part, and nothing in here can say which
+       section is inside it — the renderer that wrote it marked its own. */
+    if (this.content) return { parts: [this.content], at: -1 };
+    return { parts: this.items_(), at: this.active < this.items.length ? this.active : -1 };
+  }
+
+  /** The sections: a row in the bar, a column in the drawer. Given `rail`, the
+      box the page's own rail is moved into hangs under the section whose pages
+      it holds — so the drawer is one tree, and not two lists a reader has to
+      tell apart by guessing which is the level they are on. */
+  private nav_(rail?: TemplateResult): TemplateResult {
+    const { parts, at } = this.sections();
+    const inside = !rail
+      ? parts
+      : at < 0
+        ? [...parts, rail]
+        : [...parts.slice(0, at + 1), rail, ...parts.slice(at + 1)];
     return html`<nav class="sds-bar__nav" aria-label="Sections">
-    ${written || lines(this.items_(), 4)}
+    ${lines(inside as TemplateResult[], 4)}
   </nav>`;
   }
 
@@ -354,6 +379,9 @@ export class SdsHeader extends SdsNav {
     const hasNav = Boolean(this.taken.length || this.content || this.items.length);
     const wantsSearch = this.search || Boolean(this.index);
     const drawer = this.foldNav || this.foldSearch || this.foldRail;
+    /* One box, wherever it ends up standing: inside the tree where the sections
+       are in here too, and on its own where they are still in the row. */
+    const slot = html`<div class="sds-bar__rail"></div>`;
 
     return html`<header class="sds-bar" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">
   ${lockup({ signet: this.signet, brand: this.brand, product: this.product, href: this.home || '#' })}
@@ -367,8 +395,7 @@ export class SdsHeader extends SdsNav {
   ${drawer
     ? html`<div class="sds-bar__drawer" id="${this.drawerId}" ?hidden="${!this.open}" @click="${this.onFollow}">
     ${wantsSearch && this.foldSearch ? this.field() : ''}
-    ${hasNav && this.foldNav ? this.nav_() : ''}
-    <div class="sds-bar__rail"></div>
+    ${hasNav && this.foldNav ? this.nav_(slot) : slot}
   </div>`
     : ''}
 </header>`;
@@ -386,6 +413,10 @@ export class SdsHeader extends SdsNav {
        in the same render, and a rail still standing in it goes with it — off
        the page, with nothing left saying where it was. */
     if (changed.has('foldRail') && !this.foldRail) this.release();
+    /* And out for the same reason when the sections move, which moves the box
+       the rail stands in: Lit builds the new one rather than carrying the old
+       one across. `place()` puts it back into whichever box this render made. */
+    if (changed.has('foldNav')) this.release();
   }
 
   protected override updated(): void {

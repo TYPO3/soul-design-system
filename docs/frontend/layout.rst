@@ -188,8 +188,8 @@ reports and a page that argues.
    hairlines that keep two of them apart; consecutive quiet bands share one
    line rather than drawing two.
 
-The measure, and the numbers behind it
-======================================
+The measure, and its numbers
+============================
 
 The bar, the body, the page, the bands and both footers are full-bleed, and
 what is held to the measure is their *contents*. A fill that stops short reads

@@ -85,8 +85,8 @@ Two shapes
    Markdown or reStructuredText renderer produces without a name.
    ``soul.css`` deliberately does not import it — see :doc:`documents`.
 
-Three layers, and the one contract between them
-===============================================
+Three layers, one contract
+==========================
 
 **Tokens** hold the decisions. Every colour, size, space, radius and duration
 is declared under a semantic name, and light and dark sit in the same
@@ -136,8 +136,8 @@ Where to read on
    * - :doc:`documents`
      - the second stylesheet, for prose a renderer produced
 
-Rules that are not negotiable
-=============================
+Non-negotiable
+==============
 
 .. warning::
 
