@@ -2113,7 +2113,7 @@ sds-rail:not(:defined) {
   min-width: 0;
   padding: var(--block-pad-y) var(--block-pad-x);
   font-family: var(--font-mono);
-  font-size: var(--font-size-code);
+  font-size: var(--font-size-dense);
   line-height: var(--leading-code);
   color: var(--text-secondary);
   overflow-x: auto;

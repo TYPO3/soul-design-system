@@ -10,7 +10,7 @@
 :root {
   /* Buttons, fields, selects — anything you click or type in. */
   --control-font-size: var(--font-size-ui);
-  --control-font-size-sm: var(--font-size-code);
+  --control-font-size-sm: var(--font-size-dense);
 
   /* One height for all of them, declared rather than fallen out of padding: a
      12px segment, a 13px label and a 15px input make three different boxes out
@@ -44,7 +44,7 @@
   --table-head-size: var(--font-size-label);
   --table-head-tracking: 0.11em;
   --row-pad-compact: 6px;
-  --row-font-compact: var(--font-size-code);
+  --row-font-compact: var(--font-size-dense);
   --row-pad-medium: 9px;
   --row-font-medium: var(--font-size-ui);
   --row-pad-airy: 14px;
@@ -56,18 +56,18 @@
   /* Colour already tells a name from what stands beside it, so the label
      register is left to labels — this cell is read, not scanned past. */
   --row-meta-compact: var(--font-size-micro);
-  --row-name-medium: var(--font-size-code);
+  --row-name-medium: var(--font-size-dense);
   --row-meta-medium: var(--font-size-micro);
-  --row-name-airy: var(--font-size-code);
+  --row-name-airy: var(--font-size-dense);
   --row-meta-airy: var(--font-size-micro);
 
   /* Code and diff. */
-  --diff-font-size: var(--font-size-code);
+  --diff-font-size: var(--font-size-dense);
   --diff-leading: 1.75;
   --diff-tint: 14%;
 
   /* Navigation. */
-  --nav-font-size: var(--font-size-code);
+  --nav-font-size: var(--font-size-dense);
   --tab-font-size: var(--font-size-micro);
 
   /* Titled blocks. A block's title and its body are one pair and move as one:
@@ -77,7 +77,7 @@
      because of that, not because those components each picked a size. */
   --block-title-size: var(--font-size-ui);
   --entry-title-size: var(--font-size-body);
-  --block-body-size: var(--font-size-code);
+  --block-body-size: var(--font-size-dense);
   --block-body-leading: 1.45;
 
   /* One box, one padding. Every boxed block shares the horizontal value, so a

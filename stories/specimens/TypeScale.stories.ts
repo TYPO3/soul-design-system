@@ -38,7 +38,7 @@ const STEPS: readonly Step[] = [
   { token: '--font-size-lead', size: 19 },
   { token: '--font-size-body', size: 17 },
   { token: '--font-size-ui', size: 15 },
-  { token: '--font-size-code', size: 13, drawn: 14, mono: true },
+  { token: '--font-size-dense', size: 13, drawn: 14, mono: true },
   { token: '--font-size-micro', size: 12, mono: true },
   { token: '--font-size-label', size: 11, tracking: '0.09em', mono: true, sample: 'AA' },
 ];

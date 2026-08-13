@@ -1,3 +1,8 @@
+/* One scale, and each step named for the register it *is* — never for the one
+   component that reaches for it. A step named after a use is a step nothing
+   else feels entitled to, and the next component that needs the size writes
+   the number instead. `dense` is what a surface's own body, a nav item, a
+   compact row and a code block are all set in; code is not the owner of it. */
 :root {
   --font-size-display: 58px;
   --font-size-h1: 44px;
@@ -6,7 +11,7 @@
   --font-size-lead: 19px;
   --font-size-body: 17px;
   --font-size-ui: 15px;
-  --font-size-code: 13px;
+  --font-size-dense: 13px;
   --font-size-micro: 12px;
   --font-size-label: 11px;
 

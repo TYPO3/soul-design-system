@@ -1,15 +1,33 @@
 #!/usr/bin/env node
 /* What a rendered page actually measures.
 
-   The scale and the grid are read off `:root` in the page itself, so this
-   holds no second copy of either and cannot drift from the tokens. Every box
-   in the reading column is asked its size and the air above it; a number that
-   is not a step is a number somebody typed, and that is the whole report.
+   The steps come out of the token files themselves, so this holds no second
+   copy of the scale and cannot drift from it. Every box in the reading column
+   is then asked its size and the air above it; a number that is not a step is
+   a number somebody typed, and that is the whole report.
 
    Hosts are skipped rather than measured: an element with `display: contents`
    generates no box, so the thing to measure is what it rendered. */
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { screens, type Screen } from './lib/cards.ts';
 import { openCard, withPage } from './lib/browser.ts';
+
+const TOKENS = 'packages/frontend/src/tokens';
+
+/** Every step a token file declares under a prefix. Read rather than listed:
+    a name written into this file would be the second copy of the scale, and
+    the one that goes stale the next time a step is renamed. */
+function steps(prefix: string): number[] {
+  const found = new Set<number>();
+  for (const file of readdirSync(TOKENS).filter((f) => f.endsWith('.css'))) {
+    const text = readFileSync(join(TOKENS, file), 'utf8');
+    for (const m of text.matchAll(new RegExp(`--${prefix}-[a-z0-9-]+:\\s*([\\d.]+)px`, 'g'))) {
+      found.add(Number(m[1]));
+    }
+  }
+  return [...found].sort((a, b) => a - b);
+}
 
 /** What one box reported back. */
 interface Box {
@@ -21,12 +39,19 @@ interface Box {
   padX: number;
 }
 
-interface Report {
-  scale: number[];
-  grid: number[];
+/** What the page answers with — the steps are added here, not there. */
+interface Measured {
   boxes: Box[];
   sizes: { size: number; sample: string }[];
 }
+
+interface Report extends Measured {
+  scale: number[];
+  grid: number[];
+}
+
+const SCALE = steps('font-size');
+const GRID = steps('space');
 
 const wanted = process.argv[2];
 const list = screens().filter((s) => !wanted || s.rel.includes(wanted));
@@ -38,20 +63,8 @@ if (!list.length) {
 const measured = await withPage(async ({ map }) =>
   map(list, async (page, screen: Screen): Promise<{ screen: Screen; report: Report }> => {
     await openCard(page, screen);
-    const report: Report = await page.evaluate(() => {
-      const root = getComputedStyle(document.documentElement);
+    const report: Measured = await page.evaluate(() => {
       const px = (v: string): number => Math.round(parseFloat(v) * 100) / 100;
-      const read = (names: string[], prefix: string): number[] =>
-        names.map((n) => px(root.getPropertyValue(`${prefix}${n}`))).filter((n) => n > 0);
-
-      const scale = read(
-        ['display', 'h1', 'h2', 'h3', 'lead', 'body', 'ui', 'code', 'micro', 'label'],
-        '--font-size-',
-      );
-      const grid = read(
-        ['0-5', '1', '1-5', '2', '2-5', '3', '3-5', '4', '5', '6', '8', '10', '12', '16', '19'],
-        '--space-',
-      );
 
       /* A host renders its children and takes no box of its own, so the
          column's real children are one level down from some of them. */
@@ -108,13 +121,11 @@ const measured = await withPage(async ({ map }) =>
       }
 
       return {
-        scale,
-        grid,
         boxes,
         sizes: [...seen].sort((a, b) => b[0] - a[0]).map(([size, sample]) => ({ size, sample })),
       };
     });
-    return { screen, report };
+    return { screen, report: { ...report, scale: SCALE, grid: GRID } };
   }));
 
 /** The nearest step, for saying what a stray value was reaching for. */

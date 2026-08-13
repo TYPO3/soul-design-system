@@ -196,15 +196,17 @@ site is rendered along it, with the same file a reader runs.
   gap cannot be undercut, so the gap is the flow step and each heading adds
   its own margin above — 40, 32, 24 by level. It was one flat gap for
   everything, which is a column with no hierarchy in it at all.
-- **`make rhythm` reads the scale and the grid off `:root`.** It renders a
-  screen and measures it, so it holds no second copy of either and cannot
-  drift from the tokens. A whole-pixel size off the scale is a literal
+- **`make rhythm` reads the steps out of the token files.** It renders a
+  screen and measures it against them, so it holds no second copy of the scale
+  and cannot drift from it. Listing the step *names* was tried first and was
+  the same mistake one layer up: the list went stale the moment one was
+  renamed, and the tool reported every 13px value as a defect. A whole-pixel size off the scale is a literal
   somebody typed; a fractional one is an optical `em`, the correction mono
   carries beside sans, which is a ratio of its context and can never land on
   a step. It says which, and fails only on the first. A drawing is reported
   apart: `SKILL.md` pins its own scale, down to a 13px floor.
 - **No half-pixel font sizes.** House rule. 121 of them were rounded half-up
-  across the cards; `--font-size-code` went 13.5 → 13px to match the code
+  across the cards; `--font-size-dense` went 13.5 → 13px to match the code
   blocks that already rendered at 13. Keep it that way — `make verify`
   does not catch a new one, so watch it in review.
 - **Class prefix is `sds-`**, state is `.is-*`. `t3-` was avoided: the system's
@@ -227,7 +229,7 @@ site is rendered along it, with the same file a reader runs.
   far more height than they used). All corrected. `make fit` measures this
   and is part of `make verify` — run it after any content edit.
 - Two cards documented their own sizes in prose and went stale after the
-  rounding (`DIFF 12.5 PX`, `--font-size-code · 13.5`). If you change a size
+  rounding (`DIFF 12.5 PX`, `--font-size-dense · 13.5`). If you change a size
   token, grep the card copy for the number.
 
 ## CSS-only was a decision — and it was revisited
