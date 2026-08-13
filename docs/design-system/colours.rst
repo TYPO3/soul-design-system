@@ -9,9 +9,25 @@ Every colour in this system is a semantic token, declared once as
 There is no second block for dark mode, which is why light and dark **cannot
 drift**: they are the same declaration.
 
+Light and dark are equal surfaces. Light is warm paper rather than pure white;
+dark is the terminal rather than a dimmed copy of the light palette. With no
+``data-theme`` the reader's operating-system preference decides, so neither
+mode is presented as the exception.
+
 Force a mode on a subtree with ``data-theme="light"`` or ``data-theme="dark"``.
 Put it on ``<html>`` for a whole page — set it deeper and the browser's own
 chrome, its scrollbars and form controls, stays in the other mode.
+
+A mode choice is a product control rather than a preference screen.
+:ref:`sds-theme <component-sds-theme>` shows the available choices in place
+and returns to the machine's setting when the active choice is pressed again.
+The document writes a remembered choice before the first paint; the control
+then reads the document instead of keeping a second idea of the current mode.
+
+Scrollbars belong to the surface as well. They use the border token for the
+thumb, the muted text token under the pointer and a transparent track. Relying
+on ``color-scheme`` alone would leave their exact treatment to the browser and
+make the edge of the same page look unrelated across engines.
 
 .. warning::
 

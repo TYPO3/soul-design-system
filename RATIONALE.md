@@ -1,8 +1,8 @@
 # Soul Design System
 
 Design reasons are moving beside their rules in the published documentation.
-The brand, artwork, type, density, spacing, layout and radius decisions now
-live on their pages under `docs/design-system/`; the class and component
+The brand, artwork, colour, type, density, spacing, layout and radius decisions
+now live on their pages under `docs/design-system/`; the class and component
 contract lives under `docs/frontend/`. This file temporarily holds the reasons
 not yet moved and is reduced as each topic finds its permanent page.
 
@@ -11,20 +11,6 @@ not yet moved and is reduced as each topic finds its permanent page.
 It was cut against a real surface and still answers to one: **TYPO3 Support App**, a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work for the three audiences that do it — the core contributor, the extension author and the site developer. That product is the worked example throughout this document, and deliberately so — a system with no surface to answer to drifts into taste.
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
-
-## Direction
-
-Chosen from three built candidates: **B — Terminal.** TYPO3-adjacent with its own note: TYPO3 orange is the only accent, the typeface is TYPO3's own Source Sans 3, and the composition is airy and documentation-like rather than dense like the backend.
-
-Dark and light are equal citizens; the OS preference decides. Dark is the terminal. Light is warm paper — never pure white as a canvas.
-
-Every semantic colour token is declared **once**, as `light-dark(light, dark)`, against `color-scheme: light dark` on `:root`. There is no second block to keep in sync, so the two modes cannot drift apart. To force a mode on any subtree, set `data-theme="light"` or `data-theme="dark"` — that flips `color-scheme`, and every token follows on its own. `--orange-*` is the raw scale and is identical in both modes; never use it directly in a design.
-
-**A mode switch is a product control, not a preference screen.** Every surface offers one: two segments, `light` and `dark`, the active one filled with the accent — the same treatment as an active navigation item, because it is one. The first visit follows `prefers-color-scheme`; the choice is then remembered and written to `data-theme` on `<html>`, so the page background and the native scrollbars follow with it. Setting the attribute deeper than `<html>` themes the subtree but leaves the browser's own chrome behind — which is exactly how scrollbars end up in the wrong mode.
-
-**The header never wraps.** It sheds in a fixed order, widest first: at 1120px the mode switch drops its `light`/`dark` labels and keeps the two icons, at 1040px the transport line goes, at 820px the navigation collapses into a single button and the items move into a panel under the header — full-width rows, the active one filled with the accent, with the transport line at its foot. The mode switch and the mark stay in the bar at every width; below 620px the wordmark drops `Soul Design System` and keeps `TYPO3` plus the signet. A header that wraps to two lines breaks the sticky offset everything below it is measured against.
-
-**Scrollbars belong to the surface.** `tokens/colors.css` styles them alongside the tokens: thumb `--border-strong`, `--text-muted` on hover, transparent track, 11px. Any page that loads the tokens gets them; `color-scheme` alone would only flip the ones the browser draws itself.
 
 ## Visual foundations
 
