@@ -127,9 +127,9 @@ reichen Attribute; Kinder braucht hier niemand.
 Bedingung: der Inhalt eines Knotens ist beliebiger Inhalt.
 
 **Im Satz** — `sds-icon`, `sds-link`, `sds-badge`, und die Textrollen, die es
-noch nicht gibt. Für eine Rolle wie `guilabel` oder `kbd` ist ein Custom
-Element der falsche Preis: eine Klasse und eine CSS-Regel tun es, und Guides
-setzt die Klasse ohnehin schon.
+noch nicht gibt. Für eine Rolle wie `guilabel` ist ein Custom Element der
+falsche Preis: eine Klasse und eine CSS-Regel tun es, und Guides setzt die
+Klasse ohnehin schon.
 
 **Anwendung** — `sds-modal`, `sds-dialog`, `sds-overlay`,
 `sds-field`, `sds-field-error`. In einer Doku-Seite kommt davon nichts vor,
@@ -138,20 +138,11 @@ außer wir stellen die Suche.
 ## Was nicht an uns liegt
 
 Ein Blockzitat kommt als Definitionsliste heraus. Der eingerückte Block in
-`acceptance/index.rst` wird zu `<dl><dt>erste Zeile</dt><dd>zweite Zeile</dd>`,
-und `<blockquote>` erscheint in der ganzen Ausgabe kein einziges Mal — die
-Regel dafür in `document.css` ist damit unerreichbar, obwohl sie stimmt. Das
-ist der Parser und nicht das Theme; die Reparatur wäre eine eigene
+`acceptance/index.rst` wird zu `<dl><dt>erste Zeile</dt><dd>zweite Zeile</dd>`.
+Das ist der Parser und nicht das Theme; die Reparatur wäre eine eigene
 Production-Rule hier oder ein Patch dort. Zitieren kann eine Seite trotzdem:
 `.. quote::` ist die Direktive, die der Knoten nicht hergibt, und sie verlangt
 die Quelle, die ein Blockzitat nur anbieten würde.
-
-Eine Fuß-Navigation rendert der Kern nicht. Der Block dafür steht in seinem
-eigenen `structure/footer.html.twig` auskommentiert, es gibt weder `next` noch
-`prev` zu lesen — was hier als fremdes Markup geführt wurde, war nie eine
-Ausgabe, die man hätte umschreiben können. Gebaut ist sie jetzt trotzdem:
-`Navigation\Pager` rechnet die Nachbarseiten aus dem Baum, `<pager>` schaltet
-sie ein.
 
 Die Annotationsliste ist kein Gegenstück-Problem, sondern gar keins. Der Knoten
 sammelt Fußnoten und Zitate ein und rendert seine Kinder ohne ein eigenes
