@@ -184,6 +184,18 @@ site is rendered along it, with the same file a reader runs.
   two ran 0, 2 and 5 steps depending on which component you looked at, and the
   accordion's question sat a step *below* its own answer. The pair is the fix:
   a component picks a register, never a size.
+- **The space scale is halved below 16px.** `--space-0-5`, `-1-5`, `-2-5` and
+  `-3-5` are not a loosening of the 4px grid but the part of it that was
+  missing: the small end is where a glyph beside a word and a label over its
+  value are read, and where the scale had no step the value got typed instead.
+  `components.css` held a literal for nearly every integer from 1 to 16 —
+  6px alone appeared fourteen times, and ten boxed blocks carried ten
+  different paddings. Above 16 nothing has ever needed a half-step, and the
+  scale does not gain one.
+- **The reading column's rhythm is a gap plus what a heading buys.** A flex
+  gap cannot be undercut, so the gap is the flow step and each heading adds
+  its own margin above — 40, 32, 24 by level. It was one flat gap for
+  everything, which is a column with no hierarchy in it at all.
 - **No half-pixel font sizes.** House rule. 121 of them were rounded half-up
   across the cards; `--font-size-code` went 13.5 → 13px to match the code
   blocks that already rendered at 13. Keep it that way — `make verify`

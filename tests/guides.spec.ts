@@ -439,7 +439,7 @@ test.describe('what the theme repaired', () => {
        nothing else compares the page against the card it embeds. */
     const width = await frame.locator('iframe').evaluate((el) => el.getBoundingClientRect().width);
     expect(Math.round(width)).toBe(700);
-    await expect(page.locator('.sds-embed__caption')).toContainText('700x260');
+    await expect(page.locator('.sds-embed__caption')).toContainText('700x270');
   });
 
   test('the local contents is a table of contents, not the rail', async ({ page }) => {

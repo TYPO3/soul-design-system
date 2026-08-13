@@ -66,5 +66,5 @@ Usage
 =====
 
 .. specimen:: guidelines/icons-usage.card.html
-   :viewport: 700x470
+   :viewport: 700x482
    :title: Usage

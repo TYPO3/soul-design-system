@@ -72,7 +72,7 @@ const meta: Meta = {
       group: 'Brand',
       name: 'Misuse',
       subtitle: 'Six things that break the mark',
-      viewport: '700x250',
+      viewport: '700x251',
     }),
   },
 };

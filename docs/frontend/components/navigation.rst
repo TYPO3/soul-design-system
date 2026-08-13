@@ -10,7 +10,7 @@ focusable, pressable, and announcing ``sds-change`` when it becomes current. An
 item that goes somewhere says ``href`` and is left to the browser.
 
 .. specimen:: components/navigation/navigation.card.html
-   :viewport: 700x150
+   :viewport: 700x156
    :title: Tabs & tool rail
 
 .. confval:: items

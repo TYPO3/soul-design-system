@@ -37,7 +37,7 @@ Scale
 =====
 
 .. specimen:: guidelines/type-scale.card.html
-   :viewport: 700x230
+   :viewport: 700x246
    :title: Type scale
 
 Display and headings
@@ -86,5 +86,5 @@ Mono and labels
 ===============
 
 .. specimen:: guidelines/type-mono.card.html
-   :viewport: 700x190
+   :viewport: 700x201
    :title: Mono & labels

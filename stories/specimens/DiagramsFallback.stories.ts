@@ -27,7 +27,7 @@ const meta: Meta = {
       name: 'Fallback — a sequence without a flowchart',
       subtitle: 'Length is coverage, so the shortfall is visible before it is read',
       theme: 'both',
-      viewport: '1400x1023',
+      viewport: '1400x1027',
       bodyClass: 'spec-sunken',
     }),
   },

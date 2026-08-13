@@ -44,7 +44,7 @@ the box it is for, so every straight edge is a whole number and lands on a
 whole device pixel.
 
 .. specimen:: guidelines/brand-signet-construction.card.html
-   :viewport: 700x1962
+   :viewport: 700x2072
    :title: Signet — construction
 
 Three sizes, each drawn in its own box
@@ -68,11 +68,11 @@ has — a favicon, an avatar, an app icon, a bar. One number sizes it, and
 there is no aspect to state twice or to get wrong.
 
 .. specimen:: guidelines/brand-signet-sizes.card.html
-   :viewport: 700x923
+   :viewport: 700x937
    :title: Signet — sizes
 
 .. specimen:: guidelines/brand-signet-modes.card.html
-   :viewport: 700x619
+   :viewport: 700x628
    :title: Signet — modes & context
 
 The family
@@ -84,7 +84,7 @@ construction inside it, the outer radius, the stroke and its two consequences
 product.
 
 .. specimen:: guidelines/brand-signet-family.card.html
-   :viewport: 700x650
+   :viewport: 700x676
    :title: Signet — the family
 
 Drawing a new one
@@ -144,5 +144,5 @@ orange fill behind it. The large drawing at a small size. The marker in
 anything but orange.
 
 .. specimen:: guidelines/brand-misuse.card.html
-   :viewport: 700x250
+   :viewport: 700x251
    :title: Misuse

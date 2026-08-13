@@ -21,6 +21,17 @@ everything below is measured against.
 Space scale
 ===========
 
+A 4px base, halved below 16 and thinning out above 24. The half-steps —
+``--space-0-5``, ``--space-1-5``, ``--space-2-5``, ``--space-3-5`` — are the
+small end of the same grid rather than an exception to it: a glyph beside a
+word and a label over its value are read at distances 4px is too coarse for,
+and a scale with no step there is a scale that gets a literal typed under it.
+Above 16 nothing has needed one.
+
+A boxed block takes ``--block-pad-y`` by ``--block-pad-x``, and every box in
+the system shares the horizontal value, so a card, a note, a modal and a code
+block start their text on the same edge however they are stacked.
+
 .. specimen:: guidelines/spacing-scale.card.html
    :viewport: 700x130
    :title: Space scale

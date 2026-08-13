@@ -1,7 +1,16 @@
 :root {
+  /* A 4px base, halved below 16 and thinning out above 24. The half-steps are
+     not a loosening of the grid but the part of it that was missing: a glyph
+     beside a word, a label over its value and a control's inner air are read
+     at distances 4px is too coarse for, and where the scale had no step the
+     value got typed instead. Above 16 nothing has ever needed one. */
+  --space-0-5: 2px;
   --space-1: 4px;
+  --space-1-5: 6px;
   --space-2: 8px;
+  --space-2-5: 10px;
   --space-3: 12px;
+  --space-3-5: 14px;
   --space-4: 16px;
   --space-5: 20px;
   --space-6: 24px;

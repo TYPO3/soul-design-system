@@ -27,14 +27,14 @@ has to read as a plane. **Sunken** is machine output — code, logs, structured
 content. The canvas is the ground everything else sits on.
 
 .. specimen:: guidelines/colors-surfaces.card.html
-   :viewport: 700x260
+   :viewport: 700x270
    :title: Surfaces
 
 Text
 ====
 
 .. specimen:: guidelines/colors-text.card.html
-   :viewport: 700x160
+   :viewport: 700x176
    :title: Text
 
 Borders

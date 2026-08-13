@@ -65,7 +65,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Type scale',
       subtitle: 'Every step in the system, largest to smallest',
-      viewport: '700x230',
+      viewport: '700x246',
     }),
   },
 };

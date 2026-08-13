@@ -64,6 +64,14 @@ hr {
    `.sds-app`, because linking this stylesheet *is* the opt-in. A class still
    wins, which is the mechanism behind `<h2 class="sds-h3">`. */
 
+/* The base every unstyled thing inherits. Without it a `<div>` holding words
+   renders at the browser's 16px, which is a size this system does not have —
+   one step off the paragraph beside it, and invisible until it is measured. */
+body {
+  font-size: var(--font-size-body);
+  line-height: var(--leading-body);
+}
+
 /* Body copy. 17px at 1.65, held to the reading column. `.sds-prose` is what a
    `<p>` already is, and exists for the elements that are not one. */
 .sds-prose,
@@ -209,7 +217,7 @@ li::marker { color: var(--text-muted); }
   align-items: center;
   justify-content: center;
 }
-.sds-byline__who { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sds-byline__who { display: flex; flex-direction: column; gap: var(--space-0-5); min-width: 0; }
 .sds-byline__name { font-size: var(--font-size-ui); color: var(--text-primary); }
 .sds-byline__role { color: var(--text-muted); }
 
@@ -271,7 +279,7 @@ button.sds-link { font: inherit; border: 0; background: none; padding: 0; cursor
 .sds-link:has(.sds-icon, sds-icon) {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-1-5);
 }
 
 /* An icon follows the text colour it sits in — an <img> cannot inherit
@@ -389,13 +397,13 @@ sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
 .sds-badge {
   font-family: var(--font-mono);
   font-size: var(--badge-font-size);
-  padding: 3px 8px;
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-control);
   border: var(--border-hairline) solid var(--border-strong);
   color: var(--text-secondary);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-1-5);
   /* An inline-flex box takes its baseline from its first flex item, so a
      badge that starts with an icon has no text baseline to offer and sits
      4px off the ones that do. Aligning to the middle makes a badge's
@@ -482,7 +490,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   background: var(--surface-sunken);
   border: var(--border-hairline) solid var(--border-strong);
   border-radius: var(--radius-control);
-  padding: 7px var(--control-pad-x-sm);
+  padding: var(--space-1-5) var(--control-pad-x-sm);
   color: var(--text-muted);
   font-size: var(--control-font-size);
   line-height: var(--control-leading);
@@ -515,7 +523,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-field-error {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-1-5);
   font-size: var(--block-body-size);
   color: var(--status-error);
 }
@@ -530,7 +538,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    phone made the row 420px wide and pushed the page sideways, with nothing in
    it looking wrong. The field's `max-width: 100%` can only help once the box
    around it is allowed to be smaller than what it asked for. */
-.sds-field-row { display: flex; flex-direction: column; gap: 6px; min-width: 0; max-width: 100%; }
+.sds-field-row { display: flex; flex-direction: column; gap: var(--space-1-5); min-width: 0; max-width: 100%; }
 .sds-field-label { font-size: var(--control-font-size); color: var(--text-primary); }
 /* Which fields are required is stated on the required ones, in words. An
    asterisk is a convention that has to be explained in a legend somewhere, and
@@ -579,7 +587,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
      for the next. */
   font-size: var(--control-font-size);
   line-height: var(--control-leading);
-  margin: calc((1lh - 16px) / 2) 0 0;
+  margin: calc((1lh - var(--control-icon-size)) / 2) 0 0;
   background: var(--surface-sunken);
   border: var(--border-hairline) solid var(--border-strong);
   border-radius: var(--radius-control);
@@ -627,7 +635,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 }
 /* Control leading on the label, so the box beside it is centred on one line
    and the hint below is the label's own rather than a second row. */
-.sds-check__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sds-check__body { display: flex; flex-direction: column; gap: var(--space-0-5); min-width: 0; }
 .sds-check__label {
   font-size: var(--control-font-size);
   line-height: var(--control-leading);
@@ -669,7 +677,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   outline-offset: 2px;
   border-radius: var(--radius-card);
 }
-.sds-form-errors__list { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+.sds-form-errors__list { display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-1-5); }
 .sds-form-errors__list a { width: fit-content; }
 
 /* --------------------------------------------------------------- tables -- */
@@ -718,12 +726,12 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   text-transform: uppercase;
   color: var(--text-muted);
   font-weight: var(--weight-regular);
-  padding: 0 12px var(--sds-row-pad) 0;
+  padding: 0 var(--space-3) var(--sds-row-pad) 0;
   border-bottom: var(--border-hairline) solid var(--border-strong);
 }
 
 .sds-table td {
-  padding: var(--sds-row-pad) 12px var(--sds-row-pad) 0;
+  padding: var(--sds-row-pad) var(--space-3) var(--sds-row-pad) 0;
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   color: var(--text-secondary);
 }
@@ -764,24 +772,24 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-sunken {
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
-  padding: var(--sds-pad, 14px 16px);
+  padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
 }
 .sds-panel { background: var(--surface-raised); }
 .sds-sunken { background: var(--surface-sunken); }
 
-.sds-surface-title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); }
+.sds-surface-title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
 /* The label sits over the title with the title's own leading between them. */
-.sds-surface-title:not(:first-child) { margin-top: 6px; }
+.sds-surface-title:not(:first-child) { margin-top: var(--space-1-5); }
 .sds-surface-body {
   font-size: var(--block-body-size);
   line-height: 1.5;
   color: var(--text-secondary);
-  margin-top: 5px;
+  margin-top: var(--space-1);
 }
 /* A glyph above the label, where a set of cards is told apart at a glance
    before it is read. Muted, and never in a status colour: a card is a subject,
    not a result, and colour here would say something the words do not. */
-.sds-surface-icon { color: var(--text-secondary); margin-bottom: 10px; }
+.sds-surface-icon { color: var(--text-secondary); margin-bottom: var(--space-2-5); }
 /* The glyph carries the gap on its own, so a card with no label between them
    is not spaced differently from one that has a label. */
 .sds-surface-icon + .sds-surface-title { margin-top: 0; }
@@ -840,11 +848,11 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--sds-pad, 14px 16px);
+  padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
 }
 /* Muted and never in a status colour, for the reason a surface's glyph is: a
    card is a subject, not a result. It carries the gap to the label itself. */
-.sds-card__icon { color: var(--text-secondary); margin-bottom: 2px; }
+.sds-card__icon { color: var(--text-secondary); margin-bottom: var(--space-0-5); }
 /* Not `--text-link`, and on the line rather than on the anchor in it: the
    title is the card's own voice wherever the link turned out to be. */
 .sds-card__title {
@@ -878,7 +886,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: var(--space-4) 16px var(--space-2);
+  padding: var(--space-4) var(--space-4) var(--space-2);
 }
 .sds-card__note {
   font-size: var(--block-body-size);
@@ -891,7 +899,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-card__action {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-1-5);
   margin-left: auto;
   font-size: var(--block-body-size);
   font-weight: var(--weight-semibold);
@@ -908,7 +916,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
   gap: var(--space-6);
 }
-.sds-stat { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sds-stat { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
 .sds-stat__value {
   font-size: var(--font-size-h1);
   line-height: var(--leading-heading);
@@ -1008,7 +1016,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: 14px 16px;
+  padding: var(--block-pad-y) var(--block-pad-x);
 }
 /* Not `--text-link`, on the line itself and not only on the anchor in it: the
    title is the card's own voice wherever the link turned out to be, and a grid
@@ -1041,7 +1049,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-result {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-1-5);
   padding-block: var(--space-5);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
 }
@@ -1069,7 +1077,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   background: var(--surface-accent-quiet);
   color: var(--text-primary);
   border-radius: 2px;
-  padding: 0 2px;
+  padding: 0 var(--space-0-5);
 }
 
 /* A boundary, drawn as an answer, never "no results": which source was asked,
@@ -1081,10 +1089,10 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: var(--space-2-5);
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
-  padding: 20px 18px;
+  padding: var(--block-pad-y-roomy) var(--block-pad-x);
 }
 /* Muted by default: an empty result is not an event. The quiet accent is for
    a stated boundary, which is a deliberate answer about scope rather than the
@@ -1092,7 +1100,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    at all. Status colour appears in neither: nothing failed. */
 .sds-empty__icon { color: var(--text-muted); }
 .sds-empty--boundary .sds-empty__icon { color: var(--text-accent-quiet); }
-.sds-empty__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); }
+.sds-empty__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
 .sds-empty__body {
   font-size: var(--block-body-size);
   line-height: var(--block-body-leading);
@@ -1117,13 +1125,13 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 11px 14px;
+  padding: var(--block-pad-y) var(--block-pad-x);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   font-size: var(--block-title-size);
   font-weight: var(--weight-semibold);
 }
 .sds-modal__body {
-  padding: 13px 14px;
+  padding: var(--block-pad-y) var(--block-pad-x);
   font-size: var(--block-body-size);
   line-height: 1.55;
   color: var(--text-secondary);
@@ -1132,7 +1140,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: flex;
   justify-content: flex-end;
   gap: var(--control-gap);
-  padding: 11px 14px;
+  padding: var(--block-pad-y) var(--block-pad-x);
   border-top: var(--border-hairline) solid var(--border-subtle);
 }
 
@@ -1140,7 +1148,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-drawer {
   background: var(--surface-raised);
   border-left: var(--border-hairline) solid var(--border-strong);
-  padding: 12px;
+  padding: var(--block-pad-y) var(--block-pad-x);
 }
 
 /* -------------------------------------------------------------- layout -- */
@@ -1266,13 +1274,24 @@ html:has(.sds-bar) {
    page's, and what is left beside the rail is what this is. `min-width: 0`
    because a code block or a table inside it is wider than it looks and would
    otherwise set the floor. */
+/* The column's rhythm, and the reason it is not one gap: a flow where a
+   heading gets the air a paragraph gets has no hierarchy in it at all, and
+   the step above a heading is what says which level it is before its size
+   does. The gap is what everything gets; a heading buys the rest itself and
+   what it buys shrinks as the level deepens, to the document layer's totals —
+   40 above a second-level heading, 32 above a third, 24 above a fourth. */
 .sds-column {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
+.sds-column > :is(h2, .sds-h2) { margin-top: var(--space-6); }
+.sds-column > :is(h3, .sds-h3) { margin-top: var(--space-4); }
+.sds-column > h4 { margin-top: var(--space-2); }
+/* A heading is the top of what follows, not a gap after what came before. */
+.sds-column > :first-child { margin-top: 0; }
 
 /* A page with no rail: the measure, and nothing beside it. */
 .sds-page { flex: 1; padding-block: var(--space-12) var(--space-10); }
@@ -1337,7 +1356,7 @@ html:has(.sds-bar) {
   gap: var(--space-6);
 }
 .sds-footer__group { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
-.sds-footer__links { display: flex; flex-direction: column; gap: 7px; font-size: var(--nav-font-size); }
+.sds-footer__links { display: flex; flex-direction: column; gap: var(--space-1-5); font-size: var(--nav-font-size); }
 /* A footer is a directory, not a place the accent appears — `--accent` marks
    three things and a list of every page is not one of them. It is also what
    the ground costs: the link orange is 4.29:1 on the sunken plane, which is
@@ -1583,7 +1602,7 @@ html:has(.sds-bar) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-1-5);
   font-size: var(--nav-font-size);
   color: var(--text-secondary);
 }
@@ -1610,8 +1629,8 @@ html:has(.sds-bar) {
 .sds-pagination__step {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: var(--space-1-5);
+  padding: var(--space-1-5) var(--space-3);
   border-radius: var(--radius-control);
   color: var(--text-secondary);
   text-decoration: none;
@@ -1626,7 +1645,7 @@ html:has(.sds-bar) {
 .sds-pagination__step.is-disabled { color: var(--text-muted); pointer-events: none; }
 /* The gap where numbers were left out. Not a control, and never the thing a
    reader tries to press. */
-.sds-pagination__gap { padding: 6px 4px; color: var(--text-muted); user-select: none; }
+.sds-pagination__gap { padding: var(--space-1-5) var(--space-1); color: var(--text-muted); user-select: none; }
 /* What the numbers are of, at the end of the row. */
 .sds-pagination__count { margin-left: auto; color: var(--text-muted); }
 
@@ -1658,7 +1677,7 @@ button.sds-rail__item {
 .sds-rail__item {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: var(--space-1-5);
 }
 
 /* Pill nav for sections. Active is a filled block, not a tint. */
@@ -1675,7 +1694,7 @@ button.sds-rail__item {
   font-size: var(--nav-font-size);
 }
 .sds-pill {
-  padding: 6px 12px;
+  padding: var(--space-1-5) var(--space-3);
   border-radius: var(--radius-control);
   color: var(--text-secondary);
   text-decoration: none;
@@ -1813,7 +1832,7 @@ sds-menu[for]:not(:defined),
   font-size: var(--tab-font-size);
 }
 .sds-tab {
-  padding: 9px 14px;
+  padding: var(--space-2) var(--space-3-5);
   color: var(--text-muted);
   text-decoration: none;
   transition: color var(--duration-fast) var(--ease-out);
@@ -1822,7 +1841,7 @@ sds-menu[for]:not(:defined),
 .sds-tab.is-active {
   color: var(--text-primary);
   border-bottom: var(--border-emphasis) solid var(--accent);
-  margin-bottom: -1px;
+  margin-bottom: calc(var(--border-hairline) * -1);
 }
 /* What a tab stands for. The panels that are not showing keep their content
    in the document — hidden, so a find-in-page still reaches it. */
@@ -1836,7 +1855,7 @@ sds-menu[for]:not(:defined),
      wherever it is not a flex item — which is most places a header puts it. */
   display: inline-flex;
   gap: var(--space-1);
-  padding: 2px;
+  padding: var(--space-0-5);
   /* The control height, and the segments fill what is left of it. Two 12px
      words are the smallest thing in a header, and left to their own padding
      they made the mode pair the shortest box on the line. */
@@ -1851,7 +1870,7 @@ sds-menu[for]:not(:defined),
   font: inherit;
   display: inline-flex;
   align-items: center;
-  padding: 0 9px;
+  padding: 0 var(--space-2);
   cursor: pointer;
   color: var(--text-secondary);
   background: none;
@@ -1867,7 +1886,7 @@ sds-menu[for]:not(:defined),
   width: var(--width-sidebar);
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: var(--border-hairline);
   font-family: var(--font-mono);
   font-size: var(--nav-font-size);
 }
@@ -1877,7 +1896,7 @@ sds-menu[for]:not(:defined),
    a paragraph and pair up two to a line. */
 .sds-rail__item {
   display: flex;
-  padding: 5px 9px;
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-control);
   color: var(--text-secondary);
   text-decoration: none;
@@ -1890,7 +1909,7 @@ sds-menu[for]:not(:defined),
 sds-rail:not(:defined) {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: var(--border-hairline);
   font-family: var(--font-mono);
   font-size: var(--nav-font-size);
 }
@@ -1899,7 +1918,7 @@ sds-rail:not(:defined) {
    spacing, and here it is a heading standing directly on its list. */
 .sds-rail > .sds-label {
   margin-bottom: var(--space-2);
-  padding-inline: 9px;
+  padding-inline: var(--space-2);
 }
 
 /* A rail long enough to need sections. The fold is a `<details>`, so it works
@@ -1913,7 +1932,7 @@ sds-rail:not(:defined) {
 .sds-rail__group::details-content {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: var(--border-hairline);
 }
 .sds-rail__group > summary {
   list-style: none;
@@ -1923,7 +1942,7 @@ sds-rail:not(:defined) {
   align-items: center;
   gap: var(--space-2);
   margin-top: var(--space-2);
-  padding: 5px 9px;
+  padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -1978,6 +1997,7 @@ sds-rail:not(:defined) {
      head set below its own body, which reads as a caption over an article. */
   font-size: var(--block-title-size);
   font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
   color: var(--text-primary);
   transition: color var(--duration-fast) var(--ease-out);
 }
@@ -1989,7 +2009,10 @@ sds-rail:not(:defined) {
 .sds-accordion__head .sds-icon {
   width: var(--control-icon-size);
   height: var(--control-icon-size);
-  margin-top: 3px;
+  /* Centred on the first line rather than nudged onto it: the question is
+     15px on a surface and 17px in a document, and a typed offset is right
+     for one of them. */
+  margin-top: calc((1lh - var(--control-icon-size)) / 2);
   color: var(--text-muted);
   transform: rotate(-90deg);
   transition: transform var(--duration-fast) var(--ease-out);
@@ -2024,7 +2047,7 @@ sds-rail:not(:defined) {
   align-items: center;
   justify-content: space-between;
   gap: var(--control-gap);
-  padding: 8px 13px;
+  padding: var(--block-pad-y-tight) var(--block-pad-x);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   color: var(--text-muted);
 }
@@ -2059,7 +2082,7 @@ sds-rail:not(:defined) {
 .sds-code__copy {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-1-5);
   font-family: var(--font-mono);
   font-size: var(--font-size-label);
   letter-spacing: var(--tracking-label);
@@ -2088,7 +2111,7 @@ sds-rail:not(:defined) {
 .sds-code__body {
   margin: 0;
   min-width: 0;
-  padding: 14px 15px;
+  padding: var(--block-pad-y) var(--block-pad-x);
   font-family: var(--font-mono);
   font-size: var(--font-size-code);
   line-height: var(--leading-code);
@@ -2116,6 +2139,10 @@ sds-rail:not(:defined) {
    decided; everything unlisted reads as ordinary code text. */
 .hljs-keyword,
 .hljs-selector-tag,
+/* A selector's class and pseudo are the same thing its tag is — what the rule
+   is aimed at — so they read as one and not as three. */
+.hljs-selector-class,
+.hljs-selector-pseudo,
 .hljs-built_in,
 .hljs-name,
 .hljs-attr,
@@ -2159,7 +2186,7 @@ sds-rail:not(:defined) {
 }
 .sds-diff__line {
   display: block;
-  padding: 0 15px;
+  padding: 0 var(--space-4);
   color: var(--text-muted);
 }
 .sds-diff__line--add {
@@ -2252,12 +2279,20 @@ sds-rail:not(:defined) {
    in the status colour, a title, and a bounded note. */
 .sds-note {
   display: flex;
-  gap: 11px;
+  gap: var(--space-3);
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
-  padding: 13px 15px;
+  padding: var(--block-pad-y) var(--block-pad-x);
 }
-.sds-note__icon { flex: none; margin-top: 1px; color: var(--text-muted); }
+/* The glyph is centred on the *title's* line, so it is given that line: an
+   icon in a flex row otherwise measures whatever line-height it inherited. */
+.sds-note__icon {
+  flex: none;
+  font-size: var(--block-title-size);
+  line-height: var(--leading-heading);
+  margin-top: calc((1lh - var(--control-icon-size)) / 2);
+  color: var(--text-muted);
+}
 /* The floor, not the surrounding text's size: a note sits in a page whose
    body copy is 17px, and an icon that follows it is larger than the title it
    stands beside. Same reason the code head pins its own. */
@@ -2267,13 +2302,13 @@ sds-rail:not(:defined) {
    would otherwise make its longest line the width of the note, and the note
    the width of the page. Same reason `.sds-code` states it. */
 .sds-note__content { min-width: 0; }
-.sds-note__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); }
+.sds-note__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
 .sds-note__body {
   font-size: var(--block-body-size);
   line-height: var(--block-body-leading);
   color: var(--text-secondary);
   max-width: var(--block-measure);
-  margin-top: 4px;
+  margin-top: var(--space-1);
 }
 /* The gap is the one under a title, so a note that has none does not sit on
    air. Twelve of the admonition types a documentation generator emits carry
@@ -2301,7 +2336,7 @@ sds-rail:not(:defined) {
 .sds-loading {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: var(--space-2);
   color: var(--text-secondary);
 }
 .sds-loading__label {
@@ -2358,7 +2393,7 @@ sds-rail:not(:defined) {
 .sds-lockup {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-2-5);
   color: var(--text-primary);
   text-decoration: none;
 }
@@ -2377,7 +2412,7 @@ sds-rail:not(:defined) {
 .sds-wordmark {
   display: inline-flex;
   align-items: baseline;
-  gap: 7px;
+  gap: var(--space-1-5);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-heading);
   color: var(--text-primary);

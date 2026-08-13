@@ -537,14 +537,14 @@ A rendered card, embedded at the size it was drawn for.
 .. code-block:: text
 
    .. specimen:: guidelines/colors-surfaces.card.html
-      :viewport: 700x260
+      :viewport: 700x270
       :title: Surfaces
 
 And that source, on this page — the same file Storybook opens and the same one
 the design pane exports:
 
 .. specimen:: guidelines/colors-surfaces.card.html
-   :viewport: 700x260
+   :viewport: 700x270
    :title: Surfaces
 
 .. confval:: the card

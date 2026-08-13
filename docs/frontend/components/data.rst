@@ -9,7 +9,7 @@ it sets in Source Code Pro at every size, verbatim, and none of it is
 title-cased or prettified on the way in.
 
 .. specimen:: components/data/data.card.html
-   :viewport: 700x280
+   :viewport: 700x304
    :title: Table, badges & status
 
 sds-table
@@ -92,7 +92,7 @@ sds-table
    properties.
 
 .. specimen:: components/data/density.card.html
-   :viewport: 700x800
+   :viewport: 700x892
    :title: Table density
 
 .. warning::
@@ -223,7 +223,7 @@ One configuration value in a reference: the name a reader searches for, the
 facts a machine would check against, and prose that runs to whole blocks.
 
 .. specimen:: components/data/confval.card.html
-   :viewport: 700x400
+   :viewport: 700x440
    :title: Configuration values
 
 .. code-block:: html

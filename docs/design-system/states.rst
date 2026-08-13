@@ -57,5 +57,5 @@ change that.
 knowledge · 12.4, 13.4". Never praise, never a "done" toast.
 
 .. specimen:: guidelines/states-error.card.html
-   :viewport: 700x420
+   :viewport: 700x430
    :title: Errors & degraded answers

@@ -83,8 +83,14 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
   /* Both ways of asking. The class is how hand-written markup asks and the
      property is how an element does; a stylesheet rule beats a presentation
      attribute, so the property has to be written as a style — and only when
-     it was asked for, or the default would override the class. */
-  expect(sizes, 'default, class, property, and a whole multiple').toEqual([16, 20, 24, 32]);
+     it was asked for, or the default would override the class.
+
+     The default is `em` and therefore whatever the text around it is, so it
+     is asserted as that and not as a number: pinning the number here makes
+     this spec fail the day the base size moves, which says nothing about the
+     icon. The other three are the scale and are pinned. */
+  const base = await page.locator('body').evaluate((el) => Math.round(parseFloat(getComputedStyle(el).fontSize)));
+  expect(sizes, 'default, class, property, and a whole multiple').toEqual([base, 20, 24, 32]);
 
   /* Painted, not merely present: a reference the browser cannot resolve
      leaves an element of the right size with nothing in it. */

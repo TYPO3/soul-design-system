@@ -120,6 +120,8 @@ A container must not share its corner with its contents — that is why the card
 
 **A card is a hairline and 6px, no fill.** A panel is a raised fill. Sunken is machine output.
 
+**The step above a thing is what says what it is.** A reading column runs on one gap — `--space-4` between anything and anything — and a heading buys its own air on top of it: 40px above a second level, 32px above a third, 24px above a fourth. That decreasing purchase is the hierarchy; by the fourth level the size has stopped changing and only the air still does. A flow where a heading gets what a paragraph gets has no hierarchy in it, whatever its sizes say.
+
 **A titled block carries a pair, not two sizes.** Anything with a heading over its own text takes one of two registers, and both halves move together. A *block* — note, surface, empty state, modal, accordion — is `--block-title-size` over `--block-body-size`. An *entry*, whose title is a destination you open — card, teaser, result — is `--entry-title-size` over that same body. `document.css` rebinds both at once, so a block standing in prose reads at the page's own size. Never set a block's title from `--font-size-*` directly: that is exactly how a title ends up a register away from the text beneath it.
 
 ## Writing

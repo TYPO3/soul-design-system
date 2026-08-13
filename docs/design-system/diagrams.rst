@@ -62,7 +62,7 @@ Drawing rules
 =============
 
 .. specimen:: guidelines/diagrams-rules.card.html
-   :viewport: 980x517
+   :viewport: 980x520
    :title: Drawing rules
 
 Worked examples
@@ -72,13 +72,13 @@ Three shapes of claim, solved three ways — an axis, a sequence, a
 containment.
 
 .. specimen:: guidelines/diagrams-overview.card.html
-   :viewport: 1400x955
+   :viewport: 1400x959
    :title: System overview — a map with no axis
 
 .. specimen:: guidelines/diagrams-example.card.html
-   :viewport: 1400x983
+   :viewport: 1400x986
    :title: Worked example
 
 .. specimen:: guidelines/diagrams-fallback.card.html
-   :viewport: 1400x1023
+   :viewport: 1400x1027
    :title: Fallback — a sequence without a flowchart
