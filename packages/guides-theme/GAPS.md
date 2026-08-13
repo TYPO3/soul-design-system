@@ -98,6 +98,12 @@ Die Regeln, an die jede offene Zeile unten gebunden ist:
   eine TYPO3-Dokumentation herüberholt, schreibt `.. grid::` mit einer der
   drei Breiten; die Spaltenzahl war ohnehin nie eine Spur, sondern eine Frage
   nach dem Platz.
+- **Es wird nicht gedruckt.** Kein Druck-Stylesheet, und das ist keine offene
+  Zeile: eine Handbuchseite wird gelesen, wo sie steht. Auf Papier trägt nichts
+  von dem mehr, was sie ausmacht — kein Link, keine Suche, keine Rail, kein
+  aufklappbarer Reiter —, und ein zweites Layout für den Rest wäre eine zweite
+  Ausgabe, die kein Test ansieht und kein Leser meldet. Was der Browser aus der
+  Seite macht, ist, was gedruckt wird.
 - **Ein Exkurs im Fließtext ist keine Fläche aus einem Satz.** `topic` und
   `sidebar` sind ein Kasten, den der Leser überspringen darf und den die
   Gliederung nicht listet: nie einer aus einem Satz, nie gescannt, nie steht
@@ -162,7 +168,6 @@ Nicht Styling, sondern was das Paket können muss.
   entschieden: die angesprungene Stelle färbt ihren Namen ruhig im Akzent. Für
   Fußnoten und Karten steht es aus, und die Antwort ist dieselbe oder eine
   begründete andere.
-- **Druck.** Kein Druck-Stylesheet.
 - **Niemand sieht, wie die Seite aussieht.** `tests/guides.spec.ts` rendert und
   öffnet sie: es lädt jede Seite unter `.out/site/` und lässt keinen Fehler und
   keine fehlende Datei durch, und es hält die Befunde fest, für die dieses
