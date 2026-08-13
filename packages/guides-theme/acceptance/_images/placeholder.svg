@@ -1,7 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" width="1200" height="500" role="img" aria-label="placeholder">
-  <g id="art">
-    <rect width="1200" height="500" fill="var(--surface-sunken, #F4F2EE)"/>
-    <rect x="0.5" y="0.5" width="1199" height="499" fill="none" stroke="var(--border-subtle, #D8D5CB)"/>
-    <text x="600" y="258" text-anchor="middle" font-family="Source Code Pro, monospace" font-size="22" fill="var(--text-muted, #8A857A)">placeholder</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 1200 500" role="img" aria-label="placeholder">
+  <!-- `id="art"` on the root, and no width or height beside the viewBox: a
+       reference carries no size across, so a drawing that states one is drawn
+       at it and the box it was put in shows a corner of it. -->
+  <rect width="1200" height="500" fill="var(--surface-sunken, #F4F2EE)"/>
+  <rect x="0.5" y="0.5" width="1199" height="499" fill="none" stroke="var(--border-subtle, #D8D5CB)"/>
+  <text x="600" y="258" text-anchor="middle" font-family="Source Code Pro, monospace" font-size="22" fill="var(--text-muted, #8A857A)">placeholder</text>
 </svg>
