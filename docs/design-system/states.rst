@@ -23,6 +23,24 @@ Nothing in this system is reachable by pointer only.
    :viewport: 700x230
    :title: Focus & keyboard
 
+Interaction
+===========
+
+State changes use ``--duration-fast`` — 140ms — with ``--ease-out``. Hover
+normally changes colour, border or fill and never changes a component's size.
+Nothing scales or bounces.
+
+A linked card is the deliberate positional exception. It rises 2px, takes the
+raised fill and lights the top of its frame with ``--accent-glow``; keyboard
+focus gets the same response because the whole card is the target. A card in a
+flush wall stays put so it does not tear the shared hairlines. Reduced motion
+holds every card still while keeping the fill, border and glow, so the state
+does not disappear with the movement.
+
+Disabled controls keep their colours and use half opacity. A disabled state
+that changes hue can be mistaken for a different tone; opacity makes the
+existing control unavailable without giving it a new meaning.
+
 Loading
 =======
 

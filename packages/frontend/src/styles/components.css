@@ -4,7 +4,7 @@
    from SKILL.md — breaking one breaks the system:
    - No shadows. Separation is a hairline plus --surface-overlay. The focus
      ring is the single box-shadow here, and it is a state, not depth.
-   - Hover changes colour and border. Never position, never size.
+   - Interaction never changes size. A linked card may lift 2px; reduced motion holds it.
    - One accent: the active nav item, the shell prompt, the wordmark pipe.
    - Mono is semantic — anything the machine reads, writes or names.
    - Every class is `sds-`, every state `.is-*`, every value a token. */

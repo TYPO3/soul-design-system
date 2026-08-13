@@ -24,7 +24,8 @@ instead.
 - **Depth:** use overlap and at most two flat tones per object. One pale,
   shape-like ground wash is allowed; realistic cast shadows, highlights,
   materials and continuous modelling are not. The wash does not license a
-  CSS shadow, gradient or elevation anywhere in the interface.
+  CSS shadow, elevation or another interface gradient; the linked card's lit
+  frame remains the only one.
 - **People:** adult proportions, quiet posture, no identifiable facial detail.
 - **Accessibility:** the files are decorative support. Use an empty `alt`
   when the adjacent copy already names the subject.

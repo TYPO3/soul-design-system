@@ -9,6 +9,10 @@ card a visual register after its heading and summary have already named the
 subject. If position, connection, quantity or a label in the picture has to
 be understood, use a diagram instead.
 
+An illustration occupies an explicit media slot. It is never a page ground
+behind text: page surfaces stay flat, and keeping the picture inside its own
+frame makes clear where decoration ends and content begins.
+
 The language
 ============
 

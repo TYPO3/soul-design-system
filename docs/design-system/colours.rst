@@ -106,6 +106,11 @@ Text
 Borders
 =======
 
+Hairlines do the structural work. A floating surface is separated by the
+overlay wash and its border rather than by elevation. The focus halo is the
+only ``box-shadow`` in the system, and it communicates keyboard state rather
+than depth — see :doc:`accessibility`.
+
 .. list-table::
    :header-rows: 1
 
@@ -129,7 +134,17 @@ Accent
 
 ``--accent`` is ``#FF8700``, and it marks exactly three things: the active
 navigation item, the shell prompt in a code block, and the pipe in the
-wordmark. No second accent. No gradient. Anywhere.
+wordmark. No second accent.
+
+``--accent-glow`` is the one gradient: light falling across the top of a
+linked card's hairline under the pointer or keyboard focus, then fading down
+the frame. It is a state rather than another accented object. Keeping it on a
+layer of its own lets that light fade without replacing the card's background.
+It licenses no gradient elsewhere.
+
+Page grounds stay flat: no photograph or illustration behind text, no
+repeating texture and no decorative gradient. Artwork occupies an explicit
+media slot, where its edge and purpose remain visible.
 
 Use ``--accent``, never the raw ``--orange-*`` scale — that scale exists to
 derive the token and is not for use in a design.

@@ -101,7 +101,7 @@ Breaking one of these breaks the system, not just the page.
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-support-app install`.
 - **16px is the floor** for both the signet and the icons. Below it: wordmark alone, and no icon at all.
 - **The TYPO3 Soul is not used.** This is not an approved TYPO3 product. No surface may imply endorsement; footers say what the product is, never whose it is. The system's *name* is Soul; the Association's *asset* is the TYPO3 Soul. This rule is about the asset, and the name never takes `TYPO3` in front of it.
-- **Hover changes colour and border. Never position, never size.** Nothing scales, lifts or bounces. Transitions 140ms `--ease-out`.
+- **Interaction never changes size.** A linked card alone may lift 2px, take the raised fill and light its top frame; keyboard focus gets the same answer. A flush wall and reduced motion hold it still. Nothing scales or bounces. Transitions use 140ms `--ease-out`.
 - **Sentence case headings.** No marketing superlatives — no "powerful", "seamless", "blazing fast".
 
 ## Choosing
@@ -185,8 +185,8 @@ still-life gesture, five to eight broad hard-edged silhouettes, a flattened
 almost orthographic view, one contained halftone field and exactly one small
 orange detail. Use overlap and at most two flat tones per object; realistic
 materials, highlights and cast shadows do not belong to the language. A pale
-ground wash inside the raster never licenses a CSS shadow, gradient or
-elevation on the surface around it.
+ground wash inside the raster never licenses CSS elevation or another
+interface gradient; the linked card's lit frame remains the only one.
 
 Use `guidelines/illustration-prompt.md` verbatim to extend the set. The subject
 is the only prompt field that changes. These images are decorative support, so

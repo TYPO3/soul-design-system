@@ -40,7 +40,8 @@ something worse in a way that took a while to see.
 - **Mono is semantic.** Anything the machine reads, writes or names is Source
   Code Pro, verbatim, at every size.
 - **16px is the floor** for the signet and the icons.
-- **Hover changes colour and border.** Never position, never size.
+- **Interaction never changes size.** A linked card alone may lift 2px and
+  light its frame; a flush wall and reduced motion hold it still.
 
 .. seealso::
 

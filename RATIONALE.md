@@ -1,26 +1,17 @@
 # Soul Design System
 
 Design reasons are moving beside their rules in the published documentation.
-The brand, artwork, colour, type, density, spacing, layout and radius decisions
-now live on their pages under `docs/design-system/`; the class and component
-contract lives under `docs/frontend/`. This file temporarily holds the reasons
-not yet moved and is reduced as each topic finds its permanent page.
+The brand, artwork, colour, interaction, type, density, spacing, layout and
+radius decisions now live on their pages under `docs/design-system/`; the class
+and component contract lives under `docs/frontend/`. This file temporarily
+holds the reasons not yet moved and is reduced as each topic finds its permanent
+page.
 
 **The system is the product.** The tokens, the `sds-` class layer and the Lit elements are what is built and maintained here; the specimen cards, the Storybook, the npm package and the guide the design agent reads are all generated from them.
 
 It was cut against a real surface and still answers to one: **TYPO3 Support App**, a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work for the three audiences that do it — the core contributor, the extension author and the site developer. That product is the worked example throughout this document, and deliberately so — a system with no surface to answer to drifts into taste.
 
 Its one public surface has to do two jobs at once: **the documentation is also the product presentation**. A visitor arriving cold gets the pitch, and keeps scrolling into the reference without a seam. Much of what follows is shaped by that single continuous page plus the reference pages behind it.
-
-## Visual foundations
-
-**Colour.** One accent, `--accent` #FF8700, TYPO3 orange. It marks exactly three things: the active navigation item, the shell prompt in a code block, and the small square in the wordmark. Everything else is neutral: the warm-grey surfaces, text weights and border strengths declared in `tokens/colors.css`. There is no second accent. There is one gradient: `--accent-glow` lit into the top of a card's frame under the pointer and let go of on the way down. A card that answers with a fill alone says almost nothing on the dark canvas, where raised and canvas are four values apart, and the system has no shadow to raise it with — so the accent is used as light on the hairline rather than as a fourth thing it marks. It is a state, like the focus ring, and it is drawn on its own layer so the pointer fades one number. Status colours (`--status-ok`, `--status-warn`, `--status-error`) appear only inside code output, badges and result rows — never as page furniture.
-
-**Backgrounds.** Page grounds stay flat: no photography or illustration behind text, no repeating texture, no gradient. Decorative illustrations may occupy an explicit media slot such as a card's picture; explanatory imagery remains the diagram set.
-
-**Borders and shadows.** Hairlines do all the structural work. `--border-subtle` separates sections and table rows; `--border-strong` marks the head of a table or an active field. **There are no shadows in this system** — not on cards, not on modals, not on menus. A modal is separated by an overlay wash and a border, not by elevation. The one exception is the focus ring, `box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring)`, which is a state, not a depth.
-
-**Interaction.** Hover changes colour and border, never position and never size. Nothing scales, lifts, or bounces. Active navigation is a filled orange block with dark text — full colour inversion, not a tint. Focus is the orange ring. Disabled is 50% opacity with no colour change. Transitions run 140ms on `--ease-out`; anything longer reads as slow here.
 
 ## Content fundamentals
 

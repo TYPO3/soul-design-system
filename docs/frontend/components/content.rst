@@ -96,6 +96,12 @@ stretched over the frame by the class layer, so the name a reader hears is the
 title while the hit area is the card. One link, therefore: the call to action
 is words rather than a second anchor to the same place.
 
+Only a card with that link rises under the pointer or keyboard focus. The 2px
+lift, raised fill and light across the top hairline answer that the whole plane
+can be opened; a card that goes nowhere stays still. In a flush grid the lift
+is removed because moving one tile would tear the shared rules, and reduced
+motion removes the travel while preserving the visual response.
+
 .. confval:: heading
    :name: sds-card-heading
    :type: string
