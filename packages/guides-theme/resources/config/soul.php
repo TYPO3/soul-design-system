@@ -5,6 +5,7 @@ declare(strict_types=1);
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
 use phpDocumentor\Guides\RestructuredText\Parser\Productions\DirectiveContentRule;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use TYPO3\Soul\GuidesTheme\Compiler\OnThisPage;
 use TYPO3\Soul\GuidesTheme\Directives\AccordionDirective;
 use TYPO3\Soul\GuidesTheme\Directives\AccordionItemDirective;
 use TYPO3\Soul\GuidesTheme\Directives\BandDirective;
@@ -70,6 +71,13 @@ return static function (ContainerConfigurator $container): void {
            else. */
         ->set(LayoutFieldListItemRule::class)
         ->tag('phpdoc.guides.parser.rst.fieldlist')
+
+        /* What is on a page, written into every page that has headings to
+           list and no contents of its own — see `OnThisPage`. Tagged by hand:
+           the rule that tags a transformer by its interface is the renderer's
+           own configuration and does not reach a file outside it. */
+        ->set(OnThisPage::class)
+        ->tag('phpdoc.guides.compiler.nodeTransformers')
 
         /* The rail's list, worked out where it can be read. It resolves links
            itself, so it takes the renderer's url generator — autowired, unlike

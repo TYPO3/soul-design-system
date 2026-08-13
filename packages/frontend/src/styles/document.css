@@ -542,41 +542,74 @@
 :where(.sds-prose) .toc li ul { padding-left: var(--space-4); }
 :where(.sds-prose) .contents li,
 :where(.sds-prose) .toc li { margin-bottom: var(--space-1); }
+/* The label a template writes over the list, standing directly on it. */
+:where(.sds-prose) .contents > .sds-label { margin: 0 0 var(--space-2); }
+/* Apparatus, so its links are drawn as the footer's are and not as the ones in
+   a sentence: twenty accented lines beside the text is a second thing lit on a
+   page that lights three, and none of them is what the reader came for. */
+:where(.sds-prose) .contents a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+:where(.sds-prose) .contents a:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
 
-/* Where the page is at its full measure, what is on this page leaves the
-   column and stands beside it — a third column, resting at the line the rail
-   rests at, so the page reads rail, text, contents with the same width either
-   side. Only the sections of the page being read: `.toc` is a list of other
-   documents and is read once, in the flow, where the author put it.
+/* The column what is on this page stands in, where the page has the room for
+   one. Nothing at every other width: the box is in the markup on every page
+   and is not in the layout until the rule below puts it there, so the list is
+   a block where the author wrote it and no template decides that twice.
+
+   Only the sections of the page being read. A `toctree` printed in a body is a
+   list of other documents, and the rail beside it already carries those. */
+:where(.sds-prose) .sds-aside { display: contents; }
+
+/* Where the page is at its full measure the list leaves the flow and stands
+   beside the column, resting at the line the rail rests at, so the page reads
+   rail, text, contents with the same width either side.
 
    1296px is `--width-page` and its two gutters, which is where the page stops
    growing. It is the one width with room to give: the column is 942px there
    and keeps the measure after it has given up 258px. Narrower, and taking that
-   much would leave the text short, so the list stays in the flow. */
+   much would leave the text short, so the list stays where it was. */
 @media (min-width: 1296px) {
-  /* The column gives the width up rather than the float taking it. A float is
-     stepped around by lines of text and by nothing else, so a table or a code
-     block would have run underneath. The breadcrumb and the pager narrow with
-     it: the column is one width from the top of the page to the bottom. It is
-     the one rule here whose subject is not a prose block — the width can only
-     be given up by the thing that has it. */
-  :where(.sds-column):has(> :where(.sds-prose) .contents) {
+  /* The column gives the width up rather than the box taking it, and the
+     breadcrumb and the pager narrow with the text: a reading column that is
+     one width at the top of the page and another at the bottom is two columns.
+     It is the one rule here whose subject is not a prose block — the width can
+     only be given up by the thing that has it, and what the box then stands in
+     is what it gave up, which is the same box measured twice. */
+  :where(.sds-column):has(> :where(.sds-prose) .sds-aside) {
+    position: relative;
     padding-inline-end: calc(var(--width-sidebar) + var(--space-12));
   }
-  /* Out of the column and into what it gave up — the negative margin is that
-     reserve, so the box lands past the text with the gap between them. Sticky
-     for the rail's reason and at the rail's line, so the two come to rest
-     together, and bounded for the rail's reason as well. A heading is written
-     for the measure, not for a column this narrow, so its longest word breaks
-     rather than putting a scrollbar under the list. */
-  :where(.sds-column) > :where(.sds-prose) .contents {
-    float: right;
+  /* The box is the reserve: the column's own padding, top to bottom, so the
+     list starts where the rail starts and can rest anywhere down the page. Out
+     of the flow entirely rather than floated, because a float begins where it
+     stands — written under three paragraphs of introduction, the list began
+     three paragraphs down and left a hole above it. */
+  :where(.sds-prose) .sds-aside {
+    display: block;
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
     width: var(--width-sidebar);
-    max-width: none;
-    margin: 0 calc(-1 * (var(--width-sidebar) + var(--space-12))) 0 0;
+  }
+  /* And the list rests inside it, anywhere in the document, at the rail's line
+     and bounded the way the rail is bounded. The rules above and below it go:
+     they set a block apart from the text around it, and there is no text
+     around it here. A heading is written for the measure and not for a column
+     this narrow, so its longest word breaks rather than putting a scrollbar
+     under the list. */
+  :where(.sds-prose) .sds-aside > .contents {
     position: sticky;
     top: calc(var(--height-header) + var(--space-8));
     max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    max-width: none;
     overflow-y: auto;
     overflow-wrap: break-word;
   }
@@ -584,14 +617,14 @@
      the second line of one entry sits as far from the first as the next entry
      does. So the lines of an entry close up and the entries move apart: what a
      reader has to see here is where one heading ends and the next begins. */
-  :where(.sds-column) > :where(.sds-prose) .contents li {
+  :where(.sds-prose) .sds-aside .contents li {
     margin-bottom: var(--space-2);
     line-height: var(--leading-heading);
   }
 }
 
-/* A title over something that is not a section: a topic, a sidebar, or the
-   caption an author gave a contents. It is the fourth heading level's
+/* A title over something that is not a section: a topic, or a sidebar, which
+   the core renders as one. It is the fourth heading level's
    register — weight and air, not a size — because that is what this system
    does once a heading stops being a level. */
 :where(.sds-prose) .topic-title {

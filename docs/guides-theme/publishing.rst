@@ -20,9 +20,6 @@ The first runs in a directory of its own — a documentation repository holds
 documents, not a PHP manifest — and needs one line in front of it until the
 package is on Packagist. :doc:`installation` has both.
 
-.. contents::
-   :local:
-
 The renderer, and what it does not do
 =====================================
 

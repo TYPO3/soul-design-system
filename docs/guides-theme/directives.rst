@@ -15,9 +15,6 @@ signpost a manual and ``accordion`` folds its answers away, both spelled the
 way a TYPO3 manual already spells them. The last embeds a rendered specimen at
 the size it was measured at.
 
-.. contents::
-   :local:
-
 layout
 ======
 

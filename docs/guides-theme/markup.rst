@@ -12,9 +12,6 @@ one becomes, and where the answer was a decision rather than a mapping.
 Nothing here is something an author writes differently. The source is
 ordinary reStructuredText; the theme is what stands between it and the markup.
 
-.. contents::
-   :local:
-
 The elements are rendered before the page is published
 ======================================================
 
@@ -201,20 +198,25 @@ The **toctree** feeds the rail on every manual page, and where a page writes
 one in its body it prints there too — as a list of documents to read, which
 must not look like the rail beside it saying where the reader is.
 
-``.. contents:: :local:`` is what a long page puts at the top: the sections of
-the page it is on, nested as deep as ``:depth:`` allows. Its entries are built
-from the current document plus an anchor rather than from the renderer's link
-answer, which for the page being rendered is ``#`` — that is how a local
-contents ends up as a row of links pointing at nothing.
+**What is on this page** is written by the theme, not by the author. Every
+manual page with headings to list gets the contents a ``.. contents::`` would
+have made, inserted under the title — the same node the directive builds, so
+what happens to it after that is one path and not two. A page whose sections
+are one heading gets none, and a landing page gets none: there is nothing to
+navigate on the way in. ``.. contents::`` still stands wherever it is written
+and wins there, which is how a page asks for a caption, a ``:depth:`` or a
+place of its own.
 
 Where the page is at its full measure, that list leaves the column and stands
 beside it on the right, resting at the line the rail rests at, so the sections
 of the page are reachable from anywhere in it. The column gives the width up
 rather than the list taking it, which is why nothing runs underneath. A window
-narrower than the page measure has no width to give, and the list is a block in
-the flow again, where it was written. Where that is, is worth choosing: it
-starts where it stands, so a contents written under the title stands beside the
-title and one written after three paragraphs starts three paragraphs down.
+narrower than the page measure has no width to give, and the list is a block
+under the title again.
+
+Its entries are built from the current document plus an anchor rather than from
+the renderer's link answer, which for the page being rendered is ``#`` — that
+is how a local contents ends up as a row of links pointing at nothing.
 
 **Breadcrumbs** sit above the title, from the same tree. **Footnotes** get the
 number the compiler assigned rather than the label the author typed, so a mark
