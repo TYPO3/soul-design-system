@@ -55,7 +55,7 @@ reactive-element registry, and elements upgrade under the wrong one.
 
 ## The manual
 
-[The design system's own documentation](https://benjaminkott.github.io/typo3-soul-design-system/frontend.html)
+[The design system's own documentation](https://benjaminkott.github.io/typo3-soul-design-system/frontend/index.html)
 is set with it: what each layer is for, which one to reach for, and the rules a
 design built on it follows.
 
