@@ -9992,6 +9992,20 @@ define("sds-byline", SdsByline);
 
 // packages/frontend/src/components/quote.ts
 var SdsQuote = class extends SdsElement {
+  constructor() {
+    super();
+    /* The sentence, where it was written between the tags. A product surface
+       quotes a line somebody composed and a property carries it; a document
+       quotes the passage it found, and out of a document that carries links and
+       emphasis — which is markup or it is nothing. */
+    this.taken = null;
+    this.body = "";
+    this.by = "";
+    this.as = "";
+    this.href = "";
+    this.meta = "";
+    this.initials = "";
+  }
   static {
     this.properties = {
       body: { type: String },
@@ -10002,18 +10016,14 @@ var SdsQuote = class extends SdsElement {
       initials: { type: String }
     };
   }
-  constructor() {
-    super();
-    this.body = "";
-    this.by = "";
-    this.as = "";
-    this.href = "";
-    this.meta = "";
-    this.initials = "";
+  connectedCallback() {
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
+    super.connectedCallback();
   }
   render() {
     return html44`<figure class="sds-quote">
-  <blockquote class="sds-quote__body">${this.body}</blockquote>
+  <blockquote class="sds-quote__body">${this.taken ?? this.content ?? this.body}</blockquote>
   <figcaption class="sds-quote__by"><sds-byline
     name="${this.by}"
     as="${this.as}"

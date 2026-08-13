@@ -65,6 +65,17 @@ export const Person: Story = {
   },
 };
 
+/** The form a document uses: the sentence between the tags. A product surface
+    quotes a line somebody composed and a property carries it; a passage lifted
+    out of a page carries its links and its emphasis, and that is markup or it
+    is nothing. */
+export const FromContent: Story = {
+  render: () => html`<sds-quote by="Benjamin Kott" initials="BK" as="maintainer" meta="24 July 2026">
+    The fallback was never the problem. <em>Not saying it was a fallback</em>
+    was the problem — see <a href="#">the release note</a>.
+  </sds-quote>`,
+};
+
 /** Long enough to be worth borrowing, short enough to stand at heading size.
     A paragraph in quotation marks is a paragraph, and belongs in the column
     with the rest of them. */

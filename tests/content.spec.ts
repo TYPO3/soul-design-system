@@ -264,3 +264,22 @@ test('a surface holds the passage written between its tags', async ({ page }) =>
     [...el.children].filter((c) => !c.classList.contains('sds-panel')).length);
   expect(stray, 'the element should hold nothing but the plane it renders').toBe(0);
 });
+
+/* And a quotation keeps the sentence it borrowed. A line composed for a
+   product surface fits in a property; a passage lifted out of a page brings
+   its links and its emphasis, which an attribute cannot carry. */
+test('a quote keeps the sentence written between its tags', async ({ page }) => {
+  await gotoStory(page, 'components-quote--from-content');
+
+  const body = page.locator('sds-quote .sds-quote__body');
+  await expect(body.locator('em')).toHaveText('Not saying it was a fallback');
+  await expect(body.locator('a')).toHaveAttribute('href', '#');
+
+  /* The attribution is drawn from the properties around that markup, so the
+     two channels meet in one element rather than one displacing the other. */
+  await expect(page.locator('sds-quote .sds-quote__by .sds-byline')).toHaveCount(1);
+
+  const stray = await page.locator('sds-quote').evaluate((el) =>
+    [...el.children].filter((c) => c.tagName.toLowerCase() !== 'figure').length);
+  expect(stray, 'the element should hold nothing but the figure it renders').toBe(0);
+});

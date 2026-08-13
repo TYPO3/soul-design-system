@@ -49,5 +49,7 @@ export declare class SdsQuote extends SdsElement {
     meta: string;
     initials: string;
     constructor();
+    private taken;
+    connectedCallback(): void;
     protected render(): TemplateResult;
 }

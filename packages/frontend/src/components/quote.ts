@@ -10,7 +10,7 @@
    said the source mattered less than the sentence. */
 
 import { html, type TemplateResult } from 'lit';
-import { define, SdsElement } from '../lib/element.ts';
+import { define, isBlank, SdsElement } from '../lib/element.ts';
 import './byline.ts';
 
 export interface QuoteProps {
@@ -61,9 +61,21 @@ export class SdsQuote extends SdsElement {
     this.initials = '';
   }
 
+  /* The sentence, where it was written between the tags. A product surface
+     quotes a line somebody composed and a property carries it; a document
+     quotes the passage it found, and out of a document that carries links and
+     emphasis — which is markup or it is nothing. */
+  private taken: Node[] | null = null;
+
+  override connectedCallback(): void {
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.taken = written;
+    super.connectedCallback();
+  }
+
   protected override render(): TemplateResult {
     return html`<figure class="sds-quote">
-  <blockquote class="sds-quote__body">${this.body}</blockquote>
+  <blockquote class="sds-quote__body">${this.taken ?? this.content ?? this.body}</blockquote>
   <figcaption class="sds-quote__by"><sds-byline
     name="${this.by}"
     as="${this.as}"
