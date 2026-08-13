@@ -6,18 +6,21 @@
 
    So it carries three things most result pages do not. The query stays in the
    field, because a search that clears its own box makes refining it retyping
-   it; the facets say how many are behind each; and the empty state is the same
-   `sds-empty` the filtered list uses. See `lib/page.ts`. */
+   it; the facets say how many are behind each; and a facet that answered with
+   nothing says so where its list would have been — a note, because `info` is
+   this system's word for a fact about the surface, and nothing here failed.
+   See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
+import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/crumbs.ts';
-import '../../packages/frontend/src/components/empty.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/pagination.ts';
 import '../../packages/frontend/src/components/pills.ts';
 import '../../packages/frontend/src/components/result.ts';
+import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type NavChange } from '../../packages/frontend/src/components/nav-base.ts';
 import { type ResultProps } from '../../packages/frontend/src/components/result.ts';
@@ -98,14 +101,20 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
             ></sds-result>`,
           )}
         </div>`
-    : html`<sds-empty
+    : html`<sds-note
+          tone="info"
+          label="Answered with nothing"
           heading="Your installation was asked and answered with nothing"
-          .body="${html`It was reached and searched, and no label in it matches
+          .body="${html`<p>
+            It was reached and searched, and no label in it matches
             <span class="sds-mono">${QUERY}</span>. Bundled knowledge holds four
-            answers for the same query, which is what the other facets are.`}"
-          action="Search everything instead"
-          meta="typo3_label_lookup · installation"
-        ></sds-empty>`;
+            answers for the same query, which is what the other facets are.
+          </p>
+          <p><span class="sds-label">typo3_label_lookup · installation</span></p>
+          ${flat
+            ? buttonMarkup({ variant: 'ghost', size: 'sm' }, 'Search everything instead')
+            : html`<sds-button variant="ghost" size="sm" @click="${() => onFacet?.(0)}">Search everything instead</sds-button>`}`}"
+        ></sds-note>`;
 
   return html`<div class="sds-shell">
   ${skipLink()}

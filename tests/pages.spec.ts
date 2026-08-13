@@ -216,13 +216,13 @@ test('a filter that matches nothing answers, and the answer undoes it', async ({
 
   await page.locator('.sds-pills .sds-pill', { hasText: 'security' }).click();
   await expect(entries).toHaveCount(0);
-  const empty = page.locator('.sds-empty');
+  const empty = page.locator('#entries sds-note');
   await expect(empty).toBeVisible();
   /* Not "no results": how much was read is the part that makes it an answer
      rather than a shrug. */
   await expect(empty).toContainText(new RegExp(`All ${read} entries were read`));
 
-  await empty.locator('button.sds-link').click();
+  await empty.locator('button.sds-btn').click();
   await expect(entries).toHaveCount(all);
 });
 

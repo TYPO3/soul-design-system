@@ -11,13 +11,14 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
+import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/crumbs.ts';
-import '../../packages/frontend/src/components/empty.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/pagination.ts';
 import '../../packages/frontend/src/components/pills.ts';
 import '../../packages/frontend/src/components/teaser.ts';
+import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type NavChange } from '../../packages/frontend/src/components/nav-base.ts';
 import { type TeaserProps } from '../../packages/frontend/src/components/teaser.ts';
@@ -152,14 +153,19 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
           ),
   { flat },
 )}`
-    : html`<sds-empty
+    : html`<sds-note
+          tone="info"
           icon="actions-filter"
+          label="Matched nothing"
           heading="Nothing here is tagged ${current?.label ?? ''}"
-          .body="${html`All ${ENTRIES.length} entries were read and none carries that tag. Tags
-            are applied by hand, so an entry may be about the subject without wearing it.`}"
-          action="Show every entry"
-          @sds-action="${() => onFilter?.(0)}"
-        ></sds-empty>`;
+          .body="${html`<p>
+            All ${ENTRIES.length} entries were read and none carries that tag. Tags
+            are applied by hand, so an entry may be about the subject without wearing it.
+          </p>
+          ${flat
+            ? buttonMarkup({ variant: 'ghost', size: 'sm' }, 'Show every entry')
+            : html`<sds-button variant="ghost" size="sm" @click="${() => onFilter?.(0)}">Show every entry</sds-button>`}`}"
+        ></sds-note>`;
 
   return html`<div class="sds-shell">
   ${skipLink()}

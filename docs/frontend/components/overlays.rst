@@ -97,8 +97,7 @@ floating surface.
 
    It is positioned by whatever opens it. The host is ``display: contents`` and
    is not in the box tree, so those styles land on the element that is actually
-   laid out — which is the same reason ``sds-surface`` and ``sds-empty`` take a
-   ``box-style``.
+   laid out — which is the same reason ``sds-surface`` takes a ``box-style``.
 
 sds-overlay
 ===========

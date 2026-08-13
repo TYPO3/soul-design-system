@@ -390,8 +390,9 @@ somebody types.
 
 The field is a combobox: down goes into the list, the arrows walk it, up from
 the first goes back to what was typed, and Escape gives the page back. It draws
-``sds-result`` for a hit and ``sds-empty`` for a query that matched nothing,
-rather than rebuilding either.
+``sds-result`` for a hit rather than rebuilding one, and a query that matched
+nothing gets a sentence in the same drop: which pages were read, and what of
+them is not indexed.
 
 .. important::
 

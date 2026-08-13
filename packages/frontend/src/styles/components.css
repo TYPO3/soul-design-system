@@ -1129,33 +1129,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   padding: 0 var(--space-0-5);
 }
 
-/* A boundary, drawn as an answer, never "no results": which source was asked,
-   what it does not cover, and the nearest real thing to do next. A component,
-   so those are properties a caller fills rather than sentences a page is
-   trusted to remember. A card and not a panel — an empty result is not a raised
-   state of anything, and a fill would make the absence look like a feature. */
-.sds-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2-5);
-  border: var(--border-hairline) solid var(--border-subtle);
-  border-radius: var(--radius-card);
-  padding: var(--block-pad-y) var(--block-pad-x);
-}
-/* Muted by default: an empty result is not an event. The quiet accent is for
-   a stated boundary, which is a deliberate answer about scope rather than the
-   absence of one — and it is the reason `actions-info-circle` may stand alone
-   at all. Status colour appears in neither: nothing failed. */
-.sds-empty__icon { color: var(--text-muted); }
-.sds-empty--boundary .sds-empty__icon { color: var(--text-accent-quiet); }
-.sds-empty__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
-.sds-empty__body {
-  font-size: var(--block-body-size);
-  line-height: var(--leading-body);
-  color: var(--text-secondary);
-}
-
 /* Overlay is a wash, not a shadow. */
 .sds-overlay {
   position: absolute;
@@ -1633,17 +1606,13 @@ html:has(.sds-bar) {
 }
 .sds-search__panel .sds-result { padding-block: var(--space-3); }
 .sds-search__panel .sds-result__title { font-size: var(--block-title-size); }
-/* An empty answer in the drop is not a card in it. `sds-empty` draws its own
-   box because it usually stands in a column with nothing around it; here the
-   panel is already the box, and the two hairlines read as a card that failed
-   to fill. It keeps the icon, the heading and the sentence — what it loses is
-   a frame it does not need and a measure it is narrower than. */
-.sds-search__panel .sds-empty {
-  border: 0;
-  border-radius: 0;
-  padding: var(--space-4) 0;
-}
-.sds-search__panel .sds-empty__body { max-width: none; }
+/* An empty answer in the drop is a sentence, not a box in a box: the panel is
+   already the plane, and a second hairline inside it reads as a card that
+   failed to fill. The measure goes too — the drop is narrower than a reading
+   column and would wrap the sentence twice over. */
+.sds-search__empty { padding: var(--space-4) 0; }
+.sds-search__empty p { max-width: none; margin-bottom: 0; }
+.sds-search__empty .sds-surface-title { margin-bottom: var(--space-1); }
 
 /* ----------------------------------------------------------- navigation -- */
 

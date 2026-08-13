@@ -86,7 +86,7 @@ rather than left to be lower-cased:
      - ``sds-code``
    * - ``boxStyle``
      - ``box-style``
-     - ``sds-surface``, ``sds-empty``
+     - ``sds-surface``
    * - ``fieldId``
      - ``field-id``
      - ``sds-field``
@@ -161,9 +161,6 @@ rather than on whatever is inside it.
      - ``sds-button`` with ``for``
      - ``{ command, source }`` — dispatched **on the element named by**
        ``for``, the way the platform's own invokers do it
-   * - ``sds-action``
-     - ``sds-empty``
-     - nothing; the offer had no ``href``, so it changes this page
    * - ``sds-theme-change``
      - ``sds-theme``
      - ``{ theme }`` — ``"light"``, ``"dark"``, or ``null`` for the machine's

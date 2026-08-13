@@ -63,7 +63,7 @@ test('the drop is drawn by the components that draw results everywhere else', as
   await expect(page.locator('.sds-search__panel mark').first()).toHaveText(/colour/i);
 
   await page.locator('sds-search .sds-input').fill('nothing here matches this');
-  await expect(page.locator('.sds-search__panel sds-empty')).toBeVisible();
+  await expect(page.locator('.sds-search__panel .sds-search__empty')).toBeVisible();
 });
 
 test('the panel hangs from the field, and gives the page back', async ({ page }) => {

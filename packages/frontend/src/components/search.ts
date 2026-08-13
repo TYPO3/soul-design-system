@@ -1,8 +1,8 @@
 /* sds-search — finding a page in a site that has no server.
 
    A rendered site is files, so the index is a file too: a small JSON the build
-   writes, fetched the first time somebody types. It draws `sds-result` and
-   `sds-empty` rather than rebuilding either.
+   writes, fetched the first time somebody types. It draws `sds-result` rather
+   than rebuilding one.
 
    The panel is the menu's drop, hung from the field rather than from whatever
    box happens to be positioned above it. Without JavaScript neither the element
@@ -12,7 +12,6 @@
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import './result.ts';
-import './empty.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 /** One page, as the index has it. */
@@ -194,7 +193,11 @@ export class SdsSearch extends SdsElement {
   /** The drop, and what is in it. `sds-result` draws a hit, marks what was
       searched for and says where the page is — the query is handed over rather
       than the marking done here, because what is highlighted has to be what was
-      actually searched. */
+      actually searched.
+
+      An answer of nothing is a sentence in the same drop: which pages were
+      read and what of them is not indexed, so it can be told from a search
+      that broke. */
   private panel(hits: SearchEntry[]): TemplateResult {
     return html`<div
   class="sds-menu__panel sds-search__panel"
@@ -212,11 +215,10 @@ export class SdsSearch extends SdsElement {
     match="${this.query}"
   ></sds-result>`,
       )
-      : html`<sds-empty
-    kind="quiet"
-    heading="Nothing here matches “${this.query}”"
-    body="Every page of this site was searched — its titles and its opening lines. What is not indexed is the body of a page, so a word used once deep in one of them will not be found."
-  ></sds-empty>`}
+      : html`<div class="sds-search__empty">
+    <div class="sds-surface-title">Nothing here matches “${this.query}”</div>
+    <p>Every page of this site was searched — its titles and its opening lines. What is not indexed is the body of a page, so a word used once deep in one of them will not be found.</p>
+  </div>`}
 </div>`;
   }
 }

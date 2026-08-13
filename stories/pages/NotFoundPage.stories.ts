@@ -5,15 +5,16 @@
    cover, offer the nearest real thing. A 404 that says "page not found" over a
    large number has done none of that.
 
-   So it is `sds-empty`, the same component the filtered list and the search use,
-   because it is the same statement. The chrome stays: a reader arriving here
-   needs the way out every other page has. See `lib/page.ts`. */
+   And it is said as a page says things: the address that was asked is the
+   headline, what answered is the lead under it, and the search field is the
+   nearest real thing. A box holding a smaller title would make the one
+   statement on the page quieter than the cards below it. The chrome stays: a
+   reader arriving here needs the way out every other page has. See
+   `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../packages/frontend/src/components/empty.ts';
 import '../../packages/frontend/src/components/field.ts';
-import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/card.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
@@ -55,17 +56,14 @@ export function notFoundPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="gone">
-      <div class="sds-stack">
-        <sds-empty
-          heading="There is no page at /tools/typo3_label_lookup/v2"
-          .body="${html`The address was read and the site has nothing at it. Nothing here was
-            removed — this path has never existed, so it is not a link that rotted
-            but one that was never right.`}"
-          action="Search the site"
-          href="#search"
-          meta="404 · nothing at this address"
-          box-style="max-width:640px"
-        ></sds-empty>
+      <div class="sds-stack sds-stack--tight">
+        <span class="sds-label">404 · nothing at this address</span>
+        <h1>There is no page at this address</h1>
+        <p class="sds-lead">
+          <span class="sds-mono">/tools/typo3_label_lookup/v2</span> was read and the site
+          has nothing at it. Nothing here was removed — this path has never existed, so it
+          is not a link that rotted but one that was never right.
+        </p>
 
         <div class="sds-row" id="search">
           <sds-field

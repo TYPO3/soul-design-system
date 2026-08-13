@@ -226,11 +226,10 @@ not.
 The page that is not there
 --------------------------
 
-``sds-empty`` — the same component the filtered list and the search use,
-because it is the same statement: what was asked, that it was read, what is not
-there, and the nearest real thing. Three named pages rather than a link to the
-front page. It keeps its chrome, because a 404 stripped of the header has also
-lost the navigation.
+Said as a page says things: the address that was asked is the headline, what
+answered is the lead under it, and the search field is the nearest real thing.
+Three named pages rather than a link to the front page. It keeps its chrome,
+because a 404 stripped of the header has also lost the navigation.
 
 .. specimen:: screens/not-found.html
    :viewport: 1440x900
@@ -275,7 +274,8 @@ was closed in the component rather than in the page:
    * - where the list continues
      - ``sds-pagination``
    * - a boundary drawn as an answer
-     - ``sds-empty``, and the states guideline is generated from it now
+     - nothing new — a page says it in its own headline and a list says it in
+       an ``info`` note, which is what the states guideline shows
    * - a borrowed sentence, a byline
      - ``sds-quote``, ``sds-byline``
    * - questions that fold
