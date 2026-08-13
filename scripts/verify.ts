@@ -349,6 +349,28 @@ const CHECKS: readonly Check[] = [
     },
   },
 
+  /* The screens against the scale and the grid, both read out of the tokens so
+     the measurement cannot drift from them. A size or a gap somebody typed is
+     invisible to every other check — it renders, it fits, and it is simply not
+     on the system's steps. `make rhythm` names one screen; here it is all of
+     them, and only what failed is printed. */
+  {
+    name: 'rhythm',
+    step: '4a',
+    label: 'every screen sets sizes on the scale and gaps on the grid',
+    run() {
+      const rhythm = spawnSync(process.execPath, [join(ROOT, 'scripts/rhythm.ts')], { encoding: 'utf8' });
+      process.stdout.write(
+        rhythm.stdout
+          .split('\n')
+          .filter((l) => l.includes('OFF SCALE') || l.includes('not a step') || l.includes('screen(s),'))
+          .map((l) => `  ${l.trim()}\n`)
+          .join(''),
+      );
+      if (rhythm.status !== 0) fails.push('a screen sets a size off the scale or a gap off the grid (see above, and `make rhythm`)');
+    },
+  },
+
   /* Every element renders in Node, not only the seven that appear in a card.
      See scripts/ssr.ts for why that is the rule and what it does not prove. */
   {
