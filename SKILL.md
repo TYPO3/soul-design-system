@@ -11,8 +11,10 @@ This file is the operating instruction. `RATIONALE.md` is the reasoning behind i
 
 ## Web components first
 
-The `sds-` custom elements are the interface. Write `<sds-code lang="bash">`,
-not a `<div class="sds-code">` you assembled yourself. The classes exist
+The `sds-` custom elements are the interface. Write
+`<sds-code code-lang="bash">`, not a `<div class="sds-code">` you assembled
+yourself. It is `code-lang` and never `lang`, which names the *human* language
+of everything under it. The classes exist
 because the elements emit them and because a surface that runs no JavaScript
 has to have something — they are the fallback, not the front door.
 

@@ -393,8 +393,8 @@ moved without the other.
   and only shrinks; `ELSEWHERE` beside it is the other answer — an element a
   document has no node for, which is a classification rather than a debt and
   fails just as loudly if it ever does turn up in the render.
-- **Web components first.** `<sds-code lang="bash">`, never a `div` with the
-  classes on it. The classes are the fallback for surfaces that run no
+- **Web components first.** `<sds-code code-lang="bash">`, never a `div` with
+  the classes on it. The classes are the fallback for surfaces that run no
   JavaScript, not the front door.
 - **A component is addressed, never rebuilt.** Everything that fits in a string
   is a property; between the tags goes only what an attribute cannot carry, and
