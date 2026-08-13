@@ -323,8 +323,12 @@ a {
   text-decoration: none;
   transition: color var(--duration-fast) var(--ease-out);
 }
-.sds-link:hover,
-a:hover { color: var(--text-link-hover); text-decoration: underline; }
+.sds-link:hover { color: var(--text-link-hover); text-decoration: underline; }
+/* The same answer for a link nobody named, and written with less weight than a
+   class carries: a rail item, a pill, a permalink each say never underlined and
+   were being answered over by this rule, because a bare `a:hover` outweighs the
+   class that drew them. A link with a class belongs to whoever gave it one. */
+:where(a):hover { color: var(--text-link-hover); text-decoration: underline; }
 /* An offer that changes something here rather than going somewhere is a
    button, and it still reads as the link it is — same rule as the navigation
    items, which are links or buttons by what pressing them does. The browser
@@ -1448,7 +1452,9 @@ html:has(.sds-bar) {
    the ground costs: the link orange is 4.29:1 on the sunken plane, which is
    the finding `--syntax-key` already carries for the same colour. */
 .sds-footer :is(a, .sds-link) { color: var(--text-secondary); }
-.sds-footer :is(a, .sds-link):hover { color: var(--text-primary); text-decoration: underline; }
+/* The colour only: the underline is the link's own, and stating it again here
+   put one under a mark that is a glyph and has no word to carry it. */
+.sds-footer :is(a, .sds-link):hover { color: var(--text-primary); }
 /* The line under the columns: what this is, and the notices that have to
    travel with it. Set apart by space and not by a rule — a hairline between
    two areas of one ground is a horizontal rule across the window, which is

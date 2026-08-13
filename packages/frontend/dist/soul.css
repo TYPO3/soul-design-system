@@ -59,7 +59,8 @@ li>ul,li>ol{margin-bottom:0}
 .sds-mono,code,kbd,samp{font-family:var(--font-mono);font-size:.94em;color:var(--text-primary);overflow-wrap:anywhere}
 .sds-code__body code,.sds-diff code{font-size:inherit;color:inherit}
 .sds-link,a{color:var(--text-link);text-decoration:none;transition:color var(--duration-fast) var(--ease-out)}
-.sds-link:hover,a:hover{color:var(--text-link-hover);text-decoration:underline}
+.sds-link:hover{color:var(--text-link-hover);text-decoration:underline}
+:where(a):hover{color:var(--text-link-hover);text-decoration:underline}
 button.sds-link{font:inherit;border:0;background:none;padding:0;cursor:pointer}
 .sds-link--external,.sds-link:has(.sds-icon,sds-icon){display:inline-flex;align-items:center;gap:var(--space-1-5)}
 .sds-link--bare{gap:0;line-height:0}
@@ -231,7 +232,7 @@ html:has(.sds-bar){scroll-padding-top:calc(var(--height-header) + var(--space-4)
 .sds-footer__group{display:flex;flex-direction:column;gap:var(--space-2);min-width:0}
 .sds-footer__links{display:flex;flex-direction:column;gap:var(--space-1-5);font-size:var(--nav-font-size)}
 .sds-footer :is(a,.sds-link){color:var(--text-secondary)}
-.sds-footer :is(a,.sds-link):hover{color:var(--text-primary);text-decoration:underline}
+.sds-footer :is(a,.sds-link):hover{color:var(--text-primary)}
 .sds-footer__end{padding-top:var(--space-5);display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2) var(--space-6);font-size:var(--font-size-micro);color:var(--text-muted)}
 .sds-footer__marks{margin-left:auto;display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2) var(--space-4)}
 .sds-footer__marks:only-child{margin-left:0}
