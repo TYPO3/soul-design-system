@@ -585,6 +585,14 @@ dialog.sds-lightbox {
 }
 dialog.sds-lightbox[open] { display: flex; flex-direction: column; }
 dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
+/* A modal has the whole screen, but the platform only makes the rest inert —
+   a wheel over the backdrop still moves the page behind the picture. The
+   stable gutter keeps the scrollbar's width reserved, or locking the document
+   would jump the page sideways as the viewer opens. */
+html:has(dialog.sds-modal[open], dialog.sds-lightbox[open]) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
 /* The head is the modal's, so the two do not drift; only what it holds
    differs — the caption of the drawing rather than a question. */
 .sds-lightbox__art {

@@ -239,7 +239,9 @@ because what is inside one is read, and a drawing is looked at.
 The surface is a stage rather than a box around the file — as much of the
 screen as it can take without touching the edges — and the picture is fitted
 into it and stands in the middle, whichever way round it is. One smaller than
-the stage keeps its own size, since enlarging it only makes it blurrier.
+the stage keeps its own size, since enlarging it only makes it blurrier. The
+page behind it stops scrolling while it is open: the platform makes the rest
+inert, which a wheel over the backdrop is not.
 
 .. code-block:: html
 

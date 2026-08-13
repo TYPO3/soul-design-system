@@ -198,9 +198,15 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
   const pane = dialog.locator('.sds-lightbox__art');
   expect(await pane.evaluate((el) => el.scrollHeight - el.clientHeight)).toBeLessThanOrEqual(0);
   expect(await pane.evaluate((el) => el.scrollWidth - el.clientWidth)).toBeLessThanOrEqual(0);
+  /* And the page under it holds still. The platform makes the rest inert, which
+     a wheel over the backdrop is not — so the document is locked while it is
+     open, and released with it. */
+  const overflow = (): Promise<string> => page.evaluate(() => getComputedStyle(document.documentElement).overflowY);
+  expect(await overflow()).toBe('hidden');
 
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
+  expect(await overflow()).not.toBe('hidden');
 });
 
 /* The same three parts on the element with no caption under it. A figure is the
