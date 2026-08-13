@@ -1,9 +1,9 @@
-/* The illustration set, together rather than one teaser at a time.
+/* The illustration set, together rather than one card at a time.
 
    The story proves the two constraints that disappear when an image is seen
    alone: all eight belong to one visual language, and the same PNG remains in
    place when the surrounding surface changes mode. The filenames stay under
-   the images because this is also the picker for future teaser stories. */
+   the images because this is also the picker for future card stories. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -23,7 +23,7 @@ const IMAGES: readonly { file: string; subject: string }[] = [
 
 const RULES: readonly string[] = [
   '<b>One file in both modes.</b> The surrounding surface changes; the illustration does not.',
-  '<b>1200 × 750 PNG.</b> Wide enough for a teaser, with crop-safe space around one subject.',
+  '<b>1200 × 750 PNG.</b> Wide enough for a card, with crop-safe space around one subject.',
   '<b>Five to eight broad silhouettes.</b> At most two flat tones per object and one contained halftone field.',
   '<b>One small orange detail.</b> Everything else stays inside the neutral system palette.',
 ];

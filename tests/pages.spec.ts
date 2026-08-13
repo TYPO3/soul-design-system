@@ -203,7 +203,7 @@ test('a filter that matches nothing answers, and the answer undoes it', async ({
      holds is the page's business, and a literal would fail the day one is added
      — a test failing at the one thing it is not about. Two numbers, because the
      page shows one page of the list, and the answer names the second. */
-  const entries = page.locator('sds-teaser');
+  const entries = page.locator('#entries sds-card');
   const all = await entries.count();
   expect(all, 'the list should hold entries to filter').toBeGreaterThan(2);
   const read = Number(await page.locator('sds-pagination').getAttribute('count'));

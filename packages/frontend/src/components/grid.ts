@@ -1,7 +1,7 @@
 /* sds-grid — the wall a set is read in.
 
-   What goes between the tags is whatever is read side by side: cards, teasers,
-   planes, a column of links. What the element carries is the one decision the
+   What goes between the tags is whatever is read side by side: cards, planes,
+   a column of links. What the element carries is the one decision the
    set makes about itself, and it is not a column count — the grid reflows by a
    minimum width, so a page says what its items hold and names no breakpoint.
 

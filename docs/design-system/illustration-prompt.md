@@ -35,7 +35,7 @@ Replace `[SUBJECT]` and leave the rest unchanged:
 
 ```text
 Use case: stylized-concept
-Asset type: decorative teaser illustration, wide 8:5 landscape
+Asset type: decorative card illustration, wide 8:5 landscape
 
 Primary request: Create a mature editorial spot-colour illustration of
 [SUBJECT] for a restrained technical design system.
@@ -48,7 +48,7 @@ controlled field of regular vintage halftone dots.
 Composition/framing: 1200 × 750; one clear subject or still-life gesture;
 flattened, almost orthographic view with very shallow perspective; generous
 nearly neutral warm-white negative space matching #F7F6F2; crop-safe on all
-sides; readable at teaser-card size; no border or frame.
+sides; readable at card size; no border or frame.
 
 Colour palette: warm off-white, near-black charcoal, warm grey, muted taupe,
 and exactly one small vivid orange #FF8700 element. No other hue.
@@ -84,4 +84,4 @@ and quantity, and that is a diagram.
 
 Which subjects a set has spent is a property of that set, not of this prompt.
 It produces one image and knows nothing of the others; a view that shows
-several teasers at once is assembled by someone who can see all of them.
+several cards at once is assembled by someone who can see all of them.

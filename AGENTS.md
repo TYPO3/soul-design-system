@@ -257,7 +257,7 @@ make verify ARGS=classes            # one check
 make verify ARGS="refs heights"     # two
 make verify ARGS=--help             # the names
 make test ARGS=tests/parity.spec.ts
-make test ARGS="tests/a11y.spec.ts --grep teaser"
+make test ARGS="tests/a11y.spec.ts --grep card"
 ```
 
 | Touched | Run |

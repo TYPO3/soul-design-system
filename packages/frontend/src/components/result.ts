@@ -7,7 +7,7 @@
    The match is marked here, not by the caller: what is highlighted has to be
    what was searched for, and a page marking by hand marks what it thinks it
    searched for — the two part the first time a query is normalised. Not
-   `sds-teaser`: that invites, this answers. */
+   `sds-card`: that invites, this answers. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './badge.ts';

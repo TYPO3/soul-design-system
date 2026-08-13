@@ -153,12 +153,12 @@ Cards that reflow by their own minimum width.
 
    .. grid::
 
-      .. teaser:: What it is
+      .. card:: What it is
          :href: /overview
 
          Two sentences.
 
-      .. teaser:: What it costs
+      .. card:: What it costs
          :href: /pricing
 
          Two more.
@@ -167,14 +167,14 @@ That source, on this page:
 
 .. grid::
 
-   .. teaser:: What it is
+   .. card:: What it is
       :href: /guides-theme/index
       :tag: Overview
 
-      Two sentences, a badge above the title, and the whole card following the
-      title on hover.
+      Two sentences, a badge above the title, and the whole card lit at the top
+      of its frame under the pointer.
 
-   .. teaser:: What it costs
+   .. card:: What it costs
       :href: /guides-theme/installation
       :tag: Installation
 
@@ -183,88 +183,8 @@ That source, on this page:
 
 No column count, and that is the design: three across on a desk, two on a
 tablet, one on a phone, decided by how narrow a card may get rather than by a
-breakpoint somebody picked. It takes no options, and it holds teasers —
-anything else inside it is laid out by the same rule and left to fend for
-itself.
-
-teaser
-======
-
-One card in a grid: a title, a few sentences, and where it goes.
-
-.. code-block:: text
-
-   .. teaser:: As a render guide template
-      :href: /guides-theme/index
-      :tag: Package
-      :meta: Composer
-
-      A Composer package that turns reStructuredText or Markdown into pages
-      set with this system.
-
-.. confval:: href
-   :type: string
-
-   A document, written the way a ``:doc:`` reference is, and resolved per
-   page. With it, the title is a link and the whole card follows it on hover;
-   without it, the title is a title.
-
-.. confval:: tag
-   :type: string
-
-   What kind of entry it is, in the badge above the title. A fact about the
-   card rather than a result, so it carries no tone and no glyph.
-
-.. confval:: meta
-   :type: string
-
-   When, or anything else in the label register: it sits beside the tag, in
-   the same row, and the row is dropped where neither is written.
-
-.. confval:: src
-   :type: string
-
-   The picture, flush at the top of the card. A path in the documentation
-   source is copied into the output and resolved per page; a URL somewhere
-   else is linked as it stands. An SVG of this project's own is referenced
-   rather than linked, so it takes the page's tokens and follows it into dark
-   — which costs the file the one line :doc:`/design-system/artwork` asks for.
-
-   The name is ``src`` here and on the element, because that is what
-   everything in this system that takes a file is called.
-
-.. confval:: alt
-   :type: string
-
-   What the picture shows, for a reader who cannot see it. Written and empty
-   says decorative — a card whose art only repeats the title beside it — and
-   left out entirely says nothing was decided, which reads very differently.
-
-**The options are ``sds-teaser``'s properties, all of them, spelt the way the
-element spells them.** A directive that draws one of this system's components
-and answers for half of it sends the author who wanted the other half to their
-own stylesheet, which is the one thing this system exists to prevent — and one
-that renames what it does carry makes them translate a card they have already
-read. ``href`` links and ``src`` takes a file here for the same reason they do
-everywhere else. What the element gains, this gains.
-
-**What is pressable is the title and not the card.** A card wrapped in one
-anchor announces its entire contents as that link's name to a screen reader,
-and takes selecting the text inside it away from everybody else. The card
-following on hover is what makes it feel like the target it deliberately is
-not.
-
-The node is ``sds-teaser`` itself and not a ``div`` wearing its classes — the
-element is the front door here as everywhere else, so the card is drawn in one
-file and a rendered page cannot drift from one a product wrote. The template
-writes none of the card: it sets the options above and lets the element draw
-its own markup, which is what makes the card the component's to change.
-
-A reader with no JavaScript gets the whole of it anyway. Every element in the
-site is rendered before the page is published, so the picture, the row, the
-title and the summary are in the document with no script involved; in a browser
-the element upgrades over that rendering. This is the theme-wide arrangement,
-not the teaser's own — see :doc:`markup`.
+breakpoint somebody picked. It takes no options, and it holds cards — anything
+else inside it is laid out by the same rule and left to fend for itself.
 
 card-grid
 =========
@@ -365,8 +285,16 @@ One card: a title that goes somewhere, and what is behind it.
 .. confval:: label
    :type: string
 
-   The tracked-out line over the title, for a set of cards that is named or
-   numbered as a set: ``CHAPTER 02``, ``FOR EDITORS``.
+   The tracked-out line over the title: what a set of cards is named or
+   numbered as — ``CHAPTER 02``, ``FOR EDITORS`` — or when an entry is from.
+   The same register and the same line.
+
+.. confval:: tag
+   :type: string
+
+   What kind of thing the card is, in the badge beside the label. A fact about
+   the card rather than a result, so it carries no tone and no glyph. The row
+   is dropped where neither this nor the label is written.
 
 .. confval:: icon
    :type: string
@@ -378,15 +306,22 @@ One card: a title that goes somewhere, and what is behind it.
    :name: card-src
    :type: string
 
-   The picture, flush at the top of the card. Resolved exactly as a teaser's
-   is, and named ``src`` for the same reason.
+   The picture, flush at the top of the card. A path in the documentation
+   source is copied into the output and resolved per page; a URL somewhere else
+   is linked as it stands. An SVG of this project's own is referenced rather
+   than linked, so it takes the page's tokens and follows it into dark — which
+   costs the file the one line :doc:`/design-system/artwork` asks for.
+
+   The name is ``src`` here and on the element, because that is what everything
+   in this system that takes a file is called.
 
 .. confval:: alt
    :name: card-alt
    :type: string
 
-   What the picture shows. Written and empty says decorative; left out says
-   nothing was decided.
+   What the picture shows, for a reader who cannot see it. Written and empty
+   says decorative — a card whose art only repeats the title beside it — and
+   left out entirely says nothing was decided, which reads very differently.
 
 .. confval:: footer
    :type: string
@@ -420,9 +355,25 @@ be a second destination under one frame, which is why there is no option for a
 button. A link written into the prose of a card still works, and is a card
 asking to be two cards.
 
-The node is ``sds-card`` itself, the options are its properties and the
-template writes none of its markup — the same arrangement, and the same
-reasons, as the teaser above.
+**The options are ``sds-card``'s properties, all of them, spelt the way the
+element spells them.** A directive that draws one of this system's components
+and answers for half of it sends the author who wanted the other half to their
+own stylesheet, which is the one thing this system exists to prevent — and one
+that renames what it does carry makes them translate a card they have already
+read. ``href`` links and ``src`` takes a file here for the same reason they do
+everywhere else. What the element gains, this gains.
+
+The node is ``sds-card`` itself and not a ``div`` wearing its classes — the
+element is the front door here as everywhere else, so the card is drawn in one
+file and a rendered page cannot drift from one a product wrote. The template
+writes none of the card: it sets the options above and lets the element draw
+its own markup, which is what makes the card the component's to change.
+
+A reader with no JavaScript gets the whole of it anyway. Every element in the
+site is rendered before the page is published, so the picture, the row, the
+title and the summary are in the document with no script involved; in a browser
+the element upgrades over that rendering. This is the theme-wide arrangement,
+not the card's own — see :doc:`markup`.
 
 accordion
 =========

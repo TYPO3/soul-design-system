@@ -180,7 +180,7 @@ console.log(`   ${TAGS.filter(inGuides).length} of ${TAGS.length} elements, ${PE
 console.log('   the theme names no component\u2019s own part');
 
 /* A part belongs to the element that draws it and to nothing else. A template
-   writing `sds-teaser__body` has made that name public API: the card can then
+   writing `sds-card__body` has made that name public API: the card can then
    move nothing without the theme changing in the same commit. Only parts of
    elements that exist — `sds-bar__end` names no component, that being the class
    layer's vocabulary, which the theme may write. */

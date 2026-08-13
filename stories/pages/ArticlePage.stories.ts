@@ -13,6 +13,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/byline.ts';
+import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/code.ts';
 import '../../packages/frontend/src/components/crumbs.ts';
 import '../../packages/frontend/src/components/figure.ts';
@@ -20,7 +21,6 @@ import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/quote.ts';
 import '../../packages/frontend/src/components/rail.ts';
-import '../../packages/frontend/src/components/teaser.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
@@ -61,13 +61,13 @@ const BOOT: readonly CodeLine[] = [
 const RELATED = [
   {
     tag: 'guide',
-    meta: '30 May 2026',
+    label: '30 May 2026',
     heading: 'Writing a task skill that fails at registration',
     body: 'A skill declares the sources it needs, so an unreachable one is a startup error rather than a wrong answer.',
   },
   {
     tag: 'release',
-    meta: '9 August 2026 · 1.4.0',
+    label: '9 August 2026 · 1.4.0',
     heading: 'Answers now name the source that answered',
     body: 'Every result carries which of the five sources reached it, and what the substitution left out.',
   },
@@ -185,13 +185,13 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       <h2 class="sds-h3" id="read-on">Read on</h2>
       ${grid(
         RELATED.map(
-          (entry) => html`<sds-teaser
+          (entry) => html`<sds-card
             heading="${entry.heading}"
             .body="${entry.body}"
             tag="${entry.tag}"
-            meta="${entry.meta}"
+            label="${entry.label}"
             href="#"
-          ></sds-teaser>`,
+          ></sds-card>`,
         ),
         { flat },
       )}

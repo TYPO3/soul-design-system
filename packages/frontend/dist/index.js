@@ -918,10 +918,10 @@ var require_core = __commonJS({
     }
     var version = "11.11.1";
     var HTMLInjectionError = class extends Error {
-      constructor(reason, html45) {
+      constructor(reason, html44) {
         super(reason);
         this.name = "HTMLInjectionError";
-        this.html = html45;
+        this.html = html44;
       }
     };
     var escape = escapeHTML;
@@ -4345,67 +4345,8 @@ var SdsGrid = class extends SdsElement {
 };
 define("sds-grid", SdsGrid);
 
-// packages/frontend/src/components/teaser.ts
-import { html as html37 } from "lit";
-var SdsTeaser = class extends SdsElement {
-  constructor() {
-    super();
-    /* The summary a caller wrote between the tags, taken before Lit renders over
-       it. The one thing about an entry that an attribute cannot hold: a summary
-       out of a document is paragraphs, and sometimes a list. Everything else the
-       card draws arrives as a property. */
-    this.taken = null;
-    this.heading = "";
-    this.body = "";
-    this.href = "";
-    this.tag = "";
-    this.meta = "";
-    this.src = "";
-    this.alt = "";
-    this.linked = false;
-  }
-  static {
-    this.properties = {
-      heading: { type: String },
-      body: { type: String },
-      href: { type: String },
-      tag: { type: String },
-      meta: { type: String },
-      src: { type: String },
-      alt: { type: String },
-      linked: { type: Boolean }
-    };
-  }
-  connectedCallback() {
-    const written = this.lifted().filter((node) => !isBlank(node));
-    if (written.length) this.taken = written;
-    super.connectedCallback();
-  }
-  render() {
-    const medium = this.src ? html37`<div class="sds-teaser__image">
-    ${art(this.src, this.alt, { linked: this.linked })}
-  </div>` : "";
-    const meta = this.tag || this.meta ? html37`<div class="sds-row">
-      ${this.tag ? html37`<sds-badge label="${this.tag}"></sds-badge>` : ""}
-      ${this.meta ? html37`<span class="sds-label">${this.meta}</span>` : ""}
-    </div>` : "";
-    const written = this.taken ?? this.content;
-    const text = written ? html37`<div class="sds-teaser__text">${written}</div>` : html37`<p class="sds-teaser__text">${this.body}</p>`;
-    const title = this.href ? html37`<a href="${this.href}">${this.heading}</a>` : html37`${this.heading}`;
-    return html37`<article class="sds-teaser">
-  ${medium}
-  <div class="sds-teaser__body">
-    ${meta}
-    <h3 class="sds-teaser__title">${title}</h3>
-    ${text}
-  </div>
-</article>`;
-  }
-};
-define("sds-teaser", SdsTeaser);
-
 // packages/frontend/src/components/pagination.ts
-import { html as html38 } from "lit";
+import { html as html37 } from "lit";
 function pageHref(href, page) {
   return href.includes("{n}") ? href.replace(/\{n\}/g, String(page)) : `${href}${page}`;
 }
@@ -4468,25 +4409,25 @@ var SdsPagination = class extends SdsElement {
   step(label, to, icon) {
     const off = to < 1 || to > this.pages;
     const cls = `sds-pagination__step${off ? " is-disabled" : ""}`;
-    const glyph = html38`<sds-icon name="${icon}"></sds-icon>`;
-    const inner = icon === "actions-chevron-start" ? html38`${glyph}${label}` : html38`${label}${glyph}`;
-    return off ? html38`<span class="${cls}" aria-disabled="true">${inner}</span>` : html38`<a class="${cls}" href="${pageHref(this.href, to)}" rel="${icon === "actions-chevron-start" ? "prev" : "next"}" @click="${(event) => this.ask(event, to)}">${inner}</a>`;
+    const glyph = html37`<sds-icon name="${icon}"></sds-icon>`;
+    const inner = icon === "actions-chevron-start" ? html37`${glyph}${label}` : html37`${label}${glyph}`;
+    return off ? html37`<span class="${cls}" aria-disabled="true">${inner}</span>` : html37`<a class="${cls}" href="${pageHref(this.href, to)}" rel="${icon === "actions-chevron-start" ? "prev" : "next"}" @click="${(event) => this.ask(event, to)}">${inner}</a>`;
   }
   render() {
-    return html38`<nav class="sds-pagination" aria-label="Pages">
+    return html37`<nav class="sds-pagination" aria-label="Pages">
   ${this.step("Previous", this.current - 1, "actions-chevron-start")}
   ${pageNumbers(this.pages, this.current).map(
-      (n) => n === 0 ? html38`<span class="sds-pagination__gap" aria-hidden="true">…</span>` : n === this.current ? html38`<span class="sds-pagination__page is-active" aria-current="page">${n}</span>` : html38`<a class="sds-pagination__page" href="${pageHref(this.href, n)}" @click="${(event) => this.ask(event, n)}">${n}</a>`
+      (n) => n === 0 ? html37`<span class="sds-pagination__gap" aria-hidden="true">…</span>` : n === this.current ? html37`<span class="sds-pagination__page is-active" aria-current="page">${n}</span>` : html37`<a class="sds-pagination__page" href="${pageHref(this.href, n)}" @click="${(event) => this.ask(event, n)}">${n}</a>`
     )}
   ${this.step("Next", this.current + 1, "actions-chevron-end")}
-  ${this.count > 0 ? html38`<span class="sds-pagination__count">${grouped(this.count)}${this.label ? ` ${this.label}` : ""}</span>` : ""}
+  ${this.count > 0 ? html37`<span class="sds-pagination__count">${grouped(this.count)}${this.label ? ` ${this.label}` : ""}</span>` : ""}
 </nav>`;
   }
 };
 define("sds-pagination", SdsPagination);
 
 // packages/frontend/src/components/pager.ts
-import { html as html39 } from "lit";
+import { html as html38 } from "lit";
 var SdsPager = class _SdsPager extends SdsElement {
   static {
     this.properties = {
@@ -4515,24 +4456,24 @@ var SdsPager = class _SdsPager extends SdsElement {
   render() {
     const back = this.previousHref && this.previousLabel ? _SdsPager.step(
       this.previousHref,
-      html39`<sds-icon name="actions-arrow-left" size="16" label="Previous page"></sds-icon>${buttonLabel(this.previousLabel)}`,
+      html38`<sds-icon name="actions-arrow-left" size="16" label="Previous page"></sds-icon>${buttonLabel(this.previousLabel)}`,
       "prev"
     ) : "";
     const on = this.nextHref && this.nextLabel ? _SdsPager.step(
       this.nextHref,
-      html39`${buttonLabel(this.nextLabel)}<sds-icon name="actions-arrow-right" size="16" label="Next page"></sds-icon>`,
+      html38`${buttonLabel(this.nextLabel)}<sds-icon name="actions-arrow-right" size="16" label="Next page"></sds-icon>`,
       "next"
     ) : "";
-    return html39`<nav class="sds-foot sds-pager" aria-label="${this.label}">
+    return html38`<nav class="sds-foot sds-pager" aria-label="${this.label}">
   ${back}
-  ${on ? html39`<span class="sds-pager__next">${on}</span>` : ""}
+  ${on ? html38`<span class="sds-pager__next">${on}</span>` : ""}
 </nav>`;
   }
 };
 define("sds-pager", SdsPager);
 
 // packages/frontend/src/components/code.ts
-import { html as html40 } from "lit";
+import { html as html39 } from "lit";
 import { unsafeHTML as unsafeHTML4 } from "lit/directives/unsafe-html.js";
 
 // node_modules/highlight.js/es/core.js
@@ -9739,7 +9680,7 @@ var SdsCode = class extends SdsElement {
   }
   get copyButton() {
     if (!this.copy || !this.clipboard) return void 0;
-    return html40`<button type="button" class="sds-code__copy${this.copied ? " is-copied" : ""}" aria-label="Copy this block" @click="${() => void this.toClipboard()}"><span class="sds-code__glyph"><sds-icon name="actions-duplicate"></sds-icon></span><span class="sds-code__copied"><sds-icon name="actions-check"></sds-icon></span><span>${this.copied ? "copied" : "copy"}</span></button>`;
+    return html39`<button type="button" class="sds-code__copy${this.copied ? " is-copied" : ""}" aria-label="Copy this block" @click="${() => void this.toClipboard()}"><span class="sds-code__glyph"><sds-icon name="actions-duplicate"></sds-icon></span><span class="sds-code__copied"><sds-icon name="actions-check"></sds-icon></span><span>${this.copied ? "copied" : "copy"}</span></button>`;
   }
   /* The lines the free `comment()`, `shell()` and `ok()` helpers used to
      build. They were three exported functions that assembled markup a caller
@@ -9747,16 +9688,16 @@ var SdsCode = class extends SdsElement {
      caller could half-write. A line is data now, and only this file turns it
      into spans. */
   line({ kind, text, code }) {
-    const tail = code ? html40` <span class="sds-code__cmd">${code}</span>` : void 0;
+    const tail = code ? html39` <span class="sds-code__cmd">${code}</span>` : void 0;
     switch (kind) {
       case "shell":
-        return html40`<span class="sds-code__prompt">$</span> <span class="sds-code__cmd">${text}</span>${tail}`;
+        return html39`<span class="sds-code__prompt">$</span> <span class="sds-code__cmd">${text}</span>${tail}`;
       case "comment":
-        return html40`<span class="sds-code__comment">${text}</span>${tail}`;
+        return html39`<span class="sds-code__comment">${text}</span>${tail}`;
       case "ok":
-        return html40`<span class="sds-code__ok">✓</span> ${text}${tail}`;
+        return html39`<span class="sds-code__ok">✓</span> ${text}${tail}`;
       default:
-        return html40`${text}${tail}`;
+        return html39`${text}${tail}`;
     }
   }
   /* Whether the block arrived already coloured. A build that highlights on its
@@ -9779,19 +9720,19 @@ var SdsCode = class extends SdsElement {
      colours the block too, unless the colour arrived with it; see `given`. */
   get wrapped() {
     const written = this.taken ?? this.content ?? this.text;
-    if (this.given) return html40`${written}`;
-    if (!this.lang) return html40`<code>${written}</code>`;
+    if (this.given) return html39`${written}`;
+    if (!this.lang) return html39`<code>${written}</code>`;
     const coloured = highlight(this.lang, this.text);
-    return coloured === null ? html40`<code class="language-${this.lang}">${written}</code>` : html40`<code class="language-${this.lang}">${unsafeHTML4(coloured)}</code>`;
+    return coloured === null ? html39`<code class="language-${this.lang}">${written}</code>` : html39`<code class="language-${this.lang}">${unsafeHTML4(coloured)}</code>`;
   }
   render() {
     const affordance = this.action ?? this.copyButton;
-    const head = this.lang || affordance ? html40`<div class="sds-code__head">
+    const head = this.lang || affordance ? html39`<div class="sds-code__head">
     <span class="sds-code__lang">${this.lang}</span>
     ${affordance}
   </div>` : void 0;
-    const caption = this.captioned ? html40`${this.captioned}` : this.caption ? html40`<div class="sds-code__caption">${this.caption}</div>` : void 0;
-    return html40`${caption}<div class="sds-code">
+    const caption = this.captioned ? html39`${this.captioned}` : this.caption ? html39`<div class="sds-code__caption">${this.caption}</div>` : void 0;
+    return html39`${caption}<div class="sds-code">
   ${head}
   <pre class="sds-code__body">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
 </div>`;
@@ -9800,7 +9741,7 @@ var SdsCode = class extends SdsElement {
 define("sds-code", SdsCode);
 
 // packages/frontend/src/components/diff.ts
-import { html as html41 } from "lit";
+import { html as html40 } from "lit";
 var SdsDiff = class extends SdsElement {
   static {
     this.properties = {
@@ -9818,12 +9759,12 @@ var SdsDiff = class extends SdsElement {
      block, so a newline inside the `<pre>` would add an empty line between
      every pair of rows. */
   line({ kind, text }) {
-    if (kind === "context") return html41`<span class="sds-diff__line">   ${text}</span>`;
+    if (kind === "context") return html40`<span class="sds-diff__line">   ${text}</span>`;
     const mark = kind === "add" ? "+" : "-";
-    return html41`<span class="sds-diff__line sds-diff__line--${kind}"><span class="sds-diff__mark">${mark}</span>  ${text}</span>`;
+    return html40`<span class="sds-diff__line sds-diff__line--${kind}"><span class="sds-diff__mark">${mark}</span>  ${text}</span>`;
   }
   render() {
-    return html41`<div class="sds-code">
+    return html40`<div class="sds-code">
   <div class="sds-code__head" style="justify-content:flex-start"><sds-icon name="${this.icon ?? "actions-code-compare"}"></sds-icon><span class="sds-code__path">${this.path}</span></div>
   <pre class="sds-diff">${this.body.map((l) => this.line(l))}</pre>
 </div>`;
@@ -9832,7 +9773,7 @@ var SdsDiff = class extends SdsElement {
 define("sds-diff", SdsDiff);
 
 // packages/frontend/src/components/quote.ts
-import { html as html42 } from "lit";
+import { html as html41 } from "lit";
 var SdsQuote = class extends SdsElement {
   static {
     this.properties = {
@@ -9850,17 +9791,17 @@ var SdsQuote = class extends SdsElement {
     this.href = "";
   }
   render() {
-    const who = this.href ? html42`<a class="sds-link" href="${this.href}">${this.by}</a>` : html42`${this.by}`;
-    return html42`<figure class="sds-quote">
+    const who = this.href ? html41`<a class="sds-link" href="${this.href}">${this.by}</a>` : html41`${this.by}`;
+    return html41`<figure class="sds-quote">
   <blockquote class="sds-quote__body">${this.body}</blockquote>
-  <figcaption class="sds-quote__by">${who}${this.as ? html42` · ${this.as}` : ""}</figcaption>
+  <figcaption class="sds-quote__by">${who}${this.as ? html41` · ${this.as}` : ""}</figcaption>
 </figure>`;
   }
 };
 define("sds-quote", SdsQuote);
 
 // packages/frontend/src/components/byline.ts
-import { html as html43 } from "lit";
+import { html as html42 } from "lit";
 var SdsByline = class extends SdsElement {
   static {
     this.properties = {
@@ -9887,11 +9828,11 @@ var SdsByline = class extends SdsElement {
     return (first + last).toUpperCase();
   }
   render() {
-    return html43`<div class="sds-byline">
+    return html42`<div class="sds-byline">
   <span class="sds-byline__mark" aria-hidden="true">${this.mark}</span>
   <div class="sds-byline__who">
-    <span class="sds-byline__name">${this.name}${this.as ? html43` <span class="sds-byline__role">· ${this.as}</span>` : ""}</span>
-    ${this.meta ? html43`<span class="sds-label">${this.meta}</span>` : ""}
+    <span class="sds-byline__name">${this.name}${this.as ? html42` <span class="sds-byline__role">· ${this.as}</span>` : ""}</span>
+    ${this.meta ? html42`<span class="sds-label">${this.meta}</span>` : ""}
   </div>
 </div>`;
   }
@@ -9899,7 +9840,7 @@ var SdsByline = class extends SdsElement {
 define("sds-byline", SdsByline);
 
 // packages/frontend/src/components/confval.ts
-import { html as html44, nothing as nothing15 } from "lit";
+import { html as html43, nothing as nothing15 } from "lit";
 var SdsConfval = class extends SdsElement {
   constructor() {
     super();
@@ -9940,20 +9881,20 @@ var SdsConfval = class extends SdsElement {
     ];
   }
   fact({ label, value }) {
-    return html44`<dt class="sds-label">${label}</dt>
+    return html43`<dt class="sds-label">${label}</dt>
       <dd class="sds-mono">${value}</dd>`;
   }
   render() {
     const facts = this.stated;
-    const mark = this.anchor ? html44`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing15;
-    return html44`<dl class="sds-confval">
+    const mark = this.anchor ? html43`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing15;
+    return html43`<dl class="sds-confval">
   <dt class="sds-confval__term" id="${this.anchor || nothing15}">
     <code class="sds-confval__name">${this.name}</code>
-    ${this.required ? html44`<sds-badge label="required"></sds-badge>` : nothing15}
+    ${this.required ? html43`<sds-badge label="required"></sds-badge>` : nothing15}
     ${mark}
   </dt>
   <dd class="sds-confval__detail">
-    ${facts.length ? html44`<dl class="sds-confval__facts">
+    ${facts.length ? html43`<dl class="sds-confval__facts">
       ${lines(facts.map((f) => this.fact(f)), 6)}
     </dl>` : nothing15}
     <div class="sds-confval__body">${this.taken ?? this.content ?? this.body}</div>
@@ -9998,7 +9939,6 @@ var TAGS2 = [
   "sds-table",
   "sds-card",
   "sds-grid",
-  "sds-teaser",
   "sds-result",
   "sds-pagination",
   "sds-pager",
@@ -10050,7 +9990,6 @@ export {
   SdsTabItem,
   SdsTable,
   SdsTabs,
-  SdsTeaser,
   SdsTheme,
   TAGS2 as TAGS,
   buttonClass,

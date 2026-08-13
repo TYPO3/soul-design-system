@@ -45,7 +45,6 @@ import './components/dialog.ts';
 import './components/table.ts';
 import './components/card.ts';
 import './components/grid.ts';
-import './components/teaser.ts';
 import './components/result.ts';
 import './components/pagination.ts';
 import './components/pager.ts';
@@ -102,7 +101,6 @@ export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
 export { SdsConfval, type ConfvalProps, type Fact } from './components/confval.ts';
 export { SdsCard, type CardProps } from './components/card.ts';
 export { SdsGrid, type GridProps, type GridVariant } from './components/grid.ts';
-export { SdsTeaser, type TeaserProps } from './components/teaser.ts';
 export { SdsResult, type ResultProps } from './components/result.ts';
 export { SdsPagination, pageNumbers, type PaginationProps } from './components/pagination.ts';
 export { SdsPager, type PagerProps } from './components/pager.ts';
@@ -145,7 +143,6 @@ export const TAGS = [
   'sds-table',
   'sds-card',
   'sds-grid',
-  'sds-teaser',
   'sds-result',
   'sds-pagination',
   'sds-pager',

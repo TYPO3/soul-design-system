@@ -185,7 +185,7 @@ What the finishing step does, and why it is not the renderer's job
 ==================================================================
 
 **It draws the elements.** Every template in this theme *addresses* a
-component — ``<sds-teaser heading="…">`` — and writes none of its markup, which
+component — ``<sds-card heading="…">`` — and writes none of its markup, which
 is the whole point of there being components. An addressed element draws
 nothing until it upgrades, so the markup is written into the page before it is
 published, and in a browser the element upgrades over its own rendering. Skip

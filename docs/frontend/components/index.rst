@@ -31,13 +31,13 @@ already wrote.
 .. code-block:: html
 
    <!-- Addressed. -->
-   <sds-teaser heading="Release 1.4" tag="news" meta="12 May" href="/news/1-4">
+   <sds-card heading="Release 1.4" tag="news" label="12 May" href="/news/1-4">
      <p>What changed, in the two lines that decide whether it is opened.</p>
-   </sds-teaser>
+   </sds-card>
 
    <!-- Rebuilt. This is the failure the system exists to prevent. -->
-   <article class="sds-teaser">
-     <div class="sds-teaser__body">…</div>
+   <article class="sds-card">
+     <div class="sds-card__body">…</div>
    </article>
 
 A ``sds-x__y`` class is ``sds-x``'s own name for its own node. A page may write

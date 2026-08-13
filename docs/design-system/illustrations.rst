@@ -5,7 +5,7 @@ Illustrations
 =============
 
 Illustrations support a tool or article without explaining it. They give a
-teaser a visual register after its heading and summary have already named the
+card a visual register after its heading and summary have already named the
 subject. If position, connection, quantity or a label in the picture has to
 be understood, use a diagram instead.
 

@@ -196,7 +196,7 @@ site is rendered along it, with the same file a reader runs.
 - **A block's title and its body are one pair.** Two registers carry every
   titled block: `--block-*` for a note, surface, empty state, modal or
   accordion, `--entry-*` for the ones whose title is a destination — card,
-  teaser, result. `document.css` rebinds both together. They were `--note-*`
+  result. `document.css` rebinds both together. They were `--note-*`
   while only a note used them, and by the time most blocks did, a body could
   change register while the title over it stayed put; the distance between the
   two ran 0, 2 and 5 steps depending on which component you looked at, and the
@@ -382,7 +382,7 @@ instead of rebuilding them, and it is worth stating why it had to exist.
 An addressed element draws nothing until it upgrades. On a documentation site
 that is a card whose title waits for a script, and for a reader with scripting
 off it never arrives. So the theme wrote the components' markup itself — the
-card's own parts, `sds-teaser__body` and the rest, which the elements then read
+card's own parts, `sds-card__body` and the rest, which the elements then read
 back to find their content. Every internal name became public API, neither side
 could change alone, and the one surface built to stop a consumer hand-writing
 this system's markup was hand-writing it.

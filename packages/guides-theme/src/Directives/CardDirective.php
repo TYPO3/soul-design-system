@@ -30,9 +30,21 @@ use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
  * why there is no option for a button. A second anchor to the same place is a
  * second destination under one frame.
  *
- * **The options cover that element and leave nothing of it out**, for the
- * reason `TeaserDirective` states at length: a directive answering for half of
- * a component sends the other half into a consumer's own stylesheet.
+ * **The options cover that element and leave nothing of it out.** A directive
+ * that renders one of this system's components and answers for half of it is
+ * the worse of the two failures a theme can have: an author who reads the card
+ * in Storybook and writes the page that shows it has to find out from the
+ * render which half arrived, and the part that did not is written by hand into
+ * their own stylesheet — which is the thing the whole system exists to
+ * prevent. So `tag`, `src` and `alt` are here because `sds-card` draws them,
+ * and anything it gains lands here in the same commit.
+ *
+ * **And each is spelt the way the element spells it.** `href` and `src` are
+ * what everything in this system that links or takes a file is called, so an
+ * author who has read the card in Storybook can write the directive without
+ * looking anything up, and the two sides cannot be described in two
+ * vocabularies. A name of the theme's own — `to` for the link — reads well in
+ * exactly one place and is a translation everywhere else.
  */
 final class CardDirective extends SubDirective
 {
@@ -52,6 +64,7 @@ final class CardDirective extends SubDirective
         return (new CardNode($title, $collectionNode->getChildren()))->withOptions([
             'href' => $directive->getOption('href')->getValue(),
             'label' => $directive->getOption('label')->getValue(),
+            'tag' => $directive->getOption('tag')->getValue(),
             'icon' => $directive->getOption('icon')->getValue(),
             'src' => $directive->getOption('src')->getValue(),
             'alt' => $directive->getOption('alt')->getValue(),

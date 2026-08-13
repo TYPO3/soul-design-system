@@ -250,20 +250,23 @@ Pictures
 Cards
 =====
 
+The grid that takes no column count, holding the register one entry in a list
+is written in: what kind of thing it is, when it is from, and the two lines
+that decide whether it is opened.
+
 .. grid::
 
-   .. teaser:: A card with every option on it
+   .. card:: One entry in a list of them
       :href: /nodes
       :tag: Reference
-      :meta: Both halves at once
+      :label: 12 May 2026
       :src: /_images/placeholder.svg
       :alt: A placeholder
 
-      What the directive can say is what ``sds-teaser`` draws, and this is the
-      whole of it: the picture, the row above the title, the title as the
-      link, and the two lines that decide whether it is opened.
+      The picture sits flush at the top, the badge and the label share the one
+      line over the title, and the title is where the entry goes.
 
-   .. teaser:: A card with nowhere to go
+   .. card:: A card with nowhere to go
 
       Without a target the title is a title. The row above it is dropped
       rather than left blank, and so is the ground the picture would sit on —
@@ -272,7 +275,7 @@ Cards
 The cards a manual is signposted with
 =====================================
 
-The other card, and the spelling a TYPO3 manual already uses: the target is
+The same card, in the spelling a TYPO3 manual already uses: the target is
 written into the title, the column counts are read as how much room a card
 needs, and the whole card is the link.
 
@@ -294,6 +297,7 @@ needs, and the whole card is the link.
    .. card:: A card with every option on it
       :href: /nodes
       :label: Chapter 02
+      :tag: Reference
       :icon: actions-book
       :src: /_images/placeholder.svg
       :alt: A placeholder
@@ -301,8 +305,9 @@ needs, and the whole card is the link.
       :action: Read it
 
       What the directive can say is what ``sds-card`` draws, and this is the
-      whole of it: the picture, the glyph and the row above the title, the
-      title, the foot, and the words that say what pressing the card does.
+      whole of it: the picture, the glyph, the badge and the label on the row
+      above the title, the title, the foot, and the words that say what
+      pressing the card does.
 
 ``:gap: 0`` is the one gutter a page may ask for, because it is a shape rather
 than a distance: the cards share a hairline and the set reads as one block.

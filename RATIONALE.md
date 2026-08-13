@@ -50,7 +50,7 @@ Every semantic colour token is declared **once**, as `light-dark(light, dark)`, 
 
 **Type.** Source Sans 3 for everything human, Source Code Pro for everything the machine reads or writes: tool names, argument names, labels, version strings, code. A tool name is *always* set in mono, at any size, including as a page heading. Display is 58px/600 at -0.03em; body is 16px/1.65 capped at 620px, which is the reading column every register on a page aligns to; the small uppercase label is 11px at 0.09em. Size tokens live under `--font-size-*`; `--text-*` is reserved for text colour. Weights used: 200 (rare, display only), 400, 500 (mono headings), 600. No italics except a single emphasised word in a display line. Variable faces keep weight changes from adding fetches; the upright latin faces are preloaded, and `font-display: optional` chooses a stable fallback over a late layout-changing swap.
 
-**Backgrounds.** Page grounds stay flat: no photography or illustration behind text, no repeating texture, no gradient. Decorative illustrations may occupy an explicit media slot such as a teaser image; explanatory imagery remains the diagram set.
+**Backgrounds.** Page grounds stay flat: no photography or illustration behind text, no repeating texture, no gradient. Decorative illustrations may occupy an explicit media slot such as a card's picture; explanatory imagery remains the diagram set.
 
 **Borders and shadows.** Hairlines do all the structural work. `--border-subtle` separates sections and table rows; `--border-strong` marks the head of a table or an active field. **There are no shadows in this system** — not on cards, not on modals, not on menus. A modal is separated by an overlay wash and a border, not by elevation. The one exception is the focus ring, `box-shadow: 0 0 0 3px var(--accent-ring)`, which is a state, not a depth.
 
@@ -127,9 +127,9 @@ That is not only tidiness. The identifiers are the core's own — `actions-searc
 
 ## Illustration language
 
-Tool and article teasers need imagery that can be cropped and reduced without
-destroying information. Reusing a diagram there made the diagram into page
-furniture and made its labels illegible. The placeholder set therefore has a
+The cards a tool or an article is announced in need imagery that can be cropped
+and reduced without destroying information. Reusing a diagram there made the
+diagram into page furniture and made its labels illegible. The placeholder set therefore has a
 separate job: support the subject already named by the copy, never explain it.
 
 The relationship to the diagrams is deliberate but bounded. Both use warm

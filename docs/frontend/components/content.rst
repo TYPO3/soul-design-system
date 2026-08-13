@@ -76,9 +76,9 @@ A filled plane holding a statement.
 sds-card
 ========
 
-A way into something: a chapter, a product, a page. A picture at the top, the
-row that says what kind of thing it is, the title that goes there, the prose,
-and a foot carrying the call to action.
+A way into something: a chapter, a product, a news entry, a page. A picture at
+the top, the row saying what kind of thing it is and when, the title that goes
+there, the prose, and a foot carrying the call to action.
 
 .. code-block:: html
 
@@ -130,8 +130,16 @@ is words rather than a second anchor to the same place.
    :name: sds-card-label
    :type: string
 
-   The tracked-out line over the title, where a set of cards is named or
-   numbered as a set.
+   The tracked-out line over the title: what a set of cards is named or
+   numbered as, or when the entry is from — the same register and the same
+   line.
+
+.. confval:: tag
+   :name: sds-card-tag
+   :type: string
+
+   What kind of thing it is. Drawn as a badge beside the label, with no tone,
+   because it is a fact about the card rather than a result.
 
 .. confval:: icon
    :name: sds-card-icon
@@ -151,11 +159,19 @@ is words rather than a second anchor to the same place.
    The call to action, in words. Drawn only where there is an ``href``, since
    it says the card goes there.
 
+.. note::
+
+   ``sds-card`` invites and ``sds-result`` answers — a way into something and a
+   hit in a search are not the same shape; see :doc:`navigation`. One entry in
+   a list of them is this element too, turned down to the badge, the date and
+   the two lines that decide whether it is opened.
+
 sds-grid
 ========
 
 The wall a set is read in. What goes between the tags is whatever is read side
-by side — cards, teasers, planes — because a grid of two is not a grid of six.
+by side — cards, planes, a column of links — because a grid of two is not a
+grid of six.
 
 .. code-block:: html
 
@@ -178,65 +194,6 @@ by side — cards, teasers, planes — because a grid of two is not a grid of si
    what its items hold and no page names a breakpoint. What the element adds on
    top is evenness: four items in a three-wide row would wrap as three and one,
    so it lays them out two and two.
-
-sds-teaser
-==========
-
-One entry in a list of them: an image where the entry has one, what it is and
-when, the headline, and the two lines that decide whether it is opened.
-
-.. code-block:: html
-
-   <sds-teaser heading="Soul 1.4 is out" href="/news/soul-1-4"
-     tag="release" meta="12 May 2026" src="/img/1-4.png" alt="">
-     <p>The summary, written rather than cut from the first two lines.</p>
-   </sds-teaser>
-
-**The title is the link and the card is not.** A card wrapped in one anchor
-announces its whole contents as that link's name; it follows on hover instead.
-
-.. confval:: heading
-   :name: sds-teaser-heading
-   :type: string
-   :required: true
-
-.. confval:: body
-   :name: sds-teaser-body
-   :type: string | markup
-
-   The two lines that decide whether it is opened — a summary is written, not
-   cut.
-
-.. confval:: href
-   :name: sds-teaser-href
-   :type: string
-
-.. confval:: tag
-   :name: sds-teaser-tag
-   :type: string
-
-   What kind of entry it is. Drawn as a badge with no tone, because it is a
-   fact about the entry rather than a result.
-
-.. confval:: meta
-   :name: sds-teaser-meta
-   :type: string
-
-   When, and anything else that belongs in the label register.
-
-.. confval:: src
-   :name: sds-teaser-src
-   :type: string
-
-.. confval:: alt
-   :name: sds-teaser-alt
-   :type: string
-
-.. note::
-
-   ``sds-teaser`` invites and ``sds-result`` answers — an entry in a list and a
-   hit in a search are not the same shape; see :doc:`navigation`. And neither is
-   ``sds-card``, which is a way into something rather than one of many.
 
 sds-stat
 ========

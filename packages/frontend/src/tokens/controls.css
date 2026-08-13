@@ -75,8 +75,8 @@
      and nothing to rebind. What is dense is what the machine wrote — a
      control, a row, a code block, an aside — and each says so itself. */
   --block-title-size: var(--font-size-body);
-  /* An *entry* is a block whose title is a destination — a card, a teaser, a
-     result. The one distinction a block carries, and it is in the title. */
+  /* An *entry* is a block whose title is a destination — a card, a result.
+     The one distinction a block carries, and it is in the title. */
   --entry-title-size: var(--font-size-h3);
   --block-body-size: var(--font-size-body);
 

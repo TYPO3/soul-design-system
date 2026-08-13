@@ -132,7 +132,7 @@ function openTag(el: Element, depth: number): string {
   const tag = el.tagName.toLowerCase();
   /* Every attribute keeps its value, `copy=""` included. Writing an empty one
      as the bare name reads better for a flag and lies about the rest: a story
-     passes `tag=""` for a teaser that has no tag, and `tag` is not that. */
+     passes `tag=""` for a card that has no tag, and `tag` is not that. */
   const attrs = [...el.attributes].map((a) => `${a.name}="${escAttr(a.value)}"`);
   const flat = `<${tag}${attrs.map((a) => ` ${a}`).join('')}>`;
   if (attrs.length < 2 || depth * STEP.length + flat.length <= WIDTH) return flat;

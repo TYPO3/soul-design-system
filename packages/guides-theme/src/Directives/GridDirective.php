@@ -16,7 +16,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
  *
  *     .. grid::
  *
- *        .. teaser:: What it is
+ *        .. card:: What it is
  *
  *           Two sentences.
  *

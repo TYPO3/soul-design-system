@@ -4,7 +4,8 @@
    being shown here is the set and not what is in it: how wide it runs is a
    decision about how much room an item needs, and `flush` is a decision about
    whether the set is separated at all. Cards throughout, being the set a page
-   most often lays out, but a teaser or a plane is laid out by the same wall.
+   most often lays out, but a plane or a column of links is laid out by the
+   same wall.
 
    No `parameters.dsCard`, for the reason `Card.stories.ts` states: a grid is
    judged at the width a document gives it, and a card file is a fragment at a

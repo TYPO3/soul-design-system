@@ -25,7 +25,6 @@ import '../../packages/frontend/src/components/rail.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/table.ts';
-import '../../packages/frontend/src/components/teaser.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
@@ -39,7 +38,6 @@ import { sdsQuote } from '../components/Quote.stories.ts';
 import { sdsStat } from '../components/Stat.stories.ts';
 import { sdsSurface } from '../components/Surface.stories.ts';
 import { sdsTable } from '../components/Table.stories.ts';
-import { sdsTeaser } from '../components/Teaser.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
@@ -141,9 +139,9 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
       <h2 class="sds-h3" id="blocks">What a block carries</h2>
       <p>
         Anything with a heading over its own text is read, so its body is the
-        page's own size. Only the title tells two kinds apart: a card, a teaser
-        and a result carry the louder one, because their title is somewhere you
-        can go rather than something you read.
+        page's own size. Only the title tells two kinds apart: a card and a
+        result carry the louder one, because their title is somewhere you can go
+        rather than something you read.
       </p>
 
       ${sdsNote({
@@ -223,11 +221,11 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
       <h2 class="sds-h3" id="questions">Questions</h2>
       ${sdsAccordion({ entries: QUESTIONS, name: 'reading' })}
 
-      ${sdsTeaser({
+      ${sdsCard({
         heading: 'The tokens themselves',
         body: 'Every value named above, with what it is for and what it is never for.',
         tag: 'reference',
-        meta: 'tokens',
+        label: 'tokens',
         href: '#registers',
       })}
     </main>

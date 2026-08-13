@@ -342,20 +342,8 @@
    then, so what the document stacks is the figure inside it. */
 :where(.sds-prose) .sds-figure { margin-bottom: var(--space-4); }
 
-/* A card before its element upgrades, and on a page that runs none. The parts
-   inside are drawn already; what the element owns is the node around them,
-   without which each becomes a cell of its own in a grid. The frame is stated
-   twice, here and on `.sds-teaser`, from the same tokens. */
-:where(.sds-prose) sds-teaser:not(:defined) {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: var(--border-hairline) solid var(--border-subtle);
-  border-radius: var(--radius-card);
-}
-
-/* And a card of the other kind, in the same two situations. The frame is not
-   stated again — the card draws it — but the host is the cell until it
+/* A card before its element upgrades, and on a page that runs none. The frame
+   is not stated again — the card draws it — but the host is the cell until it
    upgrades, and the card inside it stops at its content, so a row of them
    would draw frames of three different heights. */
 :where(.sds-prose) sds-card:not(:defined) { display: flex; }

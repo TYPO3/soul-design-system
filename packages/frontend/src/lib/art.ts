@@ -1,4 +1,4 @@
-/* The one picture a figure, a viewer, a teaser or a lockup shows.
+/* The one picture a figure, a viewer, a card or a lockup shows.
 
    **Every SVG is referenced, everything else is linked.** An `<img>` renders
    its file in a document of its own where no token is declared; a `<use>` builds

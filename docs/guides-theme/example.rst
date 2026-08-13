@@ -80,7 +80,7 @@ on.
 
    .. grid::
 
-      .. teaser:: Write a page
+      .. card:: Write a page
          :href: /guide/index
          :tag: Guide
 

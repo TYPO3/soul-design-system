@@ -43,7 +43,7 @@ export function dropIn(from: string, into: string): string[] {
 
 /* The elements that show a picture, and what tells an SVG from anything else.
    The tag ending steps over a name that is a prefix of another one. */
-const SHOWS = ['sds-figure', 'sds-image', 'sds-teaser', 'sds-card'];
+const SHOWS = ['sds-figure', 'sds-image', 'sds-card'];
 const PICTURE = new RegExp(`<(?:${SHOWS.join('|')})(?![-\\w])(?:"[^"]*"|'[^']*'|[^>"'])*>`, 'g');
 const SVG = /\.svg(?:[?#].*)?$/i;
 const PREPARED = /\bid\s*=\s*["']?art\b/;
