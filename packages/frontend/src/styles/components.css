@@ -215,15 +215,15 @@ li > ol { margin-bottom: 0; }
 /* A sentence borrowed from somewhere, set apart by measure and a rule at its
    start — position, which is what this system separates with. No quotation mark
    is drawn: a punctuation character at 40px is ornament wearing a glyph. The
-   rule is structural, so no radius, and `--border-strong` rather than the
-   accent, which has three jobs already. */
+   rule is structural, so no radius and `--border-strong` rather than the
+   accent; 3px, because at 2px it was the faintest thing in the block it holds. */
 .sds-quote {
   margin: 0;
   padding-inline-start: var(--space-5);
-  border-inline-start: 2px solid var(--border-strong);
+  border-inline-start: 3px solid var(--border-strong);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 .sds-quote__body {
   margin: 0;
