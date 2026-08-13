@@ -34,13 +34,14 @@ npm install @typo3/soul-frontend lit
 ```
 
 ```js
+import '@typo3/soul-frontend';
 import '@typo3/soul-frontend/dist/soul.css';
-import '@typo3/soul-frontend/dist/soul.js';
 ```
 
-`lit` is a peer dependency rather than a bundled one: two copies of it in a
-page give a consumer a second reactive-element registry, and elements upgrade
-under the wrong one.
+The package entry is `dist/index.js`, which leaves `lit` external — never
+`dist/soul.js`, the drop-in above, which carries its own copy. `lit` is a peer
+dependency for that reason: two copies of it in a page give a consumer a second
+reactive-element registry, and elements upgrade under the wrong one.
 
 ## What is in it
 
