@@ -2024,19 +2024,28 @@ sds-rail:not(:defined) {
   margin-top: calc((1lh - var(--control-icon-size)) / 2);
   color: var(--text-muted);
   transform: rotate(-90deg);
-  /* The marker turns for as long as the answer takes. Two durations on one
-     press read as two things happening. */
-  transition: transform var(--duration-base) var(--ease-out);
+  /* The marker turns for as long as the answer takes, on the answer's own
+     curve. Two durations on one press read as two things happening. */
+  transition: transform var(--duration-base) var(--ease-standard);
 }
 .sds-accordion__item[open] > .sds-accordion__head .sds-icon { transform: none; }
 .sds-accordion__body {
   /* A grid item's own floor is its content, which is what keeps a collapsed
      row from reaching zero. */
   min-height: 0;
-  padding: 0 0 var(--space-5) calc(var(--control-icon-size) + var(--space-3));
+  padding: 0 0 0 calc(var(--control-icon-size) + var(--space-3));
   font-size: var(--block-body-size);
   line-height: var(--leading-body);
   color: var(--text-secondary);
+}
+/* The space under an answer, drawn rather than padded. Padding is outside the
+   height a row can shrink, so as `padding-bottom` it was a floor the fold
+   stopped on and then jumped off — the same step, at the start of every open
+   and the end of every close. */
+.sds-accordion__body::after {
+  content: '';
+  display: block;
+  height: var(--space-5);
 }
 /* The fold, on the box the browser puts around an answer. A row from `0fr` to
    `1fr` is the answer's own height without measuring it, which is what a
@@ -2056,7 +2065,7 @@ sds-rail:not(:defined) {
      what a fold reads as when it looks abrupt. */
   opacity: 0;
   transition:
-    grid-template-rows var(--duration-base) var(--ease-out),
+    grid-template-rows var(--duration-base) var(--ease-standard),
     opacity var(--duration-fast) var(--ease-out),
     content-visibility var(--duration-base) allow-discrete;
 }
