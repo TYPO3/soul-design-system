@@ -27,6 +27,13 @@ export interface ButtonProps {
     rel?: string;
 }
 export declare function buttonClass({ variant, size, iconOnly, disabled }: ButtonProps): string;
+/** The label as the one node it is.
+
+    `.sds-btn` is a flex row, so a word and a version in mono written beside
+    each other become two items placed by their boxes — and two faces never
+    centre onto one baseline, at any size or leading. In one item they share a
+    line box and are aligned as the text they are. */
+export declare const buttonLabel: (body: unknown) => TemplateResult;
 /** The markup a button is, given whatever stands inside it. */
 export declare function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult;
 /** What a press asks of something else on the page.

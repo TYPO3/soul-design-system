@@ -1,4 +1,5 @@
 import { type TemplateResult } from 'lit';
+import './lightbox.ts';
 import { SdsElement } from '../lib/element.js';
 export interface ImageProps {
     /** The file. An SVG is referenced, anything else is linked. */
@@ -13,6 +14,11 @@ export interface ImageProps {
         a square box is drawn 5:4 and centred, never stretched to fit. */
     width?: number;
     height?: number;
+    /** Pressable, opening the picture at the size it was made. The trigger is a
+        link to the file, so a surface running no script still opens it and the
+        element only takes the press over once it has upgraded. What a picture
+        shrunk into its column asks for, and what a mark in a lockup never does. */
+    zoomable?: boolean;
     /** The picture is linked rather than referenced — an SVG that never named
         `id="art"`. Written by the build, which is what can read the file;
         `src/lib/art.ts` holds the reasoning. */
@@ -34,6 +40,10 @@ export declare class SdsImage extends SdsElement {
             type: NumberConstructor;
             reflect: boolean;
         };
+        zoomable: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
         linked: {
             type: BooleanConstructor;
         };
@@ -46,6 +56,7 @@ export declare class SdsImage extends SdsElement {
     alt: string;
     width: number;
     height: number;
+    zoomable: boolean;
     linked: boolean;
     cls: string;
     constructor();
@@ -55,5 +66,9 @@ export declare class SdsImage extends SdsElement {
         script and for a reader who runs none. The element redraws it and the
         server's copy goes, or light DOM leaves two pictures in one box. */
     connectedCallback(): void;
+    /** Take the press over from the link. Only where there is something to take
+        it over with: if the viewer has not upgraded, the browser follows the
+        href and the reader still gets the picture. */
+    private zoom;
     protected render(): TemplateResult;
 }

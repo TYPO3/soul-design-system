@@ -1,7 +1,6 @@
 import { type TemplateResult } from 'lit';
 import './icon.ts';
 import './result.ts';
-import './empty.ts';
 import { SdsElement } from '../lib/element.js';
 /** One page, as the index has it. */
 export interface SearchEntry {
@@ -72,6 +71,10 @@ export declare class SdsSearch extends SdsElement {
     /** The drop, and what is in it. `sds-result` draws a hit, marks what was
         searched for and says where the page is — the query is handed over rather
         than the marking done here, because what is highlighted has to be what was
-        actually searched. */
+        actually searched.
+  
+        An answer of nothing is a sentence in the same drop: which pages were
+        read and what of them is not indexed, so it can be told from a search
+        that broke. */
     private panel;
 }
