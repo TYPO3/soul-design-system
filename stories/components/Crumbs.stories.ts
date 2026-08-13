@@ -13,7 +13,7 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/crumbs.ts';
 import { type Crumb, type CrumbsProps } from '../../packages/frontend/src/components/crumbs.ts';
 
-const sdsCrumbs = ({ items, label }: CrumbsProps) =>
+export const sdsCrumbs = ({ items, label }: CrumbsProps) =>
   html`<sds-crumbs .items="${items}" label="${label ?? 'Breadcrumb'}"></sds-crumbs>`;
 
 const TRAIL: readonly Crumb[] = [

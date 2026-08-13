@@ -30,11 +30,15 @@ import { type Entry } from '../../packages/frontend/src/components/accordion.ts'
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
 import { sdsAccordion } from '../components/Accordion.stories.ts';
+import { sdsBadge } from '../components/Badge.stories.ts';
 import { sdsCard } from '../components/Card.stories.ts';
+import { sdsCode } from '../components/Code.stories.ts';
+import { sdsCrumbs } from '../components/Crumbs.stories.ts';
 import { sdsNote } from '../components/Note.stories.ts';
 import { sdsQuote } from '../components/Quote.stories.ts';
 import { sdsStat } from '../components/Stat.stories.ts';
 import { sdsSurface } from '../components/Surface.stories.ts';
+import { sdsTable } from '../components/Table.stories.ts';
 import { sdsTeaser } from '../components/Teaser.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
@@ -93,28 +97,6 @@ const QUESTIONS: readonly Entry[] = [
 
 /** The page. `flat` composes the form a static file can hold. */
 export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
-  const columns = [
-    { head: 'Register' },
-    { head: 'Steps', cls: 'sds-td-name' },
-    { head: 'What it is for' },
-  ];
-  const rows = REGISTERS.map(([name, sizes, use]) => ({ cells: [name, sizes, use] }));
-
-  const table = flat
-    ? html`<table class="sds-table sds-table--medium">
-        <thead><tr>${columns.map((c) => html`<th>${c.head}</th>`)}</tr></thead>
-        <tbody>
-          ${REGISTERS.map(([name, sizes, use]) => html`<tr>
-            <td>${name}</td><td class="sds-td-name">${sizes}</td><td>${use}</td>
-          </tr>`)}
-        </tbody>
-      </table>`
-    : html`<sds-table
-        .columns="${columns}"
-        .rows="${rows}"
-        density="medium"
-      ></sds-table>`;
-
   return html`<div class="sds-shell">
   ${skipLink()}
   ${siteBar(4, '#reading', 'page-rail')}
@@ -126,10 +108,8 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <main class="sds-column" id="main-content">
       <div class="sds-stack sds-stack--tight">
-        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
-        <div class="sds-row">
-          <sds-badge label="reference"></sds-badge>
-        </div>
+        ${sdsCrumbs({ items: TRAIL })}
+        ${sdsBadge({ label: 'reference' })}
         <h1>How this page is set</h1>
         <p class="sds-lead">
           Every size on it comes off one scale and every gap off one grid. That
@@ -152,7 +132,11 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
         Every such size reads as a fourth level of hierarchy that means nothing.
       </p>
 
-      ${table}
+      ${sdsTable({
+        density: 'medium',
+        columns: [{ head: 'Register' }, { head: 'Steps', cls: 'sds-td-name' }, { head: 'What it is for' }],
+        rows: REGISTERS.map(([name, sizes, use]) => ({ cells: [name, sizes, use] })),
+      })}
 
       <h2 class="sds-h3" id="blocks">What a block carries</h2>
       <p>
@@ -219,15 +203,13 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
 
       <sds-code
         code-lang="css"
-        source="${`/* the pair a block carries, and where it is bound */
-.sds-note__title { font-size: var(--block-title-size); }
-.sds-note__body  { font-size: var(--block-body-size); }
+        source="${`/* a block is read, so it is set at the page it stands on */
+--block-title-size: var(--font-size-body);
+--entry-title-size: var(--font-size-h3);
+--block-body-size:  var(--font-size-body);
 
-/* what a document does to both of them at once */
-:where(.sds-prose) .sds-note {
-  --block-title-size: var(--font-size-body);
-  --block-body-size: var(--font-size-body);
-}`}"
+/* and the line *about* a thing is not the thing */
+--aside-size: var(--font-size-dense);`}"
         copy
       ></sds-code>
 

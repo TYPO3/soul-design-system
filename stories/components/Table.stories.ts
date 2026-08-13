@@ -43,7 +43,7 @@ const CARD_TABLE: TableProps = {
   ],
 };
 
-const sdsTable = ({ density = 'medium', columns, rows }: TableProps) =>
+export const sdsTable = ({ density = 'medium', columns, rows }: TableProps) =>
   html`<sds-table density="${density}" .columns="${columns}" .rows="${rows}"></sds-table>`;
 
 const sdsBadge = ({ label, tone = 'default' }: { label: string; tone?: string }) =>

@@ -28,7 +28,7 @@ const BASH: CodeBlockProps = {
   ],
 };
 
-const sdsCode = ({ lang, body, copy }: CodeBlockProps) =>
+export const sdsCode = ({ lang, body, copy }: CodeBlockProps) =>
   html`<sds-code code-lang="${lang ?? ''}" ?copy="${copy ?? false}" .body="${body}"></sds-code>`;
 
 const sdsDiff = (path: string, body: readonly DiffLine[]) =>

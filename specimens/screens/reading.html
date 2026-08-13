@@ -101,9 +101,7 @@
         <nav class="sds-crumbs" aria-label="Breadcrumb">
   <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">How this is set</span>
 </nav>
-        <div class="sds-row">
-          <span class="sds-badge">reference</span>
-        </div>
+        <span class="sds-badge">reference</span>
         <h1>How this page is set</h1>
         <p class="sds-lead">
           Every size on it comes off one scale and every gap off one grid. That
@@ -127,19 +125,34 @@
       </p>
 
       <table class="sds-table sds-table--medium">
-        <thead><tr><th>Register</th><th>Steps</th><th>What it is for</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>Display</td><td class="sds-td-name">58 / 44 / 34</td><td>A page opener and the two headings under it. Once each.</td>
-          </tr><tr>
-            <td>Reading</td><td class="sds-td-name">20 / 19 / 16</td><td>A third heading, a lead, and the paragraph everything else is measured against.</td>
-          </tr><tr>
-            <td>Dense</td><td class="sds-td-name">14 / 13</td><td>Every control, every table row, and everything the machine wrote.</td>
-          </tr><tr>
-            <td>Label</td><td class="sds-td-name">12 / 11</td><td>A machine name, a table head, a caption. Never a sentence.</td>
-          </tr>
-        </tbody>
-      </table>
+  <thead><tr>
+    <th>Register</th>
+    <th>Steps</th>
+    <th>What it is for</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>Display</td>
+      <td class="sds-td-name">58 / 44 / 34</td>
+      <td>A page opener and the two headings under it. Once each.</td>
+    </tr>
+    <tr>
+      <td>Reading</td>
+      <td class="sds-td-name">20 / 19 / 16</td>
+      <td>A third heading, a lead, and the paragraph everything else is measured against.</td>
+    </tr>
+    <tr>
+      <td>Dense</td>
+      <td class="sds-td-name">14 / 13</td>
+      <td>Every control, every table row, and everything the machine wrote.</td>
+    </tr>
+    <tr>
+      <td>Label</td>
+      <td class="sds-td-name">12 / 11</td>
+      <td>A machine name, a table head, a caption. Never a sentence.</td>
+    </tr>
+  </tbody>
+</table>
 
       <h2 class="sds-h3" id="blocks">What a block carries</h2>
       <p>
@@ -214,15 +227,13 @@
     <span class="sds-code__lang">css</span>
     <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
   </div>
-  <pre class="sds-code__body"><code class="language-css"><span class="hljs-comment">/* the pair a block carries, and where it is bound */</span>
-<span class="hljs-selector-class">.sds-note__title</span> { <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">var</span>(--block-title-size); }
-<span class="hljs-selector-class">.sds-note__body</span>  { <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">var</span>(--block-body-size); }
+  <pre class="sds-code__body"><code class="language-css"><span class="hljs-comment">/* a block is read, so it is set at the page it stands on */</span>
+<span class="hljs-attr">--block-title-size</span>: <span class="hljs-built_in">var</span>(--font-size-body);
+<span class="hljs-attr">--entry-title-size</span>: <span class="hljs-built_in">var</span>(--font-size-h3);
+<span class="hljs-attr">--block-body-size</span>:  <span class="hljs-built_in">var</span>(--font-size-body);
 
-<span class="hljs-comment">/* what a document does to both of them at once */</span>
-<span class="hljs-selector-pseudo">:where</span>(<span class="hljs-selector-class">.sds-prose</span>) <span class="hljs-selector-class">.sds-note</span> {
-  <span class="hljs-attr">--block-title-size</span>: <span class="hljs-built_in">var</span>(--font-size-body);
-  <span class="hljs-attr">--block-body-size</span>: <span class="hljs-built_in">var</span>(--font-size-body);
-}</code></pre>
+<span class="hljs-comment">/* and the line *about* a thing is not the thing */</span>
+<span class="hljs-attr">--aside-size</span>: <span class="hljs-built_in">var</span>(--font-size-dense);</code></pre>
 </div>
 
       <div class="sds-stats">

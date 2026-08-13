@@ -23,7 +23,7 @@ export const BADGES: readonly BadgeProps[] = [
   { label: 'not booted', tone: 'error' },
 ];
 
-const sdsBadge = ({ label, tone = 'default', icon }: BadgeProps) =>
+export const sdsBadge = ({ label, tone = 'default', icon }: BadgeProps) =>
   html`<sds-badge label="${label}" tone="${tone}" icon="${ifDefined(icon)}"></sds-badge>`;
 
 const meta: Meta<BadgeProps> = {
