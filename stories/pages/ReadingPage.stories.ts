@@ -42,7 +42,7 @@ import { sdsTable } from '../components/Table.stories.ts';
 import { sdsTeaser } from '../components/Teaser.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
@@ -161,19 +161,22 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
         The bodies are one size and only the titles differ.
       </p>
 
-      <div class="sds-grid sds-grid--wide">
-        ${sdsCard({
-          heading: 'An entry',
-          body: 'Its title is a link, so it is the louder of the two and a page of them can be scanned by title alone.',
-          label: 'entry',
-          href: '#blocks',
-        })}
-        ${sdsSurface({
-          plane: 'raised',
-          title: 'A surface',
-          body: 'It states something in place. Its title stays the quieter one, because nothing here is a destination and a title that looks like one is a promise the box does not keep.',
-        })}
-      </div>
+      ${grid(
+        [
+          sdsCard({
+            heading: 'An entry',
+            body: 'Its title is a link, so it is the louder of the two and a page of them can be scanned by title alone.',
+            label: 'entry',
+            href: '#blocks',
+          }),
+          sdsSurface({
+            plane: 'raised',
+            title: 'A surface',
+            body: 'It states something in place. Its title stays the quieter one, because nothing here is a destination and a title that looks like one is a promise the box does not keep.',
+          }),
+        ],
+        { flat, variant: 'wide' },
+      )}
 
       <h2 class="sds-h3" id="step">The vertical step</h2>
       <p>

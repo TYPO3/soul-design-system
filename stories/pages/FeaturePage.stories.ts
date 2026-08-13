@@ -28,7 +28,7 @@ import { type Column, type Row } from '../../packages/frontend/src/components/ta
 import { SOURCE_FACTS } from '../components/Stat.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
@@ -223,16 +223,17 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
           The declaration is one line in a tool. What it buys is spread across
           every answer that tool ever gives.
         </p>
-        <div class="sds-grid">
-          ${CONSEQUENCES.map(
+        ${grid(
+          CONSEQUENCES.map(
             (one) => html`<sds-surface
               icon="${one.icon}"
               label="${one.label}"
               heading="${one.heading}"
               body="${one.body}"
             ></sds-surface>`,
-          )}
-        </div>
+          ),
+          { flat },
+        )}
       </div>
     </section>
 
@@ -263,8 +264,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="read-on">
       <div class="sds-stack">
         <h2>Read on</h2>
-        <div class="sds-grid">
-          ${RELATED.map(
+        ${grid(
+          RELATED.map(
             (one) => html`<sds-card
               icon="${one.icon}"
               label="${one.label}"
@@ -273,8 +274,9 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
               href="#"
               action="${one.link}"
             ></sds-card>`,
-          )}
-        </div>
+          ),
+          { flat },
+        )}
       </div>
     </section>
 

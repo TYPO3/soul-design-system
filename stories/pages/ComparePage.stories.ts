@@ -24,7 +24,7 @@ import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Which way to run it' }];
 
@@ -99,16 +99,17 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="ways">
-      <div class="sds-grid">
-        ${WAYS.map(
+      ${grid(
+        WAYS.map(
           (way) => html`<sds-card
             label="${way.label}"
             heading="${way.heading}"
             body="${way.body}"
             note="${way.note}"
           ></sds-card>`,
-        )}
-      </div>
+        ),
+        { flat },
+      )}
     </section>
 
     <section class="sds-band" id="matrix">

@@ -11,6 +11,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import '../../packages/frontend/src/components/grid.ts';
 import '../../packages/frontend/src/components/teaser.ts';
 import { type TeaserProps } from '../../packages/frontend/src/components/teaser.ts';
 
@@ -78,8 +79,7 @@ export const Bare: Story = {
 /** The grid, which is where a teaser is actually judged: the titles line up,
     and a card with an image sits beside one without. */
 export const Mixed: Story = {
-  parameters: { layout: 'fullscreen' },
-  render: () => html`<div class="sds-grid" style="padding:var(--space-6)">
+  render: () => html`<sds-grid>
     ${[WITH_ART, WITHOUT_ART, { ...WITHOUT_ART, tag: 'guide', meta: '18 June 2026', heading: 'Writing a task skill that fails at registration' }].map(sdsTeaser)}
-  </div>`,
+  </sds-grid>`,
 };

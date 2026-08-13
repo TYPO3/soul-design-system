@@ -26,7 +26,7 @@ import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
@@ -183,8 +183,8 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       </div>
 
       <h2 class="sds-h3" id="read-on">Read on</h2>
-      <div class="sds-grid">
-        ${RELATED.map(
+      ${grid(
+        RELATED.map(
           (entry) => html`<sds-teaser
             heading="${entry.heading}"
             .body="${entry.body}"
@@ -192,8 +192,9 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
             meta="${entry.meta}"
             href="#"
           ></sds-teaser>`,
-        )}
-      </div>
+        ),
+        { flat },
+      )}
     </main>
   </div>
 

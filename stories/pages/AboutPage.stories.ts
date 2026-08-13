@@ -22,7 +22,7 @@ import '../../packages/frontend/src/components/card.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Who is behind it' }];
 
@@ -68,7 +68,7 @@ const FACTS = [
 ];
 
 /** The page. `flat` composes the form a static file can hold. */
-export function aboutPage(_: PageMode = {}): TemplateResult {
+export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
   return html`<div class="sds-shell">
   ${skipLink()}
   ${siteBar(-1, '#about')}
@@ -100,14 +100,15 @@ export function aboutPage(_: PageMode = {}): TemplateResult {
           photographs: a face is a file to fetch, keep in step and licence, and
           none of that is what naming a maintainer is for.
         </p>
-        <div class="sds-grid">
-          ${PEOPLE.map(
+        ${grid(
+          PEOPLE.map(
             (person) => html`<sds-card
               .body="${html`<sds-byline name="${person.name}" as="${person.role}" meta="${person.since}"></sds-byline>
               <span style="display:block; margin-top:10px">${person.answerable}</span>`}"
             ></sds-card>`,
-          )}
-        </div>
+          ),
+          { flat },
+        )}
       </div>
     </section>
 

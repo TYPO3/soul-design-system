@@ -26,7 +26,7 @@ import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type FormError } from '../../packages/frontend/src/components/form-errors.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
@@ -232,16 +232,17 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
           This form is for an answer that was wrong. These are not that, and
           sending them here makes them slower rather than faster.
         </p>
-        <div class="sds-grid">
-          ${CHANNELS.map(
+        ${grid(
+          CHANNELS.map(
             (one) => html`<sds-surface
               icon="${one.icon}"
               label="${one.label}"
               heading="${one.heading}"
               body="${one.body}"
             ></sds-surface>`,
-          )}
-        </div>
+          ),
+          { flat },
+        )}
       </div>
     </section>
 

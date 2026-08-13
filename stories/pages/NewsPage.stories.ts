@@ -23,7 +23,7 @@ import { type NavChange } from '../../packages/frontend/src/components/nav-base.
 import { type TeaserProps } from '../../packages/frontend/src/components/teaser.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'News' }];
 
@@ -138,8 +138,8 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
   const page = shown.slice(0, PER_PAGE);
 
   const list = shown.length
-    ? html`<div class="sds-grid">
-          ${page.map(
+    ? html`${grid(
+          page.map(
             (entry) => html`<sds-teaser
               heading="${entry.heading}"
               .body="${entry.body}"
@@ -149,8 +149,9 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
               alt="${entry.alt ?? ''}"
               href="#"
             ></sds-teaser>`,
-          )}
-        </div>`
+          ),
+  { flat },
+)}`
     : html`<sds-empty
           icon="actions-filter"
           heading="Nothing here is tagged ${current?.label ?? ''}"

@@ -19,7 +19,7 @@ import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Sitemap' }];
 
@@ -107,7 +107,7 @@ const COLUMNS: readonly { title: string; items: readonly RailEntry[] }[] = [
 ];
 
 /** The page. `flat` composes the form a static file can hold. */
-export function sitemapPage(_: PageMode = {}): TemplateResult {
+export function sitemapPage({ flat = false }: PageMode = {}): TemplateResult {
   return html`<div class="sds-shell">
   ${skipLink()}
   ${siteBar(-1, '#sitemap')}
@@ -135,14 +135,15 @@ export function sitemapPage(_: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="pages">
-      <div class="sds-grid">
-        ${COLUMNS.map(
+      ${grid(
+        COLUMNS.map(
           (column) => html`<div class="sds-stack">
           <span class="sds-label">${column.title}</span>
           <sds-rail .items="${column.items}" active="-1"></sds-rail>
         </div>`,
-        )}
-      </div>
+        ),
+        { flat },
+      )}
     </section>
 
     <section class="sds-band" id="not-here">

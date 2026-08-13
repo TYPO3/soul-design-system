@@ -10,6 +10,8 @@
    only where the two genuinely differ: the components that take content. */
 
 import { html, type TemplateResult } from 'lit';
+import '../../packages/frontend/src/components/grid.ts';
+import { type GridVariant } from '../../packages/frontend/src/components/grid.ts';
 
 /** Which of the two renderings is being asked for. */
 export interface PageMode {
@@ -25,3 +27,16 @@ export interface PageMode {
 /** The first tab stop, above the bar. `#main-content` is the page's `<main>`. */
 export const skipLink = (): TemplateResult =>
   html`<a class="sds-skip sds-btn sds-btn--secondary" href="#main-content">Skip to content</a>`;
+
+/** A set laid out side by side, in whichever form the rendering can hold. The
+    branch is the one this file exists for: a static file has no
+    `connectedCallback` to take authored children, so there the same set goes
+    to the same element as a property. Here rather than in every page, because
+    a wall of cards is what a page most often ends a section with. */
+export const grid = (
+  items: readonly TemplateResult[],
+  { flat = false, variant = 'default' }: PageMode & { variant?: GridVariant } = {},
+): TemplateResult =>
+  flat
+    ? html`<sds-grid variant="${variant}" .content="${items}"></sds-grid>`
+    : html`<sds-grid variant="${variant}">${items}</sds-grid>`;

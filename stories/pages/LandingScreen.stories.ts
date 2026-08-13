@@ -28,7 +28,7 @@ import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const AUDIENCES = [
   {
@@ -238,11 +238,12 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="audiences">
-      <div class="sds-grid">
-        ${AUDIENCES.map(
+      ${grid(
+        AUDIENCES.map(
           (one) => html`<sds-card label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-card>`,
-        )}
-      </div>
+        ),
+        { flat },
+      )}
     </section>
 
     <section class="sds-band" id="foundations">
@@ -287,11 +288,12 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
         <p>
           Four places, and every one of them is a file rather than a habit.
         </p>
-        <div class="sds-grid">
-          ${SOURCES.map(
+        ${grid(
+          SOURCES.map(
             (one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`,
-          )}
-        </div>
+          ),
+          { flat },
+        )}
       </div>
     </section>
 
@@ -302,11 +304,12 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           The documentation is generated from the components, in four steps
           that run on every change.
         </p>
-        <div class="sds-grid">
-          ${PIPELINE.map(
+        ${grid(
+          PIPELINE.map(
             (one) => html`<sds-card label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-card>`,
-          )}
-        </div>
+          ),
+          { flat },
+        )}
       </div>
     </section>
 

@@ -17,7 +17,7 @@ import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/card.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode, skipLink } from '../lib/page.ts';
+import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 /** Where a reader who landed here probably meant to be. Named pages rather
     than a link to the front page: "go home" is the offer that helps nobody who
@@ -47,7 +47,7 @@ const NEAREST = [
 ];
 
 /** The page. `flat` composes the form a static file can hold. */
-export function notFoundPage(_: PageMode = {}): TemplateResult {
+export function notFoundPage({ flat = false }: PageMode = {}): TemplateResult {
   return html`<div class="sds-shell">
   ${skipLink()}
   ${siteBar(-1, '#gone')}
@@ -88,8 +88,8 @@ export function notFoundPage(_: PageMode = {}): TemplateResult {
           Three pages rather than a link to the front page: whoever followed a
           link to something specific is not helped by being sent to the start.
         </p>
-        <div class="sds-grid">
-          ${NEAREST.map(
+        ${grid(
+          NEAREST.map(
             (one) => html`<sds-card
               icon="${one.icon}"
               label="${one.label}"
@@ -98,8 +98,9 @@ export function notFoundPage(_: PageMode = {}): TemplateResult {
               href="#"
               action="${one.link}"
             ></sds-card>`,
-          )}
-        </div>
+          ),
+          { flat },
+        )}
       </div>
     </section>
 
