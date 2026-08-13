@@ -25,6 +25,8 @@ Deliberately not one component: a dialog that had to be opened to be drawn
 would be undocumentable, and a surface that grabbed the focus would be unusable
 in a specimen.
 
+.. _component-sds-dialog:
+
 sds-dialog
 ==========
 
@@ -69,6 +71,8 @@ sds-dialog
 ``show()`` opens it modally and ``close()`` closes it; it answers ``sds-command``
 from a button that names it with ``for``.
 
+.. _component-sds-modal:
+
 sds-modal
 =========
 
@@ -98,6 +102,8 @@ floating surface.
    It is positioned by whatever opens it. The host is ``display: contents`` and
    is not in the box tree, so those styles land on the element that is actually
    laid out — which is the same reason ``sds-surface`` takes a ``box-style``.
+
+.. _component-sds-overlay:
 
 sds-overlay
 ===========

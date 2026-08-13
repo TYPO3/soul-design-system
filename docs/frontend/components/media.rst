@@ -28,6 +28,8 @@ showing.
    know that. The finishing step reads it and says so — see
    :doc:`/guides-theme/publishing`.
 
+.. _component-sds-image:
+
 sds-image
 =========
 
@@ -93,6 +95,8 @@ A picture, and nothing around it.
    server's copy goes, because light DOM would otherwise leave two pictures in
    one box.
 
+.. _component-sds-figure:
+
 sds-figure
 ==========
 
@@ -150,6 +154,8 @@ replaced by.
    A picture a renderer already wrote between the tags **wins** over ``src``:
    rewriting it would replace a picture the reader can see with a second
    request for the same file.
+
+.. _component-sds-embed:
 
 sds-embed
 =========
@@ -227,6 +233,8 @@ and the sunken plane every other block here has.
 
    The frame does not load lazily, deliberately: an embed is the evidence on
    the page, and one that loads on scroll is blank in every screenshot.
+
+.. _component-sds-lightbox:
 
 sds-lightbox
 ============

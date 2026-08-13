@@ -14,6 +14,8 @@ Anything drawn instead looks right in a screenshot and cannot be typed in.
    :viewport: 700x180
    :title: Fields & search
 
+.. _component-sds-field:
+
 sds-field
 =========
 
@@ -162,6 +164,8 @@ the difference is ``caption``.
    moment someone starts typing — and it is invisible to anything reading the
    page as a document.
 
+.. _component-sds-field-error:
+
 sds-field-error
 ===============
 
@@ -185,6 +189,8 @@ written by whatever validated the value, which is not always what drew the box.
 
    Never a tooltip. An error the pointer has to find is an error the keyboard
    never surfaces at all.
+
+.. _component-sds-checkbox:
 
 sds-checkbox
 ============
@@ -240,6 +246,8 @@ is hard to hit and the sentence beside it is not.
    :name: sds-checkbox-disabled
    :type: boolean
 
+.. _component-sds-radio:
+
 sds-radio
 =========
 
@@ -290,6 +298,8 @@ name they share and that exactly one holds.
 
    Where the answers are many, or the reader already knows the one they want,
    that is a select. Above roughly five the set stops being scannable.
+
+.. _component-sds-form-errors:
 
 sds-form-errors
 ===============

@@ -37,6 +37,8 @@ item that goes somewhere says ``href`` and is left to the browser.
    ``aria-controls``. Current-within-a-set is what is true of a pill or a rail
    item.
 
+.. _component-sds-header:
+
 sds-header
 ==========
 
@@ -176,6 +178,8 @@ width at which the two disagree and it oscillates.
    ``rel`` and the current mark intact. Passing them back through ``items``
    would encode and resolve a rendered site's own navigation a second time.
 
+.. _component-sds-pills:
+
 sds-pills
 =========
 
@@ -185,6 +189,8 @@ of the exactly three places ``--accent`` may appear at all.
 .. code-block:: html
 
    <sds-pills .items="${['Overview', 'Tools', 'Changelog']}" active="0"></sds-pills>
+
+.. _component-sds-rail:
 
 sds-rail
 ========
@@ -219,6 +225,8 @@ own.
    one current item wherever it sits, and a caller thinking in "third item of
    the second group" is thinking about the markup.
 
+.. _component-sds-crumbs:
+
 sds-crumbs
 ==========
 
@@ -250,6 +258,9 @@ Where the page sits, as a trail.
    and its end is where the reader already is, so spending the accent there
    would leave nothing to mark what they came to do. The separator is a
    character rather than an icon: punctuation between two words, at their size.
+
+.. _component-sds-tabs:
+.. _component-sds-tab-item:
 
 sds-tabs, sds-tab-item
 ======================
@@ -320,6 +331,9 @@ find-in-page reaches them and anything with state in there keeps it.
    A panel decides for itself until a set of tabs claims it. That is what a
    panel is on a page where nothing switches it — and hiding every one there
    would leave content in the document and invisible in it.
+
+.. _component-sds-accordion:
+.. _component-sds-accordion-item:
 
 sds-accordion, sds-accordion-item
 =================================
@@ -397,6 +411,8 @@ that.
    For a *list* of questions. Where the folded part is the point — a log, a
    stack trace — one ``<details>`` in the document needs no component.
 
+.. _component-sds-pagination:
+
 sds-pagination
 ==============
 
@@ -453,6 +469,8 @@ Where a list continues.
    ``sds-change`` and calls ``preventDefault()`` — the same press, not a second
    mode.
 
+.. _component-sds-pager:
+
 sds-pager
 =========
 
@@ -504,6 +522,8 @@ set a reader moves around inside, this is a line they are walking along.
    replacing it — a name written over the whole control would say a sentence
    the reader cannot see in place of the one they can.
 
+.. _component-sds-search:
+
 sds-search
 ==========
 
@@ -540,6 +560,8 @@ them is not indexed.
    Without JavaScript neither the element nor the field is there. A search box
    that cannot search is worse than an honest absence — and the rail still
    lists every page.
+
+.. _component-sds-result:
 
 sds-result
 ==========
@@ -598,6 +620,8 @@ snippets leaves out, and the reader opens a page to learn it.
    :type: string
 
    The release it holds for, where it holds for one.
+
+.. _component-sds-footer:
 
 sds-footer
 ==========

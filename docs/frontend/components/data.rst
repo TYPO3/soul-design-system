@@ -12,6 +12,8 @@ title-cased or prettified on the way in.
    :viewport: 700x304
    :title: Table, badges & status
 
+.. _component-sds-table:
+
 sds-table
 =========
 
@@ -99,6 +101,8 @@ sds-table
 
    **Never zebra stripes.** A row's background changes on hover or on
    selection and nowhere else — that is what makes a filled row mean something.
+
+.. _component-sds-code:
 
 sds-code
 ========
@@ -188,6 +192,8 @@ A fenced block, its head and its copy button.
    No line numbers unless something references them. A gutter nobody cites is
    decoration on the surface with the least room for it.
 
+.. _component-sds-diff:
+
 sds-diff
 ========
 
@@ -223,6 +229,8 @@ A file's changes, and the one place status colour fills a whole line.
 The frame is the code block's — same border, same head — because a diff is
 machine output like any other. What it does not share is the body, which is why
 it is an element of its own rather than a mode of ``sds-code``.
+
+.. _component-sds-confval:
 
 sds-confval
 ===========

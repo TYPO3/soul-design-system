@@ -13,6 +13,8 @@ fill and a hairline, and a container never shares its corner with its contents
 — which is why the card radius is one step larger than the control radius, and
 why nothing here sets either by hand.
 
+.. _component-sds-surface:
+
 sds-surface
 ===========
 
@@ -72,6 +74,8 @@ A filled plane holding a statement.
 
    Layout for the plane. The host draws nothing, so this is what reaches the
    element that is actually laid out.
+
+.. _component-sds-card:
 
 sds-card
 ========
@@ -166,6 +170,8 @@ is words rather than a second anchor to the same place.
    a list of them is this element too, turned down to the badge, the date and
    the two lines that decide whether it is opened.
 
+.. _component-sds-grid:
+
 sds-grid
 ========
 
@@ -194,6 +200,8 @@ grid of six.
    what its items hold and no page names a breakpoint. What the element adds on
    top is evenness: four items in a three-wide row would wrap as three and one,
    so it lays them out two and two.
+
+.. _component-sds-stat:
 
 sds-stat
 ========
@@ -273,6 +281,8 @@ is not a row of boxes.
    What the figure is bounded by. **Without one the number is a boast** — and
    this is the whole reason the component exists rather than two divs.
 
+.. _component-sds-quote:
+
 sds-quote
 =========
 
@@ -335,6 +345,8 @@ smaller kind of thing than the author of the page it sits in.
    what is worth quoting is a document, and a monogram of a filename is a
    person invented for a source that has none.
 
+.. _component-sds-byline:
+
 sds-byline
 ==========
 
@@ -383,6 +395,8 @@ when. A page that puts the date first has published a date.
    No monogram, for an attribution that is not a person: a document, a release
    note, a file. Initials derived from a filename are a person invented for a
    source that has none.
+
+.. _component-sds-note:
 
 sds-note
 ========

@@ -34,121 +34,123 @@ which group it was filed under.
      - Reference
    * - ``sds-accordion``, ``sds-accordion-item``
      - questions with their answers folded behind them
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-accordion <component-sds-accordion>`,
+       :ref:`sds-accordion-item <component-sds-accordion-item>`
    * - ``sds-badge``
      - a small, named piece of state
-     - :doc:`controls`
+     - :ref:`Controls — sds-badge <component-sds-badge>`
    * - ``sds-button``
      - the action that starts work, or the press that is a link
-     - :doc:`controls`
+     - :ref:`Controls — sds-button <component-sds-button>`
    * - ``sds-byline``
      - who wrote it, and when
-     - :doc:`content`
+     - :ref:`Content — sds-byline <component-sds-byline>`
    * - ``sds-card``
      - a way into something: a chapter, a product, a news entry, a page
-     - :doc:`content`
+     - :ref:`Content — sds-card <component-sds-card>`
    * - ``sds-checkbox``
      - one thing that is either so or not
-     - :doc:`forms`
+     - :ref:`Forms — sds-checkbox <component-sds-checkbox>`
    * - ``sds-code``
      - a fenced block, its head and its copy button
-     - :doc:`data`
+     - :ref:`Data — sds-code <component-sds-code>`
    * - ``sds-confval``
      - one configuration value in a reference
-     - :doc:`data`
+     - :ref:`Data — sds-confval <component-sds-confval>`
    * - ``sds-crumbs``
      - where the page sits, as a trail
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-crumbs <component-sds-crumbs>`
    * - ``sds-diff``
      - a file's changes
-     - :doc:`data`
+     - :ref:`Data — sds-diff <component-sds-diff>`
    * - ``sds-dialog``
      - a surface that opens over the page, and what opens it
-     - :doc:`overlays`
+     - :ref:`Overlays — sds-dialog <component-sds-dialog>`
    * - ``sds-embed``
      - a document from somewhere else, in a frame this page controls
-     - :doc:`media`
+     - :ref:`Media — sds-embed <component-sds-embed>`
    * - ``sds-field``
      - a text field, a text area and a select, in one element
-     - :doc:`forms`
+     - :ref:`Forms — sds-field <component-sds-field>`
    * - ``sds-field-error``
      - the message under an invalid field
-     - :doc:`forms`
+     - :ref:`Forms — sds-field-error <component-sds-field-error>`
    * - ``sds-figure``
      - a picture and the claim it makes
-     - :doc:`media`
+     - :ref:`Media — sds-figure <component-sds-figure>`
    * - ``sds-footer``
      - how a page ends, and where the rest of the site is
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-footer <component-sds-footer>`
    * - ``sds-form-errors``
      - what stopped the form, at the top of it
-     - :doc:`forms`
+     - :ref:`Forms — sds-form-errors <component-sds-form-errors>`
    * - ``sds-grid``
      - the wall a set is read in
-     - :doc:`content`
+     - :ref:`Content — sds-grid <component-sds-grid>`
    * - ``sds-header``
      - the bar at the top of a page
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-header <component-sds-header>`
    * - ``sds-icon``
      - one icon from the set, in the document rather than linked
-     - :doc:`controls`
+     - :ref:`Controls — sds-icon <component-sds-icon>`
    * - ``sds-image``
      - a picture, and nothing around it
-     - :doc:`media`
+     - :ref:`Media — sds-image <component-sds-image>`
    * - ``sds-lightbox``
      - a drawing opened at the size it was drawn
-     - :doc:`media`
+     - :ref:`Media — sds-lightbox <component-sds-lightbox>`
    * - ``sds-link``
      - a link, and always an ``<a>`` with an ``href``
-     - :doc:`controls`
+     - :ref:`Controls — sds-link <component-sds-link>`
    * - ``sds-modal``
      - the surface alone, with nothing that opens or closes it
-     - :doc:`overlays`
+     - :ref:`Overlays — sds-modal <component-sds-modal>`
    * - ``sds-note``
      - what an answer carries besides the answer
-     - :doc:`content`
+     - :ref:`Content — sds-note <component-sds-note>`
    * - ``sds-overlay``
      - the wash a floating surface sits on
-     - :doc:`overlays`
+     - :ref:`Overlays — sds-overlay <component-sds-overlay>`
    * - ``sds-pager``
      - the way on from a page that is read in order
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-pager <component-sds-pager>`
    * - ``sds-pagination``
      - where a list continues
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-pagination <component-sds-pagination>`
    * - ``sds-pills``
      - navigation for the sections of a page
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-pills <component-sds-pills>`
    * - ``sds-quote``
      - a sentence borrowed from somewhere, with where it came from
-     - :doc:`content`
+     - :ref:`Content — sds-quote <component-sds-quote>`
    * - ``sds-radio``
      - one answer out of a few, all of them visible
-     - :doc:`forms`
+     - :ref:`Forms — sds-radio <component-sds-radio>`
    * - ``sds-rail``
      - the navigation rail beside a column
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-rail <component-sds-rail>`
    * - ``sds-result``
      - one hit in a list of them
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-result <component-sds-result>`
    * - ``sds-search``
      - finding a page in a site that has no server
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-search <component-sds-search>`
    * - ``sds-stat``
      - a number stated as a fact
-     - :doc:`content`
+     - :ref:`Content — sds-stat <component-sds-stat>`
    * - ``sds-surface``
      - a filled plane holding a statement
-     - :doc:`content`
+     - :ref:`Content — sds-surface <component-sds-surface>`
    * - ``sds-table``
      - rows and columns, with the scroll a wide one needs
-     - :doc:`data`
+     - :ref:`Data — sds-table <component-sds-table>`
    * - ``sds-tabs``, ``sds-tab-item``
      - one set of panels, one of them shown
-     - :doc:`navigation`
+     - :ref:`Navigation — sds-tabs <component-sds-tabs>`,
+       :ref:`sds-tab-item <component-sds-tab-item>`
    * - ``sds-theme``
      - light or dark, as two segments with the chosen one filled
-     - :doc:`controls`
+     - :ref:`Controls — sds-theme <component-sds-theme>`
 
 Addressed, never rebuilt
 ========================

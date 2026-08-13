@@ -12,6 +12,8 @@ real ``<button>`` or ``<a>`` underneath.
    :viewport: 700x260
    :title: Buttons & links
 
+.. _component-sds-button:
+
 sds-button
 ==========
 
@@ -117,6 +119,8 @@ a name in mono, a count, or a glyph — none of which fits in a string.
    <!-- The class equivalent, for a surface that runs no JavaScript. -->
    <button class="sds-btn sds-btn--primary" type="button">Send the message</button>
 
+.. _component-sds-link:
+
 sds-link
 ========
 
@@ -170,6 +174,8 @@ invisible to whatever reads the page as a document.
    where a reader looks for marks by position, and nowhere a link stands in a
    sentence.
 
+.. _component-sds-badge:
+
 sds-badge
 =========
 
@@ -205,6 +211,8 @@ status tones are the result of one.
    Status colour belongs in a badge, in code output, in a result row and in a
    diagram that is about status. Never as page furniture — a colour meaning
    "something is wrong" on a header says it about the page.
+
+.. _component-sds-icon:
 
 sds-icon
 ========
@@ -248,6 +256,8 @@ A TYPO3 icon, in the document rather than linked from it, so it inherits
 
    :doc:`/design-system/icons` for the set, where a missing one comes from, and
    the four glyphs that may stand alone in running text.
+
+.. _component-sds-theme:
 
 sds-theme
 =========
