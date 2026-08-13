@@ -36,10 +36,16 @@ body {
    element layer gives it — the same trade `components.css` makes, restated
    because these classes are outside that closure. A component's own block sits
    under a `display: contents` host, which is the second selector. */
-:is(.spec, .spec-row, .spec-box, .spec-pane, .spec-sw) > *,
-:is(.spec, .spec-row, .spec-box, .spec-pane, .spec-sw)
-  > * > :is(.sds-code, .sds-note, .sds-figure, .sds-embed) {
+:is(.spec, .spec-col, .spec-row, .spec-box, .spec-pane, .spec-sw) > *,
+:is(.spec, .spec-col, .spec-row, .spec-box, .spec-pane, .spec-sw)
+  > * > [class*="sds-"] {
   margin-block: 0;
+}
+/* And the last block of any box a specimen builds by hand, however deep it
+   wrapped it: a step under the last one is air at the bottom of a card, which
+   is the one place nothing follows. */
+:is(.spec, .spec-col, .spec-row, .spec-box, .spec-pane, .spec-sw) [class*="sds-"]:last-child {
+  margin-block-end: 0;
 }
 
 /* Just the card's padding, no layout opinion — for specimens that lay

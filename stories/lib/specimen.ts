@@ -108,9 +108,12 @@ export const specH = (text: string): string => `<div class="spec-h">${esc(text)}
 /** The tracked-out label over a group of swatches or samples. */
 export const specLbl = (text: string): string => `<div class="spec-lbl">${esc(text)}</div>`;
 
-/** A free-standing column, for specimens that need one beside another. */
+/** A free-standing column, for specimens that need one beside another. It
+    carries the class even though the style is written inline: an unclassed box
+    is one no rule in the card chrome can reach, which is how a component's own
+    step survives inside a column that already states a gap. */
 export const specCol = (children: readonly string[], style: string): string =>
-  block('div', ` style="${style}"`, children);
+  block('div', ` class="spec-col" style="${style}"`, children);
 
 export interface DsCardInput {
   /** The file to generate, relative to the repo root. */

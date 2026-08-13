@@ -179,20 +179,54 @@ h4,
 h5,
 h6 { margin-bottom: var(--space-2); }
 
+/* And the same step below the blocks a component draws, stated once for all of
+   them. Not on the host: that is `display: contents` so it has no box to hang a
+   margin on, and a host that took one back would swallow the gap of the layout
+   around it. `margin: 0` and not the shorthand's default, because a `figure`
+   arrives with an inline margin from the browser. */
+.sds-accordion,
+.sds-card,
+.sds-code,
+.sds-confval,
+.sds-embed,
+.sds-figure,
+.sds-grid,
+.sds-note,
+.sds-panel,
+.sds-quote,
+.sds-stat,
+.sds-sunken,
+.sds-table,
+.sds-tabs { margin: 0 0 var(--space-4); }
+
 /* A nested list is part of the item it hangs under rather than a block after
    it, so it adds no step: what closes that item is the item. */
 li > ul,
 li > ol { margin-bottom: 0; }
 
+/* And a box that pads rather than lays out takes back the last step only: the
+   air under the last block is padding the box already states, and the steps
+   between the blocks above it are the ones doing the work. Two levels as well,
+   because a host between them is `display: contents` and the box that carries
+   the margin is one further in. */
+:is(.sds-accordion__body, .sds-card__text, .sds-confval__body, .sds-modal__body,
+    .sds-note__body) > :last-child,
+:is(.sds-accordion__body, .sds-card__text, .sds-confval__body, .sds-modal__body,
+    .sds-note__body) > :last-child > :last-child {
+  margin-bottom: 0;
+}
+
 /* And a container that states its own step takes those margins back: a gap and
    a margin are the same answer twice, and stacked they are neither. The second
    selector is the blocks a component draws — the host around one is
-   `display: contents`, so what carries the step is a level further down. */
+   `display: contents`, so what carries the step is a level further down. It
+   names no component: a list of them here is a second register of what a block
+   is, and the one nobody updates. */
 :is(.sds-column, .sds-stack, .sds-sections, .sds-split, .sds-grid,
     .sds-card__body, .sds-figure, .sds-embed, .sds-quote) > *,
 :is(.sds-column, .sds-stack, .sds-sections, .sds-split, .sds-grid,
     .sds-card__body, .sds-figure, .sds-embed, .sds-quote)
-  > * > :is(.sds-code, .sds-note, .sds-figure, .sds-embed) {
+  > * > [class*="sds-"] {
   margin-block: 0;
 }
 
@@ -218,7 +252,6 @@ li > ol { margin-bottom: 0; }
    rule is structural, so no radius and `--border-strong` rather than the
    accent; 3px, because at 2px it was the faintest thing in the block it holds. */
 .sds-quote {
-  margin: 0;
   padding-inline-start: var(--space-5);
   border-inline-start: 3px solid var(--border-strong);
   display: flex;
@@ -981,7 +1014,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 /* The outermost margins of a document's blocks go: the card's padding is
    already the gap, and a block that brought its own would double it. */
 .sds-card__text > :first-child { margin-top: 0; }
-.sds-card__text > :last-child { margin-bottom: 0; }
 /* What the card leaves the reader with: a line about the target, the action,
    or both. Pushed to the bottom, so a row of cards has its actions on one line
    however long the prose above them ran. No rule over it — a card this size
@@ -1056,7 +1088,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    machine output in the sense a log is — generated from the thing it describes.
    The caption is the claim in words and is not optional: a drawing whose point
    has to be inferred means something different to each reader. */
-.sds-figure { margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
+.sds-figure { display: flex; flex-direction: column; gap: var(--space-3); }
 /* No padding: a drawing carries its own margin, so a frame that adds another
    indents it twice and it arrives smaller than it was drawn. The frame is a
    hairline and a corner; the fill is the ground under an image that does not
@@ -1079,7 +1111,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    sized, since a picture arrives with its own proportions and an iframe does
    not. So two shapes: a player has a ratio and fills the column, a specimen
    keeps the size it was measured at, and the element writes which. */
-.sds-embed { margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
+.sds-embed { display: flex; flex-direction: column; gap: var(--space-3); }
 .sds-embed__frame {
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
@@ -1185,7 +1217,6 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 /* The padding is the gap under the last block, so the block does not bring a
    second one — the same trim a note and a card's summary make. */
 .sds-modal__body > :last-child,
-.sds-modal__body > :last-child > :last-child { margin-bottom: 0; }
 .sds-modal__foot {
   display: flex;
   justify-content: flex-end;
@@ -2195,7 +2226,6 @@ sds-rail:not(:defined) {
 /* The last block in an answer keeps its step to itself: the space under it is
    drawn below, and a component's own block carries that step under its host. */
 .sds-accordion__body > :last-child,
-.sds-accordion__body > :last-child > :last-child { margin-bottom: 0; }
 
 /* The space under an answer, drawn rather than padded. Padding is outside the
    height a row can shrink, so as `padding-bottom` it was a floor the fold
@@ -2240,7 +2270,6 @@ sds-rail:not(:defined) {
    command in it pushed a 1440px page sideways. The body already scrolls; this
    is what lets it. */
 .sds-code {
-  margin-bottom: var(--space-4);
   min-width: 0;
   max-width: 100%;
   border: var(--border-hairline) solid var(--border-subtle);
@@ -2416,7 +2445,6 @@ sds-rail:not(:defined) {
      above it with them: drawn to the full column, a hairline would separate
      two paragraphs of text with a line half of which has nothing under it. */
   max-width: var(--measure-prose);
-  margin: 0 0 var(--space-4);
   padding-top: var(--space-3);
   border-top: var(--border-hairline) solid var(--border-subtle);
 }
@@ -2476,7 +2504,6 @@ sds-rail:not(:defined) {
 /* The description is blocks — paragraphs, a list, an admonition — and they
    bring their own margins. The outermost two are the entry's own spacing. */
 .sds-confval__body > :first-child { margin-top: 0; }
-.sds-confval__body > :last-child { margin-bottom: 0; }
 
 /* --------------------------------------------------------------- states -- */
 
@@ -2484,7 +2511,6 @@ sds-rail:not(:defined) {
    leaves out. This block is the shape that carries exactly that: an icon
    in the status colour, a title, and a bounded note. */
 .sds-note {
-  margin-bottom: var(--space-4);
   display: flex;
   gap: var(--space-3);
   border: var(--border-hairline) solid var(--border-subtle);
@@ -2524,7 +2550,6 @@ sds-rail:not(:defined) {
    list, a code block. They bring their own margins from the document layer,
    and the outermost two would push the note's own padding out of true. */
 .sds-note__body > :first-child { margin-top: 0; }
-.sds-note__body > :last-child { margin-bottom: 0; }
 
 /* A degraded but usable answer tints the whole block; error and success
    colour the icon only, so a page of results does not read as an alarm. */

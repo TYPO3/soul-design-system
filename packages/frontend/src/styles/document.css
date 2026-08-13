@@ -230,6 +230,20 @@
   color: var(--text-secondary);
 }
 :where(.sds-prose) blockquote > :last-child { margin-bottom: 0; }
+/* Except where the blockquote is the element's, which draws the rule and the
+   step on the figure around it. Left standing, both are drawn twice and the
+   sentence sits one indent further in than the byline answerable for it. */
+:where(.sds-prose) .sds-quote__body {
+  padding-inline-start: 0;
+  border-inline-start: 0;
+}
+/* The attribution is a byline and brings its own type, so the caption rule
+   further down may not set it at caption size and mute it — the component
+   says why. Only what it does not already state for itself. */
+:where(.sds-prose) .sds-quote__by {
+  font-size: inherit;
+  color: inherit;
+}
 
 /* ---------------------------------------------------------------- code -- */
 
@@ -292,13 +306,6 @@
   line-height: var(--leading-code);
   color: var(--text-primary);
 }
-/* And the same gap under it once it has upgraded. The host is
-   `display: contents`, so the margin above belongs to a box that stops existing
-   on upgrade, and the frame the document then stacks carries none. The same
-   value, so the page does not shift as the bundle lands. Here rather than on
-   `.sds-code`, because spacing between blocks is what a document decides. */
-:where(.sds-prose) .sds-code { margin-bottom: var(--space-4); }
-
 /* ---------------------------------------------------- what is set apart -- */
 
 /* An admonition before its element upgrades, for the reason the code block
@@ -314,10 +321,6 @@
   border-radius: var(--radius-card);
 }
 :where(.sds-prose) sds-note:not(:defined) > :last-child { margin-bottom: 0; }
-/* And the same gap under it once it has upgraded — the host is
-   `display: contents` by then, so the margin above belongs to a box that has
-   stopped existing. Same pairing, and same reason, as `.sds-code`. */
-:where(.sds-prose) .sds-note { margin-bottom: var(--space-4); }
 
 /* A picture before its element upgrades, and on a page that runs none. The
    renderer wrote it carrying `sds-art`, so it is already the right size in the
@@ -338,9 +341,6 @@
   border-radius: var(--radius-card);
   background: var(--surface-sunken);
 }
-/* And the same gap once it has upgraded — the host is `display: contents` by
-   then, so what the document stacks is the figure inside it. */
-:where(.sds-prose) .sds-figure { margin-bottom: var(--space-4); }
 
 /* A control written into the text is a block of it, and a row of them is one
    block whatever stands in the row. The gap is on the control rather than on
@@ -376,9 +376,6 @@
   border-radius: var(--radius-card);
   background: var(--surface-sunken);
 }
-/* And the same gap once it has upgraded. Same pairing, and same reason, as
-   `.sds-code` and `.sds-note`. */
-:where(.sds-prose) .sds-embed { margin-bottom: var(--space-4); }
 
 /* ---------------------------------------------------------- in the line -- */
 
