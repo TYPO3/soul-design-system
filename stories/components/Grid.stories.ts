@@ -18,6 +18,10 @@ import { type GridProps } from '../../packages/frontend/src/components/grid.ts';
 import { type CardProps } from '../../packages/frontend/src/components/card.ts';
 import { sdsCard } from './Card.stories.ts';
 
+/* Five, and not four. The grid squares off a short last row — four items in a
+   three-wide row are laid out two and two — so an even set lands on the same
+   divisor at both widths and `default` draws exactly what `wide` draws. An odd
+   count cannot. */
 const CHAPTERS: readonly CardProps[] = [
   {
     heading: 'Installation',
@@ -37,6 +41,11 @@ const CHAPTERS: readonly CardProps[] = [
   {
     heading: 'Publishing',
     body: 'The three commands a project runs, and the one file that decides what a reader gets.',
+    action: 'Read it',
+  },
+  {
+    heading: 'Markup',
+    body: 'Everything a renderer emits that carries no class at all, and the stylesheet that meets it.',
     action: 'Read it',
   },
 ];
