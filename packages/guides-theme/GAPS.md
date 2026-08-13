@@ -42,6 +42,11 @@ Die Regeln, an die jede offene Zeile unten gebunden ist:
   Seite vollständig lesbar sein — Farbe steht im Markup, Reiter zeigen ihren
   Inhalt, die Rail steht. Das Element bringt Kopf, Kopieren-Knopf, Umschalten
   und Einklappen dazu.
+- **Ein Element, das im Fließtext steht, hebt sein Markup an.** Ein Generator
+  kennt nur Attribute und Kinder, und ein Element, das Light DOM aus seinen
+  Eigenschaften rendert, überschreibt dabei seine Kinder — das Markup ist weg.
+  `lifted()` ist die Form, die das löst; die Dokument-Schicht ist der Beleg,
+  dass sie trägt. Was als nächstes einen Knoten bekommt, wird danach gebaut.
 - **Wer färbt, entscheidet der Inhalt.** Trägt er `hljs-`-Klassen, ist er schon
   gefärbt und wird gehalten wie er kam, Wrapper samt Startzeile und
   hervorgehobenen Zeilen; sonst färbt `sds-code` selbst
@@ -154,30 +159,10 @@ Element — es gibt nichts im Markup, dem eine Klasse oder eine Komponente
 entsprechen könnte. Sichtbar werden `.footnote` und `.citation`, und die haben
 ihre Regel in `document.css`.
 
-## Elemente, die kein Markup annehmen
-
-Ein Generator kennt nur Attribute und Kinder: eine Story setzt Eigenschaften,
-ein Twig-Template schreibt Markup. Ein Element, das Light DOM aus seinen
-Eigenschaften rendert, überschreibt dabei seine Kinder — das Markup ist weg.
-`lifted()` ist die Form, die das löst; `sds-code`, `sds-note`, `sds-figure`,
-`sds-table`, `sds-surface` und `sds-quote` sind der Beleg, dass sie trägt.
-Offen ist, was eine Doku-Seite als nächstes braucht:
-
-| Element | Heute | Was ein Knoten braucht |
-| --- | --- | --- |
-| `sds-stat`, `sds-modal`, `sds-dialog` | dasselbe Muster | Für eine Doku-Seite zweitrangig |
-
 ## Auslieferung und Verhalten
 
 Nicht Styling, sondern was das Paket können muss.
 
-- **`card-group`.** Theme-Direktive, kein Kern-Knoten — in TYPO3-Dokumentation
-  aber verbreitet. `card`, `accordion` und `accordion-item` gibt es jetzt:
-  `sds-card` zeichnet Bild, Kopf, Körper und Fuß, das Raster kommt in drei
-  Breiten und wird als Frage nach dem Platz geschrieben statt in Spalten
-  gezählt, und die Antworten liegen hinter einem `<details>`, das ohne Skript
-  aufgeht. Wer die übrige will,
-  schreibt Node- und Directive-Klassen nach demselben Muster.
 - **Ein Link auf eine einzelne Antwort.** `:name:` am `accordion-item` wird
   angenommen und verworfen: wohin ein Sprung in eine zusammengefaltete Antwort
   landet — und ob er sie aufklappt — ist nicht entschieden. `:header-level:`
