@@ -498,11 +498,24 @@ A deliberate token change, invisible to the tool whose entire job is
 catching deliberate changes. Every "38 identical" in this repo's history
 should be read with that in mind.
 
-It is `threshold: 0` now. That is affordable because everything renders in
-the container: two consecutive runs of all 38 cards differ by zero pixels at
-every threshold tested, so there is no antialiasing noise to absorb. If it
-ever turns noisy, raise it knowing the cost — 0.05 already missed a third of
-that colour change.
+It is `threshold: 0` now. That was affordable when everything rendered in the
+container and two consecutive runs of all cards differed by zero pixels at
+every threshold tested. If it ever turns noisy, raise it knowing the cost —
+0.05 already missed a third of that colour change.
+
+**It has turned noisy, and the run is no longer an answer on its own.** Two
+consecutive runs with no change between them now report roughly a dozen cards
+changed at 1–7% of pixels, and not the same dozen twice: a run during the RTL
+refactor reported fourteen, and the same tree with the change stashed reported
+twelve with half the names different. The guideline cards drift and the
+generated component cards do not, which is where to start looking.
+
+Until that is fixed, `make baseline` / `make diff` cannot answer "did anything
+move" — a clean run means nothing and a dirty one has to be re-run to see
+whether the same cards come back. For a change that is logical-property or
+token renaming, map the new declarations back to the old ones and diff the
+source instead; that is exact where the pixels currently are not. **Do not
+read a `make diff` result as evidence without saying which of the two it is.**
 
 ## Measuring anything right after a theme switch races a transition
 
