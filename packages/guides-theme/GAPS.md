@@ -65,6 +65,16 @@ Die Regeln, an die jede offene Zeile unten gebunden ist:
   gesetzt, der Kasten nicht. Die eigenen `sds-`-Namen sind die Ausnahme, die es
   belegt: sie sind hier definiert und die Klassenschicht ist absichtlich von
   Hand schreibbar.
+- **Ein Exkurs im Fließtext ist keine Fläche aus einem Satz.** `topic` und
+  `sidebar` sind ein Kasten, den der Leser überspringen darf und den die
+  Gliederung nicht listet: nie einer aus einem Satz, nie gescannt, nie steht
+  etwas daneben. `sds-surface` ist für das Gegenteil gebaut — Glyph, Label,
+  Titel, Körper, quer zueinander gelesen, und sein Vorgabe-Layout sagt es
+  wörtlich. Die drei Templates zeichnen die Platte deshalb weiter selbst; ein
+  `<aside>` mit `.sds-panel` ist die Klassenschicht als Vokabular und nicht als
+  Vordertür, was `src/components/surface.ts` bei diesem Template namentlich so
+  festhält. Die Komponente kommt dort in den Render, wo sie richtig ist: als
+  eigene Direktive in einem `grid`, neben `stat`.
 
 ## Welche Schicht was tut
 
@@ -185,10 +195,9 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 ## In welcher Reihenfolge
 
-1. **`topic` und `sidebar` auf `sds-surface` umstellen.** Das Element nimmt
-   jetzt Markup, die Templates zeichnen die Platte aber weiter selbst — und das
-   ist die Stelle, an der `sds-surface` in den Render käme. Zwei Entscheidungen
-   stehen davor: das `<aside>`, das die drei Templates heute bewusst schreiben
-   und das die Komponente nicht kennt, und die `:class:`-Angabe des Autors, die
-   auf einem `display: contents`-Host keine Fläche mehr trifft.
+1. **Eine `surface`-Direktive.** Die Stelle, an der `sds-surface` in den Render
+   kommt: ein Kind von `grid` wie `stat` und `card`, mit den Optionen, die das
+   Element hat. Damit fällt es aus `PENDING.guides` und die Deckungsregel ist
+   an der einzigen Achse erfüllt, an der eine Komponente auf fremdes Markup
+   trifft.
 2. **Die zwei fremden Markups** und das Verhalten des `configuration-block`.
