@@ -285,6 +285,33 @@ writes for itself is layout nothing else can keep in step.
    here says how far apart things stand and nothing else, which is what lets
    the same page frame hold a marketing band and a tool reference.
 
+Which way the page runs
+=======================
+
+**Write** ``dir="rtl"`` **on** ``<html>`` **and the layout mirrors itself.**
+That is the whole of what a project does. Nothing else is configured, no
+second stylesheet is linked, and no class changes.
+
+It works because the sheets are written in logical properties throughout — a
+start edge follows the document rather than the screen, so a rail, a card's
+action line, the bar's end cluster and a table's first column all change sides
+together. Physical properties are what makes a mirrored page fall apart one
+rule at a time, which is why they are not used even where a value looks
+symmetrical today.
+
+A drawing cannot mirror itself, so the glyphs the system uses to mean *onward*
+are turned under ``:dir(rtl)``: the arrow on a card's action, the pager, the
+pagination steps, and the marker on a closed fold. Only those — a page that
+asked for ``actions-arrow-right`` named an arrow rather than a heading, and
+gets the one it named.
+
+.. note::
+
+   **What this does not cover.** The type is not chosen for Arabic or Hebrew —
+   :doc:`/design-system/type` ships a Latin pair, and a project setting an RTL
+   script supplies the face for it. Nothing in the system reorders a sentence
+   or a date, because nothing in it writes one.
+
 The mark in the bar
 ===================
 

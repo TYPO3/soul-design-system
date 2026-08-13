@@ -70,7 +70,7 @@
    idiom for "link to this" and not two. Relative, because it stands beside
    headings from the display size down to the label register. */
 :where(.sds-prose) .sds-permalink {
-  margin-left: var(--space-2);
+  margin-inline-start: var(--space-2);
   font-family: var(--font-mono);
   font-size: 0.7em;
   font-weight: var(--weight-regular);
@@ -225,8 +225,8 @@
    is somebody else's sentences, not an emphasis on yours. */
 :where(.sds-prose) blockquote {
   margin: 0 0 var(--space-4);
-  padding-left: var(--space-4);
-  border-left: 2px solid var(--border-subtle);
+  padding-inline-start: var(--space-4);
+  border-inline-start: 2px solid var(--border-subtle);
   color: var(--text-secondary);
 }
 :where(.sds-prose) blockquote > :last-child { margin-bottom: 0; }
@@ -497,7 +497,7 @@
   margin-bottom: var(--space-2);
   font-size: var(--font-size-micro);
   color: var(--text-muted);
-  text-align: left;
+  text-align: start;
 }
 :where(.sds-prose) th {
   padding: var(--space-2) var(--space-3);
@@ -508,7 +508,7 @@
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-muted);
-  text-align: left;
+  text-align: start;
   vertical-align: bottom;
 }
 :where(.sds-prose) td {
@@ -521,9 +521,9 @@
    reason: a row is told apart by its content, not by its background. */
 :where(.sds-prose) tbody tr:hover { background: var(--surface-raised); }
 :where(.sds-prose) th:first-child,
-:where(.sds-prose) td:first-child { padding-left: 0; }
+:where(.sds-prose) td:first-child { padding-inline-start: 0; }
 :where(.sds-prose) th:last-child,
-:where(.sds-prose) td:last-child { padding-right: 0; }
+:where(.sds-prose) td:last-child { padding-inline-end: 0; }
 
 /* ------------------------------------------------- what a renderer names -- */
 
@@ -551,11 +551,11 @@
 :where(.sds-prose) .contents ul,
 :where(.sds-prose) .toc ul {
   margin: 0;
-  padding-left: 0;
+  padding-inline-start: 0;
   list-style: none;
 }
 :where(.sds-prose) .contents li ul,
-:where(.sds-prose) .toc li ul { padding-left: var(--space-4); }
+:where(.sds-prose) .toc li ul { padding-inline-start: var(--space-4); }
 :where(.sds-prose) .contents li,
 :where(.sds-prose) .toc li { margin-bottom: var(--space-1); }
 /* The label a template writes over the list, standing directly on it. */
@@ -652,7 +652,7 @@
      section and the headings under it read as one group rather than as seven
      entries in a row. */
   :where(.sds-prose) .sds-aside .contents li li { margin-bottom: var(--space-1); }
-  :where(.sds-prose) .sds-aside .contents li ul { padding-left: var(--space-3); }
+  :where(.sds-prose) .sds-aside .contents li ul { padding-inline-start: var(--space-3); }
 }
 
 /* A title over something that is not a section: a topic, or a sidebar, which

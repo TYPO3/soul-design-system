@@ -145,7 +145,7 @@ h6 {
 ul,
 ol {
   margin: 0;
-  padding-left: var(--space-5);
+  padding-inline-start: var(--space-5);
 }
 li::marker { color: var(--text-muted); }
 
@@ -207,7 +207,7 @@ li > ol { margin-bottom: 0; }
    with the markers at the top level only — below it the step is what says a
    section belongs to the one above. The markers go from every level, because
    the nested rule above would otherwise hand them straight back. */
-.sds-list--plain { padding-left: 0; }
+.sds-list--plain { padding-inline-start: 0; }
 .sds-list--plain,
 .sds-list--plain ul,
 .sds-list--plain ol { list-style: none; }
@@ -260,7 +260,7 @@ li > ol { margin-bottom: 0; }
   font-family: var(--font-mono);
   font-size: var(--font-size-dense);
   letter-spacing: var(--tracking-label);
-  padding-left: var(--tracking-label);
+  padding-inline-start: var(--tracking-label);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -796,25 +796,27 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
 .sds-table-scroll { max-width: 100%; overflow-x: auto; }
 
 .sds-table th {
-  text-align: left;
+  text-align: start;
   font-family: var(--font-mono);
   font-size: var(--table-head-size);
   letter-spacing: var(--table-head-tracking);
   text-transform: uppercase;
   color: var(--text-muted);
   font-weight: var(--weight-regular);
-  padding: 0 var(--space-3) var(--sds-row-pad) 0;
+  padding-block: 0 var(--sds-row-pad);
+  padding-inline: 0 var(--space-3);
   border-bottom: var(--border-hairline) solid var(--border-strong);
 }
 
 .sds-table td {
-  padding: var(--sds-row-pad) var(--space-3) var(--sds-row-pad) 0;
+  padding-block: var(--sds-row-pad);
+  padding-inline: 0 var(--space-3);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
   color: var(--text-secondary);
 }
 
 .sds-table th:last-child,
-.sds-table td:last-child { padding-right: 0; }
+.sds-table td:last-child { padding-inline-end: 0; }
 
 /* The machine's own names, in the machine's own font. */
 .sds-table td.sds-td-name {
@@ -1005,7 +1007,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   display: inline-flex;
   align-items: center;
   gap: var(--space-1-5);
-  margin-left: auto;
+  margin-inline-start: auto;
   font-size: var(--aside-size);
   font-weight: var(--weight-semibold);
   color: var(--text-link);
@@ -1026,7 +1028,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
    where it reads as part of the figure rather than as a mark above it. */
 .sds-stat__icon {
   display: inline-flex;
-  margin-right: var(--space-2-5);
+  margin-inline-end: var(--space-2-5);
   color: var(--text-secondary);
 }
 .sds-stat__value {
@@ -1214,7 +1216,7 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   position: fixed;
   z-index: 40;
   top: var(--space-3);
-  left: var(--space-3);
+  inset-inline-start: var(--space-3);
   translate: 0 calc(-100% - var(--space-3));
   background: var(--surface-raised);
 }
@@ -1286,7 +1288,7 @@ html:has(.sds-bar) {
 }
 /* The cluster that sits against the right edge. */
 .sds-bar__end {
-  margin-left: auto;
+  margin-inline-start: auto;
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -1472,7 +1474,7 @@ html:has(.sds-bar) {
    are spaced as a row of marks and not as a run of links — close enough to
    read as one set, far enough that each is its own target. */
 .sds-footer__marks {
-  margin-left: auto;
+  margin-inline-start: auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1481,7 +1483,7 @@ html:has(.sds-bar) {
 /* Alone on the line there is nothing to be at the far end *of*, and a set of
    marks against the right edge of a page that says nothing else reads as
    something that lost what it belonged to. */
-.sds-footer__marks:only-child { margin-left: 0; }
+.sds-footer__marks:only-child { margin-inline-start: 0; }
 /* The whole footer, where a page set nothing else: the space that separates
    the line from the columns above it separates it from nothing here. */
 .sds-footer__end:only-child { padding-top: 0; }
@@ -1502,10 +1504,10 @@ html:has(.sds-bar) {
 .sds-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
 /* The one thing in a row that belongs at the far end of it — how long an
    answer took, the density a list is set at. Named rather than an inline
-   `margin-left:auto` on the page: layout a page writes for itself is layout
+   `margin-inline-start:auto` on the page: layout a page writes for itself is
    nothing else can keep in step. The row wraps, so on a narrow screen this
    is the last line, aligned right, rather than something clipped. */
-.sds-row__end { margin-left: auto; }
+.sds-row__end { margin-inline-start: auto; }
 /* Two of anything, side by side until there is no room for two. */
 .sds-split { display: flex; gap: var(--space-12); align-items: flex-start; }
 .sds-split > * { flex: 1; min-width: 0; }
@@ -1651,7 +1653,7 @@ html:has(.sds-bar) {
   /* The closing line wraps here, and a set of marks pushed to the far end of a
      line it is alone on sits against the right edge under text that starts at
      the left. There is no end to be at once the line broke. */
-  .sds-footer__marks { margin-left: 0; }
+  .sds-footer__marks { margin-inline-start: 0; }
 }
 @media (max-width: 460px) {
   /* The product half of the wordmark, never the signet: the mark is what
@@ -1681,7 +1683,7 @@ html:has(.sds-bar) {
 .sds-search .sds-search__panel {
   position: absolute;
   top: calc(100% + var(--space-2));
-  right: 0;
+  inset-inline-end: 0;
   z-index: 40;
   width: min(420px, 90vw);
   max-height: 60vh;
@@ -1761,13 +1763,13 @@ html:has(.sds-bar) {
    reader tries to press. */
 .sds-pagination__gap { padding: var(--space-1-5) var(--space-1); color: var(--text-muted); user-select: none; }
 /* What the numbers are of, at the end of the row. */
-.sds-pagination__count { margin-left: auto; color: var(--text-muted); }
+.sds-pagination__count { margin-inline-start: auto; color: var(--text-muted); }
 
 /* The other one: the page before and the page after, at the foot of a page
    read in order. The row is `.sds-foot` and is not drawn twice, so the whole
    of this is which end each control sits at — said on the next rather than
    between the two, or a page with only a next would have it on the left. */
-.sds-pager > .sds-pager__next { margin-left: auto; }
+.sds-pager > .sds-pager__next { margin-inline-start: auto; }
 
 /* An item is a control: a link where it goes somewhere, a button where it
    switches something on this page. The button carries a browser default font,
@@ -1781,7 +1783,7 @@ button.sds-rail__item {
   border: 0;
   background: none;
   cursor: pointer;
-  text-align: left;
+  text-align: start;
 }
 
 /* An item may carry a glyph before its label, which is the only reason these
@@ -1896,8 +1898,7 @@ sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content
 .sds-bar__drawer {
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   z-index: 20;
   display: flex;
   flex-direction: column;
@@ -1933,9 +1934,10 @@ sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content
    standing above it: a rail that found no section of its own is a list in its
    own right and keeps both its place and its heading. */
 .sds-bar__nav > .is-active + .sds-bar__rail {
-  margin: var(--space-1) 0 var(--space-2) var(--space-2);
-  padding-left: var(--space-1);
-  border-left: var(--border-hairline) solid var(--border-subtle);
+  margin-block: var(--space-1) var(--space-2);
+  margin-inline: var(--space-2) 0;
+  padding-inline-start: var(--space-1);
+  border-inline-start: var(--border-hairline) solid var(--border-subtle);
 }
 /* The pill above it already carries the section's name, and a heading repeating
    it one line lower is the same word twice. The `<nav>` keeps its label, so a
@@ -2108,7 +2110,7 @@ sds-rail:not(:defined) {
 .sds-rail__group > summary .sds-icon {
   width: var(--control-icon-size);
   height: var(--control-icon-size);
-  margin-left: auto;
+  margin-inline-start: auto;
   transform: rotate(-90deg);
   transition: transform var(--duration-fast) var(--ease-out);
 }
@@ -2465,7 +2467,7 @@ sds-rail:not(:defined) {
 .sds-confval__facts dd { margin: 0; max-width: none; }
 /* The air between two facts, against the air inside one: a label belongs to
    the value on its right, and equal gaps would leave that to be guessed. */
-.sds-confval__facts dt ~ dt { margin-left: var(--space-3); }
+.sds-confval__facts dt ~ dt { margin-inline-start: var(--space-3); }
 /* A label is muted against the canvas it was measured on. Eleven pixels on the
    inset surface is the one place that drops under contrast, so it steps up a
    register rather than the surface losing its fill. */
@@ -2651,4 +2653,32 @@ sds-rail:not(:defined) {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------------ direction -- */
+
+/* Everything above is written in logical properties, so a start edge follows
+   the document and the layout mirrors itself. A drawing does not: a glyph
+   that means "onward" points one way in the file and has to be turned. */
+:where(:dir(rtl)) :is(.sds-card__action, .sds-pager, .sds-pagination__step) .sds-icon {
+  scale: -1 1;
+}
+/* The marker on a closed fold points the way the text runs, so it turns with
+   it — the open state is `none` on both sides and is left alone. */
+:where(:dir(rtl)) :is(.sds-rail__group > summary, .sds-accordion__head) .sds-icon {
+  transform: rotate(90deg);
+}
+/* Only where the system chose the direction. A page that asked for
+   `actions-arrow-right` named an arrow, not a heading, and gets the one it
+   named. */
+
+/* Mono is semantic in this system: it marks what a machine reads, writes or
+   names. None of that mirrors — a path reordered at its slashes is a
+   different path — so those runs are pinned and isolated from the sentence
+   around them. Mono used as a register, a label or a tab, is text and turns
+   with the page. */
+:where(pre, code, kbd, samp, .sds-mono, .sds-diff,
+       .sds-code__path, .sds-result__path, .sds-td-name, .sds-td-meta) {
+  direction: ltr;
+  unicode-bidi: isolate;
 }
