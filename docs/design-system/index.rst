@@ -17,6 +17,7 @@ them, so a rule and its rendering cannot drift apart.
    type
    spacing
    states
+   accessibility
    icons
    illustrations
    diagrams
