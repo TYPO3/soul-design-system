@@ -32,12 +32,11 @@ is treated like a red gate, and for the same reason: left standing, the next
 reader inherits it and the next agent matches its tone, and by then it is no
 longer one file.
 
-The places that stand in German from before the rule stay that way by
-decision — `packages/guides-theme/GAPS.md`, and the lines `scripts/plan.ts` and
-`scripts/status.ts` print while the Guides theme is being worked
-on. They are the whole exception and it does not grow: do not stop
-work over them, do not translate them halfway, and start nothing new in their
-language. Every other find falls under the paragraph above.
+There is no exception, and there is no file the rule is suspended over. The
+three that stood in German from before it — the theme's `GAPS.md` and the lines
+`scripts/plan.ts` and `scripts/status.ts` print — were translated rather than
+carried, because a rule with a standing exception is read as a preference, and
+the exception is what a later reader matches.
 
 ## No document counts the parts
 
@@ -92,7 +91,7 @@ and the documents themselves are not comments and say what they have to say.
 | Why a rule exists, before extending or breaking it | `RATIONALE.md` |
 | Drawing a signet to the construction | `docs/design-system/signet-prompt.md` |
 | Where the icons and fonts came from, and under what licence | `THIRD-PARTY.md` |
-| What the Guides theme still owes (German) | `packages/guides-theme/GAPS.md` |
+| What the Guides theme still owes | `packages/guides-theme/GAPS.md` |
 | How to take the theme into a project of your own | `docs/guides-theme/` |
 
 `SKILL.md` is the operating instruction and `RATIONALE.md` is its reasoning.
