@@ -13,9 +13,9 @@ no template to copy.
 different shape than a manual page, and the renderer has no vocabulary for it.
 ``card-grid``, ``card`` and ``accordion`` signpost a manual and fold its
 answers away, each spelled the way a TYPO3 manual already spells them.
-``stat`` states a figure, ``button`` and ``button-bar`` are how a page sends a
-reader on, and ``specimen`` embeds a rendered card at the size it was measured
-at.
+``stat`` states a figure and ``surface`` states a sentence, ``button`` and
+``button-bar`` are how a page sends a reader on, and ``specimen`` embeds a
+rendered card at the size it was measured at.
 
 Each of them draws an element of this system and takes that element's own
 options, spelt the way the element spells them — so ``href`` links and ``src``
@@ -502,6 +502,90 @@ too: there the figures share a hairline and the wall gives each its ground.
 The frame in a wall is the wall's, so a figure anywhere else stays bare and a
 row of numbers on a page is not a row of boxes. The element is ``sds-stat``
 in :doc:`/frontend/components/content`, beside the grid it stands in.
+
+surface
+=======
+
+One filled plane, stating something in place.
+
+.. code-block:: text
+
+   .. grid::
+
+      .. surface:: Read, never write
+         :icon: actions-file-shield
+
+         Every source is read. Nothing is written back.
+
+      .. surface:: One answer, one origin
+         :label: Rule 02
+
+         Two answers that disagree are told apart by where they came from.
+
+That source, on this page:
+
+.. grid::
+
+   .. surface:: Read, never write
+      :icon: actions-file-shield
+
+      Every source is read. Nothing is written back.
+
+   .. surface:: One answer, one origin
+      :label: Rule 02
+
+      Two answers that disagree are told apart by where they came from.
+
+.. confval:: the argument
+   :name: surface-heading
+   :type: string
+   :required: true
+
+   The title of the plane, in the quieter register — this is not a
+   destination, and a title that looks like one is a promise the box does not
+   keep.
+
+.. confval:: plane
+   :name: surface-plane
+   :type: string
+
+   The fill: ``raised``, which sits on the canvas and reads as a plane, or
+   ``sunken``, which is machine output — code, logs, structured content. Named
+   for the fill because in a system with no shadows that is what tells two
+   planes apart. ``raised`` is what a plane writing nothing is.
+
+.. confval:: label
+   :name: surface-label
+   :type: string
+
+   The tracked-out line over the title, where a set is numbered or sourced —
+   ``AUDIENCE 01``, ``SOURCE``, ``STEP 02``. Over the title rather than in it:
+   a title carrying its own number reads as part of the sentence.
+
+.. confval:: icon
+   :name: surface-icon
+   :type: string
+
+   A glyph above the label, where a set is told apart before it is read. It
+   stands beside the plane's own title, never alone, and is muted for the
+   reason a card's is: a plane is a subject, not a result.
+
+.. confval:: class
+   :name: surface-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**A plane states, a card goes somewhere.** That is the whole line between the
+two, and it decides which one a page wants: a card's frame is the link and its
+title is the anchor, so a set of planes claims nothing to click. Neither is
+what ``.. topic::`` is — a digression in the reading flow that the outline does
+not list stays an ``<aside>``, and is not one of a set.
+
+**It goes in a** ``grid`` **like any other set**, at the width the statements
+hold. A plane on its own is a plane in the flow and renders, but a single one
+says nothing the paragraph above it did not. The element is ``sds-surface`` in
+:doc:`/frontend/components/content`.
 
 button
 ======

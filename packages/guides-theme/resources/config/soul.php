@@ -17,6 +17,7 @@ use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\StatDirective;
+use TYPO3\Soul\GuidesTheme\Directives\SurfaceDirective;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
@@ -50,6 +51,8 @@ return static function (ContainerConfigurator $container): void {
         ->set(HeroDirective::class)
             ->tag('phpdoc.guides.directive')
         ->set(StatDirective::class)
+            ->tag('phpdoc.guides.directive')
+        ->set(SurfaceDirective::class)
             ->tag('phpdoc.guides.directive')
 
         /* The cards a manual is signposted with, spelled the way TYPO3

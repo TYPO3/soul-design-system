@@ -1,0 +1,20 @@
+{#
+    One plane, and the element draws all of it.
+
+    **Every option is a property**, and what the plane states is written
+    between the tags — the one thing about a statement an attribute cannot
+    hold, because out of a document it is blocks and carries links. Nothing
+    here says what a plane looks like: not the fill, not where the glyph sits,
+    not the register the label is in. That is what the component is for.
+#}
+<sds-surface
+    heading="{{ node.option('heading') }}"
+    {%- if node.option('plane') %} plane="{{ node.option('plane') }}"{% endif %}
+    {%- if node.option('label') %} label="{{ node.option('label') }}"{% endif %}
+    {%- if node.option('icon') %} icon="{{ node.option('icon') }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-surface>

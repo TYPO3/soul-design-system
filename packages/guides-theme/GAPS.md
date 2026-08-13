@@ -195,9 +195,4 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 ## In welcher Reihenfolge
 
-1. **Eine `surface`-Direktive.** Die Stelle, an der `sds-surface` in den Render
-   kommt: ein Kind von `grid` wie `stat` und `card`, mit den Optionen, die das
-   Element hat. Damit fällt es aus `PENDING.guides` und die Deckungsregel ist
-   an der einzigen Achse erfüllt, an der eine Komponente auf fremdes Markup
-   trifft.
-2. **Die zwei fremden Markups** und das Verhalten des `configuration-block`.
+1. **Die zwei fremden Markups** und das Verhalten des `configuration-block`.

@@ -630,6 +630,33 @@ test.describe('what the theme repaired', () => {
     await expect(page.locator('.admonition')).toHaveCount(0);
   });
 
+  test('a plane states in place, and the fill says what kind of thing is on it', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* The other node an `sds-panel` can be, and the one this component is for:
+       a set read across itself rather than a digression in the flow, which
+       stays the `aside.topic` the test above holds. Both are on this page. */
+    const planes = page.locator('#planes');
+    await expect(planes.locator('sds-surface')).toHaveCount(3);
+    await expect(planes.locator('a[href$="nodes.html"]')).toHaveCount(1);
+
+    /* Nothing goes anywhere: a plane states, and a frame that is a link is a
+       card. The one anchor above is a reference inside a sentence. */
+    await expect(planes.locator('.sds-panel > a, .sds-sunken > a')).toHaveCount(0);
+
+    /* Raised is the fill a plane writing none is, and sunken is the ground
+       machine output is drawn on — the same plane, the same parts. */
+    await expect(planes.locator('.sds-panel')).toHaveCount(2);
+    const sunken = planes.locator('.sds-sunken');
+    await expect(sunken).toHaveCount(1);
+    await expect(sunken.locator('.sds-surface-title')).toHaveText('The reply, as it arrives');
+
+    /* And each option the directive offers reaches the part the element draws
+       for it, so a page wanting one never writes a declaration of its own. */
+    await expect(planes.locator('.sds-surface-icon .sds-icon')).toHaveCount(1);
+    await expect(planes.locator('.sds-label')).toHaveText('Rule 02');
+  });
+
   test('a directive that draws a component of ours draws the whole of it', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

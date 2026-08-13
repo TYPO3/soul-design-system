@@ -27,6 +27,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
+use TYPO3\Soul\GuidesTheme\Nodes\SurfaceNode;
 
 /**
  * What a project using this theme can set, and where it says so.
@@ -258,6 +259,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => GridNode::class, 'file' => 'body/directive/grid.html.twig', 'format' => 'html'],
                 ['node' => HeroNode::class, 'file' => 'body/directive/hero.html.twig', 'format' => 'html'],
                 ['node' => StatNode::class, 'file' => 'body/directive/stat.html.twig', 'format' => 'html'],
+                ['node' => SurfaceNode::class, 'file' => 'body/directive/surface.html.twig', 'format' => 'html'],
                 ['node' => CardNode::class, 'file' => 'body/directive/card.html.twig', 'format' => 'html'],
                 ['node' => CardGridNode::class, 'file' => 'body/directive/card-grid.html.twig', 'format' => 'html'],
                 ['node' => ButtonNode::class, 'file' => 'body/directive/button.html.twig', 'format' => 'html'],

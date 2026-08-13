@@ -288,6 +288,35 @@ lines, so the notes are read across the set rather than each on its own.
       Every source is read. Nothing is written back, and nothing is executed
       to answer.
 
+Planes
+======
+
+The same wall holding statements rather than figures: a plane that says
+something in place, which is what tells it from the card below — nothing here
+goes anywhere. The first is told apart by its glyph before it is read, the
+second is numbered as one of a set, and the third is the sunken fill, which is
+what machine output is drawn on.
+
+.. grid::
+
+   .. surface:: Read, never write
+      :icon: actions-file-shield
+
+      Every source is read, nothing is written back, and the line may carry a
+      :doc:`reference <nodes>` — which is why it is written between the tags.
+
+   .. surface:: One answer, one origin
+      :label: Rule 02
+
+      Two answers that disagree are told apart by where they came from rather
+      than by which was asked for last.
+
+   .. surface:: The reply, as it arrives
+      :plane: sunken
+
+      The sunken fill, for machine output. It is the same plane and the same
+      parts; only the ground it is drawn on says what kind of thing is on it.
+
 Presses
 =======
 
