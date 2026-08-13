@@ -251,9 +251,12 @@ Pictures
 
 .. figure:: /_images/placeholder.svg
    :alt: A placeholder
+   :zoomable:
 
    The caption, which sits under the picture and reads as a label for it
-   rather than as a sentence of the text.
+   rather than as a sentence of the text. This one opens at full size, because
+   it was asked to: the frame is the press, and the viewer takes the claim
+   into its own head.
 
 .. image:: /_images/placeholder.svg
    :alt: A placeholder, dropped into the page without a claim under it

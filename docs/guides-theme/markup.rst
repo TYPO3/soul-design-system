@@ -325,8 +325,26 @@ the finishing step reads the file before it draws the page, and says in the run
 which drawings those were. So a picture dropped into a project arrives whatever
 was done to it, and the line buys the mode, not the picture.
 
-``:target:`` stays a link around the picture. ``:align:`` is dropped, for the
-reason the sidebar is: a measure this narrow has nothing to float beside.
+``:zoomable:`` opens the picture at full size: the frame becomes a press and
+the viewer carries the caption into its own head. A picture is drawn at the
+width of the column it stands in, which is not the width a diagram was made
+for — and this is the option that gives that back. It is written rather than
+assumed, because most pictures in a document are read where they stand, and a
+press on every one of them offers the same answer down a whole page.
+
+.. code-block:: text
+
+   .. figure:: /_images/pipeline.svg
+      :alt: Source, build, published site
+      :zoomable:
+
+      What the drawing claims, in the caption the viewer takes with it.
+
+``:target:`` stays a link around the picture, and it is the one place
+``:zoomable:`` is ignored: the author's link is already around the whole
+picture, and the press would be a second anchor inside it. ``:align:`` is
+dropped, for the reason the sidebar is: a measure this narrow has nothing to
+float beside.
 
 Embedded documents
 ==================

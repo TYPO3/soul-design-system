@@ -37,11 +37,18 @@
 #}
 {%- set caption = node.document ? renderNode(node.document)|striptags|trim : '' -%}
 {%- set source = node.image.value is external_target ? node.image.value : asset(node.image.value) -%}
+{#- A picture is drawn at the width of the column it stands in, which is not
+    the width a diagram was drawn for. `:zoomable:` gives that back — the frame
+    becomes the press and the viewer carries the claim into its own head — and
+    the author writes it, because most pictures are read where they stand. The
+    option is read off the figure: the core hands the image node a fixed list
+    and one it has never heard of is not on it. -#}
 <sds-figure
     src="{{ source }}"
     alt="{{ node.image.option('alt')|default('') }}"
     {%- if caption %} caption="{{ caption }}"{% endif -%}
     {%- if node.image.hasOption('width') %} width="{{ node.image.option('width') }}"{% endif -%}
     {%- if node.image.hasOption('height') %} height="{{ node.image.option('height') }}"{% endif -%}
+    {%- if node.hasOption('zoomable') %} zoomable{% endif -%}
     {%- if node.image.hasOption('figclass') %} class="{{ node.image.option('figclass') }}"{% endif -%}
 ></sds-figure>

@@ -108,6 +108,9 @@ test.describe('the render', () => {
     await expect(hero.locator('.sds-stack h1')).toHaveText('One system, from design to delivery');
     await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('src', /design-system-workbench\.png$/);
     await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('alt', '');
+    /* And the one picture that does not open: it stands beside the claim as
+       decoration, where every other picture is something to read closer. */
+    await expect(hero.locator('a.sds-zoom')).toHaveCount(0);
     await expect(page.locator('.sds-band').first().locator('.sds-sections > sds-grid > .sds-grid')).toBeVisible();
   });
 });
@@ -753,6 +756,14 @@ test.describe('what the theme repaired', () => {
     /* And it is not the code block: a diff that fell through would arrive as
        an `sds-code` carrying the same text. */
     await expect(page.locator('sds-code[code-lang="diff"]')).toHaveCount(0);
+
+    /* One frame, not two. The body is a `<pre>` in the prose, where the
+       document layer draws every block its own border and sunken plane — so a
+       diff the exclusion forgets arrives as a card inside a card, and the tint
+       stops short of the edge it is meant to fill. */
+    const body = diff.locator('pre.sds-diff');
+    await expect(body).toHaveCSS('border-top-width', '0px');
+    await expect(body).toHaveCSS('padding-left', '0px');
   });
 
   test('a borrowed sentence keeps its markup and names where it came from', async ({ page }) => {
@@ -889,15 +900,39 @@ test.describe('what the theme repaired', () => {
     /* `.. figure::` and `.. image::` are the same picture to a reader; only one
        of them says what it is for. The core writes the second as a bare `<img>`
        standing on the page ground, which is a drawing exported on white sitting
-       in a hole in dark — so both are the element, and no picture in the prose
-       stands outside a frame the document layer would have to catch. */
-    await expect(page.locator('.sds-prose img:not(.sds-figure__frame img)')).toHaveCount(0);
+       in a hole in dark — so both are the element, and the only picture outside
+       a frame is the copy the viewer holds, which stands in a ground of its. */
+    await expect(page.locator('.sds-prose img:not(.sds-figure__frame img):not(.sds-lightbox__art img)')).toHaveCount(0);
     const framed = page.locator('.sds-prose sds-figure .sds-figure__frame');
     await expect(framed).toHaveCount(6);
 
     /* And what separates them: the caption is the claim, so the one picture
        that makes none is drawn without one rather than under an empty line. */
     await expect(page.locator('.sds-prose .sds-figure__caption')).toHaveCount((await framed.count()) - 1);
+  });
+
+  test('a picture opens at full size only where the page asked for it', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await page.waitForFunction(() => customElements.get('sds-figure') !== undefined, undefined, { timeout: 15_000 });
+
+    /* A picture is drawn at the width of the column it stands in, which is not
+       the width a diagram was made for — and `:zoomable:` is how a page says
+       this one is worth opening. It is written rather than assumed: a press on
+       every picture offers the same answer to a page of them, and most are
+       read where they stand. */
+    const opened = page.locator('.sds-prose sds-figure[zoomable]');
+    await expect(opened).toHaveCount(1);
+    await expect(opened.locator('a.sds-zoom')).toHaveCount(1);
+    await expect(page.locator('.sds-prose sds-figure:not([zoomable]) a.sds-zoom')).toHaveCount(0);
+
+    /* The viewer is the platform's own modal, so what closes it is the key
+       every reader already knows. */
+    const viewer = opened.locator('dialog.sds-lightbox');
+    await expect(viewer).toBeHidden();
+    await opened.locator('a.sds-zoom').click();
+    await expect(viewer).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(viewer).toBeHidden();
   });
 
   test('a drawing that was never prepared is shown, not left blank', async ({ page }) => {
@@ -910,16 +945,19 @@ test.describe('what the theme repaired', () => {
        whole of what being unprepared costs. */
     const unprepared = page.locator('.sds-prose sds-figure[linked]');
     await expect(unprepared).toHaveCount(2);
-    await expect(unprepared.locator('img.sds-art')).toHaveCount(await unprepared.count());
-    await expect(unprepared.first().locator('img.sds-art')).toHaveAttribute('src', /unprepared\.svg$/);
+    const shown = unprepared.locator('.sds-figure__frame img.sds-art');
+    await expect(shown).toHaveCount(await unprepared.count());
+    await expect(shown.first()).toHaveAttribute('src', /unprepared\.svg$/);
     /* The second brought no ground of its own, which is the case the frame
        under it answers — see the ground test above. */
-    await expect(unprepared.nth(1).locator('img.sds-art')).toHaveAttribute('src', /transparent\.svg$/);
+    await expect(shown.nth(1)).toHaveAttribute('src', /transparent\.svg$/);
 
     /* The prepared drawing beside it is still referenced, so the flag is read
-       off the file and not written onto every picture in the page. */
+       off the file and not written onto every picture in the page. Read in the
+       frame, because the viewer holds a second copy of the same drawing and
+       its close is a glyph — three references to one picture on the page. */
     const prepared = page.locator('.sds-prose sds-figure:not([linked])').first();
-    await expect(prepared.locator('svg use')).toHaveAttribute('href', /#art$/);
+    await expect(prepared.locator('.sds-figure__frame svg use')).toHaveAttribute('href', /#art$/);
   });
 
   test('a set of questions is folded by the platform, not by a listener', async ({ page }) => {
