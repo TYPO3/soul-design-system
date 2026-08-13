@@ -405,11 +405,16 @@
 :where(.sds-prose) sup { top: -0.5em; }
 :where(.sds-prose) sub { bottom: -0.25em; }
 
-:where(.sds-prose) a {
+/* The link a sentence is written with, and no other. Weightless on purpose —
+   `:hover` inside the `:where()` too, or the rule ties with every component
+   rule and wins on being loaded later: a card's title, a pill, a permalink all
+   say never underlined, and the document layer answered for them. What the
+   document itself wrote carries no class, so nothing outweighs this there. */
+:where(.sds-prose a) {
   color: var(--text-link);
   text-decoration: none;
 }
-:where(.sds-prose) a:hover {
+:where(.sds-prose a:hover) {
   color: var(--text-link-hover);
   text-decoration: underline;
 }
@@ -555,6 +560,13 @@
   color: var(--text-primary);
   text-decoration: underline;
 }
+/* One step quieter a level down, because the indent alone does not say it: a
+   sub-entry and the second line of a wrapped entry start at different places
+   and read as the same thing. Muted is a step and not a disappearance — it
+   carries the contrast a sentence carries, which is what the level below the
+   one being scanned needs to keep. */
+:where(.sds-prose) .contents li li a { color: var(--text-muted); }
+:where(.sds-prose) .contents li li a:hover { color: var(--text-primary); }
 
 /* The column what is on this page stands in, where the page has the room for
    one. Nothing at every other width: the box is in the markup on every page
@@ -592,9 +604,13 @@
   :where(.sds-prose) .sds-aside {
     display: block;
     position: absolute;
-    inset-block: 0;
-    inset-inline-end: 0;
-    width: var(--width-sidebar);
+    /* Wider than the column it draws, by what a focus ring stands in. The list
+       scrolls when it is long, and a scroll container paints nothing outside
+       itself — the ring around an entry was cut off at three sides of it. The
+       inset gives the same room back, so the text stands where it stood. */
+    inset-block: calc(-1 * var(--space-1-5)) 0;
+    inset-inline-end: calc(-1 * var(--space-2));
+    width: calc(var(--width-sidebar) + var(--space-2) * 2);
   }
   /* And the list rests inside it, anywhere in the document, at the rail's line
      and bounded the way the rail is bounded. The rules above and below it go:
@@ -604,10 +620,10 @@
      under the list. */
   :where(.sds-prose) .sds-aside > .contents {
     position: sticky;
-    top: calc(var(--height-header) + var(--space-8));
+    top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
     max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
     margin: 0;
-    padding: 0;
+    padding: var(--space-1-5) var(--space-2);
     border: 0;
     max-width: none;
     overflow-y: auto;
@@ -621,6 +637,11 @@
     margin-bottom: var(--space-2);
     line-height: var(--leading-heading);
   }
+  /* And a level down stands closer than the level above it stands apart, so a
+     section and the headings under it read as one group rather than as seven
+     entries in a row. */
+  :where(.sds-prose) .sds-aside .contents li li { margin-bottom: var(--space-1); }
+  :where(.sds-prose) .sds-aside .contents li ul { padding-left: var(--space-3); }
 }
 
 /* A title over something that is not a section: a topic, or a sidebar, which

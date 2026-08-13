@@ -1327,11 +1327,20 @@ html:has(.sds-bar) {
    offset is the body's own top padding, so nothing jumps as it catches, and a
    list stopping flush under a translucent bar reads as text through glass. The
    floor is the same distance, so a long rail ends clear of the bottom edge. */
+/* And it is wider than the rail in it, by the room the one ring stands in. A
+   list that scrolls is a scroll container, a scroll container paints nothing
+   outside itself, and an item is the full width of this box — so the ring
+   around a focused page was cut off at both sides of it. The padding is that
+   room and the negative margin gives it back to the layout, which is why
+   nothing moved. */
 .sds-body__rail {
-  width: var(--width-sidebar);
+  width: calc(var(--width-sidebar) + var(--space-2) * 2);
+  margin-inline: calc(-1 * var(--space-2));
+  margin-block-start: calc(-1 * var(--space-1-5));
+  padding: var(--space-1-5) var(--space-2);
   flex: none;
   position: sticky;
-  top: calc(var(--height-header) + var(--space-8));
+  top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
   align-self: flex-start;
   max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
   overflow-y: auto;
