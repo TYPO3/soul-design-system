@@ -284,6 +284,16 @@ step is the caller's problem and the bar is a row of words.
    For a tab whose subject has one — a file type, a tool — never as decoration
    on a set that reads fine without.
 
+.. confval:: active
+   :name: sds-tabs-sds-tab-item-active
+   :type: boolean
+   :default: false
+
+   On ``sds-tab-item``: the panel that is showing. The set writes it, not a
+   page — a set claims its panels the moment it exists, and a panel nothing has
+   claimed shows regardless, which is what a panel is where nothing switches
+   it.
+
 .. confval:: sync
    :name: sds-tabs-sync
    :type: string
@@ -322,7 +332,7 @@ Questions with their answers folded behind them.
      <sds-accordion-item question="What does it need installed?" open>
        <p>PHP 8.2 or newer, and a project it can read.</p>
      </sds-accordion-item>
-     <sds-accordion-item question="Can it run in CI?">
+     <sds-accordion-item question="Can it run in CI?" anchor="in-ci">
        <p>Yes — the workflow is one job.</p>
      </sds-accordion-item>
    </sds-accordion>
@@ -334,7 +344,7 @@ that.
 
 .. confval:: entries
    :name: sds-accordion-sds-accordion-item-entries
-   :type: "{ question, answer, open? }[]"
+   :type: "{ question, answer, open?, anchor? }[]"
 
    Where a page has the questions as data. An answer that is blocks — what a
    documentation renderer hands over — goes between the tags as
@@ -355,6 +365,32 @@ that.
 
    What the set is called. Two exclusive groups on one page must not close each
    other's answers. The set tells its items, so a page says it once.
+
+.. confval:: question
+   :name: sds-accordion-sds-accordion-item-question
+   :type: string
+   :required: true
+
+   On ``sds-accordion-item``. What is asked, in the summary. The answer is
+   whatever stands between the tags, because paragraphs, lists and code blocks
+   are what no attribute can carry.
+
+.. confval:: open
+   :name: sds-accordion-sds-accordion-item-open
+   :type: boolean
+   :default: false
+
+   On ``sds-accordion-item``. Standing open — for the first answer on a page of
+   them, so the shape of an answer is visible without pressing anything.
+
+.. confval:: anchor
+   :name: sds-accordion-sds-accordion-item-anchor
+   :type: string
+
+   On ``sds-accordion-item``. The address of this one answer, and it lands on
+   the **answer** rather than on the question: a fragment pointing *into* a
+   ``<details>`` is what unfolds it, and one pointing *at* the element leaves it
+   shut. So there is no rule forcing the fold and nothing watching the hash.
 
 .. note::
 

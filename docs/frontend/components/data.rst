@@ -167,6 +167,14 @@ A fenced block, its head and its copy button.
    shell is an error. A browser with no clipboard gets no button: a control
    that cannot do its one job is worse than none.
 
+.. confval:: action
+   :name: sds-code-action
+   :type: markup
+
+   An affordance in the head that is **not** the copy button — a filename, a
+   count, a link to the file. It stands where that button would, so the two are
+   an either-or: for copying, set ``copy`` and let the component own it.
+
 .. note::
 
    A block that arrives **already coloured** is left alone. A build that
@@ -275,6 +283,14 @@ facts a machine would check against, and prose that runs to whole blocks.
    Anything else the source named, printed the same way and in the order it
    was named. The label is whatever it was called and is set as a label, so
    ``since`` stays ``since``.
+
+.. confval:: body
+   :name: sds-confval-body
+   :type: string | markup
+
+   The description, where a caller holds it as one string. Out of a document it
+   is blocks — paragraphs, a list, an admonition — and those are written
+   between the tags instead, which is what the entry keeps every one of.
 
 An entry is a hairline and what stands under it — no box, because a reference
 is dozens of these in a column and drawn as boxes it stops being a list. The

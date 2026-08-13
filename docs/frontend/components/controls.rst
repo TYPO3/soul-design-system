@@ -79,6 +79,24 @@ a name in mono, a count, or a glyph — none of which fits in a string.
 
    Required by an icon-only button, because nothing else names it.
 
+.. confval:: href
+   :name: sds-button-href
+   :type: string
+
+   Where it goes, for the press that is a link rather than an action. It renders
+   an ``<a>`` and nothing else changes — same classes, same shape, and the
+   browser's own middle-click, hover target and status line, none of which a
+   ``<button>`` with a handler on it has. A link cannot be disabled, so
+   ``disabled`` is dropped there: a control that must not be followed is one
+   that is not written.
+
+.. confval:: rel
+   :name: sds-button-rel
+   :type: string
+
+   What that link is to this page — ``prev``, ``next``, ``external``. Only with
+   ``href``, being the anchor's own attribute.
+
 .. confval:: for
    :name: sds-button-for
    :type: string
@@ -140,6 +158,17 @@ invisible to whatever reads the page as a document.
    follows is the component's decision and not the caller's: an arrow, a
    chevron or a caret says where pressing goes and follows the label;
    everything else says what the link is and leads it.
+
+.. confval:: bare
+   :name: sds-link-bare
+   :type: boolean
+   :default: false
+
+   The mark alone, with ``icon``: drawn at 24, the ``label`` carried for
+   whoever cannot see it, and the external glyph dropped — two marks on one
+   link say one thing twice. For a row of accounts at the end of a footer,
+   where a reader looks for marks by position, and nowhere a link stands in a
+   sentence.
 
 sds-badge
 =========

@@ -19,6 +19,15 @@ value for both modes. A diagram a tool exported is usually dark line art on
 nothing, and on a dark ground that is a page contradicting the picture it is
 showing.
 
+.. note::
+
+   ``sds-image``, ``sds-figure``, ``sds-card`` and ``sds-lightbox`` each take a
+   ``linked`` flag, and it is written by the build rather than by a page: an
+   SVG is referenced through ``id="art"`` on its root, a file that never named
+   one resolves to nothing, and only something with the file in front of it can
+   know that. The finishing step reads it and says so — see
+   :doc:`/guides-theme/publishing`.
+
 sds-image
 =========
 
