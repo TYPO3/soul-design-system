@@ -326,6 +326,12 @@ that stops working for a reader stops the site.
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.
 
+**Change a size or a gap** — `make rhythm` renders the screens and measures
+them against the scale and the grid, both read off `:root` so it cannot drift
+from the tokens. `ARGS` names one screen. A gap that is not a step and a
+whole-pixel size that is not on the scale are what it fails on; a fractional
+size is an optical `em` and it says so.
+
 **Ship to the design agent** — `make sync` (build + verify + status + plan);
 `make status`, `make plan`, `make synced` are the same steps individually. Set
 `SDS_DESIGN_PROJECT`, or a re-sync creates a new project instead of updating

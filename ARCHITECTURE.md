@@ -196,6 +196,13 @@ site is rendered along it, with the same file a reader runs.
   gap cannot be undercut, so the gap is the flow step and each heading adds
   its own margin above — 40, 32, 24 by level. It was one flat gap for
   everything, which is a column with no hierarchy in it at all.
+- **`make rhythm` reads the scale and the grid off `:root`.** It renders a
+  screen and measures it, so it holds no second copy of either and cannot
+  drift from the tokens. A whole-pixel size off the scale is a literal
+  somebody typed; a fractional one is an optical `em`, the correction mono
+  carries beside sans, which is a ratio of its context and can never land on
+  a step. It says which, and fails only on the first. A drawing is reported
+  apart: `SKILL.md` pins its own scale, down to a 13px floor.
 - **No half-pixel font sizes.** House rule. 121 of them were rounded half-up
   across the cards; `--font-size-code` went 13.5 → 13px to match the code
   blocks that already rendered at 13. Keep it that way — `make verify`

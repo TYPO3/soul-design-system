@@ -1,0 +1,338 @@
+<!-- @startingPoint section="Screens" subtitle="Every register under one another in one column — the page make rhythm measures" viewport="1440x900" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<title>TYPO3 Dev Companion — how this page is set</title>
+<link rel="stylesheet" href="../../packages/frontend/src/styles/styles.css" />
+</head>
+<body class="sds-app">
+<div class="sds-shell">
+  <a class="sds-skip sds-btn sds-btn--secondary" href="#main-content">Skip to content</a>
+  <header class="sds-bar">
+    <div class="sds-menu sds-menu--for">
+  <button
+    type="button"
+    class="sds-menu__toggle"
+    aria-expanded="false"
+    aria-controls="page-rail"
+    aria-label="Sections of this page"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-menu-sidebar-collapsed"><g fill="currentColor"><path d="M13 2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Zm-9 8.75a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5Zm0-2a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 3 8.75v-.5A.25.25 0 0 1 3.25 8h.5a.25.25 0 0 1 .25.25v.5Zm0-2a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 3 6.75v-.5A.25.25 0 0 1 3.25 6h.5a.25.25 0 0 1 .25.25v.5Zm0-2a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 3 4.75v-.5A.25.25 0 0 1 3.25 4h.5a.25.25 0 0 1 .25.25v.5ZM14 12c0 .551-.449 1-1 1H6V3h7c.551 0 1 .449 1 1v8Z"></path></g></svg></button>
+</div>
+    <a class="sds-lockup" href="#reading">
+      <svg class="sds-signet" width="24" height="24" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path stroke="var(--text-primary, #8A8378)" d="M10 20H3A2 2 0 0 1 1 18V11" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+  <rect fill="var(--text-primary, #8A8378)" x="6" y="8" width="2" height="8" rx="1"></rect>
+  <rect fill="var(--text-primary, #8A8378)" x="10" y="8" width="4" height="8" rx="1"></rect>
+  <rect fill="var(--text-primary, #8A8378)" x="16" y="8" width="2" height="8" rx="1"></rect>
+  <path stroke="var(--accent, #FF8700)" d="M14 4H21A2 2 0 0 1 23 6V13" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+</svg></svg>
+      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
+    </a>
+    <div class="sds-menu">
+  <button
+    type="button"
+    class="sds-menu__toggle"
+    aria-expanded="false"
+    aria-controls="sds-menu-15"
+    aria-label="Sections"
+    hidden><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-list"><g fill="currentColor"><path d="M2 3h2v1H2zM5 3h9v1H5zM2 6h2v1H2zM5 6h9v1H5zM2 9h2v1H2zM5 9h9v1H5zM2 12h2v1H2zM5 12h9v1H5z"></path></g></svg></button>
+  <nav
+    id="sds-menu-15"
+    class="sds-menu__items"
+    aria-label="Sections">
+    <a class="sds-pill" href="#">overview</a>
+    <a class="sds-pill" href="#">features</a>
+    <a class="sds-pill" href="#">documentation</a>
+    <a class="sds-pill" href="#">tools</a>
+    <a class="sds-pill is-active" href="#" aria-current="page">news</a>
+  </nav>
+</div>
+    <div class="sds-bar__end">
+      <span class="sds-badge sds-badge--accent">1.4.0</span>
+      <div class="sds-search">
+  <span class="sds-field">
+    <svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-search"><g fill="currentColor"><path d="M13.92 15c-.29 0-.56-.12-.76-.32l-2.89-2.88c-.98.68-2.16 1.04-3.36 1.04C3.65 12.85 1 10.2 1 6.92 1 3.65 3.65 1 6.92 1s5.92 2.65 5.92 5.92c0 1.19-.36 2.37-1.04 3.36l2.89 2.89c.19.19.31.47.31.76 0 .58-.49 1.07-1.08 1.07zm-7-12.58c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"></path></g></svg>
+    <input
+      class="sds-input"
+      type="text"
+      role="combobox"
+      aria-autocomplete="list"
+      autocomplete="off"
+      spellcheck="false"
+      value=""
+      placeholder="Search"
+      aria-label="Search"
+      aria-controls="sds-search-10"
+      aria-expanded="false"
+      
+      
+      
+    />
+  </span>
+  
+</div>
+      <div class="sds-modes" role="group" aria-label="Colour mode">
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">light</button>
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false">dark</button>
+</div>
+    </div>
+  </header>
+
+  <div class="sds-body">
+    <aside class="sds-body__rail" id="page-rail">
+      <nav class="sds-rail" aria-label="Pages">
+  
+  <a class="sds-rail__item is-active" href="#registers" aria-current="page">The two registers</a>
+  <a class="sds-rail__item" href="#blocks">What a block carries</a>
+  <a class="sds-rail__item" href="#step">The vertical step</a>
+  <a class="sds-rail__item" href="#values">Where a value comes from</a>
+  <a class="sds-rail__item" href="#questions">Questions</a>
+</nav>
+    </aside>
+
+    <main class="sds-column" id="main-content">
+      <nav class="sds-crumbs" aria-label="Breadcrumb">
+  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">How this is set</span>
+</nav>
+
+      <div class="sds-row">
+        <span class="sds-badge">reference</span>
+      </div>
+
+      <h1>How this page is set</h1>
+
+      <p class="sds-lead">
+        Every size on it comes off one scale and every gap off one grid. That is
+        not a house style — it is the only thing that lets a reader tell a
+        heading from a title from a label without reading any of them first.
+      </p>
+
+      <h2 class="sds-h3" id="registers">The two registers</h2>
+      <p>
+        A page is written in one of two voices and never between them. Running
+        text is the reading register: a paragraph at 17px, held to a measure,
+        with headings above it that get quieter as they get deeper. A product
+        surface is the dense register: the same scale, four steps down, because
+        a surface is scanned rather than read.
+      </p>
+      <p>
+        The mistake the scale exists to prevent is a third voice — a size chosen
+        for one component because neither register looked right that afternoon.
+        Every such size reads as a fourth level of hierarchy that means nothing.
+      </p>
+
+      <table class="sds-table sds-table--medium">
+        <thead><tr><th>Register</th><th>Steps</th><th>What it is for</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Display</td><td class="sds-td-name">58 / 44 / 34</td><td>A page opener and the two headings under it. Once each.</td>
+          </tr><tr>
+            <td>Reading</td><td class="sds-td-name">20 / 19 / 17</td><td>A third heading, a lead, and the paragraph everything else is measured against.</td>
+          </tr><tr>
+            <td>Dense</td><td class="sds-td-name">15 / 13</td><td>A block on a product surface, and every control on it.</td>
+          </tr><tr>
+            <td>Label</td><td class="sds-td-name">12 / 11</td><td>A machine name, a table head, a caption. Never a sentence.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="sds-h3" id="blocks">What a block carries</h2>
+      <p>
+        Anything with a heading over its own text carries a pair, and the pair
+        moves together. A note, a surface and an empty state are the quiet
+        pair; a card, a teaser and a result are the louder one, because their
+        title is somewhere you can go rather than something you read.
+      </p>
+
+      <div class="sds-note sds-note--info">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info"><g fill="currentColor"><path d="M7 2.25c0-.14.11-.25.25-.25h1.5c.14 0 .25.11.25.25v1.5c0 .14-.11.25-.25.25h-1.5C7.11 4 7 3.89 7 3.75v-1.5zM10.75 14h-5.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25H7V8h-.75C6.11 8 6 7.89 6 7.75v-1.5A.25.25 0 0 1 6.25 6h2.5a.25.25 0 0 1 .25.25V12h1.75a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">A title never keeps a register its body has left</div>
+    <div class="sds-note__body">The pair is one decision. When a document rebinds the body to the page&#39;s own size, the title moves with it — otherwise the distance between the two changes with the surroundings, which is the one thing a reader is entitled to find constant.</div>
+  </div>
+</div>
+
+      <p>
+        Below is the same content twice: once as an entry, whose title is a
+        destination, and once as a surface, which is a boxed statement and goes
+        nowhere. Nothing but the register separates them.
+      </p>
+
+      <div class="sds-grid sds-grid--wide">
+        <article class="sds-card">
+  
+  <div class="sds-card__body">
+    
+    <div class="sds-label">entry</div>
+    <h3 class="sds-card__title"><a href="#blocks">An entry</a></h3>
+    <p class="sds-card__text">Its title is a link, so it carries the louder of the two registers and a page of them can be scanned by title alone.</p>
+  </div>
+  
+</article>
+        <div class="sds-panel" style="flex:1; min-width:200px">
+  
+  
+  <div class="sds-surface-title">A surface</div>
+  <div class="sds-surface-body">It states something in place. The quiet register, because nothing here is a destination and a title that looks like one is a promise the box does not keep.</div>
+</div>
+      </div>
+
+      <h2 class="sds-h3" id="step">The vertical step</h2>
+      <p>
+        What separates two things on a page is the air between them, and the air
+        is what says which of them owns the other. A second-level heading takes
+        40px above it and 12px below: the large gap belongs to the section it
+        opens, the small one binds it to the paragraph it introduces.
+      </p>
+      <p>
+        Get that pair backwards and the heading floats between two sections
+        belonging to neither, which is the most common way a page with correct
+        sizes still reads as a list of fragments.
+      </p>
+
+      <figure class="sds-quote">
+  <blockquote class="sds-quote__body">A heading is the top of what follows, not a gap after what came before.</blockquote>
+  <figcaption class="sds-quote__by">document.css · the rule the layer is built on</figcaption>
+</figure>
+
+      <h2 class="sds-h3" id="values">Where a value comes from</h2>
+      <p>
+        A token, or it is a defect. The scale holds the sizes and the grid holds
+        the gaps, and a component that needs something between two steps has
+        found either a missing step or a decision it should not be making alone.
+      </p>
+
+      <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">css</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><code class="language-css"><span class="hljs-comment">/* the pair a block carries, and where it is bound */</span>
+<span class="hljs-selector-class">.sds-note__title</span> { <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">var</span>(--block-title-size); }
+<span class="hljs-selector-class">.sds-note__body</span>  { <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">var</span>(--block-body-size); }
+
+<span class="hljs-comment">/* what a document does to both of them at once */</span>
+<span class="hljs-selector-pseudo">:where</span>(<span class="hljs-selector-class">.sds-prose</span>) <span class="hljs-selector-class">.sds-note</span> {
+  <span class="hljs-attr">--block-title-size</span>: <span class="hljs-built_in">var</span>(--font-size-body);
+  <span class="hljs-attr">--block-body-size</span>: <span class="hljs-built_in">var</span>(--font-size-body);
+}</code></pre>
+</div>
+
+      <div class="sds-row">
+        <div class="sds-stat">
+  <div class="sds-stat__value">10</div>
+  <div class="sds-label">type steps</div>
+  <div class="sds-stat__note">every size on every surface</div>
+</div>
+        <div class="sds-stat">
+  <div class="sds-stat__value">14</div>
+  <div class="sds-label">space steps</div>
+  <div class="sds-stat__note">halved below 16px, thinning above 24</div>
+</div>
+        <div class="sds-stat">
+  <div class="sds-stat__value">2</div>
+  <div class="sds-label">block registers</div>
+  <div class="sds-stat__note">quiet, and the one that goes somewhere</div>
+</div>
+      </div>
+
+      <h2 class="sds-h3" id="questions">Questions</h2>
+      <div class="sds-accordion">
+  <details
+    class="sds-accordion__item"
+    name="reading"
+    open>
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Why is a block smaller than the text around it?</summary>
+    <div class="sds-accordion__body">On a product surface it is not smaller than anything — the
+      surface is written in the dense register throughout. In a document it
+      stops being dense: the block takes the page's own size, so an admonition
+      is the paragraph above it with a border around it.</div>
+  </details><details
+    class="sds-accordion__item"
+    name="reading">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Where does a value that is not on the scale come from?</summary>
+    <div class="sds-accordion__body">Nowhere it is allowed to. A size that is not a
+      <span class="sds-mono">--font-size-*</span> and a gap that is not a
+      <span class="sds-mono">--space-*</span> are both values somebody typed,
+      and <span class="sds-mono">make rhythm</span> is what finds them.</div>
+  </details><details
+    class="sds-accordion__item"
+    name="reading">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>What decides how much air a heading gets above it?</summary>
+    <div class="sds-accordion__body">Its level. The step above a heading is what says which one it is — the size only confirms it, and at the fourth level the size has stopped changing altogether.</div>
+  </details>
+</div>
+
+      <article class="sds-teaser">
+  
+  <div class="sds-teaser__body">
+    <div class="sds-row">
+      <span class="sds-badge">reference</span>
+      <span class="sds-label">tokens</span>
+    </div>
+    <h3 class="sds-teaser__title"><a href="#registers">The tokens themselves</a></h3>
+    <p class="sds-teaser__text">Every value named above, with what it is for and what it is never for.</p>
+  </div>
+</article>
+    </main>
+  </div>
+
+  <footer class="sds-footer">
+  <div class="sds-footer__top">
+    <div class="sds-footer__brand">
+      <span class="sds-lockup">
+      <svg class="sds-signet" width="24" height="24" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path stroke="var(--text-primary, #8A8378)" d="M10 20H3A2 2 0 0 1 1 18V11" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+  <rect fill="var(--text-primary, #8A8378)" x="6" y="8" width="2" height="8" rx="1"></rect>
+  <rect fill="var(--text-primary, #8A8378)" x="10" y="8" width="4" height="8" rx="1"></rect>
+  <rect fill="var(--text-primary, #8A8378)" x="16" y="8" width="2" height="8" rx="1"></rect>
+  <path stroke="var(--accent, #FF8700)" d="M14 4H21A2 2 0 0 1 23 6V13" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+</svg></svg>
+      <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
+    </span>
+      <p class="sds-footer__note">An independent development tool. Not a product of the TYPO3 Association, and not endorsed by it.</p>
+    </div>
+    <div class="sds-footer__groups">
+      <div class="sds-footer__group">
+        <div class="sds-label">Product</div>
+        <div class="sds-footer__links">
+          <a class="sds-link" href="#">Overview</a><a class="sds-link" href="#">Features</a><a class="sds-link" href="#">Tool reference</a><a class="sds-link" href="#">Releases</a>
+        </div>
+      </div><div class="sds-footer__group">
+        <div class="sds-label">Documentation</div>
+        <div class="sds-footer__links">
+          <a class="sds-link" href="#">Installing the server</a><a class="sds-link" href="#">Writing a task skill</a><a class="sds-link" href="#">Sources and preconditions</a><a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+        </div>
+      </div><div class="sds-footer__group">
+        <div class="sds-label">Project</div>
+        <div class="sds-footer__links">
+          <a class="sds-link" href="#">What is written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
+        </div>
+      </div><div class="sds-footer__group">
+        <div class="sds-label">Community</div>
+        <div class="sds-footer__links">
+          <a class="sds-link sds-link--external" href="https://github.com" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-github"><g fill="currentColor"><path d="M8.006 1C4.132 1 1 4.155 1 8.058c0 3.12 2.007 5.76 4.79 6.695.348.07.476-.152.476-.338 0-.164-.012-.725-.012-1.31-1.948.422-2.354-.84-2.354-.84-.313-.819-.777-1.029-.777-1.029-.638-.432.046-.432.046-.432.708.047 1.079.724 1.079.724.626 1.075 1.635.772 2.041.585.058-.456.244-.772.44-.947-1.553-.164-3.189-.771-3.189-3.482 0-.771.278-1.402.72-1.893-.07-.175-.314-.9.069-1.87 0 0 .591-.187 1.925.725a6.736 6.736 0 0 1 1.752-.234c.591 0 1.194.082 1.751.234 1.334-.912 1.926-.725 1.926-.725.383.97.139 1.695.07 1.87.452.49.718 1.122.718 1.893 0 2.71-1.635 3.307-3.201 3.482.255.222.476.643.476 1.309 0 .946-.012 1.706-.012 1.94 0 .186.128.409.476.338A7.053 7.053 0 0 0 15 8.058C15.011 4.155 11.868 1 8.006 1Z"></path></g></svg>Repository <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-slack"><g fill="currentColor"><path d="M6.1 1c-.7 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4h1.4V2.4c0-.8-.6-1.4-1.4-1.4m0 3.7H2.4c-.8 0-1.4.7-1.4 1.4 0 .8.6 1.4 1.4 1.4h3.7c.8 0 1.4-.6 1.4-1.4 0-.7-.6-1.4-1.4-1.4M15 6.1c0-.8-.6-1.4-1.4-1.4s-1.4.6-1.4 1.4v1.4h1.4c.8 0 1.4-.6 1.4-1.4m-3.7 0V2.4c0-.8-.6-1.4-1.4-1.4-.8 0-1.4.6-1.4 1.4v3.7c0 .8.6 1.4 1.4 1.4.7 0 1.4-.6 1.4-1.4M9.9 15c.8 0 1.4-.6 1.4-1.4 0-.8-.6-1.4-1.4-1.4H8.5v1.4c0 .8.6 1.4 1.4 1.4m0-3.7h3.7c.8 0 1.4-.6 1.4-1.4 0-.8-.6-1.4-1.4-1.4H9.9c-.8 0-1.4.6-1.4 1.4 0 .7.6 1.4 1.4 1.4M1 9.9c0 .8.6 1.4 1.4 1.4.8 0 1.4-.6 1.4-1.4V8.5H2.4c-.8 0-1.4.6-1.4 1.4m3.7 0v3.7c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4V9.9c0-.8-.6-1.4-1.4-1.4-.7 0-1.4.6-1.4 1.4"></path></g></svg>Slack <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-mastodon"><g fill="currentColor"><path d="M14.587 4.1c-.204-1.505-1.53-2.69-3.1-2.92C11.22 1.141 10.216 1 7.89 1h-.018c-2.327 0-2.826.141-3.091.18-1.528.223-2.922 1.289-3.26 2.81-.164.75-.181 1.581-.15 2.344.042 1.093.05 2.184.151 3.273.07.723.19 1.44.362 2.147.322 1.304 1.624 2.39 2.9 2.832a7.858 7.858 0 0 0 4.242.222c.155-.036.308-.077.46-.124.341-.108.742-.228 1.037-.44a.033.033 0 0 0 .013-.025v-1.055a.031.031 0 0 0-.024-.03.032.032 0 0 0-.014 0 11.88 11.88 0 0 1-2.753.319c-1.596 0-2.025-.75-2.148-1.061a3.257 3.257 0 0 1-.186-.836.03.03 0 0 1 .024-.032h.014c.887.212 1.796.319 2.708.319.22 0 .438 0 .658-.006.917-.025 1.884-.072 2.787-.246l.064-.014c1.424-.27 2.779-1.12 2.917-3.269.005-.085.018-.886.018-.974 0-.299.097-2.117-.015-3.235zm-2.19 5.363h-1.498V5.836c0-.764-.322-1.153-.976-1.153-.72 0-1.08.46-1.08 1.37V8.04H7.355V6.054c0-.91-.36-1.371-1.08-1.371-.65 0-.975.39-.976 1.153v3.627H3.803V5.726c0-.764.197-1.37.591-1.82.407-.449.94-.679 1.602-.679.767 0 1.346.292 1.732.874l.372.618.373-.618c.386-.582.965-.874 1.73-.874.662 0 1.195.23 1.603.679.394.45.591 1.056.591 1.82v3.737z"></path></g></svg>Mastodon <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-bluesky"><g fill="currentColor"><path d="M4.034 2.67C5.64 3.874 7.367 6.316 8 7.628c.633-1.309 2.36-3.751 3.966-4.956C13.124 1.8 15 1.13 15 3.27c0 .426-.245 3.589-.388 4.103-.5 1.782-2.321 2.239-3.941 1.961 2.83.482 3.55 2.077 1.994 3.672-2.954 3.031-4.244-.759-4.574-1.73-.047-.135-.072-.214-.091-.214s-.044.082-.09.214c-.33.971-1.624 4.761-4.575 1.73-1.554-1.595-.836-3.19 1.994-3.672-1.62.278-3.44-.179-3.938-1.964C1.245 6.857 1 3.694 1 3.268c0-2.14 1.876-1.47 3.034-.6v.003Z"></path></g></svg>Bluesky <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+        </div>
+      </div><div class="sds-footer__group">
+        <div class="sds-label">Legal</div>
+        <div class="sds-footer__links">
+          <a class="sds-link" href="#">Licence</a><a class="sds-link" href="#">Imprint</a><a class="sds-link" href="#">Privacy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sds-footer__end">
+    
+    <a class="sds-link" href="#">MIT</a><a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+    
+  </div>
+</footer>
+</div>
+</body>
+</html>
