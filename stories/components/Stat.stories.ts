@@ -14,7 +14,7 @@ import '../../packages/frontend/src/components/stat.ts';
 import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
 import { NNBSP } from '../lib/specimen.ts';
 
-const sdsStat = ({ value, label, note }: StatProps) =>
+export const sdsStat = ({ value, label, note }: StatProps) =>
   html`<sds-stat value="${value}" label="${label}" .note="${note ?? ''}"></sds-stat>`;
 
 /** The set the feature page shows, in the order it shows them. Exported so

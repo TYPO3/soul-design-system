@@ -13,7 +13,7 @@ import '../../packages/frontend/src/components/accordion.ts';
 import '../../packages/frontend/src/components/code.ts';
 import { type AccordionProps, type Entry } from '../../packages/frontend/src/components/accordion.ts';
 
-const sdsAccordion = ({ entries, multiple = false, name }: AccordionProps) =>
+export const sdsAccordion = ({ entries, multiple = false, name }: AccordionProps) =>
   html`<sds-accordion .entries="${entries}" ?multiple="${multiple}" name="${name ?? 'sds-accordion'}"></sds-accordion>`;
 
 /** The set the FAQ page asks. Exported so the page composes these rather than

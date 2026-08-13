@@ -29,7 +29,7 @@ import { type SurfaceProps } from '../../packages/frontend/src/components/surfac
 import { sdsCard } from './Card.stories.ts';
 import { dsCard, indent, part, px, spec, specCap } from '../lib/specimen.ts';
 
-const sdsSurface = ({ plane = 'raised', title, body, label, icon }: SurfaceProps) =>
+export const sdsSurface = ({ plane = 'raised', title, body, label, icon }: SurfaceProps) =>
   html`<sds-surface plane="${plane}" heading="${title}" .body="${body}" label="${label ?? ''}" icon="${ifDefined(icon)}"></sds-surface>`;
 
 /** A plane with a wash and a modal over it — the only arrangement in which

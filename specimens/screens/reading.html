@@ -114,11 +114,11 @@
 
       <h2 class="sds-h3" id="registers">The two registers</h2>
       <p>
-        A page is written in one of two voices and never between them. Running
-        text is the reading register: a paragraph at 16px, held to a measure,
-        with headings above it that get quieter as they get deeper. A product
-        surface is the dense register: the same scale, four steps down, because
-        a surface is scanned rather than read.
+        Running text is the reading register: a paragraph at 16px, held to a
+        measure, with headings above it that get quieter as they get deeper.
+        Anything the machine wrote — a control, a table row, a code block —
+        runs on the same scale a few steps down, because it is scanned rather
+        than read.
       </p>
       <p>
         The mistake the scale exists to prevent is a third voice — a size chosen
@@ -132,9 +132,9 @@
           <tr>
             <td>Display</td><td class="sds-td-name">58 / 44 / 34</td><td>A page opener and the two headings under it. Once each.</td>
           </tr><tr>
-            <td>Reading</td><td class="sds-td-name">20 / 19 / 17</td><td>A third heading, a lead, and the paragraph everything else is measured against.</td>
+            <td>Reading</td><td class="sds-td-name">20 / 19 / 16</td><td>A third heading, a lead, and the paragraph everything else is measured against.</td>
           </tr><tr>
-            <td>Dense</td><td class="sds-td-name">15 / 13</td><td>A surface that is scanned, every control on it, and everything the machine wrote.</td>
+            <td>Dense</td><td class="sds-td-name">14 / 13</td><td>Every control, every table row, and everything the machine wrote.</td>
           </tr><tr>
             <td>Label</td><td class="sds-td-name">12 / 11</td><td>A machine name, a table head, a caption. Never a sentence.</td>
           </tr>
@@ -143,24 +143,26 @@
 
       <h2 class="sds-h3" id="blocks">What a block carries</h2>
       <p>
-        Anything with a heading over its own text carries a pair, and the pair
-        moves together. A note, a surface and an empty state are the quiet
-        pair; a card, a teaser and a result are the louder one, because their
-        title is somewhere you can go rather than something you read.
+        Anything with a heading over its own text is read, so its body is the
+        page's own size. Only the title tells two kinds apart: a card, a teaser
+        and a result carry the louder one, because their title is somewhere you
+        can go rather than something you read.
       </p>
 
       <div class="sds-note sds-note--info">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info"><g fill="currentColor"><path d="M7 2.25c0-.14.11-.25.25-.25h1.5c.14 0 .25.11.25.25v1.5c0 .14-.11.25-.25.25h-1.5C7.11 4 7 3.89 7 3.75v-1.5zM10.75 14h-5.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25H7V8h-.75C6.11 8 6 7.89 6 7.75v-1.5A.25.25 0 0 1 6.25 6h2.5a.25.25 0 0 1 .25.25V12h1.75a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25z"></path></g></svg></span>
   <div class="sds-note__content">
-    <div class="sds-note__title">A title never keeps a register its body has left</div>
-    <div class="sds-note__body">The pair is one decision. When a document rebinds the body to the page&#39;s own size, the title moves with it — otherwise the distance between the two changes with the surroundings, which is the one thing a reader is entitled to find constant.</div>
+    <div class="sds-note__title">A block is read at the page it stands on</div>
+    <div class="sds-note__body">There is no second register to rebind and nothing to keep in step. What
+          is dense is what the machine wrote — a control, a row, a code block, the
+          line about the thing beside it — and each of those says so itself.</div>
   </div>
 </div>
 
       <p>
-        Below is the same content twice: once as an entry, whose title is a
-        destination, and once as a surface, which is a boxed statement and goes
-        nowhere. Nothing but the register separates them.
+        Below is the same shape twice: once as an entry, whose title is a
+        destination, and once as a surface, which states something in place.
+        The bodies are one size and only the titles differ.
       </p>
 
       <div class="sds-grid sds-grid--wide">
@@ -170,7 +172,7 @@
     
     <div class="sds-label">entry</div>
     <h3 class="sds-card__title"><a href="#blocks">An entry</a></h3>
-    <p class="sds-card__text">Its title is a link, so it carries the louder of the two registers and a page of them can be scanned by title alone.</p>
+    <p class="sds-card__text">Its title is a link, so it is the louder of the two and a page of them can be scanned by title alone.</p>
   </div>
   
 </article>
@@ -178,7 +180,7 @@
   
   
   <div class="sds-surface-title">A surface</div>
-  <div class="sds-surface-body">It states something in place. The quiet register, because nothing here is a destination and a title that looks like one is a promise the box does not keep.</div>
+  <div class="sds-surface-body">It states something in place. Its title stays the quieter one, because nothing here is a destination and a title that looks like one is a promise the box does not keep.</div>
 </div>
       </div>
 
@@ -186,8 +188,8 @@
       <p>
         What separates two things on a page is the air between them, and the air
         is what says which of them owns the other. A second-level heading takes
-        40px above it and 12px below: the large gap belongs to the section it
-        opens, the small one binds it to the paragraph it introduces.
+        40px above it and the flow gap below: the large one belongs to the
+        section it opens, the small one binds it to what it introduces.
       </p>
       <p>
         Get that pair backwards and the heading floats between two sections
@@ -228,16 +230,14 @@
   <div class="sds-stat__value">10</div>
   <div class="sds-label">type steps</div>
   <div class="sds-stat__note">every size on every surface</div>
-</div>
-        <div class="sds-stat">
+</div><div class="sds-stat">
   <div class="sds-stat__value">14</div>
   <div class="sds-label">space steps</div>
   <div class="sds-stat__note">halved below 16px, thinning above 24</div>
-</div>
-        <div class="sds-stat">
-  <div class="sds-stat__value">2</div>
-  <div class="sds-label">block registers</div>
-  <div class="sds-stat__note">quiet, and the one that goes somewhere</div>
+</div><div class="sds-stat">
+  <div class="sds-stat__value">1</div>
+  <div class="sds-label">register for a block</div>
+  <div class="sds-stat__note">it is read, so it is set at the page</div>
 </div>
       </div>
 
@@ -247,12 +247,11 @@
     class="sds-accordion__item"
     name="reading"
     open>
-    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Why is a block smaller than the text around it?</summary>
-    <div class="sds-accordion__body">Where it is scanned it is not smaller than anything, because
-      everything around it is written in the dense register too. Where it is
-      read — a document, or a reading column like this one — the block takes
-      the page's own size, and an admonition is the paragraph above it with a
-      border around it.</div>
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Is a block smaller than the text around it?</summary>
+    <div class="sds-accordion__body">It is not. A block holding sentences is read, so it is set at
+      the page's own size wherever it stands — an admonition is the paragraph
+      above it with a border around it. What stays small is what the machine
+      wrote, and a caption, which is a label rather than a sentence.</div>
   </details><details
     class="sds-accordion__item"
     name="reading">

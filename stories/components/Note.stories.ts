@@ -11,9 +11,19 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/code.ts';
 import { type NoteProps } from '../../packages/frontend/src/components/note.ts';
+
+
+export const sdsNote = ({ tone, heading, body, icon }: NoteProps) =>
+  html`<sds-note
+    tone="${ifDefined(tone)}"
+    heading="${ifDefined(heading)}"
+    .body="${body ?? ''}"
+    icon="${ifDefined(icon)}"
+  ></sds-note>`;
 
 const meta: Meta<NoteProps> = {
   title: 'Components/Note',

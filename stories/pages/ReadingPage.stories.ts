@@ -29,6 +29,13 @@ import '../../packages/frontend/src/components/teaser.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
 import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
+import { sdsAccordion } from '../components/Accordion.stories.ts';
+import { sdsCard } from '../components/Card.stories.ts';
+import { sdsNote } from '../components/Note.stories.ts';
+import { sdsQuote } from '../components/Quote.stories.ts';
+import { sdsStat } from '../components/Stat.stories.ts';
+import { sdsSurface } from '../components/Surface.stories.ts';
+import { sdsTeaser } from '../components/Teaser.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode, skipLink } from '../lib/page.ts';
@@ -50,19 +57,25 @@ const CONTENTS: readonly RailEntry[] = [
     step is for, and what it is never for. */
 const REGISTERS = [
   ['Display', '58 / 44 / 34', 'A page opener and the two headings under it. Once each.'],
-  ['Reading', '20 / 19 / 17', 'A third heading, a lead, and the paragraph everything else is measured against.'],
-  ['Dense', '15 / 13', 'A surface that is scanned, every control on it, and everything the machine wrote.'],
+  ['Reading', '20 / 19 / 16', 'A third heading, a lead, and the paragraph everything else is measured against.'],
+  ['Dense', '14 / 13', 'Every control, every table row, and everything the machine wrote.'],
   ['Label', '12 / 11', 'A machine name, a table head, a caption. Never a sentence.'],
 ] as const;
 
+/** What the page counts, as the stat story takes it. */
+const FACTS = [
+  { value: '10', label: 'type steps', note: 'every size on every surface' },
+  { value: '14', label: 'space steps', note: 'halved below 16px, thinning above 24' },
+  { value: '1', label: 'register for a block', note: 'it is read, so it is set at the page' },
+];
+
 const QUESTIONS: readonly Entry[] = [
   {
-    question: 'Why is a block smaller than the text around it?',
-    answer: html`Where it is scanned it is not smaller than anything, because
-      everything around it is written in the dense register too. Where it is
-      read — a document, or a reading column like this one — the block takes
-      the page's own size, and an admonition is the paragraph above it with a
-      border around it.`,
+    question: 'Is a block smaller than the text around it?',
+    answer: html`It is not. A block holding sentences is read, so it is set at
+      the page's own size wherever it stands — an admonition is the paragraph
+      above it with a border around it. What stays small is what the machine
+      wrote, and a caption, which is a label rather than a sentence.`,
     open: true,
   },
   {
@@ -127,11 +140,11 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
 
       <h2 class="sds-h3" id="registers">The two registers</h2>
       <p>
-        A page is written in one of two voices and never between them. Running
-        text is the reading register: a paragraph at 16px, held to a measure,
-        with headings above it that get quieter as they get deeper. A product
-        surface is the dense register: the same scale, four steps down, because
-        a surface is scanned rather than read.
+        Running text is the reading register: a paragraph at 16px, held to a
+        measure, with headings above it that get quieter as they get deeper.
+        Anything the machine wrote — a control, a table row, a code block —
+        runs on the same scale a few steps down, because it is scanned rather
+        than read.
       </p>
       <p>
         The mistake the scale exists to prevent is a third voice — a size chosen
@@ -143,46 +156,47 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
 
       <h2 class="sds-h3" id="blocks">What a block carries</h2>
       <p>
-        Anything with a heading over its own text carries a pair, and the pair
-        moves together. A note, a surface and an empty state are the quiet
-        pair; a card, a teaser and a result are the louder one, because their
-        title is somewhere you can go rather than something you read.
+        Anything with a heading over its own text is read, so its body is the
+        page's own size. Only the title tells two kinds apart: a card, a teaser
+        and a result carry the louder one, because their title is somewhere you
+        can go rather than something you read.
       </p>
 
-      <sds-note
-        tone="info"
-        icon="actions-info"
-        heading="A title never keeps a register its body has left"
-        body="The pair is one decision. When a document rebinds the body to the page's own size, the title moves with it — otherwise the distance between the two changes with the surroundings, which is the one thing a reader is entitled to find constant."
-      ></sds-note>
+      ${sdsNote({
+        tone: 'info',
+        icon: 'actions-info',
+        heading: 'A block is read at the page it stands on',
+        body: `There is no second register to rebind and nothing to keep in step. What
+          is dense is what the machine wrote — a control, a row, a code block, the
+          line about the thing beside it — and each of those says so itself.`,
+      })}
 
       <p>
-        Below is the same content twice: once as an entry, whose title is a
-        destination, and once as a surface, which is a boxed statement and goes
-        nowhere. Nothing but the register separates them.
+        Below is the same shape twice: once as an entry, whose title is a
+        destination, and once as a surface, which states something in place.
+        The bodies are one size and only the titles differ.
       </p>
 
       <div class="sds-grid sds-grid--wide">
-        <sds-card
-          heading="An entry"
-          body="Its title is a link, so it carries the louder of the two registers and a page of them can be scanned by title alone."
-          label="entry"
-          href="#blocks"
-          linked
-        ></sds-card>
-        <sds-surface
-          heading="A surface"
-          body="It states something in place. The quiet register, because nothing here is a destination and a title that looks like one is a promise the box does not keep."
-          plane="raised"
-        ></sds-surface>
+        ${sdsCard({
+          heading: 'An entry',
+          body: 'Its title is a link, so it is the louder of the two and a page of them can be scanned by title alone.',
+          label: 'entry',
+          href: '#blocks',
+        })}
+        ${sdsSurface({
+          plane: 'raised',
+          title: 'A surface',
+          body: 'It states something in place. Its title stays the quieter one, because nothing here is a destination and a title that looks like one is a promise the box does not keep.',
+        })}
       </div>
 
       <h2 class="sds-h3" id="step">The vertical step</h2>
       <p>
         What separates two things on a page is the air between them, and the air
         is what says which of them owns the other. A second-level heading takes
-        40px above it and 12px below: the large gap belongs to the section it
-        opens, the small one binds it to the paragraph it introduces.
+        40px above it and the flow gap below: the large one belongs to the
+        section it opens, the small one binds it to what it introduces.
       </p>
       <p>
         Get that pair backwards and the heading floats between two sections
@@ -190,11 +204,11 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
         sizes still reads as a list of fragments.
       </p>
 
-      <sds-quote
-        body="A heading is the top of what follows, not a gap after what came before."
-        by="document.css"
-        as="the rule the layer is built on"
-      ></sds-quote>
+      ${sdsQuote({
+        body: 'A heading is the top of what follows, not a gap after what came before.',
+        by: 'document.css',
+        as: 'the rule the layer is built on',
+      })}
 
       <h2 class="sds-h3" id="values">Where a value comes from</h2>
       <p>
@@ -218,22 +232,19 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
       ></sds-code>
 
       <div class="sds-stats">
-        <sds-stat value="10" label="type steps" note="every size on every surface"></sds-stat>
-        <sds-stat value="14" label="space steps" note="halved below 16px, thinning above 24"></sds-stat>
-        <sds-stat value="2" label="block registers" note="quiet, and the one that goes somewhere"></sds-stat>
+        ${FACTS.map(sdsStat)}
       </div>
 
       <h2 class="sds-h3" id="questions">Questions</h2>
-      <sds-accordion .entries="${QUESTIONS}" name="reading"></sds-accordion>
+      ${sdsAccordion({ entries: QUESTIONS, name: 'reading' })}
 
-      <sds-teaser
-        heading="The tokens themselves"
-        body="Every value named above, with what it is for and what it is never for."
-        tag="reference"
-        meta="tokens"
-        href="#registers"
-        linked
-      ></sds-teaser>
+      ${sdsTeaser({
+        heading: 'The tokens themselves',
+        body: 'Every value named above, with what it is for and what it is never for.',
+        tag: 'reference',
+        meta: 'tokens',
+        href: '#registers',
+      })}
     </main>
   </div>
 
