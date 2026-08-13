@@ -172,9 +172,9 @@ is published, so a reader with no JavaScript gets the whole of it.
 
 [The theme's own manual](https://benjaminkott.github.io/typo3-soul-design-system/guides-theme/index.html)
 is rendered with it: installation, every setting in `guides.xml`, every
-directive below with a rendered example, and what each node the renderer emits
-comes out as. The page *A
-project to copy* prints the two files a project needs, whole.
+directive above with a rendered example, and what each node the renderer emits
+comes out as. The page *A project to copy* prints the settings file and the
+workflow a project needs, whole.
 
 ## Licence
 

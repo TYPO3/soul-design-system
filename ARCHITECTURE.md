@@ -274,7 +274,7 @@ source of truth: `components.css` is still it.
 
 What the system now ships, and what it costs:
 
-- Nine Lit elements in `packages/frontend/src/`, bundled into `_ds_bundle.js` and published as
+- The Lit elements in `packages/frontend/src/`, bundled into `_ds_bundle.js` and published as
   ESM from `packages/frontend/dist/`. `_adherence.oxlintrc.json` should now come back with real
   entries instead of the empty `react/forbid-elements`,
   `no-restricted-imports` and `x-omelette.components` it used to — **check
@@ -288,7 +288,7 @@ What the system now ships, and what it costs:
 
 ## Cards are generated from stories
 
-The seven cards under `components/` are **generated** — edit
+The cards under `components/` are **generated** — edit
 `stories/*.stories.ts`, never the card. `make cards` writes them and
 `make cards ARGS=--check` fails on a stale one, which is step 5 of verify.
 
@@ -318,7 +318,7 @@ pasted path. Numeric entities became the literal characters they encode
 throughout.
 
 The pixel diff is the check that made that migration safe, and it earned it:
-six cards carry both modes inside them and must pin neither on `<html>`.
+a card carrying both modes inside it must pin neither on `<html>`.
 Pinning one turned the ground under the diagram figures from paper to
 terminal — a quarter of the card — and no other check in the repo would have
 noticed.
@@ -562,9 +562,9 @@ green with `create()`, red with the partial it was written for.
   verbatim into `Density.prompt.md` — which the design agent reads — and
   double-escaped anywhere it was rendered as text. The generated cards now
   write the literal
-  character, which fixes it for the seven; **the guideline cards were not
-  audited for this.** Grep `guidelines/*.card.html` for `&#` in a `@dsCard`
-  line.
+  character, which fixes it for the generated ones; **the guideline cards were
+  not audited for this.** Grep `guidelines/*.card.html` for `&#` in a
+  `@dsCard` line.
 - **`sds-code` depends on a specimen class.** The code block's language label
   carries `spec-cap`, which is defined only in `_specimen.css` — deliberately
   outside the `styles.css` closure. A product surface using `sds-code` gets

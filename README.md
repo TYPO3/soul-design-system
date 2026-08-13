@@ -53,8 +53,8 @@ Documentation is the half of that which is easy to miss. `docs/` renders
 through `packages/guides-theme/`, so a project's pages come out with the same
 navigation, the same code blocks and the same search as every other project's —
 which is what makes an answer findable across them rather than merely
-published somewhere. Taking it is two files and three commands, printed whole
-in `docs/guides-theme/`.
+published somewhere. Taking it is a settings file, a workflow and the commands
+between them, printed whole in `docs/guides-theme/`.
 
 **And it does not stop at documentation.** A project also has to present
 itself — a landing page, a feature or comparison page, a download, the page

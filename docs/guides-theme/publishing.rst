@@ -4,11 +4,12 @@
 Publishing it, in CI
 =====================
 
-Three commands turn a directory of documents into the site this manual is: one
-builds the renderer, one writes the documents, one turns what was written into
-a site. The workflow below is those three with a checkout in front and a deploy
-behind — the same three this site is rendered with, and the last is a file out
-of the package rather than a script you are asked to write.
+A directory of documents becomes the site this manual is by running the
+commands below: one builds the renderer, one writes the documents, one turns
+what was written into a site. The workflow after them is the same run with a
+checkout in front and a deploy behind — the commands this site is rendered
+with, and the last is a file out of the package rather than a script you are
+asked to write.
 
 .. code-block:: bash
 
@@ -24,8 +25,8 @@ What the renderer does not do
 =============================
 
 The second command writes documents and stops there. It knows nothing about
-the three things a page in this theme still needs, and each of them is
-something a project finds out about the hard way:
+what a page in this theme still needs, and each of these is something a
+project finds out about the hard way:
 
 - the drop-in — the stylesheet, the script and the faces — standing at the
   site root, copied **whole**;
@@ -104,7 +105,7 @@ The workflow
    :language: yaml
    :caption: .github/workflows/publish.yml
 
-Four things in it are worth reading rather than copying.
+What is worth reading in it rather than copying:
 
 **One checkout, and a renderer built beside it.** The repository holds
 documents and this file — no manifest, no lock file. The drop-in and the
@@ -144,9 +145,10 @@ a build that worked.
 Without GitHub
 ==============
 
-Nothing above is specific to Actions. The three commands are the build; what a
-different runner needs is PHP with Composer, Node, and somewhere to put a
-directory of static files. There is no server-side anything in the output:
+Nothing above is specific to Actions. The commands at the top are the build;
+what a different runner needs is PHP with Composer, Node, and somewhere to
+put a directory of static files. There is no server-side anything in the
+output:
 
 .. code-block:: bash
 
@@ -167,8 +169,8 @@ Give every project a root of its own rather than a directory inside another
 one. A page one level below somebody else's root does not resolve its assets
 the way a published page does, and what is published is then the whole of what
 was rendered there — with nothing to remember to take back out. This site is
-two: the manual, and the theme's control surface beside it, which is built on
-every run and published on none.
+the manual, and beside it the theme's control surface, which is built on every
+run and published on none.
 
 Where a project does keep something inside the published root, a name beginning
 with an underscore is left out of the search index by the finishing step.

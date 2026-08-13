@@ -4,15 +4,15 @@
 Installation
 ============
 
-Four steps, and the last one is the one every first attempt leaves out: a
+The last of the steps below is the one every first attempt leaves out: a
 render is not a site. The renderer copies an asset it can see a document reach
 for and nothing else — it does not read stylesheets, and it does not know what
 a theme links.
 
 .. tip::
 
-   :doc:`example` is all four steps already taken, printed whole. Read this
-   page to know what they are; copy from that one.
+   :doc:`example` is every step already taken, printed whole. Read this page
+   to know what they are; copy from that one.
 
 1. Build the renderer
 =====================
@@ -132,7 +132,7 @@ prompts it hands out as ``.md`` beside the pages that include them.
    or a text role has no spelling there, and a fenced block with no language
    leaves the language ``null`` rather than falling back to
    ``default_code_language``. This theme survives that last one; nothing can
-   give Markdown the other four.
+   give Markdown the others.
 
 4. Render, then finish the site
 ===============================
@@ -199,7 +199,7 @@ only exists once the render is done.
 .. code-block:: text
 
    [{"title": "Installation", "url": "guides-theme/installation.html",
-     "text": "Four steps, and the last one is the one every first attempt …"}]
+     "text": "The last of the steps below is the one every first attempt …"}]
 
 A title, a URL relative to the site root, and enough text to tell two pages
 apart. Left out — ``--no-search`` — the field opens, finds nothing and says so,
@@ -217,7 +217,7 @@ a theme or a copy step introduced.
 
 .. seealso::
 
-   ``make guides`` in this repository is the same three commands, plus the
+   ``make guides`` in this repository is the same commands, plus the
    specimen cards — and it calls the same code the finishing step is built
    from, so this page cannot document something we do not run.
 
@@ -227,5 +227,5 @@ More than one project
 The output directory takes several renders, and this is how a fixture, an API
 reference or a changelog ends up beside a manual: one ``guides.xml`` each, one
 CLI call each, each with its own ``--output`` under the same root. This site is
-two of them. :doc:`publishing` says which parts of the finishing step run once
-per output and which run once over the root.
+built that way. :doc:`publishing` says which parts of the finishing step run
+once per output and which run once over the root.

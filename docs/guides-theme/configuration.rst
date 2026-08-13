@@ -296,5 +296,5 @@ body, which is what a stray field looks like when it is misspelled.
 ``:layout: marketing`` builds the page as a run of full-bleed bands with no
 rail; anything else, and any page that writes no such field, is the manual
 shape — a column beside the rail, held to the measure. It is written down in
-:doc:`directives`, beside the three directives that fill a marketing page,
-because on its own it is a page shape with nothing in it.
+:doc:`directives`, beside the directives that fill a marketing page, because
+on its own it is a page shape with nothing in it.

@@ -5,10 +5,11 @@ As a render guide template
 ==========================
 
 ``phpdocumentor/guides`` turns reStructuredText and Markdown into HTML. This
-package is a theme for it: templates that emit the ``sds-`` vocabulary, four
-directives the renderer does not have, and a second stylesheet for everything
-a renderer produces that carries no class at all. This manual is rendered with
-it, and so is the fixture the theme is checked against.
+package is a theme for it: templates that emit the ``sds-`` vocabulary, the
+directives and the document field the renderer does not have, and a second
+stylesheet for everything a renderer produces that carries no class at all.
+This manual is rendered with it, and so is the fixture the theme is checked
+against.
 
 .. toctree::
    :titlesonly:
@@ -61,7 +62,7 @@ trail above the title, the text held to sixty-six characters, blocks running
 to the column. A **landing page** is a run of full-bleed bands with no rail,
 because there is nothing to navigate on the way in. A page says which it is at
 the top, beside its navigation title, and :doc:`directives` is where that field
-and the three directives that build a landing page are written down.
+and the directives that build a landing page are written down.
 
 The bar is the same on both. It carries the mark, the handful of sections a
 site has, the version as a badge, the search field and the mode switch, and on
@@ -89,5 +90,5 @@ elements around real markup rather than elements fed by attributes.
    :doc:`example` is a whole project already at the end of it — copy the
    directory rather than assembling one. :doc:`publishing` is the workflow that
    builds it in CI. :doc:`markup` says what the renderer's own nodes come out
-   as, including the twelve admonition types and the two spellings of a tab
-   set.
+   as, including which admonition type lands on which tone and both spellings
+   of a tab set.

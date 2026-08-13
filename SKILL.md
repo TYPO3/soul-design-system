@@ -203,7 +203,7 @@ Orange marks the one thing the diagram is about — exactly one element per draw
 
 ### Drawing one — the numbers
 
-Enough to produce a new diagram that sits in the set without adjustment. Every value below is what the three shipped drawings actually use; deviating is a decision to name, not a default.
+Enough to produce a new diagram that sits in the set without adjustment. Every value below is what the shipped drawings actually use; deviating is a decision to name, not a default.
 
 | | |
 | --- | --- |

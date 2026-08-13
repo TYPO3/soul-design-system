@@ -43,8 +43,8 @@ Two things follow that are visible from the outside:
 Admonitions
 ===========
 
-The renderer has twelve types. This system has four tones, and the mapping is
-Sphinx's own grouping rather than a ladder of severity.
+The renderer has more types than this system has tones, and the mapping below
+is Sphinx's own grouping rather than a ladder of severity.
 
 .. list-table::
    :header-rows: 1
@@ -71,8 +71,8 @@ become ``warn``, so the tone can no longer tell them apart — but the glyph's
 accessible name is the type's word and not the tone's, and a reader who cannot
 see the colour still hears which one this was.
 
-**No category heading.** Ten of the twelve carry no title at all, and printing
-"Note" over each one would be exactly the category name ``sds-note`` forbids
+**No category heading.** Almost none of the types carry a title at all, and
+printing "Note" over each one would be the category name ``sds-note`` forbids
 its heading to be. Where an author did write a title, it is theirs and it goes
 in as a label — as text, because a heading is an attribute and markup inside it
 would arrive as visible angle brackets. A title that leans on inline markup is
@@ -358,7 +358,7 @@ Which template does which
    * - ``structure/pager``
      - the pages either side of this one, where a project asked for them
    * - ``body/admonition``
-     - twelve types onto four tones
+     - the renderer's types onto this system's tones
    * - ``body/code``
      - the caption above the block, and a language floor
    * - ``body/table``

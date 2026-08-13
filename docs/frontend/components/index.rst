@@ -110,8 +110,8 @@ rather than left to be lower-cased:
 Names that had to differ
 ========================
 
-Three of them, and each is a global HTML or ARIA attribute that a component
-would otherwise have quietly overridden.
+Each of these is a global HTML or ARIA attribute that a component would
+otherwise have quietly overridden.
 
 .. list-table::
    :header-rows: 1
