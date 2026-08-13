@@ -11,43 +11,34 @@
 
 /* ------------------------------------------------------------- headings -- */
 
-/* Six levels, three sizes. The editorial scale ends at `--font-size-h3`
-   because a page runs out of things a reader tells apart at a glance, and
-   inventing three more sizes would only rename the body and UI registers. What
-   separates a fourth-level heading from its paragraph is weight and the air
-   above it, so the deeper levels drop through the register, not the scale. */
+/* What a document adds to a heading, and only that. The size, the leading and
+   the tracking are the class layer's — six levels over three sizes, stated
+   once there for every surface. Here it is the air above, which is what says
+   which level a heading is, and the ink: `.sds-prose` sets a paragraph in
+   `--text-secondary`, so a heading inside one takes the primary back. */
 :where(.sds-prose) h1 {
-  margin: 0 0 var(--space-4);
-  font-size: var(--font-size-h1);
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-heading);
   color: var(--text-primary);
 }
 :where(.sds-prose) h2 {
-  margin: var(--space-10) 0 var(--space-3);
-  font-size: var(--font-size-h2);
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-heading);
+  margin-top: var(--space-10);
   color: var(--text-primary);
 }
 :where(.sds-prose) h3 {
-  margin: var(--space-8) 0 var(--space-2);
-  font-size: var(--font-size-h3);
-  line-height: var(--leading-heading);
+  margin-top: var(--space-8);
   color: var(--text-primary);
 }
+/* Below the third level the scale has run out, so weight and air do the work
+   the size stops doing. Four sets at body size and not the UI register the
+   class layer leaves it in: it is still a heading of the text. */
 :where(.sds-prose) h4 {
-  margin: var(--space-6) 0 var(--space-2);
+  margin-top: var(--space-6);
   font-size: var(--font-size-body);
   font-weight: var(--weight-semibold);
-  line-height: var(--leading-heading);
   color: var(--text-primary);
 }
 :where(.sds-prose) h5 {
   margin: var(--space-5) 0 var(--space-1);
-  font-size: var(--font-size-ui);
   font-weight: var(--weight-semibold);
-  line-height: var(--leading-heading);
   color: var(--text-primary);
 }
 /* The floor. Upper case and tracked out, because at this depth a heading has
@@ -88,11 +79,10 @@
 
 /* The measure belongs to the text, not to the column. A reference is sentences
    *and* a forty-column table, a command nobody wants wrapped, a diagram —
-   clamping those to the width of comfortable reading is how a page ends up with
-   three horizontal scrollbars. So the container gives its limit to the things
-   made of words, and everything else runs to the column it was given. */
+   clamping those to the reading width is how a page ends up with three
+   horizontal scrollbars. So the container gives its limit to the things made
+   of words; the paragraph is not named here, it has the measure already. */
 .sds-prose { max-width: none; }
-:where(.sds-prose) p,
 :where(.sds-prose) dt,
 /* A line is a sentence that was told where to end. It wraps at the measure
    like any other, and the author's break is the one that carries meaning. */
@@ -156,12 +146,10 @@
   text-wrap: pretty;
 }
 
-/* A rule between sections is a hairline and nothing else — no shadow, no
-   double line, and the space around it does the separating. */
+/* The hairline itself is the class layer's — here only the space around it,
+   which is what does the separating between two sections of a document. */
 :where(.sds-prose) hr {
   margin: var(--space-10) 0;
-  border: 0;
-  border-top: var(--border-hairline) solid var(--border-subtle);
 }
 
 /* --------------------------------------------------------------- lists -- */
@@ -369,15 +357,14 @@
 
 /* ---------------------------------------------------------- in the line -- */
 
-/* A key is a physical thing, so it gets the one border in this section. */
+/* A key is a physical thing, so it gets the one border in this section. The
+   face and the size are the class layer's: a second ratio written here would
+   be a key cap that stops agreeing with the mono run beside it. */
 :where(.sds-prose) kbd {
   padding: 1px 5px;
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-control);
   background: var(--surface-raised);
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-  color: var(--text-primary);
 }
 /* An abbreviation says it has more to say. Dotted rather than solid, so it is
    not read as a link, and `help` because that is what it offers. */
@@ -451,11 +438,8 @@
 /* -------------------------------------------------------------- figures -- */
 
 /* A picture never widens the column it was put in, whatever it was exported
-   at. Height follows, so nothing is squashed to fit. */
-:where(.sds-prose) img {
-  max-width: 100%;
-  height: auto;
-}
+   at — and that is the class layer's rule, because a surface has pictures too.
+   What a document adds is the figure around it. */
 :where(.sds-prose) figure {
   margin: 0 0 var(--space-6);
 }

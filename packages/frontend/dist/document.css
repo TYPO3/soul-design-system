@@ -1,21 +1,21 @@
-:where(.sds-prose) h1{margin:0 0 var(--space-4);font-size:var(--font-size-h1);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);color:var(--text-primary)}
-:where(.sds-prose) h2{margin:var(--space-10) 0 var(--space-3);font-size:var(--font-size-h2);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);color:var(--text-primary)}
-:where(.sds-prose) h3{margin:var(--space-8) 0 var(--space-2);font-size:var(--font-size-h3);line-height:var(--leading-heading);color:var(--text-primary)}
-:where(.sds-prose) h4{margin:var(--space-6) 0 var(--space-2);font-size:var(--font-size-body);font-weight:var(--weight-semibold);line-height:var(--leading-heading);color:var(--text-primary)}
-:where(.sds-prose) h5{margin:var(--space-5) 0 var(--space-1);font-size:var(--font-size-ui);font-weight:var(--weight-semibold);line-height:var(--leading-heading);color:var(--text-primary)}
+:where(.sds-prose) h1{color:var(--text-primary)}
+:where(.sds-prose) h2{margin-top:var(--space-10);color:var(--text-primary)}
+:where(.sds-prose) h3{margin-top:var(--space-8);color:var(--text-primary)}
+:where(.sds-prose) h4{margin-top:var(--space-6);font-size:var(--font-size-body);font-weight:var(--weight-semibold);color:var(--text-primary)}
+:where(.sds-prose) h5{margin:var(--space-5) 0 var(--space-1);font-weight:var(--weight-semibold);color:var(--text-primary)}
 :where(.sds-prose) h6{margin:var(--space-5) 0 var(--space-1);font-family:var(--font-mono);font-size:var(--font-size-label);font-weight:var(--weight-medium);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--text-muted)}
 :where(.sds-prose)>:first-child{margin-top:0}
 :where(.sds-prose) .sds-permalink{margin-inline-start:var(--space-2);font-family:var(--font-mono);font-size:.7em;font-weight:var(--weight-regular);color:var(--border-strong);text-decoration:none}
 :where(.sds-prose) .sds-permalink:hover{color:var(--text-link)}
 :where(.sds-prose) .section:target>:is(h1,h2,h3,h4,h5,h6){color:var(--text-accent-quiet)}
 .sds-prose{max-width:none}
-:where(.sds-prose) p,:where(.sds-prose) dt,:where(.sds-prose) .line,:where(.sds-prose) hr,:where(.sds-prose) h1,:where(.sds-prose) h2,:where(.sds-prose) h3,:where(.sds-prose) h4,:where(.sds-prose) h5,:where(.sds-prose) h6{max-width:var(--measure-prose)}
+:where(.sds-prose) dt,:where(.sds-prose) .line,:where(.sds-prose) hr,:where(.sds-prose) h1,:where(.sds-prose) h2,:where(.sds-prose) h3,:where(.sds-prose) h4,:where(.sds-prose) h5,:where(.sds-prose) h6{max-width:var(--measure-prose)}
 :where(.sds-prose) li,:where(.sds-prose) dd{max-width:var(--measure-prose)}
 :where(.sds-prose) li:has(>:not(a,code,kbd,abbr,strong,em,mark,small,span,sup,sub,br)),:where(.sds-prose) dd:has(>:not(a,code,kbd,abbr,strong,em,mark,small,span,sup,sub,br)){max-width:none}
 :where(.sds-prose) p{margin:0 0 var(--space-4);font-size:inherit;line-height:inherit;color:inherit}
 .sds-bands>.sds-band:first-child :where(.sds-prose) h1{font-size:var(--font-size-display);line-height:var(--leading-display);letter-spacing:var(--tracking-display);max-width:var(--measure-display)}
 .sds-bands>.sds-band:first-child :where(.sds-prose) h1+p{max-width:var(--measure-lead);font-size:var(--font-size-lead);line-height:var(--leading-body);text-wrap:pretty}
-:where(.sds-prose) hr{margin:var(--space-10) 0;border:0;border-top:var(--border-hairline) solid var(--border-subtle)}
+:where(.sds-prose) hr{margin:var(--space-10) 0}
 :where(.sds-prose) ul,:where(.sds-prose) ol{margin:0 0 var(--space-4)}
 :where(.sds-prose) li{margin-bottom:var(--space-1)}
 :where(.sds-prose) li:last-child{margin-bottom:0}
@@ -47,7 +47,7 @@
 :where(.sds-prose) sds-card:not(:defined)>.sds-card{flex:1}
 :where(.sds-prose) sds-embed:not(:defined){display:block;margin:0 0 var(--space-4)}
 :where(.sds-prose) sds-embed:not(:defined)>iframe{display:block;box-sizing:border-box;max-width:100%;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface-sunken)}
-:where(.sds-prose) kbd{padding:1px 5px;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-raised);font-family:var(--font-mono);font-size:.9em;color:var(--text-primary)}
+:where(.sds-prose) kbd{padding:1px 5px;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-raised)}
 :where(.sds-prose) abbr[title]{text-decoration:underline dotted;text-underline-offset:2px;cursor:help}
 :where(.sds-prose) cite{font-style:italic}
 :where(.sds-prose) mark{background:var(--surface-accent-quiet);color:var(--text-primary)}
@@ -61,7 +61,6 @@
 :where(.sds-prose) strong{font-weight:var(--weight-semibold);color:var(--text-primary)}
 :where(.sds-prose) math:not(:has(*)){display:inline;font-family:var(--font-mono);font-size:var(--font-mono-optical);color:var(--text-primary)}
 :where(.sds-prose) .section>math:not(:has(*)),:where(.sds-prose)>math:not(:has(*)){display:block;margin:0 0 var(--space-4)}
-:where(.sds-prose) img{max-width:100%;height:auto}
 :where(.sds-prose) figure{margin:0 0 var(--space-6)}
 :where(.sds-prose) figcaption{margin-top:var(--space-2);font-size:var(--font-size-micro);color:var(--text-muted)}
 :where(.sds-prose) .sds-figure__caption{margin-top:0}
