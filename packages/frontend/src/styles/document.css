@@ -270,6 +270,7 @@
    first, so the inline rule there would win inside the element too. */
 :where(.sds-prose) pre code {
   font-size: inherit;
+  font-weight: inherit;
   color: inherit;
 }
 
@@ -292,6 +293,7 @@
   background: var(--surface-sunken);
   font-family: var(--font-mono);
   font-size: var(--font-size-dense);
+  font-weight: var(--weight-regular);
   line-height: var(--leading-code);
   color: var(--text-primary);
 }

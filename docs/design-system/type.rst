@@ -149,7 +149,15 @@ padded chip breaks the line's rhythm at every occurrence, and a reference
 sentence can hold four of them; a second ink would have to come from a palette
 where orange is already the link and green, amber and red already mean a
 status, so it would either collide with a link or claim a meaning the run does
-not have. The face is the difference, and the face is enough.
+not have.
+
+What sets the run apart is a step of weight instead. It is set in
+``--weight-medium`` where the sentence around it is regular, which puts back
+the colour the smaller size took out and costs neither a box nor a hue — the
+face on its own reads as a lighter grey at that ratio, and the run goes under
+in running text. A block the machine wrote takes the step straight back off:
+inside it the block has already decided the size, the weight and the colour,
+and a whole block set in medium is one asking to be read as emphasis.
 
 .. specimen:: guidelines/type-mono.card.html
    :viewport: 700x201

@@ -332,27 +332,29 @@ li > ol { margin-bottom: 0; }
 }
 
 /* Inline mono for anything the machine named — tool names, paths, flags,
-   versions. Scales with its context instead of pinning a size, so it sits
-   correctly in both a 12px note and 16px body copy. Never title-cased, and it
-   breaks where it has to: a path with no space in it is one word, and one word
-   wider than a phone is a page that scrolls sideways to be read. */
+   versions. The optical ratio sets it under the sentence around it, so a step
+   of weight puts back the colour the smaller size took out: the face on its
+   own reads as a lighter grey and the run goes under. It breaks where it has
+   to — a path is one word, and one word wider than a phone scrolls the page. */
 .sds-mono,
 code,
 kbd,
 samp {
   font-family: var(--font-mono);
   font-size: var(--font-mono-optical);
+  font-weight: var(--weight-medium);
   color: var(--text-primary);
   overflow-wrap: anywhere;
 }
-/* Inside a block the machine wrote, the block has already decided the size and
-   the colour — `<code>` there is the element `<pre>` is required to contain,
-   not a phrase set in mono inside a sentence. Without this the optical ratio
-   above applies a second time and every code block sets a step smaller than
-   the size its own class asked for. */
+/* Inside a block the machine wrote, the block has already decided the size,
+   the weight and the colour — `<code>` there is the element `<pre>` is
+   required to contain, not a phrase standing out of a sentence. Without this
+   the ratio above applies a second time and the step of weight sets a whole
+   block in medium, which is a block asking to be read as emphasis. */
 .sds-code__body code,
 .sds-diff code {
   font-size: inherit;
+  font-weight: inherit;
   color: inherit;
 }
 
