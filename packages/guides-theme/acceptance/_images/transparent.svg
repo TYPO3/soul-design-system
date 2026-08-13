@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320" role="img" aria-label="transparent line art">
+  <g fill="none" stroke="#2A2A2A" stroke-width="2">
+    <rect x="80" y="90" width="240" height="140" rx="6"/>
+    <rect x="480" y="90" width="240" height="140" rx="6"/>
+    <rect x="880" y="90" width="240" height="140" rx="6"/>
+    <path d="M320 160h150M720 160h150"/>
+    <path d="M470 160l-14-7v14zM870 160l-14-7v14z" fill="#2A2A2A"/>
+  </g>
+  <g fill="#2A2A2A" font-family="Source Code Pro, monospace" font-size="20" text-anchor="middle">
+    <text x="200" y="167">parse</text>
+    <text x="600" y="167">compile</text>
+    <text x="1000" y="167">render</text>
+  </g>
+</svg>

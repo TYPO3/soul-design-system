@@ -141,8 +141,12 @@ A root that is not named ``id="art"`` used to be the first of those and is not
 one any more: the finishing step reads every drawing a page points at and shows
 an unprepared one as an image, naming it in the run. The picture arrives, in the
 colours it was exported with, and it is the one on the page that does not follow
-the reader into dark. A malformed file is still a blank — nothing can tell one
-from a drawing that simply has no shapes.
+the reader into dark. **So its ground does not either.** A frame, a card's
+picture and the viewer all take ``--surface-art`` under a linked picture — the
+one surface in the system with a single value for both modes, because dark line
+art from somebody else's exporter on a dark ground is the page contradicting the
+picture. A malformed file is still a blank — nothing can tell one from a drawing
+that simply has no shapes.
 
 Specimen cards are the deliberate exception. They are opened from disk with no
 server, where every file is its own origin and no reference resolves at all —

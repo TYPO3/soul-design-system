@@ -117,7 +117,7 @@ export class SdsLightbox extends SdsElement {
     <span>${this.caption || this.alt}</span>
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
-  <div class="sds-lightbox__art">
+  <div class="sds-lightbox__art${this.linked ? ' sds-lightbox__art--exported' : ''}">
     ${art(this.src, this.alt, { linked: this.linked })}
   </div>
 </dialog>`;

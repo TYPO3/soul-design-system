@@ -12,6 +12,13 @@ A drawing linked as an image renders in a document of its own, where none of
 this system's tokens is declared, and keeps whichever grey its author baked in.
 Referenced, it reads the page's tokens and arrives in the mode the page is in.
 
+**A picture that keeps its own colours is given a ground drawn for them.** The
+figure's frame, a card's picture and the viewer all take ``--surface-art``
+where the picture is linked — the one surface in this system with a single
+value for both modes. A diagram a tool exported is usually dark line art on
+nothing, and on a dark ground that is a page contradicting the picture it is
+showing.
+
 sds-image
 =========
 

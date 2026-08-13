@@ -130,7 +130,7 @@ export class SdsFigure extends SdsElement {
         : '';
 
     return html`<figure class="sds-figure">
-  <div class="sds-figure__frame">
+  <div class="sds-figure__frame${this.linked ? ' sds-figure__frame--exported' : ''}">
     ${press ? press.trigger : picture}
   </div>
   ${caption}

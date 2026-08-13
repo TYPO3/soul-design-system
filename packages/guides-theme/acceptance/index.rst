@@ -265,6 +265,14 @@ Pictures
    the file and shows it as an image, in the colours it was exported with —
    which is what is lost, rather than the picture.
 
+.. figure:: /_images/transparent.svg
+   :alt: Three boxes and two arrows, in dark line art on nothing
+
+   And the same thing with no ground of its own, which is what a diagram
+   exported by a tool usually is: dark line art on transparency. The frame
+   gives it a ground its colours were drawn for and keeps it in both modes —
+   the one surface here that does not follow the reader into dark.
+
 Figures
 =======
 

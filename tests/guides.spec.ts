@@ -630,6 +630,31 @@ test.describe('what the theme repaired', () => {
     await expect(page.locator('.admonition')).toHaveCount(0);
   });
 
+  test('a picture that kept its own colours is given a ground drawn for them', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    /* A drawing that never named `id="art"` is linked, so it keeps whatever
+       the exporter baked in — usually dark line art on nothing, which on this
+       system's dark ground is a page contradicting the picture it shows. */
+    const exported = page.locator('sds-figure[linked] .sds-figure__frame').first();
+    await expect(exported).toHaveClass(/sds-figure__frame--exported/);
+
+    /* And the other half: a drawing referenced into the page reads the page's
+       tokens, so its frame follows the mode like every other surface. */
+    const referenced = page.locator('sds-figure:not([linked]) .sds-figure__frame').first();
+    await expect(referenced).not.toHaveClass(/sds-figure__frame--exported/);
+
+    const ground = (of: Locator): Promise<string> =>
+      of.evaluate((el) => getComputedStyle(el).backgroundColor);
+    const [wasExported, wasReferenced] = [await ground(exported), await ground(referenced)];
+
+    await page.evaluate(() => {
+      document.documentElement.dataset['theme'] = 'dark';
+    });
+    expect(await ground(exported), 'the one surface that does not follow the reader').toBe(wasExported);
+    expect(await ground(referenced), 'and every other one still does').not.toBe(wasReferenced);
+  });
+
   test('a plane states in place, and the fill says what kind of thing is on it', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
@@ -845,11 +870,11 @@ test.describe('what the theme repaired', () => {
        stands outside a frame the document layer would have to catch. */
     await expect(page.locator('.sds-prose img:not(.sds-figure__frame img)')).toHaveCount(0);
     const framed = page.locator('.sds-prose sds-figure .sds-figure__frame');
-    await expect(framed).toHaveCount(3);
+    await expect(framed).toHaveCount(4);
 
-    /* And what separates them: the caption is the claim, so the picture that
-       makes none is drawn without one rather than under an empty line. */
-    await expect(page.locator('.sds-prose .sds-figure__caption')).toHaveCount(2);
+    /* And what separates them: the caption is the claim, so the one picture
+       that makes none is drawn without one rather than under an empty line. */
+    await expect(page.locator('.sds-prose .sds-figure__caption')).toHaveCount((await framed.count()) - 1);
   });
 
   test('a drawing that was never prepared is shown, not left blank', async ({ page }) => {
@@ -861,9 +886,12 @@ test.describe('what the theme repaired', () => {
        arrives as an image — in the colours it was exported with, which is the
        whole of what being unprepared costs. */
     const unprepared = page.locator('.sds-prose sds-figure[linked]');
-    await expect(unprepared).toHaveCount(1);
-    await expect(unprepared.locator('img.sds-art')).toBeVisible();
-    await expect(unprepared.locator('img.sds-art')).toHaveAttribute('src', /unprepared\.svg$/);
+    await expect(unprepared).toHaveCount(2);
+    await expect(unprepared.locator('img.sds-art')).toHaveCount(await unprepared.count());
+    await expect(unprepared.first().locator('img.sds-art')).toHaveAttribute('src', /unprepared\.svg$/);
+    /* The second brought no ground of its own, which is the case the frame
+       under it answers — see the ground test above. */
+    await expect(unprepared.nth(1).locator('img.sds-art')).toHaveAttribute('src', /transparent\.svg$/);
 
     /* The prepared drawing beside it is still referenced, so the flag is read
        off the file and not written onto every picture in the page. */

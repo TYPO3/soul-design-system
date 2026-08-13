@@ -58,6 +58,16 @@ Die Regeln, an die jede offene Zeile unten gebunden ist:
   Bauteil einer Komponente benennt, also auch kein Spezifitätskampf.
 - **Die Namen des Kerns werden nicht umbenannt.** Eine Ausgabe, die kein
   anderes Werkzeug mehr liest, ist kein Gewinn.
+- **Ein Bild, das seine Farben mitbringt, bekommt einen Grund, der dafür
+  gezeichnet ist.** Eine Zeichnung ohne `id="art"` wird verlinkt und behält,
+  was ihr Exporter eingebacken hat — meist dunkle Strichzeichnung auf nichts,
+  und auf dunklem Grund widerspricht die Seite dem Bild, das sie zeigt. Rahmen,
+  Kartenbild und Betrachter nehmen darunter `--surface-art`, die einzige Fläche
+  des Systems mit einem Wert für beide Modi. Damit ist auch `figure.uml-diagram`
+  beantwortet, ohne dass `guides-graphs` hier installiert wäre: was das Paket
+  emittiert, ist ein verlinktes Bild, und ein verlinktes Bild landet auf diesem
+  Grund. Umfärben lässt sich fremdes Bildmaterial nicht — die Farben eines
+  PlantUML-Diagramms stehen im `skinparam` des Autors.
 - **Eine Klasse aus dem Quelltext trägt durch und bedeutet nichts.** Was
   `.. container::` oder `:class:` ins Markup schreibt, hat kein System gewählt;
   eine Regel, die so einen Namen trifft, macht das private Vokabular jedes
@@ -135,12 +145,6 @@ Element — es gibt nichts im Markup, dem eine Klasse oder eine Komponente
 entsprechen könnte. Sichtbar werden `.footnote` und `.citation`, und die haben
 ihre Regel in `document.css`.
 
-## Gegenstück da, Markup fremd
-
-| Guides | Bei uns | Was fehlt |
-| --- | --- | --- |
-| `figure.uml-diagram` mit einem Bild | Diagramm-Richtlinie mit Hell/Dunkel-Paar | Guides rendert eine Datei. Im dunklen Modus ist sie falsch |
-
 ## Elemente, die kein Markup annehmen
 
 Ein Generator kennt nur Attribute und Kinder: eine Story setzt Eigenschaften,
@@ -203,5 +207,5 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 ## In welcher Reihenfolge
 
-1. **Das fremde Markup:** `figure.uml-diagram` rendert eine Datei, und im
-   dunklen Modus ist sie falsch.
+Nichts. Was noch aussteht, steht oben unter „Auslieferung und Verhalten" und
+ist jeweils eine Entscheidung, keine Reihenfolge.

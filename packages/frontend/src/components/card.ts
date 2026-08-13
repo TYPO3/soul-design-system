@@ -106,7 +106,7 @@ export class SdsCard extends SdsElement {
 
   protected override render(): TemplateResult {
     const medium = this.src
-      ? html`<div class="sds-card__media">
+      ? html`<div class="sds-card__media${this.linked ? ' sds-card__media--exported' : ''}">
     ${art(this.src, this.alt, { linked: this.linked })}
   </div>`
       : '';

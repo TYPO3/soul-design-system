@@ -1099,6 +1099,14 @@ dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
   background: var(--surface-sunken);
   overflow: hidden;
 }
+/* A picture that was never prepared to be referenced keeps the colours it was
+   exported with, so the ground under it is one those colours were drawn for.
+   The one surface in the system that does not follow the reader into dark:
+   below light line art, a dark ground is the page contradicting the picture. */
+.sds-figure__frame--exported,
+.sds-lightbox__art--exported,
+.sds-card__media--exported { background: var(--surface-art); }
+
 .sds-figure__caption {
   font-size: var(--aside-size);
   line-height: var(--aside-leading);
