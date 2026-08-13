@@ -30,7 +30,10 @@ async function settleElements(page: Page): Promise<void> {
   });
 }
 
-export async function resizeStory(page: Page, width: number, height = 900): Promise<void> {
+/** A viewport change handed to whatever measures itself: two frames, and then
+    every element's own update. Nothing about it is a story — the bar in a
+    rendered page reads its room the same way. */
+export async function resizeTo(page: Page, width: number, height = 900): Promise<void> {
   await page.setViewportSize({ width, height });
   await page.evaluate(
     () => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))),

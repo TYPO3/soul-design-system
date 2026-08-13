@@ -1,16 +1,17 @@
 /* The page layouts, at every width they are meant to survive.
 
-   A page is the only place the layout classes meet each other, and both ways a
-   layout fails are invisible to everything else: the page grows wider than the
-   screen, or two things end up in the same place. The card diff sees neither —
-   a card is a fragment at a fixed width — and the fit check asks about height
-   at the one size a screen declares.
+   A page is the only place the layout classes meet each other, and the ways a
+   layout fails are invisible to everything else — `lib/layout.ts` is what they
+   are and how each is measured. The card diff sees none of them: a card is a
+   fragment at a fixed width, and the fit check asks about height at the one
+   size a screen declares.
 
    So the pages are measured, at the widths a laptop, a tablet and a phone
    actually are, and the guarantee is flat: a page never overflows. */
 
-import { test, expect, type Page } from '@playwright/test';
-import { gotoStory, resizeStory } from './lib/story.ts';
+import { test, expect } from '@playwright/test';
+import { pageOverflow, pageOverlaps } from './lib/layout.ts';
+import { gotoStory, resizeTo } from './lib/story.ts';
 
 const WIDTHS = [1440, 1280, 1024, 900, 860, 768, 640, 480, 375, 320];
 const OVERLAP_WIDTHS = new Set([1440, 1024, 860, 640, 375]);
@@ -28,71 +29,6 @@ async function pageStories(request: import('@playwright/test').APIRequestContext
   return Object.values(index.entries).filter((e) => e.type === 'story' && e.title.startsWith('Pages/'));
 }
 
-async function pageOverflow(page: Page): Promise<{ scroll: number; client: number; worst: string } | null> {
-  return page.evaluate(() => {
-    const d = document.documentElement;
-    if (d.scrollWidth <= d.clientWidth + 1) return null;
-    /* Name the responsible box because an overflow width alone is not actionable. */
-    const widest = [...document.body.querySelectorAll('*')]
-      .map((el) => ({ el, r: el.getBoundingClientRect() }))
-      .filter(({ r }) => r.width > 0 && r.right > d.clientWidth + 1)
-      .sort((a, b) => b.r.right - a.r.right)[0];
-    const e = widest?.el as HTMLElement | undefined;
-    return {
-      scroll: d.scrollWidth,
-      client: d.clientWidth,
-      worst: e ? `${e.tagName.toLowerCase()}.${String(e.className).trim().split(/\s+/).join('.')}` : 'unknown',
-    };
-  });
-}
-
-/* Nothing on a page may be painted over anything else. Only boxes holding their
-   own line are compared: an inline `<span>` in a wrapping paragraph has a rect
-   as wide as the paragraph and overlaps every line above it, which is how text
-   works. Anything out of flow is left out — an overlay is over the page on
-   purpose. */
-async function pageOverlaps(page: Page): Promise<string[]> {
-  return page.evaluate(() => {
-    const inFlow = (el: Element): boolean => {
-      for (let node: Element | null = el; node && node !== document.body; node = node.parentElement) {
-        const position = getComputedStyle(node).position;
-        if (position === 'absolute' || position === 'fixed') return false;
-      }
-      return true;
-    };
-
-    const blocks = [...document.body.querySelectorAll<HTMLElement>('*')].filter((el) => {
-      if (!el.textContent?.trim()) return false;
-      if (!el.checkVisibility({ contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true })) return false;
-      if (!/^(block|flex|grid|list-item|table)/.test(getComputedStyle(el).display)) return false;
-      if (!inFlow(el)) return false;
-      /* Leaves only: a section and the heading inside it share their box
-         by definition, and `contains` already covers that pair — this
-         keeps the comparison to what actually paints. */
-      return ![...el.children].some((child) => child.textContent?.trim());
-    });
-
-    const named = (el: Element): string =>
-      `${el.tagName.toLowerCase()}.${String(el.className).trim().split(/\s+/).join('.')}` +
-      `"${(el.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 30)}"`;
-
-    const out: string[] = [];
-    for (let i = 0; i < blocks.length; i++) {
-      for (let j = i + 1; j < blocks.length; j++) {
-        const a = blocks[i] as HTMLElement;
-        const b = blocks[j] as HTMLElement;
-        if (a.contains(b) || b.contains(a)) continue;
-        const ra = a.getBoundingClientRect();
-        const rb = b.getBoundingClientRect();
-        const x = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
-        const y = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
-        if (x > 2 && y > 2) out.push(`${named(a)} over ${named(b)}`);
-      }
-    }
-    return out.slice(0, 4);
-  });
-}
-
 for (let shard = 0; shard < PAGE_SHARDS; shard++) {
   test(`every page fits without overlap, shard ${shard + 1}`, async ({ page, request }) => {
     const pages = await pageStories(request);
@@ -108,7 +44,7 @@ for (let shard = 0; shard < PAGE_SHARDS; shard++) {
       await gotoStory(page, story.id);
 
       for (const width of WIDTHS) {
-        await resizeStory(page, width);
+        await resizeTo(page, width);
         const over = await pageOverflow(page);
         expect(over, `${story.title} at ${width}px: ${JSON.stringify(over)}`).toBeNull();
 

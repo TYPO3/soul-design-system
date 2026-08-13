@@ -14,7 +14,8 @@ import { test, expect, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 import { ACCEPTANCE_DIR, ACCEPTANCE_URL, SITE_DIR, SITE_URL } from '../playwright.config.ts';
-import { axeIdle } from './lib/story.ts';
+import { pageClipped, pageOverflow, pageOverlaps } from './lib/layout.ts';
+import { axeIdle, resizeTo } from './lib/story.ts';
 
 const FIXTURE = `${ACCEPTANCE_URL}/index.html`;
 const REFERENCE = `${ACCEPTANCE_URL}/nodes.html`;
@@ -1237,4 +1238,50 @@ test.describe('what nobody thought to assert', () => {
       expect(found).toEqual([]);
     });
   }
+});
+
+/* And the part a picture would have shown.
+
+   A rendered page is the page layouts with somebody else's markup in them, and
+   the ways it can fail are the ones `lib/layout.ts` measures: too wide, on top
+   of itself, or a box holding less than it was given. The last one is why this
+   is measured rather than photographed — a block cut to a fifth of its height
+   draws a page that reads as merely quiet, and a screenshot says so only to
+   whoever opens it. */
+test.describe('what a page is measured for', () => {
+  const rendered = pages(ACCEPTANCE_DIR).filter((path) => !path.startsWith('_cards/'));
+  const WIDTHS = [1440, 1024, 640, 375];
+
+  test('every rendered page holds the width it is read at', async ({ page }) => {
+    expect(rendered.length, 'the acceptance render should have pages in it').toBeGreaterThan(1);
+    test.setTimeout(Math.max(60_000, rendered.length * WIDTHS.length * 4_000));
+
+    for (const path of rendered) {
+      await page.goto(`${ACCEPTANCE_URL}/${path}`, { waitUntil: 'load' });
+      for (const width of WIDTHS) {
+        await resizeTo(page, width);
+        const over = await pageOverflow(page);
+        expect(over, `${path} at ${width}px: ${JSON.stringify(over)}`).toBeNull();
+        /* At the two ends only: the pairs are counted against each other, and
+           a manual page is long. What lands on something else does it where
+           the column is widest or where it has just folded. */
+        if (width === WIDTHS[0] || width === WIDTHS.at(-1)) {
+          expect(await pageOverlaps(page), `${path} at ${width}px`).toEqual([]);
+        }
+      }
+    }
+  });
+
+  test('nothing on a rendered page is cut off by the box it is in', async ({ page }) => {
+    expect(rendered.length, 'the acceptance render should have pages in it').toBeGreaterThan(1);
+    test.setTimeout(Math.max(60_000, rendered.length * WIDTHS.length * 2_000));
+
+    for (const path of rendered) {
+      await page.goto(`${ACCEPTANCE_URL}/${path}`, { waitUntil: 'load' });
+      for (const width of WIDTHS) {
+        await resizeTo(page, width);
+        expect(await pageClipped(page), `${path} at ${width}px`).toEqual([]);
+      }
+    }
+  });
 });

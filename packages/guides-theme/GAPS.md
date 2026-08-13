@@ -1,7 +1,8 @@
 # phpDocumentor Guides
 
 Was das Theme noch schuldet, und die Entscheidungen, an die sich alles Weitere
-zu halten hat. Was geschlossen ist, steht nicht hier — es steht im Template, in
+zu halten hat. Zurzeit schuldet es nichts, und der Rest dieser Datei ist die
+zweite Hälfte. Was geschlossen ist, steht nicht hier — es steht im Template, in
 `src/styles/document.css` oder im Element, und `tests/guides.spec.ts` hält es
 fest. Eine Liste, die ihre erledigten Zeilen behält, ist ein Änderungsprotokoll
 und wird nicht mehr gelesen.
@@ -118,6 +119,17 @@ Die Regeln, an die jede offene Zeile unten gebunden ist:
   Gruppe des Sets heißt seitdem `:group:`: `:name:` bedeutet in einem Dokument
   überall die Adresse, und ein Knoten trägt sie unter diesem Schlüssel, ob eine
   Direktive sie liest oder nicht.
+- **Der Render wird gemessen, nicht fotografiert.** `tests/guides.spec.ts`
+  öffnet jede gerenderte Seite: kein Fehler, keine fehlende Datei, die Befunde,
+  für die dieses Theme geschrieben wurde, axe in beiden Modi, und die drei
+  Messungen aus `tests/lib/layout.ts` — zu breit, übereinander, oder eine Box,
+  die weniger hält als sie bekommen hat. Die dritte ist der Grund für die
+  Entscheidung: ein auf ein Fünftel gestutzter Codeblock zeichnet eine Seite,
+  die bloß ruhig aussieht, und ein Screenshot-Vergleich meldet das an einen
+  Menschen, der hinsehen muss — also an niemanden. Eine Messung läuft bei jedem
+  Push. Bilder werden dort verglichen, wo jemand absichtlich hinsieht: `make
+  baseline`, `make shots`, `make diff` auf den Karten. Was hier dazukommt,
+  bekommt seine Zeile in der Suite; sonst wandert es still wieder auf.
 - **Es wird nicht gedruckt.** Kein Druck-Stylesheet, und das ist keine offene
   Zeile: eine Handbuchseite wird gelesen, wo sie steht. Auf Papier trägt nichts
   von dem mehr, was sie ausmacht — kein Link, keine Suche, keine Rail, kein
@@ -176,18 +188,6 @@ Element — es gibt nichts im Markup, dem eine Klasse oder eine Komponente
 entsprechen könnte. Sichtbar werden `.footnote` und `.citation`, und die haben
 ihre Regel in `document.css`.
 
-## Auslieferung und Verhalten
-
-Nicht Styling, sondern was das Paket können muss.
-
-- **Niemand sieht, wie die Seite aussieht.** `tests/guides.spec.ts` rendert und
-  öffnet sie, lässt keinen Fehler und keine fehlende Datei durch, hält die
-  Befunde fest, für die dieses Theme geschrieben wurde, und lässt axe über jede
-  gerenderte Seite in beiden Modi laufen — das ist der Teil, der findet, woran
-  niemand gedacht hat. Was bleibt, ist das Bild: kein Screenshot der Ausgabe
-  wird mit einem früheren verglichen, und jeder Knoten, für den keine Zeile
-  dort steht, ist nur so weit geprüft, wie eine Maschine ihn lesen kann. Was
-  dazukommt, bekommt seine Zeile dort; sonst wandert es still wieder auf.
 
 ## Die Deckungsregel
 
@@ -210,5 +210,9 @@ eine Kopie unter `acceptance/_cards/` nicht: eine kopierte Karte beweist nichts
 
 ## In welcher Reihenfolge
 
-Nichts. Was noch aussteht, steht oben unter „Auslieferung und Verhalten" und
-ist jeweils eine Entscheidung, keine Reihenfolge.
+Keine. Die Schuldenliste ist im Moment leer — was das Paket können muss, kann
+es, und was oben steht, sind die Regeln, an denen sich das Nächste zu messen
+hat. Eine neue Zeile bekommt nur, was tatsächlich aussteht: eine Entscheidung,
+die niemand getroffen hat, oder etwas, das gebaut werden muss und nicht gebaut
+ist. Was entschieden ist, gehört nach oben, und was fertig ist, steht im
+Template, in `document.css` oder im Element und wird von der Suite gehalten.
