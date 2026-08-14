@@ -39,11 +39,10 @@ for (const n of names) {
     continue;
   }
   const out = new PNG({ width: ia.width, height: ia.height });
-  /* Exact. Everything renders in the container — same Chromium, same fonts,
-     same machine — so two consecutive runs differ by zero pixels and there is
-     no antialiasing noise to absorb. An allowance is not small: 0.1 hides a
-     deliberate token change outright, which is the one thing this exists to
-     catch. If it ever turns noisy, raise it knowing that. */
+  /* Exact comparison keeps small token changes visible; a tolerance can erase
+     the change this command exists to expose. Some cards still drift between
+     unchanged runs, so reproduce a change and fix its moving source rather
+     than hiding it behind a threshold. */
   const n_diff = pixelmatch(ia.data, ib.data, out.data, ia.width, ia.height, { threshold: 0 });
   if (n_diff === 0) { same++; continue; }
   const pct = (100 * n_diff) / (ia.width * ia.height);

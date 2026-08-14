@@ -19,6 +19,7 @@ together in this repository.
 
    source-and-output
    component-evidence
+   visual-review
 
 Start with the source
 =====================
@@ -35,3 +36,11 @@ An element in source is not enough to make it a maintained component.
 :doc:`component-evidence` explains why stories, drawn classes and the Guides
 render catch different failures, and how ``make verify ARGS=coverage`` keeps
 temporary gaps from becoming permanent exemptions.
+
+Review the pixels
+=================
+
+A visual refactor needs a before image, an after image and an exact comparison.
+:doc:`visual-review` explains how the screenshot loop freezes moving state,
+why its comparison has no tolerance and how to distinguish a repeated change
+from the known drift in guideline cards.
