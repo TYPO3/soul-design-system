@@ -11,7 +11,7 @@ target, the platform's validation and how it all reads out arrive with it.
 Anything drawn instead looks right in a screenshot and cannot be typed in.
 
 .. specimen:: components/core/input.card.html
-   :viewport: 700x180
+   :viewport: 700x280
    :title: Fields & search
 
 .. _component-sds-field:
@@ -74,6 +74,17 @@ the difference is ``caption``.
 
    The browser's business — ``email``, ``tel``, ``url`` decide which keyboard a
    phone offers and what the platform validates before anything of ours runs.
+
+.. confval:: size
+   :name: sds-field-size
+   :type: "md" | "sm" | "lg"
+   :default: "md"
+
+   The control heights a button has, so a field and the button beside it stand
+   on one line. ``sm`` is for a field inside another surface — a toolbar, a
+   table head, a filter row — and never for making a form fit; ``lg`` is the
+   field a screen is *for*, beside the large button that answers it. In a form
+   the label follows the control, so the words never outweigh the box.
 
 .. confval:: name
    :name: sds-field-name

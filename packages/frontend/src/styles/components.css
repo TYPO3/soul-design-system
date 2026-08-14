@@ -680,7 +680,7 @@ html:has(dialog.sds-modal[open], dialog.sds-lightbox[open]) {
   background: var(--surface-sunken);
   border: var(--border-hairline) solid var(--border-strong);
   border-radius: var(--radius-control);
-  padding: var(--space-1-5) var(--control-pad-x-sm);
+  padding: var(--field-pad-y) var(--field-pad-x);
   color: var(--text-muted);
   font-size: var(--control-font-size);
   line-height: var(--control-leading);
@@ -700,6 +700,21 @@ html:has(dialog.sds-modal[open], dialog.sds-lightbox[open]) {
 }
 .sds-field.is-invalid { border-color: var(--status-error); }
 .sds-field.is-filled { color: var(--text-primary); }
+
+/* The three heights a button has, so a field and the button beside it stand on
+   one line: `sm` inside another surface — a toolbar, a table head, a filter
+   row — and `lg` where the field is what the screen is for. What a form asks
+   is `md`, the same way a form's buttons are. */
+.sds-field--sm {
+  font-size: var(--control-font-size-sm);
+  min-height: var(--control-height-sm);
+  padding: var(--field-pad-y-sm) var(--field-pad-x-sm);
+}
+.sds-field--lg {
+  font-size: var(--control-font-size-lg);
+  min-height: var(--control-height-lg);
+  padding: var(--field-pad-y-lg) var(--field-pad-x-lg);
+}
 
 /* The bare control inside the field carries no chrome of its own. */
 .sds-input {
@@ -734,6 +749,11 @@ html:has(dialog.sds-modal[open], dialog.sds-lightbox[open]) {
    around it is allowed to be smaller than what it asked for. */
 .sds-field-row { display: flex; flex-direction: column; gap: var(--space-1-5); min-width: 0; max-width: 100%; }
 .sds-field-label { font-size: var(--control-font-size); color: var(--text-primary); }
+/* The label follows the control it names — a 15px label over a 28px field is
+   the words outweighing the thing they stand for. The hint does not: an aside
+   is read in one register wherever it stands. */
+.sds-field-row:has(> .sds-field--sm) .sds-field-label { font-size: var(--control-font-size-sm); }
+.sds-field-row:has(> .sds-field--lg) .sds-field-label { font-size: var(--control-font-size-lg); }
 /* Which fields are required is stated on the required ones, in words. An
    asterisk is a convention that has to be explained in a legend somewhere, and
    the legend is always the thing that gets cut. */

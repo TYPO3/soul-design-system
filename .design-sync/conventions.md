@@ -92,7 +92,7 @@ inline styles — do not mint a `sds-` name.
 | Long text | `sds-quote` `sds-quote__body` `sds-quote__by` — the attribution is required; `sds-byline` `sds-byline__mark` `sds-byline__who` `sds-byline__name` `sds-byline__role` |
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon`. Hand-written markup writes `type="button"` unless it is the form's submit — a `<button>` with no type inside a `<form>` submits it |
 | Badges | `sds-badge` + `--accent` `--ok` `--warn` `--error` |
-| Fields | `sds-field` `sds-input` `sds-select` `sds-field--multi` `sds-field-error` |
+| Fields | `sds-field` + `--sm` `--lg` `--multi` — the control heights a button has, `md` unless one is said, so a field and the button beside it stand on one line; `sds-input` `sds-select` `sds-field-error` |
 | Form | `sds-form` `sds-field-row` `sds-field-label` `sds-field-req` `sds-field-hint` — a field in a form owes a visible label, a hint under the control and an error under both; a placeholder is not a label |
 | Choices | `sds-check` `sds-check__mark` `sds-check__body` `sds-check__label` `sds-check__hint` `sds-choices`; `sds-form-errors` `sds-form-errors__list` |
 | Tables | `sds-table` + `--compact` `--medium` `--airy`, wrapped in `sds-table-scroll` where it may outgrow its column; cells `sds-td-name` `sds-td-meta` |

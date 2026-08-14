@@ -12,15 +12,16 @@ import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/field-error.ts';
-import { type FieldProps } from '../../packages/frontend/src/components/field.ts';
+import { type FieldProps, type FieldSize } from '../../packages/frontend/src/components/field.ts';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { DIVIDER, dsCard, part, spec, specCap, specRow } from '../lib/specimen.ts';
 
 /* `label` is not optional in practice: a control with no visible label of its
    own has no accessible name without it, and every field on the card is one.
    The stories pass it, and the a11y pass is what says whether they did. */
-const sdsField = ({ value = '', icon, label, focused, invalid, filled, select, options, minWidth = 220 }: FieldProps) =>
+const sdsField = ({ value = '', icon, label, focused, invalid, filled, select, options, minWidth = 220, size = 'md' }: FieldProps) =>
   html`<sds-field
+    size="${size}"
     value="${value}"
     icon="${ifDefined(icon)}"
     label="${ifDefined(label)}"
@@ -40,6 +41,7 @@ const meta: Meta<FieldProps> = {
   excludeStories: ['specimenHtml'],
   render: (args) => sdsField(args),
   argTypes: {
+    size: { control: 'inline-radio', options: ['md', 'sm', 'lg'] },
     value: { control: 'text' },
     icon: { control: 'select', options: [undefined, 'actions-search', 'actions-filter'] },
     focused: { control: 'boolean' },
@@ -49,13 +51,13 @@ const meta: Meta<FieldProps> = {
     minWidth: { control: { type: 'number', step: 10 } },
     label: { control: 'text' },
   },
-  args: { value: 'Type to search 48 pages', icon: 'actions-search', label: 'Search the documentation', focused: false, invalid: false, filled: false, select: false, minWidth: 220 },
+  args: { size: 'md', value: 'Type to search 48 pages', icon: 'actions-search', label: 'Search the documentation', focused: false, invalid: false, filled: false, select: false, minWidth: 220 },
   parameters: {
     dsCard: dsCard({
       path: 'components/core/input.card.html',
       name: 'Fields & search',
       subtitle: 'A field is sunken; the accent only appears on focus',
-      viewport: '700x180',
+      viewport: '700x280',
     }),
   },
 };
@@ -82,6 +84,19 @@ export const Invalid: Story = {
   args: { value: 'dashbord', invalid: true, filled: true, label: 'Identifier' },
 };
 
+/** The three heights a button has, so a field and the button beside it stand
+    on one line. `sm` is for a field inside another surface — a toolbar, a
+    table head, a filter row — and never for making a form fit. */
+export const Small: Story = {
+  args: { size: 'sm', value: 'Filter tools', icon: 'actions-filter', minWidth: 180, label: 'Filter tools' },
+};
+
+/** `lg` is the field the screen is for: the one question a landing asks,
+    beside the large button that answers it. */
+export const Large: Story = {
+  args: { size: 'lg', value: 'Search the manual', icon: 'actions-search', minWidth: 300, label: 'Search the manual' },
+};
+
 /* The two below force a state that a live control holds only while it is
    held. They exist because the specimen card is a photograph. */
 
@@ -90,6 +105,11 @@ export const Invalid: Story = {
 export const FocusedForSpecimen: Story = {
   args: { value: 'icon lookup', icon: 'actions-search', focused: true, label: 'Search the documentation' },
 };
+
+/* One field at each height, with the same content in all three, so the row
+   differs in nothing but the box. The widths only keep them off each other. */
+const at = (size: FieldSize, minWidth: number): string =>
+  part(sdsField({ size, minWidth, value: 'Filter tools', icon: 'actions-filter', label: 'Filter tools' }));
 
 export const specimenHtml = (): string =>
   spec([
@@ -102,6 +122,11 @@ export const specimenHtml = (): string =>
       part(sdsField(Invalid.args as FieldProps)),
       part(html`<sds-field-error message="Not a registered identifier"></sds-field-error>`),
     ]),
+    specRow(
+      (['sm', 'md', 'lg'] as const).map((size, i) => at(size, 150 + i * 30)),
+      'SM · MD · LG — THE CONTROL HEIGHTS A BUTTON HAS',
+      { divided: true },
+    ),
     specCap(
       'FIELDS ARE SUNKEN, NOT OUTLINED ON THE CANVAS · ERROR TEXT SITS UNDER OR BESIDE, NEVER AS A TOOLTIP',
       DIVIDER,

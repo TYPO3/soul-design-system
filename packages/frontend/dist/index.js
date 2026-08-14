@@ -2752,9 +2752,11 @@ define("sds-field-error", SdsFieldError);
 
 // packages/frontend/src/components/field.ts
 var esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-function fieldClass({ focused, invalid, filled, select, rows, error }) {
+function fieldClass({ focused, invalid, filled, select, rows, error, size = "md" }) {
   const cls = ["sds-field"];
   if (select) cls.push("sds-select");
+  if (size === "sm") cls.push("sds-field--sm");
+  else if (size === "lg") cls.push("sds-field--lg");
   if (rows && rows > 1) cls.push("sds-field--multi");
   if (focused) cls.push("is-focused");
   if (invalid || error) cls.push("is-invalid");
@@ -2764,6 +2766,7 @@ function fieldClass({ focused, invalid, filled, select, rows, error }) {
 var SdsField = class extends SdsElement {
   static {
     this.properties = {
+      size: { type: String, reflect: true },
       value: { type: String },
       icon: { type: String },
       focused: { type: Boolean, reflect: true },
@@ -2785,6 +2788,7 @@ var SdsField = class extends SdsElement {
   }
   constructor() {
     super();
+    this.size = "md";
     this.value = "";
     this.focused = false;
     this.invalid = false;

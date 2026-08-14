@@ -22,7 +22,13 @@ import { define, SdsElement } from '../lib/element.ts';
 const esc = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+export type FieldSize = 'md' | 'sm' | 'lg';
+
 export interface FieldProps {
+  /** The three heights a button has, so the two stand on one line. `sm` for a
+      field inside another surface, `lg` where the field is what the screen is
+      for. A form's fields are `md`. */
+  size?: FieldSize;
   /** What is in the field — its value when `filled`, its placeholder when not. */
   value?: string;
   icon?: IconId;
@@ -63,9 +69,13 @@ export interface FieldProps {
   rows?: number;
 }
 
-export function fieldClass({ focused, invalid, filled, select, rows, error }: FieldProps): string {
+export function fieldClass({ focused, invalid, filled, select, rows, error, size = 'md' }: FieldProps): string {
   const cls = ['sds-field'];
   if (select) cls.push('sds-select');
+  /* Spelled out rather than interpolated: the size arrives as an attribute,
+     and a word this layer does not have would become a class nothing draws. */
+  if (size === 'sm') cls.push('sds-field--sm');
+  else if (size === 'lg') cls.push('sds-field--lg');
   if (rows && rows > 1) cls.push('sds-field--multi');
   if (focused) cls.push('is-focused');
   /* An error message and the invalid state are the same fact, so one sets the
@@ -78,6 +88,7 @@ export function fieldClass({ focused, invalid, filled, select, rows, error }: Fi
 
 export class SdsField extends SdsElement {
   static override properties = {
+    size: { type: String, reflect: true },
     value: { type: String },
     icon: { type: String },
     focused: { type: Boolean, reflect: true },
@@ -97,6 +108,7 @@ export class SdsField extends SdsElement {
     rows: { type: Number },
   };
 
+  declare size: FieldSize;
   declare value: string;
   declare icon?: IconId;
   declare focused: boolean;
@@ -117,6 +129,7 @@ export class SdsField extends SdsElement {
 
   constructor() {
     super();
+    this.size = 'md';
     this.value = '';
     this.focused = false;
     this.invalid = false;

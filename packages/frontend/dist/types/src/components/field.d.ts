@@ -3,7 +3,12 @@ import './icon.ts';
 import './field-error.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
+export type FieldSize = 'md' | 'sm' | 'lg';
 export interface FieldProps {
+    /** The three heights a button has, so the two stand on one line. `sm` for a
+        field inside another surface, `lg` where the field is what the screen is
+        for. A form's fields are `md`. */
+    size?: FieldSize;
     /** What is in the field — its value when `filled`, its placeholder when not. */
     value?: string;
     icon?: IconId;
@@ -43,9 +48,13 @@ export interface FieldProps {
     /** Lines. Anything above one renders a `<textarea>`. */
     rows?: number;
 }
-export declare function fieldClass({ focused, invalid, filled, select, rows, error }: FieldProps): string;
+export declare function fieldClass({ focused, invalid, filled, select, rows, error, size }: FieldProps): string;
 export declare class SdsField extends SdsElement {
     static properties: {
+        size: {
+            type: StringConstructor;
+            reflect: boolean;
+        };
         value: {
             type: StringConstructor;
         };
@@ -105,6 +114,7 @@ export declare class SdsField extends SdsElement {
             type: NumberConstructor;
         };
     };
+    size: FieldSize;
     value: string;
     icon?: IconId;
     focused: boolean;

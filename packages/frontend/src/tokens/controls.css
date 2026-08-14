@@ -44,6 +44,17 @@
      in a 44px square is a mark lost in its box. */
   --control-icon-size-lg: 20px;
 
+  /* A field's padding is not a button's at the same height: a button's stands
+     around a label, a field's stands in front of what somebody types, and the
+     caret starts where it ends. One pair per control height, so the three
+     sizes are read here rather than out of three rules. */
+  --field-pad-y: var(--space-1-5);
+  --field-pad-x: var(--control-pad-x-sm);
+  --field-pad-y-sm: var(--space-1);
+  --field-pad-x-sm: var(--space-2);
+  --field-pad-y-lg: var(--space-2);
+  --field-pad-x-lg: var(--control-pad-x);
+
   /* Badges — mono, because a badge names a machine thing. */
   --badge-font-size: var(--font-size-micro);
 
