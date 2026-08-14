@@ -24,7 +24,6 @@
     <a class="sds-pill" href="#install">install</a>
   </nav>
   <div class="sds-bar__end">
-    <span class="sds-badge sds-badge--accent">0.1.0-dev</span>
     
     <div class="sds-modes" role="group" aria-label="Colour mode">
   <button
@@ -206,7 +205,7 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">sds-code</span>&gt;</span></code></pre>
 </div>
         </article><article class="sds-stack">
-          <h3 class="sds-mono">sds-rail</h3>
+          <h3 class="sds-mono">sds-nav-rail</h3>
           <p>The tool rail: a flat list, or one long enough to need sections. A section is a `details`, so it folds before any script has run and a closed rail is a few lines rather than a screen of them.</p>
           <div class="sds-row">
             <span class="sds-badge">element</span><span class="sds-badge">class layer</span><span class="sds-badge">works unscripted</span>
@@ -240,13 +239,13 @@
     <span class="sds-code__lang">html</span>
     <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
   </div>
-  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">sds-rail</span> <span class="hljs-attr">active</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">items</span>=<span class="hljs-string">&#x27;[
+  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">sds-nav-rail</span> <span class="hljs-attr">active</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">items</span>=<span class="hljs-string">&#x27;[
   &quot;overview&quot;,
   { &quot;label&quot;: &quot;tools&quot;, &quot;items&quot;: [&quot;typo3_icon_lookup&quot;] }
-]&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sds-rail</span>&gt;</span></code></pre>
+]&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sds-nav-rail</span>&gt;</span></code></pre>
 </div>
         </article><article class="sds-stack">
-          <h3 class="sds-mono">sds-header</h3>
+          <h3 class="sds-mono">sds-nav-main</h3>
           <p>The bar at the top of a page, and what it does as the page runs out. A row while there is room; one button and one drawer holding the field, the sections and the page rail when there is not — and which of the two is measured, not declared at a breakpoint somebody picked for one page.</p>
           <div class="sds-row">
             <span class="sds-badge">element</span><span class="sds-badge">class layer</span><span class="sds-badge">measures itself</span>
@@ -280,9 +279,9 @@
     <span class="sds-code__lang">html</span>
     <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
   </div>
-  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">sds-header</span> <span class="hljs-attr">product</span>=<span class="hljs-string">&quot;Soul&quot;</span> <span class="hljs-attr">signet</span>=<span class="hljs-string">&quot;signet.svg&quot;</span> <span class="hljs-attr">search</span> <span class="hljs-attr">items</span>=<span class="hljs-string">&#x27;[
+  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">sds-nav-main</span> <span class="hljs-attr">product</span>=<span class="hljs-string">&quot;Soul&quot;</span> <span class="hljs-attr">signet</span>=<span class="hljs-string">&quot;signet.svg&quot;</span> <span class="hljs-attr">search</span> <span class="hljs-attr">items</span>=<span class="hljs-string">&#x27;[
   { &quot;label&quot;: &quot;overview&quot;, &quot;href&quot;: &quot;#overview&quot; }
-]&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sds-header</span>&gt;</span></code></pre>
+]&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sds-nav-main</span>&gt;</span></code></pre>
 </div>
         </article>
       </div>
@@ -458,6 +457,7 @@
   </div>
   <div class="sds-footer__end">
     
+    <span class="sds-mono">0.1.0-dev</span>
     <a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link" href="#">Contribute an icon</a>
     
   </div>

@@ -62,15 +62,12 @@ which group it was filed under.
    * - ``sds-confval``
      - one configuration value in a reference
      - :ref:`Data — sds-confval <component-sds-confval>`
-   * - ``sds-crumbs``
-     - where the page sits, as a trail
-     - :ref:`Navigation — sds-crumbs <component-sds-crumbs>`
-   * - ``sds-diff``
-     - a file's changes
-     - :ref:`Data — sds-diff <component-sds-diff>`
    * - ``sds-dialog``
      - a surface that opens over the page, and what opens it
      - :ref:`Overlays — sds-dialog <component-sds-dialog>`
+   * - ``sds-diff``
+     - a file's changes
+     - :ref:`Data — sds-diff <component-sds-diff>`
    * - ``sds-embed``
      - a document from somewhere else, in a frame this page controls
      - :ref:`Media — sds-embed <component-sds-embed>`
@@ -92,9 +89,6 @@ which group it was filed under.
    * - ``sds-grid``
      - the wall a set is read in
      - :ref:`Content — sds-grid <component-sds-grid>`
-   * - ``sds-header``
-     - the bar at the top of a page
-     - :ref:`Navigation — sds-header <component-sds-header>`
    * - ``sds-icon``
      - one icon from the set, in the document rather than linked
      - :ref:`Controls — sds-icon <component-sds-icon>`
@@ -110,30 +104,36 @@ which group it was filed under.
    * - ``sds-modal``
      - the surface alone, with nothing that opens or closes it
      - :ref:`Overlays — sds-modal <component-sds-modal>`
+   * - ``sds-nav-breadcrumb``
+     - where the page sits, as a trail
+     - :ref:`Navigation — sds-nav-breadcrumb <component-sds-nav-breadcrumb>`
+   * - ``sds-nav-main``
+     - the bar at the top of a page
+     - :ref:`Navigation — sds-nav-main <component-sds-nav-main>`
+   * - ``sds-nav-pager``
+     - the way on from a page that is read in order
+     - :ref:`Navigation — sds-nav-pager <component-sds-nav-pager>`
+   * - ``sds-nav-pagination``
+     - where a list continues
+     - :ref:`Navigation — sds-nav-pagination <component-sds-nav-pagination>`
+   * - ``sds-nav-pills``
+     - navigation for the sections of a page
+     - :ref:`Navigation — sds-nav-pills <component-sds-nav-pills>`
+   * - ``sds-nav-rail``
+     - the navigation rail beside a column
+     - :ref:`Navigation — sds-nav-rail <component-sds-nav-rail>`
    * - ``sds-note``
      - what an answer carries besides the answer
      - :ref:`Content — sds-note <component-sds-note>`
    * - ``sds-overlay``
      - the wash a floating surface sits on
      - :ref:`Overlays — sds-overlay <component-sds-overlay>`
-   * - ``sds-pager``
-     - the way on from a page that is read in order
-     - :ref:`Navigation — sds-pager <component-sds-pager>`
-   * - ``sds-pagination``
-     - where a list continues
-     - :ref:`Navigation — sds-pagination <component-sds-pagination>`
-   * - ``sds-pills``
-     - navigation for the sections of a page
-     - :ref:`Navigation — sds-pills <component-sds-pills>`
    * - ``sds-quote``
      - a sentence borrowed from somewhere, with where it came from
      - :ref:`Content — sds-quote <component-sds-quote>`
    * - ``sds-radio``
      - one answer out of a few, all of them visible
      - :ref:`Forms — sds-radio <component-sds-radio>`
-   * - ``sds-rail``
-     - the navigation rail beside a column
-     - :ref:`Navigation — sds-rail <component-sds-rail>`
    * - ``sds-result``
      - one hit in a list of them
      - :ref:`Navigation — sds-result <component-sds-result>`
@@ -232,10 +232,10 @@ rather than left to be lower-cased:
      - ``sds-field``
    * - ``perPage``
      - ``per-page``
-     - ``sds-pagination``
+     - ``sds-nav-pagination``
    * - ``previousHref``, ``previousLabel``, ``nextHref``, ``nextLabel``
      - ``previous-href``, ``previous-label``, ``next-href``, ``next-label``
-     - ``sds-pager``
+     - ``sds-nav-pager``
 
 .. note::
 
@@ -282,10 +282,10 @@ rather than on whatever is inside it.
      - From
      - ``detail``
    * - ``sds-change``
-     - ``sds-pills``, ``sds-header``, ``sds-rail``, ``sds-tabs``
+     - ``sds-nav-pills``, ``sds-nav-main``, ``sds-nav-rail``, ``sds-tabs``
      - ``{ index, label }`` — the item that became current
    * - ``sds-change``
-     - ``sds-pagination``
+     - ``sds-nav-pagination``
      - ``{ page }``, one-based. **Cancelable**: call ``preventDefault()`` to
        page in place instead of following the link
    * - ``sds-change``

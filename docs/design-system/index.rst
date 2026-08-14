@@ -35,8 +35,12 @@ something worse in a way that took a while to see.
 
 - **One accent.** ``--accent`` marks exactly three things: the active
   navigation item, the shell prompt in a code block, the pipe in the wordmark.
-- **No shadows.** Separation is a hairline plus ``--surface-overlay``. The
-  focus ring is the single ``box-shadow`` in the system, and it is a state.
+- **A shadow says a surface has left the page, and nothing else says it.**
+  ``--shadow-flyout`` under what the bar opens over the text, and the named
+  steps beside it — ``basic``, ``strong``, ``tooltip``, ``dialog``,
+  ``window`` — for whatever else genuinely floats. Everything that stays on
+  the page separates with a hairline plus ``--surface-overlay``; the focus
+  ring is a state rather than depth.
 - **No emoji.** Status is a colour plus a glyph from ``packages/frontend/assets/icons/``.
 - **Mono is semantic.** Anything the machine reads, writes or names is Source
   Code Pro, verbatim, at every size.

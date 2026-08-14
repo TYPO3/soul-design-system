@@ -167,7 +167,11 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                             ->arrayPrototype()
                                 ->children()
                                     ->scalarNode('href')->isRequired()->end()
-                                    ->scalarNode('label')->isRequired()->end()
+                                    /* Only where the tree has no page to take
+                                       the name from — somebody else's site.
+                                       A section is called what its own
+                                       `:navigation-title:` says. */
+                                    ->scalarNode('label')->defaultNull()->end()
                                     ->booleanNode('external')->defaultFalse()->end()
                                 ->end()
                             ->end()

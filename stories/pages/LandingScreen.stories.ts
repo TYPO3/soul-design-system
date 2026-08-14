@@ -12,7 +12,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/accordion.ts';
-import '../../packages/frontend/src/components/header.ts';
+import '../../packages/frontend/src/components/nav-main.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/badge.ts';
@@ -84,7 +84,7 @@ const COMPONENTS: readonly {
     source: '<sds-code code-lang="bash" caption="Install" copy>\n  <code>composer require typo3/soul-design-system</code>\n</sds-code>',
   },
   {
-    name: 'sds-rail',
+    name: 'sds-nav-rail',
     body: 'The tool rail: a flat list, or one long enough to need sections. A section is a `details`, so it folds before any script has run and a closed rail is a few lines rather than a screen of them.',
     marks: ['element', 'class layer', 'works unscripted'],
     columns: [{ head: 'Property', cls: 'sds-td-name' }, { head: 'Required' }, { head: 'Meaning' }],
@@ -93,10 +93,10 @@ const COMPONENTS: readonly {
       { cells: ['active', 'no', 'Which item is current. Pressing one moves it and says so.'] },
       { cells: ['open', 'no', 'Per group. A group holding the current item opens regardless.'] },
     ],
-    source: '<sds-rail active="1" items=\'[\n  "overview",\n  { "label": "tools", "items": ["typo3_icon_lookup"] }\n]\'></sds-rail>',
+    source: '<sds-nav-rail active="1" items=\'[\n  "overview",\n  { "label": "tools", "items": ["typo3_icon_lookup"] }\n]\'></sds-nav-rail>',
   },
   {
-    name: 'sds-header',
+    name: 'sds-nav-main',
     body: 'The bar at the top of a page, and what it does as the page runs out. A row while there is room; one button and one drawer holding the field, the sections and the page rail when there is not — and which of the two is measured, not declared at a breakpoint somebody picked for one page.',
     marks: ['element', 'class layer', 'measures itself'],
     columns: [{ head: 'Property', cls: 'sds-td-name' }, { head: 'Required' }, { head: 'Meaning' }],
@@ -105,7 +105,7 @@ const COMPONENTS: readonly {
       { cells: ['items', 'no', 'The sections of the site, or the links a server wrote between the tags.'] },
       { cells: ['rail', 'no', 'The id of the page rail, which hangs under its own section in the drawer once it has no column.'] },
     ],
-    source: '<sds-header product="Soul" signet="signet.svg" search items=\'[\n  { "label": "overview", "href": "#overview" }\n]\'></sds-header>',
+    source: '<sds-nav-main product="Soul" signet="signet.svg" search items=\'[\n  { "label": "overview", "href": "#overview" }\n]\'></sds-nav-main>',
   },
 ];
 
@@ -198,12 +198,11 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
   return html`<div class="sds-shell">
   ${skipLink()}
-  <sds-header
+  <sds-nav-main
     home="#overview"
     signet="../assets/design-system-signet-m.svg"
     brand="TYPO3"
     product="Soul Design System"
-    version="0.1.0-dev"
     .items="${[
       { label: 'overview', href: '#overview' },
       { label: 'foundations', href: '#foundations' },
@@ -211,7 +210,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
       { label: 'install', href: '#install' },
     ]}"
     active="0"
-  ></sds-header>
+  ></sds-nav-main>
 
   <main class="sds-bands" id="main-content">
 
@@ -349,7 +348,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
   </main>
 
-  <sds-footer product="Soul Design System" note="${SITE_NOTE}" .meta="${[
+  <sds-footer product="Soul Design System" note="${SITE_NOTE}" version="0.1.0-dev" .meta="${[
     { label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true },
     { label: 'Contribute an icon', href: '#' },
   ]}"></sds-footer>

@@ -13,7 +13,7 @@ use Twig\TwigFilter;
  * The element takes its rows as data and colours them itself; it never gets
  * markup, because a row's own class is the element's name for its own node
  * and no renderer may write one. So the reading happens here — the same
- * arrangement `sds-tabs` and `sds-crumbs` are fed by, and the reason a reader
+ * arrangement `sds-tabs` and `sds-nav-breadcrumb` are fed by, and the reason a reader
  * with no JavaScript still gets a coloured diff.
  *
  * `+++` and `---` are the file headers rather than changed lines: the block's

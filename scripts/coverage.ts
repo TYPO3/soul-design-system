@@ -50,12 +50,12 @@ const ELSEWHERE = [
   /* Something a page opens over itself, which a document does not do. */
   'sds-modal',
   'sds-dialog',
-  /* The bar draws its own row of pills, as `sds-header`'s content. A second
+  /* The bar draws its own row of pills, as `sds-nav-main`'s content. A second
      one standing in a document would be a second navigation. */
-  'sds-pills',
-  /* Numbered pages. The way on from a manual page is `sds-pager` — the tree
+  'sds-nav-pills',
+  /* Numbered pages. The way on from a manual page is `sds-nav-pager` — the tree
      read in order, rather than one list cut into pages. */
-  'sds-pagination',
+  'sds-nav-pagination',
 ];
 
 /* The shell every page layout under `specimens/screens/` is built out of: the
@@ -67,7 +67,7 @@ const ELSEWHERE = [
    The bar is the one of them that is addressed rather than written: what a
    header does as it runs out of room is measured, and a template that spelled
    `.sds-bar` by hand would be a row that cannot fold. */
-const SHELL = ['sds-app', 'sds-shell', 'sds-header', 'sds-body', 'sds-column', 'sds-bands', 'sds-band'];
+const SHELL = ['sds-app', 'sds-shell', 'sds-nav-main', 'sds-body', 'sds-column', 'sds-bands', 'sds-band'];
 
 function walk(dir: string, exts: readonly string[]): string[] {
   if (!existsSync(dir)) return [];

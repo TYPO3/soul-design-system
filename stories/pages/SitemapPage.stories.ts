@@ -5,18 +5,18 @@
    it. A list of everything answers "does this exist at all" and a search box
    does not.
 
-   It is `sds-rail` three times over, groups standing open. A sitemap is the
+   It is `sds-nav-rail` three times over, groups standing open. A sitemap is the
    same list without a column next to it, and a second component for it would
    fold at a different width. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/note.ts';
-import '../../packages/frontend/src/components/rail.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
-import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
+import '../../packages/frontend/src/components/nav-rail.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
+import { type MenuEntry } from '../../packages/frontend/src/components/nav-base.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
@@ -27,7 +27,7 @@ const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Sit
     every group here and nowhere else: a rail beside a page folds so a reader
     can see past it, and a sitemap that folds is a sitemap that hides what it
     exists to list. */
-const COLUMNS: readonly { title: string; items: readonly RailEntry[] }[] = [
+const COLUMNS: readonly { title: string; items: readonly MenuEntry[] }[] = [
   {
     title: 'The product',
     items: [
@@ -116,7 +116,7 @@ export function sitemapPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="sitemap">
       <div class="sds-stack sds-stack--tight">
-        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
         <h1>Sitemap</h1>
         <p class="sds-lead">
           Every page, and nothing that is not a page. It answers the question a
@@ -139,7 +139,7 @@ export function sitemapPage({ flat = false }: PageMode = {}): TemplateResult {
         COLUMNS.map(
           (column) => html`<div class="sds-stack">
           <span class="sds-label">${column.title}</span>
-          <sds-rail .items="${column.items}" active="-1"></sds-rail>
+          <sds-nav-rail .entry="${{ label: '', items: column.items }}"></sds-nav-rail>
         </div>`,
         ),
         { flat },

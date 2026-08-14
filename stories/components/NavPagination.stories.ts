@@ -9,14 +9,14 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../packages/frontend/src/components/pagination.ts';
-import { type PageChange, type PaginationProps } from '../../packages/frontend/src/components/pagination.ts';
+import '../../packages/frontend/src/components/nav-pagination.ts';
+import { type PageChange, type PaginationProps } from '../../packages/frontend/src/components/nav-pagination.ts';
 
 const sdsPagination = ({ count, perPage = 10, current = 1, href, label }: PaginationProps) =>
-  html`<sds-pagination count="${count}" per-page="${perPage}" current="${current}" href="${href ?? '#page-{n}'}" label="${label ?? ''}"></sds-pagination>`;
+  html`<sds-nav-pagination count="${count}" per-page="${perPage}" current="${current}" href="${href ?? '#page-{n}'}" label="${label ?? ''}"></sds-nav-pagination>`;
 
 const meta: Meta<PaginationProps> = {
-  title: 'Components/Pagination',
+  title: 'Components/Nav pagination',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsPagination(args),
   argTypes: {
@@ -61,11 +61,11 @@ export const Single: Story = { args: { count: 6, perPage: 10, current: 1, label:
 export const InPlace: Story = {
   args: { count: 84, perPage: 10, current: 1, label: 'entries' },
   render: ({ count, perPage = 10, current = 1, label }: PaginationProps) =>
-    html`<sds-pagination
+    html`<sds-nav-pagination
       count="${count}"
       per-page="${perPage}"
       current="${current}"
       label="${label ?? ''}"
       @sds-change="${(event: CustomEvent<PageChange>) => event.preventDefault()}"
-    ></sds-pagination>`,
+    ></sds-nav-pagination>`,
 };

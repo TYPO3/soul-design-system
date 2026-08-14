@@ -146,7 +146,7 @@ test('every registered host is removed from the box tree', async ({ page }) => {
   const displays = await page.evaluate(async () => {
     const tags = [
       'sds-button', 'sds-badge', 'sds-icon', 'sds-field',
-      'sds-pills', 'sds-tabs', 'sds-rail', 'sds-surface', 'sds-table',
+      'sds-nav-pills', 'sds-tabs', 'sds-nav-rail', 'sds-surface', 'sds-table',
     ];
     const out: Record<string, string> = {};
     for (const tag of tags) {

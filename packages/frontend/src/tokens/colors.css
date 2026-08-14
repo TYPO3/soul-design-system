@@ -18,6 +18,45 @@
   --surface-inset: light-dark(#EFEBE3, #221F1B);
   --surface-accent-quiet: light-dark(#FFF6EC, #1C1A16);
   --surface-overlay: light-dark(rgba(28, 26, 23, 0.45), rgba(6, 6, 5, 0.62));
+  /* Depth, for the surfaces that genuinely have some. Everything that stays on
+     the page is separated by a hairline; a surface that *leaves* it — what the
+     bar opens over the text, what a dialog is — is the exception, and how far
+     it has left is what these say.
+
+     Two layers each: a tight one for the edge and a wide one for the room
+     under it. One shadow is either a hard edge or a haze, and a raised surface
+     is both. The steps are the distance in pixels, and 64 is the one that
+     stops travelling: past a window's height an offset reads as a second
+     window rather than a taller one, so it spreads instead. */
+  --shadow-2:
+    0 1px 2px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25)),
+    0 1px 2px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
+  --shadow-4:
+    0 2px 4px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25)),
+    0 2px 4px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
+  --shadow-8:
+    0 4px 8px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25)),
+    0 4px 8px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
+  --shadow-16:
+    0 8px 16px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25)),
+    0 8px 16px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
+  --shadow-28:
+    0 14px 28px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25)),
+    0 14px 28px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
+  --shadow-64:
+    0 0 4px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25)),
+    0 32px 64px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
+
+  /* And what a surface actually writes: the job, not the distance. The scale
+     above is the raw material — `--orange-*` to these `--accent` — and a rule
+     naming a step has decided how far off the page something is instead of
+     what it is. */
+  --shadow-basic: var(--shadow-2);
+  --shadow-strong: var(--shadow-4);
+  --shadow-tooltip: var(--shadow-8);
+  --shadow-flyout: var(--shadow-16);
+  --shadow-dialog: var(--shadow-28);
+  --shadow-window: var(--shadow-64);
   /* The ground under a picture that brought its own colours. It does not flip,
      for the reason `--text-on-accent` does not: a drawing exported elsewhere is
      light whatever the page is, and a dark ground under light line art is the

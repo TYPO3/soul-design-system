@@ -95,7 +95,7 @@ The canvas and the frame
    :name: sds-foot
    :type: class
 
-   One row across the measure, which is what ``sds-pager`` stands in at the
+   One row across the measure, which is what ``sds-nav-pager`` stands in at the
    foot of a page read in order. Two shapes rather than one class with a
    modifier, because they share almost no part. A screen that wants an ending
    of its own writes ``sds-footer`` and sets only what it has — the block drops
@@ -115,7 +115,7 @@ reports and a page that argues.
       .. code-block:: html
 
          <div class="sds-body">
-           <aside class="sds-body__rail"><sds-rail …></sds-rail></aside>
+           <aside class="sds-body__rail"><sds-nav-rail …></sds-nav-rail></aside>
            <main class="sds-column">…</main>
          </div>
 
@@ -152,11 +152,9 @@ reports and a page that argues.
    pages is the frame, not part of what is read — and it comes to rest where
    it started rather than against the bar, so nothing jumps as it catches.
 
-   Below the width at which a column beside the text stops fitting, the rail
-   is behind the toggle in the bar instead. The toggle writes
-   ``is-collapsible`` onto it before the stylesheet may hide anything: a rail
-   hidden with no button to bring it back is a navigation with no way in, and
-   on a page whose script never ran that is the whole navigation.
+   Below the width at which a column beside the text stops fitting, it is not
+   drawn at all: the bar is handed the whole site on every page, and its drawer
+   holds these pages among the rest.
 
 .. confval:: .sds-column
    :name: sds-column
@@ -236,8 +234,9 @@ drawn for.
    * - 1140px
      - the gutters narrow, and the vertical rhythm with them
    * - 860px
-     - the rail stops being a column and joins the bar's drawer; the bar gives
-       its height back to the page; the version badge leaves it
+     - the rail stops being a column, the bar's own menu being where the site
+       is read at this width; the bar gives its height back to the page; the
+       version badge leaves it
    * - 640px
      - a row of controls wraps, and the marks at the end of the footer's
        closing line give up their end of it — there is none once the line broke
@@ -248,10 +247,10 @@ drawn for.
 .. important::
 
    What the bar does with the search field and the sections is **not** one of
-   these. ``sds-header`` measures what they need against the room the row has
+   these. ``sds-nav-main`` measures what they need against the room the row has
    left, because a bar holds a product name as long as the product is called;
-   what it can no longer hold waits in one drawer rather than being dropped —
-   see :doc:`components/navigation`.
+   what it can no longer hold waits in the one drawer that carries the site's
+   whole menu rather than being dropped — see :doc:`components/navigation`.
 
    Neither is a split or a grid. Both reflow by the minimum their own halves
    and items hold, so what decides is the column they stand in and never the

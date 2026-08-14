@@ -57,6 +57,11 @@ export interface FooterProps {
   /** Whose product it is, where that is a second name — the first half of the
       lockup, with the accent rule between the two. The bar's own form. */
   brand?: string;
+  /** What the reader is reading, where that has a version. It stands in the
+      closing line rather than in the bar: a version is a fact about the site
+      and not a control, and at the top it takes room from the ones that are.
+      Mono, being something the machine names. */
+  version?: string;
   /** Whose it is and from when. A separate line from the note because it is a
       separate claim, and a footer that runs the two together reads as though
       the sentence were part of the notice. */
@@ -73,6 +78,7 @@ export class SdsFooter extends SdsElement {
   static override properties = {
     groups: { type: Array },
     note: { type: String },
+    version: { type: String },
     product: { type: String },
     signet: { type: String },
     brand: { type: String },
@@ -83,6 +89,7 @@ export class SdsFooter extends SdsElement {
 
   declare groups: readonly FooterGroup[];
   declare note: string;
+  declare version: string;
   declare product: string;
   declare signet: string;
   declare brand: string;
@@ -94,6 +101,7 @@ export class SdsFooter extends SdsElement {
     super();
     this.groups = [];
     this.note = '';
+    this.version = '';
     this.product = '';
     this.signet = '';
     this.brand = '';
@@ -163,7 +171,7 @@ export class SdsFooter extends SdsElement {
     /* Each block goes when there is nothing in it, rather than standing as an
        empty box the next one is spaced away from: a footer of one line is one
        line, not a line under a hand's width of nothing. */
-    const closing = this.copyright || this.meta.length || this.marks.length;
+    const closing = this.copyright || this.version || this.meta.length || this.marks.length;
     const top = said || this.groups.length;
 
     return html`<footer class="sds-footer">
@@ -187,6 +195,7 @@ export class SdsFooter extends SdsElement {
   ${closing
     ? html`<div class="sds-footer__end">
     ${this.copyright ? html`<span>${this.copyright}</span>` : ''}
+    ${this.version ? html`<span class="sds-mono">${this.version}</span>` : ''}
     ${this.meta.map((item) => SdsFooter.link(item))}
     ${this.marks.length
       ? html`<span class="sds-footer__marks">${this.marks.map((item) => SdsFooter.mark(item))}</span>`

@@ -12,14 +12,14 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { type BadgeTone } from '../../packages/frontend/src/components/badge.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
@@ -90,7 +90,7 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="status">
       <div class="sds-stack sds-stack--tight">
-        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
         <div class="sds-row">
           <h1>Status</h1>
           <sds-badge label="one source degraded" tone="warn"></sds-badge>

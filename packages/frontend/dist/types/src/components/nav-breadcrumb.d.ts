@@ -10,7 +10,7 @@ export interface CrumbsProps {
     /** What the trail is called for a reader who cannot see it is one. */
     label?: string;
 }
-export declare class SdsCrumbs extends SdsElement {
+export declare class SdsNavBreadcrumb extends SdsElement {
     static properties: {
         items: {
             type: ArrayConstructor;

@@ -2,8 +2,10 @@
 
    The class vocabulary every surface is built from, and the rules it encodes,
    from SKILL.md — breaking one breaks the system:
-   - No shadows. Separation is a hairline plus --surface-overlay. The focus
-     ring is the single box-shadow here, and it is a state, not depth.
+   - Shadows only under what leaves the page — --shadow-flyout on what the bar
+     opens over the text, and the named steps beside it for whatever else does.
+     Everything on the page separates with a hairline and --surface-overlay;
+     the focus ring is a state, not depth.
    - Interaction never changes size. A linked card may lift 2px; reduced motion holds it.
    - One accent: the active nav item, the shell prompt, the wordmark pipe.
    - Mono is semantic — anything the machine reads, writes or names.
@@ -1422,18 +1424,12 @@ html:has(.sds-bar) {
    read as something to press. The controls line up with each other; the fact
    beside them stays the size a fact is. */
 
-/* A rail beside a column. `position: relative` because the rail becomes a
-   panel where there is no column for it, and that panel is anchored here —
-   see the drop rules under navigation. */
+/* A rail beside a column. */
 .sds-body {
-  position: relative;
   flex: 1;
   display: flex;
   gap: var(--space-12);
   padding-block: var(--space-8);
-  /* Whether the rail still has a column. The bar reads it back rather than
-     deciding a second time at a width of its own — see the media query. */
-  --rail-folded: 0;
 }
 /* Sticky for the bar's reason: the list of pages is the frame, not part of what
    is read. It comes to rest where it started rather than against the bar — the
@@ -1738,14 +1734,9 @@ html:has(.sds-bar) {
    that argues needs a section the eye tells from its neighbour first, and a
    fill stopping at the measure reads as a wide box rather than a change of
    ground. It replaces `.sds-page` — two insets would indent the text twice. */
+
 .sds-bands { flex: 1; display: flex; flex-direction: column; }
 .sds-band { padding-block: var(--space-12); }
-/* The tree a landing page keeps for the bar. There is no column for it here —
-   a run of bands is the way in and a list of pages beside the claim is not —
-   so the box is never drawn, and only says whether the bar may take what is in
-   it. Zero while the sections are a row: a drawer offered on a page that has
-   nothing behind the button is what the flag prevents. */
-.sds-bands__rail { display: none; --rail-folded: 0; }
 
 /* The second ground, and the hairlines that keep two of them apart. Without
    the rules a quiet band against the canvas is a fill whose edge is the only
@@ -1758,10 +1749,10 @@ html:has(.sds-bar) {
 .sds-band--quiet + .sds-band--quiet { border-top: 0; }
 
 /* Where it sheds. The second step is where a rail stops being a column beside
-   the text and goes into the bar's drawer: **navigation with no room becomes
-   a panel off the bar**. The sections and the field are not dropped at a
-   breakpoint at all — that is `sds-header`'s measurement; whether a column
-   exists is layout's, and `--rail-folded` is how it says so. */
+   the text: **navigation with no room is the bar's**, and the bar is handed the
+   whole menu on every page, so nothing is lost by the column going. The
+   sections and the field are not dropped at a breakpoint at all — that is
+   `sds-nav-main`'s measurement. */
 @media (max-width: 1140px) {
   .sds-bar,
   .sds-body,
@@ -1782,20 +1773,12 @@ html:has(.sds-bar) {
   .sds-foot,
   .sds-footer { --page-gutter: var(--space-4); }
   .sds-band { padding-block: var(--space-8); }
-  .sds-bar sds-badge { display: none; }
   /* The height a desktop can spare is height a phone is reading with. */
   :root { --height-header: 56px; }
-  /* The flag and the stacking are one decision, said in one rule so the two
-     cannot drift: below this width the rail has no column, and the bar takes
-     it into its drawer. Without a script it stays where it is, above the text
-     — a list of pages is worth a screen's height and is never hidden behind a
-     button that is not there. */
-  .sds-body { flex-direction: column; padding-block: var(--space-6); --rail-folded: 1; }
-  .sds-body__rail { width: auto; position: static; max-height: none; }
-  /* And the landing page's, which has no column to lose: the same width is the
-     one where the bar becomes the whole of the navigation, so it is the width
-     where the tree has to be in the drawer. */
-  .sds-bands__rail { --rail-folded: 1; }
+  .sds-body { flex-direction: column; padding-block: var(--space-6); }
+  /* And the section's own list goes with the column it stood in: the bar's
+     drawer holds the whole site at this width, these pages among them. */
+  .sds-body__rail { display: none; }
   .sds-page { padding-block: var(--space-8); }
   .sds-foot { flex-wrap: wrap; gap: var(--space-4); }
   .sds-sections { gap: var(--space-10); }
@@ -1989,7 +1972,10 @@ button.sds-rail__item {
    here is only the shapes it decides between. */
 .sds-bar__nav {
   display: flex;
-  gap: var(--space-1);
+  /* Wider than the gap inside a section, so a marker belongs to the name it
+     opens rather than sitting halfway to the next one — and no wider: what the
+     row spends between names it cannot spend on the field. */
+  gap: var(--space-2);
   font-family: var(--font-mono);
   font-size: var(--nav-font-size);
 }
@@ -2008,15 +1994,15 @@ button.sds-rail__item {
    nothing can be folded into a button, and a row that cannot fold keeps its
    own width and wraps. The bar takes the height that costs — a header of two
    rows beats a page that scrolls sideways under one. */
-sds-header:not(:defined) { display: contents; }
-sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content; }
+sds-nav-main:not(:defined) { display: contents; }
+sds-nav-main:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content; }
 /* And the one thing the layout still has to answer for. Below this width the
    field does not fit beside anything, and unupgraded there is no drawer to put
    it in and nothing measuring whether it fits — so it goes, the way it went
    before any of this was measured. A field that searches nothing until a
    script arrives is no loss until one has. */
 @media (max-width: 640px) {
-  sds-header:not(:defined) .sds-search { display: none; }
+  sds-nav-main:not(:defined) .sds-search { display: none; }
 }
 /* A square of the control height, like every other button that is a mark
    rather than a word — it stands in a row with the search field and the mode
@@ -2051,10 +2037,10 @@ sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content
   height: var(--control-icon-size);
 }
 /* What the button opens: the bar's own row, continued under it. One drawer and
-   not three, because a reader on a phone looking for the way somewhere presses
-   once — the field, the sections and the page's rail are in here in the order
-   the row let them go. Full width, and on the canvas because that is the colour
-   the bar is: a drop in the cooler raised white is two surfaces. */
+   not two, because a reader on a phone looking for the way somewhere presses
+   once — the field and the site's whole menu are in here, in the order the row
+   let them go. Full width, and on the canvas because that is the colour the bar
+   is: a drop in the cooler raised white is two surfaces. */
 .sds-bar__drawer {
   position: absolute;
   top: 100%;
@@ -2067,6 +2053,7 @@ sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content
   padding: var(--space-4) var(--page-inset, var(--gutter-page));
   background: var(--surface-canvas);
   border-bottom: var(--border-hairline) solid var(--border-subtle);
+  box-shadow: var(--shadow-flyout);
   max-height: calc(100vh - var(--height-header));
   overflow-y: auto;
 }
@@ -2081,33 +2068,206 @@ sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content
   gap: var(--border-hairline);
 }
 .sds-bar__drawer .sds-pill { padding: var(--space-1) var(--space-2); }
-/* And the rail takes the drawer's measure rather than the column's it came
-   from: a 210px list of pages inside a 420px drawer is a column that was
-   moved without being told where to. */
-.sds-bar__drawer .sds-rail { width: 100%; }
-/* The pages of a section, hanging under the section itself. The rail lands in
-   the sections rather than under them, so the drawer answers "where am I" with
-   one tree — two flat lists in one panel say only that there are two of them,
-   and which is the level the reader is on is left to be guessed. */
-.sds-bar__nav > .sds-bar__rail { margin-top: var(--space-3); }
-/* Set in against the rule that carries the level. Only where a section is
-   standing above it: a rail that found no section of its own is a list in its
-   own right and keeps both its place and its heading. */
-.sds-bar__nav > .is-active + .sds-bar__rail {
-  margin-block: var(--space-1) var(--space-2);
-  margin-inline: var(--space-2) 0;
-  padding-inline-start: var(--space-1);
-  border-inline-start: var(--border-hairline) solid var(--border-subtle);
+
+/* One level of the menu, which is what a phone gets instead of the whole tree:
+   a column of rows, the way back above them where the reader has stepped in.
+   The rows are the panel's rows — same measure, same mark for the page they
+   are on — because a menu that changes shape between two widths is two menus
+   to learn. */
+.sds-bar__level {
+  display: flex;
+  flex-direction: column;
+  gap: var(--border-hairline);
 }
-/* The pill above it already carries the section's name, and a heading repeating
-   it one line lower is the same word twice. The `<nav>` keeps its label, so a
-   reader who cannot see the pill is still told what the list is. */
-.sds-bar__nav > .is-active + .sds-bar__rail .sds-rail > .sds-label { display: none; }
+/* A row that is a page and a way through: the link takes the room, the marker
+   stands at the end of it. */
+.sds-bar__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.sds-bar__row > .sds-bar__link { flex: 1; }
+.sds-bar__into,
+.sds-bar__back {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  padding: var(--space-1) var(--space-2);
+  font: inherit;
+  color: var(--text-secondary);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+}
+.sds-bar__into { padding-inline: var(--space-1); }
+.sds-bar__into:hover,
+.sds-bar__back:hover { color: var(--text-primary); }
+/* The way back is a row of its own above the list, and it names what it goes
+   back to: "back" alone asks a reader who has stepped twice to remember where
+   they were. The rule under it is the level's own edge. */
+.sds-bar__back {
+  margin-block-end: var(--space-1);
+  padding-block-end: var(--space-2);
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+  border-radius: 0;
+}
+
+
+/* A front door and the marker that opens what is under it. The link stays a
+   link — pressing a section's name goes to that section — and the marker is
+   the way to look inside without leaving where you are.
+
+   Full height, so a panel hung at `100%` opens at the bar's own edge: a drop
+   measured from the pill would start inside the bar and cut its hairline. */
+.sds-bar__nav { align-items: stretch; align-self: stretch; }
+.sds-bar__section {
+  display: flex;
+  align-items: center;
+}
+/* And the marker is *inside* the name it opens rather than beside it: the pill
+   is a block, and a glyph standing off its corner reads as something that
+   arrived with the row instead of belonging to the section. So the section
+   carries the shape, the link gives up its own trailing air, and the two are
+   one control to look at. */
+.sds-bar__section {
+  /* The same air at both ends of the block — by eye rather than by sum: a
+     glyph's ink stops short of its own box, so an equal number leaves the
+     marker looking further off the edge than the text is. */
+  padding-inline-end: var(--space-1);
+  border-radius: var(--radius-control);
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+.sds-bar__section > .sds-pill { padding-inline: var(--space-2) var(--space-1); }
+/* The current section, as one filled block with its marker inside it — the
+   same answer every current navigation item gets, and the reason it can be
+   that here is that the block is now the whole control: the marker is in the
+   fill rather than standing off its corner, and the focus ring goes round both.
+   A tint would read as "hovered" or "disabled" depending on what is under it. */
+.sds-bar__section:has(> .sds-pill.is-active) {
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+.sds-bar__section:has(> .sds-pill.is-active) > .sds-pill.is-active { background: none; }
+.sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary,
+.sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary:hover { color: inherit; }
+/* And a ring inside the block is drawn in the block's own ink: the accent on
+   the accent is a ring nobody can see. The halo goes — there is no wash to
+   soften a mark that is already standing on a fill. */
+.sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary:focus-visible,
+.sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary:focus-visible {
+  outline-color: var(--text-on-accent);
+  box-shadow: none;
+}
+/* And the ring goes round the block, not round half of it. The section reads
+   as one control, so a ring drawn on the link alone cuts the marker out of the
+   thing it belongs to — the same reason the fill wraps both. The marker keeps
+   a ring of its own: two controls sharing one outline is a keyboard reader
+   guessing which of them they are on. */
+.sds-bar__section:has(> .sds-pill:focus-visible) {
+  outline: var(--border-emphasis) solid var(--accent);
+  outline-offset: var(--focus-offset);
+  box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
+}
+.sds-bar__section > .sds-pill:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* A row in the drawer is the same pair — a page and the way into its pages —
+   and answers the same way. */
+.sds-bar__row:has(> .sds-bar__link:focus-visible) {
+  outline: var(--border-emphasis) solid var(--accent);
+  outline-offset: var(--focus-offset);
+  box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
+  border-radius: var(--radius-control);
+}
+.sds-bar__row > .sds-bar__link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+/* Where the pages are a handful, the panel belongs under the section that
+   holds them rather than across the whole bar — a wall drawn for four links is
+   a room built for the furniture that is not in it. Which of the two is the
+   element's decision, and this is the half of it the stylesheet can see. */
+.sds-bar__section--drop { position: relative; }
+.sds-bar__fold > summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-icon-size);
+  height: var(--control-icon-size);
+  color: var(--text-secondary);
+  border-radius: var(--radius-control);
+}
+.sds-bar__fold > summary::-webkit-details-marker { display: none; }
+.sds-bar__fold > summary:hover { color: var(--text-primary); }
+/* The marker turns to say the panel is open, in the one duration the system
+   moves anything at this size. */
+.sds-bar__fold > summary .sds-icon {
+  width: var(--control-icon-size);
+  height: var(--control-icon-size);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+.sds-bar__fold[open] > summary { color: var(--text-primary); }
+.sds-bar__fold[open] > summary .sds-icon { transform: rotate(180deg); }
+/* The pages of one section, across the bar. It is the drawer's own construction
+   at another width — the same ground, the same edge, anchored to the same row —
+   because a panel that looks like a second kind of surface is a second thing to
+   learn. How many columns is the room's answer rather than a number: the list
+   is one list, and where it breaks is a question about the window. */
+.sds-bar__panel {
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  z-index: 20;
+  columns: var(--width-sidebar);
+  column-gap: var(--space-8);
+  padding: var(--space-6) var(--page-inset, var(--gutter-page));
+  background: var(--surface-canvas);
+  border-bottom: var(--border-hairline) solid var(--border-subtle);
+  box-shadow: var(--shadow-flyout);
+  max-height: calc(100vh - var(--height-header));
+  overflow-y: auto;
+}
+/* And the drop: the same rows in a box the width of what is in it, standing
+   under its own section. One column — a set small enough to be a drop is small
+   enough to read down — and the raised plane a drop is drawn on, which is what
+   the field's own results already use. */
+.sds-bar__section--drop .sds-bar__panel {
+  inset-inline: 0 auto;
+  columns: auto;
+  min-width: var(--width-sidebar);
+  width: max-content;
+  max-width: var(--width-page);
+  padding: var(--space-2);
+  background: var(--surface-raised);
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+}
+/* The rows of a panel are the rows of a rail: same measure, same mark for the
+   page the reader is on. Written once as its own name because the panel is the
+   bar's own construction and the rail is a page's. */
+.sds-bar__link {
+  display: block;
+  break-inside: avoid;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-control);
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.sds-bar__link:hover { color: var(--text-primary); }
+/* The page the reader is on, said quietly. A rail is a column somebody reads
+   down to find where they are, and a filled block is the answer; a panel is
+   opened to leave the page it marks, so the same block shouts the one row
+   nobody is going to press. The ink alone is the difference — every other row
+   is secondary — and `aria-current` says it outright to whoever is not
+   reading colour. */
+.sds-bar__link.is-active { color: var(--text-primary); font-weight: var(--weight-medium); }
 .sds-bar__drawer .sds-search { flex: none; width: 100%; }
-/* Where a folded rail waits — the page's own node, moved rather than copied.
-   Empty until the layout has taken its column away, and an empty box in a
-   flex column still takes the gap above it. */
-.sds-bar__rail:empty { display: none; }
 /* `hidden` outranks the display a class gives: an author rule beats the
    browser's own, so a `display` set by class puts a hidden element back on
    the page. */
@@ -2215,10 +2375,16 @@ sds-header:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content
 }
 .sds-rail__item:hover { color: var(--text-primary); }
 .sds-rail__item.is-active { background: var(--accent); color: var(--text-on-accent); }
+/* And the marker over a filled row is in that block, so it is drawn in the
+   block's own ink rather than reading as a glyph left on top of it. */
+.sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary,
+.sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary:hover {
+  color: var(--text-on-accent);
+}
 /* Before the element upgrades, and on a page where it never will: the column a
    server wrote. The host is inline until then, so without this the links run
    together as a paragraph — and the window is every first paint. */
-sds-rail:not(:defined) {
+sds-nav-rail:not(:defined) {
   display: flex;
   flex-direction: column;
   gap: var(--border-hairline);
@@ -2229,56 +2395,77 @@ sds-rail:not(:defined) {
    type and nothing else — everywhere else it labels a box that brings its own
    spacing, and here it is a heading standing directly on its list. */
 .sds-rail > .sds-label {
+  display: block;
   margin-bottom: var(--space-2);
   padding-inline: var(--space-2);
 }
+/* And where the section it names is a page, the heading is the way to it, as
+   a footer column's heading is. */
+.sds-rail__heading {
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.sds-rail__heading:hover,
+.sds-rail__heading.is-active { color: var(--text-primary); }
 
-/* A rail long enough to need sections. The fold is a `<details>`, so it works
-   before any script does; the marker is the system's chevron and the browser's
-   own triangle is taken away. */
-.sds-rail__group { display: contents; }
-/* The box the browser puts between a group and the items it holds, which
-   `display: contents` above does not reach through: the items are laid out
-   inside it, not in the rail. The column is declared again here so a grouped
-   item keeps the rhythm of an ungrouped one. */
-.sds-rail__group::details-content {
+/* A rail long enough to need sections. The row is a page like any other and
+   the marker beside it opens what it holds — the same pair the bar's row
+   draws, so a reader meets one shape and not two. The fold is a `<details>`,
+   so it works before any script does, and `display: contents` lets its marker
+   stand on the row's line while what it holds falls below. */
+.sds-rail__group {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--border-hairline);
 }
-.sds-rail__group > summary {
+.sds-rail__fold { display: contents; }
+/* The marker stands *on* the row rather than beside it, so the row is one box:
+   what fills for the current page and what the focus ring goes round takes the
+   marker with it, the way the bar's block does. The row keeps the room free at
+   its end, so a long title never runs under the glyph. */
+.sds-rail__group > .sds-rail__item { padding-inline-end: calc(var(--control-icon-size) + var(--space-3)); }
+.sds-rail__fold > summary {
+  position: absolute;
+  inset-inline-end: var(--space-2);
+  top: var(--space-1);
+  z-index: 1;
   list-style: none;
   cursor: pointer;
   user-select: none;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
-  padding: var(--space-1) var(--space-2);
-  font-size: var(--font-size-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
+  justify-content: center;
+  width: var(--control-icon-size);
+  /* The row's own line box, so the glyph sits on the text rather than near
+     it — and the row keeps whatever leading it inherits. */
+  height: 1lh;
   color: var(--text-muted);
-  transition: color var(--duration-fast) var(--ease-out);
+  border-radius: var(--radius-control);
 }
-.sds-rail__group > summary::-webkit-details-marker { display: none; }
-.sds-rail__group > summary:hover { color: var(--text-secondary); }
-/* Sideways closed, down open — it points at what pressing it will do, and keeps
-   the control floor rather than the label's size: an 11px marker is a smudge on
-   the one control in the rail. At the far edge, because a leading one costs a
-   gutter the rail cannot pay — the longest title already needs 169px of 210. */
-.sds-rail__group > summary .sds-icon {
+.sds-rail__fold > summary::-webkit-details-marker { display: none; }
+.sds-rail__fold > summary:hover { color: var(--text-primary); }
+/* Sideways closed, down open — it points at what pressing it will do, and
+   keeps the control floor rather than the label's size: an 11px marker is a
+   smudge on the one control in the rail. */
+.sds-rail__fold > summary .sds-icon {
   width: var(--control-icon-size);
   height: var(--control-icon-size);
-  margin-inline-start: auto;
   transform: rotate(-90deg);
   transition: transform var(--duration-fast) var(--ease-out);
 }
-.sds-rail__group[open] > summary .sds-icon { transform: none; }
-/* A group's pages are not indented. What groups them is the heading over them,
-   and an indent moves the filled block of the current one — so the accent sat at
-   a different edge depending on which page a reader was on. */
-.sds-rail__group:last-child > .sds-rail__item:last-child { margin-bottom: var(--space-2); }
+.sds-rail__fold[open] > summary .sds-icon { transform: none; }
+/* The box the browser puts between a fold and the pages it holds, which
+   `display: contents` above does not reach through. It sets its pages in by
+   one step: a column where everything starts on the same edge says nothing
+   about what belongs to what — and the step is the indent, never a second
+   heading. */
+.sds-rail__fold::details-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--border-hairline);
+  padding-inline-start: var(--space-3);
+}
+.sds-rail__group:last-child > .sds-rail__fold::details-content { padding-bottom: var(--space-2); }
 
 /* A list of questions, each with its answer folded behind it. `<details>` for
    the rail's reason: it folds before any script runs, so a page whose bundle

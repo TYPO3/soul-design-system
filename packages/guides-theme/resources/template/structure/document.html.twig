@@ -13,21 +13,14 @@
     {%- if headerNode.value == 'marketing' %}{% set layout = 'marketing' %}{% endif -%}
 {%- endfor -%}
 
-{#- The rail, rendered here rather than where it is placed, because two things
-    below ask whether this page has one: the body, which is a column beside it
-    or a column alone, and the bar, whose one button opens it. A page whose
-    section is a single page has no rail — see `body/menu/menu.html.twig` — and
-    a button standing over nothing is what a reader with no script is left
-    pressing. Set outside the blocks so the bar, which is rendered by the
-    layout above these, can read it. -#}
+{#- The rail, rendered here rather than where it is placed, because the body
+    below asks whether this page has one: a column beside it, or a column
+    alone. A page whose section is a single page has no rail — see
+    `body/menu/menu.html.twig` — and a landing page has no column for one at
+    any width. It is the section the reader is in; the whole site is what the
+    bar above is given. -#}
 {%- set rail -%}
-    {%- if layout != 'marketing' -%}
-        {%- if parts.mainmenu -%}
-            {%- for child in parts.mainmenu %}{{ renderNode(child) }}{% endfor -%}
-        {%- else -%}
-            {{- renderMenu('mainmenu') -}}
-        {%- endif -%}
-    {%- endif -%}
+    {%- if layout != 'marketing' %}{% include "body/menu/menu.html.twig" %}{% endif -%}
 {%- endset -%}
 
 {% block head %}

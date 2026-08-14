@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Twig;
 
-use phpDocumentor\Guides\Nodes\Menu\MenuNode;
 use phpDocumentor\Guides\RenderContext;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use TYPO3\Soul\GuidesTheme\Navigation\Menu;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Nodes\Bands;
@@ -42,6 +42,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         private readonly array $footer,
         private readonly array $navigation,
         private readonly bool $pager,
+        private readonly Menu $menu,
         private readonly Rail $rail,
         private readonly Pager $pages,
     ) {}
@@ -89,24 +90,62 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         return [
             new TwigFunction('bands', Bands::of(...)),
             new TwigFunction('terms', Terms::of(...)),
+            new TwigFunction('menu', $this->menu(...), ['needs_context' => true]),
             new TwigFunction('rail', $this->rail(...), ['needs_context' => true]),
             new TwigFunction('pager', $this->pager(...), ['needs_context' => true]),
         ];
     }
 
     /**
+     * The section of it a page's own column carries, or nothing where the
+     * section is a single page and the bar naming it says everything.
+     *
      * @param array{env?: RenderContext} $context
      *
-     * @return array{label: string, items: list<array<string, mixed>>, active: int}
+     * @return array<string, mixed>|null
      */
-    public function rail(array $context, MenuNode $node): array
+    public function rail(array $context): ?array
+    {
+        return $this->rail->of($this->context($context, 'A rail is the section of a page'));
+    }
+
+    /**
+     * The site as one entry, on every page alike: the contract every
+     * navigation of this theme is given.
+     *
+     * A function with no node, unlike a directive's: the answer is the
+     * project's and not the document's, so any template can ask for it — and
+     * the one that does is the bar's, which draws as much of it as the width
+     * allows.
+     *
+     * @param array{env?: RenderContext} $context
+     *
+     * @return array<string, mixed>
+     */
+    public function menu(array $context): array
+    {
+        $renderContext = $this->context($context, 'The menu is the site read from a page');
+
+        return $this->menu->of(
+            $renderContext,
+            $this->product ?? $renderContext->getProjectNode()->getTitle() ?? '',
+            $this->navigation['links'] ?? [],
+        );
+    }
+
+    /**
+     * The page being rendered, or the reason there has to be one.
+     *
+     * @param array{env?: RenderContext} $context
+     */
+    private function context(array $context, string $because): RenderContext
     {
         $renderContext = $context['env'] ?? null;
         if (!$renderContext instanceof RenderContext) {
-            throw new \RuntimeException('A rail is the section of a page, so there has to be a page being rendered');
+            throw new \RuntimeException($because . ', so there has to be a page being rendered');
         }
 
-        return $this->rail->of($node, $renderContext);
+        return $renderContext;
     }
 
     /**
@@ -116,11 +155,6 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
      */
     public function pager(array $context): array
     {
-        $renderContext = $context['env'] ?? null;
-        if (!$renderContext instanceof RenderContext) {
-            throw new \RuntimeException('The way on is the way on from a page, so there has to be a page being rendered');
-        }
-
-        return $this->pages->of($renderContext);
+        return $this->pages->of($this->context($context, 'The way on is the way on from a page'));
     }
 }

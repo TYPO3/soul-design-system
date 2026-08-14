@@ -6,14 +6,14 @@
    search with no hits gives: the one state a specimen can show without a build
    standing behind it.
 
-   Its home is the bar, and `sds-header` puts it there and takes it away again
+   Its home is the bar, and `sds-nav-main` puts it there and takes it away again
    as the row runs out of room. No `parameters.dsCard`: what a card would hold
    is an empty text field. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../../packages/frontend/src/components/search.ts';
-import '../../packages/frontend/src/components/header.ts';
+import '../../packages/frontend/src/components/nav-main.ts';
 
 const meta: Meta = {
   title: 'Components/Search',
@@ -40,7 +40,7 @@ export const InTheBar: Story = {
      the field goes into. A bar with nothing below it is a panel with nowhere
      to open. */
   render: () => html`<div class="sds-shell" style="min-height: 420px">
-  <sds-header
+  <sds-nav-main
     home="#overview"
     signet="../assets/design-system-signet-m.svg"
     brand="TYPO3"
@@ -51,7 +51,7 @@ export const InTheBar: Story = {
       { label: 'components', href: '#components' },
     ]}"
     active="0"
-  ></sds-header>
+  ></sds-nav-main>
   <main class="sds-page" id="main-content">
     <p>Type in the field: with no index behind it the answer is the sentence a search with no hits gives.</p>
   </main>

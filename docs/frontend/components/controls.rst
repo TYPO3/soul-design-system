@@ -290,7 +290,7 @@ press rather than one state to flip.
 
    The words dropped and the marks left standing, for a row that has run out of
    room for them. Set from outside, because what is short of room is never the
-   control itself: in a bar it is ``sds-header``, and these two words are the
+   control itself: in a bar it is ``sds-nav-main``, and these two words are the
    first thing it sheds — before the search field, and long before a section.
    The word a segment no longer draws is still said to a reader who cannot see
    the mark.

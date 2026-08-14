@@ -1,4 +1,4 @@
-/* sds-crumbs — where the page sits, as a trail.
+/* sds-nav-breadcrumb — where the page sits, as a trail.
 
    The last entry is the page itself and is not a link, and says so with
    `aria-current="page"` rather than leaving it to be inferred from position.
@@ -23,7 +23,7 @@ export interface CrumbsProps {
   label?: string;
 }
 
-export class SdsCrumbs extends SdsElement {
+export class SdsNavBreadcrumb extends SdsElement {
   static override properties = {
     items: { type: Array },
     label: { type: String },
@@ -54,4 +54,4 @@ export class SdsCrumbs extends SdsElement {
   }
 }
 
-define('sds-crumbs', SdsCrumbs);
+define('sds-nav-breadcrumb', SdsNavBreadcrumb);

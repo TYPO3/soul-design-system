@@ -35,7 +35,7 @@ export declare function pageCount(count: number, perPage: number): number;
     `0` where a run was left out. Two gaps at most, and never a gap standing in
     for a single number — "1 … 3" is longer than "1 2 3" and says less. */
 export declare function pageNumbers(pages: number, current: number): readonly number[];
-export declare class SdsPagination extends SdsElement {
+export declare class SdsNavPagination extends SdsElement {
     static properties: {
         count: {
             type: NumberConstructor;

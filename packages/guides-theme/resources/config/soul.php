@@ -21,6 +21,7 @@ use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SplitDirective;
 use TYPO3\Soul\GuidesTheme\Directives\StatDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SurfaceDirective;
+use TYPO3\Soul\GuidesTheme\Navigation\Menu;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
@@ -106,9 +107,13 @@ return static function (ContainerConfigurator $container): void {
         ->set(OnThisPage::class)
         ->tag('phpdoc.guides.compiler.nodeTransformers')
 
-        /* The rail's list, worked out where it can be read. It resolves links
-           itself, so it takes the renderer's url generator — autowired, unlike
-           the extension below, whose arguments are all settings. */
+        /* The site as the one entry every navigation is given, worked out
+           where it can be read. It resolves links itself, so it takes the
+           renderer's url generator — autowired, unlike the extension below,
+           whose arguments are all settings. */
+        ->set(Menu::class)
+
+        /* And the slice of it a page's own column carries. */
         ->set(Rail::class)
 
         /* And the way on from the page being rendered, worked out the same
@@ -135,7 +140,8 @@ return static function (ContainerConfigurator $container): void {
         ->set(ThemeExtension::class)
         ->args([
             '%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%',
-            '%soul.footer%', '%soul.navigation%', '%soul.pager%', service(Rail::class), service(Pager::class),
+            '%soul.footer%', '%soul.navigation%', '%soul.pager%',
+            service(Menu::class), service(Rail::class), service(Pager::class),
         ])
         ->tag('twig.extension');
 };

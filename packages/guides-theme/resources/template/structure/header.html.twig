@@ -1,29 +1,26 @@
 {#
     The bar. One of them, for every kind of page.
 
-    Its parts are configuration — the mark, the sections, the version, the
-    search, the rail it takes in when the page has no column for one — so a
-    manual page and a landing page carry the same bar and a reader never has to
-    work out which site they are on. What a project sets, and where, is
-    `docs/guides-theme/configuration.rst`.
+    Its parts are configuration — the mark, the version, the search — and the
+    site itself is `menu()`: one entry with every section under it, each with
+    its pages, and the page the reader is on marked wherever it sits. The bar
+    draws as much of that as the width allows: the front doors in the row, the
+    pages of one of them in a panel under it, the whole tree in its drawer.
 
-    The sections are written between the tags rather than handed over as data:
-    this renderer has resolved its own tree already, and the element does the
-    part a server cannot — measure what still fits in the row, and hold the
-    rest behind one button.
+    Handed over as data rather than written between the tags. This renderer has
+    resolved its own tree already, and what the element does with it — measure
+    what still fits, fold the rest — needs the list rather than the markup of
+    one. What a project sets, and where, is
+    `docs/guides-theme/configuration.rst`.
 #}
-<sds-header
+<sds-nav-main
     home="{{ soul.home ? asset(soul.home) : renderLink('/index') }}"
     {%- if soul.signet %} signet="{{ asset('/' ~ soul.signet) }}"{% endif %}
     {%- if soul.brand %} brand="{{ soul.brand }}"{% endif %}
     product="{{ soul.product|default(env.projectNode.title)|default('Documentation') }}"
-    {#- The version is a fact about the documentation the reader is in rather
-        than part of the product's name, which is why it is a badge at the
-        other end of the bar and not a third line in the mark. -#}
-    {%- if env.projectNode.version %} version="{{ env.projectNode.version }}"{% endif %}
+    {#- No version here. It is a fact about the documentation rather than a
+        control, and at this end of the row it takes the room the controls
+        need: the footer carries it, on every page alike. -#}
     index="{{ root }}_search.json"
-    {#- Only where the page has one. The element takes the rail in once the
-        layout has no column for it; named a rail that is not there, it would
-        be a button standing in the bar with nothing behind it. -#}
-    {%- if rail|default('')|trim %} rail="page-rail"{% endif %}
->{% include "structure/navigation.html.twig" %}</sds-header>
+    menu="{{ menu()|json_encode }}"
+></sds-nav-main>

@@ -13,14 +13,14 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/byline.ts';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/quote.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/card.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { sdsStat } from '../components/Stat.stories.ts';
@@ -83,7 +83,7 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="about">
       <div class="sds-stack sds-stack--tight">
-        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
         <h1>Who is behind it</h1>
         <p class="sds-lead">
           A tool that answers questions about somebody else’s software has to

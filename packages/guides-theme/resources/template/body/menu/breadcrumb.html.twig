@@ -2,7 +2,7 @@
     Where the page sits, said as a trail.
 
     **The element, addressed.** This template used to build the trail itself —
-    `sds-crumbs`, `sds-crumbs__sep`, `sds-crumbs__here` — which is the whole of
+    `sds-nav-breadcrumb`, `sds-crumbs__sep`, `sds-crumbs__here` — which is the whole of
     a component written out in a file that is not the component. What the
     renderer knows is the rootline; everything after that is the trail's own:
     that the separator is a character rather than a glyph and is not read out,
@@ -24,5 +24,5 @@
                 : { label: entry.value.toString, href: renderLink(entry.url) }
         ]) -%}
     {%- endfor -%}
-    <sds-crumbs items="{{ items|json_encode }}"></sds-crumbs>
+    <sds-nav-breadcrumb items="{{ items|json_encode }}"></sds-nav-breadcrumb>
 {%- endif -%}

@@ -65,8 +65,15 @@ A **card** is a hairline and 6px with no fill of its own.
        frame and ``--text-accent-quiet`` as its ink
    * - ``--surface-overlay``
      - the wash under a floating surface
-     - a dialog is open. In a system with no shadows it is the whole of how
-       one plane is separated from another
+     - a dialog is open, and the page behind it is out of use. It says that
+       rather than depth — what merely stands in front of the page carries a
+       shadow and leaves it readable
+   * - ``--shadow-flyout``
+     - a surface that has left the page
+     - what the bar opens over the text: its panels, its drawer. Its neighbours
+       are ``--shadow-basic``, ``--shadow-strong``, ``--shadow-tooltip``,
+       ``--shadow-dialog`` and ``--shadow-window`` — the job rather than the
+       distance, over a raw ``--shadow-2…64`` scale no design writes
    * - ``--surface-art``
      - the ground under a picture that brought its own colours
      - **it does not flip.** A drawing exported elsewhere is light whatever

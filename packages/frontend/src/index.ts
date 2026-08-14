@@ -19,19 +19,19 @@ import './components/theme.ts';
 import './components/button.ts';
 import './components/badge.ts';
 import './components/link.ts';
-import './components/crumbs.ts';
+import './components/nav-breadcrumb.ts';
 import './components/field.ts';
 import './components/field-error.ts';
 import './components/checkbox.ts';
 import './components/radio.ts';
 import './components/form-errors.ts';
-import './components/pills.ts';
-import './components/header.ts';
+import './components/nav-pills.ts';
+import './components/nav-main.ts';
 import './components/accordion.ts';
 import './components/accordion-item.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
-import './components/rail.ts';
+import './components/nav-rail.ts';
 import './components/footer.ts';
 import './components/surface.ts';
 import './components/stat.ts';
@@ -46,8 +46,8 @@ import './components/table.ts';
 import './components/card.ts';
 import './components/grid.ts';
 import './components/result.ts';
-import './components/pagination.ts';
-import './components/pager.ts';
+import './components/nav-pagination.ts';
+import './components/nav-pager.ts';
 import './components/code.ts';
 import './components/diff.ts';
 import './components/quote.ts';
@@ -62,20 +62,20 @@ export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './compo
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts';
 export { SdsLink, type LinkProps } from './components/link.ts';
-export { SdsCrumbs, type CrumbsProps, type Crumb } from './components/crumbs.ts';
+export { SdsNavBreadcrumb, type CrumbsProps, type Crumb } from './components/nav-breadcrumb.ts';
 export { SdsField, fieldClass, type FieldProps } from './components/field.ts';
 export { SdsFieldError } from './components/field-error.ts';
 export { SdsCheckbox, type CheckboxProps } from './components/checkbox.ts';
 export { SdsRadio, type RadioProps, type Choice } from './components/radio.ts';
 export { SdsFormErrors, type FormErrorsProps, type FormError } from './components/form-errors.ts';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.ts';
-export { SdsPills } from './components/pills.ts';
-export { SdsHeader } from './components/header.ts';
+export { SdsNavPills } from './components/nav-pills.ts';
+export { SdsNavMain } from './components/nav-main.ts';
 export { SdsAccordion, type AccordionProps, type Entry } from './components/accordion.ts';
 export { SdsAccordionItem } from './components/accordion-item.ts';
 export { SdsTabs } from './components/tabs.ts';
 export { SdsTabItem } from './components/tab-item.ts';
-export { SdsRail } from './components/rail.ts';
+export { SdsNavRail } from './components/nav-rail.ts';
 export { SdsFooter, type FooterProps, type FooterGroup, type FooterLink } from './components/footer.ts';
 export { SdsSurface, type SurfaceProps, type Plane } from './components/surface.ts';
 export { SdsStat, type StatProps } from './components/stat.ts';
@@ -102,8 +102,8 @@ export { SdsConfval, type ConfvalProps, type Fact } from './components/confval.t
 export { SdsCard, type CardProps } from './components/card.ts';
 export { SdsGrid, type GridProps, type GridVariant } from './components/grid.ts';
 export { SdsResult, type ResultProps } from './components/result.ts';
-export { SdsPagination, pageNumbers, type PaginationProps } from './components/pagination.ts';
-export { SdsPager, type PagerProps } from './components/pager.ts';
+export { SdsNavPagination, pageNumbers, type PaginationProps } from './components/nav-pagination.ts';
+export { SdsNavPager, type PagerProps } from './components/nav-pager.ts';
 
 if (typeof document !== 'undefined') installHostRule();
 
@@ -116,20 +116,20 @@ export const TAGS = [
   'sds-button',
   'sds-badge',
   'sds-link',
-  'sds-crumbs',
+  'sds-nav-breadcrumb',
   'sds-field',
   'sds-search',
   'sds-field-error',
   'sds-checkbox',
   'sds-radio',
   'sds-form-errors',
-  'sds-pills',
-  'sds-header',
+  'sds-nav-pills',
+  'sds-nav-main',
   'sds-accordion',
   'sds-accordion-item',
   'sds-tabs',
   'sds-tab-item',
-  'sds-rail',
+  'sds-nav-rail',
   'sds-footer',
   'sds-surface',
   'sds-stat',
@@ -144,8 +144,8 @@ export const TAGS = [
   'sds-card',
   'sds-grid',
   'sds-result',
-  'sds-pagination',
-  'sds-pager',
+  'sds-nav-pagination',
+  'sds-nav-pager',
   'sds-code',
   'sds-diff',
   'sds-quote',

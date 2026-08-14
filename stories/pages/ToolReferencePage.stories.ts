@@ -12,7 +12,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/field.ts';
-import '../../packages/frontend/src/components/header.ts';
+import '../../packages/frontend/src/components/nav-main.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/image.ts';
 import '../../packages/frontend/src/components/table.ts';
@@ -97,7 +97,7 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
 
   return html`<div class="sds-shell">
   ${skipLink()}
-  <sds-header
+  <sds-nav-main
     home="#tools"
     signet="../assets/design-system-signet-m.svg"
     brand="TYPO3"
@@ -109,7 +109,7 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
       { label: 'install', href: '#install' },
     ]}"
     active="1"
-  ></sds-header>
+  ></sds-nav-main>
 
   <main class="sds-page" id="main-content">
     <div class="sds-stack" id="tools">

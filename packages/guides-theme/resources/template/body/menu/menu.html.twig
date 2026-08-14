@@ -1,15 +1,17 @@
 {#
-    The rail shows the current section, while the bar moves between sections.
-    Navigation\Rail walks the tree because a template cannot derive ancestry.
-    sds-rail receives that result as data and owns all of its internal markup.
-    `active` includes -1; omitting it would select a page the reader is not on.
-    An empty result means the section has no rail, not an empty rail.
+    The rail shows the section the reader is in, while the bar carries the site.
+
+    Both are the same entry read at a different level, worked out in
+    `Navigation\Menu` because a template cannot derive ancestry: the section is
+    the one entry marked `here` or `current`, and `Navigation\Rail` is that
+    slice of it. The element is handed the entry and owns all of its markup —
+    its label is the heading, its pages are the list, and a page with pages of
+    its own is a fold.
+
+    Nothing where the section is a single page: an absent rail is not an empty
+    one, and the bar naming the section is the whole of what there is to say.
 #}
-{%- set list = rail(node) -%}
-{%- if list.items is not empty -%}
-<sds-rail
-    label="{{ list.label }}"
-    items="{{ list.items|json_encode }}"
-    active="{{ list.active }}"
-></sds-rail>
+{%- set section = rail() -%}
+{%- if section -%}
+<sds-nav-rail entry="{{ section|json_encode }}"></sds-nav-rail>
 {%- endif -%}

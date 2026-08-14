@@ -14,7 +14,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/checkbox.ts';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/form-errors.ts';
 import '../../packages/frontend/src/components/link.ts';
@@ -22,7 +22,7 @@ import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/radio.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { type FormError } from '../../packages/frontend/src/components/form-errors.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
@@ -189,7 +189,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
 
     <section class="sds-band" id="contact">
       <div class="sds-stack sds-stack--tight">
-        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
         <h1>Report a wrong answer</h1>
         <p class="sds-lead">
           An answer that names its source can be checked, and one that is wrong

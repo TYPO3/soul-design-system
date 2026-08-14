@@ -9,16 +9,24 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import '../../packages/frontend/src/components/pills.ts';
+import '../../packages/frontend/src/components/nav-pills.ts';
 import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
-import '../../packages/frontend/src/components/rail.ts';
-import { type NavProps } from '../../packages/frontend/src/components/nav-base.ts';
+import '../../packages/frontend/src/components/nav-rail.ts';
+import { navLabel, type NavProps } from '../../packages/frontend/src/components/nav-base.ts';
 import { dsCard, part, specCol, specPad } from '../lib/specimen.ts';
 
-const nav = (tag: 'sds-pills' | 'sds-rail', { items, active = 0 }: NavProps) =>
-  tag === 'sds-pills'
-    ? html`<sds-pills .items="${items}" active="${active}"></sds-pills>`
-    : html`<sds-rail .items="${items}" active="${active}"></sds-rail>`;
+const nav = (tag: 'sds-nav-pills' | 'sds-nav-rail', { items, active = 0 }: NavProps) =>
+  tag === 'sds-nav-pills'
+    ? html`<sds-nav-pills .items="${items}" active="${active}"></sds-nav-pills>`
+    : /* The rail is one entry with its pages under it, so the same list arrives
+         as what it is: the current row says so itself rather than being counted
+         to from the outside. */
+      html`<sds-nav-rail
+        .entry="${{
+          label: '',
+          items: items.map((item, i) => ({ label: navLabel(item), ...(i === active ? { current: true } : {}) })),
+        }}"
+      ></sds-nav-rail>`;
 
 /* A card is opened without a script, so nothing can be pressed and what it
    shows is which item is current. The tab bar comes from `tabsBarMarkup` rather
@@ -49,14 +57,14 @@ export const specimenHtml = (): string =>
     [
       specCol(
         [
-          part(nav('sds-pills', PILLS)),
+          part(nav('sds-nav-pills', PILLS)),
           part(tabsBarMarkup(TABS, 0)),
           '<div class="spec-cap">PILL NAV FOR SECTIONS · UNDERLINE TABS INSIDE A PANEL</div>',
         ],
         'display:flex; flex-direction:column; gap:14px; flex:1; min-width:300px;',
       ),
       specCol(
-        ['<span class="spec-cap">TOOL SURFACE</span>', part(nav('sds-rail', RAIL))],
+        ['<span class="spec-cap">TOOL SURFACE</span>', part(nav('sds-nav-rail', RAIL))],
         'width:210px; display:flex; flex-direction:column; gap:9px;',
       ),
     ],

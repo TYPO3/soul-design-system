@@ -18,7 +18,7 @@ Rendered before publishing
 One arrangement runs under everything below, so it is worth saying once.
 
 Every template here *addresses* a component — ``<sds-card heading="…">``,
-``<sds-rail items="…">`` — and writes none of its markup. That is the whole
+``<sds-nav-rail entry="…">`` — and writes none of its markup. That is the whole
 point of there being components: what a card looks like is decided in one file,
 and a page this theme renders cannot drift from a page a product wrote.
 

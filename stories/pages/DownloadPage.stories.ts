@@ -14,7 +14,7 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/code.ts';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/table.ts';
@@ -23,7 +23,7 @@ import '../../packages/frontend/src/components/tab-item.ts';
 import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
@@ -131,7 +131,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="get">
       <div class="sds-split">
         <div class="sds-stack sds-stack--tight">
-          <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+          <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
           <h1>Get started</h1>
           <p class="sds-lead">
             One local process, started by your client. It needs PHP${NNBSP}8.2 or

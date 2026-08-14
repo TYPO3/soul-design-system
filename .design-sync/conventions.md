@@ -24,9 +24,9 @@ Two rules follow, and both are load-bearing:
 | Text | `sds-icon` `sds-link` |
 | Brand, chrome | `sds-theme` |
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` `sds-checkbox` `sds-radio` `sds-form-errors` |
-| Navigation | `sds-pills` `sds-header` `sds-tabs`/`sds-tab-item` `sds-rail` `sds-crumbs` `sds-footer` `sds-accordion`/`sds-accordion-item` `sds-search` — `sds-header` is the whole bar and measures what still fits in it; what does not waits in one drawer with the page rail. Search fetches its index on the first keystroke and draws `sds-result` rows in a drop under the field |
+| Navigation | `sds-nav-pills` `sds-nav-main` `sds-tabs`/`sds-tab-item` `sds-nav-rail` `sds-nav-breadcrumb` `sds-footer` `sds-accordion`/`sds-accordion-item` `sds-search` — `sds-nav-main` is the whole bar: it is handed the site as one `MenuEntry` with everything under it, measures what still fits, opens a section's pages in a drop or a wall under the row, and on a phone steps through the menu a level at a time in one drawer. Search fetches its index on the first keystroke and draws `sds-result` rows in a drop under the field |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-dialog` — `sds-surface` is a *filled* plane and takes `plane="raised|sunken"`; the plane with no fill is a card, and `sds-card` draws it |
-| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-image` `sds-embed` `sds-lightbox` `sds-card`/`sds-grid` `sds-result` `sds-pagination` `sds-pager` — `sds-card` is a way into something and the whole of it is the link, whether it stands alone or is one entry in a list of them; `sds-grid` takes cards and carries how wide the set runs |
+| Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-image` `sds-embed` `sds-lightbox` `sds-card`/`sds-grid` `sds-result` `sds-nav-pagination` `sds-nav-pager` — `sds-card` is a way into something and the whole of it is the link, whether it stands alone or is one entry in a list of them; `sds-grid` takes cards and carries how wide the set runs |
 | States | `sds-note` — an empty answer has no element of its own: a page says it in its own headline, a list says it in an `info` note |
 | Long text | `sds-quote` `sds-byline` `sds-confval` — the first two take `as` for what the source is; `role` is the ARIA attribute and cannot be used. `sds-confval` is one configuration value in a reference: `name`, `anchor`, `required`, `type`, `default`, and `facts` for whatever else the source named |
 
@@ -81,7 +81,7 @@ inline styles — do not mint a `sds-` name.
 | Root, text | `sds-app` `sds-prose` `sds-label` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--16` `sds-icon--20` `sds-icon--24` `sds-icon--muted` |
 | Type | `sds-display` `sds-h1` `sds-h2` `sds-h3` `sds-lead` |
 | Bullets | `sds-list` for air between items, `sds-list--plain` for a list of links — a bare `ul`/`ol` is already set, marker and indent included, so neither is needed to make a list look right |
-| Layout | `sds-shell` `sds-skip` — the link above the bar that jumps to the page's `<main id="main-content">`, and every page shell has one — `sds-bar`/`sds-bar__end`/`sds-bar__nav`/`sds-bar__toggle`/`sds-bar__drawer`/`sds-bar__rail`, written by `sds-header` and never by a page — a hand-written row cannot measure itself and so cannot fold; `sds-body`/`sds-body__rail` `sds-column` `sds-page` `sds-foot` `sds-sections` `sds-stack` `sds-row` `sds-actions` `sds-split` `sds-grid` `sds-grid--wide` `sds-grid--dense` `sds-grid--flush` — the first two say how much room a card in the grid needs, never how many columns to draw; the third takes the gutter out, so the cards share a hairline and the set reads as one block. Written by `sds-grid`, not by a page |
+| Layout | `sds-shell` `sds-skip` — the link above the bar that jumps to the page's `<main id="main-content">`, and every page shell has one — `sds-bar`/`sds-bar__end`/`sds-bar__nav`/`sds-bar__section`/`sds-bar__section--drop`/`sds-bar__fold`/`sds-bar__panel`/`sds-bar__link`/`sds-bar__level`/`sds-bar__row`/`sds-bar__into`/`sds-bar__back`/`sds-bar__toggle`/`sds-bar__drawer`, written by `sds-nav-main` and never by a page — a hand-written row cannot measure itself and so cannot fold; `sds-body`/`sds-body__rail` `sds-column` `sds-page` `sds-foot` `sds-sections` `sds-stack` `sds-row` `sds-actions` `sds-split` `sds-grid` `sds-grid--wide` `sds-grid--dense` `sds-grid--flush` — the first two say how much room a card in the grid needs, never how many columns to draw; the third takes the gutter out, so the cards share a hairline and the set reads as one block. Written by `sds-grid`, not by a page |
 | Bands | `sds-bands` `sds-band` `sds-band--quiet` — full-bleed sections whose ground changes, contents on the page measure. Use instead of `sds-page`, never inside one |
 | Site footer | `sds-footer` `sds-footer__top` `sds-footer__brand` `sds-footer__note` `sds-footer__groups` `sds-footer__group` `sds-footer__links` `sds-footer__end` `sds-footer__marks` — every part falls away where nothing is set, so a screen with no site around it is the same element with a name, a note and the way out; `sds-crumbs` `sds-crumbs__sep` `sds-crumbs__here` |
 | Figures | `sds-stat` `sds-stat__icon` `sds-stat__value` `sds-stat__unit` `sds-stat__note` — a set of them is laid out by `sds-grid`, like any other set read side by side, at `dense` and in a `flush` wall too; the frame in a wall is the wall's, so a figure anywhere else stays bare. Every figure has the same three lines, so a set of them is read across its notes; a share is words — `2 of 3` — and never a bar under one of them; `sds-figure` `sds-figure__frame` `sds-figure__caption` |
@@ -98,7 +98,7 @@ inline styles — do not mint a `sds-` name.
 | Tables | `sds-table` + `--compact` `--medium` `--airy`, wrapped in `sds-table-scroll` where it may outgrow its column; cells `sds-td-name` `sds-td-meta` |
 | Surfaces | `sds-card` `sds-panel` `sds-sunken` `sds-surface-icon` `sds-surface-title` `sds-surface-body` `sds-overlay` `sds-modal__head|__body|__foot` |
 | Folds | `sds-accordion` `sds-accordion__item` `sds-accordion__head` `sds-accordion__body` — a real `<details>`, so it folds with no script; an answer that is blocks rather than a string goes in `sds-accordion-item` between the tags |
-| Navigation | `sds-pills`/`sds-pill` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__item`/`sds-rail__group` — the bar's own parts are under Layout |
+| Navigation | `sds-pills`/`sds-pill` `sds-tabs`/`sds-tab`/`sds-tab__panel` `sds-rail`/`sds-rail__heading`/`sds-rail__item`/`sds-rail__group`/`sds-rail__fold` — the bar's own parts are under Layout |
 | Code | `<sds-code code-lang="bash">` — the attribute is `code-lang`, because `lang` names the human language of the content. `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok` `sds-diff` `sds-diff__line--add|--del` |
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |
 | Reference | `sds-confval` with `__term` `__name` `__mark` `__detail` `__facts` `__body` — a hairline above each entry and no box around one; the facts stand in a row on the inset surface |
@@ -138,8 +138,11 @@ that is the answer, not a reason to substitute something.
 
 ## Non-negotiable
 
-- **No shadows.** Separation is a hairline plus `--surface-overlay`. The focus ring is
-  the only `box-shadow`, and it is a state, not depth.
+- **A shadow says a surface left the page.** Write the job — `--shadow-basic`,
+  `--shadow-strong`, `--shadow-tooltip`, `--shadow-flyout`, `--shadow-dialog`,
+  `--shadow-window` — never the raw `--shadow-2…64` behind them. Nothing that stays on
+  the page takes one: it separates with a hairline plus `--surface-overlay`, and the
+  focus ring is a state, not depth.
 - **One accent.** `--accent` marks exactly three things: the active nav item, the shell
   prompt in a code block, the pipe in the wordmark. No second accent, no gradient.
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, paths,

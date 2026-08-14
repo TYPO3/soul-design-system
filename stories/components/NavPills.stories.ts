@@ -10,13 +10,13 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../packages/frontend/src/components/pills.ts';
+import '../../packages/frontend/src/components/nav-pills.ts';
 import { type NavProps } from '../../packages/frontend/src/components/nav-base.ts';
 
 const meta: Meta<NavProps> = {
-  title: 'Components/Pills',
+  title: 'Components/Nav pills',
   tags: ['autodocs', '!dev'],
-  render: ({ items, active }) => html`<sds-pills .items="${items}" active="${active ?? 0}"></sds-pills>`,
+  render: ({ items, active }) => html`<sds-nav-pills .items="${items}" active="${active ?? 0}"></sds-nav-pills>`,
   argTypes: {
     items: { control: 'object' },
     active: { control: { type: 'number', min: 0 } },

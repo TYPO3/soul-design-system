@@ -13,8 +13,8 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/accordion.ts';
-import '../../packages/frontend/src/components/header.ts';
-import '../../packages/frontend/src/components/rail.ts';
+import '../../packages/frontend/src/components/nav-main.ts';
+import '../../packages/frontend/src/components/nav-rail.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/code.ts';
 import '../../packages/frontend/src/components/badge.ts';
@@ -23,23 +23,23 @@ import '../../packages/frontend/src/components/image.ts';
 import '../../packages/frontend/src/components/theme.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/grid.ts';
-import '../../packages/frontend/src/components/pager.ts';
+import '../../packages/frontend/src/components/nav-pager.ts';
 import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
 import { type IconId } from '../../packages/frontend/src/components/icon.ts';
-import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
+import { type MenuEntry } from '../../packages/frontend/src/components/nav-base.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { type PageMode, skipLink } from '../lib/page.ts';
 import { SETTINGS, sdsConfval } from '../components/Confval.stories.ts';
 
-const RAIL: readonly RailEntry[] = [
+const RAIL: readonly MenuEntry[] = [
   { label: 'Overview', href: '#overview' },
   { label: 'Glossary', href: '#glossary' },
   {
     label: 'clients',
     items: [
-      { label: 'Installing the server', href: '#installing' },
+      { label: 'Installing the server', href: '#installing', current: true },
       { label: 'Writing a task skill', href: '#skill' },
     ],
   },
@@ -54,6 +54,19 @@ const RAIL: readonly RailEntry[] = [
   { label: 'decisions', items: [{ label: 'What is written down', href: '#written' }] },
   { label: 'Settings', href: '#settings' },
 ];
+
+/* The site the bar is handed: its sections, and under the one the reader is in
+   the pages the rail beside the text lists. One entry, read twice — the bar
+   draws what fits of it, the rail draws the section. */
+const MENU: MenuEntry = {
+  label: 'Dev Companion',
+  items: [
+    { label: 'overview', href: '#overview', here: true, items: RAIL },
+    { label: 'tools', href: '#tools' },
+    { label: 'knowledge', href: '#knowledge' },
+    { label: 'install', href: '#install' },
+  ],
+};
 
 /** The signpost under the overview, as a wall rather than a set: four ways on
     that a reader picks from by reading down, not by comparing. */
@@ -143,26 +156,18 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 
   return html`<div class="sds-shell">
   ${skipLink()}
-  <sds-header
+  <sds-nav-main
     home="#overview"
     signet="../assets/design-system-signet-m.svg"
     brand="TYPO3"
     product="Dev Companion"
-    version="0.4.0"
     search
-    rail="page-rail"
-    .items="${[
-      { label: 'overview', href: '#overview' },
-      { label: 'tools', href: '#tools' },
-      { label: 'knowledge', href: '#knowledge' },
-      { label: 'install', href: '#install' },
-    ]}"
-    active="0"
-  ></sds-header>
+    .menu="${MENU}"
+  ></sds-nav-main>
 
   <div class="sds-body">
     <aside class="sds-body__rail" id="page-rail">
-      <sds-rail .items="${RAIL}" active="2"></sds-rail>
+      <sds-nav-rail .entry="${{ label: '', items: RAIL }}"></sds-nav-rail>
     </aside>
 
     <main class="sds-column" id="main-content">
@@ -214,10 +219,10 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 
       <!-- The way on, at the foot of a page that is read in order. The rail
            says where this page sits; this says which page comes next. -->
-      <sds-pager
+      <sds-nav-pager
         previous-href="#installing" previous-label="Installing the server"
         next-href="#skill" next-label="Writing a task skill"
-      ></sds-pager>
+      ></sds-nav-pager>
     </main>
   </div>
 </div>`;

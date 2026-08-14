@@ -33,7 +33,7 @@ export const OwnKey: Story = {
 };
 
 /** The words dropped, the marks left standing. Set by whatever is short of
-    room — in a bar that is `sds-header`, which sheds these two words before it
+    room — in a bar that is `sds-nav-main`, which sheds these two words before it
     sheds anything a reader came for. The word is still said to a reader who
     cannot see the mark. */
 export const Compact: Story = {

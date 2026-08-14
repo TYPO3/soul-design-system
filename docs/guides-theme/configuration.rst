@@ -193,12 +193,23 @@ Not the toctree entire: that is the rail's job, and a manual's every page in
 the bar is not navigation. A site whose top level *is* every page is a site
 that should write the handful it wants.
 
+The whole tree is handed over all the same, on every page: the bar is given the
+site as one entry, with the page the reader is on marked wherever it sits, and
+draws as much of it as the width allows — the front doors in the row, a
+section's pages under it, and one level at a time in the drawer where the row
+has none of it. That is not configured and cannot be left out: which sections
+are front doors is a choice, and being able to reach the rest of the site from
+a phone is not.
+
 .. confval:: link
    :type: href, label, external
 
    ``href`` is a **document** — ``/guide/index``, written the way a ``:doc:``
    reference is — unless ``external="true"``, in which case it is a URL and
    opens in a new tab with the external marker on it.
+
+   ``label`` names the second kind only. A document is named by its own
+   ``:navigation-title:``, everywhere it is named.
 
    A section is marked current on its own page **and on every page under it**,
    which is the toctree walked upwards: a page three levels inside the guide
@@ -213,15 +224,16 @@ theme finds the current page's top-level section by walking its rootline
 upwards, so the answer does not depend on how deeply the page is nested. The
 bar and rail therefore mark the same section by construction.
 
-On a section with children, the section's own page is the first rail item; the
-heading above the list is not a link and must not make that page unreachable.
-A page with descendants becomes a fold containing its full branch. A section
-that is itself a single page has no rail, and the bar omits the control that
-would open one. At the site root the rail instead lists the sections, under no
-extra heading and with no page marked current.
+On a section with children, the heading above the list **is** the way to the
+section's own page.
+A page with descendants is a row with the marker that opens them beside it,
+and what it holds is set in by one step. A section that is itself a single page
+has no rail at all — the bar naming it is the whole of what there is to say —
+and neither has the root, which is in no section: what the bar carries there is
+the whole site, as on every other page.
 
-``packages/guides-theme/src/Navigation/Rail.php`` turns the tree into this
-list. The transformation is recursive application logic rather than template
+``packages/guides-theme/src/Navigation/Menu.php`` turns the tree into that one
+entry and ``Rail.php`` takes the section of it a page's column carries. The transformation is recursive application logic rather than template
 markup, so Twig receives a finished heading, item tree and active position.
 The document template renders that result before the bar and body: an empty
 rail then removes both its column and its opening control from the same answer.

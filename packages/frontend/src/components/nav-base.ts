@@ -13,8 +13,40 @@ import './icon.ts';
 import { type IconId } from './icon.ts';
 import { SdsElement } from '../lib/element.ts';
 
-/** A label; or a label with a glyph, a target, or both. */
-export type NavItem = string | { label: string; href?: string; icon?: IconId };
+/**
+ * One entry of a navigation — the whole contract, for every navigation in the
+ * system.
+ *
+ * A bar, a rail, a trail, a row of pills and the columns of a footer are the
+ * same list read at different sizes, so they are given the same entry: where it
+ * goes, what is under it, and what is true of it on the page being rendered.
+ * Whoever renders the page knows all of that; a component works none of it out,
+ * and a second shape for the same list is a second place to keep in step.
+ */
+export interface MenuEntry {
+  label: string;
+  /** Where it goes. An entry with none is a choice rather than a way out —
+      pressing it moves the set it is in and says so with `sds-change`. */
+  href?: string;
+  icon?: IconId;
+  /** Somebody else's site: it opens away, and is never the current entry. */
+  external?: boolean;
+  /** The page — or the item — the reader is on. */
+  current?: boolean;
+  /** On the way to it: an entry the current one sits under. */
+  here?: boolean;
+  /** A front door: it stands in the bar's row as well as in its menu. Which of
+      a site's sections those are is the one thing a tree cannot say. */
+  front?: boolean;
+  /** A fold that starts open whatever else is true. One holding the current
+      entry opens anyway, which is the case that matters and needs no saying. */
+  open?: boolean;
+  items?: readonly MenuEntry[];
+}
+
+/** An entry, or the label alone where that is all there is — what a story
+    writes when the set is a row of words. */
+export type NavItem = string | MenuEntry;
 
 export interface NavProps {
   items: readonly NavItem[];
@@ -27,9 +59,18 @@ export interface NavChange {
   label: string;
 }
 
-export const navLabel = (item: NavItem): string => (typeof item === 'string' ? item : item.label);
-const navHref = (item: NavItem): string | undefined => (typeof item === 'string' ? undefined : item.href);
-const navIcon = (item: NavItem): IconId | undefined => (typeof item === 'string' ? undefined : item.icon);
+/** The entry behind either shape. */
+export const asEntry = (item: NavItem): MenuEntry => (typeof item === 'string' ? { label: item } : item);
+/** An entry and everything under it, in reading order. */
+export const branch = (entry: MenuEntry): MenuEntry[] => [entry, ...(entry.items ?? []).flatMap(branch)];
+
+export const navLabel = (item: NavItem): string => asEntry(item).label;
+/** A glyph before the label, where the item asked for one. */
+export const navInside = (item: NavItem): TemplateResult => {
+  const { icon, label } = asEntry(item);
+  return icon ? html`<sds-icon name="${icon}"></sds-icon>${label}` : html`${label}`;
+};
+const navHref = (item: NavItem): string | undefined => asEntry(item).href;
 
 export abstract class SdsNav extends SdsElement {
   static override properties = {
@@ -71,19 +112,31 @@ export abstract class SdsNav extends SdsElement {
 
   /** A glyph before the label, where the item asked for one. */
   protected inside_(item: NavItem): TemplateResult {
-    const icon = navIcon(item);
-    return icon ? html`<sds-icon name="${icon}"></sds-icon>${navLabel(item)}` : html`${navLabel(item)}`;
+    return navInside(item);
   }
 
-  /** The class an item carries, active included. */
+  /** Which entry is the current one: the entry that says so, and `active`
+      where none does. Data wins — a list naming the page it is on is stating a
+      fact, while `active` is a position in a set, and believing both at once
+      is how two items come out marked. */
+  protected at(): number {
+    const named = this.items.findIndex((item) => asEntry(item).current);
+    return named >= 0 ? named : this.active;
+  }
+
+  /** The class an item carries, active included. An entry the current one sits
+      under is marked too: a section is where the reader is, without being the
+      page they are on. */
   protected class_(index: number): string {
-    return index === this.active ? `${this.item} is-active` : this.item;
+    const here = index === this.at() || Boolean(asEntry(this.items[index] as NavItem).here);
+    return here ? `${this.item} is-active` : this.item;
   }
 
   protected items_(): TemplateResult[] {
+    const at = this.at();
     return this.items.map((item, i) => {
       const cls = this.class_(i);
-      const current = i === this.active;
+      const current = i === at;
       const href = navHref(item);
       const inside = this.inside_(item);
       /* `aria-current` and not `aria-selected` for the two that navigate:

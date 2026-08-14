@@ -13,65 +13,124 @@ item that goes somewhere says ``href`` and is left to the browser.
    :viewport: 700x157
    :title: Tabs & tool rail
 
+.. _menu-entry:
+
+One entry, for every navigation
+===============================
+
+A bar, a rail, a trail, a row of pills and the columns of a footer are the same
+list read at different sizes, so they are given the same entry. Whoever renders
+the page knows where an entry goes, what is under it and what is true of it on
+this page; a component works none of that out, and a second shape for the same
+list is a second place to keep in step.
+
+.. code-block:: ts
+
+   interface MenuEntry {
+     label: string;
+     href?: string;
+     icon?: IconId;
+     external?: boolean;   // somebody else's site: it opens away
+     current?: boolean;    // the page — or the item — the reader is on
+     here?: boolean;       // on the way to it
+     front?: boolean;      // a front door: it stands in the bar's row as well
+     open?: boolean;       // a fold that starts open whatever else is true
+     items?: MenuEntry[];
+   }
+
 .. confval:: items
    :name: navigation-items
-   :type: "(string | { label, href?, icon? })[]"
+   :type: "(string | MenuEntry)[]"
 
-   What ``sds-pills``, ``sds-header``, ``sds-rail`` and ``sds-tabs`` are lists
-   of. A bare string is a label; an object adds where it goes and a glyph
-   before it.
+   What ``sds-nav-pills``, ``sds-nav-main`` and ``sds-tabs`` are lists of. A bare
+   string is a label and nothing else — what a set of choices is, where there is
+   nowhere to go. ``sds-nav-rail`` takes one ``entry`` instead, its pages being what
+   is under it.
 
 .. confval:: active
    :name: navigation-active
    :type: number
    :default: 0
 
-   Which item is current, by position. The active item is a **filled block,
-   never a tint**: a tint reads as "hovered" or "disabled" depending on what is
-   under it, and this system already spends hover on a colour change.
+   Which item is current, by position, where nothing in the list says so
+   itself. An entry marked ``current`` wins: a list naming the page it is on is
+   stating a fact, while ``active`` is a position in a set, and believing both
+   at once is how two items come out marked.
+
+   The current item is a **filled block, never a tint**: a tint reads as
+   "hovered" or "disabled" depending on what is under it, and this system
+   already spends hover on a colour change.
+
+   Where an item carries a marker — a section in the bar with pages under it —
+   the block is the *pair*: the fill wraps the name and the marker, and so does
+   the focus ring. A fill around half of a control is what makes the other half
+   look like something that arrived with the row.
 
 .. note::
 
    ``aria-current``, not ``aria-selected``, for the ones that navigate:
    selection belongs to a tablist, and a tablist owes its panel an
    ``aria-controls``. Current-within-a-set is what is true of a pill or a rail
-   item.
+   item. An entry that is only ``here`` — a section the reader is inside
+   without being the page they are reading — is marked ``aria-current="true"``
+   rather than ``page``.
 
-.. _component-sds-header:
+.. _component-sds-nav-main:
 
-sds-header
+sds-nav-main
 ==========
 
-The bar at the top of a page: the mark, the sections of the site, and the
-controls at the end of the row. It is the whole bar and not a part of one — a
-page addresses it and writes no ``.sds-bar`` of its own, because what a header
-does as the page narrows is measured, and a row written by hand cannot fold.
+The bar at the top of a page: the mark, the site's menu, and the controls at
+the end of the row. It is the whole bar and not a part of one — a page
+addresses it and writes no ``.sds-bar`` of its own, because what a header does
+as the page narrows is measured, and a row written by hand cannot fold.
 
 .. code-block:: html
 
-   <sds-header home="/" signet="_images/signet.svg" brand="Acme" product="Your product"
-     version="13.4" index="_search.json" rail="page-rail"
-     .items="${SECTIONS}" active="1"></sds-header>
+   <sds-nav-main home="/" signet="_images/signet.svg" brand="Acme" product="Your product"
+     index="_search.json" .menu="${SITE}"></sds-nav-main>
 
-   <!-- Or, for a renderer that has already resolved its own navigation. -->
-   <sds-header product="Your product" index="_search.json">
+   <!-- Or, for a renderer that has already resolved its own navigation and has
+        no tree to hand over. -->
+   <sds-nav-main product="Your product" index="_search.json">
      <a class="sds-pill is-active" href="/design-system/" aria-current="page">Design system</a>
      <a class="sds-pill" href="/frontend/">Frontend</a>
-   </sds-header>
+   </sds-nav-main>
 
-**What no longer fits is put away, never dropped.** As the row runs out of
-room the field goes first — a field squeezed to a stub is a control that is
-there and cannot be used — and the sections after it; below the width where
-the body stops laying the page rail beside the text, the rail joins them.
-All three wait in **one** drawer under **one** button, because a reader on a
-phone looking for the way somewhere presses once.
+**One list, drawn as much of as the width allows.** The bar is handed the site
+— every section, its pages, and the page the reader is on marked wherever it
+sits — and decides only how much of that it can show. The front doors stand in
+the row; a section that holds pages carries the marker that opens them under
+it, as a drop where they are a handful and as a wall across the bar where they
+are more than a reader takes in at a glance; and once the row can hold nothing
+more, the same list is behind one button, because a reader on a phone looking
+for the way somewhere presses once.
 
-**And what waits in there is one tree, not a stack of lists.** The rail is the
-pages of the section the reader is in, so it hangs under that section, set in
-against a rule: two flat lists in one panel say only that there are two of
-them, and which of the two is the level the reader is standing on is left to
-be guessed. A rail that belongs under no section listed in the bar keeps its
-own heading and stands below them all.
+**On a phone it is one level at a time.** The drawer opens on the site's own
+sections and steps *into* one — the marker beside the link is the way through,
+and the row above the list names what it goes back to. A phone is a window onto
+a long list, and the whole tree unfolded into one column is forty rows to
+scroll past to reach the four that are the site.
+
+**What no longer fits is put away, never dropped.** As the row runs out of room
+the field goes first — a field squeezed to a stub is a control that is there
+and cannot be used — and the sections after it. What the drawer then opens is
+the menu and not the row it could not hold: the way somewhere else is what a
+reader opens a menu for, and the section they are already in is the one answer
+they did not ask for.
+
+**A panel and the drawer are the same construction.** A panel is a
+``<details>`` under the row, so it folds before any script runs and a page
+whose script never arrives still opens a section; both stand on the canvas the
+bar is drawn on and carry ``--shadow-flyout``, because a second kind of surface
+is a second thing to learn, and a shadow is how this system says a surface has
+left the page.
+
+**The page a reader is on is marked quietly in both.** A rail is a column read
+down to find where you are, and there the current page is a filled block; a
+menu is opened to *leave* that page, so the same block would shout the one row
+nobody is going to press. The ink alone carries it, and ``aria-current`` says
+it outright to whoever is not reading colour.
 
 An open drawer is the bar's row continued, so it is the canvas and it spans the
 page — nothing about its own surface says it is in front, and the system has no
@@ -87,13 +146,13 @@ Nothing in the measurement depends on which state it is in, so there is no
 width at which the two disagree and it oscillates.
 
 .. confval:: home
-   :name: sds-header-home
+   :name: sds-nav-main-home
    :type: string
 
    Where the mark goes: the way home, from anywhere on the site.
 
 .. confval:: signet
-   :name: sds-header-signet
+   :name: sds-nav-main-signet
    :type: string
 
    The mark, as the file it is drawn in. An SVG is referenced into the page and
@@ -102,11 +161,11 @@ width at which the two disagree and it oscillates.
    footer draws, so the two ends of a site cannot say the name two ways.
 
 .. confval:: brand
-   :name: sds-header-brand
+   :name: sds-nav-main-brand
    :type: string
 
 .. confval:: product
-   :name: sds-header-product
+   :name: sds-nav-main-product
    :type: string
 
    The name, in the machine's own spelling and never title-cased. With a
@@ -114,60 +173,40 @@ width at which the two disagree and it oscillates.
    name is the mark itself rather than the quiet half of a lockup with nothing
    next to it.
 
-.. confval:: version
-   :name: sds-header-version
-   :type: string
-
-   What is true of the documentation the reader is in, as the badge beside the
-   controls — a fact about this page rather than part of the product's name,
-   and the first thing the bar drops as it narrows.
-
-.. confval:: tone
-   :name: sds-header-tone
-   :type: "default | accent | ok | warn | error"
-   :default: accent
-
-   The badge's tone. Accent, that fact being a version nine times in ten; a
-   screen whose bar names something else — the tool that answered, the source
-   a page came from — says so, because the accent is how a reader is told
-   which version they are reading.
-
 .. confval:: search
-   :name: sds-header-search
+   :name: sds-nav-main-search
    :type: boolean
 
 .. confval:: index
-   :name: sds-header-index
+   :name: sds-nav-main-index
    :type: string
 
    Where the search index is, relative to the page; setting it asks for the
    field as well, a site with an index having a search. ``search`` alone draws
    a field with nothing behind it, which is a specimen rather than a site.
 
-.. confval:: rail
-   :name: sds-header-rail
-   :type: string
+.. confval:: menu
+   :name: sds-nav-main-menu
+   :type: MenuEntry
 
-   The id of the page rail. The bar does not own it: a rail is the page's own
-   navigation and stands in its column while there is one. Once the layout has
-   stacked the body the element **moves** that same node into its drawer, under
-   the section it is the pages of, and puts it back on the way out — moved,
-   never copied, so a reader is never offered two of anything and nothing is
-   written twice.
+   The site, as one entry with everything under it. The bar works nothing out
+   from it: whoever renders the page knows which entries are its front doors,
+   which one the reader is inside and which page they are on, and says so with
+   ``front``, ``here`` and ``current``. What the bar decides is only how much
+   of it fits — see :ref:`the contract <menu-entry>` above.
 
-   Without a script the rail simply stays where the page put it. A list of
-   pages is worth a screen's height, and hiding one behind a button that is
-   not there is a navigation with no way in.
+   A site whose sections hold nothing may hand a flat ``items`` instead, which
+   is the same list with the second level left out.
 
 .. confval:: label
-   :name: sds-header-label
+   :name: sds-nav-main-label
    :type: string
    :default: "Menu"
 
    What the toggle is called, for a reader who cannot see it is a menu.
 
 .. confval:: theme-key
-   :name: sds-header-theme-key
+   :name: sds-nav-main-theme-key
    :type: string
 
    Where ``sds-theme`` keeps the reader's choice, where it keeps one.
@@ -175,12 +214,13 @@ width at which the two disagree and it oscillates.
 .. note::
 
    Links written between the tags are kept exactly as written — ``target``,
-   ``rel`` and the current mark intact. Passing them back through ``items``
-   would encode and resolve a rendered site's own navigation a second time.
+   ``rel`` and the current mark intact. It is the shape for a renderer that
+   has resolved its navigation and has no tree to hand over; one that has a
+   tree gives it as ``menu`` and gets the panels and the drawer with it.
 
-.. _component-sds-pills:
+.. _component-sds-nav-pills:
 
-sds-pills
+sds-nav-pills
 =========
 
 Navigation for the sections of a page. The accent marks the active item — one
@@ -188,58 +228,57 @@ of the exactly three places ``--accent`` may appear at all.
 
 .. code-block:: html
 
-   <sds-pills .items="${['Overview', 'Tools', 'Changelog']}" active="0"></sds-pills>
+   <sds-nav-pills .items="${['Overview', 'Tools', 'Changelog']}" active="0"></sds-nav-pills>
 
-.. _component-sds-rail:
+.. _component-sds-nav-rail:
 
-sds-rail
+sds-nav-rail
 ========
 
-The navigation rail beside a column. Items are often things the machine named,
-so they set in mono, verbatim.
+The navigation rail beside a column: one entry, with its pages under it. Items
+are often things the machine named, so they set in mono, verbatim.
 
 .. code-block:: html
 
-   <sds-rail label="Reference"
-     .items="${['overview', { label: 'tools', items: ['search', 'fetch'] }]}"
-     active="1"></sds-rail>
+   <sds-nav-rail .entry="${{ label: 'Reference', items: [
+     { label: 'overview', href: '#overview', current: true },
+     { label: 'tools', items: [{ label: 'search', href: '#search' }] },
+   ] }}"></sds-nav-rail>
 
-A group is a ``<details>``, so the fold works before any script runs and the
-group holding the current item starts open. Groups are data rather than
-composed elements, unlike the tabs: a group holds links and no content of its
-own.
+A page that holds pages of its own is a ``<details>``, so the fold works before
+any script runs and the one holding the current page starts open — at whatever
+depth that page sits. Data rather than composed elements, unlike the tabs: what
+a fold holds is links and no content of its own.
 
-.. confval:: label
-   :name: sds-rail-label
-   :type: string
+.. confval:: entry
+   :name: sds-nav-rail-entry
+   :type: MenuEntry
+   :required: true
 
-   What this is the list of, standing over it. A rail holding one section of a
-   site says which; left empty there is no heading, which is right where the
-   rail is the whole navigation there is.
+   What this is the list of, and the list. The entry's label is the heading
+   over it, and the way to the section's own page where it has one; left empty
+   there is no heading, which is right where the rail is the whole navigation
+   there is.
 
-.. confval:: items
-   :name: sds-rail-items
-   :type: "(NavItem | { label, items, open? })[]"
+   Which row is current is the entry that says ``current``, never a count from
+   the outside: a rail has one current page wherever it sits, and a caller
+   thinking in "third item of the second group" is thinking about the markup.
 
-   ``active`` counts across the whole rail, **groups flattened**: a rail has
-   one current item wherever it sits, and a caller thinking in "third item of
-   the second group" is thinking about the markup.
+.. _component-sds-nav-breadcrumb:
 
-.. _component-sds-crumbs:
-
-sds-crumbs
+sds-nav-breadcrumb
 ==========
 
 Where the page sits, as a trail.
 
 .. code-block:: html
 
-   <sds-crumbs .items="${[{ label: 'Docs', href: '/' },
+   <sds-nav-breadcrumb .items="${[{ label: 'Docs', href: '/' },
                           { label: 'Frontend', href: '/frontend/' },
-                          { label: 'Navigation' }]}"></sds-crumbs>
+                          { label: 'Navigation' }]}"></sds-nav-breadcrumb>
 
 .. confval:: items
-   :name: sds-crumbs-items
+   :name: sds-nav-breadcrumb-items
    :type: "{ label, href? }[]"
    :required: true
 
@@ -248,7 +287,7 @@ Where the page sits, as a trail.
    that was pasted from the one above it.
 
 .. confval:: label
-   :name: sds-crumbs-label
+   :name: sds-nav-breadcrumb-label
    :type: string
    :default: "Breadcrumb"
 
@@ -411,20 +450,20 @@ that.
    For a *list* of questions. Where the folded part is the point — a log, a
    stack trace — one ``<details>`` in the document needs no component.
 
-.. _component-sds-pagination:
+.. _component-sds-nav-pagination:
 
-sds-pagination
+sds-nav-pagination
 ==============
 
 Where a list continues.
 
 .. code-block:: html
 
-   <sds-pagination count="1240" per-page="20" current="3"
-     href="?q=typo3&amp;page={n}&amp;sort=date" label="entries"></sds-pagination>
+   <sds-nav-pagination count="1240" per-page="20" current="3"
+     href="?q=typo3&amp;page={n}&amp;sort=date" label="entries"></sds-nav-pagination>
 
 .. confval:: count
-   :name: sds-pagination-count
+   :name: sds-nav-pagination-count
    :type: number
    :required: true
 
@@ -433,12 +472,12 @@ Where a list continues.
    twice.
 
 .. confval:: per-page
-   :name: sds-pagination-per-page
+   :name: sds-nav-pagination-per-page
    :type: number
    :default: 10
 
 .. confval:: current
-   :name: sds-pagination-current
+   :name: sds-nav-pagination-current
    :type: number
    :default: 1
 
@@ -446,7 +485,7 @@ Where a list continues.
    a link.
 
 .. confval:: href
-   :name: sds-pagination-href
+   :name: sds-nav-pagination-href
    :type: string
    :default: "#page-{n}"
 
@@ -456,7 +495,7 @@ Where a list continues.
    with no ``{n}`` is treated as a prefix.
 
 .. confval:: label
-   :name: sds-pagination-label
+   :name: sds-nav-pagination-label
    :type: string
 
    What was counted, in the label register. Left off, the row ends with the
@@ -469,26 +508,26 @@ Where a list continues.
    ``sds-change`` and calls ``preventDefault()`` — the same press, not a second
    mode.
 
-.. _component-sds-pager:
+.. _component-sds-nav-pager:
 
-sds-pager
+sds-nav-pager
 =========
 
 The way on from a page, where a page is read in order: the one behind and the
-one ahead, and nothing between them. Not ``sds-pagination`` — that numbers a
+one ahead, and nothing between them. Not ``sds-nav-pagination`` — that numbers a
 set a reader moves around inside, this is a line they are walking along.
 
 .. code-block:: html
 
-   <sds-pager previous-href="/guide/install" previous-label="Installing the server"
-     next-href="/guide/skills" next-label="Writing a task skill"></sds-pager>
+   <sds-nav-pager previous-href="/guide/install" previous-label="Installing the server"
+     next-href="/guide/skills" next-label="Writing a task skill"></sds-nav-pager>
 
 .. confval:: previous-href
-   :name: sds-pager-previous-href
+   :name: sds-nav-pager-previous-href
    :type: string
 
 .. confval:: previous-label
-   :name: sds-pager-previous-label
+   :name: sds-nav-pager-previous-label
    :type: string
 
    Both halves or neither: a control with a target and no name cannot be read,
@@ -496,15 +535,15 @@ set a reader moves around inside, this is a line they are walking along.
    is empty — an inert control is a control a reader tries.
 
 .. confval:: next-href
-   :name: sds-pager-next-href
+   :name: sds-nav-pager-next-href
    :type: string
 
 .. confval:: next-label
-   :name: sds-pager-next-label
+   :name: sds-nav-pager-next-label
    :type: string
 
 .. confval:: label
-   :name: sds-pager-label
+   :name: sds-nav-pager-label
    :type: string
    :default: "Pages either side of this one"
 
@@ -706,11 +745,19 @@ nothing was set, so the second is the first with less in it.
    Whose it is and from when. A separate line from the note because it is a
    separate claim.
 
+.. confval:: version
+   :name: sds-footer-version
+   :type: string
+
+   What the reader is reading, where the site has a version. It stands in the
+   closing line, set in mono like anything the machine names.
+
 .. confval:: meta
    :name: sds-footer-meta
    :type: "FooterLink[]"
 
-   What has to travel with it: a licence, a version, a legal page.
+   What has to travel with it: a licence, a legal page, the manual it was
+   built from.
 
 .. confval:: marks
    :name: sds-footer-marks

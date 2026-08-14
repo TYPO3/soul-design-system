@@ -1,4 +1,4 @@
-/* sds-pills — navigation for the sections of a page.
+/* sds-nav-pills — navigation for the sections of a page.
 
    The active item is a filled block, never a tint: a tint reads as "hovered"
    or "disabled" depending on what is under it, and this system already
@@ -10,7 +10,7 @@ import { lines } from '../lib/template.ts';
 import { define } from '../lib/element.ts';
 import { SdsNav } from './nav-base.ts';
 
-export class SdsPills extends SdsNav {
+export class SdsNavPills extends SdsNav {
   protected override readonly block = 'sds-pills';
   protected override readonly item = 'sds-pill';
 
@@ -21,4 +21,4 @@ export class SdsPills extends SdsNav {
   }
 }
 
-define('sds-pills', SdsPills);
+define('sds-nav-pills', SdsNavPills);

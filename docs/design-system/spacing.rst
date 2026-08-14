@@ -11,7 +11,7 @@ respects the measure.
 
 **1px grid gaps over a** ``--border-subtle`` **background** produce the
 hairline-separated card grid — the system's signature move, and the reason
-it needs no shadows to separate anything.
+nothing that stays on the page needs a shadow to be told from its neighbour.
 
 The header is sticky, translucent canvas with an 8px backdrop blur. Nothing
 else in the system is fixed, transparent or blurred. It **never wraps**: a

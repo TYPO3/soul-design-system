@@ -11,19 +11,19 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../packages/frontend/src/components/pager.ts';
-import { type PagerProps } from '../../packages/frontend/src/components/pager.ts';
+import '../../packages/frontend/src/components/nav-pager.ts';
+import { type PagerProps } from '../../packages/frontend/src/components/nav-pager.ts';
 
-const sdsPager = ({ previousHref, previousLabel, nextHref, nextLabel, label }: PagerProps) =>
-  html`<sds-pager
+const sdsNavPager = ({ previousHref, previousLabel, nextHref, nextLabel, label }: PagerProps) =>
+  html`<sds-nav-pager
     previous-href="${previousHref ?? ''}" previous-label="${previousLabel ?? ''}"
     next-href="${nextHref ?? ''}" next-label="${nextLabel ?? ''}"
-    label="${label ?? 'Pages either side of this one'}"></sds-pager>`;
+    label="${label ?? 'Pages either side of this one'}"></sds-nav-pager>`;
 
 const meta: Meta<PagerProps> = {
-  title: 'Components/Pager',
+  title: 'Components/Nav pager',
   tags: ['autodocs', '!dev'],
-  render: (args) => sdsPager(args),
+  render: (args) => sdsNavPager(args),
   argTypes: {
     previousHref: { control: 'text' },
     previousLabel: { control: 'text' },

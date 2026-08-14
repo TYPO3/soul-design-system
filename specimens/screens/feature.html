@@ -18,14 +18,80 @@
   <path stroke="var(--accent, #FF8700)" d="M14 4H21A2 2 0 0 1 23 6V13" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
 </svg></svg><span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span></a>
   <nav class="sds-bar__nav" aria-label="Sections">
-    <a class="sds-pill" href="#">overview</a>
-    <a class="sds-pill is-active" href="#" aria-current="page">features</a>
-    <a class="sds-pill" href="#">documentation</a>
-    <a class="sds-pill" href="#">tools</a>
-    <a class="sds-pill" href="#">news</a>
+    <div class="sds-bar__section"><a
+      class="sds-pill"
+      href="#">overview</a></div>
+    <div
+      class="sds-bar__section sds-bar__section--drop">
+      <a
+      class="sds-pill is-active"
+      href="#"
+      
+      
+      aria-current="true">features</a>
+      <details
+        class="sds-bar__fold">
+        <summary aria-label="Pages in features"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+        <div class="sds-bar__panel">
+          <a
+      class="sds-bar__link"
+      href="#">What it answers</a>
+          <a
+      class="sds-bar__link"
+      href="#">What it refuses</a>
+          <a
+      class="sds-bar__link"
+      href="#">Where the answers come from</a>
+        </div>
+      </details>
+    </div>
+    <div
+      class="sds-bar__section sds-bar__section--drop">
+      <a
+      class="sds-pill"
+      href="#">documentation</a>
+      <details
+        class="sds-bar__fold">
+        <summary aria-label="Pages in documentation"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+        <div class="sds-bar__panel">
+          <a
+      class="sds-bar__link"
+      href="#">Installing the server</a>
+          <a
+      class="sds-bar__link"
+      href="#">Writing a task skill</a>
+          <a
+      class="sds-bar__link"
+      href="#">Sources and preconditions</a>
+        </div>
+      </details>
+    </div>
+    <div
+      class="sds-bar__section sds-bar__section--drop">
+      <a
+      class="sds-pill"
+      href="#">tools</a>
+      <details
+        class="sds-bar__fold">
+        <summary aria-label="Pages in tools"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+        <div class="sds-bar__panel">
+          <a
+      class="sds-bar__link"
+      href="#">typo3_icon_lookup</a>
+          <a
+      class="sds-bar__link"
+      href="#">typo3_label_lookup</a>
+          <a
+      class="sds-bar__link"
+      href="#">typo3_schema_lookup</a>
+        </div>
+      </details>
+    </div>
+    <div class="sds-bar__section"><a
+      class="sds-pill"
+      href="#">news</a></div>
   </nav>
   <div class="sds-bar__end">
-    <span class="sds-badge sds-badge--accent">1.4.0</span>
     <div class="sds-search">
   <span class="sds-field">
     <svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-search"><g fill="currentColor"><path d="M13.92 15c-.29 0-.56-.12-.76-.32l-2.89-2.88c-.98.68-2.16 1.04-3.36 1.04C3.65 12.85 1 10.2 1 6.92 1 3.65 3.65 1 6.92 1s5.92 2.65 5.92 5.92c0 1.19-.36 2.37-1.04 3.36l2.89 2.89c.19.19.31.47.31.76 0 .58-.49 1.07-1.08 1.07zm-7-12.58c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"></path></g></svg>
@@ -499,6 +565,7 @@
   </div>
   <div class="sds-footer__end">
     
+    <span class="sds-mono">1.4.0</span>
     <a class="sds-link" href="#">MIT</a><a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
     
   </div>

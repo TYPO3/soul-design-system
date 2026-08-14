@@ -14,14 +14,14 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/button.ts';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/note.ts';
-import '../../packages/frontend/src/components/pagination.ts';
-import '../../packages/frontend/src/components/pills.ts';
+import '../../packages/frontend/src/components/nav-pagination.ts';
+import '../../packages/frontend/src/components/nav-pills.ts';
 import '../../packages/frontend/src/components/result.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { type NavChange } from '../../packages/frontend/src/components/nav-base.ts';
 import { type ResultProps } from '../../packages/frontend/src/components/result.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
@@ -124,7 +124,7 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
 
     <section class="sds-band" id="search">
       <div class="sds-stack sds-stack--tight">
-        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
         <h1>Results for <span class="sds-mono">${QUERY}</span></h1>
         <sds-field
           caption="Search"
@@ -142,17 +142,17 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
     <section class="sds-band sds-band--quiet" id="hits">
       <div class="sds-stack">
         <div class="sds-row">
-          <sds-pills
+          <sds-nav-pills
             .items="${FACETS.map(({ label }) => ({ label }))}"
             active="${facet}"
             @sds-change="${(e: CustomEvent<NavChange>) => onFacet?.(e.detail.index)}"
-          ></sds-pills>
+          ></sds-nav-pills>
           <span class="sds-label sds-row__end">${shown.length} of 4 · 240${NNBSP}ms</span>
         </div>
 
         ${list}
 
-        <sds-pagination count="4" per-page="10" current="1" href="?q=typo3&amp;page={n}" label="results"></sds-pagination>
+        <sds-nav-pagination count="4" per-page="10" current="1" href="?q=typo3&amp;page={n}" label="results"></sds-nav-pagination>
       </div>
     </section>
 

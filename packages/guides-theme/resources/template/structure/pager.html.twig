@@ -8,7 +8,7 @@
     tree flattened, which is the order the rail lists and the order somebody
     reading a manual front to back would take.
 
-    What that order becomes is `sds-pager`'s, not this file's. Which end each
+    What that order becomes is `sds-nav-pager`'s, not this file's. Which end each
     control sits at, which glyph carries the direction and what a reader who
     cannot see it hears are decisions about a component, and a template that
     made them would be a second place they could be made differently.
@@ -19,8 +19,8 @@
 #}
 {%- set steps = pager() -%}
 {%- if steps.previous or steps.next %}
-<sds-pager
+<sds-nav-pager
     {%- if steps.previous %} previous-href="{{ steps.previous.href }}" previous-label="{{ steps.previous.label }}"{% endif -%}
     {%- if steps.next %} next-href="{{ steps.next.href }}" next-label="{{ steps.next.label }}"{% endif -%}
-></sds-pager>
+></sds-nav-pager>
 {%- endif -%}

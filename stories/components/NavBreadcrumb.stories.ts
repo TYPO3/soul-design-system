@@ -10,11 +10,11 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import '../../packages/frontend/src/components/crumbs.ts';
-import { type Crumb, type CrumbsProps } from '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
+import { type Crumb, type CrumbsProps } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 
-export const sdsCrumbs = ({ items, label }: CrumbsProps) =>
-  html`<sds-crumbs .items="${items}" label="${label ?? 'Breadcrumb'}"></sds-crumbs>`;
+export const sdsNavBreadcrumb = ({ items, label }: CrumbsProps) =>
+  html`<sds-nav-breadcrumb .items="${items}" label="${label ?? 'Breadcrumb'}"></sds-nav-breadcrumb>`;
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
@@ -23,9 +23,9 @@ const TRAIL: readonly Crumb[] = [
 ];
 
 const meta: Meta<CrumbsProps> = {
-  title: 'Components/Crumbs',
+  title: 'Components/Nav breadcrumb',
   tags: ['autodocs', '!dev'],
-  render: (args) => sdsCrumbs(args),
+  render: (args) => sdsNavBreadcrumb(args),
   argTypes: {
     items: { control: 'object' },
     label: { control: 'text' },

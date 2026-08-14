@@ -17,22 +17,22 @@ import '../../packages/frontend/src/components/accordion.ts';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/code.ts';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/quote.ts';
-import '../../packages/frontend/src/components/rail.ts';
+import '../../packages/frontend/src/components/nav-rail.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { type Entry } from '../../packages/frontend/src/components/accordion.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
-import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
+import { type MenuEntry } from '../../packages/frontend/src/components/nav-base.ts';
 import { sdsAccordion } from '../components/Accordion.stories.ts';
 import { sdsBadge } from '../components/Badge.stories.ts';
 import { sdsCard } from '../components/Card.stories.ts';
 import { sdsCode } from '../components/Code.stories.ts';
-import { sdsCrumbs } from '../components/Crumbs.stories.ts';
+import { sdsNavBreadcrumb } from '../components/NavBreadcrumb.stories.ts';
 import { sdsNote } from '../components/Note.stories.ts';
 import { sdsQuote } from '../components/Quote.stories.ts';
 import { sdsStat } from '../components/Stat.stories.ts';
@@ -47,8 +47,8 @@ const TRAIL: readonly Crumb[] = [
   { label: 'How this is set' },
 ];
 
-const CONTENTS: readonly RailEntry[] = [
-  { label: 'The two registers', href: '#registers' },
+const CONTENTS: readonly MenuEntry[] = [
+  { label: 'The two registers', href: '#registers', current: true },
   { label: 'What a block carries', href: '#blocks' },
   { label: 'The vertical step', href: '#step' },
   { label: 'Where a value comes from', href: '#values' },
@@ -97,16 +97,16 @@ const QUESTIONS: readonly Entry[] = [
 export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
   return html`<div class="sds-shell">
   ${skipLink()}
-  ${siteBar(4, '#reading', 'page-rail')}
+  ${siteBar(4, '#reading')}
 
   <div class="sds-body">
     <aside class="sds-body__rail" id="page-rail">
-      <sds-rail .items="${CONTENTS}" active="0"></sds-rail>
+      <sds-nav-rail .entry="${{ label: '', items: CONTENTS }}"></sds-nav-rail>
     </aside>
 
     <main class="sds-column" id="main-content">
       <div class="sds-stack sds-stack--tight">
-        ${sdsCrumbs({ items: TRAIL })}
+        ${sdsNavBreadcrumb({ items: TRAIL })}
         ${sdsBadge({ label: 'reference' })}
         <h1>How this page is set</h1>
         <p class="sds-lead">

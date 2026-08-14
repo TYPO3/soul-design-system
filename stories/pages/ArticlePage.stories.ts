@@ -4,7 +4,7 @@
    who is answerable for it, one column of running text with the things a text
    needs standing in it, and a way to reach any part of it from the top.
 
-   The rail is that way, and it is the same `sds-rail` the documentation page
+   The rail is that way, and it is the same `sds-nav-rail` the documentation page
    uses — a second component called "table of contents" would be that one under
    another name. What the page does not carry is bullet lists and definition
    lists: those are document flow. See `lib/page.ts`. */
@@ -15,15 +15,15 @@ import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/byline.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/code.ts';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/figure.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/quote.ts';
-import '../../packages/frontend/src/components/rail.ts';
+import '../../packages/frontend/src/components/nav-rail.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
-import { type RailEntry } from '../../packages/frontend/src/components/rail.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
+import { type MenuEntry } from '../../packages/frontend/src/components/nav-base.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
@@ -36,8 +36,8 @@ const TRAIL: readonly Crumb[] = [
 
 /* The article's own sections. Flat, because a text that needs groups in its
    contents is two texts. */
-const CONTENTS: readonly RailEntry[] = [
-  { label: 'What the fallback is', href: '#fallback' },
+const CONTENTS: readonly MenuEntry[] = [
+  { label: 'What the fallback is', href: '#fallback', current: true },
   { label: 'What it returns', href: '#returns' },
   { label: 'What it leaves out', href: '#omits' },
   { label: 'Closing the gap', href: '#gap' },
@@ -81,16 +81,16 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
 
   return html`<div class="sds-shell">
   ${skipLink()}
-  ${siteBar(4, '#article', 'page-rail')}
+  ${siteBar(4, '#article')}
 
   <div class="sds-body">
     <aside class="sds-body__rail" id="page-rail">
-      <sds-rail .items="${CONTENTS}" active="0"></sds-rail>
+      <sds-nav-rail .entry="${{ label: '', items: CONTENTS }}"></sds-nav-rail>
     </aside>
 
     <main class="sds-column" id="main-content">
       <div class="sds-stack sds-stack--tight">
-        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
         <div class="sds-row">
           <sds-badge label="guide"></sds-badge>
           <sds-badge label="13.4 · 14.3" tone="accent"></sds-badge>

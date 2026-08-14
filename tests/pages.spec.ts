@@ -57,12 +57,11 @@ for (let shard = 0; shard < PAGE_SHARDS; shard++) {
   });
 }
 
-/* One button, and everything the bar could not hold behind it. Two navigations
-   and a field run out of room and there is one answer for all three, so what is
-   asserted is that the rail is wired into it: a column while there is one, and
-   in the same drawer as the rest once there is not. Moved rather than copied —
-   a reader offered two of the same list has to work out which one is real. */
-test('the page rail is a column, then part of the bar\u2019s one drawer', async ({ page }) => {
+/* One button, and everything a reader could want behind it. The page's own rail
+   is a column while there is room for one and gone when there is not — what the
+   bar opens at that width is the site's whole menu, which holds those pages
+   among the rest. */
+test('the page rail is a column, and the bar carries the site', async ({ page }) => {
   const rail = page.locator('#page-rail');
   const drawer = page.locator('.sds-bar__drawer');
   const toggle = page.locator('.sds-bar__toggle');
@@ -74,43 +73,51 @@ test('the page rail is a column, then part of the bar\u2019s one drawer', async 
 
   await page.setViewportSize({ width: 760, height: 900 });
   await expect(toggle).toBeVisible();
+  /* The column is gone, and the rail did not follow it into the drawer: it is
+     the section's list, and what the bar carries is the site's. Here the row
+     still holds the sections, so the way anywhere is the marker beside one. */
   await expect(rail).toBeHidden();
-  /* In the drawer, and only there: one node, which is the page's own. */
-  await expect(drawer.locator('#page-rail')).toHaveCount(1);
-  await expect(rail).toHaveCount(1);
+  await expect(drawer.locator('#page-rail')).toHaveCount(0);
+  await expect(page.locator('.sds-bar__nav .sds-pill').first()).toBeVisible();
 
-  await toggle.click();
-  await expect(rail).toBeVisible();
-  /* Over the page rather than pushing it down. */
-  await expect(drawer).toHaveCSS('position', 'absolute');
-
-  /* And once the sections are in there too, the rail hangs under the one whose
-     pages it holds — the drawer is one tree, and a reader is told which of the
-     two levels they are standing on rather than being handed two lists. */
+  /* Narrow enough that the sections go too, and the one button holds the whole
+     menu: the sections, each with its own pages folded under it. */
   await page.setViewportSize({ width: 420, height: 900 });
-  await expect(page.locator('.sds-bar__nav > .is-active + .sds-bar__rail > #page-rail')).toHaveCount(1);
-  await expect(rail).toHaveCount(1);
+  await toggle.click();
+  await expect(drawer).toHaveCSS('position', 'absolute');
+  const menu = drawer.locator('.sds-bar__level');
+  await expect(menu).toBeVisible();
+  await expect(drawer.locator('.sds-bar__nav')).toHaveCount(0);
+  /* It opened on the level of the page below it, so the site is one press up —
+     and there every section carries the way into its own pages. */
+  await expect(menu.locator('.sds-bar__back')).toHaveCount(1);
+  await menu.locator('.sds-bar__back').click();
+  await expect(menu.locator('.sds-bar__into').first()).toBeVisible();
 
   await page.keyboard.press('Escape');
-  await expect(rail).toBeHidden();
+  await expect(menu).toBeHidden();
   await expect(toggle).toBeFocused();
 
-  /* And back in its column on the way out, where the page put it. */
+  /* And the column is back on the way out, where the page put it — the rail
+     never travelled, so there is nowhere for it to have been left. */
   await page.setViewportSize({ width: 1280, height: 900 });
   await expect(rail).toBeVisible();
   await expect(page.locator('.sds-body > #page-rail')).toHaveCount(1);
+});
 
-  /* The width where the rail is the only thing that moves. The field is behind
-     the button on both sides of it, so nothing about the row changes as it is
-     crossed — and a bar that asked only what still fits never re-rendered and
-     never looked. The rail sat on a stacked page with the button beside it
-     claiming to hold it, in every window that was resized rather than opened. */
+/* The width where the column goes, which is the layout's decision and not the
+   bar's: the field is behind the button on both sides of it, so nothing in the
+   row changes as it is crossed. */
+test('the rail loses its column at the width the layout stacks', async ({ page }) => {
+  const rail = page.locator('#page-rail');
+
   await page.setViewportSize({ width: 900, height: 900 });
-  await expect(page.locator('.sds-body > #page-rail')).toHaveCount(1);
+  await gotoStory(page, 'pages-documentation--page');
+  await expect(rail).toBeVisible();
   await page.setViewportSize({ width: 856, height: 900 });
-  await expect(drawer.locator('#page-rail')).toHaveCount(1);
+  await expect(rail).toBeHidden();
   await page.setViewportSize({ width: 900, height: 900 });
-  await expect(page.locator('.sds-body > #page-rail')).toHaveCount(1);
+  await expect(rail).toBeVisible();
 });
 
 /* The bar's run-width. What it does is decided by measurement, so there is no
@@ -252,7 +259,7 @@ test('a filter that matches nothing answers, and the answer undoes it', async ({
   const entries = page.locator('#entries sds-card');
   const all = await entries.count();
   expect(all, 'the list should hold entries to filter').toBeGreaterThan(2);
-  const read = Number(await page.locator('sds-pagination').getAttribute('count'));
+  const read = Number(await page.locator('sds-nav-pagination').getAttribute('count'));
   expect(read, 'the row should say how many there are in all').toBeGreaterThanOrEqual(all);
 
   await page.locator('.sds-pills .sds-pill', { hasText: 'releases' }).click();

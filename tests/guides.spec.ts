@@ -88,7 +88,7 @@ test.describe('the render', () => {
          whole symptom. The marker above is the general rule and this is the
          thing a reader of the report recognises. */
       const doubled = await page.evaluate(() =>
-        [...document.querySelectorAll('sds-crumbs, sds-theme, sds-search, sds-badge')]
+        [...document.querySelectorAll('sds-nav-breadcrumb, sds-theme, sds-search, sds-badge')]
           .filter((el) => el.children.length > 1)
           .map((el) => `${el.tagName.toLowerCase()} drew ${el.children.length}`),
       );
@@ -337,7 +337,7 @@ test.describe('what the theme repaired', () => {
        order it offers has to be the order the rail lists. */
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    const foot = page.locator('main.sds-column > sds-pager > nav.sds-pager');
+    const foot = page.locator('main.sds-column > sds-nav-pager > nav.sds-pager');
     await expect(foot).toHaveCount(1);
     /* The first page of a manual has nothing behind it, and it is in the tree
        all the same: a toctree lists what is under a page and never the page it
@@ -505,31 +505,36 @@ test.describe('what the theme repaired', () => {
     const here = rail.locator('.sds-rail__item.is-active');
     await expect(here).toHaveText('Far');
     await expect(here).toHaveAttribute('aria-current', 'page');
-    await expect(rail.locator('.sds-rail__group[open]')).toHaveCount(1);
+    await expect(rail.locator('.sds-rail__fold[open]')).toHaveCount(1);
   });
 
-  test('a page inside a group is a row of the rail like any other', async ({ page }) => {
-    /* The items of a group are laid out in the fold's own box rather than in the
-       rail, so the column the group declared by disappearing never reached them:
-       inline items in a block box, flowing as a paragraph, two short page titles
-       to a line. Measured rather than asserted about a class, because what broke
-       was the layout and not the markup. */
+  test('a page inside a fold is a row of the rail, set in by one step', async ({ page }) => {
+    /* The pages of a fold are laid out in the fold's own box rather than in the
+       rail, so the column the rail declares never reached them: inline items in
+       a block box, flowing as a paragraph, two short page titles to a line.
+       Measured rather than asserted about a class, because what broke was the
+       layout and not the markup. */
     await page.goto(`${ACCEPTANCE_URL}/depth/group/far.html`, { waitUntil: 'load' });
 
     const rail = page.locator('.sds-rail');
     const width = await rail.evaluate((el) => el.getBoundingClientRect().width);
     const rows = await rail
-      .locator('.sds-rail__group[open] > .sds-rail__item')
+      .locator('.sds-rail__fold[open] .sds-rail__item')
       .evaluateAll((items) =>
         items.map((el) => {
           const box = el.getBoundingClientRect();
           return { label: el.textContent?.trim() ?? '', top: Math.round(box.top), width: box.width };
         }),
       );
-    expect(rows.length, 'the open group should hold more than one page').toBeGreaterThan(1);
+    /* One is enough: the fold's own page is the row above it now, not a copy
+       of that name inside it. */
+    expect(rows.length, 'the open fold should hold its pages').toBeGreaterThan(0);
 
+    /* Narrower than the rail by the step, and no narrower: a page in a fold is
+       a row and not a footnote. */
     for (const row of rows) {
-      expect(row.width, `${row.label} takes the rail's width`).toBeGreaterThan(width * 0.8);
+      expect(row.width, `${row.label} is a row of the rail`).toBeGreaterThan(width * 0.7);
+      expect(row.width, `${row.label} is set in from it`).toBeLessThan(width);
     }
     expect(new Set(rows.map((row) => row.top)).size, 'every page on a line of its own').toBe(rows.length);
   });
@@ -555,11 +560,12 @@ test.describe('what the theme repaired', () => {
     expect(order.filter((row) => row === 'page').length, 'and pages before it').toBeGreaterThan(1);
   });
 
-  test('every row of the rail starts on the same edge', async ({ page }) => {
-    /* Three edges once: the heading and the top-level pages at 9, a group's pages
-       indented to 17, and the group's own heading pushed to 33 by the chevron in
-       front of it. The rail is one column of rows, so a reader on a grouped page
-       found the filled block of the current one at an edge of its own. */
+  test('the rail has one edge, and one step in from it', async ({ page }) => {
+    /* Three edges once: the heading and the top-level pages at 9, a group's
+       pages indented to 17, and the group's own heading pushed to 33 by the
+       chevron in front of it — three starts for one column. What a reader gets
+       now is two: everything the section holds on one edge, and what a fold
+       holds one step in from it, which is what says it belongs to the fold. */
     await page.goto(`${ACCEPTANCE_URL}/depth/group/far.html`, { waitUntil: 'load' });
 
     const edges = await page.locator('.sds-rail').evaluate((rail) => {
@@ -571,14 +577,20 @@ test.describe('what the theme repaired', () => {
         range.selectNodeContents(first ?? el);
         return Math.round(range.getBoundingClientRect().left);
       };
-      const rows = [...rail.querySelectorAll('.sds-label, .sds-rail__item, .sds-rail__group > summary')];
-      return rows.map((el) => ({ label: el.textContent?.trim().slice(0, 24) ?? '', left: text(el) }));
+      const rows = [...rail.querySelectorAll(':scope > .sds-label, :scope > .sds-rail__item, :scope > .sds-rail__group > .sds-rail__item')];
+      const under = [...rail.querySelectorAll('.sds-rail__fold[open] .sds-rail__item')];
+      const at = (el: Element) => ({ label: el.textContent?.trim().slice(0, 24) ?? '', left: text(el) });
+      return { rows: rows.map(at), under: under.map(at) };
     });
 
-    expect(edges.length, 'the rail should have a heading, a group and pages').toBeGreaterThan(3);
-    const [first, ...rest] = edges;
+    expect(edges.rows.length, 'the rail should have a heading, a fold and pages').toBeGreaterThan(3);
+    const [first, ...rest] = edges.rows;
     for (const row of rest) {
       expect(row.left, `${row.label} starts where ${first?.label} does`).toBe(first?.left);
+    }
+    expect(edges.under.length, 'the open fold should hold pages').toBeGreaterThan(0);
+    for (const row of edges.under) {
+      expect(row.left, `${row.label} is set in from the column`).toBeGreaterThan(first?.left ?? 0);
     }
   });
 
@@ -598,34 +610,172 @@ test.describe('what the theme repaired', () => {
     await expect(page.locator('.sds-bar__toggle')).toHaveCount(0);
   });
 
-  test('the page a rail is named after is the first page in it', async ({ page }) => {
-    /* The heading over a rail is a heading, not a link, so a section whose rail
-       held only its children left the reader standing on the index as the one
-       page missing from it — and with nothing marked, since `active` counts
-       over pages the rail lists. */
+  test('the page a rail is named after is the heading over it', async ({ page }) => {
+    /* The heading is the way to the section's own page, as a footer column's
+       heading is: the name is written once, and it is a link. */
     await page.goto(`${ACCEPTANCE_URL}/depth/index.html`, { waitUntil: 'load' });
 
     const rail = page.locator('.sds-rail');
-    await expect(rail.locator('.sds-label')).toHaveText('Depth');
-    await expect(rail.locator('.sds-rail__item').first()).toHaveText('Depth');
-
-    const here = rail.locator('.sds-rail__item.is-active');
-    await expect(here).toHaveText('Depth');
-    await expect(here).toHaveAttribute('aria-current', 'page');
+    const head = rail.locator('.sds-rail__heading');
+    await expect(head).toHaveText('Depth');
+    await expect(head).toHaveAttribute('href', /index\.html$|#/);
+    await expect(head).toHaveAttribute('aria-current', 'page');
+    /* And the name is written once. */
+    await expect(rail.locator('.sds-rail__item', { hasText: /^Depth$/ })).toHaveCount(0);
   });
 
-  test('a rail with no page of its own in it marks none of them', async ({ page }) => {
-    /* `active` counts over the flattened rail and the element falls back to
-       zero, so a page whose rail does not list it — the root, whose rail is
-       the sections — had its first item filled in the accent and announced as
-       the page the reader was on. The template writes -1 rather than leaving
-       the attribute off. */
+  test('the page above every section carries no rail, and marks no page', async ({ page }) => {
+    /* The root is in no section, so there is no section beside it to list —
+       what the bar carries is the whole site, on this page as on every other. */
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    const rail = page.locator('.sds-rail');
-    expect(await rail.locator('.sds-rail__item').count()).toBeGreaterThan(1);
-    await expect(rail.locator('.sds-rail__item.is-active')).toHaveCount(0);
-    await expect(rail.locator('[aria-current="page"]')).toHaveCount(0);
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('.sds-rail')).toHaveCount(0);
+    /* What it has instead is the bar, and there the root is a front door like
+       any other — marked as the page because it is the page. */
+    await expect(page.locator('.sds-bar__nav .sds-pill')).not.toHaveCount(0);
+    await expect(page.locator('.sds-bar__nav .sds-pill[aria-current="page"]')).toHaveText('Overview');
+  });
+
+  test('the menu the bar opens is the whole site, on a page at any depth', async ({ page }) => {
+    /* Every section is one press from every page, the landing page included:
+       what the one button opens is the site and not the corner of it the
+       reader is standing in. */
+    const toggle = page.locator('.sds-bar__toggle');
+    const drawer = page.locator('.sds-bar__drawer');
+    const menu = drawer.locator('.sds-bar__level');
+
+    for (const path of ['/index.html', '/guides-theme/quickstart.html']) {
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto(`${SITE_URL}${path}`, { waitUntil: 'load' });
+
+      /* Wide, the row is the menu: the front doors stand in it, each with the
+         marker that opens its pages. */
+      await expect(page.locator('.sds-bar__nav .sds-pill').first()).toBeVisible();
+      await expect(page.locator('.sds-bar__fold > summary').first()).toBeVisible();
+
+      await page.setViewportSize({ width: 420, height: 900 });
+      await expect(toggle).toBeVisible();
+      await toggle.click();
+
+      /* It opens where the reader is standing, and the site is one press up
+         from there however deep that is. */
+      const back = menu.locator('.sds-bar__back');
+      for (let steps = 0; (await back.count()) && steps < 5; steps += 1) await back.click();
+
+      /* One list, and it is the site's own level: every section, including the
+         one the bar never names — `Maintaining` is a section of this site and
+         not one of its front doors. */
+      await expect(menu).toBeVisible();
+      await expect(drawer.locator('.sds-bar__nav')).toHaveCount(0);
+      for (const section of ['Design system', 'Maintaining']) {
+        await expect(menu.locator('.sds-bar__link', { hasText: section })).toHaveCount(1);
+      }
+      /* And the pages of a section are behind the way into it rather than
+         under it: a phone is a window onto a long list, and the whole tree
+         unfolded is forty rows to scroll past to reach the four that are the
+         site. */
+      await expect(menu.locator('.sds-bar__link', { hasText: 'Quick start' })).toHaveCount(0);
+      await menu.locator('.sds-bar__row', { hasText: 'Render guide template' }).locator('.sds-bar__into').click();
+      await expect(menu.locator('.sds-bar__link', { hasText: 'Quick start' })).toHaveCount(1);
+      await expect(back).toHaveText(/Soul Design System/);
+      await back.click();
+      await expect(menu.locator('.sds-bar__link', { hasText: 'Maintaining' })).toHaveCount(1);
+    }
+  });
+
+  test('a section opens its pages under the row, and only one at a time', async ({ page }) => {
+    /* The panel is a `<details>` under the section it belongs to, so it works
+       before any script and the bar only has to say which one is open. A
+       pointer opens it as well as a press — a menu that only answers a press
+       asks a reader who is already moving to stop and aim — and two standing
+       over one page is a reader working out which of them the bar is
+       answering. */
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
+
+    const folds = page.locator('.sds-bar__fold');
+    await expect(folds.first()).toBeVisible();
+    await expect(page.locator('.sds-bar__fold[open]')).toHaveCount(0);
+
+    await folds.first().hover();
+    await expect(folds.first()).toHaveAttribute('open', '');
+    await expect(folds.first().locator('.sds-bar__panel .sds-bar__link').first()).toBeVisible();
+    /* And it says it is in front by standing off the page — the one shadow in
+       the system, and not the wash a dialog draws: a panel a pointer opens on
+       its way past must not take the page behind it out of use. */
+    const lifted = await folds.first().locator('.sds-bar__panel').evaluate((el) => getComputedStyle(el).boxShadow);
+    expect(lifted, 'the panel carries a shadow').not.toBe('none');
+    await expect(page.locator('sds-overlay')).toHaveCount(0);
+
+    await folds.nth(1).hover();
+    await expect(page.locator('.sds-bar__fold[open]')).toHaveCount(1);
+    await expect(folds.nth(1)).toHaveAttribute('open', '');
+
+    /* Escape closes it, and the focus goes to the marker that opened it rather
+       than to the top of the bar. */
+    await folds.nth(1).locator('summary').focus();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.sds-bar__fold[open]')).toHaveCount(0);
+    await expect(folds.nth(1).locator('summary')).toBeFocused();
+
+    /* And the marker is a control in its own right: a keyboard opens the same
+       panel with no pointer anywhere near it. */
+    await page.keyboard.press('Enter');
+    await expect(folds.nth(1)).toHaveAttribute('open', '');
+  });
+
+  test('the drawer opens on the level the reader is standing on', async ({ page }) => {
+    /* A menu that always opened at the top would ask somebody three sections
+       deep to walk back down to where they already were — and the way up is
+       one press, which the way down is not. The page they are on is the marked
+       row, quietly: a menu is opened to leave that page. */
+    await page.setViewportSize({ width: 420, height: 900 });
+    await page.goto(`${SITE_URL}/guides-theme/quickstart.html`, { waitUntil: 'load' });
+    await page.locator('.sds-bar__toggle').click();
+
+    const menu = page.locator('.sds-bar__drawer .sds-bar__level');
+    await expect(menu.locator('.sds-bar__back')).toHaveText(/Soul Design System/);
+    /* The section's own page is the first row inside it. */
+    await expect(menu.locator('.sds-bar__link').first()).toHaveText('Render guide template');
+    const here = menu.locator('.sds-bar__link.is-active');
+    await expect(here).toHaveText('Quick start');
+    await expect(here).toHaveAttribute('aria-current', 'page');
+    await expect(here).not.toHaveCSS('background-color', 'rgb(255, 135, 0)');
+  });
+
+  test('a menu is read with the arrow keys once it is open', async ({ page }) => {
+    /* A panel a reader cannot walk into is a list they have to tab through the
+       whole of the bar to reach. Down steps in from the marker and along the
+       pages; up comes back; neither wraps, because a list that starts over at
+       the bottom hides how long it was from whoever cannot see it. */
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
+
+    const panel = page.locator('.sds-bar__fold').first().locator('.sds-bar__panel');
+    await page.locator('.sds-bar__fold > summary').first().focus();
+    await page.keyboard.press('ArrowDown');
+
+    const rows = panel.locator('.sds-bar__link');
+    await expect(rows.first()).toBeFocused();
+    await page.keyboard.press('ArrowDown');
+    await expect(rows.nth(1)).toBeFocused();
+    await page.keyboard.press('ArrowUp');
+    await expect(rows.first()).toBeFocused();
+    await page.keyboard.press('ArrowUp');
+    await expect(rows.first()).toBeFocused();
+    await page.keyboard.press('End');
+    await expect(rows.last()).toBeFocused();
+
+    /* And the same keys in the drawer, which is the same menu at a width where
+       the row has none of it — one level at a time, so what the arrows walk is
+       the level on screen. */
+    await page.setViewportSize({ width: 420, height: 900 });
+    await page.locator('.sds-bar__toggle').click();
+    const pages = page.locator('.sds-bar__drawer .sds-bar__link');
+    await pages.first().focus();
+    await page.keyboard.press('ArrowDown');
+    await expect(pages.nth(1)).toBeFocused();
   });
 
   test('the inline footnote mark names the number the block carries', async ({ page }) => {
@@ -1193,7 +1343,11 @@ test.describe('what the reader gets before the script does', () => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
     await expect(page.locator('h1')).toBeVisible();
-    await expect(page.locator('.sds-rail__item').first()).toBeVisible();
+    /* The sections, written by the server: the bar is handed the site as data
+       and renders it before the page is sent, so a reader with no script has
+       the row and the pages of a section behind its marker. */
+    await expect(page.locator('.sds-bar__nav .sds-pill').first()).toBeVisible();
+    await expect(page.locator('.sds-bar__panel .sds-bar__link').first()).toHaveCount(1);
     /* Not "a stylesheet loaded" — that the one rule the document layer exists
        for arrived: prose is not the browser's 16px Times running the width of
        the window. */

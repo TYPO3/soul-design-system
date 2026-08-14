@@ -15,7 +15,7 @@ import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/diff.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
-import '../../packages/frontend/src/components/header.ts';
+import '../../packages/frontend/src/components/nav-main.ts';
 import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type DiffLine } from '../../packages/frontend/src/components/diff.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
@@ -43,14 +43,13 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
 
   return html`<div class="sds-shell">
   ${skipLink()}
-  <sds-header
+  <sds-nav-main
     home="#answer"
     signet="../assets/design-system-signet-m.svg"
     brand="TYPO3"
     product="Dev Companion"
-    version="typo3_changelog_lookup"
     tone="default"
-  ></sds-header>
+  ></sds-nav-main>
 
   <main class="sds-page" id="main-content">
     <div class="sds-stack" id="answer">

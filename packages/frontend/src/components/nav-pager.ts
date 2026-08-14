@@ -1,13 +1,13 @@
-/* sds-pager — the way on from a page.
+/* sds-nav-pager — the way on from a page.
 
    Two links and no more, because a page read in order has two neighbours. Not
-   `sds-pagination`, which numbers the pages of a result list: that is a set a
+   `sds-nav-pagination`, which numbers the pages of a result list: that is a set a
    reader moves around inside, this is a line they are walking along, and the
    only two entries worth a row at the foot of a page are the one behind and
    the one ahead.
 
    Four attributes rather than two objects: a label and a target each fit in a
-   string, and JSON is what a list of unknown length costs. A `<sds-pager>` in
+   string, and JSON is what a list of unknown length costs. A `<sds-nav-pager>` in
    a page reads as what it points at.
 
    The direction is on the glyph, not on the link. A name written over the
@@ -31,7 +31,7 @@ export interface PagerProps {
   label?: string;
 }
 
-export class SdsPager extends SdsElement {
+export class SdsNavPager extends SdsElement {
   static override properties = {
     previousHref: { type: String, attribute: 'previous-href' },
     previousLabel: { type: String, attribute: 'previous-label' },
@@ -55,7 +55,7 @@ export class SdsPager extends SdsElement {
     this.label = 'Pages either side of this one';
   }
 
-  /* `buttonMarkup` rather than `<sds-button>`, the way `sds-pagination` draws
+  /* `buttonMarkup` rather than `<sds-button>`, the way `sds-nav-pagination` draws
      its own steps: an element given children draws none of them outside a
      browser, and a link that goes somewhere has nothing to upgrade for. The
      markup is the button's own, exported from the button. */
@@ -65,14 +65,14 @@ export class SdsPager extends SdsElement {
 
   protected override render(): TemplateResult {
     const back = this.previousHref && this.previousLabel
-      ? SdsPager.step(
+      ? SdsNavPager.step(
           this.previousHref,
           html`<sds-icon name="actions-arrow-left" size="16" label="Previous page"></sds-icon>${buttonLabel(this.previousLabel)}`,
           'prev',
         )
       : '';
     const on = this.nextHref && this.nextLabel
-      ? SdsPager.step(
+      ? SdsNavPager.step(
           this.nextHref,
           html`${buttonLabel(this.nextLabel)}<sds-icon name="actions-arrow-right" size="16" label="Next page"></sds-icon>`,
           'next',
@@ -89,4 +89,4 @@ export class SdsPager extends SdsElement {
   }
 }
 
-define('sds-pager', SdsPager);
+define('sds-nav-pager', SdsNavPager);

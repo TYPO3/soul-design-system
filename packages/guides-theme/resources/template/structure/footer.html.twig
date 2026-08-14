@@ -105,6 +105,9 @@
     {%- if soul.signet %} signet="{{ asset('/' ~ soul.signet) }}"{% endif -%}
     {%- if soul.brand %} brand="{{ soul.brand }}"{% endif -%}
     {%- if soul.footer.note is defined and soul.footer.note %} note="{{ soul.footer.note }}"{% endif -%}
+    {#- What the reader is reading, said where it costs nothing: the bar's row
+        is for the controls, and a version is a fact about the site. -#}
+    {%- if env.projectNode.version %} version="{{ env.projectNode.version }}"{% endif -%}
     {%- if env.projectNode.copyright %} copyright="{{ env.projectNode.copyright }}"{% endif -%}
     {%- if marks %} marks="{{ marks|json_encode }}"{% endif -%}
 ></sds-footer>

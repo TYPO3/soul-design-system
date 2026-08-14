@@ -1,4 +1,4 @@
-/* sds-pagination — where a list continues.
+/* sds-nav-pagination — where a list continues.
 
    Numbered, and every number an `href`: a page reachable only by scrolling is
    one a reader cannot send to anyone. The address is a whole URL with `{n}`
@@ -75,7 +75,7 @@ export function pageNumbers(pages: number, current: number): readonly number[] {
   return out;
 }
 
-export class SdsPagination extends SdsElement {
+export class SdsNavPagination extends SdsElement {
   static override properties = {
     count: { type: Number },
     perPage: { type: Number, attribute: 'per-page' },
@@ -150,4 +150,4 @@ export class SdsPagination extends SdsElement {
   }
 }
 
-define('sds-pagination', SdsPagination);
+define('sds-nav-pagination', SdsNavPagination);

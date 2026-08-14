@@ -13,7 +13,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/code.ts';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/figure.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
@@ -23,7 +23,7 @@ import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { buttonLabel, buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type CodeLine } from '../../packages/frontend/src/components/code.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { sdsStat, SOURCE_FACTS } from '../components/Stat.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
@@ -134,7 +134,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="feature">
       <div class="sds-stack">
-        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
         <span class="sds-label">Feature</span>
         <h1 class="sds-display">Every answer says where it came from</h1>
         <p class="sds-lead">

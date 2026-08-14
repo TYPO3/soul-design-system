@@ -42,7 +42,7 @@ Everything here is one of two layouts, and the choice is not decoration.
 stacked down it. Right for an answer, a reference, a document — the reader
 came for something specific and the page's job is to be out of the way. Where
 it needs a list of its own sections beside it, that is ``sds-body`` with an
-``sds-rail``.
+``sds-nav-rail``.
 
 **A page that argues** is ``sds-bands``: full-bleed sections whose *ground*
 changes, contents held to the same measure. Right where the parts of the page
@@ -142,7 +142,7 @@ The sitemap
 -----------
 
 The only page that shows the shape of the site rather than a path through it.
-It is ``sds-rail`` three times over, groups standing open, nothing marked
+It is ``sds-nav-rail`` three times over, groups standing open, nothing marked
 current — a map has no *here* on it.
 
 .. specimen:: screens/sitemap.html
@@ -168,7 +168,7 @@ An article
 
 One column of running text with the things a text needs standing in it — a
 drawing, a borrowed sentence, a block the machine wrote — and its contents
-beside it. Those contents are ``sds-rail``: an article's table of contents is a
+beside it. Those contents are ``sds-nav-rail``: an article's table of contents is a
 list of links beside a column, which is what the rail already is.
 
 .. specimen:: screens/article.html
@@ -261,7 +261,7 @@ was closed in the component rather than in the page:
    * - a section whose ground changes
      - ``sds-band``, and ``sds-page`` stayed what it was
    * - where the reader is
-     - ``sds-crumbs`` — the one navigation with no active mark
+     - ``sds-nav-breadcrumb`` — the one navigation with no active mark
    * - a number stated as a fact
      - ``sds-stat``, whose ``note`` is what keeps it from being a boast
    * - a drawing at the size it was drawn
@@ -272,7 +272,7 @@ was closed in the component rather than in the page:
      - ``sds-card`` and ``sds-result`` — an invitation and an answer are not
        the same shape
    * - where the list continues
-     - ``sds-pagination``
+     - ``sds-nav-pagination``
    * - a boundary drawn as an answer
      - nothing new — a page says it in its own headline and a list says it in
        an ``info`` note, which is what the states guideline shows

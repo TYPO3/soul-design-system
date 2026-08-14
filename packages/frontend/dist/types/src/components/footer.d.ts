@@ -42,6 +42,11 @@ export interface FooterProps {
     /** Whose product it is, where that is a second name — the first half of the
         lockup, with the accent rule between the two. The bar's own form. */
     brand?: string;
+    /** What the reader is reading, where that has a version. It stands in the
+        closing line rather than in the bar: a version is a fact about the site
+        and not a control, and at the top it takes room from the ones that are.
+        Mono, being something the machine names. */
+    version?: string;
     /** Whose it is and from when. A separate line from the note because it is a
         separate claim, and a footer that runs the two together reads as though
         the sentence were part of the notice. */
@@ -59,6 +64,9 @@ export declare class SdsFooter extends SdsElement {
             type: ArrayConstructor;
         };
         note: {
+            type: StringConstructor;
+        };
+        version: {
             type: StringConstructor;
         };
         product: {
@@ -82,6 +90,7 @@ export declare class SdsFooter extends SdsElement {
     };
     groups: readonly FooterGroup[];
     note: string;
+    version: string;
     product: string;
     signet: string;
     brand: string;

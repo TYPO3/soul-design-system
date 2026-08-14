@@ -12,7 +12,7 @@ export interface PagerProps {
     /** What the row is called for a reader who cannot see that it is one. */
     label?: string;
 }
-export declare class SdsPager extends SdsElement {
+export declare class SdsNavPager extends SdsElement {
     static properties: {
         previousHref: {
             type: StringConstructor;

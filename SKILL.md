@@ -103,7 +103,7 @@ To force a mode on a subtree, set `data-theme="light"` or `data-theme="dark"`. S
 Breaking one of these breaks the system, not just the page.
 
 - **One accent.** `--accent` (#FF8700) marks exactly three things: the active navigation item, the shell prompt in a code block, the pipe in the wordmark. No second accent, anywhere. The accent is also the one thing a surface may be *lit* with: `--accent-glow` in the top of a card's frame under the pointer, falling away down it. That is the single gradient in the system, it is a state rather than a mark, and it is not a licence for a second one.
-- **No shadows.** Not on cards, modals or menus. Separation is a hairline plus `--surface-overlay`. The focus ring is the single `box-shadow` in the system, and it is a state, not depth.
+- **A shadow means a surface has left the page.** Write the job, never the distance: `--shadow-basic`, `--shadow-strong`, `--shadow-tooltip`, `--shadow-flyout` (what the bar opens over the text), `--shadow-dialog`, `--shadow-window`. `--shadow-2…64` is the raw scale behind them and appears in no design, the way `--orange-*` does not. Nothing that stays *on* the page takes one — a card, a band, a table separate with a hairline plus `--surface-overlay`. The focus ring is a state, not depth.
 - **No emoji.** Status is a colour plus a glyph from `packages/frontend/assets/icons/` or the mono font (`✓`).
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `make verify`, `guides.xml`, `vendor/bin/guides`.
 - **16px is the floor** for both the signet and the icons. Below it: wordmark alone, and no icon at all.

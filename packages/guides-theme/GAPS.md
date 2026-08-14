@@ -144,7 +144,7 @@ The question of what belongs to the shell decides at the same time who is fed
 and who has to accept markup.
 
 **Shell** — writes the layout once, appears in no document: `sds-theme`,
-`sds-crumbs`, `sds-rail`, `sds-header`, `sds-pills`, `sds-footer`, plus the
+`sds-nav-breadcrumb`, `sds-nav-rail`, `sds-nav-main`, `sds-nav-pills`, `sds-footer`, plus the
 classes `.sds-signet`, `.sds-shell`, `.sds-bar`, `.sds-body`, `.sds-column`,
 `.sds-page`. Fed from Guides objects — menu tree, breadcrumbs, project title —
 whose content is pure labelling. Attributes are enough for that; nobody here
@@ -193,7 +193,7 @@ it. Evidence in the fixture (`acceptance/`) counts, a copy under
   turns the gate as red as a missing one. `ELSEWHERE` beside it is the other
   answer and no debt: form parts, overlays, the pill navigation and the
   pagination. A manual has no form to fill in, no application chrome and no
-  numbered pages — its way on is the `sds-pager`. If one of them does turn up
+  numbered pages — its way on is the `sds-nav-pager`. If one of them does turn up
   in the render, the classification was wrong, and the check says so.
 
 ## In what order

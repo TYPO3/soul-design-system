@@ -13,14 +13,14 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/card.ts';
-import '../../packages/frontend/src/components/crumbs.ts';
+import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
-import '../../packages/frontend/src/components/pagination.ts';
-import '../../packages/frontend/src/components/pills.ts';
+import '../../packages/frontend/src/components/nav-pagination.ts';
+import '../../packages/frontend/src/components/nav-pills.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type CardProps } from '../../packages/frontend/src/components/card.ts';
-import { type Crumb } from '../../packages/frontend/src/components/crumbs.ts';
+import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { type NavChange } from '../../packages/frontend/src/components/nav-base.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
@@ -175,7 +175,7 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
 
     <section class="sds-band" id="news">
       <div class="sds-stack sds-stack--tight">
-        <sds-crumbs .items="${TRAIL}"></sds-crumbs>
+        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
         <h1>News</h1>
         <p class="sds-lead">
           Releases, guides, and what the project decided. Every entry says which
@@ -187,18 +187,18 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
     <section class="sds-band sds-band--quiet" id="entries">
       <div class="sds-stack">
         <div class="sds-row">
-          <sds-pills
+          <sds-nav-pills
             .items="${FILTERS.map(({ label }) => ({ label }))}"
             active="${filter}"
             @sds-change="${(e: CustomEvent<NavChange>) => onFilter?.(e.detail.index)}"
-          ></sds-pills>
+          ></sds-nav-pills>
           <span class="sds-label sds-row__end">${shown.length} of ${ENTRIES.length} entries</span>
         </div>
 
         ${list}
 
         ${shown.length
-          ? html`<sds-pagination count="${shown.length}" per-page="${PER_PAGE}" current="1" href="#entries-{n}" label="entries"></sds-pagination>`
+          ? html`<sds-nav-pagination count="${shown.length}" per-page="${PER_PAGE}" current="1" href="#entries-{n}" label="entries"></sds-nav-pagination>`
           : ''}
       </div>
     </section>
