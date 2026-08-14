@@ -219,7 +219,7 @@ const CHECKS: readonly Check[] = [
   {
     name: 'classes',
     step: '2',
-    label: 'every name used is defined',
+    label: 'every class resolves in its own layer',
     run() {
       const defined = definedClasses();
       /* Every class in every card and screen, against the stylesheets, with no
@@ -239,6 +239,27 @@ const CHECKS: readonly Check[] = [
           }
         }
       }
+      /* Cards link `_specimen.css`; elements and starting points do not. The
+         union above can prove a card's annotation exists, but it must not make
+         a specimen class look available to product source. */
+      let specimenLeaks = 0;
+      const productSources = (dir: string): string[] => readdirSync(dir, { withFileTypes: true })
+        .flatMap((entry) => entry.isDirectory()
+          ? productSources(join(dir, entry.name))
+          : entry.name.endsWith('.ts') ? [join(dir, entry.name)] : []);
+      for (const file of productSources(join(FRONTEND, 'src'))) {
+        for (const match of readFileSync(file, 'utf8').matchAll(/\bspec-[a-z0-9-]+\b/g)) {
+          specimenLeaks++;
+          fails.push(`${relative(ROOT, file)}: product source names specimen-only class "${match[0]}"`);
+        }
+      }
+      for (const screen of sp) {
+        for (const match of screen.text.matchAll(/\bclass="[^"]*\b(spec-[a-z0-9-]+)\b[^"]*"/g)) {
+          specimenLeaks++;
+          fails.push(`${screen.rel}: starting point uses specimen-only class "${match[1]}"`);
+        }
+      }
+      console.log(`   ${specimenLeaks} specimen-only classes in product source`);
       /* Names that are markers rather than hooks. `language-*` is the fence's
          grammar, written onto the `<code>` the way every Markdown renderer
          writes it: it says what the block is for anything reading the DOM, and

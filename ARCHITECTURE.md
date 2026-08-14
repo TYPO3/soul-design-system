@@ -96,9 +96,3 @@ site is rendered along it, with the same file a reader runs.
   character, which fixes it for the generated ones; **the guideline cards were
   not audited for this.** Grep `guidelines/*.card.html` for `&#` in a
   `@dsCard` line.
-- **`sds-code` depends on a specimen class.** The code block's language label
-  carries `spec-cap`, which is defined only in `_specimen.css` — deliberately
-  outside the `styles.css` closure. A product surface using `sds-code` gets
-  no styling for it. `make verify` cannot catch this: step 2 unions both
-  stylesheets when deciding whether a class is defined. Reproduced as it was
-  rather than quietly redesigned.

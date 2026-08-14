@@ -23,6 +23,7 @@ const HTML = `<!doctype html>
 </head>
 <body class="sds-app">
   <sds-code code-lang="json" copy>{ "versions": ["12.4"] }</sds-code>
+  <sds-diff path="composer.json"></sds-diff>
   <sds-button variant="primary">Run the checks</sds-button>
   <sds-icon name="actions-search"></sds-icon>
   <sds-icon name="actions-search" class="sds-icon sds-icon--20"></sds-icon>
@@ -40,6 +41,7 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
   await page.goto('/dropin-fixture.html', { waitUntil: 'load' });
   await page.waitForFunction(() => customElements.get('sds-code') !== undefined, undefined, { timeout: 15_000 });
   await page.evaluate(() => customElements.whenDefined('sds-button'));
+  await page.evaluate(() => customElements.whenDefined('sds-diff'));
 
   /* Upgraded: the element framed the content it was given. */
   const body = page.locator('sds-code .sds-code__body');
@@ -50,6 +52,17 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
      primary button. A missing stylesheet leaves both transparent. */
   const surface = await body.evaluate((el) => getComputedStyle(el.closest('.sds-code')!).backgroundColor);
   expect(surface, 'the code block should sit on a painted surface').not.toBe('rgba(0, 0, 0, 0)');
+
+  /* A diff's path is product metadata, not specimen annotation. It must take
+     its mono register from soul.css alone; `_specimen.css` is absent here. */
+  const registers = await page.locator('.sds-code__lang, .sds-code__path').evaluateAll((elements) =>
+    elements.map((element) => {
+      const style = getComputedStyle(element);
+      return { family: style.fontFamily, tracking: style.letterSpacing };
+    }));
+  expect(registers).toHaveLength(2);
+  expect(registers[1]).toEqual(registers[0]);
+  expect(registers[1]?.family).toContain('Source Code Pro');
 
   const button = await page.locator('button.sds-btn--primary')
     .evaluate((el) => getComputedStyle(el).backgroundColor);

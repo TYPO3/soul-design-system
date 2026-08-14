@@ -53,6 +53,13 @@ The ``classes`` check rejects a name that is used but not defined. ``coverage``
 guards the other direction: a name defined but never drawn. Together they keep
 the public vocabulary connected to both its implementation and its evidence.
 
+Specimen classes stop at the evidence boundary. A card may use ``spec-*`` for
+its captions because it explicitly links ``_specimen.css``; an element and a
+starting point may not, because a consuming surface links only ``styles.css``.
+The ``classes`` check reads product source separately from the union of sheets
+used to validate cards, so a class cannot appear defined merely because the
+documentation layer knows it.
+
 Exceptions stay executable
 ===========================
 

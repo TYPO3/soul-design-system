@@ -232,8 +232,8 @@ names are how a single one is asked for:
 match the drawings) · `marks` (the documents' signets against those same
 drawings) · `headers` (`@dsCard`, `@startingPoint`) · `heights`
 (specimens against the cards they embed) · `classes` (every class used is
-defined) · `coverage` (every component is shown) · `names` (every `sds-` name
-a document writes exists) · `refs` (every local
+defined in the layer that can load it) · `coverage` (every component is shown)
+· `names` (every `sds-` name a document writes exists) · `refs` (every local
 reference resolves) · `fit` (render, inside the declared viewport) · `rhythm`
 (every screen's sizes on the scale, gaps on the grid) · `ssr`
 (every element renders outside a browser) · `dist` (the committed drop-in
@@ -400,6 +400,10 @@ moved without the other.
 - **Web components first.** `<sds-code code-lang="bash">`, never a `div` with
   the classes on it. The classes are the fallback for surfaces that run no
   JavaScript, not the front door.
+- **Specimen classes stop at the card.** A card links `_specimen.css`; an
+  element and a starting point link only `styles.css`, so neither may write a
+  `spec-*` class. The `classes` check holds that boundary separately from the
+  repository-wide class vocabulary.
 - **A component is addressed, never rebuilt.** Everything that fits in a string
   is a property; between the tags goes only what an attribute cannot carry, and
   that is content rather than structure. A `sds-x__y` class is `sds-x`'s own
