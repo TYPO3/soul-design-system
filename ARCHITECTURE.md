@@ -135,46 +135,6 @@ index as the one page missing from it, with nothing marked. It is the first
 item now — where a folded group already puts the page it is named after, and
 for the same reason.
 
-## The pages are rendered before the browser gets them
-
-`make guides` runs every element in the output through `@lit-labs/ssr` in Node
-— `scripts/lib/prerender.ts` — and writes the markup back into the page inside
-the element's own tag. It is the step that lets the theme *address* components
-instead of rebuilding them, and it is worth stating why it had to exist.
-
-An addressed element draws nothing until it upgrades. On a documentation site
-that is a card whose title waits for a script, and for a reader with scripting
-off it never arrives. So the theme wrote the components' markup itself — the
-card's own parts, `sds-card__body` and the rest, which the elements then read
-back to find their content. Every internal name became public API, neither side
-could change alone, and the one surface built to stop a consumer hand-writing
-this system's markup was hand-writing it.
-
-Rendering earlier removes the reason without weakening the rule. The element is
-the front door on both sides of the script: the page holds its markup for a
-reader who runs none, and in a browser the element re-renders over its own
-output.
-
-Three things make it work, and each is load-bearing:
-
-- **Every element renders in Node.** That was already a rule with a check
-  behind it (`make verify ARGS=ssr`); this is what turned it into a
-  dependency.
-- **Content travels as a property.** SSR builds an element and calls
-  `render()`; it never runs `connectedCallback` and there are no children on
-  the instance, so what a caller wrote between the tags is handed over as
-  `content` on `SdsElement`. Components read `this.taken ?? this.content`.
-- **The rendering is marked.** What was written goes back into the page in an
-  inert `<template data-sds-content>`, always — including when nothing was
-  written. Without it an element cannot tell a caller's content from its own
-  last rendering, and lifts the frame it drew to draw a second one around it.
-
-What a component decides by looking at its children is the one thing that does
-not survive the trip: a set of tabs cannot read labels off items it does not
-have, a button cannot see that its label is a single glyph. Those became
-properties — `items`, `icon-only` — which is the right answer anyway, since a
-decision a component makes by inspection is one a caller cannot state.
-
 ## A component is shown three times, or it does not exist
 
 Writing an element and a class for it is half the work. The other half is

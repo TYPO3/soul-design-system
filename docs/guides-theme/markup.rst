@@ -31,7 +31,7 @@ document that is published already holds the card, the rail and the frame; in
 a browser the element upgrades over its own rendering and takes over the
 behaviour.
 
-Two things follow that are visible from the outside:
+What follows is visible from the outside:
 
 - **A page works with scripting off.** Not a reduced version of it — the same
   markup, minus the parts that are behaviour: a tab bar that cannot switch, a
@@ -39,6 +39,30 @@ Two things follow that are visible from the outside:
 - **A directive's options are the element's properties.** If a component grows
   one, the directive gains it in the same commit, and it is spelt the same way
   on both sides. Nothing in this theme is a translation of a component.
+
+What the component contract requires
+------------------------------------
+
+Every element used by the theme must render in Node. The prerenderer creates
+an element and calls its template without browser lifecycle hooks, so rendering
+cannot depend on ``document``, ``navigator`` or ``customElements``. ``make
+verify ARGS=ssr`` keeps that requirement executable.
+
+Content has to reach the same template by either route. In a browser the
+element lifts what an author wrote between its tags; during server rendering
+there are no connected children, so the prerenderer passes that markup through
+the element's ``content`` property. A component reads the browser value when
+it exists and the property otherwise. Anything it would decide by inspecting
+children — tab labels or whether a control contains only a glyph — must also
+be expressible as a property, or the server and browser can reach different
+answers.
+
+The published element keeps the author's original content in an inert
+``<template data-sds-content>`` before its rendered markup. The template is
+written even when that content is empty: it tells the upgrading element which
+children came from the author and which came from its own earlier rendering.
+Without that distinction the element would lift its rendered frame as input
+and draw a second copy around it.
 
 Admonitions
 ===========
