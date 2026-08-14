@@ -2618,15 +2618,18 @@ sds-nav-rail:not(:defined) {
   padding-inline-start: 0;
   list-style: none;
 }
-/* Indented, and standing off the entry it hangs under by the same step two
-   entries stand off each other — which is the rows' own padding, below. */
+/* Indented, and standing off the entry it hangs under by the step two entries
+   stand off each other: one gap whatever level an entry is on, because the
+   indent already says which — a group set tighter than its neighbours is a
+   rhythm the eye reads before it reads any of the words. */
 .sds-toc__list .sds-toc__list {
-  margin-top: 0;
-  padding-inline-start: var(--space-4);
+  margin-top: var(--space-1);
+  padding-inline-start: var(--space-3);
 }
-/* No margin between entries: a row is a box that carries its own air, and a
-   step on top of it sets the list twice as far apart as it reads. */
-.sds-toc__list > li { margin-bottom: 0; }
+/* One step between entries. The row is a row and no longer a line of prose, so
+   nothing is left between two of them: the fill of one meets the fill of the
+   next, and a list of places reads as a block of them. */
+.sds-toc__list > li { margin-bottom: var(--space-1); }
 /* The label a list writes over itself, standing directly on it. */
 .sds-toc > .sds-label {
   display: block;
@@ -2644,10 +2647,15 @@ sds-nav-rail:not(:defined) {
    because somebody pressed them and the press is the announcement, while this
    one moves under a reader who is looking at the text — two blocks crossing
    over in 140ms is what says the mark travelled rather than blinked. */
+/* And a row carries a row's leading rather than the leading of whatever it
+   stands in: at a document's an entry is a paragraph line, which is what the
+   column beside the text was setting back to a row one media query at a time.
+   Here it is the same row on a card, in a story and in a page. */
 .sds-toc__item {
   display: block;
   margin-inline: calc(-1 * var(--space-2));
   padding: var(--space-1) var(--space-2);
+  line-height: var(--leading-heading);
   border-radius: var(--radius-control);
   color: var(--text-secondary);
   text-decoration: none;

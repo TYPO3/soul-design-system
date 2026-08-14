@@ -633,23 +633,7 @@
     overflow-y: auto;
     overflow-wrap: break-word;
   }
-  /* An entry wraps in a column this narrow, and at the leading of a paragraph
-     the second line of one entry sits as far from the first as the next entry
-     does. So the lines of an entry close up and the entries move apart: what a
-     reader has to see here is where one heading ends and the next begins. */
-  :where(.sds-prose) .sds-aside .sds-toc__list > li {
-    margin-bottom: var(--space-1);
-    line-height: var(--leading-heading);
-  }
-  /* And one gap, whatever level an entry is on: the indent says which, and a
-     second gap saying it again only makes the column uneven — a group set
-     tighter than its neighbours is a rhythm the eye reads before it reads any
-     of the words. So the nested list stands off by the step it interrupts. */
-  :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list {
-    margin-top: var(--space-1);
-    padding-inline-start: var(--space-3);
-  }
-  /* And two levels of them. The column is where a reader jumps from, and a
+  /* Two levels of them. The column is where a reader jumps from, and a
      fourth-level heading is not a jump anybody makes from a rail: drawn, the
      levels below the second are identical muted lines a step apart, each with
      less measure than the one above and nothing but that step saying which is
