@@ -113,6 +113,28 @@ test.describe('the render', () => {
     await expect(hero.locator('a.sds-zoom')).toHaveCount(0);
     await expect(page.locator('.sds-band').first().locator('.sds-sections > sds-grid > .sds-grid')).toBeVisible();
   });
+
+  test('the community boundary keeps its heading beside a centred picture', async ({ page }) => {
+    await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
+
+    const split = page.locator('#scope .sds-split');
+    await expect(split).toHaveClass(/\bsds-split--center\b/);
+    const halves = split.locator(':scope > .sds-stack');
+    await expect(halves).toHaveCount(2);
+    await expect(halves.first().locator(':scope > h2')).toHaveText('Built for community projects');
+    await expect(halves.last().locator('sds-figure .sds-art')).toHaveAttribute(
+      'src',
+      /community-bookshelf\.png$/,
+    );
+
+    const centres = await halves.evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const box = node.getBoundingClientRect();
+        return box.top + box.height / 2;
+      }),
+    );
+    expect(Math.abs(centres[0]! - centres[1]!)).toBeLessThan(2);
+  });
 });
 
 test.describe('the mark in the tab', () => {

@@ -56,6 +56,31 @@ One system, from design to delivery
       Link the class layer directly, then add the custom elements where a
       surface needs behaviour. Server-rendered markup remains the contract.
 
+.. band::
+   :quiet:
+   :id: scope
+
+.. split::
+   :align: center
+
+   .. half:: Built for community projects
+
+      Soul serves the extensions, tools, services and documentation sites that
+      the TYPO3 community builds around the CMS.
+
+      Soul covers the surfaces those projects use to present themselves,
+      explain their work and provide an interface: product pages, guides and
+      application UI belong to the same system.
+
+      Soul does not define the TYPO3 backend, typo3.org or another official
+      TYPO3 surface. Those products have their own owners and design rules.
+      Using Soul does not make a project official, and a surface built with it
+      must not imply endorsement.
+
+   .. half::
+
+      .. figure:: /_images/community-bookshelf.png
+
 .. band:: The same decisions survive every hand-off
    :quiet:
    :id: outcomes

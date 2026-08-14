@@ -316,10 +316,10 @@ One side of a split: the blocks that stand together as a single column.
    .. split::
       :leads: end
 
-      .. half::
+      .. half:: Two paragraphs, one side
 
-         **Two paragraphs, one side.** This is the
-         first of them, and it is not a column.
+         This is the first of them, and it is not a
+         column.
 
          This is the second, and without the
          ``half`` around both it would be one.
@@ -332,6 +332,9 @@ One side of a split: the blocks that stand together as a single column.
 It takes no position of its own: where a half stands is the split's decision,
 because the other half is what it is standing against. Written anywhere else
 it is simply the blocks it holds, in the rhythm a page keeps between them.
+Its optional argument becomes an ``h2`` inside the column. Use it when the
+heading names that side rather than both sides of the split; a reStructuredText
+section heading cannot be nested inside a directive.
 
 .. confval:: class
    :name: half-class

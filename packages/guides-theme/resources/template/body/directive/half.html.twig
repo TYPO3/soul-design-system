@@ -4,6 +4,9 @@
 #}
 {%- set given = node.option('class') ? ' ' ~ node.option('class') : '' -%}
 <div class="sds-stack{{ given }}">
+    {%- if node.option('heading') -%}
+        <h2>{{ node.option('heading') }}</h2>
+    {%- endif -%}
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

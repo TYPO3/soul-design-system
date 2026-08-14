@@ -19,6 +19,12 @@ const IMAGES: readonly { file: string; subject: string }[] = [
   { file: 'tool-written-record.png', subject: 'lamp and folded sheet' },
   { file: 'tool-search.png', subject: 'search ring and cards' },
   { file: 'tool-compare.png', subject: 'two material swatches' },
+  { file: 'project-organizer.png', subject: 'folders in an organizer' },
+  { file: 'community-reference.png', subject: 'shared reference board' },
+  { file: 'community-worktable.png', subject: 'shared worktable' },
+  { file: 'modular-typesetter.png', subject: 'reusable forms and publications' },
+  { file: 'community-folders.png', subject: 'project folders on one surface' },
+  { file: 'community-bookshelf.png', subject: 'one book chosen from a shelf' },
 ];
 
 const RULES: readonly string[] = [
@@ -46,7 +52,7 @@ const meta: Meta = {
       name: 'The set',
       subtitle: 'Mode-neutral editorial imagery — broad shapes, one halftone field, one accent',
       theme: 'both',
-      viewport: '1400x700',
+      viewport: '1400x920',
       bodyClass: 'spec-sunken',
     }),
   },
@@ -58,7 +64,7 @@ type Story = StoryObj;
 export const specimenHtml = (): string =>
   spec(
     [
-      `<div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px 12px;">\n${indent(IMAGES.map(image).join('\n'), 2)}\n</div>`,
+      `<div style="display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:16px 12px;">\n${indent(IMAGES.map(image).join('\n'), 2)}\n</div>`,
       `<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px; border-top:1px solid var(--border-subtle); padding-top:14px;">\n${indent(RULES.map(specRule).join('\n'), 2)}\n</div>`,
     ],
     { gap: '18px' },

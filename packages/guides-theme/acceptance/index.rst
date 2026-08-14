@@ -300,9 +300,9 @@ and a picture are two blocks and stand as two.
    :align: center
    :leads: end
 
-   .. half::
+   .. half:: Several blocks stay together
 
-      Several blocks are one half only when something says so, and this is it.
+      They are one half only when something says so, and this is it.
 
       The picture leads here: it stands to the end of the line on a page and
       above this paragraph on a phone, because what illustrates a sentence is
