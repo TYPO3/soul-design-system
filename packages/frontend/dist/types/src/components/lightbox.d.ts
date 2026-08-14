@@ -12,6 +12,9 @@ export interface LightboxProps {
         `id="art"`. Passed on by the figure that opens this one, so the drawing
         at full size is the drawing in the page. */
     linked?: boolean;
+    /** And the box it was read with, so the picture on the stage keeps the shape
+        it has in the page. */
+    viewBox?: string;
 }
 export declare class SdsLightbox extends SdsElement {
     static properties: {
@@ -31,12 +34,17 @@ export declare class SdsLightbox extends SdsElement {
         linked: {
             type: BooleanConstructor;
         };
+        viewBox: {
+            attribute: string;
+            type: StringConstructor;
+        };
     };
     src: string;
     alt: string;
     caption: string;
     open: boolean;
     linked: boolean;
+    viewBox?: string;
     constructor();
     private get dialog();
     connectedCallback(): void;

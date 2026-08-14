@@ -22,6 +22,10 @@ export interface ImageProps {
         `id="art"`. Written by the build, which is what can read the file;
         `src/lib/art.ts` holds the reasoning. */
     linked?: boolean;
+    /** The referenced file's own `viewBox`, from the same reader — a reference
+        carries no coordinate system across, and an unsized picture holds its
+        shape only where the wrapper has one. */
+    viewBox?: string;
 }
 export declare class SdsImage extends SdsElement {
     static properties: {
@@ -46,6 +50,10 @@ export declare class SdsImage extends SdsElement {
         linked: {
             type: BooleanConstructor;
         };
+        viewBox: {
+            attribute: string;
+            type: StringConstructor;
+        };
         cls: {
             attribute: string;
             type: StringConstructor;
@@ -57,6 +65,7 @@ export declare class SdsImage extends SdsElement {
     height: number;
     zoomable: boolean;
     linked: boolean;
+    viewBox?: string;
     cls: string;
     constructor();
     /** What a server wrote between the tags, dropped. The element takes no

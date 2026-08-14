@@ -22,11 +22,12 @@ showing.
 .. note::
 
    ``sds-image``, ``sds-figure``, ``sds-card`` and ``sds-lightbox`` each take a
-   ``linked`` flag, and it is written by the build rather than by a page: an
-   SVG is referenced through ``id="art"`` on its root, a file that never named
-   one resolves to nothing, and only something with the file in front of it can
-   know that. The finishing step reads it and says so — see
-   :doc:`/guides-theme/publishing`.
+   ``linked`` flag and a ``view-box``, and both are written by the build rather
+   than by a page: an SVG is referenced through ``id="art"`` on its root, a file
+   that never named one resolves to nothing, and a reference carries no
+   coordinate system across — only something with the file in front of it knows
+   either. The finishing step reads both, and says which drawings it had to fall
+   back on — see :doc:`/guides-theme/publishing`.
 
 .. _component-sds-image:
 

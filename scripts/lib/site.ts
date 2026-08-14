@@ -47,16 +47,21 @@ const SHOWS = ['sds-figure', 'sds-image', 'sds-card'];
 const PICTURE = new RegExp(`<(?:${SHOWS.join('|')})(?![-\\w])(?:"[^"]*"|'[^']*'|[^>"'])*>`, 'g');
 const SVG = /\.svg(?:[?#].*)?$/i;
 const PREPARED = /\bid\s*=\s*["']?art\b/;
+const VIEWBOX = /<svg\b[^>]*\sviewBox="([^"]+)"/;
 const ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
 
 /* A drawing is referenced into the page so it carries the page's tokens, and
    one that never named `id="art"` is a reference to nothing — a blank space
    where the picture was. Here the file is at hand, which is the whole reason
    this runs here: an unprepared drawing is marked `linked` and the element
-   draws it as an `<img>`, in the colours it was exported with. */
+   draws it as an `<img>`, in the colours it was exported with.
+
+   A prepared one is told its own `viewBox` instead. A reference carries no
+   coordinate system across, so a wrapper without one has no ratio to hold and
+   `height: auto` gets the 150px any box with no intrinsic size does. */
 export function link(root: string): string[] {
   const linked = new Set<string>();
-  const prepared = new Map<string, boolean>();
+  const drawings = new Map<string, { prepared: boolean; viewBox: string }>();
   for (const file of pages(root)) {
     const page = readFileSync(file, 'utf8');
     const done = page.replace(PICTURE, (tag) => {
@@ -66,14 +71,20 @@ export function link(root: string): string[] {
       /* Left to the reference check, which says the same thing about every
          file a page points at rather than about drawings alone. */
       if (!target.startsWith(root + sep) || !existsSync(target)) return tag;
-      let known = prepared.get(target);
+      let known = drawings.get(target);
       if (known === undefined) {
-        known = PREPARED.test(readFileSync(target, 'utf8'));
-        prepared.set(target, known);
+        const drawing = readFileSync(target, 'utf8');
+        known = { prepared: PREPARED.test(drawing), viewBox: VIEWBOX.exec(drawing)?.[1] ?? '' };
+        drawings.set(target, known);
       }
-      if (known) return tag;
-      linked.add(relative(root, target).split(sep).join('/'));
-      return `${tag.replace(/\/?>$/, '')} linked>`;
+      if (!known.prepared) {
+        linked.add(relative(root, target).split(sep).join('/'));
+        return `${tag.replace(/\/?>$/, '')} linked>`;
+      }
+      /* One already there stays: this step is run again by anyone who renders
+         into an output that stands, and a hand-written one is a decision. */
+      if (!known.viewBox || /\sview-box=/.test(tag)) return tag;
+      return `${tag.replace(/\/?>$/, '')} view-box="${known.viewBox}">`;
     });
     if (done !== page) writeFileSync(file, done);
   }

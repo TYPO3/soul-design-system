@@ -29,6 +29,10 @@ export interface FigureProps {
       `id="art"`. Written by the build, which is what can read the file;
       `src/lib/art.ts` holds the reasoning. */
   linked?: boolean;
+  /** The referenced file's own `viewBox`, from the same reader — a reference
+      carries no coordinate system across, and the frame keeps the picture's
+      shape at every width only where the wrapper has one. */
+  viewBox?: string;
 }
 
 /* A caption written between the tags, told apart from the picture by the class
@@ -53,6 +57,7 @@ export class SdsFigure extends SdsElement {
     height: { type: Number },
     zoomable: { type: Boolean, reflect: true },
     linked: { type: Boolean },
+    viewBox: { attribute: 'view-box', type: String },
   };
 
   declare src: string;
@@ -66,6 +71,7 @@ export class SdsFigure extends SdsElement {
   declare height?: number;
   declare zoomable: boolean;
   declare linked: boolean;
+  declare viewBox?: string;
 
   /* The picture a renderer wrote, taken before Lit renders over it. `src` is
      the form a story or a product surface uses; a renderer writing HTML cannot,
@@ -105,7 +111,7 @@ export class SdsFigure extends SdsElement {
     const given = this.taken ?? this.content;
     const picture = given
       ? html`${given}`
-      : art(this.src, this.alt, { width: this.width, height: this.height, linked: this.linked });
+      : art(this.src, this.alt, { width: this.width, height: this.height, linked: this.linked, viewBox: this.viewBox });
 
     /* The viewer carries the claim into its head, where the caption is a
        sentence; a caption written between the tags is markup and the viewer
@@ -115,6 +121,7 @@ export class SdsFigure extends SdsElement {
           src: this.src,
           alt: this.alt,
           linked: this.linked,
+          viewBox: this.viewBox,
           caption: typeof this.caption === 'string' ? this.caption : '',
         })
       : null;

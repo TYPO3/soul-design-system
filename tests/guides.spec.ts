@@ -1154,6 +1154,15 @@ test.describe('what the theme repaired', () => {
        its close is a glyph — three references to one picture on the page. */
     const prepared = page.locator('.sds-prose sds-figure:not([linked])').first();
     await expect(prepared.locator('.sds-figure__frame svg use')).toHaveAttribute('href', /#art$/);
+
+    /* And it keeps the shape it was drawn in. A reference carries no coordinate
+       system across, so the finishing step reads the box out of the file too —
+       without it the wrapper has no ratio, and `height: auto` is the 150px any
+       box with no intrinsic size gets, whatever the picture inside it is. */
+    const wrapper = prepared.locator('.sds-figure__frame svg.sds-art');
+    await expect(wrapper).toHaveAttribute('viewBox', '0 0 1200 500');
+    const drawn = await wrapper.boundingBox();
+    expect((drawn?.width ?? 0) / (drawn?.height ?? 1)).toBeCloseTo(1200 / 500, 1);
   });
 
   test('a set of questions is folded by the platform, not by a listener', async ({ page }) => {

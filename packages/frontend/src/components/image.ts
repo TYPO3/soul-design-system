@@ -36,6 +36,10 @@ export interface ImageProps {
       `id="art"`. Written by the build, which is what can read the file;
       `src/lib/art.ts` holds the reasoning. */
   linked?: boolean;
+  /** The referenced file's own `viewBox`, from the same reader — a reference
+      carries no coordinate system across, and an unsized picture holds its
+      shape only where the wrapper has one. */
+  viewBox?: string;
 }
 
 export class SdsImage extends SdsElement {
@@ -46,6 +50,7 @@ export class SdsImage extends SdsElement {
     height: { type: Number, reflect: true },
     zoomable: { type: Boolean, reflect: true },
     linked: { type: Boolean },
+    viewBox: { attribute: 'view-box', type: String },
     /* The class the caller wrote, read as a property rather than off the host:
        `this.className` exists only where there is a DOM, and these render in
        Node too. Declaring the attribute is what carries it through both. */
@@ -58,6 +63,7 @@ export class SdsImage extends SdsElement {
   declare height: number;
   declare zoomable: boolean;
   declare linked: boolean;
+  declare viewBox?: string;
   declare cls: string;
 
   constructor() {
@@ -90,9 +96,9 @@ export class SdsImage extends SdsElement {
        collision. The class goes on the picture itself, where the stylesheet
        expects it — the fallback markup is written that way by hand. */
     const cls = this.cls || (width || height ? '' : 'sds-art');
-    const picture = art(this.src, this.alt, { cls, width, height, linked: this.linked });
+    const picture = art(this.src, this.alt, { cls, width, height, linked: this.linked, viewBox: this.viewBox });
     if (!this.zoomable) return picture;
-    const { trigger, viewer } = zoom(this, picture, { src: this.src, alt: this.alt, linked: this.linked });
+    const { trigger, viewer } = zoom(this, picture, { src: this.src, alt: this.alt, linked: this.linked, viewBox: this.viewBox });
     return html`${trigger}
 ${viewer}`;
   }

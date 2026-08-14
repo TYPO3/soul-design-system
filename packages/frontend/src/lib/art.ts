@@ -6,8 +6,10 @@
    whatever it sits in. It costs the file one line — `id="art"` on the root, and
    one that never paid it is linked — a reference to nothing draws nothing.
 
-   `<use>` carries no size across: a file naming its root carries its own
-   `viewBox`, and `make diagrams` reads one out of each drawing that does not. */
+   `<use>` carries no coordinate system across, and a wrapper without one has no
+   ratio for `height: auto` to hold — so the box is read out of the file by
+   whatever has it in front of it: `make diagrams` for a drawing of this
+   system's own, `scripts/lib/site.ts` for one a document brought. */
 
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -47,11 +49,16 @@ export interface ArtOptions {
       file in front of it can know that — `scripts/lib/site.ts` reads the file
       and writes this onto the element, so the picture arrives. */
   linked?: boolean;
+  /** The file's own `viewBox`, from the same reader for the same reason: the
+      generated table below holds this system's drawings and nothing else, so a
+      document's own drawing arrives with no ratio and `height: auto` falls back
+      to the 150px a box with no intrinsic size gets. */
+  viewBox?: string;
 }
 
 /** The picture, as whatever it has to be to arrive in the right mode. */
 export function art(src: string, alt: string, options: ArtOptions = {}): TemplateResult {
-  const { cls = 'sds-art', width, height, linked = false } = options;
+  const { cls = 'sds-art', width, height, linked = false, viewBox } = options;
   /* `aria-label` on the wrapper, not the `<title>` in the file: only one is
      read, and the author wrote this one beside the picture. Empty says
      decorative, which is not the same as left unnamed. */
@@ -65,9 +72,11 @@ export function art(src: string, alt: string, options: ArtOptions = {}): Templat
     return html`${unsafeHTML(`<img${attr('class', cls)} src="${src}" alt="${escaped}"${size}>`)}`;
   }
 
-  const viewBox = DIAGRAM_VIEWBOX[src.split('/').pop()?.replace(DRAWING, '') ?? ''];
+  /* What was read out of the file beats the table: a document's drawing can be
+     called `system-overview.svg` too, and the name is all the table matches. */
+  const box = viewBox || DIAGRAM_VIEWBOX[src.split('/').pop()?.replace(DRAWING, '') ?? ''];
   return html`${unsafeHTML(
-    `<svg${attr('class', cls)}${attr('viewBox', viewBox)}${size}${name}>` +
+    `<svg${attr('class', cls)}${attr('viewBox', box)}${size}${name}>` +
       `<use href="${src}#${GROUP}"></use></svg>`,
   )}`;
 }

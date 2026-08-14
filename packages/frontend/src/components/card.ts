@@ -34,6 +34,10 @@ export interface CardProps {
       `id="art"`. Written by the build, which is what can read the file;
       `src/lib/art.ts` holds the reasoning. */
   linked?: boolean;
+  /** The referenced file's own `viewBox`, from the same reader — a reference
+      carries no coordinate system across, and the picture at the top of the
+      card holds its shape only where the wrapper has one. */
+  viewBox?: string;
   /** The tracked-out line over the title: what a set of cards is named or
       numbered as — `CHAPTER 02`, `FOR EDITORS` — or when the entry is from,
       which is the same register and the same line. */
@@ -60,6 +64,7 @@ export class SdsCard extends SdsElement {
     src: { type: String },
     alt: { type: String },
     linked: { type: Boolean },
+    viewBox: { attribute: 'view-box', type: String },
     label: { type: String },
     tag: { type: String },
     icon: { type: String },
@@ -73,6 +78,7 @@ export class SdsCard extends SdsElement {
   declare src: string;
   declare alt: string;
   declare linked: boolean;
+  declare viewBox?: string;
   declare label: string;
   declare tag: string;
   declare icon?: IconId;
@@ -107,7 +113,7 @@ export class SdsCard extends SdsElement {
   protected override render(): TemplateResult {
     const medium = this.src
       ? html`<div class="sds-card__media${this.linked ? ' sds-card__media--exported' : ''}">
-    ${art(this.src, this.alt, { linked: this.linked })}
+    ${art(this.src, this.alt, { linked: this.linked, viewBox: this.viewBox })}
   </div>`
       : '';
 

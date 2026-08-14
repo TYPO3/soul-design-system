@@ -17,6 +17,10 @@ export interface CardProps {
         `id="art"`. Written by the build, which is what can read the file;
         `src/lib/art.ts` holds the reasoning. */
     linked?: boolean;
+    /** The referenced file's own `viewBox`, from the same reader — a reference
+        carries no coordinate system across, and the picture at the top of the
+        card holds its shape only where the wrapper has one. */
+    viewBox?: string;
     /** The tracked-out line over the title: what a set of cards is named or
         numbered as — `CHAPTER 02`, `FOR EDITORS` — or when the entry is from,
         which is the same register and the same line. */
@@ -54,6 +58,10 @@ export declare class SdsCard extends SdsElement {
         linked: {
             type: BooleanConstructor;
         };
+        viewBox: {
+            attribute: string;
+            type: StringConstructor;
+        };
         label: {
             type: StringConstructor;
         };
@@ -76,6 +84,7 @@ export declare class SdsCard extends SdsElement {
     src: string;
     alt: string;
     linked: boolean;
+    viewBox?: string;
     label: string;
     tag: string;
     icon?: IconId;

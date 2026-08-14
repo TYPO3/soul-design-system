@@ -10,6 +10,8 @@ export interface ZoomOptions {
     /** The picture is linked rather than referenced — passed on, so the picture
         at full size is the picture in the page. */
     linked?: boolean;
+    /** And the box it was read with, for the same reason. */
+    viewBox?: string;
 }
 /** The trigger and the viewer, for the element to place. Two parts and not one
     template: they are siblings in an image and a frame apart in a figure. */

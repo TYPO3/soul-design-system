@@ -36,8 +36,10 @@ Three lines, and none of them changes the drawing.
 
    * - Name the root
      - ``<svg id="art" viewBox="0 0 32 32">`` — the reference points at
-       ``file.svg#art``, and the root is what carries the coordinate system
-       across, so the wrapper needs to state only a size
+       ``file.svg#art``, and the ``viewBox`` on that root is what the shapes are
+       drawn in. The wrapper is given the same box by the build, because a
+       reference carries no coordinate system across and a wrapper without one
+       has no shape to hold
    * - Colour the shapes
      - ``fill="var(--text-primary, #8A8378)"``, ``stroke="var(--accent,
        #FF8700)"`` — the token first, the hex behind it

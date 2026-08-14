@@ -3109,16 +3109,16 @@ var ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
 var ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
 var attr = (name, value) => value === void 0 || value === "" ? "" : ` ${name}="${String(value).replace(/[&<>"]/g, (c) => ESCAPE[c])}"`;
 function art(src, alt, options = {}) {
-  const { cls = "sds-art", width, height, linked = false } = options;
+  const { cls = "sds-art", width, height, linked = false, viewBox } = options;
   const name = alt ? attr("role", "img") + attr("aria-label", alt) : attr("aria-hidden", "true");
   const size = attr("width", width) + attr("height", height);
   if (linked || !DRAWING.test(src) || ELSEWHERE.test(src)) {
     const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c]);
     return html17`${unsafeHTML3(`<img${attr("class", cls)} src="${src}" alt="${escaped}"${size}>`)}`;
   }
-  const viewBox = DIAGRAM_VIEWBOX[src.split("/").pop()?.replace(DRAWING, "") ?? ""];
+  const box = viewBox || DIAGRAM_VIEWBOX[src.split("/").pop()?.replace(DRAWING, "") ?? ""];
   return html17`${unsafeHTML3(
-    `<svg${attr("class", cls)}${attr("viewBox", viewBox)}${size}${name}><use href="${src}#${GROUP}"></use></svg>`
+    `<svg${attr("class", cls)}${attr("viewBox", box)}${size}${name}><use href="${src}#${GROUP}"></use></svg>`
   )}`;
 }
 
@@ -3153,7 +3153,8 @@ var SdsLightbox = class extends SdsElement {
       alt: { type: String },
       caption: { type: String },
       open: { type: Boolean, reflect: true },
-      linked: { type: Boolean }
+      linked: { type: Boolean },
+      viewBox: { attribute: "view-box", type: String }
     };
   }
   get dialog() {
@@ -3201,7 +3202,7 @@ var SdsLightbox = class extends SdsElement {
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-lightbox__art${this.linked ? " sds-lightbox__art--exported" : ""}">
-    ${art(this.src, this.alt, { linked: this.linked })}
+    ${art(this.src, this.alt, { linked: this.linked, viewBox: this.viewBox })}
   </div>
 </dialog>`;
   }
@@ -3223,10 +3224,10 @@ function opener(host) {
   return open;
 }
 function zoom(host, picture, options) {
-  const { src, alt, caption, linked = false } = options;
+  const { src, alt, caption, linked = false, viewBox } = options;
   return {
     trigger: html19`<a class="sds-zoom" href="${src}" title="Open the picture at full size" @click="${opener(host)}">${picture}</a>`,
-    viewer: html19`<sds-lightbox src="${src}" alt="${alt}" ?linked="${linked}" caption="${ifDefined(caption || void 0)}"></sds-lightbox>`
+    viewer: html19`<sds-lightbox src="${src}" alt="${alt}" ?linked="${linked}" view-box="${ifDefined(viewBox || void 0)}" caption="${ifDefined(caption || void 0)}"></sds-lightbox>`
   };
 }
 
@@ -3240,6 +3241,7 @@ var SdsImage = class extends SdsElement {
       height: { type: Number, reflect: true },
       zoomable: { type: Boolean, reflect: true },
       linked: { type: Boolean },
+      viewBox: { attribute: "view-box", type: String },
       /* The class the caller wrote, read as a property rather than off the host:
          `this.className` exists only where there is a DOM, and these render in
          Node too. Declaring the attribute is what carries it through both. */
@@ -3269,9 +3271,9 @@ var SdsImage = class extends SdsElement {
     const width = this.width || void 0;
     const height = this.height || void 0;
     const cls = this.cls || (width || height ? "" : "sds-art");
-    const picture = art(this.src, this.alt, { cls, width, height, linked: this.linked });
+    const picture = art(this.src, this.alt, { cls, width, height, linked: this.linked, viewBox: this.viewBox });
     if (!this.zoomable) return picture;
-    const { trigger, viewer } = zoom(this, picture, { src: this.src, alt: this.alt, linked: this.linked });
+    const { trigger, viewer } = zoom(this, picture, { src: this.src, alt: this.alt, linked: this.linked, viewBox: this.viewBox });
     return html20`${trigger}
 ${viewer}`;
   }
@@ -4590,7 +4592,8 @@ var SdsFigure = class extends SdsElement {
       width: { type: Number },
       height: { type: Number },
       zoomable: { type: Boolean, reflect: true },
-      linked: { type: Boolean }
+      linked: { type: Boolean },
+      viewBox: { attribute: "view-box", type: String }
     };
   }
   connectedCallback() {
@@ -4603,11 +4606,12 @@ var SdsFigure = class extends SdsElement {
   }
   render() {
     const given = this.taken ?? this.content;
-    const picture = given ? html33`${given}` : art(this.src, this.alt, { width: this.width, height: this.height, linked: this.linked });
+    const picture = given ? html33`${given}` : art(this.src, this.alt, { width: this.width, height: this.height, linked: this.linked, viewBox: this.viewBox });
     const press = this.zoomable ? zoom(this, picture, {
       src: this.src,
       alt: this.alt,
       linked: this.linked,
+      viewBox: this.viewBox,
       caption: typeof this.caption === "string" ? this.caption : ""
     }) : null;
     const caption = this.captioned ? html33`${this.captioned}` : this.caption ? html33`<figcaption class="sds-figure__caption">${this.caption}</figcaption>` : "";
@@ -4881,6 +4885,7 @@ var SdsCard = class extends SdsElement {
       src: { type: String },
       alt: { type: String },
       linked: { type: Boolean },
+      viewBox: { attribute: "view-box", type: String },
       label: { type: String },
       tag: { type: String },
       icon: { type: String },
@@ -4895,7 +4900,7 @@ var SdsCard = class extends SdsElement {
   }
   render() {
     const medium = this.src ? html38`<div class="sds-card__media${this.linked ? " sds-card__media--exported" : ""}">
-    ${art(this.src, this.alt, { linked: this.linked })}
+    ${art(this.src, this.alt, { linked: this.linked, viewBox: this.viewBox })}
   </div>` : "";
     const icon = this.icon ? html38`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : "";
     const label = this.tag || this.label ? html38`<div class="sds-row">
