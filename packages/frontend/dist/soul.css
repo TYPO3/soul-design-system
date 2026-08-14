@@ -384,6 +384,7 @@ sds-nav-main:not(:defined) .sds-bar__nav{flex-wrap:wrap;min-width:min-content}
 .sds-mode__label{white-space:nowrap}
 .sds-rail{width:var(--width-sidebar);display:flex;flex-direction:column;gap:var(--border-hairline);font-family:var(--font-mono);font-size:var(--nav-font-size)}
 .sds-rail__item{display:flex;padding:var(--space-1) var(--space-2);border-radius:var(--radius-control);color:var(--text-secondary);text-decoration:none}
+.sds-rail__label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sds-rail__item:hover{color:var(--text-primary)}
 .sds-rail__item.is-active{background:var(--accent);color:var(--text-on-accent)}
 .sds-rail__group:has(>.sds-rail__item.is-active)>.sds-rail__fold>summary,.sds-rail__group:has(>.sds-rail__item.is-active)>.sds-rail__fold>summary:hover{color:var(--text-on-accent)}

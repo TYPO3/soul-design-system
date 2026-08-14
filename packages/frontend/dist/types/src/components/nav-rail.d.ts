@@ -40,6 +40,11 @@ export declare class SdsNavRail extends SdsElement {
         a list where everything starts on the same edge says nothing about what
         belongs to what. */
     private row;
+    /** What stands in a row: the glyph where the entry asked for one, and the
+        name in a node of its own. The rail is one fixed width and its rows are
+        names a machine gave, so the name is the half that gives — and it can
+        only be cut in a box of its own. */
+    private inside;
     private one;
     protected render(): TemplateResult;
     /** A row with nowhere to go is a choice: pressing it makes it current and

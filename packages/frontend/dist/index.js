@@ -4184,17 +4184,24 @@ var SdsNavRail = class extends SdsElement {
     if (!under.length) return this.one(entry);
     const holds = branch(entry).some((page) => this.isCurrent(page));
     return html28`<div class="sds-rail__group">
-    ${entry.href ? this.one(entry) : html28`<span class="sds-rail__item">${entry.label}</span>`}
+    ${entry.href ? this.one(entry) : html28`<span class="sds-rail__item">${this.inside(entry)}</span>`}
     <details class="sds-rail__fold" ?open="${Boolean(entry.open) || holds}">
       <summary aria-label="Pages in ${entry.label}"><sds-icon name="actions-chevron-down"></sds-icon></summary>
       ${lines(under.map((page) => this.row(page)), 6)}
     </details>
   </div>`;
   }
+  /** What stands in a row: the glyph where the entry asked for one, and the
+      name in a node of its own. The rail is one fixed width and its rows are
+      names a machine gave, so the name is the half that gives — and it can
+      only be cut in a box of its own. */
+  inside(entry) {
+    return html28`${entry.icon ? html28`<sds-icon name="${entry.icon}"></sds-icon>` : nothing13}<span class="sds-rail__label">${entry.label}</span>`;
+  }
   one(entry) {
     const current = this.isCurrent(entry);
     const cls = current ? "sds-rail__item is-active" : "sds-rail__item";
-    const inside = navInside(entry);
+    const inside = this.inside(entry);
     return entry.href ? html28`<a class="${cls}" href="${entry.href}" aria-current="${current ? "page" : nothing13}">${inside}</a>` : html28`<button type="button" class="${cls}" aria-current="${current ? "true" : nothing13}" @click="${() => this.pick(entry)}">${inside}</button>`;
   }
   render() {

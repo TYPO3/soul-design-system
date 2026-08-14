@@ -15,7 +15,7 @@ import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import { lines } from '../lib/template.ts';
 import { define, SdsElement } from '../lib/element.ts';
-import { branch, navInside, type MenuEntry, type NavChange } from './nav-base.ts';
+import { branch, type MenuEntry, type NavChange } from './nav-base.ts';
 
 export class SdsNavRail extends SdsElement {
   static override properties = {
@@ -76,7 +76,7 @@ export class SdsNavRail extends SdsElement {
     if (!under.length) return this.one(entry);
     const holds = branch(entry).some((page) => this.isCurrent(page));
     return html`<div class="sds-rail__group">
-    ${entry.href ? this.one(entry) : html`<span class="sds-rail__item">${entry.label}</span>`}
+    ${entry.href ? this.one(entry) : html`<span class="sds-rail__item">${this.inside(entry)}</span>`}
     <details class="sds-rail__fold" ?open="${Boolean(entry.open) || holds}">
       <summary aria-label="Pages in ${entry.label}"><sds-icon name="actions-chevron-down"></sds-icon></summary>
       ${lines(under.map((page) => this.row(page)), 6)}
@@ -84,10 +84,18 @@ export class SdsNavRail extends SdsElement {
   </div>`;
   }
 
+  /** What stands in a row: the glyph where the entry asked for one, and the
+      name in a node of its own. The rail is one fixed width and its rows are
+      names a machine gave, so the name is the half that gives — and it can
+      only be cut in a box of its own. */
+  private inside(entry: MenuEntry): TemplateResult {
+    return html`${entry.icon ? html`<sds-icon name="${entry.icon}"></sds-icon>` : nothing}<span class="sds-rail__label">${entry.label}</span>`;
+  }
+
   private one(entry: MenuEntry): TemplateResult {
     const current = this.isCurrent(entry);
     const cls = current ? 'sds-rail__item is-active' : 'sds-rail__item';
-    const inside = navInside(entry);
+    const inside = this.inside(entry);
     return entry.href
       ? html`<a class="${cls}" href="${entry.href}" aria-current="${current ? 'page' : nothing}">${inside}</a>`
       : html`<button type="button" class="${cls}" aria-current="${current ? 'true' : nothing}" @click="${() => this.pick(entry)}">${inside}</button>`;

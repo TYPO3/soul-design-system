@@ -2371,6 +2371,16 @@ sds-nav-main:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-conte
   color: var(--text-secondary);
   text-decoration: none;
 }
+/* The name is the half that gives, and gives by ending rather than overflowing:
+   the rail is one fixed width and its rows are identifiers with nowhere to
+   break, so a long one lies over whatever is beside it. Its own box, because
+   the cut is a block container's and a row's bare text is not one. */
+.sds-rail__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .sds-rail__item:hover { color: var(--text-primary); }
 .sds-rail__item.is-active { background: var(--accent); color: var(--text-on-accent); }
 /* And the marker over a filled row is in that block, so it is drawn in the
