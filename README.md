@@ -143,7 +143,7 @@ without a commit in the consuming project:
 
 ```json
 "devDependencies": {
-  "@typo3/soul-frontend": "github:benjaminkott/typo3-soul-frontend#<tag>"
+  "@typo3/soul-frontend": "github:TYPO3/soul-frontend#<tag>"
 }
 ```
 

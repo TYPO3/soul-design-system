@@ -44,7 +44,7 @@
              written. What is configured here is only what the tree cannot
              know. -->
         <footer>
-            <social href="https://github.com/benjaminkott/typo3-soul-design-system" label="GitHub"/>
+            <social href="https://github.com/TYPO3/soul-design-system" label="GitHub"/>
             <!-- What this is, said plainly, and then the one proof of it a
                  reader is already standing on. No disclaimer: the copyright
                  above names a holder, which is a claim about whose the work

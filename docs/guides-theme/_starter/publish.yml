@@ -51,7 +51,7 @@ jobs:
           mkdir -p "$RENDERER"
           cd "$RENDERER"
           composer init --no-interaction --name=example/documentation
-          composer config repositories.soul vcs https://github.com/benjaminkott/typo3-soul-guides-theme
+          composer config repositories.soul vcs https://github.com/TYPO3/soul-guides-theme
           composer require --no-interaction --no-progress typo3/soul-guides-theme:dev-main
 
       # `--fail-on-error` turns a reference the renderer could not resolve into

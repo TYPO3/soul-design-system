@@ -9,7 +9,7 @@ separately.
 **This repository is generated.** The theme is written in the design system's
 monorepo and pushed here whole on every release; a commit made here is
 overwritten by the next one. Issues and pull requests belong in
-[typo3-soul-design-system](https://github.com/benjaminkott/typo3-soul-design-system).
+[soul-design-system](https://github.com/TYPO3/soul-design-system).
 
 ## Installing it
 
@@ -22,7 +22,7 @@ is a release to name:
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/benjaminkott/typo3-soul-guides-theme"
+            "url": "https://github.com/TYPO3/soul-guides-theme"
         }
     ],
     "require": {
@@ -175,7 +175,7 @@ is published, so a reader with no JavaScript gets the whole of it.
 
 ## The manual
 
-[The theme's own manual](https://benjaminkott.github.io/typo3-soul-design-system/guides-theme/index.html)
+[The theme's own manual](https://typo3.github.io/soul-design-system/guides-theme/index.html)
 is rendered with it: installation, every setting in `guides.xml`, every
 directive above with a rendered example, and what each node the renderer emits
 comes out as. The page *A project to copy* prints the settings file and the

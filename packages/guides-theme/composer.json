@@ -18,8 +18,8 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/benjaminkott/typo3-soul-design-system/issues",
-    "source": "https://github.com/benjaminkott/typo3-soul-design-system"
+    "issues": "https://github.com/TYPO3/soul-design-system/issues",
+    "source": "https://github.com/TYPO3/soul-design-system"
   },
   "require": {
     "php": "^8.2",

@@ -51,11 +51,11 @@
   "author": "The TYPO3 Project (https://typo3.org/)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benjaminkott/typo3-soul-design-system.git",
+    "url": "git+https://github.com/TYPO3/soul-design-system.git",
     "directory": "packages/frontend"
   },
-  "homepage": "https://github.com/benjaminkott/typo3-soul-design-system#readme",
+  "homepage": "https://github.com/TYPO3/soul-design-system#readme",
   "bugs": {
-    "url": "https://github.com/benjaminkott/typo3-soul-design-system/issues"
+    "url": "https://github.com/TYPO3/soul-design-system/issues"
   }
 }

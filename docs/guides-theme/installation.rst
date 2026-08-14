@@ -27,7 +27,7 @@ repository ever reads.
 
    mkdir -p .renderer && cd .renderer
    composer init --no-interaction --name=example/documentation
-   composer config repositories.soul vcs https://github.com/benjaminkott/typo3-soul-guides-theme
+   composer config repositories.soul vcs https://github.com/TYPO3/soul-guides-theme
    composer require typo3/soul-guides-theme:dev-main
 
 The middle line is the one that goes away: the theme is **not on Packagist

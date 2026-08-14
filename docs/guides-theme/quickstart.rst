@@ -64,7 +64,7 @@ available from Packagist, Composer is also told where its public mirror lives:
    mkdir -p .renderer
    composer --working-dir=.renderer init --no-interaction --name=example/documentation
    composer --working-dir=.renderer config repositories.soul vcs \
-     https://github.com/benjaminkott/typo3-soul-guides-theme
+     https://github.com/TYPO3/soul-guides-theme
    composer --working-dir=.renderer require \
      --no-interaction --no-progress \
      typo3/soul-guides-theme:dev-main

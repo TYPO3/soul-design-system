@@ -67,7 +67,7 @@ export interface Package {
 export const PACKAGES: readonly Package[] = [
   {
     name: 'guides-theme',
-    remote: 'git@github.com:benjaminkott/typo3-soul-guides-theme.git',
+    remote: 'git@github.com:TYPO3/soul-guides-theme.git',
     concerns: [...THEME_AT, ...DROP_AT],
     manifest: 'composer.json',
     at: (tree) => found(tree, THEME_AT, 'composer.json'),
@@ -131,7 +131,7 @@ export const PACKAGES: readonly Package[] = [
 
   {
     name: 'frontend',
-    remote: 'git@github.com:benjaminkott/typo3-soul-frontend.git',
+    remote: 'git@github.com:TYPO3/soul-frontend.git',
     concerns: ['packages/frontend'],
     manifest: 'package.json',
     at: (tree) => found(tree, ['packages/frontend'], 'package.json'),
