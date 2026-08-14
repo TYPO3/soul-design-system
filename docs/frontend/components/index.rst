@@ -137,12 +137,15 @@ which group it was filed under.
    * - ``sds-radio``
      - one answer out of a few, all of them visible
      - :ref:`Forms — sds-radio <component-sds-radio>`
-   * - ``sds-result``
-     - one hit in a list of them
-     - :ref:`Navigation — sds-result <component-sds-result>`
    * - ``sds-search``
      - finding a page in a site that has no server
      - :ref:`Navigation — sds-search <component-sds-search>`
+   * - ``sds-search-hits``
+     - what a query was answered with
+     - :ref:`Navigation — sds-search-hits <component-sds-search-hits>`
+   * - ``sds-search-result``
+     - one hit in a list of them
+     - :ref:`Navigation — sds-search-result <component-sds-search-result>`
    * - ``sds-stat``
      - a number stated as a fact
      - :ref:`Content — sds-stat <component-sds-stat>`

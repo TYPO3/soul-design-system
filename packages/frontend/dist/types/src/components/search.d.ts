@@ -1,6 +1,6 @@
 import { type TemplateResult } from 'lit';
 import './icon.ts';
-import './result.ts';
+import './search-hits.ts';
 import { SdsElement } from '../lib/element.js';
 /** One page, as the index has it. */
 export interface SearchEntry {
@@ -8,6 +8,9 @@ export interface SearchEntry {
     url: string;
     /** The first paragraph, or as much of it as the build kept. */
     text: string;
+    /** The picture the page carries, where the index kept one. Named from the
+        root like `url`, and resolved the same way. */
+    image?: string;
 }
 export declare class SdsSearch extends SdsElement {
     static properties: {
@@ -43,16 +46,17 @@ export declare class SdsSearch extends SdsElement {
     private readonly onOutside;
     private load;
     /** Where the site's root is, from this page. The index lists every page as
-        the build sees them, and a reader is rarely standing in the root — so it
-        is resolved against the index's own address, which *is* the root. Left to
-        the browser, a hit one directory down names a page that does not exist. */
-    private hrefOf;
+        the build sees them, and a reader is rarely standing in the root — so a
+        path out of it is resolved against the index's own address, which *is*
+        the root. Left to the browser, a hit one directory down names a page that
+        does not exist — and a picture beside it a file that is not there. */
+    private from;
     private get hits();
     private type;
     /** The links in the drop, in the order they are read.
   
         Asked of the markup rather than kept as a list, because what is in the
-        panel is drawn by `sds-result` and the class is the contract between
+        panel is drawn by `sds-search-result` and the class is the contract between
         them — the same contract the stylesheet works through. */
     private links;
     /** In the field: down goes into the list, Escape gives the page back.
@@ -68,13 +72,19 @@ export declare class SdsSearch extends SdsElement {
     /** Left entirely — a press elsewhere, or a tab out of the last hit. */
     private onLeave;
     protected render(): TemplateResult;
-    /** The drop, and what is in it. `sds-result` draws a hit, marks what was
-        searched for and says where the page is — the query is handed over rather
-        than the marking done here, because what is highlighted has to be what was
-        actually searched.
+    /** What the index has, as what a result is drawn from. The only place the
+        two vocabularies meet: a page has a title and a URL, a hit has a heading
+        and an href, and nothing below here knows about an index.
   
-        An answer of nothing is a sentence in the same drop: which pages were
-        read and what of them is not indexed, so it can be told from a search
-        that broke. */
+        The whole sentence the index kept: how much of it a reader is shown is
+        the drop's question and not this one's, and the class layer answers it —
+        a hit under a field gives two lines of it, a page of results the lot. */
+    private hitOf;
+    /** The drop, and what is in it. The box is this element's — where it hangs
+        and how far it may grow are questions about the field it belongs to —
+        and `sds-search-hits` draws the answer inside it, hits or none.
+  
+        The query is handed over rather than the marking done here, because what
+        is highlighted has to be what was actually searched. */
     private panel;
 }

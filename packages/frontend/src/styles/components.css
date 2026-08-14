@@ -1245,27 +1245,102 @@ html:has(dialog.sds-modal[open], dialog.sds-lightbox[open]) {
    the `<img>` takes from the file and the `<svg>` from its viewBox. */
 .sds-art { display: block; width: 100%; height: auto; }
 
-/* One hit in a list of them.
+/* A list of hits, and one hit in it.
 
-   Separated by space and a hairline rather than boxed. A result is not a
-   thing to compare against its neighbours — it is read, discarded and the next
-   one is read, which is what a list is for and what a grid of cards prevents. */
-.sds-result {
+   Separated by a hairline rather than boxed. A hit is read, discarded and the
+   next one is read, which is what a list is for and what a grid of cards
+   prevents — and what tells two of them apart at a glance is the line. */
+.sds-hits {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1-5);
-  padding-block: var(--space-5);
-  border-bottom: var(--border-hairline) solid var(--border-subtle);
+  gap: var(--space-2);
+  /* Pulled out by the air a hit keeps inside itself, so the words start where
+     the column does and only the plane under the pointer runs wider. */
+  margin-inline: calc(-1 * var(--space-3));
 }
-.sds-result:first-child { border-top: var(--border-hairline) solid var(--border-subtle); }
-.sds-result__title { margin: 0; font-size: var(--entry-title-size); line-height: var(--leading-heading); }
-/* The title is the link here, and it *is* link-coloured — unlike a card's. A
-   result exists to be opened; a card exists to be read and sometimes opened,
-   and the difference is worth a colour. */
-.sds-result__title a { color: var(--text-link); text-decoration: none; }
-.sds-result__title a:hover { color: var(--text-link-hover); text-decoration: underline; }
-/* Where it is. A path is machine-named, so it is mono wherever it appears. */
-.sds-result__path { font-family: var(--font-mono); font-size: var(--font-size-micro); color: var(--text-muted); }
+/* The line is the list's: it separates two hits, so a hit composed on its own
+   carries none and the list neither opens nor closes with one. Drawn in the
+   gap rather than on a box, so the plane a hit takes under the pointer never
+   meets it, and held to the words' edge rather than the plane's — a rule that
+   runs wider than the text it divides belongs to the page, not to the list. */
+.sds-hits > * + * .sds-result::before {
+  content: '';
+  position: absolute;
+  inset-inline: var(--space-3);
+  top: calc(-1 * var(--space-1));
+  border-top: var(--border-hairline) solid var(--border-subtle);
+}
+/* One hit, and the whole of it is the link: the element renders an `<a>` here,
+   so the target is a box rather than a pseudo-element stretched over one, the
+   text in it can still be selected, and the ring is the one every other
+   focusable thing draws. Named by its heading — see the component. */
+.sds-result {
+  --result-thumb: 120px;
+  position: relative;
+  display: flex;
+  gap: var(--space-3);
+  /* One step on every side: the plane a hit takes under the pointer is a box,
+     and a box whose air is deeper one way than the other reads as a mistake
+     rather than as a decision. */
+  padding: var(--space-3);
+  border-radius: var(--radius-control);
+  color: inherit;
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+a.sds-result:hover { background: var(--surface-inset); }
+/* The one ring, on the box rather than off it — the one thing this surface
+   changes about it, and the reason is the box: a hit is already air around its
+   words, so a ring standing off would sit in the gap the list keeps for the
+   line, and its corner would be a rounder one than the plane it rings. */
+a.sds-result:focus-visible { outline-offset: 0; }
+.sds-result__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  /* A flex item's floor is its content, so a long path in the line above holds
+     the whole hit wider than the drop it hangs in. */
+  min-width: 0;
+  flex: 1;
+}
+/* The picture a hit carries. Fixed and never taller than it is wide, so a list
+   of them has one left edge whatever shape the files are; smaller in the drop,
+   where the sentence beside it has a fifth of a page to run in. */
+.sds-result__thumb {
+  flex: none;
+  width: var(--result-thumb);
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: var(--border-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  background: var(--surface-sunken);
+}
+.sds-result__thumb .sds-art { height: 100%; object-fit: cover; }
+/* A drawing keeps the colours it was exported with, so it gets the ground
+   those were drawn for — and is fitted rather than cropped, because a diagram
+   with its edges cut off is a diagram nobody can read at this size. */
+.sds-result__thumb--exported { background: var(--surface-art); }
+.sds-result__thumb--exported .sds-art { object-fit: contain; }
+/* Link-coloured, unlike a card's title: a hit exists to be opened, a card
+   exists to be read and sometimes opened. Never underlined — the box under the
+   pointer is the answer, and one word answering as well is two answers to one
+   question. */
+.sds-result__title {
+  margin: 0;
+  font-size: var(--entry-title-size);
+  line-height: var(--leading-heading);
+  color: var(--text-link);
+}
+a.sds-result:hover .sds-result__title { color: var(--text-link-hover); }
+/* The line above the title is one register: where it is, and what it holds
+   for. The path is mono because a path is machine-named wherever it appears,
+   and the release beside it takes the same size and colour — a third
+   treatment on one line makes three facts read as three kinds of thing.
+   Beside the path rather than at the far end of the row: the words below stop
+   at a reading measure, and a fact flung to the page edge belongs to nothing. */
+.sds-result__path,
+.sds-result__meta { font-size: var(--font-size-micro); color: var(--text-muted); }
+.sds-result__path { font-family: var(--font-mono); }
 .sds-result__text {
   margin: 0;
   font-size: var(--block-body-size);
@@ -1846,7 +1921,9 @@ html:has(.sds-bar) {
   width: min(420px, 90vw);
   max-height: 60vh;
   overflow-y: auto;
-  padding: 0 var(--space-4);
+  /* The frame's own air, and no more: what stands inside it is a run of boxes
+     that carry theirs. */
+  padding: var(--space-2);
   /* Framed and raised, unlike the bar's drop. That one is the header's row
      continued, so it is the canvas and is bounded by the page edges it spans;
      this one floats over the text, and a box laid over a page has to be a
@@ -1855,16 +1932,33 @@ html:has(.sds-bar) {
   background: var(--surface-raised);
   border: var(--border-hairline) solid var(--border-subtle);
   border-radius: var(--radius-card);
+  /* And how far off the page it is, said the one way this system says it: a
+     surface that has left the page carries a shadow, and this drop stands at
+     the same distance as the one the bar opens. */
+  box-shadow: var(--shadow-flyout);
 }
-.sds-search__panel .sds-result { padding-block: var(--space-3); }
+.sds-search__panel .sds-hits { margin-inline: 0; }
+.sds-search__panel .sds-result { --result-thumb: 72px; }
 .sds-search__panel .sds-result__title { font-size: var(--block-title-size); }
-/* An empty answer in the drop is a sentence, not a box in a box: the panel is
+/* Two lines of the sentence, and the rest cut. A drop is passed through on the
+   way to a page: what is being read here is which page it is, and a paragraph
+   per row is a page of reading in front of the one that was asked for. */
+.sds-search__panel .sds-result__text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+/* An empty answer is a sentence, not a box in a box: whatever it hangs in is
    already the plane, and a second hairline inside it reads as a card that
    failed to fill. The measure goes too — the drop is narrower than a reading
    column and would wrap the sentence twice over. */
-.sds-search__empty { padding: var(--space-4) 0; }
-.sds-search__empty p { max-width: none; margin-bottom: 0; }
-.sds-search__empty .sds-surface-title { margin-bottom: var(--space-1); }
+.sds-hits__empty { padding: var(--space-3); }
+/* The sentence ends where the block ends: a paragraph's own margin under the
+   last line is a second bottom, and the block already has one. */
+.sds-hits__empty p { max-width: none; margin-block: 0; }
+.sds-hits__empty .sds-surface-title { margin-bottom: var(--space-1); }
 
 /* ----------------------------------------------------------- navigation -- */
 
@@ -3025,6 +3119,9 @@ sds-nav-toc:not(:defined) { display: contents; }
     transition: none;
   }
   .sds-card:has(> .sds-card__body)::before { transition: none; }
+  /* The plane under a hit is there or it is not — nothing moves either way,
+     but a fade is still travel over a list somebody is scanning. */
+  .sds-result { transition: none; }
 }
 
 /* ---------------------------------------------------------------- brand -- */

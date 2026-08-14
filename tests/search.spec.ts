@@ -12,7 +12,7 @@
 import { test, expect } from '@playwright/test';
 
 const INDEX = JSON.stringify([
-  { title: 'Colours', url: 'guidelines/colours.html', text: 'Every colour in this system is a semantic token.' },
+  { title: 'Colours', url: 'guidelines/colours.html', text: 'Every colour in this system is a semantic token.', image: 'assets/colours.png' },
   { title: 'Frontend', url: 'frontend.html', text: 'Two files, and no assumptions about this system.' },
 ]);
 
@@ -45,8 +45,8 @@ test.beforeEach(async ({ page }) => {
 test('a hit opens the page it names, from wherever the reader is standing', async ({ page }) => {
   await page.locator('sds-search .sds-input').fill('colour');
 
-  const hit = page.locator('.sds-search__panel .sds-result__title a').first();
-  await expect(hit).toHaveText('Colours');
+  const hit = page.locator('.sds-search__panel a.sds-result').first();
+  await expect(hit.locator('.sds-result__title')).toHaveText('Colours');
 
   /* From the root the index names it, not from the directory this page is in.
      The assertion is the whole URL for a reason: a relative href that looks
@@ -59,11 +59,54 @@ test('the drop is drawn by the components that draw results everywhere else', as
   await page.locator('sds-search .sds-input').fill('colour');
   /* Not a shape rebuilt in here: a result marks what was searched for, and a
      search that wrote its own row would mark what it thought was searched. */
-  await expect(page.locator('.sds-search__panel sds-result')).toHaveCount(1);
+  await expect(page.locator('.sds-search__panel sds-search-result')).toHaveCount(1);
   await expect(page.locator('.sds-search__panel mark').first()).toHaveText(/colour/i);
 
   await page.locator('sds-search .sds-input').fill('nothing here matches this');
-  await expect(page.locator('.sds-search__panel .sds-search__empty')).toBeVisible();
+  await expect(page.locator('.sds-search__panel .sds-hits__empty')).toBeVisible();
+});
+
+test('a picture in the index is resolved from the root the hit is', async ({ page }) => {
+  await page.locator('sds-search .sds-input').fill('colour');
+
+  /* The same resolution the href gets, and for the same reason: a path the
+     build wrote is a path from the root, and a reader standing two
+     directories down would otherwise be shown a file that is not there. */
+  const src = await page
+    .locator('.sds-search__panel .sds-result__thumb img')
+    .evaluate((img) => (img as HTMLImageElement).src);
+  expect(new URL(src).pathname).toBe('/site-fixture/assets/colours.png');
+});
+
+test('the whole hit is the target, not the title alone', async ({ page }) => {
+  await page.route('**/site-fixture/guidelines/colours.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Colours</title>' }));
+
+  await page.locator('sds-search .sds-input').fill('colour');
+  const hit = page.locator('.sds-search__panel .sds-result');
+  const box = (await hit.boundingBox())!;
+
+  /* The bottom corner: past the title, past the end of the snippet, and still
+     inside the row — which is the part a reader aims at and the part a list of
+     linked titles does not answer. The row is the anchor, so this is a press
+     on the link and not on something laid over it. */
+  await hit.click({ position: { x: box.width - 8, y: box.height - 8 } });
+  await page.waitForURL('**/guidelines/colours.html');
+});
+
+test('the row says it is a target before it is pressed', async ({ page }) => {
+  await page.locator('sds-search .sds-input').fill('colour');
+  const hit = page.locator('.sds-search__panel .sds-result');
+
+  /* The hit's own background, because the hit is the anchor: nothing is laid
+     over the row and nothing is inserted under it. */
+  const fill = async (): Promise<string> =>
+    hit.evaluate((el) => getComputedStyle(el).backgroundColor);
+  const before = await fill();
+  await hit.hover();
+  /* Polled rather than read once: the plane fades in, and a value read on the
+     same tick as the pointer is a value read halfway there. */
+  await expect.poll(fill).not.toBe(before);
 });
 
 test('the panel hangs from the field, and gives the page back', async ({ page }) => {
@@ -89,7 +132,7 @@ test('the arrows walk the hits, and the field keeps what was typed', async ({ pa
   const field = page.locator('sds-search .sds-input');
   /* Both entries match, so there is a list to walk rather than one row. */
   await field.fill('system');
-  await expect(page.locator('.sds-search__panel sds-result')).toHaveCount(2);
+  await expect(page.locator('.sds-search__panel sds-search-result')).toHaveCount(2);
 
   await field.press('ArrowDown');
   await expect(page.locator('.sds-search__panel a').first()).toBeFocused();

@@ -46,7 +46,8 @@ import './components/dialog.ts';
 import './components/table.ts';
 import './components/card.ts';
 import './components/grid.ts';
-import './components/result.ts';
+import './components/search-result.ts';
+import './components/search-hits.ts';
 import './components/nav-pagination.ts';
 import './components/nav-pager.ts';
 import './components/code.ts';
@@ -103,7 +104,8 @@ export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
 export { SdsConfval, type ConfvalProps, type Fact } from './components/confval.ts';
 export { SdsCard, type CardProps } from './components/card.ts';
 export { SdsGrid, type GridProps, type GridVariant } from './components/grid.ts';
-export { SdsResult, type ResultProps } from './components/result.ts';
+export { SdsSearchResult, type SearchResultProps } from './components/search-result.ts';
+export { SdsSearchHits, type SearchHitsProps } from './components/search-hits.ts';
 export { SdsNavPagination, pageNumbers, type PaginationProps } from './components/nav-pagination.ts';
 export { SdsNavPager, type PagerProps } from './components/nav-pager.ts';
 
@@ -146,7 +148,8 @@ export const TAGS = [
   'sds-table',
   'sds-card',
   'sds-grid',
-  'sds-result',
+  'sds-search-result',
+  'sds-search-hits',
   'sds-nav-pagination',
   'sds-nav-pager',
   'sds-code',

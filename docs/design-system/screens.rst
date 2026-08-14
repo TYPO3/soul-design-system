@@ -269,7 +269,7 @@ was closed in the component rather than in the page:
    * - the end of a *site*
      - ``sds-footer``, whose ``note`` is required
    * - an entry, and a hit
-     - ``sds-card`` and ``sds-result`` — an invitation and an answer are not
+     - ``sds-card`` and ``sds-search-result`` — an invitation and an answer are not
        the same shape
    * - where the list continues
      - ``sds-nav-pagination``

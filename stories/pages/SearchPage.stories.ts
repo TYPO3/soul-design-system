@@ -19,11 +19,11 @@ import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/nav-pagination.ts';
 import '../../packages/frontend/src/components/nav-pills.ts';
-import '../../packages/frontend/src/components/result.ts';
+import '../../packages/frontend/src/components/search-hits.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { type NavChange } from '../../packages/frontend/src/components/nav-base.ts';
-import { type ResultProps } from '../../packages/frontend/src/components/result.ts';
+import { type SearchResultProps } from '../../packages/frontend/src/components/search-result.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { type PageMode, skipLink } from '../lib/page.ts';
@@ -32,7 +32,7 @@ const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Sea
 
 const QUERY = 'label';
 
-const HITS: readonly (ResultProps & { kind: string })[] = [
+const HITS: readonly (SearchResultProps & { kind: string })[] = [
   {
     kind: 'reference',
     path: 'Documentation · Tools',
@@ -48,6 +48,7 @@ const HITS: readonly (ResultProps & { kind: string })[] = [
     snippet:
       'The fallback returns every declared entry — labels among them — and none of the dynamically registered ones. The shortfall travels with the result.',
     meta: '24 July 2026',
+    src: 'placeholders/tool-package-registry.png',
   },
   {
     kind: 'changelog',
@@ -56,6 +57,7 @@ const HITS: readonly (ResultProps & { kind: string })[] = [
     snippet:
       'A label defined in TypoScript and overridden by an extension now resolves in the order the core documents, which changed in 13.4.',
     meta: '13.4',
+    src: 'placeholders/tool-changelog-history.png',
   },
   {
     kind: 'reference',
@@ -87,20 +89,22 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
   const current = FACETS[facet] ?? FACETS[0];
   const shown = current?.kind ? HITS.filter((hit) => hit.kind === current.kind) : HITS;
 
+  /* Storybook serves `assets/` at its root; a file under `screens/` reaches
+     it one level up. */
+  const assets = flat ? '../assets' : '/assets';
+
+  /* The same list the search field drops under itself, handed the hits a page
+     of results has instead of the ones an index answered with. A picture where
+     the entry carries one — a hit is a line either way. */
   const list = shown.length
-    ? html`<div class="sds-stack">
-          ${shown.map(
-            (hit) => html`<sds-result
-              kind="${hit.kind}"
-              path="${hit.path ?? ''}"
-              heading="${hit.heading}"
-              snippet="${hit.snippet ?? ''}"
-              match="${QUERY}"
-              meta="${hit.meta ?? ''}"
-              href="#"
-            ></sds-result>`,
-          )}
-        </div>`
+    ? html`<sds-search-hits
+          match="${QUERY}"
+          .items="${shown.map((hit) => ({
+            ...hit,
+            href: '#',
+            src: hit.src ? `${assets}/${hit.src}` : '',
+          }))}"
+        ></sds-search-hits>`
     : html`<sds-note
           tone="info"
           label="Answered with nothing"

@@ -650,10 +650,18 @@ somebody types.
    :default: "Search"
 
 The field is a combobox: down goes into the list, the arrows walk it, up from
-the first goes back to what was typed, and Escape gives the page back. It draws
-``sds-result`` for a hit rather than rebuilding one, and a query that matched
-nothing gets a sentence in the same drop: which pages were read, and what of
-them is not indexed.
+the first goes back to what was typed, and Escape gives the page back. What was
+found is drawn by ``sds-search-hits`` rather than rebuilt in the drop, and a
+query that matched nothing gets that element's sentence in the same box.
+
+An entry in the index is ``{ title, url, text }``, and may carry ``image`` —
+the picture the page has, named from the root like ``url`` and resolved the
+same way. It becomes the hit's thumbnail.
+
+A hit in the drop carries the same four things it carries anywhere, but the
+sentence is **cut to two lines** there: a drop under a field is passed through
+on the way to a page, and a paragraph per row is a page of reading in front of
+the one that was asked for. A page of results shows the sentence whole.
 
 .. important::
 
@@ -661,10 +669,65 @@ them is not indexed.
    that cannot search is worse than an honest absence — and the rail still
    lists every page.
 
-.. _component-sds-result:
+.. _component-sds-search-hits:
 
-sds-result
-==========
+sds-search-hits
+===============
+
+What a query was answered with: the hits, in the order they are read, and the
+sentence a search with nothing to show gives. It is handed the hits rather than
+finding them — ``sds-search`` owns the index, the field and the keys, and what
+it knows about a hit ends where this begins. A page of results and a drop under
+a field therefore draw the same list.
+
+.. code-block:: html
+
+   <sds-search-hits match="label" .items="${[
+     { heading: 'typo3_label_lookup', href: '/tools/label-lookup',
+       path: 'Documentation · Tools', snippet: 'Reads labels from the installation.' },
+   ]}"></sds-search-hits>
+
+.. confval:: items
+   :name: sds-search-hits-items
+   :type: "SearchResultProps[]"
+   :required: true
+
+   One entry per hit, in the order they are read. Every field ``sds-search-result``
+   takes is a field here, the thumbnail among them.
+
+.. confval:: match
+   :name: sds-search-hits-match
+   :type: string
+
+   What was searched for. Handed to every hit, so the marking happens once and
+   in one place, and named in the heading of an empty answer.
+
+.. confval:: empty
+   :name: sds-search-hits-empty
+   :type: string
+   :default: "what a site index holds"
+
+   What was searched, said where the hits would have been. The default names
+   the titles and opening lines a site index keeps; a caller searching
+   something else says what that was. Blank leaves the heading alone.
+
+.. note::
+
+   An answer of nothing is an answer, and says which pages were read and what
+   of them is not indexed — so a query that matched nothing can be told from a
+   search that broke.
+
+   **The hairline between two hits is the list's**, and it is drawn in the gap
+   rather than on either box: the plane a hit takes under the pointer therefore
+   never meets it, and it is held to the words' own edge rather than the
+   plane's. A hit composed on its own carries none, and the list neither opens
+   nor closes with one — what closes it is whatever it was put in: the drop's
+   own frame, or the band a page of results stands in.
+
+.. _component-sds-search-result:
+
+sds-search-result
+=================
 
 One hit in a list of them: what was found, **where it is**, the sentence it was
 found in, and what kind of thing it is. The second is what a list of titles and
@@ -672,36 +735,36 @@ snippets leaves out, and the reader opens a page to learn it.
 
 .. code-block:: html
 
-   <sds-result heading="Publishing" href="/guides-theme/publishing"
+   <sds-search-result heading="Publishing" href="/guides-theme/publishing"
      path="Documentation · Guides theme" kind="reference" match="publish"
      snippet="The workflow that renders the site and puts it where readers are."
-   ></sds-result>
+   ></sds-search-result>
 
 .. confval:: heading
-   :name: sds-result-heading
+   :name: sds-search-result-heading
    :type: string
    :required: true
 
 .. confval:: href
-   :name: sds-result-href
+   :name: sds-search-result-href
    :type: string
    :default: "#"
 
 .. confval:: path
-   :name: sds-result-path
+   :name: sds-search-result-path
    :type: string
 
    Where it is, as the site's own trail. Mono, because a path is a
    machine-named thing.
 
 .. confval:: snippet
-   :name: sds-result-snippet
+   :name: sds-search-result-snippet
    :type: string
 
    The sentence it was found in, cut from the text and not written for the list.
 
 .. confval:: match
-   :name: sds-result-match
+   :name: sds-search-result-match
    :type: string
 
    What was searched for. **The marking happens here**, not in the caller: what
@@ -710,16 +773,44 @@ snippets leaves out, and the reader opens a page to learn it.
    normalised.
 
 .. confval:: kind
-   :name: sds-result-kind
+   :name: sds-search-result-kind
    :type: string
 
-   What kind of thing it is — reference, guide, changelog.
+   What kind of thing it is — reference, guide, changelog. Optional, like the
+   path and the release it shares its line with: where a source reports none of
+   the three, the line is dropped rather than drawn empty, so a list of hits
+   has no hole above its titles.
 
 .. confval:: meta
-   :name: sds-result-meta
+   :name: sds-search-result-meta
    :type: string
 
    The release it holds for, where it holds for one.
+
+.. confval:: src
+   :name: sds-search-result-src
+   :type: string
+
+   The picture the thing found carries. Beside the words and never over them —
+   a hit stays a line, so a list of them is still read down one edge. A
+   photograph is cropped to the same box whatever shape the file is; a drawing
+   keeps the colours it was exported with and is fitted rather than cropped.
+
+.. confval:: alt
+   :name: sds-search-result-alt
+   :type: string
+
+   Leave it empty where the picture repeats the title, which is most of the
+   time: the heading beside it already names the target.
+
+.. note::
+
+   **The hit is the link.** It renders an ``<a>`` around the whole row rather
+   than a title's anchor stretched over one — the target is a box, the text in
+   it can still be selected, and the ring is the one every other focusable
+   thing draws. The link is named by its heading: without that its name would
+   be everything in the row read out at once. With no ``href`` it is an
+   ``<article>`` and goes nowhere.
 
 .. _component-sds-footer:
 

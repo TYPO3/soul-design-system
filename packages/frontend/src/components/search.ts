@@ -1,8 +1,8 @@
 /* sds-search — finding a page in a site that has no server.
 
    A rendered site is files, so the index is a file too: a small JSON the build
-   writes, fetched the first time somebody types. It draws `sds-result` rather
-   than rebuilding one.
+   writes, fetched the first time somebody types. What was found is drawn by
+   `sds-search-hits` rather than rebuilt in the drop.
 
    The hits drop from the field rather than from whatever box happens to be
    positioned above it. Without JavaScript neither the element nor the field is
@@ -11,8 +11,9 @@
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
-import './result.ts';
+import './search-hits.ts';
 import { define, SdsElement } from '../lib/element.ts';
+import { type SearchResultProps } from './search-result.ts';
 
 /** One page, as the index has it. */
 export interface SearchEntry {
@@ -20,6 +21,9 @@ export interface SearchEntry {
   url: string;
   /** The first paragraph, or as much of it as the build kept. */
   text: string;
+  /** The picture the page carries, where the index kept one. Named from the
+      root like `url`, and resolved the same way. */
+  image?: string;
 }
 
 /** Distinct ids per instance: the field names the panel it opens, and two
@@ -84,11 +88,12 @@ export class SdsSearch extends SdsElement {
   }
 
   /** Where the site's root is, from this page. The index lists every page as
-      the build sees them, and a reader is rarely standing in the root — so it
-      is resolved against the index's own address, which *is* the root. Left to
-      the browser, a hit one directory down names a page that does not exist. */
-  private hrefOf(entry: SearchEntry): string {
-    return new URL(entry.url, new URL('.', new URL(this.index, location.href))).href;
+      the build sees them, and a reader is rarely standing in the root — so a
+      path out of it is resolved against the index's own address, which *is*
+      the root. Left to the browser, a hit one directory down names a page that
+      does not exist — and a picture beside it a file that is not there. */
+  private from(path: string): string {
+    return new URL(path, new URL('.', new URL(this.index, location.href))).href;
   }
 
   private get hits(): SearchEntry[] {
@@ -108,7 +113,7 @@ export class SdsSearch extends SdsElement {
   /** The links in the drop, in the order they are read.
 
       Asked of the markup rather than kept as a list, because what is in the
-      panel is drawn by `sds-result` and the class is the contract between
+      panel is drawn by `sds-search-result` and the class is the contract between
       them — the same contract the stylesheet works through. */
   private links(): HTMLAnchorElement[] {
     return [...this.querySelectorAll<HTMLAnchorElement>('.sds-search__panel a')];
@@ -190,14 +195,29 @@ export class SdsSearch extends SdsElement {
 </div>`;
   }
 
-  /** The drop, and what is in it. `sds-result` draws a hit, marks what was
-      searched for and says where the page is — the query is handed over rather
-      than the marking done here, because what is highlighted has to be what was
-      actually searched.
+  /** What the index has, as what a result is drawn from. The only place the
+      two vocabularies meet: a page has a title and a URL, a hit has a heading
+      and an href, and nothing below here knows about an index.
 
-      An answer of nothing is a sentence in the same drop: which pages were
-      read and what of them is not indexed, so it can be told from a search
-      that broke. */
+      The whole sentence the index kept: how much of it a reader is shown is
+      the drop's question and not this one's, and the class layer answers it —
+      a hit under a field gives two lines of it, a page of results the lot. */
+  private hitOf(entry: SearchEntry): SearchResultProps {
+    return {
+      heading: entry.title,
+      href: this.from(entry.url),
+      path: entry.url,
+      snippet: entry.text,
+      src: entry.image ? this.from(entry.image) : '',
+    };
+  }
+
+  /** The drop, and what is in it. The box is this element's — where it hangs
+      and how far it may grow are questions about the field it belongs to —
+      and `sds-search-hits` draws the answer inside it, hits or none.
+
+      The query is handed over rather than the marking done here, because what
+      is highlighted has to be what was actually searched. */
   private panel(hits: SearchEntry[]): TemplateResult {
     return html`<div
   class="sds-search__panel"
@@ -205,20 +225,10 @@ export class SdsSearch extends SdsElement {
   aria-label="${this.label}"
   @keydown="${(e: KeyboardEvent) => this.onPanelKey(e)}"
 >
-  ${hits.length
-      ? hits.map(
-        (hit) => html`<sds-result
-    heading="${hit.title}"
-    href="${this.hrefOf(hit)}"
-    path="${hit.url}"
-    snippet="${hit.text}"
+  <sds-search-hits
+    .items="${hits.map((hit) => this.hitOf(hit))}"
     match="${this.query}"
-  ></sds-result>`,
-      )
-      : html`<div class="sds-search__empty">
-    <div class="sds-surface-title">Nothing here matches “${this.query}”</div>
-    <p>Every page of this site was searched — its titles and its opening lines. What is not indexed is the body of a page, so a word used once deep in one of them will not be found.</p>
-  </div>`}
+  ></sds-search-hits>
 </div>`;
   }
 }

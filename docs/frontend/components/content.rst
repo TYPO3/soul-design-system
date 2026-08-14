@@ -171,7 +171,7 @@ motion removes the travel while preserving the visual response.
 
 .. note::
 
-   ``sds-card`` invites and ``sds-result`` answers — a way into something and a
+   ``sds-card`` invites and ``sds-search-result`` answers — a way into something and a
    hit in a search are not the same shape; see :doc:`navigation`. One entry in
    a list of them is this element too, turned down to the badge, the date and
    the two lines that decide whether it is opened.
