@@ -1,7 +1,7 @@
 import { type TemplateResult } from 'lit';
 import { SdsElement } from '../lib/element.js';
 export interface ImageProps {
-    /** The file. An SVG is referenced, anything else is linked. */
+    /** The file. */
     src: string;
     /** What the picture shows, for a reader who cannot see it. Empty where the
         text beside it already says the same thing — a mark in a lockup whose
@@ -18,14 +18,6 @@ export interface ImageProps {
         element only takes the press over once it has upgraded. What a picture
         shrunk into its column asks for, and what a mark in a lockup never does. */
     zoomable?: boolean;
-    /** The picture is linked rather than referenced — an SVG that never named
-        `id="soul-ref"`. Written by the build, which is what can read the file;
-        `src/lib/art.ts` holds the reasoning. */
-    linked?: boolean;
-    /** The referenced file's own `viewBox`, from the same reader — a reference
-        carries no coordinate system across, and an unsized picture holds its
-        shape only where the wrapper has one. */
-    viewBox?: string;
 }
 export declare class SdsImage extends SdsElement {
     static properties: {
@@ -47,13 +39,6 @@ export declare class SdsImage extends SdsElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
-        linked: {
-            type: BooleanConstructor;
-        };
-        viewBox: {
-            attribute: string;
-            type: StringConstructor;
-        };
         cls: {
             attribute: string;
             type: StringConstructor;
@@ -64,8 +49,6 @@ export declare class SdsImage extends SdsElement {
     width: number;
     height: number;
     zoomable: boolean;
-    linked: boolean;
-    viewBox?: string;
     cls: string;
     constructor();
     /** What a server wrote between the tags, dropped. The element takes no

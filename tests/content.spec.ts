@@ -188,10 +188,8 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
   await expect(dialog).toBeVisible();
   /* The page did not navigate to the file — the element took the press. */
   expect(page.url()).toContain('components-figure--zoomable');
-  /* The drawing itself and not a picture of it: referenced into this document
-     with `<use>`, which is what lets it take the colours of the page it opened
-     over rather than the ones its own file falls back to. */
-  await expect(dialog.locator('svg.sds-art use')).toHaveAttribute('href', /answer-sources\.svg#soul-ref$/);
+  /* The same file the frame shows, at the size it was drawn. */
+  await expect(dialog.locator('img.sds-art')).toHaveAttribute('src', /answer-sources\.svg$/);
 
   /* The whole drawing, in one screen: a viewer that scrolls shows a picture cut
      off at the foot, which is the one thing opening it was supposed to fix. */
@@ -226,7 +224,7 @@ test('an image opens its picture, and stays a link where nothing upgraded', asyn
   await trigger.click();
   await expect(dialog).toBeVisible();
   expect(page.url()).toContain('components-image--zoomable');
-  await expect(dialog.locator('svg.sds-art use')).toHaveAttribute('href', /answer-sources\.svg#soul-ref$/);
+  await expect(dialog.locator('img.sds-art')).toHaveAttribute('src', /answer-sources\.svg$/);
   await expect(dialog).toHaveAttribute('aria-label', /five sources/);
 
   await page.keyboard.press('Escape');

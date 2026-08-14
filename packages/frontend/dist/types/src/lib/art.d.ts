@@ -1,9 +1,13 @@
 import { type TemplateResult } from 'lit';
-/** What the reference points at — the root of the file, or the group a drawing
-    under `assets/diagrams/` wraps itself in. It names the part rather than what
-    is in it: a file is prepared by declaring where a reference may point, and
-    an SVG holding a picture was never the thing in question. */
+/** The name a drawing gives the part of itself that may be reached — the group
+    a drawing under `assets/diagrams/` wraps itself in, and what the card
+    generator puts the artwork in place of. No page reads it. */
 export declare const REF = "soul-ref";
+/** Whether the picture keeps the colours it was exported with, so the ground
+    under it has to be one those colours were drawn for. A drawing is such a
+    picture; a photograph brought its own ground and never was — `--surface-art`
+    in `components.css` is what this decides. */
+export declare const exported: (src: string) => boolean;
 export interface ArtOptions {
     /** What the surface hangs its own sizing on. */
     cls?: string;
@@ -11,16 +15,6 @@ export interface ArtOptions {
         figure passes neither and fills its column. */
     width?: number;
     height?: number;
-    /** Linked whatever the name says. A drawing that never named `id="soul-ref"`
-        resolves to nothing when it is referenced, and only a renderer with the
-        file in front of it can know that — `scripts/lib/site.ts` reads the file
-        and writes this onto the element, so the picture arrives. */
-    linked?: boolean;
-    /** The file's own `viewBox`, from the same reader for the same reason: the
-        generated table below holds this system's drawings and nothing else, so a
-        document's own drawing arrives with no ratio and `height: auto` falls back
-        to the 150px a box with no intrinsic size gets. */
-    viewBox?: string;
 }
-/** The picture, as whatever it has to be to arrive in the right mode. */
+/** The picture. */
 export declare function art(src: string, alt: string, options?: ArtOptions): TemplateResult;

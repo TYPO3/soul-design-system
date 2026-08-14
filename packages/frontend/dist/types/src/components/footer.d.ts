@@ -35,9 +35,8 @@ export interface FooterProps {
         lockup: the end of a site says which site, and the mark alone is a
         picture the reader has to already know. */
     product?: string;
-    /** The mark, as the file it is drawn in. Same file the bar carries, and the
-        same distinction: an SVG is referenced into the page and follows it into
-        dark, anything else is linked. */
+    /** The mark, as the file it is drawn in — the same file the bar carries, and
+        shown the same way, which is linked like every other picture. */
     signet?: string;
     /** Whose product it is, where that is a second name — the first half of the
         lockup, with the accent rule between the two. The bar's own form. */

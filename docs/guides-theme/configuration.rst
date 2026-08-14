@@ -115,13 +115,11 @@ The mark
    output with them rather than pointing at something that only exists on the
    machine that built the site. ``_images/`` is the conventional place.
 
-   An SVG is **referenced** into the page rather than linked, so the mark is
-   drawn in the page's ink and follows it into dark. That costs the file three
-   lines — a root named ``id="soul-ref"``, a ``viewBox`` on it, and every
-   colour written as a ``var()`` with a hex fallback — and a file that has not
-   been told draws nothing at all. :doc:`/design-system/artwork` is the rule,
-   and it is worth reading before pointing this at an SVG. Any other format is
-   linked and simply works, the same picture in both modes.
+   The mark is linked like every other picture, so any format works and what is
+   drawn is the file's own colours — the same mark in light and in dark. Write
+   an SVG's as ``var(--token, #hex)`` anyway: :doc:`/design-system/artwork` says
+   what that buys and what has to ship in Firefox and Safari before a mark can
+   take the page's ink.
 
    A signet is not an icon. It ships at three optical sizes with different
    construction, and bar height is the small one's job — see

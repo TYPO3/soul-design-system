@@ -262,19 +262,19 @@ Pictures
    :alt: A placeholder, dropped into the page without a claim under it
 
 .. figure:: /_images/unprepared.svg
-   :alt: A drawing that names no id="soul-ref"
+   :alt: A drawing with no ground of its own
 
-   A drawing that was never prepared to be referenced. The finishing step reads
-   the file and shows it as an image, in the colours it was exported with —
-   which is what is lost, rather than the picture.
+   Every picture is linked, so every drawing arrives in the colours its file
+   was written with — nothing on the page has to be true of the file for it to
+   show.
 
 .. figure:: /_images/transparent.svg
    :alt: Three boxes and two arrows, in dark line art on nothing
 
-   And the same thing with no ground of its own, which is what a diagram
-   exported by a tool usually is: dark line art on transparency. The frame
-   gives it a ground its colours were drawn for and keeps it in both modes —
-   the one surface here that does not follow the reader into dark.
+   And what a diagram exported by a tool usually is: dark line art on
+   transparency. The frame gives it a ground its colours were drawn for and
+   keeps that ground in both modes — the one surface here that does not follow
+   the reader into dark.
 
 Two halves
 ==========

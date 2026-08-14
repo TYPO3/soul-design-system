@@ -11,7 +11,6 @@
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 
-import { REF } from '../../packages/frontend/src/lib/art.ts';
 import { prerender } from './prerender.ts';
 
 /* What a page links, and what those files ask for beside themselves. The
@@ -40,56 +39,6 @@ export function dropIn(from: string, into: string): string[] {
     copied.push(name);
   }
   return copied;
-}
-
-/* The elements that show a picture, and what tells an SVG from anything else.
-   The tag ending steps over a name that is a prefix of another one. */
-const SHOWS = ['sds-figure', 'sds-image', 'sds-card'];
-const PICTURE = new RegExp(`<(?:${SHOWS.join('|')})(?![-\\w])(?:"[^"]*"|'[^']*'|[^>"'])*>`, 'g');
-const SVG = /\.svg(?:[?#].*)?$/i;
-const PREPARED = new RegExp(`\\bid\\s*=\\s*["']?${REF}\\b`);
-const VIEWBOX = /<svg\b[^>]*\sviewBox="([^"]+)"/;
-const ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
-
-/* A drawing is referenced into the page so it carries the page's tokens, and
-   one that named no `id="soul-ref"` is a reference to nothing — a blank space
-   where the picture was. Here the file is at hand, which is the whole reason
-   this runs here: an unprepared drawing is marked `linked` and the element
-   draws it as an `<img>`, in the colours it was exported with.
-
-   A prepared one is told its own `viewBox` instead. A reference carries no
-   coordinate system across, so a wrapper without one has no ratio to hold and
-   `height: auto` gets the 150px any box with no intrinsic size does. */
-export function link(root: string): string[] {
-  const linked = new Set<string>();
-  const drawings = new Map<string, { prepared: boolean; viewBox: string }>();
-  for (const file of pages(root)) {
-    const page = readFileSync(file, 'utf8');
-    const done = page.replace(PICTURE, (tag) => {
-      const src = /\ssrc="([^"]*)"/.exec(tag)?.[1];
-      if (!src || !SVG.test(src) || ELSEWHERE.test(src) || /\slinked(?=[\s/>=])/.test(tag)) return tag;
-      const target = resolve(dirname(file), (src.split(/[?#]/)[0] ?? src));
-      /* Left to the reference check, which says the same thing about every
-         file a page points at rather than about drawings alone. */
-      if (!target.startsWith(root + sep) || !existsSync(target)) return tag;
-      let known = drawings.get(target);
-      if (known === undefined) {
-        const drawing = readFileSync(target, 'utf8');
-        known = { prepared: PREPARED.test(drawing), viewBox: VIEWBOX.exec(drawing)?.[1] ?? '' };
-        drawings.set(target, known);
-      }
-      if (!known.prepared) {
-        linked.add(relative(root, target).split(sep).join('/'));
-        return `${tag.replace(/\/?>$/, '')} linked>`;
-      }
-      /* One already there stays: this step is run again by anyone who renders
-         into an output that stands, and a hand-written one is a decision. */
-      if (!known.viewBox || /\sview-box=/.test(tag)) return tag;
-      return `${tag.replace(/\/?>$/, '')} view-box="${known.viewBox}">`;
-    });
-    if (done !== page) writeFileSync(file, done);
-  }
-  return [...linked].sort();
 }
 
 /* Every element in the site, rendered before the browser gets there — what lets
@@ -159,20 +108,16 @@ export interface Finished {
   indexed: number | null;
   /** References that do not resolve inside the site. */
   broken: string[];
-  /** Drawings shown as an image, having never been prepared to be referenced. */
-  linked: string[];
 }
 
 /** The steps between a render and a site, in the one order that works: the
-    drawings before the drawing, because an element is drawn from the tag as it
-    stands; indexing after that, because a card's title lives in the element
-    until it is drawn; checking last, because the copy step is one of the things
-    that can break a reference. */
+    drawing first, because a card's title lives in the element until it is
+    drawn and the index reads what was drawn; checking last, because the copy
+    step is one of the things that can break a reference. */
 export function finish(root: string, options: { drop?: string; styles?: string; search?: string | false } = {}): Finished {
   const { drop, styles = 'styles', search = '_search.json' } = options;
   if (drop) dropIn(drop, join(root, styles));
-  const linked = link(root);
   const drawn = draw(root);
   const indexed = search === false ? null : index(root, search);
-  return { drawn, indexed, broken: escapes(root), linked };
+  return { drawn, indexed, broken: escapes(root) };
 }

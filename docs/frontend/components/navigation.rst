@@ -155,10 +155,10 @@ width at which the two disagree and it oscillates.
    :name: sds-nav-main-signet
    :type: string
 
-   The mark, as the file it is drawn in. An SVG is referenced into the page and
-   follows it into dark; anything else is linked — the distinction
-   ``sds-image`` makes from the file name. It is the same construction the
-   footer draws, so the two ends of a site cannot say the name two ways.
+   The mark, as the file it is drawn in. It is linked like every other picture
+   in this system — see :doc:`/design-system/artwork` — and it is the same
+   construction the footer draws, so the two ends of a site cannot say the name
+   two ways.
 
 .. confval:: brand
    :name: sds-nav-main-brand
@@ -788,8 +788,7 @@ nothing was set, so the second is the first with less in it.
    :type: string
 
    The mark, as the file it is drawn in — the same file the bar carries, and
-   the same distinction ``sds-image`` makes everywhere: an SVG is referenced
-   into the page and follows it into dark, anything else is linked.
+   shown the same way.
 
 .. confval:: brand
    :name: sds-footer-brand

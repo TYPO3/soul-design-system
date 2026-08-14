@@ -4,12 +4,12 @@
    inferred means something slightly different to every reader, so the sentence
    under it states the claim — the one the picture would be replaced by.
 
-   The element does not ask what is in the frame. A drawing is referenced so it
-   takes the mode of wherever it is placed; a raster file is linked, having
-   nothing in it for a mode to change. `src/lib/art.ts` tells the two apart. */
+   The element does not ask what is in the frame: it shows the file it is
+   given, as an image, and the ground under it is the one drawn for colours
+   that do not follow the page. `src/lib/art.ts` holds why. */
 
 import { html, type TemplateResult } from 'lit';
-import { art } from '../lib/art.ts';
+import { art, exported } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
 import { zoom } from '../lib/zoom.ts';
 
@@ -25,14 +25,6 @@ export interface FigureProps {
       element only takes the press over once it has upgraded. Worth it for
       anything drawn wider than its column, pointless for a photograph. */
   zoomable?: boolean;
-  /** The picture is linked rather than referenced — an SVG that never named
-      `id="soul-ref"`. Written by the build, which is what can read the file;
-      `src/lib/art.ts` holds the reasoning. */
-  linked?: boolean;
-  /** The referenced file's own `viewBox`, from the same reader — a reference
-      carries no coordinate system across, and the frame keeps the picture's
-      shape at every width only where the wrapper has one. */
-  viewBox?: string;
 }
 
 /* A caption written between the tags, told apart from the picture by the class
@@ -56,8 +48,6 @@ export class SdsFigure extends SdsElement {
     width: { type: Number },
     height: { type: Number },
     zoomable: { type: Boolean, reflect: true },
-    linked: { type: Boolean },
-    viewBox: { attribute: 'view-box', type: String },
   };
 
   declare src: string;
@@ -70,8 +60,6 @@ export class SdsFigure extends SdsElement {
   declare width?: number;
   declare height?: number;
   declare zoomable: boolean;
-  declare linked: boolean;
-  declare viewBox?: string;
 
   /* The picture a renderer wrote, taken before Lit renders over it. `src` is
      the form a story or a product surface uses; a renderer writing HTML cannot,
@@ -91,7 +79,6 @@ export class SdsFigure extends SdsElement {
     this.alt = '';
     this.caption = '';
     this.zoomable = false;
-    this.linked = false;
   }
 
   override connectedCallback(): void {
@@ -111,7 +98,7 @@ export class SdsFigure extends SdsElement {
     const given = this.taken ?? this.content;
     const picture = given
       ? html`${given}`
-      : art(this.src, this.alt, { width: this.width, height: this.height, linked: this.linked, viewBox: this.viewBox });
+      : art(this.src, this.alt, { width: this.width, height: this.height });
 
     /* The viewer carries the claim into its head, where the caption is a
        sentence; a caption written between the tags is markup and the viewer
@@ -120,8 +107,6 @@ export class SdsFigure extends SdsElement {
       ? zoom(this, picture, {
           src: this.src,
           alt: this.alt,
-          linked: this.linked,
-          viewBox: this.viewBox,
           caption: typeof this.caption === 'string' ? this.caption : '',
         })
       : null;
@@ -137,7 +122,7 @@ export class SdsFigure extends SdsElement {
         : '';
 
     return html`<figure class="sds-figure">
-  <div class="sds-figure__frame${this.linked ? ' sds-figure__frame--exported' : ''}">
+  <div class="sds-figure__frame${exported(this.src) ? ' sds-figure__frame--exported' : ''}">
     ${press ? press.trigger : picture}
   </div>
   ${caption}

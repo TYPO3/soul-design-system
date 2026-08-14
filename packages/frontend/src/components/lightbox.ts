@@ -14,7 +14,7 @@ import './icon.ts';
 /* Type-only, and deliberately so: hearing a command must not drag the element
    that sends one into every page that opens a drawing. */
 import type { SdsCommand } from './button.ts';
-import { art } from '../lib/art.ts';
+import { art, exported } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface LightboxProps {
@@ -24,13 +24,6 @@ export interface LightboxProps {
       carries, so opening it is not a change of subject. */
   caption?: string;
   open?: boolean;
-  /** The picture is linked rather than referenced — an SVG that never named
-      `id="soul-ref"`. Passed on by the figure that opens this one, so the drawing
-      at full size is the drawing in the page. */
-  linked?: boolean;
-  /** And the box it was read with, so the picture on the stage keeps the shape
-      it has in the page. */
-  viewBox?: string;
 }
 
 export class SdsLightbox extends SdsElement {
@@ -39,16 +32,12 @@ export class SdsLightbox extends SdsElement {
     alt: { type: String },
     caption: { type: String },
     open: { type: Boolean, reflect: true },
-    linked: { type: Boolean },
-    viewBox: { attribute: 'view-box', type: String },
   };
 
   declare src: string;
   declare alt: string;
   declare caption: string;
   declare open: boolean;
-  declare linked: boolean;
-  declare viewBox?: string;
 
   constructor() {
     super();
@@ -56,7 +45,6 @@ export class SdsLightbox extends SdsElement {
     this.alt = '';
     this.caption = '';
     this.open = false;
-    this.linked = false;
   }
 
   private get dialog(): HTMLDialogElement | null {
@@ -122,8 +110,8 @@ export class SdsLightbox extends SdsElement {
     <span>${this.caption || this.alt}</span>
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
-  <div class="sds-lightbox__art${this.linked ? ' sds-lightbox__art--exported' : ''}">
-    ${art(this.src, this.alt, { linked: this.linked, viewBox: this.viewBox })}
+  <div class="sds-lightbox__art${exported(this.src) ? ' sds-lightbox__art--exported' : ''}">
+    ${art(this.src, this.alt)}
   </div>
 </dialog>`;
   }

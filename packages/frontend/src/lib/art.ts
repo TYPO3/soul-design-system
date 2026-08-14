@@ -1,35 +1,32 @@
 /* The one picture a figure, a viewer, a card or a lockup shows.
 
-   **Every SVG is referenced, everything else is linked.** An `<img>` renders
-   its file in a document of its own where no token is declared; a `<use>` builds
-   a shadow tree that inherited properties cross, so one file takes the mode of
-   whatever it sits in. It costs the file one line — `id="soul-ref"` on the root,
-   and one that never paid it is linked — a reference to nothing draws nothing.
+   **Every picture is linked.** An `<img>` renders its file in a document of its
+   own, where no token is declared, so a drawing arrives in the colours it was
+   exported with and stays in them on a page that has gone dark. That is the
+   cost, it is paid by every picture equally, and `--surface-art` under it is
+   what makes it read.
 
-   `<use>` carries no coordinate system across, and a wrapper without one has no
-   ratio for `height: auto` to hold — so the box is read out of the file by
-   whatever has it in front of it: `make diagrams` for a drawing of this
-   system's own, `scripts/lib/site.ts` for one a document brought. */
+   The alternative is a reference — `<use>` builds a shadow tree that inherited
+   properties cross, so one file takes the mode of whatever it sits in — and it
+   is not taken. It resolves only against a fragment naming an `id` inside the
+   file, which means every drawing has to be prepared and every renderer has to
+   open it to find out whether it was; a file that never paid draws *nothing*,
+   silently. SVG 2 removes the fragment and lets a reference name the file, and
+   `docs/design-system/artwork.rst` says what has to ship before that is a
+   mechanism a site can be built on. Until then a picture that arrives beats a
+   picture that follows the mode. */
 
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { DIAGRAM_VIEWBOX } from '../components/diagrams.generated.ts';
 
-/** What the reference points at — the root of the file, or the group a drawing
-    under `assets/diagrams/` wraps itself in. It names the part rather than what
-    is in it: a file is prepared by declaring where a reference may point, and
-    an SVG holding a picture was never the thing in question. */
+/** The name a drawing gives the part of itself that may be reached — the group
+    a drawing under `assets/diagrams/` wraps itself in, and what the card
+    generator puts the artwork in place of. No page reads it. */
 export const REF = 'soul-ref';
 
 /* A query string or a fragment may follow the extension, and neither makes the
    file something other than an SVG. */
 const DRAWING = /\.svg(?:[?#].*)?$/i;
-
-/* A file on somebody else's server. Linked whatever it is: a reference reads
-   the file, and a browser will not do that across origins, so a drawing
-   referenced from another host arrives as nothing. Decided here rather than in
-   every surface that points at a file. */
-const ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
 
 /* A string rather than bindings, because half of these attributes are not
    written. A binding resolving to `nothing` leaves the space in front of it,
@@ -39,6 +36,12 @@ const ESCAPE: Readonly<Record<string, string>> = { '&': '&amp;', '<': '&lt;', '>
 const attr = (name: string, value: string | number | undefined): string =>
   value === undefined || value === '' ? '' : ` ${name}="${String(value).replace(/[&<>"]/g, (c) => ESCAPE[c] as string)}"`;
 
+/** Whether the picture keeps the colours it was exported with, so the ground
+    under it has to be one those colours were drawn for. A drawing is such a
+    picture; a photograph brought its own ground and never was — `--surface-art`
+    in `components.css` is what this decides. */
+export const exported = (src: string): boolean => DRAWING.test(src);
+
 export interface ArtOptions {
   /** What the surface hangs its own sizing on. */
   cls?: string;
@@ -46,39 +49,14 @@ export interface ArtOptions {
       figure passes neither and fills its column. */
   width?: number;
   height?: number;
-  /** Linked whatever the name says. A drawing that never named `id="soul-ref"`
-      resolves to nothing when it is referenced, and only a renderer with the
-      file in front of it can know that — `scripts/lib/site.ts` reads the file
-      and writes this onto the element, so the picture arrives. */
-  linked?: boolean;
-  /** The file's own `viewBox`, from the same reader for the same reason: the
-      generated table below holds this system's drawings and nothing else, so a
-      document's own drawing arrives with no ratio and `height: auto` falls back
-      to the 150px a box with no intrinsic size gets. */
-  viewBox?: string;
 }
 
-/** The picture, as whatever it has to be to arrive in the right mode. */
+/** The picture. */
 export function art(src: string, alt: string, options: ArtOptions = {}): TemplateResult {
-  const { cls = 'sds-art', width, height, linked = false, viewBox } = options;
-  /* `aria-label` on the wrapper, not the `<title>` in the file: only one is
-     read, and the author wrote this one beside the picture. Empty says
-     decorative, which is not the same as left unnamed. */
-  const name = alt ? attr('role', 'img') + attr('aria-label', alt) : attr('aria-hidden', 'true');
+  const { cls = 'sds-art', width, height } = options;
   const size = attr('width', width) + attr('height', height);
-
-  if (linked || !DRAWING.test(src) || ELSEWHERE.test(src)) {
-    /* Written even when empty: on an image that is the difference between
-       decorative and unlabelled. */
-    const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c] as string);
-    return html`${unsafeHTML(`<img${attr('class', cls)} src="${src}" alt="${escaped}"${size}>`)}`;
-  }
-
-  /* What was read out of the file beats the table: a document's drawing can be
-     called `system-overview.svg` too, and the name is all the table matches. */
-  const box = viewBox || DIAGRAM_VIEWBOX[src.split('/').pop()?.replace(DRAWING, '') ?? ''];
-  return html`${unsafeHTML(
-    `<svg${attr('class', cls)}${attr('viewBox', box)}${size}${name}>` +
-      `<use href="${src}#${REF}"></use></svg>`,
-  )}`;
+  /* Written even when empty: on an image that is the difference between
+     decorative and unlabelled. */
+  const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c] as string);
+  return html`${unsafeHTML(`<img${attr('class', cls)} src="${src}" alt="${escaped}"${size}>`)}`;
 }

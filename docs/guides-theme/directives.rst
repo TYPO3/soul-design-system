@@ -392,9 +392,9 @@ One card: a title that goes somewhere, and what is behind it.
 
    The picture, flush at the top of the card. A path in the documentation
    source is copied into the output and resolved per page; a URL somewhere else
-   is linked as it stands. An SVG of this project's own is referenced rather
-   than linked, so it takes the page's tokens and follows it into dark — which
-   costs the file the one line :doc:`/design-system/artwork` asks for.
+   is linked as it stands. Either way it is one ``<img>``, so a drawing arrives
+   in the colours its file declares — :doc:`/design-system/artwork` says why,
+   and what the file is written to be ready for.
 
    The name is ``src`` here and on the element, because that is what everything
    in this system that takes a file is called.

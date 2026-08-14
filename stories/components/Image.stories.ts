@@ -1,12 +1,9 @@
-/* A picture that takes the colours of the page it lands in.
+/* A picture, at the size the caller gives it.
 
    The markup lives in `src/components/image.ts` and the mechanism in
-   `src/lib/art.ts`. No `parameters.dsCard`: a card is opened from disk, where
-   the reference this element exists to write is refused before it is fetched,
-   so a card of it would be a picture of the one thing it does not do.
-
-   Read every story by switching the mode. That is the whole claim: one file,
-   no light copy and no dark copy. */
+   `src/lib/art.ts`. No `parameters.dsCard`: what a card would show is the
+   picture, and the picture is documented where it is drawn — under
+   `Guidelines`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -41,14 +38,13 @@ const meta: Meta<ImageProps> = {
 export default meta;
 type Story = StoryObj<ImageProps>;
 
-/** A mark, referenced. The ink is `--text-primary` and the corner is
-    `--accent`, both read out of the page — switch the mode and the drawing
-    follows without changing file. */
+/** A mark. One file at one size, drawn in the ink its own file declares — the
+    hex behind each token, since an `<img>` renders in a document of its own
+    where no token of this page is. */
 export const Default: Story = { args: MARK };
 
-/** A raster file in the same element. There is nothing in a photograph for a
-    mode to change, so it is linked rather than referenced, and the caller says
-    nothing about which: the file name is the whole distinction. */
+/** A raster file in the same element, and nothing about the element changes:
+    every picture is linked, and the file name is not a decision it makes. */
 export const Photograph: Story = {
   args: {
     src: '/assets/placeholders/tool-search.png',
@@ -103,9 +99,9 @@ export const InALockup: Story = {
 };
 
 /** Three products, one construction. The files are worked examples of the
-    signet rules rather than approved marks, and each is referenced the same
-    way a project's own would be — which is the point: nothing about the mark
-    is in this system's code. */
+    signet rules rather than approved marks, and each is shown the same way a
+    project's own would be — which is the point: nothing about the mark is in
+    this system's code. */
 export const AFamily: Story = {
   parameters: { layout: 'fullscreen' },
   render: () => html`<div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-6); padding:var(--space-6)">

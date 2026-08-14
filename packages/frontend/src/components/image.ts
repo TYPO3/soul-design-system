@@ -1,9 +1,8 @@
-/* sds-image — a picture that arrives in the mode of the page it lands in.
+/* sds-image — a picture, at the size the caller gives it.
 
-   An SVG is referenced into the page and a raster file is linked; the caller
-   says neither, the file name is the whole distinction. A drawing linked as an
-   image renders in a document of its own, where no token is declared, and keeps
-   whichever grey its author baked in — `src/lib/art.ts` holds the mechanism.
+   Every picture is linked: a drawing renders in a document of its own, where
+   no token is declared, and keeps whichever grey its author wrote as the
+   fallback. `src/lib/art.ts` holds why the alternative is not taken.
 
    `sds-figure` is this with a caption. The class a caller gives is the one it
    renders with, so a signet is `<sds-image class="sds-signet">` and nothing
@@ -15,7 +14,7 @@ import { define, SdsElement } from '../lib/element.ts';
 import { zoom } from '../lib/zoom.ts';
 
 export interface ImageProps {
-  /** The file. An SVG is referenced, anything else is linked. */
+  /** The file. */
   src: string;
   /** What the picture shows, for a reader who cannot see it. Empty where the
       text beside it already says the same thing — a mark in a lockup whose
@@ -32,14 +31,6 @@ export interface ImageProps {
       element only takes the press over once it has upgraded. What a picture
       shrunk into its column asks for, and what a mark in a lockup never does. */
   zoomable?: boolean;
-  /** The picture is linked rather than referenced — an SVG that never named
-      `id="soul-ref"`. Written by the build, which is what can read the file;
-      `src/lib/art.ts` holds the reasoning. */
-  linked?: boolean;
-  /** The referenced file's own `viewBox`, from the same reader — a reference
-      carries no coordinate system across, and an unsized picture holds its
-      shape only where the wrapper has one. */
-  viewBox?: string;
 }
 
 export class SdsImage extends SdsElement {
@@ -49,8 +40,6 @@ export class SdsImage extends SdsElement {
     width: { type: Number, reflect: true },
     height: { type: Number, reflect: true },
     zoomable: { type: Boolean, reflect: true },
-    linked: { type: Boolean },
-    viewBox: { attribute: 'view-box', type: String },
     /* The class the caller wrote, read as a property rather than off the host:
        `this.className` exists only where there is a DOM, and these render in
        Node too. Declaring the attribute is what carries it through both. */
@@ -62,8 +51,6 @@ export class SdsImage extends SdsElement {
   declare width: number;
   declare height: number;
   declare zoomable: boolean;
-  declare linked: boolean;
-  declare viewBox?: string;
   declare cls: string;
 
   constructor() {
@@ -73,7 +60,6 @@ export class SdsImage extends SdsElement {
     this.width = 0;
     this.height = 0;
     this.zoomable = false;
-    this.linked = false;
     this.cls = '';
   }
 
@@ -96,9 +82,9 @@ export class SdsImage extends SdsElement {
        collision. The class goes on the picture itself, where the stylesheet
        expects it — the fallback markup is written that way by hand. */
     const cls = this.cls || (width || height ? '' : 'sds-art');
-    const picture = art(this.src, this.alt, { cls, width, height, linked: this.linked, viewBox: this.viewBox });
+    const picture = art(this.src, this.alt, { cls, width, height });
     if (!this.zoomable) return picture;
-    const { trigger, viewer } = zoom(this, picture, { src: this.src, alt: this.alt, linked: this.linked, viewBox: this.viewBox });
+    const { trigger, viewer } = zoom(this, picture, { src: this.src, alt: this.alt });
     return html`${trigger}
 ${viewer}`;
   }

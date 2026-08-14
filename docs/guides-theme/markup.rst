@@ -343,17 +343,11 @@ claim is drawn under the frame in the register a caption belongs to, quieter
 and smaller than the text; a picture that makes none gets the frame alone,
 rather than an empty line under it.
 
-A drawing this system ships is *referenced* into the page and everything else
-is linked. That distinction is the element's and it matters here: a referenced
-SVG is drawn in the page's own tokens and follows it into dark, while an
-``<img>`` renders in a document of its own where none of them are declared. It
-costs the drawing one line — ``id="soul-ref"`` on its root — and
-:doc:`/design-system/artwork` says what else it has to do.
-
-An SVG that never paid it is shown as an image rather than as a blank space:
-the finishing step reads the file before it draws the page, and says in the run
-which drawings those were. So a picture dropped into a project arrives whatever
-was done to it, and the line buys the mode, not the picture.
+Every picture is linked, whatever is in the file: one ``<img>``, and a drawing in
+the colours it was written with. So a picture dropped into a project arrives
+whatever was done to it — and it is the same picture in light and in dark, on
+the one ground drawn for those colours. :doc:`/design-system/artwork` says why
+it is not read into the page instead, and what would have to change.
 
 ``:zoomable:`` opens the picture at full size: the frame becomes a press and
 the viewer carries the caption into its own head. A picture is drawn at the

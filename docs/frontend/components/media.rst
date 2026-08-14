@@ -5,12 +5,14 @@ Media
 =====
 
 Pictures, drawings and documents from somewhere else. One rule runs through all
-of them: **an SVG is referenced into the page and anything else is linked**.
-The caller says neither — the file name is the whole distinction.
+of them: **every picture is linked** — one ``<img>``, one file, and nothing
+about what is in the file for an element to decide.
 
 A drawing linked as an image renders in a document of its own, where none of
-this system's tokens is declared, and keeps whichever grey its author baked in.
-Referenced, it reads the page's tokens and arrives in the mode the page is in.
+this system's tokens is declared, and keeps whichever grey its author wrote as
+the fallback. Referencing part of the file instead would let it read the page's
+tokens, and :doc:`/design-system/artwork` says what has to ship in Firefox and
+Safari before that is a mechanism a site can be built on.
 
 **A picture that keeps its own colours is given a ground drawn for them.** The
 figure's frame, a card's picture and the viewer all take ``--surface-art``
@@ -21,13 +23,9 @@ showing.
 
 .. note::
 
-   ``sds-image``, ``sds-figure``, ``sds-card`` and ``sds-lightbox`` each take a
-   ``linked`` flag and a ``view-box``, and both are written by the build rather
-   than by a page: an SVG is referenced through ``id="soul-ref"`` on its root,
-   a file that never named one resolves to nothing, and a reference carries no
-   coordinate system across — only something with the file in front of it knows
-   either. The finishing step reads both, and says which drawings it had to fall
-   back on — see :doc:`/guides-theme/publishing`.
+   Nothing here takes a flag for the mode a picture arrives in, and the
+   finishing step reads no drawing: an image is laid out by what is in its own
+   file, and it is the same picture in light and in dark.
 
 .. _component-sds-image:
 

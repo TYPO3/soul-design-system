@@ -4,9 +4,9 @@
    diagram cards under `Guidelines → Diagrams` document the drawings, and this
    documents the frame around one.
 
-   Two stories carry the point, both read by switching modes: the drawing is one
-   file referenced into the page and arrives in the mode it was placed in, and
-   the photograph is linked and the same in both. */
+   The frame is what this documents: what a picture stands on, and the claim
+   under it. Both are the same in both modes — a picture is linked, and brings
+   whatever colours its file was written with. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -41,14 +41,13 @@ const meta: Meta<FigureProps> = {
 export default meta;
 type Story = StoryObj<FigureProps>;
 
-/** One file, in both modes. Switch the mode in the toolbar: the drawing does
-    not change file, it changes colour — it is referenced into this page and
-    reads the same tokens the page does. */
+/** A drawing in the frame. It is linked like every other picture, so it is the
+    same drawing in both modes and the frame under it takes `--surface-art` —
+    the one ground drawn for colours that do not follow the page. */
 export const Default: Story = { args: SOURCES };
 
-/** A raster image in the same frame: no viewBox to be had, so it is linked
-    rather than referenced, and nothing is lost — there is nothing in a
-    photograph for a mode to change. Not `zoomable`: the trigger earns its place
+/** A photograph in the same frame, and the same treatment: there is nothing in
+    one for a mode to change either. Not `zoomable`: the trigger earns its place
     where a drawing is wider than its column, and this is shown whole. */
 export const Photograph: Story = {
   args: {

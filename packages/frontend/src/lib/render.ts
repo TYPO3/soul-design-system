@@ -126,10 +126,10 @@ export function renderUpgradable(template: TemplateResult): string {
   if (html.includes('<!--lit') || html.includes('<!--/lit')) {
     throw new Error('lit hydration markers survived the strip — check src/lib/render.ts against the installed @lit-labs/ssr');
   }
-  /* Glyphs are inlined and drawings are not, because a drawing is referenced
-     by a path in the site and resolves as written, while a sprite resolves
-     against the module that asked for it — in Node, a path on the build
-     machine, naming nothing in the markup written here. */
+  /* Glyphs are inlined and drawings are not, because a drawing is linked by a
+     path in the site and resolves as written, while a sprite resolves against
+     the module that asked for it — in Node, a path on the build machine,
+     naming nothing in the markup written here. */
   return tidyTags(inlineIconRefs(html));
 }
 

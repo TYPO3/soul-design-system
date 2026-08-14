@@ -387,7 +387,7 @@ test.describe('what the theme repaired', () => {
     const named = (text: string): string => text.replace(/\s+/g, '');
     expect(named(await brand.locator('.sds-lockup .sds-wordmark').innerText()))
       .toBe(named(await page.locator('.sds-bar .sds-lockup .sds-wordmark').innerText()));
-    await expect(brand.locator('.sds-lockup svg.sds-signet use')).toHaveAttribute('href', /#soul-ref$/);
+    await expect(brand.locator('.sds-lockup img.sds-signet')).toHaveAttribute('src', /signet\.svg$/);
     expect((await brand.locator('.sds-footer__note').innerText()).trim().length).toBeGreaterThan(0);
 
     /* Beside the columns, not above them: one row that wraps where there is no
@@ -855,26 +855,30 @@ test.describe('what the theme repaired', () => {
   test('a picture that kept its own colours is given a ground drawn for them', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    /* A drawing that never named `id="soul-ref"` is linked, so it keeps whatever
-       the exporter baked in — usually dark line art on nothing, which on this
-       system's dark ground is a page contradicting the picture it shows. */
-    const exported = page.locator('sds-figure[linked] .sds-figure__frame').first();
-    await expect(exported).toHaveClass(/sds-figure__frame--exported/);
+    /* A drawing is linked, so it keeps whatever the exporter baked in — usually
+       dark line art on nothing, which on this system's dark ground is a page
+       contradicting the picture it shows. Every frame around one therefore
+       carries the ground drawn for those colours. */
+    const frames = page.locator('.sds-prose sds-figure .sds-figure__frame');
+    expect(await frames.count()).toBeGreaterThan(0);
+    for (const frame of await frames.all()) {
+      await expect(frame).toHaveClass(/sds-figure__frame--exported/);
+    }
 
-    /* And the other half: a drawing referenced into the page reads the page's
-       tokens, so its frame follows the mode like every other surface. */
-    const referenced = page.locator('sds-figure:not([linked]) .sds-figure__frame').first();
-    await expect(referenced).not.toHaveClass(/sds-figure__frame--exported/);
-
+    const exported = frames.first();
     const ground = (of: Locator): Promise<string> =>
       of.evaluate((el) => getComputedStyle(el).backgroundColor);
-    const [wasExported, wasReferenced] = [await ground(exported), await ground(referenced)];
+    /* Read against a surface that does follow — one that paints a ground of its
+       own — so the claim is that this one stands rather than that nothing on
+       the page moved. */
+    const canvas = page.locator('.sds-bar').first();
+    const [wasExported, wasCanvas] = [await ground(exported), await ground(canvas)];
 
     await page.evaluate(() => {
       document.documentElement.dataset['theme'] = 'dark';
     });
     expect(await ground(exported), 'the one surface that does not follow the reader').toBe(wasExported);
-    expect(await ground(referenced), 'and every other one still does').not.toBe(wasReferenced);
+    expect(await ground(canvas), 'and every other one still does').not.toBe(wasCanvas);
   });
 
   test('a plane states in place, and the fill says what kind of thing is on it', async ({ page }) => {
@@ -999,7 +1003,7 @@ test.describe('what the theme repaired', () => {
     await expect(entries.locator('.sds-card:not(sds-card > .sds-card)')).toHaveCount(0);
 
     const full = entries.locator('.sds-card').first();
-    await expect(full.locator('.sds-card__media svg use')).toHaveAttribute('href', /#soul-ref$/);
+    await expect(full.locator('.sds-card__media img.sds-art')).toHaveAttribute('src', /\.svg$/);
     await expect(full.locator('.sds-row .sds-badge')).toHaveText('Reference');
     await expect(full.locator('.sds-row .sds-label')).toHaveText('12 May 2026');
     await expect(full.locator('.sds-card__title a')).toHaveAttribute('href', /nodes\.html$/);
@@ -1029,7 +1033,7 @@ test.describe('what the theme repaired', () => {
     /* And the card that carries every option, so a page wanting one of them
        never has to write a declaration of its own. */
     const full = signposts.locator('sds-card').nth(1);
-    await expect(full.locator('.sds-card__media svg use')).toHaveAttribute('href', /#soul-ref$/);
+    await expect(full.locator('.sds-card__media img.sds-art')).toHaveAttribute('src', /\.svg$/);
     await expect(full.locator('.sds-card__icon .sds-icon')).toHaveCount(1);
     await expect(full.locator('.sds-row .sds-badge')).toHaveText('Reference');
     await expect(full.locator('.sds-row .sds-label')).toHaveText('Chapter 02');
@@ -1096,9 +1100,10 @@ test.describe('what the theme repaired', () => {
     /* `.. figure::` and `.. image::` are the same picture to a reader; only one
        of them says what it is for. The core writes the second as a bare `<img>`
        standing on the page ground, which is a drawing exported on white sitting
-       in a hole in dark — so both are the element, and the only picture outside
-       a frame is the copy the viewer holds, which stands in a ground of its. */
-    await expect(page.locator('.sds-prose img:not(.sds-figure__frame img):not(.sds-lightbox__art img)')).toHaveCount(0);
+       in a hole in dark — so both are the element, and the only pictures outside
+       a frame are a card's, which has a ground of its own, and the copy the
+       viewer holds, which has one too. */
+    await expect(page.locator('.sds-prose img:not(.sds-figure__frame img):not(.sds-lightbox__art img):not(.sds-card__media img)')).toHaveCount(0);
     const framed = page.locator('.sds-prose sds-figure .sds-figure__frame');
     await expect(framed).toHaveCount(6);
 
@@ -1131,37 +1136,29 @@ test.describe('what the theme repaired', () => {
     await expect(viewer).toBeHidden();
   });
 
-  test('a drawing that was never prepared is shown, not left blank', async ({ page }) => {
+  test('every drawing on a page is shown, whatever is in the file', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    /* A reference into a file that names no `id="soul-ref"` resolves to nothing and
-       leaves a hole where the picture was. The finishing step is what has the
-       file in front of it: it marks the element `linked`, and the picture
-       arrives as an image — in the colours it was exported with, which is the
-       whole of what being unprepared costs. */
-    const unprepared = page.locator('.sds-prose sds-figure[linked]');
-    await expect(unprepared).toHaveCount(2);
-    const shown = unprepared.locator('.sds-figure__frame img.sds-art');
-    await expect(shown).toHaveCount(await unprepared.count());
-    await expect(shown.first()).toHaveAttribute('src', /unprepared\.svg$/);
-    /* The second brought no ground of its own, which is the case the frame
-       under it answers — see the ground test above. */
-    await expect(shown.nth(1)).toHaveAttribute('src', /transparent\.svg$/);
+    /* A picture is linked, and nothing about the file decides that. The
+       alternative — referencing part of the file with `<use>` — draws nothing
+       at all where the part is missing or the browser has not shipped SVG 2's
+       fragmentless form, and a hole is not a failure a reader can see. So
+       every picture in the prose is an image, and none is a reference. */
+    const pictures = page.locator('.sds-prose sds-figure .sds-figure__frame img.sds-art');
+    expect(await pictures.count()).toBeGreaterThan(0);
+    /* Scoped to where a picture stands: a glyph is inlined into the page and
+       reaches its own sprite with `<use>` — the viewer's close is one, inside
+       the figure that owns it — and that is a different mechanism on a file
+       this build wrote. */
+    await expect(page.locator('.sds-figure__frame use, .sds-card__media use, .sds-lightbox__art use')).toHaveCount(0);
 
-    /* The prepared drawing beside it is still referenced, so the flag is read
-       off the file and not written onto every picture in the page. Read in the
-       frame, because the viewer holds a second copy of the same drawing and
-       its close is a glyph — three references to one picture on the page. */
-    const prepared = page.locator('.sds-prose sds-figure:not([linked])').first();
-    await expect(prepared.locator('.sds-figure__frame svg use')).toHaveAttribute('href', /#soul-ref$/);
+    /* Including the one whose file was never prepared for anything, which is
+       the case this used to lose. */
+    await expect(page.locator('.sds-prose img.sds-art[src*="unprepared.svg"]')).toHaveCount(1);
 
-    /* And it keeps the shape it was drawn in. A reference carries no coordinate
-       system across, so the finishing step reads the box out of the file too —
-       without it the wrapper has no ratio, and `height: auto` is the 150px any
-       box with no intrinsic size gets, whatever the picture inside it is. */
-    const wrapper = prepared.locator('.sds-figure__frame svg.sds-art');
-    await expect(wrapper).toHaveAttribute('viewBox', '0 0 1200 500');
-    const drawn = await wrapper.boundingBox();
+    /* And the shape is the file's own: an image is laid out by what is in it,
+       so nothing has to carry a coordinate system across for it. */
+    const drawn = await pictures.first().boundingBox();
     expect((drawn?.width ?? 0) / (drawn?.height ?? 1)).toBeCloseTo(1200 / 500, 1);
   });
 
@@ -1317,7 +1314,7 @@ test.describe('what the reader gets before the script does', () => {
        empty box in a grid of them. */
     const card = page.locator('#cards sds-card').first();
     await expect(card.locator('.sds-card__title a')).toBeVisible();
-    await expect(card.locator('.sds-card__media svg')).toBeVisible();
+    await expect(card.locator('.sds-card__media img')).toBeVisible();
     await expect(card.locator('.sds-row .sds-badge')).toBeVisible();
 
     /* The frame is the card's own and it is on the page already. What the
@@ -1421,15 +1418,15 @@ test.describe('what the reader gets before the script does', () => {
     expect(await pills.count()).toBeGreaterThan(1);
     await expect(pills.first()).toBeVisible();
 
-    /* And the width they need, at one no measurement can fold them at: nothing
-       has measured, so the row wraps and the bar grows instead of the page
-       running out sideways under it. */
+    /* And the width they need: the row folds into the drawer rather than the
+       page running out sideways under it. Polled, because folding is what the
+       element measures for and a synchronous read after a resize can land in
+       the frame before it has — the bar wraps there and the claim is about
+       where it comes to rest. */
     await page.setViewportSize({ width: 380, height: 900 });
-    const room = await page.evaluate(() => ({
-      wide: document.documentElement.scrollWidth,
-      window: window.innerWidth,
-    }));
-    expect(room.wide).toBeLessThanOrEqual(room.window);
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth))
+      .toBeLessThanOrEqual(0);
   });
 });
 

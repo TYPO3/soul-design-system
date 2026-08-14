@@ -20,11 +20,6 @@ export interface ZoomOptions {
   /** What the drawing claims, carried into the viewer's head so opening it is
       not a change of subject. An image has none and falls back to its alt. */
   caption?: string;
-  /** The picture is linked rather than referenced — passed on, so the picture
-      at full size is the picture in the page. */
-  linked?: boolean;
-  /** And the box it was read with, for the same reason. */
-  viewBox?: string;
 }
 
 /** The trigger and the viewer, for the element to place. Two parts and not one
@@ -58,9 +53,9 @@ function opener(host: Element): (event: Event) => void {
 /** Wrap `picture` in the press that opens it, and name the viewer that host
     owns. `host` is the element rendering both — the viewer is found under it. */
 export function zoom(host: Element, picture: TemplateResult, options: ZoomOptions): ZoomParts {
-  const { src, alt, caption, linked = false, viewBox } = options;
+  const { src, alt, caption } = options;
   return {
     trigger: html`<a class="sds-zoom" href="${src}" title="Open the picture at full size" @click="${opener(host)}">${picture}</a>`,
-    viewer: html`<sds-lightbox src="${src}" alt="${alt}" ?linked="${linked}" view-box="${ifDefined(viewBox || undefined)}" caption="${ifDefined(caption || undefined)}"></sds-lightbox>`,
+    viewer: html`<sds-lightbox src="${src}" alt="${alt}" caption="${ifDefined(caption || undefined)}"></sds-lightbox>`,
   };
 }
