@@ -13,6 +13,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { GENERATED, ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
 
 const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
 const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
@@ -31,13 +32,15 @@ const SENTINEL_UPLOAD = {
   note: 'inline with an explicit mimeType — an extensionless localPath upload is dropped silently',
 };
 
+report.open('plan', 'the ordered upload plan, with deletes');
+
 if (!existsSync(BUILT)) {
-  console.log('No build here — run `make build` first.');
+  report.summary('no build here', ['run `make build` first']);
   process.exit(1);
 }
 const local = JSON.parse(readFileSync(BUILT, 'utf8'));
 if (!local.files) {
-  console.log('The build knows no file list — run `make build` with the current build.ts.');
+  report.summary('the build knows no file list', ['run `make build` with the current build.ts']);
   process.exit(1);
 }
 
@@ -102,27 +105,25 @@ const plan = {
 mkdirSync(join(ROOT, '.design-sync/.cache'), { recursive: true });
 writeFileSync(OUT, JSON.stringify(plan, null, 2));
 
-console.log(`Upload plan → .design-sync/.cache/upload-plan.json`);
-console.log(`  Project:  ${projectId ?? '(none set — see below)'}`);
-console.log(`  1 sentinel  ·  2 ${content.length} files  ·  3 ${deletes.length} deletes  ·  4 sentinel  ·  5 anchor`);
+report.align([{ name: '', label: 'the order it uploads in' }]);
+report.fact('written to', '.design-sync/.cache/upload-plan.json');
+report.fact('project', projectId ?? '(none set — see below)');
+report.fact('the order it uploads in', `1 sentinel · 2 ${content.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor`);
 if (deletes.length) {
-  console.log(`  to delete: ${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
+  report.fact('to delete', `${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
 }
 if (!projectId) {
-  console.log('  ! With no project id every sync creates a new project instead of');
-  console.log('    updating the one that is there — the anchor, the deletes and the');
-  console.log('    whole update path hang on it. Set it once, and every further');
-  console.log('    sync lands in the same project:');
-  console.log('      export SDS_DESIGN_PROJECT=<uuid>');
-  console.log('      or .design-sync/config.local.json  {"projectId": "<uuid>"}');
-  console.log('    No project yet? `/design-sync` creates one and names the id.');
+  report.note('with no project id every sync creates a new project instead of updating the one that is there');
+  report.detail('the anchor, the deletes and the whole update path hang on it. Set it once:');
+  report.detail('export SDS_DESIGN_PROJECT=<uuid>');
+  report.detail('or .design-sync/config.local.json  {"projectId": "<uuid>"}');
+  report.detail('No project yet? `/design-sync` creates one and names the id.');
 }
 if (!deletable) {
-  console.log('  ! No reference state with a file list — deletes were NOT computed.');
-  console.log('    Fetch the anchor from the project and run again:');
-  console.log('      DesignSync get_file  _ds_sync.json');
-  console.log('      -> .design-sync/.cache/remote-sync.json');
-  console.log('    If it carries no "files" (an upload from before this change),');
-  console.log('    hold list_files against the build once.');
+  report.note('no reference state with a file list — deletes were NOT computed');
+  report.detail('Fetch the anchor from the project and run again:');
+  report.detail('DesignSync get_file  _ds_sync.json  ->  .design-sync/.cache/remote-sync.json');
+  report.detail('If it carries no "files" (an upload from before this change), hold list_files against the build once.');
 }
-console.log('\nAfter a successful upload:  make synced');
+report.fact('after a successful upload', 'make synced');
+report.summary(`${content.length} files \u00b7 ${deletes.length} deletes`);

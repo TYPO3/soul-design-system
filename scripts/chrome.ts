@@ -9,12 +9,15 @@
 import { resolve } from 'node:path';
 
 import { cardChrome, ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
+
+report.open('chrome', 'the specimen chrome, into a rendered root');
 
 const root = process.argv[2];
 if (!root) {
-  console.error('✗ which root? — node scripts/chrome.ts <directory>');
+  report.summary('which root?', ['node scripts/chrome.ts <directory>']);
   process.exit(1);
 }
 
 cardChrome(resolve(ROOT, root));
-console.log(`   the specimen chrome, beside ${root}`);
+report.summary(`copied beside ${root}`);

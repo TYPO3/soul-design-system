@@ -15,11 +15,16 @@ import { pathToFileURL } from 'node:url';
 
 import { loadFonts, withBrowser } from './lib/browser.ts';
 import { inRepo, GENERATED, ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
+
+report.open('look', 'photograph one page in both modes');
 
 const [file, widthArg, modeArg, scrollArg] = process.argv.slice(2);
 if (!file) {
-  console.log('usage: node scripts/look.ts <file> [width] [light|dark|both]');
-  console.log('   e.g. node scripts/look.ts specimens/screens/feature.html 1440 both');
+  report.summary('which page?', [
+    'node scripts/look.ts <file> [width] [light|dark|both]',
+    'e.g. node scripts/look.ts specimens/screens/feature.html 1440 both',
+  ]);
   process.exit(1);
 }
 
@@ -66,7 +71,7 @@ await withBrowser(async (browser) => {
 
       const out = join(OUT, `${name}-${width}-${mode}${scroll ? `-at${scroll}` : ''}.png`);
       await page.screenshot({ path: out, fullPage: !scroll });
-      console.log(`   ${out.replace(`${ROOT}/`, '')}`);
+      report.fact(out.replace(`${ROOT}/`, ''));
     } finally {
       await ctx.close();
     }

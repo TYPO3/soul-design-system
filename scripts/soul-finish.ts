@@ -14,31 +14,33 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { finish } from './lib/site.ts';
+import * as report from './lib/report.ts';
 
 const argv = process.argv.slice(2);
 const flag = (name: string): string | undefined =>
   argv.find((a) => a.startsWith(`--${name}=`))?.split('=').slice(1).join('=');
 
+const OPTIONS: readonly (readonly [flag: string, what: string])[] = [
+  ['--drop-in=<dir>', 'where the stylesheets and the script are (default: beside this file)'],
+  ['--no-drop-in', 'the output already has them'],
+  ['--styles=<name>', 'what the directory is called at the site root (default: styles — the theme links this name)'],
+  ['--search=<name>', 'the index the bar fetches (default: _search.json)'],
+  ['--no-search', 'write no index; the field then finds nothing'],
+];
+
+report.open('soul-finish', 'turn rendered documents into the site');
+
 if (argv.includes('--help') || argv.length === 0) {
-  console.log(`
-  node soul-finish.js <output-dir> [options]
-
-  Finishes a site rendered by phpdocumentor/guides with the Soul theme.
-
-    --drop-in=<dir>   where the stylesheets and the script are
-                      (default: beside this file)
-    --no-drop-in      the output already has them
-    --styles=<name>   what the directory is called at the site root
-                      (default: styles — the theme links this name)
-    --search=<name>   the index the bar fetches (default: _search.json)
-    --no-search       write no index; the field then finds nothing
-`);
+  report.align(OPTIONS.map(([option]) => ({ name: option, label: option })));
+  report.fact('node soul-finish.js <output-dir> [options]');
+  console.log();
+  for (const [option, what] of OPTIONS) report.fact(option, what);
   process.exit(argv.length === 0 ? 1 : 0);
 }
 
 const root = resolve(argv[0] as string);
 if (!existsSync(root) || !statSync(root).isDirectory()) {
-  console.error(`✗ ${root} is not a directory — render the documents first`);
+  report.summary(`${root} is not a directory`, ['render the documents first']);
   process.exit(1);
 }
 
@@ -51,7 +53,7 @@ const drop = argv.includes('--no-drop-in')
 /* Said here rather than left to the reference check, which would report every
    page in the site instead of the one directory that was wrong. */
 if (drop && !existsSync(join(drop, 'soul.css'))) {
-  console.error(`✗ ${drop} holds no soul.css — name the drop-in with --drop-in=<dir>, or --no-drop-in if the output already has it`);
+  report.summary(`${drop} holds no soul.css`, ['name the drop-in with --drop-in=<dir>, or --no-drop-in if the output already has it']);
   process.exit(1);
 }
 
@@ -64,16 +66,22 @@ const { drawn, indexed, broken, linked } = finish(root, {
 /* Said, and not fatal: the picture is on the page either way, and which of the
    two a project wants is a decision about the drawing rather than the build. */
 if (linked.length) {
-  console.log(`\n! ${linked.length} drawing(s) are shown as an image — no id="art" in the file:`);
-  for (const line of linked.slice(0, 12)) console.log(`  - ${line}`);
-  console.log('\n  They keep the colours they were exported with and do not follow the page\n  into dark. Naming the root <svg id="art"> is the whole of it.');
+  report.note(`${linked.length} drawing(s) are shown as an image — no id="art" in the file`);
+  for (const line of linked.slice(0, 12)) report.detail(line);
+  if (linked.length > 12) report.detail(`… and ${linked.length - 12} more`);
+  report.detail(report.dim('they keep the colours they were exported with and do not follow the page into dark — naming the root <svg id="art"> is the whole of it'));
 }
 
-if (broken.length) {
-  console.error(`\n✗ ${broken.length} reference(s) do not resolve inside ${root}:`);
-  for (const line of broken.slice(0, 12)) console.error(`  - ${line}`);
-  console.error('\n  A site is published on its own. Anything pointing out of it is a page\n  with no stylesheet on the server, and no error anywhere.');
-  process.exit(1);
-}
-
-console.log(`✓ ${drawn} page(s) carry their elements already rendered${indexed === null ? '' : `, ${indexed} indexed for search`}`);
+const problems = broken.length
+  ? [
+    ...broken.slice(0, 12),
+    ...(broken.length > 12 ? [`… and ${broken.length - 12} more`] : []),
+    'a site is published on its own — anything pointing out of it is a page with no stylesheet on the server, and no error anywhere',
+  ]
+  : [];
+report.summary(
+  `${drawn} page(s) carry their elements already rendered${indexed === null ? '' : ` \u00b7 ${indexed} indexed for search`}`
+    + (broken.length ? ` \u00b7 ${broken.length} reference(s) do not resolve inside ${root}` : ''),
+  problems,
+);
+process.exit(problems.length ? 1 : 0);

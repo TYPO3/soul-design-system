@@ -13,6 +13,7 @@ import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 
 import { ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
 
 const args = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const write = process.argv.includes('--write-diffs');
@@ -26,15 +27,18 @@ const names = [...new Set([
   ...(existsSync(B) ? readdirSync(B) : []),
 ])].filter((n) => n.endsWith('.png')).sort();
 
+report.open('diff', 'compare the shots against the baseline');
+report.align(names.map((n) => ({ name: 'DROPPED', label: n })));
+
 let same = 0, changed = 0, missing = 0;
 for (const n of names) {
   const a = join(A, n), b = join(B, n);
-  if (!existsSync(a)) { console.log(`  NEW      ${n}`); missing++; continue; }
-  if (!existsSync(b)) { console.log(`  DROPPED  ${n}`); missing++; continue; }
+  if (!existsSync(a)) { report.row('warn', 'new', n); missing++; continue; }
+  if (!existsSync(b)) { report.row('warn', 'dropped', n); missing++; continue; }
   const ia = PNG.sync.read(readFileSync(a));
   const ib = PNG.sync.read(readFileSync(b));
   if (ia.width !== ib.width || ia.height !== ib.height) {
-    console.log(`  RESIZED  ${n}  ${ia.width}x${ia.height} -> ${ib.width}x${ib.height}`);
+    report.row('bad', 'resized', n, `${ia.width}x${ia.height} → ${ib.width}x${ib.height}`);
     changed++;
     continue;
   }
@@ -46,8 +50,8 @@ for (const n of names) {
   const n_diff = pixelmatch(ia.data, ib.data, out.data, ia.width, ia.height, { threshold: 0 });
   if (n_diff === 0) { same++; continue; }
   const pct = (100 * n_diff) / (ia.width * ia.height);
-  console.log(`  CHANGED  ${n}  ${pct.toFixed(2)}% of pixels (${n_diff})`);
+  report.row('bad', 'changed', n, `${pct.toFixed(2)}% of pixels (${n_diff})`);
   changed++;
   if (write) writeFileSync(join(OUT, basename(n)), PNG.sync.write(out));
 }
-console.log(`\n${same} identical, ${changed} changed, ${missing} missing`);
+report.summary(`${same} identical \u00b7 ${changed} changed \u00b7 ${missing} missing`);

@@ -13,6 +13,7 @@ import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync,
 import { dirname, join } from 'node:path';
 
 import { FRONTEND, ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
 
 /* Which categories this system ships. Everything else about an icon —
    whether it exists, where its file is, which sprite carries it, what a
@@ -35,7 +36,7 @@ const ICONS = Object.values(manifest.icons)
 
 const missing = ICONS.filter((i) => !existsSync(join(PKG, 'dist', i.svg)));
 if (missing.length) {
-  console.error(`✗ named by the manifest but not on disk: ${missing.map((i) => i.identifier).join(', ')}`);
+  report.bad(`named by the manifest but not on disk: ${missing.map((i) => i.identifier).join(', ')}`);
   process.exit(1);
 }
 
@@ -94,8 +95,14 @@ writeFileSync(
 );
 
 
-console.log(`assets/icons/svgs/ — ${CATEGORIES.join(', ')} from @typo3/icons@${version}, MIT`);
-console.log(`assets/icons/sprites/ — ${CATEGORIES.length} sprite(s), one request per category`);
-console.log(`assets/icons/icons.json — the lookup, its paths relative to itself`);
-console.log(`src/components/icons.generated.ts — the identifiers, typed, for the bundle`);
-console.log(`src/components/icons.svg.generated.ts — the markup, for the static export`);
+const WRITTEN: readonly (readonly [file: string, what: string])[] = [
+  ['assets/icons/svgs/', `${CATEGORIES.join(', ')} from @typo3/icons@${version}, MIT`],
+  ['assets/icons/sprites/', `${CATEGORIES.length} sprite(s), one request per category`],
+  ['assets/icons/icons.json', 'the lookup, its paths relative to itself'],
+  ['src/components/icons.generated.ts', 'the identifiers, typed, for the bundle'],
+  ['src/components/icons.svg.generated.ts', 'the markup, for the static export'],
+];
+report.open('icons', 'regenerate assets/icons/ from @typo3/icons');
+report.align(WRITTEN.map(([file]) => ({ name: file, label: file })));
+for (const [file, what] of WRITTEN) report.fact(file, what);
+report.summary(`${ICONS.length} icons \u00b7 ${CATEGORIES.length} categories`);

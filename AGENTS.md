@@ -231,6 +231,28 @@ The authoritative task list is the `TASKS` map in `scripts/task.ts`; the
 container itself. Flags reach a task through `ARGS=`, e.g. `make cards
 ARGS=--check`.
 
+## How a task speaks
+
+**Every task prints through `scripts/lib/report.ts` and nothing else calls
+`console.log` directly.** It opens with its name and what it is for, says one
+row per thing it checked — verdict, name, what it holds, its numbers — and
+closes on a verdict. Whatever a row found is printed under that row rather
+than collected at the bottom, so a finding is read beside the thing that
+found it. Colour arrives only where there is a terminal; piped and in CI the
+same characters carry the same meaning, and nothing is said in colour alone.
+
+A task that another one runs speaks the contract instead: under `SDS_REPORT=1`
+its first line is the facts and every line after it is what it found. That is
+what `verify` reads, and it is a contract rather than a guess — the gate used
+to filter a child's prose for a substring, and `fit` printed `cards + screens,`
+against a filter looking for `cards,`. Its summary went to nobody for as long
+as it stayed green, which is the failure a gate may not have: a check that
+printed nothing read exactly like a check that passed.
+
+Set the variable by hand to see what the gate sees — `SDS_REPORT=1 node
+scripts/fit.ts`. A new task is written the same way, and a raw `console.log`
+in one is a second voice in a tree that is read as one.
+
 ## The gate
 
 `make verify` runs these checks, in this order — each has a name, and the

@@ -10,6 +10,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from 'node:ht
 import { extname, join, normalize, resolve } from 'node:path';
 
 import { ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
 
 const PORT = Number(process.argv[2] ?? 4173);
 const DIR = resolve(process.argv[3] ?? ROOT);
@@ -53,8 +54,8 @@ const handler = (req: IncomingMessage, res: ServerResponse): void => {
 };
 
 const server = createServer(handler).listen(PORT, () => {
-  console.log(`serving ${DIR}`);
-  console.log(`  http://localhost:${PORT}/`);
+  report.open('serve', `serving ${DIR}`);
+  report.summary(`http://localhost:${PORT}/`);
 });
 
 /* Shut down when told to. Node's default on SIGTERM ends the process and leaves

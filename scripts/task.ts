@@ -10,6 +10,7 @@
      node scripts/task.ts   # lists every task
 */
 import { spawn, spawnSync } from 'node:child_process';
+import * as report from './lib/report.ts';
 
 interface Task {
   /** What runs inside the container. Every task has one: the long-running
@@ -72,21 +73,22 @@ const TASKS: Record<string, Task> = {
 };
 
 function usage() {
-  const width = Math.max(...Object.keys(TASKS).map((k) => k.length));
-  for (const [name, t] of Object.entries(TASKS)) {
-    console.log(`  make ${name.padEnd(width)}  ${t.help}`);
-  }
+  report.align(Object.entries(TASKS).map(([name, t]) => ({ name: `make ${name}`, label: t.help })));
+  for (const [name, t] of Object.entries(TASKS)) report.row('skip', `make ${name}`, t.help);
 }
 
 const name = process.argv[2];
 if (!name || name === '--help') {
+  report.open('tasks', 'everything this repository can be asked to do');
   usage();
   process.exit(name ? 0 : 1);
 }
 
 const task = TASKS[name];
 if (!task) {
-  console.error(`unknown task "${name}"\n`);
+  report.open('tasks', 'everything this repository can be asked to do');
+  report.bad(`there is no task called "${name}"`);
+  console.log();
   usage();
   process.exit(1);
 }
@@ -105,7 +107,7 @@ if (process.env['SDS_IN_CONTAINER']) {
    comparison is written out rather than negated, so a machine without Docker
    gets the sentence below instead of a raw spawn error. */
 if (spawnSync('docker', ['--version'], { stdio: 'ignore' }).status !== 0) {
-  console.error('Docker is required — this repo runs nothing on the host.');
+  report.bad('Docker is required — this repo runs nothing on the host');
   process.exit(1);
 }
 

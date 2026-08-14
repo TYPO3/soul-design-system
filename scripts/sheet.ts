@@ -12,6 +12,7 @@ import { join, resolve } from 'node:path';
 import { PNG } from 'pngjs';
 
 import { ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
 
 const SRC = resolve(process.argv[2] ?? join(ROOT, '.design-sync/.cache/after'));
 const OUT = resolve(process.argv[3] ?? join(ROOT, '.design-sync/.cache/sheets'));
@@ -21,6 +22,8 @@ const LABEL = 20;
 /** The sheet's own ground — deliberately not a system token: a contact
     sheet is a tool for looking at cards, not a surface of the system. */
 const BG = [24, 24, 24] as const;
+
+report.open('sheets', `tile the shots into contact sheets in ${OUT}`);
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
@@ -84,6 +87,7 @@ for (let i = 0, sheet = 1; i < shots.length; i += PER, sheet++) {
   }
   writeFileSync(join(OUT, `sheet-${sheet}.png`), PNG.sync.write(out));
   index.push({ sheet, cards: batch.map((b) => b.n) });
-  console.log(`sheet-${sheet}.png  ${batch.length} cards  ${width}x${height}`);
+  report.fact(`sheet-${sheet}.png`, `${batch.length} cards, ${width}x${height}`);
 }
 writeFileSync(join(OUT, 'index.json'), JSON.stringify(index, null, 2));
+report.summary(`${index.length} sheet(s)`);

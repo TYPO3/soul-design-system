@@ -16,6 +16,7 @@ import { spawnSync } from 'node:child_process';
 import { GENERATED, ROOT, cardChrome } from './lib/cards.ts';
 import { PACKAGES, publicUrl } from './lib/packages.ts';
 import { PROJECTS } from './lib/projects.ts';
+import * as report from './lib/report.ts';
 
 /* This site is built the way the manual tells a project to build one: an empty
    manifest, the theme's repository named, the theme required, and the renderer
@@ -32,8 +33,11 @@ const RELEASED = argv.includes('--released');
 const wanted = argv.filter((arg) => !arg.startsWith('--'));
 const rendering = PROJECTS.filter((project) => wanted.length === 0 || wanted.includes(project.name));
 const unknown = wanted.filter((name) => !PROJECTS.some((project) => project.name === name));
+report.open('guides', 'render the documents with the installed theme');
+report.align(PROJECTS.map((project) => ({ name: project.name, label: project.what })));
+
 if (unknown.length) {
-  console.error(`✗ no project called ${unknown.join(', ')} — there is ${PROJECTS.map((p) => p.name).join(' and ')}`);
+  report.summary(`there is no project called ${unknown.join(', ')}`, [`there is ${PROJECTS.map((p) => p.name).join(' and ')}`]);
   process.exit(1);
 }
 
@@ -69,7 +73,7 @@ const marker = join(CONSUMER, '.renderer');
    this renders with. No `--no-cache` — the git driver refuses to run without a
    cache directory at all. */
 if (!existsSync(GUIDES) || !existsSync(marker) || readFileSync(marker, 'utf8') !== renderer) {
-  console.log(RELEASED ? 'building the renderer from the published theme' : 'building the renderer from this tree');
+  report.fact('building the renderer', RELEASED ? 'from the published theme' : 'from this tree');
   rmSync(CONSUMER, { recursive: true, force: true });
   mkdirSync(CONSUMER, { recursive: true });
   const composer = (...args: string[]): void => {
@@ -85,7 +89,7 @@ if (!existsSync(GUIDES) || !existsSync(marker) || readFileSync(marker, 'utf8') !
 }
 
 if (!existsSync(FINISH)) {
-  console.error(`✗ the installed theme carries no drop-in at ${DROP} — run \`make dist\` first`);
+  report.summary(`the installed theme carries no drop-in at ${DROP}`, ['run `make dist` first']);
   process.exit(1);
 }
 
@@ -96,7 +100,7 @@ for (const project of rendering) {
      pages point at cards, and a renderer told to fail on a reference it cannot
      resolve would report every one of them instead of the one thing missing. */
   if (!existsSync(join(project.source, '_cards'))) {
-    console.error(`✗ ${project.name} has no _cards/ beside its documents — run \`make embed\` first`);
+    report.summary(`${project.name} has no _cards/ beside its documents`, ['run `make embed` first']);
     process.exit(1);
   }
   const code = run(GUIDES, [
@@ -127,7 +131,7 @@ for (const project of rendering) {
   if (finished !== 0) process.exit(1);
 }
 
-console.log(`
-${rendering.map((project) => `  ${relative(ROOT, project.out)}/ — ${project.what}`).join('\n')}
-  Open http://localhost:4173/ (the port \`make start\` reports), or photograph a page:
-    make look ARGS='.out/site/index.html 900'`);
+for (const project of rendering) report.fact(`${relative(ROOT, project.out)}/`, project.what);
+report.detail(report.dim('open http://localhost:4173/ (the port `make start` reports), or photograph a page:'));
+report.detail(report.dim("make look ARGS='.out/site/index.html 900'"));
+report.summary(`${rendering.length} project(s) rendered`);

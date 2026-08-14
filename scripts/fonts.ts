@@ -13,6 +13,7 @@ import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'no
 import { join } from 'node:path';
 
 import { FRONTEND, ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
 
 /* The faces the design system declares. A variable face covers every weight
    the tokens expose, so this list only chooses styles and subsets. */
@@ -89,4 +90,5 @@ ${versions}
 ${blocks.join('\n\n')}
 `);
 
-console.log(`fonts/ — ${copied} woff2, ${blocks.length} @font-face rules, ${FAMILIES.length} licences`);
+report.open('fonts', 'regenerate fonts/ from @fontsource');
+report.summary(`${copied} woff2 \u00b7 ${blocks.length} @font-face rules \u00b7 ${FAMILIES.length} licences`);

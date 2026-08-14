@@ -11,6 +11,7 @@ import { mkdirSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 import { cards, ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
 import { openCard, withPage } from './lib/browser.ts';
 
 const OUT = resolve(process.argv[2] ?? join(ROOT, '.design-sync/.cache/after'));
@@ -18,7 +19,7 @@ rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 
 const list = cards();
-console.log(`shooting ${list.length} cards -> ${OUT}`);
+report.open('shots', `photograph every card into ${OUT}`);
 
 await withPage(async ({ map }) => {
   await map(list, async (page, card) => {
@@ -29,4 +30,4 @@ await withPage(async ({ map }) => {
   });
 });
 
-console.log(`done: ${list.length} ok`);
+report.summary(`${list.length} cards photographed`);
