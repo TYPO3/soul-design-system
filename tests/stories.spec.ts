@@ -150,6 +150,56 @@ for (let shard = 0; shard < STORY_SHARDS; shard++) {
   });
 }
 
+/* What a control does: the story is rendered a second time, into elements that
+   took what stood between their tags on the first — see the decorator in
+   `.storybook/preview.ts`. Nothing else here renders a story twice, so a
+   component that only breaks on the second one reads as green everywhere: the
+   pass above opens each story once. */
+const STORY = 'components-button--primary';
+const CHANGED = { label: 'Stop the checks', variant: 'secondary' };
+
+async function setArgs(page: import('@playwright/test').Page, id: string, args: Record<string, string>): Promise<void> {
+  await page.evaluate(([story, updated]) => {
+    const channel = (globalThis as { __STORYBOOK_ADDONS_CHANNEL__?: { emit(event: string, payload: unknown): void } })
+      .__STORYBOOK_ADDONS_CHANNEL__;
+    channel?.emit('updateStoryArgs', { storyId: story, updatedArgs: updated });
+  }, [id, args] as [string, Record<string, string>]);
+}
+
+test('a control change rebuilds the story on the canvas', async ({ page }) => {
+  const problems: string[] = [];
+  page.on('pageerror', (e) => problems.push(String(e).slice(0, 200)));
+  page.on('console', (m) => {
+    if (m.type() === 'error') problems.push(m.text().slice(0, 200));
+  });
+
+  await gotoStory(page, STORY, 'dark');
+  await expect(page.locator('.sds-btn')).toHaveText('Run the checks');
+
+  await setArgs(page, STORY, CHANGED);
+
+  await expect(page.locator('.sds-btn')).toHaveText(CHANGED.label);
+  await expect(page.locator('.sds-btn')).toHaveClass(/sds-btn--secondary/);
+  expect(problems, 'a control change should render silently').toEqual([]);
+});
+
+/* The same change on the page the controls are actually on: every component is
+   tagged `!dev`, so what the menu offers is the docs page. It fails differently
+   too — the throw is caught and printed into the story's own block, where no
+   console listener hears it. */
+test('a control change rebuilds the story in its docs page', async ({ page }) => {
+  await page.goto('/iframe.html?viewMode=docs&id=components-button--docs&globals=theme:dark');
+  await page.waitForSelector('.sds-btn', { timeout: 20_000 });
+
+  const block = page.locator(`#story--${STORY}--primary`);
+  await expect(block).toContainText('Run the checks');
+
+  await setArgs(page, STORY, CHANGED);
+
+  await expect(block).toContainText(CHANGED.label);
+  await expect(block.locator('.sds-btn')).toHaveClass(/sds-btn--secondary/);
+});
+
 /* The specimen stories are the ones the cards are generated from, so a
    difference between what Storybook shows and what the card ships would be a
    difference the pixel diff cannot see — it never opens Storybook. */

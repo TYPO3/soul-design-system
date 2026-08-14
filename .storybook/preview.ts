@@ -67,6 +67,15 @@ export const globalTypes = {
 export const initialGlobals = { theme: 'dark', a11y: { manual: true } };
 
 
+/* The container the renderer keeps between renders, dropped so the next one
+   builds the story rather than updating it. An element takes what stands
+   between its tags once and renders over it, so Lit's markers among those
+   children are gone by the second render, which then throws instead of
+   changing a label. The renderer makes a new one when it finds none. */
+const dropCanvas = (canvas: HTMLElement | undefined): void => {
+  canvas?.querySelector('#root-inner')?.remove();
+};
+
 const preview: Preview = {
   decorators: [
     (story, context) => {
@@ -75,6 +84,7 @@ const preview: Preview = {
          a card that pins its own theme means it. */
       const pinned = context.parameters['pinTheme'] as string | undefined;
       document.documentElement.dataset['theme'] = pinned ?? (context.globals['theme'] as string);
+      dropCanvas(context.canvasElement);
       return story();
     },
   ],
