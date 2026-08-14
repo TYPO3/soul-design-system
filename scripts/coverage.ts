@@ -51,6 +51,10 @@ const ELSEWHERE = [
   /* Something a page opens over itself, which a document does not do. */
   'sds-modal',
   'sds-dialog',
+  /* A wall of glyphs is an index of an asset set, which a manual page is not.
+     A document that wanted one would be a catalog with prose round it, and
+     that is a product surface — see `Pages/Catalog`. */
+  'sds-icon-tile',
   /* The bar draws its own row of pills, as `sds-nav-main`'s content. A second
      one standing in a document would be a second navigation. */
   'sds-nav-pills',
