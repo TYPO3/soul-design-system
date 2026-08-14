@@ -50,6 +50,26 @@ An icon-only control is the case worth naming: the label becomes the control's
 accessible name rather than being dropped, so a square button is still
 announced as what it does — see :doc:`/frontend/components/controls`.
 
+Contrast holds everywhere
+=========================
+
+Normal text meets the WCAG AA minimum of 4.5:1 against every surface on which
+the system allows it to appear, in light and dark. The weakest permitted
+pairing is the test, not the canvas alone. Token values keep some headroom
+above the minimum so rounding, rendering and a nearby surface do not turn a
+passing value into a borderline one.
+
+Quiet text is still text. ``--text-muted`` carries metadata and placeholders,
+``--syntax-comment`` carries code comments, and a status token may carry a
+label inside a result or badge. Their lower visual rank comes from their place
+in the hierarchy, not from accepting contrast below the text requirement.
+
+A token change reaches every copy of its value. SVG diagrams carry a light
+fallback for the case where no page tokens exist, and specimens may print a
+value as evidence; update those sources with the token rather than leaving the
+published explanation behind. :doc:`artwork` explains when a drawing's
+standalone fallback deliberately belongs to the artwork instead.
+
 Both modes are one declaration
 ==============================
 
@@ -58,8 +78,8 @@ cannot be made in one mode and forgotten in the other. There is no second
 palette to keep in step, which is the failure this arrangement exists to
 prevent rather than a convenience.
 
-Motion is a preference the system reads
-=======================================
+Reduced motion
+==============
 
 Under ``prefers-reduced-motion: reduce`` the system stops moving the page
 without taking anything away from it:

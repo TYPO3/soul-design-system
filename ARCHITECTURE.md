@@ -86,34 +86,6 @@ arrives inside that package.
 Nothing in CI installs it: what holds the documented path honest is that this
 site is rendered along it, with the same file a reader runs.
 
-## Contrast: fixed, not tolerated
-
-`--text-muted` sat at ~3.3:1 on product text — table headers, `sds-td-meta`,
-an inactive tab, a placeholder, and `--syntax-comment` shares its value, so
-code comments too. Below WCAG AA's 4.5:1 for normal text, in both modes.
-`--status-warn` was under it on the light canvas as well.
-
-Changed, with a little headroom rather than the bare minimum:
-
-| token | was | is | worst surface |
-| --- | --- | --- | --- |
-| `--text-muted` light | `#8A8378` | `#726C63` | 4.65:1 on sunken |
-| `--text-muted` dark | `#6E6860` | `#878076` | 4.63:1 on raised |
-| `--syntax-comment` | same two | same two | shares the muted value |
-| `--status-warn` light | `#A56A00` | `#986200` | 4.60:1 on sunken |
-
-Dark `--status-warn` was already at 8.04:1 and did not move. The hierarchy
-against `--text-secondary` (8.50:1 light, 7.16:1 dark) is unchanged: muted is
-still clearly quieter, just legible.
-
-The three diagram pairs under `packages/frontend/assets/diagrams/` **were** updated: SKILL.md
-documents their colours as a token swap, so leaving them would have made the
-drawings drift from the tokens they claim to follow. The two colour cards
-that print the hex values in prose were updated for the same reason — that is
-exactly the "cards documented their own sizes and went stale" trap above.
-
-35 of the 38 cards moved. All of it is the contrast change.
-
 ## The pixel diff was too lax to see any of that
 
 `scripts/diff.ts` ran pixelmatch at `threshold: 0.1`, and at that setting
