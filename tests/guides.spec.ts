@@ -676,7 +676,7 @@ test.describe('what the theme repaired', () => {
          unfolded is forty rows to scroll past to reach the four that are the
          site. */
       await expect(menu.locator('.sds-bar__link', { hasText: 'Quick start' })).toHaveCount(0);
-      await menu.locator('.sds-bar__row', { hasText: 'Render guide template' }).locator('.sds-bar__into').click();
+      await menu.locator('.sds-bar__row', { hasText: 'Guides theme' }).locator('.sds-bar__into').click();
       await expect(menu.locator('.sds-bar__link', { hasText: 'Quick start' })).toHaveCount(1);
       await expect(back).toHaveText(/Soul Design System/);
       await back.click();
@@ -737,7 +737,7 @@ test.describe('what the theme repaired', () => {
     const menu = page.locator('.sds-bar__drawer .sds-bar__level');
     await expect(menu.locator('.sds-bar__back')).toHaveText(/Soul Design System/);
     /* The section's own page is the first row inside it. */
-    await expect(menu.locator('.sds-bar__link').first()).toHaveText('Render guide template');
+    await expect(menu.locator('.sds-bar__link').first()).toHaveText('Guides theme');
     const here = menu.locator('.sds-bar__link.is-active');
     await expect(here).toHaveText('Quick start');
     await expect(here).toHaveAttribute('aria-current', 'page');

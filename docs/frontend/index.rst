@@ -1,8 +1,8 @@
-:navigation-title: Standalone frontend
+:navigation-title: Frontend
 
-=================================
-As a standalone frontend design
-=================================
+=========================
+As a standalone frontend
+=========================
 
 Two files, and no assumptions about what rendered the page. Markup produced by
 PHP, Twig, Fluid or a template string uses the class layer with no JavaScript

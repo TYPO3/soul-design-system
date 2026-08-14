@@ -1,8 +1,8 @@
-:navigation-title: Render guide template
+:navigation-title: Guides theme
 
-==========================
-As a render guide template
-==========================
+=================
+As a Guides theme
+=================
 
 ``phpdocumentor/guides`` turns reStructuredText and Markdown into HTML. This
 package is a theme for it: templates that emit the ``sds-`` vocabulary, the
