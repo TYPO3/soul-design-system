@@ -9,7 +9,7 @@ export interface LightboxProps {
     caption?: string;
     open?: boolean;
     /** The picture is linked rather than referenced — an SVG that never named
-        `id="art"`. Passed on by the figure that opens this one, so the drawing
+        `id="soul-ref"`. Passed on by the figure that opens this one, so the drawing
         at full size is the drawing in the page. */
     linked?: boolean;
     /** And the box it was read with, so the picture on the stage keeps the shape

@@ -57,7 +57,7 @@ function unresolvedRefs(): string[] {
       const ref = m[1];
       if (!ref || /^(https?:|data:|#)/.test(ref)) continue;
       /* A fragment names something inside the file, not a second file. A
-         referenced drawing is written `…/mark.svg#art`, and resolving that
+         referenced drawing is written `…/mark.svg#soul-ref`, and resolving that
          whole string looks for a file with a `#` in its name and reports every
          drawing in the bundle as missing. */
       const target = resolve(dirname(join(OUT, rel)), ref.replace(/#.*$/, ''));

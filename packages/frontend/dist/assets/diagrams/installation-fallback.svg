@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="786" viewBox="0 0 1200 786" role="img" aria-labelledby="fb-t fb-d">
 <title id="fb-t">A fallback answers less, and says so</title>
 <desc id="fb-d">Each square is one entry the registry could return. The console path and the booted runtime return all of them; the package-file fallback returns every declared entry but none of the dynamically registered ones, and the answer states that.</desc>
-<g id="art">
+<g id="soul-ref">
 <rect width="1200" height="786" fill="var(--surface-canvas, #FBFAF7)"></rect>
 <text x="60" y="60" fill="var(--accent, #FF8700)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13" font-weight="600" letter-spacing="1.6">INSTALLATION-BOUND ANSWERS</text>
 <text x="60" y="108" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="36" font-weight="700" letter-spacing="-0.5">A fallback answers less, and says so</text>

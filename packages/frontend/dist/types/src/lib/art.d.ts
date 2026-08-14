@@ -1,4 +1,9 @@
 import { type TemplateResult } from 'lit';
+/** What the reference points at — the root of the file, or the group a drawing
+    under `assets/diagrams/` wraps itself in. It names the part rather than what
+    is in it: a file is prepared by declaring where a reference may point, and
+    an SVG holding a picture was never the thing in question. */
+export declare const REF = "soul-ref";
 export interface ArtOptions {
     /** What the surface hangs its own sizing on. */
     cls?: string;
@@ -6,7 +11,7 @@ export interface ArtOptions {
         figure passes neither and fills its column. */
     width?: number;
     height?: number;
-    /** Linked whatever the name says. A drawing that never named `id="art"`
+    /** Linked whatever the name says. A drawing that never named `id="soul-ref"`
         resolves to nothing when it is referenced, and only a renderer with the
         file in front of it can know that — `scripts/lib/site.ts` reads the file
         and writes this onto the element, so the picture arrives. */

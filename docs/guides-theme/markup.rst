@@ -347,7 +347,7 @@ A drawing this system ships is *referenced* into the page and everything else
 is linked. That distinction is the element's and it matters here: a referenced
 SVG is drawn in the page's own tokens and follows it into dark, while an
 ``<img>`` renders in a document of its own where none of them are declared. It
-costs the drawing one line — ``id="art"`` on its root — and
+costs the drawing one line — ``id="soul-ref"`` on its root — and
 :doc:`/design-system/artwork` says what else it has to do.
 
 An SVG that never paid it is shown as an image rather than as a blank space:

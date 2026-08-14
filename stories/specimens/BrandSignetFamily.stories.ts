@@ -8,6 +8,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { REF } from '../../packages/frontend/src/lib/art.ts';
 import { dsCard } from '../lib/specimen.ts';
 
 /** The card, as it is drawn. */
@@ -29,43 +30,43 @@ const CARD = `<div class="spec" style="--spec-gap:20px">
   </div>
 
   <div style="display:flex; align-items:center; gap:28px;">
-    <svg class="sds-signet" width="96" height="96" aria-hidden="true"><use href="../assets/design-system-signet-l.svg#art"></use></svg>
+    <svg class="sds-signet" width="96" height="96" aria-hidden="true"><use href="../assets/design-system-signet-l.svg#${REF}"></use></svg>
     <div style="display:flex; flex-direction:column; gap:6px; width:186px; flex:none;">
       <div class="spec-cap">SOUL DESIGN SYSTEM</div>
       <div class="spec-note">Crop marks around three unequal parts. The one mark with no window &#8212; it is the frame, not a product.</div>
     </div>
     <div style="display:flex; align-items:flex-end; gap:18px; flex:none;">
-      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="32" height="32" aria-hidden="true"><use href="../assets/design-system-signet-l.svg#art"></use></svg><span class="spec-cap">L</span></div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="../assets/design-system-signet-m.svg#art"></use></svg><span class="spec-cap">M</span></div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="16" height="16" aria-hidden="true"><use href="../assets/design-system-signet-s.svg#art"></use></svg><span class="spec-cap">S</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="32" height="32" aria-hidden="true"><use href="../assets/design-system-signet-l.svg#${REF}"></use></svg><span class="spec-cap">L</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="../assets/design-system-signet-m.svg#${REF}"></use></svg><span class="spec-cap">M</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="16" height="16" aria-hidden="true"><use href="../assets/design-system-signet-s.svg#${REF}"></use></svg><span class="spec-cap">S</span></div>
     </div>
     <div class="sds-mono" style="font-size:10px; color:var(--text-muted); line-height:1.7;">design-system-<br />signet-l.svg<br />-m.svg &#183; -s.svg</div>
   </div>
 
   <div style="display:flex; align-items:center; gap:28px;">
-    <svg class="sds-signet" width="96" height="96" aria-hidden="true"><use href="../assets/dev-companion-signet-l.svg#art"></use></svg>
+    <svg class="sds-signet" width="96" height="96" aria-hidden="true"><use href="../assets/dev-companion-signet-l.svg#${REF}"></use></svg>
     <div style="display:flex; flex-direction:column; gap:6px; width:186px; flex:none;">
       <div class="spec-cap">DEV COMPANION</div>
       <div class="spec-note">A terminal frame holding a session that ends in one answer.</div>
     </div>
     <div style="display:flex; align-items:flex-end; gap:18px; flex:none;">
-      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="32" height="32" aria-hidden="true"><use href="../assets/dev-companion-signet-l.svg#art"></use></svg><span class="spec-cap">L</span></div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="../assets/dev-companion-signet-m.svg#art"></use></svg><span class="spec-cap">M</span></div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="16" height="16" aria-hidden="true"><use href="../assets/dev-companion-signet-s.svg#art"></use></svg><span class="spec-cap">S</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="32" height="32" aria-hidden="true"><use href="../assets/dev-companion-signet-l.svg#${REF}"></use></svg><span class="spec-cap">L</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="../assets/dev-companion-signet-m.svg#${REF}"></use></svg><span class="spec-cap">M</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="16" height="16" aria-hidden="true"><use href="../assets/dev-companion-signet-s.svg#${REF}"></use></svg><span class="spec-cap">S</span></div>
     </div>
     <div class="sds-mono" style="font-size:10px; color:var(--text-muted); line-height:1.7;">dev-companion-<br />signet-l.svg<br />-m.svg &#183; -s.svg</div>
   </div>
 
   <div style="display:flex; align-items:center; gap:28px;">
-    <svg class="sds-signet" width="96" height="96" aria-hidden="true"><use href="../assets/tryout-signet-l.svg#art"></use></svg>
+    <svg class="sds-signet" width="96" height="96" aria-hidden="true"><use href="../assets/tryout-signet-l.svg#${REF}"></use></svg>
     <div style="display:flex; flex-direction:column; gap:6px; width:186px; flex:none;">
       <div class="spec-cap">TRYOUT</div>
       <div class="spec-note">The same frame around the thing you press. Clear the setup, start it, done.</div>
     </div>
     <div style="display:flex; align-items:flex-end; gap:18px; flex:none;">
-      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="32" height="32" aria-hidden="true"><use href="../assets/tryout-signet-l.svg#art"></use></svg><span class="spec-cap">L</span></div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="../assets/tryout-signet-m.svg#art"></use></svg><span class="spec-cap">M</span></div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="16" height="16" aria-hidden="true"><use href="../assets/tryout-signet-s.svg#art"></use></svg><span class="spec-cap">S</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="32" height="32" aria-hidden="true"><use href="../assets/tryout-signet-l.svg#${REF}"></use></svg><span class="spec-cap">L</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="../assets/tryout-signet-m.svg#${REF}"></use></svg><span class="spec-cap">M</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><svg class="sds-signet" width="16" height="16" aria-hidden="true"><use href="../assets/tryout-signet-s.svg#${REF}"></use></svg><span class="spec-cap">S</span></div>
     </div>
     <div class="sds-mono" style="font-size:10px; color:var(--text-muted); line-height:1.7;">tryout-<br />signet-l.svg<br />-m.svg &#183; -s.svg</div>
   </div>

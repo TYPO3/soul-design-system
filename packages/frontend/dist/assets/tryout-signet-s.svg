@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 16 16" role="img" aria-label="TYPO3 Tryout">
+<svg xmlns="http://www.w3.org/2000/svg" id="soul-ref" viewBox="0 0 16 16" role="img" aria-label="TYPO3 Tryout">
   <title>TYPO3 Tryout</title>
   <!-- Every colour sits on its own shape, as a var() with a hex fallback: a
        page that declares the tokens gets its own ink, and this file still

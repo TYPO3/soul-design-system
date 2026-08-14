@@ -12,6 +12,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { REF } from '../../packages/frontend/src/lib/art.ts';
 import { dsCard } from '../lib/specimen.ts';
 
 const INK = 'var(--text-secondary)';
@@ -188,9 +189,9 @@ const CARD = `<div class="spec" style="--spec-gap:22px">
 
   <div style="display:flex; gap:30px; align-items:flex-start;">
     <div style="display:flex; align-items:flex-end; gap:20px; flex:none; padding-top:6px;">
-      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="32" height="32" aria-hidden="true"><use href="../assets/tryout-signet-l.svg#art"></use></svg><span class="spec-cap">L &#183; 32</span></div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="../assets/tryout-signet-m.svg#art"></use></svg><span class="spec-cap">M &#183; 24</span></div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="16" height="16" aria-hidden="true"><use href="../assets/tryout-signet-s.svg#art"></use></svg><span class="spec-cap">S &#183; 16</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="32" height="32" aria-hidden="true"><use href="../assets/tryout-signet-l.svg#${REF}"></use></svg><span class="spec-cap">L &#183; 32</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="24" height="24" aria-hidden="true"><use href="../assets/tryout-signet-m.svg#${REF}"></use></svg><span class="spec-cap">M &#183; 24</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="16" height="16" aria-hidden="true"><use href="../assets/tryout-signet-s.svg#${REF}"></use></svg><span class="spec-cap">S &#183; 16</span></div>
     </div>
     <div class="spec-note" style="flex:1; min-width:0;">
       Three files again, each drawn in a box of its own size: <span class="sds-mono">tryout-signet-l.svg</span>

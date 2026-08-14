@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="726" viewBox="0 0 1200 726" role="img" aria-labelledby="ov-t ov-d">
 <title id="ov-t">One line leaves the machine</title>
 <desc id="ov-d">The MCP client asks the TYPO3 Support App subprocess, which draws its answers from bundled knowledge and from the project&#39;s own packages and installation — all inside the developer&#39;s machine. One read-only path crosses the boundary to fetch from official documentation and core services; nothing is written back across it.</desc>
-<g id="art">
+<g id="soul-ref">
 <rect width="1200" height="726" fill="var(--surface-canvas, #FBFAF7)"></rect>
 <text x="60" y="60" fill="var(--accent, #FF8700)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13" font-weight="600" letter-spacing="1.6">LOCAL · READ-ONLY · VERSION-AWARE</text>
 <text x="60" y="108" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="36" font-weight="700" letter-spacing="-0.5">One line leaves the machine</text>

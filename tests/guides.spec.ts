@@ -387,7 +387,7 @@ test.describe('what the theme repaired', () => {
     const named = (text: string): string => text.replace(/\s+/g, '');
     expect(named(await brand.locator('.sds-lockup .sds-wordmark').innerText()))
       .toBe(named(await page.locator('.sds-bar .sds-lockup .sds-wordmark').innerText()));
-    await expect(brand.locator('.sds-lockup svg.sds-signet use')).toHaveAttribute('href', /#art$/);
+    await expect(brand.locator('.sds-lockup svg.sds-signet use')).toHaveAttribute('href', /#soul-ref$/);
     expect((await brand.locator('.sds-footer__note').innerText()).trim().length).toBeGreaterThan(0);
 
     /* Beside the columns, not above them: one row that wraps where there is no
@@ -855,7 +855,7 @@ test.describe('what the theme repaired', () => {
   test('a picture that kept its own colours is given a ground drawn for them', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    /* A drawing that never named `id="art"` is linked, so it keeps whatever
+    /* A drawing that never named `id="soul-ref"` is linked, so it keeps whatever
        the exporter baked in — usually dark line art on nothing, which on this
        system's dark ground is a page contradicting the picture it shows. */
     const exported = page.locator('sds-figure[linked] .sds-figure__frame').first();
@@ -999,7 +999,7 @@ test.describe('what the theme repaired', () => {
     await expect(entries.locator('.sds-card:not(sds-card > .sds-card)')).toHaveCount(0);
 
     const full = entries.locator('.sds-card').first();
-    await expect(full.locator('.sds-card__media svg use')).toHaveAttribute('href', /#art$/);
+    await expect(full.locator('.sds-card__media svg use')).toHaveAttribute('href', /#soul-ref$/);
     await expect(full.locator('.sds-row .sds-badge')).toHaveText('Reference');
     await expect(full.locator('.sds-row .sds-label')).toHaveText('12 May 2026');
     await expect(full.locator('.sds-card__title a')).toHaveAttribute('href', /nodes\.html$/);
@@ -1029,7 +1029,7 @@ test.describe('what the theme repaired', () => {
     /* And the card that carries every option, so a page wanting one of them
        never has to write a declaration of its own. */
     const full = signposts.locator('sds-card').nth(1);
-    await expect(full.locator('.sds-card__media svg use')).toHaveAttribute('href', /#art$/);
+    await expect(full.locator('.sds-card__media svg use')).toHaveAttribute('href', /#soul-ref$/);
     await expect(full.locator('.sds-card__icon .sds-icon')).toHaveCount(1);
     await expect(full.locator('.sds-row .sds-badge')).toHaveText('Reference');
     await expect(full.locator('.sds-row .sds-label')).toHaveText('Chapter 02');
@@ -1134,7 +1134,7 @@ test.describe('what the theme repaired', () => {
   test('a drawing that was never prepared is shown, not left blank', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    /* A reference into a file that names no `id="art"` resolves to nothing and
+    /* A reference into a file that names no `id="soul-ref"` resolves to nothing and
        leaves a hole where the picture was. The finishing step is what has the
        file in front of it: it marks the element `linked`, and the picture
        arrives as an image — in the colours it was exported with, which is the
@@ -1153,7 +1153,7 @@ test.describe('what the theme repaired', () => {
        frame, because the viewer holds a second copy of the same drawing and
        its close is a glyph — three references to one picture on the page. */
     const prepared = page.locator('.sds-prose sds-figure:not([linked])').first();
-    await expect(prepared.locator('.sds-figure__frame svg use')).toHaveAttribute('href', /#art$/);
+    await expect(prepared.locator('.sds-figure__frame svg use')).toHaveAttribute('href', /#soul-ref$/);
 
     /* And it keeps the shape it was drawn in. A reference carries no coordinate
        system across, so the finishing step reads the box out of the file too —

@@ -129,7 +129,7 @@ Pick the stroke, and the rest is decided:
 ## What to hand back
 
 Three files, named `<product>-signet-l.svg`, `-m.svg`, `-s.svg`, each with a
-`<title>`, `role="img" aria-label` naming the product, `id="art"` on the root
+`<title>`, `role="img" aria-label` naming the product, `id="soul-ref"` on the root
 so it can be referenced, and a comment saying what the interior means and what
 changed at that size. Then render each one at the size it is drawn for and at
 twice that, side by side, and look at them — the check is whether the three

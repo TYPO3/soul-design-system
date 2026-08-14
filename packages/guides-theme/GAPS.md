@@ -62,8 +62,8 @@ The rules every open line below is bound to:
 - **The core's names are not renamed.** An output no other tool reads any more
   is no gain.
 - **A picture that brings its own colours gets a ground drawn for it.** A
-  drawing without `id="art"` is linked and keeps whatever its exporter baked in
-  — usually dark line art on nothing, and on a dark ground the page contradicts
+  drawing without `id="soul-ref"` is linked and keeps whatever its exporter
+  baked in — dark line art on nothing, and on a dark ground the page contradicts
   the picture it is showing. Frame, card image and viewer take `--surface-art`
   under it, the one surface in the system with a value for both modes. That
   answers `figure.uml-diagram` too, without `guides-graphs` being installed

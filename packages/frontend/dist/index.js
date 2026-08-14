@@ -3103,7 +3103,7 @@ var DIAGRAM_VIEWBOX = {
 };
 
 // packages/frontend/src/lib/art.ts
-var GROUP = "art";
+var REF = "soul-ref";
 var DRAWING = /\.svg(?:[?#].*)?$/i;
 var ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
 var ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
@@ -3118,7 +3118,7 @@ function art(src, alt, options = {}) {
   }
   const box = viewBox || DIAGRAM_VIEWBOX[src.split("/").pop()?.replace(DRAWING, "") ?? ""];
   return html17`${unsafeHTML3(
-    `<svg${attr("class", cls)}${attr("viewBox", box)}${size}${name}><use href="${src}#${GROUP}"></use></svg>`
+    `<svg${attr("class", cls)}${attr("viewBox", box)}${size}${name}><use href="${src}#${REF}"></use></svg>`
   )}`;
 }
 

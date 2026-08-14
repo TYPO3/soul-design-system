@@ -12,14 +12,14 @@
 import { DIAGRAM_SHAPES, MARK_SVG } from './diagrams.svg.generated.ts';
 
 /* The reference `art()` writes: a path ending in the file, and the name every
-   piece of artwork points at. Run before the icons are inlined — `#art` fits
+   piece of artwork points at. Run before the icons are inlined — `#soul-ref` fits
    the shape of an icon reference too, and would be looked up as one. */
-const REFERENCE = /<use href="([^"#]*\/)?([a-z0-9-]+)\.svg#art"><\/use>/g;
+const REFERENCE = /<use href="([^"#]*\/)?([a-z0-9-]+)\.svg#soul-ref"><\/use>/g;
 
 /** Replace every reference with the artwork it points at. */
 export function inlineArtRefs(html: string): string {
   return html.replace(REFERENCE, (whole, _dir: string | undefined, name: string) => {
-    /* Left alone rather than thrown on: a `<use href="…#art">` this does not
+    /* Left alone rather than thrown on: a `<use href="…#soul-ref">` this does not
        know is a consumer's own artwork, and a card that ships one is not this
        repo's card. */
     return DIAGRAM_SHAPES[name] ?? MARK_SVG[name] ?? whole;

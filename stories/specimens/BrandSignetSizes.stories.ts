@@ -9,11 +9,12 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { REF } from '../../packages/frontend/src/lib/art.ts';
 import { dsCard } from '../lib/specimen.ts';
 
 /** The Dev Companion mark, from the file, at one size. */
 const at = (variant: 'l' | 'm' | 's', size: number, label = String(size)): string =>
-  `<div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="${size}" height="${size}" aria-hidden="true"><use href="../assets/dev-companion-signet-${variant}.svg#art"></use></svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">${label}</span></div>`;
+  `<div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="${size}" height="${size}" aria-hidden="true"><use href="../assets/dev-companion-signet-${variant}.svg#${REF}"></use></svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">${label}</span></div>`;
 
 const heading = (title: string, aside: string): string =>
   `<div style="display:flex; align-items:baseline; gap:12px; padding-bottom:9px; margin-bottom:14px; border-bottom:1px solid var(--border-subtle);">

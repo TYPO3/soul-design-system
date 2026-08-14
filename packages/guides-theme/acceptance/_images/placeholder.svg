@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 1200 500" role="img" aria-label="placeholder">
-  <!-- `id="art"` on the root, and no width or height beside the viewBox: a
+<svg xmlns="http://www.w3.org/2000/svg" id="soul-ref" viewBox="0 0 1200 500" role="img" aria-label="placeholder">
+  <!-- `id="soul-ref"` on the root, and no width or height beside the viewBox: a
        reference carries no size across, so a drawing that states one is drawn
        at it and the box it was put in shows a corner of it. -->
   <rect width="1200" height="500" fill="var(--surface-sunken, #F4F2EE)"/>

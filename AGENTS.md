@@ -371,7 +371,7 @@ Never the generated output. A missing icon goes to TYPO3/TYPO3.Icons first —
 the script fails rather than substituting one from another set.
 
 **Add or redraw a diagram** — one file in `packages/frontend/assets/diagrams/`, shapes wrapped
-in `<g id="art">`, every colour written `var(--token, #light)`, then
+in `<g id="soul-ref">`, every colour written `var(--token, #light)`, then
 `make diagrams`. There is no dark copy: the drawing is referenced into a page
 and reads that page's tokens.
 

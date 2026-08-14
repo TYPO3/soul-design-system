@@ -150,7 +150,7 @@ export function renderStatic(template: TemplateResult): string {
 
   /* A card carries no script, no sprite and no server, so a reference to
      another file resolves to nothing. The order is load-bearing: a drawing's
-     `#art` has the shape of an icon reference and would be looked up as one. */
+     `#soul-ref` has the shape of an icon reference and would be looked up as one. */
   html = tidyTags(inlineIconRefs(inlineArtRefs(html)));
 
   /* Nothing that needs upgrading may reach a card. This is the guard, not the

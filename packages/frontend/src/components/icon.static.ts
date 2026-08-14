@@ -16,7 +16,7 @@ import type { IconId } from './icons.generated.ts';
    carries the sprite's URL in front of the identifier, which in Node is a
    `file://` path and must never reach a card. The path is part of the pattern
    rather than left to the order things run in — a referenced drawing has the
-   same `<use href="…#art">` shape, and would be looked up as an icon. */
+   same `<use href="…#soul-ref">` shape, and would be looked up as an icon. */
 const REFERENCE = /<svg([^>]*)><use href="[^"]*\/sprites\/[^"]*#([a-z0-9-]+)"><\/use><\/svg>/g;
 
 /** The package ships each glyph pretty-printed over several lines. Collapsed

@@ -11,6 +11,7 @@
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 
+import { REF } from '../../packages/frontend/src/lib/art.ts';
 import { prerender } from './prerender.ts';
 
 /* What a page links, and what those files ask for beside themselves. The
@@ -46,12 +47,12 @@ export function dropIn(from: string, into: string): string[] {
 const SHOWS = ['sds-figure', 'sds-image', 'sds-card'];
 const PICTURE = new RegExp(`<(?:${SHOWS.join('|')})(?![-\\w])(?:"[^"]*"|'[^']*'|[^>"'])*>`, 'g');
 const SVG = /\.svg(?:[?#].*)?$/i;
-const PREPARED = /\bid\s*=\s*["']?art\b/;
+const PREPARED = new RegExp(`\\bid\\s*=\\s*["']?${REF}\\b`);
 const VIEWBOX = /<svg\b[^>]*\sviewBox="([^"]+)"/;
 const ELSEWHERE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
 
 /* A drawing is referenced into the page so it carries the page's tokens, and
-   one that never named `id="art"` is a reference to nothing — a blank space
+   one that named no `id="soul-ref"` is a reference to nothing — a blank space
    where the picture was. Here the file is at hand, which is the whole reason
    this runs here: an unprepared drawing is marked `linked` and the element
    draws it as an `<img>`, in the colours it was exported with.

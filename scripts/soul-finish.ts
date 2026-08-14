@@ -66,14 +66,14 @@ const { drawn, indexed, broken, linked } = finish(root, {
 /* Said, and not fatal: the picture is on the page either way, and which of the
    two a project wants is a decision about the drawing rather than the build. */
 if (linked.length) {
-  report.note(`${linked.length} drawing(s) are shown as an image — no id="art" in the file`);
+  report.note(`${linked.length} drawing(s) are shown as an image — no id="soul-ref" in the file`);
   for (const line of linked.slice(0, 12)) report.detail(line);
   if (linked.length > 12) report.detail(`… and ${linked.length - 12} more`);
   for (const line of [
     'they keep the colours they were exported with, so they do not follow the page into dark.',
-    'to change that, name the root element of the file — the reference points at <file>.svg#art:',
+    'to change that, name the root element of the file — the reference points at <file>.svg#soul-ref:',
     '',
-    '    <svg id="art" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">',
+    '    <svg id="soul-ref" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">',
     '',
     'and write each colour token first, exported value behind it, so the page can reach it:',
     '',

@@ -61,8 +61,8 @@ The numbers
    **Colour is written as attributes**, never a ``<style>`` block — GitHub
    strips those. Each attribute is the token with the light hex behind it,
    ``fill="var(--text-primary, #1C1A17)"``, so one file serves both modes.
-   Ship that one file, wrap its shapes in ``<g id="art">``, and reference it
-   with ``<use>`` rather than linking it with ``<img>``: a linked file renders
+   Ship that one file, wrap its shapes in ``<g id="soul-ref">``, and reference
+   it with ``<use>`` rather than linking it with ``<img>``: a linked file renders
    in a document of its own, where no token is declared. :doc:`artwork` holds
    the complete file contract and its failure modes.
 

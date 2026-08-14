@@ -23,10 +23,10 @@ const DIR = join(ASSETS, 'diagrams');
     into a wrapper that already carries the alt text, and read the drawing out
     twice. A mark has no `<title>` to clone and names its root instead, which
     is what lets the same file be opened on its own and used as a favicon. */
-const GROUP = /<g id="art">([\s\S]*)<\/g>/;
+const GROUP = /<g id="soul-ref">([\s\S]*)<\/g>/;
 
 /** A mark says it may be referenced by naming its root. */
-const ROOTED = /<svg\b[^>]*\sid="art"/;
+const ROOTED = /<svg\b[^>]*\sid="soul-ref"/;
 
 const viewBoxOf = (file: string, text: string): string => {
   const viewBox = /<svg[^>]*\sviewBox="([^"]+)"/.exec(text)?.[1];
@@ -55,7 +55,7 @@ const drawings = readdirSync(DIR)
     wellFormed(file, text);
     const viewBox = viewBoxOf(file, text);
     const shapes = GROUP.exec(text)?.[1];
-    if (!shapes) throw new Error(`${file}: no <g id="art"> — the drawing has nothing <use> can reach`);
+    if (!shapes) throw new Error(`${file}: no <g id="soul-ref"> — the drawing has nothing <use> can reach`);
     return { name: file.replace(/\.svg$/, ''), viewBox, shapes: shapes.trim() };
   });
 

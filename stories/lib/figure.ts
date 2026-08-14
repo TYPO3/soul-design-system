@@ -11,6 +11,7 @@
 
 import { inlineArtRefs } from '../../packages/frontend/src/components/art.static.ts';
 import { DIAGRAM_VIEWBOX } from '../../packages/frontend/src/components/diagrams.generated.ts';
+import { REF } from '../../packages/frontend/src/lib/art.ts';
 import { indent } from './specimen.ts';
 
 /** A drawing: what it is called, and what it draws for a reader who cannot
@@ -27,7 +28,10 @@ const drawing = ({ file, alt }: Figure): string => {
   return `<div>
   <div class="spec-h">${file}</div>
   ${inlineArtRefs(
-    `<svg viewBox="${viewBox}" role="img" aria-label="${alt}" class="spec-figure spec-figure--framed"><use href="../../assets/diagrams/${file}#art"></use></svg>`,
+    /* The name from the one place that writes it. Spelled out here once, it
+       went stale the first time it changed and the card shipped a reference
+       into nothing — which every check reads as a card of the right height. */
+    `<svg viewBox="${viewBox}" role="img" aria-label="${alt}" class="spec-figure spec-figure--framed"><use href="../../assets/diagrams/${file}#${REF}"></use></svg>`,
   )}
 </div>`;
 };

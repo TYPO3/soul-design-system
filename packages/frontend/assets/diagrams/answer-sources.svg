@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-labelledby="d-title d-desc">
 <title id="d-title">Every source has a precondition</title>
 <desc id="d-desc">The five sources a TYPO3 Support App tool can answer from, plotted against how much of the machine has to be running. Bundled knowledge and the server&#39;s own checkout answer with nothing running; installed packages need files on disk; the installation source needs a booted installation; network sources need outbound reach.</desc>
-<g id="art">
+<g id="soul-ref">
 <rect width="1200" height="750" fill="var(--surface-canvas, #FBFAF7)"></rect>
 <text x="60" y="60" fill="var(--accent, #FF8700)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13" font-weight="600" letter-spacing="1.6">SOURCE DECLARATION = AVAILABILITY</text>
 <text x="60" y="108" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="36" font-weight="700" letter-spacing="-0.5">Every source has a precondition</text>

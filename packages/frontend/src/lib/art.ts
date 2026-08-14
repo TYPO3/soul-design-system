@@ -3,8 +3,8 @@
    **Every SVG is referenced, everything else is linked.** An `<img>` renders
    its file in a document of its own where no token is declared; a `<use>` builds
    a shadow tree that inherited properties cross, so one file takes the mode of
-   whatever it sits in. It costs the file one line — `id="art"` on the root, and
-   one that never paid it is linked — a reference to nothing draws nothing.
+   whatever it sits in. It costs the file one line — `id="soul-ref"` on the root,
+   and one that never paid it is linked — a reference to nothing draws nothing.
 
    `<use>` carries no coordinate system across, and a wrapper without one has no
    ratio for `height: auto` to hold — so the box is read out of the file by
@@ -16,8 +16,10 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { DIAGRAM_VIEWBOX } from '../components/diagrams.generated.ts';
 
 /** What the reference points at — the root of the file, or the group a drawing
-    under `assets/diagrams/` wraps itself in. Every file names it the same. */
-const GROUP = 'art';
+    under `assets/diagrams/` wraps itself in. It names the part rather than what
+    is in it: a file is prepared by declaring where a reference may point, and
+    an SVG holding a picture was never the thing in question. */
+export const REF = 'soul-ref';
 
 /* A query string or a fragment may follow the extension, and neither makes the
    file something other than an SVG. */
@@ -44,7 +46,7 @@ export interface ArtOptions {
       figure passes neither and fills its column. */
   width?: number;
   height?: number;
-  /** Linked whatever the name says. A drawing that never named `id="art"`
+  /** Linked whatever the name says. A drawing that never named `id="soul-ref"`
       resolves to nothing when it is referenced, and only a renderer with the
       file in front of it can know that — `scripts/lib/site.ts` reads the file
       and writes this onto the element, so the picture arrives. */
@@ -77,6 +79,6 @@ export function art(src: string, alt: string, options: ArtOptions = {}): Templat
   const box = viewBox || DIAGRAM_VIEWBOX[src.split('/').pop()?.replace(DRAWING, '') ?? ''];
   return html`${unsafeHTML(
     `<svg${attr('class', cls)}${attr('viewBox', box)}${size}${name}>` +
-      `<use href="${src}#${GROUP}"></use></svg>`,
+      `<use href="${src}#${REF}"></use></svg>`,
   )}`;
 }

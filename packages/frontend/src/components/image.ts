@@ -33,7 +33,7 @@ export interface ImageProps {
       shrunk into its column asks for, and what a mark in a lockup never does. */
   zoomable?: boolean;
   /** The picture is linked rather than referenced — an SVG that never named
-      `id="art"`. Written by the build, which is what can read the file;
+      `id="soul-ref"`. Written by the build, which is what can read the file;
       `src/lib/art.ts` holds the reasoning. */
   linked?: boolean;
   /** The referenced file's own `viewBox`, from the same reader — a reference

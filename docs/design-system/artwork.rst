@@ -35,11 +35,11 @@ Three lines, and none of them changes the drawing.
    :header-rows: 0
 
    * - Name the root
-     - ``<svg id="art" viewBox="0 0 32 32">`` — the reference points at
-       ``file.svg#art``, and the ``viewBox`` on that root is what the shapes are
-       drawn in. The wrapper is given the same box by the build, because a
-       reference carries no coordinate system across and a wrapper without one
-       has no shape to hold
+     - ``<svg id="soul-ref" viewBox="0 0 32 32">`` — the reference points at
+       ``file.svg#soul-ref``, and the ``viewBox`` on that root is what the
+       shapes are drawn in. The wrapper is given the same box by the build,
+       because a reference carries no coordinate system across and a wrapper
+       without one has no shape to hold
    * - Colour the shapes
      - ``fill="var(--text-primary, #8A8378)"``, ``stroke="var(--accent,
        #FF8700)"`` — the token first, the hex behind it
@@ -153,11 +153,11 @@ failure this contract has. The causes, in the order to check them:
 - the file is on another origin — a browser will not read one across origins,
   so a picture from somewhere else is linked whatever it is
 
-A root that is not named ``id="art"`` used to be the first of those and is not
-one any more: the finishing step reads every drawing a page points at and shows
-an unprepared one as an image, naming it in the run. The picture arrives, in the
-colours it was exported with, and it is the one on the page that does not follow
-the reader into dark. **So its ground does not either.** A frame, a card's
+A root that is not named ``id="soul-ref"`` used to be the first of those and is
+not one any more: the finishing step reads every drawing a page points at and
+shows an unprepared one as an image, naming it in the run. The picture arrives,
+in the colours it was exported with, and it is the one on the page that does not
+follow the reader into dark. **So its ground does not either.** A frame, a card's
 picture and the viewer all take ``--surface-art`` under a linked picture — the
 one surface in the system with a single value for both modes, because dark line
 art from somebody else's exporter on a dark ground is the page contradicting the

@@ -262,7 +262,7 @@ Pictures
    :alt: A placeholder, dropped into the page without a claim under it
 
 .. figure:: /_images/unprepared.svg
-   :alt: A drawing that names no id="art"
+   :alt: A drawing that names no id="soul-ref"
 
    A drawing that was never prepared to be referenced. The finishing step reads
    the file and shows it as an image, in the colours it was exported with —
