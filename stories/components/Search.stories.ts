@@ -31,6 +31,17 @@ export const Field: Story = {
   render: () => html`<sds-search index="_search.json"></sds-search>`,
 };
 
+/** The box is `sds-field`, so it takes that element's three heights. `sm` is
+    for a search inside another surface — a bar whose other controls are small —
+    and the drop keeps the field's width whatever the height is. */
+export const Sizes: Story = {
+  render: () => html`<div style="display:flex; align-items:center; gap:var(--space-4)">
+  <sds-search size="sm" index="_search.json" label="Search"></sds-search>
+  <sds-search index="_search.json" label="Search"></sds-search>
+  <sds-search size="lg" index="_search.json" label="Search"></sds-search>
+</div>`,
+};
+
 /** Where it actually stands. The bar measures the row and the field is the
     first thing it can do without: below that width it is in the drawer, whole,
     rather than squeezed to a box too narrow to read what was typed in it. */

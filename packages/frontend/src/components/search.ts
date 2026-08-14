@@ -13,6 +13,7 @@ import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import './search-hits.ts';
 import { define, SdsElement } from '../lib/element.ts';
+import { fieldClass, type FieldSize } from './field.ts';
 import { type SearchResultProps } from './search-result.ts';
 
 /** One page, as the index has it. */
@@ -35,6 +36,7 @@ export class SdsSearch extends SdsElement {
     /** Where the index is. Relative to the page, like every other asset. */
     index: { type: String },
     label: { type: String },
+    size: { type: String, reflect: true },
     query: { type: String, state: true },
     entries: { type: Array, state: true },
     open: { type: Boolean, state: true },
@@ -42,6 +44,10 @@ export class SdsSearch extends SdsElement {
 
   declare index: string;
   declare label: string;
+  /** The height of the box, the field's own three. A bar that runs its own
+      controls at `sm` runs the search at `sm` too, or the row has two heights
+      in it. The drop is the field's width and follows whatever it is given. */
+  declare size: FieldSize;
   declare query: string;
   declare entries: SearchEntry[] | null;
   declare open: boolean;
@@ -52,6 +58,7 @@ export class SdsSearch extends SdsElement {
     super();
     this.index = '';
     this.label = 'Search';
+    this.size = 'md';
     this.query = '';
     this.entries = null;
     this.open = false;
@@ -171,8 +178,11 @@ export class SdsSearch extends SdsElement {
     const hits = this.hits;
     const open = this.open && this.query.trim().length > 0;
 
+    /* The box is asked of the field rather than spelled here: what a size adds
+       is `sds-field`'s to decide, and a second copy of that list is how the two
+       come to disagree about what `sm` means. */
     return html`<div class="sds-search" @focusout="${(e: FocusEvent) => this.onLeave(e)}">
-  <span class="sds-field">
+  <span class="${fieldClass({ size: this.size })}">
     <sds-icon name="actions-search" size="16"></sds-icon>
     <input
       class="sds-input"

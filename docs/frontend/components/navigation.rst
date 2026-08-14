@@ -649,6 +649,15 @@ somebody types.
    :type: string
    :default: "Search"
 
+.. confval:: size
+   :name: sds-search-size
+   :type: "md" | "sm" | "lg"
+   :default: "md"
+
+   The height of the box, ``sds-field``'s own three — the box *is* one, so what
+   a size changes is decided there. A bar running its controls at ``sm`` runs
+   the search at ``sm`` too, or the row has two heights standing in it.
+
 The field is a combobox: down goes into the list, the arrows walk it, up from
 the first goes back to what was typed, and Escape gives the page back. What was
 found is drawn by ``sds-search-hits`` rather than rebuilt in the drop, and a

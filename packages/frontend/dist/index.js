@@ -2080,7 +2080,7 @@ define("sds-icon", SdsIcon);
 var iconIds = ICON_IDS;
 
 // packages/frontend/src/components/search.ts
-import { html as html6, nothing as nothing2 } from "lit";
+import { html as html8, nothing as nothing3 } from "lit";
 
 // packages/frontend/src/components/search-hits.ts
 import { html as html5 } from "lit";
@@ -2264,6 +2264,121 @@ var SdsSearchHits = class extends SdsElement {
 };
 define("sds-search-hits", SdsSearchHits);
 
+// packages/frontend/src/components/field.ts
+import { html as html7, nothing as nothing2 } from "lit";
+import { unsafeHTML as unsafeHTML3 } from "lit/directives/unsafe-html.js";
+
+// packages/frontend/src/components/field-error.ts
+import { html as html6 } from "lit";
+var SdsFieldError = class extends SdsElement {
+  static {
+    this.properties = { message: { type: String } };
+  }
+  constructor() {
+    super();
+    this.message = "";
+  }
+  render() {
+    return html6`<span class="sds-field-error"><sds-icon name="actions-exclamation-circle"></sds-icon>${this.message}</span>`;
+  }
+};
+define("sds-field-error", SdsFieldError);
+
+// packages/frontend/src/components/field.ts
+var esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+function fieldClass({ focused, invalid, filled, select, rows, error, size = "md" }) {
+  const cls = ["sds-field"];
+  if (select) cls.push("sds-select");
+  if (size === "sm") cls.push("sds-field--sm");
+  else if (size === "lg") cls.push("sds-field--lg");
+  if (rows && rows > 1) cls.push("sds-field--multi");
+  if (focused) cls.push("is-focused");
+  if (invalid || error) cls.push("is-invalid");
+  if (filled) cls.push("is-filled");
+  return cls.join(" ");
+}
+var SdsField = class extends SdsElement {
+  static {
+    this.properties = {
+      size: { type: String, reflect: true },
+      value: { type: String },
+      icon: { type: String },
+      focused: { type: Boolean, reflect: true },
+      invalid: { type: Boolean, reflect: true },
+      filled: { type: Boolean, reflect: true },
+      select: { type: Boolean, reflect: true },
+      options: { type: Array },
+      label: { type: String },
+      minWidth: { type: Number, attribute: "min-width" },
+      caption: { type: String },
+      hint: { type: String },
+      error: { type: String },
+      required: { type: Boolean, reflect: true },
+      fieldId: { type: String, attribute: "field-id" },
+      name: { type: String },
+      type: { type: String },
+      rows: { type: Number }
+    };
+  }
+  constructor() {
+    super();
+    this.size = "md";
+    this.value = "";
+    this.focused = false;
+    this.invalid = false;
+    this.filled = false;
+    this.select = false;
+    this.options = [];
+    this.minWidth = 220;
+    this.caption = "";
+    this.hint = "";
+    this.error = "";
+    this.required = false;
+    this.fieldId = "";
+    this.name = "";
+    this.type = "text";
+    this.rows = 0;
+  }
+  /* Typing is what makes a value the user's. `is-filled` used to be a state
+     a caller set and then had to unset, which nothing typing into the field
+     could ever do. */
+  onInput(event) {
+    const control = event.target;
+    this.value = control.value;
+    this.filled = control.value !== "";
+    this.dispatchEvent(new CustomEvent("sds-input", { detail: control.value, bubbles: true, composed: true }));
+  }
+  render() {
+    const control = this.control();
+    if (!this.caption) return control;
+    const id = this.fieldId || void 0;
+    return html7`<div class="sds-field-row">
+  <label class="sds-field-label" for="${id ?? nothing2}">${this.caption}${this.required ? html7` <span class="sds-field-req">required</span>` : nothing2}</label>
+  ${control}
+  ${this.hint ? html7`<span class="sds-field-hint">${this.hint}</span>` : nothing2}
+  ${this.error ? html7`<sds-field-error message="${this.error}"></sds-field-error>` : nothing2}
+</div>`;
+  }
+  control() {
+    const cls = fieldClass(this);
+    const box = `width:${this.minWidth}px; max-width:100%`;
+    const id = this.fieldId || nothing2;
+    const name = this.name || nothing2;
+    const invalid = this.invalid || this.error ? "true" : nothing2;
+    if (this.select) {
+      return html7`<span class="${cls}" style="${box}"><select class="sds-input" id="${id}" name="${name}" aria-label="${this.label ?? nothing2}" aria-invalid="${invalid}" ?required="${this.required}" @change="${(e) => this.onInput(e)}">${this.options.length ? this.options.map((option) => html7`<option ?selected="${option === this.value}">${option}</option>`) : html7`<option>${this.value}</option>`}</select><span style="color:var(--text-muted);"><sds-icon name="actions-chevron-down"></sds-icon></span></span>`;
+    }
+    if (this.rows > 1) {
+      const attr2 = (name2, value) => value ? ` ${name2}="${esc(value)}"` : "";
+      const area = `<textarea class="sds-input" rows="${this.rows}"${attr2("id", this.fieldId)}${attr2("name", this.name)}${this.filled ? "" : attr2("placeholder", this.value)}${attr2("aria-label", this.label ?? "")}${this.invalid || this.error ? ' aria-invalid="true"' : ""}${this.required ? " required" : ""}>${this.filled ? esc(this.value) : ""}</textarea>`;
+      return html7`<span class="${cls}" style="${box}" @input="${(e) => this.onInput(e)}">${unsafeHTML3(area)}</span>`;
+    }
+    const caret = this.focused ? html7`<span style="width:2px; height:15px; background:var(--accent);"></span>` : nothing2;
+    return html7`<span class="${cls}" style="${box}">${this.icon ? html7`<sds-icon name="${this.icon}"></sds-icon>` : nothing2}<input class="sds-input" type="${this.type}" id="${id}" name="${name}" value="${this.filled ? this.value : nothing2}" placeholder="${this.filled ? nothing2 : this.value}" aria-label="${this.label ?? nothing2}" aria-invalid="${invalid}" ?required="${this.required}" @input="${(e) => this.onInput(e)}">${caret}</span>`;
+  }
+};
+define("sds-field", SdsField);
+
 // packages/frontend/src/components/search.ts
 var seq = 0;
 var SdsSearch = class extends SdsElement {
@@ -2276,6 +2391,7 @@ var SdsSearch = class extends SdsElement {
     };
     this.index = "";
     this.label = "Search";
+    this.size = "md";
     this.query = "";
     this.entries = null;
     this.open = false;
@@ -2285,6 +2401,7 @@ var SdsSearch = class extends SdsElement {
       /** Where the index is. Relative to the page, like every other asset. */
       index: { type: String },
       label: { type: String },
+      size: { type: String, reflect: true },
       query: { type: String, state: true },
       entries: { type: Array, state: true },
       open: { type: Boolean, state: true }
@@ -2380,8 +2497,8 @@ var SdsSearch = class extends SdsElement {
   render() {
     const hits = this.hits;
     const open = this.open && this.query.trim().length > 0;
-    return html6`<div class="sds-search" @focusout="${(e) => this.onLeave(e)}">
-  <span class="sds-field">
+    return html8`<div class="sds-search" @focusout="${(e) => this.onLeave(e)}">
+  <span class="${fieldClass({ size: this.size })}">
     <sds-icon name="actions-search" size="16"></sds-icon>
     <input
       class="sds-input"
@@ -2402,7 +2519,7 @@ var SdsSearch = class extends SdsElement {
     }}"
     />
   </span>
-  ${open ? this.panel(hits) : nothing2}
+  ${open ? this.panel(hits) : nothing3}
 </div>`;
   }
   /** What the index has, as what a result is drawn from. The only place the
@@ -2428,7 +2545,7 @@ var SdsSearch = class extends SdsElement {
         The query is handed over rather than the marking done here, because what
         is highlighted has to be what was actually searched. */
   panel(hits) {
-    return html6`<div
+    return html8`<div
   class="sds-search__panel"
   id="${this.panelId}"
   aria-label="${this.label}"
@@ -2444,7 +2561,7 @@ var SdsSearch = class extends SdsElement {
 define("sds-search", SdsSearch);
 
 // packages/frontend/src/components/theme.ts
-import { html as html7, nothing as nothing3 } from "lit";
+import { html as html9, nothing as nothing4 } from "lit";
 var GLYPH = {
   light: "actions-brightness-high",
   dark: "actions-moon"
@@ -2523,14 +2640,14 @@ var SdsTheme = class extends SdsElement {
     );
   }
   render() {
-    const segment = (theme) => html7`<button
+    const segment = (theme) => html9`<button
       type="button"
       class="sds-mode${this.current === theme ? " is-active" : ""}"
       aria-pressed="${this.current === theme}"
-      aria-label="${this.compact ? theme : nothing3}"
+      aria-label="${this.compact ? theme : nothing4}"
       @click="${() => this.choose(theme)}"
-    ><sds-icon name="${GLYPH[theme]}"></sds-icon>${this.compact ? "" : html7`<span class="sds-mode__label">${theme}</span>`}</button>`;
-    return html7`<div class="sds-modes" role="group" aria-label="Colour mode">
+    ><sds-icon name="${GLYPH[theme]}"></sds-icon>${this.compact ? "" : html9`<span class="sds-mode__label">${theme}</span>`}</button>`;
+    return html9`<div class="sds-modes" role="group" aria-label="Colour mode">
   ${segment("light")}
   ${segment("dark")}
 </div>`;
@@ -2539,7 +2656,7 @@ var SdsTheme = class extends SdsElement {
 define("sds-theme", SdsTheme);
 
 // packages/frontend/src/components/button.ts
-import { html as html8 } from "lit";
+import { html as html10 } from "lit";
 function buttonClass({ variant = "primary", size = "md", iconOnly = false, disabled = false }) {
   const cls = ["sds-btn", `sds-btn--${variant}`];
   if (size === "sm" || size === "lg") cls.push(`sds-btn--${size}`);
@@ -2548,14 +2665,14 @@ function buttonClass({ variant = "primary", size = "md", iconOnly = false, disab
   return cls.join(" ");
 }
 var LABEL = "sds-btn__label";
-var buttonLabel = (body) => html8`<span class="${LABEL}">${body}</span>`;
+var buttonLabel = (body) => html10`<span class="${LABEL}">${body}</span>`;
 function linkMarkup(props, body) {
   const cls = buttonClass({ ...props, disabled: false });
   const href = props.href ?? "";
   if (props.rel) {
-    return props.title ? html8`<a class="${cls}" href="${href}" rel="${props.rel}" title="${props.title}">${body}</a>` : html8`<a class="${cls}" href="${href}" rel="${props.rel}">${body}</a>`;
+    return props.title ? html10`<a class="${cls}" href="${href}" rel="${props.rel}" title="${props.title}">${body}</a>` : html10`<a class="${cls}" href="${href}" rel="${props.rel}">${body}</a>`;
   }
-  return props.title ? html8`<a class="${cls}" href="${href}" title="${props.title}">${body}</a>` : html8`<a class="${cls}" href="${href}">${body}</a>`;
+  return props.title ? html10`<a class="${cls}" href="${href}" title="${props.title}">${body}</a>` : html10`<a class="${cls}" href="${href}">${body}</a>`;
 }
 function buttonMarkup(props, body) {
   const inner = typeof body === "string" && body ? buttonLabel(body) : body;
@@ -2563,9 +2680,9 @@ function buttonMarkup(props, body) {
   const cls = buttonClass(props);
   const type = props.type ?? "button";
   if (props.title) {
-    return props.disabled ? html8`<button class="${cls}" type="${type}" title="${props.title}" disabled>${inner}</button>` : html8`<button class="${cls}" type="${type}" title="${props.title}">${inner}</button>`;
+    return props.disabled ? html10`<button class="${cls}" type="${type}" title="${props.title}" disabled>${inner}</button>` : html10`<button class="${cls}" type="${type}" title="${props.title}">${inner}</button>`;
   }
-  return props.disabled ? html8`<button class="${cls}" type="${type}" disabled>${inner}</button>` : html8`<button class="${cls}" type="${type}">${inner}</button>`;
+  return props.disabled ? html10`<button class="${cls}" type="${type}" disabled>${inner}</button>` : html10`<button class="${cls}" type="${type}">${inner}</button>`;
 }
 var isGlyph = (node) => {
   const el = node;
@@ -2666,7 +2783,7 @@ var SdsButton = class extends SdsElement {
 define("sds-button", SdsButton);
 
 // packages/frontend/src/components/link.ts
-import { html as html9 } from "lit";
+import { html as html11 } from "lit";
 var SdsLink = class _SdsLink extends SdsElement {
   static {
     this.properties = {
@@ -2693,19 +2810,19 @@ var SdsLink = class _SdsLink extends SdsElement {
   }
   render() {
     if (this.bare && this.icon) {
-      const mark = html9`<sds-icon name="${this.icon}" size="24"></sds-icon>`;
-      return this.external ? html9`<a class="sds-link sds-link--bare" href="${this.href}" target="_blank" rel="noreferrer" aria-label="${this.label}" title="${this.label}">${mark}</a>` : html9`<a class="sds-link sds-link--bare" href="${this.href}" aria-label="${this.label}" title="${this.label}">${mark}</a>`;
+      const mark = html11`<sds-icon name="${this.icon}" size="24"></sds-icon>`;
+      return this.external ? html11`<a class="sds-link sds-link--bare" href="${this.href}" target="_blank" rel="noreferrer" aria-label="${this.label}" title="${this.label}">${mark}</a>` : html11`<a class="sds-link sds-link--bare" href="${this.href}" aria-label="${this.label}" title="${this.label}">${mark}</a>`;
     }
-    const glyph = this.icon ? html9`<sds-icon name="${this.icon}"></sds-icon>` : "";
+    const glyph = this.icon ? html11`<sds-icon name="${this.icon}"></sds-icon>` : "";
     const lead = this.icon && _SdsLink.leads(this.icon) ? glyph : "";
     const trail = this.icon && !_SdsLink.leads(this.icon) ? glyph : "";
-    return this.external ? html9`<a class="sds-link sds-link--external" href="${this.href}" target="_blank" rel="noreferrer">${lead}${this.label} ${trail}<sds-icon name="actions-window-open"></sds-icon></a>` : html9`<a class="sds-link" href="${this.href}">${lead}${this.label}${trail ? html9` ${trail}` : ""}</a>`;
+    return this.external ? html11`<a class="sds-link sds-link--external" href="${this.href}" target="_blank" rel="noreferrer">${lead}${this.label} ${trail}<sds-icon name="actions-window-open"></sds-icon></a>` : html11`<a class="sds-link" href="${this.href}">${lead}${this.label}${trail ? html11` ${trail}` : ""}</a>`;
   }
 };
 define("sds-link", SdsLink);
 
 // packages/frontend/src/components/nav-breadcrumb.ts
-import { html as html10 } from "lit";
+import { html as html12 } from "lit";
 var SdsNavBreadcrumb = class extends SdsElement {
   static {
     this.properties = {
@@ -2719,131 +2836,16 @@ var SdsNavBreadcrumb = class extends SdsElement {
     this.label = "Breadcrumb";
   }
   render() {
-    return html10`<nav class="sds-crumbs" aria-label="${this.label}">
+    return html12`<nav class="sds-crumbs" aria-label="${this.label}">
   ${this.items.map((crumb, i) => {
       const here = i === this.items.length - 1;
-      const step = here ? html10`<span class="sds-crumbs__here" aria-current="page">${crumb.label}</span>` : html10`<a href="${crumb.href ?? "#"}">${crumb.label}</a>`;
-      return html10`${i > 0 ? html10`<span class="sds-crumbs__sep" aria-hidden="true">/</span>` : ""}${step}`;
+      const step = here ? html12`<span class="sds-crumbs__here" aria-current="page">${crumb.label}</span>` : html12`<a href="${crumb.href ?? "#"}">${crumb.label}</a>`;
+      return html12`${i > 0 ? html12`<span class="sds-crumbs__sep" aria-hidden="true">/</span>` : ""}${step}`;
     })}
 </nav>`;
   }
 };
 define("sds-nav-breadcrumb", SdsNavBreadcrumb);
-
-// packages/frontend/src/components/field.ts
-import { html as html12, nothing as nothing4 } from "lit";
-import { unsafeHTML as unsafeHTML3 } from "lit/directives/unsafe-html.js";
-
-// packages/frontend/src/components/field-error.ts
-import { html as html11 } from "lit";
-var SdsFieldError = class extends SdsElement {
-  static {
-    this.properties = { message: { type: String } };
-  }
-  constructor() {
-    super();
-    this.message = "";
-  }
-  render() {
-    return html11`<span class="sds-field-error"><sds-icon name="actions-exclamation-circle"></sds-icon>${this.message}</span>`;
-  }
-};
-define("sds-field-error", SdsFieldError);
-
-// packages/frontend/src/components/field.ts
-var esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-function fieldClass({ focused, invalid, filled, select, rows, error, size = "md" }) {
-  const cls = ["sds-field"];
-  if (select) cls.push("sds-select");
-  if (size === "sm") cls.push("sds-field--sm");
-  else if (size === "lg") cls.push("sds-field--lg");
-  if (rows && rows > 1) cls.push("sds-field--multi");
-  if (focused) cls.push("is-focused");
-  if (invalid || error) cls.push("is-invalid");
-  if (filled) cls.push("is-filled");
-  return cls.join(" ");
-}
-var SdsField = class extends SdsElement {
-  static {
-    this.properties = {
-      size: { type: String, reflect: true },
-      value: { type: String },
-      icon: { type: String },
-      focused: { type: Boolean, reflect: true },
-      invalid: { type: Boolean, reflect: true },
-      filled: { type: Boolean, reflect: true },
-      select: { type: Boolean, reflect: true },
-      options: { type: Array },
-      label: { type: String },
-      minWidth: { type: Number, attribute: "min-width" },
-      caption: { type: String },
-      hint: { type: String },
-      error: { type: String },
-      required: { type: Boolean, reflect: true },
-      fieldId: { type: String, attribute: "field-id" },
-      name: { type: String },
-      type: { type: String },
-      rows: { type: Number }
-    };
-  }
-  constructor() {
-    super();
-    this.size = "md";
-    this.value = "";
-    this.focused = false;
-    this.invalid = false;
-    this.filled = false;
-    this.select = false;
-    this.options = [];
-    this.minWidth = 220;
-    this.caption = "";
-    this.hint = "";
-    this.error = "";
-    this.required = false;
-    this.fieldId = "";
-    this.name = "";
-    this.type = "text";
-    this.rows = 0;
-  }
-  /* Typing is what makes a value the user's. `is-filled` used to be a state
-     a caller set and then had to unset, which nothing typing into the field
-     could ever do. */
-  onInput(event) {
-    const control = event.target;
-    this.value = control.value;
-    this.filled = control.value !== "";
-    this.dispatchEvent(new CustomEvent("sds-input", { detail: control.value, bubbles: true, composed: true }));
-  }
-  render() {
-    const control = this.control();
-    if (!this.caption) return control;
-    const id = this.fieldId || void 0;
-    return html12`<div class="sds-field-row">
-  <label class="sds-field-label" for="${id ?? nothing4}">${this.caption}${this.required ? html12` <span class="sds-field-req">required</span>` : nothing4}</label>
-  ${control}
-  ${this.hint ? html12`<span class="sds-field-hint">${this.hint}</span>` : nothing4}
-  ${this.error ? html12`<sds-field-error message="${this.error}"></sds-field-error>` : nothing4}
-</div>`;
-  }
-  control() {
-    const cls = fieldClass(this);
-    const box = `width:${this.minWidth}px; max-width:100%`;
-    const id = this.fieldId || nothing4;
-    const name = this.name || nothing4;
-    const invalid = this.invalid || this.error ? "true" : nothing4;
-    if (this.select) {
-      return html12`<span class="${cls}" style="${box}"><select class="sds-input" id="${id}" name="${name}" aria-label="${this.label ?? nothing4}" aria-invalid="${invalid}" ?required="${this.required}" @change="${(e) => this.onInput(e)}">${this.options.length ? this.options.map((option) => html12`<option ?selected="${option === this.value}">${option}</option>`) : html12`<option>${this.value}</option>`}</select><span style="color:var(--text-muted);"><sds-icon name="actions-chevron-down"></sds-icon></span></span>`;
-    }
-    if (this.rows > 1) {
-      const attr2 = (name2, value) => value ? ` ${name2}="${esc(value)}"` : "";
-      const area = `<textarea class="sds-input" rows="${this.rows}"${attr2("id", this.fieldId)}${attr2("name", this.name)}${this.filled ? "" : attr2("placeholder", this.value)}${attr2("aria-label", this.label ?? "")}${this.invalid || this.error ? ' aria-invalid="true"' : ""}${this.required ? " required" : ""}>${this.filled ? esc(this.value) : ""}</textarea>`;
-      return html12`<span class="${cls}" style="${box}" @input="${(e) => this.onInput(e)}">${unsafeHTML3(area)}</span>`;
-    }
-    const caret = this.focused ? html12`<span style="width:2px; height:15px; background:var(--accent);"></span>` : nothing4;
-    return html12`<span class="${cls}" style="${box}">${this.icon ? html12`<sds-icon name="${this.icon}"></sds-icon>` : nothing4}<input class="sds-input" type="${this.type}" id="${id}" name="${name}" value="${this.filled ? this.value : nothing4}" placeholder="${this.filled ? nothing4 : this.value}" aria-label="${this.label ?? nothing4}" aria-invalid="${invalid}" ?required="${this.required}" @input="${(e) => this.onInput(e)}">${caret}</span>`;
-  }
-};
-define("sds-field", SdsField);
 
 // packages/frontend/src/components/checkbox.ts
 import { html as html13, nothing as nothing5 } from "lit";

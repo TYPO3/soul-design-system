@@ -2,6 +2,7 @@ import { type TemplateResult } from 'lit';
 import './icon.ts';
 import './search-hits.ts';
 import { SdsElement } from '../lib/element.js';
+import { type FieldSize } from './field.js';
 /** One page, as the index has it. */
 export interface SearchEntry {
     title: string;
@@ -21,6 +22,10 @@ export declare class SdsSearch extends SdsElement {
         label: {
             type: StringConstructor;
         };
+        size: {
+            type: StringConstructor;
+            reflect: boolean;
+        };
         query: {
             type: StringConstructor;
             state: boolean;
@@ -36,6 +41,10 @@ export declare class SdsSearch extends SdsElement {
     };
     index: string;
     label: string;
+    /** The height of the box, the field's own three. A bar that runs its own
+        controls at `sm` runs the search at `sm` too, or the row has two heights
+        in it. The drop is the field's width and follows whatever it is given. */
+    size: FieldSize;
     query: string;
     entries: SearchEntry[] | null;
     open: boolean;
