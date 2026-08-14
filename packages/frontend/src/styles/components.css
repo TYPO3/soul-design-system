@@ -2651,6 +2651,10 @@ sds-nav-rail:not(:defined) {
    stands in: at a document's an entry is a paragraph line, which is what the
    column beside the text was setting back to a row one media query at a time.
    Here it is the same row on a card, in a story and in a page. */
+/* One entry is one line, and ends where the column does. A list of places is
+   scanned down its left edge, and an entry folded onto a second line is two
+   places to that reading — the heading it names is short or it is cut, and the
+   cut says so. Where it stands is the whole of the room it gets. */
 .sds-toc__item {
   display: block;
   margin-inline: calc(-1 * var(--space-2));
@@ -2659,6 +2663,9 @@ sds-nav-rail:not(:defined) {
   border-radius: var(--radius-control);
   color: var(--text-secondary);
   text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
 }
 .sds-toc__item:hover {

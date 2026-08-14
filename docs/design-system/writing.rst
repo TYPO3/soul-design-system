@@ -60,8 +60,9 @@ keys and commands keep the spelling their source gives them and are set in
 mono: ``@typo3/soul-frontend``, ``data-theme`` and ``make verify``. Never title
 case, translate or prettify a machine-named string.
 
-A manual heading must also scan on one line in the 210px local contents. Keep
-it to a noun phrase or one short clause. A second clause belongs in the opening
+A manual heading must also scan on one line in the 210px local contents, which
+gives every entry one line and ends what does not fit in an ellipsis. Keep it
+to a noun phrase or one short clause. A second clause belongs in the opening
 sentence below it; ``text-wrap: balance`` can shape a concise heading, but it
 cannot make a long one easier to scan.
 

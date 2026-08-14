@@ -286,6 +286,12 @@ lands a jumped-to heading on** — ``scroll-padding-top``, read off the scroller
 so the entry a press marks is the entry the scroll marks. Above the first
 heading nothing is marked: a page opens there and no section holds it.
 
+An entry is **one line**, cut with an ellipsis where the column runs out. A
+list of places is scanned down its left edge, and an entry folded onto a second
+line is two places to that reading — so a heading is written short enough to
+scan, and the cut is what says it was not —
+:doc:`/design-system/writing` carries that rule.
+
 The mark is the **filled block in the accent** every current navigation item in
 this system gets. A step of ink was the first answer and it was one step in
 dark and half of one in light — a mark on a list this quiet has to read the

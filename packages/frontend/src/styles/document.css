@@ -619,9 +619,7 @@
   /* And the list rests inside it, anywhere in the document, at the rail's line
      and bounded the way the rail is bounded. The rules above and below it go:
      they set a block apart from the text around it, and there is no text
-     around it here. A heading is written for the measure and not for a column
-     this narrow, so its longest word breaks rather than putting a scrollbar
-     under the list. */
+     around it here. */
   :where(.sds-prose) .sds-aside .sds-toc {
     position: sticky;
     top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
@@ -631,7 +629,6 @@
     border: 0;
     max-width: none;
     overflow-y: auto;
-    overflow-wrap: break-word;
   }
   /* Two levels of them. The column is where a reader jumps from, and a
      fourth-level heading is not a jump anybody makes from a rail: drawn, the
