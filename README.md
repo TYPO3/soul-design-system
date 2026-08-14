@@ -348,6 +348,3 @@ Before a visual refactor, take `make baseline`, make the change, then
 
 MIT — see `LICENSE`. Icons are MIT and the fonts are SIL OFL 1.1; both are
 recorded in `THIRD-PARTY.md`.
-
-This is **not** an approved TYPO3 product and no surface may imply
-endorsement.
