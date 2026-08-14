@@ -86,46 +86,6 @@ arrives inside that package.
 Nothing in CI installs it: what holds the documented path honest is that this
 site is rendered along it, with the same file a reader runs.
 
-## The a11y addon ships in the test build, and `a11y.manual` is a global
-
-axe is one global object with one run at a time; a second caller gets a thrown
-`Axe is already running` rather than a queue. The addon's panel runs axe on
-story render and the Playwright suite runs it deliberately, so the two raced —
-about one run in twenty, which is the worst frequency there is.
-
-Two dead ends are recorded because both look like fixes:
-
-- **`SDS_NO_A11Y_ADDON`** was set in `playwright.config.ts` and read by
-  nothing. The addon shipped into every test build regardless. Removing the
-  addon from the test build is also not the answer, and was rejected: the
-  suite exists to prove the shipped surface, and a surface assembled
-  differently for the test is not that surface.
-- **`parameters.a11y.manual`** is not read by `@storybook/addon-a11y` v10.
-  Its own `packages/frontend/dist/preview.d.ts` declares `initialGlobals: { a11y: { manual } }` —
-  it is a **global**. Set in `parameters` it silently does nothing, which is
-  why the setting appeared to be in place for months while the panel went on
-  auto-running.
-
-It is now in `initialGlobals` in `.storybook/preview.ts`. The addon is
-installed, the panel still runs on demand, and nothing runs axe on load.
-Verified over four consecutive full runs rather than one.
-
-## The suite had never opened the Storybook shell
-
-Every test but one opens `/iframe.html` — the preview. Nothing opened `/`,
-the manager: sidebar, toolbar, docs chrome, the surface a person looks at.
-That blind spot let a blank documentation site sit behind a fully green run.
-
-`.storybook/manager.ts` passed a partial object as `theme`. Storybook runs
-that through `ensure()`, polished calls `opacify` on a colour the partial
-never set, and `PolishedError #3` takes down the entire manager bundle — an
-empty page, not an error overlay. `theme` must be built by `create()` from
-`storybook/theming/create`; a partial looks right and is not.
-
-`tests/manager.spec.ts` now boots the shell, asserts the sidebar lists
-stories, and fails on any page error. It was checked in both directions:
-green with `create()`, red with the partial it was written for.
-
 ## Two findings worth fixing separately
 
 - **`@dsCard` subtitles are not entity-decoded.** `scripts/lib/cards.ts`

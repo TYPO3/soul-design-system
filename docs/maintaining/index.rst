@@ -20,6 +20,7 @@ together in this repository.
    source-and-output
    component-evidence
    visual-review
+   storybook-tests
 
 Start with the source
 =====================
@@ -44,3 +45,11 @@ A visual refactor needs a before image, an after image and an exact comparison.
 :doc:`visual-review` explains how the screenshot loop freezes moving state,
 why its comparison has no tolerance and how to distinguish a repeated change
 from the known drift in guideline cards.
+
+Test Storybook
+==============
+
+The component preview and the Storybook shell are separate browser surfaces,
+and the accessibility panel shares axe with the test suite.
+:doc:`storybook-tests` explains how the shipped build keeps those paths from
+testing around one another.
