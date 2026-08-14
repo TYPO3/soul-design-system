@@ -222,7 +222,7 @@ Non-negotiable
 
 .. seealso::
 
-   The written rules and the reasoning behind each of them ship with the
-   system as ``SKILL.md`` and ``RATIONALE.md``. What is here is the interface;
-   those are the argument. :doc:`/design-system/index` is the same decisions
-   with the rendered evidence beside them.
+   ``SKILL.md`` carries the operating rules into the design bundle. What is
+   here is the interface and the reason for its constraints;
+   :doc:`/design-system/index` does the same for visual decisions, with the
+   rendered evidence beside them.

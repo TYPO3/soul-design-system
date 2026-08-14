@@ -7,9 +7,9 @@ artefacts they produce.
 
 This file temporarily holds the architecture decisions that have not yet moved
 beside the part of the system they govern. `SKILL.md` remains the operating
-instruction for designing with the system, `RATIONALE.md` holds design reasons
-not yet moved beside their rules, and `.design-sync/NOTES.md` covers the design
-guide upload alone.
+instruction for designing with the system, the published documentation keeps
+design reasons beside their rules, and `.design-sync/NOTES.md` covers the
+design-guide upload alone.
 
 ## Two packages come out of this tree, and they leave through `packages/`
 

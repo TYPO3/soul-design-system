@@ -41,8 +41,9 @@ import '@typo3/soul-frontend';
 // <sds-button variant="primary">Run the checks</sds-button>
 ```
 
-Neither is a fallback for the other. The product this dresses is plain PHP
-with an HTML surface, which is why the classes have to work alone.
+Neither is a fallback for the other. The class layer works without JavaScript
+so server-rendered surfaces can adopt the system without changing their
+toolchain; components add behaviour where a browser is already part of it.
 
 ## Scope
 
@@ -53,13 +54,12 @@ own rules, and nothing written here speaks for them. Adopting this system does
 not make a project official, and no surface built with it may imply that it
 is — the same rule the signet and the licence note state, from the other end.
 
-What it is for is the tier below: the extensions, tools, services and
-documentation sites the community builds around TYPO3, and first of all the
-ones the project endorses — Friends of TYPO3 among them. Each of those arrives
-with its own stylesheet, its own idea of a button and its own page layout, so a
-reader crossing from one to the next starts over every time. One token set, one
-class vocabulary and one documentation theme mean the second project somebody
-opens works the way the first one did.
+What it is for is the extensions, tools, services and documentation sites the
+community builds around TYPO3. Each of those arrives with its own stylesheet,
+its own idea of a button and its own page layout, so a reader crossing from one
+to the next starts over every time. One token set, one class vocabulary and one
+documentation theme mean the second project somebody opens works the way the
+first one did.
 
 Documentation is the half of that which is easy to miss. `docs/` renders
 through `packages/guides-theme/`, so a project's pages come out with the same
@@ -102,8 +102,8 @@ None of them is edited by hand. Change a component in
 [`docs/maintaining/`](docs/maintaining/index.rst) says how sources become the
 artefacts this repository ships. `ARCHITECTURE.md` still holds the decisions
 not yet moved beside the part they govern. `SKILL.md` is the operating
-instruction for designing *with* the system. The published design-system pages
-put reasons beside their rules; `RATIONALE.md` holds those not yet moved.
+instruction for designing *with* the system. The published design-system and
+frontend pages put reasons beside the rules they govern.
 
 ## Maintaining it here
 
@@ -276,7 +276,6 @@ creates a second one. It compares against the anchor the project stores
 | `docs/maintaining/` | how the sources, tasks and generated outputs are wired |
 | `ARCHITECTURE.md` | architecture decisions not yet moved into the published documentation |
 | `SKILL.md` | the build rules — the operating instruction |
-| `RATIONALE.md` | design reasons not yet moved beside their published rules |
 
 Every card's first line is a `@dsCard` comment carrying its group, label,
 subtitle and viewport; a screen's is `@startingPoint`. Those lines are the

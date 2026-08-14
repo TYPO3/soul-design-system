@@ -88,6 +88,6 @@ What the gate checks
 
 .. seealso::
 
-   The written rules that travel with the upload are ``SKILL.md`` — how to
-   design with the system — and ``RATIONALE.md``, which says why each rule
-   exists. They are copied into ``guidelines/`` by the build.
+   The written rules that travel with the upload are ``SKILL.md``. The
+   published pages in this section keep each rule beside its reason and its
+   rendered evidence.

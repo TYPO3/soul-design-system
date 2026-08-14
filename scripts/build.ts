@@ -219,7 +219,6 @@ if (sp.length) {
 // written guidance
 mkdirSync(join(OUT, 'guidelines'), { recursive: true });
 cpSync(join(ROOT, 'SKILL.md'), join(OUT, 'guidelines/build-rules.md'));
-cpSync(join(ROOT, 'RATIONALE.md'), join(OUT, 'guidelines/rationale.md'));
 /* The two prompts, as something to act on rather than read about: a design
    adopting this system needs a mark and pictures, and the alternative is the
    agent inventing both from the cards. They live beside the pages that print

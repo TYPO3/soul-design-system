@@ -47,8 +47,8 @@ something worse in a way that took a while to see.
 .. seealso::
 
    ``SKILL.md`` is the operating instruction. The pages in this section put
-   each rule beside its reason; ``RATIONALE.md`` temporarily holds reasons not
-   yet moved here. Read both before extending or breaking a rule.
+   each rule beside its reason. Read the matching page before extending or
+   breaking a rule.
 
 Where the rules live
 ====================

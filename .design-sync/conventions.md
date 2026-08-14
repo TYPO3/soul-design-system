@@ -155,8 +155,8 @@ that is the answer, not a reason to substitute something.
 
 Read the real files before styling: `styles.css` and its imports (`tokens/*.css`,
 `_ds_bundle.css`). Per card, `components/<Group>/<Name>/<Name>.prompt.md` has the
-markup to copy. `guidelines/build-rules.md` is the full rule set; `guidelines/rationale.md`
-is why. Copy the nearest specimen rather than inventing a variant.
+markup to copy. `guidelines/build-rules.md` is the full rule set. Copy the
+nearest specimen rather than inventing a variant.
 
 ## A worked example
 

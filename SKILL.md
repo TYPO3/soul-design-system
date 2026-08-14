@@ -5,9 +5,16 @@ description: Build any surface to the Soul Design System — documentation pages
 
 # Soul Design System — build rules
 
-The system was cut against TYPO3 Support App and still answers to it: a local MCP server (plain PHP) that helps coding agents implement, review and verify TYPO3 work. It has one public surface where **the documentation is also the product presentation**: a visitor gets the pitch and keeps scrolling into the reference without a seam. That surface is the worked example behind most of the rules below.
+Soul serves the extensions, tools, services and documentation sites the TYPO3
+community builds around the CMS. Product pages, guides and application UI are
+all in scope; the TYPO3 backend, typo3.org and other official TYPO3 surfaces
+are not. Those products have their own owners and design rules.
 
-This file is the operating instruction. `RATIONALE.md` is the reasoning behind it — read that when a rule needs to be extended or broken. Every specimen card under `guidelines/` and `components/` is a working HTML file: open the one nearest your task and copy from it rather than inventing a variant.
+This file is the operating instruction. The matching pages under
+`docs/design-system/` and `docs/frontend/` carry the reasons behind the rules;
+read them before extending or breaking one. Every specimen card is a working
+HTML file: open the one nearest your task and copy from it rather than
+inventing a variant.
 
 ## Web components first
 
@@ -79,8 +86,8 @@ a reader can see in the line below is noise.
 - **Five lines, ten at the top of a file.** Counting the `/*` and the `*/`. A
   block that wants more is carrying something besides the reason — the line
   below restated, a second example, an aside. A reason that genuinely needs
-  fifteen lines is a decision about the system and belongs in `RATIONALE.md`,
-  where it is read on purpose.
+  fifteen lines is a decision about the system and belongs beside its rule in
+  the published documentation, where it is read on purpose.
 
 ## Start here, every time
 
@@ -98,7 +105,7 @@ Breaking one of these breaks the system, not just the page.
 - **One accent.** `--accent` (#FF8700) marks exactly three things: the active navigation item, the shell prompt in a code block, the pipe in the wordmark. No second accent, anywhere. The accent is also the one thing a surface may be *lit* with: `--accent-glow` in the top of a card's frame under the pointer, falling away down it. That is the single gradient in the system, it is a state rather than a mark, and it is not a licence for a second one.
 - **No shadows.** Not on cards, modals or menus. Separation is a hairline plus `--surface-overlay`. The focus ring is the single `box-shadow` in the system, and it is a state, not depth.
 - **No emoji.** Status is a colour plus a glyph from `packages/frontend/assets/icons/` or the mono font (`✓`).
-- **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `typo3_server_scope`, `.mcp.json`, `vendor/bin/typo3-support-app install`.
+- **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `make verify`, `guides.xml`, `vendor/bin/guides`.
 - **16px is the floor** for both the signet and the icons. Below it: wordmark alone, and no icon at all.
 - **The TYPO3 Soul is not used.** This is not an approved TYPO3 product. No surface may imply endorsement; footers say what the product is, never whose it is. The system's *name* is Soul; the Association's *asset* is the TYPO3 Soul. This rule is about the asset, and the name never takes `TYPO3` in front of it.
 - **Interaction never changes size.** A linked card alone may lift 2px, take the raised fill and light its top frame; keyboard focus gets the same answer. A flush wall and reduced motion hold it still. Nothing scales or bounces. Transitions use 140ms `--ease-out`.
@@ -277,7 +284,8 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 | Card, panel, modal | `components/surfaces/` |
 | Code block, diff | `components/code/` |
 | A whole page to start from, the documentation surface among them | `screens/` |
-| The reasoning behind every rule | `RATIONALE.md` |
+| The reasoning behind a design rule | `docs/design-system/` |
+| The reasoning behind an interface rule | `docs/frontend/` |
 
 ## Before you call it done
 
