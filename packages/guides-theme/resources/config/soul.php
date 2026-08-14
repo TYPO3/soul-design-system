@@ -21,6 +21,7 @@ use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SplitDirective;
 use TYPO3\Soul\GuidesTheme\Directives\StatDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SurfaceDirective;
+use TYPO3\Soul\GuidesTheme\Directives\SwatchDirective;
 use TYPO3\Soul\GuidesTheme\Navigation\Menu;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
@@ -64,6 +65,9 @@ return static function (ContainerConfigurator $container): void {
         ->set(StatDirective::class)
             ->tag('phpdoc.guides.directive')
         ->set(SurfaceDirective::class)
+            ->tag('phpdoc.guides.directive')
+        /* One colour of a palette — see `SwatchDirective`. */
+        ->set(SwatchDirective::class)
             ->tag('phpdoc.guides.directive')
 
         /* A sentence borrowed from somewhere, which the parser leaves no core

@@ -541,6 +541,78 @@ The frame in a wall is the wall's, so a figure anywhere else stays bare and a
 row of numbers on a page is not a row of boxes. The element is ``sds-stat``
 in :doc:`/frontend/components/content`, beside the grid it stands in.
 
+swatch
+======
+
+One colour of a palette: the chip, what it is called, and what it resolves to.
+
+.. example:: A palette, at the width a colour holds
+
+   .. grid:: wide
+
+      .. swatch:: var(--accent)
+         :name: --accent
+         :resolved: #FF8700
+
+      .. swatch:: var(--text-primary)
+         :name: --text-primary
+         :resolved: light-dark(#1C1A17, #EDE9E2)
+
+      .. swatch:: var(--border-subtle)
+         :name: --border-subtle
+         :resolved: light-dark(#E3DFD6, #2B2823)
+         :kind: line
+
+.. confval:: the argument
+   :name: swatch-value
+   :type: string
+   :required: true
+
+   What paints the chip — a token as it is written, ``var(--accent)``, or a
+   literal where the value belongs to a mode the page is not being read in. It
+   is the argument because it is what the line is about. **Anything that is
+   not a colour is dropped rather than painted**: the value arrives from a
+   document, and a style attribute is not where a theme finds out what it
+   turns out to be.
+
+.. confval:: name
+   :name: swatch-name
+   :type: string
+
+   What the colour is called. The token where there is one, because that is
+   the name a design writes; the human name where the palette has no tokens.
+
+.. confval:: resolved
+   :name: swatch-resolved
+   :type: string
+
+   What that name resolves to, written out. A token alone documents half the
+   system — the value is the half that says what the mode did with it, and a
+   pair is written as the pair: ``light-dark(#FFFFFF, #171614)``.
+
+.. confval:: kind
+   :name: swatch-kind
+   :type: string
+
+   ``fill`` (the default) or ``line``. A hairline is a colour too and cannot
+   be shown as a fill: at one pixel a value is invisible, and filled it is a
+   different job being done by the same number. ``line`` makes the chip its
+   own edge, with the page's ground standing inside it.
+
+.. confval:: class
+   :name: swatch-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**There is no body.** A colour that has to be explained in a paragraph is
+carrying a rule about where it may be used, and that rule is prose beside the
+palette rather than inside one entry of it.
+
+**A palette is a set**, so it goes in ``grid`` like any other, at ``wide`` —
+the width a name and a ``light-dark()`` pair under it holds. The element is
+``sds-swatch`` in :doc:`/frontend/components/content`.
+
 surface
 =======
 

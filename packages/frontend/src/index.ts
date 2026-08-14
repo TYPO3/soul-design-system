@@ -45,6 +45,7 @@ import './components/modal.ts';
 import './components/dialog.ts';
 import './components/table.ts';
 import './components/card.ts';
+import './components/swatch.ts';
 import './components/grid.ts';
 import './components/search-result.ts';
 import './components/search-hits.ts';
@@ -103,6 +104,7 @@ export { SdsByline, type BylineProps } from './components/byline.ts';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
 export { SdsConfval, type ConfvalProps, type Fact } from './components/confval.ts';
 export { SdsCard, type CardProps } from './components/card.ts';
+export { SdsSwatch, type SwatchProps, type SwatchKind } from './components/swatch.ts';
 export { SdsGrid, type GridProps, type GridVariant } from './components/grid.ts';
 export { SdsSearchResult, type SearchResultProps } from './components/search-result.ts';
 export { SdsSearchHits, type SearchHitsProps } from './components/search-hits.ts';
@@ -147,6 +149,7 @@ export const TAGS = [
   'sds-dialog',
   'sds-table',
   'sds-card',
+  'sds-swatch',
   'sds-grid',
   'sds-search-result',
   'sds-search-hits',

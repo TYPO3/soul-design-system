@@ -358,6 +358,34 @@ lines, so the notes are read across the set rather than each on its own.
       Every source is read. Nothing is written back, and nothing is executed
       to answer.
 
+Colours
+=======
+
+A palette, laid out by the same wall. Each entry carries all three of the
+things a colour is: the chip nobody can type, the name a design writes, and
+the value the mode resolved it to. The last of them is a hairline, drawn as
+its own edge — at one pixel a value is invisible, and filled it would be a
+different job done by the same number.
+
+.. grid:: wide
+
+   .. swatch:: var(--accent)
+      :name: --accent
+      :resolved: #FF8700
+
+   .. swatch:: var(--surface-raised)
+      :name: --surface-raised
+      :resolved: light-dark(#FFFFFF, #171614)
+
+   .. swatch:: var(--text-primary)
+      :name: --text-primary
+      :resolved: light-dark(#1C1A17, #EDE9E2)
+
+   .. swatch:: var(--border-subtle)
+      :name: --border-subtle
+      :resolved: light-dark(#E3DFD6, #2B2823)
+      :kind: line
+
 Planes
 ======
 

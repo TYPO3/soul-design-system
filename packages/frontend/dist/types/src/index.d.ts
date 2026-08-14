@@ -30,6 +30,7 @@ import './components/modal.ts';
 import './components/dialog.ts';
 import './components/table.ts';
 import './components/card.ts';
+import './components/swatch.ts';
 import './components/grid.ts';
 import './components/search-result.ts';
 import './components/search-hits.ts';
@@ -80,6 +81,7 @@ export { SdsByline, type BylineProps } from './components/byline.js';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.js';
 export { SdsConfval, type ConfvalProps, type Fact } from './components/confval.js';
 export { SdsCard, type CardProps } from './components/card.js';
+export { SdsSwatch, type SwatchProps, type SwatchKind } from './components/swatch.js';
 export { SdsGrid, type GridProps, type GridVariant } from './components/grid.js';
 export { SdsSearchResult, type SearchResultProps } from './components/search-result.js';
 export { SdsSearchHits, type SearchHitsProps } from './components/search-hits.js';
@@ -88,4 +90,4 @@ export { SdsNavPager, type PagerProps } from './components/nav-pager.js';
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-nav-toc', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-grid', 'sds-search-result', 'sds-search-hits', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-nav-toc', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-swatch', 'sds-grid', 'sds-search-result', 'sds-search-hits', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];

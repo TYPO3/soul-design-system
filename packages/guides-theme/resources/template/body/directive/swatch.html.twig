@@ -1,0 +1,15 @@
+{#
+    One colour, and the element draws all of it.
+
+    **Every option is a property**, and there is nothing between the tags: a
+    swatch is a chip, a name and a value, and all three fit in an attribute.
+    Nothing here says what a colour looks like — not the size of the chip, not
+    what a hairline does instead of a fill. That is what the component is for.
+#}
+<sds-swatch
+    value="{{ node.option('value') }}"
+    {%- if node.option('name') %} name="{{ node.option('name') }}"{% endif %}
+    {%- if node.option('resolved') %} resolved="{{ node.option('resolved') }}"{% endif %}
+    {%- if node.option('kind') %} kind="{{ node.option('kind') }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+></sds-swatch>

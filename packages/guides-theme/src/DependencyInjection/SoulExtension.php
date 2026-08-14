@@ -31,6 +31,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SurfaceNode;
+use TYPO3\Soul\GuidesTheme\Nodes\SwatchNode;
 
 /**
  * What a project using this theme can set, and where it says so.
@@ -269,6 +270,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => HeroNode::class, 'file' => 'body/directive/hero.html.twig', 'format' => 'html'],
                 ['node' => StatNode::class, 'file' => 'body/directive/stat.html.twig', 'format' => 'html'],
                 ['node' => SurfaceNode::class, 'file' => 'body/directive/surface.html.twig', 'format' => 'html'],
+                ['node' => SwatchNode::class, 'file' => 'body/directive/swatch.html.twig', 'format' => 'html'],
                 ['node' => QuoteNode::class, 'file' => 'body/directive/quote.html.twig', 'format' => 'html'],
                 ['node' => CardNode::class, 'file' => 'body/directive/card.html.twig', 'format' => 'html'],
                 ['node' => ButtonNode::class, 'file' => 'body/directive/button.html.twig', 'format' => 'html'],

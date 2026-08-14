@@ -287,6 +287,75 @@ is not a row of boxes.
    What the figure is bounded by. **Without one the number is a boast** — and
    this is the whole reason the component exists rather than two divs.
 
+.. _component-sds-swatch:
+
+sds-swatch
+==========
+
+One colour, stated as a fact: the chip, what the colour is called, and the
+value that name resolves to.
+
+.. code-block:: html
+
+   <sds-swatch value="var(--accent)" name="--accent" resolved="#FF8700"></sds-swatch>
+
+All three, because none of them is enough alone. A chip says nothing a reader
+can type. A token name says nothing about what the mode did with it. A hex out
+of context says nothing about where the colour may be used. **A swatch missing
+one of them documents part of a colour.**
+
+A palette is a set, so it goes into ``sds-grid`` like any other, at ``wide`` —
+the width a name with a ``light-dark()`` pair under it holds.
+
+.. code-block:: html
+
+   <sds-grid variant="wide">
+     <sds-swatch value="var(--accent)" name="--accent" resolved="#FF8700"></sds-swatch>
+     <sds-swatch value="var(--border-subtle)" name="--border-subtle"
+       resolved="light-dark(#E3DFD6, #2B2823)" kind="line"></sds-swatch>
+   </sds-grid>
+
+.. confval:: value
+   :name: sds-swatch-value
+   :type: string
+   :required: true
+
+   What paints the chip — a token as it is written, or a literal where the
+   value belongs to a mode the page is not being read in. **Anything that is
+   not a colour is dropped rather than painted**: the value arrives from a
+   document somebody else wrote, and a style attribute is not where an element
+   finds out what it turns out to be. The name and the value stay readable
+   either way, which is what the reader came for.
+
+.. confval:: name
+   :name: sds-swatch-name
+   :type: string
+
+   What the colour is called. The token where there is one, because that is
+   the name a design writes; the human name where the palette has no tokens.
+
+.. confval:: resolved
+   :name: sds-swatch-resolved
+   :type: string
+
+   What that name resolves to, written out — and a pair is written as the
+   pair, ``light-dark(#FFFFFF, #171614)``. Showing one half of a token
+   documents one mode and claims to document the system.
+
+.. confval:: kind
+   :name: sds-swatch-kind
+   :type: string
+
+   ``fill`` or ``line``. A hairline is a colour too and cannot be shown as a
+   fill: at one pixel a value is invisible, and filled it is a different job
+   being done by the same number. ``line`` makes the chip its own edge, at the
+   emphasis width, with the page's own ground standing inside it.
+
+The chip keeps the system's hairline round it whatever it is painted with.
+Without that, a swatch the colour of the page it is documented on would be a
+missing square rather than a white one — which is the one case a palette has
+to be able to draw.
+
 .. _component-sds-quote:
 
 sds-quote
