@@ -56,15 +56,12 @@ Create the entry page:
 Install the renderer
 ====================
 
-The package is installed outside the documentation tree. Until the theme is
-available from Packagist, Composer is also told where its public mirror lives:
+The package is installed outside the documentation tree:
 
 .. code-block:: bash
 
    mkdir -p .renderer
    composer --working-dir=.renderer init --no-interaction --name=example/documentation
-   composer --working-dir=.renderer config repositories.soul vcs \
-     https://github.com/TYPO3/soul-guides-theme
    composer --working-dir=.renderer require \
      --no-interaction --no-progress \
      typo3/soul-guides-theme:dev-main

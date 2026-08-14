@@ -123,7 +123,7 @@ Running it
    php -S localhost:8000 -t site
 
 The second command writes documents; the third is what turns them into a site.
-:doc:`installation` has the configuration lines the first one still needs, and
+:doc:`installation` says what that directory of its own is for, and
 :doc:`publishing` says what the workflow's jobs are for and what they refuse
 to publish.
 

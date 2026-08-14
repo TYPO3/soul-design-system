@@ -84,7 +84,7 @@ Test the consumer path
 installs the package through Composer. The renderer, templates, drop-in and
 finishing step are then taken from ``vendor/`` rather than imported from their
 monorepo paths. ``make guides ARGS=--released`` repeats the render against the
-public mirror.
+published package, which is the one a reader installs.
 
 The manual's installation and publishing commands are therefore executable
 architecture: this site's own render reaches the same package boundary a

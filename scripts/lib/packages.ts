@@ -24,12 +24,6 @@ const NOT_IN_THE_DROP_IN = ['index.js', 'index.js.map', 'types', 'tsconfig.json'
 /* And what the npm package leaves out, which its manifest names as well. */
 const NOT_IN_THE_PACKAGE = [join('assets', 'placeholders'), join('assets', 'icons', 'svgs')];
 
-/** Where a package is cloned from without a key. The mirrors are declared as
-    SSH remotes, which is what a person pushes over; a runner and a Composer
-    repository both need the other spelling of the same address. */
-export const publicUrl = (remote: string): string =>
-  `https://github.com/${remote.replace(/^git@github\.com:/, '').replace(/\.git$/, '')}`;
-
 /** Every file under a directory, relative to it — the package, not the
     repository it is kept in. */
 export function* walk(dir: string, base = dir): Generator<string> {

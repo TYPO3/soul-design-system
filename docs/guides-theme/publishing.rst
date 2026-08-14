@@ -18,8 +18,8 @@ asked to write.
    node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
 
 The first runs in a directory of its own — a documentation repository holds
-documents, not a PHP manifest — and needs one line in front of it until the
-package is on Packagist. :doc:`installation` has both.
+documents, not a PHP manifest. :doc:`installation` says what that directory is
+and why it is thrown away.
 
 What the renderer does not do
 =============================

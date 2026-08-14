@@ -14,14 +14,14 @@ import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 import { GENERATED, ROOT, cardChrome } from './lib/cards.ts';
-import { PACKAGES, publicUrl } from './lib/packages.ts';
+import { PACKAGES } from './lib/packages.ts';
 import { PROJECTS } from './lib/projects.ts';
 import * as report from './lib/report.ts';
 
 /* This site is built the way the manual tells a project to build one: an empty
-   manifest, the theme's repository named, the theme required, and the renderer
-   and drop-in taken out of the `vendor/` that produces. What differs is where
-   that repository is — the package assembled from this tree, or the mirror. */
+   manifest, the theme required, and the renderer and drop-in taken out of the
+   `vendor/` that produces. What differs is where it is required from — the
+   package assembled from this tree, or Packagist. */
 const CONSUMER = join(GENERATED, 'consumer');
 const PACKAGED = join(GENERATED, 'theme');
 const argv = process.argv.slice(2);
@@ -63,15 +63,13 @@ if (!RELEASED) {
   theme.assemble(ROOT, PACKAGED);
 }
 
-const from = RELEASED ? publicUrl(theme.remote) : PACKAGED;
-const renderer = `${RELEASED ? 'vcs' : 'path'} ${from}\n`;
+const renderer = `${RELEASED ? 'packagist' : `path ${PACKAGED}`}\n`;
 const marker = join(CONSUMER, '.renderer');
 
-/* Three commands, and they are the three the manual prints. Redone when the
-   repository changes or the renderer is not there: `composer require` resolves
-   `dev-main` afresh, which is what makes a mirror pushed minutes ago the one
-   this renders with. No `--no-cache` — the git driver refuses to run without a
-   cache directory at all. */
+/* The commands the manual prints, redone when the source changes or the
+   renderer is not there: `composer require` resolves `dev-main` afresh, which
+   is what makes a mirror pushed minutes ago the one this renders with — as far
+   as Packagist has caught up with it. */
 if (!existsSync(GUIDES) || !existsSync(marker) || readFileSync(marker, 'utf8') !== renderer) {
   report.fact('building the renderer', RELEASED ? 'from the published theme' : 'from this tree');
   rmSync(CONSUMER, { recursive: true, force: true });
@@ -80,7 +78,7 @@ if (!existsSync(GUIDES) || !existsSync(marker) || readFileSync(marker, 'utf8') !
     if (run('composer', [...args, '--no-interaction'], CONSUMER) !== 0) process.exit(1);
   };
   composer('init', '--name=typo3/soul-documentation');
-  composer('config', 'repositories.soul', RELEASED ? 'vcs' : 'path', from);
+  if (!RELEASED) composer('config', 'repositories.soul', 'path', PACKAGED);
   /* `dev-main` is the branch the mirror publishes and what the manual prints.
      A path repository is versioned from the checkout around it, so on a branch
      of your own that name is somebody else's — `*@dev` takes what is there. */

@@ -51,7 +51,6 @@ jobs:
           mkdir -p "$RENDERER"
           cd "$RENDERER"
           composer init --no-interaction --name=typo3/soul-documentation
-          composer config repositories.soul vcs https://github.com/TYPO3/soul-guides-theme
           composer require --no-interaction --no-progress typo3/soul-guides-theme:dev-main
 
       # `docs` and not the theme's control surface: this job renders what it

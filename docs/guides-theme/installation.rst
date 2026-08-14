@@ -27,12 +27,7 @@ repository ever reads.
 
    mkdir -p .renderer && cd .renderer
    composer init --no-interaction --name=example/documentation
-   composer config repositories.soul vcs https://github.com/TYPO3/soul-guides-theme
    composer require typo3/soul-guides-theme:dev-main
-
-The middle line is the one that goes away: the theme is **not on Packagist
-yet**, so the repository it is published from is named. Everything else about
-the require is ordinary.
 
 ``vendor/bin/guides`` is then the command, out of a directory a build can
 throw away. PHP 8.2 is the floor.
@@ -48,11 +43,9 @@ throw away. PHP 8.2 is the floor.
 
 .. note::
 
-   When the package is registered, the ``config`` line goes away and this step
-   is one ``composer require typo3/soul-guides-theme``. Ask for a tag rather
-   than ``dev-main`` as soon as there is one: a branch is a moving target, and
-   a site rebuilt against one can change on a commit nobody in your repository
-   made.
+   Ask for a tag rather than ``dev-main`` as soon as there is one: a branch is
+   a moving target, and a site rebuilt against one can change on a commit
+   nobody in your repository made.
 
 .. note::
 
