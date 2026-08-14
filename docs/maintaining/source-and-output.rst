@@ -82,6 +82,19 @@ card generator renders the same Lit templates ahead of time. Both routes still
 arrive at the class vocabulary in ``components.css``; the static consumer does
 not create another component implementation.
 
+That static rendering deliberately removes Lit's hydration markers.
+``renderStatic()`` fails if one survives, because a marker is valid HTML and
+visually empty: a rendered review would never reveal that the exported markup
+still carries framework scaffolding. The failure keeps a change in Lit's SSR
+output from silently becoming part of every specimen.
+
+Readable generated HTML is indented by ``indent()`` in
+``stories/lib/specimen.ts``, except inside ``<pre>``. Whitespace is content
+there; adding the surrounding block's indentation would move every displayed
+line to the right. Keep code bodies at the indentation they are meant to show
+while the specimen helper positions the surrounding markup without touching
+those lines.
+
 ``docs/`` is the source of the published manual. The theme under
 ``packages/guides-theme/`` maps its reStructuredText and Markdown onto the same
 components and class vocabulary. ``make guides`` renders the pair together,

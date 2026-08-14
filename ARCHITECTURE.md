@@ -86,57 +86,6 @@ arrives inside that package.
 Nothing in CI installs it: what holds the documented path honest is that this
 site is rendered along it, with the same file a reader runs.
 
-## Fixes applied to the cards (were pre-existing defects)
-
-- `Density` — the Tool column could not hold `typo3_changelog_lookup`; the
-  name overlapped the Verb column. Fixed by dropping the fixed colgroup.
-- `Surfaces` — the modal's footer buttons were cropped, and the three
-  surfaces wrapped to two rows because padding sat outside their width.
-  Fixed by a `box-sizing: border-box` rule scoped to `[class*="sds-"]`.
-- **18 card viewports were wrong** (5 cropped their own content, 13 declared
-  far more height than they used). All corrected. `make fit` measures this
-  and is part of `make verify` — run it after any content edit.
-- Two cards documented their own sizes in prose and went stale after the
-  rounding (`DIFF 12.5 PX`, `--font-size-dense · 13.5`). If you change a size
-  token, grep the card copy for the number.
-
-## Cards are generated from stories
-
-The cards under `components/` are **generated** — edit
-`stories/*.stories.ts`, never the card. `make cards` writes them and
-`make cards ARGS=--check` fails on a stale one, which is step 5 of verify.
-
-The chain is: a component template in `packages/frontend/src/` → `@lit-labs/ssr` renders it to
-static markup (`packages/frontend/src/lib/render.ts`) → the story composes the specimen out of
-those strings → the generator wraps it in the `@dsCard` shell. The 31
-guideline specimens under `guidelines/` are **not** generated: they document
-the token layer, have no props to vary, and are embedded into the MDX docs
-pages as they stand.
-
-Two things that bit during the migration and will bite again:
-
-- **`<pre>` is whitespace-significant.** `indent()` in
-  `stories/lib/specimen.ts` skips the inside of one. Indenting a code block's
-  body shifts every rendered line to the right — a visible change that reads
-  as a formatting change.
-- **Lit SSR emits markers.** `<!--lit-part-->` around bindings, and a `<?>`
-  when a template's entire content is bindings. `packages/frontend/src/lib/render.ts` strips
-  both and throws if a marker survives, because an HTML comment renders as
-  nothing and would be invisible in review.
-
-Each migration was verified by `make baseline` before and
-`make shots && make diff` after: **38 identical, 0 changed** for the component
-cards, **36 of 39** when the guideline cards followed. The three that moved
-differ by under 0.1%: their glyphs come from the sprite rather than from a
-pasted path. Numeric entities became the literal characters they encode
-throughout.
-
-The pixel diff is the check that made that migration safe, and it earned it:
-a card carrying both modes inside it must pin neither on `<html>`.
-Pinning one turned the ground under the diagram figures from paper to
-terminal — a quarter of the card — and no other check in the repo would have
-noticed.
-
 ## The rail is a section, and a section is found upwards
 
 The bar picks a section and the rail is what is inside the one that was
