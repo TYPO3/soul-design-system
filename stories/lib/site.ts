@@ -116,11 +116,11 @@ export const SITE_GROUPS: readonly FooterGroup[] = [
   },
 ];
 
-/** The line that has to be on every page. It says what the product is; it
-    never says whose it is, and no surface here may imply an endorsement it
-    does not have. */
+/** The line that has to be on every page. It says what the product is and who
+    it is for; it never says whose it is, which is what the copyright beside it
+    is already for. */
 export const SITE_NOTE =
-  'An independent development tool. Not a product of the TYPO3 Association, and not endorsed by it.';
+  'A development tool for the people who build, extend and run TYPO3 projects.';
 
 export const SITE_META: readonly FooterLink[] = [
   { label: 'MIT', href: '#' },

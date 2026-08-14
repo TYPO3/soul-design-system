@@ -107,7 +107,7 @@ Breaking one of these breaks the system, not just the page.
 - **No emoji.** Status is a colour plus a glyph from `packages/frontend/assets/icons/` or the mono font (`✓`).
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `make verify`, `guides.xml`, `vendor/bin/guides`.
 - **16px is the floor** for both the signet and the icons. Below it: wordmark alone, and no icon at all.
-- **The TYPO3 Soul is not used.** This is not an approved TYPO3 product. No surface may imply endorsement; footers say what the product is, never whose it is. The system's *name* is Soul; the Association's *asset* is the TYPO3 Soul. This rule is about the asset, and the name never takes `TYPO3` in front of it.
+- **The TYPO3 Soul is not used.** Footers say what the product is, never whose it is. The system's *name* is Soul; the Association's *asset* is the TYPO3 Soul. This rule is about the asset, and the name never takes `TYPO3` in front of it.
 - **Interaction never changes size.** A linked card alone may lift 2px, take the raised fill and light its top frame; keyboard focus gets the same answer. A flush wall and reduced motion hold it still. Nothing scales or bounces. Transitions use 140ms `--ease-out`.
 - **Sentence case headings.** No marketing superlatives — no "powerful", "seamless", "blazing fast".
 

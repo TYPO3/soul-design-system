@@ -93,7 +93,7 @@ The theme element
                <link href="https://example.org" label="Product site" external="true"/>
            </group>
            <social href="https://github.com/…" label="GitHub"/>
-           <note>Not an official product.</note>
+           <note>A tool for TYPO3 community projects.</note>
        </footer>
    </extension>
 
@@ -284,7 +284,7 @@ What is configured is what the tree cannot know:
            <link href="https://example.org" label="Product site" external="true"/>
        </group>
        <social href="https://github.com/…" label="GitHub"/>
-       <note>Not an official product.</note>
+       <note>A tool for TYPO3 community projects.</note>
    </footer>
 
 ``<group>`` is a column of links under a label, and it follows the site's own
@@ -294,8 +294,8 @@ the mark of the service before its name, and there is nothing to set: the host
 says which service it is, so a glyph cannot name one the link does not go to.
 A host the icon set has no brand mark for keeps its label and no glyph — as
 does an instance somebody runs themselves, which is a host no URL can be read
-for. ``<note>`` is the sentence that says what this is not — the place a
-project disclaims an affiliation, beside the product name and the copyright.
+for. ``<note>`` is the sentence that says what this is — what the project
+does and who it is for, beside the product name and the copyright.
 
 .. note::
 

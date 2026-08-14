@@ -733,7 +733,7 @@ nothing was set, so the second is the first with less in it.
 
 .. code-block:: html
 
-   <sds-footer note="Not an official TYPO3 product." product="soul-frontend"
+   <sds-footer note="A tool for TYPO3 community projects." product="soul-frontend"
      signet="/_images/signet.svg" brand="TYPO3"
      copyright="© 2026 The TYPO3 Project"
      .groups="${[{ label: 'Documentation', items: [{ label: 'Frontend', href: '/frontend/' }] }]}"
@@ -741,7 +741,7 @@ nothing was set, so the second is the first with less in it.
                   icon: 'actions-brand-github' }]}"></sds-footer>
 
    <!-- A screen with no site around it: the same element, less set. -->
-   <sds-footer product="soul-frontend" note="Not an official TYPO3 product."
+   <sds-footer product="soul-frontend" note="A tool for TYPO3 community projects."
      .meta="${[{ label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true }]}"
    ></sds-footer>
 
@@ -766,8 +766,8 @@ nothing was set, so the second is the first with less in it.
    :required: true
 
    What this is. Stated, never implied — and never whose it is. A required
-   property rather than a slot a page may forget to fill, because no surface
-   here may imply an endorsement it does not have.
+   property rather than a slot a page may forget to fill, because a page that
+   says nothing about itself leaves a reader to guess.
 
    It sits under the lockup rather than in the line at the bottom, and not in
    the micro register that line is set in: it is the one thing in a footer

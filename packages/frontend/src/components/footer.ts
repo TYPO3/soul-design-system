@@ -6,9 +6,9 @@
    variant to choose — a page states what it has, and the ending it gets is
    what it stated.
 
-   The last thing said is what the product is, and no surface here may imply an
-   endorsement it does not have — so it is a required property rather than a
-   slot a page may forget to fill. */
+   The last thing said is what the product is, never whose it is — a required
+   property rather than a slot a page may forget to fill, because a page that
+   says nothing about itself leaves a reader to guess. */
 
 import { html, type TemplateResult } from 'lit';
 import './link.ts';

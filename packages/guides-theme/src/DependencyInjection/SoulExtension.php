@@ -143,14 +143,14 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                    does not get to invent it. Its columns are the toctree and
                    are configured nowhere; what is set here is what the tree
                    cannot know — a column pointing somewhere else, the social
-                   accounts, and the line that says what this is not:
+                   accounts, and the line that says what this is:
 
                        <footer>
                            <group title="Elsewhere">
                                <link href="https://…" label="Product site" external="true"/>
                            </group>
                            <social href="https://…" label="GitHub"/>
-                           <note>Not an official product.</note>
+                           <note>A tool for TYPO3 community projects.</note>
                        </footer>
 
                    All of it optional. A footer with nothing set renders the

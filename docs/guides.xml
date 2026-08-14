@@ -46,9 +46,8 @@
         <footer>
             <social href="https://github.com/TYPO3/soul-design-system" label="GitHub"/>
             <!-- What this is, said plainly, and then the one proof of it a
-                 reader is already standing on. No disclaimer: the copyright
-                 above names a holder, which is a claim about whose the work
-                 is and not one about anybody endorsing it. -->
+                 reader is already standing on. Whose it is stays with the
+                 copyright above, which is the line that carries a holder. -->
             <note>A shared visual language for TYPO3 community projects: product pages, documentation and interface code from one set of decisions. This site is rendered with it.</note>
         </footer>
     </extension>

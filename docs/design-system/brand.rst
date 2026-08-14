@@ -24,9 +24,8 @@ it should produce a mark that belongs here.
 
 .. warning::
 
-   This is **not** an approved TYPO3 product. The TYPO3 Soul is not used,
-   and no surface may imply endorsement — footers say what the product is,
-   never whose it is.
+   The TYPO3 Soul is not used, and a footer says what the product is, never
+   whose it is.
 
 ``TYPO3`` in the wordmark names the domain the system serves, not the owner of
 the system. The Association's asset is therefore neither nested nor cropped

@@ -150,10 +150,10 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
           pricing page.
         </p>
         <sds-note
-          heading="It is not a TYPO3 Association product, and it never claims to be"
-          .body="${html`No page here uses the Association’s marks, and the footer says what
-            this is on every one of them. Where an answer comes from official
-            documentation, the answer says so and links to it.`}"
+          heading="It says what it is on every page, and where an answer came from"
+          .body="${html`The footer names the product and the licence on every one of them.
+            Where an answer comes from official documentation, the answer says so
+            and links to it.`}"
         ></sds-note>
         <sds-note
           tone="warn"

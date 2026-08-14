@@ -62,8 +62,8 @@ export const QUESTIONS: readonly Entry[] = [
       registered ones, and the answer states that rather than looking complete.`,
   },
   {
-    question: 'Is it a TYPO3 Association product?',
-    answer: 'No. It is an independent development tool, it is not endorsed, and no surface of it implies otherwise.',
+    question: 'Which TYPO3 versions does it work with?',
+    answer: 'Every version still receiving support, and one release past it. A version that has reached its end of life is named in the result rather than refused, so an installation nobody has updated yet still gets an answer.',
   },
 ];
 

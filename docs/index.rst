@@ -73,9 +73,8 @@ One system, from design to delivery
       application UI belong to the same system.
 
       Soul does not define the TYPO3 backend, typo3.org or another official
-      TYPO3 surface. Those products have their own owners and design rules.
-      Using Soul does not make a project official, and a surface built with it
-      must not imply endorsement.
+      TYPO3 surface. Those products have their own owners and design rules,
+      and adopting this system is not a claim on any of them.
 
    .. half::
 

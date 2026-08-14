@@ -62,7 +62,6 @@ it cannot reach into a package directory.
 
 ## The TYPO3 name and marks
 
-This is **not** an approved TYPO3 product and no surface may imply
-endorsement. The TYPO3 Soul is not used anywhere in this system. `TYPO3` is a
-registered trademark of the TYPO3 Association; it appears here nominatively,
-to say what the software works with.
+The TYPO3 Soul is not used anywhere in this system. `TYPO3` is a registered
+trademark of the TYPO3 Association; it appears here nominatively, to say what
+the software works with.
