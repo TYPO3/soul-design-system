@@ -1740,6 +1740,12 @@ html:has(.sds-bar) {
    ground. It replaces `.sds-page` — two insets would indent the text twice. */
 .sds-bands { flex: 1; display: flex; flex-direction: column; }
 .sds-band { padding-block: var(--space-12); }
+/* The tree a landing page keeps for the bar. There is no column for it here —
+   a run of bands is the way in and a list of pages beside the claim is not —
+   so the box is never drawn, and only says whether the bar may take what is in
+   it. Zero while the sections are a row: a drawer offered on a page that has
+   nothing behind the button is what the flag prevents. */
+.sds-bands__rail { display: none; --rail-folded: 0; }
 
 /* The second ground, and the hairlines that keep two of them apart. Without
    the rules a quiet band against the canvas is a fill whose edge is the only
@@ -1786,6 +1792,10 @@ html:has(.sds-bar) {
      button that is not there. */
   .sds-body { flex-direction: column; padding-block: var(--space-6); --rail-folded: 1; }
   .sds-body__rail { width: auto; position: static; max-height: none; }
+  /* And the landing page's, which has no column to lose: the same width is the
+     one where the bar becomes the whole of the navigation, so it is the width
+     where the tree has to be in the drawer. */
+  .sds-bands__rail { --rail-folded: 1; }
   .sds-page { padding-block: var(--space-8); }
   .sds-foot { flex-wrap: wrap; gap: var(--space-4); }
   .sds-sections { gap: var(--space-10); }
@@ -1798,10 +1808,18 @@ html:has(.sds-bar) {
   .sds-footer__marks { margin-inline-start: 0; }
 }
 @media (max-width: 460px) {
-  /* The product half of the wordmark, never the signet: the mark is what
-     identifies the page, and it is 20px. */
-  .sds-bar .sds-wordmark__product,
+  /* The brand half of the wordmark, never the signet and never the product:
+     the name of the thing the reader came for is what tells them which page
+     they are on, and whose it is is what the signet beside it already says. */
+  .sds-bar .sds-wordmark__brand,
   .sds-bar .sds-wordmark__pipe { display: none; }
+  /* One name left is the mark itself, in the mark's own weight — the same
+     lockup a site with no brand draws, rather than the quiet half standing
+     alone with nothing for it to be quiet beside. */
+  .sds-bar .sds-wordmark__product {
+    font-weight: inherit;
+    color: inherit;
+  }
 }
 
 /* The search field and its drop. `sds-search` renders both; what is here is
@@ -2772,6 +2790,10 @@ sds-rail:not(:defined) {
   color: var(--text-primary);
   white-space: nowrap;
 }
+/* Whose it is. It keeps its letters whatever the bar does — the half that
+   gives is the one below, and a half that gives twice is a lockup with two
+   ellipses in it. */
+.sds-wordmark__brand { flex: none; }
 .sds-wordmark__pipe {
   display: inline-block;
   width: 2px;

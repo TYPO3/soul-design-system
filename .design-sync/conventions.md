@@ -102,7 +102,7 @@ inline styles — do not mint a `sds-` name.
 | Code | `<sds-code code-lang="bash">` — the attribute is `code-lang`, because `lang` names the human language of the content. `sds-code__head|__body|__lang|__copy|__glyph|__copied|__caption` `sds-code__prompt|__cmd|__comment|__ok` `sds-diff` `sds-diff__line--add|--del` |
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body`; `sds-loading` `sds-spinner` `sds-skeleton` |
 | Reference | `sds-confval` with `__term` `__name` `__mark` `__detail` `__facts` `__body` — a hairline above each entry and no box around one; the facts stand in a row on the inset surface |
-| Brand | `sds-signet` `sds-lockup` `sds-wordmark` `sds-wordmark__pipe` `sds-wordmark__product` |
+| Brand | `sds-signet` `sds-lockup` `sds-wordmark` `sds-wordmark__brand` `sds-wordmark__pipe` `sds-wordmark__product` — a narrow bar drops the brand half and keeps the product's own name |
 | Chrome | `sds-modes`/`sds-mode`/`sds-mode__label` — each segment is a mark and its word; the word is what a bar with no room for it drops first |
 
 ## Icons

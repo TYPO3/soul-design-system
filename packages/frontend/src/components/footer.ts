@@ -141,7 +141,7 @@ export class SdsFooter extends SdsElement {
       ${this.product
         ? html`<span class="sds-wordmark">${
             this.brand
-              ? html`${this.brand}<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${this.product}</span>`
+              ? html`<span class="sds-wordmark__brand">${this.brand}</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${this.product}</span>`
               : html`${this.product}`
           }</span>`
         : ''}

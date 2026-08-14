@@ -70,8 +70,8 @@ The canvas and the frame
    **The bar sheds, it never wraps.** A header on two lines moves the offset
    everything below it is measured against, so as the window narrows the bar
    drops what it can spare instead: first the version badge, then the search
-   field, then the product half of the wordmark. The mark and the navigation
-   stay.
+   field, then the brand half of the wordmark. The mark, the product's own
+   name and the navigation stay.
 
 .. confval:: .sds-bar__end
    :name: sds-bar-end
@@ -242,7 +242,8 @@ drawn for.
      - a row of controls wraps, and the marks at the end of the footer's
        closing line give up their end of it — there is none once the line broke
    * - 460px
-     - the wordmark keeps the signet and the brand, and drops the product
+     - the wordmark keeps the signet and the product, and drops the brand —
+       the surviving name is set as the mark it now is
 
 .. important::
 
@@ -335,15 +336,16 @@ The mark in the bar
    <a class="sds-lockup" href="/">
      <sds-image class="sds-signet" src="/soul/assets/signet.svg" alt=""
        width="24" height="24"></sds-image>
-     <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe"
-       aria-hidden="true"></span><span class="sds-wordmark__product">Soul</span></span>
+     <span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span
+       class="sds-wordmark__pipe" aria-hidden="true"></span><span
+       class="sds-wordmark__product">Soul</span></span>
    </a>
 
 The lockup states the mark's size itself, because a signet is crisp only at
 the size its file was drawn for and a number left to each call site drifts. The
 pipe is the third and last place ``--accent`` may appear. On a narrow bar the
-product and the pipe go and the mark stays — the mark is what identifies the
-page.
+brand half and the pipe go: the signet already says whose the page is, and the
+product's own name is what says which page it is.
 
 .. seealso::
 

@@ -98,7 +98,7 @@ export const InABox: Story = {
 export const InALockup: Story = {
   render: () => html`<a class="sds-lockup" href="#">
     <sds-image class="sds-signet" src="/assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
-    <span class="sds-wordmark">TYPO3<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
+    <span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
   </a>`,
 };
 

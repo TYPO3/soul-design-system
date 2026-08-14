@@ -267,6 +267,7 @@ html:has(.sds-bar){scroll-padding-top:calc(var(--height-header) + var(--space-4)
 .sds-grid--flush .sds-card:has(>.sds-card__body>.sds-card__title a:focus-visible){outline-offset:calc(-1 * (var(--border-emphasis) + var(--focus-offset)));box-shadow:none}
 .sds-bands{flex:1;display:flex;flex-direction:column}
 .sds-band{padding-block:var(--space-12)}
+.sds-bands__rail{display:none;--rail-folded: 0}
 .sds-band--quiet{background:var(--surface-raised);border-block:var(--border-hairline) solid var(--border-subtle)}
 .sds-band--quiet+.sds-band--quiet{border-top:0}
 @media(max-width:1140px){
@@ -283,6 +284,7 @@ html:has(.sds-bar){scroll-padding-top:calc(var(--height-header) + var(--space-4)
   :root{--height-header: 56px}
   .sds-body{flex-direction:column;padding-block:var(--space-6);--rail-folded: 1}
   .sds-body__rail{width:auto;position:static;max-height:none}
+  .sds-bands__rail{--rail-folded: 1}
   .sds-page{padding-block:var(--space-8)}
   .sds-foot{flex-wrap:wrap;gap:var(--space-4)}
   .sds-sections{gap:var(--space-10)}
@@ -292,7 +294,8 @@ html:has(.sds-bar){scroll-padding-top:calc(var(--height-header) + var(--space-4)
   .sds-footer__marks{margin-inline-start:0}
 }
 @media(max-width:460px){
-  .sds-bar .sds-wordmark__product,.sds-bar .sds-wordmark__pipe{display:none}
+  .sds-bar .sds-wordmark__brand,.sds-bar .sds-wordmark__pipe{display:none}
+  .sds-bar .sds-wordmark__product{font-weight:inherit;color:inherit}
 }
 .sds-search{position:relative;display:inline-flex;flex:0 1 260px;min-width:0}
 .sds-search .sds-field{width:100%}
@@ -459,6 +462,7 @@ sds-rail:not(:defined){display:flex;flex-direction:column;gap:var(--border-hairl
 .sds-lockup:hover{text-decoration:none}
 .sds-lockup .sds-signet{width:24px;height:24px}
 .sds-wordmark{display:inline-flex;align-items:baseline;gap:var(--space-1-5);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-heading);color:var(--text-primary);white-space:nowrap}
+.sds-wordmark__brand{flex:none}
 .sds-wordmark__pipe{display:inline-block;width:2px;align-self:stretch;background:var(--accent)}
 .sds-wordmark__product{font-weight:var(--weight-light);color:var(--text-secondary);min-width:0;overflow:hidden;text-overflow:ellipsis}
 :where(:dir(rtl)) :is(.sds-card__action,.sds-pager,.sds-pagination__step) .sds-icon{scale:-1 1}

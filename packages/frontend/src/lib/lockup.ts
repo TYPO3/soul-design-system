@@ -36,7 +36,7 @@ export function lockup({ signet = '', brand = '', product = '', href = '' }: Loc
     ? html`<sds-image class="sds-signet" src="${signet}" alt="" width="24" height="24"></sds-image>`
     : ''}${product
     ? html`<span class="sds-wordmark">${brand
-        ? html`${brand}<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${product}</span>`
+        ? html`<span class="sds-wordmark__brand">${brand}</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${product}</span>`
         : html`${product}`}</span>`
     : ''}`;
 

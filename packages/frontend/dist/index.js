@@ -3265,7 +3265,7 @@ define("sds-image", SdsImage);
 // packages/frontend/src/lib/lockup.ts
 function lockup({ signet = "", brand = "", product = "", href = "" }) {
   if (!signet && !product) return "";
-  const inside = html21`${signet ? html21`<sds-image class="sds-signet" src="${signet}" alt="" width="24" height="24"></sds-image>` : ""}${product ? html21`<span class="sds-wordmark">${brand ? html21`${brand}<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${product}</span>` : html21`${product}`}</span>` : ""}`;
+  const inside = html21`${signet ? html21`<sds-image class="sds-signet" src="${signet}" alt="" width="24" height="24"></sds-image>` : ""}${product ? html21`<span class="sds-wordmark">${brand ? html21`<span class="sds-wordmark__brand">${brand}</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${product}</span>` : html21`${product}`}</span>` : ""}`;
   return href ? html21`<a class="sds-lockup" href="${href}">${inside}</a>` : html21`<span class="sds-lockup">${inside}</span>`;
 }
 
@@ -4040,7 +4040,7 @@ var SdsFooter = class _SdsFooter extends SdsElement {
     if (!this.signet && !this.product) return "";
     return html29`<span class="sds-lockup">
       ${this.signet ? html29`<sds-image class="sds-signet" src="${this.signet}" alt="" width="24" height="24"></sds-image>` : ""}
-      ${this.product ? html29`<span class="sds-wordmark">${this.brand ? html29`${this.brand}<span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${this.product}</span>` : html29`${this.product}`}</span>` : ""}
+      ${this.product ? html29`<span class="sds-wordmark">${this.brand ? html29`<span class="sds-wordmark__brand">${this.brand}</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">${this.product}</span>` : html29`${this.product}`}</span>` : ""}
     </span>`;
   }
   render() {
