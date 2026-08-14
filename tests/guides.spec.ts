@@ -158,6 +158,28 @@ test.describe('the mark in the tab', () => {
   });
 });
 
+test.describe('the index the search reads', () => {
+  test('every entry is the page speaking, not the furniture around it', async ({ page }) => {
+    const index = await (await page.request.get(`${SITE_URL}/_search.json`)).json();
+    expect(Array.isArray(index) && index.length, 'the build writes one entry per page').toBeTruthy();
+
+    for (const entry of index as { title: string; url: string; text: string }[]) {
+      /* The rendered page keeps its own furniture inside the article — what is
+         on this page, the way on to the next — and reading the first paragraph
+         in the file once made every entry in this index say "On this page". */
+      expect(entry.text.trim(), `${entry.url} has an opening line`).not.toBe('');
+      expect(entry.text, `${entry.url} quotes the page, not its contents list`).not.toMatch(
+        /^On this page/,
+      );
+      /* And it is text, because that is how a hit draws it: an entity that
+         survived the build is shown to a reader as its own spelling. */
+      expect(entry.text, `${entry.url} carries text, not escaped markup`).not.toMatch(
+        /&(amp|lt|gt|quot|nbsp|#0?39);/,
+      );
+    }
+  });
+});
+
 test.describe('what the theme repaired', () => {
   test('the first press lands on the way past the chrome', async ({ page }) => {
     await page.goto(REFERENCE, { waitUntil: 'load' });

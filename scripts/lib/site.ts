@@ -57,6 +57,38 @@ export function draw(root: string): number {
   return drawn;
 }
 
+/* What a page holds that is not the page: the list of what is on it, the way
+   on to the next one, the markup a component was rendered from. It sits inside
+   the article like everything else, and the first paragraph in the file is
+   otherwise its label — which is how every entry in this index came to say
+   "On this page". */
+const FURNITURE = /<(nav|template|script|style)\b[^>]*>[\s\S]*?<\/\1>|<(sds-nav-[a-z-]+)\b[^>]*>[\s\S]*?<\/\2>/gi;
+
+/* The index holds text, not markup, so what the renderer escaped is put back:
+   a snippet is set as text wherever it is drawn, and `&lt;img&gt;` shown to a
+   reader is the escaping leaking through as content. */
+const CHARACTERS: Readonly<Record<string, string>> = {
+  amp: '&', lt: '<', gt: '>', quot: '"', nbsp: ' ', '#39': "'", '#039': "'",
+};
+
+/** The page's own opening lines, and nothing it was framed with. The prose is
+    found by its class rather than its tag: a manual page is an `<article>` and
+    a landing page a `<div>`, and both are the page. */
+function opening(html: string): string {
+  const at = html.search(/class="[^"]*\bsds-prose\b/);
+  if (at === -1) return '';
+  const prose = html.slice(at).replace(FURNITURE, ' ');
+  for (const [, paragraph] of prose.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)) {
+    const text = (paragraph ?? '')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&(#0?39|amp|lt|gt|quot|nbsp);/g, (whole, name: string) => CHARACTERS[name] ?? whole)
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (text) return text.slice(0, 400);
+  }
+  return '';
+}
+
 /* The index the bar searches, written from what was rendered rather than what
    was parsed: a page that did not make it into the site is not one anybody can
    find. A title, a URL and the first paragraph — enough to tell two pages apart
@@ -69,9 +101,7 @@ export function index(root: string, name = '_search.json'): number {
     if (url.split('/').some((part) => part.startsWith('_'))) continue;
     const html = readFileSync(file, 'utf8');
     const title = /<title>([\s\S]*?)<\/title>/.exec(html)?.[1]?.split('—')[0]?.trim() ?? url;
-    const first = /<article class="sds-prose">[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/.exec(html)?.[1] ?? '';
-    const text = first.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 400);
-    entries.push({ title, url, text });
+    entries.push({ title, url, text: opening(html) });
   }
   entries.sort((a, b) => a.url.localeCompare(b.url));
   writeFileSync(join(root, name), JSON.stringify(entries));
