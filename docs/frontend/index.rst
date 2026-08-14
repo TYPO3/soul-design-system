@@ -46,7 +46,7 @@ Two shapes
 
       .. code-block:: bash
 
-         npm install @typo3/soul-frontend lit
+         npm install github:TYPO3/soul-frontend#main lit
 
       .. code-block:: javascript
 
