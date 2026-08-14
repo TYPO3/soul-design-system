@@ -64,7 +64,7 @@ export function row(state: State, name: string, label: string, facts = ''): void
     after its facts, and the reason the gate can pass a child through untouched. */
 export function detail(text: string): void {
   spoke = true;
-  for (const line of String(text).split('\n')) console.log(REPORTING ? line : `       ${line}`);
+  for (const line of String(text).split('\n')) console.log(REPORTING ? line : `       ${line}`.trimEnd());
 }
 
 /** A statement a task makes about itself, for tasks that are not check lists.

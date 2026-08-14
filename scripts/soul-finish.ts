@@ -69,7 +69,21 @@ if (linked.length) {
   report.note(`${linked.length} drawing(s) are shown as an image — no id="art" in the file`);
   for (const line of linked.slice(0, 12)) report.detail(line);
   if (linked.length > 12) report.detail(`… and ${linked.length - 12} more`);
-  report.detail(report.dim('they keep the colours they were exported with and do not follow the page into dark — naming the root <svg id="art"> is the whole of it'));
+  for (const line of [
+    'they keep the colours they were exported with, so they do not follow the page into dark.',
+    'to change that, name the root element of the file — the reference points at <file>.svg#art:',
+    '',
+    '    <svg id="art" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">',
+    '',
+    'and write each colour token first, exported value behind it, so the page can reach it:',
+    '',
+    '    fill="var(--text-primary, #8A8378)"   stroke="var(--accent, #FF8700)"',
+    '',
+    'the shapes do not change, and no <style> block or fill on the root may override them.',
+    `edit the file in the documentation source, not the copy listed above: those are under ${root},`,
+    'which this run wrote and the next render overwrites.',
+    'nothing failed here — a drawing that has to keep its exported colours is finished as it is.',
+  ]) report.detail(report.dim(line));
 }
 
 const problems = broken.length
