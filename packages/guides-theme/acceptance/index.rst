@@ -442,11 +442,13 @@ else names it.
 
 A button stands on its own as readily as in a row, and a press that goes
 somewhere is a link — the browser's own middle click and status line, which no
-control with a listener on it has.
+control with a listener on it has. Standing on its own it is usually the one
+action the page is for, which is what ``lg`` says.
 
 .. button:: Read the reference
    :href: /nodes
    :icon: actions-arrow-right
+   :size: lg
 
 Cards
 =====

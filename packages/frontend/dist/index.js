@@ -2444,7 +2444,7 @@ define("sds-theme", SdsTheme);
 import { html as html6 } from "lit";
 function buttonClass({ variant = "primary", size = "md", iconOnly = false, disabled = false }) {
   const cls = ["sds-btn", `sds-btn--${variant}`];
-  if (size === "sm") cls.push("sds-btn--sm");
+  if (size === "sm" || size === "lg") cls.push(`sds-btn--${size}`);
   if (iconOnly) cls.push("sds-btn--icon");
   if (disabled) cls.push("is-disabled");
   return cls.join(" ");

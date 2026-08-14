@@ -730,7 +730,8 @@ One press, and where it goes.
    :default: "md"
 
    ``sm`` for the smaller control — a press beside a line of text rather than
-   under a section.
+   under a section. ``lg`` for the one action a page is for: beside a second
+   large button neither of them is the one, and that is what ``md`` is for.
 
 .. confval:: icon
    :name: button-icon

@@ -511,6 +511,14 @@ sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
   padding: var(--control-pad-y-sm) var(--control-pad-x-sm);
 }
 
+/* The one action a screen is for — a landing's single call, not a row of
+   actions. Beside a second large button neither is the one. */
+.sds-btn--lg {
+  font-size: var(--control-font-size-lg);
+  min-height: var(--control-height-lg);
+  padding: var(--control-pad-y-lg) var(--control-pad-x-lg);
+}
+
 /* Icon-only is a square, and always carries a title= — the label is not
    optional just because it is not painted. The side is the control height, so
    a marked button and a worded one stand the same in a row, and it is set both
@@ -527,6 +535,11 @@ sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
   height: var(--control-height-sm);
   min-height: var(--control-height-sm);
 }
+.sds-btn--lg.sds-btn--icon {
+  width: var(--control-height-lg);
+  height: var(--control-height-lg);
+  min-height: var(--control-height-lg);
+}
 
 /* A glyph inside a label is as big as that label. A glyph that IS the control
    is not a label at all, so it keeps the floor — at `sm` the text is 13px and
@@ -534,6 +547,10 @@ sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
 .sds-btn--icon .sds-icon {
   width: var(--control-icon-size);
   height: var(--control-icon-size);
+}
+.sds-btn--lg.sds-btn--icon .sds-icon {
+  width: var(--control-icon-size-lg);
+  height: var(--control-icon-size-lg);
 }
 
 .sds-btn:disabled,

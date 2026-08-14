@@ -14,10 +14,12 @@ import './icon.ts';
 import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
-export type ButtonSize = 'md' | 'sm';
+export type ButtonSize = 'md' | 'sm' | 'lg';
 
 export interface ButtonProps {
   variant?: ButtonVariant;
+  /** `sm` for a control inside another surface, `lg` for the one action a
+      screen is for — a landing's single call, never a row of them. */
   size?: ButtonSize;
   /** No label at all — the icon is the whole control, which then requires
       `title`, because nothing else names it. */
@@ -42,7 +44,9 @@ export interface ButtonProps {
 
 export function buttonClass({ variant = 'primary', size = 'md', iconOnly = false, disabled = false }: ButtonProps): string {
   const cls = ['sds-btn', `sds-btn--${variant}`];
-  if (size === 'sm') cls.push('sds-btn--sm');
+  /* Named rather than interpolated: the size arrives as an attribute, and a
+     word this layer does not have would become a class nothing defines. */
+  if (size === 'sm' || size === 'lg') cls.push(`sds-btn--${size}`);
   if (iconOnly) cls.push('sds-btn--icon');
   if (disabled) cls.push('is-disabled');
   return cls.join(' ');

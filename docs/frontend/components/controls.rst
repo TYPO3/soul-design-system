@@ -9,7 +9,7 @@ everything here appears in a bar or a row of actions, and everything here is a
 real ``<button>`` or ``<a>`` underneath.
 
 .. specimen:: components/core/buttons.card.html
-   :viewport: 700x260
+   :viewport: 700x320
    :title: Buttons & links
 
 .. _component-sds-button:
@@ -41,11 +41,13 @@ a name in mono, a count, or a glyph — none of which fits in a string.
 
 .. confval:: size
    :name: sds-button-size
-   :type: "md" | "sm"
+   :type: "md" | "sm" | "lg"
    :default: "md"
 
    ``sm`` is for a control inside another surface — a table head, a code
-   block's chrome — not for making a page fit.
+   block's chrome — not for making a page fit. ``lg`` is the one action a
+   screen is for, a landing's single call: beside a second large button
+   neither of them is the one, and that is what ``md`` is for.
 
 .. confval:: type
    :name: sds-button-type

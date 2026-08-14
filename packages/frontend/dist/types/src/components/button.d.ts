@@ -2,9 +2,11 @@ import { type TemplateResult } from 'lit';
 import './icon.ts';
 import { SdsElement } from '../lib/element.js';
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
-export type ButtonSize = 'md' | 'sm';
+export type ButtonSize = 'md' | 'sm' | 'lg';
 export interface ButtonProps {
     variant?: ButtonVariant;
+    /** `sm` for a control inside another surface, `lg` for the one action a
+        screen is for — a landing's single call, never a row of them. */
     size?: ButtonSize;
     /** No label at all — the icon is the whole control, which then requires
         `title`, because nothing else names it. */

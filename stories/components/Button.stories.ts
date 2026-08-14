@@ -55,7 +55,7 @@ const meta: Meta<ButtonArgs> = {
   render: (args) => sdsButton(args),
   argTypes: {
     variant: { control: 'inline-radio', options: ['primary', 'secondary', 'ghost'] },
-    size: { control: 'inline-radio', options: ['md', 'sm'] },
+    size: { control: 'inline-radio', options: ['md', 'sm', 'lg'] },
     label: { control: 'text' },
     icon: { control: 'select', options: [undefined, 'actions-play', 'actions-duplicate', 'actions-refresh', 'actions-close', 'actions-cog'] },
     title: { control: 'text' },
@@ -67,7 +67,7 @@ const meta: Meta<ButtonArgs> = {
       path: 'components/core/buttons.card.html',
       name: 'Buttons & links',
       subtitle: 'One primary per view — the action that starts work',
-      viewport: '700x260',
+      viewport: '700x320',
     }),
   },
 };
@@ -83,6 +83,11 @@ export const Ghost: Story = { args: { variant: 'ghost', size: 'md', label: 'Canc
 /** Disabled is the real attribute, so the pointer, the keyboard and anything
     reading the page all agree it cannot be pressed. */
 export const Disabled: Story = { args: { variant: 'secondary', size: 'md', label: 'Disabled', disabled: true } };
+
+/** The one action a screen is for — a landing's single call. Beside a second
+    large button neither of them is the one, which is what `md` is for. */
+export const Large: Story = { args: { variant: 'primary', size: 'lg', label: 'Get started', icon: 'actions-play', disabled: false } };
+export const LargeSecondary: Story = { args: { variant: 'secondary', size: 'lg', label: 'Read the manual', disabled: false } };
 
 export const Small: Story = { args: { variant: 'primary', size: 'sm', label: 'Install', disabled: false } };
 export const SmallWithIcon: Story = { args: { variant: 'secondary', size: 'sm', label: 'Update', icon: 'actions-refresh', disabled: false } };
@@ -104,6 +109,7 @@ export const RichLabel: Story = {
 };
 
 const SETTINGS: ButtonArgs = { variant: 'secondary', size: 'sm', label: '', icon: 'actions-cog', title: 'Settings', disabled: false };
+const LARGE_ICON: ButtonArgs = { variant: 'secondary', size: 'lg', label: '', icon: 'actions-play', title: 'Play', disabled: false };
 
 /** The specimen card, composed from the stories above. This is what
     `components/core/buttons.card.html` is generated from — `scripts/cards.ts`
@@ -113,6 +119,13 @@ export const specimenHtml = (): string =>
       specRow(
         [Primary, Secondary, Ghost, Disabled].map((s) => part(staticButton(s.args as ButtonArgs))),
         'PRIMARY · SECONDARY · GHOST · DISABLED',
+      ),
+      specRow(
+        [
+          ...[Large, LargeSecondary].map((s) => part(staticButton(s.args as ButtonArgs))),
+          part(staticButton(LARGE_ICON)),
+        ],
+        'LARGE · THE ONE ACTION A SCREEN IS FOR · ICON-ONLY 44×44',
       ),
       specRow(
         [
