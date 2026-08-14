@@ -150,10 +150,11 @@ const nearest = (v: number, steps: number[]): number =>
 /* The tables are the report `make rhythm` is for; under the gate only what
    failed is worth a line, and the gate is what prints it. */
 const problems: string[] = [];
-for (const { screen, report: measure } of measured) {
+report.align([{ name: '', label: '  scale' }]);
+for (const [index, { screen, report: measure }] of measured.entries()) {
   const { scale, grid, boxes, sizes } = measure;
   if (!report.REPORTING) {
-    console.log();
+    if (index) console.log();
     report.fact(`${screen.rel} — ${screen.width}×${screen.height}`);
     report.fact('  scale', scale.join(' '));
     report.fact('  grid', grid.join(' '));
@@ -191,5 +192,5 @@ for (const { screen, report: measure } of measured) {
   }
 }
 
-report.summary(`${measured.length} screens · ${problems.length} off the scale`, problems, { shown: false });
+report.summary(`${measured.length} screen(s) · ${problems.length} off the scale`, problems, { shown: false });
 process.exit(problems.length ? 1 : 0);
