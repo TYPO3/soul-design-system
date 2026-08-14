@@ -205,6 +205,27 @@ that should write the handful it wants.
    still marks Guide. Marking only the exact page leaves the bar saying nothing
    on all but a handful of pages.
 
+The rail
+--------
+
+The rail is derived from the toctree rather than configured separately. The
+theme finds the current page's top-level section by walking its rootline
+upwards, so the answer does not depend on how deeply the page is nested. The
+bar and rail therefore mark the same section by construction.
+
+On a section with children, the section's own page is the first rail item; the
+heading above the list is not a link and must not make that page unreachable.
+A page with descendants becomes a fold containing its full branch. A section
+that is itself a single page has no rail, and the bar omits the control that
+would open one. At the site root the rail instead lists the sections, under no
+extra heading and with no page marked current.
+
+``packages/guides-theme/src/Navigation/Rail.php`` turns the tree into this
+list. The transformation is recursive application logic rather than template
+markup, so Twig receives a finished heading, item tree and active position.
+The document template renders that result before the bar and body: an empty
+rail then removes both its column and its opening control from the same answer.
+
 The way on
 ----------
 

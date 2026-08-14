@@ -86,55 +86,6 @@ arrives inside that package.
 Nothing in CI installs it: what holds the documented path honest is that this
 site is rendered along it, with the same file a reader runs.
 
-## The rail is a section, and a section is found upwards
-
-The bar picks a section and the rail is what is inside the one that was
-picked, so every page has to answer which section it belongs to. The theme
-answered it downwards: walk the top-level entries, and take the one whose own
-link — or one of whose children's links — the renderer resolves to `#`, its
-way of saying "the page you are on". That reaches exactly two levels. A page
-three deep matched nothing, fell through to the branch meant for a project
-with no sections at all, and got the list of sections back instead of the
-pages around it. `sds-rail` then marked its first item, because a rail with no
-`active` falls back to zero — so the reader was told they were on a page they
-had never opened.
-
-The rootline is the answer and it has no depth to run out of: the tree walked
-upwards from the current document, which the renderer already computes and
-hands the menu node. The section is the top-level entry that appears in it.
-That is what the bar had always used, in `structure/navigation.html.twig`, and
-the two now agree by construction rather than by coincidence at shallow
-depths.
-
-Which is also why the list moved out of the template into
-`packages/guides-theme/src/Navigation/Rail.php`. A rail is one level of folding over a tree of
-any depth — the section's children, each with everything below it — and
-flattening a tree is recursion, which a Twig template cannot express without
-becoming a program in the wrong language. It was a program in the wrong
-language: eighty lines of index arithmetic that no check could see was wrong,
-because the fixture it rendered against was flat. `acceptance/depth/` is that
-gap closed — a section, a page inside it, a page with pages under it, and a
-page three levels from the root.
-
-Finding the section upwards left one case still answered by the old fallback:
-a section that is a single page. Those have nothing under them, so they landed
-on the branch meant for a project with no sections at all and got every other
-section's tree, folded open — a sitemap belonging to no page the reader was on,
-which changed shape the moment they followed one of its links. Such a page now
-carries no rail, and the button in the bar that opens one goes with it.
-`sds-header rail=` already drops the button where it finds no rail, but it
-finds one by asking a document and the page is written before there is one, so
-`structure/document.html.twig` renders the rail ahead of both and the body and
-the bar read whether it came out empty. The root is not that case: its section
-is the site, so its rail is the sections, under no heading and with nothing in
-it marked.
-
-What is left is the section's own page. The rail's heading is a heading and not
-a link, so a section listing only its children left a reader standing on its
-index as the one page missing from it, with nothing marked. It is the first
-item now — where a folded group already puts the page it is named after, and
-for the same reason.
-
 ## Contrast: fixed, not tolerated
 
 `--text-muted` sat at ~3.3:1 on product text — table headers, `sds-td-meta`,
