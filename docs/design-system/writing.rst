@@ -60,13 +60,18 @@ keys and commands keep the spelling their source gives them and are set in
 mono: ``@typo3/soul-frontend``, ``data-theme`` and ``make verify``. Never title
 case, translate or prettify a machine-named string.
 
+A manual heading must also scan on one line in the 210px local contents. Keep
+it to a noun phrase or one short clause. A second clause belongs in the opening
+sentence below it; ``text-wrap: balance`` can shape a concise heading, but it
+cannot make a long one easier to scan.
+
 The repository, shipped strings and published documentation are written in
 English, whatever language the conversation around them uses. One shared
 vocabulary keeps search terms, examples and reviews referring to the same
 thing; a second language in the tree divides that vocabulary.
 
-Values are concrete; inventories are linked
-============================================
+Values and inventories
+======================
 
 A value the design depends on is the rule and is written exactly: 16px is an
 icon floor and 140ms is an interaction duration. "Small" or "quick" would

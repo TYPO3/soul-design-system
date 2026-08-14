@@ -1344,4 +1344,25 @@ test.describe('what a page is measured for', () => {
       }
     }
   });
+
+  test('local contents headings fit their narrow column', async ({ page }) => {
+    /* A manual's headings also appear in its 210px local contents. A wrapped
+       entry turns the index into prose; the second clause belongs below it. */
+    const tooLong: string[] = [];
+    for (const path of pages(SITE_DIR).filter((entry) => !entry.includes('_cards/'))) {
+      await page.goto(`${SITE_URL}/${path}`, { waitUntil: 'load' });
+      const headings = await page.locator('nav.contents a').evaluateAll((links) =>
+        links.map((link) => {
+          const range = document.createRange();
+          range.selectNodeContents(link);
+          const lines = new Set([...range.getClientRects()].map((rect) => Math.round(rect.top))).size;
+          return { lines, text: (link.textContent ?? '').trim() };
+        }),
+      );
+      for (const heading of headings.filter(({ lines }) => lines > 1)) {
+        tooLong.push(`${path}: ${heading.text} (${heading.lines} lines)`);
+      }
+    }
+    expect(tooLong).toEqual([]);
+  });
 });

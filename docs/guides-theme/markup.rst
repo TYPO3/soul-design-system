@@ -40,8 +40,8 @@ What follows is visible from the outside:
   one, the directive gains it in the same commit, and it is spelt the same way
   on both sides. Nothing in this theme is a translation of a component.
 
-What the component contract requires
-------------------------------------
+Component contract
+------------------
 
 Every element used by the theme must render in Node. The prerenderer creates
 an element and calls its template without browser lifecycle hooks, so rendering
@@ -129,8 +129,8 @@ that arrived uncoloured is coloured by the element.
 
       return ['siteTitle' => 'TYPO3'];
 
-A diff is the one language that changes the body
-================================================
+Diffs change the body
+=====================
 
 ``.. code-block:: diff`` is drawn by ``sds-diff`` rather than ``sds-code``:
 the same frame and the same head, and rows that carry status colour — the one

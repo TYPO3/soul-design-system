@@ -25,8 +25,8 @@ knows its name and should not have to know which concern owns it.
    forms
    overlays
 
-Every element, and where to read it
-===================================
+Element index
+=============
 
 Alphabetical, because a reader looking one up already knows its name and not
 which group it was filed under.
