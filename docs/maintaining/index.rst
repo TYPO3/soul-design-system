@@ -18,6 +18,7 @@ together in this repository.
    :titlesonly:
 
    source-and-output
+   package-splits
    component-evidence
    visual-review
    storybook-tests
@@ -29,6 +30,14 @@ Every maintained artefact has one hand-written source. A generated file can be
 useful evidence and may be committed for a consumer, but it is never the place
 where a change begins. :doc:`source-and-output` maps each output back to the
 source and task that own it.
+
+Ship packages
+=============
+
+The repository root is a workspace, while every directory under ``packages/``
+must leave as something a project can install. :doc:`package-splits`
+explains how assembly, history replay and the consumer render keep that
+publication boundary honest.
 
 Require visible evidence
 ========================

@@ -74,8 +74,8 @@ Length was written as a preference before — "as short as it can be and still b
 true" — and preferences lose to whatever is being explained at the time. The
 number is here because it can be counted while writing, and because a reason
 that genuinely takes fifteen lines is a decision about the system, which
-belongs in `ARCHITECTURE.md` or beside its rule in the published documentation
-where it is read on purpose rather than found by whoever opens the file.
+belongs beside its rule in the published documentation, where it is read on
+purpose rather than found by whoever opens the file.
 
 The budget binds comments. A message a task prints, an error thrown at a caller
 and the documents themselves are not comments and say what they have to say.
@@ -86,7 +86,8 @@ and the documents themselves are not comments and say what they have to say.
 | --- | --- |
 | What is this, how do I run it, what is generated from what | `README.md` |
 | Where a source lives and which output a task derives from it | `docs/maintaining/source-and-output.rst` |
-| How the pieces are wired, and which decisions are load-bearing | `ARCHITECTURE.md` |
+| Why packages leave through mirrors, and how they remain installable | `docs/maintaining/package-splits.rst` |
+| How package mirrors are authenticated and published | `MAINTAINERS.md` |
 | How to *design with* the system — the build rules | `SKILL.md` |
 | Why a design rule exists | its page under `docs/design-system/` or `docs/frontend/` |
 | Drawing a signet to the construction | `docs/design-system/signet-prompt.md` |
@@ -130,9 +131,14 @@ else in the tree leaves, and a directory put there is a promise that it will.
 
 `make split ARGS=<name>` assembles one and replays its commits into
 `.out/split/`; `make split ARGS=--check` is the gate's question — that both
-still make packages a project could install. This repository stays the only place either
-is written: the mirrors are read-only, and a commit made in one is overwritten
-by the next release.
+still make packages a project could install. This repository stays the only
+place either is written: the mirrors are read-only, and a commit made in one is
+overwritten by the next release.
+
+Publishing, authentication and reruns are internal maintainer operations;
+`MAINTAINERS.md` documents them. `.github/workflows/split.yml` is their
+executable source, while `scripts/split.ts` assembles and reports push commands
+without making that external change itself.
 
 **A package's README names everything the package adds, in full and in short
 form.** Every directive of the theme's own with its options, every field a

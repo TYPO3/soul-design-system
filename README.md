@@ -16,6 +16,7 @@ component names may still change.
 | publish a documentation site | [`docs/guides-theme/example.rst`](docs/guides-theme/example.rst) |
 | explore the design rules and specimens | [`docs/design-system/index.rst`](docs/design-system/index.rst) |
 | change this repository | [Maintaining it here](#maintaining-it-here) |
+| publish package mirrors | [`MAINTAINERS.md`](MAINTAINERS.md) |
 
 `sds-` is the system's initials, and they are the reason the prefix survived
 the rename: Soul Design System reads the same as the one it replaced. Not a
@@ -100,10 +101,10 @@ None of them is edited by hand. Change a component in
 `packages/frontend/src/tokens/` — then regenerate.
 
 [`docs/maintaining/`](docs/maintaining/index.rst) says how sources become the
-artefacts this repository ships. `ARCHITECTURE.md` still holds the decisions
-not yet moved beside the part they govern. `SKILL.md` is the operating
-instruction for designing *with* the system. The published design-system and
-frontend pages put reasons beside the rules they govern.
+artefacts this repository ships and records the load-bearing decisions behind
+those paths. `SKILL.md` is the operating instruction for designing *with* the
+system. The published design-system and frontend pages put reasons beside the
+rules they govern.
 
 ## Maintaining it here
 
@@ -274,7 +275,7 @@ creates a second one. It compares against the anchor the project stores
 | `.out/` | **generated** — everything git does not keep: the upload payload, the publish root, the built Storybook, the suite's output. A drop-in is copied, a site is published |
 | | |
 | `docs/maintaining/` | how the sources, tasks and generated outputs are wired |
-| `ARCHITECTURE.md` | architecture decisions not yet moved into the published documentation |
+| `MAINTAINERS.md` | package mirror credentials and release operations |
 | `SKILL.md` | the build rules — the operating instruction |
 
 Every card's first line is a `@dsCard` comment carrying its group, label,

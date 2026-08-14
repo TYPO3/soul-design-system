@@ -18,6 +18,8 @@ The build owns the delivery boundary. ``scripts/build.ts`` decides what enters
 the design upload, and the package assembly in ``scripts/lib/packages.ts``
 decides what leaves through each package. Keeping another inventory here would
 let the prose stay unchanged while the executable boundary moved.
+:doc:`package-splits` explains why those packages leave through generated
+mirrors and how their assembled history is tested and published.
 
 .. list-table::
    :header-rows: 1

@@ -2,8 +2,8 @@
 
 Everything a future sync should know before touching the claude.ai/design
 upload. **This is one export of the design system, not the system itself** —
-how the repo is built, and every decision that shaped it, is in
-`ARCHITECTURE.md` at the root.
+the repository wiring and its load-bearing decisions live under
+`docs/maintaining/`, while `SKILL.md` governs designs made with the system.
 
 ## What gets uploaded
 
