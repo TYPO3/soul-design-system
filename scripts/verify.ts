@@ -20,6 +20,7 @@ const fails: string[] = [];
 
 /** The marker has to be the very first line, so that is what is tested. */
 const firstLine = (text: string): string => text.split('\n', 1)[0] ?? '';
+const ENTITY_RE = /&(?:#[0-9]+|#x[0-9a-f]+|[a-z][a-z0-9]+);/i;
 
 /** Every class the system defines, from all three sheets — including the one
     `styles.css` deliberately does not import: a name is defined if some sheet
@@ -155,17 +156,25 @@ const CHECKS: readonly Check[] = [
   {
     name: 'headers',
     step: '1',
-    label: '@dsCard and @startingPoint',
+    label: '@dsCard and @startingPoint use literal metadata',
     run() {
       for (const c of list) {
-        if (!/^<!--\s*@dsCard\s+group="[^"]*"[^>]*-->/.test(firstLine(c.text))) {
+        const marker = firstLine(c.text);
+        if (!/^<!--\s*@dsCard\s+group="[^"]*"[^>]*-->/.test(marker)) {
           fails.push(`${c.rel}: first line is not a @dsCard comment`);
         }
+        /* A marker is comment data, not rendered text. No browser decodes a
+           character reference before the pane and this parser read it. */
+        const entity = ENTITY_RE.exec(marker)?.[0];
+        if (entity) fails.push(`${c.rel}: @dsCard metadata uses "${entity}" — write the literal character`);
       }
       for (const s of sp) {
-        if (!/^<!--\s*@startingPoint\s+section="[^"]*"[^>]*-->/.test(firstLine(s.text))) {
+        const marker = firstLine(s.text);
+        if (!/^<!--\s*@startingPoint\s+section="[^"]*"[^>]*-->/.test(marker)) {
           fails.push(`${s.rel}: first line is not a @startingPoint comment`);
         }
+        const entity = ENTITY_RE.exec(marker)?.[0];
+        if (entity) fails.push(`${s.rel}: @startingPoint metadata uses "${entity}" — write the literal character`);
       }
       console.log(`   ${list.length} cards, ${sp.length} starting points`);
     },

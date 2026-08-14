@@ -85,14 +85,3 @@ the theme's mirror as a VCS repository and asks for `dev-main`, and the drop-in
 arrives inside that package.
 Nothing in CI installs it: what holds the documented path honest is that this
 site is rendered along it, with the same file a reader runs.
-
-## Two findings worth fixing separately
-
-- **`@dsCard` subtitles are not entity-decoded.** `scripts/lib/cards.ts`
-  parses the header with a regex and never decodes, so `&#8220;` travelled
-  verbatim into `Density.prompt.md` — which the design agent reads — and
-  double-escaped anywhere it was rendered as text. The generated cards now
-  write the literal
-  character, which fixes it for the generated ones; **the guideline cards were
-  not audited for this.** Grep `guidelines/*.card.html` for `&#` in a
-  `@dsCard` line.

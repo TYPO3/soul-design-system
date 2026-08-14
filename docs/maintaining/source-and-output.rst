@@ -76,6 +76,13 @@ from a story. Change the story or the component template it calls, then run
 ``make cards``. A hand edit under ``specimens/`` is replaced by that task and
 is rejected by the gate.
 
+The first-line ``@dsCard`` and ``@startingPoint`` markers are metadata inside
+an HTML comment, not rendered text. Their values therefore use literal Unicode
+characters rather than HTML character references: nothing decodes an entity
+before the Design System pane or repository tooling reads it. The ``headers``
+check rejects a character reference in either marker so both consumers receive
+the same string.
+
 The generated cards are static HTML rather than unresolved custom elements.
 The design surface opens them with the stylesheets and no JavaScript, so the
 card generator renders the same Lit templates ahead of time. Both routes still

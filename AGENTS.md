@@ -200,6 +200,8 @@ A card edited by hand is silently reverted; a card with no story behind it is
 a build failure. The `@dsCard` header on a card and `@startingPoint` on a
 screen are the contract with the Design System pane, and `make verify`
 enforces them.
+A marker's metadata uses literal Unicode, never an HTML character reference:
+it is comment data rather than rendered text, so no browser decodes it.
 
 ## Running anything
 
@@ -230,7 +232,7 @@ names are how a single one is asked for:
 
 `assets` (the generated fonts and icons are there) · `diagrams` (the modules
 match the drawings) · `marks` (the documents' signets against those same
-drawings) · `headers` (`@dsCard`, `@startingPoint`) · `heights`
+drawings) · `headers` (`@dsCard`, `@startingPoint`, literal metadata) · `heights`
 (specimens against the cards they embed) · `classes` (every class used is
 defined in the layer that can load it) · `coverage` (every component is shown)
 · `names` (every `sds-` name a document writes exists) · `refs` (every local
