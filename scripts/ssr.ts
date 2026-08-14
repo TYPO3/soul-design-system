@@ -13,6 +13,7 @@ import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 
 import { renderStatic } from '../packages/frontend/src/lib/render.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
+import * as report from './lib/report.ts';
 
 /* What an element cannot render without — a contract rather than an
    inconvenience: `<sds-icon>` with no name has nothing to draw, and throws
@@ -47,9 +48,7 @@ for (const tag of TAGS) {
   }
 }
 
-console.log(`   ${rendered} of ${TAGS.length} elements render under SSR`);
-if (failures.length) {
-  for (const f of failures) console.log(`   ✗ ${f}`);
-  console.log('   Every element has to render in Node — the card generator is the export path.');
-  process.exit(1);
-}
+report.open('ssr', 'every element renders outside a browser');
+if (failures.length) failures.push('every element has to render in Node — the card generator is the export path');
+report.summary(`${rendered} of ${TAGS.length} elements`, failures);
+process.exit(failures.length ? 1 : 0);

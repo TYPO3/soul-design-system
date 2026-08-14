@@ -13,6 +13,7 @@ import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { FRONTEND, ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
 
 const ASSETS = join(FRONTEND, 'assets');
 const DIR = join(ASSETS, 'diagrams');
@@ -116,24 +117,23 @@ const MODULES: readonly (readonly [file: string, text: string])[] = [
 ];
 
 const check = process.argv.includes('--check');
-let stale = 0;
+const stale: string[] = [];
+
+report.open('diagrams', check ? 'the modules match the drawings' : 'read the drawings into the modules');
+
 for (const [file, text] of MODULES) {
   const out = join(FRONTEND, 'src', 'components', file);
   if (check) {
-    if (readFileSync(out, 'utf8') !== text) {
-      console.error(`✗ src/components/${file} is out of date — run \`make diagrams\``);
-      stale++;
-    }
+    if (readFileSync(out, 'utf8') !== text) stale.push(`src/components/${file} is out of date`);
   } else {
     writeFileSync(out, text);
-    console.log(`src/components/${file}`);
+    report.fact(`src/components/${file}`, 'written');
   }
 }
 
-if (check) {
-  if (stale) process.exit(1);
-  console.log(`   ${drawings.length} drawings and ${marks.length} marks, in step`);
-} else {
-  for (const d of drawings) console.log(`${d.name} — ${d.viewBox}`);
-  for (const m of marks) console.log(`${m.name} — referenced whole`);
+if (!check) {
+  for (const d of drawings) report.fact(d.name, d.viewBox);
+  for (const m of marks) report.fact(m.name, 'referenced whole');
 }
+report.summary(`${drawings.length} drawings · ${marks.length} marks`, stale);
+process.exit(stale.length ? 1 : 0);

@@ -14,6 +14,7 @@ import { extname, join } from 'node:path';
 
 import { FRONTEND, ROOT, SPECIMENS } from './lib/cards.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
+import * as report from './lib/report.ts';
 
 const THEME = join(ROOT, 'packages', 'guides-theme');
 
@@ -113,15 +114,35 @@ function pending(list: readonly string[], covered: (name: string) => boolean, ax
   return new Set(list);
 }
 
-console.log('   a story for every element');
+/* Six questions, each its own row and its own numbers. `fails` is the whole
+   run's, so an axis owns whatever was added while it ran — which is what lets
+   the row that failed be the row the findings sit under. */
+const AXES = [
+  { name: 'stories', label: 'a story for every element' },
+  { name: 'classes', label: 'every class the system defines is drawn' },
+  { name: 'render', label: 'every element appears in the Guides render' },
+  { name: 'parts', label: 'the theme names no component\u2019s own part' },
+  { name: 'vocabulary', label: 'the theme writes no name the system does not define' },
+  { name: 'shell', label: 'the theme builds its pages out of the page layouts' },
+];
+report.align(AXES);
+report.open('coverage', 'every component is shown');
+
+let told = 0;
+function axis(name: string, facts: string): void {
+  const found = fails.slice(told);
+  told = fails.length;
+  report.row(found.length ? 'bad' : 'ok', name, AXES.find((a) => a.name === name)?.label ?? name, facts);
+  for (const f of found) report.detail(f);
+}
+
 const hasStory = (tag: string): boolean => stories.includes(tag);
 let missing = pending(PENDING.stories, hasStory, 'stories');
 for (const tag of TAGS) {
   if (!hasStory(tag) && !missing.has(tag)) fails.push(`${tag}: no story names it — every element is shown in Storybook`);
 }
-console.log(`   ${TAGS.filter(hasStory).length} of ${TAGS.length} elements`);
+axis('stories', `${TAGS.filter(hasStory).length} of ${TAGS.length} elements`);
 
-console.log('   every class the system defines is drawn somewhere');
 const classes = [
   ...new Set(
     [...readFileSync(join(FRONTEND, 'src/styles/components.css'), 'utf8').matchAll(/\.(sds-[\w-]*)/g)]
@@ -133,9 +154,7 @@ missing = pending(PENDING.classes, isDrawn, 'classes');
 for (const cls of classes) {
   if (!isDrawn(cls) && !missing.has(cls)) fails.push(`.${cls} is defined but no story, card, page or element draws it`);
 }
-console.log(`   ${classes.filter(isDrawn).length} of ${classes.length} classes`);
-
-console.log('   every element appears in the Guides render');
+axis('classes', `${classes.filter(isDrawn).length} of ${classes.length} classes`);
 
 /* What each element renders, read out of its own source: a template naming an
    element puts everything that element draws on the page too, which is how most
@@ -197,12 +216,11 @@ for (const tag of TAGS) {
     fails.push(`${tag}: neither a template emits it nor the fixture asks for it — it is untested in a document`);
   }
 }
-console.log(
-  `   ${TAGS.filter(inGuides).length} of ${TAGS.length} elements` +
-    `, ${PENDING.guides.length} pending, ${ELSEWHERE.length} outside a document`,
+axis(
+  'render',
+  `${TAGS.filter(inGuides).length} of ${TAGS.length} elements` +
+    ` \u00b7 ${PENDING.guides.length} pending \u00b7 ${ELSEWHERE.length} outside a document`,
 );
-
-console.log('   the theme names no component\u2019s own part');
 
 /* A part belongs to the element that draws it and to nothing else. A template
    writing `sds-card__body` has made that name public API: the card can then
@@ -221,7 +239,8 @@ for (const m of theme.matchAll(/\b(sds-[a-z-]+)__[a-z-]+/g)) {
   );
 }
 
-console.log('   the theme writes no name the system does not define');
+axis('parts', `${templates.length} templates`);
+
 const defined = new Set<string>();
 for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
   for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) defined.add(m[1] as string);
@@ -250,17 +269,13 @@ for (const cls of [...written].sort()) {
     fails.push(`the theme writes class "${cls}", which no stylesheet defines — close the gap in the system, not in the template`);
   }
 }
-console.log(`   ${written.size} classes in ${templates.length} templates, ${PENDING.themeClasses.length} undefined`);
-
-console.log('   the theme builds its pages out of the page layouts');
+axis('vocabulary', `${written.size} classes \u00b7 ${PENDING.themeClasses.length} undefined`);
 for (const cls of SHELL) {
   if (!theme.includes(cls)) {
     fails.push(`the theme names no .${cls} — a page is built out of the shell the screens share, not one of its own`);
   }
 }
-console.log(`   ${SHELL.filter((c) => theme.includes(c)).length} of ${SHELL.length} shell classes`);
+axis('shell', `${SHELL.filter((c) => theme.includes(c)).length} of ${SHELL.length} shell classes`);
 
-if (fails.length) {
-  for (const f of fails) console.log(`   ✗ ${f}`);
-  process.exit(1);
-}
+report.summary(`${TAGS.length} elements \u00b7 ${classes.length} classes \u00b7 ${templates.length} templates`, fails, { shown: true });
+process.exit(fails.length ? 1 : 0);

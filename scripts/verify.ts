@@ -6,17 +6,17 @@
    never claims consistency, and an unrecognised name is an error: a filtered
    run that silently checked nothing reads exactly like a clean one.
 
-   The build runs first, but only for `conventions`, the one check that reads
-   `.out/bundle/`. That is also why arguments are passed directly rather than
-   through a `sh -c` wrapper, where the filter would land on the shell. */
+   A check is one row: its verdict, its numbers, and what it found only when
+   it found something. What a child task reports is the contract in
+   `lib/report.ts` — never a substring of its prose, which is how `fit` once
+   passed its summary line to nobody. */
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 
 import { TAGS } from '../packages/frontend/src/index.ts';
 import { FRONTEND, cards, ROOT, screens } from './lib/cards.ts';
-
-const fails: string[] = [];
+import * as report from './lib/report.ts';
 
 /** The marker has to be the very first line, so that is what is tested. */
 const firstLine = (text: string): string => text.split('\n', 1)[0] ?? '';
@@ -84,17 +84,37 @@ const sp = screens();
    are what a consuming project seeds a new design from. */
 const all = [...list, ...sp];
 
+/** What a check hands back: the numbers its row carries, and what it found.
+    A check with no problems is a passing check — nothing else decides. */
+interface Result {
+  facts: string;
+  problems?: string[];
+  /** The command that puts it right, printed under the problems. */
+  fix?: string;
+}
+
+/** Run another task under the reporting contract: its first line is the facts
+    for the row, the rest is what it found. Exit status alone decides. */
+function child(script: string, ...args: string[]): Result {
+  const run = spawnSync(process.execPath, [join(ROOT, script), ...args], {
+    encoding: 'utf8',
+    env: { ...process.env, SDS_REPORT: '1' },
+  });
+  const lines = `${run.stdout ?? ''}\n${run.stderr ?? ''}`.split('\n').map((l) => l.trimEnd()).filter(Boolean);
+  const ok = run.status === 0;
+  if (!lines.length) return ok ? { facts: 'nothing to report' } : { facts: 'the task did not run', problems: ['it printed nothing and exited non-zero'] };
+  const [facts = '', ...rest] = lines;
+  return ok ? { facts } : { facts, problems: rest.length ? rest : ['see the task itself'] };
+}
+
 interface Check {
   /** How it is asked for: `make verify ARGS=classes`. */
   name: string;
-  /** The place in the sequence. Not derivable from the order — the letters
-      are where a check was added between two that were already numbered. */
-  step: string;
-  /** What it holds, in the line it prints and in `--help`. */
+  /** What it holds, in its row and in `--help`. */
   label: string;
   /** Reads `.out/bundle/`, so selecting it is what makes the build run. */
   bundle?: true;
-  run: () => void;
+  run: () => Result;
 }
 
 /* Every check, in the order the gate runs them. Nothing here reads a value
@@ -105,18 +125,20 @@ const CHECKS: readonly Check[] = [
      system-ui with no icons — which looks like a design bug and is not one. */
   {
     name: 'assets',
-    step: '0',
-    label: 'generated fonts and icons are present',
+    label: 'the generated fonts and icons are there',
     run() {
       const GENERATED: readonly (readonly [dir: string, fix: string])[] = [
         ['fonts', 'make fonts'],
         ['assets/icons', 'make icons'],
       ];
+      const problems: string[] = [];
+      const counts: string[] = [];
       for (const [dir, script] of GENERATED) {
         const n = existsSync(join(FRONTEND, dir)) ? readdirSync(join(FRONTEND, dir)).length : 0;
-        console.log(`   ${dir}: ${n} files`);
-        if (n === 0) fails.push(`${dir}/ is empty or missing — run \`${script}\``);
+        counts.push(`${n} ${dir}`);
+        if (n === 0) problems.push(`${dir}/ is empty or missing — run \`${script}\``);
       }
+      return { facts: counts.join(' · '), problems };
     },
   },
 
@@ -126,14 +148,8 @@ const CHECKS: readonly Check[] = [
      fraction, and nothing else would notice. */
   {
     name: 'diagrams',
-    step: '0b',
     label: 'the modules match the drawings',
-    run() {
-      const dia = spawnSync(process.execPath, [join(ROOT, 'scripts/diagrams.ts'), '--check'], { encoding: 'utf8' });
-      process.stdout.write(dia.stdout);
-      process.stdout.write(dia.stderr ?? '');
-      if (dia.status !== 0) fails.push('packages/frontend/src/components/diagrams*.generated.ts is out of date — run `make diagrams`');
-    },
+    run: () => ({ ...child('scripts/diagrams.ts', '--check'), fix: 'make diagrams' }),
   },
 
   /* A tree points at its mark from `guides.xml`, and the file has to sit beside
@@ -143,40 +159,28 @@ const CHECKS: readonly Check[] = [
      half pixel. */
   {
     name: 'marks',
-    step: '0c',
-    label: 'the documents\' marks match the drawings',
-    run() {
-      const em = spawnSync(process.execPath, [join(ROOT, 'scripts/embed.ts'), '--check'], { encoding: 'utf8' });
-      process.stdout.write(em.stdout);
-      process.stdout.write(em.stderr ?? '');
-      if (em.status !== 0) fails.push('a mark beside the documents is out of date — run `make embed`');
-    },
+    label: 'the documents’ marks match the drawings',
+    run: () => ({ ...child('scripts/embed.ts', '--check'), fix: 'make embed' }),
   },
 
   {
     name: 'headers',
-    step: '1',
     label: '@dsCard and @startingPoint use literal metadata',
     run() {
-      for (const c of list) {
-        const marker = firstLine(c.text);
-        if (!/^<!--\s*@dsCard\s+group="[^"]*"[^>]*-->/.test(marker)) {
-          fails.push(`${c.rel}: first line is not a @dsCard comment`);
+      const problems: string[] = [];
+      const marker = (rel: string, text: string, kind: 'dsCard' | 'startingPoint', field: string): void => {
+        const head = firstLine(text);
+        if (!new RegExp(`^<!--\\s*@${kind}\\s+${field}="[^"]*"[^>]*-->`).test(head)) {
+          problems.push(`${rel}: first line is not a @${kind} comment`);
         }
         /* A marker is comment data, not rendered text. No browser decodes a
            character reference before the pane and this parser read it. */
-        const entity = ENTITY_RE.exec(marker)?.[0];
-        if (entity) fails.push(`${c.rel}: @dsCard metadata uses "${entity}" — write the literal character`);
-      }
-      for (const s of sp) {
-        const marker = firstLine(s.text);
-        if (!/^<!--\s*@startingPoint\s+section="[^"]*"[^>]*-->/.test(marker)) {
-          fails.push(`${s.rel}: first line is not a @startingPoint comment`);
-        }
-        const entity = ENTITY_RE.exec(marker)?.[0];
-        if (entity) fails.push(`${s.rel}: @startingPoint metadata uses "${entity}" — write the literal character`);
-      }
-      console.log(`   ${list.length} cards, ${sp.length} starting points`);
+        const entity = ENTITY_RE.exec(head)?.[0];
+        if (entity) problems.push(`${rel}: @${kind} metadata uses "${entity}" — write the literal character`);
+      };
+      for (const c of list) marker(c.rel, c.text, 'dsCard', 'group');
+      for (const s of sp) marker(s.rel, s.text, 'startingPoint', 'section');
+      return { facts: `${list.length} cards · ${sp.length} starting points`, problems };
     },
   },
 
@@ -189,8 +193,7 @@ const CHECKS: readonly Check[] = [
      guarded nothing. */
   {
     name: 'heights',
-    step: '1b',
-    label: 'specimens match the cards they embed',
+    label: 'the specimens match the cards they embed',
     run() {
       /* The directive names a path under `_cards/`, and a card knows itself by
          its path in the repository — so the two meet at the tail. */
@@ -199,8 +202,8 @@ const CHECKS: readonly Check[] = [
          `docs/guides-theme/directives.rst`, which is where this number is the
          documented default rather than a guess. */
       const DEFAULT_VIEWPORT = '700x260';
+      const problems: string[] = [];
       let embedded = 0;
-      let mismatched = 0;
 
       const pages = (dir: string): string[] => readdirSync(dir, { withFileTypes: true })
         .flatMap((e) => (e.isDirectory() ? pages(join(dir, e.name)) : e.name.endsWith('.rst') ? [join(dir, e.name)] : []));
@@ -212,25 +215,20 @@ const CHECKS: readonly Check[] = [
           embedded++;
           const vp = /:viewport:\s*(\d+x\d+)/.exec(options)?.[1] ?? DEFAULT_VIEWPORT;
           const want = declared.get(src);
-          if (!want) {
-            mismatched++;
-            fails.push(`${relative(ROOT, page)}: embeds ${src}, which is not a generated card`);
-          } else if (want !== vp) {
-            mismatched++;
-            fails.push(`${relative(ROOT, page)}: ${src} is embedded at ${vp}, the card declares ${want}`);
-          }
+          if (!want) problems.push(`${relative(ROOT, page)}: embeds ${src}, which is not a generated card`);
+          else if (want !== vp) problems.push(`${relative(ROOT, page)}: ${src} is embedded at ${vp}, the card declares ${want}`);
         }
       }
-      console.log(`   ${embedded} specimens embedded, ${mismatched} at a size the card does not declare`);
+      return { facts: `${embedded} embedded`, problems };
     },
   },
 
   {
     name: 'classes',
-    step: '2',
     label: 'every class resolves in its own layer',
     run() {
       const defined = definedClasses();
+      const problems: string[] = [];
       /* Every class in every card and screen, against the stylesheets, with no
          exemption. A `<style>` block whose names counted as defined would be
          the escape hatch a page's own layout goes through, and a name in one is
@@ -238,7 +236,7 @@ const CHECKS: readonly Check[] = [
       const used = new Map<string, string[]>();
       for (const c of all) {
         if (c.text.includes('<style>')) {
-          fails.push(`${c.rel}: carries a <style> block — layout belongs in components.css, not in a generated file`);
+          problems.push(`${c.rel}: carries a <style> block — layout belongs in components.css, not in a generated file`);
         }
         for (const m of c.text.matchAll(/class="([^"]*)"/g)) {
           for (const cls of (m[1] ?? '').split(/\s+/).filter(Boolean)) {
@@ -251,24 +249,20 @@ const CHECKS: readonly Check[] = [
       /* Cards link `_specimen.css`; elements and starting points do not. The
          union above can prove a card's annotation exists, but it must not make
          a specimen class look available to product source. */
-      let specimenLeaks = 0;
       const productSources = (dir: string): string[] => readdirSync(dir, { withFileTypes: true })
         .flatMap((entry) => entry.isDirectory()
           ? productSources(join(dir, entry.name))
           : entry.name.endsWith('.ts') ? [join(dir, entry.name)] : []);
       for (const file of productSources(join(FRONTEND, 'src'))) {
         for (const match of readFileSync(file, 'utf8').matchAll(/\bspec-[a-z0-9-]+\b/g)) {
-          specimenLeaks++;
-          fails.push(`${relative(ROOT, file)}: product source names specimen-only class "${match[0]}"`);
+          problems.push(`${relative(ROOT, file)}: product source names specimen-only class "${match[0]}"`);
         }
       }
       for (const screen of sp) {
         for (const match of screen.text.matchAll(/\bclass="[^"]*\b(spec-[a-z0-9-]+)\b[^"]*"/g)) {
-          specimenLeaks++;
-          fails.push(`${screen.rel}: starting point uses specimen-only class "${match[1]}"`);
+          problems.push(`${screen.rel}: starting point uses specimen-only class "${match[1]}"`);
         }
       }
-      console.log(`   ${specimenLeaks} specimen-only classes in product source`);
       /* Names that are markers rather than hooks. `language-*` is the fence's
          grammar, written onto the `<code>` the way every Markdown renderer
          writes it: it says what the block is for anything reading the DOM, and
@@ -276,15 +270,13 @@ const CHECKS: readonly Check[] = [
          be defined as — the one class here deliberately not a style. */
       const MARKERS = [/^language-[\w-]+$/];
 
-      let unknown = 0;
       for (const [cls, where] of [...used].sort()) {
         if (MARKERS.some((rx) => rx.test(cls))) continue;
         if (!defined.has(cls)) {
-          unknown++;
-          fails.push(`class "${cls}" is used in ${where.length} file(s) but defined in no stylesheet (first: ${where[0]})`);
+          problems.push(`class "${cls}" is used in ${where.length} file(s) but defined in no stylesheet (first: ${where[0]})`);
         }
       }
-      console.log(`   ${used.size} distinct classes used, ${defined.size} defined, ${unknown} unknown`);
+      return { facts: `${used.size} used · ${defined.size} defined`, problems };
     },
   },
 
@@ -294,13 +286,8 @@ const CHECKS: readonly Check[] = [
      names of its own. See scripts/coverage.ts for what each surface proves. */
   {
     name: 'coverage',
-    step: '2b',
     label: 'every component is shown',
-    run() {
-      const cov = spawnSync(process.execPath, [join(ROOT, 'scripts/coverage.ts')], { encoding: 'utf8' });
-      process.stdout.write(cov.stdout);
-      if (cov.status !== 0) fails.push('a component is missing from a surface it has to be shown on (see above)');
-    },
+    run: () => child('scripts/coverage.ts'),
   },
 
   /* The third direction: a name a document writes. Prose is where a name
@@ -310,7 +297,6 @@ const CHECKS: readonly Check[] = [
      file; every other document was unheld. */
   {
     name: 'names',
-    step: '2c',
     label: 'every sds- name a document writes exists',
     run() {
       const defined = definedClasses();
@@ -333,22 +319,21 @@ const CHECKS: readonly Check[] = [
           used.set(name, where);
         }
       }
-      let unknown = 0;
+      const problems: string[] = [];
       for (const [name, where] of [...used].sort()) {
         if (defined.has(name)) continue;
-        unknown++;
-        fails.push(`"${name}" is written in ${where.join(', ')} and is neither a class nor an element`);
+        problems.push(`"${name}" is written in ${where.join(', ')} and is neither a class nor an element`);
       }
-      console.log(`   ${used.size} names in ${docs.length} documents, ${unknown} unknown`);
+      return { facts: `${used.size} names · ${docs.length} documents`, problems };
     },
   },
 
   {
     name: 'refs',
-    step: '3',
     label: 'every local reference resolves',
     run() {
-      let refs = 0, broken = 0;
+      const problems: string[] = [];
+      let refs = 0;
       for (const c of all) {
         // Only real attributes: escaped example markup (&lt;link href="…"&gt;) is documentation.
         const real = c.text.replace(/&lt;[\s\S]*?&gt;/g, '');
@@ -359,71 +344,43 @@ const CHECKS: readonly Check[] = [
           /* A fragment names something inside the file, not a second file: a
              referenced drawing is written `…/mark.svg#art`. */
           if (!existsSync(resolve(dirname(c.path), ref.replace(/#.*$/, '')))) {
-            broken++;
-            fails.push(`${c.rel}: ${ref} does not resolve`);
+            problems.push(`${c.rel}: ${ref} does not resolve`);
           }
         }
       }
-      console.log(`   ${refs} references, ${broken} broken`);
+      return { facts: `${refs} references`, problems };
     },
   },
 
   {
     name: 'fit',
-    step: '4',
     label: 'every card renders inside the viewport it declares',
-    run() {
-      const fit = spawnSync(process.execPath, [join(ROOT, 'scripts/fit.ts')], { encoding: 'utf8' });
-      process.stdout.write(fit.stdout.split('\n').filter((l) => l.includes('CROPPED') || l.includes('cards,')).map((l) => `  ${l.trim()}\n`).join(''));
-      if (fit.status !== 0) fails.push('some cards are cropped by the viewport they declare (see above)');
-    },
+    run: () => child('scripts/fit.ts'),
   },
 
   /* The screens against the scale and the grid, both read out of the tokens so
      the measurement cannot drift from them. A size or a gap somebody typed is
      invisible to every other check — it renders, it fits, and it is simply not
-     on the system's steps. `make rhythm` names one screen; here it is all of
-     them, and only what failed is printed. */
+     on the system's steps. */
   {
     name: 'rhythm',
-    step: '4a',
     label: 'every screen sets sizes on the scale and gaps on the grid',
-    run() {
-      const rhythm = spawnSync(process.execPath, [join(ROOT, 'scripts/rhythm.ts')], { encoding: 'utf8' });
-      process.stdout.write(
-        rhythm.stdout
-          .split('\n')
-          .filter((l) => l.includes('OFF SCALE') || l.includes('not a step') || l.includes('screen(s),'))
-          .map((l) => `  ${l.trim()}\n`)
-          .join(''),
-      );
-      if (rhythm.status !== 0) fails.push('a screen sets a size off the scale or a gap off the grid (see above, and `make rhythm`)');
-    },
+    run: () => ({ ...child('scripts/rhythm.ts'), fix: 'make rhythm' }),
   },
 
-  /* Every element renders in Node, not only the seven that appear in a card.
+  /* Every element renders in Node, not only the ones that appear in a card.
      See scripts/ssr.ts for why that is the rule and what it does not prove. */
   {
     name: 'ssr',
-    step: '4b',
     label: 'every element renders outside a browser',
-    run() {
-      const ssr = spawnSync(process.execPath, [join(ROOT, 'scripts/ssr.ts')], { encoding: 'utf8' });
-      process.stdout.write(ssr.stdout);
-      if (ssr.status !== 0) fails.push('an element cannot be rendered outside a browser (see above)');
-    },
+    run: () => child('scripts/ssr.ts'),
   },
 
   /* The drop-in is committed, so it can go stale against its own source. */
   {
     name: 'dist',
-    step: '4c',
     label: 'the committed drop-in matches its source',
-    run() {
-      const dist = spawnSync(process.execPath, [join(ROOT, 'scripts/dist.ts'), '--check'], { encoding: 'utf8' });
-      process.stdout.write((dist.stdout ?? '').split('\n').filter((l) => l.includes('out of date') || l.includes('✗')).map((l) => `${l}\n`).join(''));
-      if (dist.status !== 0) fails.push('dist/ is out of date — run `make dist` and commit it');
-    },
+    run: () => ({ ...child('scripts/dist.ts', '--check'), fix: 'make dist, and commit it' }),
   },
 
   /* The theme is published as a package of its own, assembled rather than
@@ -432,48 +389,33 @@ const CHECKS: readonly Check[] = [
      template or a moved file from being found at release time. */
   {
     name: 'split',
-    step: '4d',
-    label: 'the theme assembles into a package that stands alone',
-    run() {
-      const split = spawnSync(process.execPath, [join(ROOT, 'scripts/split.ts'), '--check'], { encoding: 'utf8' });
-      process.stdout.write(split.stdout ?? '');
-      process.stdout.write(split.stderr ?? '');
-      if (split.status !== 0) fails.push('the Guides theme does not assemble into a complete package — see `make split ARGS=--check`');
-    },
+    label: 'each package assembles into something installable',
+    run: () => ({ ...child('scripts/split.ts', '--check'), fix: 'make split ARGS=--check' }),
   },
 
-  /* The seven component cards are generated from their stories. A card edited
-     by hand looks fine in review and is silently reverted by the next
-     `make cards` — so a stale card is a failure, not a warning. */
+  /* The cards are generated from their stories. A card edited by hand looks
+     fine in review and is silently reverted by the next `make cards` — so a
+     stale card is a failure, not a warning. */
   {
     name: 'cards',
-    step: '5',
     label: 'every card matches its story, and has one',
-    run() {
-      const gen = spawnSync(process.execPath, [join(ROOT, 'scripts/cards.ts'), '--check'], { encoding: 'utf8' });
-      process.stdout.write(
-        gen.stdout.split('\n')
-          .filter((l) => l.includes('STALE') || l.includes('ORPHAN') || l.includes('generated cards'))
-          .map((l) => `  ${l.trim()}\n`).join(''),
-      );
-      if (gen.status !== 0) fails.push('a card no longer matches its story, or has none — see above, and run `make cards`');
-    },
+    run: () => ({ ...child('scripts/cards.ts', '--check'), fix: 'make cards' }),
   },
 
   /* Types are the contract the components and the card generator share. Node
      strips them without checking them, so nothing else would ever notice. */
   {
     name: 'types',
-    step: '6',
     label: 'the contract the components and the generator share',
     run() {
       const tsc = spawnSync(process.execPath, [join(ROOT, 'node_modules/typescript/bin/tsc'), '--noEmit'], { encoding: 'utf8' });
-      const tscOut = (tsc.stdout ?? '').trim();
-      console.log(`   ${tscOut ? tscOut.split('\n').length : 0} type error(s)`);
-      if (tsc.status !== 0) {
-        process.stdout.write(tscOut.split('\n').slice(0, 10).map((l) => `  ${l}\n`).join(''));
-        fails.push('typecheck failed (see above)');
-      }
+      const lines = (tsc.stdout ?? '').trim().split('\n').filter(Boolean);
+      if (tsc.status === 0) return { facts: 'no type errors' };
+      /* Ten is enough to see the shape of a break; the count says what is
+         behind them, so nothing is dropped without saying so. */
+      const shown = lines.slice(0, 10);
+      if (lines.length > shown.length) shown.push(`… and ${lines.length - shown.length} more — run \`make typecheck\``);
+      return { facts: `${lines.length} type error(s)`, problems: shown };
     },
   },
 
@@ -483,41 +425,32 @@ const CHECKS: readonly Check[] = [
      who work on TYPO3 every day is the last place to invent a house style. */
   {
     name: 'php',
-    step: '6b',
     label: 'the theme’s sources against the coding standard',
-    run() {
-      const php = spawnSync(process.execPath, [join(ROOT, 'scripts/php.ts'), '--check'], { encoding: 'utf8' });
-      const out = `${php.stdout ?? ''}${php.stderr ?? ''}`;
-      console.log(`   ${(/Found (\d+) of (\d+) files/.exec(out)?.[0]) ?? 'nothing to fix'}`);
-      if (php.status !== 0) {
-        process.stdout.write(out.split('\n').filter((l) => /^\s+\d+\) /.test(l)).map((l) => `  ${l.trim()}\n`).join(''));
-        fails.push('the theme’s PHP has drifted from the coding standard — run `make php`');
-      }
-    },
+    run: () => ({ ...child('scripts/php.ts', '--check'), fix: 'make php' }),
   },
 
   {
     name: 'conventions',
-    step: '7',
     label: 'the header names what the build defines',
     bundle: true,
-    run() {
-      const conv = spawnSync(process.execPath, [join(ROOT, 'scripts/conventions.ts')], { encoding: 'utf8' });
-      process.stdout.write(conv.stdout);
-      if (conv.status !== 0) fails.push('conventions.md names something the build no longer defines (see above)');
-    },
+    run: () => child('scripts/conventions.ts'),
   },
 ];
 
+report.align(CHECKS);
+
 function names(): void {
-  const width = Math.max(...CHECKS.map((c) => c.name.length));
-  for (const c of CHECKS) console.log(`  ${c.name.padEnd(width)}  ${c.label}`);
+  for (const c of CHECKS) report.row('skip', c.name, c.label);
 }
 
 const asked = process.argv.slice(2);
 if (asked.includes('--help') || asked.includes('-h')) {
-  console.log('make verify              the gate, all of it');
-  console.log('make verify ARGS="a b"   only these checks\n');
+  report.open('verify', 'the gate');
+  report.align([{ name: '', label: 'make verify ARGS="a b"' }]);
+  report.fact('make verify', 'all of it');
+  report.fact('make verify ARGS="a b"', 'only these checks');
+  console.log();
+  report.align(CHECKS);
   names();
   process.exit(0);
 }
@@ -526,37 +459,43 @@ if (asked.includes('--help') || asked.includes('-h')) {
    checked less than it was asked to and still printed a tick. */
 const unknownName = asked.find((a) => !CHECKS.some((c) => c.name === a));
 if (unknownName) {
-  console.error(`unknown check "${unknownName}" — the names are:\n`);
+  report.open('verify', 'the gate');
+  report.bad(`there is no check called "${unknownName}" — the names are:`);
+  console.log();
   names();
   process.exit(1);
 }
 
 const selected = asked.length ? CHECKS.filter((c) => asked.includes(c.name)) : CHECKS;
 
+report.open('verify', asked.length ? `${selected.map((c) => c.name).join(', ')} — not the gate` : 'the gate');
+
 /* `conventions` reads the assembled bundle, so it is what makes the build run
    — and it runs here rather than inside the check, so the full gate prints in
    the order it always has. */
 if (selected.some((c) => c.bundle)) {
-  const built = spawnSync(process.execPath, [join(ROOT, 'scripts/build.ts')], { stdio: 'inherit' });
-  if (built.status !== 0) {
-    console.error('\n✗ the bundle did not build — nothing below it can be trusted');
+  const built = child('scripts/build.ts');
+  report.row(built.problems ? 'bad' : 'ok', 'bundle', 'assembled, for the checks that read it', built.facts);
+  if (built.problems) {
+    for (const p of built.problems) report.detail(p);
+    report.close('bad', 'the bundle did not build — nothing below it can be trusted');
     process.exit(1);
   }
 }
 
+const failed: string[] = [];
 for (const check of selected) {
-  console.log(`${check.step}. ${check.name} — ${check.label}`);
-  check.run();
+  const { facts, problems = [], fix } = check.run();
+  report.row(problems.length ? 'bad' : 'ok', check.name, check.label, facts);
+  for (const p of problems) report.detail(p);
+  if (fix && problems.length) report.detail(report.dim(`run \`${fix}\``));
+  if (problems.length) failed.push(check.name);
 }
 
-console.log();
-if (fails.length) {
-  console.log(`✗ ${fails.length} problem(s):`);
-  for (const f of fails) console.log('  -', f);
+if (failed.length) {
+  report.close('bad', `${failed.join(', ')} — ${failed.length} of ${selected.length} checks failed`);
   process.exit(1);
 }
-if (selected.length === CHECKS.length) {
-  console.log('✓ design system is consistent');
-} else {
-  console.log(`✓ ${selected.map((c) => c.name).join(', ')} — ${selected.length} of ${CHECKS.length} checks, not the gate`);
-}
+report.close('ok', selected.length === CHECKS.length
+  ? 'design system is consistent'
+  : `${selected.length} of ${CHECKS.length} checks, not the gate`);

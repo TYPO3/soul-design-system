@@ -14,6 +14,7 @@ import * as esbuild from 'esbuild';
 
 import { FRONTEND, GENERATED, ROOT, byGroup, cards, screens, type Card } from './lib/cards.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
+import * as report from './lib/report.ts';
 
 /** `sds-button` → `SdsButton`, the export name the bundle exposes. */
 const pascalTag = (tag: string): string =>
@@ -139,6 +140,8 @@ export function uploadFiles(dir: string, base: string = dir, out: string[] = [])
 
 // ---------------------------------------------------------------------------
 
+report.open('build', `assemble the upload bundle into ${relative(ROOT, OUT)}`);
+
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 const list = cards();
@@ -247,15 +250,14 @@ for (const [group, items] of byGroup(list)) {
 const readme = parts.join('');
 writeFileSync(join(OUT, 'README.md'), readme);
 if (readme.length > 31900) {
-  console.log(`  ! README is ${readme.length} chars — the app inlines only the first 32,000`);
+  report.note(`the README is ${readme.length} chars — the app inlines only the first 32,000`);
 }
 
 /* Before the anchor, which vouches for the bundle: nothing should vouch for
    one whose own pages cannot find their stylesheet. */
 const badRefs = unresolvedRefs();
 if (badRefs.length) {
-  console.log(`✗ ${badRefs.length} reference(s) do not resolve inside the bundle:`);
-  for (const b of badRefs) console.log(`    ${b}`);
+  report.summary(`${badRefs.length} reference(s) do not resolve inside the bundle`, badRefs);
   process.exit(1);
 }
 
@@ -282,6 +284,6 @@ writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
 }, null, 2));
 
 const groups = byGroup(list);
-console.log(`built ${OUT}`);
-console.log(`  ${list.length} cards in ${groups.size} groups, ${sp.length} starting points, ${countFiles(OUT)} files`);
-console.log(`  groups: ${[...groups].map(([k, v]) => `${k} (${v.length})`).join(', ')}`);
+report.align([...groups].map(([group]) => ({ name: group, label: group })));
+for (const [group, items] of groups) report.fact(group, `${items.length} cards`);
+report.summary(`${list.length} cards \u00b7 ${groups.size} groups \u00b7 ${sp.length} starting points \u00b7 ${countFiles(OUT)} files`);

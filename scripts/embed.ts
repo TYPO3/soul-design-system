@@ -10,23 +10,25 @@
    cards` ends with it, so a tree that has just generated them is complete. */
 import { embedCards, embedMarks } from './lib/cards.ts';
 import { PROJECTS } from './lib/projects.ts';
+import * as report from './lib/report.ts';
 
 const check = process.argv.includes('--check');
-let stale = 0;
+const drift: string[] = [];
+let cards = 0;
+let marks = 0;
+
+report.open('embed', check ? 'the marks beside the documents match the drawings' : 'the cards and marks, beside the documents');
 
 for (const project of PROJECTS) {
   if (!check) {
     const written = embedCards(project.source);
-    console.log(`   ${project.name}: ${written} card(s) where its documents can reach them`);
+    cards += written;
+    report.fact(project.name, `${written} card(s) where its documents can reach them`);
   }
   if (!project.marks) continue;
-  const drifted = embedMarks(project.source, project.marks, check);
-  for (const line of drifted) console.log(`   ${check ? '✗ ' : ''}${line}`);
-  stale += drifted.length;
-  if (!drifted.length) console.log(`   ${project.name}: ${Object.keys(project.marks).length} mark(s) match their drawings`);
+  marks += Object.keys(project.marks).length;
+  drift.push(...embedMarks(project.source, project.marks, check).map((line) => `${project.name}: ${line}`));
 }
 
-if (check && stale) {
-  console.error('✗ a mark beside the documents is not the drawing it was copied from — run `make embed`');
-  process.exit(1);
-}
+report.summary(check ? `${marks} marks` : `${cards} cards · ${marks} marks`, drift);
+process.exit(check && drift.length ? 1 : 0);

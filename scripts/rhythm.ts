@@ -12,6 +12,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { screens, type Screen } from './lib/cards.ts';
 import { openCard, withPage } from './lib/browser.ts';
+import * as report from './lib/report.ts';
 
 const TOKENS = 'packages/frontend/src/tokens';
 
@@ -68,8 +69,9 @@ const OPTICAL = new Set(SCALE.map((s) => Math.round(s * ratio('font-mono-optical
 
 const wanted = process.argv[2];
 const list = screens().filter((s) => !wanted || s.rel.includes(wanted));
+report.open('rhythm', 'every screen sets sizes on the scale and gaps on the grid');
 if (!list.length) {
-  console.log(`no screen matches ${wanted ?? ''} — screens() found ${screens().length}`);
+  report.summary(`no screen matches ${wanted ?? ''}`, [`screens() found ${screens().length}, none of them named`]);
   process.exit(1);
 }
 
@@ -145,22 +147,30 @@ const measured = await withPage(async ({ map }) =>
 const nearest = (v: number, steps: number[]): number =>
   steps.reduce((best, s) => (Math.abs(s - v) < Math.abs(best - v) ? s : best), steps[0] ?? 0);
 
-let off = 0;
-for (const { screen, report } of measured) {
-  const { scale, grid, boxes, sizes } = report;
-  console.log(`\n${screen.rel} — ${screen.width}×${screen.height}`);
-  console.log(`  scale ${scale.join(' ')}`);
-  console.log(`  grid  ${grid.join(' ')}`);
+/* The tables are the report `make rhythm` is for; under the gate only what
+   failed is worth a line, and the gate is what prints it. */
+const problems: string[] = [];
+for (const { screen, report: measure } of measured) {
+  const { scale, grid, boxes, sizes } = measure;
+  if (!report.REPORTING) {
+    console.log();
+    report.fact(`${screen.rel} — ${screen.width}×${screen.height}`);
+    report.fact('  scale', scale.join(' '));
+    report.fact('  grid', grid.join(' '));
+    console.log();
+    report.fact('  the column, top to bottom');
+  }
 
-  console.log('\n  the column, top to bottom');
   for (const b of boxes) {
     const gapOff = b.gap !== null && b.gap > 0.5 && !grid.includes(b.gap);
     const sizeOff = !scale.includes(b.size);
-    if (gapOff || sizeOff) off++;
+    if (gapOff) problems.push(`${screen.rel}: ${b.label} sits ${b.gap}px below its neighbour — not a step (nearest ${nearest(b.gap ?? 0, grid)})`);
+    if (sizeOff) problems.push(`${screen.rel}: ${b.label} is set at ${b.size}px — not a step (nearest ${nearest(b.size, scale)})`);
+    if (report.REPORTING) continue;
     const gap = b.gap === null ? '     —' : `${b.gap}px`.padStart(6);
     const flag = gapOff ? ` ← gap is not a step (nearest ${nearest(b.gap ?? 0, grid)})` : '';
     const pad = b.padY || b.padX ? `  pad ${b.padY}/${b.padX}` : '';
-    console.log(`  ${gap}  ${b.label.padEnd(30)} ${`${b.size}px`.padStart(6)}/${b.leading}${pad}${flag}`);
+    console.log(`    ${gap}  ${b.label.padEnd(30)} ${`${b.size}px`.padStart(6)}/${b.leading}${pad}${flag}`);
   }
 
   /* A relative size is the optical correction mono carries beside sans: a
@@ -168,15 +178,18 @@ for (const { screen, report } of measured) {
      step times that one ratio. A whole pixel that is neither is a number
      somebody typed, and only that fails — the distinction is the point of
      measuring rather than grepping. */
-  console.log('\n  every size the page sets');
+  if (!report.REPORTING) {
+    console.log();
+    report.fact('  every size the page sets');
+  }
   for (const { size, sample } of sizes) {
     const relative = !Number.isInteger(size) || OPTICAL.has(size);
-    const bad = !scale.includes(size) && !relative;
-    if (bad) off++;
-    const mark = bad ? 'OFF SCALE' : relative ? 'relative' : '';
-    console.log(`  ${`${size}px`.padStart(7)}  ${mark.padEnd(9)}  ${sample}`);
+    const off = !scale.includes(size) && !relative;
+    if (off) problems.push(`${screen.rel}: ${size}px is off the scale — "${sample}"`);
+    if (report.REPORTING) continue;
+    console.log(`    ${`${size}px`.padStart(7)}  ${(off ? 'OFF SCALE' : relative ? 'relative' : '').padEnd(9)}  ${sample}`);
   }
 }
 
-console.log(`\n${measured.length} screen(s), ${off} value(s) off the scale`);
-process.exit(off ? 1 : 0);
+report.summary(`${measured.length} screens · ${problems.length} off the scale`, problems, { shown: false });
+process.exit(problems.length ? 1 : 0);

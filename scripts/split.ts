@@ -27,6 +27,7 @@ import { spawnSync } from 'node:child_process';
 
 import { GENERATED, ROOT } from './lib/cards.ts';
 import { PACKAGES, walk } from './lib/packages.ts';
+import * as report from './lib/report.ts';
 
 const argv = process.argv.slice(2);
 const CHECK = argv.includes('--check');
@@ -35,10 +36,12 @@ const flag = (name: string): string | undefined =>
 
 const BRANCH = flag('branch') ?? 'main';
 
-const report = (pkg: string): void => {
+/** How big a package came out — the one fact worth stating about an assembly
+    that otherwise only speaks up when it is incomplete. */
+const size = (pkg: string): string => {
   const files = [...walk(pkg)];
   const bytes = files.reduce((n, f) => n + statSync(join(pkg, f)).size, 0);
-  console.log(`   ${files.length} files, ${(bytes / 1024 / 1024).toFixed(1)} MB`);
+  return `${files.length} files, ${(bytes / 1024 / 1024).toFixed(1)} MB`;
 };
 
 /* ---- where they go, for whoever has to authenticate to it ---- */
@@ -54,25 +57,24 @@ if (argv.includes('--remotes')) {
 /* ---- the gate's question: do these trees make packages that stand alone ---- */
 
 if (CHECK) {
-  let bad = 0;
+  report.open('split', 'each package assembles into something installable');
+  report.align(PACKAGES.map((p) => ({ name: p.name, label: 'assembles into a package that stands alone' })));
+  const problems: string[] = [];
+  const sizes: string[] = [];
   for (const pack of PACKAGES) {
     const into = mkdtempSync(join(tmpdir(), `soul-${pack.name}-`));
     pack.assemble(ROOT, into);
-    const missing = existsSync(join(into, pack.manifest))
-      ? pack.incomplete(into, ROOT)
-      : [`${pack.name} is not in this tree`];
-    console.log(`   ${pack.name}`);
-    if (existsSync(join(into, pack.manifest))) report(into);
+    const there = existsSync(join(into, pack.manifest));
+    const missing = there ? pack.incomplete(into, ROOT) : [`${pack.name} is not in this tree`];
+    const facts = there ? size(into) : 'nothing assembled';
+    if (there) sizes.push(`${pack.name} ${facts}`);
     rmSync(into, { recursive: true, force: true });
-    if (missing.length) {
-      bad++;
-      console.error(`\n✗ ${pack.name} is not complete:`);
-      for (const line of missing) console.error(`  - ${line}`);
-    }
+    report.row(missing.length ? 'bad' : 'ok', pack.name, 'assembles into a package that stands alone', facts);
+    for (const line of missing) report.detail(line);
+    problems.push(...missing.map((line) => `${pack.name}: ${line}`));
   }
-  if (bad) process.exit(1);
-  console.log('   both assemble into packages that stand on their own');
-  process.exit(0);
+  report.summary(sizes.join(' \u00b7 '), problems, { shown: true });
+  process.exit(problems.length ? 1 : 0);
 }
 
 /* ---- the mirror ---- */
@@ -80,14 +82,17 @@ if (CHECK) {
 const wanted = argv.filter((a) => !a.startsWith('--'));
 const packs = PACKAGES.filter((p) => wanted.length === 0 || wanted.includes(p.name));
 if (packs.length === 0) {
-  console.error(`✗ no package called ${wanted.join(', ')} — there is ${PACKAGES.map((p) => p.name).join(' and ')}`);
+  report.bad(`there is no package called ${wanted.join(', ')} — there is ${PACKAGES.map((p) => p.name).join(' and ')}`);
   process.exit(1);
 }
 
 if (spawnSync('git', ['--version']).status !== 0) {
-  console.error('✗ mirroring needs git, and the container image has none — run `node scripts/split.ts` on the host, or the split workflow');
+  report.bad('mirroring needs git, and the container image has none — run `node scripts/split.ts` on the host, or the split workflow');
   process.exit(1);
 }
+
+report.open('split', 'mirror each package into the repository it is published from');
+report.align(PACKAGES.map((p) => ({ name: p.name, label: 'nothing to mirror' })));
 
 const git = (args: string[], cwd = ROOT): string => {
   const run = spawnSync('git', args, { cwd, encoding: 'utf8' });
@@ -112,7 +117,7 @@ for (const pack of packs) {
   if (!existsSync(join(out, '.git'))) {
     rmSync(out, { recursive: true, force: true });
     if (spawnSync('git', ['clone', '--quiet', remote, out]).status !== 0) {
-      console.log(`   ${pack.name}: ${remote} could not be read — mirroring from the first commit`);
+      report.note(`${pack.name}: ${remote} could not be read — mirroring from the first commit`);
       mkdirSync(out, { recursive: true });
       git(['init', '--quiet', '--initial-branch', BRANCH], out);
     }
@@ -134,7 +139,7 @@ for (const pack of packs) {
     });
 
   if (replay.length === 0) {
-    console.log(`   ${pack.name}: nothing to mirror — ${relative(ROOT, out)} is level with this tree`);
+    report.row('skip', pack.name, 'nothing to mirror', `${relative(ROOT, out)} is level with this tree`);
     continue;
   }
 
@@ -189,16 +194,11 @@ for (const pack of packs) {
 
   const missing = pack.incomplete(out, ROOT);
   if (missing.length) {
-    console.error(`\n✗ the ${pack.name} package the mirror ends on is not complete:`);
-    for (const line of missing) console.error(`  - ${line}`);
+    report.summary(`the ${pack.name} package the mirror ends on is not complete`, missing);
     process.exit(1);
   }
 
-  console.log(`   ${pack.name}`);
-  report(out);
-  console.log(`   ${written} commit(s) mirrored${empty ? `, ${empty} of them empty for a tag` : ''}${from ? ` since ${from.slice(0, 7)}` : ''}
-
-    git -C ${relative(ROOT, out)} push ${remote} ${BRANCH}
-    git -C ${relative(ROOT, out)} push --tags ${remote}
-`);
+  report.row('ok', pack.name, `${written} commit(s) mirrored${empty ? `, ${empty} empty for a tag` : ''}${from ? ` since ${from.slice(0, 7)}` : ''}`, size(out));
+  report.detail(`git -C ${relative(ROOT, out)} push ${remote} ${BRANCH}`);
+  report.detail(`git -C ${relative(ROOT, out)} push --tags ${remote}`);
 }

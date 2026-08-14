@@ -11,6 +11,7 @@
    since content painting outside a `visible` box is ordinary. */
 import { cards, screens, type Card, type Screen } from './lib/cards.ts';
 import { openCard, withPage } from './lib/browser.ts';
+import * as report from './lib/report.ts';
 
 /** A screen declares a `section`; a card declares a `group`. That is the only
     thing that tells them apart here, so it is the discriminator. */
@@ -62,21 +63,20 @@ const results = await withPage(async ({ map }) =>
     return { card, content, clipped };
   }));
 
-let cropped = 0;
+report.open('fit', 'every card renders inside the viewport it declares');
+
+const cropped: string[] = [];
+let slack = 0;
 for (const { card, content, clipped, wide } of results) {
   if (wide) {
-    cropped++;
-    console.log(`  WIDE    ${card.rel}: declares ${card.viewport}, page is ${card.width + wide}px across (+${wide})`);
+    cropped.push(`${card.rel}: declares ${card.viewport}, the page is ${card.width + wide}px across (+${wide})`);
   } else if (content > card.height) {
-    cropped++;
-    console.log(`  CROPPED ${card.rel}: declares ${card.viewport}, content is ${content}px (+${content - card.height})`);
+    cropped.push(`${card.rel}: declares ${card.viewport}, the content is ${content}px (+${content - card.height})`);
   } else if (content < card.height - SLACK) {
-    console.log(`  slack   ${card.rel}: declares ${card.viewport}, content only ${content}px (-${card.height - content})`);
+    slack++;
+    report.note(`${card.rel}: declares ${card.viewport}, the content only reaches ${content}px (-${card.height - content})`);
   }
-  for (const hit of clipped ?? []) {
-    cropped++;
-    console.log(`  CLIPPED ${card.rel}: ${hit}`);
-  }
+  for (const hit of clipped ?? []) cropped.push(`${card.rel}: clipped — ${hit}`);
 }
-console.log(`\n${list.length} cards + screens, ${cropped} cropped`);
-process.exit(cropped ? 1 : 0);
+report.summary(`${list.length} cards and screens · ${slack} with slack`, cropped);
+process.exit(cropped.length ? 1 : 0);

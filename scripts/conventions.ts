@@ -13,16 +13,19 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { GENERATED, ROOT } from './lib/cards.ts';
+import * as report from './lib/report.ts';
 
 const DOC = join(ROOT, '.design-sync/conventions.md');
 const OUT = join(GENERATED, 'bundle');
 
+report.open('conventions', 'the header names what the build defines');
+
 if (!existsSync(DOC)) {
-  console.log('   no conventions.md — nothing to check');
+  report.summary('no conventions.md — nothing to check');
   process.exit(0);
 }
 if (!existsSync(join(OUT, '_ds_bundle.css'))) {
-  console.log('   no build to check against — `make build` first');
+  report.summary('no build to check against', ['run `make build` first']);
   process.exit(1);
 }
 
@@ -48,7 +51,7 @@ try {
   const parsed = JSON.parse(header[1]) as BundleHeader;
   for (const c of parsed.components ?? []) if (c.tag) definedTags.add(c.tag);
 } catch {
-  console.log('   ! could not read the bundle header — element tags unchecked');
+  report.note('could not read the bundle header — element tags unchecked');
 }
 const definedTokens = new Set([...css.matchAll(/(--[a-z0-9-]+)\s*:/g)].flatMap((m) => (m[1] ? [m[1]] : [])));
 
@@ -105,18 +108,14 @@ const missingPrefixes = [...new Set(prefixes)]
   .filter((p) => ![...definedTokens].some((d) => d.startsWith(p))).sort();
 const missingTokens = [...new Set(exactTokens)].filter((t) => !definedTokens.has(t)).sort();
 
-console.log(`   ${named.size - namedTags.length} classes, ${namedTags.length} of ${definedTags.size} element tags, ${new Set(prefixes).size} token families, ${new Set(exactTokens).size} exact tokens named`);
 const bad = [...missingClasses, ...missingPrefixes, ...missingTokens];
-if (bad.length) {
-  console.log(`   ✗ ${bad.length} name(s) in conventions.md no longer exist:`);
-  for (const n of bad) console.log(`     ${n}`);
-  console.log('   Fix the name or cut it — do not leave it; the design agent will trust it.');
-  process.exit(1);
-}
-if (unnamedTags.length) {
-  console.log(`   ✗ ${unnamedTags.length} element(s) the bundle registers are not named in conventions.md:`);
-  for (const n of unnamedTags) console.log(`     ${n}`);
-  console.log('   Add them — an element the header omits is one nothing will ever use.');
-  process.exit(1);
-}
-console.log('   every name still resolves, every element is named');
+const problems = [
+  ...bad.map((n) => `${n} is named in conventions.md and no longer exists — fix the name or cut it; the design agent will trust it`),
+  ...unnamedTags.map((n) => `${n} is registered by the bundle and named nowhere in conventions.md — an element the header omits is one nothing will ever use`),
+];
+report.summary(
+  `${named.size - namedTags.length} classes \u00b7 ${namedTags.length} of ${definedTags.size} tags`
+    + ` \u00b7 ${new Set(prefixes).size} token families \u00b7 ${new Set(exactTokens).size} exact tokens`,
+  problems,
+);
+process.exit(problems.length ? 1 : 0);

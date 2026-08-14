@@ -18,6 +18,7 @@ import * as esbuild from 'esbuild';
 
 import { FRONTEND, ROOT } from './lib/cards.ts';
 import { rulePerLine } from './lib/css.ts';
+import * as report from './lib/report.ts';
 
 /* `--check` builds beside the committed output and compares. The drop-in is
    in git so a consumer can take it over a plain clone; committed and
@@ -34,6 +35,8 @@ const WATCH = process.argv.includes('--watch');
    sourcemaps name their sources relatively. Only a sibling of the real output
    produces the same paths. */
 const OUT = join(FRONTEND, CHECK ? '.dist-check' : 'dist');
+
+report.open('dist', CHECK ? 'the committed drop-in matches its source' : 'build the publishable drop-in');
 
 /** Every .d.ts under a directory. */
 function* walkDts(dir: string): Generator<string> {
@@ -94,9 +97,7 @@ const tsc = spawnSync(
   { encoding: 'utf8' },
 );
 if (tsc.status !== 0) {
-  process.stdout.write(tsc.stdout ?? '');
-  process.stderr.write(tsc.stderr ?? '');
-  console.error('✗ declaration build failed');
+  report.summary('the declarations did not build', `${tsc.stdout ?? ''}\n${tsc.stderr ?? ''}`.split('\n').filter(Boolean));
   process.exit(1);
 }
 
@@ -211,7 +212,7 @@ const copyAssets = (): void => cpSync(join(FRONTEND, 'assets'), join(OUT, 'asset
 
 if (WATCH) {
   const stamp = (what: string, errors = 0): void =>
-    console.log(`${new Date().toTimeString().slice(0, 8)}  ${errors ? `FAILED ${what} — ${errors} error(s)` : `rebuilt ${what}`}`);
+    report.fact(new Date().toTimeString().slice(0, 8), errors ? `${what} failed — ${errors} error(s)` : `rebuilt ${what}`);
 
   /* Say something on every pass. esbuild rebuilds silently, and a watcher you
      cannot tell is alive is the next thing to go wrong without saying so —
@@ -244,7 +245,7 @@ if (WATCH) {
   for (const ctx of contexts) await ctx.watch();
   copyAssets();
   watch(join(FRONTEND, 'assets'), { recursive: true }, () => { copyAssets(); stamp('dist/assets'); });
-  console.log('watching src/ and assets/ — dist/ stays current');
+  report.fact('watching src/ and assets/', 'dist/ stays current');
   await new Promise(() => {});
 }
 
@@ -258,13 +259,17 @@ copyAssets();
 const kb = (p: string): string => `${(readFileSync(join(OUT, p)).length / 1024).toFixed(1)} kB`;
 const bytes = readFileSync(join(OUT, 'index.js')).length;
 const modules = Object.keys(bundle.metafile.inputs).length;
-console.log(`dist/soul.js  — ${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile?.inputs ?? {}).length} modules`);
-console.log(`dist/soul.css — ${kb('soul.css')}, faces and tokens inlined`);
-console.log(`dist/document.css — ${kb('document.css')}, the document layer, linked beside it`);
-console.log(`dist/soul-boot.js — ${kb('soul-boot.js')}, the pre-paint line, not a module`);
-console.log(`dist/soul-finish.js — ${kb('soul-finish.js')}, the step after a render, for Node`);
-console.log(`dist/index.js — ${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`);
-console.log(`dist/types/  — declarations, ${rewritten} rewritten to .js specifiers`);
+const BUILT: readonly (readonly [file: string, what: string])[] = [
+  ['dist/soul.js', `${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile?.inputs ?? {}).length} modules`],
+  ['dist/soul.css', `${kb('soul.css')}, faces and tokens inlined`],
+  ['dist/document.css', `${kb('document.css')}, the document layer, linked beside it`],
+  ['dist/soul-boot.js', `${kb('soul-boot.js')}, the pre-paint line, not a module`],
+  ['dist/soul-finish.js', `${kb('soul-finish.js')}, the step after a render, for Node`],
+  ['dist/index.js', `${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`],
+  ['dist/types/', `declarations, ${rewritten} rewritten to .js specifiers`],
+];
+report.align(BUILT.map(([file]) => ({ name: file, label: file })));
+for (const [file, what] of BUILT) report.fact(file, what);
 
 if (CHECK) {
   const live = join(FRONTEND, 'dist');
@@ -286,10 +291,9 @@ if (CHECK) {
   for (const f of committed) if (!fresh.has(f)) stale.push(`no longer built: ${f}`);
   rmSync(OUT, { recursive: true, force: true });
 
-  console.log(`   ${fresh.size} files, ${stale.length} out of date`);
-  if (stale.length) {
-    for (const s of stale.slice(0, 8)) console.log(`   ✗ ${s}`);
-    console.log('   Run `make dist` and commit the result.');
-    process.exit(1);
-  }
+  const shown = stale.slice(0, 8);
+  if (stale.length > shown.length) shown.push(`… and ${stale.length - shown.length} more`);
+  report.summary(`${fresh.size} files \u00b7 ${stale.length} out of date`, shown);
+  process.exit(stale.length ? 1 : 0);
 }
+report.summary(`${BUILT.length} outputs written`);
