@@ -43,6 +43,16 @@ This keeps the test about the rendered page rather than the spelling of a Twig
 template. It also preserves ownership: a component's internal ``__part`` names
 remain its own, while the theme uses its public element and properties.
 
+The same boundary holds for anything built on the system. An implementation
+starts from the public :doc:`page layouts </frontend/layout>` and uses only
+classes the stylesheets define. A theme that invents an ``sds-`` name has
+created a component the system cannot render, document or keep aligned with
+its class layer; the missing capability belongs in the system instead.
+
+The ``classes`` check rejects a name that is used but not defined. ``coverage``
+guards the other direction: a name defined but never drawn. Together they keep
+the public vocabulary connected to both its implementation and its evidence.
+
 Exceptions stay executable
 ===========================
 
