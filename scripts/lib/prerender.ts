@@ -85,18 +85,21 @@ export function prerender(page: string, tags: readonly string[] = TAGS): string 
 
   /* Left to right, and down before across: what is inside an element is
      finished before the element is asked to render, and what follows it is
-     walked after. Nothing already written is looked at again, which is what
-     keeps this from meeting its own output — every element leaves here with
-     its tag still on it, and a second pass would render it a second time. */
+     walked after. Across is a loop rather than a call, so the stack carries how
+     deep elements nest and not how many a page holds. Nothing already written
+     is looked at again, which keeps this from meeting its own output. */
   const walk = (source: string): string => {
-    const found = pattern.exec(source);
-    if (!found) return source;
+    let done = '';
+    let rest = source;
 
-    const [whole, tag = '', attrs = '', inner = ''] = found;
-    const before = source.slice(0, found.index);
-    const after = source.slice(found.index + whole.length);
+    for (;;) {
+      const found = pattern.exec(rest);
+      if (!found) return done + rest;
 
-    return before + aside(one(tag, attrs, walk(inner).trim())) + walk(after);
+      const [whole, tag = '', attrs = '', inner = ''] = found;
+      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(inner).trim()));
+      rest = rest.slice(found.index + whole.length);
+    }
   };
 
   return back(walk(page));

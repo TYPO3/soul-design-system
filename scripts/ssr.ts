@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Every registered element renders under SSR.
+/* Every registered element renders under SSR, and a whole page of them does.
 
    The rule is that all of them do, and only the ones in a card are otherwise
    asked. What this proves is narrow: each element, with no attributes set,
@@ -13,7 +13,14 @@ import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 
 import { renderStatic } from '../packages/frontend/src/lib/render.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
+import { prerender } from './lib/prerender.ts';
 import * as report from './lib/report.ts';
+
+/* More elements than a page anybody writes, because what is being held is a
+   limit and not a size: the prerender walks a page, and a walk that recurses
+   once per element exhausts the stack somewhere a document cannot see coming.
+   The failure is a rendered site that stops mid-build on its longest page. */
+const CROWDED = 20_000;
 
 /* What an element cannot render without — a contract rather than an
    inconvenience: `<sds-icon>` with no name has nothing to draw, and throws
@@ -48,7 +55,19 @@ for (const tag of TAGS) {
   }
 }
 
+let crowded = false;
+try {
+  const page = Array.from({ length: CROWDED }, (_, at) => `<sds-badge label="b${at}"></sds-badge>`).join('');
+  prerender(page);
+  crowded = true;
+} catch (error) {
+  failures.push(`a page of ${CROWDED} elements: ${error instanceof Error ? error.message : String(error)}`);
+}
+
 report.open('ssr', 'every element renders outside a browser');
-if (failures.length) failures.push('every element has to render in Node — the card generator is the export path');
-report.summary(`${rendered} of ${TAGS.length} elements`, failures);
+if (rendered < TAGS.length) failures.push('every element has to render in Node — the card generator is the export path');
+report.summary(
+  `${rendered} of ${TAGS.length} elements${crowded ? ` · a page of ${CROWDED} prerendered` : ''}`,
+  failures,
+);
 process.exit(failures.length ? 1 : 0);
