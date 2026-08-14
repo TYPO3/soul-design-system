@@ -1635,14 +1635,12 @@ html:has(.sds-bar) {
   align-items: flex-start;
 }
 /* `min-width: 0` because a code block or a table inside a half is wider than
-   it looks, and a stacked half would otherwise be as wide as its longest
-   unbreakable line — which is a page wider than the phone reading it.
-
-   The second selector is a half that is an element: the host is
-   `display: contents`, so the block it draws is the half and a rule that only
-   read the child would leave the picture at whatever size it came out at. */
+   it looks, and a stacked half is otherwise as wide as its longest word. The
+   second selector is the half that is an element: its host is
+   `display: contents`, so the block it draws is the half. Only a host — past
+   a classed half it hands the basis to every line of the stack inside it. */
 .sds-split > *,
-.sds-split > * > [class*="sds-"] { flex: 1 1 var(--split-min); min-width: 0; }
+.sds-split > :not([class]) > [class*="sds-"] { flex: 1 1 var(--split-min); min-width: 0; }
 /* Where the shorter half stands against the taller one. Level with it for a
    line beside a picture, and at the foot for two halves that end together. */
 .sds-split--center { align-items: center; }
