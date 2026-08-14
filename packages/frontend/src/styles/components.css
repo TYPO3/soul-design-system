@@ -2100,7 +2100,7 @@ sds-nav-main:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-conte
   border-radius: var(--radius-control);
   cursor: pointer;
 }
-.sds-bar__into { padding-inline: var(--space-1); }
+.sds-bar__into { padding-inline: var(--space-2); }
 .sds-bar__into:hover,
 .sds-bar__back:hover { color: var(--text-primary); }
 /* The way back is a row of its own above the list, and it names what it goes
@@ -2134,11 +2134,11 @@ sds-nav-main:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-conte
   /* The same air at both ends of the block — by eye rather than by sum: a
      glyph's ink stops short of its own box, so an equal number leaves the
      marker looking further off the edge than the text is. */
-  padding-inline-end: var(--space-1);
+  padding-inline-end: var(--space-2);
   border-radius: var(--radius-control);
   transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
 }
-.sds-bar__section > .sds-pill { padding-inline: var(--space-2) var(--space-1); }
+.sds-bar__section > .sds-pill { padding-inline: var(--space-3) var(--space-1); }
 /* The current section, as one filled block with its marker inside it — the
    same answer every current navigation item gets, and the reason it can be
    that here is that the block is now the whole control: the marker is in the
@@ -2254,7 +2254,7 @@ sds-nav-main:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-conte
 .sds-bar__link {
   display: block;
   break-inside: avoid;
-  padding: var(--space-1) var(--space-2);
+  padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-control);
   color: var(--text-secondary);
   text-decoration: none;
