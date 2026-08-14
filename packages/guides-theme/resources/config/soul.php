@@ -24,6 +24,7 @@ use TYPO3\Soul\GuidesTheme\Directives\SurfaceDirective;
 use TYPO3\Soul\GuidesTheme\Navigation\Menu;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
+use TYPO3\Soul\GuidesTheme\Navigation\Sections;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Twig\AnchorExtension;
 use TYPO3\Soul\GuidesTheme\Twig\DiffExtension;
@@ -116,6 +117,10 @@ return static function (ContainerConfigurator $container): void {
         /* And the slice of it a page's own column carries. */
         ->set(Rail::class)
 
+        /* And the one list that is a document rather than the tree: the
+           sections of the page being rendered, for the column beside it. */
+        ->set(Sections::class)
+
         /* And the way on from the page being rendered, worked out the same
            way and for the same reason: the order a manual is read in is the
            tree walked, which a template can only fake. */
@@ -141,7 +146,7 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             '%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%',
             '%soul.footer%', '%soul.navigation%', '%soul.pager%',
-            service(Menu::class), service(Rail::class), service(Pager::class),
+            service(Menu::class), service(Rail::class), service(Pager::class), service(Sections::class),
         ])
         ->tag('twig.extension');
 };

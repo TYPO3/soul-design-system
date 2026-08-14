@@ -477,7 +477,7 @@ test.describe('what the theme repaired', () => {
        one template, so a theme overriding it speaks for all three. `renderLink`
        answers `#` for the document being rendered, which is how every rail item
        became the current page pointing at nothing. */
-    const toc = page.locator('nav.contents');
+    const toc = page.locator('nav.sds-toc');
     await expect(toc).toBeVisible();
     await expect(toc.locator('.sds-rail__item')).toHaveCount(0);
 
@@ -487,6 +487,30 @@ test.describe('what the theme repaired', () => {
       expect(href, 'a section of this page is an anchor on it').toMatch(/^#.+/);
       await expect(page.locator(href), `${href} points at a section that exists`).toHaveCount(1);
     }
+  });
+
+  test('the local contents follows the reader down the page', async ({ page }) => {
+    /* The one entry in this theme that no renderer can mark: a section is
+       current because the reader has scrolled to it. Nothing is marked above
+       the first heading, which is where a page opens — and the entry a press
+       marks has to be the entry the scroll marks, or the two disagree the
+       moment the reader lets go of the list. */
+    await page.goto(REFERENCE, { waitUntil: 'load' });
+
+    const toc = page.locator('nav.sds-toc');
+    const here = toc.locator('.sds-toc__item.is-active');
+    await expect(here).toHaveCount(0);
+
+    const entry = toc.locator('.sds-toc__item').nth(1);
+    await entry.click();
+    await expect(entry).toHaveClass(/is-active/);
+    /* `location` and not `page`: every entry here is the page the reader is
+       on, and what is marked is the part of it they are at. */
+    await expect(entry).toHaveAttribute('aria-current', 'location');
+    await expect(here).toHaveCount(1);
+
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(here).toHaveCount(0);
   });
 
   test('the rail is the section the page is in, however deep the page sits', async ({ page }) => {
@@ -1505,7 +1529,7 @@ test.describe('what a page is measured for', () => {
     const tooLong: string[] = [];
     for (const path of pages(SITE_DIR).filter((entry) => !entry.includes('_cards/'))) {
       await page.goto(`${SITE_URL}/${path}`, { waitUntil: 'load' });
-      const headings = await page.locator('nav.contents a').evaluateAll((links) =>
+      const headings = await page.locator('nav.sds-toc a').evaluateAll((links) =>
         links.map((link) => {
           const range = document.createRange();
           range.selectNodeContents(link);

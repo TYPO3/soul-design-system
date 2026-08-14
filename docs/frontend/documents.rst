@@ -125,6 +125,12 @@ reader jumps *from*, and a fourth-level heading is not a jump anybody makes
 from a rail: drawn, the deeper levels are identical muted lines a step apart,
 each with less measure than the one above.
 
+The list itself is :ref:`sds-nav-toc <component-sds-nav-toc>` rather than
+markup a template writes, and that is what makes it follow the reader: it marks
+the section under them as they scroll, which is the one thing about this list a
+renderer cannot work out. ``.contents`` stays in this layer for a renderer that
+writes the list itself, and is the same thing standing still.
+
 Six levels, three sizes
 =======================
 

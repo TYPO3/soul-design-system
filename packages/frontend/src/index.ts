@@ -32,6 +32,7 @@ import './components/accordion-item.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/nav-rail.ts';
+import './components/nav-toc.ts';
 import './components/footer.ts';
 import './components/surface.ts';
 import './components/stat.ts';
@@ -76,6 +77,7 @@ export { SdsAccordionItem } from './components/accordion-item.ts';
 export { SdsTabs } from './components/tabs.ts';
 export { SdsTabItem } from './components/tab-item.ts';
 export { SdsNavRail } from './components/nav-rail.ts';
+export { SdsNavToc } from './components/nav-toc.ts';
 export { SdsFooter, type FooterProps, type FooterGroup, type FooterLink } from './components/footer.ts';
 export { SdsSurface, type SurfaceProps, type Plane } from './components/surface.ts';
 export { SdsStat, type StatProps } from './components/stat.ts';
@@ -130,6 +132,7 @@ export const TAGS = [
   'sds-tabs',
   'sds-tab-item',
   'sds-nav-rail',
+  'sds-nav-toc',
   'sds-footer',
   'sds-surface',
   'sds-stat',

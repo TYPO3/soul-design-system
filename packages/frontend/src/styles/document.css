@@ -520,8 +520,10 @@
    down from the prose, because it is apparatus: a reader uses it or reads past
    it, and both are easier when it is not a paragraph. No rule at the left edge
    — that mark belongs to the quotation. `.toc` is the same list with documents
-   in it and is drawn alike, because scanning it is the same act. */
+   in it and `.sds-toc` the element a theme addresses instead of writing one;
+   all three are scanned the same way and stand in a flow the same way. */
 :where(.sds-prose) .contents,
+:where(.sds-prose) .sds-toc,
 :where(.sds-prose) .toc {
   margin: 0 0 var(--space-6);
   padding: var(--space-3) 0;
@@ -605,13 +607,14 @@
   :where(.sds-prose) .sds-aside {
     display: block;
     position: absolute;
-    /* Wider than the column it draws, by what a focus ring stands in. The list
-       scrolls when it is long, and a scroll container paints nothing outside
-       itself — the ring around an entry was cut off at three sides of it. The
-       inset gives the same room back, so the text stands where it stood. */
+    /* Wider than the column it draws, by what a row's fill and the ring around
+       it stand in. The list scrolls when it is long, and a scroll container
+       paints nothing outside itself — the ring was cut off at three sides of
+       an entry. The inset gives that room back, so the text stands where it
+       stood and only the block behind it is wider. */
     inset-block: calc(-1 * var(--space-1-5)) 0;
-    inset-inline-end: calc(-1 * var(--space-2));
-    width: calc(var(--width-sidebar) + var(--space-2) * 2);
+    inset-inline-end: calc(-1 * var(--space-4));
+    width: calc(var(--width-sidebar) + var(--space-4) * 2);
   }
   /* And the list rests inside it, anywhere in the document, at the rail's line
      and bounded the way the rail is bounded. The rules above and below it go:
@@ -619,12 +622,12 @@
      around it here. A heading is written for the measure and not for a column
      this narrow, so its longest word breaks rather than putting a scrollbar
      under the list. */
-  :where(.sds-prose) .sds-aside > .contents {
+  :where(.sds-prose) .sds-aside .sds-toc {
     position: sticky;
     top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
     max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
     margin: 0;
-    padding: var(--space-1-5) var(--space-2);
+    padding: var(--space-1-5) var(--space-4);
     border: 0;
     max-width: none;
     overflow-y: auto;
@@ -634,16 +637,16 @@
      the second line of one entry sits as far from the first as the next entry
      does. So the lines of an entry close up and the entries move apart: what a
      reader has to see here is where one heading ends and the next begins. */
-  :where(.sds-prose) .sds-aside .contents li {
-    margin-bottom: var(--space-2);
+  :where(.sds-prose) .sds-aside .sds-toc__list > li {
+    margin-bottom: var(--space-1);
     line-height: var(--leading-heading);
   }
   /* And one gap, whatever level an entry is on: the indent says which, and a
      second gap saying it again only makes the column uneven — a group set
      tighter than its neighbours is a rhythm the eye reads before it reads any
      of the words. So the nested list stands off by the step it interrupts. */
-  :where(.sds-prose) .sds-aside .contents li ul {
-    margin-top: var(--space-2);
+  :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list {
+    margin-top: var(--space-1);
     padding-inline-start: var(--space-3);
   }
   /* And two levels of them. The column is where a reader jumps from, and a
@@ -651,7 +654,7 @@
      levels below the second are identical muted lines a step apart, each with
      less measure than the one above and nothing but that step saying which is
      which. The list in the flow is at the measure and keeps all six. */
-  :where(.sds-prose) .sds-aside .contents li li ul { display: none; }
+  :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list { display: none; }
 }
 
 /* A title over something that is not a section: a topic, or a sidebar, which

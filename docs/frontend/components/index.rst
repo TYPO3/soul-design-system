@@ -122,6 +122,9 @@ which group it was filed under.
    * - ``sds-nav-rail``
      - the navigation rail beside a column
      - :ref:`Navigation — sds-nav-rail <component-sds-nav-rail>`
+   * - ``sds-nav-toc``
+     - what is on this page, and where in it the reader is
+     - :ref:`Navigation — sds-nav-toc <component-sds-nav-toc>`
    * - ``sds-note``
      - what an answer carries besides the answer
      - :ref:`Content — sds-note <component-sds-note>`

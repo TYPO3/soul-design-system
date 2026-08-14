@@ -2475,6 +2475,77 @@ sds-nav-rail:not(:defined) {
 }
 .sds-rail__group:last-child > .sds-rail__fold::details-content { padding-bottom: var(--space-2); }
 
+/* What is on this page: the sections of the page being read, as a list to jump
+   from. Apparatus rather than prose — a step down in size and set in the
+   secondary ink, so a reader uses it or reads past it, and both are easier
+   when it is not a paragraph. */
+.sds-toc { font-size: var(--font-size-ui); }
+/* No markers. A contents is a list of places, and a bullet before each one is
+   punctuation for a sentence nobody is reading. */
+.sds-toc__list {
+  margin: 0;
+  padding-inline-start: 0;
+  list-style: none;
+}
+/* Indented, and standing off the entry it hangs under by the same step two
+   entries stand off each other — which is the rows' own padding, below. */
+.sds-toc__list .sds-toc__list {
+  margin-top: 0;
+  padding-inline-start: var(--space-4);
+}
+/* No margin between entries: a row is a box that carries its own air, and a
+   step on top of it sets the list twice as far apart as it reads. */
+.sds-toc__list > li { margin-bottom: 0; }
+/* The label a list writes over itself, standing directly on it. */
+.sds-toc > .sds-label {
+  display: block;
+  margin: 0 0 var(--space-2);
+}
+/* Drawn as the footer's links are and not as the ones in a sentence: twenty
+   accented lines beside the text is a second thing lit on a page that lights
+   three, and none of them is what the reader came for. */
+/* A row rather than a line of text, so the one that is current can be filled.
+   It bleeds by exactly what it is padded with: the text stands where it stood
+   and the entry keeps its measure, which is what the column beside a page has
+   least of — the fill is the only thing that grew. */
+/* And the mark arrives rather than appearing, the same fade a pill and the
+   mode switch use. It is worth more here than on either of those: those move
+   because somebody pressed them and the press is the announcement, while this
+   one moves under a reader who is looking at the text — two blocks crossing
+   over in 140ms is what says the mark travelled rather than blinked. */
+.sds-toc__item {
+  display: block;
+  margin-inline: calc(-1 * var(--space-2));
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-control);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+.sds-toc__item:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+/* One step quieter a level down, because the indent alone does not say it: a
+   sub-entry and the second line of a wrapped entry start at different places
+   and read as the same thing. */
+.sds-toc__list .sds-toc__list .sds-toc__item { color: var(--text-muted); }
+.sds-toc__list .sds-toc__list .sds-toc__item:hover { color: var(--text-primary); }
+/* The section under the reader — a filled block in the accent, which is what
+   this system marks a current navigation item with everywhere else. A step of
+   ink alone was the first answer here and it was one step in dark and half of
+   one in light: the fill is the mark that reads the same in both. */
+.sds-toc__item.is-active,
+.sds-toc__list .sds-toc__list .sds-toc__item.is-active {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  text-decoration: none;
+}
+/* Before the element upgrades, and on a page where it never will. The host is
+   inline until the bundle writes the rule every host gets, and an inline box
+   around the list is one the column beside it cannot make sticky. */
+sds-nav-toc:not(:defined) { display: contents; }
+
 /* A list of questions, each with its answer folded behind it. `<details>` for
    the rail's reason: it folds before any script runs, so a page whose bundle
    never arrives is a list of questions and not a wall of answers. Separated by

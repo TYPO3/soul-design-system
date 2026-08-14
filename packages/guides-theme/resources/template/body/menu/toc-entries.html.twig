@@ -1,22 +1,20 @@
 {#
-    The entries of a table of contents that stands *in* a document.
+    The entries of a `toctree` that prints itself in a document.
 
     Separate from `menu-item.html.twig` on purpose, and this is the whole of
     the difference: that one writes the rail, which is where a reader goes
-    next, and this one writes a list of places on the page they are already
-    on. The core sends both through `menu-level.html.twig`, so a theme that
-    overrides that one file has said the same thing about both — which is how
-    `.. contents::` came out as a row of filled rail items, every one of them
-    marked as the current page.
+    next, and this one writes a list standing in the prose. The core sends both
+    through `menu-level.html.twig`, so a theme that overrides that one file has
+    said the same thing about both — which is how a printed list came out as a
+    row of filled rail items, every one marked as the current page.
 
     The link is built here rather than taken from the renderer. `renderLink`
     answers `#` for the document being rendered — its way of saying "you are
     here" — and a section of that document is that answer plus the anchor. Take
-    the answer alone and every entry of a local contents points at nothing,
-    which is exactly what they did.
+    the answer alone and an entry of the page it is on points at nothing.
 
-    Recursion is the macro calling itself: a contents nests as deep as the
-    document does, and the depth is the author's to choose with `:depth:`.
+    Recursion is the macro calling itself: a tree nests as deep as it has to,
+    and the depth is the author's to choose with `:depth:`.
 #}
 {% macro entries(items, kids) %}
     {%- import _self as toc -%}

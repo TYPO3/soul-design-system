@@ -286,6 +286,12 @@ rather than the list taking it, which is why nothing runs underneath. A window
 narrower than the page measure has no width to give, and the list is a block
 under the title again.
 
+The list is :ref:`sds-nav-toc <component-sds-nav-toc>`, addressed with the
+sections rather than written as markup, so it **marks the section the reader
+has scrolled to** — a fact about the page that no renderer can put in a
+template. Above the first heading nothing is marked, which is where a page
+opens.
+
 Its entries are built from the current document plus an anchor rather than from
 the renderer's link answer, which for the page being rendered is ``#`` — that
 is how a local contents ends up as a row of links pointing at nothing.

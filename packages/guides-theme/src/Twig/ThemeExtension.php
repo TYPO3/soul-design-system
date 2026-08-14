@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Twig;
 
+use phpDocumentor\Guides\Nodes\Menu\ContentMenuNode;
 use phpDocumentor\Guides\RenderContext;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
@@ -12,6 +13,7 @@ use Twig\TwigFunction;
 use TYPO3\Soul\GuidesTheme\Navigation\Menu;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
+use TYPO3\Soul\GuidesTheme\Navigation\Sections;
 use TYPO3\Soul\GuidesTheme\Nodes\Bands;
 use TYPO3\Soul\GuidesTheme\Nodes\Terms;
 
@@ -45,6 +47,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         private readonly Menu $menu,
         private readonly Rail $rail,
         private readonly Pager $pages,
+        private readonly Sections $sections,
     ) {}
 
     /** @return array<string, mixed> */
@@ -93,7 +96,23 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('menu', $this->menu(...), ['needs_context' => true]),
             new TwigFunction('rail', $this->rail(...), ['needs_context' => true]),
             new TwigFunction('pager', $this->pager(...), ['needs_context' => true]),
+            new TwigFunction('sections', $this->sections(...), ['needs_context' => true]),
         ];
+    }
+
+    /**
+     * What is on the page being rendered, as the entry the element beside the
+     * column is given. A node is asked for rather than the page alone: a
+     * document may carry more than one contents, and each is a list of
+     * whatever the author pointed it at.
+     *
+     * @param array{env?: RenderContext} $context
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function sections(array $context, ContentMenuNode $node): array
+    {
+        return $this->sections->of($this->context($context, 'What is on a page is read off that page'), $node);
     }
 
     /**

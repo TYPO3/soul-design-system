@@ -264,6 +264,67 @@ a fold holds is links and no content of its own.
    the outside: a rail has one current page wherever it sits, and a caller
    thinking in "third item of the second group" is thinking about the markup.
 
+.. _component-sds-nav-toc:
+
+sds-nav-toc
+========
+
+What is on this page, and where in it the reader is. The sections of the page
+being read, as a list to jump from — and the one navigation in the system that
+finds its own current entry, because a heading is current when the reader has
+scrolled to it and nothing rendering the page can know that.
+
+.. code-block:: html
+
+   <sds-nav-toc label="On this page" .entries="${[
+     { label: 'Space scale', href: '#space-scale' },
+     { label: 'Reading rhythm', href: '#reading-rhythm' },
+   ]}"></sds-nav-toc>
+
+The entry marked is the **last heading to have passed the line the browser
+lands a jumped-to heading on** — ``scroll-padding-top``, read off the scroller,
+so the entry a press marks is the entry the scroll marks. Above the first
+heading nothing is marked: a page opens there and no section holds it.
+
+The mark is the **filled block in the accent** every current navigation item in
+this system gets. A step of ink was the first answer and it was one step in
+dark and half of one in light — a mark on a list this quiet has to read the
+same in both. The row bleeds by exactly what it is padded with, so the fill is
+the only thing that grew: the text stands where it stood and the entry keeps
+its measure, which is what a column beside a page has least of.
+
+The mark **fades across** rather than appearing, at ``--duration-fast`` — the
+same change a pill and the mode switch make. It is worth more here: those move
+because somebody pressed them, and the press is the announcement, while this
+one moves under a reader who is looking at the text.
+
+.. confval:: entries
+   :name: sds-nav-toc-entries
+   :type: MenuEntry[]
+   :required: true
+
+   The sections, nested as deep as the page nests them. An entry pointing at
+   this page — an ``href`` that is a fragment — is a place the reader can be
+   in; anything else is a link and is never marked.
+
+   ``current`` on an entry is what a card, a story and a server-rendered page
+   have instead of a reader. The page wins the moment it has been read.
+
+.. confval:: label
+   :name: sds-nav-toc-label
+   :type: string
+   :default: "On this page"
+
+   The heading over the list, and what the navigation is called.
+
+.. note::
+
+   ``aria-current="location"``, not ``page``: every entry here **is** the page,
+   and what is marked is the part of it the reader is at.
+
+   Before the script, and on a page where it never runs, it is the list with
+   nothing marked — which is a contents, and what the page had without it.
+
 .. _component-sds-nav-breadcrumb:
 
 sds-nav-breadcrumb

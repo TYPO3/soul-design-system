@@ -17,6 +17,7 @@ import './components/accordion-item.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/nav-rail.ts';
+import './components/nav-toc.ts';
 import './components/footer.ts';
 import './components/surface.ts';
 import './components/stat.ts';
@@ -59,6 +60,7 @@ export { SdsAccordionItem } from './components/accordion-item.js';
 export { SdsTabs } from './components/tabs.js';
 export { SdsTabItem } from './components/tab-item.js';
 export { SdsNavRail } from './components/nav-rail.js';
+export { SdsNavToc } from './components/nav-toc.js';
 export { SdsFooter, type FooterProps, type FooterGroup, type FooterLink } from './components/footer.js';
 export { SdsSurface, type SurfaceProps, type Plane } from './components/surface.js';
 export { SdsStat, type StatProps } from './components/stat.js';
@@ -84,4 +86,4 @@ export { SdsNavPager, type PagerProps } from './components/nav-pager.js';
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-grid', 'sds-result', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-nav-toc', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-grid', 'sds-result', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];

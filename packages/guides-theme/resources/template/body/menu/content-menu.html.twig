@@ -1,25 +1,18 @@
 {#
     `.. contents::` — what is on this page.
 
-    A `<nav>` and not a `<div>`: it is navigation, and it is the second lot on
-    the page, so it says which one it is. The class the core writes stays on
-    it — `document.css` maps what a renderer emits, and renaming it would only
-    move the same rule to a name no other tool knows.
+    Addressed rather than written. The element marks the section the reader has
+    scrolled to, which is the one thing about this list no renderer knows, and
+    a `nav.contents` of our own would be the same list with nothing following
+    the reader. It is handed the sections and owns all of its markup — the
+    `<nav>` it is, the label over it, and every entry.
 
     `sds-aside` is the column it stands in where the page has the room for one.
-    It spans the document, so the list can rest anywhere in it; the nav is what
-    rests, and is a second element for that reason. Narrower, the box is not
-    there at all and the list is a block where the author wrote it.
+    It spans the document, so the list can rest anywhere in it; the element is
+    what rests, and is a second element for that reason. Narrower, the box is
+    not there at all and the list is a block where the author wrote it.
 #}
 {%- set label = node.caption ? renderNode(node.caption)|striptags|trim : 'On this page' -%}
 <div class="sds-aside">
-    <nav class="contents" aria-label="{{ label }}">
-        {#- The list says what it is a list of. It is a label over links rather
-            than a heading over prose, which is the register a rail names its
-            own pages in — and on a page with sixty headings the reader has to
-            know which of the two lists they are looking at. -#}
-        <p class="sds-label">{{ label }}</p>
-        {%- import "body/menu/toc-entries.html.twig" as toc -%}
-        {{ toc.entries(node.menuEntries, 'sections') }}
-    </nav>
+    <sds-nav-toc label="{{ label }}" entries="{{ sections(node)|json_encode }}"></sds-nav-toc>
 </div>
