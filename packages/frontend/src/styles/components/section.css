@@ -19,4 +19,25 @@
   /* Landing on one section out of thirty says which one — the same mark the
      confval makes, because it is the same arrival. */
   .sds-section:target > :is(h1, h2, h3, h4, h5, h6) { color: var(--sds-section-mark-ink); }
+
+  /* A heading names a place, and the id the renderer puts on the section is
+     the only thing that says where. The permalink is how that place is handed
+     over — the glyph `sds-confval` already carries beside a name, so a page
+     has one idiom for "link to this" and not two. Relative, because it stands
+     beside headings from the display size down to the label register. */
+  .sds-permalink {
+    --sds-permalink-gap: var(--space-2);
+    --sds-permalink-font: var(--font-mono);
+    --sds-permalink-weight: var(--weight-regular);
+    --sds-permalink-ink: var(--border-strong);
+    --sds-permalink-ink-hover: var(--text-link);
+
+    margin-inline-start: var(--sds-permalink-gap);
+    font-family: var(--sds-permalink-font);
+    font-size: 0.7em;
+    font-weight: var(--sds-permalink-weight);
+    color: var(--sds-permalink-ink);
+    text-decoration: none;
+  }
+  .sds-permalink:hover { color: var(--sds-permalink-ink-hover); }
 }

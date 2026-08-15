@@ -9,6 +9,68 @@
   sds-nav-toc { display: block; min-width: 0; margin-bottom: var(--space-4); }
   sds-nav-toc > .sds-toc { margin-bottom: 0; }
   .sds-toc { margin: 0 0 var(--space-4); }
+
+  /* Nothing at every other width: the box is in the markup on every page and
+     is not in the layout until the rule below puts it there, so no template
+     decides twice where it stands. `.sds-prose` is structure here, not a
+     guard — this places the aside a document writes beside its column, and
+     an aside standing outside a passage stays the box it is. */
+  :where(.sds-prose) .sds-aside { display: contents; }
+
+  /* At full measure the list leaves the flow and stands beside the column, so
+     the page reads rail, text, contents with the same width either side. 1296px
+     is where the page stops growing and the one width with room to give: the
+     column keeps its measure after giving up 258px. */
+  @media (min-width: 1296px) {
+    /* The column gives the width up rather than the box taking it, so the
+       breadcrumb and the pager narrow with the text: a column that is one width
+       at the top of the page and another at the bottom is two columns. */
+    :where(.sds-body__main):has(> :where(.sds-prose) .sds-aside) {
+      position: relative;
+      padding-inline-end: calc(var(--width-sidebar) + var(--space-12));
+    }
+    /* The box is the reserve: the column's own padding, top to bottom, so the
+       list starts where the rail starts and can rest anywhere down the page. Out
+       of the flow entirely rather than floated, because a float begins where it
+       stands — written under three paragraphs of introduction, the list began
+       three paragraphs down and left a hole above it. */
+    :where(.sds-prose) .sds-aside {
+      display: block;
+      position: absolute;
+      /* Wider than the column it draws, by what a row's fill and the ring around
+         it stand in. The list scrolls when it is long, and a scroll container
+         paints nothing outside itself — the ring was cut off at three sides of
+         an entry. The inset gives that room back, so the text stands where it
+         stood and only the block behind it is wider. */
+      inset-block: calc(-1 * var(--space-1-5)) 0;
+      inset-inline-end: calc(-1 * var(--space-4));
+      width: calc(var(--width-sidebar) + var(--space-4) * 2);
+    }
+    /* The element the list arrives in is a box of its own, and a sticky box
+       travels inside its parent: left at the list's own height it gives the
+       list nowhere to rest. At the reserve's height the travel is the column. */
+    :where(.sds-prose) .sds-aside sds-nav-toc { block-size: 100%; }
+    /* And the list rests inside it, anywhere in the document, at the rail's line
+       and bounded the way the rail is bounded. The rules above and below it go:
+       they set a block apart from the text around it, and there is no text
+       around it here. */
+    :where(.sds-prose) .sds-aside .sds-toc {
+      position: sticky;
+      top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
+      max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
+      margin: 0;
+      padding: var(--space-1-5) var(--space-4);
+      border: 0;
+      max-width: none;
+      overflow-y: auto;
+    }
+    /* Two levels of them. The column is where a reader jumps from, and a
+       fourth-level heading is not a jump anybody makes from a rail: drawn, the
+       levels below the second are identical muted lines a step apart, each with
+       less measure than the one above and nothing but that step saying which is
+       which. The list in the flow is at the measure and keeps all six. */
+    :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list { display: none; }
+  }
 }
 
 @layer components {

@@ -9,6 +9,21 @@
   sds-quote { display: block; min-width: 0; margin-bottom: var(--space-4); }
   sds-quote > .sds-quote { margin-bottom: 0; }
   .sds-quote { margin: 0 0 var(--space-4); }
+
+  /* In a passage the document rules and indents a bare blockquote; this
+     element draws both on the figure around it. Left standing, both are drawn
+     twice and the sentence sits one indent further in than the byline
+     answerable for it. */
+  .sds-quote__body {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+  /* The attribution is a byline and brings its own type, so a document's
+     caption rule may not set it at caption size and mute it. */
+  .sds-quote__by {
+    font-size: inherit;
+    color: inherit;
+  }
 }
 
 @layer components {

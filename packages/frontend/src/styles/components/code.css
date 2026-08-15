@@ -11,6 +11,30 @@
   sds-code > .sds-code { margin-bottom: 0; }
   sds-diff > .sds-code { margin-bottom: 0; }
   .sds-code { margin: 0 0 var(--space-4); }
+
+  /* The block before its element upgrades, and on a page that runs none: an
+     undefined element is inline, and a `<code>` inside one collapses its
+     whitespace — machine output turned into a paragraph. The plane goes on
+     the `<code>` and not the host, or the frame would swallow the caption
+     beside it. */
+  sds-code:not(:defined) {
+    display: block;
+    margin: 0 0 var(--space-4);
+  }
+  sds-code:not(:defined) > code {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    overflow-x: auto;
+    white-space: pre;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    background: var(--surface-sunken);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-dense);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-code);
+    color: var(--text-primary);
+  }
 }
 
 @layer components {

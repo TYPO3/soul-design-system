@@ -6,8 +6,6 @@
   :where(.sds-prose) h5{margin-block-end:var(--space-1);font-weight:var(--weight-semibold);color:var(--text-primary)}
   :where(.sds-prose) h6{margin-block-end:var(--space-1);font-family:var(--font-mono);font-size:var(--font-size-label);font-weight:var(--weight-medium);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--text-muted)}
   :where(.sds-prose)>:last-child{margin-block-end:0}
-  :where(.sds-prose) .sds-permalink{margin-inline-start:var(--space-2);font-family:var(--font-mono);font-size:.7em;font-weight:var(--weight-regular);color:var(--border-strong);text-decoration:none}
-  :where(.sds-prose) .sds-permalink:hover{color:var(--text-link)}
   .sds-prose{max-width:none}
   :where(.sds-prose) dt,:where(.sds-prose) .line,:where(.sds-prose) hr,:where(.sds-prose) h1,:where(.sds-prose) h2,:where(.sds-prose) h3,:where(.sds-prose) h4,:where(.sds-prose) h5,:where(.sds-prose) h6{max-width:var(--measure-prose)}
   :where(.sds-prose) li,:where(.sds-prose) dd{max-width:var(--measure-prose)}
@@ -31,20 +29,8 @@
   :where(.sds-prose) .line{min-height:1lh}
   :where(.sds-prose) blockquote{margin:0 0 var(--space-4);padding-inline-start:var(--space-4);border-inline-start:2px solid var(--border-subtle);color:var(--text-secondary)}
   :where(.sds-prose) blockquote>:last-child{margin-bottom:0}
-  :where(.sds-prose) .sds-quote__body{padding-inline-start:0;border-inline-start:0}
-  :where(.sds-prose) .sds-quote__by{font-size:inherit;color:inherit}
   :where(.sds-prose) pre:not(.sds-code__body,.sds-diff){margin:0 0 var(--space-4);padding:var(--space-3) var(--space-4);overflow-x:auto;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-sunken);font-family:var(--font-mono);font-size:var(--font-size-dense);line-height:var(--leading-code);color:var(--text-primary)}
   :where(.sds-prose) pre code{font-size:inherit;font-weight:inherit;color:inherit}
-  :where(.sds-prose) sds-code:not(:defined){display:block;margin:0 0 var(--space-4)}
-  :where(.sds-prose) sds-code:not(:defined)>code{display:block;padding:var(--space-3) var(--space-4);overflow-x:auto;white-space:pre;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-sunken);font-family:var(--font-mono);font-size:var(--font-size-dense);font-weight:var(--weight-regular);line-height:var(--leading-code);color:var(--text-primary)}
-  :where(.sds-prose) sds-note:not(:defined){display:block;margin:0 0 var(--space-4);padding:13px 15px;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-card)}
-  :where(.sds-prose) sds-note:not(:defined)>:last-child{margin-bottom:0}
-  :where(.sds-prose) sds-figure:not(:defined){display:flex;flex-direction:column;gap:var(--space-3);margin:0 0 var(--space-4)}
-  :where(.sds-prose) sds-figure:not(:defined)>.sds-art{box-sizing:border-box;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface-sunken)}
-  :where(.sds-prose) sds-button>.sds-btn,:where(.sds-prose) .sds-actions{margin-bottom:var(--space-4)}
-  :where(.sds-prose) .sds-actions sds-button>.sds-btn{margin-bottom:0}
-  :where(.sds-prose) sds-embed:not(:defined){display:block;margin:0 0 var(--space-4)}
-  :where(.sds-prose) sds-embed:not(:defined)>iframe{display:block;box-sizing:border-box;max-width:100%;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface-sunken)}
   :where(.sds-prose) kbd{padding:1px 5px;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-raised)}
   :where(.sds-prose) abbr[title]{text-decoration:underline dotted;text-underline-offset:2px;cursor:help}
   :where(.sds-prose) cite{font-style:italic}
@@ -78,14 +64,6 @@
   :where(.sds-prose) .contents a:hover{color:var(--text-primary);text-decoration:underline}
   :where(.sds-prose) .contents li li a{color:var(--text-muted)}
   :where(.sds-prose) .contents li li a:hover{color:var(--text-primary)}
-  :where(.sds-prose) .sds-aside{display:contents}
-  @media(min-width:1296px){
-    :where(.sds-body__main):has(>:where(.sds-prose) .sds-aside){position:relative;padding-inline-end:calc(var(--width-sidebar) + var(--space-12))}
-    :where(.sds-prose) .sds-aside{display:block;position:absolute;inset-block:calc(-1 * var(--space-1-5)) 0;inset-inline-end:calc(-1 * var(--space-4));width:calc(var(--width-sidebar) + var(--space-4) * 2)}
-    :where(.sds-prose) .sds-aside sds-nav-toc{block-size:100%}
-    :where(.sds-prose) .sds-aside .sds-toc{position:sticky;top:calc(var(--height-header) + var(--space-8) - var(--space-1-5));max-height:calc(100vh - var(--height-header) - var(--space-8) * 2);margin:0;padding:var(--space-1-5) var(--space-4);border:0;max-width:none;overflow-y:auto}
-    :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list{display:none}
-  }
   :where(.sds-prose) .topic-title{margin:0 0 var(--space-2);font-size:var(--font-size-body);font-weight:var(--weight-semibold);color:var(--text-primary)}
   :where(.sds-prose) .topic{margin:0 0 var(--space-4);max-width:var(--measure-prose)}
   :where(.sds-prose) .topic>:last-child{margin-bottom:0}

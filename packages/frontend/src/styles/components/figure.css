@@ -12,6 +12,26 @@
   sds-figure { display: block; min-width: 0; margin-bottom: var(--space-4); }
   sds-figure > .sds-figure { block-size: 100%; margin-bottom: 0; }
   .sds-figure { margin: 0 0 var(--space-4); }
+
+  /* The picture before its element upgrades, and on a page that runs none.
+     The renderer wrote it carrying `sds-art`, so it is already the right size
+     in the column. What is missing is the frame and the stack it makes with
+     the caption: an undefined element is inline, so the two sit on one line. */
+  sds-figure:not(:defined) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-4);
+  }
+  sds-figure:not(:defined) > .sds-art {
+    /* The border counts against the width the picture is capped at, not on
+       top of it: a hairline added outside `max-width: 100%` is two pixels of
+       the column the picture does not have. */
+    box-sizing: border-box;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--surface-sunken);
+  }
 }
 
 @layer components {
