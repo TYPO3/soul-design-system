@@ -4,11 +4,16 @@
 @layer components {
   /* A section label: mono, uppercase, tracked out. */
   .sds-label {
-    font-family: var(--font-mono);
-    font-size: var(--font-size-label);
-    letter-spacing: var(--tracking-label);
+    --sds-label-font: var(--font-mono);
+    --sds-label-font-size: var(--font-size-label);
+    --sds-label-tracking: var(--tracking-label);
+    --sds-label-ink: var(--text-muted);
+
+    font-family: var(--sds-label-font);
+    font-size: var(--sds-label-font-size);
+    letter-spacing: var(--sds-label-tracking);
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--sds-label-ink);
   }
 
   /* Inline mono for anything the machine named — tool names, paths, flags,
@@ -20,10 +25,15 @@
   code,
   kbd,
   samp {
-    font-family: var(--font-mono);
-    font-size: var(--font-mono-optical);
-    font-weight: var(--weight-medium);
-    color: var(--text-primary);
+    --sds-mono-font: var(--font-mono);
+    --sds-mono-font-size: var(--font-mono-optical);
+    --sds-mono-weight: var(--weight-medium);
+    --sds-mono-ink: var(--text-primary);
+
+    font-family: var(--sds-mono-font);
+    font-size: var(--sds-mono-font-size);
+    font-weight: var(--sds-mono-weight);
+    color: var(--sds-mono-ink);
     overflow-wrap: anywhere;
   }
   /* Inside a block the machine wrote, the block has already decided the size,
@@ -33,8 +43,8 @@
      block in medium, which is a block asking to be read as emphasis. */
   .sds-code__body code,
   .sds-diff code {
-    font-size: inherit;
-    font-weight: inherit;
-    color: inherit;
+    --sds-mono-font-size: inherit;
+    --sds-mono-weight: inherit;
+    --sds-mono-ink: inherit;
   }
 }

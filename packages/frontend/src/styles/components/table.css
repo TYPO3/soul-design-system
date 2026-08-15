@@ -2,32 +2,48 @@
 
 @layer components {
   /* Density is a choice about the work, not about loudness: compact when the
-     list *is* the work, airy when the rows are read rather than scanned. */
+     list *is* the work, airy when the rows are read rather than scanned. Each
+     density assigns four numbers and draws nothing. */
   .sds-table {
+    --sds-table-font-size: var(--row-font-medium);
+    --sds-table-pad: var(--row-pad-medium);
+    --sds-table-name-size: var(--row-name-medium);
+    --sds-table-meta-size: var(--row-meta-medium);
+    --sds-table-cell-gap: var(--space-3);
+    --sds-table-border: var(--border-hairline);
+    --sds-table-rule: var(--border-subtle);
+    --sds-table-rule-head: var(--border-strong);
+    --sds-table-font: var(--font-mono);
+    --sds-table-head-size: var(--table-head-size);
+    --sds-table-head-tracking: var(--table-head-tracking);
+    --sds-table-head-ink: var(--text-muted);
+    --sds-table-ink: var(--text-secondary);
+    --sds-table-name-ink: var(--text-link);
+    --sds-table-meta-ink: var(--text-muted);
+    --sds-table-fill-hover: var(--surface-raised);
+    --sds-table-fill-selected: var(--surface-accent-quiet);
+
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--row-font-medium);
-    --sds-row-pad: var(--row-pad-medium);
-    --sds-name: var(--row-name-medium);
-    --sds-meta: var(--row-meta-medium);
+    font-size: var(--sds-table-font-size);
   }
   .sds-table--compact {
-    font-size: var(--row-font-compact);
-    --sds-row-pad: var(--row-pad-compact);
-    --sds-name: var(--row-name-compact);
-    --sds-meta: var(--row-meta-compact);
+    --sds-table-font-size: var(--row-font-compact);
+    --sds-table-pad: var(--row-pad-compact);
+    --sds-table-name-size: var(--row-name-compact);
+    --sds-table-meta-size: var(--row-meta-compact);
   }
   .sds-table--medium {
-    font-size: var(--row-font-medium);
-    --sds-row-pad: var(--row-pad-medium);
-    --sds-name: var(--row-name-medium);
-    --sds-meta: var(--row-meta-medium);
+    --sds-table-font-size: var(--row-font-medium);
+    --sds-table-pad: var(--row-pad-medium);
+    --sds-table-name-size: var(--row-name-medium);
+    --sds-table-meta-size: var(--row-meta-medium);
   }
   .sds-table--airy {
-    font-size: var(--row-font-airy);
-    --sds-row-pad: var(--row-pad-airy);
-    --sds-name: var(--row-name-airy);
-    --sds-meta: var(--row-meta-airy);
+    --sds-table-font-size: var(--row-font-airy);
+    --sds-table-pad: var(--row-pad-airy);
+    --sds-table-name-size: var(--row-name-airy);
+    --sds-table-meta-size: var(--row-meta-airy);
   }
 
   /* A table wider than the column it sits in. The scroller is a box **around**
@@ -36,29 +52,28 @@
      that shrink-wraps — narrowing every table that was not too wide. As a wrapper
      nothing changes, and the table overflows only where its minimum is wider. */
   .sds-table-scroll { max-width: 100%; overflow-x: auto; }
-  /* The wrapper carries the step for both of them — see the block list at the
-     top of this file. Left here it would be dead air inside the scroller and
-     nothing below it. */
+  /* The wrapper carries the step for both of them. Left here it would be dead
+     air inside the scroller and nothing below it. */
   .sds-table-scroll > .sds-table { margin-bottom: 0; }
 
   .sds-table th {
     text-align: start;
-    font-family: var(--font-mono);
-    font-size: var(--table-head-size);
-    letter-spacing: var(--table-head-tracking);
+    font-family: var(--sds-table-font);
+    font-size: var(--sds-table-head-size);
+    letter-spacing: var(--sds-table-head-tracking);
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--sds-table-head-ink);
     font-weight: var(--weight-regular);
-    padding-block: 0 var(--sds-row-pad);
-    padding-inline: 0 var(--space-3);
-    border-bottom: var(--border-hairline) solid var(--border-strong);
+    padding-block: 0 var(--sds-table-pad);
+    padding-inline: 0 var(--sds-table-cell-gap);
+    border-bottom: var(--sds-table-border) solid var(--sds-table-rule-head);
   }
 
   .sds-table td {
-    padding-block: var(--sds-row-pad);
-    padding-inline: 0 var(--space-3);
-    border-bottom: var(--border-hairline) solid var(--border-subtle);
-    color: var(--text-secondary);
+    padding-block: var(--sds-table-pad);
+    padding-inline: 0 var(--sds-table-cell-gap);
+    border-bottom: var(--sds-table-border) solid var(--sds-table-rule);
+    color: var(--sds-table-ink);
   }
 
   .sds-table th:last-child,
@@ -66,25 +81,27 @@
 
   /* The machine's own names, in the machine's own font. */
   .sds-table td.sds-td-name {
-    font-family: var(--font-mono);
-    font-size: var(--sds-name);
-    color: var(--text-link);
+    font-family: var(--sds-table-font);
+    font-size: var(--sds-table-name-size);
+    color: var(--sds-table-name-ink);
   }
   .sds-table td.sds-td-meta {
-    font-family: var(--font-mono);
-    font-size: var(--sds-meta);
-    color: var(--text-muted);
+    font-family: var(--sds-table-font);
+    font-size: var(--sds-table-meta-size);
+    color: var(--sds-table-meta-ink);
   }
 
   /* Never zebra stripes. Background changes on hover or selection only, so a
      highlighted row means something. */
-  .sds-table tbody tr:hover { background: var(--surface-raised); }
-  .sds-table tbody tr.is-selected { background: var(--surface-accent-quiet); }
+  .sds-table tbody tr:hover { background: var(--sds-table-fill-hover); }
+  .sds-table tbody tr.is-selected { background: var(--sds-table-fill-selected); }
   /* The selected row leaves the scanning registers. `--text-muted` and
      `--text-link` are tuned against the canvas, and the accent fill moves the
      ground under them: each lands a hair under 4.5:1 on it. Nothing is wrong with
      either token or with the fill — the pair only meets on this row, which is
      also the one row with no reason to be set for scanning. */
-  .sds-table tbody tr.is-selected td.sds-td-name,
-  .sds-table tbody tr.is-selected td.sds-td-meta { color: var(--text-primary); }
+  .sds-table tbody tr.is-selected {
+    --sds-table-name-ink: var(--text-primary);
+    --sds-table-meta-ink: var(--text-primary);
+  }
 }

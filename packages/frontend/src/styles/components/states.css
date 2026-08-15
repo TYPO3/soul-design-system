@@ -104,14 +104,14 @@
     /* A card is the one thing here that moves under the pointer. Held still by
        the distance it is written from; the fill and the hairline still answer. */
     .sds-card:has(> .sds-card__body) {
-      --card-lift: 0px;
+      --sds-card-lift: 0px;
       transition: none;
     }
     .sds-card:has(> .sds-card__body)::before { transition: none; }
     /* And a tile, which moves for the same reason and is held still the same
        way — by the distance it is written from. */
     .sds-icon-tile {
-      --icon-tile-lift: 0px;
+      --sds-icon-tile-lift: 0px;
       transition: none;
     }
     /* The plane under a hit is there or it is not — nothing moves either way,

@@ -31,7 +31,7 @@
      text in it can still be selected, and the ring is the one every other
      focusable thing draws. Named by its heading — see the component. */
   .sds-result {
-    --result-thumb: 120px;
+    --sds-result-thumb: 120px;
     position: relative;
     display: flex;
     gap: var(--space-3);
@@ -64,7 +64,7 @@
      where the sentence beside it has a fifth of a page to run in. */
   .sds-result__thumb {
     flex: none;
-    width: var(--result-thumb);
+    width: var(--sds-result-thumb);
     aspect-ratio: 3 / 2;
     overflow: hidden;
     border: var(--border-hairline) solid var(--border-subtle);

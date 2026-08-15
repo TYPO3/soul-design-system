@@ -2,11 +2,21 @@
 
 @layer components {
   .sds-link {
-    color: var(--text-link);
+    --sds-link-gap: var(--space-1-5);
+    --sds-link-ink: var(--text-link);
+    --sds-link-ink-hover: var(--text-link-hover);
+    --sds-link-line-hover: underline;
+    --sds-link-duration: var(--duration-fast);
+    --sds-link-ease: var(--ease-out);
+
+    color: var(--sds-link-ink);
     text-decoration: none;
-    transition: color var(--duration-fast) var(--ease-out);
+    transition: color var(--sds-link-duration) var(--sds-link-ease);
   }
-  .sds-link:hover { color: var(--text-link-hover); text-decoration: underline; }
+  .sds-link:hover {
+    color: var(--sds-link-ink-hover);
+    text-decoration: var(--sds-link-line-hover);
+  }
   /* An offer that changes something here rather than going somewhere is a
      button, and it still reads as the link it is — same rule as the navigation
      items, which are links or buttons by what pressing them does. The browser
@@ -21,14 +31,15 @@
   .sds-link:has(.sds-icon, sds-icon) {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1-5);
+    gap: var(--sds-link-gap);
   }
   /* A mark standing on its own: the glyph is the link, so there is no word to
      underline and no line box to size it from. What it is called is on the
      element for whoever cannot see it. */
   .sds-link--bare {
-    gap: 0;
+    --sds-link-gap: 0;
+    --sds-link-line-hover: none;
+
     line-height: 0;
   }
-  .sds-link--bare:hover { text-decoration: none; }
 }

@@ -194,7 +194,7 @@
      because what it does not paint is the line showing through. It does not
      rise either: a tile that lifts tears the two lines it shares. */
   .sds-grid--flush .sds-card {
-    --card-lift: 0px;
+    --sds-card-lift: 0px;
     border: 0;
     border-radius: 0;
     background: var(--surface-canvas);

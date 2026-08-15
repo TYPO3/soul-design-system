@@ -26,31 +26,54 @@
     gap: var(--space-1-5);
   }
 
-  /* Pill nav for sections. Active is a filled block, not a tint. */
-  /* Wraps. In a header the menu decides what to do when the row runs out — it
+  /* Pill nav for sections. Active is a filled block, not a tint.
+
+     Wraps. In a header the menu decides what to do when the row runs out — it
      measures, and becomes a panel. Standing on a page as a filter there is
      nothing to measure against and nothing to collapse into: a second line costs
      the page 30px, and the alternative is five items pushing a phone sideways.
      Which is what four filters and a phone did the first time they met. */
   .sds-pills {
+    --sds-pills-gap: var(--space-1);
+    --sds-pills-font: var(--font-mono);
+    --sds-pills-font-size: var(--nav-font-size);
+
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-1);
-    font-family: var(--font-mono);
-    font-size: var(--nav-font-size);
+    gap: var(--sds-pills-gap);
+    font-family: var(--sds-pills-font);
+    font-size: var(--sds-pills-font-size);
   }
-  .sds-pill {
-    padding: var(--space-1-5) var(--space-3);
-    border-radius: var(--radius-control);
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
-  }
-  /* One pill is one line. Two words in it are the name of one place, and a place
+  /* Its own set and not the row's: a pill stands in the bar's drawer as well,
+     where there is no row above it to inherit from.
+
+     One pill is one line. Two words in it are the name of one place, and a place
      whose name has been folded in half is the row admitting it did not fit —
      which is a decision the menu makes by collapsing, not something a label does
      quietly on its own. */
-  .sds-pill { white-space: nowrap; }
-  .sds-pill:hover { color: var(--text-primary); }
-  .sds-pill.is-active { background: var(--accent); color: var(--text-on-accent); }
+  .sds-pill {
+    --sds-pill-pad-y: var(--space-1-5);
+    --sds-pill-pad-x: var(--space-3);
+    --sds-pill-radius: var(--radius-control);
+    --sds-pill-ink: var(--text-secondary);
+    --sds-pill-ink-hover: var(--text-primary);
+    --sds-pill-ink-active: var(--text-on-accent);
+    --sds-pill-fill-active: var(--accent);
+    --sds-pill-duration: var(--duration-fast);
+    --sds-pill-ease: var(--ease-out);
+
+    padding: var(--sds-pill-pad-y) var(--sds-pill-pad-x);
+    border-radius: var(--sds-pill-radius);
+    color: var(--sds-pill-ink);
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+    background var(--sds-pill-duration) var(--sds-pill-ease),
+    color var(--sds-pill-duration) var(--sds-pill-ease);
+  }
+  .sds-pill:hover { color: var(--sds-pill-ink-hover); }
+  .sds-pill.is-active {
+    background: var(--sds-pill-fill-active);
+    color: var(--sds-pill-ink-active);
+  }
 }

@@ -6,35 +6,64 @@
      address. The page they are on is the active item of a navigation and drawn as
      one — accent, filled — and text rather than a link, like the end of a trail. */
   .sds-pagination {
+    --sds-pagination-gap: var(--space-1);
+    --sds-pagination-item-gap: var(--space-1-5);
+    --sds-pagination-pad-y: var(--space-1-5);
+    --sds-pagination-pad-x: var(--space-3);
+    --sds-pagination-radius: var(--radius-control);
+    --sds-pagination-font-size: var(--nav-font-size);
+    --sds-pagination-ink: var(--text-secondary);
+    --sds-pagination-ink-hover: var(--text-primary);
+    --sds-pagination-ink-quiet: var(--text-muted);
+    --sds-pagination-ink-active: var(--text-on-accent);
+    --sds-pagination-fill-active: var(--accent);
+    --sds-pagination-duration: var(--duration-fast);
+    --sds-pagination-ease: var(--ease-out);
+
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-1);
-    font-size: var(--nav-font-size);
+    gap: var(--sds-pagination-gap);
+    font-size: var(--sds-pagination-font-size);
   }
   .sds-pagination__page,
   .sds-pagination__step {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1-5);
-    padding: var(--space-1-5) var(--space-3);
-    border-radius: var(--radius-control);
-    color: var(--text-secondary);
+    gap: var(--sds-pagination-item-gap);
+    padding: var(--sds-pagination-pad-y) var(--sds-pagination-pad-x);
+    border-radius: var(--sds-pagination-radius);
+    color: var(--sds-pagination-ink);
     text-decoration: none;
-    transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+    transition:
+    background var(--sds-pagination-duration) var(--sds-pagination-ease),
+    color var(--sds-pagination-duration) var(--sds-pagination-ease);
   }
   .sds-pagination__page:hover,
-  .sds-pagination__step:hover { color: var(--text-primary); }
-  .sds-pagination__page.is-active { background: var(--accent); color: var(--text-on-accent); }
+  .sds-pagination__step:hover { color: var(--sds-pagination-ink-hover); }
+  .sds-pagination__page.is-active {
+    background: var(--sds-pagination-fill-active);
+    color: var(--sds-pagination-ink-active);
+  }
   /* A step with nowhere to go stays in place rather than disappearing: a row of
      controls that changes width as it is used is a row that moves under the
      pointer. */
-  .sds-pagination__step.is-disabled { color: var(--text-muted); pointer-events: none; }
+  .sds-pagination__step.is-disabled {
+    color: var(--sds-pagination-ink-quiet);
+    pointer-events: none;
+  }
   /* The gap where numbers were left out. Not a control, and never the thing a
      reader tries to press. */
-  .sds-pagination__gap { padding: var(--space-1-5) var(--space-1); color: var(--text-muted); user-select: none; }
+  .sds-pagination__gap {
+    padding: var(--sds-pagination-pad-y) var(--sds-pagination-gap);
+    color: var(--sds-pagination-ink-quiet);
+    user-select: none;
+  }
   /* What the numbers are of, at the end of the row. */
-  .sds-pagination__count { margin-inline-start: auto; color: var(--text-muted); }
+  .sds-pagination__count {
+    margin-inline-start: auto;
+    color: var(--sds-pagination-ink-quiet);
+  }
 
   /* The other one: the page before and the page after, at the foot of a page
      read in order. The row is `.sds-foot` and is not drawn twice, so the whole

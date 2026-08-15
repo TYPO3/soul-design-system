@@ -8,32 +8,50 @@
     /* An entry is made of words, so it wraps where words wrap — and the rule
        above it with them: drawn to the full column, a hairline would separate
        two paragraphs of text with a line half of which has nothing under it. */
-    max-width: var(--measure-prose);
-    padding-top: var(--space-3);
-    border-top: var(--border-hairline) solid var(--border-subtle);
+    --sds-confval-measure: var(--measure-prose);
+    --sds-confval-gap: var(--space-3);
+    --sds-confval-term-gap: var(--space-2);
+    --sds-confval-border: var(--border-hairline);
+    --sds-confval-rule: var(--border-subtle);
+    --sds-confval-name-weight: var(--weight-semibold);
+    --sds-confval-name-ink: var(--text-primary);
+    --sds-confval-name-ink-here: var(--text-accent-quiet);
+    --sds-confval-mark-font: var(--font-mono);
+    --sds-confval-mark-ink: var(--border-strong);
+    --sds-confval-mark-ink-hover: var(--text-link);
+    --sds-confval-facts-pad-y: var(--space-1);
+    --sds-confval-facts-pad-x: var(--space-3);
+    --sds-confval-facts-radius: var(--radius-control);
+    --sds-confval-facts-fill: var(--surface-inset);
+    --sds-confval-facts-size: var(--font-size-ui);
+    --sds-confval-facts-label-ink: var(--text-secondary);
+
+    max-width: var(--sds-confval-measure);
+    padding-top: var(--sds-confval-gap);
+    border-top: var(--sds-confval-border) solid var(--sds-confval-rule);
   }
   .sds-confval__term {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: var(--space-2);
-    margin: 0 0 var(--space-2);
+    gap: var(--sds-confval-term-gap);
+    margin: 0 0 var(--sds-confval-term-gap);
   }
   .sds-confval__name {
-    font-weight: var(--weight-semibold);
-    color: var(--text-primary);
+    font-weight: var(--sds-confval-name-weight);
+    color: var(--sds-confval-name-ink);
   }
   /* The address of this one entry, in the character an address is written with.
      Quiet until it is wanted rather than absent until hover: a mark that appears
      under the pointer is a mark a touch reader never finds. */
   .sds-confval__mark {
-    font-family: var(--font-mono);
-    color: var(--border-strong);
+    font-family: var(--sds-confval-mark-font);
+    color: var(--sds-confval-mark-ink);
     text-decoration: none;
   }
-  .sds-confval__mark:hover { color: var(--text-link); }
+  .sds-confval__mark:hover { color: var(--sds-confval-mark-ink-hover); }
   /* Landing on one out of forty says which one. */
-  .sds-confval__term:target .sds-confval__name { color: var(--text-accent-quiet); }
+  .sds-confval__term:target { --sds-confval-name-ink: var(--sds-confval-name-ink-here); }
 
   .sds-confval__detail { margin: 0; }
 
@@ -45,25 +63,25 @@
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    column-gap: var(--space-2);
-    row-gap: var(--space-1);
+    column-gap: var(--sds-confval-term-gap);
+    row-gap: var(--sds-confval-facts-pad-y);
     width: fit-content;
     max-width: 100%;
-    margin: 0 0 var(--space-2);
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-control);
-    background: var(--surface-inset);
-    font-size: var(--font-size-ui);
+    margin: 0 0 var(--sds-confval-term-gap);
+    padding: var(--sds-confval-facts-pad-y) var(--sds-confval-facts-pad-x);
+    border-radius: var(--sds-confval-facts-radius);
+    background: var(--sds-confval-facts-fill);
+    font-size: var(--sds-confval-facts-size);
   }
   .sds-confval__facts dt,
   .sds-confval__facts dd { margin: 0; max-width: none; }
   /* The air between two facts, against the air inside one: a label belongs to
      the value on its right, and equal gaps would leave that to be guessed. */
-  .sds-confval__facts dt ~ dt { margin-inline-start: var(--space-3); }
+  .sds-confval__facts dt ~ dt { margin-inline-start: var(--sds-confval-facts-pad-x); }
   /* A label is muted against the canvas it was measured on. Eleven pixels on the
      inset surface is the one place that drops under contrast, so it steps up a
      register rather than the surface losing its fill. */
-  .sds-confval__facts .sds-label { color: var(--text-secondary); }
+  .sds-confval__facts .sds-label { --sds-label-ink: var(--sds-confval-facts-label-ink); }
 
   /* The description is blocks — paragraphs, a list, an admonition — and they
      bring their own margins. The outermost two are the entry's own spacing. */

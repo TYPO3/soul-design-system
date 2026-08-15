@@ -5,44 +5,66 @@
      treatment as an active navigation item, because it is one. The group is
      bordered so the pair reads as one control rather than as two buttons. */
   .sds-modes {
-    /* Inline: it is a control, and a block-level box takes the whole row
-       wherever it is not a flex item — which is most places a header puts it. */
-    display: inline-flex;
-    gap: var(--space-1);
-    padding: var(--space-0-5);
     /* The control height, and the segments fill what is left of it. Two 12px
        words are the smallest thing in a header, and left to their own padding
        they made the mode pair the shortest box on the line. */
-    height: var(--control-height);
-    font-family: var(--font-mono);
-    font-size: var(--tab-font-size);
-    line-height: var(--control-leading);
-    border: var(--border-hairline) solid var(--border-subtle);
-    border-radius: var(--radius-control);
+    --sds-modes-height: var(--control-height);
+    --sds-modes-pad: var(--space-0-5);
+    --sds-modes-gap: var(--space-1);
+    --sds-modes-border: var(--border-hairline);
+    --sds-modes-radius: var(--radius-control);
+    --sds-modes-edge: var(--border-subtle);
+    --sds-modes-font: var(--font-mono);
+    --sds-modes-font-size: var(--tab-font-size);
+    --sds-modes-leading: var(--control-leading);
+    --sds-mode-pad-x: var(--space-2);
+    --sds-mode-gap: var(--space-1-5);
+    --sds-mode-radius: 2px;
+    --sds-mode-glyph: var(--control-icon-size);
+    --sds-mode-ink: var(--text-secondary);
+    --sds-mode-ink-hover: var(--text-primary);
+    --sds-mode-ink-active: var(--text-on-accent);
+    --sds-mode-fill-active: var(--accent);
+    --sds-modes-duration: var(--duration-fast);
+    --sds-modes-ease: var(--ease-out);
+
+    /* Inline: it is a control, and a block-level box takes the whole row
+       wherever it is not a flex item — which is most places a header puts it. */
+    display: inline-flex;
+    gap: var(--sds-modes-gap);
+    padding: var(--sds-modes-pad);
+    height: var(--sds-modes-height);
+    border: var(--sds-modes-border) solid var(--sds-modes-edge);
+    border-radius: var(--sds-modes-radius);
+    font-family: var(--sds-modes-font);
+    font-size: var(--sds-modes-font-size);
+    line-height: var(--sds-modes-leading);
   }
   .sds-mode {
     font: inherit;
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1-5);
-    padding: 0 var(--space-2);
+    gap: var(--sds-mode-gap);
+    padding: 0 var(--sds-mode-pad-x);
     cursor: pointer;
-    color: var(--text-secondary);
+    color: var(--sds-mode-ink);
     background: none;
     border: 0;
-    border-radius: 2px;
-    transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+    border-radius: var(--sds-mode-radius);
+    transition:
+    background var(--sds-modes-duration) var(--sds-modes-ease),
+    color var(--sds-modes-duration) var(--sds-modes-ease);
   }
-  .sds-mode:hover { color: var(--text-primary); }
-  .sds-mode.is-active { background: var(--accent); color: var(--text-on-accent); }
+  .sds-mode:hover { color: var(--sds-mode-ink-hover); }
+  .sds-mode.is-active {
+    background: var(--sds-mode-fill-active);
+    color: var(--sds-mode-ink-active);
+  }
   /* The mark a segment keeps when its word is dropped, at the floor a control
      gives a glyph — the same one the bar's button and the rail's fold marker
      use. It stands beside the word rather than instead of it: the pair is two
      things to press, and a reader who can see both reads the shorter one. */
-  .sds-mode .sds-icon {
-    width: var(--control-icon-size);
-    height: var(--control-icon-size);
-  }
+  .sds-mode .sds-icon { --sds-icon-size: var(--sds-mode-glyph); }
   /* The word beside the mark, on one line always: the pair is among the shortest
      boxes in a row, and a "light" broken in half would make it the tallest. */
   .sds-mode__label { white-space: nowrap; }

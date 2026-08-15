@@ -7,11 +7,21 @@
      rule is structural, so no radius and `--border-strong` rather than the
      accent; 3px, because at 2px it was the faintest thing in the block it holds. */
   .sds-quote {
-    padding-inline-start: var(--space-5);
-    border-inline-start: 3px solid var(--border-strong);
+    --sds-quote-inset: var(--space-5);
+    --sds-quote-gap: var(--space-3);
+    --sds-quote-rule: 3px;
+    --sds-quote-edge: var(--border-strong);
+    --sds-quote-measure: var(--measure-lead);
+    --sds-quote-ink: var(--text-primary);
+    --sds-quote-font-size: var(--font-size-h3);
+    --sds-quote-leading: var(--leading-heading);
+    --sds-quote-tracking: var(--tracking-heading);
+
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--sds-quote-gap);
+    padding-inline-start: var(--sds-quote-inset);
+    border-inline-start: var(--sds-quote-rule) solid var(--sds-quote-edge);
   }
   /* A borrowed sentence is a statement, not running text: set at the size of a
      section heading and led like one, because at reading leading the same words
@@ -20,11 +30,11 @@
      keeps the heading it can stand under louder than it. */
   .sds-quote__body {
     margin: 0;
-    font-size: var(--font-size-h3);
-    line-height: var(--leading-heading);
-    letter-spacing: var(--tracking-heading);
-    color: var(--text-primary);
-    max-width: var(--measure-lead);
+    max-width: var(--sds-quote-measure);
+    color: var(--sds-quote-ink);
+    font-size: var(--sds-quote-font-size);
+    line-height: var(--sds-quote-leading);
+    letter-spacing: var(--sds-quote-tracking);
   }
   /* The attribution is a byline and brings its own type — the caption is only
      where it sits. Set in caption size it said the sentence outranked whoever is

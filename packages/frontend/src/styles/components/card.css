@@ -1,18 +1,40 @@
 /* sds-card — a subject that goes somewhere, whole. */
 
 @layer components {
-  /* The distance the card moves under the pointer, named here so the
-     reduced-motion block can hold it still in one place. */
   .sds-card:has(> .sds-card__body) {
-    --card-lift: -2px;
+    /* The distance the card moves under the pointer, named so the
+       reduced-motion block can hold it still in one place. */
+    --sds-card-lift: -2px;
+    --sds-card-pad-y: var(--block-pad-y);
+    --sds-card-pad-x: var(--block-pad-x);
+    --sds-card-gap: var(--space-2);
+    --sds-card-foot-gap: var(--space-3);
+    --sds-card-border: var(--border-hairline);
+    --sds-card-radius: var(--radius-card);
+    --sds-card-edge-hover: var(--border-strong);
+    --sds-card-fill-hover: var(--surface-raised);
+    --sds-card-glow: var(--accent-glow);
+    --sds-card-media-fill: var(--surface-sunken);
+    --sds-card-title-size: var(--entry-title-size);
+    --sds-card-title-leading: var(--leading-heading);
+    --sds-card-title-ink: var(--text-primary);
+    --sds-card-text-size: var(--block-body-size);
+    --sds-card-text-leading: var(--leading-body);
+    --sds-card-text-ink: var(--text-secondary);
+    --sds-card-note-size: var(--aside-size);
+    --sds-card-note-leading: var(--aside-leading);
+    --sds-card-note-ink: var(--text-muted);
+    --sds-card-duration: var(--duration-fast);
+    --sds-card-ease: var(--ease-out);
+
     position: relative;
     display: flex;
     flex-direction: column;
     padding: 0;
     transition:
-    border-color var(--duration-fast) var(--ease-out),
-    background var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out);
+    border-color var(--sds-card-duration) var(--sds-card-ease),
+    background var(--sds-card-duration) var(--sds-card-ease),
+    transform var(--sds-card-duration) var(--sds-card-ease);
   }
   /* The lit frame, kept on a layer of its own so the pointer fades one number
      and nothing jumps: a gradient in the background would land on a different
@@ -21,16 +43,16 @@
   .sds-card:has(> .sds-card__body)::before {
     content: '';
     position: absolute;
-    inset: calc(-1 * var(--border-hairline));
+    inset: calc(-1 * var(--sds-card-border));
     z-index: 1;
-    border-radius: var(--radius-card);
-    padding: var(--border-hairline);
-    background: linear-gradient(var(--accent-glow), transparent 45%);
+    border-radius: var(--sds-card-radius);
+    padding: var(--sds-card-border);
+    background: linear-gradient(var(--sds-card-glow), transparent 45%);
     mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     mask-composite: exclude;
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--duration-fast) var(--ease-out);
+    transition: opacity var(--sds-card-duration) var(--sds-card-ease);
   }
   /* The whole card is the target, and one anchor does it: the title's, stretched
      over the frame. Wrapping the card in the anchor instead would read its whole
@@ -48,9 +70,9 @@
      answer the pointer does. */
   .sds-card:has(> .sds-card__body > .sds-card__title a):hover,
   .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) {
-    border-color: var(--border-strong);
-    background: var(--surface-raised);
-    transform: translateY(var(--card-lift));
+    border-color: var(--sds-card-edge-hover);
+    background: var(--sds-card-fill-hover);
+    transform: translateY(var(--sds-card-lift));
   }
   .sds-card:has(> .sds-card__body > .sds-card__title a):hover::before,
   .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible)::before {
@@ -58,24 +80,23 @@
   }
   /* And the ring goes round the frame, not round the words. What answers the
      press is the card, so a ring round the title would point at a part of it —
-     the one ring, moved out to the box it belongs to, which is why the card is
-     named in it at the top of this file and keeps only its own corner here. */
+     the one ring, moved out to the box it belongs to. */
   .sds-card__title a:focus-visible { outline: none; box-shadow: none; }
-  .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) { border-radius: var(--radius-card); }
+  .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) { border-radius: var(--sds-card-radius); }
   /* The card cannot clip its contents — the lit frame is drawn outside its
      padding box — so the picture takes the corner it sits in itself, one
      hairline in from the frame's own. */
   .sds-card__media {
-    background: var(--surface-sunken);
-    border-bottom: var(--border-hairline) solid var(--border-subtle);
-    border-radius: calc(var(--radius-card) - var(--border-hairline)) calc(var(--radius-card) - var(--border-hairline)) 0 0;
+    background: var(--sds-card-media-fill);
+    border-bottom: var(--sds-card-border) solid var(--border-subtle);
+    border-radius: calc(var(--sds-card-radius) - var(--sds-card-border)) calc(var(--sds-card-radius) - var(--sds-card-border)) 0 0;
     overflow: hidden;
   }
   .sds-card__body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
+    gap: var(--sds-card-gap);
+    padding: var(--sds-card-pad-y) var(--sds-card-pad-x);
   }
   /* Muted and never in a status colour, for the reason a surface's glyph is: a
      card is a subject, not a result. It carries the gap to the label itself. */
@@ -84,9 +105,9 @@
      title is the card's own voice wherever the link turned out to be. */
   .sds-card__title {
     margin: 0;
-    font-size: var(--entry-title-size);
-    line-height: var(--leading-heading);
-    color: var(--text-primary);
+    font-size: var(--sds-card-title-size);
+    line-height: var(--sds-card-title-leading);
+    color: var(--sds-card-title-ink);
   }
   /* Never underlined, not even under the pointer: the whole card answers the
      hover, and one word of it changing as well would be two answers to one
@@ -94,9 +115,9 @@
   .sds-card__title a { color: inherit; text-decoration: none; }
   .sds-card__text {
     margin: 0;
-    font-size: var(--block-body-size);
-    line-height: var(--leading-body);
-    color: var(--text-secondary);
+    font-size: var(--sds-card-text-size);
+    line-height: var(--sds-card-text-leading);
+    color: var(--sds-card-text-ink);
   }
   /* The outermost margins of a document's blocks go: the card's padding is
      already the gap, and a block that brought its own would double it. */
@@ -111,13 +132,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-3);
-    padding: var(--block-pad-y) var(--block-pad-x);
+    gap: var(--sds-card-foot-gap);
+    padding: var(--sds-card-pad-y) var(--sds-card-pad-x);
   }
   .sds-card__note {
-    font-size: var(--aside-size);
-    line-height: var(--aside-leading);
-    color: var(--text-muted);
+    font-size: var(--sds-card-note-size);
+    line-height: var(--sds-card-note-leading);
+    color: var(--sds-card-note-ink);
   }
   /* What the card does, said in words. Not a control: the card is the link, and
      this is the line that admits it — so the arrow leans out under the pointer
@@ -127,7 +148,7 @@
     align-items: center;
     gap: var(--space-1-5);
     margin-inline-start: auto;
-    font-size: var(--aside-size);
+    font-size: var(--sds-card-note-size);
     font-weight: var(--weight-semibold);
     color: var(--text-link);
     white-space: nowrap;

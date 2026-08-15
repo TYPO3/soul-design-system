@@ -3,24 +3,44 @@
 @layer components {
   /* Underline tabs inside a panel. */
   .sds-tabs {
+    --sds-tabs-pad-y: var(--space-2);
+    --sds-tabs-pad-x: var(--space-3-5);
+    --sds-tabs-border: var(--border-hairline);
+    --sds-tabs-mark: var(--border-emphasis);
+    --sds-tabs-rule: var(--border-subtle);
+    --sds-tabs-font: var(--font-mono);
+    --sds-tabs-font-size: var(--tab-font-size);
+    --sds-tabs-ink: var(--text-muted);
+    --sds-tabs-ink-hover: var(--text-secondary);
+    --sds-tabs-ink-active: var(--text-primary);
+    --sds-tabs-edge-active: var(--accent);
+    --sds-tabs-duration: var(--duration-fast);
+    --sds-tabs-ease: var(--ease-out);
+
     display: flex;
-    border-bottom: var(--border-hairline) solid var(--border-subtle);
-    font-family: var(--font-mono);
-    font-size: var(--tab-font-size);
+    border-bottom: var(--sds-tabs-border) solid var(--sds-tabs-rule);
+    font-family: var(--sds-tabs-font);
+    font-size: var(--sds-tabs-font-size);
   }
   .sds-tab {
-    padding: var(--space-2) var(--space-3-5);
-    color: var(--text-muted);
+    padding: var(--sds-tabs-pad-y) var(--sds-tabs-pad-x);
+    color: var(--sds-tabs-ink);
     text-decoration: none;
-    transition: color var(--duration-fast) var(--ease-out);
+    transition: color var(--sds-tabs-duration) var(--sds-tabs-ease);
   }
-  .sds-tab:hover { color: var(--text-secondary); }
+  .sds-tab:hover { color: var(--sds-tabs-ink-hover); }
   .sds-tab.is-active {
-    color: var(--text-primary);
-    border-bottom: var(--border-emphasis) solid var(--accent);
-    margin-bottom: calc(var(--border-hairline) * -1);
+    color: var(--sds-tabs-ink-active);
+    border-bottom: var(--sds-tabs-mark) solid var(--sds-tabs-edge-active);
+    margin-bottom: calc(var(--sds-tabs-border) * -1);
   }
   /* What a tab stands for. The panels that are not showing keep their content
-     in the document — hidden, so a find-in-page still reaches it. */
-  .sds-tab__panel { padding-top: var(--space-4); }
+     in the document — hidden, so a find-in-page still reaches it. Its own set,
+     because it stands beside the row rather than inside it and a property
+     inherits down. */
+  .sds-tab__panel {
+    --sds-tab-panel-gap: var(--space-4);
+
+    padding-top: var(--sds-tab-panel-gap);
+  }
 }

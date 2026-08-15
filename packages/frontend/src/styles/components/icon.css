@@ -5,8 +5,9 @@
      currentColor, so the SVG is inlined — and by default that text's size, which
      is what makes a glyph look placed rather than dropped in. A number is the
      exception, for a glyph standing alone: 16 is the floor, and the scale goes
-     16, 20, 24 or a whole multiple. `<sds-icon>` with no `size` renders this. */
-  /* Inline, because a glyph stands in a line as often as in a row: as a block
+     16, 20, 24 or a whole multiple. `<sds-icon>` with no `size` renders this.
+
+     Inline, because a glyph stands in a line as often as in a row: as a block
      it broke the sentence it was set in, and only where no script ran. The
      element states `inline-flex` and this states `inline-block` — the same box
      seen from outside, both 1em square and both sitting on the baseline. */
@@ -15,13 +16,15 @@
     flex: none;
   }
   .sds-icon {
+    --sds-icon-size: 1em;
+
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: var(--sds-icon-size);
+    height: var(--sds-icon-size);
   }
-  .sds-icon--16 { width: var(--control-icon-size); height: var(--control-icon-size); }
-  .sds-icon--20 { width: 20px; height: 20px; }
-  .sds-icon--24 { width: 24px; height: 24px; }
+  .sds-icon--16 { --sds-icon-size: var(--control-icon-size); }
+  .sds-icon--20 { --sds-icon-size: 20px; }
+  .sds-icon--24 { --sds-icon-size: 24px; }
   /* A standalone icon that is not inside a coloured control. */
   .sds-icon--muted { color: var(--text-secondary); }
 

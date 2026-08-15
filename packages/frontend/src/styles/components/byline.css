@@ -3,25 +3,45 @@
 @layer components {
   /* Who wrote it, and when. The mark is initials — a face is a file to fetch,
      keep in step and licence, and none of that is what a byline is for. */
-  .sds-byline { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
-  /* 32px is exactly the two lines beside it — the mark measures the block it
-     belongs to, not a control it is not one of. Tracking is added after the
-     last letter as well, so it comes back as padding on the left, where
-     centring halves it and the monogram lands on the middle of the circle. */
+  .sds-byline {
+    /* 32px is exactly the two lines beside it — the mark measures the block it
+       belongs to, not a control it is not one of. */
+    --sds-byline-mark-size: 32px;
+    --sds-byline-gap: var(--space-3);
+    --sds-byline-line-gap: var(--space-0-5);
+    --sds-byline-radius: var(--radius-pill);
+    --sds-byline-mark-fill: var(--surface-inset);
+    --sds-byline-mark-ink: var(--text-secondary);
+    --sds-byline-mark-font: var(--font-mono);
+    --sds-byline-mark-font-size: var(--font-size-dense);
+    --sds-byline-tracking: var(--tracking-label);
+    --sds-byline-leading: var(--control-leading);
+    --sds-byline-name-size: var(--font-size-ui);
+    --sds-byline-name-ink: var(--text-primary);
+    --sds-byline-role-ink: var(--text-muted);
+
+    display: flex;
+    align-items: center;
+    gap: var(--sds-byline-gap);
+    margin-bottom: var(--space-4);
+  }
+  /* Tracking is added after the last letter as well, so it comes back as
+     padding on the left, where centring halves it and the monogram lands on
+     the middle of the circle. */
   .sds-byline__mark {
     flex: none;
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-pill);
-    background: var(--surface-inset);
-    color: var(--text-secondary);
-    font-family: var(--font-mono);
-    font-size: var(--font-size-dense);
-    letter-spacing: var(--tracking-label);
-    padding-inline-start: var(--tracking-label);
     display: flex;
     align-items: center;
     justify-content: center;
+    width: var(--sds-byline-mark-size);
+    height: var(--sds-byline-mark-size);
+    border-radius: var(--sds-byline-radius);
+    background: var(--sds-byline-mark-fill);
+    color: var(--sds-byline-mark-ink);
+    font-family: var(--sds-byline-mark-font);
+    font-size: var(--sds-byline-mark-font-size);
+    letter-spacing: var(--sds-byline-tracking);
+    padding-inline-start: var(--sds-byline-tracking);
   }
   /* Two stacked labels, not prose. Body leading puts a 14px name in a 25px line
      box, which drifts the pair apart and makes the block taller than any mark
@@ -29,10 +49,13 @@
   .sds-byline__who {
     display: flex;
     flex-direction: column;
-    gap: var(--space-0-5);
-    line-height: var(--control-leading);
+    gap: var(--sds-byline-line-gap);
+    line-height: var(--sds-byline-leading);
     min-width: 0;
   }
-  .sds-byline__name { font-size: var(--font-size-ui); color: var(--text-primary); }
-  .sds-byline__role { color: var(--text-muted); }
+  .sds-byline__name {
+    font-size: var(--sds-byline-name-size);
+    color: var(--sds-byline-name-ink);
+  }
+  .sds-byline__role { color: var(--sds-byline-role-ink); }
 }

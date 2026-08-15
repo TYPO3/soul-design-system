@@ -40,7 +40,7 @@
     box-shadow: var(--shadow-flyout);
   }
   .sds-search__panel .sds-hits { margin-inline: 0; }
-  .sds-search__panel .sds-result { --result-thumb: 72px; }
+  .sds-search__panel .sds-result { --sds-result-thumb: 72px; }
   .sds-search__panel .sds-result__title { font-size: var(--block-title-size); }
   /* Two lines of the sentence, and the rest cut. A drop is passed through on the
      way to a page: what is being read here is which page it is, and a paragraph

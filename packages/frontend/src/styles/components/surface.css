@@ -6,12 +6,21 @@
   .sds-card,
   .sds-panel,
   .sds-sunken {
-    border: var(--border-hairline) solid var(--border-subtle);
-    border-radius: var(--radius-card);
-    padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
+    --sds-plane-pad-y: var(--block-pad-y);
+    --sds-plane-pad-x: var(--block-pad-x);
+    --sds-plane-border: var(--border-hairline);
+    --sds-plane-line: solid;
+    --sds-plane-radius: var(--radius-card);
+    --sds-plane-edge: var(--border-subtle);
+    --sds-plane-fill: transparent;
+
+    padding: var(--sds-plane-pad-y) var(--sds-plane-pad-x);
+    border: var(--sds-plane-border) var(--sds-plane-line) var(--sds-plane-edge);
+    border-radius: var(--sds-plane-radius);
+    background: var(--sds-plane-fill);
   }
-  .sds-panel { background: var(--surface-raised); }
-  .sds-sunken { background: var(--surface-sunken); }
+  .sds-panel { --sds-plane-fill: var(--surface-raised); }
+  .sds-sunken { --sds-plane-fill: var(--surface-sunken); }
 
   /* A rendering put on a page to be looked at rather than read — what a piece of
      markup produces, beside the markup. Dashed and unfilled: the frame is not
@@ -19,19 +28,38 @@
      stand on. The one dashed line in the system, which is what lets it say that
      and nothing else. */
   .sds-example {
-    border: var(--border-hairline) dashed var(--border-strong);
-    border-radius: var(--radius-card);
-    padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
+    --sds-plane-pad-y: var(--block-pad-y);
+    --sds-plane-pad-x: var(--block-pad-x);
+    --sds-plane-border: var(--border-hairline);
+    --sds-plane-line: dashed;
+    --sds-plane-radius: var(--radius-card);
+    --sds-plane-edge: var(--border-strong);
+
+    padding: var(--sds-plane-pad-y) var(--sds-plane-pad-x);
+    border: var(--sds-plane-border) var(--sds-plane-line) var(--sds-plane-edge);
+    border-radius: var(--sds-plane-radius);
   }
 
-  .sds-surface-title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
+  .sds-surface-title {
+    --sds-surface-title-size: var(--block-title-size);
+    --sds-surface-title-weight: var(--weight-semibold);
+    --sds-surface-title-leading: var(--leading-heading);
+
+    font-size: var(--sds-surface-title-size);
+    font-weight: var(--sds-surface-title-weight);
+    line-height: var(--sds-surface-title-leading);
+  }
   /* The label sits over the title with the title's own leading between them. */
   .sds-surface-title:not(:first-child) { padding-block-start: var(--space-1-5); }
   .sds-surface-body {
-    font-size: var(--block-body-size);
-    line-height: 1.5;
-    color: var(--text-secondary);
+    --sds-surface-body-size: var(--block-body-size);
+    --sds-surface-body-leading: var(--aside-leading);
+    --sds-surface-body-ink: var(--text-secondary);
+
     padding-block-start: var(--space-1);
+    font-size: var(--sds-surface-body-size);
+    line-height: var(--sds-surface-body-leading);
+    color: var(--sds-surface-body-ink);
   }
   /* A glyph above the label, where a set of cards is told apart at a glance
      before it is read. Muted, and never in a status colour: a card is a subject,
@@ -40,10 +68,4 @@
   /* The glyph carries the gap on its own, so a card with no label between them
      is not spaced differently from one that has a label. */
   .sds-surface-icon + .sds-surface-title { margin-top: 0; }
-
-  /* A card that names its own parts — a way into a chapter, with a picture at
-     the top and a foot under a hairline. Selected by what is inside it, so the
-     plane above keeps the padding wherever nothing states its own: a picture
-     flush at the top and a foot spanning the frame both need the padding on the
-     parts, and a container must not share its corner with its contents. */
 }

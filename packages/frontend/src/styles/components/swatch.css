@@ -6,9 +6,21 @@
      the subject; the two lines beside it are what gets typed somewhere else, so
      both are machine text. */
   .sds-swatch {
+    --sds-swatch-chip-size: var(--swatch-chip-size);
+    --sds-swatch-gap: var(--space-3);
+    --sds-swatch-line-gap: var(--space-0-5);
+    --sds-swatch-border: var(--border-hairline);
+    --sds-swatch-radius: var(--radius-control);
+    --sds-swatch-edge: var(--border-subtle);
+    --sds-swatch-font: var(--font-mono);
+    --sds-swatch-name-size: var(--font-size-dense);
+    --sds-swatch-name-ink: var(--text-primary);
+    --sds-swatch-value-size: var(--font-size-label);
+    --sds-swatch-value-ink: var(--text-muted);
+
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--sds-swatch-gap);
     min-width: 0;
   }
   /* The hairline round the chip is the system's own, not the value being shown —
@@ -16,35 +28,36 @@
      is the one case a palette has to be able to draw. */
   .sds-swatch__chip {
     flex: none;
-    width: var(--swatch-chip-size);
-    height: var(--swatch-chip-size);
-    border: var(--border-hairline) solid var(--border-subtle);
-    border-radius: var(--radius-control);
+    width: var(--sds-swatch-chip-size);
+    height: var(--sds-swatch-chip-size);
+    border: var(--sds-swatch-border) solid var(--sds-swatch-edge);
+    border-radius: var(--sds-swatch-radius);
   }
   /* A hairline shown as itself: the value is the edge and the page's own ground
      stands inside it. Drawn at the emphasis width rather than at one pixel,
      because a single pixel beside a filled chip reads as an empty one. */
-  .sds-swatch--line .sds-swatch__chip {
-    border-width: var(--border-emphasis);
-    background: none;
+  .sds-swatch--line {
+    --sds-swatch-border: var(--border-emphasis);
   }
+  .sds-swatch--line .sds-swatch__chip { background: none; }
+
   .sds-swatch__body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-0-5);
+    gap: var(--sds-swatch-line-gap);
     min-width: 0;
   }
   /* The name breaks inside the word: a token is one word, and a set of these is
      laid out in columns narrower than the longest of them. */
   .sds-swatch__name {
-    font-family: var(--font-mono);
-    font-size: var(--font-size-dense);
-    color: var(--text-primary);
+    font-family: var(--sds-swatch-font);
+    font-size: var(--sds-swatch-name-size);
+    color: var(--sds-swatch-name-ink);
     overflow-wrap: anywhere;
   }
   .sds-swatch__value {
-    font-family: var(--font-mono);
-    font-size: var(--font-size-label);
-    color: var(--text-muted);
+    font-family: var(--sds-swatch-font);
+    font-size: var(--sds-swatch-value-size);
+    color: var(--sds-swatch-value-ink);
   }
 }

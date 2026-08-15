@@ -5,15 +5,29 @@
      machine output in the sense a log is — generated from the thing it describes.
      The caption is the claim in words and is not optional: a drawing whose point
      has to be inferred means something different to each reader. */
-  .sds-figure { display: flex; flex-direction: column; gap: var(--space-3); }
+  .sds-figure {
+    --sds-figure-gap: var(--space-3);
+    --sds-figure-border: var(--border-hairline);
+    --sds-figure-radius: var(--radius-card);
+    --sds-figure-edge: var(--border-subtle);
+    --sds-figure-fill: var(--surface-sunken);
+    --sds-figure-caption-size: var(--aside-size);
+    --sds-figure-caption-leading: var(--aside-leading);
+    --sds-figure-caption-ink: var(--text-muted);
+    --sds-figure-caption-measure: var(--measure-prose);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-figure-gap);
+  }
   /* No padding: a drawing carries its own margin, so a frame that adds another
      indents it twice and it arrives smaller than it was drawn. The frame is a
      hairline and a corner; the fill is the ground under an image that does not
      fill it, and the clip keeps a full-bleed one inside the corner. */
   .sds-figure__frame {
-    border: var(--border-hairline) solid var(--border-subtle);
-    border-radius: var(--radius-card);
-    background: var(--surface-sunken);
+    border: var(--sds-figure-border) solid var(--sds-figure-edge);
+    border-radius: var(--sds-figure-radius);
+    background: var(--sds-figure-fill);
     overflow: hidden;
   }
   /* A picture that was never prepared to be referenced keeps the colours it was
@@ -25,9 +39,9 @@
   .sds-card__media--exported { background: var(--surface-art); }
 
   .sds-figure__caption {
-    font-size: var(--aside-size);
-    line-height: var(--aside-leading);
-    color: var(--text-muted);
-    max-width: var(--measure-prose);
+    max-width: var(--sds-figure-caption-measure);
+    color: var(--sds-figure-caption-ink);
+    font-size: var(--sds-figure-caption-size);
+    line-height: var(--sds-figure-caption-leading);
   }
 }
