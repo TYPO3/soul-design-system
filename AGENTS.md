@@ -389,6 +389,20 @@ that stops working for a reader stops the site.
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.
 
+**`make diff` cannot be trusted yet.** Two runs of the same code report ten to
+twenty changed cards, a different handful each time. What was measured: a card
+is sometimes painted in a fallback face — ten Ms at 10px measure 88.9 where the
+shipped face is 60 — while `document.fonts` reports every face `loaded` and
+`check()` true. Roughly one card per worker, and which one depends on the order
+the work was handed out. It is neither `fonts.ready` nor page reuse nor context
+reuse: a fresh page per card, a warm-up navigation and a reload-until-correct
+loop were each tried and none of them closed it. The untested hypothesis is the
+protocol — the cards are opened over `file://`, where Chromium treats a font
+fetch as cross-origin, and serving them over HTTP would take the question away.
+Until then the gate and the suite are what a change is proven against, and this
+is worth fixing because `fit`, `rhythm`, `heights` and `a11y` open cards the
+same way: a wrong face is a wrong measurement, not just a wrong picture.
+
 **Change a size or a gap** — `make rhythm` renders the screens and measures
 them against the scale and the grid, both read out of `packages/frontend/src/tokens/`
 so it cannot drift from them. `ARGS` names one screen, and the whole report is
