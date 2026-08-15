@@ -5,9 +5,24 @@
      the drop finds whatever is positioned above it — which in a bar is the bar,
      so it hung off the header's right edge rather than off the field. */
   .sds-search {
+    --sds-search-width: 260px;
+    --sds-search-panel-width: min(420px, 90vw);
+    --sds-search-panel-height: 60vh;
+    --sds-search-panel-gap: var(--space-2);
+    --sds-search-panel-pad: var(--space-2);
+    --sds-search-panel-z: 40;
+    --sds-search-border: var(--border-hairline);
+    --sds-search-radius: var(--radius-card);
+    --sds-search-edge: var(--border-subtle);
+    --sds-search-fill: var(--surface-raised);
+    --sds-search-shadow: var(--shadow-flyout);
+    --sds-search-thumb: 72px;
+    --sds-search-title-size: var(--block-title-size);
+    --sds-search-snippet-lines: 2;
+
     position: relative;
     display: inline-flex;
-    flex: 0 1 260px;
+    flex: 0 1 var(--sds-search-width);
     min-width: 0;
   }
   .sds-search .sds-field { width: 100%; }
@@ -17,46 +32,52 @@
      the one edge it is anchored to. */
   .sds-search .sds-search__panel {
     position: absolute;
-    top: calc(100% + var(--space-2));
+    top: calc(100% + var(--sds-search-panel-gap));
     inset-inline-end: 0;
-    z-index: 40;
-    width: min(420px, 90vw);
-    max-height: 60vh;
+    z-index: var(--sds-search-panel-z);
+    width: var(--sds-search-panel-width);
+    max-height: var(--sds-search-panel-height);
     overflow-y: auto;
     /* The frame's own air, and no more: what stands inside it is a run of boxes
        that carry theirs. */
-    padding: var(--space-2);
+    padding: var(--sds-search-panel-pad);
     /* Framed and raised, unlike the bar's drop. That one is the header's row
        continued, so it is the canvas and is bounded by the page edges it spans;
        this one floats over the text, and a box laid over a page has to be a
        plane above it — unframed and in the page's own colour it reads as the
        page itself having changed rather than as something laid on top. */
-    background: var(--surface-raised);
-    border: var(--border-hairline) solid var(--border-subtle);
-    border-radius: var(--radius-card);
+    background: var(--sds-search-fill);
+    border: var(--sds-search-border) solid var(--sds-search-edge);
+    border-radius: var(--sds-search-radius);
     /* And how far off the page it is, said the one way this system says it: a
        surface that has left the page carries a shadow, and this drop stands at
        the same distance as the one the bar opens. */
-    box-shadow: var(--shadow-flyout);
+    box-shadow: var(--sds-search-shadow);
   }
-  .sds-search__panel .sds-hits { margin-inline: 0; }
-  .sds-search__panel .sds-result { --sds-result-thumb: 72px; }
-  .sds-search__panel .sds-result__title { font-size: var(--block-title-size); }
+  .sds-search__panel .sds-hits { --sds-hits-bleed: 0px; }
+  .sds-search__panel .sds-result {
+    --sds-result-thumb: var(--sds-search-thumb);
+    --sds-result-title-size: var(--sds-search-title-size);
+  }
   /* Two lines of the sentence, and the rest cut. A drop is passed through on the
      way to a page: what is being read here is which page it is, and a paragraph
      per row is a page of reading in front of the one that was asked for. */
   .sds-search__panel .sds-result__text {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: var(--sds-search-snippet-lines);
+    line-clamp: var(--sds-search-snippet-lines);
     overflow: hidden;
   }
   /* An empty answer is a sentence, not a box in a box: whatever it hangs in is
      already the plane, and a second hairline inside it reads as a card that
      failed to fill. The measure goes too — the drop is narrower than a reading
      column and would wrap the sentence twice over. */
-  .sds-hits__empty { padding: var(--space-3); }
+  .sds-hits__empty {
+    --sds-hits-empty-pad: var(--space-3);
+
+    padding: var(--sds-hits-empty-pad);
+  }
   /* The sentence ends where the block ends: a paragraph's own margin under the
      last line is a second bottom, and the block already has one. */
   .sds-hits__empty p { max-width: none; margin-block: 0; }
