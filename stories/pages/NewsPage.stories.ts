@@ -174,14 +174,12 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="news">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1>News</h1>
-        <p class="sds-lead">
-          Releases, guides, and what the project decided. Every entry says which
-          release it holds for; nothing here is a roadmap.
-        </p>
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1>News</h1>
+      <p class="sds-lead">
+        Releases, guides, and what the project decided. Every entry says which
+        release it holds for; nothing here is a roadmap.
+      </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="entries">

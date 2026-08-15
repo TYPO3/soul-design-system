@@ -76,7 +76,7 @@
   :has(+h4){margin-block-end:var(--space-6)}
   :has(+:is(h5,h6)){margin-block-end:var(--space-5)}
   .sds-label:has(+:is(h1,h2,h3,h4,.sds-display,.sds-h1,.sds-h2,.sds-h3)){display:block;margin-block-end:var(--space-2)}
-  :is(h1,h2,.sds-display,.sds-h1,.sds-h2):has(+.sds-lead){margin-block-end:var(--space-2)}
+  :is(h1,h2,.sds-h1,.sds-h2):not(.sds-display):has(+.sds-lead){margin-block-end:var(--space-2)}
   li>ul,li>ol{margin-bottom:0}
   hr{border:0;border-top:var(--border-hairline) solid var(--border-subtle)}
 }

@@ -146,7 +146,9 @@
     display: block;
     margin-block-end: var(--space-2);
   }
-  :is(h1, h2, .sds-display, .sds-h1, .sds-h2):has(+ .sds-lead) { margin-block-end: var(--space-2); }
+  /* The display register keeps the flow step to its lead: at that size the
+     letters carry their own air, and 8px reads as the lead touching them. */
+  :is(h1, h2, .sds-h1, .sds-h2):not(.sds-display):has(+ .sds-lead) { margin-block-end: var(--space-2); }
 
   /* ------------------------------------------- what an element is -- */
 

@@ -147,16 +147,14 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
         <div class="sds-column">
           <!-- The label, the claim and the sentence under it are one thing and
                stand at one distance. -->
-          <div class="sds-stack sds-stack--tight">
-            <span class="sds-label">the glyph set</span>
-            <h1 class="sds-display">One mark per thing the backend does</h1>
-            <p class="sds-lead">
-              Search by what the thing does, not by what it looks like. Every
-              drawing is indexed by purpose as well as by name, so
-              <span class="sds-mono">bin</span> finds
-              <span class="sds-mono">actions-delete</span>.
-            </p>
-          </div>
+          <span class="sds-label">the glyph set</span>
+          <h1 class="sds-display">One mark per thing the backend does</h1>
+          <p class="sds-lead">
+            Search by what the thing does, not by what it looks like. Every
+            drawing is indexed by purpose as well as by name, so
+            <span class="sds-mono">bin</span> finds
+            <span class="sds-mono">actions-delete</span>.
+          </p>
           <!-- The control the page exists for, at the size a field is when it
                is what the screen is for rather than one row of a form. The
                group pays the steps the field and the actions do not carry. -->

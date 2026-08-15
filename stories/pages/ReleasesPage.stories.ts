@@ -188,25 +188,23 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="releases">
-      <div class="sds-stack">
-        <span class="sds-label">releases and support</span>
-        <h1 class="sds-display">What holds, and until when</h1>
-        <p class="sds-lead">
-          Every release, the phase it is in, and the date it stops getting
-          fixes. Dates already reached are facts; everything after the next
-          release is a plan, and this page says which is which.
-        </p>
-        <!-- The date the page was last true, at the top where a reader meets
-             it. A roadmap with no date is worse than none: nobody can tell a
-             plan from a leftover. -->
-        <sds-note
-          tone="info"
-          heading="As of ${AS_OF}"
-          .body="${html`Dates up to the next release are committed. Everything after it is
-            an estimate and moves${NNBSP}— it is on this page so you can plan against it,
-            not so you can hold us to it.`}"
-        ></sds-note>
-      </div>
+      <span class="sds-label">releases and support</span>
+      <h1 class="sds-display">What holds, and until when</h1>
+      <p class="sds-lead">
+        Every release, the phase it is in, and the date it stops getting
+        fixes. Dates already reached are facts; everything after the next
+        release is a plan, and this page says which is which.
+      </p>
+      <!-- The date the page was last true, at the top where a reader meets
+           it. A roadmap with no date is worse than none: nobody can tell a
+           plan from a leftover. -->
+      <sds-note
+        tone="info"
+        heading="As of ${AS_OF}"
+        .body="${html`Dates up to the next release are committed. Everything after it is
+          an estimate and moves${NNBSP}— it is on this page so you can plan against it,
+          not so you can hold us to it.`}"
+      ></sds-note>
     </section>
 
     <section class="sds-band sds-band--quiet" id="now">

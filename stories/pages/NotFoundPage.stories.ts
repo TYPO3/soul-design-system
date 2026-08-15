@@ -56,26 +56,24 @@ export function notFoundPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="gone">
-      <div class="sds-stack sds-stack--tight">
-        <span class="sds-label">404 · nothing at this address</span>
-        <h1>There is no page at this address</h1>
-        <p class="sds-lead">
-          <span class="sds-mono">/tools/typo3_label_lookup/v2</span> was read and the site
-          has nothing at it. Nothing here was removed — this path has never existed, so it
-          is not a link that rotted but one that was never right.
-        </p>
+      <span class="sds-label">404 · nothing at this address</span>
+      <h1>There is no page at this address</h1>
+      <p class="sds-lead">
+        <span class="sds-mono">/tools/typo3_label_lookup/v2</span> was read and the site
+        has nothing at it. Nothing here was removed — this path has never existed, so it
+        is not a link that rotted but one that was never right.
+      </p>
 
-        <div class="sds-row" id="search">
-          <sds-field
-            caption="Search the site"
-            field-id="q"
-            name="q"
-            value="A tool name, a release, or what you were looking for"
-            icon="actions-search"
-            min-width="420"
-            hint="Searches the documentation, the tool reference and the news. Not your installation."
-          ></sds-field>
-        </div>
+      <div class="sds-row" id="search">
+        <sds-field
+          caption="Search the site"
+          field-id="q"
+          name="q"
+          value="A tool name, a release, or what you were looking for"
+          icon="actions-search"
+          min-width="420"
+          hint="Searches the documentation, the tool reference and the news. Not your installation."
+        ></sds-field>
       </div>
     </section>
 

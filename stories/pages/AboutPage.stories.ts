@@ -82,16 +82,14 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="about">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1>Who is behind it</h1>
-        <p class="sds-lead">
-          A tool that answers questions about somebody else’s software has to
-          say who is answerable for the answers. This page is that, and the
-          three things that follow from it.
-        </p>
-        ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1>Who is behind it</h1>
+      <p class="sds-lead">
+        A tool that answers questions about somebody else’s software has to
+        say who is answerable for the answers. This page is that, and the
+        three things that follow from it.
+      </p>
+      ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
     </section>
 
     <section class="sds-band sds-band--quiet" id="people">

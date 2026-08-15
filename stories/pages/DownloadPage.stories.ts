@@ -131,15 +131,13 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="get">
       <div class="sds-split">
         <div class="sds-column">
-          <div class="sds-stack sds-stack--tight">
-            <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-            <h1>Get started</h1>
-            <p class="sds-lead">
-              One local process, started by your client. It needs PHP${NNBSP}8.2 or
-              newer and a TYPO3 project it can read — no daemon, no database of its
-              own, and no account anywhere.
-            </p>
-          </div>
+          <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+          <h1>Get started</h1>
+          <p class="sds-lead">
+            One local process, started by your client. It needs PHP${NNBSP}8.2 or
+            newer and a TYPO3 project it can read — no daemon, no database of its
+            own, and no account anywhere.
+          </p>
           <div class="sds-row">
             <sds-badge label="1.4.0" tone="accent"></sds-badge>
             <sds-badge label="MIT"></sds-badge>

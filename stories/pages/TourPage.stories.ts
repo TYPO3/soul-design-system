@@ -129,16 +129,14 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="tour">
-      <div class="sds-stack">
-        <span class="sds-label">a run, end to end</span>
-        <h1 class="sds-display">Four steps, and the third is the one that matters</h1>
-        <p class="sds-lead">
-          What actually happens between a question and an answer. Read it in
-          order — the fourth step means nothing without the first, which is why
-          this is a sequence and not a row of cards.
-        </p>
-        <div class="sds-actions">${actions}</div>
-      </div>
+      <span class="sds-label">a run, end to end</span>
+      <h1 class="sds-display">Four steps, and the third is the one that matters</h1>
+      <p class="sds-lead">
+        What actually happens between a question and an answer. Read it in
+        order — the fourth step means nothing without the first, which is why
+        this is a sequence and not a row of cards.
+      </p>
+      <div class="sds-actions">${actions}</div>
     </section>
 
     <section class="sds-band sds-band--quiet" id="run">

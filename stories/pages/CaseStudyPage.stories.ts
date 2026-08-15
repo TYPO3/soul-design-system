@@ -106,17 +106,15 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="case">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <!-- The outcome, not the name. Somebody scanning a list of these is
-             looking for their own situation. -->
-        <h1>How 340 editors stopped asking each other what an icon was called</h1>
-        <p class="sds-lead">
-          A municipal administration with fourteen sites, one installation and
-          no shared vocabulary. What changed, what it cost, and the two
-          departments it did not work for.
-        </p>
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <!-- The outcome, not the name. Somebody scanning a list of these is
+           looking for their own situation. -->
+      <h1>How 340 editors stopped asking each other what an icon was called</h1>
+      <p class="sds-lead">
+        A municipal administration with fourteen sites, one installation and
+        no shared vocabulary. What changed, what it cost, and the two
+        departments it did not work for.
+      </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="facts">

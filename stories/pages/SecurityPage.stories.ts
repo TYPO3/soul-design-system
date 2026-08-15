@@ -121,15 +121,13 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="security">
-      <div class="sds-stack">
-        <span class="sds-label">for security, data protection and procurement</span>
-        <h1 class="sds-display">It reads four things and sends one</h1>
-        <p class="sds-lead">
-          Every claim on this page can be checked against the source, which is
-          the whole argument for an open tool. What follows is the boundary,
-          the history, and the way to tell us we got it wrong.
-        </p>
-      </div>
+      <span class="sds-label">for security, data protection and procurement</span>
+      <h1 class="sds-display">It reads four things and sends one</h1>
+      <p class="sds-lead">
+        Every claim on this page can be checked against the source, which is
+        the whole argument for an open tool. What follows is the boundary,
+        the history, and the way to tell us we got it wrong.
+      </p>
     </section>
 
     <!-- First, not in the footer. A researcher who has found something and

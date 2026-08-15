@@ -115,23 +115,21 @@ export function sitemapPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="sitemap">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1>Sitemap</h1>
-        <p class="sds-lead">
-          Every page, and nothing that is not a page. It answers the question a
-          search box cannot: whether the thing you are looking for exists here
-          at all.
-        </p>
-        <sds-field
-          caption="Search instead"
-          field-id="q"
-          name="q"
-          value="A tool name, a release, or what you were looking for"
-          icon="actions-search"
-          min-width="420"
-        ></sds-field>
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1>Sitemap</h1>
+      <p class="sds-lead">
+        Every page, and nothing that is not a page. It answers the question a
+        search box cannot: whether the thing you are looking for exists here
+        at all.
+      </p>
+      <sds-field
+        caption="Search instead"
+        field-id="q"
+        name="q"
+        value="A tool name, a release, or what you were looking for"
+        icon="actions-search"
+        min-width="420"
+      ></sds-field>
     </section>
 
     <section class="sds-band sds-band--quiet" id="pages">

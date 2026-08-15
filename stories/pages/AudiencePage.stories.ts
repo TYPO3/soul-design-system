@@ -141,22 +141,20 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="audience">
-      <div class="sds-stack">
-        <!-- Which reader this page is written for, before the claim rather
-             than after it: somebody on the wrong page has already decided by
-             the time they reach a footer. -->
-        <div class="sds-row">
-          <span class="sds-label">written for</span>
-          ${switcher}
-        </div>
-        <h1 class="sds-display">${current?.lead}</h1>
-        <p class="sds-lead">
-          You did not choose this installation, you will not be the one using
-          it every day, and you will still be answering questions about it long
-          after both of those have changed. This page is about that.
-        </p>
-        <div class="sds-actions">${start}</div>
+      <!-- Which reader this page is written for, before the claim rather
+           than after it: somebody on the wrong page has already decided by
+           the time they reach a footer. -->
+      <div class="sds-row">
+        <span class="sds-label">written for</span>
+        ${switcher}
       </div>
+      <h1 class="sds-display">${current?.lead}</h1>
+      <p class="sds-lead">
+        You did not choose this installation, you will not be the one using
+        it every day, and you will still be answering questions about it long
+        after both of those have changed. This page is about that.
+      </p>
+      <div class="sds-actions">${start}</div>
     </section>
 
     <section class="sds-band sds-band--quiet" id="jobs">

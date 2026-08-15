@@ -188,15 +188,13 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="contact">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1>Report a wrong answer</h1>
-        <p class="sds-lead">
-          An answer that names its source can be checked, and one that is wrong
-          can be fixed in the source rather than argued about. This form is how
-          the second half of that happens.
-        </p>
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1>Report a wrong answer</h1>
+      <p class="sds-lead">
+        An answer that names its source can be checked, and one that is wrong
+        can be fixed in the source rather than argued about. This form is how
+        the second half of that happens.
+      </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="report">

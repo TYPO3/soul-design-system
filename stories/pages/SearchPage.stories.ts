@@ -127,20 +127,18 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="search">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1>Results for <span class="sds-mono">${QUERY}</span></h1>
-        <sds-field
-          caption="Search"
-          field-id="q"
-          name="q"
-          value="${QUERY}"
-          filled
-          icon="actions-search"
-          min-width="420"
-          hint="Searches the documentation, the tool reference, the changelog and the news."
-        ></sds-field>
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1>Results for <span class="sds-mono">${QUERY}</span></h1>
+      <sds-field
+        caption="Search"
+        field-id="q"
+        name="q"
+        value="${QUERY}"
+        filled
+        icon="actions-search"
+        min-width="420"
+        hint="Searches the documentation, the tool reference, the changelog and the news."
+      ></sds-field>
     </section>
 
     <section class="sds-band sds-band--quiet" id="hits">

@@ -130,15 +130,13 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
     </aside>
 
     <main class="sds-body__main" id="main-content">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1>Drawing a glyph</h1>
-        <p class="sds-lead">
-          What a drawing has to hold to look like it belongs to the set. These
-          are the rules a review checks against, in the order somebody drawing
-          their first glyph meets them.
-        </p>
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1>Drawing a glyph</h1>
+      <p class="sds-lead">
+        What a drawing has to hold to look like it belongs to the set. These
+        are the rules a review checks against, in the order somebody drawing
+        their first glyph meets them.
+      </p>
 
       <!-- What is on this page. The class that floats it beside the text is
            the document layer's, and a product surface links only the

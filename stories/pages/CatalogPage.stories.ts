@@ -14,6 +14,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/field.ts';
+import '../../packages/frontend/src/components/field-group.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/nav-pagination.ts';
 import '../../packages/frontend/src/components/nav-pills.ts';
@@ -141,6 +142,20 @@ export function catalogPage({ flat = false, facet = 0, onFacet }: CatalogPagePro
           @sds-change="${(e: CustomEvent<NavChange>) => onFacet?.(e.detail.index)}"
         ></sds-nav-pills>`;
 
+  /** What the finder's group holds: the field and the facet row that narrows
+      what it searches. One template for both renderings. */
+  const finder = (): TemplateResult => html`<sds-field
+      size="lg"
+      value="Search ${IN_ALL} glyphs by name or purpose"
+      icon="actions-search"
+      label="Search the glyph set"
+      min-width="420"
+    ></sds-field>
+    <div class="sds-row" id="glyphs">
+      ${facets()}
+      <span class="sds-label sds-row__end">${shown.length} of ${IN_ALL} glyphs</span>
+    </div>`;
+
   return html`<div class="sds-shell">
   ${skipLink()}
   ${siteBar(3, '#glyphs')}
@@ -151,29 +166,20 @@ export function catalogPage({ flat = false, facet = 0, onFacet }: CatalogPagePro
     </aside>
 
     <main class="sds-body__main" id="main-content">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1>Glyphs</h1>
-        <p class="sds-lead">
-          Every mark <span class="sds-mono">typo3_icon_lookup</span> can answer
-          with. Type what the thing does, not what it looks like — the drawings
-          are indexed by purpose as well as by name.
-        </p>
-        <!-- The control the page is built around, at the size a field is when
-             it is what the screen is for rather than one row of a form. -->
-        <sds-field
-          size="lg"
-          value="Search ${IN_ALL} glyphs by name or purpose"
-          icon="actions-search"
-          label="Search the glyph set"
-          min-width="420"
-        ></sds-field>
-      </div>
-
-      <div class="sds-row" id="glyphs">
-        ${facets()}
-        <span class="sds-label sds-row__end">${shown.length} of ${IN_ALL} glyphs</span>
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1>Glyphs</h1>
+      <p class="sds-lead">
+        Every mark <span class="sds-mono">typo3_icon_lookup</span> can answer
+        with. Type what the thing does, not what it looks like — the drawings
+        are indexed by purpose as well as by name.
+      </p>
+      <!-- The control the page is built around, at the size a field is when
+           it is what the screen is for rather than one row of a form. The
+           facets are the same apparatus, so the group holds both and pays
+           the steps neither carries. -->
+      ${flat
+        ? html`<sds-field-group .content="${finder()}"></sds-field-group>`
+        : html`<sds-field-group>${finder()}</sds-field-group>`}
 
       ${grid(tiles, { flat, variant: 'dense' })}
 

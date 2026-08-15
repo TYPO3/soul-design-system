@@ -127,18 +127,16 @@ export function catalogEntryPage({ flat = false }: PageMode = {}): TemplateResul
     </aside>
 
     <main class="sds-body__main" id="main-content">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1><span class="sds-mono">${GLYPH}</span></h1>
-        <p class="sds-lead">
-          Open a record for editing. The pencil on a sheet is the backend’s one
-          mark for “change this”, and nothing else in the set may wear it.
-        </p>
-        <div class="sds-row">
-          <span class="sds-label">Answers for</span>
-          ${RELEASES.map((release) => html`<sds-badge label="${release}"></sds-badge>`)}
-          <span class="sds-label sds-row__end">records${NNBSP}· since 1.11.0</span>
-        </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1><span class="sds-mono">${GLYPH}</span></h1>
+      <p class="sds-lead">
+        Open a record for editing. The pencil on a sheet is the backend’s one
+        mark for “change this”, and nothing else in the set may wear it.
+      </p>
+      <div class="sds-row">
+        <span class="sds-label">Answers for</span>
+        ${RELEASES.map((release) => html`<sds-badge label="${release}"></sds-badge>`)}
+        <span class="sds-label sds-row__end">records${NNBSP}· since 1.11.0</span>
       </div>
 
       <h2 class="sds-h3">In both modes</h2>

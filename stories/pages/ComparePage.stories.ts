@@ -87,15 +87,13 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="compare">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1>Which way to run it</h1>
-        <p class="sds-lead">
-          The same server, started from three places. They differ in what is
-          running around it, which is the only thing that decides what it can
-          answer — there is no edition, no tier, and nothing to buy.
-        </p>
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1>Which way to run it</h1>
+      <p class="sds-lead">
+        The same server, started from three places. They differ in what is
+        running around it, which is the only thing that decides what it can
+        answer — there is no edition, no tier, and nothing to buy.
+      </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="ways">

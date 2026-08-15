@@ -66,15 +66,13 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="questions">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <h1>Questions</h1>
-        <p class="sds-lead">
-          The ones that arrive by email every week, answered here so they do not
-          have to be. Every answer holds for the releases named in it; where one
-          does not hold any more it is changed rather than left standing.
-        </p>
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <h1>Questions</h1>
+      <p class="sds-lead">
+        The ones that arrive by email every week, answered here so they do not
+        have to be. Every answer holds for the releases named in it; where one
+        does not hold any more it is changed rather than left standing.
+      </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="machine">
