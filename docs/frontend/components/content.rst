@@ -13,6 +13,25 @@ fill and a hairline, and a container never shares its corner with its contents
 — which is why the card radius is one step larger than the control radius, and
 why nothing here sets either by hand.
 
+.. _component-sds-eyebrow:
+
+sds-eyebrow
+===========
+
+The line over a title, saying what kind of thing it opens — ``FEATURE``,
+``STEP 02``, ``THE GLYPH SET``. The label register standing as a block: it
+carries the title group's step itself, so a hero composes loose and the
+eyebrow still hugs its heading.
+
+.. code-block:: html
+
+   <sds-eyebrow label="Feature"></sds-eyebrow>
+   <h1 class="sds-display">Every answer says where it came from</h1>
+
+``sds-label`` stays the word in a line — a stat's caption, a row's tag, a
+column heading. What turns the register into an eyebrow is standing over a
+title, and that is a thing to say in markup rather than a position to infer.
+
 .. _component-sds-surface:
 
 sds-surface

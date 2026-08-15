@@ -17,6 +17,7 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/accordion.ts';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
@@ -168,7 +169,7 @@ export function plansPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="plans">
-      <span class="sds-label">what it costs</span>
+      <sds-eyebrow label="what it costs"></sds-eyebrow>
       <h1 class="sds-display">Free, and the paid one is the same program</h1>
       <p class="sds-lead">
         What you pay for is answers about releases nobody else still builds

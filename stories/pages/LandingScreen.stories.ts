@@ -325,15 +325,12 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           <div class="sds-actions">${start}</div>
         </div>
         <div class="sds-column">
-          <div class="sds-stack">
-            <span class="sds-label">Install</span>
-            <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
-            <p>
-              Pin a version where you depend on it. The class layer is the
-              contract; the elements are how a page that runs JavaScript gets
-              it without writing the markup out.
-            </p>
-          </div>
+          <sds-code caption="Install" code-lang="bash" .body="${INSTALL}" copy></sds-code>
+          <p>
+            Pin a version where you depend on it. The class layer is the
+            contract; the elements are how a page that runs JavaScript gets
+            it without writing the markup out.
+          </p>
         </div>
       </div>
     </section>

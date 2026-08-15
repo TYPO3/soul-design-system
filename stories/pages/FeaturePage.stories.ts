@@ -13,6 +13,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/code.ts';
+import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/figure.ts';
 import '../../packages/frontend/src/components/link.ts';
@@ -136,7 +137,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
       <!-- Composed loose on purpose: every part of a title group carries its
            own step, so the band needs no stack to hold them together. -->
       <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-      <span class="sds-label">Feature</span>
+      <sds-eyebrow label="Feature"></sds-eyebrow>
       <h1 class="sds-display">Every answer says where it came from</h1>
       <p class="sds-lead">
         A tool declares the sources it may answer from. The answer carries the
@@ -197,16 +198,13 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
           ></sds-note>
         </div>
         <div class="sds-column">
-          <div class="sds-stack">
-            <span class="sds-label">A degraded result</span>
-            <sds-code code-lang="json" source="${RESULT}" copy></sds-code>
-            <p>
-              <span class="sds-mono">declared</span> is what the tool was allowed
-              to read; <span class="sds-mono">answeredBy</span> is what it
-              reached. The two differing is the whole of what “degraded” means
-              here.
-            </p>
-          </div>
+          <sds-code caption="A degraded result" code-lang="json" source="${RESULT}" copy></sds-code>
+          <p>
+            <span class="sds-mono">declared</span> is what the tool was allowed
+            to read; <span class="sds-mono">answeredBy</span> is what it
+            reached. The two differing is the whole of what “degraded” means
+            here.
+          </p>
         </div>
       </div>
     </section>
@@ -281,15 +279,12 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
           <div class="sds-actions">${start}</div>
         </div>
         <div class="sds-column">
-          <div class="sds-stack">
-            <span class="sds-label">Install</span>
-            <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
-            <p>
-              The tools register themselves with their declared sources. One
-              that cannot reach any of them says so at registration rather than
-              in the middle of an answer.
-            </p>
-          </div>
+          <sds-code caption="Install" code-lang="bash" .body="${INSTALL}" copy></sds-code>
+          <p>
+            The tools register themselves with their declared sources. One
+            that cannot reach any of them says so at registration rather than
+            in the middle of an answer.
+          </p>
         </div>
       </div>
     </section>

@@ -19,6 +19,7 @@ import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/code.ts';
 import '../../packages/frontend/src/components/confval.ts';
+import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/figure.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/table.ts';
@@ -121,7 +122,7 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="security">
-      <span class="sds-label">for security, data protection and procurement</span>
+      <sds-eyebrow label="for security, data protection and procurement"></sds-eyebrow>
       <h1 class="sds-display">It reads four things and sends one</h1>
       <p class="sds-lead">
         Every claim on this page can be checked against the source, which is

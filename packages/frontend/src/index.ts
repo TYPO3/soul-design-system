@@ -12,6 +12,7 @@ import './components/search.ts';
 import './components/theme.ts';
 import './components/button.ts';
 import './components/badge.ts';
+import './components/eyebrow.ts';
 import './components/link.ts';
 import './components/nav-breadcrumb.ts';
 import './components/field.ts';
@@ -60,6 +61,7 @@ export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './c
 export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.ts';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts';
+export { SdsEyebrow, type EyebrowProps } from './components/eyebrow.ts';
 export { SdsLink, type LinkProps } from './components/link.ts';
 export { SdsNavBreadcrumb, type CrumbsProps, type Crumb } from './components/nav-breadcrumb.ts';
 export { SdsField, fieldClass, type FieldProps } from './components/field.ts';
@@ -117,6 +119,7 @@ export const TAGS = [
   'sds-theme',
   'sds-button',
   'sds-badge',
+  'sds-eyebrow',
   'sds-link',
   'sds-nav-breadcrumb',
   'sds-field',

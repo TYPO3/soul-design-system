@@ -1,0 +1,31 @@
+/* sds-eyebrow — the line over a title, saying what kind of thing it opens. */
+
+/* What this element is in a flow — three lines that only mean anything
+   together: the element carries the step, the box it always renders inside
+   itself gives that up, and the same box standing alone carries it. In `base`,
+   because a container in `layout` takes the step back and a step stated in
+   `components` would win over the container that already paid the gap. The
+   step is the title group's own: an eyebrow is read with what stands under it. */
+@layer base {
+  sds-eyebrow { display: block; min-width: 0; margin-bottom: var(--space-2); }
+  sds-eyebrow > .sds-eyebrow { margin-bottom: 0; }
+  .sds-eyebrow { margin: 0 0 var(--space-2); }
+}
+
+@layer components {
+  /* The label register, as a block: an eyebrow is scanned before the title
+     and never read instead of it, so it keeps the register's size and ink. */
+  .sds-eyebrow {
+    --sds-eyebrow-font: var(--font-mono);
+    --sds-eyebrow-font-size: var(--font-size-label);
+    --sds-eyebrow-tracking: var(--tracking-label);
+    --sds-eyebrow-ink: var(--text-muted);
+
+    display: block;
+    font-family: var(--sds-eyebrow-font);
+    font-size: var(--sds-eyebrow-font-size);
+    letter-spacing: var(--sds-eyebrow-tracking);
+    text-transform: uppercase;
+    color: var(--sds-eyebrow-ink);
+  }
+}

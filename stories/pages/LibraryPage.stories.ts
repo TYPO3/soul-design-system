@@ -13,6 +13,7 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/code.ts';
+import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/field-group.ts';
 import '../../packages/frontend/src/components/icon-tile.ts';
@@ -147,7 +148,7 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
         <div class="sds-column">
           <!-- The label, the claim and the sentence under it are one thing and
                stand at one distance. -->
-          <span class="sds-label">the glyph set</span>
+          <sds-eyebrow label="the glyph set"></sds-eyebrow>
           <h1 class="sds-display">One mark per thing the backend does</h1>
           <p class="sds-lead">
             Search by what the thing does, not by what it looks like. Every

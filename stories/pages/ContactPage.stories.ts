@@ -14,6 +14,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/checkbox.ts';
+import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/form-errors.ts';
@@ -204,15 +205,13 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
         <div class="sds-column">${state === 'sent' ? sent : form}</div>
 
         <div class="sds-column">
-          <div class="sds-stack">
-            <span class="sds-label">What happens to it</span>
-            <p>
+          <sds-eyebrow label="What happens to it"></sds-eyebrow>
+          <p>
             It is read by a person. Where the answer came from bundled
             knowledge, the fix is a change to that knowledge and ships with the
             next release; where it came from your installation, the reply says
             what the tool read and why it read that.
           </p>
-          </div>
           <sds-note
             heading="Nothing is collected that you did not attach"
             .body="${html`The scope is the only thing beyond the six answers, it is optional,

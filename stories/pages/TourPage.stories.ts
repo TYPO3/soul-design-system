@@ -18,6 +18,7 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/embed.ts';
+import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/image.ts';
 import '../../packages/frontend/src/components/nav-pager.ts';
 import '../../packages/frontend/src/components/note.ts';
@@ -93,12 +94,8 @@ const step = (one: Step, i: number): TemplateResult => html`<section
 >
   <div class="sds-split sds-split--center${i % 2 ? ' sds-split--leads-end' : ''}">
     <div class="sds-column">
-      <!-- The label and the heading it names are one thing; what follows them
-           is ranked by the column. -->
-      <div class="sds-stack sds-stack--tight">
-        <span class="sds-label">${one.label}</span>
-        <h2>${one.heading}</h2>
-      </div>
+      <sds-eyebrow label="${one.label}"></sds-eyebrow>
+      <h2>${one.heading}</h2>
       <p>${one.body}</p>
       <div class="sds-row">
         <sds-badge label="${one.fact}"></sds-badge>
@@ -129,7 +126,7 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="tour">
-      <span class="sds-label">a run, end to end</span>
+      <sds-eyebrow label="a run, end to end"></sds-eyebrow>
       <h1 class="sds-display">Four steps, and the third is the one that matters</h1>
       <p class="sds-lead">
         What actually happens between a question and an answer. Read it in

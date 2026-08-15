@@ -138,16 +138,12 @@
   :has(+ h4) { margin-block-end: var(--space-6); }
   :has(+ :is(h5, h6)) { margin-block-end: var(--space-5); }
 
-  /* A title is one thing — the trail, the eyebrow, the heading, the lead —
-     and its parts stand at one step wherever a page composes them, loose in a
-     flow included. A stack that regroups them takes these back like any other
-     margin, which is why they are stated here and not one layer up. */
-  .sds-label:has(+ :is(h1, h2, h3, h4, .sds-display, .sds-h1, .sds-h2, .sds-h3)) {
-    display: block;
-    margin-block-end: var(--space-2);
-  }
-  /* The display register keeps the flow step to its lead: at that size the
-     letters carry their own air, and 8px reads as the lead touching them. */
+  /* A title and its lead are one thing, so the pair closes to the title
+     group's step — stated here, one direction, where a container that pays
+     the gap takes it back. The display register is the exception and keeps
+     the flow step: at that size the letters carry their own air, and 8px
+     reads as the lead touching them. The trail and the eyebrow carry their
+     steps in their own files. */
   :is(h1, h2, .sds-h1, .sds-h2):not(.sds-display):has(+ .sds-lead) { margin-block-end: var(--space-2); }
 
   /* ------------------------------------------- what an element is -- */

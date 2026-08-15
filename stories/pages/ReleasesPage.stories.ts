@@ -17,6 +17,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/surface.ts';
@@ -188,7 +189,7 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="releases">
-      <span class="sds-label">releases and support</span>
+      <sds-eyebrow label="releases and support"></sds-eyebrow>
       <h1 class="sds-display">What holds, and until when</h1>
       <p class="sds-lead">
         Every release, the phase it is in, and the date it stops getting

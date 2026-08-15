@@ -14,6 +14,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
+import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/card.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
@@ -56,7 +57,7 @@ export function notFoundPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="gone">
-      <span class="sds-label">404 · nothing at this address</span>
+      <sds-eyebrow label="404 · nothing at this address"></sds-eyebrow>
       <h1>There is no page at this address</h1>
       <p class="sds-lead">
         <span class="sds-mono">/tools/typo3_label_lookup/v2</span> was read and the site

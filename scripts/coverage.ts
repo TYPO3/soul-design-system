@@ -41,6 +41,9 @@ const PENDING = {
    Held to `PENDING`'s discipline from the other side: one of these turning up
    in the render is this classification being wrong, and the check says so. */
 const ELSEWHERE = [
+  /* A document's headings carry no kind-line: what a section is, its heading
+     says. The eyebrow is product-page furniture. */
+  'sds-eyebrow',
   /* A page is read, not filled in. The bar's search draws `.sds-field`, which
      is the class layer's name and not this element. */
   'sds-field',

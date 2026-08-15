@@ -21,7 +21,7 @@ Two rules follow, and both are load-bearing:
 
 | | |
 |---|---|
-| Text | `sds-icon` `sds-link` |
+| Text | `sds-icon` `sds-link` `sds-eyebrow` — the eyebrow is the line over a title, in the label register as a block; it carries the title group's step itself, where `sds-label` stays the word in a line |
 | Brand, chrome | `sds-theme` |
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-group` `sds-field-error` `sds-checkbox` `sds-radio` `sds-form-errors` — `sds-field-group` is a control and what stands with it on a page (the field, a row of actions, a hint) at the normal step; a field or a row of actions alone owes none, so loose they touch |
 | Navigation | `sds-nav-pills` `sds-nav-main` `sds-tabs`/`sds-tab-item` `sds-nav-rail` `sds-nav-toc` `sds-nav-breadcrumb` `sds-footer` `sds-accordion`/`sds-accordion-item` `sds-search`/`sds-search-hits` — `sds-nav-main` is the whole bar: it is handed the site as one `MenuEntry` with everything under it, measures what still fits, opens a section's pages in a drop or a wall under the row, and on a phone steps through the menu a level at a time in one drawer. Search fetches its index on the first keystroke and drops `sds-search-hits` under the field; that element is handed the hits and draws them as `sds-search-result` rows, so a page of results and the drop are the same list. `sds-nav-toc` is what is on the page being read, and the one navigation that finds its own current entry: it marks the section the reader has scrolled to |
@@ -78,7 +78,7 @@ inline styles — do not mint a `sds-` name.
 
 | Family | Classes |
 |---|---|
-| Root, text | `sds-app` `sds-prose` `sds-label` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--16` `sds-icon--20` `sds-icon--24` `sds-icon--muted` |
+| Root, text | `sds-app` `sds-prose` `sds-label` `sds-eyebrow` `sds-mono` `sds-link` `sds-link--external` `sds-icon` `sds-icon--16` `sds-icon--20` `sds-icon--24` `sds-icon--muted` |
 | Type | `sds-display` `sds-h1` `sds-h2` `sds-h3` `sds-lead` |
 | Bullets | `sds-list` for air between items, `sds-list--plain` for a list of links — a bare `ul`/`ol` is already set, marker and indent included, so neither is needed to make a list look right |
 | Layout | `sds-shell` `sds-skip` — the link above the bar that jumps to the page's `<main id="main-content">`, and every page shell has one — `sds-bar`/`sds-bar__end`/`sds-bar__nav`/`sds-bar__section`/`sds-bar__section--drop`/`sds-bar__fold`/`sds-bar__panel`/`sds-bar__link`/`sds-bar__level`/`sds-bar__row`/`sds-bar__into`/`sds-bar__back`/`sds-bar__toggle`/`sds-bar__drawer`, written by `sds-nav-main` and never by a page — a hand-written row cannot measure itself and so cannot fold; `sds-body`/`sds-body__rail` `sds-column` `sds-page` `sds-foot` `sds-sections` `sds-stack` `sds-row` `sds-actions` `sds-split` `sds-grid` `sds-grid--wide` `sds-grid--dense` `sds-grid--flush` — the first two say how much room a card in the grid needs, never how many columns to draw; the third takes the gutter out, so the cards share a hairline and the set reads as one block. Written by `sds-grid`, not by a page |

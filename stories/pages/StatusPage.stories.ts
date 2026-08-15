@@ -89,19 +89,17 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="status">
-      <div class="sds-stack sds-stack--tight">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <div class="sds-row">
-          <h1>Status</h1>
-          <sds-badge label="one source degraded" tone="warn"></sds-badge>
-        </div>
-        <p class="sds-lead">
-          Nothing here is a service you depend on being up: the server runs on
-          your machine. What this page can report is which of the sources it may
-          read are reachable from outside, and one of them is not.
-        </p>
-        ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <div class="sds-row">
+        <h1>Status</h1>
+        <sds-badge label="one source degraded" tone="warn"></sds-badge>
       </div>
+      <p class="sds-lead">
+        Nothing here is a service you depend on being up: the server runs on
+        your machine. What this page can report is which of the sources it may
+        read are reachable from outside, and one of them is not.
+      </p>
+      ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
     </section>
 
     <section class="sds-band sds-band--quiet" id="sources">
