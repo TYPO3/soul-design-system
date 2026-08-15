@@ -2,73 +2,88 @@
 
 @layer components {
   /* A code block is a control-scale object: --radius-control, not the card
-     radius. Sunken, because it is machine output. */
-  /* A block never widens the column it sits in. Its longest line is its
+     radius. Sunken, because it is machine output.
+
+     A block never widens the column it sits in. Its longest line is its
      min-content width, and in a flex column that becomes a floor the whole page
      is measured against — which is how a 1080px column with a 40-character
      command in it pushed a 1440px page sideways. The body already scrolls; this
      is what lets it. */
   .sds-code {
+    --sds-code-pad-y: var(--block-pad-y);
+    --sds-code-pad-y-tight: var(--block-pad-y-tight);
+    --sds-code-pad-x: var(--block-pad-x);
+    --sds-code-gap: var(--control-gap);
+    --sds-code-border: var(--border-hairline);
+    --sds-code-radius: var(--radius-control);
+    --sds-code-rule: var(--border-subtle);
+    --sds-code-fill: var(--surface-sunken);
+    --sds-code-glyph: var(--control-icon-size);
+    --sds-code-font: var(--font-mono);
+    --sds-code-head-size: var(--font-size-label);
+    --sds-code-head-tracking: var(--tracking-label);
+    --sds-code-head-ink: var(--text-muted);
+    --sds-code-head-ink-hover: var(--text-primary);
+    --sds-code-body-size: var(--font-size-dense);
+    --sds-code-body-leading: var(--leading-code);
+    --sds-code-body-ink: var(--text-secondary);
+    --sds-code-caption-size: var(--aside-size);
+
     min-width: 0;
     max-width: 100%;
-    border: var(--border-hairline) solid var(--border-subtle);
-    background: var(--surface-sunken);
-    border-radius: var(--radius-control);
+    border: var(--sds-code-border) solid var(--sds-code-rule);
+    background: var(--sds-code-fill);
+    border-radius: var(--sds-code-radius);
     overflow: hidden;
   }
   .sds-code__head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--control-gap);
-    padding: var(--block-pad-y-tight) var(--block-pad-x);
-    border-bottom: var(--border-hairline) solid var(--border-subtle);
-    color: var(--text-muted);
+    gap: var(--sds-code-gap);
+    padding: var(--sds-code-pad-y-tight) var(--sds-code-pad-x);
+    border-bottom: var(--sds-code-border) solid var(--sds-code-rule);
+    color: var(--sds-code-head-ink);
   }
+  /* The floor, not the label's size: the head sets in the label register at
+     11px, and the copy button and the diff's file mark are controls rather
+     than words. Same reason as the rail's fold marker. */
+  .sds-code__head .sds-icon { --sds-icon-size: var(--sds-code-glyph); }
   /* The language a block is in, and the one affordance its head carries. Both
      set in the label register — mono, small, tracked, upper case — because a
      head is machine metadata and not a sentence. */
-  .sds-code__head .sds-icon {
-    /* The floor, not the label's size: the head sets in the label register at
-       11px, and the copy button and the diff's file mark are controls rather
-       than words. Same reason as the rail's fold marker. */
-    width: var(--control-icon-size);
-    height: var(--control-icon-size);
-  }
   .sds-code__lang {
-    font-family: var(--font-mono);
-    font-size: var(--font-size-label);
-    letter-spacing: var(--tracking-label);
+    font-family: var(--sds-code-font);
+    font-size: var(--sds-code-head-size);
+    letter-spacing: var(--sds-code-head-tracking);
     text-transform: uppercase;
   }
   /* The file a diff is of, in the same head and the same register — but not
      upper case, because a path is a name the machine owns and typing it in
-     another case makes it a different path. `.sds-label` would have shouted it;
-     `spec-cap` was what this used, and that class is in the annotation layer,
-     so every product surface with a diff on it got an unstyled caption. */
+     another case makes it a different path. */
   .sds-code__path {
-    font-family: var(--font-mono);
-    font-size: var(--font-size-label);
-    letter-spacing: var(--tracking-label);
-    color: var(--text-muted);
+    font-family: var(--sds-code-font);
+    font-size: var(--sds-code-head-size);
+    letter-spacing: var(--sds-code-head-tracking);
+    color: var(--sds-code-head-ink);
   }
   /* Copying a block is the component's job, not the page's. */
   .sds-code__copy {
     display: inline-flex;
     align-items: center;
     gap: var(--space-1-5);
-    font-family: var(--font-mono);
-    font-size: var(--font-size-label);
-    letter-spacing: var(--tracking-label);
+    font-family: var(--sds-code-font);
+    font-size: var(--sds-code-head-size);
+    letter-spacing: var(--sds-code-head-tracking);
     text-transform: uppercase;
     cursor: pointer;
-    color: var(--text-muted);
+    color: var(--sds-code-head-ink);
     background: none;
     border: 0;
     padding: 0;
     transition: color var(--duration-fast) var(--ease-out);
   }
-  .sds-code__copy:hover { color: var(--text-primary); }
+  .sds-code__copy:hover { color: var(--sds-code-head-ink-hover); }
   /* Copied is a changed glyph, not a changed colour on the same one: the check
      replaces the duplicate rather than sitting beside it. */
   .sds-code__glyph,
@@ -85,11 +100,11 @@
   .sds-code__body {
     margin: 0;
     min-width: 0;
-    padding: var(--block-pad-y) var(--block-pad-x);
-    font-family: var(--font-mono);
-    font-size: var(--font-size-dense);
-    line-height: var(--leading-code);
-    color: var(--text-secondary);
+    padding: var(--sds-code-pad-y) var(--sds-code-pad-x);
+    font-family: var(--sds-code-font);
+    font-size: var(--sds-code-body-size);
+    line-height: var(--sds-code-body-leading);
+    color: var(--sds-code-body-ink);
     overflow-x: auto;
   }
   /* The shell prompt is one of the three places the accent is allowed. */
@@ -100,8 +115,8 @@
 
   /* What the block is, above it. */
   .sds-code__caption {
-    font-size: var(--aside-size);
-    color: var(--text-muted);
+    font-size: var(--sds-code-caption-size);
+    color: var(--sds-code-head-ink);
     margin-bottom: var(--space-2);
   }
 
@@ -150,24 +165,32 @@
 
   /* Diff: the one place a status colour may fill a whole line. */
   .sds-diff {
+    --sds-diff-pad-x: var(--space-4);
+    --sds-diff-font: var(--font-mono);
+    --sds-diff-font-size: var(--diff-font-size);
+    --sds-diff-leading: var(--diff-leading);
+    --sds-diff-tint: var(--diff-tint);
+    --sds-diff-ink: var(--text-muted);
+    --sds-diff-ink-changed: var(--text-secondary);
+
     margin: 0;
-    font-family: var(--font-mono);
-    font-size: var(--diff-font-size);
-    line-height: var(--diff-leading);
+    font-family: var(--sds-diff-font);
+    font-size: var(--sds-diff-font-size);
+    line-height: var(--sds-diff-leading);
     overflow-x: auto;
   }
   .sds-diff__line {
     display: block;
-    padding: 0 var(--space-4);
-    color: var(--text-muted);
+    padding: 0 var(--sds-diff-pad-x);
+    color: var(--sds-diff-ink);
   }
   .sds-diff__line--add {
-    background: color-mix(in oklch, var(--status-ok) var(--diff-tint), transparent);
-    color: var(--text-secondary);
+    background: color-mix(in oklch, var(--status-ok) var(--sds-diff-tint), transparent);
+    color: var(--sds-diff-ink-changed);
   }
   .sds-diff__line--del {
-    background: color-mix(in oklch, var(--status-error) var(--diff-tint), transparent);
-    color: var(--text-secondary);
+    background: color-mix(in oklch, var(--status-error) var(--sds-diff-tint), transparent);
+    color: var(--sds-diff-ink-changed);
   }
   .sds-diff__line--add .sds-diff__mark { color: var(--status-ok); }
   .sds-diff__line--del .sds-diff__mark { color: var(--status-error); }

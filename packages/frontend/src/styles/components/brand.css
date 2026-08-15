@@ -12,37 +12,52 @@
   .sds-signet--muted { color: var(--text-secondary); }
 
   /* Signet, wordmark, one orange pipe. The pipe is the third and last place
-     the accent is allowed to appear. */
-  /* A lockup is a signet and a wordmark on one baseline. It carries the page's
+     the accent is allowed to appear.
+
+     A lockup is a signet and a wordmark on one baseline. It carries the page's
      ink and no link decoration, because it is nearly always the link home and
      an anchor would otherwise hand it the browser's blue — which the signet
      then draws itself in, since its ink is `currentColor`. */
   .sds-lockup {
+    /* The mark in a lockup is 24, said by the lockup rather than by every page
+       that writes one: a signet is crisp only at the size its file is drawn
+       for, and a number left to the call site drifts into 20 in one header and
+       22 in the next. The element states the same size, so a surface with no
+       stylesheet gets it. */
+    --sds-lockup-signet-size: 24px;
+    --sds-lockup-gap: var(--space-2-5);
+    --sds-lockup-ink: var(--text-primary);
+
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2-5);
-    color: var(--text-primary);
+    gap: var(--sds-lockup-gap);
+    color: var(--sds-lockup-ink);
     text-decoration: none;
   }
   .sds-lockup:hover { text-decoration: none; }
-  /* The mark in a lockup is 24, said by the lockup rather than by every page that
-     writes one: a signet is crisp only at the size its file is drawn for, and a
-     number left to the call site drifts into 20 in one header and 22 in the next.
-     The element states the same size, so a surface with no stylesheet gets it. */
   .sds-lockup .sds-signet {
-    width: 24px;
-    height: 24px;
+    width: var(--sds-lockup-signet-size);
+    height: var(--sds-lockup-signet-size);
   }
   /* One line, always. A mark is read as a mark because it is one shape; folded
      over two lines it is two words that happen to be near each other, and in a
      bar of a fixed height the second one is half outside it. */
   .sds-wordmark {
+    --sds-wordmark-gap: var(--space-1-5);
+    --sds-wordmark-weight: var(--weight-semibold);
+    --sds-wordmark-tracking: var(--tracking-heading);
+    --sds-wordmark-ink: var(--text-primary);
+    --sds-wordmark-pipe-width: 2px;
+    --sds-wordmark-pipe-fill: var(--accent);
+    --sds-wordmark-product-weight: var(--weight-light);
+    --sds-wordmark-product-ink: var(--text-secondary);
+
     display: inline-flex;
     align-items: baseline;
-    gap: var(--space-1-5);
-    font-weight: var(--weight-semibold);
-    letter-spacing: var(--tracking-heading);
-    color: var(--text-primary);
+    gap: var(--sds-wordmark-gap);
+    font-weight: var(--sds-wordmark-weight);
+    letter-spacing: var(--sds-wordmark-tracking);
+    color: var(--sds-wordmark-ink);
     white-space: nowrap;
   }
   /* Whose it is. It keeps its letters whatever the bar does — the half that
@@ -51,17 +66,17 @@
   .sds-wordmark__brand { flex: none; }
   .sds-wordmark__pipe {
     display: inline-block;
-    width: 2px;
+    width: var(--sds-wordmark-pipe-width);
     align-self: stretch;
-    background: var(--accent);
+    background: var(--sds-wordmark-pipe-fill);
   }
   /* The half that gives, and gives by ending rather than overflowing: the bar
      puts a floor of zero under everything in it, so a lockup narrower than its
      own name spills its letters over whatever is beside it. Cut with an ellipsis,
      the mark stays in the box it was given. */
   .sds-wordmark__product {
-    font-weight: var(--weight-light);
-    color: var(--text-secondary);
+    font-weight: var(--sds-wordmark-product-weight);
+    color: var(--sds-wordmark-product-ink);
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;

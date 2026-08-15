@@ -5,36 +5,58 @@
      leaves out. This block is the shape that carries exactly that: an icon
      in the status colour, a title, and a bounded note. */
   .sds-note {
+    --sds-note-pad-y: var(--block-pad-y);
+    --sds-note-pad-x: var(--block-pad-x);
+    --sds-note-gap: var(--space-3);
+    --sds-note-border: var(--border-hairline);
+    --sds-note-radius: var(--radius-card);
+    --sds-note-edge: var(--border-subtle);
+    --sds-note-fill: transparent;
+    --sds-note-glyph: var(--control-icon-size);
+    --sds-note-mark-ink: var(--text-muted);
+    --sds-note-title-size: var(--block-title-size);
+    --sds-note-title-weight: var(--weight-semibold);
+    --sds-note-title-leading: var(--leading-heading);
+    --sds-note-body-size: var(--block-body-size);
+    --sds-note-body-leading: var(--leading-body);
+    --sds-note-body-ink: var(--text-secondary);
+    --sds-note-body-lead: var(--space-1);
+
     display: flex;
-    gap: var(--space-3);
-    border: var(--border-hairline) solid var(--border-subtle);
-    border-radius: var(--radius-card);
-    padding: var(--block-pad-y) var(--block-pad-x);
+    gap: var(--sds-note-gap);
+    border: var(--sds-note-border) solid var(--sds-note-edge);
+    border-radius: var(--sds-note-radius);
+    background: var(--sds-note-fill);
+    padding: var(--sds-note-pad-y) var(--sds-note-pad-x);
   }
   /* The glyph is centred on the *title's* line, so it is given that line: an
      icon in a flex row otherwise measures whatever line-height it inherited. */
   .sds-note__icon {
     flex: none;
-    font-size: var(--block-title-size);
-    line-height: var(--leading-heading);
-    margin-top: calc((1lh - var(--control-icon-size)) / 2);
-    color: var(--text-muted);
+    font-size: var(--sds-note-title-size);
+    line-height: var(--sds-note-title-leading);
+    margin-top: calc((1lh - var(--sds-note-glyph)) / 2);
+    color: var(--sds-note-mark-ink);
   }
   /* The floor, not the surrounding text's size: a note sits in a page whose
      body copy is 16px, and an icon that follows it is larger than the title it
      stands beside. Same reason the code head pins its own. */
-  .sds-note__icon .sds-icon { width: var(--control-icon-size); height: var(--control-icon-size); }
+  .sds-note__icon .sds-icon { --sds-icon-size: var(--sds-note-glyph); }
   /* Everything beside the glyph. `min-width: 0` because a flex item's floor is
      its widest content, and a note in a document can hold a code block — which
      would otherwise make its longest line the width of the note, and the note
      the width of the page. Same reason `.sds-code` states it. */
   .sds-note__content { min-width: 0; }
-  .sds-note__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
+  .sds-note__title {
+    font-size: var(--sds-note-title-size);
+    font-weight: var(--sds-note-title-weight);
+    line-height: var(--sds-note-title-leading);
+  }
   .sds-note__body {
-    font-size: var(--block-body-size);
-    line-height: var(--leading-body);
-    color: var(--text-secondary);
-    padding-block-start: var(--space-1);
+    font-size: var(--sds-note-body-size);
+    line-height: var(--sds-note-body-leading);
+    color: var(--sds-note-body-ink);
+    padding-block-start: var(--sds-note-body-lead);
   }
   /* The gap is the one under a title, so a note that has none does not sit on
      air. Twelve of the admonition types a documentation generator emits carry
@@ -48,26 +70,32 @@
   /* A degraded but usable answer tints the whole block; error and success
      colour the icon only, so a page of results does not read as an alarm. */
   .sds-note--warn {
-    border-color: var(--border-accent-quiet);
-    background: var(--surface-accent-quiet);
+    --sds-note-edge: var(--border-accent-quiet);
+    --sds-note-fill: var(--surface-accent-quiet);
+    --sds-note-mark-ink: var(--status-warn);
   }
-  .sds-note--warn .sds-note__icon { color: var(--status-warn); }
-  .sds-note--error .sds-note__icon { color: var(--status-error); }
-  .sds-note--ok .sds-note__icon { color: var(--status-ok); }
+  .sds-note--error { --sds-note-mark-ink: var(--status-error); }
+  .sds-note--ok { --sds-note-mark-ink: var(--status-ok); }
   /* A stated boundary is information, not an error. */
-  .sds-note--info .sds-note__icon { color: var(--text-muted); }
+  .sds-note--info { --sds-note-mark-ink: var(--text-muted); }
 
   /* Nothing under 200ms. Over 2s the label says why. */
   .sds-loading {
+    --sds-loading-gap: var(--space-2);
+    --sds-loading-ink: var(--text-secondary);
+    --sds-loading-label-font: var(--font-mono);
+    --sds-loading-label-size: var(--nav-font-size);
+    --sds-loading-label-ink: var(--text-primary);
+
     display: flex;
     align-items: center;
-    gap: var(--space-2);
-    color: var(--text-secondary);
+    gap: var(--sds-loading-gap);
+    color: var(--sds-loading-ink);
   }
   .sds-loading__label {
-    font-family: var(--font-mono);
-    font-size: var(--nav-font-size);
-    color: var(--text-primary);
+    font-family: var(--sds-loading-label-font);
+    font-size: var(--sds-loading-label-size);
+    color: var(--sds-loading-label-ink);
   }
   .sds-spinner {
     display: inline-flex;
@@ -77,10 +105,13 @@
   /* Skeletons only where the shape is known — a table, a list. Never for a
      single value. */
   .sds-skeleton {
+    --sds-skeleton-height: 9px;
+    --sds-skeleton-fill: var(--surface-inset);
+
     display: block;
-    height: 9px;
-    border-radius: 4.5px;
-    background: var(--surface-inset);
+    height: var(--sds-skeleton-height);
+    border-radius: calc(var(--sds-skeleton-height) / 2);
+    background: var(--sds-skeleton-fill);
     animation: sds-pulse 1.4s ease-in-out infinite;
   }
 
