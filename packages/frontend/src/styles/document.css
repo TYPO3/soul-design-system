@@ -604,6 +604,10 @@
       inset-inline-end: calc(-1 * var(--space-4));
       width: calc(var(--width-sidebar) + var(--space-4) * 2);
     }
+    /* The element the list arrives in is a box of its own, and a sticky box
+       travels inside its parent: left at the list's own height it gives the
+       list nowhere to rest. At the reserve's height the travel is the column. */
+    :where(.sds-prose) .sds-aside sds-nav-toc { block-size: 100%; }
     /* And the list rests inside it, anywhere in the document, at the rail's line
        and bounded the way the rail is bounded. The rules above and below it go:
        they set a block apart from the text around it, and there is no text

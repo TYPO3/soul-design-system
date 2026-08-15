@@ -574,6 +574,23 @@ test.describe('what the theme repaired', () => {
     await expect(here).toHaveCount(0);
   });
 
+  test('the local contents rests in view while the page scrolls under it', async ({ page }) => {
+    /* Sticky is on the list, but the travel is the parent's to give: an
+       element exactly as tall as the list it renders leaves it nowhere to
+       rest, and the contents leaves with the page — a map the reader has
+       only on the first screen. */
+    await page.goto(REFERENCE, { waitUntil: 'load' });
+
+    const toc = page.locator('nav.sds-toc');
+    await expect(toc).toBeVisible();
+
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2));
+    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(600);
+    const held = await toc.boundingBox();
+    expect(held!.y).toBeGreaterThanOrEqual(0);
+    expect(held!.y).toBeLessThan(300);
+  });
+
   test('the rail is the section the page is in, however deep the page sits', async ({ page }) => {
     /* The section used to be looked for two levels down, by matching the link
        the renderer resolves to `#`. From a page below that nothing matched and
