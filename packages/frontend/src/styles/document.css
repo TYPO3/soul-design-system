@@ -455,17 +455,18 @@
   }
   /* The caption sits under the picture, in the register a caption belongs to:
      smaller than the prose and quieter, so it reads as a label for the thing
-     above rather than as a sentence of the text. */
-  :where(.sds-prose) figcaption {
+     above rather than as a sentence of the text.
+
+     A caption this layer draws itself, and no other: an element that renders a
+     `<figcaption>` stacks its own parts and holds the gap between them, so this
+     padding is the two of them answering the same question twice. Named by what
+     the figure is rather than by which element — a list of exceptions grows by
+     one every time something else draws a caption. */
+  :where(.sds-prose) figure:not([class*="sds-"]) > figcaption {
     padding-block-start: var(--space-2);
     font-size: var(--font-size-micro);
     color: var(--text-muted);
   }
-  /* Except where the figure is the element's, which stacks its own parts and
-     holds the gap between them. The margin above is for a caption the document
-     layer is drawing on its own, and added to the gap it is the two of them
-     answering the same question twice. */
-  :where(.sds-prose) .sds-figure__caption { margin-top: 0; }
   /* A caption in reStructuredText is a block, so what arrives inside is a
      paragraph — carrying the gap that belongs between two of them, under the
      last line of a label. The size needs nothing: a paragraph here already
