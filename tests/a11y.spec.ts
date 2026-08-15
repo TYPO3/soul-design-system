@@ -195,3 +195,56 @@ for (const theme of ['dark', 'light'] as const) {
     ).toEqual([]);
   });
 }
+
+/* And the ring axe cannot ask about.
+
+   A card hands its anchor's ring over — the whole card is the target, so the
+   ring belongs round the frame — and for as long as the frame was never given
+   one, a keyboard reader got a card that changed colour and nothing that said
+   which one they were on. Nothing saw it: axe reports a focusable element, not
+   an invisible focus, and the specimens draw the ring on an element that does
+   not have focus. So it is pressed for here, in both walls, because a tile
+   turns the ring inwards and that is the case where drawing it wrong is
+   drawing nothing. */
+const RINGED: readonly (readonly [wall: string, story: string, halo: boolean])[] = [
+  ['an ordinary wall', 'components-grid--default', true],
+  ['a flush wall', 'components-grid--flush', false],
+];
+
+for (const [wall, story, halo] of RINGED) {
+  test(`a card in ${wall} draws the ring when the keyboard reaches it`, async ({ page }) => {
+    await gotoStory(page, story);
+
+    /* Tabbed to rather than focused: `:focus-visible` is the browser's answer
+       about how focus arrived, and a card focused by script is a card a reader
+       never gets. */
+    for (let press = 0; press < 6; press++) {
+      await page.keyboard.press('Tab');
+      if (await page.evaluate(() => !!document.activeElement?.closest('.sds-card__title'))) break;
+    }
+
+    const ring = await page.evaluate(() => {
+      const frame = document.activeElement?.closest('.sds-card') as HTMLElement | null;
+      if (!frame) return null;
+      const drawn = getComputedStyle(frame);
+      const emphasis = getComputedStyle(document.documentElement).getPropertyValue('--border-emphasis').trim();
+      return {
+        style: drawn.outlineStyle,
+        width: drawn.outlineWidth,
+        emphasis,
+        offset: parseFloat(drawn.outlineOffset),
+        halo: drawn.boxShadow !== 'none',
+        /* The anchor gives its own up, or the card wears two rings. */
+        onWords: getComputedStyle(document.activeElement as HTMLElement).outlineStyle,
+      };
+    });
+
+    expect(ring, 'the keyboard should reach a card title').not.toBeNull();
+    expect(ring!.style, 'the frame draws the ring').toBe('solid');
+    expect(ring!.width, 'the ring is --border-emphasis wide').toBe(ring!.emphasis);
+    expect(ring!.onWords, 'and the words it was moved off do not draw a second one').toBe('none');
+    expect(ring!.halo, halo ? 'with its halo' : 'and a tile drops the halo it cannot show').toBe(halo);
+    /* Outwards on a card, inwards on a tile: the wall clips its corners. */
+    expect(Math.sign(ring!.offset), `the ring stands ${halo ? 'off' : 'inside'} the box`).toBe(halo ? 1 : -1);
+  });
+}

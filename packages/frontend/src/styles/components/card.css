@@ -102,7 +102,12 @@
      press is the card, so a ring round the title would point at a part of it —
      the one ring, moved out to the box it belongs to. */
   .sds-card__title a:focus-visible { outline: none; box-shadow: none; }
-  .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) { border-radius: var(--sds-card-radius); }
+  .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) {
+    outline: var(--border-emphasis) solid var(--accent);
+    outline-offset: var(--focus-offset);
+    box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
+    border-radius: var(--sds-card-radius);
+  }
   /* The card cannot clip its contents — the lit frame is drawn outside its
      padding box — so the picture takes the corner it sits in itself, one
      hairline in from the frame's own. */
@@ -187,4 +192,26 @@
     white-space: nowrap;
   }
 
+  /* A tile in a flush wall has no frame and no corner — both belong to the wall
+     — and it fills, because what it does not paint is the line showing through.
+     Values only: the frame is drawn once, above, and a tile is the same card
+     with four of its numbers changed. */
+  .sds-grid--flush .sds-card:has(> .sds-card__body) {
+    --sds-card-radius: 0px;
+    --sds-plane-border: 0px;
+    --sds-plane-radius: 0px;
+    --sds-plane-fill: var(--surface-canvas);
+    /* And it neither rises nor lights: a tile that lifts tears the two lines it
+       shares, and a lit frame is a frame. The fill under the pointer is what is
+       left to say the tile answers. */
+    --sds-card-lift: 0px;
+  }
+  .sds-grid--flush .sds-card:has(> .sds-card__body)::before { content: none; }
+  /* And the ring turns inwards: it is drawn outside the box and the wall clips
+     its corners, so on an edge tile it is the one thing that would be cut off.
+     The halo goes with it — it is drawn outside too. */
+  .sds-grid--flush .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) {
+    outline-offset: calc(-1 * (var(--border-emphasis) + var(--focus-offset)));
+    box-shadow: none;
+  }
 }

@@ -272,6 +272,62 @@ for (const [set, frame, long, short] of WALLS) {
   });
 }
 
+/* And a tile in a flush wall is a tile.
+
+   The wall takes the gutter out, so a card in one gives up its frame, its
+   corner and its rise and paints the ground the line shows through. All of that
+   used to be stated beside the wall in `layout`, which is below the layer the
+   card states itself in — so none of it ever applied, and a tile lifted out of
+   the wall under the pointer with its own hairline and corners, tearing the two
+   lines it shares. Read under the pointer, because that is where it showed. */
+test('a tile in a flush wall keeps the wall', async ({ page }) => {
+  const seen = await page.evaluate(async () => {
+    const host = document.createElement('div');
+    host.style.cssText = 'width:900px; position:absolute; left:0; top:0';
+    host.innerHTML = `<sds-grid variant="flush">
+      <sds-card heading="One" href="#" action="Read it" body="A tile in a wall of them."></sds-card>
+      <sds-card heading="Two" href="#" action="Read it" body="Two words."></sds-card></sds-grid>`;
+    document.body.append(host);
+    const settle = async (): Promise<void> => {
+      await Promise.all([...host.querySelectorAll('*')]
+        .filter((el) => el.tagName.includes('-'))
+        .map(async (el) => {
+          await customElements.whenDefined(el.tagName.toLowerCase());
+          await (el as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete;
+        }));
+    };
+    await settle();
+    await settle();
+
+    const read = (el: HTMLElement) => {
+      const drawn = getComputedStyle(el);
+      return {
+        border: parseFloat(drawn.borderTopWidth),
+        radius: parseFloat(drawn.borderTopLeftRadius),
+        fill: drawn.backgroundColor,
+        lift: drawn.getPropertyValue('--sds-card-lift').trim(),
+        glow: getComputedStyle(el, '::before').content,
+      };
+    };
+    const tiles = [...host.querySelectorAll<HTMLElement>('.sds-card')];
+    const rest = read(tiles[0]!);
+    /* The state itself, since a hover cannot be dispatched: the same rule the
+       pointer matches, read off the property it moves. */
+    const moves = getComputedStyle(tiles[0]!).transitionProperty.includes('transform');
+    host.remove();
+    return { rest, moves, count: tiles.length };
+  });
+
+  expect(seen.count).toBe(2);
+  expect(seen.rest.border, 'a tile has no frame — the wall has').toBe(0);
+  expect(seen.rest.radius, 'and no corner of its own').toBe(0);
+  expect(seen.rest.glow, 'and nothing to light: a lit frame is a frame').toBe('none');
+  expect(seen.rest.lift, 'and it does not rise, however the card behaves elsewhere').toBe('0px');
+  expect(seen.moves, 'the transition stays — only the distance is nothing').toBe(true);
+  /* Painted, not left transparent: what a tile does not paint is the line. */
+  expect(seen.rest.fill).not.toBe('rgba(0, 0, 0, 0)');
+});
+
 /* And the two renderings occupy the same space.
 
    Matching markup is not the same claim: an element wraps the box it draws, so

@@ -198,29 +198,15 @@
     border-radius: var(--radius-card);
     overflow: hidden;
   }
-  /* A tile has no frame and no corner — both belong to the wall — and it fills,
-     because what it does not paint is the line showing through. It does not
-     rise either: a tile that lifts tears the two lines it shares. */
-  .sds-grid--flush .sds-card {
-    --sds-card-lift: 0px;
-    border: 0;
-    border-radius: 0;
-    background: var(--surface-canvas);
-  }
-  .sds-grid--flush .sds-card::before { content: none; }
   /* A figure is a tile in the same wall. The padding and the ground come from
-     the wall, so a set of numbers anywhere else stays bare. */
+     the wall, so a set of numbers anywhere else stays bare. What a *card* is in
+     one is in `components/card.css`: the frame, the corner, the ground and the
+     lift are the card's own, and this layer is below the one that states them —
+     a rule written here instead is overridden in silence. */
   .sds-grid--flush .sds-stat {
     padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
     background: var(--surface-canvas);
   }
-  /* The ring turns inwards: it is drawn outside the box, and the wall clips its
-     corners — so on an edge tile it would be the one thing cut off. */
-  .sds-grid--flush .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) {
-    outline-offset: calc(-1 * (var(--border-emphasis) + var(--focus-offset)));
-    box-shadow: none;
-  }
-
   /* ----------------------------------------------------------- bands -- */
 
   /* A page whose ground changes. It replaces `.sds-page` — two insets would
