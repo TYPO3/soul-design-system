@@ -16,6 +16,8 @@
     --sds-footer-brand-width: 260px;
     --sds-footer-groups-width: 340px;
     --sds-footer-track: 170px;
+    --sds-footer-brand-gap: var(--space-3);
+    --sds-footer-mark-gap: var(--space-4);
     --sds-footer-note-size: var(--font-size-ui);
     --sds-footer-note-leading: var(--leading-body);
     --sds-footer-link-size: var(--nav-font-size);
@@ -43,7 +45,7 @@
     flex: 0 1 var(--sds-footer-brand-width);
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--sds-footer-brand-gap);
   }
   /* The sentence that says what this is. Not the micro register the line below
      is set in: it is the one thing in a footer somebody reads rather than scans,
@@ -113,7 +115,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--sds-footer-heading-gap) var(--space-4);
+    gap: var(--sds-footer-heading-gap) var(--sds-footer-mark-gap);
   }
   /* Alone on the line there is nothing to be at the far end *of*, and a set of
      marks against the right edge of a page that says nothing else reads as

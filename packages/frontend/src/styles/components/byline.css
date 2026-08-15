@@ -19,11 +19,12 @@
     --sds-byline-name-size: var(--font-size-ui);
     --sds-byline-name-ink: var(--text-primary);
     --sds-byline-role-ink: var(--text-muted);
+    --sds-byline-step: var(--space-4);
 
     display: flex;
     align-items: center;
     gap: var(--sds-byline-gap);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--sds-byline-step);
   }
   /* Tracking is added after the last letter as well, so it comes back as
      padding on the left, where centring halves it and the monogram lands on

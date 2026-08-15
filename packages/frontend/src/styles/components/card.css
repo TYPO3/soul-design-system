@@ -9,9 +9,15 @@
     --sds-card-pad-x: var(--block-pad-x);
     --sds-card-gap: var(--space-2);
     --sds-card-foot-gap: var(--space-3);
+    --sds-card-icon-gap: var(--space-0-5);
+    --sds-card-icon-ink: var(--text-secondary);
+    --sds-card-action-gap: var(--space-1-5);
+    --sds-card-action-weight: var(--weight-semibold);
+    --sds-card-action-ink: var(--text-link);
     --sds-card-border: var(--border-hairline);
     --sds-card-radius: var(--radius-card);
     --sds-card-edge-hover: var(--border-strong);
+    --sds-card-rule: var(--border-subtle);
     --sds-card-fill-hover: var(--surface-raised);
     --sds-card-glow: var(--accent-glow);
     --sds-card-media-fill: var(--surface-sunken);
@@ -88,10 +94,16 @@
      hairline in from the frame's own. */
   .sds-card__media {
     background: var(--sds-card-media-fill);
-    border-bottom: var(--sds-card-border) solid var(--border-subtle);
+    border-bottom: var(--sds-card-border) solid var(--sds-card-rule);
     border-radius: calc(var(--sds-card-radius) - var(--sds-card-border)) calc(var(--sds-card-radius) - var(--sds-card-border)) 0 0;
     overflow: hidden;
   }
+  /* A picture that was never prepared to be referenced keeps the colours it was
+     exported with, so the ground under it is one those colours were drawn for.
+     The one surface in the system that does not follow the reader into dark:
+     below light line art, a dark ground is the page contradicting the picture. */
+  .sds-card__media--exported { --sds-card-media-fill: var(--surface-art); }
+
   .sds-card__body {
     display: flex;
     flex-direction: column;
@@ -100,7 +112,7 @@
   }
   /* Muted and never in a status colour, for the reason a surface's glyph is: a
      card is a subject, not a result. It carries the gap to the label itself. */
-  .sds-card__icon { color: var(--text-secondary); margin-bottom: var(--space-0-5); }
+  .sds-card__icon { color: var(--sds-card-icon-ink); margin-bottom: var(--sds-card-icon-gap); }
   /* Not `--text-link`, and on the line rather than on the anchor in it: the
      title is the card's own voice wherever the link turned out to be. */
   .sds-card__title {
@@ -146,11 +158,11 @@
   .sds-card__action {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1-5);
+    gap: var(--sds-card-action-gap);
     margin-inline-start: auto;
     font-size: var(--sds-card-note-size);
-    font-weight: var(--weight-semibold);
-    color: var(--text-link);
+    font-weight: var(--sds-card-action-weight);
+    color: var(--sds-card-action-ink);
     white-space: nowrap;
   }
 }

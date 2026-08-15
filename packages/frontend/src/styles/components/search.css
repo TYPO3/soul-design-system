@@ -19,6 +19,7 @@
     --sds-search-thumb: 72px;
     --sds-search-title-size: var(--block-title-size);
     --sds-search-snippet-lines: 2;
+    --sds-search-empty-title-gap: var(--space-1);
 
     position: relative;
     display: inline-flex;
@@ -81,5 +82,5 @@
   /* The sentence ends where the block ends: a paragraph's own margin under the
      last line is a second bottom, and the block already has one. */
   .sds-hits__empty p { max-width: none; margin-block: 0; }
-  .sds-hits__empty .sds-surface-title { margin-bottom: var(--space-1); }
+  .sds-hits__empty .sds-surface-title { margin-bottom: var(--sds-search-empty-title-gap); }
 }

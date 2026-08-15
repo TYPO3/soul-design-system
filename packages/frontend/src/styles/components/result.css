@@ -11,6 +11,7 @@
     --sds-hits-bleed: var(--space-3);
     --sds-hits-border: var(--border-hairline);
     --sds-hits-rule: var(--border-subtle);
+    --sds-hits-rule-lift: var(--space-1);
 
     display: flex;
     flex-direction: column;
@@ -28,7 +29,7 @@
     content: '';
     position: absolute;
     inset-inline: var(--sds-hits-bleed);
-    top: calc(-1 * var(--space-1));
+    top: calc(-1 * var(--sds-hits-rule-lift));
     border-top: var(--sds-hits-border) solid var(--sds-hits-rule);
   }
   /* One hit, and the whole of it is the link: the element renders an `<a>` here,
@@ -51,6 +52,7 @@
     --sds-result-title-ink-hover: var(--text-link-hover);
     --sds-result-meta-size: var(--font-size-micro);
     --sds-result-meta-ink: var(--text-muted);
+    --sds-result-font: var(--font-mono);
     --sds-result-text-size: var(--block-body-size);
     --sds-result-text-leading: var(--leading-body);
     --sds-result-text-ink: var(--text-secondary);
@@ -123,7 +125,7 @@
     font-size: var(--sds-result-meta-size);
     color: var(--sds-result-meta-ink);
   }
-  .sds-result__path { font-family: var(--font-mono); }
+  .sds-result__path { font-family: var(--sds-result-font); }
   .sds-result__text {
     margin: 0;
     max-width: var(--sds-result-text-measure);
@@ -139,10 +141,11 @@
     --sds-mark-fill: var(--surface-accent-quiet);
     --sds-mark-ink: var(--text-primary);
     --sds-mark-radius: 2px;
+    --sds-mark-pad-x: var(--space-0-5);
 
     background: var(--sds-mark-fill);
     color: var(--sds-mark-ink);
     border-radius: var(--sds-mark-radius);
-    padding: 0 var(--space-0-5);
+    padding: 0 var(--sds-mark-pad-x);
   }
 }

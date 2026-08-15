@@ -21,9 +21,11 @@
   .sds-pill,
   .sds-tab,
   .sds-rail__item {
+    --sds-item-gap: var(--space-1-5);
+
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1-5);
+    gap: var(--sds-item-gap);
   }
 
   /* Pill nav for sections. Active is a filled block, not a tint.

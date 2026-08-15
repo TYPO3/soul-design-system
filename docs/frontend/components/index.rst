@@ -222,6 +222,17 @@ writing a class this system has never heard of.
 A value that reaches a declaration without passing through the set is the
 thing this prevents: ``line-height: 1.55`` in one component and
 ``var(--leading-body)`` in every other is drift nothing can see.
+``make verify ARGS=sets`` holds every component to it. Two things are read
+straight, and only two: the focus ring, because there is one ring, and the
+colours that mean something — a component able to re-point those could draw an
+error green.
+
+The one thing the check cannot see is **where** a set is declared. A property
+travels down: never sideways to a box beside the one that declared it, never
+up to the page around it. A set therefore sits on an ancestor of everything
+that reads it — which is why a tab panel standing beside its row carries its
+own, and why the offset the page scrolls to is declared on the page rather
+than on the bar that causes it.
 
 Addressed, never rebuilt
 ========================

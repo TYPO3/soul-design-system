@@ -47,7 +47,11 @@
      new one has to be told. Asked with `:has()`, because a page that carries no
      bar of ours has nothing standing over its top and keeps it. */
   html:has(.sds-bar) {
-    scroll-padding-top: calc(var(--height-header) + var(--space-4));
+    /* Declared here and not with the bar: what reads it is the page, which is
+       the bar's ancestor, and a property only ever travels down. */
+    --sds-bar-jump: calc(var(--height-header) + var(--space-4));
+
+    scroll-padding-top: var(--sds-bar-jump);
   }
 
   /* The cluster that sits against the right edge. It does not shrink — it

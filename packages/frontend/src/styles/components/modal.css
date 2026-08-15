@@ -27,6 +27,7 @@
     --sds-modal-body-size: var(--block-body-size);
     --sds-modal-body-leading: var(--leading-body);
     --sds-modal-backdrop: var(--surface-overlay);
+    --sds-modal-title-weight: var(--weight-semibold);
 
     max-width: var(--sds-modal-measure);
     border: var(--sds-modal-border) solid var(--sds-modal-edge);
@@ -51,7 +52,7 @@
     padding: var(--sds-modal-pad-y-tight) var(--sds-modal-pad-x);
     border-bottom: var(--sds-modal-border) solid var(--sds-modal-rule);
     font-size: var(--sds-modal-title-size);
-    font-weight: var(--weight-semibold);
+    font-weight: var(--sds-modal-title-weight);
   }
   .sds-modal__body {
     padding: var(--sds-modal-pad-y) var(--sds-modal-pad-x);

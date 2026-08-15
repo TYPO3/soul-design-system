@@ -64,11 +64,15 @@
      server wrote. The host is inline until then, so without this the links run
      together as a paragraph — and the window is every first paint. */
   sds-nav-rail:not(:defined) {
+    --sds-rail-step: var(--border-hairline);
+    --sds-rail-font: var(--font-mono);
+    --sds-rail-font-size: var(--nav-font-size);
+
     display: flex;
     flex-direction: column;
-    gap: var(--border-hairline);
-    font-family: var(--font-mono);
-    font-size: var(--nav-font-size);
+    gap: var(--sds-rail-step);
+    font-family: var(--sds-rail-font);
+    font-size: var(--sds-rail-font-size);
   }
   /* What the rail is a list of, where a renderer names it. `.sds-label` sets the
      type and nothing else — everywhere else it labels a box that brings its own

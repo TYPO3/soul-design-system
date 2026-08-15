@@ -44,19 +44,21 @@
     --sds-surface-title-size: var(--block-title-size);
     --sds-surface-title-weight: var(--weight-semibold);
     --sds-surface-title-leading: var(--leading-heading);
+    --sds-surface-title-lead: var(--space-1-5);
 
     font-size: var(--sds-surface-title-size);
     font-weight: var(--sds-surface-title-weight);
     line-height: var(--sds-surface-title-leading);
   }
   /* The label sits over the title with the title's own leading between them. */
-  .sds-surface-title:not(:first-child) { padding-block-start: var(--space-1-5); }
+  .sds-surface-title:not(:first-child) { padding-block-start: var(--sds-surface-title-lead); }
   .sds-surface-body {
     --sds-surface-body-size: var(--block-body-size);
     --sds-surface-body-leading: var(--aside-leading);
     --sds-surface-body-ink: var(--text-secondary);
+    --sds-surface-body-lead: var(--space-1);
 
-    padding-block-start: var(--space-1);
+    padding-block-start: var(--sds-surface-body-lead);
     font-size: var(--sds-surface-body-size);
     line-height: var(--sds-surface-body-leading);
     color: var(--sds-surface-body-ink);
@@ -64,7 +66,13 @@
   /* A glyph above the label, where a set of cards is told apart at a glance
      before it is read. Muted, and never in a status colour: a card is a subject,
      not a result, and colour here would say something the words do not. */
-  .sds-surface-icon { color: var(--text-secondary); margin-bottom: var(--space-2-5); }
+  .sds-surface-icon {
+    --sds-surface-icon-ink: var(--text-secondary);
+    --sds-surface-icon-gap: var(--space-2-5);
+
+    color: var(--sds-surface-icon-ink);
+    margin-bottom: var(--sds-surface-icon-gap);
+  }
   /* The glyph carries the gap on its own, so a card with no label between them
      is not spaced differently from one that has a label. */
   .sds-surface-icon + .sds-surface-title { margin-top: 0; }

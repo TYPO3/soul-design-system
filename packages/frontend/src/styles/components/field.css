@@ -120,6 +120,9 @@
     --sds-field-hint-size: var(--aside-size);
     --sds-field-hint-leading: var(--aside-leading);
     --sds-field-hint-ink: var(--text-muted);
+    --sds-field-req-font: var(--font-mono);
+    --sds-field-req-size: var(--font-size-micro);
+    --sds-field-req-tracking: var(--tracking-label);
 
     display: flex;
     flex-direction: column;
@@ -140,9 +143,9 @@
      asterisk is a convention that has to be explained in a legend somewhere, and
      the legend is always the thing that gets cut. */
   .sds-field-req {
-    font-family: var(--font-mono);
-    font-size: var(--font-size-micro);
-    letter-spacing: var(--tracking-label);
+    font-family: var(--sds-field-req-font);
+    font-size: var(--sds-field-req-size);
+    letter-spacing: var(--sds-field-req-tracking);
     text-transform: uppercase;
     color: var(--sds-field-hint-ink);
   }

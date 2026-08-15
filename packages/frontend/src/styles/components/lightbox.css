@@ -53,6 +53,12 @@
     overflow: hidden;
     background: var(--sds-lightbox-stage-fill);
   }
+  /* A picture that was never prepared to be referenced keeps the colours it was
+     exported with, so the ground under it is one those colours were drawn for.
+     The one surface in the system that does not follow the reader into dark:
+     below light line art, a dark ground is the page contradicting the picture. */
+  .sds-lightbox__art--exported { --sds-lightbox-stage-fill: var(--surface-art); }
+
 
   /* The picture is fitted into what the head leaves rather than drawn at the
      width of it: the stage is bounded in both directions, so a drawing that is

@@ -98,6 +98,10 @@
        over a specimen. */
     --syntax-key: light-dark(#A85400, #FFA338);
     --syntax-comment: light-dark(#726C63, #878076);
+    /* Code that is not one of the three: a number, a name, a brace. The
+       highlighter emits a class for those too, and the palette has to name the
+       ordinary case or a theme is three colours and a raw value. */
+    --syntax-text: var(--text-primary);
   }
 
   /* Forcing a mode on any subtree — every token above follows automatically. */

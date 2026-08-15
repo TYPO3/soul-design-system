@@ -6,10 +6,12 @@
      Size it at the element, to one of the three or a whole multiple, because
      that is where a drawing's edges land on whole pixels. */
   .sds-signet {
+    --sds-signet-ink-muted: var(--text-secondary);
+
     display: block;
     flex: none;
   }
-  .sds-signet--muted { color: var(--text-secondary); }
+  .sds-signet--muted { color: var(--sds-signet-ink-muted); }
 
   /* Signet, wordmark, one orange pipe. The pipe is the third and last place
      the accent is allowed to appear.

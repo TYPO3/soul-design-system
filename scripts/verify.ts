@@ -362,6 +362,58 @@ const CHECKS: readonly Check[] = [
     },
   },
 
+  /* Every component is a property set, and its own declarations read that set
+     and nothing else. A value reaching a declaration past the set is how
+     `line-height: 1.55` ends up in one component and `--leading-body` in every
+     other — and it is the difference between a surface retheming one instance
+     by setting a property and one writing a class this system never heard of.
+
+     Two things are read straight because they are the system's and not the
+     component's: the focus ring, which is one ring, and the colours that mean
+     something — a component able to re-point those could draw an error green.
+     Three files are not a component at all and say so here. */
+  {
+    name: 'sets',
+    label: 'a component draws from its own property set',
+    run() {
+      const SHARED = new Set([
+        'accent-ring', 'border-emphasis', 'focus-halo', 'focus-offset',
+        'accent', 'status-ok', 'status-warn', 'status-error',
+        'syntax-key', 'syntax-string', 'syntax-comment', 'syntax-text',
+      ]);
+      /* What several components share, what turns the page over, and what a
+         picture is before anything frames it. None of the three draws one
+         component, so none of them has a set to draw from. */
+      const NOT_A_COMPONENT = new Set(['_shared.css', 'art.css', 'direction.css']);
+
+      const dir = join(FRONTEND, 'src', 'styles', 'components');
+      const problems: string[] = [];
+      let read = 0;
+      const files = readdirSync(dir).filter((f) => f.endsWith('.css')).sort();
+      for (const file of files) {
+        if (NOT_A_COMPONENT.has(file)) continue;
+        const css = readFileSync(join(dir, file), 'utf8');
+        const own = new Set([...css.matchAll(/^\s*(--sds-[a-z0-9-]+)\s*:/gm)].map((m) => m[1] as string));
+        for (const line of css.split('\n')) {
+          const text = line.trim();
+          if (!text || text.startsWith('/*') || text.startsWith('*')) continue;
+          /* Assignments are where the set is built, and one may share a line
+             with the selector it is written on. Taken out before the rest is
+             read, or `.sds-panel { --fill: var(--surface-raised); }` reads as a
+             declaration reaching past its own set. */
+          const drawn = text.replace(/--[a-z][a-z0-9-]*\s*:[^;}]*;?/g, '');
+          for (const m of drawn.matchAll(/var\((--[a-z0-9-]+)/g)) {
+            const name = m[1] as string;
+            read++;
+            if (own.has(name) || SHARED.has(name.slice(2))) continue;
+            problems.push(`${file}: ${text.slice(0, 60)} reads ${name} past the set`);
+          }
+        }
+      }
+      return { facts: `${files.length} files · ${read} reads`, problems };
+    },
+  },
+
   /* The widths the design changes at, against the page that names them. There
      is no way to write a breakpoint once — a media query reads no custom
      property — so the set is prose and the stylesheets repeat it, which is

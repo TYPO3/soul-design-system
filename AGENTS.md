@@ -264,7 +264,8 @@ drawings) · `headers` (`@dsCard`, `@startingPoint`, literal metadata) · `heigh
 (specimens against the cards they embed) · `classes` (every class used is
 defined in the layer that can load it) · `coverage` (every component is shown)
 · `names` (every `sds-` name a document writes exists) · `refs` (every local
-reference resolves) · `breakpoints` (every width the layer changes at is one a
+reference resolves) · `sets` (a component draws from its own property set) ·
+`breakpoints` (every width the layer changes at is one a
 document names) · `fit` (render, inside the declared viewport) · `rhythm`
 (every screen's sizes on the scale, gaps on the grid) · `ssr`
 (every element renders outside a browser) · `dist` (the committed drop-in
@@ -444,8 +445,13 @@ moved without the other.
   variant, and a surface needing one instance different sets a property rather
   than a class this system never heard of. A value that reaches a declaration
   without passing through the set is how `1.55` ends up in one component and
-  `--leading-body` in every other. `docs/frontend/components/index.rst` carries
-  the shape; `packages/frontend/src/styles/components/button.css` is the model.
+  `--leading-body` in every other. `make verify ARGS=sets` holds it, and the
+  two things read straight are named there: the focus ring, which is one ring,
+  and the colours that mean something. A set has to sit on an ancestor of
+  everything that reads it — a property travels down and never sideways or up,
+  which the check cannot see and the suite has caught three times.
+  `docs/frontend/components/index.rst` carries the shape;
+  `packages/frontend/src/styles/components/button.css` is the model.
 - **A component is addressed, never rebuilt.** Everything that fits in a string
   is a property; between the tags goes only what an attribute cannot carry, and
   that is content rather than structure. A `sds-x__y` class is `sds-x`'s own

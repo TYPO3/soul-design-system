@@ -34,9 +34,7 @@
      exported with, so the ground under it is one those colours were drawn for.
      The one surface in the system that does not follow the reader into dark:
      below light line art, a dark ground is the page contradicting the picture. */
-  .sds-figure__frame--exported,
-  .sds-lightbox__art--exported,
-  .sds-card__media--exported { background: var(--surface-art); }
+  .sds-figure__frame--exported { --sds-figure-fill: var(--surface-art); }
 
   .sds-figure__caption {
     max-width: var(--sds-figure-caption-measure);

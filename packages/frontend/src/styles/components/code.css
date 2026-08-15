@@ -28,6 +28,10 @@
     --sds-code-body-leading: var(--leading-code);
     --sds-code-body-ink: var(--text-secondary);
     --sds-code-caption-size: var(--aside-size);
+    --sds-code-caption-gap: var(--space-2);
+    --sds-code-copy-gap: var(--space-1-5);
+    --sds-code-duration: var(--duration-fast);
+    --sds-code-ease: var(--ease-out);
 
     min-width: 0;
     max-width: 100%;
@@ -71,7 +75,7 @@
   .sds-code__copy {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1-5);
+    gap: var(--sds-code-copy-gap);
     font-family: var(--sds-code-font);
     font-size: var(--sds-code-head-size);
     letter-spacing: var(--sds-code-head-tracking);
@@ -81,7 +85,7 @@
     background: none;
     border: 0;
     padding: 0;
-    transition: color var(--duration-fast) var(--ease-out);
+    transition: color var(--sds-code-duration) var(--sds-code-ease);
   }
   .sds-code__copy:hover { color: var(--sds-code-head-ink-hover); }
   /* Copied is a changed glyph, not a changed colour on the same one: the check
@@ -109,7 +113,7 @@
   }
   /* The shell prompt is one of the three places the accent is allowed. */
   .sds-code__prompt { color: var(--accent); }
-  .sds-code__cmd { color: var(--text-primary); }
+  .sds-code__cmd { color: var(--syntax-text); }
   .sds-code__comment { color: var(--syntax-comment); }
   .sds-code__ok { color: var(--status-ok); }
 
@@ -117,7 +121,7 @@
   .sds-code__caption {
     font-size: var(--sds-code-caption-size);
     color: var(--sds-code-head-ink);
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--sds-code-caption-gap);
   }
 
   /* The highlighter's classes, mapped onto the three syntax colours this system
@@ -161,7 +165,7 @@
   .hljs-subst,
   .hljs-type,
   .hljs-punctuation,
-  .hljs-params { color: var(--text-primary); }
+  .hljs-params { color: var(--syntax-text); }
 
   /* Diff: the one place a status colour may fill a whole line. */
   .sds-diff {

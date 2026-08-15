@@ -22,6 +22,7 @@
     --sds-table-meta-ink: var(--text-muted);
     --sds-table-fill-hover: var(--surface-raised);
     --sds-table-fill-selected: var(--surface-accent-quiet);
+    --sds-table-head-weight: var(--weight-regular);
 
     width: 100%;
     border-collapse: collapse;
@@ -63,7 +64,7 @@
     letter-spacing: var(--sds-table-head-tracking);
     text-transform: uppercase;
     color: var(--sds-table-head-ink);
-    font-weight: var(--weight-regular);
+    font-weight: var(--sds-table-head-weight);
     padding-block: 0 var(--sds-table-pad);
     padding-inline: 0 var(--sds-table-cell-gap);
     border-bottom: var(--sds-table-border) solid var(--sds-table-rule-head);

@@ -29,6 +29,8 @@
     --sds-accordion-body-ink: var(--text-secondary);
     --sds-accordion-duration: var(--duration-base);
     --sds-accordion-ease: var(--ease-standard);
+    --sds-accordion-duration-fast: var(--duration-fast);
+    --sds-accordion-ease-out: var(--ease-out);
 
     display: flex;
     flex-direction: column;
@@ -53,7 +55,7 @@
     font-weight: var(--sds-accordion-head-weight);
     line-height: var(--sds-accordion-head-leading);
     color: var(--sds-accordion-head-ink);
-    transition: color var(--duration-fast) var(--ease-out);
+    transition: color var(--sds-accordion-duration-fast) var(--sds-accordion-ease-out);
   }
   .sds-accordion__head::-webkit-details-marker { display: none; }
   .sds-accordion__head:hover { color: var(--sds-accordion-head-ink-hover); }
@@ -117,7 +119,7 @@
     opacity: 0;
     transition:
     grid-template-rows var(--sds-accordion-duration) var(--sds-accordion-ease),
-    opacity var(--duration-fast) var(--ease-out),
+    opacity var(--sds-accordion-duration-fast) var(--sds-accordion-ease-out),
     content-visibility var(--sds-accordion-duration) allow-discrete;
   }
   .sds-accordion__item[open]::details-content { grid-template-rows: 1fr; opacity: 1; }

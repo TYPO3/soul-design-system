@@ -22,6 +22,10 @@
     --sds-icon-tile-name-ink: var(--text-muted);
     --sds-icon-tile-tag-ink: var(--text-secondary);
     --sds-icon-tile-tag-fill: var(--surface-inset);
+    --sds-icon-tile-name-leading: var(--leading-heading);
+    --sds-icon-tile-tag-pad-y: var(--space-1);
+    --sds-icon-tile-tag-pad-x: var(--space-1-5);
+    --sds-icon-tile-tag-radius: var(--radius-control);
     --sds-icon-tile-duration: var(--duration-fast);
     --sds-icon-tile-ease: var(--ease-out);
 
@@ -57,7 +61,7 @@
   .sds-icon-tile__name {
     font-family: var(--sds-icon-tile-font);
     font-size: var(--sds-icon-tile-name-size);
-    line-height: var(--leading-heading);
+    line-height: var(--sds-icon-tile-name-leading);
     color: var(--sds-icon-tile-name-ink);
     text-align: center;
     overflow-wrap: anywhere;
@@ -70,9 +74,9 @@
     position: absolute;
     inset-block-start: 0;
     inset-inline-end: 0;
-    padding: var(--space-1) var(--space-1-5);
+    padding: var(--sds-icon-tile-tag-pad-y) var(--sds-icon-tile-tag-pad-x);
     border-start-end-radius: calc(var(--sds-icon-tile-radius) - var(--sds-icon-tile-border));
-    border-end-start-radius: var(--radius-control);
+    border-end-start-radius: var(--sds-icon-tile-tag-radius);
     font-family: var(--sds-icon-tile-font);
     font-size: var(--sds-icon-tile-name-size);
     line-height: 1;

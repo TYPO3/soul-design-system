@@ -13,11 +13,14 @@
      seen from outside, both 1em square and both sitting on the baseline. */
   .sds-icon,
   sds-icon {
+    /* On the tag as well as the class: before the element upgrades there is no
+       class, and the reserved box is read from the same name either way. */
+    --sds-icon-size: 1em;
+    --sds-icon-ink-muted: var(--text-secondary);
+
     flex: none;
   }
   .sds-icon {
-    --sds-icon-size: 1em;
-
     display: inline-block;
     width: var(--sds-icon-size);
     height: var(--sds-icon-size);
@@ -26,7 +29,7 @@
   .sds-icon--20 { --sds-icon-size: 20px; }
   .sds-icon--24 { --sds-icon-size: 24px; }
   /* A standalone icon that is not inside a coloured control. */
-  .sds-icon--muted { color: var(--text-secondary); }
+  .sds-icon--muted { color: var(--sds-icon-ink-muted); }
 
   /* Before the script lands there is no element, only a tag saying which glyph
      and how big — and an empty box takes the size of what is not in it. The
@@ -34,13 +37,12 @@
      `:where()`, or this would out-weigh `.sds-icon--20` and cause the jump it
      prevents. */
   :where(sds-icon:not(:defined)) {
-    flex: none;
-    width: 1em;
-    height: 1em;
+    width: var(--sds-icon-size);
+    height: var(--sds-icon-size);
   }
-  sds-icon:not(:defined)[size='16'] { width: var(--control-icon-size); height: var(--control-icon-size); }
-  sds-icon:not(:defined)[size='20'] { width: 20px; height: 20px; }
-  sds-icon:not(:defined)[size='24'] { width: 24px; height: 24px; }
-  sds-icon:not(:defined)[size='32'] { width: 32px; height: 32px; }
-  sds-icon:not(:defined)[size='48'] { width: 48px; height: 48px; }
+  sds-icon:not(:defined)[size='16'] { --sds-icon-size: var(--control-icon-size); }
+  sds-icon:not(:defined)[size='20'] { --sds-icon-size: 20px; }
+  sds-icon:not(:defined)[size='24'] { --sds-icon-size: 24px; }
+  sds-icon:not(:defined)[size='32'] { --sds-icon-size: 32px; }
+  sds-icon:not(:defined)[size='48'] { --sds-icon-size: 48px; }
 }
