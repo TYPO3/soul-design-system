@@ -10,6 +10,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { withPage } from './lib/browser.ts';
+import * as report from './lib/report.ts';
 
 /* The steps, plus the hairline — a gap of one pixel is the border token doing
    the separating, which is a decision and not a stray value. Negatives are the
@@ -39,9 +40,18 @@ const walk = (d: string): void => { for (const e of readdirSync(d)) { const p = 
 for (const r of ['specimens/screens', 'specimens/components', 'specimens/guidelines']) walk(r);
 
 const probe = (scales: { space: number[]; type: number[] }) => {
-  const out: { kind: string; what: string; detail: string }[] = [];
+  const out: { kind: string; what: string; detail: string; who: string; chrome: boolean }[] = [];
   const tag = (el: Element) => `${el.tagName.toLowerCase()}${[...el.classList].map((c) => '.' + c).join('')}`.slice(0, 70);
-  const nm = (el: Element) => (el.closest('[class*="spec"]') ? 'CHROME ' : '') + tag(el);
+  /* Which component a fault belongs to: the `sds-` name on the element, or the
+     nearest one above it. A fault with no component over it belongs to the
+     page, which is what `page` says. */
+  const owner = (el: Element): string => {
+    for (let at: Element | null = el; at; at = at.parentElement) {
+      const own = [...at.classList].find((c) => c.startsWith('sds-'));
+      if (own) return own.split('__')[0]!.split('--')[0]!;
+    }
+    return 'page';
+  };
   const near = (v: number, list: number[]) => list.some((s) => Math.abs(s - Math.abs(v)) < 0.51);
   /* `auto` is a decision the computed value hides: the browser resolves it to
      whatever the row happened to be. The typed value still says `auto`. */
@@ -57,23 +67,23 @@ const probe = (scales: { space: number[]; type: number[] }) => {
     if (el.closest('svg')) continue;
     /* The specimen chrome is documentation about the system, deliberately
        outside it. Counted apart so it cannot hide a fault in the product. */
-    const _chrome = !!el.closest('[class*="spec"]') || [...el.classList].some((c) => c.startsWith('spec'));
+    const chrome = !!el.closest('[class*="spec"]') || [...el.classList].some((c) => c.startsWith('spec'));
     const cs = getComputedStyle(el);
     if (cs.display === 'none' || cs.display === 'contents') continue;
     const r = el.getBoundingClientRect();
     if (!r.width && !r.height) continue;
 
-    if (cs.boxSizing !== 'border-box') out.push({ kind: 'content-box', what: nm(el), detail: cs.boxSizing });
+    if (cs.boxSizing !== 'border-box') out.push({ kind: 'content-box', what: tag(el), detail: cs.boxSizing, who: owner(el), chrome });
 
     /* A block pushed away from its column by something nobody set. `auto` is a
        decision; a number here is almost always the browser's. */
     for (const [side, prop] of [['marginInlineStart', 'margin-inline-start'], ['marginInlineEnd', 'margin-inline-end']] as const) {
       const v = parseFloat(cs[side]);
-      if (v && !near(v, scales.space) && !isAuto(el, prop)) out.push({ kind: 'inline-margin', what: nm(el), detail: `${side}=${cs[side]}` });
+      if (v && !near(v, scales.space) && !isAuto(el, prop)) out.push({ kind: 'inline-margin', what: tag(el), detail: `${side}=${cs[side]}`, who: owner(el), chrome });
     }
     for (const [side, prop] of [['marginBlockStart', 'margin-block-start'], ['marginBlockEnd', 'margin-block-end']] as const) {
       const v = parseFloat(cs[side]);
-      if (v && !near(v, scales.space) && !isAuto(el, prop)) out.push({ kind: 'off-scale-margin', what: nm(el), detail: `${side}=${cs[side]}` });
+      if (v && !near(v, scales.space) && !isAuto(el, prop)) out.push({ kind: 'off-scale-margin', what: tag(el), detail: `${side}=${cs[side]}`, who: owner(el), chrome });
     }
     /* A page inset is `max(gutter, (100% - measure) / 2)` — it centres the
        column and lands wherever the viewport puts it, which is not a step. */
@@ -87,40 +97,68 @@ const probe = (scales: { space: number[]; type: number[] }) => {
       const v = parseFloat(cs[side]);
       const withEdge = v + parseFloat(cs[edge] as 'borderTopWidth');
       if (v && !near(v, scales.space) && !near(withEdge, scales.space)) {
-        out.push({ kind: 'off-scale-padding', what: nm(el), detail: `${side}=${cs[side]}` });
+        out.push({ kind: 'off-scale-padding', what: tag(el), detail: `${side}=${cs[side]}`, who: owner(el), chrome });
       }
     }
     for (const g of ['rowGap', 'columnGap'] as const) {
       const v = parseFloat(cs[g]);
-      if (v && !near(v, scales.space)) out.push({ kind: 'off-scale-gap', what: nm(el), detail: `${g}=${cs[g]}` });
+      if (v && !near(v, scales.space)) out.push({ kind: 'off-scale-gap', what: tag(el), detail: `${g}=${cs[g]}`, who: owner(el), chrome });
     }
     /* An optical size is written in `em` and lands anywhere; a whole pixel is
        a decision and has to be on the scale. */
     const fs = parseFloat(cs.fontSize);
-    if (Number.isInteger(fs) && !near(fs, scales.type)) out.push({ kind: 'off-scale-type', what: nm(el), detail: `${cs.fontSize}` });
+    if (Number.isInteger(fs) && !near(fs, scales.type)) out.push({ kind: 'off-scale-type', what: tag(el), detail: `${cs.fontSize}`, who: owner(el), chrome });
   }
   return out;
 };
 
-const found = new Map<string, { n: number; where: Set<string>; detail: string }>();
+type Fault = { kind: string; what: string; detail: string; who: string; chrome: boolean };
+
+const found = new Map<string, { fault: Fault; n: number }>();
+report.open('audit', 'every value on every screen and card, against the tokens that declare it');
 await withPage(async ({ map }) => {
   await map(files, async (page, file) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(`file://${resolve(file)}`);
     await page.waitForTimeout(200);
-    for (const f of await page.evaluate(probe, { space: SPACE, type: TYPE })) {
-      const key = `${f.kind}  ${f.what}  ${f.detail}`;
-      const e = found.get(key) ?? { n: 0, where: new Set<string>(), detail: f.detail };
-      e.n++; e.where.add(file.split('/')[1] as string);
-      found.set(key, e);
+    /* A card is documentation about the system. What it draws with the
+       system's own names is the system and is audited; a box it lays out for
+       itself is annotation, whether or not it reached for a `spec-` class. A
+       screen is product-shaped, so nothing on one is exempt. */
+    const card = !file.startsWith('specimens/screens');
+    for (const f of (await page.evaluate(probe, { space: SPACE, type: TYPE })) as Fault[]) {
+      if (card && f.who === 'page') f.chrome = true;
+      const key = `${f.who}\u0000${f.kind}\u0000${f.what}\u0000${f.detail}`;
+      const seen = found.get(key) ?? { fault: f, n: 0 };
+      seen.n++;
+      found.set(key, seen);
     }
   });
 });
 
-const byKind = new Map<string, number>();
-for (const [k, e] of found) byKind.set(k.split('  ')[0] as string, (byKind.get(k.split('  ')[0] as string) ?? 0) + e.n);
-console.log('\n=== faults by kind ===');
-for (const [k, n] of [...byKind].sort((a, b) => b[1] - a[1])) console.log(`  ${String(n).padStart(6)}×  ${k}`);
-console.log('\n=== distinct faults, most frequent first ===');
-for (const [k, e] of [...found].sort((a, b) => b[1].n - a[1].n)) console.log(`  ${String(e.n).padStart(5)}×  ${k}`);
-console.log(`\n${found.size} distinct faults across ${files.length} pages`);
+const system = [...found.values()].filter((f) => !f.fault.chrome);
+const chrome = [...found.values()].filter((f) => f.fault.chrome);
+
+/* One row per component, so this is walked the way the components are: the
+   card, then the note, then the rail. The chrome is counted apart — the
+   specimen layer is documentation about the system rather than the system. */
+const byComponent = new Map<string, typeof system>();
+for (const f of system) {
+  byComponent.set(f.fault.who, [...(byComponent.get(f.fault.who) ?? []), f]);
+}
+
+for (const who of [...byComponent.keys()].sort()) {
+  const rows = byComponent.get(who) as typeof system;
+  const total = rows.reduce((n, r) => n + r.n, 0);
+  report.row('bad', who, rows.length === 1 ? '1 value off the scale' : `${rows.length} values off the scale`, `${total} seen`);
+  for (const r of rows.sort((a, b) => b.n - a.n)) {
+    report.detail(`${r.fault.kind}  ${r.fault.what}  ${r.fault.detail}`);
+  }
+}
+
+if (!byComponent.size) report.row('ok', 'components', 'every value is one a token declares');
+report.fact('chrome', `${chrome.length} distinct in the specimen layer, counted apart`);
+report.close(byComponent.size ? 'bad' : 'ok',
+  byComponent.size
+    ? `${byComponent.size} component(s) carry a value no token declares`
+    : `${files.length} pages · every value is one a token declares`);

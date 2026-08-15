@@ -410,6 +410,14 @@ suite are what a change is proven against, and this is worth fixing because
 `fit`, `rhythm`, `heights` and `a11y` open cards the same way: a wrong face is a
 wrong measurement, not just a wrong picture.
 
+**Go through the components** — `make audit` asks of every value on every card
+and screen whether a token declares it, and reports one row per component. It
+is outside the gate because the answer is a judgement in one place: what a card
+lays out for itself is annotation about the system rather than the system, and
+those numbers are counted apart. A component with no row carries no value the
+tokens do not name — it says nothing about whether the distances are *right*,
+which is what the specimens are for.
+
 **Change a size or a gap** — `make rhythm` renders the screens and measures
 them against the scale and the grid, both read out of `packages/frontend/src/tokens/`
 so it cannot drift from them. `ARGS` names one screen, and the whole report is
