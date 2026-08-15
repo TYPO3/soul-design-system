@@ -214,7 +214,7 @@ test.describe('what the theme repaired', () => {
        core's output joins the two — so every section of every page is a place
        a reader can be sent to and cannot send anybody to. */
     const marks = await page.evaluate(() =>
-      [...document.querySelectorAll('.sds-prose .section')]
+      [...document.querySelectorAll('.sds-prose .sds-section')]
         .map((section) => {
           const heading = section.querySelector(':scope > :is(h1, h2, h3, h4, h5, h6)');
           return {
@@ -304,7 +304,7 @@ test.describe('what the theme repaired', () => {
     await expect(inline).toHaveText(/mc\^2/);
     expect((await inline.boundingBox())?.width).toBeGreaterThan(0);
 
-    const block = page.locator('.sds-prose .section > math').first();
+    const block = page.locator('.sds-prose .sds-section > math').first();
     await expect(block).toHaveText(/\\frac/);
     expect((await block.boundingBox())?.width).toBeGreaterThan(0);
 
@@ -332,7 +332,7 @@ test.describe('what the theme repaired', () => {
       const style = container ? getComputedStyle(container) : null;
       return [
         size(document.querySelector('.a-class-from-the-source p')),
-        size(document.querySelector('.sds-prose .section > p')),
+        size(document.querySelector('.sds-prose .sds-section > p')),
         [style?.borderTopWidth, style?.paddingTop, style?.backgroundImage, style?.backgroundColor],
       ];
     });
@@ -445,7 +445,7 @@ test.describe('what the theme repaired', () => {
     const sizes = await page.evaluate(() => {
       const px = (el: Element | null): number => (el ? parseFloat(getComputedStyle(el).fontSize) : NaN);
       return {
-        prose: px(document.querySelector('.sds-prose > .section > p')),
+        prose: px(document.querySelector('.sds-prose > .sds-section > p')),
         note: px(document.querySelector('sds-note p')),
         caption: px(document.querySelector('figcaption')),
       };
@@ -455,6 +455,40 @@ test.describe('what the theme repaired', () => {
     expect(sizes.caption).toBeLessThan(sizes.prose);
   });
 
+  /* Two sections stand apart by the heading the second one opens.
+
+     The rule that gives a heading its air names the block *before* it, and a
+     heading inside a section has no sibling outside it — so for as long as the
+     renderer's own wrapper was in the way, every section ran into the next at
+     the step between two paragraphs. The theme draws the section itself now,
+     and the section is what carries the distance. */
+  test('two sections stand apart by the heading the second opens', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    const steps = await page.evaluate(() => {
+      const out: Record<string, number[]> = {};
+      for (const section of document.querySelectorAll('.sds-prose .sds-section')) {
+        const next = section.nextElementSibling;
+        if (!next?.classList.contains('sds-section')) continue;
+        const heading = next.firstElementChild;
+        if (!heading || !/^H[2-6]$/.test(heading.tagName)) continue;
+        const step = Math.round(
+          heading.getBoundingClientRect().top - section.getBoundingClientRect().bottom,
+        );
+        (out[heading.tagName] ??= []).push(step);
+      }
+      return out;
+    });
+
+    expect(Object.keys(steps).length, 'the fixture should hold sections at more than one level')
+      .toBeGreaterThan(0);
+    for (const [level, seen] of Object.entries(steps)) {
+      const want = { H2: 40, H3: 32, H4: 24, H5: 20, H6: 20 }[level];
+      expect([...new Set(seen)], `every ${level} section should open at one distance`)
+        .toEqual([want]);
+    }
+  });
+
   test('the measure holds the words and lets the blocks out', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
@@ -462,7 +496,7 @@ test.describe('what the theme repaired', () => {
       const w = (sel: string): number => document.querySelector(sel)?.getBoundingClientRect().width ?? NaN;
       return {
         column: w('.sds-body__main'),
-        paragraph: w('.sds-prose > .section > p'),
+        paragraph: w('.sds-prose > .sds-section > p'),
         table: w('.sds-prose table'),
         /* The class and not the element: it is the box a page without
            scripting gets, and the element is the same box around it. */
@@ -852,7 +886,7 @@ test.describe('what the theme repaired', () => {
 
     /* A stack of notes is a stack of rows that look alike, and the browser
        scrolls to one of them without saying where it stopped. */
-    const section = await page.locator('.sds-prose .section[id]').first().getAttribute('id');
+    const section = await page.locator('.sds-prose .sds-section[id]').first().getAttribute('id');
     await page.goto(`${FIXTURE}#${section}`, { waitUntil: 'load' });
     const heading = await page
       .locator(`#${section} > :is(h1, h2, h3, h4, h5, h6)`)
@@ -1409,7 +1443,7 @@ test.describe('what the reader gets before the script does', () => {
        for arrived: prose is not the browser's 16px Times running the width of
        the window. */
     const measured = await page.evaluate(() => {
-      const p = document.querySelector('.sds-prose > .section > p')!;
+      const p = document.querySelector('.sds-prose > .sds-section > p')!;
       return { family: getComputedStyle(p).fontFamily, width: p.getBoundingClientRect().width };
     });
     expect(measured.family).not.toMatch(/^Times/);

@@ -109,6 +109,16 @@ of authored blocks either lets those blocks keep their step or owns the gap
 and removes it; it never does both. ``tests/defaults.spec.ts`` exercises both
 sides.
 
+The section is the one box a renderer draws that this layer had to take over.
+A heading gets its air from the block *before* it — the only way to state a
+distance in one direction — and a heading wrapped in a section has no sibling
+outside it, so every section ran into the next at the step between two
+paragraphs. The Guides theme draws the box itself as ``.sds-section``, and the
+section carries the step: the level of the heading the next one opens decides
+how much, and the last block inside a section owes its edge nothing. Nothing
+in a document says any of this — a heading is a section — and
+``tests/guides.spec.ts`` measures it on the rendered page.
+
 What is on this page
 ====================
 

@@ -65,6 +65,14 @@ in Storybook is written without a lookup. An option a directive does not know
 is not an error and is not dropped either where it is `:class:` — that lands on
 the element, because an author who wrote it meant it for their own stylesheet.
 
+A heading and everything under it is a **section**, and the theme draws that
+box itself as `<section class="sds-section">` rather than taking the
+renderer's `<div class="section">`. Nothing is written to get one — a heading
+is one — but it is worth knowing, because it is what carries the distance
+between two sections: the step is the section's, sized by the level of the
+heading the next one opens, and the last block inside a section owes its edge
+nothing. A `:class:` on a section is carried through.
+
 | Written | What it is |
 | --- | --- |
 | `:layout: marketing` | A document field rather than a directive, at the top beside `:navigation-title:`. Renders the page as a run of full-bleed bands with no rail; any other value, and any page that writes none, is the manual shape |

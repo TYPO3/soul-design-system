@@ -72,9 +72,23 @@
   :where(.sds-prose) .sds-permalink:hover { color: var(--text-link); }
   /* Landing on one section out of thirty says which one — the same mark the
      confval makes, because it is the same arrival. */
-  :where(.sds-prose) .section:target > :is(h1, h2, h3, h4, h5, h6) {
+  :where(.sds-prose) .sds-section:target > :is(h1, h2, h3, h4, h5, h6) {
     color: var(--text-accent-quiet);
   }
+
+  /* The air between two sections, and it is the section that carries it —
+     stated below, like every other distance here. The rule that gives a
+     heading its air names a sibling, and a heading inside a section has no
+     sibling outside it: what stands before an `h2` is the section above, so
+     that section is what owes the step. The level decides how much, exactly
+     as it does for a bare heading. */
+  :where(.sds-prose) .sds-section:has(+ .sds-section > :is(h2, .sds-h2)) { margin-block-end: var(--space-10); }
+  :where(.sds-prose) .sds-section:has(+ .sds-section > :is(h3, .sds-h3)) { margin-block-end: var(--space-8); }
+  :where(.sds-prose) .sds-section:has(+ .sds-section > h4) { margin-block-end: var(--space-6); }
+  :where(.sds-prose) .sds-section:has(+ .sds-section > :is(h5, h6)) { margin-block-end: var(--space-5); }
+  /* And the last block inside one owes the section's edge nothing: the step is
+     the section's now, so a block still carrying its own would add to it. */
+  :where(.sds-prose) .sds-section > :last-child { margin-block-end: 0; }
 
   /* ------------------------------------------------------------ the block -- */
 
@@ -425,7 +439,7 @@
     color: var(--text-primary);
   }
   /* The directive stands on a line of its own; the role stands in a sentence. */
-  :where(.sds-prose) .section > math:not(:has(*)),
+  :where(.sds-prose) .sds-section > math:not(:has(*)),
   :where(.sds-prose) > math:not(:has(*)) {
     display: block;
     margin: 0 0 var(--space-4);

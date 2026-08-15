@@ -1,0 +1,23 @@
+{#
+    A section of a document: a heading and everything under it, down to the
+    next heading of its level.
+
+    The theme draws this rather than taking what the renderer gives, and the
+    class is the system's own — a page whose sections are named `section` is a
+    page whose spacing has to be written against somebody else's markup, and
+    the one rule that gives a heading its air reaches a *sibling*, which the
+    wrapper stands in the way of. Owning the box is what lets the rule state
+    the distance between two sections instead of guessing it.
+
+    A `<section>` and not a `<div>`: it is one. Deliberately unnamed — a named
+    section is a landmark, and thirty nested landmarks is a page a screen
+    reader cannot get out of.
+
+    `:class:` is carried through: dropping what a theme does not understand is
+    the one thing it must not do.
+#}
+<section class="sds-section{% if node.classes %} {{ node.classesString }}{% endif %}" id="{{ node.title.id }}">
+    {%- for childNode in node.children -%}
+        {{ renderNode(childNode) }}
+    {%- endfor -%}
+</section>
