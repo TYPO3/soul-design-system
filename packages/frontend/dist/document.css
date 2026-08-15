@@ -8,9 +8,6 @@
   :where(.sds-prose)>:last-child{margin-block-end:0}
   :where(.sds-prose) .sds-permalink{margin-inline-start:var(--space-2);font-family:var(--font-mono);font-size:.7em;font-weight:var(--weight-regular);color:var(--border-strong);text-decoration:none}
   :where(.sds-prose) .sds-permalink:hover{color:var(--text-link)}
-  .sds-section:target>:is(h1,h2,h3,h4,h5,h6){color:var(--text-accent-quiet)}
-  .sds-section:not(:first-child){margin-block-start:var(--space-12)}
-  .sds-section>:last-child{margin-block-end:0}
   .sds-prose{max-width:none}
   :where(.sds-prose) dt,:where(.sds-prose) .line,:where(.sds-prose) hr,:where(.sds-prose) h1,:where(.sds-prose) h2,:where(.sds-prose) h3,:where(.sds-prose) h4,:where(.sds-prose) h5,:where(.sds-prose) h6{max-width:var(--measure-prose)}
   :where(.sds-prose) li,:where(.sds-prose) dd{max-width:var(--measure-prose)}

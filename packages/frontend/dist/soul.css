@@ -178,6 +178,12 @@
   .sds-eyebrow{--sds-eyebrow-font: var(--font-mono);--sds-eyebrow-font-size: var(--font-size-label);--sds-eyebrow-tracking: var(--tracking-label);--sds-eyebrow-ink: var(--text-muted);display:block;font-family:var(--sds-eyebrow-font);font-size:var(--sds-eyebrow-font-size);letter-spacing:var(--sds-eyebrow-tracking);text-transform:uppercase;color:var(--sds-eyebrow-ink)}
 }
 @layer components{
+  .sds-section{--sds-section-step: var(--space-12);--sds-section-mark-ink: var(--text-accent-quiet)}
+  .sds-section:not(:first-child){margin-block-start:var(--sds-section-step)}
+  .sds-section>:last-child{margin-block-end:0}
+  .sds-section:target>:is(h1,h2,h3,h4,h5,h6){color:var(--sds-section-mark-ink)}
+}
+@layer components{
   .sds-list{--sds-list-gap: var(--space-1)}
   .sds-list>li:not(:last-child){margin-bottom:var(--sds-list-gap)}
   .sds-list--plain{padding-inline-start:0}
