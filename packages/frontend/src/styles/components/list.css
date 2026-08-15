@@ -1,0 +1,22 @@
+/* sds-list — a list that is read rather than scanned, and the one whose items
+   are not sentences. */
+
+@layer components {
+  /* What the element cannot say: the items stand apart. The document's own
+     reset stays tight on purpose — a list of flags under a field is one block
+     of text, and air between its lines would make it two. */
+  .sds-list {
+    --sds-list-gap: var(--space-1);
+  }
+  .sds-list > li:not(:last-child) { margin-bottom: var(--sds-list-gap); }
+
+  /* And a list whose items are not sentences: every one is marked by being a
+     link, and a disc in front of it is a bullet drawn on a menu. The indent goes
+     with the markers at the top level only — below it the step is what says a
+     section belongs to the one above. The markers go from every level, because
+     the nested rule above would otherwise hand them straight back. */
+  .sds-list--plain { padding-inline-start: 0; }
+  .sds-list--plain,
+  .sds-list--plain ul,
+  .sds-list--plain ol { list-style: none; }
+}

@@ -126,12 +126,13 @@
   /* Link-coloured, unlike a card's title: a hit exists to be opened, a card
      exists to be read and sometimes opened. Never underlined — the box under the
      pointer is the answer, and one word answering as well is two answers to one
-     question. */
+     question. It balances for the reason a heading does. */
   .sds-result__title {
     margin: 0;
     font-size: var(--sds-result-title-size);
     line-height: var(--sds-result-title-leading);
     color: var(--sds-result-title-ink);
+    text-wrap: balance;
   }
   a.sds-result:hover { --sds-result-title-ink: var(--sds-result-title-ink-hover); }
   /* One register for the whole line: a third treatment on it would make three

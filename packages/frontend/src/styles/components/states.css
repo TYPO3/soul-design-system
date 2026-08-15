@@ -58,10 +58,12 @@
      would otherwise make its longest line the width of the note, and the note
      the width of the page. Same reason `.sds-code` states it. */
   .sds-note__content { min-width: 0; }
+  /* It balances for the reason a heading does — a few lines, read as a name. */
   .sds-note__title {
     font-size: var(--sds-note-title-size);
     font-weight: var(--sds-note-title-weight);
     line-height: var(--sds-note-title-leading);
+    text-wrap: balance;
   }
   .sds-note__body {
     font-size: var(--sds-note-body-size);
@@ -77,6 +79,7 @@
      list, a code block. They bring their own margins from the document layer,
      and the outermost two would push the note's own padding out of true. */
   .sds-note__body > :first-child { margin-top: 0; }
+  .sds-note__body > :last-child { margin-bottom: 0; }
 
   /* A degraded but usable answer tints the whole block; error and success
      colour the icon only, so a page of results does not read as an alarm. */

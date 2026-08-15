@@ -128,12 +128,14 @@
      card is a subject, not a result. It carries the gap to the label itself. */
   .sds-card__icon { color: var(--sds-card-icon-ink); margin-bottom: var(--sds-card-icon-gap); }
   /* Not `--text-link`, and on the line rather than on the anchor in it: the
-     title is the card's own voice wherever the link turned out to be. */
+     title is the card's own voice wherever the link turned out to be. It
+     balances for the reason a heading does — a few lines, read as a name. */
   .sds-card__title {
     margin: 0;
     font-size: var(--sds-card-title-size);
     line-height: var(--sds-card-title-leading);
     color: var(--sds-card-title-ink);
+    text-wrap: balance;
   }
   /* Never underlined, not even under the pointer: the whole card answers the
      hover, and one word of it changing as well would be two answers to one
@@ -146,8 +148,10 @@
     color: var(--sds-card-text-ink);
   }
   /* The outermost margins of a document's blocks go: the card's padding is
-     already the gap, and a block that brought its own would double it. */
+     already the gap, and a block that brought its own would double it. The last
+     step in particular is air the padding already states. */
   .sds-card__text > :first-child { margin-top: 0; }
+  .sds-card__text > :last-child { margin-bottom: 0; }
   /* What the card leaves the reader with: a line about the target, the action,
      or both. Pushed to the bottom, so a row of cards has its actions on one line
      however long the prose above them ran. No rule over it — a card this size

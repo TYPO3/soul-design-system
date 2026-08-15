@@ -11,10 +11,10 @@
    The order is the order the layer resolves in, so it is the order they were
    written in and not the alphabet. */
 
-@import "components/_shared.css";
 @import "components/quote.css";
 @import "components/byline.css";
 @import "components/text.css";
+@import "components/list.css";
 @import "components/link.css";
 @import "components/icon.css";
 @import "components/button.css";

@@ -97,4 +97,5 @@
   /* The description is blocks — paragraphs, a list, an admonition — and they
      bring their own margins. The outermost two are the entry's own spacing. */
   .sds-confval__body > :first-child { margin-top: 0; }
+  .sds-confval__body > :last-child { margin-bottom: 0; }
 }

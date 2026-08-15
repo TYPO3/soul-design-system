@@ -338,6 +338,9 @@
     --sds-form-errors-radius: var(--radius-card);
   }
   .sds-form-errors:focus-visible { border-radius: var(--sds-form-errors-radius); }
+  /* The list is the last block in the box, and the padding is the air under
+     it. */
+  .sds-form-errors > :last-child { margin-bottom: 0; }
   .sds-form-errors__list {
     display: flex;
     flex-direction: column;

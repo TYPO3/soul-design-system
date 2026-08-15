@@ -52,6 +52,9 @@
     border: var(--sds-plane-border) var(--sds-plane-line) var(--sds-plane-edge);
     border-radius: var(--sds-plane-radius);
   }
+  /* What stands in it brought its own step; the last one is the frame's own
+     padding, which the box already stated. */
+  .sds-example > :last-child { margin-bottom: 0; }
 
   .sds-surface-title {
     --sds-surface-title-size: var(--block-title-size);

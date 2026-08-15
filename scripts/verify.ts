@@ -371,7 +371,7 @@ const CHECKS: readonly Check[] = [
      Two things are read straight because they are the system's and not the
      component's: the focus ring, which is one ring, and the colours that mean
      something — a component able to re-point those could draw an error green.
-     Three files are not a component at all and say so here. */
+     Two files are not a component at all and say so here. */
   {
     name: 'sets',
     label: 'a component draws from its own property set',
@@ -381,10 +381,9 @@ const CHECKS: readonly Check[] = [
         'accent', 'status-ok', 'status-warn', 'status-error',
         'syntax-key', 'syntax-string', 'syntax-comment', 'syntax-text',
       ]);
-      /* What several components share, what turns the page over, and what a
-         picture is before anything frames it. None of the three draws one
-         component, so none of them has a set to draw from. */
-      const NOT_A_COMPONENT = new Set(['_shared.css', 'art.css', 'direction.css']);
+      /* What turns the page over, and what a picture is before anything frames
+         it. Neither draws one component, so neither has a set to draw from. */
+      const NOT_A_COMPONENT = new Set(['art.css', 'direction.css']);
 
       const dir = join(FRONTEND, 'src', 'styles', 'components');
       const problems: string[] = [];

@@ -67,6 +67,9 @@
     line-height: var(--sds-modal-body-leading);
     color: var(--sds-modal-ink-body);
   }
+  /* The body is blocks that bring their own margins, and the air under the last
+     one is padding the box already states. */
+  .sds-modal__body > :last-child { margin-bottom: 0; }
   .sds-modal__foot {
     display: flex;
     justify-content: flex-end;

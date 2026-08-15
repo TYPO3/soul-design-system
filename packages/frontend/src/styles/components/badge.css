@@ -2,8 +2,14 @@
 
 @layer base {
   /* A part: it stands in a line of text or a row of controls and never on its
-     own, so it takes the box that line gives it. */
-  sds-badge { display: inline-flex; }
+     own, so it takes the box that line gives it — and it takes it the same way
+     the box it draws does. An inline box sits on the line by its baseline, and
+     a badge has none to offer, so the element and the class both align to the
+     middle or the two of them stand a fraction of a pixel apart. */
+  sds-badge {
+    display: inline-flex;
+    vertical-align: middle;
+  }
 }
 
 @layer components {

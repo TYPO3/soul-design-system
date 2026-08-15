@@ -105,6 +105,9 @@
     line-height: var(--sds-accordion-body-leading);
     color: var(--sds-accordion-body-ink);
   }
+  /* An answer is blocks and they bring their own margins; the step under the
+     last one is the space below, which the box draws itself. */
+  .sds-accordion__body > :last-child { margin-bottom: 0; }
   /* The space under an answer, drawn rather than padded. Padding is outside the
      height a row can shrink, so as `padding-bottom` it was a floor the fold
      stopped on and then jumped off — the same step, at the start of every open
