@@ -1,0 +1,131 @@
+/* sds-nav-rail — the section's own list, beside the page. */
+
+@layer components {
+  .sds-rail {
+    width: var(--width-sidebar);
+    display: flex;
+    flex-direction: column;
+    gap: var(--border-hairline);
+    font-family: var(--font-mono);
+    font-size: var(--nav-font-size);
+  }
+  /* An item is a row of the rail, so it says so itself. The `inline-flex` it
+     shares with a pill carried only as long as every item was a flex item of the
+     column — a group's are not, and inside a block box eight inline items flow as
+     a paragraph and pair up two to a line. */
+  .sds-rail__item {
+    display: flex;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-control);
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  /* The name is the half that gives, and gives by ending rather than overflowing:
+     the rail is one fixed width and its rows are identifiers with nowhere to
+     break, so a long one lies over whatever is beside it. Its own box, because
+     the cut is a block container's and a row's bare text is not one. */
+  .sds-rail__label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sds-rail__item:hover { color: var(--text-primary); }
+  .sds-rail__item.is-active { background: var(--accent); color: var(--text-on-accent); }
+  /* And the marker over a filled row is in that block, so it is drawn in the
+     block's own ink rather than reading as a glyph left on top of it. */
+  .sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary,
+  .sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary:hover {
+    color: var(--text-on-accent);
+  }
+  /* Before the element upgrades, and on a page where it never will: the column a
+     server wrote. The host is inline until then, so without this the links run
+     together as a paragraph — and the window is every first paint. */
+  sds-nav-rail:not(:defined) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--border-hairline);
+    font-family: var(--font-mono);
+    font-size: var(--nav-font-size);
+  }
+  /* What the rail is a list of, where a renderer names it. `.sds-label` sets the
+     type and nothing else — everywhere else it labels a box that brings its own
+     spacing, and here it is a heading standing directly on its list. */
+  .sds-rail > .sds-label {
+    display: block;
+    margin-bottom: var(--space-2);
+    padding-inline: var(--space-2);
+  }
+  /* And where the section it names is a page, the heading is the way to it, as
+     a footer column's heading is. */
+  .sds-rail__heading {
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .sds-rail__heading:hover,
+  .sds-rail__heading.is-active { color: var(--text-primary); }
+
+  /* A rail long enough to need sections. The row is a page like any other and
+     the marker beside it opens what it holds — the same pair the bar's row
+     draws, so a reader meets one shape and not two. The fold is a `<details>`,
+     so it works before any script does, and `display: contents` lets its marker
+     stand on the row's line while what it holds falls below. */
+  .sds-rail__group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .sds-rail__fold { display: contents; }
+  /* The marker stands *on* the row rather than beside it, so the row is one box:
+     what fills for the current page and what the focus ring goes round takes the
+     marker with it, the way the bar's block does. The row keeps the room free at
+     its end, so a long title never runs under the glyph. */
+  .sds-rail__group > .sds-rail__item { padding-inline-end: calc(var(--control-icon-size) + var(--space-3)); }
+  .sds-rail__fold > summary {
+    position: absolute;
+    inset-inline-end: var(--space-2);
+    top: var(--space-1);
+    z-index: 1;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--control-icon-size);
+    /* The row's own line box, so the glyph sits on the text rather than near
+       it — and the row keeps whatever leading it inherits. */
+    height: 1lh;
+    color: var(--text-muted);
+    border-radius: var(--radius-control);
+  }
+  .sds-rail__fold > summary::-webkit-details-marker { display: none; }
+  .sds-rail__fold > summary:hover { color: var(--text-primary); }
+  /* Sideways closed, down open — it points at what pressing it will do, and
+     keeps the control floor rather than the label's size: an 11px marker is a
+     smudge on the one control in the rail. */
+  .sds-rail__fold > summary .sds-icon {
+    width: var(--control-icon-size);
+    height: var(--control-icon-size);
+    transform: rotate(-90deg);
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  .sds-rail__fold[open] > summary .sds-icon { transform: none; }
+  /* The box the browser puts between a fold and the pages it holds, which
+     `display: contents` above does not reach through. It sets its pages in by
+     one step: a column where everything starts on the same edge says nothing
+     about what belongs to what — and the step is the indent, never a second
+     heading. */
+  .sds-rail__fold::details-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--border-hairline);
+    padding-inline-start: var(--space-3);
+  }
+  .sds-rail__group:last-child > .sds-rail__fold::details-content { padding-bottom: var(--space-2); }
+
+  /* What is on this page: the sections of the page being read, as a list to jump
+     from. Apparatus rather than prose — a step down in size and set in the
+     secondary ink, so a reader uses it or reads past it, and both are easier
+     when it is not a paragraph. */
+}

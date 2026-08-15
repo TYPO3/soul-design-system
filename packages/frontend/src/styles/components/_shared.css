@@ -1,0 +1,42 @@
+/* What several components share: the title a block sets, the step the
+   padded ones take back, and the list. */
+
+@layer components {
+  /* The elements are the reset; the classes are for when the element cannot say
+     it. An editor emits `<p>` and `<h2>` and no class, so a stylesheet dressing
+     only `sds-` names leaves that at the browser's defaults — and not scoped to
+     `.sds-app`, because linking this stylesheet *is* the opt-in. A class still
+     wins, which is the mechanism behind `<h2 class="sds-h3">`. */
+
+  /* And the three titles a component draws, which balance for the same reason
+     the headings do. */
+  .sds-card__title,
+  .sds-result__title,
+  .sds-note__title {
+    text-wrap: balance;
+  }
+
+  /* And a box that pads rather than lays out takes back the last step only: the
+     air under the last block is padding the box already states, and the steps
+     between the blocks above it are the ones doing the work. */
+  :is(.sds-accordion__body, .sds-card__text, .sds-confval__body, .sds-example,
+  .sds-form-errors, .sds-modal__body, .sds-note__body) > :last-child {
+    margin-bottom: 0;
+  }
+
+  /* What the element cannot say: this list is read rather than scanned, so its
+     items stand apart. The reset above stays tight on purpose — a list of flags
+     under a field is one block of text, and air between its lines would make it
+     two. */
+  .sds-list > li:not(:last-child) { margin-bottom: var(--space-1); }
+
+  /* And a list whose items are not sentences: every one is marked by being a
+     link, and a disc in front of it is a bullet drawn on a menu. The indent goes
+     with the markers at the top level only — below it the step is what says a
+     section belongs to the one above. The markers go from every level, because
+     the nested rule above would otherwise hand them straight back. */
+  .sds-list--plain { padding-inline-start: 0; }
+  .sds-list--plain,
+  .sds-list--plain ul,
+  .sds-list--plain ol { list-style: none; }
+}

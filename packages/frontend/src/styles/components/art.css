@@ -1,0 +1,14 @@
+/* What a picture is before anything frames it, and what makes one pressable. */
+
+@layer components {
+  .sds-lightbox__art > .sds-art {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+  }
+  /* The trigger is a link to the file, so a surface with no script still opens
+     the drawing; the element takes the press over once it has upgraded. It is
+     not a control that looks like one and does nothing. Named for what it does
+     rather than for a figure: `sds-image` opens a viewer on the same terms. */
+  .sds-zoom { display: block; cursor: zoom-in; }
+}

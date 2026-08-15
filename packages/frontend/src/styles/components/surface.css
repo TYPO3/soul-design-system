@@ -1,0 +1,51 @@
+/* The planes: the frame every boxed component shares, and the filled ones. */
+
+@layer components {
+  /* A card is a hairline and 6px, no fill. A panel is a raised fill. Sunken
+     is machine output. No shadow on any of them. */
+  .sds-card,
+  .sds-panel,
+  .sds-sunken {
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
+  }
+  .sds-panel { background: var(--surface-raised); }
+  .sds-sunken { background: var(--surface-sunken); }
+
+  /* A rendering put on a page to be looked at rather than read — what a piece of
+     markup produces, beside the markup. Dashed and unfilled: the frame is not
+     part of the page, and what stands in it keeps the ground it would really
+     stand on. The one dashed line in the system, which is what lets it say that
+     and nothing else. */
+  .sds-example {
+    border: var(--border-hairline) dashed var(--border-strong);
+    border-radius: var(--radius-card);
+    padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
+  }
+
+  .sds-surface-title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
+  /* The label sits over the title with the title's own leading between them. */
+  .sds-surface-title:not(:first-child) { padding-block-start: var(--space-1-5); }
+  .sds-surface-body {
+    font-size: var(--block-body-size);
+    line-height: 1.5;
+    color: var(--text-secondary);
+    padding-block-start: var(--space-1);
+  }
+  /* A glyph above the label, where a set of cards is told apart at a glance
+     before it is read. Muted, and never in a status colour: a card is a subject,
+     not a result, and colour here would say something the words do not. */
+  .sds-surface-icon { color: var(--text-secondary); margin-bottom: var(--space-2-5); }
+  /* The glyph carries the gap on its own, so a card with no label between them
+     is not spaced differently from one that has a label. */
+  .sds-surface-icon + .sds-surface-title { margin-top: 0; }
+
+  /* A card that names its own parts — a way into a chapter, with a picture at
+     the top and a foot under a hairline. Selected by what is inside it, so the
+     plane above keeps the padding wherever nothing states its own: a picture
+     flush at the top and a foot spanning the frame both need the padding on the
+     parts, and a container must not share its corner with its contents. */
+  /* The distance the card moves under the pointer, named here so the
+     reduced-motion block can hold it still in one place. */
+}

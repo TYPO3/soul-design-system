@@ -1,0 +1,61 @@
+/* sds-search — the field, and the panel that hangs from it. */
+
+@layer components {
+  .sds-search {
+    position: relative;
+    display: inline-flex;
+    flex: 0 1 260px;
+    min-width: 0;
+  }
+  .sds-search .sds-field { width: 100%; }
+  /* Hung from the end of the field rather than from the start of it. A box given
+     both edges *and* a width keeps the start edge, which is how this drop came
+     to hang off the left of the field and grow right past it — so it is given
+     the one edge it is anchored to. */
+  .sds-search .sds-search__panel {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    inset-inline-end: 0;
+    z-index: 40;
+    width: min(420px, 90vw);
+    max-height: 60vh;
+    overflow-y: auto;
+    /* The frame's own air, and no more: what stands inside it is a run of boxes
+       that carry theirs. */
+    padding: var(--space-2);
+    /* Framed and raised, unlike the bar's drop. That one is the header's row
+       continued, so it is the canvas and is bounded by the page edges it spans;
+       this one floats over the text, and a box laid over a page has to be a
+       plane above it — unframed and in the page's own colour it reads as the
+       page itself having changed rather than as something laid on top. */
+    background: var(--surface-raised);
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    /* And how far off the page it is, said the one way this system says it: a
+       surface that has left the page carries a shadow, and this drop stands at
+       the same distance as the one the bar opens. */
+    box-shadow: var(--shadow-flyout);
+  }
+  .sds-search__panel .sds-hits { margin-inline: 0; }
+  .sds-search__panel .sds-result { --result-thumb: 72px; }
+  .sds-search__panel .sds-result__title { font-size: var(--block-title-size); }
+  /* Two lines of the sentence, and the rest cut. A drop is passed through on the
+     way to a page: what is being read here is which page it is, and a paragraph
+     per row is a page of reading in front of the one that was asked for. */
+  .sds-search__panel .sds-result__text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+  /* An empty answer is a sentence, not a box in a box: whatever it hangs in is
+     already the plane, and a second hairline inside it reads as a card that
+     failed to fill. The measure goes too — the drop is narrower than a reading
+     column and would wrap the sentence twice over. */
+  .sds-hits__empty { padding: var(--space-3); }
+  /* The sentence ends where the block ends: a paragraph's own margin under the
+     last line is a second bottom, and the block already has one. */
+  .sds-hits__empty p { max-width: none; margin-block: 0; }
+  .sds-hits__empty .sds-surface-title { margin-bottom: var(--space-1); }
+}

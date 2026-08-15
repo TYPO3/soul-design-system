@@ -1,0 +1,29 @@
+/* What changes when the page runs the other way. */
+
+@layer components {
+  /* Everything above is written in logical properties, so a start edge follows
+     the document and the layout mirrors itself. A drawing does not: a glyph
+     that means "onward" points one way in the file and has to be turned. */
+  :where(:dir(rtl)) :is(.sds-card__action, .sds-pager, .sds-pagination__step) .sds-icon {
+    scale: -1 1;
+  }
+  /* The marker on a closed fold points the way the text runs, so it turns with
+     it — the open state is `none` on both sides and is left alone. */
+  :where(:dir(rtl)) :is(.sds-rail__group > summary, .sds-accordion__head) .sds-icon {
+    transform: rotate(90deg);
+  }
+  /* Only where the system chose the direction. A page that asked for
+     `actions-arrow-right` named an arrow, not a heading, and gets the one it
+     named. */
+
+  /* Mono is semantic in this system: it marks what a machine reads, writes or
+     names. None of that mirrors — a path reordered at its slashes is a
+     different path — so those runs are pinned and isolated from the sentence
+     around them. Mono used as a register, a label or a tab, is text and turns
+     with the page. */
+  :where(pre, code, kbd, samp, .sds-mono, .sds-diff,
+  .sds-code__path, .sds-result__path, .sds-td-name, .sds-td-meta) {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+}

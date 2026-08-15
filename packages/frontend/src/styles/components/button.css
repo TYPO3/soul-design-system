@@ -1,0 +1,100 @@
+/* sds-button — the three variants, the three heights. */
+
+@layer components {
+  .sds-btn {
+    font-family: var(--font-sans);
+    font-size: var(--control-font-size);
+    font-weight: var(--weight-semibold);
+    line-height: var(--control-leading);
+    min-height: var(--control-height);
+    border-radius: var(--radius-control);
+    padding: var(--control-pad-y) var(--control-pad-x);
+    border: var(--border-hairline) solid transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--control-gap);
+    text-decoration: none;
+    transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+  }
+
+  /* This class is worn by anchors too — a press that goes somewhere is a link —
+     and `a:hover` is a type *and* a pseudo-class, which outweighs a bare class.
+     So the state has to be named here as well, or every such control grows an
+     underline under the pointer that no button in this system has. */
+  .sds-btn:hover { text-decoration: none; }
+
+  /* Everything a caller wrote that is not a glyph, in one item. Written beside
+     each other the parts of a label are items of their own, and this row places
+     an item by its box — so a word and a version in mono, being two faces, sit
+     on two baselines. Here they share a line box and set as one line of text. */
+  .sds-btn__label { display: block; }
+
+  /* One primary per view — the action that starts work. */
+  .sds-btn--primary { background: var(--accent); color: var(--text-on-accent); }
+  .sds-btn--primary:hover { background: var(--accent-hover); }
+
+  .sds-btn--secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+  .sds-btn--secondary:hover { background: var(--surface-raised); border-color: var(--text-muted); }
+
+  .sds-btn--ghost { background: transparent; color: var(--text-secondary); }
+  .sds-btn--ghost:hover { color: var(--text-primary); }
+
+  .sds-btn--sm {
+    font-size: var(--control-font-size-sm);
+    min-height: var(--control-height-sm);
+    padding: var(--control-pad-y-sm) var(--control-pad-x-sm);
+  }
+
+  /* The one action a screen is for — a landing's single call, not a row of
+     actions. Beside a second large button neither is the one. */
+  .sds-btn--lg {
+    font-size: var(--control-font-size-lg);
+    min-height: var(--control-height-lg);
+    padding: var(--control-pad-y-lg) var(--control-pad-x-lg);
+  }
+
+  /* Icon-only is a square, and always carries a title= — the label is not
+     optional just because it is not painted. The side is the control height, so
+     a marked button and a worded one stand the same in a row, and it is set both
+     ways because a fixed width against a `min-height` is square by arithmetic. */
+  .sds-btn--icon {
+    padding: 0;
+    width: var(--control-height);
+    height: var(--control-height);
+    min-height: var(--control-height);
+    justify-content: center;
+  }
+  .sds-btn--sm.sds-btn--icon {
+    width: var(--control-height-sm);
+    height: var(--control-height-sm);
+    min-height: var(--control-height-sm);
+  }
+  .sds-btn--lg.sds-btn--icon {
+    width: var(--control-height-lg);
+    height: var(--control-height-lg);
+    min-height: var(--control-height-lg);
+  }
+
+  /* A glyph inside a label is as big as that label. A glyph that IS the control
+     is not a label at all, so it keeps the floor — at `sm` the text is 13px and
+     the square would otherwise hold a 13px mark in a 28px box. */
+  .sds-btn--icon .sds-icon {
+    width: var(--control-icon-size);
+    height: var(--control-icon-size);
+  }
+  .sds-btn--lg.sds-btn--icon .sds-icon {
+    width: var(--control-icon-size-lg);
+    height: var(--control-icon-size-lg);
+  }
+
+  .sds-btn:disabled,
+  .sds-btn.is-disabled { opacity: 0.5; cursor: not-allowed; }
+}

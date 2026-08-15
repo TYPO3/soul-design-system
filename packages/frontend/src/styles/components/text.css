@@ -1,0 +1,40 @@
+/* The registers a page writes in: the label over a block, and the mono the
+   machine is quoted in. */
+
+@layer components {
+  /* A section label: mono, uppercase, tracked out. */
+  .sds-label {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* Inline mono for anything the machine named — tool names, paths, flags,
+     versions. The optical ratio sets it under the sentence around it, so a step
+     of weight puts back the colour the smaller size took out: the face on its
+     own reads as a lighter grey and the run goes under. It breaks where it has
+     to — a path is one word, and one word wider than a phone scrolls the page. */
+  .sds-mono,
+  code,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+    font-size: var(--font-mono-optical);
+    font-weight: var(--weight-medium);
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+  }
+  /* Inside a block the machine wrote, the block has already decided the size,
+     the weight and the colour — `<code>` there is the element `<pre>` is
+     required to contain, not a phrase standing out of a sentence. Without this
+     the ratio above applies a second time and the step of weight sets a whole
+     block in medium, which is a block asking to be read as emphasis. */
+  .sds-code__body code,
+  .sds-diff code {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
+}

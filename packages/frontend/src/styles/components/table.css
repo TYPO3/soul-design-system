@@ -1,0 +1,90 @@
+/* sds-table — rows at three densities, and the scroller around them. */
+
+@layer components {
+  /* Density is a choice about the work, not about loudness: compact when the
+     list *is* the work, airy when the rows are read rather than scanned. */
+  .sds-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--row-font-medium);
+    --sds-row-pad: var(--row-pad-medium);
+    --sds-name: var(--row-name-medium);
+    --sds-meta: var(--row-meta-medium);
+  }
+  .sds-table--compact {
+    font-size: var(--row-font-compact);
+    --sds-row-pad: var(--row-pad-compact);
+    --sds-name: var(--row-name-compact);
+    --sds-meta: var(--row-meta-compact);
+  }
+  .sds-table--medium {
+    font-size: var(--row-font-medium);
+    --sds-row-pad: var(--row-pad-medium);
+    --sds-name: var(--row-name-medium);
+    --sds-meta: var(--row-meta-medium);
+  }
+  .sds-table--airy {
+    font-size: var(--row-font-airy);
+    --sds-row-pad: var(--row-pad-airy);
+    --sds-name: var(--row-name-airy);
+    --sds-meta: var(--row-meta-airy);
+  }
+
+  /* A table wider than the column it sits in. The scroller is a box **around**
+     the table, never the table itself: `display: block` takes the element out of
+     table layout, and the row groups left inside generate an anonymous table box
+     that shrink-wraps — narrowing every table that was not too wide. As a wrapper
+     nothing changes, and the table overflows only where its minimum is wider. */
+  .sds-table-scroll { max-width: 100%; overflow-x: auto; }
+  /* The wrapper carries the step for both of them — see the block list at the
+     top of this file. Left here it would be dead air inside the scroller and
+     nothing below it. */
+  .sds-table-scroll > .sds-table { margin-bottom: 0; }
+
+  .sds-table th {
+    text-align: start;
+    font-family: var(--font-mono);
+    font-size: var(--table-head-size);
+    letter-spacing: var(--table-head-tracking);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: var(--weight-regular);
+    padding-block: 0 var(--sds-row-pad);
+    padding-inline: 0 var(--space-3);
+    border-bottom: var(--border-hairline) solid var(--border-strong);
+  }
+
+  .sds-table td {
+    padding-block: var(--sds-row-pad);
+    padding-inline: 0 var(--space-3);
+    border-bottom: var(--border-hairline) solid var(--border-subtle);
+    color: var(--text-secondary);
+  }
+
+  .sds-table th:last-child,
+  .sds-table td:last-child { padding-inline-end: 0; }
+
+  /* The machine's own names, in the machine's own font. */
+  .sds-table td.sds-td-name {
+    font-family: var(--font-mono);
+    font-size: var(--sds-name);
+    color: var(--text-link);
+  }
+  .sds-table td.sds-td-meta {
+    font-family: var(--font-mono);
+    font-size: var(--sds-meta);
+    color: var(--text-muted);
+  }
+
+  /* Never zebra stripes. Background changes on hover or selection only, so a
+     highlighted row means something. */
+  .sds-table tbody tr:hover { background: var(--surface-raised); }
+  .sds-table tbody tr.is-selected { background: var(--surface-accent-quiet); }
+  /* The selected row leaves the scanning registers. `--text-muted` and
+     `--text-link` are tuned against the canvas, and the accent fill moves the
+     ground under them: each lands a hair under 4.5:1 on it. Nothing is wrong with
+     either token or with the fill — the pair only meets on this row, which is
+     also the one row with no reason to be set for scanning. */
+  .sds-table tbody tr.is-selected td.sds-td-name,
+  .sds-table tbody tr.is-selected td.sds-td-meta { color: var(--text-primary); }
+}

@@ -1,0 +1,55 @@
+/* What a pill, a tab and a rail item share, and the row of pills itself. */
+
+@layer components {
+  button.sds-pill,
+  button.sds-tab,
+  button.sds-rail__item {
+    font: inherit;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    text-align: start;
+  }
+
+  /* An item may carry a glyph before its label, which is the only reason these
+     are flex rather than inline text. */
+  .sds-pill,
+  .sds-tab,
+  .sds-rail__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1-5);
+  }
+
+  /* Pill nav for sections. Active is a filled block, not a tint. */
+  /* Wraps. In a header the menu decides what to do when the row runs out — it
+     measures, and becomes a panel. Standing on a page as a filter there is
+     nothing to measure against and nothing to collapse into: a second line costs
+     the page 30px, and the alternative is five items pushing a phone sideways.
+     Which is what four filters and a phone did the first time they met. */
+  .sds-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: var(--nav-font-size);
+  }
+  .sds-pill {
+    padding: var(--space-1-5) var(--space-3);
+    border-radius: var(--radius-control);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  }
+  /* One pill is one line. Two words in it are the name of one place, and a place
+     whose name has been folded in half is the row admitting it did not fit —
+     which is a decision the menu makes by collapsing, not something a label does
+     quietly on its own. */
+  .sds-pill { white-space: nowrap; }
+  .sds-pill:hover { color: var(--text-primary); }
+  .sds-pill.is-active { background: var(--accent); color: var(--text-on-accent); }
+
+  /* The same pills, plus what happens when the bar runs out of room for them.
+     The element measures and decides — see `src/components/header.ts`; what is
+     here is only the shapes it decides between. */
+}

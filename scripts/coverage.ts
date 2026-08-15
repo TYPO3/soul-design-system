@@ -147,13 +147,22 @@ for (const tag of TAGS) {
 }
 axis('stories', `${TAGS.filter(hasStory).length} of ${TAGS.length} elements`);
 
+/** Every stylesheet the system has, the file-per-component among them. Read
+    from the directory: a list by hand goes stale at the next component. */
+function stylesheets(dir = join(FRONTEND, 'src/styles')): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    return entry.isDirectory() ? stylesheets(path) : entry.name.endsWith('.css') ? [path] : [];
+  });
+}
+
+/* The specimen chrome and the document layer are not the class vocabulary a
+   design draws with, so what has to be *shown* is read without them. */
+const drawn = stylesheets().filter((f) => !/_specimen\.css|document\.css/.test(f));
+
 const classes = [
   ...new Set(
-    [...['reset.css', 'base.css', 'layout.css', 'components.css']
-      .map((f) => readFileSync(join(FRONTEND, 'src/styles', f), 'utf8'))
-      .join('\n')
-      .matchAll(/\.(sds-[\w-]*)/g)]
-      .map((m) => m[1] as string),
+    [...read(drawn).matchAll(/\.(sds-[\w-]*)/g)].map((m) => m[1] as string),
   ),
 ].sort();
 const isDrawn = (cls: string): boolean => shown.includes(cls);
@@ -249,9 +258,7 @@ for (const m of theme.matchAll(/\b(sds-[a-z-]+)__[a-z-]+/g)) {
 axis('parts', `${templates.length} templates`);
 
 const defined = new Set<string>();
-for (const sheet of ['src/styles/reset.css', 'src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
-  for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) defined.add(m[1] as string);
-}
+for (const m of read(stylesheets()).matchAll(/\.([a-zA-Z][\w-]*)/g)) defined.add(m[1] as string);
 const written = new Set<string>();
 for (const m of theme.matchAll(/class="([^"]*)"/g)) {
   /* Half of these attributes are composed at render time. The literal parts

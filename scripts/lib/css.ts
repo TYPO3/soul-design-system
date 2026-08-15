@@ -9,6 +9,8 @@
    the minifier wrote them. The point is a seam every rule, not a pretty
    sheet. */
 
+import { dirname, join } from 'node:path';
+
 /** A statement in a stylesheet: a declaration or at-rule (`body` null), or a
     rule with a block. Style rules, at-rules and keyframe steps are all this
     shape, which is why nothing here carries a list of at-rule names. */
@@ -94,4 +96,12 @@ function render(nodes: Node[], indent: string): string[] {
 export function rulePerLine(css: string): string {
   const lines = render(statements(css), '');
   return lines.length ? `${lines.join('\n')}\n` : '';
+}
+
+/** A stylesheet with its own `@import`s pulled in, for anything that ships or
+    hashes "the stylesheet" as one file. Only local paths: a URL is somebody
+    else's file and stays a request. */
+export function inlineImports(path: string, read: (p: string) => string): string {
+  return read(path).replace(/^@import\s+"([^"]+)";\s*$/gm, (whole, ref: string) =>
+    /^[a-z]+:/.test(ref) ? whole : inlineImports(join(dirname(path), ref), read));
 }

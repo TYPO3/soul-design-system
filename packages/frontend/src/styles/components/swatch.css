@@ -1,0 +1,51 @@
+/* sds-swatch — a colour, its name and the value it resolves to. */
+
+@layer components {
+  .sds-swatch {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+  /* The hairline round the chip is the system's own, not the value being shown —
+     without it a swatch the colour of the page would be an empty square, which
+     is the one case a palette has to be able to draw. */
+  .sds-swatch__chip {
+    flex: none;
+    width: var(--swatch-chip-size);
+    height: var(--swatch-chip-size);
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-control);
+  }
+  /* A hairline shown as itself: the value is the edge and the page's own ground
+     stands inside it. Drawn at the emphasis width rather than at one pixel,
+     because a single pixel beside a filled chip reads as an empty one. */
+  .sds-swatch--line .sds-swatch__chip {
+    border-width: var(--border-emphasis);
+    background: none;
+  }
+  .sds-swatch__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0-5);
+    min-width: 0;
+  }
+  /* The name breaks inside the word: a token is one word, and a set of these is
+     laid out in columns narrower than the longest of them. */
+  .sds-swatch__name {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-dense);
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+  }
+  .sds-swatch__value {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    color: var(--text-muted);
+  }
+
+  /* One glyph in a wall of them, scanned rather than read. The card's own frame,
+     because a tile is a way into something too — what differs is which part is
+     the subject. The whole box is the anchor, so nothing inside it needs
+     stretching over anything. */
+}

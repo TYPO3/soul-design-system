@@ -1,0 +1,80 @@
+/* sds-icon-tile — a glyph shown as the thing itself. */
+
+@layer components {
+  .sds-icon-tile {
+    --icon-tile-lift: -2px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-3);
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+  }
+  /* The subject, given the room that makes it the thing being looked at. A
+     stated height and not an aspect ratio: the tiles across a row have to agree
+     where their names start, and a wall that reflows has no column count to
+     work one out from. */
+  .sds-icon-tile__art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tile-art-size);
+  }
+  /* Held back: a wall is found by shape, and a column of identifiers at full
+     strength is a column of text with drawings between it. Machine text all the
+     same, never the label register — uppercasing it would hand back a different
+     string. It breaks inside the word: cut off, a name is unusable. */
+  .sds-icon-tile__name {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    line-height: var(--leading-heading);
+    color: var(--text-muted);
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  /* The one fact the drawing cannot show, in the corner it does not use. It
+     shares the tile's own corner on the outside and squares off on the inside,
+     which is what keeps it read as part of the frame rather than as a chip
+     dropped on top of it. */
+  .sds-icon-tile__tag {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    padding: var(--space-1) var(--space-1-5);
+    border-start-end-radius: calc(var(--radius-card) - var(--border-hairline));
+    border-end-start-radius: var(--radius-control);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    line-height: 1;
+    color: var(--text-secondary);
+    background: var(--surface-inset);
+  }
+  /* A rise and a fill under the pointer, as a card has. Only where it goes
+     somewhere: a tile that documents a set rather than indexing it does not
+     move, and the keyboard gets the same answer the pointer does. */
+  .sds-icon-tile[href]:hover,
+  .sds-icon-tile[href]:focus-visible {
+    border-color: var(--border-strong);
+    background: var(--surface-raised);
+    transform: translateY(var(--icon-tile-lift));
+  }
+  /* And the ring on the tile's own corner, for the reason the card keeps its:
+     the frame is what answers the press. */
+  .sds-icon-tile:focus-visible { border-radius: var(--radius-card); }
+
+  /* A figure: numbers stated as facts. The value is the largest thing in it and
+     the label under it says what was counted, because a number whose unit is
+     above it is read twice. Set in sans — mono means the machine named it, and a
+     count is a fact about the software rather than a string it returns. */
+  /* No layout of its own: a set of figures is a set read side by side, which is
+     what `sds-grid` is. A second grid here would be the same decision made
+     twice, and only one of the two would learn what the wall learns next. */
+}

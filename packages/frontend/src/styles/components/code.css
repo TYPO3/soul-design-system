@@ -1,0 +1,174 @@
+/* sds-code and sds-diff — what the machine wrote, coloured on the server. */
+
+@layer components {
+  /* A code block is a control-scale object: --radius-control, not the card
+     radius. Sunken, because it is machine output. */
+  /* A block never widens the column it sits in. Its longest line is its
+     min-content width, and in a flex column that becomes a floor the whole page
+     is measured against — which is how a 1080px column with a 40-character
+     command in it pushed a 1440px page sideways. The body already scrolls; this
+     is what lets it. */
+  .sds-code {
+    min-width: 0;
+    max-width: 100%;
+    border: var(--border-hairline) solid var(--border-subtle);
+    background: var(--surface-sunken);
+    border-radius: var(--radius-control);
+    overflow: hidden;
+  }
+  .sds-code__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--control-gap);
+    padding: var(--block-pad-y-tight) var(--block-pad-x);
+    border-bottom: var(--border-hairline) solid var(--border-subtle);
+    color: var(--text-muted);
+  }
+  /* The language a block is in, and the one affordance its head carries. Both
+     set in the label register — mono, small, tracked, upper case — because a
+     head is machine metadata and not a sentence. */
+  .sds-code__head .sds-icon {
+    /* The floor, not the label's size: the head sets in the label register at
+       11px, and the copy button and the diff's file mark are controls rather
+       than words. Same reason as the rail's fold marker. */
+    width: var(--control-icon-size);
+    height: var(--control-icon-size);
+  }
+  .sds-code__lang {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+  /* The file a diff is of, in the same head and the same register — but not
+     upper case, because a path is a name the machine owns and typing it in
+     another case makes it a different path. `.sds-label` would have shouted it;
+     `spec-cap` was what this used, and that class is in the annotation layer,
+     so every product surface with a diff on it got an unstyled caption. */
+  .sds-code__path {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    letter-spacing: var(--tracking-label);
+    color: var(--text-muted);
+  }
+  /* Copying a block is the component's job, not the page's. */
+  .sds-code__copy {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1-5);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--text-muted);
+    background: none;
+    border: 0;
+    padding: 0;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .sds-code__copy:hover { color: var(--text-primary); }
+  /* Copied is a changed glyph, not a changed colour on the same one: the check
+     replaces the duplicate rather than sitting beside it. */
+  .sds-code__glyph,
+  .sds-code__copied { display: inline-flex; }
+  /* Both halves, and both are needed. Hiding the check at rest without showing
+     it again on `is-copied` leaves a button that only ever loses a glyph — the
+     duplicate goes and nothing arrives, which is how this shipped for one
+     commit. The two selectors have the same specificity, so the second wins on
+     order. */
+  .sds-code__copy .sds-code__copied { display: none; }
+  .sds-code__copy.is-copied .sds-code__glyph { display: none; }
+  .sds-code__copy.is-copied .sds-code__copied { display: inline-flex; }
+  .sds-code__copy.is-copied { color: var(--status-ok); }
+  .sds-code__body {
+    margin: 0;
+    min-width: 0;
+    padding: var(--block-pad-y) var(--block-pad-x);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-dense);
+    line-height: var(--leading-code);
+    color: var(--text-secondary);
+    overflow-x: auto;
+  }
+  /* The shell prompt is one of the three places the accent is allowed. */
+  .sds-code__prompt { color: var(--accent); }
+  .sds-code__cmd { color: var(--text-primary); }
+  .sds-code__comment { color: var(--syntax-comment); }
+  .sds-code__ok { color: var(--status-ok); }
+
+  /* What the block is, above it. */
+  .sds-code__caption {
+    font-size: var(--aside-size);
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  /* The highlighter's classes, mapped onto the three syntax colours this system
+     names and onto nothing else. A stylesheet giving each of the thirty
+     highlight.js emits its own would be inventing colours the system never
+     decided; everything unlisted reads as ordinary code text. */
+  .hljs-keyword,
+  .hljs-selector-tag,
+  /* A selector's class and pseudo are the same thing its tag is — what the rule
+     is aimed at — so they read as one and not as three. */
+  .hljs-selector-class,
+  .hljs-selector-pseudo,
+  .hljs-built_in,
+  .hljs-name,
+  .hljs-attr,
+  .hljs-attribute,
+  .hljs-title,
+  .hljs-section,
+  .hljs-tag { color: var(--syntax-key); }
+
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-regexp,
+  .hljs-addition,
+  .hljs-meta-string,
+  .hljs-meta { color: var(--syntax-string); }
+
+  .hljs-comment,
+  .hljs-quote,
+  .hljs-deletion { color: var(--syntax-comment); }
+
+  /* Ordinary code text, said out loud. Unlisted classes already read this way,
+     so these are here because the decision was made rather than defaulted into —
+     `punctuation` in particular, which JSON emits for every brace and comma and
+     which a theme is always tempted to grey out. Structure is not annotation. */
+  .hljs-number,
+  .hljs-literal,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-subst,
+  .hljs-type,
+  .hljs-punctuation,
+  .hljs-params { color: var(--text-primary); }
+
+  /* Diff: the one place a status colour may fill a whole line. */
+  .sds-diff {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--diff-font-size);
+    line-height: var(--diff-leading);
+    overflow-x: auto;
+  }
+  .sds-diff__line {
+    display: block;
+    padding: 0 var(--space-4);
+    color: var(--text-muted);
+  }
+  .sds-diff__line--add {
+    background: color-mix(in oklch, var(--status-ok) var(--diff-tint), transparent);
+    color: var(--text-secondary);
+  }
+  .sds-diff__line--del {
+    background: color-mix(in oklch, var(--status-error) var(--diff-tint), transparent);
+    color: var(--text-secondary);
+  }
+  .sds-diff__line--add .sds-diff__mark { color: var(--status-ok); }
+  .sds-diff__line--del .sds-diff__mark { color: var(--status-error); }
+}

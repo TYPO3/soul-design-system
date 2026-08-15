@@ -24,13 +24,29 @@ export interface Mapper {
     real navigation free to keep its fallback when a face arrives late. */
 export async function loadFonts(page: Page): Promise<void> {
   await page.evaluate(async () => {
-    await Promise.all([
-      document.fonts.load('400 1em "Source Sans 3"'),
-      document.fonts.load('italic 400 1em "Source Sans 3"'),
-      document.fonts.load('400 1em "Source Code Pro"'),
-    ]);
-    await document.fonts.ready;
+    /* Every declared face, and asked again until each one says it is loaded.
+       Six pages fetching nine files off `file://` at once is a race some of
+       them lose, and a lost one is silent: the text simply lays out in the
+       fallback, narrower, and a caption that should have wrapped does not. */
+    for (let attempt = 0; attempt < 10; attempt++) {
+      await Promise.all([...document.fonts].map((face) => face.load().catch(() => face)));
+      await document.fonts.ready;
+      if ([...document.fonts].every((face) => face.status === 'loaded')) return;
+    }
   });
+}
+
+/** Wait until the page has stopped arriving. A card references its sprite and
+    its drawings as files, and an `<img>` or a `<use>` that is still being
+    fetched paints nothing — the screenshot then differs from the last run for
+    no reason anybody changed, which is a safety net that cries wolf. */
+export async function settled(page: Page): Promise<void> {
+  await page.waitForFunction(() => {
+    const images = [...document.images].every((img) => img.complete);
+    const refs = [...document.querySelectorAll('use')]
+      .every((use) => use.getBoundingClientRect().width > 0);
+    return images && refs;
+  }, undefined, { timeout: 15_000 });
 }
 
 /** Launch a browser, hand it over, and close it whatever happens. `finally`
@@ -103,4 +119,5 @@ export async function openCard(
   });
   await page.goto(pathToFileURL(card.path).href, { waitUntil: 'load' });
   await loadFonts(page);
+  await settled(page);
 }

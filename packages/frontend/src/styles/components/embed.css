@@ -1,0 +1,48 @@
+/* sds-embed — a document in a frame, at the shape it holds. */
+
+@layer components {
+  .sds-embed { display: flex; flex-direction: column; gap: var(--space-3); }
+  .sds-embed__frame {
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--surface-sunken);
+    overflow: hidden;
+  }
+  /* The default browser border on an iframe is an inset ridge that predates
+     every rule in this file, and it draws inside the corner rather than around
+     it. The frame is the border here. */
+  .sds-embed__frame > iframe { display: block; border: 0; }
+  /* Fills the column and holds its shape at every width. `aspect-ratio` is on
+     the frame and the document inside takes both dimensions from it, so the
+     ratio is stated once — the `width` and `height` a player is embedded with
+     are its native size and not its shape. */
+  .sds-embed__frame--fluid > iframe { width: 100%; height: 100%; }
+  /* The size it was made for, and no other. A card was measured at the viewport
+     its header declares, so a frame that narrowed it would be showing a layout
+     nothing ever checked. Below that width it scrolls, which is what a wide
+     table gets here for the same reason; above it the frame stops at the
+     document rather than stretching a plane out beside it. */
+  .sds-embed__frame--fixed { width: max-content; max-width: 100%; overflow: auto; }
+  /* And it is a tab stop while it scrolls, so it is named in the ring at the top
+     of this file. All it says for itself is that its corner is a card's. */
+  .sds-embed__frame:focus-visible { border-radius: var(--radius-card); }
+  .sds-embed__caption {
+    font-size: var(--aside-size);
+    line-height: var(--aside-leading);
+    color: var(--text-muted);
+    max-width: var(--measure-prose);
+  }
+
+  /* Artwork — one file, in both modes, and its own block because a figure is not
+     the only thing carrying one. One rule for two elements: a photograph is an
+     `<img>` and a drawing an `<svg>` referencing the file, because only the
+     second is reached by the tokens. `height: auto` needs an aspect ratio, which
+     the `<img>` takes from the file and the `<svg>` from its viewBox. */
+  .sds-art { display: block; width: 100%; height: auto; }
+
+  /* A list of hits, and one hit in it.
+
+     Separated by a hairline rather than boxed. A hit is read, discarded and the
+     next one is read, which is what a list is for and what a grid of cards
+     prevents — and what tells two of them apart at a glance is the line. */
+}

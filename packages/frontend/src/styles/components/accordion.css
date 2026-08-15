@@ -1,0 +1,138 @@
+/* sds-accordion — a list of questions, each with its answer folded behind it. */
+
+@layer components {
+  .sds-accordion {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--measure-prose);
+    border-bottom: var(--border-hairline) solid var(--border-subtle);
+  }
+  .sds-accordion__item { border-top: var(--border-hairline) solid var(--border-subtle); }
+  .sds-accordion__head {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+    /* The pair every block with a title carries, so a question follows the
+       register it stands in instead of naming a size of its own. It was the one
+       head set below its own body, which reads as a caption over an article. */
+    font-size: var(--block-title-size);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-heading);
+    color: var(--text-primary);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .sds-accordion__head::-webkit-details-marker { display: none; }
+  .sds-accordion__head:hover { color: var(--text-link); }
+  /* The ring, turned inward. A question is full-bleed and its box ends on the
+     hairlines above and below, so the ring as drawn everywhere else lands on
+     both; inset, it stands in the row's own padding. */
+  .sds-accordion__head:focus-visible {
+    outline-offset: calc(-1 * (var(--border-emphasis) + var(--focus-offset)));
+    box-shadow: inset 0 0 0 var(--focus-halo) var(--accent-ring);
+  }
+  /* The marker keeps the floor rather than the label's size — it is an
+     affordance and not a word. Sideways closed, down open: it points at what
+     pressing it will do. */
+  .sds-accordion__head .sds-icon {
+    width: var(--control-icon-size);
+    height: var(--control-icon-size);
+    /* Centred on the first line rather than nudged onto it: the question is
+       the same size as the answer under it, and a typed offset would only ever
+       suit one line height. */
+    margin-top: calc((1lh - var(--control-icon-size)) / 2);
+    color: var(--text-muted);
+    transform: rotate(-90deg);
+    /* The marker turns for as long as the answer takes, on the answer's own
+       curve. Two durations on one press read as two things happening. */
+    transition: transform var(--duration-base) var(--ease-standard);
+  }
+  .sds-accordion__item[open] > .sds-accordion__head .sds-icon { transform: none; }
+  .sds-accordion__body {
+    /* A grid item's own floor is its content, which is what keeps a collapsed
+       row from reaching zero. */
+    min-height: 0;
+    padding: 0 0 0 calc(var(--control-icon-size) + var(--space-3));
+    font-size: var(--block-body-size);
+    line-height: var(--leading-body);
+    color: var(--text-secondary);
+  }
+  /* The space under an answer, drawn rather than padded. Padding is outside the
+     height a row can shrink, so as `padding-bottom` it was a floor the fold
+     stopped on and then jumped off — the same step, at the start of every open
+     and the end of every close. */
+  .sds-accordion__body::after {
+    content: '';
+    display: block;
+    height: var(--space-5);
+  }
+  /* The fold, on the box the browser puts around an answer. A row from `0fr` to
+     `1fr` is the answer's own height without measuring it, which is what a
+     pixel height would need a script for; `content-visibility` is carried along
+     so the closed answer still leaves the tree at the end. Where the box has no
+     name yet the fold is instant, and nothing else changes. */
+  .sds-accordion__item::details-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    /* Clipped, or a collapsed answer is still drawn. The margin is the ring: an
+       answer holds links and a code block with a copy on it, and a clip on the
+       edge exactly cuts the ring off the ones that sit against it. */
+    overflow: clip;
+    overflow-clip-margin: 5px;
+    /* The answer goes before the room it stands in does, and arrives after. A
+       height alone cuts a sentence through the middle at every frame, which is
+       what a fold reads as when it looks abrupt. */
+    opacity: 0;
+    transition:
+    grid-template-rows var(--duration-base) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-out),
+    content-visibility var(--duration-base) allow-discrete;
+  }
+  .sds-accordion__item[open]::details-content { grid-template-rows: 1fr; opacity: 1; }
+  /* An answer reached by its own address arrives open, and the one it closed
+     arrives shut. A fold that plays out on arrival is the ground moving under a
+     reader who pressed nothing, and the scroll that was aimed at it lands where
+     the page stood rather than where it settles. Stated on the set, because what
+     moves the ground is the other answer closing. */
+  .sds-accordion:has(:target) .sds-accordion__item::details-content { transition: none; }
+
+  /* What the bar and the site footer shed as the page narrows. Here rather
+     than with the page layout: a rule in a later layer wins inside a media
+     query too, so a component whose breakpoints live one layer down has
+     breakpoints that never take effect. */
+  @media (max-width: 1140px) {
+    .sds-bar { gap: var(--space-4); }
+  }
+  @media (max-width: 640px) {
+    /* The closing line wraps here, and a set of marks pushed to the far end of a
+       line it is alone on sits against the right edge under text that starts at
+       the left. There is no end to be at once the line broke. */
+    .sds-footer__marks { margin-inline-start: 0; }
+  }
+  @media (max-width: 460px) {
+
+    /* The brand half of the wordmark, never the signet and never the product:
+       the name of the thing the reader came for is what tells them which page
+       they are on, and whose it is is what the signet beside it already says. */
+    .sds-bar .sds-wordmark__brand,
+    .sds-bar .sds-wordmark__pipe { display: none; }
+    /* One name left is the mark itself, in the mark's own weight — the same
+       lockup a site with no brand draws, rather than the quiet half standing
+       alone with nothing for it to be quiet beside. */
+    .sds-bar .sds-wordmark__product {
+      font-weight: inherit;
+      color: inherit;
+    }
+  }
+
+  /* The search field and its drop. `sds-search` renders both; what is here is
+     where the panel sits, which is a layout question. It hangs from the field
+     rather than pushing the bar apart, and it is bounded — eight hits is a list,
+     forty is a page nobody asked for. */
+  /* The block the element draws, and the box the panel hangs from. Without one
+     the drop finds whatever is positioned above it — which in a bar is the bar,
+     so it hung off the header's right edge rather than off the field. */
+}

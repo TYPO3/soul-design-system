@@ -13,6 +13,7 @@ import { dirname, join, relative, resolve, sep } from 'node:path';
 import * as esbuild from 'esbuild';
 
 import { FRONTEND, GENERATED, ROOT, byGroup, cards, screens, type Card } from './lib/cards.ts';
+import { inlineImports } from './lib/css.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
 import * as report from './lib/report.ts';
 
@@ -25,10 +26,13 @@ const NS = 'SDS';
 
 const sha12 = (b: string | Buffer): string => createHash('sha256').update(b).digest('hex').slice(0, 12);
 const read = (p: string): string => readFileSync(join(FRONTEND, p), 'utf8');
-/* The class layer is three sheets — reset, base, components — in that order.
-   Anything hashing or shipping "the stylesheet" takes all of them. */
+/* The class layer is four sheets — reset, base, layout, components — in that
+   order, and the last one is an index of a file per component. Anything
+   hashing or shipping "the stylesheet" takes all of them, imports pulled in:
+   the bundle is flat and an `@import` in it would point outside itself. */
 const SHEETS = ['reset.css', 'base.css', 'layout.css', 'components.css'];
-const sheets = (): string => SHEETS.map((f) => read(join('src', 'styles', f))).join('\n');
+const sheets = (): string =>
+  SHEETS.map((f) => inlineImports(join(FRONTEND, 'src', 'styles', f), (p) => readFileSync(p, 'utf8'))).join('\n');
 
 /* Point a page at the bundle's flat root. The repo keeps its stylesheets in
    the frontend package and the bundle keeps them at its root, so what has to be

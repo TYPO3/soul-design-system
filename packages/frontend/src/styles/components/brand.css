@@ -1,0 +1,69 @@
+/* The mark: the signet, the lockup and the wordmark. */
+
+@layer components {
+  /* The signet is NOT an icon. It ships as three drawings, each made in the box
+     it is for — 32, 24, 16 — so `.sds-icon` would force all three to one size.
+     Size it at the element, to one of the three or a whole multiple, because
+     that is where a drawing's edges land on whole pixels. */
+  .sds-signet {
+    display: block;
+    flex: none;
+  }
+  .sds-signet--muted { color: var(--text-secondary); }
+
+  /* Signet, wordmark, one orange pipe. The pipe is the third and last place
+     the accent is allowed to appear. */
+  /* A lockup is a signet and a wordmark on one baseline. It carries the page's
+     ink and no link decoration, because it is nearly always the link home and
+     an anchor would otherwise hand it the browser's blue — which the signet
+     then draws itself in, since its ink is `currentColor`. */
+  .sds-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2-5);
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+  .sds-lockup:hover { text-decoration: none; }
+  /* The mark in a lockup is 24, said by the lockup rather than by every page that
+     writes one: a signet is crisp only at the size its file is drawn for, and a
+     number left to the call site drifts into 20 in one header and 22 in the next.
+     The element states the same size, so a surface with no stylesheet gets it. */
+  .sds-lockup .sds-signet {
+    width: 24px;
+    height: 24px;
+  }
+  /* One line, always. A mark is read as a mark because it is one shape; folded
+     over two lines it is two words that happen to be near each other, and in a
+     bar of a fixed height the second one is half outside it. */
+  .sds-wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-1-5);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-heading);
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+  /* Whose it is. It keeps its letters whatever the bar does — the half that
+     gives is the one below, and a half that gives twice is a lockup with two
+     ellipses in it. */
+  .sds-wordmark__brand { flex: none; }
+  .sds-wordmark__pipe {
+    display: inline-block;
+    width: 2px;
+    align-self: stretch;
+    background: var(--accent);
+  }
+  /* The half that gives, and gives by ending rather than overflowing: the bar
+     puts a floor of zero under everything in it, so a lockup narrower than its
+     own name spills its letters over whatever is beside it. Cut with an ellipsis,
+     the mark stays in the box it was given. */
+  .sds-wordmark__product {
+    font-weight: var(--weight-light);
+    color: var(--text-secondary);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

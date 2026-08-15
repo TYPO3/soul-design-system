@@ -156,6 +156,7 @@ export const PACKAGES: readonly Package[] = [
         'package.json', 'README.md', 'LICENSE',
         'src/index.ts', 'src/styles/styles.css', 'src/styles/reset.css',
         'src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css',
+        'src/styles/components/card.css',
         'dist/soul.css', 'dist/document.css', 'dist/soul.js', 'dist/soul-boot.js',
         'dist/index.js',
       ].filter((path) => !existsSync(join(pkg, path)));

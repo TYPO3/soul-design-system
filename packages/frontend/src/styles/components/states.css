@@ -1,0 +1,121 @@
+/* What a surface says while it has nothing to say yet. */
+
+@layer components {
+  /* An answer always carries its source, its version binding and what it
+     leaves out. This block is the shape that carries exactly that: an icon
+     in the status colour, a title, and a bounded note. */
+  .sds-note {
+    display: flex;
+    gap: var(--space-3);
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: var(--block-pad-y) var(--block-pad-x);
+  }
+  /* The glyph is centred on the *title's* line, so it is given that line: an
+     icon in a flex row otherwise measures whatever line-height it inherited. */
+  .sds-note__icon {
+    flex: none;
+    font-size: var(--block-title-size);
+    line-height: var(--leading-heading);
+    margin-top: calc((1lh - var(--control-icon-size)) / 2);
+    color: var(--text-muted);
+  }
+  /* The floor, not the surrounding text's size: a note sits in a page whose
+     body copy is 16px, and an icon that follows it is larger than the title it
+     stands beside. Same reason the code head pins its own. */
+  .sds-note__icon .sds-icon { width: var(--control-icon-size); height: var(--control-icon-size); }
+  /* Everything beside the glyph. `min-width: 0` because a flex item's floor is
+     its widest content, and a note in a document can hold a code block — which
+     would otherwise make its longest line the width of the note, and the note
+     the width of the page. Same reason `.sds-code` states it. */
+  .sds-note__content { min-width: 0; }
+  .sds-note__title { font-size: var(--block-title-size); font-weight: var(--weight-semibold); line-height: var(--leading-heading); }
+  .sds-note__body {
+    font-size: var(--block-body-size);
+    line-height: var(--leading-body);
+    color: var(--text-secondary);
+    padding-block-start: var(--space-1);
+  }
+  /* The gap is the one under a title, so a note that has none does not sit on
+     air. Twelve of the admonition types a documentation generator emits carry
+     no title at all. */
+  .sds-note__body:first-child { padding-block-start: 0; }
+  /* A body written between the tags is blocks, not a sentence: paragraphs, a
+     list, a code block. They bring their own margins from the document layer,
+     and the outermost two would push the note's own padding out of true. */
+  .sds-note__body > :first-child { margin-top: 0; }
+
+  /* A degraded but usable answer tints the whole block; error and success
+     colour the icon only, so a page of results does not read as an alarm. */
+  .sds-note--warn {
+    border-color: var(--border-accent-quiet);
+    background: var(--surface-accent-quiet);
+  }
+  .sds-note--warn .sds-note__icon { color: var(--status-warn); }
+  .sds-note--error .sds-note__icon { color: var(--status-error); }
+  .sds-note--ok .sds-note__icon { color: var(--status-ok); }
+  /* A stated boundary is information, not an error. */
+  .sds-note--info .sds-note__icon { color: var(--text-muted); }
+
+  /* Nothing under 200ms. Over 2s the label says why. */
+  .sds-loading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-secondary);
+  }
+  .sds-loading__label {
+    font-family: var(--font-mono);
+    font-size: var(--nav-font-size);
+    color: var(--text-primary);
+  }
+  .sds-spinner {
+    display: inline-flex;
+    animation: sds-spin 1.1s linear infinite;
+  }
+
+  /* Skeletons only where the shape is known — a table, a list. Never for a
+     single value. */
+  .sds-skeleton {
+    display: block;
+    height: 9px;
+    border-radius: 4.5px;
+    background: var(--surface-inset);
+    animation: sds-pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes sds-spin { to { transform: rotate(360deg); } }
+  @keyframes sds-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sds-spinner, .sds-skeleton { animation: none; }
+    /* The page steps between layout bands, and the step stays: what goes is the
+       travel across it. A new width is simply the width. */
+    .sds-bar,
+    .sds-body,
+    .sds-page,
+    .sds-band,
+    .sds-foot,
+    .sds-footer { transition: none; }
+    /* The answer is there or it is not. The fold still works — what goes is the
+       travel, which is the part that moves the page under a reader. */
+    .sds-accordion__item::details-content,
+    .sds-accordion__head .sds-icon { transition: none; }
+    /* A card is the one thing here that moves under the pointer. Held still by
+       the distance it is written from; the fill and the hairline still answer. */
+    .sds-card:has(> .sds-card__body) {
+      --card-lift: 0px;
+      transition: none;
+    }
+    .sds-card:has(> .sds-card__body)::before { transition: none; }
+    /* And a tile, which moves for the same reason and is held still the same
+       way — by the distance it is written from. */
+    .sds-icon-tile {
+      --icon-tile-lift: 0px;
+      transition: none;
+    }
+    /* The plane under a hit is there or it is not — nothing moves either way,
+       but a fade is still travel over a list somebody is scanning. */
+    .sds-result { transition: none; }
+  }
+}

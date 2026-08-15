@@ -1,0 +1,35 @@
+/* sds-figure — a picture and the claim it makes. */
+
+@layer components {
+  .sds-figure { display: flex; flex-direction: column; gap: var(--space-3); }
+  /* No padding: a drawing carries its own margin, so a frame that adds another
+     indents it twice and it arrives smaller than it was drawn. The frame is a
+     hairline and a corner; the fill is the ground under an image that does not
+     fill it, and the clip keeps a full-bleed one inside the corner. */
+  .sds-figure__frame {
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--surface-sunken);
+    overflow: hidden;
+  }
+  /* A picture that was never prepared to be referenced keeps the colours it was
+     exported with, so the ground under it is one those colours were drawn for.
+     The one surface in the system that does not follow the reader into dark:
+     below light line art, a dark ground is the page contradicting the picture. */
+  .sds-figure__frame--exported,
+  .sds-lightbox__art--exported,
+  .sds-card__media--exported { background: var(--surface-art); }
+
+  .sds-figure__caption {
+    font-size: var(--aside-size);
+    line-height: var(--aside-leading);
+    color: var(--text-muted);
+    max-width: var(--measure-prose);
+  }
+
+  /* A document from somewhere else. The frame is the figure's, because an embed
+     is the same kind of thing on the page; what it does not share is how it is
+     sized, since a picture arrives with its own proportions and an iframe does
+     not. So two shapes: a player has a ratio and fills the column, a specimen
+     keeps the size it was measured at, and the element writes which. */
+}

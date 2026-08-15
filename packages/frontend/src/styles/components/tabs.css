@@ -1,0 +1,29 @@
+/* sds-tabs — one subject at a time, chosen from a row. */
+
+@layer components {
+  .sds-tabs {
+    display: flex;
+    border-bottom: var(--border-hairline) solid var(--border-subtle);
+    font-family: var(--font-mono);
+    font-size: var(--tab-font-size);
+  }
+  .sds-tab {
+    padding: var(--space-2) var(--space-3-5);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .sds-tab:hover { color: var(--text-secondary); }
+  .sds-tab.is-active {
+    color: var(--text-primary);
+    border-bottom: var(--border-emphasis) solid var(--accent);
+    margin-bottom: calc(var(--border-hairline) * -1);
+  }
+  /* What a tab stands for. The panels that are not showing keep their content
+     in the document — hidden, so a find-in-page still reaches it. */
+  .sds-tab__panel { padding-top: var(--space-4); }
+
+  /* Light or dark, as two segments with the chosen one filled — the same
+     treatment as an active navigation item, because it is one. The group is
+     bordered so the pair reads as one control rather than as two buttons. */
+}

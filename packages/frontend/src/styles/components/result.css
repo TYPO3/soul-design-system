@@ -1,0 +1,112 @@
+/* sds-search-hits and sds-search-result — what a search answers with. */
+
+@layer components {
+  .sds-hits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    /* Pulled out by the air a hit keeps inside itself, so the words start where
+       the column does and only the plane under the pointer runs wider. */
+    margin-inline: calc(-1 * var(--space-3));
+  }
+  /* The line is the list's: it separates two hits, so a hit composed on its own
+     carries none and the list neither opens nor closes with one. Drawn in the
+     gap rather than on a box, so the plane a hit takes under the pointer never
+     meets it, and held to the words' edge rather than the plane's — a rule that
+     runs wider than the text it divides belongs to the page, not to the list. */
+  .sds-hits > * + * .sds-result::before {
+    content: '';
+    position: absolute;
+    inset-inline: var(--space-3);
+    top: calc(-1 * var(--space-1));
+    border-top: var(--border-hairline) solid var(--border-subtle);
+  }
+  /* One hit, and the whole of it is the link: the element renders an `<a>` here,
+     so the target is a box rather than a pseudo-element stretched over one, the
+     text in it can still be selected, and the ring is the one every other
+     focusable thing draws. Named by its heading — see the component. */
+  .sds-result {
+    --result-thumb: 120px;
+    position: relative;
+    display: flex;
+    gap: var(--space-3);
+    /* One step on every side: the plane a hit takes under the pointer is a box,
+       and a box whose air is deeper one way than the other reads as a mistake
+       rather than as a decision. */
+    padding: var(--space-3);
+    border-radius: var(--radius-control);
+    color: inherit;
+    text-decoration: none;
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+  a.sds-result:hover { background: var(--surface-inset); }
+  /* The one ring, on the box rather than off it — the one thing this surface
+     changes about it, and the reason is the box: a hit is already air around its
+     words, so a ring standing off would sit in the gap the list keeps for the
+     line, and its corner would be a rounder one than the plane it rings. */
+  a.sds-result:focus-visible { outline-offset: 0; }
+  .sds-result__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    /* A flex item's floor is its content, so a long path in the line above holds
+       the whole hit wider than the drop it hangs in. */
+    min-width: 0;
+    flex: 1;
+  }
+  /* The picture a hit carries. Fixed and never taller than it is wide, so a list
+     of them has one left edge whatever shape the files are; smaller in the drop,
+     where the sentence beside it has a fifth of a page to run in. */
+  .sds-result__thumb {
+    flex: none;
+    width: var(--result-thumb);
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    background: var(--surface-sunken);
+  }
+  .sds-result__thumb .sds-art { height: 100%; object-fit: cover; }
+  /* A drawing keeps the colours it was exported with, so it gets the ground
+     those were drawn for — and is fitted rather than cropped, because a diagram
+     with its edges cut off is a diagram nobody can read at this size. */
+  .sds-result__thumb--exported { background: var(--surface-art); }
+  .sds-result__thumb--exported .sds-art { object-fit: contain; }
+  /* Link-coloured, unlike a card's title: a hit exists to be opened, a card
+     exists to be read and sometimes opened. Never underlined — the box under the
+     pointer is the answer, and one word answering as well is two answers to one
+     question. */
+  .sds-result__title {
+    margin: 0;
+    font-size: var(--entry-title-size);
+    line-height: var(--leading-heading);
+    color: var(--text-link);
+  }
+  a.sds-result:hover .sds-result__title { color: var(--text-link-hover); }
+  /* One register for the whole line: a third treatment on it would make three
+     facts read as three kinds of thing. Beside the path rather than at the far
+     end — the words below stop at a measure, and a fact flung to the page edge
+     belongs to nothing. */
+  .sds-result__path,
+  .sds-result__meta { font-size: var(--font-size-micro); color: var(--text-muted); }
+  .sds-result__path { font-family: var(--font-mono); }
+  .sds-result__text {
+    margin: 0;
+    font-size: var(--block-body-size);
+    line-height: var(--leading-body);
+    color: var(--text-secondary);
+    max-width: var(--measure-prose);
+  }
+
+  /* What was searched for, inside what was found: the quiet accent tint and the
+     page's own text colour, not the accent itself and not a status colour. A
+     match is neither the one thing the page is about nor a result of anything. */
+  .sds-mark {
+    background: var(--surface-accent-quiet);
+    color: var(--text-primary);
+    border-radius: 2px;
+    padding: 0 var(--space-0-5);
+  }
+
+  /* Overlay is a wash, not a shadow. */
+}

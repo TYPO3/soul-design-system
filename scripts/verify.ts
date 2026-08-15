@@ -22,16 +22,24 @@ import * as report from './lib/report.ts';
 const firstLine = (text: string): string => text.split('\n', 1)[0] ?? '';
 const ENTITY_RE = /&(?:#[0-9]+|#x[0-9a-f]+|[a-z][a-z0-9]+);/i;
 
-/** Every class the system defines, from all three sheets — including the one
-    `styles.css` deliberately does not import: a name is defined if some sheet
-    in the system defines it, and a surface told otherwise is told a lie about
-    its own repository. */
-const STYLESHEETS = ['reset.css', 'base.css', 'layout.css', 'components.css', '_specimen.css', 'document.css'];
+/** Every stylesheet the system has, the component files among them. Read from
+    the directory rather than listed: a component added to a list by hand is
+    one no check sees until somebody remembers. */
+function stylesheets(dir = join(FRONTEND, 'src', 'styles')): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    return entry.isDirectory() ? stylesheets(path) : entry.name.endsWith('.css') ? [path] : [];
+  });
+}
 
+/** Every class the system defines — including the sheet `styles.css`
+    deliberately does not import: a name is defined if some sheet in the system
+    defines it, and a surface told otherwise is told a lie about its own
+    repository. */
 function definedClasses(): Set<string> {
   const defined = new Set<string>();
-  for (const sheet of STYLESHEETS.map((f) => join('src', 'styles', f))) {
-    for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
+  for (const sheet of stylesheets()) {
+    for (const m of readFileSync(sheet, 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
       defined.add(m[1] as string);
     }
   }
@@ -370,11 +378,11 @@ const CHECKS: readonly Check[] = [
         .map((m) => Number(m[1])));
 
       const used = new Map<number, string[]>();
-      for (const sheet of STYLESHEETS) {
-        const css = readFileSync(join(FRONTEND, 'src', 'styles', sheet), 'utf8');
+      for (const sheet of stylesheets()) {
+        const css = readFileSync(sheet, 'utf8');
         for (const m of css.matchAll(/@media[^{]*?\(\s*(?:min|max)-width:\s*(\d+)px\s*\)/g)) {
           const at = Number(m[1]);
-          used.set(at, [...(used.get(at) ?? []), sheet]);
+          used.set(at, [...(used.get(at) ?? []), relative(join(FRONTEND, 'src', 'styles'), sheet)]);
         }
       }
 

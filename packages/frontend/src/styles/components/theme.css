@@ -1,0 +1,48 @@
+/* sds-theme — light or dark, as two segments. */
+
+@layer components {
+  .sds-modes {
+    /* Inline: it is a control, and a block-level box takes the whole row
+       wherever it is not a flex item — which is most places a header puts it. */
+    display: inline-flex;
+    gap: var(--space-1);
+    padding: var(--space-0-5);
+    /* The control height, and the segments fill what is left of it. Two 12px
+       words are the smallest thing in a header, and left to their own padding
+       they made the mode pair the shortest box on the line. */
+    height: var(--control-height);
+    font-family: var(--font-mono);
+    font-size: var(--tab-font-size);
+    line-height: var(--control-leading);
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-control);
+  }
+  .sds-mode {
+    font: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1-5);
+    padding: 0 var(--space-2);
+    cursor: pointer;
+    color: var(--text-secondary);
+    background: none;
+    border: 0;
+    border-radius: 2px;
+    transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  }
+  .sds-mode:hover { color: var(--text-primary); }
+  .sds-mode.is-active { background: var(--accent); color: var(--text-on-accent); }
+  /* The mark a segment keeps when its word is dropped, at the floor a control
+     gives a glyph — the same one the bar's button and the rail's fold marker
+     use. It stands beside the word rather than instead of it: the pair is two
+     things to press, and a reader who can see both reads the shorter one. */
+  .sds-mode .sds-icon {
+    width: var(--control-icon-size);
+    height: var(--control-icon-size);
+  }
+  /* The word beside the mark, on one line always: the pair is among the shortest
+     boxes in a row, and a "light" broken in half would make it the tallest. */
+  .sds-mode__label { white-space: nowrap; }
+
+  /* The 210px tool rail. */
+}

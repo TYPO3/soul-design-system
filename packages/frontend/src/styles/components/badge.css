@@ -1,0 +1,69 @@
+/* sds-badge — a fact beside something, in a tone. */
+
+@layer components {
+  .sds-badge {
+    font-family: var(--font-mono);
+    font-size: var(--badge-font-size);
+    /* As wide as its word, wherever it lands. A flex column stretches an item
+       with no definite cross size, and a badge stretched across a reading
+       column reads as an empty field. A definite width stops that without
+       touching how it aligns in a row. */
+    width: fit-content;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-control);
+    border: var(--border-hairline) solid var(--border-strong);
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1-5);
+    /* An inline-flex box takes its baseline from its first flex item, so a
+       badge that starts with an icon has no text baseline to offer and sits
+       4px off the ones that do. Aligning to the middle makes a badge's
+       position independent of whether it carries a glyph. */
+    vertical-align: middle;
+    /* And its height independent too: the icon is 16px, so the text line is
+       given the same box rather than the 14px its font would ask for. */
+    line-height: var(--control-icon-size);
+    /* A badge is one short fact and is read as one line. Left to wrap it breaks
+       at whatever the text offers — a hyphen in a version, a space between two
+       words — and a two-line badge is taller than the row it sits in. */
+    white-space: nowrap;
+  }
+
+  .sds-badge--accent {
+    border-color: var(--border-accent-quiet);
+    background: var(--surface-accent-quiet);
+    color: var(--text-accent-quiet);
+  }
+
+  /* Status badges tint their border from the status colour, never fill. */
+  .sds-badge--ok {
+    color: var(--status-ok);
+    border-color: color-mix(in oklch, var(--status-ok) 45%, transparent);
+  }
+  .sds-badge--warn {
+    color: var(--status-warn);
+    border-color: color-mix(in oklch, var(--status-warn) 45%, transparent);
+  }
+  .sds-badge--error {
+    color: var(--status-error);
+    border-color: color-mix(in oklch, var(--status-error) 45%, transparent);
+  }
+
+  /* A native <dialog> carries the modal semantics; these give it the modal's
+     look and take away the browser's own chrome. `::backdrop` replaces the
+     hand-drawn overlay when the platform is doing the opening. */
+  dialog.sds-modal {
+    padding: 0;
+    border: var(--border-hairline) solid var(--border-subtle);
+    color: var(--text-primary);
+    max-width: var(--measure-modal);
+  }
+  dialog.sds-modal::backdrop { background: var(--surface-overlay); }
+
+  /* A drawing at the size it was drawn, and not a modal with the cap taken off:
+     a modal stops at `--measure-modal` because what is in one is read, and a
+     drawing is looked at. So this is its own surface — as much of the screen as
+     it can take without touching the edges. `display` waits for `[open]`, or the
+     base rule would leave the viewer on the page permanently. */
+}

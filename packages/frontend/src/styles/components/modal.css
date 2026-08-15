@@ -1,0 +1,38 @@
+/* What floats over the page, and the wash under it. */
+
+@layer components {
+  .sds-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--surface-overlay);
+  }
+
+  .sds-modal {
+    background: var(--surface-raised);
+    border: var(--border-hairline) solid var(--border-strong);
+    border-radius: var(--radius-card);
+    max-width: 560px;
+  }
+  .sds-modal__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--block-pad-y-tight) var(--block-pad-x);
+    border-bottom: var(--border-hairline) solid var(--border-subtle);
+    font-size: var(--block-title-size);
+    font-weight: var(--weight-semibold);
+  }
+  .sds-modal__body {
+    padding: var(--block-pad-y) var(--block-pad-x);
+    font-size: var(--block-body-size);
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+  .sds-modal__foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--control-gap);
+    padding: var(--block-pad-y-tight) var(--block-pad-x);
+    border-top: var(--border-hairline) solid var(--border-subtle);
+  }
+}
