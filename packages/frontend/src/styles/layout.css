@@ -4,6 +4,14 @@
    rows. Above `base` so a container may take back a step an element carries,
    and below `components` so it may not take back what a component decided. */
 
+@layer base {
+  /* The grid's own contract. `.sds-grid` is this layer's class, so the element
+     that draws it states itself here rather than in a component file. */
+  sds-grid { display: block; min-width: 0; margin-bottom: var(--space-4); }
+  sds-grid > .sds-grid { margin-bottom: 0; }
+  .sds-grid { margin: 0 0 var(--space-4); }
+}
+
 @layer layout {
   /* ------------------------------------------------------- containers -- */
 

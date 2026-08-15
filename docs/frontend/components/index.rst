@@ -166,6 +166,12 @@ which group it was filed under.
 What box an element is
 ======================
 
+Each of these is stated in the component's own stylesheet, in a ``@layer
+base`` block above the one that draws it — the display, the step and the box's
+own give-up in the three lines that only mean anything together. A contract
+split across a shared list and a component file is a contract that drifts into
+two layers, which is how a byline once kept a step nothing could take off it.
+
 **Every element is the box it draws.** A custom element is ``inline`` until it
 is told otherwise, and an inline tag around a block makes itself the box a row
 lays out while the block sits inside it — gap, alignment and margin then all

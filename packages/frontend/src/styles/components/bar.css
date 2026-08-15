@@ -1,5 +1,11 @@
 /* sds-nav-main — the bar at the top of the page. */
 
+@layer base {
+  /* A block: it stands in the page as a region of its own, and owes no step —
+     a container or a set spaces it. */
+  sds-nav-main { display: block; min-width: 0; }
+}
+
 @layer components {
   /* The bar stays: it is the frame the page is read inside. Sticky and not fixed,
      so the page below needs no offset — a fixed header is a height every surface

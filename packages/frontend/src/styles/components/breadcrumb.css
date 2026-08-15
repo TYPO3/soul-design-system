@@ -1,5 +1,11 @@
 /* sds-nav-breadcrumb — the way back up, as a line. */
 
+@layer base {
+  /* A block: it stands in the page as a region of its own, and owes no step —
+     a container or a set spaces it. */
+  sds-nav-breadcrumb { display: block; min-width: 0; }
+}
+
 @layer components {
   /* Where the page sits, said as a trail — the only navigation here with no
      active mark, because its last entry is the page itself. The current one is

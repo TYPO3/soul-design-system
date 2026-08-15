@@ -1,5 +1,16 @@
 /* sds-embed — a document in a frame, at the shape it holds. */
 
+/* What this element is in a flow — three lines that only mean anything
+   together: the element carries the step, the box it always renders inside
+   itself gives that up, and the same box standing alone carries it. In `base`,
+   because a container in `layout` takes the step back and a step stated in
+   `components` would win over the container that already paid the gap. */
+@layer base {
+  sds-embed { display: block; min-width: 0; margin-bottom: var(--space-4); }
+  sds-embed > .sds-embed { margin-bottom: 0; }
+  .sds-embed { margin: 0 0 var(--space-4); }
+}
+
 @layer components {
   /* A document from somewhere else. The frame is the figure's, because an embed
      is the same kind of thing on the page; what it does not share is how it is

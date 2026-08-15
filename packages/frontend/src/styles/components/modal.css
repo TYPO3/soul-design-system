@@ -1,5 +1,12 @@
 /* What floats over the page, and the wash under it. */
 
+@layer base {
+  /* It draws nothing where it stands — what it opens is in the top layer or
+     fixed to the viewport, so a box here is one nothing would ever fill. */
+  sds-modal,
+  sds-overlay { display: contents; }
+}
+
 @layer components {
   /* Overlay is a wash, not a shadow. */
   .sds-overlay {

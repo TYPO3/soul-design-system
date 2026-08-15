@@ -1,5 +1,11 @@
 /* What a picture is before anything frames it, and what makes one pressable. */
 
+@layer base {
+  /* A block: it stands in the page as a region of its own, and owes no step —
+     a container or a set spaces it. */
+  sds-image { display: block; min-width: 0; }
+}
+
 @layer components {
   /* Artwork — one file, in both modes, and its own block because a figure is not
      the only thing carrying one. One rule for two elements: a photograph is an

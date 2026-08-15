@@ -394,7 +394,11 @@ const CHECKS: readonly Check[] = [
         if (NOT_A_COMPONENT.has(file)) continue;
         const css = readFileSync(join(dir, file), 'utf8');
         const own = new Set([...css.matchAll(/^\s*(--sds-[a-z0-9-]+)\s*:/gm)].map((m) => m[1] as string));
-        for (const line of css.split('\n')) {
+        /* Only what the component draws. A file opens `@layer base` as well, to
+           state the flow contract its element and its class share, and that step
+           is the system's own value rather than anything this component set. */
+        const drawnOnly = css.split('@layer components {').slice(1).join('@layer components {');
+        for (const line of drawnOnly.split('\n')) {
           const text = line.trim();
           if (!text || text.startsWith('/*') || text.startsWith('*')) continue;
           /* Assignments are where the set is built, and one may share a line

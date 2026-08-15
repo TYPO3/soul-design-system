@@ -11,6 +11,12 @@
    different setting a property instead of writing a class this system has
    never heard of. */
 
+@layer base {
+  /* A part: it stands in a line of text or a row of controls and never on its
+     own, so it takes the box that line gives it. */
+  sds-button { display: inline-flex; }
+}
+
 @layer components {
   .sds-btn {
     /* The box. */

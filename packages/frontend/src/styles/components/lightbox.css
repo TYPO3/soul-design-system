@@ -1,5 +1,12 @@
 /* sds-lightbox — a drawing opened at the size it was drawn. */
 
+@layer base {
+  /* It draws nothing where it stands — what it opens is in the top layer or
+     fixed to the viewport, so a box here is one nothing would ever fill. */
+  sds-dialog,
+  sds-lightbox { display: contents; }
+}
+
 @layer components {
   /* A drawing at the size it was drawn, and not a modal with the cap taken off:
      a modal stops at `--measure-modal` because what is in one is read, and a

@@ -1,5 +1,11 @@
 /* sds-badge — a fact beside something, in a tone. */
 
+@layer base {
+  /* A part: it stands in a line of text or a row of controls and never on its
+     own, so it takes the box that line gives it. */
+  sds-badge { display: inline-flex; }
+}
+
 @layer components {
   .sds-badge {
     --sds-badge-pad-y: var(--space-1);

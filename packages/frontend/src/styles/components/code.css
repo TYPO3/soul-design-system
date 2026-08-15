@@ -1,5 +1,18 @@
 /* sds-code and sds-diff — what the machine wrote, coloured on the server. */
 
+/* What this element is in a flow — three lines that only mean anything
+   together: the element carries the step, the box it always renders inside
+   itself gives that up, and the same box standing alone carries it. In `base`,
+   because a container in `layout` takes the step back and a step stated in
+   `components` would win over the container that already paid the gap. */
+@layer base {
+  sds-code { display: block; min-width: 0; margin-bottom: var(--space-4); }
+  sds-diff { display: block; min-width: 0; margin-bottom: var(--space-4); }
+  sds-code > .sds-code { margin-bottom: 0; }
+  sds-diff > .sds-code { margin-bottom: 0; }
+  .sds-code { margin: 0 0 var(--space-4); }
+}
+
 @layer components {
   /* A code block is a control-scale object: --radius-control, not the card
      radius. Sunken, because it is machine output.

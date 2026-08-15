@@ -1,5 +1,11 @@
 /* sds-footer — the site's own end, on every page alike. */
 
+@layer base {
+  /* A block: it stands in the page as a region of its own, and owes no step —
+     a container or a set spaces it. */
+  sds-footer { display: block; min-width: 0; }
+}
+
 @layer components {
   /* A site's footer rather than a surface's, and every part of it falls away
      where nothing is set. A ground and no rule above it: a hairline between two

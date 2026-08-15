@@ -456,6 +456,15 @@ moved without the other.
   element and a starting point link only `styles.css`, so neither may write a
   `spec-*` class. The `classes` check holds that boundary separately from the
   repository-wide class vocabulary.
+- **A component's whole contract is in its own file.** Every element renders
+  the class box it draws *inside itself*, always — so each one has three lines
+  that only mean anything together: the element carries the step, the box it
+  renders gives that up, and the same box standing alone carries it. They sit in
+  a `@layer base` block above the component's own, because a container in
+  `layout` takes the step back and a step stated in `components` would win over
+  the container that already paid the gap. Its display is there too. Split
+  across a shared list and a component file, a contract drifts into two layers,
+  and a rule in the lower one silently never wins.
 - **A component is a property set, and its variants only assign to it.** One
   file per component under `packages/frontend/src/styles/components/`, its own
   `--sds-<name>-*` set declared at the top and derived from the shared tokens,

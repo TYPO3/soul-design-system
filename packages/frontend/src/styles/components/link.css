@@ -1,5 +1,11 @@
 /* sds-link — a word that goes somewhere, with or without a mark. */
 
+@layer base {
+  /* A part, and one that sets in the line rather than beside it: a link is a
+     word, and a word takes the box its sentence gives it. */
+  sds-link { display: inline; }
+}
+
 @layer components {
   .sds-link {
     --sds-link-gap: var(--space-1-5);

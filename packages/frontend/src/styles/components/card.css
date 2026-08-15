@@ -1,5 +1,16 @@
 /* sds-card — a subject that goes somewhere, whole. */
 
+/* What this element is in a flow — three lines that only mean anything
+   together: the element carries the step, the box it always renders inside
+   itself gives that up, and the same box standing alone carries it. In `base`,
+   because a container in `layout` takes the step back and a step stated in
+   `components` would win over the container that already paid the gap. */
+@layer base {
+  sds-card { display: block; min-width: 0; margin-bottom: var(--space-4); }
+  sds-card > .sds-card { margin-bottom: 0; }
+  .sds-card { margin: 0 0 var(--space-4); }
+}
+
 @layer components {
   .sds-card:has(> .sds-card__body) {
     /* The distance the card moves under the pointer, named so the

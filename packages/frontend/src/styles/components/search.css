@@ -1,5 +1,11 @@
 /* sds-search — the field, and the panel that hangs from it. */
 
+@layer base {
+  /* A part: it stands in a line of text or a row of controls and never on its
+     own, so it takes the box that line gives it. */
+  sds-search { display: inline-flex; }
+}
+
 @layer components {
   /* The block the element draws, and the box the panel hangs from. Without one
      the drop finds whatever is positioned above it — which in a bar is the bar,

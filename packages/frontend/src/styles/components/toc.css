@@ -1,5 +1,16 @@
 /* sds-nav-toc — what is on this page, and where the reader is in it. */
 
+/* What this element is in a flow — three lines that only mean anything
+   together: the element carries the step, the box it always renders inside
+   itself gives that up, and the same box standing alone carries it. In `base`,
+   because a container in `layout` takes the step back and a step stated in
+   `components` would win over the container that already paid the gap. */
+@layer base {
+  sds-nav-toc { display: block; min-width: 0; margin-bottom: var(--space-4); }
+  sds-nav-toc > .sds-toc { margin-bottom: 0; }
+  .sds-toc { margin: 0 0 var(--space-4); }
+}
+
 @layer components {
   /* What is on this page: the sections of the page being read, as a list to jump
      from. Apparatus rather than prose — a step down in size and set in the
