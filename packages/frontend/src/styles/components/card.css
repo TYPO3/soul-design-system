@@ -110,6 +110,9 @@
     gap: var(--sds-card-gap);
     padding: var(--sds-card-pad-y) var(--sds-card-pad-x);
   }
+  /* A row put in a card carries the step it owes a page; here the card's own
+     gap is the distance. */
+  .sds-card__body > .sds-row { margin-block: 0; }
   /* Muted and never in a status colour, for the reason a surface's glyph is: a
      card is a subject, not a result. It carries the gap to the label itself. */
   .sds-card__icon { color: var(--sds-card-icon-ink); margin-bottom: var(--sds-card-icon-gap); }
@@ -165,4 +168,5 @@
     color: var(--sds-card-action-ink);
     white-space: nowrap;
   }
+
 }

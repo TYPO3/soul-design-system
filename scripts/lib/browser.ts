@@ -8,6 +8,8 @@
 import { chromium, type Browser, type Page } from 'playwright';
 import { pathToFileURL } from 'node:url';
 
+import * as report from './report.ts';
+
 /** What a card needs to be opened: where it is and how big it declares itself. */
 export interface Openable {
   path: string;
@@ -19,6 +21,37 @@ export interface Mapper {
   /** Run `job` over `items`, at most `concurrency` pages at a time. */
   map<T, R>(items: readonly T[], job: (page: Page, item: T, index: number) => Promise<R>): Promise<R[]>;
 }
+
+/** Thrown by `openCard` when the document is not setting text in the faces it
+    ships. What fixes it is a different page — see `map` below. */
+export class FacesMissing extends Error {}
+
+/* The pages `map` has run out of attempts on. What is measured there is
+   measured in the fallback, and saying so beats both crashing and lying: one
+   page in this repository has an `<iframe>` in it, and a `file://` frame stops
+   its parent using its own faces however long anything waits. */
+const lenient = new WeakSet<Page>();
+
+/** Which of the shipped families the document is not actually using, asked the
+    one way that cannot be answered wrongly: the same string in the family and
+    in a family that does not exist. Equal widths mean the fallback is drawing
+    both. `document.fonts` is no use — it reports every face `loaded` and
+    `check()` true while the paint uses something else. */
+export const missingFaces = (page: Page): Promise<string[]> =>
+  page.evaluate(() => {
+    const probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;top:-9999px;font-size:40px;white-space:pre;letter-spacing:0';
+    probe.textContent = 'MMMMMWWWWWiiiii';
+    document.body.append(probe);
+    const width = (family: string): number => {
+      probe.style.fontFamily = family;
+      return probe.getBoundingClientRect().width;
+    };
+    const none = width('"sds-no-such-face"');
+    const missing = ['Source Sans 3', 'Source Code Pro'].filter((f) => width(`"${f}"`) === none);
+    probe.remove();
+    return missing;
+  });
 
 /** Force the design faces for deterministic measurements. `optional` leaves
     real navigation free to keep its fallback when a face arrives late. */
@@ -86,14 +119,28 @@ export async function withPage<R>(
         const out = new Array(items.length);
         let next = 0;
 
-        /* One context per worker, not one per item: a context is expensive to
-           create and nothing here needs isolation between cards. */
+        /* One context per worker — a context is expensive and nothing here
+           needs isolation between cards — and a page per item, taken again
+           where the document did not use the faces it ships. A page that has
+           fallen back stays fallen back however often it is reloaded; a new one
+           usually does not, and three attempts have always been enough. */
         const workers = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
           const ctx = await browser.newContext({ deviceScaleFactor: 1 });
-          const page = await ctx.newPage();
           try {
             for (let i = next++; i < items.length; i = next++) {
-              out[i] = await job(page, items[i] as (typeof items)[number], i);
+              const item = items[i] as (typeof items)[number];
+              for (let attempt = 0; ; attempt++) {
+                const page = await ctx.newPage();
+                if (attempt === 3) lenient.add(page);
+                try {
+                  out[i] = await job(page, item, i);
+                  break;
+                } catch (error) {
+                  if (!(error instanceof FacesMissing) || attempt >= 3) throw error;
+                } finally {
+                  await page.close();
+                }
+              }
             }
           } finally {
             await ctx.close();
@@ -119,5 +166,11 @@ export async function openCard(
   });
   await page.goto(pathToFileURL(card.path).href, { waitUntil: 'load' });
   await loadFonts(page);
+  const missing = await missingFaces(page);
+  if (missing.length) {
+    const said = `${card.path} is set in neither ${missing.join(' nor ')}`;
+    if (!lenient.has(page)) throw new FacesMissing(said);
+    report.note(`measured in the fallback face — ${said}`);
+  }
   await settled(page);
 }

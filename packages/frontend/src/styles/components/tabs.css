@@ -43,4 +43,7 @@
 
     padding-top: var(--sds-tab-panel-gap);
   }
+  /* A panel ends where it ends: whatever was put in it carries the step it
+     owes a page, and under the last one that step is air with nothing after. */
+  .sds-tab__panel > :last-child { margin-bottom: 0; }
 }

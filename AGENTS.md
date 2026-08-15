@@ -389,34 +389,24 @@ that stops working for a reader stops the site.
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.
 
-**`make diff` cannot be trusted yet.** Two runs of the same code report ten to
-twenty changed cards, a different handful each time. What was measured: a card
-is sometimes painted in a fallback face — ten Ms at 10px measure 88.9 where the
-shipped face is 60 — while `document.fonts` reports every face `loaded` and
-`check()` true. Roughly one card per worker, and which one depends on the order
-the work was handed out. It is neither `fonts.ready` nor page reuse nor context
-reuse. Each of these was tried and none closed it: a fresh page per card, a
-fresh *context* per card, a warm-up navigation, a reload-until-correct loop, and
-serving the cards over HTTP instead of `file://` — which made it worse and
-deterministic. The page's own text and a probe element agree exactly on which
-runs are wrong, so the measurement is honest and the defect is real.
+**`make diff` is closer but not clean.** Two runs of the same code reported ten
+to twenty changed cards; they now report two to four. What was wrong: a card was
+sometimes painted in a fallback face while `document.fonts` reported every face
+`loaded` and `check()` true. `openCard` asks whether the shipped families are
+really being used — the same string in the family and in one that does not
+exist — and `map` answers a fallen-back page by opening a *different* one, since
+reloading the same page never recovers it. Three attempts have always been
+enough.
 
-What is left is that it looks like a race rather than a state: nothing about
-*where* the document came from or *how isolated* it is changes the rate, only
-which run it is. The next thing to try is therefore not isolation but the
-moment — whether a face reporting `loaded` has actually invalidated the layout
-that selected the fallback, and what forces that. Until then the gate and the
-suite are what a change is proven against, and this is worth fixing because
-`fit`, `rhythm`, `heights` and `a11y` open cards the same way: a wrong face is a
-wrong measurement, not just a wrong picture.
+Two pages cannot be fixed that way and are named in the output instead of
+measured silently: a document that embeds another `file://` document — an
+`<iframe>`, or an externally referenced `<svg>` — never applies its own faces,
+however long anything waits. `specimens/screens/tour.html` and the three
+diagram cards are those, and they are measured in the fallback.
 
-**Go through the components** — `make audit` asks of every value on every card
-and screen whether a token declares it, and reports one row per component. It
-is outside the gate because the answer is a judgement in one place: what a card
-lays out for itself is annotation about the system rather than the system, and
-those numbers are counted apart. A component with no row carries no value the
-tokens do not name — it says nothing about whether the distances are *right*,
-which is what the specimens are for.
+The two to four that still differ between identical runs are not fonts: the
+face guarantee holds on every one of them. That residue is unexplained, and
+until it is, the gate and the suite are what a change is proven against.
 
 **Change a size or a gap** — `make rhythm` renders the screens and measures
 them against the scale and the grid, both read out of `packages/frontend/src/tokens/`

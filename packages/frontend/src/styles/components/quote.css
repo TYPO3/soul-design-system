@@ -40,4 +40,8 @@
      where it sits. Set in caption size it said the sentence outranked whoever is
      answerable for it, which is the opposite of why the source is required. */
   .sds-quote__by { margin: 0; }
+  /* And it brings the step it owes a page, which here is air under the last
+     line of a quote. The quote composed the two, so the quote says so. */
+  .sds-quote__by > :is(sds-byline, .sds-byline) { margin-bottom: 0; }
+
 }

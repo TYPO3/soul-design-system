@@ -304,6 +304,9 @@
     gap: var(--sds-form-gap);
     max-width: var(--sds-form-measure);
   }
+  /* A row of actions carries the step it owes a page; in a form the form's own
+     gap is the distance. */
+  .sds-form > .sds-actions { margin-block: 0; }
 
   /* What stopped the form, at the top of it. The box is `sds-note`, because a
      failure looks like one thing here; what is left is the part a note has no
@@ -323,4 +326,5 @@
     padding-block-start: var(--sds-form-errors-lead);
   }
   .sds-form-errors__list a { width: fit-content; }
+
 }

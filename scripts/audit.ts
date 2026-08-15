@@ -9,7 +9,7 @@
    telling it apart is a judgement rather than a rule. Run it by hand. */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { withPage } from './lib/browser.ts';
+import { openCard, withPage } from './lib/browser.ts';
 import * as report from './lib/report.ts';
 
 /* The steps, plus the hairline — a gap of one pixel is the border token doing
@@ -100,6 +100,34 @@ const probe = (scales: { space: number[]; type: number[] }) => {
         out.push({ kind: 'off-scale-padding', what: tag(el), detail: `${side}=${cs[side]}`, who: owner(el), chrome });
       }
     }
+    /* Where two components were composed into something new. A block carries
+       the step it owes a page it stands in; put inside a box that already
+       spaces or already ends, that step is a distance nobody chose. Both are
+       measured rather than listed, because a seam is made by whoever composes
+       and cannot be known in advance. */
+    const parent = el.parentElement;
+    if (parent) {
+      const ps = getComputedStyle(parent);
+      const mine = [parseFloat(cs.marginBlockStart), parseFloat(cs.marginBlockEnd)];
+      /* Only where the parent stacks: a row's `gap` sets both axes, and a
+         margin on the cross axis of a row is centring rather than distance. */
+      const stacks = ps.display.includes('grid')
+        || (ps.display.includes('flex') && ps.flexDirection.startsWith('column'));
+      if (stacks && parseFloat(ps.rowGap) > 0 && mine.some((v) => v > 0)) {
+        out.push({ kind: 'gap-and-margin', what: tag(el), detail: `in ${tag(parent)}`, who: owner(el), chrome });
+      }
+      /* The last thing in a box, with a margin under it and nothing under that:
+         the box is taller by exactly the margin and no distance was set. */
+      const kids = [...parent.children].filter((k) => {
+        const s = getComputedStyle(k);
+        return s.display !== 'none' && s.position !== 'absolute' && s.position !== 'fixed';
+      });
+      const below = parseFloat(cs.marginBlockEnd);
+      if (below > 0 && kids[kids.length - 1] === el && !parseFloat(ps.paddingBottom)) {
+        out.push({ kind: 'dead-air', what: tag(el), detail: `${below}px under the last thing in ${tag(parent)}`, who: owner(el), chrome });
+      }
+    }
+
     for (const g of ['rowGap', 'columnGap'] as const) {
       const v = parseFloat(cs[g]);
       if (v && !near(v, scales.space)) out.push({ kind: 'off-scale-gap', what: tag(el), detail: `${g}=${cs[g]}`, who: owner(el), chrome });
@@ -118,9 +146,11 @@ const found = new Map<string, { fault: Fault; n: number }>();
 report.open('audit', 'every value on every screen and card, against the tokens that declare it');
 await withPage(async ({ map }) => {
   await map(files, async (page, file) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto(`file://${resolve(file)}`);
-    await page.waitForTimeout(200);
+    /* Through `openCard`, which is what guarantees the page is set in the
+       faces it ships: an `em` padding and a `1lh` margin are measured against
+       the type, so a fallback face is a wrong number here and not only a wrong
+       picture. */
+    await openCard(page, { path: resolve(file), width: 1440, height: 900 });
     /* A card is documentation about the system. What it draws with the
        system's own names is the system and is audited; a box it lays out for
        itself is annotation, whether or not it reached for a `spec-` class. A

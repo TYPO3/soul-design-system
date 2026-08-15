@@ -78,6 +78,10 @@
      words, so a ring standing off would sit in the gap the list keeps for the
      line, and its corner would be a rounder one than the plane it rings. */
   a.sds-result:focus-visible { outline-offset: 0; }
+  /* The line above the title is a `.sds-row`, which carries the step it owes a
+     page it stands in. Here it stands in a hit, and the hit's own gap is the
+     distance — said by the hit, because composing the two is what the hit did. */
+  .sds-result__body > .sds-row { margin-block: 0; }
   .sds-result__body {
     display: flex;
     flex-direction: column;
@@ -148,4 +152,5 @@
     border-radius: var(--sds-mark-radius);
     padding: 0 var(--sds-mark-pad-x);
   }
+
 }

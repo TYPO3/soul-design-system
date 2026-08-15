@@ -42,6 +42,8 @@
      nothing is left between two of them: the fill of one meets the fill of the
      next, and a list of places reads as a block of them. */
   .sds-toc__list > li { margin-bottom: var(--sds-toc-step); }
+  /* The step separates two entries; under the last one it separates nothing. */
+  .sds-toc__list > li:last-child { margin-bottom: 0; }
   /* The label a list writes over itself, standing directly on it. */
   .sds-toc > .sds-label {
     display: block;

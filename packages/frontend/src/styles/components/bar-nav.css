@@ -145,4 +145,5 @@
   }
   .sds-bar__fold[open] > summary { color: var(--sds-bar-nav-ink-hover); }
   .sds-bar__fold[open] > summary .sds-icon { transform: rotate(180deg); }
+
 }

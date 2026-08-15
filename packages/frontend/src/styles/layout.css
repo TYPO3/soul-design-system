@@ -8,11 +8,11 @@
   /* ------------------------------------------------------- containers -- */
 
   /* A gap and a margin are the same answer twice, so a container that pays the
-     gap takes the margin back off what stands in it. One level: what stands in
-     it is a box, whether it arrived as an element or as the markup one drew. */
+     gap takes the margin back off what stands in it. Only the containers this
+     layer owns: a component's own box says it for itself, beside the gap it
+     pays, because that is where somebody changing the gap is looking. */
   :is(.sds-stack, .sds-sections, .sds-split, .sds-grid, .sds-row,
-  .sds-actions, .sds-choices, .sds-form, .sds-card__body, .sds-figure,
-  .sds-embed, .sds-quote) > * {
+  .sds-actions) > * {
     margin-block: 0;
   }
 

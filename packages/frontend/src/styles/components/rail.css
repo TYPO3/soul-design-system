@@ -152,4 +152,5 @@
   .sds-rail__group:last-child > .sds-rail__fold::details-content {
     padding-bottom: var(--sds-rail-label-gap);
   }
+
 }

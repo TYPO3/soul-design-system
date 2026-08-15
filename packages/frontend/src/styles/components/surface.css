@@ -63,6 +63,9 @@
     line-height: var(--sds-surface-body-leading);
     color: var(--sds-surface-body-ink);
   }
+  /* The statement ends where the plane does — a block that brought its own step
+     would leave air under the last line. */
+  .sds-surface-body > :last-child { margin-bottom: 0; }
   /* A glyph above the label, where a set of cards is told apart at a glance
      before it is read. Muted, and never in a status colour: a card is a subject,
      not a result, and colour here would say something the words do not. */
