@@ -1,85 +1,38 @@
-/* The bar's own menu: what the row could not hold, and the levels it steps
-   through. */
+/* sds-nav-main's drawer: one button, and everything the row could not hold.
+
+   What a phone gets — the field and the site's whole menu behind one press, in
+   the order the row let them go, and one level at a time with the way back
+   above it. The row it grew out of is `bar-nav.css`. */
 
 @layer components {
-  /* The drawer is the bar's own construction, so its set is declared on the
-     bar: the toggle, the panel and the wash stand beside the row rather than
-     inside it, and a property inherits down. */
   .sds-bar {
+    /* Declared on the bar: the button that opens the menu, the menu and the
+       wash under it are three boxes beside each other, and a property only
+       ever travels down. */
     --sds-drawer-gap: var(--space-4);
     --sds-drawer-pad-y: var(--space-4);
     --sds-drawer-row-gap: var(--space-1);
     --sds-drawer-step: var(--border-hairline);
-    --sds-drawer-nav-gap: var(--space-2);
     --sds-drawer-pad-item-y: var(--space-1);
     --sds-drawer-pad-item-x: var(--space-2);
-    --sds-drawer-link-pad-x: var(--space-3);
     --sds-drawer-toggle-size: var(--control-height);
     --sds-drawer-glyph: var(--control-icon-size);
-    --sds-drawer-panel-gap: var(--space-8);
-    --sds-drawer-panel-pad: var(--space-6);
     --sds-drawer-z: 20;
     --sds-drawer-inset: var(--page-inset, var(--gutter-page));
     --sds-drawer-height: calc(100vh - var(--height-header));
-    --sds-drawer-column: var(--width-sidebar);
-    --sds-drawer-max: var(--width-page);
     --sds-drawer-mark-gap: var(--space-1-5);
-    --sds-drawer-weight-active: var(--weight-medium);
     --sds-drawer-border: var(--border-hairline);
     --sds-drawer-radius: var(--radius-control);
-    --sds-drawer-radius-drop: var(--radius-card);
     --sds-drawer-rule: var(--border-subtle);
     --sds-drawer-edge-open: var(--border-strong);
     --sds-drawer-fill: var(--surface-canvas);
-    --sds-drawer-fill-drop: var(--surface-raised);
     --sds-drawer-shadow: var(--shadow-flyout);
-    --sds-drawer-font: var(--font-mono);
-    --sds-drawer-font-size: var(--nav-font-size);
     --sds-drawer-ink: var(--text-secondary);
     --sds-drawer-ink-hover: var(--text-primary);
-    --sds-drawer-ink-active: var(--text-on-accent);
-    --sds-drawer-fill-active: var(--accent);
     --sds-drawer-duration: var(--duration-fast);
     --sds-drawer-ease: var(--ease-out);
-
   }
 
-  /* The same pills, plus what happens when the bar runs out of room for them.
-     The element measures and decides — see `src/components/header.ts`; what is
-     here is only the shapes it decides between. */
-  .sds-bar__nav {
-    display: flex;
-    /* Wider than the gap inside a section, so a marker belongs to the name it
-       opens rather than sitting halfway to the next one — and no wider: what the
-       row spends between names it cannot spend on the field. */
-    gap: var(--sds-drawer-nav-gap);
-    font-family: var(--sds-drawer-font);
-    font-size: var(--sds-drawer-font-size);
-  }
-  /* The items are their own width, in the row and in the drawer both. The bar's
-     floor of zero would otherwise let the pills shrink and their labels fold, so
-     the bar grew instead of saying it had run out of room — and a shrunk pill
-     measures shrunk, so the width the row *needs* chased the number it was being
-     compared against. Fixed, only the room beside them moves. */
-  .sds-bar__nav > * { flex: none; }
-  /* And the row's nav does not give either, so an over-full row puts it on a
-     second line rather than squeezing a box its own items overflow. In the
-     drawer it is a column and this does not apply. */
-  .sds-bar > .sds-bar__nav { flex: none; }
-  /* Before the element upgrades, and on a page where it never will: the bar a
-     server wrote, standing as it was written. Nothing has measured yet, so
-     nothing can be folded into a button, and a row that cannot fold keeps its
-     own width and wraps. The bar takes the height that costs — a header of two
-     rows beats a page that scrolls sideways under one. */
-  sds-nav-main:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content; }
-  /* And the one thing the layout still has to answer for. Below this width the
-     field does not fit beside anything, and unupgraded there is no drawer to put
-     it in and nothing measuring whether it fits — so it goes, the way it went
-     before any of this was measured. A field that searches nothing until a
-     script arrives is no loss until one has. */
-  @media (max-width: 640px) {
-    sds-nav-main:not(:defined) .sds-search { display: none; }
-  }
   /* A square of the control height, like every other button that is a mark
      rather than a word — it stands in a row with the search field and the mode
      pair and has no reason to be the one box that is shorter. */
@@ -190,66 +143,6 @@
     border-bottom: var(--sds-drawer-border) solid var(--sds-drawer-rule);
     border-radius: 0;
   }
-
-  /* The link stays a link — pressing a section's name goes there — and the
-     marker looks inside without leaving. Full height, so a panel hung at `100%`
-     opens at the bar's edge rather than inside it. */
-  .sds-bar__nav { align-items: stretch; align-self: stretch; }
-  .sds-bar__section {
-    display: flex;
-    align-items: center;
-  }
-  /* And the marker is *inside* the name it opens rather than beside it: the pill
-     is a block, and a glyph standing off its corner reads as something that
-     arrived with the row instead of belonging to the section. So the section
-     carries the shape, the link gives up its own trailing air, and the two are
-     one control to look at. */
-  .sds-bar__section {
-    /* The same air at both ends of the block — by eye rather than by sum: a
-       glyph's ink stops short of its own box, so an equal number leaves the
-       marker looking further off the edge than the text is. */
-    padding-inline-end: var(--sds-drawer-pad-item-x);
-    border-radius: var(--sds-drawer-radius);
-    transition:
-    background var(--sds-drawer-duration) var(--sds-drawer-ease),
-    color var(--sds-drawer-duration) var(--sds-drawer-ease);
-  }
-  .sds-bar__section > .sds-pill { padding-inline: var(--sds-drawer-link-pad-x) var(--sds-drawer-row-gap); }
-  /* The current section, as one filled block with its marker inside it — the
-     same answer every current navigation item gets, and the reason it can be
-     that here is that the block is now the whole control: the marker is in the
-     fill rather than standing off its corner, and the focus ring goes round both.
-     A tint would read as "hovered" or "disabled" depending on what is under it. */
-  .sds-bar__section:has(> .sds-pill.is-active) {
-    background: var(--sds-drawer-fill-active);
-    color: var(--sds-drawer-ink-active);
-  }
-  .sds-bar__section:has(> .sds-pill.is-active) > .sds-pill.is-active { background: none; }
-  .sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary,
-  .sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary:hover { color: inherit; }
-  /* And a ring inside the block is drawn in the block's own ink: the accent on
-     the accent is a ring nobody can see. The halo goes — there is no wash to
-     soften a mark that is already standing on a fill. */
-  .sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary:focus-visible,
-  .sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary:focus-visible {
-    outline-color: var(--sds-drawer-ink-active);
-    box-shadow: none;
-  }
-  /* And the ring goes round the block, not round half of it. The section reads
-     as one control, so a ring drawn on the link alone cuts the marker out of the
-     thing it belongs to — the same reason the fill wraps both. The marker keeps
-     a ring of its own: two controls sharing one outline is a keyboard reader
-     guessing which of them they are on. */
-  .sds-bar__section:has(> .sds-pill:focus-visible) {
-    outline: var(--border-emphasis) solid var(--accent);
-    outline-offset: var(--focus-offset);
-    box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
-  }
-  .sds-bar__section > .sds-pill:focus-visible {
-    outline: none;
-    box-shadow: none;
-  }
-
   /* A row in the drawer is the same pair — a page and the way into its pages —
      and answers the same way. */
   .sds-bar__row:has(> .sds-bar__link:focus-visible) {
@@ -262,84 +155,6 @@
     outline: none;
     box-shadow: none;
   }
-  /* Where the pages are a handful, the panel belongs under the section that
-     holds them rather than across the whole bar — a wall drawn for four links is
-     a room built for the furniture that is not in it. Which of the two is the
-     element's decision, and this is the half of it the stylesheet can see. */
-  .sds-bar__section--drop { position: relative; }
-  .sds-bar__fold > summary {
-    list-style: none;
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--sds-drawer-glyph);
-    height: var(--sds-drawer-glyph);
-    color: var(--sds-drawer-ink);
-    border-radius: var(--sds-drawer-radius);
-  }
-  .sds-bar__fold > summary::-webkit-details-marker { display: none; }
-  .sds-bar__fold > summary:hover { color: var(--sds-drawer-ink-hover); }
-  /* The marker turns to say the panel is open, in the one duration the system
-     moves anything at this size. */
-  .sds-bar__fold > summary .sds-icon {
-    --sds-icon-size: var(--sds-drawer-glyph);
-
-    transition: transform var(--sds-drawer-duration) var(--sds-drawer-ease);
-  }
-  .sds-bar__fold[open] > summary { color: var(--sds-drawer-ink-hover); }
-  .sds-bar__fold[open] > summary .sds-icon { transform: rotate(180deg); }
-  /* The pages of one section, across the bar. It is the drawer's own construction
-     at another width — the same ground, the same edge, anchored to the same row —
-     because a panel that looks like a second kind of surface is a second thing to
-     learn. How many columns is the room's answer rather than a number: the list
-     is one list, and where it breaks is a question about the window. */
-  .sds-bar__panel {
-    position: absolute;
-    top: 100%;
-    inset-inline: 0;
-    z-index: var(--sds-drawer-z);
-    columns: var(--sds-drawer-column);
-    column-gap: var(--sds-drawer-panel-gap);
-    padding: var(--sds-drawer-panel-pad) var(--sds-drawer-inset);
-    background: var(--sds-drawer-fill);
-    border-bottom: var(--sds-drawer-border) solid var(--sds-drawer-rule);
-    box-shadow: var(--sds-drawer-shadow);
-    max-height: var(--sds-drawer-height);
-    overflow-y: auto;
-  }
-  /* And the drop: the same rows in a box the width of what is in it, standing
-     under its own section. One column — a set small enough to be a drop is small
-     enough to read down — and the raised plane a drop is drawn on, which is what
-     the field's own results already use. */
-  .sds-bar__section--drop .sds-bar__panel {
-    inset-inline: 0 auto;
-    columns: auto;
-    min-width: var(--sds-drawer-column);
-    width: max-content;
-    max-width: var(--sds-drawer-max);
-    padding: var(--sds-drawer-pad-item-x);
-    background: var(--sds-drawer-fill-drop);
-    border: var(--sds-drawer-border) solid var(--sds-drawer-rule);
-    border-radius: var(--sds-drawer-radius-drop);
-  }
-  /* The rows of a panel are the rows of a rail: same measure, same mark for the
-     page the reader is on. Written once as its own name because the panel is the
-     bar's own construction and the rail is a page's. */
-  .sds-bar__link {
-    display: block;
-    break-inside: avoid;
-    padding: var(--sds-drawer-pad-item-y) var(--sds-drawer-link-pad-x);
-    border-radius: var(--sds-drawer-radius);
-    color: var(--sds-drawer-ink);
-    text-decoration: none;
-  }
-  .sds-bar__link:hover { color: var(--sds-drawer-ink-hover); }
-  /* Said quietly. A rail is read down to find where you are, and a filled block
-     would shout the one row nobody is going to press. The ink alone is the
-     difference; `aria-current` says it to whoever is not reading colour. */
-  .sds-bar__link.is-active { color: var(--sds-drawer-ink-hover); font-weight: var(--sds-drawer-weight-active); }
   .sds-bar__drawer .sds-search { flex: none; width: 100%; }
   /* `hidden` outranks the display a class gives: an author rule beats the
      browser's own, so a `display` set by class puts a hidden element back on

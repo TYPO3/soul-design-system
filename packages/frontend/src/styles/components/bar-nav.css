@@ -1,0 +1,148 @@
+/* sds-nav-main's row of sections, and the marker that opens one.
+
+   The row the bar lays out while there is room for it: a section is a link and
+   a marker in one block, so what fills for the current page and what the ring
+   goes round take the marker with them. What the row does once it runs out of
+   room is `drawer.css`; what a marker opens is `panel.css`. */
+
+@layer components {
+  /* The same pills, plus what happens when the bar runs out of room for them.
+     The element measures and decides — see `src/components/header.ts`; what is
+     here is only the shapes it decides between. */
+  .sds-bar__nav {
+    /* Declared on the row: a section and the marker inside it are what reads
+       this, and both stand in the row. */
+    --sds-bar-nav-row-gap: var(--space-1);
+    --sds-bar-nav-gap: var(--space-2);
+    --sds-bar-nav-pad-item-x: var(--space-2);
+    --sds-bar-nav-link-pad-x: var(--space-3);
+    --sds-bar-nav-glyph: var(--control-icon-size);
+    --sds-bar-nav-radius: var(--radius-control);
+    --sds-bar-nav-font: var(--font-mono);
+    --sds-bar-nav-font-size: var(--nav-font-size);
+    --sds-bar-nav-ink: var(--text-secondary);
+    --sds-bar-nav-ink-hover: var(--text-primary);
+    --sds-bar-nav-ink-active: var(--text-on-accent);
+    --sds-bar-nav-fill-active: var(--accent);
+    --sds-bar-nav-duration: var(--duration-fast);
+    --sds-bar-nav-ease: var(--ease-out);
+
+    display: flex;
+    /* Wider than the gap inside a section, so a marker belongs to the name it
+       opens rather than sitting halfway to the next one — and no wider: what the
+       row spends between names it cannot spend on the field. */
+    gap: var(--sds-bar-nav-gap);
+    font-family: var(--sds-bar-nav-font);
+    font-size: var(--sds-bar-nav-font-size);
+  }
+  /* The items are their own width, in the row and in the drawer both. The bar's
+     floor of zero would otherwise let the pills shrink and their labels fold, so
+     the bar grew instead of saying it had run out of room — and a shrunk pill
+     measures shrunk, so the width the row *needs* chased the number it was being
+     compared against. Fixed, only the room beside them moves. */
+  .sds-bar__nav > * { flex: none; }
+  /* And the row's nav does not give either, so an over-full row puts it on a
+     second line rather than squeezing a box its own items overflow. In the
+     drawer it is a column and this does not apply. */
+  .sds-bar > .sds-bar__nav { flex: none; }
+  /* Before the element upgrades, and on a page where it never will: the bar a
+     server wrote, standing as it was written. Nothing has measured yet, so
+     nothing can be folded into a button, and a row that cannot fold keeps its
+     own width and wraps. The bar takes the height that costs — a header of two
+     rows beats a page that scrolls sideways under one. */
+  sds-nav-main:not(:defined) .sds-bar__nav { flex-wrap: wrap; min-width: min-content; }
+  /* And the one thing the layout still has to answer for. Below this width the
+     field does not fit beside anything, and unupgraded there is no drawer to put
+     it in and nothing measuring whether it fits — so it goes, the way it went
+     before any of this was measured. A field that searches nothing until a
+     script arrives is no loss until one has. */
+  @media (max-width: 640px) {
+    sds-nav-main:not(:defined) .sds-search { display: none; }
+  }
+  /* The link stays a link — pressing a section's name goes there — and the
+     marker looks inside without leaving. Full height, so a panel hung at `100%`
+     opens at the bar's edge rather than inside it. */
+  .sds-bar__nav { align-items: stretch; align-self: stretch; }
+  .sds-bar__section {
+    display: flex;
+    align-items: center;
+  }
+  /* And the marker is *inside* the name it opens rather than beside it: the pill
+     is a block, and a glyph standing off its corner reads as something that
+     arrived with the row instead of belonging to the section. So the section
+     carries the shape, the link gives up its own trailing air, and the two are
+     one control to look at. */
+  .sds-bar__section {
+    /* The same air at both ends of the block — by eye rather than by sum: a
+       glyph's ink stops short of its own box, so an equal number leaves the
+       marker looking further off the edge than the text is. */
+    padding-inline-end: var(--sds-bar-nav-pad-item-x);
+    border-radius: var(--sds-bar-nav-radius);
+    transition:
+    background var(--sds-bar-nav-duration) var(--sds-bar-nav-ease),
+    color var(--sds-bar-nav-duration) var(--sds-bar-nav-ease);
+  }
+  .sds-bar__section > .sds-pill { padding-inline: var(--sds-bar-nav-link-pad-x) var(--sds-bar-nav-row-gap); }
+  /* The current section, as one filled block with its marker inside it — the
+     same answer every current navigation item gets, and the reason it can be
+     that here is that the block is now the whole control: the marker is in the
+     fill rather than standing off its corner, and the focus ring goes round both.
+     A tint would read as "hovered" or "disabled" depending on what is under it. */
+  .sds-bar__section:has(> .sds-pill.is-active) {
+    background: var(--sds-bar-nav-fill-active);
+    color: var(--sds-bar-nav-ink-active);
+  }
+  .sds-bar__section:has(> .sds-pill.is-active) > .sds-pill.is-active { background: none; }
+  .sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary,
+  .sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary:hover { color: inherit; }
+  /* And a ring inside the block is drawn in the block's own ink: the accent on
+     the accent is a ring nobody can see. The halo goes — there is no wash to
+     soften a mark that is already standing on a fill. */
+  .sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary:focus-visible,
+  .sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary:focus-visible {
+    outline-color: var(--sds-bar-nav-ink-active);
+    box-shadow: none;
+  }
+  /* And the ring goes round the block, not round half of it. The section reads
+     as one control, so a ring drawn on the link alone cuts the marker out of the
+     thing it belongs to — the same reason the fill wraps both. The marker keeps
+     a ring of its own: two controls sharing one outline is a keyboard reader
+     guessing which of them they are on. */
+  .sds-bar__section:has(> .sds-pill:focus-visible) {
+    outline: var(--border-emphasis) solid var(--accent);
+    outline-offset: var(--focus-offset);
+    box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
+  }
+  .sds-bar__section > .sds-pill:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+  /* Where the pages are a handful, the panel belongs under the section that
+     holds them rather than across the whole bar — a wall drawn for four links is
+     a room built for the furniture that is not in it. Which of the two is the
+     element's decision, and this is the half of it the stylesheet can see. */
+  .sds-bar__section--drop { position: relative; }
+  .sds-bar__fold > summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--sds-bar-nav-glyph);
+    height: var(--sds-bar-nav-glyph);
+    color: var(--sds-bar-nav-ink);
+    border-radius: var(--sds-bar-nav-radius);
+  }
+  .sds-bar__fold > summary::-webkit-details-marker { display: none; }
+  .sds-bar__fold > summary:hover { color: var(--sds-bar-nav-ink-hover); }
+  /* The marker turns to say the panel is open, in the one duration the system
+     moves anything at this size. */
+  .sds-bar__fold > summary .sds-icon {
+    --sds-icon-size: var(--sds-bar-nav-glyph);
+
+    transition: transform var(--sds-bar-nav-duration) var(--sds-bar-nav-ease);
+  }
+  .sds-bar__fold[open] > summary { color: var(--sds-bar-nav-ink-hover); }
+  .sds-bar__fold[open] > summary .sds-icon { transform: rotate(180deg); }
+}

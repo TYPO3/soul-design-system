@@ -1,0 +1,83 @@
+/* sds-nav-main's panels: the pages of one section, where the row has room.
+
+   Two shapes for one list, and which of them is the element's decision: across
+   the bar where a section holds many pages, a drop under the section itself
+   where it holds a handful. The rows are the same either way. */
+
+@layer components {
+  /* The pages of one section, across the bar. It is the drawer's own construction
+     at another width — the same ground, the same edge, anchored to the same row —
+     because a panel that looks like a second kind of surface is a second thing to
+     learn. How many columns is the room's answer rather than a number: the list
+     is one list, and where it breaks is a question about the window. */
+  .sds-bar__panel {
+    /* Declared on the panel: the rows inside it are what reads this. */
+    --sds-panel-pad-item-x: var(--space-2);
+    --sds-panel-gap: var(--space-8);
+    --sds-panel-pad: var(--space-6);
+    --sds-panel-z: 20;
+    --sds-panel-inset: var(--page-inset, var(--gutter-page));
+    --sds-panel-height: calc(100vh - var(--height-header));
+    --sds-panel-column: var(--width-sidebar);
+    --sds-panel-max: var(--width-page);
+    --sds-panel-border: var(--border-hairline);
+    --sds-panel-rule: var(--border-subtle);
+    --sds-panel-fill: var(--surface-canvas);
+    --sds-panel-fill-drop: var(--surface-raised);
+    --sds-panel-shadow: var(--shadow-flyout);
+    --sds-panel-radius-drop: var(--radius-card);
+
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    z-index: var(--sds-panel-z);
+    columns: var(--sds-panel-column);
+    column-gap: var(--sds-panel-gap);
+    padding: var(--sds-panel-pad) var(--sds-panel-inset);
+    background: var(--sds-panel-fill);
+    border-bottom: var(--sds-panel-border) solid var(--sds-panel-rule);
+    box-shadow: var(--sds-panel-shadow);
+    max-height: var(--sds-panel-height);
+    overflow-y: auto;
+  }
+  /* And the drop: the same rows in a box the width of what is in it, standing
+     under its own section. One column — a set small enough to be a drop is small
+     enough to read down — and the raised plane a drop is drawn on, which is what
+     the field's own results already use. */
+  .sds-bar__section--drop .sds-bar__panel {
+    inset-inline: 0 auto;
+    columns: auto;
+    min-width: var(--sds-panel-column);
+    width: max-content;
+    max-width: var(--sds-panel-max);
+    padding: var(--sds-panel-pad-item-x);
+    background: var(--sds-panel-fill-drop);
+    border: var(--sds-panel-border) solid var(--sds-panel-rule);
+    border-radius: var(--sds-panel-radius-drop);
+  }
+  /* The rows of a panel are the rows of a rail: same measure, same mark for the
+     page the reader is on. Written once as its own name because the panel is the
+     bar's own construction and the rail is a page's. */
+  .sds-bar__link {
+    /* Its own set: a row like this stands in the drawer too, where there is no
+       panel above it to inherit from. */
+    --sds-bar-link-pad-item-y: var(--space-1);
+    --sds-bar-link-pad-x: var(--space-3);
+    --sds-bar-link-radius: var(--radius-control);
+    --sds-bar-link-ink: var(--text-secondary);
+    --sds-bar-link-ink-hover: var(--text-primary);
+    --sds-bar-link-weight-active: var(--weight-medium);
+
+    display: block;
+    break-inside: avoid;
+    padding: var(--sds-bar-link-pad-item-y) var(--sds-bar-link-pad-x);
+    border-radius: var(--sds-bar-link-radius);
+    color: var(--sds-bar-link-ink);
+    text-decoration: none;
+  }
+  .sds-bar__link:hover { color: var(--sds-bar-link-ink-hover); }
+  /* Said quietly. A rail is read down to find where you are, and a filled block
+     would shout the one row nobody is going to press. The ink alone is the
+     difference; `aria-current` says it to whoever is not reading colour. */
+  .sds-bar__link.is-active { color: var(--sds-bar-link-ink-hover); font-weight: var(--sds-bar-link-weight-active); }
+}

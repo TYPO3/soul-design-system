@@ -37,7 +37,9 @@
 @import "components/breadcrumb.css";
 @import "components/pagination.css";
 @import "components/pills.css";
+@import "components/bar-nav.css";
 @import "components/drawer.css";
+@import "components/panel.css";
 @import "components/tabs.css";
 @import "components/theme.css";
 @import "components/rail.css";
