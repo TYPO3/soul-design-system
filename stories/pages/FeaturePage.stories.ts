@@ -133,16 +133,21 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="feature">
-      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-      <span class="sds-label">Feature</span>
-      <h1 class="sds-display">Every answer says where it came from</h1>
-      <p class="sds-lead">
-        A tool declares the sources it may answer from. The answer carries the
-        one that answered, the releases it holds for, and what it leaves out —
-        and a result that cannot name its source is not returned at all.
-      </p>
-      <div class="sds-actions">${start}</div>
-      ${grid(SOURCE_FACTS.map(sdsStat), { flat, variant: 'dense' })}
+      <div class="sds-stack">
+        <div class="sds-stack sds-stack--tight">
+          <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+          <span class="sds-label">Feature</span>
+          <h1 class="sds-display">Every answer says where it came from</h1>
+          <p class="sds-lead">
+            A tool declares the sources it may answer from. The answer carries
+            the one that answered, the releases it holds for, and what it
+            leaves out — and a result that cannot name its source is not
+            returned at all.
+          </p>
+        </div>
+        <div class="sds-actions">${start}</div>
+        ${grid(SOURCE_FACTS.map(sdsStat), { flat, variant: 'dense' })}
+      </div>
     </section>
 
     <section class="sds-band sds-band--quiet" id="preconditions">
@@ -195,13 +200,16 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
           ></sds-note>
         </div>
         <div class="sds-column">
-          <span class="sds-label">A degraded result</span>
-          <sds-code code-lang="json" source="${RESULT}" copy></sds-code>
-          <p>
-            <span class="sds-mono">declared</span> is what the tool was allowed to
-            read; <span class="sds-mono">answeredBy</span> is what it reached. The
-            two differing is the whole of what “degraded” means here.
-          </p>
+          <div class="sds-stack">
+            <span class="sds-label">A degraded result</span>
+            <sds-code code-lang="json" source="${RESULT}" copy></sds-code>
+            <p>
+              <span class="sds-mono">declared</span> is what the tool was allowed
+              to read; <span class="sds-mono">answeredBy</span> is what it
+              reached. The two differing is the whole of what “degraded” means
+              here.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -276,13 +284,15 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
           <div class="sds-actions">${start}</div>
         </div>
         <div class="sds-column">
-          <span class="sds-label">Install</span>
-          <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
-          <p>
-            The tools register themselves with their declared sources. One that
-            cannot reach any of them says so at registration rather than in the
-            middle of an answer.
-          </p>
+          <div class="sds-stack">
+            <span class="sds-label">Install</span>
+            <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
+            <p>
+              The tools register themselves with their declared sources. One
+              that cannot reach any of them says so at registration rather than
+              in the middle of an answer.
+            </p>
+          </div>
         </div>
       </div>
     </section>

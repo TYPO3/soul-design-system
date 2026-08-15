@@ -178,8 +178,10 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
           </p>
         </div>
         <div class="sds-column">
-          <span class="sds-label">Verify</span>
-          <sds-code code-lang="bash" .body="${VERIFY}" copy></sds-code>
+          <div class="sds-stack">
+            <span class="sds-label">Verify</span>
+            <sds-code code-lang="bash" .body="${VERIFY}" copy></sds-code>
+          </div>
         </div>
       </div>
     </section>
