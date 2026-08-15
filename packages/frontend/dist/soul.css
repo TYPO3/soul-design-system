@@ -152,6 +152,7 @@
   .sds-quote{--sds-quote-inset: var(--space-5);--sds-quote-gap: var(--space-3);--sds-quote-rule: 3px;--sds-quote-edge: var(--border-strong);--sds-quote-measure: var(--measure-lead);--sds-quote-ink: var(--text-primary);--sds-quote-font-size: var(--font-size-h3);--sds-quote-leading: var(--leading-heading);--sds-quote-tracking: var(--tracking-heading);display:flex;flex-direction:column;gap:var(--sds-quote-gap);padding-inline-start:var(--sds-quote-inset);border-inline-start:var(--sds-quote-rule) solid var(--sds-quote-edge)}
   .sds-quote__body{margin:0;max-width:var(--sds-quote-measure);color:var(--sds-quote-ink);font-size:var(--sds-quote-font-size);line-height:var(--sds-quote-leading);letter-spacing:var(--sds-quote-tracking)}
   .sds-quote__by{margin:0}
+  .sds-quote__by>:last-child{margin-bottom:0}
 }
 @layer base{
   sds-byline{display:block;min-width:0;margin-bottom:var(--space-4)}

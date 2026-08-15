@@ -200,7 +200,13 @@ test('every element is the box it draws', async ({ page }) => {
    depending on whether a script ran. Nothing above sees that — the markup is
    identical either way — and it is what a reader sees first.
 
-   Both mounted at one width, in one page, and compared box for box. */
+   Both mounted at one width, in one page, and compared box for box.
+
+   What this cannot say is whether either is *right*. A byline inside a quote's
+   caption carried a step it did not owe, in both renderings equally, and this
+   passed the pair while the quote stood 16px open. Equal is not correct —
+   `make audit` measures the seams, and a person looking at the thing beats
+   both. */
 async function boxes(page: Page, markup: string): Promise<{ total: number; rows: string[] }> {
   return page.evaluate(async (source) => {
     const host = document.createElement('div');
