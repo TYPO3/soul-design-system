@@ -395,13 +395,20 @@ is sometimes painted in a fallback face — ten Ms at 10px measure 88.9 where th
 shipped face is 60 — while `document.fonts` reports every face `loaded` and
 `check()` true. Roughly one card per worker, and which one depends on the order
 the work was handed out. It is neither `fonts.ready` nor page reuse nor context
-reuse: a fresh page per card, a warm-up navigation and a reload-until-correct
-loop were each tried and none of them closed it. The untested hypothesis is the
-protocol — the cards are opened over `file://`, where Chromium treats a font
-fetch as cross-origin, and serving them over HTTP would take the question away.
-Until then the gate and the suite are what a change is proven against, and this
-is worth fixing because `fit`, `rhythm`, `heights` and `a11y` open cards the
-same way: a wrong face is a wrong measurement, not just a wrong picture.
+reuse. Each of these was tried and none closed it: a fresh page per card, a
+fresh *context* per card, a warm-up navigation, a reload-until-correct loop, and
+serving the cards over HTTP instead of `file://` — which made it worse and
+deterministic. The page's own text and a probe element agree exactly on which
+runs are wrong, so the measurement is honest and the defect is real.
+
+What is left is that it looks like a race rather than a state: nothing about
+*where* the document came from or *how isolated* it is changes the rate, only
+which run it is. The next thing to try is therefore not isolation but the
+moment — whether a face reporting `loaded` has actually invalidated the layout
+that selected the fallback, and what forces that. Until then the gate and the
+suite are what a change is proven against, and this is worth fixing because
+`fit`, `rhythm`, `heights` and `a11y` open cards the same way: a wrong face is a
+wrong measurement, not just a wrong picture.
 
 **Change a size or a gap** — `make rhythm` renders the screens and measures
 them against the scale and the grid, both read out of `packages/frontend/src/tokens/`
