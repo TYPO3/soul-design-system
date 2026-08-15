@@ -126,7 +126,6 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
 
   const jobs = JOBS.map(
     (one) => html`<sds-surface
-      box-style="min-width:0"
       plane="raised"
       label="${one.label}"
       heading="${one.heading}"

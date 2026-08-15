@@ -237,7 +237,6 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
         ${grid(
           [
             html`<sds-surface
-              box-style="min-width:0"
               plane="raised"
               label="hosting"
               heading="There is none"
@@ -247,7 +246,6 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
               </p>`}"
             ></sds-surface>`,
             html`<sds-surface
-              box-style="min-width:0"
               plane="raised"
               label="personal data"
               heading="None is processed"
@@ -258,7 +256,6 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
               </p>`}"
             ></sds-surface>`,
             html`<sds-surface
-              box-style="min-width:0"
               plane="raised"
               label="retention"
               heading="Nothing is kept"
@@ -268,7 +265,6 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
               </p>`}"
             ></sds-surface>`,
             html`<sds-surface
-              box-style="min-width:0"
               plane="raised"
               label="licence"
               heading="MIT, and it stays MIT"

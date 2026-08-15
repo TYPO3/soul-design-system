@@ -89,10 +89,10 @@ A filled plane holding a statement.
 .. confval:: box-style
    :name: sds-surface-box-style
    :type: string
-   :default: "flex:1; min-width:200px"
 
-   Layout for the plane. The host draws nothing, so this is what reaches the
-   element that is actually laid out.
+   Layout for the one instance that needs its plane sized — the box that
+   draws the frame, not the host around it. Nothing is set by default: the
+   element fills the cell a wall stretches for it, like every other block.
 
 .. _component-sds-card:
 

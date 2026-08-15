@@ -27,7 +27,7 @@ import '../../packages/frontend/src/components/button.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type SurfaceProps } from '../../packages/frontend/src/components/surface.ts';
 import { sdsCard } from './Card.stories.ts';
-import { dsCard, indent, part, px, spec, specCap, specRow } from '../lib/specimen.ts';
+import { dsCard, indent, part, px, spec, specCap } from '../lib/specimen.ts';
 
 export const sdsSurface = ({ plane = 'raised', title, body, label, icon }: SurfaceProps) =>
   html`<sds-surface plane="${plane}" heading="${title}" .body="${body}" label="${label ?? ''}" icon="${ifDefined(icon)}"></sds-surface>`;
@@ -70,7 +70,7 @@ const meta: Meta<SurfaceProps> = {
       path: 'components/surfaces/surfaces.card.html',
       name: 'The planes, and what floats over them',
       subtitle: 'No shadows anywhere — a wash and a border do the separating',
-      viewport: '700x501',
+      viewport: '700x430',
     }),
   },
 };
@@ -117,15 +117,15 @@ export const FromContent: Story = {
 export const specimenHtml = (): string =>
   spec([
     /* The unfilled plane first, drawn by the element that owns it. Three boxes
-       differing in one thing each is the whole of the claim. */
-    specRow(
+       differing in one thing each is the whole of the claim — side by side in
+       the system's own wall, each filling the cell it stretches. */
+    `<div class="sds-grid sds-grid--dense">\n${indent(
       [
         part(sdsCard({ heading: 'Card', body: `Hairline border, ${px(6)} radius, no fill.`, href: '' })),
         ...[Raised, Sunken].map((s) => part(sdsSurface(s.args as SurfaceProps))),
-      ],
-      undefined,
-      { style: 'gap:14px; align-items:stretch;' },
-    ),
+      ].join('\n'),
+      2,
+    )}\n</div>`,
     `<div style="position:relative; height:210px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); overflow:hidden; background:var(--surface-canvas);">\n${indent(part(scene()), 2)}\n</div>`,
     specCap(`OVERLAY --surface-overlay · MODAL CENTRED, MAX ${px(560, 'PX')} · NO SHADOW UNDER IT`),
   ]);

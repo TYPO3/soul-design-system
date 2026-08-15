@@ -11,7 +11,7 @@
    the same box are one component with two names, and the name that survived
    is the one that also goes somewhere. */
 
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import { type IconId } from './icon.ts';
 import { define, isBlank, SdsElement } from '../lib/element.ts';
@@ -75,7 +75,7 @@ export class SdsSurface extends SdsElement {
     this.label = '';
     this.heading = '';
     this.body = '';
-    this.boxStyle = 'flex:1; min-width:200px';
+    this.boxStyle = '';
   }
 
   override connectedCallback(): void {
@@ -95,7 +95,7 @@ export class SdsSurface extends SdsElement {
     const icon = this.icon
       ? html`<div class="sds-surface-icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`
       : undefined;
-    return html`<div class="${PLANE[this.plane] ?? PLANE.raised}" style="${this.boxStyle}">
+    return html`<div class="${PLANE[this.plane] ?? PLANE.raised}" style="${this.boxStyle || nothing}">
   ${icon}
   ${label}
   <div class="sds-surface-title">${this.heading}</div>

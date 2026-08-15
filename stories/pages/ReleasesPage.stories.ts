@@ -162,7 +162,6 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
 
   const phases = PHASES.map(
     (one) => html`<sds-surface
-      box-style="min-width:0"
       plane="raised"
       heading="${one.label}"
       .body="${html`<div class="sds-row">
@@ -174,7 +173,6 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
 
   const coming = COMING.map(
     (one) => html`<sds-surface
-      box-style="min-width:0"
       plane="raised"
       label="${one.label}"
       heading="${one.heading}"
