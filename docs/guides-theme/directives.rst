@@ -217,22 +217,27 @@ A set read side by side, reflowing by its own minimum width.
          :href: /guides-theme/index
          :tag: Overview
 
-         Two sentences, a badge above the title,
-         and the whole card lit at the top of its
-         frame under the pointer.
+         A badge above the title, the whole card
+         lit at the top of its frame under the
+         pointer, and a paragraph that runs on
+         long enough to decide how tall this row
+         is — which is the only thing the card
+         beside it has to agree with.
 
       .. card:: What it costs
          :href: /guides-theme/installation
          :tag: Installation
 
-         One Composer package, one copy step, and
-         a document called ``index`` at the root.
+         One Composer package.
 
 No column count, and that is the design: three across on a desk, two on a
 tablet, one on a phone, decided by how narrow an item may get rather than by a
 breakpoint somebody picked. It holds cards, figures, or anything else read as
 a set — each item draws itself and the grid only decides how many stand in a
-row. The element is ``sds-grid`` in :doc:`/frontend/components/content`.
+row. The two above are deliberately of different lengths: a set whose items say
+the same amount is a set that cannot show what the wall does, and the short one
+is drawn to the row rather than to its own sentence. The element is
+``sds-grid`` in :doc:`/frontend/components/content`.
 
 .. confval:: the argument
    :name: grid-variant
