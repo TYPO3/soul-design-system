@@ -1,0 +1,21 @@
+/* sds-prose — the box a passage of a document stands in.
+
+   The box, not the vocabulary: what a bare element is inside a passage stays
+   the document layer's, linked only where documents render. The box states
+   the register and one ink for the whole passage — a component re-inks its
+   own subtree and the paragraphs inside follow by inheritance, which is why
+   the ink sits here once and the document's headings take primary back. */
+
+@layer base {
+  .sds-prose {
+    font-size: var(--font-size-body);
+    color: var(--text-secondary);
+    /* No measure of its own: given a paragraph's, the box would clamp the
+       table and the code block inside it too. The things made of words take
+       the measure themselves, in the document layer. */
+    max-width: none;
+  }
+  /* The same trim a column makes: what the last block owes its neighbour it
+     does not owe the edge of the passage. */
+  :where(.sds-prose) > :last-child { margin-block-end: 0; }
+}

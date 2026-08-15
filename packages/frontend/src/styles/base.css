@@ -33,13 +33,6 @@
     color: var(--text-secondary);
   }
 
-  /* The box a passage stands in. No measure of its own: given a paragraph's,
-     it would clamp the table and the code block inside it too. */
-  .sds-prose {
-    font-size: var(--font-size-body);
-    color: var(--text-secondary);
-  }
-
   .sds-lead {
     font-size: var(--font-size-lead);
     line-height: var(--leading-body);

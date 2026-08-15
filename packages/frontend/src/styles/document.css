@@ -52,18 +52,15 @@
   /* A heading is the top of what follows, not a gap after what came before. */
 
 
-  /* The same trim a column makes: what the last block owes its neighbour it
-     does not owe the edge of the passage. */
-  :where(.sds-prose) > :last-child { margin-block-end: 0; }
-
   /* ------------------------------------------------------------ the block -- */
 
   /* The measure belongs to the text, not to the column. A reference is sentences
      *and* a forty-column table, a command nobody wants wrapped, a diagram —
      clamping those to the reading width is how a page ends up with three
-     horizontal scrollbars. So the container gives its limit to the things made
-     of words; the paragraph is not named here, it has the measure already. */
-  .sds-prose { max-width: none; }
+     horizontal scrollbars. So the box refuses a measure of its own — stated
+     where the box is, in `components/prose.css` — and gives its limit to the
+     things made of words; the paragraph is not named here, it has the measure
+     already. */
   :where(.sds-prose) dt,
   /* A line is a sentence that was told where to end. It wraps at the measure
      like any other, and the author's break is the one that carries meaning. */

@@ -51,7 +51,6 @@
   body,.sds-app{background:var(--surface-canvas);color:var(--text-primary);font-family:var(--font-sans);font-size:var(--font-size-body);line-height:var(--leading-body)}
   :focus-visible{outline:var(--border-emphasis) solid var(--accent);outline-offset:var(--focus-offset);box-shadow:0 0 0 var(--focus-halo) var(--accent-ring)}
   p{font-size:var(--font-size-body);line-height:var(--leading-body);max-width:var(--measure-prose);color:var(--text-secondary)}
-  .sds-prose{font-size:var(--font-size-body);color:var(--text-secondary)}
   .sds-lead{font-size:var(--font-size-lead);line-height:var(--leading-body);color:var(--text-secondary);max-width:var(--measure-lead)}
   h1,h2,h3,h4,h5,h6,.sds-display,.sds-h1,.sds-h2,.sds-h3{line-height:var(--leading-heading);text-wrap:balance}
   h1,.sds-h1{font-size:var(--font-size-h1);letter-spacing:var(--tracking-heading)}
@@ -139,6 +138,10 @@
   @media(max-width:640px){
     .sds-actions{flex-wrap:wrap}
   }
+}
+@layer base{
+  .sds-prose{font-size:var(--font-size-body);color:var(--text-secondary);max-width:none}
+  :where(.sds-prose)>:last-child{margin-block-end:0}
 }
 @layer base{
   sds-quote{display:block;min-width:0;margin-bottom:var(--space-4)}
