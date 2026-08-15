@@ -7,12 +7,17 @@
      next one is read, which is what a list is for and what a grid of cards
      prevents — and what tells two of them apart at a glance is the line. */
   .sds-hits {
+    --sds-hits-gap: var(--space-2);
+    --sds-hits-bleed: var(--space-3);
+    --sds-hits-border: var(--border-hairline);
+    --sds-hits-rule: var(--border-subtle);
+
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--sds-hits-gap);
     /* Pulled out by the air a hit keeps inside itself, so the words start where
        the column does and only the plane under the pointer runs wider. */
-    margin-inline: calc(-1 * var(--space-3));
+    margin-inline: calc(-1 * var(--sds-hits-bleed));
   }
   /* The line is the list's: it separates two hits, so a hit composed on its own
      carries none and the list neither opens nor closes with one. Drawn in the
@@ -22,9 +27,9 @@
   .sds-hits > * + * .sds-result::before {
     content: '';
     position: absolute;
-    inset-inline: var(--space-3);
+    inset-inline: var(--sds-hits-bleed);
     top: calc(-1 * var(--space-1));
-    border-top: var(--border-hairline) solid var(--border-subtle);
+    border-top: var(--sds-hits-border) solid var(--sds-hits-rule);
   }
   /* One hit, and the whole of it is the link: the element renders an `<a>` here,
      so the target is a box rather than a pseudo-element stretched over one, the
@@ -32,19 +37,40 @@
      focusable thing draws. Named by its heading — see the component. */
   .sds-result {
     --sds-result-thumb: 120px;
+    --sds-result-pad: var(--space-3);
+    --sds-result-gap: var(--space-3);
+    --sds-result-line-gap: var(--space-1);
+    --sds-result-border: var(--border-hairline);
+    --sds-result-radius: var(--radius-control);
+    --sds-result-edge: var(--border-subtle);
+    --sds-result-fill-hover: var(--surface-inset);
+    --sds-result-thumb-fill: var(--surface-sunken);
+    --sds-result-title-size: var(--entry-title-size);
+    --sds-result-title-leading: var(--leading-heading);
+    --sds-result-title-ink: var(--text-link);
+    --sds-result-title-ink-hover: var(--text-link-hover);
+    --sds-result-meta-size: var(--font-size-micro);
+    --sds-result-meta-ink: var(--text-muted);
+    --sds-result-text-size: var(--block-body-size);
+    --sds-result-text-leading: var(--leading-body);
+    --sds-result-text-ink: var(--text-secondary);
+    --sds-result-text-measure: var(--measure-prose);
+    --sds-result-duration: var(--duration-fast);
+    --sds-result-ease: var(--ease-out);
+
     position: relative;
     display: flex;
-    gap: var(--space-3);
+    gap: var(--sds-result-gap);
     /* One step on every side: the plane a hit takes under the pointer is a box,
        and a box whose air is deeper one way than the other reads as a mistake
        rather than as a decision. */
-    padding: var(--space-3);
-    border-radius: var(--radius-control);
+    padding: var(--sds-result-pad);
+    border-radius: var(--sds-result-radius);
     color: inherit;
     text-decoration: none;
-    transition: background var(--duration-fast) var(--ease-out);
+    transition: background var(--sds-result-duration) var(--sds-result-ease);
   }
-  a.sds-result:hover { background: var(--surface-inset); }
+  a.sds-result:hover { background: var(--sds-result-fill-hover); }
   /* The one ring, on the box rather than off it — the one thing this surface
      changes about it, and the reason is the box: a hit is already air around its
      words, so a ring standing off would sit in the gap the list keeps for the
@@ -53,7 +79,7 @@
   .sds-result__body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: var(--sds-result-line-gap);
     /* A flex item's floor is its content, so a long path in the line above holds
        the whole hit wider than the drop it hangs in. */
     min-width: 0;
@@ -67,15 +93,15 @@
     width: var(--sds-result-thumb);
     aspect-ratio: 3 / 2;
     overflow: hidden;
-    border: var(--border-hairline) solid var(--border-subtle);
-    border-radius: var(--radius-control);
-    background: var(--surface-sunken);
+    border: var(--sds-result-border) solid var(--sds-result-edge);
+    border-radius: var(--sds-result-radius);
+    background: var(--sds-result-thumb-fill);
   }
   .sds-result__thumb .sds-art { height: 100%; object-fit: cover; }
   /* A drawing keeps the colours it was exported with, so it gets the ground
      those were drawn for — and is fitted rather than cropped, because a diagram
      with its edges cut off is a diagram nobody can read at this size. */
-  .sds-result__thumb--exported { background: var(--surface-art); }
+  .sds-result__thumb--exported { --sds-result-thumb-fill: var(--surface-art); }
   .sds-result__thumb--exported .sds-art { object-fit: contain; }
   /* Link-coloured, unlike a card's title: a hit exists to be opened, a card
      exists to be read and sometimes opened. Never underlined — the box under the
@@ -83,33 +109,40 @@
      question. */
   .sds-result__title {
     margin: 0;
-    font-size: var(--entry-title-size);
-    line-height: var(--leading-heading);
-    color: var(--text-link);
+    font-size: var(--sds-result-title-size);
+    line-height: var(--sds-result-title-leading);
+    color: var(--sds-result-title-ink);
   }
-  a.sds-result:hover .sds-result__title { color: var(--text-link-hover); }
+  a.sds-result:hover { --sds-result-title-ink: var(--sds-result-title-ink-hover); }
   /* One register for the whole line: a third treatment on it would make three
      facts read as three kinds of thing. Beside the path rather than at the far
      end — the words below stop at a measure, and a fact flung to the page edge
      belongs to nothing. */
   .sds-result__path,
-  .sds-result__meta { font-size: var(--font-size-micro); color: var(--text-muted); }
+  .sds-result__meta {
+    font-size: var(--sds-result-meta-size);
+    color: var(--sds-result-meta-ink);
+  }
   .sds-result__path { font-family: var(--font-mono); }
   .sds-result__text {
     margin: 0;
-    font-size: var(--block-body-size);
-    line-height: var(--leading-body);
-    color: var(--text-secondary);
-    max-width: var(--measure-prose);
+    max-width: var(--sds-result-text-measure);
+    font-size: var(--sds-result-text-size);
+    line-height: var(--sds-result-text-leading);
+    color: var(--sds-result-text-ink);
   }
 
   /* What was searched for, inside what was found: the quiet accent tint and the
      page's own text colour, not the accent itself and not a status colour. A
      match is neither the one thing the page is about nor a result of anything. */
   .sds-mark {
-    background: var(--surface-accent-quiet);
-    color: var(--text-primary);
-    border-radius: 2px;
+    --sds-mark-fill: var(--surface-accent-quiet);
+    --sds-mark-ink: var(--text-primary);
+    --sds-mark-radius: 2px;
+
+    background: var(--sds-mark-fill);
+    color: var(--sds-mark-ink);
+    border-radius: var(--sds-mark-radius);
     padding: 0 var(--space-0-5);
   }
 }

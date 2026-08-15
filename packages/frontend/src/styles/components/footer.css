@@ -5,11 +5,30 @@
      where nothing is set. A ground and no rule above it: a hairline between two
      areas of the same ground says only that something ends. */
   .sds-footer {
-    background: var(--surface-sunken);
-    padding-block: var(--space-10);
+    --sds-footer-fill: var(--surface-sunken);
+    --sds-footer-pad-y: var(--space-10);
+    --sds-footer-gap: var(--space-8);
+    --sds-footer-column-gap: var(--space-12);
+    --sds-footer-group-gap: var(--space-6);
+    --sds-footer-list-gap: var(--space-1-5);
+    --sds-footer-heading-gap: var(--space-2);
+    --sds-footer-end-gap: var(--space-5);
+    --sds-footer-brand-width: 260px;
+    --sds-footer-groups-width: 340px;
+    --sds-footer-track: 170px;
+    --sds-footer-note-size: var(--font-size-ui);
+    --sds-footer-note-leading: var(--leading-body);
+    --sds-footer-link-size: var(--nav-font-size);
+    --sds-footer-end-size: var(--font-size-micro);
+    --sds-footer-ink: var(--text-secondary);
+    --sds-footer-ink-hover: var(--text-primary);
+    --sds-footer-ink-quiet: var(--text-muted);
+
+    background: var(--sds-footer-fill);
+    padding-block: var(--sds-footer-pad-y);
     display: flex;
     flex-direction: column;
-    gap: var(--space-8);
+    gap: var(--sds-footer-gap);
   }
   /* The mark beside the columns rather than over them, so the two read as one
      row and a narrow window stacks them with no rule saying when. Twice the
@@ -18,10 +37,10 @@
   .sds-footer__top {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-8) var(--space-12);
+    gap: var(--sds-footer-gap) var(--sds-footer-column-gap);
   }
   .sds-footer__brand {
-    flex: 0 1 260px;
+    flex: 0 1 var(--sds-footer-brand-width);
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
@@ -31,50 +50,60 @@
      and fine print is what a page uses to be forgiven for what it says. */
   .sds-footer__note {
     margin: 0;
-    font-size: var(--font-size-ui);
-    line-height: var(--leading-body);
-    color: var(--text-muted);
+    font-size: var(--sds-footer-note-size);
+    line-height: var(--sds-footer-note-leading);
+    color: var(--sds-footer-ink-quiet);
   }
   /* `auto-fill`, where every other set of columns here is `auto-fit`: an empty
      track is kept rather than collapsed, so two columns stay two columns instead
      of being stretched half a page apart. A footer's lists are read as a block
      at the bottom of the page, not as one column per quarter of the measure. */
   .sds-footer__groups {
-    flex: 1 1 340px;
+    flex: 1 1 var(--sds-footer-groups-width);
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(170px, 100%), 1fr));
-    gap: var(--space-8) var(--space-6);
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--sds-footer-track), 100%), 1fr));
+    gap: var(--sds-footer-gap) var(--sds-footer-group-gap);
   }
   /* A heading belongs to its list: nearer to the first entry than one column is
      to the next, and near enough that the micro register above a set of links
      reads as their name rather than as something set adrift over them. */
-  .sds-footer__group { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
-  .sds-footer__links { display: flex; flex-direction: column; gap: var(--space-1-5); font-size: var(--nav-font-size); }
+  .sds-footer__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-footer-heading-gap);
+    min-width: 0;
+  }
+  .sds-footer__links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-footer-list-gap);
+    font-size: var(--sds-footer-link-size);
+  }
   /* A footer is a directory, not a place the accent appears — `--accent` marks
      three things and a list of every page is not one of them. It is also what
      the ground costs: the link orange is 4.29:1 on the sunken plane, which is
      the finding `--syntax-key` already carries for the same colour. */
-  .sds-footer :is(a, .sds-link) { color: var(--text-secondary); }
+  .sds-footer :is(a, .sds-link) { color: var(--sds-footer-ink); }
   /* The colour only: the underline is the link's own, and stating it again here
      put one under a mark that is a glyph and has no word to carry it. */
-  .sds-footer :is(a, .sds-link):hover { color: var(--text-primary); }
+  .sds-footer :is(a, .sds-link):hover { color: var(--sds-footer-ink-hover); }
   /* A heading that is also a page, where the section it names has one. It keeps
      the label's colour rather than taking the links': at theirs it is the first
      entry of its own list, and what it names is the list. The underline under
      the pointer is the whole of the affordance, and every link here has it. */
-  .sds-footer .sds-footer__heading { color: var(--text-muted); }
+  .sds-footer .sds-footer__heading { color: var(--sds-footer-ink-quiet); }
   /* The line under the columns: what this is, and the notices that have to
      travel with it. Set apart by space and not by a rule — a hairline between
      two areas of one ground is a horizontal rule across the window, which is
      what the footer changed its ground to avoid in the first place. */
   .sds-footer__end {
-    padding-top: var(--space-5);
+    padding-top: var(--sds-footer-end-gap);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-2) var(--space-6);
-    font-size: var(--font-size-micro);
-    color: var(--text-muted);
+    gap: var(--sds-footer-heading-gap) var(--sds-footer-group-gap);
+    font-size: var(--sds-footer-end-size);
+    color: var(--sds-footer-ink-quiet);
   }
   /* The marks, at the far end of that line: glyphs rather than words, so they
      are spaced as a row of marks and not as a run of links — close enough to
@@ -84,7 +113,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-2) var(--space-4);
+    gap: var(--sds-footer-heading-gap) var(--space-4);
   }
   /* Alone on the line there is nothing to be at the far end *of*, and a set of
      marks against the right edge of a page that says nothing else reads as
@@ -93,4 +122,11 @@
   /* The whole footer, where a page set nothing else: the space that separates
      the line from the columns above it separates it from nothing here. */
   .sds-footer__end:only-child { padding-top: 0; }
+
+  /* The closing line wraps here, and a set of marks pushed to the far end of a
+     line it is alone on sits against the right edge under text that starts at
+     the left. There is no end to be at once the line broke. */
+  @media (max-width: 640px) {
+    .sds-footer__marks { margin-inline-start: 0; }
+  }
 }

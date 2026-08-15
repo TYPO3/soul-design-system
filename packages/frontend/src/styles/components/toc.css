@@ -5,7 +5,24 @@
      from. Apparatus rather than prose — a step down in size and set in the
      secondary ink, so a reader uses it or reads past it, and both are easier
      when it is not a paragraph. */
-  .sds-toc { font-size: var(--font-size-ui); }
+  .sds-toc {
+    --sds-toc-font-size: var(--font-size-ui);
+    --sds-toc-step: var(--space-1);
+    --sds-toc-indent: var(--space-3);
+    --sds-toc-bleed: var(--space-2);
+    --sds-toc-label-gap: var(--space-2);
+    --sds-toc-radius: var(--radius-control);
+    --sds-toc-leading: var(--leading-heading);
+    --sds-toc-ink: var(--text-secondary);
+    --sds-toc-ink-nested: var(--text-muted);
+    --sds-toc-ink-hover: var(--text-primary);
+    --sds-toc-ink-active: var(--text-on-accent);
+    --sds-toc-fill-active: var(--accent);
+    --sds-toc-duration: var(--duration-fast);
+    --sds-toc-ease: var(--ease-out);
+
+    font-size: var(--sds-toc-font-size);
+  }
   /* No markers. A contents is a list of places, and a bullet before each one is
      punctuation for a sentence nobody is reading. */
   .sds-toc__list {
@@ -18,73 +35,60 @@
      indent already says which — a group set tighter than its neighbours is a
      rhythm the eye reads before it reads any of the words. */
   .sds-toc__list .sds-toc__list {
-    padding-block-start: var(--space-1);
-    padding-inline-start: var(--space-3);
+    padding-block-start: var(--sds-toc-step);
+    padding-inline-start: var(--sds-toc-indent);
   }
   /* One step between entries. The row is a row and no longer a line of prose, so
      nothing is left between two of them: the fill of one meets the fill of the
      next, and a list of places reads as a block of them. */
-  .sds-toc__list > li { margin-bottom: var(--space-1); }
+  .sds-toc__list > li { margin-bottom: var(--sds-toc-step); }
   /* The label a list writes over itself, standing directly on it. */
   .sds-toc > .sds-label {
     display: block;
-    margin: 0 0 var(--space-2);
+    margin: 0 0 var(--sds-toc-label-gap);
   }
-  /* Drawn as the footer's links are and not as the ones in a sentence: twenty
-     accented lines beside the text is a second thing lit on a page that lights
-     three, and none of them is what the reader came for. */
   /* A row rather than a line of text, so the one that is current can be filled.
      It bleeds by exactly what it is padded with: the text stands where it stood
      and the entry keeps its measure, which is what the column beside a page has
-     least of — the fill is the only thing that grew. */
-  /* And the mark arrives rather than appearing, the same fade a pill and the
-     mode switch use. It is worth more here than on either of those: those move
-     because somebody pressed them and the press is the announcement, while this
-     one moves under a reader who is looking at the text — two blocks crossing
-     over in 140ms is what says the mark travelled rather than blinked. */
-  /* And a row carries a row's leading rather than the leading of whatever it
-     stands in: at a document's an entry is a paragraph line, which is what the
-     column beside the text was setting back to a row one media query at a time.
-     Here it is the same row on a card, in a story and in a page. */
-  /* One entry is one line, and ends where the column does. A list of places is
+     least of — the fill is the only thing that grew. And a row carries a row's
+     leading rather than the leading of whatever it stands in.
+
+     One entry is one line, and ends where the column does. A list of places is
      scanned down its left edge, and an entry folded onto a second line is two
      places to that reading — the heading it names is short or it is cut, and the
-     cut says so. Where it stands is the whole of the room it gets. */
+     cut says so. */
   .sds-toc__item {
     display: block;
-    margin-inline: calc(-1 * var(--space-2));
-    padding: var(--space-1) var(--space-2);
-    line-height: var(--leading-heading);
-    border-radius: var(--radius-control);
-    color: var(--text-secondary);
+    margin-inline: calc(-1 * var(--sds-toc-bleed));
+    padding: var(--sds-toc-step) var(--sds-toc-bleed);
+    line-height: var(--sds-toc-leading);
+    border-radius: var(--sds-toc-radius);
+    color: var(--sds-toc-ink);
     text-decoration: none;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+    transition:
+    background var(--sds-toc-duration) var(--sds-toc-ease),
+    color var(--sds-toc-duration) var(--sds-toc-ease);
   }
   .sds-toc__item:hover {
-    color: var(--text-primary);
+    color: var(--sds-toc-ink-hover);
     text-decoration: underline;
   }
   /* One step quieter a level down, because the indent alone does not say it: a
      sub-entry and the second line of a wrapped entry start at different places
      and read as the same thing. */
-  .sds-toc__list .sds-toc__list .sds-toc__item { color: var(--text-muted); }
-  .sds-toc__list .sds-toc__list .sds-toc__item:hover { color: var(--text-primary); }
+  .sds-toc__list .sds-toc__list .sds-toc__item { color: var(--sds-toc-ink-nested); }
+  .sds-toc__list .sds-toc__list .sds-toc__item:hover { color: var(--sds-toc-ink-hover); }
   /* The section under the reader — a filled block in the accent, which is what
      this system marks a current navigation item with everywhere else. A step of
      ink alone was the first answer here and it was one step in dark and half of
      one in light: the fill is the mark that reads the same in both. */
   .sds-toc__item.is-active,
   .sds-toc__list .sds-toc__list .sds-toc__item.is-active {
-    background: var(--accent);
-    color: var(--text-on-accent);
+    background: var(--sds-toc-fill-active);
+    color: var(--sds-toc-ink-active);
     text-decoration: none;
   }
-  /* A list of questions, each with its answer folded behind it. `<details>` for
-     the rail's reason: it folds before any script runs, so a page whose bundle
-     never arrives is a list of questions and not a wall of answers. Separated by
-     hairlines rather than boxed — what a reader scans is the *list*, found by
-     reading down one column and not by comparing six containers. */
 }

@@ -7,24 +7,35 @@
      it can take without touching the edges. `display` waits for `[open]`, or the
      base rule would leave the viewer on the page permanently. */
   dialog.sds-lightbox {
+    --sds-lightbox-width: min(92vw, 1400px);
+    --sds-lightbox-inset: 4vh;
+    --sds-lightbox-pad: var(--space-4);
+    --sds-lightbox-border: var(--border-hairline);
+    --sds-lightbox-radius: var(--radius-card);
+    --sds-lightbox-edge: var(--border-strong);
+    --sds-lightbox-fill: var(--surface-raised);
+    --sds-lightbox-stage-fill: var(--surface-sunken);
+    --sds-lightbox-ink: var(--text-primary);
+    --sds-lightbox-backdrop: var(--surface-overlay);
+
     padding: 0;
-    width: min(92vw, 1400px);
+    width: var(--sds-lightbox-width);
     max-width: none;
     /* The height is the gap between the two edges rather than a length, because a
        `<dialog>` given a length keeps the platform's `margin: auto` and stops
        being centred in the block direction — the stage would sit against the top
        of the screen with the whole margin under it. */
-    inset-block: 4vh;
+    inset-block: var(--sds-lightbox-inset);
     height: auto;
     max-height: none;
-    background: var(--surface-raised);
-    border: var(--border-hairline) solid var(--border-strong);
-    border-radius: var(--radius-card);
-    color: var(--text-primary);
+    background: var(--sds-lightbox-fill);
+    border: var(--sds-lightbox-border) solid var(--sds-lightbox-edge);
+    border-radius: var(--sds-lightbox-radius);
+    color: var(--sds-lightbox-ink);
     overflow: hidden;
   }
   dialog.sds-lightbox[open] { display: flex; flex-direction: column; }
-  dialog.sds-lightbox::backdrop { background: var(--surface-overlay); }
+  dialog.sds-lightbox::backdrop { background: var(--sds-lightbox-backdrop); }
   /* A modal has the whole screen, but the platform only makes the rest inert —
      a wheel over the backdrop still moves the page behind the picture. The
      stable gutter keeps the scrollbar's width reserved, or locking the document
@@ -38,9 +49,9 @@
   .sds-lightbox__art {
     flex: 1;
     min-height: 0;
-    padding: var(--space-4);
+    padding: var(--sds-lightbox-pad);
     overflow: hidden;
-    background: var(--surface-sunken);
+    background: var(--sds-lightbox-stage-fill);
   }
 
   /* The picture is fitted into what the head leaves rather than drawn at the

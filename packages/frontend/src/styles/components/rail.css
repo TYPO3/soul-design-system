@@ -3,12 +3,30 @@
 @layer components {
   /* The 210px tool rail. */
   .sds-rail {
-    width: var(--width-sidebar);
+    --sds-rail-width: var(--width-sidebar);
+    --sds-rail-step: var(--border-hairline);
+    --sds-rail-pad-y: var(--space-1);
+    --sds-rail-pad-x: var(--space-2);
+    --sds-rail-indent: var(--space-3);
+    --sds-rail-label-gap: var(--space-2);
+    --sds-rail-radius: var(--radius-control);
+    --sds-rail-glyph: var(--control-icon-size);
+    --sds-rail-font: var(--font-mono);
+    --sds-rail-font-size: var(--nav-font-size);
+    --sds-rail-ink: var(--text-secondary);
+    --sds-rail-ink-hover: var(--text-primary);
+    --sds-rail-ink-quiet: var(--text-muted);
+    --sds-rail-ink-active: var(--text-on-accent);
+    --sds-rail-fill-active: var(--accent);
+    --sds-rail-duration: var(--duration-fast);
+    --sds-rail-ease: var(--ease-out);
+
+    width: var(--sds-rail-width);
     display: flex;
     flex-direction: column;
-    gap: var(--border-hairline);
-    font-family: var(--font-mono);
-    font-size: var(--nav-font-size);
+    gap: var(--sds-rail-step);
+    font-family: var(--sds-rail-font);
+    font-size: var(--sds-rail-font-size);
   }
   /* An item is a row of the rail, so it says so itself. The `inline-flex` it
      shares with a pill carried only as long as every item was a flex item of the
@@ -16,9 +34,9 @@
      a paragraph and pair up two to a line. */
   .sds-rail__item {
     display: flex;
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-control);
-    color: var(--text-secondary);
+    padding: var(--sds-rail-pad-y) var(--sds-rail-pad-x);
+    border-radius: var(--sds-rail-radius);
+    color: var(--sds-rail-ink);
     text-decoration: none;
   }
   /* The name is the half that gives, and gives by ending rather than overflowing:
@@ -31,13 +49,16 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .sds-rail__item:hover { color: var(--text-primary); }
-  .sds-rail__item.is-active { background: var(--accent); color: var(--text-on-accent); }
+  .sds-rail__item:hover { color: var(--sds-rail-ink-hover); }
+  .sds-rail__item.is-active {
+    background: var(--sds-rail-fill-active);
+    color: var(--sds-rail-ink-active);
+  }
   /* And the marker over a filled row is in that block, so it is drawn in the
      block's own ink rather than reading as a glyph left on top of it. */
   .sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary,
   .sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary:hover {
-    color: var(--text-on-accent);
+    color: var(--sds-rail-ink-active);
   }
   /* Before the element upgrades, and on a page where it never will: the column a
      server wrote. The host is inline until then, so without this the links run
@@ -54,17 +75,17 @@
      spacing, and here it is a heading standing directly on its list. */
   .sds-rail > .sds-label {
     display: block;
-    margin-bottom: var(--space-2);
-    padding-inline: var(--space-2);
+    margin-bottom: var(--sds-rail-label-gap);
+    padding-inline: var(--sds-rail-pad-x);
   }
   /* And where the section it names is a page, the heading is the way to it, as
      a footer column's heading is. */
   .sds-rail__heading {
     text-decoration: none;
-    transition: color var(--duration-fast) var(--ease-out);
+    transition: color var(--sds-rail-duration) var(--sds-rail-ease);
   }
   .sds-rail__heading:hover,
-  .sds-rail__heading.is-active { color: var(--text-primary); }
+  .sds-rail__heading.is-active { color: var(--sds-rail-ink-hover); }
 
   /* A rail long enough to need sections. The row is a page like any other and
      the marker beside it opens what it holds — the same pair the bar's row
@@ -81,11 +102,13 @@
      what fills for the current page and what the focus ring goes round takes the
      marker with it, the way the bar's block does. The row keeps the room free at
      its end, so a long title never runs under the glyph. */
-  .sds-rail__group > .sds-rail__item { padding-inline-end: calc(var(--control-icon-size) + var(--space-3)); }
+  .sds-rail__group > .sds-rail__item {
+    padding-inline-end: calc(var(--sds-rail-glyph) + var(--sds-rail-indent));
+  }
   .sds-rail__fold > summary {
     position: absolute;
-    inset-inline-end: var(--space-2);
-    top: var(--space-1);
+    inset-inline-end: var(--sds-rail-pad-x);
+    top: var(--sds-rail-pad-y);
     z-index: 1;
     list-style: none;
     cursor: pointer;
@@ -93,23 +116,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--control-icon-size);
+    width: var(--sds-rail-glyph);
     /* The row's own line box, so the glyph sits on the text rather than near
        it — and the row keeps whatever leading it inherits. */
     height: 1lh;
-    color: var(--text-muted);
-    border-radius: var(--radius-control);
+    color: var(--sds-rail-ink-quiet);
+    border-radius: var(--sds-rail-radius);
   }
   .sds-rail__fold > summary::-webkit-details-marker { display: none; }
-  .sds-rail__fold > summary:hover { color: var(--text-primary); }
+  .sds-rail__fold > summary:hover { color: var(--sds-rail-ink-hover); }
   /* Sideways closed, down open — it points at what pressing it will do, and
      keeps the control floor rather than the label's size: an 11px marker is a
      smudge on the one control in the rail. */
   .sds-rail__fold > summary .sds-icon {
-    width: var(--control-icon-size);
-    height: var(--control-icon-size);
+    --sds-icon-size: var(--sds-rail-glyph);
     transform: rotate(-90deg);
-    transition: transform var(--duration-fast) var(--ease-out);
+    transition: transform var(--sds-rail-duration) var(--sds-rail-ease);
   }
   .sds-rail__fold[open] > summary .sds-icon { transform: none; }
   /* The box the browser puts between a fold and the pages it holds, which
@@ -120,8 +142,10 @@
   .sds-rail__fold::details-content {
     display: flex;
     flex-direction: column;
-    gap: var(--border-hairline);
-    padding-inline-start: var(--space-3);
+    gap: var(--sds-rail-step);
+    padding-inline-start: var(--sds-rail-indent);
   }
-  .sds-rail__group:last-child > .sds-rail__fold::details-content { padding-bottom: var(--space-2); }
+  .sds-rail__group:last-child > .sds-rail__fold::details-content {
+    padding-bottom: var(--sds-rail-label-gap);
+  }
 }

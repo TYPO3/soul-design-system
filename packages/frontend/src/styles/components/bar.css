@@ -6,22 +6,31 @@
      has to know. The one translucent, blurred thing in a system with no shadows:
      solid it reads as a lid, transparent it lets letters run through the mark. */
   .sds-bar {
+    --sds-bar-height: var(--height-header);
+    --sds-bar-gap: var(--space-6);
+    --sds-bar-end-gap: var(--space-3);
+    --sds-bar-z: 30;
+    --sds-bar-border: var(--border-hairline);
+    --sds-bar-rule: var(--border-subtle);
+    --sds-bar-fill: color-mix(in srgb, var(--surface-canvas) 88%, transparent);
+    --sds-bar-blur: blur(8px);
+
     position: sticky;
     top: 0;
-    z-index: 30;
+    z-index: var(--sds-bar-z);
     /* A floor rather than a height, and a row that may wrap: for one frame
        between a resize and the element's measurement the row is over-full, and
        two rows beat pills painted over the controls. At rest it never wraps. */
-    min-height: var(--height-header);
+    min-height: var(--sds-bar-height);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     align-content: center;
-    gap: var(--space-6);
+    gap: var(--sds-bar-gap);
     padding-block: 0;
-    background: color-mix(in srgb, var(--surface-canvas) 88%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: var(--border-hairline) solid var(--border-subtle);
+    background: var(--sds-bar-fill);
+    backdrop-filter: var(--sds-bar-blur);
+    border-bottom: var(--sds-bar-border) solid var(--sds-bar-rule);
   }
   /* And the element, because a sticky box travels inside its parent: with the
      bar in an element of its own the parent is that element, exactly as tall,
@@ -41,18 +50,17 @@
     scroll-padding-top: calc(var(--height-header) + var(--space-4));
   }
 
-  /* The cluster that sits against the right edge. */
+  /* The cluster that sits against the right edge. It does not shrink — it
+     sheds, which is what the media query below does. Shrinking it squeezes its
+     own contents out of it instead, and a box 64px narrower than what is inside
+     it is a header that overflows without anything in the row looking wrong. */
   .sds-bar__end {
+    flex: none;
     margin-inline-start: auto;
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--sds-bar-end-gap);
   }
-  /* The cluster does not shrink — it sheds, which is what the media queries
-     below do. Shrinking it squeezes its own contents out of it instead, and a
-     box 64px narrower than what is inside it is a header that overflows without
-     anything in the row looking wrong. */
-  .sds-bar__end { flex: none; }
 
   /* Nothing else in the bar may set a floor either. A flex item's default
      minimum is its own content, so one long word stops the row shrinking and
@@ -63,8 +71,26 @@
      a box too narrow to read what they had typed — it goes to the drawer whole
      instead, and the bar is measured knowing it will not shrink. */
   .sds-bar__end .sds-search { flex-shrink: 0; }
-  /* The badge keeps its own height. It is not a control — nothing is pressed
-     or typed in it — and a version standing as tall as the search field would
-     read as something to press. The controls line up with each other; the fact
-     beside them stays the size a fact is. */
+
+  /* What the bar sheds as the page narrows. After the rules it narrows and in
+     the same layer as them: a later layer wins inside a media query too, so a
+     component whose breakpoints live one layer down has breakpoints that never
+     take effect. */
+  @media (max-width: 1140px) {
+    .sds-bar { --sds-bar-gap: var(--space-4); }
+  }
+  @media (max-width: 460px) {
+    /* The brand half of the wordmark, never the signet and never the product:
+       the name of the thing the reader came for is what tells them which page
+       they are on, and whose it is is what the signet beside it already says. */
+    .sds-bar .sds-wordmark__brand,
+    .sds-bar .sds-wordmark__pipe { display: none; }
+    /* One name left is the mark itself, in the mark's own weight — the same
+       lockup a site with no brand draws, rather than the quiet half standing
+       alone with nothing for it to be quiet beside. */
+    .sds-bar .sds-wordmark__product {
+      font-weight: inherit;
+      color: inherit;
+    }
+  }
 }
