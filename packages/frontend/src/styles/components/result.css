@@ -1,6 +1,11 @@
 /* sds-search-hits and sds-search-result — what a search answers with. */
 
 @layer components {
+  /* A list of hits, and one hit in it.
+
+     Separated by a hairline rather than boxed. A hit is read, discarded and the
+     next one is read, which is what a list is for and what a grid of cards
+     prevents — and what tells two of them apart at a glance is the line. */
   .sds-hits {
     display: flex;
     flex-direction: column;
@@ -107,6 +112,4 @@
     border-radius: 2px;
     padding: 0 var(--space-0-5);
   }
-
-  /* Overlay is a wash, not a shadow. */
 }

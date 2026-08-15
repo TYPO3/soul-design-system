@@ -1,6 +1,9 @@
 /* sds-theme — light or dark, as two segments. */
 
 @layer components {
+  /* Light or dark, as two segments with the chosen one filled — the same
+     treatment as an active navigation item, because it is one. The group is
+     bordered so the pair reads as one control rather than as two buttons. */
   .sds-modes {
     /* Inline: it is a control, and a block-level box takes the whole row
        wherever it is not a flex item — which is most places a header puts it. */
@@ -43,6 +46,4 @@
   /* The word beside the mark, on one line always: the pair is among the shortest
      boxes in a row, and a "light" broken in half would make it the tallest. */
   .sds-mode__label { white-space: nowrap; }
-
-  /* The 210px tool rail. */
 }

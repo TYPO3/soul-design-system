@@ -1,6 +1,10 @@
 /* sds-nav-pagination and sds-nav-pager — a set in pages, and the way on. */
 
 @layer components {
+  /* Where a list continues. Numbered, and every number an `href`: a list somebody
+     may come back to needs a place to come back to, and "load more" has no
+     address. The page they are on is the active item of a navigation and drawn as
+     one — accent, filled — and text rather than a link, like the end of a trail. */
   .sds-pagination {
     display: flex;
     flex-wrap: wrap;
@@ -37,10 +41,4 @@
      of this is which end each control sits at — said on the next rather than
      between the two, or a page with only a next would have it on the left. */
   .sds-pager > .sds-pager__next { margin-inline-start: auto; }
-
-  /* An item is a control: a link where it goes somewhere, a button where it
-     switches something on this page. The button carries a browser default font,
-     border and background that a link does not, so the three items are levelled
-     here rather than three times below. Left alone: colour, padding and the
-     active block, which are each navigation's own. */
 }

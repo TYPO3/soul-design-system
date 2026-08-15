@@ -1,6 +1,10 @@
 /* sds-accordion — a list of questions, each with its answer folded behind it. */
 
 @layer components {
+  /* The line above every question and one under the set, rather than a line
+     under each and a `:first-child` for the top: an answer that arrives in an
+     element of its own is the first child of that element, and every line in the
+     list would double. Same rule drawn where nothing structural can miss it. */
   .sds-accordion {
     display: flex;
     flex-direction: column;
@@ -132,7 +136,4 @@
      where the panel sits, which is a layout question. It hangs from the field
      rather than pushing the bar apart, and it is bounded — eight hits is a list,
      forty is a page nobody asked for. */
-  /* The block the element draws, and the box the panel hangs from. Without one
-     the drop finds whatever is positioned above it — which in a bar is the bar,
-     so it hung off the header's right edge rather than off the field. */
 }

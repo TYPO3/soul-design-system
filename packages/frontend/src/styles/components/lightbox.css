@@ -1,6 +1,11 @@
 /* sds-lightbox — a drawing opened at the size it was drawn. */
 
 @layer components {
+  /* A drawing at the size it was drawn, and not a modal with the cap taken off:
+     a modal stops at `--measure-modal` because what is in one is read, and a
+     drawing is looked at. So this is its own surface — as much of the screen as
+     it can take without touching the edges. `display` waits for `[open]`, or the
+     base rule would leave the viewer on the page permanently. */
   dialog.sds-lightbox {
     padding: 0;
     width: min(92vw, 1400px);
@@ -37,8 +42,4 @@
     overflow: hidden;
     background: var(--surface-sunken);
   }
-  /* The picture is fitted into what the head leaves rather than drawn at the
-     width of it: the stage is bounded in both directions, so a drawing that is
-     taller than wide stands whole and in the middle instead of scrolling with
-     its foot cut off. `scale-down` is why a small picture is not blown up. */
 }

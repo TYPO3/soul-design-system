@@ -1,31 +1,80 @@
-/* sds-button — the three variants, the three heights. */
+/* sds-button — the three variants, the three heights.
+
+   Everything a button is, it is through a property of its own. The set is
+   derived once at the top — from the control tokens every control shares —
+   and every declaration below reads only that set. A variant, a size and a
+   state then assign values and draw nothing.
+
+   That buys three things: no `--primary:hover` rule for a later one to
+   outweigh, a size that is a handful of numbers rather than the same
+   declarations repeated per variant, and a surface that needs one button
+   different setting a property instead of writing a class this system has
+   never heard of. */
 
 @layer components {
   .sds-btn {
-    font-family: var(--font-sans);
-    font-size: var(--control-font-size);
-    font-weight: var(--weight-semibold);
-    line-height: var(--control-leading);
-    min-height: var(--control-height);
-    border-radius: var(--radius-control);
-    padding: var(--control-pad-y) var(--control-pad-x);
-    border: var(--border-hairline) solid transparent;
-    cursor: pointer;
+    /* The box. */
+    --sds-btn-height: var(--control-height);
+    --sds-btn-pad-y: var(--control-pad-y);
+    --sds-btn-pad-x: var(--control-pad-x);
+    --sds-btn-gap: var(--control-gap);
+    --sds-btn-border: var(--border-hairline);
+    --sds-btn-radius: var(--radius-control);
+    /* The type. */
+    --sds-btn-font: var(--font-sans);
+    --sds-btn-font-size: var(--control-font-size);
+    --sds-btn-weight: var(--weight-semibold);
+    --sds-btn-leading: var(--control-leading);
+    /* The glyph, where the button is one. */
+    --sds-btn-glyph: var(--control-icon-size);
+    /* The three colours, at rest and under the pointer. */
+    --sds-btn-ink: var(--text-secondary);
+    --sds-btn-fill: transparent;
+    --sds-btn-edge: transparent;
+    --sds-btn-ink-hover: var(--sds-btn-ink);
+    --sds-btn-fill-hover: var(--sds-btn-fill);
+    --sds-btn-edge-hover: var(--sds-btn-edge);
+    /* What it does while it changes, and what it says once it cannot. */
+    --sds-btn-duration: var(--duration-fast);
+    --sds-btn-ease: var(--ease-out);
+    --sds-btn-disabled-opacity: 0.5;
+
     display: inline-flex;
     align-items: center;
-    gap: var(--control-gap);
+    gap: var(--sds-btn-gap);
+    min-height: var(--sds-btn-height);
+    padding: var(--sds-btn-pad-y) var(--sds-btn-pad-x);
+    border: var(--sds-btn-border) solid var(--sds-btn-edge);
+    border-radius: var(--sds-btn-radius);
+    background: var(--sds-btn-fill);
+    color: var(--sds-btn-ink);
+    font-family: var(--sds-btn-font);
+    font-size: var(--sds-btn-font-size);
+    font-weight: var(--sds-btn-weight);
+    line-height: var(--sds-btn-leading);
     text-decoration: none;
+    cursor: pointer;
     transition:
-    background var(--duration-fast) var(--ease-out),
-    border-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+    background var(--sds-btn-duration) var(--sds-btn-ease),
+    border-color var(--sds-btn-duration) var(--sds-btn-ease),
+    color var(--sds-btn-duration) var(--sds-btn-ease);
   }
 
-  /* This class is worn by anchors too — a press that goes somewhere is a link —
-     and `a:hover` is a type *and* a pseudo-class, which outweighs a bare class.
-     So the state has to be named here as well, or every such control grows an
-     underline under the pointer that no button in this system has. */
-  .sds-btn:hover { text-decoration: none; }
+  /* One state, whatever the variant. `text-decoration` with it: this class is
+     worn by anchors too — a press that goes somewhere is a link — and
+     `a:hover` is a type *and* a pseudo-class, which outweighs a bare class. */
+  .sds-btn:hover {
+    --sds-btn-ink: var(--sds-btn-ink-hover);
+    --sds-btn-fill: var(--sds-btn-fill-hover);
+    --sds-btn-edge: var(--sds-btn-edge-hover);
+    text-decoration: none;
+  }
+
+  .sds-btn:disabled,
+  .sds-btn.is-disabled {
+    opacity: var(--sds-btn-disabled-opacity);
+    cursor: not-allowed;
+  }
 
   /* Everything a caller wrote that is not a glyph, in one item. Written beside
      each other the parts of a label are items of their own, and this row places
@@ -34,67 +83,58 @@
   .sds-btn__label { display: block; }
 
   /* One primary per view — the action that starts work. */
-  .sds-btn--primary { background: var(--accent); color: var(--text-on-accent); }
-  .sds-btn--primary:hover { background: var(--accent-hover); }
+  .sds-btn--primary {
+    --sds-btn-ink: var(--text-on-accent);
+    --sds-btn-fill: var(--accent);
+    --sds-btn-fill-hover: var(--accent-hover);
+  }
 
   .sds-btn--secondary {
-    background: transparent;
-    color: var(--text-primary);
-    border-color: var(--border-strong);
+    --sds-btn-ink: var(--text-primary);
+    --sds-btn-edge: var(--border-strong);
+    --sds-btn-fill-hover: var(--surface-raised);
+    --sds-btn-edge-hover: var(--text-muted);
   }
-  .sds-btn--secondary:hover { background: var(--surface-raised); border-color: var(--text-muted); }
 
-  .sds-btn--ghost { background: transparent; color: var(--text-secondary); }
-  .sds-btn--ghost:hover { color: var(--text-primary); }
+  .sds-btn--ghost {
+    --sds-btn-ink: var(--text-secondary);
+    --sds-btn-ink-hover: var(--text-primary);
+  }
 
   .sds-btn--sm {
-    font-size: var(--control-font-size-sm);
-    min-height: var(--control-height-sm);
-    padding: var(--control-pad-y-sm) var(--control-pad-x-sm);
+    --sds-btn-height: var(--control-height-sm);
+    --sds-btn-pad-y: var(--control-pad-y-sm);
+    --sds-btn-pad-x: var(--control-pad-x-sm);
+    --sds-btn-font-size: var(--control-font-size-sm);
   }
 
   /* The one action a screen is for — a landing's single call, not a row of
      actions. Beside a second large button neither is the one. */
   .sds-btn--lg {
-    font-size: var(--control-font-size-lg);
-    min-height: var(--control-height-lg);
-    padding: var(--control-pad-y-lg) var(--control-pad-x-lg);
+    --sds-btn-height: var(--control-height-lg);
+    --sds-btn-pad-y: var(--control-pad-y-lg);
+    --sds-btn-pad-x: var(--control-pad-x-lg);
+    --sds-btn-font-size: var(--control-font-size-lg);
+    --sds-btn-glyph: var(--control-icon-size-lg);
   }
 
   /* Icon-only is a square, and always carries a title= — the label is not
-     optional just because it is not painted. The side is the control height, so
-     a marked button and a worded one stand the same in a row, and it is set both
-     ways because a fixed width against a `min-height` is square by arithmetic. */
+     optional just because it is not painted. The side is the height the size
+     already states, so a marked button and a worded one stand the same in a
+     row whichever size they are. */
   .sds-btn--icon {
-    padding: 0;
-    width: var(--control-height);
-    height: var(--control-height);
-    min-height: var(--control-height);
+    --sds-btn-pad-y: 0;
+    --sds-btn-pad-x: 0;
+    width: var(--sds-btn-height);
+    height: var(--sds-btn-height);
     justify-content: center;
-  }
-  .sds-btn--sm.sds-btn--icon {
-    width: var(--control-height-sm);
-    height: var(--control-height-sm);
-    min-height: var(--control-height-sm);
-  }
-  .sds-btn--lg.sds-btn--icon {
-    width: var(--control-height-lg);
-    height: var(--control-height-lg);
-    min-height: var(--control-height-lg);
   }
 
   /* A glyph inside a label is as big as that label. A glyph that IS the control
      is not a label at all, so it keeps the floor — at `sm` the text is 13px and
      the square would otherwise hold a 13px mark in a 28px box. */
   .sds-btn--icon .sds-icon {
-    width: var(--control-icon-size);
-    height: var(--control-icon-size);
+    width: var(--sds-btn-glyph);
+    height: var(--sds-btn-glyph);
   }
-  .sds-btn--lg.sds-btn--icon .sds-icon {
-    width: var(--control-icon-size-lg);
-    height: var(--control-icon-size-lg);
-  }
-
-  .sds-btn:disabled,
-  .sds-btn.is-disabled { opacity: 0.5; cursor: not-allowed; }
 }

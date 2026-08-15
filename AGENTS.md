@@ -436,6 +436,16 @@ moved without the other.
   element and a starting point link only `styles.css`, so neither may write a
   `spec-*` class. The `classes` check holds that boundary separately from the
   repository-wide class vocabulary.
+- **A component is a property set, and its variants only assign to it.** One
+  file per component under `packages/frontend/src/styles/components/`, its own
+  `--sds-<name>-*` set declared at the top and derived from the shared tokens,
+  every declaration below reading only that set. A variant, a size and a state
+  assign values and draw nothing — so a state is written once whatever the
+  variant, and a surface needing one instance different sets a property rather
+  than a class this system never heard of. A value that reaches a declaration
+  without passing through the set is how `1.55` ends up in one component and
+  `--leading-body` in every other. `docs/frontend/components/index.rst` carries
+  the shape; `packages/frontend/src/styles/components/button.css` is the model.
 - **A component is addressed, never rebuilt.** Everything that fits in a string
   is a property; between the tags goes only what an attribute cannot carry, and
   that is content rather than structure. A `sds-x__y` class is `sds-x`'s own

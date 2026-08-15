@@ -1,6 +1,10 @@
 /* sds-swatch — a colour, its name and the value it resolves to. */
 
 @layer components {
+  /* One colour, stated as a fact. A row and not a tile: a palette is read down
+     its names, and a wall of squares is a set nobody can quote from. The chip is
+     the subject; the two lines beside it are what gets typed somewhere else, so
+     both are machine text. */
   .sds-swatch {
     display: flex;
     align-items: center;
@@ -43,9 +47,4 @@
     font-size: var(--font-size-label);
     color: var(--text-muted);
   }
-
-  /* One glyph in a wall of them, scanned rather than read. The card's own frame,
-     because a tile is a way into something too — what differs is which part is
-     the subject. The whole box is the anchor, so nothing inside it needs
-     stretching over anything. */
 }

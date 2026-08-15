@@ -1,6 +1,9 @@
 /* sds-stat — a figure and what it is a figure of. */
 
 @layer components {
+  /* No layout of its own: a set of figures is a set read side by side, which is
+     what `sds-grid` is. A second grid here would be the same decision made
+     twice, and only one of the two would learn what the wall learns next. */
   .sds-stat { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
   /* Muted and never in a status colour, for the reason a card's glyph is: a
      figure is a subject, not a result. A box of its own inside the figure's
@@ -31,9 +34,4 @@
     line-height: 1.5;
     color: var(--text-secondary);
   }
-
-  /* A drawing, and what it claims. The frame is sunken because a diagram is
-     machine output in the sense a log is — generated from the thing it describes.
-     The caption is the claim in words and is not optional: a drawing whose point
-     has to be inferred means something different to each reader. */
 }

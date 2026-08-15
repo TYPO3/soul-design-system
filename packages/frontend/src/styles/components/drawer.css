@@ -2,6 +2,9 @@
    through. */
 
 @layer components {
+  /* The same pills, plus what happens when the bar runs out of room for them.
+     The element measures and decides — see `src/components/header.ts`; what is
+     here is only the shapes it decides between. */
   .sds-bar__nav {
     display: flex;
     /* Wider than the gap inside a section, so a marker belongs to the name it
@@ -307,6 +310,4 @@
     height: 100vh;
     z-index: 10;
   }
-
-  /* Underline tabs inside a panel. */
 }

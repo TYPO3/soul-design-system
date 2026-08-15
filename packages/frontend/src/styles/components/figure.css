@@ -1,6 +1,10 @@
 /* sds-figure — a picture and the claim it makes. */
 
 @layer components {
+  /* A drawing, and what it claims. The frame is sunken because a diagram is
+     machine output in the sense a log is — generated from the thing it describes.
+     The caption is the claim in words and is not optional: a drawing whose point
+     has to be inferred means something different to each reader. */
   .sds-figure { display: flex; flex-direction: column; gap: var(--space-3); }
   /* No padding: a drawing carries its own margin, so a frame that adds another
      indents it twice and it arrives smaller than it was drawn. The frame is a
@@ -26,10 +30,4 @@
     color: var(--text-muted);
     max-width: var(--measure-prose);
   }
-
-  /* A document from somewhere else. The frame is the figure's, because an embed
-     is the same kind of thing on the page; what it does not share is how it is
-     sized, since a picture arrives with its own proportions and an iframe does
-     not. So two shapes: a player has a ratio and fills the column, a specimen
-     keeps the size it was measured at, and the element writes which. */
 }

@@ -1,6 +1,11 @@
 /* What a pill, a tab and a rail item share, and the row of pills itself. */
 
 @layer components {
+  /* An item is a control: a link where it goes somewhere, a button where it
+     switches something on this page. The button carries a browser default font,
+     border and background that a link does not, so the three items are levelled
+     here rather than three times below. Left alone: colour, padding and the
+     active block, which are each navigation's own. */
   button.sds-pill,
   button.sds-tab,
   button.sds-rail__item {
@@ -48,8 +53,4 @@
   .sds-pill { white-space: nowrap; }
   .sds-pill:hover { color: var(--text-primary); }
   .sds-pill.is-active { background: var(--accent); color: var(--text-on-accent); }
-
-  /* The same pills, plus what happens when the bar runs out of room for them.
-     The element measures and decides — see `src/components/header.ts`; what is
-     here is only the shapes it decides between. */
 }

@@ -1,6 +1,11 @@
 /* sds-embed — a document in a frame, at the shape it holds. */
 
 @layer components {
+  /* A document from somewhere else. The frame is the figure's, because an embed
+     is the same kind of thing on the page; what it does not share is how it is
+     sized, since a picture arrives with its own proportions and an iframe does
+     not. So two shapes: a player has a ratio and fills the column, a specimen
+     keeps the size it was measured at, and the element writes which. */
   .sds-embed { display: flex; flex-direction: column; gap: var(--space-3); }
   .sds-embed__frame {
     border: var(--border-hairline) solid var(--border-subtle);
@@ -39,10 +44,4 @@
      second is reached by the tokens. `height: auto` needs an aspect ratio, which
      the `<img>` takes from the file and the `<svg>` from its viewBox. */
   .sds-art { display: block; width: 100%; height: auto; }
-
-  /* A list of hits, and one hit in it.
-
-     Separated by a hairline rather than boxed. A hit is read, discarded and the
-     next one is read, which is what a list is for and what a grid of cards
-     prevents — and what tells two of them apart at a glance is the line. */
 }

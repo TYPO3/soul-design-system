@@ -184,6 +184,45 @@ Four elements are ``display: contents`` — ``sds-dialog``, ``sds-lightbox``,
 to the viewport, so a box where they stand is one nothing would ever fill. That
 is the whole list, and it is stated rather than defaulted to.
 
+What a component is made of
+===========================
+
+**Everything a component is, it is through a property of its own.** Each one
+declares its set at the top of its own stylesheet, derived from the tokens
+every component shares, and every declaration under it reads only that set:
+
+.. code-block:: css
+
+   .sds-btn {
+     --sds-btn-height: var(--control-height);
+     --sds-btn-fill: transparent;
+     --sds-btn-fill-hover: var(--sds-btn-fill);
+
+     min-height: var(--sds-btn-height);
+     background: var(--sds-btn-fill);
+   }
+
+A variant, a size and a state then **assign values and draw nothing**:
+
+.. code-block:: css
+
+   .sds-btn--primary {
+     --sds-btn-fill: var(--accent);
+     --sds-btn-fill-hover: var(--accent-hover);
+   }
+
+   .sds-btn:hover { --sds-btn-fill: var(--sds-btn-fill-hover); }
+
+Three things follow. There is no ``.sds-btn--primary:hover`` rule for a later
+one to outweigh — the state is written once, whatever the variant. A size is a
+handful of numbers rather than the same declarations repeated per variant. And
+a surface that needs one instance different sets a property on it instead of
+writing a class this system has never heard of.
+
+A value that reaches a declaration without passing through the set is the
+thing this prevents: ``line-height: 1.55`` in one component and
+``var(--leading-body)`` in every other is drift nothing can see.
+
 Addressed, never rebuilt
 ========================
 

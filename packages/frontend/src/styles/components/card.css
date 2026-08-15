@@ -1,6 +1,8 @@
 /* sds-card — a subject that goes somewhere, whole. */
 
 @layer components {
+  /* The distance the card moves under the pointer, named here so the
+     reduced-motion block can hold it still in one place. */
   .sds-card:has(> .sds-card__body) {
     --card-lift: -2px;
     position: relative;
@@ -130,9 +132,4 @@
     color: var(--text-link);
     white-space: nowrap;
   }
-
-  /* One colour, stated as a fact. A row and not a tile: a palette is read down
-     its names, and a wall of squares is a set nobody can quote from. The chip is
-     the subject; the two lines beside it are what gets typed somewhere else, so
-     both are machine text. */
 }

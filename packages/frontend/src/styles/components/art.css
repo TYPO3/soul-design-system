@@ -1,6 +1,10 @@
 /* What a picture is before anything frames it, and what makes one pressable. */
 
 @layer components {
+  /* The picture is fitted into what the head leaves rather than drawn at the
+     width of it: the stage is bounded in both directions, so a drawing that is
+     taller than wide stands whole and in the middle instead of scrolling with
+     its foot cut off. `scale-down` is why a small picture is not blown up. */
   .sds-lightbox__art > .sds-art {
     width: 100%;
     height: 100%;

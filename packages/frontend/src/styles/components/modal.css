@@ -1,38 +1,69 @@
 /* What floats over the page, and the wash under it. */
 
 @layer components {
+  /* Overlay is a wash, not a shadow. */
   .sds-overlay {
+    --sds-overlay-fill: var(--surface-overlay);
+
     position: absolute;
     inset: 0;
-    background: var(--surface-overlay);
+    background: var(--sds-overlay-fill);
   }
 
   .sds-modal {
-    background: var(--surface-raised);
-    border: var(--border-hairline) solid var(--border-strong);
-    border-radius: var(--radius-card);
-    max-width: 560px;
+    --sds-modal-measure: var(--measure-modal);
+    --sds-modal-pad-y: var(--block-pad-y);
+    --sds-modal-pad-y-tight: var(--block-pad-y-tight);
+    --sds-modal-pad-x: var(--block-pad-x);
+    --sds-modal-gap: var(--control-gap);
+    --sds-modal-border: var(--border-hairline);
+    --sds-modal-radius: var(--radius-card);
+    --sds-modal-fill: var(--surface-raised);
+    --sds-modal-edge: var(--border-strong);
+    --sds-modal-rule: var(--border-subtle);
+    --sds-modal-ink: var(--text-primary);
+    --sds-modal-ink-body: var(--text-secondary);
+    --sds-modal-title-size: var(--block-title-size);
+    --sds-modal-body-size: var(--block-body-size);
+    --sds-modal-body-leading: var(--leading-body);
+    --sds-modal-backdrop: var(--surface-overlay);
+
+    max-width: var(--sds-modal-measure);
+    border: var(--sds-modal-border) solid var(--sds-modal-edge);
+    border-radius: var(--sds-modal-radius);
+    background: var(--sds-modal-fill);
   }
+
+  /* A native <dialog> carries the modal semantics; these give it the modal's
+     look and take away the browser's own chrome. `::backdrop` replaces the
+     hand-drawn overlay when the platform is doing the opening. */
+  dialog.sds-modal {
+    padding: 0;
+    border-color: var(--sds-modal-rule);
+    color: var(--sds-modal-ink);
+  }
+  dialog.sds-modal::backdrop { background: var(--sds-modal-backdrop); }
+
   .sds-modal__head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--block-pad-y-tight) var(--block-pad-x);
-    border-bottom: var(--border-hairline) solid var(--border-subtle);
-    font-size: var(--block-title-size);
+    padding: var(--sds-modal-pad-y-tight) var(--sds-modal-pad-x);
+    border-bottom: var(--sds-modal-border) solid var(--sds-modal-rule);
+    font-size: var(--sds-modal-title-size);
     font-weight: var(--weight-semibold);
   }
   .sds-modal__body {
-    padding: var(--block-pad-y) var(--block-pad-x);
-    font-size: var(--block-body-size);
-    line-height: 1.55;
-    color: var(--text-secondary);
+    padding: var(--sds-modal-pad-y) var(--sds-modal-pad-x);
+    font-size: var(--sds-modal-body-size);
+    line-height: var(--sds-modal-body-leading);
+    color: var(--sds-modal-ink-body);
   }
   .sds-modal__foot {
     display: flex;
     justify-content: flex-end;
-    gap: var(--control-gap);
-    padding: var(--block-pad-y-tight) var(--block-pad-x);
-    border-top: var(--border-hairline) solid var(--border-subtle);
+    gap: var(--sds-modal-gap);
+    padding: var(--sds-modal-pad-y-tight) var(--sds-modal-pad-x);
+    border-top: var(--sds-modal-border) solid var(--sds-modal-rule);
   }
 }

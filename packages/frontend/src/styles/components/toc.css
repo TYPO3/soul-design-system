@@ -1,6 +1,10 @@
 /* sds-nav-toc — what is on this page, and where the reader is in it. */
 
 @layer components {
+  /* What is on this page: the sections of the page being read, as a list to jump
+     from. Apparatus rather than prose — a step down in size and set in the
+     secondary ink, so a reader uses it or reads past it, and both are easier
+     when it is not a paragraph. */
   .sds-toc { font-size: var(--font-size-ui); }
   /* No markers. A contents is a list of places, and a bullet before each one is
      punctuation for a sentence nobody is reading. */
@@ -83,8 +87,4 @@
      never arrives is a list of questions and not a wall of answers. Separated by
      hairlines rather than boxed — what a reader scans is the *list*, found by
      reading down one column and not by comparing six containers. */
-  /* The line above every question and one under the set, rather than a line
-     under each and a `:first-child` for the top: an answer that arrives in an
-     element of its own is the first child of that element, and every line in the
-     list would double. Same rule drawn where nothing structural can miss it. */
 }

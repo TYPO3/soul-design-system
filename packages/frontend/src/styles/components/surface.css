@@ -46,6 +46,4 @@
      plane above keeps the padding wherever nothing states its own: a picture
      flush at the top and a foot spanning the frame both need the padding on the
      parts, and a container must not share its corner with its contents. */
-  /* The distance the card moves under the pointer, named here so the
-     reduced-motion block can hold it still in one place. */
 }

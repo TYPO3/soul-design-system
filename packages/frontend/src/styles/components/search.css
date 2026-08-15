@@ -1,6 +1,9 @@
 /* sds-search — the field, and the panel that hangs from it. */
 
 @layer components {
+  /* The block the element draws, and the box the panel hangs from. Without one
+     the drop finds whatever is positioned above it — which in a bar is the bar,
+     so it hung off the header's right edge rather than off the field. */
   .sds-search {
     position: relative;
     display: inline-flex;

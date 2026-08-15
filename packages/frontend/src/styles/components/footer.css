@@ -1,6 +1,9 @@
 /* sds-footer — the site's own end, on every page alike. */
 
 @layer components {
+  /* A site's footer rather than a surface's, and every part of it falls away
+     where nothing is set. A ground and no rule above it: a hairline between two
+     areas of the same ground says only that something ends. */
   .sds-footer {
     background: var(--surface-sunken);
     padding-block: var(--space-10);
@@ -90,9 +93,4 @@
   /* The whole footer, where a page set nothing else: the space that separates
      the line from the columns above it separates it from nothing here. */
   .sds-footer__end:only-child { padding-top: 0; }
-
-  /* Where the page sits, said as a trail — the only navigation here with no
-     active mark, because its last entry is the page itself. The current one is
-     simply not a link: heavier text, and `aria-current` for a reader who cannot
-     see weight. It wraps, since a clipped trail is a lie about where you are. */
 }

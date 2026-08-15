@@ -1,6 +1,7 @@
 /* sds-nav-rail — the section's own list, beside the page. */
 
 @layer components {
+  /* The 210px tool rail. */
   .sds-rail {
     width: var(--width-sidebar);
     display: flex;
@@ -123,9 +124,4 @@
     padding-inline-start: var(--space-3);
   }
   .sds-rail__group:last-child > .sds-rail__fold::details-content { padding-bottom: var(--space-2); }
-
-  /* What is on this page: the sections of the page being read, as a list to jump
-     from. Apparatus rather than prose — a step down in size and set in the
-     secondary ink, so a reader uses it or reads past it, and both are easier
-     when it is not a paragraph. */
 }

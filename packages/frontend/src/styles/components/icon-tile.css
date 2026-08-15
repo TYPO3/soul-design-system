@@ -1,6 +1,10 @@
 /* sds-icon-tile — a glyph shown as the thing itself. */
 
 @layer components {
+  /* One glyph in a wall of them, scanned rather than read. The card's own frame,
+     because a tile is a way into something too — what differs is which part is
+     the subject. The whole box is the anchor, so nothing inside it needs
+     stretching over anything. */
   .sds-icon-tile {
     --icon-tile-lift: -2px;
     position: relative;
@@ -74,7 +78,4 @@
      the label under it says what was counted, because a number whose unit is
      above it is read twice. Set in sans — mono means the machine named it, and a
      count is a fact about the software rather than a string it returns. */
-  /* No layout of its own: a set of figures is a set read side by side, which is
-     what `sds-grid` is. A second grid here would be the same decision made
-     twice, and only one of the two would learn what the wall learns next. */
 }
