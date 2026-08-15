@@ -105,19 +105,17 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="sources">
-      <div class="sds-stack">
-        <h2>The six sources</h2>
-        <p>
-          Two of them are yours and cannot be reported on from here, which is
-          stated in the table rather than left as a blank row.
-        </p>
-        <sds-table density="medium" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
-      </div>
+      <h2>The six sources</h2>
+      <p>
+        Two of them are yours and cannot be reported on from here, which is
+        stated in the table rather than left as a blank row.
+      </p>
+      <sds-table density="medium" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
     </section>
 
     <section class="sds-band" id="what-it-means">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>What a degraded source costs you</h2>
           <p>
             A tool that declared it falls back to the next source it declared and
@@ -129,7 +127,7 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
             <sds-link label="Report a wrong answer" href="#"></sds-link>
           </div>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <sds-note
             tone="warn"
             heading="docs.typo3.org is answering slowly"
@@ -148,21 +146,19 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="history">
-      <div class="sds-stack">
-        <h2>What this page is not</h2>
-        <sds-note
-          heading="It is one location asking, every five minutes"
-          .body="${html`A source that answers here may be unreachable from your network, and
-            the reverse. The tool’s own result is the authority for the machine it
-            ran on — this page is a hint about the sources, not a verdict.`}"
-        ></sds-note>
-        <sds-note
-          heading="There is no incident history, because there is no service"
-          .body="${html`Nothing is hosted for you to depend on. What would be an outage
-            elsewhere is a degraded answer here, and the answer says so at the moment
-            it is given.`}"
-        ></sds-note>
-      </div>
+      <h2>What this page is not</h2>
+      <sds-note
+        heading="It is one location asking, every five minutes"
+        .body="${html`A source that answers here may be unreachable from your network, and
+          the reverse. The tool’s own result is the authority for the machine it
+          ran on — this page is a hint about the sources, not a verdict.`}"
+      ></sds-note>
+      <sds-note
+        heading="There is no incident history, because there is no service"
+        .body="${html`Nothing is hosted for you to depend on. What would be an outage
+          elsewhere is a degraded answer here, and the answer says so at the moment
+          it is given.`}"
+      ></sds-note>
     </section>
 
   </main>

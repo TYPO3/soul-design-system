@@ -216,7 +216,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="overview">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <div class="sds-row">
             <sds-badge label="0.1.0-dev" tone="accent"></sds-badge>
             <span class="sds-label">one accent · two modes · no shadows</span>
@@ -230,7 +230,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           </p>
           <div class="sds-actions">${start}</div>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <sds-figure src="../assets/placeholders/design-system-workbench.png" alt=""></sds-figure>
         </div>
       </div>
@@ -246,27 +246,23 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="foundations">
-      <div class="sds-stack">
-        <h2>What it is made of</h2>
-        <p>
-          Four layers, and each of them is worth having on its own. A surface
-          that takes only the tokens still cannot invent a colour; one that
-          takes only the classes still gets both modes.
-        </p>
-        <sds-table density="compact" scrollable .columns="${LAYERS.columns}" .rows="${LAYERS.rows}"></sds-table>
-      </div>
+      <h2>What it is made of</h2>
+      <p>
+        Four layers, and each of them is worth having on its own. A surface
+        that takes only the tokens still cannot invent a colour; one that
+        takes only the classes still gets both modes.
+      </p>
+      <sds-table density="compact" scrollable .columns="${LAYERS.columns}" .rows="${LAYERS.rows}"></sds-table>
     </section>
 
     <section class="sds-band sds-band--quiet" id="components">
       <div class="sds-sections">
-        <div class="sds-stack">
-          <h2>Three components in full</h2>
-          <p>
-            One per plane: a block the machine writes, the navigation beside a
-            page, and the navigation above it. Each is documented from the
-            element that renders it.
-          </p>
-        </div>
+        <h2>Three components in full</h2>
+        <p>
+          One per plane: a block the machine writes, the navigation beside a
+          page, and the navigation above it. Each is documented from the
+          element that renders it.
+        </p>
         ${COMPONENTS.map(
           (one) => html`<article class="sds-stack">
           <h3 class="sds-mono">${one.name}</h3>
@@ -282,50 +278,44 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="sources">
-      <div class="sds-stack">
-        <h2>Where a rule comes from</h2>
-        <p>
-          Four places, and every one of them is a file rather than a habit.
-        </p>
-        ${grid(
-          SOURCES.map(
-            (one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`,
-          ),
-          { flat },
-        )}
-      </div>
+      <h2>Where a rule comes from</h2>
+      <p>
+        Four places, and every one of them is a file rather than a habit.
+      </p>
+      ${grid(
+        SOURCES.map(
+          (one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`,
+        ),
+        { flat },
+      )}
     </section>
 
     <section class="sds-band sds-band--quiet" id="pipeline">
-      <div class="sds-stack">
-        <h2>How a specimen gets made</h2>
-        <p>
-          The documentation is generated from the components, in four steps
-          that run on every change.
-        </p>
-        ${grid(
-          PIPELINE.map(
-            (one) => html`<sds-card label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-card>`,
-          ),
-          { flat },
-        )}
-      </div>
+      <h2>How a specimen gets made</h2>
+      <p>
+        The documentation is generated from the components, in four steps
+        that run on every change.
+      </p>
+      ${grid(
+        PIPELINE.map(
+          (one) => html`<sds-card label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-card>`,
+        ),
+        { flat },
+      )}
     </section>
 
     <section class="sds-band" id="questions">
-      <div class="sds-stack">
-        <h2>What is asked before it is adopted</h2>
-        <p>
-          Three of them, folded: a page that argues has to answer these, and a
-          reader who has none of them is already at the install step.
-        </p>
-        <sds-accordion name="adoption" .entries="${ADOPTION}"></sds-accordion>
-      </div>
+      <h2>What is asked before it is adopted</h2>
+      <p>
+        Three of them, folded: a page that argues has to answer these, and a
+        reader who has none of them is already at the install step.
+      </p>
+      <sds-accordion name="adoption" .entries="${ADOPTION}"></sds-accordion>
     </section>
 
     <section class="sds-band sds-band--quiet" id="install">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>Install</h2>
           <p>
             Two files, and nothing to configure. The elements register
@@ -334,7 +324,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           </p>
           <div class="sds-actions">${start}</div>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <span class="sds-label">Install</span>
           <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
           <p>

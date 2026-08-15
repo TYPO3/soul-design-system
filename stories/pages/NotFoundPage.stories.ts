@@ -80,26 +80,24 @@ export function notFoundPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="nearest">
-      <div class="sds-stack">
-        <h2>The nearest real things</h2>
-        <p>
-          Three pages rather than a link to the front page: whoever followed a
-          link to something specific is not helped by being sent to the start.
-        </p>
-        ${grid(
-          NEAREST.map(
-            (one) => html`<sds-card
-              icon="${one.icon}"
-              label="${one.label}"
-              heading="${one.heading}"
-              body="${one.body}"
-              href="#"
-              action="${one.link}"
-            ></sds-card>`,
-          ),
-          { flat },
-        )}
-      </div>
+      <h2>The nearest real things</h2>
+      <p>
+        Three pages rather than a link to the front page: whoever followed a
+        link to something specific is not helped by being sent to the start.
+      </p>
+      ${grid(
+        NEAREST.map(
+          (one) => html`<sds-card
+            icon="${one.icon}"
+            label="${one.label}"
+            heading="${one.heading}"
+            body="${one.body}"
+            href="#"
+            action="${one.link}"
+          ></sds-card>`,
+        ),
+        { flat },
+      )}
     </section>
 
   </main>

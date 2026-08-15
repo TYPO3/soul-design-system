@@ -1,0 +1,36 @@
+<!-- @dsCard group="Spacing" viewport="700x320" subtitle="A part is the box the line around it lays out" name="Parts" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../packages/frontend/src/styles/styles.css" />
+<link rel="stylesheet" href="../../packages/frontend/src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec">
+    <div class="spec-row" style="flex-direction: column; align-items: stretch;">
+      <div class="sds-actions">
+          <button class="sds-btn sds-btn--primary" type="button"><span class="sds-btn__label">Run the checks</span></button>
+          <button class="sds-btn sds-btn--ghost" type="button"><span class="sds-btn__label">Cancel</span></button>
+          <a class="sds-link" href="#">what it checks</a>
+          <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>18 checks</span>
+        </div>
+      <span class="spec-cap">a row of controls — one centre line, whatever the part is</span>
+    </div>
+    <div class="spec-row" style="border-top:1px solid var(--border-subtle); padding-top:14px; flex-direction: column; align-items: stretch;">
+      <p>A sentence with a <span class="sds-badge">draft</span> standing in it and a
+          <svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-search"><g fill="currentColor"><path d="M13.92 15c-.29 0-.56-.12-.76-.32l-2.89-2.88c-.98.68-2.16 1.04-3.36 1.04C3.65 12.85 1 10.2 1 6.92 1 3.65 3.65 1 6.92 1s5.92 2.65 5.92 5.92c0 1.19-.36 2.37-1.04 3.36l2.89 2.89c.19.19.31.47.31.76 0 .58-.49 1.07-1.08 1.07zm-7-12.58c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"></path></g></svg> in the middle of the line.
+          A link belongs here too, and it is the document layer that draws one — see
+          the type pages.</p>
+      <span class="spec-cap">in a sentence — each takes its line, and the line keeps its height</span>
+    </div>
+    <div class="spec-row" style="border-top:1px solid var(--border-subtle); padding-top:14px; flex-direction: column; align-items: stretch;">
+      <div class="sds-actions">
+          <span class="sds-field is-filled" style="width:220px; max-width:100%"><input class="sds-input" type="text"   value="dashboard"  aria-label="Filter"></span>
+          <button class="sds-btn sds-btn--secondary" type="button"><span class="sds-btn__label">Apply</span></button>
+        </div>
+      <span class="spec-cap">beside a control — a field and a button are one height</span>
+    </div>
+  </div>
+</body>
+</html>

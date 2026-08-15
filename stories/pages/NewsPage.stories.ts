@@ -205,7 +205,7 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
 
     <section class="sds-band" id="follow">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>Follow along</h2>
           <p>
             Releases are announced here and in the repository. The feed carries
@@ -217,7 +217,7 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
             <sds-link label="Feed" href="#" icon="actions-rss"></sds-link>
           </div>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <sds-note
             heading="An entry is not a version binding"
             .body="${html`What a release changed is written in the changelog the tools read.

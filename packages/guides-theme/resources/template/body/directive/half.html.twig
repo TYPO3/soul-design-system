@@ -1,9 +1,12 @@
 {#
     One side of a split: the blocks that stand as a single column, in the
-    rhythm the page keeps between them.
+    rhythm they carry themselves. A column and not a stack — a stack states one
+    distance for everything in it, and a heading in here has to keep its own.
+
+    Always a column, even where the half holds one thing: a split lays out
+    columns and nothing else, so there is no shape it has to recognise.
 #}
-{%- set given = node.option('class') ? ' ' ~ node.option('class') : '' -%}
-<div class="sds-stack{{ given }}">
+<div class="sds-column{{ node.option('class') ? ' ' ~ node.option('class') : '' }}">
     {%- if node.option('heading') -%}
         <h2>{{ node.option('heading') }}</h2>
     {%- endif -%}

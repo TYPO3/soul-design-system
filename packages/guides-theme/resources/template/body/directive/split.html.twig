@@ -5,8 +5,8 @@
     page's decision rather than a component's, which is the whole reason
     `.sds-split` is a class at all — see `docs/frontend/layout`.
 
-    Each child is a column, so the wrapping is `half`'s to do and not this
-    template's: a run of blocks that belongs together says so in the source.
+    Every child is a half by the time it arrives — the directive wraps whatever
+    was not written as one — so this holds columns and nothing else.
 #}
 {%- set align = node.option('align') != 'start' ? ' sds-split--' ~ node.option('align') : '' -%}
 {%- set leads = node.option('leads') == 'end' ? ' sds-split--leads-end' : '' -%}

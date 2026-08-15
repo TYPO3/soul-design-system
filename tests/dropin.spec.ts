@@ -116,11 +116,11 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
   expect(errors, 'the drop-in should boot clean').toEqual([]);
 });
 
-/* Nothing moves when the bundle lands. A host is `display: contents`, so before
-   the script an `<sds-icon>` is no box and every icon pushes its neighbours
-   sideways on upgrade. The stylesheet reserves the box the tag will take, which
-   helps only if it is the box the element then renders — two rules in two files
-   that nothing else holds together. Measured on both sides of the upgrade. */
+/* Nothing moves when the bundle lands. An element is the box it draws, so the
+   space an icon takes is the element's own on both sides of the upgrade — and
+   before it there is nothing inside to give it a size. The stylesheet reserves
+   it, which helps only if it is the box the element then renders: two rules in
+   two files that nothing else holds together. */
 test('an icon takes the same space before the script and after', async ({ page }) => {
   const MARKUP = ['', 'size="16"', 'size="20"', 'size="24"', 'size="32"', 'class="sds-icon sds-icon--20"']
     .map((attrs) => `<span style="font-size:13px"><sds-icon name="actions-search" ${attrs}></sds-icon></span>`)
@@ -138,10 +138,6 @@ test('an icon takes the same space before the script and after', async ({ page }
   }));
   await page.goto('/reserve-fixture.html', { waitUntil: 'load' });
 
-  /* The tag before, the glyph after. A host is `display: contents` once it
-     has upgraded, so it has no box of its own to measure — what takes up the
-     space from then on is the `<svg>` it rendered. Which is the comparison:
-     the space, not the element that happens to hold it. */
   const boxes = async (selector: string): Promise<number[]> =>
     page.locator(selector).evaluateAll((els) =>
       els.map((el) => Math.round(el.getBoundingClientRect().width * 100) / 100));
@@ -156,7 +152,7 @@ test('an icon takes the same space before the script and after', async ({ page }
       .map((el) => (el as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete),
   ));
 
-  expect(await boxes('sds-icon svg'), 'the reserved box should be the one the element renders').toEqual(before);
+  expect(await boxes('sds-icon'), 'the reserved box should be the one the element renders').toEqual(before);
 });
 
 /* The other way the drop-in is taken: bundled. A bundler moves the module away

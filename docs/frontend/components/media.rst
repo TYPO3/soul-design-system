@@ -188,9 +188,8 @@ and the sunken plane every other block here has.
    :required: true
 
    What the frame holds, in a few words: it becomes the accessible name, and an
-   unnamed frame is announced as "frame" and skipped. Not ``title``, which on a
-   ``display: contents`` host would be a tooltip over the frame and the caption
-   both.
+   unnamed frame is announced as "frame" and skipped. Not ``title``, which on
+   the element would be a tooltip over the frame and the caption both.
 
 .. confval:: ratio
    :name: sds-embed-ratio

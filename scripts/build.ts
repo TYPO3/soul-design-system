@@ -25,6 +25,10 @@ const NS = 'SDS';
 
 const sha12 = (b: string | Buffer): string => createHash('sha256').update(b).digest('hex').slice(0, 12);
 const read = (p: string): string => readFileSync(join(FRONTEND, p), 'utf8');
+/* The class layer is three sheets — reset, base, components — in that order.
+   Anything hashing or shipping "the stylesheet" takes all of them. */
+const SHEETS = ['reset.css', 'base.css', 'layout.css', 'components.css'];
+const sheets = (): string => SHEETS.map((f) => read(join('src', 'styles', f))).join('\n');
 
 /* Point a page at the bundle's flat root. The repo keeps its stylesheets in
    the frontend package and the bundle keeps them at its root, so what has to be
@@ -149,14 +153,14 @@ const list = cards();
 // styling closure
 cpSync(join(FRONTEND, 'src', 'tokens'), join(OUT, 'tokens'), { recursive: true });
 for (const d of ['fonts', 'assets']) cpSync(join(FRONTEND, d), join(OUT, d), { recursive: true });
-cpSync(join(FRONTEND, 'src', 'styles', 'components.css'), join(OUT, '_ds_bundle.css'));
+writeFileSync(join(OUT, '_ds_bundle.css'), sheets());
 cpSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), join(OUT, '_specimen.css'));
 /* The repo keeps its stylesheets in `styles/` and the tokens one level up;
    the bundle is flat, with `styles.css`, `_ds_bundle.css` and `tokens/` all
    at its root. So both kinds of import are rewritten on the way out — the
    component layer to its bundle name, and the tokens back to siblings. */
 const styles = read('src/styles/styles.css')
-  .replace('@import "components.css";', '@import "./_ds_bundle.css";')
+  .replace(/@import "reset\.css";\n@import "base\.css";\n@import "layout\.css";\n@import "components\.css";/, '@import "./_ds_bundle.css";')
   .replaceAll('@import "../tokens/', '@import "tokens/')
   /* The faces sit one level further up in the repo and at the bundle's root
      here, same as the tokens. */
@@ -185,7 +189,7 @@ const bundleJs = built.outputFiles[0]?.text ?? '';
 const header = {
   namespace: NS,
   components: TAGS.map((tag) => ({ tag, export: pascalTag(tag) })),
-  sourceHashes: { 'components.css': sha12(read('src/styles/components.css')), 'styles.css': sha12(styles) },
+  sourceHashes: { 'components.css': sha12(sheets()), 'styles.css': sha12(styles) },
   inlinedExternals: [],
 };
 writeFileSync(join(OUT, '_ds_bundle.js'), `/* @ds-bundle: ${JSON.stringify(header)} */\n${bundleJs}`);
@@ -271,7 +275,7 @@ writeFileSync(join(OUT, '.ds-build-meta.json'),
 const files = [...new Set([...uploadFiles(OUT), '_ds_sync.json'])].sort();
 writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
   shape: 'css-design-system',
-  styleSha: sha12(styles + read('src/styles/components.css')),
+  styleSha: sha12(styles + sheets()),
   renderHashes,
   screenHashes,
   sourceKeys,

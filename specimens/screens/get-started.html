@@ -124,16 +124,18 @@
 
     <section class="sds-band" id="get">
       <div class="sds-split">
-        <div class="sds-stack sds-stack--tight">
-          <nav class="sds-crumbs" aria-label="Breadcrumb">
+        <div class="sds-column">
+          <div class="sds-stack sds-stack--tight">
+            <nav class="sds-crumbs" aria-label="Breadcrumb">
   <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">Get started</span>
 </nav>
-          <h1>Get started</h1>
-          <p class="sds-lead">
-            One local process, started by your client. It needs PHP 8.2 or
-            newer and a TYPO3 project it can read — no daemon, no database of its
-            own, and no account anywhere.
-          </p>
+            <h1>Get started</h1>
+            <p class="sds-lead">
+              One local process, started by your client. It needs PHP 8.2 or
+              newer and a TYPO3 project it can read — no daemon, no database of its
+              own, and no account anywhere.
+            </p>
+          </div>
           <div class="sds-row">
             <span class="sds-badge sds-badge--accent">1.4.0</span>
             <span class="sds-badge">MIT</span>
@@ -141,9 +143,10 @@
           </div>
           <div class="sds-actions"><button class="sds-btn sds-btn--primary" type="button"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-download"><g fill="currentColor"><path d="M14.5 9h-3.973l-.874 1H14v3H2v-3h4.346l-.873-1H1.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5z"></path><path d="M10 11h1v1h-1zM12 11h1v1h-1zM11.27 6H4.73a.25.25 0 0 0-.188.414l3.27 3.743a.244.244 0 0 0 .377 0l3.27-3.743A.25.25 0 0 0 11.27 6z"></path><path d="M7 2h2v4H7z"></path></g></svg><span class="sds-btn__label">Download 1.4.0</span></button><button class="sds-btn sds-btn--secondary" type="button"><span class="sds-btn__label">Read the install guide</span></button></div>
         </div>
-        <div class="sds-stack">
-          <span class="sds-label">Three ways in</span>
-          <div class="sds-tabs">
+        <div class="sds-column">
+          <div class="sds-stack">
+            <span class="sds-label">Three ways in</span>
+            <div class="sds-tabs">
   <button type="button" class="sds-tab is-active">composer</button>
   <button type="button" class="sds-tab">phar</button>
   <button type="button" class="sds-tab">from source</button>
@@ -156,19 +159,19 @@
 <span class="sds-code__prompt">$</span> <span class="sds-code__cmd">composer require --dev typo3/support-app</span>
 <span class="sds-code__ok">✓</span> registered 8 tools in <span class="sds-code__cmd">.mcp.json</span></pre>
 </div></div>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="sds-band sds-band--quiet" id="files">
-      <div class="sds-stack">
-        <h2>What is published</h2>
-        <p>
-          Three files, and two of them are only there so the first can be
-          checked. The hashes are shortened here and in full in
-          <span class="sds-mono">checksums.txt</span>.
-        </p>
-        <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+      <h2>What is published</h2>
+      <p>
+        Three files, and two of them are only there so the first can be
+        checked. The hashes are shortened here and in full in
+        <span class="sds-mono">checksums.txt</span>.
+      </p>
+      <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
   <thead><tr>
     <th>File</th>
     <th>What it is</th>
@@ -196,12 +199,11 @@
     </tr>
   </tbody>
 </table></div>
-      </div>
     </section>
 
     <section class="sds-band" id="verify">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>Check what you got</h2>
           <p>
             One command, and it answers about the file on your disk rather than
@@ -210,7 +212,7 @@
             releases and changes when it is rotated, never quietly.
           </p>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <span class="sds-label">Verify</span>
           <div class="sds-code">
   <div class="sds-code__head">
@@ -226,35 +228,33 @@
     </section>
 
     <section class="sds-band sds-band--quiet" id="after">
-      <div class="sds-stack">
-        <h2>When it does not answer</h2>
-        <div class="sds-note sds-note--warn">
+      <h2>When it does not answer</h2>
+      <div class="sds-note sds-note--warn">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Warning" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
   <div class="sds-note__content">
     <div class="sds-note__title">The client starts it and nothing appears</div>
     <div class="sds-note__body">The server writes what it registered to standard error on start.
-            Run <span class="sds-mono">php typo3-support-app.phar scope</span> in the
-            project by hand: it prints the same thing without a client in the way.</div>
+          Run <span class="sds-mono">php typo3-support-app.phar scope</span> in the
+          project by hand: it prints the same thing without a client in the way.</div>
   </div>
 </div>
-        <div class="sds-note sds-note--error">
+      <div class="sds-note sds-note--error">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Error" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg></span>
   <div class="sds-note__content">
     <div class="sds-note__title">It starts and every tool says “not booted”</div>
     <div class="sds-note__body">The installation cannot be booted from where the server was started.
-            It answers from package files meanwhile, and
-            <span class="sds-mono">ddev start</span> closes the gap for a DDEV project.</div>
+          It answers from package files meanwhile, and
+          <span class="sds-mono">ddev start</span> closes the gap for a DDEV project.</div>
   </div>
 </div>
-        <p>
-          Neither of those is a bug worth reporting until the scope has been
-          read — it says which sources were reachable, and that is the answer to
-          both questions.
-        </p>
-        <div class="sds-actions">
-          <a class="sds-link" href="#">Read the install guide</a>
-          <a class="sds-link" href="#">Report a wrong answer</a>
-        </div>
+      <p>
+        Neither of those is a bug worth reporting until the scope has been
+        read — it says which sources were reachable, and that is the answer to
+        both questions.
+      </p>
+      <div class="sds-actions">
+        <a class="sds-link" href="#">Read the install guide</a>
+        <a class="sds-link" href="#">Report a wrong answer</a>
       </div>
     </section>
 

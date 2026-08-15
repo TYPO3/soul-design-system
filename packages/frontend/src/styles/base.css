@@ -1,0 +1,263 @@
+/* Soul Design System — base.
+
+   What a bare element is in this system, before any component draws one.
+   A component may overrule it; a layout may not. */
+
+@layer base {
+  /* The ground and the ink. Both selectors, because the app root is not always
+     the body — a design mounted into somebody else's page is a subtree, and
+     `.sds-app` is how that subtree says it is one. */
+  body,
+  .sds-app {
+    background: var(--surface-canvas);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-body);
+    line-height: var(--leading-body);
+  }
+
+  /* Never `:focus`, which would ring a mouse click too. The outline follows
+     the corner the element already has and does not give it one. */
+  :focus-visible {
+    outline: var(--border-emphasis) solid var(--accent);
+    outline-offset: var(--focus-offset);
+    box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
+  }
+
+  /* ------------------------------------------------------------- text -- */
+
+  p {
+    font-size: var(--font-size-body);
+    line-height: var(--leading-body);
+    max-width: var(--measure-prose);
+    color: var(--text-secondary);
+  }
+
+  /* The box a passage stands in. No measure of its own: given a paragraph's,
+     it would clamp the table and the code block inside it too. */
+  .sds-prose {
+    font-size: var(--font-size-body);
+    color: var(--text-secondary);
+  }
+
+  .sds-lead {
+    font-size: var(--font-size-lead);
+    line-height: var(--leading-body);
+    color: var(--text-secondary);
+    max-width: var(--measure-lead);
+  }
+
+  /* --------------------------------------------------------- headings -- */
+
+  /* What every heading shares. Balance is for these only: the property
+     inherits, and a browser balances a few lines at most, so a paragraph
+     asking for it pays a second pass for nothing. */
+  h1, h2, h3, h4, h5, h6,
+  .sds-display, .sds-h1, .sds-h2, .sds-h3 {
+    line-height: var(--leading-heading);
+    text-wrap: balance;
+  }
+
+  /* Then the size each one is. Each is on the element that usually carries it
+     and on a class: an outline decides the level, a page decides the size, and
+     where they disagree the class says so. */
+  h1, .sds-h1 {
+    font-size: var(--font-size-h1);
+    letter-spacing: var(--tracking-heading);
+  }
+  h2, .sds-h2 {
+    font-size: var(--font-size-h2);
+    letter-spacing: var(--tracking-heading);
+  }
+  h3, .sds-h3 { font-size: var(--font-size-h3); }
+  /* The scale stops at three and a document does not. Below it, the UI
+     register — a fourth heading size nothing uses is a size that drifts. */
+  h4, h5, h6 { font-size: var(--font-size-ui); }
+
+  /* Above the scale, and the one register with a measure of its own. */
+  .sds-display {
+    font-size: var(--font-size-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    max-width: var(--measure-display);
+  }
+
+  /* ------------------------------------------------------------ links -- */
+
+  /* Colour and no underline at rest. The document layer underlines a link that
+     sits inside a sentence, and it can: it is this layer too, and names more. */
+  a {
+    color: var(--text-link);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  /* Written weightless, so a rail item, a pill or a permalink each saying
+     never underlined is not answered over by a bare `a:hover`. */
+  :where(a):hover { color: var(--text-link-hover); text-decoration: underline; }
+
+  /* ------------------------------------------------------------ lists -- */
+
+  /* No size and no colour: a list is a container, and one that pinned the body
+     size would be the thing inside a note ignoring the note. The indent is the
+     marker's own width, so an item lines up with the paragraph above it. */
+  ul, ol { padding-inline-start: var(--space-5); }
+  li::marker { color: var(--text-muted); }
+
+  /* An author who wrote `a.` meant letters, and `type` carries no weight — a
+     flat `list-style: decimal` would silently renumber every lettered list. */
+  :where(ul:not([type])) { list-style: disc; }
+  :where(ul ul:not([type])) { list-style: circle; }
+  :where(ol:not([type])) { list-style: decimal; }
+  :where(ol ol:not([type])) { list-style: lower-alpha; }
+
+  /* ------------------------------------------------------------- flow -- */
+
+  /* The step below a block. Every distance in this file is stated in one
+     direction: nothing collapses, nothing is counted twice, and no block has
+     to know what came before it. */
+  p, ul, ol, dl, pre, table, figure, blockquote,
+  h1, .sds-h1, .sds-display, .sds-lead { margin-bottom: var(--space-4); }
+  h2, .sds-h2 { margin-bottom: var(--space-3); }
+  h3, h4, h5, h6, .sds-h3 { margin-bottom: var(--space-2); }
+
+  /* The same step below the blocks a component draws, and below the containers
+     too: a split, a stack or a wall standing in a flow owes what a note owes.
+     Here rather than with the components, because whichever container holds
+     them takes it back one layer up — stated there, it would win over the
+     container that already paid the gap. A column is not in the list: it stands
+     in a split and nowhere else, and a split takes the step off every time. */
+  .sds-actions,
+  .sds-form,
+  .sds-hits,
+  .sds-pagination,
+  .sds-row,
+  .sds-sections,
+  .sds-split,
+  .sds-stack,
+  .sds-toc,
+  .sds-accordion,
+  .sds-card,
+  .sds-code,
+  .sds-confval,
+  .sds-embed,
+  .sds-example,
+  .sds-figure,
+  .sds-form-errors,
+  .sds-grid,
+  .sds-icon-tile,
+  .sds-note,
+  .sds-panel,
+  .sds-quote,
+  .sds-stat,
+  .sds-sunken,
+  .sds-swatch,
+  .sds-table,
+  .sds-table-scroll,
+  .sds-tabs { margin: 0 0 var(--space-4); }
+
+  /* The air above a heading, said below whatever stands before it — which is
+     the only way to state it and keep to one direction. */
+  :has(+ :is(h2, .sds-h2)) { margin-block-end: var(--space-10); }
+  :has(+ :is(h3, .sds-h3)) { margin-block-end: var(--space-8); }
+  :has(+ h4) { margin-block-end: var(--space-6); }
+  :has(+ :is(h5, h6)) { margin-block-end: var(--space-5); }
+
+  /* ------------------------------------------- what an element is -- */
+
+  /* A custom element is `inline` until it is told otherwise, and an inline host
+     makes itself the box a row lays out while the block it draws sits inside
+     that box — gap, alignment and step then all land one level too high. So
+     every element states the box it is, and the block it draws states the same:
+     where no script runs the element is gone and the block is what is left. */
+
+  /* A block in the flow, carrying the step. What it draws gives the step up,
+     because the element has already paid it. `min-width: 0` throughout: a flex
+     or grid item whose floor is its own content is what pushes a page sideways,
+     and the block inside already refuses one wherever that mattered. */
+  sds-accordion,
+  sds-byline,
+  sds-card,
+  sds-code,
+  sds-confval,
+  sds-diff,
+  sds-embed,
+  sds-figure,
+  sds-form-errors,
+  sds-grid,
+  sds-icon-tile,
+  sds-nav-pagination,
+  sds-nav-toc,
+  sds-note,
+  sds-quote,
+  sds-search-hits,
+  sds-stat,
+  sds-surface,
+  sds-swatch,
+  sds-table,
+  sds-tabs { display: block; min-width: 0; margin-bottom: var(--space-4); }
+
+  sds-accordion > .sds-accordion,
+  sds-byline > .sds-byline,
+  sds-card > .sds-card,
+  sds-code > .sds-code,
+  sds-confval > .sds-confval,
+  sds-diff > .sds-code,
+  sds-embed > .sds-embed,
+  sds-figure > .sds-figure,
+  sds-form-errors > .sds-form-errors,
+  sds-grid > .sds-grid,
+  sds-icon-tile > .sds-icon-tile,
+  sds-nav-pagination > .sds-pagination,
+  sds-nav-toc > .sds-toc,
+  sds-note > .sds-note,
+  sds-quote > .sds-quote,
+  sds-search-hits > .sds-hits,
+  sds-stat > .sds-stat,
+  sds-surface > :is(.sds-panel, .sds-sunken),
+  sds-swatch > .sds-swatch,
+  sds-table > :is(.sds-table, .sds-table-scroll),
+  sds-tabs > .sds-tabs { margin-bottom: 0; }
+
+  /* A block that owes no step: a region of the page, or one of a set whose
+     container spaces it. */
+  sds-accordion-item,
+  sds-checkbox,
+  sds-field,
+  sds-footer,
+  sds-image,
+  sds-nav-breadcrumb,
+  sds-nav-main,
+  sds-nav-pager,
+  sds-nav-pills,
+  sds-nav-rail,
+  sds-radio,
+  sds-search-result,
+  sds-tab-item { display: block; min-width: 0; }
+
+  /* A part stands in a line of text or a row of controls and never on its own,
+     so it takes the box that line gives it. */
+  sds-badge,
+  sds-button,
+  sds-field-error,
+  sds-icon,
+  sds-search,
+  sds-theme { display: inline-flex; }
+  sds-link { display: inline; }
+
+  /* And the four that draw nothing where they stand: a dialog opens in the top
+     layer and an overlay is fixed to the viewport, so a box here is one nothing
+     would ever fill. */
+  sds-dialog,
+  sds-lightbox,
+  sds-modal,
+  sds-overlay { display: contents; }
+
+  /* A nested list is part of the item it hangs under, so it adds no step. */
+  li > ul,
+  li > ol { margin-bottom: 0; }
+
+  hr {
+    border: 0;
+    border-top: var(--border-hairline) solid var(--border-subtle);
+  }
+}

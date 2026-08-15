@@ -224,7 +224,9 @@ Where it sheds
 ==============
 
 Each step is a thing the page can no longer afford, rather than a device it was
-drawn for.
+drawn for. **These are every width the design changes at**, and a stylesheet
+that reaches for a sixth is a band nobody named — ``make verify
+ARGS=breakpoints`` holds the two together.
 
 .. list-table::
    :header-rows: 1
@@ -243,6 +245,11 @@ drawn for.
    * - 460px
      - the wordmark keeps the signet and the product, and drops the brand —
        the surviving name is set as the mark it now is
+
+And one the other way. At 1296px the page has room to give rather than to save:
+the local contents leaves the flow and stands beside the column, so the page
+reads rail, text, contents with the same width either side. It is the only
+width in this system that adds something — see :doc:`documents`.
 
 .. important::
 

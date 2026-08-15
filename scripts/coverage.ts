@@ -149,7 +149,10 @@ axis('stories', `${TAGS.filter(hasStory).length} of ${TAGS.length} elements`);
 
 const classes = [
   ...new Set(
-    [...readFileSync(join(FRONTEND, 'src/styles/components.css'), 'utf8').matchAll(/\.(sds-[\w-]*)/g)]
+    [...['reset.css', 'base.css', 'layout.css', 'components.css']
+      .map((f) => readFileSync(join(FRONTEND, 'src/styles', f), 'utf8'))
+      .join('\n')
+      .matchAll(/\.(sds-[\w-]*)/g)]
       .map((m) => m[1] as string),
   ),
 ].sort();
@@ -246,7 +249,7 @@ for (const m of theme.matchAll(/\b(sds-[a-z-]+)__[a-z-]+/g)) {
 axis('parts', `${templates.length} templates`);
 
 const defined = new Set<string>();
-for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
+for (const sheet of ['src/styles/reset.css', 'src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
   for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) defined.add(m[1] as string);
 }
 const written = new Set<string>();

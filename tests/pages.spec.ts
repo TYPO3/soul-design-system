@@ -231,12 +231,34 @@ test('the bar crosses the step between layout bands rather than jumping it', asy
   await expect.poll(inset).toBe('16px');
 });
 
+/* The bar stays at the top of the page as the page moves under it.
+
+   It sticks on the element, not only on the row inside it: a sticky box travels
+   inside its parent, and with the row in an element exactly as tall there is
+   nothing to travel. Both carry the rule — the element for a page that has one,
+   the class for a bar somebody drew — and neither is visible in any markup
+   comparison, which is why it is measured here. */
+test('the bar stays at the top while the page scrolls under it', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/iframe.html?id=pages-landing--page&viewMode=story');
+  await page.waitForSelector('.sds-bar', { state: 'attached', timeout: 15_000 });
+
+  const top = (): Promise<number> =>
+    page.evaluate(() => document.querySelector('.sds-bar')!.getBoundingClientRect().top);
+
+  expect(await top()).toBeCloseTo(0, 0);
+  await page.evaluate(() => window.scrollTo(0, 1200));
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  expect(await top(), 'the bar should still be against the top of the viewport').toBeCloseTo(0, 0);
+});
+
 test('the landing story opens with the composed hero', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await gotoStory(page, 'pages-landing--page');
 
   const hero = page.locator('#overview > .sds-split');
-  const columns = hero.locator(':scope > .sds-stack');
+  /* A split holds columns — the half is named rather than recognised. */
+  const columns = hero.locator(':scope > .sds-column');
   await expect(columns).toHaveCount(2);
   const widths = await columns.evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().width));
   expect(Math.abs(widths[0]! - widths[1]!)).toBeLessThan(2);

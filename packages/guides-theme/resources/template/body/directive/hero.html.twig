@@ -1,15 +1,19 @@
-{# The existing split, stack and figure compose the page's opening claim.
-   Its picture is the one that does not open at full size: it stands beside
-   the claim as decoration, and there is nothing in it to read closer.
+{# The existing split and figure compose the page's opening claim. Its picture
+   is the one that does not open at full size: it stands beside the claim as
+   decoration, and there is nothing in it to read closer.
 
    The two are level and not top-aligned, because decoration hanging from the
-   first line of a claim reads as a column that ran out of words. #}
+   first line of a claim reads as a column that ran out of words.
+
+   Neither half is a stack. The claim is a flow of blocks that carry their own
+   step, and the picture is one thing — a container spacing a single child
+   spaces nothing. #}
 <div class="sds-sections">
     <div class="sds-split sds-split--center">
-        <div class="sds-stack">
+        <div class="sds-column">
             {{- renderNode(node.children|first) -}}
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
             <sds-figure src="{{ asset(node.option('src')) }}" alt="{{ node.option('alt') }}"></sds-figure>
         </div>
     </div>

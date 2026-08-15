@@ -99,13 +99,17 @@ test.describe('the render', () => {
   test('a marketing hero composes the existing layout vocabulary', async ({ page }) => {
     await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
 
+    /* Neither half is a stack: the claim is a flow of blocks that carry their
+       own step, and the picture is one thing. What the split lays out is the
+       wrapper on one side and, through the host on the other, the figure. */
     const hero = page.locator('.sds-band').first().locator('.sds-sections > .sds-split');
-    await expect(hero.locator(':scope > .sds-stack')).toHaveCount(2);
-    const widths = await hero.locator(':scope > .sds-stack').evaluateAll((nodes) =>
+    const halves = hero.locator(':scope > div, :scope > sds-figure > .sds-figure');
+    await expect(halves).toHaveCount(2);
+    const widths = await halves.evaluateAll((nodes) =>
       nodes.map((node) => node.getBoundingClientRect().width),
     );
     expect(Math.abs(widths[0]! - widths[1]!)).toBeLessThan(2);
-    await expect(hero.locator('.sds-stack h1')).toHaveText('One system, from design to delivery');
+    await expect(hero.locator('h1')).toHaveText('One system, from design to delivery');
     await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('src', /design-system-workbench\.png$/);
     await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('alt', '');
     /* And the one picture that does not open: it stands beside the claim as
@@ -119,7 +123,9 @@ test.describe('the render', () => {
 
     const split = page.locator('#scope .sds-split');
     await expect(split).toHaveClass(/\bsds-split--center\b/);
-    const halves = split.locator(':scope > .sds-stack');
+    /* A half is a column of blocks in the rhythm they carry themselves, not a
+       stack stating one distance for all of them. */
+    const halves = split.locator(':scope > div');
     await expect(halves).toHaveCount(2);
     await expect(halves.first().locator(':scope > h2')).toHaveText('Built for community projects');
     await expect(halves.last().locator('sds-figure .sds-art')).toHaveAttribute(
@@ -359,7 +365,7 @@ test.describe('what the theme repaired', () => {
        order it offers has to be the order the rail lists. */
     await page.goto(FIXTURE, { waitUntil: 'load' });
 
-    const foot = page.locator('main.sds-column > sds-nav-pager > nav.sds-pager');
+    const foot = page.locator('main.sds-body__main > sds-nav-pager > nav.sds-pager');
     await expect(foot).toHaveCount(1);
     /* The first page of a manual has nothing behind it, and it is in the tree
        all the same: a toctree lists what is under a page and never the page it
@@ -455,12 +461,11 @@ test.describe('what the theme repaired', () => {
     const widths = await page.evaluate(() => {
       const w = (sel: string): number => document.querySelector(sel)?.getBoundingClientRect().width ?? NaN;
       return {
-        column: w('.sds-column'),
+        column: w('.sds-body__main'),
         paragraph: w('.sds-prose > .section > p'),
         table: w('.sds-prose table'),
-        /* The class and not the element: the host draws nothing and has no
-           box of its own — the block is the box the element renders inside
-           it, which is also the one a page without scripting gets. */
+        /* The class and not the element: it is the box a page without
+           scripting gets, and the element is the same box around it. */
         code: w('.sds-prose .sds-code'),
       };
     });

@@ -8,12 +8,14 @@
    only something willing to take our subsetting could use, and over a git
    install `fonts/` does not exist at all. `styles.css` imports them first. */
 
-:root {
-  --font-sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, monospace;
-  /* What a mono run costs inside a sentence. Every glyph carries the same
-     advance, so a phrase set in it reads a size larger than the sans around
-     it and pushes the line apart. A ratio of the context rather than a step in
-     the scale: a 13px note and 16px body each get their own answer. */
-  --font-mono-optical: 0.85em;
+@layer tokens {
+  :root {
+    --font-sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, monospace;
+    /* What a mono run costs inside a sentence. Every glyph carries the same
+       advance, so a phrase set in it reads a size larger than the sans around
+       it and pushes the line apart. A ratio of the context rather than a step in
+       the scale: a 13px note and 16px body each get their own answer. */
+    --font-mono-optical: 0.85em;
+  }
 }

@@ -170,7 +170,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
       <sds-nav-rail .entry="${{ label: '', items: RAIL }}"></sds-nav-rail>
     </aside>
 
-    <main class="sds-column" id="main-content">
+    <main class="sds-body__main" id="main-content">
       <div class="sds-stack sds-stack--tight">
         <h1>It answers before it guesses</h1>
         <p class="sds-lead">

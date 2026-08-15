@@ -1,0 +1,271 @@
+/* Soul Design System — layout.
+
+   The classes that place things: the shell, the bands, the columns and the
+   rows. Above `base` so a container may take back a step an element carries,
+   and below `components` so it may not take back what a component decided. */
+
+@layer layout {
+  /* ------------------------------------------------------- containers -- */
+
+  /* A gap and a margin are the same answer twice, so a container that pays the
+     gap takes the margin back off what stands in it. One level: what stands in
+     it is a box, whether it arrived as an element or as the markup one drew. */
+  :is(.sds-stack, .sds-sections, .sds-split, .sds-grid, .sds-row,
+  .sds-actions, .sds-choices, .sds-form, .sds-card__body, .sds-figure,
+  .sds-embed, .sds-quote) > * {
+    margin-block: 0;
+  }
+
+  /* ------------------------------------------------------------ page -- */
+
+  .sds-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Off the top rather than hidden: `display: none` and `visibility: hidden`
+     both take it out of the tab order, which leaves the link on the page and
+     out of reach of the one reader it exists for. */
+  .sds-skip {
+    position: fixed;
+    z-index: 40;
+    top: var(--space-3);
+    inset-inline-start: var(--space-3);
+    translate: 0 calc(-100% - var(--space-3));
+    background: var(--surface-raised);
+  }
+  .sds-skip:focus-visible { translate: none; }
+
+  /* One measure, everything centred on it. The bar, body, page and foot are
+     full-bleed — a rule that stops short reads as a box — and what is held is
+     their contents. The gutter is a registered property so the step can be
+     animated: animate the padding and the page rubber-bands behind a drag. */
+  @property --page-gutter {
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 0px;
+  }
+  .sds-bar,
+  .sds-body,
+  .sds-page,
+  .sds-band,
+  .sds-foot,
+  .sds-footer {
+    --page-gutter: var(--gutter-page);
+    --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
+    padding-inline: var(--page-inset);
+    transition:
+    --page-gutter var(--duration-fast) var(--ease-out),
+    min-height var(--duration-fast) var(--ease-out),
+    column-gap var(--duration-fast) var(--ease-out);
+  }
+
+  /* A rail beside a column. */
+  .sds-body {
+    flex: 1;
+    display: flex;
+    gap: var(--space-12);
+    padding-block: var(--space-8);
+  }
+  /* Sticky, and it comes to rest where it started rather than against the bar,
+     so nothing jumps as it catches. Wider than the rail inside it by the room
+     the focus ring stands in: a scroll container paints nothing outside itself,
+     so the ring was cut off at both edges. The negative margin gives that room
+     back to the layout, which is why nothing moved. */
+  .sds-body__rail {
+    width: calc(var(--width-sidebar) + var(--space-2) * 2);
+    margin-inline: calc(-1 * var(--space-2));
+    margin-block-start: calc(-1 * var(--space-1-5));
+    padding: var(--space-1-5) var(--space-2);
+    flex: none;
+    position: sticky;
+    top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
+    align-self: flex-start;
+    max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
+    overflow-y: auto;
+  }
+
+  /* The other half of the body, and named for it: what stands beside the rail
+     is this page, the way `.sds-body__rail` is its list. `min-width: 0` because
+     a code block inside it is wider than it looks. */
+  .sds-body__main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* A flow rather than a gap: what a reading column spaces is blocks, and they
+     carry their own step. A gap would give a heading the air a paragraph gets
+     and then have to be taken back and put on again a level up — the same
+     distance written twice, in two numbers that only agree by arithmetic.
+     It is a half of a split and nothing else; the split states its width. */
+
+  /* All a flow container has to say about spacing. Nothing carries a step above
+     it, so there is nothing to trim at the top; what the last block owes its
+     neighbour it does not owe the edge of the box it stands in. */
+  :where(.sds-band, .sds-body__main, .sds-column, .sds-page, .sds-foot) > :last-child {
+    margin-block-end: 0;
+  }
+
+  /* A page with no rail: the measure, and nothing beside it. */
+  .sds-page { flex: 1; padding-block: var(--space-12) var(--space-10); }
+
+  .sds-foot {
+    border-top: var(--border-hairline) solid var(--border-subtle);
+    padding-block: var(--space-5);
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  /* ------------------------------------------------------------ sets -- */
+
+  .sds-stack { display: flex; flex-direction: column; gap: var(--space-4); }
+  /* A title is one thing — the trail, the eyebrow, the heading, the lead — and
+     read as four it is four. */
+  .sds-stack--tight { gap: var(--space-2); }
+  /* Centred, because not everything in a row of actions is a button: a link
+     beside one is text in a box the button's height. */
+  .sds-actions { display: flex; align-items: center; gap: var(--space-3); }
+  /* Small things that may run onto a second line. It wraps where `.sds-actions`
+     sheds, because nothing in it is a target and a second line costs nothing. */
+  .sds-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+  /* The one thing that belongs at the far end of a row. Named rather than
+     written inline on a page: layout a page writes for itself is layout nothing
+     else can keep in step with. */
+  .sds-row__end { margin-inline-start: auto; }
+
+  /* Two of anything, side by side until there is no room for two — by its own
+     minimum, the way the grid reflows. A width the window states cannot see
+     this: beside a rail the same window leaves 555px. */
+  .sds-split {
+    /* What a half holds: a heading and its paragraph, a figure and its line. */
+    --split-min: 280px;
+    display: flex;
+    flex-wrap: wrap;
+    /* The row gap is only ever seen once it has wrapped. */
+    gap: var(--space-8) var(--space-12);
+    align-items: flex-start;
+  }
+  /* A split holds columns. Not whatever it finds — that meant reaching through
+     hosts that draw no box and checking every element that might be a half —
+     and not a second name beside the first, which is the same exception with a
+     longer list. A half that wants one distance for everything in it puts a
+     stack inside the column: one `div` more, and no shape to recognise. */
+  .sds-split > .sds-column { flex: 1 1 var(--split-min); min-width: 0; }
+  /* Where the shorter half stands against the taller one. */
+  .sds-split--center { align-items: center; }
+  .sds-split--end { align-items: flex-end; }
+  /* Which half leads once there is no room for two. `wrap-reverse` turns the
+     cross axis over with the lines, which is why the two below read inverted
+     and land in the same three positions on the page. */
+  .sds-split--leads-end { flex-wrap: wrap-reverse; align-items: flex-end; }
+  .sds-split--leads-end.sds-split--center { align-items: center; }
+  .sds-split--leads-end.sds-split--end { align-items: flex-start; }
+
+  /* `.sds-stack` is the rhythm inside a section; this is the rhythm between. */
+  .sds-sections { display: flex; flex-direction: column; gap: var(--space-12); }
+
+  /* Reflowing by their own minimum instead of at a breakpoint. `min(230px,
+     100%)` and not `230px`, because a track with a floor wider than the grid
+     overflows it. The minimum is a custom property because `sds-grid` reads it
+     too, to keep a set of four from wrapping as three and one. */
+  .sds-grid {
+    --grid-min: 230px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
+    gap: var(--space-4);
+  }
+  .sds-grid--wide { --grid-min: 340px; }
+  .sds-grid--dense { --grid-min: 150px; }
+
+  /* The gutter taken out: one wall rather than a set of cards. The line between
+     two tiles is this ground showing through a gap a hairline wide — a grid
+     that reflows has no column count, so no tile can be told which border to
+     drop, and the ground is the only thing that draws one line at every width. */
+  .sds-grid--flush {
+    gap: var(--border-hairline);
+    background: var(--border-subtle);
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+  /* A tile has no frame and no corner — both belong to the wall — and it fills,
+     because what it does not paint is the line showing through. It does not
+     rise either: a tile that lifts tears the two lines it shares. */
+  .sds-grid--flush .sds-card {
+    --card-lift: 0px;
+    border: 0;
+    border-radius: 0;
+    background: var(--surface-canvas);
+  }
+  .sds-grid--flush .sds-card::before { content: none; }
+  /* A figure is a tile in the same wall. The padding and the ground come from
+     the wall, so a set of numbers anywhere else stays bare. */
+  .sds-grid--flush .sds-stat {
+    padding: var(--sds-pad, var(--block-pad-y) var(--block-pad-x));
+    background: var(--surface-canvas);
+  }
+  /* The ring turns inwards: it is drawn outside the box, and the wall clips its
+     corners — so on an edge tile it would be the one thing cut off. */
+  .sds-grid--flush .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) {
+    outline-offset: calc(-1 * (var(--border-emphasis) + var(--focus-offset)));
+    box-shadow: none;
+  }
+
+  /* ----------------------------------------------------------- bands -- */
+
+  /* A page whose ground changes. It replaces `.sds-page` — two insets would
+     indent the text twice. */
+  .sds-bands { flex: 1; display: flex; flex-direction: column; }
+  .sds-band { padding-block: var(--space-12); }
+  .sds-band > :first-child { margin-top: 0; }
+  .sds-band > :last-child { margin-bottom: 0; }
+
+  /* Without the rules, a quiet band against the canvas is a fill whose edge is
+     the only thing announcing it — and where two meet, nothing at all. */
+  .sds-band--quiet {
+    background: var(--surface-raised);
+    border-block: var(--border-hairline) solid var(--border-subtle);
+  }
+  .sds-band--quiet + .sds-band--quiet { border-top: 0; }
+
+  /* ----------------------------------------------------- what it sheds -- */
+
+  /* The second step is where a rail stops being a column beside the text:
+     navigation with no room is the bar's, and the bar is handed the whole menu
+     on every page. The sections and the field are not dropped at a breakpoint
+     at all — that is `sds-nav-main`'s measurement. */
+  @media (max-width: 1140px) {
+    .sds-bar,
+    .sds-body,
+    .sds-page,
+    .sds-band,
+    .sds-foot,
+    .sds-footer { --page-gutter: var(--space-6); }
+    .sds-body { gap: var(--space-8); }
+    .sds-page { padding-block: var(--space-10) var(--space-8); }
+    .sds-band { padding-block: var(--space-10); }
+  }
+  @media (max-width: 860px) {
+    .sds-bar,
+    .sds-body,
+    .sds-page,
+    .sds-band,
+    .sds-foot,
+    .sds-footer { --page-gutter: var(--space-4); }
+    .sds-band { padding-block: var(--space-8); }
+    /* The height a desktop can spare is height a phone is reading with. */
+    :root { --height-header: 56px; }
+    .sds-body { flex-direction: column; padding-block: var(--space-6); }
+    /* The section's own list goes with the column it stood in: the drawer holds
+       the whole site at this width, these pages among them. */
+    .sds-body__rail { display: none; }
+    .sds-page { padding-block: var(--space-8); }
+    .sds-foot { flex-wrap: wrap; gap: var(--space-4); }
+    .sds-sections { gap: var(--space-10); }
+  }
+  @media (max-width: 640px) {
+    .sds-actions { flex-wrap: wrap; }
+  }
+}

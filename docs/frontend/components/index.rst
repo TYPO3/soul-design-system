@@ -163,6 +163,27 @@ which group it was filed under.
      - light or dark, as two segments with the chosen one filled
      - :ref:`Controls — sds-theme <component-sds-theme>`
 
+What box an element is
+======================
+
+**Every element is the box it draws.** A custom element is ``inline`` until it
+is told otherwise, and an inline tag around a block makes itself the box a row
+lays out while the block sits inside it — gap, alignment and margin then all
+land one level too high. So the stylesheet states a display for every element,
+and the class it draws states the same one: where no script runs the element is
+gone and the class is what is left, and the page measures the same either way.
+
+An element that stands in a flow is a block and carries the step below it,
+which is why what it draws inside gives that step up. An element that stands in
+a line of text or a row of controls is inline. Either way a distance is read off
+the element it belongs to rather than assembled from two of them, and no rule in
+this system reaches past a tag to find a block.
+
+Four elements are ``display: contents`` — ``sds-dialog``, ``sds-lightbox``,
+``sds-modal`` and ``sds-overlay``. What they draw is in the top layer or fixed
+to the viewport, so a box where they stand is one nothing would ever fill. That
+is the whole list, and it is stated rather than defaulted to.
+
 Addressed, never rebuilt
 ========================
 
@@ -245,10 +266,10 @@ rather than left to be lower-cased:
 
 .. note::
 
-   ``box-style`` exists because every host in this system is
-   ``display: contents`` and therefore not in the box tree: a width or a
-   ``flex`` set on the tag would land on nothing. What the property carries is
-   given to the element that is actually laid out.
+   ``box-style`` carries layout for the plane itself, which is the box that
+   draws the frame. A ``style`` on the element sizes the block standing around
+   it instead — the two are different boxes and the property says which one is
+   meant.
 
 Names that had to differ
 ========================

@@ -28,7 +28,7 @@ const ENTITY_RE = /&(?:#[0-9]+|#x[0-9a-f]+|[a-z][a-z0-9]+);/i;
     its own repository. */
 function definedClasses(): Set<string> {
   const defined = new Set<string>();
-  for (const sheet of ['src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
+  for (const sheet of ['src/styles/reset.css', 'src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
     for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
       defined.add(m[1] as string);
     }

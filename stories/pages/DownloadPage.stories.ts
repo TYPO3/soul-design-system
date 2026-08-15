@@ -130,14 +130,16 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="get">
       <div class="sds-split">
-        <div class="sds-stack sds-stack--tight">
-          <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-          <h1>Get started</h1>
-          <p class="sds-lead">
-            One local process, started by your client. It needs PHP${NNBSP}8.2 or
-            newer and a TYPO3 project it can read — no daemon, no database of its
-            own, and no account anywhere.
-          </p>
+        <div class="sds-column">
+          <div class="sds-stack sds-stack--tight">
+            <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+            <h1>Get started</h1>
+            <p class="sds-lead">
+              One local process, started by your client. It needs PHP${NNBSP}8.2 or
+              newer and a TYPO3 project it can read — no daemon, no database of its
+              own, and no account anywhere.
+            </p>
+          </div>
           <div class="sds-row">
             <sds-badge label="1.4.0" tone="accent"></sds-badge>
             <sds-badge label="MIT"></sds-badge>
@@ -145,28 +147,28 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
           </div>
           <div class="sds-actions">${start}</div>
         </div>
-        <div class="sds-stack">
-          <span class="sds-label">Three ways in</span>
-          ${ways}
+        <div class="sds-column">
+          <div class="sds-stack">
+            <span class="sds-label">Three ways in</span>
+            ${ways}
+          </div>
         </div>
       </div>
     </section>
 
     <section class="sds-band sds-band--quiet" id="files">
-      <div class="sds-stack">
-        <h2>What is published</h2>
-        <p>
-          Three files, and two of them are only there so the first can be
-          checked. The hashes are shortened here and in full in
-          <span class="sds-mono">checksums.txt</span>.
-        </p>
-        <sds-table density="compact" scrollable .columns="${FILES.columns}" .rows="${FILES.rows}"></sds-table>
-      </div>
+      <h2>What is published</h2>
+      <p>
+        Three files, and two of them are only there so the first can be
+        checked. The hashes are shortened here and in full in
+        <span class="sds-mono">checksums.txt</span>.
+      </p>
+      <sds-table density="compact" scrollable .columns="${FILES.columns}" .rows="${FILES.rows}"></sds-table>
     </section>
 
     <section class="sds-band" id="verify">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>Check what you got</h2>
           <p>
             One command, and it answers about the file on your disk rather than
@@ -175,7 +177,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
             releases and changes when it is rotated, never quietly.
           </p>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <span class="sds-label">Verify</span>
           <sds-code code-lang="bash" .body="${VERIFY}" copy></sds-code>
         </div>
@@ -183,31 +185,29 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="after">
-      <div class="sds-stack">
-        <h2>When it does not answer</h2>
-        <sds-note
-          tone="warn"
-          heading="The client starts it and nothing appears"
-          .body="${html`The server writes what it registered to standard error on start.
-            Run <span class="sds-mono">php typo3-support-app.phar scope</span> in the
-            project by hand: it prints the same thing without a client in the way.`}"
-        ></sds-note>
-        <sds-note
-          tone="error"
-          heading="It starts and every tool says “not booted”"
-          .body="${html`The installation cannot be booted from where the server was started.
-            It answers from package files meanwhile, and
-            <span class="sds-mono">ddev start</span> closes the gap for a DDEV project.`}"
-        ></sds-note>
-        <p>
-          Neither of those is a bug worth reporting until the scope has been
-          read — it says which sources were reachable, and that is the answer to
-          both questions.
-        </p>
-        <div class="sds-actions">
-          <sds-link label="Read the install guide" href="#"></sds-link>
-          <sds-link label="Report a wrong answer" href="#"></sds-link>
-        </div>
+      <h2>When it does not answer</h2>
+      <sds-note
+        tone="warn"
+        heading="The client starts it and nothing appears"
+        .body="${html`The server writes what it registered to standard error on start.
+          Run <span class="sds-mono">php typo3-support-app.phar scope</span> in the
+          project by hand: it prints the same thing without a client in the way.`}"
+      ></sds-note>
+      <sds-note
+        tone="error"
+        heading="It starts and every tool says “not booted”"
+        .body="${html`The installation cannot be booted from where the server was started.
+          It answers from package files meanwhile, and
+          <span class="sds-mono">ddev start</span> closes the gap for a DDEV project.`}"
+      ></sds-note>
+      <p>
+        Neither of those is a bug worth reporting until the scope has been
+        read — it says which sources were reachable, and that is the answer to
+        both questions.
+      </p>
+      <div class="sds-actions">
+        <sds-link label="Read the install guide" href="#"></sds-link>
+        <sds-link label="Report a wrong answer" href="#"></sds-link>
       </div>
     </section>
 

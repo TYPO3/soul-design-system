@@ -133,60 +133,54 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="feature">
-      <div class="sds-stack">
-        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-        <span class="sds-label">Feature</span>
-        <h1 class="sds-display">Every answer says where it came from</h1>
-        <p class="sds-lead">
-          A tool declares the sources it may answer from. The answer carries the
-          one that answered, the releases it holds for, and what it leaves out —
-          and a result that cannot name its source is not returned at all.
-        </p>
-        <div class="sds-actions">${start}</div>
-        ${grid(SOURCE_FACTS.map(sdsStat), { flat, variant: 'dense' })}
-      </div>
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <span class="sds-label">Feature</span>
+      <h1 class="sds-display">Every answer says where it came from</h1>
+      <p class="sds-lead">
+        A tool declares the sources it may answer from. The answer carries the
+        one that answered, the releases it holds for, and what it leaves out —
+        and a result that cannot name its source is not returned at all.
+      </p>
+      <div class="sds-actions">${start}</div>
+      ${grid(SOURCE_FACTS.map(sdsStat), { flat, variant: 'dense' })}
     </section>
 
     <section class="sds-band sds-band--quiet" id="preconditions">
-      <div class="sds-stack">
-        <h2>Every source has a precondition</h2>
-        <p>
-          The five differ in how much of the machine has to be running before
-          they can answer. Bundled knowledge and the server’s own checkout
-          answer with nothing running; installed packages need files on disk;
-          the installation source needs a booted installation; network sources
-          need outbound reach.
-        </p>
-        <sds-figure
-          src="${assets}/diagrams/answer-sources.svg"
-          alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach."
-          caption="A tool declares its sources, so whether an answer is reachable is known before the question is asked."
-          zoomable
-        ></sds-figure>
-        <sds-note
-          heading="A declaration is resolved, not documented"
-          .body="${html`The server checks a tool’s declared sources against the machine it
-            was started on. One it cannot reach is not offered, so a question is
-            never answered by a source that was unavailable when it was asked.`}"
-        ></sds-note>
-      </div>
+      <h2>Every source has a precondition</h2>
+      <p>
+        The five differ in how much of the machine has to be running before
+        they can answer. Bundled knowledge and the server’s own checkout
+        answer with nothing running; installed packages need files on disk;
+        the installation source needs a booted installation; network sources
+        need outbound reach.
+      </p>
+      <sds-figure
+        src="${assets}/diagrams/answer-sources.svg"
+        alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach."
+        caption="A tool declares its sources, so whether an answer is reachable is known before the question is asked."
+        zoomable
+      ></sds-figure>
+      <sds-note
+        heading="A declaration is resolved, not documented"
+        .body="${html`The server checks a tool’s declared sources against the machine it
+          was started on. One it cannot reach is not offered, so a question is
+          never answered by a source that was unavailable when it was asked.`}"
+      ></sds-note>
     </section>
 
     <section class="sds-band" id="sources">
-      <div class="sds-stack">
-        <h2>The five sources</h2>
-        <p>
-          Named as the result names them. What a tool returns in
-          <span class="sds-mono">answeredBy</span> is one of these five strings
-          and never a sentence about one.
-        </p>
-        <sds-table density="compact" scrollable .columns="${SOURCES.columns}" .rows="${SOURCES.rows}"></sds-table>
-      </div>
+      <h2>The five sources</h2>
+      <p>
+        Named as the result names them. What a tool returns in
+        <span class="sds-mono">answeredBy</span> is one of these five strings
+        and never a sentence about one.
+      </p>
+      <sds-table density="compact" scrollable .columns="${SOURCES.columns}" .rows="${SOURCES.rows}"></sds-table>
     </section>
 
     <section class="sds-band sds-band--quiet" id="result">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>What a result carries</h2>
           <p>
             Four fields beside the answer, and each of them is there to make a
@@ -200,7 +194,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
               runtime. <span class="sds-mono">ddev start</span> would close the gap.`}"
           ></sds-note>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <span class="sds-label">A degraded result</span>
           <sds-code code-lang="json" source="${RESULT}" copy></sds-code>
           <p>
@@ -213,72 +207,66 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="consequences">
-      <div class="sds-stack">
-        <h2>Three consequences</h2>
-        <p>
-          The declaration is one line in a tool. What it buys is spread across
-          every answer that tool ever gives.
-        </p>
-        ${grid(
-          CONSEQUENCES.map(
-            (one) => html`<sds-surface
-              icon="${one.icon}"
-              label="${one.label}"
-              heading="${one.heading}"
-              body="${one.body}"
-            ></sds-surface>`,
-          ),
-          { flat },
-        )}
-      </div>
+      <h2>Three consequences</h2>
+      <p>
+        The declaration is one line in a tool. What it buys is spread across
+        every answer that tool ever gives.
+      </p>
+      ${grid(
+        CONSEQUENCES.map(
+          (one) => html`<sds-surface
+            icon="${one.icon}"
+            label="${one.label}"
+            heading="${one.heading}"
+            body="${one.body}"
+          ></sds-surface>`,
+        ),
+        { flat },
+      )}
     </section>
 
     <section class="sds-band sds-band--quiet" id="limits">
-      <div class="sds-stack">
-        <h2>What it does not do</h2>
-        <p>
-          A source is a statement about where an answer came from. It is not a
-          statement about whether the answer is right, and the two are worth
-          keeping apart.
-        </p>
-        <sds-note
-          heading="It does not rank the sources against each other"
-          .body="${html`Where two could answer, the tool’s own order decides — not a score.
-            A result names the one that answered so the caller can disagree with
-            that order, which is a decision the caller is better placed to make.`}"
-        ></sds-note>
-        <sds-note
-          tone="error"
-          heading="It cannot vouch for an extension that overrides core behaviour"
-          .body="${html`The installation source reads assembled runtime state, so what an
-            extension changed is in the answer without being attributed to it.
-            Where that matters, the tool says which releases it checked and stops.`}"
-        ></sds-note>
-      </div>
+      <h2>What it does not do</h2>
+      <p>
+        A source is a statement about where an answer came from. It is not a
+        statement about whether the answer is right, and the two are worth
+        keeping apart.
+      </p>
+      <sds-note
+        heading="It does not rank the sources against each other"
+        .body="${html`Where two could answer, the tool’s own order decides — not a score.
+          A result names the one that answered so the caller can disagree with
+          that order, which is a decision the caller is better placed to make.`}"
+      ></sds-note>
+      <sds-note
+        tone="error"
+        heading="It cannot vouch for an extension that overrides core behaviour"
+        .body="${html`The installation source reads assembled runtime state, so what an
+          extension changed is in the answer without being attributed to it.
+          Where that matters, the tool says which releases it checked and stops.`}"
+      ></sds-note>
     </section>
 
     <section class="sds-band" id="read-on">
-      <div class="sds-stack">
-        <h2>Read on</h2>
-        ${grid(
-          RELATED.map(
-            (one) => html`<sds-card
-              icon="${one.icon}"
-              label="${one.label}"
-              heading="${one.heading}"
-              body="${one.body}"
-              href="#"
-              action="${one.link}"
-            ></sds-card>`,
-          ),
-          { flat },
-        )}
-      </div>
+      <h2>Read on</h2>
+      ${grid(
+        RELATED.map(
+          (one) => html`<sds-card
+            icon="${one.icon}"
+            label="${one.label}"
+            heading="${one.heading}"
+            body="${one.body}"
+            href="#"
+            action="${one.link}"
+          ></sds-card>`,
+        ),
+        { flat },
+      )}
     </section>
 
     <section class="sds-band sds-band--quiet" id="install">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>Install it</h2>
           <p>
             One command, and the client finds the server. PHP${NNBSP}8.2+, and a
@@ -287,7 +275,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
           </p>
           <div class="sds-actions">${start}</div>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <span class="sds-label">Install</span>
           <sds-code code-lang="bash" .body="${INSTALL}" copy></sds-code>
           <p>

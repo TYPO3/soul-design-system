@@ -27,7 +27,7 @@ import '../../packages/frontend/src/components/button.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type SurfaceProps } from '../../packages/frontend/src/components/surface.ts';
 import { sdsCard } from './Card.stories.ts';
-import { dsCard, indent, part, px, spec, specCap } from '../lib/specimen.ts';
+import { dsCard, indent, part, px, spec, specCap, specRow } from '../lib/specimen.ts';
 
 export const sdsSurface = ({ plane = 'raised', title, body, label, icon }: SurfaceProps) =>
   html`<sds-surface plane="${plane}" heading="${title}" .body="${body}" label="${label ?? ''}" icon="${ifDefined(icon)}"></sds-surface>`;
@@ -118,13 +118,14 @@ export const specimenHtml = (): string =>
   spec([
     /* The unfilled plane first, drawn by the element that owns it. Three boxes
        differing in one thing each is the whole of the claim. */
-    `<div style="display:flex; gap:14px; flex-wrap:wrap;">\n${indent(
+    specRow(
       [
         part(sdsCard({ heading: 'Card', body: `Hairline border, ${px(6)} radius, no fill.`, href: '' })),
         ...[Raised, Sunken].map((s) => part(sdsSurface(s.args as SurfaceProps))),
-      ].join('\n'),
-      2,
-    )}\n</div>`,
+      ],
+      undefined,
+      { style: 'gap:14px; align-items:stretch;' },
+    ),
     `<div style="position:relative; height:210px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); overflow:hidden; background:var(--surface-canvas);">\n${indent(part(scene()), 2)}\n</div>`,
     specCap(`OVERLAY --surface-overlay · MODAL CENTRED, MAX ${px(560, 'PX')} · NO SHADOW UNDER IT`),
   ]);

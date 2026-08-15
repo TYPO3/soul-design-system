@@ -154,7 +154,8 @@ export const PACKAGES: readonly Package[] = [
     incomplete(pkg) {
       const missing = [
         'package.json', 'README.md', 'LICENSE',
-        'src/index.ts', 'src/styles/styles.css', 'src/styles/components.css',
+        'src/index.ts', 'src/styles/styles.css', 'src/styles/reset.css',
+        'src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css',
         'dist/soul.css', 'dist/document.css', 'dist/soul.js', 'dist/soul-boot.js',
         'dist/index.js',
       ].filter((path) => !existsSync(join(pkg, path)));

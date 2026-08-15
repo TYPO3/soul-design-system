@@ -113,25 +113,23 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="matrix">
-      <div class="sds-stack">
-        <h2>What each one can reach</h2>
-        <p>
-          Six sources, and the gaps are the reason this table exists. A
-          comparison in which everything is present somewhere tells the reader
-          nothing they could not have guessed.
-        </p>
-        <sds-table density="airy" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
-        <p>
-          A dash is not a failure. It is a source that is not reachable from
-          there${NNBSP}— and a tool that would need it says so at registration
-          rather than answering from the next one down without mentioning it.
-        </p>
-      </div>
+      <h2>What each one can reach</h2>
+      <p>
+        Six sources, and the gaps are the reason this table exists. A
+        comparison in which everything is present somewhere tells the reader
+        nothing they could not have guessed.
+      </p>
+      <sds-table density="airy" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
+      <p>
+        A dash is not a failure. It is a source that is not reachable from
+        there${NNBSP}— and a tool that would need it says so at registration
+        rather than answering from the next one down without mentioning it.
+      </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="pick">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>Pick the first one unless you cannot</h2>
           <p>
             The other two exist because a machine sometimes cannot boot a
@@ -144,7 +142,7 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
             <sds-link label="Read what a source is" href="#"></sds-link>
           </div>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <sds-note
             heading="The same binary in all three"
             .body="${html`Nothing is compiled differently and no flag turns a capability on.

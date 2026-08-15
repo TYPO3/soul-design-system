@@ -201,16 +201,20 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
 
     <section class="sds-band sds-band--quiet" id="report">
       <div class="sds-split">
-        ${state === 'sent' ? sent : form}
+        <!-- A split holds columns. Without one the form is laid out at its own
+             content width and pushes the page sideways on a phone. -->
+        <div class="sds-column">${state === 'sent' ? sent : form}</div>
 
-        <div class="sds-stack">
-          <span class="sds-label">What happens to it</span>
-          <p>
+        <div class="sds-column">
+          <div class="sds-stack">
+            <span class="sds-label">What happens to it</span>
+            <p>
             It is read by a person. Where the answer came from bundled
             knowledge, the fix is a change to that knowledge and ships with the
             next release; where it came from your installation, the reply says
             what the tool read and why it read that.
           </p>
+          </div>
           <sds-note
             heading="Nothing is collected that you did not attach"
             .body="${html`The scope is the only thing beyond the six answers, it is optional,
@@ -226,24 +230,22 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
     </section>
 
     <section class="sds-band" id="elsewhere">
-      <div class="sds-stack">
-        <h2>Three things that go elsewhere</h2>
-        <p>
-          This form is for an answer that was wrong. These are not that, and
-          sending them here makes them slower rather than faster.
-        </p>
-        ${grid(
-          CHANNELS.map(
-            (one) => html`<sds-surface
-              icon="${one.icon}"
-              label="${one.label}"
-              heading="${one.heading}"
-              body="${one.body}"
-            ></sds-surface>`,
-          ),
-          { flat },
-        )}
-      </div>
+      <h2>Three things that go elsewhere</h2>
+      <p>
+        This form is for an answer that was wrong. These are not that, and
+        sending them here makes them slower rather than faster.
+      </p>
+      ${grid(
+        CHANNELS.map(
+          (one) => html`<sds-surface
+            icon="${one.icon}"
+            label="${one.label}"
+            heading="${one.heading}"
+            body="${one.body}"
+          ></sds-surface>`,
+        ),
+        { flat },
+      )}
     </section>
 
   </main>

@@ -62,7 +62,7 @@ type Story = StoryObj;
 export const specimenHtml = (): string =>
   spec([
     `<div style="${GRID}">\n${indent(
-      SAMPLE.map((name) => `<span title="${name}">${part(html`<sds-icon name="${name}" size="16"></sds-icon>`)}</span>`).join('\n'),
+      SAMPLE.map((name) => `<span title="${name}" style="display:flex">${part(html`<sds-icon name="${name}" size="16"></sds-icon>`)}</span>`).join('\n'),
       2,
     )}\n</div>`,
     `<div class="spec-note" style="${DIVIDER}">${NOTE}</div>`,

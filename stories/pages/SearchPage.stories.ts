@@ -162,7 +162,7 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
 
     <section class="sds-band" id="scope">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>What was searched</h2>
           <p>
             Four sources, and the last of them is your own installation — which
@@ -170,7 +170,7 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
             has been asked; a facet that is missing was never available.
           </p>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <sds-note
             heading="Bundled knowledge is version-bound and your installation is not"
             .body="${html`A result from bundled knowledge names the releases it holds for. One

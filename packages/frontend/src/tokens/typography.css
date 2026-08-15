@@ -3,43 +3,45 @@
    else feels entitled to, and the next component that needs the size writes
    the number instead. `dense` is what a surface's own body, a nav item, a
    compact row and a code block are all set in; code is not the owner of it. */
-:root {
-  --font-size-display: 58px;
-  --font-size-h1: 44px;
-  --font-size-h2: 34px;
-  --font-size-h3: 20px;
-  --font-size-lead: 19px;
-  --font-size-body: 16px;
-  /* A control runs tighter than the paragraph beside it, and at 15 it no
-     longer did: one pixel is not a register. */
-  --font-size-ui: 14px;
-  --font-size-dense: 13px;
-  --font-size-micro: 12px;
-  --font-size-label: 11px;
+@layer tokens {
+  :root {
+    --font-size-display: 58px;
+    --font-size-h1: 44px;
+    --font-size-h2: 34px;
+    --font-size-h3: 20px;
+    --font-size-lead: 19px;
+    --font-size-body: 16px;
+    /* A control runs tighter than the paragraph beside it, and at 15 it no
+       longer did: one pixel is not a register. */
+    --font-size-ui: 14px;
+    --font-size-dense: 13px;
+    --font-size-micro: 12px;
+    --font-size-label: 11px;
 
-  --leading-display: 1.08;
-  --leading-heading: 1.2;
-  --leading-body: 1.65;
-  --leading-code: 1.9;
+    --leading-display: 1.08;
+    --leading-heading: 1.2;
+    --leading-body: 1.65;
+    --leading-code: 1.9;
 
-  --tracking-display: -0.03em;
-  --tracking-heading: -0.015em;
-  --tracking-body: 0;
-  --tracking-label: 0.09em;
+    --tracking-display: -0.03em;
+    --tracking-heading: -0.015em;
+    --tracking-body: 0;
+    --tracking-label: 0.09em;
 
-  --weight-thin: 200;
-  --weight-light: 300;
-  --weight-regular: 400;
-  --weight-medium: 500;
-  --weight-semibold: 600;
-  --weight-bold: 700;
+    --weight-thin: 200;
+    --weight-light: 300;
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
 
-  /* A measure is a width and is stated as one. `ch` reads like the right unit
-     and is the wrong one: it is the width of the "0" in the element's own font,
-     so one token resolves to a different edge on every register it touches —
-     correct in characters, four edges down the page. The character count moves
-     into the number instead; larger type is read in fewer of them, not more. */
-  --measure-prose: 620px;
-  --measure-lead: 560px;
-  --measure-display: 480px;
+    /* A measure is a width and is stated as one. `ch` reads like the right unit
+       and is the wrong one: it is the width of the "0" in the element's own font,
+       so one token resolves to a different edge on every register it touches —
+       correct in characters, four edges down the page. The character count moves
+       into the number instead; larger type is read in fewer of them, not more. */
+    --measure-prose: 620px;
+    --measure-lead: 560px;
+    --measure-display: 480px;
+  }
 }

@@ -15,7 +15,7 @@ import { addons } from 'storybook/preview-api';
 import { VIEWPORTS } from './viewports.ts';
 import { readable } from './source.ts';
 
-/* One import: the entry registers every element and installs the host rule.
+/* One import: the entry registers every element.
    Listing them here was a second list to keep in step with the package's `src/index.ts`,
    and it fell out of step the moment navigation was split into three. */
 import '../packages/frontend/src/index.ts';

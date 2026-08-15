@@ -95,28 +95,26 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="people">
-      <div class="sds-stack">
-        <h2>The people</h2>
-        <p>
-          Named by what they are answerable for rather than by a title. No
-          photographs: a face is a file to fetch, keep in step and licence, and
-          none of that is what naming a maintainer is for.
-        </p>
-        ${grid(
-          PEOPLE.map(
-            (person) => html`<sds-card
-              .body="${html`<sds-byline name="${person.name}" as="${person.role}" meta="${person.since}"></sds-byline>
-              <span style="display:block; margin-top:10px">${person.answerable}</span>`}"
-            ></sds-card>`,
-          ),
-          { flat },
-        )}
-      </div>
+      <h2>The people</h2>
+      <p>
+        Named by what they are answerable for rather than by a title. No
+        photographs: a face is a file to fetch, keep in step and licence, and
+        none of that is what naming a maintainer is for.
+      </p>
+      ${grid(
+        PEOPLE.map(
+          (person) => html`<sds-card
+            .body="${html`<sds-byline name="${person.name}" as="${person.role}" meta="${person.since}"></sds-byline>
+            <span style="display:block; margin-top:10px">${person.answerable}</span>`}"
+          ></sds-card>`,
+        ),
+        { flat },
+      )}
     </section>
 
     <section class="sds-band" id="why">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>Why it exists</h2>
           <p>
             A coding agent asked about TYPO3 answers from whatever it read
@@ -130,7 +128,7 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
             from that one sentence.
           </p>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <sds-quote
             .body="${'A partial registry never looks complete: source, reason and the unread files travel with the result.'}"
             by="installation-fallback"
@@ -141,31 +139,29 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="funding">
-      <div class="sds-stack">
-        <h2>How it is paid for, and what happens if it stops</h2>
-        <p>
-          Unpaid work, done in the open, under MIT. Nothing about
-          it is sold and nothing about it is sponsored, which is worth stating
-          plainly rather than leaving to be inferred from the absence of a
-          pricing page.
-        </p>
-        <sds-note
-          heading="It says what it is on every page, and where an answer came from"
-          .body="${html`The footer names the product and the licence on every one of them.
-            Where an answer comes from official documentation, the answer says so
-            and links to it.`}"
-        ></sds-note>
-        <sds-note
-          tone="warn"
-          heading="If maintenance stops, the bundled knowledge goes stale silently"
-          .body="${html`That is the honest failure mode: the tools keep answering and the
-            version bindings stop being extended. The release date is in every
-            answer’s source, which is how a reader would notice.`}"
-        ></sds-note>
-        <div class="sds-actions">
-          <sds-link label="Repository" href="https://github.com" external icon="actions-brand-github"></sds-link>
-          <sds-link label="What is written down" href="#"></sds-link>
-        </div>
+      <h2>How it is paid for, and what happens if it stops</h2>
+      <p>
+        Unpaid work, done in the open, under MIT. Nothing about
+        it is sold and nothing about it is sponsored, which is worth stating
+        plainly rather than leaving to be inferred from the absence of a
+        pricing page.
+      </p>
+      <sds-note
+        heading="It says what it is on every page, and where an answer came from"
+        .body="${html`The footer names the product and the licence on every one of them.
+          Where an answer comes from official documentation, the answer says so
+          and links to it.`}"
+      ></sds-note>
+      <sds-note
+        tone="warn"
+        heading="If maintenance stops, the bundled knowledge goes stale silently"
+        .body="${html`That is the honest failure mode: the tools keep answering and the
+          version bindings stop being extended. The release date is in every
+          answer’s source, which is how a reader would notice.`}"
+      ></sds-note>
+      <div class="sds-actions">
+        <sds-link label="Repository" href="https://github.com" external icon="actions-brand-github"></sds-link>
+        <sds-link label="What is written down" href="#"></sds-link>
       </div>
     </section>
 

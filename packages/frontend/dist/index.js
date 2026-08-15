@@ -1566,6 +1566,10 @@ var require_core = __commonJS({
   }
 });
 
+// packages/frontend/src/components/icon.ts
+import { html } from "lit";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+
 // packages/frontend/src/lib/element.ts
 import { LitElement } from "lit";
 var CONTENT = "data-sds-content";
@@ -1615,28 +1619,10 @@ var SdsElement = class extends LitElement {
   }
 };
 var isBlank = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
-var registered = /* @__PURE__ */ new Set();
-function writeHostRule(doc) {
-  if (!registered.size) return;
-  const id = "sds-host-rule";
-  const style = doc.getElementById(id) ?? doc.createElement("style");
-  style.id = id;
-  style.textContent = `${[...registered].join(",")}{display:contents}`;
-  if (!style.isConnected) doc.head.append(style);
-}
-function installHostRule(doc = document) {
-  writeHostRule(doc);
-}
 function define(tag, ctor) {
   if (typeof customElements === "undefined") return;
-  registered.add(tag);
-  if (typeof document !== "undefined") writeHostRule(document);
   if (!customElements.get(tag)) customElements.define(tag, ctor);
 }
-
-// packages/frontend/src/components/icon.ts
-import { html } from "lit";
-import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
 // packages/frontend/src/components/icons.generated.ts
 var ICON_IDS = [
@@ -4561,9 +4547,8 @@ var SdsSurface = class extends SdsElement {
       icon: { type: String },
       heading: { type: String },
       body: { type: String },
-      /* The host is `display: contents`, so it is not in the box tree and
-         cannot be sized from outside. Layout for the plane goes here and lands
-         on the element that is actually laid out. */
+      /* Layout for the plane itself, which is the box that draws the frame — a
+         style on the element sizes the block around it instead. */
       boxStyle: { type: String, attribute: "box-style" }
     };
   }
@@ -10723,7 +10708,6 @@ var SdsConfval = class extends SdsElement {
 define("sds-confval", SdsConfval);
 
 // packages/frontend/src/index.ts
-if (typeof document !== "undefined") installHostRule();
 var TAGS2 = [
   "sds-icon",
   "sds-theme",
@@ -10822,7 +10806,6 @@ export {
   define,
   fieldClass,
   iconIds,
-  installHostRule,
   pageNumbers,
   setIconSprite,
   themeBoot

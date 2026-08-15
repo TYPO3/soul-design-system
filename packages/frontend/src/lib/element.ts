@@ -4,10 +4,10 @@
    vocabulary in `components.css` styles the elements and hand-written markup
    alike. There is no encapsulation; `sds-` is it.
 
-   `display: contents` on every host keeps the wrapper out of the box tree, so
-   what a component renders is the flex item its layout expects. No decorators
-   anywhere: `static properties` is erasable, which is what lets Node run these
-   files with no build step. */
+   Which box each element is stands in `styles/base.css`, beside the step it
+   carries — a rule in a stylesheet a reader can open, not one written into the
+   head at run time. No decorators anywhere: `static properties` is erasable,
+   which is what lets Node run these files with no build step. */
 
 import { LitElement } from 'lit';
 
@@ -87,35 +87,11 @@ export class SdsElement extends LitElement {
 export const isBlank = (node: Node): boolean =>
   node.nodeType === 8 || (node.nodeType === 3 && !(node.textContent ?? '').trim());
 
-/* `display: contents` for every registered host, written from the registry:
-   a list kept in step with `define()` by hand falls out of step with it, and
-   a host left in the box tree swallows the gap and alignment of the layout
-   around it. The rule has to exist before an element upgrades, or the first
-   frame lays out with the wrapper still in place. */
-const registered = new Set<string>();
-
-function writeHostRule(doc: Document): void {
-  if (!registered.size) return;
-  const id = 'sds-host-rule';
-  const style = doc.getElementById(id) ?? doc.createElement('style');
-  style.id = id;
-  style.textContent = `${[...registered].join(',')}{display:contents}`;
-  if (!style.isConnected) doc.head.append(style);
-}
-
-/** Called by the bundle entry, before the first element upgrades. `define()`
-    keeps the rule current from then on. */
-export function installHostRule(doc: Document = document): void {
-  writeHostRule(doc);
-}
-
 /** Register an element once. Re-registering a tag throws, which would turn a
     hot reload or a doubly-imported bundle into a hard error; and there is no
     registry in Node, where these modules are imported for their template
     functions alone. */
 export function define(tag: string, ctor: CustomElementConstructor): void {
   if (typeof customElements === 'undefined') return;
-  registered.add(tag);
-  if (typeof document !== 'undefined') writeHostRule(document);
   if (!customElements.get(tag)) customElements.define(tag, ctor);
 }

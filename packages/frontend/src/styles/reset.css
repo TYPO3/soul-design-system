@@ -1,0 +1,85 @@
+/* Soul Design System — reset.
+
+   The browser defaults this system does not want. A layer of its own, so it
+   loses to every later one whatever its specificity — which is what lets it be
+   written as broadly as it is. Nothing here is a design decision. */
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  blockquote,
+  dd,
+  dl,
+  figure,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  hr,
+  ol,
+  p,
+  pre,
+  ul {
+    margin: 0;
+  }
+
+  /* A list that carries a class is a list whose marker was a decision. One
+     that does not keeps the browser's, because a bare `<ul>` in a document is
+     still a bulleted list. */
+  :where(ul, ol)[class] {
+    padding-inline-start: 0;
+    list-style: none;
+  }
+
+  /* Media is block: inline leaves a gap under it, from a line box the picture
+     is not text in. */
+  audio,
+  canvas,
+  embed,
+  iframe,
+  img,
+  object,
+  svg,
+  video {
+    display: block;
+  }
+  /* Not the framed ones: an embed that states the size its document was made
+     for scrolls at that size rather than being squeezed into the column. */
+  canvas,
+  img,
+  svg,
+  video {
+    max-width: 100%;
+  }
+  img {
+    height: auto;
+  }
+
+  html {
+    block-size: 100%;
+  }
+  body {
+    margin: 0;
+    min-block-size: 100%;
+    line-height: var(--leading-body);
+  }
+
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+}

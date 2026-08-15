@@ -52,7 +52,7 @@
             {%- if rail|trim %}
             <aside class="sds-body__rail" id="page-rail">{{ rail }}</aside>
             {%- endif %}
-            <main class="sds-column" id="main-content">
+            <main class="sds-body__main" id="main-content">
                 {{ renderBreadcrumb() }}
                 <article class="sds-prose">{{ block('body') }}</article>
                 {#- Inside the column and after the article, because it is the

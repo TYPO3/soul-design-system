@@ -1,26 +1,28 @@
-:root {
-  /* 0px is structural — full-bleed rules, section edges, table lines.
-     4px is for anything a person clicks, types in, or picks up: a tool
-     should feel like it is on your side, not like a spec sheet. */
-  --radius-none: 0px;
-  /* one radius for everything interactive: buttons, fields, selects, tabs,
-     badges. Two tokens would drift; there is only this one. */
-  --radius-control: 4px;
-  /* a card is one step larger than the controls it contains — a container
-     must not share its corner with its contents. Code blocks are
-     control-scale objects and use --radius-control, not this. */
-  --radius-card: 6px;
-  --radius-pill: 999px;
+@layer tokens {
+  :root {
+    /* 0px is structural — full-bleed rules, section edges, table lines.
+       4px is for anything a person clicks, types in, or picks up: a tool
+       should feel like it is on your side, not like a spec sheet. */
+    --radius-none: 0px;
+    /* one radius for everything interactive: buttons, fields, selects, tabs,
+       badges. Two tokens would drift; there is only this one. */
+    --radius-control: 4px;
+    /* a card is one step larger than the controls it contains — a container
+       must not share its corner with its contents. Code blocks are
+       control-scale objects and use --radius-control, not this. */
+    --radius-card: 6px;
+    --radius-pill: 999px;
 
-  --border-hairline: 1px;
-  --border-emphasis: 2px;
-  --rule-accent: 3px;
+    --border-hairline: 1px;
+    --border-emphasis: 2px;
+    --rule-accent: 3px;
 
-  /* The one focus ring, in the two values every surface that draws it needs
-     besides `--border-emphasis`: how far the outline stands off the box, and
-     how wide the halo behind it is. A surface that has to turn the ring
-     inwards or drop the halo says so with these — never with a number of its
-     own, which is how a card came to be ringed at 5px while the rule said 3. */
-  --focus-offset: 2px;
-  --focus-halo: 3px;
+    /* The one focus ring, in the two values every surface that draws it needs
+       besides `--border-emphasis`: how far the outline stands off the box, and
+       how wide the halo behind it is. A surface that has to turn the ring
+       inwards or drop the halo says so with these — never with a number of its
+       own, which is how a card came to be ringed at 5px while the rule said 3. */
+    --focus-offset: 2px;
+    --focus-halo: 3px;
+  }
 }

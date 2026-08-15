@@ -31,9 +31,6 @@ export declare class SdsElement extends LitElement {
     among its bindings. Neither is content a caller wrote, and an element that
     counts one as content renders a part nobody asked for. */
 export declare const isBlank: (node: Node) => boolean;
-/** Called by the bundle entry, before the first element upgrades. `define()`
-    keeps the rule current from then on. */
-export declare function installHostRule(doc?: Document): void;
 /** Register an element once. Re-registering a tag throws, which would turn a
     hot reload or a doubly-imported bundle into a hard error; and there is no
     registry in Node, where these modules are imported for their template

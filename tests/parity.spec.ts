@@ -137,29 +137,42 @@ for (const c of CASES) {
   });
 }
 
-/* `display: contents` on the host is what keeps the element out of the box
-   tree. Without it the element becomes the flex item instead of the button
-   inside it, and every gap, alignment and `flex:1` in the specimens lands on
-   the wrapper — a layout break no markup comparison would catch, because the
-   markup would still be correct. */
-test('every registered host is removed from the box tree', async ({ page }) => {
-  const displays = await page.evaluate(async () => {
-    const tags = [
-      'sds-button', 'sds-badge', 'sds-icon', 'sds-field',
-      'sds-nav-pills', 'sds-tabs', 'sds-nav-rail', 'sds-surface', 'sds-table',
-    ];
+/* Every element is the box it draws.
+
+   A block that stands in a flow is a block: it carries the step, and what it
+   draws inside gives it up. A part standing in a line of text or a row of
+   controls is inline, so the line lays out the element itself. Either way a
+   distance is read off the element it belongs to rather than assembled from
+   two of them, and no rule in this system reaches past one to find a block.
+
+   The exception is named rather than defaulted to: what a dialog or an overlay
+   draws is in the top layer or fixed to the viewport, so a box where it stands
+   is one nothing would ever fill. Nothing else may be invisible. */
+test('every element is the box it draws', async ({ page }) => {
+  const seen = await page.evaluate(async () => {
+    const blocks = ['sds-card', 'sds-note', 'sds-grid', 'sds-stat', 'sds-surface', 'sds-table',
+      'sds-tabs', 'sds-field', 'sds-nav-pills', 'sds-nav-rail', 'sds-footer'];
+    const parts = ['sds-button', 'sds-badge', 'sds-icon', 'sds-link', 'sds-search', 'sds-theme'];
+    const away = ['sds-dialog', 'sds-lightbox', 'sds-modal', 'sds-overlay'];
     const out: Record<string, string> = {};
-    for (const tag of tags) {
+    for (const tag of [...blocks, ...parts, ...away]) {
       await customElements.whenDefined(tag);
       const el = document.createElement(tag);
       document.body.append(el);
       out[tag] = getComputedStyle(el).display;
       el.remove();
     }
-    return out;
+    return { out, blocks, parts, away };
   });
 
-  for (const [tag, display] of Object.entries(displays)) {
-    expect(display, `${tag} must not be in the box tree`).toBe('contents');
+  for (const tag of seen.blocks) {
+    expect(seen.out[tag], `${tag} stands in a flow, so it is a block of its own`).toBe('block');
+  }
+  for (const tag of seen.parts) {
+    expect(seen.out[tag], `${tag} stands in a line, so it is the box that line lays out`)
+      .toMatch(/^inline/);
+  }
+  for (const tag of seen.away) {
+    expect(seen.out[tag], `${tag} draws nothing where it stands`).toBe('contents');
   }
 });

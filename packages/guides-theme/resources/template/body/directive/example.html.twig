@@ -9,14 +9,13 @@
     box is not part of the page and leaves what is inside it on the ground it
     would really stand on. Nothing is invented — the class layer draws it.
 
-    `.sds-stack` inside it is the rhythm between the blocks, which also takes
-    the margin off the last one — the box's padding is the gap.
+    The blocks stand in it directly. They carry their own step, and the frame
+    takes the last one off — a container between them would state one distance
+    for a heading and a paragraph alike, and mostly wrap a single child.
 #}
 {{ renderNode(node.source) }}
 <div class="sds-example{% if node.option('class') %} {{ node.option('class') }}{% endif %}">
-    <div class="sds-stack">
-        {%- for child in node.children -%}
-            {{ renderNode(child) }}
-        {%- endfor -%}
-    </div>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
 </div>

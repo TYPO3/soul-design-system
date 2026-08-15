@@ -63,9 +63,9 @@ let bench: HTMLElement | undefined;
 const GAPLESS = new Set(['flex', 'inline-flex', 'grid', 'inline-grid']);
 
 /** The box a custom element draws, taken from the one the story just put on
-    the page. The host rule makes every element `display: contents`, so the
-    answer is its first child — and reading a rendered one rather than building
-    one keeps a layout question from running an element's constructor. */
+    the page. Almost always the element itself; for the few that draw nothing
+    where they stand it is the first child — and reading a rendered one rather
+    than building one keeps a layout question from running a constructor. */
 function drawn(tag: string): string | undefined {
   const live = document.querySelector(tag);
   if (!live) return undefined;

@@ -142,7 +142,9 @@
 
     <section class="sds-band sds-band--quiet" id="report">
       <div class="sds-split">
-        <form class="sds-form">
+        <!-- A split holds columns. Without one the form is laid out at its own
+             content width and pushes the page sideways on a phone. -->
+        <div class="sds-column"><form class="sds-form">
           
 
           <div class="sds-field-row">
@@ -256,16 +258,18 @@
 </label>
 
           <div class="sds-actions"><button class="sds-btn sds-btn--primary" type="button"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-paperplane"><g fill="currentColor"><path d="M14.577 1.423a.752.752 0 0 0-.812-.165L.796 6.514a.745.745 0 0 0-.465.759c.028.33.264.6.588.67l5.866 1.272 1.273 5.867a.747.747 0 0 0 .734.59.747.747 0 0 0 .694-.468l5.255-12.969a.748.748 0 0 0-.164-.812zM1.922 7.137l10.482-4.249-5.359 5.36-5.123-1.111zm6.941 6.941-1.11-5.123 5.358-5.36-4.248 10.483z"></path></g></svg><span class="sds-btn__label">Send the report</span></button></div>
-        </form>
+        </form></div>
 
-        <div class="sds-stack">
-          <span class="sds-label">What happens to it</span>
-          <p>
+        <div class="sds-column">
+          <div class="sds-stack">
+            <span class="sds-label">What happens to it</span>
+            <p>
             It is read by a person. Where the answer came from bundled
             knowledge, the fix is a change to that knowledge and ships with the
             next release; where it came from your installation, the reply says
             what the tool read and why it read that.
           </p>
+          </div>
           <div class="sds-note sds-note--info">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
   <div class="sds-note__content">
@@ -284,13 +288,12 @@
     </section>
 
     <section class="sds-band" id="elsewhere">
-      <div class="sds-stack">
-        <h2>Three things that go elsewhere</h2>
-        <p>
-          This form is for an answer that was wrong. These are not that, and
-          sending them here makes them slower rather than faster.
-        </p>
-        <div class="sds-grid"><div class="sds-panel" style="flex:1; min-width:200px">
+      <h2>Three things that go elsewhere</h2>
+      <p>
+        This form is for an answer that was wrong. These are not that, and
+        sending them here makes them slower rather than faster.
+      </p>
+      <div class="sds-grid"><div class="sds-panel" style="flex:1; min-width:200px">
   <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-github"><g fill="currentColor"><path d="M8.006 1C4.132 1 1 4.155 1 8.058c0 3.12 2.007 5.76 4.79 6.695.348.07.476-.152.476-.338 0-.164-.012-.725-.012-1.31-1.948.422-2.354-.84-2.354-.84-.313-.819-.777-1.029-.777-1.029-.638-.432.046-.432.046-.432.708.047 1.079.724 1.079.724.626 1.075 1.635.772 2.041.585.058-.456.244-.772.44-.947-1.553-.164-3.189-.771-3.189-3.482 0-.771.278-1.402.72-1.893-.07-.175-.314-.9.069-1.87 0 0 .591-.187 1.925.725a6.736 6.736 0 0 1 1.752-.234c.591 0 1.194.082 1.751.234 1.334-.912 1.926-.725 1.926-.725.383.97.139 1.695.07 1.87.452.49.718 1.122.718 1.893 0 2.71-1.635 3.307-3.201 3.482.255.222.476.643.476 1.309 0 .946-.012 1.706-.012 1.94 0 .186.128.409.476.338A7.053 7.053 0 0 0 15 8.058C15.011 4.155 11.868 1 8.006 1Z"></path></g></svg></div>
   <div class="sds-label">the repository</div>
   <div class="sds-surface-title">A bug in the server itself</div>
@@ -306,7 +309,6 @@
   <div class="sds-surface-title">Something that should not be public</div>
   <div class="sds-surface-body">A finding that affects an installation goes to the security address instead, and never through this form.</div>
 </div></div>
-      </div>
     </section>
 
   </main>

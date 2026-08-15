@@ -51,9 +51,8 @@ export class SdsSurface extends SdsElement {
     icon: { type: String },
     heading: { type: String },
     body: { type: String },
-    /* The host is `display: contents`, so it is not in the box tree and
-       cannot be sized from outside. Layout for the plane goes here and lands
-       on the element that is actually laid out. */
+    /* Layout for the plane itself, which is the box that draws the frame — a
+       style on the element sizes the block around it instead. */
     boxStyle: { type: String, attribute: 'box-style' },
   };
 

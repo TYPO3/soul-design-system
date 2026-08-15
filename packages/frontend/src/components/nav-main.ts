@@ -34,8 +34,8 @@ const GRACE = 200;
     bars on one page must not both call it `sds-bar-drawer`. */
 let seq = 0;
 
-/** Every box actually laid out in `row`. The hosts are `display: contents`,
-    so a DOM child is not necessarily a box — what the host renders is. */
+/** Every box actually laid out in `row`. A child is not necessarily a box: the
+    drawer is out of flow, and what draws nothing where it stands has none. */
 function boxes(row: Element): HTMLElement[] {
   const out: HTMLElement[] = [];
   const walk = (parent: Element): void => {
@@ -645,9 +645,9 @@ export class SdsNavMain extends SdsNav {
   }
 
   protected override updated(): void {
-    /* The row rather than this element: a host is `display: contents` and has
-       no box to observe. Once, or every render hands the observer a target it
-       is already watching and it answers its own callback. */
+    /* The row rather than this element: what is measured is what lays the
+       items out. Once, or every render hands the observer a target it is
+       already watching and it answers its own callback. */
     if (!this.watched) {
       const row = this.querySelector<HTMLElement>('.sds-bar');
       if (row && this.watch) {

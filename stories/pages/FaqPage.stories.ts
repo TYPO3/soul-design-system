@@ -78,26 +78,22 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="machine">
-      <div class="sds-stack">
-        <h2>What it does to your machine</h2>
-        <p>
-          The five that decide whether this can be installed at all. Opening one
-          closes the last, so the list stays a list.
-        </p>
-        <sds-accordion name="machine" .entries="${QUESTIONS}"></sds-accordion>
-      </div>
+      <h2>What it does to your machine</h2>
+      <p>
+        The five that decide whether this can be installed at all. Opening one
+        closes the last, so the list stays a list.
+      </p>
+      <sds-accordion name="machine" .entries="${QUESTIONS}"></sds-accordion>
     </section>
 
     <section class="sds-band" id="running">
-      <div class="sds-stack">
-        <h2>What running it costs</h2>
-        <sds-accordion name="running" .entries="${RUNNING}"></sds-accordion>
-      </div>
+      <h2>What running it costs</h2>
+      <sds-accordion name="running" .entries="${RUNNING}"></sds-accordion>
     </section>
 
     <section class="sds-band sds-band--quiet" id="ask">
       <div class="sds-split">
-        <div class="sds-stack">
+        <div class="sds-column">
           <h2>Not here?</h2>
           <p>
             The server answers questions about TYPO3 itself, which is what it is
@@ -109,7 +105,7 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
             <sds-link label="Report a wrong answer" href="#"></sds-link>
           </div>
         </div>
-        <div class="sds-stack">
+        <div class="sds-column">
           <sds-note
             heading="An answer here is not version-bound the way a tool's is"
             .body="${html`These hold for the releases they name and are maintained by hand.

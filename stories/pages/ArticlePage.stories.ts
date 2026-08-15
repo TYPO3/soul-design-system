@@ -88,7 +88,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-nav-rail .entry="${{ label: '', items: CONTENTS }}"></sds-nav-rail>
     </aside>
 
-    <main class="sds-column" id="main-content">
+    <main class="sds-body__main" id="main-content">
       <div class="sds-stack sds-stack--tight">
         <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
         <div class="sds-row">

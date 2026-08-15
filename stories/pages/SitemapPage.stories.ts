@@ -147,21 +147,19 @@ export function sitemapPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="not-here">
-      <div class="sds-stack">
-        <h2>What is deliberately not here</h2>
-        <sds-note
-          heading="The knowledge base has no page per rule"
-          .body="${html`What the tools answer from is not a website — it is asked through a
-            tool and the answer carries its own binding. A page per rule would be a
-            second copy of it, and the copy is the one that goes stale.`}"
-        ></sds-note>
-        <sds-note
-          heading="Nothing about your installation is on this site"
-          .body="${html`Everything read from an installation is read on the machine that runs
-            it and stays there. There is no account here, so there is nothing here
-            to have a page.`}"
-        ></sds-note>
-      </div>
+      <h2>What is deliberately not here</h2>
+      <sds-note
+        heading="The knowledge base has no page per rule"
+        .body="${html`What the tools answer from is not a website — it is asked through a
+          tool and the answer carries its own binding. A page per rule would be a
+          second copy of it, and the copy is the one that goes stale.`}"
+      ></sds-note>
+      <sds-note
+        heading="Nothing about your installation is on this site"
+        .body="${html`Everything read from an installation is read on the machine that runs
+          it and stays there. There is no account here, so there is nothing here
+          to have a page.`}"
+      ></sds-note>
     </section>
 
   </main>

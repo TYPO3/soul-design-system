@@ -58,8 +58,8 @@ export interface CodeBlockProps {
   /** The language, lower case as a fence writes it; the upper case belongs to
       `sds-code__lang`. The attribute is `code-lang` deliberately: `lang` is a
       global attribute naming the *human* language, so `lang="json"` sends every
-      screen reader to a language tag that does not exist — for the whole block,
-      since the host is `display: contents` and language inherits regardless. */
+      screen reader to a language tag that does not exist, and inherits to the
+      whole block from there. */
   lang?: CodeLang;
   /** An affordance for the head that is not the copy button — a filename, a
       count. Set `copy` instead for copying; the component owns that. */

@@ -9,6 +9,11 @@
    the specimen chrome in _specimen.css is deliberately outside this
    closure, because cards are documentation, not product. */
 
+/* The order the cascade resolves in, declared once. A later layer wins over an
+   earlier one whatever the specificity and wherever the rule stands, so where
+   a rule lives decides what it can overrule — not what line it is on. */
+@layer tokens, reset, base, layout, components, state;
+
 /* The faces first, then the family names that point at them. They are
    separate files on purpose: a consumer that subsets its own type takes
    `tokens/fonts.css` and skips this line. */
@@ -21,4 +26,7 @@
 @import "../tokens/radius.css";
 @import "../tokens/motion.css";
 
+@import "reset.css";
+@import "base.css";
+@import "layout.css";
 @import "components.css";

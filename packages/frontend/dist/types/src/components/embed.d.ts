@@ -5,8 +5,8 @@ export interface EmbedProps {
     src: string;
     /** What the frame holds, in a few words: it becomes the accessible name, and
         an unnamed frame is announced as "frame" and skipped. Not `title`, a
-        global attribute, which on a `display: contents` host would be a tooltip
-        over the frame and the caption both. */
+        global attribute, which on the element would be a tooltip over the frame
+        and the caption both. */
     label: string;
     /** The shape the frame holds while it fills the column, as CSS writes it —
         `16 / 9`. This is what a video, a map or anything else that has no size

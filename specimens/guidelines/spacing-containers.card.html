@@ -1,0 +1,31 @@
+<!-- @dsCard group="Spacing" viewport="700x440" subtitle="A column ranks what is in it, a stack does not" name="Containers" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../packages/frontend/src/styles/styles.css" />
+<link rel="stylesheet" href="../../packages/frontend/src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec">
+    <div class="spec-row" style="flex-direction: column; align-items: stretch;">
+      <div class="sds-column">
+          <p>A paragraph.</p>
+          <p>And another.</p>
+          <h3 class="sds-h3">A heading</h3>
+          <p>Its text.</p>
+        </div>
+      <span class="spec-cap">column — 16 between blocks, 32 before a heading, 8 under one</span>
+    </div>
+    <div class="spec-row" style="border-top:1px solid var(--border-subtle); padding-top:14px; flex-direction: column; align-items: stretch;">
+      <div class="sds-stack">
+          <p>A paragraph.</p>
+          <p>And another.</p>
+          <h3 class="sds-h3">A heading</h3>
+          <p>Its text.</p>
+        </div>
+      <span class="spec-cap">stack — 16 throughout, whatever stands in it</span>
+    </div>
+  </div>
+</body>
+</html>

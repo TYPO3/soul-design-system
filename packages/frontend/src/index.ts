@@ -3,13 +3,7 @@
    registers that one and whatever it composes.
 
    `renderStatic` is deliberately NOT re-exported: it pulls in `@lit-labs/ssr`,
-   which the browser entry would drag in for a function no browser ever calls.
-
-   `installHostRule()` runs on import: `display: contents` has to be in place
-   before an element upgrades, or the first frame lays out with the host still
-   in the box tree. */
-
-import { installHostRule } from './lib/element.ts';
+   which the browser entry would drag in for a function no browser ever calls. */
 
 /* The registrations. The re-exports below are classes and types; these bare
    imports are what actually run each module. */
@@ -59,7 +53,7 @@ import './components/byline.ts';
 import './components/note.ts';
 import './components/confval.ts';
 
-export { SdsElement, installHostRule, define } from './lib/element.ts';
+export { SdsElement, define } from './lib/element.ts';
 
 export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.ts';
 export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.ts';
@@ -112,8 +106,6 @@ export { SdsSearchResult, type SearchResultProps } from './components/search-res
 export { SdsSearchHits, type SearchHitsProps } from './components/search-hits.ts';
 export { SdsNavPagination, pageNumbers, type PaginationProps } from './components/nav-pagination.ts';
 export { SdsNavPager, type PagerProps } from './components/nav-pager.ts';
-
-if (typeof document !== 'undefined') installHostRule();
 
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component

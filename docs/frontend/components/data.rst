@@ -125,9 +125,9 @@ A fenced block, its head and its copy button.
    :type: string
 
    The language, lower case as a fence writes it. **Not** ``lang``, which is
-   the global attribute naming the *human* language — and since the host is
-   ``display: contents``, ``lang="json"`` would send every screen reader to a
-   language tag that does not exist for the whole block.
+   the global attribute naming the *human* language: ``lang="json"`` would send
+   every screen reader to a language tag that does not exist, and inherit to the
+   whole block from there.
 
    The languages the highlighter is taught are declared rather than surveyed,
    and the value is open at the edges because it arrives from a Markdown fence:

@@ -9,745 +9,727 @@
    Nearly all of it is scoped `:where(.sds-prose)`, so a rule weighs what it
    names and no more: `.sds-prose h3` would out-specify a component's own. */
 
-/* ------------------------------------------------------------- headings -- */
+/* The document layer is `base`: it says what a bare element is inside a
+   passage of text, and a component standing in that passage keeps its own
+   look. Unlayered it would beat every component instead — which is what a
+   primary button set in the link colour looks like. */
+@layer base {
 
-/* What a document adds to a heading, and only that. The size, the leading and
-   the tracking are the class layer's — six levels over three sizes, stated
-   once there for every surface. Here it is the air above, which is what says
-   which level a heading is, and the ink: `.sds-prose` sets a paragraph in
-   `--text-secondary`, so a heading inside one takes the primary back. */
-:where(.sds-prose) h1 {
-  color: var(--text-primary);
-}
-:where(.sds-prose) h2 {
-  margin-top: var(--space-10);
-  color: var(--text-primary);
-}
-:where(.sds-prose) h3 {
-  margin-top: var(--space-8);
-  color: var(--text-primary);
-}
-/* Below the third level the scale has run out, so weight and air do the work
-   the size stops doing. Four sets at body size and not the UI register the
-   class layer leaves it in: it is still a heading of the text. */
-:where(.sds-prose) h4 {
-  margin-top: var(--space-6);
-  font-size: var(--font-size-body);
-  font-weight: var(--weight-semibold);
-  color: var(--text-primary);
-}
-:where(.sds-prose) h5 {
-  margin: var(--space-5) 0 var(--space-1);
-  font-weight: var(--weight-semibold);
-  color: var(--text-primary);
-}
-/* The floor. Upper case and tracked out, because at this depth a heading has
-   stopped being a size and become a label for what follows. */
-:where(.sds-prose) h6 {
-  margin: var(--space-5) 0 var(--space-1);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-label);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-/* A heading is the top of what follows, not a gap after what came before. */
-:where(.sds-prose) > :first-child { margin-top: 0; }
+  /* ------------------------------------------------------------- headings -- */
 
-/* A heading names a place, and the id a renderer puts on the section around it
-   is the only thing that says where. This is how that place is handed over —
-   the glyph `sds-confval` already carries beside a name, so a page has one
-   idiom for "link to this" and not two. Relative, because it stands beside
-   headings from the display size down to the label register. */
-:where(.sds-prose) .sds-permalink {
-  margin-inline-start: var(--space-2);
-  font-family: var(--font-mono);
-  font-size: 0.7em;
-  font-weight: var(--weight-regular);
-  color: var(--border-strong);
-  text-decoration: none;
-}
-:where(.sds-prose) .sds-permalink:hover { color: var(--text-link); }
-/* Landing on one section out of thirty says which one — the same mark the
-   confval makes, because it is the same arrival. */
-:where(.sds-prose) .section:target > :is(h1, h2, h3, h4, h5, h6) {
-  color: var(--text-accent-quiet);
-}
-
-/* ------------------------------------------------------------ the block -- */
-
-/* The measure belongs to the text, not to the column. A reference is sentences
-   *and* a forty-column table, a command nobody wants wrapped, a diagram —
-   clamping those to the reading width is how a page ends up with three
-   horizontal scrollbars. So the container gives its limit to the things made
-   of words; the paragraph is not named here, it has the measure already. */
-.sds-prose { max-width: none; }
-:where(.sds-prose) dt,
-/* A line is a sentence that was told where to end. It wraps at the measure
-   like any other, and the author's break is the one that carries meaning. */
-:where(.sds-prose) .line,
-/* The rule too: it is punctuation of the text rather than a block of
-   content, and drawn to the full column under a measured paragraph it reads
-   as the end of the page instead of the end of a section. */
-:where(.sds-prose) hr,
-:where(.sds-prose) h1,
-:where(.sds-prose) h2,
-:where(.sds-prose) h3,
-:where(.sds-prose) h4,
-:where(.sds-prose) h5,
-:where(.sds-prose) h6 {
-  max-width: var(--measure-prose);
-}
-
-/* One level down, and why the list is not in the set above: `ul`, `dl` and
-   `blockquote` are boxes that hold text, and a box holding the measure passes
-   it to everything inside — a table in a list would scroll inside the reading
-   column with room to spare. An item and a definition are the ambiguous pair,
-   so they take the measure and give it back once they hold a block. */
-:where(.sds-prose) li,
-:where(.sds-prose) dd {
-  max-width: var(--measure-prose);
-}
-/* What counts as holding a block: any child that is not part of a sentence. A
-   `<code>` or a link leaves the item text and it keeps the measure; a table, a
-   picture or a nested list makes it a container and the child answers for its
-   own width. No `!important` and no ordering trick — `:has()` weighs its
-   heaviest argument, so this pair out-specifies the one above. */
-:where(.sds-prose) li:has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)),
-:where(.sds-prose) dd:has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)) {
-  max-width: none;
-}
-
-/* A paragraph is set by the block it stands in. The size, leading and colour
-   `components.css` gives a bare `<p>` are what it would inherit inside
-   `.sds-prose` anyway, and inside a component they are three values it has no
-   business restating. So the size comes from the container and the margin from
-   here; the component trims the outermost, its padding being the gap. */
-:where(.sds-prose) p {
-  margin: 0 0 var(--space-4);
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-}
-
-/* A marketing page arrives with its claim, so the opening title and sentence
-   use the display register without making document source name classes. */
-.sds-bands > .sds-band:first-child :where(.sds-prose) h1 {
-  font-size: var(--font-size-display);
-  line-height: var(--leading-display);
-  letter-spacing: var(--tracking-display);
-  max-width: var(--measure-display);
-}
-.sds-bands > .sds-band:first-child :where(.sds-prose) h1 + p {
-  max-width: var(--measure-lead);
-  font-size: var(--font-size-lead);
-  line-height: var(--leading-body);
-  text-wrap: pretty;
-}
-
-/* The hairline itself is the class layer's — here only the space around it,
-   which is what does the separating between two sections of a document. */
-:where(.sds-prose) hr {
-  margin: var(--space-10) 0;
-}
-
-/* --------------------------------------------------------------- lists -- */
-
-/* Only the rhythm. What a list *is* — the marker, the indent at the marker's
-   own width, the muted marker colour — is in the class layer, where a list on
-   a screen that never links this file gets it too. What a document adds is the
-   air: a gap under the block, and a smaller one between items that are each a
-   sentence or two rather than a word. */
-:where(.sds-prose) ul,
-:where(.sds-prose) ol {
-  margin: 0 0 var(--space-4);
-}
-:where(.sds-prose) li { margin-bottom: var(--space-1); }
-:where(.sds-prose) li:last-child { margin-bottom: 0; }
-/* A nested list is part of its parent item, so it neither adds a gap above
-   itself nor keeps the bottom margin the item already carries. */
-:where(.sds-prose) li > ul,
-:where(.sds-prose) li > ol {
-  margin: var(--space-1) 0 0;
-}
-
-/* A definition list is the shape a reference falls into whenever it names
-   things: a term, and what it is. The term carries the weight because it is
-   what somebody scans for; the definition is ordinary prose one step in. */
-:where(.sds-prose) dl { margin: 0 0 var(--space-4); }
-:where(.sds-prose) dt {
-  font-weight: var(--weight-semibold);
-  color: var(--text-primary);
-}
-:where(.sds-prose) dd {
-  margin: var(--space-1) 0 var(--space-3) var(--space-5);
-}
-:where(.sds-prose) dd:last-child { margin-bottom: 0; }
-/* A term may be given its kind — `term : noun`. The kind is not the term: it
-   drops to the register the definition is written in, so a reader scanning the
-   column sees the words being defined and not what they are. */
-:where(.sds-prose) .classifier,
-:where(.sds-prose) .classifier-delimiter {
-  font-weight: var(--weight-regular);
-  color: var(--text-secondary);
-}
-/* Landing on one term out of forty says which one — the mark a confval and a
-   heading already make. */
-:where(.sds-prose) dt:target { color: var(--text-accent-quiet); }
-
-/* --------------------------------------------------------------- lines -- */
-
-/* `| a line` — an address, a stanza, a signature: text where the break is part
-   of what is said. So nothing here may close one up. The block carries the air
-   a paragraph carries, an indented run keeps its step, and an empty line keeps
-   a line's height, which is the whole reason a stanza has a gap in it. */
-:where(.sds-prose) .line-block { margin: 0 0 var(--space-4); }
-:where(.sds-prose) .line-block .line-block { margin: 0 0 0 var(--space-5); }
-:where(.sds-prose) .line { min-height: 1lh; }
-
-/* --------------------------------------------------------------- quote -- */
-
-/* Marked by a rule at its edge and a step in, never by italics: a quotation
-   is somebody else's sentences, not an emphasis on yours. */
-:where(.sds-prose) blockquote {
-  margin: 0 0 var(--space-4);
-  padding-inline-start: var(--space-4);
-  border-inline-start: 2px solid var(--border-subtle);
-  color: var(--text-secondary);
-}
-:where(.sds-prose) blockquote > :last-child { margin-bottom: 0; }
-/* Except where the blockquote is the element's, which draws the rule and the
-   step on the figure around it. Left standing, both are drawn twice and the
-   sentence sits one indent further in than the byline answerable for it. */
-:where(.sds-prose) .sds-quote__body {
-  padding-inline-start: 0;
-  border-inline-start: 0;
-}
-/* The attribution is a byline and brings its own type, so the caption rule
-   further down may not set it at caption size and mute it — the component
-   says why. Only what it does not already state for itself. */
-:where(.sds-prose) .sds-quote__by {
-  font-size: inherit;
-  color: inherit;
-}
-
-/* ---------------------------------------------------------------- code -- */
-
-/* A block is machine output and sits on the sunken plane — but not the ones a
-   component renders its `<pre>` into: `sds-code` and `sds-diff` both carry the
-   border, radius and plane on the frame around it. The exclusion stops the
-   second box, and the scope does not make it redundant: `:where()` settles only
-   what the component also states, and these three are stated **only here**. */
-:where(.sds-prose) pre:not(.sds-code__body, .sds-diff) {
-  margin: 0 0 var(--space-4);
-  padding: var(--space-3) var(--space-4);
-  overflow-x: auto;
-  border: var(--border-hairline) solid var(--border-subtle);
-  border-radius: var(--radius-control);
-  background: var(--surface-sunken);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-dense);
-  line-height: var(--leading-code);
-  color: var(--text-primary);
-}
-/* The block set the family and size; the code inside must not set them again at
-   the optical ratio of the first. Every `<pre>`, the component's included:
-   `components.css` states the same at equal specificity in the file linked
-   first, so the inline rule there would win inside the element too. */
-:where(.sds-prose) pre code {
-  font-size: inherit;
-  font-weight: inherit;
-  color: inherit;
-}
-
-/* A code block before its element upgrades, and on a page that runs none. An
-   undefined element is inline, and a `<code>` inside one collapses its
-   whitespace — machine output turned into a paragraph. The plane goes on the
-   `<code>` and not the host, or the frame would swallow the caption beside
-   it. */
-:where(.sds-prose) sds-code:not(:defined) {
-  display: block;
-  margin: 0 0 var(--space-4);
-}
-:where(.sds-prose) sds-code:not(:defined) > code {
-  display: block;
-  padding: var(--space-3) var(--space-4);
-  overflow-x: auto;
-  white-space: pre;
-  border: var(--border-hairline) solid var(--border-subtle);
-  border-radius: var(--radius-control);
-  background: var(--surface-sunken);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-dense);
-  font-weight: var(--weight-regular);
-  line-height: var(--leading-code);
-  color: var(--text-primary);
-}
-/* ---------------------------------------------------- what is set apart -- */
-
-/* An admonition before its element upgrades, for the reason the code block
-   above is. Less is restored, and that is the point: the block's whitespace was
-   load-bearing, while an admonition is paragraphs and paragraphs read. Only
-   standing apart is missing, so this draws the box and stops — a hairline
-   pretending to carry a tone is the colour-only meaning the component avoids. */
-:where(.sds-prose) sds-note:not(:defined) {
-  display: block;
-  margin: 0 0 var(--space-4);
-  padding: 13px 15px;
-  border: var(--border-hairline) solid var(--border-subtle);
-  border-radius: var(--radius-card);
-}
-:where(.sds-prose) sds-note:not(:defined) > :last-child { margin-bottom: 0; }
-
-/* A picture before its element upgrades, and on a page that runs none. The
-   renderer wrote it carrying `sds-art`, so it is already the right size in the
-   column. What is missing is the frame and the stack it makes with the caption:
-   an undefined element is inline, so the two sit on one line. */
-:where(.sds-prose) sds-figure:not(:defined) {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin: 0 0 var(--space-4);
-}
-:where(.sds-prose) sds-figure:not(:defined) > .sds-art {
-  /* The border counts against the width the picture is capped at, not on top
-     of it: a hairline added outside `max-width: 100%` is two pixels of the
-     column the picture does not have. */
-  box-sizing: border-box;
-  border: var(--border-hairline) solid var(--border-subtle);
-  border-radius: var(--radius-card);
-  background: var(--surface-sunken);
-}
-
-/* A control written into the text is a block of it, and a row of them is one
-   block whatever stands in the row. The gap is on the control rather than on
-   its host, for the reason `.sds-code`'s is: the host is `display: contents`
-   once it upgrades. Only this system's own button, because a `.sds-btn` in the
-   text belongs to whatever drew it — the close of a viewer is not a paragraph.
-   Inside a row the gap is the row's own, and a margin on a flex item is one the
-   centring has to carry: the line would stop being one line. */
-:where(.sds-prose) sds-button > .sds-btn,
-:where(.sds-prose) .sds-actions { margin-bottom: var(--space-4); }
-:where(.sds-prose) .sds-actions sds-button > .sds-btn { margin-bottom: 0; }
-
-/* A card before its element upgrades, and on a page that runs none. The frame
-   is not stated again — the card draws it — but the host is the cell until it
-   upgrades, and the card inside it stops at its content, so a row of them
-   would draw frames of three different heights. */
-:where(.sds-prose) sds-card:not(:defined) { display: flex; }
-:where(.sds-prose) sds-card:not(:defined) > .sds-card { flex: 1; }
-
-/* An embedded document before its element upgrades, and on a page that runs
-   none. Until then there is only the iframe a renderer wrote: an inline box
-   with the browser's inset ridge, as wide as its `width` attribute says
-   whatever the column holds. So it becomes a block, takes this system's border
-   and stops at the column. The caption is already drawn by `components.css`. */
-:where(.sds-prose) sds-embed:not(:defined) { display: block; margin: 0 0 var(--space-4); }
-:where(.sds-prose) sds-embed:not(:defined) > iframe {
-  display: block;
-  /* The cap is the column, and the hairline is inside it — see the picture
-     above, which overflowed by exactly its own border. */
-  box-sizing: border-box;
-  max-width: 100%;
-  border: var(--border-hairline) solid var(--border-subtle);
-  border-radius: var(--radius-card);
-  background: var(--surface-sunken);
-}
-
-/* ---------------------------------------------------------- in the line -- */
-
-/* A key is a physical thing, so it gets the one border in this section. The
-   face and the size are the class layer's: a second ratio written here would
-   be a key cap that stops agreeing with the mono run beside it. */
-:where(.sds-prose) kbd {
-  padding: 1px 5px;
-  border: var(--border-hairline) solid var(--border-subtle);
-  border-radius: var(--radius-control);
-  background: var(--surface-raised);
-}
-/* An abbreviation says it has more to say. Dotted rather than solid, so it is
-   not read as a link, and `help` because that is what it offers. */
-:where(.sds-prose) abbr[title] {
-  text-decoration: underline dotted;
-  text-underline-offset: 2px;
-  cursor: help;
-}
-:where(.sds-prose) cite { font-style: italic; }
-:where(.sds-prose) mark {
-  background: var(--surface-accent-quiet);
-  color: var(--text-primary);
-}
-/* Superscript and subscript raise a footnote mark or a chemical index without
-   opening the line they sit in. */
-:where(.sds-prose) sup,
-:where(.sds-prose) sub {
-  font-size: 0.75em;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-:where(.sds-prose) sup { top: -0.5em; }
-:where(.sds-prose) sub { bottom: -0.25em; }
-
-/* The link a sentence is written with, and no other. Weightless on purpose —
-   `:hover` inside the `:where()` too, or the rule ties with every component
-   rule and wins on being loaded later: a card's title, a pill, a permalink all
-   say never underlined, and the document layer answered for them. What the
-   document itself wrote carries no class, so nothing outweighs this there. */
-:where(.sds-prose a) {
-  color: var(--text-link);
-  text-decoration: none;
-}
-:where(.sds-prose a:hover) {
-  color: var(--text-link-hover);
-  text-decoration: underline;
-}
-/* And inside a sentence it is underlined: colour alone is nothing to a reader
-   who does not see this orange, and against body text it stands at 1.3:1 in
-   dark, which no token reaches 3:1 while there is one accent. Quiet, and only
-   where a link sits *in* text — one that is a block of its own is told apart
-   by standing alone. Given the weight of its own elements, the class layer
-   saying `a { text-decoration: none }` above every weightless rule. */
-:where(.sds-prose) :is(p, li, dd, td, th) a {
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
-  text-underline-offset: 2px;
-}
-:where(.sds-prose) :is(p, li, dd, td, th) a:hover { text-decoration-color: currentColor; }
-:where(.sds-prose) strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
-
-/* A formula arrives as the source somebody wrote, because the renderer
-   typesets nothing — and MathML layout drops text that is not inside a token
-   element, so under it a formula is a blank space in the sentence. `display`
-   takes it back out of that layout and the mono register says what it is: a
-   machine's own words. Real MathML has children, and is left to the browser. */
-:where(.sds-prose) math:not(:has(*)) {
-  display: inline;
-  font-family: var(--font-mono);
-  font-size: var(--font-mono-optical);
-  color: var(--text-primary);
-}
-/* The directive stands on a line of its own; the role stands in a sentence. */
-:where(.sds-prose) .section > math:not(:has(*)),
-:where(.sds-prose) > math:not(:has(*)) {
-  display: block;
-  margin: 0 0 var(--space-4);
-}
-
-/* -------------------------------------------------------------- figures -- */
-
-/* A picture never widens the column it was put in, whatever it was exported
-   at — and that is the class layer's rule, because a surface has pictures too.
-   What a document adds is the figure around it. */
-:where(.sds-prose) figure {
-  margin: 0 0 var(--space-6);
-}
-/* The caption sits under the picture, in the register a caption belongs to:
-   smaller than the prose and quieter, so it reads as a label for the thing
-   above rather than as a sentence of the text. */
-:where(.sds-prose) figcaption {
-  margin-top: var(--space-2);
-  font-size: var(--font-size-micro);
-  color: var(--text-muted);
-}
-/* Except where the figure is the element's, which stacks its own parts and
-   holds the gap between them. The margin above is for a caption the document
-   layer is drawing on its own, and added to the gap it is the two of them
-   answering the same question twice. */
-:where(.sds-prose) .sds-figure__caption { margin-top: 0; }
-/* A caption in reStructuredText is a block, so what arrives inside is a
-   paragraph — carrying the gap that belongs between two of them, under the
-   last line of a label. The size needs nothing: a paragraph here already
-   inherits, which is what the rule above it is for. */
-:where(.sds-prose) figcaption > :last-child { margin-bottom: 0; }
-
-/* --------------------------------------------------------------- table -- */
-
-/* The same table described twice, and this is the half for markup that arrives
-   bare — a renderer with no element behind it can put a class on nothing. The
-   guides theme hands its tables to `sds-table` and is drawn by the class layer
-   instead, so the two have to agree: medium density, read rather than worked
-   in, and a wider one scrolling inside `.sds-table-scroll`, a box **around**
-   it — `display: block` would leave table layout and shrink-wrap the rest. */
-:where(.sds-prose) table {
-  width: 100%;
-  margin: 0 0 var(--space-4);
-  border-collapse: collapse;
-  font-size: var(--font-size-ui);
-}
-:where(.sds-prose) caption {
-  margin-bottom: var(--space-2);
-  font-size: var(--font-size-micro);
-  color: var(--text-muted);
-  text-align: start;
-}
-:where(.sds-prose) th {
-  padding: var(--space-2) var(--space-3);
-  border-bottom: var(--border-hairline) solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-label);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
-  text-align: start;
-  vertical-align: bottom;
-}
-:where(.sds-prose) td {
-  padding: var(--space-2) var(--space-3);
-  border-bottom: var(--border-hairline) solid var(--border-subtle);
-  color: var(--text-secondary);
-  vertical-align: top;
-}
-/* Never zebra stripes — the same rule the class layer states, for the same
-   reason: a row is told apart by its content, not by its background. */
-:where(.sds-prose) tbody tr:hover { background: var(--surface-raised); }
-:where(.sds-prose) th:first-child,
-:where(.sds-prose) td:first-child { padding-inline-start: 0; }
-:where(.sds-prose) th:last-child,
-:where(.sds-prose) td:last-child { padding-inline-end: 0; }
-
-/* ------------------------------------------------- what a renderer names -- */
-
-/* The other half of the file. Everything above is a bare element, which is what
-   a renderer emits for prose; what follows is the handful of names it does
-   write — `contents`, `topic`, `rubric`, `footnote`, `hlist` — for nodes with
-   no element of their own. They stay the core's names: renamed, the stylesheet
-   would only work with the templates that renamed them. */
-
-/* What is on this page, at the top of it. Ruled above and below and one step
-   down from the prose, because it is apparatus: a reader uses it or reads past
-   it, and both are easier when it is not a paragraph. No rule at the left edge
-   — that mark belongs to the quotation. `.toc` is the same list with documents
-   in it and `.sds-toc` the element a theme addresses instead of writing one;
-   all three are scanned the same way and stand in a flow the same way. */
-:where(.sds-prose) .contents,
-:where(.sds-prose) .sds-toc,
-:where(.sds-prose) .toc {
-  margin: 0 0 var(--space-6);
-  padding: var(--space-3) 0;
-  border-block: var(--border-hairline) solid var(--border-subtle);
-  max-width: var(--measure-prose);
-  font-size: var(--font-size-ui);
-}
-/* No markers. A contents is a list of places, and a bullet before each one is
-   punctuation for a sentence nobody is reading. */
-:where(.sds-prose) .contents ul,
-:where(.sds-prose) .toc ul {
-  margin: 0;
-  padding-inline-start: 0;
-  list-style: none;
-}
-/* Indented, and standing off the entry it hangs under. Flush against it, a
-   sub-entry had less air above it than any two entries in the list have
-   between them, and the pair read as one wrapped line. Half a step: it is the
-   gap a level owes its own parent, not the one two entries owe each other. */
-:where(.sds-prose) .contents li ul,
-:where(.sds-prose) .toc li ul {
-  margin-top: var(--space-1);
-  padding-inline-start: var(--space-4);
-}
-:where(.sds-prose) .contents li,
-:where(.sds-prose) .toc li { margin-bottom: var(--space-1); }
-/* The label a template writes over the list, standing directly on it. */
-:where(.sds-prose) .contents > .sds-label { margin: 0 0 var(--space-2); }
-/* Apparatus, so its links are drawn as the footer's are and not as the ones in
-   a sentence: twenty accented lines beside the text is a second thing lit on a
-   page that lights three, and none of them is what the reader came for. */
-:where(.sds-prose) .contents a {
-  color: var(--text-secondary);
-  text-decoration: none;
-}
-:where(.sds-prose) .contents a:hover {
-  color: var(--text-primary);
-  text-decoration: underline;
-}
-/* One step quieter a level down, because the indent alone does not say it: a
-   sub-entry and the second line of a wrapped entry start at different places
-   and read as the same thing. Muted is a step and not a disappearance — it
-   carries the contrast a sentence carries, which is what the level below the
-   one being scanned needs to keep. */
-:where(.sds-prose) .contents li li a { color: var(--text-muted); }
-:where(.sds-prose) .contents li li a:hover { color: var(--text-primary); }
-
-/* The column what is on this page stands in, where the page has the room for
-   one. Nothing at every other width: the box is in the markup on every page
-   and is not in the layout until the rule below puts it there, so the list is
-   a block where the author wrote it and no template decides that twice.
-
-   Only the sections of the page being read. A `toctree` printed in a body is a
-   list of other documents, and the rail beside it already carries those. */
-:where(.sds-prose) .sds-aside { display: contents; }
-
-/* Where the page is at its full measure the list leaves the flow and stands
-   beside the column, resting at the line the rail rests at, so the page reads
-   rail, text, contents with the same width either side.
-
-   1296px is `--width-page` and its two gutters, which is where the page stops
-   growing. It is the one width with room to give: the column is 942px there
-   and keeps the measure after it has given up 258px. Narrower, and taking that
-   much would leave the text short, so the list stays where it was. */
-@media (min-width: 1296px) {
-  /* The column gives the width up rather than the box taking it, and the
-     breadcrumb and the pager narrow with the text: a reading column that is
-     one width at the top of the page and another at the bottom is two columns.
-     It is the one rule here whose subject is not a prose block — the width can
-     only be given up by the thing that has it, and what the box then stands in
-     is what it gave up, which is the same box measured twice. */
-  :where(.sds-column):has(> :where(.sds-prose) .sds-aside) {
-    position: relative;
-    padding-inline-end: calc(var(--width-sidebar) + var(--space-12));
+  /* What a document adds to a heading, and only that. The size, the leading and
+     the tracking are the class layer's — six levels over three sizes, stated
+     once there for every surface. Here it is the air above, which is what says
+     which level a heading is, and the ink: `.sds-prose` sets a paragraph in
+     `--text-secondary`, so a heading inside one takes the primary back. */
+  :where(.sds-prose) h1 { color: var(--text-primary); }
+  :where(.sds-prose) h2 { color: var(--text-primary); }
+  :where(.sds-prose) h3 { color: var(--text-primary); }
+  /* Below the third level the scale has run out, so weight and air do the work
+     the size stops doing. Four sets at body size and not the UI register the
+     class layer leaves it in: it is still a heading of the text. */
+  :where(.sds-prose) h4 {
+    font-size: var(--font-size-body);
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
   }
-  /* The box is the reserve: the column's own padding, top to bottom, so the
-     list starts where the rail starts and can rest anywhere down the page. Out
-     of the flow entirely rather than floated, because a float begins where it
-     stands — written under three paragraphs of introduction, the list began
-     three paragraphs down and left a hole above it. */
-  :where(.sds-prose) .sds-aside {
-    display: block;
-    position: absolute;
-    /* Wider than the column it draws, by what a row's fill and the ring around
-       it stand in. The list scrolls when it is long, and a scroll container
-       paints nothing outside itself — the ring was cut off at three sides of
-       an entry. The inset gives that room back, so the text stands where it
-       stood and only the block behind it is wider. */
-    inset-block: calc(-1 * var(--space-1-5)) 0;
-    inset-inline-end: calc(-1 * var(--space-4));
-    width: calc(var(--width-sidebar) + var(--space-4) * 2);
+  :where(.sds-prose) h5 {
+    margin-block-end: var(--space-1);
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
   }
-  /* And the list rests inside it, anywhere in the document, at the rail's line
-     and bounded the way the rail is bounded. The rules above and below it go:
-     they set a block apart from the text around it, and there is no text
-     around it here. */
-  :where(.sds-prose) .sds-aside .sds-toc {
-    position: sticky;
-    top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
-    max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
-    margin: 0;
-    padding: var(--space-1-5) var(--space-4);
-    border: 0;
+  /* The floor. Upper case and tracked out, because at this depth a heading has
+     stopped being a size and become a label for what follows. */
+  :where(.sds-prose) h6 {
+    margin-block-end: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  /* A heading is the top of what follows, not a gap after what came before. */
+
+
+  /* The same trim a column makes: what the last block owes its neighbour it
+     does not owe the edge of the passage. */
+  :where(.sds-prose) > :last-child { margin-block-end: 0; }
+
+  /* A heading names a place, and the id a renderer puts on the section around it
+     is the only thing that says where. This is how that place is handed over —
+     the glyph `sds-confval` already carries beside a name, so a page has one
+     idiom for "link to this" and not two. Relative, because it stands beside
+     headings from the display size down to the label register. */
+  :where(.sds-prose) .sds-permalink {
+    margin-inline-start: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.7em;
+    font-weight: var(--weight-regular);
+    color: var(--border-strong);
+    text-decoration: none;
+  }
+  :where(.sds-prose) .sds-permalink:hover { color: var(--text-link); }
+  /* Landing on one section out of thirty says which one — the same mark the
+     confval makes, because it is the same arrival. */
+  :where(.sds-prose) .section:target > :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--text-accent-quiet);
+  }
+
+  /* ------------------------------------------------------------ the block -- */
+
+  /* The measure belongs to the text, not to the column. A reference is sentences
+     *and* a forty-column table, a command nobody wants wrapped, a diagram —
+     clamping those to the reading width is how a page ends up with three
+     horizontal scrollbars. So the container gives its limit to the things made
+     of words; the paragraph is not named here, it has the measure already. */
+  .sds-prose { max-width: none; }
+  :where(.sds-prose) dt,
+  /* A line is a sentence that was told where to end. It wraps at the measure
+     like any other, and the author's break is the one that carries meaning. */
+  :where(.sds-prose) .line,
+  /* The rule too: it is punctuation of the text rather than a block of
+     content, and drawn to the full column under a measured paragraph it reads
+     as the end of the page instead of the end of a section. */
+  :where(.sds-prose) hr,
+  :where(.sds-prose) h1,
+  :where(.sds-prose) h2,
+  :where(.sds-prose) h3,
+  :where(.sds-prose) h4,
+  :where(.sds-prose) h5,
+  :where(.sds-prose) h6 {
+    max-width: var(--measure-prose);
+  }
+
+  /* One level down, and why the list is not in the set above: `ul`, `dl` and
+     `blockquote` are boxes that hold text, and a box holding the measure passes
+     it to everything inside — a table in a list would scroll inside the reading
+     column with room to spare. An item and a definition are the ambiguous pair,
+     so they take the measure and give it back once they hold a block. */
+  :where(.sds-prose) li,
+  :where(.sds-prose) dd {
+    max-width: var(--measure-prose);
+  }
+  /* What counts as holding a block: any child that is not part of a sentence. A
+     `<code>` or a link leaves the item text and it keeps the measure; a table, a
+     picture or a nested list makes it a container and the child answers for its
+     own width. No `!important` and no ordering trick — `:has()` weighs its
+     heaviest argument, so this pair out-specifies the one above. */
+  :where(.sds-prose) li:has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)),
+  :where(.sds-prose) dd:has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)) {
     max-width: none;
-    overflow-y: auto;
   }
-  /* Two levels of them. The column is where a reader jumps from, and a
-     fourth-level heading is not a jump anybody makes from a rail: drawn, the
-     levels below the second are identical muted lines a step apart, each with
-     less measure than the one above and nothing but that step saying which is
-     which. The list in the flow is at the measure and keeps all six. */
-  :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list { display: none; }
-}
 
-/* A title over something that is not a section: a topic, or a sidebar, which
-   the core renders as one. It is the fourth heading level's
-   register — weight and air, not a size — because that is what this system
-   does once a heading stops being a level. */
-:where(.sds-prose) .topic-title {
-  margin: 0 0 var(--space-2);
-  font-size: var(--font-size-body);
-  font-weight: var(--weight-semibold);
-  color: var(--text-primary);
-}
-/* A digression, in a box the class layer already draws. What is left to say
-   is where it stands in the flow: the measure the paragraphs take, and no
-   margin under its own last line, because the box's padding is the gap. */
-:where(.sds-prose) .topic {
-  margin: 0 0 var(--space-4);
-  max-width: var(--measure-prose);
-}
-:where(.sds-prose) .topic > :last-child { margin-bottom: 0; }
+  /* A paragraph is set by the block it stands in. The size, leading and colour
+     `components.css` gives a bare `<p>` are what it would inherit inside
+     `.sds-prose` anyway, and inside a component they are three values it has no
+     business restating. So the size comes from the container and the margin from
+     here; the component trims the outermost, its padding being the gap. */
+  :where(.sds-prose) p {
+    margin: 0 0 var(--space-4);
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+  }
 
-/* A rubric is the one heading a reference uses that no contents should list.
-   It is set exactly like `h4` — the level it would have been — and the whole
-   difference is that it is not one. */
-:where(.sds-prose) .rubric {
-  margin: var(--space-6) 0 var(--space-2);
-  font-size: var(--font-size-body);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-heading);
-  color: var(--text-primary);
-}
+  /* A marketing page arrives with its claim, so the opening title and sentence
+     use the display register without making document source name classes. */
+  .sds-bands > .sds-band:first-child :where(.sds-prose) h1 {
+    font-size: var(--font-size-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    max-width: var(--measure-display);
+  }
+  .sds-bands > .sds-band:first-child :where(.sds-prose) h1 + p {
+    max-width: var(--measure-lead);
+    font-size: var(--font-size-lead);
+    line-height: var(--leading-body);
+    text-wrap: pretty;
+  }
 
-/* A horizontal list: short items an author asked to be read across. The count
-   is in the class — `columns-N` is what the core writes — so there is a rule
-   per count and no way to state it once. Columns rather than a grid, because a
-   list flows and a grid would have to be told how many rows. `break-inside`
-   keeps a wrapped item off two columns. */
-:where(.sds-prose) .hlist > ul {
-  columns: 2;
-  column-gap: var(--space-6);
-}
-:where(.sds-prose) .hlist.columns-3 > ul { columns: 3; }
-:where(.sds-prose) .hlist.columns-4 > ul { columns: 4; }
-:where(.sds-prose) .hlist.columns-5 > ul { columns: 5; }
-:where(.sds-prose) .hlist.columns-6 > ul { columns: 6; }
-:where(.sds-prose) .hlist li { break-inside: avoid; }
+  /* The hairline itself is the class layer's — here only the space around it,
+     which is what does the separating between two sections of a document. */
+  :where(.sds-prose) hr {
+    margin: var(--space-10) 0;
+  }
 
-/* An option list: the flags of a command, and what each one does. The name is
-   something typed at a prompt, so it is set in the mono face like every other
-   piece of machine text here — and the weight comes off, because the font is
-   already the difference and a term that is both bold and mono reads as a
-   heading for the paragraph under it. */
-:where(.sds-prose) .domain-default-option-name {
-  font-family: var(--font-mono);
-  font-size: var(--font-mono-optical);
-  font-weight: var(--weight-regular);
-  color: var(--text-primary);
-}
+  /* --------------------------------------------------------------- lists -- */
 
-/* A field list is docinfo — author, version, date — and it is a table only
-   because that is what the core built it from. So it is undone as a table: no
-   rules between rows, no hover, no header register on the first column, and
-   no full width. Two columns of which the first is a label, as wide as the
-   words in it. */
-:where(.sds-prose) .field-list {
-  width: auto;
-  margin-bottom: var(--space-6);
-  font-size: inherit;
-}
-:where(.sds-prose) .field-list th,
-:where(.sds-prose) .field-list td {
-  padding: 0 var(--space-4) var(--space-1) 0;
-  border-bottom: 0;
-  vertical-align: baseline;
-}
-:where(.sds-prose) .field-list th {
-  font-family: inherit;
-  font-size: var(--font-size-ui);
-  font-weight: var(--weight-semibold);
-  letter-spacing: normal;
-  text-transform: none;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-:where(.sds-prose) .field-list tbody tr:hover { background: none; }
-:where(.sds-prose) .field-list p { margin: 0; }
+  /* Only the rhythm. What a list *is* — the marker, the indent at the marker's
+     own width, the muted marker colour — is in the class layer, where a list on
+     a screen that never links this file gets it too. What a document adds is the
+     air: a gap under the block, and a smaller one between items that are each a
+     sentence or two rather than a word. */
+  :where(.sds-prose) ul,
+  :where(.sds-prose) ol {
+    margin: 0 0 var(--space-4);
+  }
+  :where(.sds-prose) li { margin-bottom: var(--space-1); }
+  :where(.sds-prose) li:last-child { margin-bottom: 0; }
+  /* A nested list is part of its parent item, so it neither adds a gap above
+     itself nor keeps the bottom margin the item already carries. */
+  :where(.sds-prose) li > ul,
+  :where(.sds-prose) li > ol {
+    margin: var(--space-1) 0 0;
+  }
 
-/* A footnote at the foot of the page, and a citation, which is a footnote with
-   a name. The label hangs beside the text rather than above it, so a column of
-   them lines up and an eye run down the edge finds one — the only thing anybody
-   does with these. One step down from the prose: this is the source, read after
-   the sentence that sent the reader to it. */
-:where(.sds-prose) .footnote,
-:where(.sds-prose) .citation {
-  display: flex;
-  gap: var(--space-2);
-  margin-bottom: var(--space-2);
-  max-width: var(--measure-prose);
-  font-size: var(--font-size-ui);
-  color: var(--text-secondary);
+  /* A definition list is the shape a reference falls into whenever it names
+     things: a term, and what it is. The term carries the weight because it is
+     what somebody scans for; the definition is ordinary prose one step in. */
+  :where(.sds-prose) dl { margin: 0 0 var(--space-4); }
+  :where(.sds-prose) dt {
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
+  }
+  :where(.sds-prose) dd {
+    margin: var(--space-1) 0 var(--space-3) var(--space-5);
+  }
+  :where(.sds-prose) dd:last-child { margin-bottom: 0; }
+  /* A term may be given its kind — `term : noun`. The kind is not the term: it
+     drops to the register the definition is written in, so a reader scanning the
+     column sees the words being defined and not what they are. */
+  :where(.sds-prose) .classifier,
+  :where(.sds-prose) .classifier-delimiter {
+    font-weight: var(--weight-regular);
+    color: var(--text-secondary);
+  }
+  /* Landing on one term out of forty says which one — the mark a confval and a
+     heading already make. */
+  :where(.sds-prose) dt:target { color: var(--text-accent-quiet); }
+
+  /* --------------------------------------------------------------- lines -- */
+
+  /* `| a line` — an address, a stanza, a signature: text where the break is part
+     of what is said. So nothing here may close one up. The block carries the air
+     a paragraph carries, an indented run keeps its step, and an empty line keeps
+     a line's height, which is the whole reason a stanza has a gap in it. */
+  :where(.sds-prose) .line-block { margin: 0 0 var(--space-4); }
+  :where(.sds-prose) .line-block .line-block { margin: 0 0 0 var(--space-5); }
+  :where(.sds-prose) .line { min-height: 1lh; }
+
+  /* --------------------------------------------------------------- quote -- */
+
+  /* Marked by a rule at its edge and a step in, never by italics: a quotation
+     is somebody else's sentences, not an emphasis on yours. */
+  :where(.sds-prose) blockquote {
+    margin: 0 0 var(--space-4);
+    padding-inline-start: var(--space-4);
+    border-inline-start: 2px solid var(--border-subtle);
+    color: var(--text-secondary);
+  }
+  :where(.sds-prose) blockquote > :last-child { margin-bottom: 0; }
+  /* Except where the blockquote is the element's, which draws the rule and the
+     step on the figure around it. Left standing, both are drawn twice and the
+     sentence sits one indent further in than the byline answerable for it. */
+  :where(.sds-prose) .sds-quote__body {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+  /* The attribution is a byline and brings its own type, so the caption rule
+     further down may not set it at caption size and mute it — the component
+     says why. Only what it does not already state for itself. */
+  :where(.sds-prose) .sds-quote__by {
+    font-size: inherit;
+    color: inherit;
+  }
+
+  /* ---------------------------------------------------------------- code -- */
+
+  /* A block is machine output and sits on the sunken plane — but not the ones a
+     component renders its `<pre>` into: `sds-code` and `sds-diff` both carry the
+     border, radius and plane on the frame around it. The exclusion stops the
+     second box, and the scope does not make it redundant: `:where()` settles only
+     what the component also states, and these three are stated **only here**. */
+  :where(.sds-prose) pre:not(.sds-code__body, .sds-diff) {
+    margin: 0 0 var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    overflow-x: auto;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    background: var(--surface-sunken);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-dense);
+    line-height: var(--leading-code);
+    color: var(--text-primary);
+  }
+  /* The block set the family and size; the code inside must not set them again at
+     the optical ratio of the first. Every `<pre>`, the component's included:
+     `components.css` states the same at equal specificity in the file linked
+     first, so the inline rule there would win inside the element too. */
+  :where(.sds-prose) pre code {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
+
+  /* A code block before its element upgrades, and on a page that runs none. An
+     undefined element is inline, and a `<code>` inside one collapses its
+     whitespace — machine output turned into a paragraph. The plane goes on the
+     `<code>` and not the host, or the frame would swallow the caption beside
+     it. */
+  :where(.sds-prose) sds-code:not(:defined) {
+    display: block;
+    margin: 0 0 var(--space-4);
+  }
+  :where(.sds-prose) sds-code:not(:defined) > code {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    overflow-x: auto;
+    white-space: pre;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    background: var(--surface-sunken);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-dense);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-code);
+    color: var(--text-primary);
+  }
+  /* ---------------------------------------------------- what is set apart -- */
+
+  /* An admonition before its element upgrades, for the reason the code block
+     above is. Less is restored, and that is the point: the block's whitespace was
+     load-bearing, while an admonition is paragraphs and paragraphs read. Only
+     standing apart is missing, so this draws the box and stops — a hairline
+     pretending to carry a tone is the colour-only meaning the component avoids. */
+  :where(.sds-prose) sds-note:not(:defined) {
+    display: block;
+    margin: 0 0 var(--space-4);
+    padding: 13px 15px;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+  }
+  :where(.sds-prose) sds-note:not(:defined) > :last-child { margin-bottom: 0; }
+
+  /* A picture before its element upgrades, and on a page that runs none. The
+     renderer wrote it carrying `sds-art`, so it is already the right size in the
+     column. What is missing is the frame and the stack it makes with the caption:
+     an undefined element is inline, so the two sit on one line. */
+  :where(.sds-prose) sds-figure:not(:defined) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-4);
+  }
+  :where(.sds-prose) sds-figure:not(:defined) > .sds-art {
+    /* The border counts against the width the picture is capped at, not on top
+       of it: a hairline added outside `max-width: 100%` is two pixels of the
+       column the picture does not have. */
+    box-sizing: border-box;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--surface-sunken);
+  }
+
+  /* The gap is on the control rather than its host, which is `display:
+     contents` once it upgrades. Only this system's own button: a `.sds-btn` in
+     the text belongs to whatever drew it. Inside a row the gap is the row's — a
+     margin on a flex item is one the centring would have to carry. */
+  :where(.sds-prose) sds-button > .sds-btn,
+  :where(.sds-prose) .sds-actions { margin-bottom: var(--space-4); }
+  :where(.sds-prose) .sds-actions sds-button > .sds-btn { margin-bottom: 0; }
+
+  /* A card before its element upgrades, and on a page that runs none. The frame
+     is not stated again — the card draws it — but the host is the cell until it
+     upgrades, and the card inside it stops at its content, so a row of them
+     would draw frames of three different heights. */
+  :where(.sds-prose) sds-card:not(:defined) { display: flex; }
+  :where(.sds-prose) sds-card:not(:defined) > .sds-card { flex: 1; }
+
+  /* An embedded document before its element upgrades, and on a page that runs
+     none. Until then there is only the iframe a renderer wrote: an inline box
+     with the browser's inset ridge, as wide as its `width` attribute says
+     whatever the column holds. So it becomes a block, takes this system's border
+     and stops at the column. The caption is already drawn by `components.css`. */
+  :where(.sds-prose) sds-embed:not(:defined) { display: block; margin: 0 0 var(--space-4); }
+  :where(.sds-prose) sds-embed:not(:defined) > iframe {
+    display: block;
+    /* The cap is the column, and the hairline is inside it — see the picture
+       above, which overflowed by exactly its own border. */
+    box-sizing: border-box;
+    max-width: 100%;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--surface-sunken);
+  }
+
+  /* ---------------------------------------------------------- in the line -- */
+
+  /* A key is a physical thing, so it gets the one border in this section. The
+     face and the size are the class layer's: a second ratio written here would
+     be a key cap that stops agreeing with the mono run beside it. */
+  :where(.sds-prose) kbd {
+    padding: 1px 5px;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    background: var(--surface-raised);
+  }
+  /* An abbreviation says it has more to say. Dotted rather than solid, so it is
+     not read as a link, and `help` because that is what it offers. */
+  :where(.sds-prose) abbr[title] {
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    cursor: help;
+  }
+  :where(.sds-prose) cite { font-style: italic; }
+  :where(.sds-prose) mark {
+    background: var(--surface-accent-quiet);
+    color: var(--text-primary);
+  }
+  /* Superscript and subscript raise a footnote mark or a chemical index without
+     opening the line they sit in. */
+  :where(.sds-prose) sup,
+  :where(.sds-prose) sub {
+    font-size: 0.75em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  :where(.sds-prose) sup { top: -0.5em; }
+  :where(.sds-prose) sub { bottom: -0.25em; }
+
+  /* The link a sentence is written with, and no other. Weightless on purpose —
+     `:hover` inside the `:where()` too, or the rule ties with every component
+     rule and wins on being loaded later: a card's title, a pill, a permalink all
+     say never underlined, and the document layer answered for them. What the
+     document itself wrote carries no class, so nothing outweighs this there. */
+  :where(.sds-prose a) {
+    color: var(--text-link);
+    text-decoration: none;
+  }
+  :where(.sds-prose a:hover) {
+    color: var(--text-link-hover);
+    text-decoration: underline;
+  }
+  /* Underlined inside a sentence: against body text the link colour stands at
+     1.3:1 in dark, and no token reaches 3:1 while there is one accent. Only
+     where a link sits *in* text — one that is a block of its own is told apart
+     by standing alone. */
+  :where(.sds-prose) :is(p, li, dd, td, th) a {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+    text-underline-offset: 2px;
+  }
+  :where(.sds-prose) :is(p, li, dd, td, th) a:hover { text-decoration-color: currentColor; }
+  :where(.sds-prose) strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
+
+  /* A formula arrives as the source somebody wrote, because the renderer
+     typesets nothing — and MathML layout drops text that is not inside a token
+     element, so under it a formula is a blank space in the sentence. `display`
+     takes it back out of that layout and the mono register says what it is: a
+     machine's own words. Real MathML has children, and is left to the browser. */
+  :where(.sds-prose) math:not(:has(*)) {
+    display: inline;
+    font-family: var(--font-mono);
+    font-size: var(--font-mono-optical);
+    color: var(--text-primary);
+  }
+  /* The directive stands on a line of its own; the role stands in a sentence. */
+  :where(.sds-prose) .section > math:not(:has(*)),
+  :where(.sds-prose) > math:not(:has(*)) {
+    display: block;
+    margin: 0 0 var(--space-4);
+  }
+
+  /* -------------------------------------------------------------- figures -- */
+
+  /* A picture never widens the column it was put in, whatever it was exported
+     at — and that is the class layer's rule, because a surface has pictures too.
+     What a document adds is the figure around it. */
+  :where(.sds-prose) figure {
+    margin: 0 0 var(--space-6);
+  }
+  /* The caption sits under the picture, in the register a caption belongs to:
+     smaller than the prose and quieter, so it reads as a label for the thing
+     above rather than as a sentence of the text. */
+  :where(.sds-prose) figcaption {
+    padding-block-start: var(--space-2);
+    font-size: var(--font-size-micro);
+    color: var(--text-muted);
+  }
+  /* Except where the figure is the element's, which stacks its own parts and
+     holds the gap between them. The margin above is for a caption the document
+     layer is drawing on its own, and added to the gap it is the two of them
+     answering the same question twice. */
+  :where(.sds-prose) .sds-figure__caption { margin-top: 0; }
+  /* A caption in reStructuredText is a block, so what arrives inside is a
+     paragraph — carrying the gap that belongs between two of them, under the
+     last line of a label. The size needs nothing: a paragraph here already
+     inherits, which is what the rule above it is for. */
+  :where(.sds-prose) figcaption > :last-child { margin-bottom: 0; }
+
+  /* --------------------------------------------------------------- table -- */
+
+  /* The half for markup that arrives bare: a renderer with no element behind
+     it can put a class on nothing. It has to agree with `sds-table` — medium
+     density, and a wider one scrolling inside a box around it rather than
+     `display: block`, which would leave table layout. */
+  :where(.sds-prose) table {
+    width: 100%;
+    margin: 0 0 var(--space-4);
+    border-collapse: collapse;
+    font-size: var(--font-size-ui);
+  }
+  :where(.sds-prose) caption {
+    margin-bottom: var(--space-2);
+    font-size: var(--font-size-micro);
+    color: var(--text-muted);
+    text-align: start;
+  }
+  :where(.sds-prose) th {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: var(--border-hairline) solid var(--border-subtle);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: start;
+    vertical-align: bottom;
+  }
+  :where(.sds-prose) td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: var(--border-hairline) solid var(--border-subtle);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+  /* Never zebra stripes — the same rule the class layer states, for the same
+     reason: a row is told apart by its content, not by its background. */
+  :where(.sds-prose) tbody tr:hover { background: var(--surface-raised); }
+  :where(.sds-prose) th:first-child,
+  :where(.sds-prose) td:first-child { padding-inline-start: 0; }
+  :where(.sds-prose) th:last-child,
+  :where(.sds-prose) td:last-child { padding-inline-end: 0; }
+
+  /* ------------------------------------------------- what a renderer names -- */
+
+  /* The other half of the file. Everything above is a bare element, which is what
+     a renderer emits for prose; what follows is the handful of names it does
+     write — `contents`, `topic`, `rubric`, `footnote`, `hlist` — for nodes with
+     no element of their own. They stay the core's names: renamed, the stylesheet
+     would only work with the templates that renamed them. */
+
+  /* Apparatus rather than prose: ruled above and below and one step down, so a
+     reader uses it or reads past it. No rule at the left edge — that mark
+     belongs to the quotation. Three names, one shape. */
+  :where(.sds-prose) .contents,
+  :where(.sds-prose) .sds-toc,
+  :where(.sds-prose) .toc {
+    margin: 0 0 var(--space-6);
+    padding: var(--space-3) 0;
+    border-block: var(--border-hairline) solid var(--border-subtle);
+    max-width: var(--measure-prose);
+    font-size: var(--font-size-ui);
+  }
+  /* No markers. A contents is a list of places, and a bullet before each one is
+     punctuation for a sentence nobody is reading. */
+  :where(.sds-prose) .contents ul,
+  :where(.sds-prose) .toc ul {
+    margin: 0;
+    padding-inline-start: 0;
+    list-style: none;
+  }
+  /* Indented, and standing off the entry it hangs under. Flush against it, a
+     sub-entry had less air above it than any two entries in the list have
+     between them, and the pair read as one wrapped line. Half a step: it is the
+     gap a level owes its own parent, not the one two entries owe each other. */
+  :where(.sds-prose) .contents li ul,
+  :where(.sds-prose) .toc li ul {
+    padding-block-start: var(--space-1);
+    padding-inline-start: var(--space-4);
+  }
+  :where(.sds-prose) .contents li,
+  :where(.sds-prose) .toc li { margin-bottom: var(--space-1); }
+  /* The label a template writes over the list, standing directly on it. */
+  :where(.sds-prose) .contents > .sds-label { margin: 0 0 var(--space-2); }
+  /* Apparatus, so its links are drawn as the footer's are and not as the ones in
+     a sentence: twenty accented lines beside the text is a second thing lit on a
+     page that lights three, and none of them is what the reader came for. */
+  :where(.sds-prose) .contents a {
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  :where(.sds-prose) .contents a:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+  }
+  /* One step quieter a level down, because the indent alone does not say it: a
+     sub-entry and the second line of a wrapped entry start at different places
+     and read as the same thing. Muted is a step and not a disappearance — it
+     carries the contrast a sentence carries, which is what the level below the
+     one being scanned needs to keep. */
+  :where(.sds-prose) .contents li li a { color: var(--text-muted); }
+  :where(.sds-prose) .contents li li a:hover { color: var(--text-primary); }
+
+  /* Nothing at every other width: the box is in the markup on every page and
+     is not in the layout until the rule below puts it there, so no template
+     decides twice where it stands. */
+  :where(.sds-prose) .sds-aside { display: contents; }
+
+  /* At full measure the list leaves the flow and stands beside the column, so
+     the page reads rail, text, contents with the same width either side. 1296px
+     is where the page stops growing and the one width with room to give: the
+     column keeps its measure after giving up 258px. */
+  @media (min-width: 1296px) {
+    /* The column gives the width up rather than the box taking it, so the
+       breadcrumb and the pager narrow with the text: a column that is one width
+       at the top of the page and another at the bottom is two columns. */
+    :where(.sds-body__main):has(> :where(.sds-prose) .sds-aside) {
+      position: relative;
+      padding-inline-end: calc(var(--width-sidebar) + var(--space-12));
+    }
+    /* The box is the reserve: the column's own padding, top to bottom, so the
+       list starts where the rail starts and can rest anywhere down the page. Out
+       of the flow entirely rather than floated, because a float begins where it
+       stands — written under three paragraphs of introduction, the list began
+       three paragraphs down and left a hole above it. */
+    :where(.sds-prose) .sds-aside {
+      display: block;
+      position: absolute;
+      /* Wider than the column it draws, by what a row's fill and the ring around
+         it stand in. The list scrolls when it is long, and a scroll container
+         paints nothing outside itself — the ring was cut off at three sides of
+         an entry. The inset gives that room back, so the text stands where it
+         stood and only the block behind it is wider. */
+      inset-block: calc(-1 * var(--space-1-5)) 0;
+      inset-inline-end: calc(-1 * var(--space-4));
+      width: calc(var(--width-sidebar) + var(--space-4) * 2);
+    }
+    /* And the list rests inside it, anywhere in the document, at the rail's line
+       and bounded the way the rail is bounded. The rules above and below it go:
+       they set a block apart from the text around it, and there is no text
+       around it here. */
+    :where(.sds-prose) .sds-aside .sds-toc {
+      position: sticky;
+      top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
+      max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
+      margin: 0;
+      padding: var(--space-1-5) var(--space-4);
+      border: 0;
+      max-width: none;
+      overflow-y: auto;
+    }
+    /* Two levels of them. The column is where a reader jumps from, and a
+       fourth-level heading is not a jump anybody makes from a rail: drawn, the
+       levels below the second are identical muted lines a step apart, each with
+       less measure than the one above and nothing but that step saying which is
+       which. The list in the flow is at the measure and keeps all six. */
+    :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list { display: none; }
+  }
+
+  /* A title over something that is not a section: a topic, or a sidebar, which
+     the core renders as one. It is the fourth heading level's
+     register — weight and air, not a size — because that is what this system
+     does once a heading stops being a level. */
+  :where(.sds-prose) .topic-title {
+    margin: 0 0 var(--space-2);
+    font-size: var(--font-size-body);
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
+  }
+  /* A digression, in a box the class layer already draws. What is left to say
+     is where it stands in the flow: the measure the paragraphs take, and no
+     margin under its own last line, because the box's padding is the gap. */
+  :where(.sds-prose) .topic {
+    margin: 0 0 var(--space-4);
+    max-width: var(--measure-prose);
+  }
+  :where(.sds-prose) .topic > :last-child { margin-bottom: 0; }
+
+  /* A rubric is the one heading a reference uses that no contents should list.
+     It is set exactly like `h4` — the level it would have been — and the whole
+     difference is that it is not one. */
+  :where(.sds-prose) .rubric {
+    margin: var(--space-6) 0 var(--space-2);
+    font-size: var(--font-size-body);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-heading);
+    color: var(--text-primary);
+  }
+
+  /* A horizontal list: short items an author asked to be read across. The count
+     is in the class — `columns-N` is what the core writes — so there is a rule
+     per count and no way to state it once. Columns rather than a grid, because a
+     list flows and a grid would have to be told how many rows. `break-inside`
+     keeps a wrapped item off two columns. */
+  :where(.sds-prose) .hlist > ul {
+    columns: 2;
+    column-gap: var(--space-6);
+  }
+  :where(.sds-prose) .hlist.columns-3 > ul { columns: 3; }
+  :where(.sds-prose) .hlist.columns-4 > ul { columns: 4; }
+  :where(.sds-prose) .hlist.columns-5 > ul { columns: 5; }
+  :where(.sds-prose) .hlist.columns-6 > ul { columns: 6; }
+  :where(.sds-prose) .hlist li { break-inside: avoid; }
+
+  /* An option list: the flags of a command, and what each one does. The name is
+     something typed at a prompt, so it is set in the mono face like every other
+     piece of machine text here — and the weight comes off, because the font is
+     already the difference and a term that is both bold and mono reads as a
+     heading for the paragraph under it. */
+  :where(.sds-prose) .domain-default-option-name {
+    font-family: var(--font-mono);
+    font-size: var(--font-mono-optical);
+    font-weight: var(--weight-regular);
+    color: var(--text-primary);
+  }
+
+  /* A field list is docinfo — author, version, date — and it is a table only
+     because that is what the core built it from. So it is undone as a table: no
+     rules between rows, no hover, no header register on the first column, and
+     no full width. Two columns of which the first is a label, as wide as the
+     words in it. */
+  :where(.sds-prose) .field-list {
+    width: auto;
+    margin-bottom: var(--space-6);
+    font-size: inherit;
+  }
+  :where(.sds-prose) .field-list th,
+  :where(.sds-prose) .field-list td {
+    padding: 0 var(--space-4) var(--space-1) 0;
+    border-bottom: 0;
+    vertical-align: baseline;
+  }
+  :where(.sds-prose) .field-list th {
+    font-family: inherit;
+    font-size: var(--font-size-ui);
+    font-weight: var(--weight-semibold);
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  :where(.sds-prose) .field-list tbody tr:hover { background: none; }
+  :where(.sds-prose) .field-list p { margin: 0; }
+
+  /* A footnote at the foot of the page, and a citation, which is a footnote with
+     a name. The label hangs beside the text rather than above it, so a column of
+     them lines up and an eye run down the edge finds one — the only thing anybody
+     does with these. One step down from the prose: this is the source, read after
+     the sentence that sent the reader to it. */
+  :where(.sds-prose) .footnote,
+  :where(.sds-prose) .citation {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+    max-width: var(--measure-prose);
+    font-size: var(--font-size-ui);
+    color: var(--text-secondary);
+  }
+  :where(.sds-prose) .footnote-label,
+  :where(.sds-prose) .citation-label {
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--text-muted);
+  }
+  :where(.sds-prose) .footnote-content > :last-child,
+  :where(.sds-prose) .citation-content > :last-child { margin-bottom: 0; }
+  /* Landing on one note out of twenty says which one — the mark a heading, a
+     confval and a term already make. The label is what the sentence pointed at,
+     so the label is what answers. */
+  :where(.sds-prose) .footnote:target .footnote-label,
+  :where(.sds-prose) .citation:target .citation-label { color: var(--text-accent-quiet); }
+
 }
-:where(.sds-prose) .footnote-label,
-:where(.sds-prose) .citation-label {
-  flex: none;
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-  color: var(--text-muted);
-}
-:where(.sds-prose) .footnote-content > :last-child,
-:where(.sds-prose) .citation-content > :last-child { margin-bottom: 0; }
-/* Landing on one note out of twenty says which one — the mark a heading, a
-   confval and a term already make. The label is what the sentence pointed at,
-   so the label is what answers. */
-:where(.sds-prose) .footnote:target .footnote-label,
-:where(.sds-prose) .citation:target .citation-label { color: var(--text-accent-quiet); }
