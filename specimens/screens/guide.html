@@ -1,0 +1,429 @@
+<!-- @startingPoint section="Screens" subtitle="A construction rule written down — values as entries, the palette resolved, both grounds forced on a subtree" viewport="1440x900" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<title>TYPO3 Dev Companion — drawing a glyph</title>
+<link rel="stylesheet" href="../../packages/frontend/src/styles/styles.css" />
+</head>
+<body class="sds-app">
+<div class="sds-shell">
+  <a class="sds-skip sds-btn sds-btn--secondary" href="#main-content">Skip to content</a>
+  <header class="sds-bar">
+  <a class="sds-lockup" href="#drawing"><img class="sds-signet" src="../../packages/frontend/assets/design-system-signet-m.svg" alt="" width="24" height="24"><span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span></a>
+  <nav class="sds-bar__nav" aria-label="Sections">
+    <div class="sds-bar__section"><a
+      class="sds-pill"
+      href="#">overview</a></div>
+    <div
+      class="sds-bar__section sds-bar__section--drop">
+      <a
+      class="sds-pill"
+      href="#">features</a>
+      <details
+        class="sds-bar__fold">
+        <summary aria-label="Pages in features"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+        <div class="sds-bar__panel">
+          <a
+      class="sds-bar__link"
+      href="#">What it answers</a>
+          <a
+      class="sds-bar__link"
+      href="#">What it refuses</a>
+          <a
+      class="sds-bar__link"
+      href="#">Where the answers come from</a>
+        </div>
+      </details>
+    </div>
+    <div
+      class="sds-bar__section sds-bar__section--drop">
+      <a
+      class="sds-pill"
+      href="#">documentation</a>
+      <details
+        class="sds-bar__fold">
+        <summary aria-label="Pages in documentation"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+        <div class="sds-bar__panel">
+          <a
+      class="sds-bar__link"
+      href="#">Installing the server</a>
+          <a
+      class="sds-bar__link"
+      href="#">Writing a task skill</a>
+          <a
+      class="sds-bar__link"
+      href="#">Sources and preconditions</a>
+        </div>
+      </details>
+    </div>
+    <div
+      class="sds-bar__section sds-bar__section--drop">
+      <a
+      class="sds-pill is-active"
+      href="#"
+      
+      
+      aria-current="true">tools</a>
+      <details
+        class="sds-bar__fold">
+        <summary aria-label="Pages in tools"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+        <div class="sds-bar__panel">
+          <a
+      class="sds-bar__link"
+      href="#">typo3_icon_lookup</a>
+          <a
+      class="sds-bar__link"
+      href="#">typo3_label_lookup</a>
+          <a
+      class="sds-bar__link"
+      href="#">typo3_schema_lookup</a>
+        </div>
+      </details>
+    </div>
+    <div class="sds-bar__section"><a
+      class="sds-pill"
+      href="#">news</a></div>
+  </nav>
+  <div class="sds-bar__end">
+    <div class="sds-search">
+  <span class="sds-field">
+    <svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-search"><g fill="currentColor"><path d="M13.92 15c-.29 0-.56-.12-.76-.32l-2.89-2.88c-.98.68-2.16 1.04-3.36 1.04C3.65 12.85 1 10.2 1 6.92 1 3.65 3.65 1 6.92 1s5.92 2.65 5.92 5.92c0 1.19-.36 2.37-1.04 3.36l2.89 2.89c.19.19.31.47.31.76 0 .58-.49 1.07-1.08 1.07zm-7-12.58c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"></path></g></svg>
+    <input
+      class="sds-input"
+      type="text"
+      role="combobox"
+      aria-autocomplete="list"
+      autocomplete="off"
+      spellcheck="false"
+      value=""
+      placeholder="Search"
+      aria-label="Search"
+      aria-controls="sds-search-13"
+      aria-expanded="false"
+      
+      
+      
+    />
+  </span>
+  
+</div>
+    <div class="sds-modes" role="group" aria-label="Colour mode">
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brightness-high"><g fill="currentColor"><path d="M4.852 5.559c.206-.265.442-.501.707-.707L3.757 3.05c-.212-.212-.495-.212-.707 0-.212.212-.212.495 0 .707L4.852 5.56zM8 4c.171 0 .334.03.5.05V1.5c0-.3-.2-.5-.5-.5s-.5.2-.5.5v2.55c.166-.02.329-.05.5-.05zM4 8c0-.171.03-.334.05-.5H1.5c-.3 0-.5.2-.5.5s.2.5.5.5h2.55C4.03 8.334 4 8.171 4 8zM11.148 5.559l1.802-1.802c.212-.212.212-.495 0-.707-.212-.212-.495-.212-.707 0L10.44 4.852c.265.206.501.442.707.707zM11.148 10.441a4.006 4.006 0 0 1-.707.707l1.802 1.802c.212.212.495.212.707 0 .212-.212.212-.495 0-.707l-1.802-1.802zM14.5 7.5h-2.55c.02.166.05.329.05.5s-.03.334-.05.5h2.55c.3 0 .5-.2.5-.5s-.2-.5-.5-.5zM4.852 10.441 3.05 12.243c-.212.212-.212.495 0 .707.212.212.495.212.707 0l1.802-1.802a4.006 4.006 0 0 1-.707-.707zM8 12c-.171 0-.334-.03-.5-.05v2.55c0 .3.2.5.5.5s.5-.2.5-.5v-2.55c-.166.02-.329.05-.5.05zM8 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0-1C6.3 5 5 6.3 5 8s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"></path></g></svg><span class="sds-mode__label">light</span></button>
+  <button
+      type="button"
+      class="sds-mode"
+      aria-pressed="false"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-moon"><g fill="currentColor"><path d="M5.097 3.93a6.007 6.007 0 0 0 6.973 6.973A4.989 4.989 0 0 1 8 13c-2.757 0-5-2.243-5-5 0-1.663.815-3.158 2.097-4.07m1.844-1.831a5.998 5.998 0 1 0 6.96 6.96A4.962 4.962 0 0 1 11 10a5 5 0 0 1-5-5c0-1.085.354-2.082.941-2.901z"></path></g></svg><span class="sds-mode__label">dark</span></button>
+</div>
+    
+  </div>
+  
+</header>
+
+  <div class="sds-body">
+    <aside class="sds-body__rail" id="page-rail">
+      <nav class="sds-rail" aria-label="Pages">
+  
+  <a class="sds-rail__item" href="#overview"><span class="sds-rail__label">Overview</span></a>
+  <a class="sds-rail__item" href="#glossary"><span class="sds-rail__label">Glossary</span></a>
+  <div class="sds-rail__group">
+    <span class="sds-rail__item"><span class="sds-rail__label">glyphs</span></span>
+    <details class="sds-rail__fold" open>
+      <summary aria-label="Pages in glyphs"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+      <a class="sds-rail__item" href="#glyphs"><span class="sds-rail__label">The set</span></a>
+      <a class="sds-rail__item is-active" href="#drawing" aria-current="page"><span class="sds-rail__label">Drawing one</span></a>
+      <a class="sds-rail__item" href="#naming"><span class="sds-rail__label">Naming one</span></a>
+    </details>
+  </div>
+</nav>
+    </aside>
+
+    <main class="sds-body__main" id="main-content">
+      <div class="sds-stack sds-stack--tight">
+        <nav class="sds-crumbs" aria-label="Breadcrumb">
+  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><a href="#">Glyphs</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">Drawing one</span>
+</nav>
+        <h1>Drawing a glyph</h1>
+        <p class="sds-lead">
+          What a drawing has to hold to look like it belongs to the set. These
+          are the rules a review checks against, in the order somebody drawing
+          their first glyph meets them.
+        </p>
+      </div>
+
+      <!-- What is on this page. The class that floats it beside the text is
+           the document layer's, and a product surface links only the
+           stylesheet — so here the contents stand in the column. -->
+      <nav class="sds-toc" aria-label="On this page">
+  <p class="sds-label">On this page</p>
+  <ul class="sds-toc__list">
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#construction"
+    
+  >Construction</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#colour"
+    
+  >Colour</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#grounds"
+    
+  >Both grounds</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#source"
+    
+  >The source</a>
+  
+</li>
+</ul>
+</nav>
+
+      <h2 class="sds-h3" id="construction">Construction</h2>
+      <p>
+        Four values, and every one of them is checkable. A drawing that holds
+        all four is already most of the way to looking like the set, because
+        what makes a set a set is that nobody had to judge any of this.
+      </p>
+
+      <dl class="sds-confval">
+  <dt class="sds-confval__term" >
+    <code class="sds-confval__name">canvas</code>
+    
+    
+  </dt>
+  <dd class="sds-confval__detail">
+    <dl class="sds-confval__facts">
+      <dt class="sds-label">type</dt>
+      <dd class="sds-mono">16 × 16</dd>
+      <dt class="sds-label">default</dt>
+      <dd class="sds-mono">no other size</dd>
+    </dl>
+    <div class="sds-confval__body">Every glyph is drawn on the same square, whatever size it is
+      rendered at. A drawing made on a larger canvas and scaled down lands
+      between pixels, and the whole set stops sitting on one baseline.</div>
+  </dd>
+</dl><dl class="sds-confval">
+  <dt class="sds-confval__term" >
+    <code class="sds-confval__name">protective space</code>
+    
+    
+  </dt>
+  <dd class="sds-confval__detail">
+    <dl class="sds-confval__facts">
+      <dt class="sds-label">type</dt>
+      <dd class="sds-mono">1 unit</dd>
+    </dl>
+    <div class="sds-confval__body">The ring of the canvas nothing may enter. It is what keeps a
+      glyph the same optical size as its neighbours when one is a circle and
+      the next is a square.</div>
+  </dd>
+</dl><dl class="sds-confval">
+  <dt class="sds-confval__term" >
+    <code class="sds-confval__name">stroke</code>
+    
+    
+  </dt>
+  <dd class="sds-confval__detail">
+    <dl class="sds-confval__facts">
+      <dt class="sds-label">type</dt>
+      <dd class="sds-mono">1 unit</dd>
+      <dt class="sds-label">default</dt>
+      <dd class="sds-mono">even numbers only</dd>
+    </dl>
+    <div class="sds-confval__body">An odd stroke on a whole-pixel grid renders as two grey lines
+      instead of one black one. This is the rule that costs the most to break,
+      because it looks correct at every size except the one people use.</div>
+  </dd>
+</dl><dl class="sds-confval">
+  <dt class="sds-confval__term" >
+    <code class="sds-confval__name">fill</code>
+    <span class="sds-badge">required</span>
+    
+  </dt>
+  <dd class="sds-confval__detail">
+    <dl class="sds-confval__facts">
+      <dt class="sds-label">type</dt>
+      <dd class="sds-mono">currentColor</dd>
+    </dl>
+    <div class="sds-confval__body">Never a literal. A glyph takes the colour of the text it stands
+      in — that is the whole reason the drawing is in the document rather than
+      linked from it, and a hardcoded fill is a glyph that goes invisible in
+      the other mode.</div>
+  </dd>
+</dl>
+
+      <h2 class="sds-h3" id="colour">Colour</h2>
+      <p>
+        A glyph has one colour and inherits it. The palette below is what the
+        page around it resolves — every entry carries the name a design writes
+        and the value the mode resolved it to, because a chip on its own is
+        nothing a reader can type into their own drawing.
+      </p>
+
+      <div class="sds-grid sds-grid--wide" ><div class="sds-swatch">
+  <span class="sds-swatch__chip" style="background:var(--accent)" aria-hidden="true"></span>
+  <span class="sds-swatch__body">
+    <span class="sds-swatch__name">--accent</span>
+    <span class="sds-swatch__value">#FF8700</span>
+  </span>
+</div><div class="sds-swatch">
+  <span class="sds-swatch__chip" style="background:var(--surface-canvas)" aria-hidden="true"></span>
+  <span class="sds-swatch__body">
+    <span class="sds-swatch__name">--surface-canvas</span>
+    <span class="sds-swatch__value">light-dark(#FBFAF7, #131210)</span>
+  </span>
+</div><div class="sds-swatch">
+  <span class="sds-swatch__chip" style="background:var(--surface-raised)" aria-hidden="true"></span>
+  <span class="sds-swatch__body">
+    <span class="sds-swatch__name">--surface-raised</span>
+    <span class="sds-swatch__value">light-dark(#FFFFFF, #171614)</span>
+  </span>
+</div><div class="sds-swatch">
+  <span class="sds-swatch__chip" style="background:var(--text-primary)" aria-hidden="true"></span>
+  <span class="sds-swatch__body">
+    <span class="sds-swatch__name">--text-primary</span>
+    <span class="sds-swatch__value">light-dark(#1C1A17, #EDE9E2)</span>
+  </span>
+</div><div class="sds-swatch">
+  <span class="sds-swatch__chip" style="background:var(--text-muted)" aria-hidden="true"></span>
+  <span class="sds-swatch__body">
+    <span class="sds-swatch__name">--text-muted</span>
+    <span class="sds-swatch__value">light-dark(#726C63, #878076)</span>
+  </span>
+</div><div class="sds-swatch sds-swatch--line">
+  <span class="sds-swatch__chip" style="border-color:var(--border-subtle)" aria-hidden="true"></span>
+  <span class="sds-swatch__body">
+    <span class="sds-swatch__name">--border-subtle</span>
+    <span class="sds-swatch__value">light-dark(#E3DFD6, #2B2823)</span>
+  </span>
+</div></div>
+
+      <div class="sds-note sds-note--warn">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Warning" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">Never a literal</div>
+    <div class="sds-note__body">A hex typed into a drawing is a glyph that survives one mode. The
+          value above is the pair, and the drawing takes whichever half the reader is
+          in — which is what <span class="sds-mono">currentColor</span> is for.</div>
+  </div>
+</div>
+
+      <h2 class="sds-h3" id="grounds">Both grounds</h2>
+      <p>
+        The same drawings on either ground, and each pane forces its mode on
+        itself rather than painting one. A glyph that goes flat in dark was
+        drawn against a single background, and this is where that shows before
+        a reader finds it.
+      </p>
+
+      <div class="sds-grid" ><div class="sds-panel" style="flex:1; min-width:200px">
+  
+  <div class="sds-label">light</div>
+  <div class="sds-surface-title">The page&#39;s own ground</div>
+  <div class="sds-surface-body"><div class="sds-row">
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg>
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-file-pdf"><g fill="currentColor"><path d="m13.7 3.2-1.9-1.9c-.2-.2-.4-.3-.7-.3H2.5c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5V3.9c0-.3-.1-.5-.3-.7zM13 14H3V2h7v2.5c0 .3.2.5.5.5H13v9zM11 4V2l2 2h-2z"></path><path d="M12 10.2c0-.1-.1-.1-.1-.2-.2-.2-.5-.2-1.1-.2-.4 0-.8 0-1.3.1-.2-.2-.4-.3-.5-.5-.5-.4-.9-1-1.1-1.6v-.2s.3-1.4.2-1.9v-.2c-.1-.2-.2-.3-.4-.3h-.1c-.3 0-.5.1-.6.3-.1.5.1 1.4.3 2.5v.2c-.2.5-.5 1-.7 1.5v.1c-.2.5-.5.9-.7 1.2h-.2l-.4.2c-.7.4-1.2.9-1.2 1.3 0 .1 0 .3.1.3l.2.1c0 .1.1.1.2.1.5 0 1.1-.6 1.9-2 .9-.3 2-.5 2.9-.7.7.4 1.5.7 2.1.7h.2c.1 0 .2-.1.2-.2.1-.2.1-.4.1-.6zm-7.5 2.4c.1-.2.4-.7 1-1.2l.2-.2c-.6 1-1 1.3-1.2 1.4zm3.1-7.2c.2 0 .2.4.3.8 0 .4-.1.6-.2.8-.1-.3-.2-.7-.2-1 0 0 0-.6.1-.6zm-.9 5.2L7 10c.3-.5.5-1 .6-1.3.3.5.6.9 1 1.2 0 0 .1.1.2.1-.8.1-1.5.3-2.1.6zm5-.1h-.3c-.3 0-.6-.1-1.1-.3h.5c.3 0 .4 0 .7.1s.3.2.2.2z"></path></g></svg>
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-code-merge"><g fill="currentColor"><path d="M11.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 11.5 11m0-1C10.122 10 9 11.122 9 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5zM4.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 4.5 11m0-1C3.122 10 2 11.122 2 12.5S3.122 15 4.5 15 7 13.878 7 12.5 5.878 10 4.5 10zM4.5 2a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 4.5 2m0-1C3.122 1 2 2.122 2 3.5S3.122 6 4.5 6 7 4.878 7 3.5 5.878 1 4.5 1z"></path><path d="M4 5h1v6H4z"></path><path d="M5 5v1a1 1 0 0 0 1 1h4a2 2 0 0 1 2 2v2h-1V9a1 1 0 0 0-1-1H6a2 2 0 0 1-2-2V5h1z"></path></g></svg>
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-arrow-end"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg>
+    </div></div>
+</div><div class="sds-panel" style="flex:1; min-width:200px">
+  
+  <div class="sds-label">dark</div>
+  <div class="sds-surface-title">The page&#39;s own ground</div>
+  <div class="sds-surface-body"><div class="sds-row">
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg>
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-file-pdf"><g fill="currentColor"><path d="m13.7 3.2-1.9-1.9c-.2-.2-.4-.3-.7-.3H2.5c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5V3.9c0-.3-.1-.5-.3-.7zM13 14H3V2h7v2.5c0 .3.2.5.5.5H13v9zM11 4V2l2 2h-2z"></path><path d="M12 10.2c0-.1-.1-.1-.1-.2-.2-.2-.5-.2-1.1-.2-.4 0-.8 0-1.3.1-.2-.2-.4-.3-.5-.5-.5-.4-.9-1-1.1-1.6v-.2s.3-1.4.2-1.9v-.2c-.1-.2-.2-.3-.4-.3h-.1c-.3 0-.5.1-.6.3-.1.5.1 1.4.3 2.5v.2c-.2.5-.5 1-.7 1.5v.1c-.2.5-.5.9-.7 1.2h-.2l-.4.2c-.7.4-1.2.9-1.2 1.3 0 .1 0 .3.1.3l.2.1c0 .1.1.1.2.1.5 0 1.1-.6 1.9-2 .9-.3 2-.5 2.9-.7.7.4 1.5.7 2.1.7h.2c.1 0 .2-.1.2-.2.1-.2.1-.4.1-.6zm-7.5 2.4c.1-.2.4-.7 1-1.2l.2-.2c-.6 1-1 1.3-1.2 1.4zm3.1-7.2c.2 0 .2.4.3.8 0 .4-.1.6-.2.8-.1-.3-.2-.7-.2-1 0 0 0-.6.1-.6zm-.9 5.2L7 10c.3-.5.5-1 .6-1.3.3.5.6.9 1 1.2 0 0 .1.1.2.1-.8.1-1.5.3-2.1.6zm5-.1h-.3c-.3 0-.6-.1-1.1-.3h.5c.3 0 .4 0 .7.1s.3.2.2.2z"></path></g></svg>
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-code-merge"><g fill="currentColor"><path d="M11.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 11.5 11m0-1C10.122 10 9 11.122 9 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5zM4.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 4.5 11m0-1C3.122 10 2 11.122 2 12.5S3.122 15 4.5 15 7 13.878 7 12.5 5.878 10 4.5 10zM4.5 2a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 4.5 2m0-1C3.122 1 2 2.122 2 3.5S3.122 6 4.5 6 7 4.878 7 3.5 5.878 1 4.5 1z"></path><path d="M4 5h1v6H4z"></path><path d="M5 5v1a1 1 0 0 0 1 1h4a2 2 0 0 1 2 2v2h-1V9a1 1 0 0 0-1-1H6a2 2 0 0 1-2-2V5h1z"></path></g></svg>
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-arrow-end"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg>
+    </div></div>
+</div></div>
+
+      <h2 class="sds-h3" id="source">The source</h2>
+      <p>
+        What a finished drawing looks like. The viewBox is the canvas, the fill
+        is inherited, and there is nothing else in the file — no width, no
+        height, no metadata an editor left behind.
+      </p>
+
+      <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">html</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block" ><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+  </div>
+  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 16 16&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
+</div>
+
+      <nav class="sds-foot sds-pager" aria-label="Through the guideline">
+  <a class="sds-btn sds-btn--secondary" href="#glyphs" rel="prev"><svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" role="img" aria-label="Previous page" viewBox="0 0 16 16" data-icon="actions-arrow-left"><g fill="currentColor"><path d="M14 7H6.7V5c0-.4-.5-.6-.8-.4l-3.7 3c-.2.2-.2.6 0 .8l3.7 3c.3.3.8 0 .8-.4V9H14V7z"></path></g></svg><span class="sds-btn__label">The set</span></a>
+  <span class="sds-pager__next"><a class="sds-btn sds-btn--secondary" href="#naming" rel="next"><span class="sds-btn__label">Naming one</span><svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" role="img" aria-label="Next page" viewBox="0 0 16 16" data-icon="actions-arrow-right"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg></a></span>
+</nav>
+    </main>
+  </div>
+
+  <footer class="sds-footer">
+  <div class="sds-footer__top">
+    <div class="sds-footer__brand">
+      <span class="sds-lockup">
+      <img class="sds-signet" src="../../packages/frontend/assets/design-system-signet-m.svg" alt="" width="24" height="24">
+      <span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span>
+    </span>
+      <p class="sds-footer__note">A development tool for the people who build, extend and run TYPO3 projects.</p>
+    </div>
+    <div class="sds-footer__groups">
+      <div class="sds-footer__group">
+        <a class="sds-label sds-footer__heading" href="#">Product</a>
+        <div class="sds-footer__links">
+          <a class="sds-link" href="#">Overview</a><a class="sds-link" href="#">Features</a><a class="sds-link" href="#">Tool reference</a><a class="sds-link" href="#">Releases</a>
+        </div>
+      </div><div class="sds-footer__group">
+        <a class="sds-label sds-footer__heading" href="#">Documentation</a>
+        <div class="sds-footer__links">
+          <a class="sds-link" href="#">Installing the server</a><a class="sds-link" href="#">Writing a task skill</a><a class="sds-link" href="#">Sources and preconditions</a><a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+        </div>
+      </div><div class="sds-footer__group">
+        <div class="sds-label">Project</div>
+        <div class="sds-footer__links">
+          <a class="sds-link" href="#">What is written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
+        </div>
+      </div><div class="sds-footer__group">
+        <div class="sds-label">Community</div>
+        <div class="sds-footer__links">
+          <a class="sds-link sds-link--external" href="https://github.com" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-github"><g fill="currentColor"><path d="M8.006 1C4.132 1 1 4.155 1 8.058c0 3.12 2.007 5.76 4.79 6.695.348.07.476-.152.476-.338 0-.164-.012-.725-.012-1.31-1.948.422-2.354-.84-2.354-.84-.313-.819-.777-1.029-.777-1.029-.638-.432.046-.432.046-.432.708.047 1.079.724 1.079.724.626 1.075 1.635.772 2.041.585.058-.456.244-.772.44-.947-1.553-.164-3.189-.771-3.189-3.482 0-.771.278-1.402.72-1.893-.07-.175-.314-.9.069-1.87 0 0 .591-.187 1.925.725a6.736 6.736 0 0 1 1.752-.234c.591 0 1.194.082 1.751.234 1.334-.912 1.926-.725 1.926-.725.383.97.139 1.695.07 1.87.452.49.718 1.122.718 1.893 0 2.71-1.635 3.307-3.201 3.482.255.222.476.643.476 1.309 0 .946-.012 1.706-.012 1.94 0 .186.128.409.476.338A7.053 7.053 0 0 0 15 8.058C15.011 4.155 11.868 1 8.006 1Z"></path></g></svg>Repository <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-slack"><g fill="currentColor"><path d="M6.1 1c-.7 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4h1.4V2.4c0-.8-.6-1.4-1.4-1.4m0 3.7H2.4c-.8 0-1.4.7-1.4 1.4 0 .8.6 1.4 1.4 1.4h3.7c.8 0 1.4-.6 1.4-1.4 0-.7-.6-1.4-1.4-1.4M15 6.1c0-.8-.6-1.4-1.4-1.4s-1.4.6-1.4 1.4v1.4h1.4c.8 0 1.4-.6 1.4-1.4m-3.7 0V2.4c0-.8-.6-1.4-1.4-1.4-.8 0-1.4.6-1.4 1.4v3.7c0 .8.6 1.4 1.4 1.4.7 0 1.4-.6 1.4-1.4M9.9 15c.8 0 1.4-.6 1.4-1.4 0-.8-.6-1.4-1.4-1.4H8.5v1.4c0 .8.6 1.4 1.4 1.4m0-3.7h3.7c.8 0 1.4-.6 1.4-1.4 0-.8-.6-1.4-1.4-1.4H9.9c-.8 0-1.4.6-1.4 1.4 0 .7.6 1.4 1.4 1.4M1 9.9c0 .8.6 1.4 1.4 1.4.8 0 1.4-.6 1.4-1.4V8.5H2.4c-.8 0-1.4.6-1.4 1.4m3.7 0v3.7c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4V9.9c0-.8-.6-1.4-1.4-1.4-.7 0-1.4.6-1.4 1.4"></path></g></svg>Slack <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-mastodon"><g fill="currentColor"><path d="M14.587 4.1c-.204-1.505-1.53-2.69-3.1-2.92C11.22 1.141 10.216 1 7.89 1h-.018c-2.327 0-2.826.141-3.091.18-1.528.223-2.922 1.289-3.26 2.81-.164.75-.181 1.581-.15 2.344.042 1.093.05 2.184.151 3.273.07.723.19 1.44.362 2.147.322 1.304 1.624 2.39 2.9 2.832a7.858 7.858 0 0 0 4.242.222c.155-.036.308-.077.46-.124.341-.108.742-.228 1.037-.44a.033.033 0 0 0 .013-.025v-1.055a.031.031 0 0 0-.024-.03.032.032 0 0 0-.014 0 11.88 11.88 0 0 1-2.753.319c-1.596 0-2.025-.75-2.148-1.061a3.257 3.257 0 0 1-.186-.836.03.03 0 0 1 .024-.032h.014c.887.212 1.796.319 2.708.319.22 0 .438 0 .658-.006.917-.025 1.884-.072 2.787-.246l.064-.014c1.424-.27 2.779-1.12 2.917-3.269.005-.085.018-.886.018-.974 0-.299.097-2.117-.015-3.235zm-2.19 5.363h-1.498V5.836c0-.764-.322-1.153-.976-1.153-.72 0-1.08.46-1.08 1.37V8.04H7.355V6.054c0-.91-.36-1.371-1.08-1.371-.65 0-.975.39-.976 1.153v3.627H3.803V5.726c0-.764.197-1.37.591-1.82.407-.449.94-.679 1.602-.679.767 0 1.346.292 1.732.874l.372.618.373-.618c.386-.582.965-.874 1.73-.874.662 0 1.195.23 1.603.679.394.45.591 1.056.591 1.82v3.737z"></path></g></svg>Mastodon <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a><a class="sds-link sds-link--external" href="https://typo3.org" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-bluesky"><g fill="currentColor"><path d="M4.034 2.67C5.64 3.874 7.367 6.316 8 7.628c.633-1.309 2.36-3.751 3.966-4.956C13.124 1.8 15 1.13 15 3.27c0 .426-.245 3.589-.388 4.103-.5 1.782-2.321 2.239-3.941 1.961 2.83.482 3.55 2.077 1.994 3.672-2.954 3.031-4.244-.759-4.574-1.73-.047-.135-.072-.214-.091-.214s-.044.082-.09.214c-.33.971-1.624 4.761-4.575 1.73-1.554-1.595-.836-3.19 1.994-3.672-1.62.278-3.44-.179-3.938-1.964C1.245 6.857 1 3.694 1 3.268c0-2.14 1.876-1.47 3.034-.6v.003Z"></path></g></svg>Bluesky <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+        </div>
+      </div><div class="sds-footer__group">
+        <div class="sds-label">Legal</div>
+        <div class="sds-footer__links">
+          <a class="sds-link" href="#">Licence</a><a class="sds-link" href="#">Imprint</a><a class="sds-link" href="#">Privacy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sds-footer__end">
+    
+    <span class="sds-mono">1.4.0</span>
+    <a class="sds-link" href="#">MIT</a><a class="sds-link sds-link--external" href="https://docs.typo3.org" target="_blank" rel="noreferrer">docs.typo3.org <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
+    
+  </div>
+</footer>
+</div>
+</body>
+</html>

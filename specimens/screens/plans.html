@@ -1,20 +1,23 @@
-<!-- @startingPoint section="Screens" subtitle="The distributor: entries narrowed by kind, the empty state that follows, and page two" viewport="1440x900" -->
+<!-- @startingPoint section="Screens" subtitle="Three tiers with one marked, a comparison answered in words, and what happens when you stop paying" viewport="1440x900" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
-<title>TYPO3 Dev Companion — news</title>
+<title>TYPO3 Dev Companion — what it costs</title>
 <link rel="stylesheet" href="../../packages/frontend/src/styles/styles.css" />
 </head>
 <body class="sds-app">
 <div class="sds-shell">
   <a class="sds-skip sds-btn sds-btn--secondary" href="#main-content">Skip to content</a>
   <header class="sds-bar">
-  <a class="sds-lockup" href="#news"><img class="sds-signet" src="../../packages/frontend/assets/design-system-signet-m.svg" alt="" width="24" height="24"><span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span></a>
+  <a class="sds-lockup" href="#plans"><img class="sds-signet" src="../../packages/frontend/assets/design-system-signet-m.svg" alt="" width="24" height="24"><span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span></a>
   <nav class="sds-bar__nav" aria-label="Sections">
     <div class="sds-bar__section"><a
-      class="sds-pill"
-      href="#">overview</a></div>
+      class="sds-pill is-active"
+      href="#"
+      
+      
+      aria-current="true">overview</a></div>
     <div
       class="sds-bar__section sds-bar__section--drop">
       <a
@@ -79,11 +82,8 @@
       </details>
     </div>
     <div class="sds-bar__section"><a
-      class="sds-pill is-active"
-      href="#"
-      
-      
-      aria-current="true">news</a></div>
+      class="sds-pill"
+      href="#">news</a></div>
   </nav>
   <div class="sds-bar__end">
     <div class="sds-search">
@@ -99,7 +99,7 @@
       value=""
       placeholder="Search"
       aria-label="Search"
-      aria-controls="sds-search-15"
+      aria-controls="sds-search-17"
       aria-expanded="false"
       
       
@@ -125,149 +125,211 @@
 
   <main class="sds-bands" id="main-content">
 
-    <section class="sds-band" id="news">
-      <div class="sds-stack sds-stack--tight">
-        <nav class="sds-crumbs" aria-label="Breadcrumb">
-  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">News</span>
-</nav>
-        <h1>News</h1>
-        <p class="sds-lead">
-          Releases, guides, and what the project decided. Every entry says which
-          release it holds for; nothing here is a roadmap.
-        </p>
-      </div>
-    </section>
-
-    <section class="sds-band sds-band--quiet" id="entries">
+    <section class="sds-band" id="plans">
       <div class="sds-stack">
-        <div class="sds-row">
-          <nav class="sds-pills">
-  <button type="button" class="sds-pill is-active" aria-current="true">all</button>
-  <button type="button" class="sds-pill">releases</button>
-  <button type="button" class="sds-pill">guides</button>
-  <button type="button" class="sds-pill">project</button>
-  <button type="button" class="sds-pill">security</button>
-</nav>
-          <span class="sds-label sds-row__end">8 of 8 entries</span>
-        </div>
-
-        <div class="sds-grid"><article class="sds-card">
-  <div class="sds-card__media">
-    <img class="sds-art" src="../../packages/frontend/assets/placeholders/tool-source-answer.png" alt="">
-  </div>
-  <div class="sds-card__body">
-    
-    <div class="sds-row">
-      <span class="sds-badge">release</span>
-      <span class="sds-label">9 August 2026 · 1.4.0</span>
-    </div>
-    <h3 class="sds-card__title"><a href="#">Answers now name the source that answered</a></h3>
-    <p class="sds-card__text">Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.</p>
-  </div>
-  
-</article><article class="sds-card">
-  <div class="sds-card__media">
-    <img class="sds-art" src="../../packages/frontend/assets/placeholders/tool-package-registry.png" alt="">
-  </div>
-  <div class="sds-card__body">
-    
-    <div class="sds-row">
-      <span class="sds-badge">guide</span>
-      <span class="sds-label">24 July 2026</span>
-    </div>
-    <h3 class="sds-card__title"><a href="#">Reading the package registry when the installation will not boot</a></h3>
-    <p class="sds-card__text">The fallback returns every declared entry and none of the dynamically registered ones. What makes it usable is that the shortfall travels with the result.</p>
-  </div>
-  
-</article><article class="sds-card">
-  <div class="sds-card__media">
-    <img class="sds-art" src="../../packages/frontend/assets/placeholders/tool-external-path.png" alt="">
-  </div>
-  <div class="sds-card__body">
-    
-    <div class="sds-row">
-      <span class="sds-badge">project</span>
-      <span class="sds-label">2 July 2026</span>
-    </div>
-    <h3 class="sds-card__title"><a href="#">One line leaves the machine, and it is drawn as the exception</a></h3>
-    <p class="sds-card__text">Everything that answers a question is already on the developer’s disk. The single read-only path to the documentation is in the diagram rather than in a footnote.</p>
-  </div>
-  
-</article><article class="sds-card">
-  <div class="sds-card__media">
-    <img class="sds-art" src="../../packages/frontend/assets/placeholders/tool-changelog-history.png" alt="">
-  </div>
-  <div class="sds-card__body">
-    
-    <div class="sds-row">
-      <span class="sds-badge">release</span>
-      <span class="sds-label">18 June 2026 · 1.3.0</span>
-    </div>
-    <h3 class="sds-card__title"><a href="#">Changelog lookups bind down to 7.0</a></h3>
-    <p class="sds-card__text">A question about an old installation is answered with what held then, or not at all. Where the bundled knowledge stops, the tool says so instead of answering from the nearest release it has.</p>
-  </div>
-  
-</article><article class="sds-card">
-  <div class="sds-card__media">
-    <img class="sds-art" src="../../packages/frontend/assets/placeholders/tool-registration.png" alt="">
-  </div>
-  <div class="sds-card__body">
-    
-    <div class="sds-row">
-      <span class="sds-badge">guide</span>
-      <span class="sds-label">30 May 2026</span>
-    </div>
-    <h3 class="sds-card__title"><a href="#">Writing a task skill that fails at registration</a></h3>
-    <p class="sds-card__text">A skill declares the sources it needs. One that cannot reach any of them says so when the server starts, which is the difference between a broken setup and a wrong answer.</p>
-  </div>
-  
-</article><article class="sds-card">
-  <div class="sds-card__media">
-    <img class="sds-art" src="../../packages/frontend/assets/placeholders/tool-written-record.png" alt="">
-  </div>
-  <div class="sds-card__body">
-    
-    <div class="sds-row">
-      <span class="sds-badge">project</span>
-      <span class="sds-label">12 May 2026</span>
-    </div>
-    <h3 class="sds-card__title"><a href="#">What is written down, and what is not</a></h3>
-    <p class="sds-card__text">The decisions kept in the repository, the ones kept in the knowledge base, and why the two lists are deliberately not the same.</p>
-  </div>
-  
-</article></div>
-
-        <nav class="sds-pagination" aria-label="Pages">
-  <span class="sds-pagination__step is-disabled" aria-disabled="true"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-start"><g fill="currentColor"><path d="M6.414 8 9.95 4.464l-.707-.707L5 8l4.243 4.243.707-.707z"></path></g></svg>Previous</span>
-  <span class="sds-pagination__page is-active" aria-current="page">1</span><a class="sds-pagination__page" href="#entries-2">2</a>
-  <a class="sds-pagination__step" href="#entries-2" rel="next">Next<svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg></a>
-  <span class="sds-pagination__count">8 entries</span>
-</nav>
+        <span class="sds-label">what it costs</span>
+        <h1 class="sds-display">Free, and the paid one is the same program</h1>
+        <p class="sds-lead">
+          What you pay for is answers about releases nobody else still builds
+          for, and somebody answerable when one is wrong. You never pay for a
+          tool, a seat, or a feature held back to make a tier look thin.
+        </p>
+        <div class="sds-actions"><button class="sds-btn sds-btn--primary sds-btn--lg" type="button"><span class="sds-btn__label">Install the free one</span></button></div>
       </div>
     </section>
 
-    <section class="sds-band" id="follow">
+    <section class="sds-band sds-band--quiet" id="tiers">
+      <div class="sds-stack">
+        <div class="sds-grid sds-grid--flush"><article class="sds-card">
+  
+  <div class="sds-card__body">
+    
+    <div class="sds-row">
+      
+      <span class="sds-label">€0 · and it stays €0</span>
+    </div>
+    <h3 class="sds-card__title"><a href="#compare">Community</a></h3>
+    <div class="sds-card__text"><p>Anyone running a supported release, on their own machine or in CI.</p>
+  <ul class="sds-list">
+    <li>Every tool, every source, no feature held back</li><li>Answers for the releases still in active support</li><li>Issues answered in the tracker, by whoever gets there first</li>
+  </ul></div>
+  </div>
+  <div class="sds-card__foot">
+    
+    <span class="sds-card__action">Install it<svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-arrow-right"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg></span>
+  </div>
+</article><article class="sds-card">
+  
+  <div class="sds-card__body">
+    
+    <div class="sds-row">
+      <span class="sds-badge">where most start</span>
+      <span class="sds-label">€490 · per year, per organisation</span>
+    </div>
+    <h3 class="sds-card__title"><a href="#compare">Extended</a></h3>
+    <div class="sds-card__text"><p>Teams still running a release that left active support.</p>
+  <ul class="sds-list">
+    <li>Answers for releases back to 7.0, including the ones nobody else builds for</li><li>A named contact, and a reply inside two working days</li><li>The bundled index updated on the same schedule as the supported one</li>
+  </ul></div>
+  </div>
+  <div class="sds-card__foot">
+    
+    <span class="sds-card__action">Start a subscription<svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-arrow-right"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg></span>
+  </div>
+</article><article class="sds-card">
+  
+  <div class="sds-card__body">
+    
+    <div class="sds-row">
+      
+      <span class="sds-label">€2,900 · per year, per organisation</span>
+    </div>
+    <h3 class="sds-card__title"><a href="#compare">Audited</a></h3>
+    <div class="sds-card__text"><p>Organisations that have to show where an answer came from.</p>
+  <ul class="sds-list">
+    <li>A signed record of every index build, kept for seven years</li><li>The source list fixed by contract rather than by release note</li><li>A yearly review of what the tool read and what it never sent</li>
+  </ul></div>
+  </div>
+  <div class="sds-card__foot">
+    
+    <span class="sds-card__action">Talk to us first<svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-arrow-right"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg></span>
+  </div>
+</article></div>
+        <p>
+          Prices are per year and exclude VAT. There is no per-seat count and
+          no minimum term — a subscription that lapses becomes the free
+          one rather than an expired install.
+        </p>
+        <!-- Under the prices while they are still on screen, rather than in a
+             policy: a reader deciding needs the boundary at the moment they
+             are deciding, and a tier list nobody can price out is a tier list
+             that gets read as the whole cost. -->
+        <h2 class="sds-h3">What none of them include</h2>
+        <ul class="sds-list">
+          <li>Hosting. It runs on your machine or in your pipeline, and that is where it stays.</li>
+          <li>The work of a migration. Whoever does that is a person, not a subscription.</li>
+          <li>Training. The manual is free and stays free; a course is somebody's time.</li>
+          <li>Anything the free one does not already do. There is no feature behind the price.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="sds-band" id="compare">
+      <div class="sds-stack">
+        <h2>What actually differs</h2>
+        <p>
+          Seven questions, answered in words. A column of ticks says “yes” and
+          leaves the reader to work out what to — which is how a comparison
+          table ends up being the thing nobody trusts.
+        </p>
+        <div class="sds-table-scroll"><table class="sds-table sds-table--medium">
+  <thead><tr>
+    <th>What you are asking about</th>
+    <th>Community</th>
+    <th>Extended</th>
+    <th>Audited</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">Tools available</td>
+      <td>all</td>
+      <td>all</td>
+      <td>all</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">Releases answered for</td>
+      <td>in active support</td>
+      <td>down to 7.0</td>
+      <td>down to 7.0</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">Index rebuilt</td>
+      <td>every release</td>
+      <td>every release</td>
+      <td>every release, signed</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">Reply to an issue</td>
+      <td>best effort</td>
+      <td>two working days</td>
+      <td>one working day</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">Record of what was read</td>
+      <td>none kept</td>
+      <td>none kept</td>
+      <td>seven years</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">Runs offline</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">What leaves your machine</td>
+      <td>nothing</td>
+      <td>nothing</td>
+      <td>nothing</td>
+    </tr>
+  </tbody>
+</table></div>
+      </div>
+    </section>
+
+    <section class="sds-band sds-band--quiet" id="questions">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>Follow along</h2>
+          <h2>Before you decide</h2>
           <p>
-            Releases are announced here and in the repository. The feed carries
-            the same entries in the same order, with the release each one holds
-            for in its title.
+            The four questions a price raises, answered here rather than in a
+            policy somebody has to go and find. The first one stands open
+            because it is the one nobody asks out loud.
           </p>
-          <div class="sds-actions">
-            <a class="sds-link sds-link--external" href="https://github.com" target="_blank" rel="noreferrer"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-brand-github"><g fill="currentColor"><path d="M8.006 1C4.132 1 1 4.155 1 8.058c0 3.12 2.007 5.76 4.79 6.695.348.07.476-.152.476-.338 0-.164-.012-.725-.012-1.31-1.948.422-2.354-.84-2.354-.84-.313-.819-.777-1.029-.777-1.029-.638-.432.046-.432.046-.432.708.047 1.079.724 1.079.724.626 1.075 1.635.772 2.041.585.058-.456.244-.772.44-.947-1.553-.164-3.189-.771-3.189-3.482 0-.771.278-1.402.72-1.893-.07-.175-.314-.9.069-1.87 0 0 .591-.187 1.925.725a6.736 6.736 0 0 1 1.752-.234c.591 0 1.194.082 1.751.234 1.334-.912 1.926-.725 1.926-.725.383.97.139 1.695.07 1.87.452.49.718 1.122.718 1.893 0 2.71-1.635 3.307-3.201 3.482.255.222.476.643.476 1.309 0 .946-.012 1.706-.012 1.94 0 .186.128.409.476.338A7.053 7.053 0 0 0 15 8.058C15.011 4.155 11.868 1 8.006 1Z"></path></g></svg>Repository <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>
-            <a class="sds-link" href="#"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-rss"><g fill="currentColor"><path d="M2 4c5.514 0 10 4.486 10 10h2C14 7.372 8.628 2 2 2v2z"></path><path d="M2 8c3.308 0 6 2.692 6 6h2a8 8 0 0 0-8-8v2zM3.5 14a1.5 1.5 0 0 1 0-3 1.5 1.5 0 0 1 0 3z"></path></g></svg>Feed</a>
-          </div>
+          <div class="sds-note sds-note--ok">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Success" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">Nothing of yours is on our side</div>
+    <div class="sds-note__body">The tool reads your installation and answers locally. There is no
+              account, no upload and no record of what you asked — which is also why
+              cancelling cannot cost you anything you had.</div>
+  </div>
+</div>
         </div>
         <div class="sds-column">
-          <div class="sds-note sds-note--info">
-  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
-  <div class="sds-note__content">
-    <div class="sds-note__title">An entry is not a version binding</div>
-    <div class="sds-note__body">What a release changed is written in the changelog the tools read.
-              A post says what it was for; the tool says what it holds for.</div>
-  </div>
+          <div class="sds-accordion">
+  <details
+    class="sds-accordion__item"
+    name="plan-questions"
+    open>
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>What happens when I stop paying?</summary>
+    <div class="sds-accordion__body">The tool keeps working, at the Community level: every tool,
+      every source, and answers for the releases still in active support. What
+      you lose is the answers for releases that have left it, and the reply
+      time. Nothing is deleted, nothing is locked, and no record of yours is
+      held back — there is nothing of yours on our side to hold.</div>
+  </details><details
+    class="sds-accordion__item"
+    name="plan-questions">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Is the paid version a different program?</summary>
+    <div class="sds-accordion__body">No. It is the same binary reading a larger index. That is why
+      Community is not a trial and does not expire: there is no second build
+      with the features taken out.</div>
+  </details><details
+    class="sds-accordion__item"
+    name="plan-questions">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Per organisation — what counts as one?</summary>
+    <div class="sds-accordion__body">Whoever pays the invoice, and everyone who works for them.
+      Not per seat, not per machine, and not per project: a licence somebody
+      has to count is a licence somebody gets wrong.</div>
+  </details><details
+    class="sds-accordion__item"
+    name="plan-questions">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Can I pay for one release only?</summary>
+    <div class="sds-accordion__body">No, and it is worth saying why rather than leaving it as a
+      gap: the index is built once for all of them, so a subscription for one
+      release would cost us the same and cost you a negotiation.</div>
+  </details>
 </div>
         </div>
       </div>

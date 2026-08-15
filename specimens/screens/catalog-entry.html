@@ -1,16 +1,16 @@
-<!-- @startingPoint section="Screens" subtitle="Every register under one another in one column — the page make rhythm measures" viewport="1440x900" -->
+<!-- @startingPoint section="Screens" subtitle="One item of a set in full — both modes forced on a subtree, every size in one table" viewport="1440x900" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
-<title>TYPO3 Dev Companion — how this page is set</title>
+<title>TYPO3 Dev Companion — one glyph</title>
 <link rel="stylesheet" href="../../packages/frontend/src/styles/styles.css" />
 </head>
 <body class="sds-app">
 <div class="sds-shell">
   <a class="sds-skip sds-btn sds-btn--secondary" href="#main-content">Skip to content</a>
   <header class="sds-bar">
-  <a class="sds-lockup" href="#reading"><img class="sds-signet" src="../../packages/frontend/assets/design-system-signet-m.svg" alt="" width="24" height="24"><span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span></a>
+  <a class="sds-lockup" href="#glyphs"><img class="sds-signet" src="../../packages/frontend/assets/design-system-signet-m.svg" alt="" width="24" height="24"><span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Dev Companion</span></span></a>
   <nav class="sds-bar__nav" aria-label="Sections">
     <div class="sds-bar__section"><a
       class="sds-pill"
@@ -60,8 +60,11 @@
     <div
       class="sds-bar__section sds-bar__section--drop">
       <a
-      class="sds-pill"
-      href="#">tools</a>
+      class="sds-pill is-active"
+      href="#"
+      
+      
+      aria-current="true">tools</a>
       <details
         class="sds-bar__fold">
         <summary aria-label="Pages in tools"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
@@ -79,11 +82,8 @@
       </details>
     </div>
     <div class="sds-bar__section"><a
-      class="sds-pill is-active"
-      href="#"
-      
-      
-      aria-current="true">news</a></div>
+      class="sds-pill"
+      href="#">news</a></div>
   </nav>
   <div class="sds-bar__end">
     <div class="sds-search">
@@ -99,7 +99,7 @@
       value=""
       placeholder="Search"
       aria-label="Search"
-      aria-controls="sds-search-18"
+      aria-controls="sds-search-5"
       aria-expanded="false"
       
       
@@ -127,214 +127,158 @@
     <aside class="sds-body__rail" id="page-rail">
       <nav class="sds-rail" aria-label="Pages">
   
-  <a class="sds-rail__item is-active" href="#registers" aria-current="page"><span class="sds-rail__label">The two registers</span></a>
-  <a class="sds-rail__item" href="#blocks"><span class="sds-rail__label">What a block carries</span></a>
-  <a class="sds-rail__item" href="#step"><span class="sds-rail__label">The vertical step</span></a>
-  <a class="sds-rail__item" href="#values"><span class="sds-rail__label">Where a value comes from</span></a>
-  <a class="sds-rail__item" href="#questions"><span class="sds-rail__label">Questions</span></a>
+  <a class="sds-rail__item" href="#overview"><span class="sds-rail__label">Overview</span></a>
+  <a class="sds-rail__item" href="#glossary"><span class="sds-rail__label">Glossary</span></a>
+  <div class="sds-rail__group">
+    <span class="sds-rail__item"><span class="sds-rail__label">tools</span></span>
+    <details class="sds-rail__fold" open>
+      <summary aria-label="Pages in tools"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+      <a class="sds-rail__item is-active" href="#glyphs" aria-current="page"><span class="sds-rail__label">typo3_icon_lookup</span></a>
+      <a class="sds-rail__item" href="#label"><span class="sds-rail__label">typo3_label_lookup</span></a>
+      <a class="sds-rail__item" href="#schema"><span class="sds-rail__label">typo3_schema_lookup</span></a>
+    </details>
+  </div>
 </nav>
     </aside>
 
     <main class="sds-body__main" id="main-content">
       <div class="sds-stack sds-stack--tight">
         <nav class="sds-crumbs" aria-label="Breadcrumb">
-  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">How this is set</span>
+  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><a href="#">Tools</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><a href="#">Glyphs</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">actions-document-edit</span>
 </nav>
-        <span class="sds-badge">reference</span>
-        <h1>How this page is set</h1>
+        <h1><span class="sds-mono">actions-document-edit</span></h1>
         <p class="sds-lead">
-          Every size on it comes off one scale and every gap off one grid. That
-          is not a house style — it is the only thing that lets a reader tell a
-          heading from a title from a label without reading any of them first.
+          Open a record for editing. The pencil on a sheet is the backend’s one
+          mark for “change this”, and nothing else in the set may wear it.
         </p>
+        <div class="sds-row">
+          <span class="sds-label">Answers for</span>
+          <span class="sds-badge">12.4</span><span class="sds-badge">13.4</span><span class="sds-badge">14.3</span><span class="sds-badge">main</span>
+          <span class="sds-label sds-row__end">records · since 1.11.0</span>
+        </div>
       </div>
 
-      <h2 class="sds-h3" id="registers">The two registers</h2>
+      <h2 class="sds-h3">In both modes</h2>
       <p>
-        Running text is the reading register: a paragraph at 16px, held to a
-        measure, with headings above it that get quieter as they get deeper.
-        Anything the machine wrote — a control, a table row, a code block —
-        runs on the same scale a few steps down, because it is scanned rather
-        than read.
+        The same call on either ground, and each pane forces the mode on itself
+        rather than painting one. A glyph that goes flat in dark is a glyph
+        drawn against one background, and this is where that shows.
       </p>
+
+      <div class="sds-grid"><div class="sds-panel" style="flex:1; min-width:200px">
+  
+  <div class="sds-label">light</div>
+  <div class="sds-surface-title">On the page’s own ground</div>
+  <div class="sds-surface-body"><div class="sds-row">
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg>
+      <svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg>
+      <svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg>
+    </div></div>
+</div><div class="sds-panel" style="flex:1; min-width:200px">
+  
+  <div class="sds-label">dark</div>
+  <div class="sds-surface-title">On the page’s own ground</div>
+  <div class="sds-surface-body"><div class="sds-row">
+      <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg>
+      <svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg>
+      <svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg>
+    </div></div>
+</div></div>
+
+      <h2 class="sds-h3">Every size it is drawn at</h2>
       <p>
-        The mistake the scale exists to prevent is a third voice — a size chosen
-        for one component because neither register looked right that afternoon.
-        Every such size reads as a fourth level of hierarchy that means nothing.
+        The scale is 16, 20, 24 and whole multiples of it — never 18, never 22.
+        Below 16 there is no glyph, because a mark nobody can make out is a
+        smudge that costs a request.
       </p>
 
       <table class="sds-table sds-table--medium">
   <thead><tr>
-    <th>Register</th>
-    <th>Steps</th>
-    <th>What it is for</th>
+    <th>Drawn</th>
+    <th>Size</th>
+    <th>Where it is used</th>
   </tr></thead>
   <tbody>
     <tr>
-      <td>Display</td>
-      <td class="sds-td-name">58 / 44 / 34</td>
-      <td>A page opener and the two headings under it. Once each.</td>
+      <td><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg></td>
+      <td class="sds-td-meta">em</td>
+      <td>Inside text — as big as the text it stands in, and it moves with it</td>
     </tr>
     <tr>
-      <td>Reading</td>
-      <td class="sds-td-name">20 / 19 / 16</td>
-      <td>A third heading, a lead, and the paragraph everything else is measured against.</td>
+      <td><svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg></td>
+      <td class="sds-td-meta">16 px</td>
+      <td>The floor. A glyph in a table cell, a badge, a dense row</td>
     </tr>
     <tr>
-      <td>Dense</td>
-      <td class="sds-td-name">14 / 13</td>
-      <td>Every control, every table row, and everything the machine wrote.</td>
+      <td><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg></td>
+      <td class="sds-td-meta">20 px</td>
+      <td>A control’s own mark — a button, a field, a rail item</td>
     </tr>
     <tr>
-      <td>Label</td>
-      <td class="sds-td-name">12 / 11</td>
-      <td>A machine name, a table head, a caption. Never a sentence.</td>
+      <td><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg></td>
+      <td class="sds-td-meta">24 px</td>
+      <td>A glyph standing alone on a line of its own</td>
+    </tr>
+    <tr>
+      <td><svg width="16" height="16" style="width:32px;height:32px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg></td>
+      <td class="sds-td-meta">32 px</td>
+      <td>A module in a navigation, a card told apart before it is read</td>
+    </tr>
+    <tr>
+      <td><svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document-edit"><g fill="currentColor"><path d="M13 5H3V3h10v2zm-1 1H3v1h8l1-1zm-6 6H3v1h2l1-1zm4-4H3v1h6l1-1zm-2 2H3v1h4l1-1zM14 14h-1l-1 1h2.5c.3 0 .5-.2.5-.5V12l-1 1v1z"></path><path d="M5 14H2V2h12v3h1V1.5c0-.3-.2-.5-.5-.5h-13c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5H5v-1zM14.2 7.2l1.6 1.6c.1.1.1.3 0 .4l-1.3 1.3-2-2 1.3-1.3c.1-.1.3-.1.4 0zm-7.1 6.7L12 9l2 2-4.9 4.9c-.1.1-.1.1-.2.1H7v-1.9c0-.1 0-.1.1-.2z"></path></g></svg></td>
+      <td class="sds-td-meta">48 px</td>
+      <td>An empty state, or the subject of a page like this one</td>
     </tr>
   </tbody>
 </table>
 
-      <h2 class="sds-h3" id="blocks">What a block carries</h2>
+      <h2 class="sds-h3">Using it</h2>
       <p>
-        Anything with a heading over its own text is read, so its body is the
-        page's own size. Only the title tells two kinds apart: a card and a
-        result carry the louder one, because their title is somewhere you can go
-        rather than something you read.
-      </p>
-
-      <div class="sds-note sds-note--info">
-  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info"><g fill="currentColor"><path d="M7 2.25c0-.14.11-.25.25-.25h1.5c.14 0 .25.11.25.25v1.5c0 .14-.11.25-.25.25h-1.5C7.11 4 7 3.89 7 3.75v-1.5zM10.75 14h-5.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25H7V8h-.75C6.11 8 6 7.89 6 7.75v-1.5A.25.25 0 0 1 6.25 6h2.5a.25.25 0 0 1 .25.25V12h1.75a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25z"></path></g></svg></span>
-  <div class="sds-note__content">
-    <div class="sds-note__title">A block is read at the page it stands on</div>
-    <div class="sds-note__body">There is no second register to rebind and nothing to keep in step. What
-          is dense is what the machine wrote — a control, a row, a code block, the
-          line about the thing beside it — and each of those says so itself.</div>
-  </div>
-</div>
-
-      <p>
-        Below is the same shape twice: once as an entry, whose title is a
-        destination, and once as a surface, which states something in place.
-        The bodies are one size and only the titles differ.
-      </p>
-
-      <div class="sds-grid sds-grid--wide"><article class="sds-card">
-  
-  <div class="sds-card__body">
-    
-    <div class="sds-row">
-      
-      <span class="sds-label">entry</span>
-    </div>
-    <h3 class="sds-card__title"><a href="#blocks">An entry</a></h3>
-    <p class="sds-card__text">Its title is a link, so it is the louder of the two and a page of them can be scanned by title alone.</p>
-  </div>
-  
-</article><div class="sds-panel" style="flex:1; min-width:200px">
-  
-  
-  <div class="sds-surface-title">A surface</div>
-  <div class="sds-surface-body">It states something in place. Its title stays the quieter one, because nothing here is a destination and a title that looks like one is a promise the box does not keep.</div>
-</div></div>
-
-      <h2 class="sds-h3" id="step">The vertical step</h2>
-      <p>
-        What separates two things on a page is the air between them, and the air
-        is what says which of them owns the other. A second-level heading takes
-        40px above it and the flow gap below: the large one belongs to the
-        section it opens, the small one binds it to what it introduces.
-      </p>
-      <p>
-        Get that pair backwards and the heading floats between two sections
-        belonging to neither, which is the most common way a page with correct
-        sizes still reads as a list of fragments.
-      </p>
-
-      <figure class="sds-quote">
-  <blockquote class="sds-quote__body">A heading is the top of what follows, not a gap after what came before.</blockquote>
-  <figcaption class="sds-quote__by"><div class="sds-byline">
-  
-  <div class="sds-byline__who">
-    <span class="sds-byline__name">document.css <span class="sds-byline__role">· the rule the layer is built on</span></span>
-    
-  </div>
-</div></figcaption>
-</figure>
-
-      <h2 class="sds-h3" id="values">Where a value comes from</h2>
-      <p>
-        A token, or it is a defect. The scale holds the sizes and the grid holds
-        the gaps, and a component that needs something between two steps has
-        found either a missing step or a decision it should not be making alone.
+        The element, everywhere. It carries the identifier and nothing else —
+        colour follows the text it stands in, which is the whole rule, and a
+        size is the exception rather than the habit.
       </p>
 
       <div class="sds-code">
   <div class="sds-code__head">
-    <span class="sds-code__lang">css</span>
+    <span class="sds-code__lang">html</span>
     <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
   </div>
-  <pre class="sds-code__body"><code class="language-css"><span class="hljs-comment">/* a block is read, so it is set at the page it stands on */</span>
-<span class="hljs-attr">--block-title-size</span>: <span class="hljs-built_in">var</span>(--font-size-body);
-<span class="hljs-attr">--entry-title-size</span>: <span class="hljs-built_in">var</span>(--font-size-h3);
-<span class="hljs-attr">--block-body-size</span>:  <span class="hljs-built_in">var</span>(--font-size-body);
-
-<span class="hljs-comment">/* and the line *about* a thing is not the thing */</span>
-<span class="hljs-attr">--aside-size</span>: <span class="hljs-built_in">var</span>(--font-size-dense);</code></pre>
+  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">sds-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;actions-document-edit&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sds-icon</span>&gt;</span></code></pre>
 </div>
 
-      <div class="sds-grid sds-grid--dense"><div class="sds-stat">
-  <div class="sds-stat__value">10</div>
-  <div class="sds-label">type steps</div>
-  <div class="sds-stat__note">every size on every surface</div>
-</div><div class="sds-stat">
-  <div class="sds-stat__value">14</div>
-  <div class="sds-label">space steps</div>
-  <div class="sds-stat__note">halved below 16px, thinning above 24</div>
-</div><div class="sds-stat">
-  <div class="sds-stat__value">1</div>
-  <div class="sds-label">register for a block</div>
-  <div class="sds-stat__note">it is read, so it is set at the page</div>
-</div></div>
+      <p>
+        Where a surface runs no script, that same tag is rendered ahead of time
+        and the glyph is already in the page — the identifier travels with it,
+        so a reader of the markup can still tell which mark they have.
+      </p>
 
-      <h2 class="sds-h3" id="questions">Questions</h2>
-      <div class="sds-accordion">
-  <details
-    class="sds-accordion__item"
-    name="reading"
-    open>
-    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Is a block smaller than the text around it?</summary>
-    <div class="sds-accordion__body">It is not. A block holding sentences is read, so it is set at
-      the page's own size wherever it stands — an admonition is the paragraph
-      above it with a border around it. What stays small is what the machine
-      wrote, and a caption, which is a label rather than a sentence.</div>
-  </details><details
-    class="sds-accordion__item"
-    name="reading">
-    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Where does a value that is not on the scale come from?</summary>
-    <div class="sds-accordion__body">Nowhere it is allowed to. A size that is not a
-      <span class="sds-mono">--font-size-*</span> and a gap that is not a
-      <span class="sds-mono">--space-*</span> are both values somebody typed,
-      and <span class="sds-mono">make rhythm</span> is what finds them.</div>
-  </details><details
-    class="sds-accordion__item"
-    name="reading">
-    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>What decides how much air a heading gets above it?</summary>
-    <div class="sds-accordion__body">Its level. The step above a heading is what says which one it is — the size only confirms it, and at the fourth level the size has stopped changing altogether.</div>
-  </details>
-</div>
-
-      <article class="sds-card">
-  
-  <div class="sds-card__body">
-    
-    <div class="sds-row">
-      <span class="sds-badge">reference</span>
-      <span class="sds-label">tokens</span>
-    </div>
-    <h3 class="sds-card__title"><a href="#registers">The tokens themselves</a></h3>
-    <p class="sds-card__text">Every value named above, with what it is for and what it is never for.</p>
+      <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">html</span>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
   </div>
-  
-</article>
+  <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sds-icon&quot;</span> <span class="hljs-attr">data-icon</span>=<span class="hljs-string">&quot;actions-document-edit&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 16 16&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">use</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;icons/sprites/actions.svg#actions-document-edit&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">use</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
+</div>
+
+      <div class="sds-note sds-note--info">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">A glyph is asked for by name</div>
+    <div class="sds-note__body">The identifier is the contract — the drawing behind it may be redrawn
+          and the name will not move. Copy the name, never the path to the file it
+          happens to live in today.</div>
+  </div>
+</div>
+
+      <!-- The way on through the set. A catalog entry with no neighbours sends
+           the reader back to the wall to find the one next to it. -->
+      <nav class="sds-foot sds-pager" aria-label="Through the glyph set">
+  <a class="sds-btn sds-btn--secondary" href="#glyph" rel="prev"><svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" role="img" aria-label="Previous page" viewBox="0 0 16 16" data-icon="actions-arrow-left"><g fill="currentColor"><path d="M14 7H6.7V5c0-.4-.5-.6-.8-.4l-3.7 3c-.2.2-.2.6 0 .8l3.7 3c.3.3.8 0 .8-.4V9H14V7z"></path></g></svg><span class="sds-btn__label">actions-document-add</span></a>
+  <span class="sds-pager__next"><a class="sds-btn sds-btn--secondary" href="#glyph" rel="next"><span class="sds-btn__label">actions-document-view</span><svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" role="img" aria-label="Next page" viewBox="0 0 16 16" data-icon="actions-arrow-right"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg></a></span>
+</nav>
     </main>
   </div>
 
