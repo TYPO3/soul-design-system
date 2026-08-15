@@ -14,6 +14,7 @@ import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/code.ts';
 import '../../packages/frontend/src/components/field.ts';
+import '../../packages/frontend/src/components/field-group.ts';
 import '../../packages/frontend/src/components/icon-tile.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/stat.ts';
@@ -97,6 +98,18 @@ const SHOWN: readonly IconId[] = [
   'actions-arrow-end',
 ];
 
+/** What the hero's group holds: the control the page exists for and the two
+    ways on. One template for both renderings — the group receives it between
+    the tags or as a property, whichever the rendering can hold. */
+const searchGroup = (actions: TemplateResult): TemplateResult => html`<sds-field
+    size="lg"
+    value="Search 392 glyphs by name or purpose"
+    icon="actions-search"
+    label="Search the glyph set"
+    min-width="420"
+  ></sds-field>
+  <div class="sds-actions">${actions}</div>`;
+
 /** The page. `flat` composes the form a static file can hold. */
 export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a button's label is content, and
@@ -133,30 +146,23 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
       <div class="sds-split sds-split--center">
         <div class="sds-column">
           <!-- The label, the claim and the sentence under it are one thing and
-               stand at one distance; the outer stack ranks what comes after
-               them — a field and a row of actions carry no step of their own. -->
-          <div class="sds-stack">
-            <div class="sds-stack sds-stack--tight">
-              <span class="sds-label">the glyph set</span>
-              <h1 class="sds-display">One mark per thing the backend does</h1>
-              <p class="sds-lead">
-                Search by what the thing does, not by what it looks like. Every
-                drawing is indexed by purpose as well as by name, so
-                <span class="sds-mono">bin</span> finds
-                <span class="sds-mono">actions-delete</span>.
-              </p>
-            </div>
-            <!-- The control the page exists for, at the size a field is when
-                 it is what the screen is for rather than one row of a form. -->
-            <sds-field
-              size="lg"
-              value="Search 392 glyphs by name or purpose"
-              icon="actions-search"
-              label="Search the glyph set"
-              min-width="420"
-            ></sds-field>
-            <div class="sds-actions">${actions}</div>
+               stand at one distance. -->
+          <div class="sds-stack sds-stack--tight">
+            <span class="sds-label">the glyph set</span>
+            <h1 class="sds-display">One mark per thing the backend does</h1>
+            <p class="sds-lead">
+              Search by what the thing does, not by what it looks like. Every
+              drawing is indexed by purpose as well as by name, so
+              <span class="sds-mono">bin</span> finds
+              <span class="sds-mono">actions-delete</span>.
+            </p>
           </div>
+          <!-- The control the page exists for, at the size a field is when it
+               is what the screen is for rather than one row of a form. The
+               group pays the steps the field and the actions do not carry. -->
+          ${flat
+            ? html`<sds-field-group .content="${searchGroup(actions)}"></sds-field-group>`
+            : html`<sds-field-group>${searchGroup(actions)}</sds-field-group>`}
         </div>
         <div class="sds-column">
           <!-- The set, not a decoration: a reader knows in a second whether

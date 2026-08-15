@@ -23,7 +23,7 @@ Two rules follow, and both are load-bearing:
 |---|---|
 | Text | `sds-icon` `sds-link` |
 | Brand, chrome | `sds-theme` |
-| Controls | `sds-button` `sds-badge` `sds-field` `sds-field-error` `sds-checkbox` `sds-radio` `sds-form-errors` |
+| Controls | `sds-button` `sds-badge` `sds-field` `sds-field-group` `sds-field-error` `sds-checkbox` `sds-radio` `sds-form-errors` — `sds-field-group` is a control and what stands with it on a page (the field, a row of actions, a hint) at the normal step; a field or a row of actions alone owes none, so loose they touch |
 | Navigation | `sds-nav-pills` `sds-nav-main` `sds-tabs`/`sds-tab-item` `sds-nav-rail` `sds-nav-toc` `sds-nav-breadcrumb` `sds-footer` `sds-accordion`/`sds-accordion-item` `sds-search`/`sds-search-hits` — `sds-nav-main` is the whole bar: it is handed the site as one `MenuEntry` with everything under it, measures what still fits, opens a section's pages in a drop or a wall under the row, and on a phone steps through the menu a level at a time in one drawer. Search fetches its index on the first keystroke and drops `sds-search-hits` under the field; that element is handed the hits and draws them as `sds-search-result` rows, so a page of results and the drop are the same list. `sds-nav-toc` is what is on the page being read, and the one navigation that finds its own current entry: it marks the section the reader has scrolled to |
 | Surfaces | `sds-surface` `sds-overlay` `sds-modal` `sds-dialog` — `sds-surface` is a *filled* plane and takes `plane="raised|sunken"`; the plane with no fill is a card, and `sds-card` draws it |
 | Data | `sds-table` `sds-code` `sds-diff` `sds-stat` `sds-figure` `sds-image` `sds-embed` `sds-lightbox` `sds-card`/`sds-grid` `sds-search-result` `sds-nav-pagination` `sds-nav-pager` — `sds-card` is a way into something and the whole of it is the link, whether it stands alone or is one entry in a list of them; `sds-grid` takes cards and carries how wide the set runs |
@@ -94,7 +94,7 @@ inline styles — do not mint a `sds-` name.
 | Long text | `sds-quote` `sds-quote__body` `sds-quote__by` — the attribution is required; `sds-byline` `sds-byline__mark` `sds-byline__who` `sds-byline__name` `sds-byline__role` |
 | Buttons | `sds-btn` + `--primary` `--secondary` `--ghost` `--sm` `--icon`. Hand-written markup writes `type="button"` unless it is the form's submit — a `<button>` with no type inside a `<form>` submits it |
 | Badges | `sds-badge` + `--accent` `--ok` `--warn` `--error` |
-| Fields | `sds-field` + `--sm` `--lg` `--multi` — the control heights a button has, `md` unless one is said, so a field and the button beside it stand on one line; `sds-input` `sds-select` `sds-field-error` |
+| Fields | `sds-field` + `--sm` `--lg` `--multi` — the control heights a button has, `md` unless one is said, so a field and the button beside it stand on one line; `sds-input` `sds-select` `sds-field-error` `sds-field-group` |
 | Form | `sds-form` `sds-field-row` `sds-field-label` `sds-field-req` `sds-field-hint` — a field in a form owes a visible label, a hint under the control and an error under both; a placeholder is not a label |
 | Choices | `sds-check` `sds-check__mark` `sds-check__body` `sds-check__label` `sds-check__hint` `sds-choices`; `sds-form-errors` `sds-form-errors__list` |
 | Tables | `sds-table` + `--compact` `--medium` `--airy`, wrapped in `sds-table-scroll` where it may outgrow its column; cells `sds-td-name` `sds-td-meta` |

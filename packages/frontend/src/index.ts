@@ -15,6 +15,7 @@ import './components/badge.ts';
 import './components/link.ts';
 import './components/nav-breadcrumb.ts';
 import './components/field.ts';
+import './components/field-group.ts';
 import './components/field-error.ts';
 import './components/checkbox.ts';
 import './components/radio.ts';
@@ -62,6 +63,7 @@ export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts
 export { SdsLink, type LinkProps } from './components/link.ts';
 export { SdsNavBreadcrumb, type CrumbsProps, type Crumb } from './components/nav-breadcrumb.ts';
 export { SdsField, fieldClass, type FieldProps } from './components/field.ts';
+export { SdsFieldGroup } from './components/field-group.ts';
 export { SdsFieldError } from './components/field-error.ts';
 export { SdsCheckbox, type CheckboxProps } from './components/checkbox.ts';
 export { SdsRadio, type RadioProps, type Choice } from './components/radio.ts';
@@ -118,6 +120,7 @@ export const TAGS = [
   'sds-link',
   'sds-nav-breadcrumb',
   'sds-field',
+  'sds-field-group',
   'sds-search',
   'sds-field-error',
   'sds-checkbox',

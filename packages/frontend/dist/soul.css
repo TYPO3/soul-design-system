@@ -295,6 +295,15 @@
   .sds-form-errors__list a{width:fit-content}
 }
 @layer base{
+  sds-field-group{display:block;min-width:0;margin-bottom:var(--space-4)}
+  sds-field-group>.sds-field-group{margin-bottom:0}
+  .sds-field-group{margin:0 0 var(--space-4)}
+}
+@layer components{
+  .sds-field-group{--sds-field-group-gap: var(--space-4);display:flex;flex-direction:column;gap:var(--sds-field-group-gap)}
+  .sds-field-group>*{margin-block:0}
+}
+@layer base{
   sds-table{display:block;min-width:0;margin-bottom:var(--space-4)}
   sds-table>:is(.sds-table,.sds-table-scroll){margin-bottom:0}
   .sds-table,.sds-table-scroll{margin:0 0 var(--space-4)}

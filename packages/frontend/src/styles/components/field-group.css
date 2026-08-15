@@ -1,0 +1,27 @@
+/* sds-field-group — a control and what stands with it, as one thing. */
+
+/* What this element is in a flow — three lines that only mean anything
+   together: the element carries the step, the box it always renders inside
+   itself gives that up, and the same box standing alone carries it. In `base`,
+   because a container in `layout` takes the step back and a step stated in
+   `components` would win over the container that already paid the gap. */
+@layer base {
+  sds-field-group { display: block; min-width: 0; margin-bottom: var(--space-4); }
+  sds-field-group > .sds-field-group { margin-bottom: 0; }
+  .sds-field-group { margin: 0 0 var(--space-4); }
+}
+
+@layer components {
+  /* What stands in it owes no step by its own contract, so the group is the
+     set that pays one — the normal step, because its parts are read as
+     neighbours on a page, not as rows of a form. */
+  .sds-field-group {
+    --sds-field-group-gap: var(--space-4);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-field-group-gap);
+  }
+  /* A gap and a margin are the same answer twice. */
+  .sds-field-group > * { margin-block: 0; }
+}
