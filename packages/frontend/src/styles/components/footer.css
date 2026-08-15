@@ -31,12 +31,24 @@
     --sds-footer-ink: var(--text-secondary);
     --sds-footer-ink-hover: var(--text-primary);
     --sds-footer-ink-quiet: var(--text-muted);
+    --sds-footer-duration: var(--duration-fast);
+    --sds-footer-ease: var(--ease-out);
+    /* The footer is a page row: full-bleed, its contents held to the measure.
+       The inset is computed on the row and never inherited ready-made — the
+       `%` and the animated gutter both resolve where they are written — and
+       the gutter is the page's token, so the step arrives without the footer
+       being named in the layout. */
+    --page-gutter: var(--gutter-page);
+    --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
+    --sds-footer-inset: var(--page-inset);
 
     background: var(--sds-footer-fill);
     padding-block: var(--sds-footer-pad-y);
+    padding-inline: var(--sds-footer-inset);
     display: flex;
     flex-direction: column;
     gap: var(--sds-footer-gap);
+    transition: --page-gutter var(--sds-footer-duration) var(--sds-footer-ease);
   }
   /* The mark beside the columns rather than over them, so the two read as one
      row and a narrow window stacks them with no rule saying when. Twice the

@@ -45,27 +45,25 @@
   }
   .sds-skip:focus-visible { translate: none; }
 
-  /* One measure, everything centred on it. The bar, body, page and foot are
-     full-bleed — a rule that stops short reads as a box — and what is held is
-     their contents. The gutter is a registered property so the step can be
-     animated: animate the padding and the page rubber-bands behind a drag. */
+  /* One measure, everything centred on it. A page row is full-bleed — a rule
+     that stops short reads as a box — and what is held is its contents. Only
+     the rows this layer owns stand here: the bar and the footer are rows too,
+     and each says so in its own file. The gutter is a registered property so
+     the step can be animated: animate it and the page rubber-bands. */
   @property --page-gutter {
     syntax: '<length>';
     inherits: true;
     initial-value: 0px;
   }
-  .sds-bar,
   .sds-body,
   .sds-page,
   .sds-band,
-  .sds-foot,
-  .sds-footer {
+  .sds-foot {
     --page-gutter: var(--gutter-page);
     --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
     padding-inline: var(--page-inset);
     transition:
     --page-gutter var(--duration-fast) var(--ease-out),
-    min-height var(--duration-fast) var(--ease-out),
     column-gap var(--duration-fast) var(--ease-out);
   }
 
@@ -226,23 +224,15 @@
      on every page. The sections and the field are not dropped at a breakpoint
      at all — that is `sds-nav-main`'s measurement. */
   @media (max-width: 1140px) {
-    .sds-bar,
-    .sds-body,
-    .sds-page,
-    .sds-band,
-    .sds-foot,
-    .sds-footer { --page-gutter: var(--space-6); }
+    /* The gutter steps on the page's own token, and every row follows — the
+       ones above and the two that state themselves in their files. */
+    :root { --gutter-page: var(--space-6); }
     .sds-body { gap: var(--space-8); }
     .sds-page { padding-block: var(--space-10) var(--space-8); }
     .sds-band { padding-block: var(--space-10); }
   }
   @media (max-width: 860px) {
-    .sds-bar,
-    .sds-body,
-    .sds-page,
-    .sds-band,
-    .sds-foot,
-    .sds-footer { --page-gutter: var(--space-4); }
+    :root { --gutter-page: var(--space-4); }
     .sds-band { padding-block: var(--space-8); }
     /* The height a desktop can spare is height a phone is reading with. */
     :root { --height-header: 56px; }

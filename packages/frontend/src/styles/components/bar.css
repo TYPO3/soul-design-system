@@ -20,6 +20,16 @@
     --sds-bar-rule: var(--border-subtle);
     --sds-bar-fill: color-mix(in srgb, var(--surface-canvas) 88%, transparent);
     --sds-bar-blur: blur(8px);
+    --sds-bar-duration: var(--duration-fast);
+    --sds-bar-ease: var(--ease-out);
+    /* The bar is a page row: full-bleed, its contents held to the measure.
+       The inset is computed on the row and never inherited ready-made — the
+       `%` and the animated gutter both resolve where they are written — and
+       the gutter is the page's token, so the step arrives without the bar
+       being named in the layout. */
+    --page-gutter: var(--gutter-page);
+    --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
+    --sds-bar-inset: var(--page-inset);
 
     position: sticky;
     top: 0;
@@ -34,9 +44,16 @@
     align-content: center;
     gap: var(--sds-bar-gap);
     padding-block: 0;
+    padding-inline: var(--sds-bar-inset);
     background: var(--sds-bar-fill);
     backdrop-filter: var(--sds-bar-blur);
     border-bottom: var(--sds-bar-border) solid var(--sds-bar-rule);
+    /* The gutter is crossed rather than jumped, and the height goes with it:
+       both step at a band, and a bar that snaps beside a page that eases is
+       two answers to one resize. */
+    transition:
+    --page-gutter var(--sds-bar-duration) var(--sds-bar-ease),
+    min-height var(--sds-bar-duration) var(--sds-bar-ease);
   }
   /* And the element, because a sticky box travels inside its parent: with the
      bar in an element of its own the parent is that element, exactly as tall,
