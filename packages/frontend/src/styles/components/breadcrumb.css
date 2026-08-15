@@ -1,9 +1,12 @@
 /* sds-nav-breadcrumb — the way back up, as a line. */
 
 @layer base {
-  /* A block: it stands in the page as a region of its own, and owes no step —
-     a container or a set spaces it. */
-  sds-nav-breadcrumb { display: block; min-width: 0; }
+  /* A block, and the step it carries is the title group's own: a trail only
+     ever stands over a title, so loose in a flow it keeps the distance the
+     tight stack gives it — and a container that pays the gap takes it back. */
+  sds-nav-breadcrumb { display: block; min-width: 0; margin-bottom: var(--space-2); }
+  sds-nav-breadcrumb > .sds-crumbs { margin-bottom: 0; }
+  .sds-crumbs { margin: 0 0 var(--space-2); }
 }
 
 @layer components {

@@ -133,21 +133,18 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
   <main class="sds-bands" id="main-content">
 
     <section class="sds-band" id="feature">
-      <div class="sds-stack">
-        <div class="sds-stack sds-stack--tight">
-          <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-          <span class="sds-label">Feature</span>
-          <h1 class="sds-display">Every answer says where it came from</h1>
-          <p class="sds-lead">
-            A tool declares the sources it may answer from. The answer carries
-            the one that answered, the releases it holds for, and what it
-            leaves out — and a result that cannot name its source is not
-            returned at all.
-          </p>
-        </div>
-        <div class="sds-actions">${start}</div>
-        ${grid(SOURCE_FACTS.map(sdsStat), { flat, variant: 'dense' })}
-      </div>
+      <!-- Composed loose on purpose: every part of a title group carries its
+           own step, so the band needs no stack to hold them together. -->
+      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <span class="sds-label">Feature</span>
+      <h1 class="sds-display">Every answer says where it came from</h1>
+      <p class="sds-lead">
+        A tool declares the sources it may answer from. The answer carries the
+        one that answered, the releases it holds for, and what it leaves out —
+        and a result that cannot name its source is not returned at all.
+      </p>
+      <div class="sds-actions">${start}</div>
+      ${grid(SOURCE_FACTS.map(sdsStat), { flat, variant: 'dense' })}
     </section>
 
     <section class="sds-band sds-band--quiet" id="preconditions">
