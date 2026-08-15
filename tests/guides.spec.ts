@@ -483,7 +483,7 @@ test.describe('what the theme repaired', () => {
     expect(Object.keys(steps).length, 'the fixture should hold sections at more than one level')
       .toBeGreaterThan(0);
     for (const [level, seen] of Object.entries(steps)) {
-      const want = { H2: 40, H3: 32, H4: 24, H5: 20, H6: 20 }[level];
+      const want = { H2: 48, H3: 48, H4: 48, H5: 48, H6: 48 }[level];
       expect([...new Set(seen)], `every ${level} section should open at one distance`)
         .toEqual([want]);
     }

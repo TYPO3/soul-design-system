@@ -76,16 +76,12 @@
     color: var(--text-accent-quiet);
   }
 
-  /* The air between two sections, and it is the section that carries it —
-     stated below, like every other distance here. The rule that gives a
-     heading its air names a sibling, and a heading inside a section has no
-     sibling outside it: what stands before an `h2` is the section above, so
-     that section is what owes the step. The level decides how much, exactly
-     as it does for a bare heading. */
-  :where(.sds-prose) .sds-section:has(+ .sds-section > :is(h2, .sds-h2)) { margin-block-end: var(--space-10); }
-  :where(.sds-prose) .sds-section:has(+ .sds-section > :is(h3, .sds-h3)) { margin-block-end: var(--space-8); }
-  :where(.sds-prose) .sds-section:has(+ .sds-section > h4) { margin-block-end: var(--space-6); }
-  :where(.sds-prose) .sds-section:has(+ .sds-section > :is(h5, h6)) { margin-block-end: var(--space-5); }
+  /* The air a section opens with. One rule and one distance, stated above
+     the section itself: whatever stood before it — another section, the
+     passage's own intro — a section that is not the first in its box stands
+     off by the same step, and no selector asks a neighbour anything. Unscoped,
+     because `.sds-section` is the system's own name and collides with nothing. */
+  .sds-section:not(:first-child) { margin-block-start: var(--space-12); }
   /* And the last block inside one owes the section's edge nothing: the step is
      the section's now, so a block still carrying its own would add to it. */
   :where(.sds-prose) .sds-section > :last-child { margin-block-end: 0; }
@@ -164,7 +160,7 @@
   /* The hairline itself is the class layer's — here only the space around it,
      which is what does the separating between two sections of a document. */
   :where(.sds-prose) hr {
-    margin: var(--space-10) 0;
+    margin: var(--space-12) 0;
   }
 
   /* --------------------------------------------------------------- lists -- */
