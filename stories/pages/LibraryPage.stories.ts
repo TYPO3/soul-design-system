@@ -133,27 +133,30 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
       <div class="sds-split sds-split--center">
         <div class="sds-column">
           <!-- The label, the claim and the sentence under it are one thing and
-               stand at one distance; the column ranks what comes after them. -->
-          <div class="sds-stack sds-stack--tight">
-            <span class="sds-label">the glyph set</span>
-            <h1 class="sds-display">One mark per thing the backend does</h1>
-            <p class="sds-lead">
-              Search by what the thing does, not by what it looks like. Every
-              drawing is indexed by purpose as well as by name, so
-              <span class="sds-mono">bin</span> finds
-              <span class="sds-mono">actions-delete</span>.
-            </p>
+               stand at one distance; the outer stack ranks what comes after
+               them — a field and a row of actions carry no step of their own. -->
+          <div class="sds-stack">
+            <div class="sds-stack sds-stack--tight">
+              <span class="sds-label">the glyph set</span>
+              <h1 class="sds-display">One mark per thing the backend does</h1>
+              <p class="sds-lead">
+                Search by what the thing does, not by what it looks like. Every
+                drawing is indexed by purpose as well as by name, so
+                <span class="sds-mono">bin</span> finds
+                <span class="sds-mono">actions-delete</span>.
+              </p>
+            </div>
+            <!-- The control the page exists for, at the size a field is when
+                 it is what the screen is for rather than one row of a form. -->
+            <sds-field
+              size="lg"
+              value="Search 392 glyphs by name or purpose"
+              icon="actions-search"
+              label="Search the glyph set"
+              min-width="420"
+            ></sds-field>
+            <div class="sds-actions">${actions}</div>
           </div>
-          <!-- The control the page exists for, at the size a field is when it
-               is what the screen is for rather than one row of a form. -->
-          <sds-field
-            size="lg"
-            value="Search 392 glyphs by name or purpose"
-            icon="actions-search"
-            label="Search the glyph set"
-            min-width="420"
-          ></sds-field>
-          <div class="sds-actions">${actions}</div>
         </div>
         <div class="sds-column">
           <!-- The set, not a decoration: a reader knows in a second whether
