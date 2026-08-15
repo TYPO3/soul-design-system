@@ -192,6 +192,86 @@ test('every element is the box it draws', async ({ page }) => {
   }
 });
 
+/* And what it draws fills the box it was handed.
+
+   The test above is the element's own box; this is the one a wall gives it. A
+   grid stretches every cell to the tallest item in the row, and an element
+   whose frame stopped at its own prose left a card ending short of its cell, a
+   foot lined up with nothing and a hole in a flush wall — on every rendered
+   page, for as long as the sets shown anywhere said the same amount twice. So
+   the pairs below are uneven on purpose: a wall of equal items cannot fail. */
+const WALLS: readonly (readonly [set: string, frame: string, long: string, short: string])[] = [
+  ['cards', '.sds-card',
+    '<sds-card heading="Long" href="#" action="Read it" body="One two three four five six seven eight. One two three four five six seven eight. One two three."></sds-card>',
+    '<sds-card heading="Short" href="#" action="Read it" body="Two words."></sds-card>'],
+  ['figures', '.sds-stat',
+    '<sds-stat value="240" unit="ms" label="typical answer" note="From bundled knowledge, with no installation booted and nothing leaving the machine."></sds-stat>',
+    '<sds-stat value="0" label="writes" note="Every source is read."></sds-stat>'],
+  ['planes', '.sds-panel',
+    '<sds-surface plane="raised" heading="One answer, one origin" body="Two answers that disagree are told apart by where they came from rather than by which was asked for last."></sds-surface>',
+    '<sds-surface plane="raised" heading="Read, never write" body="Nothing is written back."></sds-surface>'],
+  ['drawings', '.sds-figure',
+    '<sds-figure src="/assets/placeholders/tool-registration.png" alt="" caption="A caption that runs to two lines at this width, which is what makes this cell the taller of the two."></sds-figure>',
+    '<sds-figure src="/assets/placeholders/tool-search.png" alt="" caption="One line."></sds-figure>'],
+  ['swatches', '.sds-swatch',
+    '<sds-swatch value="var(--text-primary)" name="--text-primary" resolved="light-dark(#1C1A17, #EDE9E2)"></sds-swatch>',
+    '<sds-swatch value="var(--accent)" name="--accent"></sds-swatch>'],
+];
+
+for (const [set, frame, long, short] of WALLS) {
+  test(`a wall of ${set} draws one height, whatever the items say`, async ({ page }) => {
+    const seen = await page.evaluate(async ({ frame, long, short }) => {
+      const settle = async (root: ParentNode): Promise<void> => {
+        await Promise.all([...root.querySelectorAll('*')]
+          .filter((el) => el.tagName.includes('-'))
+          .map(async (el) => {
+            await customElements.whenDefined(el.tagName.toLowerCase());
+            await (el as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete;
+          }));
+      };
+      const mount = async (markup: string, width: number): Promise<HTMLElement> => {
+        const host = document.createElement('div');
+        host.style.cssText = `width:${width}px; position:absolute; left:0; top:0`;
+        host.innerHTML = markup;
+        document.body.append(host);
+        /* Twice: a nested element only exists after its parent has rendered. */
+        await settle(host);
+        await settle(host);
+        return host;
+      };
+      const drawn = (el: ParentNode): number =>
+        Math.round((el.querySelector(frame) as HTMLElement).getBoundingClientRect().height);
+
+      const wall = await mount(`<sds-grid>${long}${short}</sds-grid>`, 900);
+      const cells = [...wall.querySelectorAll<HTMLElement>('.sds-grid > *')];
+      const track = Math.round(cells[0]!.getBoundingClientRect().width);
+      const rows = cells.map((cell) => ({
+        cell: Math.round(cell.getBoundingClientRect().height),
+        drawn: drawn(cell),
+      }));
+      wall.remove();
+
+      /* The same two at the width the wall gave them, each on its own: what
+         they measure when nothing is stretching them. */
+      const alone: number[] = [];
+      for (const markup of [long, short]) {
+        const one = await mount(markup, track);
+        alone.push(drawn(one));
+        one.remove();
+      }
+      return { rows, alone };
+    }, { frame, long, short });
+
+    /* The two disagree, or this measures nothing at all. */
+    expect(seen.alone[0], `a long one of the ${set} should stand taller alone than a short one`)
+      .toBeGreaterThan(seen.alone[1]!);
+    expect(seen.rows).toHaveLength(2);
+    for (const row of seen.rows) {
+      expect(row.drawn, `one of the ${set} draws the cell it was given, not its own contents`).toBe(row.cell);
+    }
+  });
+}
+
 /* And the two renderings occupy the same space.
 
    Matching markup is not the same claim: an element wraps the box it draws, so

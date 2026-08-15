@@ -321,7 +321,7 @@
 }
 @layer base{
   sds-surface{display:block;min-width:0;margin-bottom:var(--space-4)}
-  sds-surface>:is(.sds-panel,.sds-sunken){margin-bottom:0}
+  sds-surface>:is(.sds-panel,.sds-sunken){block-size:100%;margin-bottom:0}
   .sds-example,.sds-panel,.sds-sunken{margin:0 0 var(--space-4)}
 }
 @layer components{
@@ -339,7 +339,7 @@
 }
 @layer base{
   sds-card{display:block;min-width:0;margin-bottom:var(--space-4)}
-  sds-card>.sds-card{margin-bottom:0}
+  sds-card>.sds-card{block-size:100%;margin-bottom:0}
   .sds-card{margin:0 0 var(--space-4)}
 }
 @layer components{
@@ -367,7 +367,7 @@
 }
 @layer base{
   sds-swatch{display:block;min-width:0;margin-bottom:var(--space-4)}
-  sds-swatch>.sds-swatch{margin-bottom:0}
+  sds-swatch>.sds-swatch{block-size:100%;margin-bottom:0}
   .sds-swatch{margin:0 0 var(--space-4)}
 }
 @layer components{
@@ -394,7 +394,7 @@
 }
 @layer base{
   sds-stat{display:block;min-width:0;margin-bottom:var(--space-4)}
-  sds-stat>.sds-stat{margin-bottom:0}
+  sds-stat>.sds-stat{block-size:100%;margin-bottom:0}
   .sds-stat{margin:0 0 var(--space-4)}
 }
 @layer components{
@@ -406,7 +406,7 @@
 }
 @layer base{
   sds-figure{display:block;min-width:0;margin-bottom:var(--space-4)}
-  sds-figure>.sds-figure{margin-bottom:0}
+  sds-figure>.sds-figure{block-size:100%;margin-bottom:0}
   .sds-figure{margin:0 0 var(--space-4)}
 }
 @layer components{

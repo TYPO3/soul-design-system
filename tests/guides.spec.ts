@@ -1378,21 +1378,25 @@ test.describe('what the reader gets before the script does', () => {
     await expect(card.locator('.sds-card__media img')).toBeVisible();
     await expect(card.locator('.sds-row .sds-badge')).toBeVisible();
 
-    /* The frame is the card's own and it is on the page already. What the
-       document layer owes is the host around it: until the element upgrades
-       the host is the cell, and a card that stopped at its content would draw
-       frames of three different heights in one row. */
+    /* The frame is the card's own and it is on the page already. What it owes
+       the row is its height: the wall stretches every cell to the tallest card
+       in it, and a card stopping at its own prose draws frames of three
+       different heights in one row — here, where no script will come and
+       correct it. */
     const frame = await card.evaluate((el) => {
       const drawn = getComputedStyle(el.querySelector('.sds-card') as HTMLElement);
-      return {
-        display: getComputedStyle(el).display,
-        border: parseFloat(drawn.borderTopWidth),
-        radius: drawn.borderTopLeftRadius,
-      };
+      return { border: parseFloat(drawn.borderTopWidth), radius: drawn.borderTopLeftRadius };
     });
-    expect(frame.display).toBe('flex');
     expect(frame.border).toBeGreaterThan(0);
     expect(parseFloat(frame.radius)).toBeGreaterThan(0);
+
+    const filled = await page.locator('#cards .sds-grid > sds-card').evaluateAll((hosts) =>
+      hosts.map((host) => {
+        const box = (el: Element): number => Math.round(el.getBoundingClientRect().height);
+        return { cell: box(host), drawn: box(host.querySelector('.sds-card') as HTMLElement) };
+      }));
+    expect(filled.length).toBeGreaterThan(1);
+    for (const one of filled) expect(one.drawn).toBe(one.cell);
   });
 
   test('the evidence on the page is on it, framed, before anything upgrades', async ({ page }) => {

@@ -343,13 +343,6 @@
   :where(.sds-prose) .sds-actions { margin-bottom: var(--space-4); }
   :where(.sds-prose) .sds-actions sds-button > .sds-btn { margin-bottom: 0; }
 
-  /* A card before its element upgrades, and on a page that runs none. The frame
-     is not stated again — the card draws it — but the host is the cell until it
-     upgrades, and the card inside it stops at its content, so a row of them
-     would draw frames of three different heights. */
-  :where(.sds-prose) sds-card:not(:defined) { display: flex; }
-  :where(.sds-prose) sds-card:not(:defined) > .sds-card { flex: 1; }
-
   /* An embedded document before its element upgrades, and on a page that runs
      none. Until then there is only the iframe a renderer wrote: an inline box
      with the browser's inset ridge, as wide as its `width` attribute says

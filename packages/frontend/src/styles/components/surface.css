@@ -6,8 +6,11 @@
    because a container in `layout` takes the step back and a step stated in
    `components` would win over the container that already paid the gap. */
 @layer base {
+  /* And it fills what it is given: a wall stretches the cell to the tallest in
+     the row, where a block box stops at its own prose and leaves a plane that
+     ends before the one beside it. */
   sds-surface { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-surface > :is(.sds-panel, .sds-sunken) { margin-bottom: 0; }
+  sds-surface > :is(.sds-panel, .sds-sunken) { block-size: 100%; margin-bottom: 0; }
   .sds-example { margin: 0 0 var(--space-4); }
   .sds-panel { margin: 0 0 var(--space-4); }
   .sds-sunken { margin: 0 0 var(--space-4); }
