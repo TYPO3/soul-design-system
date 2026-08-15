@@ -14,7 +14,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/accordion.ts';
-import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/code.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
@@ -29,7 +28,7 @@ import { type Entry } from '../../packages/frontend/src/components/accordion.ts'
 import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { type MenuEntry } from '../../packages/frontend/src/components/nav-base.ts';
 import { sdsAccordion } from '../components/Accordion.stories.ts';
-import { sdsBadge } from '../components/Badge.stories.ts';
+import { sdsEyebrow } from '../components/Eyebrow.stories.ts';
 import { sdsCard } from '../components/Card.stories.ts';
 import { sdsCode } from '../components/Code.stories.ts';
 import { sdsNavBreadcrumb } from '../components/NavBreadcrumb.stories.ts';
@@ -105,16 +104,14 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
     </aside>
 
     <main class="sds-body__main" id="main-content">
-      <div class="sds-stack sds-stack--tight">
-        ${sdsNavBreadcrumb({ items: TRAIL })}
-        ${sdsBadge({ label: 'reference' })}
-        <h1>How this page is set</h1>
-        <p class="sds-lead">
-          Every size on it comes off one scale and every gap off one grid. That
-          is not a house style — it is the only thing that lets a reader tell a
-          heading from a title from a label without reading any of them first.
-        </p>
-      </div>
+      ${sdsNavBreadcrumb({ items: TRAIL })}
+      ${sdsEyebrow({ label: 'reference' })}
+      <h1>How this page is set</h1>
+      <p class="sds-lead">
+        Every size on it comes off one scale and every gap off one grid. That
+        is not a house style — it is the only thing that lets a reader tell a
+        heading from a title from a label without reading any of them first.
+      </p>
 
       <h2 class="sds-h3" id="registers">The two registers</h2>
       <p>

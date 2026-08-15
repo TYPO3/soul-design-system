@@ -65,10 +65,8 @@ const under = (bar: TemplateResult, body: TemplateResult): TemplateResult =>
 </div>`;
 
 const sentence = html`<main class="sds-page" id="main-content">
-    <div class="sds-stack sds-stack--tight">
-      <h1 class="sds-h3">A page under the bar</h1>
-      <p>Narrow the canvas until the button appears, then press it: what the row could not hold is in one drawer over this page.</p>
-    </div>
+    <h1 class="sds-h3">A page under the bar</h1>
+    <p>Narrow the canvas until the button appears, then press it: what the row could not hold is in one drawer over this page.</p>
   </main>`;
 
 const meta: Meta = {
@@ -147,10 +145,8 @@ export const WithAMenu: Story = {
     .menu="${MENU}"
   ></sds-nav-main>`,
     html`<main class="sds-page" id="main-content">
-    <div class="sds-stack sds-stack--tight">
-      <h1 class="sds-h3">sds-header</h1>
-      <p>Press the marker beside a section to open its pages, then narrow the canvas until the one button is all that is left.</p>
-    </div>
+    <h1 class="sds-h3">sds-header</h1>
+    <p>Press the marker beside a section to open its pages, then narrow the canvas until the one button is all that is left.</p>
   </main>`,
   ),
 };

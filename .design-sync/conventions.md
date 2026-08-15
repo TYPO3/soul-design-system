@@ -21,7 +21,7 @@ Two rules follow, and both are load-bearing:
 
 | | |
 |---|---|
-| Text | `sds-icon` `sds-link` `sds-eyebrow` — the eyebrow is the line over a title, in the label register as a block; it carries the title group's step itself, where `sds-label` stays the word in a line |
+| Text | `sds-icon` `sds-link` `sds-eyebrow` — the eyebrow is the line over a title, in the label register as a block; it sits flush — the register's leading is the air — where `sds-label` stays the word in a line |
 | Brand, chrome | `sds-theme` |
 | Controls | `sds-button` `sds-badge` `sds-field` `sds-field-group` `sds-field-error` `sds-checkbox` `sds-radio` `sds-form-errors` — `sds-field-group` is a control and what stands with it on a page (the field, a row of actions, a hint) at the normal step; a field or a row of actions alone owes none, so loose they touch |
 | Navigation | `sds-nav-pills` `sds-nav-main` `sds-tabs`/`sds-tab-item` `sds-nav-rail` `sds-nav-toc` `sds-nav-breadcrumb` `sds-footer` `sds-accordion`/`sds-accordion-item` `sds-search`/`sds-search-hits` — `sds-nav-main` is the whole bar: it is handed the site as one `MenuEntry` with everything under it, measures what still fits, opens a section's pages in a drop or a wall under the row, and on a phone steps through the menu a level at a time in one drawer. Search fetches its index on the first keystroke and drops `sds-search-hits` under the field; that element is handed the hits and draws them as `sds-search-result` rows, so a page of results and the drop are the same list. `sds-nav-toc` is what is on the page being read, and the one navigation that finds its own current entry: it marks the section the reader has scrolled to |

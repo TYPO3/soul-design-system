@@ -217,10 +217,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="overview">
       <div class="sds-split">
         <div class="sds-column">
-          <div class="sds-row">
-            <sds-badge label="0.1.0-dev" tone="accent"></sds-badge>
-            <span class="sds-label">one accent · two modes · no shadows</span>
-          </div>
+          <sds-badge label="0.1.0-dev" tone="accent"></sds-badge>
           <h1 class="sds-display">A system, not a stylesheet</h1>
           <p class="sds-lead">
             Tokens, a class layer and the elements over it — one vocabulary,

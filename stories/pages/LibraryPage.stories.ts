@@ -99,17 +99,16 @@ const SHOWN: readonly IconId[] = [
   'actions-arrow-end',
 ];
 
-/** What the hero's group holds: the control the page exists for and the two
-    ways on. One template for both renderings — the group receives it between
-    the tags or as a property, whichever the rendering can hold. */
-const searchGroup = (actions: TemplateResult): TemplateResult => html`<sds-field
+/** The control the page exists for. One template for both renderings — the
+    group receives it between the tags or as a property, whichever the
+    rendering can hold. */
+const searchField = (): TemplateResult => html`<sds-field
     size="lg"
     value="Search 392 glyphs by name or purpose"
     icon="actions-search"
     label="Search the glyph set"
     min-width="420"
-  ></sds-field>
-  <div class="sds-actions">${actions}</div>`;
+  ></sds-field>`;
 
 /** The page. `flat` composes the form a static file can hold. */
 export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
@@ -158,10 +157,12 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
           </p>
           <!-- The control the page exists for, at the size a field is when it
                is what the screen is for rather than one row of a form. The
-               group pays the steps the field and the actions do not carry. -->
+               group gives the bare control its place in the flow; the actions
+               are their own row and carry their own step. -->
           ${flat
-            ? html`<sds-field-group .content="${searchGroup(actions)}"></sds-field-group>`
-            : html`<sds-field-group>${searchGroup(actions)}</sds-field-group>`}
+            ? html`<sds-field-group .content="${searchField()}"></sds-field-group>`
+            : html`<sds-field-group>${searchField()}</sds-field-group>`}
+          <div class="sds-actions">${actions}</div>
         </div>
         <div class="sds-column">
           <!-- The set, not a decoration: a reader knows in a second whether

@@ -11,10 +11,10 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/byline.ts';
 import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/code.ts';
+import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/figure.ts';
 import '../../packages/frontend/src/components/link.ts';
@@ -90,10 +90,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
 
     <main class="sds-body__main" id="main-content">
       <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-      <div class="sds-row">
-        <sds-badge label="guide"></sds-badge>
-        <sds-badge label="13.4 · 14.3" tone="accent"></sds-badge>
-      </div>
+      <sds-eyebrow label="guide · 13.4 · 14.3"></sds-eyebrow>
       <h1>Reading the package registry when the installation will not boot</h1>
       <p class="sds-lead">
         A tool that needs a booted installation and cannot have one does not

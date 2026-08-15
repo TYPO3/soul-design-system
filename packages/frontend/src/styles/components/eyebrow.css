@@ -1,15 +1,15 @@
 /* sds-eyebrow — the line over a title, saying what kind of thing it opens. */
 
-/* What this element is in a flow — three lines that only mean anything
-   together: the element carries the step, the box it always renders inside
-   itself gives that up, and the same box standing alone carries it. In `base`,
-   because a container in `layout` takes the step back and a step stated in
-   `components` would win over the container that already paid the gap. The
-   step is the title group's own: an eyebrow is read with what stands under it. */
+/* Flush against what it opens: the register's own leading is the air between
+   an eyebrow and its title, so it carries no step at all — and the air a
+   heading takes above the pair lands before the eyebrow, not inside the
+   title. The last two rules out-rank the heading-air rules in `base`, which
+   would otherwise put a section's whole step between the pair. */
 @layer base {
-  sds-eyebrow { display: block; min-width: 0; margin-bottom: var(--space-2); }
-  sds-eyebrow > .sds-eyebrow { margin-bottom: 0; }
-  .sds-eyebrow { margin: 0 0 var(--space-2); }
+  sds-eyebrow { display: block; min-width: 0; margin: 0; }
+  .sds-eyebrow { margin: 0; }
+  :is(sds-eyebrow, .sds-eyebrow):has(+ *) { margin-block-end: 0; }
+  :has(+ :is(sds-eyebrow, .sds-eyebrow) + :is(h2, .sds-h2)) { margin-block-end: var(--space-10); }
 }
 
 @layer components {

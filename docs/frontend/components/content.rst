@@ -20,8 +20,8 @@ sds-eyebrow
 
 The line over a title, saying what kind of thing it opens — ``FEATURE``,
 ``STEP 02``, ``THE GLYPH SET``. The label register standing as a block: it
-carries the title group's step itself, so a hero composes loose and the
-eyebrow still hugs its heading.
+sits flush, the register's own leading being the air, so a hero composes
+loose and the eyebrow still hugs its heading.
 
 .. code-block:: html
 
