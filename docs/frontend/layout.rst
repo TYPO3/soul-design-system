@@ -269,6 +269,15 @@ Layout a page may reach for
 Named, rather than written inline on the page, for one reason: layout a page
 writes for itself is layout nothing else can keep in step.
 
+The vocabulary stays this small on purpose, and it stays composition. A block
+carries its own step, and the pairs of a title group state theirs, so a page
+composes loose and stands on the grid with no container paying for it. A stack
+regroups where one distance should hold whatever a box comes to hold; and a
+set that *means* something graduates into a component that pays its own steps
+— ``sds-field-group`` is a control and what stands with it, because a field
+and a row of actions each owe no step alone. What never returns is the wrapper
+that exists only to space things: that is layout wearing no name.
+
 .. list-table::
    :header-rows: 1
 
@@ -278,6 +287,10 @@ writes for itself is layout nothing else can keep in step.
      - the rhythm *between* the parts of a page
    * - ``.sds-stack``
      - the rhythm *inside* one of them
+   * - ``.sds-stack--tight``
+     - a title group regrouped — the trail, the eyebrow, the heading, the
+       lead read as one thing. Composed loose the pairs already stand at this
+       step; the class remains for a box that holds more than the pairs
    * - ``.sds-actions``
      - a row of controls, centred — a link beside a button is a line of text
        in a box the button's height

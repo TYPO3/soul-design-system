@@ -175,6 +175,31 @@ the difference is ``caption``.
    moment someone starts typing — and it is invisible to anything reading the
    page as a document.
 
+.. _component-sds-field-group:
+
+sds-field-group
+===============
+
+A control and what stands with it, as one thing. A field, a row of actions and
+a hint each owe no step of their own — a container or a set spaces them — so
+standing loose on a page they touch. The group is the set that pays: the
+normal step between its parts, and the flow step around itself.
+
+.. code-block:: html
+
+   <sds-field-group>
+     <sds-field icon="actions-search" value="Search 392 glyphs"
+       label="Search the glyph set" min-width="420"></sds-field>
+     <div class="sds-actions">
+       <sds-button variant="primary">Browse all 392</sds-button>
+     </div>
+   </sds-field-group>
+
+Reach for it where a control is what a page is *for* — a search hero, a finder
+above the wall it filters. Inside a form nothing changes: a field with a
+``caption`` already renders the row a form owes it, and ``sds-form`` holds the
+column.
+
 .. _component-sds-field-error:
 
 sds-field-error
