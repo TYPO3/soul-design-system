@@ -264,7 +264,8 @@ drawings) · `headers` (`@dsCard`, `@startingPoint`, literal metadata) · `heigh
 (specimens against the cards they embed) · `classes` (every class used is
 defined in the layer that can load it) · `coverage` (every component is shown)
 · `names` (every `sds-` name a document writes exists) · `refs` (every local
-reference resolves) · `fit` (render, inside the declared viewport) · `rhythm`
+reference resolves) · `breakpoints` (every width the layer changes at is one a
+document names) · `fit` (render, inside the declared viewport) · `rhythm`
 (every screen's sizes on the scale, gaps on the grid) · `ssr`
 (every element renders outside a browser) · `dist` (the committed drop-in
 against its source) · `split` (each package assembles into something a project
@@ -316,6 +317,7 @@ make test ARGS="tests/a11y.spec.ts --grep card"
 | a new component, class or Guides page | `make verify ARGS=coverage` |
 | a card's height or its viewport | `make verify ARGS="fit heights"` |
 | a size, a gap or a token they are read from | `make verify ARGS=rhythm`, `make rhythm` for the report |
+| a `@media` width, in any sheet | `make verify ARGS=breakpoints` |
 | `packages/frontend/src/` with `packages/frontend/dist/` committed against it | `make verify ARGS=dist` |
 | a drawing in `packages/frontend/assets/diagrams/` | `make verify ARGS=diagrams` |
 | a mark in `packages/frontend/assets/`, or the signet a `guides.xml` names | `make verify ARGS=marks` |

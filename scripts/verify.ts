@@ -26,9 +26,11 @@ const ENTITY_RE = /&(?:#[0-9]+|#x[0-9a-f]+|[a-z][a-z0-9]+);/i;
     `styles.css` deliberately does not import: a name is defined if some sheet
     in the system defines it, and a surface told otherwise is told a lie about
     its own repository. */
+const STYLESHEETS = ['reset.css', 'base.css', 'layout.css', 'components.css', '_specimen.css', 'document.css'];
+
 function definedClasses(): Set<string> {
   const defined = new Set<string>();
-  for (const sheet of ['src/styles/reset.css', 'src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css', 'src/styles/_specimen.css', 'src/styles/document.css']) {
+  for (const sheet of STYLESHEETS.map((f) => join('src', 'styles', f))) {
     for (const m of readFileSync(join(FRONTEND, sheet), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
       defined.add(m[1] as string);
     }
@@ -349,6 +351,43 @@ const CHECKS: readonly Check[] = [
         }
       }
       return { facts: `${refs} references`, problems };
+    },
+  },
+
+  /* The widths the design changes at, against the page that names them. There
+     is no way to write a breakpoint once — a media query reads no custom
+     property — so the set is prose and the stylesheets repeat it, which is
+     exactly the drift this asks about. A sixth width is a state of the layout
+     nobody described and nothing selects; a named one nothing uses is a band
+     that was removed in one place. */
+  {
+    name: 'breakpoints',
+    label: 'every width the layer changes at is a width a document names',
+    run() {
+      const page = join(ROOT, 'docs', 'frontend', 'layout.rst');
+      const shed = readFileSync(page, 'utf8').split(/^Where it sheds$/m)[1] ?? '';
+      const named = new Set([...shed.split(/\n[A-Z][^\n]*\n=+\n/)[0]!.matchAll(/\b(\d{3,4})px\b/g)]
+        .map((m) => Number(m[1])));
+
+      const used = new Map<number, string[]>();
+      for (const sheet of STYLESHEETS) {
+        const css = readFileSync(join(FRONTEND, 'src', 'styles', sheet), 'utf8');
+        for (const m of css.matchAll(/@media[^{]*?\(\s*(?:min|max)-width:\s*(\d+)px\s*\)/g)) {
+          const at = Number(m[1]);
+          used.set(at, [...(used.get(at) ?? []), sheet]);
+        }
+      }
+
+      const problems: string[] = [];
+      for (const [at, sheets] of [...used].sort((a, b) => b[0] - a[0])) {
+        if (!named.has(at)) {
+          problems.push(`${at}px changes the layout in ${[...new Set(sheets)].join(', ')} and no document names it`);
+        }
+      }
+      for (const at of [...named].sort((a, b) => b - a)) {
+        if (!used.has(at)) problems.push(`${at}px is named in docs/frontend/layout.rst and no stylesheet uses it`);
+      }
+      return { facts: `${used.size} width(s) · ${named.size} named`, problems };
     },
   },
 
