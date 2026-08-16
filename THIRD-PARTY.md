@@ -6,7 +6,7 @@ above.
 
 ## Icons — `packages/frontend/assets/icons/`
 
-33 icons from [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons),
+The `actions` category of [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons),
 **MIT License**, via the `@typo3/icons` package. The licence text ships
 beside them as `packages/frontend/assets/icons/LICENSE-TYPO3.Icons.txt`.
 
@@ -22,14 +22,14 @@ repository, and on any CDN that serves either.
 
 | | |
 | --- | --- |
-| Package | `@typo3/icons@5.0.3`, `packages/frontend/src/<category>/<identifier>.svg` |
+| Package | `@typo3/icons@5.0.3`, `src/<category>/<identifier>.svg` inside it |
 | Pinned URL | `https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/<category>/<identifier>.svg` |
 | Upstream tip | `https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/src/<category>/<identifier>.svg` |
-| Manifest | `packages/frontend/dist/icons.json` — 796 identifiers with their category, 211 deprecated aliases with their current name |
+| Manifest | `packages/frontend/assets/icons.json` — every identifier with its category, and every deprecated alias with its current name |
 | Overview | <https://typo3.github.io/TYPO3.Icons/> |
 
-`packages/frontend/src/` and `packages/frontend/dist/svgs/` render identically; `packages/frontend/src/` is the unoptimised file,
-which is the one worth reading before inlining it.
+Inside the package, `src/` and `dist/svgs/` render identically; `src/` is the
+unoptimised file, which is the one worth reading before inlining it.
 
 `packages/frontend/assets/icons/` is **generated**, not committed: `scripts/icons.ts` copies
 the declared identifiers out of the installed package. It runs from

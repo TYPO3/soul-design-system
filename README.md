@@ -328,8 +328,9 @@ is no build step for development. `make dist` exists only for publishing.
 
 ### Changing things
 
-Adding a font family, style or icon means editing the `FAMILIES` / `ICONS`
-list in `scripts/fonts.ts` or `scripts/icons.ts` — never generated output.
+Adding a font family or style means editing the `FAMILIES` list in
+`scripts/fonts.ts`; an icon arrives with its category, added to `CATEGORIES`
+in `scripts/icons.ts` — never generated output.
 The icon's identifier is also its path, by its first segment:
 `actions-search` → `src/actions/actions-search.svg` in `@typo3/icons`, and at
 the same path under

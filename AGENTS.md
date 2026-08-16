@@ -371,9 +371,10 @@ uses it, its section in `docs/guides-theme/directives.rst` with a rendered
 example, and its row in the package's own README — see above for why that last
 one is not optional. Then `make guides` and `make verify`.
 
-**Add a font family, style or icon** — edit the `FAMILIES` / `ICONS` list in
-`scripts/fonts.ts` or `scripts/icons.ts`, then `make fonts` / `make icons`.
-Never the generated output. A missing icon goes to TYPO3/TYPO3.Icons first —
+**Add a font family or style, or an icon category** — edit the `FAMILIES`
+list in `scripts/fonts.ts` or `CATEGORIES` in `scripts/icons.ts`, then `make
+fonts` / `make icons`. An icon arrives with its whole category, which is the
+unit the package's own manifest resolves against. Never the generated output. A missing icon goes to TYPO3/TYPO3.Icons first —
 the script fails rather than substituting one from another set.
 
 **Add or redraw a diagram** — one file in `packages/frontend/assets/diagrams/`, shapes wrapped

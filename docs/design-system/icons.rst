@@ -21,9 +21,10 @@ guessed from the spelling. It also maps the deprecated aliases to their
 current names. Resolve an alias before using it — the old spelling is not
 what ``typo3_icon_lookup`` returns.
 
-To *ship* one, add its identifier to the ``ICONS`` list in
-``scripts/icons.ts`` and run ``make icons``. Never drop a file into the
-generated directory by hand.
+Only the ``actions`` category ships. To bring another one in, add it to
+``CATEGORIES`` in ``scripts/icons.ts`` and run ``make icons``: a category
+arrives whole, in the package's own layout, because a manifest's paths resolve
+against it. Never drop a file into the generated directory by hand.
 
 .. warning::
 
