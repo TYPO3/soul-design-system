@@ -37,7 +37,7 @@ title, and that is a thing to say in markup rather than a position to infer.
 sds-surface
 ===========
 
-A filled plane holding a statement.
+A plane holding a statement.
 
 .. code-block:: html
 
@@ -46,16 +46,16 @@ A filled plane holding a statement.
 
 .. confval:: plane
    :name: sds-surface-plane
-   :type: "raised" | "sunken"
+   :type: "plain" | "raised" | "sunken"
    :default: "raised"
 
-   Named for the fill each one is. ``raised`` sits on the canvas and has to
-   read as a plane; ``sunken`` is machine output — code, logs, structured
-   content.
+   The filled two are named for their fill: ``raised`` sits on the canvas and
+   has to read as a plane; ``sunken`` is machine output — code, logs,
+   structured content. ``plain`` is the hairline with no fill, for a statement
+   that stands on the canvas without leaving it.
 
-   The plane with *no* fill is not one of its answers: an unfilled hairline
-   plane carrying a title and prose is ``sds-card``, down to the class it
-   writes.
+   What tells this element from ``sds-card`` is not the box but where it
+   goes: a card is a way into something, a surface stays and states.
 
 .. confval:: heading
    :name: sds-surface-heading

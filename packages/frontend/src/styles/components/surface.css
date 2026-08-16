@@ -9,11 +9,14 @@
     min-width: 0;
     margin-bottom: var(--space-4);
   }
-  sds-surface > :is(.sds-panel, .sds-sunken) {
+  sds-surface > :is(.sds-plane, .sds-panel, .sds-sunken) {
     block-size: 100%;
     margin-bottom: 0;
   }
   .sds-example {
+    margin: 0 0 var(--space-4);
+  }
+  .sds-plane {
     margin: 0 0 var(--space-4);
   }
   .sds-panel {
@@ -25,9 +28,9 @@
 }
 
 @layer components {
-  /* A card is a hairline and 6px, no fill. A panel is a raised fill. Sunken
+  /* A plane is a hairline and 6px, no fill. A panel is a raised fill. Sunken
      is machine output. No shadow on any of them. */
-  .sds-card,
+  .sds-plane,
   .sds-panel,
   .sds-sunken {
     --sds-plane-pad-y: var(--block-pad-y);

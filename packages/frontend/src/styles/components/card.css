@@ -19,7 +19,7 @@
 }
 
 @layer components {
-  .sds-card:has(> .sds-card__body) {
+  .sds-card {
     /* The distance the card moves under the pointer, named so the
        reduced-motion block can hold it still in one place. */
     --sds-card-lift: -2px;
@@ -34,8 +34,10 @@
     --sds-card-action-ink: var(--text-link);
     --sds-card-border: var(--border-hairline);
     --sds-card-radius: var(--radius-card);
+    --sds-card-edge: var(--border-subtle);
     --sds-card-edge-hover: var(--border-strong);
     --sds-card-rule: var(--border-subtle);
+    --sds-card-fill: transparent;
     --sds-card-fill-hover: var(--surface-raised);
     --sds-card-glow: var(--accent-glow);
     --sds-card-media-fill: var(--surface-sunken);
@@ -54,7 +56,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 0;
+    border: var(--sds-card-border) solid var(--sds-card-edge);
+    border-radius: var(--sds-card-radius);
+    background: var(--sds-card-fill);
     transition:
       border-color var(--sds-card-duration) var(--sds-card-ease),
       background var(--sds-card-duration) var(--sds-card-ease),
@@ -231,11 +235,10 @@
      — and it fills, because what it does not paint is the line showing through.
      Values only: the frame is drawn once, above, and a tile is the same card
      with four of its numbers changed. */
-  .sds-grid--flush .sds-card:has(> .sds-card__body) {
+  .sds-grid--flush .sds-card {
+    --sds-card-border: 0px;
     --sds-card-radius: 0px;
-    --sds-plane-border: 0px;
-    --sds-plane-radius: 0px;
-    --sds-plane-fill: var(--surface-canvas);
+    --sds-card-fill: var(--surface-canvas);
     /* And it neither rises nor lights: a tile that lifts tears the two lines it
        shares, and a lit frame is a frame. The fill under the pointer is what is
        left to say the tile answers. */

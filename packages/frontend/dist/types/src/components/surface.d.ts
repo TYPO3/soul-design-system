@@ -3,10 +3,11 @@ import './icon.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 /** `raised` sits on the canvas and has to read as a plane. `sunken` is machine
-    output: code, logs, structured content. Named for the fill each one is —
-    the tokens are `--surface-raised` and `--surface-sunken` — rather than for
-    the box, which is the same box. */
-export type Plane = 'raised' | 'sunken';
+    output: code, logs, structured content. `plain` is the hairline with no
+    fill, for a statement that stands on the canvas without leaving it. The
+    filled two are named for their fill — the tokens are `--surface-raised`
+    and `--surface-sunken` — rather than for the box, which is the same box. */
+export type Plane = 'plain' | 'raised' | 'sunken';
 export interface SurfaceProps {
     plane?: Plane;
     title: string;

@@ -1,15 +1,13 @@
-/* sds-surface — a filled plane holding a statement.
+/* sds-surface — a plane holding a statement.
 
    The system has no shadows, so a plane is told apart by its fill and a
    hairline and by nothing else. A container must not share its corner with
    its contents, which is why `--radius-card` (6px) is one step larger than
    `--radius-control` (4px). Nothing here sets either by hand.
 
-   The fill is what this element is for, and it is why the plane with none is
-   not one of its answers: an unfilled hairline plane carrying a title and
-   prose is `sds-card`, down to the class it writes. Two components that draw
-   the same box are one component with two names, and the name that survived
-   is the one that also goes somewhere. */
+   All three planes are its answers, the unfilled one included: what tells
+   this element from `sds-card` is not the box but where it goes — a card is
+   a way into something, a surface stays and states. One box, one owner. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
@@ -17,16 +15,18 @@ import { type IconId } from './icon.ts';
 import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 /** `raised` sits on the canvas and has to read as a plane. `sunken` is machine
-    output: code, logs, structured content. Named for the fill each one is —
-    the tokens are `--surface-raised` and `--surface-sunken` — rather than for
-    the box, which is the same box. */
-export type Plane = 'raised' | 'sunken';
+    output: code, logs, structured content. `plain` is the hairline with no
+    fill, for a statement that stands on the canvas without leaving it. The
+    filled two are named for their fill — the tokens are `--surface-raised`
+    and `--surface-sunken` — rather than for the box, which is the same box. */
+export type Plane = 'plain' | 'raised' | 'sunken';
 
 /** The class each plane is. `raised` writes `sds-panel`, which is the name the
     class layer has always had for that fill and which a template writes by
     hand — see the theme's sidebar. Renaming it would move one name into two
     places to make a second name agree with a token. */
 const PLANE: Record<Plane, string> = {
+  plain: 'sds-plane',
   raised: 'sds-panel',
   sunken: 'sds-sunken',
 };

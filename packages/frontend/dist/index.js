@@ -4562,6 +4562,7 @@ define("sds-footer", SdsFooter);
 // packages/frontend/src/components/surface.ts
 import { html as html34, nothing as nothing15 } from "lit";
 var PLANE = {
+  plain: "sds-plane",
   raised: "sds-panel",
   sunken: "sds-sunken"
 };

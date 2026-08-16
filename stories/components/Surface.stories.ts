@@ -1,15 +1,10 @@
-/* The filled planes: raised and sunken.
+/* The three planes: plain, raised and sunken.
 
-   The markup lives in `src/components/surface.ts`. The two differ only in
-   fill, because the system has no shadows — a plane is told apart by its fill
-   and a hairline and by nothing else.
-
-   The plane with no fill is `sds-card` and stands first on the specimen, so
-   the three boxes a page can reach for are in one picture with the element
-   that draws each. It is the odd one there on purpose: its title is a heading
-   in the document outline and sets larger, which is the difference between a
-   plane holding a statement and a card that goes somewhere. The fills alone,
-   with nothing else varying, are `guidelines/colors-surfaces`.
+   The markup lives in `src/components/surface.ts`. They differ only in fill,
+   because the system has no shadows — a plane is told apart by its fill and a
+   hairline and by nothing else, and all three are one element's answers. What
+   goes somewhere is `sds-card`, and that is a different question than a fill.
+   The fills alone, with nothing else varying, are `guidelines/colors-surfaces`.
 
    The card shows the planes *and* the overlays over them, because that claim
    is about the pair too: without a shadow an overlay needs a plane under it to
@@ -20,13 +15,11 @@ import { html, type TemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/surface.ts';
-import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/overlay.ts';
 import '../../packages/frontend/src/components/modal.ts';
 import '../../packages/frontend/src/components/button.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type SurfaceProps } from '../../packages/frontend/src/components/surface.ts';
-import { sdsCard } from './Card.stories.ts';
 import { dsCard, indent, part, px, spec, specCap } from '../lib/specimen.ts';
 
 export const sdsSurface = ({ plane = 'raised', title, body, label, icon }: SurfaceProps) =>
@@ -52,7 +45,7 @@ const meta: Meta<SurfaceProps> = {
   excludeStories: ['specimenHtml', 'scene'],
   render: (args) => sdsSurface(args),
   argTypes: {
-    plane: { control: 'inline-radio', options: ['raised', 'sunken'] },
+    plane: { control: 'inline-radio', options: ['plain', 'raised', 'sunken'] },
     title: { control: 'text' },
     body: { control: 'text' },
     label: { control: 'text' },
@@ -77,6 +70,10 @@ const meta: Meta<SurfaceProps> = {
 
 export default meta;
 type Story = StoryObj<SurfaceProps>;
+
+/** The hairline with no fill, for a statement that stands on the canvas
+    without leaving it. */
+export const Plain: Story = { args: { plane: 'plain', title: 'Plain', body: 'Hairline border, no fill — the canvas itself, framed.' } };
 
 /** A raised fill, for when it sits on the canvas and has to read as a plane. */
 export const Raised: Story = { args: { plane: 'raised', title: 'Raised', body: 'Raised fill, for when it sits on the canvas and has to read as a plane.' } };
@@ -116,14 +113,12 @@ export const FromContent: Story = {
 
 export const specimenHtml = (): string =>
   spec([
-    /* The unfilled plane first, drawn by the element that owns it. Three boxes
-       differing in one thing each is the whole of the claim — side by side in
-       the system's own wall, each filling the cell it stretches. */
+    /* The unfilled plane first, drawn by the element that owns all three.
+       Three boxes differing in one thing each is the whole of the claim —
+       side by side in the system's own wall, each filling the cell it
+       stretches. */
     `<div class="sds-grid sds-grid--dense">\n${indent(
-      [
-        part(sdsCard({ heading: 'Card', body: `Hairline border, ${px(6)} radius, no fill.`, href: '' })),
-        ...[Raised, Sunken].map((s) => part(sdsSurface(s.args as SurfaceProps))),
-      ].join('\n'),
+      [Plain, Raised, Sunken].map((s) => part(sdsSurface(s.args as SurfaceProps))).join('\n'),
       2,
     )}\n</div>`,
     `<div style="position:relative; height:210px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); overflow:hidden; background:var(--surface-canvas);">\n${indent(part(scene()), 2)}\n</div>`,
