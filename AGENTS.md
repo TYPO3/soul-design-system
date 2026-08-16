@@ -388,24 +388,25 @@ that stops working for a reader stops the site.
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.
 
-**`make diff` is closer but not clean.** Two runs of the same code reported ten
-to twenty changed cards; they now report two to four. What was wrong: a card was
-sometimes painted in a fallback face while `document.fonts` reported every face
-`loaded` and `check()` true. `openCard` asks whether the shipped families are
-really being used — the same string in the family and in one that does not
-exist — and `map` answers a fallen-back page by opening a *different* one, since
-reloading the same page never recovers it. Three attempts have always been
-enough.
+**`make diff` is clean, and the reason it was not is worth keeping.** Two runs
+of the same tree reported ten to twenty changed cards, then two to four, and now
+nothing or a single pixel of corner antialiasing. Every one of them was the same
+fault: a card painted in a fallback face while `document.fonts` reported the
+face `loaded` and `check()` true. `openCard` asks the one question that cannot
+be answered wrongly — the same string in the shipped family and in one that does
+not exist, equal widths meaning the fallback drew both — and `loadFonts` retries
+until *that* is satisfied rather than until the status says so.
 
-Two pages cannot be fixed that way and are named in the output instead of
-measured silently: a document that embeds another `file://` document — an
-`<iframe>`, or an externally referenced `<svg>` — never applies its own faces,
-however long anything waits. `specimens/screens/tour.html` and the three
-diagram cards are those, and they are measured in the fallback.
+What made it happen at all was concurrency: six pages fetching nine `file://`
+faces at once is a race, and a page that lost it stayed lost however often it
+was reopened. `map` runs one page at a time, which costs `shots` six seconds and
+`fit` eight and removes the race rather than retrying around it.
 
-The two to four that still differ between identical runs are not fonts: the
-face guarantee holds on every one of them. That residue is unexplained, and
-until it is, the gate and the suite are what a change is proven against.
+Two documents cannot be fixed and are named in the output instead of measured
+silently: one that embeds another `file://` document — an `<iframe>`, or an
+externally referenced `<svg>` — never applies its own faces, however long
+anything waits. `specimens/screens/tour.html` and the three diagram cards are
+those, and they are measured in the fallback.
 
 **Change a size or a gap** — through a token or a component's set, never as a
 value in a declaration: `make verify ARGS=sets` holds the route, and a raw
