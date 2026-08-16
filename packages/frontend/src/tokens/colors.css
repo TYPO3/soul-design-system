@@ -19,16 +19,11 @@
     --surface-inset: light-dark(#efebe3, #221f1b);
     --surface-accent-quiet: light-dark(#fff6ec, #1c1a16);
     --surface-overlay: light-dark(rgba(28, 26, 23, 0.45), rgba(6, 6, 5, 0.62));
-    /* Depth, for the surfaces that genuinely have some. Everything that stays on
-       the page is separated by a hairline; a surface that *leaves* it — what the
-       bar opens over the text, what a dialog is — is the exception, and how far
-       it has left is what these say.
-
-       Two layers each: a tight one for the edge and a wide one for the room
-       under it. One shadow is either a hard edge or a haze, and a raised surface
-       is both. The steps are the distance in pixels, and 64 is the one that
-       stops travelling: past a window's height an offset reads as a second
-       window rather than a taller one, so it spreads instead. */
+    /* Depth, for the surfaces that genuinely leave the page — everything that
+       stays on it separates with a hairline. Two layers each, a tight edge and
+       the room under it, since one shadow is either a hard edge or a haze. The
+       steps are the offset in pixels, and 64 is where it stops travelling:
+       past a window's height it spreads instead of reading as a second window. */
     --shadow-2:
       0 1px 2px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25)),
       0 1px 2px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));

@@ -125,16 +125,11 @@
       margin-bottom: 0;
     }
   }
-  /* A row rather than a line of text, so the one that is current can be filled.
-     It bleeds by exactly what it is padded with: the text stands where it stood
-     and the entry keeps its measure, which is what the column beside a page has
-     least of — the fill is the only thing that grew. And a row carries a row's
-     leading rather than the leading of whatever it stands in.
-
-     One entry is one line, and ends where the column does. A list of places is
-     scanned down its left edge, and an entry folded onto a second line is two
-     places to that reading — the heading it names is short or it is cut, and the
-     cut says so. */
+  /* A row rather than a line of text, so the current one can be filled. It
+     bleeds by exactly its padding — the text stands where it stood, only the
+     fill grew — and carries a row's own leading. One entry is one line, ending
+     where the column does: a list of places is scanned down its left edge, so
+     the heading it names is short or the cut says so. */
   .sds-toc__item {
     display: block;
     margin-inline: calc(-1 * var(--sds-toc-bleed));

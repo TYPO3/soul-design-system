@@ -138,16 +138,11 @@
     color: var(--sds-field-error-ink);
   }
 
-  /* A field in a form, which is a field plus everything a form owes it. A bare
-     `.sds-field` is right where the surface says what it is for; in a form
-     nothing does, and a placeholder leaves as soon as it is needed. So the label
-     is above and is a real `<label>`, the hint is below the control rather than
-     inside it, and the error is under both — never a tooltip.
-
-     `min-width: 0`, because the control inside states a width and a flex item's
-     own minimum is otherwise its content: a 420px field in a row on a 375px
-     phone made the row 420px wide and pushed the page sideways, with nothing in
-     it looking wrong. */
+  /* A field in a form is a field plus everything a form owes it: a real
+     `<label>` above — nothing else here says what the field is for, and a
+     placeholder leaves as soon as it is needed — the hint below the control,
+     the error under both, never a tooltip. `min-width: 0`, or the row's floor
+     is the control's own stated width and it pushes the page sideways. */
   .sds-field-row {
     --sds-field-row-gap: var(--space-1-5);
     --sds-field-label-size: var(--control-font-size);

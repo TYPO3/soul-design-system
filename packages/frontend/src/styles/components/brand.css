@@ -15,13 +15,10 @@
     color: var(--sds-signet-ink-muted);
   }
 
-  /* Signet, wordmark, one orange pipe. The pipe is the third and last place
-     the accent is allowed to appear.
-
-     A lockup is a signet and a wordmark on one baseline. It carries the page's
-     ink and no link decoration, because it is nearly always the link home and
-     an anchor would otherwise hand it the browser's blue — which the signet
-     then draws itself in, since its ink is `currentColor`. */
+  /* Signet, wordmark, one orange pipe — the third and last place the accent
+     may appear. A lockup is a signet and a wordmark on one baseline, in the
+     page's ink with no link decoration: it is nearly always the link home,
+     and the signet draws itself in `currentColor`. */
   .sds-lockup {
     /* The mark in a lockup is 24, said by the lockup rather than by every page
        that writes one: a signet is crisp only at the size its file is drawn

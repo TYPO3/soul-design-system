@@ -1,15 +1,11 @@
 /* sds-button — the three variants, the three heights.
 
-   Everything a button is, it is through a property of its own. The set is
-   derived once at the top — from the control tokens every control shares —
-   and every declaration below reads only that set. A variant, a size and a
-   state then assign values and draw nothing.
-
-   That buys three things: no `--primary:hover` rule for a later one to
-   outweigh, a size that is a handful of numbers rather than the same
-   declarations repeated per variant, and a surface that needs one button
-   different setting a property instead of writing a class this system has
-   never heard of. */
+   Everything a button is, it is through a property of its own: the set is
+   derived once at the top from the control tokens, and every declaration
+   below reads only that set. A variant, a size and a state assign values and
+   draw nothing — so there is no `--primary:hover` for a later rule to
+   outweigh, a size is a handful of numbers, and a surface that needs one
+   button different sets a property instead of writing a new class. */
 
 @layer base {
   sds-button {

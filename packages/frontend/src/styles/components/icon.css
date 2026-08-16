@@ -7,16 +7,11 @@
 }
 
 @layer components {
-  /* An icon follows the text colour it sits in — an <img> cannot inherit
-     currentColor, so the SVG is inlined — and by default that text's size, which
-     is what makes a glyph look placed rather than dropped in. A number is the
-     exception, for a glyph standing alone: 16 is the floor, and the scale goes
-     16, 20, 24 or a whole multiple. `<sds-icon>` with no `size` renders this.
-
-     Inline, because a glyph stands in a line as often as in a row: as a block
-     it broke the sentence it was set in, and only where no script ran. The
-     element states `inline-flex` and this states `inline-block` — the same box
-     seen from outside, both 1em square and both sitting on the baseline. */
+  /* An icon follows the text colour and size it sits in — an <img> can inherit
+     neither, so the SVG is inlined. A number is for a glyph standing alone:
+     16 is the floor, then 20, 24 or a whole multiple. Inline, because a glyph
+     stands in a line as often as in a row — the element states `inline-flex`,
+     this `inline-block`: the same box from outside, 1em square, on the baseline. */
   .sds-icon,
   sds-icon {
     /* On the tag as well as the class: before the element upgrades there is no

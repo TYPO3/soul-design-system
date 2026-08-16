@@ -1,7 +1,5 @@
 @layer base{
-  :where(.sds-prose) h1{color:var(--text-primary)}
-  :where(.sds-prose) h2{color:var(--text-primary)}
-  :where(.sds-prose) h3{color:var(--text-primary)}
+  :where(.sds-prose) :is(h1,h2,h3){color:var(--text-primary)}
   :where(.sds-prose) h4{font-size:var(--font-size-body);font-weight:var(--weight-semibold);color:var(--text-primary)}
   :where(.sds-prose) h5{margin-block-end:var(--space-1);font-weight:var(--weight-semibold);color:var(--text-primary)}
   :where(.sds-prose) h6{margin-block-end:var(--space-1);font-family:var(--font-mono);font-size:var(--font-size-label);font-weight:var(--weight-medium);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--text-muted)}

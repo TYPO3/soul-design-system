@@ -192,11 +192,9 @@
   }
 
   /* A title and its lead are one thing, so the pair closes to the title
-     group's step — stated here, one direction, where a container that pays
-     the gap takes it back. The display register is the exception and keeps
-     the flow step: at that size the letters carry their own air, and 8px
-     reads as the lead touching them. The trail and the eyebrow carry their
-     steps in their own files. */
+     group's step. The display register is the exception and keeps the flow
+     step: at that size the letters carry their own air, and 8px reads as the
+     lead touching them. The trail and the eyebrow carry their own steps. */
   :is(h1, h2, .sds-h1, .sds-h2):not(.sds-display):has(+ .sds-lead) {
     margin-block-end: var(--space-2);
   }

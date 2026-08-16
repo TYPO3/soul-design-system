@@ -48,13 +48,9 @@
 
 @layer components {
   /* A code block is a control-scale object: --radius-control, not the card
-     radius. Sunken, because it is machine output.
-
-     A block never widens the column it sits in. Its longest line is its
-     min-content width, and in a flex column that becomes a floor the whole page
-     is measured against — which is how a 1080px column with a 40-character
-     command in it pushed a 1440px page sideways. The body already scrolls; this
-     is what lets it. */
+     radius. Sunken, because it is machine output. And it never widens the
+     column it sits in: its longest line is its min-content width, a floor a
+     flex column measures the page against — the body scrolls instead. */
   .sds-code {
     --sds-code-pad-y: var(--block-pad-y);
     --sds-code-pad-y-tight: var(--block-pad-y-tight);

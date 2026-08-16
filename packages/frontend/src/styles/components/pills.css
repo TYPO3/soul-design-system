@@ -35,13 +35,10 @@
     gap: var(--sds-item-gap);
   }
 
-  /* Pill nav for sections. Active is a filled block, not a tint.
-
-     Wraps. In a header the menu decides what to do when the row runs out — it
-     measures, and becomes a panel. Standing on a page as a filter there is
-     nothing to measure against and nothing to collapse into: a second line costs
-     the page 30px, and the alternative is five items pushing a phone sideways.
-     Which is what four filters and a phone did the first time they met. */
+  /* Pill nav for sections. Active is a filled block, not a tint. Wraps: in a
+     header the menu measures and becomes a panel, but standing on a page as a
+     filter there is nothing to collapse into — a second line costs the page
+     30px, where a row that will not fold pushes a phone sideways. */
   .sds-pills {
     --sds-pills-gap: var(--space-1);
     --sds-pills-font: var(--font-mono);
@@ -54,12 +51,9 @@
     font-size: var(--sds-pills-font-size);
   }
   /* Its own set and not the row's: a pill stands in the bar's drawer as well,
-     where there is no row above it to inherit from.
-
-     One pill is one line. Two words in it are the name of one place, and a place
-     whose name has been folded in half is the row admitting it did not fit —
-     which is a decision the menu makes by collapsing, not something a label does
-     quietly on its own. */
+     where there is no row above it. One pill is one line — two words in it are
+     the name of one place, and folding a name in half is the menu's decision
+     to collapse, never the label's own. */
   .sds-pill {
     --sds-pill-pad-y: var(--space-1-5);
     --sds-pill-pad-x: var(--space-3);

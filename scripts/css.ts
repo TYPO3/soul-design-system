@@ -41,11 +41,27 @@ if (run.status !== 0 && !problems.length) {
   problems.push(...(summary.length ? summary : ['biome did not run — see `make css`']));
 }
 
-/* The system's own rule. A mask and a knockout glyph are alpha and blend
-   tricks rather than colours, and each says so where it stands. */
+/* The system's own rules — see AGENTS.md for both. A mask and a knockout
+   glyph are alpha and blend tricks rather than colours, and each says so
+   where it stands; a comment is five lines, ten for the one at the top. */
 const sheets = (dir: string): string[] => readdirSync(dir, { withFileTypes: true })
   .flatMap((e) => (e.isDirectory() ? sheets(join(dir, e.name)) : e.name.endsWith('.css') ? [join(dir, e.name)] : []));
 let literals = 0;
+for (const sheet of [...sheets(join(ROOT, 'packages', 'frontend', 'src', 'styles')), ...sheets(join(ROOT, 'packages', 'frontend', 'src', 'tokens'))]) {
+  const rel = relative(ROOT, sheet);
+  let open = 0;
+  let first = true;
+  readFileSync(sheet, 'utf8').split('\n').forEach((line, i) => {
+    if (!open && line.includes('/*')) open = i + 1;
+    if (open && line.includes('*/')) {
+      const length = i + 2 - open;
+      const budget = first && open <= 3 ? 10 : 5;
+      if (length > budget) problems.push(`${rel}:${open} — a comment of ${length} lines, over the budget of ${budget}`);
+      first = false;
+      open = 0;
+    }
+  });
+}
 for (const sheet of sheets(join(ROOT, 'packages', 'frontend', 'src', 'styles'))) {
   /* A reason covers the declaration under it, to whatever line its `;` is on. */
   let covered = false;

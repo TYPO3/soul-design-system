@@ -6,8 +6,8 @@
    about every paragraph because it linked a design system. Link it where a
    document is set, after `styles.css`, and nowhere else.
 
-   Nearly all of it is scoped `:where(.sds-prose)`, so a rule weighs what it
-   names and no more: `.sds-prose h3` would out-specify a component's own. */
+   Nearly all of it is scoped `:where(.sds-prose)` — heavier, a rule here
+   would beat the flow contracts the component files state in this layer. */
 
 /* The document layer is `base`: it says what a bare element is inside a
    passage of text, and a component standing in that passage keeps its own
@@ -21,13 +21,7 @@
      once there for every surface. Here it is the air above, which is what says
      which level a heading is, and the ink: `.sds-prose` sets a paragraph in
      `--text-secondary`, so a heading inside one takes the primary back. */
-  :where(.sds-prose) h1 {
-    color: var(--text-primary);
-  }
-  :where(.sds-prose) h2 {
-    color: var(--text-primary);
-  }
-  :where(.sds-prose) h3 {
+  :where(.sds-prose) :is(h1, h2, h3) {
     color: var(--text-primary);
   }
   /* Below the third level the scale has run out, so weight and air do the work
@@ -54,17 +48,12 @@
     text-transform: uppercase;
     color: var(--text-muted);
   }
-  /* A heading is the top of what follows, not a gap after what came before. */
-
   /* ------------------------------------------------------------ the block -- */
 
-  /* The measure belongs to the text, not to the column. A reference is sentences
-     *and* a forty-column table, a command nobody wants wrapped, a diagram —
-     clamping those to the reading width is how a page ends up with three
-     horizontal scrollbars. So the box refuses a measure of its own — stated
-     where the box is, in `components/prose.css` — and gives its limit to the
-     things made of words; the paragraph is not named here, it has the measure
-     already. */
+  /* The measure belongs to the text, not to the column: a reference is
+     sentences *and* a forty-column table, a command nobody wants wrapped — so
+     the box refuses a measure of its own (`components/prose.css`) and gives
+     its limit to the things made of words. The paragraph has it already. */
   :where(.sds-prose) dt,
   /* A line is a sentence that was told where to end. It wraps at the measure
      like any other, and the author's break is the one that carries meaning. */
@@ -333,15 +322,10 @@
   :where(.sds-prose) figure {
     margin: 0 0 var(--space-6);
   }
-  /* The caption sits under the picture, in the register a caption belongs to:
-     smaller than the prose and quieter, so it reads as a label for the thing
-     above rather than as a sentence of the text.
-
-     A caption this layer draws itself, and no other: an element that renders a
-     `<figcaption>` stacks its own parts and holds the gap between them, so this
-     padding is the two of them answering the same question twice. Named by what
-     the figure is rather than by which element — a list of exceptions grows by
-     one every time something else draws a caption. */
+  /* Under the picture, smaller and quieter: a label for the thing above, not a
+     sentence of the text. Only a caption this layer draws itself — an element
+     rendering its own `<figcaption>` already holds the gap, so it is excluded
+     by what the figure is rather than by name, and the list never grows. */
   :where(.sds-prose) figure:not([class*="sds-"]) > figcaption {
     padding-block-start: var(--space-2);
     font-size: var(--font-size-micro);
@@ -445,11 +429,10 @@
     color: var(--text-primary);
   }
 
-  /* A horizontal list: short items an author asked to be read across. The count
-     is in the class — `columns-N` is what the core writes — so there is a rule
-     per count and no way to state it once. Columns rather than a grid, because a
-     list flows and a grid would have to be told how many rows. `break-inside`
-     keeps a wrapped item off two columns. */
+  /* Short items an author asked to be read across. The count is in the class —
+     `columns-N` is what the core writes — so there is a rule per count and no
+     way to state it once. Columns rather than a grid, because a list flows;
+     `break-inside` keeps a wrapped item off two columns. */
   :where(.sds-prose) .hlist > ul {
     columns: 2;
     column-gap: var(--space-6);
