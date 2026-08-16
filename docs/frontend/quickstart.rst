@@ -62,7 +62,7 @@ in :doc:`layout` around this content:
    :caption: surface.html
 
    <div class="sds-app">
-     <section class="sds-column" aria-labelledby="package-status">
+     <section class="sds-page" aria-labelledby="package-status">
        <h1 id="package-status">Package status</h1>
 
        <sds-note tone="info" heading="Rendered from Soul">

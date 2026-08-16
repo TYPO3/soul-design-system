@@ -22,7 +22,7 @@ Copy `dist/` somewhere public and link those. No bundler, no import map, and
 nothing to install: markup rendered by PHP, Twig or Fluid uses the classes, and
 the elements upgrade it where there is behaviour. A page whose content is a
 document links nothing extra: the bare elements a renderer emits are set by
-`soul.css` too, and `sds-prose` adds what only a passage knows.
+`soul.css` too, each by the sheet of the component it belongs to.
 
 Copy the directory whole. `soul.css` asks for `fonts/` beside itself and
 `soul.js` resolves the icon sprite against its own URL.
@@ -30,8 +30,11 @@ Copy the directory whole. `soul.css` asks for `fonts/` beside itself and
 ## Or as a package
 
 ```sh
-npm install @typo3/soul-frontend lit
+npm install github:TYPO3/soul-frontend#main lit
 ```
+
+This mirror is where the package is published; it installs under the name in
+its manifest, which is what the imports below resolve.
 
 ```js
 import '@typo3/soul-frontend';

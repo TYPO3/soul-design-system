@@ -17,7 +17,7 @@ stated once, so no surface writes its own breakpoints.
        <header class="sds-bar">…</header>
        <div class="sds-body">
          <aside class="sds-body__rail">…</aside>
-         <main class="sds-column" id="main-content">…</main>
+         <main class="sds-body__main" id="main-content">…</main>
        </div>
        <footer class="sds-footer">…</footer>
      </div>
@@ -106,7 +106,7 @@ reports and a page that argues.
 
          <div class="sds-body">
            <aside class="sds-body__rail"><sds-nav-rail …></sds-nav-rail></aside>
-           <main class="sds-column">…</main>
+           <main class="sds-body__main">…</main>
          </div>
 
       Right for an answer, a reference, a document. Where there is nothing to
@@ -146,13 +146,23 @@ reports and a page that argues.
    drawn at all: the bar is handed the whole site on every page, and its drawer
    holds these pages among the rest.
 
+.. confval:: .sds-body__main
+   :name: sds-body-main
+   :type: class
+
+   The other half of the body, and named for it: what stands beside the rail is
+   this page, the way the rail is its list. It has no width of its own — the
+   measure comes from what is in it, which is what lets a table run wide while
+   the prose beside it stays at sixty-six characters.
+
 .. confval:: .sds-column
    :name: sds-column
    :type: class
 
-   The column everything is read in. It has no width of its own — the measure
-   comes from what is in it, which is what lets a table run wide while the
-   prose beside it stays at sixty-six characters.
+   **A half of a split, and nothing else.** The split states the width; the
+   column is what stands in it. A page's own reading column is
+   ``.sds-body__main`` or ``.sds-page`` — writing this one there says half of
+   something that has no other half.
 
 .. confval:: .sds-page
    :name: sds-page
