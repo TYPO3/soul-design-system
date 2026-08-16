@@ -18,58 +18,32 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/code.ts';
-import '../../packages/frontend/src/components/confval.ts';
 import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/figure.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { buttonMarkup } from '../../packages/frontend/src/components/button.ts';
 import { type BadgeTone } from '../../packages/frontend/src/components/badge.ts';
-import { type ConfvalProps } from '../../packages/frontend/src/components/confval.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
-/** What the tool is allowed to touch, stated as the reference it is: the name
-    a reader searches for, the fact a machine would check, and the sentence
-    saying what happens either way. */
-const BOUNDARIES: readonly ConfvalProps[] = [
-  {
-    name: 'your project directory',
-    type: 'read',
-    default: 'never written',
-    required: true,
-    body: html`Composer files, the package registry, and whatever the
-      installation reports about itself. Opened read-only — the process has no
-      write path into your tree, which is checkable in the source rather than
-      promised here.`,
-  },
-  {
-    name: 'the bundled index',
-    type: 'read',
-    default: 'ships with the release',
-    body: html`Built once per release from public sources and shipped inside
-      the package. It is the only thing that answers when nothing else is
-      reachable, and it says so in the answer.`,
-  },
-  {
-    name: 'the network',
-    type: 'one host',
-    default: 'off unless asked',
-    body: html`A single tool may fetch a page from
-      <span class="sds-mono">docs.typo3.org</span>, and only when that tool is
-      the one called. Nothing else leaves, and no telemetry exists to
-      disable — there is none to begin with.`,
-  },
-  {
-    name: 'what is kept',
-    type: 'nothing',
-    default: 'no state between runs',
-    body: html`No account, no log of what was asked, no cache of your project.
-      This is why there is nothing here to export and nothing to delete: the
-      process ends and takes its memory with it.`,
-  },
+/** What the tool is allowed to touch, as the three columns a questionnaire
+    asks for: the thing, what it may do to it, and what survives the run. Three
+    rows and not four — what is kept is a column here, because it is the same
+    question asked of every one of them. */
+const BOUNDARY_COLUMNS: readonly Column[] = [
+  { head: 'What it touches', cls: 'sds-td-name' },
+  { head: 'Access', cls: 'sds-td-meta' },
+  { head: 'When', cls: 'sds-td-meta' },
+  { head: 'What is kept', cls: 'sds-td-meta' },
+];
+
+const BOUNDARIES: readonly Row[] = [
+  { cells: ['your project directory', 'read', 'while a tool answers', 'nothing'] },
+  { cells: ['the bundled index', 'read', 'always available', 'ships with the release'] },
+  { cells: ['docs.typo3.org', 'one host, read', 'only when that tool is called', 'nothing'] },
 ];
 
 /** The advisories, which are the strongest thing this page has: an open
@@ -143,9 +117,12 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
             silence beyond the fix, and we credit you unless you ask us not
             to.
           </p>
+          <!-- The two facts of that paragraph, as the facts they are. No tone:
+               a status colour is the result of something, and a promise has no
+               result yet. -->
           <div class="sds-row">
-            <sds-badge label="acknowledged in 1 working day" tone="ok"></sds-badge>
-            <sds-badge label="90-day disclosure, negotiable"></sds-badge>
+            <sds-badge label="1 working day"></sds-badge>
+            <sds-badge label="90 days"></sds-badge>
           </div>
           <div class="sds-actions">${report}</div>
         </div>
@@ -164,19 +141,25 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
       <div class="sds-stack">
         <h2>What it touches</h2>
         <p>
-          Four things, and one of them leaves the machine. Stated as a
-          reference rather than as prose, because this is the section somebody
-          copies into a procurement questionnaire.
+          Three things, and one of them leaves the machine. Stated as a table
+          rather than as prose, because this is the section somebody copies
+          into a procurement questionnaire.
         </p>
-        ${BOUNDARIES.map(
-          (one) => html`<sds-confval
-            name="${one.name}"
-            type="${one.type ?? ''}"
-            default="${one.default ?? ''}"
-            ?required="${one.required ?? false}"
-            .body="${one.body}"
-          ></sds-confval>`,
-        )}
+        <sds-table density="medium" scrollable .columns="${BOUNDARY_COLUMNS}" .rows="${BOUNDARIES}"></sds-table>
+        <p>
+          Read means read: the process has no write path into your tree, which
+          is checkable in the source rather than promised here. The bundled
+          index is built once per release from public sources and is the only
+          thing that answers when nothing else is reachable — and it says so in
+          the answer. The one host is fetched by a single tool, only when that
+          tool is the one called.
+        </p>
+        <p>
+          Nothing is kept between runs: no account, no log of what was asked,
+          no cache of your project. This is why there is nothing here to export
+          and nothing to delete — the process ends and takes its memory with
+          it.
+        </p>
       </div>
     </section>
 
@@ -191,7 +174,7 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
             and it is read-only.
           </p>
           <sds-note
-            tone="ok"
+            tone="info"
             heading="There is no telemetry to turn off"
             .body="${html`No usage reporting, no crash reporting, no update check. A
               setting to disable one of those would imply there was one${NNBSP}— so instead

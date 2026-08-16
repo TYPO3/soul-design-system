@@ -147,9 +147,12 @@
             silence beyond the fix, and we credit you unless you ask us not
             to.
           </p>
+          <!-- The two facts of that paragraph, as the facts they are. No tone:
+               a status colour is the result of something, and a promise has no
+               result yet. -->
           <div class="sds-row">
-            <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>acknowledged in 1 working day</span>
-            <span class="sds-badge">90-day disclosure, negotiable</span>
+            <span class="sds-badge">1 working day</span>
+            <span class="sds-badge">90 days</span>
           </div>
           <div class="sds-actions"><button class="sds-btn sds-btn--primary sds-btn--lg" type="button"><span class="sds-btn__label">Report a vulnerability</span></button><button class="sds-btn sds-btn--secondary sds-btn--lg" type="button"><span class="sds-btn__label">Read the disclosure policy</span></button></div>
         </div>
@@ -173,81 +176,52 @@ Expires: 2027-08-15T00:00:00.000Z</code></pre>
       <div class="sds-stack">
         <h2>What it touches</h2>
         <p>
-          Four things, and one of them leaves the machine. Stated as a
-          reference rather than as prose, because this is the section somebody
-          copies into a procurement questionnaire.
+          Three things, and one of them leaves the machine. Stated as a table
+          rather than as prose, because this is the section somebody copies
+          into a procurement questionnaire.
         </p>
-        <dl class="sds-confval">
-  <dt class="sds-confval__term">
-    <code class="sds-confval__name">your project directory</code>
-    <span class="sds-badge">required</span>
-    
-  </dt>
-  <dd class="sds-confval__detail">
-    <dl class="sds-confval__facts">
-      <dt class="sds-label">type</dt>
-      <dd class="sds-mono">read</dd>
-      <dt class="sds-label">default</dt>
-      <dd class="sds-mono">never written</dd>
-    </dl>
-    <div class="sds-confval__body">Composer files, the package registry, and whatever the
-      installation reports about itself. Opened read-only — the process has no
-      write path into your tree, which is checkable in the source rather than
-      promised here.</div>
-  </dd>
-</dl><dl class="sds-confval">
-  <dt class="sds-confval__term">
-    <code class="sds-confval__name">the bundled index</code>
-    
-    
-  </dt>
-  <dd class="sds-confval__detail">
-    <dl class="sds-confval__facts">
-      <dt class="sds-label">type</dt>
-      <dd class="sds-mono">read</dd>
-      <dt class="sds-label">default</dt>
-      <dd class="sds-mono">ships with the release</dd>
-    </dl>
-    <div class="sds-confval__body">Built once per release from public sources and shipped inside
-      the package. It is the only thing that answers when nothing else is
-      reachable, and it says so in the answer.</div>
-  </dd>
-</dl><dl class="sds-confval">
-  <dt class="sds-confval__term">
-    <code class="sds-confval__name">the network</code>
-    
-    
-  </dt>
-  <dd class="sds-confval__detail">
-    <dl class="sds-confval__facts">
-      <dt class="sds-label">type</dt>
-      <dd class="sds-mono">one host</dd>
-      <dt class="sds-label">default</dt>
-      <dd class="sds-mono">off unless asked</dd>
-    </dl>
-    <div class="sds-confval__body">A single tool may fetch a page from
-      <span class="sds-mono">docs.typo3.org</span>, and only when that tool is
-      the one called. Nothing else leaves, and no telemetry exists to
-      disable — there is none to begin with.</div>
-  </dd>
-</dl><dl class="sds-confval">
-  <dt class="sds-confval__term">
-    <code class="sds-confval__name">what is kept</code>
-    
-    
-  </dt>
-  <dd class="sds-confval__detail">
-    <dl class="sds-confval__facts">
-      <dt class="sds-label">type</dt>
-      <dd class="sds-mono">nothing</dd>
-      <dt class="sds-label">default</dt>
-      <dd class="sds-mono">no state between runs</dd>
-    </dl>
-    <div class="sds-confval__body">No account, no log of what was asked, no cache of your project.
-      This is why there is nothing here to export and nothing to delete: the
-      process ends and takes its memory with it.</div>
-  </dd>
-</dl>
+        <div class="sds-table-scroll"><table class="sds-table sds-table--medium">
+  <thead><tr>
+    <th>What it touches</th>
+    <th>Access</th>
+    <th>When</th>
+    <th>What is kept</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">your project directory</td>
+      <td class="sds-td-meta">read</td>
+      <td class="sds-td-meta">while a tool answers</td>
+      <td class="sds-td-meta">nothing</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">the bundled index</td>
+      <td class="sds-td-meta">read</td>
+      <td class="sds-td-meta">always available</td>
+      <td class="sds-td-meta">ships with the release</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">docs.typo3.org</td>
+      <td class="sds-td-meta">one host, read</td>
+      <td class="sds-td-meta">only when that tool is called</td>
+      <td class="sds-td-meta">nothing</td>
+    </tr>
+  </tbody>
+</table></div>
+        <p>
+          Read means read: the process has no write path into your tree, which
+          is checkable in the source rather than promised here. The bundled
+          index is built once per release from public sources and is the only
+          thing that answers when nothing else is reachable — and it says so in
+          the answer. The one host is fetched by a single tool, only when that
+          tool is the one called.
+        </p>
+        <p>
+          Nothing is kept between runs: no account, no log of what was asked,
+          no cache of your project. This is why there is nothing here to export
+          and nothing to delete — the process ends and takes its memory with
+          it.
+        </p>
       </div>
     </section>
 
@@ -261,8 +235,8 @@ Expires: 2027-08-15T00:00:00.000Z</code></pre>
             trust. The single outbound path is the exception in the picture,
             and it is read-only.
           </p>
-          <div class="sds-note sds-note--ok">
-  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Success" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+          <div class="sds-note sds-note--info">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
   <div class="sds-note__content">
     <div class="sds-note__title">There is no telemetry to turn off</div>
     <div class="sds-note__body">No usage reporting, no crash reporting, no update check. A
