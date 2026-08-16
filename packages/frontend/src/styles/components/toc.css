@@ -6,9 +6,9 @@
    because a container in `layout` takes the step back and a step stated in
    `components` would win over the container that already paid the gap. */
 @layer base {
-  sds-nav-toc { display: block; min-width: 0; margin-bottom: var(--space-4); }
+  sds-nav-toc { display: block; min-width: 0; margin-bottom: var(--space-6); }
   sds-nav-toc > .sds-toc { margin-bottom: 0; }
-  .sds-toc { margin: 0 0 var(--space-4); }
+  .sds-toc { margin: 0 0 var(--space-6); }
 
   /* Nothing at every other width: the box is in the markup on every page and
      is not in the layout until the rule below puts it there, so no template
@@ -50,26 +50,6 @@
        travels inside its parent: left at the list's own height it gives the
        list nowhere to rest. At the reserve's height the travel is the column. */
     :where(.sds-prose) .sds-aside sds-nav-toc { block-size: 100%; }
-    /* And the list rests inside it, anywhere in the document, at the rail's line
-       and bounded the way the rail is bounded. The rules above and below it go:
-       they set a block apart from the text around it, and there is no text
-       around it here. */
-    :where(.sds-prose) .sds-aside .sds-toc {
-      position: sticky;
-      top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
-      max-height: calc(100vh - var(--height-header) - var(--space-8) * 2);
-      margin: 0;
-      padding: var(--space-1-5) var(--space-4);
-      border: 0;
-      max-width: none;
-      overflow-y: auto;
-    }
-    /* Two levels of them. The column is where a reader jumps from, and a
-       fourth-level heading is not a jump anybody makes from a rail: drawn, the
-       levels below the second are identical muted lines a step apart, each with
-       less measure than the one above and nothing but that step saying which is
-       which. The list in the flow is at the measure and keeps all six. */
-    :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list { display: none; }
   }
 }
 
@@ -80,6 +60,10 @@
      when it is not a paragraph. */
   .sds-toc {
     --sds-toc-font-size: var(--font-size-ui);
+    --sds-toc-frame-pad: var(--space-3);
+    --sds-toc-frame-line: var(--border-hairline);
+    --sds-toc-frame-edge: var(--border-subtle);
+    --sds-toc-measure: var(--measure-prose);
     --sds-toc-step: var(--space-1);
     --sds-toc-indent: var(--space-3);
     --sds-toc-bleed: var(--space-2);
@@ -94,6 +78,12 @@
     --sds-toc-duration: var(--duration-fast);
     --sds-toc-ease: var(--ease-out);
 
+    /* Apparatus rather than prose: ruled above and below, a step down and
+       held to the reading measure, so a reader uses it or reads past it. No
+       rule at the left edge — that mark belongs to the quotation. */
+    padding: var(--sds-toc-frame-pad) 0;
+    border-block: var(--sds-toc-frame-line) solid var(--sds-toc-frame-edge);
+    max-width: var(--sds-toc-measure);
     font-size: var(--sds-toc-font-size);
   }
   /* No markers. A contents is a list of places, and a bullet before each one is
@@ -165,5 +155,33 @@
     background: var(--sds-toc-fill-active);
     color: var(--sds-toc-ink-active);
     text-decoration: none;
+  }
+
+  /* At full measure the list rests in the aside's reserve, at the rail's line
+     and bounded the way the rail is bounded. The frame goes: its rules set a
+     block apart from the text around it, and there is no text around it here.
+     In this layer because the frame is — the resting form must win it back. */
+  @media (min-width: 1296px) {
+    :where(.sds-prose) .sds-aside .sds-toc {
+      --sds-toc-rest-top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
+      --sds-toc-rest-max: calc(100vh - var(--height-header) - var(--space-8) * 2);
+      --sds-toc-rest-pad-y: var(--space-1-5);
+      --sds-toc-rest-pad-x: var(--space-4);
+
+      position: sticky;
+      top: var(--sds-toc-rest-top);
+      max-height: var(--sds-toc-rest-max);
+      margin: 0;
+      padding: var(--sds-toc-rest-pad-y) var(--sds-toc-rest-pad-x);
+      border: 0;
+      max-width: none;
+      overflow-y: auto;
+    }
+    /* Two levels of them. The column is where a reader jumps from, and a
+       fourth-level heading is not a jump anybody makes from a rail: drawn, the
+       levels below the second are identical muted lines a step apart, each with
+       less measure than the one above and nothing but that step saying which
+       is which. The list in the flow keeps all six. */
+    :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list { display: none; }
   }
 }

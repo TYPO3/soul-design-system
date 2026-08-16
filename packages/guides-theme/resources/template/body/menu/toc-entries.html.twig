@@ -18,12 +18,12 @@
 #}
 {% macro entries(items, kids) %}
     {%- import _self as toc -%}
-    <ul>
+    <ul class="sds-toc__list">
         {%- for item in items %}
             {%- set doc = renderLink(item.url) -%}
             {%- set href = (doc == '#' ? '' : doc) ~ (item.anchor ? '#' ~ item.anchor) -%}
             <li>
-                <a href="{{ href ?: '#' }}">{{ item.value.toString }}</a>
+                <a class="sds-toc__item" href="{{ href ?: '#' }}">{{ item.value.toString }}</a>
                 {%- set children = attribute(item, kids) -%}
                 {%- if children %}{{ toc.entries(children, kids) }}{% endif -%}
             </li>

@@ -3,13 +3,15 @@
     the document rather than in the rail.
 
     The rail already carries this tree, so the two must not look alike: one is
-    where the reader is, the other is a list they read. Same shape as the local
-    contents next door, and the difference is what the entries point at —
-    documents rather than sections, so their children are `children`.
+    where the reader is, the other is a list they read. It speaks the contents
+    apparatus's own classes — the element next door marks the reader's place,
+    which a list of other pages has no place to mark — and the difference is
+    what the entries point at: documents rather than sections, so their
+    children are `children`.
 #}
-<nav class="toc" aria-label="{{ node.caption ? renderNode(node.caption)|striptags|trim : 'Contents' }}">
+<nav class="sds-toc" aria-label="{{ node.caption ? renderNode(node.caption)|striptags|trim : 'Contents' }}">
     {%- if node.caption %}
-        <p class="topic-title">{{ renderNode(node.caption) }}</p>
+        <p class="sds-label">{{ renderNode(node.caption) }}</p>
     {%- endif %}
     {%- import "body/menu/toc-entries.html.twig" as toc -%}
     {{ toc.entries(node.menuEntries, 'children') }}

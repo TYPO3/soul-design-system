@@ -53,15 +53,6 @@
   :where(.sds-prose) tbody tr:hover{background:var(--surface-raised)}
   :where(.sds-prose) th:first-child,:where(.sds-prose) td:first-child{padding-inline-start:0}
   :where(.sds-prose) th:last-child,:where(.sds-prose) td:last-child{padding-inline-end:0}
-  :where(.sds-prose) .contents,:where(.sds-prose) .sds-toc,:where(.sds-prose) .toc{margin:0 0 var(--space-6);padding:var(--space-3) 0;border-block:var(--border-hairline) solid var(--border-subtle);max-width:var(--measure-prose);font-size:var(--font-size-ui)}
-  :where(.sds-prose) .contents ul,:where(.sds-prose) .toc ul{margin:0;padding-inline-start:0;list-style:none}
-  :where(.sds-prose) .contents li ul,:where(.sds-prose) .toc li ul{padding-block-start:var(--space-1);padding-inline-start:var(--space-4)}
-  :where(.sds-prose) .contents li,:where(.sds-prose) .toc li{margin-bottom:var(--space-1)}
-  :where(.sds-prose) .contents>.sds-label{margin:0 0 var(--space-2)}
-  :where(.sds-prose) .contents a{color:var(--text-secondary);text-decoration:none}
-  :where(.sds-prose) .contents a:hover{color:var(--text-primary);text-decoration:underline}
-  :where(.sds-prose) .contents li li a{color:var(--text-muted)}
-  :where(.sds-prose) .contents li li a:hover{color:var(--text-primary)}
   :where(.sds-prose) .topic-title{margin:0 0 var(--space-2);font-size:var(--font-size-body);font-weight:var(--weight-semibold);color:var(--text-primary)}
   :where(.sds-prose) .topic{margin:0 0 var(--space-4);max-width:var(--measure-prose)}
   :where(.sds-prose) .topic>:last-child{margin-bottom:0}
