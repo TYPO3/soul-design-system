@@ -142,20 +142,18 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
     </section>
 
     <section class="sds-band sds-band--quiet" id="hits">
-      <div class="sds-stack">
-        <div class="sds-row">
-          <sds-nav-pills
-            .items="${FACETS.map(({ label }) => ({ label }))}"
-            active="${facet}"
-            @sds-change="${(e: CustomEvent<NavChange>) => onFacet?.(e.detail.index)}"
-          ></sds-nav-pills>
-          <span class="sds-label sds-row__end">${shown.length} of 4 · 240${NNBSP}ms</span>
-        </div>
-
-        ${list}
-
-        <sds-nav-pagination count="4" per-page="10" current="1" href="?q=typo3&amp;page={n}" label="results"></sds-nav-pagination>
+      <div class="sds-row">
+        <sds-nav-pills
+          .items="${FACETS.map(({ label }) => ({ label }))}"
+          active="${facet}"
+          @sds-change="${(e: CustomEvent<NavChange>) => onFacet?.(e.detail.index)}"
+        ></sds-nav-pills>
+        <span class="sds-label sds-row__end">${shown.length} of 4 · 240${NNBSP}ms</span>
       </div>
+
+      ${list}
+
+      <sds-nav-pagination count="4" per-page="10" current="1" href="?q=typo3&amp;page={n}" label="results"></sds-nav-pagination>
     </section>
 
     <section class="sds-band" id="scope">

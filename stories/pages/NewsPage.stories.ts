@@ -183,22 +183,20 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
     </section>
 
     <section class="sds-band sds-band--quiet" id="entries">
-      <div class="sds-stack">
-        <div class="sds-row">
-          <sds-nav-pills
-            .items="${FILTERS.map(({ label }) => ({ label }))}"
-            active="${filter}"
-            @sds-change="${(e: CustomEvent<NavChange>) => onFilter?.(e.detail.index)}"
-          ></sds-nav-pills>
-          <span class="sds-label sds-row__end">${shown.length} of ${ENTRIES.length} entries</span>
-        </div>
-
-        ${list}
-
-        ${shown.length
-          ? html`<sds-nav-pagination count="${shown.length}" per-page="${PER_PAGE}" current="1" href="#entries-{n}" label="entries"></sds-nav-pagination>`
-          : ''}
+      <div class="sds-row">
+        <sds-nav-pills
+          .items="${FILTERS.map(({ label }) => ({ label }))}"
+          active="${filter}"
+          @sds-change="${(e: CustomEvent<NavChange>) => onFilter?.(e.detail.index)}"
+        ></sds-nav-pills>
+        <span class="sds-label sds-row__end">${shown.length} of ${ENTRIES.length} entries</span>
       </div>
+
+      ${list}
+
+      ${shown.length
+        ? html`<sds-nav-pagination count="${shown.length}" per-page="${PER_PAGE}" current="1" href="#entries-{n}" label="entries"></sds-nav-pagination>`
+        : ''}
     </section>
 
     <section class="sds-band" id="follow">
