@@ -142,19 +142,6 @@
     margin: var(--space-1) 0 0;
   }
 
-  /* A definition list is the shape a reference falls into whenever it names
-     things: a term, and what it is. The term carries the weight because it is
-     what somebody scans for; the definition is ordinary prose one step in. */
-  :where(.sds-prose) dt {
-    font-weight: var(--weight-semibold);
-    color: var(--text-primary);
-  }
-  :where(.sds-prose) dd {
-    margin: var(--space-1) 0 var(--space-3) var(--space-5);
-  }
-  :where(.sds-prose) dd:last-child {
-    margin-bottom: 0;
-  }
   /* A term may be given its kind — `term : noun`. The kind is not the term: it
      drops to the register the definition is written in, so a reader scanning the
      column sees the words being defined and not what they are. */
@@ -163,12 +150,6 @@
     font-weight: var(--weight-regular);
     color: var(--text-secondary);
   }
-  /* Landing on one term out of forty says which one — the mark a confval and a
-     heading already make. */
-  :where(.sds-prose) dt:target {
-    color: var(--text-accent-quiet);
-  }
-
   /* --------------------------------------------------------------- lines -- */
 
   /* `| a line` — an address, a stanza, a signature: text where the break is part
@@ -184,49 +165,6 @@
   :where(.sds-prose) .line {
     min-height: 1lh;
   }
-
-  /* --------------------------------------------------------------- quote -- */
-
-  /* Marked by a rule at its edge and a step in, never by italics: a quotation
-     is somebody else's sentences, not an emphasis on yours. */
-  :where(.sds-prose) blockquote {
-    padding-inline-start: var(--space-4);
-    border-inline-start: 2px solid var(--border-subtle);
-    color: var(--text-secondary);
-  }
-  :where(.sds-prose) blockquote > :last-child {
-    margin-bottom: 0;
-  }
-
-  /* ---------------------------------------------------------------- code -- */
-
-  /* A block is machine output and sits on the sunken plane — but not the ones a
-     component renders its `<pre>` into: `sds-code` and `sds-diff` both carry the
-     border, radius and plane on the frame around it. The exclusion stops the
-     second box, and the scope does not make it redundant: `:where()` settles only
-     what the component also states, and these three are stated **only here**. */
-  :where(.sds-prose) pre:not(.sds-code__body, .sds-diff) {
-    padding: var(--space-3) var(--space-4);
-    overflow-x: auto;
-    border: var(--border-hairline) solid var(--border-subtle);
-    border-radius: var(--radius-control);
-    background: var(--surface-sunken);
-    font-family: var(--font-mono);
-    font-size: var(--font-size-dense);
-    line-height: var(--leading-code);
-    color: var(--text-primary);
-  }
-  /* The block set the family and size; the code inside must not set them again at
-     the optical ratio of the first. Every `<pre>`, the component's included:
-     `components.css` states the same at equal specificity in the file linked
-     first, so the inline rule there would win inside the element too. */
-  :where(.sds-prose) pre code {
-    font-size: inherit;
-    font-weight: inherit;
-    color: inherit;
-  }
-
-  /* ---------------------------------------------------- what is set apart -- */
 
   /* ---------------------------------------------------------- in the line -- */
 
@@ -247,32 +185,6 @@
   :where(.sds-prose) > math:not(:has(*)) {
     display: block;
     margin-bottom: var(--space-4);
-  }
-
-  /* -------------------------------------------------------------- figures -- */
-
-  /* A picture never widens the column it was put in, whatever it was exported
-     at — and that is the class layer's rule, because a surface has pictures too.
-     What a document adds is the figure around it, which stands further off the
-     text than a paragraph does. */
-  :where(.sds-prose) figure {
-    margin-bottom: var(--space-6);
-  }
-  /* Under the picture, smaller and quieter: a label for the thing above, not a
-     sentence of the text. Only a caption this layer draws itself — an element
-     rendering its own `<figcaption>` already holds the gap, so it is excluded
-     by what the figure is rather than by name, and the list never grows. */
-  :where(.sds-prose) figure:not([class*="sds-"]) > figcaption {
-    padding-block-start: var(--space-2);
-    font-size: var(--font-size-micro);
-    color: var(--text-muted);
-  }
-  /* A caption in reStructuredText is a block, so what arrives inside is a
-     paragraph — carrying the gap that belongs between two of them, under the
-     last line of a label. The size needs nothing: a paragraph here already
-     inherits, which is what the rule above it is for. */
-  :where(.sds-prose) figcaption > :last-child {
-    margin-bottom: 0;
   }
 
   /* --------------------------------------------------------------- table -- */

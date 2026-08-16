@@ -13,10 +13,21 @@
     margin: 0 0 var(--space-4);
   }
 
-  /* In a passage the document rules and indents a bare blockquote; this
-     element draws both on the figure around it. Left standing, both are drawn
-     twice and the sentence sits one indent further in than the byline
-     answerable for it. */
+  /* A bare `<blockquote>` is this component without its element, so it is drawn
+     here: a rule at the edge and a step in, never italics — a quotation is
+     somebody else's sentences, not an emphasis on yours. */
+  blockquote {
+    padding-inline-start: var(--space-4);
+    border-inline-start: 2px solid var(--border-subtle);
+    color: var(--text-secondary);
+  }
+  blockquote > :last-child {
+    margin-bottom: 0;
+  }
+
+  /* The element draws the rule and the indent on the figure around it instead.
+     Left standing, both are drawn twice and the sentence sits one indent
+     further in than the byline answerable for it. */
   .sds-quote__body {
     padding-inline-start: 0;
     border-inline-start: 0;

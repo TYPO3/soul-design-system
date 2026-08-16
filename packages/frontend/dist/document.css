@@ -13,24 +13,13 @@
   :where(.sds-prose) li{margin-bottom:var(--space-1)}
   :where(.sds-prose) li:last-child{margin-bottom:0}
   :where(.sds-prose) li>ul,:where(.sds-prose) li>ol{margin:var(--space-1) 0 0}
-  :where(.sds-prose) dt{font-weight:var(--weight-semibold);color:var(--text-primary)}
-  :where(.sds-prose) dd{margin:var(--space-1) 0 var(--space-3) var(--space-5)}
-  :where(.sds-prose) dd:last-child{margin-bottom:0}
   :where(.sds-prose) .classifier,:where(.sds-prose) .classifier-delimiter{font-weight:var(--weight-regular);color:var(--text-secondary)}
-  :where(.sds-prose) dt:target{color:var(--text-accent-quiet)}
   :where(.sds-prose) .line-block{margin-bottom:var(--space-4)}
   :where(.sds-prose) .line-block .line-block{margin:0 0 0 var(--space-5)}
   :where(.sds-prose) .line{min-height:1lh}
-  :where(.sds-prose) blockquote{padding-inline-start:var(--space-4);border-inline-start:2px solid var(--border-subtle);color:var(--text-secondary)}
-  :where(.sds-prose) blockquote>:last-child{margin-bottom:0}
-  :where(.sds-prose) pre:not(.sds-code__body,.sds-diff){padding:var(--space-3) var(--space-4);overflow-x:auto;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-sunken);font-family:var(--font-mono);font-size:var(--font-size-dense);line-height:var(--leading-code);color:var(--text-primary)}
-  :where(.sds-prose) pre code{font-size:inherit;font-weight:inherit;color:inherit}
   :where(.sds-prose) :is(p,li,dd,td,th) a{text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-underline-offset:2px}
   :where(.sds-prose) :is(p,li,dd,td,th) a:hover{text-decoration-color:currentColor}
   .sds-section>math:not(:has(*)),:where(.sds-prose)>math:not(:has(*)){display:block;margin-bottom:var(--space-4)}
-  :where(.sds-prose) figure{margin-bottom:var(--space-6)}
-  :where(.sds-prose) figure:not([class*=sds-])>figcaption{padding-block-start:var(--space-2);font-size:var(--font-size-micro);color:var(--text-muted)}
-  :where(.sds-prose) figcaption>:last-child{margin-bottom:0}
   :where(.sds-prose) table{width:100%;font-size:var(--font-size-ui)}
   :where(.sds-prose) caption{margin-bottom:var(--space-2);font-size:var(--font-size-micro);color:var(--text-muted);text-align:start}
   :where(.sds-prose) th{padding:var(--space-2) var(--space-3);border-bottom:var(--border-hairline) solid var(--border-subtle);font-family:var(--font-mono);font-size:var(--font-size-label);font-weight:var(--weight-medium);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--text-muted);text-align:start;vertical-align:bottom}

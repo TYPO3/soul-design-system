@@ -17,6 +17,23 @@
     margin: 0 0 var(--space-4);
   }
 
+  /* A bare `<figure>` is this component without its element, and its caption
+     labels the picture rather than continuing the sentence. The step below is
+     the flow contract's, like every other block — a document used to set it one
+     size wider, which is a second distance for the same relation. Never the
+     caption an element renders: there the stack's gap is already that distance. */
+  figure:not([class*="sds-"]) > figcaption {
+    padding-block-start: var(--space-2);
+    font-size: var(--font-size-micro);
+    color: var(--text-muted);
+  }
+  /* A caption a renderer wrote is a block, so what arrives inside it is a
+     paragraph carrying the gap that belongs between two — under the last line
+     of a label, where there is nothing to be apart from. */
+  figcaption > :last-child {
+    margin-bottom: 0;
+  }
+
   /* The picture before its element upgrades, and on a page that runs none.
      The renderer wrote it carrying `sds-art`, so it is already the right size
      in the column. What is missing is the frame and the stack it makes with

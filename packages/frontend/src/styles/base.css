@@ -173,6 +173,25 @@
     list-style-type: lower-alpha;
   }
 
+  /* A definition list is the shape anything falls into when it names things: a
+     term, and what it is. The term carries the weight because it is what
+     somebody scans for; the definition is ordinary text one step in. */
+  dt {
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
+  }
+  dd {
+    margin: var(--space-1) 0 var(--space-3) var(--space-5);
+  }
+  dd:last-child {
+    margin-bottom: 0;
+  }
+  /* Landing on one term out of forty says which one — the mark a heading and a
+     confval already make. */
+  dt:target {
+    color: var(--text-accent-quiet);
+  }
+
   /* ------------------------------------------------------------- flow -- */
 
   /* The step below a block. */

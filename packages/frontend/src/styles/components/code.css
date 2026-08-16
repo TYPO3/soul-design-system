@@ -21,28 +21,44 @@
     margin: 0 0 var(--space-4);
   }
 
-  /* The block before its element upgrades, and on a page that runs none: an
-     undefined element is inline, and a `<code>` inside one collapses its
-     whitespace — machine output turned into a paragraph. The plane goes on
-     the `<code>` and not the host, or the frame would swallow the caption
-     beside it. */
+  /* The plane goes on the `<code>` and not the host, or the frame would swallow
+     the caption beside it. */
   sds-code:not(:defined) {
     display: block;
     margin: 0 0 var(--space-4);
   }
+
+  /* The sunken box machine output sits in, said once for the two ways it
+     arrives without this element: a bare `<pre>` a renderer wrote, and the
+     `<code>` inside a host whose script has not run. Never the ones the
+     component renders into — `sds-code` and `sds-diff` carry the frame around
+     them, and a box here would draw a second one inside it. */
+  pre:not(.sds-code__body, .sds-diff),
   sds-code:not(:defined) > code {
-    display: block;
     padding: var(--space-3) var(--space-4);
     overflow-x: auto;
-    white-space: pre;
     border: var(--border-hairline) solid var(--border-subtle);
     border-radius: var(--radius-control);
     background: var(--surface-sunken);
     font-family: var(--font-mono);
     font-size: var(--font-size-dense);
-    font-weight: var(--weight-regular);
     line-height: var(--leading-code);
     color: var(--text-primary);
+  }
+  /* An undefined element is inline, and a `<code>` inside one collapses its
+     whitespace — machine output turned into a paragraph. A `<pre>` is both
+     already. */
+  sds-code:not(:defined) > code {
+    display: block;
+    white-space: pre;
+    font-weight: var(--weight-regular);
+  }
+  /* The block set the family and size; the code inside must not set them again
+     at the optical ratio of the first. Every `<pre>`, this element's included. */
+  pre code {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
   }
 }
 
