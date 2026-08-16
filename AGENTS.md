@@ -480,6 +480,17 @@ moved without the other.
   which the check cannot see and the suite has caught three times.
   `docs/frontend/components/index.rst` carries the shape;
   `packages/frontend/src/styles/components/button.css` is the model.
+- **What belongs to one subject stands in its block.** The stylesheets are
+  written with native CSS nesting: a state, a condition and a descendant rule
+  sit inside the block of the selector that owns them. Nesting is scope, never
+  weight and never names — a nested rule re-enters through `:is()` with the
+  parent's full specificity, so a rule moves inside a block only when the
+  selector it desugars to is the one it already had flat. A variant stays a
+  top-level rule under its full name, a part addressed as a bare class stays
+  where it is, and what is written weightless — `:where()` — stays written
+  out, because zero specificity is the point.
+  `docs/frontend/components/index.rst` carries the reason;
+  `packages/frontend/src/styles/components/button.css` is the model here too.
 - **A component is addressed, never rebuilt.** Everything that fits in a string
   is a property; between the tags goes only what an attribute cannot carry, and
   that is content rather than structure. A `sds-x__y` class is `sds-x`'s own

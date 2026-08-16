@@ -206,9 +206,11 @@ every component shares, and every declaration under it reads only that set:
 
      min-height: var(--sds-btn-height);
      background: var(--sds-btn-fill);
+
+     &:hover { --sds-btn-fill: var(--sds-btn-fill-hover); }
    }
 
-A variant, a size and a state then **assign values and draw nothing**:
+A variant and a size then **assign values and draw nothing**:
 
 .. code-block:: css
 
@@ -216,8 +218,6 @@ A variant, a size and a state then **assign values and draw nothing**:
      --sds-btn-fill: var(--accent);
      --sds-btn-fill-hover: var(--accent-hover);
    }
-
-   .sds-btn:hover { --sds-btn-fill: var(--sds-btn-fill-hover); }
 
 Three things follow. There is no ``.sds-btn--primary:hover`` rule for a later
 one to outweigh — the state is written once, whatever the variant. A size is a
@@ -239,6 +239,29 @@ up to the page around it. A set therefore sits on an ancestor of everything
 that reads it — which is why a tab panel standing beside its row carries its
 own, and why the offset the page scrolls to is declared on the page rather
 than on the bar that causes it.
+
+Nested, and no heavier for it
+=============================
+
+The stylesheets are written with **native CSS nesting**: what belongs to one
+subject stands inside its block. A component's states and conditions are read
+where the component is, instead of being found by searching the file for its
+name — the ``&:hover`` above is the shape. Two lines hold it:
+
+- **A name is written whole.** Native nesting joins selectors, never strings —
+  there is no ``&-part`` — and that suits this system: every check reads names
+  literally, and a name assembled from pieces is a name no search finds. A
+  variant is a full class and a top-level rule; nesting it as ``&.sds-btn--primary``
+  would also make it a class heavier than it was.
+- **Nesting is scope, never weight.** A nested rule re-enters through
+  ``:is()``, which carries the parent's full specificity. So a rule moves
+  inside a block only when the selector it desugars to is the selector it
+  already had flat: ``&:hover`` inside ``.sds-btn`` *is* ``.sds-btn:hover``
+  and moves; a descendant rule like ``.sds-btn--icon .sds-icon`` nests
+  losslessly under its owner; a part addressed as a bare class would come out
+  a descendant and a class heavier, and stays where it is. What is written
+  weightless — ``:where()`` — stays written out, because zero specificity is
+  the point.
 
 Addressed, never rebuilt
 ========================

@@ -229,17 +229,60 @@
   :where(.sds-prose) .sds-actions sds-button>.sds-btn{margin-bottom:0}
 }
 @layer components{
-  .sds-btn{--sds-btn-height: var(--control-height);--sds-btn-pad-y: var(--control-pad-y);--sds-btn-pad-x: var(--control-pad-x);--sds-btn-gap: var(--control-gap);--sds-btn-border: var(--border-hairline);--sds-btn-radius: var(--radius-control);--sds-btn-font: var(--font-sans);--sds-btn-font-size: var(--control-font-size);--sds-btn-weight: var(--weight-semibold);--sds-btn-leading: var(--control-leading);--sds-btn-glyph: var(--control-icon-size);--sds-btn-ink: var(--text-secondary);--sds-btn-fill: transparent;--sds-btn-edge: transparent;--sds-btn-ink-hover: var(--sds-btn-ink);--sds-btn-fill-hover: var(--sds-btn-fill);--sds-btn-edge-hover: var(--sds-btn-edge);--sds-btn-duration: var(--duration-fast);--sds-btn-ease: var(--ease-out);--sds-btn-disabled-opacity: .5;display:inline-flex;align-items:center;gap:var(--sds-btn-gap);min-height:var(--sds-btn-height);padding:var(--sds-btn-pad-y) var(--sds-btn-pad-x);border:var(--sds-btn-border) solid var(--sds-btn-edge);border-radius:var(--sds-btn-radius);background:var(--sds-btn-fill);color:var(--sds-btn-ink);font-family:var(--sds-btn-font);font-size:var(--sds-btn-font-size);font-weight:var(--sds-btn-weight);line-height:var(--sds-btn-leading);text-decoration:none;cursor:pointer;transition:background var(--sds-btn-duration) var(--sds-btn-ease),border-color var(--sds-btn-duration) var(--sds-btn-ease),color var(--sds-btn-duration) var(--sds-btn-ease)}
-  .sds-btn:hover{--sds-btn-ink: var(--sds-btn-ink-hover);--sds-btn-fill: var(--sds-btn-fill-hover);--sds-btn-edge: var(--sds-btn-edge-hover);text-decoration:none}
-  .sds-btn:disabled,.sds-btn.is-disabled{opacity:var(--sds-btn-disabled-opacity);cursor:not-allowed}
+  .sds-btn{
+    --sds-btn-height: var(--control-height);
+    --sds-btn-pad-y: var(--control-pad-y);
+    --sds-btn-pad-x: var(--control-pad-x);
+    --sds-btn-gap: var(--control-gap);
+    --sds-btn-border: var(--border-hairline);
+    --sds-btn-radius: var(--radius-control);
+    --sds-btn-font: var(--font-sans);
+    --sds-btn-font-size: var(--control-font-size);
+    --sds-btn-weight: var(--weight-semibold);
+    --sds-btn-leading: var(--control-leading);
+    --sds-btn-glyph: var(--control-icon-size);
+    --sds-btn-ink: var(--text-secondary);
+    --sds-btn-fill: transparent;
+    --sds-btn-edge: transparent;
+    --sds-btn-ink-hover: var(--sds-btn-ink);
+    --sds-btn-fill-hover: var(--sds-btn-fill);
+    --sds-btn-edge-hover: var(--sds-btn-edge);
+    --sds-btn-duration: var(--duration-fast);
+    --sds-btn-ease: var(--ease-out);
+    --sds-btn-disabled-opacity: .5;
+    display:inline-flex;
+    align-items:center;
+    gap:var(--sds-btn-gap);
+    min-height:var(--sds-btn-height);
+    padding:var(--sds-btn-pad-y) var(--sds-btn-pad-x);
+    border:var(--sds-btn-border) solid var(--sds-btn-edge);
+    border-radius:var(--sds-btn-radius);
+    background:var(--sds-btn-fill);
+    color:var(--sds-btn-ink);
+    font-family:var(--sds-btn-font);
+    font-size:var(--sds-btn-font-size);
+    font-weight:var(--sds-btn-weight);
+    line-height:var(--sds-btn-leading);
+    text-decoration:none;
+    cursor:pointer;
+    transition:background var(--sds-btn-duration) var(--sds-btn-ease),border-color var(--sds-btn-duration) var(--sds-btn-ease),color var(--sds-btn-duration) var(--sds-btn-ease);
+    &:hover{--sds-btn-ink: var(--sds-btn-ink-hover);--sds-btn-fill: var(--sds-btn-fill-hover);--sds-btn-edge: var(--sds-btn-edge-hover);text-decoration:none}
+    &:disabled,&.is-disabled{opacity:var(--sds-btn-disabled-opacity);cursor:not-allowed}
+  }
   .sds-btn__label{display:block}
   .sds-btn--primary{--sds-btn-ink: var(--text-on-accent);--sds-btn-fill: var(--accent);--sds-btn-fill-hover: var(--accent-hover)}
   .sds-btn--secondary{--sds-btn-ink: var(--text-primary);--sds-btn-edge: var(--border-strong);--sds-btn-fill-hover: var(--surface-raised);--sds-btn-edge-hover: var(--text-muted)}
   .sds-btn--ghost{--sds-btn-ink: var(--text-secondary);--sds-btn-ink-hover: var(--text-primary)}
   .sds-btn--sm{--sds-btn-height: var(--control-height-sm);--sds-btn-pad-y: var(--control-pad-y-sm);--sds-btn-pad-x: var(--control-pad-x-sm);--sds-btn-font-size: var(--control-font-size-sm)}
   .sds-btn--lg{--sds-btn-height: var(--control-height-lg);--sds-btn-pad-y: var(--control-pad-y-lg);--sds-btn-pad-x: var(--control-pad-x-lg);--sds-btn-font-size: var(--control-font-size-lg);--sds-btn-glyph: var(--control-icon-size-lg)}
-  .sds-btn--icon{--sds-btn-pad-y: 0;--sds-btn-pad-x: 0;width:var(--sds-btn-height);height:var(--sds-btn-height);justify-content:center}
-  .sds-btn--icon .sds-icon{--sds-icon-size: var(--sds-btn-glyph)}
+  .sds-btn--icon{
+    --sds-btn-pad-y: 0;
+    --sds-btn-pad-x: 0;
+    width:var(--sds-btn-height);
+    height:var(--sds-btn-height);
+    justify-content:center;
+    .sds-icon{--sds-icon-size: var(--sds-btn-glyph)}
+  }
 }
 @layer base{
   sds-badge{display:inline-flex;vertical-align:middle}

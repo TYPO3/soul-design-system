@@ -72,22 +72,22 @@
     background var(--sds-btn-duration) var(--sds-btn-ease),
     border-color var(--sds-btn-duration) var(--sds-btn-ease),
     color var(--sds-btn-duration) var(--sds-btn-ease);
-  }
 
-  /* One state, whatever the variant. `text-decoration` with it: this class is
-     worn by anchors too — a press that goes somewhere is a link — and
-     `a:hover` is a type *and* a pseudo-class, which outweighs a bare class. */
-  .sds-btn:hover {
-    --sds-btn-ink: var(--sds-btn-ink-hover);
-    --sds-btn-fill: var(--sds-btn-fill-hover);
-    --sds-btn-edge: var(--sds-btn-edge-hover);
-    text-decoration: none;
-  }
+    /* One state, whatever the variant. `text-decoration` with it: this class
+       is worn by anchors too — a press that goes somewhere is a link — and
+       `a:hover` is a type *and* a pseudo-class, which outweighs a bare class. */
+    &:hover {
+      --sds-btn-ink: var(--sds-btn-ink-hover);
+      --sds-btn-fill: var(--sds-btn-fill-hover);
+      --sds-btn-edge: var(--sds-btn-edge-hover);
+      text-decoration: none;
+    }
 
-  .sds-btn:disabled,
-  .sds-btn.is-disabled {
-    opacity: var(--sds-btn-disabled-opacity);
-    cursor: not-allowed;
+    &:disabled,
+    &.is-disabled {
+      opacity: var(--sds-btn-disabled-opacity);
+      cursor: not-allowed;
+    }
   }
 
   /* Everything a caller wrote that is not a glyph, in one item. Written beside
@@ -142,10 +142,10 @@
     width: var(--sds-btn-height);
     height: var(--sds-btn-height);
     justify-content: center;
-  }
 
-  /* A glyph inside a label is as big as that label. A glyph that IS the control
-     is not a label at all, so it keeps the floor — at `sm` the text is 13px and
-     the square would otherwise hold a 13px mark in a 28px box. */
-  .sds-btn--icon .sds-icon { --sds-icon-size: var(--sds-btn-glyph); }
+    /* A glyph inside a label is as big as that label. A glyph that IS the
+       control is not a label at all, so it keeps the floor — at `sm` the text
+       is 13px and the square would otherwise hold a 13px mark in a 28px box. */
+    .sds-icon { --sds-icon-size: var(--sds-btn-glyph); }
+  }
 }
