@@ -85,8 +85,6 @@
     --sds-code-body-size: var(--font-size-dense);
     --sds-code-body-leading: var(--leading-code);
     --sds-code-body-ink: var(--text-secondary);
-    --sds-code-caption-size: var(--aside-size);
-    --sds-code-caption-gap: var(--space-2);
     --sds-code-copy-gap: var(--space-1-5);
     --sds-code-duration: var(--duration-fast);
     --sds-code-ease: var(--ease-out);
@@ -199,10 +197,17 @@
     color: var(--status-ok);
   }
 
-  /* What the block is, above it. */
+  /* What the block is, above it — outside the frame and beside it, never under
+     it. So it carries the three values it draws with itself: the frame's set is
+     on the box below, and a property travels down and never sideways. Read from
+     there, a caption was the page's own body text at the page's own ink. */
   .sds-code__caption {
+    --sds-code-caption-size: var(--aside-size);
+    --sds-code-caption-ink: var(--text-muted);
+    --sds-code-caption-gap: var(--space-2);
+
     font-size: var(--sds-code-caption-size);
-    color: var(--sds-code-head-ink);
+    color: var(--sds-code-caption-ink);
     margin-bottom: var(--sds-code-caption-gap);
   }
 
