@@ -71,12 +71,18 @@ which group it was filed under.
    * - ``sds-embed``
      - a document from somewhere else, in a frame this page controls
      - :ref:`Media — sds-embed <component-sds-embed>`
+   * - ``sds-eyebrow``
+     - the line over a title, saying what kind of thing it opens
+     - :ref:`Content — sds-eyebrow <component-sds-eyebrow>`
    * - ``sds-field``
      - a text field, a text area and a select, in one element
      - :ref:`Forms — sds-field <component-sds-field>`
    * - ``sds-field-error``
      - the message under an invalid field
      - :ref:`Forms — sds-field-error <component-sds-field-error>`
+   * - ``sds-field-group``
+     - fields that answer one question, under one caption
+     - :ref:`Forms — sds-field-group <component-sds-field-group>`
    * - ``sds-figure``
      - a picture and the claim it makes
      - :ref:`Media — sds-figure <component-sds-figure>`
@@ -92,6 +98,9 @@ which group it was filed under.
    * - ``sds-icon``
      - one icon from the set, in the document rather than linked
      - :ref:`Controls — sds-icon <component-sds-icon>`
+   * - ``sds-icon-tile``
+     - one glyph in a wall of them, scanned rather than read
+     - :ref:`Content — sds-icon-tile <component-sds-icon-tile>`
    * - ``sds-image``
      - a picture, and nothing around it
      - :ref:`Media — sds-image <component-sds-image>`
@@ -152,6 +161,9 @@ which group it was filed under.
    * - ``sds-surface``
      - a filled plane holding a statement
      - :ref:`Content — sds-surface <component-sds-surface>`
+   * - ``sds-swatch``
+     - one colour, as the chip, the name and what it resolves to
+     - :ref:`Content — sds-swatch <component-sds-swatch>`
    * - ``sds-table``
      - rows and columns, with the scroll a wide one needs
      - :ref:`Data — sds-table <component-sds-table>`

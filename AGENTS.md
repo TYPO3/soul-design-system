@@ -423,6 +423,28 @@ individually — `status` on its own is the containers, not the sync. Set
 `SDS_DESIGN_PROJECT`, or a re-sync creates a new project instead of updating
 one.
 
+## What a change owes the documents
+
+**A change is finished when every page describing it is true again, and that
+happens in the same commit.** Before calling anything done, open what the
+change touches — `SKILL.md`, the page under `docs/` carrying the reason, the
+README of the package whose surface moved, and this file — and read the
+passage rather than searching it for a name. `make verify ARGS="names refs"`
+holds the names and the links, which is the half a check can see; a sentence
+that is merely no longer true passes every gate this repository has.
+
+Nothing decays as quietly. A stylesheet whose rules moved out into their own
+component files left behind a page listing what a passage sets — headings,
+lists, tables, none of them scoped there any more — and a worked example
+quoting a rule that was written for the paragraph and never existed in the
+tree. Both read as authoritative for as long as every name in them stayed
+spelt correctly, which is exactly as long as nobody checked.
+
+A page that turns out to be wrong about something the change did not touch is
+still worth fixing, in a commit of its own: it is the one kind of bug a reader
+cannot see, because a document is what they came to trust instead of reading
+the source.
+
 ## Committing
 
 Stage only the files you changed — `git add <path>`, never `git add .` or

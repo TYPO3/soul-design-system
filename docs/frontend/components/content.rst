@@ -28,6 +28,14 @@ loose and the eyebrow still hugs its heading.
    <sds-eyebrow label="Feature"></sds-eyebrow>
    <h1 class="sds-display">Every answer says where it came from</h1>
 
+.. confval:: label
+   :name: sds-eyebrow-label
+   :type: string
+   :required: true
+
+   What kind of thing the title opens. It is the whole of the element — there
+   is nothing else an eyebrow says.
+
 ``sds-label`` stays the word in a line — a stat's caption, a row's tag, a
 column heading. What turns the register into an eyebrow is standing over a
 title, and that is a thing to say in markup rather than a position to infer.
@@ -374,6 +382,64 @@ The chip keeps the system's hairline round it whatever it is painted with.
 Without that, a swatch the colour of the page it is documented on would be a
 missing square rather than a white one — which is the one case a palette has
 to be able to draw.
+
+.. _component-sds-icon-tile:
+
+sds-icon-tile
+=============
+
+One glyph in a wall of them, with the identifier under it — a set that is
+scanned rather than read.
+
+.. code-block:: html
+
+   <sds-grid variant="dense">
+     <sds-icon-tile name="actions-check-circle"></sds-icon-tile>
+     <sds-icon-tile name="actions-arrow-right" tag="mirrors"></sds-icon-tile>
+   </sds-grid>
+
+**Not a card.** A card is read — a title, a paragraph, a way on — and a wall of
+four hundred of them is four hundred titles standing between a reader and the
+one drawing they came for. Here the glyph fills the box and the name is held
+back, because a set like this is found by shape and the name only matters once
+the shape has been found.
+
+The glyph is drawn at one size, which is not the tile's decision: a wall is
+scanned at one distance, two sizes in it are two walls, and a tile drawn larger
+than its neighbours is a tile claiming to matter more.
+
+.. confval:: name
+   :name: sds-icon-tile-name
+   :type: string
+   :required: true
+
+   Which glyph, as ``sds-icon`` spells it — one identifier is not written two
+   ways across two elements. An identifier the set does not hold leaves the box
+   empty rather than throwing: a wall arrives from a catalogue, and one bad row
+   must not take the other rows with it.
+
+.. confval:: caption
+   :name: sds-icon-tile-caption
+   :type: string
+
+   What is written under the glyph, where the set shows something other than
+   the identifier. The identifier otherwise — which is what a reader retypes.
+
+.. confval:: href
+   :name: sds-icon-tile-href
+   :type: string
+
+   Where the tile goes, and the whole tile is the target. Without one it is
+   still a tile: a wall documenting a set rather than indexing it presses
+   nowhere, and an anchor with no target is a stop the keyboard makes for
+   nothing.
+
+.. confval:: tag
+   :name: sds-icon-tile-tag
+   :type: string
+
+   The one fact the drawing cannot show — that it mirrors, that it is new, that
+   it is going. One word, in the corner the glyph does not use.
 
 .. _component-sds-quote:
 
