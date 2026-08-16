@@ -207,64 +207,54 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="now">
-      <div class="sds-stack">
-        <h2>What to run</h2>
-        <p>
-          Three figures, so the answer does not have to be read out of a table
-          of ten dates.
-        </p>
-        ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
-        <div class="sds-actions">${upgrade}</div>
-      </div>
+      <h2>What to run</h2>
+      <p>
+        Three figures, so the answer does not have to be read out of a table
+        of ten dates.
+      </p>
+      ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
+      <div class="sds-actions">${upgrade}</div>
     </section>
 
     <section class="sds-band" id="phases">
-      <div class="sds-stack">
-        <h2>What a phase means</h2>
-        <p>
-          Four phases, and each is a word, a glyph and a colour together. The
-          legend stands above the table rather than under it, because a reader
-          meets the marks in the table and needs them explained first.
-        </p>
-        ${grid(phases, { flat, variant: 'dense' })}
-      </div>
+      <h2>What a phase means</h2>
+      <p>
+        Four phases, and each is a word, a glyph and a colour together. The
+        legend stands above the table rather than under it, because a reader
+        meets the marks in the table and needs them explained first.
+      </p>
+      ${grid(phases, { flat, variant: 'dense' })}
     </section>
 
     <section class="sds-band sds-band--quiet" id="dates">
-      <div class="sds-stack">
-        <h2>Every release</h2>
-        <p>
-          The row in support is marked. Two of these get nothing at all,
-          including security — an installation on one of them is an
-          installation at risk, and saying so is the point of the table.
-        </p>
-        <sds-table density="medium" scrollable .columns="${RELEASE_COLUMNS}" .rows="${releaseRows()}"></sds-table>
-      </div>
+      <h2>Every release</h2>
+      <p>
+        The row in support is marked. Two of these get nothing at all,
+        including security — an installation on one of them is an
+        installation at risk, and saying so is the point of the table.
+      </p>
+      <sds-table density="medium" scrollable .columns="${RELEASE_COLUMNS}" .rows="${releaseRows()}"></sds-table>
     </section>
 
     <section class="sds-band" id="php">
-      <div class="sds-stack">
-        <h2>What each one runs on</h2>
-        <p>
-          The upgrade window is set by this as much as by the dates: an install
-          that cannot move its PHP cannot move its release either. Answers are
-          words rather than ticks, so a cell means something on its own.
-        </p>
-        <sds-table density="medium" scrollable .columns="${PHP_COLUMNS}" .rows="${PHP_ROWS}"></sds-table>
-      </div>
+      <h2>What each one runs on</h2>
+      <p>
+        The upgrade window is set by this as much as by the dates: an install
+        that cannot move its PHP cannot move its release either. Answers are
+        words rather than ticks, so a cell means something on its own.
+      </p>
+      <sds-table density="medium" scrollable .columns="${PHP_COLUMNS}" .rows="${PHP_ROWS}"></sds-table>
     </section>
 
     <section class="sds-band sds-band--quiet" id="coming">
-      <div class="sds-stack">
-        <h2>What is being worked on</h2>
-        <p>
-          Themes and a state, and deliberately no dates. A date on something
-          unbuilt is a promise this page cannot keep, and one broken promise
-          costs more than the whole page is worth. What is <em>not</em> planned
-          is here too, because that is also an answer.
-        </p>
-        ${grid(coming, { flat })}
-      </div>
+      <h2>What is being worked on</h2>
+      <p>
+        Themes and a state, and deliberately no dates. A date on something
+        unbuilt is a promise this page cannot keep, and one broken promise
+        costs more than the whole page is worth. What is <em>not</em> planned
+        is here too, because that is also an answer.
+      </p>
+      ${grid(coming, { flat })}
     </section>
 
   </main>

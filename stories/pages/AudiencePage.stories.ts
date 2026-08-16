@@ -157,15 +157,13 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
     </section>
 
     <section class="sds-band sds-band--quiet" id="jobs">
-      <div class="sds-stack">
-        <h2>Four things that cost you a week each year</h2>
-        <p>
-          Said as the job rather than as the feature that touches it. Nobody
-          has a search problem${NNBSP}— they have a “the person who knew this has
-          left” problem, and a feature list does not name that.
-        </p>
-        ${grid(jobs, { flat, variant: 'wide' })}
-      </div>
+      <h2>Four things that cost you a week each year</h2>
+      <p>
+        Said as the job rather than as the feature that touches it. Nobody
+        has a search problem${NNBSP}— they have a “the person who knew this has
+        left” problem, and a feature list does not name that.
+      </p>
+      ${grid(jobs, { flat, variant: 'wide' })}
     </section>
 
     <section class="sds-band" id="pipeline">
@@ -190,16 +188,14 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
     </section>
 
     <section class="sds-band sds-band--quiet" id="figures">
-      <div class="sds-stack">
-        <h2>What it is worth, as far as anyone can say</h2>
-        <p>
-          Three figures with what they were measured against. The first is
-          self-reported by four agencies, which is worth exactly what
-          self-reporting is worth${NNBSP}— it says so rather than being rounded up
-          into a claim.
-        </p>
-        ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
-      </div>
+      <h2>What it is worth, as far as anyone can say</h2>
+      <p>
+        Three figures with what they were measured against. The first is
+        self-reported by four agencies, which is worth exactly what
+        self-reporting is worth${NNBSP}— it says so rather than being rounded up
+        into a claim.
+      </p>
+      ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
     </section>
 
     <section class="sds-band" id="objection">
@@ -231,22 +227,20 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
     </section>
 
     <section class="sds-band sds-band--quiet" id="elsewhere">
-      <div class="sds-stack">
-        <h2>Not an agency?</h2>
-        <p>
-          The other two pages argue the same thing to people with different
-          problems. A developer wants to know where an answer came from; an
-          editor wants the name of the thing and nothing else.
-        </p>
-        <div class="sds-actions">
-          ${flat
-            ? html`${buttonMarkup({ variant: 'secondary' }, 'Written for developers')}${buttonMarkup(
-                { variant: 'secondary' },
-                'Written for editors',
-              )}`
-            : html`<sds-button variant="secondary" @click="${() => onAudience?.(1)}">Written for developers</sds-button>
-              <sds-button variant="secondary" @click="${() => onAudience?.(2)}">Written for editors</sds-button>`}
-        </div>
+      <h2>Not an agency?</h2>
+      <p>
+        The other two pages argue the same thing to people with different
+        problems. A developer wants to know where an answer came from; an
+        editor wants the name of the thing and nothing else.
+      </p>
+      <div class="sds-actions">
+        ${flat
+          ? html`${buttonMarkup({ variant: 'secondary' }, 'Written for developers')}${buttonMarkup(
+              { variant: 'secondary' },
+              'Written for editors',
+            )}`
+          : html`<sds-button variant="secondary" @click="${() => onAudience?.(1)}">Written for developers</sds-button>
+            <sds-button variant="secondary" @click="${() => onAudience?.(2)}">Written for editors</sds-button>`}
       </div>
     </section>
 

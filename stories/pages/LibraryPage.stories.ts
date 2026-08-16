@@ -173,27 +173,23 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="facts">
-      <div class="sds-stack">
-        <h2>What the set is</h2>
-        <p>
-          Four figures rather than four adjectives. Every one of them is a
-          count somebody can arrive at from the catalogue, which is the
-          difference between a fact and a claim wearing a number.
-        </p>
-        ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
-      </div>
+      <h2>What the set is</h2>
+      <p>
+        Four figures rather than four adjectives. Every one of them is a
+        count somebody can arrive at from the catalogue, which is the
+        difference between a fact and a claim wearing a number.
+      </p>
+      ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
     </section>
 
     <section class="sds-band" id="ways">
-      <div class="sds-stack">
-        <h2>Start where you are building</h2>
-        <p>
-          The set is grouped by the part of the interface it serves, not by the
-          part of the repository it lives in. Somebody adding a toolbar wants
-          the first of these and will never think to open the fourth.
-        </p>
-        ${grid(ways, { flat, variant: 'flush' })}
-      </div>
+      <h2>Start where you are building</h2>
+      <p>
+        The set is grouped by the part of the interface it serves, not by the
+        part of the repository it lives in. Somebody adding a toolbar wants
+        the first of these and will never think to open the fourth.
+      </p>
+      ${grid(ways, { flat, variant: 'flush' })}
     </section>
 
     <section class="sds-band sds-band--quiet" id="use">

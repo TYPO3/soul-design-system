@@ -180,37 +180,33 @@ export function plansPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="tiers">
-      <div class="sds-stack">
-        ${grid(PLANS.map(plan), { flat, variant: 'flush' })}
-        <p>
-          Prices are per year and exclude VAT. There is no per-seat count and
-          no minimum term${NNBSP}— a subscription that lapses becomes the free
-          one rather than an expired install.
-        </p>
-        <!-- Under the prices while they are still on screen, rather than in a
-             policy: a reader deciding needs the boundary at the moment they
-             are deciding, and a tier list nobody can price out is a tier list
-             that gets read as the whole cost. -->
-        <h2 class="sds-h3">What none of them include</h2>
-        <ul class="sds-list">
-          <li>Hosting. It runs on your machine or in your pipeline, and that is where it stays.</li>
-          <li>The work of a migration. Whoever does that is a person, not a subscription.</li>
-          <li>Training. The manual is free and stays free; a course is somebody's time.</li>
-          <li>Anything the free one does not already do. There is no feature behind the price.</li>
-        </ul>
-      </div>
+      ${grid(PLANS.map(plan), { flat, variant: 'flush' })}
+      <p>
+        Prices are per year and exclude VAT. There is no per-seat count and
+        no minimum term${NNBSP}— a subscription that lapses becomes the free
+        one rather than an expired install.
+      </p>
+      <!-- Under the prices while they are still on screen, rather than in a
+           policy: a reader deciding needs the boundary at the moment they
+           are deciding, and a tier list nobody can price out is a tier list
+           that gets read as the whole cost. -->
+      <h2 class="sds-h3">What none of them include</h2>
+      <ul class="sds-list">
+        <li>Hosting. It runs on your machine or in your pipeline, and that is where it stays.</li>
+        <li>The work of a migration. Whoever does that is a person, not a subscription.</li>
+        <li>Training. The manual is free and stays free; a course is somebody's time.</li>
+        <li>Anything the free one does not already do. There is no feature behind the price.</li>
+      </ul>
     </section>
 
     <section class="sds-band" id="compare">
-      <div class="sds-stack">
-        <h2>What actually differs</h2>
-        <p>
-          Seven questions, answered in words. A column of ticks says “yes” and
-          leaves the reader to work out what to — which is how a comparison
-          table ends up being the thing nobody trusts.
-        </p>
-        <sds-table density="medium" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
-      </div>
+      <h2>What actually differs</h2>
+      <p>
+        Seven questions, answered in words. A column of ticks says “yes” and
+        leaves the reader to work out what to — which is how a comparison
+        table ends up being the thing nobody trusts.
+      </p>
+      <sds-table density="medium" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
     </section>
 
     <section class="sds-band sds-band--quiet" id="questions">

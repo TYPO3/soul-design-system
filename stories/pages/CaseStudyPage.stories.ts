@@ -159,34 +159,30 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="doubt">
-      <div class="sds-stack">
-        <!-- The quote goes where the reader's own doubt is, not at the end
-             where it reads as a testimonial. -->
-        <h2>The objection that nearly stopped it</h2>
-        <p>
-          The security office had one question, and it was the right one: a
-          tool that reads the whole installation is a tool that can leak the
-          whole installation.
-        </p>
-        <sds-quote
-          .body="${'We assumed we would spend the pilot arguing about what it sends. We spent twenty minutes reading the source and the rest of the month on whether the answers were any good.'}"
-          by="Mette Sørensen"
-          as="Head of information security, Kastrup"
-          initials="MS"
-        ></sds-quote>
-      </div>
+      <!-- The quote goes where the reader's own doubt is, not at the end
+           where it reads as a testimonial. -->
+      <h2>The objection that nearly stopped it</h2>
+      <p>
+        The security office had one question, and it was the right one: a
+        tool that reads the whole installation is a tool that can leak the
+        whole installation.
+      </p>
+      <sds-quote
+        .body="${'We assumed we would spend the pilot arguing about what it sends. We spent twenty minutes reading the source and the rest of the month on whether the answers were any good.'}"
+        by="Mette Sørensen"
+        as="Head of information security, Kastrup"
+        initials="MS"
+      ></sds-quote>
     </section>
 
     <section class="sds-band" id="results">
-      <div class="sds-stack">
-        <h2>What changed, and how it was measured</h2>
-        <p>
-          Four figures, each with what it was measured against and over how
-          long. The fourth is the one that did not go our way, and it is here
-          for the same reason the first three are.
-        </p>
-        ${grid(RESULTS.map(sdsStat), { flat, variant: 'dense' })}
-      </div>
+      <h2>What changed, and how it was measured</h2>
+      <p>
+        Four figures, each with what it was measured against and over how
+        long. The fourth is the one that did not go our way, and it is here
+        for the same reason the first three are.
+      </p>
+      ${grid(RESULTS.map(sdsStat), { flat, variant: 'dense' })}
     </section>
 
     <section class="sds-band sds-band--quiet" id="cost">
@@ -220,18 +216,16 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="next">
-      <div class="sds-stack">
-        <h2>Other deployments</h2>
-        <p>
-          Two more, both smaller and neither in public administration. A single
-          reference proves a single thing.
-        </p>
-        <sds-nav-pager
-          previous-href="#case" previous-label="A university, 40 editors"
-          next-href="#case" next-label="An agency running 60 client sites"
-          label="Through the references"
-        ></sds-nav-pager>
-      </div>
+      <h2>Other deployments</h2>
+      <p>
+        Two more, both smaller and neither in public administration. A single
+        reference proves a single thing.
+      </p>
+      <sds-nav-pager
+        previous-href="#case" previous-label="A university, 40 editors"
+        next-href="#case" next-label="An agency running 60 client sites"
+        label="Through the references"
+      ></sds-nav-pager>
     </section>
 
   </main>

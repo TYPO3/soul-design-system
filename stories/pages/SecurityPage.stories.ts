@@ -138,29 +138,27 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="boundary">
-      <div class="sds-stack">
-        <h2>What it touches</h2>
-        <p>
-          Three things, and one of them leaves the machine. Stated as a table
-          rather than as prose, because this is the section somebody copies
-          into a procurement questionnaire.
-        </p>
-        <sds-table density="medium" scrollable .columns="${BOUNDARY_COLUMNS}" .rows="${BOUNDARIES}"></sds-table>
-        <p>
-          Read means read: the process has no write path into your tree, which
-          is checkable in the source rather than promised here. The bundled
-          index is built once per release from public sources and is the only
-          thing that answers when nothing else is reachable — and it says so in
-          the answer. The one host is fetched by a single tool, only when that
-          tool is the one called.
-        </p>
-        <p>
-          Nothing is kept between runs: no account, no log of what was asked,
-          no cache of your project. This is why there is nothing here to export
-          and nothing to delete — the process ends and takes its memory with
-          it.
-        </p>
-      </div>
+      <h2>What it touches</h2>
+      <p>
+        Three things, and one of them leaves the machine. Stated as a table
+        rather than as prose, because this is the section somebody copies
+        into a procurement questionnaire.
+      </p>
+      <sds-table density="medium" scrollable .columns="${BOUNDARY_COLUMNS}" .rows="${BOUNDARIES}"></sds-table>
+      <p>
+        Read means read: the process has no write path into your tree, which
+        is checkable in the source rather than promised here. The bundled
+        index is built once per release from public sources and is the only
+        thing that answers when nothing else is reachable — and it says so in
+        the answer. The one host is fetched by a single tool, only when that
+        tool is the one called.
+      </p>
+      <p>
+        Nothing is kept between runs: no account, no log of what was asked,
+        no cache of your project. This is why there is nothing here to export
+        and nothing to delete — the process ends and takes its memory with
+        it.
+      </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="path">
@@ -193,73 +191,69 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="advisories">
-      <div class="sds-stack">
-        <h2>Every advisory, including the slow one</h2>
-        <p>
-          Three so far, with the time from report to fix beside each. The nine
-          days on the first one is in the table for the same reason the other
-          two are: a history with the bad entry taken out is not a history.
-        </p>
-        <sds-table density="medium" scrollable .columns="${ADVISORY_COLUMNS}" .rows="${ADVISORIES}"></sds-table>
-        <p>
-          Advisories are published after a fix is available and never before.
-          Every one of them names the versions affected rather than the ones
-          fixed, because a reader is checking what they run.
-        </p>
-      </div>
+      <h2>Every advisory, including the slow one</h2>
+      <p>
+        Three so far, with the time from report to fix beside each. The nine
+        days on the first one is in the table for the same reason the other
+        two are: a history with the bad entry taken out is not a history.
+      </p>
+      <sds-table density="medium" scrollable .columns="${ADVISORY_COLUMNS}" .rows="${ADVISORIES}"></sds-table>
+      <p>
+        Advisories are published after a fix is available and never before.
+        Every one of them names the versions affected rather than the ones
+        fixed, because a reader is checking what they run.
+      </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="procurement">
-      <div class="sds-stack">
-        <h2>For the questionnaire</h2>
-        <p>
-          The four answers procurement asks for, given here rather than in a
-          form somebody has to request. None of them changes per customer,
-          which is why none of them is behind a contact form.
-        </p>
-        ${grid(
-          [
-            html`<sds-surface
-              plane="raised"
-              label="hosting"
-              heading="There is none"
-              .body="${html`<p>
-                The tool runs as a subprocess of your editor, on your machine. There is no
-                service to host, no region to choose and no subprocessor to name.
-              </p>`}"
-            ></sds-surface>`,
-            html`<sds-surface
-              plane="raised"
-              label="personal data"
-              heading="None is processed"
-              .body="${html`<p>
-                It reads code and package metadata. Where a project’s own files contain
-                personal data, they are read and not retained — nothing is written and
-                nothing is sent.
-              </p>`}"
-            ></sds-surface>`,
-            html`<sds-surface
-              plane="raised"
-              label="retention"
-              heading="Nothing is kept"
-              .body="${html`<p>
-                No state survives the process. There is no log of what was asked, which is
-                also why we cannot produce one for an audit.
-              </p>`}"
-            ></sds-surface>`,
-            html`<sds-surface
-              plane="raised"
-              label="licence"
-              heading="MIT, and it stays MIT"
-              .body="${html`<p>
-                The published source is the source that runs. There is no separate build
-                for anyone, and no clause that changes for a paying reader.
-              </p>`}"
-            ></sds-surface>`,
-          ],
-          { flat, variant: 'dense' },
-        )}
-      </div>
+      <h2>For the questionnaire</h2>
+      <p>
+        The four answers procurement asks for, given here rather than in a
+        form somebody has to request. None of them changes per customer,
+        which is why none of them is behind a contact form.
+      </p>
+      ${grid(
+        [
+          html`<sds-surface
+            plane="raised"
+            label="hosting"
+            heading="There is none"
+            .body="${html`<p>
+              The tool runs as a subprocess of your editor, on your machine. There is no
+              service to host, no region to choose and no subprocessor to name.
+            </p>`}"
+          ></sds-surface>`,
+          html`<sds-surface
+            plane="raised"
+            label="personal data"
+            heading="None is processed"
+            .body="${html`<p>
+              It reads code and package metadata. Where a project’s own files contain
+              personal data, they are read and not retained — nothing is written and
+              nothing is sent.
+            </p>`}"
+          ></sds-surface>`,
+          html`<sds-surface
+            plane="raised"
+            label="retention"
+            heading="Nothing is kept"
+            .body="${html`<p>
+              No state survives the process. There is no log of what was asked, which is
+              also why we cannot produce one for an audit.
+            </p>`}"
+          ></sds-surface>`,
+          html`<sds-surface
+            plane="raised"
+            label="licence"
+            heading="MIT, and it stays MIT"
+            .body="${html`<p>
+              The published source is the source that runs. There is no separate build
+              for anyone, and no clause that changes for a paying reader.
+            </p>`}"
+          ></sds-surface>`,
+        ],
+        { flat, variant: 'dense' },
+      )}
     </section>
 
   </main>

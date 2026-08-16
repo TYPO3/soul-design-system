@@ -137,25 +137,23 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="run">
-      <div class="sds-stack">
-        <h2>The whole thing, in one run</h2>
-        <p>
-          Where the four steps below end up. It is here rather than at the foot
-          of the page because a reader who opens it needs nothing else, and one
-          who would rather read has the same four steps under it.
-        </p>
-        <!-- A framed document rather than a picture of one: what is in the
-             frame keeps its own layout and answers a pointer, so the reader is
-             looking at the thing rather than at a photograph of it. The one
-             address that differs between the two renderings: beside the static
-             file it is a sibling, and in the story it is served from the root. -->
-        <sds-embed
-          src="${flat ? 'answer.html' : '/screens/answer.html'}"
-          label="The answer this run ends at, live in the page"
-          ratio="16 / 10"
-          caption="The end of the run, running. Scroll it: the source and the version binding are under the answer."
-        ></sds-embed>
-      </div>
+      <h2>The whole thing, in one run</h2>
+      <p>
+        Where the four steps below end up. It is here rather than at the foot
+        of the page because a reader who opens it needs nothing else, and one
+        who would rather read has the same four steps under it.
+      </p>
+      <!-- A framed document rather than a picture of one: what is in the
+           frame keeps its own layout and answers a pointer, so the reader is
+           looking at the thing rather than at a photograph of it. The one
+           address that differs between the two renderings: beside the static
+           file it is a sibling, and in the story it is served from the root. -->
+      <sds-embed
+        src="${flat ? 'answer.html' : '/screens/answer.html'}"
+        label="The answer this run ends at, live in the page"
+        ratio="16 / 10"
+        caption="The end of the run, running. Scroll it: the source and the version binding are under the answer."
+      ></sds-embed>
     </section>
 
     ${STEPS.map(step)}
@@ -189,18 +187,16 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="next">
-      <div class="sds-stack">
-        <h2>Where to go from here</h2>
-        <p>
-          The tour ends where the reference begins. Everything above is one
-          path through a surface that has several.
-        </p>
-        <sds-nav-pager
-          previous-href="#tour" previous-label="Back to the start of the run"
-          next-href="#tools" next-label="The tool reference"
-          label="Out of the tour"
-        ></sds-nav-pager>
-      </div>
+      <h2>Where to go from here</h2>
+      <p>
+        The tour ends where the reference begins. Everything above is one
+        path through a surface that has several.
+      </p>
+      <sds-nav-pager
+        previous-href="#tour" previous-label="Back to the start of the run"
+        next-href="#tools" next-label="The tool reference"
+        label="Out of the tour"
+      ></sds-nav-pager>
     </section>
 
   </main>
