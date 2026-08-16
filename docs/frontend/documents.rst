@@ -78,11 +78,10 @@ What a passage sets
        theme has no template for
    * - Notes at the foot
      - ``sds-footnote`` with ``sds-footnote__label`` and
-       ``sds-footnote__content``, and ``sds-citation`` with
-       ``sds-citation__label`` and ``sds-citation__content`` — names of this
-       system's own, because the theme writes that markup itself. A footnote is
-       an aside the author wrote; a citation is somebody else's work, named.
-       The source tells them apart, so the classes do too
+       ``sds-footnote__content`` — names of this system's own, because the
+       theme writes that markup itself. A citation is one of these with a name
+       in the label instead of a number, which is content; the anchor the
+       renderer wrote is what tells the two apart where a page needs it
 
 .. note::
 

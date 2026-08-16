@@ -178,7 +178,8 @@ node collects footnotes and citations and renders its children without an
 element of its own — there is nothing in the markup a class or a component
 could correspond to. What becomes visible is the note itself, and the theme
 writes that as `sds-footnote` from its own `body/footnote.html.twig` and
-`body/citation.html.twig`; the component is `components/footnote.css`.
+`body/citation.html.twig` — one class for both, because a citation is a note
+whose label is a name. The component is `components/footnote.css`.
 
 
 ## The coverage rule

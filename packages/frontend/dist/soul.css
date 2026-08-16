@@ -1622,29 +1622,6 @@
   .sds-footnote__content>:last-child{margin-bottom:0}
 }
 @layer base{
-  .sds-citation{margin:0 0 var(--space-2)}
-}
-@layer components{
-  .sds-citation{
-    --sds-citation-gap: var(--space-2);
-    --sds-citation-measure: var(--measure-prose);
-    --sds-citation-size: var(--font-size-ui);
-    --sds-citation-ink: var(--text-secondary);
-    --sds-citation-label-font: var(--font-mono);
-    --sds-citation-label-size: .9em;
-    --sds-citation-label-ink: var(--text-muted);
-    --sds-citation-label-ink-target: var(--text-accent-quiet);
-    display:flex;
-    gap:var(--sds-citation-gap);
-    max-width:var(--sds-citation-measure);
-    font-size:var(--sds-citation-size);
-    color:var(--sds-citation-ink);
-    &:target{--sds-citation-label-ink: var(--sds-citation-label-ink-target)}
-  }
-  .sds-citation__label{flex:none;font-family:var(--sds-citation-label-font);font-size:var(--sds-citation-label-size);color:var(--sds-citation-label-ink)}
-  .sds-citation__content>:last-child{margin-bottom:0}
-}
-@layer base{
   sds-note{display:block;min-width:0;margin-bottom:var(--space-4)}
   sds-note>.sds-note{margin-bottom:0}
   .sds-note{margin:0 0 var(--space-4)}

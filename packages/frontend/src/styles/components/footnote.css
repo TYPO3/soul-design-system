@@ -1,6 +1,7 @@
-/* sds-footnote — an aside the author wrote, read after the sentence that sent
-   the reader to it. `sds-citation` is its neighbour and somebody else's work
-   named; the two are told apart in the source and stay told apart here. */
+/* sds-footnote — the note under a statement, read after the sentence that sent
+   the reader to it. A citation is one of these: same block, and what differs is
+   that the label carries a name rather than a number, which is content. The two
+   still have separate addresses, so a page needing them apart has `[id]`. */
 
 @layer base {
   .sds-footnote {

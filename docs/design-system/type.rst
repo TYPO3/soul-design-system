@@ -141,10 +141,11 @@ stands at the foot of the page. The label hangs **beside** the note rather than
 above it, so a stack of them lines up on one edge and an eye run down that edge
 finds the one it wants — which is the only thing anybody does with these.
 
-``sds-footnote`` and ``sds-citation`` are one shape and two names. A footnote
-is an aside the author wrote; a citation is somebody else's work, named. The
-source tells them apart before any stylesheet does, so the classes do too, and
-either can be set differently later without touching the other.
+``sds-footnote`` is the block, and a citation is one of them: the label carries
+a work's name instead of a number, and that is content rather than a second
+look. A page that does need the two apart has the anchor the renderer wrote —
+``citation-<name>`` against ``footnote-<n>`` — so nothing is lost by the one
+name.
 
 .. specimen:: guidelines/type-notes.card.html
    :viewport: 700x320

@@ -1,14 +1,13 @@
-/* The two notes that stand at the foot of a document, and the mark in the text
-   that sends a reader to one.
+/* The note that stands at the foot of a document, and the mark in the text that
+   sends a reader to one.
 
-   They are one shape and two names on purpose: a footnote is an aside the
-   author wrote, a citation is somebody else's work named, and the source tells
-   them apart before any stylesheet does. What the card has to show is that the
-   label hangs beside the text rather than above it — a column of them lines up,
-   which is the only thing anybody does with these — and the arrival, because
-   a stack of alike rows is the one place a reader needs telling where they
-   landed. The third column is that state, drawn by hand: `:target` needs an
-   address, and a card is opened without one. */
+   One shape and one name: a citation is a note whose label carries a work's
+   name rather than a number, which is content and not a second look — the card
+   shows both so that is visible. What it has to show is that the label hangs
+   beside the text rather than above it, so a column of them lines up on one
+   edge, and the arrival, because a stack of alike rows is the one place a
+   reader needs telling where they landed. That last one is drawn by hand:
+   `:target` needs an address, and a card is opened without one. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { DIVIDER, dsCard, specCap, specCol, specLbl, specPad } from '../lib/specimen.ts';
@@ -27,9 +26,9 @@ const FOOTNOTE = `<div class="sds-footnote">
   <div class="sds-footnote__content"><p>The note itself, at the foot of the document.</p></div>
 </div>`;
 
-const CITATION = `<div class="sds-citation">
-  <div class="sds-citation__label">[CIT2026]</div>
-  <div class="sds-citation__content"><p>A work being cited, which is not an aside.</p></div>
+const CITATION = `<div class="sds-footnote">
+  <div class="sds-footnote__label">[CIT2026]</div>
+  <div class="sds-footnote__content"><p>A work being cited, named rather than numbered.</p></div>
 </div>`;
 
 /* The arrival, with the property the state assigns set by hand — a card has no
@@ -47,7 +46,7 @@ const meta: Meta = {
       path: 'guidelines/type-notes.card.html',
       group: 'Type',
       name: 'Notes at the foot',
-      subtitle: 'sds-footnote and sds-citation: the label beside the text, and the one it sent you to',
+      subtitle: 'sds-footnote: the label beside the text, a named one, and the note it sent you to',
       viewport: '700x320',
     }),
   },

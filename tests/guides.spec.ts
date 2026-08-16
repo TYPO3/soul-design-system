@@ -891,7 +891,7 @@ test.describe('what the theme repaired', () => {
 
     for (const href of await marks.evaluateAll((as) => as.map((a) => a.getAttribute('href') ?? ''))) {
       const inline = (await page.locator(`sup a[href="${href}"]`).innerText()).trim();
-      const label = (await page.locator(`${href} > [class$="__label"]`).innerText()).trim();
+      const label = (await page.locator(`${href} > .sds-footnote__label`).innerText()).trim();
       expect(label, `the block for ${href}`).toBe(`[${inline}]`);
     }
   });
