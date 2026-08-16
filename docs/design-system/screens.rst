@@ -28,10 +28,9 @@ own template. Those use the markup function the element itself renders.
 
 **A page is where this system finds out what it is missing.** Every one below
 grew something, and the ones that grew nothing are worth as much: the
-get-started page and the sitemap needed no new word, which is how you learn
-the vocabulary is finished rather than merely large. Where a page did need
-something, the gap was closed in the component and never in the page — see the
-list at the end.
+get-started page needed no new word, which is how you learn the vocabulary is
+finished rather than merely large. Where a page did need something, the gap
+was closed in the component and never in the page — see the list at the end.
 
 Two shapes of page
 ==================
@@ -137,17 +136,6 @@ column.
 .. specimen:: screens/search.html
    :viewport: 1440x900
    :title: Search
-
-The sitemap
------------
-
-The only page that shows the shape of the site rather than a path through it.
-It is ``sds-nav-rail`` three times over, groups standing open, nothing marked
-current — a map has no *here* on it.
-
-.. specimen:: screens/sitemap.html
-   :viewport: 1440x900
-   :title: Sitemap
 
 Reading — pages that hold text
 ==============================
