@@ -133,6 +133,30 @@ by being a link already.
    the rules here are written to leave it alone wherever it is set, rather than
    quietly turning every lettered list back into a numbered one.
 
+Notes at the foot
+=================
+
+A statement that needs a source carries a mark, and the note it points at
+stands at the foot of the page. The label hangs **beside** the note rather than
+above it, so a stack of them lines up on one edge and an eye run down that edge
+finds the one it wants — which is the only thing anybody does with these.
+
+``sds-footnote`` and ``sds-citation`` are one shape and two names. A footnote
+is an aside the author wrote; a citation is somebody else's work, named. The
+source tells them apart before any stylesheet does, so the classes do too, and
+either can be set differently later without touching the other.
+
+.. specimen:: guidelines/type-notes.card.html
+   :viewport: 700x320
+   :title: Notes at the foot
+
+.. note::
+
+   Arriving is its own state. A stack of notes is a stack of rows that look
+   alike, and a browser scrolls to one of them without saying where it stopped
+   — so ``:target`` lights the label in ``--text-accent-quiet``, the same mark
+   a heading, a confval and a term already make when a link lands on them.
+
 Mono and labels
 ===============
 

@@ -1,0 +1,40 @@
+<!-- @dsCard group="Type" viewport="700x320" subtitle="sds-footnote and sds-citation: the label beside the text, and the one it sent you to" name="Notes at the foot" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../packages/frontend/src/styles/styles.css" />
+<link rel="stylesheet" href="../../packages/frontend/src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec-pad" style="display:flex; flex-direction:column; gap:14px;">
+    <div class="spec-col" style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px; font-size:var(--font-size-body); line-height:var(--leading-body); color:var(--text-secondary);">
+      <div class="spec-lbl">IN THE TEXT</div>
+      <p style="margin:0;">A statement that needs a source
+        <sup>[<a class="sds-link" href="#">1</a>]</sup>, and one that cites a
+        work <sup>[<a class="sds-link" href="#">CIT2026</a>]</sup>.</p>
+    </div>
+    <div class="spec-col" style="display:flex; gap:20px; align-items:flex-start;">
+      <div class="spec-col" style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px; font-size:var(--font-size-body); line-height:var(--leading-body); color:var(--text-secondary);">
+        <div class="spec-lbl">AT THE FOOT</div>
+        <div class="sds-footnote">
+          <div class="sds-footnote__label">[1]</div>
+          <div class="sds-footnote__content"><p>The note itself, at the foot of the document.</p></div>
+        </div>
+        <div class="sds-citation">
+          <div class="sds-citation__label">[CIT2026]</div>
+          <div class="sds-citation__content"><p>A work being cited, which is not an aside.</p></div>
+        </div>
+      </div>
+      <div class="spec-col" style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px; font-size:var(--font-size-body); line-height:var(--leading-body); color:var(--text-secondary);">
+        <div class="spec-lbl">ARRIVED AT</div>
+        <div class="sds-footnote" style="--sds-footnote-label-ink: var(--text-accent-quiet);">
+          <div class="sds-footnote__label">[2]</div>
+          <div class="sds-footnote__content"><p>The one the mark sent the reader to.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-cap" style="border-top:1px solid var(--border-subtle); padding-top:12px;">label --font-mono at 0.9em · gap --space-2 · the arrival is the accent, the mark every landing on this system makes</div>
+  </div>
+</body>
+</html>
