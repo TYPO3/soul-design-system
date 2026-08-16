@@ -103,7 +103,7 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
         PEOPLE.map(
           (person) => html`<sds-card
             .body="${html`<sds-byline name="${person.name}" as="${person.role}" meta="${person.since}"></sds-byline>
-            <span style="display:block; margin-top:10px">${person.answerable}</span>`}"
+            <p>${person.answerable}</p>`}"
           ></sds-card>`,
         ),
         { flat },
