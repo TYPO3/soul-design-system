@@ -17,7 +17,15 @@ import * as report from './lib/report.ts';
     thing that tells them apart here, so it is the discriminator. */
 const isScreen = (c: Card | Screen): c is Screen => 'section' in c;
 
-const SLACK = 60;
+/* Nothing. A card is padded by `.spec-pad` and the measurement reads the
+   bottom of that padding, so a card whose declared height is its content has
+   the same air below as above — and any pixel over that is air on one side
+   only. It is a note rather than a failure: over-declaring crops nothing. */
+/* Nothing. The measurement reads the bottom of `.spec-pad`, so a card whose
+   declared height is its content has the same air below it as above, and any
+   pixel past that is air on one side only. A note rather than a failure:
+   over-declaring crops nothing, it just draws the card off-centre. */
+const SLACK = 0;
 const list = [...cards(), ...screens()];
 
 const results = await withPage(async ({ map }) =>
@@ -66,17 +74,23 @@ const results = await withPage(async ({ map }) =>
 report.open('fit', 'every card renders inside the viewport it declares');
 
 const cropped: string[] = [];
-let slack = 0;
+const slack: string[] = [];
 for (const { card, content, clipped, wide } of results) {
   if (wide) {
     cropped.push(`${card.rel}: declares ${card.viewport}, the page is ${card.width + wide}px across (+${wide})`);
   } else if (content > card.height) {
     cropped.push(`${card.rel}: declares ${card.viewport}, the content is ${content}px (+${content - card.height})`);
   } else if (content < card.height - SLACK) {
-    slack++;
+    slack.push(`${card.rel} (-${card.height - content})`);
     report.note(`${card.rel}: declares ${card.viewport}, the content only reaches ${content}px (-${card.height - content})`);
   }
   for (const hit of clipped ?? []) cropped.push(`${card.rel}: clipped — ${hit}`);
 }
-report.summary(`${list.length} cards and screens · ${slack} with slack`, cropped);
+/* The names in the facts line rather than under it: the gate keeps a passing
+   child's first line and drops the rest, so a count with the cards left out is
+   a finding only whoever runs this task alone would ever see. */
+report.summary(
+  `${list.length} cards and screens · ${slack.length ? `air under ${slack.join(', ')}` : 'none carrying air under them'}`,
+  cropped,
+);
 process.exit(cropped.length ? 1 : 0);

@@ -46,7 +46,7 @@ const meta: Meta = {
       group: 'Brand',
       name: 'Stacked lockup & app icon',
       subtitle: 'For narrow headers, splash, and where the mark stands alone',
-      viewport: '700x190',
+      viewport: '700x167',
     }),
   },
 };

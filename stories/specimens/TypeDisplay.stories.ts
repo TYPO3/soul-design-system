@@ -26,7 +26,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Display & headings',
       subtitle: 'Source Sans 3, 600, tight tracking — one per page',
-      viewport: '700x180',
+      viewport: '700x178',
     }),
   },
 };

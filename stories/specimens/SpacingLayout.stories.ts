@@ -39,7 +39,7 @@ const meta: Meta = {
       group: 'Spacing',
       name: 'Layout frame',
       subtitle: '210px tool rail, 1200px page measure, 48px page gutter',
-      viewport: '700x180',
+      viewport: '700x152',
     }),
   },
 };

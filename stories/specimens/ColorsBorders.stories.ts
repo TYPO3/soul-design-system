@@ -31,7 +31,7 @@ const meta: Meta = {
       name: 'Borders',
       subtitle: 'Hairlines do the structural work — this system has no shadows',
       theme: 'both',
-      viewport: '700x240',
+      viewport: '700x230',
     }),
   },
 };

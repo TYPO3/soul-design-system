@@ -20,7 +20,7 @@ never ``:focus`` — a click should not leave a ring behind.
 Nothing in this system is reachable by pointer only.
 
 .. specimen:: guidelines/states-focus.card.html
-   :viewport: 700x230
+   :viewport: 700x214
    :title: Focus & keyboard
 
 Interaction
@@ -50,7 +50,7 @@ useful progress. Over 2s the label says *why*: "booting the installation",
 the shape is already known.
 
 .. specimen:: guidelines/states-loading.card.html
-   :viewport: 700x275
+   :viewport: 700x257
    :title: Loading
 
 Empty and not found

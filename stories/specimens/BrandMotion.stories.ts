@@ -39,7 +39,7 @@ const meta: Meta = {
       group: 'Brand',
       name: 'States & motion',
       subtitle: 'Colour and border only — nothing moves position, nothing bounces',
-      viewport: '700x90',
+      viewport: '700x76',
     }),
   },
 };

@@ -41,7 +41,7 @@ The set
 =======
 
 .. specimen:: guidelines/illustrations-set.card.html
-   :viewport: 1400x920
+   :viewport: 1400x784
    :title: Illustrations — the set
 
 Drawing another one

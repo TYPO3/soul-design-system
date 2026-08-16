@@ -48,7 +48,7 @@ the box it is for, so every straight edge is a whole number and lands on a
 whole device pixel.
 
 .. specimen:: guidelines/brand-signet-construction.card.html
-   :viewport: 700x2087
+   :viewport: 700x2050
    :title: Signet — construction
 
 Optical sizes and their boxes
@@ -101,7 +101,7 @@ consequences (rounding, gap), and the single orange in the top-right corner.
 What is not shared is the interior — one idea per product.
 
 .. specimen:: guidelines/brand-signet-family.card.html
-   :viewport: 700x700
+   :viewport: 700x682
    :title: Signet — the family
 
 Drawing a new one
@@ -127,30 +127,30 @@ separator and caret at once, and the only colour in the mark. Signet is
 1.36 × the type size, gap 0.5 ×, clear space half the signet height.
 
 .. specimen:: guidelines/brand-lockup.card.html
-   :viewport: 700x215
+   :viewport: 700x210
    :title: Primary lockup
 
 .. specimen:: guidelines/brand-lockup-light.card.html
-   :viewport: 700x176
+   :viewport: 700x156
    :title: Primary lockup — light
 
 .. specimen:: guidelines/brand-lockup-stacked.card.html
-   :viewport: 700x190
+   :viewport: 700x167
    :title: Stacked lockup & app icon
 
 Clear space, edges, motion
 ==========================
 
 .. specimen:: guidelines/brand-clearspace.card.html
-   :viewport: 700x300
+   :viewport: 700x186
    :title: Clear space & minimum size
 
 .. specimen:: guidelines/brand-edges.card.html
-   :viewport: 700x180
+   :viewport: 700x172
    :title: Edges & radii
 
 .. specimen:: guidelines/brand-motion.card.html
-   :viewport: 700x90
+   :viewport: 700x76
    :title: States & motion
 
 Never

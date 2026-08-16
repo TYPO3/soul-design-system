@@ -90,7 +90,7 @@ const meta: Meta = {
       group: 'Brand',
       name: 'Signet — the family',
       subtitle: 'Three marks, one construction — and the three files each of them ships',
-      viewport: '700x700',
+      viewport: '700x682',
     }),
   },
 };

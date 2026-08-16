@@ -75,7 +75,7 @@ const meta: Meta<ConfvalProps> = {
       path: 'components/data/confval.card.html',
       name: 'Configuration values',
       subtitle: 'A reference entry — the name, the facts a machine checks, and the prose under both',
-      viewport: '700x440',
+      viewport: '700x392',
     }),
   },
 };

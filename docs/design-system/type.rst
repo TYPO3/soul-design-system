@@ -98,14 +98,14 @@ page rather than a step in the outline, and it says nothing about level at
 all.
 
 .. specimen:: guidelines/type-display.card.html
-   :viewport: 700x180
+   :viewport: 700x178
    :title: Display & headings
 
 Body and lead
 =============
 
 .. specimen:: guidelines/type-body.card.html
-   :viewport: 700x240
+   :viewport: 700x194
    :title: Body & lead
 
 Lists
@@ -122,7 +122,7 @@ top-level indent off a list whose items are links, where every item is marked
 by being a link already.
 
 .. specimen:: guidelines/type-lists.card.html
-   :viewport: 700x280
+   :viewport: 700x252
    :title: Lists
 
 .. note::
@@ -148,7 +148,7 @@ look. A page that does need the two apart has the anchor the renderer wrote —
 name.
 
 .. specimen:: guidelines/type-notes.card.html
-   :viewport: 700x320
+   :viewport: 700x313
    :title: Notes at the foot
 
 .. note::

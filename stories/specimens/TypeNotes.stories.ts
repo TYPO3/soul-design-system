@@ -47,7 +47,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Notes at the foot',
       subtitle: 'sds-footnote: the label beside the text, a named one, and the note it sent you to',
-      viewport: '700x320',
+      viewport: '700x313',
     }),
   },
 };

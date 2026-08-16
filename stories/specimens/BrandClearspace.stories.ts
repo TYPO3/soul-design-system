@@ -44,7 +44,7 @@ const meta: Meta = {
       group: 'Brand',
       name: 'Clear space & minimum size',
       subtitle: 'Clear space is half the signet height on every side',
-      viewport: '700x300',
+      viewport: '700x186',
     }),
   },
 };

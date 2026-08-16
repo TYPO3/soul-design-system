@@ -11,7 +11,7 @@ target, the platform's validation and how it all reads out arrive with it.
 Anything drawn instead looks right in a screenshot and cannot be typed in.
 
 .. specimen:: components/core/input.card.html
-   :viewport: 700x280
+   :viewport: 700x277
    :title: Fields & search
 
 .. _component-sds-field:

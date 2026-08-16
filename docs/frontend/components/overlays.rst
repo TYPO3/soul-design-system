@@ -10,7 +10,7 @@ is also why the specimen draws the modal inside a bordered box rather than
 floating it over the page.
 
 .. specimen:: components/surfaces/surfaces.card.html
-   :viewport: 700x430
+   :viewport: 700x426
    :title: The planes, and what floats over them
 
 Surface and behaviour, apart
