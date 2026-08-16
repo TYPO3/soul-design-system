@@ -45,9 +45,10 @@ loud its selector is.
 
 A page of prose links nothing extra. What a renderer emits without a class is
 a bare element, and a bare element is set by the layer that owns it — the sheet
-of the component it belongs to, or ``base.css`` where it belongs to none. Only
-what a passage really adds is scoped, in ``components/prose.css``, and it is
-drawn where a page carries ``sds-prose``. See :doc:`documents`.
+of the component it belongs to, or ``base.css`` where it belongs to none. What
+is scoped to a passage is what is left after that, and it is little:
+``components/prose.css`` holds the box itself and the two names the parser
+writes on a line block, where the break is the content. See :doc:`documents`.
 
 The flow contract
 =================
