@@ -78,9 +78,10 @@
       padding-inline: 0 var(--sds-table-cell-gap);
       border-bottom: var(--sds-table-border) solid var(--sds-table-rule);
       color: var(--sds-table-ink);
-      /* And a cell starts at the top, so a wrapped sentence beside a one-word
-         cell reads as the same row rather than as two centred blocks. */
-      vertical-align: top;
+      /* And a cell sits on its first line, so a wrapped sentence beside a
+         one-word cell reads as one row, and a name in the mono face beside a
+         word in the sans one shares a baseline rather than a centre. */
+      vertical-align: baseline;
     }
 
     th:last-child,
