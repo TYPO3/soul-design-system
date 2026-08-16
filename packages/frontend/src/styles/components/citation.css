@@ -1,0 +1,50 @@
+/* sds-citation — a work being cited, at the foot of the page. A footnote is an
+   aside the author wrote; this is somebody else's work, named. Same shape, its
+   own name and its own set: they are told apart in the source and stay told
+   apart here, so either can be set differently without touching the other. */
+
+@layer base {
+  .sds-citation {
+    margin: 0 0 var(--space-2);
+  }
+}
+
+@layer components {
+  /* The name hangs beside the text rather than above it, so a column of them
+     lines up and an eye run down the edge finds one. One step down from the
+     text around it: this is the source, not the argument. */
+  .sds-citation {
+    --sds-citation-gap: var(--space-2);
+    --sds-citation-measure: var(--measure-prose);
+    --sds-citation-size: var(--font-size-ui);
+    --sds-citation-ink: var(--text-secondary);
+    --sds-citation-label-font: var(--font-mono);
+    --sds-citation-label-size: 0.9em;
+    --sds-citation-label-ink: var(--text-muted);
+    --sds-citation-label-ink-target: var(--text-accent-quiet);
+
+    display: flex;
+    gap: var(--sds-citation-gap);
+    max-width: var(--sds-citation-measure);
+    font-size: var(--sds-citation-size);
+    color: var(--sds-citation-ink);
+
+    /* Landing on one out of twenty says which one — the mark a heading, a
+       confval and a term already make. The name is what the sentence pointed
+       at, so the name is what answers. */
+    &:target {
+      --sds-citation-label-ink: var(--sds-citation-label-ink-target);
+    }
+  }
+  .sds-citation__label {
+    flex: none;
+    font-family: var(--sds-citation-label-font);
+    font-size: var(--sds-citation-label-size);
+    color: var(--sds-citation-label-ink);
+  }
+  /* Its last line owes the block below it the step that block already carries,
+     and owes the edge of its own box nothing. */
+  .sds-citation__content > :last-child {
+    margin-bottom: 0;
+  }
+}

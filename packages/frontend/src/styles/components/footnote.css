@@ -1,0 +1,50 @@
+/* sds-footnote — an aside the author wrote, read after the sentence that sent
+   the reader to it. `sds-citation` is its neighbour and somebody else's work
+   named; the two are told apart in the source and stay told apart here. */
+
+@layer base {
+  .sds-footnote {
+    margin: 0 0 var(--space-2);
+  }
+}
+
+@layer components {
+  /* The label hangs beside the text rather than above it, so a column of them
+     lines up and an eye run down the edge finds one — the only thing anybody
+     does with these. One step down from the text around it: this is the
+     source, not the argument. */
+  .sds-footnote {
+    --sds-footnote-gap: var(--space-2);
+    --sds-footnote-measure: var(--measure-prose);
+    --sds-footnote-size: var(--font-size-ui);
+    --sds-footnote-ink: var(--text-secondary);
+    --sds-footnote-label-font: var(--font-mono);
+    --sds-footnote-label-size: 0.9em;
+    --sds-footnote-label-ink: var(--text-muted);
+    --sds-footnote-label-ink-target: var(--text-accent-quiet);
+
+    display: flex;
+    gap: var(--sds-footnote-gap);
+    max-width: var(--sds-footnote-measure);
+    font-size: var(--sds-footnote-size);
+    color: var(--sds-footnote-ink);
+
+    /* Landing on one note out of twenty says which one — the mark a heading, a
+       confval and a term already make. The label is what the sentence pointed
+       at, so the label is what answers. */
+    &:target {
+      --sds-footnote-label-ink: var(--sds-footnote-label-ink-target);
+    }
+  }
+  .sds-footnote__label {
+    flex: none;
+    font-family: var(--sds-footnote-label-font);
+    font-size: var(--sds-footnote-label-size);
+    color: var(--sds-footnote-label-ink);
+  }
+  /* The note's last line owes the note below it the step the block already
+     carries, and owes the edge of its own box nothing. */
+  .sds-footnote__content > :last-child {
+    margin-bottom: 0;
+  }
+}

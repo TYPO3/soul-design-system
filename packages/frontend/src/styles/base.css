@@ -33,31 +33,12 @@
     color: var(--text-secondary);
   }
 
-  /* The same ink and the same limit for the other things made of words. The
-     measure belongs to the text and not to the box it stands in: a box holding
-     it passes it to a table and a code block too, which is a page with three
-     scrollbars. A term is primary — it is the word being defined. */
+  /* The same ink for the other things made of words. Not the same limit: a
+     paragraph carries the measure because a paragraph is a paragraph anywhere,
+     and how wide the rest of a text is read at is the passage's decision. */
   li,
   dd {
-    max-width: var(--measure-prose);
     color: var(--text-secondary);
-  }
-  dt,
-  hr,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    max-width: var(--measure-prose);
-  }
-  /* And an item gives it back once it holds a block: a `<code>` or a link is
-     part of the sentence, a table or a nested list makes the item a container
-     and the child answers for its own width. `:has()` weighs its heaviest
-     argument, so this out-specifies the pair above on its own. */
-  :is(li, dd):has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)) {
-    max-width: none;
   }
 
   .sds-lead {

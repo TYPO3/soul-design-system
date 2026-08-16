@@ -1,0 +1,18 @@
+{#
+    `.. [NAME] …` — a work being cited, at the foot of the page.
+
+    Its own name rather than the footnote's: a footnote is an aside the author
+    wrote and this is somebody else's work, the source tells them apart, and
+    two names is what lets either be set differently later.
+
+    Renamed off the core's `.citation` for the reason `footnote.html.twig`
+    gives — a class on a page this system draws is a name this system defines.
+#}
+<div class="sds-citation{% if node.classes %} {{ node.classesString }}{% endif %}" id="{{ node.anchor }}">
+    <div class="sds-citation__label">[{{ node.name }}]</div>
+    <div class="sds-citation__content">
+        {%- for child in node.children -%}
+            {{ renderNode(child) }}
+        {%- endfor -%}
+    </div>
+</div>

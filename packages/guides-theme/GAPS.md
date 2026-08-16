@@ -176,8 +176,9 @@ would only offer.
 The annotation list is not a counterpart problem but no problem at all. The
 node collects footnotes and citations and renders its children without an
 element of its own — there is nothing in the markup a class or a component
-could correspond to. What becomes visible is `.footnote` and `.citation`, and
-those have their rule in `components/prose.css`.
+could correspond to. What becomes visible is the note itself, and the theme
+writes that as `sds-footnote` from its own `body/footnote.html.twig` and
+`body/citation.html.twig`; the component is `components/footnote.css`.
 
 
 ## The coverage rule

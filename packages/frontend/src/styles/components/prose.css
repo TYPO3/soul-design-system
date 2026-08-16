@@ -1,37 +1,21 @@
 /* sds-prose — the box a passage of a document stands in.
 
    Almost nothing, on purpose. What a renderer emits without a class is a bare
-   element, and a bare element is set by the layer that owns it — so what is
-   left is the box itself and the names a renderer writes for nodes that have
-   no element at all. */
+   element, and a bare element is set by the layer that owns it. What is left is
+   the measure the text is read at, which is the box's decision and not any
+   element's, and the names a renderer writes for nodes with no element. */
 
-@layer base {
-  .sds-prose {
-    /* No measure of its own: given a paragraph's, the box would clamp the table
-       and the code block inside it too. The things made of words take the
-       measure one at a time, and `base.css` is where. */
-    max-width: none;
-
-    /* The same trim a column makes: what the last block owes its neighbour it
-       does not owe the edge of the passage. */
-    > :last-child {
-      margin-block-end: 0;
-    }
-  }
-}
-
-/* What a renderer names. These are nodes with no element of their own, and they
-   keep the core's names: renamed, the stylesheet would only work with the
-   templates that renamed them. They sit in this layer rather than `base`
-   because one of them — the field list — is built out of a table and has to
-   overrule the component that draws every other one. */
+/* All of it in the component's own layer. The names below are a renderer's own
+   for nodes with no element — renamed, the stylesheet would only work with the
+   templates that renamed them — and one of them, the field list, is built out
+   of a table and has to be able to overrule the component that draws it. */
 @layer components {
   .sds-prose {
     --sds-prose-measure: var(--measure-prose);
     --sds-prose-step: var(--space-4);
     --sds-prose-step-tight: var(--space-2);
     --sds-prose-step-wide: var(--space-6);
-    --sds-prose-gap: var(--sds-prose-gap);
+    --sds-prose-gap: var(--space-2);
     --sds-prose-gap-tight: var(--space-1);
     --sds-prose-indent: var(--space-5);
     --sds-prose-label-size: var(--font-size-body);
@@ -40,7 +24,6 @@
     --sds-prose-meta-size: var(--font-size-ui);
     --sds-prose-mono: var(--font-mono);
     --sds-prose-mono-size: var(--font-mono-optical);
-    --sds-prose-note-size: 0.9em;
     --sds-prose-weight: var(--weight-regular);
     --sds-prose-ink: var(--text-primary);
     --sds-prose-quiet-ink: var(--text-secondary);
@@ -48,7 +31,7 @@
     --sds-prose-mark-ink: var(--text-accent-quiet);
     /* Two, and the class says three to six. A count is what an author asked
        for, not a distance, so it is the one number here that is a number. */
-    --sds-prose-columns: var(--sds-prose-columns);
+    --sds-prose-columns: 2;
 
     /* A term may be given its kind — `term : noun`. The kind is not the term:
        it drops to the register the definition is written in, so a reader
@@ -175,36 +158,6 @@
       p {
         margin: 0;
       }
-    }
-
-    /* A footnote at the foot of the page, and a citation, which is a footnote
-       with a name. The label hangs beside the text rather than above it, so a
-       column of them lines up and an eye run down the edge finds one — the only
-       thing anybody does with these. One step down from the prose: this is the
-       source, read after the sentence that sent the reader to it. */
-    :is(.footnote, .citation) {
-      display: flex;
-      gap: var(--sds-prose-gap);
-      margin-bottom: var(--sds-prose-gap);
-      max-width: var(--sds-prose-measure);
-      font-size: var(--sds-prose-meta-size);
-      color: var(--sds-prose-quiet-ink);
-    }
-    :is(.footnote-label, .citation-label) {
-      flex: none;
-      font-family: var(--sds-prose-mono);
-      font-size: var(--sds-prose-note-size);
-      color: var(--sds-prose-muted-ink);
-    }
-    :is(.footnote-content, .citation-content) > :last-child {
-      margin-bottom: 0;
-    }
-    /* Landing on one note out of twenty says which one — the mark a heading, a
-       confval and a term already make. The label is what the sentence pointed
-       at, so the label is what answers. */
-    .footnote:target .footnote-label,
-    .citation:target .citation-label {
-      color: var(--sds-prose-mark-ink);
     }
   }
 }

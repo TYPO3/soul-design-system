@@ -891,14 +891,14 @@ test.describe('what the theme repaired', () => {
 
     for (const href of await marks.evaluateAll((as) => as.map((a) => a.getAttribute('href') ?? ''))) {
       const inline = (await page.locator(`sup a[href="${href}"]`).innerText()).trim();
-      const label = (await page.locator(`${href} > [class$="-label"]`).innerText()).trim();
+      const label = (await page.locator(`${href} > [class$="__label"]`).innerText()).trim();
       expect(label, `the block for ${href}`).toBe(`[${inline}]`);
     }
   });
 
   test('the note a mark sends the reader to says which one it is', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
-    const label = page.locator('#footnote-1 > .footnote-label');
+    const label = page.locator('#footnote-1 > .sds-footnote__label');
     const resting = await label.evaluate((el) => getComputedStyle(el).color);
 
     /* A stack of notes is a stack of rows that look alike, and the browser

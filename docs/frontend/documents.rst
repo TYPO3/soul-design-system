@@ -72,10 +72,17 @@ What a passage sets
    * - What a renderer names
      - the handful of classes it writes for nodes with no element of their
        own: ``.contents`` and ``.toc``, ``.topic``, ``.rubric``,
-       ``.field-list``, ``.footnote``, ``.citation``, ``.hlist`` and the
-       classifiers of a definition list. They stay the renderer's own names —
-       renamed, the stylesheet would only work with the templates that renamed
-       them
+       ``.field-list``, ``.hlist`` and the classifiers of a definition list.
+       They stay the renderer's own names — renamed, the stylesheet would only
+       work with the templates that renamed them, and these are the nodes the
+       theme has no template for
+   * - Notes at the foot
+     - ``sds-footnote`` with ``sds-footnote__label`` and
+       ``sds-footnote__content``, and ``sds-citation`` with
+       ``sds-citation__label`` and ``sds-citation__content`` — names of this
+       system's own, because the theme writes that markup itself. A footnote is
+       an aside the author wrote; a citation is somebody else's work, named.
+       The source tells them apart, so the classes do too
 
 .. note::
 
