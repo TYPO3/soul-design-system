@@ -67,8 +67,8 @@ Where the rules live
    * - ``packages/frontend/src/styles/components.css``
      - the ``sds-`` class vocabulary every surface is built from
    * - ``packages/frontend/src/styles/components/prose.css``
-     - ``sds-prose``: the box a passage stands in, and the names a renderer
-       writes for nodes with no element of their own
+     - ``sds-prose``: the box a passage stands in, and the line block, whose
+       two names the parser rather than a template writes
    * - ``packages/frontend/src/components/*.ts``
      - the elements, which emit exactly those classes
    * - ``stories/**/*.stories.ts``

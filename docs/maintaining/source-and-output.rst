@@ -63,8 +63,8 @@ generated from another: they are peers which have to agree through their
 shared names and markup.
 
 ``styles/styles.css`` is the package entry for tokens and components, bare
-elements included: a ``<p>`` a renderer emitted is set by the layer that owns
-it, and only what a passage adds is scoped to ``.sds-prose``.
+elements included: a ``<p>`` a renderer emitted is set by the sheet that owns
+it, which leaves almost nothing scoped to ``.sds-prose``.
 ``styles/_specimen.css`` stays separate because card chrome is evidence around
 a design, not part of the design.
 
