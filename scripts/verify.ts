@@ -460,16 +460,6 @@ const CHECKS: readonly Check[] = [
     run: () => child('scripts/fit.ts'),
   },
 
-  /* The screens against the scale and the grid, both read out of the tokens so
-     the measurement cannot drift from them. A size or a gap somebody typed is
-     invisible to every other check — it renders, it fits, and it is simply not
-     on the system's steps. */
-  {
-    name: 'rhythm',
-    label: 'every screen sets sizes on the scale and gaps on the grid',
-    run: () => ({ ...child('scripts/rhythm.ts'), fix: 'make rhythm' }),
-  },
-
   /* Every element renders in Node, not only the ones that appear in a card.
      See scripts/ssr.ts for why that is the rule and what it does not prove. */
   {

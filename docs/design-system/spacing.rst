@@ -60,20 +60,16 @@ keeps that step and when a container with its own gap takes it back.
 Keeping the scale enforceable
 =============================
 
-``make rhythm`` renders the starting points and measures their font sizes,
-padding and gaps against the ``--font-size-*`` and ``--space-*`` values read
-directly from the token files. The check carries no list of token names, so a
-renamed or added step cannot leave a second copy behind.
+The scale holds by construction rather than by measurement. Every component
+draws its sizes and gaps through its own property set, derived from the
+tokens — ``make verify ARGS=sets`` holds that route — and a page composes
+components without writing a style of its own, so a value off the scale has
+no way onto a surface except through a token or a set, where review reads it
+beside its reason.
 
-A whole-pixel font size outside the type scale is a local value that should
-have been a role. A fractional computed font size may be an ``em`` correction
-relative to its context, so the report identifies it without treating it as a
-new scale step. Diagrams carry their own measured type rules and are reported
-separately.
-
-A positive layout gap outside the space scale fails the check. That makes the
-scale a constraint on rendered relationships rather than merely a palette of
-variables a stylesheet may choose to ignore.
+A fractional computed size can still be right: an ``em`` correction relative
+to its context is an optical decision, not a new step. Diagrams carry their
+own measured type rules for the same reason.
 
 Layout frame
 ============

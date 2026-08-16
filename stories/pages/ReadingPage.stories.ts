@@ -6,10 +6,10 @@
    one that does not, and nothing on it is drawn to make a point it does not
    also do.
 
-   It is the page `make rhythm` measures. A gap that is not on the space scale
-   and a size that is not on the type scale both show up there as a number with
-   no token behind it, which is why the page holds one of everything rather
-   than one of the interesting ones. See `lib/page.ts`. */
+   It is the reference the visual harness compares against: `make baseline`
+   before a change and `make diff` after it read this page as the rhythm's
+   record, which is why it holds one of everything rather than one of the
+   interesting ones. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -84,7 +84,8 @@ const QUESTIONS: readonly Entry[] = [
     answer: html`Nowhere it is allowed to. A size that is not a
       <span class="sds-mono">--font-size-*</span> and a gap that is not a
       <span class="sds-mono">--space-*</span> are both values somebody typed,
-      and <span class="sds-mono">make rhythm</span> is what finds them.`,
+      and the only route onto a surface is a token or a component&rsquo;s own
+      property set, where a review reads the number beside its reason.`,
   },
   {
     question: 'What decides how much air a heading gets above it?',
@@ -241,7 +242,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/reading.html',
       title: 'TYPO3 Dev Companion — how this page is set',
-      subtitle: 'Every register under one another in one column — the page make rhythm measures',
+      subtitle: 'Every register under one another in one column — the reference the rest are set to',
       viewport: '1440x900',
     }),
   },

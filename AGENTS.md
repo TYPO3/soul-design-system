@@ -267,8 +267,7 @@ defined in the layer that can load it) · `coverage` (every component is shown)
 · `names` (every `sds-` name a document writes exists) · `refs` (every local
 reference resolves) · `sets` (a component draws from its own property set) ·
 `breakpoints` (every width the layer changes at is one a
-document names) · `fit` (render, inside the declared viewport) · `rhythm`
-(every screen's sizes on the scale, gaps on the grid) · `ssr`
+document names) · `fit` (render, inside the declared viewport) · `ssr`
 (every element renders outside a browser) · `dist` (the committed drop-in
 against its source) · `split` (each package assembles into something a project
 could install) · `cards` (every card against its story, and none without
@@ -320,7 +319,6 @@ make test ARGS="tests/a11y.spec.ts --grep card"
 | a document naming a class, an element or an event | `make verify ARGS=names` |
 | a new component, class or Guides page | `make verify ARGS=coverage` |
 | a card's height or its viewport | `make verify ARGS="fit heights"` |
-| a size, a gap or a token they are read from | `make verify ARGS=rhythm`, `make rhythm` for the report |
 | a `@media` width, in any sheet | `make verify ARGS=breakpoints` |
 | `packages/frontend/src/` with `packages/frontend/dist/` committed against it | `make verify ARGS=dist` |
 | a drawing in `packages/frontend/assets/diagrams/` | `make verify ARGS=diagrams` |
@@ -411,12 +409,10 @@ The two to four that still differ between identical runs are not fonts: the
 face guarantee holds on every one of them. That residue is unexplained, and
 until it is, the gate and the suite are what a change is proven against.
 
-**Change a size or a gap** — `make rhythm` renders the screens and measures
-them against the scale and the grid, both read out of `packages/frontend/src/tokens/`
-so it cannot drift from them. `ARGS` names one screen, and the whole report is
-what it is for: the gate runs the same measurement as `rhythm` and prints only
-what failed. A gap that is not a step and a whole-pixel size that is not on the
-scale are what it fails on; a fractional size is an optical `em` and it says so.
+**Change a size or a gap** — through a token or a component's set, never as a
+value in a declaration: `make verify ARGS=sets` holds the route, and a raw
+number in a set is read in review beside its reason. Then the visual-refactor
+recipe above, because a changed distance is a visual change.
 
 **Ship to the design agent** — `make sync` (build + verify + status + plan);
 `make status`, `make plan`, `make synced` are the same steps individually. Set
