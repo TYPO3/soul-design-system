@@ -181,15 +181,23 @@ layer order — which is why the bare-element rules are written at their
 natural weight: a plain ``a:hover`` in ``base`` cannot answer over any
 component that states the same property, however either one is spelt.
 
-Weight decides *within* a layer, and that is where ``:where()`` earns its
-place. The document layer is ``base`` too, so its rules meet ``base.css``'s
-own bare-element rules and the flow-contract lines in the same arena:
+Weight decides *within* a layer, and that is the whole of what ``:where()`` is
+for here: a condition or a scope that adds no weight to the rule it qualifies.
+The glyph before its element upgrades is the model, and the reason stands
+beside it in ``components/icon.css``:
 
 .. code-block:: css
 
-   /* Weighs what `h3` weighs: later in the layer, it wins that tie — and it
-      cannot out-specify a flow-contract line living in the same layer. */
-   :where(.sds-prose) h3 { color: var(--text-primary); }
+   /* `:where()`, or this would out-weigh `.sds-icon--20` and cause the jump it
+      prevents. */
+   :where(sds-icon:not(:defined)) {
+     width: var(--sds-icon-size);
+     height: var(--sds-icon-size);
+   }
+
+``components/direction.css`` is the same move on a scope: what mirrors under
+``:dir(rtl)`` weighs what it would weigh without the condition, so no rule
+starts winning an argument in one direction that it loses in the other.
 
 A condition that must *win* something in its own layer is the other case — it
 is written at full weight, in the layer whose turn it is to speak.
