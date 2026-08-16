@@ -25,14 +25,8 @@
   :where(.sds-prose) blockquote>:last-child{margin-bottom:0}
   :where(.sds-prose) pre:not(.sds-code__body,.sds-diff){padding:var(--space-3) var(--space-4);overflow-x:auto;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-sunken);font-family:var(--font-mono);font-size:var(--font-size-dense);line-height:var(--leading-code);color:var(--text-primary)}
   :where(.sds-prose) pre code{font-size:inherit;font-weight:inherit;color:inherit}
-  :where(.sds-prose) kbd{padding:1px 5px;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-raised)}
-  :where(.sds-prose) abbr[title]{text-decoration:underline dotted;text-underline-offset:2px;cursor:help}
-  :where(.sds-prose) cite{font-style:italic}
-  :where(.sds-prose) mark{background:var(--surface-accent-quiet);color:var(--text-primary)}
   :where(.sds-prose) :is(p,li,dd,td,th) a{text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-underline-offset:2px}
   :where(.sds-prose) :is(p,li,dd,td,th) a:hover{text-decoration-color:currentColor}
-  :where(.sds-prose) strong{font-weight:var(--weight-semibold);color:var(--text-primary)}
-  :where(.sds-prose) math:not(:has(*)){display:inline;font-family:var(--font-mono);font-size:var(--font-mono-optical);color:var(--text-primary)}
   .sds-section>math:not(:has(*)),:where(.sds-prose)>math:not(:has(*)){display:block;margin-bottom:var(--space-4)}
   :where(.sds-prose) figure{margin-bottom:var(--space-6)}
   :where(.sds-prose) figure:not([class*=sds-])>figcaption{padding-block-start:var(--space-2);font-size:var(--font-size-micro);color:var(--text-muted)}

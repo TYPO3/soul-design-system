@@ -66,6 +66,12 @@
     transition:color var(--duration-fast) var(--ease-out);
     &:hover{color:var(--text-link-hover);text-decoration:underline}
   }
+  strong{font-weight:var(--weight-semibold);color:var(--text-primary)}
+  cite{font-style:italic}
+  mark{background:var(--surface-accent-quiet);color:var(--text-primary)}
+  kbd{padding:1px 5px;border:var(--border-hairline) solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-raised)}
+  abbr[title]{text-decoration:underline dotted;text-underline-offset:2px;cursor:help}
+  math:not(:has(*)){display:inline;font-family:var(--font-mono);font-size:var(--font-mono-optical);color:var(--text-primary)}
   ul,ol{padding-inline-start:var(--space-5)}
   li::marker{color:var(--text-muted)}
   ol ol:not([type]){list-style-type:lower-alpha}

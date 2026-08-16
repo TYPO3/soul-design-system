@@ -94,8 +94,9 @@
 
   /* ------------------------------------------------------------ links -- */
 
-  /* Colour and no underline at rest. The document layer underlines a link that
-     sits inside a sentence, and it can: it is this layer too, and names more. */
+  /* Colour and no underline at rest. A link standing in running text underlines
+     as well, which is `sds-prose`'s rule: outside a sentence a link in a list is
+     a menu item, and underlining every one of those is a navigation in rules. */
   a {
     color: var(--text-link);
     text-decoration: none;
@@ -105,6 +106,50 @@
       color: var(--text-link-hover);
       text-decoration: underline;
     }
+  }
+
+  /* ------------------------------------------------------ in the line -- */
+
+  /* What an element in a sentence *is*. None of it belongs to a document: a
+     `<kbd>` is a key and an `<abbr>` has more to say wherever either stands. */
+  strong {
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
+  }
+  cite {
+    font-style: italic;
+  }
+  mark {
+    background: var(--surface-accent-quiet);
+    color: var(--text-primary);
+  }
+  /* A key is a physical thing, so it gets the one border in this register. The
+     face and the size are the class layer's: a second ratio written here would
+     be a key cap that stops agreeing with the mono run beside it. */
+  kbd {
+    padding: 1px 5px;
+    border: var(--border-hairline) solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    background: var(--surface-raised);
+  }
+  /* Dotted rather than solid, so it is not read as a link, and `help` because
+     that is what it offers. */
+  abbr[title] {
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    cursor: help;
+  }
+
+  /* A formula arrives as the source somebody wrote, because no renderer here
+     typesets one — and MathML layout drops text that is not inside a token
+     element, so under it a formula is a blank space in the sentence. `display`
+     takes it back out of that layout and the mono register says what it is: a
+     machine's own words. Real MathML has children, and is left to the browser. */
+  math:not(:has(*)) {
+    display: inline;
+    font-family: var(--font-mono);
+    font-size: var(--font-mono-optical);
+    color: var(--text-primary);
   }
 
   /* ------------------------------------------------------------ lists -- */

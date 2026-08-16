@@ -230,29 +230,6 @@
 
   /* ---------------------------------------------------------- in the line -- */
 
-  /* A key is a physical thing, so it gets the one border in this section. The
-     face and the size are the class layer's: a second ratio written here would
-     be a key cap that stops agreeing with the mono run beside it. */
-  :where(.sds-prose) kbd {
-    padding: 1px 5px;
-    border: var(--border-hairline) solid var(--border-subtle);
-    border-radius: var(--radius-control);
-    background: var(--surface-raised);
-  }
-  /* An abbreviation says it has more to say. Dotted rather than solid, so it is
-     not read as a link, and `help` because that is what it offers. */
-  :where(.sds-prose) abbr[title] {
-    text-decoration: underline dotted;
-    text-underline-offset: 2px;
-    cursor: help;
-  }
-  :where(.sds-prose) cite {
-    font-style: italic;
-  }
-  :where(.sds-prose) mark {
-    background: var(--surface-accent-quiet);
-    color: var(--text-primary);
-  }
   /* Underlined inside a sentence: against body text the link colour stands at
      1.3:1 in dark, and no token reaches 3:1 while there is one accent. Only
      where a link sits *in* text — one that is a block of its own is told apart
@@ -264,22 +241,6 @@
   }
   :where(.sds-prose) :is(p, li, dd, td, th) a:hover {
     text-decoration-color: currentColor;
-  }
-  :where(.sds-prose) strong {
-    font-weight: var(--weight-semibold);
-    color: var(--text-primary);
-  }
-
-  /* A formula arrives as the source somebody wrote, because the renderer
-     typesets nothing — and MathML layout drops text that is not inside a token
-     element, so under it a formula is a blank space in the sentence. `display`
-     takes it back out of that layout and the mono register says what it is: a
-     machine's own words. Real MathML has children, and is left to the browser. */
-  :where(.sds-prose) math:not(:has(*)) {
-    display: inline;
-    font-family: var(--font-mono);
-    font-size: var(--font-mono-optical);
-    color: var(--text-primary);
   }
   /* The directive stands on a line of its own; the role stands in a sentence. */
   .sds-section > math:not(:has(*)),
