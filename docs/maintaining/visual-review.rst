@@ -21,10 +21,11 @@ Capture the baseline before editing and the second set after the change:
    make shots
    make diff
 
-``make diff ARGS=--write-diffs`` also writes images that mark the changed
-pixels. A changed card is a prompt to inspect what moved, not an approval of
-the movement. Keep the baseline from the unchanged tree until every reported
-difference has an explanation.
+Under every changed card ``make diff`` names three files: the shot before, the
+shot after, and a mask marking the pixels that moved, written to ``.out/diffs/``.
+A changed card is a prompt to open those and inspect what moved, not an
+approval of the movement. Keep the baseline from the unchanged tree until every
+reported difference has an explanation.
 
 Compare exact pixels
 ====================

@@ -1,26 +1,31 @@
 #!/usr/bin/env node
 /* Compare two screenshot dirs and report what moved.
 
-     node scripts/diff.ts [baseline] [after] [--write-diffs]
+     node scripts/diff.ts [baseline] [after]
 
-   Prints one line per card: identical, or the share of pixels that changed.
-   A refactor meant to be visually neutral should print all-identical;
-   anything else is a change to look at on purpose. */
+   One line per card: identical, or the share of pixels that changed, and under
+   a changed one the three files to open — before, after, and the mask marking
+   what moved. A refactor meant to be neutral prints all-identical. */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { basename, join, resolve } from 'node:path';
+import { basename, join, relative, resolve } from 'node:path';
 
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 
-import { ROOT } from './lib/cards.ts';
+import { GENERATED, ROOT } from './lib/cards.ts';
 import * as report from './lib/report.ts';
 
 const args = process.argv.slice(2).filter((a) => !a.startsWith('--'));
-const write = process.argv.includes('--write-diffs');
 const A = resolve(args[0] ?? join(ROOT, '.design-sync/.cache/baseline'));
 const B = resolve(args[1] ?? join(ROOT, '.design-sync/.cache/after'));
-const OUT = join(B, '..', 'diffs');
-if (write) mkdirSync(OUT, { recursive: true });
+/* The mask is this task's own output rather than the shots' — under `.out/`,
+   where a reader looks for what a task wrote and `make clean` takes it. */
+const OUT = join(GENERATED, 'diffs');
+mkdirSync(OUT, { recursive: true });
+
+/* Every path is printed from the root, because a reader opens it from there. */
+const rel = (p: string): string => relative(ROOT, p) || p;
+const where = (...paths: readonly string[]): void => report.detail(paths.map(rel).join('\n'));
 
 const names = [...new Set([
   ...(existsSync(A) ? readdirSync(A) : []),
@@ -33,12 +38,13 @@ report.align(names.map((n) => ({ name: 'DROPPED', label: n })));
 let same = 0, changed = 0, missing = 0;
 for (const n of names) {
   const a = join(A, n), b = join(B, n);
-  if (!existsSync(a)) { report.row('warn', 'new', n); missing++; continue; }
-  if (!existsSync(b)) { report.row('warn', 'dropped', n); missing++; continue; }
+  if (!existsSync(a)) { report.row('warn', 'new', n); where(b); missing++; continue; }
+  if (!existsSync(b)) { report.row('warn', 'dropped', n); where(a); missing++; continue; }
   const ia = PNG.sync.read(readFileSync(a));
   const ib = PNG.sync.read(readFileSync(b));
   if (ia.width !== ib.width || ia.height !== ib.height) {
     report.row('bad', 'resized', n, `${ia.width}x${ia.height} → ${ib.width}x${ib.height}`);
+    where(a, b);
     changed++;
     continue;
   }
@@ -50,8 +56,10 @@ for (const n of names) {
   const n_diff = pixelmatch(ia.data, ib.data, out.data, ia.width, ia.height, { threshold: 0 });
   if (n_diff === 0) { same++; continue; }
   const pct = (100 * n_diff) / (ia.width * ia.height);
+  const marked = join(OUT, basename(n));
+  writeFileSync(marked, PNG.sync.write(out));
   report.row('bad', 'changed', n, `${pct.toFixed(2)}% of pixels (${n_diff})`);
+  where(a, b, marked);
   changed++;
-  if (write) writeFileSync(join(OUT, basename(n)), PNG.sync.write(out));
 }
 report.summary(`${same} identical \u00b7 ${changed} changed \u00b7 ${missing} missing`);
