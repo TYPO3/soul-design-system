@@ -81,10 +81,8 @@ function documents(): string[] {
   };
   walk(join(ROOT, 'docs'));
   for (const pkg of readdirSync(join(ROOT, 'packages'))) {
-    for (const file of ['README.md', 'GAPS.md']) {
-      const path = join(ROOT, 'packages', pkg, file);
-      if (existsSync(path)) out.push(path);
-    }
+    const path = join(ROOT, 'packages', pkg, 'README.md');
+    if (existsSync(path)) out.push(path);
   }
   return out;
 }
