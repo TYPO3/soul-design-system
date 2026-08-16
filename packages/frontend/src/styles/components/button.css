@@ -13,16 +13,9 @@
 
 @layer base {
   /* A part: it stands in a line of text or a row of controls and never on its
-     own, so it takes the box that line gives it. */
+     own, so it takes the box that line gives it. Inline, so it carries no flow
+     step — a distance below a control belongs to the block standing around it. */
   sds-button { display: inline-flex; }
-
-  /* In a document's flow the control carries the step, on the box it draws —
-     the host is `display: contents` once it upgrades, and only this system's
-     own button: a `.sds-btn` in the text belongs to whatever drew it. Inside
-     a row the gap is the row's — a margin on a flex item is one the centring
-     would have to carry. The bare `.sds-actions` step is `base`'s already. */
-  :where(.sds-prose) sds-button > .sds-btn { margin-bottom: var(--space-4); }
-  :where(.sds-prose) .sds-actions sds-button > .sds-btn { margin-bottom: 0; }
 }
 
 @layer components {

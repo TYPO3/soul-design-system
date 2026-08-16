@@ -225,8 +225,6 @@
 }
 @layer base{
   sds-button{display:inline-flex}
-  :where(.sds-prose) sds-button>.sds-btn{margin-bottom:var(--space-4)}
-  :where(.sds-prose) .sds-actions sds-button>.sds-btn{margin-bottom:0}
 }
 @layer components{
   .sds-btn{
