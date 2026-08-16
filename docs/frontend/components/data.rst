@@ -94,7 +94,7 @@ sds-table
    properties.
 
 .. specimen:: components/data/density.card.html
-   :viewport: 700x877
+   :viewport: 700x879
    :title: Table density
 
 .. warning::

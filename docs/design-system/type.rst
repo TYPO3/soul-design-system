@@ -148,7 +148,7 @@ look. A page that does need the two apart has the anchor the renderer wrote —
 name.
 
 .. specimen:: guidelines/type-notes.card.html
-   :viewport: 700x312
+   :viewport: 700x285
    :title: Notes at the foot
 
 .. note::

@@ -214,7 +214,7 @@ for (const c of list) {
 // starting points: screens a consuming project can seed a design from.
 const sp = screens();
 /* Hashed like the cards are. Without this the anchor knows nothing about a
-   screen, so `make status` reports "nothing to do" while all three of them
+   screen, so `make sync-status` reports "nothing to do" while all three of them
    have changed — which is what it said on the build that first shipped them
    without a stylesheet. */
 const screenHashes: Record<string, string> = {};

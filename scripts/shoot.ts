@@ -24,9 +24,13 @@ report.open('shots', `photograph every card into ${OUT}`);
 await withPage(async ({ map }) => {
   await map(list, async (page, card) => {
     await openCard(page, card);
-    // Animations (spinner, skeleton pulse) would make every run differ.
+    // A spinner or a skeleton pulse caught mid-flight makes every run differ.
     await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}' });
-    await page.screenshot({ path: join(OUT, `${card.rel.replaceAll('/', '__').replace(/\.html$/, '')}.png`) });
+    await page.screenshot({
+      path: join(OUT, `${card.rel.replaceAll('/', '__').replace(/\.html$/, '')}.png`),
+      animations: 'disabled',
+      caret: 'hide',
+    });
   });
 });
 

@@ -88,7 +88,19 @@ export async function settled(page: Page): Promise<void> {
     container goes. So the signals are handled here, once: a script that
     launches chromium by itself is a script that can orphan one. */
 export async function withBrowser<R>(fn: (browser: Browser) => Promise<R>): Promise<R> {
-  const browser = await chromium.launch();
+  /* Rasterising the same page twice has to give the same bytes. Left to
+     itself Chromium picks a colour profile from the host, positions glyphs at
+     subpixel offsets and antialiases text against the ground it thinks it has
+     — all of which vary, and each of which turns a rounded corner into a pixel
+     that differs by one between two runs of an unchanged tree. */
+  const browser = await chromium.launch({
+    args: [
+      '--force-color-profile=srgb',
+      '--disable-lcd-text',
+      '--disable-font-subpixel-positioning',
+      '--disable-partial-raster',
+    ],
+  });
 
   const shut = (signal: NodeJS.Signals) => {
     void browser.close().finally(() => {

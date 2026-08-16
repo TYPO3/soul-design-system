@@ -6,7 +6,7 @@
    answer is "which cards moved" rather than "which files did I touch". With no
    cached anchor it prints what a first upload would push and exits 0.
 
-     make status
+     make sync-status
 */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -17,7 +17,7 @@ import * as report from './lib/report.ts';
 const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
 const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
 
-report.open('status', 'what a sync would change');
+report.open('sync-status', 'what a sync would change');
 
 if (!existsSync(BUILT)) {
   report.summary('no build here', ['run `make build` first']);

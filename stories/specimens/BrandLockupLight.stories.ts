@@ -37,7 +37,7 @@ const meta: Meta = {
       group: 'Brand',
       name: 'Primary lockup — light',
       subtitle: 'The same lockup on warm paper',
-      viewport: '700x155',
+      viewport: '700x156',
       theme: 'light',
     }),
   },

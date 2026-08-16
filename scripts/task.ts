@@ -64,7 +64,9 @@ const TASKS: Record<string, Task> = {
 
   // Sync to claude.ai/design
   sync: { cmd: ['sh', '-c', 'node scripts/verify.ts && node scripts/status.ts && node scripts/plan.ts'], help: 'build + verify + what-would-change + upload plan' },
-  status: { cmd: node('scripts/status.ts'), help: 'what a sync would change' },
+  /* Named for the sync it belongs to: `make status` is the containers, and a
+     reader who has just been told what is running should not get a diff. */
+  'sync-status': { cmd: node('scripts/status.ts'), help: 'what a sync would change' },
   plan: { cmd: node('scripts/plan.ts'), help: 'the ordered upload plan, with deletes' },
   synced: { cmd: node('scripts/synced.ts'), help: 'record that the project holds this build' },
 

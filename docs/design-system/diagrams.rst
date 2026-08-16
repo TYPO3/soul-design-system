@@ -74,7 +74,7 @@ Drawing rules
 =============
 
 .. specimen:: guidelines/diagrams-rules.card.html
-   :viewport: 980x500
+   :viewport: 980x480
    :title: Drawing rules
 
 Worked examples

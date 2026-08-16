@@ -10,10 +10,10 @@ belongs — rendered examples it can inspect. This package builds that upload.
 
 .. code-block:: bash
 
-   make build      # assemble the payload into .out/bundle/
-   make status     # what a sync would change
-   make plan       # the ordered upload plan, with deletes
-   make sync       # build, verify, status, plan in one go
+   make build        # assemble the payload into .out/bundle/
+   make sync-status  # what a sync would change
+   make plan         # the ordered upload plan, with deletes
+   make sync         # build, verify, what would change, plan in one go
 
 What gets uploaded
 ==================

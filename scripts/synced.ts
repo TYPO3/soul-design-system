@@ -2,8 +2,8 @@
 /* Record that the current build is what the project now holds.
 
    Run this immediately after a successful upload, and only then. It promotes
-   the anchor that was just pushed to the local cache, which is what `npm run
-   status` and `make plan` compare against. Skip it and both keep
+   the anchor that was just pushed to the local cache, which is what `make
+   sync-status` and `make plan` compare against. Skip it and both keep
    answering from the previous upload — confidently and wrongly.
 
      make synced
@@ -27,5 +27,5 @@ mkdirSync(join(ROOT, '.design-sync/.cache'), { recursive: true });
 copyFileSync(BUILT, CACHE);
 
 const a = JSON.parse(readFileSync(CACHE, 'utf8'));
-report.fact('`make status` compares against this state from now on');
+report.fact('`make sync-status` compares against this state from now on');
 report.summary(`${Object.keys(a.renderHashes).length} cards \u00b7 ${a.files?.length ?? '?'} files recorded as uploaded`);
