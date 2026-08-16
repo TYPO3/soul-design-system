@@ -21,8 +21,8 @@
         {%- set anchor = entry.term.toString|anchor -%}
         <dt id="{{ anchor }}">
             {{- renderNode(entry.term) -}}
-            {%- for classifier in entry.classifiers %} <span class="classifier-delimiter">:</span>
-                <span class="classifier">{{- renderNode(classifier) -}}</span>
+            {%- for classifier in entry.classifiers %} <span class="sds-classifier__mark">:</span>
+                <span class="sds-classifier">{{- renderNode(classifier) -}}</span>
             {%- endfor -%}
             <a class="sds-permalink" href="#{{ anchor }}" aria-label="Permalink to {{ entry.term.toString }}">#</a>
         </dt>

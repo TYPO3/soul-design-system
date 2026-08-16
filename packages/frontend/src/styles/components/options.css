@@ -1,0 +1,20 @@
+/* sds-options — the flags of a command, and what each one does. */
+
+@layer components {
+  /* The name is something typed at a prompt, so it is set in the mono face
+     like every other piece of machine text — and the weight comes off, because
+     the font is already the difference and a term that is both bold and mono
+     reads as a heading for the paragraph under it. */
+  .sds-options {
+    --sds-options-name-font: var(--font-mono);
+    --sds-options-name-size: var(--font-mono-optical);
+    --sds-options-name-weight: var(--weight-regular);
+    --sds-options-name-ink: var(--text-primary);
+  }
+  .sds-options__name {
+    font-family: var(--sds-options-name-font);
+    font-size: var(--sds-options-name-size);
+    font-weight: var(--sds-options-name-weight);
+    color: var(--sds-options-name-ink);
+  }
+}

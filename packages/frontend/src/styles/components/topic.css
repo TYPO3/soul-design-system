@@ -1,0 +1,33 @@
+/* sds-topic — a digression the outline does not list, in a box the class layer
+   already draws. What is left to say is where it stands in the flow. */
+
+@layer base {
+  .sds-topic {
+    margin: 0 0 var(--space-4);
+  }
+}
+
+@layer components {
+  .sds-topic {
+    --sds-topic-measure: var(--measure-prose);
+    --sds-topic-title-gap: var(--space-2);
+    --sds-topic-title-size: var(--font-size-body);
+    --sds-topic-title-weight: var(--weight-semibold);
+    --sds-topic-title-ink: var(--text-primary);
+
+    max-width: var(--sds-topic-measure);
+
+    /* No margin under its own last line: the box's padding is that gap. */
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+  /* The fourth heading level's register — weight and air, not a size — because
+     that is what this system does once a heading stops being a level. */
+  .sds-topic__title {
+    margin-bottom: var(--sds-topic-title-gap);
+    font-size: var(--sds-topic-title-size);
+    font-weight: var(--sds-topic-title-weight);
+    color: var(--sds-topic-title-ink);
+  }
+}

@@ -1,0 +1,32 @@
+/* sds-hlist — short items an author asked to be read across. Columns rather
+   than a grid, because a list flows. */
+
+@layer components {
+  .sds-hlist {
+    --sds-hlist-columns: 2;
+    --sds-hlist-gap: var(--space-6);
+
+    > ul {
+      columns: var(--sds-hlist-columns);
+      column-gap: var(--sds-hlist-gap);
+    }
+    /* A wrapped item belongs to one column. */
+    li {
+      break-inside: avoid;
+    }
+  }
+  /* The count an author asked for. A modifier assigns and draws nothing, which
+     is why there is one per count and no rule repeated with it. */
+  .sds-hlist--3 {
+    --sds-hlist-columns: 3;
+  }
+  .sds-hlist--4 {
+    --sds-hlist-columns: 4;
+  }
+  .sds-hlist--5 {
+    --sds-hlist-columns: 5;
+  }
+  .sds-hlist--6 {
+    --sds-hlist-columns: 6;
+  }
+}

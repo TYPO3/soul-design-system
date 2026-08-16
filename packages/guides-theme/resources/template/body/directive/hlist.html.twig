@@ -1,0 +1,13 @@
+{#
+    `.. hlist::` — short items an author asked to be read across.
+
+    The count is a modifier rather than the core's separate `columns-N`: it is
+    one thing at one of several widths, which is what `--` means everywhere
+    else in this vocabulary. Written out rather than interpolated, because a
+    class assembled from a value is a class no check can find — and the list
+    is also what says which counts the component has.
+#}
+{%- set widths = { 3: 'sds-hlist--3', 4: 'sds-hlist--4', 5: 'sds-hlist--5', 6: 'sds-hlist--6' } -%}
+<div class="sds-hlist{% if widths[node.option('columns')] is defined %} {{ widths[node.option('columns')] }}{% endif %}">
+    {{ renderNode(node.value) }}
+</div>

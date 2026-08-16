@@ -1,0 +1,20 @@
+/* sds-rubric — the one heading a reference uses that no contents lists. Set
+   exactly like `h4`, the level it would have been; the whole difference is
+   that it is not one. */
+
+@layer components {
+  .sds-rubric {
+    --sds-rubric-space-above: var(--space-6);
+    --sds-rubric-space-below: var(--space-2);
+    --sds-rubric-size: var(--font-size-body);
+    --sds-rubric-weight: var(--weight-semibold);
+    --sds-rubric-leading: var(--leading-heading);
+    --sds-rubric-ink: var(--text-primary);
+
+    margin: var(--sds-rubric-space-above) 0 var(--sds-rubric-space-below);
+    font-size: var(--sds-rubric-size);
+    font-weight: var(--sds-rubric-weight);
+    line-height: var(--sds-rubric-leading);
+    color: var(--sds-rubric-ink);
+  }
+}

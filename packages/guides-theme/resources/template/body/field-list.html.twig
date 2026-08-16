@@ -9,7 +9,7 @@
     first is a label. The class is what lets `sds-prose` tell the two apart,
     and it is the name the core would have written itself had it written one.
 #}
-<table class="field-list{% if node.classes %} {{ node.classesString }}{% endif %}">
+<table class="sds-docinfo{% if node.classes %} {{ node.classesString }}{% endif %}">
     {% for item in node.children %}
         <tr>
             <th>{{ item.term }}</th>

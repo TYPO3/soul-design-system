@@ -1,0 +1,29 @@
+{#
+    A definition list, and the kind a term may be given — `term : noun`.
+
+    The colon is the classifier's own punctuation and is named as its part, so
+    a rule and a test can address the kind itself — the core's two unrelated
+    names could not say they belong together.
+#}
+<dl{% if node.classes %} class="{{ node.classesString }}"{% endif %}>
+    {% for definitionListTerm in node.children %}
+        {% if definitionListTerm.classifiers is empty %}
+            <dt>{{ renderNode(definitionListTerm.term) }}</dt>
+        {% else %}
+            <dt>
+                {{- renderNode(definitionListTerm.term) -}}
+
+                {%- for classifier in definitionListTerm.classifiers %}
+                    <span class="sds-classifier__mark">:</span>
+                    <span class="sds-classifier">{{ renderNode(classifier) }}</span>
+                {%- endfor -%}
+            </dt>
+        {% endif %}
+
+        {% if definitionListTerm.children %}
+            {%- for definition in definitionListTerm.children -%}
+            <dd>{{ renderNode(definition) }}</dd>
+            {%- endfor ~%}
+        {% endif %}
+    {% endfor %}
+</dl>

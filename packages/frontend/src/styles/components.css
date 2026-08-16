@@ -51,6 +51,12 @@
 @import "components/code.css";
 @import "components/confval.css";
 @import "components/footnote.css";
+@import "components/topic.css";
+@import "components/rubric.css";
+@import "components/hlist.css";
+@import "components/options.css";
+@import "components/classifier.css";
+@import "components/docinfo.css";
 @import "components/states.css";
 @import "components/brand.css";
 @import "components/direction.css";

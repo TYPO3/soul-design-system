@@ -69,13 +69,19 @@ What a passage sets
      - ``sds-note``, ``sds-figure``, ``sds-card``, ``sds-code`` and
        ``sds-embed`` while they are ``:not(:defined)`` — the frame each one is
        missing on a page whose script has not run yet, or never will
-   * - What a renderer names
-     - the handful of classes it writes for nodes with no element of their
-       own: ``.contents`` and ``.toc``, ``.topic``, ``.rubric``,
-       ``.field-list``, ``.hlist`` and the classifiers of a definition list.
-       They stay the renderer's own names — renamed, the stylesheet would only
-       work with the templates that renamed them, and these are the nodes the
-       theme has no template for
+   * - Nodes with no element
+     - the blocks a renderer emits that no element of this system covers, under
+       names this system defines because the theme writes their markup:
+       ``sds-topic`` with ``sds-topic__title``, ``sds-rubric``,
+       ``sds-docinfo``, ``sds-hlist`` with ``sds-hlist--3``, ``sds-hlist--4``,
+       ``sds-hlist--5`` and ``sds-hlist--6``, ``sds-options`` with
+       ``sds-options__name``, and ``sds-classifier`` with ``sds-classifier__mark`` for the
+       kind a term is given and the colon that introduces it
+   * - What stays the renderer's
+     - ``.line-block`` and ``.line``, because the parser sets those two on the
+       node rather than a template writing them, and ``.contents`` and ``.toc``
+       for a renderer that writes its own contents list instead of taking
+       ``sds-nav-toc``
    * - Notes at the foot
      - ``sds-footnote`` with ``sds-footnote__label`` and
        ``sds-footnote__content`` — names of this system's own, because the

@@ -1,0 +1,7 @@
+{#
+    `.. rubric::` — the one heading a reference uses that no contents lists.
+
+    The core writes `.rubric`; a class on a page this system draws is a name
+    this system defines, so it is `sds-rubric` here.
+#}
+<div class="sds-rubric{% if node.classes %} {{ node.classesString }}{% endif %}">{{ renderNode(node.content) }}</div>

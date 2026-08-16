@@ -33,18 +33,11 @@
        for, not a distance, so it is the one number here that is a number. */
     --sds-prose-columns: 2;
 
-    /* A term may be given its kind — `term : noun`. The kind is not the term:
-       it drops to the register the definition is written in, so a reader
-       scanning the column sees the words being defined, not what they are. */
-    :is(.classifier, .classifier-delimiter) {
-      font-weight: var(--sds-prose-weight);
-      color: var(--sds-prose-quiet-ink);
-    }
-
     /* `| a line` — an address, a stanza, a signature: text where the break is
        part of what is said. So nothing here may close one up. An indented run
        keeps its step, and an empty line keeps a line's height, which is the
-       whole reason a stanza has a gap in it. */
+       whole reason a stanza has a gap in it. The parser sets these two names,
+       not a template, so they are the one pair here this system cannot rename. */
     .line-block {
       margin-bottom: var(--sds-prose-step);
 
@@ -55,109 +48,6 @@
     .line {
       min-height: 1lh;
       max-width: var(--sds-prose-measure);
-    }
-
-    /* A title over something that is not a section: a topic, or a sidebar,
-       which the core renders as one. It is the fourth heading level's
-       register — weight and air, not a size — because that is what this system
-       does once a heading stops being a level. */
-    .topic-title {
-      margin-bottom: var(--sds-prose-gap);
-      font-size: var(--sds-prose-label-size);
-      font-weight: var(--sds-prose-label-weight);
-      color: var(--sds-prose-ink);
-    }
-    /* A digression, in a box the class layer already draws. What is left to say
-       is where it stands in the flow: the measure the paragraphs take, and no
-       margin under its own last line, because the box's padding is the gap. */
-    .topic {
-      margin-bottom: var(--sds-prose-step);
-      max-width: var(--sds-prose-measure);
-
-      > :last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    /* A rubric is the one heading a reference uses that no contents should
-       list. It is set exactly like `h4` — the level it would have been — and
-       the whole difference is that it is not one. */
-    .rubric {
-      margin: var(--sds-prose-step-wide) 0 var(--sds-prose-step-tight);
-      font-size: var(--sds-prose-label-size);
-      font-weight: var(--sds-prose-label-weight);
-      line-height: var(--sds-prose-label-leading);
-      color: var(--sds-prose-ink);
-    }
-
-    /* Short items an author asked to be read across. The count is in the
-       class — `columns-N` is what the core writes — so there is a rule per
-       count and no way to state it once. Columns rather than a grid, because a
-       list flows; `break-inside` keeps a wrapped item off two columns. */
-    .hlist {
-      > ul {
-        columns: var(--sds-prose-columns);
-        column-gap: var(--sds-prose-step-wide);
-      }
-      li {
-        break-inside: avoid;
-      }
-    }
-    .hlist.columns-3 > ul {
-      columns: 3;
-    }
-    .hlist.columns-4 > ul {
-      columns: 4;
-    }
-    .hlist.columns-5 > ul {
-      columns: 5;
-    }
-    .hlist.columns-6 > ul {
-      columns: 6;
-    }
-
-    /* An option list: the flags of a command, and what each does. The name is
-       something typed at a prompt, so it is set in the mono face like every
-       other piece of machine text — and the weight comes off, because the font
-       is already the difference and a term that is both bold and mono reads as
-       a heading for the paragraph under it. */
-    .domain-default-option-name {
-      font-family: var(--sds-prose-mono);
-      font-size: var(--sds-prose-mono-size);
-      font-weight: var(--sds-prose-weight);
-      color: var(--sds-prose-ink);
-    }
-
-    /* A field list is docinfo — author, version, date — and it is a table only
-       because that is what the core built it from. So it is undone as a table:
-       no rules between rows, no hover, no header register on the first column,
-       and no full width. Two columns of which the first is a label, as wide as
-       the words in it. */
-    .field-list {
-      width: auto;
-      margin-bottom: var(--sds-prose-step-wide);
-      font-size: inherit;
-
-      :is(th, td) {
-        padding: 0 var(--sds-prose-step) var(--sds-prose-gap-tight) 0;
-        border-bottom: 0;
-        vertical-align: baseline;
-      }
-      th {
-        font-family: inherit;
-        font-size: var(--sds-prose-meta-size);
-        font-weight: var(--sds-prose-label-weight);
-        letter-spacing: normal;
-        text-transform: none;
-        color: var(--sds-prose-muted-ink);
-        white-space: nowrap;
-      }
-      tbody tr:hover {
-        background: none;
-      }
-      p {
-        margin: 0;
-      }
     }
   }
 }

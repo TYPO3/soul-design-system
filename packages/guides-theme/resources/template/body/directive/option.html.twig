@@ -1,0 +1,13 @@
+{#
+    `.. option::` — the flags of a command, and what each one does.
+
+    A definition list under this system's own names. The description needs no
+    class: it is a `<dd>`, and a `<dd>` is set.
+#}
+{%- for id in node.additionalIds %}
+    <a id="{{ id }}"></a>
+{% endfor -%}
+<dl class="sds-options">
+    <dt class="sds-options__name" id="{{ node.id }}">{{ node.plainContent }}</dt>
+    <dd>{{ renderNode(node.value) }}</dd>
+</dl>

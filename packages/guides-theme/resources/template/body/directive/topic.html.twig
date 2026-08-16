@@ -11,7 +11,7 @@
     topic meant it for their own stylesheet, and dropping it silently is the
     one thing a theme must not do with what it does not understand.
 #}
-<aside class="topic sds-panel{% if node.classes %} {{ node.classesString }}{% endif %}">
-    <p class="topic-title">{{ renderNode(node.content) }}</p>
+<aside class="sds-topic sds-panel{% if node.classes %} {{ node.classesString }}{% endif %}">
+    <p class="sds-topic__title">{{ renderNode(node.content) }}</p>
     {{ renderNode(node.value) }}
 </aside>

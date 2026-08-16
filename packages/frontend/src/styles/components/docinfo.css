@@ -1,0 +1,41 @@
+/* sds-docinfo — what a document says about itself: author, version, date. A
+   renderer builds it as a table, so it is undone as one. */
+
+@layer components {
+  /* No rules between rows, no hover, no header register on the first column,
+     and no full width. Two columns of which the first is a label, as wide as
+     the words in it. */
+  .sds-docinfo {
+    --sds-docinfo-gap: var(--space-4);
+    --sds-docinfo-step: var(--space-1);
+    --sds-docinfo-below: var(--space-6);
+    --sds-docinfo-label-size: var(--font-size-ui);
+    --sds-docinfo-label-weight: var(--weight-semibold);
+    --sds-docinfo-label-ink: var(--text-muted);
+
+    width: auto;
+    margin-bottom: var(--sds-docinfo-below);
+    font-size: inherit;
+
+    :is(th, td) {
+      padding: 0 var(--sds-docinfo-gap) var(--sds-docinfo-step) 0;
+      border-bottom: 0;
+      vertical-align: baseline;
+    }
+    th {
+      font-family: inherit;
+      font-size: var(--sds-docinfo-label-size);
+      font-weight: var(--sds-docinfo-label-weight);
+      letter-spacing: normal;
+      text-transform: none;
+      color: var(--sds-docinfo-label-ink);
+      white-space: nowrap;
+    }
+    tbody tr:hover {
+      background: none;
+    }
+    p {
+      margin: 0;
+    }
+  }
+}

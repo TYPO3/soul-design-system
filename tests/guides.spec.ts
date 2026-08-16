@@ -245,7 +245,7 @@ test.describe('what the theme repaired', () => {
         id: term.id,
         words: (term.firstChild?.textContent ?? '').trim(),
         href: term.querySelector('a.sds-permalink')?.getAttribute('href') ?? null,
-        classifier: term.querySelector('.classifier')?.textContent?.trim() ?? null,
+        classifier: term.querySelector('.sds-classifier')?.textContent?.trim() ?? null,
       })));
 
     expect(entries.length).toBeGreaterThan(2);
@@ -261,7 +261,7 @@ test.describe('what the theme repaired', () => {
     const [dim, term] = await page.evaluate(() => {
       const colour = (el: Element | null): string => (el ? getComputedStyle(el).color : '');
       return [
-        colour(document.querySelector('#words-this-reference-defines .classifier')),
+        colour(document.querySelector('#words-this-reference-defines .sds-classifier')),
         colour(document.querySelector('#words-this-reference-defines dt[id]')),
       ];
     });
@@ -922,7 +922,7 @@ test.describe('what the theme repaired', () => {
     /* Out of the core a sidebar arrives as `div.admonition.admonition-sidebar`,
        which in this vocabulary would draw it a glyph saying it is a warning.
        It is a digression with a title — a topic, and drawn as one. */
-    await expect(page.locator('aside.topic')).toHaveCount(2);
+    await expect(page.locator('aside.sds-topic')).toHaveCount(2);
 
     /* And the general form of the same thing: `admonition` is the core's name
        for a box this system draws as an element. One left in the output is a
@@ -964,7 +964,7 @@ test.describe('what the theme repaired', () => {
 
     /* The other node an `sds-panel` can be, and the one this component is for:
        a set read across itself rather than a digression in the flow, which
-       stays the `aside.topic` the test above holds. Both are on this page. */
+       stays the `aside.sds-topic` the test above holds. Both are on this page. */
     const planes = page.locator('#planes');
     await expect(planes.locator('sds-surface')).toHaveCount(3);
     await expect(planes.locator('a[href$="nodes.html"]')).toHaveCount(1);
