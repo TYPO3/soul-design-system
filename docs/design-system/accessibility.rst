@@ -9,15 +9,16 @@ of it is not a feature added on top: it is the reason a rule elsewhere in this
 manual is written the way it is, collected here because a project evaluating
 the system asks this before it asks anything else.
 
-The ring is the only shadow
-===========================
+The ring is the only shadow on the page
+=======================================
 
 ``--border-emphasis`` of ``--accent`` at ``--focus-offset``, with a
 ``--focus-halo`` of ``--accent-ring`` behind it — see :doc:`states` for the
-values those hold. It is the single ``box-shadow`` in the system, and it
-is a state rather than depth — which is why :doc:`colours` forbids shadows
-everywhere else. A ring nobody can mistake for a raised surface is a ring that
-still reads on a page full of surfaces.
+values those hold. It is the one ``box-shadow`` anything standing *in* the page
+draws, and it is a state rather than depth: what stays on the page separates
+with a hairline, and only a surface that has left it — what the bar opens over
+the text — carries a shadow of its own. A ring nobody can mistake for a raised
+surface is a ring that still reads on a page full of surfaces.
 
 Always ``:focus-visible`` and never ``:focus``: a pointer should not leave a
 ring behind. **Nothing in this system is reachable by pointer only.**

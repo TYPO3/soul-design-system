@@ -4,10 +4,11 @@
 Overlays
 ========
 
-What floats over the page, and what it floats on. The system has no shadows, so
-an overlay needs a wash and a hairline to be an overlay *of* something — which
-is also why the specimen draws the modal inside a bordered box rather than
-floating it over the page.
+What floats over the page, and what it floats on. Depth is spent only here —
+nothing that stays on the page is told apart by elevation — and a shadow alone
+would not say what is underneath, so an overlay takes a wash and a hairline to
+be an overlay *of* something. It is also why the specimen draws the modal
+inside a bordered box rather than floating it over the page.
 
 .. specimen:: components/surfaces/surfaces.card.html
    :viewport: 700x425

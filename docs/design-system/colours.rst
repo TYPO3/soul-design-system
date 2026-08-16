@@ -113,10 +113,11 @@ Text
 Borders
 =======
 
-Hairlines do the structural work. A floating surface is separated by the
-overlay wash and its border rather than by elevation. The focus halo is the
-only ``box-shadow`` in the system, and it communicates keyboard state rather
-than depth — see :doc:`accessibility`.
+Hairlines do the structural work. Nothing that stays on the page is separated
+by elevation, so the focus halo is the only ``box-shadow`` a page draws, and it
+communicates keyboard state rather than depth — see :doc:`accessibility`. What
+has left the page is the exception the shadow scale exists for, and the table
+above says which surfaces those are.
 
 .. list-table::
    :header-rows: 1
