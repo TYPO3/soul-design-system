@@ -164,7 +164,6 @@ which ones they are.
 | `packages/frontend/src/tokens/*.css` | the values — colour, type, controls, spacing, radius, motion |
 | `packages/frontend/src/styles/components.css` | the `sds-` class vocabulary |
 | `packages/frontend/src/styles/styles.css` | the single entry point |
-| `packages/frontend/src/styles/document.css` | the document layer — also outside that closure, and scoped to `.sds-prose` |
 | `packages/frontend/src/styles/_specimen.css` | card chrome only — deliberately outside the `styles.css` closure |
 | `packages/frontend/src/components/*.ts` | the Lit elements and their template functions |
 | `packages/frontend/src/lib/` | element base, icon inliner, static renderer |

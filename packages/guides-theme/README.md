@@ -163,7 +163,7 @@ is published, so a reader with no JavaScript gets the whole of it.
 | `src/` | the extension, the directives and their nodes, the Twig extension |
 | `resources/config/` | the container configuration that registers all of it |
 | `resources/template/` | the overrides, by the paths the renderer looks them up under |
-| `resources/dist/` | the drop-in: `soul.css`, `document.css`, `soul.js`, `soul-boot.js`, the faces, the icon sprites — and `soul-finish.js` |
+| `resources/dist/` | the drop-in: `soul.css`, `soul.js`, `soul-boot.js`, the faces, the icon sprites — and `soul-finish.js` |
 
 ## The manual
 

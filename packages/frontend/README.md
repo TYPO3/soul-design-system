@@ -20,9 +20,9 @@ overwritten by the next one. Issues and pull requests belong in
 
 Copy `dist/` somewhere public and link those. No bundler, no import map, and
 nothing to install: markup rendered by PHP, Twig or Fluid uses the classes, and
-the elements upgrade it where there is behaviour. `dist/document.css` is the
-second sheet, for pages whose content is a document rather than an interface —
-scoped to `.sds-prose`, and deliberately not part of `soul.css`.
+the elements upgrade it where there is behaviour. A page whose content is a
+document links nothing extra: the bare elements a renderer emits are set by
+`soul.css` too, and `sds-prose` adds what only a passage knows.
 
 Copy the directory whole. `soul.css` asks for `fonts/` beside itself and
 `soul.js` resolves the icon sprite against its own URL.
@@ -122,8 +122,7 @@ than on whatever is inside it:
 Every element renders **light DOM** and emits the classes `soul.css` defines,
 so an element and a hand-written `<button class="sds-btn">` are the same markup
 under the same rules. Put `sds-app` on the root element — it establishes the
-canvas, the type and the text colour — and `sds-prose` on a document, where
-`document.css` is linked.
+canvas, the type and the text colour — and `sds-prose` on a document.
 
 Names are prefixed `sds-`, with `__part`, `--modifier` and `.is-active` /
 `.is-disabled` / `.is-focused` / `.is-invalid` / `.is-filled` / `.is-selected`

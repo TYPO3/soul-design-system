@@ -48,10 +48,10 @@ out of running text has to be met by a stylesheet.
 scrolls in, the toctree becomes the rail. What a page is made of is the same
 markup a hand-built screen is made of, node for node.
 
-**The document layer catches the rest.** ``document.css`` sets ``<p>``,
-``<ul>``, ``<dl>``, ``<blockquote>``, ``<table>``, ``<figure>`` and all six
-heading levels, scoped to ``.sds-prose``. See :doc:`/frontend/documents` for what it
-covers and where the measure gives way.
+**The bare elements catch the rest.** ``soul.css`` sets ``<p>``, ``<ul>``,
+``<dl>``, ``<blockquote>``, ``<table>``, ``<figure>`` and all six heading
+levels, and ``sds-prose`` adds what only a passage knows. See
+:doc:`/frontend/documents` for what it covers and where the measure gives way.
 
 Overriding templates without it leaves every paragraph unset. Styling without
 templates writes this system a second time, in somebody else's vocabulary,

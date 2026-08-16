@@ -85,14 +85,6 @@ Two shapes
    to a class: linking it *is* the opt-in, which is what lets a bare ``<p>`` or
    ``<h2>`` be set without an editor writing a class it does not know about.
 
-.. confval:: document.css
-   :type: stylesheet
-   :required: where a document is being set
-
-   A second entry point, scoped to ``.sds-prose``, for everything a
-   Markdown or reStructuredText renderer produces without a name.
-   ``soul.css`` deliberately does not import it — see :doc:`documents`.
-
 What it needs of a browser
 ==========================
 

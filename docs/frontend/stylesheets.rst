@@ -43,11 +43,11 @@ loud its selector is.
      - the last word, held in reserve — something that must overrule a
        component does it from here, not with a louder selector
 
-``document.css`` is a second entry point and deliberately outside this
-closure: ``styles.css`` does not import it. Its rules are ``base``-layered
-and the sheet is linked after ``soul.css``, so on a document page they come
-later *within* the same layer — a bare element gains a document's manners
-without outweighing any component. See :doc:`documents`.
+A page of prose links nothing extra. What a renderer emits without a class is
+a bare element, and a bare element is set by the layer that owns it — the sheet
+of the component it belongs to, or ``base.css`` where it belongs to none. Only
+what a passage really adds is scoped, in ``components/prose.css``, and it is
+drawn where a page carries ``sds-prose``. See :doc:`documents`.
 
 The flow contract
 =================

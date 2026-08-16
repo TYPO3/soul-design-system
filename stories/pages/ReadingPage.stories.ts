@@ -189,8 +189,8 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
 
       ${sdsQuote({
         body: 'A heading is the top of what follows, not a gap after what came before.',
-        by: 'document.css',
-        as: 'the rule the layer is built on',
+        by: 'base.css',
+        as: 'the rule the flow contract is built on',
       })}
 
       <h2 class="sds-h3" id="values">Where a value comes from</h2>

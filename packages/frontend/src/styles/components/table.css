@@ -15,12 +15,25 @@
   .sds-table-scroll {
     margin: 0 0 var(--space-4);
   }
+
+  /* The caption names the table from above it and quietly: a label for the
+     block, not a row of it, and read from the start like everything else here
+     rather than centred the way a browser sets one. */
+  caption {
+    margin-bottom: var(--space-2);
+    font-size: var(--font-size-micro);
+    color: var(--text-muted);
+    text-align: start;
+  }
 }
 
 @layer components {
   /* Density is a choice about the work, not about loudness: compact when the
      list *is* the work, airy when the rows are read rather than scanned. Each
-     density assigns four numbers and draws nothing. */
+     density assigns four numbers and draws nothing. A bare `<table>` is the
+     same table — a renderer with no element behind it puts a class on nothing,
+     and two sets of numbers is how one stops agreeing with the other. */
+  table,
   .sds-table {
     --sds-table-font-size: var(--row-font-medium);
     --sds-table-pad: var(--row-pad-medium);
@@ -56,6 +69,8 @@
       padding-block: 0 var(--sds-table-pad);
       padding-inline: 0 var(--sds-table-cell-gap);
       border-bottom: var(--sds-table-border) solid var(--sds-table-rule-head);
+      /* A head sits on its rule whatever the tallest cell in the row did. */
+      vertical-align: bottom;
     }
 
     td {
@@ -63,6 +78,9 @@
       padding-inline: 0 var(--sds-table-cell-gap);
       border-bottom: var(--sds-table-border) solid var(--sds-table-rule);
       color: var(--sds-table-ink);
+      /* And a cell starts at the top, so a wrapped sentence beside a one-word
+         cell reads as the same row rather than as two centred blocks. */
+      vertical-align: top;
     }
 
     th:last-child,

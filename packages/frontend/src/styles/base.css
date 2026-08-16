@@ -151,6 +151,11 @@
     font-size: var(--font-mono-optical);
     color: var(--text-primary);
   }
+  /* And the directive stands on a line of its own. */
+  .sds-section > math:not(:has(*)) {
+    display: block;
+    margin-bottom: var(--space-4);
+  }
 
   /* ------------------------------------------------------------ lists -- */
 

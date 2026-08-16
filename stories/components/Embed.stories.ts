@@ -97,7 +97,7 @@ export const Given: Story = {
 };
 
 /** Two frames in a column, which is what a page of them looks like. The gap
-    between them is the document's and not the embed's — see `document.css`. */
+    between them is the flow contract's and not the embed's. */
 export const InAColumn: Story = {
   parameters: { layout: 'fullscreen' },
   render: () => html`<div class="sds-prose" style="padding:var(--space-6); max-width:900px">

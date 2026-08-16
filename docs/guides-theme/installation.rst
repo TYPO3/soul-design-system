@@ -36,7 +36,7 @@ throw away. PHP 8.2 is the floor.
 
    A stylesheet is not a PHP dependency, which is why this package carries one
    rather than asking for it: ``vendor/typo3/soul-guides-theme/resources/dist/``
-   is the drop-in — ``soul.css``, ``document.css``, ``soul.js``,
+   is the drop-in — ``soul.css``, ``soul.js``,
    ``soul-boot.js``, the faces, the icon sprites, and the finishing step of
    step 4. The install above is the whole of getting it, and no checkout of the
    design system is part of this.
@@ -148,7 +148,6 @@ finish on a reference that leaves the output.
      styles/            <- the drop-in, put there by the step above
        soul-boot.js     sets the mode before the first paint
        soul.css
-       document.css
        soul.js
        fonts/
        assets/

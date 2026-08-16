@@ -1,8 +1,8 @@
-:navigation-title: The document layer
+:navigation-title: Documents
 
-==================
-The document layer
-==================
+=========
+Documents
+=========
 
 ``soul.css`` styles things that were given a name: ``.sds-card``,
 ``.sds-note``, ``.sds-table``. A renderer that turns reStructuredText or
@@ -10,7 +10,7 @@ Markdown into HTML names almost nothing — it emits ``<p>``, ``<ul>``,
 ``<dl>``, ``<blockquote>``, ``<code>``, and the class it does write comes from
 the source text rather than from any system.
 
-``document.css`` is that other half. This page is set with it.
+Those bare elements are set too, by the same one file. This page is set with it.
 
 Linking it
 ==========
@@ -18,20 +18,18 @@ Linking it
 .. code-block:: html
 
    <link rel="stylesheet" href="styles/soul.css">
-   <link rel="stylesheet" href="styles/document.css">
 
-.. important::
+There is no second sheet. A bare element belongs to the layer that owns it:
+``<pre>`` is drawn where ``sds-code`` is drawn, ``<table>`` where ``sds-table``
+is, and what belongs to no component — ``<dl>``, ``<kbd>``, ``<abbr>``,
+``<mark>`` — is in ``base.css``. Splitting them off produced the same element
+twice, once for a document and once for a screen, and the two drifted.
 
-   It is a **second entry point**, and ``soul.css`` deliberately does not
-   import it. A stylesheet that has an opinion about a bare element cannot be
-   taken back: an application linking the component layer must not gain rules
-   for every paragraph, heading and table on the page. Link the second file
-   where a document is being set, and nowhere else.
-
-Everything in it is scoped to ``.sds-prose`` — written ``:where(.sds-prose)``,
-so a rule weighs what it names and no more and a component's own rule still
-wins — which is what makes it safe on a page that also has a bar, a rail and a
-footer:
+What is genuinely a passage's rather than an element's stays scoped, in
+``components/prose.css``: the measure the text is read at, the ink a passage
+sets, the register below ``h3``, the underline on a link inside a sentence, and
+the names a renderer writes for nodes with no element of their own. Those are
+drawn where a page says it is a passage:
 
 .. code-block:: html
 
@@ -43,8 +41,8 @@ footer:
 
 The theme's layout already writes that wrapper. A hand-built page has to.
 
-What it sets
-============
+What a passage sets
+===================
 
 .. list-table::
    :header-rows: 1
@@ -81,35 +79,33 @@ What it sets
 
 .. note::
 
-   Lists are the one row that is not this file's alone. What a list *is* — the
-   marker, the indent at the width of that marker, the muted marker colour —
-   is in ``soul.css``, so a screen that never links the document layer has
-   lists too. What a document adds is the air: a gap under the block and a
-   smaller one between items. See :doc:`/design-system/type` for the classes,
-   ``.sds-list`` and ``.sds-list--plain``.
+   Lists are the row that is least a passage's. What a list *is* — the marker,
+   the indent at the width of that marker, the muted marker colour — is
+   ``base.css``, and the gap under the block is the flow contract's, so a
+   screen has lists too. What a passage adds is the air between items. See
+   :doc:`/design-system/type` for the classes, ``.sds-list`` and
+   ``.sds-list--plain``.
 
 Where block spacing lives
 =========================
 
-A paragraph, list or heading carries its own step below it in ``soul.css``,
-even though most of its other prose rules live here. Authored blocks also sit
-inside notes, accordion answers, cards and modal bodies, none of which has to
-be a document. Keeping the lower step in the component layer prevents two
-paragraphs in one of those surfaces from touching when ``document.css`` is not
-linked.
+A paragraph, list or heading carries its own step below it, in the flow
+contract — one distance for every block, whether or not it stands in a passage.
+Authored blocks also sit inside notes, accordion answers, cards and modal
+bodies, none of which has to be a document, and a step stated by the passage
+would leave two paragraphs in one of those surfaces touching.
 
-The document layer adds what only a reading flow can know: the air above a
-heading, the treatment of tables and quotations, and the names a renderer
-writes. A container that declares its own gap takes the blocks' lower margins
-back, so ``.sds-column``, ``.sds-stack`` and component bodies produce one step
-rather than stacking two.
+A passage adds what only a reading flow can know: the measure, the ink, and the
+air between the items of a list. A container that declares its own gap takes
+the blocks' lower margins back, so ``.sds-column``, ``.sds-stack`` and component
+bodies produce one step rather than stacking two.
 
 This split is a contract rather than an implementation accident. A container
 of authored blocks either lets those blocks keep their step or owns the gap
 and removes it; it never does both. ``tests/defaults.spec.ts`` exercises both
 sides.
 
-The section is the one box a renderer draws that this layer had to take over.
+The section is the one box a renderer draws that the theme had to take over.
 A heading gets its air from the block *before* it — the only way to state a
 distance in one direction — and a heading wrapped in a section has no sibling
 outside it, so every section ran into the next at the step between two
@@ -138,8 +134,8 @@ each with less measure than the one above.
 The list itself is :ref:`sds-nav-toc <component-sds-nav-toc>` rather than
 markup a template writes, and that is what makes it follow the reader: it marks
 the section under them as they scroll, which is the one thing about this list a
-renderer cannot work out. ``.contents`` stays in this layer for a renderer that
-writes the list itself, and is the same thing standing still.
+renderer cannot work out. ``.contents`` stays a passage's rule for a renderer
+that writes the list itself, and is the same thing standing still.
 
 Six levels, three sizes
 =======================

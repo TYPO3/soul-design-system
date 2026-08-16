@@ -156,19 +156,6 @@ const cssOptions: esbuild.BuildOptions = {
   plugins: [perRule],
 };
 
-/* The second sheet, and it is second on purpose. `soul.css` is what an
-   application surface links; this is what a page linking it *also* links when
-   the thing on it is a document rather than an interface. Shipped apart
-   because a backend module has no paragraphs to have opinions about — see the
-   header of `document.css`. */
-const docCssOptions: esbuild.BuildOptions = {
-  entryPoints: [join(FRONTEND, 'src/styles/document.css')],
-  outfile: join(OUT, 'document.css'),
-  bundle: true,
-  minify: true,
-  plugins: [perRule],
-};
-
 /* The pre-paint line, and the only thing here that is not a module: it has to
    run before the page is painted, and `type=module` is deferred whether you ask
    for it or not. So it ships as a classic script, built on its own — the head
@@ -235,7 +222,6 @@ if (WATCH) {
   const contexts = await Promise.all([
     esbuild.context(watched(jsOptions, 'dist/soul.js')),
     esbuild.context(watched(cssOptions, 'dist/soul.css')),
-    esbuild.context(watched(docCssOptions, 'dist/document.css')),
     esbuild.context(watched(bootOptions, 'dist/soul-boot.js')),
     /* The finishing step too, or a watch run leaves the drop-in without the
        one file a documentation build calls — and the gate, which compares a
@@ -251,7 +237,6 @@ if (WATCH) {
 
 const drop = await esbuild.build(jsOptions);
 await esbuild.build(cssOptions);
-await esbuild.build(docCssOptions);
 await esbuild.build(bootOptions);
 await esbuild.build(finishOptions);
 copyAssets();
@@ -262,7 +247,6 @@ const modules = Object.keys(bundle.metafile.inputs).length;
 const BUILT: readonly (readonly [file: string, what: string])[] = [
   ['dist/soul.js', `${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile?.inputs ?? {}).length} modules`],
   ['dist/soul.css', `${kb('soul.css')}, faces and tokens inlined`],
-  ['dist/document.css', `${kb('document.css')}, the document layer, linked beside it`],
   ['dist/soul-boot.js', `${kb('soul-boot.js')}, the pre-paint line, not a module`],
   ['dist/soul-finish.js', `${kb('soul-finish.js')}, the step after a render, for Node`],
   ['dist/index.js', `${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`],

@@ -3,7 +3,7 @@
 What the theme still owes, and the decisions everything further has to hold
 to. At present it owes nothing, and the rest of this file is the second half.
 What is closed is not written here — it is in the template, in
-`src/styles/document.css` or in the element, and `tests/guides.spec.ts` holds
+`src/styles/components/prose.css` or in the element, and `tests/guides.spec.ts` holds
 it. A list that keeps its finished lines is a changelog, and stops being read.
 
 The ground is the actual output: the HTML templates in `phpdocumentor/guides`,
@@ -25,9 +25,10 @@ class of its own** — it writes `admonition note`, `section`, `toc`, `confval`,
 (`.. container:: foo`, `:class:`), it stands in the markup unfiltered.
 
 So two ways carry together and neither alone: overriding templates, so that
-`sds-` classes and custom elements reach the markup, and a document layer —
-`src/styles/document.css`, scoped to `.sds-prose` and deliberately not imported
-by `styles.css` — that maps the core's classes and bare elements onto tokens.
+`sds-` classes and custom elements reach the markup, and the stylesheets
+themselves — the bare elements in the layer that owns each, and
+`src/styles/components/prose.css` for what only a passage knows — which map the
+core's classes and bare elements onto tokens.
 Way one alone leaves every paragraph unstyled; way two alone writes the system
 a second time in somebody else's vocabulary.
 
@@ -176,7 +177,7 @@ The annotation list is not a counterpart problem but no problem at all. The
 node collects footnotes and citations and renders its children without an
 element of its own — there is nothing in the markup a class or a component
 could correspond to. What becomes visible is `.footnote` and `.citation`, and
-those have their rule in `document.css`.
+those have their rule in `components/prose.css`.
 
 
 ## The coverage rule
@@ -203,4 +204,4 @@ do, it does, and what stands above are the rules the next thing has to measure
 itself against. A new line goes only to what is genuinely outstanding: a
 decision nobody has taken, or something that has to be built and is not. What
 is decided belongs above, and what is finished stands in the template, in
-`document.css` or in the element, and is held by the suite.
+`components/prose.css` or in the element, and is held by the suite.

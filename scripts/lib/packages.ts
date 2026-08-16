@@ -97,8 +97,8 @@ export const PACKAGES: readonly Package[] = [
         'src/DependencyInjection/SoulExtension.php',
         'resources/config/soul.php',
         'resources/template/structure/layout.html.twig',
-        'resources/dist/soul.css', 'resources/dist/document.css',
-        'resources/dist/soul.js', 'resources/dist/soul-boot.js',
+        'resources/dist/soul.css', 'resources/dist/soul.js',
+        'resources/dist/soul-boot.js',
         'resources/dist/soul-finish.js',
       ].filter((path) => !existsSync(join(pkg, path)));
 
@@ -157,7 +157,7 @@ export const PACKAGES: readonly Package[] = [
         'src/index.ts', 'src/styles/styles.css', 'src/styles/reset.css',
         'src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css',
         'src/styles/components/card.css',
-        'dist/soul.css', 'dist/document.css', 'dist/soul.js', 'dist/soul-boot.js',
+        'dist/soul.css', 'dist/soul.js', 'dist/soul-boot.js',
         'dist/index.js',
       ].filter((path) => !existsSync(join(pkg, path)));
 

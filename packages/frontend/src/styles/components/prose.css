@@ -1,10 +1,8 @@
-/* sds-prose — the box a passage of a document stands in.
-
-   The box, not the vocabulary: what a bare element is inside a passage stays
-   the document layer's, linked only where documents render. The box states
-   the register and one ink for the whole passage — a component re-inks its
-   own subtree and the paragraphs inside follow by inheritance, which is why
-   the ink sits here once and the document's headings take primary back. */
+/* sds-prose — the box a passage of a document stands in, and what the elements
+   inside one are. A renderer turning source into HTML names almost nothing, so
+   most of this is bare elements; what a renderer does name — `topic`, `rubric`,
+   `footnote`, `hlist` — is at the foot, in the layer that can overrule the
+   components those nodes are built out of. */
 
 @layer base {
   .sds-prose {
@@ -12,12 +10,338 @@
     color: var(--text-secondary);
     /* No measure of its own: given a paragraph's, the box would clamp the
        table and the code block inside it too. The things made of words take
-       the measure themselves, in the document layer. */
+       the measure themselves, one rule below. */
     max-width: none;
+
+    /* The same trim a column makes: what the last block owes its neighbour it
+       does not owe the edge of the passage. */
+    > :last-child {
+      margin-block-end: 0;
+    }
+
+    /* ------------------------------------------------------- headings -- */
+
+    /* What a passage adds to a heading, and only that. The size, the leading
+       and the tracking are the class layer's, stated once there for every
+       surface. Here it is the ink: the box sets its text in `--text-secondary`,
+       so a heading inside it takes the primary back. */
+    :is(h1, h2, h3) {
+      color: var(--text-primary);
+    }
+    /* Below the third level the scale has run out, so weight and air do the
+       work the size stops doing. Four sets at body size and not the UI register
+       the class layer leaves it in: it is still a heading of the text. */
+    h4 {
+      font-size: var(--font-size-body);
+      font-weight: var(--weight-semibold);
+      color: var(--text-primary);
+    }
+    h5 {
+      margin-block-end: var(--space-1);
+      font-weight: var(--weight-semibold);
+      color: var(--text-primary);
+    }
+    /* The floor. Upper case and tracked out, because at this depth a heading
+       has stopped being a size and become a label for what follows. */
+    h6 {
+      margin-block-end: var(--space-1);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-label);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ------------------------------------------------------ the block -- */
+
+    /* The measure belongs to the text, not to the column: a reference is
+       sentences *and* a forty-column table, so the box refuses a measure and
+       gives its limit to the things made of words. A line is one, and so is the
+       rule — punctuation of the text, which drawn to the full column under a
+       measured paragraph reads as the end of the page. */
+    :is(dt, .line, hr, h1, h2, h3, h4, h5, h6) {
+      max-width: var(--measure-prose);
+    }
+    /* One level down, and why the list is not above: a box holding the measure
+       passes it to everything inside, so a table in a list would scroll inside
+       the reading column with room to spare. An item and a definition are the
+       ambiguous pair — they take the measure and give it back once they hold a
+       block. */
+    :is(li, dd) {
+      max-width: var(--measure-prose);
+    }
+    /* What counts as holding a block: any child that is not part of a sentence.
+       A `<code>` leaves the item text and it keeps the measure; a table or a
+       nested list makes it a container and the child answers for its own width.
+       `:has()` weighs its heaviest argument, so this out-specifies the pair
+       above without an `!important` or an ordering trick. */
+    :is(li, dd):has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)) {
+      max-width: none;
+    }
+
+    /* A paragraph is set by the block it stands in. The size, leading and
+       colour `base.css` gives a bare `<p>` are what it would inherit in here
+       anyway, and inside a component they are three values it has no business
+       restating. The step below is the flow contract's and stays there. */
+    p {
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+    }
+
+    /* The hairline itself is the class layer's — here only the space around it,
+       which is what does the separating between two sections. */
+    hr {
+      margin: var(--space-12) 0;
+    }
+
+    /* ---------------------------------------------------------- lists -- */
+
+    /* Only the rhythm between the items. What a list *is* — the marker, the
+       indent at the marker's own width, the muted marker colour — is the class
+       layer's, and the gap under the block is the flow contract's. What a
+       passage adds is the air between items that are each a sentence or two. */
+    li {
+      margin-bottom: var(--space-1);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+      /* A nested list is part of its parent item, so it neither adds a gap
+         above itself nor keeps the bottom margin the item already carries. */
+      > :is(ul, ol) {
+        margin: var(--space-1) 0 0;
+      }
+    }
+
+    /* ------------------------------------------------------ in a line -- */
+
+    /* Underlined inside a sentence: against body text the link colour stands at
+       1.3:1 in dark, and no token reaches 3:1 while there is one accent. Only
+       where a link sits *in* text — one that is a block of its own is told
+       apart by standing alone, which is why this is the passage's rule and not
+       the base layer's. */
+    :is(p, li, dd, td, th) a {
+      text-decoration: underline;
+      text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+      text-underline-offset: 2px;
+
+      &:hover {
+        text-decoration-color: currentColor;
+      }
+    }
+
+    /* A formula the renderer left as source: the role stands in a sentence, the
+       directive on a line of its own. */
+    > math:not(:has(*)) {
+      display: block;
+      margin-bottom: var(--space-4);
+    }
   }
-  /* The same trim a column makes: what the last block owes its neighbour it
-     does not owe the edge of the passage. */
-  :where(.sds-prose) > :last-child {
-    margin-block-end: 0;
+
+  /* A marketing page arrives with its claim, so the opening title and sentence
+     use the display register without making document source name classes. */
+  .sds-bands > .sds-band:first-child .sds-prose {
+    h1 {
+      font-size: var(--font-size-display);
+      line-height: var(--leading-display);
+      letter-spacing: var(--tracking-display);
+      max-width: var(--measure-display);
+    }
+    h1 + p {
+      max-width: var(--measure-lead);
+      font-size: var(--font-size-lead);
+      line-height: var(--leading-body);
+      text-wrap: pretty;
+    }
+  }
+}
+
+/* What a renderer names. These are nodes with no element of their own, and they
+   keep the core's names: renamed, the stylesheet would only work with the
+   templates that renamed them. They sit in this layer rather than `base`
+   because one of them — the field list — is built out of a table and has to
+   overrule the component that draws every other one. */
+@layer components {
+  .sds-prose {
+    --sds-prose-measure: var(--measure-prose);
+    --sds-prose-step: var(--space-4);
+    --sds-prose-step-tight: var(--space-2);
+    --sds-prose-step-wide: var(--space-6);
+    --sds-prose-gap: var(--sds-prose-gap);
+    --sds-prose-gap-tight: var(--space-1);
+    --sds-prose-indent: var(--space-5);
+    --sds-prose-label-size: var(--font-size-body);
+    --sds-prose-label-leading: var(--leading-heading);
+    --sds-prose-label-weight: var(--weight-semibold);
+    --sds-prose-meta-size: var(--font-size-ui);
+    --sds-prose-mono: var(--font-mono);
+    --sds-prose-mono-size: var(--font-mono-optical);
+    --sds-prose-note-size: 0.9em;
+    --sds-prose-weight: var(--weight-regular);
+    --sds-prose-ink: var(--text-primary);
+    --sds-prose-quiet-ink: var(--text-secondary);
+    --sds-prose-muted-ink: var(--text-muted);
+    --sds-prose-mark-ink: var(--text-accent-quiet);
+    /* Two, and the class says three to six. A count is what an author asked
+       for, not a distance, so it is the one number here that is a number. */
+    --sds-prose-columns: var(--sds-prose-columns);
+
+    /* A term may be given its kind — `term : noun`. The kind is not the term:
+       it drops to the register the definition is written in, so a reader
+       scanning the column sees the words being defined, not what they are. */
+    :is(.classifier, .classifier-delimiter) {
+      font-weight: var(--sds-prose-weight);
+      color: var(--sds-prose-quiet-ink);
+    }
+
+    /* `| a line` — an address, a stanza, a signature: text where the break is
+       part of what is said. So nothing here may close one up. An indented run
+       keeps its step, and an empty line keeps a line's height, which is the
+       whole reason a stanza has a gap in it. */
+    .line-block {
+      margin-bottom: var(--sds-prose-step);
+
+      .line-block {
+        margin: 0 0 0 var(--sds-prose-indent);
+      }
+    }
+    .line {
+      min-height: 1lh;
+    }
+
+    /* A title over something that is not a section: a topic, or a sidebar,
+       which the core renders as one. It is the fourth heading level's
+       register — weight and air, not a size — because that is what this system
+       does once a heading stops being a level. */
+    .topic-title {
+      margin-bottom: var(--sds-prose-gap);
+      font-size: var(--sds-prose-label-size);
+      font-weight: var(--sds-prose-label-weight);
+      color: var(--sds-prose-ink);
+    }
+    /* A digression, in a box the class layer already draws. What is left to say
+       is where it stands in the flow: the measure the paragraphs take, and no
+       margin under its own last line, because the box's padding is the gap. */
+    .topic {
+      margin-bottom: var(--sds-prose-step);
+      max-width: var(--sds-prose-measure);
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    /* A rubric is the one heading a reference uses that no contents should
+       list. It is set exactly like `h4` — the level it would have been — and
+       the whole difference is that it is not one. */
+    .rubric {
+      margin: var(--sds-prose-step-wide) 0 var(--sds-prose-step-tight);
+      font-size: var(--sds-prose-label-size);
+      font-weight: var(--sds-prose-label-weight);
+      line-height: var(--sds-prose-label-leading);
+      color: var(--sds-prose-ink);
+    }
+
+    /* Short items an author asked to be read across. The count is in the
+       class — `columns-N` is what the core writes — so there is a rule per
+       count and no way to state it once. Columns rather than a grid, because a
+       list flows; `break-inside` keeps a wrapped item off two columns. */
+    .hlist {
+      > ul {
+        columns: var(--sds-prose-columns);
+        column-gap: var(--sds-prose-step-wide);
+      }
+      li {
+        break-inside: avoid;
+      }
+    }
+    .hlist.columns-3 > ul {
+      columns: 3;
+    }
+    .hlist.columns-4 > ul {
+      columns: 4;
+    }
+    .hlist.columns-5 > ul {
+      columns: 5;
+    }
+    .hlist.columns-6 > ul {
+      columns: 6;
+    }
+
+    /* An option list: the flags of a command, and what each does. The name is
+       something typed at a prompt, so it is set in the mono face like every
+       other piece of machine text — and the weight comes off, because the font
+       is already the difference and a term that is both bold and mono reads as
+       a heading for the paragraph under it. */
+    .domain-default-option-name {
+      font-family: var(--sds-prose-mono);
+      font-size: var(--sds-prose-mono-size);
+      font-weight: var(--sds-prose-weight);
+      color: var(--sds-prose-ink);
+    }
+
+    /* A field list is docinfo — author, version, date — and it is a table only
+       because that is what the core built it from. So it is undone as a table:
+       no rules between rows, no hover, no header register on the first column,
+       and no full width. Two columns of which the first is a label, as wide as
+       the words in it. */
+    .field-list {
+      width: auto;
+      margin-bottom: var(--sds-prose-step-wide);
+      font-size: inherit;
+
+      :is(th, td) {
+        padding: 0 var(--sds-prose-step) var(--sds-prose-gap-tight) 0;
+        border-bottom: 0;
+        vertical-align: baseline;
+      }
+      th {
+        font-family: inherit;
+        font-size: var(--sds-prose-meta-size);
+        font-weight: var(--sds-prose-label-weight);
+        letter-spacing: normal;
+        text-transform: none;
+        color: var(--sds-prose-muted-ink);
+        white-space: nowrap;
+      }
+      tbody tr:hover {
+        background: none;
+      }
+      p {
+        margin: 0;
+      }
+    }
+
+    /* A footnote at the foot of the page, and a citation, which is a footnote
+       with a name. The label hangs beside the text rather than above it, so a
+       column of them lines up and an eye run down the edge finds one — the only
+       thing anybody does with these. One step down from the prose: this is the
+       source, read after the sentence that sent the reader to it. */
+    :is(.footnote, .citation) {
+      display: flex;
+      gap: var(--sds-prose-gap);
+      margin-bottom: var(--sds-prose-gap);
+      max-width: var(--sds-prose-measure);
+      font-size: var(--sds-prose-meta-size);
+      color: var(--sds-prose-quiet-ink);
+    }
+    :is(.footnote-label, .citation-label) {
+      flex: none;
+      font-family: var(--sds-prose-mono);
+      font-size: var(--sds-prose-note-size);
+      color: var(--sds-prose-muted-ink);
+    }
+    :is(.footnote-content, .citation-content) > :last-child {
+      margin-bottom: 0;
+    }
+    /* Landing on one note out of twenty says which one — the mark a heading, a
+       confval and a term already make. The label is what the sentence pointed
+       at, so the label is what answers. */
+    .footnote:target .footnote-label,
+    .citation:target .citation-label {
+      color: var(--sds-prose-mark-ink);
+    }
   }
 }

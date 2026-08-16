@@ -62,13 +62,11 @@ the Lit elements emit that vocabulary into light DOM. None of those layers is
 generated from another: they are peers which have to agree through their
 shared names and markup.
 
-``styles/styles.css`` is the package entry for tokens and components.
-``styles/document.css`` stays separate because it styles bare prose elements
-inside ``.sds-prose``; an application taking the component layer must not gain
-an opinion about every paragraph. ``styles/_specimen.css`` also stays separate
-because card chrome is evidence around a design, not part of the design.
-The document layer is absent from the design-agent bundle for the same reason:
-that surface composes interface designs rather than setting documents.
+``styles/styles.css`` is the package entry for tokens and components, bare
+elements included: a ``<p>`` a renderer emitted is set by the layer that owns
+it, and only what a passage adds is scoped to ``.sds-prose``.
+``styles/_specimen.css`` stays separate because card chrome is evidence around
+a design, not part of the design.
 
 Sources beside it
 =================

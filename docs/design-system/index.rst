@@ -66,8 +66,9 @@ Where the rules live
      - the single entry point — tokens, then the component layer
    * - ``packages/frontend/src/styles/components.css``
      - the ``sds-`` class vocabulary every surface is built from
-   * - ``packages/frontend/src/styles/document.css``
-     - the document layer, linked beside it where prose is being set
+   * - ``packages/frontend/src/styles/components/prose.css``
+     - ``sds-prose``: the box a passage stands in, and the names a renderer
+       writes for nodes with no element of their own
    * - ``packages/frontend/src/components/*.ts``
      - the elements, which emit exactly those classes
    * - ``stories/**/*.stories.ts``

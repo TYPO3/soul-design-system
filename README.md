@@ -161,16 +161,11 @@ the source tree refers to generated icon modules that are restored in this
 repository, while the package entry and the committed drop-in already contain
 what a consumer needs.
 
-**A second stylesheet, for documents only.** `packages/frontend/dist/document.css` is the
-document layer: element selectors for what a renderer emits and never gives a
-class — headings, paragraphs, lists, quotes, tables, code. It is scoped to
-`.sds-prose`, and it is **not** imported by `soul.css`. An application surface
-wants no opinion about every `<p>` on the page; a page of prose does, and asks
-for it:
-
-```js
-import '@typo3/soul-frontend/dist/document.css';
-```
+**One stylesheet, documents included.** What a renderer emits and never gives a
+class — headings, paragraphs, lists, quotes, tables, code — is in `soul.css`
+with everything else. A bare element is set by the layer that owns it, and what
+is genuinely a passage's rather than an element's is `sds-prose`'s own, drawn
+only where a page carries that class.
 
 **The import path is the path in the repository.** There are no friendly
 aliases, on purpose: an alias is a second name for one file, and the two drift
@@ -254,7 +249,7 @@ creates a second one. It compares against the anchor the project stores
 | `packages/frontend/src/tokens/*.css` | colour, type, control scale, spacing, radius, motion — the values |
 | `packages/frontend/src/styles/styles.css` | the single entry point: tokens, then the component layer |
 | `packages/frontend/src/styles/components.css` | the `sds-` class vocabulary every surface is built from |
-| `packages/frontend/src/styles/document.css` | the document layer — what a renderer emits and never classes, scoped to `.sds-prose`. Also **not** in the `styles.css` closure: an application surface takes no opinion about every `<p>` |
+| `packages/frontend/src/styles/components/prose.css` | `sds-prose` — the box a passage stands in, what the elements inside one are, and the names a renderer writes for nodes with no element |
 | `packages/frontend/src/styles/_specimen.css` | chrome for the cards only — deliberately **not** in the `styles.css` closure, so a rendered design never inherits it |
 | `packages/frontend/src/components/*.ts` | the Lit elements and the template functions they render |
 | `packages/frontend/src/lib/` | the element base, the icon inliner, the static renderer |
