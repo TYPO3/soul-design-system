@@ -93,10 +93,9 @@
   /* A paragraph is set by the block it stands in. The size, leading and colour
      `components.css` gives a bare `<p>` are what it would inherit inside
      `.sds-prose` anyway, and inside a component they are three values it has no
-     business restating. So the size comes from the container and the margin from
-     here; the component trims the outermost, its padding being the gap. */
+     business restating. The step below is the flow contract's and stays there;
+     the component trims the outermost, its padding being the gap. */
   :where(.sds-prose) p {
-    margin: 0 0 var(--space-4);
     font-size: inherit;
     line-height: inherit;
     color: inherit;
@@ -125,15 +124,11 @@
 
   /* --------------------------------------------------------------- lists -- */
 
-  /* Only the rhythm. What a list *is* — the marker, the indent at the marker's
-     own width, the muted marker colour — is in the class layer, where a list on
-     a screen that never links this file gets it too. What a document adds is the
-     air: a gap under the block, and a smaller one between items that are each a
-     sentence or two rather than a word. */
-  :where(.sds-prose) ul,
-  :where(.sds-prose) ol {
-    margin: 0 0 var(--space-4);
-  }
+  /* Only the rhythm between the items. What a list *is* — the marker, the indent
+     at the marker's own width, the muted marker colour — is in the class layer,
+     where a list on a screen that never links this file gets it too, and the gap
+     under the block is the flow contract's. What a document adds is the air
+     between items that are each a sentence or two rather than a word. */
   :where(.sds-prose) li {
     margin-bottom: var(--space-1);
   }
@@ -150,9 +145,6 @@
   /* A definition list is the shape a reference falls into whenever it names
      things: a term, and what it is. The term carries the weight because it is
      what somebody scans for; the definition is ordinary prose one step in. */
-  :where(.sds-prose) dl {
-    margin: 0 0 var(--space-4);
-  }
   :where(.sds-prose) dt {
     font-weight: var(--weight-semibold);
     color: var(--text-primary);
@@ -184,7 +176,7 @@
      a paragraph carries, an indented run keeps its step, and an empty line keeps
      a line's height, which is the whole reason a stanza has a gap in it. */
   :where(.sds-prose) .line-block {
-    margin: 0 0 var(--space-4);
+    margin-bottom: var(--space-4);
   }
   :where(.sds-prose) .line-block .line-block {
     margin: 0 0 0 var(--space-5);
@@ -198,7 +190,6 @@
   /* Marked by a rule at its edge and a step in, never by italics: a quotation
      is somebody else's sentences, not an emphasis on yours. */
   :where(.sds-prose) blockquote {
-    margin: 0 0 var(--space-4);
     padding-inline-start: var(--space-4);
     border-inline-start: 2px solid var(--border-subtle);
     color: var(--text-secondary);
@@ -215,7 +206,6 @@
      second box, and the scope does not make it redundant: `:where()` settles only
      what the component also states, and these three are stated **only here**. */
   :where(.sds-prose) pre:not(.sds-code__body, .sds-diff) {
-    margin: 0 0 var(--space-4);
     padding: var(--space-3) var(--space-4);
     overflow-x: auto;
     border: var(--border-hairline) solid var(--border-subtle);
@@ -263,22 +253,6 @@
     background: var(--surface-accent-quiet);
     color: var(--text-primary);
   }
-  /* Superscript and subscript raise a footnote mark or a chemical index without
-     opening the line they sit in. */
-  :where(.sds-prose) sup,
-  :where(.sds-prose) sub {
-    font-size: 0.75em;
-    line-height: 0;
-    position: relative;
-    vertical-align: baseline;
-  }
-  :where(.sds-prose) sup {
-    top: -0.5em;
-  }
-  :where(.sds-prose) sub {
-    bottom: -0.25em;
-  }
-
   /* Underlined inside a sentence: against body text the link colour stands at
      1.3:1 in dark, and no token reaches 3:1 while there is one accent. Only
      where a link sits *in* text — one that is a block of its own is told apart
@@ -311,16 +285,17 @@
   .sds-section > math:not(:has(*)),
   :where(.sds-prose) > math:not(:has(*)) {
     display: block;
-    margin: 0 0 var(--space-4);
+    margin-bottom: var(--space-4);
   }
 
   /* -------------------------------------------------------------- figures -- */
 
   /* A picture never widens the column it was put in, whatever it was exported
      at — and that is the class layer's rule, because a surface has pictures too.
-     What a document adds is the figure around it. */
+     What a document adds is the figure around it, which stands further off the
+     text than a paragraph does. */
   :where(.sds-prose) figure {
-    margin: 0 0 var(--space-6);
+    margin-bottom: var(--space-6);
   }
   /* Under the picture, smaller and quieter: a label for the thing above, not a
      sentence of the text. Only a caption this layer draws itself — an element
@@ -347,8 +322,6 @@
      `display: block`, which would leave table layout. */
   :where(.sds-prose) table {
     width: 100%;
-    margin: 0 0 var(--space-4);
-    border-collapse: collapse;
     font-size: var(--font-size-ui);
   }
   :where(.sds-prose) caption {
@@ -402,7 +375,7 @@
      register — weight and air, not a size — because that is what this system
      does once a heading stops being a level. */
   :where(.sds-prose) .topic-title {
-    margin: 0 0 var(--space-2);
+    margin-bottom: var(--space-2);
     font-size: var(--font-size-body);
     font-weight: var(--weight-semibold);
     color: var(--text-primary);
@@ -411,7 +384,7 @@
      is where it stands in the flow: the measure the paragraphs take, and no
      margin under its own last line, because the box's padding is the gap. */
   :where(.sds-prose) .topic {
-    margin: 0 0 var(--space-4);
+    margin-bottom: var(--space-4);
     max-width: var(--measure-prose);
   }
   :where(.sds-prose) .topic > :last-child {

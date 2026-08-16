@@ -65,8 +65,8 @@ What it sets
    * - Figures
      - ``figure``, ``figcaption``, and images held to the column
    * - In the line
-     - ``code``, ``kbd``, ``abbr``, ``cite``, ``mark``, ``sup``, ``sub``, and
-       ``math`` — a formula, set as the source it arrived as
+     - ``code``, ``kbd``, ``abbr``, ``cite``, ``mark``, and ``math`` — a
+       formula, set as the source it arrived as
    * - Before the script
      - ``sds-note``, ``sds-figure``, ``sds-card``, ``sds-code`` and
        ``sds-embed`` while they are ``:not(:defined)`` — the frame each one is

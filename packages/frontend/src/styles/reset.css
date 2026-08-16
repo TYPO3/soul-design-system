@@ -74,4 +74,21 @@
   table {
     border-collapse: collapse;
   }
+
+  /* `vertical-align: super` opens the line box it stands in, so a footnote mark
+     costs the paragraph around it a line of leading. Raised by an offset from a
+     zeroed line height instead — every one, not only the ones inside prose. */
+  sup,
+  sub {
+    position: relative;
+    font-size: 0.75em;
+    line-height: 0;
+    vertical-align: baseline;
+  }
+  sup {
+    top: -0.5em;
+  }
+  sub {
+    bottom: -0.25em;
+  }
 }

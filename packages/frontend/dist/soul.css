@@ -45,6 +45,9 @@
   body{margin:0;min-block-size:100%;line-height:var(--leading-body)}
   button,input,optgroup,select,textarea{font:inherit;color:inherit}
   table{border-collapse:collapse}
+  sup,sub{position:relative;font-size:.75em;line-height:0;vertical-align:baseline}
+  sup{top:-.5em}
+  sub{bottom:-.25em}
 }
 @layer base{
   body,.sds-app{background:var(--surface-canvas);color:var(--text-primary);font-family:var(--font-sans);font-size:var(--font-size-body);line-height:var(--leading-body)}
