@@ -38,13 +38,23 @@ RUN := $(TASK) node scripts/task.ts
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
 TASKS := verify test cards embed chrome typecheck fit ssr coverage php css build dist split guides fonts icons \
-         diagrams baseline shots diff look sync status plan synced
+         diagrams baseline shots diff look sync sync-status plan synced
 
 # The long-running ones. `app` is among them: it holds the environment every
 # task above runs in, so a task is an `exec` rather than a new container.
 SERVICES := storybook site acceptance dist app
 
-.PHONY: help tasks $(TASKS) mounts start stop restart logs shell clean
+# What each of them is for, and what to say about one that publishes no port.
+# Read by `status`, in this order — the order a reader opens them in, not the
+# alphabetical one Docker answers with.
+SURFACES := \
+	'storybook||guidelines, components with controls, a11y' \
+	'site||the rendered documentation, as it will be served' \
+	'acceptance||every node the renderer can emit, published never' \
+	'dist|(watching the frontend package)|rebuilds the drop-in on every edit' \
+	'app|(idle)|every make task runs in here'
+
+.PHONY: help tasks $(TASKS) mounts start status stop restart logs shell clean
 .DEFAULT_GOAL := help
 
 # A bind-mount path the host does not have is created by Docker, as root —
@@ -61,6 +71,7 @@ help:
 	@echo 'Everything runs in a container. The host needs Docker and Make.'
 	@echo
 	@echo '  make start           bring the stack up and report what is running'
+	@echo '  make status          what is running, and where it answers'
 	@echo '  make verify          the gate: headers, classes, refs, fit, cards, types'
 	@echo '                       one check while working: make verify ARGS=classes'
 	@echo '                       the names: make verify ARGS=--help'
@@ -72,7 +83,7 @@ help:
 	@echo '  make build           assemble .out/bundle/, the upload payload'
 	@echo '  make dist            the publishable ESM package and its types'
 	@echo '  make sync            build + verify + what-would-change + upload plan'
-	@echo '  make status plan synced      the sync steps individually'
+	@echo '  make sync-status plan synced the sync steps individually'
 	@echo '                       set SDS_DESIGN_PROJECT to your own design project,'
 	@echo '                       or a re-sync makes a new one instead of updating it'
 	@echo
@@ -103,20 +114,14 @@ $(TASKS):
 # Bring the stack up, and report it. Detached, because it is a surface you
 # look at while working on something else.
 #
-# Under WSL the report also names the VM's own address. A browser on Windows
-# reaches the container through WSL's localhost relay, which is a moving part
-# nobody thinks about until it stops — and then `http://localhost:PORT` is a
-# lie the stack itself printed, while everything inside it is healthy.
+# The ports are searched for in the recipe rather than at parse time, which
+# saw the still-running stack and picked the next number up — every restart
+# drifted one higher than the address it printed. `down` first, so `start`
+# means "up on a known port" whatever was running before; `--remove-orphans`
+# because a service dropped from the compose file otherwise runs forever.
 #
-# Everything happens in one recipe, which is the point: the port is searched
-# for *after* the old container has let go of it. Computed at parse time it
-# saw the still-running stack, picked the next number up, and every restart
-# drifted one higher than the address it printed.
-#
-# `down` first, so `start` means "the stack is up on a known port" whatever
-# was running before. `--remove-orphans` because a service removed from the
-# compose file is otherwise left running forever — that is exactly how a
-# retired `gallery` container outlived its own definition.
+# It reports by running `status`, so the addresses come from the containers
+# rather than from the numbers this recipe hoped they would take.
 start:
 	@$(COMPOSE) down --remove-orphans >/dev/null 2>&1 || true
 	@port=$$(for p in $$(seq 6007 6099); do \
@@ -126,20 +131,37 @@ start:
 	acceptance=$$(for p in $$(seq $$((site + 1)) 4199); do \
 		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
 	SDS_STORYBOOK_PORT=$$port SDS_SITE_PORT=$$site SDS_ACCEPTANCE_PORT=$$acceptance \
-	$(COMPOSE) up -d --build $(SERVICES) && \
-	printf '\n  running:\n    %-10s http://localhost:%-6s  %s\n' \
-		storybook "$$port" 'guidelines, components with controls, a11y' && \
-	printf '    %-10s http://localhost:%-6s  %s\n' \
-		site "$$site" 'the rendered documentation, as it will be served' && \
-	printf '    %-10s http://localhost:%-6s  %s\n' \
-		acceptance "$$acceptance" 'every node the renderer can emit, published never' && \
-	printf '    %-10s %-29s  %s\n' \
-		dist '(watching the frontend package)' 'rebuilds the drop-in on every edit' && \
-	printf '    %-10s %-29s  %s\n' \
-		app '(idle)' 'every make task runs in here' && \
+	$(COMPOSE) up -d --build $(SERVICES)
+	@$(MAKE) --no-print-directory status
+
+# What is up and where it answers, read out of the running containers — so a
+# stack somebody else started answers too, and no port has to be remembered.
+# One-offs are dropped: a `compose run` container carries its service's name,
+# and a task running in one put a second `app` in the list. Under WSL the VM's
+# address is named too: the relay stops without the stack becoming unhealthy.
+status:
+	@command -v docker >/dev/null 2>&1 || { \
+		printf '\n  Docker is not installed — this repo runs nothing on the host\n\n'; exit 0; }
+	@rows=$$($(COMPOSE) ps -a --format '{{.Labels}}|{{.Service}}|{{.State}}|{{.Publishers}}' 2>/dev/null \
+		| grep -v 'oneoff=True' | cut -d'|' -f2-); \
+	case "$$rows" in *running*) ;; *) \
+		printf '\n  nothing is running        make start   brings the stack up\n\n'; exit 0;; esac; \
+	printf '\n  running:\n'; \
+	printf '%s\n' $(SURFACES) | while IFS='|' read -r service idle what; do \
+		row=$$(printf '%s\n' "$$rows" | grep "^$$service|" || true); \
+		state=$$(printf '%s' "$$row" | cut -d'|' -f2); \
+		port=$$(printf '%s' "$$row" | sed -n 's/.*|\[{[^ ]* [0-9]* \([0-9]*\) .*/\1/p'); \
+		if [ -z "$$state" ]; then where='(not created)'; \
+		elif [ "$$state" != running ]; then where="($$state)"; \
+		elif [ -n "$$port" ]; then where="http://localhost:$$port"; \
+		else where="$$idle"; fi; \
+		printf '    %-10s %-31s  %s\n' "$$service" "$$where" "$$what"; \
+	done; \
 	if grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null; then \
+		port=$$(printf '%s\n' "$$rows" | sed -n 's/^storybook|running|\[{[^ ]* [0-9]* \([0-9]*\) .*/\1/p'); \
 		ip=$$(ip -4 addr show eth0 2>/dev/null | awk '/inet /{print $$2}' | cut -d/ -f1); \
-		[ -n "$$ip" ] && printf '\n    from Windows, if localhost does not answer:  http://%s:%s/\n' "$$ip" "$$port"; \
+		[ -n "$$ip" ] && [ -n "$$port" ] && \
+			printf '\n    from Windows, if localhost does not answer:  http://%s:%s/\n' "$$ip" "$$port"; \
 	fi; \
 	echo && echo '  make logs    follow it        make stop   take it down' && echo
 

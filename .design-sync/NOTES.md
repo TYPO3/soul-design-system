@@ -51,7 +51,7 @@ No project yet? `/design-sync` creates one and reports its id.
 
 ## Doing a sync
 
-The repo's half is one command: `make sync` — build → verify → status →
+The repo's half is one command: `make sync` — build → verify → sync-status →
 plan. It ends by telling the user to run `/design-sync`, which is the upload.
 
 **First, seed the reference state — before `make sync`.** Fetch the
@@ -111,18 +111,18 @@ and state classes the prose deliberately omits; the element list is the public
 surface and is meant to be complete.
 
 **Then run `make synced`.** It promotes the pushed anchor into
-`.design-sync/.cache/remote-sync.json`, which is what `status` and `plan`
+`.design-sync/.cache/remote-sync.json`, which is what `sync-status` and `plan`
 compare against next time.
 
 **Run it, and never upload over a red verify.** The chain is `&&`, so a
-failure stops it and `status` never runs — but nothing stops an agent from
+failure stops it and `sync-status` never runs — but nothing stops an agent from
 calling the upload anyway. Don't. Every fault verify reports is one that is
 invisible in review and wrong in every design afterwards: a class defined in
 no stylesheet silently does nothing, a broken reference ships an unstyled
 card, a card that overflows its declared viewport gets cropped in the pane.
 Fix it, re-run, then upload.
 
-Verify checks mechanics, not judgement. When `status` lists changed cards,
+Verify checks mechanics, not judgement. When `sync-status` lists changed cards,
 look at them: `make baseline` before a visual change, then `make shots
 && make diff` after. Anything that moved should have moved on purpose.
 
@@ -135,7 +135,7 @@ came to list font filenames that had already been deleted. The anchor goes
 last because it vouches for everything before it: uploaded first, a failure
 mid-way leaves it swearing to files the project does not have.
 
-The cache is gitignored, so on a fresh clone `status` and `plan` correctly
+The cache is gitignored, so on a fresh clone `sync-status` and `plan` correctly
 say they have no reference point rather than guessing.
 
 ## Re-sync risks

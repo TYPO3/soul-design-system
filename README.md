@@ -114,6 +114,7 @@ to run each.
 
 ```sh
 make start   # bring the stack up and report what is running
+make status  # what is running, and where it answers
 make         # every task, with what it does
 make verify  # the gate
 make test    # the Playwright suite
@@ -131,6 +132,8 @@ panel, and the whole pages beside them.
 
 **The port is not fixed.** `make start` picks a free one and reports it, so a
 Storybook you already have running elsewhere cannot make this fail to start.
+`make status` reports the same addresses at any point afterwards, read back
+out of the running containers — so the number is never one to remember.
 Host and container get the same number on purpose — Vite's hot-reload
 websocket addresses the port Storybook was told to listen on, and a mismatch
 kills reloading.
@@ -233,8 +236,9 @@ every design afterwards: a class that no stylesheet defines silently does
 nothing, a broken reference ships an unstyled card, a card that overflows its
 declared viewport gets cropped in the pane.
 
-It checks mechanics, not judgement. When `status` lists changed cards, look at
-them — `make baseline` before a visual change, `make shots && make diff` after.
+It checks mechanics, not judgement. When `sync-status` lists changed cards,
+look at them — `make baseline` before a visual change, `make shots && make
+diff` after.
 
 The upload finds the right project by itself — `.design-sync/config.json`
 holds the project id, so a sync always lands in the same place and never
@@ -280,11 +284,12 @@ A screen is its own thumbnail — there is no thumbnail file anywhere.
 
 ## Tasks
 
-`make` prints this list. Every one runs in the container.
+`make` prints this list. Every one runs in the container except the first row,
+which is about the containers.
 
 | | |
 | --- | --- |
-| `storybook` | the documentation surface, on a port Docker picks |
+| `start` / `status` / `stop` | the long-running surfaces: bring them up, say what is running and where it answers, take them down |
 | `verify` | the gate: headers, classes, coverage, references, fit, card staleness, types, conventions |
 | `test` | the Playwright suite — every story renders, components match their static render, axe |
 | `cards` | regenerate the specimen cards from their stories |
@@ -292,7 +297,7 @@ A screen is its own thumbnail — there is no thumbnail file anywhere.
 | `build` | assemble `.out/bundle/`, the upload payload |
 | `dist` | build the publishable ESM package and its types |
 | `sync` | build + verify + what-would-change + upload plan |
-| `status` / `plan` / `synced` | the sync steps individually |
+| `sync-status` / `plan` / `synced` | the sync steps individually |
 | `baseline` / `shots` / `diff` | screenshot before, after, compare |
 | `sheets` | tile screenshots into contact sheets |
 | `fonts` / `icons` | regenerate from the npm packages |

@@ -217,17 +217,21 @@ exist here on purpose.
 ```sh
 make          # the task list, with what each does
 make start    # bring the stack up; it takes the old one down first
+make status   # what is running, and where it answers
 make verify   # the gate
 make test     # the Playwright suite
 ```
 
 `make start` tears down before it comes up, so do not run it to "check" a
-running stack — look at `docker compose -f .infra/docker-compose.yml ps` and
-restart only when `.infra/` or the compose file changed.
+running stack — `make status` is that question, and it is what `start` itself
+prints when it is done. Restart only when `.infra/` or the compose file
+changed.
 
 The authoritative task list is the `TASKS` map in `scripts/task.ts`; the
-`Makefile` only decides how to get into a container. `make tasks` asks the
-container itself. Flags reach a task through `ARGS=`, e.g. `make cards
+`Makefile` only decides how to get into a container, and the handful of
+targets that are not in that map — `start`, `status`, `stop`, `logs`, `shell`,
+`clean` — are the ones about the containers themselves, which a container
+cannot answer from inside. `make tasks` asks the container itself. Flags reach a task through `ARGS=`, e.g. `make cards
 ARGS=--check`.
 
 ## How a task speaks
@@ -413,8 +417,9 @@ value in a declaration: `make verify ARGS=sets` holds the route, and a raw
 number in a set is read in review beside its reason. Then the visual-refactor
 recipe above, because a changed distance is a visual change.
 
-**Ship to the design agent** — `make sync` (build + verify + status + plan);
-`make status`, `make plan`, `make synced` are the same steps individually. Set
+**Ship to the design agent** — `make sync` (build + verify + what would change
++ plan); `make sync-status`, `make plan`, `make synced` are the same steps
+individually — `status` on its own is the containers, not the sync. Set
 `SDS_DESIGN_PROJECT`, or a re-sync creates a new project instead of updating
 one.
 
