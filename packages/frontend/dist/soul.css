@@ -38,7 +38,6 @@
 @layer reset{
   *,*:before,*:after{box-sizing:border-box}
   blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,ol,p,pre,ul{margin:0}
-  :where(ul,ol)[class]{padding-inline-start:0;list-style:none}
   audio,canvas,embed,iframe,img,object,svg,video{display:block}
   canvas,img,svg,video{max-width:100%}
   img{height:auto}
@@ -66,10 +65,7 @@
   }
   ul,ol{padding-inline-start:var(--space-5)}
   li::marker{color:var(--text-muted)}
-  :where(ul:not([type])){list-style:disc}
-  :where(ul ul:not([type])){list-style:circle}
-  :where(ol:not([type])){list-style:decimal}
-  :where(ol ol:not([type])){list-style:lower-alpha}
+  ol ol:not([type]){list-style-type:lower-alpha}
   p,ul,ol,dl,pre,table,figure,blockquote,h1,.sds-h1,.sds-display,.sds-lead{margin-bottom:var(--space-4)}
   h2,.sds-h2{margin-bottom:var(--space-3)}
   h3,h4,h5,h6,.sds-h3{margin-bottom:var(--space-2)}

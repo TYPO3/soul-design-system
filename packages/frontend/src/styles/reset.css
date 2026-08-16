@@ -29,14 +29,6 @@
     margin: 0;
   }
 
-  /* A list that carries a class is a list whose marker was a decision. One
-     that does not keeps the browser's, because a bare `<ul>` in a document is
-     still a bulleted list. */
-  :where(ul, ol)[class] {
-    padding-inline-start: 0;
-    list-style: none;
-  }
-
   /* Media is block: inline leaves a gap under it, from a line box the picture
      is not text in. */
   audio,

@@ -120,19 +120,12 @@
     color: var(--text-muted);
   }
 
-  /* An author who wrote `a.` meant letters, and `type` carries no weight — a
-     flat `list-style: decimal` would silently renumber every lettered list. */
-  :where(ul:not([type])) {
-    list-style: disc;
-  }
-  :where(ul ul:not([type])) {
-    list-style: circle;
-  }
-  :where(ol:not([type])) {
-    list-style: decimal;
-  }
-  :where(ol ol:not([type])) {
-    list-style: lower-alpha;
+  /* The marker is the browser's everywhere it already escalates — disc, circle,
+     square — and only the nested `ol` is not, because it repeats `decimal`. An
+     author who wrote `a.` sent it as `type`, which is a presentational hint and
+     loses to any rule at all, so this one leaves a list that carries it alone. */
+  ol ol:not([type]) {
+    list-style-type: lower-alpha;
   }
 
   /* ------------------------------------------------------------- flow -- */
