@@ -41,12 +41,14 @@
     color: var(--sds-tabs-ink);
     text-decoration: none;
     transition: color var(--sds-tabs-duration) var(--sds-tabs-ease);
-  }
-  .sds-tab:hover { color: var(--sds-tabs-ink-hover); }
-  .sds-tab.is-active {
-    color: var(--sds-tabs-ink-active);
-    border-bottom: var(--sds-tabs-mark) solid var(--sds-tabs-edge-active);
-    margin-bottom: calc(var(--sds-tabs-border) * -1);
+
+    &:hover { color: var(--sds-tabs-ink-hover); }
+
+    &.is-active {
+      color: var(--sds-tabs-ink-active);
+      border-bottom: var(--sds-tabs-mark) solid var(--sds-tabs-edge-active);
+      margin-bottom: calc(var(--sds-tabs-border) * -1);
+    }
   }
   /* What a tab stands for. The panels that are not showing keep their content
      in the document — hidden, so a find-in-page still reaches it. Its own set,
@@ -56,8 +58,9 @@
     --sds-tab-panel-gap: var(--space-4);
 
     padding-top: var(--sds-tab-panel-gap);
+
+    /* A panel ends where it ends: whatever was put in it carries the step it
+       owes a page, and under the last one that step is air with nothing after. */
+    > :last-child { margin-bottom: 0; }
   }
-  /* A panel ends where it ends: whatever was put in it carries the step it
-     owes a page, and under the last one that step is air with nothing after. */
-  .sds-tab__panel > :last-child { margin-bottom: 0; }
 }

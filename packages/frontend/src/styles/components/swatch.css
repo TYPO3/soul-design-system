@@ -52,8 +52,9 @@
      because a single pixel beside a filled chip reads as an empty one. */
   .sds-swatch--line {
     --sds-swatch-border: var(--border-emphasis);
+
+    .sds-swatch__chip { background: none; }
   }
-  .sds-swatch--line .sds-swatch__chip { background: none; }
 
   .sds-swatch__body {
     display: flex;

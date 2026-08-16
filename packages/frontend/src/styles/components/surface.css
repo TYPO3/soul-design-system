@@ -54,10 +54,11 @@
     padding: var(--sds-plane-pad-y) var(--sds-plane-pad-x);
     border: var(--sds-plane-border) var(--sds-plane-line) var(--sds-plane-edge);
     border-radius: var(--sds-plane-radius);
+
+    /* What stands in it brought its own step; the last one is the frame's own
+       padding, which the box already stated. */
+    > :last-child { margin-bottom: 0; }
   }
-  /* What stands in it brought its own step; the last one is the frame's own
-     padding, which the box already stated. */
-  .sds-example > :last-child { margin-bottom: 0; }
 
   .sds-surface-title {
     --sds-surface-title-size: var(--block-title-size);
@@ -68,9 +69,10 @@
     font-size: var(--sds-surface-title-size);
     font-weight: var(--sds-surface-title-weight);
     line-height: var(--sds-surface-title-leading);
+
+    /* The label sits over the title with the title's own leading between them. */
+    &:not(:first-child) { padding-block-start: var(--sds-surface-title-lead); }
   }
-  /* The label sits over the title with the title's own leading between them. */
-  .sds-surface-title:not(:first-child) { padding-block-start: var(--sds-surface-title-lead); }
   .sds-surface-body {
     --sds-surface-body-size: var(--block-body-size);
     --sds-surface-body-leading: var(--aside-leading);
@@ -81,10 +83,11 @@
     font-size: var(--sds-surface-body-size);
     line-height: var(--sds-surface-body-leading);
     color: var(--sds-surface-body-ink);
+
+    /* The statement ends where the plane does — a block that brought its own step
+       would leave air under the last line. */
+    > :last-child { margin-bottom: 0; }
   }
-  /* The statement ends where the plane does — a block that brought its own step
-     would leave air under the last line. */
-  .sds-surface-body > :last-child { margin-bottom: 0; }
   /* A glyph above the label, where a set of cards is told apart at a glance
      before it is read. Muted, and never in a status colour: a card is a subject,
      not a result, and colour here would say something the words do not. */

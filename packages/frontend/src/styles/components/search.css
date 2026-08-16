@@ -31,35 +31,36 @@
     display: inline-flex;
     flex: 0 1 var(--sds-search-width);
     min-width: 0;
-  }
-  .sds-search .sds-field { width: 100%; }
-  /* Hung from the end of the field rather than from the start of it. A box given
-     both edges *and* a width keeps the start edge, which is how this drop came
-     to hang off the left of the field and grow right past it — so it is given
-     the one edge it is anchored to. */
-  .sds-search .sds-search__panel {
-    position: absolute;
-    top: calc(100% + var(--sds-search-panel-gap));
-    inset-inline-end: 0;
-    z-index: var(--sds-search-panel-z);
-    width: var(--sds-search-panel-width);
-    max-height: var(--sds-search-panel-height);
-    overflow-y: auto;
-    /* The frame's own air, and no more: what stands inside it is a run of boxes
-       that carry theirs. */
-    padding: var(--sds-search-panel-pad);
-    /* Framed and raised, unlike the bar's drop. That one is the header's row
-       continued, so it is the canvas and is bounded by the page edges it spans;
-       this one floats over the text, and a box laid over a page has to be a
-       plane above it — unframed and in the page's own colour it reads as the
-       page itself having changed rather than as something laid on top. */
-    background: var(--sds-search-fill);
-    border: var(--sds-search-border) solid var(--sds-search-edge);
-    border-radius: var(--sds-search-radius);
-    /* And how far off the page it is, said the one way this system says it: a
-       surface that has left the page carries a shadow, and this drop stands at
-       the same distance as the one the bar opens. */
-    box-shadow: var(--sds-search-shadow);
+
+    .sds-field { width: 100%; }
+    /* Hung from the end of the field rather than from the start of it. A box given
+       both edges *and* a width keeps the start edge, which is how this drop came
+       to hang off the left of the field and grow right past it — so it is given
+       the one edge it is anchored to. */
+    .sds-search__panel {
+      position: absolute;
+      top: calc(100% + var(--sds-search-panel-gap));
+      inset-inline-end: 0;
+      z-index: var(--sds-search-panel-z);
+      width: var(--sds-search-panel-width);
+      max-height: var(--sds-search-panel-height);
+      overflow-y: auto;
+      /* The frame's own air, and no more: what stands inside it is a run of boxes
+         that carry theirs. */
+      padding: var(--sds-search-panel-pad);
+      /* Framed and raised, unlike the bar's drop. That one is the header's row
+         continued, so it is the canvas and is bounded by the page edges it spans;
+         this one floats over the text, and a box laid over a page has to be a
+         plane above it — unframed and in the page's own colour it reads as the
+         page itself having changed rather than as something laid on top. */
+      background: var(--sds-search-fill);
+      border: var(--sds-search-border) solid var(--sds-search-edge);
+      border-radius: var(--sds-search-radius);
+      /* And how far off the page it is, said the one way this system says it: a
+         surface that has left the page carries a shadow, and this drop stands at
+         the same distance as the one the bar opens. */
+      box-shadow: var(--sds-search-shadow);
+    }
   }
   .sds-search__panel .sds-hits { --sds-hits-bleed: 0px; }
   .sds-search__panel .sds-result {
@@ -84,9 +85,10 @@
     --sds-hits-empty-pad: var(--space-3);
 
     padding: var(--sds-hits-empty-pad);
+
+    /* The sentence ends where the block ends: a paragraph's own margin under the
+       last line is a second bottom, and the block already has one. */
+    p { max-width: none; margin-block: 0; }
+    .sds-surface-title { margin-bottom: var(--sds-search-empty-title-gap); }
   }
-  /* The sentence ends where the block ends: a paragraph's own margin under the
-     last line is a second bottom, and the block already has one. */
-  .sds-hits__empty p { max-width: none; margin-block: 0; }
-  .sds-hits__empty .sds-surface-title { margin-bottom: var(--sds-search-empty-title-gap); }
 }

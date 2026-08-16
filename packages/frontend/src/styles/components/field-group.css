@@ -21,7 +21,8 @@
     display: flex;
     flex-direction: column;
     gap: var(--sds-field-group-gap);
+
+    /* A gap and a margin are the same answer twice. */
+    > * { margin-block: 0; }
   }
-  /* A gap and a margin are the same answer twice. */
-  .sds-field-group > * { margin-block: 0; }
 }

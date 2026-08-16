@@ -78,10 +78,12 @@
     transition:
     background var(--sds-pill-duration) var(--sds-pill-ease),
     color var(--sds-pill-duration) var(--sds-pill-ease);
-  }
-  .sds-pill:hover { color: var(--sds-pill-ink-hover); }
-  .sds-pill.is-active {
-    background: var(--sds-pill-fill-active);
-    color: var(--sds-pill-ink-active);
+
+    &:hover { color: var(--sds-pill-ink-hover); }
+
+    &.is-active {
+      background: var(--sds-pill-fill-active);
+      color: var(--sds-pill-ink-active);
+    }
   }
 }

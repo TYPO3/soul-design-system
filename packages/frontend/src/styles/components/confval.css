@@ -47,6 +47,9 @@
     align-items: baseline;
     gap: var(--sds-confval-term-gap);
     margin: 0 0 var(--sds-confval-term-gap);
+
+    /* Landing on one out of forty says which one. */
+    &:target { --sds-confval-name-ink: var(--sds-confval-name-ink-here); }
   }
   .sds-confval__name {
     font-weight: var(--sds-confval-name-weight);
@@ -59,10 +62,9 @@
     font-family: var(--sds-confval-mark-font);
     color: var(--sds-confval-mark-ink);
     text-decoration: none;
+
+    &:hover { color: var(--sds-confval-mark-ink-hover); }
   }
-  .sds-confval__mark:hover { color: var(--sds-confval-mark-ink-hover); }
-  /* Landing on one out of forty says which one. */
-  .sds-confval__term:target { --sds-confval-name-ink: var(--sds-confval-name-ink-here); }
 
   .sds-confval__detail { margin: 0; }
 
@@ -83,16 +85,17 @@
     border-radius: var(--sds-confval-facts-radius);
     background: var(--sds-confval-facts-fill);
     font-size: var(--sds-confval-facts-size);
+
+    dt,
+    dd { margin: 0; max-width: none; }
+    /* The air between two facts, against the air inside one: a label belongs to
+       the value on its right, and equal gaps would leave that to be guessed. */
+    dt ~ dt { margin-inline-start: var(--sds-confval-facts-pad-x); }
+    /* A label is muted against the canvas it was measured on. Eleven pixels on the
+       inset surface is the one place that drops under contrast, so it steps up a
+       register rather than the surface losing its fill. */
+    .sds-label { --sds-label-ink: var(--sds-confval-facts-label-ink); }
   }
-  .sds-confval__facts dt,
-  .sds-confval__facts dd { margin: 0; max-width: none; }
-  /* The air between two facts, against the air inside one: a label belongs to
-     the value on its right, and equal gaps would leave that to be guessed. */
-  .sds-confval__facts dt ~ dt { margin-inline-start: var(--sds-confval-facts-pad-x); }
-  /* A label is muted against the canvas it was measured on. Eleven pixels on the
-     inset surface is the one place that drops under contrast, so it steps up a
-     register rather than the surface losing its fill. */
-  .sds-confval__facts .sds-label { --sds-label-ink: var(--sds-confval-facts-label-ink); }
 
   /* The description is blocks — paragraphs, a list, an admonition — and they
      bring their own margins. The outermost two are the entry's own spacing. */

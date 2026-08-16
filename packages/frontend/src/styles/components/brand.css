@@ -35,11 +35,12 @@
     gap: var(--sds-lockup-gap);
     color: var(--sds-lockup-ink);
     text-decoration: none;
-  }
-  .sds-lockup:hover { text-decoration: none; }
-  .sds-lockup .sds-signet {
-    width: var(--sds-lockup-signet-size);
-    height: var(--sds-lockup-signet-size);
+
+    &:hover { text-decoration: none; }
+    .sds-signet {
+      width: var(--sds-lockup-signet-size);
+      height: var(--sds-lockup-signet-size);
+    }
   }
   /* One line, always. A mark is read as a mark because it is one shape; folded
      over two lines it is two words that happen to be near each other, and in a

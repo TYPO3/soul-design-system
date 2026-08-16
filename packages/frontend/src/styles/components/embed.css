@@ -53,11 +53,15 @@
     border-radius: var(--sds-embed-radius);
     background: var(--sds-embed-fill);
     overflow: hidden;
+
+    /* The default browser border on an iframe is an inset ridge that predates
+       every rule in this file, and it draws inside the corner rather than around
+       it. The frame is the border here. */
+    > iframe { display: block; border: 0; }
+    /* And it is a tab stop while it scrolls. All it says for itself is that its
+       corner is a card's. */
+    &:focus-visible { border-radius: var(--sds-embed-radius); }
   }
-  /* The default browser border on an iframe is an inset ridge that predates
-     every rule in this file, and it draws inside the corner rather than around
-     it. The frame is the border here. */
-  .sds-embed__frame > iframe { display: block; border: 0; }
   /* Fills the column and holds its shape at every width. `aspect-ratio` is on
      the frame and the document inside takes both dimensions from it, so the
      ratio is stated once — the `width` and `height` a player is embedded with
@@ -69,9 +73,6 @@
      table gets here for the same reason; above it the frame stops at the
      document rather than stretching a plane out beside it. */
   .sds-embed__frame--fixed { width: max-content; max-width: 100%; overflow: auto; }
-  /* And it is a tab stop while it scrolls. All it says for itself is that its
-     corner is a card's. */
-  .sds-embed__frame:focus-visible { border-radius: var(--sds-embed-radius); }
   .sds-embed__caption {
     max-width: var(--sds-embed-caption-measure);
     color: var(--sds-embed-caption-ink);

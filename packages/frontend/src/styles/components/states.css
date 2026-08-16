@@ -62,11 +62,12 @@
     line-height: var(--sds-note-title-leading);
     margin-top: calc((1lh - var(--sds-note-glyph)) / 2);
     color: var(--sds-note-mark-ink);
+
+    /* The floor, not the surrounding text's size: a note sits in a page whose
+       body copy is 16px, and an icon that follows it is larger than the title it
+       stands beside. Same reason the code head pins its own. */
+    .sds-icon { --sds-icon-size: var(--sds-note-glyph); }
   }
-  /* The floor, not the surrounding text's size: a note sits in a page whose
-     body copy is 16px, and an icon that follows it is larger than the title it
-     stands beside. Same reason the code head pins its own. */
-  .sds-note__icon .sds-icon { --sds-icon-size: var(--sds-note-glyph); }
   /* Everything beside the glyph. `min-width: 0` because a flex item's floor is
      its widest content, and a note in a document can hold a code block — which
      would otherwise make its longest line the width of the note, and the note
@@ -84,16 +85,17 @@
     line-height: var(--sds-note-body-leading);
     color: var(--sds-note-body-ink);
     padding-block-start: var(--sds-note-body-lead);
+
+    /* The gap is the one under a title, so a note that has none does not sit on
+       air. Twelve of the admonition types a documentation generator emits carry
+       no title at all. */
+    &:first-child { padding-block-start: 0; }
+    /* A body written between the tags is blocks, not a sentence: paragraphs, a
+       list, a code block. They bring their own margins from the document layer,
+       and the outermost two would push the note's own padding out of true. */
+    > :first-child { margin-top: 0; }
+    > :last-child { margin-bottom: 0; }
   }
-  /* The gap is the one under a title, so a note that has none does not sit on
-     air. Twelve of the admonition types a documentation generator emits carry
-     no title at all. */
-  .sds-note__body:first-child { padding-block-start: 0; }
-  /* A body written between the tags is blocks, not a sentence: paragraphs, a
-     list, a code block. They bring their own margins from the document layer,
-     and the outermost two would push the note's own padding out of true. */
-  .sds-note__body > :first-child { margin-top: 0; }
-  .sds-note__body > :last-child { margin-bottom: 0; }
 
   /* A degraded but usable answer tints the whole block; error and success
      colour the icon only, so a page of results does not read as an alarm. */

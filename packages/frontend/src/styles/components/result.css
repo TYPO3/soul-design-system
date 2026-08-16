@@ -33,18 +33,19 @@
     /* Pulled out by the air a hit keeps inside itself, so the words start where
        the column does and only the plane under the pointer runs wider. */
     margin-inline: calc(-1 * var(--sds-hits-bleed));
-  }
-  /* The line is the list's: it separates two hits, so a hit composed on its own
-     carries none and the list neither opens nor closes with one. Drawn in the
-     gap rather than on a box, so the plane a hit takes under the pointer never
-     meets it, and held to the words' edge rather than the plane's — a rule that
-     runs wider than the text it divides belongs to the page, not to the list. */
-  .sds-hits > * + * .sds-result::before {
-    content: '';
-    position: absolute;
-    inset-inline: var(--sds-hits-bleed);
-    top: calc(-1 * var(--sds-hits-rule-lift));
-    border-top: var(--sds-hits-border) solid var(--sds-hits-rule);
+
+    /* The line is the list's: it separates two hits, so a hit composed on its own
+       carries none and the list neither opens nor closes with one. Drawn in the
+       gap rather than on a box, so the plane a hit takes under the pointer never
+       meets it, and held to the words' edge rather than the plane's — a rule that
+       runs wider than the text it divides belongs to the page, not to the list. */
+    > * + * .sds-result::before {
+      content: '';
+      position: absolute;
+      inset-inline: var(--sds-hits-bleed);
+      top: calc(-1 * var(--sds-hits-rule-lift));
+      border-top: var(--sds-hits-border) solid var(--sds-hits-rule);
+    }
   }
   /* One hit, and the whole of it is the link: the element renders an `<a>` here,
      so the target is a box rather than a pseudo-element stretched over one, the
@@ -92,10 +93,6 @@
      words, so a ring standing off would sit in the gap the list keeps for the
      line, and its corner would be a rounder one than the plane it rings. */
   a.sds-result:focus-visible { outline-offset: 0; }
-  /* The line above the title is a `.sds-row`, which carries the step it owes a
-     page it stands in. Here it stands in a hit, and the hit's own gap is the
-     distance — said by the hit, because composing the two is what the hit did. */
-  .sds-result__body > .sds-row { margin-block: 0; }
   .sds-result__body {
     display: flex;
     flex-direction: column;
@@ -104,6 +101,11 @@
        the whole hit wider than the drop it hangs in. */
     min-width: 0;
     flex: 1;
+
+    /* The line above the title is a `.sds-row`, which carries the step it owes a
+       page it stands in. Here it stands in a hit, and the hit's own gap is the
+       distance — said by the hit, because composing the two is what the hit did. */
+    > .sds-row { margin-block: 0; }
   }
   /* The picture a hit carries. Fixed and never taller than it is wide, so a list
      of them has one left edge whatever shape the files are; smaller in the drop,
@@ -116,13 +118,17 @@
     border: var(--sds-result-border) solid var(--sds-result-edge);
     border-radius: var(--sds-result-radius);
     background: var(--sds-result-thumb-fill);
+
+    .sds-art { height: 100%; object-fit: cover; }
   }
-  .sds-result__thumb .sds-art { height: 100%; object-fit: cover; }
   /* A drawing keeps the colours it was exported with, so it gets the ground
      those were drawn for — and is fitted rather than cropped, because a diagram
      with its edges cut off is a diagram nobody can read at this size. */
-  .sds-result__thumb--exported { --sds-result-thumb-fill: var(--surface-art); }
-  .sds-result__thumb--exported .sds-art { object-fit: contain; }
+  .sds-result__thumb--exported {
+    --sds-result-thumb-fill: var(--surface-art);
+
+    .sds-art { object-fit: contain; }
+  }
   /* Link-coloured, unlike a card's title: a hit exists to be opened, a card
      exists to be read and sometimes opened. Never underlined — the box under the
      pointer is the answer, and one word answering as well is two answers to one

@@ -34,13 +34,14 @@
     gap: var(--sds-bar-nav-gap);
     font-family: var(--sds-bar-nav-font);
     font-size: var(--sds-bar-nav-font-size);
+
+    /* The items are their own width, in the row and in the drawer both. The bar's
+       floor of zero would otherwise let the pills shrink and their labels fold, so
+       the bar grew instead of saying it had run out of room — and a shrunk pill
+       measures shrunk, so the width the row *needs* chased the number it was being
+       compared against. Fixed, only the room beside them moves. */
+    > * { flex: none; }
   }
-  /* The items are their own width, in the row and in the drawer both. The bar's
-     floor of zero would otherwise let the pills shrink and their labels fold, so
-     the bar grew instead of saying it had run out of room — and a shrunk pill
-     measures shrunk, so the width the row *needs* chased the number it was being
-     compared against. Fixed, only the room beside them moves. */
-  .sds-bar__nav > * { flex: none; }
   /* And the row's nav does not give either, so an over-full row puts it on a
      second line rather than squeezing a box its own items overflow. In the
      drawer it is a column and this does not apply. */
@@ -81,16 +82,31 @@
     transition:
     background var(--sds-bar-nav-duration) var(--sds-bar-nav-ease),
     color var(--sds-bar-nav-duration) var(--sds-bar-nav-ease);
-  }
-  .sds-bar__section > .sds-pill { padding-inline: var(--sds-bar-nav-link-pad-x) var(--sds-bar-nav-row-gap); }
-  /* The current section, as one filled block with its marker inside it — the
-     same answer every current navigation item gets, and the reason it can be
-     that here is that the block is now the whole control: the marker is in the
-     fill rather than standing off its corner, and the focus ring goes round both.
-     A tint would read as "hovered" or "disabled" depending on what is under it. */
-  .sds-bar__section:has(> .sds-pill.is-active) {
-    background: var(--sds-bar-nav-fill-active);
-    color: var(--sds-bar-nav-ink-active);
+
+    > .sds-pill { padding-inline: var(--sds-bar-nav-link-pad-x) var(--sds-bar-nav-row-gap); }
+    /* The current section, as one filled block with its marker inside it — the
+       same answer every current navigation item gets, and the reason it can be
+       that here is that the block is now the whole control: the marker is in the
+       fill rather than standing off its corner, and the focus ring goes round both.
+       A tint would read as "hovered" or "disabled" depending on what is under it. */
+    &:has(> .sds-pill.is-active) {
+      background: var(--sds-bar-nav-fill-active);
+      color: var(--sds-bar-nav-ink-active);
+    }
+    /* And the ring goes round the block, not round half of it. The section reads
+       as one control, so a ring drawn on the link alone cuts the marker out of the
+       thing it belongs to — the same reason the fill wraps both. The marker keeps
+       a ring of its own: two controls sharing one outline is a keyboard reader
+       guessing which of them they are on. */
+    &:has(> .sds-pill:focus-visible) {
+      outline: var(--border-emphasis) solid var(--accent);
+      outline-offset: var(--focus-offset);
+      box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
+    }
+    > .sds-pill:focus-visible {
+      outline: none;
+      box-shadow: none;
+    }
   }
   .sds-bar__section:has(> .sds-pill.is-active) > .sds-pill.is-active { background: none; }
   .sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary,
@@ -101,20 +117,6 @@
   .sds-bar__section:has(> .sds-pill.is-active) > .sds-bar__fold > summary:focus-visible,
   .sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary:focus-visible {
     outline-color: var(--sds-bar-nav-ink-active);
-    box-shadow: none;
-  }
-  /* And the ring goes round the block, not round half of it. The section reads
-     as one control, so a ring drawn on the link alone cuts the marker out of the
-     thing it belongs to — the same reason the fill wraps both. The marker keeps
-     a ring of its own: two controls sharing one outline is a keyboard reader
-     guessing which of them they are on. */
-  .sds-bar__section:has(> .sds-pill:focus-visible) {
-    outline: var(--border-emphasis) solid var(--accent);
-    outline-offset: var(--focus-offset);
-    box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
-  }
-  .sds-bar__section > .sds-pill:focus-visible {
-    outline: none;
     box-shadow: none;
   }
   /* Where the pages are a handful, the panel belongs under the section that

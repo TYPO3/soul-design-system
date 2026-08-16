@@ -39,6 +39,55 @@
     width: 100%;
     border-collapse: collapse;
     font-size: var(--sds-table-font-size);
+
+    th {
+      text-align: start;
+      font-family: var(--sds-table-font);
+      font-size: var(--sds-table-head-size);
+      letter-spacing: var(--sds-table-head-tracking);
+      text-transform: uppercase;
+      color: var(--sds-table-head-ink);
+      font-weight: var(--sds-table-head-weight);
+      padding-block: 0 var(--sds-table-pad);
+      padding-inline: 0 var(--sds-table-cell-gap);
+      border-bottom: var(--sds-table-border) solid var(--sds-table-rule-head);
+    }
+
+    td {
+      padding-block: var(--sds-table-pad);
+      padding-inline: 0 var(--sds-table-cell-gap);
+      border-bottom: var(--sds-table-border) solid var(--sds-table-rule);
+      color: var(--sds-table-ink);
+    }
+
+    th:last-child,
+    td:last-child { padding-inline-end: 0; }
+
+    /* The machine's own names, in the machine's own font. */
+    td.sds-td-name {
+      font-family: var(--sds-table-font);
+      font-size: var(--sds-table-name-size);
+      color: var(--sds-table-name-ink);
+    }
+    td.sds-td-meta {
+      font-family: var(--sds-table-font);
+      font-size: var(--sds-table-meta-size);
+      color: var(--sds-table-meta-ink);
+    }
+
+    /* Never zebra stripes. Background changes on hover or selection only, so a
+       highlighted row means something. */
+    tbody tr:hover { background: var(--sds-table-fill-hover); }
+    tbody tr.is-selected { background: var(--sds-table-fill-selected); }
+    /* The selected row leaves the scanning registers. `--text-muted` and
+       `--text-link` are tuned against the canvas, and the accent fill moves the
+       ground under them: each lands a hair under 4.5:1 on it. Nothing is wrong with
+       either token or with the fill — the pair only meets on this row, which is
+       also the one row with no reason to be set for scanning. */
+    tbody tr.is-selected {
+      --sds-table-name-ink: var(--text-primary);
+      --sds-table-meta-ink: var(--text-primary);
+    }
   }
   .sds-table--compact {
     --sds-table-font-size: var(--row-font-compact);
@@ -64,57 +113,12 @@
      table layout, and the row groups left inside generate an anonymous table box
      that shrink-wraps — narrowing every table that was not too wide. As a wrapper
      nothing changes, and the table overflows only where its minimum is wider. */
-  .sds-table-scroll { max-width: 100%; overflow-x: auto; }
-  /* The wrapper carries the step for both of them. Left here it would be dead
-     air inside the scroller and nothing below it. */
-  .sds-table-scroll > .sds-table { margin-bottom: 0; }
+  .sds-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
 
-  .sds-table th {
-    text-align: start;
-    font-family: var(--sds-table-font);
-    font-size: var(--sds-table-head-size);
-    letter-spacing: var(--sds-table-head-tracking);
-    text-transform: uppercase;
-    color: var(--sds-table-head-ink);
-    font-weight: var(--sds-table-head-weight);
-    padding-block: 0 var(--sds-table-pad);
-    padding-inline: 0 var(--sds-table-cell-gap);
-    border-bottom: var(--sds-table-border) solid var(--sds-table-rule-head);
-  }
-
-  .sds-table td {
-    padding-block: var(--sds-table-pad);
-    padding-inline: 0 var(--sds-table-cell-gap);
-    border-bottom: var(--sds-table-border) solid var(--sds-table-rule);
-    color: var(--sds-table-ink);
-  }
-
-  .sds-table th:last-child,
-  .sds-table td:last-child { padding-inline-end: 0; }
-
-  /* The machine's own names, in the machine's own font. */
-  .sds-table td.sds-td-name {
-    font-family: var(--sds-table-font);
-    font-size: var(--sds-table-name-size);
-    color: var(--sds-table-name-ink);
-  }
-  .sds-table td.sds-td-meta {
-    font-family: var(--sds-table-font);
-    font-size: var(--sds-table-meta-size);
-    color: var(--sds-table-meta-ink);
-  }
-
-  /* Never zebra stripes. Background changes on hover or selection only, so a
-     highlighted row means something. */
-  .sds-table tbody tr:hover { background: var(--sds-table-fill-hover); }
-  .sds-table tbody tr.is-selected { background: var(--sds-table-fill-selected); }
-  /* The selected row leaves the scanning registers. `--text-muted` and
-     `--text-link` are tuned against the canvas, and the accent fill moves the
-     ground under them: each lands a hair under 4.5:1 on it. Nothing is wrong with
-     either token or with the fill — the pair only meets on this row, which is
-     also the one row with no reason to be set for scanning. */
-  .sds-table tbody tr.is-selected {
-    --sds-table-name-ink: var(--text-primary);
-    --sds-table-meta-ink: var(--text-primary);
+    /* The wrapper carries the step for both of them. Left here it would be dead
+       air inside the scroller and nothing below it. */
+    > .sds-table { margin-bottom: 0; }
   }
 }

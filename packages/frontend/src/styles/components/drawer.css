@@ -31,6 +31,18 @@
     --sds-drawer-ink-hover: var(--text-primary);
     --sds-drawer-duration: var(--duration-fast);
     --sds-drawer-ease: var(--ease-out);
+
+    /* What an open drawer stands on. It is the canvas and it spans the page, so
+       nothing about its own surface says it is in front — and the system has no
+       shadow to say it with. The page is pushed back instead: the same wash a
+       modal sits on, addressed rather than drawn again, hung from where the drawer
+       hangs and covering everything under it. */
+    .sds-overlay {
+      top: 100%;
+      bottom: auto;
+      height: 100vh;
+      z-index: calc(var(--sds-drawer-z) - 10);
+    }
   }
 
   /* A square of the control height, like every other button that is a mark
@@ -55,15 +67,16 @@
     transition:
     color var(--sds-drawer-duration) var(--sds-drawer-ease),
     border-color var(--sds-drawer-duration) var(--sds-drawer-ease);
+
+    &:hover { color: var(--sds-drawer-ink-hover); }
+    &[aria-expanded='true'] {
+      color: var(--sds-drawer-ink-hover);
+      border-color: var(--sds-drawer-edge-open);
+    }
+    /* The floor a control gives a glyph, the same one the rail's fold marker
+       and the code block's head use: a button's mark is not a word. */
+    .sds-icon { --sds-icon-size: var(--sds-drawer-glyph); }
   }
-  .sds-bar__toggle:hover { color: var(--sds-drawer-ink-hover); }
-  .sds-bar__toggle[aria-expanded='true'] {
-    color: var(--sds-drawer-ink-hover);
-    border-color: var(--sds-drawer-edge-open);
-  }
-  /* The floor a control gives a glyph, the same one the rail's fold marker
-     and the code block's head use: a button's mark is not a word. */
-  .sds-bar__toggle .sds-icon { --sds-icon-size: var(--sds-drawer-glyph); }
   /* What the button opens: the bar's own row, continued under it. One drawer and
      not two, because a reader on a phone looking for the way somewhere presses
      once — the field and the site's whole menu are in here, in the order the row
@@ -84,20 +97,25 @@
     box-shadow: var(--sds-drawer-shadow);
     max-height: var(--sds-drawer-height);
     overflow-y: auto;
-  }
-  /* A column in here, and the field as wide as the drawer: what is laid out is a
-     list of places to go, not a row that happened to wrap. It takes the rail's
-     measure rather than the row's, because the pages of a section hang inside
-     this list and the two levels are one tree — they share a measure, and what
-     separates them is the indent below. */
-  .sds-bar__drawer .sds-bar__nav {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--sds-drawer-step);
-  }
-  .sds-bar__drawer .sds-pill {
-    --sds-pill-pad-y: var(--sds-drawer-pad-item-y);
-    --sds-pill-pad-x: var(--sds-drawer-pad-item-x);
+
+    /* A column in here, and the field as wide as the drawer: what is laid out is a
+       list of places to go, not a row that happened to wrap. It takes the rail's
+       measure rather than the row's, because the pages of a section hang inside
+       this list and the two levels are one tree — they share a measure, and what
+       separates them is the indent below. */
+    .sds-bar__nav {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--sds-drawer-step);
+    }
+    .sds-pill {
+      --sds-pill-pad-y: var(--sds-drawer-pad-item-y);
+      --sds-pill-pad-x: var(--sds-drawer-pad-item-x);
+    }
+    /* `hidden` outranks the display a class gives: an author rule beats the
+       browser's own, so a `display` set by class puts a hidden element back on
+       the page. */
+    &[hidden] { display: none; }
   }
 
   /* One level of the menu, which is what a phone gets instead of the whole tree:
@@ -116,8 +134,21 @@
     display: flex;
     align-items: center;
     gap: var(--sds-drawer-row-gap);
+
+    > .sds-bar__link { flex: 1; }
+    /* A row in the drawer is the same pair — a page and the way into its pages —
+       and answers the same way. */
+    &:has(> .sds-bar__link:focus-visible) {
+      outline: var(--border-emphasis) solid var(--accent);
+      outline-offset: var(--focus-offset);
+      box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
+      border-radius: var(--sds-drawer-radius);
+    }
+    > .sds-bar__link:focus-visible {
+      outline: none;
+      box-shadow: none;
+    }
   }
-  .sds-bar__row > .sds-bar__link { flex: 1; }
   .sds-bar__into,
   .sds-bar__back {
     display: flex;
@@ -143,33 +174,6 @@
     border-bottom: var(--sds-drawer-border) solid var(--sds-drawer-rule);
     border-radius: 0;
   }
-  /* A row in the drawer is the same pair — a page and the way into its pages —
-     and answers the same way. */
-  .sds-bar__row:has(> .sds-bar__link:focus-visible) {
-    outline: var(--border-emphasis) solid var(--accent);
-    outline-offset: var(--focus-offset);
-    box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
-    border-radius: var(--sds-drawer-radius);
-  }
-  .sds-bar__row > .sds-bar__link:focus-visible {
-    outline: none;
-    box-shadow: none;
-  }
   .sds-bar__drawer .sds-search { flex: none; width: 100%; }
-  /* `hidden` outranks the display a class gives: an author rule beats the
-     browser's own, so a `display` set by class puts a hidden element back on
-     the page. */
-  .sds-bar__drawer[hidden] { display: none; }
-  /* What an open drawer stands on. It is the canvas and it spans the page, so
-     nothing about its own surface says it is in front — and the system has no
-     shadow to say it with. The page is pushed back instead: the same wash a
-     modal sits on, addressed rather than drawn again, hung from where the drawer
-     hangs and covering everything under it. */
-  .sds-bar .sds-overlay {
-    top: 100%;
-    bottom: auto;
-    height: 100vh;
-    z-index: calc(var(--sds-drawer-z) - 10);
-  }
 
 }

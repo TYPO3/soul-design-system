@@ -7,8 +7,9 @@
      of text, and air between its lines would make it two. */
   .sds-list {
     --sds-list-gap: var(--space-1);
+
+    > li:not(:last-child) { margin-bottom: var(--sds-list-gap); }
   }
-  .sds-list > li:not(:last-child) { margin-bottom: var(--sds-list-gap); }
 
   /* And a list whose items are not sentences: every one is marked by being a
      link, and a disc in front of it is a bullet drawn on a menu. The indent goes

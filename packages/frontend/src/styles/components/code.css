@@ -85,11 +85,12 @@
     padding: var(--sds-code-pad-y-tight) var(--sds-code-pad-x);
     border-bottom: var(--sds-code-border) solid var(--sds-code-rule);
     color: var(--sds-code-head-ink);
+
+    /* The floor, not the label's size: the head sets in the label register at
+       11px, and the copy button and the diff's file mark are controls rather
+       than words. Same reason as the rail's fold marker. */
+    .sds-icon { --sds-icon-size: var(--sds-code-glyph); }
   }
-  /* The floor, not the label's size: the head sets in the label register at
-     11px, and the copy button and the diff's file mark are controls rather
-     than words. Same reason as the rail's fold marker. */
-  .sds-code__head .sds-icon { --sds-icon-size: var(--sds-code-glyph); }
   /* The language a block is in, and the one affordance its head carries. Both
      set in the label register — mono, small, tracked, upper case — because a
      head is machine metadata and not a sentence. */
@@ -123,8 +124,10 @@
     border: 0;
     padding: 0;
     transition: color var(--sds-code-duration) var(--sds-code-ease);
+
+    &:hover { color: var(--sds-code-head-ink-hover); }
+    &.is-copied { color: var(--status-ok); }
   }
-  .sds-code__copy:hover { color: var(--sds-code-head-ink-hover); }
   /* Copied is a changed glyph, not a changed colour on the same one: the check
      replaces the duplicate rather than sitting beside it. */
   .sds-code__glyph,
@@ -137,7 +140,6 @@
   .sds-code__copy .sds-code__copied { display: none; }
   .sds-code__copy.is-copied .sds-code__glyph { display: none; }
   .sds-code__copy.is-copied .sds-code__copied { display: inline-flex; }
-  .sds-code__copy.is-copied { color: var(--status-ok); }
   .sds-code__body {
     margin: 0;
     min-width: 0;
@@ -228,11 +230,13 @@
   .sds-diff__line--add {
     background: color-mix(in oklch, var(--status-ok) var(--sds-diff-tint), transparent);
     color: var(--sds-diff-ink-changed);
+
+    .sds-diff__mark { color: var(--status-ok); }
   }
   .sds-diff__line--del {
     background: color-mix(in oklch, var(--status-error) var(--sds-diff-tint), transparent);
     color: var(--sds-diff-ink-changed);
+
+    .sds-diff__mark { color: var(--status-error); }
   }
-  .sds-diff__line--add .sds-diff__mark { color: var(--status-ok); }
-  .sds-diff__line--del .sds-diff__mark { color: var(--status-error); }
 }

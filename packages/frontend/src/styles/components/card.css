@@ -55,34 +55,26 @@
     border-color var(--sds-card-duration) var(--sds-card-ease),
     background var(--sds-card-duration) var(--sds-card-ease),
     transform var(--sds-card-duration) var(--sds-card-ease);
+
+    /* The lit frame, kept on a layer of its own so the pointer fades one number
+       and nothing jumps: a gradient in the background would land on a different
+       box and switch rather than travel. The ring is the border box with its own
+       middle cut out, which is what the two masks do. */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: calc(-1 * var(--sds-card-border));
+      z-index: 1;
+      border-radius: var(--sds-card-radius);
+      padding: var(--sds-card-border);
+      background: linear-gradient(var(--sds-card-glow), transparent 45%);
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--sds-card-duration) var(--sds-card-ease);
+    }
   }
-  /* The lit frame, kept on a layer of its own so the pointer fades one number
-     and nothing jumps: a gradient in the background would land on a different
-     box and switch rather than travel. The ring is the border box with its own
-     middle cut out, which is what the two masks do. */
-  .sds-card:has(> .sds-card__body)::before {
-    content: '';
-    position: absolute;
-    inset: calc(-1 * var(--sds-card-border));
-    z-index: 1;
-    border-radius: var(--sds-card-radius);
-    padding: var(--sds-card-border);
-    background: linear-gradient(var(--sds-card-glow), transparent 45%);
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--sds-card-duration) var(--sds-card-ease);
-  }
-  /* The whole card is the target, and one anchor does it: the title's, stretched
-     over the frame. Wrapping the card in the anchor instead would read its whole
-     contents out as the link's name; this way the name is the title and the hit
-     area is the card. What it costs is dragging to select the text. */
-  .sds-card__title a::after { content: ''; position: absolute; inset: 0; }
-  /* A link inside the prose sits above the stretched title — it comes after it
-     in the source, so being positioned is enough. The card itself carries one
-     link and no more: the call to action is words, not a second anchor. */
-  .sds-card__text :is(a, button) { position: relative; }
   /* A rise, a fill, and the accent lit into the top of the frame and let go of
      on the way down — light falling on the card from where the reader is, which
      is what this system has instead of an elevation. Only where the title is a
@@ -98,10 +90,6 @@
   .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible)::before {
     opacity: 1;
   }
-  /* And the ring goes round the frame, not round the words. What answers the
-     press is the card, so a ring round the title would point at a part of it —
-     the one ring, moved out to the box it belongs to. */
-  .sds-card__title a:focus-visible { outline: none; box-shadow: none; }
   .sds-card:has(> .sds-card__body > .sds-card__title a:focus-visible) {
     outline: var(--border-emphasis) solid var(--accent);
     outline-offset: var(--focus-offset);
@@ -128,10 +116,11 @@
     flex-direction: column;
     gap: var(--sds-card-gap);
     padding: var(--sds-card-pad-y) var(--sds-card-pad-x);
+
+    /* A row put in a card carries the step it owes a page; here the card's own
+       gap is the distance. */
+    > .sds-row { margin-block: 0; }
   }
-  /* A row put in a card carries the step it owes a page; here the card's own
-     gap is the distance. */
-  .sds-card__body > .sds-row { margin-block: 0; }
   /* Muted and never in a status colour, for the reason a surface's glyph is: a
      card is a subject, not a result. It carries the gap to the label itself. */
   .sds-card__icon { color: var(--sds-card-icon-ink); margin-bottom: var(--sds-card-icon-gap); }
@@ -144,22 +133,37 @@
     line-height: var(--sds-card-title-leading);
     color: var(--sds-card-title-ink);
     text-wrap: balance;
+
+    /* The whole card is the target, and one anchor does it: the title's, stretched
+       over the frame. Wrapping the card in the anchor instead would read its whole
+       contents out as the link's name; this way the name is the title and the hit
+       area is the card. What it costs is dragging to select the text. */
+    a::after { content: ''; position: absolute; inset: 0; }
+    /* And the ring goes round the frame, not round the words. What answers the
+       press is the card, so a ring round the title would point at a part of it —
+       the one ring, moved out to the box it belongs to. */
+    a:focus-visible { outline: none; box-shadow: none; }
+    /* Never underlined, not even under the pointer: the whole card answers the
+       hover, and one word of it changing as well would be two answers to one
+       question. */
+    a { color: inherit; text-decoration: none; }
   }
-  /* Never underlined, not even under the pointer: the whole card answers the
-     hover, and one word of it changing as well would be two answers to one
-     question. */
-  .sds-card__title a { color: inherit; text-decoration: none; }
   .sds-card__text {
     margin: 0;
     font-size: var(--sds-card-text-size);
     line-height: var(--sds-card-text-leading);
     color: var(--sds-card-text-ink);
+
+    /* A link inside the prose sits above the stretched title — it comes after it
+       in the source, so being positioned is enough. The card itself carries one
+       link and no more: the call to action is words, not a second anchor. */
+    :is(a, button) { position: relative; }
+    /* The outermost margins of a document's blocks go: the card's padding is
+       already the gap, and a block that brought its own would double it. The last
+       step in particular is air the padding already states. */
+    > :first-child { margin-top: 0; }
+    > :last-child { margin-bottom: 0; }
   }
-  /* The outermost margins of a document's blocks go: the card's padding is
-     already the gap, and a block that brought its own would double it. The last
-     step in particular is air the padding already states. */
-  .sds-card__text > :first-child { margin-top: 0; }
-  .sds-card__text > :last-child { margin-bottom: 0; }
   /* What the card leaves the reader with: a line about the target, the action,
      or both. Pushed to the bottom, so a row of cards has its actions on one line
      however long the prose above them ran. No rule over it — a card this size
@@ -205,8 +209,9 @@
        shares, and a lit frame is a frame. The fill under the pointer is what is
        left to say the tile answers. */
     --sds-card-lift: 0px;
+
+    &::before { content: none; }
   }
-  .sds-grid--flush .sds-card:has(> .sds-card__body)::before { content: none; }
   /* And the ring turns inwards: it is drawn outside the box and the wall clips
      its corners, so on an edge tile it is the one thing that would be cut off.
      The halo goes with it — it is drawn outside too. */

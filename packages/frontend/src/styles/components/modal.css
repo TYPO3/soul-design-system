@@ -49,8 +49,9 @@
     padding: 0;
     border-color: var(--sds-modal-rule);
     color: var(--sds-modal-ink);
+
+    &::backdrop { background: var(--sds-modal-backdrop); }
   }
-  dialog.sds-modal::backdrop { background: var(--sds-modal-backdrop); }
 
   .sds-modal__head {
     display: flex;
@@ -66,10 +67,11 @@
     font-size: var(--sds-modal-body-size);
     line-height: var(--sds-modal-body-leading);
     color: var(--sds-modal-ink-body);
+
+    /* The body is blocks that bring their own margins, and the air under the last
+       one is padding the box already states. */
+    > :last-child { margin-bottom: 0; }
   }
-  /* The body is blocks that bring their own margins, and the air under the last
-     one is padding the box already states. */
-  .sds-modal__body > :last-child { margin-bottom: 0; }
   .sds-modal__foot {
     display: flex;
     justify-content: flex-end;

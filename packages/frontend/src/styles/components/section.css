@@ -8,14 +8,15 @@
   .sds-section {
     --sds-section-step: var(--space-12);
     --sds-section-mark-ink: var(--text-accent-quiet);
+
+    /* One rule and one distance, stated above the section itself: whatever
+       stood before it, a section that is not the first in its box stands off
+       by the same step, and no selector asks a neighbour anything. */
+    &:not(:first-child) { margin-block-start: var(--sds-section-step); }
+    /* The last block inside owes the section's edge nothing: the step is the
+       section's, and a block still carrying its own would add to it. */
+    > :last-child { margin-block-end: 0; }
   }
-  /* One rule and one distance, stated above the section itself: whatever
-     stood before it, a section that is not the first in its box stands off
-     by the same step, and no selector asks a neighbour anything. */
-  .sds-section:not(:first-child) { margin-block-start: var(--sds-section-step); }
-  /* The last block inside owes the section's edge nothing: the step is the
-     section's, and a block still carrying its own would add to it. */
-  .sds-section > :last-child { margin-block-end: 0; }
   /* Landing on one section out of thirty says which one — the same mark the
      confval makes, because it is the same arrival. */
   .sds-section:target > :is(h1, h2, h3, h4, h5, h6) { color: var(--sds-section-mark-ink); }
@@ -38,6 +39,7 @@
     font-weight: var(--sds-permalink-weight);
     color: var(--sds-permalink-ink);
     text-decoration: none;
+
+    &:hover { color: var(--sds-permalink-ink-hover); }
   }
-  .sds-permalink:hover { color: var(--sds-permalink-ink-hover); }
 }

@@ -85,6 +85,12 @@
     border-block: var(--sds-toc-frame-line) solid var(--sds-toc-frame-edge);
     max-width: var(--sds-toc-measure);
     font-size: var(--sds-toc-font-size);
+
+    /* The label a list writes over itself, standing directly on it. */
+    > .sds-label {
+      display: block;
+      margin: 0 0 var(--sds-toc-label-gap);
+    }
   }
   /* No markers. A contents is a list of places, and a bullet before each one is
      punctuation for a sentence nobody is reading. */
@@ -92,25 +98,21 @@
     margin: 0;
     padding-inline-start: 0;
     list-style: none;
-  }
-  /* Indented, and standing off the entry it hangs under by the step two entries
-     stand off each other: one gap whatever level an entry is on, because the
-     indent already says which — a group set tighter than its neighbours is a
-     rhythm the eye reads before it reads any of the words. */
-  .sds-toc__list .sds-toc__list {
-    padding-block-start: var(--sds-toc-step);
-    padding-inline-start: var(--sds-toc-indent);
-  }
-  /* One step between entries. The row is a row and no longer a line of prose, so
-     nothing is left between two of them: the fill of one meets the fill of the
-     next, and a list of places reads as a block of them. */
-  .sds-toc__list > li { margin-bottom: var(--sds-toc-step); }
-  /* The step separates two entries; under the last one it separates nothing. */
-  .sds-toc__list > li:last-child { margin-bottom: 0; }
-  /* The label a list writes over itself, standing directly on it. */
-  .sds-toc > .sds-label {
-    display: block;
-    margin: 0 0 var(--sds-toc-label-gap);
+
+    /* Indented, and standing off the entry it hangs under by the step two entries
+       stand off each other: one gap whatever level an entry is on, because the
+       indent already says which — a group set tighter than its neighbours is a
+       rhythm the eye reads before it reads any of the words. */
+    .sds-toc__list {
+      padding-block-start: var(--sds-toc-step);
+      padding-inline-start: var(--sds-toc-indent);
+    }
+    /* One step between entries. The row is a row and no longer a line of prose, so
+       nothing is left between two of them: the fill of one meets the fill of the
+       next, and a list of places reads as a block of them. */
+    > li { margin-bottom: var(--sds-toc-step); }
+    /* The step separates two entries; under the last one it separates nothing. */
+    > li:last-child { margin-bottom: 0; }
   }
   /* A row rather than a line of text, so the one that is current can be filled.
      It bleeds by exactly what it is padded with: the text stands where it stood
@@ -136,10 +138,11 @@
     transition:
     background var(--sds-toc-duration) var(--sds-toc-ease),
     color var(--sds-toc-duration) var(--sds-toc-ease);
-  }
-  .sds-toc__item:hover {
-    color: var(--sds-toc-ink-hover);
-    text-decoration: underline;
+
+    &:hover {
+      color: var(--sds-toc-ink-hover);
+      text-decoration: underline;
+    }
   }
   /* One step quieter a level down, because the indent alone does not say it: a
      sub-entry and the second line of a wrapped entry start at different places
