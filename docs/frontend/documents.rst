@@ -25,24 +25,34 @@ is, and what belongs to no component — ``<dl>``, ``<kbd>``, ``<abbr>``,
 ``<mark>`` — is in ``base.css``. Splitting them off produced the same element
 twice, once for a document and once for a screen, and the two drifted.
 
-What is genuinely a passage's rather than an element's stays scoped, in
-``components/prose.css``: the measure the text is read at, the ink a passage
-sets, the register below ``h3``, the underline on a link inside a sentence, and
-the names a renderer writes for nodes with no element of their own. Those are
-drawn where a page says it is a passage:
+Little is left over. A paragraph carries the measure because a paragraph is a
+paragraph anywhere, the register below ``h3`` is what those elements are, and
+the blocks a renderer emits under names of this system's own have files of
+their own like every other component. What stays scoped to a passage is
+``components/prose.css``, and it is the line block — where a break is the
+content, and the parser rather than a template writes the class. It is drawn
+where a page says it is a passage:
 
 .. code-block:: html
 
-   <main class="sds-column">
+   <main class="sds-body__main">
      <article class="sds-prose">
        <!-- whatever the renderer produced -->
      </article>
    </main>
 
-The theme's layout already writes that wrapper. A hand-built page has to.
+The theme's layout already writes that wrapper on a manual page. A hand-built
+page has to. A page rendered as a run of bands has none: what a band holds
+stands in the band, which is the box that already carries the page measure.
 
-What a passage sets
-===================
+What draws a document
+=====================
+
+Every group below is drawn by the sheet that owns it — the component's own
+file where the thing has a component, ``base.css`` where it belongs to none.
+None of it is scoped to ``.sds-prose``: a document and a screen are the same
+elements, and a rule that only fired inside a passage would be the second copy
+this system exists to avoid.
 
 .. list-table::
    :header-rows: 1
@@ -78,10 +88,10 @@ What a passage sets
        ``sds-options__name``, and ``sds-classifier`` with ``sds-classifier__mark`` for the
        kind a term is given and the colon that introduces it
    * - What stays the renderer's
-     - ``.line-block`` and ``.line``, because the parser sets those two on the
-       node rather than a template writing them, and ``.contents`` and ``.toc``
-       for a renderer that writes its own contents list instead of taking
-       ``sds-nav-toc``
+     - ``.line-block`` and ``.line``, in ``components/prose.css`` and the only
+       thing scoped to a passage: the parser sets those two on the node rather
+       than a template writing them, so they are the one pair this system
+       cannot rename
    * - Notes at the foot
      - ``sds-footnote`` with ``sds-footnote__label`` and
        ``sds-footnote__content`` — names of this system's own, because the
@@ -91,12 +101,12 @@ What a passage sets
 
 .. note::
 
-   Lists are the row that is least a passage's. What a list *is* — the marker,
-   the indent at the width of that marker, the muted marker colour — is
-   ``base.css``, and the gap under the block is the flow contract's, so a
-   screen has lists too. What a passage adds is the air between items. See
-   :doc:`/design-system/type` for the classes, ``.sds-list`` and
-   ``.sds-list--plain``.
+   A list is the one that reads as a passage's and is not. What a list *is* —
+   the marker, the indent at the width of that marker, the muted marker colour
+   — is ``base.css``, and the step under the block is the flow contract's, so a
+   screen has lists too. The air between items is what an author asks for, and
+   it is asked for with a class. See :doc:`/design-system/type` for those,
+   ``.sds-list`` and ``.sds-list--plain``.
 
 Where block spacing lives
 =========================
@@ -146,8 +156,10 @@ each with less measure than the one above.
 The list itself is :ref:`sds-nav-toc <component-sds-nav-toc>` rather than
 markup a template writes, and that is what makes it follow the reader: it marks
 the section under them as they scroll, which is the one thing about this list a
-renderer cannot work out. ``.contents`` stays a passage's rule for a renderer
-that writes the list itself, and is the same thing standing still.
+renderer cannot work out. A ``toctree`` that prints itself in the page is the
+other list and must not look like this one — it is a list of other documents,
+with no place on it for a mark saying where the reader is, and it is drawn with
+the contents apparatus's own classes.
 
 Six levels, three sizes
 =======================
@@ -171,15 +183,18 @@ out — the one the rest of the system keeps for a machine's own words.
 The measure
 ===========
 
-Text holds sixty-six characters — ``--measure-prose``, which is where that
-number is written down. Blocks do not.
+A paragraph is held to ``--measure-prose``. The token holds 620px, which is
+where the number is written down and what the rest of these pages call the
+reading measure of sixty-six characters. Blocks are not held to it.
 
 A reference is sentences *and* a forty-column table, a command nobody wants
 wrapped, and a diagram. Clamping those to the width of comfortable reading is
 how a documentation page ends up with three horizontal scrollbars — so the
-container gives up its own limit and hands it to the things made of words:
-paragraphs, lists, quotes, headings, and the rule, which is punctuation of the
-text rather than a block of content.
+column keeps no limit of its own, and the limit is carried by the things made
+of words: the paragraph, in ``base.css``, because a paragraph is a paragraph
+wherever it stands, and the blocks that are read rather than scanned — a
+quotation, a topic, a note under a statement — each in its own file, off that
+same token.
 
 Everything else runs to the column it was given, and a table wider than that
 scrolls inside itself rather than taking the layout with it.
