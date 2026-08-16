@@ -36,8 +36,6 @@
   :where(.sds-prose) sup,:where(.sds-prose) sub{font-size:.75em;line-height:0;position:relative;vertical-align:baseline}
   :where(.sds-prose) sup{top:-.5em}
   :where(.sds-prose) sub{bottom:-.25em}
-  :where(.sds-prose a){color:var(--text-link);text-decoration:none}
-  :where(.sds-prose a:hover){color:var(--text-link-hover);text-decoration:underline}
   :where(.sds-prose) :is(p,li,dd,td,th) a{text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-underline-offset:2px}
   :where(.sds-prose) :is(p,li,dd,td,th) a:hover{text-decoration-color:currentColor}
   :where(.sds-prose) strong{font-weight:var(--weight-semibold);color:var(--text-primary)}

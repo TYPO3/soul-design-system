@@ -290,19 +290,6 @@
     bottom: -0.25em;
   }
 
-  /* The link a sentence is written with, and no other. Weightless on purpose —
-     `:hover` inside the `:where()` too, or the rule ties with every component
-     rule and wins on being loaded later: a card's title, a pill, a permalink all
-     say never underlined, and the document layer answered for them. What the
-     document itself wrote carries no class, so nothing outweighs this there. */
-  :where(.sds-prose a) {
-    color: var(--text-link);
-    text-decoration: none;
-  }
-  :where(.sds-prose a:hover) {
-    color: var(--text-link-hover);
-    text-decoration: underline;
-  }
   /* Underlined inside a sentence: against body text the link colour stands at
      1.3:1 in dark, and no token reaches 3:1 while there is one accent. Only
      where a link sits *in* text — one that is a block of its own is told apart

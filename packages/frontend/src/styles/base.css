@@ -137,9 +137,7 @@
 
   /* ------------------------------------------------------------- flow -- */
 
-  /* The step below a block. Every distance in this file is stated in one
-     direction: nothing collapses, nothing is counted twice, and no block has
-     to know what came before it. */
+  /* The step below a block. */
   p,
   ul,
   ol,
@@ -166,10 +164,9 @@
     margin-bottom: var(--space-2);
   }
 
-  /* The step under the containers this layer and `layout` own. What a component
-     draws states its own, in its own file and in this layer — see any of them.
-     A column is in none of the lists: it stands in a split and nowhere else,
-     and a split takes the step off every time. */
+  /* The step under the containers this layer and `layout` own. A column is in
+     none of the lists: it stands in a split and nowhere else, and a split takes
+     the step off every time. */
   .sds-actions,
   .sds-form,
   .sds-row,
@@ -203,19 +200,6 @@
   :is(h1, h2, .sds-h1, .sds-h2):not(.sds-display):has(+ .sds-lead) {
     margin-block-end: var(--space-2);
   }
-
-  /* ------------------------------------------- what an element is -- */
-
-  /* A custom element is `inline` until it is told otherwise, and an inline host
-     makes itself the box a row lays out while the block it draws sits inside
-     that box — gap, alignment and step then all land one level too high. So
-     every element states the box it is, and it states it in its own file,
-     beside the class it renders — see any of them. */
-
-  /* A block in the flow, carrying the step. What it draws gives the step up,
-     because the element has already paid it. `min-width: 0` throughout: a flex
-     or grid item whose floor is its own content is what pushes a page sideways,
-     and the block inside already refuses one wherever that mattered. */
 
   /* A nested list is part of the item it hangs under, so it adds no step. */
   li > ul,
