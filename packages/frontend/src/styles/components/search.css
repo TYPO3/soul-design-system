@@ -1,8 +1,6 @@
 /* sds-search — the field, and the panel that hangs from it. */
 
 @layer base {
-  /* A part: it stands in a line of text or a row of controls and never on its
-     own, so it takes the box that line gives it. */
   sds-search { display: inline-flex; }
 }
 

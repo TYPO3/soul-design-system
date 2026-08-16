@@ -1,8 +1,6 @@
 /* sds-nav-main — the bar at the top of the page. */
 
 @layer base {
-  /* A block: it stands in the page as a region of its own, and owes no step —
-     a container or a set spaces it. */
   sds-nav-main { display: block; min-width: 0; }
 }
 

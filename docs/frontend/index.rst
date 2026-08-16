@@ -14,6 +14,7 @@ add.
 
    quickstart
    layout
+   stylesheets
    components/index
    documents
 
@@ -199,6 +200,9 @@ Where to read on
    * - :doc:`layout`
      - the page itself: bar, rail, column, bands, footer, and where the
        layout sheds as the window narrows
+   * - :doc:`stylesheets`
+     - how the stylesheets are written: the layers, the flow contract, the
+       property sets, and what nesting may do
    * - :doc:`components/index`
      - every element — what it is for, what it takes, what goes between its
        tags, and the classes it emits

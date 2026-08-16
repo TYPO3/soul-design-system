@@ -1,13 +1,6 @@
 /* sds-tabs — one subject at a time, chosen from a row. */
 
-/* What this element is in a flow — three lines that only mean anything
-   together: the element carries the step, the box it always renders inside
-   itself gives that up, and the same box standing alone carries it. In `base`,
-   because a container in `layout` takes the step back and a step stated in
-   `components` would win over the container that already paid the gap. */
 @layer base {
-  /* A block: it stands in the page as a region of its own, and owes no step —
-     a container or a set spaces it. */
   sds-tab-item { display: block; min-width: 0; }
   sds-tabs { display: block; min-width: 0; margin-bottom: var(--space-4); }
   sds-tabs > .sds-tabs { margin-bottom: 0; }

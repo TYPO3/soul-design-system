@@ -1,8 +1,6 @@
 /* sds-icon — one glyph, at the sizes the system draws. */
 
 @layer base {
-  /* A part: it stands in a line of text or a row of controls and never on its
-     own, so it takes the box that line gives it. */
   sds-icon { display: inline-flex; }
 }
 

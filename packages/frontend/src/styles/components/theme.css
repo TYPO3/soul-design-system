@@ -1,8 +1,6 @@
 /* sds-theme — light or dark, as two segments. */
 
 @layer base {
-  /* A part: it stands in a line of text or a row of controls and never on its
-     own, so it takes the box that line gives it. */
   sds-theme { display: inline-flex; }
 }
 

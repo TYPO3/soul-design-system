@@ -1,10 +1,5 @@
 /* sds-table — rows at three densities, and the scroller around them. */
 
-/* What this element is in a flow — three lines that only mean anything
-   together: the element carries the step, the box it always renders inside
-   itself gives that up, and the same box standing alone carries it. In `base`,
-   because a container in `layout` takes the step back and a step stated in
-   `components` would win over the container that already paid the gap. */
 @layer base {
   sds-table { display: block; min-width: 0; margin-bottom: var(--space-4); }
   sds-table > :is(.sds-table, .sds-table-scroll) { margin-bottom: 0; }

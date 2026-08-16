@@ -167,10 +167,10 @@ What box an element is
 ======================
 
 Each of these is stated in the component's own stylesheet, in a ``@layer
-base`` block above the one that draws it — the display, the step and the box's
-own give-up in the three lines that only mean anything together. A contract
-split across a shared list and a component file is a contract that drifts into
-two layers, which is how a byline once kept a step nothing could take off it.
+base`` block above the one that draws it — the flow contract, whose three
+lines :doc:`/frontend/stylesheets` explains. A contract split across a shared
+list and a component file is a contract that drifts into two layers, which is
+how a byline once kept a step nothing could take off it.
 
 **Every element is the box it draws.** A custom element is ``inline`` until it
 is told otherwise, and an inline tag around a block makes itself the box a row
@@ -193,75 +193,14 @@ is the whole list, and it is stated rather than defaulted to.
 What a component is made of
 ===========================
 
-**Everything a component is, it is through a property of its own.** Each one
-declares its set at the top of its own stylesheet, derived from the tokens
-every component shares, and every declaration under it reads only that set:
-
-.. code-block:: css
-
-   .sds-btn {
-     --sds-btn-height: var(--control-height);
-     --sds-btn-fill: transparent;
-     --sds-btn-fill-hover: var(--sds-btn-fill);
-
-     min-height: var(--sds-btn-height);
-     background: var(--sds-btn-fill);
-
-     &:hover { --sds-btn-fill: var(--sds-btn-fill-hover); }
-   }
-
-A variant and a size then **assign values and draw nothing**:
-
-.. code-block:: css
-
-   .sds-btn--primary {
-     --sds-btn-fill: var(--accent);
-     --sds-btn-fill-hover: var(--accent-hover);
-   }
-
-Three things follow. There is no ``.sds-btn--primary:hover`` rule for a later
-one to outweigh — the state is written once, whatever the variant. A size is a
-handful of numbers rather than the same declarations repeated per variant. And
-a surface that needs one instance different sets a property on it instead of
-writing a class this system has never heard of.
-
-A value that reaches a declaration without passing through the set is the
-thing this prevents: ``line-height: 1.55`` in one component and
-``var(--leading-body)`` in every other is drift nothing can see.
-``make verify ARGS=sets`` holds every component to it. Two things are read
-straight, and only two: the focus ring, because there is one ring, and the
-colours that mean something — a component able to re-point those could draw an
-error green.
-
-The one thing the check cannot see is **where** a set is declared. A property
-travels down: never sideways to a box beside the one that declared it, never
-up to the page around it. A set therefore sits on an ancestor of everything
-that reads it — which is why a tab panel standing beside its row carries its
-own, and why the offset the page scrolls to is declared on the page rather
-than on the bar that causes it.
-
-Nested, and no heavier for it
-=============================
-
-The stylesheets are written with **native CSS nesting**: what belongs to one
-subject stands inside its block. A component's states and conditions are read
-where the component is, instead of being found by searching the file for its
-name — the ``&:hover`` above is the shape. Two lines hold it:
-
-- **A name is written whole.** Native nesting joins selectors, never strings —
-  there is no ``&-part`` — and that suits this system: every check reads names
-  literally, and a name assembled from pieces is a name no search finds. A
-  variant is a full class and a top-level rule; nesting it as ``&.sds-btn--primary``
-  would also make it a class heavier than it was.
-- **Nesting is scope, never weight.** A nested rule re-enters through
-  ``:is()``, which carries the parent's full specificity. So a rule moves
-  inside a block only when the selector it desugars to is the selector it
-  already had flat: ``&:hover`` inside ``.sds-btn`` *is* ``.sds-btn:hover``
-  and moves; a descendant rule like ``.sds-btn--icon .sds-icon`` nests
-  losslessly under its owner; a part addressed as a bare class would come out
-  a descendant and a class heavier, and stays where it is. What is written
-  weightless — ``:where()`` — stays written out, because zero specificity is
-  the point.
+**Everything a component is, it is through a property of its own** — a set
+declared at the top of its stylesheet that every declaration below reads, so
+a variant assigns values and draws nothing, and a surface that needs one
+instance different sets a property instead of inventing a class. The shape,
+its reasons and the nesting rules are :doc:`/frontend/stylesheets`; what
+matters here is the consequence: any single instance can be re-themed by
+setting its ``--sds-<name>-*`` properties on an ancestor, and nothing else
+about it can be.
 
 Addressed, never rebuilt
 ========================

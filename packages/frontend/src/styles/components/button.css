@@ -12,9 +12,6 @@
    never heard of. */
 
 @layer base {
-  /* A part: it stands in a line of text or a row of controls and never on its
-     own, so it takes the box that line gives it. Inline, so it carries no flow
-     step — a distance below a control belongs to the block standing around it. */
   sds-button { display: inline-flex; }
 }
 

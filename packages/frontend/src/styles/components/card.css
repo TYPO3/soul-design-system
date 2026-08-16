@@ -1,10 +1,5 @@
 /* sds-card — a subject that goes somewhere, whole. */
 
-/* What this element is in a flow — three lines that only mean anything
-   together: the element carries the step, the box it always renders inside
-   itself gives that up, and the same box standing alone carries it. In `base`,
-   because a container in `layout` takes the step back and a step stated in
-   `components` would win over the container that already paid the gap. */
 @layer base {
   /* And it fills what it is given: a wall stretches the cell to the tallest in
      the row, where a block box stops at its own prose — a frame ending short of

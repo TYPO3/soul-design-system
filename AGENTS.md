@@ -89,6 +89,7 @@ and the documents themselves are not comments and say what they have to say.
 | Why packages leave through mirrors, and how they remain installable | `docs/maintaining/package-splits.rst` |
 | How package mirrors are authenticated and published | `MAINTAINERS.md` |
 | How to *design with* the system — the build rules | `SKILL.md` |
+| How the stylesheets are written — layers, flow contract, sets, nesting | `docs/frontend/stylesheets.rst` |
 | Why a design rule exists | its page under `docs/design-system/` or `docs/frontend/` |
 | Drawing a signet to the construction | `docs/design-system/signet-prompt.md` |
 | Where the icons and fonts came from, and under what licence | `THIRD-PARTY.md` |
@@ -478,7 +479,7 @@ moved without the other.
   and the colours that mean something. A set has to sit on an ancestor of
   everything that reads it — a property travels down and never sideways or up,
   which the check cannot see and the suite has caught three times.
-  `docs/frontend/components/index.rst` carries the shape;
+  `docs/frontend/stylesheets.rst` carries the shape;
   `packages/frontend/src/styles/components/button.css` is the model.
 - **What belongs to one subject stands in its block.** The stylesheets are
   written with native CSS nesting: a state, a condition and a descendant rule
@@ -489,7 +490,7 @@ moved without the other.
   top-level rule under its full name, a part addressed as a bare class stays
   where it is, and what is written weightless — `:where()` — stays written
   out, because zero specificity is the point.
-  `docs/frontend/components/index.rst` carries the reason;
+  `docs/frontend/stylesheets.rst` carries the reason;
   `packages/frontend/src/styles/components/button.css` is the model here too.
 - **A component is addressed, never rebuilt.** Everything that fits in a string
   is a property; between the tags goes only what an attribute cannot carry, and

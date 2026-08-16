@@ -1,8 +1,6 @@
 /* What a picture is before anything frames it, and what makes one pressable. */
 
 @layer base {
-  /* A block: it stands in the page as a region of its own, and owes no step —
-     a container or a set spaces it. */
   sds-image { display: block; min-width: 0; }
 }
 

@@ -1,8 +1,6 @@
 /* sds-footer — the site's own end, on every page alike. */
 
 @layer base {
-  /* A block: it stands in the page as a region of its own, and owes no step —
-     a container or a set spaces it. */
   sds-footer { display: block; min-width: 0; }
 }
 
