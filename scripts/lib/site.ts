@@ -71,11 +71,12 @@ const CHARACTERS: Readonly<Record<string, string>> = {
   amp: '&', lt: '<', gt: '>', quot: '"', nbsp: ' ', '#39': "'", '#039': "'",
 };
 
-/** The page's own opening lines, and nothing it was framed with. The prose is
-    found by its class rather than its tag: a manual page is an `<article>` and
-    a landing page a `<div>`, and both are the page. */
+/** The page's own opening lines, and nothing it was framed with. Where the
+    page starts is `<main>`: a manual page holds an article there and a landing
+    page a run of bands, and the one element both have is the one saying which
+    part of the document is the page. */
 function opening(html: string): string {
-  const at = html.search(/class="[^"]*\bsds-prose\b/);
+  const at = html.search(/<main\b/);
   if (at === -1) return '';
   const prose = html.slice(at).replace(FURNITURE, ' ');
   for (const [, paragraph] of prose.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)) {
