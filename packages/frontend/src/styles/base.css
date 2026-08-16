@@ -33,11 +33,39 @@
     color: var(--text-secondary);
   }
 
+  /* The same ink and the same limit for the other things made of words. The
+     measure belongs to the text and not to the box it stands in: a box holding
+     it passes it to a table and a code block too, which is a page with three
+     scrollbars. A term is primary — it is the word being defined. */
+  li,
+  dd {
+    max-width: var(--measure-prose);
+    color: var(--text-secondary);
+  }
+  dt,
+  hr,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    max-width: var(--measure-prose);
+  }
+  /* And an item gives it back once it holds a block: a `<code>` or a link is
+     part of the sentence, a table or a nested list makes the item a container
+     and the child answers for its own width. `:has()` weighs its heaviest
+     argument, so this out-specifies the pair above on its own. */
+  :is(li, dd):has(> :not(a, code, kbd, abbr, strong, em, mark, small, span, sup, sub, br)) {
+    max-width: none;
+  }
+
   .sds-lead {
     font-size: var(--font-size-lead);
     line-height: var(--leading-body);
     color: var(--text-secondary);
     max-width: var(--measure-lead);
+    text-wrap: pretty;
   }
 
   /* --------------------------------------------------------- headings -- */
@@ -76,12 +104,23 @@
   .sds-h3 {
     font-size: var(--font-size-h3);
   }
-  /* The scale stops at three and a document does not. Below it, the UI
-     register — a fourth heading size nothing uses is a size that drifts. */
+  /* The scale stops at three and a text does not. Below it weight and air do
+     the work the size stops doing — a fourth size nothing uses is a size that
+     drifts — and the floor is upper case and tracked out, because at that depth
+     a heading has stopped being a size and become a label for what follows. */
   h4,
   h5,
   h6 {
-    font-size: var(--font-size-ui);
+    font-size: var(--font-size-body);
+    font-weight: var(--weight-semibold);
+  }
+  h6 {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
   }
 
   /* Above the scale, and the one register with a measure of its own. */
@@ -94,9 +133,9 @@
 
   /* ------------------------------------------------------------ links -- */
 
-  /* Colour and no underline at rest. A link standing in running text underlines
-     as well, which is `sds-prose`'s rule: outside a sentence a link in a list is
-     a menu item, and underlining every one of those is a navigation in rules. */
+  /* Colour, and no underline until the pointer is on it: a link that is a block
+     of its own — a card, a row, an item in a menu — is told apart by standing
+     alone, and a rule under every one of those is a navigation in stripes. */
   a {
     color: var(--text-link);
     text-decoration: none;
@@ -105,6 +144,20 @@
     &:hover {
       color: var(--text-link-hover);
       text-decoration: underline;
+    }
+  }
+
+  /* A link *inside* running text has nothing to stand apart from, so it is
+     underlined at rest. It has to be: against body text the link ink stands at
+     1.3:1 in dark, and no token reaches 3:1 while there is one accent — colour
+     alone would be the only thing saying a word is a link. */
+  :is(p, li, dd, td, th) a {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+    text-underline-offset: 2px;
+
+    &:hover {
+      text-decoration-color: currentColor;
     }
   }
 
@@ -152,7 +205,8 @@
     color: var(--text-primary);
   }
   /* And the directive stands on a line of its own. */
-  .sds-section > math:not(:has(*)) {
+  .sds-section > math:not(:has(*)),
+  .sds-prose > math:not(:has(*)) {
     display: block;
     margin-bottom: var(--space-4);
   }
@@ -261,14 +315,25 @@
     margin-block-end: var(--space-2);
   }
 
-  /* A nested list is part of the item it hangs under, so it adds no step. */
-  li > ul,
-  li > ol {
+  /* Items that are each a sentence or two stand apart; a list whose items are
+     words says so with a class. A nested list is part of the item it hangs
+     under, so it opens with that same air and adds no step below itself. */
+  li {
+    margin-bottom: var(--space-1);
+  }
+  li:last-child {
     margin-bottom: 0;
   }
+  li > ul,
+  li > ol {
+    margin: var(--space-1) 0 0;
+  }
 
+  /* Far more air than any block carries, because a rule is what separates two
+     sections of a text rather than a thing standing in the flow. */
   hr {
     border: 0;
     border-top: var(--border-hairline) solid var(--border-subtle);
+    margin: var(--space-12) 0;
   }
 }

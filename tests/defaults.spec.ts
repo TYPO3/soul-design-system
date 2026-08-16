@@ -133,6 +133,7 @@ const CONTENT = `<!doctype html>
   </div>
   <p>A sentence naming <code id="inline-code">typo3_icon_lookup</code>, which is a thing the machine named.</p>
   <p><a id="bare-a" href="#somewhere">a link nobody classed</a></p>
+  <div><a id="standalone-a" href="#somewhere">a link that is a block of its own</a></div>
   <hr id="rule" />
 
   <div class="sds-column"><p id="in-column">A paragraph where the container states the step.</p></div>
@@ -157,28 +158,36 @@ test('content that arrives without a class is still the system', async ({ page }
   const code = await page.locator('#inline-code').evaluate((el) => getComputedStyle(el).fontFamily);
   expect(code).toContain('Source Code Pro');
 
-  /* Not the browser's blue, and not underlined at rest — a link in this system
-     underlines on hover and never before. */
-  const link = await page.locator('#bare-a').evaluate((el) => {
-    const s = getComputedStyle(el);
-    return { color: s.color, decoration: s.textDecorationLine };
-  });
-  expect(link.color).not.toBe('rgb(0, 0, 238)');
-  expect(link.decoration).toBe('none');
+  /* Not the browser's blue. And the underline says which of the two kinds of
+     link it is: inside a sentence there is nothing to stand apart from, so it
+     is drawn at rest — colour alone does not reach 3:1 against body text. A
+     link that is a block of its own is told apart by standing alone. */
+  const link = (id: string) =>
+    page.locator(`#${id}`).evaluate((el) => {
+      const s = getComputedStyle(el);
+      return { color: s.color, decoration: s.textDecorationLine };
+    });
+  const inSentence = await link('bare-a');
+  expect(inSentence.color).not.toBe('rgb(0, 0, 238)');
+  expect(inSentence.decoration, 'a link inside a sentence is underlined at rest').toBe('underline');
+  expect((await link('standalone-a')).decoration,
+    'a link that is a block of its own is not').toBe('none');
 
   /* And where the container states the step itself, the element gives its own
      up: a gap and a margin stacked are neither of the two values. */
   const inColumn = await page.locator('#in-column').evaluate((el) => getComputedStyle(el).marginBlockEnd);
   expect(inColumn, 'a column states its own step, so the paragraph drops its').toBe('0px');
 
-  /* One hairline, no radius, no margin of its own. */
+  /* One hairline, no radius — and far more air than any block carries, because
+     a rule separates two sections of a text rather than standing in the flow as
+     one more block. The same distance wherever it is written. */
   const rule = await page.locator('#rule').evaluate((el) => {
     const s = getComputedStyle(el);
     return { top: s.borderTopWidth, bottom: s.borderBottomWidth, margin: s.marginBlockStart };
   });
   expect(rule.top).toBe('1px');
   expect(rule.bottom).toBe('0px');
-  expect(rule.margin).toBe('0px');
+  expect(parseFloat(rule.margin), 'a rule stands off the text it separates').toBeGreaterThan(32);
 });
 
 /* Lists, which arrive without a class more often than anything else here. The
