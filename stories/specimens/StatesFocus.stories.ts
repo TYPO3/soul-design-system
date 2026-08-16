@@ -48,7 +48,7 @@ const meta: Meta = {
       group: 'States',
       name: 'Focus & keyboard',
       subtitle: 'One ring, everywhere — 2px accent plus a 3px halo, never a colour change alone',
-      viewport: '700x214',
+      viewport: '700x213',
     }),
   },
 };

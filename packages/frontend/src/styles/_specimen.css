@@ -52,8 +52,10 @@ body {
 
 /* Just the card's padding, no layout opinion — for specimens that lay
    themselves out (a grid of type samples, a row of state chips). */
+/* One value: a card is a photograph of a design, and air that is wider at the
+   sides than at the top is a frame with an opinion in it. */
 .spec-pad {
-  padding: 20px 22px;
+  padding: 20px;
 }
 
 .spec-row {

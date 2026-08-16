@@ -47,7 +47,7 @@ const meta: Meta = {
       group: 'Brand',
       name: 'Edges & radii',
       subtitle: '0px is structural, 4px is anything you touch, 6px is the container around it',
-      viewport: '700x172',
+      viewport: '700x171',
     }),
   },
 };

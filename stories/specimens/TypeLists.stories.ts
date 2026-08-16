@@ -49,7 +49,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Lists',
       subtitle: 'Bullets and numbers indented by the marker; sds-list--plain for a list of links',
-      viewport: '700x252',
+      viewport: '700x251',
     }),
   },
 };

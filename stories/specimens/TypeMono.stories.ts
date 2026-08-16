@@ -32,7 +32,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Mono & labels',
       subtitle: 'Source Code Pro carries tool names, labels and every code block',
-      viewport: '700x201',
+      viewport: '700x200',
     }),
   },
 };

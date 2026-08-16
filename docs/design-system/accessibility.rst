@@ -23,7 +23,7 @@ Always ``:focus-visible`` and never ``:focus``: a pointer should not leave a
 ring behind. **Nothing in this system is reachable by pointer only.**
 
 .. specimen:: guidelines/states-focus.card.html
-   :viewport: 700x214
+   :viewport: 700x213
    :title: Focus & keyboard
 
 Colour never carries it alone

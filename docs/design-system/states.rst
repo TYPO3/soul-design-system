@@ -20,7 +20,7 @@ never ``:focus`` — a click should not leave a ring behind.
 Nothing in this system is reachable by pointer only.
 
 .. specimen:: guidelines/states-focus.card.html
-   :viewport: 700x214
+   :viewport: 700x213
    :title: Focus & keyboard
 
 Interaction
@@ -50,7 +50,7 @@ useful progress. Over 2s the label says *why*: "booting the installation",
 the shape is already known.
 
 .. specimen:: guidelines/states-loading.card.html
-   :viewport: 700x257
+   :viewport: 700x256
    :title: Loading
 
 Empty and not found
@@ -63,7 +63,7 @@ Empty and not found
    not a failure: it gets ``actions-info-circle``, not an error colour.
 
 .. specimen:: guidelines/states-empty.card.html
-   :viewport: 700x448
+   :viewport: 700x447
    :title: Empty & not found
 
 Errors and degraded answers
@@ -82,5 +82,5 @@ change that.
 knowledge · 12.4, 13.4". Never praise, never a "done" toast.
 
 .. specimen:: guidelines/states-error.card.html
-   :viewport: 700x472
+   :viewport: 700x471
    :title: Errors & degraded answers

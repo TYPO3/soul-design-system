@@ -54,7 +54,13 @@ const results = await withPage(async ({ map }) =>
         const r = el.getBoundingClientRect();
         if (r.width > 0 && r.height > 0) bottom = Math.max(bottom, r.bottom);
       }
-      return Math.ceil(Math.max(bottom, d.scrollHeight === 2400 ? 0 : d.scrollHeight));
+      /* Down, not up. Content rarely ends on a whole pixel — a pane of two
+         rows measures 229.28 — and a card declaring the ceiling of that leaves
+         the fraction showing under whatever painted last, which on a card of
+         edge-to-edge bands is a line of the canvas below the final band.
+         Declared down, the last thing painted runs a fraction past the edge
+         and covers it, and nothing a reader could see is lost. */
+      return Math.floor(Math.max(bottom, d.scrollHeight === 2400 ? 0 : d.scrollHeight));
     });
     const clipped = await page.evaluate(() => {
       const hits: string[] = [];

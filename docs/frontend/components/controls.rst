@@ -9,7 +9,7 @@ everything here appears in a bar or a row of actions, and everything here is a
 real ``<button>`` or ``<a>`` underneath.
 
 .. specimen:: components/core/buttons.card.html
-   :viewport: 700x320
+   :viewport: 700x319
    :title: Buttons & links
 
 .. _component-sds-button:

@@ -67,7 +67,7 @@ const meta: Meta<TableProps> = {
       path: 'components/data/data.card.html',
       name: 'Table, badges & status',
       subtitle: 'Long technical lists — compact rows, mono for anything the machine named',
-      viewport: '700x299',
+      viewport: '700x298',
     }),
   },
 };

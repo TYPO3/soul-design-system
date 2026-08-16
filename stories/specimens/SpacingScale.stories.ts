@@ -30,7 +30,7 @@ const meta: Meta = {
       group: 'Spacing',
       name: 'Space scale',
       subtitle: 'A 4px base, halved below 16 and thinning out above 24',
-      viewport: '700x127',
+      viewport: '700x126',
     }),
   },
 };

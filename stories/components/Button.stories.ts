@@ -67,7 +67,7 @@ const meta: Meta<ButtonArgs> = {
       path: 'components/core/buttons.card.html',
       name: 'Buttons & links',
       subtitle: 'One primary per view — the action that starts work',
-      viewport: '700x320',
+      viewport: '700x319',
     }),
   },
 };

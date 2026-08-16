@@ -74,7 +74,7 @@ Drawing rules
 =============
 
 .. specimen:: guidelines/diagrams-rules.card.html
-   :viewport: 980x501
+   :viewport: 980x500
    :title: Drawing rules
 
 Worked examples
@@ -85,13 +85,13 @@ an axis, a sequence and containment rather than forcing every explanation into
 boxes joined by arrows.
 
 .. specimen:: guidelines/diagrams-overview.card.html
-   :viewport: 1400x957
+   :viewport: 1400x956
    :title: System overview — a map with no axis
 
 .. specimen:: guidelines/diagrams-example.card.html
-   :viewport: 1400x985
+   :viewport: 1400x984
    :title: Worked example
 
 .. specimen:: guidelines/diagrams-fallback.card.html
-   :viewport: 1400x1025
+   :viewport: 1400x1024
    :title: Fallback — a sequence without a flowchart

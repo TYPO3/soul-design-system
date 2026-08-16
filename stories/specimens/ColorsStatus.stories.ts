@@ -33,7 +33,7 @@ const meta: Meta = {
       name: 'Status & syntax',
       subtitle: 'Only ever inside code blocks, badges and result rows',
       theme: 'both',
-      viewport: '700x218',
+      viewport: '700x217',
     }),
   },
 };

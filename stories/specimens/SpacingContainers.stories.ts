@@ -30,7 +30,7 @@ const meta: Meta = {
       group: 'Spacing',
       name: 'Containers',
       subtitle: 'A column ranks what is in it, a stack does not',
-      viewport: '700x439',
+      viewport: '700x438',
     }),
   },
 };

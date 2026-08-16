@@ -47,7 +47,7 @@ const meta: Meta = {
       group: 'Colors',
       name: 'Accent',
       subtitle: 'TYPO3 orange is the only accent — used sparingly',
-      viewport: '700x137',
+      viewport: '700x136',
     }),
   },
 };

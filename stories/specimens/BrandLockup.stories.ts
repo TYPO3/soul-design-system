@@ -44,7 +44,7 @@ const meta: Meta = {
       group: 'Brand',
       name: 'Primary lockup',
       subtitle: 'Signet, wordmark, one orange pipe — signet at 1.36 × the type size',
-      viewport: '700x210',
+      viewport: '700x209',
     }),
   },
 };

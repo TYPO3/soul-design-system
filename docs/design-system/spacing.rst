@@ -35,7 +35,7 @@ the system shares the horizontal value, so a card, a note, a modal and a code
 block start their text on the same edge however they are stacked.
 
 .. specimen:: guidelines/spacing-scale.card.html
-   :viewport: 700x127
+   :viewport: 700x126
    :title: Space scale
 
 Reading rhythm

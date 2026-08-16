@@ -80,7 +80,7 @@ A **card** is a hairline and 6px with no fill of its own.
        the page is
 
 .. specimen:: guidelines/colors-surfaces.card.html
-   :viewport: 700x266
+   :viewport: 700x265
    :title: Surfaces
 
 Text
@@ -107,7 +107,7 @@ Text
        colour in both modes, so what stands on it is one colour too
 
 .. specimen:: guidelines/colors-text.card.html
-   :viewport: 700x176
+   :viewport: 700x175
    :title: Text
 
 Borders
@@ -133,7 +133,7 @@ than depth — see :doc:`accessibility`.
      - the frame of the tinted plane, and nothing else
 
 .. specimen:: guidelines/colors-borders.card.html
-   :viewport: 700x230
+   :viewport: 700x229
    :title: Borders
 
 Accent
@@ -157,7 +157,7 @@ Use ``--accent``, never the raw ``--orange-*`` scale — that scale exists to
 derive the token and is not for use in a design.
 
 .. specimen:: guidelines/colors-accent.card.html
-   :viewport: 700x137
+   :viewport: 700x136
    :title: Accent
 
 Status and syntax
@@ -169,5 +169,5 @@ furniture.** A status colour on a heading or a border means the page is
 telling you something is wrong when nothing is.
 
 .. specimen:: guidelines/colors-status.card.html
-   :viewport: 700x218
+   :viewport: 700x217
    :title: Status and syntax

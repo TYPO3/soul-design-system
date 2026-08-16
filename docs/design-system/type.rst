@@ -58,7 +58,7 @@ Scale
 =====
 
 .. specimen:: guidelines/type-scale.card.html
-   :viewport: 700x246
+   :viewport: 700x245
    :title: Type scale
 
 Titles and bodies move together
@@ -98,14 +98,14 @@ page rather than a step in the outline, and it says nothing about level at
 all.
 
 .. specimen:: guidelines/type-display.card.html
-   :viewport: 700x178
+   :viewport: 700x177
    :title: Display & headings
 
 Body and lead
 =============
 
 .. specimen:: guidelines/type-body.card.html
-   :viewport: 700x194
+   :viewport: 700x193
    :title: Body & lead
 
 Lists
@@ -122,7 +122,7 @@ top-level indent off a list whose items are links, where every item is marked
 by being a link already.
 
 .. specimen:: guidelines/type-lists.card.html
-   :viewport: 700x252
+   :viewport: 700x251
    :title: Lists
 
 .. note::
@@ -148,7 +148,7 @@ look. A page that does need the two apart has the anchor the renderer wrote —
 name.
 
 .. specimen:: guidelines/type-notes.card.html
-   :viewport: 700x313
+   :viewport: 700x312
    :title: Notes at the foot
 
 .. note::
@@ -186,5 +186,5 @@ inside it the block has already decided the size, the weight and the colour,
 and a whole block set in medium is one asking to be read as emphasis.
 
 .. specimen:: guidelines/type-mono.card.html
-   :viewport: 700x201
+   :viewport: 700x200
    :title: Mono & labels

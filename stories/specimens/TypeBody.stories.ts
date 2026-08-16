@@ -27,7 +27,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Body & lead',
       subtitle: '17px body at 1.65, 620px measure',
-      viewport: '700x194',
+      viewport: '700x193',
     }),
   },
 };
