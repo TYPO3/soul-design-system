@@ -15,10 +15,10 @@
 
   /* Nothing at every other width: the box is in the markup on every page and
      is not in the layout until the rule below puts it there, so no template
-     decides twice where it stands. `.sds-prose` is structure here, not a
-     guard — this places the aside a document writes beside its column, and
-     an aside standing outside a passage stays the box it is. */
-  :where(.sds-prose) .sds-aside {
+     decides twice where it stands. `.sds-prose` is structure, not a guard: it
+     places the aside a document writes beside its column, and one standing
+     outside a passage stays the box it is. */
+  .sds-prose .sds-aside {
     display: contents;
   }
 
@@ -30,7 +30,7 @@
     /* The column gives the width up rather than the box taking it, so the
        breadcrumb and the pager narrow with the text: a column that is one width
        at the top of the page and another at the bottom is two columns. */
-    :where(.sds-body__main):has(> :where(.sds-prose) .sds-aside) {
+    .sds-body__main:has(> .sds-prose .sds-aside) {
       position: relative;
       padding-inline-end: calc(var(--width-sidebar) + var(--space-12));
     }
@@ -39,7 +39,7 @@
        of the flow entirely rather than floated, because a float begins where it
        stands — written under three paragraphs of introduction, the list began
        three paragraphs down and left a hole above it. */
-    :where(.sds-prose) .sds-aside {
+    .sds-prose .sds-aside {
       display: block;
       position: absolute;
       /* Wider than the column it draws, by what a row's fill and the ring around
@@ -54,7 +54,7 @@
     /* The element the list arrives in is a box of its own, and a sticky box
        travels inside its parent: left at the list's own height it gives the
        list nowhere to rest. At the reserve's height the travel is the column. */
-    :where(.sds-prose) .sds-aside sds-nav-toc {
+    .sds-prose .sds-aside sds-nav-toc {
       block-size: 100%;
     }
   }
@@ -175,7 +175,7 @@
      block apart from the text around it, and there is no text around it here.
      In this layer because the frame is — the resting form must win it back. */
   @media (min-width: 1296px) {
-    :where(.sds-prose) .sds-aside .sds-toc {
+    .sds-prose .sds-aside .sds-toc {
       --sds-toc-rest-top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));
       --sds-toc-rest-max: calc(100vh - var(--height-header) - var(--space-8) * 2);
       --sds-toc-rest-pad-y: var(--space-1-5);
@@ -195,7 +195,7 @@
        levels below the second are identical muted lines a step apart, each with
        less measure than the one above and nothing but that step saying which
        is which. The list in the flow keeps all six. */
-    :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list {
+    .sds-prose .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list {
       display: none;
     }
   }

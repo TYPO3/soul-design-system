@@ -1372,11 +1372,11 @@
   sds-nav-toc{display:block;min-width:0;margin-bottom:var(--space-6)}
   sds-nav-toc>.sds-toc{margin-bottom:0}
   .sds-toc{margin:0 0 var(--space-6)}
-  :where(.sds-prose) .sds-aside{display:contents}
+  .sds-prose .sds-aside{display:contents}
   @media(min-width:1296px){
-    :where(.sds-body__main):has(>:where(.sds-prose) .sds-aside){position:relative;padding-inline-end:calc(var(--width-sidebar) + var(--space-12))}
-    :where(.sds-prose) .sds-aside{display:block;position:absolute;inset-block:calc(-1 * var(--space-1-5)) 0;inset-inline-end:calc(-1 * var(--space-4));width:calc(var(--width-sidebar) + var(--space-4) * 2)}
-    :where(.sds-prose) .sds-aside sds-nav-toc{block-size:100%}
+    .sds-body__main:has(>.sds-prose .sds-aside){position:relative;padding-inline-end:calc(var(--width-sidebar) + var(--space-12))}
+    .sds-prose .sds-aside{display:block;position:absolute;inset-block:calc(-1 * var(--space-1-5)) 0;inset-inline-end:calc(-1 * var(--space-4));width:calc(var(--width-sidebar) + var(--space-4) * 2)}
+    .sds-prose .sds-aside sds-nav-toc{block-size:100%}
   }
 }
 @layer components{
@@ -1431,8 +1431,8 @@
   .sds-toc__list .sds-toc__list .sds-toc__item:hover{color:var(--sds-toc-ink-hover)}
   .sds-toc__item.is-active,.sds-toc__list .sds-toc__list .sds-toc__item.is-active{background:var(--sds-toc-fill-active);color:var(--sds-toc-ink-active);text-decoration:none}
   @media(min-width:1296px){
-    :where(.sds-prose) .sds-aside .sds-toc{--sds-toc-rest-top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));--sds-toc-rest-max: calc(100vh - var(--height-header) - var(--space-8) * 2);--sds-toc-rest-pad-y: var(--space-1-5);--sds-toc-rest-pad-x: var(--space-4);position:sticky;top:var(--sds-toc-rest-top);max-height:var(--sds-toc-rest-max);margin:0;padding:var(--sds-toc-rest-pad-y) var(--sds-toc-rest-pad-x);border:0;max-width:none;overflow-y:auto}
-    :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list{display:none}
+    .sds-prose .sds-aside .sds-toc{--sds-toc-rest-top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));--sds-toc-rest-max: calc(100vh - var(--height-header) - var(--space-8) * 2);--sds-toc-rest-pad-y: var(--space-1-5);--sds-toc-rest-pad-x: var(--space-4);position:sticky;top:var(--sds-toc-rest-top);max-height:var(--sds-toc-rest-max);margin:0;padding:var(--sds-toc-rest-pad-y) var(--sds-toc-rest-pad-x);border:0;max-width:none;overflow-y:auto}
+    .sds-prose .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list{display:none}
   }
 }
 @layer base{
