@@ -63,14 +63,11 @@
     border-color var(--sds-btn-duration) var(--sds-btn-ease),
     color var(--sds-btn-duration) var(--sds-btn-ease);
 
-    /* One state, whatever the variant. `text-decoration` with it: this class
-       is worn by anchors too — a press that goes somewhere is a link — and
-       `a:hover` is a type *and* a pseudo-class, which outweighs a bare class. */
+    /* One state, whatever the variant. */
     &:hover {
       --sds-btn-ink: var(--sds-btn-ink-hover);
       --sds-btn-fill: var(--sds-btn-fill-hover);
       --sds-btn-edge: var(--sds-btn-edge-hover);
-      text-decoration: none;
     }
 
     &:disabled,

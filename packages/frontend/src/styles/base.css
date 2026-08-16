@@ -83,10 +83,9 @@
     color: var(--text-link);
     text-decoration: none;
     transition: color var(--duration-fast) var(--ease-out);
+
+    &:hover { color: var(--text-link-hover); text-decoration: underline; }
   }
-  /* Written weightless, so a rail item, a pill or a permalink each saying
-     never underlined is not answered over by a bare `a:hover`. */
-  :where(a):hover { color: var(--text-link-hover); text-decoration: underline; }
 
   /* ------------------------------------------------------------ lists -- */
 

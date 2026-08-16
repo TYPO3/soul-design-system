@@ -58,8 +58,12 @@
   h3,.sds-h3{font-size:var(--font-size-h3)}
   h4,h5,h6{font-size:var(--font-size-ui)}
   .sds-display{font-size:var(--font-size-display);line-height:var(--leading-display);letter-spacing:var(--tracking-display);max-width:var(--measure-display)}
-  a{color:var(--text-link);text-decoration:none;transition:color var(--duration-fast) var(--ease-out)}
-  :where(a):hover{color:var(--text-link-hover);text-decoration:underline}
+  a{
+    color:var(--text-link);
+    text-decoration:none;
+    transition:color var(--duration-fast) var(--ease-out);
+    &:hover{color:var(--text-link-hover);text-decoration:underline}
+  }
   ul,ol{padding-inline-start:var(--space-5)}
   li::marker{color:var(--text-muted)}
   :where(ul:not([type])){list-style:disc}
@@ -293,7 +297,7 @@
     text-decoration:none;
     cursor:pointer;
     transition:background var(--sds-btn-duration) var(--sds-btn-ease),border-color var(--sds-btn-duration) var(--sds-btn-ease),color var(--sds-btn-duration) var(--sds-btn-ease);
-    &:hover{--sds-btn-ink: var(--sds-btn-ink-hover);--sds-btn-fill: var(--sds-btn-fill-hover);--sds-btn-edge: var(--sds-btn-edge-hover);text-decoration:none}
+    &:hover{--sds-btn-ink: var(--sds-btn-ink-hover);--sds-btn-fill: var(--sds-btn-fill-hover);--sds-btn-edge: var(--sds-btn-edge-hover)}
     &:disabled,&.is-disabled{opacity:var(--sds-btn-disabled-opacity);cursor:not-allowed}
   }
   .sds-btn__label{display:block}

@@ -165,21 +165,24 @@ name — the ``&:hover`` above is the shape. Two lines hold it:
 Weightless on purpose
 =====================
 
-A guard is written ``:where()`` so it weighs nothing. The rule fires wherever
-it should and loses to any name that states the same property, however plain
-that name is — which is the intended order between a general manner and a
-component's own word:
+Between layers, weight does not decide. A component's plainest class beats
+the loudest selector in ``base``, because ``components`` stands later in the
+layer order — which is why the bare-element rules are written at their
+natural weight: a plain ``a:hover`` in ``base`` cannot answer over any
+component that states the same property, however either one is spelt.
+
+Weight decides *within* a layer, and that is where ``:where()`` earns its
+place. The document layer is ``base`` too, so its rules meet ``base.css``'s
+own bare-element rules and the flow-contract lines in the same arena:
 
 .. code-block:: css
 
-   /* Written weightless, so a rail item, a pill or a permalink each saying
-      never underlined is not answered over by a bare `a:hover`. */
-   :where(a):hover { color: var(--text-link-hover); text-decoration: underline; }
+   /* Weighs what `h3` weighs: later in the layer, it wins that tie — and it
+      cannot out-specify a flow-contract line living in the same layer. */
+   :where(.sds-prose) h3 { color: var(--text-primary); }
 
-The same wrapper scopes the document layer: ``:where(.sds-prose) h3`` weighs
-what ``h3`` weighs, so a document's manners never out-specify a component
-standing in the document. A condition that must *win* something is the other
-case — it is written at full weight, in the layer whose turn it is to speak.
+A condition that must *win* something in its own layer is the other case — it
+is written at full weight, in the layer whose turn it is to speak.
 
 .. seealso::
 
