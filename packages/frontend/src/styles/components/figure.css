@@ -4,9 +4,18 @@
   /* And it fills what it is given: a wall stretches the cell to the tallest in
      the row, where a block box stops at its own caption and leaves a frame
      shorter than the drawing beside it. */
-  sds-figure { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-figure > .sds-figure { block-size: 100%; margin-bottom: 0; }
-  .sds-figure { margin: 0 0 var(--space-4); }
+  sds-figure {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-figure > .sds-figure {
+    block-size: 100%;
+    margin-bottom: 0;
+  }
+  .sds-figure {
+    margin: 0 0 var(--space-4);
+  }
 
   /* The picture before its element upgrades, and on a page that runs none.
      The renderer wrote it carrying `sds-art`, so it is already the right size
@@ -63,7 +72,9 @@
      exported with, so the ground under it is one those colours were drawn for.
      The one surface in the system that does not follow the reader into dark:
      below light line art, a dark ground is the page contradicting the picture. */
-  .sds-figure__frame--exported { --sds-figure-fill: var(--surface-art); }
+  .sds-figure__frame--exported {
+    --sds-figure-fill: var(--surface-art);
+  }
 
   .sds-figure__caption {
     max-width: var(--sds-figure-caption-measure);
@@ -71,5 +82,4 @@
     font-size: var(--sds-figure-caption-size);
     line-height: var(--sds-figure-caption-leading);
   }
-
 }

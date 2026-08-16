@@ -6,10 +6,21 @@
    found by reading down one column and not by comparing six containers. */
 
 @layer base {
-  sds-accordion-item { display: block; min-width: 0; }
-  sds-accordion { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-accordion > .sds-accordion { margin-bottom: 0; }
-  .sds-accordion { margin: 0 0 var(--space-4); }
+  sds-accordion-item {
+    display: block;
+    min-width: 0;
+  }
+  sds-accordion {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-accordion > .sds-accordion {
+    margin-bottom: 0;
+  }
+  .sds-accordion {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -65,11 +76,14 @@
          what a fold reads as when it looks abrupt. */
       opacity: 0;
       transition:
-      grid-template-rows var(--sds-accordion-duration) var(--sds-accordion-ease),
-      opacity var(--sds-accordion-duration-fast) var(--sds-accordion-ease-out),
-      content-visibility var(--sds-accordion-duration) allow-discrete;
+        grid-template-rows var(--sds-accordion-duration) var(--sds-accordion-ease),
+        opacity var(--sds-accordion-duration-fast) var(--sds-accordion-ease-out),
+        content-visibility var(--sds-accordion-duration) allow-discrete;
     }
-    &[open]::details-content { grid-template-rows: 1fr; opacity: 1; }
+    &[open]::details-content {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
   }
   .sds-accordion__head {
     list-style: none;
@@ -88,8 +102,12 @@
     color: var(--sds-accordion-head-ink);
     transition: color var(--sds-accordion-duration-fast) var(--sds-accordion-ease-out);
 
-    &::-webkit-details-marker { display: none; }
-    &:hover { color: var(--sds-accordion-head-ink-hover); }
+    &::-webkit-details-marker {
+      display: none;
+    }
+    &:hover {
+      color: var(--sds-accordion-head-ink-hover);
+    }
     /* The ring, turned inward. A question is full-bleed and its box ends on the
        hairlines above and below, so the ring as drawn everywhere else lands on
        both; inset, it stands in the row's own padding. */
@@ -113,7 +131,9 @@
       transition: transform var(--sds-accordion-duration) var(--sds-accordion-ease);
     }
   }
-  .sds-accordion__item[open] > .sds-accordion__head .sds-icon { transform: none; }
+  .sds-accordion__item[open] > .sds-accordion__head .sds-icon {
+    transform: none;
+  }
   .sds-accordion__body {
     /* A grid item's own floor is its content, which is what keeps a collapsed
        row from reaching zero. */
@@ -125,13 +145,15 @@
 
     /* An answer is blocks and they bring their own margins; the step under the
        last one is the space below, which the box draws itself. */
-    > :last-child { margin-bottom: 0; }
+    > :last-child {
+      margin-bottom: 0;
+    }
     /* The space under an answer, drawn rather than padded. Padding is outside the
        height a row can shrink, so as `padding-bottom` it was a floor the fold
        stopped on and then jumped off — the same step, at the start of every open
        and the end of every close. */
     &::after {
-      content: '';
+      content: "";
       display: block;
       height: var(--sds-accordion-foot);
     }
@@ -141,5 +163,7 @@
      reader who pressed nothing, and the scroll that was aimed at it lands where
      the page stood rather than where it settles. Stated on the set, because what
      moves the ground is the other answer closing. */
-  .sds-accordion:has(:target) .sds-accordion__item::details-content { transition: none; }
+  .sds-accordion:has(:target) .sds-accordion__item::details-content {
+    transition: none;
+  }
 }

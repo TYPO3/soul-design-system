@@ -1,10 +1,21 @@
 /* sds-nav-pagination and sds-nav-pager — a set in pages, and the way on. */
 
 @layer base {
-  sds-nav-pager { display: block; min-width: 0; }
-  sds-nav-pagination { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-nav-pagination > .sds-pagination { margin-bottom: 0; }
-  .sds-pagination { margin: 0 0 var(--space-4); }
+  sds-nav-pager {
+    display: block;
+    min-width: 0;
+  }
+  sds-nav-pagination {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-nav-pagination > .sds-pagination {
+    margin-bottom: 0;
+  }
+  .sds-pagination {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -43,11 +54,13 @@
     color: var(--sds-pagination-ink);
     text-decoration: none;
     transition:
-    background var(--sds-pagination-duration) var(--sds-pagination-ease),
-    color var(--sds-pagination-duration) var(--sds-pagination-ease);
+      background var(--sds-pagination-duration) var(--sds-pagination-ease),
+      color var(--sds-pagination-duration) var(--sds-pagination-ease);
   }
   .sds-pagination__page:hover,
-  .sds-pagination__step:hover { color: var(--sds-pagination-ink-hover); }
+  .sds-pagination__step:hover {
+    color: var(--sds-pagination-ink-hover);
+  }
   .sds-pagination__page.is-active {
     background: var(--sds-pagination-fill-active);
     color: var(--sds-pagination-ink-active);
@@ -76,5 +89,7 @@
      read in order. The row is `.sds-foot` and is not drawn twice, so the whole
      of this is which end each control sits at — said on the next rather than
      between the two, or a page with only a next would have it on the left. */
-  .sds-pager > .sds-pager__next { margin-inline-start: auto; }
+  .sds-pager > .sds-pager__next {
+    margin-inline-start: auto;
+  }
 }

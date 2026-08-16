@@ -4,9 +4,17 @@
   /* A block, and the step it carries is the flow's own: the trail is the way
      back up, not part of the title, so it stands off the group by the full
      step — and a container that pays the gap takes it back. */
-  sds-nav-breadcrumb { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-nav-breadcrumb > .sds-crumbs { margin-bottom: 0; }
-  .sds-crumbs { margin: 0 0 var(--space-4); }
+  sds-nav-breadcrumb {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-nav-breadcrumb > .sds-crumbs {
+    margin-bottom: 0;
+  }
+  .sds-crumbs {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -40,9 +48,15 @@
       text-decoration: none;
       transition: color var(--sds-crumbs-duration) var(--sds-crumbs-ease);
     }
-    a:hover { color: var(--sds-crumbs-ink-hover); text-decoration: underline; }
+    a:hover {
+      color: var(--sds-crumbs-ink-hover);
+      text-decoration: underline;
+    }
   }
-  .sds-crumbs__sep { color: var(--sds-crumbs-sep-ink); user-select: none; }
+  .sds-crumbs__sep {
+    color: var(--sds-crumbs-sep-ink);
+    user-select: none;
+  }
   .sds-crumbs__here {
     color: var(--sds-crumbs-here-ink);
     font-weight: var(--sds-crumbs-here-weight);

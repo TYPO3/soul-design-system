@@ -1,7 +1,10 @@
 /* What a pill, a tab and a rail item share, and the row of pills itself. */
 
 @layer base {
-  sds-nav-pills { display: block; min-width: 0; }
+  sds-nav-pills {
+    display: block;
+    min-width: 0;
+  }
 }
 
 @layer components {
@@ -74,10 +77,12 @@
     text-decoration: none;
     white-space: nowrap;
     transition:
-    background var(--sds-pill-duration) var(--sds-pill-ease),
-    color var(--sds-pill-duration) var(--sds-pill-ease);
+      background var(--sds-pill-duration) var(--sds-pill-ease),
+      color var(--sds-pill-duration) var(--sds-pill-ease);
 
-    &:hover { color: var(--sds-pill-ink-hover); }
+    &:hover {
+      color: var(--sds-pill-ink-hover);
+    }
 
     &.is-active {
       background: var(--sds-pill-fill-active);

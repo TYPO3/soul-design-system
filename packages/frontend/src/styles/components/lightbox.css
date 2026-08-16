@@ -4,7 +4,9 @@
   /* It draws nothing where it stands — what it opens is in the top layer or
      fixed to the viewport, so a box here is one nothing would ever fill. */
   sds-dialog,
-  sds-lightbox { display: contents; }
+  sds-lightbox {
+    display: contents;
+  }
 }
 
 @layer components {
@@ -41,8 +43,13 @@
     color: var(--sds-lightbox-ink);
     overflow: hidden;
   }
-  dialog.sds-lightbox[open] { display: flex; flex-direction: column; }
-  dialog.sds-lightbox::backdrop { background: var(--sds-lightbox-backdrop); }
+  dialog.sds-lightbox[open] {
+    display: flex;
+    flex-direction: column;
+  }
+  dialog.sds-lightbox::backdrop {
+    background: var(--sds-lightbox-backdrop);
+  }
   /* A modal has the whole screen, but the platform only makes the rest inert —
      a wheel over the backdrop still moves the page behind the picture. The
      stable gutter keeps the scrollbar's width reserved, or locking the document
@@ -64,8 +71,9 @@
      exported with, so the ground under it is one those colours were drawn for.
      The one surface in the system that does not follow the reader into dark:
      below light line art, a dark ground is the page contradicting the picture. */
-  .sds-lightbox__art--exported { --sds-lightbox-stage-fill: var(--surface-art); }
-
+  .sds-lightbox__art--exported {
+    --sds-lightbox-stage-fill: var(--surface-art);
+  }
 
   /* The picture is fitted into what the head leaves rather than drawn at the
      width of it: the stage is bounded in both directions, so a drawing that is

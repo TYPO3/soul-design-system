@@ -21,8 +21,7 @@
      different path — so those runs are pinned and isolated from the sentence
      around them. Mono used as a register, a label or a tab, is text and turns
      with the page. */
-  :where(pre, code, kbd, samp, .sds-mono, .sds-diff,
-  .sds-code__path, .sds-result__path, .sds-td-name, .sds-td-meta) {
+  :where(pre, code, kbd, samp, .sds-mono, .sds-diff, .sds-code__path, .sds-result__path, .sds-td-name, .sds-td-meta) {
     direction: ltr;
     unicode-bidi: isolate;
   }

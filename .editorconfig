@@ -1,9 +1,9 @@
 # What an editor is told before anyone runs a formatter.
 #
-# One formatter exists here — php-cs-fixer, and it reaches the theme's PHP
-# and nothing else. Everything in front of it is held by this file, which
-# every editor worth the name reads and which needs no toolchain to work.
-# That is the same bargain the Makefile makes with the host: the rules live
+# Two formatters exist here — php-cs-fixer for the theme's PHP, Biome for
+# the stylesheets (`make php`, `make css`) — and they reach nothing else. Everything in front of them is held by this file, which every
+# editor worth the name reads and which needs no toolchain to work. That
+# is the same bargain the Makefile makes with the host: the rules live
 # where they cost nothing to obey.
 #
 # It is a hint, not a gate. A width written here and broken in a file is

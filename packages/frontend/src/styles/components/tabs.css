@@ -1,10 +1,21 @@
 /* sds-tabs — one subject at a time, chosen from a row. */
 
 @layer base {
-  sds-tab-item { display: block; min-width: 0; }
-  sds-tabs { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-tabs > .sds-tabs { margin-bottom: 0; }
-  .sds-tabs { margin: 0 0 var(--space-4); }
+  sds-tab-item {
+    display: block;
+    min-width: 0;
+  }
+  sds-tabs {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-tabs > .sds-tabs {
+    margin-bottom: 0;
+  }
+  .sds-tabs {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -35,7 +46,9 @@
     text-decoration: none;
     transition: color var(--sds-tabs-duration) var(--sds-tabs-ease);
 
-    &:hover { color: var(--sds-tabs-ink-hover); }
+    &:hover {
+      color: var(--sds-tabs-ink-hover);
+    }
 
     &.is-active {
       color: var(--sds-tabs-ink-active);
@@ -54,6 +67,8 @@
 
     /* A panel ends where it ends: whatever was put in it carries the step it
        owes a page, and under the last one that step is air with nothing after. */
-    > :last-child { margin-bottom: 0; }
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
 }

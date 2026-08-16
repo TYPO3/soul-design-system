@@ -1,16 +1,26 @@
 /* sds-nav-toc — what is on this page, and where the reader is in it. */
 
 @layer base {
-  sds-nav-toc { display: block; min-width: 0; margin-bottom: var(--space-6); }
-  sds-nav-toc > .sds-toc { margin-bottom: 0; }
-  .sds-toc { margin: 0 0 var(--space-6); }
+  sds-nav-toc {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-6);
+  }
+  sds-nav-toc > .sds-toc {
+    margin-bottom: 0;
+  }
+  .sds-toc {
+    margin: 0 0 var(--space-6);
+  }
 
   /* Nothing at every other width: the box is in the markup on every page and
      is not in the layout until the rule below puts it there, so no template
      decides twice where it stands. `.sds-prose` is structure here, not a
      guard — this places the aside a document writes beside its column, and
      an aside standing outside a passage stays the box it is. */
-  :where(.sds-prose) .sds-aside { display: contents; }
+  :where(.sds-prose) .sds-aside {
+    display: contents;
+  }
 
   /* At full measure the list leaves the flow and stands beside the column, so
      the page reads rail, text, contents with the same width either side. 1296px
@@ -44,7 +54,9 @@
     /* The element the list arrives in is a box of its own, and a sticky box
        travels inside its parent: left at the list's own height it gives the
        list nowhere to rest. At the reserve's height the travel is the column. */
-    :where(.sds-prose) .sds-aside sds-nav-toc { block-size: 100%; }
+    :where(.sds-prose) .sds-aside sds-nav-toc {
+      block-size: 100%;
+    }
   }
 }
 
@@ -105,9 +117,13 @@
     /* One step between entries. The row is a row and no longer a line of prose, so
        nothing is left between two of them: the fill of one meets the fill of the
        next, and a list of places reads as a block of them. */
-    > li { margin-bottom: var(--sds-toc-step); }
+    > li {
+      margin-bottom: var(--sds-toc-step);
+    }
     /* The step separates two entries; under the last one it separates nothing. */
-    > li:last-child { margin-bottom: 0; }
+    > li:last-child {
+      margin-bottom: 0;
+    }
   }
   /* A row rather than a line of text, so the one that is current can be filled.
      It bleeds by exactly what it is padded with: the text stands where it stood
@@ -131,8 +147,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     transition:
-    background var(--sds-toc-duration) var(--sds-toc-ease),
-    color var(--sds-toc-duration) var(--sds-toc-ease);
+      background var(--sds-toc-duration) var(--sds-toc-ease),
+      color var(--sds-toc-duration) var(--sds-toc-ease);
 
     &:hover {
       color: var(--sds-toc-ink-hover);
@@ -142,8 +158,12 @@
   /* One step quieter a level down, because the indent alone does not say it: a
      sub-entry and the second line of a wrapped entry start at different places
      and read as the same thing. */
-  .sds-toc__list .sds-toc__list .sds-toc__item { color: var(--sds-toc-ink-nested); }
-  .sds-toc__list .sds-toc__list .sds-toc__item:hover { color: var(--sds-toc-ink-hover); }
+  .sds-toc__list .sds-toc__list .sds-toc__item {
+    color: var(--sds-toc-ink-nested);
+  }
+  .sds-toc__list .sds-toc__list .sds-toc__item:hover {
+    color: var(--sds-toc-ink-hover);
+  }
   /* The section under the reader — a filled block in the accent, which is what
      this system marks a current navigation item with everywhere else. A step of
      ink alone was the first answer here and it was one step in dark and half of
@@ -180,6 +200,8 @@
        levels below the second are identical muted lines a step apart, each with
        less measure than the one above and nothing but that step saying which
        is which. The list in the flow keeps all six. */
-    :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list { display: none; }
+    :where(.sds-prose) .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list {
+      display: none;
+    }
   }
 }

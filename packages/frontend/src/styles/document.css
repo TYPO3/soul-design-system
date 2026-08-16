@@ -14,7 +14,6 @@
    look. Unlayered it would beat every component instead — which is what a
    primary button set in the link colour looks like. */
 @layer base {
-
   /* ------------------------------------------------------------- headings -- */
 
   /* What a document adds to a heading, and only that. The size, the leading and
@@ -22,9 +21,15 @@
      once there for every surface. Here it is the air above, which is what says
      which level a heading is, and the ink: `.sds-prose` sets a paragraph in
      `--text-secondary`, so a heading inside one takes the primary back. */
-  :where(.sds-prose) h1 { color: var(--text-primary); }
-  :where(.sds-prose) h2 { color: var(--text-primary); }
-  :where(.sds-prose) h3 { color: var(--text-primary); }
+  :where(.sds-prose) h1 {
+    color: var(--text-primary);
+  }
+  :where(.sds-prose) h2 {
+    color: var(--text-primary);
+  }
+  :where(.sds-prose) h3 {
+    color: var(--text-primary);
+  }
   /* Below the third level the scale has run out, so weight and air do the work
      the size stops doing. Four sets at body size and not the UI register the
      class layer leaves it in: it is still a heading of the text. */
@@ -50,7 +55,6 @@
     color: var(--text-muted);
   }
   /* A heading is the top of what follows, not a gap after what came before. */
-
 
   /* ------------------------------------------------------------ the block -- */
 
@@ -141,8 +145,12 @@
   :where(.sds-prose) ol {
     margin: 0 0 var(--space-4);
   }
-  :where(.sds-prose) li { margin-bottom: var(--space-1); }
-  :where(.sds-prose) li:last-child { margin-bottom: 0; }
+  :where(.sds-prose) li {
+    margin-bottom: var(--space-1);
+  }
+  :where(.sds-prose) li:last-child {
+    margin-bottom: 0;
+  }
   /* A nested list is part of its parent item, so it neither adds a gap above
      itself nor keeps the bottom margin the item already carries. */
   :where(.sds-prose) li > ul,
@@ -153,7 +161,9 @@
   /* A definition list is the shape a reference falls into whenever it names
      things: a term, and what it is. The term carries the weight because it is
      what somebody scans for; the definition is ordinary prose one step in. */
-  :where(.sds-prose) dl { margin: 0 0 var(--space-4); }
+  :where(.sds-prose) dl {
+    margin: 0 0 var(--space-4);
+  }
   :where(.sds-prose) dt {
     font-weight: var(--weight-semibold);
     color: var(--text-primary);
@@ -161,7 +171,9 @@
   :where(.sds-prose) dd {
     margin: var(--space-1) 0 var(--space-3) var(--space-5);
   }
-  :where(.sds-prose) dd:last-child { margin-bottom: 0; }
+  :where(.sds-prose) dd:last-child {
+    margin-bottom: 0;
+  }
   /* A term may be given its kind — `term : noun`. The kind is not the term: it
      drops to the register the definition is written in, so a reader scanning the
      column sees the words being defined and not what they are. */
@@ -172,7 +184,9 @@
   }
   /* Landing on one term out of forty says which one — the mark a confval and a
      heading already make. */
-  :where(.sds-prose) dt:target { color: var(--text-accent-quiet); }
+  :where(.sds-prose) dt:target {
+    color: var(--text-accent-quiet);
+  }
 
   /* --------------------------------------------------------------- lines -- */
 
@@ -180,9 +194,15 @@
      of what is said. So nothing here may close one up. The block carries the air
      a paragraph carries, an indented run keeps its step, and an empty line keeps
      a line's height, which is the whole reason a stanza has a gap in it. */
-  :where(.sds-prose) .line-block { margin: 0 0 var(--space-4); }
-  :where(.sds-prose) .line-block .line-block { margin: 0 0 0 var(--space-5); }
-  :where(.sds-prose) .line { min-height: 1lh; }
+  :where(.sds-prose) .line-block {
+    margin: 0 0 var(--space-4);
+  }
+  :where(.sds-prose) .line-block .line-block {
+    margin: 0 0 0 var(--space-5);
+  }
+  :where(.sds-prose) .line {
+    min-height: 1lh;
+  }
 
   /* --------------------------------------------------------------- quote -- */
 
@@ -194,7 +214,9 @@
     border-inline-start: 2px solid var(--border-subtle);
     color: var(--text-secondary);
   }
-  :where(.sds-prose) blockquote > :last-child { margin-bottom: 0; }
+  :where(.sds-prose) blockquote > :last-child {
+    margin-bottom: 0;
+  }
 
   /* ---------------------------------------------------------------- code -- */
 
@@ -227,10 +249,6 @@
 
   /* ---------------------------------------------------- what is set apart -- */
 
-
-
-
-
   /* ---------------------------------------------------------- in the line -- */
 
   /* A key is a physical thing, so it gets the one border in this section. The
@@ -249,7 +267,9 @@
     text-underline-offset: 2px;
     cursor: help;
   }
-  :where(.sds-prose) cite { font-style: italic; }
+  :where(.sds-prose) cite {
+    font-style: italic;
+  }
   :where(.sds-prose) mark {
     background: var(--surface-accent-quiet);
     color: var(--text-primary);
@@ -263,8 +283,12 @@
     position: relative;
     vertical-align: baseline;
   }
-  :where(.sds-prose) sup { top: -0.5em; }
-  :where(.sds-prose) sub { bottom: -0.25em; }
+  :where(.sds-prose) sup {
+    top: -0.5em;
+  }
+  :where(.sds-prose) sub {
+    bottom: -0.25em;
+  }
 
   /* The link a sentence is written with, and no other. Weightless on purpose —
      `:hover` inside the `:where()` too, or the rule ties with every component
@@ -288,8 +312,13 @@
     text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
     text-underline-offset: 2px;
   }
-  :where(.sds-prose) :is(p, li, dd, td, th) a:hover { text-decoration-color: currentColor; }
-  :where(.sds-prose) strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
+  :where(.sds-prose) :is(p, li, dd, td, th) a:hover {
+    text-decoration-color: currentColor;
+  }
+  :where(.sds-prose) strong {
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
+  }
 
   /* A formula arrives as the source somebody wrote, because the renderer
      typesets nothing — and MathML layout drops text that is not inside a token
@@ -335,7 +364,9 @@
      paragraph — carrying the gap that belongs between two of them, under the
      last line of a label. The size needs nothing: a paragraph here already
      inherits, which is what the rule above it is for. */
-  :where(.sds-prose) figcaption > :last-child { margin-bottom: 0; }
+  :where(.sds-prose) figcaption > :last-child {
+    margin-bottom: 0;
+  }
 
   /* --------------------------------------------------------------- table -- */
 
@@ -375,11 +406,17 @@
   }
   /* Never zebra stripes — the same rule the class layer states, for the same
      reason: a row is told apart by its content, not by its background. */
-  :where(.sds-prose) tbody tr:hover { background: var(--surface-raised); }
+  :where(.sds-prose) tbody tr:hover {
+    background: var(--surface-raised);
+  }
   :where(.sds-prose) th:first-child,
-  :where(.sds-prose) td:first-child { padding-inline-start: 0; }
+  :where(.sds-prose) td:first-child {
+    padding-inline-start: 0;
+  }
   :where(.sds-prose) th:last-child,
-  :where(.sds-prose) td:last-child { padding-inline-end: 0; }
+  :where(.sds-prose) td:last-child {
+    padding-inline-end: 0;
+  }
 
   /* ------------------------------------------------- what a renderer names -- */
 
@@ -406,7 +443,9 @@
     margin: 0 0 var(--space-4);
     max-width: var(--measure-prose);
   }
-  :where(.sds-prose) .topic > :last-child { margin-bottom: 0; }
+  :where(.sds-prose) .topic > :last-child {
+    margin-bottom: 0;
+  }
 
   /* A rubric is the one heading a reference uses that no contents should list.
      It is set exactly like `h4` — the level it would have been — and the whole
@@ -428,11 +467,21 @@
     columns: 2;
     column-gap: var(--space-6);
   }
-  :where(.sds-prose) .hlist.columns-3 > ul { columns: 3; }
-  :where(.sds-prose) .hlist.columns-4 > ul { columns: 4; }
-  :where(.sds-prose) .hlist.columns-5 > ul { columns: 5; }
-  :where(.sds-prose) .hlist.columns-6 > ul { columns: 6; }
-  :where(.sds-prose) .hlist li { break-inside: avoid; }
+  :where(.sds-prose) .hlist.columns-3 > ul {
+    columns: 3;
+  }
+  :where(.sds-prose) .hlist.columns-4 > ul {
+    columns: 4;
+  }
+  :where(.sds-prose) .hlist.columns-5 > ul {
+    columns: 5;
+  }
+  :where(.sds-prose) .hlist.columns-6 > ul {
+    columns: 6;
+  }
+  :where(.sds-prose) .hlist li {
+    break-inside: avoid;
+  }
 
   /* An option list: the flags of a command, and what each one does. The name is
      something typed at a prompt, so it is set in the mono face like every other
@@ -471,8 +520,12 @@
     color: var(--text-muted);
     white-space: nowrap;
   }
-  :where(.sds-prose) .field-list tbody tr:hover { background: none; }
-  :where(.sds-prose) .field-list p { margin: 0; }
+  :where(.sds-prose) .field-list tbody tr:hover {
+    background: none;
+  }
+  :where(.sds-prose) .field-list p {
+    margin: 0;
+  }
 
   /* A footnote at the foot of the page, and a citation, which is a footnote with
      a name. The label hangs beside the text rather than above it, so a column of
@@ -496,11 +549,14 @@
     color: var(--text-muted);
   }
   :where(.sds-prose) .footnote-content > :last-child,
-  :where(.sds-prose) .citation-content > :last-child { margin-bottom: 0; }
+  :where(.sds-prose) .citation-content > :last-child {
+    margin-bottom: 0;
+  }
   /* Landing on one note out of twenty says which one — the mark a heading, a
      confval and a term already make. The label is what the sentence pointed at,
      so the label is what answers. */
   :where(.sds-prose) .footnote:target .footnote-label,
-  :where(.sds-prose) .citation:target .citation-label { color: var(--text-accent-quiet); }
-
+  :where(.sds-prose) .citation:target .citation-label {
+    color: var(--text-accent-quiet);
+  }
 }

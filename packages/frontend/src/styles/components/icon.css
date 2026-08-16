@@ -1,7 +1,9 @@
 /* sds-icon — one glyph, at the sizes the system draws. */
 
 @layer base {
-  sds-icon { display: inline-flex; }
+  sds-icon {
+    display: inline-flex;
+  }
 }
 
 @layer components {
@@ -29,11 +31,19 @@
     width: var(--sds-icon-size);
     height: var(--sds-icon-size);
   }
-  .sds-icon--16 { --sds-icon-size: var(--control-icon-size); }
-  .sds-icon--20 { --sds-icon-size: 20px; }
-  .sds-icon--24 { --sds-icon-size: 24px; }
+  .sds-icon--16 {
+    --sds-icon-size: var(--control-icon-size);
+  }
+  .sds-icon--20 {
+    --sds-icon-size: 20px;
+  }
+  .sds-icon--24 {
+    --sds-icon-size: 24px;
+  }
   /* A standalone icon that is not inside a coloured control. */
-  .sds-icon--muted { color: var(--sds-icon-ink-muted); }
+  .sds-icon--muted {
+    color: var(--sds-icon-ink-muted);
+  }
 
   /* Before the script lands there is no element, only a tag saying which glyph
      and how big — and an empty box takes the size of what is not in it. The
@@ -44,9 +54,19 @@
     width: var(--sds-icon-size);
     height: var(--sds-icon-size);
   }
-  sds-icon:not(:defined)[size='16'] { --sds-icon-size: var(--control-icon-size); }
-  sds-icon:not(:defined)[size='20'] { --sds-icon-size: 20px; }
-  sds-icon:not(:defined)[size='24'] { --sds-icon-size: 24px; }
-  sds-icon:not(:defined)[size='32'] { --sds-icon-size: 32px; }
-  sds-icon:not(:defined)[size='48'] { --sds-icon-size: 48px; }
+  sds-icon:not(:defined)[size="16"] {
+    --sds-icon-size: var(--control-icon-size);
+  }
+  sds-icon:not(:defined)[size="20"] {
+    --sds-icon-size: 20px;
+  }
+  sds-icon:not(:defined)[size="24"] {
+    --sds-icon-size: 24px;
+  }
+  sds-icon:not(:defined)[size="32"] {
+    --sds-icon-size: 32px;
+  }
+  sds-icon:not(:defined)[size="48"] {
+    --sds-icon-size: 48px;
+  }
 }

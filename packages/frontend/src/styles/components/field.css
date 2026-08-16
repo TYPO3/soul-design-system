@@ -4,11 +4,24 @@
 @layer base {
   sds-checkbox,
   sds-field,
-  sds-radio { display: block; min-width: 0; }
-  sds-field-error { display: inline-flex; }
-  sds-form-errors { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-form-errors > .sds-form-errors { margin-bottom: 0; }
-  .sds-form-errors { margin: 0 0 var(--space-4); }
+  sds-radio {
+    display: block;
+    min-width: 0;
+  }
+  sds-field-error {
+    display: inline-flex;
+  }
+  sds-form-errors {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-form-errors > .sds-form-errors {
+    margin-bottom: 0;
+  }
+  .sds-form-errors {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -42,8 +55,8 @@
     line-height: var(--sds-field-leading);
     min-height: var(--sds-field-height);
     transition:
-    border-color var(--sds-field-duration) var(--sds-field-ease),
-    box-shadow var(--sds-field-duration) var(--sds-field-ease);
+      border-color var(--sds-field-duration) var(--sds-field-ease),
+      box-shadow var(--sds-field-duration) var(--sds-field-ease);
 
     /* The one exception the ring makes, and it is the box's own doing: a field
        that has taken focus already carries the accent as its border, so an
@@ -55,8 +68,12 @@
 
       box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
     }
-    &.is-invalid { --sds-field-edge: var(--status-error); }
-    &.is-filled { --sds-field-ink: var(--sds-field-ink-filled); }
+    &.is-invalid {
+      --sds-field-edge: var(--status-error);
+    }
+    &.is-filled {
+      --sds-field-ink: var(--sds-field-ink-filled);
+    }
   }
 
   /* The three heights a button has, so a field and the button beside it stand on
@@ -89,7 +106,10 @@
     color: var(--sds-field-ink-filled);
   }
 
-  .sds-select { justify-content: space-between; color: var(--sds-field-ink-filled); }
+  .sds-select {
+    justify-content: space-between;
+    color: var(--sds-field-ink-filled);
+  }
 
   /* A field holding more than one line stops centring its contents — and gives
      them prose leading. The control leading is for a single line inside a
@@ -99,7 +119,10 @@
 
     align-items: flex-start;
 
-    .sds-input { resize: vertical; min-height: 0; }
+    .sds-input {
+      resize: vertical;
+      min-height: 0;
+    }
   }
 
   /* Error text sits under or beside the field — never as a tooltip. */
@@ -145,8 +168,12 @@
     /* The label follows the control it names — a 15px label over a 28px field is
        the words outweighing the thing they stand for. The hint does not: an aside
        is read in one register wherever it stands. */
-    &:has(> .sds-field--sm) { --sds-field-label-size: var(--control-font-size-sm); }
-    &:has(> .sds-field--lg) { --sds-field-label-size: var(--control-font-size-lg); }
+    &:has(> .sds-field--sm) {
+      --sds-field-label-size: var(--control-font-size-sm);
+    }
+    &:has(> .sds-field--lg) {
+      --sds-field-label-size: var(--control-font-size-lg);
+    }
   }
   .sds-field-label {
     font-size: var(--sds-field-label-size);
@@ -237,10 +264,12 @@
     border: var(--sds-check-border) solid var(--sds-check-edge);
     border-radius: var(--sds-check-radius);
     transition:
-    background-color var(--sds-check-duration) var(--sds-check-ease),
-    border-color var(--sds-check-duration) var(--sds-check-ease);
+      background-color var(--sds-check-duration) var(--sds-check-ease),
+      border-color var(--sds-check-duration) var(--sds-check-ease);
 
-    &[type="radio"] { border-radius: 50%; }
+    &[type="radio"] {
+      border-radius: 50%;
+    }
     /* Ticked fills with `--text-primary`, because the accent marks three things
        and a ticked box is not one of them. The dot and the tick are that fill
        inverted: `difference` against white gets both modes out of one declaration,
@@ -255,7 +284,8 @@
       border-color: var(--sds-check-fill-on);
     }
     &[type="radio"]:checked {
-      background-image: radial-gradient(circle at center, #FFF 3px, transparent 3.7px);
+      /* colour-literal: the glyph is literally white; `difference` above inverts it per mode */
+      background-image: radial-gradient(circle at center, #fff 3px, transparent 3.7px);
     }
     &[type="checkbox"]:checked {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.9 8.3l2.9 2.9 5.3-5.9' fill='none' stroke='%23FFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -263,7 +293,8 @@
     /* Neither on nor off. `:indeterminate` on a radio is every button of a group
        with nothing chosen, which is why this one names its type. */
     &[type="checkbox"]:indeterminate {
-      background-image: linear-gradient(#FFF, #FFF);
+      /* colour-literal: the same white the tick is drawn in */
+      background-image: linear-gradient(#fff, #fff);
       background-size: 8px 2px;
     }
   }
@@ -304,8 +335,13 @@
        no flex item, so the column's `gap` never reached it and the question sat on
        the first answer. The margin is that gap, written by hand — and the shorter
        one where a hint follows, which belongs to the question and not to the set. */
-    > .sds-field-label { padding: 0; margin-bottom: var(--sds-choices-legend-gap); }
-    &:has(> .sds-field-hint) { --sds-choices-legend-gap: var(--sds-choices-legend-gap-hinted); }
+    > .sds-field-label {
+      padding: 0;
+      margin-bottom: var(--sds-choices-legend-gap);
+    }
+    &:has(> .sds-field-hint) {
+      --sds-choices-legend-gap: var(--sds-choices-legend-gap-hinted);
+    }
   }
 
   /* The form itself: one column, at the measure a form is filled in rather than
@@ -323,7 +359,9 @@
 
     /* A row of actions carries the step it owes a page; in a form the form's own
        gap is the distance. */
-    > .sds-actions { margin-block: 0; }
+    > .sds-actions {
+      margin-block: 0;
+    }
   }
 
   /* What stopped the form, at the top of it. The box is `sds-note`, because a
@@ -336,10 +374,14 @@
     --sds-form-errors-lead: var(--space-1-5);
     --sds-form-errors-radius: var(--radius-card);
 
-    &:focus-visible { border-radius: var(--sds-form-errors-radius); }
+    &:focus-visible {
+      border-radius: var(--sds-form-errors-radius);
+    }
     /* The list is the last block in the box, and the padding is the air under
        it. */
-    > :last-child { margin-bottom: 0; }
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
   .sds-form-errors__list {
     display: flex;
@@ -347,7 +389,8 @@
     gap: var(--sds-form-errors-gap);
     padding-block-start: var(--sds-form-errors-lead);
 
-    a { width: fit-content; }
+    a {
+      width: fit-content;
+    }
   }
-
 }

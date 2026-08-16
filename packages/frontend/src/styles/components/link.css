@@ -3,7 +3,9 @@
 @layer base {
   /* A part, and one that sets in the line rather than beside it: a link is a
      word, and a word takes the box its sentence gives it. */
-  sds-link { display: inline; }
+  sds-link {
+    display: inline;
+  }
 }
 
 @layer components {
@@ -28,7 +30,13 @@
      button, and it still reads as the link it is — same rule as the navigation
      items, which are links or buttons by what pressing them does. The browser
      defaults a button carries and an anchor does not are levelled here. */
-  button.sds-link { font: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+  button.sds-link {
+    font: inherit;
+    border: 0;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+  }
 
   /* An external link carries actions-window-open after the label, and the same
      row holds wherever a link carries any glyph. `sds-icon` as well as

@@ -521,6 +521,15 @@ const CHECKS: readonly Check[] = [
     },
   },
 
+  /* The stylesheets have a written shape — `docs/frontend/stylesheets.rst` —
+     and this is the part of it a rule can hold: the safety rules, the indent,
+     and the colour-literal ban outside `tokens/`. */
+  {
+    name: 'css',
+    label: 'the stylesheets against their shape',
+    run: () => ({ ...child('scripts/css.ts', '--check'), fix: 'make css' }),
+  },
+
   /* The renderer is written in PHP, and nothing else here reads it. Without
      this the one part of the repository in another language is also the one
      part with no shape agreed on — and a theme meant to be read by people

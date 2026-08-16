@@ -1,15 +1,26 @@
 /* sds-embed — a document in a frame, at the shape it holds. */
 
 @layer base {
-  sds-embed { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-embed > .sds-embed { margin-bottom: 0; }
-  .sds-embed { margin: 0 0 var(--space-4); }
+  sds-embed {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-embed > .sds-embed {
+    margin-bottom: 0;
+  }
+  .sds-embed {
+    margin: 0 0 var(--space-4);
+  }
 
   /* The embedded document before its element upgrades, and on a page that
      runs none. Until then there is only the iframe a renderer wrote: an
      inline box with the browser's inset ridge. So it becomes a block, takes
      this system's border and stops at the column. */
-  sds-embed:not(:defined) { display: block; margin: 0 0 var(--space-4); }
+  sds-embed:not(:defined) {
+    display: block;
+    margin: 0 0 var(--space-4);
+  }
   sds-embed:not(:defined) > iframe {
     display: block;
     /* The cap is the column, and the hairline is inside it: a hairline added
@@ -52,24 +63,33 @@
     /* The default browser border on an iframe is an inset ridge that predates
        every rule in this file, and it draws inside the corner rather than around
        it. The frame is the border here. */
-    > iframe { display: block; border: 0; }
+    > iframe {
+      display: block;
+      border: 0;
+    }
   }
   /* Fills the column and holds its shape at every width. `aspect-ratio` is on
      the frame and the document inside takes both dimensions from it, so the
      ratio is stated once — the `width` and `height` a player is embedded with
      are its native size and not its shape. */
-  .sds-embed__frame--fluid > iframe { width: 100%; height: 100%; }
+  .sds-embed__frame--fluid > iframe {
+    width: 100%;
+    height: 100%;
+  }
   /* The size it was made for, and no other. A card was measured at the viewport
      its header declares, so a frame that narrowed it would be showing a layout
      nothing ever checked. Below that width it scrolls, which is what a wide
      table gets here for the same reason; above it the frame stops at the
      document rather than stretching a plane out beside it. */
-  .sds-embed__frame--fixed { width: max-content; max-width: 100%; overflow: auto; }
+  .sds-embed__frame--fixed {
+    width: max-content;
+    max-width: 100%;
+    overflow: auto;
+  }
   .sds-embed__caption {
     max-width: var(--sds-embed-caption-measure);
     color: var(--sds-embed-caption-ink);
     font-size: var(--sds-embed-caption-size);
     line-height: var(--sds-embed-caption-leading);
   }
-
 }

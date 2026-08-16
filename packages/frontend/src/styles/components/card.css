@@ -4,9 +4,18 @@
   /* And it fills what it is given: a wall stretches the cell to the tallest in
      the row, where a block box stops at its own prose — a frame ending short of
      its cell, a foot that lines up with nothing, a hole in a flush wall. */
-  sds-card { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-card > .sds-card { block-size: 100%; margin-bottom: 0; }
-  .sds-card { margin: 0 0 var(--space-4); }
+  sds-card {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-card > .sds-card {
+    block-size: 100%;
+    margin-bottom: 0;
+  }
+  .sds-card {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -47,23 +56,26 @@
     flex-direction: column;
     padding: 0;
     transition:
-    border-color var(--sds-card-duration) var(--sds-card-ease),
-    background var(--sds-card-duration) var(--sds-card-ease),
-    transform var(--sds-card-duration) var(--sds-card-ease);
+      border-color var(--sds-card-duration) var(--sds-card-ease),
+      background var(--sds-card-duration) var(--sds-card-ease),
+      transform var(--sds-card-duration) var(--sds-card-ease);
 
     /* The lit frame, kept on a layer of its own so the pointer fades one number
        and nothing jumps: a gradient in the background would land on a different
        box and switch rather than travel. The ring is the border box with its own
        middle cut out, which is what the two masks do. */
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       inset: calc(-1 * var(--sds-card-border));
       z-index: 1;
       border-radius: var(--sds-card-radius);
       padding: var(--sds-card-border);
       background: linear-gradient(var(--sds-card-glow), transparent 45%);
-      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      /* colour-literal: a mask reads only alpha; any opaque ink is the same mask */
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
       mask-composite: exclude;
       opacity: 0;
       pointer-events: none;
@@ -97,14 +109,17 @@
   .sds-card__media {
     background: var(--sds-card-media-fill);
     border-bottom: var(--sds-card-border) solid var(--sds-card-rule);
-    border-radius: calc(var(--sds-card-radius) - var(--sds-card-border)) calc(var(--sds-card-radius) - var(--sds-card-border)) 0 0;
+    border-radius: calc(var(--sds-card-radius) - var(--sds-card-border))
+      calc(var(--sds-card-radius) - var(--sds-card-border)) 0 0;
     overflow: hidden;
   }
   /* A picture that was never prepared to be referenced keeps the colours it was
      exported with, so the ground under it is one those colours were drawn for.
      The one surface in the system that does not follow the reader into dark:
      below light line art, a dark ground is the page contradicting the picture. */
-  .sds-card__media--exported { --sds-card-media-fill: var(--surface-art); }
+  .sds-card__media--exported {
+    --sds-card-media-fill: var(--surface-art);
+  }
 
   .sds-card__body {
     display: flex;
@@ -114,11 +129,16 @@
 
     /* A row put in a card carries the step it owes a page; here the card's own
        gap is the distance. */
-    > .sds-row { margin-block: 0; }
+    > .sds-row {
+      margin-block: 0;
+    }
   }
   /* Muted and never in a status colour, for the reason a surface's glyph is: a
      card is a subject, not a result. It carries the gap to the label itself. */
-  .sds-card__icon { color: var(--sds-card-icon-ink); margin-bottom: var(--sds-card-icon-gap); }
+  .sds-card__icon {
+    color: var(--sds-card-icon-ink);
+    margin-bottom: var(--sds-card-icon-gap);
+  }
   /* Not `--text-link`, and on the line rather than on the anchor in it: the
      title is the card's own voice wherever the link turned out to be. It
      balances for the reason a heading does — a few lines, read as a name. */
@@ -133,15 +153,25 @@
        over the frame. Wrapping the card in the anchor instead would read its whole
        contents out as the link's name; this way the name is the title and the hit
        area is the card. What it costs is dragging to select the text. */
-    a::after { content: ''; position: absolute; inset: 0; }
+    a::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
     /* And the ring goes round the frame, not round the words. What answers the
        press is the card, so a ring round the title would point at a part of it —
        the one ring, moved out to the box it belongs to. */
-    a:focus-visible { outline: none; box-shadow: none; }
+    a:focus-visible {
+      outline: none;
+      box-shadow: none;
+    }
     /* Never underlined, not even under the pointer: the whole card answers the
        hover, and one word of it changing as well would be two answers to one
        question. */
-    a { color: inherit; text-decoration: none; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
   }
   .sds-card__text {
     margin: 0;
@@ -152,12 +182,18 @@
     /* A link inside the prose sits above the stretched title — it comes after it
        in the source, so being positioned is enough. The card itself carries one
        link and no more: the call to action is words, not a second anchor. */
-    :is(a, button) { position: relative; }
+    :is(a, button) {
+      position: relative;
+    }
     /* The outermost margins of a document's blocks go: the card's padding is
        already the gap, and a block that brought its own would double it. The last
        step in particular is air the padding already states. */
-    > :first-child { margin-top: 0; }
-    > :last-child { margin-bottom: 0; }
+    > :first-child {
+      margin-top: 0;
+    }
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
   /* What the card leaves the reader with: a line about the target, the action,
      or both. Pushed to the bottom, so a row of cards has its actions on one line
@@ -205,7 +241,9 @@
        left to say the tile answers. */
     --sds-card-lift: 0px;
 
-    &::before { content: none; }
+    &::before {
+      content: none;
+    }
   }
   /* And the ring turns inwards: it is drawn outside the box and the wall clips
      its corners, so on an edge tile it is the one thing that would be cut off.

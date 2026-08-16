@@ -1,7 +1,10 @@
 /* What a picture is before anything frames it, and what makes one pressable. */
 
 @layer base {
-  sds-image { display: block; min-width: 0; }
+  sds-image {
+    display: block;
+    min-width: 0;
+  }
 }
 
 @layer components {
@@ -10,11 +13,18 @@
      `<img>` and a drawing an `<svg>` referencing the file, because only the
      second is reached by the tokens. `height: auto` needs an aspect ratio, which
      the `<img>` takes from the file and the `<svg>` from its viewBox. */
-  .sds-art { display: block; width: 100%; height: auto; }
+  .sds-art {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 
   /* The trigger is a link to the file, so a surface with no script still opens
      the drawing; the element takes the press over once it has upgraded. It is
      not a control that looks like one and does nothing. Named for what it does
      rather than for a figure: `sds-image` opens a viewer on the same terms. */
-  .sds-zoom { display: block; cursor: zoom-in; }
+  .sds-zoom {
+    display: block;
+    cursor: zoom-in;
+  }
 }

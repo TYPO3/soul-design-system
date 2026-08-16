@@ -1,10 +1,20 @@
 /* sds-table — rows at three densities, and the scroller around them. */
 
 @layer base {
-  sds-table { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-table > :is(.sds-table, .sds-table-scroll) { margin-bottom: 0; }
-  .sds-table { margin: 0 0 var(--space-4); }
-  .sds-table-scroll { margin: 0 0 var(--space-4); }
+  sds-table {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-table > :is(.sds-table, .sds-table-scroll) {
+    margin-bottom: 0;
+  }
+  .sds-table {
+    margin: 0 0 var(--space-4);
+  }
+  .sds-table-scroll {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -56,7 +66,9 @@
     }
 
     th:last-child,
-    td:last-child { padding-inline-end: 0; }
+    td:last-child {
+      padding-inline-end: 0;
+    }
 
     /* The machine's own names, in the machine's own font. */
     td.sds-td-name {
@@ -72,8 +84,9 @@
 
     /* Never zebra stripes. Background changes on hover or selection only, so a
        highlighted row means something. */
-    tbody tr:hover { background: var(--sds-table-fill-hover); }
-    tbody tr.is-selected { background: var(--sds-table-fill-selected); }
+    tbody tr:hover {
+      background: var(--sds-table-fill-hover);
+    }
     /* The selected row leaves the scanning registers. `--text-muted` and
        `--text-link` are tuned against the canvas, and the accent fill moves the
        ground under them: each lands a hair under 4.5:1 on it. Nothing is wrong with
@@ -82,6 +95,8 @@
     tbody tr.is-selected {
       --sds-table-name-ink: var(--text-primary);
       --sds-table-meta-ink: var(--text-primary);
+
+      background: var(--sds-table-fill-selected);
     }
   }
   .sds-table--compact {
@@ -114,6 +129,8 @@
 
     /* The wrapper carries the step for both of them. Left here it would be dead
        air inside the scroller and nothing below it. */
-    > .sds-table { margin-bottom: 0; }
+    > .sds-table {
+      margin-bottom: 0;
+    }
   }
 }

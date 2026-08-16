@@ -4,9 +4,18 @@
   /* And it fills what it is given: a wall stretches the cell to the tallest in
      the row, where a block box stops at its own two lines and leaves a row
      shorter than the colour beside it. */
-  sds-swatch { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-swatch > .sds-swatch { block-size: 100%; margin-bottom: 0; }
-  .sds-swatch { margin: 0 0 var(--space-4); }
+  sds-swatch {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-swatch > .sds-swatch {
+    block-size: 100%;
+    margin-bottom: 0;
+  }
+  .sds-swatch {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -48,7 +57,9 @@
   .sds-swatch--line {
     --sds-swatch-border: var(--border-emphasis);
 
-    .sds-swatch__chip { background: none; }
+    .sds-swatch__chip {
+      background: none;
+    }
   }
 
   .sds-swatch__body {
@@ -70,5 +81,4 @@
     font-size: var(--sds-swatch-value-size);
     color: var(--sds-swatch-value-ink);
   }
-
 }

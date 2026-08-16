@@ -11,7 +11,9 @@
     display: block;
     flex: none;
   }
-  .sds-signet--muted { color: var(--sds-signet-ink-muted); }
+  .sds-signet--muted {
+    color: var(--sds-signet-ink-muted);
+  }
 
   /* Signet, wordmark, one orange pipe. The pipe is the third and last place
      the accent is allowed to appear.
@@ -36,7 +38,9 @@
     color: var(--sds-lockup-ink);
     text-decoration: none;
 
-    &:hover { text-decoration: none; }
+    &:hover {
+      text-decoration: none;
+    }
     .sds-signet {
       width: var(--sds-lockup-signet-size);
       height: var(--sds-lockup-signet-size);
@@ -66,7 +70,9 @@
   /* Whose it is. It keeps its letters whatever the bar does — the half that
      gives is the one below, and a half that gives twice is a lockup with two
      ellipses in it. */
-  .sds-wordmark__brand { flex: none; }
+  .sds-wordmark__brand {
+    flex: none;
+  }
   .sds-wordmark__pipe {
     display: inline-block;
     width: var(--sds-wordmark-pipe-width);

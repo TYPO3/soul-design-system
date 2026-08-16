@@ -45,8 +45,16 @@
   /* What every heading shares. Balance is for these only: the property
      inherits, and a browser balances a few lines at most, so a paragraph
      asking for it pays a second pass for nothing. */
-  h1, h2, h3, h4, h5, h6,
-  .sds-display, .sds-h1, .sds-h2, .sds-h3 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sds-display,
+  .sds-h1,
+  .sds-h2,
+  .sds-h3 {
     line-height: var(--leading-heading);
     text-wrap: balance;
   }
@@ -54,18 +62,27 @@
   /* Then the size each one is. Each is on the element that usually carries it
      and on a class: an outline decides the level, a page decides the size, and
      where they disagree the class says so. */
-  h1, .sds-h1 {
+  h1,
+  .sds-h1 {
     font-size: var(--font-size-h1);
     letter-spacing: var(--tracking-heading);
   }
-  h2, .sds-h2 {
+  h2,
+  .sds-h2 {
     font-size: var(--font-size-h2);
     letter-spacing: var(--tracking-heading);
   }
-  h3, .sds-h3 { font-size: var(--font-size-h3); }
+  h3,
+  .sds-h3 {
+    font-size: var(--font-size-h3);
+  }
   /* The scale stops at three and a document does not. Below it, the UI
      register — a fourth heading size nothing uses is a size that drifts. */
-  h4, h5, h6 { font-size: var(--font-size-ui); }
+  h4,
+  h5,
+  h6 {
+    font-size: var(--font-size-ui);
+  }
 
   /* Above the scale, and the one register with a measure of its own. */
   .sds-display {
@@ -84,7 +101,10 @@
     text-decoration: none;
     transition: color var(--duration-fast) var(--ease-out);
 
-    &:hover { color: var(--text-link-hover); text-decoration: underline; }
+    &:hover {
+      color: var(--text-link-hover);
+      text-decoration: underline;
+    }
   }
 
   /* ------------------------------------------------------------ lists -- */
@@ -92,25 +112,59 @@
   /* No size and no colour: a list is a container, and one that pinned the body
      size would be the thing inside a note ignoring the note. The indent is the
      marker's own width, so an item lines up with the paragraph above it. */
-  ul, ol { padding-inline-start: var(--space-5); }
-  li::marker { color: var(--text-muted); }
+  ul,
+  ol {
+    padding-inline-start: var(--space-5);
+  }
+  li::marker {
+    color: var(--text-muted);
+  }
 
   /* An author who wrote `a.` meant letters, and `type` carries no weight — a
      flat `list-style: decimal` would silently renumber every lettered list. */
-  :where(ul:not([type])) { list-style: disc; }
-  :where(ul ul:not([type])) { list-style: circle; }
-  :where(ol:not([type])) { list-style: decimal; }
-  :where(ol ol:not([type])) { list-style: lower-alpha; }
+  :where(ul:not([type])) {
+    list-style: disc;
+  }
+  :where(ul ul:not([type])) {
+    list-style: circle;
+  }
+  :where(ol:not([type])) {
+    list-style: decimal;
+  }
+  :where(ol ol:not([type])) {
+    list-style: lower-alpha;
+  }
 
   /* ------------------------------------------------------------- flow -- */
 
   /* The step below a block. Every distance in this file is stated in one
      direction: nothing collapses, nothing is counted twice, and no block has
      to know what came before it. */
-  p, ul, ol, dl, pre, table, figure, blockquote,
-  h1, .sds-h1, .sds-display, .sds-lead { margin-bottom: var(--space-4); }
-  h2, .sds-h2 { margin-bottom: var(--space-3); }
-  h3, h4, h5, h6, .sds-h3 { margin-bottom: var(--space-2); }
+  p,
+  ul,
+  ol,
+  dl,
+  pre,
+  table,
+  figure,
+  blockquote,
+  h1,
+  .sds-h1,
+  .sds-display,
+  .sds-lead {
+    margin-bottom: var(--space-4);
+  }
+  h2,
+  .sds-h2 {
+    margin-bottom: var(--space-3);
+  }
+  h3,
+  h4,
+  h5,
+  h6,
+  .sds-h3 {
+    margin-bottom: var(--space-2);
+  }
 
   /* The step under the containers this layer and `layout` own. What a component
      draws states its own, in its own file and in this layer — see any of them.
@@ -121,14 +175,24 @@
   .sds-row,
   .sds-sections,
   .sds-split,
-  .sds-stack { margin: 0 0 var(--space-4); }
+  .sds-stack {
+    margin: 0 0 var(--space-4);
+  }
 
   /* The air above a heading, said below whatever stands before it — which is
      the only way to state it and keep to one direction. */
-  :has(+ :is(h2, .sds-h2)) { margin-block-end: var(--space-10); }
-  :has(+ :is(h3, .sds-h3)) { margin-block-end: var(--space-8); }
-  :has(+ h4) { margin-block-end: var(--space-6); }
-  :has(+ :is(h5, h6)) { margin-block-end: var(--space-5); }
+  :has(+ :is(h2, .sds-h2)) {
+    margin-block-end: var(--space-10);
+  }
+  :has(+ :is(h3, .sds-h3)) {
+    margin-block-end: var(--space-8);
+  }
+  :has(+ h4) {
+    margin-block-end: var(--space-6);
+  }
+  :has(+ :is(h5, h6)) {
+    margin-block-end: var(--space-5);
+  }
 
   /* A title and its lead are one thing, so the pair closes to the title
      group's step — stated here, one direction, where a container that pays
@@ -136,7 +200,9 @@
      the flow step: at that size the letters carry their own air, and 8px
      reads as the lead touching them. The trail and the eyebrow carry their
      steps in their own files. */
-  :is(h1, h2, .sds-h1, .sds-h2):not(.sds-display):has(+ .sds-lead) { margin-block-end: var(--space-2); }
+  :is(h1, h2, .sds-h1, .sds-h2):not(.sds-display):has(+ .sds-lead) {
+    margin-block-end: var(--space-2);
+  }
 
   /* ------------------------------------------- what an element is -- */
 
@@ -153,7 +219,9 @@
 
   /* A nested list is part of the item it hangs under, so it adds no step. */
   li > ul,
-  li > ol { margin-bottom: 0; }
+  li > ol {
+    margin-bottom: 0;
+  }
 
   hr {
     border: 0;

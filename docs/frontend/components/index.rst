@@ -168,7 +168,7 @@ What box an element is
 
 Each of these is stated in the component's own stylesheet, in a ``@layer
 base`` block above the one that draws it — the flow contract, whose three
-lines :doc:`/frontend/stylesheets` explains. A contract split across a shared
+rules :doc:`/frontend/stylesheets` explains. A contract split across a shared
 list and a component file is a contract that drifts into two layers, which is
 how a byline once kept a step nothing could take off it.
 

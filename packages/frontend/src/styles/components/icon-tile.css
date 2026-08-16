@@ -1,9 +1,17 @@
 /* sds-icon-tile — a glyph shown as the thing itself. */
 
 @layer base {
-  sds-icon-tile { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-icon-tile > .sds-icon-tile { margin-bottom: 0; }
-  .sds-icon-tile { margin: 0 0 var(--space-4); }
+  sds-icon-tile {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-icon-tile > .sds-icon-tile {
+    margin-bottom: 0;
+  }
+  .sds-icon-tile {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -46,9 +54,9 @@
     color: var(--sds-icon-tile-ink);
     text-decoration: none;
     transition:
-    border-color var(--sds-icon-tile-duration) var(--sds-icon-tile-ease),
-    background var(--sds-icon-tile-duration) var(--sds-icon-tile-ease),
-    transform var(--sds-icon-tile-duration) var(--sds-icon-tile-ease);
+      border-color var(--sds-icon-tile-duration) var(--sds-icon-tile-ease),
+      background var(--sds-icon-tile-duration) var(--sds-icon-tile-ease),
+      transform var(--sds-icon-tile-duration) var(--sds-icon-tile-ease);
 
     /* A rise and a fill under the pointer, as a card has. Only where it goes
        somewhere: a tile that documents a set rather than indexing it does not
@@ -99,5 +107,4 @@
     color: var(--sds-icon-tile-tag-ink);
     background: var(--sds-icon-tile-tag-fill);
   }
-
 }

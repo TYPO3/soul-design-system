@@ -65,17 +65,21 @@
     border-radius: var(--sds-drawer-radius);
     cursor: pointer;
     transition:
-    color var(--sds-drawer-duration) var(--sds-drawer-ease),
-    border-color var(--sds-drawer-duration) var(--sds-drawer-ease);
+      color var(--sds-drawer-duration) var(--sds-drawer-ease),
+      border-color var(--sds-drawer-duration) var(--sds-drawer-ease);
 
-    &:hover { color: var(--sds-drawer-ink-hover); }
-    &[aria-expanded='true'] {
+    &:hover {
+      color: var(--sds-drawer-ink-hover);
+    }
+    &[aria-expanded="true"] {
       color: var(--sds-drawer-ink-hover);
       border-color: var(--sds-drawer-edge-open);
     }
     /* The floor a control gives a glyph, the same one the rail's fold marker
        and the code block's head use: a button's mark is not a word. */
-    .sds-icon { --sds-icon-size: var(--sds-drawer-glyph); }
+    .sds-icon {
+      --sds-icon-size: var(--sds-drawer-glyph);
+    }
   }
   /* What the button opens: the bar's own row, continued under it. One drawer and
      not two, because a reader on a phone looking for the way somewhere presses
@@ -115,7 +119,9 @@
     /* `hidden` outranks the display a class gives: an author rule beats the
        browser's own, so a `display` set by class puts a hidden element back on
        the page. */
-    &[hidden] { display: none; }
+    &[hidden] {
+      display: none;
+    }
   }
 
   /* One level of the menu, which is what a phone gets instead of the whole tree:
@@ -135,7 +141,9 @@
     align-items: center;
     gap: var(--sds-drawer-row-gap);
 
-    > .sds-bar__link { flex: 1; }
+    > .sds-bar__link {
+      flex: 1;
+    }
     /* A row in the drawer is the same pair — a page and the way into its pages —
        and answers the same way. */
     &:has(> .sds-bar__link:focus-visible) {
@@ -162,9 +170,13 @@
     border-radius: var(--sds-drawer-radius);
     cursor: pointer;
   }
-  .sds-bar__into { padding-inline: var(--sds-drawer-pad-item-x); }
+  .sds-bar__into {
+    padding-inline: var(--sds-drawer-pad-item-x);
+  }
   .sds-bar__into:hover,
-  .sds-bar__back:hover { color: var(--sds-drawer-ink-hover); }
+  .sds-bar__back:hover {
+    color: var(--sds-drawer-ink-hover);
+  }
   /* The way back is a row of its own above the list, and it names what it goes
      back to: "back" alone asks a reader who has stepped twice to remember where
      they were. The rule under it is the level's own edge. */
@@ -174,6 +186,8 @@
     border-bottom: var(--sds-drawer-border) solid var(--sds-drawer-rule);
     border-radius: 0;
   }
-  .sds-bar__drawer .sds-search { flex: none; width: 100%; }
-
+  .sds-bar__drawer .sds-search {
+    flex: none;
+    width: 100%;
+  }
 }

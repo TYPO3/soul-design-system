@@ -4,7 +4,9 @@
   /* It draws nothing where it stands — what it opens is in the top layer or
      fixed to the viewport, so a box here is one nothing would ever fill. */
   sds-modal,
-  sds-overlay { display: contents; }
+  sds-overlay {
+    display: contents;
+  }
 }
 
 @layer components {
@@ -50,7 +52,9 @@
     border-color: var(--sds-modal-rule);
     color: var(--sds-modal-ink);
 
-    &::backdrop { background: var(--sds-modal-backdrop); }
+    &::backdrop {
+      background: var(--sds-modal-backdrop);
+    }
   }
 
   .sds-modal__head {
@@ -70,7 +74,9 @@
 
     /* The body is blocks that bring their own margins, and the air under the last
        one is padding the box already states. */
-    > :last-child { margin-bottom: 0; }
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
   .sds-modal__foot {
     display: flex;

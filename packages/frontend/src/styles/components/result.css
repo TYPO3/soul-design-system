@@ -1,10 +1,21 @@
 /* sds-search-hits and sds-search-result — what a search answers with. */
 
 @layer base {
-  sds-search-result { display: block; min-width: 0; }
-  sds-search-hits { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-search-hits > .sds-hits { margin-bottom: 0; }
-  .sds-hits { margin: 0 0 var(--space-4); }
+  sds-search-result {
+    display: block;
+    min-width: 0;
+  }
+  sds-search-hits {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-search-hits > .sds-hits {
+    margin-bottom: 0;
+  }
+  .sds-hits {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer components {
@@ -33,7 +44,7 @@
        meets it, and held to the words' edge rather than the plane's — a rule that
        runs wider than the text it divides belongs to the page, not to the list. */
     > * + * .sds-result::before {
-      content: '';
+      content: "";
       position: absolute;
       inset-inline: var(--sds-hits-bleed);
       top: calc(-1 * var(--sds-hits-rule-lift));
@@ -80,12 +91,18 @@
     text-decoration: none;
     transition: background var(--sds-result-duration) var(--sds-result-ease);
   }
-  a.sds-result:hover { background: var(--sds-result-fill-hover); }
+  a.sds-result:hover {
+    --sds-result-title-ink: var(--sds-result-title-ink-hover);
+
+    background: var(--sds-result-fill-hover);
+  }
   /* The one ring, on the box rather than off it — the one thing this surface
      changes about it, and the reason is the box: a hit is already air around its
      words, so a ring standing off would sit in the gap the list keeps for the
      line, and its corner would be a rounder one than the plane it rings. */
-  a.sds-result:focus-visible { outline-offset: 0; }
+  a.sds-result:focus-visible {
+    outline-offset: 0;
+  }
   .sds-result__body {
     display: flex;
     flex-direction: column;
@@ -98,7 +115,9 @@
     /* The line above the title is a `.sds-row`, which carries the step it owes a
        page it stands in. Here it stands in a hit, and the hit's own gap is the
        distance — said by the hit, because composing the two is what the hit did. */
-    > .sds-row { margin-block: 0; }
+    > .sds-row {
+      margin-block: 0;
+    }
   }
   /* The picture a hit carries. Fixed and never taller than it is wide, so a list
      of them has one left edge whatever shape the files are; smaller in the drop,
@@ -112,7 +131,10 @@
     border-radius: var(--sds-result-radius);
     background: var(--sds-result-thumb-fill);
 
-    .sds-art { height: 100%; object-fit: cover; }
+    .sds-art {
+      height: 100%;
+      object-fit: cover;
+    }
   }
   /* A drawing keeps the colours it was exported with, so it gets the ground
      those were drawn for — and is fitted rather than cropped, because a diagram
@@ -120,7 +142,9 @@
   .sds-result__thumb--exported {
     --sds-result-thumb-fill: var(--surface-art);
 
-    .sds-art { object-fit: contain; }
+    .sds-art {
+      object-fit: contain;
+    }
   }
   /* Link-coloured, unlike a card's title: a hit exists to be opened, a card
      exists to be read and sometimes opened. Never underlined — the box under the
@@ -133,7 +157,6 @@
     color: var(--sds-result-title-ink);
     text-wrap: balance;
   }
-  a.sds-result:hover { --sds-result-title-ink: var(--sds-result-title-ink-hover); }
   /* One register for the whole line: a third treatment on it would make three
      facts read as three kinds of thing. Beside the path rather than at the far
      end — the words below stop at a measure, and a fact flung to the page edge
@@ -143,7 +166,9 @@
     font-size: var(--sds-result-meta-size);
     color: var(--sds-result-meta-ink);
   }
-  .sds-result__path { font-family: var(--sds-result-font); }
+  .sds-result__path {
+    font-family: var(--sds-result-font);
+  }
   .sds-result__text {
     margin: 0;
     max-width: var(--sds-result-text-measure);
@@ -166,5 +191,4 @@
     border-radius: var(--sds-mark-radius);
     padding: 0 var(--sds-mark-pad-x);
   }
-
 }

@@ -7,17 +7,17 @@
     color-scheme: light dark;
 
     /* Base scale — the same in both modes, never used directly in a design. */
-    --orange-400: #FFA338;
-    --orange-500: #FF8700;
-    --orange-700: #B35A00;
-    --orange-800: #8A4B00;
+    --orange-400: #ffa338;
+    --orange-500: #ff8700;
+    --orange-700: #b35a00;
+    --orange-800: #8a4b00;
 
     /* Surfaces — light: warm paper. dark: the terminal. */
-    --surface-canvas: light-dark(#FBFAF7, #131210);
-    --surface-raised: light-dark(#FFFFFF, #171614);
-    --surface-sunken: light-dark(#F4F2EE, #0C0B0A);
-    --surface-inset: light-dark(#EFEBE3, #221F1B);
-    --surface-accent-quiet: light-dark(#FFF6EC, #1C1A16);
+    --surface-canvas: light-dark(#fbfaf7, #131210);
+    --surface-raised: light-dark(#ffffff, #171614);
+    --surface-sunken: light-dark(#f4f2ee, #0c0b0a);
+    --surface-inset: light-dark(#efebe3, #221f1b);
+    --surface-accent-quiet: light-dark(#fff6ec, #1c1a16);
     --surface-overlay: light-dark(rgba(28, 26, 23, 0.45), rgba(6, 6, 5, 0.62));
     /* Depth, for the surfaces that genuinely have some. Everything that stays on
        the page is separated by a hairline; a surface that *leaves* it — what the
@@ -62,25 +62,25 @@
        for the reason `--text-on-accent` does not: a drawing exported elsewhere is
        light whatever the page is, and a dark ground under light line art is the
        page contradicting the picture. */
-    --surface-art: #F4F2EE;
+    --surface-art: #f4f2ee;
 
     /* Borders — hairlines do the structural work. */
-    --border-subtle: light-dark(#E3DFD6, #2B2823);
-    --border-strong: light-dark(#C9C3B7, #37332C);
-    --border-accent-quiet: light-dark(#F0C089, #4A4437);
+    --border-subtle: light-dark(#e3dfd6, #2b2823);
+    --border-strong: light-dark(#c9c3b7, #37332c);
+    --border-accent-quiet: light-dark(#f0c089, #4a4437);
 
     /* Text */
-    --text-primary: light-dark(#1C1A17, #EDE9E2);
-    --text-secondary: light-dark(#4A453D, #A9A299);
-    --text-muted: light-dark(#726C63, #878076);
-    --text-link: light-dark(#B35A00, #FFA338);
-    --text-link-hover: light-dark(#7A3D00, #FFC27A);
-    --text-accent-quiet: light-dark(#8A4B00, #FFA338);
+    --text-primary: light-dark(#1c1a17, #ede9e2);
+    --text-secondary: light-dark(#4a453d, #a9a299);
+    --text-muted: light-dark(#726c63, #878076);
+    --text-link: light-dark(#b35a00, #ffa338);
+    --text-link-hover: light-dark(#7a3d00, #ffc27a);
+    --text-accent-quiet: light-dark(#8a4b00, #ffa338);
     --text-on-accent: #131210;
 
     /* Accent — one colour, used sparingly. */
-    --accent: #FF8700;
-    --accent-hover: light-dark(#E67A00, #FFA338);
+    --accent: #ff8700;
+    --accent-hover: light-dark(#e67a00, #ffa338);
     --accent-ring: light-dark(rgba(255, 135, 0, 0.35), rgba(255, 135, 0, 0.45));
     /* The accent as light rather than as ink: what a hairline is lit with where
        a surface answers a pointer. Carried at part strength so the frame it
@@ -88,16 +88,16 @@
     --accent-glow: light-dark(rgba(255, 135, 0, 0.3), rgba(255, 163, 56, 0.26));
 
     /* Status and syntax — only inside code, badges and result rows. */
-    --status-ok: light-dark(#4F7A3A, #7FA96B);
-    --status-warn: light-dark(#986200, #D9A441);
-    --status-error: light-dark(#A33328, #D4685C);
-    --syntax-string: light-dark(#3F6B2B, #9CC27F);
+    --status-ok: light-dark(#4f7a3a, #7fa96b);
+    --status-warn: light-dark(#986200, #d9a441);
+    --status-error: light-dark(#a33328, #d4685c);
+    --syntax-string: light-dark(#3f6b2b, #9cc27f);
     /* #A85400 and not the link's #B35A00: a keyword sits on the sunken plane
        rather than on the canvas, where that orange lands at 4.24:1 — under the
        line, on product text, found by running axe over a whole page rather than
        over a specimen. */
-    --syntax-key: light-dark(#A85400, #FFA338);
-    --syntax-comment: light-dark(#726C63, #878076);
+    --syntax-key: light-dark(#a85400, #ffa338);
+    --syntax-comment: light-dark(#726c63, #878076);
     /* Code that is not one of the three: a number, a name, a brace. The
        highlighter emits a class for those too, and the palette has to name the
        ordinary case or a theme is three colours and a raw value. */
@@ -105,16 +105,41 @@
   }
 
   /* Forcing a mode on any subtree — every token above follows automatically. */
-  [data-theme="light"] { color-scheme: light; }
-  [data-theme="dark"] { color-scheme: dark; }
+  [data-theme="light"] {
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    color-scheme: dark;
+  }
 
   /* Scrollbars are part of the surface, not chrome the browser owns.
      color-scheme alone flips the native ones; these tokens carry the rest. */
-  html { color-scheme: light dark; }
-  * { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
-  ::-webkit-scrollbar { width: 11px; height: 11px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-corner { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border-strong); border: 3px solid transparent; background-clip: content-box; border-radius: 999px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); border: 3px solid transparent; background-clip: content-box; }
+  html {
+    color-scheme: light dark;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
 }

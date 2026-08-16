@@ -1,7 +1,9 @@
 /* sds-theme — light or dark, as two segments. */
 
 @layer base {
-  sds-theme { display: inline-flex; }
+  sds-theme {
+    display: inline-flex;
+  }
 }
 
 @layer components {
@@ -56,10 +58,12 @@
     border: 0;
     border-radius: var(--sds-mode-radius);
     transition:
-    background var(--sds-modes-duration) var(--sds-modes-ease),
-    color var(--sds-modes-duration) var(--sds-modes-ease);
+      background var(--sds-modes-duration) var(--sds-modes-ease),
+      color var(--sds-modes-duration) var(--sds-modes-ease);
 
-    &:hover { color: var(--sds-mode-ink-hover); }
+    &:hover {
+      color: var(--sds-mode-ink-hover);
+    }
 
     &.is-active {
       background: var(--sds-mode-fill-active);
@@ -70,9 +74,13 @@
        gives a glyph — the same one the bar's button and the rail's fold marker
        use. It stands beside the word rather than instead of it: the pair is two
        things to press, and a reader who can see both reads the shorter one. */
-    .sds-icon { --sds-icon-size: var(--sds-mode-glyph); }
+    .sds-icon {
+      --sds-icon-size: var(--sds-mode-glyph);
+    }
   }
   /* The word beside the mark, on one line always: the pair is among the shortest
      boxes in a row, and a "light" broken in half would make it the tallest. */
-  .sds-mode__label { white-space: nowrap; }
+  .sds-mode__label {
+    white-space: nowrap;
+  }
 }

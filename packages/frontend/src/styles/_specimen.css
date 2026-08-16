@@ -8,7 +8,10 @@
    One definition each, under one prefix, so nothing here collides with
    `sds-` or means one thing on a card and another in the system. */
 
-html, body { margin: 0; }
+html,
+body {
+  margin: 0;
+}
 
 body {
   font-family: var(--font-sans);
@@ -21,7 +24,9 @@ body {
    with clear space around it, instead of dissolving into the card. Without
    this a diagram drawn at --surface-canvas sits on exactly its own colour
    and loses every boundary. */
-.spec-sunken { background: var(--surface-sunken); }
+.spec-sunken {
+  background: var(--surface-sunken);
+}
 
 /* The standard card scaffold: the padded, stacked column every specimen
    lays its examples out in. --spec-gap tunes the stack per card. */
@@ -47,7 +52,9 @@ body {
 
 /* Just the card's padding, no layout opinion — for specimens that lay
    themselves out (a grid of type samples, a row of state chips). */
-.spec-pad { padding: 20px 22px; }
+.spec-pad {
+  padding: 20px 22px;
+}
 
 .spec-row {
   display: flex;
@@ -69,7 +76,10 @@ body {
    that exists only under the pointer is drawn here, in the annotation layer,
    rather than by giving the component a property no product would use.
    Mirrors `.sds-link:hover`; if that changes, this has to follow. */
-.spec-hover .sds-link { color: var(--text-link-hover); text-decoration: underline; }
+.spec-hover .sds-link {
+  color: var(--text-link-hover);
+  text-decoration: underline;
+}
 
 /* Prose under an example. */
 .spec-note {
@@ -77,7 +87,10 @@ body {
   line-height: 1.45;
   color: var(--text-secondary);
 }
-.spec-note b { color: var(--text-primary); font-weight: var(--weight-semibold); }
+.spec-note b {
+  color: var(--text-primary);
+  font-weight: var(--weight-semibold);
+}
 
 /* A rule being stated, slightly larger than a note. */
 .spec-rule {
@@ -85,7 +98,10 @@ body {
   line-height: 1.5;
   color: var(--text-secondary);
 }
-.spec-rule b { color: var(--text-primary); font-weight: var(--weight-semibold); }
+.spec-rule b {
+  color: var(--text-primary);
+  font-weight: var(--weight-semibold);
+}
 
 /* A section heading inside a specimen. */
 .spec-h {
@@ -128,8 +144,12 @@ body {
   flex: 1;
   min-width: 0;
 }
-.spec-chip { height: 40px; }
-.spec-chip--sm { height: 34px; }
+.spec-chip {
+  height: 40px;
+}
+.spec-chip--sm {
+  height: 34px;
+}
 .spec-n {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -153,7 +173,11 @@ body {
 }
 
 /* Diagram specimens render the shipped SVG at full card width. */
-.spec-figure { display: block; width: 100%; height: auto; }
+.spec-figure {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .spec-figure--framed {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-card);

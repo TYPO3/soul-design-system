@@ -12,7 +12,9 @@
    never heard of. */
 
 @layer base {
-  sds-button { display: inline-flex; }
+  sds-button {
+    display: inline-flex;
+  }
 }
 
 @layer components {
@@ -59,9 +61,9 @@
     text-decoration: none;
     cursor: pointer;
     transition:
-    background var(--sds-btn-duration) var(--sds-btn-ease),
-    border-color var(--sds-btn-duration) var(--sds-btn-ease),
-    color var(--sds-btn-duration) var(--sds-btn-ease);
+      background var(--sds-btn-duration) var(--sds-btn-ease),
+      border-color var(--sds-btn-duration) var(--sds-btn-ease),
+      color var(--sds-btn-duration) var(--sds-btn-ease);
 
     /* One state, whatever the variant. */
     &:hover {
@@ -81,7 +83,9 @@
      each other the parts of a label are items of their own, and this row places
      an item by its box — so a word and a version in mono, being two faces, sit
      on two baselines. Here they share a line box and set as one line of text. */
-  .sds-btn__label { display: block; }
+  .sds-btn__label {
+    display: block;
+  }
 
   /* One primary per view — the action that starts work. */
   .sds-btn--primary {
@@ -133,6 +137,8 @@
     /* A glyph inside a label is as big as that label. A glyph that IS the
        control is not a label at all, so it keeps the floor — at `sm` the text
        is 13px and the square would otherwise hold a 13px mark in a 28px box. */
-    .sds-icon { --sds-icon-size: var(--sds-btn-glyph); }
+    .sds-icon {
+      --sds-icon-size: var(--sds-btn-glyph);
+    }
   }
 }

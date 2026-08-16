@@ -272,7 +272,8 @@ document names) · `fit` (render, inside the declared viewport) · `rhythm`
 (every element renders outside a browser) · `dist` (the committed drop-in
 against its source) · `split` (each package assembles into something a project
 could install) · `cards` (every card against its story, and none without
-one) · `types` (`tsc --noEmit`) · `php` (the theme's sources against the coding
+one) · `types` (`tsc --noEmit`) · `css` (the stylesheets against their shape —
+`make css` fixes what it can) · `php` (the theme's sources against the coding
 standard) · `conventions` (the names in `.design-sync/conventions.md` against
 the built stylesheets).
 
@@ -315,6 +316,7 @@ make test ARGS="tests/a11y.spec.ts --grep card"
 | a component's template or its story | `make verify ARGS=cards`, then the one spec |
 | types only | `make verify ARGS=types` |
 | a class name, in a sheet or on a card | `make verify ARGS=classes` |
+| a stylesheet, for its shape alone | `make verify ARGS=css` — `make css` fixes |
 | a document naming a class, an element or an event | `make verify ARGS=names` |
 | a new component, class or Guides page | `make verify ARGS=coverage` |
 | a card's height or its viewport | `make verify ARGS="fit heights"` |
@@ -458,7 +460,7 @@ moved without the other.
   `spec-*` class. The `classes` check holds that boundary separately from the
   repository-wide class vocabulary.
 - **A component's whole contract is in its own file.** Every element renders
-  the class box it draws *inside itself*, always — so each one has three lines
+  the class box it draws *inside itself*, always — so each one has three rules
   that only mean anything together: the element carries the step, the box it
   renders gives that up, and the same box standing alone carries it. They sit in
   a `@layer base` block above the component's own, because a container in

@@ -1,11 +1,25 @@
 /* sds-code and sds-diff — what the machine wrote, coloured on the server. */
 
 @layer base {
-  sds-code { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-diff { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-code > .sds-code { margin-bottom: 0; }
-  sds-diff > .sds-code { margin-bottom: 0; }
-  .sds-code { margin: 0 0 var(--space-4); }
+  sds-code {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-diff {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-code > .sds-code {
+    margin-bottom: 0;
+  }
+  sds-diff > .sds-code {
+    margin-bottom: 0;
+  }
+  .sds-code {
+    margin: 0 0 var(--space-4);
+  }
 
   /* The block before its element upgrades, and on a page that runs none: an
      undefined element is inline, and a `<code>` inside one collapses its
@@ -84,7 +98,9 @@
     /* The floor, not the label's size: the head sets in the label register at
        11px, and the copy button and the diff's file mark are controls rather
        than words. Same reason as the rail's fold marker. */
-    .sds-icon { --sds-icon-size: var(--sds-code-glyph); }
+    .sds-icon {
+      --sds-icon-size: var(--sds-code-glyph);
+    }
   }
   /* The language a block is in, and the one affordance its head carries. Both
      set in the label register — mono, small, tracked, upper case — because a
@@ -120,21 +136,33 @@
     padding: 0;
     transition: color var(--sds-code-duration) var(--sds-code-ease);
 
-    &:hover { color: var(--sds-code-head-ink-hover); }
-    &.is-copied { color: var(--status-ok); }
+    &:hover {
+      color: var(--sds-code-head-ink-hover);
+    }
+    &.is-copied {
+      color: var(--status-ok);
+    }
   }
   /* Copied is a changed glyph, not a changed colour on the same one: the check
      replaces the duplicate rather than sitting beside it. */
   .sds-code__glyph,
-  .sds-code__copied { display: inline-flex; }
+  .sds-code__copied {
+    display: inline-flex;
+  }
   /* Both halves, and both are needed. Hiding the check at rest without showing
      it again on `is-copied` leaves a button that only ever loses a glyph — the
      duplicate goes and nothing arrives, which is how this shipped for one
      commit. The two selectors have the same specificity, so the second wins on
      order. */
-  .sds-code__copy .sds-code__copied { display: none; }
-  .sds-code__copy.is-copied .sds-code__glyph { display: none; }
-  .sds-code__copy.is-copied .sds-code__copied { display: inline-flex; }
+  .sds-code__copy .sds-code__copied {
+    display: none;
+  }
+  .sds-code__copy.is-copied .sds-code__glyph {
+    display: none;
+  }
+  .sds-code__copy.is-copied .sds-code__copied {
+    display: inline-flex;
+  }
   .sds-code__body {
     margin: 0;
     min-width: 0;
@@ -146,10 +174,18 @@
     overflow-x: auto;
   }
   /* The shell prompt is one of the three places the accent is allowed. */
-  .sds-code__prompt { color: var(--accent); }
-  .sds-code__cmd { color: var(--syntax-text); }
-  .sds-code__comment { color: var(--syntax-comment); }
-  .sds-code__ok { color: var(--status-ok); }
+  .sds-code__prompt {
+    color: var(--accent);
+  }
+  .sds-code__cmd {
+    color: var(--syntax-text);
+  }
+  .sds-code__comment {
+    color: var(--syntax-comment);
+  }
+  .sds-code__ok {
+    color: var(--status-ok);
+  }
 
   /* What the block is, above it. */
   .sds-code__caption {
@@ -174,7 +210,9 @@
   .hljs-attribute,
   .hljs-title,
   .hljs-section,
-  .hljs-tag { color: var(--syntax-key); }
+  .hljs-tag {
+    color: var(--syntax-key);
+  }
 
   .hljs-string,
   .hljs-symbol,
@@ -182,11 +220,15 @@
   .hljs-regexp,
   .hljs-addition,
   .hljs-meta-string,
-  .hljs-meta { color: var(--syntax-string); }
+  .hljs-meta {
+    color: var(--syntax-string);
+  }
 
   .hljs-comment,
   .hljs-quote,
-  .hljs-deletion { color: var(--syntax-comment); }
+  .hljs-deletion {
+    color: var(--syntax-comment);
+  }
 
   /* Ordinary code text, said out loud. Unlisted classes already read this way,
      so these are here because the decision was made rather than defaulted into —
@@ -199,7 +241,9 @@
   .hljs-subst,
   .hljs-type,
   .hljs-punctuation,
-  .hljs-params { color: var(--syntax-text); }
+  .hljs-params {
+    color: var(--syntax-text);
+  }
 
   /* Diff: the one place a status colour may fill a whole line. */
   .sds-diff {
@@ -226,12 +270,16 @@
     background: color-mix(in oklch, var(--status-ok) var(--sds-diff-tint), transparent);
     color: var(--sds-diff-ink-changed);
 
-    .sds-diff__mark { color: var(--status-ok); }
+    .sds-diff__mark {
+      color: var(--status-ok);
+    }
   }
   .sds-diff__line--del {
     background: color-mix(in oklch, var(--status-error) var(--sds-diff-tint), transparent);
     color: var(--sds-diff-ink-changed);
 
-    .sds-diff__mark { color: var(--status-error); }
+    .sds-diff__mark {
+      color: var(--status-error);
+    }
   }
 }

@@ -1,7 +1,9 @@
 /* sds-search — the field, and the panel that hangs from it. */
 
 @layer base {
-  sds-search { display: inline-flex; }
+  sds-search {
+    display: inline-flex;
+  }
 }
 
 @layer components {
@@ -30,7 +32,9 @@
     flex: 0 1 var(--sds-search-width);
     min-width: 0;
 
-    .sds-field { width: 100%; }
+    .sds-field {
+      width: 100%;
+    }
     /* Hung from the end of the field rather than from the start of it. A box given
        both edges *and* a width keeps the start edge, which is how this drop came
        to hang off the left of the field and grow right past it — so it is given
@@ -60,7 +64,9 @@
       box-shadow: var(--sds-search-shadow);
     }
   }
-  .sds-search__panel .sds-hits { --sds-hits-bleed: 0px; }
+  .sds-search__panel .sds-hits {
+    --sds-hits-bleed: 0px;
+  }
   .sds-search__panel .sds-result {
     --sds-result-thumb: var(--sds-search-thumb);
     --sds-result-title-size: var(--sds-search-title-size);
@@ -86,7 +92,12 @@
 
     /* The sentence ends where the block ends: a paragraph's own margin under the
        last line is a second bottom, and the block already has one. */
-    p { max-width: none; margin-block: 0; }
-    .sds-surface-title { margin-bottom: var(--sds-search-empty-title-gap); }
+    p {
+      max-width: none;
+      margin-block: 0;
+    }
+    .sds-surface-title {
+      margin-bottom: var(--sds-search-empty-title-gap);
+    }
   }
 }

@@ -1,7 +1,10 @@
 /* sds-footer — the site's own end, on every page alike. */
 
 @layer base {
-  sds-footer { display: block; min-width: 0; }
+  sds-footer {
+    display: block;
+    min-width: 0;
+  }
 }
 
 @layer components {
@@ -101,15 +104,21 @@
      three things and a list of every page is not one of them. It is also what
      the ground costs: the link orange is 4.29:1 on the sunken plane, which is
      the finding `--syntax-key` already carries for the same colour. */
-  .sds-footer :is(a, .sds-link) { color: var(--sds-footer-ink); }
+  .sds-footer :is(a, .sds-link) {
+    color: var(--sds-footer-ink);
+  }
   /* The colour only: the underline is the link's own, and stating it again here
      put one under a mark that is a glyph and has no word to carry it. */
-  .sds-footer :is(a, .sds-link):hover { color: var(--sds-footer-ink-hover); }
+  .sds-footer :is(a, .sds-link):hover {
+    color: var(--sds-footer-ink-hover);
+  }
   /* A heading that is also a page, where the section it names has one. It keeps
      the label's colour rather than taking the links': at theirs it is the first
      entry of its own list, and what it names is the list. The underline under
      the pointer is the whole of the affordance, and every link here has it. */
-  .sds-footer .sds-footer__heading { color: var(--sds-footer-ink-quiet); }
+  .sds-footer .sds-footer__heading {
+    color: var(--sds-footer-ink-quiet);
+  }
   /* The line under the columns: what this is, and the notices that have to
      travel with it. Set apart by space and not by a rule — a hairline between
      two areas of one ground is a horizontal rule across the window, which is
@@ -136,16 +145,21 @@
   /* Alone on the line there is nothing to be at the far end *of*, and a set of
      marks against the right edge of a page that says nothing else reads as
      something that lost what it belonged to. */
-  .sds-footer__marks:only-child { margin-inline-start: 0; }
+  .sds-footer__marks:only-child {
+    margin-inline-start: 0;
+  }
   /* The whole footer, where a page set nothing else: the space that separates
      the line from the columns above it separates it from nothing here. */
-  .sds-footer__end:only-child { padding-top: 0; }
+  .sds-footer__end:only-child {
+    padding-top: 0;
+  }
 
   /* The closing line wraps here, and a set of marks pushed to the far end of a
      line it is alone on sits against the right edge under text that starts at
      the left. There is no end to be at once the line broke. */
   @media (max-width: 640px) {
-    .sds-footer__marks { margin-inline-start: 0; }
+    .sds-footer__marks {
+      margin-inline-start: 0;
+    }
   }
-
 }

@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "includes": ["packages/frontend/src/styles/**/*.css", "packages/frontend/src/tokens/*.css"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        // The flow contract descends on purpose: the element's box gives a
+        // step up before the bare class states it, and the layer order — not
+        // specificity — is what resolves the sheets. See
+        // docs/frontend/stylesheets.rst.
+        "noDescendingSpecificity": "off"
+      }
+    }
+  }
+}

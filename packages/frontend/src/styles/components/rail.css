@@ -1,7 +1,10 @@
 /* sds-nav-rail — the section's own list, beside the page. */
 
 @layer base {
-  sds-nav-rail { display: block; min-width: 0; }
+  sds-nav-rail {
+    display: block;
+    min-width: 0;
+  }
 }
 
 @layer components {
@@ -52,7 +55,9 @@
     color: var(--sds-rail-ink);
     text-decoration: none;
 
-    &:hover { color: var(--sds-rail-ink-hover); }
+    &:hover {
+      color: var(--sds-rail-ink-hover);
+    }
     &.is-active {
       background: var(--sds-rail-fill-active);
       color: var(--sds-rail-ink-active);
@@ -95,7 +100,9 @@
     transition: color var(--sds-rail-duration) var(--sds-rail-ease);
 
     &:hover,
-    &.is-active { color: var(--sds-rail-ink-hover); }
+    &.is-active {
+      color: var(--sds-rail-ink-hover);
+    }
   }
 
   /* A rail long enough to need sections. The row is a page like any other and
@@ -137,8 +144,12 @@
       color: var(--sds-rail-ink-quiet);
       border-radius: var(--sds-rail-radius);
     }
-    > summary::-webkit-details-marker { display: none; }
-    > summary:hover { color: var(--sds-rail-ink-hover); }
+    > summary::-webkit-details-marker {
+      display: none;
+    }
+    > summary:hover {
+      color: var(--sds-rail-ink-hover);
+    }
     /* Sideways closed, down open — it points at what pressing it will do, and
        keeps the control floor rather than the label's size: an 11px marker is a
        smudge on the one control in the rail. */
@@ -159,9 +170,10 @@
       padding-inline-start: var(--sds-rail-indent);
     }
   }
-  .sds-rail__fold[open] > summary .sds-icon { transform: none; }
+  .sds-rail__fold[open] > summary .sds-icon {
+    transform: none;
+  }
   .sds-rail__group:last-child > .sds-rail__fold::details-content {
     padding-bottom: var(--sds-rail-label-gap);
   }
-
 }

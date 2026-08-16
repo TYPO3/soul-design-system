@@ -7,9 +7,17 @@
 @layer base {
   /* The grid's own contract. `.sds-grid` is this layer's class, so the element
      that draws it states itself here rather than in a component file. */
-  sds-grid { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-grid > .sds-grid { margin-bottom: 0; }
-  .sds-grid { margin: 0 0 var(--space-4); }
+  sds-grid {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-grid > .sds-grid {
+    margin-bottom: 0;
+  }
+  .sds-grid {
+    margin: 0 0 var(--space-4);
+  }
 }
 
 @layer layout {
@@ -19,8 +27,7 @@
      gap takes the margin back off what stands in it. Only the containers this
      layer owns: a component's own box says it for itself, beside the gap it
      pays, because that is where somebody changing the gap is looking. */
-  :is(.sds-stack, .sds-sections, .sds-split, .sds-grid, .sds-row,
-  .sds-actions) > * {
+  :is(.sds-stack, .sds-sections, .sds-split, .sds-grid, .sds-row, .sds-actions) > * {
     margin-block: 0;
   }
 
@@ -43,7 +50,9 @@
     translate: 0 calc(-100% - var(--space-3));
     background: var(--surface-raised);
   }
-  .sds-skip:focus-visible { translate: none; }
+  .sds-skip:focus-visible {
+    translate: none;
+  }
 
   /* One measure, everything centred on it. A page row is full-bleed — a rule
      that stops short reads as a box — and what is held is its contents. Only
@@ -51,7 +60,7 @@
      and each says so in its own file. The gutter is a registered property so
      the step can be animated: animate it and the page rubber-bands. */
   @property --page-gutter {
-    syntax: '<length>';
+    syntax: "<length>";
     inherits: true;
     initial-value: 0px;
   }
@@ -63,8 +72,8 @@
     --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
     padding-inline: var(--page-inset);
     transition:
-    --page-gutter var(--duration-fast) var(--ease-out),
-    column-gap var(--duration-fast) var(--ease-out);
+      --page-gutter var(--duration-fast) var(--ease-out),
+      column-gap var(--duration-fast) var(--ease-out);
   }
 
   /* A rail beside a column. */
@@ -114,7 +123,10 @@
   }
 
   /* A page with no rail: the measure, and nothing beside it. */
-  .sds-page { flex: 1; padding-block: var(--space-12) var(--space-10); }
+  .sds-page {
+    flex: 1;
+    padding-block: var(--space-12) var(--space-10);
+  }
 
   .sds-foot {
     border-top: var(--border-hairline) solid var(--border-subtle);
@@ -126,20 +138,37 @@
 
   /* ------------------------------------------------------------ sets -- */
 
-  .sds-stack { display: flex; flex-direction: column; gap: var(--space-4); }
+  .sds-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
   /* A title is one thing — the trail, the eyebrow, the heading, the lead — and
      read as four it is four. */
-  .sds-stack--tight { gap: var(--space-2); }
+  .sds-stack--tight {
+    gap: var(--space-2);
+  }
   /* Centred, because not everything in a row of actions is a button: a link
      beside one is text in a box the button's height. */
-  .sds-actions { display: flex; align-items: center; gap: var(--space-3); }
+  .sds-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
   /* Small things that may run onto a second line. It wraps where `.sds-actions`
      sheds, because nothing in it is a target and a second line costs nothing. */
-  .sds-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+  .sds-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
   /* The one thing that belongs at the far end of a row. Named rather than
      written inline on a page: layout a page writes for itself is layout nothing
      else can keep in step with. */
-  .sds-row__end { margin-inline-start: auto; }
+  .sds-row__end {
+    margin-inline-start: auto;
+  }
 
   /* Two of anything, side by side until there is no room for two — by its own
      minimum, the way the grid reflows. A width the window states cannot see
@@ -158,19 +187,37 @@
      and not a second name beside the first, which is the same exception with a
      longer list. A half that wants one distance for everything in it puts a
      stack inside the column: one `div` more, and no shape to recognise. */
-  .sds-split > .sds-column { flex: 1 1 var(--split-min); min-width: 0; }
+  .sds-split > .sds-column {
+    flex: 1 1 var(--split-min);
+    min-width: 0;
+  }
   /* Where the shorter half stands against the taller one. */
-  .sds-split--center { align-items: center; }
-  .sds-split--end { align-items: flex-end; }
+  .sds-split--center {
+    align-items: center;
+  }
+  .sds-split--end {
+    align-items: flex-end;
+  }
   /* Which half leads once there is no room for two. `wrap-reverse` turns the
      cross axis over with the lines, which is why the two below read inverted
      and land in the same three positions on the page. */
-  .sds-split--leads-end { flex-wrap: wrap-reverse; align-items: flex-end; }
-  .sds-split--leads-end.sds-split--center { align-items: center; }
-  .sds-split--leads-end.sds-split--end { align-items: flex-start; }
+  .sds-split--leads-end {
+    flex-wrap: wrap-reverse;
+    align-items: flex-end;
+  }
+  .sds-split--leads-end.sds-split--center {
+    align-items: center;
+  }
+  .sds-split--leads-end.sds-split--end {
+    align-items: flex-start;
+  }
 
   /* `.sds-stack` is the rhythm inside a section; this is the rhythm between. */
-  .sds-sections { display: flex; flex-direction: column; gap: var(--space-12); }
+  .sds-sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
 
   /* Reflowing by their own minimum instead of at a breakpoint. `min(230px,
      100%)` and not `230px`, because a track with a floor wider than the grid
@@ -182,8 +229,12 @@
     grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
     gap: var(--space-4);
   }
-  .sds-grid--wide { --grid-min: 340px; }
-  .sds-grid--dense { --grid-min: 150px; }
+  .sds-grid--wide {
+    --grid-min: 340px;
+  }
+  .sds-grid--dense {
+    --grid-min: 150px;
+  }
 
   /* The gutter taken out: one wall rather than a set of cards. The line between
      two tiles is this ground showing through a gap a hairline wide — a grid
@@ -204,10 +255,20 @@
 
   /* A page whose ground changes. It replaces `.sds-page` — two insets would
      indent the text twice. */
-  .sds-bands { flex: 1; display: flex; flex-direction: column; }
-  .sds-band { padding-block: var(--space-12); }
-  .sds-band > :first-child { margin-top: 0; }
-  .sds-band > :last-child { margin-bottom: 0; }
+  .sds-bands {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .sds-band {
+    padding-block: var(--space-12);
+  }
+  .sds-band > :first-child {
+    margin-top: 0;
+  }
+  .sds-band > :last-child {
+    margin-bottom: 0;
+  }
 
   /* Without the rules, a quiet band against the canvas is a fill whose edge is
      the only thing announcing it — and where two meet, nothing at all. */
@@ -215,7 +276,9 @@
     background: var(--surface-raised);
     border-block: var(--border-hairline) solid var(--border-subtle);
   }
-  .sds-band--quiet + .sds-band--quiet { border-top: 0; }
+  .sds-band--quiet + .sds-band--quiet {
+    border-top: 0;
+  }
 
   /* ----------------------------------------------------- what it sheds -- */
 
@@ -226,25 +289,53 @@
   @media (max-width: 1140px) {
     /* The gutter steps on the page's own token, and every row follows — the
        ones above and the two that state themselves in their files. */
-    :root { --gutter-page: var(--space-6); }
-    .sds-body { gap: var(--space-8); }
-    .sds-page { padding-block: var(--space-10) var(--space-8); }
-    .sds-band { padding-block: var(--space-10); }
+    :root {
+      --gutter-page: var(--space-6);
+    }
+    .sds-body {
+      gap: var(--space-8);
+    }
+    .sds-page {
+      padding-block: var(--space-10) var(--space-8);
+    }
+    .sds-band {
+      padding-block: var(--space-10);
+    }
   }
   @media (max-width: 860px) {
-    :root { --gutter-page: var(--space-4); }
-    .sds-band { padding-block: var(--space-8); }
+    :root {
+      --gutter-page: var(--space-4);
+    }
+    .sds-band {
+      padding-block: var(--space-8);
+    }
     /* The height a desktop can spare is height a phone is reading with. */
-    :root { --height-header: 56px; }
-    .sds-body { flex-direction: column; padding-block: var(--space-6); }
+    :root {
+      --height-header: 56px;
+    }
+    .sds-body {
+      flex-direction: column;
+      padding-block: var(--space-6);
+    }
     /* The section's own list goes with the column it stood in: the drawer holds
        the whole site at this width, these pages among them. */
-    .sds-body__rail { display: none; }
-    .sds-page { padding-block: var(--space-8); }
-    .sds-foot { flex-wrap: wrap; gap: var(--space-4); }
-    .sds-sections { gap: var(--space-10); }
+    .sds-body__rail {
+      display: none;
+    }
+    .sds-page {
+      padding-block: var(--space-8);
+    }
+    .sds-foot {
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+    .sds-sections {
+      gap: var(--space-10);
+    }
   }
   @media (max-width: 640px) {
-    .sds-actions { flex-wrap: wrap; }
+    .sds-actions {
+      flex-wrap: wrap;
+    }
   }
 }

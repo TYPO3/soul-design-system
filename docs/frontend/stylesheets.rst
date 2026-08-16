@@ -57,15 +57,23 @@ the step below itself; a container that spaces its children takes those steps
 back; no rule reaches past a tag to find a block, and no distance is
 assembled from two halves.
 
-An element that stands in a flow therefore has three lines in ``base``, in
+An element that stands in a flow therefore has three rules in ``base``, in
 its component's own file, that only mean anything together:
 
 .. code-block:: css
 
    @layer base {
-     sds-note { display: block; min-width: 0; margin-bottom: var(--space-4); }
-     sds-note > .sds-note { margin-bottom: 0; }
-     .sds-note { margin: 0 0 var(--space-4); }
+     sds-note {
+       display: block;
+       min-width: 0;
+       margin-bottom: var(--space-4);
+     }
+     sds-note > .sds-note {
+       margin-bottom: 0;
+     }
+     .sds-note {
+       margin: 0 0 var(--space-4);
+     }
    }
 
 The element carries the step, the box it always renders inside itself gives
@@ -74,7 +82,7 @@ of one vocabulary rendered two ways — upgraded by an element where script
 runs, written as bare classes where none does — measuring the same either
 way.
 
-The lines sit in ``base`` and not in the component's own layer: a container
+The rules sit in ``base`` and not in the component's own layer: a container
 in ``layout`` takes the step back, and a step stated in ``components`` would
 win over the container that already paid the gap.
 
@@ -85,8 +93,8 @@ region that only ever stands in the page — a bar, a rail, a footer — owes no
 step either: a container or a set spaces it, so its ``base`` lines state the
 display and ``min-width: 0`` and nothing more.
 
-Because the contract is this page's to explain, the twenty files that follow
-it do not retell it: a ``@layer base`` block holding these three lines is the
+Because the contract is this page's to explain, the files that follow it do
+not retell it: a ``@layer base`` block holding these three rules is the
 pattern, recognised rather than narrated.
 
 What a component is made of
@@ -106,7 +114,9 @@ every component shares, and every declaration under it reads only that set:
      min-height: var(--sds-btn-height);
      background: var(--sds-btn-fill);
 
-     &:hover { --sds-btn-fill: var(--sds-btn-fill-hover); }
+     &:hover {
+       --sds-btn-fill: var(--sds-btn-fill-hover);
+     }
    }
 
 A variant and a size then **assign values and draw nothing**:
@@ -183,6 +193,31 @@ own bare-element rules and the flow-contract lines in the same arena:
 
 A condition that must *win* something in its own layer is the other case — it
 is written at full weight, in the layer whose turn it is to speak.
+
+The written form
+================
+
+``make css`` holds the form — Biome, configured in ``biome.jsonc`` at the
+repository root and run by the gate as the ``css`` check. The formatter's
+word is final and not negotiated per file: one declaration to a line,
+two-space indentation, and how a long value breaks. What it lints on top are
+the safety rules — a duplicate property, an unknown property, unit or
+pseudo-class — with one of its rules turned off where it contradicts this
+system, and the reason written beside the switch.
+
+One rule is this system's own, and the task checks it itself: **no colour
+literal outside** ``tokens/`` — the tokens are where the literals live, and
+every other sheet reads them. The exceptions are alpha and blend tricks
+rather than colours, and each states its reason in a ``colour-literal:``
+comment above the declaration it covers, the way the knockout glyphs and
+the mask do.
+
+What no rule can hold stays convention, written here and held in review: a
+component's set stands first under its rubric comments, then a blank line,
+then what is drawn, then the nested rules; and the shared sheets are
+organised by concern, so a selector there may reopen under a new heading —
+the one liberty a component file does not have, because its blocks are its
+subjects.
 
 .. seealso::
 

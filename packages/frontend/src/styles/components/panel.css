@@ -75,9 +75,14 @@
     color: var(--sds-bar-link-ink);
     text-decoration: none;
   }
-  .sds-bar__link:hover { color: var(--sds-bar-link-ink-hover); }
+  .sds-bar__link:hover {
+    color: var(--sds-bar-link-ink-hover);
+  }
   /* Said quietly. A rail is read down to find where you are, and a filled block
      would shout the one row nobody is going to press. The ink alone is the
      difference; `aria-current` says it to whoever is not reading colour. */
-  .sds-bar__link.is-active { color: var(--sds-bar-link-ink-hover); font-weight: var(--sds-bar-link-weight-active); }
+  .sds-bar__link.is-active {
+    color: var(--sds-bar-link-ink-hover);
+    font-weight: var(--sds-bar-link-weight-active);
+  }
 }

@@ -1,9 +1,17 @@
 /* sds-quote — a passage somebody said, and who said it. */
 
 @layer base {
-  sds-quote { display: block; min-width: 0; margin-bottom: var(--space-4); }
-  sds-quote > .sds-quote { margin-bottom: 0; }
-  .sds-quote { margin: 0 0 var(--space-4); }
+  sds-quote {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-quote > .sds-quote {
+    margin-bottom: 0;
+  }
+  .sds-quote {
+    margin: 0 0 var(--space-4);
+  }
 
   /* In a passage the document rules and indents a bare blockquote; this
      element draws both on the figure around it. Left standing, both are drawn
@@ -67,7 +75,8 @@
        step it owes a page, and here the quote's own gap is the distance. Said
        about the last thing rather than about a byline — the caption holds what it
        is given, and naming one element is a rule that needs another next time. */
-    > :last-child { margin-bottom: 0; }
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
-
 }
