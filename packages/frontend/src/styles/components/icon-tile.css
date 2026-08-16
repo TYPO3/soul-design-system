@@ -64,9 +64,6 @@
       background: var(--sds-icon-tile-fill-hover);
       transform: translateY(var(--sds-icon-tile-lift));
     }
-    /* And the ring on the tile's own corner, for the reason the card keeps its:
-       the frame is what answers the press. */
-    &:focus-visible { border-radius: var(--sds-icon-tile-radius); }
   }
   /* The subject, given the room that makes it the thing being looked at. A
      stated height and not an aspect ratio: the tiles across a row have to agree

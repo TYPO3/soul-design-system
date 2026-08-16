@@ -58,9 +58,6 @@
        every rule in this file, and it draws inside the corner rather than around
        it. The frame is the border here. */
     > iframe { display: block; border: 0; }
-    /* And it is a tab stop while it scrolls. All it says for itself is that its
-       corner is a card's. */
-    &:focus-visible { border-radius: var(--sds-embed-radius); }
   }
   /* Fills the column and holds its shape at every width. `aspect-ratio` is on
      the frame and the document inside takes both dimensions from it, so the
