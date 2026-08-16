@@ -1,10 +1,11 @@
 # phpDocumentor Guides
 
 What the theme still owes, and the decisions everything further has to hold
-to. At present it owes nothing, and the rest of this file is the second half.
-What is closed is not written here — it is in the template, in
-`src/styles/components/prose.css` or in the element, and `tests/guides.spec.ts` holds
-it. A list that keeps its finished lines is a changelog, and stops being read.
+to. At present it owes nothing, and the rest of this file is the second half —
+which is why it is worth reading when nothing is open. What is closed is not
+written here: it is in the template, in the stylesheet of whatever layer owns
+the element, or in the element, and `tests/guides.spec.ts` holds it. A list
+that keeps its finished lines is a changelog, and stops being read.
 
 The ground is the actual output: the HTML templates in `phpdocumentor/guides`,
 `guides-restructured-text`, `guides-code` and `guides-graphs`.
@@ -44,8 +45,9 @@ The rules every open line below is bound to:
 - **An element standing in running text lifts its markup.** A generator knows
   only attributes and children, and an element that renders light DOM out of
   its properties writes over its children doing it — the markup is gone.
-  `lifted()` is the form that solves it; the document layer is the evidence
-  that it carries. Whatever gets a node next is built after that.
+  `lifted()` is the form that solves it, and the rendered pages under
+  `acceptance/` are the evidence that it carries. Whatever gets a node next is
+  built after that.
 - **The content decides who colours.** If it carries `hljs-` classes it is
   coloured already and is kept as it came, wrapper, start line and highlighted
   lines included; otherwise `sds-code` colours it itself
@@ -205,5 +207,6 @@ None. The debt list is empty at the moment — what the package has to be able t
 do, it does, and what stands above are the rules the next thing has to measure
 itself against. A new line goes only to what is genuinely outstanding: a
 decision nobody has taken, or something that has to be built and is not. What
-is decided belongs above, and what is finished stands in the template, in
-`components/prose.css` or in the element, and is held by the suite.
+is decided belongs above, and what is finished stands in the template, in the
+stylesheet of whatever layer owns the element, or in the element itself, and is
+held by the suite.

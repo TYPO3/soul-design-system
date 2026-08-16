@@ -93,7 +93,7 @@ and the documents themselves are not comments and say what they have to say.
 | Why a design rule exists | its page under `docs/design-system/` or `docs/frontend/` |
 | Drawing a signet to the construction | `docs/design-system/signet-prompt.md` |
 | Where the icons and fonts came from, and under what licence | `THIRD-PARTY.md` |
-| What the Guides theme still owes | `packages/guides-theme/GAPS.md` |
+| What the Guides theme owes, and the decisions it is bound to | `packages/guides-theme/GAPS.md` |
 | How to take the theme into a project of your own | `docs/guides-theme/` |
 
 `SKILL.md` is the operating instruction. The matching published page carries
