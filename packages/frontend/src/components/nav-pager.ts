@@ -79,10 +79,10 @@ export class SdsNavPager extends SdsElement {
         )
       : '';
 
-    /* `.sds-foot` is the class layer's own name for this row — one line, the
-       way out of a page — so the shape is not drawn a second time here. What
-       `.sds-pager` adds is which end each control sits at. */
-    return html`<nav class="sds-foot sds-pager" aria-label="${this.label}">
+    /* One class. The row used to add the page container's, which insets by the
+       page gutter — inside a column that has already paid it, that is the
+       gutter twice. */
+    return html`<nav class="sds-pager" aria-label="${this.label}">
   ${back}
   ${on ? html`<span class="sds-pager__next">${on}</span>` : ''}
 </nav>`;

@@ -4,6 +4,7 @@
   sds-nav-pager {
     display: block;
     min-width: 0;
+    margin-bottom: var(--space-4);
   }
   sds-nav-pagination {
     display: block;
@@ -86,10 +87,33 @@
   }
 
   /* The other one: the page before and the page after, at the foot of a page
-     read in order. The row is `.sds-foot` and is not drawn twice, so the whole
-     of this is which end each control sits at — said on the next rather than
-     between the two, or a page with only a next would have it on the left. */
-  .sds-pager > .sds-pager__next {
-    margin-inline-start: auto;
+     read in order. A rule over it and the air under that rule, and nothing
+     below — the step to whatever follows is the one every block carries, so a
+     pager at the end of a column trims it like any other last child. */
+  .sds-pager {
+    --sds-pager-rule: var(--border-hairline);
+    --sds-pager-edge: var(--border-subtle);
+    --sds-pager-pad: var(--space-5);
+    --sds-pager-gap: var(--space-6);
+    --sds-pager-gap-narrow: var(--space-4);
+
+    display: flex;
+    align-items: center;
+    gap: var(--sds-pager-gap);
+    padding-block-start: var(--sds-pager-pad);
+    border-top: var(--sds-pager-rule) solid var(--sds-pager-edge);
+
+    /* Which end each control sits at, said on the next rather than between the
+       two: a page with only a next would otherwise have it on the left. */
+    > .sds-pager__next {
+      margin-inline-start: auto;
+    }
+
+    /* Where the two labels no longer fit on one line they take two, and the
+       air between them closes to the step a stacked pair carries. */
+    @media (max-width: 860px) {
+      flex-wrap: wrap;
+      gap: var(--sds-pager-gap-narrow);
+    }
   }
 }

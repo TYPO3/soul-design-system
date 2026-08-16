@@ -5280,7 +5280,7 @@ var SdsNavPager = class _SdsNavPager extends SdsElement {
       html46`${buttonLabel(this.nextLabel)}<sds-icon name="actions-arrow-right" size="16" label="Next page"></sds-icon>`,
       "next"
     ) : "";
-    return html46`<nav class="sds-foot sds-pager" aria-label="${this.label}">
+    return html46`<nav class="sds-pager" aria-label="${this.label}">
   ${back}
   ${on ? html46`<span class="sds-pager__next">${on}</span>` : ""}
 </nav>`;

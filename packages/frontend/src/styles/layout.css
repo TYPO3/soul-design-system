@@ -66,8 +66,7 @@
   }
   .sds-body,
   .sds-page,
-  .sds-band,
-  .sds-foot {
+  .sds-band {
     --page-gutter: var(--gutter-page);
     --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
     padding-inline: var(--page-inset);
@@ -118,7 +117,7 @@
   /* All a flow container has to say about spacing. Nothing carries a step above
      it, so there is nothing to trim at the top; what the last block owes its
      neighbour it does not owe the edge of the box it stands in. */
-  :where(.sds-band, .sds-body__main, .sds-column, .sds-page, .sds-foot) > :last-child {
+  :where(.sds-band, .sds-body__main, .sds-column, .sds-page) > :last-child {
     margin-block-end: 0;
   }
 
@@ -126,14 +125,6 @@
   .sds-page {
     flex: 1;
     padding-block: var(--space-12) var(--space-10);
-  }
-
-  .sds-foot {
-    border-top: var(--border-hairline) solid var(--border-subtle);
-    padding-block: var(--space-5);
-    display: flex;
-    align-items: center;
-    gap: var(--space-6);
   }
 
   /* ------------------------------------------------------------ sets -- */
@@ -324,10 +315,6 @@
     }
     .sds-page {
       padding-block: var(--space-8);
-    }
-    .sds-foot {
-      flex-wrap: wrap;
-      gap: var(--space-4);
     }
     .sds-sections {
       gap: var(--space-10);

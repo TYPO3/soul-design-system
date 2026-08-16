@@ -91,16 +91,6 @@ The canvas and the frame
    same one — a hairline between two areas of one ground is a horizontal rule
    across the window, saying nothing except that something ended.
 
-.. confval:: .sds-foot
-   :name: sds-foot
-   :type: class
-
-   One row across the measure, which is what ``sds-nav-pager`` stands in at the
-   foot of a page read in order. Two shapes rather than one class with a
-   modifier, because they share almost no part. A screen that wants an ending
-   of its own writes ``sds-footer`` and sets only what it has — the block drops
-   whatever is missing — rather than a row of classes by hand.
-
 The two bodies a page can have
 ==============================
 

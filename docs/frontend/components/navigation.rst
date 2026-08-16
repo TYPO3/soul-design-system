@@ -943,8 +943,8 @@ nothing was set, so the second is the first with less in it.
 .. note::
 
    A footer is a directory, and **not** a place the accent appears: its links
-   carry the page's own secondary ink. ``.sds-foot`` is the other shape — one
-   row with the way out of this page, which is all a single screen owes its
+   carry the page's own secondary ink. The other shape is ``sds-nav-pager`` —
+   one row with the way out of this page, which is all a single screen owes its
    reader. See :doc:`/frontend/layout`.
 
 .. seealso::

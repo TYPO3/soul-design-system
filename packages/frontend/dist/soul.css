@@ -113,13 +113,12 @@
   .sds-skip{position:fixed;z-index:40;top:var(--space-3);inset-inline-start:var(--space-3);translate:0 calc(-100% - var(--space-3));background:var(--surface-raised)}
   .sds-skip:focus-visible{translate:none}
   @property --page-gutter{syntax: "<length>";inherits: true;initial-value: 0px}
-  .sds-body,.sds-page,.sds-band,.sds-foot{--page-gutter: var(--gutter-page);--page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);padding-inline:var(--page-inset);transition:--page-gutter var(--duration-fast) var(--ease-out),column-gap var(--duration-fast) var(--ease-out)}
+  .sds-body,.sds-page,.sds-band{--page-gutter: var(--gutter-page);--page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);padding-inline:var(--page-inset);transition:--page-gutter var(--duration-fast) var(--ease-out),column-gap var(--duration-fast) var(--ease-out)}
   .sds-body{flex:1;display:flex;gap:var(--space-12);padding-block:var(--space-8)}
   .sds-body__rail{width:calc(var(--width-sidebar) + var(--space-2) * 2);margin-inline:calc(-1 * var(--space-2));margin-block-start:calc(-1 * var(--space-1-5));padding:var(--space-1-5) var(--space-2);flex:none;position:sticky;top:calc(var(--height-header) + var(--space-8) - var(--space-1-5));align-self:flex-start;max-height:calc(100vh - var(--height-header) - var(--space-8) * 2);overflow-y:auto}
   .sds-body__main{flex:1;min-width:0}
-  :where(.sds-band,.sds-body__main,.sds-column,.sds-page,.sds-foot)>:last-child{margin-block-end:0}
+  :where(.sds-band,.sds-body__main,.sds-column,.sds-page)>:last-child{margin-block-end:0}
   .sds-page{flex:1;padding-block:var(--space-12) var(--space-10)}
-  .sds-foot{border-top:var(--border-hairline) solid var(--border-subtle);padding-block:var(--space-5);display:flex;align-items:center;gap:var(--space-6)}
   .sds-stack{display:flex;flex-direction:column;gap:var(--space-4)}
   .sds-stack--tight{gap:var(--space-2)}
   .sds-actions{display:flex;align-items:center;gap:var(--space-3)}
@@ -156,7 +155,6 @@
     .sds-body{flex-direction:column;padding-block:var(--space-6)}
     .sds-body__rail{display:none}
     .sds-page{padding-block:var(--space-8)}
-    .sds-foot{flex-wrap:wrap;gap:var(--space-4)}
     .sds-sections{gap:var(--space-10)}
   }
   @media(max-width:640px){
@@ -1027,7 +1025,7 @@
   .sds-crumbs__here{color:var(--sds-crumbs-here-ink);font-weight:var(--sds-crumbs-here-weight)}
 }
 @layer base{
-  sds-nav-pager{display:block;min-width:0}
+  sds-nav-pager{display:block;min-width:0;margin-bottom:var(--space-4)}
   sds-nav-pagination{display:block;min-width:0;margin-bottom:var(--space-4)}
   sds-nav-pagination>.sds-pagination{margin-bottom:0}
   .sds-pagination{margin:0 0 var(--space-4)}
@@ -1040,7 +1038,20 @@
   .sds-pagination__step.is-disabled{color:var(--sds-pagination-ink-quiet);pointer-events:none}
   .sds-pagination__gap{padding:var(--sds-pagination-pad-y) var(--sds-pagination-gap);color:var(--sds-pagination-ink-quiet);user-select:none}
   .sds-pagination__count{margin-inline-start:auto;color:var(--sds-pagination-ink-quiet)}
-  .sds-pager>.sds-pager__next{margin-inline-start:auto}
+  .sds-pager{
+    --sds-pager-rule: var(--border-hairline);
+    --sds-pager-edge: var(--border-subtle);
+    --sds-pager-pad: var(--space-5);
+    --sds-pager-gap: var(--space-6);
+    --sds-pager-gap-narrow: var(--space-4);
+    display:flex;
+    align-items:center;
+    gap:var(--sds-pager-gap);
+    padding-block-start:var(--sds-pager-pad);
+    border-top:var(--sds-pager-rule) solid var(--sds-pager-edge);
+    >.sds-pager__next{margin-inline-start:auto}
+    @media(max-width:860px){flex-wrap:wrap;gap:var(--sds-pager-gap-narrow)}
+  }
 }
 @layer base{
   sds-nav-pills{display:block;min-width:0}
@@ -1694,7 +1705,7 @@
   }
   @media(prefers-reduced-motion:reduce){
     .sds-spinner,.sds-skeleton{animation:none}
-    .sds-bar,.sds-body,.sds-page,.sds-band,.sds-foot,.sds-footer{transition:none}
+    .sds-bar,.sds-body,.sds-page,.sds-band,.sds-footer{transition:none}
     .sds-accordion__item::details-content,.sds-accordion__head .sds-icon{transition:none}
     .sds-card:has(>.sds-card__body){--sds-card-lift: 0px;transition:none}
     .sds-card:has(>.sds-card__body):before{transition:none}
