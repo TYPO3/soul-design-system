@@ -50,17 +50,29 @@ tokens folded in, while the pane reads `tokens/*.css` as separate files to build
 its token index, so the bundle keeps the split and hands over `styles.css` plus
 `_ds_bundle.css`.
 
-**The header's component entries are read by `name` and `sourcePath`**, and
-each names a contract under `components/Elements/<Class>/`. Anything else in an
-entry is ignored — `tag` is kept because `make verify ARGS=conventions` holds
-the prose against it, and `export` because it is what `window.SDS` answers to.
-This was found the hard way: with entries of `{tag, export}` the app compiled
-`"components": []` into `_ds_manifest.json` while every card, token and screen
-came through, so the design agent was handed a system of classes and wrote
-classes. Read the manifest back after a sync that touches the header —
-`DesignSync get_file _ds_manifest.json` — and check that list is not empty.
-The shape is the sync kit's own (`.ds-sync/lib/bundle.mjs`, `stampHeader`) and
-unofficial, so it is a strong lead rather than a spec.
+**The header's component entries do not reach the manifest, and writing them
+in the documented shape does not change that.** Each entry names a contract
+under `components/Elements/<Class>/`, carrying `name`, `tag`, `export` and
+`sourcePath` — the shape the sync kit itself stamps
+(`.ds-sync/lib/bundle.mjs`, `stampHeader`). A sync sending 49 of them was
+read back afterwards and the app had compiled `"components": []` all the same,
+while `cards`, `startingPoints`, `tokens` and `fonts` all came through with
+everything in them.
+
+An earlier note here claimed the opposite — that `{tag, export}` alone had
+produced the empty list and that adding `name` and `sourcePath` was the fix.
+It is now measured and it is not: the entries are complete and the list is
+still empty. Keep writing them, because `make verify ARGS=conventions` holds
+the prose against `tag` and `window.SDS` answers to `export`, but do not
+expect the design agent to be handed a component list by this route. It reads
+the elements through `soul.js` and the conventions header, which is why both
+exist.
+
+The reason is above: the app rebuilds `_ds_bundle.js` from component sources
+it can parse and compiles the manifest from *that*, and this system ships no
+`.jsx` for it to parse. Emitting one wrapper per element is the only lead left
+for filling `components`, and it is a decision about what this system is
+rather than a fix — nothing today is broken by the empty list.
 
 ## The project id is yours, and it is what makes an update an update
 
@@ -267,16 +279,18 @@ prompt, the thumbnail of a component *is* its `@dsCard`-tagged HTML, and the
 thumbnail of a screen *is* the screen: "The screen itself is the thumbnail."
 To change a thumbnail you edit that HTML. Do not invent a filename again.
 
-`startingPoints` is the empty field worth filling. A consuming project shows
+`startingPoints` is filled, and this is how. It was the empty field worth
+filling when this section was written; the manifest read back now carries all
+26 screens with their section, subtitle and viewport. A consuming project shows
 a **Starting Points picker** that seeds a new design from this system. A
 screen is marked by making `<!-- @startingPoint section="<group>"
 subtitle="<one line>" viewport="<WxH>" -->` the first line of its HTML; a
 component is marked with `@startingPoint` in the JSDoc on its `.d.ts` props
-interface. That route is open here and unused: every element ships a `.d.ts`
-under `components/Elements/`, so the JSDoc has somewhere to live. This used to
-read "not applicable here — this system ships no components", which was
-written when the bundle was an empty namespace and stopped being true the day
-the bundle got them.
+interface — though that half is theory here, since the app compiles no
+components out of this system at all (see above). This used to read "not
+applicable here — this system ships no components", which was written when the
+bundle was an empty namespace and stopped being true the day the bundle got
+them.
 
 Source: Claude Design's leaked system prompt, corroborated by the fields the
 app actually writes into `_ds_manifest.json` (`startingPoints`, `cards`,
