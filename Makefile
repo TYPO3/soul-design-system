@@ -38,7 +38,7 @@ RUN := $(TASK) node scripts/task.ts
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
 TASKS := verify test cards embed chrome typecheck fit ssr coverage php css build dist split guides fonts icons \
-         diagrams baseline shots diff look sync sync-status plan synced
+         diagrams baseline shots diff look design-project design-sync design-status design-plan design-synced
 
 # The long-running ones. `app` is among them: it holds the environment every
 # task above runs in, so a task is an `exec` rather than a new container.
@@ -83,10 +83,11 @@ help:
 	@echo '  make build           assemble .out/bundle/, the upload payload'
 	@echo '  make dist            the publishable ESM package and its types'
 	@echo '  make release ARGS=0.2.0  gate, suite, write the version, commit, tag (never pushes)'
-	@echo '  make sync            build + verify + what-would-change + upload plan'
-	@echo '  make sync-status plan synced the sync steps individually'
-	@echo '                       set SDS_DESIGN_PROJECT to your own design project,'
-	@echo '                       or a re-sync makes a new one instead of updating it'
+	@echo '  make design-sync     build + verify + what-would-change + upload plan'
+	@echo '  make design-project  which claude.ai design system a sync uploads into;'
+	@echo '                       ARGS=<uuid> sets it, and without one a re-sync'
+	@echo '                       makes a new design system instead of updating yours'
+	@echo '  make design-status design-plan design-synced   the steps individually'
 	@echo
 	@echo '  make baseline shots diff     screenshot before, after, compare'
 	@echo '  make look ARGS=screens/x.html  photograph one page in both modes'

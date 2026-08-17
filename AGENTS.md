@@ -428,11 +428,15 @@ value in a declaration: `make verify ARGS=sets` holds the route, and a raw
 number in a set is read in review beside its reason. Then the visual-refactor
 recipe above, because a changed distance is a visual change.
 
-**Ship to the design agent** — `make sync` (build + verify + what would change
-+ plan); `make sync-status`, `make plan`, `make synced` are the same steps
-individually — `status` on its own is the containers, not the sync. Set
-`SDS_DESIGN_PROJECT`, or a re-sync creates a new project instead of updating
-one.
+**Ship to the design agent** — `make design-sync` (build + verify + what would
+change + plan); `make design-status`, `make design-plan`, `make design-synced`
+are the same steps individually. Every one of them carries the `design-` scope
+because `status`, `plan` and `project` are words this repository uses for other
+things — `make status` is the containers. `make design-project` says which
+claude.ai project a sync uploads into and sets it; without one a re-sync
+creates a new project instead of updating yours.
+`docs/design-system/design-with-claude.rst` is the reader's half — the import
+step by step, and designing with what it uploaded.
 
 ## What a change owes the documents
 

@@ -32,7 +32,7 @@ const SENTINEL_UPLOAD = {
   note: 'inline with an explicit mimeType — an extensionless localPath upload is dropped silently',
 };
 
-report.open('plan', 'the ordered upload plan, with deletes');
+report.open('design-plan', 'the ordered upload plan, with deletes');
 
 if (!existsSync(BUILT)) {
   report.summary('no build here', ['run `make build` first']);
@@ -99,7 +99,7 @@ const plan = {
     { step: 4, action: 'write', why: 'sentinel re-armed so the app rebuilds its manifest', files: [SENTINEL], ...SENTINEL_UPLOAD },
     { step: 5, action: 'write', why: 'the anchor vouches for everything above — always last', files: [ANCHOR_FILE] },
   ],
-  afterUpload: 'make synced',
+  afterUpload: 'make design-synced',
 };
 
 mkdirSync(join(ROOT, '.design-sync/.cache'), { recursive: true });
@@ -125,5 +125,5 @@ if (!deletable) {
   report.detail('DesignSync get_file  _ds_sync.json  ->  .design-sync/.cache/remote-sync.json');
   report.detail('If it carries no "files" (an upload from before this change), hold list_files against the build once.');
 }
-report.fact('after a successful upload', 'make synced');
+report.fact('after a successful upload', 'make design-synced');
 report.summary(`${content.length} files \u00b7 ${deletes.length} deletes`);

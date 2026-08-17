@@ -3,10 +3,10 @@
 
    Run this immediately after a successful upload, and only then. It promotes
    the anchor that was just pushed to the local cache, which is what `make
-   sync-status` and `make plan` compare against. Skip it and both keep
+   design-status` and `make design-plan` compare against. Skip it and both keep
    answering from the previous upload — confidently and wrongly.
 
-     make synced
+     make design-synced
 */
 import { copyFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -17,7 +17,7 @@ import * as report from './lib/report.ts';
 const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
 const CACHE = join(ROOT, '.design-sync/.cache/remote-sync.json');
 
-report.open('synced', 'record that the project holds this build');
+report.open('design-synced', 'record that the uploaded system holds this build');
 
 if (!existsSync(BUILT)) {
   report.summary('no build here — nothing to record', ['run `make build` first']);
@@ -27,5 +27,5 @@ mkdirSync(join(ROOT, '.design-sync/.cache'), { recursive: true });
 copyFileSync(BUILT, CACHE);
 
 const a = JSON.parse(readFileSync(CACHE, 'utf8'));
-report.fact('`make sync-status` compares against this state from now on');
+report.fact('`make design-status` compares against this state from now on');
 report.summary(`${Object.keys(a.renderHashes).length} cards \u00b7 ${a.files?.length ?? '?'} files recorded as uploaded`);
