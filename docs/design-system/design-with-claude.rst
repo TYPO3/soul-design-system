@@ -71,10 +71,12 @@ there — so it is approved once. After that only the acts themselves ask:
 creating a design system, and locking the plan, which is the prompt that shows
 the exact writes and deletes before any of them happen.
 
-Approving it can still end in *design scopes not granted*: the login is valid
-and the account has no claude.ai/design access. Open claude.ai/design in a
-browser with that account — the answer is there, and no command in Claude Code
-can grant it.
+Approving it can still end in *design scopes not granted*, and the same line
+says what happened: a token refresh succeeded. A refresh returns the scopes the
+token already had, so it can never add one — a fresh login can. Log out, log in,
+and read the consent screen: it either offers design access or it does not. If it
+does not, the account has none, and no command in Claude Code grants it — open
+claude.ai/design in a browser with that account to see where you stand.
 
 .. note::
 
@@ -254,9 +256,10 @@ When it does not look right
    * - ``make design-sync`` stops before the plan
      - The gate is red. Fix what it names and run it again.
    * - *DesignSync needs a claude.ai login* — after ``/login``
-     - Read the rest of the line. *Design scopes not granted* means the login
-       worked and the account cannot open claude.ai/design; check that in a
-       browser rather than looking for a command that grants it.
+     - Read the rest of the line. *Refresh succeeded but design scopes not
+       granted* means the token was renewed with the scopes it already had: log
+       out and in so the consent screen is asked again. A consent screen without
+       design access means the account has none — see step 3.
 
 What gets uploaded
 ==================
