@@ -29,6 +29,10 @@ export declare class SdsTabs extends SdsNav {
             reflect: boolean;
         };
     };
+    /** A name shared by every set that moves together: picking a tab in one picks
+        the same label in all of them. Left unset rather than empty — `reflect`
+        writes `sync=""`, and a set following nobody would answer to `[sync]`, for
+        a stylesheet, for a test, and for the registry below. */
     sync?: string;
     protected readonly block = "sds-tabs";
     protected readonly item = "sds-tab";

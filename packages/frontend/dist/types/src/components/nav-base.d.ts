@@ -61,7 +61,11 @@ export declare abstract class SdsNav extends SdsElement {
             reflect: boolean;
         };
     };
+    /** The entries, each a label or an entry that carries its own target, glyph
+        and children. A bar handed a `menu` builds these from it instead. */
     items: NavItem[];
+    /** Which entry is the current one, by position. The navigation says where
+        the reader is; it does not find out on its own, except `sds-nav-toc`. */
     active: number;
     /** The class on the wrapper, e.g. `sds-pills`. */
     protected abstract readonly block: string;

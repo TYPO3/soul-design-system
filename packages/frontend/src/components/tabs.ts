@@ -55,9 +55,10 @@ export class SdsTabs extends SdsNav {
     sync: { type: String, reflect: true },
   };
 
-  /* Left unset rather than empty: `reflect` writes `sync=""` for an empty
-     string, and a set that follows nobody would then answer to `[sync]` —
-     for a stylesheet, for a test, and for the registry below. */
+  /** A name shared by every set that moves together: picking a tab in one picks
+      the same label in all of them. Left unset rather than empty — `reflect`
+      writes `sync=""`, and a set following nobody would answer to `[sync]`, for
+      a stylesheet, for a test, and for the registry below. */
   declare sync?: string;
 
   protected override readonly block = 'sds-tabs';

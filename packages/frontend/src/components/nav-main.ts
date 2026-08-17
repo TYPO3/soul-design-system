@@ -80,8 +80,13 @@ export class SdsNavMain extends SdsNav {
 
   /** Where the mark goes: the way home, from anywhere on the site. */
   declare home: string;
+  /** The mark, as a file to link. The 20–31px drawing, since that is the size
+      a bar gives it — a mark picked for another box is redrawn, never scaled. */
   declare signet: string;
+  /** Who publishes this, which is the word that stays across every site. */
   declare brand: string;
+  /** What this one is called, set beside the brand. A site with only a brand
+      leaves it off rather than repeating the brand in a lighter weight. */
   declare product: string;
   /** Whether the bar carries a search field. A field with no `index` searches
       nothing, which is a specimen rather than a site. */
