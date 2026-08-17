@@ -169,9 +169,11 @@ that is the answer, not a reason to substitute something.
 ## Where the truth is
 
 Read the real files before styling: `styles.css` and its imports (`tokens/*.css`,
-`_ds_bundle.css`). Per card, `components/<Group>/<Name>/<Name>.prompt.md` has the
-markup to copy. `guidelines/build-rules.md` is the full rule set. Copy the
-nearest specimen rather than inventing a variant.
+`_ds_bundle.css`). Per element, `components/Elements/<Class>/<Class>.prompt.md` is its
+attributes and what goes between its tags — read that before writing one. Per card,
+`components/<Group>/<Name>/<Name>.prompt.md` has the markup to copy.
+`guidelines/build-rules.md` is the full rule set. Copy the nearest specimen rather
+than inventing a variant.
 
 ## A worked example
 

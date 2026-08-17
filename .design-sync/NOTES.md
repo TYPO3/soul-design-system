@@ -24,6 +24,18 @@ namespace; any note claiming that predates this and is wrong. The count is
 not written down here on purpose — `make verify` checks the header against
 the build, which is the only place it stays true.
 
+**The header's component entries are read by `name` and `sourcePath`**, and
+each names a contract under `components/Elements/<Class>/`. Anything else in an
+entry is ignored — `tag` is kept because `make verify ARGS=conventions` holds
+the prose against it, and `export` because it is what `window.SDS` answers to.
+This was found the hard way: with entries of `{tag, export}` the app compiled
+`"components": []` into `_ds_manifest.json` while every card, token and screen
+came through, so the design agent was handed a system of classes and wrote
+classes. Read the manifest back after a sync that touches the header —
+`DesignSync get_file _ds_manifest.json` — and check that list is not empty.
+The shape is the sync kit's own (`.ds-sync/lib/bundle.mjs`, `stampHeader`) and
+unofficial, so it is a strong lead rather than a spec.
+
 ## The project id is yours, and it is what makes an update an update
 
 Anyone can sync this system into a claude.ai design system of their own — that is

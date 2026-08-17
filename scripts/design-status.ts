@@ -49,7 +49,17 @@ const screensChanged = wasScreens
   ? Object.keys(nowScreens).filter((n) => wasScreens[n] !== nowScreens[n]).sort()
   : Object.keys(nowScreens).sort();
 
-if (!added.length && !changed.length && !removed.length && !styling && !screensChanged.length) {
+/* An element's contract is what the agent is given as the component API, so a
+   moved property is a moved upload — and an anchor from before they were
+   hashed is unknown rather than unchanged, same as the screens above. */
+const wasElements = remote.elementHashes as Record<string, string> | undefined;
+const nowElements = (local.elementHashes ?? {}) as Record<string, string>;
+const elementsChanged = wasElements
+  ? Object.keys(nowElements).filter((n) => wasElements[n] !== nowElements[n]).sort()
+  : Object.keys(nowElements).sort();
+
+if (!added.length && !changed.length && !removed.length && !styling && !screensChanged.length
+  && !elementsChanged.length) {
   report.summary(`nothing to do — every one of the ${cards.length} cards is at the uploaded state`);
   process.exit(0);
 }
@@ -59,6 +69,7 @@ const MOVED = [
   ['changed', changed],
   ['removed', removed],
   ['screens changed', screensChanged],
+  ['elements changed', elementsChanged],
 ] as const;
 report.align(MOVED.map(([label]) => ({ name: label, label })));
 for (const [label, names] of MOVED) {
@@ -66,4 +77,5 @@ for (const [label, names] of MOVED) {
 }
 if (styling) report.note('tokens or components changed — this reaches every rendered design');
 report.fact('next, in Claude Code', '/design-sync');
-report.summary(`${added.length + changed.length + removed.length + screensChanged.length} card(s) would move`);
+report.summary(`${added.length + changed.length + removed.length + screensChanged.length
+  + elementsChanged.length} thing(s) would move`);

@@ -14,12 +14,9 @@ import * as esbuild from 'esbuild';
 
 import { FRONTEND, GENERATED, ROOT, byGroup, cards, screens, type Card } from './lib/cards.ts';
 import { inlineImports } from './lib/css.ts';
+import { elements, type ElementDoc } from './lib/elements.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
 import * as report from './lib/report.ts';
-
-/** `sds-button` → `SdsButton`, the export name the bundle exposes. */
-const pascalTag = (tag: string): string =>
-  tag.split('-').map((w) => (w[0] ?? '').toUpperCase() + w.slice(1)).join('');
 
 const OUT = resolve(process.argv[2] ?? join(GENERATED, 'bundle'));
 const NS = 'SDS';
@@ -122,6 +119,65 @@ function promptDoc(c: Card, dir: string): string {
   return out.join('\n');
 }
 
+/* A table cell ends at a pipe, and half these types are unions written with
+   one. Escaped, because a row that breaks takes the rest of the table with it. */
+const cell = (s: string): string => s.replace(/\|/g, '\\|');
+
+/** The first sentence, which is what a table cell has room to carry. */
+function opening(doc: string): string {
+  return /^(.{0,180}?[.!?])(\s|$)/.exec(doc)?.[1] ?? (doc.length > 180 ? `${doc.slice(0, 177)}…` : doc);
+}
+
+/** The element's own contract, as types — its properties, with what they say. */
+function elementDts(e: ElementDoc): string {
+  const out = [`/** <${e.tag}> — ${e.purpose}`, ' *', ` *  Registered as \`${e.className}\` by \`_ds_bundle.js\`. Address the element;`,
+    ' *  the classes in `_ds_bundle.css` are what it emits, not a second way to build.', ' */', ''];
+  /* What a value of this shape is stands in the source; here it is only that
+     the value is not a string, so the property is set from script rather than
+     written as an attribute. */
+  const named = [...new Set(e.props.flatMap((p) => [...p.type.matchAll(/\b[A-Z]\w*/g)].map((m) => m[0])))];
+  if (named.length) {
+    out.push(`/* Declared in ${e.source} — opaque here: a property taking one of these is set`,
+      '   from script, never written as an attribute. */');
+    for (const n of named) out.push(`type ${n} = unknown;`);
+    out.push('');
+  }
+  out.push(`export interface ${e.className}Props {`);
+  for (const p of e.props) {
+    if (p.doc) out.push(`  /** ${p.doc} */`);
+    if (p.attribute !== p.name.toLowerCase()) out.push(`  /* Written \`${p.attribute}\` on the element. */`);
+    out.push(`  ${p.name}?: ${p.type};`);
+  }
+  out.push('}', '',
+    `export declare class ${e.className} extends HTMLElement implements ${e.className}Props {}`, '',
+    'declare global {', '  interface HTMLElementTagNameMap {', `    '${e.tag}': ${e.className};`, '  }', '}', '');
+  return out.join('\n');
+}
+
+/** The same contract as something to write, which is what an agent reads. */
+function elementPrompt(e: ElementDoc): string {
+  /* Shape-true rather than invented: what a page can write is what a string
+     holds, in the order the element declares it, and a body an element takes
+     between its tags is not shown twice. */
+  const shown = e.props
+    .filter((p) => p.lit === 'string' && !(e.takesContent && p.name === 'body'))
+    .slice(0, 3);
+  const attrs = shown.map((p) => ` ${p.attribute}="${/'([^']*)'/.exec(p.type)?.[1] ?? '…'}"`).join('');
+  const out = [`${e.tag} — ${e.purpose}`, '',
+    `Registered as \`${e.className}\` by \`_ds_bundle.js\`, and written as an element:`, '',
+    '```html', `<${e.tag}${attrs}>${e.takesContent ? '…' : ''}</${e.tag}>`, '```', ''];
+  if (e.props.length) {
+    out.push('## Attributes', '', '| Attribute | Type | What it is |', '| --- | --- | --- |');
+    for (const p of e.props) out.push(`| \`${p.attribute}\` | \`${cell(p.type)}\` | ${cell(opening(p.doc))} |`);
+    out.push('');
+  }
+  out.push(e.takesContent
+    ? 'Between the tags goes what an attribute cannot carry — prose, a block, a section of a document. Everything else is an attribute.'
+    : 'This element carries no content: everything it shows is an attribute.', '',
+    `Source: \`${e.source}\`.`, '');
+  return out.join('\n');
+}
+
 function countFiles(dir: string): number {
   let n = 0;
   for (const e of readdirSync(dir, { withFileTypes: true })) {
@@ -190,9 +246,39 @@ const built = await esbuild.build({
 });
 const bundleJs = built.outputFiles[0]?.text ?? '';
 
+/* Every registered tag ships its contract, because the app compiles the header
+   below into the component API the design agent is given — and an agent given
+   no API writes the class layer by hand, which is the fallback and not the
+   system. A tag with no contract is a component nobody can address. */
+const els = elements();
+const byTag = new Map(els.map((e) => [e.tag, e]));
+const uncontracted = TAGS.filter((t) => !byTag.has(t));
+if (uncontracted.length) {
+  report.summary(`${uncontracted.length} registered tag(s) ship no contract`, uncontracted);
+  process.exit(1);
+}
+const elementHashes: Record<string, string> = {};
+for (const e of els) {
+  const dir = join(OUT, 'components', 'Elements', e.className);
+  mkdirSync(dir, { recursive: true });
+  const dts = elementDts(e);
+  const prompt = elementPrompt(e);
+  writeFileSync(join(dir, `${e.className}.d.ts`), dts);
+  writeFileSync(join(dir, `${e.className}.prompt.md`), prompt);
+  elementHashes[e.tag] = sha12(dts + prompt);
+}
+
 const header = {
   namespace: NS,
-  components: TAGS.map((tag) => ({ tag, export: pascalTag(tag) })),
+  /* `name` and `sourcePath` are the shape the app compiles into
+     `_ds_manifest.json`; `tag` is this repository's own, and what `verify`
+     holds the conventions header against. */
+  components: TAGS.flatMap((tag) => {
+    const e = byTag.get(tag);
+    return e
+      ? [{ name: e.className, tag, export: e.className, sourcePath: `components/Elements/${e.className}/${e.className}.d.ts` }]
+      : [];
+  }),
   sourceHashes: { 'components.css': sha12(sheets()), 'styles.css': sha12(styles) },
   inlinedExternals: [],
 };
@@ -291,6 +377,7 @@ writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
   styleSha: sha12(styles + sheets()),
   renderHashes,
   screenHashes,
+  elementHashes,
   sourceKeys,
   keyRecipe: 'sha256-12 of the card html as emitted',
   scriptsSha: sha12(readFileSync(join(ROOT, 'scripts/build.ts'))),

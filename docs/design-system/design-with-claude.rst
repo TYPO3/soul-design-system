@@ -153,6 +153,7 @@ Everything the agent needs is there before your first sentence:
 
 - ``README.md`` — the conventions, and every card with the path to its prompt
 - ``guidelines/build-rules.md`` — ``SKILL.md``, the operating instruction
+- each element's ``.prompt.md`` — its attributes, and what goes between its tags
 - each card's ``.prompt.md`` — its classes and its markup, as a block to copy
 - ``screens/`` — finished pages, offered as Starting Points
 
@@ -340,6 +341,9 @@ because that is the shape the pane expects:
      components/<Group>/<Name>/
          <Name>.html         the card, rendered at a declared size
          <Name>.prompt.md    what it is, which classes it uses, its markup
+     components/Elements/<Class>/
+         <Class>.d.ts        the element's properties, read out of its source
+         <Class>.prompt.md   its attributes, and what goes between its tags
      screens/            whole pages to start a design from
      guidelines/         the written rules, and why they exist
 
@@ -367,6 +371,27 @@ generated from the story that documents it in Storybook.
 Beside each card is a ``.prompt.md``: what the component is, which classes it
 uses, and its markup as a block to copy. That is what the agent reads when it
 places one.
+
+Why every element ships a contract
+==================================
+
+A card cannot carry a custom element, so the cards alone describe a system of
+classes — and an agent that is handed only classes writes classes. The elements
+are named separately: the ``@ds-bundle`` header on ``_ds_bundle.js`` lists every
+registered tag with the class it exports and the path to its contract, and the
+app compiles that into the component API a design is written against.
+
+.. warning::
+
+   The entries are read by ``name`` and ``sourcePath``. A header naming its
+   components any other way loads without complaint and compiles to an empty
+   component list, which reads in the pane exactly like a design system that has
+   no components at all.
+
+``scripts/lib/elements.ts`` reads each contract out of the element's own source
+— the properties Lit registers, the attribute each answers to, and what the
+props interface says about it. Read rather than written down, because a second
+copy of a component's surface stops being true at the next property.
 
 What the gate checks
 ====================
