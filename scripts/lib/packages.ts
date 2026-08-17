@@ -32,12 +32,6 @@ const NOT_IN_THE_DROP_IN = ['index.js', 'index.js.map', 'types', 'tsconfig.json'
    few files a linked page asks for. */
 const FROM_ASSETS = [join('icons', 'svgs'), 'placeholders'];
 
-/* The one file under `assets/` that no package carries, mirror included: it
-   lists every icon @typo3/icons has, most of which is not here, so nothing
-   that leaves this tree should be answering questions about it. The manifest
-   leaves it out of the tarball and this leaves it out of the repository the
-   tarball is published from. */
-const NOT_IN_THE_PACKAGE = [join('assets', 'icons.json')];
 
 /** Every file under a directory, relative to it — the package, not the
     repository it is kept in. */
@@ -168,10 +162,7 @@ export const PACKAGES: readonly Package[] = [
       if (!dir) return;
       for (const entry of readdirSync(dir)) {
         if (entry === '.dist-check' || entry === 'node_modules') continue;
-        cpSync(join(dir, entry), join(into, entry), {
-          recursive: true,
-          filter: (from) => !NOT_IN_THE_PACKAGE.includes(relative(dir, from)),
-        });
+        cpSync(join(dir, entry), join(into, entry), { recursive: true });
       }
       writeFileSync(join(into, '.gitignore'), 'node_modules/\n');
     },

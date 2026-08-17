@@ -34,8 +34,7 @@
     "dist/",
     "src/",
     "fonts/",
-    "assets/",
-    "!assets/icons.json"
+    "assets/"
   ],
   "engines": {
     "node": ">=22.18"

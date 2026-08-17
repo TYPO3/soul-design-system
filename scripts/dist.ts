@@ -186,12 +186,11 @@ const finishOptions: esbuild.BuildOptions = {
   legalComments: 'none',
 };
 
-/* What a page fetches, and one list beside it: `icons/icons.json`, which names
-   what is here and whose paths resolve against it. Not `icons.json`, which
-   names every icon @typo3/icons has — nothing that leaves this tree should
-   carry a list of what it does not contain. The single files and the
-   illustrations are out because the theme takes them from `assets/` instead. */
-const NOT_IN_THE_DROP_IN = [join('icons', 'svgs'), 'placeholders', 'icons.json'];
+/* What a page fetches, and the one list beside it: `icons/icons.json`, naming
+   what is here with paths that resolve against it. Out of it are the sprite's
+   single files and the illustrations, which the theme package takes from
+   `assets/` instead of through here. */
+const NOT_IN_THE_DROP_IN = [join('icons', 'svgs'), 'placeholders'];
 const copyAssets = (): void => cpSync(join(FRONTEND, 'assets'), join(OUT, 'assets'), {
   recursive: true,
   filter: (source) => !NOT_IN_THE_DROP_IN.includes(relative(join(FRONTEND, 'assets'), source)),

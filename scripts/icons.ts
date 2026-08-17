@@ -64,12 +64,6 @@ writeFileSync(join(OUT, 'icons.json'), `${JSON.stringify({
 
 copyFileSync(join(PKG, 'LICENSE'), join(OUT, 'LICENSE-TYPO3.Icons.txt'));
 
-/* Every icon @typo3/icons has, verbatim, beside the set this system ships: it
-   is how a surface finds one in a category nothing here carries yet, and it
-   grows into the lookup inside `icons/` as categories are added. Copied by
-   this script, or it stands at the set it was copied from while the rest moves. */
-copyFileSync(join(PKG, 'dist', 'icons.json'), join(FRONTEND, 'assets', 'icons.json'));
-
 const version = JSON.parse(readFileSync(join(PKG, 'package.json'), 'utf8')).version;
 
 /* Two generated modules, split by who may pay for them. `icons.generated.ts` is
@@ -104,8 +98,7 @@ writeFileSync(
 const WRITTEN: readonly (readonly [file: string, what: string])[] = [
   ['assets/icons/svgs/', `${CATEGORIES.join(', ')} from @typo3/icons@${version}, MIT`],
   ['assets/icons/sprites/', `${CATEGORIES.length} sprite(s), one request per category`],
-  ['assets/icons/icons.json', 'the lookup for what is here, its paths relative to itself'],
-  ['assets/icons.json', `every identifier @typo3/icons@${version} has, for finding one this set does not ship`],
+  ['assets/icons/icons.json', 'the one list, naming what is here, its paths relative to itself'],
   ['src/components/icons.generated.ts', 'the identifiers, typed, for the bundle'],
   ['src/components/icons.svg.generated.ts', 'the markup, for the static export'],
 ];
