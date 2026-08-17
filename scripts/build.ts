@@ -152,6 +152,18 @@ function elementDts(e: ElementDoc): string {
   return out.join('\n');
 }
 
+/** The same element as something the app can parse: it compiles `.jsx`, not `.d.ts`. */
+function elementJsx(e: ElementDoc): string {
+  return [`/** <${e.tag}> — ${e.purpose}`, ' *',
+    ` *  Addresses the element and builds nothing of its own: \`${ELEMENTS_JS}\` is what`,
+    ' *  upgrades it, and a design links that before it renders one of these.',
+    ` *  Props are the element's own attributes — \`${e.className}Props\` in`,
+    ` *  \`${e.className}.d.ts\` says what each one takes.`, ' */',
+    `export function ${e.className}(${e.takesContent ? '{ children, ...props }' : 'props'}) {`,
+    `  return ${e.takesContent ? `<${e.tag} {...props}>{children}</${e.tag}>` : `<${e.tag} {...props} />`};`,
+    '}', ''].join('\n');
+}
+
 /** The same contract as something to write, which is what an agent reads. */
 function elementPrompt(e: ElementDoc): string {
   /* Shape-true rather than invented: what a page can write is what a string
@@ -255,20 +267,24 @@ for (const e of els) {
   mkdirSync(dir, { recursive: true });
   const dts = elementDts(e);
   const prompt = elementPrompt(e);
+  const jsx = elementJsx(e);
   writeFileSync(join(dir, `${e.className}.d.ts`), dts);
   writeFileSync(join(dir, `${e.className}.prompt.md`), prompt);
-  elementHashes[e.tag] = sha12(dts + prompt);
+  writeFileSync(join(dir, `${e.className}.jsx`), jsx);
+  elementHashes[e.tag] = sha12(dts + prompt + jsx);
 }
 
 const header = {
   namespace: NS,
-  /* `name` and `sourcePath` are the shape the app compiles into
-     `_ds_manifest.json`; `tag` is this repository's own, and what `verify`
-     holds the conventions header against. */
+  /* Written in the shape the sync kit stamps, and measured not to be what fills
+     `_ds_manifest.json` — a sync sending all of these complete was read back
+     with `"components": []`. `sourcePath` names the wrapper because that is the
+     source now; `tag` is this repository's own, and what `verify` holds the
+     conventions header against. */
   components: TAGS.flatMap((tag) => {
     const e = byTag.get(tag);
     return e
-      ? [{ name: e.className, tag, export: e.className, sourcePath: `components/Elements/${e.className}/${e.className}.d.ts` }]
+      ? [{ name: e.className, tag, export: e.className, sourcePath: `components/Elements/${e.className}/${e.className}.jsx` }]
       : [];
   }),
   sourceHashes: { 'components.css': sha12(sheets()), 'styles.css': sha12(styles) },

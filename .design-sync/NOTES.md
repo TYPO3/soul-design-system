@@ -68,11 +68,23 @@ expect the design agent to be handed a component list by this route. It reads
 the elements through `soul.js` and the conventions header, which is why both
 exist.
 
-The reason is above: the app rebuilds `_ds_bundle.js` from component sources
-it can parse and compiles the manifest from *that*, and this system ships no
-`.jsx` for it to parse. Emitting one wrapper per element is the only lead left
-for filling `components`, and it is a decision about what this system is
-rather than a fix — nothing today is broken by the empty list.
+The reason is above: the app rebuilds `_ds_bundle.js` from component sources it
+can parse and compiles the manifest from *that*, and this system shipped no
+`.jsx` for it to parse.
+
+**So it ships one now, per element, and whether that fills `components` is not
+yet known.** `elementJsx` in `scripts/build.ts` writes
+`components/Elements/<Class>/<Class>.jsx` beside the contract: a React function
+that spreads its props onto the tag and returns it, addressing the element and
+building nothing — `soul.js` is still what upgrades it, and the conventions
+header already tells a design to link that. The header's `sourcePath` points at
+the wrapper, because that is the source now.
+
+The check is the same one as before and it cannot be run from here: the app
+recompiles `_ds_manifest.json` only when somebody opens the project, so read it
+back *after* opening it and see whether `components` is still `0`. If it is,
+this route is closed too and the wrappers should come out again rather than sit
+in the upload implying an API nobody can reach. Nothing today depends on them.
 
 ## The project id is yours, and it is what makes an update an update
 
