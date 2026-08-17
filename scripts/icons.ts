@@ -64,6 +64,12 @@ writeFileSync(join(OUT, 'icons.json'), `${JSON.stringify({
 
 copyFileSync(join(PKG, 'LICENSE'), join(OUT, 'LICENSE-TYPO3.Icons.txt'));
 
+/* The whole catalogue beside the filtered one, verbatim: this is how a surface
+   finds an icon in a category nothing here ships yet, which is what SKILL.md
+   sends a reader to. Copied by this script rather than by hand, or it stands
+   at whatever set it was copied from while everything beside it moves on. */
+copyFileSync(join(PKG, 'dist', 'icons.json'), join(FRONTEND, 'assets', 'icons.json'));
+
 const version = JSON.parse(readFileSync(join(PKG, 'package.json'), 'utf8')).version;
 
 /* Two generated modules, split by who may pay for them. `icons.generated.ts` is
@@ -99,6 +105,7 @@ const WRITTEN: readonly (readonly [file: string, what: string])[] = [
   ['assets/icons/svgs/', `${CATEGORIES.join(', ')} from @typo3/icons@${version}, MIT`],
   ['assets/icons/sprites/', `${CATEGORIES.length} sprite(s), one request per category`],
   ['assets/icons/icons.json', 'the lookup, its paths relative to itself'],
+  ['assets/icons.json', `every identifier @typo3/icons@${version} has, for finding one this set does not ship`],
   ['src/components/icons.generated.ts', 'the identifiers, typed, for the bundle'],
   ['src/components/icons.svg.generated.ts', 'the markup, for the static export'],
 ];

@@ -36,7 +36,8 @@
     "fonts/",
     "assets/",
     "!assets/placeholders",
-    "!assets/icons/svgs"
+    "!assets/icons/svgs",
+    "!assets/icons.json"
   ],
   "engines": {
     "node": ">=22.18"
