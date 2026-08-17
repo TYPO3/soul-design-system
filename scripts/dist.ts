@@ -186,11 +186,11 @@ const finishOptions: esbuild.BuildOptions = {
   legalComments: 'none',
 };
 
-/* What a page fetches, and the one list beside it: `icons/icons.json`, naming
-   what is here with paths that resolve against it. Out of it are the sprite's
-   single files and the illustrations, which the theme package takes from
-   `assets/` instead of through here. */
-const NOT_IN_THE_DROP_IN = [join('icons', 'svgs'), 'placeholders'];
+/* What a page fetches, and the list beside it — with the files that list
+   names, because a lookup is a promise about paths and it travels with them.
+   Only the illustrations stay out: nothing here names them, and the theme
+   package takes them from `assets/` where they are kept. */
+const NOT_IN_THE_DROP_IN = ['placeholders'];
 const copyAssets = (): void => cpSync(join(FRONTEND, 'assets'), join(OUT, 'assets'), {
   recursive: true,
   filter: (source) => !NOT_IN_THE_DROP_IN.includes(relative(join(FRONTEND, 'assets'), source)),

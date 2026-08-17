@@ -25,12 +25,11 @@ const FROM_THEME = ['composer.json', 'README.md', 'LICENSE', 'src', 'resources/c
    no ESM package and reads no declarations. */
 const NOT_IN_THE_DROP_IN = ['index.js', 'index.js.map', 'types', 'tsconfig.json'];
 
-/* What the drop-in leaves out because no page fetches it, and the theme takes
-   anyway. This package is the whole of what a Composer project gets — it has
-   no npm install to reach for a single icon or an illustration — and these are
-   copied from where they are kept rather than through `dist/`, which stays the
-   few files a linked page asks for. */
-const FROM_ASSETS = [join('icons', 'svgs'), 'placeholders'];
+/* What the drop-in leaves out and the theme takes anyway. This package is the
+   whole of what a Composer project gets — it has no npm install to reach for
+   an illustration — and it is copied from where it is kept rather than through
+   `dist/`, which carries what a page fetches and the icons its lookup names. */
+const FROM_ASSETS = ['placeholders'];
 
 
 /** Every file under a directory, relative to it — the package, not the
@@ -43,6 +42,22 @@ export function* walk(dir: string, base = dir): Generator<string> {
     else yield relative(base, path);
   }
 }
+
+/** Every icon lookup in a package, against the files it names. A lookup is a
+    promise about paths, it travels wherever the icons do, and a package
+    answering one of those paths with nothing is the failure this asks about —
+    once per copy, because the copies are what went wrong. */
+const unresolved = (pkg: string): string[] => [...walk(pkg)]
+  .filter((file) => file.endsWith(join('icons', 'icons.json')))
+  .flatMap((file) => {
+    const beside = join(pkg, file, '..');
+    const { icons } = JSON.parse(readFileSync(join(pkg, file), 'utf8')) as { icons: Record<string, { svg: string }> };
+    const named = Object.values(icons);
+    const absent = named.filter((icon) => !existsSync(join(beside, icon.svg)));
+    return absent.length
+      ? [`${file.split(sep).join('/')} names ${named.length} icon(s) and ${absent.length} of them are not in the package — ${absent[0]?.svg} is the first`]
+      : [];
+  });
 
 /** The first of several places that exists in a tree, told apart by a file that
     proves it is the package and not a directory of the same name. */
@@ -130,17 +145,14 @@ export const PACKAGES: readonly Package[] = [
       if (!existsSync(join(drop, 'assets', 'icons', 'sprites'))) {
         missing.push('resources/dist/assets/icons/sprites/ is missing — every icon would be a blank box');
       }
-      /* What a project has no second package to fetch from: the single icons
-         the lookup beside them names by path, and the illustrations a media
-         slot is filled with. */
-      for (const [path, breaks] of [
-        [join('assets', 'icons', 'svgs'), 'assets/icons/icons.json names every one of them by path'],
-        [join('assets', 'placeholders'), 'a card with a media slot has nothing to put in it'],
-      ] as const) {
-        if (!existsSync(join(drop, path)) || readdirSync(join(drop, path)).length === 0) {
-          missing.push(`resources/dist/${path.split(sep).join('/')}/ is empty — ${breaks}`);
-        }
+      /* What a project has no second package to fetch from. The icons travel
+         with the lookup that names them and are checked with it below; this is
+         the one a media slot is filled with. */
+      const art = join(drop, 'assets', 'placeholders');
+      if (!existsSync(art) || readdirSync(art).length === 0) {
+        missing.push('resources/dist/assets/placeholders/ is empty — a card with a media slot has nothing to put in it');
       }
+      missing.push(...unresolved(pkg));
       const name = (JSON.parse(readFileSync(join(pkg, 'composer.json'), 'utf8')) as { name?: string }).name;
       if (name !== 'typo3/soul-guides-theme') missing.push(`composer.json names ${name}, not typo3/soul-guides-theme`);
       return missing;
@@ -186,19 +198,7 @@ export const PACKAGES: readonly Package[] = [
         missing.push('fonts/ is empty — every surface linking this falls back to system-ui');
       }
 
-      /* The lookup is a promise about paths, and it is the only file here that
-         makes one. Asked of every entry rather than of the directory: half the
-         icons present is the shape this went wrong in, and a mirror cannot
-         rebuild them — it has neither the script nor the package they come from. */
-      const lookup = join(pkg, 'assets', 'icons', 'icons.json');
-      if (existsSync(lookup)) {
-        const { icons } = JSON.parse(readFileSync(lookup, 'utf8')) as { icons: Record<string, { svg: string }> };
-        const named = Object.values(icons);
-        const absent = named.filter((icon) => !existsSync(join(pkg, 'assets', 'icons', icon.svg)));
-        if (absent.length) {
-          missing.push(`assets/icons/icons.json names ${named.length} icon(s) and ${absent.length} of them are not in the package — ${absent[0]?.svg} is the first`);
-        }
-      }
+      missing.push(...unresolved(pkg));
       const manifest = JSON.parse(readFileSync(join(pkg, 'package.json'), 'utf8')) as { name?: string; private?: boolean };
       if (manifest.name !== '@typo3/soul-frontend') missing.push(`package.json names ${manifest.name}, not @typo3/soul-frontend`);
       /* The workspace root is private on purpose, and this must never be: that
