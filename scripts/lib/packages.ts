@@ -24,11 +24,12 @@ const FROM_THEME = ['composer.json', 'README.md', 'LICENSE', 'src', 'resources/c
    no ESM package and reads no declarations. */
 const NOT_IN_THE_DROP_IN = ['index.js', 'index.js.map', 'types', 'tsconfig.json'];
 
-/* And what the npm package leaves out, which its manifest names as well. The
-   single icons are not in this list: the lookup that ships beside them names
-   every one of them by path, and a package answering that path with nothing is
-   worse than a package that is merely large. */
-const NOT_IN_THE_PACKAGE = [join('assets', 'placeholders')];
+/* Nothing under `assets/` is left out of the package any more. Two things were:
+   the single icons, which the lookup beside them names by path, and the
+   illustrations, which are a part of the design system a document describes
+   and a consuming project has nothing to put in a media slot without. A
+   package that assembles less than the system defines is one a project has to
+   go somewhere else to finish. */
 
 /** Every file under a directory, relative to it — the package, not the
     repository it is kept in. */
@@ -143,14 +144,7 @@ export const PACKAGES: readonly Package[] = [
       if (!dir) return;
       for (const entry of readdirSync(dir)) {
         if (entry === '.dist-check' || entry === 'node_modules') continue;
-        cpSync(join(dir, entry), join(into, entry), {
-          recursive: true,
-          /* What `files` in the manifest leaves out, left out here too: the
-             photography belongs to this system's own stories, and the single
-             icons are the sprite's source. Eight megabytes nobody installing
-             this would ever fetch. */
-          filter: (from) => !NOT_IN_THE_PACKAGE.includes(relative(dir, from)),
-        });
+        cpSync(join(dir, entry), join(into, entry), { recursive: true });
       }
       writeFileSync(join(into, '.gitignore'), 'node_modules/\n');
     },
