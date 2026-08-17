@@ -47,6 +47,9 @@
   "dependencies": {
     "highlight.js": "^11.11.1"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "author": "The TYPO3 Project (https://typo3.org/)",
   "repository": {
