@@ -142,11 +142,18 @@ no JavaScript writes is exactly what is drawn here.
    <sds-dropdown label="Language" name="Language"></sds-dropdown>
 
 **What is in the list decides what the list is.** Entries carrying ``href`` are
-pages, so the panel is a disclosure holding links and Tab walks them; entries
-carrying none are commands, so it is a menu with ``role="menu"`` and the arrows
-walk them. The element asks the entries rather than the caller, because a
-caller who has to say which one it is can say the wrong one — and announcing
-menu commands over a list of pages is a promise the panel cannot keep.
+pages, so the panel is a disclosure holding links and Tab walks them as well;
+entries carrying none are commands, so it is a menu with ``role="menu"``. The
+element asks the entries rather than the caller, because a caller who has to
+say which one it is can say the wrong one — and announcing menu commands over a
+list of pages is a promise the panel cannot keep.
+
+The arrows belong to both. From the button they open the panel and step into it
+from the end the key came from, and inside it they walk the rows and stop at the
+ends rather than wrapping; ``Home`` and ``End`` go straight there. A reader
+standing on the button presses down before they try anything else, and a panel
+that answers that in one list and not in the other is a control they have to
+learn twice.
 
 The trigger is a real button of this system, drawn from the same classes, so it
 takes the variants and sizes every other one does. What a dropdown says about

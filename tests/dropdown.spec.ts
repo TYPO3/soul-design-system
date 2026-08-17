@@ -133,6 +133,26 @@ test('entries with a target are links, and are not announced as commands', async
   await expect(rows.nth(1)).toHaveAttribute('hreflang', 'de');
 });
 
+/* The announcement is what the two kinds differ in — not whether a reader can
+   reach the list. Down from the button opens it and steps in; up comes in from
+   the other end. */
+test('the arrows open a list of pages too, and walk it', async ({ page }) => {
+  const trigger = page.locator(button('pages'));
+  await trigger.focus();
+  await trigger.press('ArrowDown');
+  await expect(page.locator(panel('pages'))).toBeVisible();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+  const rows = page.locator(`${panel('pages')} .sds-dropdown__item`);
+  await expect(rows.first()).toBeFocused();
+  await page.keyboard.press('ArrowDown');
+  await expect(rows.nth(1)).toBeFocused();
+  await page.keyboard.press('ArrowUp');
+  await expect(rows.first()).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(rows.nth(1)).toBeFocused();
+});
+
 test('entries with no target are a menu the arrows walk', async ({ page }) => {
   const trigger = page.locator(button('commands'));
   await expect(trigger).toHaveAttribute('aria-haspopup', 'menu');

@@ -1,11 +1,11 @@
 /* sds-dropdown — a button, and the short list it opens under itself.
 
    What is in the list decides what the list is. Entries that carry a target
-   are pages, so they are links in a disclosure and Tab walks them; entries
-   that carry none are commands, so they are a menu and the arrows walk them.
-   One element either way, because the difference a reader meets is the
-   announcement, and announcing menu commands over a list of pages is a promise
-   the panel cannot keep.
+   are pages, so they are links in a disclosure and Tab walks them too; entries
+   that carry none are commands, so they are a menu. The arrows open the panel
+   and walk it either way — what the two kinds differ in is the announcement,
+   and announcing menu commands over a list of pages is a promise the panel
+   cannot keep.
 
    The panel is a popover, so the top layer holds it: no ancestor's overflow
    clips it and nothing on the page can be stacked over it. Opening, light
@@ -179,10 +179,10 @@ export class SdsDropdown extends SdsElement {
       return;
     }
 
-    /* The arrows are the menu pattern's, and a list of pages is not a menu:
-       there Tab is how a reader walks, and taking the arrows would stop the
-       page scrolling under a panel that is only a few rows tall. */
-    if (!this.commands) return;
+    /* Both kinds, though only one is a menu: a reader standing on the button
+       presses down before they try anything else, and a panel that answers
+       that in one list and not in the other is a control they have to learn
+       twice. The keys are taken from the page only where this acts on them. */
     if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
     const rows = this.rows();
     if (!rows.length) return;

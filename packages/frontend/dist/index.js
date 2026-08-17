@@ -2902,7 +2902,6 @@ var SdsDropdown = class extends SdsElement {
       if (this.open) event.stopPropagation();
       return;
     }
-    if (!this.commands) return;
     if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
     const rows = this.rows();
     if (!rows.length) return;
