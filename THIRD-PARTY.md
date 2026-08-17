@@ -25,7 +25,7 @@ repository, and on any CDN that serves either.
 | Package | `@typo3/icons@5.0.3`, `src/<category>/<identifier>.svg` inside it |
 | Pinned URL | `https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/<category>/<identifier>.svg` |
 | Upstream tip | `https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/src/<category>/<identifier>.svg` |
-| Manifest | `packages/frontend/assets/icons.json` — every identifier with its category, and every deprecated alias with its current name |
+| Manifest | `packages/frontend/assets/icons.json` — every identifier upstream has with its category, and every deprecated alias with its current name |
 | Overview | <https://typo3.github.io/TYPO3.Icons/> |
 
 Inside the package, `src/` and `dist/svgs/` render identically; `src/` is the

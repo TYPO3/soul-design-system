@@ -186,12 +186,12 @@ const finishOptions: esbuild.BuildOptions = {
   legalComments: 'none',
 };
 
-/* What a page fetches: the sprites `soul.js` resolves against its own URL, the
-   drawings a document references, the marks. Not `icons/svgs`, which is the
-   sprite's source and is read by `make icons` alone, and not `placeholders/`,
-   which is this system's own story photography — 8.7 MB of it, in every clone
-   and every copy anybody makes of the drop-in. */
-const NOT_IN_THE_DROP_IN = [join('icons', 'svgs'), 'placeholders'];
+/* What a page fetches, and one list beside it: `icons/icons.json`, which names
+   what is here and whose paths resolve against it. Not `icons.json`, which
+   names every icon @typo3/icons has — nothing that leaves this tree should
+   carry a list of what it does not contain. The single files and the
+   illustrations are out because the theme takes them from `assets/` instead. */
+const NOT_IN_THE_DROP_IN = [join('icons', 'svgs'), 'placeholders', 'icons.json'];
 const copyAssets = (): void => cpSync(join(FRONTEND, 'assets'), join(OUT, 'assets'), {
   recursive: true,
   filter: (source) => !NOT_IN_THE_DROP_IN.includes(relative(join(FRONTEND, 'assets'), source)),

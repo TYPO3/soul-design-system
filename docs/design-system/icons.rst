@@ -15,9 +15,11 @@ package, in the layout the package itself uses, so its own manifest resolves
 against what ships. An empty ``packages/frontend/assets/icons/`` means ``npm ci`` has not run;
 it is not a missing file to work around.
 
-**Getting one outside** ``actions``. ``packages/frontend/assets/icons.json`` is the lookup — it
-names an identifier's category and the path to its file, so nothing is
-guessed from the spelling. It also maps the deprecated aliases to their
+**Getting one outside** ``actions``. ``packages/frontend/assets/icons.json``
+names every icon upstream has, shipped here or not: an identifier's category
+and the path to its file, so nothing is guessed from the spelling. What is
+actually here is ``packages/frontend/assets/icons/icons.json`` beside it, and only
+that one's paths resolve. It also maps the deprecated aliases to their
 current names. Resolve an alias before using it — the old spelling is not
 what ``typo3_icon_lookup`` returns.
 

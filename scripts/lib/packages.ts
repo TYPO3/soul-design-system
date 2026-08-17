@@ -32,12 +32,12 @@ const NOT_IN_THE_DROP_IN = ['index.js', 'index.js.map', 'types', 'tsconfig.json'
    few files a linked page asks for. */
 const FROM_ASSETS = [join('icons', 'svgs'), 'placeholders'];
 
-/* Nothing under `assets/` is left out of the package any more. Two things were:
-   the single icons, which the lookup beside them names by path, and the
-   illustrations, which are a part of the design system a document describes
-   and a consuming project has nothing to put in a media slot without. A
-   package that assembles less than the system defines is one a project has to
-   go somewhere else to finish. */
+/* The one file under `assets/` that no package carries, mirror included: it
+   lists every icon @typo3/icons has, most of which is not here, so nothing
+   that leaves this tree should be answering questions about it. The manifest
+   leaves it out of the tarball and this leaves it out of the repository the
+   tarball is published from. */
+const NOT_IN_THE_PACKAGE = [join('assets', 'icons.json')];
 
 /** Every file under a directory, relative to it — the package, not the
     repository it is kept in. */
@@ -101,7 +101,7 @@ export const PACKAGES: readonly Package[] = [
           if (NOT_IN_THE_DROP_IN.includes(entry)) continue;
           cpSync(join(drop, entry), join(out, entry), { recursive: true });
         }
-        const assets = found(tree, ASSETS_AT, 'icons.json');
+        const assets = found(tree, ASSETS_AT, 'icons');
         for (const path of assets ? FROM_ASSETS : []) {
           const from = join(assets as string, path);
           if (existsSync(from)) cpSync(from, join(out, 'assets', path), { recursive: true });
@@ -168,7 +168,10 @@ export const PACKAGES: readonly Package[] = [
       if (!dir) return;
       for (const entry of readdirSync(dir)) {
         if (entry === '.dist-check' || entry === 'node_modules') continue;
-        cpSync(join(dir, entry), join(into, entry), { recursive: true });
+        cpSync(join(dir, entry), join(into, entry), {
+          recursive: true,
+          filter: (from) => !NOT_IN_THE_PACKAGE.includes(relative(dir, from)),
+        });
       }
       writeFileSync(join(into, '.gitignore'), 'node_modules/\n');
     },
