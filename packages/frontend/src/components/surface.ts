@@ -32,8 +32,14 @@ const PLANE: Record<Plane, string> = {
 };
 
 export interface SurfaceProps {
+  /** Which plane it is. `plain` is the hairline with no fill, `raised` a
+      panel above the page, `sunken` a well for machine output. */
   plane?: Plane;
+  /** What the surface states, at the top of it. Written `heading` on the
+      element — `title` is the global attribute and would become a tooltip. */
   title: string;
+  /** The statement itself. Markup where a caller holds it, a sentence where
+      a property is all there is. */
   body: string | TemplateResult;
   style?: string;
   /** The tracked-out line over the title, where a set of these is numbered or
@@ -59,8 +65,13 @@ export class SdsSurface extends SdsElement {
   declare plane: Plane;
   declare label: string;
   declare icon?: IconId;
+  /** What the surface states, at the top of it. Written `heading` on the
+      element and in the class: `title` is the global attribute and would
+      become a tooltip. */
   declare heading: string;
   declare body: string | TemplateResult;
+  /** Sizing for the plane where one instance needs it, written `box-style`.
+      Nothing by default: the element fills the cell a wall stretches for it. */
   declare boxStyle: string;
 
   /* The statement, where it was written between the tags. A plane on a product

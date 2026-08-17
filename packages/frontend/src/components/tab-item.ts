@@ -26,8 +26,13 @@ export class SdsTabItem extends SdsElement {
     active: { type: Boolean, reflect: true },
   };
 
+  /** What the tab is called. The panel it names goes between the tags. */
   declare label: string;
+  /** A glyph before the label, where a set of tabs is told apart before it
+      is read. */
   declare icon?: IconId;
+  /** Whether this is the tab being read. One at a time, which the set
+      enforces. */
   declare active: boolean;
 
   /** Whether a set of tabs is deciding which panel is shown. A panel decides

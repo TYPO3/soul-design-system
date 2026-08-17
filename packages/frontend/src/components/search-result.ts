@@ -15,7 +15,11 @@ import { art, exported } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface SearchResultProps {
+  /** What the page is called. The whole row is the link to it, not the title
+      alone. */
   heading: string;
+  /** Where the hit goes, already resolved — a path out of the index is
+      relative to the root, and a reader is rarely standing in it. */
   href?: string;
   /** Where it is, as the site's own trail — `Documentation · Tools`. Mono,
       because a path is a machine-named thing. */
@@ -33,6 +37,8 @@ export interface SearchResultProps {
   /** The picture the thing found carries, where it has one. Named `src`
       because everything in this system that takes a file names it `src`. */
   src?: string;
+  /** What the thumbnail shows. Empty where it adds nothing the heading has
+      not said. */
   alt?: string;
 }
 

@@ -7,6 +7,9 @@ import { SdsElement } from '../lib/element.js';
     says otherwise is a decision, and an unnamed one cannot be asked for. */
 export type GridVariant = 'default' | 'wide' | 'dense' | 'flush';
 export interface GridProps {
+    /** How much room one item holds. `default` is the reading width, `wide`
+        for cards carrying a picture, `dense` for a set read as a list, `flush`
+        for a wall with no air around it. */
     variant?: GridVariant;
 }
 /**

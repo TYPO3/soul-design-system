@@ -49,8 +49,13 @@ export class SdsImage extends SdsElement {
   declare src: string;
   declare alt: string;
   declare width: number;
+  /** The picture’s own height in pixels, held before it loads so the page
+      does not jump under the reader. */
   declare height: number;
   declare zoomable: boolean;
+  /** Classes for the picture itself, which is what a caller writes as
+      `class`. A signet is `<sds-image class="sds-signet">`, and the element
+      draws no box of its own to put them on. */
   declare cls: string;
 
   constructor() {

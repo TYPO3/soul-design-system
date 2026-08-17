@@ -31,9 +31,13 @@ export interface FieldProps {
   size?: FieldSize;
   /** What is in the field — its value when `filled`, its placeholder when not. */
   value?: string;
+  /** A glyph inside the box, at the start: what is searched, what is
+      measured, what kind of value belongs here. */
   icon?: IconId;
   /** Force the focus state for a still picture. Live focus needs nothing. */
   focused?: boolean;
+  /** The box says the value is wrong. What is wrong is `error`, and a state
+      drawn with no sentence beside it leaves a reader stuck. */
   invalid?: boolean;
   /** The value is the user's, not a prompt. Typing sets it too. */
   filled?: boolean;
@@ -44,6 +48,8 @@ export interface FieldProps {
   /** What the control is called, for anything that cannot see what it sits
       beside. A field with no visible label of its own owes one here. */
   label?: string;
+  /** The narrowest the box may get, in pixels, for a field in a row that
+      shrinks. The attribute is `min-width`. */
   minWidth?: number;
   /** The visible label, which turns this into a field in a *form*. A bare field
       is right where the surface says what it is for — a header, a filter row.
@@ -61,6 +67,7 @@ export interface FieldProps {
   required?: boolean;
   /** The control's id, so the label points at it and an error summary can. */
   fieldId?: string;
+  /** What the value is called when the form is sent. */
   name?: string;
   /** `email`, `tel`, `url` — what the browser validates and which keyboard a
       phone offers. */

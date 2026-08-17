@@ -24,8 +24,13 @@ export interface PagerProps {
       target and no name is a control nobody can read, and one with a name and
       no target is a control that does nothing. */
   previousHref?: string;
+  /** What the page before is called. The name rather than the word
+      “previous”: a reader deciding whether to go back is deciding about the
+      page, not the direction. */
   previousLabel?: string;
+  /** Where the page after is. */
   nextHref?: string;
+  /** What the page after is called, for the same reason as `previous-label`. */
   nextLabel?: string;
   /** What the row is called for a reader who cannot see that it is one. */
   label?: string;

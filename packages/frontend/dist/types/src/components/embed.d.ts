@@ -16,6 +16,8 @@ export interface EmbedProps {
         without a `ratio`, are what makes the frame fixed: it is exactly this
         wide, and it scrolls rather than reflowing what it holds. */
     width?: number;
+    /** A height in pixels, for the embed whose own shape is not a ratio.
+        `ratio` is the usual answer; this is for the one that is not. */
     height?: number;
     /** The claim, in a sentence, under the frame. It may also be written between
         the tags as `<div class="sds-embed__caption">` — the form for a caption
@@ -26,6 +28,8 @@ export interface EmbedProps {
         `encrypted-media; picture-in-picture; web-share`; a card asks for
         nothing, and gets nothing. */
     allow?: string;
+    /** Whether the frame may take the whole screen. A player usually may, and
+        a form in a frame has no reason to. */
     allowfullscreen?: boolean;
 }
 export declare class SdsEmbed extends SdsElement {

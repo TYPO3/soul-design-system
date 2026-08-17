@@ -11,6 +11,8 @@ import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface BylineProps {
+  /** Who it is. The monogram is built from this unless `initials` says
+      otherwise. */
   name: string;
   /** What they are to the subject — a maintainer, a reviewer, a team.
       The attribute is `as` and not `role`, and that is not a preference:

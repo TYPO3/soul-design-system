@@ -27,8 +27,15 @@ export declare class SdsIcon extends SdsElement {
             type: StringConstructor;
         };
     };
+    /** Which icon, by its TYPO3 identifier — `actions-play`,
+        `actions-chevron-down`. */
     name: IconId;
+    /** How big, in pixels. `em` by default, which takes the size of the text
+        it stands in and is what a glyph beside words wants. */
     size: IconSize;
+    /** What it says, where it stands without words. Without one it is hidden
+        from assistive technology rather than read out beside text that already
+        says it. */
     label?: string;
     constructor();
     protected render(): TemplateResult;

@@ -39,7 +39,12 @@ export declare class SdsSearch extends SdsElement {
             state: boolean;
         };
     };
+    /** Where the index is, relative to the page. Every entry in it is a path
+        from the site root, and that is the address they are resolved against —
+        so a hit found two directories down still names the page it meant. */
     index: string;
+    /** What the field is called, said as the placeholder and as its accessible
+        name both. */
     label: string;
     /** The height of the box, the field's own three. A bar that runs its own
         controls at `sm` runs the search at `sm` too, or the row has two heights

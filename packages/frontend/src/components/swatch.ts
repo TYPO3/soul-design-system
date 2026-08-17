@@ -35,6 +35,8 @@ export interface SwatchProps {
   /** What the name resolves to, written out. A token alone documents half the
       system: the value is the half that says what the mode did with it. */
   resolved?: string;
+  /** What the token is for. `fill` is a surface or an ink, `line` a border —
+      a hairline drawn as a filled square reads as a colour it is not. */
   kind?: SwatchKind;
 }
 

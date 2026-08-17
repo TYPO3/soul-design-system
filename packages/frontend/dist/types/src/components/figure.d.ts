@@ -43,6 +43,8 @@ export declare class SdsFigure extends SdsElement {
         stating a fact about the file, and dropping it left the renderer writing
         the `<img>` itself to keep it. */
     width?: number;
+    /** The drawing’s own height in pixels, so the space it needs is held
+        before it loads and the page does not jump under the reader. */
     height?: number;
     zoomable: boolean;
     private taken;

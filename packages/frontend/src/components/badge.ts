@@ -16,7 +16,11 @@ import { define, SdsElement } from '../lib/element.ts';
 export type BadgeTone = 'default' | 'accent' | 'ok' | 'warn' | 'error';
 
 export interface BadgeProps {
+  /** The word it says, and the whole of what a badge is. */
   label: string;
+  /** What it means. `default` is a plain fact, `accent` says where an answer
+      came from, and `ok`, `warn` and `error` are the result of one — those
+      three carry their own glyph. */
   tone?: BadgeTone;
   /** An explicit glyph, overriding the tone's own. The status tones already
       carry one; `default` and `accent` carry none, because most badges are a

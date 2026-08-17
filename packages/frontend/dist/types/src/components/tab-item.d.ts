@@ -18,8 +18,13 @@ export declare class SdsTabItem extends SdsElement {
             reflect: boolean;
         };
     };
+    /** What the tab is called. The panel it names goes between the tags. */
     label: string;
+    /** A glyph before the label, where a set of tabs is told apart before it
+        is read. */
     icon?: IconId;
+    /** Whether this is the tab being read. One at a time, which the set
+        enforces. */
     active: boolean;
     /** Whether a set of tabs is deciding which panel is shown. A panel decides
         for itself until one is — which is what a panel is on a page where nothing

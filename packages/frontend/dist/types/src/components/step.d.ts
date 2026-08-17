@@ -22,8 +22,14 @@ export declare class SdsStep extends SdsElement {
             reflect: boolean;
         };
     };
+    /** What this stop is, on the line beside its number. The rest goes between
+        the tags. */
     heading: string;
+    /** The disc is left unfilled and the word stands beside the title. Work
+        that can be skipped without the run failing. */
     optional: boolean;
+    /** The id the stop is reachable at, so an instruction can be linked to by
+        name. */
     anchor: string;
     /** What was written between the tags, taken before Lit renders over them. */
     private taken;

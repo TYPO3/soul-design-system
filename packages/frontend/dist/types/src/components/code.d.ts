@@ -41,7 +41,12 @@ export interface CodeBlockProps {
         source — a story, or a page that has to render statically, where
         children are not carried at all. */
     source?: string;
+    /** The block as lines, each with its own kind — set from script, being a
+        list. Content between the tags is the same block from a caller that
+        already holds markup. */
     body: readonly CodeLine[];
+    /** The button that puts the block on the clipboard. The component owns it:
+        an `action` of a caller’s own is for something else. */
     copy?: boolean;
 }
 export declare class SdsCode extends SdsElement {

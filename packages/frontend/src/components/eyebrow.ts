@@ -9,6 +9,7 @@ import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface EyebrowProps {
+  /** The line itself — what kind of thing the title under it opens. */
   label: string;
 }
 

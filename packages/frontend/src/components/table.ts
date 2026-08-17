@@ -35,6 +35,8 @@ export interface Row {
 }
 
 export interface TableProps {
+  /** How much air a row gets. `compact` for a reference read by scanning,
+      `airy` for a short table read as prose, `medium` between them. */
   density?: Density;
   /** Let a table wider than its column scroll rather than be cut off.
       Not `scroll`: `Element.scroll()` is a platform method, and a property by
@@ -45,7 +47,10 @@ export interface TableProps {
       name for it and cannot have one: it is a fact about these contents rather
       than a kind of table — the same reason a row carries `style`. */
   width?: string;
+  /** The columns, each with its heading and how it is aligned — set from
+      script, being a list. */
   columns?: readonly Column[];
+  /** The cells, a list per row, in the order the columns are declared. */
   rows?: readonly Row[];
 }
 

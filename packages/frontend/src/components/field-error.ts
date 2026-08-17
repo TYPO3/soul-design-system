@@ -15,6 +15,8 @@ import { define, SdsElement } from '../lib/element.ts';
     pointer has to find is an error the keyboard never surfaces at all. */
 export class SdsFieldError extends SdsElement {
   static override properties = { message: { type: String } };
+  /** What is wrong with the value, in a sentence a reader can act on. Said
+      beside the field, and again in the form’s summary. */
   declare message: string;
 
   constructor() {

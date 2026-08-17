@@ -3,7 +3,11 @@ import './icon.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 export interface LinkProps {
+    /** The words that are the link. Always the thing itself, never “here”. */
     label: string;
+    /** Where it goes. Always present on a real link: anything else looks like
+        one, cannot be focused or opened in a new tab, and is invisible to
+        whatever reads the page as a document. */
     href?: string;
     /** Opens away from this surface: gets the glyph, and says so to the
         browser as well as to the eye. */

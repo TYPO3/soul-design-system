@@ -24,9 +24,16 @@ export class SdsModal extends SdsElement {
     width: { type: Number, reflect: true },
   };
 
+  /** What the surface is about, at the top of it. */
   declare heading: string;
+  /** What the reader has to take in. It stops at `--measure-modal`, because
+      what is in a modal is read. */
   declare body: string | TemplateResult;
+  /** The controls along the bottom, set from script — being markup, which an
+      attribute cannot carry. */
   declare actions: readonly TemplateResult[];
+  /** A width of its own where the content needs one. Otherwise the measure
+      decides, which keeps every modal in the system the same shape. */
   declare width: number;
 
   constructor() {

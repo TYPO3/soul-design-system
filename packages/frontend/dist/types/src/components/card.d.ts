@@ -4,14 +4,20 @@ import './icon.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 export interface CardProps {
+    /** What the entry is called. The whole card links to it, so this is the
+        line a reader is choosing by. */
     heading: string;
     /** What is behind the title. Blocks out of a document, a sentence out of a
         property — both land in the same part. */
     body: string | TemplateResult;
+    /** Where the card goes. The frame is the link, not a control inside it —
+        there is nothing else on a card to press. */
     href?: string;
     /** The picture. Named `src` because everything in this system that takes a
         file names it `src`. */
     src?: string;
+    /** What the picture shows, for a reader who does not get it. Empty where
+        it carries nothing the heading has not already said. */
     alt?: string;
     /** The tracked-out line over the title: what a set of cards is named or
         numbered as — `CHAPTER 02`, `FOR EDITORS` — or when the entry is from,

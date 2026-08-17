@@ -9,6 +9,9 @@ export interface FormError {
     for?: string;
 }
 export interface FormErrorsProps {
+    /** What went wrong, each naming the field it belongs to — set from script,
+        being a list. The summary is what a reader is sent to; the field says
+        it again where the value is. */
     errors: readonly FormError[];
     /** What the form calls itself, so the heading names the thing that failed
         rather than saying "there were errors". */

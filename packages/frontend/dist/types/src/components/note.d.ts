@@ -4,6 +4,9 @@ import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 export type NoteTone = 'info' | 'ok' | 'warn' | 'error';
 export interface NoteProps {
+    /** What kind of aside it is. `info` is a fact worth pulling out, `ok` a
+        result, `warn` something to know before acting, `error` something
+        already wrong. */
     tone?: NoteTone;
     /** The fact, in a line. Sentence case, and never a category name.
   

@@ -27,9 +27,18 @@ export class SdsAccordionItem extends SdsElement {
     anchor: { type: String, reflect: true },
   };
 
+  /** What is being asked, which is the row a reader presses. The answer goes
+      between the tags. */
   declare question: string;
+  /** Whether this one stands open. A `<details>` underneath, so it opens
+      before any script and a reader who printed the page gets the answer
+      too. */
   declare open: boolean;
+  /** The group it belongs to. Entries sharing a name open one at a time,
+      which is the platform’s own exclusive accordion. */
   declare name: string;
+  /** The id the row is reachable at, so a link can name one answer in a page
+      of them. */
   declare anchor: string;
 
   private taken: Node[] | null = null;

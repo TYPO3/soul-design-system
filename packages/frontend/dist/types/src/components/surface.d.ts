@@ -9,8 +9,14 @@ import { SdsElement } from '../lib/element.js';
     and `--surface-sunken` — rather than for the box, which is the same box. */
 export type Plane = 'plain' | 'raised' | 'sunken';
 export interface SurfaceProps {
+    /** Which plane it is. `plain` is the hairline with no fill, `raised` a
+        panel above the page, `sunken` a well for machine output. */
     plane?: Plane;
+    /** What the surface states, at the top of it. Written `heading` on the
+        element — `title` is the global attribute and would become a tooltip. */
     title: string;
+    /** The statement itself. Markup where a caller holds it, a sentence where
+        a property is all there is. */
     body: string | TemplateResult;
     style?: string;
     /** The tracked-out line over the title, where a set of these is numbered or
@@ -46,8 +52,13 @@ export declare class SdsSurface extends SdsElement {
     plane: Plane;
     label: string;
     icon?: IconId;
+    /** What the surface states, at the top of it. Written `heading` on the
+        element and in the class: `title` is the global attribute and would
+        become a tooltip. */
     heading: string;
     body: string | TemplateResult;
+    /** Sizing for the plane where one instance needs it, written `box-style`.
+        Nothing by default: the element fills the cell a wall stretches for it. */
     boxStyle: string;
     private taken;
     constructor();

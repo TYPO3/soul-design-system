@@ -9,6 +9,8 @@ export declare class SdsFieldError extends SdsElement {
             type: StringConstructor;
         };
     };
+    /** What is wrong with the value, in a sentence a reader can act on. Said
+        beside the field, and again in the form’s summary. */
     message: string;
     constructor();
     protected render(): TemplateResult;

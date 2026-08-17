@@ -4,6 +4,9 @@ import { SdsElement } from '../lib/element.js';
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 export type ButtonSize = 'md' | 'sm' | 'lg';
 export interface ButtonProps {
+    /** Which of the three a press is. `primary` starts the work the view is
+        for, `secondary` stands beside it, `ghost` belongs in a bar or a head
+        where a filled box would be one weight too many. */
     variant?: ButtonVariant;
     /** `sm` for a control inside another surface, `lg` for the one action a
         screen is for — a landing's single call, never a row of them. */
@@ -11,7 +14,12 @@ export interface ButtonProps {
     /** No label at all — the icon is the whole control, which then requires
         `title`, because nothing else names it. */
     iconOnly?: boolean;
+    /** The tooltip, and the accessible name where the label cannot carry it —
+        required with `icon-only`, because a glyph names nothing on its own. */
     title?: string;
+    /** The real attribute, so the pointer, the keyboard and anything reading
+        the page all agree it cannot be pressed. Never a class that only looks
+        it. */
     disabled?: boolean;
     /** What pressing it does to a form around it. `button` by default, which is
         the whole reason the property exists: a `<button>` with no type inside a
