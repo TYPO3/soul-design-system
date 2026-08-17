@@ -14,8 +14,11 @@ const THEME_AT = ['packages/guides-theme', 'guides-theme'];
 const DROP_AT = ['packages/frontend/dist', 'dist'];
 
 /* What the theme package is made of. `acceptance/` is not in it: the control
-   surface the theme is developed against, pointing at cards generated here. */
-const FROM_THEME = ['composer.json', 'README.md', 'src', 'resources/config', 'resources/template'];
+   surface the theme is developed against, pointing at cards generated here.
+   `LICENSE` is in the package directory rather than fetched from the root of
+   this tree: npm packs a directory, so a licence only assembly knows about is
+   one the npm tarball ships without and nothing here can see. */
+const FROM_THEME = ['composer.json', 'README.md', 'LICENSE', 'src', 'resources/config', 'resources/template'];
 
 /* The drop-in, minus the four that only ever reach npm: a PHP project installs
    no ESM package and reads no declarations. */
@@ -77,7 +80,6 @@ export const PACKAGES: readonly Package[] = [
         const from = join(theme, path);
         if (existsSync(from)) cpSync(from, join(into, path), { recursive: true });
       }
-      if (existsSync(join(tree, 'LICENSE'))) cpSync(join(tree, 'LICENSE'), join(into, 'LICENSE'));
 
       const drop = found(tree, DROP_AT, 'soul.css');
       if (drop) {
@@ -147,7 +149,6 @@ export const PACKAGES: readonly Package[] = [
           filter: (from) => !NOT_IN_THE_PACKAGE.includes(relative(dir, from)),
         });
       }
-      if (existsSync(join(tree, 'LICENSE'))) cpSync(join(tree, 'LICENSE'), join(into, 'LICENSE'));
       writeFileSync(join(into, '.gitignore'), 'node_modules/\n');
     },
 
