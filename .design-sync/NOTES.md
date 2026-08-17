@@ -26,8 +26,8 @@ the build, which is the only place it stays true.
 
 ## The project id is yours, and it is what makes an update an update
 
-Anyone can sync this system into their own claude.ai design project — that is
-why the converter ships and not only its output. `make sync` is a normal
+Anyone can sync this system into a claude.ai design system of their own — that is
+why the converter ships and not only its output. `make design-sync` is a normal
 target, not a maintainer one.
 
 What the id buys is the *second* sync. Without one, every run imports afresh
@@ -51,10 +51,10 @@ No project yet? `/design-sync` creates one and reports its id.
 
 ## Doing a sync
 
-The repo's half is one command: `make sync` — build → verify → sync-status →
+The repo's half is one command: `make design-sync` — build → verify → design-status →
 plan. It ends by telling the user to run `/design-sync`, which is the upload.
 
-**First, seed the reference state — before `make sync`.** Fetch the
+**First, seed the reference state — before `make design-sync`.** Fetch the
 project's `_ds_sync.json` (`DesignSync get_file`) to
 `.design-sync/.cache/remote-sync.json`. That file is the authority on what
 the project holds; the local cache is only a copy of it and is gitignored,
@@ -63,7 +63,7 @@ it in place the plan computes exact deletes; without it the plan says so and
 computes none.
 
 **Execute `.design-sync/.cache/upload-plan.json`. Do not improvise it.**
-`make plan` writes it: the finalize_plan globs, and five numbered steps
+`make design-plan` writes it: the finalize_plan globs, and five numbered steps
 in the order they must run, with the exact file and delete lists. It is
 generated from the build and the previous anchor, so it cannot forget a
 renamed file the way a hand-derived list can — that is precisely how 19
@@ -110,7 +110,7 @@ Classes are checked in one direction only. `_ds_bundle.css` carries internal
 and state classes the prose deliberately omits; the element list is the public
 surface and is meant to be complete.
 
-**Then run `make synced`.** It promotes the pushed anchor into
+**Then run `make design-synced`.** It promotes the pushed anchor into
 `.design-sync/.cache/remote-sync.json`, which is what `sync-status` and `plan`
 compare against next time.
 

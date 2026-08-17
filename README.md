@@ -187,58 +187,44 @@ entries on one page.
 
 ## Exporting the design guide
 
-This is not maintainer-only. Sync it into **your own** claude.ai design
-project and the design agent builds with this system — its tokens, its class
-vocabulary, its specimen cards — instead of inventing its own.
-
-Set your project once, so every later sync updates that project rather than
-importing a fresh copy beside it:
+This is not maintainer-only. Import it into **your own** design system at
+[claude.ai/design](https://claude.ai/design) and the design agent builds with
+these tokens, this class vocabulary and these cards instead of inventing its
+own.
 
 ```sh
-export SDS_DESIGN_PROJECT=<uuid>
-# or, untracked and per-clone:
-echo '{"projectId": "<uuid>"}' > .design-sync/config.local.json
-```
-
-No project yet? `/design-sync` creates one and reports its id. The id is not a
-credential — the API authorises your own login — but it is per-person, which
-is why the committed config does not carry one.
-
-Then, in this order:
-
-```sh
-make sync    # build, verify, what-would-change, and the upload plan
+make design-sync    # build, verify, what-would-change, and the upload plan
 ```
 ```
-/design-sync    # in Claude Code — executes the plan
+/design-sync        # in Claude Code — executes the plan
 ```
 ```sh
-make synced  # record that the project now holds this build
+make design-synced  # record that the app now holds this build
 ```
 
-There is deliberately no `npm run` that uploads: the upload needs the
-`DesignSync` tool bound to your claude.ai login, which a shell script has no
-access to. What the scripts *can* own is everything except the transport, and
-they do — `make plan` writes `.design-sync/.cache/upload-plan.json` with
-the steps in the order they must run, the exact file list, and the exact
-deletes. The agent executes it rather than working it out, because working it
-out by hand is how a batch of renamed font files was once left orphaned in
-the project.
+The app addresses an uploaded system by a project id, and it is set once per
+clone — without one, every sync imports a second copy instead of updating the
+first:
 
-**If verify fails, `make sync` stops there and exits non-zero — fix it
-before uploading.** Everything it reports is invisible in review and wrong in
-every design afterwards: a class that no stylesheet defines silently does
-nothing, a broken reference ships an unstyled card, a card that overflows its
-declared viewport gets cropped in the pane.
+```sh
+make design-project                # which design system a sync uploads into, and how to get its id
+make design-project ARGS=<uuid>    # set it for this clone
+```
 
-It checks mechanics, not judgement. When `sync-status` lists changed cards,
-look at them — `make baseline` before a visual change, `make shots && make
-diff` after.
+No `npm run` uploads, because the transport needs the `DesignSync` tool bound to
+your claude.ai login and a shell script has none. The scripts own everything
+else: `make design-plan` writes the steps, the file list and the deletes, and
+the agent executes that rather than working it out — working it out by hand is
+how a batch of renamed font files was once left orphaned in an uploaded system.
 
-The upload finds the right project by itself — `.design-sync/config.json`
-holds the project id, so a sync always lands in the same place and never
-creates a second one. It compares against the anchor the project stores
-(`_ds_sync.json`, a hash per card) and pushes only what moved.
+**A red gate stops `make design-sync` before any upload.** Every fault it names
+is invisible in review and wrong in every design afterwards. It checks
+mechanics, not judgement: when `make design-status` lists changed cards, look at
+them — `make baseline` before a visual change, `make shots && make diff` after.
+
+[`docs/design-system/design-with-claude.rst`](docs/design-system/design-with-claude.rst)
+is the step-by-step: the first import, designing with it, keeping it current,
+and what each symptom means.
 
 ## Layout
 
