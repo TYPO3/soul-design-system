@@ -8,6 +8,7 @@
      3. deletes    remote files this build no longer produces
      4. sentinel   re-armed, so the app rebuilds its manifest on next open
      5. anchor     last, because it vouches for all of the above
+     6. verify     the sentinel read back, because its write fails silently
 */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -98,6 +99,15 @@ const plan = {
     { step: 3, action: 'delete', why: 'files this build no longer produces', paths: deletes },
     { step: 4, action: 'write', why: 'sentinel re-armed so the app rebuilds its manifest', files: [SENTINEL], ...SENTINEL_UPLOAD },
     { step: 5, action: 'write', why: 'the anchor vouches for everything above — always last', files: [ANCHOR_FILE] },
+    /* The one write whose failure is silent, read back before anybody is told
+       the sync worked. An extensionless upload can answer `written: 1` and put
+       nothing there, and a pane with no manifest shows no cards at all — which
+       reads as a broken design system rather than a missing 24 bytes. */
+    {
+      step: 6, action: 'verify', why: 'a write count is not proof — read the sentinel back',
+      method: 'get_file', path: SENTINEL,
+      onMissing: `404 means the sync did not land: re-run step 4 with the mimeType above, then reopen the design system in the app. Do not report a sync as complete without this file.`,
+    },
   ],
   afterUpload: 'make design-synced',
 };
@@ -108,7 +118,7 @@ writeFileSync(OUT, JSON.stringify(plan, null, 2));
 report.align([{ name: '', label: 'the order it uploads in' }]);
 report.fact('written to', '.design-sync/.cache/upload-plan.json');
 report.fact('project', projectId ?? '(none set — see below)');
-report.fact('the order it uploads in', `1 sentinel · 2 ${content.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor`);
+report.fact('the order it uploads in', `1 sentinel · 2 ${content.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor · 6 read the sentinel back`);
 if (deletes.length) {
   report.fact('to delete', `${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
 }

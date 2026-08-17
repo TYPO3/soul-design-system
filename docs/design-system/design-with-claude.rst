@@ -256,10 +256,15 @@ When it does not look right
    * - Every card renders in a system face with no icons
      - The generated fonts and icons are missing from the clone.
        ``make verify ARGS=assets`` names what to run.
+   * - The import ran and the pane is empty
+     - The files are up there and the card index was never compiled. Ask for
+       ``DesignSync get_file _ds_needs_recompile``: a 404 is the answer — that
+       write reports success and lands nothing when its type is not named, so
+       nothing ever told the app to read the upload. Re-run the sentinel step of
+       the plan, which carries the type, then reopen the design system.
    * - The pane still shows the previous upload
-     - It recompiles on next open. If it stays stale the sentinel did not land:
-       ``DesignSync get_file _ds_needs_recompile``, and a 404 means the sync did
-       not arrive whatever the write count said.
+     - Same cause, one upload later: it recompiles on next open, and a stale
+       pane means the sentinel did not land.
    * - A second design system appeared beside yours
      - No project id was set when that sync ran. Set it —
        `remember where it landed <#remember-where-it-landed>`__ — then delete
