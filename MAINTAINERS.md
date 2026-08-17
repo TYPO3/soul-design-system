@@ -117,18 +117,20 @@ Then set the package to require two-factor authentication and disallow tokens.
 That is npm's own recommendation and it costs this workflow nothing, because an
 OIDC exchange is not a token.
 
-### The first publish is by hand
+### The first publish was by hand
 
-A trusted publisher is configured on a package, and npm has no package until
-something has been published — so the first publish cannot be a trusted one.
-What goes out is the placeholder version the tree already carries, under a
-dist-tag of its own so that `latest` stays free for the first real release:
+A trusted publisher is configured on a package, and npm had no package until
+something was published — so the first publish could not be a trusted one. What
+went out was the placeholder version the tree carried then, under a dist-tag of
+its own so that `latest` stayed free for the first real release:
 
 ```sh
 cd packages/frontend && npm publish --tag next
 ```
 
-Use a granular access token created for that one publish and revoke it
-afterwards. Nothing is generated or built first, and nothing needs to be:
-everything a package ships is committed, which is also why the release job
-installs nothing before it publishes.
+That is why `0.1.0-dev` sits on `next` and nothing points at it; `latest` is
+written by the release job and by nothing else. It went out with a granular
+access token made for that one publish and revoked afterwards. Nothing was
+generated or built first, and nothing needed to be: everything a package ships
+is committed, which is also why the release job installs nothing before it
+publishes.
