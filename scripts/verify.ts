@@ -128,16 +128,19 @@ interface Check {
 /* Every check, in the order the gate runs them. Nothing here reads a value
    another one computed — a check is the unit that can be run alone. */
 const CHECKS: readonly Check[] = [
-  /* fonts/ and assets/icons/ are generated from npm packages and gitignored.
-     A clone that skipped `npm ci` has neither, and every card then renders in
-     system-ui with no icons — which looks like a design bug and is not one. */
+  /* What is generated from an npm package and not kept by git. A clone that
+     skipped `npm ci` has none of it, and every card then renders in system-ui
+     with no glyph to draw from — which looks like a design bug and is not one.
+     The single icons rather than the whole directory: the sprite beside them
+     is committed, and a check that counted both would pass on a tree that
+     cannot rebuild the module the singles are read into. */
   {
     name: 'assets',
     label: 'the generated fonts and icons are there',
     run() {
       const GENERATED: readonly (readonly [dir: string, fix: string])[] = [
         ['fonts', 'make fonts'],
-        ['assets/icons', 'make icons'],
+        ['assets/icons/svgs', 'make icons'],
       ];
       const problems: string[] = [];
       const counts: string[] = [];

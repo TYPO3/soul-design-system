@@ -32,10 +32,12 @@ node_modules/
 # `dist/` is: they are what the package publishes and what a page links, and a
 # mirror can only ship what git has. `make fonts` rebuilds them.
 
-# generated from @typo3/icons by scripts/icons.ts — the singles and the map
-/packages/frontend/assets/icons/
+# generated from @typo3/icons by scripts/icons.ts — the single files, which are
+# the sprite's source and reach no package. The sprite, the lookup and the
+# licence beside them are committed: npm packs a checkout, not a container.
+/packages/frontend/assets/icons/svgs/
 
-# generated from @typo3/icons by scripts/icons.mjs, alongside assets/icons/
+# generated from @typo3/icons by scripts/icons.ts, alongside assets/icons/
 /packages/frontend/src/components/icons.generated.ts
 /packages/frontend/src/components/icons.svg.generated.ts
 

@@ -269,7 +269,7 @@ creates a second one. It compares against the anchor the project stores
 | | |
 | `specimens/` | **generated** — the cards and the screens, the latter offered as Starting Points in a consuming project |
 | `packages/frontend/fonts/` | **generated** from `@fontsource`, and committed — the package publishes it |
-| `packages/frontend/assets/icons/` | **generated** from `@typo3/icons`, untracked |
+| `packages/frontend/assets/icons/` | **generated** from `@typo3/icons` — the sprite, the lookup and the licence committed, the single files not |
 | `packages/frontend/dist/` | **generated** — the drop-in, committed |
 | `.out/` | **generated** — everything git does not keep: the upload payload, the publish root, the built Storybook, the suite's output. A drop-in is copied, a site is published |
 | | |
@@ -307,9 +307,12 @@ which is about the containers.
 | `shell` | a prompt inside the image |
 
 `packages/frontend/fonts/` is generated from `@fontsource` and committed because
-the package publishes it. `packages/frontend/assets/icons/` is generated from
-`@typo3/icons` and untracked. The container's entrypoint restores generated
-assets when they are missing, so a fresh clone needs no setup step.
+the package publishes it, and the sprite, lookup and licence under
+`packages/frontend/assets/icons/` are committed for the same reason — a
+published package is packed from a checkout. The single icons beside them are
+the sprite's source, reach no package, and stay untracked. The container's
+entrypoint restores generated assets when they are missing, so a fresh clone
+needs no setup step.
 
 ### Changing a component
 

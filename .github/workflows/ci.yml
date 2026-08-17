@@ -159,15 +159,11 @@ jobs:
       # manifest instead. This is the one place both are in the room together.
       - run: node scripts/release.ts --check --tag=${{ github.ref_name }}
 
-      # `assets/icons/` is generated and gitignored, and the manifest publishes
-      # `assets/` — without this the package installs with every icon a blank
-      # box. `--ignore-scripts` for the reason the image installs that way.
-      - run: npm ci --no-audit --no-fund --ignore-scripts
-      - run: node scripts/icons.ts
-
-      # No `--provenance` and no token: trusted publishing attests the build
-      # from the OIDC token above, and that is npm's own instruction. `dist/`
-      # is committed and the gate compared it, so nothing is built here.
+      # Nothing is installed and nothing is built: everything the package ships
+      # is committed, the gate compared the drop-in against its source, and a
+      # dependency tree fetched here would be one more thing between a green
+      # gate and what npm receives. No `--provenance` and no token either —
+      # trusted publishing attests the build from the OIDC token above.
       - run: npm publish
         working-directory: packages/frontend
 
