@@ -133,20 +133,20 @@ $(TASKS):
 # which is the one way a hard gate is still not one.
 #
 # Only the paths the task itself names are committed, so work in flight beside
-# them stays where it is. A flag or no argument is a question rather than a
-# release, and asks nothing else of anybody.
+# them stays where it is — and they are asked for before the version is
+# written, because the write is the last thing that happens in a container.
+# A flag or no argument is a question rather than a release: it is handed to
+# the task and nothing else here runs.
 release:
-	@case '$(ARGS)' in ''|-*) exit 0 ;; esac; \
+	@case '$(ARGS)' in ''|-*) exec $(RUN) release $(ARGS) ;; esac; \
 	 if [ -n "$$(git status --porcelain)" ]; then \
 	   printf '\n  the working tree is not clean. A release is cut from what the gate ran\n  over, and none of this would be in the commit:\n\n'; \
 	   git status --short | sed 's/^/    /'; echo; exit 1; fi; \
 	 if git rev-parse -q --verify 'refs/tags/v$(ARGS)' >/dev/null; then \
 	   printf '\n  v%s is a tag here already. A release that was wrong is followed by\n  another release, never by moving one\n\n' '$(ARGS)'; exit 1; fi; \
-	 $(MAKE) --no-print-directory ARGS= verify test
-	@$(RUN) release $(ARGS)
-	@case '$(ARGS)' in ''|-*) exit 0 ;; esac; \
-	 $(RUN) verify version && \
+	 $(MAKE) --no-print-directory ARGS= verify test && \
 	 paths=$$($(TASK) node scripts/release.ts --paths 2>/dev/null) && \
+	 $(RUN) release $(ARGS) && \
 	 git commit -q -m 'release: $(ARGS)' -- $$paths && \
 	 git tag -a 'v$(ARGS)' -m '$(ARGS)' && \
 	 printf '\n  committed and tagged v%s. Nothing was pushed:\n\n    git push origin main --follow-tags\n\n' '$(ARGS)'

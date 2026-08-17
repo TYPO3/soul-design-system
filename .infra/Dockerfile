@@ -60,11 +60,9 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY packages/frontend/package.json packages/frontend/
 
-# `--ignore-scripts` is required, not tidiness: this package's `prepare` runs
-# `scripts/fonts.ts` and `scripts/icons.ts`, and only the two manifests
-# have been copied at this point — the scripts do not exist yet. The
-# entrypoint runs them instead, where they can also repair a bind-mounted
-# tree that never had them.
+# `--ignore-scripts` is required, not tidiness: a dependency's own install
+# script runs as this build and nothing here needs one. The generated assets
+# are committed; the entrypoint repairs a tree that is missing them.
 RUN npm ci --no-audit --no-fund --ignore-scripts \
  && npx playwright install --with-deps chromium \
  && chmod -R a+rX /ms-playwright \
@@ -74,6 +72,13 @@ RUN npm ci --no-audit --no-fund --ignore-scripts \
  && chmod -R a+rwX node_modules \
  # npm and npx write here, and the container runs as a UID with no home.
  && mkdir -p /tmp/.npm && chmod -R a+rwX /tmp/.npm
+
+# What the dependencies above were installed from, kept where the mount cannot
+# hide it. `.infra/task.sh` compares these two against the checkout before it
+# execs into a running container: the tree declaring one set of dependencies
+# while the container holds another is a gate answering about the wrong tree.
+RUN mkdir -p /image && cp package.json package-lock.json /image/
+COPY .infra/Dockerfile /image/Dockerfile
 
 # The nested Storybook volume is seeded from here and must be writable by the
 # arbitrary UID Compose assigns. Everything else below /app comes from the
