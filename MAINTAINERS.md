@@ -50,17 +50,36 @@ is the only reason a version is written down here at all.
 
 ```sh
 make release ARGS=0.2.0
-make verify && make test
 ```
 
-`make release` writes the number into every file that carries it and prints the
-commands that commit, tag and push. It runs no git itself: the image has none,
-and a tag is a decision rather than a build step. `make verify ARGS=version`
-asks the same question the other way and is part of the gate, so a tree whose
-manifests disagree cannot reach a tag unnoticed.
+That one command is the whole of it, and it runs the gate and the suite itself
+— first, and with no way past them. A tag is the one thing here that is never
+taken back, so the run that would have caught the mistake is the run that
+cannot be skipped.
 
-Pushing the branch and the tag is the release. `.github/workflows/ci.yml` runs
-the gate over the tagged tree, mirrors both packages with the tag, publishes
+It refuses two trees before it starts: one with uncommitted changes, because
+the gate would then be green over work the release commit will not contain, and
+one that already carries the tag being asked for.
+
+Then it writes the number into every file that carries it — the two manifests,
+the lock file, and the project version the site renders into its footer —
+commits exactly those files, and makes the annotated tag. It pushes nothing,
+ever. The writing happens in the container like every other task; the commit
+and the tag happen on the host, where git is and where the name on a release
+belongs.
+
+`make verify ARGS=version` asks the same question the other way and is part of
+the gate, so a tree whose copies disagree cannot reach a tag unnoticed.
+
+Pushing the branch and the tag is the release, and it is the one step nothing
+automates:
+
+```sh
+git push origin main --follow-tags
+```
+
+`.github/workflows/ci.yml` then runs the gate over the tagged tree, mirrors
+both packages with the tag, publishes
 `@typo3/soul-frontend` and creates the GitHub release. Packagist needs nothing
 from here — it follows the theme's mirror and turns the tag into a version.
 Branch and tag arrive as two push events in either order, which is why
@@ -106,12 +125,10 @@ What goes out is the placeholder version the tree already carries, under a
 dist-tag of its own so that `latest` stays free for the first real release:
 
 ```sh
-make icons
 cd packages/frontend && npm publish --tag next
 ```
 
 Use a granular access token created for that one publish and revoke it
-afterwards. `make icons` is not optional: `assets/icons/` is generated and git
-does not keep it, while the manifest publishes `assets/` — without it every
-icon a consumer draws from `src/` is a blank box. The release job runs the same
-script for the same reason.
+afterwards. Nothing is generated or built first, and nothing needs to be:
+everything a package ships is committed, which is also why the release job
+installs nothing before it publishes.

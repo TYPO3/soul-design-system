@@ -74,6 +74,14 @@ function newer(next: string, than: string): boolean {
 }
 
 const argv = process.argv.slice(2);
+
+/* Which files a release touches, for the host to stage. One name per line and
+   nothing else: `make release` reads this, so the list lives here rather than
+   being spelt a second time in the Makefile. */
+if (argv.includes('--paths')) {
+  for (const file of new Set([...PLACES, ...RENDERED].map((p) => p.file))) console.log(file);
+  process.exit(0);
+}
 const asked = argv.find((a) => !a.startsWith('-'))?.replace(/^v/, '');
 const tag = argv.find((a) => a.startsWith('--tag='))?.split('=')[1];
 
@@ -165,16 +173,6 @@ for (const place of RENDERED) {
   report.row('ok', place.file, place.where, `${was} → ${asked}`);
 }
 
-console.log();
-report.fact('nothing is committed, tagged or pushed. That is yours to run, on the host,');
-report.fact('and the gate first — a tag is not taken back:');
-console.log();
-for (const line of [
-  'make verify && make test',
-  `git add ${[...new Set([...PLACES, ...RENDERED].map((p) => p.file))].join(' ')}`,
-  `git commit -m "release: ${asked}"`,
-  `git tag -a ${tagged(asked)} -m "${asked}"`,
-  'git push origin main --follow-tags',
-]) report.fact(`  ${line}`);
-
-report.close('ok', `${asked} is written into the manifests, and nothing else has happened`);
+/* What happens to these files is the host's half of `make release` — it has the
+   git this image does not, and it says what it did when it has done it. */
+report.close('ok', `${asked} is written into every file that carries it, and nothing is committed here`);

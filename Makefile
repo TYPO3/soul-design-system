@@ -37,7 +37,7 @@ RUN := $(TASK) node scripts/task.ts
 
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
-TASKS := verify test cards embed chrome typecheck fit ssr coverage php css build dist split release guides fonts icons \
+TASKS := verify test cards embed chrome typecheck fit ssr coverage php css build dist split guides fonts icons \
          diagrams baseline shots diff look sync sync-status plan synced
 
 # The long-running ones. `app` is among them: it holds the environment every
@@ -54,7 +54,7 @@ SURFACES := \
 	'dist|(watching the frontend package)|rebuilds the drop-in on every edit' \
 	'app|(idle)|every make task runs in here'
 
-.PHONY: help tasks $(TASKS) mounts start status stop restart logs shell clean
+.PHONY: help tasks $(TASKS) release mounts start status stop restart logs shell clean
 .DEFAULT_GOAL := help
 
 # A bind-mount path the host does not have is created by Docker, as root —
@@ -82,7 +82,7 @@ help:
 	@echo '  make guides          render the documentation fixture into .out/site/'
 	@echo '  make build           assemble .out/bundle/, the upload payload'
 	@echo '  make dist            the publishable ESM package and its types'
-	@echo '  make release ARGS=0.2.0  write the version, and print what tags it'
+	@echo '  make release ARGS=0.2.0  gate, suite, write the version, commit, tag (never pushes)'
 	@echo '  make sync            build + verify + what-would-change + upload plan'
 	@echo '  make sync-status plan synced the sync steps individually'
 	@echo '                       set SDS_DESIGN_PROJECT to your own design project,'
@@ -108,9 +108,48 @@ tasks:
 	@$(RUN) --help
 
 # ARGS reaches the task inside the container: `make cards ARGS=--check`.
-$(TASKS) tasks start shell: mounts
+$(TASKS) tasks start shell release: mounts
 $(TASKS):
 	@$(RUN) $@ $(ARGS)
+
+# The one task that finishes on the host. Writing the version happens in the
+# container like everything else; the commit and the tag are git, which this
+# image deliberately does not carry and which needs the name of whoever is
+# releasing. The push is not here, and that is the whole of what a person
+# still decides — see MAINTAINERS.md.
+#
+# `ARGS=` is emptied for the sub-make on purpose: a variable set on the command
+# line is inherited by every make below it, so `ARGS=0.1.0` arrived at `verify`
+# as the name of a check and the gate refused it.
+#
+# The gate and the suite run first and run here, not in a sentence somebody
+# reads beforehand: a tag is the one thing in this repository that is never
+# taken back, so the run that would have caught it has to be the run that
+# cannot be skipped. Before the version is written rather than after, so a red
+# gate leaves the tree exactly as it was and the same command works again.
+#
+# And it refuses a dirty tree, because a green gate over a tree carrying work
+# that will not be in the commit says nothing about what the tag points at —
+# which is the one way a hard gate is still not one.
+#
+# Only the paths the task itself names are committed, so work in flight beside
+# them stays where it is. A flag or no argument is a question rather than a
+# release, and asks nothing else of anybody.
+release:
+	@case '$(ARGS)' in ''|-*) exit 0 ;; esac; \
+	 if [ -n "$$(git status --porcelain)" ]; then \
+	   printf '\n  the working tree is not clean. A release is cut from what the gate ran\n  over, and none of this would be in the commit:\n\n'; \
+	   git status --short | sed 's/^/    /'; echo; exit 1; fi; \
+	 if git rev-parse -q --verify 'refs/tags/v$(ARGS)' >/dev/null; then \
+	   printf '\n  v%s is a tag here already. A release that was wrong is followed by\n  another release, never by moving one\n\n' '$(ARGS)'; exit 1; fi; \
+	 $(MAKE) --no-print-directory ARGS= verify test
+	@$(RUN) release $(ARGS)
+	@case '$(ARGS)' in ''|-*) exit 0 ;; esac; \
+	 $(RUN) verify version && \
+	 paths=$$($(TASK) node scripts/release.ts --paths 2>/dev/null) && \
+	 git commit -q -m 'release: $(ARGS)' -- $$paths && \
+	 git tag -a 'v$(ARGS)' -m '$(ARGS)' && \
+	 printf '\n  committed and tagged v%s. Nothing was pushed:\n\n    git push origin main --follow-tags\n\n' '$(ARGS)'
 
 # Bring the stack up, and report it. Detached, because it is a surface you
 # look at while working on something else.
