@@ -122,6 +122,25 @@ records. An anchor without that field (anything uploaded before this was
 added) makes the plan say so and refuse to guess: compare `list_files`
 against the build yourself that one time.
 
+**Chunk the content write at 100 files, not the documented 256.** The tool's
+own limit is 256 per `write_files`, and a call of exactly that — 256 files,
+906 KB — answers `HTTP 500 internal`. It is the file count rather than the
+payload: 4 files totalling 614 KB go through, and so do 6 files totalling
+1.8 MB, while the 256-file call fails whatever it carries. So the budget is
+**≤ 100 files and ≤ 2 MB per call**, which is what the placeholder PNGs need
+anyway at roughly a megabyte each. A 500 is not a reason to stop — send one
+small call first to tell a sick API apart from an oversized one, then resize.
+
+**Nothing in the anchor proves the assets unchanged, which is why the plan
+uploads all of them.** `auxSha` is `sha12` of the *filenames* in `tokens/` and
+nothing else — not their content, and not `fonts/`, `assets/` or
+`guidelines/`. Between them `styleSha`, `renderHashes`, `screenHashes`,
+`elementHashes` and `bundleSha12` cover the stylesheets, the cards, the
+screens, the element contracts and the bundle; everything else is covered by
+no hash at all. A re-sync that "only uploads what changed" from the anchor
+diff is therefore guessing about 14 MB of illustrations and every font file.
+Upload the whole list the plan names.
+
 **The sentinel needs an explicit `mimeType`, and the plan carries one.**
 `_ds_needs_recompile` has no file extension. Uploaded like everything else —
 `localPath`, no type named — `write_files` answers `written: 1` and the file
@@ -243,7 +262,11 @@ a **Starting Points picker** that seeds a new design from this system. A
 screen is marked by making `<!-- @startingPoint section="<group>"
 subtitle="<one line>" viewport="<WxH>" -->` the first line of its HTML; a
 component is marked with `@startingPoint` in the JSDoc on its `.d.ts` props
-interface (not applicable here — this system ships no components).
+interface. That route is open here and unused: every element ships a `.d.ts`
+under `components/Elements/`, so the JSDoc has somewhere to live. This used to
+read "not applicable here — this system ships no components", which was
+written when the bundle was an empty namespace and stopped being true the day
+the bundle got them.
 
 Source: Claude Design's leaked system prompt, corroborated by the fields the
 app actually writes into `_ds_manifest.json` (`startingPoints`, `cards`,
