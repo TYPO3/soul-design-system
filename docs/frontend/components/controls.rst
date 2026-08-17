@@ -121,6 +121,82 @@ a name in mono, a count, or a glyph — none of which fits in a string.
    <!-- The class equivalent, for a surface that runs no JavaScript. -->
    <button class="sds-btn sds-btn--primary" type="button">Send the message</button>
 
+.. _component-sds-dropdown:
+
+sds-dropdown
+============
+
+A button, and the short list it opens under itself.
+
+.. code-block:: html
+
+   <sds-dropdown label="Language" name="Language"></sds-dropdown>
+
+**What is in the list decides what the list is.** Entries carrying ``href`` are
+pages, so the panel is a disclosure holding links and Tab walks them; entries
+carrying none are commands, so it is a menu with ``role="menu"`` and the arrows
+walk them. The element asks the entries rather than the caller, because a
+caller who has to say which one it is can say the wrong one — and announcing
+menu commands over a list of pages is a promise the panel cannot keep.
+
+The trigger is a real button of this system, drawn from the same classes, so it
+takes the variants and sizes every other one does. What a dropdown says about
+itself — expanded, and which panel it controls — is written on the ``<button>``
+itself, which is why it is not an ``<sds-button>`` with attributes on it.
+
+.. confval:: choices
+   :name: sds-dropdown-choices
+   :type: DropdownChoice[]
+
+   The entries, in the order they are read. Set from script, being a list:
+   ``label``, and then ``href`` for a page, ``icon`` for a glyph before the
+   label, ``current`` for the one in force, ``disabled``, ``external``, and
+   ``lang`` where the entry names a language — that last one is what makes a
+   reader hear "Deutsch" in German rather than in the voice of the page.
+
+.. confval:: label
+   :name: sds-dropdown-label
+   :type: string
+
+   What the button says. A dropdown whose entries are settings names the
+   setting rather than the value, and lets ``current`` mark the one in force.
+
+.. confval:: name
+   :name: sds-dropdown-name
+   :type: string
+
+   What the control is called, where the label is too short to say it — a
+   language code standing in for "Language". It is said **in front of** the
+   label rather than instead of it: an accessible name that drops the word a
+   reader can see is a name they cannot ask for by voice.
+
+.. confval:: align
+   :name: sds-dropdown-align
+   :type: "start" | "end"
+   :default: "start"
+
+   Which side the panel hangs from. ``end`` where the button sits at the end of
+   a row, or a list opened from the corner runs off the page.
+
+.. confval:: variant
+   :name: sds-dropdown-variant
+   :type: "primary" | "secondary" | "ghost"
+   :default: "secondary"
+
+   The button's own variant, and ``size`` beside it takes the button's sizes.
+
+.. confval:: icon-only
+   :name: sds-dropdown-icon-only
+   :type: boolean
+
+   The label is dropped and ``icon`` stands alone, which then requires ``name``
+   — nothing else says what the control is.
+
+Choosing an entry dispatches ``sds-dropdown-choose`` with the entry and its
+position. A page that never listens still works: an entry with a target is a
+link and stays one, so the event is said **beside** the navigation rather than
+instead of it. Preventing it is how an app takes the navigation over.
+
 .. _component-sds-link:
 
 sds-link

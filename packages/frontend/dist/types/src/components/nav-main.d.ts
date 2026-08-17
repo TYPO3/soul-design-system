@@ -1,6 +1,8 @@
 import { type TemplateResult, type PropertyValues } from 'lit';
 import { SdsNav, type MenuEntry } from './nav-base.js';
+import { type DropdownChoice } from './dropdown.js';
 import './icon.ts';
+import './dropdown.ts';
 import './overlay.ts';
 import './search.ts';
 import './theme.ts';
@@ -33,6 +35,9 @@ export declare class SdsNavMain extends SdsNav {
         };
         menu: {
             type: ObjectConstructor;
+        };
+        languages: {
+            type: ArrayConstructor;
         };
         label: {
             type: StringConstructor;
@@ -89,6 +94,11 @@ export declare class SdsNavMain extends SdsNav {
         in the drawer. The same entry a rail is given, one level up — a section
         holds pages, and the site holds sections. */
     menu: MenuEntry;
+    /** The same page in other languages, each entry naming its own — `lang` is
+        what makes a reader hear "Deutsch" in German rather than in the voice the
+        page is set in. With none, the bar carries no language control at all: a
+        site in one language does not ask which one. */
+    languages: readonly DropdownChoice[];
     /** What the toggle is called, for a reader who cannot see it is a menu. */
     label: string;
     /** Where `sds-theme` keeps the reader's choice, where it keeps one. Written
@@ -153,6 +163,12 @@ export declare class SdsNavMain extends SdsNav {
         the field first, the sections last. */
     private decide;
     private field;
+    /** The languages, as the one control at this end that is not a mode. The
+        button says the code the reader is in and nothing else — the row is short
+        of width before it is short of anything, and the names are one press
+        away, each in its own language. Hung from the end, or a list opened from
+        the corner runs off the page. */
+    private languages_;
     /** The sections of the menu that stand in the row. Which of a site's
         sections are its front doors is the one thing its tree cannot say, so the
         menu says it; with none named, every section is one. */

@@ -1,0 +1,285 @@
+/* sds-dropdown — a button, and the short list it opens under itself.
+
+   What is in the list decides what the list is. Entries that carry a target
+   are pages, so they are links in a disclosure and Tab walks them; entries
+   that carry none are commands, so they are a menu and the arrows walk them.
+   One element either way, because the difference a reader meets is the
+   announcement, and announcing menu commands over a list of pages is a promise
+   the panel cannot keep.
+
+   The button is written from `buttonClass` rather than as `<sds-button>`: what
+   a dropdown says about itself — expanded, and what it controls — belongs on
+   the `<button>`, and an attribute set on a custom element never reaches it.
+   That is what those exports are for. */
+
+import { html, nothing, type TemplateResult } from 'lit';
+import { lines } from '../lib/template.ts';
+import { define, SdsElement } from '../lib/element.ts';
+import { buttonClass, buttonLabel } from './button.ts';
+import './icon.ts';
+import { type IconId } from './icon.ts';
+
+/** One entry of the list. */
+export interface DropdownChoice {
+  /** What it is called, which is the whole of what a reader picks by. */
+  label: string;
+  /** Where it goes. An entry that has one is a page and becomes a link; an
+      entry with none is a command and reports itself instead. */
+  href?: string;
+  /** A glyph before the label, where the entry asked for one. */
+  icon?: IconId;
+  /** The one the reader is on, or the setting that is in force. */
+  current?: boolean;
+  /** Present but not available — said to everyone, never drawn alone. */
+  disabled?: boolean;
+  /** Its own language, for an entry naming one: a reader is told "Deutsch" in
+      German rather than in the voice the page is set in. */
+  lang?: string;
+  /** Opened away from this page, which is said rather than only styled. */
+  external?: boolean;
+}
+
+/** What `sds-dropdown-choose` carries: the entry, and where it sits. */
+export interface DropdownChosen {
+  choice: DropdownChoice;
+  index: number;
+}
+
+export interface DropdownProps {
+  /** What the button says. A dropdown whose entries are settings names the
+      setting rather than the value, and lets `current` mark the one in force. */
+  label?: string;
+  /** What the control is called, where the label is too short to say it — a
+      language code standing in for "Language". It is said in front of the
+      label rather than instead of it: an accessible name that drops the word a
+      reader can see is a name they cannot ask for by voice. */
+  name?: string;
+  /** The entries, in the order they are read. */
+  choices?: readonly DropdownChoice[];
+  /** Which side the panel hangs from. `end` where the button is at the end of
+      a row, so the list opens back over the row rather than off the page. */
+  align?: 'start' | 'end';
+  /** The button's own variant, passed through — the trigger is a real button of
+      this system and not a second kind of control that looks like one. */
+  variant?: 'primary' | 'secondary' | 'ghost';
+  /** The button's size, passed through the same way. */
+  size?: 'md' | 'sm' | 'lg';
+  /** The label is dropped and the glyph stands alone, which then requires
+      `title` on the button — so the accessible name is `label` either way. */
+  iconOnly?: boolean;
+  /** A glyph on the button itself. */
+  icon?: IconId;
+}
+
+/** Distinct ids per instance: the button names the panel it opens, and two
+    dropdowns on one page must not both call it `sds-dropdown-panel`. */
+let seq = 0;
+
+export class SdsDropdown extends SdsElement {
+  static override properties = {
+    label: { type: String },
+    name: { type: String },
+    choices: { type: Array },
+    align: { type: String, reflect: true },
+    variant: { type: String },
+    size: { type: String },
+    iconOnly: { type: Boolean, attribute: 'icon-only' },
+    icon: { type: String },
+    open: { type: Boolean, state: true },
+  };
+
+  declare label: string;
+  declare name: string;
+  declare choices: readonly DropdownChoice[];
+  declare align: 'start' | 'end';
+  declare variant: 'primary' | 'secondary' | 'ghost';
+  declare size: 'md' | 'sm' | 'lg';
+  declare iconOnly: boolean;
+  declare icon?: IconId;
+  declare open: boolean;
+
+  private readonly panelId = `sds-dropdown-panel-${++seq}`;
+
+  constructor() {
+    super();
+    this.label = '';
+    this.name = '';
+    this.choices = [];
+    this.align = 'start';
+    this.variant = 'secondary';
+    this.size = 'md';
+    this.iconOnly = false;
+    this.open = false;
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    if (typeof document === 'undefined') return;
+    document.addEventListener('pointerdown', this.onOutside);
+  }
+
+  override disconnectedCallback(): void {
+    document.removeEventListener('pointerdown', this.onOutside);
+    super.disconnectedCallback();
+  }
+
+  /* A panel left standing over the page after a press somewhere else is a
+     panel the reader has to dismiss before they can carry on reading. */
+  private readonly onOutside = (event: Event): void => {
+    if (!this.open) return;
+    if (event.composedPath().includes(this)) return;
+    this.open = false;
+  };
+
+  /** The whole name, with the label still in it. Dropping the visible word
+      would leave a control nobody can ask for by the name they can see. */
+  private get called(): string {
+    return this.name && this.label ? `${this.name}: ${this.label}` : this.name || this.label;
+  }
+
+  /** Pages or commands. Asked of the entries rather than declared, because a
+      caller who has to say which one it is can say the wrong one. */
+  private get commands(): boolean {
+    return this.choices.length > 0 && this.choices.every((choice) => !choice.href);
+  }
+
+  /** The rows a key can move between: what is drawn and not disabled. */
+  private rows(): HTMLElement[] {
+    return [...this.querySelectorAll<HTMLElement>('.sds-dropdown__item:not([aria-disabled="true"])')];
+  }
+
+  private onKey(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      if (!this.open) return;
+      event.stopPropagation();
+      this.open = false;
+      this.querySelector<HTMLElement>('.sds-dropdown__button')?.focus();
+      return;
+    }
+
+    /* The arrows are the menu pattern's, and a list of pages is not a menu:
+       there Tab is how a reader walks, and taking the arrows would stop the
+       page scrolling under a panel that is only a few rows tall. */
+    if (!this.commands) return;
+    if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+    const rows = this.rows();
+    if (!rows.length) return;
+    event.preventDefault();
+    /* Opening with a key steps into the list in the same breath, from the end
+       the key came from. */
+    if (!this.open) {
+      this.open = true;
+      const first = event.key === 'ArrowUp' || event.key === 'End';
+      void this.updateComplete.then(() => {
+        const now = this.rows();
+        (first ? now[now.length - 1] : now[0])?.focus();
+      });
+      return;
+    }
+    const from = event.target as HTMLElement | null;
+    const at = from ? rows.indexOf(from) : -1;
+    const to =
+      event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? rows.length - 1
+          : /* Stops at the ends rather than wrapping: a list that starts over at
+               the bottom hides how long it was from whoever cannot see it. */
+            Math.min(rows.length - 1, Math.max(0, at + (event.key === 'ArrowDown' ? 1 : -1)));
+    rows[to]?.focus();
+  }
+
+  /** What a press reports, and what it does not do. An entry with a target is
+      a link and stays one — the event is said beside the navigation rather than
+      instead of it, so a page that never listens still works. Preventing the
+      event is how an app takes the navigation over. */
+  private choose(choice: DropdownChoice, index: number, event: Event): void {
+    if (choice.disabled) {
+      event.preventDefault();
+      return;
+    }
+    const told = this.dispatchEvent(
+      new CustomEvent<DropdownChosen>('sds-dropdown-choose', {
+        detail: { choice, index },
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      }),
+    );
+    if (!told) event.preventDefault();
+    /* Choosing is what the panel was opened for. It closes whether or not
+       anything moved, because a panel still standing reads as a press that did
+       nothing. */
+    this.open = false;
+  }
+
+  private entry(choice: DropdownChoice, index: number): TemplateResult {
+    const inside = choice.icon
+      ? html`<sds-icon name="${choice.icon}"></sds-icon>${choice.label}`
+      : html`${choice.label}`;
+    const shared = {
+      class: choice.current ? 'sds-dropdown__item is-active' : 'sds-dropdown__item',
+      lang: choice.lang,
+    };
+
+    if (this.commands) {
+      return html`<button
+        type="button"
+        role="menuitem"
+        class="${shared.class}"
+        lang="${shared.lang ?? nothing}"
+        aria-disabled="${choice.disabled ? 'true' : nothing}"
+        @click="${(event: Event) => this.choose(choice, index, event)}"
+      >${inside}</button>`;
+    }
+
+    return html`<a
+      class="${shared.class}"
+      href="${choice.href ?? '#'}"
+      lang="${shared.lang ?? nothing}"
+      hreflang="${shared.lang ?? nothing}"
+      target="${choice.external ? '_blank' : nothing}"
+      rel="${choice.external ? 'noreferrer' : nothing}"
+      aria-current="${choice.current ? 'true' : nothing}"
+      aria-disabled="${choice.disabled ? 'true' : nothing}"
+      @click="${(event: Event) => this.choose(choice, index, event)}"
+    >${inside}</a>`;
+  }
+
+  protected override render(): TemplateResult {
+    const commands = this.commands;
+    const cls = `${buttonClass({ variant: this.variant, size: this.size, iconOnly: this.iconOnly })} sds-dropdown__button`;
+    /* The glyph the caller asked for, then the label, then the marker that says
+       this one opens something. The marker is the element's own and not a
+       caller's decision: a control that drops it looks like a button that acts. */
+    const inside = this.iconOnly
+      ? html`${this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : ''}`
+      : html`${this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : ''}${buttonLabel(this.label)}<sds-icon
+        class="sds-dropdown__marker"
+        name="actions-chevron-down"
+      ></sds-icon>`;
+    return html`<div class="sds-dropdown" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">
+  <button
+    type="button"
+    class="${cls}"
+    title="${this.iconOnly ? this.called : nothing}"
+    aria-label="${this.name && !this.iconOnly ? this.called : nothing}"
+    aria-haspopup="${commands ? 'menu' : nothing}"
+    aria-expanded="${this.open ? 'true' : 'false'}"
+    aria-controls="${this.panelId}"
+    @click="${() => { this.open = !this.open; }}"
+  >${inside}</button>
+  <div
+    class="sds-dropdown__panel"
+    id="${this.panelId}"
+    role="${commands ? 'menu' : nothing}"
+    aria-label="${commands ? this.called : nothing}"
+    ?hidden="${!this.open}"
+  >
+    ${lines(this.choices.map((choice, at) => this.entry(choice, at)), 4)}
+  </div>
+</div>`;
+  }
+}
+
+define('sds-dropdown', SdsDropdown);

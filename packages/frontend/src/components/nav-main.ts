@@ -14,7 +14,9 @@ import { lines } from '../lib/template.ts';
 import { lockup } from '../lib/lockup.ts';
 import { define } from '../lib/element.ts';
 import { SdsNav, type MenuEntry } from './nav-base.ts';
+import { type DropdownChoice } from './dropdown.ts';
 import './icon.ts';
+import './dropdown.ts';
 import './overlay.ts';
 import './search.ts';
 import './theme.ts';
@@ -65,6 +67,7 @@ export class SdsNavMain extends SdsNav {
     search: { type: Boolean },
     index: { type: String },
     menu: { type: Object },
+    languages: { type: Array },
     label: { type: String },
     themeKey: { type: String, attribute: 'theme-key' },
     open: { type: Boolean, state: true },
@@ -99,6 +102,11 @@ export class SdsNavMain extends SdsNav {
       in the drawer. The same entry a rail is given, one level up — a section
       holds pages, and the site holds sections. */
   declare menu: MenuEntry;
+  /** The same page in other languages, each entry naming its own — `lang` is
+      what makes a reader hear "Deutsch" in German rather than in the voice the
+      page is set in. With none, the bar carries no language control at all: a
+      site in one language does not ask which one. */
+  declare languages: readonly DropdownChoice[];
   /** What the toggle is called, for a reader who cannot see it is a menu. */
   declare label: string;
   /** Where `sds-theme` keeps the reader's choice, where it keeps one. Written
@@ -147,6 +155,7 @@ export class SdsNavMain extends SdsNav {
     this.search = false;
     this.index = '';
     this.menu = { label: '' };
+    this.languages = [];
     this.label = 'Menu';
     this.themeKey = '';
     this.open = false;
@@ -404,6 +413,23 @@ export class SdsNavMain extends SdsNav {
     return html`<sds-search index="${this.index}"></sds-search>`;
   }
 
+  /** The languages, as the one control at this end that is not a mode. The
+      button says the code the reader is in and nothing else — the row is short
+      of width before it is short of anything, and the names are one press
+      away, each in its own language. Hung from the end, or a list opened from
+      the corner runs off the page. */
+  private languages_(): TemplateResult {
+    const current = this.languages.find((entry) => entry.current) ?? this.languages[0];
+    return html`<sds-dropdown
+      class="sds-bar__lang"
+      variant="ghost"
+      align="end"
+      name="Language"
+      label="${current?.lang ?? current?.label ?? ''}"
+      .choices="${this.languages}"
+    ></sds-dropdown>`;
+  }
+
   /** The sections of the menu that stand in the row. Which of a site's
       sections are its front doors is the one thing its tree cannot say, so the
       menu says it; with none named, every section is one. */
@@ -605,6 +631,7 @@ export class SdsNavMain extends SdsNav {
   ${hasNav && !this.foldNav ? this.nav_() : ''}
   <div class="sds-bar__end">
     ${wantsSearch && !this.foldSearch ? this.field() : ''}
+    ${this.languages.length ? this.languages_() : ''}
     ${this.themeKey
       ? html`<sds-theme key="${this.themeKey}" ?compact="${this.compactTheme}"></sds-theme>`
       : html`<sds-theme ?compact="${this.compactTheme}"></sds-theme>`}

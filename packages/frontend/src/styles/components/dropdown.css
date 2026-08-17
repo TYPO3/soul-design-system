@@ -1,0 +1,140 @@
+/* sds-dropdown — a button, and the short list it opens under itself. */
+
+@layer base {
+  sds-dropdown {
+    display: inline-block;
+  }
+}
+
+@layer components {
+  /* The button and its panel, as one box. Positioned, because the panel hangs
+     from the control rather than from the page: a list placed against anything
+     else moves away from what opened it the moment a row above it wraps. */
+  .sds-dropdown {
+    --sds-dropdown-panel-min: 12rem;
+    --sds-dropdown-panel-max: var(--width-sidebar);
+    --sds-dropdown-panel-gap: var(--space-1);
+    --sds-dropdown-panel-pad: var(--space-1);
+    --sds-dropdown-panel-fill: var(--surface-raised);
+    --sds-dropdown-panel-edge: var(--border-subtle);
+    --sds-dropdown-panel-border: var(--border-hairline);
+    --sds-dropdown-panel-radius: var(--radius-card);
+    /* The same pair `sds-search` hangs its hits from, because it is the same
+       construction: a panel that came out of a control on the page. */
+    --sds-dropdown-panel-shadow: var(--shadow-flyout);
+    --sds-dropdown-panel-z: 20;
+    --sds-dropdown-item-pad-x: var(--space-3);
+    --sds-dropdown-item-pad-y: var(--space-2);
+    --sds-dropdown-item-gap: var(--space-2);
+    --sds-dropdown-item-radius: var(--radius-control);
+    --sds-dropdown-item-ink: var(--text-secondary);
+    --sds-dropdown-item-ink-hover: var(--text-primary);
+    --sds-dropdown-item-ink-active: var(--text-primary);
+    --sds-dropdown-item-fill-hover: var(--surface-sunken);
+    --sds-dropdown-item-fill-active: var(--surface-accent-quiet);
+    --sds-dropdown-item-mark: var(--accent);
+    --sds-dropdown-item-size: var(--font-size-body);
+    --sds-dropdown-item-leading: var(--leading-body);
+    --sds-dropdown-marker-size: var(--control-icon-size);
+    /* The same figure the button draws a disabled control at, stated here
+       because a set reads from itself and never from another component's. */
+    --sds-dropdown-item-disabled-opacity: 0.5;
+    --sds-dropdown-duration: var(--duration-fast);
+    --sds-dropdown-ease: var(--ease-out);
+
+    position: relative;
+    display: inline-block;
+  }
+
+  /* The marker that says this button opens something, rather than acts. It
+     turns to point at the panel it has opened, so the control says which state
+     it is in without a second word. */
+  .sds-dropdown__button {
+    .sds-dropdown__marker {
+      --sds-icon-size: var(--sds-dropdown-marker-size);
+      transition: transform var(--sds-dropdown-duration) var(--sds-dropdown-ease);
+    }
+
+    &[aria-expanded="true"] .sds-dropdown__marker {
+      transform: rotate(180deg);
+    }
+  }
+
+  /* The list. It leaves the flow, because a panel that pushes the page down is
+     one that moves what the reader was aiming at while they aim at it. */
+  .sds-dropdown__panel {
+    position: absolute;
+    z-index: var(--sds-dropdown-panel-z);
+    inset-block-start: calc(100% + var(--sds-dropdown-panel-gap));
+    inset-inline-start: 0;
+    min-width: var(--sds-dropdown-panel-min);
+    max-width: var(--sds-dropdown-panel-max);
+    padding: var(--sds-dropdown-panel-pad);
+    display: flex;
+    flex-direction: column;
+    background: var(--sds-dropdown-panel-fill);
+    border: var(--sds-dropdown-panel-border) solid var(--sds-dropdown-panel-edge);
+    border-radius: var(--sds-dropdown-panel-radius);
+    box-shadow: var(--sds-dropdown-panel-shadow);
+
+    /* `hidden` is what the element sets, and a flex container overrules it —
+       so it is said again here, where the display was taken away. */
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  /* Hung from the end where the button sits at the end of a row: a list that
+     always opened to the start would run off the page from a control in the
+     corner, which is where a bar puts one. */
+  sds-dropdown[align="end"] .sds-dropdown__panel {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+  }
+
+  /* One row. A link and a command draw the same, because what a reader picks
+     is the label either way — the difference is what it is announced as. */
+  .sds-dropdown__item {
+    font: inherit;
+    font-size: var(--sds-dropdown-item-size);
+    line-height: var(--sds-dropdown-item-leading);
+    display: flex;
+    align-items: center;
+    gap: var(--sds-dropdown-item-gap);
+    padding: var(--sds-dropdown-item-pad-y) var(--sds-dropdown-item-pad-x);
+    width: 100%;
+    text-align: start;
+    cursor: pointer;
+    color: var(--sds-dropdown-item-ink);
+    background: none;
+    border: 0;
+    border-radius: var(--sds-dropdown-item-radius);
+    text-decoration: none;
+    transition:
+      background var(--sds-dropdown-duration) var(--sds-dropdown-ease),
+      color var(--sds-dropdown-duration) var(--sds-dropdown-ease);
+
+    &:hover {
+      color: var(--sds-dropdown-item-ink-hover);
+      background: var(--sds-dropdown-item-fill-hover);
+    }
+
+    /* The one in force. Marked with the accent down its start edge rather than
+       with a tick at the end: the edge is where a reader scanning a column of
+       labels already is, and it costs the row no width. */
+    &.is-active {
+      color: var(--sds-dropdown-item-ink-active);
+      background: var(--sds-dropdown-item-fill-active);
+      box-shadow: inset 2px 0 0 0 var(--sds-dropdown-item-mark);
+    }
+
+    &[aria-disabled="true"] {
+      cursor: not-allowed;
+      opacity: var(--sds-dropdown-item-disabled-opacity);
+    }
+
+    .sds-icon {
+      --sds-icon-size: var(--sds-dropdown-marker-size);
+    }
+  }
+}
