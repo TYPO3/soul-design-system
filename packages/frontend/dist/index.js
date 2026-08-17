@@ -2785,16 +2785,21 @@ ${" ".repeat(indent)}`;
 
 // packages/frontend/src/components/dropdown.ts
 var seq2 = 0;
-var SdsDropdown = class extends SdsElement {
+var SdsDropdown = class _SdsDropdown extends SdsElement {
   constructor() {
     super();
     this.panelId = `sds-dropdown-panel-${++seq2}`;
-    /* A panel left standing over the page after a press somewhere else is a
-       panel the reader has to dismiss before they can carry on reading. */
-    this.onOutside = (event) => {
-      if (!this.open) return;
-      if (event.composedPath().includes(this)) return;
-      this.open = false;
+    /** The anchor this panel is placed against, named per instance. One name
+        shared by every dropdown on a page resolves to whichever one the browser
+        met last, so each states its own and reads only that. */
+    this.anchor = `--${this.panelId}`;
+    /** What the browser did, read back rather than assumed. Light dismiss and
+        Escape are the platform's here, so a press outside or a key this element
+        never saw still arrives as a state change — and `aria-expanded`, the
+        marker and the placement all follow this one event. */
+    this.onToggle = (event) => {
+      this.open = event.newState === "open";
+      if (!_SdsDropdown.anchored) this.open ? this.follow() : this.unfollow();
     };
     this.label = "";
     this.name = "";
@@ -2818,14 +2823,55 @@ var SdsDropdown = class extends SdsElement {
       open: { type: Boolean, state: true }
     };
   }
-  connectedCallback() {
-    super.connectedCallback();
-    if (typeof document === "undefined") return;
-    document.addEventListener("pointerdown", this.onOutside);
-  }
   disconnectedCallback() {
-    document.removeEventListener("pointerdown", this.onOutside);
+    this.following?.abort();
+    this.following = void 0;
     super.disconnectedCallback();
+  }
+  get panel() {
+    return this.querySelector(".sds-dropdown__panel");
+  }
+  get button() {
+    return this.querySelector(".sds-dropdown__button");
+  }
+  /** Whether the browser places a popover against its anchor on its own. Where
+      it does, the stylesheet is the whole of the placement; where it does not,
+      `follow` below is. Asked of the engine rather than of a version. */
+  static get anchored() {
+    return typeof CSS !== "undefined" && CSS.supports?.("anchor-name", "--a") === true;
+  }
+  /** The placement, where the engine has no anchor of its own: the panel is in
+      the top layer, so it is positioned against the viewport and the button's
+      box is where that is read from. Re-read while the page moves under it —
+      scroll is taken in the capture phase, because the thing that scrolls is
+      as often a box on the page as the page itself. */
+  follow() {
+    const place = () => {
+      const panel = this.panel;
+      const button = this.button;
+      if (!panel || !button) return;
+      const at = button.getBoundingClientRect();
+      const gap = parseFloat(getComputedStyle(panel).getPropertyValue("--sds-dropdown-panel-gap")) || 0;
+      panel.style.positionArea = "none";
+      panel.style.insetBlockStart = `${at.bottom + gap}px`;
+      if (this.align === "end") {
+        panel.style.insetInlineStart = "auto";
+        panel.style.insetInlineEnd = `${document.documentElement.clientWidth - at.right}px`;
+      } else {
+        panel.style.insetInlineEnd = "auto";
+        panel.style.insetInlineStart = `${at.left}px`;
+      }
+    };
+    this.following?.abort();
+    this.following = new AbortController();
+    const { signal } = this.following;
+    place();
+    addEventListener("scroll", place, { capture: true, passive: true, signal });
+    addEventListener("resize", place, { passive: true, signal });
+  }
+  unfollow() {
+    this.following?.abort();
+    this.following = void 0;
   }
   /** The whole name, with the label still in it. Dropping the visible word
       would leave a control nobody can ask for by the name they can see. */
@@ -2843,10 +2889,7 @@ var SdsDropdown = class extends SdsElement {
   }
   onKey(event) {
     if (event.key === "Escape") {
-      if (!this.open) return;
-      event.stopPropagation();
-      this.open = false;
-      this.querySelector(".sds-dropdown__button")?.focus();
+      if (this.open) event.stopPropagation();
       return;
     }
     if (!this.commands) return;
@@ -2855,7 +2898,7 @@ var SdsDropdown = class extends SdsElement {
     if (!rows.length) return;
     event.preventDefault();
     if (!this.open) {
-      this.open = true;
+      this.panel?.showPopover();
       const first = event.key === "ArrowUp" || event.key === "End";
       void this.updateComplete.then(() => {
         const now = this.rows();
@@ -2890,7 +2933,7 @@ var SdsDropdown = class extends SdsElement {
       })
     );
     if (!told) event.preventDefault();
-    this.open = false;
+    this.panel?.hidePopover();
   }
   entry(choice, index) {
     const inside = choice.icon ? html11`<sds-icon name="${choice.icon}"></sds-icon>${choice.label}` : html11`${choice.label}`;
@@ -2931,21 +2974,22 @@ var SdsDropdown = class extends SdsElement {
   <button
     type="button"
     class="${cls}"
+    style="anchor-name: ${this.anchor}"
     title="${this.iconOnly ? this.called : nothing5}"
     aria-label="${this.name && !this.iconOnly ? this.called : nothing5}"
     aria-haspopup="${commands ? "menu" : nothing5}"
     aria-expanded="${this.open ? "true" : "false"}"
     aria-controls="${this.panelId}"
-    @click="${() => {
-      this.open = !this.open;
-    }}"
+    popovertarget="${this.panelId}"
   >${inside}</button>
   <div
     class="sds-dropdown__panel"
     id="${this.panelId}"
+    popover
+    style="position-anchor: ${this.anchor}"
     role="${commands ? "menu" : nothing5}"
     aria-label="${commands ? this.called : nothing5}"
-    ?hidden="${!this.open}"
+    @toggle="${this.onToggle}"
   >
     ${lines(this.choices.map((choice, at) => this.entry(choice, at)), 4)}
   </div>

@@ -144,6 +144,16 @@ takes the variants and sizes every other one does. What a dropdown says about
 itself — expanded, and which panel it controls — is written on the ``<button>``
 itself, which is why it is not an ``<sds-button>`` with attributes on it.
 
+**The panel is a popover.** The top layer holds it, so no ancestor's overflow
+clips it and nothing on the page can be stacked over it; opening, the press
+outside that closes it, Escape and the focus returning to the button are the
+platform's. Placement is the one part that is not: where the engine has anchor
+positioning the stylesheet does it, and where it has not the element measures
+the button and writes the edges itself. Only ever one of the two — an area
+derived from an anchor is a containing block of its own, and an edge measured
+against the viewport dropped into it lands offset by whatever the anchor was
+inset by.
+
 .. confval:: choices
    :name: sds-dropdown-choices
    :type: DropdownChoice[]

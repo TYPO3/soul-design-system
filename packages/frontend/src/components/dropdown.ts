@@ -7,6 +7,12 @@
    announcement, and announcing menu commands over a list of pages is a promise
    the panel cannot keep.
 
+   The panel is a popover, so the top layer holds it: no ancestor's overflow
+   clips it and nothing on the page can be stacked over it. Opening, light
+   dismiss, Escape and the focus going back to the button are the platform's
+   too. Placement is the one part that is not — where the engine has anchor
+   positioning the stylesheet does it, and where it has not this places it.
+
    The button is written from `buttonClass` rather than as `<sds-button>`: what
    a dropdown says about itself — expanded, and what it controls — belongs on
    the `<button>`, and an attribute set on a custom element never reaches it.
@@ -99,6 +105,13 @@ export class SdsDropdown extends SdsElement {
   declare open: boolean;
 
   private readonly panelId = `sds-dropdown-panel-${++seq}`;
+  /** The anchor this panel is placed against, named per instance. One name
+      shared by every dropdown on a page resolves to whichever one the browser
+      met last, so each states its own and reads only that. */
+  private readonly anchor = `--${this.panelId}`;
+  /** Where the panel is while it is open, for the browsers that place it from
+      script. Held so the same listeners can be taken off again. */
+  private following?: AbortController;
 
   constructor() {
     super();
@@ -112,24 +125,74 @@ export class SdsDropdown extends SdsElement {
     this.open = false;
   }
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    if (typeof document === 'undefined') return;
-    document.addEventListener('pointerdown', this.onOutside);
-  }
-
   override disconnectedCallback(): void {
-    document.removeEventListener('pointerdown', this.onOutside);
+    this.following?.abort();
+    this.following = undefined;
     super.disconnectedCallback();
   }
 
-  /* A panel left standing over the page after a press somewhere else is a
-     panel the reader has to dismiss before they can carry on reading. */
-  private readonly onOutside = (event: Event): void => {
-    if (!this.open) return;
-    if (event.composedPath().includes(this)) return;
-    this.open = false;
+  private get panel(): HTMLElement | null {
+    return this.querySelector<HTMLElement>('.sds-dropdown__panel');
+  }
+
+  private get button(): HTMLElement | null {
+    return this.querySelector<HTMLElement>('.sds-dropdown__button');
+  }
+
+  /** Whether the browser places a popover against its anchor on its own. Where
+      it does, the stylesheet is the whole of the placement; where it does not,
+      `follow` below is. Asked of the engine rather than of a version. */
+  private static get anchored(): boolean {
+    return typeof CSS !== 'undefined' && CSS.supports?.('anchor-name', '--a') === true;
+  }
+
+  /** What the browser did, read back rather than assumed. Light dismiss and
+      Escape are the platform's here, so a press outside or a key this element
+      never saw still arrives as a state change — and `aria-expanded`, the
+      marker and the placement all follow this one event. */
+  private readonly onToggle = (event: Event): void => {
+    this.open = (event as ToggleEvent).newState === 'open';
+    if (!SdsDropdown.anchored) this.open ? this.follow() : this.unfollow();
   };
+
+  /** The placement, where the engine has no anchor of its own: the panel is in
+      the top layer, so it is positioned against the viewport and the button's
+      box is where that is read from. Re-read while the page moves under it —
+      scroll is taken in the capture phase, because the thing that scrolls is
+      as often a box on the page as the page itself. */
+  private follow(): void {
+    const place = (): void => {
+      const panel = this.panel;
+      const button = this.button;
+      if (!panel || !button) return;
+      const at = button.getBoundingClientRect();
+      const gap = parseFloat(getComputedStyle(panel).getPropertyValue('--sds-dropdown-panel-gap')) || 0;
+      /* The stylesheet's placement, given up before this one is written. An
+         area derived from the anchor is a containing block of its own, and an
+         edge measured against the viewport put into it lands offset by
+         whatever the anchor was inset by. Only one of the two may be in force. */
+      panel.style.positionArea = 'none';
+      panel.style.insetBlockStart = `${at.bottom + gap}px`;
+      if (this.align === 'end') {
+        panel.style.insetInlineStart = 'auto';
+        panel.style.insetInlineEnd = `${document.documentElement.clientWidth - at.right}px`;
+      } else {
+        panel.style.insetInlineEnd = 'auto';
+        panel.style.insetInlineStart = `${at.left}px`;
+      }
+    };
+    this.following?.abort();
+    this.following = new AbortController();
+    const { signal } = this.following;
+    place();
+    addEventListener('scroll', place, { capture: true, passive: true, signal });
+    addEventListener('resize', place, { passive: true, signal });
+  }
+
+  private unfollow(): void {
+    this.following?.abort();
+    this.following = undefined;
+  }
 
   /** The whole name, with the label still in it. Dropping the visible word
       would leave a control nobody can ask for by the name they can see. */
@@ -149,11 +212,12 @@ export class SdsDropdown extends SdsElement {
   }
 
   private onKey(event: KeyboardEvent): void {
+    /* The browser closes the popover and puts the focus back on the button
+       that opened it. What is left to do is keep the key here: a dropdown
+       inside the bar would otherwise close the drawer around it in the same
+       press, and a reader who asked for one thing would lose two. */
     if (event.key === 'Escape') {
-      if (!this.open) return;
-      event.stopPropagation();
-      this.open = false;
-      this.querySelector<HTMLElement>('.sds-dropdown__button')?.focus();
+      if (this.open) event.stopPropagation();
       return;
     }
 
@@ -168,7 +232,7 @@ export class SdsDropdown extends SdsElement {
     /* Opening with a key steps into the list in the same breath, from the end
        the key came from. */
     if (!this.open) {
-      this.open = true;
+      this.panel?.showPopover();
       const first = event.key === 'ArrowUp' || event.key === 'End';
       void this.updateComplete.then(() => {
         const now = this.rows();
@@ -209,8 +273,9 @@ export class SdsDropdown extends SdsElement {
     if (!told) event.preventDefault();
     /* Choosing is what the panel was opened for. It closes whether or not
        anything moved, because a panel still standing reads as a press that did
-       nothing. */
-    this.open = false;
+       nothing. Asked of the panel rather than of the state: the browser owns
+       whether a popover is open, and `open` is this element reading that back. */
+    this.panel?.hidePopover();
   }
 
   private entry(choice: DropdownChoice, index: number): TemplateResult {
@@ -258,23 +323,30 @@ export class SdsDropdown extends SdsElement {
         class="sds-dropdown__marker"
         name="actions-chevron-down"
       ></sds-icon>`;
+    /* `popovertarget` rather than a handler: the browser opens it, closes it on
+       a press outside or on Escape, puts the focus back on this button, and
+       draws it in the top layer where no ancestor's overflow can clip it. All
+       of that used to be written here, and none of it was as correct. */
     return html`<div class="sds-dropdown" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">
   <button
     type="button"
     class="${cls}"
+    style="anchor-name: ${this.anchor}"
     title="${this.iconOnly ? this.called : nothing}"
     aria-label="${this.name && !this.iconOnly ? this.called : nothing}"
     aria-haspopup="${commands ? 'menu' : nothing}"
     aria-expanded="${this.open ? 'true' : 'false'}"
     aria-controls="${this.panelId}"
-    @click="${() => { this.open = !this.open; }}"
+    popovertarget="${this.panelId}"
   >${inside}</button>
   <div
     class="sds-dropdown__panel"
     id="${this.panelId}"
+    popover
+    style="position-anchor: ${this.anchor}"
     role="${commands ? 'menu' : nothing}"
     aria-label="${commands ? this.called : nothing}"
-    ?hidden="${!this.open}"
+    @toggle="${this.onToggle}"
   >
     ${lines(this.choices.map((choice, at) => this.entry(choice, at)), 4)}
   </div>

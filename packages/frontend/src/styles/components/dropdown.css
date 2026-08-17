@@ -7,9 +7,10 @@
 }
 
 @layer components {
-  /* The button and its panel, as one box. Positioned, because the panel hangs
-     from the control rather than from the page: a list placed against anything
-     else moves away from what opened it the moment a row above it wraps. */
+  /* The button and its panel as one box. The panel is a popover and leaves for
+     the top layer when it opens, so this box positions nothing — it is the
+     anchor the panel is placed against and the ancestor its set is read from,
+     both of which survive the move. */
   .sds-dropdown {
     --sds-dropdown-panel-min: 12rem;
     --sds-dropdown-panel-max: var(--width-sidebar);
@@ -22,7 +23,6 @@
     /* The same pair `sds-search` hangs its hits from, because it is the same
        construction: a panel that came out of a control on the page. */
     --sds-dropdown-panel-shadow: var(--shadow-flyout);
-    --sds-dropdown-panel-z: 20;
     --sds-dropdown-item-pad-x: var(--space-3);
     --sds-dropdown-item-pad-y: var(--space-2);
     --sds-dropdown-item-gap: var(--space-2);
@@ -42,7 +42,6 @@
     --sds-dropdown-duration: var(--duration-fast);
     --sds-dropdown-ease: var(--ease-out);
 
-    position: relative;
     display: inline-block;
   }
 
@@ -60,36 +59,41 @@
     }
   }
 
-  /* The list. It leaves the flow, because a panel that pushes the page down is
-     one that moves what the reader was aiming at while they aim at it. */
+  /* The list, in the top layer. Everything undone here is the browser's own
+     idea of a popover — centred in the viewport, framed, with padding of its
+     own — and every one of those is this component's decision to make. The
+     edges are left at `auto` because what sets them is the placement below. */
   .sds-dropdown__panel {
-    position: absolute;
-    z-index: var(--sds-dropdown-panel-z);
-    inset-block-start: calc(100% + var(--sds-dropdown-panel-gap));
-    inset-inline-start: 0;
+    position: fixed;
+    inset: auto;
+    margin: 0;
     min-width: var(--sds-dropdown-panel-min);
     max-width: var(--sds-dropdown-panel-max);
     padding: var(--sds-dropdown-panel-pad);
-    display: flex;
-    flex-direction: column;
     background: var(--sds-dropdown-panel-fill);
     border: var(--sds-dropdown-panel-border) solid var(--sds-dropdown-panel-edge);
     border-radius: var(--sds-dropdown-panel-radius);
     box-shadow: var(--sds-dropdown-panel-shadow);
 
-    /* `hidden` is what the element sets, and a flex container overrules it —
-       so it is said again here, where the display was taken away. */
-    &[hidden] {
-      display: none;
+    /* Only while it is open. A `display` stated flat would beat the rule that
+       hides a closed popover, and the list would stand on the page always. */
+    &:popover-open {
+      display: flex;
+      flex-direction: column;
     }
   }
 
-  /* Hung from the end where the button sits at the end of a row: a list that
-     always opened to the start would run off the page from a control in the
-     corner, which is where a bar puts one. */
-  sds-dropdown[align="end"] .sds-dropdown__panel {
-    inset-inline-start: auto;
-    inset-inline-end: 0;
+  /* Placed by the engine where it can be. The panel hangs under the button and
+     runs the way the row has room: from the button's start edge, or back over
+     the row from its end, which is what a control in a corner needs. */
+  @supports (anchor-name: --sds-dropdown) {
+    .sds-dropdown__panel {
+      position-area: block-end span-inline-end;
+      margin-block-start: var(--sds-dropdown-panel-gap);
+    }
+    sds-dropdown[align="end"] .sds-dropdown__panel {
+      position-area: block-end span-inline-start;
+    }
   }
 
   /* One row. A link and a command draw the same, because what a reader picks

@@ -292,6 +292,7 @@ the built stylesheets).
 | `defaults` | unclassed content — what a page gets before it reaches for a class |
 | `content` | content between an element's tags survives its upgrade |
 | `forms` | a form of these elements submits what it shows, and a reset puts back what the markup said |
+| `dropdown` | the popover a dropdown opens: not clipped by a box that clips, placed under its button by either route, and closing the way the platform closes one |
 | `highlight` | every language `CodeLang` promises is actually registered |
 | `manager` | the Storybook shell itself boots |
 | `search` | a hit in the site index resolves from a page below the root |
