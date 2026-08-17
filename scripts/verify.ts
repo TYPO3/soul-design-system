@@ -128,12 +128,11 @@ interface Check {
 /* Every check, in the order the gate runs them. Nothing here reads a value
    another one computed — a check is the unit that can be run alone. */
 const CHECKS: readonly Check[] = [
-  /* What is generated from an npm package and not kept by git. A clone that
-     skipped `npm ci` has none of it, and every card then renders in system-ui
-     with no glyph to draw from — which looks like a design bug and is not one.
-     The single icons rather than the whole directory: the sprite beside them
-     is committed, and a check that counted both would pass on a tree that
-     cannot rebuild the module the singles are read into. */
+  /* What is generated from an npm package. All of it is committed now — a
+     package is packed from a checkout — so this is no longer about a clone
+     that skipped `npm ci`, but about a tree where a generator half ran or
+     something was deleted. Empty, every card renders in system-ui with no
+     glyph to draw from, which looks like a design bug and is not one. */
   {
     name: 'assets',
     label: 'the generated fonts and icons are there',

@@ -7,10 +7,11 @@
 # therefore presents an empty `fonts/`, and every card renders in system-ui,
 # which looks like a design bug and is not one.
 #
-# What is asked about is what git does not keep, and nothing else. Everything a
-# package ships is committed now, so the single icons are the whole of it: ask
-# after the directory above them and this never runs again, which is how a
-# green tree on a desk arrived red in CI.
+# Everything generated is committed now, so a clone arrives complete and these
+# two questions are answered "yes" on any tree that came from git. What is left
+# is repair: a directory somebody emptied, or a generator that stopped halfway.
+# Ask after a directory rather than what is inside it and this stops running
+# entirely, which is how a green tree on a desk once arrived red in CI.
 #
 # Regenerating is a few hundred milliseconds and idempotent.
 set -e

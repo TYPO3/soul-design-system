@@ -36,7 +36,6 @@
     "fonts/",
     "assets/",
     "!assets/placeholders",
-    "!assets/icons/svgs",
     "!assets/icons.json"
   ],
   "engines": {

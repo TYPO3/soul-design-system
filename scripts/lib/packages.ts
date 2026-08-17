@@ -24,8 +24,11 @@ const FROM_THEME = ['composer.json', 'README.md', 'LICENSE', 'src', 'resources/c
    no ESM package and reads no declarations. */
 const NOT_IN_THE_DROP_IN = ['index.js', 'index.js.map', 'types', 'tsconfig.json'];
 
-/* And what the npm package leaves out, which its manifest names as well. */
-const NOT_IN_THE_PACKAGE = [join('assets', 'placeholders'), join('assets', 'icons', 'svgs')];
+/* And what the npm package leaves out, which its manifest names as well. The
+   single icons are not in this list: the lookup that ships beside them names
+   every one of them by path, and a package answering that path with nothing is
+   worse than a package that is merely large. */
+const NOT_IN_THE_PACKAGE = [join('assets', 'placeholders')];
 
 /** Every file under a directory, relative to it — the package, not the
     repository it is kept in. */
@@ -169,6 +172,20 @@ export const PACKAGES: readonly Package[] = [
 
       if (!existsSync(join(pkg, 'fonts')) || readdirSync(join(pkg, 'fonts')).length === 0) {
         missing.push('fonts/ is empty — every surface linking this falls back to system-ui');
+      }
+
+      /* The lookup is a promise about paths, and it is the only file here that
+         makes one. Asked of every entry rather than of the directory: half the
+         icons present is the shape this went wrong in, and a mirror cannot
+         rebuild them — it has neither the script nor the package they come from. */
+      const lookup = join(pkg, 'assets', 'icons', 'icons.json');
+      if (existsSync(lookup)) {
+        const { icons } = JSON.parse(readFileSync(lookup, 'utf8')) as { icons: Record<string, { svg: string }> };
+        const named = Object.values(icons);
+        const absent = named.filter((icon) => !existsSync(join(pkg, 'assets', 'icons', icon.svg)));
+        if (absent.length) {
+          missing.push(`assets/icons/icons.json names ${named.length} icon(s) and ${absent.length} of them are not in the package — ${absent[0]?.svg} is the first`);
+        }
       }
       const manifest = JSON.parse(readFileSync(join(pkg, 'package.json'), 'utf8')) as { name?: string; private?: boolean };
       if (manifest.name !== '@typo3/soul-frontend') missing.push(`package.json names ${manifest.name}, not @typo3/soul-frontend`);
