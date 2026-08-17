@@ -80,14 +80,19 @@ itself, which is why the job passes no `--provenance` flag. npm trusts one
 workflow file by name, so the job lives in `ci.yml` rather than in a called
 workflow — moving it means changing the configuration below in the same breath.
 
-Configured once, from npm CLI 11.10.0 or later, by a maintainer of the package:
+Configured once, from npm CLI 11.10.0 or later, by a maintainer of the package,
+and after the first publish below — the configuration is attached to a package
+that already exists:
 
 ```sh
 npm trust github @typo3/soul-frontend \
-  --file .github/workflows/ci.yml \
+  --file ci.yml \
   --repo TYPO3/soul-design-system \
   --allow-publish
 ```
+
+`--file` takes the workflow's name and refuses a path: npm resolves it under
+`.github/workflows/` itself.
 
 Then set the package to require two-factor authentication and disallow tokens.
 That is npm's own recommendation and it costs this workflow nothing, because an
