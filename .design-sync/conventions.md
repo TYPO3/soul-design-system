@@ -87,6 +87,13 @@ Classes are prefixed `sds-`, with `__element`, `--modifier`, and `.is-active` /
 `--radius-none|control|card|pill`, `--focus-offset|--focus-halo`, `--duration-*`,
 `--ease-*`. Use `--accent`, never the raw `--orange-*` scale.
 
+**The semantic colours are named, not patterned.** Surfaces are `--surface-canvas`,
+`--surface-raised`, `--surface-sunken`, `--surface-inset`, `--surface-overlay`; text is
+`--text-primary`, `--text-secondary`, `--text-muted`, `--text-link`, `--text-on-accent`;
+borders are `--border-subtle`, `--border-strong`, `--border-emphasis`. Guessing from the
+pattern is how a surface called *page*, or text called *default*, comes to be written:
+such a name resolves to nothing, paints nothing, and no check anywhere reports it.
+
 The focus ring is drawn from the last two plus `--border-emphasis` and
 `--accent-ring`, and from nothing else: a surface that turns it inwards or
 drops the halo writes that with the same tokens, never with a number.
@@ -183,6 +190,12 @@ attributes and what goes between its tags — read that before writing one. Per 
 `components/<Group>/<Name>/<Name>.prompt.md` has the markup to copy.
 `guidelines/build-rules.md` is the full rule set. Copy the nearest specimen rather
 than inventing a variant.
+
+A product this system is used for brings its own mark and its own pictures:
+`guidelines/signet-prompt.md` draws a signet to the construction, and
+`guidelines/illustration-prompt.md` extends the picture set. The marks under `assets/`
+belong to the products named on them — reach for the prompt rather than for one of
+those, and say so where a mark is missing.
 
 ## A worked example
 
