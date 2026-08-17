@@ -140,17 +140,13 @@ kills reloading.
 
 ## Using it in another project
 
-There is no npm registry release yet. Until there is one, install the public
-frontend mirror by a tag or commit; a branch is a moving target and can change
-without a commit in the consuming project:
+The frontend is on npm, published from the tag the public mirror carries:
 
-```json
-"devDependencies": {
-  "@typo3/soul-frontend": "github:TYPO3/soul-frontend#<tag>"
-}
+```sh
+npm install @typo3/soul-frontend lit
 ```
 
-The mirror is assembled from `packages/frontend/` and carries the committed
+The package is assembled from `packages/frontend/` and carries the committed
 `dist/`, fonts and brand assets. No build runs on install: the package entry is
 `dist/index.js`, with Lit as a peer dependency.
 
@@ -159,10 +155,9 @@ import '@typo3/soul-frontend';                 // every sds- element
 import '@typo3/soul-frontend/dist/soul.css';   // tokens + class layer
 ```
 
-Install `lit` beside it. Do not import `src/index.ts` from a git dependency:
-the source tree refers to generated icon modules that are restored in this
-repository, while the package entry and the committed drop-in already contain
-what a consumer needs.
+Install `lit` beside it. Import the entry and not `src/index.ts`: the sources
+ship along, but they are TypeScript a consumer would have to compile, and the
+entry is what the manifest's exports resolve.
 
 **One stylesheet, documents included.** What a renderer emits and never gives a
 class — headings, paragraphs, lists, quotes, tables, code — is in `soul.css`

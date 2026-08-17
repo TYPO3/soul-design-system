@@ -30,11 +30,11 @@ Copy the directory whole. `soul.css` asks for `fonts/` beside itself and
 ## Or as a package
 
 ```sh
-npm install github:TYPO3/soul-frontend#main lit
+npm install @typo3/soul-frontend lit
 ```
 
-This mirror is where the package is published; it installs under the name in
-its manifest, which is what the imports below resolve.
+Published on npm from the tag this mirror carries, so a version in a
+`package.json` is a version, not a branch that moves under the project.
 
 ```js
 import '@typo3/soul-frontend';
@@ -45,6 +45,11 @@ The package entry is `dist/index.js`, which leaves `lit` external — never
 `dist/soul.js`, the drop-in above, which carries its own copy. `lit` is a peer
 dependency for that reason: two copies of it in a page give a consumer a second
 reactive-element registry, and elements upgrade under the wrong one.
+
+npm resolves that peer on its own, so the elements work without naming it. It
+is on the line above for the project that writes templates of its own: an
+import of `lit` there wants a dependency the project declares, not one it
+happens to find hoisted.
 
 ## What a page can write
 

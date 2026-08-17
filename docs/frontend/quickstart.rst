@@ -21,7 +21,7 @@ Choose how the files arrive
 
       .. code-block:: bash
 
-         npm install github:TYPO3/soul-frontend#main lit
+         npm install @typo3/soul-frontend lit
 
       Import the package entry and the stylesheet from the application's
       JavaScript entry:
