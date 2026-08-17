@@ -11,6 +11,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { pathsOf } from './lib/anchor.ts';
 import { GENERATED, ROOT } from './lib/cards.ts';
 import * as report from './lib/report.ts';
 
@@ -28,4 +29,4 @@ copyFileSync(BUILT, CACHE);
 
 const a = JSON.parse(readFileSync(CACHE, 'utf8'));
 report.fact('`make design-status` compares against this state from now on');
-report.summary(`${Object.keys(a.renderHashes).length} cards \u00b7 ${a.files?.length ?? '?'} files recorded as uploaded`);
+report.summary(`${Object.keys(a.renderHashes).length} cards \u00b7 ${pathsOf(a).length} files recorded as uploaded`);

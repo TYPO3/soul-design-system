@@ -58,8 +58,29 @@ const elementsChanged = wasElements
   ? Object.keys(nowElements).filter((n) => wasElements[n] !== nowElements[n]).sort()
   : Object.keys(nowElements).sort();
 
+/* Everything the rows above do not already speak for: the tokens' values, the
+   fonts, the illustrations, the guidelines, and the README the conventions
+   header is folded into. `auxSha` stood here and hashed the names in `tokens/`
+   alone, so all of it changed without the anchor noticing — a rewritten header
+   reached the design agent's prompt while this reported nothing to do. */
+const SPOKEN_FOR = /^(components|screens)\//;
+const CARRIED = '_ds_needs_recompile'; // its own step in the plan, and constant
+const wasFiles = remote.fileHashes as Record<string, string> | undefined;
+const nowFiles = (local.fileHashes ?? {}) as Record<string, string>;
+const otherChanged = Object.keys(nowFiles)
+  .filter((f) => !SPOKEN_FOR.test(f) && f !== CARRIED && (!wasFiles || wasFiles[f] !== nowFiles[f]))
+  .sort();
+
+/* One row per top directory rather than six hundred paths: the answer wanted
+   here is which part of the system moved, and the plan holds the list. */
+const byArea = new Map<string, number>();
+for (const f of otherChanged) {
+  const area = f.includes('/') ? f.slice(0, f.indexOf('/')) : f;
+  byArea.set(area, (byArea.get(area) ?? 0) + 1);
+}
+
 if (!added.length && !changed.length && !removed.length && !styling && !screensChanged.length
-  && !elementsChanged.length) {
+  && !elementsChanged.length && !otherChanged.length) {
   report.summary(`nothing to do — every one of the ${cards.length} cards is at the uploaded state`);
   process.exit(0);
 }
@@ -71,11 +92,16 @@ const MOVED = [
   ['screens changed', screensChanged],
   ['elements changed', elementsChanged],
 ] as const;
-report.align(MOVED.map(([label]) => ({ name: label, label })));
+report.align([...MOVED.map(([label]) => ({ name: label, label })),
+  { name: 'other files changed', label: 'other files changed' }]);
 for (const [label, names] of MOVED) {
   if (names.length) report.fact(label, `${names.length}: ${names.join(', ')}`);
+}
+if (otherChanged.length) {
+  report.fact('other files changed',
+    `${otherChanged.length}: ${[...byArea].map(([a, n]) => `${a} ${n}`).join(', ')}`);
 }
 if (styling) report.note('tokens or components changed — this reaches every rendered design');
 report.fact('next, in Claude Code', '/design-sync');
 report.summary(`${added.length + changed.length + removed.length + screensChanged.length
-  + elementsChanged.length} thing(s) would move`);
+  + elementsChanged.length + otherChanged.length} thing(s) would move`);

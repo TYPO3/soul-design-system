@@ -366,10 +366,16 @@ if (badRefs.length) {
 writeFileSync(join(OUT, '_ds_needs_recompile'), JSON.stringify({ by: 'design-sync-cli' }));
 writeFileSync(join(OUT, '.ds-build-meta.json'),
   JSON.stringify({ componentCount: list.length, shape: 'css-design-system' }, null, 2));
-/* `files` is written before the anchor exists on disk, so add it by hand —
-   it is uploaded, and the next sync needs to see it in the previous list to
-   avoid proposing it as an orphan. */
-const files = [...new Set([...uploadFiles(OUT), '_ds_sync.json'])].sort();
+/* A hash per uploaded file, so a re-sync can push what moved instead of all of
+   it. This replaces an `auxSha` that hashed the *names* in `tokens/` and
+   nothing else, under which an edited token value, a redrawn icon and a
+   rewritten conventions header all produced a byte-identical anchor. The
+   anchor's own name is missing because it cannot hash itself, and a stale one
+   from a previous build is skipped for the same reason; readers add it back. */
+const fileHashes: Record<string, string> = {};
+for (const rel of uploadFiles(OUT).sort()) {
+  if (rel !== '_ds_sync.json') fileHashes[rel] = sha12(readFileSync(join(OUT, rel)));
+}
 writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
   shape: 'css-design-system',
   styleSha: sha12(styles + sheets()),
@@ -380,9 +386,8 @@ writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
   keyRecipe: 'sha256-12 of the card html as emitted',
   scriptsSha: sha12(readFileSync(join(ROOT, 'scripts/build.ts'))),
   sourceHashes: header.sourceHashes,
-  auxSha: sha12(readdirSync(join(OUT, 'tokens')).sort().join(',')),
   bundleSha12: sha12(readFileSync(join(OUT, ELEMENTS_JS))),
-  files,
+  fileHashes,
 }, null, 2));
 
 const groups = byGroup(list);

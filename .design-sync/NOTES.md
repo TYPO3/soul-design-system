@@ -117,10 +117,11 @@ generated from the build and the previous anchor, so it cannot forget a
 renamed file the way a hand-derived list can — that is precisely how 19
 renamed font files were left orphaned in the project.
 
-Deletes come from the anchor's `files` list, which `scripts/build.ts`
-records. An anchor without that field (anything uploaded before this was
-added) makes the plan say so and refuse to guess: compare `list_files`
-against the build yourself that one time.
+Deletes come from the anchor's `fileHashes`, whose keys are every path
+`scripts/build.ts` uploaded; the anchor's own name is added back by
+`scripts/lib/anchor.ts`, since a file cannot hash itself. An anchor with
+neither that nor the older `files` array makes the plan say so and refuse to
+guess: compare `list_files` against the build yourself that one time.
 
 **Chunk the content write at 100 files, not the documented 256.** The tool's
 own limit is 256 per `write_files`, and a call of exactly that — 256 files,
@@ -131,15 +132,24 @@ payload: 4 files totalling 614 KB go through, and so do 23 files totalling
 anyway at roughly a megabyte each. A 500 is not a reason to stop — send one
 small call first to tell a sick API apart from an oversized one, then resize.
 
-**Nothing in the anchor proves the assets unchanged, which is why the plan
-uploads all of them.** `auxSha` is `sha12` of the *filenames* in `tokens/` and
-nothing else — not their content, and not `fonts/`, `assets/` or
-`guidelines/`. Between them `styleSha`, `renderHashes`, `screenHashes`,
-`elementHashes` and `bundleSha12` cover the stylesheets, the cards, the
-screens, the element contracts and the bundle; everything else is covered by
-no hash at all. A re-sync that "only uploads what changed" from the anchor
-diff is therefore guessing about 14 MB of illustrations and every font file.
-Upload the whole list the plan names.
+**The anchor hashes every file, and step 2 is only what moved.** It did not
+always: `auxSha` stood where `fileHashes` is now and hashed the *filenames* in
+`tokens/` alone, so an edited token value, a redrawn icon, a replaced
+illustration and a rewritten `conventions.md` all produced a byte-identical
+anchor. `design-status` answered "nothing to do" while the header being
+inlined into the design agent's prompt had changed underneath it, and the only
+reason no upload was ever wrong is that the plan pushed all 670 files every
+time regardless.
+
+Two things follow, and the second is the one to be careful with. A re-sync now
+pushes the delta, so a run that reports far fewer files than the last one is
+working rather than broken — the sync that introduced this still pushed all
+670, because the anchor it compared against hashed nothing, and the one after
+it pushed a single file. And the
+delta is trustworthy *because* the anchor is written last: finding it in the
+project means everything before it landed. `_ds_bundle.js` is exempt and
+always pushed, because the app overwrites it with a stub of its own after
+every upload, so what the anchor says was sent is never what is up there.
 
 **The sentinel needs an explicit `mimeType`, and the plan carries one.**
 `_ds_needs_recompile` has no file extension. Uploaded like everything else —

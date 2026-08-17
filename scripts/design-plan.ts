@@ -15,6 +15,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { ANCHOR_FILE, hashesOf, pathsOf } from './lib/anchor.ts';
 import { GENERATED, ROOT } from './lib/cards.ts';
 import { ELEMENTS_JS } from './lib/elements.ts';
 import * as report from './lib/report.ts';
@@ -23,7 +24,6 @@ const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
 const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
 const OUT = join(ROOT, '.design-sync/.cache/upload-plan.json');
 const SENTINEL = '_ds_needs_recompile';
-const ANCHOR_FILE = '_ds_sync.json';
 
 /* The sentinel has no file extension, and that is enough to lose it: uploaded
    the ordinary way `write_files` answers `written: 1` and the file is not there
@@ -43,7 +43,7 @@ if (!existsSync(BUILT)) {
   process.exit(1);
 }
 const local = JSON.parse(readFileSync(BUILT, 'utf8'));
-if (!local.files) {
+if (!local.fileHashes) {
   report.summary('the build knows no file list', ['run `make build` with the current build.ts']);
   process.exit(1);
 }
@@ -68,24 +68,38 @@ function readProjectId(): string | null {
 const projectId = readProjectId();
 
 /* Content files: everything except the two that carry their own step. */
-const content = (local.files as string[]).filter((f) => f !== SENTINEL && f !== ANCHOR_FILE);
+const localPaths = pathsOf(local);
+const content = localPaths.filter((f) => f !== SENTINEL && f !== ANCHOR_FILE);
+
+/* The app overwrites `_ds_bundle.js` with a stub of its own after every upload,
+   so the anchor's record of what was sent is never what the project holds. It
+   is the one file a hash comparison must not be trusted about. */
+const ALWAYS = new Set([ '_ds_bundle.js' ]);
 
 /* Deletes need the previous file list. Without a cached anchor we cannot
    know what is up there, so we say so instead of guessing — an unfounded
    delete is worse than a missed one. */
 let deletes: string[] = [];
 let deletable = true;
+let moved: string[] | null = null;
 if (existsSync(ANCHOR)) {
   const remote = JSON.parse(readFileSync(ANCHOR, 'utf8'));
-  if (Array.isArray(remote.files)) {
-    const have = new Set<string>(local.files);
-    deletes = (remote.files as string[]).filter((f) => !have.has(f)).sort();
+  const remotePaths = pathsOf(remote);
+  if (remotePaths.length) {
+    const have = new Set<string>(localPaths);
+    deletes = remotePaths.filter((f) => !have.has(f)).sort();
   } else {
     deletable = false; // anchor predates file tracking
   }
+  /* Only what moved, and only against an anchor that hashed every file: it is
+     written last precisely so that finding it means everything before it
+     landed. An older anchor vouches for no content, so that sync sends all. */
+  const was = hashesOf(remote);
+  if (was) moved = content.filter((f) => ALWAYS.has(f) || was[f] !== local.fileHashes[f]);
 } else {
   deletable = false;
 }
+const upload = moved ?? content;
 
 /* Asked before anything is written, because it cannot be answered afterwards:
    the type is fixed when a project is created, so a push into an ordinary one
@@ -120,7 +134,10 @@ const plan = {
     /* The tool's own maximum is 256 files and a call of exactly that answers
        HTTP 500 — it is the count and not the payload, since 23 files carrying
        2.4 MB go through. A 500 here is answered by resizing, never by stopping. */
-    { step: 2, action: 'write', why: 'all content, chunked at <=100 files and <=2 MB', files: content },
+    {
+      step: 2, action: 'write', files: upload,
+      why: `${moved ? 'the files this build moved' : 'all content'}, chunked at <=100 files and <=2 MB`,
+    },
     { step: 3, action: 'delete', why: 'files this build no longer produces', paths: deletes },
     { step: 4, action: 'write', why: 'sentinel re-armed so the app rebuilds its manifest', files: [SENTINEL], ...SENTINEL_UPLOAD },
     { step: 5, action: 'write', why: 'the anchor vouches for everything above — always last', files: [ANCHOR_FILE] },
@@ -146,7 +163,8 @@ report.fact('project', projectId ?? '(none set — see below)');
 report.fact('before it writes', projectId
   ? 'get_project — the target is a design system, or nothing is written'
   : 'create_project — there is no target yet');
-report.fact('the order it uploads in', `1 sentinel · 2 ${content.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor · 6 read the sentinel back`);
+report.fact('the order it uploads in', `1 sentinel · 2 ${upload.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor · 6 read the sentinel back`);
+if (moved) report.fact('held back', `${content.length - upload.length} file(s) already at the uploaded state`);
 if (deletes.length) {
   report.fact('to delete', `${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
 }
@@ -161,7 +179,11 @@ if (!deletable) {
   report.note('no reference state with a file list — deletes were NOT computed');
   report.detail('Fetch the anchor from the project and run again:');
   report.detail('DesignSync get_file  _ds_sync.json  ->  .design-sync/.cache/remote-sync.json');
-  report.detail('If it carries no "files" (an upload from before this change), hold list_files against the build once.');
+  report.detail('If it carries no "fileHashes" (an upload from before this change), hold list_files against the build once.');
+}
+if (!moved) {
+  report.note('the reference state hashes no files \u2014 every file is uploaded this once');
+  report.detail('An anchor written before per-file hashes can say what is up there, not what is in it.');
 }
 report.fact('after a successful upload', 'make design-synced');
-report.summary(`${content.length} files \u00b7 ${deletes.length} deletes`);
+report.summary(`${upload.length} files \u00b7 ${deletes.length} deletes`);
