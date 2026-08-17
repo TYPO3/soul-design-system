@@ -10,11 +10,9 @@ import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 
-import * as esbuild from 'esbuild';
-
 import { FRONTEND, GENERATED, ROOT, byGroup, cards, screens, type Card } from './lib/cards.ts';
 import { inlineImports } from './lib/css.ts';
-import { elements, type ElementDoc } from './lib/elements.ts';
+import { ELEMENTS_JS, elements, type ElementDoc } from './lib/elements.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
 import * as report from './lib/report.ts';
 
@@ -130,7 +128,7 @@ function opening(doc: string): string {
 
 /** The element's own contract, as types — its properties, with what they say. */
 function elementDts(e: ElementDoc): string {
-  const out = [`/** <${e.tag}> — ${e.purpose}`, ' *', ` *  Registered as \`${e.className}\` by \`_ds_bundle.js\`. Address the element;`,
+  const out = [`/** <${e.tag}> — ${e.purpose}`, ' *', ` *  Registered as \`${e.className}\` by \`${ELEMENTS_JS}\`. Address the element;`,
     ' *  the classes in `_ds_bundle.css` are what it emits, not a second way to build.', ' */', ''];
   /* What a value of this shape is stands in the source; here it is only that
      the value is not a string, so the property is set from script rather than
@@ -164,7 +162,7 @@ function elementPrompt(e: ElementDoc): string {
     .slice(0, 3);
   const attrs = shown.map((p) => ` ${p.attribute}="${/'([^']*)'/.exec(p.type)?.[1] ?? '…'}"`).join('');
   const out = [`${e.tag} — ${e.purpose}`, '',
-    `Registered as \`${e.className}\` by \`_ds_bundle.js\`, and written as an element:`, '',
+    `Registered as \`${e.className}\` by \`${ELEMENTS_JS}\`, and written as an element:`, '',
     '```html', `<${e.tag}${attrs}>${e.takesContent ? '…' : ''}</${e.tag}>`, '```', ''];
   if (e.props.length) {
     out.push('## Attributes', '', '| Attribute | Type | What it is |', '| --- | --- | --- |');
@@ -228,23 +226,17 @@ const styles = read('src/styles/styles.css')
 
 writeFileSync(join(OUT, 'styles.css'), styles);
 
-/* The real bundle: the namespace carries the Lit elements in `src/`, so the
-   design agent can reach them. They render light DOM and emit the same `sds-`
-   classes, which keeps `_ds_bundle.css` the single source for styling. The
-   cards stay static HTML — the pane opens them without this bundle, which is
-   why `scripts/cards.ts` renders the same templates to markup. */
-const bundleSrc = join(FRONTEND, 'src', 'index.ts');
-const built = await esbuild.build({
-  entryPoints: [bundleSrc],
-  bundle: true,
-  format: 'iife',
-  globalName: NS,
-  target: 'es2022',
-  minify: true,
-  legalComments: 'none',
-  write: false,
-});
-const bundleJs = built.outputFiles[0]?.text ?? '';
+/* The elements are the drop-in's own file, copied. Building them a second time
+   here would be a second set of options over one source, and the one that ships
+   would be the one nothing tests: `make dist` is checked against `src/`, the
+   suite links exactly this file, and it resolves the icon sprite against its own
+   URL — which holds because `assets/` sits beside it here as it does there. */
+const bundleSrc = join(FRONTEND, 'dist', 'soul.js');
+if (!existsSync(bundleSrc)) {
+  report.summary('no drop-in to ship', ['run `make dist` first — the bundle is its `soul.js`']);
+  process.exit(1);
+}
+const bundleJs = readFileSync(bundleSrc, 'utf8');
 
 /* Every registered tag ships its contract, because the app compiles the header
    below into the component API the design agent is given — and an agent given
@@ -282,6 +274,12 @@ const header = {
   sourceHashes: { 'components.css': sha12(sheets()), 'styles.css': sha12(styles) },
   inlinedExternals: [],
 };
+/* Under its own name it ships byte for byte, so what a design links is what a
+   project installs. `_ds_bundle.js` is the app's name and the app rebuilds it
+   from sources it can compile — ours are none of them, and what it leaves there
+   registers nothing — so that copy carries the header this repository checks
+   and nothing depends on it surviving. */
+writeFileSync(join(OUT, ELEMENTS_JS), bundleJs);
 writeFileSync(join(OUT, '_ds_bundle.js'), `/* @ds-bundle: ${JSON.stringify(header)} */\n${bundleJs}`);
 
 // cards
@@ -383,7 +381,7 @@ writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
   scriptsSha: sha12(readFileSync(join(ROOT, 'scripts/build.ts'))),
   sourceHashes: header.sourceHashes,
   auxSha: sha12(readdirSync(join(OUT, 'tokens')).sort().join(',')),
-  bundleSha12: sha12(readFileSync(join(OUT, '_ds_bundle.js'))),
+  bundleSha12: sha12(readFileSync(join(OUT, ELEMENTS_JS))),
   files,
 }, null, 2));
 

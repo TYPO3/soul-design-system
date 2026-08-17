@@ -334,7 +334,8 @@ because that is the shape the pane expects:
    .out/bundle/
      styles.css          the entry point a rendered design links
      _ds_bundle.css      the class layer
-     _ds_bundle.js       the elements, bundled
+     soul.js             the elements, bundled — what a design links
+     _ds_bundle.js       the same bundle under the app's own name, which it overwrites
      _specimen.css       the chrome the cards are drawn with
      tokens/             every value, one file per family
      fonts/  assets/     the faces, the icons, the marks
@@ -377,21 +378,30 @@ Why every element ships a contract
 
 A card cannot carry a custom element, so the cards alone describe a system of
 classes — and an agent that is handed only classes writes classes. The elements
-are named separately: the ``@ds-bundle`` header on ``_ds_bundle.js`` lists every
-registered tag with the class it exports and the path to its contract, and the
-app compiles that into the component API a design is written against.
+are named separately, in two places.
+
+``components/Elements/<Class>/`` is what the elements *are*: a ``.d.ts`` and a
+``.prompt.md`` per registered tag, compiled by ``scripts/lib/elements.ts`` out of
+the element's own source — the properties Lit registers, the attribute each
+answers to, and what the props interface says about it. Read rather than written
+down, because a second copy of a component's surface stops being true at the next
+property.
+
+``soul.js`` is the bundle that registers them, and a design links it the way a
+project does — ``<script type="module" src="soul.js"></script>``. It is
+``packages/frontend/dist/soul.js`` copied in, not built again: one file, checked
+against ``src/`` by ``make verify ARGS=dist`` and linked by the ``dropin`` suite,
+so what a design links is what a project installs. ``make build`` therefore wants
+``make dist`` to have run, and stops if it has not.
 
 .. warning::
 
-   The entries are read by ``name`` and ``sourcePath``. A header naming its
-   components any other way loads without complaint and compiles to an empty
-   component list, which reads in the pane exactly like a design system that has
-   no components at all.
-
-``scripts/lib/elements.ts`` reads each contract out of the element's own source
-— the properties Lit registers, the attribute each answers to, and what the
-props interface says about it. Read rather than written down, because a second
-copy of a component's surface stops being true at the next property.
+   Never ``_ds_bundle.js``. That name belongs to the app, which rebuilds the file
+   from component sources it can compile — this system ships none it recognises —
+   and writes an empty namespace over whatever was uploaded. A design linking it
+   loads a script that registers nothing, every element stays an unknown tag, and
+   ``_ds_manifest.json`` reports ``"components": []`` however the bundle header
+   that arrived was spelled.
 
 What the gate checks
 ====================

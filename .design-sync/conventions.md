@@ -46,15 +46,24 @@ Reach it with `<sds-figure zoomable>` or `<sds-image zoomable>` rather than by h
 ## Setup
 
 One stylesheet, one script, one class. `styles.css` carries the tokens and the class
-layer, `_ds_bundle.js` registers every element on the page, and `sds-app` on the root
-establishes the canvas, the sans stack and the text colour — without it you inherit
-the browser's Times New Roman on white.
+layer, `soul.js` registers every element on the page, and `sds-app` on the
+root establishes the canvas, the sans stack and the text colour — without it you
+inherit the browser's Times New Roman on white.
 
 ```html
 <link rel="stylesheet" href="styles.css">
-<script src="_ds_bundle.js" defer></script>
+<script type="module" src="soul.js"></script>
 <body class="sds-app"> … </body>
 ```
+
+`soul.js` is the file a project installs, unchanged — a module, so `type="module"`
+is part of the line, and the elements register themselves. There is no global to
+reach for and nothing to call.
+
+**It is `soul.js`, never `_ds_bundle.js`.** That second name belongs to the
+surrounding app, which rebuilds the file from sources of its own and leaves an empty
+namespace behind: a page linking it loads a script that registers nothing, and every
+element on it stays an unknown tag that draws nothing.
 
 **Leave the script out and you are writing the fallback.** The elements are what this
 system is used through; without them a page keeps the classes, and every part name in

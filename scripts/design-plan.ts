@@ -16,6 +16,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { GENERATED, ROOT } from './lib/cards.ts';
+import { ELEMENTS_JS } from './lib/elements.ts';
 import * as report from './lib/report.ts';
 
 const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
@@ -110,7 +111,7 @@ const plan = {
   localDir: './.out/bundle',
   finalizePlan: {
     writes: ['components/**', 'screens/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**',
-      '_ds_bundle.js', '_ds_bundle.css', '_specimen.css', 'styles.css', 'README.md',
+      '_ds_bundle.js', ELEMENTS_JS, '_ds_bundle.css', '_specimen.css', 'styles.css', 'README.md',
       ANCHOR_FILE, SENTINEL],
     deletes: ['components/**', 'screens/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**'],
   },

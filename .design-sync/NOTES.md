@@ -24,6 +24,32 @@ namespace; any note claiming that predates this and is wrong. The count is
 not written down here on purpose — `make verify` checks the header against
 the build, which is the only place it stays true.
 
+**The app rebuilds `_ds_bundle.js` and what it writes there registers nothing.**
+Read the file back out of a project and it is the app's own, not the upload: a
+`format: 4` header, `"components": []`, `unexposedExports`, and a body that
+does no more than create `window.SDS`. It is compiled from component sources
+the app can read — `.jsx` from a React kit — and this system ships none of
+those, so the 174 KB that went up is replaced by a stub. `_ds_manifest.json` is
+compiled from that stub, which is why its component list is empty whatever the
+uploaded header says. So the bundle also ships as **`soul.js`** — the drop-in's
+own name, since it is the drop-in's own code, and a name the app does not claim.
+That is what the conventions header tells a design to link. Check it after a
+sync: `DesignSync get_file soul.js` should be the real bundle, and a design
+linking `_ds_bundle.js` upgrades nothing.
+
+**It is `packages/frontend/dist/soul.js`, copied.** The bundle used to build the
+elements a second time with options of its own, which put a file nothing tests
+in front of the design agent while the suite went on linking the drop-in. So
+`make build` needs `make dist` to have run, and says so rather than shipping
+nothing; `make verify ARGS=dist` is what holds that copy against `src/`. It is a
+module and exposes no global — the `namespace` in the header is the app's field,
+not a promise this file keeps.
+
+The class layer is not copied the same way. `soul.css` is one file with the
+tokens folded in, while the pane reads `tokens/*.css` as separate files to build
+its token index, so the bundle keeps the split and hands over `styles.css` plus
+`_ds_bundle.css`.
+
 **The header's component entries are read by `name` and `sourcePath`**, and
 each names a contract under `components/Elements/<Class>/`. Anything else in an
 entry is ignored — `tag` is kept because `make verify ARGS=conventions` holds

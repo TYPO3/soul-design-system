@@ -40,6 +40,12 @@ export interface ElementDoc {
 
 const COMPONENTS = join(FRONTEND, 'src', 'components');
 
+/* What a design links to get the elements — the drop-in's own name, since it is
+   the drop-in's own code, packed for a page that links it rather than imports
+   it. Not `_ds_bundle.js`: that name belongs to the design app, which rebuilds
+   the file from sources it can compile and leaves an empty namespace there. */
+export const ELEMENTS_JS = 'soul.js';
+
 /** From the opening `{` at `open`, the text it encloses. */
 function braced(src: string, open: number): string {
   let depth = 0;
