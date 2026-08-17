@@ -30,6 +30,8 @@ use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
 use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
+use TYPO3\Soul\GuidesTheme\Nodes\StepNode;
+use TYPO3\Soul\GuidesTheme\Nodes\StepsNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SurfaceNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SwatchNode;
 
@@ -277,6 +279,8 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => ButtonBarNode::class, 'file' => 'body/directive/button-bar.html.twig', 'format' => 'html'],
                 ['node' => AccordionNode::class, 'file' => 'body/directive/accordion.html.twig', 'format' => 'html'],
                 ['node' => AccordionItemNode::class, 'file' => 'body/directive/accordion-item.html.twig', 'format' => 'html'],
+                ['node' => StepsNode::class, 'file' => 'body/directive/steps.html.twig', 'format' => 'html'],
+                ['node' => StepNode::class, 'file' => 'body/directive/step.html.twig', 'format' => 'html'],
                 ['node' => ExampleNode::class, 'file' => 'body/directive/example.html.twig', 'format' => 'html'],
             ],
         ]);

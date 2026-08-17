@@ -25,6 +25,8 @@ import './components/nav-pills.ts';
 import './components/nav-main.ts';
 import './components/accordion.ts';
 import './components/accordion-item.ts';
+import './components/steps.ts';
+import './components/step.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/nav-rail.ts';
@@ -75,6 +77,8 @@ export { SdsNavPills } from './components/nav-pills.ts';
 export { SdsNavMain } from './components/nav-main.ts';
 export { SdsAccordion, type AccordionProps, type Entry } from './components/accordion.ts';
 export { SdsAccordionItem } from './components/accordion-item.ts';
+export { SdsSteps, type StepsProps, type Step } from './components/steps.ts';
+export { SdsStep } from './components/step.ts';
 export { SdsTabs } from './components/tabs.ts';
 export { SdsTabItem } from './components/tab-item.ts';
 export { SdsNavRail } from './components/nav-rail.ts';
@@ -133,6 +137,8 @@ export const TAGS = [
   'sds-nav-main',
   'sds-accordion',
   'sds-accordion-item',
+  'sds-steps',
+  'sds-step',
   'sds-tabs',
   'sds-tab-item',
   'sds-nav-rail',

@@ -1,0 +1,57 @@
+<!-- @dsCard group="Components" viewport="700x657" subtitle="Numbers down one rail — the claim that step two follows step one" name="An instruction, step by step" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/styles.css" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec">
+    <div class="sds-steps" role="list">
+      <div
+        class="sds-steps__step"
+        role="listitem">
+        <p class="sds-steps__title">Require the package</p>
+        <p>It brings the renderer, the highlighter and the Markdown
+            parser with it, so this one line is all four.</p>
+          <div class="sds-code">
+      <div class="sds-code__head">
+        <span class="sds-code__lang">bash</span>
+    
+      </div>
+      <pre class="sds-code__body"><span class="sds-code__prompt">$</span> <span class="sds-code__cmd">composer require typo3/soul-guides-theme</span></pre>
+    </div>
+      </div><div
+        class="sds-steps__step"
+        role="listitem">
+        <p class="sds-steps__title">Select the theme</p>
+        <p>In <span class="sds-mono">guides.xml</span> beside the
+            documents: <span class="sds-mono">theme="soul"</span> names it, and the
+            <span class="sds-mono">&lt;extension&gt;</span> element is what makes it
+            exist.</p>
+      </div><div
+        class="sds-steps__step sds-steps__step--optional"
+        role="listitem">
+        <p class="sds-steps__title">Draw the signet<span class="sds-label">Optional</span></p>
+        <p>A project with no mark takes its title in the bar, which is
+            where a name belongs when there is only one.</p>
+      </div><div
+        class="sds-steps__step"
+        role="listitem">
+        <p class="sds-steps__title">Render the site</p>
+        <p>The first command writes documents; the second turns them
+            into a site.</p>
+          <div class="sds-code">
+      <div class="sds-code__head">
+        <span class="sds-code__lang">bash</span>
+    
+      </div>
+      <pre class="sds-code__body"><span class="sds-code__prompt">$</span> <span class="sds-code__cmd">vendor/bin/guides docs --output=site -c docs</span></pre>
+    </div>
+      </div>
+    </div>
+    <div class="spec-cap">ROLE=LIST · THE NUMBER IS A COUNTER · AN UNFILLED DISC IS A STOP THAT MAY BE SKIPPED</div>
+  </div>
+</body>
+</html>

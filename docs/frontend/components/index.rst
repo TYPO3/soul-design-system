@@ -158,6 +158,10 @@ which group it was filed under.
    * - ``sds-stat``
      - a number stated as a fact
      - :ref:`Content — sds-stat <component-sds-stat>`
+   * - ``sds-steps``, ``sds-step``
+     - an instruction read from the top, numbered down one rail
+     - :ref:`Content — sds-steps <component-sds-steps>`,
+       :ref:`sds-step <component-sds-step>`
    * - ``sds-surface``
      - a filled plane holding a statement
      - :ref:`Content — sds-surface <component-sds-surface>`

@@ -1,0 +1,20 @@
+{#
+    One stop of an instruction, and the blocks that carry it out.
+
+    The title is a property because it fits in one; the work is between the tags
+    because a command, a file to edit and the output that says it worked are not
+    what an attribute carries.
+
+    The page's address for one stop arrives as `anchor`, which is what the
+    element spells it: `name` on a node is taken by the address already, and here
+    there is nothing to open before it can be read.
+#}
+<sds-step
+    heading="{{ node.option('heading') }}"
+    {%- if node.option('anchor') %} anchor="{{ node.option('anchor') }}"{% endif %}
+    {%- if node.option('optional') %} optional{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-step>

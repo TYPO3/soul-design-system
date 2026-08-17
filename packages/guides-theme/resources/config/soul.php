@@ -20,6 +20,8 @@ use TYPO3\Soul\GuidesTheme\Directives\QuoteDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SplitDirective;
 use TYPO3\Soul\GuidesTheme\Directives\StatDirective;
+use TYPO3\Soul\GuidesTheme\Directives\StepDirective;
+use TYPO3\Soul\GuidesTheme\Directives\StepsDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SurfaceDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SwatchDirective;
 use TYPO3\Soul\GuidesTheme\Navigation\Menu;
@@ -92,6 +94,13 @@ return static function (ContainerConfigurator $container): void {
         ->set(AccordionDirective::class)
         ->tag('phpdoc.guides.directive')
         ->set(AccordionItemDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* An instruction and its stops, numbered by the set rather than by
+           whoever wrote it — see `StepsDirective`. */
+        ->set(StepsDirective::class)
+        ->tag('phpdoc.guides.directive')
+        ->set(StepDirective::class)
         ->tag('phpdoc.guides.directive')
 
         /* What was written and what it renders as, from one body — see

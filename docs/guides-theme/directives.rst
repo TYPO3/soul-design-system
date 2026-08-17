@@ -54,6 +54,9 @@ no template to copy.
    * - ``accordion``, ``accordion-item``
      - questions with their answers folded behind them
      - ``sds-accordion``
+   * - ``steps``, ``step``
+     - an instruction read from the top, numbered down one rail
+     - ``sds-steps``
    * - ``example``
      - a piece of markup and, under it, what it renders as
      - ``sds-code`` in ``.sds-example``
@@ -994,6 +997,103 @@ One question, and the blocks folded behind it.
 a preference: an answer is paragraphs, lists and code blocks, which is what no
 attribute carries. The node is ``sds-accordion-item`` itself and the template
 writes none of its markup — the same arrangement as the cards above.
+
+steps
+=====
+
+An instruction read from the top, numbered down one rail.
+
+.. example:: Three stops, one of them skippable
+
+   .. steps::
+
+      .. step:: Require the package
+
+         It brings the renderer, the highlighter and the Markdown parser with
+         it, so this one line is all four.
+
+      .. step:: Select the theme
+
+         ``theme="soul"`` in ``guides.xml`` names it, and the ``<extension>``
+         element is what makes it exist — see :doc:`installation`.
+
+      .. step:: Draw the signet
+         :optional:
+
+         A project with no mark takes its title in the bar, which is where a
+         name belongs when there is only one.
+
+.. confval:: class
+   :name: steps-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**No option numbers a stop, and there is none to add.** The number is the set's
+own count, so a step written into the middle renumbers everything under it and
+no page is edited in two places — which is the whole reason to write a set
+rather than four paragraphs each opening with a figure somebody typed. For the
+same reason there is nothing here saying how far along a reader is: a rendered
+page does not know, and a manual that guessed would be wrong for every reader
+but one.
+
+Use it where the order is the point. Things to do in any order are a bullet
+list, and a numbered list the renderer already makes from ``#.`` is the right
+shape for steps that are one line each — this one is for stops that carry a
+command, a file to edit and the output that says it worked. The element is
+``sds-steps`` in :doc:`/frontend/components/content`.
+
+step
+====
+
+One stop of an instruction, and the blocks that carry it out.
+
+.. example:: One stop, with the work under it
+
+   .. steps::
+
+      .. step:: Render the site
+         :name: render-the-site
+
+         The first command writes documents; the second turns them into a site.
+
+         .. code-block:: bash
+
+            vendor/bin/guides docs --output=site -c docs --fail-on-error
+
+It stands inside a ``steps``, and that is not a formality: a stop draws a
+number, a number is a place in a set, and a step written anywhere else is
+simply the blocks it holds — the way a ``half`` outside a ``split`` is the
+column it was going to be.
+
+.. confval:: optional
+   :type: flag
+
+   A stop that may be skipped. The disc is left unfilled and the word stands
+   beside the title: an unfilled ring says nothing to a reader who cannot see
+   it, so the drawing is never the whole of the claim.
+
+.. confval:: name
+   :name: step-name
+   :type: string
+
+   The address of this one stop, for a page that links to it — as
+   ``:name:`` means everywhere else. It lands on the stop itself, and nothing
+   has to be opened first: a step is not folded away, which is the one thing
+   that made ``accordion-item`` put its address on the answer instead.
+
+.. confval:: class
+   :name: step-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**The title is the argument and the work is what follows it**, for the reason a
+question and its answer are written that way: a command, a file to edit and the
+line that says it worked are what no attribute carries. The title takes no
+heading level either — what tells a reader where they are in an instruction is
+the number, and a page whose outline is its steps has buried its own sections
+under them.
 
 example
 =======

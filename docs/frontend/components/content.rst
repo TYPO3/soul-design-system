@@ -556,6 +556,80 @@ when. A page that puts the date first has published a date.
    note, a file. Initials derived from a filename are a person invented for a
    source that has none.
 
+.. _component-sds-steps:
+.. _component-sds-step:
+
+sds-steps, sds-step
+===================
+
+An instruction read from the top, numbered down one rail.
+
+.. code-block:: html
+
+   <sds-steps>
+     <sds-step heading="Require the package">
+       <p>It brings the renderer and the highlighter with it.</p>
+       <sds-code code-lang="bash">
+         <code>composer require typo3/soul-guides-theme</code>
+       </sds-code>
+     </sds-step>
+     <sds-step heading="Draw the signet" optional anchor="the-signet">
+       <p>A project with no mark takes its title in the bar.</p>
+     </sds-step>
+   </sds-steps>
+
+For work that has an order. The numbers are the claim that step two follows
+step one, so a set of things to do in any order is a list and not this. They
+are the set's own count as well: a stop put in the middle renumbers everything
+under it, and nothing writes a figure.
+
+**It is a list said in ARIA rather than in** ``<ol>``. Every element in this
+system draws its class box inside itself, which leaves one generic standing
+between a list and its items — and that is a list a browser stops counting.
+So the set carries ``role="list"``, every stop carries ``role="listitem"``, and
+a reader is told how many steps there are and which one this is.
+
+**A stop belongs to a set, and everything a stop draws is scoped to one.** The
+disc, the rail and the title register are declared under ``.sds-steps``, so an
+``sds-step`` standing on its own is the blocks it holds and nothing else — no
+disc and no number, because a number is a place in a set and outside one there
+is none to state.
+
+.. confval:: steps
+   :name: sds-steps-steps
+   :type: "{ heading, body, optional?, anchor? }[]"
+
+   Where a page holds the instruction as data. A stop whose content is blocks —
+   what a documentation renderer hands over — goes between the tags as
+   ``sds-step`` instead, and then this stays empty.
+
+.. confval:: heading
+   :name: sds-steps-heading
+   :type: string
+
+   On ``sds-step``. What is done at this stop, in one line. Spelt ``heading``
+   like every other title here, and not ``title``, which is the global
+   attribute a browser draws as a tooltip. It is not a heading in the outline:
+   what says where a reader is in an instruction is the number, and a page whose
+   outline is its steps has buried its own sections under them.
+
+.. confval:: optional
+   :name: sds-steps-optional
+   :type: boolean
+   :default: false
+
+   A stop that may be skipped. The disc is left unfilled and the word stands
+   beside the title — an unfilled ring says nothing to a reader who cannot see
+   it, which is why the drawing is never the whole of the claim.
+
+.. confval:: anchor
+   :name: sds-steps-anchor
+   :type: string
+
+   The address of this one stop, for a page that links to it. It lands on the
+   stop itself: unlike an answer in an accordion, a step is not folded away, so
+   there is nothing to open before it can be read.
+
 .. _component-sds-note:
 
 sds-note

@@ -615,6 +615,41 @@ platform unfolds what a fragment points into.
 
       Opening this one leaves the one above it exactly as it was.
 
+An instruction, step by step
+============================
+
+The numbers are the set's own count, so a stop put in the middle renumbers
+everything under it and no line of this page says a figure. A stop holds blocks,
+which is why the work is written between the tags.
+
+.. steps::
+
+   .. step:: Require the package
+
+      It brings the renderer, the highlighter and the Markdown parser with it,
+      so this one line is all four.
+
+      .. code-block:: bash
+
+         composer require typo3/soul-guides-theme
+
+   .. step:: Select the theme
+      :name: select-the-theme
+
+      ``theme="soul"`` in ``guides.xml`` names it, and the ``<extension>``
+      element is what makes it exist. A stop with a ``:name:`` has an address of
+      its own: `this one <#select-the-theme>`__.
+
+   .. step:: Draw the signet
+      :optional:
+
+      The disc is left unfilled and the word stands beside the title, because a
+      ring says nothing to a reader who cannot see it.
+
+   .. step:: Render the site
+
+      Two commands, and the second is the one that turns documents into a site.
+
 Something shown as it is written
 ================================
 

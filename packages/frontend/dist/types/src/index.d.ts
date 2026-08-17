@@ -16,6 +16,8 @@ import './components/nav-pills.ts';
 import './components/nav-main.ts';
 import './components/accordion.ts';
 import './components/accordion-item.ts';
+import './components/steps.ts';
+import './components/step.ts';
 import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/nav-rail.ts';
@@ -64,6 +66,8 @@ export { SdsNavPills } from './components/nav-pills.js';
 export { SdsNavMain } from './components/nav-main.js';
 export { SdsAccordion, type AccordionProps, type Entry } from './components/accordion.js';
 export { SdsAccordionItem } from './components/accordion-item.js';
+export { SdsSteps, type StepsProps, type Step } from './components/steps.js';
+export { SdsStep } from './components/step.js';
 export { SdsTabs } from './components/tabs.js';
 export { SdsTabItem } from './components/tab-item.js';
 export { SdsNavRail } from './components/nav-rail.js';
@@ -96,4 +100,4 @@ export { SdsNavPager, type PagerProps } from './components/nav-pager.js';
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-eyebrow', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-field-group', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-nav-toc', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-icon-tile', 'sds-swatch', 'sds-grid', 'sds-search-result', 'sds-search-hits', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-badge', 'sds-eyebrow', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-field-group', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-steps', 'sds-step', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-nav-toc', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-icon-tile', 'sds-swatch', 'sds-grid', 'sds-search-result', 'sds-search-hits', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];

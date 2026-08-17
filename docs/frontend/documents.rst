@@ -113,9 +113,10 @@ Where block spacing lives
 
 A paragraph, list or heading carries its own step below it, in the flow
 contract — one distance for every block, whether or not it stands in a passage.
-Authored blocks also sit inside notes, accordion answers, cards and modal
-bodies, none of which has to be a document, and a step stated by the passage
-would leave two paragraphs in one of those surfaces touching.
+Authored blocks also sit inside notes, accordion answers, the stops of an
+instruction, cards and modal bodies, none of which has to be a document, and a
+step stated by the passage would leave two paragraphs in one of those surfaces
+touching.
 
 A passage adds what only a reading flow can know: the measure, the ink, and the
 air between the items of a list. A container that declares its own gap takes
