@@ -125,8 +125,8 @@ against the build yourself that one time.
 **Chunk the content write at 100 files, not the documented 256.** The tool's
 own limit is 256 per `write_files`, and a call of exactly that — 256 files,
 906 KB — answers `HTTP 500 internal`. It is the file count rather than the
-payload: 4 files totalling 614 KB go through, and so do 6 files totalling
-1.8 MB, while the 256-file call fails whatever it carries. So the budget is
+payload: 4 files totalling 614 KB go through, and so do 23 files totalling
+2.4 MB, while the 256-file call fails whatever it carries. So the budget is
 **≤ 100 files and ≤ 2 MB per call**, which is what the placeholder PNGs need
 anyway at roughly a megabyte each. A 500 is not a reason to stop — send one
 small call first to tell a sick API apart from an oversized one, then resize.

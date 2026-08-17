@@ -117,7 +117,10 @@ const plan = {
   },
   steps: [
     { step: 1, action: 'write', why: 'sentinel fences the manifest machinery', files: [SENTINEL], ...SENTINEL_UPLOAD },
-    { step: 2, action: 'write', why: 'all content, chunked at <=256 files', files: content },
+    /* The tool's own maximum is 256 files and a call of exactly that answers
+       HTTP 500 — it is the count and not the payload, since 23 files carrying
+       2.4 MB go through. A 500 here is answered by resizing, never by stopping. */
+    { step: 2, action: 'write', why: 'all content, chunked at <=100 files and <=2 MB', files: content },
     { step: 3, action: 'delete', why: 'files this build no longer produces', paths: deletes },
     { step: 4, action: 'write', why: 'sentinel re-armed so the app rebuilds its manifest', files: [SENTINEL], ...SENTINEL_UPLOAD },
     { step: 5, action: 'write', why: 'the anchor vouches for everything above — always last', files: [ANCHOR_FILE] },
