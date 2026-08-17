@@ -179,6 +179,10 @@ that is the answer, not a reason to substitute something.
 - **Hover changes colour and border. Never position, never size.** Nothing lifts or scales.
 - **Icons: 16px floor**, sizes 16/20/24 only, inlined SVG so `currentColor` is inherited.
 - **Sentence case headings**, no marketing superlatives.
+- **The pictures are illustrations, and a person is not photographed.** What ships under
+  `assets/placeholders/` is the whole language; a face is a file to fetch, keep in step
+  and licence, and none of that is what naming somebody is for — `sds-byline` marks a
+  person with initials. A picture that has to be understood is a diagram instead.
 - An answer carries its source and version binding; an error names the command that
   fixes it. Use `sds-note--warn` for a degraded-but-usable answer, `--error` for none.
 
