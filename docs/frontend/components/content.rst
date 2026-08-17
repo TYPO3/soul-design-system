@@ -265,6 +265,10 @@ hairline and the wall gives each one its ground. **The frame is the wall's, not
 the stat's**: a figure anywhere else stays bare, so a set of numbers on a page
 is not a row of boxes.
 
+.. specimen:: components/data/stat.card.html
+   :viewport: 700x607
+   :title: Figures read as a set
+
 .. confval:: value
    :name: sds-stat-value
    :type: string

@@ -1,18 +1,21 @@
 /* A figure stated as a fact.
 
-   The markup lives in `src/components/stat.ts`. No `parameters.dsCard`: what
-   a stat looks like is the type scale, which `Guidelines → Type` already
-   draws. What it is *for* is only visible in a row of them on a page, which
-   is what `Pages/Feature` shows.
+   The markup lives in `src/components/stat.ts`. What a single stat looks like
+   is the type scale, which `Guidelines → Type` already draws — so the card is
+   generated from the set: four figures read against each other, which is the
+   only form in which a stat shows what it is for.
 
    The stories are the two ways one can be wrong: without its bound, and with
    a value that is a claim rather than a count. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/grid.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
+import { grid } from '../lib/page.ts';
+import { dsCard, DIVIDER, part, spec, specCap } from '../lib/specimen.ts';
 
 export const sdsStat = ({ value, unit, label, of, icon, note }: StatProps) =>
   html`<sds-stat
@@ -59,7 +62,7 @@ export const SOURCE_FACTS: readonly StatProps[] = [
 const meta: Meta<StatProps> = {
   title: 'Components/Stat',
   tags: ['autodocs', '!dev'],
-  excludeStories: ['SOURCE_FACTS'],
+  excludeStories: ['SOURCE_FACTS', 'specimenHtml'],
   render: (args) => sdsStat(args),
   argTypes: {
     value: { control: 'text' },
@@ -70,6 +73,14 @@ const meta: Meta<StatProps> = {
     note: { control: 'text' },
   },
   args: SOURCE_FACTS[0] as StatProps,
+  parameters: {
+    dsCard: dsCard({
+      path: 'components/data/stat.card.html',
+      name: 'Figures read as a set',
+      subtitle: 'A count, a share, a measurement and a zero — and the wall they stand in',
+      viewport: '700x607',
+    }),
+  },
 };
 
 export default meta;
@@ -130,12 +141,29 @@ const MIXED: readonly StatProps[] = [
    for the whole module, and the sidebar reads the name either way. */
 export const AsASet: Story = {
   name: 'Set',
-  render: () => html`<sds-grid variant="dense">${MIXED.map(sdsStat)}</sds-grid>`,
+  render: () => grid(MIXED.map(sdsStat), { variant: 'dense' }),
 };
 
 /** The same set as one wall. The gutter is out, so the figures share a
     hairline and the ground under each is the wall's, not the stat's — which is
     why a figure anywhere else is still bare. Nothing about the stat changes. */
 export const Wall: Story = {
-  render: () => html`<sds-grid variant="flush">${MIXED.map(sdsStat)}</sds-grid>`,
+  render: () => grid(MIXED.map(sdsStat), { variant: 'flush' }),
+};
+
+/** The card, which is the two stories above one under the other: what a set
+    decides is only visible against the same figures decided differently.
+    `flat` is the form a card can take — a set handed its items as a property,
+    an element given children being one a static render cannot flatten. */
+export const specimenHtml = (): string =>
+  spec([
+    part(grid(MIXED.map(sdsStat), { flat: true, variant: 'dense' })),
+    specCap('THE SET · A COUNT, A SHARE OF A STATED WHOLE, A MEASUREMENT, A ZERO THAT IS THE CLAIM'),
+    part(grid(MIXED.map(sdsStat), { flat: true, variant: 'flush' })),
+    specCap('THE SAME FIGURES AS ONE WALL · THE FRAME BELONGS TO THE WALL, NOT TO THE FIGURE', DIVIDER),
+  ]);
+
+export const Specimen: Story = {
+  parameters: { layout: 'fullscreen' },
+  render: () => html`${unsafeHTML(specimenHtml())}`,
 };
