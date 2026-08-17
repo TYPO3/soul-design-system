@@ -5,13 +5,14 @@
    whether they still stand alone, and `scripts/guides.ts` assembles the theme
    to render this site against the package instead of against the tree. */
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { join, relative, sep } from 'node:path';
 
 /* Every path that has moved is named twice: a mirror knowing only today's
    spelling replays half the history as an empty package. Newest first — the
    first one that exists in a tree is the one used. */
 const THEME_AT = ['packages/guides-theme', 'guides-theme'];
 const DROP_AT = ['packages/frontend/dist', 'dist'];
+const ASSETS_AT = ['packages/frontend/assets', 'assets'];
 
 /* What the theme package is made of. `acceptance/` is not in it: the control
    surface the theme is developed against, pointing at cards generated here.
@@ -23,6 +24,13 @@ const FROM_THEME = ['composer.json', 'README.md', 'LICENSE', 'src', 'resources/c
 /* The drop-in, minus the four that only ever reach npm: a PHP project installs
    no ESM package and reads no declarations. */
 const NOT_IN_THE_DROP_IN = ['index.js', 'index.js.map', 'types', 'tsconfig.json'];
+
+/* What the drop-in leaves out because no page fetches it, and the theme takes
+   anyway. This package is the whole of what a Composer project gets — it has
+   no npm install to reach for a single icon or an illustration — and these are
+   copied from where they are kept rather than through `dist/`, which stays the
+   few files a linked page asks for. */
+const FROM_ASSETS = [join('icons', 'svgs'), 'placeholders'];
 
 /* Nothing under `assets/` is left out of the package any more. Two things were:
    the single icons, which the lookup beside them names by path, and the
@@ -69,7 +77,7 @@ export const PACKAGES: readonly Package[] = [
   {
     name: 'guides-theme',
     remote: 'git@github.com:TYPO3/soul-guides-theme.git',
-    concerns: [...THEME_AT, ...DROP_AT],
+    concerns: [...THEME_AT, ...DROP_AT, ...ASSETS_AT],
     manifest: 'composer.json',
     at: (tree) => found(tree, THEME_AT, 'composer.json'),
 
@@ -92,6 +100,11 @@ export const PACKAGES: readonly Package[] = [
         for (const entry of readdirSync(drop)) {
           if (NOT_IN_THE_DROP_IN.includes(entry)) continue;
           cpSync(join(drop, entry), join(out, entry), { recursive: true });
+        }
+        const assets = found(tree, ASSETS_AT, 'icons.json');
+        for (const path of assets ? FROM_ASSETS : []) {
+          const from = join(assets as string, path);
+          if (existsSync(from)) cpSync(from, join(out, 'assets', path), { recursive: true });
         }
       }
       writeFileSync(join(into, '.gitignore'), 'vendor/\ncomposer.lock\n');
@@ -122,6 +135,17 @@ export const PACKAGES: readonly Package[] = [
       }
       if (!existsSync(join(drop, 'assets', 'icons', 'sprites'))) {
         missing.push('resources/dist/assets/icons/sprites/ is missing — every icon would be a blank box');
+      }
+      /* What a project has no second package to fetch from: the single icons
+         the lookup beside them names by path, and the illustrations a media
+         slot is filled with. */
+      for (const [path, breaks] of [
+        [join('assets', 'icons', 'svgs'), 'assets/icons/icons.json names every one of them by path'],
+        [join('assets', 'placeholders'), 'a card with a media slot has nothing to put in it'],
+      ] as const) {
+        if (!existsSync(join(drop, path)) || readdirSync(join(drop, path)).length === 0) {
+          missing.push(`resources/dist/${path.split(sep).join('/')}/ is empty — ${breaks}`);
+        }
       }
       const name = (JSON.parse(readFileSync(join(pkg, 'composer.json'), 'utf8')) as { name?: string }).name;
       if (name !== 'typo3/soul-guides-theme') missing.push(`composer.json names ${name}, not typo3/soul-guides-theme`);
