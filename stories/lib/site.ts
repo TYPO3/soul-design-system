@@ -11,6 +11,7 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/footer.ts';
 import '../../packages/frontend/src/components/nav-main.ts';
 import { type FooterGroup, type FooterLink } from '../../packages/frontend/src/components/footer.ts';
+import { type DropdownChoice } from '../../packages/frontend/src/components/dropdown.ts';
 import { type MenuEntry } from '../../packages/frontend/src/components/nav-base.ts';
 
 /* The site, as the one entry every navigation on it is given: the sections
@@ -59,6 +60,16 @@ export const siteMenu = (at: number): MenuEntry => ({
   ...SITE,
   items: (SITE.items ?? []).map((section, i) => (i === at ? { ...section, here: true } : section)),
 });
+
+/* The same site, said in the languages it is written in. A page belongs to one
+   of them and the bar names the rest — so the control is site chrome like the
+   sections and the columns are, and the targets are stubs for the same reason
+   they are above. */
+export const SITE_LANGUAGES: readonly DropdownChoice[] = [
+  { label: 'English', href: '#', lang: 'en', current: true },
+  { label: 'Deutsch', href: '#', lang: 'de' },
+  { label: '日本語', href: '#', lang: 'ja' },
+];
 
 /** The columns the footer carries on every page. */
 export const SITE_GROUPS: readonly FooterGroup[] = [
@@ -127,10 +138,10 @@ export const SITE_META: readonly FooterLink[] = [
   { label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true },
 ];
 
-/** The header, with this page's section marked. It is handed the site and
-    nothing else — the row, the panel under a section and the drawer are all
-    that one entry, read at whatever width there is. The same element the
-    guides theme renders, search included, because this is the bar
+/** The header, with this page's section marked. It is handed the site and the
+    languages it is written in — the row, the panel under a section and the
+    drawer are all that one entry, read at whatever width there is. The same
+    element the guides theme renders, search included, because this is the bar
     `tests/pages.spec.ts` opens at every width. */
 export const siteBar = (active: number, home = '#'): TemplateResult =>
   html`<sds-nav-main
@@ -140,6 +151,7 @@ export const siteBar = (active: number, home = '#'): TemplateResult =>
     product="Dev Companion"
     search
     .menu="${siteMenu(active)}"
+    .languages="${SITE_LANGUAGES}"
   ></sds-nav-main>`;
 
 /** The end of the site. */
