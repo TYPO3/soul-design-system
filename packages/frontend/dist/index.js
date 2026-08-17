@@ -2250,6 +2250,30 @@ var SdsSearchHits = class extends SdsElement {
 };
 define("sds-search-hits", SdsSearchHits);
 
+// packages/frontend/src/lib/flyout.ts
+var anchored = () => typeof CSS !== "undefined" && CSS.supports?.("anchor-name", "--a") === true;
+function place(panel, anchor, side, gapFrom) {
+  const put = () => {
+    const at = anchor.getBoundingClientRect();
+    const gap = parseFloat(getComputedStyle(panel).getPropertyValue(gapFrom)) || 0;
+    panel.style.positionArea = "none";
+    panel.style.insetBlockStart = `${at.bottom + gap}px`;
+    if (side === "end") {
+      panel.style.insetInlineStart = "auto";
+      panel.style.insetInlineEnd = `${document.documentElement.clientWidth - at.right}px`;
+    } else {
+      panel.style.insetInlineEnd = "auto";
+      panel.style.insetInlineStart = `${at.left}px`;
+    }
+  };
+  const stop = new AbortController();
+  const { signal } = stop;
+  put();
+  addEventListener("scroll", put, { capture: true, passive: true, signal });
+  addEventListener("resize", put, { passive: true, signal });
+  return () => stop.abort();
+}
+
 // packages/frontend/src/components/field.ts
 import { html as html7, nothing as nothing2 } from "lit";
 import { unsafeHTML as unsafeHTML3 } from "lit/directives/unsafe-html.js";
@@ -2371,9 +2395,24 @@ var SdsSearch = class extends SdsElement {
   constructor() {
     super();
     this.panelId = `sds-search-${++seq}`;
-    this.onOutside = (event) => {
-      if (!this.open || event.composedPath().includes(this)) return;
-      this.open = false;
+    /** The anchor this drop is placed against, named per instance: one name
+        shared by every field on a page resolves to whichever the browser met
+        last, and a bar can hold a second search in its drawer. */
+    this.anchor = `--${this.panelId}`;
+    /* A press anywhere else closes it, which is the popover's own light dismiss
+       rather than a listener here. Not `blur` either way: a press on a result
+       blurs the field before the link is followed, so closing there is a race
+       the panel wins about as often as the reader does. */
+    this.onToggle = (event) => {
+      const open = event.newState === "open";
+      if (!open) this.open = false;
+      this.following?.();
+      this.following = void 0;
+      const drop = this.querySelector(".sds-search__panel");
+      const field = this.querySelector(".sds-field");
+      if (open && !anchored() && drop && field) {
+        this.following = place(drop, field, "end", "--sds-search-panel-gap");
+      }
     };
     this.index = "";
     this.label = "Search";
@@ -2393,13 +2432,16 @@ var SdsSearch = class extends SdsElement {
       open: { type: Boolean, state: true }
     };
   }
-  connectedCallback() {
-    super.connectedCallback();
-    document.addEventListener("pointerdown", this.onOutside);
-  }
   disconnectedCallback() {
-    document.removeEventListener("pointerdown", this.onOutside);
+    this.following?.();
+    this.following = void 0;
     super.disconnectedCallback();
+  }
+  /* The drop is drawn only while there is something in it, so it is shown the
+     moment it exists rather than by an attribute a template could carry. */
+  updated() {
+    const drop = this.querySelector(".sds-search__panel");
+    if (drop && !drop.matches(":popover-open")) drop.showPopover();
   }
   /* Fetched once, on the first keystroke. */
   async load() {
@@ -2484,7 +2526,7 @@ var SdsSearch = class extends SdsElement {
     const hits = this.hits;
     const open = this.open && this.query.trim().length > 0;
     return html8`<div class="sds-search" @focusout="${(e) => this.onLeave(e)}">
-  <span class="${fieldClass({ size: this.size })}">
+  <span class="${fieldClass({ size: this.size })}" style="anchor-name: ${this.anchor}">
     <sds-icon name="actions-search" size="16"></sds-icon>
     <input
       class="sds-input"
@@ -2534,7 +2576,10 @@ var SdsSearch = class extends SdsElement {
     return html8`<div
   class="sds-search__panel"
   id="${this.panelId}"
+  popover
+  style="position-anchor: ${this.anchor}"
   aria-label="${this.label}"
+  @toggle="${this.onToggle}"
   @keydown="${(e) => this.onPanelKey(e)}"
 >
   <sds-search-hits
@@ -2785,7 +2830,7 @@ ${" ".repeat(indent)}`;
 
 // packages/frontend/src/components/dropdown.ts
 var seq2 = 0;
-var SdsDropdown = class _SdsDropdown extends SdsElement {
+var SdsDropdown = class extends SdsElement {
   constructor() {
     super();
     this.panelId = `sds-dropdown-panel-${++seq2}`;
@@ -2799,7 +2844,11 @@ var SdsDropdown = class _SdsDropdown extends SdsElement {
         marker and the placement all follow this one event. */
     this.onToggle = (event) => {
       this.open = event.newState === "open";
-      if (!_SdsDropdown.anchored) this.open ? this.follow() : this.unfollow();
+      this.following?.();
+      this.following = void 0;
+      if (this.open && !anchored() && this.panel && this.button) {
+        this.following = place(this.panel, this.button, this.align, "--sds-dropdown-panel-gap");
+      }
     };
     this.label = "";
     this.name = "";
@@ -2824,7 +2873,7 @@ var SdsDropdown = class _SdsDropdown extends SdsElement {
     };
   }
   disconnectedCallback() {
-    this.following?.abort();
+    this.following?.();
     this.following = void 0;
     super.disconnectedCallback();
   }
@@ -2833,45 +2882,6 @@ var SdsDropdown = class _SdsDropdown extends SdsElement {
   }
   get button() {
     return this.querySelector(".sds-dropdown__button");
-  }
-  /** Whether the browser places a popover against its anchor on its own. Where
-      it does, the stylesheet is the whole of the placement; where it does not,
-      `follow` below is. Asked of the engine rather than of a version. */
-  static get anchored() {
-    return typeof CSS !== "undefined" && CSS.supports?.("anchor-name", "--a") === true;
-  }
-  /** The placement, where the engine has no anchor of its own: the panel is in
-      the top layer, so it is positioned against the viewport and the button's
-      box is where that is read from. Re-read while the page moves under it —
-      scroll is taken in the capture phase, because the thing that scrolls is
-      as often a box on the page as the page itself. */
-  follow() {
-    const place = () => {
-      const panel = this.panel;
-      const button = this.button;
-      if (!panel || !button) return;
-      const at = button.getBoundingClientRect();
-      const gap = parseFloat(getComputedStyle(panel).getPropertyValue("--sds-dropdown-panel-gap")) || 0;
-      panel.style.positionArea = "none";
-      panel.style.insetBlockStart = `${at.bottom + gap}px`;
-      if (this.align === "end") {
-        panel.style.insetInlineStart = "auto";
-        panel.style.insetInlineEnd = `${document.documentElement.clientWidth - at.right}px`;
-      } else {
-        panel.style.insetInlineEnd = "auto";
-        panel.style.insetInlineStart = `${at.left}px`;
-      }
-    };
-    this.following?.abort();
-    this.following = new AbortController();
-    const { signal } = this.following;
-    place();
-    addEventListener("scroll", place, { capture: true, passive: true, signal });
-    addEventListener("resize", place, { passive: true, signal });
-  }
-  unfollow() {
-    this.following?.abort();
-    this.following = void 0;
   }
   /** The whole name, with the label still in it. Dropping the visible word
       would leave a control nobody can ask for by the name they can see. */

@@ -16,7 +16,6 @@
     --sds-search-panel-height: 60vh;
     --sds-search-panel-gap: var(--space-2);
     --sds-search-panel-pad: var(--space-2);
-    --sds-search-panel-z: 40;
     --sds-search-border: var(--border-hairline);
     --sds-search-radius: var(--radius-card);
     --sds-search-edge: var(--border-subtle);
@@ -35,15 +34,17 @@
     .sds-field {
       width: 100%;
     }
-    /* Hung from the end of the field rather than from the start of it. A box given
-       both edges *and* a width keeps the start edge, which is how this drop came
-       to hang off the left of the field and grow right past it — so it is given
-       the one edge it is anchored to. */
+    /* Hung from the end of the field rather than from the start of it. A box
+       given both edges *and* a width keeps the start edge, which is how this
+       drop came to hang off the left of the field and grow right past it — so
+       it is given the one edge it is anchored to, below. */
     .sds-search__panel {
-      position: absolute;
-      top: calc(100% + var(--sds-search-panel-gap));
-      inset-inline-end: 0;
-      z-index: var(--sds-search-panel-z);
+      /* A popover, so the top layer holds it — nothing on the page can be
+         stacked over it and no ancestor's overflow clips it. Everything undone
+         here is the browser's own idea of one: centred, framed, padded. */
+      position: fixed;
+      inset: auto;
+      margin: 0;
       width: var(--sds-search-panel-width);
       max-height: var(--sds-search-panel-height);
       overflow-y: auto;
@@ -62,6 +63,26 @@
          surface that has left the page carries a shadow, and this drop stands at
          the same distance as the one the bar opens. */
       box-shadow: var(--sds-search-shadow);
+
+      /* Only while it is open. A `display` stated flat would beat the rule
+         that hides a closed popover, and the drop would stand on the page
+         with nothing typed. */
+      &:popover-open {
+        display: block;
+      }
+    }
+  }
+
+  /* Placed by the engine where it can be, from the field's end edge. Where it
+     cannot, `lib/flyout.ts` measures the field and writes the same edges. */
+  @supports (anchor-name: --sds-search) {
+    /* Written out to the same depth the rule above has. Nesting is scope and
+       never weight, but it is still specificity: `.sds-search__panel` alone
+       loses to the nested `inset: auto` it is meant to replace, in the same
+       layer, and the drop then sits in the corner of the viewport. */
+    .sds-search .sds-search__panel {
+      inset-block-start: calc(anchor(end) + var(--sds-search-panel-gap));
+      inset-inline-end: anchor(end);
     }
   }
   .sds-search__panel .sds-hits {

@@ -13,6 +13,7 @@ import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import './search-hits.ts';
 import { define, SdsElement } from '../lib/element.ts';
+import { anchored, place } from '../lib/flyout.ts';
 import { fieldClass, type FieldSize } from './field.ts';
 import { type SearchResultProps } from './search-result.ts';
 
@@ -53,6 +54,12 @@ export class SdsSearch extends SdsElement {
   declare open: boolean;
 
   private readonly panelId = `sds-search-${++seq}`;
+  /** The anchor this drop is placed against, named per instance: one name
+      shared by every field on a page resolves to whichever the browser met
+      last, and a bar can hold a second search in its drawer. */
+  private readonly anchor = `--${this.panelId}`;
+  /** What stops the placement this element made, where it made one. */
+  private following?: () => void;
 
   constructor() {
     super();
@@ -64,24 +71,36 @@ export class SdsSearch extends SdsElement {
     this.open = false;
   }
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    /* A press anywhere else closes it. Not `blur`: a press on a result blurs
-       the field before the link is followed, so closing there is a race the
-       panel wins about as often as the reader does — and it was being settled
-       with a 150ms guess. */
-    document.addEventListener('pointerdown', this.onOutside);
-  }
-
   override disconnectedCallback(): void {
-    document.removeEventListener('pointerdown', this.onOutside);
+    this.following?.();
+    this.following = undefined;
     super.disconnectedCallback();
   }
 
-  private readonly onOutside = (event: Event): void => {
-    if (!this.open || event.composedPath().includes(this)) return;
-    this.open = false;
+  /* A press anywhere else closes it, which is the popover's own light dismiss
+     rather than a listener here. Not `blur` either way: a press on a result
+     blurs the field before the link is followed, so closing there is a race
+     the panel wins about as often as the reader does. */
+  private readonly onToggle = (event: Event): void => {
+    const open = (event as ToggleEvent).newState === 'open';
+    if (!open) this.open = false;
+    this.following?.();
+    this.following = undefined;
+    const drop = this.querySelector<HTMLElement>('.sds-search__panel');
+    const field = this.querySelector<HTMLElement>('.sds-field');
+    /* Hung from the end of the field: a drop given both edges keeps the start
+       one, which is how it came to grow right past the box it belongs to. */
+    if (open && !anchored() && drop && field) {
+      this.following = place(drop, field, 'end', '--sds-search-panel-gap');
+    }
   };
+
+  /* The drop is drawn only while there is something in it, so it is shown the
+     moment it exists rather than by an attribute a template could carry. */
+  protected override updated(): void {
+    const drop = this.querySelector<HTMLElement>('.sds-search__panel');
+    if (drop && !drop.matches(':popover-open')) drop.showPopover();
+  }
 
   /* Fetched once, on the first keystroke. */
   private async load(): Promise<void> {
@@ -182,7 +201,7 @@ export class SdsSearch extends SdsElement {
        is `sds-field`'s to decide, and a second copy of that list is how the two
        come to disagree about what `sm` means. */
     return html`<div class="sds-search" @focusout="${(e: FocusEvent) => this.onLeave(e)}">
-  <span class="${fieldClass({ size: this.size })}">
+  <span class="${fieldClass({ size: this.size })}" style="anchor-name: ${this.anchor}">
     <sds-icon name="actions-search" size="16"></sds-icon>
     <input
       class="sds-input"
@@ -232,7 +251,10 @@ export class SdsSearch extends SdsElement {
     return html`<div
   class="sds-search__panel"
   id="${this.panelId}"
+  popover
+  style="position-anchor: ${this.anchor}"
   aria-label="${this.label}"
+  @toggle="${this.onToggle}"
   @keydown="${(e: KeyboardEvent) => this.onPanelKey(e)}"
 >
   <sds-search-hits

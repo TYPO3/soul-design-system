@@ -21,6 +21,7 @@
 import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
 import { define, SdsElement } from '../lib/element.ts';
+import { anchored, place } from '../lib/flyout.ts';
 import { buttonClass, buttonLabel } from './button.ts';
 import './icon.ts';
 import { type IconId } from './icon.ts';
@@ -109,9 +110,8 @@ export class SdsDropdown extends SdsElement {
       shared by every dropdown on a page resolves to whichever one the browser
       met last, so each states its own and reads only that. */
   private readonly anchor = `--${this.panelId}`;
-  /** Where the panel is while it is open, for the browsers that place it from
-      script. Held so the same listeners can be taken off again. */
-  private following?: AbortController;
+  /** What stops the placement this element made, where it made one. */
+  private following?: () => void;
 
   constructor() {
     super();
@@ -126,7 +126,7 @@ export class SdsDropdown extends SdsElement {
   }
 
   override disconnectedCallback(): void {
-    this.following?.abort();
+    this.following?.();
     this.following = undefined;
     super.disconnectedCallback();
   }
@@ -139,60 +139,18 @@ export class SdsDropdown extends SdsElement {
     return this.querySelector<HTMLElement>('.sds-dropdown__button');
   }
 
-  /** Whether the browser places a popover against its anchor on its own. Where
-      it does, the stylesheet is the whole of the placement; where it does not,
-      `follow` below is. Asked of the engine rather than of a version. */
-  private static get anchored(): boolean {
-    return typeof CSS !== 'undefined' && CSS.supports?.('anchor-name', '--a') === true;
-  }
-
   /** What the browser did, read back rather than assumed. Light dismiss and
       Escape are the platform's here, so a press outside or a key this element
       never saw still arrives as a state change — and `aria-expanded`, the
       marker and the placement all follow this one event. */
   private readonly onToggle = (event: Event): void => {
     this.open = (event as ToggleEvent).newState === 'open';
-    if (!SdsDropdown.anchored) this.open ? this.follow() : this.unfollow();
-  };
-
-  /** The placement, where the engine has no anchor of its own: the panel is in
-      the top layer, so it is positioned against the viewport and the button's
-      box is where that is read from. Re-read while the page moves under it —
-      scroll is taken in the capture phase, because the thing that scrolls is
-      as often a box on the page as the page itself. */
-  private follow(): void {
-    const place = (): void => {
-      const panel = this.panel;
-      const button = this.button;
-      if (!panel || !button) return;
-      const at = button.getBoundingClientRect();
-      const gap = parseFloat(getComputedStyle(panel).getPropertyValue('--sds-dropdown-panel-gap')) || 0;
-      /* The stylesheet's placement, given up before this one is written. An
-         area derived from the anchor is a containing block of its own, and an
-         edge measured against the viewport put into it lands offset by
-         whatever the anchor was inset by. Only one of the two may be in force. */
-      panel.style.positionArea = 'none';
-      panel.style.insetBlockStart = `${at.bottom + gap}px`;
-      if (this.align === 'end') {
-        panel.style.insetInlineStart = 'auto';
-        panel.style.insetInlineEnd = `${document.documentElement.clientWidth - at.right}px`;
-      } else {
-        panel.style.insetInlineEnd = 'auto';
-        panel.style.insetInlineStart = `${at.left}px`;
-      }
-    };
-    this.following?.abort();
-    this.following = new AbortController();
-    const { signal } = this.following;
-    place();
-    addEventListener('scroll', place, { capture: true, passive: true, signal });
-    addEventListener('resize', place, { passive: true, signal });
-  }
-
-  private unfollow(): void {
-    this.following?.abort();
+    this.following?.();
     this.following = undefined;
-  }
+    if (this.open && !anchored() && this.panel && this.button) {
+      this.following = place(this.panel, this.button, this.align, '--sds-dropdown-panel-gap');
+    }
+  };
 
   /** The whole name, with the label still in it. Dropping the visible word
       would leave a control nobody can ask for by the name they can see. */

@@ -1289,8 +1289,8 @@
     &:popover-open{display:flex;flex-direction:column}
   }
   @supports (anchor-name: --sds-dropdown){
-    .sds-dropdown__panel{position-area:block-end span-inline-end;margin-block-start:var(--sds-dropdown-panel-gap)}
-    sds-dropdown[align=end] .sds-dropdown__panel{position-area:block-end span-inline-start}
+    .sds-dropdown__panel{inset-block-start:calc(anchor(end) + var(--sds-dropdown-panel-gap));inset-inline-start:anchor(start)}
+    sds-dropdown[align=end] .sds-dropdown__panel{inset-inline-start:auto;inset-inline-end:anchor(end)}
   }
   .sds-dropdown__item{
     font:inherit;
@@ -1527,7 +1527,6 @@
     --sds-search-panel-height: 60vh;
     --sds-search-panel-gap: var(--space-2);
     --sds-search-panel-pad: var(--space-2);
-    --sds-search-panel-z: 40;
     --sds-search-border: var(--border-hairline);
     --sds-search-radius: var(--radius-card);
     --sds-search-edge: var(--border-subtle);
@@ -1542,7 +1541,23 @@
     flex:0 1 var(--sds-search-width);
     min-width:0;
     .sds-field{width:100%}
-    .sds-search__panel{position:absolute;top:calc(100% + var(--sds-search-panel-gap));inset-inline-end:0;z-index:var(--sds-search-panel-z);width:var(--sds-search-panel-width);max-height:var(--sds-search-panel-height);overflow-y:auto;padding:var(--sds-search-panel-pad);background:var(--sds-search-fill);border:var(--sds-search-border) solid var(--sds-search-edge);border-radius:var(--sds-search-radius);box-shadow:var(--sds-search-shadow)}
+    .sds-search__panel{
+      position:fixed;
+      inset:auto;
+      margin:0;
+      width:var(--sds-search-panel-width);
+      max-height:var(--sds-search-panel-height);
+      overflow-y:auto;
+      padding:var(--sds-search-panel-pad);
+      background:var(--sds-search-fill);
+      border:var(--sds-search-border) solid var(--sds-search-edge);
+      border-radius:var(--sds-search-radius);
+      box-shadow:var(--sds-search-shadow);
+      &:popover-open{display:block}
+    }
+  }
+  @supports (anchor-name: --sds-search){
+    .sds-search .sds-search__panel{inset-block-start:calc(anchor(end) + var(--sds-search-panel-gap));inset-inline-end:anchor(end)}
   }
   .sds-search__panel .sds-hits{--sds-hits-bleed: 0px}
   .sds-search__panel .sds-result{--sds-result-thumb: var(--sds-search-thumb);--sds-result-title-size: var(--sds-search-title-size)}

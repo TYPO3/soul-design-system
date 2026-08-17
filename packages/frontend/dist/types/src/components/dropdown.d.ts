@@ -98,29 +98,17 @@ export declare class SdsDropdown extends SdsElement {
         shared by every dropdown on a page resolves to whichever one the browser
         met last, so each states its own and reads only that. */
     private readonly anchor;
-    /** Where the panel is while it is open, for the browsers that place it from
-        script. Held so the same listeners can be taken off again. */
+    /** What stops the placement this element made, where it made one. */
     private following?;
     constructor();
     disconnectedCallback(): void;
     private get panel();
     private get button();
-    /** Whether the browser places a popover against its anchor on its own. Where
-        it does, the stylesheet is the whole of the placement; where it does not,
-        `follow` below is. Asked of the engine rather than of a version. */
-    private static get anchored();
     /** What the browser did, read back rather than assumed. Light dismiss and
         Escape are the platform's here, so a press outside or a key this element
         never saw still arrives as a state change — and `aria-expanded`, the
         marker and the placement all follow this one event. */
     private readonly onToggle;
-    /** The placement, where the engine has no anchor of its own: the panel is in
-        the top layer, so it is positioned against the viewport and the button's
-        box is where that is read from. Re-read while the page moves under it —
-        scroll is taken in the capture phase, because the thing that scrolls is
-        as often a box on the page as the page itself. */
-    private follow;
-    private unfollow;
     /** The whole name, with the label still in it. Dropping the visible word
         would leave a control nobody can ask for by the name they can see. */
     private get called();

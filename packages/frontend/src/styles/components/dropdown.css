@@ -83,16 +83,19 @@
     }
   }
 
-  /* Placed by the engine where it can be. The panel hangs under the button and
-     runs the way the row has room: from the button's start edge, or back over
-     the row from its end, which is what a control in a corner needs. */
+  /* Placed by the engine where it can be: the edges, from the button's own.
+     `anchor()` rather than `position-area` — an area is a box the panel is
+     fitted into, and a list wider than the control it came from is then pushed
+     off its own anchor. These are the same two edges `lib/flyout.ts` writes
+     where there is no anchoring at all, which is why the two agree. */
   @supports (anchor-name: --sds-dropdown) {
     .sds-dropdown__panel {
-      position-area: block-end span-inline-end;
-      margin-block-start: var(--sds-dropdown-panel-gap);
+      inset-block-start: calc(anchor(end) + var(--sds-dropdown-panel-gap));
+      inset-inline-start: anchor(start);
     }
     sds-dropdown[align="end"] .sds-dropdown__panel {
-      position-area: block-end span-inline-start;
+      inset-inline-start: auto;
+      inset-inline-end: anchor(end);
     }
   }
 

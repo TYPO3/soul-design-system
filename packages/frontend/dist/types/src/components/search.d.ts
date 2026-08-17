@@ -49,10 +49,16 @@ export declare class SdsSearch extends SdsElement {
     entries: SearchEntry[] | null;
     open: boolean;
     private readonly panelId;
+    /** The anchor this drop is placed against, named per instance: one name
+        shared by every field on a page resolves to whichever the browser met
+        last, and a bar can hold a second search in its drawer. */
+    private readonly anchor;
+    /** What stops the placement this element made, where it made one. */
+    private following?;
     constructor();
-    connectedCallback(): void;
     disconnectedCallback(): void;
-    private readonly onOutside;
+    private readonly onToggle;
+    protected updated(): void;
     private load;
     /** Where the site's root is, from this page. The index lists every page as
         the build sees them, and a reader is rarely standing in the root — so a

@@ -149,10 +149,11 @@ clips it and nothing on the page can be stacked over it; opening, the press
 outside that closes it, Escape and the focus returning to the button are the
 platform's. Placement is the one part that is not: where the engine has anchor
 positioning the stylesheet does it, and where it has not the element measures
-the button and writes the edges itself. Only ever one of the two — an area
-derived from an anchor is a containing block of its own, and an edge measured
-against the viewport dropped into it lands offset by whatever the anchor was
-inset by.
+the button and writes the edges itself — ``src/lib/flyout.ts``, which
+``sds-search`` uses for its own drop. Both routes write the same two edges from
+``anchor()``, rather than a ``position-area``: an area is a box the panel is
+fitted into, and a list wider than the control it came from is pushed off its
+own anchor.
 
 .. confval:: choices
    :name: sds-dropdown-choices
