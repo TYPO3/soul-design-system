@@ -50,41 +50,28 @@ tokens folded in, while the pane reads `tokens/*.css` as separate files to build
 its token index, so the bundle keeps the split and hands over `styles.css` plus
 `_ds_bundle.css`.
 
-**The header's component entries do not reach the manifest, and writing them
-in the documented shape does not change that.** Each entry names a contract
-under `components/Elements/<Class>/`, carrying `name`, `tag`, `export` and
-`sourcePath` — the shape the sync kit itself stamps
-(`.ds-sync/lib/bundle.mjs`, `stampHeader`). A sync sending 49 of them was
-read back afterwards and the app had compiled `"components": []` all the same,
-while `cards`, `startingPoints`, `tokens` and `fonts` all came through with
-everything in them.
-
-An earlier note here claimed the opposite — that `{tag, export}` alone had
-produced the empty list and that adding `name` and `sourcePath` was the fix.
-It is now measured and it is not: the entries are complete and the list is
-still empty. Keep writing them, because `make verify ARGS=conventions` holds
-the prose against `tag` and `window.SDS` answers to `export`, but do not
-expect the design agent to be handed a component list by this route. It reads
-the elements through `soul.js` and the conventions header, which is why both
-exist.
-
-The reason is above: the app rebuilds `_ds_bundle.js` from component sources it
-can parse and compiles the manifest from *that*, and this system shipped no
-`.jsx` for it to parse.
-
-**So it ships one now, per element, and whether that fills `components` is not
-yet known.** `elementJsx` in `scripts/build.ts` writes
+**What fills `components` is a `.jsx` the app can parse, not the header.** The
+app rebuilds `_ds_bundle.js` from component sources it can compile and builds
+the manifest from *that*, so for as long as this system shipped only `.d.ts`
+and `.prompt.md` the list came back `[]` — 49 header entries in the shape the
+sync kit stamps (`.ds-sync/lib/bundle.mjs`, `stampHeader`) changed nothing.
+`elementJsx` in `scripts/build.ts` now writes
 `components/Elements/<Class>/<Class>.jsx` beside the contract: a React function
-that spreads its props onto the tag and returns it, addressing the element and
-building nothing — `soul.js` is still what upgrades it, and the conventions
-header already tells a design to link that. The header's `sourcePath` points at
-the wrapper, because that is the source now.
+that spreads its props onto the tag and returns it. Measured after it landed —
+`components: 49`, every built element present, none missing.
 
-The check is the same one as before and it cannot be run from here: the app
-recompiles `_ds_manifest.json` only when somebody opens the project, so read it
-back *after* opening it and see whether `components` is still `0`. If it is,
-this route is closed too and the wrappers should come out again rather than sit
-in the upload implying an API nobody can reach. Nothing today depends on them.
+Keep writing the header entries: `make verify ARGS=conventions` holds the prose
+against `tag`, `window.SDS` answers to `export`, and `sourcePath` names the
+wrapper because that is the source. But none of it is what the app reads.
+
+**The wrapper addresses the element and builds nothing.** `soul.js` is still
+what upgrades it, and the conventions header is what tells a design to link
+that — a wrapper rendered without it is an inert tag. That is the same rule the
+class layer follows, and the reason these are generated rather than written.
+
+An older note here said the opposite twice over, and both errors came from
+reading a manifest that had not been rebuilt. Read the next passage before
+trusting any manifest at all.
 
 ## The project id is yours, and it is what makes an update an update
 
@@ -312,11 +299,10 @@ a **Starting Points picker** that seeds a new design from this system. A
 screen is marked by making `<!-- @startingPoint section="<group>"
 subtitle="<one line>" viewport="<WxH>" -->` the first line of its HTML; a
 component is marked with `@startingPoint` in the JSDoc on its `.d.ts` props
-interface — though that half is theory here, since the app compiles no
-components out of this system at all (see above). This used to read "not
-applicable here — this system ships no components", which was written when the
-bundle was an empty namespace and stopped being true the day the bundle got
-them.
+interface — and the app does compile this system's components now, so that half
+is reachable rather than theoretical. This used to read "not applicable here —
+this system ships no components", which was written when the bundle was an
+empty namespace and stopped being true the day the bundle got them.
 
 Source: Claude Design's leaked system prompt, corroborated by the fields the
 app actually writes into `_ds_manifest.json` (`startingPoints`, `cards`,
