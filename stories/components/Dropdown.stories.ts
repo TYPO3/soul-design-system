@@ -8,12 +8,24 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/dropdown.ts';
 import { type DropdownChoice } from '../../packages/frontend/src/components/dropdown.ts';
+import { buttonClass, buttonLabel } from '../../packages/frontend/src/components/button.ts';
+
+import { dsCard, part, spec, specRow } from '../lib/specimen.ts';
 
 const meta: Meta = {
   title: 'Components/Dropdown',
   tags: ['autodocs', '!dev'],
+  parameters: {
+    dsCard: dsCard({
+      path: 'components/core/dropdown.card.html',
+      name: 'Dropdown',
+      subtitle: 'A button, and the short list it opens under itself',
+      viewport: '700x403',
+    }),
+  },
 };
 
 export default meta;
@@ -79,4 +91,44 @@ export const Variants: Story = {
     control is. */
 export const IconOnly: Story = {
   render: () => html`<sds-dropdown icon-only icon="actions-menu" name="Actions" .choices="${ACTIONS}"></sds-dropdown>`,
+};
+
+/* The trigger as static markup: the same class list the element draws, from
+   the same function, so the card and the component cannot disagree. */
+const trigger = (label: string, variant: 'primary' | 'secondary' | 'ghost', open = false) => part(html`<button
+  type="button"
+  class="${buttonClass({ variant })} sds-dropdown__button"
+  aria-expanded="${open ? 'true' : 'false'}"
+>${buttonLabel(label)}<sds-icon class="sds-dropdown__marker" name="actions-chevron-down"></sds-icon></button>`);
+
+/* The panel without the attribute that makes it a popover — which is a list in
+   the flow, and the one state a card can hold. A specimen runs no script, and
+   nothing static can open a popover. */
+const panel = (entries: readonly DropdownChoice[]) => part(html`<div class="sds-dropdown__panel">
+  ${entries.map((entry) => html`<a
+    class="${entry.current ? 'sds-dropdown__item is-active' : 'sds-dropdown__item'}"
+    href="#"
+    aria-current="${entry.current ? 'true' : undefined}"
+    aria-disabled="${entry.disabled ? 'true' : undefined}"
+  >${entry.icon ? html`<sds-icon name="${entry.icon}"></sds-icon>` : ''}${entry.label}</a>`)}
+</div>`);
+
+/** The specimen card, composed from the stories above. This is what
+    `components/core/dropdown.card.html` is generated from. */
+export const specimenHtml = (): string =>
+  spec([
+    specRow(
+      [trigger('Language', 'secondary'), trigger('Edit', 'primary'), trigger('View', 'ghost')],
+      'SHUT · THE MARKER SAYS IT OPENS SOMETHING RATHER THAN ACTS',
+    ),
+    specRow([trigger('Language', 'secondary', true)], 'PRESSED · THE MARKER TURNS TO POINT AT WHAT IT OPENED'),
+    specRow([panel(LANGUAGES)], 'THE LIST · THE ONE IN FORCE CARRIES THE ACCENT DOWN ITS START EDGE', { divided: true }),
+    specRow([panel(ACTIONS)], 'COMMANDS · A GLYPH WHERE THE ENTRY ASKED FOR ONE, AND ONE UNAVAILABLE', { divided: true }),
+  ]);
+
+/** The card, as Storybook shows it. The same string the generator ships, so a
+    difference between the two would have to be a difference in this file. */
+export const Specimen: Story = {
+  parameters: { layout: 'fullscreen' },
+  render: () => html`${unsafeHTML(specimenHtml())}`,
 };

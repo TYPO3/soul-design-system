@@ -64,9 +64,8 @@
      own — and every one of those is this component's decision to make. The
      edges are left at `auto` because what sets them is the placement below. */
   .sds-dropdown__panel {
-    position: fixed;
-    inset: auto;
-    margin: 0;
+    display: flex;
+    flex-direction: column;
     min-width: var(--sds-dropdown-panel-min);
     max-width: var(--sds-dropdown-panel-max);
     padding: var(--sds-dropdown-panel-pad);
@@ -75,11 +74,20 @@
     border-radius: var(--sds-dropdown-panel-radius);
     box-shadow: var(--sds-dropdown-panel-shadow);
 
-    /* Only while it is open. A `display` stated flat would beat the rule that
-       hides a closed popover, and the list would stand on the page always. */
-    &:popover-open {
-      display: flex;
-      flex-direction: column;
+    /* Everything that makes it a flyout hangs off the attribute, so the list
+       drawn by a surface that runs no script is a list in the flow. What is
+       undone here is the browser's own idea of a popover — centred in the
+       viewport, framed, padded — each of which this component decides. */
+    &[popover] {
+      position: fixed;
+      inset: auto;
+      margin: 0;
+
+      /* Shut, said here rather than left to the browser: an author `display`
+         beats the rule that hides a closed popover. */
+      &:not(:popover-open) {
+        display: none;
+      }
     }
   }
 
@@ -89,11 +97,11 @@
      off its own anchor. These are the same two edges `lib/flyout.ts` writes
      where there is no anchoring at all, which is why the two agree. */
   @supports (anchor-name: --sds-dropdown) {
-    .sds-dropdown__panel {
+    .sds-dropdown__panel[popover] {
       inset-block-start: calc(anchor(end) + var(--sds-dropdown-panel-gap));
       inset-inline-start: anchor(start);
     }
-    sds-dropdown[align="end"] .sds-dropdown__panel {
+    sds-dropdown[align="end"] .sds-dropdown__panel[popover] {
       inset-inline-start: auto;
       inset-inline-end: anchor(end);
     }

@@ -39,12 +39,6 @@
        drop came to hang off the left of the field and grow right past it — so
        it is given the one edge it is anchored to, below. */
     .sds-search__panel {
-      /* A popover, so the top layer holds it — nothing on the page can be
-         stacked over it and no ancestor's overflow clips it. Everything undone
-         here is the browser's own idea of one: centred, framed, padded. */
-      position: fixed;
-      inset: auto;
-      margin: 0;
       width: var(--sds-search-panel-width);
       max-height: var(--sds-search-panel-height);
       overflow-y: auto;
@@ -64,11 +58,18 @@
          the same distance as the one the bar opens. */
       box-shadow: var(--sds-search-shadow);
 
-      /* Only while it is open. A `display` stated flat would beat the rule
-         that hides a closed popover, and the drop would stand on the page
-         with nothing typed. */
-      &:popover-open {
-        display: block;
+      /* A popover, so the top layer holds it — nothing on the page can be
+         stacked over it and no ancestor's overflow clips it. All of it hangs
+         off the attribute, so a surface that writes these classes and runs no
+         script still draws the drop, in the flow where it stands. */
+      &[popover] {
+        position: fixed;
+        inset: auto;
+        margin: 0;
+
+        &:not(:popover-open) {
+          display: none;
+        }
       }
     }
   }
@@ -80,7 +81,7 @@
        never weight, but it is still specificity: `.sds-search__panel` alone
        loses to the nested `inset: auto` it is meant to replace, in the same
        layer, and the drop then sits in the corner of the viewport. */
-    .sds-search .sds-search__panel {
+    .sds-search .sds-search__panel[popover] {
       inset-block-start: calc(anchor(end) + var(--sds-search-panel-gap));
       inset-inline-end: anchor(end);
     }

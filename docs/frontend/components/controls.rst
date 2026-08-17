@@ -128,6 +128,15 @@ sds-dropdown
 
 A button, and the short list it opens under itself.
 
+.. specimen:: components/core/dropdown.card.html
+   :viewport: 700x403
+   :title: Dropdown
+
+The card draws the list as a box in the flow, which is the one state a specimen
+can hold: it runs no script, and nothing static opens a popover. Everything
+that makes the panel a flyout hangs off the attribute, so what a surface with
+no JavaScript writes is exactly what is drawn here.
+
 .. code-block:: html
 
    <sds-dropdown label="Language" name="Language"></sds-dropdown>
