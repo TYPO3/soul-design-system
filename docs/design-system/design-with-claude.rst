@@ -62,15 +62,19 @@ The first import
 
          /design-sync
 
-      It executes the plan in the order the plan names. With no id set it creates
-      a design system and reports it.
+      It executes the plan in the order the plan names, and the plan carries what
+      used to be asked of the reader:
 
-      **Let it create a new one, and do that for every first import.** A fresh
-      design system starts empty, so this upload is everything in it: nothing of
-      yours is overwritten, the deletes a later sync computes cannot reach
-      anything else, and the target is a design system by construction rather
-      than by inspection. Adopting an existing one is for the second sync
-      onwards, and then only the one this upload made.
+      - **with no id set, create a new design system** rather than adopt
+        anything. A fresh one starts empty, so this upload is everything in it,
+        and the target is a design system by construction rather than by
+        inspection.
+      - **with one set, check it first** — the plan stops before it writes a byte
+        unless ``get_project`` answers ``PROJECT_TYPE_DESIGN_SYSTEM``.
+      - **report the new id**, and set it here. That is the next step, and it is
+        in the plan as its own instruction.
+      - **read the sentinel back** at the end, because that one write reports
+        success and can land nothing. A sync that calls itself done has looked.
 
       **Claude Code asks before it reaches the app.** The first design call
       requests a scope expansion — ``user:design:write``, added to your claude.ai
@@ -93,32 +97,35 @@ The first import
          ``.design-sync/.cache/upload-plan.json`` step by step — the file is the
          whole instruction, order included.
 
-   .. step:: Remember where it landed
+   .. step:: Check that it was remembered
       :name: remember-where-it-landed
 
-      The app addresses an uploaded system by a project id. Write it down, or the
-      next sync imports a second copy instead of updating this one.
+      The app addresses an uploaded system by a project id, and without it here
+      the next sync imports a second copy instead of updating this one.
+      `Uploading it <#upload-it>`__ set it, so this confirms rather than does:
 
-      The upload reported it, so this is a copy from one line above:
+      .. code-block:: bash
+
+         make design-project
+
+      It names the id a sync would use and which of its three sources answered.
+      Set by hand it is one command, with the uuid the upload reported:
 
       .. code-block:: bash
 
          make design-project ARGS=0189a4c1-6f2e-4b7a-9c31-2d8f5e0a7b64
 
-      If that line has scrolled away, paste this into Claude Code instead:
+      The id lands in ``.design-sync/config.local.json``, untracked. An id this
+      clone already has is never replaced silently — the task refuses, and
+      ``ARGS="<uuid> --force"`` is how you mean it.
+
+      Nothing at all set, and the reported line gone? Paste this into Claude
+      Code:
 
       .. code-block:: text
 
-         Run `make design-project` here. If it already names a design system, stop and
-         tell me. Otherwise list my claude.ai design systems with their ids, newest
-         first — the one this upload created is the newest — and run
-         `make design-project ARGS=<that id>`.
-
-      Either way the id lands in ``.design-sync/config.local.json``, which is
-      untracked. An id this clone already has is never replaced silently — the
-      task refuses, and ``ARGS="<uuid> --force"`` is how you mean it. With
-      nothing after it, ``make design-project`` says what a sync would use and
-      where it read that from.
+         List my claude.ai design systems with their ids, newest first — the one the
+         last upload created is the newest — and run `make design-project ARGS=<that id>`.
 
    .. step:: Record what the app holds
 
@@ -291,10 +298,12 @@ When it does not look right
      - The generated fonts and icons are missing from the clone.
        ``make verify ARGS=assets`` names what to run.
    * - The import ran and the pane is empty
-     - Ask for ``DesignSync get_file _ds_needs_recompile``. A 404 means the card
-       index was never compiled, because that write reports success and lands
-       nothing when its type is not named. Re-run the sentinel step of the plan,
-       which carries the type, then reopen the design system.
+     - Reopen it once — the card index compiles on open. If it stays empty the
+       sentinel is missing, which the plan's last step reads back: ask for
+       ``DesignSync get_file _ds_needs_recompile``, and a 404 means that write
+       reported success and landed nothing. Re-run the sentinel step, which
+       carries the type it needs, then reopen. An import from before that step
+       existed is the usual reason it was never caught.
    * - The pane still shows the previous upload
      - Same cause, one upload later: it recompiles on next open, and a stale
        pane means the sentinel did not land.
