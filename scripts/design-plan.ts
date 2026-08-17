@@ -71,9 +71,11 @@ const projectId = readProjectId();
 const localPaths = pathsOf(local);
 const content = localPaths.filter((f) => f !== SENTINEL && f !== ANCHOR_FILE);
 
-/* The app overwrites `_ds_bundle.js` with a stub of its own after every upload,
-   so the anchor's record of what was sent is never what the project holds. It
-   is the one file a hash comparison must not be trusted about. */
+/* The app replaced `_ds_bundle.js` with a stub of its own for as long as it
+   found no component source it could parse, which the wrappers ended: it now
+   reads back byte-identical to the upload. Kept anyway, because a hash
+   comparison cannot see a file the far side rewrites, and one file a sync is
+   the whole price of never discovering that silently. */
 const ALWAYS = new Set([ '_ds_bundle.js' ]);
 
 /* Deletes need the previous file list. Without a cached anchor we cannot

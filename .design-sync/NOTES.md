@@ -24,18 +24,26 @@ namespace; any note claiming that predates this and is wrong. The count is
 not written down here on purpose — `make verify` checks the header against
 the build, which is the only place it stays true.
 
-**The app rebuilds `_ds_bundle.js` and what it writes there registers nothing.**
-Read the file back out of a project and it is the app's own, not the upload: a
-`format: 4` header, `"components": []`, `unexposedExports`, and a body that
-does no more than create `window.SDS`. It is compiled from component sources
-the app can read — `.jsx` from a React kit — and this system ships none of
-those, so the 174 KB that went up is replaced by a stub. `_ds_manifest.json` is
-compiled from that stub, which is why its component list is empty whatever the
-uploaded header says. So the bundle also ships as **`soul.js`** — the drop-in's
-own name, since it is the drop-in's own code, and a name the app does not claim.
-That is what the conventions header tells a design to link. Check it after a
-sync: `DesignSync get_file soul.js` should be the real bundle, and a design
-linking `_ds_bundle.js` upgrades nothing.
+**The app used to replace `_ds_bundle.js` with a stub, and stopped once the
+wrappers shipped.** It did: a `format: 4` header, `"components": []`,
+`unexposedExports`, and a body that did no more than create `window.SDS`,
+because it compiles the bundle from component sources it can parse and this
+system shipped none. That is the same cause as the empty component list, and
+one fix ended both — with the `.jsx` in place the file was read back after a
+rebuild and was byte-identical to the upload, header and body, all 178,148 of
+them.
+
+So a design linking `_ds_bundle.js` now gets the real elements. It ships as
+**`soul.js`** as well — the drop-in's own name, since it is the drop-in's own
+code, and a name the app does not claim — and that is still what the
+conventions header tells a design to link. Whether the second copy is worth
+keeping is now an open question rather than a necessity: it was insurance
+against a stub that no longer happens.
+
+Check both after a sync that touches either: `get_file _ds_bundle.js` against
+the build, and `get_file soul.js`. If the bundle ever comes back as a stub
+again, whatever the design agent was told to link is what saves the sync,
+which is the argument for keeping `soul.js` where it is.
 
 **It is `packages/frontend/dist/soul.js`, copied.** The bundle used to build the
 elements a second time with options of its own, which put a file nothing tests
