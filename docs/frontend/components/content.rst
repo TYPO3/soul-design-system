@@ -308,8 +308,10 @@ is not a row of boxes.
    :name: sds-stat-icon
    :type: IconId
 
-   A glyph over the figure. Muted and never in a status colour, for the reason
-   a card's is: a figure is a subject, not a result.
+   A glyph on the figure's own line, before the number — beside it rather than
+   over it, because a glyph on a line of its own floats above the one thing the
+   tile is for. Muted and never in a status colour, for the reason a card's is:
+   a figure is a subject, not a result.
 
 .. confval:: note
    :name: sds-stat-note
