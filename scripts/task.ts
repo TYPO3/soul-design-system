@@ -52,6 +52,7 @@ const TASKS: Record<string, Task> = {
   build: { cmd: node('scripts/build.ts'), help: 'assemble .out/bundle/, the upload payload' },
   dist: { cmd: node('scripts/dist.ts'), help: 'build the publishable ESM package and its types' },
   split: { cmd: node('scripts/split.ts'), help: 'assemble the Guides theme as the package it is published as, into .out/split/' },
+  release: { cmd: node('scripts/release.ts'), help: 'write the version every manifest carries, and print the commands that tag it — make release ARGS=0.2.0' },
   fonts: { cmd: node('scripts/fonts.ts'), help: 'regenerate fonts/ from @fontsource' },
   icons: { cmd: node('scripts/icons.ts'), help: 'regenerate assets/icons/ from @typo3/icons' },
   diagrams: { cmd: node('scripts/diagrams.ts'), help: 'read the drawings’ viewBoxes into src/components/diagrams.generated.ts' },

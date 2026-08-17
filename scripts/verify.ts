@@ -466,6 +466,16 @@ const CHECKS: readonly Check[] = [
     run: () => child('scripts/ssr.ts'),
   },
 
+  /* A release is one tag and one version. Packagist reads the theme's off that
+     tag, npm reads the frontend's out of a manifest — so the number is written
+     down, in every file that carries it, and this is what keeps the copies
+     from drifting into a published version nobody meant. */
+  {
+    name: 'version',
+    label: 'the manifests name one version',
+    run: () => ({ ...child('scripts/release.ts', '--check'), fix: 'make release ARGS=<version>' }),
+  },
+
   /* The drop-in is committed, so it can go stale against its own source. */
   {
     name: 'dist',

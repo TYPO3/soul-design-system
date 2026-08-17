@@ -37,7 +37,7 @@ RUN := $(TASK) node scripts/task.ts
 
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
-TASKS := verify test cards embed chrome typecheck fit ssr coverage php css build dist split guides fonts icons \
+TASKS := verify test cards embed chrome typecheck fit ssr coverage php css build dist split release guides fonts icons \
          diagrams baseline shots diff look sync sync-status plan synced
 
 # The long-running ones. `app` is among them: it holds the environment every
@@ -82,6 +82,7 @@ help:
 	@echo '  make guides          render the documentation fixture into .out/site/'
 	@echo '  make build           assemble .out/bundle/, the upload payload'
 	@echo '  make dist            the publishable ESM package and its types'
+	@echo '  make release ARGS=0.2.0  write the version, and print what tags it'
 	@echo '  make sync            build + verify + what-would-change + upload plan'
 	@echo '  make sync-status plan synced the sync steps individually'
 	@echo '                       set SDS_DESIGN_PROJECT to your own design project,'
