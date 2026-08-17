@@ -67,7 +67,7 @@ const renderer = `${RELEASED ? 'packagist' : `path ${PACKAGED}`}\n`;
 const marker = join(CONSUMER, '.renderer');
 
 /* The commands the manual prints, redone when the source changes or the
-   renderer is not there: `composer require` resolves `dev-main` afresh, which
+   renderer is not there: `composer require` resolves the branch afresh, which
    is what makes a mirror pushed minutes ago the one this renders with — as far
    as Packagist has caught up with it. */
 if (!existsSync(GUIDES) || !existsSync(marker) || readFileSync(marker, 'utf8') !== renderer) {
@@ -79,9 +79,10 @@ if (!existsSync(GUIDES) || !existsSync(marker) || readFileSync(marker, 'utf8') !
   };
   composer('init', '--name=typo3/soul-documentation');
   if (!RELEASED) composer('config', 'repositories.soul', 'path', PACKAGED);
-  /* `dev-main` is the branch the mirror publishes and what the manual prints.
-     A path repository is versioned from the checkout around it, so on a branch
-     of your own that name is somebody else's — `*@dev` takes what is there. */
+  /* `dev-main` and not the released constraint the manual prints: this site
+     documents `main`, so it is rendered with the theme `main` has. A path
+     repository is versioned from the checkout around it, so on a branch of
+     your own that name is somebody else's — `*@dev` takes what is there. */
   composer('require', '--no-progress', `typo3/soul-guides-theme:${RELEASED ? 'dev-main' : '*@dev'}`);
   writeFileSync(marker, renderer);
 }

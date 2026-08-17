@@ -17,7 +17,7 @@ There is no tag yet, so the branch is what a project asks for — swap it for a
 constraint as soon as there is a release to name:
 
 ```sh
-composer require typo3/soul-guides-theme:dev-main
+composer require typo3/soul-guides-theme
 ```
 
 The package brings `phpdocumentor/guides-cli`, `guides-code` and

@@ -51,6 +51,9 @@ jobs:
           mkdir -p "$RENDERER"
           cd "$RENDERER"
           composer init --no-interaction --name=typo3/soul-documentation
+          # The branch, not the released constraint a reader is given: these
+          # pages describe `main`, and rendering them with the last release
+          # would show a theme that does not have what they document.
           composer require --no-interaction --no-progress typo3/soul-guides-theme:dev-main
 
       # `docs` and not the theme's control surface: this job renders what it

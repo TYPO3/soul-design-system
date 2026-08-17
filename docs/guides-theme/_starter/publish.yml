@@ -51,7 +51,7 @@ jobs:
           mkdir -p "$RENDERER"
           cd "$RENDERER"
           composer init --no-interaction --name=example/documentation
-          composer require --no-interaction --no-progress typo3/soul-guides-theme:dev-main
+          composer require --no-interaction --no-progress typo3/soul-guides-theme
 
       # `--fail-on-error` turns a reference the renderer could not resolve into
       # a red build. Without it a broken link is a line in a log nobody reads.

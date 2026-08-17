@@ -27,7 +27,7 @@ repository ever reads.
 
    mkdir -p .renderer && cd .renderer
    composer init --no-interaction --name=example/documentation
-   composer require typo3/soul-guides-theme:dev-main
+   composer require typo3/soul-guides-theme
 
 ``vendor/bin/guides`` is then the command, out of a directory a build can
 throw away. PHP 8.2 is the floor.
@@ -43,9 +43,11 @@ throw away. PHP 8.2 is the floor.
 
 .. note::
 
-   Ask for a tag rather than ``dev-main`` as soon as there is one: a branch is
-   a moving target, and a site rebuilt against one can change on a commit
-   nobody in your repository made.
+   Named without a version, so Composer takes the newest release and writes
+   the constraint into your own ``composer.json`` — where it belongs, and where
+   you decide when it moves. A site rebuilt tomorrow then renders the way it
+   does today. Asking for ``dev-main`` instead is asking for a look that can
+   change on a commit nobody in your repository made.
 
 .. note::
 

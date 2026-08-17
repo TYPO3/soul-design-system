@@ -117,7 +117,7 @@ Running it
 
 .. code-block:: bash
 
-   composer require typo3/soul-guides-theme:dev-main   # in a directory of its own
+   composer require typo3/soul-guides-theme   # in a directory of its own
    vendor/bin/guides docs --output=site -c docs --fail-on-error
    node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
    php -S localhost:8000 -t site

@@ -13,7 +13,7 @@ asked to write.
 
 .. code-block:: bash
 
-   composer require typo3/soul-guides-theme:dev-main
+   composer require typo3/soul-guides-theme
    vendor/bin/guides docs --output=site -c docs --fail-on-error
    node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
 
@@ -116,9 +116,10 @@ once, and the runner throws all of it away again.
 
 .. important::
 
-   Ask for a tag rather than ``dev-main`` as soon as there is one. A site
-   rebuilt against a moving branch is a site whose look can change on a commit
-   nobody in your repository made — and the next build after that one is the
+   The command above takes the newest release and pins it in your own
+   ``composer.json``. Asking for ``dev-main`` instead is asking for a look that
+   can change on a commit nobody in your repository made — and the next build
+   after that one is the
    one that has to be explained.
 
 **The Node version is named.** Inherited, it is whatever the runner image

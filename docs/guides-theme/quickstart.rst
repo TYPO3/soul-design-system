@@ -64,7 +64,7 @@ The package is installed outside the documentation tree:
    composer --working-dir=.renderer init --no-interaction --name=example/documentation
    composer --working-dir=.renderer require \
      --no-interaction --no-progress \
-     typo3/soul-guides-theme:dev-main
+     typo3/soul-guides-theme
 
 Render and finish the site
 ==========================
