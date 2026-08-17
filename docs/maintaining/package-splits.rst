@@ -59,9 +59,15 @@ source with the frontend drop-in, which do not share one source directory.
 
 The replay preserves the source commit's author, date and message and adds a
 ``Split-From:`` trailer. That trailer records where the mirror stopped, so the
-next run continues instead of replaying the same range. A source tag is carried
-to the corresponding mirror commit; when the package content did not change,
-an empty commit gives the release a commit it can name.
+next run continues instead of replaying the same range. When the package
+content did not change, an empty commit gives the release a commit it can name.
+
+Tags are placed after the replay, over the whole mirror rather than over the
+commits one run happened to write. The trailer says which source commit each
+mirrored commit came from, so a tag finds its commit whether the release was
+cut from a commit that is already mirrored or from one this run has just
+carried across. A tag already on the right commit is left alone, and a mirror
+never moves a tag it has published.
 
 Ship a complete theme
 =====================

@@ -265,7 +265,7 @@ creates a second one. It compares against the anchor the project stores
 | `tests/` | the Playwright suite |
 | `scripts/` | the tooling behind the tasks |
 | `.infra/` | Dockerfile, compose and the entrypoint |
-| `.github/` | the gate on every push, and the site published from `main` |
+| `.github/` | the gate on every push, the site published from `main`, and the release a tag publishes |
 | | |
 | `specimens/` | **generated** — the cards and the screens, the latter offered as Starting Points in a consuming project |
 | `packages/frontend/fonts/` | **generated** from `@fontsource`, and committed — the package publishes it |
@@ -296,6 +296,7 @@ which is about the containers.
 | `guides` | render `docs/` into `.out/site/` with the theme — the documentation as it will be served |
 | `build` | assemble `.out/bundle/`, the upload payload |
 | `dist` | build the publishable ESM package and its types |
+| `release` | write the version every manifest carries, and print what tags it — `make release ARGS=0.2.0` |
 | `sync` | build + verify + what-would-change + upload plan |
 | `sync-status` / `plan` / `synced` | the sync steps individually |
 | `baseline` / `shots` / `diff` | screenshot before, after, compare |

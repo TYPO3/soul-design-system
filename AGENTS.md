@@ -270,7 +270,8 @@ defined in the layer that can load it) · `coverage` (every component is shown)
 reference resolves) · `sets` (a component draws from its own property set) ·
 `breakpoints` (every width the layer changes at is one a
 document names) · `fit` (render, inside the declared viewport) · `ssr`
-(every element renders outside a browser) · `dist` (the committed drop-in
+(every element renders outside a browser) · `version` (every manifest names
+the same one) · `dist` (the committed drop-in
 against its source) · `split` (each package assembles into something a project
 could install) · `cards` (every card against its story, and none without
 one) · `types` (`tsc --noEmit`) · `css` (the stylesheets against their shape —
@@ -389,6 +390,14 @@ out of it, so an unbuilt change reaches this site as the old one. What a
 project is told to run is `docs/guides-theme/_starter/publish.yml`, quoted
 whole into the manual and taken command for command by `make guides` — a step
 that stops working for a reader stops the site.
+
+**Cut a release** — `make release ARGS=<version>` writes the number into every
+manifest that carries it and prints what commits, tags and pushes it. Both
+packages take the same version, because the tag they take it from is this
+repository's own. Pushing the tag is the release: the gate runs over it, the
+mirrors carry the tag across, npm is published from the tagged tree and
+Packagist reads the theme off the tag. `MAINTAINERS.md` has the whole of it,
+including what had to be set up once on npm.
 
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.
