@@ -176,6 +176,10 @@ function elementPrompt(e: ElementDoc): string {
   const out = [`${e.tag} — ${e.purpose}`, '',
     `Registered as \`${e.className}\` by \`${ELEMENTS_JS}\`, and written as an element:`, '',
     '```html', `<${e.tag}${attrs}>${e.takesContent ? '…' : ''}</${e.tag}>`, '```', ''];
+  /* What the element says about itself beyond its first line. A table of
+     attributes cannot carry a rule about when to reach for the thing, and an
+     agent handed only the table rebuilds what it was not told it had. */
+  if (e.notes.length) out.push('## How it behaves', '', ...e.notes.flatMap((p) => [p, '']));
   if (e.props.length) {
     out.push('## Attributes', '', '| Attribute | Type | What it is |', '| --- | --- | --- |');
     for (const p of e.props) out.push(`| \`${p.attribute}\` | \`${cell(p.type)}\` | ${cell(opening(p.doc))} |`);

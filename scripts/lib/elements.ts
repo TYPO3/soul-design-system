@@ -33,6 +33,11 @@ export interface ElementDoc {
   source: string;
   /** The first paragraph of the file's own opening comment. */
   purpose: string;
+  /* The paragraphs after it, which is where a component states what a table of
+     attributes cannot: that pressing the active segment gives the machine's
+     setting back, that a line has to run in the head before the first paint.
+     Dropped, they were the half a reader had to rebuild the element to find. */
+  notes: string[];
   props: ElementProp[];
   /** Whether the element reads what a caller wrote between its tags. */
   takesContent: boolean;
@@ -56,32 +61,69 @@ function braced(src: string, open: number): string {
   return '';
 }
 
-/** A JSDoc or block comment as one paragraph of prose. */
-function prose(comment: string): string {
+/* One JSDoc block and never two. A lazy `[\s\S]*?` runs happily from one
+   comment's opening to a later comment's close, and what it hands back is the
+   prose of whichever block it started in — which is how `sds-nav-main`'s
+   `home` came to be described as a section's drop panel. */
+const JSDOC = String.raw`\/\*\*(?:[^*]|\*(?!\/))*\*\/`;
+
+/** A JSDoc or block comment with its fencing taken off, paragraphs intact. */
+function unwrap(comment: string): string[] {
   return comment
     .replace(/^\/\*\*?/, '')
     .replace(/\*\/$/, '')
     .split('\n')
     .map((l) => l.replace(/^\s*\*?\s?/, '').trimEnd())
     .join('\n')
-    .split(/\n\s*\n/)[0]
-    ?.replace(/\s+/g, ' ')
-    .trim() ?? '';
+    .split(/\n\s*\n/)
+    .map((p) => p.replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
 }
 
+/** A JSDoc or block comment as one paragraph of prose. */
+function prose(comment: string): string {
+  return unwrap(comment)[0] ?? '';
+}
+
+type Described = Map<string, { type: string; doc: string }>;
+
 /** Every member of `<Name>Props`, with the prose written above it. */
-function fromInterface(src: string): Map<string, { type: string; doc: string }> {
-  const out = new Map<string, { type: string; doc: string }>();
+function fromInterface(src: string): Described {
+  const out: Described = new Map();
   const at = /export interface \w+Props\s*\{/.exec(src);
   if (!at) return out;
   const body = braced(src, at.index + at[0].length - 1);
   /* One member at a time: whatever comment stands above it, then the name, then
      the type up to the semicolon that ends it — a union may run over lines. */
-  const member = /(\/\*\*[\s\S]*?\*\/)?\s*(?:readonly\s+)?(\w+)\??:\s*([\s\S]*?);/g;
+  const member = new RegExp(`(${JSDOC})?\\s*(?:readonly\\s+)?(\\w+)\\??:\\s*([\\s\\S]*?);`, 'g');
   for (const m of body.matchAll(member)) {
     const [, comment, name, type] = m;
     if (!name || !type) continue;
     out.set(name, { type: type.replace(/\s+/g, ' ').trim(), doc: comment ? prose(comment) : '' });
+  }
+  return out;
+}
+
+/** Every `declare` field of the class, with the prose written above it. */
+function fromFields(src: string): Described {
+  const out: Described = new Map();
+  for (const m of src.matchAll(new RegExp(`(${JSDOC})?\\s*declare\\s+(\\w+)\\??:\\s*([^;]+);`, 'g'))) {
+    const [, comment, name, type] = m;
+    if (!name || !type) continue;
+    out.set(name, { type: type.replace(/\s+/g, ' ').trim(), doc: comment ? prose(comment) : '' });
+  }
+  return out;
+}
+
+/* What the source says about a property, from both places a component may say
+   it. A props interface is the fuller statement and wins where there is one;
+   the fields are what a component writes when it has none, and reading only
+   the interface shipped an empty column to the one reader with nothing else. */
+function describe(src: string): Described {
+  const fields = fromFields(src);
+  const out: Described = new Map(fields);
+  for (const [name, member] of fromInterface(src)) {
+    out.set(name, { type: member.type, doc: member.doc || fields.get(name)?.doc || '' });
   }
   return out;
 }
@@ -108,21 +150,51 @@ const LIT_TYPE: Readonly<Record<string, string>> = {
   String: 'string', Boolean: 'boolean', Number: 'number', Object: 'object', Array: 'array',
 };
 
-/** The `static properties` block: what Lit registers, and under which attribute. */
-function fromProperties(src: string): { name: string; attribute: string; type: string }[] {
-  const at = /static (?:override )?properties\s*=\s*\{/.exec(src);
-  if (!at) return [];
-  const body = braced(src, at.index + at[0].length - 1);
-  const out: { name: string; attribute: string; type: string }[] = [];
-  for (const m of body.matchAll(/(\w+):\s*\{([^}]*)\}/g)) {
-    const [, name, opts = ''] = m;
-    if (!name) continue;
-    /* An attribute Lit would not name after the property is spelled out in the
-       declaration, and `attribute: false` means the property is not one. */
-    const named = /attribute:\s*'([^']+)'/.exec(opts)?.[1];
-    if (/attribute:\s*false/.test(opts)) continue;
-    const lit = /type:\s*(\w+)/.exec(opts)?.[1] ?? '';
-    out.push({ name, attribute: named ?? name.toLowerCase(), type: LIT_TYPE[lit] ?? 'string' });
+interface Registered {
+  name: string;
+  attribute: string;
+  type: string;
+}
+
+/** The `static properties` block: what Lit registers, and under which attribute.
+    Keyed so a subclass restating an inherited property stays in one row. */
+function fromProperties(sources: string[]): Registered[] {
+  const out = new Map<string, Registered>();
+  for (const src of sources) {
+    const at = /static (?:override )?properties\s*=\s*\{/.exec(src);
+    if (!at) continue;
+    const body = braced(src, at.index + at[0].length - 1);
+    for (const m of body.matchAll(/(\w+):\s*\{([^}]*)\}/g)) {
+      const [, name, opts = ''] = m;
+      if (!name) continue;
+      /* An attribute Lit would not name after the property is spelled out in the
+         declaration, and `attribute: false` means the property is not one. So
+         does `state: true`, which is a component's own working memory — how far
+         a drawer has been stepped into, which panel stands open. Listed as
+         attributes, they read as things a page may set, and a page that sets
+         one is writing into the element's hands. */
+      const named = /attribute:\s*'([^']+)'/.exec(opts)?.[1];
+      if (/attribute:\s*false/.test(opts) || /state:\s*true/.test(opts)) continue;
+      const lit = /type:\s*(\w+)/.exec(opts)?.[1] ?? '';
+      out.set(name, { name, attribute: named ?? name.toLowerCase(), type: LIT_TYPE[lit] ?? 'string' });
+    }
+  }
+  return [...out.values()];
+}
+
+/* A subclass spreads its base's block rather than restating it, and half of
+   what a nav promises is declared one file up. Followed to the import it came
+   from, because a property the base registers is one a page writes and the
+   element that never mentions it is the only thing the reader has. */
+function inherited(src: string, dir: string): string[] {
+  const out: string[] = [];
+  for (const m of src.matchAll(/\.\.\.(\w+)\.properties/g)) {
+    const base = m[1];
+    if (!base) continue;
+    const path = new RegExp(`import\\s*\\{[^}]*\\b${base}\\b[^}]*\\}\\s*from\\s*'(\\.[^']+)'`).exec(src)?.[1];
+    if (!path) continue;
+    const source = readFileSync(join(dir, path), 'utf8');
+    out.push(...inherited(source, dir), source);
   }
   return out;
 }
@@ -135,16 +207,23 @@ export function elements(): ElementDoc[] {
     const src = readFileSync(join(COMPONENTS, file), 'utf8');
     const defined = /define\('([\w-]+)',\s*(\w+)\)/.exec(src);
     if (!defined?.[1] || !defined[2]) continue;
-    const documented = fromInterface(src);
+    /* The base's sources first, so an inherited property is described by the
+       file that declares it and by the subclass only where it restates one. */
+    const opening = /^\/\*[\s\S]*?\*\//.exec(src)?.[0] ?? '';
+    const chain = [...inherited(src, COMPONENTS), src];
+    const documented: Described = new Map();
+    for (const s of chain) for (const [name, entry] of describe(s)) documented.set(name, entry);
+    const written = chain.join('\n');
     out.push({
       tag: defined[1],
       className: defined[2],
       source: `packages/frontend/src/components/${file}`,
-      purpose: prose(/^\/\*[\s\S]*?\*\//.exec(src)?.[0] ?? '').replace(/^[\w-]+ — /, ''),
-      props: fromProperties(src).map((p) => ({
+      purpose: prose(opening).replace(/^[\w-]+ — /, ''),
+      notes: unwrap(opening).slice(1),
+      props: fromProperties(chain).map((p) => ({
         ...p,
         lit: p.type,
-        type: resolveAliases(src, attributable(documented.get(p.name)?.type ?? p.type, p.type)),
+        type: resolveAliases(written, attributable(documented.get(p.name)?.type ?? p.type, p.type)),
         doc: documented.get(p.name)?.doc ?? '',
       })),
       /* Both ways a component reaches what was written between its tags — the
