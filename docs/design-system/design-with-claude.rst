@@ -79,9 +79,9 @@ Paste this into Claude Code, in this checkout:
 
 .. code-block:: text
 
-   List my claude.ai design systems with their project ids. If exactly one is
-   mine, run `make design-project ARGS=<its id>` here; otherwise show me the
-   list first.
+   Run `make design-project` here. If it already names a design system, stop and
+   tell me. Otherwise list my claude.ai design systems with their project ids and,
+   if exactly one is mine, run `make design-project ARGS=<its id>`.
 
 That writes the id into ``.design-sync/config.local.json``, which is untracked.
 By hand it is the same command with the uuid the upload reported:
@@ -90,8 +90,9 @@ By hand it is the same command with the uuid the upload reported:
 
    make design-project ARGS=0189a4c1-6f2e-4b7a-9c31-2d8f5e0a7b64
 
-``make design-project`` with nothing after it says what a sync would use, and
-where it read that from.
+An id this clone already has is never replaced silently — the task refuses, and
+``ARGS="<uuid> --force"`` is how you mean it. With nothing after it,
+``make design-project`` says what a sync would use and where it read that from.
 
 Step 5 — record what the app holds
 ----------------------------------

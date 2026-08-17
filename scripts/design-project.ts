@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 /* Which design system at claude.ai/design a sync uploads into, and how to set it.
 
-   The app addresses an uploaded system by a project id, and that id is what
-   makes the second sync an update rather than a second system beside the first.
-   The shell cannot look it up — the design API authorises a claude.ai login,
-   which lives in Claude Code and not here — so this owns everything except the
-   lookup: where the id is read from, that it looks like one, and where it is kept.
+   The app addresses an uploaded system by a project id, and that id is what makes
+   a second sync an update rather than a second system. The shell cannot look it
+   up — the API authorises a claude.ai login — so this owns everything else:
+   which source answered, that the id looks like one, and where it is kept.
 
      make design-project              # which design system a sync would upload into
-     make design-project ARGS=<uuid>  # set it for this clone
+     make design-project ARGS=<uuid>  # set it; add --force to replace one
 */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -48,7 +47,9 @@ function howToGetOne(): void {
 report.open('design-project', 'which design system a sync uploads into');
 report.align(SOURCES.map(([name, what]) => ({ name, label: what })));
 
-const given = process.argv[2];
+const args = process.argv.slice(2);
+const force = args.includes('--force');
+const given = args.find((a) => a !== '--force');
 
 if (given) {
   if (!UUID.test(given)) {
@@ -58,6 +59,17 @@ if (given) {
     /* The problem is passed so the verdict fails, and `shown` because it was
        printed above — a task that exits 1 under a green tick is a lie. */
     report.summary('nothing written', [`"${given}" is not a project id`], { shown: true });
+    process.exit(1);
+  }
+  /* A clone that already names a design system keeps it. Whoever asks for this
+     is usually an agent acting on a list it just read, and a silent reassignment
+     points the next sync at somebody else's system — over an id this clone was
+     deliberately given. Changing one is a decision, so it is said out loud. */
+  const current = readId(LOCAL);
+  if (current && current !== given && !force) {
+    report.bad(`this clone already uploads into ${current}`);
+    report.detail(`Leave it, or say so: make design-project ARGS="${given} --force"`);
+    report.summary('nothing written', ['a different project id is already set here'], { shown: true });
     process.exit(1);
   }
   const kept = existsSync(LOCAL) ? JSON.parse(readFileSync(LOCAL, 'utf8')) : {};
