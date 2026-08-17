@@ -16,10 +16,11 @@ What you need
 =============
 
 - **Docker and Make.** Every command here runs in the repository's container.
-- **Claude Code**, with the ``/design-sync`` skill. A session without a
-  claude.ai login authorises once through ``/design-login``, and the first call
-  into the app asks to add design access to that login — see step 3.
-- **An account that can open claude.ai/design.**
+- **Claude Code**, with the ``/design-sync`` skill and logged in to claude.ai
+  (``/login``). The first call into the app asks to add design access to that
+  login — see step 3.
+- **An account that can open claude.ai/design.** Open it in a browser with the
+  same account: design access is granted to the account, not by any command.
 
 The first import
 ================
@@ -69,6 +70,11 @@ scope expansion — ``user:design:write``, added to your claude.ai login and kep
 there — so it is approved once. After that only the acts themselves ask:
 creating a design system, and locking the plan, which is the prompt that shows
 the exact writes and deletes before any of them happen.
+
+Approving it can still end in *design scopes not granted*: the login is valid
+and the account has no claude.ai/design access. Open claude.ai/design in a
+browser with that account — the answer is there, and no command in Claude Code
+can grant it.
 
 .. note::
 
@@ -247,6 +253,10 @@ When it does not look right
      - This clone has no cache of what the app holds — see the note above.
    * - ``make design-sync`` stops before the plan
      - The gate is red. Fix what it names and run it again.
+   * - *DesignSync needs a claude.ai login* — after ``/login``
+     - Read the rest of the line. *Design scopes not granted* means the login
+       worked and the account cannot open claude.ai/design; check that in a
+       browser rather than looking for a command that grants it.
 
 What gets uploaded
 ==================
