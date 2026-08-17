@@ -121,6 +121,12 @@ that are each a sentence or two; ``sds-list--plain`` takes the markers and the
 top-level indent off a list whose items are links, where every item is marked
 by being a link already.
 
+An ordered list stays the right shape for steps that are one line each. Where a
+step carries a command, a file to edit and the line that says it worked, that is
+an instruction rather than a list, and it is
+:ref:`sds-steps <component-sds-steps>` — numbered stops down one rail, each
+holding blocks.
+
 .. specimen:: guidelines/type-lists.card.html
    :viewport: 700x251
    :title: Lists
