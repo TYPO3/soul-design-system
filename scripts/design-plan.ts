@@ -2,15 +2,11 @@
 /* Produce the exact upload plan, in the order it must be executed.
 
    An agent performs the upload and must not work out what to push, or in what
-   order. Neither is a preference:
-     1. sentinel   fences the app's manifest machinery while we write
-     2. writes     everything the build produces (idempotent, so full)
-     3. deletes    remote files this build no longer produces
-     4. sentinel   re-armed, so the app rebuilds its manifest on next open
-     5. anchor     last, because it vouches for all of the above
-     6. verify     the sentinel read back, because its write fails silently
-   Before any of it, `preflight`: the target is a design system, or nothing is
-   written — that type is fixed when a project is created.
+   order. Neither is a preference, and every step below carries its own `why`
+   rather than a second copy of them here. The two that read as one: the anchor
+   goes last because it vouches for everything before it, and the sync ends in
+   two checks because a write landing and the app rebuilding are different
+   facts — the first is true for days while the pane serves a stale index.
 */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -115,6 +111,7 @@ const preflight = projectId
       method: 'get_project', projectId,
       expect: { type: 'PROJECT_TYPE_DESIGN_SYSTEM', canEdit: true },
       onMismatch: 'stop, write nothing, and report it: an ordinary project cannot become a design system. Create one with create_project, then set it here with `make design-project ARGS="<new uuid> --force"`.',
+      alsoRecord: 'the project\'s current updatedAt, from list_projects — step 7 has nothing to compare against without it',
     }]
   : [{
       action: 'create', why: 'no project id — create a NEW design system rather than reusing anything',
@@ -152,7 +149,20 @@ const plan = {
     {
       step: 6, action: 'verify', why: 'a write count is not proof — read the sentinel back',
       method: 'get_file', path: SENTINEL,
-      onMissing: `404 means the sync did not land: re-run step 4 with the mimeType above, then reopen the design system in the app. Do not report a sync as complete without this file.`,
+      onMissing: `404 means the sync did not land: re-run step 4 with the mimeType above, then reopen the design system in the app.`,
+      proves: 'that the write landed, and nothing more — an armed sentinel the app has never read looks exactly like one it has just acted on. Step 7 is what says the sync arrived.',
+    },
+    /* The files being current is not the sync being done: the app compiles the
+       manifest and the adherence config itself, when somebody opens the project
+       and finds a sentinel whose bytes it has not seen. Three syncs once passed
+       every step above while the pane served a morning-old index. */
+    {
+      step: 7, action: 'verify', why: 'the app rebuilt — which is the sync arriving',
+      needs: 'the project opened or reloaded by whoever owns it; nothing here can trigger it',
+      method: 'list_projects',
+      expect: 'updatedAt later than this upload, against the one recorded in preflight',
+      then: 'read `_ds_manifest.json` and check `components` is not empty — that list is the API the design agent is handed',
+      onUnchanged: 'the sentinel did not register. Do not report the sync as arrived: say the files are current and the rebuild has not run.',
     },
   ],
   afterUpload: 'make design-synced',
@@ -167,7 +177,7 @@ report.fact('project', projectId ?? '(none set — see below)');
 report.fact('before it writes', projectId
   ? 'get_project — the target is a design system, or nothing is written'
   : 'create_project — there is no target yet');
-report.fact('the order it uploads in', `1 sentinel · 2 ${upload.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor · 6 read the sentinel back`);
+report.fact('the order it uploads in', `1 sentinel · 2 ${upload.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor · 6 read the sentinel back · 7 the app rebuilt`);
 if (moved) report.fact('held back', `${content.length - upload.length} file(s) already at the uploaded state`);
 if (deletes.length) {
   report.fact('to delete', `${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
