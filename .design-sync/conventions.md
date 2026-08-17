@@ -45,19 +45,27 @@ Reach it with `<sds-figure zoomable>` or `<sds-image zoomable>` rather than by h
 
 ## Setup
 
-Link `styles.css` and put `sds-app` on the root element. That one class establishes
-the canvas, the sans stack and the text colour; without it you inherit the browser's
-Times New Roman on white.
+One stylesheet, one script, one class. `styles.css` carries the tokens and the class
+layer, `_ds_bundle.js` registers every element on the page, and `sds-app` on the root
+establishes the canvas, the sans stack and the text colour — without it you inherit
+the browser's Times New Roman on white.
 
 ```html
 <link rel="stylesheet" href="styles.css">
+<script src="_ds_bundle.js" defer></script>
 <body class="sds-app"> … </body>
 ```
+
+**Leave the script out and you are writing the fallback.** The elements are what this
+system is used through; without them a page keeps the classes, and every part name in
+it becomes markup somebody has to maintain by hand.
 
 Both themes ship in one declaration — every colour is `light-dark()` against
 `color-scheme: light dark`, so light and dark cannot drift. Force a mode with
 `data-theme="light"` or `data-theme="dark"`; put it on `<html>` or the browser's own
 scrollbars and form controls stay in the other mode.
+
+<!-- @startingPoints -->
 
 ## The idiom
 
@@ -167,6 +175,23 @@ nearest specimen rather than inventing a variant.
 
 ## A worked example
 
+A degraded answer and what to do about it, written the way this system is used:
+
+```html
+<sds-note tone="warn"
+  heading="The installation could not be booted — packages were read instead">
+  This answer omits anything a running extension would add.
+  <span class="sds-mono">ddev start</span> would fix it.
+</sds-note>
+<div class="sds-actions">
+  <sds-button variant="primary">Run the checks</sds-button>
+  <sds-button variant="ghost">Cancel</sds-button>
+</div>
+```
+
+The same thing on a surface that runs no script. It is the markup the elements above
+emit, which is why it is a fallback and not a second way to build:
+
 ```html
 <div class="sds-note sds-note--warn">
   <span class="sds-note__icon"><svg class="sds-icon" viewBox="0 0 16 16">…</svg></span>
@@ -178,7 +203,7 @@ nearest specimen rather than inventing a variant.
     </div>
   </div>
 </div>
-<div style="display:flex; gap:var(--space-2); margin-top:var(--space-4)">
+<div class="sds-actions">
   <button class="sds-btn sds-btn--primary">Run the checks</button>
   <button class="sds-btn sds-btn--ghost">Cancel</button>
 </div>

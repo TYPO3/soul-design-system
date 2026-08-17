@@ -239,14 +239,23 @@ cpSync(join(ROOT, 'docs/design-system/illustration-prompt.md'), join(OUT, 'guide
 
 // README: the conventions header, then a generated index of every card
 const conv = join(ROOT, '.design-sync/conventions.md');
-const parts = existsSync(conv) ? [`${readFileSync(conv, 'utf8').trimEnd()}\n\n`] : [];
-if (sp.length) {
-  parts.push('## Starting points\n\n');
-  parts.push('Whole screens to seed a design from. Open one and copy its structure;\n');
-  parts.push('they are built from the same classes as everything else.\n\n');
-  for (const s of sp) parts.push(`- **${s.name}** — ${s.subtitle} \`screens/${s.path.split('/').pop()}\`\n`);
-  parts.push('\n');
-}
+/* The screens are named where the header puts the marker rather than after it:
+   only the first 32,000 characters reach the agent's prompt, and a page is
+   started from a screen before any of the class vocabulary is needed. */
+const SCREEN_MARK = '<!-- @startingPoints -->';
+const screenBlock = sp.length
+  ? [
+      '## Start from a screen\n\n',
+      'A page is a screen with its content replaced, never a stack of cards. Open the\n',
+      'one nearest the job and keep its shell — the bar, the skip link, and either a\n',
+      'column beside a rail or a run of bands. A card answers what one part looks like.\n\n',
+      ...sp.map((s) => `- **${s.name}** — ${s.subtitle} \`screens/${s.path.split('/').pop()}\`\n`),
+    ].join('')
+  : '';
+const conventions = existsSync(conv) ? `${readFileSync(conv, 'utf8').trimEnd()}\n\n` : '';
+const parts = [conventions.includes(SCREEN_MARK)
+  ? conventions.replace(SCREEN_MARK, screenBlock.trimEnd())
+  : conventions + screenBlock];
 parts.push('## Every card in this system\n\n');
 for (const [group, items] of byGroup(list)) {
   parts.push(`### ${group}\n\n`);
