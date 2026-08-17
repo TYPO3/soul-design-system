@@ -136,7 +136,8 @@ for (const [file, json] of files) {
 }
 
 console.log();
-report.fact('then, on the host — the gate first, because a tag is not taken back:');
+report.fact('nothing is committed, tagged or pushed. That is yours to run, on the host,');
+report.fact('and the gate first — a tag is not taken back:');
 console.log();
 for (const line of [
   'make verify && make test',
@@ -146,4 +147,4 @@ for (const line of [
   'git push origin main --follow-tags',
 ]) report.fact(`  ${line}`);
 
-report.close('ok', `${asked} is written — the tag is what releases it`);
+report.close('ok', `${asked} is written into the manifests, and nothing else has happened`);
