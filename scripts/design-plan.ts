@@ -29,10 +29,14 @@ const SENTINEL = '_ds_needs_recompile';
    the ordinary way `write_files` answers `written: 1` and the file is not there
    afterwards. Nothing fails, so a sync looks complete while the one file whose
    job is to say "recompile" never arrives. Naming the type explicitly makes it
-   stick, and it is passed inline — the content is the same every time. */
+   stick, and it is passed inline. */
+/* Its content carries the moment, because it used to be the same 24 bytes every
+   sync and the project stopped rebuilding: three syncs left it armed, the
+   manifest byte-identical and `updatedAt` hours stale. A file that says
+   "something changed" cannot say it by never changing. */
 const SENTINEL_UPLOAD = {
   mimeType: 'text/plain',
-  data: JSON.stringify({ by: 'design-sync-cli' }),
+  data: JSON.stringify({ by: 'design-sync-cli', at: new Date().toISOString() }),
   note: 'inline with an explicit mimeType — an extensionless localPath upload is dropped silently',
 };
 

@@ -183,9 +183,23 @@ a failure, which is the whole problem. The sentinel is what tells the app to
 rebuild `_ds_manifest.json`; without it every content file can be current
 while the pane still serves the index it compiled last time, and the project
 goes on showing a stale "last updated". Steps 1 and 4 of the plan therefore
-carry `mimeType: 'text/plain'` and the 24 bytes inline. Verify it afterwards
+carry `mimeType: 'text/plain'` and the payload inline. Verify it afterwards
 with `get_file _ds_needs_recompile` — a 404 there means the sync did not
 actually land, whatever the write count said.
+
+**And its content must differ every sync, or the write is a no-op.** It used to
+be the same 24 bytes each time. Three syncs in one session left the file armed
+and unread: `updatedAt` stayed two hours stale, `_ds_manifest.json` came back
+byte-identical across a fetch before and after 49 new files, and the project
+went on serving the index it had compiled that morning. Opening the project did
+not help, because there was nothing there the app had not already seen. So the
+payload carries the moment it was written — a file whose job is to say
+"something changed" cannot say it by never changing.
+
+This is the one that hid the longest, because every other check passed while it
+was broken: the write returns `written: 1`, `get_file` returns the bytes, the
+content files are all genuinely current. Only `updatedAt` and the manifest's own
+staleness give it away, and both are read from the app rather than the sync.
 
 **What the upload does and does not move.** Writing files does not bump the
 project's `updatedAt`, does not recompile `_ds_manifest.json`, and does not
