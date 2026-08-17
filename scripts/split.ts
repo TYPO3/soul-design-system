@@ -138,11 +138,6 @@ for (const pack of packs) {
       return started && (touching.has(sha) || tags.has(sha));
     });
 
-  if (replay.length === 0) {
-    report.row('skip', pack.name, 'nothing to mirror', `${relative(ROOT, out)} is level with this tree`);
-    continue;
-  }
-
   const tree = mkdtempSync(join(tmpdir(), 'soul-tree-'));
   const staged = mkdtempSync(join(tmpdir(), 'soul-pkg-'));
   let written = 0;
@@ -186,11 +181,36 @@ for (const pack of packs) {
     });
     written++;
     if (!changed) empty++;
-    if (tag) git(['tag', '--force', tag], out);
   }
 
   rmSync(tree, { recursive: true, force: true });
   rmSync(staged, { recursive: true, force: true });
+
+  /* Every tag against the whole mirror, rather than only against what this run
+     replayed. A tag on a commit that was already mirrored — which is what a
+     release cut from a commit that is on `main` is — belongs to no range this
+     run walks, and `git push --tags` would then push a tag nobody applied. It
+     fails at nothing and the release reaches no package manager. */
+  const placed: string[] = [];
+  if (spawnSync('git', ['rev-parse', '--verify', '--quiet', 'HEAD'], { cwd: out }).status === 0) {
+    const mirrored = new Map<string, string>();
+    for (const entry of git(['log', '--format=%H%x00%B%x01'], out).split('\x01')) {
+      const [sha = '', body = ''] = entry.trim().split('\x00');
+      const source = /^Split-From:\s*([0-9a-f]{40})$/m.exec(body)?.[1];
+      if (source) mirrored.set(source, sha);
+    }
+    for (const [sha, tag] of tags) {
+      const at = mirrored.get(sha);
+      if (!at || at === spawnSync('git', ['rev-list', '-1', tag], { cwd: out, encoding: 'utf8' }).stdout?.trim()) continue;
+      git(['tag', '--force', tag, at], out);
+      placed.push(tag);
+    }
+  }
+
+  if (replay.length === 0 && placed.length === 0) {
+    report.row('skip', pack.name, 'nothing to mirror', `${relative(ROOT, out)} is level with this tree`);
+    continue;
+  }
 
   const missing = pack.incomplete(out, ROOT);
   if (missing.length) {
@@ -198,7 +218,10 @@ for (const pack of packs) {
     process.exit(1);
   }
 
-  report.row('ok', pack.name, `${written} commit(s) mirrored${empty ? `, ${empty} empty for a tag` : ''}${from ? ` since ${from.slice(0, 7)}` : ''}`, size(out));
+  const what = written
+    ? `${written} commit(s) mirrored${empty ? `, ${empty} empty for a tag` : ''}${from ? ` since ${from.slice(0, 7)}` : ''}`
+    : 'level with this tree';
+  report.row('ok', pack.name, `${what}${placed.length ? `, tagged ${placed.join(' ')}` : ''}`, size(out));
   report.detail(`git -C ${relative(ROOT, out)} push ${remote} ${BRANCH}`);
   report.detail(`git -C ${relative(ROOT, out)} push --tags ${remote}`);
 }
