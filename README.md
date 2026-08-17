@@ -212,7 +212,9 @@ make design-project ARGS=<uuid>    # set it for this clone
 ```
 
 No `npm run` uploads, because the transport needs the `DesignSync` tool bound to
-your claude.ai login and a shell script has none. The scripts own everything
+your claude.ai login and a shell script has none. Claude Code asks before it
+reaches the app: once to add design access to that login, then per act —
+creating a design system, and locking the plan it is about to write. The scripts own everything
 else: `make design-plan` writes the steps, the file list and the deletes, and
 the agent executes that rather than working it out — working it out by hand is
 how a batch of renamed font files was once left orphaned in an uploaded system.

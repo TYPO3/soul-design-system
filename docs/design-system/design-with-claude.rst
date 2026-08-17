@@ -17,7 +17,8 @@ What you need
 
 - **Docker and Make.** Every command here runs in the repository's container.
 - **Claude Code**, with the ``/design-sync`` skill. A session without a
-  claude.ai login authorises once through ``/design-login``.
+  claude.ai login authorises once through ``/design-login``, and the first call
+  into the app asks to add design access to that login — see step 3.
 - **An account that can open claude.ai/design.**
 
 The first import
@@ -62,6 +63,12 @@ In Claude Code, in this checkout:
 
 It executes the plan in the order the plan names. With no design system of your
 own yet, it creates one and reports its id.
+
+**Claude Code asks before it reaches the app.** The first design call requests a
+scope expansion — ``user:design:write``, added to your claude.ai login and kept
+there — so it is approved once. After that only the acts themselves ask:
+creating a design system, and locking the plan, which is the prompt that shows
+the exact writes and deletes before any of them happen.
 
 .. note::
 
