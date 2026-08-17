@@ -18,117 +18,119 @@ What you need
 - **Docker and Make.** Every command here runs in the repository's container.
 - **Claude Code**, with the ``/design-sync`` skill and logged in to claude.ai
   (``/login``). The first call into the app asks to add design access to that
-  login — see step 3.
+  login — see `uploading it <#upload-it>`__.
 - **An account that can open claude.ai/design.** Open it in a browser with the
   same account: design access is granted to the account, not by any command.
 
 The first import
 ================
 
-Step 1 — get the repository
----------------------------
+.. steps::
 
-.. code-block:: bash
+   .. step:: Get the repository
 
-   git clone https://github.com/TYPO3/soul-design-system.git
-   cd soul-design-system
+      .. code-block:: bash
 
-Every command below runs from there.
+         git clone https://github.com/TYPO3/soul-design-system.git
+         cd soul-design-system
 
-Step 2 — build the upload
--------------------------
+      Every command below runs from there.
 
-.. code-block:: bash
+   .. step:: Build the upload
 
-   make design-sync
+      .. code-block:: bash
 
-It builds the bundle, runs the gate, says what would change, and writes
-``.design-sync/.cache/upload-plan.json``. On a first run it reports no project
-id and no deletes — expected, since nothing is uploaded yet.
+         make design-sync
 
-.. warning::
+      It builds the bundle, runs the gate, says what would change, and writes
+      ``.design-sync/.cache/upload-plan.json``. On a first run it reports no
+      project id and no deletes — expected, since nothing is uploaded yet.
 
-   A red gate stops it, and nothing is uploaded. Every fault it names is
-   invisible in review and wrong in every design afterwards: an undefined class
-   silently does nothing, a broken reference ships an unstyled card, an
-   oversized card is cropped in the pane.
+      .. warning::
 
-Step 3 — upload it
-------------------
+         A red gate stops it, and nothing is uploaded. Every fault it names is
+         invisible in review and wrong in every design afterwards: an undefined
+         class silently does nothing, a broken reference ships an unstyled card,
+         an oversized card is cropped in the pane.
 
-In Claude Code, in this checkout:
+   .. step:: Upload it
+      :name: upload-it
 
-.. code-block:: text
+      In Claude Code, in this checkout:
 
-   /design-sync
+      .. code-block:: text
 
-It executes the plan in the order the plan names. With no design system of your
-own yet, it creates one and reports its id.
+         /design-sync
 
-**Claude Code asks before it reaches the app.** The first design call requests a
-scope expansion — ``user:design:write``, added to your claude.ai login and kept
-there — so it is approved once. After that only the acts themselves ask:
-creating a design system, and locking the plan, which is the prompt that shows
-the exact writes and deletes before any of them happen.
+      It executes the plan in the order the plan names. With no design system of
+      your own yet, it creates one and reports its id.
 
-Approving it can still end in *design scopes not granted*, and the same line
-says what happened: a token refresh succeeded. A refresh returns the scopes the
-token already had, so it can never add one — a fresh login can. Log out, log in,
-and read the consent screen: it either offers design access or it does not. If it
-does not, the account has none, and no command in Claude Code grants it — open
-claude.ai/design in a browser with that account to see where you stand.
+      **Claude Code asks before it reaches the app.** The first design call
+      requests a scope expansion — ``user:design:write``, added to your claude.ai
+      login and kept there — so it is approved once. After that only the acts
+      themselves ask: creating a design system, and locking the plan, which is
+      the prompt that shows the exact writes and deletes before any of them
+      happen.
 
-.. note::
+      Approving it can still end in *design scopes not granted*, and the same
+      line says what happened: a token refresh succeeded. A refresh returns the
+      scopes the token already had, so it can never add one — a fresh login can.
+      Log out, log in, and read the consent screen: it either offers design
+      access or it does not. If it does not, the account has none, and no command
+      in Claude Code grants it — open claude.ai/design in a browser with that
+      account to see where you stand.
 
-   No ``/design-sync`` in your Claude Code? Ask the agent to execute
-   ``.design-sync/.cache/upload-plan.json`` step by step — the file is the whole
-   instruction, order included.
+      .. note::
 
-Step 4 — remember where it landed
----------------------------------
+         No ``/design-sync`` in your Claude Code? Ask the agent to execute
+         ``.design-sync/.cache/upload-plan.json`` step by step — the file is the
+         whole instruction, order included.
 
-The app addresses an uploaded system by a project id. Write it down, or the next
-sync imports a second copy instead of updating this one.
+   .. step:: Remember where it landed
+      :name: remember-where-it-landed
 
-Paste this into Claude Code, in this checkout:
+      The app addresses an uploaded system by a project id. Write it down, or the
+      next sync imports a second copy instead of updating this one.
 
-.. code-block:: text
+      Paste this into Claude Code, in this checkout:
 
-   Run `make design-project` here. If it already names a design system, stop and
-   tell me. Otherwise list my claude.ai design systems with their project ids and,
-   if exactly one is mine, run `make design-project ARGS=<its id>`.
+      .. code-block:: text
 
-That writes the id into ``.design-sync/config.local.json``, which is untracked.
-By hand it is the same command with the uuid the upload reported:
+         Run `make design-project` here. If it already names a design system, stop and
+         tell me. Otherwise list my claude.ai design systems with their project ids and,
+         if exactly one is mine, run `make design-project ARGS=<its id>`.
 
-.. code-block:: bash
+      That writes the id into ``.design-sync/config.local.json``, which is
+      untracked. By hand it is the same command with the uuid the upload
+      reported:
 
-   make design-project ARGS=0189a4c1-6f2e-4b7a-9c31-2d8f5e0a7b64
+      .. code-block:: bash
 
-An id this clone already has is never replaced silently — the task refuses, and
-``ARGS="<uuid> --force"`` is how you mean it. With nothing after it,
-``make design-project`` says what a sync would use and where it read that from.
+         make design-project ARGS=0189a4c1-6f2e-4b7a-9c31-2d8f5e0a7b64
 
-Step 5 — record what the app holds
-----------------------------------
+      An id this clone already has is never replaced silently — the task refuses,
+      and ``ARGS="<uuid> --force"`` is how you mean it. With nothing after it,
+      ``make design-project`` says what a sync would use and where it read that
+      from.
 
-.. code-block:: bash
+   .. step:: Record what the app holds
 
-   make design-synced
+      .. code-block:: bash
 
-Without it, ``make design-status`` and ``make design-plan`` keep answering from
-the previous upload.
+         make design-synced
 
-Step 6 — open it in the app
----------------------------
+      Without it, ``make design-status`` and ``make design-plan`` keep answering
+      from the previous upload.
 
-Open the design system at claude.ai/design. The cards appear on that first open:
-the upload writes files, and the app compiles its card index when it next finds
-the sentinel. Until then the honest state is *files current, pane refreshes on
-next open*.
+   .. step:: Open it in the app
 
-The Design System pane then lists the cards under their groups, and the Starting
-Points picker offers the screens.
+      Open the design system at claude.ai/design. The cards appear on that first
+      open: the upload writes files, and the app compiles its card index when it
+      next finds the sentinel. Until then the honest state is *files current,
+      pane refreshes on next open*.
+
+      The Design System pane then lists the cards under their groups, and the
+      Starting Points picker offers the screens.
 
 Designing with it
 =================
@@ -192,20 +194,30 @@ declaration the system has no name for, close that gap in the component here.
 Keeping the uploaded system current
 ===================================
 
-A token moved, a component grew: the same three steps, landing in the system the
+A token moved, a component grew: the same three stops, landing in the system the
 id names.
 
-.. code-block:: bash
+.. steps::
 
-   make design-sync      # build, gate, what would change, and the plan
+   .. step:: Build, gate, and plan what would change
 
-.. code-block:: text
+      .. code-block:: bash
 
-   /design-sync          # reads what the app holds, pushes what moved
+         make design-sync
 
-.. code-block:: bash
+   .. step:: Push what moved
 
-   make design-synced    # record that the app now holds this build
+      .. code-block:: text
+
+         /design-sync
+
+      It reads what the app holds before it writes anything.
+
+   .. step:: Record that the app now holds this build
+
+      .. code-block:: bash
+
+         make design-synced
 
 Look at what moved between them. The gate checks mechanics, not judgement: when
 ``make design-status`` lists changed cards, run ``make baseline`` before the
@@ -249,7 +261,8 @@ When it does not look right
        ``DesignSync get_file _ds_needs_recompile``, and a 404 means the sync did
        not arrive whatever the write count said.
    * - A second design system appeared beside yours
-     - No project id was set when that sync ran. Set it (step 4), then delete
+     - No project id was set when that sync ran. Set it —
+       `remember where it landed <#remember-where-it-landed>`__ — then delete
        the duplicate in the app.
    * - The plan reports no deletes
      - This clone has no cache of what the app holds — see the note above.
@@ -259,7 +272,8 @@ When it does not look right
      - Read the rest of the line. *Refresh succeeded but design scopes not
        granted* means the token was renewed with the scopes it already had: log
        out and in so the consent screen is asked again. A consent screen without
-       design access means the account has none — see step 3.
+       design access means the account has none — see
+       `uploading it <#upload-it>`__.
 
 What gets uploaded
 ==================
