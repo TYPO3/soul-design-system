@@ -202,9 +202,13 @@ make design-sync    # build, verify, what-would-change, and the upload plan
 make design-synced  # record that the app now holds this build
 ```
 
-The app addresses an uploaded system by a project id, and it is set once per
-clone — without one, every sync imports a second copy instead of updating the
-first:
+**A first import creates its own design system** — let it, rather than adopting
+an existing project. A fresh one starts empty, so the upload is everything in
+it, and only a design system is ever a target: the plan verifies that before it
+writes, and the type cannot be changed afterwards.
+
+Its project id is then set once per clone — without one, every sync imports a
+second copy instead of updating the first:
 
 ```sh
 make design-project                # which design system a sync uploads into, and how to get its id

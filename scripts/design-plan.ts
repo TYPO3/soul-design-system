@@ -9,6 +9,8 @@
      4. sentinel   re-armed, so the app rebuilds its manifest on next open
      5. anchor     last, because it vouches for all of the above
      6. verify     the sentinel read back, because its write fails silently
+   Before any of it, `preflight`: the target is a design system, or nothing is
+   written — that type is fixed when a project is created.
 */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -84,8 +86,27 @@ if (existsSync(ANCHOR)) {
   deletable = false;
 }
 
+/* Asked before anything is written, because it cannot be answered afterwards:
+   the type is fixed when a project is created, so a push into an ordinary one
+   lands every file and never becomes a design system. The symptom is a pane
+   with nothing in it, which is what a lost sentinel looks like too. */
+const preflight = projectId
+  ? [{
+      action: 'verify', why: 'the target must already be a design system — the type is fixed at creation',
+      method: 'get_project', projectId,
+      expect: { type: 'PROJECT_TYPE_DESIGN_SYSTEM', canEdit: true },
+      onMismatch: 'stop, write nothing, and report it: an ordinary project cannot become a design system. Create one with create_project, then set it here with `make design-project ARGS="<new uuid> --force"`.',
+    }]
+  : [{
+      action: 'create', why: 'no project id — create a NEW design system rather than reusing anything',
+      method: 'create_project',
+      then: 'report the new id and set it here: `make design-project ARGS=<uuid>`',
+      note: 'never adopt an existing project for a first import: a fresh design system starts empty, so this upload is everything in it and nothing of the owner\'s is overwritten or deleted.',
+    }];
+
 const plan = {
   projectId,
+  preflight,
   localDir: './.out/bundle',
   finalizePlan: {
     writes: ['components/**', 'screens/**', 'tokens/**', 'fonts/**', 'assets/**', 'guidelines/**',
@@ -118,6 +139,9 @@ writeFileSync(OUT, JSON.stringify(plan, null, 2));
 report.align([{ name: '', label: 'the order it uploads in' }]);
 report.fact('written to', '.design-sync/.cache/upload-plan.json');
 report.fact('project', projectId ?? '(none set — see below)');
+report.fact('before it writes', projectId
+  ? 'get_project — the target is a design system, or nothing is written'
+  : 'create_project — there is no target yet');
 report.fact('the order it uploads in', `1 sentinel · 2 ${content.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor · 6 read the sentinel back`);
 if (deletes.length) {
   report.fact('to delete', `${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
