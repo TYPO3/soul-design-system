@@ -249,6 +249,26 @@ is fixed when a project is created, so the answer to a wrong target is a new
 design system — which is what a first import creates anyway, and the reason it
 is the recommended way in.
 
+Starting over in a new one
+--------------------------
+
+.. code-block:: bash
+
+   make design-project ARGS=--forget
+
+That is the whole reset: the id goes, and with it the record of what the old
+design system held and the plan written against it. The next
+``make design-sync`` is a first import again — ``/design-sync`` creates a new
+design system, and its id is written down as in
+`remembering where it landed <#remember-where-it-landed>`__.
+
+Both go together on purpose. Keep the record and point the id at a new design
+system, and the next plan computes deletes for files that were never in it while
+``make design-status`` reports against a system nobody is uploading to. Nothing
+else is touched — the old design system stays in the app until you delete it
+there, and the screenshots a visual review left in the cache stay where they
+are.
+
 .. confval:: SDS_DESIGN_PROJECT
    :type: environment variable
    :required: false

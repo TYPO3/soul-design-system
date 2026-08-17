@@ -40,14 +40,24 @@ per-repository — a clone must not inherit someone else's project as its
 default target. It is not a credential either way: the API authorises the
 caller's own login, and the id opens nothing for anyone else.
 
-`scripts/plan.ts` looks in three places, in order:
+`scripts/design-plan.ts` looks in three places, in order:
 
 1. `SDS_DESIGN_PROJECT` in the environment
 2. `.design-sync/config.local.json` — gitignored, `{"projectId": "…"}`
 3. `config.json` itself — still honoured, for a fork that prefers it there
 
-With none of them the plan still writes, and says plainly what to set and why.
-No project yet? `/design-sync` creates one and reports its id.
+`make design-project` reads all three and says which answered; `ARGS=<uuid>`
+writes the second, and refuses to replace a different id without `--force`.
+With none of them the plan still writes, and its preflight says to create a new
+design system rather than adopt anything — which is the recommended first
+import, and what `/design-sync` does when no id is set.
+
+**`ARGS=--forget` is the reset**, and it drops the id, the cached anchor and the
+plan together. They are one state: an anchor kept across a change of target
+describes a design system nobody is uploading to, so the next plan computes
+deletes against a file list the new one never had, and `design-status` answers
+about the old one. The baseline screenshots in the same cache belong to the
+visual review and are left alone.
 
 ## Doing a sync
 

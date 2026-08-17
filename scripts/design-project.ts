@@ -6,10 +6,11 @@
    up — the API authorises a claude.ai login — so this owns everything else:
    which source answered, that the id looks like one, and where it is kept.
 
-     make design-project              # which design system a sync would upload into
-     make design-project ARGS=<uuid>  # set it; add --force to replace one
+     make design-project               # which design system a sync would upload into
+     make design-project ARGS=<uuid>   # set it; add --force to replace one
+     make design-project ARGS=--forget # forget it and the cached state, for a new one
 */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { ROOT } from './lib/cards.ts';
@@ -17,6 +18,11 @@ import * as report from './lib/report.ts';
 
 const LOCAL = join(ROOT, '.design-sync/config.local.json');
 const COMMITTED = join(ROOT, '.design-sync/config.json');
+/* What a clone knows about one design system, and all of it: the id it uploads
+   into, the record of what that one holds, and the plan written against both.
+   The screenshots beside them are the visual review's and are not this task's. */
+const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
+const PLAN = join(ROOT, '.design-sync/.cache/upload-plan.json');
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const readId = (file: string): string | null => {
@@ -49,7 +55,28 @@ report.align(SOURCES.map(([name, what]) => ({ name, label: what })));
 
 const args = process.argv.slice(2);
 const force = args.includes('--force');
-const given = args.find((a) => a !== '--force');
+const given = args.find((a) => !a.startsWith('--'));
+
+/* Back to a clone that has never synced. The id and the anchor have to go
+   together: kept, the anchor describes the old system and the next plan deletes
+   files from a new one against a list it never had. */
+if (args.includes('--forget')) {
+  const kept = existsSync(LOCAL) ? JSON.parse(readFileSync(LOCAL, 'utf8')) : {};
+  const { projectId: dropped, ...rest } = kept;
+  if (existsSync(LOCAL)) {
+    if (Object.keys(rest).length) writeFileSync(LOCAL, `${JSON.stringify(rest, null, 2)}\n`);
+    else rmSync(LOCAL);
+  }
+  for (const f of [ANCHOR, PLAN]) rmSync(f, { force: true });
+  report.fact('forgotten', dropped ? String(dropped) : '(no id was set)');
+  report.fact('cleared', 'the cached anchor and the upload plan');
+  if (process.env['SDS_DESIGN_PROJECT']) {
+    report.note('SDS_DESIGN_PROJECT is still set in this shell and outranks the file — unset it');
+  }
+  report.fact('next', '/design-sync creates a new design system, then make design-project ARGS=<its id>');
+  report.summary('this clone has never synced anything');
+  process.exit(0);
+}
 
 if (given) {
   if (!UUID.test(given)) {

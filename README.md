@@ -213,6 +213,7 @@ second copy instead of updating the first:
 ```sh
 make design-project                # which design system a sync uploads into, and how to get its id
 make design-project ARGS=<uuid>    # set it for this clone
+make design-project ARGS=--forget  # forget it and the cached state — the next sync is a first import
 ```
 
 No `npm run` uploads, because the transport needs the `DesignSync` tool bound to

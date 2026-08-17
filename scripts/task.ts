@@ -66,7 +66,7 @@ const TASKS: Record<string, Task> = {
   /* Sync to claude.ai/design, and every one of them says so in its name:
      `status`, `plan`, `project` and `synced` are words this repository uses
      for other things, and a task called `plan` reads as the repository's own. */
-  'design-project': { cmd: node('scripts/design-project.ts'), help: 'which claude.ai design system a sync uploads into — make design-project ARGS=<uuid> sets its project id' },
+  'design-project': { cmd: node('scripts/design-project.ts'), help: 'which claude.ai design system a sync uploads into — ARGS=<uuid> sets it, ARGS=--forget starts over' },
   'design-sync': { cmd: ['sh', '-c', 'node scripts/verify.ts && node scripts/design-status.ts && node scripts/design-plan.ts'], help: 'build + verify + what-would-change + upload plan' },
   'design-status': { cmd: node('scripts/design-status.ts'), help: 'what a sync would change' },
   'design-plan': { cmd: node('scripts/design-plan.ts'), help: 'the ordered upload plan, with deletes' },
