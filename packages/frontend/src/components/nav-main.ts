@@ -350,7 +350,17 @@ export class SdsNavMain extends SdsNav {
       const itemGap = parseFloat(getComputedStyle(nav).columnGap) || 0;
       this.needNav = items.reduce((sum, el) => sum + widthOf(el), 0) + itemGap * (items.length - 1);
     }
+    /* A field just put back in the row has not drawn itself yet: the host
+       stands there at no width and the gap beside it is measured anyway, which
+       is one gap the folded state does not have. The two then disagree by that
+       gap and fold each other back and forth forever, so the answer waits for
+       the box. */
+    const host = this.querySelector<HTMLElement & { updateComplete?: Promise<unknown> }>('sds-search');
     const field = this.querySelector<HTMLElement>('.sds-search');
+    if (host && !field) {
+      void (host.updateComplete ?? customElements.whenDefined('sds-search')).then(() => this.decide());
+      return;
+    }
     if (field && !this.foldSearch && !this.needSearch) this.needSearch = widthOf(field);
     /* Two words, and what they cost is the words plus the air between each and
        its own mark: dropping a label takes the gap beside it with it. */

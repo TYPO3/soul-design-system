@@ -3843,7 +3843,12 @@ var SdsNavMain = class extends SdsNav {
       const itemGap = parseFloat(getComputedStyle(nav).columnGap) || 0;
       this.needNav = items.reduce((sum, el) => sum + widthOf(el), 0) + itemGap * (items.length - 1);
     }
+    const host = this.querySelector("sds-search");
     const field = this.querySelector(".sds-search");
+    if (host && !field) {
+      void (host.updateComplete ?? customElements.whenDefined("sds-search")).then(() => this.decide());
+      return;
+    }
     if (field && !this.foldSearch && !this.needSearch) this.needSearch = widthOf(field);
     if (!this.compactTheme && !this.needWords) {
       const words = [...this.querySelectorAll(".sds-mode__label")];
