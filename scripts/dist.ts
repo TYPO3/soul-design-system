@@ -191,13 +191,7 @@ const finishOptions: esbuild.BuildOptions = {
    sprite's source and is read by `make icons` alone, and not `placeholders/`,
    which is this system's own story photography — 8.7 MB of it, in every clone
    and every copy anybody makes of the drop-in. */
-/* A linked page draws from the sprite and reads no lookup, so neither lookup
-   comes here — and with them gone, the single files they name have nothing to
-   answer to either. The package ships all three together; this is the drop-in,
-   and it stays the few files a page actually fetches. */
-const NOT_IN_THE_DROP_IN = [
-  join('icons', 'svgs'), join('icons', 'icons.json'), 'icons.json', 'placeholders',
-];
+const NOT_IN_THE_DROP_IN = [join('icons', 'svgs'), 'placeholders'];
 const copyAssets = (): void => cpSync(join(FRONTEND, 'assets'), join(OUT, 'assets'), {
   recursive: true,
   filter: (source) => !NOT_IN_THE_DROP_IN.includes(relative(join(FRONTEND, 'assets'), source)),
