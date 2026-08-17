@@ -7,9 +7,11 @@
 # gate, and the two would drift apart on the first change to either.
 #
 # Only the gate has an image, and it runs on every push and every pull request.
-# What follows runs on `main` only and behind it, in one order: the packages
-# are mirrored into the repositories they are released from, and then the site
-# that tells a reader to install them is rendered and deployed.
+# What follows runs behind it and in one order: the packages are mirrored into
+# the repositories they are released from, then the site that tells a reader to
+# install them is rendered and deployed. A tag takes the same road as far as
+# the mirror and turns off at the release — which is the whole of what a
+# release is here, a tag pushed at a tree this gate has passed.
 name: CI
 
 # Every push, whatever the branch — a branch nobody has opened a pull request
@@ -107,18 +109,72 @@ jobs:
           retention-days: 7
 
   # The packages, into the repositories they are installed from. Every push to
-  # `main` and no other event: a mirror that waits for somebody to start it is
-  # one a consumer installs behind this tree, and a pull request is not a tree
-  # anybody may install. `needs: gate` for the same reason the site has it.
+  # `main`, and every release tag: a mirror that waits for somebody to start it
+  # is one a consumer installs behind this tree, and a pull request is not a
+  # tree anybody may install. The tag matters on its own because Packagist
+  # reads the theme's version off the mirror's tags and nothing else — and
+  # because branch and tag arrive as two events, either of which may be first.
+  # `needs: gate` for the same reason the site has it.
   mirror:
     name: mirror the packages
     needs: gate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: >-
+      github.event_name == 'push'
+      && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
     uses: ./.github/workflows/split.yml
     with:
       package: all
       branch: main
     secrets: inherit
+
+  # The release: the npm package from this tree, and a GitHub release on the
+  # tag. Behind the mirror, because Packagist takes the theme's version off a
+  # tag that has to be over there first. Not a called workflow, unlike the two
+  # jobs either side of it: npm's trusted publishing trusts one workflow file
+  # by name, and a job in a called file is a second name to get right.
+  release:
+    name: publish the release
+    needs: [gate, mirror]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      # The GitHub release, and the OIDC token npm exchanges for the publish.
+      # No npm credential exists in this repository, which is the point.
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # `registry-url` is what points the publish at npm's own registry. No
+      # cache in a release build — npm's instruction, and a restored one is a
+      # tree nobody checked. Node 24 carries an npm that can do OIDC at all;
+      # anything older fails at the publish rather than quietly.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+
+      # The tag is what a consumer asks for, and npm reads the number out of a
+      # manifest instead. This is the one place both are in the room together.
+      - run: node scripts/release.ts --check --tag=${{ github.ref_name }}
+
+      # `assets/icons/` is generated and gitignored, and the manifest publishes
+      # `assets/` — without this the package installs with every icon a blank
+      # box. `--ignore-scripts` for the reason the image installs that way.
+      - run: npm ci --no-audit --no-fund --ignore-scripts
+      - run: node scripts/icons.ts
+
+      # No `--provenance` and no token: trusted publishing attests the build
+      # from the OIDC token above, and that is npm's own instruction. `dist/`
+      # is committed and the gate compared it, so nothing is built here.
+      - run: npm publish
+        working-directory: packages/frontend
+
+      - name: the release those packages were cut from
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes
 
   # The site, rendered and deployed by `documentation.yml` — the shape the
   # example hands a reader, on our own documentation. Behind the mirror rather
