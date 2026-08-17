@@ -28,6 +28,13 @@ const PLACES: readonly { file: string; path: readonly string[] }[] = [
   { file: 'packages/frontend/package.json', path: ['version'] },
 ];
 
+/** And the one outside a manifest. The site renders it into its footer, so it
+    is the copy of this number a reader actually sees — and the only one that
+    would still say `-dev` on the day the release is announced. */
+const RENDERED: readonly { file: string; where: string; re: RegExp }[] = [
+  { file: 'docs/guides.xml', where: 'project version', re: /(<project\b[^>]*\bversion=")([^"]*)(")/ },
+];
+
 /** The theme takes its version from the tag and must not carry one of its own:
     a field here is a second number, and the one nothing regenerates. */
 const THEME = 'packages/guides-theme/composer.json';
@@ -73,8 +80,9 @@ const tag = argv.find((a) => a.startsWith('--tag='))?.split('=')[1];
 /* ---- the gate's question: is there one version, and is it a version ---- */
 
 if (argv.includes('--check')) {
-  report.open('release', 'the manifests name one version');
-  report.align(PLACES.map((place) => ({ name: place.file, label: inside(place.path) })));
+  report.open('release', 'this tree names one version');
+  report.align([...PLACES.map((p) => ({ name: p.file, label: inside(p.path) })),
+    ...RENDERED.map((p) => ({ name: p.file, label: p.where }))]);
 
   const problems: string[] = [];
   const found = new Set<string>();
@@ -87,8 +95,17 @@ if (argv.includes('--check')) {
     if (wrong) problems.push(wrong);
     report.row(wrong ? 'bad' : 'ok', place.file, inside(place.path), typeof value === 'string' ? value : '—');
   }
+  for (const place of RENDERED) {
+    const value = place.re.exec(readFileSync(join(ROOT, place.file), 'utf8'))?.[2];
+    const wrong = value === undefined
+      ? `${place.file} → ${place.where} is not there — the site would render without one`
+      : SEMVER.test(value) ? '' : `${place.file} → ${place.where} is "${value}", which is not a version`;
+    if (value !== undefined) found.add(value);
+    if (wrong) problems.push(wrong);
+    report.row(wrong ? 'bad' : 'ok', place.file, place.where, value ?? '—');
+  }
   if (found.size > 1) {
-    problems.push(`the manifests name ${[...found].join(' and ')} — one release is one version, and \`make release ARGS=<version>\` writes them together`);
+    problems.push(`this tree names ${[...found].join(' and ')} — one release is one version, and \`make release ARGS=<version>\` writes them together`);
   }
   if (typeof read(THEME)['version'] === 'string') {
     problems.push(`${THEME} carries a version — the theme takes it from the tag, and a second copy is one nothing updates`);
@@ -105,7 +122,8 @@ if (argv.includes('--check')) {
 /* ---- writing one ---- */
 
 report.open('release', 'the version this repository releases under');
-report.align(PLACES.map((place) => ({ name: place.file, label: inside(place.path) })));
+report.align([...PLACES.map((p) => ({ name: p.file, label: inside(p.path) })),
+  ...RENDERED.map((p) => ({ name: p.file, label: p.where }))]);
 
 const current = String(node(read('package.json'), ['version'])?.['version'] ?? '');
 
@@ -135,13 +153,25 @@ for (const [file, json] of files) {
   if (PLACES.some((place) => place.file === file)) writeFileSync(join(ROOT, file), `${JSON.stringify(json, null, 2)}\n`);
 }
 
+for (const place of RENDERED) {
+  const path = join(ROOT, place.file);
+  const text = readFileSync(path, 'utf8');
+  const was = place.re.exec(text)?.[2];
+  if (was === undefined) {
+    report.bad(`${place.file} has no ${place.where} to write — the site renders the number from there`);
+    process.exit(1);
+  }
+  writeFileSync(path, text.replace(place.re, `$1${asked}$3`));
+  report.row('ok', place.file, place.where, `${was} → ${asked}`);
+}
+
 console.log();
 report.fact('nothing is committed, tagged or pushed. That is yours to run, on the host,');
 report.fact('and the gate first — a tag is not taken back:');
 console.log();
 for (const line of [
   'make verify && make test',
-  `git add ${[...new Set(PLACES.map((p) => p.file))].join(' ')}`,
+  `git add ${[...new Set([...PLACES, ...RENDERED].map((p) => p.file))].join(' ')}`,
   `git commit -m "release: ${asked}"`,
   `git tag -a ${tagged(asked)} -m "${asked}"`,
   'git push origin main --follow-tags',

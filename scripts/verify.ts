@@ -469,12 +469,13 @@ const CHECKS: readonly Check[] = [
   },
 
   /* A release is one tag and one version. Packagist reads the theme's off that
-     tag, npm reads the frontend's out of a manifest — so the number is written
-     down, in every file that carries it, and this is what keeps the copies
-     from drifting into a published version nobody meant. */
+     tag, npm reads the frontend's out of a manifest, and the site renders its
+     own into a footer — so the number is written down in several files, and
+     this is what keeps the copies from drifting into a published version
+     nobody meant. The rendered one is the copy a reader actually sees. */
   {
     name: 'version',
-    label: 'the manifests name one version',
+    label: 'this tree names one version',
     run: () => ({ ...child('scripts/release.ts', '--check'), fix: 'make release ARGS=<version>' }),
   },
 
