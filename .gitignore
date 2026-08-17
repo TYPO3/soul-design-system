@@ -37,9 +37,6 @@ node_modules/
 # licence beside them are committed: npm packs a checkout, not a container.
 /packages/frontend/assets/icons/svgs/
 
-# generated from @typo3/icons by scripts/icons.ts, alongside assets/icons/
-/packages/frontend/src/components/icons.generated.ts
-/packages/frontend/src/components/icons.svg.generated.ts
 
 # Never the lock. This is a library rather than an application: what it must
 # work against is the constraint in composer.json, and a committed lock would

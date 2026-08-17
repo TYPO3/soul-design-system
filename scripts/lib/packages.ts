@@ -155,6 +155,11 @@ export const PACKAGES: readonly Package[] = [
     incomplete(pkg) {
       const missing = [
         'package.json', 'README.md', 'LICENSE',
+        /* Generated, and shipped: `src/` is published and its own modules
+           import these two. Nothing on the way out builds anything — a mirror
+           replays what git has and a publish packs a checkout — so a generated
+           file a package imports is a file git has to keep. */
+        'src/components/icons.generated.ts', 'src/components/icons.svg.generated.ts',
         'src/index.ts', 'src/styles/styles.css', 'src/styles/reset.css',
         'src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css',
         'src/styles/components/card.css',

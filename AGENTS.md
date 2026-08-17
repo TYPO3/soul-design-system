@@ -186,8 +186,8 @@ Generated — never edit, never hand-write a new one:
 | `docs/_cards/`, `packages/guides-theme/acceptance/_cards/` | `make embed`, and `make cards` ends with it — the generated cards where the documents that embed them can reach them. Beside those documents rather than under `.out/`, because a renderer only carries what a parsed page points at |
 | `docs/_images/signet*.svg` | `make embed` — committed, and copied from `packages/frontend/assets/`, which is where a mark is drawn. `marks` in `scripts/lib/projects.ts` says which file is which drawing: a signet is crisp only in the box it was made for, and a hand copy is how the wrong one reaches a header |
 | `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
-| `packages/frontend/assets/icons/svgs/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — untracked, the container's entrypoint restores them |
-| `packages/frontend/assets/icons/sprites/`, `icons.json` and the licence beside them | `make icons` — committed, like `fonts/` and for the same reason: npm packs a checkout, and a runner that had to install anything to fill a gap is a step between a green gate and the tarball |
+| `packages/frontend/assets/icons/svgs/` | `make icons` — untracked, the container's entrypoint restores them. The sprite's source, and in no package |
+| `packages/frontend/assets/icons/sprites/`, `icons.json`, the licence beside them, `assets/icons.json`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — committed, like `fonts/` and `diagrams*.generated.ts`. Nothing on the way out builds: a mirror replays what git has and a publish packs a checkout, so whatever a package ships or imports is a file git keeps |
 | `packages/frontend/src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `packages/frontend/assets/diagrams/` |
 
 **Everything generated that git does not keep is under `.out/`** — the bundle,
