@@ -300,7 +300,6 @@ which is about the containers.
 | `sync` | build + verify + what-would-change + upload plan |
 | `sync-status` / `plan` / `synced` | the sync steps individually |
 | `baseline` / `shots` / `diff` | screenshot before, after, compare |
-| `sheets` | tile screenshots into contact sheets |
 | `fonts` / `icons` | regenerate from the npm packages |
 | `coverage` | is every component shown — a story, a drawn class, a page the Guides renderer produced |
 | `fit` | does every card fit the viewport it declares |
