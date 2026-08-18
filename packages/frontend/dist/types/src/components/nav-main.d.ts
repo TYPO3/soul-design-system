@@ -122,6 +122,10 @@ export declare class SdsNavMain extends SdsNav {
     private needNav;
     private needSearch;
     private needWords;
+    /** The mode control with its words and without them. The two are what a word
+        costs, and neither can be read in the state that does not have it. */
+    private wordyTheme;
+    private quietTheme;
     private watch?;
     private watched;
     /** The close a pointer asked for, still waiting out its grace. */

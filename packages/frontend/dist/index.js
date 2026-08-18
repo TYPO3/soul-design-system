@@ -3650,6 +3650,10 @@ var SdsNavMain = class extends SdsNav {
     this.needNav = 0;
     this.needSearch = 0;
     this.needWords = 0;
+    /** The mode control with its words and without them. The two are what a word
+        costs, and neither can be read in the state that does not have it. */
+    this.wordyTheme = 0;
+    this.quietTheme = 0;
     this.watched = false;
     /** Which way the drawer has just stepped, and how tall it was before it did.
         Both are read once, by the render that has to show the step. */
@@ -3720,6 +3724,8 @@ var SdsNavMain = class extends SdsNav {
       this.needNav = 0;
       this.needSearch = 0;
       this.needWords = 0;
+      this.wordyTheme = 0;
+      this.quietTheme = 0;
       this.compactTheme = false;
       this.foldNav = false;
       this.foldSearch = false;
@@ -3849,12 +3855,11 @@ var SdsNavMain = class extends SdsNav {
       return;
     }
     if (field && !this.foldSearch && !this.needSearch) this.needSearch = widthOf(field);
-    if (!this.compactTheme && !this.needWords) {
-      const words = [...this.querySelectorAll(".sds-mode__label")];
-      this.needWords = words.reduce((sum, el) => {
-        const air = el.parentElement ? parseFloat(getComputedStyle(el.parentElement).columnGap) || 0 : 0;
-        return sum + widthOf(el) + air;
-      }, 0);
+    const mode = this.querySelector("sds-theme");
+    if (mode) {
+      if (mode.querySelector(".sds-mode__label")) this.wordyTheme = widthOf(mode);
+      else this.quietTheme = widthOf(mode);
+      if (this.wordyTheme && this.quietTheme) this.needWords = this.wordyTheme - this.quietTheme;
     }
     const standing = boxes(row);
     let used = standing.reduce((sum, el) => sum + widthOf(el), 0) + gap * (standing.length - 1);

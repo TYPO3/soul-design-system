@@ -132,6 +132,10 @@ export class SdsNavMain extends SdsNav {
   private needNav = 0;
   private needSearch = 0;
   private needWords = 0;
+  /** The mode control with its words and without them. The two are what a word
+      costs, and neither can be read in the state that does not have it. */
+  private wordyTheme = 0;
+  private quietTheme = 0;
   private watch?: ResizeObserver;
   private watched = false;
   /** The close a pointer asked for, still waiting out its grace. */
@@ -181,6 +185,8 @@ export class SdsNavMain extends SdsNav {
       this.needNav = 0;
       this.needSearch = 0;
       this.needWords = 0;
+      this.wordyTheme = 0;
+      this.quietTheme = 0;
       this.compactTheme = false;
       this.foldNav = false;
       this.foldSearch = false;
@@ -362,14 +368,16 @@ export class SdsNavMain extends SdsNav {
       return;
     }
     if (field && !this.foldSearch && !this.needSearch) this.needSearch = widthOf(field);
-    /* Two words, and what they cost is the words plus the air between each and
-       its own mark: dropping a label takes the gap beside it with it. */
-    if (!this.compactTheme && !this.needWords) {
-      const words = [...this.querySelectorAll<HTMLElement>('.sds-mode__label')];
-      this.needWords = words.reduce((sum, el) => {
-        const air = el.parentElement ? parseFloat(getComputedStyle(el.parentElement).columnGap) || 0 : 0;
-        return sum + widthOf(el) + air;
-      }, 0);
+    /* What the words cost is the difference between the control's two forms,
+       measured rather than added up from the labels and the air beside them:
+       that sum came out nine short, and nine is all it takes for the two
+       states to disagree about the same bar and fold each other forever. Each
+       form is measured in the frame that has it, so neither reading is stale. */
+    const mode = this.querySelector<HTMLElement>('sds-theme');
+    if (mode) {
+      if (mode.querySelector('.sds-mode__label')) this.wordyTheme = widthOf(mode);
+      else this.quietTheme = widthOf(mode);
+      if (this.wordyTheme && this.quietTheme) this.needWords = this.wordyTheme - this.quietTheme;
     }
 
     /* Everything in the row that never folds. The two that do and the button
