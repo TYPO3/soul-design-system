@@ -1,34 +1,20 @@
 /* Every language the system says it colours, actually coloured.
 
-   `CodeLang` is a promise, and a mapping that quietly lost an entry shows as a
-   block set in one grey — which is also what an undeclared language looks like,
-   so it would never be reported. The samples are chosen to produce a token, not
-   to be interesting: one comment, one string, one keyword. */
+   `CodeLangName` is a promise, and a mapping that quietly lost an entry shows
+   as a block set in one grey — which is also what an undeclared language looks
+   like, so it would never be reported on its own. */
 
 import { test, expect } from '@playwright/test';
-import { highlight, highlights } from '../packages/frontend/src/lib/highlight.ts';
+import { highlight } from '../packages/frontend/src/lib/highlight.ts';
+import { SAMPLES } from '../stories/lib/languages.ts';
 import { gotoStory } from './lib/story.ts';
 
-/* A line of each, with something in it the grammar has to recognise. */
-const SAMPLES: Record<string, string> = {
-  bash: 'echo hi # a note',
-  css: '.a { color: red; }',
-  diff: '+added\n-removed',
-  html: '<a href="#">x</a>',
-  javascript: 'const a = 1; // one',
-  json: '{ "versions": ["13.4"] }',
-  markdown: '# Title\n\nSome **bold** and `code`.\n\n- item',
-  php: '<?php echo 1;',
-  scss: '$pad: 1rem; .a { padding: $pad; }',
-  sql: 'SELECT 1 FROM t',
-  twig: '{{ name }}',
-  typescript: 'const a: number = 1;',
-  typoscript: '# a note\npage = PAGE',
-  xml: '<r><c/></r>',
-  yaml: 'versions: [13.4] # a note',
-};
+/* The samples are the story's — the same blocks a reader is shown, so a
+   language cannot be green here and set in one grey on the page. `text` is
+   left out of the loop and asserted below: its grammar's whole job is to mark
+   nothing, which is what the loop is looking for. */
 
-for (const [lang, source] of Object.entries(SAMPLES)) {
+for (const [lang, source] of Object.entries(SAMPLES).filter(([name]) => name !== 'text')) {
   test(`${lang} is coloured`, () => {
     const out = highlight(lang, source);
     expect(out, `${lang} should be a language this system colours`).not.toBeNull();
@@ -37,11 +23,11 @@ for (const [lang, source] of Object.entries(SAMPLES)) {
   });
 }
 
-/* Plain text is declared and has a grammar, and that grammar's whole job is to
-   mark nothing. Asserting it produces no token is what keeps it from being
-   quietly pointed at something that does. */
+/* And the one the loop cannot ask for: text is declared, has a grammar, and
+   that grammar's whole job is to mark nothing. Asserting it produces no token
+   is what keeps it from being quietly pointed at something that does. */
 test('text is left alone', () => {
-  const out = highlight('text', 'plain words');
+  const out = highlight('text', SAMPLES.text);
   expect(out).not.toBeNull();
   expect(out ?? '').not.toContain('class="hljs-');
 });
@@ -65,17 +51,27 @@ test('typoscript reads as a path, a value and a condition', () => {
   expect(out).toMatch(/<span class="hljs-meta">\[siteLanguage/);
 });
 
-/* And TSconfig, which is the same grammar under the name the backend half of
-   the language is written under — an alias stated in the grammar itself, so
-   both highlighters answer to it from the one file. */
-test('tsconfig is that same grammar', () => {
-  expect(highlights('tsconfig')).toBe(true);
-  expect(highlight('tsconfig', 'TCEMAIN.linkHandler.page {\n    label = Page\n}') ?? '')
-    .toContain('<span class="hljs-attr">TCEMAIN.linkHandler.page</span>');
-});
-
 test('a language nobody declared is not guessed at', () => {
   expect(highlight('cobol', 'DISPLAY "hi".')).toBeNull();
+});
+
+/* Every declared language, drawn by the element in a browser. The loop above
+   is the pure function in Node, and the Guides render is the PHP port on the
+   server; this is the third end, and the only one that would notice a grammar
+   that registers but never reaches the page. `text` is excluded for the reason
+   it is excluded above — it is declared to mark nothing. */
+test('every language is coloured by the element itself', async ({ page }) => {
+  await gotoStory(page, 'components-code--languages');
+
+  const blocks = page.locator('sds-code');
+  await expect(blocks).toHaveCount(Object.keys(SAMPLES).length);
+
+  const grey = await blocks.evaluateAll((els) =>
+    els
+      .filter((el) => el.getAttribute('code-lang') !== 'text')
+      .filter((el) => el.querySelectorAll('[class^="hljs-"]').length === 0)
+      .map((el) => el.getAttribute('code-lang') ?? '?'));
+  expect(grey, 'these set in one grey — is the grammar registered?').toEqual([]);
 });
 
 /* And the same colour reaches the page. The function above is pure and runs

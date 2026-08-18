@@ -33,10 +33,9 @@ export interface CodeLine {
 
 /** The languages this system supports in a code block. Declared, not surveyed:
     adding one means the highlighter knows the identifier and a specimen proves
-    it reads right. Open at the edges, because the value arrives from a Markdown
-    fence and refusing to print a word is not a service — the union catches the
-    near miss, `yml` for `yaml`, which a highlighter answers in silence. */
-export type CodeLang =
+    it reads right — `stories/lib/languages.ts` is that specimen, and is typed
+    against this union so a language cannot be declared without one. */
+export type CodeLangName =
   | 'bash'
   | 'css'
   | 'diff'
@@ -53,8 +52,12 @@ export type CodeLang =
   | 'typescript'
   | 'typoscript'
   | 'xml'
-  | 'yaml'
-  | (string & {});
+  | 'yaml';
+
+/** The same, open at the edges, because the value arrives from a Markdown
+    fence and refusing to print a word is not a service — the union catches the
+    near miss, `yml` for `yaml`, which a highlighter answers in silence. */
+export type CodeLang = CodeLangName | (string & {});
 
 export interface CodeBlockProps {
   /** The language, lower case as a fence writes it; the upper case belongs to

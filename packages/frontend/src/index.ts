@@ -102,6 +102,7 @@ export {
   type CodeLine,
   type CodeKind,
   type CodeLang,
+  type CodeLangName,
 } from './components/code.ts';
 export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.ts';
 export { SdsQuote, type QuoteProps } from './components/quote.ts';

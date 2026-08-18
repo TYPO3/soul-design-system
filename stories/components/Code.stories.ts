@@ -16,6 +16,7 @@ import '../../packages/frontend/src/components/icon.ts';
 import { type CodeBlockProps } from '../../packages/frontend/src/components/code.ts';
 import { type DiffLine } from '../../packages/frontend/src/components/diff.ts';
 import { DIFF } from './Diff.stories.ts';
+import { LANGUAGES, SAMPLES, sampleOf } from '../lib/languages.ts';
 import { dsCard, part, px, spec, specCap } from '../lib/specimen.ts';
 
 const BASH: CodeBlockProps = {
@@ -28,8 +29,8 @@ const BASH: CodeBlockProps = {
   ],
 };
 
-export const sdsCode = ({ lang, body, copy }: CodeBlockProps) =>
-  html`<sds-code code-lang="${lang ?? ''}" ?copy="${copy ?? false}" .body="${body}"></sds-code>`;
+export const sdsCode = ({ lang, body, source, copy }: CodeBlockProps) =>
+  html`<sds-code code-lang="${lang ?? ''}" ?copy="${copy ?? false}" source="${source ?? ''}" .body="${body}"></sds-code>`;
 
 const sdsDiff = (path: string, body: readonly DiffLine[]) =>
   html`<sds-diff path="${path}" .body="${body}"></sds-diff>`;
@@ -45,14 +46,9 @@ const meta: Meta<CodeBlockProps> = {
     /* The languages the system declares support for, as a menu. It was a text
        field, which offered no idea that a set exists and let `yml` through
        without a murmur. The type stays open — a fence can say anything — but
-       the control shows what is stood behind. */
-    lang: {
-      control: 'select',
-      options: [
-        'bash', 'css', 'diff', 'html', 'javascript', 'json', 'markdown',
-        'php', 'scss', 'sql', 'text', 'tsconfig', 'twig', 'typescript', 'typoscript', 'xml', 'yaml',
-      ],
-    },
+       the control shows what is stood behind, read from the samples so the
+       menu cannot offer a language nothing here sets. */
+    lang: { control: 'select', options: LANGUAGES },
     copy: { control: 'boolean' },
   },
   args: BASH,
@@ -121,6 +117,28 @@ export const AlreadyColoured: Story = {
     + '<span class="hljs-type">string</span> $number) {}\n'
     + '}</code>',
   )}</sds-code>`,
+};
+
+/** Every language this system colours, each in a block of its own. The point
+    is the palette rather than the languages: the same three colours across
+    every grammar, and whatever a fourth would have marked reading as ordinary
+    code. A block that sets in one grey here is a grammar that quietly stopped
+    being registered — which looks exactly like a language nobody declared.
+
+    Blocks as siblings and no wrapper: the step between them is the element's
+    own, and a story that reached for a gap would be documenting a distance
+    the system does not have. */
+export const Languages: Story = {
+  render: () => html`${LANGUAGES.map(
+    (lang) => sdsCode({ lang, source: SAMPLES[lang], body: [], copy: true }),
+  )}`,
+};
+
+/** One of them at a time, chosen from the toolbar — the same samples, where
+    the menu above is the point rather than the set. */
+export const Language: Story = {
+  args: { lang: 'typoscript', copy: true, body: [] },
+  render: ({ lang, copy }) => sdsCode({ lang, source: sampleOf(lang ?? ''), body: [], copy }),
 };
 
 /** A caption says what the block is, above it — where a reader meets it

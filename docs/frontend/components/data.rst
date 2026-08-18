@@ -131,7 +131,23 @@ A fenced block, its head and its copy button.
 
    The languages the highlighter is taught are declared rather than surveyed,
    and the value is open at the edges because it arrives from a Markdown fence:
-   refusing to print a word is not a service.
+   refusing to print a word is not a service. A word that is not one of these
+   is printed, and printed uncoloured.
+
+   The whole list, as a fence writes it:
+
+   ``bash``, ``css``, ``diff``, ``html``, ``javascript``, ``json``,
+   ``markdown``, ``php``, ``scss``, ``sql``, ``text``, ``tsconfig``,
+   ``twig``, ``typescript``, ``typoscript``, ``xml``, ``yaml``
+
+   ``text`` is declared and colours nothing, which is the honest answer when
+   nobody said what a block is. ``typoscript`` is a grammar this system wrote
+   itself — highlight.js ships none — and the rendered site is handed the same
+   file, so a block does not change colour when the script runs. ``tsconfig``
+   is that same grammar under the name the backend's half of the language is
+   written under. Each of them
+   is set in a block of its own in the *Languages* story, which is where the
+   list is kept and what the suite reads.
 
 .. confval:: source
    :name: sds-code-source
