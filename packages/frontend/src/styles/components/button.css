@@ -61,11 +61,15 @@
       border-color var(--sds-btn-duration) var(--sds-btn-ease),
       color var(--sds-btn-duration) var(--sds-btn-ease);
 
-    /* One state, whatever the variant. */
+    /* One state, whatever the variant — drawn from the three above rather than
+       swapped into them. A property whose default reads the one that would be
+       assigned from it is a cycle, and a cycle is invalid at computed value:
+       the border went to `none` and the button shrank under the pointer, and
+       the ink fell back to whatever the page inherits. */
     &:hover {
-      --sds-btn-ink: var(--sds-btn-ink-hover);
-      --sds-btn-fill: var(--sds-btn-fill-hover);
-      --sds-btn-edge: var(--sds-btn-edge-hover);
+      border-color: var(--sds-btn-edge-hover);
+      background: var(--sds-btn-fill-hover);
+      color: var(--sds-btn-ink-hover);
     }
 
     &:disabled,

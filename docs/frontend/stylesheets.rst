@@ -116,9 +116,18 @@ every component shares, and every declaration under it reads only that set:
      background: var(--sds-btn-fill);
 
      &:hover {
-       --sds-btn-fill: var(--sds-btn-fill-hover);
+       background: var(--sds-btn-fill-hover);
      }
    }
+
+**A state draws from the other half of the set rather than assigning into the
+half at rest.** Writing ``--sds-btn-fill: var(--sds-btn-fill-hover)`` under
+``&:hover`` reads the property whose own default reads it back, and that is a
+cycle: every property in it is invalid at computed value, every declaration
+reading one of them drops, and nothing anywhere says so. The button did exactly
+that — under the pointer its border went to ``none`` and the box shrank by it,
+and its ink fell back to whatever the page inherits, which over the accent fill
+is text nobody can read. ``tests/states.spec.ts`` is what holds it now.
 
 A variant and a size then **assign values and draw nothing**:
 

@@ -341,7 +341,7 @@
     text-decoration:none;
     cursor:pointer;
     transition:background var(--sds-btn-duration) var(--sds-btn-ease),border-color var(--sds-btn-duration) var(--sds-btn-ease),color var(--sds-btn-duration) var(--sds-btn-ease);
-    &:hover{--sds-btn-ink: var(--sds-btn-ink-hover);--sds-btn-fill: var(--sds-btn-fill-hover);--sds-btn-edge: var(--sds-btn-edge-hover)}
+    &:hover{border-color:var(--sds-btn-edge-hover);background:var(--sds-btn-fill-hover);color:var(--sds-btn-ink-hover)}
     &:disabled,&.is-disabled{opacity:var(--sds-btn-disabled-opacity);cursor:not-allowed}
   }
   .sds-btn__label{display:block}
