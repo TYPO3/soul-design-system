@@ -29,16 +29,24 @@ export type Side = 'start' | 'end';
 export function place(panel: HTMLElement, anchor: HTMLElement, side: Side, gapFrom: string): () => void {
   const put = (): void => {
     const at = anchor.getBoundingClientRect();
+    const room = document.documentElement.clientWidth;
     const gap = parseFloat(getComputedStyle(panel).getPropertyValue(gapFrom)) || 0;
     panel.style.positionArea = 'none';
     panel.style.insetBlockStart = `${at.bottom + gap}px`;
-    if (side === 'end') {
-      panel.style.insetInlineStart = 'auto';
-      panel.style.insetInlineEnd = `${document.documentElement.clientWidth - at.right}px`;
-    } else {
-      panel.style.insetInlineEnd = 'auto';
-      panel.style.insetInlineStart = `${at.left}px`;
-    }
+    /* How wide it wants to be, asked with the whole viewport in front of it: a
+       panel left standing where it was last put is narrowed by the room that
+       was there, and a width read off that places the next one short. */
+    panel.style.insetInlineEnd = 'auto';
+    panel.style.insetInlineStart = '0px';
+    const wide = panel.getBoundingClientRect().width;
+    /* The edge it was asked for, and the anchor's other one where that would
+       leave the viewport — which is what `position-try-fallbacks: flip-inline`
+       does on the route the stylesheet places. A panel that fits on neither
+       side is a panel wider than the room there is, and stays where it was. */
+    const asked = side === 'end' ? at.right - wide : at.left;
+    const other = side === 'end' ? at.left : at.right - wide;
+    const fits = (x: number): boolean => x >= 0 && x + wide <= room;
+    panel.style.insetInlineStart = `${!fits(asked) && fits(other) ? other : asked}px`;
   };
 
   const stop = new AbortController();

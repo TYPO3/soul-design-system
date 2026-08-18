@@ -173,6 +173,14 @@ the button and writes the edges itself — ``src/lib/flyout.ts``, which
 fitted into, and a list wider than the control it came from is pushed off its
 own anchor.
 
+The window is the one edge the top layer does not answer for. A button standing
+near the side the panel grows towards leaves less room than the panel is wide,
+and what leaves the window is gone — nothing in that layer scrolls back into
+view. So the panel hangs from the button's other edge instead, on both routes:
+``position-try-fallbacks: flip-inline`` where the engine anchors, and the same
+question asked of the measurement where it does not. ``align`` says which side
+it starts from and is a preference — staying on the page is not one.
+
 .. confval:: choices
    :name: sds-dropdown-choices
    :type: DropdownChoice[]
@@ -205,7 +213,9 @@ own anchor.
    :default: "start"
 
    Which side the panel hangs from. ``end`` where the button sits at the end of
-   a row, or a list opened from the corner runs off the page.
+   a row, so the list opens back over the row rather than out from it. A side
+   with no room for the panel is the placement's business rather than the
+   caller's: the panel hangs from the button's other edge instead.
 
 .. confval:: variant
    :name: sds-dropdown-variant

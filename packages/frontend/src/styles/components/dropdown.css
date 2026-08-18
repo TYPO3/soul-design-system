@@ -104,12 +104,16 @@
   /* Placed by the engine where it can be: the edges, from the button's own.
      `anchor()` rather than `position-area` — an area is a box the panel is
      fitted into, and a list wider than the control it came from is then pushed
-     off its own anchor. These are the same two edges `lib/flyout.ts` writes
-     where there is no anchoring at all, which is why the two agree. */
+     off its own anchor. These are the same edges, and the same retreat from
+     them, that `lib/flyout.ts` writes where there is no anchoring at all. */
   @supports (anchor-name: --sds-dropdown) {
     .sds-dropdown__panel[popover] {
       inset-block-start: calc(anchor(end) + var(--sds-dropdown-panel-gap));
       inset-inline-start: anchor(start);
+      /* A button near the side the panel grows towards leaves less room than
+         the panel is wide, and a panel that has left the viewport cannot be
+         scrolled back onto it — so it is hung from the other edge instead. */
+      position-try-fallbacks: flip-inline;
     }
     sds-dropdown[align="end"] .sds-dropdown__panel[popover] {
       inset-inline-start: auto;

@@ -9,7 +9,7 @@
    it looks correct from any directory. So this opens the panel from two
    directories deep and follows what is in it. */
 
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 const INDEX = JSON.stringify([
   { title: 'Colours', url: 'guidelines/colours.html', text: 'Every colour in this system is a semantic token.', image: 'assets/colours.png' },
@@ -66,6 +66,41 @@ test('the drop is drawn by the components that draw results everywhere else', as
   await expect(page.locator('.sds-search__panel .sds-hits__empty')).toBeVisible();
 });
 
+/* The drop is hung from the end of the field, which is off the page whenever
+   the field's end edge is nearer the start of the viewport than the drop is
+   wide — a bar at the top of a narrow window is exactly that. Nothing in the
+   top layer scrolls, so what leaves the viewport is simply gone. */
+const insideTheViewport = async (page: Page, room: number): Promise<void> => {
+  await page.setViewportSize({ width: room, height: 600 });
+  await page.locator('sds-search .sds-input').fill('colour');
+
+  const field = await page.locator('sds-search .sds-field').boundingBox();
+  const drop = await page.locator('.sds-search__panel').boundingBox();
+  /* The case, said out loud: hung from the field's end edge this drop does not
+     fit between that edge and the start of the page. */
+  expect(drop!.width).toBeGreaterThan(field!.x + field!.width);
+  expect(drop!.x).toBeGreaterThanOrEqual(0);
+  expect(drop!.x + drop!.width).toBeLessThanOrEqual(room);
+};
+
+test('the drop stays on the page when the field is near its start edge', async ({ page }) => {
+  await insideTheViewport(page, 700);
+});
+
+/* The other placement, and the half that is never taken in this browser: the
+   element's own measurement has to retreat by the same rule the stylesheet
+   does, or a window without anchor positioning loses the hits. */
+test('and stays on it where the element places the drop itself', async ({ page }) => {
+  await page.addInitScript(() => {
+    const real = CSS.supports.bind(CSS);
+    CSS.supports = ((...args: [string, string?]) =>
+      args[0] === 'anchor-name' ? false : real(...(args as [string, string]))) as typeof CSS.supports;
+  });
+  await page.reload({ waitUntil: 'load' });
+  await page.waitForFunction(() => customElements.get('sds-search') !== undefined, undefined, { timeout: 15_000 });
+  await insideTheViewport(page, 700);
+});
+
 test('a picture in the index is resolved from the root the hit is', async ({ page }) => {
   await page.locator('sds-search .sds-input').fill('colour');
 
@@ -119,9 +154,16 @@ test('the panel hangs from the field, and gives the page back', async ({ page })
   const boxes = await page.evaluate(() => {
     const search = document.querySelector('.sds-search')!.getBoundingClientRect();
     const panel = document.querySelector('.sds-search__panel')!.getBoundingClientRect();
-    return { left: search.left, right: search.right, panelRight: panel.right, panelTop: panel.top, bottom: search.bottom };
+    return {
+      left: search.left, right: search.right, bottom: search.bottom,
+      panelLeft: panel.left, panelRight: panel.right, panelTop: panel.top,
+    };
   });
-  expect(Math.abs(boxes.panelRight - boxes.right)).toBeLessThan(2);
+  /* One of the field's own edges: the end one it is hung from, or the start one
+     it retreats to where the end has no room for it. The bar's are neither — it
+     spans the window, which is what made the old placement look almost right. */
+  const hung = Math.min(Math.abs(boxes.panelRight - boxes.right), Math.abs(boxes.panelLeft - boxes.left));
+  expect(hung).toBeLessThan(2);
   expect(boxes.panelTop).toBeGreaterThan(boxes.bottom);
 
   await field.press('Escape');

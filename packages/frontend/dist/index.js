@@ -2255,16 +2255,17 @@ var anchored = () => typeof CSS !== "undefined" && CSS.supports?.("anchor-name",
 function place(panel, anchor, side, gapFrom) {
   const put = () => {
     const at = anchor.getBoundingClientRect();
+    const room = document.documentElement.clientWidth;
     const gap = parseFloat(getComputedStyle(panel).getPropertyValue(gapFrom)) || 0;
     panel.style.positionArea = "none";
     panel.style.insetBlockStart = `${at.bottom + gap}px`;
-    if (side === "end") {
-      panel.style.insetInlineStart = "auto";
-      panel.style.insetInlineEnd = `${document.documentElement.clientWidth - at.right}px`;
-    } else {
-      panel.style.insetInlineEnd = "auto";
-      panel.style.insetInlineStart = `${at.left}px`;
-    }
+    panel.style.insetInlineEnd = "auto";
+    panel.style.insetInlineStart = "0px";
+    const wide = panel.getBoundingClientRect().width;
+    const asked = side === "end" ? at.right - wide : at.left;
+    const other = side === "end" ? at.left : at.right - wide;
+    const fits = (x) => x >= 0 && x + wide <= room;
+    panel.style.insetInlineStart = `${!fits(asked) && fits(other) ? other : asked}px`;
   };
   const stop = new AbortController();
   const { signal } = stop;

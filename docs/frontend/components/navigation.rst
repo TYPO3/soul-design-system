@@ -669,6 +669,13 @@ the first goes back to what was typed, and Escape gives the page back. What was
 found is drawn by ``sds-search-hits`` rather than rebuilt in the drop, and a
 query that matched nothing gets that element's sentence in the same box.
 
+**The drop hangs from the end of the field**, which is where a bar usually puts
+its search, and from the start edge instead where that leaves it off the page —
+a field near the start of a narrow window is the common case, and a drop in the
+top layer that has left the window cannot be scrolled back onto it. Both routes
+place it that way: ``sds-dropdown``'s panel and this one share
+``src/lib/flyout.ts``, and the stylesheet does it where the engine can anchor.
+
 An entry in the index is ``{ title, url, text }``, and may carry ``image`` —
 the picture the page has, named from the root like ``url`` and resolved the
 same way. It becomes the hit's thumbnail.

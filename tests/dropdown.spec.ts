@@ -25,6 +25,11 @@ const PAGE = `<!doctype html>
     <sds-dropdown id="pages" label="Language" name="Language"></sds-dropdown>
   </div>
   <sds-dropdown id="commands" label="Edit"></sds-dropdown>
+  <!-- Hard against the end of the window: the panel is hung from its button's
+       start edge and is wider than the room left there. -->
+  <div style="display:flex;justify-content:flex-end">
+    <sds-dropdown id="edge" label="Edit"></sds-dropdown>
+  </div>
   <script type="module">
     const pages = document.querySelector('#pages');
     pages.choices = [
@@ -37,6 +42,7 @@ const PAGE = `<!doctype html>
       { label: 'Rename' },
       { label: 'Move to trash', disabled: true },
     ];
+    document.querySelector('#edge').choices = commands.choices;
   </script>
 </body>
 </html>`;
@@ -72,6 +78,21 @@ test('the panel is not clipped by a box that clips', async ({ page }) => {
   /* Below the clipping box's own bottom edge, and still drawn. */
   expect(box!.y + box!.height).toBeGreaterThan(clip!.y + clip!.height);
   await expect(page.locator(panel('pages'))).toBeVisible();
+});
+
+/* The other edge of the same question. The top layer is not clipped by a box
+   on the page, but it is by the window — and a panel that has left the window
+   cannot be scrolled back onto it, because nothing in that layer scrolls. */
+test('the panel stays inside the window when the button is at its edge', async ({ page }) => {
+  const room = page.viewportSize()!.width;
+  await page.locator(button('edge')).click();
+  const at = await page.locator(button('edge')).boundingBox();
+  const box = await page.locator(panel('edge')).boundingBox();
+  /* The case, said out loud: hung from the button's start edge the panel does
+     not fit between that edge and the end of the window. */
+  expect(at!.x + box!.width).toBeGreaterThan(room);
+  expect(box!.x).toBeGreaterThanOrEqual(0);
+  expect(box!.x + box!.width).toBeLessThanOrEqual(room);
 });
 
 test('the panel hangs under the button it came from', async ({ page }) => {

@@ -64,7 +64,8 @@ export interface DropdownProps {
   /** The entries, in the order they are read. */
   choices?: readonly DropdownChoice[];
   /** Which side the panel hangs from. `end` where the button is at the end of
-      a row, so the list opens back over the row rather than off the page. */
+      a row, so the list opens back over the row rather than out from it. A
+      side with no room for the panel is the placement's own business. */
   align?: 'start' | 'end';
   /** The button's own variant, passed through — the trigger is a real button of
       this system and not a second kind of control that looks like one. */
