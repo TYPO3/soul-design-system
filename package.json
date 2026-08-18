@@ -1,6 +1,6 @@
 {
   "name": "soul",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The Soul design system: the sources, the specimens, the gate, and the packages that leave this tree.",
   "private": true,
   "type": "module",
