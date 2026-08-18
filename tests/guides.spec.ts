@@ -1326,6 +1326,20 @@ test.describe('what the reader gets before the script does', () => {
     expect(await coloured(page)).toBeGreaterThan(1);
   });
 
+  /* The languages the highlighter does not ship, which the theme registers
+     itself. Asked for by name, because the check above is answered by any
+     coloured block on the page: a grammar that stopped being registered — a
+     file left out of the package, a service no longer decorated — would leave
+     these grey and everything else exactly as it was. */
+  test('a language the theme taught the highlighter is coloured too', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    for (const lang of ['typoscript', 'tsconfig']) {
+      const tokens = page.locator(`sds-code[code-lang="${lang}"] code [class^="hljs-"]`);
+      expect(await tokens.count(), `${lang} is not coloured on the server`).toBeGreaterThan(1);
+    }
+  });
+
   test('every tab set arrives with its bar, however its labels were said', async ({ page }) => {
     await page.goto(REFERENCE, { waitUntil: 'load' });
 

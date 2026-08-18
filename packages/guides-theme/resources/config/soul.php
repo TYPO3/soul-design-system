@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use phpDocumentor\Guides\Code\Highlighter\Highlighter;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
 use phpDocumentor\Guides\RestructuredText\Parser\Productions\DirectiveContentRule;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use TYPO3\Soul\GuidesTheme\Code\Grammars;
 use TYPO3\Soul\GuidesTheme\Compiler\OnThisPage;
 use TYPO3\Soul\GuidesTheme\Directives\AccordionDirective;
 use TYPO3\Soul\GuidesTheme\Directives\AccordionItemDirective;
@@ -138,6 +140,13 @@ return static function (ContainerConfigurator $container): void {
            way and for the same reason: the order a manual is read in is the
            tree walked, which a template can only fake. */
         ->set(Pager::class)
+
+        /* The languages the highlighter this site renders with does not
+           ship — see `Grammars`. Wrapped around it rather than replacing it,
+           so everything it already colours it still colours. */
+        ->set(Grammars::class)
+        ->decorate(Highlighter::class)
+        ->args([service('.inner')])
 
         /* Where a reference points, for a template handing a target to a
            component instead of writing the link itself. */

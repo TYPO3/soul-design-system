@@ -162,6 +162,16 @@ const CHECKS: readonly Check[] = [
     run: () => ({ ...child('scripts/diagrams.ts', '--check'), fix: 'make diagrams' }),
   },
 
+  /* A code block is coloured twice — by highlight.js in the page and by its
+     PHP port on the way out — and the languages neither ships are written
+     once, here, and copied to the theme that registers them. Out of step, a
+     block changes colour the moment its script runs. */
+  {
+    name: 'grammars',
+    label: 'the theme’s grammars match the written ones',
+    run: () => ({ ...child('scripts/grammars.ts', '--check'), fix: 'make grammars' }),
+  },
+
   /* A tree points at its mark from `guides.xml`, and the file has to sit beside
      the documents for the renderer to carry it. That copy is the one place the
      wrong optical size can get in without anything noticing: a signet named

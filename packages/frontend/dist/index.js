@@ -10098,7 +10098,7 @@ function sql(hljs) {
     scope: "variable",
     match: /@[a-z0-9][a-z0-9_]*/
   };
-  const OPERATOR = {
+  const OPERATOR2 = {
     scope: "operator",
     match: /[-+*/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?/,
     relevance: 0
@@ -10163,7 +10163,7 @@ function sql(hljs) {
       hljs.C_NUMBER_MODE,
       hljs.C_BLOCK_COMMENT_MODE,
       COMMENT_MODE,
-      OPERATOR
+      OPERATOR2
     ]
   };
 }
@@ -11648,6 +11648,56 @@ function yaml(hljs) {
   };
 }
 
+// packages/frontend/src/lib/grammars/typoscript.ts
+var CONSTANT = { className: "variable", begin: "\\{\\$[^}\\n]*\\}" };
+var OPERATOR = "(?::=|=<|=|<|>)(?=[ \\t]*\\S)";
+var TYPOSCRIPT = {
+  /* TSconfig is TypoScript — the same operators, paths and conditions, read
+     by the backend rather than the frontend. TYPO3's own documentation
+     grammar aliases it the same way. */
+  aliases: ["tsconfig"],
+  case_insensitive: false,
+  contains: [
+    { className: "comment", begin: "/\\*", end: "\\*/" },
+    /* Only at the start of a line: TypoScript has no trailing comment, and a
+       `#` in the middle of one is a colour in a value. */
+    { className: "comment", begin: "^[ \\t]*(?:#|//).*$" },
+    /* A condition, and the `[END]`, `[ELSE]` and `[GLOBAL]` that close one.
+       Before the operator below, because a condition is full of them. */
+    { className: "meta", begin: "^[ \\t]*\\[", end: "\\]" },
+    { className: "meta", begin: "^[ \\t]*@import\\b.*$" },
+    /* Ahead of the copy operator, which begins on the same character. */
+    { className: "meta", begin: "<INCLUDE_TYPOSCRIPT:", end: ">" },
+    /* The object path being assigned to — the whole of it, up to whichever
+       operator or brace follows. */
+    { className: "attr", begin: "^[ \\t]*[\\w.-]+(?=[ \\t]*(?::?=<?|<|>|\\{|\\())" },
+    /* An object type, which is what an all-caps word standing alone on the
+       right of an assignment is: `= PAGE`, `= FLUIDTEMPLATE`. Read from the
+       shape rather than from a list of them, because the list is TYPO3's and
+       grows a name every release. */
+    {
+      className: "built_in",
+      begin: "(?::?=)[ \\t]*(?=[A-Z][A-Z0-9_]*[ \\t]*$)",
+      excludeBegin: true,
+      end: "$"
+    },
+    {
+      className: "string",
+      begin: OPERATOR,
+      excludeBegin: true,
+      end: "$",
+      contains: [CONSTANT]
+    },
+    /* A value written over several lines, which is the one place a newline is
+       part of what was said rather than the end of it. */
+    { className: "string", begin: "\\([ \\t]*$", end: "^[ \\t]*\\)", contains: [CONSTANT] },
+    CONSTANT
+  ]
+};
+
+// packages/frontend/src/lib/grammars/index.ts
+var WRITTEN = { typoscript: TYPOSCRIPT };
+
 // packages/frontend/src/lib/highlight.ts
 var GRAMMARS = {
   bash,
@@ -11664,7 +11714,18 @@ var GRAMMARS = {
   twig,
   typescript,
   xml,
-  yaml
+  yaml,
+  /* A written grammar is the mode tree itself, and highlight.js takes a
+     function returning one. Its aliases are entries of their own rather than
+     left to the library: `highlights` answers from this map, and a name the
+     highlighter knew and this did not would print a block uncoloured. The
+     cast is the whole of what `Mode` gives up — the library types a
+     definition against helpers no grammar here uses. */
+  ...Object.fromEntries(Object.entries(WRITTEN).flatMap(
+    ([name, mode]) => [name, ...mode.aliases ?? []].map(
+      (as) => [as, (() => mode)]
+    )
+  ))
 };
 for (const [name, grammar] of Object.entries(GRAMMARS)) core_default.registerLanguage(name, grammar);
 function highlights(lang) {

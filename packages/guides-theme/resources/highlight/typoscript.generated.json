@@ -1,0 +1,68 @@
+{
+  "aliases": [
+    "tsconfig"
+  ],
+  "case_insensitive": false,
+  "contains": [
+    {
+      "className": "comment",
+      "begin": "/\\*",
+      "end": "\\*/"
+    },
+    {
+      "className": "comment",
+      "begin": "^[ \\t]*(?:#|//).*$"
+    },
+    {
+      "className": "meta",
+      "begin": "^[ \\t]*\\[",
+      "end": "\\]"
+    },
+    {
+      "className": "meta",
+      "begin": "^[ \\t]*@import\\b.*$"
+    },
+    {
+      "className": "meta",
+      "begin": "<INCLUDE_TYPOSCRIPT:",
+      "end": ">"
+    },
+    {
+      "className": "attr",
+      "begin": "^[ \\t]*[\\w.-]+(?=[ \\t]*(?::?=<?|<|>|\\{|\\())"
+    },
+    {
+      "className": "built_in",
+      "begin": "(?::?=)[ \\t]*(?=[A-Z][A-Z0-9_]*[ \\t]*$)",
+      "excludeBegin": true,
+      "end": "$"
+    },
+    {
+      "className": "string",
+      "begin": "(?::=|=<|=|<|>)(?=[ \\t]*\\S)",
+      "excludeBegin": true,
+      "end": "$",
+      "contains": [
+        {
+          "className": "variable",
+          "begin": "\\{\\$[^}\\n]*\\}"
+        }
+      ]
+    },
+    {
+      "className": "string",
+      "begin": "\\([ \\t]*$",
+      "end": "^[ \\t]*\\)",
+      "contains": [
+        {
+          "className": "variable",
+          "begin": "\\{\\$[^}\\n]*\\}"
+        }
+      ]
+    },
+    {
+      "className": "variable",
+      "begin": "\\{\\$[^}\\n]*\\}"
+    }
+  ]
+}

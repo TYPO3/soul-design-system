@@ -23,6 +23,7 @@ const HTML = `<!doctype html>
 </head>
 <body class="sds-app">
   <sds-code code-lang="json" copy>{ "versions": ["12.4"] }</sds-code>
+  <sds-code code-lang="typoscript" source="page = PAGE"></sds-code>
   <sds-diff path="composer.json"></sds-diff>
   <sds-button variant="primary">Run the checks</sds-button>
   <sds-icon name="actions-search"></sds-icon>
@@ -43,10 +44,18 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
   await page.evaluate(() => customElements.whenDefined('sds-button'));
   await page.evaluate(() => customElements.whenDefined('sds-diff'));
 
-  /* Upgraded: the element framed the content it was given. */
-  const body = page.locator('sds-code .sds-code__body');
+  /* Upgraded: the element framed the content it was given. Addressed by its
+     language, because the page carries a second block — see below. */
+  const body = page.locator('sds-code[code-lang="json"] .sds-code__body');
   await expect(body).toContainText('"versions": ["12.4"]');
-  await expect(page.locator('sds-code .sds-code__lang')).toHaveText('json');
+  await expect(page.locator('sds-code[code-lang="json"] .sds-code__lang')).toHaveText('json');
+
+  /* A grammar this system wrote itself, out of the built bundle. It is the
+     one thing here that is not highlight.js's: registered from a module the
+     build has to have carried, and a block that arrives grey is the drop-in
+     shipping a language it declares and cannot colour. */
+  const written = page.locator('sds-code[code-lang="typoscript"] code [class^="hljs-"]');
+  expect(await written.count(), 'the written grammar did not reach the bundle').toBeGreaterThan(1);
 
   /* Painted: the sunken surface a code block sits on, and the accent on the
      primary button. A missing stylesheet leaves both transparent. */
@@ -55,7 +64,7 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
 
   /* A diff's path is product metadata, not specimen annotation. It must take
      its mono register from soul.css alone; `_specimen.css` is absent here. */
-  const registers = await page.locator('.sds-code__lang, .sds-code__path').evaluateAll((elements) =>
+  const registers = await page.locator('sds-code[code-lang="json"] .sds-code__lang, .sds-code__path').evaluateAll((elements) =>
     elements.map((element) => {
       const style = getComputedStyle(element);
       return { family: style.fontFamily, tracking: style.letterSpacing };

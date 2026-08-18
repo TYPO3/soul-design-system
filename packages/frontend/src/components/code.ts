@@ -48,6 +48,7 @@ export type CodeLang =
   | 'scss'
   | 'sql'
   | 'text'
+  | 'tsconfig'
   | 'twig'
   | 'typescript'
   | 'typoscript'

@@ -19,7 +19,7 @@ const ASSETS_AT = ['packages/frontend/assets', 'assets'];
    `LICENSE` is in the package directory rather than fetched from the root of
    this tree: npm packs a directory, so a licence only assembly knows about is
    one the npm tarball ships without and nothing here can see. */
-const FROM_THEME = ['composer.json', 'README.md', 'LICENSE', 'src', 'resources/config', 'resources/template'];
+const FROM_THEME = ['composer.json', 'README.md', 'LICENSE', 'src', 'resources/config', 'resources/highlight', 'resources/template'];
 
 /* The drop-in, minus the four that only ever reach npm: a PHP project installs
    no ESM package and reads no declarations. */

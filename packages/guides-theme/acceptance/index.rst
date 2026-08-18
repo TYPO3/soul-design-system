@@ -201,6 +201,36 @@ A literal block introduced by a double colon::
    A block whose language is text: escaped, uncoloured, and the honest
    answer when nobody said what it is.
 
+A grammar the highlighter does not ship is registered by this theme, so a
+TypoScript block is coloured on the server like every other one — see
+``Grammars``.
+
+.. code-block:: typoscript
+   :caption: A grammar this system wrote itself
+
+   # The site's page object
+   page = PAGE
+   page {
+       10 = FLUIDTEMPLATE
+       10.file = EXT:my_site/Resources/Private/Templates/Main.html
+       typeNum = 0
+   }
+
+   plugin.tx_myext.settings.limit = {$plugin.tx_myext.settings.limit}
+
+   [siteLanguage("locale") == "de_DE"]
+   page.10.settings.lang = de
+   [END]
+
+.. code-block:: tsconfig
+   :caption: The same grammar under the name the backend half is written under
+
+   # Page TSconfig
+   TCEMAIN.linkHandler.page {
+       handler = TYPO3\CMS\Backend\LinkHandler\PageLinkHandler
+       label = Page
+   }
+
 .. code-block:: scss
 
    .card {

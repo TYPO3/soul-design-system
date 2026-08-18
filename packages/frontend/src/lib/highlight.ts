@@ -24,13 +24,27 @@ import typescript from 'highlight.js/lib/languages/typescript';
 import xml from 'highlight.js/lib/languages/xml';
 import yaml from 'highlight.js/lib/languages/yaml';
 
+import { WRITTEN } from './grammars/index.ts';
+
 /* `html` is xml's grammar and `text` is plaintext's — the fence writes the
-   name a person uses, and this is where that becomes a grammar. `typoscript`
-   is declared and deliberately absent: highlight.js has no grammar for it, so
-   a TypoScript block sets in one colour rather than in a wrong one. */
+   name a person uses, and this is where that becomes a grammar. The ones
+   under `grammars/` are this system's own, for the languages highlight.js
+   does not ship: they are data, so the server's PHP highlighter reads the
+   same file rather than a second grammar that agrees for a while. */
 const GRAMMARS: Record<string, LanguageFn> = {
   bash, css, diff, html: xml, javascript, json, markdown,
   php, scss, sql, text: plaintext, twig, typescript, xml, yaml,
+  /* A written grammar is the mode tree itself, and highlight.js takes a
+     function returning one. Its aliases are entries of their own rather than
+     left to the library: `highlights` answers from this map, and a name the
+     highlighter knew and this did not would print a block uncoloured. The
+     cast is the whole of what `Mode` gives up — the library types a
+     definition against helpers no grammar here uses. */
+  ...Object.fromEntries(Object.entries(WRITTEN).flatMap(
+    ([name, mode]) => [name, ...(mode.aliases ?? [])].map(
+      (as) => [as, (() => mode) as unknown as LanguageFn],
+    ),
+  )),
 };
 
 type LanguageFn = Parameters<typeof hljs.registerLanguage>[1];

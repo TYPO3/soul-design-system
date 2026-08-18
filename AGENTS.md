@@ -165,7 +165,7 @@ which ones they are.
 | `packages/frontend/src/styles/styles.css` | the single entry point |
 | `packages/frontend/src/styles/_specimen.css` | card chrome only — deliberately outside the `styles.css` closure |
 | `packages/frontend/src/components/*.ts` | the Lit elements and their template functions |
-| `packages/frontend/src/lib/` | element base, icon inliner, static renderer |
+| `packages/frontend/src/lib/` | element base, icon inliner, static renderer, and the grammars this system wrote itself |
 | `stories/` | the specimen every card and screen is generated from |
 | `docs/` | the published documentation — the manual, the guideline pages, and the prompts they print for copying |
 | `packages/guides-theme/` | the Composer package: templates, directives, and the acceptance render |
@@ -189,6 +189,7 @@ Generated — never edit, never hand-write a new one:
 | `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
 | `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons` — committed, like `fonts/` and `diagrams*.generated.ts`. Nothing on the way out builds: a mirror replays what git has and a publish packs a checkout, so whatever a package ships, imports **or names** is a file git keeps. The lookup names every single file by path, which is why they are all here |
 | `packages/frontend/src/components/diagrams*.generated.ts` | `make diagrams` — the drawings' viewBoxes and shapes, read out of `packages/frontend/assets/diagrams/` |
+| `packages/guides-theme/resources/highlight/*.generated.json` | `make grammars` — the languages no highlighter ships, written out of `packages/frontend/src/lib/grammars/` as the JSON the theme's PHP highlighter loads. Committed, because a mirror replays what git has: a block is coloured on the server and again in the page, and one grammar is what keeps the two the same colour |
 
 **Everything generated that git does not keep is under `.out/`** — the bundle,
 the rendered site, the built Storybook, the suite's output and reports, the
@@ -263,8 +264,8 @@ in one is a second voice in a tree that is read as one.
 names are how a single one is asked for:
 
 `assets` (the generated fonts and icons are there) · `diagrams` (the modules
-match the drawings) · `marks` (the documents' signets against those same
-drawings) · `headers` (`@dsCard`, `@startingPoint`, literal metadata) · `heights`
+match the drawings) · `grammars` (the theme's copies of the written grammars) ·
+`marks` (the documents' signets against those same drawings) · `headers` (`@dsCard`, `@startingPoint`, literal metadata) · `heights`
 (specimens against the cards they embed) · `classes` (every class used is
 defined in the layer that can load it) · `coverage` (every component is shown)
 · `names` (every `sds-` name a document writes exists) · `refs` (every local
@@ -328,6 +329,7 @@ make test ARGS="tests/a11y.spec.ts --grep card"
 | a `@media` width, in any sheet | `make verify ARGS=breakpoints` |
 | `packages/frontend/src/` with `packages/frontend/dist/` committed against it | `make verify ARGS=dist` |
 | a drawing in `packages/frontend/assets/diagrams/` | `make verify ARGS=diagrams` |
+| a grammar in `packages/frontend/src/lib/grammars/` | `make grammars`, then `make verify ARGS=grammars` and `make test ARGS=tests/highlight.spec.ts` |
 | a mark in `packages/frontend/assets/`, or the signet a `guides.xml` names | `make verify ARGS=marks` |
 
 A partial run says which checks it ran and that it is not the gate; only the
@@ -380,6 +382,16 @@ list in `scripts/fonts.ts` or `CATEGORIES` in `scripts/icons.ts`, then `make
 fonts` / `make icons`. An icon arrives with its whole category, which is the
 unit the package's own manifest resolves against. Never the generated output. A missing icon goes to TYPO3/TYPO3.Icons first —
 the script fails rather than substituting one from another set.
+
+**Add a language a code block can be written in** — name it in `CodeLang` in
+`packages/frontend/src/components/code.ts`, register its grammar in
+`packages/frontend/src/lib/highlight.ts`, add a sample to
+`tests/highlight.spec.ts` and a block to `packages/guides-theme/acceptance/`.
+Where highlight.js ships a grammar that is the whole of it. Where it does not,
+write one under `packages/frontend/src/lib/grammars/` — as data, with no
+function and no regular expression literal in it, because `make grammars`
+writes the same modes out as the JSON the theme's PHP highlighter loads, and a
+language coloured by only one of the two changes colour when a script runs.
 
 **Add or redraw a diagram** — one file in `packages/frontend/assets/diagrams/`, shapes wrapped
 in `<g id="soul-ref">`, every colour written `var(--token, #light)`, then

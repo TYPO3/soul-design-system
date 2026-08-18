@@ -97,6 +97,7 @@ nothing. A `:class:` on a section is carried through.
 | `.. code-block:: diff` | Not a directive of the theme's — the core's, drawn differently. A block whose language is `diff` becomes `sds-diff` instead of `sds-code`: the same frame and head, and rows carrying status colour, read on the server so a page needs no script for them. `:caption:` names the file; the format's `+++` and `---` headers stay context, and `:linenos:` and `:emphasize-lines:` do not apply |
 | `.. example:: [caption]` | A piece of markup and, under it, that markup rendered — printed from the lines the parser was handed and parsed from those same lines, so what a reader copies is what produced the thing below it. The argument is the caption over the block. `:language:` colours the print (`text`, since no highlighter here knows reStructuredText), `:class:` lands on the frame the rendering stands in — `.sds-example`, dashed and unfilled, which is what says the box is not part of the page. Not for `band`, `hero` or `:layout:` — those are the shape of a page, and a band nested in anything stops at its parent's width |
 | `.. specimen:: <card>` | A rendered card of the project's own, embedded in a frame at the size it was measured at. The argument is a path under `_cards/` in the documentation source. `:viewport:` (`700x260`), `:title:` |
+| `.. code-block:: typoscript` | Not a directive of the theme's — the core's, with a language the highlighter does not ship. `guides-code` colours a block with a PHP port of highlight.js, which has no TypoScript grammar, so the theme registers one and a TypoScript block is coloured on the server like any other: the object path, the object type, the value, a `{$constant}`, a `[condition]`, an `@import` and a comment. It is the same grammar the design system's own element uses in the browser, so the colour does not change when a script runs |
 
 A landing page, and the manual page beside it:
 
@@ -165,6 +166,7 @@ is published, so a reader with no JavaScript gets the whole of it.
 | `src/` | the extension, the directives and their nodes, the Twig extension |
 | `resources/config/` | the container configuration that registers all of it |
 | `resources/template/` | the overrides, by the paths the renderer looks them up under |
+| `resources/highlight/` | the grammars the highlighter does not ship, as the JSON it loads a language from — generated, and registered by `Grammars` |
 | `resources/dist/` | the drop-in: `soul.css`, `soul.js`, `soul-boot.js`, the faces, the icon sprites — and `soul-finish.js` |
 
 ## The manual

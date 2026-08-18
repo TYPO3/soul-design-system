@@ -23,6 +23,7 @@ const SAMPLES: Record<string, string> = {
   sql: 'SELECT 1 FROM t',
   twig: '{{ name }}',
   typescript: 'const a: number = 1;',
+  typoscript: '# a note\npage = PAGE',
   xml: '<r><c/></r>',
   yaml: 'versions: [13.4] # a note',
 };
@@ -45,12 +46,32 @@ test('text is left alone', () => {
   expect(out ?? '').not.toContain('class="hljs-');
 });
 
-/* Declared, and deliberately without a grammar: highlight.js has none for
-   TypoScript, and one colour is better than a wrong one. If a grammar ever
-   arrives this fails, which is the right way to find out. */
-test('typoscript is declared and not coloured', () => {
-  expect(highlights('typoscript')).toBe(false);
-  expect(highlight('typoscript', 'page = PAGE')).toBeNull();
+/* TypoScript has no grammar in highlight.js, so this system wrote one — see
+   `src/lib/grammars/`. What that grammar decides is asserted here rather than
+   in the loop above: a block colouring *something* is not the same as it
+   colouring the right thing, and this is the one nobody else can check. */
+test('typoscript reads as a path, a value and a condition', () => {
+  const out = highlight('typoscript', [
+    '# what this sets',
+    'page = PAGE',
+    'page.10.file = {$paths.template}',
+    '[siteLanguage("locale") == "de_DE"]',
+  ].join('\n')) ?? '';
+
+  expect(out).toContain('<span class="hljs-comment"># what this sets</span>');
+  expect(out).toContain('<span class="hljs-attr">page</span>');
+  expect(out).toContain('<span class="hljs-built_in">PAGE</span>');
+  expect(out).toContain('<span class="hljs-variable">{$paths.template}</span>');
+  expect(out).toMatch(/<span class="hljs-meta">\[siteLanguage/);
+});
+
+/* And TSconfig, which is the same grammar under the name the backend half of
+   the language is written under — an alias stated in the grammar itself, so
+   both highlighters answer to it from the one file. */
+test('tsconfig is that same grammar', () => {
+  expect(highlights('tsconfig')).toBe(true);
+  expect(highlight('tsconfig', 'TCEMAIN.linkHandler.page {\n    label = Page\n}') ?? '')
+    .toContain('<span class="hljs-attr">TCEMAIN.linkHandler.page</span>');
 });
 
 test('a language nobody declared is not guessed at', () => {

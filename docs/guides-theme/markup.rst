@@ -129,6 +129,23 @@ that arrived uncoloured is coloured by the element.
 
       return ['siteTitle' => 'TYPO3'];
 
+TypoScript is coloured too
+==========================
+
+The PHP port ships no TypoScript grammar, and the theme registers one, so
+``.. code-block:: typoscript`` is coloured on the server like every other
+block. What it reads is the shape of the language rather than a list of names
+that would go stale a release later: the object path being assigned to, an
+all-caps object type standing alone on the right of an assignment, the value,
+a ``{$constant}``, a ``[condition]``, an ``@import``, and a comment — which
+TypoScript only has at the start of a line, so a ``#`` in the middle of one
+stays the colour it is.
+
+It is the same grammar ``<sds-code>`` uses in the browser — one file, written
+in the design system and handed to both — so a block does not change colour
+the moment a script runs. :doc:`/frontend/components/data` names the languages
+the element declares and shows each one set.
+
 Diffs change the body
 =====================
 

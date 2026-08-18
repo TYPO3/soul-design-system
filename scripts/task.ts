@@ -57,6 +57,7 @@ const TASKS: Record<string, Task> = {
   fonts: { cmd: node('scripts/fonts.ts'), help: 'regenerate fonts/ from @fontsource' },
   icons: { cmd: node('scripts/icons.ts'), help: 'regenerate assets/icons/ from @typo3/icons' },
   diagrams: { cmd: node('scripts/diagrams.ts'), help: 'read the drawings’ viewBoxes into src/components/diagrams.generated.ts' },
+  grammars: { cmd: node('scripts/grammars.ts'), help: 'write the grammars this system wrote itself where the Guides theme loads them' },
 
   // Visual regression
   baseline: { cmd: node('scripts/shoot.ts', '.design-sync/.cache/baseline'), help: 'screenshot every card as the before' },

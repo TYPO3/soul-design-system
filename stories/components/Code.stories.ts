@@ -50,7 +50,7 @@ const meta: Meta<CodeBlockProps> = {
       control: 'select',
       options: [
         'bash', 'css', 'diff', 'html', 'javascript', 'json', 'markdown',
-        'php', 'scss', 'sql', 'text', 'twig', 'typescript', 'typoscript', 'xml', 'yaml',
+        'php', 'scss', 'sql', 'text', 'tsconfig', 'twig', 'typescript', 'typoscript', 'xml', 'yaml',
       ],
     },
     copy: { control: 'boolean' },
