@@ -7,7 +7,7 @@
    cannot keep, so the element asks the entries rather than the caller. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
+import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/dropdown.ts';
 import { type DropdownChoice } from '../../packages/frontend/src/components/dropdown.ts';
@@ -23,7 +23,7 @@ const meta: Meta = {
       path: 'components/core/dropdown.card.html',
       name: 'Dropdown',
       subtitle: 'A button, and the short list it opens under itself',
-      viewport: '700x403',
+      viewport: '700x523',
     }),
   },
 };
@@ -93,25 +93,43 @@ export const IconOnly: Story = {
   render: () => html`<sds-dropdown icon-only icon="actions-menu" name="Actions" .choices="${ACTIONS}"></sds-dropdown>`,
 };
 
+/* The box the element draws around both halves, and the reason every part
+   below stands in one: the set is declared on it, and a property travels down
+   and never sideways — a button or a panel outside it reads none of the set
+   and comes out as unpadded text. */
+const box = (inside: TemplateResult) => html`<div class="sds-dropdown">
+  ${inside}
+</div>`;
+
 /* The trigger as static markup: the same class list the element draws, from
    the same function, so the card and the component cannot disagree. */
-const trigger = (label: string, variant: 'primary' | 'secondary' | 'ghost', open = false) => part(html`<button
-  type="button"
-  class="${buttonClass({ variant })} sds-dropdown__button"
-  aria-expanded="${open ? 'true' : 'false'}"
->${buttonLabel(label)}<sds-icon class="sds-dropdown__marker" name="actions-chevron-down"></sds-icon></button>`);
+const button = (label: string, variant: 'primary' | 'secondary' | 'ghost', open = false) => html`<button
+    type="button"
+    class="${buttonClass({ variant })} sds-dropdown__button"
+    aria-expanded="${open ? 'true' : 'false'}"
+  >${buttonLabel(label)}<span class="sds-dropdown__marker"><sds-icon name="actions-chevron-down"></sds-icon></span></button>`;
 
 /* The panel without the attribute that makes it a popover — which is a list in
    the flow, and the one state a card can hold. A specimen runs no script, and
    nothing static can open a popover. */
-const panel = (entries: readonly DropdownChoice[]) => part(html`<div class="sds-dropdown__panel">
-  ${entries.map((entry) => html`<a
-    class="${entry.current ? 'sds-dropdown__item is-active' : 'sds-dropdown__item'}"
-    href="#"
-    aria-current="${entry.current ? 'true' : undefined}"
-    aria-disabled="${entry.disabled ? 'true' : undefined}"
-  >${entry.icon ? html`<sds-icon name="${entry.icon}"></sds-icon>` : ''}${entry.label}</a>`)}
-</div>`);
+const list = (entries: readonly DropdownChoice[]) => html`<div class="sds-dropdown__panel">
+    ${entries.map((entry) => html`<a
+      class="${entry.current ? 'sds-dropdown__item is-active' : 'sds-dropdown__item'}"
+      href="#"
+      aria-current="${entry.current ? 'true' : undefined}"
+      aria-disabled="${entry.disabled ? 'true' : undefined}"
+    >${entry.icon ? html`<sds-icon name="${entry.icon}"></sds-icon>` : ''}${entry.label}</a>`)}
+  </div>`;
+
+const trigger = (label: string, variant: 'primary' | 'secondary' | 'ghost', open = false) =>
+  part(box(button(label, variant, open)));
+
+const panel = (entries: readonly DropdownChoice[]) => part(box(list(entries)));
+
+/* The whole control, which is the one thing a reader came to see: the button
+   pressed and its list standing under it. */
+const opened = (label: string, entries: readonly DropdownChoice[]) =>
+  part(box(html`${button(label, 'secondary', true)}${list(entries)}`));
 
 /** The specimen card, composed from the stories above. This is what
     `components/core/dropdown.card.html` is generated from. */
@@ -121,8 +139,9 @@ export const specimenHtml = (): string =>
       [trigger('Language', 'secondary'), trigger('Edit', 'primary'), trigger('View', 'ghost')],
       'SHUT · THE MARKER SAYS IT OPENS SOMETHING RATHER THAN ACTS',
     ),
-    specRow([trigger('Language', 'secondary', true)], 'PRESSED · THE MARKER TURNS TO POINT AT WHAT IT OPENED'),
-    specRow([panel(LANGUAGES)], 'THE LIST · THE ONE IN FORCE CARRIES THE ACCENT DOWN ITS START EDGE', { divided: true }),
+    specRow([opened('Language', LANGUAGES)], 'OPEN · THE LIST UNDER ITS BUTTON, THE ONE IN FORCE MARKED', {
+      divided: true,
+    }),
     specRow([panel(ACTIONS)], 'COMMANDS · A GLYPH WHERE THE ENTRY ASKED FOR ONE, AND ONE UNAVAILABLE', { divided: true }),
   ]);
 

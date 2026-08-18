@@ -92,10 +92,9 @@ ${" ".repeat(t)}`,n=[];return s.forEach((i,o)=>{o&&n.push(e),n.push(i)}),n}var X
       aria-current="${e.current?"true":d}"
       aria-disabled="${e.disabled?"true":d}"
       @click="${a=>this.choose(e,n,a)}"
-    >${i}</a>`}render(){let e=this.commands,n=`${Me({variant:this.variant,size:this.size,iconOnly:this.iconOnly})} sds-dropdown__button`,i=this.iconOnly?r`${this.icon?r`<sds-icon name="${this.icon}"></sds-icon>`:""}`:r`${this.icon?r`<sds-icon name="${this.icon}"></sds-icon>`:""}${ve(this.label)}<sds-icon
+    >${i}</a>`}render(){let e=this.commands,n=`${Me({variant:this.variant,size:this.size,iconOnly:this.iconOnly})} sds-dropdown__button`,i=this.iconOnly?r`${this.icon?r`<sds-icon name="${this.icon}"></sds-icon>`:""}`:r`${this.icon?r`<sds-icon name="${this.icon}"></sds-icon>`:""}${ve(this.label)}<span
         class="sds-dropdown__marker"
-        name="actions-chevron-down"
-      ></sds-icon>`;return r`<div class="sds-dropdown" @keydown="${o=>this.onKey(o)}">
+      ><sds-icon name="actions-chevron-down"></sds-icon></span>`;return r`<div class="sds-dropdown" @keydown="${o=>this.onKey(o)}">
   <button
     type="button"
     class="${n}"

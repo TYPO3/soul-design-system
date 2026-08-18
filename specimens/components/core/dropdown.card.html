@@ -1,4 +1,4 @@
-<!-- @dsCard group="Components" viewport="700x403" subtitle="A button, and the short list it opens under itself" name="Dropdown" -->
+<!-- @dsCard group="Components" viewport="700x523" subtitle="A button, and the short list it opens under itself" name="Dropdown" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -9,64 +9,70 @@
 <body>
   <div class="spec">
     <div class="spec-row">
-      <button
-        type="button"
-        class="sds-btn sds-btn--secondary sds-dropdown__button"
-        aria-expanded="false"><span class="sds-btn__label">Language</span><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></button>
-      <button
-        type="button"
-        class="sds-btn sds-btn--primary sds-dropdown__button"
-        aria-expanded="false"><span class="sds-btn__label">Edit</span><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></button>
-      <button
-        type="button"
-        class="sds-btn sds-btn--ghost sds-dropdown__button"
-        aria-expanded="false"><span class="sds-btn__label">View</span><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></button>
+      <div class="sds-dropdown">
+        <button
+          type="button"
+          class="sds-btn sds-btn--secondary sds-dropdown__button"
+          aria-expanded="false"><span class="sds-btn__label">Language</span><span class="sds-dropdown__marker"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></span></button>
+      </div>
+      <div class="sds-dropdown">
+        <button
+          type="button"
+          class="sds-btn sds-btn--primary sds-dropdown__button"
+          aria-expanded="false"><span class="sds-btn__label">Edit</span><span class="sds-dropdown__marker"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></span></button>
+      </div>
+      <div class="sds-dropdown">
+        <button
+          type="button"
+          class="sds-btn sds-btn--ghost sds-dropdown__button"
+          aria-expanded="false"><span class="sds-btn__label">View</span><span class="sds-dropdown__marker"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></span></button>
+      </div>
       <span class="spec-cap">SHUT · THE MARKER SAYS IT OPENS SOMETHING RATHER THAN ACTS</span>
     </div>
-    <div class="spec-row">
-      <button
-        type="button"
-        class="sds-btn sds-btn--secondary sds-dropdown__button"
-        aria-expanded="true"><span class="sds-btn__label">Language</span><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></button>
-      <span class="spec-cap">PRESSED · THE MARKER TURNS TO POINT AT WHAT IT OPENED</span>
-    </div>
     <div class="spec-row" style="border-top:1px solid var(--border-subtle); padding-top:14px;">
-      <div class="sds-dropdown__panel">
-        <a
-          class="sds-dropdown__item is-active"
-          href="#"
-          aria-current="true"
-          aria-disabled="">English</a><a
-          class="sds-dropdown__item"
-          href="#"
-          aria-current=""
-          aria-disabled="">Deutsch</a><a
-          class="sds-dropdown__item"
-          href="#"
-          aria-current=""
-          aria-disabled="">Français</a><a
-          class="sds-dropdown__item"
-          href="#"
-          aria-current=""
-          aria-disabled="">日本語</a>
+      <div class="sds-dropdown">
+        <button
+          type="button"
+          class="sds-btn sds-btn--secondary sds-dropdown__button"
+          aria-expanded="true"><span class="sds-btn__label">Language</span><span class="sds-dropdown__marker"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></span></button><div class="sds-dropdown__panel">
+          <a
+            class="sds-dropdown__item is-active"
+            href="#"
+            aria-current="true"
+            aria-disabled="">English</a><a
+            class="sds-dropdown__item"
+            href="#"
+            aria-current=""
+            aria-disabled="">Deutsch</a><a
+            class="sds-dropdown__item"
+            href="#"
+            aria-current=""
+            aria-disabled="">Français</a><a
+            class="sds-dropdown__item"
+            href="#"
+            aria-current=""
+            aria-disabled="">日本語</a>
+        </div>
       </div>
-      <span class="spec-cap">THE LIST · THE ONE IN FORCE CARRIES THE ACCENT DOWN ITS START EDGE</span>
+      <span class="spec-cap">OPEN · THE LIST UNDER ITS BUTTON, THE ONE IN FORCE MARKED</span>
     </div>
     <div class="spec-row" style="border-top:1px solid var(--border-subtle); padding-top:14px;">
-      <div class="sds-dropdown__panel">
-        <a
-          class="sds-dropdown__item"
-          href="#"
-          aria-current=""
-          aria-disabled=""><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg>Duplicate</a><a
-          class="sds-dropdown__item"
-          href="#"
-          aria-current=""
-          aria-disabled=""><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-rename"><g fill="currentColor"><path d="M2 6h6v4H2zM16 11.5v-7c0-.28-.22-.5-.5-.5H10V3h1V2H8v1h1v10H8v1h3v-1h-1v-1h5.5c.28 0 .5-.22.5-.5zM10 5h5v6h-5V5z"></path><path d="M8 12H.5c-.28 0-.5-.22-.5-.5v-7c0-.28.22-.5.5-.5H8v1H1v6h7v1z"></path></g></svg>Rename</a><a
-          class="sds-dropdown__item"
-          href="#"
-          aria-current=""
-          aria-disabled="true"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-delete"><g fill="currentColor"><path d="M7 5H6v8h1zM10 5H9v8h1z"></path><path d="M13 3h-2v-.75C11 1.56 10.44 1 9.75 1h-3.5C5.56 1 5 1.56 5 2.25V3H3v10.75c0 .69.56 1.25 1.25 1.25h7.5c.69 0 1.25-.56 1.25-1.25V3zm-7-.75A.25.25 0 0 1 6.25 2h3.5a.25.25 0 0 1 .25.25V3H6v-.75zm6 11.5a.25.25 0 0 1-.25.25h-7.5a.25.25 0 0 1-.25-.25V4h8v9.75z"></path><path d="M13.5 4h-11a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1z"></path></g></svg>Move to trash</a>
+      <div class="sds-dropdown">
+        <div class="sds-dropdown__panel">
+          <a
+            class="sds-dropdown__item"
+            href="#"
+            aria-current=""
+            aria-disabled=""><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg>Duplicate</a><a
+            class="sds-dropdown__item"
+            href="#"
+            aria-current=""
+            aria-disabled=""><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-rename"><g fill="currentColor"><path d="M2 6h6v4H2zM16 11.5v-7c0-.28-.22-.5-.5-.5H10V3h1V2H8v1h1v10H8v1h3v-1h-1v-1h5.5c.28 0 .5-.22.5-.5zM10 5h5v6h-5V5z"></path><path d="M8 12H.5c-.28 0-.5-.22-.5-.5v-7c0-.28.22-.5.5-.5H8v1H1v6h7v1z"></path></g></svg>Rename</a><a
+            class="sds-dropdown__item"
+            href="#"
+            aria-current=""
+            aria-disabled="true"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-delete"><g fill="currentColor"><path d="M7 5H6v8h1zM10 5H9v8h1z"></path><path d="M13 3h-2v-.75C11 1.56 10.44 1 9.75 1h-3.5C5.56 1 5 1.56 5 2.25V3H3v10.75c0 .69.56 1.25 1.25 1.25h7.5c.69 0 1.25-.56 1.25-1.25V3zm-7-.75A.25.25 0 0 1 6.25 2h3.5a.25.25 0 0 1 .25.25V3H6v-.75zm6 11.5a.25.25 0 0 1-.25.25h-7.5a.25.25 0 0 1-.25-.25V4h8v9.75z"></path><path d="M13.5 4h-11a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1z"></path></g></svg>Move to trash</a>
+        </div>
       </div>
       <span class="spec-cap">COMMANDS · A GLYPH WHERE THE ENTRY ASKED FOR ONE, AND ONE UNAVAILABLE</span>
     </div>

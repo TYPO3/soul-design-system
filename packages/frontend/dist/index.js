@@ -2975,10 +2975,9 @@ var SdsDropdown = class extends SdsElement {
   render() {
     const commands = this.commands;
     const cls = `${buttonClass({ variant: this.variant, size: this.size, iconOnly: this.iconOnly })} sds-dropdown__button`;
-    const inside = this.iconOnly ? html11`${this.icon ? html11`<sds-icon name="${this.icon}"></sds-icon>` : ""}` : html11`${this.icon ? html11`<sds-icon name="${this.icon}"></sds-icon>` : ""}${buttonLabel(this.label)}<sds-icon
+    const inside = this.iconOnly ? html11`${this.icon ? html11`<sds-icon name="${this.icon}"></sds-icon>` : ""}` : html11`${this.icon ? html11`<sds-icon name="${this.icon}"></sds-icon>` : ""}${buttonLabel(this.label)}<span
         class="sds-dropdown__marker"
-        name="actions-chevron-down"
-      ></sds-icon>`;
+      ><sds-icon name="actions-chevron-down"></sds-icon></span>`;
     return html11`<div class="sds-dropdown" @keydown="${(e) => this.onKey(e)}">
   <button
     type="button"

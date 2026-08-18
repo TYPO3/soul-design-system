@@ -47,10 +47,14 @@
 
   /* The marker that says this button opens something, rather than acts. It
      turns to point at the panel it has opened, so the control says which state
-     it is in without a second word. */
+     it is in without a second word. A box of its own, like every other glyph
+     in this system: a class written on an element is gone from the card, where
+     the element is replaced by what it drew. */
   .sds-dropdown__button {
     .sds-dropdown__marker {
       --sds-icon-size: var(--sds-dropdown-marker-size);
+
+      display: inline-flex;
       transition: transform var(--sds-dropdown-duration) var(--sds-dropdown-ease);
     }
 
@@ -88,6 +92,12 @@
       &:not(:popover-open) {
         display: none;
       }
+    }
+
+    /* In the flow it is still a list that came out of a button, so it stands
+       off it by what the flyout is placed at rather than against it. */
+    .sds-dropdown__button + &:not([popover]) {
+      margin-block-start: var(--sds-dropdown-panel-gap);
     }
   }
 
@@ -141,6 +151,14 @@
       color: var(--sds-dropdown-item-ink-active);
       background: var(--sds-dropdown-item-fill-active);
       box-shadow: inset 2px 0 0 0 var(--sds-dropdown-item-mark);
+    }
+
+    /* The one ring, on the box rather than off it — the same thing a search hit
+       does, and for the same reason: a row is already air around its words, so
+       a ring standing off lies in the gap the list keeps and runs over the
+       panel's own edge at the ends. */
+    &:focus-visible {
+      outline-offset: 0;
     }
 
     &[aria-disabled="true"] {

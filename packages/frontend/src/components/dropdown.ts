@@ -277,10 +277,9 @@ export class SdsDropdown extends SdsElement {
        caller's decision: a control that drops it looks like a button that acts. */
     const inside = this.iconOnly
       ? html`${this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : ''}`
-      : html`${this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : ''}${buttonLabel(this.label)}<sds-icon
+      : html`${this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : ''}${buttonLabel(this.label)}<span
         class="sds-dropdown__marker"
-        name="actions-chevron-down"
-      ></sds-icon>`;
+      ><sds-icon name="actions-chevron-down"></sds-icon></span>`;
     /* `popovertarget` rather than a handler: the browser opens it, closes it on
        a press outside or on Escape, puts the focus back on this button, and
        draws it in the top layer where no ancestor's overflow can clip it. All
