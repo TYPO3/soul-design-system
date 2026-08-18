@@ -331,3 +331,30 @@ looking for a `.storybook/` config dir and switches the source shape to
 detector, and `scripts/build.ts` remains the converter. **Do not remove that
 pin**, and if a future kit version stops honouring it, the fix is to pin it
 again — not to let the shape flip.
+
+## A design holds bind-time copies, and a re-sync does not reach them
+
+A design made with this system keeps its own copy of what it was given, under
+`_ds/<project-slug>/` — `styles.css`, `tokens/`, `fonts/`, `_ds_bundle.css`,
+`_ds_bundle.js`. Uploading into the design system updates the design system;
+it does not touch a copy any existing design already holds. So a design goes
+on rendering the state of the day it was bound, however current the system is.
+
+Measured on "TYPO3 DeveloperDays 2027 Website" the day the dropdown shipped:
+its bound `_ds_bundle.css` carried no `.sds-dropdown*` class at all — the
+component was written after that bind — while the same design's manually
+copied `_ds_soul/soul.js` was byte-identical to the current build. The element
+therefore upgraded and had nothing to draw with, which reads as a component
+with its styling missing rather than as a stale copy. The same copy still had
+the `--sds-btn-ink` cycle, so its buttons lost their border under the pointer
+and moved; that is `tests/states.spec.ts` failing in a design nobody could run
+the suite against.
+
+Two things follow. A report of "the system is wrong in my design" is first a
+question about which copy that design holds — fetch
+`_ds/<slug>/_ds_bundle.css` and compare it against `.out/bundle/`, rather than
+reading the sources. And a design is repaired by writing the current files
+into its own `_ds/<slug>/`, which is a second upload, to the design's project
+and not to the system's. Only the files a delta names need to move; on that
+day `styles.css`, `tokens/` and `fonts/` were already identical and only the
+two bundles differed.
