@@ -25,7 +25,9 @@
 set -e
 
 # `-T` unless there is a terminal to attach: `make shell` wants one, and every
-# other task is a pipe whose output make is reading.
+# other task is a pipe whose output make is reading. The check below reads no
+# input and is given none: attached to the same stdin, it drained the pipe a
+# task was about to read, and `make notes` saw an empty log.
 tty=-T
 [ -t 0 ] && tty=
 
@@ -64,7 +66,7 @@ app
         if (readFileSync("/image/Dockerfile", "utf8") !== readFileSync("/app/.infra/Dockerfile", "utf8")) stale.push("the Dockerfile");
       } catch { stale.push("the Dockerfile"); }
       console.log(stale.join(", "));
-    ' 2>/dev/null || true)
+    ' </dev/null 2>/dev/null || true)
     if [ -n "$stale" ]; then
       printf '\n  %s changed since this image was built — rebuilding, then running\n  (a task against the dependencies of another tree answers nothing)\n\n' \
         "$stale" >&2
