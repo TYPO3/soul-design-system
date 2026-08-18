@@ -19,6 +19,7 @@ const SAMPLES: Record<string, string> = {
   json: '{ "versions": ["13.4"] }',
   markdown: '# Title\n\nSome **bold** and `code`.\n\n- item',
   php: '<?php echo 1;',
+  scss: '$pad: 1rem; .a { padding: $pad; }',
   sql: 'SELECT 1 FROM t',
   twig: '{{ name }}',
   typescript: 'const a: number = 1;',

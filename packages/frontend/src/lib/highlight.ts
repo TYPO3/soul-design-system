@@ -17,6 +17,7 @@ import json from 'highlight.js/lib/languages/json';
 import markdown from 'highlight.js/lib/languages/markdown';
 import php from 'highlight.js/lib/languages/php';
 import plaintext from 'highlight.js/lib/languages/plaintext';
+import scss from 'highlight.js/lib/languages/scss';
 import sql from 'highlight.js/lib/languages/sql';
 import twig from 'highlight.js/lib/languages/twig';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -29,7 +30,7 @@ import yaml from 'highlight.js/lib/languages/yaml';
    a TypoScript block sets in one colour rather than in a wrong one. */
 const GRAMMARS: Record<string, LanguageFn> = {
   bash, css, diff, html: xml, javascript, json, markdown,
-  php, sql, text: plaintext, twig, typescript, xml, yaml,
+  php, scss, sql, text: plaintext, twig, typescript, xml, yaml,
 };
 
 type LanguageFn = Parameters<typeof hljs.registerLanguage>[1];

@@ -45,6 +45,7 @@ export type CodeLang =
   | 'json'
   | 'markdown'
   | 'php'
+  | 'scss'
   | 'sql'
   | 'text'
   | 'twig'

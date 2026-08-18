@@ -201,6 +201,18 @@ A literal block introduced by a double colon::
    A block whose language is text: escaped, uncoloured, and the honest
    answer when nobody said what it is.
 
+.. code-block:: scss
+
+   .card {
+       // A variable and a line comment, which is what the grammar reads.
+       $pad: 1rem;
+       padding: $pad;
+
+       &:hover {
+           border-color: currentColor;
+       }
+   }
+
 A block whose language is ``diff`` is a different body in the same frame: the
 rows carry status colour, the caption names the file, and the two file headers
 of the format are left as context — the head above them already says which file

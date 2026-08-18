@@ -19,7 +19,7 @@ export interface CodeLine {
     it reads right. Open at the edges, because the value arrives from a Markdown
     fence and refusing to print a word is not a service — the union catches the
     near miss, `yml` for `yaml`, which a highlighter answers in silence. */
-export type CodeLang = 'bash' | 'css' | 'diff' | 'html' | 'javascript' | 'json' | 'markdown' | 'php' | 'sql' | 'text' | 'twig' | 'typescript' | 'typoscript' | 'xml' | 'yaml' | (string & {});
+export type CodeLang = 'bash' | 'css' | 'diff' | 'html' | 'javascript' | 'json' | 'markdown' | 'php' | 'scss' | 'sql' | 'text' | 'twig' | 'typescript' | 'typoscript' | 'xml' | 'yaml' | (string & {});
 export interface CodeBlockProps {
     /** The language, lower case as a fence writes it; the upper case belongs to
         `sds-code__lang`. The attribute is `code-lang` deliberately: `lang` is a
