@@ -90,6 +90,31 @@ A tag is never moved and never deleted. A release that was wrong is followed by
 another release; the mirrors refuse a moved tag, and a consumer who installed
 the old one is entitled to keep getting it.
 
+### What the release page says
+
+The page is written from the commits the tag was cut from — every subject
+under the scope it carries, each linked to its commit — over the install
+commands for this version and the places it is published to. Read it before
+the tag is pushed, which is while a subject can still be rewritten:
+
+```sh
+make notes ARGS=v0.2.0
+```
+
+That writes `.out/release/notes.md`, and the release job runs the same two
+halves on the runner and hands its file to `gh release create`. The log is
+git's and the document is `scripts/notes.ts`, which is why a task on a desk
+and a step in a workflow cannot say different things.
+
+The commands and the links come out of the manifests and `PACKAGES`, so a
+package added there is a package the next release page installs and names.
+A tag carrying a prerelease suffix is marked as one, which leaves the releases
+list pointing at the version to install.
+
+GitHub's own `--generate-notes` is what this replaced. It lists pull requests,
+work here arrives as commits, and every release it wrote was a compare link
+with nothing above it.
+
 ### npm publishes without a credential
 
 The release job asks GitHub for an OIDC token and npm exchanges it for the

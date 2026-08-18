@@ -54,7 +54,7 @@ SURFACES := \
 	'dist|(watching the frontend package)|rebuilds the drop-in on every edit' \
 	'app|(idle)|every make task runs in here'
 
-.PHONY: help tasks $(TASKS) release mounts start status stop restart logs shell clean
+.PHONY: help tasks $(TASKS) release notes mounts start status stop restart logs shell clean
 .DEFAULT_GOAL := help
 
 # A bind-mount path the host does not have is created by Docker, as root —
@@ -83,6 +83,7 @@ help:
 	@echo '  make build           assemble .out/bundle/, the upload payload'
 	@echo '  make dist            the publishable ESM package and its types'
 	@echo '  make release ARGS=0.2.0  gate, suite, write the version, commit, tag (never pushes)'
+	@echo '  make notes           what the release page will say; ARGS=v0.1.1 for a tag'
 	@echo '  make design-sync     build + verify + what-would-change + upload plan'
 	@echo '  make design-project  which claude.ai design system a sync uploads into;'
 	@echo '                       ARGS=<uuid> sets it, and without one a re-sync'
@@ -109,9 +110,19 @@ tasks:
 	@$(RUN) --help
 
 # ARGS reaches the task inside the container: `make cards ARGS=--check`.
-$(TASKS) tasks start shell release: mounts
+$(TASKS) tasks start shell release notes: mounts
 $(TASKS):
 	@$(RUN) $@ $(ARGS)
+
+# What the release page will say, before there is a page. The log comes from
+# the host for the same reason the commit and the tag do — git is not in the
+# image — and the container turns it into the document. `.github/workflows/ci.yml`
+# runs the same two halves and hands the file to `gh release create`.
+#
+# `ARGS=v0.1.1` reads a tag that exists; without one it is the version this
+# tree carries, from the branch as it stands.
+notes:
+	@git log --no-merges --pretty=format:'%h%x1f%D%x1f%s' | $(RUN) notes $(ARGS)
 
 # The one task that finishes on the host. Writing the version happens in the
 # container like everything else; the commit and the tag are git, which this

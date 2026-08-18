@@ -183,6 +183,7 @@ Generated — never edit, never hand-write a new one:
 | `.out/site/` | `make guides` — untracked: a drop-in is copied, a site is published. Every element in it is rendered in Node on the way out, so the pages hold their markup before any script runs. Everything in it is published, which is why the theme's control surface is the root beside it |
 | `.out/acceptance/` | `make guides` — the theme's control surface, rendered every run and published never. A root of its own, because a page below somebody else's root does not resolve its assets the way a published one does |
 | `.out/theme/`, `.out/consumer/` | `make guides` — the theme assembled as the package it is published as, and the renderer built against it by the three Composer commands the manual prints. `--released` names the mirror instead, which is how the published render is reproduced on a desk |
+| `.out/release/notes.md` | `make notes` — what the release page will say, written from the commits the tag is cut from. Read before the tag is pushed; the release job writes it again on the runner and hands that file to `gh release create` |
 | `docs/_cards/`, `packages/guides-theme/acceptance/_cards/` | `make embed`, and `make cards` ends with it — the generated cards where the documents that embed them can reach them. Beside those documents rather than under `.out/`, because a renderer only carries what a parsed page points at |
 | `docs/_images/signet*.svg` | `make embed` — committed, and copied from `packages/frontend/assets/`, which is where a mark is drawn. `marks` in `scripts/lib/projects.ts` says which file is which drawing: a signet is crisp only in the box it was made for, and a hand copy is how the wrong one reaches a header |
 | `packages/frontend/fonts/` | `make fonts` — committed, because the package publishes it and a mirror ships only what git has |
@@ -400,7 +401,9 @@ makes the tag. It pushes nothing. Both packages take the same version, because t
 take it from is this repository's own. Pushing the tag is the release: the gate
 runs over it, the mirrors carry the tag across, npm is published from the
 tagged tree and Packagist reads the theme off the tag. `MAINTAINERS.md` has the
-whole of it, including what had to be set up once on npm.
+whole of it, including what had to be set up once on npm. `make notes
+ARGS=v<version>` is the release page before the tag exists — the same document
+the release job publishes, so a subject that reads badly is still fixable.
 
 **A visual refactor** — `make baseline`, change, `make shots && make diff`.
 Anything that moved, moved on purpose.
@@ -480,6 +483,12 @@ and a bisect lands on something small enough to read. A session that arrives
 as a single commit has thrown that grain away — work that was already done and
 green sits unreviewed beside work that is still in flight, and neither can be
 moved without the other.
+
+**A subject is published.** `<scope>: <sentence>` is what the release page
+lists, grouped by that scope and read by people who will never open this tree —
+`make notes` is that page before there is one. So the sentence says what the
+work does for whoever installs it, and the scope is the part of the system it
+did it to; `fix: stuff` reaches a reader as the whole of what a release was.
 
 ## What fails review
 

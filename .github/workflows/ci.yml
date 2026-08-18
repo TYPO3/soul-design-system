@@ -143,7 +143,12 @@ jobs:
       contents: write
       id-token: write
     steps:
+      # The whole history and every tag, which a release checkout otherwise has
+      # none of: the notes below are the commits between this tag and the one
+      # before it, and a shallow clone knows neither end of that range.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # `registry-url` is what points the publish at npm's own registry. No
       # cache in a release build — npm's instruction, and a restored one is a
@@ -159,6 +164,15 @@ jobs:
       # manifest instead. This is the one place both are in the room together.
       - run: node scripts/release.ts --check --tag=${{ github.ref_name }}
 
+      # What the release page says: the log is git's and the document is the
+      # script's, the same split `make notes` makes on a desk. Above the
+      # publish because it reads git and nothing else, and npm is the one step
+      # below that a rerun cannot repeat.
+      - name: the notes this release carries
+        run: |
+          git log --no-merges --pretty=format:'%h%x1f%D%x1f%s' \
+            | node scripts/notes.ts --tag=${{ github.ref_name }}
+
       # Nothing is installed and nothing is built: everything the package ships
       # is committed, the gate compared the drop-in against its source, and a
       # dependency tree fetched here would be one more thing between a green
@@ -167,10 +181,16 @@ jobs:
       - run: npm publish
         working-directory: packages/frontend
 
+      # `--generate-notes` wrote a compare link and nothing else: it lists pull
+      # requests, and the work here arrives as commits. A prerelease says so on
+      # the page, so `latest` on the releases list stays the version to install.
       - name: the release those packages were cut from
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes
+        run: |
+          case "$GITHUB_REF_NAME" in *-*) pre=--prerelease ;; *) pre= ;; esac
+          gh release create "$GITHUB_REF_NAME" --verify-tag $pre \
+            --notes-file .out/release/notes.md
 
   # The site, rendered and deployed by `documentation.yml` — the shape the
   # example hands a reader, on our own documentation. Behind the mirror rather
