@@ -165,7 +165,7 @@ which ones they are.
 | `packages/frontend/src/styles/styles.css` | the single entry point |
 | `packages/frontend/src/styles/_specimen.css` | card chrome only — deliberately outside the `styles.css` closure |
 | `packages/frontend/src/components/*.ts` | the Lit elements and their template functions |
-| `packages/frontend/src/lib/` | element base, icon inliner, static renderer, and the grammars this system wrote itself |
+| `packages/frontend/src/lib/` | element base, the form base every control extends, icon inliner, static renderer, and the grammars this system wrote itself |
 | `stories/` | the specimen every card and screen is generated from |
 | `docs/` | the published documentation — the manual, the guideline pages, and the prompts they print for copying |
 | `packages/guides-theme/` | the Composer package: templates, directives, and the acceptance render |
@@ -560,6 +560,18 @@ did it to; `fix: stuff` reaches a reader as the whole of what a release was.
   name for its own node and may be written nowhere else — `make coverage`
   fails on one in the theme. The Guides pages are rendered before they are
   published so this costs a reader with no script nothing; see `SKILL.md`.
+- **A control belongs to the form, and its value is a real control's.** Every
+  element a form is made of extends `SdsFormElement`, which is
+  `ElementInternals`: a reset reaches the element, a `<fieldset disabled>`
+  reaches what is under it, and an `error` a caller wrote is a validity the
+  browser refuses to submit past. What internals never carry is the value —
+  each one renders a named `<input>`, `<select>` or `<textarea>` into the light
+  DOM, which is what a prerendered page submits before any script runs, and
+  holding the value in internals as well would send every answer twice. A
+  `.checked` or `.value` **binding** is the other half of the same rule: the
+  static renderer writes it out as `checked="false"`, which in HTML means
+  checked, so the live state is written onto the control in `updated()` and the
+  attribute stays the default a reset puts back.
 - **Comments carry the reason, not the story.** No changelog, no anecdote, and
   never the name of another project — this system is used by things it does
   not know about. Five lines, ten at the top of a file; see above.

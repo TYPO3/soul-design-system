@@ -1592,22 +1592,6 @@ var SdsElement = class extends LitElement {
     }
     super.connectedCallback();
   }
-  #reset;
-  /** Run `fn` once the form around this element has been reset, for a control
-      that keeps state of its own. The listener has to sit on the form: `reset`
-      is fired there and bubbles up, never down. A microtask, because the
-      handler runs before the controls are put back. */
-  whenFormReset(fn) {
-    this.#reset?.abort();
-    const form = this.closest("form");
-    if (!form) return;
-    this.#reset = new AbortController();
-    form.addEventListener("reset", () => queueMicrotask(fn), { signal: this.#reset.signal });
-  }
-  disconnectedCallback() {
-    this.#reset?.abort();
-    super.disconnectedCallback();
-  }
   lifted() {
     if (this.#looked) return [];
     this.#looked = true;
@@ -3113,7 +3097,78 @@ define("sds-field-group", SdsFieldGroup);
 
 // packages/frontend/src/components/checkbox.ts
 import { html as html16, nothing as nothing6 } from "lit";
-var SdsCheckbox = class extends SdsElement {
+
+// packages/frontend/src/lib/form-element.ts
+var SdsFormElement = class extends SdsElement {
+  constructor() {
+    super();
+    /** Whether an ancestor `<fieldset disabled>` has turned this off. The
+        element's own `disabled` is a property it renders; this is the other half,
+        which nothing but the platform can tell it. */
+    this.inheritedDisabled = false;
+    if (typeof this.attachInternals === "function") this.internals = this.attachInternals();
+  }
+  static {
+    /** What puts the element in `form.elements`, sends it the form's lifecycle
+        callbacks and lets it hold a validity of its own. */
+    this.formAssociated = true;
+  }
+  /** The form this control answers to, wherever it stands — including one it
+      only reaches through the `form` attribute. */
+  get form() {
+    return this.internals?.form ?? null;
+  }
+  /** The `<label>`s pointing at it, so a caller can move focus the way a
+      platform control lets one. */
+  get labels() {
+    return this.internals?.labels;
+  }
+  get validity() {
+    return this.internals?.validity;
+  }
+  get validationMessage() {
+    return this.internals?.validationMessage ?? "";
+  }
+  get willValidate() {
+    return this.internals?.willValidate ?? false;
+  }
+  checkValidity() {
+    return this.internals?.checkValidity() ?? true;
+  }
+  reportValidity() {
+    return this.internals?.reportValidity() ?? true;
+  }
+  formDisabledCallback(disabled) {
+    this.inheritedDisabled = disabled;
+    this.requestUpdate();
+  }
+  /** What the markup said, put back. The browser resets the real control inside
+      at the same time and to the same value — this is the element's own copy of
+      the state agreeing with it. */
+  formResetCallback() {
+    this.restore();
+  }
+  restore() {
+  }
+  /** A message the browser refuses to submit past, reported on the real
+        control inside — so the bubble points at the box and not at the element
+        around it. An empty message clears it.
+  
+        Called after a render and never during one: there is no element to anchor
+        to before the first, and in Node there is no `querySelector` at all. */
+  setValidity(message, selector = "input, select, textarea", flag = "customError") {
+    if (!this.internals) return;
+    if (!message) {
+      this.internals.setValidity({});
+      return;
+    }
+    const anchor = this.querySelector(selector);
+    this.internals.setValidity({ [flag]: true }, message, anchor ?? void 0);
+  }
+};
+
+// packages/frontend/src/components/checkbox.ts
+var SdsCheckbox = class extends SdsFormElement {
   static {
     this.properties = {
       label: { type: String },
@@ -3144,11 +3199,19 @@ var SdsCheckbox = class extends SdsElement {
   willUpdate() {
     this.#initial ??= this.checked;
   }
-  connectedCallback() {
-    super.connectedCallback();
-    this.whenFormReset(() => {
-      this.checked = this.#initial ?? false;
-    });
+  /* The live state is written onto the control after the render, never as a
+     binding. A `.checked` binding is serialised by the static renderer as
+     `checked="false"` — which in HTML means checked — so every box on every
+     generated card came out ticked. `?checked` stays: it writes the *default*,
+     which is what a reset puts back. */
+  updated() {
+    const input = this.querySelector("input");
+    if (!input) return;
+    input.checked = this.checked;
+    input.indeterminate = this.indeterminate;
+  }
+  restore() {
+    this.checked = this.#initial ?? false;
   }
   /* Ticking is what makes it checked. A caller that had to write the state
      back is a caller that will forget once — and a mixed box that is ticked is
@@ -3168,8 +3231,6 @@ var SdsCheckbox = class extends SdsElement {
     name="${this.name || nothing6}"
     value="${this.value || nothing6}"
     ?checked="${this.#initial ?? this.checked}"
-    .checked="${this.checked}"
-    .indeterminate="${this.indeterminate}"
     ?required="${this.required}"
     ?disabled="${this.disabled}"
     @change="${this.onChange}"
@@ -3185,7 +3246,7 @@ define("sds-checkbox", SdsCheckbox);
 
 // packages/frontend/src/components/radio.ts
 import { html as html17, nothing as nothing7 } from "lit";
-var SdsRadio = class extends SdsElement {
+var SdsRadio = class extends SdsFormElement {
   static {
     this.properties = {
       legend: { type: String },
@@ -3213,11 +3274,16 @@ var SdsRadio = class extends SdsElement {
   willUpdate() {
     this.#initial ??= this.value;
   }
-  connectedCallback() {
-    super.connectedCallback();
-    this.whenFormReset(() => {
-      this.value = this.#initial ?? "";
-    });
+  /* The live state is written onto the control after the render, never as a
+     binding. A `.checked` binding is serialised by the static renderer as
+     `checked="false"` — which in HTML means checked — so every box on every
+     generated card came out ticked. `?checked` stays: it writes the *default*,
+     which is what a reset puts back. */
+  updated() {
+    for (const input of this.querySelectorAll("input")) input.checked = input.value === this.value;
+  }
+  restore() {
+    this.value = this.#initial ?? "";
   }
   choose(choice) {
     this.value = choice.value ?? choice.label;
@@ -3238,7 +3304,6 @@ var SdsRadio = class extends SdsElement {
       name="${this.name}"
       value="${value}"
       ?checked="${value === (this.#initial ?? this.value)}"
-      .checked="${value === this.value}"
       ?required="${this.required}"
       @change="${() => this.choose(choice)}"
     />

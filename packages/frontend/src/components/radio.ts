@@ -10,7 +10,8 @@
    select. Above roughly five the set stops being scannable. */
 
 import { html, nothing, type TemplateResult } from 'lit';
-import { define, SdsElement } from '../lib/element.ts';
+import { define } from '../lib/element.ts';
+import { SdsFormElement } from '../lib/form-element.ts';
 
 /** One answer. `hint` is for the consequence a label cannot carry. */
 export interface Choice {
@@ -38,7 +39,7 @@ export interface RadioProps {
   required?: boolean;
 }
 
-export class SdsRadio extends SdsElement {
+export class SdsRadio extends SdsFormElement {
   static override properties = {
     legend: { type: String },
     name: { type: String },
@@ -75,11 +76,17 @@ export class SdsRadio extends SdsElement {
     this.#initial ??= this.value;
   }
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    this.whenFormReset(() => {
-      this.value = this.#initial ?? '';
-    });
+  /* The live state is written onto the control after the render, never as a
+     binding. A `.checked` binding is serialised by the static renderer as
+     `checked="false"` — which in HTML means checked — so every box on every
+     generated card came out ticked. `?checked` stays: it writes the *default*,
+     which is what a reset puts back. */
+  protected override updated(): void {
+    for (const input of this.querySelectorAll('input')) input.checked = input.value === this.value;
+  }
+
+  protected override restore(): void {
+    this.value = this.#initial ?? '';
   }
 
   private choose(choice: Choice): void {
@@ -104,7 +111,6 @@ export class SdsRadio extends SdsElement {
       name="${this.name}"
       value="${value}"
       ?checked="${value === (this.#initial ?? this.value)}"
-      .checked="${value === this.value}"
       ?required="${this.required}"
       @change="${() => this.choose(choice)}"
     />

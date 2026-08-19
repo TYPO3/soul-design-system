@@ -1,5 +1,5 @@
 import { type TemplateResult } from 'lit';
-import { SdsElement } from '../lib/element.js';
+import { SdsFormElement } from '../lib/form-element.js';
 export interface CheckboxProps {
     /** What ticking it means, in a line beside the box. */
     label: string;
@@ -23,7 +23,7 @@ export interface CheckboxProps {
         it. */
     disabled?: boolean;
 }
-export declare class SdsCheckbox extends SdsElement {
+export declare class SdsCheckbox extends SdsFormElement {
     #private;
     static properties: {
         label: {
@@ -65,7 +65,8 @@ export declare class SdsCheckbox extends SdsElement {
     disabled: boolean;
     constructor();
     protected willUpdate(): void;
-    connectedCallback(): void;
+    protected updated(): void;
+    protected restore(): void;
     private onChange;
     protected render(): TemplateResult;
 }

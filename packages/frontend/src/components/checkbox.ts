@@ -10,7 +10,8 @@
    is hard to hit and the sentence beside it is not. */
 
 import { html, nothing, type TemplateResult } from 'lit';
-import { define, SdsElement } from '../lib/element.ts';
+import { define } from '../lib/element.ts';
+import { SdsFormElement } from '../lib/form-element.ts';
 
 export interface CheckboxProps {
   /** What ticking it means, in a line beside the box. */
@@ -36,7 +37,7 @@ export interface CheckboxProps {
   disabled?: boolean;
 }
 
-export class SdsCheckbox extends SdsElement {
+export class SdsCheckbox extends SdsFormElement {
   static override properties = {
     label: { type: String },
     hint: { type: String },
@@ -78,11 +79,20 @@ export class SdsCheckbox extends SdsElement {
     this.#initial ??= this.checked;
   }
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    this.whenFormReset(() => {
-      this.checked = this.#initial ?? false;
-    });
+  /* The live state is written onto the control after the render, never as a
+     binding. A `.checked` binding is serialised by the static renderer as
+     `checked="false"` — which in HTML means checked — so every box on every
+     generated card came out ticked. `?checked` stays: it writes the *default*,
+     which is what a reset puts back. */
+  protected override updated(): void {
+    const input = this.querySelector('input');
+    if (!input) return;
+    input.checked = this.checked;
+    input.indeterminate = this.indeterminate;
+  }
+
+  protected override restore(): void {
+    this.checked = this.#initial ?? false;
   }
 
   /* Ticking is what makes it checked. A caller that had to write the state
@@ -104,8 +114,6 @@ export class SdsCheckbox extends SdsElement {
     name="${this.name || nothing}"
     value="${this.value || nothing}"
     ?checked="${this.#initial ?? this.checked}"
-    .checked="${this.checked}"
-    .indeterminate="${this.indeterminate}"
     ?required="${this.required}"
     ?disabled="${this.disabled}"
     @change="${this.onChange}"

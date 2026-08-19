@@ -58,7 +58,11 @@ const choices = (): string =>
     legend="How should we come back to you?"
     name="reply"
     value="email"
-    .choices="${[{ label: 'Email' }, { label: 'In the repository' }, { label: 'No reply' }]}"
+    .choices="${[
+      { label: 'Email', value: 'email' },
+      { label: 'In the repository', value: 'repository' },
+      { label: 'No reply', value: 'none' },
+    ]}"
   ></sds-radio>
 </div>`);
 

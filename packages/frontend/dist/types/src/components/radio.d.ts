@@ -1,5 +1,5 @@
 import { type TemplateResult } from 'lit';
-import { SdsElement } from '../lib/element.js';
+import { SdsFormElement } from '../lib/form-element.js';
 /** One answer. `hint` is for the consequence a label cannot carry. */
 export interface Choice {
     label: string;
@@ -24,7 +24,7 @@ export interface RadioProps {
     /** One of them has to be picked before the form goes. */
     required?: boolean;
 }
-export declare class SdsRadio extends SdsElement {
+export declare class SdsRadio extends SdsFormElement {
     #private;
     static properties: {
         legend: {
@@ -55,7 +55,8 @@ export declare class SdsRadio extends SdsElement {
     required: boolean;
     constructor();
     protected willUpdate(): void;
-    connectedCallback(): void;
+    protected updated(): void;
+    protected restore(): void;
     private choose;
     protected render(): TemplateResult;
 }
