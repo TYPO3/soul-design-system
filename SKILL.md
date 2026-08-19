@@ -102,7 +102,7 @@ To force a mode on a subtree, set `data-theme="light"` or `data-theme="dark"`. S
 
 Breaking one of these breaks the system, not just the page.
 
-- **One accent.** `--accent` (#FF8700) marks exactly three things: the active navigation item, the shell prompt in a code block, the pipe in the wordmark. No second accent, anywhere. The accent is also the one thing a surface may be *lit* with: `--accent-glow` in the top of a card's frame under the pointer, falling away down it. That is the single gradient in the system, it is a state rather than a mark, and it is not a licence for a second one.
+- **One accent.** `--accent` (#FF8700) marks exactly three things: the active navigation item, the shell prompt in a code block, the pipe in the wordmark. No second accent, anywhere. The accent is also the one thing a surface may be *lit* with: `--accent-glow` in the top of a card's frame under the pointer, falling away down it. It is a state rather than a mark, and it is not a licence for a second accent. **The system has two gradients and both are named**: that lit frame, and the hatch a running `sds-progress` draws inside its own fill — one ink at two strengths, saying the work is moving while the bar stands still. Nothing else is a gradient.
 - **A shadow means a surface has left the page.** Write the job, never the distance: `--shadow-basic`, `--shadow-strong`, `--shadow-tooltip`, `--shadow-flyout` (what the bar opens over the text), `--shadow-dialog`, `--shadow-window`. `--shadow-2…64` is the raw scale behind them and appears in no design, the way `--orange-*` does not. Nothing that stays *on* the page takes one — a card, a band, a table separate with a hairline plus `--surface-overlay`. The focus ring is a state, not depth.
 - **No emoji.** Status is a colour plus a glyph from `packages/frontend/assets/icons/` or the mono font (`✓`).
 - **Mono is semantic.** Anything the machine reads, writes or names — tool names, arguments, paths, versions, CLI fragments — is Source Code Pro, at every size including headings. Never title-case or prettify them: `make verify`, `guides.xml`, `vendor/bin/guides`.
@@ -150,7 +150,7 @@ A design value is written exactly. An inventory is not copied into prose: name t
 An answer always carries its source, its version binding and what it leaves out. The UI states exist to carry exactly that.
 
 - **Focus** — an outline `--border-emphasis` wide in `--accent` at `--focus-offset`, plus a `--focus-halo` of `--accent-ring`. Never a number of your own: a surface that turns the ring inwards or drops the halo says so with those tokens. Always `:focus-visible`, never `:focus`.
-- **Loading** — nothing under 200ms. Over 2s the label says *why*: "booting the installation", "reading packages instead", "searching docs.typo3.org". Skeletons only where the shape is known — a table has one, so `<sds-table loading>` draws them itself.
+- **Loading** — nothing under 200ms. Over 2s the label says *why*: "booting the installation", "reading packages instead", "searching docs.typo3.org". Skeletons only where the shape is known — a table has one, so `<sds-table loading>` draws them itself. Where the work reports how far it has got, that is `sds-progress` — the share as a length with the position beside it as a number, its ink mixed from that same distance and arriving at `--status-ok` as the run does, never through amber or red on the way; `pulsing` draws a hatch travelling through the fill — work is happening right now, which is what a bar standing still cannot say and what tells a slow run from a stalled one. Where the work reports nothing at all, a spinner, which claims no distance.
 - **Empty / not found** — never "no results". Name the source asked, say it answered, say what it does not cover, offer the nearest real thing. A deliberate boundary gets `actions-info-circle`, not an error colour.
 - **Warning** — a degraded but usable answer: what was reached, what was read instead, what that leaves out, and the command that fixes it.
 - **Error** — no answer, plus the command or environment variable that would change that.
@@ -195,7 +195,8 @@ almost orthographic view, one contained halftone field and exactly one small
 orange detail. Use overlap and at most two flat tones per object; realistic
 materials, highlights and cast shadows do not belong to the language. A pale
 ground wash inside the raster never licenses CSS elevation or another
-interface gradient; the linked card's lit frame remains the only one.
+interface gradient; the lit frame and a working bar's hatch remain the only
+two.
 
 Use `guidelines/illustration-prompt.md` verbatim to extend the set. The subject
 is the only prompt field that changes. These images are decorative support, so
@@ -290,7 +291,7 @@ Every surface carries the mode switch: two segments, `light` and `dark`, the act
 ## Before you call it done
 
 - Both modes checked — not by trusting the tokens, but by looking. Anything inlined rather than linked (`currentColor`, a forced `data-theme` subtree) is where they drift.
-- No shadow, no second accent, no emoji added; no gradient other than a card's lit frame.
+- No shadow, no second accent, no emoji added; no gradient other than a card's lit frame and a working bar's hatch.
 - Every machine-named string in mono, verbatim.
 - Every state that can occur has copy that names its source and its boundary.
 - Header sheds rather than wraps at 1120, 1040, 820 and 620.

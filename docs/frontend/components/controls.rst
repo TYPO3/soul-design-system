@@ -329,6 +329,125 @@ status tones are the result of one.
    diagram that is about status. Never as page furniture — a colour meaning
    "something is wrong" on a header says it about the page.
 
+.. _component-sds-progress:
+
+sds-progress
+============
+
+How far a running job has got — a share, not a sequence of stops. ``sds-steps``
+is the one that claims step two follows step one; this claims a distance, and
+it is driven entirely from outside: set ``value`` as the work reports and the
+bar travels to the new width in ``--duration-fast``.
+
+**The fill takes its colour from that same distance.** The ink is mixed from
+the share itself — grey where there is nothing to report yet, turning the whole
+way to ``--status-ok`` as the work approaches a finished run — so the colour
+says what the length says, moves as gradually as the bar does and needs no
+threshold invented for it. A flat colour at every moment, never a gradient. It
+never passes through red or amber: a job at a fifth is not failing, and a
+colour saying so would be the one thing on the page claiming something went
+wrong.
+
+.. specimen:: components/core/progress.card.html
+   :viewport: 700x475
+   :title: Progress
+
+.. code-block:: html
+
+   <sds-progress caption="Rendering the manual" value="42"
+     note="Chapter 5 of 12 — writing the search index next."></sds-progress>
+
+   <sds-progress caption="Uploading the release" value="3" max="12"
+     readout="count" unit="files"></sds-progress>
+
+.. confval:: caption
+   :name: sds-progress-caption
+   :type: string
+
+   What the work is, over the bar. Without one the bar is bare — right where
+   the surface around it names the job — and it still owes ``label``.
+
+.. confval:: label
+   :name: sds-progress-label
+   :type: string
+
+   What it is called for anything that cannot see what it sits beside. The
+   track is the ``progressbar``, and a bar with no name reads out as a number
+   out of a hundred of nothing.
+
+.. confval:: value
+   :name: sds-progress-value
+   :type: number
+   :default: 0
+
+   Where it stands, in the same unit as ``max``. Clamped to the run, so work
+   that overruns its own estimate draws a full bar rather than one running out
+   of its track.
+
+.. confval:: max
+   :name: sds-progress-max
+   :type: number
+   :default: 100
+
+   The whole the value is a part of.
+
+.. confval:: readout
+   :name: sds-progress-readout
+   :type: "percent" | "count" | "none"
+   :default: "percent"
+
+   How the position is said. ``count`` gives the two numbers themselves — "3
+   of 12 files" — where what is being counted is the useful part, and a
+   percentage of twelve is arithmetic the reader has to undo.
+
+.. confval:: unit
+   :name: sds-progress-unit
+   :type: string
+
+   What the numbers count, said after them in a ``count`` read-out.
+
+.. confval:: note
+   :name: sds-progress-note
+   :type: string
+
+   What the work is doing right now. Over 2s this is the line that has to say
+   why; the same line may be written between the tags where it carries a link
+   or a name in mono.
+
+.. confval:: size
+   :name: sds-progress-size
+   :type: "medium" | "small"
+   :default: "medium"
+
+   ``small`` thins the track alone, for a bar standing in a row of other
+   things. The read-out over it is the same line it is anywhere else.
+
+.. confval:: pulsing
+   :name: sds-progress-pulsing
+   :type: boolean
+   :default: false
+
+   That work is happening **right now**: a hatch travels through the filled
+   part while the bar itself stands still, which is the one thing a bar at rest
+   cannot say. Reach for it where reports arrive far apart — a bar that has not
+   moved in ten seconds and one that has stalled look the same otherwise. Turn
+   it off the moment the work stops, and when the run is done: a bar working at
+   a standstill claims something nobody measured. It sets ``aria-busy`` while
+   it runs. Reduced motion keeps the hatch and stops it travelling, so a
+   working bar still reads as one — and the note under the bar, never the
+   movement alone, is what says what is happening.
+
+   The stripes are the system's second and last gradient, beside the lit frame
+   of a card under the pointer: one ink at two strengths, carrying motion
+   rather than colour. See :doc:`/design-system/colours`.
+
+.. note::
+
+   **Where the share is not known there is nothing to fill.** That is
+   ``.sds-loading`` with a spinner, which claims no distance at all — see
+   :doc:`the states guideline </design-system/states>`. A bar that advances by
+   itself is telling the reader something the work never said.
+
 .. _component-sds-icon:
 
 sds-icon

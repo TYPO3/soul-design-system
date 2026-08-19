@@ -58,6 +58,10 @@ const ELSEWHERE = [
   'sds-range',
   'sds-file',
   'sds-form-errors',
+  /* How far a running job has got. A page is rendered before it is served, so
+     nothing in a document is still running — and a bar over finished work is a
+     distance claimed about a job that is not there. */
+  'sds-progress',
   /* Something a page opens over itself, which a document does not do. */
   'sds-modal',
   'sds-dialog',

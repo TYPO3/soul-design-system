@@ -22,6 +22,7 @@ import './components/textarea.ts';
 import './components/switch.ts';
 import './components/range.ts';
 import './components/file.ts';
+import './components/progress.ts';
 import './components/field-group.ts';
 import './components/field-error.ts';
 import './components/checkbox.ts';
@@ -83,6 +84,12 @@ export { SdsTextarea, type TextareaProps, type TextareaResize } from './componen
 export { SdsSwitch, type SwitchProps } from './components/switch.ts';
 export { SdsRange, type RangeProps } from './components/range.ts';
 export { SdsFile, type FileProps } from './components/file.ts';
+export {
+  SdsProgress,
+  type ProgressProps,
+  type ProgressReadout,
+  type ProgressSize,
+} from './components/progress.ts';
 export { SdsFieldGroup } from './components/field-group.ts';
 export { SdsFieldError } from './components/field-error.ts';
 export { SdsCheckbox, type CheckboxProps } from './components/checkbox.ts';
@@ -165,6 +172,7 @@ export const TAGS = [
   'sds-switch',
   'sds-range',
   'sds-file',
+  'sds-progress',
   'sds-form-errors',
   'sds-nav-pills',
   'sds-nav-main',

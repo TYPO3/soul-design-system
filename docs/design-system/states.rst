@@ -54,6 +54,18 @@ head it already has, with bars at the row height under it, so nothing moves
 when the rows arrive. ``loading`` and ``loading-rows`` are the whole of it —
 see :ref:`sds-table <component-sds-table>`.
 
+**A spinner claims no distance; a bar claims one.** Where the work reports how
+far it has got, that is ``sds-progress`` — a filled length with the position
+beside it as a number, driven from outside and moving only when the work says
+so. The ink is mixed from that same distance — grey at the start, turning the
+whole way to ``--status-ok`` as the run approaches a result — and it never
+passes through amber or red, which would say something went wrong with a job
+that is merely early. Where reports arrive far apart, ``pulsing`` sends a hatch
+travelling through the filled part, so a slow run and a stalled one do not look
+alike; reduced motion keeps the hatch and stops it moving. Where the work reports
+nothing at all, the spinner is the honest answer: a bar advancing on a timer
+tells the reader something nothing measured.
+
 .. specimen:: guidelines/states-loading.card.html
    :viewport: 700x256
    :title: Loading

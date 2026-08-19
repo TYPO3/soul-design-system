@@ -1,0 +1,158 @@
+/* sds-progress — how far a running job has got.
+
+   The fill takes its colour from the distance itself — grey where there is
+   nothing to report yet, mixed the whole way to the colour of a finished run
+   as it approaches one. A flat colour at every moment and no threshold to
+   invent: how near the result is *is* what a bar says. Not the accent, which
+   marks three things and none of them is a measurement. */
+
+@layer base {
+  sds-progress {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-progress > .sds-progress {
+    margin-bottom: 0;
+  }
+  .sds-progress {
+    margin: 0 0 var(--space-4);
+  }
+}
+
+@layer components {
+  .sds-progress {
+    /* Where it stands, as a length the fill is drawn to. The one property a
+       surface sets from outside; everything else here is the component's. */
+    --sds-progress-at: 0%;
+    --sds-progress-track-h: 8px;
+    --sds-progress-radius: var(--radius-pill);
+    --sds-progress-track-fill: var(--surface-inset);
+    /* The two ends of the ink, mixed by how far the work has got: quiet grey
+       where there is nothing to report yet, turning the whole way to the
+       colour of a finished run as it gets there. */
+    --sds-progress-ink-early: var(--text-muted);
+    --sds-progress-ink-late: var(--status-ok);
+    --sds-progress-fill: color-mix(
+      in oklch,
+      var(--sds-progress-ink-late) var(--sds-progress-at),
+      var(--sds-progress-ink-early)
+    );
+    --sds-progress-gap: var(--space-2);
+    --sds-progress-head-gap: var(--space-3);
+    --sds-progress-caption-size: var(--control-font-size);
+    --sds-progress-caption-ink: var(--text-primary);
+    --sds-progress-value-font: var(--font-mono);
+    --sds-progress-value-size: var(--font-size-dense);
+    --sds-progress-value-ink: var(--text-secondary);
+    --sds-progress-note-size: var(--aside-size);
+    --sds-progress-note-leading: var(--aside-leading);
+    --sds-progress-note-ink: var(--text-muted);
+    --sds-progress-duration: var(--duration-fast);
+    --sds-progress-ease: var(--ease-out);
+    /* The hatch a working bar carries: half a stripe pair across the stripe,
+       and the same distance measured along the bar, which is the way a
+       background travels. Its ink is the page under the fill, so the stripes
+       lighten on a light page and darken on a dark one. */
+    --sds-progress-hatch-angle: 45deg;
+    --sds-progress-hatch-band: 5px;
+    --sds-progress-hatch-step: calc(var(--sds-progress-hatch-band) * 2 / sin(var(--sds-progress-hatch-angle)));
+    --sds-progress-hatch-ink: color-mix(in oklch, var(--surface-canvas) 45%, transparent);
+    --sds-progress-hatch-duration: 1.1s;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-progress-gap);
+    min-width: 0;
+  }
+
+  /* What the work is on the left and where it stands on the right, on one
+     baseline — the row a control states its question and its answer in. */
+  .sds-progress__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sds-progress-head-gap);
+  }
+  .sds-progress__caption {
+    font-size: var(--sds-progress-caption-size);
+    color: var(--sds-progress-caption-ink);
+  }
+  /* Mono and tabular: the number counts up in place, and proportional digits
+     would move the whole read-out sideways every time it did. */
+  .sds-progress__value {
+    font-family: var(--sds-progress-value-font);
+    font-size: var(--sds-progress-value-size);
+    color: var(--sds-progress-value-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* The fill is a square-ended block cut by the track's own corner, so a bar
+     one pixel in is a sliver of that corner rather than a pill floating in a
+     groove it does not touch. */
+  .sds-progress__track {
+    display: block;
+    overflow: hidden;
+    block-size: var(--sds-progress-track-h);
+    border-radius: var(--sds-progress-radius);
+    background: var(--sds-progress-track-fill);
+  }
+  .sds-progress__fill {
+    display: block;
+    block-size: 100%;
+    inline-size: var(--sds-progress-at);
+    background-color: var(--sds-progress-fill);
+    transition:
+      inline-size var(--sds-progress-duration) var(--sds-progress-ease),
+      background-color var(--sds-progress-duration) var(--sds-progress-ease);
+  }
+
+  .sds-progress__note {
+    font-size: var(--sds-progress-note-size);
+    line-height: var(--sds-progress-note-leading);
+    color: var(--sds-progress-note-ink);
+  }
+
+  /* Something is happening right now — the one thing a bar standing still
+     cannot say, and what tells a slow run from a stalled one. The stripes
+     travel the way the work does; the bar itself does not move. */
+  .sds-progress--pulsing .sds-progress__fill {
+    background-image: repeating-linear-gradient(
+      var(--sds-progress-hatch-angle),
+      var(--sds-progress-hatch-ink) 0 var(--sds-progress-hatch-band),
+      transparent 0 calc(var(--sds-progress-hatch-band) * 2)
+    );
+    /* One period wide, so the tile the pattern repeats in is the distance the
+       animation travels — anything else leaves a seam every tile. */
+    background-size: var(--sds-progress-hatch-step) 100%;
+    animation: sds-progress-hatch var(--sds-progress-hatch-duration) linear infinite;
+  }
+
+  @keyframes sds-progress-hatch {
+    from {
+      background-position-x: 0;
+    }
+    to {
+      background-position-x: var(--sds-progress-hatch-step);
+    }
+  }
+
+  /* A bar standing in a row of other things: the track alone gets thinner, so
+     the read-out over it is the same line it is anywhere else. */
+  .sds-progress--small {
+    --sds-progress-track-h: 4px;
+    --sds-progress-gap: var(--space-1-5);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* The bar is where it is; what goes is the travel to it. */
+    .sds-progress__fill {
+      transition: none;
+    }
+    /* The hatch stays and stops travelling: a working bar still reads as one,
+       and what goes is the only thing here that was moving. */
+    .sds-progress--pulsing .sds-progress__fill {
+      animation: none;
+    }
+  }
+}

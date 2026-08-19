@@ -579,7 +579,8 @@ did it to; `fix: stuff` reaches a reader as the whole of what a release was.
 - **One accent.** `--accent` marks three things and nothing else; `--orange-*`
   is the raw scale and never appears in a design. It is also the one colour a
   surface may be *lit* with — `--accent-glow` in the top of a card's frame
-  under the pointer, and the single gradient in the system.
+  under the pointer. That frame and the hatch a running progress bar draws in
+  its own fill are the two gradients in the system, and there is no third.
 
 `SKILL.md` has the rest, including the checklist to run before calling
 anything done.

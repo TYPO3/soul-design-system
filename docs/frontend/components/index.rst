@@ -146,6 +146,9 @@ which group it was filed under.
    * - ``sds-overlay``
      - the wash a floating surface sits on
      - :ref:`Overlays — sds-overlay <component-sds-overlay>`
+   * - ``sds-progress``
+     - how far a running job has got
+     - :ref:`Controls — sds-progress <component-sds-progress>`
    * - ``sds-quote``
      - a sentence borrowed from somewhere, with where it came from
      - :ref:`Content — sds-quote <component-sds-quote>`

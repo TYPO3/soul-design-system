@@ -144,11 +144,13 @@ Accent
 navigation item, the shell prompt in a code block, and the pipe in the
 wordmark. No second accent.
 
-``--accent-glow`` is the one gradient: light falling across the top of a
-linked card's hairline under the pointer or keyboard focus, then fading down
-the frame. It is a state rather than another accented object. Keeping it on a
-layer of its own lets that light fade without replacing the card's background.
-It licenses no gradient elsewhere.
+``--accent-glow`` is one of the system's two gradients: light falling across
+the top of a linked card's hairline under the pointer or keyboard focus, then
+fading down the frame. It is a state rather than another accented object.
+Keeping it on a layer of its own lets that light fade without replacing the
+card's background. The other is the hatch a running ``sds-progress`` draws
+inside its own fill — one ink at two strengths, and motion rather than colour.
+Neither licenses a gradient anywhere else.
 
 Page grounds stay flat: no photograph or illustration behind text, no
 repeating texture and no decorative gradient. Artwork occupies an explicit
