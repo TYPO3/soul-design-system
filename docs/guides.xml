@@ -21,7 +21,7 @@
     <!-- The copyright is the holder `LICENSE` names and nobody else: a site
          and the file it ships under, disagreeing about whose the work is, is a
          question for a reader rather than an answer. -->
-    <project title="Soul Design System" version="0.1.3" copyright="© 2026 The TYPO3 Project"/>
+    <project title="Soul Design System" version="0.1.4" copyright="© 2026 The TYPO3 Project"/>
     <!-- What the bar says and shows. Both optional; without them it carries
          the project title above. -->
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
