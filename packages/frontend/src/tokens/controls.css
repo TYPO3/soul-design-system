@@ -78,6 +78,13 @@
     --row-pad-airy: 14px;
     --row-font-airy: var(--font-size-ui);
 
+    /* A row is not a paragraph: prose leading put every row two pixels over
+       the height its density is named for, and a wrapped cell opened a gap a
+       scanner reads as the distance between two rows. This is the number the
+       three heights above are drawn from, and it stays over
+       `--control-leading` because a cell wraps and a control does not. */
+    --row-leading: 1.35;
+
     /* Mono cells run a step below the row's sans, so a tool name and the
        prose beside it read at the same optical size. */
     --row-name-compact: var(--font-size-micro);

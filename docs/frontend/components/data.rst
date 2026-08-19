@@ -9,7 +9,7 @@ it sets in Source Code Pro at every size, verbatim, and none of it is
 title-cased or prettified on the way in.
 
 .. specimen:: components/data/data.card.html
-   :viewport: 700x298
+   :viewport: 700x282
    :title: Table, badges & status
 
 .. _component-sds-table:
@@ -145,7 +145,7 @@ sds-table
    properties.
 
 .. specimen:: components/data/density.card.html
-   :viewport: 700x879
+   :viewport: 700x786
    :title: Table density
 
 .. warning::

@@ -40,6 +40,7 @@
     --sds-table-name-size: var(--row-name-medium);
     --sds-table-meta-size: var(--row-meta-medium);
     --sds-table-cell-gap: var(--space-3);
+    --sds-table-leading: var(--row-leading);
     --sds-table-border: var(--border-hairline);
     --sds-table-rule: var(--border-subtle);
     --sds-table-rule-head: var(--border-strong);
@@ -64,6 +65,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: var(--sds-table-font-size);
+    line-height: var(--sds-table-leading);
 
     th {
       text-align: start;

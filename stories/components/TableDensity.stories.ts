@@ -80,7 +80,7 @@ const meta: Meta<TableProps> = {
       path: 'components/data/density.card.html',
       name: 'Table density',
       subtitle: 'The same four rows at three densities — row height is what “compact” actually means',
-      viewport: '700x879',
+      viewport: '700x786',
     }),
   },
 };
