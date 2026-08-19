@@ -75,7 +75,11 @@ async function mount(page: Page, markup: string): Promise<string> {
 const flat = (s: string): string =>
   /* The export's inlined glyph, emptied the same way the browser's is. */
   s.replace(/(<svg[^>]*data-icon="[^"]*"[^>]*>)[\s\S]*?(<\/svg>)/g, '$1$2')
-    .replace(/\s+/g, ' ')
+    /* The browser writes a no-break space as an entity and the export leaves
+       the character. Both are that space, and it is not the whitespace the
+       collapse below is for: a number and its unit are one word. */
+    .replace(/&nbsp;/g, '\u00a0')
+    .replace(/[^\S\u00a0]+/g, ' ')
     .trim();
 
 const HOST = '/iframe.html?id=components-button--primary&viewMode=story';
@@ -140,6 +144,11 @@ const CASES: { name: string; markup: string; template: TemplateResult }[] = [
     template: html`<sds-note tone="warn" heading="Partial" body="The registry was not booted."></sds-note>`,
   },
   {
+    name: 'progress, mid-run with a count read-out',
+    markup: '<sds-progress caption="Uploading the release" value="3" max="12" readout="count" unit="files"></sds-progress>',
+    template: html`<sds-progress caption="Uploading the release" value="3" max="12" readout="count" unit="files"></sds-progress>`,
+  },
+  {
     name: 'icon, at 24',
     markup: '<sds-icon name="actions-cog" size="24"></sds-icon>',
     template: html`<sds-icon name="actions-cog" size="24"></sds-icon>`,
@@ -166,7 +175,7 @@ for (const c of CASES) {
 test('every element is the box it draws', async ({ page }) => {
   const seen = await page.evaluate(async () => {
     const blocks = ['sds-card', 'sds-note', 'sds-grid', 'sds-stat', 'sds-surface', 'sds-table',
-      'sds-tabs', 'sds-field', 'sds-nav-pills', 'sds-nav-rail', 'sds-footer'];
+      'sds-tabs', 'sds-field', 'sds-nav-pills', 'sds-nav-rail', 'sds-footer', 'sds-progress'];
     const parts = ['sds-button', 'sds-badge', 'sds-icon', 'sds-link', 'sds-search', 'sds-theme'];
     const away = ['sds-dialog', 'sds-lightbox', 'sds-modal', 'sds-overlay'];
     const out: Record<string, string> = {};
@@ -345,6 +354,13 @@ test('a tile in a flush wall keeps the wall', async ({ page }) => {
    both. */
 async function boxes(page: Page, markup: string): Promise<{ total: number; rows: string[] }> {
   return page.evaluate(async (source) => {
+    /* The faces first, and asked for by name: `font-display: optional` never
+       swaps one in after a box was laid out, so a mount that beats the load
+       keeps its fallback for good — which is one rendering measured in the
+       shipped face and the other in whatever the machine had. */
+    await Promise.all([document.fonts.load('13px "Source Code Pro"'), document.fonts.load('16px "Source Sans 3"')]);
+    await document.fonts.ready;
+
     const host = document.createElement('div');
     host.style.cssText = 'width:600px; position:absolute; left:0';
     host.innerHTML = source;
@@ -373,14 +389,7 @@ async function boxes(page: Page, markup: string): Promise<{ total: number; rows:
   }, markup);
 }
 
-/* The badge is not in this list yet. Mounted from the drop-in both forms
-   measure 90px exactly; mounted in the story's own page the static one measures
-   102 and the element 90, stably and in every run. Something about the page the
-   test mounts into and not about the component — recorded rather than hidden,
-   and the pair is measured again the day it is understood. */
-const PAIRED = CASES.filter((c) => !c.name.startsWith('badge'));
-
-for (const c of PAIRED) {
+for (const c of CASES) {
   test(`${c.name} takes the same space either way`, async ({ page }) => {
     const live = await boxes(page, c.markup);
     const flatRender = await boxes(page, renderStatic(c.template));
