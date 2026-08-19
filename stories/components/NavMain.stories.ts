@@ -97,6 +97,24 @@ export const Bar: Story = {
   ),
 };
 
+/** The bar above with no brand set. One name is the whole mark, so it takes the
+    mark's full weight rather than the quiet weight a product carries beside a
+    brand — and there is no pipe, the accent rule having nothing to separate.
+    The bar at its narrowest hides the brand and lands on this same lockup. */
+export const NoBrand: Story = {
+  render: () => under(
+    html`<sds-nav-main
+    home="#overview"
+    signet="${SIGNET}"
+    product="Soul Design System"
+    search
+    .items="${SECTIONS}"
+    active="0"
+  ></sds-nav-main>`,
+    sentence,
+  ),
+};
+
 /** The same row, written by a server instead of passed as a property. A
     rendered site resolves its own links before the page is sent, so it writes
     the pills and the element takes them over: without the script they are still
