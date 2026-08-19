@@ -49,6 +49,7 @@
   .sds-wordmark {
     --sds-wordmark-gap: var(--space-1-5);
     --sds-wordmark-weight: var(--weight-semibold);
+    --sds-wordmark-solo-weight: var(--weight-bold);
     --sds-wordmark-tracking: var(--tracking-heading);
     --sds-wordmark-ink: var(--text-primary);
     --sds-wordmark-pipe-width: 2px;
@@ -63,6 +64,14 @@
     letter-spacing: var(--sds-wordmark-tracking);
     color: var(--sds-wordmark-ink);
     white-space: nowrap;
+
+    /* One name is the whole mark, so it is set heavier than the brand half
+       that has a quiet half to be read against. Asked of the brand rather
+       than declared at the call site, so the bar's narrow width — which hides
+       that half — arrives at the same weight. */
+    &:not(:has(.sds-wordmark__brand)) {
+      font-weight: var(--sds-wordmark-solo-weight);
+    }
   }
   /* Whose it is. It keeps its letters whatever the bar does — the half that
      gives is the one below, and a half that gives twice is a lockup with two

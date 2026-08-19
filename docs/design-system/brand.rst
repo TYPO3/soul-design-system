@@ -126,6 +126,11 @@ Lockup
 separator and caret at once, and the only colour in the mark. Signet is
 1.36 × the type size, gap 0.5 ×, clear space half the signet height.
 
+A site that sets no brand draws the product name alone, at 700 — there is no
+quiet half for it to be read against, so the whole mark carries the weight
+the two-part lockup spends on its first word. The bar at its narrowest hides
+the brand and the pipe and arrives at the same place.
+
 .. specimen:: guidelines/brand-lockup.card.html
    :viewport: 700x210
    :title: Primary lockup

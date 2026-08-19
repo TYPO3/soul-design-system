@@ -30,7 +30,8 @@ export function lockup({ signet = '', brand = '', product = '', href = '' }: Loc
   /* The pipe is a 2px accent rule drawn by the stylesheet — one of exactly
      three places that colour appears — so it is an empty span and never a `|`.
      It stands only where there are two halves to separate: a single name is
-     the mark itself, in the mark's own weight. */
+     the whole mark and is set at the mark's weight, which `brand.css` reads
+     off the absent half rather than being told here. */
   const inside = html`${signet
     ? html`<sds-image class="sds-signet" src="${signet}" alt="" width="24" height="24"></sds-image>`
     : ''}${product

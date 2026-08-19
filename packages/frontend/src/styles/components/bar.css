@@ -137,9 +137,10 @@
     .sds-bar .sds-wordmark__pipe {
       display: none;
     }
-    /* One name left is the mark itself, in the mark's own weight — the same
+    /* One name left is the mark itself, at the mark's own weight — the same
        lockup a site with no brand draws, rather than the quiet half standing
-       alone with nothing for it to be quiet beside. */
+       alone with nothing for it to be quiet beside. The weight arrives by
+       inheritance, the brand half being hidden and not removed. */
     .sds-bar .sds-wordmark__product {
       font-weight: inherit;
       color: inherit;
