@@ -7,12 +7,25 @@ export interface Column {
         the machine owns, `sds-td-meta` for anything secondary. */
     cls?: string;
 }
+/** A cell with a second line under it: what the row is, and what is true about
+    it right now — the branch a checkout stands on, the changes nobody has
+    committed. Two facts about one thing belong in one cell; spread over two
+    columns the head has to name a relationship instead of a fact. */
+export interface Cell {
+    /** The line the row is read by. A component where the identity is one — a
+        name with the button that acts on it beside it. */
+    value: string | TemplateResult;
+    /** The line under it, in the register a meta cell is set in. */
+    note?: string | TemplateResult;
+}
+export type CellValue = string | TemplateResult | Cell;
 export interface Row {
     /** Text, or a component where the cell is a piece of state rather than a
         value — the badge that says how a row answered. A cell that could only
         be a string is a cell whose status has to be spelled out beside the
-        table or drawn by hand into it. */
-    cells: readonly (string | TemplateResult)[];
+        table or drawn by hand into it. A `Cell` is the same thing with its own
+        second line. */
+    cells: readonly CellValue[];
     /** Selection, not striping — `.is-selected`, which the stylesheet already
         had and the element could not emit, so the one story that needed it
         wrote the fill inline and the two drifted to different colours. */
@@ -87,6 +100,7 @@ export declare class SdsTable extends SdsElement {
     private taken;
     constructor();
     connectedCallback(): void;
+    private stacked;
     private cell;
     private bodyRow;
     private waitingRow;

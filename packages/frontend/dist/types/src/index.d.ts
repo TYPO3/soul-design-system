@@ -99,7 +99,7 @@ export { SdsLightbox, type LightboxProps } from './components/lightbox.js';
 export { SdsOverlay } from './components/overlay.js';
 export { SdsModal } from './components/modal.js';
 export { SdsDialog, type DialogProps } from './components/dialog.js';
-export { SdsTable, type TableProps, type Column, type Row, type Density } from './components/table.js';
+export { SdsTable, type TableProps, type Cell, type CellValue, type Column, type Row, type Density, } from './components/table.js';
 export { SdsCode, type CodeBlockProps, type CodeLine, type CodeKind, type CodeLang, type CodeLangName, } from './components/code.js';
 export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.js';
 export { SdsQuote, type QuoteProps } from './components/quote.js';

@@ -6051,6 +6051,10 @@ var SdsTable = class extends SdsElement {
        `<table>` is dropped by the parser, so those children reach here from a
        `<template>` or a property and never from markup typed into a page. */
     this.taken = null;
+    /* The one of the three that is a plain object of this system's own: a string
+       is not an object at all, and a template carries Lit's marker and its
+       values rather than a value. */
+    this.stacked = (cell) => typeof cell === "object" && cell !== null && "value" in cell;
     this.density = "medium";
     this.scrollable = false;
     this.width = "";
@@ -6076,7 +6080,8 @@ var SdsTable = class extends SdsElement {
     super.connectedCallback();
   }
   cell(value, cls) {
-    return cls ? html50`<td class="${cls}">${value}</td>` : html50`<td>${value}</td>`;
+    const inner = this.stacked(value) ? html50`${value.value}${value.note ? html50`<span class="sds-td-note">${value.note}</span>` : nothing27}` : value;
+    return cls ? html50`<td class="${cls}">${inner}</td>` : html50`<td>${inner}</td>`;
   }
   bodyRow(row) {
     const cells = lines(row.cells.map((v, i) => this.cell(v, this.columns[i]?.cls)), 6);

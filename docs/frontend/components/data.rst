@@ -67,6 +67,32 @@ sds-table
    value — the badge that says how a row answered. ``selected`` emits
    ``is-selected``.
 
+   A cell may also be ``{ value, note }`` — the line the row is read by, and
+   under it what is true about it right now: the branch a checkout stands on,
+   the changes nobody has committed. The note emits ``sds-td-note`` and is set
+   in the register a meta cell is set in, and the row still lines up on the
+   first line. Two facts about one thing belong in one cell; over two columns
+   the head has to name a relationship instead of a fact.
+
+   .. code-block:: html
+
+      <sds-table
+        .columns="${[{ head: 'Checkout', cls: 'sds-td-name' }, { head: 'PHP' }]}"
+        .rows="${[{ cells: [
+          { value: html`13.4-lts <sds-button variant="ghost" size="sm">Open</sds-button>`,
+            note: 'main · 2 uncommitted changes' },
+          html`<sds-select label="PHP for 13.4-lts" size="sm" min-width="88"
+            value="8.4" .options="${['8.3', '8.4']}"></sds-select>`,
+        ] }]}"
+      ></sds-table>
+
+   A row somebody acts on carries the control itself, as the example does:
+   ``sds-button`` at ``size="sm"`` beside the name, an ``sds-link`` for an
+   address, an ``sds-select`` that states ``label`` where it has no room for a
+   caption and asks for what the column can give it with ``min-width``. None
+   of that is the table's business — a cell takes a component, which is why a
+   row of controls never has to be built out of markup by hand.
+
 .. confval:: loading
    :name: sds-table-loading
    :type: boolean

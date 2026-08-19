@@ -12,6 +12,9 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/table.ts';
 import { type Column, type TableProps } from '../../packages/frontend/src/components/table.ts';
 import '../../packages/frontend/src/components/badge.ts';
+import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/link.ts';
+import '../../packages/frontend/src/components/select.ts';
 import { BADGES } from './Badge.stories.ts';
 import { DIVIDER, dsCard, part, px, spec, specCap, specRow } from '../lib/specimen.ts';
 
@@ -95,6 +98,66 @@ export const Default: Story = {};
     state change rather than as work in flight. */
 export const Loading: Story = {
   args: { ...CARD_TABLE, rows: [], loading: true, loadingRows: 4 },
+};
+
+/** A row somebody acts on. The cells carry what they have to — a name with
+    the button that acts on it, the version as the control that changes it, the
+    address as a real link — and the identity carries its own second line, so
+    what is true about a checkout right now stands under its name instead of
+    taking a column whose head would have to name a relationship.
+
+    The controls are the system's own at the size a row has room for: a select
+    in a cell states `label` rather than a caption, and asks for the width the
+    column can give it. */
+export const Managed: Story = {
+  render: () =>
+    sdsTable({
+      columns: [
+        { head: 'Checkout', cls: 'sds-td-name' },
+        { head: 'PHP' },
+        { head: 'Database' },
+        { head: 'Address', cls: 'sds-td-meta' },
+      ],
+      rows: [
+        {
+          selected: true,
+          cells: [
+            {
+              value: html`13.4-lts
+                <sds-button variant="ghost" size="sm">Open</sds-button>`,
+              note: 'main · 2 uncommitted changes',
+            },
+            '8.4',
+            'project database',
+            html`<sds-link href="https://13-4-lts.typo3.test" label="13-4-lts.typo3.test"></sds-link>`,
+          ],
+        },
+        {
+          cells: [
+            {
+              value: html`14.3-dev
+                <sds-button variant="ghost" size="sm">Open</sds-button>`,
+              note: 'feature/soul · 7 uncommitted changes',
+            },
+            html`<sds-select
+              label="PHP for 14.3-dev"
+              size="sm"
+              min-width="88"
+              value="8.4"
+              .options="${['8.2', '8.3', '8.4']}"
+            ></sds-select>`,
+            html`<sds-select
+              label="Database for 14.3-dev"
+              size="sm"
+              min-width="180"
+              value="project database"
+              .options="${['project database', 'a copy of it']}"
+            ></sds-select>`,
+            html`<sds-link href="https://14-3-dev.typo3.test" label="14-3-dev.typo3.test"></sds-link>`,
+          ],
+        },
+      ],
+    }),
 };
 
 export const Compact: Story = { args: { ...CARD_TABLE, density: 'compact' } };

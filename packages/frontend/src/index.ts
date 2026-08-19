@@ -110,7 +110,15 @@ export { SdsLightbox, type LightboxProps } from './components/lightbox.ts';
 export { SdsOverlay } from './components/overlay.ts';
 export { SdsModal } from './components/modal.ts';
 export { SdsDialog, type DialogProps } from './components/dialog.ts';
-export { SdsTable, type TableProps, type Column, type Row, type Density } from './components/table.ts';
+export {
+  SdsTable,
+  type TableProps,
+  type Cell,
+  type CellValue,
+  type Column,
+  type Row,
+  type Density,
+} from './components/table.ts';
 export {
   SdsCode,
   type CodeBlockProps,

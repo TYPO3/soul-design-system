@@ -50,6 +50,7 @@
     --sds-table-ink: var(--text-secondary);
     --sds-table-name-ink: var(--text-link);
     --sds-table-meta-ink: var(--text-muted);
+    --sds-table-note-gap: var(--space-0-5);
     --sds-table-fill-hover: var(--surface-raised);
     --sds-table-fill-selected: var(--surface-accent-quiet);
     --sds-table-head-weight: var(--weight-regular);
@@ -102,6 +103,19 @@
       color: var(--sds-table-name-ink);
     }
     td.sds-td-meta {
+      font-family: var(--sds-table-font);
+      font-size: var(--sds-table-meta-size);
+      color: var(--sds-table-meta-ink);
+    }
+
+    /* What is true about a row right now, under the name it is read by: the
+       same register a meta cell is set in, one line down. The row still lines
+       up on the first line — which is what a cell sitting on its baseline was
+       for, and why this is a line inside the cell rather than a column of its
+       own. */
+    .sds-td-note {
+      display: block;
+      margin-top: var(--sds-table-note-gap);
       font-family: var(--sds-table-font);
       font-size: var(--sds-table-meta-size);
       color: var(--sds-table-meta-ink);
