@@ -355,6 +355,253 @@ is hard to hit and the sentence beside it is not.
    :name: sds-checkbox-disabled
    :type: boolean
 
+.. _component-sds-checkbox-group:
+
+sds-checkbox-group
+==================
+
+Tick any of these, under one question. ``sds-checkbox`` is one fact standing on
+its own; this is the other shape a set of boxes takes. Written as loose
+checkboxes it is a heading that happens to sit above some rows — nothing binds
+them, so nothing reads them out as one question either.
+
+The set is the component, as it is for :ref:`sds-radio <component-sds-radio>`:
+the legend, the shared name and what is ticked are three things a caller would
+otherwise keep in step by hand.
+
+.. code-block:: html
+
+   <sds-checkbox-group legend="What may we attach?" name="scope"
+     .values="${['versions']}"
+     .choices="${[{ label: 'Installed versions', value: 'versions' },
+                  { label: 'File contents', value: 'files',
+                    hint: 'Not on offer while the project is public.',
+                    disabled: true }]}"
+   ></sds-checkbox-group>
+
+.. confval:: legend
+   :name: sds-checkbox-group-legend
+   :type: string
+   :required: true
+
+   What is being asked. Rendered as the ``<legend>`` of a real ``<fieldset>``.
+
+.. confval:: name
+   :name: sds-checkbox-group-name
+   :type: string
+   :required: true
+
+   One name for the whole set, so a server reads the answers as a list.
+
+.. confval:: choices
+   :name: sds-checkbox-group-choices
+   :type: "{ label, value?, hint?, disabled? }[]"
+   :required: true
+
+.. confval:: values
+   :name: sds-checkbox-group-values
+   :type: "string[]"
+
+   Which of them are ticked, by value or by label where a choice has none.
+
+.. confval:: hint
+   :name: sds-checkbox-group-hint
+   :type: string
+
+.. _component-sds-switch:
+
+sds-switch
+==========
+
+A setting that takes effect where it stands.
+
+.. specimen:: components/core/form-controls.card.html
+   :viewport: 700x382
+   :title: Beyond the text field
+
+A checkbox answers a question the form asks and is sent when the form is sent;
+a switch turns something on **now**. That is the whole difference, and it is
+why the two look nothing alike: a reader who has to press Save after flipping
+one has been told the wrong thing by the control.
+
+.. code-block:: html
+
+   <sds-switch name="theme" label="Follow the system theme" checked></sds-switch>
+
+.. confval:: label
+   :name: sds-switch-label
+   :type: string
+   :required: true
+
+.. confval:: hint
+   :name: sds-switch-hint
+   :type: string
+
+   What turning it on does, where the label cannot say it in a line.
+
+.. confval:: checked
+   :name: sds-switch-checked
+   :type: boolean
+   :default: false
+
+.. confval:: name
+   :name: sds-switch-name
+   :type: string
+
+.. confval:: value
+   :name: sds-switch-value
+   :type: string
+
+.. confval:: disabled
+   :name: sds-switch-disabled
+   :type: boolean
+
+.. note::
+
+   On is ``--text-primary``, the colour a ticked box is filled with — never the
+   accent. The accent marks three things in this system and a page of settings
+   is not one of them.
+
+.. _component-sds-range:
+
+sds-range
+=========
+
+A value picked along a run of them — for a quantity where the *position* is the
+answer and the exact number is not: a zoom, a weight, a threshold somebody is
+feeling their way to. Where the number is what the reader already knows, that
+is a field with ``type="number"``, which can be typed into and pasted.
+
+.. code-block:: html
+
+   <sds-range caption="Preview width" field-id="w" name="w"
+     min="320" max="1440" step="10" value="960" unit="px"></sds-range>
+
+.. confval:: caption
+   :name: sds-range-caption
+   :type: string
+
+   The visible label. Without one the slider is bare and still owes ``label``.
+
+.. confval:: label
+   :name: sds-range-label
+   :type: string
+
+.. confval:: name
+   :name: sds-range-name
+   :type: string
+
+.. confval:: min
+   :name: sds-range-min
+   :type: string
+   :default: "0"
+
+.. confval:: max
+   :name: sds-range-max
+   :type: string
+   :default: "100"
+
+.. confval:: step
+   :name: sds-range-step
+   :type: string
+   :default: "1"
+
+.. confval:: value
+   :name: sds-range-value
+   :type: string
+   :default: "50"
+
+.. confval:: unit
+   :name: sds-range-unit
+   :type: string
+
+   What the number means, beside the read-out: ``px``, ``%``, ``ms``.
+
+.. confval:: hint
+   :name: sds-range-hint
+   :type: string
+
+.. confval:: disabled
+   :name: sds-range-disabled
+   :type: boolean
+
+.. confval:: field-id
+   :name: sds-range-field-id
+   :type: string
+
+.. important::
+
+   The read-out is an ``<output>`` pointing at the control, and it is not
+   decoration: a slider with no number beside it is a value nobody can read
+   back, report or check against a hint.
+
+.. _component-sds-file:
+
+sds-file
+========
+
+The one native control that looks like nothing else on a page. A file input is
+a button and a sentence the browser draws itself, and the picker only opens for
+a press on a **real** one — so the real one stays and its button is painted
+through ``::file-selector-button``. The sentence beside it is the browser's, in
+its own language, saying what is chosen.
+
+.. code-block:: html
+
+   <sds-file caption="Attach a screenshot" field-id="shot" name="shot"
+     accept="image/*" hint="PNG or JPEG, up to 5 MB."></sds-file>
+
+.. confval:: caption
+   :name: sds-file-caption
+   :type: string
+
+.. confval:: label
+   :name: sds-file-label
+   :type: string
+
+.. confval:: name
+   :name: sds-file-name
+   :type: string
+
+.. confval:: accept
+   :name: sds-file-accept
+   :type: string
+
+   Which kinds the picker offers first — ``image/*``, ``.pdf,.md``. A filter and
+   not a guarantee: what arrives is still checked where it lands.
+
+.. confval:: multiple
+   :name: sds-file-multiple
+   :type: boolean
+
+.. confval:: hint
+   :name: sds-file-hint
+   :type: string
+
+   What to attach. Say the kinds and the size limit here, not after the upload
+   failed.
+
+.. confval:: error
+   :name: sds-file-error
+   :type: string
+
+.. confval:: required
+   :name: sds-file-required
+   :type: boolean
+
+.. confval:: disabled
+   :name: sds-file-disabled
+   :type: boolean
+
+.. confval:: field-id
+   :name: sds-file-field-id
+   :type: string
+
+.. warning::
+
+   What is deliberately **not** here is a drawn box with a hidden input behind
+   it. It photographs well, drops nothing, and loses the keyboard.
+
 .. _component-sds-radio:
 
 sds-radio
@@ -465,10 +712,38 @@ defaults to ``type="button"`` for that reason — see :doc:`controls`. Give the
 one button that sends the form ``type="submit"``, and Enter in a text field
 then submits too, which is the behaviour only that button should carry.
 
-**A reset puts back what the markup said.** ``sds-checkbox`` and ``sds-radio``
-keep the state the page was drawn with and restore it when the form around them
-is reset — not the last thing that was clicked, which is what mirroring the
-live state into the attribute would have restored.
+**A reset puts back what the markup said.** Every control here keeps the state
+the page was drawn with and restores it when the form around it is reset — not
+the last thing that was clicked, which is what mirroring the live state into
+the attribute would have restored.
+
+**The form knows about the elements themselves.** Each one is form-associated
+through ``ElementInternals``, which is what makes it a member of the form
+rather than a box that happens to contain one. From that come four things a
+hand-rolled control never gets right:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Comes from internals
+     - What it means on the page
+   * - ``formResetCallback``
+     - a reset reaches the element and not only the input inside it
+   * - ``formDisabledCallback``
+     - a ``<fieldset disabled>`` actually disables what is under it, with
+       nothing written on each control
+   * - ``setValidity``
+     - ``error`` is a validity the browser refuses to submit past and reports
+       on the right box, rather than a colour somebody has to notice
+   * - ``form``, ``labels``, ``checkValidity()``
+     - answer on the element the way they answer on an ``<input>``
+
+What internals deliberately do **not** carry is the value. Every control here
+renders a real named ``<input>``, ``<select>`` or ``<textarea>`` into the light
+DOM, and that is what the browser submits — including on a page rendered ahead
+of time that runs no script at all. Calling ``setFormValue`` as well would send
+every answer twice.
 
 .. seealso::
 

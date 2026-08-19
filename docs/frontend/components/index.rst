@@ -56,6 +56,9 @@ which group it was filed under.
    * - ``sds-checkbox``
      - one thing that is either so or not
      - :ref:`Forms — sds-checkbox <component-sds-checkbox>`
+   * - ``sds-checkbox-group``
+     - tick any of these, under one question
+     - :ref:`Forms — sds-checkbox-group <component-sds-checkbox-group>`
    * - ``sds-code``
      - a fenced block, its head and its copy button
      - :ref:`Data — sds-code <component-sds-code>`
@@ -83,6 +86,9 @@ which group it was filed under.
    * - ``sds-field-group``
      - fields that answer one question, under one caption
      - :ref:`Forms — sds-field-group <component-sds-field-group>`
+   * - ``sds-file``
+     - the platform's own picker, with its button painted
+     - :ref:`Forms — sds-file <component-sds-file>`
    * - ``sds-figure``
      - a picture and the claim it makes
      - :ref:`Media — sds-figure <component-sds-figure>`
@@ -146,6 +152,9 @@ which group it was filed under.
    * - ``sds-radio``
      - one answer out of a few, all of them visible
      - :ref:`Forms — sds-radio <component-sds-radio>`
+   * - ``sds-range``
+     - a value picked along a run of them
+     - :ref:`Forms — sds-range <component-sds-range>`
    * - ``sds-search``
      - finding a page in a site that has no server
      - :ref:`Navigation — sds-search <component-sds-search>`
@@ -168,6 +177,9 @@ which group it was filed under.
    * - ``sds-swatch``
      - one colour, as the chip, the name and what it resolves to
      - :ref:`Content — sds-swatch <component-sds-swatch>`
+   * - ``sds-switch``
+     - a setting that takes effect where it stands
+     - :ref:`Forms — sds-switch <component-sds-switch>`
    * - ``sds-table``
      - rows and columns, with the scroll a wide one needs
      - :ref:`Data — sds-table <component-sds-table>`
@@ -350,11 +362,12 @@ rather than on whatever is inside it.
      - ``{ page }``, one-based. **Cancelable**: call ``preventDefault()`` to
        page in place instead of following the link
    * - ``sds-change``
-     - ``sds-checkbox``, ``sds-radio``
-     - the new state, or the chosen value
+     - ``sds-checkbox``, ``sds-switch``, ``sds-radio``,
+       ``sds-checkbox-group``, ``sds-file``
+     - the new state, the chosen value, the values ticked, or the files chosen
    * - ``sds-input``
-     - ``sds-field``
-     - what is in the field now
+     - ``sds-field``, ``sds-range``
+     - what is in the field, or where the thumb now stands
    * - ``sds-command``
      - ``sds-button`` with ``for``
      - ``{ command, source }`` — dispatched **on the element named by**

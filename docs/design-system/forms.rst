@@ -87,14 +87,54 @@ Choices
 ``sds-checkbox`` is one fact: a consent, an opt-in. ``sds-radio`` is
 one answer out of a few, all of them visible — and the *group* is the
 component, because a radio on its own cannot be unset and means nothing.
+``sds-checkbox-group`` is the same shape for the other question: several
+answers, any number of which may hold.
 
 Above roughly five answers, that is a select. The line is not a count, it is
 whether the reader is scanning the answers or already knows the one they want.
 
-Both are the platform's own controls. What a hand-built box has to
+All of them are the platform's own controls. What a hand-built box has to
 re-implement is the keyboard, the tap target on a phone, the indeterminate
 state and how the whole thing reads out — and the ones that skip a part skip
 the part nobody on the team tests with.
+
+A switch is not a checkbox
+==========================
+
+.. specimen:: components/core/form-controls.card.html
+   :viewport: 700x382
+   :title: Beyond the text field
+
+``sds-checkbox`` answers a question the form asks and is sent when the form is
+sent. ``sds-switch`` turns something on **now**. A reader who has to press Save
+after flipping one has been told the wrong thing by the control, and a page of
+switches that only take effect on submit is a settings page that lies.
+
+``sds-range`` is for the value where the *position* is the answer and the exact
+number is not — a zoom, a threshold somebody is feeling their way to. It always
+carries its number in an ``<output>``: a slider with nothing beside it is a
+value nobody can read back or report. Where the number is what the reader
+already knows, that is a field with ``type="number"``, which can be typed into
+and pasted.
+
+``sds-file`` keeps the browser's own picker and paints its button. The picker
+opens only for a press on a real file input, so the drawn box with a hidden
+input behind it — which photographs well and drops nothing — is a control the
+keyboard cannot reach at all.
+
+The form knows about the controls
+=================================
+
+Every control is form-associated through ``ElementInternals``. That is what
+makes it a member of the form rather than a box that happens to contain one: a
+reset reaches the element itself, a ``<fieldset disabled>`` disables everything
+under it, and ``error`` becomes a validity the browser refuses to submit past
+and reports on the right box.
+
+The value is still the real ``<input>``'s. Every one of these renders a named
+control into the light DOM, so a page rendered ahead of time submits what it
+shows before a single line of script has run — which is the case this system is
+built for and the one a value held in JavaScript quietly loses.
 
 .. warning::
 

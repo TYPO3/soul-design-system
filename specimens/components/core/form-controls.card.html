@@ -1,0 +1,141 @@
+<!-- @dsCard group="Components" viewport="700x382" subtitle="A switch takes effect now, a slider is felt for, a picker is the platform’s, a set is one question" name="Beyond the text field" -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/styles.css" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec">
+    <div class="spec-row">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <label class="sds-switch">
+        <input
+          class="sds-switch__track"
+          type="checkbox"
+          role="switch"
+    
+    
+          checked
+    
+    
+        />
+        <span class="sds-switch__body">
+          <span class="sds-switch__label">Follow the system theme</span>
+    
+        </span>
+      </label>
+        <label class="sds-switch">
+        <input
+          class="sds-switch__track"
+          type="checkbox"
+          role="switch"
+    
+    
+    
+    
+    
+        />
+        <span class="sds-switch__body">
+          <span class="sds-switch__label">Keep me signed in</span>
+          <span class="sds-switch__hint">On this browser, for thirty days. Not on a shared machine.</span>
+        </span>
+      </label>
+      </div>
+      <div style="width:280px;">
+        <div class="sds-field-row sds-range">
+        <span class="sds-range__head">
+          <label class="sds-field-label" for="spec-width">Preview width</label>
+          <output class="sds-range__value" for="spec-width">960 px</output>
+        </span>
+        <input
+          class="sds-range__slider"
+          type="range"
+          id="spec-width"
+          name="preview-width"
+          min="320"
+          max="1440"
+          step="10"
+          value="960"
+    
+    
+    
+        />
+  
+      </div>
+      </div>
+      <span class="spec-cap">TAKES EFFECT NOW · FELT FOR</span>
+    </div>
+    <div class="spec-row">
+      <div class="sds-field-row">
+        <label class="sds-field-label" for="spec-shot">Attach a screenshot</label>
+        <input
+          class="sds-file"
+          type="file"
+          id="spec-shot"
+          name="shot"
+          accept="image/*"
+    
+    
+    
+    
+    
+    
+        />
+        <span class="sds-field-hint">PNG or JPEG, up to 5 MB.</span>
+  
+      </div>
+      <fieldset class="sds-choices">
+        <legend class="sds-field-label">What may we attach to the report?</legend>
+  
+        <label class="sds-check">
+          <input
+            class="sds-check__mark"
+            type="checkbox"
+            name="scope"
+            value="versions"
+            checked
+      
+      
+          />
+          <span class="sds-check__body">
+            <span class="sds-check__label">Installed versions</span>
+      
+          </span>
+        </label><label class="sds-check">
+          <input
+            class="sds-check__mark"
+            type="checkbox"
+            name="scope"
+            value="sources"
+      
+      
+      
+          />
+          <span class="sds-check__body">
+            <span class="sds-check__label">Reachable sources</span>
+      
+          </span>
+        </label><label class="sds-check">
+          <input
+            class="sds-check__mark"
+            type="checkbox"
+            name="scope"
+            value="files"
+      
+            disabled
+      
+          />
+          <span class="sds-check__body">
+            <span class="sds-check__label">File contents</span>
+            <span class="sds-check__hint">Not on offer while the project is public.</span>
+          </span>
+        </label>
+      </fieldset>
+      <span class="spec-cap">THE PLATFORM’S PICKER · ONE QUESTION, ANY NUMBER OF ANSWERS</span>
+    </div>
+    <div class="spec-cap" style="border-top:1px solid var(--border-subtle); padding-top:12px;">A SWITCH IS NOT A CHECKBOX — ONE TURNS SOMETHING ON, THE OTHER ANSWERS THE FORM · ON IS TEXT COLOUR, NOT THE ACCENT</div>
+  </div>
+</body>
+</html>

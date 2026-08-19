@@ -1,0 +1,109 @@
+/* sds-range — a value picked along a run of them.
+
+   The track and the thumb are the two parts a browser draws itself, and each
+   one is a vendor pseudo-element with no shared spelling. They stand as rules
+   of their own rather than in one selector list: a list holding a pseudo-element
+   the browser does not know is a list the browser drops whole, which would take
+   the other engine's rule with it. */
+
+@layer base {
+  sds-range {
+    display: block;
+    min-width: 0;
+  }
+}
+
+@layer components {
+  .sds-range {
+    --sds-range-track-h: 4px;
+    --sds-range-thumb: 16px;
+    --sds-range-head-gap: var(--space-3);
+    --sds-range-radius: 999px;
+    --sds-range-border: var(--border-hairline);
+    --sds-range-fill: var(--surface-sunken);
+    --sds-range-edge: var(--border-strong);
+    --sds-range-thumb-fill: var(--text-primary);
+    --sds-range-value-font: var(--font-mono);
+    --sds-range-value-size: var(--font-size-dense);
+    --sds-range-value-ink: var(--text-secondary);
+    --sds-range-disabled-opacity: 0.5;
+
+    display: block;
+
+    &:has(> .sds-range__slider:disabled) {
+      opacity: var(--sds-range-disabled-opacity);
+    }
+  }
+
+  /* The question on the left, where it stands on every other control, and the
+     number on the right — a slider with nothing beside it is a value nobody can
+     read back or report. */
+  .sds-range__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sds-range-head-gap);
+  }
+  .sds-range__value {
+    font-family: var(--sds-range-value-font);
+    font-size: var(--sds-range-value-size);
+    color: var(--sds-range-value-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sds-range__slider {
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+    /* The ring the whole system draws, on the part the eye is on. The input's
+       own box is the full width of the row, so an outline round it would be a
+       rectangle nowhere near the thumb. */
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .sds-range__slider::-webkit-slider-runnable-track {
+    height: var(--sds-range-track-h);
+    background: var(--sds-range-fill);
+    border: var(--sds-range-border) solid var(--sds-range-edge);
+    border-radius: var(--sds-range-radius);
+  }
+  .sds-range__slider::-moz-range-track {
+    height: var(--sds-range-track-h);
+    background: var(--sds-range-fill);
+    border: var(--sds-range-border) solid var(--sds-range-edge);
+    border-radius: var(--sds-range-radius);
+  }
+
+  .sds-range__slider::-webkit-slider-thumb {
+    appearance: none;
+    width: var(--sds-range-thumb);
+    height: var(--sds-range-thumb);
+    /* The thumb sits on the track's own box in this engine and is centred by
+       hand: half the difference, minus the hairline the track draws. */
+    margin-top: calc((var(--sds-range-track-h) - var(--sds-range-thumb)) / 2);
+    background: var(--sds-range-thumb-fill);
+    border: 0;
+    border-radius: 50%;
+  }
+  .sds-range__slider::-moz-range-thumb {
+    width: var(--sds-range-thumb);
+    height: var(--sds-range-thumb);
+    background: var(--sds-range-thumb-fill);
+    border: 0;
+    border-radius: 50%;
+  }
+
+  .sds-range__slider:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
+  }
+  .sds-range__slider:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 var(--focus-halo) var(--accent-ring);
+  }
+}

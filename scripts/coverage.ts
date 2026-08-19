@@ -50,7 +50,11 @@ const ELSEWHERE = [
   'sds-field-group',
   'sds-field-error',
   'sds-checkbox',
+  'sds-checkbox-group',
   'sds-radio',
+  'sds-switch',
+  'sds-range',
+  'sds-file',
   'sds-form-errors',
   /* Something a page opens over itself, which a document does not do. */
   'sds-modal',

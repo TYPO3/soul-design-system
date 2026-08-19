@@ -3,6 +3,7 @@
 
 @layer base {
   sds-checkbox,
+  sds-checkbox-group,
   sds-field,
   sds-radio {
     display: block;

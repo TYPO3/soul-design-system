@@ -1,0 +1,69 @@
+/* sds-file — the picker, with its own button painted.
+
+   The button and the sentence beside it are the browser's, and the picker only
+   opens for a press on a real one. `::file-selector-button` is that button, so
+   it is drawn as a secondary button here rather than replaced by a drawn box
+   with a hidden input behind it — which photographs well and loses the
+   keyboard. */
+
+@layer base {
+  sds-file {
+    display: block;
+    min-width: 0;
+  }
+}
+
+@layer components {
+  .sds-file {
+    --sds-file-gap: var(--control-gap);
+    --sds-file-font-size: var(--control-font-size);
+    --sds-file-ink: var(--text-muted);
+    --sds-file-btn-height: var(--control-height);
+    --sds-file-btn-pad-y: var(--control-pad-y);
+    --sds-file-btn-pad-x: var(--control-pad-x);
+    --sds-file-btn-border: var(--border-hairline);
+    --sds-file-btn-radius: var(--radius-control);
+    --sds-file-btn-edge: var(--border-strong);
+    --sds-file-btn-fill: transparent;
+    --sds-file-btn-fill-hover: var(--surface-inset);
+    --sds-file-btn-ink: var(--text-primary);
+    --sds-file-btn-font: var(--font-sans);
+    --sds-file-btn-weight: var(--weight-semibold);
+    --sds-file-disabled-opacity: 0.5;
+    --sds-file-duration: var(--duration-fast);
+    --sds-file-ease: var(--ease-out);
+
+    display: block;
+    max-width: 100%;
+    font-family: inherit;
+    font-size: var(--sds-file-font-size);
+    color: var(--sds-file-ink);
+    cursor: pointer;
+
+    &:disabled {
+      opacity: var(--sds-file-disabled-opacity);
+      cursor: not-allowed;
+    }
+  }
+
+  /* The one part of a file input that is ours. Written as a rule of its own:
+     the spelling differs by engine, and a selector list holding one the browser
+     does not know is a list it drops whole. */
+  .sds-file::file-selector-button {
+    margin-inline-end: var(--sds-file-gap);
+    min-height: var(--sds-file-btn-height);
+    padding: var(--sds-file-btn-pad-y) var(--sds-file-btn-pad-x);
+    border: var(--sds-file-btn-border) solid var(--sds-file-btn-edge);
+    border-radius: var(--sds-file-btn-radius);
+    background: var(--sds-file-btn-fill);
+    color: var(--sds-file-btn-ink);
+    font-family: var(--sds-file-btn-font);
+    font-size: var(--sds-file-font-size);
+    font-weight: var(--sds-file-btn-weight);
+    cursor: inherit;
+    transition: background var(--sds-file-duration) var(--sds-file-ease);
+  }
+  .sds-file:enabled:hover::file-selector-button {
+    background: var(--sds-file-btn-fill-hover);
+  }
+}

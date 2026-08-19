@@ -24,6 +24,9 @@
 @import "components/art.css";
 @import "components/field.css";
 @import "components/field-group.css";
+@import "components/switch.css";
+@import "components/range.css";
+@import "components/file.css";
 @import "components/table.css";
 @import "components/surface.css";
 @import "components/card.css";

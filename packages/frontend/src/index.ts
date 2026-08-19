@@ -17,9 +17,13 @@ import './components/eyebrow.ts';
 import './components/link.ts';
 import './components/nav-breadcrumb.ts';
 import './components/field.ts';
+import './components/switch.ts';
+import './components/range.ts';
+import './components/file.ts';
 import './components/field-group.ts';
 import './components/field-error.ts';
 import './components/checkbox.ts';
+import './components/checkbox-group.ts';
 import './components/radio.ts';
 import './components/form-errors.ts';
 import './components/nav-pills.ts';
@@ -72,9 +76,13 @@ export { SdsField, type FieldProps } from './components/field.ts';
 export { fieldBox, type FieldBox, type FieldSize } from './lib/field-box.ts';
 export { fieldRow, type FieldRow } from './lib/field-row.ts';
 export { SdsFormElement } from './lib/form-element.ts';
+export { SdsSwitch, type SwitchProps } from './components/switch.ts';
+export { SdsRange, type RangeProps } from './components/range.ts';
+export { SdsFile, type FileProps } from './components/file.ts';
 export { SdsFieldGroup } from './components/field-group.ts';
 export { SdsFieldError } from './components/field-error.ts';
 export { SdsCheckbox, type CheckboxProps } from './components/checkbox.ts';
+export { SdsCheckboxGroup, type CheckboxGroupProps, type CheckChoice } from './components/checkbox-group.ts';
 export { SdsRadio, type RadioProps, type Choice } from './components/radio.ts';
 export { SdsFormErrors, type FormErrorsProps, type FormError } from './components/form-errors.ts';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.ts';
@@ -138,7 +146,11 @@ export const TAGS = [
   'sds-search',
   'sds-field-error',
   'sds-checkbox',
+  'sds-checkbox-group',
   'sds-radio',
+  'sds-switch',
+  'sds-range',
+  'sds-file',
   'sds-form-errors',
   'sds-nav-pills',
   'sds-nav-main',

@@ -1,0 +1,126 @@
+/* sds-switch — a setting that takes effect where it stands.
+
+   The platform's checkbox with the paint taken and the picture put back: a
+   track that carries the state as a fill, and a knob that is a gradient in the
+   track's own background rather than a box of its own. A child element is not
+   available — an input has no children — and a pseudo-element on an input is
+   the one thing browsers have never agreed on. */
+
+@layer base {
+  sds-switch {
+    display: block;
+    min-width: 0;
+  }
+}
+
+@layer components {
+  .sds-switch {
+    --sds-switch-track-w: 34px;
+    --sds-switch-track-h: 20px;
+    --sds-switch-knob: 14px;
+    --sds-switch-inset: 2px;
+    --sds-switch-gap: var(--space-3);
+    --sds-switch-border: var(--border-hairline);
+    --sds-switch-edge: var(--border-strong);
+    --sds-switch-edge-hover: var(--text-muted);
+    --sds-switch-fill: var(--surface-sunken);
+    --sds-switch-fill-hover: var(--surface-inset);
+    --sds-switch-fill-on: var(--text-primary);
+    --sds-switch-fill-on-hover: var(--text-secondary);
+    --sds-switch-knob-off: var(--text-muted);
+    --sds-switch-knob-on: var(--surface-raised);
+    --sds-switch-font-size: var(--control-font-size);
+    --sds-switch-leading: var(--control-leading);
+    --sds-switch-line-gap: var(--space-0-5);
+    --sds-switch-ink: var(--text-primary);
+    --sds-switch-hint-size: var(--aside-size);
+    --sds-switch-hint-leading: var(--aside-leading);
+    --sds-switch-hint-ink: var(--text-muted);
+    --sds-switch-disabled-opacity: 0.5;
+    --sds-switch-duration: var(--duration-fast);
+    --sds-switch-ease: var(--ease-out);
+
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sds-switch-gap);
+    cursor: pointer;
+
+    /* Unavailable is the whole row, as it is for a checkbox: a full-strength
+       sentence beside a greyed track reads as a label that lost its control. */
+    &:has(.sds-switch__track:disabled) {
+      opacity: var(--sds-switch-disabled-opacity);
+      cursor: not-allowed;
+    }
+
+    &:hover > .sds-switch__track:not(:disabled) {
+      background-color: var(--sds-switch-fill-hover);
+      border-color: var(--sds-switch-edge-hover);
+    }
+    &:hover > .sds-switch__track:checked:not(:disabled) {
+      background-color: var(--sds-switch-fill-on-hover);
+      border-color: var(--sds-switch-fill-on-hover);
+    }
+  }
+
+  /* On is `--text-primary`, the colour a ticked box is filled with — never the
+     accent, which marks three things and a page of settings is not one. */
+  .sds-switch__track {
+    appearance: none;
+    flex: none;
+    width: var(--sds-switch-track-w);
+    height: var(--sds-switch-track-h);
+    /* Centred in the line box its label sets, the way the checkbox is: `1lh` is
+       that box, so the track stays on the first line if the control leading or
+       the label's size ever moves. */
+    font-size: var(--sds-switch-font-size);
+    line-height: var(--sds-switch-leading);
+    margin: calc((1lh - var(--sds-switch-track-h)) / 2) 0 0;
+    background-color: var(--sds-switch-fill);
+    background-image: radial-gradient(
+      circle at center,
+      var(--sds-switch-knob-off) 0 calc(var(--sds-switch-knob) / 2),
+      transparent calc(var(--sds-switch-knob) / 2 + 0.5px)
+    );
+    background-repeat: no-repeat;
+    background-size: var(--sds-switch-knob) var(--sds-switch-knob);
+    background-position: left var(--sds-switch-inset) center;
+    border: var(--sds-switch-border) solid var(--sds-switch-edge);
+    border-radius: 999px;
+    transition:
+      background-color var(--sds-switch-duration) var(--sds-switch-ease),
+      background-position var(--sds-switch-duration) var(--sds-switch-ease),
+      border-color var(--sds-switch-duration) var(--sds-switch-ease);
+
+    &:checked {
+      background-color: var(--sds-switch-fill-on);
+      background-image: radial-gradient(
+        circle at center,
+        var(--sds-switch-knob-on) 0 calc(var(--sds-switch-knob) / 2),
+        transparent calc(var(--sds-switch-knob) / 2 + 0.5px)
+      );
+      background-position: right var(--sds-switch-inset) center;
+      border-color: var(--sds-switch-fill-on);
+    }
+  }
+
+  /* Its own parts and not the checkbox's, though the two rows look alike: the
+     `--sds-check-*` set is declared on `.sds-check` and travels down from
+     there, so a switch borrowing those class names read no set at all and its
+     label set at whatever the page inherits. */
+  .sds-switch__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-switch-line-gap);
+    min-width: 0;
+  }
+  .sds-switch__label {
+    font-size: var(--sds-switch-font-size);
+    line-height: var(--sds-switch-leading);
+    color: var(--sds-switch-ink);
+  }
+  .sds-switch__hint {
+    font-size: var(--sds-switch-hint-size);
+    line-height: var(--sds-switch-hint-leading);
+    color: var(--sds-switch-hint-ink);
+  }
+}

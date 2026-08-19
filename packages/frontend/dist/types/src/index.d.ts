@@ -8,9 +8,13 @@ import './components/eyebrow.ts';
 import './components/link.ts';
 import './components/nav-breadcrumb.ts';
 import './components/field.ts';
+import './components/switch.ts';
+import './components/range.ts';
+import './components/file.ts';
 import './components/field-group.ts';
 import './components/field-error.ts';
 import './components/checkbox.ts';
+import './components/checkbox-group.ts';
 import './components/radio.ts';
 import './components/form-errors.ts';
 import './components/nav-pills.ts';
@@ -61,9 +65,13 @@ export { SdsField, type FieldProps } from './components/field.js';
 export { fieldBox, type FieldBox, type FieldSize } from './lib/field-box.js';
 export { fieldRow, type FieldRow } from './lib/field-row.js';
 export { SdsFormElement } from './lib/form-element.js';
+export { SdsSwitch, type SwitchProps } from './components/switch.js';
+export { SdsRange, type RangeProps } from './components/range.js';
+export { SdsFile, type FileProps } from './components/file.js';
 export { SdsFieldGroup } from './components/field-group.js';
 export { SdsFieldError } from './components/field-error.js';
 export { SdsCheckbox, type CheckboxProps } from './components/checkbox.js';
+export { SdsCheckboxGroup, type CheckboxGroupProps, type CheckChoice } from './components/checkbox-group.js';
 export { SdsRadio, type RadioProps, type Choice } from './components/radio.js';
 export { SdsFormErrors, type FormErrorsProps, type FormError } from './components/form-errors.js';
 export { type NavProps, type NavItem, type NavChange } from './components/nav-base.js';
@@ -105,4 +113,4 @@ export { SdsNavPager, type PagerProps } from './components/nav-pager.js';
 /** Every tag this bundle registers. The design agent's adherence config is
     generated from the bundle, so this list is what makes a component
     discoverable rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-dropdown', 'sds-badge', 'sds-eyebrow', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-field-group', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-radio', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-steps', 'sds-step', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-nav-toc', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-icon-tile', 'sds-swatch', 'sds-grid', 'sds-search-result', 'sds-search-hits', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-dropdown', 'sds-badge', 'sds-eyebrow', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-field-group', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-checkbox-group', 'sds-radio', 'sds-switch', 'sds-range', 'sds-file', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-steps', 'sds-step', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-nav-toc', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-icon-tile', 'sds-swatch', 'sds-grid', 'sds-search-result', 'sds-search-hits', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-diff', 'sds-quote', 'sds-byline', 'sds-note', 'sds-confval'];

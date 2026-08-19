@@ -112,11 +112,26 @@ been quietly overridden.
 | [`<sds-field-group>`](https://typo3.github.io/soul-design-system/frontend/components/forms.html#component-sds-field-group) | A control and what stands with it — a field, a row of actions, a hint — as one thing, at the normal step. Each part owes no step of its own, so standing loose they touch; the group is the set that pays. Content between the tags |
 | [`<sds-field-error>`](https://typo3.github.io/soul-design-system/frontend/components/forms.html#component-sds-field-error) | The message under an invalid field, with its own glyph, because colour alone is not a message. `message` |
 | [`<sds-checkbox>`](https://typo3.github.io/soul-design-system/frontend/components/forms.html#component-sds-checkbox) | One thing that is either so or not. `label`, `hint`, `checked`, `indeterminate`, `name`, `value`, `required`, `disabled` |
+| [`<sds-checkbox-group>`](https://typo3.github.io/soul-design-system/frontend/components/forms.html#component-sds-checkbox-group) | Tick any of these, under one question — a real `<fieldset>` and `<legend>`, one name for the whole set. `legend`, `name`, `.choices` of `{ label, value?, hint?, disabled? }`, `.values`, `hint` |
 | [`<sds-radio>`](https://typo3.github.io/soul-design-system/frontend/components/forms.html#component-sds-radio) | One answer out of a few, all of them visible. `legend`, `name`, `.choices`, `value`, `hint`, `required` |
+| [`<sds-switch>`](https://typo3.github.io/soul-design-system/frontend/components/forms.html#component-sds-switch) | A setting that takes effect where it stands — which is the whole difference from a checkbox, one turning something on now and the other answering the form. `label`, `hint`, `checked`, `name`, `value`, `disabled` |
+| [`<sds-range>`](https://typo3.github.io/soul-design-system/frontend/components/forms.html#component-sds-range) | A value picked along a run of them, for the quantity where the position is the answer; the number the thumb stands at is always beside it in an `<output>`. `caption`, `label`, `name`, `min`, `max`, `step`, `value`, `unit`, `hint`, `disabled`, `field-id` |
+| [`<sds-file>`](https://typo3.github.io/soul-design-system/frontend/components/forms.html#component-sds-file) | The platform's own picker with its button painted — a drawn box with a hidden input behind it has no keyboard. `caption`, `label`, `name`, `accept`, `multiple`, `hint`, `error`, `required`, `disabled`, `field-id` |
 | [`<sds-form-errors>`](https://typo3.github.io/soul-design-system/frontend/components/forms.html#component-sds-form-errors) | What stopped the form, at the top of it. `.errors`, `heading`, `announce` |
 | [`<sds-dialog>`](https://typo3.github.io/soul-design-system/frontend/components/overlays.html#component-sds-dialog) | A surface that opens over the page, takes the focus and gives it back, on the platform's `<dialog>`. `heading` — also its accessible name — `body`, `.actions` (ghost first, primary last), `width`, `open`; `show()` and `close()`, and it answers a button that names it with `for` |
 | [`<sds-modal>`](https://typo3.github.io/soul-design-system/frontend/components/overlays.html#component-sds-modal) | The surface alone, with nothing that opens or closes it, for a page that positions its own. `heading`, `body`, `.actions`, `width` |
 | [`<sds-overlay>`](https://typo3.github.io/soul-design-system/frontend/components/overlays.html#component-sds-overlay) | The wash a floating surface sits on. It takes nothing |
+
+Every form control is **form-associated** through `ElementInternals`, which is
+what makes it a member of the form rather than a box that happens to contain
+one: a reset reaches the element itself, a `<fieldset disabled>` disables
+everything under it, `error` is a validity the browser refuses to submit past
+and reports on the right box, and `form`, `labels`, `validity`,
+`checkValidity()` and `reportValidity()` answer on the element the way they
+answer on an `<input>`. The *value* is not held there on purpose — every one of
+these renders a real named `<input>`, `<select>` or `<textarea>` into the light
+DOM, so a page prerendered by a server submits what it shows before a line of
+script has run; holding it in internals as well would send every answer twice.
 
 Every event bubbles and is composed, so a page listens on the element rather
 than on whatever is inside it:
@@ -125,8 +140,8 @@ than on whatever is inside it:
 | --- | --- | --- |
 | `sds-change` | `sds-nav-pills`, `sds-nav-main`, `sds-nav-rail`, `sds-tabs` | `{ index, label }` — the item that became current |
 | `sds-change` | `sds-nav-pagination` | `{ page }`, one-based. Cancelable: `preventDefault()` pages in place instead of following the link |
-| `sds-change` | `sds-checkbox`, `sds-radio` | the new state, or the chosen value |
-| `sds-input` | `sds-field` | what is in the field now |
+| `sds-change` | `sds-checkbox`, `sds-switch`, `sds-radio`, `sds-checkbox-group`, `sds-file` | the new state, the chosen value, the values ticked, or the files chosen |
+| `sds-input` | `sds-field`, `sds-range` | what is in the field, or where the thumb now stands |
 | `sds-command` | `sds-button` with `for` | `{ command, source }`, dispatched **on the element named by** `for`, the way the platform's own invokers do it |
 | `sds-theme-change` | `sds-theme` | `{ theme }` — `"light"`, `"dark"`, or `null` for the machine's |
 | `sds-dropdown-choose` | `sds-dropdown` | `{ choice, index }`. Said beside the navigation rather than instead of it, so a page that never listens still works; preventing it is how an app takes the navigation over |
