@@ -1,4 +1,4 @@
-<!-- @dsCard group="Components" viewport="700x498" subtitle="Label above, hint under, error under both — and a placeholder is not a label" name="A field in a form" -->
+<!-- @dsCard group="Components" viewport="700x651" subtitle="Label above, hint under, error under both — and a placeholder is not a label" name="A field in a form" -->
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -46,6 +46,15 @@
         <span class="sds-field-error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>Say which release the question is about</span>
       </div>
       <span class="spec-cap">ASKED · WRONG</span>
+    </div>
+    <div class="spec-row">
+      <div class="sds-field-row">
+        <label class="sds-field-label" for="spec-message">What did the tool answer, and what should it have answered?</label>
+        <span class="sds-field sds-field--multi" style="width:420px; max-width:100%"><textarea class="sds-input" rows="3" id="spec-message" name="message"></textarea></span>
+        <span class="sds-field-hint">The tool name and the question are enough to reproduce it.</span>
+  
+      </div>
+      <span class="spec-cap">MORE THAN ONE LINE</span>
     </div>
     <div class="spec-row">
       <div style="display:flex; flex-direction:column; gap:14px;">

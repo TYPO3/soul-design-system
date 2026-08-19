@@ -165,7 +165,7 @@ which ones they are.
 | `packages/frontend/src/styles/styles.css` | the single entry point |
 | `packages/frontend/src/styles/_specimen.css` | card chrome only — deliberately outside the `styles.css` closure |
 | `packages/frontend/src/components/*.ts` | the Lit elements and their template functions |
-| `packages/frontend/src/lib/` | element base, the form base every control extends, icon inliner, static renderer, and the grammars this system wrote itself |
+| `packages/frontend/src/lib/` | element base, the form base every control extends, the field's shared box and row, icon inliner, static renderer, and the grammars this system wrote itself |
 | `stories/` | the specimen every card and screen is generated from |
 | `docs/` | the published documentation — the manual, the guideline pages, and the prompts they print for copying |
 | `packages/guides-theme/` | the Composer package: templates, directives, and the acceptance render |
@@ -295,6 +295,7 @@ the built stylesheets).
 | `content` | content between an element's tags survives its upgrade |
 | `forms` | a form of these elements submits what it shows, and a reset puts back what the markup said |
 | `states` | what the pointer changes on a control and what it may not: no box moves under it, and every colour a state draws with resolves |
+| `select` | the drawn list: what the keys do, what it says about itself, and the real `select` underneath still being what the form sends |
 | `dropdown` | the popover a dropdown opens: not clipped by a box that clips, placed under its button by either route, and closing the way the platform closes one |
 | `highlight` | every language `CodeLang` promises is actually registered |
 | `manager` | the Storybook shell itself boots |

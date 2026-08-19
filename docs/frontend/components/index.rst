@@ -78,7 +78,7 @@ which group it was filed under.
      - the line over a title, saying what kind of thing it opens
      - :ref:`Content — sds-eyebrow <component-sds-eyebrow>`
    * - ``sds-field``
-     - a text field, a text area and a select, in one element
+     - one line of whatever a reader types
      - :ref:`Forms — sds-field <component-sds-field>`
    * - ``sds-field-error``
      - the message under an invalid field
@@ -164,6 +164,9 @@ which group it was filed under.
    * - ``sds-search-result``
      - one hit in a list of them
      - :ref:`Navigation — sds-search-result <component-sds-search-result>`
+   * - ``sds-select``
+     - one answer out of a list the reader does not need to see
+     - :ref:`Forms — sds-select <component-sds-select>`
    * - ``sds-stat``
      - a number stated as a fact
      - :ref:`Content — sds-stat <component-sds-stat>`
@@ -187,6 +190,9 @@ which group it was filed under.
      - one set of panels, one of them shown
      - :ref:`Navigation — sds-tabs <component-sds-tabs>`,
        :ref:`sds-tab-item <component-sds-tab-item>`
+   * - ``sds-textarea``
+     - an answer of more than one line
+     - :ref:`Forms — sds-textarea <component-sds-textarea>`
    * - ``sds-theme``
      - light or dark, as two segments with the chosen one filled
      - :ref:`Controls — sds-theme <component-sds-theme>`
@@ -363,10 +369,10 @@ rather than on whatever is inside it.
        page in place instead of following the link
    * - ``sds-change``
      - ``sds-checkbox``, ``sds-switch``, ``sds-radio``,
-       ``sds-checkbox-group``, ``sds-file``
+       ``sds-checkbox-group``, ``sds-select``, ``sds-file``
      - the new state, the chosen value, the values ticked, or the files chosen
    * - ``sds-input``
-     - ``sds-field``, ``sds-range``
+     - ``sds-field``, ``sds-textarea``, ``sds-range``
      - what is in the field, or where the thumb now stands
    * - ``sds-command``
      - ``sds-button`` with ``for``

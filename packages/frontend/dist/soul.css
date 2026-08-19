@@ -435,17 +435,6 @@
   .sds-field--sm{--sds-field-height: var(--control-height-sm);--sds-field-font-size: var(--control-font-size-sm);--sds-field-pad-y: var(--field-pad-y-sm);--sds-field-pad-x: var(--field-pad-x-sm)}
   .sds-field--lg{--sds-field-height: var(--control-height-lg);--sds-field-font-size: var(--control-font-size-lg);--sds-field-pad-y: var(--field-pad-y-lg);--sds-field-pad-x: var(--field-pad-x-lg)}
   .sds-input{all:unset;box-sizing:border-box;flex:1;min-width:0;font-family:inherit;font-size:inherit;color:var(--sds-field-ink-filled)}
-  .sds-select{
-    position:relative;
-    color:var(--sds-field-ink-filled);
-    >.sds-input{padding-inline-end:calc(var(--sds-field-glyph) + var(--sds-field-gap))}
-  }
-  .sds-select__mark{position:absolute;inset-block:0;inset-inline-end:var(--sds-field-pad-x);display:flex;align-items:center;color:var(--sds-field-ink);pointer-events:none}
-  .sds-field--multi{
-    --sds-field-leading: var(--leading-body);
-    align-items:flex-start;
-    .sds-input{resize:vertical;min-height:0}
-  }
   .sds-field-error{--sds-field-error-gap: var(--space-1-5);--sds-field-error-size: var(--aside-size);--sds-field-error-ink: var(--status-error);display:inline-flex;align-items:center;gap:var(--sds-field-error-gap);font-size:var(--sds-field-error-size);color:var(--sds-field-error-ink)}
   .sds-field-row{
     --sds-field-row-gap: var(--space-1-5);
@@ -553,6 +542,70 @@
     padding-block-start:var(--sds-form-errors-lead);
     a{width:fit-content}
   }
+}
+@layer base{
+  sds-select{display:block;min-width:0}
+}
+@layer components{
+  .sds-select{--sds-select-ink: var(--sds-field-ink);--sds-select-ink-filled: var(--sds-field-ink-filled);--sds-select-glyph: var(--sds-field-glyph);--sds-select-gap: var(--sds-field-gap);--sds-select-pad-x: var(--sds-field-pad-x);--sds-select-font-size: var(--sds-field-font-size);--sds-select-leading: var(--sds-field-leading);--sds-select-list-gap: var(--space-1);--sds-select-list-pad: var(--space-1);--sds-select-list-max: 17rem;--sds-select-list-fill: var(--surface-raised);--sds-select-list-edge: var(--border-subtle);--sds-select-list-border: var(--border-hairline);--sds-select-list-radius: var(--radius-card);--sds-select-list-shadow: var(--shadow-flyout);--sds-select-option-pad-x: var(--space-2);--sds-select-option-pad-y: var(--space-2);--sds-select-option-gap: var(--space-2);--sds-select-option-radius: var(--radius-control);--sds-select-option-ink: var(--text-secondary);--sds-select-option-ink-active: var(--text-primary);--sds-select-option-fill-active: var(--surface-sunken);--sds-select-option-mark: var(--accent);--sds-select-option-disabled-opacity: .5;--sds-select-group-size: var(--font-size-micro);--sds-select-group-tracking: var(--tracking-label);--sds-select-group-ink: var(--text-muted);--sds-select-group-pad-y: var(--space-1-5);--sds-select-group-lead: var(--space-0-5);position:relative;color:var(--sds-select-ink-filled)}
+  .sds-select__native,.sds-select__button{padding-inline-end:calc(var(--sds-select-glyph) + var(--sds-select-gap))}
+  .sds-select__button{
+    all:unset;
+    box-sizing:border-box;
+    flex:1;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    font-family:inherit;
+    font-size:var(--sds-select-font-size);
+    line-height:var(--sds-select-leading);
+    color:var(--sds-select-ink-filled);
+    cursor:pointer;
+    &:disabled{cursor:not-allowed}
+  }
+  .sds-select__value{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sds-select__mark{position:absolute;inset-block:0;inset-inline-end:var(--sds-select-pad-x);display:flex;align-items:center;color:var(--sds-select-ink);pointer-events:none}
+  .sds-select__list{box-sizing:border-box;margin:0;padding:var(--sds-select-list-pad);border:var(--sds-select-list-border) solid var(--sds-select-list-edge);border-radius:var(--sds-select-list-radius);background:var(--sds-select-list-fill);box-shadow:var(--sds-select-list-shadow);overflow-y:auto;min-width:anchor-size(width);max-height:var(--sds-select-list-max);position-area:block-end span-inline-end;position-try-fallbacks:flip-block;margin-block-start:var(--sds-select-list-gap)}
+  .sds-select__option{
+    display:flex;
+    align-items:center;
+    gap:var(--sds-select-option-gap);
+    padding:var(--sds-select-option-pad-y) var(--sds-select-option-pad-x);
+    border-radius:var(--sds-select-option-radius);
+    font-size:var(--sds-select-font-size);
+    color:var(--sds-select-option-ink);
+    cursor:pointer;
+    &.is-active{background:var(--sds-select-option-fill-active);color:var(--sds-select-option-ink-active)}
+    &.is-chosen{
+      color:var(--sds-select-option-ink-active);
+      .sds-select__tick{visibility:visible}
+    }
+    &[aria-disabled=true]{opacity:var(--sds-select-option-disabled-opacity);cursor:not-allowed}
+  }
+  .sds-select__tick{--sds-icon-size: var(--sds-select-glyph);display:inline-flex;flex:none;visibility:hidden;color:var(--sds-select-option-mark)}
+  .sds-select__group{display:block;padding:var(--sds-select-group-pad-y) var(--sds-select-option-pad-x) var(--sds-select-group-lead);font-size:var(--sds-select-group-size);letter-spacing:var(--sds-select-group-tracking);text-transform:uppercase;color:var(--sds-select-group-ink)}
+}
+@layer state{
+  .sds-select__native{position:absolute;inset:0;width:100%;opacity:0;pointer-events:none}
+  sds-select:not(:defined){
+    .sds-select__native{position:static;inset:auto;opacity:1;pointer-events:auto}
+    .sds-select__button,.sds-select__list{display:none}
+  }
+  .sds-select.is-open>.sds-select__list{position:absolute;position-area:none;inset-block-start:calc(100% + var(--sds-select-list-gap));inset-inline:0 auto;margin-block-start:0;z-index:1}
+}
+@layer base{
+  sds-textarea{display:block;min-width:0}
+}
+@layer components{
+  .sds-field--multi{
+    --sds-textarea-leading: var(--leading-body);
+    --sds-textarea-resize: vertical;
+    --sds-field-leading: var(--sds-textarea-leading);
+    align-items:flex-start;
+    .sds-input{resize:var(--sds-textarea-resize);min-height:0}
+  }
+  sds-textarea[resize=none] .sds-field--multi{--sds-textarea-resize: none}
+  sds-textarea[resize=both] .sds-field--multi{--sds-textarea-resize: both}
 }
 @layer base{
   sds-field-group{display:block;min-width:0;margin-bottom:var(--space-4)}

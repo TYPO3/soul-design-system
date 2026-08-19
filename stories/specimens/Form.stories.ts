@@ -16,6 +16,7 @@ import '../../packages/frontend/src/components/checkbox.ts';
 import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/form-errors.ts';
 import '../../packages/frontend/src/components/radio.ts';
+import '../../packages/frontend/src/components/textarea.ts';
 import { DIVIDER, dsCard, part, spec, specCap, specRow } from '../lib/specimen.ts';
 
 /** A field as a form asks for one: the label above it, the hint under it. */
@@ -43,6 +44,19 @@ const wrong = (): string =>
   min-width="240"
   error="Say which release the question is about"
 ></sds-field>`);
+
+/** An answer of more than one line: the same row, the same box, and the lines
+    set as prose rather than at the control leading a single line inside a
+    declared height is given. */
+const written = (): string =>
+  part(html`<sds-textarea
+  caption="What did the tool answer, and what should it have answered?"
+  field-id="spec-message"
+  name="message"
+  rows="3"
+  min-width="420"
+  hint="The tool name and the question are enough to reproduce it."
+></sds-textarea>`);
 
 /** One fact, and a set where exactly one answer holds. Both are the browser's
     own controls: what a hand-built box has to re-implement is the keyboard,
@@ -86,7 +100,7 @@ const meta: Meta = {
       group: 'Components',
       name: 'A field in a form',
       subtitle: 'Label above, hint under, error under both — and a placeholder is not a label',
-      viewport: '700x498',
+      viewport: '700x651',
     }),
   },
 };
@@ -97,6 +111,7 @@ type Story = StoryObj;
 export const specimenHtml = (): string =>
   spec([
     specRow([asked(), wrong()], 'ASKED · WRONG'),
+    specRow([written()], 'MORE THAN ONE LINE'),
     specRow([choices()], 'ONE FACT · ONE ANSWER OF THREE'),
     specRow([summary()], 'WHAT STOPPED IT'),
     specCap(

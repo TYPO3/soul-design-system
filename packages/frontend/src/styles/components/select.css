@@ -1,0 +1,230 @@
+/* sds-select — the field's box, the drawn list, and the real one under it.
+
+   The `<select>` is what the form submits and what a page with no script shows
+   and operates, so the two halves swap on `:defined`: before this element
+   upgrades the native control is the control, and after it the drawn list is.
+   A card is a picture that runs no script, which is why `open` — a state a
+   still render has to hold, like the field's `focused` — swaps them too. */
+
+@layer base {
+  sds-select {
+    display: block;
+    min-width: 0;
+  }
+}
+
+@layer components {
+  .sds-select {
+    /* Derived from the field's set, which is declared on this same element:
+       a select *is* that box, and the two would otherwise drift apart on the
+       day the box changes. */
+    --sds-select-ink: var(--sds-field-ink);
+    --sds-select-ink-filled: var(--sds-field-ink-filled);
+    --sds-select-glyph: var(--sds-field-glyph);
+    --sds-select-gap: var(--sds-field-gap);
+    --sds-select-pad-x: var(--sds-field-pad-x);
+    --sds-select-font-size: var(--sds-field-font-size);
+    --sds-select-leading: var(--sds-field-leading);
+    /* The list. The same pair `sds-dropdown` hangs its panel from, because it
+       is the same construction: a panel that came out of a control. */
+    --sds-select-list-gap: var(--space-1);
+    --sds-select-list-pad: var(--space-1);
+    --sds-select-list-max: 17rem;
+    --sds-select-list-fill: var(--surface-raised);
+    --sds-select-list-edge: var(--border-subtle);
+    --sds-select-list-border: var(--border-hairline);
+    --sds-select-list-radius: var(--radius-card);
+    --sds-select-list-shadow: var(--shadow-flyout);
+    --sds-select-option-pad-x: var(--space-2);
+    --sds-select-option-pad-y: var(--space-2);
+    --sds-select-option-gap: var(--space-2);
+    --sds-select-option-radius: var(--radius-control);
+    --sds-select-option-ink: var(--text-secondary);
+    --sds-select-option-ink-active: var(--text-primary);
+    --sds-select-option-fill-active: var(--surface-sunken);
+    --sds-select-option-mark: var(--accent);
+    /* The same figure every other unavailable control is drawn at, stated here
+       because a set reads from itself and never from another component's. */
+    --sds-select-option-disabled-opacity: 0.5;
+    --sds-select-group-size: var(--font-size-micro);
+    --sds-select-group-tracking: var(--tracking-label);
+    --sds-select-group-ink: var(--text-muted);
+    --sds-select-group-pad-y: var(--space-1-5);
+    --sds-select-group-lead: var(--space-0-5);
+
+    position: relative;
+    color: var(--sds-select-ink-filled);
+  }
+
+  /* The whole box, whichever half is showing: the native control before this
+     element upgrades, the drawn button after it. Both leave room at the end
+     for the chevron. */
+  .sds-select__native,
+  .sds-select__button {
+    padding-inline-end: calc(var(--sds-select-glyph) + var(--sds-select-gap));
+  }
+
+  /* The drawn control. `all: unset` on the way in, like `.sds-input`, because a
+     `<button>` arrives with a face, a background and a border of its own. */
+  .sds-select__button {
+    all: unset;
+    box-sizing: border-box;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-size: var(--sds-select-font-size);
+    line-height: var(--sds-select-leading);
+    color: var(--sds-select-ink-filled);
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+  /* The chosen label, cut rather than wrapped: the box has one line and a
+     second one would push the row it stands in open. */
+  .sds-select__value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Centred by its own box and not by where it would have stood: an absolutely
+     positioned flex child keeps the container's alignment as its static
+     position, which is one more thing to be right about than a box that spans
+     the height and centres what is in it. */
+  .sds-select__mark {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: var(--sds-select-pad-x);
+    display: flex;
+    align-items: center;
+    color: var(--sds-select-ink);
+    pointer-events: none;
+  }
+
+  /* The list. A popover, so the top layer holds it: no ancestor's overflow
+     clips it and nothing on the page can be stacked over it. Placed by the
+     stylesheet where the engine has anchor positioning, and by `lib/flyout.ts`
+     where it has not. */
+  .sds-select__list {
+    box-sizing: border-box;
+    margin: 0;
+    padding: var(--sds-select-list-pad);
+    border: var(--sds-select-list-border) solid var(--sds-select-list-edge);
+    border-radius: var(--sds-select-list-radius);
+    background: var(--sds-select-list-fill);
+    box-shadow: var(--sds-select-list-shadow);
+    overflow-y: auto;
+    /* As wide as the control it came out of, and no wider: a list that is a
+       different width from the closed box reads as a second control. */
+    min-width: anchor-size(width);
+    max-height: var(--sds-select-list-max);
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-block;
+    margin-block-start: var(--sds-select-list-gap);
+  }
+
+  .sds-select__option {
+    display: flex;
+    align-items: center;
+    gap: var(--sds-select-option-gap);
+    padding: var(--sds-select-option-pad-y) var(--sds-select-option-pad-x);
+    border-radius: var(--sds-select-option-radius);
+    font-size: var(--sds-select-font-size);
+    color: var(--sds-select-option-ink);
+    cursor: pointer;
+
+    /* One state, and the pointer and the keys share it: `aria-activedescendant`
+       means the focus never leaves the button, so what a reader is on has to be
+       drawn rather than left to `:focus`. */
+    &.is-active {
+      background: var(--sds-select-option-fill-active);
+      color: var(--sds-select-option-ink-active);
+    }
+    &.is-chosen {
+      color: var(--sds-select-option-ink-active);
+
+      .sds-select__tick {
+        visibility: visible;
+      }
+    }
+    &[aria-disabled="true"] {
+      opacity: var(--sds-select-option-disabled-opacity);
+      cursor: not-allowed;
+    }
+  }
+
+  /* The mark on the answer in force. It holds its box while it is invisible, so
+     the labels of a list do not shift by a glyph when one is chosen. */
+  .sds-select__tick {
+    --sds-icon-size: var(--sds-select-glyph);
+
+    display: inline-flex;
+    flex: none;
+    visibility: hidden;
+    color: var(--sds-select-option-mark);
+  }
+
+  /* A heading in the list. `role="presentation"`, because the entries under it
+     are read out as one flat run and a group nothing announces is a label the
+     eye uses and the ear never hears twice. */
+  .sds-select__group {
+    display: block;
+    padding: var(--sds-select-group-pad-y) var(--sds-select-option-pad-x) var(--sds-select-group-lead);
+    font-size: var(--sds-select-group-size);
+    letter-spacing: var(--sds-select-group-tracking);
+    text-transform: uppercase;
+    color: var(--sds-select-group-ink);
+  }
+}
+
+/* Which half is the control: the swap between a page that runs script and one
+   that does not, which is state. The drawn one is the default and the native
+   one is the fallback, rather than the other way round — a card is these
+   templates' markup with the element flattened away, so there is no
+   `sds-select` tag left in it to key a rule on. */
+@layer state {
+  /* The `<select>` stays in the layout rather than leaving it: `display: none`
+     takes a control out of everything the browser can focus, and a `required`
+     one it cannot focus is a form that refuses to send with nothing on screen
+     to say why. */
+  .sds-select__native {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Before the element upgrades — a page that runs no script — the native
+     control is the whole of it, and the drawn one is not there to be tabbed
+     into. */
+  sds-select:not(:defined) {
+    .sds-select__native {
+      position: static;
+      inset: auto;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sds-select__button,
+    .sds-select__list {
+      display: none;
+    }
+  }
+
+  /* A card holds the list open, having no way to press anything. It is placed
+     by hand here: the anchor positioning the popover uses derives a containing
+     block from the button, and an inset written into that lands offset by
+     whatever the button was inset by. */
+  .sds-select.is-open > .sds-select__list {
+    position: absolute;
+    position-area: none;
+    inset-block-start: calc(100% + var(--sds-select-list-gap));
+    inset-inline: 0 auto;
+    margin-block-start: 0;
+    z-index: 1;
+  }
+}

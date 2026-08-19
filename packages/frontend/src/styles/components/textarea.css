@@ -1,0 +1,42 @@
+/* sds-textarea — an answer of more than one line, in the field's own box.
+
+   Everything the box is, it is in `field.css`: this is only what more than one
+   line changes about it. Its own file, because a component's whole contract
+   sits in one place — the element's display, the part it draws, the rules that
+   only mean anything together. */
+
+@layer base {
+  sds-textarea {
+    display: block;
+    min-width: 0;
+  }
+}
+
+@layer components {
+  /* A box holding more than one line stops centring its contents — and gives
+     them prose leading. The control leading is for a single line inside a
+     declared height; stacked lines of someone's own writing are prose. */
+  .sds-field--multi {
+    /* Derived from the field's set, which is declared on this same element: a
+       textarea *is* that box with the lines stacked. */
+    --sds-textarea-leading: var(--leading-body);
+    --sds-textarea-resize: vertical;
+    --sds-field-leading: var(--sds-textarea-leading);
+
+    align-items: flex-start;
+
+    .sds-input {
+      resize: var(--sds-textarea-resize);
+      min-height: 0;
+    }
+  }
+
+  /* Which way the corner drags. A box that widens breaks the column it stands
+     in, which is why `vertical` is what a caller gets without asking. */
+  sds-textarea[resize="none"] .sds-field--multi {
+    --sds-textarea-resize: none;
+  }
+  sds-textarea[resize="both"] .sds-field--multi {
+    --sds-textarea-resize: both;
+  }
+}

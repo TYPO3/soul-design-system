@@ -1,17 +1,18 @@
-/* sds-field — a text field, a text area and a select.
+/* sds-field — one line of whatever a reader types.
 
    Sunken, never outlined on the canvas, and the accent appears on it in exactly
-   one place: focus. A real `<input>`, `<textarea>` or `<select>` inside the box,
-   so the ring comes from `:focus-within` and the browser does the rest —
-   anything drawn instead looks right in a screenshot and cannot be typed in or
-   read out.
+   one place: focus. A real `<input>` inside the box, so the ring comes from
+   `:focus-within` and the browser does the rest — anything drawn instead looks
+   right in a screenshot and cannot be typed in or read out.
+
+   An answer of more than one line is `sds-textarea` and a list of answers is
+   `sds-select`. Both share this box and little else.
 
    The state properties exist for the specimen alone, which is a still picture
    and cannot hold focus or invalidity. Set none and the states are the
    browser's. */
 
 import { html, nothing, type TemplateResult } from 'lit';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './icon.ts';
 import './field-error.ts';
 import { type IconId } from './icon.ts';
@@ -21,12 +22,6 @@ import { fieldRow } from '../lib/field-row.ts';
 import { SdsFormElement } from '../lib/form-element.ts';
 
 export { type FieldSize };
-
-/** What has to be escaped in an attribute value or in text content. The
-    textarea below is assembled as a string, and a value the user typed goes
-    into it. */
-const esc = (s: string): string =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export interface FieldProps {
   /** The three heights a button has, so the two stand on one line. `sm` for a
@@ -45,12 +40,6 @@ export interface FieldProps {
   invalid?: boolean;
   /** The value is the user's, not a prompt. Typing sets it too. */
   filled?: boolean;
-  /** A select rather than a text field: same sunken box, closed by a chevron. */
-  select?: boolean;
-  /** What a select offers. A text field ignores it. */
-  options?: readonly string[];
-  /** Lines. Anything above one renders a `<textarea>`. */
-  rows?: number;
   /** What the control is called, for anything that cannot see what it sits
       beside. A field with no visible label of its own owes one here. */
   label?: string;
@@ -117,9 +106,6 @@ export class SdsField extends SdsFormElement {
     focused: { type: Boolean, reflect: true },
     invalid: { type: Boolean, reflect: true },
     filled: { type: Boolean, reflect: true },
-    select: { type: Boolean, reflect: true },
-    options: { type: Array },
-    rows: { type: Number },
     label: { type: String },
     minWidth: { type: Number, attribute: 'min-width' },
     caption: { type: String },
@@ -148,9 +134,6 @@ export class SdsField extends SdsFormElement {
   declare focused: boolean;
   declare invalid: boolean;
   declare filled: boolean;
-  declare select: boolean;
-  declare options: readonly string[];
-  declare rows: number;
   declare label?: string;
   declare minWidth: number;
   declare caption: string;
@@ -179,9 +162,6 @@ export class SdsField extends SdsFormElement {
     this.focused = false;
     this.invalid = false;
     this.filled = false;
-    this.select = false;
-    this.options = [];
-    this.rows = 0;
     this.minWidth = 220;
     this.caption = '';
     this.hint = '';
@@ -215,16 +195,7 @@ export class SdsField extends SdsFormElement {
      reported on the box itself. Set from the render rather than from a setter,
      so a page that arrives with the sentence already in it arrives blocked. */
   protected override updated(): void {
-    /* A `<textarea>` is assembled as a string, so any attribute that changes —
-       the placeholder leaving, the invalid mark arriving — replaces the element
-       and with it whatever was typed. Its content is the *default* a reset puts
-       back; what is actually in it is written here, after the render. The guard
-       is what keeps the caret still: assigning the same string moves it to the
-       end. */
-    const area = this.querySelector('textarea');
-    const written = this.filled ? this.value : '';
-    if (area && area.value !== written) area.value = written;
-    this.setValidity(this.error, 'input, textarea');
+    this.setValidity(this.error, 'input');
   }
 
   protected override restore(): void {
@@ -236,7 +207,7 @@ export class SdsField extends SdsFormElement {
      a caller set and then had to unset, which nothing typing into the field
      could ever do. */
   private onInput(event: Event): void {
-    const control = event.target as HTMLInputElement | HTMLTextAreaElement;
+    const control = event.target as HTMLInputElement;
     this.value = control.value;
     this.filled = control.value !== '';
     /* Typing answers whatever was wrong. The caller decides what is wrong
@@ -251,7 +222,7 @@ export class SdsField extends SdsFormElement {
   }
 
   private control(): TemplateResult {
-    const cls = `${fieldBox(this)}${this.select ? ' sds-select' : ''}${this.rows > 1 ? ' sds-field--multi' : ''}`;
+    const cls = fieldBox(this);
     /* A width, not a floor. This was `min-width`, and `min-width` wins over
        every other width rule in CSS: a field asking for 260px in a header with
        240px left pushed the page sideways, and nothing in the row looked
@@ -266,31 +237,6 @@ export class SdsField extends SdsFormElement {
     const name = this.name || nothing;
     const invalid = this.invalid || this.error ? 'true' : nothing;
     const disabled = this.disabled || this.inheritedDisabled;
-
-    if (this.select) {
-      return html`<span class="${cls}" style="${box}"><select class="sds-input" id="${id}" name="${name}" aria-label="${this.label ?? nothing}" aria-invalid="${invalid}" ?required="${this.required}" ?disabled="${disabled}" @change="${(e: Event) => this.onInput(e)}">${
-        this.options.length
-          ? this.options.map((option) => html`<option ?selected="${option === this.value}">${option}</option>`)
-          : html`<option>${this.value}</option>`
-      }</select><span class="sds-select__mark"><sds-icon name="actions-chevron-down"></sds-icon></span></span>`;
-    }
-
-    /* More than one line is a `<textarea>`, not a taller input: the difference
-       is what the browser does with a newline. Built as a string because Lit
-       refuses a binding between the tags of a raw text element, and its content
-       is the only place a value lives where a file with no script still shows
-       it. So the listener sits on the wrapper, reached by bubbling. */
-    if (this.rows > 1) {
-      const attr = (key: string, value: string): string => (value ? ` ${key}="${esc(value)}"` : '');
-      const area =
-        `<textarea class="sds-input" rows="${this.rows}"${attr('id', this.fieldId)}${attr('name', this.name)}` +
-        `${this.filled ? '' : attr('placeholder', this.value)}${attr('aria-label', this.label ?? '')}` +
-        `${attr('autocomplete', this.autocomplete)}${this.maxlength ? ` maxlength="${this.maxlength}"` : ''}` +
-        `${this.invalid || this.error ? ' aria-invalid="true"' : ''}${this.required ? ' required' : ''}` +
-        `${disabled ? ' disabled' : ''}${this.readonly ? ' readonly' : ''}>` +
-        `${esc(this.#initial ?? '')}</textarea>`;
-      return html`<span class="${cls}" style="${box}" @input="${(e: Event) => this.onInput(e)}">${unsafeHTML(area)}</span>`;
-    }
 
     /* The caret is drawn only where one was asked for, which is only ever a
        specimen: a still picture cannot hold a real one, and the accent on a

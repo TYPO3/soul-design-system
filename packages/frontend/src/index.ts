@@ -17,6 +17,8 @@ import './components/eyebrow.ts';
 import './components/link.ts';
 import './components/nav-breadcrumb.ts';
 import './components/field.ts';
+import './components/select.ts';
+import './components/textarea.ts';
 import './components/switch.ts';
 import './components/range.ts';
 import './components/file.ts';
@@ -76,6 +78,8 @@ export { SdsField, type FieldProps } from './components/field.ts';
 export { fieldBox, type FieldBox, type FieldSize } from './lib/field-box.ts';
 export { fieldRow, type FieldRow } from './lib/field-row.ts';
 export { SdsFormElement } from './lib/form-element.ts';
+export { SdsSelect, type SelectProps, type SelectOption } from './components/select.ts';
+export { SdsTextarea, type TextareaProps, type TextareaResize } from './components/textarea.ts';
 export { SdsSwitch, type SwitchProps } from './components/switch.ts';
 export { SdsRange, type RangeProps } from './components/range.ts';
 export { SdsFile, type FileProps } from './components/file.ts';
@@ -142,6 +146,8 @@ export const TAGS = [
   'sds-link',
   'sds-nav-breadcrumb',
   'sds-field',
+  'sds-select',
+  'sds-textarea',
   'sds-field-group',
   'sds-search',
   'sds-field-error',

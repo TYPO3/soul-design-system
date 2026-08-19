@@ -13,7 +13,7 @@ What follows is not styling. Every rule here is about whether the form can be
 answered by somebody who cannot see all of it at once.
 
 .. specimen:: components/core/form.card.html
-   :viewport: 700x498
+   :viewport: 700x651
    :title: A field in a form
 
 A placeholder is not a label
@@ -90,13 +90,44 @@ component, because a radio on its own cannot be unset and means nothing.
 ``sds-checkbox-group`` is the same shape for the other question: several
 answers, any number of which may hold.
 
-Above roughly five answers, that is a select. The line is not a count, it is
-whether the reader is scanning the answers or already knows the one they want.
+Above roughly five answers, that is ``sds-select``. The line is not a count, it
+is whether the reader is scanning the answers or already knows the one they
+want. A select keeps the answers it cannot offer *on* the list, disabled: a
+reader who cannot find a release at all does not learn that it is gone.
 
 All of them are the platform's own controls. What a hand-built box has to
 re-implement is the keyboard, the tap target on a phone, the indeterminate
 state and how the whole thing reads out — and the ones that skip a part skip
 the part nobody on the team tests with.
+
+The one list this system draws
+==============================
+
+``sds-select`` is the exception, and it is worth saying why, because the rule
+it breaks is the one above.
+
+A browser's own option list is not part of the page. It opens in a window the
+page has no reach into — the operating system's colours on the operating
+system's canvas — so a dark page opens a light list, and the headings of a
+grouped one come out in a grey nothing here chose. That is not a styling
+preference: it is a control whose open state belongs to a different design
+system than the one it stands in.
+
+So the list is drawn, and everything the platform was doing is put back by
+hand: ``role="combobox"`` over ``role="listbox"``, the arrows, ``Home`` and
+``End``, type-ahead, ``Enter`` and ``Escape``, and ``aria-activedescendant`` so
+the focus never leaves the button a reader arrived on. The list is a popover,
+so the top layer holds it and a press outside dismisses it the way the platform
+dismisses one.
+
+**The real** ``<select>`` **stays underneath.** It is what the form submits, and
+until the element upgrades it is the whole control — a page that runs no script
+gets the browser's list rather than nothing. That is the whole of the exception:
+the picture is ours, the value and the fallback are still the platform's.
+
+This is the only place the trade is worth making. Reach for it nowhere else:
+what a drawn control loses is invisible in a screenshot and expensive to find
+out about later.
 
 A switch is not a checkbox
 ==========================

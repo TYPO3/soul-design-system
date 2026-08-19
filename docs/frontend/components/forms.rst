@@ -19,8 +19,10 @@ Anything drawn instead looks right in a screenshot and cannot be typed in.
 sds-field
 =========
 
-A text field, a text area and a select, in one element. It has two shapes and
-the difference is ``caption``.
+One line of whatever a reader types. It has two shapes and the difference is
+``caption``. An answer of more than one line is :ref:`sds-textarea
+<component-sds-textarea>` and a list of answers is :ref:`sds-select
+<component-sds-select>`; both share this box and little else.
 
 .. tabs::
 
@@ -72,9 +74,8 @@ the difference is ``caption``.
    :type: string
    :default: "text"
 
-   The browser's business — ``email``, ``tel``, ``url``, ``number``, ``date``
-   decide which keyboard a phone offers and what the platform validates before
-   anything of ours runs.
+   The browser's business — ``email``, ``tel``, ``url`` decide which keyboard a
+   phone offers and what the platform validates before anything of ours runs.
 
 .. confval:: size
    :name: sds-field-size
@@ -96,14 +97,6 @@ the difference is ``caption``.
    :type: string
 
    The control's id, so the label points at it and an error summary can.
-
-.. confval:: rows
-   :name: sds-field-rows
-   :type: number
-   :default: 0
-
-   Lines. Anything above one renders a ``<textarea>``, not a taller input: the
-   difference is what the browser does with a newline.
 
 .. confval:: disabled
    :name: sds-field-disabled
@@ -177,19 +170,6 @@ the difference is ``caption``.
    How much may be typed, and the shape it has to have — the browser's own
    validation, before anything of ours runs.
 
-.. confval:: select
-   :name: sds-field-select
-   :type: boolean
-   :default: false
-
-   A select rather than a text field: the same sunken box, closed by a chevron.
-
-.. confval:: options
-   :name: sds-field-options
-   :type: "string[]"
-
-   What a select offers. A text field ignores it.
-
 .. confval:: hint
    :name: sds-field-hint
    :type: string
@@ -247,6 +227,267 @@ the difference is ``caption``.
    **A placeholder is not a label.** It leaves exactly when it is needed — the
    moment someone starts typing — and it is invisible to anything reading the
    page as a document.
+
+.. _component-sds-textarea:
+
+sds-textarea
+============
+
+An answer of more than one line — a real ``<textarea>`` in the field's own box.
+Its own element and not a taller field: what it shares with a text field is the
+box, and what it does not share is everything a caller writes.
+
+.. code-block:: html
+
+   <sds-textarea caption="What did the tool answer?" field-id="message"
+     name="message" rows="6" required
+     hint="The tool name and the question are enough to reproduce it."
+   ></sds-textarea>
+
+.. confval:: rows
+   :name: sds-textarea-rows
+   :type: number
+   :default: 4
+
+   Lines. What the box is *worth* asking for, not a limit on the answer.
+
+.. confval:: value
+   :name: sds-textarea-value
+   :type: string
+
+   What is in it: its value when ``filled``, its placeholder when not. The value
+   the markup came with is the element's **default**, which is what a reset puts
+   back — never the last thing that was typed.
+
+.. confval:: resize
+   :name: sds-textarea-resize
+   :type: "vertical" | "none" | "both"
+   :default: "vertical"
+
+   Which way the corner drags. A box that widens breaks the column it stands in,
+   which is why ``vertical`` is what a caller gets without asking.
+
+.. confval:: caption
+   :name: sds-textarea-caption
+   :type: string
+
+.. confval:: label
+   :name: sds-textarea-label
+   :type: string
+
+.. confval:: name
+   :name: sds-textarea-name
+   :type: string
+
+.. confval:: field-id
+   :name: sds-textarea-field-id
+   :type: string
+
+.. confval:: hint
+   :name: sds-textarea-hint
+   :type: string
+
+.. confval:: error
+   :name: sds-textarea-error
+   :type: string
+
+.. confval:: required
+   :name: sds-textarea-required
+   :type: boolean
+
+.. confval:: disabled
+   :name: sds-textarea-disabled
+   :type: boolean
+
+.. confval:: readonly
+   :name: sds-textarea-readonly
+   :type: boolean
+
+.. confval:: maxlength
+   :name: sds-textarea-maxlength
+   :type: number
+
+.. confval:: autocomplete
+   :name: sds-textarea-autocomplete
+   :type: string
+
+.. confval:: size
+   :name: sds-textarea-size
+   :type: "md" | "sm" | "lg"
+   :default: "md"
+
+.. confval:: min-width
+   :name: sds-textarea-min-width
+   :type: number
+   :default: 420
+
+.. confval:: filled
+   :name: sds-textarea-filled
+   :type: boolean
+
+.. confval:: invalid
+   :name: sds-textarea-invalid
+   :type: boolean
+
+.. confval:: focused
+   :name: sds-textarea-focused
+   :type: boolean
+
+.. _component-sds-select:
+
+sds-select
+==========
+
+One answer out of a list the reader does not need to see. Its own element
+rather than a shape a field takes: a select and a text field share a box and
+nothing else. What a select has is a list — with headings, and entries that are
+on it but not on offer; what it has not is anything to type, a length, a
+pattern, a keyboard to choose.
+
+**The list is drawn, and it is the one place this system rebuilds a native
+control.** A browser's own list opens in a window the page has no reach into:
+the operating system's colours on the operating system's canvas, so a dark page
+opens a light list and the headings of a grouped one come out in a grey nothing
+here chose.
+
+What that costs is everything the platform was doing, and all of it is put back
+by hand — ``role="combobox"`` over ``role="listbox"``, the arrows, ``Home`` and
+``End``, type-ahead, ``Enter`` and ``Escape``, and ``aria-activedescendant`` so
+the focus never leaves the button a reader arrived on. The list is a popover, so
+the top layer holds it: no ancestor's overflow clips it and a press outside is
+the platform's own dismissal.
+
+.. list-table:: What the keyboard does
+   :header-rows: 1
+   :widths: 34 66
+
+   * - Key
+     - Closed · open
+   * - ``↓`` ``↑`` ``Home`` ``End``
+     - opens the list, at the answer in force · walks it, stopping at the ends
+   * - ``Enter`` ``Space``
+     - opens the list · takes the answer the keys are on and closes
+   * - a letter
+     - goes to the next answer starting with it, without opening · the same,
+       inside the list. What is typed within a second is one word
+   * - ``Escape``
+     - — · closes and leaves the answer where it was
+   * - ``Tab``
+     - leaves · takes the answer under the keys, then leaves
+
+**The real** ``<select>`` **stays underneath and carries the value.** It is what
+the form submits, and it is the whole control on a page that runs no script —
+the drawn list is hidden until the element upgrades. Once it has, that control
+is taken out of the reading and out of the tab order, and its ``required``
+moves to the element's own validity, reported on the button a reader can see.
+
+.. specimen:: components/core/select.card.html
+   :viewport: 700x634
+   :title: A select
+
+.. code-block:: html
+
+   <sds-select caption="Which release is this about?" field-id="release"
+     name="release" value="13.4" filled
+     .options="${[{ label: '14.3', group: 'Supported' },
+                  { label: '13.4', group: 'Supported' },
+                  { label: '11.5', group: 'Out of support', disabled: true }]}"
+   ></sds-select>
+
+.. confval:: options
+   :name: sds-select-options
+   :type: "(string | { label, value?, disabled?, group? })[]"
+
+   The list. A bare string is the label and the value at once, which is what
+   most lists are. ``group`` puts consecutive entries naming the same one under
+   a single ``<optgroup>``, so the order of the list is the grouping;
+   ``disabled`` leaves an answer on the list and not on offer, which is worth
+   doing — a reader who cannot find it at all does not learn that it is closed.
+
+.. confval:: value
+   :name: sds-select-value
+   :type: string
+
+   The chosen value — or, while ``filled`` is off, what the closed box says
+   instead. That entry is rendered on the list and disabled, so it is what the
+   reader sees and never what they can pick, and a ``required`` select is
+   blocked by the browser until they choose another. A closed box has nowhere
+   to put a placeholder, which is why the prompt is an option.
+
+.. confval:: caption
+   :name: sds-select-caption
+   :type: string
+
+   The visible label, which turns this into a control in a *form*: label above,
+   hint under, error under both. Without one it is the bare box.
+
+.. confval:: label
+   :name: sds-select-label
+   :type: string
+
+.. confval:: name
+   :name: sds-select-name
+   :type: string
+
+.. confval:: field-id
+   :name: sds-select-field-id
+   :type: string
+
+.. confval:: hint
+   :name: sds-select-hint
+   :type: string
+
+.. confval:: error
+   :name: sds-select-error
+   :type: string
+
+   What is wrong with what is chosen. Sets the invalid state with it, **and the
+   browser refuses to submit past it** — the message goes through
+   ``ElementInternals``, so it is the platform blocking the send and reporting
+   on the box, not a colour somebody has to notice.
+
+.. confval:: required
+   :name: sds-select-required
+   :type: boolean
+
+.. confval:: disabled
+   :name: sds-select-disabled
+   :type: boolean
+
+.. confval:: size
+   :name: sds-select-size
+   :type: "md" | "sm" | "lg"
+   :default: "md"
+
+.. confval:: min-width
+   :name: sds-select-min-width
+   :type: number
+   :default: 220
+
+.. confval:: filled
+   :name: sds-select-filled
+   :type: boolean
+
+.. confval:: focused
+   :name: sds-select-focused
+   :type: boolean
+
+.. confval:: invalid
+   :name: sds-select-invalid
+   :type: boolean
+
+.. note::
+
+   The chevron is **not** the opener. The ``<select>`` under it is stretched
+   over the whole box and the glyph takes no press, so the part that looks most
+   like the thing to open it is.
+
+.. seealso::
+
+   Where the answers are few and each one has a consequence, that is
+   :ref:`sds-radio <component-sds-radio>`. Where several may hold at once, it is
+   :ref:`sds-checkbox-group <component-sds-checkbox-group>` — never a
+   ``multiple`` select, which hides its own rules behind a modifier key.
 
 .. _component-sds-field-group:
 

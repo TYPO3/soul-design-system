@@ -77,7 +77,6 @@
     &.is-filled {
       --sds-field-ink: var(--sds-field-ink-filled);
     }
-
     /* Not on offer, at the strength every other unavailable control in the
        system is drawn at. The box keeps its shape: a field that also loses its
        border reads as a gap in the form rather than as a question that is
@@ -87,7 +86,6 @@
       opacity: var(--sds-field-disabled-opacity);
       cursor: not-allowed;
     }
-
     /* Shown and sent, and not editable — so the box gives up the sunken fill
        that says *type here* and keeps everything else. Still focusable and
        still copyable, which is the whole difference from disabled. */
@@ -136,47 +134,6 @@
     font-family: inherit;
     font-size: inherit;
     color: var(--sds-field-ink-filled);
-  }
-
-  /* The chevron is not the opener — the `<select>` under it is, stretched over
-     the whole box with room reserved at the end. Drawn as a sibling and laid
-     out in the row, it took the one part of the field that looks most like the
-     thing to press, and a click there did nothing. */
-  .sds-select {
-    position: relative;
-    color: var(--sds-field-ink-filled);
-
-    > .sds-input {
-      padding-inline-end: calc(var(--sds-field-glyph) + var(--sds-field-gap));
-    }
-  }
-
-  /* Centred by its own box and not by where it would have stood: an absolutely
-     positioned flex child keeps the container's alignment as its static
-     position, which is one more thing to be right about than a box that spans
-     the height and centres what is in it. */
-  .sds-select__mark {
-    position: absolute;
-    inset-block: 0;
-    inset-inline-end: var(--sds-field-pad-x);
-    display: flex;
-    align-items: center;
-    color: var(--sds-field-ink);
-    pointer-events: none;
-  }
-
-  /* A field holding more than one line stops centring its contents — and gives
-     them prose leading. The control leading is for a single line inside a
-     declared height; stacked lines of someone's own writing are prose. */
-  .sds-field--multi {
-    --sds-field-leading: var(--leading-body);
-
-    align-items: flex-start;
-
-    .sds-input {
-      resize: vertical;
-      min-height: 0;
-    }
   }
 
   /* Error text sits under or beside the field — never as a tooltip. */

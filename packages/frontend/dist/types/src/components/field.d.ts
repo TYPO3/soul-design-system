@@ -22,12 +22,6 @@ export interface FieldProps {
     invalid?: boolean;
     /** The value is the user's, not a prompt. Typing sets it too. */
     filled?: boolean;
-    /** A select rather than a text field: same sunken box, closed by a chevron. */
-    select?: boolean;
-    /** What a select offers. A text field ignores it. */
-    options?: readonly string[];
-    /** Lines. Anything above one renders a `<textarea>`. */
-    rows?: number;
     /** What the control is called, for anything that cannot see what it sits
         beside. A field with no visible label of its own owes one here. */
     label?: string;
@@ -110,16 +104,6 @@ export declare class SdsField extends SdsFormElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
-        select: {
-            type: BooleanConstructor;
-            reflect: boolean;
-        };
-        options: {
-            type: ArrayConstructor;
-        };
-        rows: {
-            type: NumberConstructor;
-        };
         label: {
             type: StringConstructor;
         };
@@ -192,9 +176,6 @@ export declare class SdsField extends SdsFormElement {
     focused: boolean;
     invalid: boolean;
     filled: boolean;
-    select: boolean;
-    options: readonly string[];
-    rows: number;
     label?: string;
     minWidth: number;
     caption: string;

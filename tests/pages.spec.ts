@@ -325,7 +325,7 @@ test('a form that fails says what, and sends the reader to it', async ({ page })
 
   /* The field carries the same sentence as the line about it, so what is
      wrong is legible from either end of the form. */
-  await expect(page.locator('sds-field[field-id="message"] .sds-field-error')).toContainText('The message is empty');
+  await expect(page.locator('sds-textarea[field-id="message"] .sds-field-error')).toContainText('The message is empty');
   await expect(page.locator('#message')).toHaveAttribute('aria-invalid', 'true');
 
   /* Filling both in makes it a form that worked, and the page says what it

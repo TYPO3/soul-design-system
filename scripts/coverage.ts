@@ -47,6 +47,8 @@ const ELSEWHERE = [
   /* A page is read, not filled in. The bar's search draws `.sds-field`, which
      is the class layer's name and not this element. */
   'sds-field',
+  'sds-select',
+  'sds-textarea',
   'sds-field-group',
   'sds-field-error',
   'sds-checkbox',

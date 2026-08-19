@@ -19,7 +19,7 @@ import { DIVIDER, dsCard, part, spec, specCap, specRow } from '../lib/specimen.t
 /* `label` is not optional in practice: a control with no visible label of its
    own has no accessible name without it, and every field on the card is one.
    The stories pass it, and the a11y pass is what says whether they did. */
-const sdsField = ({ value = '', icon, label, focused, invalid, filled, select, options, disabled, readonly, prefix, suffix, minWidth = 220, size = 'md' }: FieldProps) =>
+const sdsField = ({ value = '', icon, label, focused, invalid, filled, disabled, readonly, prefix, suffix, minWidth = 220, size = 'md' }: FieldProps) =>
   html`<sds-field
     size="${size}"
     value="${value}"
@@ -28,11 +28,9 @@ const sdsField = ({ value = '', icon, label, focused, invalid, filled, select, o
     prefix="${ifDefined(prefix)}"
     suffix="${ifDefined(suffix)}"
     min-width="${minWidth}"
-    .options="${options ?? []}"
     ?focused="${focused}"
     ?invalid="${invalid}"
     ?filled="${filled}"
-    ?select="${select}"
     ?disabled="${disabled}"
     ?readonly="${readonly}"
   ></sds-field>`;
@@ -51,7 +49,6 @@ const meta: Meta<FieldProps> = {
     focused: { control: 'boolean' },
     invalid: { control: 'boolean' },
     filled: { control: 'boolean' },
-    select: { control: 'boolean' },
     disabled: { control: 'boolean' },
     readonly: { control: 'boolean' },
     prefix: { control: 'text' },
@@ -59,7 +56,7 @@ const meta: Meta<FieldProps> = {
     minWidth: { control: { type: 'number', step: 10 } },
     label: { control: 'text' },
   },
-  args: { size: 'md', value: 'Type to search 48 pages', icon: 'actions-search', label: 'Search the documentation', focused: false, invalid: false, filled: false, select: false, disabled: false, readonly: false, minWidth: 220 },
+  args: { size: 'md', value: 'Type to search 48 pages', icon: 'actions-search', label: 'Search the documentation', focused: false, invalid: false, filled: false, disabled: false, readonly: false, minWidth: 220 },
   parameters: {
     dsCard: dsCard({
       path: 'components/core/input.card.html',
@@ -76,11 +73,6 @@ type Story = StoryObj<FieldProps>;
 /** A real input in a sunken box. Click it: the ring is `:focus-within`, and
     the value becomes the user's as soon as anything is typed. */
 export const Default: Story = { args: { value: 'Type to search 48 pages', icon: 'actions-search', label: 'Search the documentation' } };
-
-/** A select is the same box, closed by a chevron, around a real `<select>`. */
-export const Select: Story = {
-  args: { value: '13.4', select: true, minWidth: 150, options: ['12.4', '13.4', '14.3', 'main'], label: 'TYPO3 version' },
-};
 
 /** What stands in the box beside the value and is not part of it: a unit, a
     currency, the fixed head of an address. Nothing is typed into one and

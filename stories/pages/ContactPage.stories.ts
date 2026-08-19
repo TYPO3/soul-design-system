@@ -17,6 +17,8 @@ import '../../packages/frontend/src/components/checkbox.ts';
 import '../../packages/frontend/src/components/eyebrow.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/field.ts';
+import '../../packages/frontend/src/components/select.ts';
+import '../../packages/frontend/src/components/textarea.ts';
 import '../../packages/frontend/src/components/form-errors.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
@@ -114,20 +116,19 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
             value="email"
           ></sds-radio>
 
-          <sds-field
+          <sds-select
             caption="Which release is this about?"
             field-id="release"
             name="release"
-            select
             .options="${RELEASES}"
             value="13.4"
             filled
             min-width="220"
             hint="The release the installation runs, not the one the answer named."
             error="${failed('release')}"
-          ></sds-field>
+          ></sds-select>
 
-          <sds-field
+          <sds-textarea
             caption="What did the tool answer, and what should it have answered?"
             field-id="message"
             name="message"
@@ -137,7 +138,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
             value="The tool, the question, and what came back."
             hint="The tool name and the question are enough to reproduce it. A screenshot is not."
             error="${failed('message')}"
-          ></sds-field>
+          ></sds-textarea>
 
           <sds-checkbox
             name="scope"

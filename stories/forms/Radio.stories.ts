@@ -12,6 +12,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../../packages/frontend/src/components/radio.ts';
+import '../../packages/frontend/src/components/select.ts';
 import '../../packages/frontend/src/components/field.ts';
 import { type RadioProps } from '../../packages/frontend/src/components/radio.ts';
 
@@ -81,13 +82,12 @@ export const Plain: Story = {
 export const OrASelect: Story = {
   render: () => html`<div style="display:flex; gap:var(--space-12); flex-wrap:wrap; align-items:flex-start">
     ${sdsRadio({ legend: 'How should we come back to you?', name: 'reply-a', choices: REPLY, value: 'Email' })}
-    <sds-field
+    <sds-select
       caption="Which release is this about?"
-      select
       .options="${['12.4', '13.4', '14.3', 'main', '11.5', '10.4', '9.5', '8.7']}"
       value="13.4"
       filled
       hint="Every release the bundled knowledge still answers for."
-    ></sds-field>
+    ></sds-select>
   </div>`,
 };
