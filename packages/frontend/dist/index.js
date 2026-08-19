@@ -6056,6 +6056,8 @@ var SdsTable = class extends SdsElement {
     this.width = "";
     this.columns = [];
     this.rows = [];
+    this.loading = false;
+    this.loadingRows = 3;
   }
   static {
     this.properties = {
@@ -6063,7 +6065,9 @@ var SdsTable = class extends SdsElement {
       scrollable: { type: Boolean, reflect: true },
       width: { type: String },
       columns: { type: Array },
-      rows: { type: Array }
+      rows: { type: Array },
+      loading: { type: Boolean, reflect: true },
+      loadingRows: { type: Number, attribute: "loading-rows" }
     };
   }
   connectedCallback() {
@@ -6080,16 +6084,26 @@ var SdsTable = class extends SdsElement {
       ${cells}
     </tr>`;
   }
+  /* One bar per declared column. Where the table has none its rows were coming
+     as markup, and a single bar is the whole of the shape it knows. */
+  waitingRow() {
+    const cells = Math.max(this.columns.length, 1);
+    const bars = Array.from({ length: cells }, () => html50`<td><span class="sds-skeleton"></span></td>`);
+    return html50`<tr>
+      ${lines(bars, 6)}
+    </tr>`;
+  }
   render() {
-    const cls = `sds-table sds-table--${this.density}`;
+    const cls = `sds-table sds-table--${this.density}${this.loading ? " sds-table--loading" : ""}`;
     const style = this.width ? `width: ${this.width}` : nothing27;
-    const given = this.taken ?? this.content;
-    const table = given ? html50`<table class="${cls}" style="${style}">${given}</table>` : html50`<table class="${cls}" style="${style}">
+    const given = this.loading ? null : this.taken ?? this.content;
+    const body = this.loading ? Array.from({ length: Math.max(this.loadingRows, 1) }, () => this.waitingRow()) : this.rows.map((r) => this.bodyRow(r));
+    const table = given ? html50`<table class="${cls}" style="${style}">${given}</table>` : html50`<table class="${cls}" style="${style}" aria-busy="${this.loading ? "true" : nothing27}">
   <thead><tr>
     ${lines(this.columns.map((c) => html50`<th>${c.head}</th>`), 4)}
   </tr></thead>
   <tbody>
-    ${lines(this.rows.map((r) => this.bodyRow(r)), 4)}
+    ${lines(body, 4)}
   </tbody>
 </table>`;
     return this.scrollable ? html50`<div class="sds-table-scroll">${table}</div>` : table;

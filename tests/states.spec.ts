@@ -82,3 +82,46 @@ test('the pointer changes the fill, and leaves the ink that has to stay', async 
   expect(inkOver).toBe(ink);
   expect(await at.evaluate(() => getComputedStyle(document.body).color)).not.toBe(inkOver);
 });
+
+/* Waiting is a state too, and two of its rules are ones no card can show: a
+   bar has to stand in a cell as tall as the row it is standing in for, or the
+   table jumps the moment the answer lands, and a row that cannot answer
+   anything may not light up under the pointer as though it could. */
+const WAITING = `<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/dist/soul.css" />
+<script type="module" src="/dist/soul.js"></script>
+</head>
+<body class="sds-app">
+  <sds-table id="waiting" loading loading-rows="3"></sds-table>
+  <sds-table id="answered"></sds-table>
+  <script type="module">
+    const columns = [{ head: 'Tool' }, { head: 'Source' }, { head: 'Versions' }];
+    const waiting = document.querySelector('#waiting');
+    const answered = document.querySelector('#answered');
+    waiting.columns = columns;
+    answered.columns = columns;
+    answered.rows = [{ cells: ['typo3_rule_lookup', 'bundled knowledge', '12.4'] }];
+  </script>
+</body>
+</html>`;
+
+test('a table waiting for its rows holds their height and answers no pointer', async ({ page }) => {
+  await page.route('**/waiting.html', (route) => route.fulfill({ contentType: 'text/html', body: WAITING }));
+  await page.goto('/waiting.html');
+  await page.waitForFunction(() => customElements.get('sds-table') !== undefined);
+
+  const bar = page.locator('#waiting tbody tr:first-child td:first-child .sds-skeleton');
+  await expect(bar, 'the waiting table drew no bars').toHaveCount(1);
+  expect(await bar.evaluate((el) => getComputedStyle(el).backgroundColor)).not.toBe('');
+
+  const height = (id: string) => page.locator(`#${id} tbody tr:first-child`).evaluate((el) => el.getBoundingClientRect().height);
+  expect(await height('waiting'), 'the table would jump when the rows arrive').toBeCloseTo(await height('answered'), 0);
+
+  const row = page.locator('#waiting tbody tr:first-child');
+  await row.hover();
+  const fill = await row.evaluate((el) => getComputedStyle(el).backgroundColor);
+  expect(fill, 'a row with no answer in it lit up under the pointer').toBe('rgba(0, 0, 0, 0)');
+});

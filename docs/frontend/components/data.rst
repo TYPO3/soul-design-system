@@ -67,6 +67,31 @@ sds-table
    value — the badge that says how a row answered. ``selected`` emits
    ``is-selected``.
 
+.. confval:: loading
+   :name: sds-table-loading
+   :type: boolean
+   :default: false
+
+   Waiting for the answer. The head stays — the columns are known before the
+   rows are — and the body is drawn as bars at the height the rows will have,
+   so the table does not change height the moment they arrive. It emits
+   ``sds-table--loading`` and sets ``aria-busy``; nothing lights up under the
+   pointer while it waits, because nothing there answers yet.
+
+   A skeleton is honest only where the shape is already known, which a table
+   with declared columns has. Where it is not, the answer is ``.sds-loading``
+   with a spinner instead — it claims no shape at all. Nothing under 200ms:
+   see :doc:`/design-system/states`.
+
+.. confval:: loading-rows
+   :name: sds-table-loading-rows
+   :type: number
+   :default: 3
+
+   How many bar rows to draw. What the caller knows about the answer — the
+   page size it asked for, the count the last page came back with — rather
+   than a number the element could only guess at.
+
 .. note::
 
    The rows may also be **given as markup** — the table's own children, the

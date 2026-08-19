@@ -38,6 +38,16 @@ export interface TableProps {
     columns?: readonly Column[];
     /** The cells, a list per row, in the order the columns are declared. */
     rows?: readonly Row[];
+    /** Waiting for the answer: the head stays, and the body is drawn as bars at
+        the height the rows will have. A skeleton is honest only where the shape
+        is already known, and a table whose columns are declared has one — under
+        200ms show nothing at all, and where the shape is not known the answer is
+        `.sds-loading` with a spinner instead. */
+    loading?: boolean;
+    /** How many bar rows to draw. What the caller knows about the answer — the
+        page size it asked for, the count the last page came back with — rather
+        than a number this element could only guess. */
+    loadingRows?: number;
 }
 export declare class SdsTable extends SdsElement {
     static properties: {
@@ -58,16 +68,27 @@ export declare class SdsTable extends SdsElement {
         rows: {
             type: ArrayConstructor;
         };
+        loading: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
+        loadingRows: {
+            type: NumberConstructor;
+            attribute: string;
+        };
     };
     density: Density;
     scrollable: boolean;
     width: string;
     columns: Column[];
     rows: Row[];
+    loading: boolean;
+    loadingRows: number;
     private taken;
     constructor();
     connectedCallback(): void;
     private cell;
     private bodyRow;
+    private waitingRow;
     protected render(): TemplateResult;
 }

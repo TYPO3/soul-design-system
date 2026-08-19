@@ -52,6 +52,16 @@ export interface TableProps {
   columns?: readonly Column[];
   /** The cells, a list per row, in the order the columns are declared. */
   rows?: readonly Row[];
+  /** Waiting for the answer: the head stays, and the body is drawn as bars at
+      the height the rows will have. A skeleton is honest only where the shape
+      is already known, and a table whose columns are declared has one — under
+      200ms show nothing at all, and where the shape is not known the answer is
+      `.sds-loading` with a spinner instead. */
+  loading?: boolean;
+  /** How many bar rows to draw. What the caller knows about the answer — the
+      page size it asked for, the count the last page came back with — rather
+      than a number this element could only guess. */
+  loadingRows?: number;
 }
 
 export class SdsTable extends SdsElement {
@@ -61,6 +71,8 @@ export class SdsTable extends SdsElement {
     width: { type: String },
     columns: { type: Array },
     rows: { type: Array },
+    loading: { type: Boolean, reflect: true },
+    loadingRows: { type: Number, attribute: 'loading-rows' },
   };
 
   declare density: Density;
@@ -68,6 +80,8 @@ export class SdsTable extends SdsElement {
   declare width: string;
   declare columns: Column[];
   declare rows: Row[];
+  declare loading: boolean;
+  declare loadingRows: number;
 
   /* The table a document wrote, taken before Lit renders over it. A cell there
      carries a link, a literal, an emphasis — none of which survives a JSON
@@ -85,6 +99,8 @@ export class SdsTable extends SdsElement {
     this.width = '';
     this.columns = [];
     this.rows = [];
+    this.loading = false;
+    this.loadingRows = 3;
   }
 
   override connectedCallback(): void {
@@ -107,26 +123,40 @@ export class SdsTable extends SdsElement {
     </tr>`;
   }
 
+  /* One bar per declared column. Where the table has none its rows were coming
+     as markup, and a single bar is the whole of the shape it knows. */
+  private waitingRow(): TemplateResult {
+    const cells = Math.max(this.columns.length, 1);
+    const bars = Array.from({ length: cells }, () => html`<td><span class="sds-skeleton"></span></td>`);
+    return html`<tr>
+      ${lines(bars, 6)}
+    </tr>`;
+  }
+
   protected override render(): TemplateResult {
     /* Every name the class layer has must be reachable from here, or the
        element stops being the way to use this system: a class the element
        cannot emit is a class that invites the markup to be written by hand
        again. That is why scrolling is a property rather than a wrapper the
        caller is expected to remember. */
-    const cls = `sds-table sds-table--${this.density}`;
+    const cls = `sds-table sds-table--${this.density}${this.loading ? ' sds-table--loading' : ''}`;
     const style = this.width ? `width: ${this.width}` : nothing;
     /* What a document wrote, where it wrote one: its rows are already markup
        and rebuilding them from properties would only be a second chance to
-       lose a cell. Everything the table itself is stays the element's. */
-    const given = this.taken ?? this.content;
+       lose a cell. Everything the table itself is stays the element's. While
+       the answer is still coming there is nothing to draw either way. */
+    const given = this.loading ? null : (this.taken ?? this.content);
+    const body = this.loading
+      ? Array.from({ length: Math.max(this.loadingRows, 1) }, () => this.waitingRow())
+      : this.rows.map((r) => this.bodyRow(r));
     const table = given
       ? html`<table class="${cls}" style="${style}">${given}</table>`
-      : html`<table class="${cls}" style="${style}">
+      : html`<table class="${cls}" style="${style}" aria-busy="${this.loading ? 'true' : nothing}">
   <thead><tr>
     ${lines(this.columns.map((c) => html`<th>${c.head}</th>`), 4)}
   </tr></thead>
   <tbody>
-    ${lines(this.rows.map((r) => this.bodyRow(r)), 4)}
+    ${lines(body, 4)}
   </tbody>
 </table>`;
     /* The scroller is a box around the table rather than a modifier on it —

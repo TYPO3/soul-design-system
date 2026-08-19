@@ -49,6 +49,11 @@ useful progress. Over 2s the label says *why*: "booting the installation",
 "reading packages instead", "searching docs.typo3.org". Skeletons only where
 the shape is already known.
 
+A table is where it usually is known, and ``sds-table`` draws its own: the
+head it already has, with bars at the row height under it, so nothing moves
+when the rows arrive. ``loading`` and ``loading-rows`` are the whole of it —
+see :ref:`sds-table <component-sds-table>`.
+
 .. specimen:: guidelines/states-loading.card.html
    :viewport: 700x256
    :title: Loading

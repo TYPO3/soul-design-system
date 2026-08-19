@@ -53,6 +53,12 @@
     --sds-table-fill-hover: var(--surface-raised);
     --sds-table-fill-selected: var(--surface-accent-quiet);
     --sds-table-head-weight: var(--weight-regular);
+    --sds-table-skeleton-fill: var(--surface-inset);
+    --sds-table-skeleton-height: 9px;
+    --sds-table-skeleton-wide: 84%;
+    --sds-table-skeleton-mid: 62%;
+    --sds-table-skeleton-narrow: 40%;
+    --sds-table-skeleton-step: 0.12s;
 
     width: 100%;
     border-collapse: collapse;
@@ -135,6 +141,43 @@
     --sds-table-pad: var(--row-pad-airy);
     --sds-table-name-size: var(--row-name-airy);
     --sds-table-meta-size: var(--row-meta-airy);
+  }
+
+  /* A table waiting for its answer. The head is already there — the columns
+     are known before the rows are — and the body is drawn as bars, which is
+     the one case a skeleton is honest: the shape is not being guessed at. */
+  .sds-table--loading {
+    /* Nothing here answers yet, so nothing lights up under the pointer. */
+    --sds-table-fill-hover: transparent;
+
+    td > .sds-skeleton {
+      --sds-skeleton-height: var(--sds-table-skeleton-height);
+      --sds-skeleton-fill: var(--sds-table-skeleton-fill);
+
+      /* Inline, so the cell keeps the line box its text will have: a bar is
+         shorter than a line, and a block one would let the table change height
+         the moment the answer arrived. */
+      display: inline-block;
+      vertical-align: middle;
+      width: var(--sds-table-skeleton-wide);
+    }
+    /* Not every bar the same length, or a waiting table reads as a chart. The
+       name is a name, and the meta column at the end is the short one. */
+    td:first-child > .sds-skeleton {
+      width: var(--sds-table-skeleton-mid);
+    }
+    td:last-child > .sds-skeleton {
+      width: var(--sds-table-skeleton-narrow);
+    }
+
+    /* The rows come up one after another rather than all at once. Three
+       offsets, cycled: a stagger read down a long table, not a countdown. */
+    tbody tr:nth-child(3n + 2) > td > .sds-skeleton {
+      --sds-skeleton-delay: var(--sds-table-skeleton-step);
+    }
+    tbody tr:nth-child(3n) > td > .sds-skeleton {
+      --sds-skeleton-delay: calc(2 * var(--sds-table-skeleton-step));
+    }
   }
 
   /* A table wider than the column it sits in. The scroller is a box **around**

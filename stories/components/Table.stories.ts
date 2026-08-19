@@ -7,6 +7,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/table.ts';
 import { type Column, type TableProps } from '../../packages/frontend/src/components/table.ts';
@@ -43,8 +44,14 @@ const CARD_TABLE: TableProps = {
   ],
 };
 
-export const sdsTable = ({ density = 'medium', columns, rows }: TableProps) =>
-  html`<sds-table density="${density}" .columns="${columns}" .rows="${rows}"></sds-table>`;
+export const sdsTable = ({ density = 'medium', columns, rows, loading, loadingRows }: TableProps) =>
+  html`<sds-table
+    density="${density}"
+    ?loading="${loading}"
+    loading-rows="${ifDefined(loadingRows)}"
+    .columns="${columns}"
+    .rows="${rows}"
+  ></sds-table>`;
 
 const sdsBadge = ({ label, tone = 'default' }: { label: string; tone?: string }) =>
   html`<sds-badge label="${label}" tone="${tone}"></sds-badge>`;
@@ -60,6 +67,8 @@ const meta: Meta<TableProps> = {
     density: { control: 'inline-radio', options: ['compact', 'medium', 'airy'] },
     columns: { control: 'object' },
     rows: { control: 'object' },
+    loading: { control: 'boolean' },
+    loadingRows: { control: 'number' },
   },
   args: CARD_TABLE,
   parameters: {
@@ -79,6 +88,14 @@ type Story = StoryObj<TableProps>;
     stripes: a background that changes for no reason means nothing when it
     changes for a reason. */
 export const Default: Story = {};
+
+/** Waiting for the answer. The head is the columns — known before the rows
+    are — and the body is bars at the height the rows will have, so nothing
+    moves when it arrives. Nothing under 200ms: a flash of skeleton reads as a
+    state change rather than as work in flight. */
+export const Loading: Story = {
+  args: { ...CARD_TABLE, rows: [], loading: true, loadingRows: 4 },
+};
 
 export const Compact: Story = { args: { ...CARD_TABLE, density: 'compact' } };
 export const Airy: Story = { args: { ...CARD_TABLE, density: 'airy' } };

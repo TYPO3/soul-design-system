@@ -158,12 +158,16 @@
   .sds-skeleton {
     --sds-skeleton-height: 9px;
     --sds-skeleton-fill: var(--surface-inset);
+    /* Where bars stand in a stack, whoever stacks them offsets each one: a
+       block of them pulsing in unison reads as the page blinking rather than
+       as work still coming. */
+    --sds-skeleton-delay: 0s;
 
     display: block;
     height: var(--sds-skeleton-height);
     border-radius: calc(var(--sds-skeleton-height) / 2);
     background: var(--sds-skeleton-fill);
-    animation: sds-pulse 1.4s ease-in-out infinite;
+    animation: sds-pulse 1.4s ease-in-out var(--sds-skeleton-delay) infinite;
   }
 
   @keyframes sds-spin {

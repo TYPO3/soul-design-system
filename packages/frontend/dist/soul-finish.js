@@ -524,16 +524,18 @@ ${o}`}};b("sds-image",Is);function N1({signet:e="",brand:t="",product:r="",href:
   <div class="sds-modal__foot">
     ${G(this.actions,4)}
   </div>
-</dialog>`}};b("sds-dialog",Zs);var Ws=class extends _{constructor(){super();this.taken=null;this.density="medium",this.scrollable=!1,this.width="",this.columns=[],this.rows=[]}static{this.properties={density:{type:String,reflect:!0},scrollable:{type:Boolean,reflect:!0},width:{type:String},columns:{type:Array},rows:{type:Array}}}connectedCallback(){let r=this.lifted().filter(s=>!be(s));r.length&&(this.taken=r),super.connectedCallback()}cell(r,s){return s?c`<td class="${s}">${r}</td>`:c`<td>${r}</td>`}bodyRow(r){let s=G(r.cells.map((i,n)=>this.cell(i,this.columns[n]?.cls)),6);return c`<tr class="${r.selected?"is-selected":m}" style="${r.style??m}">
+</dialog>`}};b("sds-dialog",Zs);var Ws=class extends _{constructor(){super();this.taken=null;this.density="medium",this.scrollable=!1,this.width="",this.columns=[],this.rows=[],this.loading=!1,this.loadingRows=3}static{this.properties={density:{type:String,reflect:!0},scrollable:{type:Boolean,reflect:!0},width:{type:String},columns:{type:Array},rows:{type:Array},loading:{type:Boolean,reflect:!0},loadingRows:{type:Number,attribute:"loading-rows"}}}connectedCallback(){let r=this.lifted().filter(s=>!be(s));r.length&&(this.taken=r),super.connectedCallback()}cell(r,s){return s?c`<td class="${s}">${r}</td>`:c`<td>${r}</td>`}bodyRow(r){let s=G(r.cells.map((i,n)=>this.cell(i,this.columns[n]?.cls)),6);return c`<tr class="${r.selected?"is-selected":m}" style="${r.style??m}">
       ${s}
-    </tr>`}render(){let r=`sds-table sds-table--${this.density}`,s=this.width?`width: ${this.width}`:m,i=this.taken??this.content,n=i?c`<table class="${r}" style="${s}">${i}</table>`:c`<table class="${r}" style="${s}">
+    </tr>`}waitingRow(){let r=Math.max(this.columns.length,1),s=Array.from({length:r},()=>c`<td><span class="sds-skeleton"></span></td>`);return c`<tr>
+      ${G(s,6)}
+    </tr>`}render(){let r=`sds-table sds-table--${this.density}${this.loading?" sds-table--loading":""}`,s=this.width?`width: ${this.width}`:m,i=this.loading?null:this.taken??this.content,n=this.loading?Array.from({length:Math.max(this.loadingRows,1)},()=>this.waitingRow()):this.rows.map(u=>this.bodyRow(u)),o=i?c`<table class="${r}" style="${s}">${i}</table>`:c`<table class="${r}" style="${s}" aria-busy="${this.loading?"true":m}">
   <thead><tr>
-    ${G(this.columns.map(o=>c`<th>${o.head}</th>`),4)}
+    ${G(this.columns.map(u=>c`<th>${u.head}</th>`),4)}
   </tr></thead>
   <tbody>
-    ${G(this.rows.map(o=>this.bodyRow(o)),4)}
+    ${G(n,4)}
   </tbody>
-</table>`;return this.scrollable?c`<div class="sds-table-scroll">${n}</div>`:n}};b("sds-table",Ws);var Ks=class extends _{constructor(){super();this.taken=null;this.heading="",this.body="",this.href="",this.src="",this.alt="",this.label="",this.tag="",this.footer="",this.action=""}static{this.properties={heading:{type:String},body:{type:String},href:{type:String},src:{type:String},alt:{type:String},label:{type:String},tag:{type:String},icon:{type:String},footer:{type:String},action:{type:String}}}connectedCallback(){let r=this.lifted().filter(s=>!be(s));r.length&&(this.taken=r),super.connectedCallback()}render(){let r=this.src?c`<div class="sds-card__media${Ke(this.src)?" sds-card__media--exported":""}">
+</table>`;return this.scrollable?c`<div class="sds-table-scroll">${o}</div>`:o}};b("sds-table",Ws);var Ks=class extends _{constructor(){super();this.taken=null;this.heading="",this.body="",this.href="",this.src="",this.alt="",this.label="",this.tag="",this.footer="",this.action=""}static{this.properties={heading:{type:String},body:{type:String},href:{type:String},src:{type:String},alt:{type:String},label:{type:String},tag:{type:String},icon:{type:String},footer:{type:String},action:{type:String}}}connectedCallback(){let r=this.lifted().filter(s=>!be(s));r.length&&(this.taken=r),super.connectedCallback()}render(){let r=this.src?c`<div class="sds-card__media${Ke(this.src)?" sds-card__media--exported":""}">
     ${ke(this.src,this.alt)}
   </div>`:"",s=this.icon?c`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`:"",i=this.tag||this.label?c`<div class="sds-row">
       ${this.tag?c`<sds-badge label="${this.tag}"></sds-badge>`:""}
