@@ -46,7 +46,7 @@ export const DENSITIES: readonly DensitySpec[] = [
   {
     density: 'airy',
     label: `AIRY · ${px(48, 'PX')} ROWS`,
-    note: 'Padding 14, text 15. Documentation register — about 8 rows above the fold. Reads as prose set in columns.',
+    note: 'Padding 14, text 14. Documentation register — about 8 rows above the fold. Reads as prose set in columns.',
   },
 ];
 
