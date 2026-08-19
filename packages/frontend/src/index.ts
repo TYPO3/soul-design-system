@@ -68,7 +68,10 @@ export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts
 export { SdsEyebrow, type EyebrowProps } from './components/eyebrow.ts';
 export { SdsLink, type LinkProps } from './components/link.ts';
 export { SdsNavBreadcrumb, type CrumbsProps, type Crumb } from './components/nav-breadcrumb.ts';
-export { SdsField, fieldClass, type FieldProps } from './components/field.ts';
+export { SdsField, type FieldProps } from './components/field.ts';
+export { fieldBox, type FieldBox, type FieldSize } from './lib/field-box.ts';
+export { fieldRow, type FieldRow } from './lib/field-row.ts';
+export { SdsFormElement } from './lib/form-element.ts';
 export { SdsFieldGroup } from './components/field-group.ts';
 export { SdsFieldError } from './components/field-error.ts';
 export { SdsCheckbox, type CheckboxProps } from './components/checkbox.ts';

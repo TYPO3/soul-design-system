@@ -11,7 +11,7 @@ target, the platform's validation and how it all reads out arrive with it.
 Anything drawn instead looks right in a screenshot and cannot be typed in.
 
 .. specimen:: components/core/input.card.html
-   :viewport: 700x277
+   :viewport: 700x357
    :title: Fields & search
 
 .. _component-sds-field:
@@ -72,8 +72,9 @@ the difference is ``caption``.
    :type: string
    :default: "text"
 
-   The browser's business — ``email``, ``tel``, ``url`` decide which keyboard a
-   phone offers and what the platform validates before anything of ours runs.
+   The browser's business — ``email``, ``tel``, ``url``, ``number``, ``date``
+   decide which keyboard a phone offers and what the platform validates before
+   anything of ours runs.
 
 .. confval:: size
    :name: sds-field-size
@@ -103,6 +104,78 @@ the difference is ``caption``.
 
    Lines. Anything above one renders a ``<textarea>``, not a taller input: the
    difference is what the browser does with a newline.
+
+.. confval:: disabled
+   :name: sds-field-disabled
+   :type: boolean
+   :default: false
+
+   Present, and not on offer. The real attribute, so nothing can type in it and
+   the form sends nothing for it. A ``<fieldset disabled>`` around it does the
+   same, and reaches it through ``formDisabledCallback`` rather than through
+   markup anybody had to write.
+
+.. confval:: readonly
+   :name: sds-field-readonly
+   :type: boolean
+   :default: false
+
+   Shown and sent, and not editable — what a form already knows and the reader
+   may not change. The box gives up the sunken fill that says *type here* and
+   keeps everything else: it stays focusable and copyable, which is the whole
+   difference from ``disabled``.
+
+.. confval:: prefix
+   :name: sds-field-prefix
+   :type: string
+
+.. confval:: suffix
+   :name: sds-field-suffix
+   :type: string
+
+   What stands inside the box beside the value and is not part of it: a
+   currency, a scheme, a unit, the fixed head of an address. Nothing is typed
+   into one and nothing is sent for it.
+
+.. confval:: autocomplete
+   :name: sds-field-autocomplete
+   :type: string
+
+   What the browser may fill in — ``email``, ``street-address``, ``off``. A form
+   that names them is a form filled in once instead of every time.
+
+.. confval:: inputmode
+   :name: sds-field-inputmode
+   :type: string
+
+   Which keyboard a phone offers where ``type`` does not decide it —
+   ``numeric``, ``decimal``, ``search``.
+
+.. confval:: min
+   :name: sds-field-min
+   :type: string
+
+.. confval:: max
+   :name: sds-field-max
+   :type: string
+
+.. confval:: step
+   :name: sds-field-step
+   :type: string
+
+   The bounds and the step the platform validates against, for a number, a date
+   or a time. Strings, because a date's bound is one.
+
+.. confval:: maxlength
+   :name: sds-field-maxlength
+   :type: number
+
+.. confval:: pattern
+   :name: sds-field-pattern
+   :type: string
+
+   How much may be typed, and the shape it has to have — the browser's own
+   validation, before anything of ours runs.
 
 .. confval:: select
    :name: sds-field-select

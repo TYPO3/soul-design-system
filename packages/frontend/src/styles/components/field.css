@@ -40,6 +40,8 @@
     --sds-field-fill: var(--surface-sunken);
     --sds-field-ink: var(--text-muted);
     --sds-field-ink-filled: var(--text-primary);
+    --sds-field-glyph: var(--control-icon-size);
+    --sds-field-disabled-opacity: 0.5;
     --sds-field-duration: var(--duration-fast);
     --sds-field-ease: var(--ease-out);
 
@@ -74,6 +76,35 @@
     &.is-filled {
       --sds-field-ink: var(--sds-field-ink-filled);
     }
+
+    /* Not on offer, at the strength every other unavailable control in the
+       system is drawn at. The box keeps its shape: a field that also loses its
+       border reads as a gap in the form rather than as a question that is
+       closed. */
+    &.is-disabled,
+    &:has(> .sds-input:disabled) {
+      opacity: var(--sds-field-disabled-opacity);
+      cursor: not-allowed;
+    }
+
+    /* Shown and sent, and not editable — so the box gives up the sunken fill
+       that says *type here* and keeps everything else. Still focusable and
+       still copyable, which is the whole difference from disabled. */
+    &.is-readonly {
+      --sds-field-fill: transparent;
+      --sds-field-edge: var(--border-subtle);
+    }
+  }
+
+  /* What stands in the box beside the value and is not part of it: a unit, a
+     currency, the fixed head of an address. Muted, because it is the field
+     talking and not the answer, and inert, because a press belongs to the
+     control. */
+  .sds-field__affix {
+    flex: none;
+    color: var(--sds-field-ink);
+    pointer-events: none;
+    user-select: none;
   }
 
   /* The three heights a button has, so a field and the button beside it stand on
@@ -106,9 +137,31 @@
     color: var(--sds-field-ink-filled);
   }
 
+  /* The chevron is not the opener — the `<select>` under it is, stretched over
+     the whole box with room reserved at the end. Drawn as a sibling and laid
+     out in the row, it took the one part of the field that looks most like the
+     thing to press, and a click there did nothing. */
   .sds-select {
-    justify-content: space-between;
+    position: relative;
     color: var(--sds-field-ink-filled);
+
+    > .sds-input {
+      padding-inline-end: calc(var(--sds-field-glyph) + var(--sds-field-gap));
+    }
+  }
+
+  /* Centred by its own box and not by where it would have stood: an absolutely
+     positioned flex child keeps the container's alignment as its static
+     position, which is one more thing to be right about than a box that spans
+     the height and centres what is in it. */
+  .sds-select__mark {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: var(--sds-field-pad-x);
+    display: flex;
+    align-items: center;
+    color: var(--sds-field-ink);
+    pointer-events: none;
   }
 
   /* A field holding more than one line stops centring its contents — and gives

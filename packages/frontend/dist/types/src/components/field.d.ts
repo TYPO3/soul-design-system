@@ -2,8 +2,9 @@ import { type TemplateResult } from 'lit';
 import './icon.ts';
 import './field-error.ts';
 import { type IconId } from './icon.js';
-import { SdsElement } from '../lib/element.js';
-export type FieldSize = 'md' | 'sm' | 'lg';
+import { type FieldSize } from '../lib/field-box.js';
+import { SdsFormElement } from '../lib/form-element.js';
+export { type FieldSize };
 export interface FieldProps {
     /** The three heights a button has, so the two stand on one line. `sm` for a
         field inside another surface, `lg` where the field is what the screen is
@@ -25,6 +26,8 @@ export interface FieldProps {
     select?: boolean;
     /** What a select offers. A text field ignores it. */
     options?: readonly string[];
+    /** Lines. Anything above one renders a `<textarea>`. */
+    rows?: number;
     /** What the control is called, for anything that cannot see what it sits
         beside. A field with no visible label of its own owes one here. */
     label?: string;
@@ -40,7 +43,8 @@ export interface FieldProps {
     /** What the answer has to be, under the control. Never inside it. */
     hint?: string;
     /** What is wrong with what is in it. Sets the invalid state with it, so the
-        colour and the sentence cannot disagree. */
+        colour and the sentence cannot disagree — and the browser refuses to
+        submit past it. */
     error?: string;
     /** Said in words beside the label, not as an asterisk that needs a legend
         somewhere else on the page. */
@@ -49,14 +53,40 @@ export interface FieldProps {
     fieldId?: string;
     /** What the value is called when the form is sent. */
     name?: string;
-    /** `email`, `tel`, `url` — what the browser validates and which keyboard a
-        phone offers. */
+    /** `email`, `tel`, `url`, `number`, `date` — what the browser validates and
+        which keyboard a phone offers. */
     type?: string;
-    /** Lines. Anything above one renders a `<textarea>`. */
-    rows?: number;
+    /** Present, and not on offer. The real attribute, so nothing can type in it
+        and the form sends nothing for it. */
+    disabled?: boolean;
+    /** The value is shown and sent but not editable — what a form already knows
+        and the reader may not change. Still focusable, still copyable: a disabled
+        control is neither, which is why the two are different words. */
+    readonly?: boolean;
+    /** What stands inside the box before the value: a currency, a scheme, the
+        fixed head of an address. Part of the field rather than of the value —
+        nothing is typed there and nothing is sent for it. */
+    prefix?: string;
+    /** The same after it: a unit, a domain, an extension. */
+    suffix?: string;
+    /** What the browser may fill in — `email`, `street-address`, `off`. A form
+        that names them is a form filled in once instead of every time. */
+    autocomplete?: string;
+    /** Which keyboard a phone offers where `type` does not decide it —
+        `numeric`, `decimal`, `search`. */
+    inputmode?: string;
+    /** The bounds and the step the platform validates against, for a number, a
+        date or a time. Strings, because a date's bound is one. */
+    min?: string;
+    max?: string;
+    step?: string;
+    /** How much may be typed, and the shape it has to have. Both are the
+        browser's own validation, before anything of ours runs. */
+    maxlength?: number;
+    pattern?: string;
 }
-export declare function fieldClass({ focused, invalid, filled, select, rows, error, size }: FieldProps): string;
-export declare class SdsField extends SdsElement {
+export declare class SdsField extends SdsFormElement {
+    #private;
     static properties: {
         size: {
             type: StringConstructor;
@@ -86,6 +116,9 @@ export declare class SdsField extends SdsElement {
         };
         options: {
             type: ArrayConstructor;
+        };
+        rows: {
+            type: NumberConstructor;
         };
         label: {
             type: StringConstructor;
@@ -117,8 +150,40 @@ export declare class SdsField extends SdsElement {
         type: {
             type: StringConstructor;
         };
-        rows: {
+        disabled: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
+        readonly: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
+        prefix: {
+            type: StringConstructor;
+        };
+        suffix: {
+            type: StringConstructor;
+        };
+        autocomplete: {
+            type: StringConstructor;
+        };
+        inputmode: {
+            type: StringConstructor;
+        };
+        min: {
+            type: StringConstructor;
+        };
+        max: {
+            type: StringConstructor;
+        };
+        step: {
+            type: StringConstructor;
+        };
+        maxlength: {
             type: NumberConstructor;
+        };
+        pattern: {
+            type: StringConstructor;
         };
     };
     size: FieldSize;
@@ -129,6 +194,7 @@ export declare class SdsField extends SdsElement {
     filled: boolean;
     select: boolean;
     options: readonly string[];
+    rows: number;
     label?: string;
     minWidth: number;
     caption: string;
@@ -138,8 +204,21 @@ export declare class SdsField extends SdsElement {
     fieldId: string;
     name: string;
     type: string;
-    rows: number;
+    disabled: boolean;
+    readonly: boolean;
+    prefix: string;
+    suffix: string;
+    autocomplete: string;
+    inputmode: string;
+    min: string;
+    max: string;
+    step: string;
+    maxlength: number;
+    pattern: string;
     constructor();
+    protected willUpdate(): void;
+    protected updated(): void;
+    protected restore(): void;
     private onInput;
     protected render(): TemplateResult;
     private control;

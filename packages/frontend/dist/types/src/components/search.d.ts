@@ -2,7 +2,7 @@ import { type TemplateResult } from 'lit';
 import './icon.ts';
 import './search-hits.ts';
 import { SdsElement } from '../lib/element.js';
-import { type FieldSize } from './field.js';
+import { type FieldSize } from '../lib/field-box.js';
 /** One page, as the index has it. */
 export interface SearchEntry {
     title: string;

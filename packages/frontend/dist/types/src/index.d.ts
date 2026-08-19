@@ -57,7 +57,10 @@ export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.js
 export { SdsEyebrow, type EyebrowProps } from './components/eyebrow.js';
 export { SdsLink, type LinkProps } from './components/link.js';
 export { SdsNavBreadcrumb, type CrumbsProps, type Crumb } from './components/nav-breadcrumb.js';
-export { SdsField, fieldClass, type FieldProps } from './components/field.js';
+export { SdsField, type FieldProps } from './components/field.js';
+export { fieldBox, type FieldBox, type FieldSize } from './lib/field-box.js';
+export { fieldRow, type FieldRow } from './lib/field-row.js';
+export { SdsFormElement } from './lib/form-element.js';
 export { SdsFieldGroup } from './components/field-group.js';
 export { SdsFieldError } from './components/field-error.js';
 export { SdsCheckbox, type CheckboxProps } from './components/checkbox.js';

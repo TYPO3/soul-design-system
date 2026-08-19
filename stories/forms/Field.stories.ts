@@ -19,18 +19,22 @@ import { DIVIDER, dsCard, part, spec, specCap, specRow } from '../lib/specimen.t
 /* `label` is not optional in practice: a control with no visible label of its
    own has no accessible name without it, and every field on the card is one.
    The stories pass it, and the a11y pass is what says whether they did. */
-const sdsField = ({ value = '', icon, label, focused, invalid, filled, select, options, minWidth = 220, size = 'md' }: FieldProps) =>
+const sdsField = ({ value = '', icon, label, focused, invalid, filled, select, options, disabled, readonly, prefix, suffix, minWidth = 220, size = 'md' }: FieldProps) =>
   html`<sds-field
     size="${size}"
     value="${value}"
     icon="${ifDefined(icon)}"
     label="${ifDefined(label)}"
+    prefix="${ifDefined(prefix)}"
+    suffix="${ifDefined(suffix)}"
     min-width="${minWidth}"
     .options="${options ?? []}"
     ?focused="${focused}"
     ?invalid="${invalid}"
     ?filled="${filled}"
     ?select="${select}"
+    ?disabled="${disabled}"
+    ?readonly="${readonly}"
   ></sds-field>`;
 
 const meta: Meta<FieldProps> = {
@@ -48,16 +52,20 @@ const meta: Meta<FieldProps> = {
     invalid: { control: 'boolean' },
     filled: { control: 'boolean' },
     select: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    readonly: { control: 'boolean' },
+    prefix: { control: 'text' },
+    suffix: { control: 'text' },
     minWidth: { control: { type: 'number', step: 10 } },
     label: { control: 'text' },
   },
-  args: { size: 'md', value: 'Type to search 48 pages', icon: 'actions-search', label: 'Search the documentation', focused: false, invalid: false, filled: false, select: false, minWidth: 220 },
+  args: { size: 'md', value: 'Type to search 48 pages', icon: 'actions-search', label: 'Search the documentation', focused: false, invalid: false, filled: false, select: false, disabled: false, readonly: false, minWidth: 220 },
   parameters: {
     dsCard: dsCard({
       path: 'components/core/input.card.html',
       name: 'Fields & search',
       subtitle: 'A field is sunken; the accent only appears on focus',
-      viewport: '700x277',
+      viewport: '700x357',
     }),
   },
 };
@@ -72,6 +80,27 @@ export const Default: Story = { args: { value: 'Type to search 48 pages', icon: 
 /** A select is the same box, closed by a chevron, around a real `<select>`. */
 export const Select: Story = {
   args: { value: '13.4', select: true, minWidth: 150, options: ['12.4', '13.4', '14.3', 'main'], label: 'TYPO3 version' },
+};
+
+/** What stands in the box beside the value and is not part of it: a unit, a
+    currency, the fixed head of an address. Nothing is typed into one and
+    nothing is sent for it. */
+export const Affixed: Story = {
+  args: { value: '16', filled: true, prefix: 'line-height', suffix: 'px', icon: undefined, minWidth: 240, label: 'Line height' },
+};
+
+/** Shown and sent, and not editable — so the box gives up the sunken fill that
+    says *type here* and keeps everything else. Still focusable and still
+    copyable, which is the whole difference from the one below. */
+export const Readonly: Story = {
+  args: { value: 'typo3/cms-core', filled: true, readonly: true, icon: undefined, minWidth: 240, label: 'Package' },
+};
+
+/** Not on offer, at the strength every other unavailable control is drawn at.
+    The box keeps its shape: one that loses its border too reads as a gap in
+    the form rather than as a question that is closed. */
+export const Disabled: Story = {
+  args: { value: 'Sign in to search your projects', disabled: true, icon: 'actions-search', minWidth: 300, label: 'Search your projects' },
 };
 
 /** Error text sits under or beside the field, never as a tooltip: an error
@@ -118,10 +147,14 @@ export const specimenHtml = (): string =>
       'REST · FOCUS',
     ),
     specRow([
-      part(sdsField(Select.args as FieldProps)),
+      part(sdsField(Affixed.args as FieldProps)),
       part(sdsField(Invalid.args as FieldProps)),
       part(html`<sds-field-error message="Not a registered identifier"></sds-field-error>`),
     ]),
+    specRow(
+      [Readonly, Disabled].map((s) => part(sdsField(s.args as FieldProps))),
+      'READ-ONLY · NOT ON OFFER',
+    ),
     specRow(
       (['sm', 'md', 'lg'] as const).map((size, i) => at(size, 150 + i * 30)),
       'SM · MD · LG — THE CONTROL HEIGHTS A BUTTON HAS',

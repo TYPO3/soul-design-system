@@ -14,7 +14,7 @@ import './icon.ts';
 import './search-hits.ts';
 import { define, SdsElement } from '../lib/element.ts';
 import { anchored, place } from '../lib/flyout.ts';
-import { fieldClass, type FieldSize } from './field.ts';
+import { fieldBox, type FieldSize } from '../lib/field-box.ts';
 import { type SearchResultProps } from './search-result.ts';
 
 /** One page, as the index has it. */
@@ -206,7 +206,7 @@ export class SdsSearch extends SdsElement {
        is `sds-field`'s to decide, and a second copy of that list is how the two
        come to disagree about what `sm` means. */
     return html`<div class="sds-search" @focusout="${(e: FocusEvent) => this.onLeave(e)}">
-  <span class="${fieldClass({ size: this.size })}" style="anchor-name: ${this.anchor}">
+  <span class="${fieldBox({ size: this.size })}" style="anchor-name: ${this.anchor}">
     <sds-icon name="actions-search" size="16"></sds-icon>
     <input
       class="sds-input"
