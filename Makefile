@@ -174,14 +174,20 @@ release:
 #
 # It reports by running `status`, so the addresses come from the containers
 # rather than from the numbers this recipe hoped they would take.
+#
+# The probe is time-bounded, and that is the whole of why `free` is a function
+# rather than the loop it used to be: under WSL's mirrored networking a closed
+# loopback port drops the connection instead of refusing it, so the bare probe
+# never returned and `start` hung before it had printed a line. A second of
+# silence is a free port.
 start:
 	@$(COMPOSE) down --remove-orphans >/dev/null 2>&1 || true
-	@port=$$(for p in $$(seq 6007 6099); do \
-		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
-	site=$$(for p in $$(seq 4173 4199); do \
-		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
-	acceptance=$$(for p in $$(seq $$((site + 1)) 4199); do \
-		(exec 3<>/dev/tcp/127.0.0.1/$$p) 2>/dev/null || { echo $$p; break; }; done); \
+	@free() { for p in $$(seq $$1 $$2); do \
+		timeout 1 bash -c "exec 3<>/dev/tcp/127.0.0.1/$$p" 2>/dev/null || { echo $$p; return; }; \
+	  done; }; \
+	port=$$(free 6007 6099); \
+	site=$$(free 4173 4199); \
+	acceptance=$$(free $$((site + 1)) 4199); \
 	SDS_STORYBOOK_PORT=$$port SDS_SITE_PORT=$$site SDS_ACCEPTANCE_PORT=$$acceptance \
 	$(COMPOSE) up -d --build $(SERVICES)
 	@$(MAKE) --no-print-directory status
