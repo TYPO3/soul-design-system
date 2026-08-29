@@ -827,7 +827,7 @@
     font-size:var(--sds-table-font-size);
     line-height:var(--sds-table-leading);
     th{text-align:start;font-family:var(--sds-table-font);font-size:var(--sds-table-head-size);letter-spacing:var(--sds-table-head-tracking);text-transform:uppercase;color:var(--sds-table-head-ink);font-weight:var(--sds-table-head-weight);padding-block:0 var(--sds-table-pad);padding-inline:0 var(--sds-table-cell-gap);border-bottom:var(--sds-table-border) solid var(--sds-table-rule-head);vertical-align:bottom}
-    td{padding-block:var(--sds-table-pad);padding-inline:0 var(--sds-table-cell-gap);border-bottom:var(--sds-table-border) solid var(--sds-table-rule);color:var(--sds-table-ink);vertical-align:baseline}
+    td{padding-block:var(--sds-table-pad);padding-inline:0 var(--sds-table-cell-gap);border-bottom:var(--sds-table-border) solid var(--sds-table-rule);color:var(--sds-table-ink);vertical-align:middle}
     th:last-child,td:last-child{padding-inline-end:0}
     td.sds-td-name{font-family:var(--sds-table-font);font-size:var(--sds-table-name-size);color:var(--sds-table-name-ink)}
     td.sds-td-meta{font-family:var(--sds-table-font);font-size:var(--sds-table-meta-size);color:var(--sds-table-meta-ink)}

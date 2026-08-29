@@ -70,9 +70,9 @@ sds-table
    A cell may also be ``{ value, note }`` — the line the row is read by, and
    under it what is true about it right now: the branch a checkout stands on,
    the changes nobody has committed. The note emits ``sds-td-note`` and is set
-   in the register a meta cell is set in, and the row still lines up on the
-   first line. Two facts about one thing belong in one cell; over two columns
-   the head has to name a relationship instead of a fact.
+   in the register a meta cell is set in, and the cells beside it are centred
+   on both of its lines. Two facts about one thing belong in one cell; over two
+   columns the head has to name a relationship instead of a fact.
 
    .. code-block:: html
 

@@ -87,10 +87,11 @@
       padding-inline: 0 var(--sds-table-cell-gap);
       border-bottom: var(--sds-table-border) solid var(--sds-table-rule);
       color: var(--sds-table-ink);
-      /* And a cell sits on its first line, so a wrapped sentence beside a
-         one-word cell reads as one row, and a name in the mono face beside a
-         word in the sans one shares a baseline rather than a centre. */
-      vertical-align: baseline;
+      /* And a cell sits in the middle of its row. On a baseline, a cell next
+         to a name carrying its second line — or next to a control taller than
+         a line — hangs from the top of a row it does not fill, which reads as
+         a row that failed to line up rather than as one fact beside another. */
+      vertical-align: middle;
     }
 
     th:last-child,
@@ -111,10 +112,9 @@
     }
 
     /* What is true about a row right now, under the name it is read by: the
-       same register a meta cell is set in, one line down. The row still lines
-       up on the first line — which is what a cell sitting on its baseline was
-       for, and why this is a line inside the cell rather than a column of its
-       own. */
+       same register a meta cell is set in, one line down. A line inside the
+       cell rather than a column of its own, whose head would have to name a
+       relationship instead of a fact — and the row centres on both lines. */
     .sds-td-note {
       display: block;
       margin-top: var(--sds-table-note-gap);
