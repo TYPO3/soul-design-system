@@ -59,6 +59,12 @@ surface running no JavaScript falls back to. Everything that fits in a string
 is a property, and between the tags goes only what an attribute cannot carry —
 content, never structure.
 
+The same list is in `dist/custom-elements.json`, compiled from the sources
+rather than written beside them: every tag, every attribute with its type and
+what it is for, the events it says and whether it takes content. That is the
+file an editor reads for completion and the one to point a tool at — the table
+below is the same contract for a reader.
+
 A property written `.like="${this}"` below is a list or a piece of markup, so
 it is set from JavaScript or bound by a template; everything else is an
 attribute a server writes directly. Where a property's name is two words, the
@@ -187,6 +193,7 @@ this system exists to prevent — say so upstream rather than working around it.
 | `src/styles/` | `styles.css` is the entry point; `components.css` is the `sds-` vocabulary |
 | `src/components/` | the Lit elements, each with the template function it renders |
 | `dist/` | the built drop-in, plus `soul-finish.js` for a documentation build |
+| `dist/custom-elements.json` | every element as a manifest — what each tag takes, says and holds |
 | `fonts/`, `assets/` | the faces, the icon sprites and the drawings a page references |
 
 ## The manual

@@ -54,6 +54,14 @@ Choose how the files arrive
 Write the surface
 =================
 
+.. note::
+
+   What each element takes is ``dist/custom-elements.json`` in the package,
+   compiled from the components themselves: every tag with its attributes,
+   their types, the events it sends and whether it takes content. Point an
+   editor or a generating tool at that file — :doc:`components/index` is the
+   same contract written for a reader.
+
 Put ``sds-app`` on the application root, then address the elements the surface
 needs. A complete page adds the shell, skip link and one of the bodies described
 in :doc:`layout` around this content:

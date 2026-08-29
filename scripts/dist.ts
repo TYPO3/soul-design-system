@@ -18,6 +18,8 @@ import * as esbuild from 'esbuild';
 
 import { FRONTEND, ROOT } from './lib/cards.ts';
 import { rulePerLine } from './lib/css.ts';
+import { elements } from './lib/elements.ts';
+import { manifest } from './lib/manifest.ts';
 import * as report from './lib/report.ts';
 
 /* `--check` builds beside the committed output and compares. The drop-in is
@@ -116,6 +118,20 @@ for (const file of walkDts(join(OUT, 'types'))) {
   }
 }
 
+/* The catalogue, written from the same sources the bundle is built from and
+   beside it, because a drop-in is copied as a directory: a manifest left at
+   the package root would not travel with the files it describes. Hung on this
+   build so a watch keeps it current — it reads what these inputs are. */
+const catalogue: esbuild.Plugin = {
+  name: 'custom-elements',
+  setup(build) {
+    build.onEnd((result) => {
+      if (result.errors.length) return;
+      writeFileSync(join(OUT, 'custom-elements.json'), `${JSON.stringify(manifest(elements()), null, 2)}\n`);
+    });
+  },
+};
+
 /* The drop-in. Lit inside, one stylesheet, and the files both of them ask
    for sitting beside them at the paths they already use. */
 const jsOptions: esbuild.BuildOptions = {
@@ -127,6 +143,7 @@ const jsOptions: esbuild.BuildOptions = {
   minify: true,
   legalComments: 'none',
   metafile: true,
+  plugins: [catalogue],
 };
 
 /* The stylesheets are minified and then broken back onto one rule per line.
@@ -248,6 +265,7 @@ const BUILT: readonly (readonly [file: string, what: string])[] = [
   ['dist/soul.css', `${kb('soul.css')}, faces and tokens inlined`],
   ['dist/soul-boot.js', `${kb('soul-boot.js')}, the pre-paint line, not a module`],
   ['dist/soul-finish.js', `${kb('soul-finish.js')}, the step after a render, for Node`],
+  ['dist/custom-elements.json', `${kb('custom-elements.json')}, every tag with what it takes`],
   ['dist/index.js', `${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`],
   ['dist/types/', `declarations, ${rewritten} rewritten to .js specifiers`],
 ];

@@ -41,9 +41,16 @@ export interface ElementDoc {
   props: ElementProp[];
   /** Whether the element reads what a caller wrote between its tags. */
   takesContent: boolean;
+  /** What it says on its way out, so a page listens rather than polls. */
+  events: string[];
 }
 
 const COMPONENTS = join(FRONTEND, 'src', 'components');
+
+/* The name an element dispatches under. The constructor is written over two
+   lines as often as one, so this matches from `new …Event(` to the string and
+   nothing in between — a line-anchored pattern found two thirds of them. */
+const EVENT = /new (?:Custom)?Event(?:<[^>]*>)?\(\s*'([\w-]+)'/g;
 
 /* What a design links to get the elements — the drop-in's own name, since it is
    the drop-in's own code, packed for a page that links it rather than imports
@@ -229,6 +236,9 @@ export function elements(): ElementDoc[] {
       /* Both ways a component reaches what was written between its tags — the
          nodes in a browser, the `content` property where it rendered first. */
       takesContent: /this\.taken|this\.content/.test(src),
+      /* Read from the chain, not the file: half the navigations say
+         `sds-change` through the base they extend and name it nowhere. */
+      events: [...new Set([...written.matchAll(EVENT)].map((m) => m[1]!))].sort(),
     });
   }
   return out;

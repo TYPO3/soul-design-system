@@ -20,6 +20,7 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/types/src/index.d.ts",
+  "customElements": "dist/custom-elements.json",
   "exports": {
     ".": {
       "types": "./dist/types/src/index.d.ts",
