@@ -100,6 +100,9 @@ export class SdsEmbed extends SdsElement {
     this.allowfullscreen = false;
   }
 
+  /* The page's mode, watched so the frame follows a switch. */
+  #watch: MutationObserver | null = null;
+
   override connectedCallback(): void {
     const written = this.lifted().filter((node) => !isNothing(node));
     const caption = written.filter(isCaption);
@@ -107,7 +110,42 @@ export class SdsEmbed extends SdsElement {
     if (caption.length) this.captioned = caption;
     if (framed.length) this.taken = framed;
     super.connectedCallback();
+    if (typeof document === 'undefined') return;
+    this.#watch = new MutationObserver(this.#paint);
+    this.#watch.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    /* Captured, because `load` on a frame does not bubble. */
+    this.addEventListener('load', this.#paint, true);
   }
+
+  override disconnectedCallback(): void {
+    this.removeEventListener('load', this.#paint, true);
+    this.#watch?.disconnect();
+    this.#watch = null;
+    super.disconnectedCallback();
+  }
+
+  protected override firstUpdated(): void {
+    this.#paint();
+  }
+
+  /* A frame is a document of its own and inherits nothing: a card made for
+     both modes carries no `data-theme`, so left alone it answers the machine's
+     setting inside a page that chose the other one — scrollbar included. The
+     frame belongs to this element, so this element paints it, and a page with
+     no theme control has frames all the same. */
+  #paint = (): void => {
+    const mode = document.documentElement.dataset['theme'];
+    for (const frame of this.querySelectorAll('iframe')) {
+      try {
+        const inner = frame.contentDocument?.documentElement;
+        if (!inner) continue;
+        if (mode) inner.dataset['theme'] = mode;
+        else delete inner.dataset['theme'];
+      } catch {
+        /* Another origin. Nothing to do, and nothing broken. */
+      }
+    }
+  };
 
   /** Whether the frame is the size it was made for rather than the column's. A
       size alone says fixed; a ratio beside it is the answer that means "fill

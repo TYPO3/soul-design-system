@@ -2481,17 +2481,6 @@ var GLYPH = {
   dark: "actions-moon"
 };
 var themeBoot = (key = "soul-theme") => `var t=localStorage.getItem(${JSON.stringify(key)});if(t){document.documentElement.dataset.theme=t}`;
-function paintFrames(mode) {
-  for (const frame of document.querySelectorAll("iframe")) {
-    try {
-      const inner = frame.contentDocument?.documentElement;
-      if (!inner) continue;
-      if (mode) inner.dataset["theme"] = mode;
-      else delete inner.dataset["theme"];
-    } catch {
-    }
-  }
-}
 var SdsTheme = class extends SdsElement {
   static {
     this.properties = {
@@ -2517,10 +2506,8 @@ var SdsTheme = class extends SdsElement {
     this.#read();
     this.#watch = new MutationObserver(() => this.#read());
     this.#watch.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-    document.addEventListener("load", this.#frames, true);
   }
   disconnectedCallback() {
-    document.removeEventListener("load", this.#frames, true);
     this.#watch?.disconnect();
     this.#watch = null;
     super.disconnectedCallback();
@@ -2530,11 +2517,7 @@ var SdsTheme = class extends SdsElement {
   #read() {
     const written = document.documentElement.dataset["theme"];
     this.current = written === "light" || written === "dark" ? written : null;
-    paintFrames(this.current);
   }
-  /* A frame that loads after the mode was set has to be told. Captured at the
-     document, because `load` on an iframe does not bubble. */
-  #frames = () => paintFrames(this.current);
   choose(theme) {
     const next = this.current === theme ? null : theme;
     this.current = next;
@@ -5983,6 +5966,25 @@ var SdsEmbed = class extends SdsElement {
     /* And its caption, where that was written between the tags too. Kept apart
        from `taken`, which everything else here reads as the frame itself. */
     this.captioned = null;
+    /* The page's mode, watched so the frame follows a switch. */
+    this.#watch = null;
+    /* A frame is a document of its own and inherits nothing: a card made for
+       both modes carries no `data-theme`, so left alone it answers the machine's
+       setting inside a page that chose the other one — scrollbar included. The
+       frame belongs to this element, so this element paints it, and a page with
+       no theme control has frames all the same. */
+    this.#paint = () => {
+      const mode = document.documentElement.dataset["theme"];
+      for (const frame of this.querySelectorAll("iframe")) {
+        try {
+          const inner = frame.contentDocument?.documentElement;
+          if (!inner) continue;
+          if (mode) inner.dataset["theme"] = mode;
+          else delete inner.dataset["theme"];
+        } catch {
+        }
+      }
+    };
     this.src = "";
     this.label = "";
     this.ratio = "";
@@ -6004,6 +6006,7 @@ var SdsEmbed = class extends SdsElement {
       allowfullscreen: { type: Boolean }
     };
   }
+  #watch;
   connectedCallback() {
     const written = this.lifted().filter((node) => !isNothing2(node));
     const caption = written.filter(isCaption2);
@@ -6011,7 +6014,21 @@ var SdsEmbed = class extends SdsElement {
     if (caption.length) this.captioned = caption;
     if (framed.length) this.taken = framed;
     super.connectedCallback();
+    if (typeof document === "undefined") return;
+    this.#watch = new MutationObserver(this.#paint);
+    this.#watch.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    this.addEventListener("load", this.#paint, true);
   }
+  disconnectedCallback() {
+    this.removeEventListener("load", this.#paint, true);
+    this.#watch?.disconnect();
+    this.#watch = null;
+    super.disconnectedCallback();
+  }
+  firstUpdated() {
+    this.#paint();
+  }
+  #paint;
   /** Whether the frame is the size it was made for rather than the column's. A
       size alone says fixed; a ratio beside it is the answer that means "fill
       the column", so it wins and the size is what the document is asked for. */

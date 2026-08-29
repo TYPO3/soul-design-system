@@ -33,6 +33,7 @@ export interface EmbedProps {
     allowfullscreen?: boolean;
 }
 export declare class SdsEmbed extends SdsElement {
+    #private;
     static properties: {
         src: {
             type: StringConstructor;
@@ -71,6 +72,8 @@ export declare class SdsEmbed extends SdsElement {
     private captioned;
     constructor();
     connectedCallback(): void;
+    disconnectedCallback(): void;
+    protected firstUpdated(): void;
     /** Whether the frame is the size it was made for rather than the column's. A
         size alone says fixed; a ratio beside it is the answer that means "fill
         the column", so it wins and the size is what the document is asked for. */

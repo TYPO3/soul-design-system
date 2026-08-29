@@ -40,22 +40,6 @@ export interface ThemeChange {
 export const themeBoot = (key = 'soul-theme'): string =>
   `var t=localStorage.getItem(${JSON.stringify(key)});if(t){document.documentElement.dataset.theme=t}`;
 
-/* A frame is a document of its own and does not inherit the mode from the
-   page around it — a specimen would stay light inside a dark page. Same
-   origin, so it is set directly; anything else is left alone. */
-function paintFrames(mode: string | null): void {
-  for (const frame of document.querySelectorAll('iframe')) {
-    try {
-      const inner = frame.contentDocument?.documentElement;
-      if (!inner) continue;
-      if (mode) inner.dataset['theme'] = mode;
-      else delete inner.dataset['theme'];
-    } catch {
-      /* Another origin. Nothing to do, and nothing broken. */
-    }
-  }
-}
-
 export class SdsTheme extends SdsElement {
   static override properties = {
     key: { type: String },
@@ -93,11 +77,9 @@ export class SdsTheme extends SdsElement {
     this.#read();
     this.#watch = new MutationObserver(() => this.#read());
     this.#watch.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    document.addEventListener('load', this.#frames, true);
   }
 
   override disconnectedCallback(): void {
-    document.removeEventListener('load', this.#frames, true);
     this.#watch?.disconnect();
     this.#watch = null;
     super.disconnectedCallback();
@@ -108,12 +90,7 @@ export class SdsTheme extends SdsElement {
   #read(): void {
     const written = document.documentElement.dataset['theme'];
     this.current = written === 'light' || written === 'dark' ? written : null;
-    paintFrames(this.current);
   }
-
-  /* A frame that loads after the mode was set has to be told. Captured at the
-     document, because `load` on an iframe does not bubble. */
-  #frames = (): void => paintFrames(this.current);
 
   private choose(theme: ThemeChoice): void {
     /* Pressing the one that is current gives the machine back. Without this
