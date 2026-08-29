@@ -26,7 +26,7 @@ const meta: Meta = {
       name: 'Worked example',
       subtitle: 'answer-sources.svg, redrawn to the rules — one file, in both modes',
       theme: 'both',
-      viewport: '1400x984',
+      viewport: '1400x1018',
       bodyClass: 'spec-sunken',
     }),
   },

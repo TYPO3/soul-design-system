@@ -58,25 +58,25 @@ Scale
 =====
 
 .. specimen:: guidelines/type-scale.card.html
-   :viewport: 700x245
+   :viewport: 700x248
    :title: Type scale
 
-Steps read the same number, and that is the scale saying so. Below body there
-are two registers carrying four names: ``--font-size-ui`` and
-``--font-size-dense`` at 14, ``--font-size-micro`` and ``--font-size-label``
-at 13. What separates a button label from a nav item, or a table head from the
-meta beside it, is the box around it and the face it is set in — not the size
-inside it. Each token keeps its own name because the roles stay four: one can
-move later without dragging the other three with it.
+Two sizes carry text a person reads: **16 is normal and 14 is small.** There
+is nothing under them — not a table head, not a caption, not the closing line
+of a footer, not the annotation on a specimen card. A size below the small one
+is read by whoever already knows what it says.
 
-What is not allowed is a fifth step wedged between them. A single pixel is a
-rasterisation difference rather than a register a reader can tell apart, which
-is the finding that took the UI step off 15, and the same one that closed the
-run of 13, 12 and 11 this scale used to end on.
+Four names sit on the small size, and the last steps of the card show them
+reading the same number. That is the scale saying what it means: what
+separates a button label from a nav item, or a table head from the meta beside
+it, is the box around it and the face it is set in, never a pixel of size.
+They stay four names because the roles stay four, and one can move later
+without dragging the other three with it.
 
-**13 is the floor.** Nothing in the system is set smaller — not a table head,
-not a caption, not the closing line of a footer. A size below it is read by
-whoever already knows what it says.
+What is not allowed is a step wedged between 14 and 16. A single pixel is a
+rasterisation difference rather than a register a reader can tell apart — the
+finding that took the UI step off 15, and the same one that closed the run of
+13, 12 and 11 this scale used to end on.
 
 Titles and bodies move together
 ===============================
@@ -115,14 +115,14 @@ page rather than a step in the outline, and it says nothing about level at
 all.
 
 .. specimen:: guidelines/type-display.card.html
-   :viewport: 700x177
+   :viewport: 700x184
    :title: Display & headings
 
 Body and lead
 =============
 
 .. specimen:: guidelines/type-body.card.html
-   :viewport: 700x193
+   :viewport: 700x223
    :title: Body & lead
 
 Lists
@@ -145,7 +145,7 @@ an instruction rather than a list, and it is
 holding blocks.
 
 .. specimen:: guidelines/type-lists.card.html
-   :viewport: 700x251
+   :viewport: 700x263
    :title: Lists
 
 .. note::
@@ -171,7 +171,7 @@ look. A page that does need the two apart has the anchor the renderer wrote —
 name.
 
 .. specimen:: guidelines/type-notes.card.html
-   :viewport: 700x285
+   :viewport: 700x308
    :title: Notes at the foot
 
 .. note::
@@ -209,5 +209,5 @@ inside it the block has already decided the size, the weight and the colour,
 and a whole block set in medium is one asking to be read as emphasis.
 
 .. specimen:: guidelines/type-mono.card.html
-   :viewport: 700x204
+   :viewport: 700x209
    :title: Mono & labels

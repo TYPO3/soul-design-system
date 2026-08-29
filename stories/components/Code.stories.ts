@@ -57,7 +57,7 @@ const meta: Meta<CodeBlockProps> = {
       path: 'components/code/code.card.html',
       name: 'Code block & diff',
       subtitle: 'The one place status colour is allowed to fill a whole line',
-      viewport: '700x375',
+      viewport: '700x408',
     }),
   },
 };

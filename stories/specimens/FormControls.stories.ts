@@ -82,7 +82,7 @@ const meta: Meta = {
       group: 'Components',
       name: 'Beyond the text field',
       subtitle: 'A switch takes effect now, a slider is felt for, a picker is the platform’s, a set is one question',
-      viewport: '700x419',
+      viewport: '700x439',
     }),
   },
 };

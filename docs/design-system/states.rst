@@ -20,7 +20,7 @@ never ``:focus`` — a click should not leave a ring behind.
 Nothing in this system is reachable by pointer only.
 
 .. specimen:: guidelines/states-focus.card.html
-   :viewport: 700x213
+   :viewport: 700x234
    :title: Focus & keyboard
 
 Interaction
@@ -74,7 +74,7 @@ nothing at all, the spinner is the honest answer: a bar advancing on a timer
 tells the reader something nothing measured.
 
 .. specimen:: guidelines/states-loading.card.html
-   :viewport: 700x256
+   :viewport: 700x273
    :title: Loading
 
 Empty and not found
@@ -87,7 +87,7 @@ Empty and not found
    not a failure: it gets ``actions-info-circle``, not an error colour.
 
 .. specimen:: guidelines/states-empty.card.html
-   :viewport: 700x447
+   :viewport: 700x460
    :title: Empty & not found
 
 Errors and degraded answers
@@ -106,7 +106,7 @@ change that.
 knowledge · 12.4, 13.4". Never praise, never a "done" toast.
 
 .. specimen:: guidelines/states-error.card.html
-   :viewport: 700x471
+   :viewport: 700x479
    :title: Errors & degraded answers
 
 A message that can be acted on

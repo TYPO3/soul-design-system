@@ -13,7 +13,7 @@ What follows is not styling. Every rule here is about whether the form can be
 answered by somebody who cannot see all of it at once.
 
 .. specimen:: components/core/form.card.html
-   :viewport: 700x656
+   :viewport: 700x720
    :title: A field in a form
 
 A placeholder is not a label
@@ -133,7 +133,7 @@ A switch is not a checkbox
 ==========================
 
 .. specimen:: components/core/form-controls.card.html
-   :viewport: 700x419
+   :viewport: 700x439
    :title: Beyond the text field
 
 ``sds-checkbox`` answers a question the form asks and is sent when the form is

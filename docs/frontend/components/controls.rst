@@ -9,7 +9,7 @@ everything here appears in a bar or a row of actions, and everything here is a
 real ``<button>`` or ``<a>`` underneath.
 
 .. specimen:: components/core/buttons.card.html
-   :viewport: 700x372
+   :viewport: 700x427
    :title: Buttons & links
 
 .. _component-sds-button:
@@ -133,7 +133,7 @@ sds-dropdown
 A button, and the short list it opens under itself.
 
 .. specimen:: components/core/dropdown.card.html
-   :viewport: 700x523
+   :viewport: 700x600
    :title: Dropdown
 
 The card draws the control open — the button pressed, its list standing under
@@ -353,7 +353,7 @@ colour saying so would be the one thing on the page claiming something went
 wrong.
 
 .. specimen:: components/core/progress.card.html
-   :viewport: 700x481
+   :viewport: 700x577
    :title: Progress
 
 .. code-block:: html

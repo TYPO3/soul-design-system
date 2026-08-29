@@ -44,7 +44,7 @@ const meta: Meta = {
       path: 'components/navigation/navigation.card.html',
       name: 'Tabs & tool rail',
       subtitle: 'Active is a filled block, not a tint',
-      viewport: '700x160',
+      viewport: '700x190',
     }),
   },
 };

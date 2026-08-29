@@ -30,13 +30,13 @@ const STEPS: readonly Step[] = [
   { token: '--font-size-display', size: 58, tracking: '-0.03em', leading: true },
   { token: '--font-size-h1', size: 44, tracking: '-0.02em', leading: true },
   { token: '--font-size-h2', size: 34, tracking: '-0.015em' },
-  { token: '--font-size-h3', size: 20 },
+  { token: '--font-size-h3', size: 24 },
   { token: '--font-size-lead', size: 19 },
   { token: '--font-size-body', size: 16 },
   { token: '--font-size-ui', size: 14 },
   { token: '--font-size-dense', size: 14, mono: true },
-  { token: '--font-size-micro', size: 13, mono: true },
-  { token: '--font-size-label', size: 13, tracking: '0.09em', mono: true, sample: 'AA' },
+  { token: '--font-size-micro', size: 14, mono: true },
+  { token: '--font-size-label', size: 14, tracking: '0.09em', mono: true, sample: 'AA' },
 ];
 
 const step = ({ token, size, tracking, leading, mono, sample }: Step): string => {
@@ -60,7 +60,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Type scale',
       subtitle: 'Every step in the system, largest to smallest',
-      viewport: '700x245',
+      viewport: '700x248',
     }),
   },
 };

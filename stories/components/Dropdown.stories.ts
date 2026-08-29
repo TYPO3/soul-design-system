@@ -23,7 +23,7 @@ const meta: Meta = {
       path: 'components/core/dropdown.card.html',
       name: 'Dropdown',
       subtitle: 'A button, and the short list it opens under itself',
-      viewport: '700x523',
+      viewport: '700x600',
     }),
   },
 };

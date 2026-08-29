@@ -8,17 +8,17 @@
     --font-size-display: 58px;
     --font-size-h1: 44px;
     --font-size-h2: 34px;
-    --font-size-h3: 20px;
+    --font-size-h3: 24px;
     --font-size-lead: 19px;
     --font-size-body: 16px;
-    /* Two registers below body, four names across them: one pixel is not a
-       register, so what separates a nav item from a button label, or a table
-       head from the meta beside it, is the box and the face rather than the
-       size. 13 is the floor — nothing in this system is set smaller. */
+    /* Two sizes for text a person reads: 16 is normal and 14 is small, and
+       there is nothing under them. The four names are roles rather than steps
+       — what separates a nav item from a button label, or a table head from
+       the meta beside it, is the box and the face, not the size. */
     --font-size-ui: 14px;
     --font-size-dense: 14px;
-    --font-size-micro: 13px;
-    --font-size-label: 13px;
+    --font-size-micro: 14px;
+    --font-size-label: 14px;
 
     --leading-display: 1.08;
     --leading-heading: 1.2;

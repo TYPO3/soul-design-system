@@ -266,7 +266,7 @@ the stat's**: a figure anywhere else stays bare, so a set of numbers on a page
 is not a row of boxes.
 
 .. specimen:: components/data/stat.card.html
-   :viewport: 700x651
+   :viewport: 700x717
    :title: Figures read as a set
 
 .. confval:: value

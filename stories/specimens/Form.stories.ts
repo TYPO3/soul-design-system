@@ -100,7 +100,7 @@ const meta: Meta = {
       group: 'Components',
       name: 'A field in a form',
       subtitle: 'Label above, hint under, error under both — and a placeholder is not a label',
-      viewport: '700x656',
+      viewport: '700x720',
     }),
   },
 };

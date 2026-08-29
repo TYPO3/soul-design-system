@@ -69,7 +69,7 @@ body {
    This is annotation, never product text. */
 .spec-cap {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--font-size-label);
   color: var(--text-muted);
   letter-spacing: 0.02em;
 }
@@ -85,7 +85,7 @@ body {
 
 /* Prose under an example. */
 .spec-note {
-  font-size: 12px;
+  font-size: var(--font-size-dense);
   line-height: 1.45;
   color: var(--text-secondary);
 }
@@ -94,9 +94,9 @@ body {
   font-weight: var(--weight-semibold);
 }
 
-/* A rule being stated, slightly larger than a note. */
+/* A rule being stated: normal size, where a note beside it is small. */
 .spec-rule {
-  font-size: 13px;
+  font-size: var(--font-size-body);
   line-height: 1.5;
   color: var(--text-secondary);
 }
@@ -108,7 +108,7 @@ body {
 /* A section heading inside a specimen. */
 .spec-h {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--font-size-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -117,7 +117,7 @@ body {
 /* The tracked-out label used over a group of swatches or samples. */
 .spec-lbl {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--font-size-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-muted);
@@ -126,7 +126,7 @@ body {
 /* A thing you must not do. */
 .spec-no {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--font-size-label);
   color: var(--status-error);
 }
 
@@ -154,12 +154,12 @@ body {
 }
 .spec-n {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--font-size-label);
   color: var(--text-primary);
 }
 .spec-hex {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--font-size-label);
   color: var(--text-muted);
 }
 

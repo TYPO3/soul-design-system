@@ -80,7 +80,7 @@ A **card** is a hairline and 6px with no fill of its own.
        the page is
 
 .. specimen:: guidelines/colors-surfaces.card.html
-   :viewport: 700x265
+   :viewport: 700x298
    :title: Surfaces
 
 Text
@@ -134,7 +134,7 @@ above says which surfaces those are.
      - the frame of the tinted plane, and nothing else
 
 .. specimen:: guidelines/colors-borders.card.html
-   :viewport: 700x229
+   :viewport: 700x252
    :title: Borders
 
 Accent
@@ -180,5 +180,5 @@ The colour marks the press; it does not explain it. The label names what goes â€
 so a reader who cannot tell the tones apart still reads the consequence.
 
 .. specimen:: guidelines/colors-status.card.html
-   :viewport: 700x217
+   :viewport: 700x240
    :title: Status and syntax

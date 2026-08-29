@@ -34,7 +34,7 @@ const meta: Meta = {
       name: 'Surfaces',
       subtitle: 'Warm paper and the terminal — the same five planes in both modes',
       theme: 'both',
-      viewport: '700x265',
+      viewport: '700x298',
     }),
   },
 };
