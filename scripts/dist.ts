@@ -218,6 +218,21 @@ const finishOptions: esbuild.BuildOptions = {
   legalComments: 'none',
 };
 
+/* The rule, as something a consumer can run: `npx soul-check`. Built like the
+   step above and for the same reason — a project has a Node and nothing of
+   this repository's toolchain. esbuild keeps the source's own shebang, which
+   is what npm links the command through. */
+const checkOptions: esbuild.BuildOptions = {
+  entryPoints: [join(ROOT, 'scripts', 'soul-check.ts')],
+  outfile: join(OUT, 'soul-check.js'),
+  bundle: true,
+  format: 'esm',
+  platform: 'node',
+  target: 'node22',
+  minify: true,
+  legalComments: 'none',
+};
+
 /* What a page fetches, and the list beside it — with the files that list
    names, because a lookup is a promise about paths and it travels with them.
    Only the illustrations stay out: nothing here names them, and the theme
@@ -258,6 +273,7 @@ if (WATCH) {
        one file a documentation build calls — and the gate, which compares a
        fresh build against this directory, reports it as out of date. */
     esbuild.context(watched(finishOptions, 'dist/soul-finish.js')),
+    esbuild.context(watched(checkOptions, 'dist/soul-check.js')),
   ]);
   for (const ctx of contexts) await ctx.watch();
   copyAssets();
@@ -270,6 +286,7 @@ const drop = await esbuild.build(jsOptions);
 await esbuild.build(cssOptions);
 await esbuild.build(bootOptions);
 await esbuild.build(finishOptions);
+await esbuild.build(checkOptions);
 copyAssets();
 
 const kb = (p: string): string => `${(readFileSync(join(OUT, p)).length / 1024).toFixed(1)} kB`;
@@ -280,6 +297,7 @@ const BUILT: readonly (readonly [file: string, what: string])[] = [
   ['dist/soul.css', `${kb('soul.css')}, faces and tokens inlined`],
   ['dist/soul-boot.js', `${kb('soul-boot.js')}, the pre-paint line, not a module`],
   ['dist/soul-finish.js', `${kb('soul-finish.js')}, the step after a render, for Node`],
+  ['dist/soul-check.js', `${kb('soul-check.js')}, the rule a consumer runs, for Node`],
   ['dist/custom-elements.json', `${kb('custom-elements.json')}, every tag with what it takes`],
   ['dist/index.js', `${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`],
   ['dist/types/', `declarations, ${rewritten} rewritten to .js specifiers`],

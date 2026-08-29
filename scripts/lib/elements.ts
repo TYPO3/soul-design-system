@@ -11,6 +11,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { FRONTEND } from './cards.ts';
+import { definedClasses } from './css.ts';
 
 export interface ElementProp {
   /** The property as the class declares it. */
@@ -43,6 +44,9 @@ export interface ElementDoc {
   takesContent: boolean;
   /** What it says on its way out, so a page listens rather than polls. */
   events: string[];
+  /** The classes it draws — its own names for its own nodes, which is why a
+      page writing one has rebuilt the element instead of addressing it. */
+  classes: string[];
 }
 
 const COMPONENTS = join(FRONTEND, 'src', 'components');
@@ -57,6 +61,21 @@ const EVENT = /new (?:Custom)?Event(?:<[^>]*>)?\(\s*'([\w-]+)'/g;
    it. Not `_ds_bundle.js`: that name belongs to the design app, which rebuilds
    the file from sources it can compile and leaves an empty namespace there. */
 export const ELEMENTS_JS = 'soul.js';
+
+/* What an element draws, out of everything it renders — the map of variants at
+   the top of the file as much as the class attribute below it. Comments go
+   first, because a component naming another's class in prose draws nothing,
+   and so do the tags it composes and its own registration. Filtered against
+   the stylesheets, so a stray identifier is not read as a class. */
+function drawn(chain: string, defined: ReadonlySet<string>): string[] {
+  const rendered = chain
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .replace(/<\/?sds-[a-z-]+/g, ' ')
+    .replace(/define\('[^']*'/g, ' ');
+  const found = new Set<string>();
+  for (const m of rendered.matchAll(/\bsds-[a-z0-9_-]+/g)) if (defined.has(m[0])) found.add(m[0]);
+  return [...found].sort();
+}
 
 /** From the opening `{` at `open`, the text it encloses. */
 function braced(src: string, open: number): string {
@@ -209,6 +228,7 @@ function inherited(src: string, dir: string): string[] {
 /** Every tag the components directory defines, in the order Lit registers them. */
 export function elements(): ElementDoc[] {
   const out: ElementDoc[] = [];
+  const declared = definedClasses();
   for (const file of readdirSync(COMPONENTS).sort()) {
     if (!file.endsWith('.ts') || file.endsWith('.generated.ts')) continue;
     const src = readFileSync(join(COMPONENTS, file), 'utf8');
@@ -239,6 +259,7 @@ export function elements(): ElementDoc[] {
       /* Read from the chain, not the file: half the navigations say
          `sds-change` through the base they extend and name it nowhere. */
       events: [...new Set([...written.matchAll(EVENT)].map((m) => m[1]!))].sort(),
+      classes: drawn(written, declared),
     });
   }
   return out;

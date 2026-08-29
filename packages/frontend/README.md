@@ -155,6 +155,24 @@ than on whatever is inside it:
 | `sds-theme-change` | `sds-theme` | `{ theme }` — `"light"`, `"dark"`, or `null` for the machine's |
 | `sds-dropdown-choose` | `sds-dropdown` | `{ choice, index }`. Said beside the navigation rather than instead of it, so a page that never listens still works; preventing it is how an app takes the navigation over |
 
+## The rule, as something to run
+
+```sh
+npx soul-check src/          # or any set of paths; the tree by default
+```
+
+Every `sds-` class an element draws is that element's own name for its own
+node, and a page that writes one has rebuilt the component: it cannot follow
+the day a part is renamed, cannot grow the variant the element grew, and answers
+no form. `soul-check` walks a tree's markup and names each one with the element
+to write instead, and exits non-zero on the first — so an agent that loaded no
+instruction still finds out. The page vocabulary is not a finding: `sds-app`,
+`sds-page`, `sds-prose`, the shell and the type classes are written by hand,
+because no element draws them.
+
+It reads `dist/custom-elements.json` beside itself, so what it holds is what
+this version of the package draws — not a list somebody keeps in step.
+
 ## And the classes underneath
 
 Every element renders **light DOM** and emits the classes `soul.css` defines,
@@ -193,7 +211,8 @@ this system exists to prevent — say so upstream rather than working around it.
 | `src/styles/` | `styles.css` is the entry point; `components.css` is the `sds-` vocabulary |
 | `src/components/` | the Lit elements, each with the template function it renders |
 | `dist/` | the built drop-in, plus `soul-finish.js` for a documentation build |
-| `dist/custom-elements.json` | every element as a manifest — what each tag takes, says and holds |
+| `dist/custom-elements.json` | every element as a manifest — what each tag takes, says, holds and draws |
+| `dist/soul-check.js` | `npx soul-check`, the rule above as an exit code |
 | `fonts/`, `assets/` | the faces, the icon sprites and the drawings a page references |
 
 ## The manual

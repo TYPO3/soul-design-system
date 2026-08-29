@@ -58,9 +58,14 @@ Write the surface
 
    What each element takes is ``dist/custom-elements.json`` in the package,
    compiled from the components themselves: every tag with its attributes,
-   their types, the events it sends and whether it takes content. Point an
-   editor or a generating tool at that file — :doc:`components/index` is the
-   same contract written for a reader.
+   their types, the events it sends, the classes it draws and whether it takes
+   content. Point an editor or a generating tool at that file —
+   :doc:`components/index` is the same contract written for a reader.
+
+   ``npx soul-check src/`` holds the other half in the project's own tree: a
+   class an element draws, written by hand, is a component rebuilt, and the
+   check names it with the element to write instead. Put it beside the tests —
+   a rule that only exists as prose is one every fresh session rediscovers.
 
 Put ``sds-app`` on the application root, then address the elements the surface
 needs. A complete page adds the shell, skip link and one of the bodies described

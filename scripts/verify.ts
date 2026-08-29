@@ -16,35 +16,12 @@ import { dirname, join, relative, resolve } from 'node:path';
 
 import { TAGS } from '../packages/frontend/src/index.ts';
 import { FRONTEND, cards, ROOT, screens } from './lib/cards.ts';
+import { definedClasses, stylesheets } from './lib/css.ts';
 import * as report from './lib/report.ts';
 
 /** The marker has to be the very first line, so that is what is tested. */
 const firstLine = (text: string): string => text.split('\n', 1)[0] ?? '';
 const ENTITY_RE = /&(?:#[0-9]+|#x[0-9a-f]+|[a-z][a-z0-9]+);/i;
-
-/** Every stylesheet the system has, the component files among them. Read from
-    the directory rather than listed: a component added to a list by hand is
-    one no check sees until somebody remembers. */
-function stylesheets(dir = join(FRONTEND, 'src', 'styles')): string[] {
-  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const path = join(dir, entry.name);
-    return entry.isDirectory() ? stylesheets(path) : entry.name.endsWith('.css') ? [path] : [];
-  });
-}
-
-/** Every class the system defines — including the sheet `styles.css`
-    deliberately does not import: a name is defined if some sheet in the system
-    defines it, and a surface told otherwise is told a lie about its own
-    repository. */
-function definedClasses(): Set<string> {
-  const defined = new Set<string>();
-  for (const sheet of stylesheets()) {
-    for (const m of readFileSync(sheet, 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
-      defined.add(m[1] as string);
-    }
-  }
-  return defined;
-}
 
 /** Every event the elements dispatch, read out of the sources that dispatch
     them. A document names these beside the elements and the classes, and they

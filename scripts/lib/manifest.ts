@@ -53,6 +53,11 @@ function declaration(e: ElementDoc): object {
       ...(WRITABLE.includes(p.lit) ? { attribute: p.attribute } : {}),
     })),
     events: e.events.map((name) => ({ name, type: { text: 'CustomEvent' } })),
+    /* Beyond the schema, and the field `soul-check` reads: the classes this
+       element draws are its own names for its own nodes. A page that writes
+       one has rebuilt the component instead of addressing it, and cannot
+       follow the day a part is renamed or moved. */
+    cssClasses: e.classes,
     /* The default slot, named as what it is for: an element takes content
        where an attribute cannot carry it, never structure it already draws. */
     slots: e.takesContent

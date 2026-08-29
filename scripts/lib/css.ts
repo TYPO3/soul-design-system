@@ -9,7 +9,10 @@
    the minifier wrote them. The point is a seam every rule, not a pretty
    sheet. */
 
+import { readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+
+import { FRONTEND } from './cards.ts';
 
 /** A statement in a stylesheet: a declaration or at-rule (`body` null), or a
     rule with a block. Style rules, at-rules and keyframe steps are all this
@@ -104,4 +107,28 @@ export function rulePerLine(css: string): string {
 export function inlineImports(path: string, read: (p: string) => string): string {
   return read(path).replace(/^@import\s+"([^"]+)";\s*$/gm, (whole, ref: string) =>
     /^[a-z]+:/.test(ref) ? whole : inlineImports(join(dirname(path), ref), read));
+}
+
+/** Every stylesheet the system has, the component files among them. Read from
+    the directory rather than listed: a component added to a list by hand is
+    one no check sees until somebody remembers. */
+export function stylesheets(dir = join(FRONTEND, 'src', 'styles')): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    return entry.isDirectory() ? stylesheets(path) : entry.name.endsWith('.css') ? [path] : [];
+  });
+}
+
+/** Every class the system defines — including the sheet `styles.css`
+    deliberately does not import: a name is defined if some sheet in the system
+    defines it, and a surface told otherwise is told a lie about its own
+    repository. */
+export function definedClasses(): Set<string> {
+  const defined = new Set<string>();
+  for (const sheet of stylesheets()) {
+    for (const m of readFileSync(sheet, 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) {
+      defined.add(m[1] as string);
+    }
+  }
+  return defined;
 }

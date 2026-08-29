@@ -329,6 +329,7 @@ make test ARGS="tests/a11y.spec.ts --grep card"
 | a card's height or its viewport | `make verify ARGS="fit heights"` |
 | a `@media` width, in any sheet | `make verify ARGS=breakpoints` |
 | `packages/frontend/src/` with `packages/frontend/dist/` committed against it | `make verify ARGS=dist` |
+| `scripts/soul-check.ts`, or anything `lib/elements.ts` reads out of a component | `make dist`, then `make verify ARGS=dist` — both ship from `dist/` |
 | a drawing in `packages/frontend/assets/diagrams/` | `make verify ARGS=diagrams` |
 | a grammar in `packages/frontend/src/lib/grammars/` | `make grammars`, then `make verify ARGS=grammars` and `make test ARGS=tests/highlight.spec.ts` |
 | a mark in `packages/frontend/assets/`, or the signet a `guides.xml` names | `make verify ARGS=marks` |
