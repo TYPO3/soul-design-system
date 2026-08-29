@@ -36,7 +36,7 @@ const STEPS: readonly Step[] = [
   { token: '--font-size-ui', size: 14 },
   { token: '--font-size-dense', size: 14, mono: true },
   { token: '--font-size-micro', size: 13, mono: true },
-  { token: '--font-size-label', size: 12, tracking: '0.09em', mono: true, sample: 'AA' },
+  { token: '--font-size-label', size: 13, tracking: '0.09em', mono: true, sample: 'AA' },
 ];
 
 const step = ({ token, size, tracking, leading, mono, sample }: Step): string => {

@@ -61,15 +61,22 @@ Scale
    :viewport: 700x245
    :title: Type scale
 
-Two steps read the same number, and that is the scale saying so. Below body
-there is room for three registers, not four: ``--font-size-ui`` and
-``--font-size-dense`` both set at 14, because what separates a button label
-from a nav item is the box around it rather than the size inside it. The
-tokens stay two names because the roles are two — a control binds to one, a
-compact row to the other, and either can move without dragging the other with
-it. What is not allowed is a fourth step wedged between them: a single pixel
-is a rasterisation difference, not a register a reader can tell apart, which
-is the same finding that took the UI step off 15.
+Steps read the same number, and that is the scale saying so. Below body there
+are two registers carrying four names: ``--font-size-ui`` and
+``--font-size-dense`` at 14, ``--font-size-micro`` and ``--font-size-label``
+at 13. What separates a button label from a nav item, or a table head from the
+meta beside it, is the box around it and the face it is set in — not the size
+inside it. Each token keeps its own name because the roles stay four: one can
+move later without dragging the other three with it.
+
+What is not allowed is a fifth step wedged between them. A single pixel is a
+rasterisation difference rather than a register a reader can tell apart, which
+is the finding that took the UI step off 15, and the same one that closed the
+run of 13, 12 and 11 this scale used to end on.
+
+**13 is the floor.** Nothing in the system is set smaller — not a table head,
+not a caption, not the closing line of a footer. A size below it is read by
+whoever already knows what it says.
 
 Titles and bodies move together
 ===============================

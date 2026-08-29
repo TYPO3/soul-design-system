@@ -9,7 +9,7 @@ it sets in Source Code Pro at every size, verbatim, and none of it is
 title-cased or prettified on the way in.
 
 .. specimen:: components/data/data.card.html
-   :viewport: 700x283
+   :viewport: 700x285
    :title: Table, badges & status
 
 .. _component-sds-table:
@@ -145,7 +145,7 @@ sds-table
    properties.
 
 .. specimen:: components/data/density.card.html
-   :viewport: 700x801
+   :viewport: 700x805
    :title: Table density
 
 .. warning::
@@ -161,7 +161,7 @@ sds-code
 A fenced block, its head and its copy button.
 
 .. specimen:: components/code/code.card.html
-   :viewport: 700x371
+   :viewport: 700x375
    :title: Code block & diff
 
 .. code-block:: html
@@ -306,7 +306,7 @@ One configuration value in a reference: the name a reader searches for, the
 facts a machine would check against, and prose that runs to whole blocks.
 
 .. specimen:: components/data/confval.card.html
-   :viewport: 700x391
+   :viewport: 700x394
    :title: Configuration values
 
 .. code-block:: html
