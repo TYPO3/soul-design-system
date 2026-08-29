@@ -21,7 +21,7 @@
   sds-note:not(:defined) {
     display: block;
     margin: 0 0 var(--space-4);
-    padding: 13px 15px;
+    padding: var(--block-pad-y) var(--block-pad-x);
     border: var(--border-hairline) solid var(--border-subtle);
     border-radius: var(--radius-card);
   }
