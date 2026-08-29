@@ -17,10 +17,10 @@
   .sds-footnote {
     --sds-footnote-gap: var(--space-2);
     --sds-footnote-measure: var(--measure-prose);
-    --sds-footnote-size: var(--font-size-ui);
+    --sds-footnote-size: var(--font-size-small);
     --sds-footnote-ink: var(--text-secondary);
     --sds-footnote-label-font: var(--font-mono);
-    --sds-footnote-label-size: 0.9em;
+    --sds-footnote-label-size: calc(1em * var(--font-modifier-mono));
     --sds-footnote-label-ink: var(--text-muted);
     --sds-footnote-label-ink-target: var(--text-accent-quiet);
 

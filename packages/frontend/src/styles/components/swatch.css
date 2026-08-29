@@ -31,9 +31,9 @@
     --sds-swatch-radius: var(--radius-control);
     --sds-swatch-edge: var(--border-subtle);
     --sds-swatch-font: var(--font-mono);
-    --sds-swatch-name-size: var(--font-size-dense);
+    --sds-swatch-name-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-swatch-name-ink: var(--text-primary);
-    --sds-swatch-value-size: var(--font-size-label);
+    --sds-swatch-value-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-swatch-value-ink: var(--text-muted);
 
     display: flex;

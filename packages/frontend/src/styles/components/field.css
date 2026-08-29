@@ -162,7 +162,7 @@
     --sds-field-hint-leading: var(--aside-leading);
     --sds-field-hint-ink: var(--text-muted);
     --sds-field-req-font: var(--font-mono);
-    --sds-field-req-size: var(--font-size-micro);
+    --sds-field-req-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-field-req-tracking: var(--tracking-label);
 
     display: flex;

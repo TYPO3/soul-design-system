@@ -69,7 +69,7 @@ body {
    This is annotation, never product text. */
 .spec-cap {
   font-family: var(--font-mono);
-  font-size: var(--font-size-label);
+  font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
   color: var(--text-muted);
   letter-spacing: 0.02em;
 }
@@ -85,7 +85,7 @@ body {
 
 /* Prose under an example. */
 .spec-note {
-  font-size: var(--font-size-dense);
+  font-size: var(--font-size-small);
   line-height: 1.45;
   color: var(--text-secondary);
 }
@@ -105,28 +105,33 @@ body {
   font-weight: var(--weight-semibold);
 }
 
-/* A section heading inside a specimen. */
+/* A section heading inside a specimen. Mono and muted, never upper case and
+   tracked out: that is what `.sds-eyebrow` draws, and a card wearing it hands
+   a reader product vocabulary that was only ever annotation. */
 .spec-h {
   font-family: var(--font-mono);
-  font-size: var(--font-size-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+  font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
 }
 
-/* The tracked-out label used over a group of swatches or samples. */
+/* The name over a group of swatches or samples, opened as the comment it is —
+   the one mark no component in this system draws, so nothing on a card can be
+   mistaken for something the system ships. */
 .spec-lbl {
   font-family: var(--font-mono);
-  font-size: var(--font-size-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
+  font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
   color: var(--text-muted);
+}
+.spec-lbl::before {
+  content: "// ";
+  color: var(--border-strong);
 }
 
 /* A thing you must not do. */
 .spec-no {
   font-family: var(--font-mono);
-  font-size: var(--font-size-label);
+  font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
   color: var(--status-error);
 }
 
@@ -154,12 +159,12 @@ body {
 }
 .spec-n {
   font-family: var(--font-mono);
-  font-size: var(--font-size-label);
+  font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
   color: var(--text-primary);
 }
 .spec-hex {
   font-family: var(--font-mono);
-  font-size: var(--font-size-label);
+  font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
   color: var(--text-muted);
 }
 

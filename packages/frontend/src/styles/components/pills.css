@@ -42,7 +42,7 @@
   .sds-pills {
     --sds-pills-gap: var(--space-1);
     --sds-pills-font: var(--font-mono);
-    --sds-pills-font-size: var(--nav-font-size);
+    --sds-pills-font-size: calc(var(--nav-font-size) * var(--font-modifier-mono));
 
     display: flex;
     flex-wrap: wrap;

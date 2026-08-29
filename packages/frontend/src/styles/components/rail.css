@@ -19,7 +19,7 @@
     --sds-rail-radius: var(--radius-control);
     --sds-rail-glyph: var(--control-icon-size);
     --sds-rail-font: var(--font-mono);
-    --sds-rail-font-size: var(--nav-font-size);
+    --sds-rail-font-size: calc(var(--nav-font-size) * var(--font-modifier-mono));
     --sds-rail-ink: var(--text-secondary);
     --sds-rail-ink-hover: var(--text-primary);
     --sds-rail-ink-quiet: var(--text-muted);
@@ -85,7 +85,7 @@
   sds-nav-rail:not(:defined) {
     --sds-rail-step: var(--border-hairline);
     --sds-rail-font: var(--font-mono);
-    --sds-rail-font-size: var(--nav-font-size);
+    --sds-rail-font-size: calc(var(--nav-font-size) * var(--font-modifier-mono));
 
     display: flex;
     flex-direction: column;

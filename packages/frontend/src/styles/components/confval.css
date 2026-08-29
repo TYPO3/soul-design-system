@@ -37,7 +37,7 @@
     --sds-confval-facts-pad-x: var(--space-3);
     --sds-confval-facts-radius: var(--radius-control);
     --sds-confval-facts-fill: var(--surface-inset);
-    --sds-confval-facts-size: var(--font-size-ui);
+    --sds-confval-facts-size: var(--font-size-small);
     --sds-confval-facts-label-ink: var(--text-secondary);
 
     max-width: var(--sds-confval-measure);

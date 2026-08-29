@@ -155,7 +155,7 @@ export const specimenHtml = (): string =>
         /* The size belongs to the row, not to the component: `sds-link` sets
            colour and hover only and takes its size from whatever it sits in,
            and here it sits among 14px controls. */
-        { divided: true, style: 'font-size:var(--font-size-ui);' },
+        { divided: true, style: 'font-size:var(--font-size-small);' },
     ),
   ]);
 

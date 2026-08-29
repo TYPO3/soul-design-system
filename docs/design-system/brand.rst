@@ -48,7 +48,7 @@ the box it is for, so every straight edge is a whole number and lands on a
 whole device pixel.
 
 .. specimen:: guidelines/brand-signet-construction.card.html
-   :viewport: 700x2221
+   :viewport: 700x2230
    :title: Signet — construction
 
 Optical sizes and their boxes

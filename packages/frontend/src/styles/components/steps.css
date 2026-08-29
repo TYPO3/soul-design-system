@@ -33,7 +33,7 @@
     /* Wider than the line it is centred on, so the number reads as a marker
        rather than as the first word of the title. */
     --sds-steps-mark-size: 24px;
-    --sds-steps-mark-text: var(--font-size-dense);
+    --sds-steps-mark-text: var(--font-size-small);
     --sds-steps-mark-weight: var(--weight-semibold);
     --sds-steps-mark-border: var(--border-hairline);
     --sds-steps-mark-radius: var(--radius-pill);

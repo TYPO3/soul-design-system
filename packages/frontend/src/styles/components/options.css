@@ -7,7 +7,7 @@
      reads as a heading for the paragraph under it. */
   .sds-options {
     --sds-options-name-font: var(--font-mono);
-    --sds-options-name-size: var(--font-mono-optical);
+    --sds-options-name-size: calc(1em * var(--font-modifier-mono));
     --sds-options-name-weight: var(--weight-regular);
     --sds-options-name-ink: var(--text-primary);
   }

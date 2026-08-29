@@ -10,8 +10,8 @@
 @layer tokens {
   :root {
     /* Buttons, fields, selects — anything you click or type in. */
-    --control-font-size: var(--font-size-ui);
-    --control-font-size-sm: var(--font-size-dense);
+    --control-font-size: var(--font-size-small);
+    --control-font-size-sm: var(--font-size-small);
     /* The one action a screen is for reads at body size — the step where a
        control stops being chrome and becomes the thing on the page. */
     --control-font-size-lg: var(--font-size-body);
@@ -57,7 +57,7 @@
     --field-pad-x-lg: var(--control-pad-x);
 
     /* Badges — mono, because a badge names a machine thing. */
-    --badge-font-size: var(--font-size-micro);
+    --badge-font-size: var(--font-size-small);
 
     /* How big a thing is drawn, which is not how far it stands from the next
        one. A sample of a colour, and the room a glyph is given in a wall of
@@ -69,14 +69,14 @@
     /* Tables. The head is a label and is sized as one, the same at every
        density; only the rows breathe. Medium and airy read at one size and
        differ in padding — the step between them is air, not type. */
-    --table-head-size: var(--font-size-label);
+    --table-head-size: var(--font-size-small);
     --table-head-tracking: 0.11em;
     --row-pad-compact: 6px;
-    --row-font-compact: var(--font-size-dense);
+    --row-font-compact: var(--font-size-small);
     --row-pad-medium: 9px;
-    --row-font-medium: var(--font-size-ui);
+    --row-font-medium: var(--font-size-small);
     --row-pad-airy: 14px;
-    --row-font-airy: var(--font-size-ui);
+    --row-font-airy: var(--font-size-small);
 
     /* A row is not a paragraph: prose leading put every row two pixels over
        the height its density is named for, and a wrapped cell opened a gap a
@@ -87,23 +87,23 @@
 
     /* Mono cells run a step below the row's sans, so a tool name and the
        prose beside it read at the same optical size. */
-    --row-name-compact: var(--font-size-micro);
+    --row-name-compact: var(--font-size-small);
     /* Colour already tells a name from what stands beside it, so the label
        register is left to labels — this cell is read, not scanned past. */
-    --row-meta-compact: var(--font-size-micro);
-    --row-name-medium: var(--font-size-dense);
-    --row-meta-medium: var(--font-size-micro);
-    --row-name-airy: var(--font-size-dense);
-    --row-meta-airy: var(--font-size-micro);
+    --row-meta-compact: var(--font-size-small);
+    --row-name-medium: var(--font-size-small);
+    --row-meta-medium: var(--font-size-small);
+    --row-name-airy: var(--font-size-small);
+    --row-meta-airy: var(--font-size-small);
 
     /* Code and diff. */
-    --diff-font-size: var(--font-size-dense);
+    --diff-font-size: var(--font-size-small);
     --diff-leading: 1.75;
     --diff-tint: 14%;
 
     /* Navigation. */
-    --nav-font-size: var(--font-size-dense);
-    --tab-font-size: var(--font-size-micro);
+    --nav-font-size: var(--font-size-small);
+    --tab-font-size: var(--font-size-small);
 
     /* Titled blocks. A block holding sentences is read, so it is set in the
        reading register wherever it stands: there is no second register for it
@@ -118,8 +118,8 @@
     /* A line *about* the thing beside it — a caption, a hint, an error, an
        attribution, the note under a value. It is not the block's body and does
        not follow it into a document: what is being read there is the block, and
-       this stays the dense line that names it. */
-    --aside-size: var(--font-size-dense);
+       this stays the small line that names it. */
+    --aside-size: var(--font-size-small);
     --aside-leading: 1.45;
     /* Seventy-four characters of that register, stated as the width it comes to
        rather than as `64ch`: `ch` is the width of the "0" in whatever element the

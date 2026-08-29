@@ -21,7 +21,7 @@
     --sds-modes-radius: var(--radius-control);
     --sds-modes-edge: var(--border-subtle);
     --sds-modes-font: var(--font-mono);
-    --sds-modes-font-size: var(--tab-font-size);
+    --sds-modes-font-size: calc(var(--tab-font-size) * var(--font-modifier-mono));
     --sds-modes-leading: var(--control-leading);
     --sds-mode-pad-x: var(--space-2);
     --sds-mode-gap: var(--space-1-5);

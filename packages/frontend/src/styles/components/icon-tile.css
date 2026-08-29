@@ -32,7 +32,7 @@
     --sds-icon-tile-fill-hover: var(--surface-raised);
     --sds-icon-tile-ink: var(--text-primary);
     --sds-icon-tile-font: var(--font-mono);
-    --sds-icon-tile-name-size: var(--font-size-label);
+    --sds-icon-tile-name-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-icon-tile-name-ink: var(--text-muted);
     --sds-icon-tile-tag-ink: var(--text-secondary);
     --sds-icon-tile-tag-fill: var(--surface-inset);

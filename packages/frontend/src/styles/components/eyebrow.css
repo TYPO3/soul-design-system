@@ -27,7 +27,7 @@
      and never read instead of it, so it keeps the register's size and ink. */
   .sds-eyebrow {
     --sds-eyebrow-font: var(--font-mono);
-    --sds-eyebrow-font-size: var(--font-size-label);
+    --sds-eyebrow-font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-eyebrow-tracking: var(--tracking-label);
     --sds-eyebrow-ink: var(--text-muted);
 

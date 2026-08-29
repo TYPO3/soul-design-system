@@ -882,10 +882,9 @@ nothing was set, so the second is the first with less in it.
    property rather than a slot a page may forget to fill, because a page that
    says nothing about itself leaves a reader to guess.
 
-   It sits under the lockup rather than in the line at the bottom, and not in
-   the micro register that line is set in: it is the one thing in a footer
-   somebody reads rather than scans, and fine print is what a page uses to be
-   forgiven for what it says.
+   It sits under the lockup rather than in the line at the bottom: it is the
+   one thing in a footer somebody reads rather than scans, and fine print is
+   what a page uses to be forgiven for what it says.
 
 .. confval:: product
    :name: sds-footer-product

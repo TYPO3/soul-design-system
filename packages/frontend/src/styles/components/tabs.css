@@ -27,7 +27,7 @@
     --sds-tabs-mark: var(--border-emphasis);
     --sds-tabs-rule: var(--border-subtle);
     --sds-tabs-font: var(--font-mono);
-    --sds-tabs-font-size: var(--tab-font-size);
+    --sds-tabs-font-size: calc(var(--tab-font-size) * var(--font-modifier-mono));
     --sds-tabs-ink: var(--text-muted);
     --sds-tabs-ink-hover: var(--text-secondary);
     --sds-tabs-ink-active: var(--text-primary);

@@ -24,7 +24,7 @@
     --sds-range-edge: var(--border-strong);
     --sds-range-thumb-fill: var(--text-primary);
     --sds-range-value-font: var(--font-mono);
-    --sds-range-value-size: var(--font-size-dense);
+    --sds-range-value-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-range-value-ink: var(--text-secondary);
     --sds-range-disabled-opacity: 0.5;
 

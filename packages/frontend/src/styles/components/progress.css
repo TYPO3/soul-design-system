@@ -43,7 +43,7 @@
     --sds-progress-caption-size: var(--control-font-size);
     --sds-progress-caption-ink: var(--text-primary);
     --sds-progress-value-font: var(--font-mono);
-    --sds-progress-value-size: var(--font-size-dense);
+    --sds-progress-value-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-progress-value-ink: var(--text-secondary);
     --sds-progress-note-size: var(--aside-size);
     --sds-progress-note-leading: var(--aside-leading);

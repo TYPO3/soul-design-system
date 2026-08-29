@@ -41,7 +41,7 @@
     border-radius: var(--radius-control);
     background: var(--surface-sunken);
     font-family: var(--font-mono);
-    font-size: var(--font-size-dense);
+    font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     line-height: var(--leading-code);
     color: var(--text-primary);
   }
@@ -78,11 +78,11 @@
     --sds-code-fill: var(--surface-sunken);
     --sds-code-glyph: var(--control-icon-size);
     --sds-code-font: var(--font-mono);
-    --sds-code-head-size: var(--font-size-label);
+    --sds-code-head-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-code-head-tracking: var(--tracking-label);
     --sds-code-head-ink: var(--text-muted);
     --sds-code-head-ink-hover: var(--text-primary);
-    --sds-code-body-size: var(--font-size-dense);
+    --sds-code-body-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-code-body-leading: var(--leading-code);
     --sds-code-body-ink: var(--text-secondary);
     --sds-code-copy-gap: var(--space-1-5);
@@ -266,7 +266,7 @@
   .sds-diff {
     --sds-diff-pad-x: var(--space-4);
     --sds-diff-font: var(--font-mono);
-    --sds-diff-font-size: var(--diff-font-size);
+    --sds-diff-font-size: calc(var(--diff-font-size) * var(--font-modifier-mono));
     --sds-diff-leading: var(--diff-leading);
     --sds-diff-tint: var(--diff-tint);
     --sds-diff-ink: var(--text-muted);

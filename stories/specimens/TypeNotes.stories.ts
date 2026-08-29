@@ -58,11 +58,11 @@ type Story = StoryObj;
 export const specimenHtml = (): string =>
   specPad(
     [
-      specCol([specLbl('IN THE TEXT'), MARK], COLUMN),
+      specCol([specLbl('in the text'), MARK], COLUMN),
       specCol(
         [
-          specCol([specLbl('AT THE FOOT'), FOOTNOTE, CITATION], COLUMN),
-          specCol([specLbl('ARRIVED AT'), ARRIVED], COLUMN),
+          specCol([specLbl('at the foot'), FOOTNOTE, CITATION], COLUMN),
+          specCol([specLbl('arrived at'), ARRIVED], COLUMN),
         ],
         'display:flex; gap:20px; align-items:flex-start;',
       ),

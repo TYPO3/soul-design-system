@@ -25,10 +25,10 @@
     --sds-footer-track: 170px;
     --sds-footer-brand-gap: var(--space-3);
     --sds-footer-mark-gap: var(--space-4);
-    --sds-footer-note-size: var(--font-size-ui);
+    --sds-footer-note-size: var(--font-size-small);
     --sds-footer-note-leading: var(--leading-body);
     --sds-footer-link-size: var(--nav-font-size);
-    --sds-footer-end-size: var(--font-size-micro);
+    --sds-footer-end-size: var(--font-size-small);
     --sds-footer-ink: var(--text-secondary);
     --sds-footer-ink-hover: var(--text-primary);
     --sds-footer-ink-quiet: var(--text-muted);
@@ -66,9 +66,10 @@
     flex-direction: column;
     gap: var(--sds-footer-brand-gap);
   }
-  /* The sentence that says what this is. Not the micro register the line below
-     is set in: it is the one thing in a footer somebody reads rather than scans,
-     and fine print is what a page uses to be forgiven for what it says. */
+  /* The sentence that says what this is: the one thing in a footer somebody
+     reads rather than scans. It sits at the top on its own measure rather than
+     in the line at the bottom, where fine print is what a page uses to be
+     forgiven for what it says. */
   .sds-footer__note {
     margin: 0;
     font-size: var(--sds-footer-note-size);
@@ -86,8 +87,8 @@
     gap: var(--sds-footer-gap) var(--sds-footer-group-gap);
   }
   /* A heading belongs to its list: nearer to the first entry than one column is
-     to the next, and near enough that the micro register above a set of links
-     reads as their name rather than as something set adrift over them. */
+     to the next, and near enough that the label over a set of links reads as
+     their name rather than as something set adrift over them. */
   .sds-footer__group {
     display: flex;
     flex-direction: column;

@@ -11,11 +11,11 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { dsCard, specLbl, specPad } from '../lib/specimen.ts';
+import { dsCard, specCap, specPad } from '../lib/specimen.ts';
 
 const NAME = 'font-family:var(--font-mono); font-size:26px; font-weight:500; letter-spacing:-0.01em;';
 const BLOCK =
-  'margin:0; font-family:var(--font-mono); font-size:var(--font-size-dense); line-height:var(--leading-code); color:var(--text-secondary); background:var(--surface-sunken); border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:12px 14px;';
+  'margin:0; font-family:var(--font-mono); font-size:var(--font-size-small); line-height:var(--leading-code); color:var(--text-secondary); background:var(--surface-sunken); border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:12px 14px;';
 
 /* Written as one string with a real newline in it: the two lines are the
    content of a `<pre>`, and anything that indents them indents the output. */
@@ -32,7 +32,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Mono & labels',
       subtitle: 'Source Code Pro carries tool names, labels and every code block',
-      viewport: '700x209',
+      viewport: '700x244',
     }),
   },
 };
@@ -44,7 +44,8 @@ export const specimenHtml = (): string =>
   specPad(
     [
       `<div style="${NAME}">typo3_icon_lookup</div>`,
-      specLbl('TOOL SURFACE · 11 px · 0.09em · uppercase'),
+      `<div class="sds-label">Tool surface</div>`,
+      specCap('.sds-label · --font-size-small · --tracking-label · uppercase'),
       block(),
     ],
     'display:flex; flex-direction:column; gap:12px;',

@@ -18,7 +18,7 @@ const MONO = 'font-family:var(--font-mono); font-size:12px;';
 
 const rail = (): string =>
   `<div style="border-right:1px solid var(--border-subtle); background:var(--surface-raised); padding:12px; display:flex; flex-direction:column; gap:7px;">
-  <span class="spec-lbl">TOOL SURFACE</span>
+  <span class="spec-lbl">tool surface</span>
   <span style="${MONO} background:var(--accent); color:var(--text-on-accent); padding:3px 7px; align-self:flex-start;">typo3_rule_lookup</span>
   <span style="${MONO} color:var(--text-secondary); padding:3px 7px;">typo3_hint_lookup</span>
 </div>`;

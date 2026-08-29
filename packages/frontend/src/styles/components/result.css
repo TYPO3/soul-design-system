@@ -69,7 +69,7 @@
     --sds-result-title-leading: var(--leading-heading);
     --sds-result-title-ink: var(--text-link);
     --sds-result-title-ink-hover: var(--text-link-hover);
-    --sds-result-meta-size: var(--font-size-micro);
+    --sds-result-meta-size: var(--font-size-small);
     --sds-result-meta-ink: var(--text-muted);
     --sds-result-font: var(--font-mono);
     --sds-result-text-size: var(--block-body-size);

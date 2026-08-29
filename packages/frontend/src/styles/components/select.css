@@ -46,7 +46,7 @@
     /* The same figure every other unavailable control is drawn at, stated here
        because a set reads from itself and never from another component's. */
     --sds-select-option-disabled-opacity: 0.5;
-    --sds-select-group-size: var(--font-size-micro);
+    --sds-select-group-size: var(--font-size-small);
     --sds-select-group-tracking: var(--tracking-label);
     --sds-select-group-ink: var(--text-muted);
     --sds-select-group-pad-y: var(--space-1-5);

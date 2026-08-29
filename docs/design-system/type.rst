@@ -33,11 +33,13 @@ Variable faces make those changes without adding another font request.
 One scale, bound by role
 ========================
 
-``tokens/typography.css`` holds every size, and ``tokens/controls.css`` binds
-component roles to it — a button is ``--font-size-ui``, a table head is
-``--font-size-label`` — without writing another value. Controls still set
-tighter than prose, but they use the same steps. A size a component needs is
-one the scale already names, or the scale is what gains it.
+``tokens/typography.css`` holds every size and nothing else: each step is
+named for the register it *is*, never for the component that reaches for it.
+``tokens/controls.css`` is where roles live — ``--control-font-size``,
+``--nav-font-size``, ``--table-head-size`` — and each binds to a step above
+without writing another value. Controls still set tighter than prose, but they
+use the same steps. A size a component needs is one the scale already names,
+or the scale is what gains it.
 
 Size tokens live under ``--font-size-*``. The ``--text-*`` namespace is
 reserved for text colour, so a token's name says whether it changes the
@@ -45,8 +47,10 @@ register or the ink before its value is read.
 
 The role is the durable decision. A literal on a button creates a second type
 scale whose relationship to prose exists only in that declaration; binding
-the button role to ``--font-size-ui`` lets the scale move without leaving a
-control behind.
+``--control-font-size`` to a step lets the scale move without leaving a
+control behind. The split also keeps the scale honest about its own length:
+when four names once stood on one value, they were four roles wearing the
+scale's clothes, and the register they shared could not be counted.
 
 Font-size tokens use whole pixels. A half-pixel step is neither a distinct
 role nor an optical correction tied to context, so it creates an unnameable
@@ -58,22 +62,23 @@ Scale
 =====
 
 .. specimen:: guidelines/type-scale.card.html
-   :viewport: 700x248
+   :viewport: 700x343
    :title: Type scale
 
-Two sizes carry text a person reads: **16 is normal and 14 is small.** There
-is nothing under them — not a table head, not a caption, not the closing line
-of a footer, not the annotation on a specimen card. A size below the small one
-is read by whoever already knows what it says.
+Two sizes carry text a person reads: ``--font-size-body`` is normal and
+``--font-size-small`` is small. There is nothing under them — not a table
+head, not a caption, not the closing line of a footer, not the annotation on a
+specimen card. A size below the small one is read by whoever already knows
+what it says.
 
-Four names sit on the small size, and the last steps of the card show them
-reading the same number. That is the scale saying what it means: what
+One step covers all of it, and that is the scale saying what it means: what
 separates a button label from a nav item, or a table head from the meta beside
-it, is the box around it and the face it is set in, never a pixel of size.
-They stay four names because the roles stay four, and one can move later
-without dragging the other three with it.
+it, is the box around it and the face it is set in, never a pixel of size. The
+roles that used to hold a step each — a control size, a compact size, a meta
+size, a label size — are names in ``controls.css`` now, where a role can be
+repointed without the scale growing a step to hold it.
 
-What is not allowed is a step wedged between 14 and 16. A single pixel is a
+What is not allowed is a step wedged between them. A single pixel is a
 rasterisation difference rather than a register a reader can tell apart — the
 finding that took the UI step off 15, and the same one that closed the run of
 13, 12 and 11 this scale used to end on.
@@ -184,14 +189,22 @@ name.
 Mono and labels
 ===============
 
-A mono run inside a sentence comes down to ``--font-mono-optical``. Every
-glyph in Source Code Pro carries the same advance, so a phrase set in it at
-the size around it reads a step larger than that size and pushes the line
-apart. The token is a ratio of its context rather than a step in the scale,
-which is what lets a 14px note and 16px body copy each get their own answer
-from one value. It is stated once, in ``tokens/fonts.css``, and every mono run
-— ``code``, ``kbd``, ``samp``, ``.sds-mono``, an option name, a formula the
-renderer left as source — reads it from there.
+**Anything set in mono is set through ``--font-modifier-mono``.** Every glyph
+in Source Code Pro carries the same advance, so a run in it at the size beside
+it reads a step larger than that size and pushes the line apart. The token is
+a bare ratio rather than a step in the scale or a length, which is what lets
+one value answer both halves of the problem: multiplied against ``1em`` it
+corrects a phrase inside a sentence — ``code``, ``kbd``, ``samp``,
+``.sds-mono``, an option name — and multiplied against a step it corrects a
+run that is set at one, as a label, a table head, a badge, a nav item or a
+block the machine wrote.
+
+It is stated once, in ``tokens/fonts.css``. A mono declaration that reaches a
+size without passing through it is the bug this rule exists for: most of the
+mono in the system once did, and every one of those surfaces drew a step
+larger than the sans it stood next to. A glyph standing alone is the exception
+— a permalink mark is a character, not a run, and its size is an optical
+choice about the mark.
 
 Inline code carries no box and no colour of its own. A tinted, bordered,
 padded chip breaks the line's rhythm at every occurrence, and a reference
@@ -209,5 +222,5 @@ inside it the block has already decided the size, the weight and the colour,
 and a whole block set in medium is one asking to be read as emphasis.
 
 .. specimen:: guidelines/type-mono.card.html
-   :viewport: 700x209
+   :viewport: 700x244
    :title: Mono & labels

@@ -19,7 +19,7 @@
     --sds-bar-nav-glyph: var(--control-icon-size);
     --sds-bar-nav-radius: var(--radius-control);
     --sds-bar-nav-font: var(--font-mono);
-    --sds-bar-nav-font-size: var(--nav-font-size);
+    --sds-bar-nav-font-size: calc(var(--nav-font-size) * var(--font-modifier-mono));
     --sds-bar-nav-ink: var(--text-secondary);
     --sds-bar-nav-ink-hover: var(--text-primary);
     --sds-bar-nav-ink-active: var(--text-on-accent);

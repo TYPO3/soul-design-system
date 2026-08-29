@@ -24,7 +24,7 @@
      caption an element renders: there the stack's gap is already that distance. */
   figure:not([class*="sds-"]) > figcaption {
     padding-block-start: var(--space-2);
-    font-size: var(--font-size-micro);
+    font-size: var(--font-size-small);
     color: var(--text-muted);
   }
   /* A caption a renderer wrote is a block, so what arrives inside it is a

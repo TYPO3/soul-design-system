@@ -208,7 +208,7 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
 --block-body-size:  var(--font-size-body);
 
 /* and the line *about* a thing is not the thing */
---aside-size: var(--font-size-dense);`}"
+--aside-size: var(--font-size-small);`}"
         copy
       ></sds-code>
 

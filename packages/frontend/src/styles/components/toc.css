@@ -66,7 +66,7 @@
      secondary ink, so a reader uses it or reads past it, and both are easier
      when it is not a paragraph. */
   .sds-toc {
-    --sds-toc-font-size: var(--font-size-ui);
+    --sds-toc-font-size: var(--font-size-small);
     --sds-toc-frame-pad: var(--space-3);
     --sds-toc-frame-line: var(--border-hairline);
     --sds-toc-frame-edge: var(--border-subtle);

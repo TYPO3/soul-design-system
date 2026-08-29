@@ -21,7 +21,7 @@
      rather than centred the way a browser sets one. */
   caption {
     margin-bottom: var(--space-2);
-    font-size: var(--font-size-micro);
+    font-size: var(--font-size-small);
     color: var(--text-muted);
     text-align: start;
   }
@@ -37,15 +37,15 @@
   .sds-table {
     --sds-table-font-size: var(--row-font-medium);
     --sds-table-pad: var(--row-pad-medium);
-    --sds-table-name-size: var(--row-name-medium);
-    --sds-table-meta-size: var(--row-meta-medium);
+    --sds-table-name-size: calc(var(--row-name-medium) * var(--font-modifier-mono));
+    --sds-table-meta-size: calc(var(--row-meta-medium) * var(--font-modifier-mono));
     --sds-table-cell-gap: var(--space-3);
     --sds-table-leading: var(--row-leading);
     --sds-table-border: var(--border-hairline);
     --sds-table-rule: var(--border-subtle);
     --sds-table-rule-head: var(--border-strong);
     --sds-table-font: var(--font-mono);
-    --sds-table-head-size: var(--table-head-size);
+    --sds-table-head-size: calc(var(--table-head-size) * var(--font-modifier-mono));
     --sds-table-head-tracking: var(--table-head-tracking);
     --sds-table-head-ink: var(--text-muted);
     --sds-table-ink: var(--text-secondary);
@@ -143,20 +143,20 @@
   .sds-table--compact {
     --sds-table-font-size: var(--row-font-compact);
     --sds-table-pad: var(--row-pad-compact);
-    --sds-table-name-size: var(--row-name-compact);
-    --sds-table-meta-size: var(--row-meta-compact);
+    --sds-table-name-size: calc(var(--row-name-compact) * var(--font-modifier-mono));
+    --sds-table-meta-size: calc(var(--row-meta-compact) * var(--font-modifier-mono));
   }
   .sds-table--medium {
     --sds-table-font-size: var(--row-font-medium);
     --sds-table-pad: var(--row-pad-medium);
-    --sds-table-name-size: var(--row-name-medium);
-    --sds-table-meta-size: var(--row-meta-medium);
+    --sds-table-name-size: calc(var(--row-name-medium) * var(--font-modifier-mono));
+    --sds-table-meta-size: calc(var(--row-meta-medium) * var(--font-modifier-mono));
   }
   .sds-table--airy {
     --sds-table-font-size: var(--row-font-airy);
     --sds-table-pad: var(--row-pad-airy);
-    --sds-table-name-size: var(--row-name-airy);
-    --sds-table-meta-size: var(--row-meta-airy);
+    --sds-table-name-size: calc(var(--row-name-airy) * var(--font-modifier-mono));
+    --sds-table-meta-size: calc(var(--row-meta-airy) * var(--font-modifier-mono));
   }
 
   /* A table waiting for its answer. The head is already there — the columns

@@ -62,9 +62,9 @@ export const specimenHtml = (): string =>
     [
       specCol(
         [
-          specCol([specLbl('BULLETS'), BULLETS], COLUMN),
-          specCol([specLbl('NUMBERS'), NUMBERS], COLUMN),
-          specCol([specLbl('LINKS'), PLAIN], COLUMN),
+          specCol([specLbl('bullets'), BULLETS], COLUMN),
+          specCol([specLbl('numbers'), NUMBERS], COLUMN),
+          specCol([specLbl('links'), PLAIN], COLUMN),
         ],
         'display:flex; gap:20px; align-items:flex-start;',
       ),

@@ -9,7 +9,7 @@
     --sds-docinfo-gap: var(--space-4);
     --sds-docinfo-step: var(--space-1);
     --sds-docinfo-below: var(--space-6);
-    --sds-docinfo-label-size: var(--font-size-ui);
+    --sds-docinfo-label-size: var(--font-size-small);
     --sds-docinfo-label-weight: var(--weight-semibold);
     --sds-docinfo-label-ink: var(--text-muted);
 

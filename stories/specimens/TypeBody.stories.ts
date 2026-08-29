@@ -39,7 +39,7 @@ export const specimenHtml = (): string =>
   specPad([
     `<div style="${LEAD}">A local MCP server in plain PHP for the three audiences that do TYPO3 work.</div>`,
     `<div style="${BODY}">Almost everything comes from the bundled knowledge files, which are bound to versions: a statement that does not hold on every covered line carries the ones it does.</div>`,
-    specCap('--font-size-lead 19 · --font-size-body 17 · --leading-body 1.65 · --measure-prose 620px', 'margin-top:12px;'),
+    specCap('--font-size-lead 19 · --font-size-body 16 · --leading-body 1.65 · --measure-prose 620px', 'margin-top:12px;'),
   ]);
 
 export const Specimen: Story = {
