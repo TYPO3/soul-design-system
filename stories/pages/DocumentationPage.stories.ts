@@ -177,7 +177,19 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
         names the source it came from and the versions it holds for.
       </p>
 
-      <h2 class="sds-h3">Install</h2>
+      <!-- What is on this page. A reference page is arrived at from a search
+           and read at one section, so the four headings are offered before the
+           first of them rather than left to be scrolled for. -->
+      <sds-nav-toc
+        .entries="${[
+          { label: 'Install', href: '#install' },
+          { label: 'Settings', href: '#settings' },
+          { label: 'Before you file an issue', href: '#trouble' },
+          { label: 'Where to go next', href: '#next' },
+        ]}"
+      ></sds-nav-toc>
+
+      <h2 class="sds-h3" id="install">Install</h2>
       <p>
         It runs as a subprocess of your client. It needs PHP 8.2 or newer and
         nothing else — no daemon, no database, and no network unless a tool asks
@@ -197,7 +209,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 
       ${SETTINGS.map((one) => sdsConfval(one))}
 
-      <h2 class="sds-h3">Before you file an issue</h2>
+      <h2 class="sds-h3" id="trouble">Before you file an issue</h2>
       <p>
         The three questions the install step raises, kept on the page it raises
         them on. Folded, because a reader who has none of them is reading the
@@ -206,7 +218,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 
       <sds-accordion name="install-questions" .entries="${TROUBLE}"></sds-accordion>
 
-      <h2 class="sds-h3">Where to go next</h2>
+      <h2 class="sds-h3" id="next">Where to go next</h2>
       <p>
         The signpost at the end of an overview, and the one place a card wall
         belongs: four ways on, read down as one block rather than compared as
