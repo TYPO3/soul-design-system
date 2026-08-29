@@ -146,6 +146,21 @@ const jsOptions: esbuild.BuildOptions = {
   plugins: [catalogue],
 };
 
+/* What the stylesheet says about itself, because it is the file an outside
+   reader finds first: 140 kB of class selectors, and nothing in it saying an
+   element emitted every one of them. Minifying strips comments, so it is put
+   back after the sheet is written. */
+const HEADER = `/* Soul, as one stylesheet: the tokens, and the sds- classes the elements draw.
+
+   These classes are what the elements render — not a second way to build one.
+   Write <sds-card heading="…">, link soul.js, and this file is what it draws
+   with; a hand-written <div class="sds-card"> is the fallback for a surface
+   that runs no JavaScript, and it cannot grow a part the element later moves.
+
+   Every tag, with what it takes, what it says and whether it holds content:
+   custom-elements.json, beside this file. */
+`;
+
 /* The stylesheets are minified and then broken back onto one rule per line.
    They are committed, and a sheet on a single line is a file two changes can
    never merge into — see the head of `lib/css.ts`. The bytes a reader pays
@@ -156,7 +171,7 @@ const perRule: esbuild.Plugin = {
     build.onEnd((result) => {
       const out = build.initialOptions.outfile;
       if (result.errors.length || !out) return;
-      writeFileSync(out, rulePerLine(readFileSync(out, 'utf8')));
+      writeFileSync(out, HEADER + rulePerLine(readFileSync(out, 'utf8')));
     });
   },
 };
