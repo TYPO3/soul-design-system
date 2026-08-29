@@ -90,6 +90,11 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-accordion__body",
+            "sds-accordion__head",
+            "sds-accordion__item"
+          ],
           "slots": [
             {
               "name": "",
@@ -178,6 +183,9 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-accordion"
+          ],
           "slots": [
             {
               "name": "",
@@ -275,6 +283,9 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-badge"
+          ],
           "slots": []
         }
       ],
@@ -311,9 +322,9 @@
           "attributes": [
             {
               "name": "variant",
-              "description": "Which of the three a press is. `primary` starts the work the view is for, `secondary` stands beside it, `ghost` belongs in a bar or a head where a filled box would be one weight too many.",
+              "description": "What kind of press it is. `primary` starts the work the view is for, `secondary` stands beside it, `ghost` belongs in a bar or a head where a filled box would be one weight too many, and `danger` is the press that cannot be undone.",
               "type": {
-                "text": "'primary' | 'secondary' | 'ghost'"
+                "text": "'primary' | 'secondary' | 'ghost' | 'danger'"
               },
               "fieldName": "variant"
             },
@@ -395,9 +406,9 @@
               "kind": "field",
               "name": "variant",
               "privacy": "public",
-              "description": "Which of the three a press is. `primary` starts the work the view is for, `secondary` stands beside it, `ghost` belongs in a bar or a head where a filled box would be one weight too many.",
+              "description": "What kind of press it is. `primary` starts the work the view is for, `secondary` stands beside it, `ghost` belongs in a bar or a head where a filled box would be one weight too many, and `danger` is the press that cannot be undone.",
               "type": {
-                "text": "'primary' | 'secondary' | 'ghost'"
+                "text": "'primary' | 'secondary' | 'ghost' | 'danger'"
               },
               "attribute": "variant"
             },
@@ -499,6 +510,12 @@
                 "text": "CustomEvent"
               }
             }
+          ],
+          "cssClasses": [
+            "sds-btn",
+            "sds-btn--icon",
+            "sds-btn__label",
+            "sds-icon"
           ],
           "slots": [
             {
@@ -651,6 +668,15 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-byline",
+            "sds-byline__mark",
+            "sds-byline__name",
+            "sds-byline__role",
+            "sds-byline__who",
+            "sds-label",
+            "sds-link"
+          ],
           "slots": []
         }
       ],
@@ -869,6 +895,20 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-card",
+            "sds-card__action",
+            "sds-card__body",
+            "sds-card__foot",
+            "sds-card__icon",
+            "sds-card__media",
+            "sds-card__media--exported",
+            "sds-card__note",
+            "sds-card__text",
+            "sds-card__title",
+            "sds-label",
+            "sds-row"
+          ],
           "slots": [
             {
               "name": "",
@@ -990,6 +1030,16 @@
                 "text": "CustomEvent"
               }
             }
+          ],
+          "cssClasses": [
+            "sds-check",
+            "sds-check__body",
+            "sds-check__hint",
+            "sds-check__label",
+            "sds-check__mark",
+            "sds-choices",
+            "sds-field-hint",
+            "sds-field-label"
           ],
           "slots": []
         }
@@ -1180,6 +1230,13 @@
               }
             }
           ],
+          "cssClasses": [
+            "sds-check",
+            "sds-check__body",
+            "sds-check__hint",
+            "sds-check__label",
+            "sds-check__mark"
+          ],
           "slots": []
         }
       ],
@@ -1308,6 +1365,20 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-code",
+            "sds-code__body",
+            "sds-code__caption",
+            "sds-code__cmd",
+            "sds-code__comment",
+            "sds-code__copied",
+            "sds-code__copy",
+            "sds-code__glyph",
+            "sds-code__head",
+            "sds-code__lang",
+            "sds-code__ok",
+            "sds-code__prompt"
+          ],
           "slots": [
             {
               "name": "",
@@ -1468,6 +1539,17 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-confval",
+            "sds-confval__body",
+            "sds-confval__detail",
+            "sds-confval__facts",
+            "sds-confval__mark",
+            "sds-confval__name",
+            "sds-confval__term",
+            "sds-label",
+            "sds-mono"
+          ],
           "slots": [
             {
               "name": "",
@@ -1592,6 +1674,16 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-btn",
+            "sds-btn--ghost",
+            "sds-btn--icon",
+            "sds-btn--sm",
+            "sds-modal",
+            "sds-modal__body",
+            "sds-modal__foot",
+            "sds-modal__head"
+          ],
           "slots": []
         }
       ],
@@ -1675,6 +1767,14 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-code",
+            "sds-code__head",
+            "sds-code__path",
+            "sds-diff",
+            "sds-diff__line",
+            "sds-diff__mark"
+          ],
           "slots": []
         }
       ],
@@ -1854,6 +1954,13 @@
                 "text": "CustomEvent"
               }
             }
+          ],
+          "cssClasses": [
+            "sds-dropdown",
+            "sds-dropdown__button",
+            "sds-dropdown__item",
+            "sds-dropdown__marker",
+            "sds-dropdown__panel"
           ],
           "slots": []
         }
@@ -2037,6 +2144,13 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-embed",
+            "sds-embed__caption",
+            "sds-embed__frame",
+            "sds-embed__frame--fixed",
+            "sds-embed__frame--fluid"
+          ],
           "slots": [
             {
               "name": "",
@@ -2098,6 +2212,9 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-eyebrow"
+          ],
           "slots": []
         }
       ],
@@ -2154,6 +2271,9 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-field-error"
+          ],
           "slots": []
         }
       ],
@@ -2190,6 +2310,9 @@
           "attributes": [],
           "members": [],
           "events": [],
+          "cssClasses": [
+            "sds-field-group"
+          ],
           "slots": [
             {
               "name": "",
@@ -2708,6 +2831,10 @@
               }
             }
           ],
+          "cssClasses": [
+            "sds-field__affix",
+            "sds-input"
+          ],
           "slots": []
         }
       ],
@@ -2854,6 +2981,12 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-figure",
+            "sds-figure__caption",
+            "sds-figure__frame",
+            "sds-figure__frame--exported"
+          ],
           "slots": [
             {
               "name": "",
@@ -3084,6 +3217,9 @@
               }
             }
           ],
+          "cssClasses": [
+            "sds-file"
+          ],
           "slots": []
         }
       ],
@@ -3257,6 +3393,26 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-footer",
+            "sds-footer__brand",
+            "sds-footer__end",
+            "sds-footer__group",
+            "sds-footer__groups",
+            "sds-footer__heading",
+            "sds-footer__links",
+            "sds-footer__marks",
+            "sds-footer__note",
+            "sds-footer__top",
+            "sds-label",
+            "sds-lockup",
+            "sds-mono",
+            "sds-signet",
+            "sds-wordmark",
+            "sds-wordmark__brand",
+            "sds-wordmark__pipe",
+            "sds-wordmark__product"
+          ],
           "slots": []
         }
       ],
@@ -3340,6 +3496,11 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-form-errors",
+            "sds-form-errors__list",
+            "sds-link"
+          ],
           "slots": []
         }
       ],
@@ -3396,6 +3557,12 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-grid",
+            "sds-grid--dense",
+            "sds-grid--flush",
+            "sds-grid--wide"
+          ],
           "slots": [
             {
               "name": "",
@@ -3511,6 +3678,12 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-icon-tile",
+            "sds-icon-tile__art",
+            "sds-icon-tile__name",
+            "sds-icon-tile__tag"
+          ],
           "slots": []
         }
       ],
@@ -3603,6 +3776,9 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-icon"
+          ],
           "slots": []
         }
       ],
@@ -3749,6 +3925,9 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-art"
+          ],
           "slots": []
         }
       ],
@@ -3859,6 +4038,16 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-btn",
+            "sds-btn--ghost",
+            "sds-btn--icon",
+            "sds-btn--sm",
+            "sds-lightbox",
+            "sds-lightbox__art",
+            "sds-lightbox__art--exported",
+            "sds-modal__head"
+          ],
           "slots": []
         }
       ],
@@ -3987,6 +4176,11 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-link",
+            "sds-link--bare",
+            "sds-link--external"
+          ],
           "slots": []
         }
       ],
@@ -4088,6 +4282,12 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-modal",
+            "sds-modal__body",
+            "sds-modal__foot",
+            "sds-modal__head"
+          ],
           "slots": []
         }
       ],
@@ -4153,6 +4353,11 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-crumbs",
+            "sds-crumbs__here",
+            "sds-crumbs__sep"
+          ],
           "slots": []
         }
       ],
@@ -4387,6 +4592,28 @@
               }
             }
           ],
+          "cssClasses": [
+            "sds-bar",
+            "sds-bar__back",
+            "sds-bar__drawer",
+            "sds-bar__end",
+            "sds-bar__fold",
+            "sds-bar__into",
+            "sds-bar__lang",
+            "sds-bar__level",
+            "sds-bar__link",
+            "sds-bar__nav",
+            "sds-bar__panel",
+            "sds-bar__row",
+            "sds-bar__section",
+            "sds-bar__section--drop",
+            "sds-bar__toggle",
+            "sds-mode__label",
+            "sds-pill",
+            "sds-rail__group",
+            "sds-rail__item",
+            "sds-search"
+          ],
           "slots": [
             {
               "name": "",
@@ -4520,6 +4747,10 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-pager",
+            "sds-pager__next"
+          ],
           "slots": []
         }
       ],
@@ -4655,6 +4886,13 @@
               }
             }
           ],
+          "cssClasses": [
+            "sds-pagination",
+            "sds-pagination__count",
+            "sds-pagination__gap",
+            "sds-pagination__page",
+            "sds-pagination__step"
+          ],
           "slots": []
         }
       ],
@@ -4691,6 +4929,10 @@
           "attributes": [],
           "members": [],
           "events": [],
+          "cssClasses": [
+            "sds-pill",
+            "sds-pills"
+          ],
           "slots": []
         }
       ],
@@ -4743,6 +4985,15 @@
                 "text": "CustomEvent"
               }
             }
+          ],
+          "cssClasses": [
+            "sds-label",
+            "sds-rail",
+            "sds-rail__fold",
+            "sds-rail__group",
+            "sds-rail__heading",
+            "sds-rail__item",
+            "sds-rail__label"
           ],
           "slots": [
             {
@@ -4814,6 +5065,12 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-label",
+            "sds-toc",
+            "sds-toc__item",
+            "sds-toc__list"
+          ],
           "slots": []
         }
       ],
@@ -4942,6 +5199,13 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-note",
+            "sds-note__body",
+            "sds-note__content",
+            "sds-note__icon",
+            "sds-note__title"
+          ],
           "slots": [
             {
               "name": "",
@@ -4983,6 +5247,9 @@
           "attributes": [],
           "members": [],
           "events": [],
+          "cssClasses": [
+            "sds-overlay"
+          ],
           "slots": []
         }
       ],
@@ -5183,6 +5450,17 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-progress",
+            "sds-progress--pulsing",
+            "sds-progress--small",
+            "sds-progress__caption",
+            "sds-progress__fill",
+            "sds-progress__head",
+            "sds-progress__note",
+            "sds-progress__track",
+            "sds-progress__value"
+          ],
           "slots": [
             {
               "name": "",
@@ -5334,6 +5612,11 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-quote",
+            "sds-quote__body",
+            "sds-quote__by"
+          ],
           "slots": [
             {
               "name": "",
@@ -5482,6 +5765,17 @@
                 "text": "CustomEvent"
               }
             }
+          ],
+          "cssClasses": [
+            "sds-check",
+            "sds-check__body",
+            "sds-check__hint",
+            "sds-check__label",
+            "sds-check__mark",
+            "sds-choices",
+            "sds-field-hint",
+            "sds-field-label",
+            "sds-field-req"
           ],
           "slots": []
         }
@@ -5726,6 +6020,16 @@
               }
             }
           ],
+          "cssClasses": [
+            "sds-field-hint",
+            "sds-field-label",
+            "sds-field-row",
+            "sds-input",
+            "sds-range",
+            "sds-range__head",
+            "sds-range__slider",
+            "sds-range__value"
+          ],
           "slots": []
         }
       ],
@@ -5809,6 +6113,11 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-hits",
+            "sds-hits__empty",
+            "sds-surface-title"
+          ],
           "slots": []
         }
       ],
@@ -6009,6 +6318,18 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-mark",
+            "sds-result",
+            "sds-result__body",
+            "sds-result__meta",
+            "sds-result__path",
+            "sds-result__text",
+            "sds-result__thumb",
+            "sds-result__thumb--exported",
+            "sds-result__title",
+            "sds-row"
+          ],
           "slots": []
         }
       ],
@@ -6101,6 +6422,12 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-field",
+            "sds-input",
+            "sds-search",
+            "sds-search__panel"
+          ],
           "slots": []
         }
       ],
@@ -6425,6 +6752,18 @@
               }
             }
           ],
+          "cssClasses": [
+            "sds-input",
+            "sds-select",
+            "sds-select__button",
+            "sds-select__group",
+            "sds-select__list",
+            "sds-select__mark",
+            "sds-select__native",
+            "sds-select__option",
+            "sds-select__tick",
+            "sds-select__value"
+          ],
           "slots": []
         }
       ],
@@ -6571,6 +6910,14 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-label",
+            "sds-stat",
+            "sds-stat__icon",
+            "sds-stat__note",
+            "sds-stat__unit",
+            "sds-stat__value"
+          ],
           "slots": [
             {
               "name": "",
@@ -6668,6 +7015,12 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-label",
+            "sds-steps__step",
+            "sds-steps__step--optional",
+            "sds-steps__title"
+          ],
           "slots": [
             {
               "name": "",
@@ -6719,6 +7072,9 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-steps"
+          ],
           "slots": [
             {
               "name": "",
@@ -6870,6 +7226,15 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-label",
+            "sds-panel",
+            "sds-plane",
+            "sds-sunken",
+            "sds-surface-body",
+            "sds-surface-icon",
+            "sds-surface-title"
+          ],
           "slots": [
             {
               "name": "",
@@ -6985,6 +7350,14 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-swatch",
+            "sds-swatch--line",
+            "sds-swatch__body",
+            "sds-swatch__chip",
+            "sds-swatch__name",
+            "sds-swatch__value"
+          ],
           "slots": []
         }
       ],
@@ -7138,6 +7511,13 @@
               }
             }
           ],
+          "cssClasses": [
+            "sds-switch",
+            "sds-switch__body",
+            "sds-switch__hint",
+            "sds-switch__label",
+            "sds-switch__track"
+          ],
           "slots": []
         }
       ],
@@ -7230,6 +7610,9 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-tab__panel"
+          ],
           "slots": [
             {
               "name": "",
@@ -7381,6 +7764,13 @@
             }
           ],
           "events": [],
+          "cssClasses": [
+            "sds-skeleton",
+            "sds-table",
+            "sds-table--loading",
+            "sds-table-scroll",
+            "sds-td-note"
+          ],
           "slots": [
             {
               "name": "",
@@ -7475,6 +7865,10 @@
                 "text": "CustomEvent"
               }
             }
+          ],
+          "cssClasses": [
+            "sds-tab",
+            "sds-tabs"
           ],
           "slots": [
             {
@@ -7868,6 +8262,10 @@
               }
             }
           ],
+          "cssClasses": [
+            "sds-field--multi",
+            "sds-input"
+          ],
           "slots": []
         }
       ],
@@ -7948,6 +8346,11 @@
                 "text": "CustomEvent"
               }
             }
+          ],
+          "cssClasses": [
+            "sds-mode",
+            "sds-mode__label",
+            "sds-modes"
           ],
           "slots": []
         }

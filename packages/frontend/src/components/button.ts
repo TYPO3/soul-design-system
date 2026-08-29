@@ -13,13 +13,14 @@ import { html, type TemplateResult } from 'lit';
 import './icon.ts';
 import { define, isBlank, SdsElement } from '../lib/element.ts';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 export type ButtonSize = 'md' | 'sm' | 'lg';
 
 export interface ButtonProps {
-  /** Which of the three a press is. `primary` starts the work the view is
-      for, `secondary` stands beside it, `ghost` belongs in a bar or a head
-      where a filled box would be one weight too many. */
+  /** What kind of press it is. `primary` starts the work the view is for,
+      `secondary` stands beside it, `ghost` belongs in a bar or a head where a
+      filled box would be one weight too many, and `danger` is the press that
+      cannot be undone. */
   variant?: ButtonVariant;
   /** `sm` for a control inside another surface, `lg` for the one action a
       screen is for — a landing's single call, never a row of them. */

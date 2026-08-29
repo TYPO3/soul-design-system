@@ -76,6 +76,11 @@
     /* Accent — one colour, used sparingly. */
     --accent: #ff8700;
     --accent-hover: light-dark(#e67a00, #ffa338);
+    /* The press: one step further along the way the hover already went, deeper
+       on paper and brighter on the terminal. A press that returns to the
+       resting colour reads as the pointer leaving rather than as the button
+       taking it. */
+    --accent-active: light-dark(#cc6d00, #ffb866);
     --accent-ring: light-dark(rgba(255, 135, 0, 0.35), rgba(255, 135, 0, 0.45));
     /* The accent as light rather than as ink: what a hairline is lit with where
        a surface answers a pointer. Carried at part strength so the frame it

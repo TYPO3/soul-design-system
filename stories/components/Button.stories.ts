@@ -54,7 +54,7 @@ const meta: Meta<ButtonArgs> = {
   excludeStories: ['specimenHtml'],
   render: (args) => sdsButton(args),
   argTypes: {
-    variant: { control: 'inline-radio', options: ['primary', 'secondary', 'ghost'] },
+    variant: { control: 'inline-radio', options: ['primary', 'secondary', 'ghost', 'danger'] },
     size: { control: 'inline-radio', options: ['md', 'sm', 'lg'] },
     label: { control: 'text' },
     icon: { control: 'select', options: [undefined, 'actions-play', 'actions-duplicate', 'actions-refresh', 'actions-close', 'actions-cog'] },
@@ -67,7 +67,7 @@ const meta: Meta<ButtonArgs> = {
       path: 'components/core/buttons.card.html',
       name: 'Buttons & links',
       subtitle: 'One primary per view — the action that starts work',
-      viewport: '700x319',
+      viewport: '700x371',
     }),
   },
 };
@@ -79,6 +79,13 @@ type Story = StoryObj<ButtonArgs>;
 export const Primary: Story = { args: { variant: 'primary', size: 'md', label: 'Run the checks', icon: 'actions-play', disabled: false } };
 export const Secondary: Story = { args: { variant: 'secondary', size: 'md', label: 'Copy', icon: 'actions-duplicate', disabled: false } };
 export const Ghost: Story = { args: { variant: 'ghost', size: 'md', label: 'Cancel', disabled: false } };
+
+/** The press that cannot be undone. It is the one control in the system that
+    carries a status colour, and it carries it as ink and a hairline rather than
+    as a fill — a filled red button outranks the accent, which is the one thing
+    on a page allowed to do that. The label names what goes, so the consequence
+    is readable by somebody who cannot tell the tones apart. */
+export const Danger: Story = { args: { variant: 'danger', size: 'md', label: 'Delete the branch', icon: 'actions-delete', disabled: false } };
 
 /** Disabled is the real attribute, so the pointer, the keyboard and anything
     reading the page all agree it cannot be pressed. */
@@ -119,6 +126,10 @@ export const specimenHtml = (): string =>
       specRow(
         [Primary, Secondary, Ghost, Disabled].map((s) => part(staticButton(s.args as ButtonArgs))),
         'PRIMARY · SECONDARY · GHOST · DISABLED',
+      ),
+      specRow(
+        [Ghost, Danger].map((s) => part(staticButton(s.args as ButtonArgs))),
+        'DANGER LAST, THE WAY OUT BEFORE IT · THE LABEL NAMES WHAT GOES',
       ),
       specRow(
         [

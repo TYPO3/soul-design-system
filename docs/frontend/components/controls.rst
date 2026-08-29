@@ -9,7 +9,7 @@ everything here appears in a bar or a row of actions, and everything here is a
 real ``<button>`` or ``<a>`` underneath.
 
 .. specimen:: components/core/buttons.card.html
-   :viewport: 700x319
+   :viewport: 700x371
    :title: Buttons & links
 
 .. _component-sds-button:
@@ -32,12 +32,16 @@ a name in mono, a count, or a glyph — none of which fits in a string.
 
 .. confval:: variant
    :name: sds-button-variant
-   :type: "primary" | "secondary" | "ghost"
+   :type: "primary" | "secondary" | "ghost" | "danger"
    :default: "primary"
 
    ``primary`` is the action that starts work, ``secondary`` stands beside it,
    ``ghost`` is the one that belongs in a bar or a head where a filled box
-   would be the loudest thing on the surface.
+   would be the loudest thing on the surface. ``danger`` is the press that
+   cannot be undone: status colour as ink and a hairline, never a fill, and a
+   label that names what goes. It stands last, after the way out — see
+   :doc:`/design-system/colours` for why it is the one control that carries a
+   status colour.
 
 .. confval:: size
    :name: sds-button-size

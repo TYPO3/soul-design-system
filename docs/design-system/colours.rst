@@ -171,6 +171,14 @@ output, badges, result rows and status-about diagrams. **Never as page
 furniture.** A status colour on a heading or a border means the page is
 telling you something is wrong when nothing is.
 
+One control is the exception, and it is written here so that it stays one: the
+press that cannot be undone. ``sds-btn--danger`` carries ``--status-error`` as
+ink and as a hairline and takes a fill only under the pointer, because a filled
+red button outranks ``--accent`` — the one thing on a page allowed to do that.
+The colour marks the press; it does not explain it. The label names what goes —
+"Delete 3 pages", never "OK" — and the question above it says what that costs,
+so a reader who cannot tell the tones apart still reads the consequence.
+
 .. specimen:: guidelines/colors-status.card.html
    :viewport: 700x217
    :title: Status and syntax

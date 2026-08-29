@@ -125,7 +125,7 @@ A container must not share its corner with its contents — that is why the card
 
 **Table density.** Compact (30px rows, 13px type) when the list *is* the work: the full tool table, label lists, changelogs. Airy (48px rows, 14px type) when the rows are read rather than scanned: three worked tools, prose-adjacent reference. Medium (38px) if one density must serve both. Never zebra stripes — background changes only on hover or selection, so a highlighted row means something.
 
-**Status colour** (`--status-ok`, `--status-warn`, `--status-error`) appears only inside code output, badges, result rows and status-about diagrams. Never as page furniture.
+**Status colour** (`--status-ok`, `--status-warn`, `--status-error`) appears only inside code output, badges, result rows and status-about diagrams. Never as page furniture. One exception, and it is the whole of it: the press that cannot be undone takes `--status-error` as ink and a hairline, never as a fill, and its label names what goes rather than saying "OK".
 
 **A card is a hairline and 6px, no fill.** A panel is a raised fill. Sunken is machine output.
 
@@ -150,6 +150,7 @@ A design value is written exactly. An inventory is not copied into prose: name t
 An answer always carries its source, its version binding and what it leaves out. The UI states exist to carry exactly that.
 
 - **Focus** — an outline `--border-emphasis` wide in `--accent` at `--focus-offset`, plus a `--focus-halo` of `--accent-ring`. Never a number of your own: a surface that turns the ring inwards or drops the halo says so with those tokens. Always `:focus-visible`, never `:focus`.
+- **Pointer and press** — hover changes colour, border or fill and never a size. A press takes the same three a step further — `--accent-active` under a filled control, the sunken plane under one with no fill at rest. Nothing scales, bounces or moves under the finger.
 - **Loading** — nothing under 200ms. Over 2s the label says *why*: "booting the installation", "reading packages instead", "searching docs.typo3.org". Skeletons only where the shape is known — a table has one, so `<sds-table loading>` draws them itself. Where the work reports how far it has got, that is `sds-progress` — the share as a length with the position beside it as a number, its ink mixed from that same distance and arriving at `--status-ok` as the run does, never through amber or red on the way; `pulsing` draws a hatch travelling through the fill — work is happening right now, which is what a bar standing still cannot say and what tells a slow run from a stalled one. Where the work reports nothing at all, a spinner, which claims no distance.
 - **Empty / not found** — never "no results". Name the source asked, say it answered, say what it does not cover, offer the nearest real thing. A deliberate boundary gets `actions-info-circle`, not an error colour.
 - **Warning** — a degraded but usable answer: what was reached, what was read instead, what that leaves out, and the command that fixes it.

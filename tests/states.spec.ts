@@ -20,6 +20,7 @@ const PAGE = `<!doctype html>
   <sds-button label="Primary" variant="primary" id="primary"></sds-button>
   <sds-button label="Secondary" variant="secondary" id="secondary"></sds-button>
   <sds-button label="Ghost" variant="ghost" id="ghost"></sds-button>
+  <sds-button label="Delete the branch" variant="danger" id="danger"></sds-button>
   <sds-dropdown label="Language" name="Language" id="trigger"></sds-dropdown>
   <script type="module">
     document.querySelector('#trigger').choices = [{ label: 'English', href: '#en', lang: 'en' }];
@@ -27,7 +28,8 @@ const PAGE = `<!doctype html>
 </body>
 </html>`;
 
-const CONTROLS = ['#primary button', '#secondary button', '#ghost button', '#trigger .sds-dropdown__button'];
+const BUTTONS = ['#primary button', '#secondary button', '#ghost button', '#danger button'];
+const CONTROLS = [...BUTTONS, '#trigger .sds-dropdown__button'];
 
 test.beforeEach(async ({ page }) => {
   await page.route('**/hover.html', (route) => route.fulfill({ contentType: 'text/html', body: PAGE }));
@@ -81,6 +83,41 @@ test('the pointer changes the fill, and leaves the ink that has to stay', async 
      page's is what made it unreadable. */
   expect(inkOver).toBe(ink);
   expect(await at.evaluate(() => getComputedStyle(document.body).color)).not.toBe(inkOver);
+});
+
+/* The press is the state nothing in this tree can hold still: a card is never
+   pressed, so three properties that compute to nothing would be wrong only
+   under a finger. Read while the button is held, which is the one place it
+   exists — and the box is read there too, because the rule that a state moves
+   nothing does not stop at the pointer. */
+test('the press answers, moves nothing, and resolves every colour', async ({ page }) => {
+  const fill = (el: Element) => getComputedStyle(el).backgroundColor;
+  for (const control of BUTTONS) {
+    const at = page.locator(control);
+    await at.hover();
+    await page.waitForTimeout(400);
+    const hovered = await at.evaluate(fill);
+    const before = await at.boundingBox();
+
+    await page.mouse.down();
+    await page.waitForTimeout(400);
+    const pressed = await at.evaluate(fill);
+    const after = await at.boundingBox();
+    const values = await at.evaluate((el) => {
+      const style = getComputedStyle(el);
+      return ['--sds-btn-ink-active', '--sds-btn-fill-active', '--sds-btn-edge-active'].map(
+        (name) => [name, style.getPropertyValue(name).trim()] as const,
+      );
+    });
+    await page.mouse.up();
+
+    for (const [name, value] of values) {
+      expect(value, `${control} left ${name} unresolved under the press`).not.toBe('');
+    }
+    expect(pressed, `${control} did not answer the press`).not.toBe(hovered);
+    expect(after!.width, `${control} widened under the press`).toBeCloseTo(before!.width, 1);
+    expect(after!.height, `${control} grew under the press`).toBeCloseTo(before!.height, 1);
+  }
 });
 
 /* Waiting is a state too, and two of its rules are ones no card can show: a

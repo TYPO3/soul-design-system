@@ -1,4 +1,4 @@
-/* sds-button — the three variants, the three heights.
+/* sds-button — the variants and the heights.
 
    Everything a button is, it is through a property of its own: the set is
    derived once at the top from the control tokens, and every declaration
@@ -29,13 +29,17 @@
     --sds-btn-leading: var(--control-leading);
     /* The glyph, where the button is one. */
     --sds-btn-glyph: var(--control-icon-size);
-    /* The three colours, at rest and under the pointer. */
+    /* The three colours, at rest, under the pointer and under the press. The
+       press follows the pointer unless a variant says otherwise. */
     --sds-btn-ink: var(--text-secondary);
     --sds-btn-fill: transparent;
     --sds-btn-edge: transparent;
     --sds-btn-ink-hover: var(--sds-btn-ink);
     --sds-btn-fill-hover: var(--sds-btn-fill);
     --sds-btn-edge-hover: var(--sds-btn-edge);
+    --sds-btn-ink-active: var(--sds-btn-ink-hover);
+    --sds-btn-fill-active: var(--sds-btn-fill-hover);
+    --sds-btn-edge-active: var(--sds-btn-edge-hover);
     /* What it does while it changes, and what it says once it cannot. */
     --sds-btn-duration: var(--duration-fast);
     --sds-btn-ease: var(--ease-out);
@@ -72,6 +76,16 @@
       color: var(--sds-btn-ink-hover);
     }
 
+    /* And the press, written after the pointer because a pressed button is a
+       hovered one and the later rule of equal weight is the one that draws.
+       Nothing moves: the finger gets a colour, the same as everything else
+       here, and a card can show neither. */
+    &:active {
+      border-color: var(--sds-btn-edge-active);
+      background: var(--sds-btn-fill-active);
+      color: var(--sds-btn-ink-active);
+    }
+
     &:disabled,
     &.is-disabled {
       opacity: var(--sds-btn-disabled-opacity);
@@ -92,6 +106,7 @@
     --sds-btn-ink: var(--text-on-accent);
     --sds-btn-fill: var(--accent);
     --sds-btn-fill-hover: var(--accent-hover);
+    --sds-btn-fill-active: var(--accent-active);
   }
 
   .sds-btn--secondary {
@@ -99,11 +114,27 @@
     --sds-btn-edge: var(--border-strong);
     --sds-btn-fill-hover: var(--surface-raised);
     --sds-btn-edge-hover: var(--text-muted);
+    --sds-btn-fill-active: var(--surface-sunken);
   }
 
   .sds-btn--ghost {
     --sds-btn-ink: var(--text-secondary);
     --sds-btn-ink-hover: var(--text-primary);
+    /* The one variant with no box of its own, so the press is the only moment
+       it has a ground at all — without it a ghost answers a finger with
+       nothing until the work lands. */
+    --sds-btn-fill-active: var(--surface-sunken);
+  }
+
+  /* The press that cannot be undone. Status colour as ink and a hairline and
+     never as a fill: a filled red button outranks the accent, and the accent is
+     the one thing on a page allowed to do that. The colour marks the press; the
+     label is what says what goes. */
+  .sds-btn--danger {
+    --sds-btn-ink: var(--status-error);
+    --sds-btn-edge: color-mix(in oklch, var(--status-error) 45%, transparent);
+    --sds-btn-fill-hover: color-mix(in oklch, var(--status-error) 12%, transparent);
+    --sds-btn-fill-active: color-mix(in oklch, var(--status-error) 20%, transparent);
   }
 
   .sds-btn--sm {

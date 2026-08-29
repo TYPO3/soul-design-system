@@ -17,6 +17,19 @@ const ACTIONS = [
   html`<sds-button variant="primary" size="sm">Publish</sds-button>`,
 ];
 
+/* The way out first, the press that cannot be undone last, and the label says
+   what goes rather than "OK": a reader who cannot tell the tones apart still
+   reads the consequence off the button. */
+const DESTRUCTIVE = [
+  html`<sds-button variant="ghost" size="sm">Cancel</sds-button>`,
+  html`<sds-button variant="danger" size="sm">Delete 3 pages</sds-button>`,
+];
+
+/* The button beside the dialog opens the one under it. Written once because
+   both stories are the same gesture. */
+const opens = (e: Event): void =>
+  (e.currentTarget as HTMLElement).parentElement?.querySelector<SdsDialog>('sds-dialog')?.show() ?? undefined;
+
 const meta: Meta<DialogProps> = {
   title: 'Components/Dialog',
   tags: ['autodocs', '!dev'],
@@ -29,11 +42,7 @@ const meta: Meta<DialogProps> = {
     width: 330,
   },
   render: ({ heading, width }) => html`
-    <sds-button
-      variant="primary"
-      @click="${(e: Event) =>
-        (e.currentTarget as HTMLElement).parentElement?.querySelector<SdsDialog>('sds-dialog')?.show()}"
-    >Publish…</sds-button>
+    <sds-button variant="primary" @click="${opens}">Publish…</sds-button>
     <sds-dialog
       heading="${heading}"
       width="${width ?? 330}"
@@ -49,6 +58,23 @@ type Story = StoryObj<DialogProps>;
 /** Click the button: the page behind goes inert, the focus moves in, and
     Escape closes it — none of which is written here. */
 export const Default: Story = {};
+
+/** The surface the danger button belongs to. The dialog carries the weight:
+    the question names what goes and the body says what that costs, so the
+    colour marks the press without having to explain it. A confirmation that
+    only turns a button red has told the reader nothing they can act on. */
+export const Destructive: Story = {
+  args: { heading: 'Delete the Documentation section?', width: 360 },
+  render: ({ heading, width }) => html`
+    <sds-button variant="secondary" @click="${opens}">Delete…</sds-button>
+    <sds-dialog
+      heading="${heading}"
+      width="${width ?? 360}"
+      .body="${html`Three pages and everything published under them go. Nothing puts them back.`}"
+      .actions="${DESTRUCTIVE}"
+    ></sds-dialog>
+  `,
+};
 
 /* No story that opens on load. A dialog that is already open when a page is
    opened is a dialog nobody asked for — it takes the focus, it makes

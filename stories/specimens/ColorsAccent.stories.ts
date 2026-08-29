@@ -1,9 +1,9 @@
-/* The accent, and the three values around it.
+/* The accent, and the values around it.
 
    One accent, and the card exists to say how narrow that is: TYPO3 orange
    marks the active nav item, the shell prompt and the wordmark pipe, and
-   nothing else. The other three are what the accent becomes where it cannot
-   be itself — hovered, set as text on paper, or reduced to a hairline. */
+   nothing else. The others are what the accent becomes where it cannot be
+   itself — hovered, pressed, set as text on paper, or reduced to a hairline. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -23,6 +23,7 @@ interface Column {
 const COLUMNS: readonly Column[] = [
   { paint: 'var(--accent)', name: '--accent', hex: '#FF8700' },
   { paint: 'var(--accent-hover)', name: '--accent-hover', hex: '#FFA338' },
+  { paint: 'var(--accent-active)', name: '--accent-active', hex: '#FFB866' },
   /* Literal, and deliberately: this is the link colour on paper, and the card
      is dark. A token here would draw the dark value and name the light one. */
   { paint: '#B35A00', name: '--text-link (light)', hex: '#B35A00' },
