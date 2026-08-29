@@ -12,11 +12,13 @@
     --font-size-lead: 19px;
     --font-size-body: 16px;
     /* A control runs tighter than the paragraph beside it, and at 15 it no
-       longer did: one pixel is not a register. */
+       longer did: one pixel is not a register. `dense` sits on the same value
+       for that reason — three registers below body, not four; what separates a
+       nav item from a button label is the box, not the size. */
     --font-size-ui: 14px;
-    --font-size-dense: 13px;
-    --font-size-micro: 12px;
-    --font-size-label: 11px;
+    --font-size-dense: 14px;
+    --font-size-micro: 13px;
+    --font-size-label: 12px;
 
     --leading-display: 1.08;
     --leading-heading: 1.2;

@@ -187,7 +187,7 @@ out. Every state in Guidelines → States exists to carry exactly that.
 The tool reference
 ------------------
 
-The full tool surface at compact density — 30px rows, 13px type, because here
+The full tool surface at compact density — 30px rows, 14px type, because here
 the list *is* the work and scanning beats reading.
 
 .. specimen:: screens/tool-reference.html

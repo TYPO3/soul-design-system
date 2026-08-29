@@ -46,7 +46,7 @@ Rules
   status.
 - **An icon is as big as the text it sits in.** That is the default and it
   needs no asking: ``<sds-icon>`` and ``class="sds-icon"`` are both ``1em``,
-  so a glyph in a 13px label is 13px and one in body copy is 16px, and
+  so a glyph in a 12px label is 12px and one in body copy is 16px, and
   neither is a number anybody had to choose.
 - A number is for a glyph standing on its own — an empty state, a mark beside
   nothing. Then: 16, 20, 24 or a whole multiple. **Never 18 or 22.** 16 is

@@ -2,7 +2,7 @@
 
    Ten steps and nothing between them: a size that is not on this list is a
    size somebody picked. The sans steps carry the heading tracking that goes
-   with them, and the last three are mono, because below the UI size
+   with them, and the last three are mono, because from the UI size down
    everything in this system is machine text.
 
    Read as a list rather than as a paragraph, so the specimen states each step
@@ -17,10 +17,6 @@ interface Step {
   token: string;
   /** What the caption states — the token's value in px. */
   size: number;
-  /** What the sample is drawn at, where it differs from the step: the two
-      mono steps are shown a pixel up so the letterforms stay legible at this
-      card's size. */
-  drawn?: number;
   tracking?: string;
   /** The display and h1 steps set their own leading, or the row's baseline
       alignment pulls the sample off the line it shares with its caption. */
@@ -38,15 +34,15 @@ const STEPS: readonly Step[] = [
   { token: '--font-size-lead', size: 19 },
   { token: '--font-size-body', size: 16 },
   { token: '--font-size-ui', size: 14 },
-  { token: '--font-size-dense', size: 13, drawn: 14, mono: true },
-  { token: '--font-size-micro', size: 12, mono: true },
-  { token: '--font-size-label', size: 11, tracking: '0.09em', mono: true, sample: 'AA' },
+  { token: '--font-size-dense', size: 14, mono: true },
+  { token: '--font-size-micro', size: 13, mono: true },
+  { token: '--font-size-label', size: 12, tracking: '0.09em', mono: true, sample: 'AA' },
 ];
 
-const step = ({ token, size, drawn, tracking, leading, mono, sample }: Step): string => {
+const step = ({ token, size, tracking, leading, mono, sample }: Step): string => {
   const style = [
     mono ? 'font-family:var(--font-mono);' : '',
-    `font-size:${drawn ?? size}px;`,
+    `font-size:${size}px;`,
     tracking ? `letter-spacing:${tracking};` : '',
     leading ? 'line-height:1;' : '',
   ].filter(Boolean).join(' ');

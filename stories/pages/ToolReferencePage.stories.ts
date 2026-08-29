@@ -1,6 +1,6 @@
 /* The tool reference.
 
-   Compact density — 30px rows, 13px type — because here the list *is* the work
+   Compact density — 30px rows, 14px type — because here the list *is* the work
    and scanning beats reading. Density is a judgement about the reader, and this
    is the surface that judgement was written for.
 

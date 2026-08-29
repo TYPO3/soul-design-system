@@ -61,6 +61,16 @@ Scale
    :viewport: 700x245
    :title: Type scale
 
+Two steps read the same number, and that is the scale saying so. Below body
+there is room for three registers, not four: ``--font-size-ui`` and
+``--font-size-dense`` both set at 14, because what separates a button label
+from a nav item is the box around it rather than the size inside it. The
+tokens stay two names because the roles are two — a control binds to one, a
+compact row to the other, and either can move without dragging the other with
+it. What is not allowed is a fourth step wedged between them: a single pixel
+is a rasterisation difference, not a register a reader can tell apart, which
+is the same finding that took the UI step off 15.
+
 Titles and bodies move together
 ===============================
 
@@ -171,7 +181,7 @@ A mono run inside a sentence comes down to ``--font-mono-optical``. Every
 glyph in Source Code Pro carries the same advance, so a phrase set in it at
 the size around it reads a step larger than that size and pushes the line
 apart. The token is a ratio of its context rather than a step in the scale,
-which is what lets a 13px note and 16px body copy each get their own answer
+which is what lets a 14px note and 16px body copy each get their own answer
 from one value. It is stated once, in ``tokens/fonts.css``, and every mono run
 — ``code``, ``kbd``, ``samp``, ``.sds-mono``, an option name, a formula the
 renderer left as source — reads it from there.
@@ -192,5 +202,5 @@ inside it the block has already decided the size, the weight and the colour,
 and a whole block set in medium is one asking to be read as emphasis.
 
 .. specimen:: guidelines/type-mono.card.html
-   :viewport: 700x200
+   :viewport: 700x204
    :title: Mono & labels

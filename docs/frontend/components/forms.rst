@@ -382,7 +382,7 @@ is taken out of the reading and out of the tab order, and its ``required``
 moves to the element's own validity, reported on the button a reader can see.
 
 .. specimen:: components/core/select.card.html
-   :viewport: 700x634
+   :viewport: 700x636
    :title: A select
 
 .. code-block:: html
@@ -657,7 +657,7 @@ sds-switch
 A setting that takes effect where it stands.
 
 .. specimen:: components/core/form-controls.card.html
-   :viewport: 700x382
+   :viewport: 700x419
    :title: Beyond the text field
 
 A checkbox answers a question the form asks and is sent when the form is sent;

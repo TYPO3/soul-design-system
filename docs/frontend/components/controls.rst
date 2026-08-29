@@ -9,7 +9,7 @@ everything here appears in a bar or a row of actions, and everything here is a
 real ``<button>`` or ``<a>`` underneath.
 
 .. specimen:: components/core/buttons.card.html
-   :viewport: 700x371
+   :viewport: 700x372
    :title: Buttons & links
 
 .. _component-sds-button:
@@ -353,7 +353,7 @@ colour saying so would be the one thing on the page claiming something went
 wrong.
 
 .. specimen:: components/core/progress.card.html
-   :viewport: 700x475
+   :viewport: 700x481
    :title: Progress
 
 .. code-block:: html
