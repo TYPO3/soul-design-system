@@ -523,12 +523,18 @@ test.describe('what the theme repaired', () => {
 
     const frame = page.locator('.sds-embed__frame--fixed');
     await expect(frame).toHaveCount(1);
-    /* The card is at the viewport its `@dsCard` header declares and the
-       caption says so — the two are the same number, checked here because
-       nothing else compares the page against the card it embeds. */
-    const width = await frame.locator('iframe').evaluate((el) => el.getBoundingClientRect().width);
-    expect(Math.round(width)).toBe(700);
-    await expect(page.locator('.sds-embed__caption')).toContainText('700x270');
+    /* The card is at the viewport its `@dsCard` header declares and the caption
+       says so. The number is read off the caption rather than written here:
+       a literal is a second copy of something the story already states, and
+       this one was three cards out of date before anybody noticed. */
+    const caption = await page.locator('.sds-embed__caption').innerText();
+    const declared = caption.match(/(\d+)x(\d+)/);
+    expect(declared, `the caption names a viewport: ${caption}`).not.toBeNull();
+    const box = await frame.locator('iframe').evaluate((el) => {
+      const rect = el.getBoundingClientRect();
+      return { width: Math.round(rect.width), height: Math.round(rect.height) };
+    });
+    expect(box).toEqual({ width: Number(declared![1]), height: Number(declared![2]) });
   });
 
   test('the local contents is a table of contents, not the rail', async ({ page }) => {
