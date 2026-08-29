@@ -1,8 +1,8 @@
 /* Body copy and the lead under a heading.
 
-   17px at 1.65, held to 620px — the measure is part of the type, not a layout
-   decision made later. The lead is one step up and held shorter, because a
-   sentence that introduces a page is read at a glance and a long line at 19px
+   The body register, held to its measure — which is part of the type, not a
+   layout decision made later. The lead is one step up and held shorter, because
+   a sentence that introduces a page is read at a glance and a long line in it
    is not glanceable.
 
    `text-wrap: pretty` on the body paragraph: it is the one place in this
@@ -26,7 +26,7 @@ const meta: Meta = {
       path: 'guidelines/type-body.card.html',
       group: 'Type',
       name: 'Body & lead',
-      subtitle: '17px body at 1.65, 620px measure',
+      subtitle: 'The lead and the body register, each held to its measure',
       viewport: '700x223',
     }),
   },
@@ -39,7 +39,7 @@ export const specimenHtml = (): string =>
   specPad([
     `<div style="${LEAD}">A local MCP server in plain PHP for the three audiences that do TYPO3 work.</div>`,
     `<div style="${BODY}">Almost everything comes from the bundled knowledge files, which are bound to versions: a statement that does not hold on every covered line carries the ones it does.</div>`,
-    specCap('--font-size-lead 19 · --font-size-body 16 · --leading-body 1.65 · --measure-prose 620px', 'margin-top:12px;'),
+    specCap('--font-size-lead 19 · --font-size-body 16 · --leading-body 1.55 · --measure-prose 620px', 'margin-top:12px;'),
   ]);
 
 export const Specimen: Story = {

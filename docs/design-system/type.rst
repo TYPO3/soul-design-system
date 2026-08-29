@@ -83,6 +83,26 @@ rasterisation difference rather than a register a reader can tell apart — the
 finding that took the UI step off 15, and the same one that closed the run of
 13, 12 and 11 this scale used to end on.
 
+Leading is a scale too
+======================
+
+``--leading-*`` runs from closed to open — display, heading, tight, snug,
+body, code — and every role binds to one of them. It is the same rule the
+sizes live by, and it was the last place in the type system still breaking it:
+a control, a row, an aside and a diff each wrote a bare number into
+``controls.css``, so seven values were in use with no scale behind them and no
+way to see that four of them were nobody's decision.
+
+Two of the steps carry a load. ``--leading-tight`` is what a table row's three
+densities are drawn from, so moving it moves them; ``--leading-heading`` is
+also what a control sets in, because a control does not wrap and prose leading
+would make its height a function of the body scale.
+
+Prose runs at ``--leading-body``. It was 1.65 and read as a paragraph that had
+been pulled apart — open enough at 16px to break a column into separate lines
+rather than a block of text. A block the machine wrote stays the most open
+step, and a diff shares it: both are read line by line.
+
 Titles and bodies move together
 ===============================
 

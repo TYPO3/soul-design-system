@@ -86,7 +86,7 @@ body {
 /* Prose under an example. */
 .spec-note {
   font-size: var(--font-size-small);
-  line-height: 1.45;
+  line-height: var(--leading-snug);
   color: var(--text-secondary);
 }
 .spec-note b {
@@ -97,7 +97,7 @@ body {
 /* A rule being stated: normal size, where a note beside it is small. */
 .spec-rule {
   font-size: var(--font-size-body);
-  line-height: 1.5;
+  line-height: var(--leading-body);
   color: var(--text-secondary);
 }
 .spec-rule b {

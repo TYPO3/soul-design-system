@@ -16,10 +16,15 @@
        meta beside it, is the box and the face rather than the size. */
     --font-size-small: 14px;
 
+    /* Openness, closed to open, and every role binds to one of these rather
+       than writing its own. `tight` is drawn on: a row's height comes from it,
+       so it moves the three densities with it. */
     --leading-display: 1.08;
     --leading-heading: 1.2;
-    --leading-body: 1.65;
-    --leading-code: 1.9;
+    --leading-tight: 1.35;
+    --leading-snug: 1.45;
+    --leading-body: 1.55;
+    --leading-code: 1.75;
 
     --tracking-display: -0.03em;
     --tracking-heading: -0.015em;

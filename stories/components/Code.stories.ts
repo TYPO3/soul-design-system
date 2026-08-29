@@ -17,7 +17,7 @@ import { type CodeBlockProps } from '../../packages/frontend/src/components/code
 import { type DiffLine } from '../../packages/frontend/src/components/diff.ts';
 import { DIFF } from './Diff.stories.ts';
 import { LANGUAGES, SAMPLES, sampleOf } from '../lib/languages.ts';
-import { dsCard, part, px, spec, specCap } from '../lib/specimen.ts';
+import { dsCard, part, spec, specCap } from '../lib/specimen.ts';
 
 const BASH: CodeBlockProps = {
   lang: 'bash',
@@ -166,8 +166,8 @@ export const specimenHtml = (): string =>
       part(sdsCode(BASH)),
       part(sdsDiff('KNOWLEDGE/HINTS/LABELS.JSON', DIFF)),
       specCap(
-        `CODE ${px(13, 'PX')} / 1.9 · DIFF ${px(13, 'PX')} / 1.75 · DIFF ROWS TINT AT 14% · ` +
-          'NO LINE NUMBERS UNLESS THEY ARE REFERENCED',
+        'CODE AND DIFF AT --font-size-small × --font-modifier-mono, --leading-code · ' +
+          'DIFF ROWS TINT AT 14% · NO LINE NUMBERS UNLESS THEY ARE REFERENCED',
       ),
     ],
     { gap: '14px' },

@@ -25,11 +25,11 @@
     --control-height-sm: 28px;
     --control-height-lg: 44px;
 
-    /* Controls do not carry prose leading. `--leading-body` is 1.65, which is
-       right for a paragraph and wrong here: it puts a 15px label in a 25px
-       line box, over half a control's height before any padding is added, and
-       it makes every control's height a function of the body scale. */
-    --control-leading: 1.2;
+    /* Controls do not carry prose leading: it puts a 14px label in a 22px line
+       box, most of a small control's height before any padding is added, and
+       it makes every control's height a function of the body scale. The
+       heading step, because a control does not wrap. */
+    --control-leading: var(--leading-heading);
 
     --control-pad-y: 8px;
     --control-pad-x: 15px;
@@ -83,7 +83,7 @@
        scanner reads as the distance between two rows. This is the number the
        three heights above are drawn from, and it stays over
        `--control-leading` because a cell wraps and a control does not. */
-    --row-leading: 1.35;
+    --row-leading: var(--leading-tight);
 
     /* Mono cells run a step below the row's sans, so a tool name and the
        prose beside it read at the same optical size. */
@@ -98,7 +98,7 @@
 
     /* Code and diff. */
     --diff-font-size: var(--font-size-small);
-    --diff-leading: 1.75;
+    --diff-leading: var(--leading-code);
     --diff-tint: 14%;
 
     /* Navigation. */
@@ -120,7 +120,7 @@
        not follow it into a document: what is being read there is the block, and
        this stays the small line that names it. */
     --aside-size: var(--font-size-small);
-    --aside-leading: 1.45;
+    --aside-leading: var(--leading-snug);
     /* Seventy-four characters of that register, stated as the width it comes to
        rather than as `64ch`: `ch` is the width of the "0" in whatever element the
        token lands on, so one number would mean several widths. */
