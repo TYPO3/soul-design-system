@@ -58,10 +58,16 @@ const RAIL: readonly MenuEntry[] = [
 /* The site the bar is handed: its sections, and under the one the reader is in
    the pages the rail beside the text lists. One entry, read twice — the bar
    draws what fits of it, the rail draws the section. */
+/** The section the reader is in. The bar carries it as one entry of the site
+    and the rail is the same entry read one level down — its label is the
+    heading over the list. One object, because a rail that has drifted from the
+    bar above it is two navigations, and the renderer derives both from one. */
+const SECTION: MenuEntry = { label: 'overview', href: '#overview', here: true, items: RAIL };
+
 const MENU: MenuEntry = {
   label: 'Dev Companion',
   items: [
-    { label: 'overview', href: '#overview', here: true, items: RAIL },
+    SECTION,
     { label: 'tools', href: '#tools' },
     { label: 'knowledge', href: '#knowledge' },
     { label: 'install', href: '#install' },
@@ -167,10 +173,11 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 
   <div class="sds-body">
     <aside class="sds-body__rail" id="page-rail">
-      <sds-nav-rail .entry="${{ label: '', items: RAIL }}"></sds-nav-rail>
+      <sds-nav-rail .entry="${SECTION}"></sds-nav-rail>
     </aside>
 
     <main class="sds-body__main" id="main-content">
+      <article class="sds-prose">
       <h1>It answers before it guesses</h1>
       <p class="sds-lead">
         A local server for the three audiences that do TYPO3 work. Every answer
@@ -179,15 +186,22 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 
       <!-- What is on this page. A reference page is arrived at from a search
            and read at one section, so the four headings are offered before the
-           first of them rather than left to be scrolled for. -->
-      <sds-nav-toc
-        .entries="${[
-          { label: 'Install', href: '#install' },
-          { label: 'Settings', href: '#settings' },
-          { label: 'Before you file an issue', href: '#trouble' },
-          { label: 'Where to go next', href: '#next' },
-        ]}"
-      ></sds-nav-toc>
+           first of them rather than left to be scrolled for.
+
+           An .sds-prose with an .sds-aside in it is what puts the list beside
+           the column and lets it rest there from 1296px — the same two boxes
+           the renderer writes around a document's contents. Without them the
+           list is a block where it stands, as the guide page shows. -->
+      <div class="sds-aside">
+        <sds-nav-toc
+          .entries="${[
+            { label: 'Install', href: '#install' },
+            { label: 'Settings', href: '#settings' },
+            { label: 'Before you file an issue', href: '#trouble' },
+            { label: 'Where to go next', href: '#next' },
+          ]}"
+        ></sds-nav-toc>
+      </div>
 
       <h2 class="sds-h3" id="install">Install</h2>
       <p>
@@ -226,9 +240,12 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
       </p>
 
       ${signposts}
+      </article>
 
       <!-- The way on, at the foot of a page that is read in order. The rail
-           says where this page sits; this says which page comes next. -->
+           says where this page sits; this says which page comes next. Outside
+           the passage and inside the column, the way the renderer places it:
+           it is the way out of this page rather than part of it. -->
       <sds-nav-pager
         previous-href="#installing" previous-label="Installing the server"
         next-href="#skill" next-label="Writing a task skill"

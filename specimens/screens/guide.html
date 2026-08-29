@@ -189,42 +189,35 @@
         their first glyph meets them.
       </p>
 
-      <!-- What is on this page. The class that floats it beside the text is
-           the document layer's, and a product surface links only the
-           stylesheet — so here the contents stand in the column. -->
+      <!-- What is on this page, as a block where it was written. An .sds-aside
+           inside an .sds-prose is what takes it out of the flow to rest beside
+           the column, and both are in styles.css — the documentation page shows
+           that form; this one shows the form without them. -->
       <nav class="sds-toc" aria-label="On this page">
   <p class="sds-label">On this page</p>
   <ul class="sds-toc__list">
   <li>
   <a
     class="sds-toc__item"
-    href="#construction"
-    
-  >Construction</a>
+    href="#construction">Construction</a>
   
 </li>
   <li>
   <a
     class="sds-toc__item"
-    href="#colour"
-    
-  >Colour</a>
+    href="#colour">Colour</a>
   
 </li>
   <li>
   <a
     class="sds-toc__item"
-    href="#grounds"
-    
-  >Both grounds</a>
+    href="#grounds">Both grounds</a>
   
 </li>
   <li>
   <a
     class="sds-toc__item"
-    href="#source"
-    
-  >The source</a>
+    href="#source">The source</a>
   
 </li>
 </ul>
@@ -238,7 +231,7 @@
       </p>
 
       <dl class="sds-confval">
-  <dt class="sds-confval__term" >
+  <dt class="sds-confval__term">
     <code class="sds-confval__name">canvas</code>
     
     
@@ -255,7 +248,7 @@
       between pixels, and the whole set stops sitting on one baseline.</div>
   </dd>
 </dl><dl class="sds-confval">
-  <dt class="sds-confval__term" >
+  <dt class="sds-confval__term">
     <code class="sds-confval__name">protective space</code>
     
     
@@ -270,7 +263,7 @@
       the next is a square.</div>
   </dd>
 </dl><dl class="sds-confval">
-  <dt class="sds-confval__term" >
+  <dt class="sds-confval__term">
     <code class="sds-confval__name">stroke</code>
     
     
@@ -287,7 +280,7 @@
       because it looks correct at every size except the one people use.</div>
   </dd>
 </dl><dl class="sds-confval">
-  <dt class="sds-confval__term" >
+  <dt class="sds-confval__term">
     <code class="sds-confval__name">fill</code>
     <span class="sds-badge">required</span>
     
@@ -312,7 +305,7 @@
         nothing a reader can type into their own drawing.
       </p>
 
-      <div class="sds-grid sds-grid--wide" ><div class="sds-swatch">
+      <div class="sds-grid sds-grid--wide"><div class="sds-swatch">
   <span class="sds-swatch__chip" style="background:var(--accent)" aria-hidden="true"></span>
   <span class="sds-swatch__body">
     <span class="sds-swatch__name">--accent</span>
@@ -368,7 +361,7 @@
         a reader finds it.
       </p>
 
-      <div class="sds-grid" ><div class="sds-panel" >
+      <div class="sds-grid"><div class="sds-panel">
   
   <div class="sds-label">light</div>
   <div class="sds-surface-title">The page&#39;s own ground</div>
@@ -378,7 +371,7 @@
       <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-code-merge"><g fill="currentColor"><path d="M11.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 11.5 11m0-1C10.122 10 9 11.122 9 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5zM4.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 4.5 11m0-1C3.122 10 2 11.122 2 12.5S3.122 15 4.5 15 7 13.878 7 12.5 5.878 10 4.5 10zM4.5 2a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 4.5 2m0-1C3.122 1 2 2.122 2 3.5S3.122 6 4.5 6 7 4.878 7 3.5 5.878 1 4.5 1z"></path><path d="M4 5h1v6H4z"></path><path d="M5 5v1a1 1 0 0 0 1 1h4a2 2 0 0 1 2 2v2h-1V9a1 1 0 0 0-1-1H6a2 2 0 0 1-2-2V5h1z"></path></g></svg>
       <svg width="16" height="16" style="width:48px;height:48px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-arrow-end"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg>
     </div></div>
-</div><div class="sds-panel" >
+</div><div class="sds-panel">
   
   <div class="sds-label">dark</div>
   <div class="sds-surface-title">The page&#39;s own ground</div>
@@ -400,7 +393,7 @@
       <div class="sds-code">
   <div class="sds-code__head">
     <span class="sds-code__lang">html</span>
-    <button type="button" class="sds-code__copy" aria-label="Copy this block" ><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
   </div>
   <pre class="sds-code__body"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 16 16&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span>/&gt;</span>

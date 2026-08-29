@@ -138,9 +138,10 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
         their first glyph meets them.
       </p>
 
-      <!-- What is on this page. The class that floats it beside the text is
-           the document layer's, and a product surface links only the
-           stylesheet — so here the contents stand in the column. -->
+      <!-- What is on this page, as a block where it was written. An .sds-aside
+           inside an .sds-prose is what takes it out of the flow to rest beside
+           the column, and both are in styles.css — the documentation page shows
+           that form; this one shows the form without them. -->
       <sds-nav-toc
         .entries="${[
           { label: 'Construction', href: '#construction' },

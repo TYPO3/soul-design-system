@@ -281,6 +281,23 @@ scrolled to it and nothing rendering the page can know that.
      { label: 'Reading rhythm', href: '#reading-rhythm' },
    ]}"></sds-nav-toc>
 
+The list has **two forms, and the markup around it chooses which**. On its own
+it is a block where it stands. Inside a ``.sds-aside`` that is itself inside a
+``.sds-prose``, it leaves the flow from 1296px and rests beside the column at
+the line the rail rests at — the column gives the width up rather than the box
+taking it, and it carries two levels there against all six in the flow.
+:doc:`/frontend/documents` carries the reason and the width; both boxes are in
+``styles.css``, so a product surface can ask for either.
+
+.. code-block:: html
+
+   <article class="sds-prose">
+     <div class="sds-aside">
+       <sds-nav-toc label="On this page" .entries="${SECTIONS}"></sds-nav-toc>
+     </div>
+     …
+   </article>
+
 The entry marked is the **last heading to have passed the line the browser
 lands a jumped-to heading on** — ``scroll-padding-top``, read off the scroller,
 so the entry a press marks is the entry the scroll marks. Above the first

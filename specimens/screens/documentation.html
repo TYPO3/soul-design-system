@@ -96,8 +96,10 @@
 
   <div class="sds-body">
     <aside class="sds-body__rail" id="page-rail">
-      <nav class="sds-rail" aria-label="Pages">
-  
+      <nav class="sds-rail" aria-label="overview">
+  <a
+    class="sds-label sds-rail__heading"
+    href="#overview">overview</a>
   <a class="sds-rail__item" href="#overview"><span class="sds-rail__label">Overview</span></a>
   <a class="sds-rail__item" href="#glossary"><span class="sds-rail__label">Glossary</span></a>
   <a class="sds-rail__item" href="#settings"><span class="sds-rail__label">Settings</span></a>
@@ -129,6 +131,7 @@
     </aside>
 
     <main class="sds-body__main" id="main-content">
+      <article class="sds-prose">
       <h1>It answers before it guesses</h1>
       <p class="sds-lead">
         A local server for the three audiences that do TYPO3 work. Every answer
@@ -137,36 +140,51 @@
 
       <!-- What is on this page. A reference page is arrived at from a search
            and read at one section, so the four headings are offered before the
-           first of them rather than left to be scrolled for. -->
-      <nav class="sds-toc" aria-label="On this page">
+           first of them rather than left to be scrolled for.
+
+           An .sds-prose with an .sds-aside in it is what puts the list beside
+           the column and lets it rest there from 1296px — the same two boxes
+           the renderer writes around a document's contents. Without them the
+           list is a block where it stands, as the guide page shows. -->
+      <div class="sds-aside">
+        <nav class="sds-toc" aria-label="On this page">
   <p class="sds-label">On this page</p>
   <ul class="sds-toc__list">
   <li>
   <a
     class="sds-toc__item"
-    href="#install">Install</a>
+    href="#install"
+    
+  >Install</a>
   
 </li>
   <li>
   <a
     class="sds-toc__item"
-    href="#settings">Settings</a>
+    href="#settings"
+    
+  >Settings</a>
   
 </li>
   <li>
   <a
     class="sds-toc__item"
-    href="#trouble">Before you file an issue</a>
+    href="#trouble"
+    
+  >Before you file an issue</a>
   
 </li>
   <li>
   <a
     class="sds-toc__item"
-    href="#next">Where to go next</a>
+    href="#next"
+    
+  >Where to go next</a>
   
 </li>
 </ul>
 </nav>
+      </div>
 
       <h2 class="sds-h3" id="install">Install</h2>
       <p>
@@ -178,7 +196,7 @@
       <div class="sds-code">
   <div class="sds-code__head">
     <span class="sds-code__lang">bash</span>
-    <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
+    <button type="button" class="sds-code__copy" aria-label="Copy this block" ><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
   </div>
   <pre class="sds-code__body"><span class="sds-code__comment"># standalone: clone, install once</span>
 <span class="sds-code__prompt">$</span> <span class="sds-code__cmd">composer install</span>
@@ -242,23 +260,28 @@
   <details
     class="sds-accordion__item"
     name="install-questions"
-    open>
+    open
+  >
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>The client starts it and nothing is registered</summary>
-    <div class="sds-accordion__body">The binary ran with a PHP older than 8.2 and exited before it
+    <div class="sds-accordion__body" >The binary ran with a PHP older than 8.2 and exited before it
       announced anything. Run <span class="sds-mono">php -v</span> as the client
       runs it — a shell and a desktop client rarely have the same one.</div>
   </details><details
     class="sds-accordion__item"
-    name="install-questions">
+    name="install-questions"
+    
+  >
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>It answers, but not about my installation</summary>
-    <div class="sds-accordion__body">Nothing was found to read. The server takes the project root as
+    <div class="sds-accordion__body" >Nothing was found to read. The server takes the project root as
       an argument and falls back to bundled knowledge without it, which is the
       answer you are getting.</div>
   </details><details
     class="sds-accordion__item"
-    name="install-questions">
+    name="install-questions"
+    
+  >
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>A tool says the installation would not boot</summary>
-    <div class="sds-accordion__body">It read the package registry from disk instead, and the answer
+    <div class="sds-accordion__body" >It read the package registry from disk instead, and the answer
       says so rather than looking complete: every declared package is in it and
       none of the dynamically registered ones.</div>
   </details>
@@ -271,7 +294,7 @@
         four things.
       </p>
 
-      <div class="sds-grid sds-grid--flush"><article class="sds-card">
+      <div class="sds-grid sds-grid--flush" ><article class="sds-card">
   
   <div class="sds-card__body">
     <div class="sds-card__icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-book"><g fill="currentColor"><path d="M12 1H3v14h9a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm0 12v1H4V2h8v9h-1v2h1z"></path><path d="M11 3.25a.25.25 0 0 0-.25-.25h-5.5a.25.25 0 0 0-.25.25v2.5c0 .138.112.25.25.25h5.5a.25.25 0 0 0 .25-.25v-2.5zM5 12h2v1H5z"></path></g></svg></div>
@@ -320,9 +343,12 @@
     <span class="sds-card__action">Read the records<svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-arrow-right"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg></span>
   </div>
 </article></div>
+      </article>
 
       <!-- The way on, at the foot of a page that is read in order. The rail
-           says where this page sits; this says which page comes next. -->
+           says where this page sits; this says which page comes next. Outside
+           the passage and inside the column, the way the renderer places it:
+           it is the way out of this page rather than part of it. -->
       <nav class="sds-pager" aria-label="Pages either side of this one">
   <a class="sds-btn sds-btn--secondary" href="#installing" rel="prev"><svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" role="img" aria-label="Previous page" viewBox="0 0 16 16" data-icon="actions-arrow-left"><g fill="currentColor"><path d="M14 7H6.7V5c0-.4-.5-.6-.8-.4l-3.7 3c-.2.2-.2.6 0 .8l3.7 3c.3.3.8 0 .8-.4V9H14V7z"></path></g></svg><span class="sds-btn__label">Installing the server</span></a>
   <span class="sds-pager__next"><a class="sds-btn sds-btn--secondary" href="#skill" rel="next"><span class="sds-btn__label">Writing a task skill</span><svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" role="img" aria-label="Next page" viewBox="0 0 16 16" data-icon="actions-arrow-right"><g fill="currentColor"><path d="M2 9h7.3v2c0 .4.5.6.8.4l3.7-3c.2-.2.2-.6 0-.8l-3.7-3c-.3-.2-.8 0-.8.4v2H2v2z"></path></g></svg></a></span>
