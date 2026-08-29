@@ -144,6 +144,11 @@ const CASES: { name: string; markup: string; template: TemplateResult }[] = [
     template: html`<sds-note tone="warn" heading="Partial" body="The registry was not booted."></sds-note>`,
   },
   {
+    name: 'note, carrying the one thing to do about it',
+    markup: '<sds-note body="Two worktrees look finished." action="Clean up"></sds-note>',
+    template: html`<sds-note body="Two worktrees look finished." action="Clean up"></sds-note>`,
+  },
+  {
     name: 'progress, mid-run with a count read-out',
     markup: '<sds-progress caption="Uploading the release" value="3" max="12" readout="count" unit="files"></sds-progress>',
     template: html`<sds-progress caption="Uploading the release" value="3" max="12" readout="count" unit="files"></sds-progress>`,

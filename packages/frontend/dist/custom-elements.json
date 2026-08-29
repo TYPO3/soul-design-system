@@ -5144,6 +5144,22 @@
                 "text": "string"
               },
               "fieldName": "label"
+            },
+            {
+              "name": "action",
+              "description": "The one thing to do about what the note says, as the label on a button after the sentence. One and no more: a message offering two answers is a dialog, and a message offering none is the note this was before.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "action"
+            },
+            {
+              "name": "href",
+              "description": "Where that action goes, where it is a place rather than a decision. The button is drawn as a link and a press announces nothing — the browser's own navigation is the whole of it.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "href"
             }
           ],
           "members": [
@@ -5196,11 +5212,39 @@
                 "text": "string"
               },
               "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "action",
+              "privacy": "public",
+              "description": "The one thing to do about what the note says, as the label on a button after the sentence. One and no more: a message offering two answers is a dialog, and a message offering none is the note this was before.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "action"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Where that action goes, where it is a place rather than a decision. The button is drawn as a link and a press announces nothing — the browser's own navigation is the whole of it.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "href"
             }
           ],
-          "events": [],
+          "events": [
+            {
+              "name": "sds-note-action",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
           "cssClasses": [
             "sds-note",
+            "sds-note__action",
             "sds-note__body",
             "sds-note__content",
             "sds-note__icon",

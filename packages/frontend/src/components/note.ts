@@ -12,6 +12,7 @@
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import { type IconId } from './icon.ts';
+import { buttonMarkup } from './button.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export type NoteTone = 'info' | 'ok' | 'warn' | 'error';
@@ -33,6 +34,14 @@ export interface NoteProps {
   body?: string | TemplateResult;
   /** An explicit glyph, where the tone's own says less than the note does. */
   icon?: IconId;
+  /** The one thing to do about what the note says, as the label on a button
+      after the sentence. One and no more: a message offering two answers is a
+      dialog, and a message offering none is the note this was before. */
+  action?: string;
+  /** Where that action goes, where it is a place rather than a decision. The
+      button is drawn as a link and a press announces nothing — the browser's
+      own navigation is the whole of it. */
+  href?: string;
   /** What the glyph says out loud, because a colour cannot be the only carrier
       of a meaning. Each tone names its own word and a caller may say a truer
       one: a renderer collapsing many admonition types onto four tones knows
@@ -64,6 +73,8 @@ export class SdsNote extends SdsElement {
     body: { type: String },
     icon: { type: String },
     label: { type: String },
+    action: { type: String },
+    href: { type: String },
   };
 
   declare tone: NoteTone;
@@ -71,6 +82,8 @@ export class SdsNote extends SdsElement {
   declare body: string | TemplateResult;
   declare icon?: IconId;
   declare label: string;
+  declare action: string;
+  declare href: string;
 
   /* What a caller wrote between the tags, taken before Lit renders over it —
      see `SdsElement.lifted()` for why it is asked exactly once. */
@@ -82,6 +95,8 @@ export class SdsNote extends SdsElement {
     this.heading = '';
     this.body = '';
     this.label = '';
+    this.action = '';
+    this.href = '';
   }
 
   override connectedCallback(): void {
@@ -90,6 +105,17 @@ export class SdsNote extends SdsElement {
     super.connectedCallback();
   }
 
+  /* The press, where the action is a decision rather than a place. It carries
+     the label rather than an id: a page listening above several notes reads
+     what was pressed without holding a reference to any of them. A link
+     navigates, and says nothing here. */
+  private readonly onPress = (): void => {
+    if (this.href) return;
+    this.dispatchEvent(
+      new CustomEvent<string>('sds-note-action', { detail: this.action, bubbles: true, composed: true }),
+    );
+  };
+
   protected override render(): TemplateResult {
     const said = this.label || SdsNote.TONE_LABEL[this.tone];
     return html`<div class="sds-note sds-note--${this.tone}">
@@ -97,7 +123,10 @@ export class SdsNote extends SdsElement {
   <div class="sds-note__content">
     ${this.heading ? html`<div class="sds-note__title">${this.heading}</div>` : nothing}
     <div class="sds-note__body">${this.taken ?? this.content ?? this.body}</div>
-  </div>
+  </div>${this.action
+    ? html`
+  <div class="sds-note__action" @click="${this.onPress}">${buttonMarkup({ variant: 'secondary', size: 'sm', href: this.href }, this.action)}</div>`
+    : nothing}
 </div>`;
   }
 }

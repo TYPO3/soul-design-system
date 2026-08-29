@@ -651,6 +651,12 @@ costs the reader.
      <p>Pages published since yesterday are not in it yet.</p>
    </sds-note>
 
+   <sds-note body="Two worktrees look finished." action="Clean up"></sds-note>
+
+Pressing an action dispatches ``sds-note-action`` with the label, on the note
+itself. With ``href`` set there is nothing to announce: following the link is
+the answer.
+
 .. confval:: tone
    :name: sds-note-tone
    :type: "info" | "ok" | "warn" | "error"
@@ -681,6 +687,25 @@ costs the reader.
    An explicit glyph, where the tone's own says less than the note does. The
    glyph is never dropped: a colour alone leaves the meaning to whoever can
    tell the tones apart.
+
+.. confval:: action
+   :name: sds-note-action
+   :type: string
+
+   The one thing to do about what the note says, as the label on a button
+   after the sentence. One and no more: a message offering two answers is a
+   dialog. The button is the note's own — a secondary at ``sm`` — so every
+   message a surface shows offers its answer as the same control in the same
+   place, and on a narrow box it goes under the sentence rather than squeezing
+   it.
+
+.. confval:: href
+   :name: sds-note-href
+   :type: string
+
+   Where that action goes, where it is a place rather than a decision. The
+   button is drawn as a link, which brings the browser's own middle-click,
+   hover target and status line with it, and pressing it dispatches nothing.
 
 .. confval:: label
    :name: sds-note-label

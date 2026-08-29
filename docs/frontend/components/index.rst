@@ -381,6 +381,10 @@ rather than on whatever is inside it.
      - ``sds-button`` with ``for``
      - ``{ command, source }`` — dispatched **on the element named by**
        ``for``, the way the platform's own invokers do it
+   * - ``sds-note-action``
+     - ``sds-note`` with ``action``
+     - the label pressed. A note with ``href`` announces nothing — the link is
+       the answer
    * - ``sds-theme-change``
      - ``sds-theme``
      - ``{ theme }`` — ``"light"``, ``"dark"``, or ``null`` for the machine's

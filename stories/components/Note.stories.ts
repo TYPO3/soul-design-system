@@ -17,12 +17,14 @@ import '../../packages/frontend/src/components/code.ts';
 import { type NoteProps } from '../../packages/frontend/src/components/note.ts';
 
 
-export const sdsNote = ({ tone, heading, body, icon }: NoteProps) =>
+export const sdsNote = ({ tone, heading, body, icon, action, href }: NoteProps) =>
   html`<sds-note
     tone="${ifDefined(tone)}"
     heading="${ifDefined(heading)}"
     .body="${body ?? ''}"
     icon="${ifDefined(icon)}"
+    action="${ifDefined(action)}"
+    href="${ifDefined(href)}"
   ></sds-note>`;
 
 const meta: Meta<NoteProps> = {
@@ -30,12 +32,14 @@ const meta: Meta<NoteProps> = {
   tags: ['autodocs', '!dev'],
   /* `.icon` as a property and not an attribute: an empty `icon=""` is a name
      no icon has, and the element would have taken it over the tone's own. */
-  render: ({ tone, heading, body, icon }) =>
-    html`<sds-note tone="${tone ?? 'info'}" .icon="${icon}" heading="${heading}" .body="${body}"></sds-note>`,
+  render: ({ tone, heading, body, icon, action, href }) =>
+    html`<sds-note tone="${tone ?? 'info'}" .icon="${icon}" heading="${heading}" .body="${body}"
+      action="${action ?? ''}" href="${href ?? ''}"></sds-note>`,
   argTypes: {
     tone: { control: 'inline-radio', options: ['info', 'ok', 'warn', 'error'] },
     heading: { control: 'text' },
     body: { control: 'text' },
+    action: { control: 'text' },
   },
   args: {
     tone: 'ok',
@@ -83,6 +87,32 @@ export const Aside: Story = {
     body: html`Without one they read the package registry instead, which answers with a
       subset that looks like the whole. <span class="sds-mono">ddev start</span>
       removes the gap.`,
+  },
+};
+
+/** A message that carries the one thing to do about it. The label is a
+    property rather than a button written between the tags, so every message a
+    product shows offers its answer as the same control in the same place — and
+    a note that says something nobody can act on still carries none. */
+export const Actionable: Story = {
+  args: {
+    tone: 'info',
+    heading: '',
+    body: 'Two worktrees look finished.',
+    action: 'Clean up',
+  },
+};
+
+/** The same message where the answer is a place rather than a decision: it
+    draws a link, and pressing it announces nothing — following it is the
+    answer, and the browser's own middle-click and status line come with it. */
+export const ActionElsewhere: Story = {
+  args: {
+    tone: 'warn',
+    heading: 'The index is a day old',
+    body: 'Pages published since yesterday are not in it yet.',
+    action: 'Open the run',
+    href: '#',
   },
 };
 

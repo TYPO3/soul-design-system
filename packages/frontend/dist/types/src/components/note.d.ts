@@ -20,6 +20,14 @@ export interface NoteProps {
     body?: string | TemplateResult;
     /** An explicit glyph, where the tone's own says less than the note does. */
     icon?: IconId;
+    /** The one thing to do about what the note says, as the label on a button
+        after the sentence. One and no more: a message offering two answers is a
+        dialog, and a message offering none is the note this was before. */
+    action?: string;
+    /** Where that action goes, where it is a place rather than a decision. The
+        button is drawn as a link and a press announces nothing — the browser's
+        own navigation is the whole of it. */
+    href?: string;
     /** What the glyph says out loud, because a colour cannot be the only carrier
         of a meaning. Each tone names its own word and a caller may say a truer
         one: a renderer collapsing many admonition types onto four tones knows
@@ -49,14 +57,23 @@ export declare class SdsNote extends SdsElement {
         label: {
             type: StringConstructor;
         };
+        action: {
+            type: StringConstructor;
+        };
+        href: {
+            type: StringConstructor;
+        };
     };
     tone: NoteTone;
     heading: string;
     body: string | TemplateResult;
     icon?: IconId;
     label: string;
+    action: string;
+    href: string;
     private taken;
     constructor();
     connectedCallback(): void;
+    private readonly onPress;
     protected render(): TemplateResult;
 }

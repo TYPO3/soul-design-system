@@ -4169,10 +4169,22 @@ var SdsNote = class _SdsNote extends SdsElement {
     /* What a caller wrote between the tags, taken before Lit renders over it —
        see `SdsElement.lifted()` for why it is asked exactly once. */
     this.taken = null;
+    /* The press, where the action is a decision rather than a place. It carries
+       the label rather than an id: a page listening above several notes reads
+       what was pressed without holding a reference to any of them. A link
+       navigates, and says nothing here. */
+    this.onPress = () => {
+      if (this.href) return;
+      this.dispatchEvent(
+        new CustomEvent("sds-note-action", { detail: this.action, bubbles: true, composed: true })
+      );
+    };
     this.tone = "info";
     this.heading = "";
     this.body = "";
     this.label = "";
+    this.action = "";
+    this.href = "";
   }
   static {
     /** The glyph each tone carries. */
@@ -4198,7 +4210,9 @@ var SdsNote = class _SdsNote extends SdsElement {
       heading: { type: String },
       body: { type: String },
       icon: { type: String },
-      label: { type: String }
+      label: { type: String },
+      action: { type: String },
+      href: { type: String }
     };
   }
   connectedCallback() {
@@ -4213,7 +4227,8 @@ var SdsNote = class _SdsNote extends SdsElement {
   <div class="sds-note__content">
     ${this.heading ? html26`<div class="sds-note__title">${this.heading}</div>` : nothing16}
     <div class="sds-note__body">${this.taken ?? this.content ?? this.body}</div>
-  </div>
+  </div>${this.action ? html26`
+  <div class="sds-note__action" @click="${this.onPress}">${buttonMarkup({ variant: "secondary", size: "sm", href: this.href }, this.action)}</div>` : nothing16}
 </div>`;
   }
 };

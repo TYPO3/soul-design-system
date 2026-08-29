@@ -30,6 +30,13 @@ State changes use ``--duration-fast`` — 140ms — with ``--ease-out``. Hover
 normally changes colour, border or fill and never changes a component's size.
 Nothing scales or bounces.
 
+A press takes those same colours one step further: ``--accent-active`` under a
+filled control, the sunken plane under one that carries no fill at rest, and
+nothing moves under the finger. It is the state no specimen can hold — a card
+is never pressed — and the one a reader notices soonest, because a control that
+looks identical the moment it is pressed reads as a dead one on every page that
+takes longer than a frame to answer.
+
 A linked card is the deliberate positional exception. It rises 2px, takes the
 raised fill and lights the top of its frame with ``--accent-glow``; keyboard
 focus gets the same response because the whole card is the target. A card in a
@@ -101,3 +108,18 @@ knowledge · 12.4, 13.4". Never praise, never a "done" toast.
 .. specimen:: guidelines/states-error.card.html
    :viewport: 700x471
    :title: Errors & degraded answers
+
+A message that can be acted on
+==============================
+
+Where the reader can settle what the note says without leaving the page, the
+note carries the answer: ``action`` puts one button after the sentence, and
+``href`` makes it a link where the answer is somewhere else. One, and only
+where the press is the whole of it — a message offering a choice between two
+things is a dialog, and a note with a button nobody needs to press is a
+sentence that has been given a control to make it look urgent.
+
+The button belongs to the note rather than to whoever writes the message, so
+every message in a product offers its answer as the same control in the same
+place. It is a secondary: the note is not the thing the page is for, and a
+filled button in it outranks whatever the reader came to do.
