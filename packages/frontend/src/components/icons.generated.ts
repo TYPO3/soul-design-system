@@ -394,7 +394,8 @@ export type IconId =
   | 'actions-window-cog'
   | 'actions-window-open'
   | 'actions-window-restore'
-  | 'actions-workspace';
+  | 'actions-workspace'
+  | 'spinner-circle';
 
 export const ICON_IDS: readonly IconId[] = [
   "actions-accessibility",
@@ -789,4 +790,5 @@ export const ICON_IDS: readonly IconId[] = [
   "actions-window-open",
   "actions-window-restore",
   "actions-workspace",
+  "spinner-circle",
 ];

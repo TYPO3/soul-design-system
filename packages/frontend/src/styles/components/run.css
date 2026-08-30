@@ -1,0 +1,323 @@
+/* sds-run — work being done, as the stops it is made of.
+
+   Read as a log and not as an instruction: rows sit against each other and are
+   told apart by a hairline, the durations line up in a column of their own, and
+   nothing in a row may widen the box — a step writing two hundred characters
+   scrolls inside its own block rather than pushing the times out of sight.
+   `components/steps.css` is the other one, and the reason they are two is in
+   `run.ts`. */
+
+@layer base {
+  sds-run {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-6);
+  }
+  sds-run > .sds-run {
+    margin-bottom: 0;
+  }
+  .sds-run {
+    margin: 0 0 var(--space-6);
+  }
+}
+
+@layer components {
+  .sds-run {
+    --sds-run-border: var(--border-hairline);
+    --sds-run-edge: var(--border-subtle);
+    --sds-run-radius: var(--radius-card);
+    --sds-run-fill: var(--surface-canvas);
+    --sds-run-pad-y: var(--block-pad-y);
+    --sds-run-pad-x: var(--block-pad-x);
+    --sds-run-gap: var(--space-3);
+
+    /* The head: the verdict, what the work is, and the counts under it. */
+    --sds-run-heading-size: var(--block-title-size);
+    --sds-run-heading-weight: var(--weight-semibold);
+    --sds-run-heading-leading: var(--leading-heading);
+    --sds-run-heading-ink: var(--text-primary);
+    --sds-run-note-size: var(--aside-size);
+    --sds-run-note-leading: var(--aside-leading);
+    --sds-run-note-ink: var(--text-muted);
+
+    /* A row. Dense on purpose — this is scanned, not read. */
+    --sds-run-row-pad-y: var(--space-2);
+    --sds-run-row-pad-x: var(--space-2);
+    --sds-run-row-gap: var(--space-3);
+    --sds-run-row-ink: var(--text-secondary);
+    --sds-run-row-ink-strong: var(--text-primary);
+    --sds-run-row-fill-hover: var(--surface-inset);
+    /* The row the work is on. A band and not a colour: the two settled states
+       are what the status colours are for, and a third one competing with them
+       is a row nobody can pick out of the column. */
+    --sds-run-row-fill-busy: var(--surface-inset);
+    --sds-run-mark: 1em;
+    --sds-run-meta-size: var(--font-size-dense);
+    --sds-run-said-size: var(--font-size-dense);
+    --sds-run-said-ink: var(--text-muted);
+    /* On the band the row in hand carries, muted ink drops under the contrast
+       the text rule holds — and quiet text is still text. */
+    --sds-run-said-ink-busy: var(--text-secondary);
+
+    /* What a state draws with. `busy` is the page's own ink and it turns:
+       what says this is the one in hand is the movement, and the accent marks
+       three things of which a step is none. */
+    --sds-run-ink-ahead: var(--border-strong);
+    --sds-run-ink-busy: var(--text-primary);
+    --sds-run-ink-done: var(--status-ok);
+    --sds-run-ink-failed: var(--status-error);
+
+    /* What a step wrote — on the ground this system puts machine output on,
+       which is the one `sds-code` draws its block with. */
+    --sds-run-output-fill: var(--surface-sunken);
+    --sds-run-output-ink: var(--text-secondary);
+    --sds-run-output-font: var(--font-mono);
+    --sds-run-output-size: var(--font-size-dense);
+    --sds-run-output-leading: var(--leading-body);
+    --sds-run-output-pad-y: var(--space-2);
+    --sds-run-output-pad-x: var(--space-3);
+    --sds-run-output-height: 18rem;
+    --sds-run-gutter: 3ch;
+    --sds-run-gutter-gap: var(--space-3);
+    --sds-run-gutter-ink: var(--text-muted);
+    --sds-run-list-height: 26rem;
+    --sds-run-duration: var(--duration-fast);
+    --sds-run-ease: var(--ease-out);
+
+    border: var(--sds-run-border) solid var(--sds-run-edge);
+    border-radius: var(--sds-run-radius);
+    background: var(--sds-run-fill);
+    min-width: 0;
+  }
+
+  /* The head, which is also what folds the whole away. */
+  .sds-run__head {
+    display: flex;
+    align-items: center;
+    gap: var(--sds-run-gap);
+    padding: var(--sds-run-pad-y) var(--sds-run-pad-x);
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+    /* The chevron at the far end, which is where a whole block's fold sits in
+       this system — the row's own is at the start, beside what it opens. */
+    > .sds-run__chevron {
+      margin-inline-start: auto;
+    }
+  }
+  .sds-run__headline {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .sds-run__heading {
+    font-size: var(--sds-run-heading-size);
+    font-weight: var(--sds-run-heading-weight);
+    line-height: var(--sds-run-heading-leading);
+    color: var(--sds-run-heading-ink);
+  }
+  .sds-run__note {
+    font-size: var(--sds-run-note-size);
+    line-height: var(--sds-run-note-leading);
+    color: var(--sds-run-note-ink);
+  }
+  .sds-run__verdict {
+    display: inline-flex;
+    flex: none;
+  }
+  .sds-run__verdict--running {
+    color: var(--sds-run-ink-busy);
+  }
+  .sds-run__verdict--done {
+    color: var(--sds-run-ink-done);
+  }
+  .sds-run__verdict--failed {
+    color: var(--sds-run-ink-failed);
+  }
+
+  /* The stops. Bounded, because a run of forty steps inside a page is a page
+     with no end — what does not fit scrolls here rather than growing the box. */
+  .sds-run__body {
+    border-top: var(--sds-run-border) solid var(--sds-run-edge);
+    max-height: var(--sds-run-list-height);
+    overflow-y: auto;
+  }
+  .sds-run__list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .sds-run__step {
+    min-width: 0;
+    margin: 0;
+
+    + .sds-run__step {
+      border-top: var(--sds-run-border) solid var(--sds-run-edge);
+    }
+  }
+
+  /* One stop. The chevron, the mark, what it is, what it is doing, how long. */
+  .sds-run__row {
+    display: grid;
+    grid-template-columns: var(--sds-run-mark) var(--sds-run-mark) auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sds-run-row-gap);
+    padding: var(--sds-run-row-pad-y) var(--sds-run-row-pad-x);
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+    /* A row with nothing to open keeps the column the chevron stands in, so
+       every mark in the list is at the same place down the page. */
+    > .sds-run__mark:first-child {
+      grid-column-start: 2;
+    }
+  }
+  /* Only a row that opens is a control. */
+  .sds-run__fold > .sds-run__row {
+    cursor: pointer;
+
+    &:hover {
+      background: var(--sds-run-row-fill-hover);
+    }
+  }
+  .sds-run__chevron {
+    color: var(--sds-run-said-ink);
+    transition: transform var(--sds-run-duration) var(--sds-run-ease);
+  }
+  .sds-run__fold[open] > .sds-run__row > .sds-run__chevron {
+    transform: rotate(90deg);
+  }
+  .sds-run__mark {
+    display: inline-flex;
+  }
+  .sds-run__mark--ahead {
+    color: var(--sds-run-ink-ahead);
+  }
+  .sds-run__mark--running {
+    color: var(--sds-run-ink-busy);
+  }
+  .sds-run__mark--done {
+    color: var(--sds-run-ink-done);
+  }
+  .sds-run__mark--failed {
+    color: var(--sds-run-ink-failed);
+  }
+  .sds-run__label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  /* What is happening to it, said in words beside the name rather than left to
+     the mark. Cut where the column ends: it is a phrase, and a row that wraps
+     is a row the column below it no longer lines up with. */
+  .sds-run__said {
+    grid-column: 4;
+    justify-self: start;
+    overflow: hidden;
+    font-size: var(--sds-run-said-size);
+    color: var(--sds-run-said-ink);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sds-run__meta {
+    grid-column: 5;
+    color: var(--sds-run-said-ink);
+    font-size: var(--sds-run-meta-size);
+    /* Figures under each other down the column, and a duration that does not
+       jump sideways while it counts up. */
+    font-variant-numeric: tabular-nums;
+  }
+  /* Every row states its own ink, so the four are read against each other
+     rather than three of them against a default. The one in hand is the page's
+     own ink and a band under the row; what has not been reached is set back;
+     what failed is worth reading, and what is behind us is the ordinary row. */
+  .sds-run__step--ahead {
+    color: var(--sds-run-said-ink);
+  }
+  .sds-run__step--running {
+    background: var(--sds-run-row-fill-busy);
+    color: var(--sds-run-row-ink-strong);
+
+    :is(.sds-run__said, .sds-run__meta) {
+      color: var(--sds-run-said-ink-busy);
+    }
+  }
+  .sds-run__step--done {
+    color: var(--sds-run-row-ink);
+  }
+  .sds-run__step--failed {
+    color: var(--sds-run-row-ink-strong);
+  }
+
+  /* A set of them, where the work is many jobs at once. The name carries the
+     count, because a group folded away has to say what is inside it. */
+  .sds-run__group > .sds-run__group-head {
+    display: flex;
+    align-items: center;
+    gap: var(--sds-run-row-gap);
+    padding: var(--sds-run-row-pad-y) var(--sds-run-row-pad-x);
+    cursor: pointer;
+    list-style: none;
+    color: var(--sds-run-said-ink);
+    font-size: var(--sds-run-said-size);
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+  .sds-run__group[open] > .sds-run__group-head > .sds-run__chevron {
+    transform: rotate(90deg);
+  }
+  .sds-run__group + .sds-run__group > .sds-run__group-head {
+    border-top: var(--sds-run-border) solid var(--sds-run-edge);
+  }
+
+  /* What the step wrote, under the words it wrote them for. Numbered down the
+     side by a counter, so the gutter is never in the text a reader copies. */
+  .sds-run__output {
+    counter-reset: sds-run-line;
+    display: block;
+    max-height: var(--sds-run-output-height);
+    margin: 0;
+    overflow: auto;
+    padding: var(--sds-run-output-pad-y) var(--sds-run-output-pad-x);
+    background: var(--sds-run-output-fill);
+    color: var(--sds-run-output-ink);
+    font-family: var(--sds-run-output-font);
+    font-size: var(--sds-run-output-size);
+    line-height: var(--sds-run-output-leading);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  /* Two columns rather than an indent, so a line too long for the box wraps
+     under its own text and not under its number. */
+  .sds-run__line {
+    counter-increment: sds-run-line;
+    display: grid;
+    grid-template-columns: var(--sds-run-gutter) minmax(0, 1fr);
+    gap: var(--sds-run-gutter-gap);
+
+    &::before {
+      content: counter(sds-run-line);
+      color: var(--sds-run-gutter-ink);
+      text-align: end;
+      /* The gutter is never in the text a reader copies out. */
+      user-select: none;
+    }
+  }
+  .sds-run__line--note {
+    color: var(--sds-run-row-ink-strong);
+  }
+  .sds-run__line--ok {
+    color: var(--sds-run-ink-done);
+  }
+  .sds-run__line--error {
+    color: var(--sds-run-ink-failed);
+  }
+}

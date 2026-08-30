@@ -1,0 +1,72 @@
+<!-- @dsCard group="Components" viewport="760x901" subtitle="Nothing waits for anything, so the state sorts them and the group carries the count" name="Many jobs at once" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/styles.css" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec">
+    <div class="spec-cap">Still going — the state sorts them, and each row says in words what the mark cannot</div>
+    <details class="sds-run" open>
+      <summary class="sds-run__head"><span
+        class="sds-run__verdict sds-run__verdict--running sds-spinner"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Running" viewBox="0 0 16 16" data-icon="spinner-circle"><g fill="currentColor"><path d="M8 15c-3.86 0-7-3.141-7-7 0-3.86 3.14-7 7-7 3.859 0 7 3.14 7 7 0 3.859-3.141 7-7 7zM8 3C5.243 3 3 5.243 3 8s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" opacity=".3"></path><path d="M14 9a1 1 0 0 1-1-1c0-2.757-2.243-5-5-5a1 1 0 0 1 0-2c3.859 0 7 3.14 7 7a1 1 0 0 1-1 1z"></path></g></svg></span><span class="sds-run__headline"><span
+        class="sds-run__heading">Some checks haven’t completed yet</span><span class="sds-run__note">2 in progress, 2 queued, 1 failed</span></span><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+      <div class="sds-run__body"><details class="sds-run__group" open>
+          <summary class="sds-run__group-head"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg>2 queued</summary>
+          <ol class="sds-run__list"><li class="sds-run__step sds-run__step--ahead">
+          <div class="sds-run__row" aria-label="Build PHP (8.4) — Not started. Waiting to run this check"><span
+          class="sds-run__mark sds-run__mark--ahead"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Build PHP (8.4)</span><span class="sds-run__said">Waiting to run this check</span><span class="sds-run__meta"></span></div>
+        </li><li class="sds-run__step sds-run__step--ahead">
+          <div class="sds-run__row" aria-label="Build PHP (8.5) — Not started. Waiting to run this check"><span
+          class="sds-run__mark sds-run__mark--ahead"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Build PHP (8.5)</span><span class="sds-run__said">Waiting to run this check</span><span class="sds-run__meta"></span></div>
+        </li></ol>
+        </details><details class="sds-run__group" open>
+          <summary class="sds-run__group-head"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg>2 in progress</summary>
+          <ol class="sds-run__list"><li class="sds-run__step sds-run__step--running">
+          <div class="sds-run__row" aria-label="Build frontend — Running. Started now"><span
+          class="sds-run__mark sds-run__mark--running sds-spinner"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="spinner-circle"><g fill="currentColor"><path d="M8 15c-3.86 0-7-3.141-7-7 0-3.86 3.14-7 7-7 3.859 0 7 3.14 7 7 0 3.859-3.141 7-7 7zM8 3C5.243 3 3 5.243 3 8s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" opacity=".3"></path><path d="M14 9a1 1 0 0 1-1-1c0-2.757-2.243-5-5-5a1 1 0 0 1 0-2c3.859 0 7 3.14 7 7a1 1 0 0 1-1 1z"></path></g></svg></span><span class="sds-run__label">Build frontend</span><span class="sds-run__said">Started now</span><span class="sds-run__meta">24s</span></div>
+        </li><li class="sds-run__step sds-run__step--running">
+          <div class="sds-run__row" aria-label="Build PHP (8.2) — Running. Started now"><span
+          class="sds-run__mark sds-run__mark--running sds-spinner"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="spinner-circle"><g fill="currentColor"><path d="M8 15c-3.86 0-7-3.141-7-7 0-3.86 3.14-7 7-7 3.859 0 7 3.14 7 7 0 3.859-3.141 7-7 7zM8 3C5.243 3 3 5.243 3 8s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" opacity=".3"></path><path d="M14 9a1 1 0 0 1-1-1c0-2.757-2.243-5-5-5a1 1 0 0 1 0-2c3.859 0 7 3.14 7 7a1 1 0 0 1-1 1z"></path></g></svg></span><span class="sds-run__label">Build PHP (8.2)</span><span class="sds-run__said">Started now</span><span class="sds-run__meta">18s</span></div>
+        </li></ol>
+        </details><details class="sds-run__group" open>
+          <summary class="sds-run__group-head"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg>1 failed</summary>
+          <ol class="sds-run__list"><li class="sds-run__step sds-run__step--failed">
+          <details class="sds-run__fold" open>
+            <summary class="sds-run__row" aria-label="Lint — Failed. Two files are off the standard"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg><span
+          class="sds-run__mark sds-run__mark--failed"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg></span><span class="sds-run__label">Lint</span><span class="sds-run__said">Two files are off the standard</span><span class="sds-run__meta">31s</span></summary>
+            <pre class="sds-run__output"><span class="sds-run__line sds-run__line--note">→ vendor/bin/php-cs-fixer fix --dry-run</span><span class="sds-run__line sds-run__line--error">✗ src/Source/Sitemap.php — 1 violation</span></pre>
+          </details>
+        </li></ol>
+        </details></div>
+    </details>
+    <div class="spec-cap">Answered — folded away, because the one line is the whole of it</div>
+    <details class="sds-run">
+      <summary class="sds-run__head"><span
+        class="sds-run__verdict sds-run__verdict--done"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Done" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__headline"><span
+        class="sds-run__heading">All checks have passed</span><span class="sds-run__note">5 successful checks</span></span><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+      <div class="sds-run__body"><details class="sds-run__group" open>
+          <summary class="sds-run__group-head"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg>5 successful</summary>
+          <ol class="sds-run__list"><li class="sds-run__step sds-run__step--done">
+          <div class="sds-run__row" aria-label="Build PHP (8.4) — Done. Successful in 1m 12s"><span
+          class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Build PHP (8.4)</span><span class="sds-run__said">Successful in 1m 12s</span><span class="sds-run__meta">1m 12s</span></div>
+        </li><li class="sds-run__step sds-run__step--done">
+          <div class="sds-run__row" aria-label="Build PHP (8.5) — Done. Successful in 1m 12s"><span
+          class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Build PHP (8.5)</span><span class="sds-run__said">Successful in 1m 12s</span><span class="sds-run__meta">1m 12s</span></div>
+        </li><li class="sds-run__step sds-run__step--done">
+          <div class="sds-run__row" aria-label="Build frontend — Done. Successful in 1m 12s"><span
+          class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Build frontend</span><span class="sds-run__said">Successful in 1m 12s</span><span class="sds-run__meta">1m 12s</span></div>
+        </li><li class="sds-run__step sds-run__step--done">
+          <div class="sds-run__row" aria-label="Build PHP (8.2) — Done. Successful in 1m 12s"><span
+          class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Build PHP (8.2)</span><span class="sds-run__said">Successful in 1m 12s</span><span class="sds-run__meta">1m 12s</span></div>
+        </li><li class="sds-run__step sds-run__step--done">
+          <div class="sds-run__row" aria-label="Lint — Done. Successful in 1m 12s"><span
+          class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Lint</span><span class="sds-run__said">Successful in 1m 12s</span><span class="sds-run__meta">1m 12s</span></div>
+        </li></ol>
+        </details></div>
+    </details>
+  </div>
+</body>
+</html>

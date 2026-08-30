@@ -568,7 +568,12 @@ when. A page that puts the date first has published a date.
 sds-steps, sds-step
 ===================
 
-An instruction read from the top, numbered down one rail.
+An instruction read from the top, numbered down one rail. Work *to do*: it is
+rendered before the page is served and nothing about it changes afterwards.
+Work being **done** — stops arriving one at a time, each carrying what it
+wrote, the whole ending on a verdict — is
+:ref:`sds-run <component-sds-run>`, and it is an application's component
+rather than a document's.
 
 .. code-block:: html
 

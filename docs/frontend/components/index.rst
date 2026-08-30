@@ -167,6 +167,9 @@ which group it was filed under.
    * - ``sds-search-result``
      - one hit in a list of them
      - :ref:`Navigation — sds-search-result <component-sds-search-result>`
+   * - ``sds-run``
+     - work being done, as the stops it is made of
+     - :ref:`Controls — sds-run <component-sds-run>`
    * - ``sds-select``
      - one answer out of a list the reader does not need to see
      - :ref:`Forms — sds-select <component-sds-select>`

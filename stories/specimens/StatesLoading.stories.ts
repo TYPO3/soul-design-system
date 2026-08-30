@@ -5,17 +5,19 @@
    only — there is no element for either, because neither has anything to
    decide; what the card documents is when to reach for which.
 
-   The glyph is the one drawing here that is not from the sprite: the spinner
-   is a rotating mark rather than an icon in the set. */
+   The glyph is the set's own `spinner-circle` — a faint ring and the arc that
+   travels round it — turned by `.sds-spinner`, which spins whatever is put in
+   it. Nothing here draws a mark of its own. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { dsCard, DIVIDER, indent, NNBSP, spec } from '../lib/specimen.ts';
+import '../../packages/frontend/src/components/icon.ts';
+import { dsCard, DIVIDER, indent, NNBSP, part, spec } from '../lib/specimen.ts';
 
 const BOX = 'flex:1; min-width:240px; border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:14px;';
 
-const SPINNER = '<svg width="16" height="16" class="sds-icon sds-icon--16" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"> <g fill="currentColor">  <path d="M15.549,8H14c0-3.31-2.69-6-6-6C6.88,2,5.84,2.31,4.94,2.84l0.61,0.97C6.27,3.39,7.1,3.13,8,3.13   c2.68,0,4.87,2.18,4.87,4.87h-1.419c-0.196,0-0.316,0.216-0.212,0.383l2.049,3.278c0.098,0.157,0.326,0.157,0.424,0l2.049-3.278   C15.865,8.216,15.745,8,15.549,8z"></path>  <path d="M10.37,12.23c-0.7,0.4-1.5,0.64-2.37,0.64c-2.68,0-4.87-2.18-4.87-4.87h1.419c0.196,0,0.316-0.216,0.212-0.383L2.712,4.339   c-0.098-0.157-0.326-0.157-0.424,0L0.239,7.617C0.135,7.784,0.255,8,0.451,8H2c0,3.31,2.69,6,6,6c1.09,0,2.1-0.29,2.98-0.8   L10.37,12.23z"></path> </g> </svg>';
+const SPINNER = part(html`<sds-icon name="spinner-circle" size="16"></sds-icon>`);
 
 /** A wait that says what is being waited on. */
 const named = (): string =>

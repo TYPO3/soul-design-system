@@ -19,7 +19,7 @@ import * as report from './lib/report.ts';
    whether it exists, where its file is, which sprite carries it, what a
    deprecated spelling resolves to — comes from the package's own manifest.
    Nothing here scans a directory or guesses a path from an identifier. */
-const CATEGORIES = ['actions'] as const;
+const CATEGORIES = ['actions', 'spinner'] as const;
 
 const PKG = join(ROOT, 'node_modules', '@typo3', 'icons');
 const OUT = join(FRONTEND, 'assets', 'icons');

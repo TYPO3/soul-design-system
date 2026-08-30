@@ -6,7 +6,8 @@ above.
 
 ## Icons — `packages/frontend/assets/icons/`
 
-The `actions` category of [TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons),
+The `actions` and `spinner` categories of
+[TYPO3/TYPO3.Icons](https://github.com/TYPO3/TYPO3.Icons),
 **MIT License**, via the `@typo3/icons` package. The licence text ships
 beside them as `packages/frontend/assets/icons/LICENSE-TYPO3.Icons.txt`.
 

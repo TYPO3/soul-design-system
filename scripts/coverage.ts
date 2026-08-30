@@ -62,6 +62,10 @@ const ELSEWHERE = [
      nothing in a document is still running — and a bar over finished work is a
      distance claimed about a job that is not there. */
   'sds-progress',
+  /* And the stops that job is made of, for the same reason from the other end:
+     a run arrives one stop at a time and ends on a verdict, and a document has
+     nothing arriving. The instruction a manual does have is `sds-steps`. */
+  'sds-run',
   /* Something a page opens over itself, which a document does not do. */
   'sds-modal',
   'sds-dialog',

@@ -23,10 +23,17 @@ identifier's category, so nothing is guessed from the spelling. Both map the
 deprecated aliases to their current names. Resolve an alias before using it — the old spelling is not
 what ``typo3_icon_lookup`` returns.
 
-Only the ``actions`` category ships. To bring another one in, add it to
-``CATEGORIES`` in ``scripts/icons.ts`` and run ``make icons``: a category
-arrives whole, in the package's own layout, because a manifest's paths resolve
-against it. Never drop a file into the generated directory by hand.
+``CATEGORIES`` in ``scripts/icons.ts`` says which categories ship, and it is
+the whole answer: a category arrives whole, in the package's own layout,
+because a manifest's paths resolve against it. To bring another one in, add it
+there and run ``make icons``. Never drop a file into the generated directory by
+hand.
+
+``spinner`` is a category of one, and it is there for one reason:
+``.sds-spinner`` turns whatever is put in it, and what it turns has to be the
+set's own mark rather than an SVG somebody drew into a stylesheet. Before it
+shipped, the loading specimen carried a spinner written out by hand — which is
+a second drawing of a thing this system already had a name for.
 
 .. warning::
 

@@ -452,6 +452,106 @@ wrong.
    :doc:`the states guideline </design-system/states>`. A bar that advances by
    itself is telling the reader something the work never said.
 
+.. _component-sds-run:
+
+sds-run
+=======
+
+Work being **done**, as the stops it is made of. ``sds-progress`` above says how
+far; this says what the work is going through, and it is the one component in
+the system that changes while a reader is watching it.
+
+Not :ref:`sds-steps <component-sds-steps>`, and the difference is not the
+drawing. An instruction is rendered before the page is served and never
+changes. A run arrives one stop at a time, each stop carries what it wrote, the
+stops fold, and the whole ends on a **verdict** an instruction has no place
+for. Nothing in a document is still running, which is why this element is an
+application's and appears in no rendered page here.
+
+.. code-block:: html
+
+   <sds-run heading="Reading docs.typo3.org" verdict="running"
+     note="Step 3 of 5 · 1m 27s so far" open
+     .steps="${[
+       { label: 'Fetch the sitemap', state: 'done', meta: '0.4s' },
+       { label: 'Build the index', state: 'running', meta: '23s',
+         output: '→ 12880 of 18412 pages' },
+       { label: 'Swap it in', state: 'ahead' },
+     ]}"></sds-run>
+
+.. confval:: heading
+   :name: sds-run-heading
+   :type: string
+   :required: true
+
+   What the run is, in one line — or what has become of it, which is what a set
+   of jobs says at the top: "Some checks haven't completed yet".
+
+.. confval:: verdict
+   :name: sds-run-verdict
+   :type: "running | done | failed"
+   :default: running
+
+   What became of the whole. It is the mark beside the heading, and it is the
+   one thing a folded run still says.
+
+.. confval:: note
+   :name: sds-run-note
+   :type: string
+
+   The line under the heading: where the work has got to, or the counts.
+
+.. confval:: steps
+   :name: sds-run-steps
+   :type: "{ label, state, meta?, note?, output?, group? }[]"
+   :required: true
+
+   The stops, set from script — being a list, and one that changes. ``state`` is
+   ``ahead``, ``running``, ``done`` or ``failed``; ``meta`` is the quiet word at
+   the far end of the row, a duration or a count; ``note`` is what is happening
+   to it *in words*, which is what a queue owes a reader that a mark cannot say;
+   ``output`` is what it wrote.
+
+.. confval:: group
+   :name: sds-run-group
+   :type: string
+
+   Named on a step, not on the run. Where the work is many jobs at once rather
+   than one sequence, the order says nothing and the state is what sorts them —
+   so the stops carry the group they belong to, and each group folds under a
+   name that carries its own count. Stops naming none are one run, read in
+   order.
+
+.. confval:: open
+   :name: sds-run-open
+   :type: boolean
+   :default: false
+
+   Whether the whole stands unfolded. A run being watched is written ``open``;
+   one in a list of past runs is not, and the head is then the whole of it.
+
+**A stop that wrote nothing does not open.** It draws no chevron and takes no
+press: a control that opens onto an empty box is a promise the row cannot keep.
+What did write something opens by itself while it is in hand and closes once it
+is behind — and a press is the reader's answer to that question, kept for as
+long as the run is on screen.
+
+**The mark is named, not only drawn.** A shape and a colour are one claim, and
+neither reaches a reader who is told rather than shown, so every state carries
+its word — see :doc:`/design-system/accessibility`.
+
+**The row in hand carries a band and the page's own ink**, never the accent:
+that marks three things and a step is none of them. What says this is the one
+being worked on is the movement, which is what the two settled ends have no
+need of.
+
+.. note::
+
+   The share is ``sds-progress``, above it, where the work reports one. Most
+   runs cannot: a job of five steps knows which step it is on and nothing about
+   how long the fourth will take, and a bar that advances by itself is telling
+   the reader something the work never said.
+
 .. _component-sds-icon:
 
 sds-icon

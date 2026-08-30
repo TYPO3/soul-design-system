@@ -6255,6 +6255,149 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/run.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsRun",
+          "tagName": "sds-run",
+          "summary": "Work being done, as the stops it is made of.",
+          "description": "Work being done, as the stops it is made of.\n\nNot `sds-steps`, and the difference is not the drawing. An instruction is rendered before it is served and never changes; a run arrives one stop at a time, each one carrying what it wrote, and the whole has a verdict at the end that an instruction has no place for. So it is an application's component, beside `sds-progress` — see `ELSEWHERE` in `scripts/coverage.ts`.\n\nThe share, where the work reports one, is `sds-progress` above it. A run whose end is not a number — which is most of them — draws no bar at all.",
+          "attributes": [
+            {
+              "name": "heading",
+              "description": "What the run is, in one line — or what has become of it, which is what a set of jobs says at the top: \"Some checks haven't completed yet\".",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "heading"
+            },
+            {
+              "name": "verdict",
+              "description": "What became of the whole. It is the mark beside the heading.",
+              "type": {
+                "text": "'running' | 'done' | 'failed'"
+              },
+              "fieldName": "verdict"
+            },
+            {
+              "name": "note",
+              "description": "The line under the heading: where the work has got to, or the counts.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "note"
+            },
+            {
+              "name": "open",
+              "description": "Whether the whole stands open. A run being watched is written `open`; one in a list of past runs is not, and the head is then the whole of it.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "open"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "What the run is, in one line — or what has become of it, which is what a set of jobs says at the top: \"Some checks haven't completed yet\".",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "verdict",
+              "privacy": "public",
+              "description": "What became of the whole. It is the mark beside the heading.",
+              "type": {
+                "text": "'running' | 'done' | 'failed'"
+              },
+              "attribute": "verdict"
+            },
+            {
+              "kind": "field",
+              "name": "note",
+              "privacy": "public",
+              "description": "The line under the heading: where the work has got to, or the counts.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "note"
+            },
+            {
+              "kind": "field",
+              "name": "steps",
+              "privacy": "public",
+              "description": "The stops, set from script — being a list, and one that changes.",
+              "type": {
+                "text": "readonly RunStep[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "description": "Whether the whole stands open. A run being watched is written `open`; one in a list of past runs is not, and the head is then the whole of it.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "open"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-run",
+            "sds-run__body",
+            "sds-run__chevron",
+            "sds-run__fold",
+            "sds-run__group",
+            "sds-run__group-head",
+            "sds-run__head",
+            "sds-run__heading",
+            "sds-run__headline",
+            "sds-run__label",
+            "sds-run__line",
+            "sds-run__list",
+            "sds-run__mark",
+            "sds-run__meta",
+            "sds-run__note",
+            "sds-run__output",
+            "sds-run__row",
+            "sds-run__said",
+            "sds-run__step",
+            "sds-run__step--running",
+            "sds-run__verdict",
+            "sds-spinner"
+          ],
+          "slots": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsRun",
+          "declaration": {
+            "name": "SdsRun",
+            "module": "src/components/run.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-run",
+          "declaration": {
+            "name": "SdsRun",
+            "module": "src/components/run.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/search-hits.ts",
       "declarations": [
         {
