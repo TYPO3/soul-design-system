@@ -118,7 +118,7 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a pane's body is content, and
      `renderStatic` flattens no element that was given children. */
   const grounds = grid([pane('light'), pane('dark')], { flat });
-  const palette = grid(COLOURS.map(sdsSwatch), { flat, variant: 'wide' });
+  const palette = grid(COLOURS.map(sdsSwatch), { flat });
 
   return html`<div class="sds-shell">
   ${skipLink()}
@@ -131,6 +131,10 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
 
     <main class="sds-body__main" id="main-content">
       <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+      <!-- The document box, and the trail and the pager stand outside it: the
+           column gives the width up for the contents beside it, so those two
+           narrow with the text rather than reaching past it. -->
+      <article class="sds-prose">
       <h1>Drawing a glyph</h1>
       <p class="sds-lead">
         What a drawing has to hold to look like it belongs to the set. These
@@ -138,10 +142,13 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
         their first glyph meets them.
       </p>
 
-      <!-- What is on this page, as a block where it was written. An .sds-aside
-           inside an .sds-prose is what takes it out of the flow to rest beside
-           the column, and both are in styles.css — the documentation page shows
-           that form; this one shows the form without them. -->
+      <!-- What is on this page, beside the column. The .sds-aside inside an
+           .sds-prose is what takes it out of the flow — and only where there is
+           room: below 1296px the box is display:contents and the list is a
+           block where it stands, which is the form without the reserve. So this
+           is not a choice between two arrangements, it is the arrangement that
+           falls back to the other one. -->
+      <div class="sds-aside">
       <sds-nav-toc
         .entries="${[
           { label: 'Construction', href: '#construction' },
@@ -150,6 +157,7 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
           { label: 'The source', href: '#source' },
         ]}"
       ></sds-nav-toc>
+      </div>
 
       <h2 class="sds-h3" id="construction">Construction</h2>
       <p>
@@ -204,6 +212,7 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
       </p>
 
       <sds-code code-lang="html" source="${SOURCE}" copy></sds-code>
+      </article>
 
       <sds-nav-pager
         previous-href="#glyphs" previous-label="The set"

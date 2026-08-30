@@ -179,6 +179,10 @@
       <nav class="sds-crumbs" aria-label="Breadcrumb">
   <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><a href="#">Glyphs</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">Drawing one</span>
 </nav>
+      <!-- The document box, and the trail and the pager stand outside it: the
+           column gives the width up for the contents beside it, so those two
+           narrow with the text rather than reaching past it. -->
+      <article class="sds-prose">
       <h1>Drawing a glyph</h1>
       <p class="sds-lead">
         What a drawing has to hold to look like it belongs to the set. These
@@ -186,10 +190,13 @@
         their first glyph meets them.
       </p>
 
-      <!-- What is on this page, as a block where it was written. An .sds-aside
-           inside an .sds-prose is what takes it out of the flow to rest beside
-           the column, and both are in styles.css — the documentation page shows
-           that form; this one shows the form without them. -->
+      <!-- What is on this page, beside the column. The .sds-aside inside an
+           .sds-prose is what takes it out of the flow — and only where there is
+           room: below 1296px the box is display:contents and the list is a
+           block where it stands, which is the form without the reserve. So this
+           is not a choice between two arrangements, it is the arrangement that
+           falls back to the other one. -->
+      <div class="sds-aside">
       <nav class="sds-toc" aria-label="On this page">
   <p class="sds-label">On this page</p>
   <ul class="sds-toc__list">
@@ -219,6 +226,7 @@
 </li>
 </ul>
 </nav>
+      </div>
 
       <h2 class="sds-h3" id="construction">Construction</h2>
       <p>
@@ -396,6 +404,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span>/&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
 </div>
+      </article>
 
       <nav class="sds-pager" aria-label="Through the guideline">
   <a class="sds-btn sds-btn--secondary" href="#glyphs" rel="prev"><svg width="16" height="16" style="width:16px;height:16px" class="sds-icon" role="img" aria-label="Previous page" viewBox="0 0 16 16" data-icon="actions-arrow-left"><g fill="currentColor"><path d="M14 7H6.7V5c0-.4-.5-.6-.8-.4l-3.7 3c-.2.2-.2.6 0 .8l3.7 3c.3.3.8 0 .8-.4V9H14V7z"></path></g></svg><span class="sds-btn__label">The set</span></a>

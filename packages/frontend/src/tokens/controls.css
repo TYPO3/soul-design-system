@@ -65,7 +65,12 @@
        one. A sample of a colour, and the room a glyph is given in a wall of
        them: both would follow the spacing scale if they borrowed it, and a
        spacing scale is retuned for reasons that have nothing to do with either. */
-    --swatch-chip-size: 32px;
+    /* Drawn against the two lines of mono beside it — the name and the value.
+       At 32px the sample was a third shorter than the text it is the subject
+       of. It stops under their height rather than at it: taller than the pair,
+       it would set the row for a swatch with one line too, and a chip twice its
+       own words is the same fault the other way round. */
+    --swatch-chip-size: 40px;
     --tile-art-size: 64px;
 
     /* Tables. The head names the column and is read to understand the row, so

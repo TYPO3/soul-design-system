@@ -190,8 +190,10 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 
            An .sds-prose with an .sds-aside in it is what puts the list beside
            the column and lets it rest there from 1296px — the same two boxes
-           the renderer writes around a document's contents. Without them the
-           list is a block where it stands, as the guide page shows. -->
+           the renderer writes around a document's contents. Below that width
+           the box is display:contents and the list is a block where it stands,
+           so this is not one arrangement out of two: it is the one that falls
+           back to the other. -->
       <div class="sds-aside">
         <sds-nav-toc
           .entries="${[
