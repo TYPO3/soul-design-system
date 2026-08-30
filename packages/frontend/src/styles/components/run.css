@@ -51,9 +51,12 @@
        are what the status colours are for, and a third one competing with them
        is a row nobody can pick out of the column. */
     --sds-run-row-fill-busy: var(--surface-inset);
-    --sds-run-mark: 1em;
-    --sds-run-meta-size: var(--font-size-dense);
-    --sds-run-said-size: var(--font-size-dense);
+    /* The two columns the marks stand in, as a length and not as `1em`: the
+       block a row opens onto is set smaller than the row, and it has to line up
+       with the row's own words. */
+    --sds-run-mark: var(--font-size-body);
+    --sds-run-meta-size: var(--font-size-small);
+    --sds-run-said-size: var(--font-size-small);
     --sds-run-said-ink: var(--text-muted);
     /* On the band the row in hand carries, muted ink drops under the contrast
        the text rule holds — and quiet text is still text. */
@@ -72,11 +75,15 @@
     --sds-run-output-fill: var(--surface-sunken);
     --sds-run-output-ink: var(--text-secondary);
     --sds-run-output-font: var(--font-mono);
-    --sds-run-output-size: var(--font-size-dense);
+    --sds-run-output-size: var(--font-size-small);
     --sds-run-output-leading: var(--leading-body);
     --sds-run-output-pad-y: var(--space-2);
     --sds-run-output-pad-x: var(--space-3);
     --sds-run-output-height: 18rem;
+    /* Where the row's own words start: the two mark columns, their gaps and the
+       row's inset. What a step wrote is set to begin there, so it hangs under
+       what it is called rather than reading as a block belonging to the list. */
+    --sds-run-output-inset: calc(var(--sds-run-row-pad-x) + 2 * var(--sds-run-mark) + 2 * var(--sds-run-row-gap));
     --sds-run-gutter: 3ch;
     --sds-run-gutter-gap: var(--space-3);
     --sds-run-gutter-ink: var(--text-muted);
@@ -286,7 +293,10 @@
     max-height: var(--sds-run-output-height);
     margin: 0;
     overflow: auto;
-    padding: var(--sds-run-output-pad-y) var(--sds-run-output-pad-x);
+    /* The numbers hang to the left of that line, in the margin, so what lines
+       up with the row's words is the text a reader is actually reading. */
+    padding: var(--sds-run-output-pad-y) var(--sds-run-output-pad-x) var(--sds-run-output-pad-y)
+      calc(var(--sds-run-output-inset) - var(--sds-run-gutter) - var(--sds-run-gutter-gap));
     background: var(--sds-run-output-fill);
     color: var(--sds-run-output-ink);
     font-family: var(--sds-run-output-font);
