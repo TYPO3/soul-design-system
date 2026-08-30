@@ -30,9 +30,12 @@
        heading step, because a control does not wrap. */
     --control-leading: var(--leading-heading);
 
-    --control-pad-y: 8px;
+    /* Padding comes in under the height, which is what makes the height a
+       floor rather than a ceiling: at the reading size the vertical pair no
+       longer did, and a button stood over the field beside it on one line. */
+    --control-pad-y: 6px;
     --control-pad-x: 15px;
-    --control-pad-y-sm: 5px;
+    --control-pad-y-sm: 4px;
     --control-pad-x-sm: 11px;
     --control-pad-y-lg: 11px;
     --control-pad-x-lg: 19px;
