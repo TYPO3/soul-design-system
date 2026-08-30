@@ -68,8 +68,8 @@ export class SdsModal extends SdsElement {
     const width = this.width > 0 ? ` width:${this.width}px` : '';
     return html`<div class="${modalClass(this.size)}" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);${width}">
   <div class="sds-modal__head">
-    <span>${this.heading}</span>
-    <span style="color:var(--text-muted);"><sds-icon name="actions-close"></sds-icon></span>
+    <span class="sds-modal__title">${this.heading}</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-modal__body">${this.body}</div>
   <div class="sds-modal__foot">

@@ -206,8 +206,8 @@ export class SdsDialog extends SdsElement {
       @close="${this.onClose}"
     >
   <div class="sds-modal__head">
-    <span>${this.heading}</span>
-    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
+    <span class="sds-modal__title">${this.heading}</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-modal__body">${this.body}</div>
   ${this.foot()}

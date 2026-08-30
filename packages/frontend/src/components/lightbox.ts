@@ -112,8 +112,8 @@ export class SdsLightbox extends SdsElement {
       }}"
     >
   <div class="sds-modal__head">
-    <span>${this.caption || this.alt}</span>
-    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
+    <span class="sds-modal__title">${this.caption || this.alt}</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-lightbox__art${exported(this.src) ? ' sds-lightbox__art--exported' : ''}">
     ${art(this.src, this.alt)}

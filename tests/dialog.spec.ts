@@ -7,11 +7,24 @@
    standing would have the dialog answering with the last reader's press.
 
    The size scale is measured beside it because a cap is only a cap if
-   something gives: the body is what scrolls. */
+   something gives: the body is what scrolls. And the head is measured in every
+   surface that draws one — it is `sds-modal`'s node standing in a `<dialog>`
+   and in a lightbox, which is where a set read off the wrong ancestor showed
+   up as a close button in the corner of the border. */
 
 import { test, expect } from '@playwright/test';
 
 const LONG = 'Every size stops somewhere, and this is what it stops. '.repeat(40);
+
+/* A heading nobody shortened, and a word nothing can break — the two ways a
+   title takes the whole row and pushes what is beside it out of the box. */
+const WIDE = 'Publish the task skills into the workspace and record the setup?';
+const UNBREAKABLE = 'Reindexierungsauftragsbestaetigungsbenachrichtigungsdienst';
+
+/* A drawing that needs no server: the lightbox is here for its head, which is
+   the modal's, and the stage under it only has to have something in it. */
+const DRAWING =
+  'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 4 3%22%3E%3C/svg%3E';
 
 const PAGE = `<!doctype html>
 <html lang="en" data-theme="dark">
@@ -30,6 +43,13 @@ const PAGE = `<!doctype html>
   <sds-button id="open-long" for="long" variant="secondary">A long one…</sds-button>
   <sds-dialog id="long" heading="A great deal to read" body="${LONG}"
     confirm-label="Got it"></sds-dialog>
+
+  <sds-dialog id="wide" heading="${WIDE}" body="Nothing else is touched."
+    confirm-label="Publish"></sds-dialog>
+  <sds-dialog id="word" heading="${UNBREAKABLE}" body="Nothing else is touched."
+    confirm-label="Publish"></sds-dialog>
+  <sds-lightbox id="drawing" src="${DRAWING}" alt="A drawing"
+    caption="A drawing at the size it was drawn"></sds-lightbox>
 
   <script type="module">
     globalThis.heard = [];
@@ -141,4 +161,48 @@ test('a size is a width and a height, and the body is what scrolls', async ({ pa
   const scrolls = await page.locator(`#long .sds-modal__body`).evaluate(
     (el) => el.scrollHeight > el.clientHeight + 1);
   expect(scrolls).toBe(true);
+});
+
+/* The head is one row in three surfaces, and every value it draws with used to
+   be read off `.sds-modal` — which a lightbox is not, so its whole set arrived
+   as nothing: no padding, no rule, and the close button against the corner. */
+test('the head places its title and its close alike in every surface', async ({ page }) => {
+  const heads: Record<string, unknown>[] = [];
+  for (const id of ['confirm', 'wide', 'word', 'drawing']) {
+    await page.evaluate((id) => (document.querySelector(`#${id}`) as HTMLElement & { show(): void }).show(), id);
+    await expect(page.locator(`#${id} dialog .sds-modal__head`)).toBeVisible();
+    heads.push(await page.evaluate((id) => {
+      const root = document.querySelector(`#${id}`)!;
+      const surface = root.querySelector('dialog')!.getBoundingClientRect();
+      const title = root.querySelector('.sds-modal__title')!.getBoundingClientRect();
+      const close = root.querySelector('.sds-modal__close')!.getBoundingClientRect();
+      const glyph = root.querySelector('.sds-modal__close svg')!.getBoundingClientRect();
+      return {
+        /* The title starts where the mark ends: a square around a glyph reaches
+           the padding edge, and the head gives that half back so the two marks
+           stand the same distance from their own edges. */
+        titleInset: Math.round(title.left - surface.left),
+        glyphInset: Math.round(surface.right - glyph.right),
+        /* Never squeezed into a rectangle, and never pushed past the border. */
+        close: `${Math.round(close.width)}x${Math.round(close.height)}`,
+        clear: close.right <= surface.right && close.left > title.right,
+      };
+    }, id));
+    await page.evaluate((id) => (document.querySelector(`#${id}`) as HTMLElement & { close(): void }).close(), id);
+  }
+
+  const first = heads[0]!;
+  expect(first).toMatchObject({ close: '28x28', clear: true });
+  expect(first.titleInset).toBe(first.glyphInset);
+  for (const head of heads.slice(1)) expect(head).toEqual(first);
+});
+
+/* Both strips are a row of controls, and the foot's are the taller — so the
+   head is given that band as a floor rather than the height its own smaller
+   button happens to make. Unequal, the body sits in a lopsided sandwich. */
+test('the head and the foot are the same band', async ({ page }) => {
+  await page.locator('#open').click();
+  const above = (await page.locator(`#confirm .sds-modal__head`).boundingBox())!;
+  const below = (await page.locator(foot('confirm')).boundingBox())!;
+  expect(Math.round(above.height)).toBe(Math.round(below.height));
 });

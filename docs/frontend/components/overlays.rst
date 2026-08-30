@@ -64,6 +64,30 @@ much room is operated rather than read — a table, a picker, a diff — and a
 question set that wide is one nobody finishes reading. Every size gives its
 gutter back on a narrow screen rather than running to the edges.
 
+The head, in every surface that has one
+======================================
+
+The title on the left and the close on the right, and the same row whichever
+surface opened: a ``<dialog>``, the ``sds-modal`` a card documents, the
+lightbox. It carries a property set of its own for that reason — a custom
+property travels down and never sideways, so the head standing inside
+``sds-lightbox``, which is no ``.sds-modal``, once read that surface's set as
+nothing and drew itself with no padding, no rule, and the close button against
+the corner.
+
+Two things are settled there, and both are what a surface is judged by at a
+glance. The close is a square around a glyph, so its box reaches the padding
+edge while the mark inside stands half a square further in than the title does
+on the left; the head gives that half back, and the two marks end up the same
+distance from their own edges. And the head is one control tall — the band the
+foot's buttons make — so the two strips the body sits between are one band
+rather than a title crowded against the top edge under a foot that has room.
+
+A heading long enough to wrap wraps. What never gives is the close: squeezed it
+would be a rectangle around a glyph that is no longer centred in its own target,
+so it keeps its square, at the end of the row, with the row's gap between it and
+the last word.
+
 .. _component-sds-dialog:
 
 sds-dialog
