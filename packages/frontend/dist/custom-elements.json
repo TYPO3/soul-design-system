@@ -1802,8 +1802,10 @@
             "sds-btn--icon",
             "sds-btn--sm",
             "sds-modal__body",
+            "sds-modal__close",
             "sds-modal__foot",
-            "sds-modal__head"
+            "sds-modal__head",
+            "sds-modal__title"
           ],
           "slots": []
         }
@@ -4167,7 +4169,9 @@
             "sds-lightbox",
             "sds-lightbox__art",
             "sds-lightbox__art--exported",
-            "sds-modal__head"
+            "sds-modal__close",
+            "sds-modal__head",
+            "sds-modal__title"
           ],
           "slots": []
         }
@@ -4422,10 +4426,16 @@
           ],
           "events": [],
           "cssClasses": [
+            "sds-btn",
+            "sds-btn--ghost",
+            "sds-btn--icon",
+            "sds-btn--sm",
             "sds-modal",
             "sds-modal__body",
+            "sds-modal__close",
             "sds-modal__foot",
-            "sds-modal__head"
+            "sds-modal__head",
+            "sds-modal__title"
           ],
           "slots": []
         }
@@ -6347,6 +6357,15 @@
                 "text": "boolean"
               },
               "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "stateWords",
+              "privacy": "public",
+              "description": "What the states are called, where the page is not in English. Every state is a word as well as a mark, and the word is the only one of the two a reader who is told rather than shown ever gets.",
+              "type": {
+                "text": "Partial<Record<RunState, string>>"
+              }
             }
           ],
           "events": [],

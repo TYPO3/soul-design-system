@@ -4469,8 +4469,8 @@ var SdsLightbox = class extends SdsElement {
     }}"
     >
   <div class="sds-modal__head">
-    <span>${this.caption || this.alt}</span>
-    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
+    <span class="sds-modal__title">${this.caption || this.alt}</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-lightbox__art${exported(this.src) ? " sds-lightbox__art--exported" : ""}">
     ${art(this.src, this.alt)}
@@ -5232,7 +5232,8 @@ var SdsRun = class extends SdsElement {
       verdict: { type: String, reflect: true },
       note: { type: String },
       steps: { type: Array },
-      open: { type: Boolean, reflect: true }
+      open: { type: Boolean, reflect: true },
+      stateWords: { type: Object, attribute: "state-words" }
     };
   }
   /** Which rows the reader has opened or closed against what the state would
@@ -5246,6 +5247,12 @@ var SdsRun = class extends SdsElement {
     this.note = "";
     this.steps = [];
     this.open = false;
+    this.stateWords = {};
+  }
+  /** What a state is called here. The page's word where it has one, and the
+      English the marks were written with where it has not. */
+  said(state) {
+    return this.stateWords[state] ?? MARKS[state].said;
   }
   /** The stops in the order they are given, under the group each one named.
       A run with no groups is one list, which is the sequence. */
@@ -5281,7 +5288,8 @@ var SdsRun = class extends SdsElement {
   }
   row(step) {
     const mark = MARKS[step.state];
-    const said = step.note ? `${step.label} \u2014 ${mark.said}. ${step.note}` : `${step.label} \u2014 ${mark.said}`;
+    const word = this.said(step.state);
+    const said = step.note ? `${step.label} \u2014 ${word}. ${step.note}` : `${step.label} \u2014 ${word}`;
     const face = html38`<span
       class="sds-run__mark sds-run__mark--${step.state}${step.state === "running" ? " sds-spinner" : ""}"
     ><sds-icon name="${mark.icon}" size="em"></sds-icon></span>`;
@@ -5308,7 +5316,7 @@ var SdsRun = class extends SdsElement {
     return html38`<details class="sds-run" ?open="${this.open}">
   <summary class="sds-run__head"><span
     class="sds-run__verdict sds-run__verdict--${this.verdict}${this.verdict === "running" ? " sds-spinner" : ""}"
-  ><sds-icon name="${mark.icon}" label="${mark.said}" size="24"></sds-icon></span><span class="sds-run__headline"><span
+  ><sds-icon name="${mark.icon}" label="${this.said(this.verdict)}" size="24"></sds-icon></span><span class="sds-run__headline"><span
     class="sds-run__heading">${this.heading}</span>${this.note ? html38`<span class="sds-run__note">${this.note}</span>` : nothing21}</span><sds-icon class="sds-run__chevron" name="actions-chevron-down" size="em"></sds-icon></summary>
   <div class="sds-run__body">${this.sets.map(
       (set) => set.name ? html38`<details class="sds-run__group" open>
@@ -6224,8 +6232,8 @@ var SdsModal = class extends SdsElement {
     const width = this.width > 0 ? ` width:${this.width}px` : "";
     return html50`<div class="${modalClass(this.size)}" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);${width}">
   <div class="sds-modal__head">
-    <span>${this.heading}</span>
-    <span style="color:var(--text-muted);"><sds-icon name="actions-close"></sds-icon></span>
+    <span class="sds-modal__title">${this.heading}</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-modal__body">${this.body}</div>
   <div class="sds-modal__foot">
@@ -6346,8 +6354,8 @@ var SdsDialog = class extends SdsElement {
       @close="${this.onClose}"
     >
   <div class="sds-modal__head">
-    <span>${this.heading}</span>
-    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
+    <span class="sds-modal__title">${this.heading}</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-modal__body">${this.body}</div>
   ${this.foot()}

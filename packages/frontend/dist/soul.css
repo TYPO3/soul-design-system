@@ -1142,7 +1142,7 @@
 }
 @layer components{
   .sds-overlay{--sds-overlay-fill: var(--surface-overlay);position:absolute;inset:0;background:var(--sds-overlay-fill)}
-  .sds-modal{--sds-modal-width: fit-content;--sds-modal-measure: var(--measure-modal);--sds-modal-height: calc(100vh - var(--space-16));--sds-modal-room: var(--space-8);--sds-modal-pad-y: var(--block-pad-y);--sds-modal-pad-y-tight: var(--block-pad-y-tight);--sds-modal-pad-x: var(--block-pad-x);--sds-modal-gap: var(--control-gap);--sds-modal-border: var(--border-hairline);--sds-modal-radius: var(--radius-card);--sds-modal-fill: var(--surface-raised);--sds-modal-edge: var(--border-strong);--sds-modal-rule: var(--border-subtle);--sds-modal-ink: var(--text-primary);--sds-modal-ink-body: var(--text-secondary);--sds-modal-title-size: var(--block-title-size);--sds-modal-body-size: var(--block-body-size);--sds-modal-body-leading: var(--leading-body);--sds-modal-backdrop: var(--surface-overlay);--sds-modal-title-weight: var(--weight-semibold);width:var(--sds-modal-width);max-width:min(var(--sds-modal-measure),100% - var(--sds-modal-room));max-height:var(--sds-modal-height);border:var(--sds-modal-border) solid var(--sds-modal-edge);border-radius:var(--sds-modal-radius);background:var(--sds-modal-fill)}
+  .sds-modal{--sds-modal-width: fit-content;--sds-modal-measure: var(--measure-modal);--sds-modal-height: calc(100vh - var(--space-16));--sds-modal-room: var(--space-8);--sds-modal-pad-y: var(--block-pad-y);--sds-modal-pad-y-tight: var(--block-pad-y-tight);--sds-modal-pad-x: var(--block-pad-x);--sds-modal-gap: var(--control-gap);--sds-modal-border: var(--border-hairline);--sds-modal-radius: var(--radius-card);--sds-modal-fill: var(--surface-raised);--sds-modal-edge: var(--border-strong);--sds-modal-rule: var(--border-subtle);--sds-modal-ink: var(--text-primary);--sds-modal-ink-body: var(--text-secondary);--sds-modal-body-size: var(--block-body-size);--sds-modal-body-leading: var(--leading-body);--sds-modal-backdrop: var(--surface-overlay);width:var(--sds-modal-width);max-width:min(var(--sds-modal-measure),100% - var(--sds-modal-room));max-height:var(--sds-modal-height);border:var(--sds-modal-border) solid var(--sds-modal-edge);border-radius:var(--sds-modal-radius);background:var(--sds-modal-fill)}
   .sds-modal--sm,.sds-modal--md,.sds-modal--lg{--sds-modal-width: 100%}
   .sds-modal--sm{--sds-modal-measure: var(--modal-width-sm);--sds-modal-height: var(--modal-height-sm)}
   .sds-modal--md{--sds-modal-measure: var(--modal-width-md);--sds-modal-height: var(--modal-height-md)}
@@ -1154,7 +1154,30 @@
     color:var(--sds-modal-ink);
     &::backdrop{background:var(--sds-modal-backdrop)}
   }
-  .sds-modal__head{display:flex;flex:none;align-items:center;justify-content:space-between;padding:var(--sds-modal-pad-y-tight) var(--sds-modal-pad-x);border-bottom:var(--sds-modal-border) solid var(--sds-modal-rule);font-size:var(--sds-modal-title-size);font-weight:var(--sds-modal-title-weight)}
+  .sds-modal__head{
+    --sds-modal-head-pad-y: var(--block-pad-y-tight);
+    --sds-modal-head-pad-x: var(--block-pad-x);
+    --sds-modal-head-gap: var(--control-gap);
+    --sds-modal-head-border: var(--border-hairline);
+    --sds-modal-head-height: calc(var(--control-height) + var(--block-pad-y-tight) * 2 + var(--sds-modal-head-border));
+    --sds-modal-head-rule: var(--border-subtle);
+    --sds-modal-head-size: var(--block-title-size);
+    --sds-modal-head-weight: var(--weight-semibold);
+    --sds-modal-head-close: var(--control-height-sm);
+    --sds-modal-head-glyph: var(--control-icon-size);
+    display:flex;
+    flex:none;
+    align-items:center;
+    justify-content:space-between;
+    gap:var(--sds-modal-head-gap);
+    min-height:var(--sds-modal-head-height);
+    padding:var(--sds-modal-head-pad-y) calc(var(--sds-modal-head-pad-x) - (var(--sds-modal-head-close) - var(--sds-modal-head-glyph)) / 2) var(--sds-modal-head-pad-y) var(--sds-modal-head-pad-x);
+    border-bottom:var(--sds-modal-head-border) solid var(--sds-modal-head-rule);
+    font-size:var(--sds-modal-head-size);
+    font-weight:var(--sds-modal-head-weight);
+    .sds-modal__title{min-width:0}
+    .sds-modal__close{flex:none}
+  }
   .sds-modal__body{
     min-height:0;
     overflow-y:auto;
