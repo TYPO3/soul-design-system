@@ -28,6 +28,10 @@ export interface CheckChoice {
 export interface CheckboxGroupProps {
   /** What is being asked. Rendered as the `<legend>`. */
   legend: string;
+  /** Where the page already draws the question — a dialog's title, a heading
+      over the set. The legend is said and not drawn, so the set is still named
+      and the question is not on the page twice. */
+  legendSaidOnly?: boolean;
   /** What the answers are called when the form is sent. One name for the whole
       set, so a server reads them as a list. */
   name: string;
@@ -43,6 +47,7 @@ export interface CheckboxGroupProps {
 export class SdsCheckboxGroup extends SdsFormElement {
   static override properties = {
     legend: { type: String },
+    legendSaidOnly: { type: Boolean, attribute: 'legend-said-only' },
     name: { type: String },
     choices: { type: Array },
     values: { type: Array },
@@ -50,6 +55,7 @@ export class SdsCheckboxGroup extends SdsFormElement {
   };
 
   declare legend: string;
+  declare legendSaidOnly: boolean;
   declare name: string;
   declare choices: readonly CheckChoice[];
   declare values: readonly string[];
@@ -58,6 +64,7 @@ export class SdsCheckboxGroup extends SdsFormElement {
   constructor() {
     super();
     this.legend = '';
+    this.legendSaidOnly = false;
     this.name = '';
     this.choices = [];
     this.values = [];
@@ -96,7 +103,7 @@ export class SdsCheckboxGroup extends SdsFormElement {
 
   protected override render(): TemplateResult {
     return html`<fieldset class="sds-choices">
-  <legend class="sds-field-label">${this.legend}</legend>
+  <legend class="sds-field-label${this.legendSaidOnly ? ' sds-said-only' : ''}">${this.legend}</legend>
   ${this.hint ? html`<span class="sds-field-hint">${this.hint}</span>` : nothing}
   ${this.choices.map((choice) => {
     const value = choice.value ?? choice.label;

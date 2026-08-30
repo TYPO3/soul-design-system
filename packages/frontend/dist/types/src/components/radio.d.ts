@@ -10,6 +10,10 @@ export interface Choice {
 export interface RadioProps {
     /** What is being asked. Rendered as the `<legend>`. */
     legend: string;
+    /** Where the page already draws the question — a dialog's title, a heading
+        over the set. The legend is said and not drawn, so the set is still named
+        and the question is not on the page twice. */
+    legendSaidOnly?: boolean;
     /** What the answer is called when the form is sent. One name for the whole
         set — that is what makes it one choice rather than several. */
     name: string;
@@ -30,6 +34,10 @@ export declare class SdsRadio extends SdsFormElement {
         legend: {
             type: StringConstructor;
         };
+        legendSaidOnly: {
+            type: BooleanConstructor;
+            attribute: string;
+        };
         name: {
             type: StringConstructor;
         };
@@ -48,6 +56,7 @@ export declare class SdsRadio extends SdsFormElement {
         };
     };
     legend: string;
+    legendSaidOnly: boolean;
     name: string;
     choices: readonly Choice[];
     value: string;

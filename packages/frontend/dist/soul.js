@@ -252,8 +252,8 @@ ${" ".repeat(t)}`,n=[];return s.forEach((i,o)=>{o&&n.push(e),n.push(i)}),n}var u
     <span class="sds-check__label">${this.label}</span>
     ${this.hint?r`<span class="sds-check__hint">${this.hint}</span>`:c}
   </span>
-</label>`}};p("sds-checkbox",bt);var vt=class extends U{static{this.properties={legend:{type:String},name:{type:String},choices:{type:Array},values:{type:Array},hint:{type:String}}}constructor(){super(),this.legend="",this.name="",this.choices=[],this.values=[],this.hint=""}#e;willUpdate(){this.#e??=this.values}updated(){for(let t of this.querySelectorAll("input"))t.checked=this.values.includes(t.value)}restore(){this.values=this.#e??[]}toggle(t,e){let n=this.values.filter(i=>i!==t);this.values=e?[...n,t]:n,this.dispatchEvent(new CustomEvent("sds-change",{detail:this.values,bubbles:!0,composed:!0}))}render(){return r`<fieldset class="sds-choices">
-  <legend class="sds-field-label">${this.legend}</legend>
+</label>`}};p("sds-checkbox",bt);var vt=class extends U{static{this.properties={legend:{type:String},legendSaidOnly:{type:Boolean,attribute:"legend-said-only"},name:{type:String},choices:{type:Array},values:{type:Array},hint:{type:String}}}constructor(){super(),this.legend="",this.legendSaidOnly=!1,this.name="",this.choices=[],this.values=[],this.hint=""}#e;willUpdate(){this.#e??=this.values}updated(){for(let t of this.querySelectorAll("input"))t.checked=this.values.includes(t.value)}restore(){this.values=this.#e??[]}toggle(t,e){let n=this.values.filter(i=>i!==t);this.values=e?[...n,t]:n,this.dispatchEvent(new CustomEvent("sds-change",{detail:this.values,bubbles:!0,composed:!0}))}render(){return r`<fieldset class="sds-choices">
+  <legend class="sds-field-label${this.legendSaidOnly?" sds-said-only":""}">${this.legend}</legend>
   ${this.hint?r`<span class="sds-field-hint">${this.hint}</span>`:c}
   ${this.choices.map(t=>{let e=t.value??t.label;return r`<label class="sds-check">
     <input
@@ -270,8 +270,8 @@ ${" ".repeat(t)}`,n=[];return s.forEach((i,o)=>{o&&n.push(e),n.push(i)}),n}var u
       ${t.hint?r`<span class="sds-check__hint">${t.hint}</span>`:c}
     </span>
   </label>`})}
-</fieldset>`}};p("sds-checkbox-group",vt);var yt=class extends U{static{this.properties={legend:{type:String},name:{type:String},choices:{type:Array},value:{type:String},hint:{type:String},required:{type:Boolean,reflect:!0}}}constructor(){super(),this.legend="",this.name="",this.choices=[],this.value="",this.hint="",this.required=!1}#e;willUpdate(){this.#e??=this.value}updated(){for(let t of this.querySelectorAll("input"))t.checked=t.value===this.value}restore(){this.value=this.#e??""}choose(t){this.value=t.value??t.label,this.dispatchEvent(new CustomEvent("sds-change",{detail:this.value,bubbles:!0,composed:!0}))}render(){return r`<fieldset class="sds-choices" name="${this.name||c}">
-  <legend class="sds-field-label">${this.legend}${this.required?r` <span class="sds-field-req">required</span>`:c}</legend>
+</fieldset>`}};p("sds-checkbox-group",vt);var yt=class extends U{static{this.properties={legend:{type:String},legendSaidOnly:{type:Boolean,attribute:"legend-said-only"},name:{type:String},choices:{type:Array},value:{type:String},hint:{type:String},required:{type:Boolean,reflect:!0}}}constructor(){super(),this.legend="",this.legendSaidOnly=!1,this.name="",this.choices=[],this.value="",this.hint="",this.required=!1}#e;willUpdate(){this.#e??=this.value}updated(){for(let t of this.querySelectorAll("input"))t.checked=t.value===this.value}restore(){this.value=this.#e??""}choose(t){this.value=t.value??t.label,this.dispatchEvent(new CustomEvent("sds-change",{detail:this.value,bubbles:!0,composed:!0}))}render(){return r`<fieldset class="sds-choices" name="${this.name||c}">
+  <legend class="sds-field-label${this.legendSaidOnly?" sds-said-only":""}">${this.legend}${this.required?r` <span class="sds-field-req">required</span>`:c}</legend>
   ${this.hint?r`<span class="sds-field-hint">${this.hint}</span>`:c}
   ${this.choices.map(t=>{let e=t.value??t.label;return r`<label class="sds-check">
     <input

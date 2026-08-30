@@ -4034,6 +4034,7 @@ var SdsCheckboxGroup = class extends SdsFormElement {
   static {
     this.properties = {
       legend: { type: String },
+      legendSaidOnly: { type: Boolean, attribute: "legend-said-only" },
       name: { type: String },
       choices: { type: Array },
       values: { type: Array },
@@ -4043,6 +4044,7 @@ var SdsCheckboxGroup = class extends SdsFormElement {
   constructor() {
     super();
     this.legend = "";
+    this.legendSaidOnly = false;
     this.name = "";
     this.choices = [];
     this.values = [];
@@ -4075,7 +4077,7 @@ var SdsCheckboxGroup = class extends SdsFormElement {
   }
   render() {
     return html24`<fieldset class="sds-choices">
-  <legend class="sds-field-label">${this.legend}</legend>
+  <legend class="sds-field-label${this.legendSaidOnly ? " sds-said-only" : ""}">${this.legend}</legend>
   ${this.hint ? html24`<span class="sds-field-hint">${this.hint}</span>` : nothing14}
   ${this.choices.map((choice) => {
       const value = choice.value ?? choice.label;
@@ -4106,6 +4108,7 @@ var SdsRadio = class extends SdsFormElement {
   static {
     this.properties = {
       legend: { type: String },
+      legendSaidOnly: { type: Boolean, attribute: "legend-said-only" },
       name: { type: String },
       choices: { type: Array },
       value: { type: String },
@@ -4116,6 +4119,7 @@ var SdsRadio = class extends SdsFormElement {
   constructor() {
     super();
     this.legend = "";
+    this.legendSaidOnly = false;
     this.name = "";
     this.choices = [];
     this.value = "";
@@ -4149,7 +4153,7 @@ var SdsRadio = class extends SdsFormElement {
   }
   render() {
     return html25`<fieldset class="sds-choices" name="${this.name || nothing15}">
-  <legend class="sds-field-label">${this.legend}${this.required ? html25` <span class="sds-field-req">required</span>` : nothing15}</legend>
+  <legend class="sds-field-label${this.legendSaidOnly ? " sds-said-only" : ""}">${this.legend}${this.required ? html25` <span class="sds-field-req">required</span>` : nothing15}</legend>
   ${this.hint ? html25`<span class="sds-field-hint">${this.hint}</span>` : nothing15}
   ${this.choices.map((choice) => {
       const value = choice.value ?? choice.label;

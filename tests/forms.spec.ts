@@ -153,3 +153,31 @@ test('a control the caller marked wrong will not let the form go', async ({ page
   expect(blocked.valid, 'a select carrying an error is invalid').toBe(false);
   expect(blocked.said).toContain('Say which release');
 });
+
+/* A set whose question the page already asks. The legend stays — it is what
+   names the group, and an empty one leaves a `<fieldset>` announced as a group
+   with no name — so it is said and not drawn instead. What this holds is that
+   both halves are true at once: still named, and not on the page twice. */
+test('a set can say its question without drawing it', async ({ page }) => {
+  await gotoStory(page, 'forms-checkbox-group--question-above');
+
+  const set = page.locator('fieldset.sds-choices');
+  await expect(set, 'the set is still named by its own legend')
+    .toHaveAccessibleName('What may we attach to the report?');
+
+  /* Drawn once. The heading above it is what a reader sees; the legend takes
+     no room, so the first answer stands where the heading leaves it. */
+  const legend = set.locator('legend');
+  const box = await legend.evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    return { w: r.width, h: r.height, display: getComputedStyle(el).display };
+  });
+  expect(box.display, 'a legend that is read may not be display:none').not.toBe('none');
+  expect(box.w, 'and takes no width').toBeLessThanOrEqual(1);
+  expect(box.h, 'and no height').toBeLessThanOrEqual(1);
+
+  const first = await set.locator('.sds-check').first()
+    .evaluate((el) => el.getBoundingClientRect().top);
+  const top = await set.evaluate((el) => el.getBoundingClientRect().top);
+  expect(first - top, 'and leaves no gap where it would have stood').toBeLessThan(4);
+});

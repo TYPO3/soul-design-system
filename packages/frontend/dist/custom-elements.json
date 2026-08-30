@@ -957,6 +957,14 @@
               "fieldName": "legend"
             },
             {
+              "name": "legend-said-only",
+              "description": "Where the page already draws the question — a dialog's title, a heading over the set. The legend is said and not drawn, so the set is still named and the question is not on the page twice.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "legendSaidOnly"
+            },
+            {
               "name": "name",
               "description": "What the answers are called when the form is sent. One name for the whole set, so a server reads them as a list.",
               "type": {
@@ -983,6 +991,16 @@
                 "text": "string"
               },
               "attribute": "legend"
+            },
+            {
+              "kind": "field",
+              "name": "legendSaidOnly",
+              "privacy": "public",
+              "description": "Where the page already draws the question — a dialog's title, a heading over the set. The legend is said and not drawn, so the set is still named and the question is not on the page twice.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "legend-said-only"
             },
             {
               "kind": "field",
@@ -1039,7 +1057,8 @@
             "sds-check__mark",
             "sds-choices",
             "sds-field-hint",
-            "sds-field-label"
+            "sds-field-label",
+            "sds-said-only"
           ],
           "slots": []
         }
@@ -5828,6 +5847,14 @@
               "fieldName": "legend"
             },
             {
+              "name": "legend-said-only",
+              "description": "Where the page already draws the question — a dialog's title, a heading over the set. The legend is said and not drawn, so the set is still named and the question is not on the page twice.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "legendSaidOnly"
+            },
+            {
               "name": "name",
               "description": "What the answer is called when the form is sent. One name for the whole set — that is what makes it one choice rather than several.",
               "type": {
@@ -5870,6 +5897,16 @@
                 "text": "string"
               },
               "attribute": "legend"
+            },
+            {
+              "kind": "field",
+              "name": "legendSaidOnly",
+              "privacy": "public",
+              "description": "Where the page already draws the question — a dialog's title, a heading over the set. The legend is said and not drawn, so the set is still named and the question is not on the page twice.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "legend-said-only"
             },
             {
               "kind": "field",
@@ -5938,7 +5975,8 @@
             "sds-choices",
             "sds-field-hint",
             "sds-field-label",
-            "sds-field-req"
+            "sds-field-req",
+            "sds-said-only"
           ],
           "slots": []
         }

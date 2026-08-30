@@ -51,6 +51,8 @@ An icon-only control is the case worth naming: the label becomes the control's
 accessible name rather than being dropped, so a square button is still
 announced as what it does — see :doc:`/frontend/components/controls`.
 
+.. _said-only:
+
 Some of a page is said and not drawn
 ====================================
 

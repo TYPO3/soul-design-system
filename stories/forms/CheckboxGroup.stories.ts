@@ -14,9 +14,10 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/checkbox-group.ts';
 import { type CheckboxGroupProps } from '../../packages/frontend/src/components/checkbox-group.ts';
 
-const sdsCheckboxGroup = ({ legend, name, choices, values, hint }: CheckboxGroupProps) =>
+const sdsCheckboxGroup = ({ legend, legendSaidOnly, name, choices, values, hint }: CheckboxGroupProps) =>
   html`<sds-checkbox-group
     legend="${legend}"
+    ?legend-said-only="${legendSaidOnly ?? false}"
     name="${name}"
     hint="${hint ?? ''}"
     .choices="${choices}"
@@ -29,6 +30,7 @@ const meta: Meta<CheckboxGroupProps> = {
   render: (args) => sdsCheckboxGroup(args),
   argTypes: {
     legend: { control: 'text' },
+    legendSaidOnly: { control: 'boolean' },
     name: { control: 'text' },
     hint: { control: 'text' },
   },
@@ -65,4 +67,19 @@ export const Hinted: Story = {
       { label: 'Documentation changes', value: 'docs' },
     ],
   },
+};
+
+/** Where the page already asks the question — a dialog's title, a heading over
+    the set — the legend is said and not drawn. It stays: an empty one leaves
+    the group with no name at all, which is worse than asking twice. Here the
+    heading above the set is what a reader sees. */
+export const QuestionAbove: Story = {
+  args: {
+    legend: 'What may we attach to the report?',
+    legendSaidOnly: true,
+  },
+  render: (args) => html`<div>
+    <h3 class="sds-h3">What may we attach to the report?</h3>
+    ${sdsCheckboxGroup(args)}
+  </div>`,
 };

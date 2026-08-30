@@ -632,6 +632,16 @@ otherwise keep in step by hand.
 
    What is being asked. Rendered as the ``<legend>`` of a real ``<fieldset>``.
 
+.. confval:: legend-said-only
+   :name: sds-checkbox-group-legend-said-only
+   :type: boolean
+   :default: false
+
+   The question is said and not drawn, for a set whose question the page
+   already carries — a dialog's title, a heading over the set. The legend
+   stays: it is what names the group, and a set with an empty one is a group
+   with no name at all. See :ref:`said-only <said-only>`.
+
 .. confval:: name
    :name: sds-checkbox-group-name
    :type: string
@@ -871,6 +881,16 @@ name they share and that exactly one holds.
    :required: true
 
    What is being asked. Rendered as the ``<legend>`` of a real ``<fieldset>``.
+
+.. confval:: legend-said-only
+   :name: sds-radio-legend-said-only
+   :type: boolean
+   :default: false
+
+   The question is said and not drawn, for a set whose question the page
+   already carries — a dialog's title, a heading over the set. The legend
+   stays: it is what names the group, and a set with an empty one is a group
+   with no name at all. See :ref:`said-only <said-only>`.
 
 .. confval:: name
    :name: sds-radio-name
