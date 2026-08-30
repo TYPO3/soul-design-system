@@ -49,6 +49,15 @@
     font-size: var(--sds-modes-font-size);
     line-height: var(--sds-modes-leading);
   }
+  /* A segment holding only its glyph is a square, the way an icon-only button
+     is: the side is the height the group already states, so a marked control
+     and a worded one stand the same in a row. Asked of what is in it rather
+     than of a flag, because that is the thing that decides. */
+  .sds-mode:not(:has(.sds-mode__label)) {
+    inline-size: var(--sds-modes-height);
+    padding-inline: 0;
+    justify-content: center;
+  }
   .sds-mode {
     font: inherit;
     display: inline-flex;
