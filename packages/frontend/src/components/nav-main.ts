@@ -165,7 +165,11 @@ export class SdsNavMain extends SdsNav {
     this.open = false;
     this.opened = -1;
     this.stack = [];
-    this.compactTheme = false;
+    /* The state a bar that never measures keeps. A prerendered page is this
+       snapshot, and a screen carrying no script never leaves it: started wordy
+       it stands wider than the page measure and the row wraps. Compact always
+       fits, and the words come back below once something has measured. */
+    this.compactTheme = true;
     this.foldNav = false;
     this.foldSearch = false;
   }

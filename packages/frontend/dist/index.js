@@ -4593,7 +4593,7 @@ var SdsNavMain = class extends SdsNav {
     this.open = false;
     this.opened = -1;
     this.stack = [];
-    this.compactTheme = false;
+    this.compactTheme = true;
     this.foldNav = false;
     this.foldSearch = false;
   }
