@@ -117,6 +117,43 @@ test('a class always overrides the element it sits on', async ({ page }) => {
   expect(lead / leadSize, 'a lead is held to fewer characters than body copy').toBeLessThan(prose / proseSize);
 });
 
+/* The other half of that rule, from the side the platform owns. Three ways to
+   be given a `display` by this system, and the word that takes it back — plus
+   the one `hidden` the browser answers with something other than `display`,
+   which a blanket rule would have broken for every consumer at once. */
+const HIDDEN = `<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/dist/soul.css" />
+</head>
+<body>
+  <p id="bare" hidden>Nothing set a display on this one.</p>
+  <div id="classed" class="sds-note" hidden>A block the class layer lays out.</div>
+  <sds-note id="host" hidden>An element the base layer states a display for.</sds-note>
+  <p id="findable" hidden="until-found">The one a find-in-page may open.</p>
+</body>
+</html>`;
+
+test('a hidden element stays hidden, whatever this system set a display to', async ({ page }) => {
+  await page.route('**/hidden-fixture.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: HIDDEN }));
+  await page.goto('/hidden-fixture.html', { waitUntil: 'load' });
+
+  const display = (id: string) =>
+    page.locator(`#${id}`).evaluate((el) => getComputedStyle(el).display);
+
+  /* The bare one is the browser's own and proves nothing on its own; the two
+     below it are what an author rule had put back on the page. */
+  expect(await display('bare')).toBe('none');
+  expect(await display('classed'), 'a class may not draw what is hidden').toBe('none');
+  expect(await display('host'), 'nor may the display an element is given').toBe('none');
+
+  /* Left alone: this one is hidden by `content-visibility`, and a page that
+     wants find-in-page to reach it keeps it. */
+  expect(await display('findable'), 'until-found is the browser’s to answer').not.toBe('none');
+});
+
 /* The rest of what arrives without a class: a link, a phrase in mono, a
    picture, a rule across the page. The picture is the one that costs something
    — one wider than its column pushes the whole page sideways, arriving through

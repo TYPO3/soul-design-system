@@ -43,6 +43,15 @@ loud its selector is.
      - the last word, held in reserve — something that must overrule a
        component does it from here, not with a louder selector
 
+``hidden`` is the one rule standing in ``state`` for the whole system. Every
+layer above states a ``display`` for something — a bare element, a container, a
+component's box — and an author rule beats the browser's own, so the platform's
+word for "not now" was overruled wherever it met one. It is put back there for
+every element at once, which is why nothing built on this system needs an
+``!important`` to hide one. ``hidden="until-found"`` is left as it is: the
+browser answers that one with ``content-visibility``, and a page that wants
+find-in-page to reach a collapsed passage keeps it.
+
 A page of prose links nothing extra. What a renderer emits without a class is
 a bare element, and a bare element is set by the layer that owns it — the sheet
 of the component it belongs to, or ``base.css`` where it belongs to none. What

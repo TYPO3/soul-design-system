@@ -318,3 +318,14 @@
     margin: var(--space-12) 0;
   }
 }
+
+/* `hidden` is the platform's word for "not now", and every layer above states a
+   `display` that overruled it — so a hidden element was drawn anyway, and
+   whichever component noticed put the rule back for itself. Here in the last
+   layer it needs no `!important`; `until-found` is left alone, being the one
+   `hidden` the browser does not answer with `display`. */
+@layer state {
+  [hidden]:not([hidden="until-found"]) {
+    display: none;
+  }
+}

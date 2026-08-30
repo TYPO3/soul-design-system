@@ -118,12 +118,6 @@
     .sds-pill {
       --sds-pill-pad-x: var(--sds-drawer-pad-item-x);
     }
-    /* `hidden` outranks the display a class gives: an author rule beats the
-       browser's own, so a `display` set by class puts a hidden element back on
-       the page. */
-    &[hidden] {
-      display: none;
-    }
   }
 
   /* One level of the menu, which is what a phone gets instead of the whole tree:
