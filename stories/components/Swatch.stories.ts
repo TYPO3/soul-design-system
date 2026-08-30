@@ -87,8 +87,10 @@ export const NotAColour: Story = {
 };
 
 /** The set, which is how a palette is actually read: laid out by `sds-grid`
-    like every other set read side by side. `wide` is the width a swatch holds
-    once the value under the name is a `light-dark()` pair. */
+    like every other set read side by side, and at the grid's ordinary minimum.
+    What one swatch needs is its longest value with the chip beside it; `wide`
+    reserves enough more than that to cost a track wherever the column is
+    narrow, which is what it did beside a guideline page's contents. */
 export const Palette: Story = {
-  render: () => html`<sds-grid variant="wide">${PALETTE.map(sdsSwatch)}</sds-grid>`,
+  render: () => html`<sds-grid>${PALETTE.map(sdsSwatch)}</sds-grid>`,
 };

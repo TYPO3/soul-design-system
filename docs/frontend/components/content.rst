@@ -337,12 +337,16 @@ can type. A token name says nothing about what the mode did with it. A hex out
 of context says nothing about where the colour may be used. **A swatch missing
 one of them documents part of a colour.**
 
-A palette is a set, so it goes into ``sds-grid`` like any other, at ``wide`` —
-the width a name with a ``light-dark()`` pair under it holds.
+A palette is a set, so it goes into ``sds-grid`` like any other, and at the
+grid's ordinary minimum. What one swatch needs is its longest value with the
+chip beside it — a ``light-dark()`` pair is the long one — and ``wide``
+reserves enough more than that to cost a track wherever the column is narrow:
+beside a guideline page's contents it drew one column where there was room for
+two.
 
 .. code-block:: html
 
-   <sds-grid variant="wide">
+   <sds-grid>
      <sds-swatch value="var(--accent)" name="--accent" resolved="#FF8700"></sds-swatch>
      <sds-swatch value="var(--border-subtle)" name="--border-subtle"
        resolved="light-dark(#E3DFD6, #2B2823)" kind="line"></sds-swatch>
