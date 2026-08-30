@@ -112,7 +112,6 @@
      is `md`, the same way a form's buttons are. */
   .sds-field--sm {
     --sds-field-height: var(--control-height-sm);
-    --sds-field-font-size: var(--control-font-size-sm);
     --sds-field-pad-y: var(--field-pad-y-sm);
     --sds-field-pad-x: var(--field-pad-x-sm);
   }
@@ -171,12 +170,9 @@
     min-width: 0;
     max-width: 100%;
 
-    /* The label follows the control it names — a 15px label over a 28px field is
-       the words outweighing the thing they stand for. The hint does not: an aside
-       is read in one register wherever it stands. */
-    &:has(> .sds-field--sm) {
-      --sds-field-label-size: var(--control-font-size-sm);
-    }
+    /* The label follows the control it names, where the control's own type
+       moves: only the large one does, so only it is here. The hint follows
+       nothing — an aside is read in one register wherever it stands. */
     &:has(> .sds-field--lg) {
       --sds-field-label-size: var(--control-font-size-lg);
     }

@@ -141,7 +141,6 @@
     --sds-btn-height: var(--control-height-sm);
     --sds-btn-pad-y: var(--control-pad-y-sm);
     --sds-btn-pad-x: var(--control-pad-x-sm);
-    --sds-btn-font-size: var(--control-font-size-sm);
   }
 
   /* The one action a screen is for — a landing's single call, not a row of

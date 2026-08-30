@@ -5,33 +5,14 @@
    the measure the text is read at, which is the box's decision and not any
    element's, and the names a renderer writes for nodes with no element. */
 
-/* All of it in the component's own layer. The names below are a renderer's own
-   for nodes with no element — renamed, the stylesheet would only work with the
-   templates that renamed them — and one of them, the field list, is built out
-   of a table and has to be able to overrule the component that draws it. */
+/* In the component's own layer, because what it draws is a renderer's own name
+   rather than an element: renamed, the stylesheet would only work with the
+   templates that renamed it. */
 @layer components {
   .sds-prose {
     --sds-prose-measure: var(--measure-prose);
     --sds-prose-step: var(--space-4);
-    --sds-prose-step-tight: var(--space-2);
-    --sds-prose-step-wide: var(--space-6);
-    --sds-prose-gap: var(--space-2);
-    --sds-prose-gap-tight: var(--space-1);
     --sds-prose-indent: var(--space-5);
-    --sds-prose-label-size: var(--font-size-body);
-    --sds-prose-label-leading: var(--leading-heading);
-    --sds-prose-label-weight: var(--weight-semibold);
-    --sds-prose-meta-size: var(--font-size-small);
-    --sds-prose-mono: var(--font-mono);
-    --sds-prose-mono-size: calc(1em * var(--font-modifier-mono));
-    --sds-prose-weight: var(--weight-regular);
-    --sds-prose-ink: var(--text-primary);
-    --sds-prose-quiet-ink: var(--text-secondary);
-    --sds-prose-muted-ink: var(--text-muted);
-    --sds-prose-mark-ink: var(--text-accent-quiet);
-    /* Two, and the class says three to six. A count is what an author asked
-       for, not a distance, so it is the one number here that is a number. */
-    --sds-prose-columns: 2;
 
     /* `| a line` — an address, a stanza, a signature: text where the break is
        part of what is said. So nothing here may close one up. An indented run

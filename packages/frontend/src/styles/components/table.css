@@ -35,10 +35,10 @@
      and two sets of numbers is how one stops agreeing with the other. */
   table,
   .sds-table {
-    --sds-table-font-size: var(--row-font-medium);
+    --sds-table-font-size: var(--row-font-size);
     --sds-table-pad: var(--row-pad-medium);
-    --sds-table-name-size: calc(var(--row-name-medium) * var(--font-modifier-mono));
-    --sds-table-meta-size: calc(var(--row-meta-medium) * var(--font-modifier-mono));
+    --sds-table-name-size: var(--row-mono-size);
+    --sds-table-meta-size: var(--row-mono-size);
     --sds-table-cell-gap: var(--space-3);
     --sds-table-leading: var(--row-leading);
     --sds-table-border: var(--border-hairline);
@@ -141,22 +141,13 @@
     }
   }
   .sds-table--compact {
-    --sds-table-font-size: var(--row-font-compact);
     --sds-table-pad: var(--row-pad-compact);
-    --sds-table-name-size: calc(var(--row-name-compact) * var(--font-modifier-mono));
-    --sds-table-meta-size: calc(var(--row-meta-compact) * var(--font-modifier-mono));
   }
   .sds-table--medium {
-    --sds-table-font-size: var(--row-font-medium);
     --sds-table-pad: var(--row-pad-medium);
-    --sds-table-name-size: calc(var(--row-name-medium) * var(--font-modifier-mono));
-    --sds-table-meta-size: calc(var(--row-meta-medium) * var(--font-modifier-mono));
   }
   .sds-table--airy {
-    --sds-table-font-size: var(--row-font-airy);
     --sds-table-pad: var(--row-pad-airy);
-    --sds-table-name-size: calc(var(--row-name-airy) * var(--font-modifier-mono));
-    --sds-table-meta-size: calc(var(--row-meta-airy) * var(--font-modifier-mono));
   }
 
   /* A table waiting for its answer. The head is already there — the columns

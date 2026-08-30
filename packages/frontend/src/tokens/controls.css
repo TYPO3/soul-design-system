@@ -11,7 +11,6 @@
   :root {
     /* Buttons, fields, selects — anything you click or type in. */
     --control-font-size: var(--font-size-small);
-    --control-font-size-sm: var(--font-size-small);
     /* The one action a screen is for reads at body size — the step where a
        control stops being chrome and becomes the thing on the page. */
     --control-font-size-lg: var(--font-size-body);
@@ -71,12 +70,13 @@
        differ in padding — the step between them is air, not type. */
     --table-head-size: var(--font-size-small);
     --table-head-tracking: 0.11em;
+    /* A density is room, not type. Below body there is one size, so a compact
+       row and an airy one are the same text with different air around it —
+       three type steps here could only ever hold the same number. */
     --row-pad-compact: 6px;
-    --row-font-compact: var(--font-size-small);
     --row-pad-medium: 9px;
-    --row-font-medium: var(--font-size-small);
     --row-pad-airy: 14px;
-    --row-font-airy: var(--font-size-small);
+    --row-font-size: var(--font-size-small);
 
     /* A row is not a paragraph: prose leading put every row two pixels over
        the height its density is named for, and a wrapped cell opened a gap a
@@ -85,16 +85,10 @@
        `--control-leading` because a cell wraps and a control does not. */
     --row-leading: var(--leading-tight);
 
-    /* Mono cells run a step below the row's sans, so a tool name and the
-       prose beside it read at the same optical size. */
-    --row-name-compact: var(--font-size-small);
-    /* Colour already tells a name from what stands beside it, so the label
-       register is left to labels — this cell is read, not scanned past. */
-    --row-meta-compact: var(--font-size-small);
-    --row-name-medium: var(--font-size-small);
-    --row-meta-medium: var(--font-size-small);
-    --row-name-airy: var(--font-size-small);
-    --row-meta-airy: var(--font-size-small);
+    /* A mono cell runs through the mono ratio, so a tool name and the prose
+       beside it read at the same optical size. Colour is what tells a name
+       from the meta beside it — that cell is read, not scanned past. */
+    --row-mono-size: calc(var(--row-font-size) * var(--font-modifier-mono));
 
     /* Code and diff. */
     --diff-font-size: var(--font-size-small);
