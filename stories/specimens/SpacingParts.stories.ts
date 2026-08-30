@@ -25,7 +25,7 @@ const meta: Meta = {
       group: 'Spacing',
       name: 'Parts',
       subtitle: 'A part is the box the line around it lays out',
-      viewport: '700x332',
+      viewport: '700x319',
     }),
   },
 };

@@ -83,7 +83,7 @@ const meta: Meta<StepsProps> = {
       path: 'components/content/steps.card.html',
       name: 'An instruction, step by step',
       subtitle: 'Numbers down one rail — the claim that step two follows step one',
-      viewport: '700x701',
+      viewport: '700x646',
     }),
   },
 };

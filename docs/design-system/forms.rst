@@ -133,7 +133,7 @@ A switch is not a checkbox
 ==========================
 
 .. specimen:: components/core/form-controls.card.html
-   :viewport: 700x439
+   :viewport: 700x436
    :title: Beyond the text field
 
 ``sds-checkbox`` answers a question the form asks and is sent when the form is

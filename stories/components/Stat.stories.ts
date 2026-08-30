@@ -78,7 +78,7 @@ const meta: Meta<StatProps> = {
       path: 'components/data/stat.card.html',
       name: 'Figures read as a set',
       subtitle: 'A count, a share, a measurement and a zero — and the wall they stand in',
-      viewport: '700x717',
+      viewport: '700x670',
     }),
   },
 };

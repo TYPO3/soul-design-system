@@ -57,7 +57,7 @@ const meta: Meta<ProgressProps> = {
       path: 'components/core/progress.card.html',
       name: 'A job with a distance in it',
       subtitle: 'The share as a length, the position as a number, and the line saying what is running',
-      viewport: '700x577',
+      viewport: '700x515',
     }),
   },
 };

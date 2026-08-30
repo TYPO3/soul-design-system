@@ -85,13 +85,13 @@ an axis, a sequence and containment rather than forcing every explanation into
 boxes joined by arrows.
 
 .. specimen:: guidelines/diagrams-overview.card.html
-   :viewport: 1400x970
+   :viewport: 1400x966
    :title: System overview — a map with no axis
 
 .. specimen:: guidelines/diagrams-example.card.html
-   :viewport: 1400x1018
+   :viewport: 1400x1014
    :title: Worked example
 
 .. specimen:: guidelines/diagrams-fallback.card.html
-   :viewport: 1400x1038
+   :viewport: 1400x1034
    :title: Fallback — a sequence without a flowchart

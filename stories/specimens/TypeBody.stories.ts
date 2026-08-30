@@ -27,7 +27,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Body & lead',
       subtitle: 'The lead and the body register, each held to its measure',
-      viewport: '700x223',
+      viewport: '700x209',
     }),
   },
 };

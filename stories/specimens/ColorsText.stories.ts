@@ -43,7 +43,7 @@ const meta: Meta = {
       group: 'Colors',
       name: 'Text',
       subtitle: 'Three weights of voice, plus the link colour',
-      viewport: '700x175',
+      viewport: '700x169',
     }),
   },
 };

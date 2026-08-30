@@ -113,7 +113,7 @@ const meta: Meta = {
       group: 'Icons',
       name: 'Usage',
       subtitle: '16px is the floor — sizes, colour, and icons that stand alone',
-      viewport: '700x523',
+      viewport: '700x513',
     }),
   },
 };

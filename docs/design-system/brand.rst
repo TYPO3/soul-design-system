@@ -48,7 +48,7 @@ the box it is for, so every straight edge is a whole number and lands on a
 whole device pixel.
 
 .. specimen:: guidelines/brand-signet-construction.card.html
-   :viewport: 700x2230
+   :viewport: 700x2193
    :title: Signet — construction
 
 Optical sizes and their boxes
@@ -85,11 +85,11 @@ the matching file. This keeps size at the place where the available box is
 known without turning a brand mark into a UI glyph.
 
 .. specimen:: guidelines/brand-signet-sizes.card.html
-   :viewport: 700x1023
+   :viewport: 700x1016
    :title: Signet — sizes
 
 .. specimen:: guidelines/brand-signet-modes.card.html
-   :viewport: 700x672
+   :viewport: 700x666
    :title: Signet — modes & context
 
 The family
@@ -101,7 +101,7 @@ consequences (rounding, gap), and the single orange in the top-right corner.
 What is not shared is the interior — one idea per product.
 
 .. specimen:: guidelines/brand-signet-family.card.html
-   :viewport: 700x727
+   :viewport: 700x716
    :title: Signet — the family
 
 Drawing a new one
@@ -132,30 +132,30 @@ the two-part lockup spends on its first word. The bar at its narrowest hides
 the brand and the pipe and arrives at the same place.
 
 .. specimen:: guidelines/brand-lockup.card.html
-   :viewport: 700x217
+   :viewport: 700x213
    :title: Primary lockup
 
 .. specimen:: guidelines/brand-lockup-light.card.html
-   :viewport: 700x156
+   :viewport: 700x155
    :title: Primary lockup — light
 
 .. specimen:: guidelines/brand-lockup-stacked.card.html
-   :viewport: 700x173
+   :viewport: 700x169
    :title: Stacked lockup & app icon
 
 Clear space, edges, motion
 ==========================
 
 .. specimen:: guidelines/brand-clearspace.card.html
-   :viewport: 700x206
+   :viewport: 700x203
    :title: Clear space & minimum size
 
 .. specimen:: guidelines/brand-edges.card.html
-   :viewport: 700x226
+   :viewport: 700x172
    :title: Edges & radii
 
 .. specimen:: guidelines/brand-motion.card.html
-   :viewport: 700x77
+   :viewport: 700x76
    :title: States & motion
 
 Never
@@ -166,5 +166,5 @@ orange fill behind it. The large drawing at a small size. The marker in
 anything but orange.
 
 .. specimen:: guidelines/brand-misuse.card.html
-   :viewport: 700x270
+   :viewport: 700x259
    :title: Misuse

@@ -70,7 +70,7 @@ const meta: Meta<SelectProps> = {
       group: 'Components',
       name: 'A select',
       subtitle: 'The field’s box round the platform’s own list — headings, and answers that are on it but not on offer',
-      viewport: '700x720',
+      viewport: '700x651',
     }),
   },
 };

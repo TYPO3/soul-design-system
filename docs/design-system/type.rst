@@ -62,7 +62,7 @@ Scale
 =====
 
 .. specimen:: guidelines/type-scale.card.html
-   :viewport: 700x343
+   :viewport: 700x331
    :title: Type scale
 
 Two sizes carry text a person reads: ``--font-size-body`` is normal and
@@ -168,7 +168,7 @@ Body and lead
 =============
 
 .. specimen:: guidelines/type-body.card.html
-   :viewport: 700x223
+   :viewport: 700x209
    :title: Body & lead
 
 Lists
@@ -191,7 +191,7 @@ an instruction rather than a list, and it is
 holding blocks.
 
 .. specimen:: guidelines/type-lists.card.html
-   :viewport: 700x263
+   :viewport: 700x248
    :title: Lists
 
 .. note::
@@ -217,7 +217,7 @@ look. A page that does need the two apart has the anchor the renderer wrote —
 name.
 
 .. specimen:: guidelines/type-notes.card.html
-   :viewport: 700x308
+   :viewport: 700x288
    :title: Notes at the foot
 
 .. note::
@@ -263,5 +263,5 @@ inside it the block has already decided the size, the weight and the colour,
 and a whole block set in medium is one asking to be read as emphasis.
 
 .. specimen:: guidelines/type-mono.card.html
-   :viewport: 700x244
+   :viewport: 700x230
    :title: Mono & labels

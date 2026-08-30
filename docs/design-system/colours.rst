@@ -80,7 +80,7 @@ A **card** is a hairline and 6px with no fill of its own.
        the page is
 
 .. specimen:: guidelines/colors-surfaces.card.html
-   :viewport: 700x298
+   :viewport: 700x277
    :title: Surfaces
 
 Text
@@ -107,7 +107,7 @@ Text
        colour in both modes, so what stands on it is one colour too
 
 .. specimen:: guidelines/colors-text.card.html
-   :viewport: 700x175
+   :viewport: 700x169
    :title: Text
 
 Borders
@@ -134,7 +134,7 @@ above says which surfaces those are.
      - the frame of the tinted plane, and nothing else
 
 .. specimen:: guidelines/colors-borders.card.html
-   :viewport: 700x252
+   :viewport: 700x238
    :title: Borders
 
 Accent
@@ -160,7 +160,7 @@ Use ``--accent``, never the raw ``--orange-*`` scale â€” that scale exists to
 derive the token and is not for use in a design.
 
 .. specimen:: guidelines/colors-accent.card.html
-   :viewport: 700x136
+   :viewport: 700x134
    :title: Accent
 
 Status and syntax
@@ -180,5 +180,5 @@ The colour marks the press; it does not explain it. The label names what goes â€
 so a reader who cannot tell the tones apart still reads the consequence.
 
 .. specimen:: guidelines/colors-status.card.html
-   :viewport: 700x240
+   :viewport: 700x226
    :title: Status and syntax

@@ -52,7 +52,7 @@ const meta: Meta = {
       name: 'The set',
       subtitle: 'Mode-neutral editorial imagery — broad shapes, one halftone field, one accent',
       theme: 'both',
-      viewport: '1400x850',
+      viewport: '1400x835',
       bodyClass: 'spec-sunken',
     }),
   },
