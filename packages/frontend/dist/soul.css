@@ -1202,7 +1202,8 @@
     >*{min-width:0}
   }
   sds-nav-main{position:sticky;top:0;z-index:30}
-  html:has(.sds-bar){--sds-bar-jump: calc(var(--height-header) + var(--space-4));scroll-padding-top:var(--sds-bar-jump)}
+  sds-nav-main:not(:defined){--sds-bar-height: var(--height-header);min-height:var(--sds-bar-height)}
+  html:has(.sds-bar,sds-nav-main){--sds-bar-jump: calc(var(--height-header) + var(--space-4));scroll-padding-top:var(--sds-bar-jump)}
   .sds-bar__end{
     flex:none;
     margin-inline-start:auto;

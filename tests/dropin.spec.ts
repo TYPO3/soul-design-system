@@ -164,6 +164,42 @@ test('an icon takes the same space before the script and after', async ({ page }
   expect(await boxes('sds-icon'), 'the reserved box should be the one the element renders').toEqual(before);
 });
 
+/* The same rule one level up, where it costs the whole page rather than one
+   glyph. The bar is the first thing on every surface built on this system, and
+   an empty host is inline until the bundle lands — so the page is laid out once
+   without it and again with it. What a jump has to clear is the same fact read
+   from the other end, and it is answered before the script for the same reason. */
+test('the bar holds its room, and the jump its offset, before the script', async ({ page }) => {
+  await page.route('**/bar-fixture.html', (route) => route.fulfill({
+    contentType: 'text/html',
+    body: `<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8">
+<link rel="stylesheet" href="/dist/soul.css">
+</head><body class="sds-app">
+  <sds-nav-main product="Soul"></sds-nav-main>
+  <div class="sds-page"><h2 id="target">A heading somebody jumped to</h2></div>
+</body></html>`,
+  }));
+  await page.goto('/bar-fixture.html', { waitUntil: 'load' });
+
+  const room = () => page.locator('sds-nav-main')
+    .evaluate((el) => Math.round(el.getBoundingClientRect().height));
+  const before = await room();
+  expect(before, 'the bar should have a box before the script').toBeGreaterThan(0);
+
+  /* And the offset a target scrolled to the top keeps, so the heading does not
+     land underneath the bar in the window before the element upgrades. */
+  const jump = await page.evaluate(() =>
+    parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop));
+  expect(jump, 'a jump clears the bar before the element draws one').toBeGreaterThan(before);
+
+  await page.addScriptTag({ url: '/dist/soul.js', type: 'module' });
+  await page.evaluate(() => customElements.whenDefined('sds-nav-main'));
+  await page.evaluate(() => (document.querySelector('sds-nav-main') as
+    HTMLElement & { updateComplete: Promise<unknown> }).updateComplete);
+
+  expect(await room(), 'the reserved room should be the room the bar takes').toBe(before);
+});
+
 /* The other way the drop-in is taken: bundled. A bundler moves the module away
    from the assets beside it, so the reference resolved against the module points
    at nothing. Saying where the sprite went is the only fix, and it has to be

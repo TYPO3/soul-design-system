@@ -145,6 +145,14 @@ row has left, with the button that appears in their place taken out of the sum.
 Nothing in the measurement depends on which state it is in, so there is no
 width at which the two disagree and it oscillates.
 
+**It holds its room before it draws anything.** The bar is the first thing on
+the page and the element is empty until its script has run, so the stylesheet
+gives the host the header's height and the page keeps ``scroll-padding-top``
+from that moment — otherwise the page is laid out once without a bar and again
+with one, under a reader who has already started reading, and a heading jumped
+to in between lands underneath it. Nothing about it is stated by the page: it
+is the same reservation ``sds-icon`` makes for a glyph.
+
 .. confval:: home
    :name: sds-nav-main-home
    :type: string

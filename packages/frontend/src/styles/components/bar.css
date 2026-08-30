@@ -76,12 +76,21 @@
     top: 0;
     z-index: 30;
   }
+  /* Before the element upgrades, and on a page where it never will: the room the
+     bar is about to take. The host draws nothing until its script has run, so
+     without a floor the page is laid out once without a bar and again with one,
+     under a reader who has already started reading. */
+  sds-nav-main:not(:defined) {
+    --sds-bar-height: var(--height-header);
+
+    min-height: var(--sds-bar-height);
+  }
   /* The bar rests over the top of the page, so anything jumped to arrives behind
-     it. One offset on the scroller answers that for every target there is — a
-     section, an entry, a note — where a `scroll-margin` per target is a rule each
-     new one has to be told. Asked with `:has()`, because a page that carries no
-     bar of ours has nothing standing over its top and keeps it. */
-  html:has(.sds-bar) {
+     it. One offset on the scroller answers that for every target, where a
+     `scroll-margin` per target is a rule each new one has to be told. Asked with
+     `:has()`: a page carrying no bar of ours keeps its own — and the element is
+     asked too, standing over the page a frame before it draws anything. */
+  html:has(.sds-bar, sds-nav-main) {
     /* Declared here and not with the bar: what reads it is the page, which is
        the bar's ancestor, and a property only ever travels down. */
     --sds-bar-jump: calc(var(--height-header) + var(--space-4));
