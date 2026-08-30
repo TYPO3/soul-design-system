@@ -80,7 +80,7 @@ The set
 =======
 
 .. specimen:: guidelines/icons-set.card.html
-   :viewport: 700x268
+   :viewport: 700x289
    :title: The set
 
 Usage

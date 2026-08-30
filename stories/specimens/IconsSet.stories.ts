@@ -1,13 +1,14 @@
 /* The set — a sample of it, drawn from the sprite.
 
-   Every `actions-*` icon in `@typo3/icons` ships; the card shows enough of
-   them to recognise the family and states the rule for the rest. The
-   identifiers are TYPO3 core's own, which is the only reason this card can be
-   a list of names: an agent that resolves `actions-search` through the tool
-   gets the same string the design writes.
+   Whole categories ship, and the card shows enough of them to recognise the
+   family and states the rule for the rest. The identifiers are TYPO3 core's
+   own, which is the only reason this card can be a list of names: an agent
+   that resolves `actions-search` through the tool gets the same string the
+   design writes.
 
-   Thirty-three names here, and thirty-three pasted SVG paths before it — the
-   sample is `sds-icon` now, so adding one to the card is adding a word. */
+   The sample is `sds-icon` rather than pasted SVG paths, so adding one to the
+   card is adding a word. `CATEGORIES` in `scripts/icons.ts` says which
+   categories are here; no count is written down. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -24,19 +25,22 @@ const SAMPLE: readonly IconId[] = [
   'actions-chevron-down', 'actions-chevron-end', 'actions-chevron-start', 'actions-chevron-up',
   'actions-clock', 'actions-close', 'actions-code-commit', 'actions-code-compare',
   'actions-code-pull-request', 'actions-code', 'actions-cog', 'actions-database',
-  'actions-debug', 'actions-duplicate', 'actions-exclamation-circle', 'actions-exclamation-triangle',
-  'actions-extension', 'actions-filter', 'actions-history', 'actions-info-circle',
-  'actions-link', 'actions-list', 'actions-menu-alternative', 'actions-play',
-  'actions-question-circle', 'actions-refresh', 'actions-search', 'actions-tag',
-  'actions-window-open',
+  'actions-debug', 'actions-document-edit', 'actions-duplicate', 'actions-exclamation-circle',
+  'actions-exclamation-triangle', 'actions-extension', 'actions-filter', 'actions-globe',
+  'actions-history', 'actions-info-circle', 'actions-link', 'actions-list',
+  'actions-menu-alternative', 'actions-play', 'actions-question-circle', 'actions-refresh',
+  'actions-search', 'actions-tag', 'actions-window-open',
+  /* The other category, and the whole of it: one mark, which is what
+     `.sds-spinner` turns wherever this system says work is happening. */
+  'spinner-circle',
 ];
 
 const GRID =
-  'display:grid; grid-template-columns:repeat(11, 1fr); gap:15px 10px; align-items:center; justify-items:center; color:var(--text-secondary);';
+  'display:grid; grid-template-columns:repeat(12, 1fr); gap:15px 10px; align-items:center; justify-items:center; color:var(--text-secondary);';
 
 const NOTE =
-  'Every <span class="sds-mono">actions-*</span> icon in <span class="sds-mono">@typo3/icons</span> ships — a sample is shown. ' +
-  'The identifiers are the core’s own — <span class="sds-mono">actions-search</span>, <span class="sds-mono">actions-code-compare</span> — ' +
+  'A category ships whole — <span class="sds-mono">actions</span> and <span class="sds-mono">spinner</span> are the ones here, and a sample of them is shown. ' +
+  'The identifiers are the core’s own — <span class="sds-mono">actions-search</span>, <span class="sds-mono">spinner-circle</span> — ' +
   'so an agent resolving one through <span class="sds-mono">typo3_icon_lookup</span> gets the same name the design uses, and the first segment is the path: ' +
   '<span class="sds-mono">src/actions/actions-search.svg</span>, in the package or under <span class="sds-mono">cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/</span>. ' +
   'Anything outside the shipped categories is fetched from there — never drawn locally, never taken from another set. ' +
@@ -51,7 +55,7 @@ const meta: Meta = {
       group: 'Icons',
       name: 'The set',
       subtitle: 'TYPO3.Icons — the core’s own, 16×16, solid, currentColor',
-      viewport: '700x268',
+      viewport: '700x289',
     }),
   },
 };
