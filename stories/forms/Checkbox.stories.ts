@@ -1,16 +1,21 @@
-/* One thing that is either so or not.
+/* One thing that is either so or not — and the set of them under one question.
 
-   The markup lives in `src/components/checkbox.ts`. No `parameters.dsCard` of
-   its own: the box and its states are drawn in `components.css`, and the form
-   card is where they are shown — in the company a checkbox is used in. The two
-   decisions are here — the label is part of the target, and the tick is
+   The markup lives in `src/components/checkbox.ts` and `checkbox-group.ts`. Two
+   elements and one subject, so one file, the way the steps, the accordion and
+   the tabs each hold a set and its item together. No `parameters.dsCard` of its
+   own: the box and its states are drawn in `components.css`, and the form card
+   is where they are shown — in the company a checkbox is used in.
+
+   The two decisions are here — the label is part of the target, and the tick is
    `--text-primary`, because the accent marks three things and a form of ticked
    boxes is not one. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../../packages/frontend/src/components/checkbox.ts';
+import '../../packages/frontend/src/components/checkbox-group.ts';
 import { type CheckboxProps } from '../../packages/frontend/src/components/checkbox.ts';
+import { type CheckboxGroupProps } from '../../packages/frontend/src/components/checkbox-group.ts';
 
 const sdsCheckbox = ({ label, hint, checked = false, indeterminate, name, value, required, disabled }: CheckboxProps) =>
   html`<sds-checkbox
@@ -23,6 +28,16 @@ const sdsCheckbox = ({ label, hint, checked = false, indeterminate, name, value,
     ?required="${required ?? false}"
     ?disabled="${disabled ?? false}"
   ></sds-checkbox>`;
+
+const sdsCheckboxGroup = ({ legend, legendSaidOnly, name, choices, values, hint }: CheckboxGroupProps) =>
+  html`<sds-checkbox-group
+    legend="${legend}"
+    ?legend-said-only="${legendSaidOnly ?? false}"
+    name="${name}"
+    hint="${hint ?? ''}"
+    .choices="${choices}"
+    .values="${values ?? []}"
+  ></sds-checkbox-group>`;
 
 const meta: Meta<CheckboxProps> = {
   title: 'Forms/Checkbox',
@@ -60,21 +75,60 @@ export const Named: Story = {
   args: { label: 'Attach the server scope', name: 'scope', value: 'server', checked: true },
 };
 
-/** A set of them under one question, and no element for it: n boxes are n
-    answers that happen to share a heading, where `sds-radio` is one answer and
-    has to own the set to keep the name and the chosen value in step. What
-    holds these together is the `<fieldset>` — the same `sds-choices` the radio
-    draws, addressed here rather than rebuilt. */
+/** A set of them under one question, which is its own element. Written as loose
+    boxes it is a heading that happens to sit above some rows — nothing binds
+    them, so nothing reads them out as one question either. The legend, the
+    shared name and what is ticked are three things a caller would otherwise
+    keep in step by hand. */
 export const Group: Story = {
-  render: () => html`<fieldset class="sds-choices" name="send">
-    <legend class="sds-field-label">What may we send you?</legend>
-    <span class="sds-field-hint">Each one is its own answer, and none of them decides another.</span>
-    ${[
-      { label: 'Release notes', hint: 'When a version ships, and what changed in it.', checked: true },
-      { label: 'Security advisories', hint: 'Only what reaches a version you run.', checked: true },
-      { label: 'Everything else', hint: 'Events, surveys, and the occasional experiment.' },
-    ].map((choice) => sdsCheckbox({ ...choice, name: 'send' }))}
-  </fieldset>`,
+  render: () => sdsCheckboxGroup({
+    legend: 'What may we send you?',
+    name: 'send',
+    hint: 'Each one is its own answer, and none of them decides another.',
+    values: ['releases', 'security'],
+    choices: [
+      { label: 'Release notes', value: 'releases', hint: 'When a version ships, and what changed in it.' },
+      { label: 'Security advisories', value: 'security', hint: 'Only what reaches a version you run.' },
+      { label: 'Everything else', value: 'other', hint: 'Events, surveys, and the occasional experiment.' },
+      { label: 'File contents', value: 'files', hint: 'Not on offer while the project is public.', disabled: true },
+    ],
+  }),
+};
+
+/** What the whole set commits to, under the legend. A choice carries its own
+    where one answer needs saying and the others do not. */
+export const GroupHinted: Story = {
+  render: () => sdsCheckboxGroup({
+    legend: 'Which digests should we send?',
+    name: 'digest',
+    hint: 'One message per digest, on Fridays. Unsubscribe from any of them.',
+    choices: [
+      { label: 'Releases', value: 'releases' },
+      { label: 'Security advisories', value: 'security' },
+      { label: 'Documentation changes', value: 'docs' },
+    ],
+  }),
+};
+
+/** Where the page already asks the question — a dialog's title, a heading over
+    the set — the legend is said and not drawn. It stays: an empty one leaves
+    the group with no name at all, which is worse than asking twice. Here the
+    heading above the set is what a reader sees. */
+export const GroupQuestionAbove: Story = {
+  render: () => html`<div>
+    <h3 class="sds-h3">What may we attach to the report?</h3>
+    ${sdsCheckboxGroup({
+      legend: 'What may we attach to the report?',
+      legendSaidOnly: true,
+      name: 'scope',
+      values: ['versions'],
+      choices: [
+        { label: 'Installed versions', value: 'versions' },
+        { label: 'Reachable sources', value: 'sources' },
+        { label: 'Degraded tools', value: 'tools', hint: 'What answered slowly or not at all.' },
+      ],
+    })}
+  </div>`,
 };
 
 /** Mixed: the box answers for a set only some of which is ticked, and ticking

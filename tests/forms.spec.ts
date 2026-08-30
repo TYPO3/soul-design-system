@@ -159,7 +159,7 @@ test('a control the caller marked wrong will not let the form go', async ({ page
    with no name — so it is said and not drawn instead. What this holds is that
    both halves are true at once: still named, and not on the page twice. */
 test('a set can say its question without drawing it', async ({ page }) => {
-  await gotoStory(page, 'forms-checkbox-group--question-above');
+  await gotoStory(page, 'forms-checkbox--group-question-above');
 
   const set = page.locator('fieldset.sds-choices');
   await expect(set, 'the set is still named by its own legend')
