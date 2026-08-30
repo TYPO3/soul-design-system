@@ -58,6 +58,30 @@ test('every state is said, not only drawn', async ({ page }) => {
   await expect(page.locator('.sds-run__verdict sds-icon')).toHaveAttribute('label', 'Running');
 });
 
+test('the words a state is said in are the page\'s', async ({ page }) => {
+  await gotoStory(page, RUN);
+
+  /* The one thing in a run this element writes rather than is handed. A page
+     that is not in English draws its own labels and would otherwise announce
+     somebody else's — so the words are set, and the states that were not named
+     keep the English they had. */
+  await page.locator('sds-run').evaluate((run) => {
+    (run as HTMLElement & { stateWords: unknown }).stateWords = { running: 'Läuft', done: 'Fertig' };
+  });
+
+  await expect(row(page, 'Fetch the sitemap').locator('.sds-run__row'))
+    .toHaveAttribute('aria-label', /Fertig/);
+  await expect(row(page, 'Build the index').locator('.sds-run__row'))
+    .toHaveAttribute('aria-label', /Läuft/);
+  await expect(
+    row(page, 'Swap it in').locator('.sds-run__row'),
+    'a state the page named nothing for keeps the word it had',
+  ).toHaveAttribute('aria-label', /Not started/);
+
+  /* The verdict is a state too, and it reads the same words. */
+  await expect(page.locator('.sds-run__verdict sds-icon')).toHaveAttribute('label', 'Läuft');
+});
+
 test('a row the reader closed stays closed while the run redraws', async ({ page }) => {
   await gotoStory(page, RUN);
 

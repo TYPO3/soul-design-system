@@ -530,6 +530,14 @@ application's and appears in no rendered page here.
    Whether the whole stands unfolded. A run being watched is written ``open``;
    one in a list of past runs is not, and the head is then the whole of it.
 
+.. confval:: state-words
+   :name: sds-run-state-words
+   :type: "{ ahead?, running?, done?, failed? }"
+
+   What the states are called, where the page is not in English. Partial: a
+   page names the ones it has a word for and the rest keep theirs, so a
+   language arriving one string at a time is never a run with no words at all.
+
 **A stop that wrote nothing does not open.** It draws no chevron and takes no
 press: a control that opens onto an empty box is a promise the row cannot keep.
 What did write something opens by itself while it is in hand and closes once it
@@ -538,7 +546,10 @@ long as the run is on screen.
 
 **The mark is named, not only drawn.** A shape and a colour are one claim, and
 neither reaches a reader who is told rather than shown, so every state carries
-its word — see :doc:`/design-system/accessibility`.
+its word — see :doc:`/design-system/accessibility`. The word is English until
+``state-words`` says otherwise: it is the only part of a run this element
+writes rather than is handed, and a page in another language would otherwise
+draw its own labels and announce somebody else's.
 
 **The row in hand carries a band and the page's own ink**, never the accent:
 that marks three things and a step is none of them. What says this is the one

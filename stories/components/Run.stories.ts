@@ -18,13 +18,14 @@ import '../../packages/frontend/src/components/progress.ts';
 import { type RunProps, type RunStep } from '../../packages/frontend/src/components/run.ts';
 import { dsCard, part, spec, specCap } from '../lib/specimen.ts';
 
-export const sdsRun = ({ heading, verdict, note, steps, open }: RunProps) =>
+export const sdsRun = ({ heading, verdict, note, steps, open, stateWords }: RunProps) =>
   html`<sds-run
     heading="${heading}"
     verdict="${verdict}"
     note="${note ?? ''}"
     ?open="${open ?? false}"
     .steps="${steps}"
+    .stateWords="${stateWords ?? {}}"
   ></sds-run>`;
 
 /* What a step wrote. Written as the characters they are: the lines this system

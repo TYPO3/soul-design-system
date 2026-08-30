@@ -21,7 +21,8 @@ export type RunVerdict = 'running' | 'done' | 'failed';
 
 /** The mark a state draws, and what that mark is called. Named as well as
     drawn: the shape and the colour are one claim, and neither of them reaches
-    a reader who is told rather than shown. */
+    a reader who is told rather than shown. The word is the English one until a
+    page says otherwise — `stateWords` is where it says it. */
 const MARKS: Record<RunState, { icon: string; said: string }> = {
   ahead: { icon: 'actions-circle', said: 'Not started' },
   /* The set's own spinner — a faint ring and the arc that travels round it,
@@ -31,6 +32,12 @@ const MARKS: Record<RunState, { icon: string; said: string }> = {
   done: { icon: 'actions-check-circle', said: 'Done' },
   failed: { icon: 'actions-exclamation-circle', said: 'Failed' },
 };
+
+/** What a page calls the states, where English is not what it is written in.
+    Partial: a page names the ones it has a word for and the rest stay as they
+    are, so a language arriving one string at a time is never half a run with
+    no words at all. */
+export type RunWords = Partial<Record<RunState, string>>;
 
 /** One stop of the work. */
 export interface RunStep {
@@ -63,6 +70,10 @@ export interface RunProps {
   /** Whether the whole stands open. A run being watched is written `open`; one
       in a list of past runs is not, and the head is then the whole of it. */
   open?: boolean;
+  /** What the states are called, where the page is not in English. Every state
+      is a word as well as a mark, and the word is the only one of the two a
+      reader who is told rather than shown ever gets. */
+  stateWords?: RunWords;
 }
 
 /** What the lines this system wrote are told apart by. The tools are handed no
@@ -81,6 +92,7 @@ export class SdsRun extends SdsElement {
     note: { type: String },
     steps: { type: Array },
     open: { type: Boolean, reflect: true },
+    stateWords: { type: Object, attribute: 'state-words' },
   };
 
   declare heading: string;
@@ -88,6 +100,7 @@ export class SdsRun extends SdsElement {
   declare note: string;
   declare steps: readonly RunStep[];
   declare open: boolean;
+  declare stateWords: RunWords;
 
   /** Which rows the reader has opened or closed against what the state would
       do. Nobody else has an answer for that, so it is the one piece of state
@@ -103,6 +116,13 @@ export class SdsRun extends SdsElement {
     /* False, because that is what an absent boolean attribute means. A default
        of `true` is one a page cannot turn off by leaving the word out. */
     this.open = false;
+    this.stateWords = {};
+  }
+
+  /** What a state is called here. The page's word where it has one, and the
+      English the marks were written with where it has not. */
+  private said(state: RunState): string {
+    return this.stateWords[state] ?? MARKS[state].said;
   }
 
   /** The stops in the order they are given, under the group each one named.
@@ -142,7 +162,8 @@ export class SdsRun extends SdsElement {
 
   private row(step: RunStep & { at: number }): TemplateResult {
     const mark = MARKS[step.state];
-    const said = step.note ? `${step.label} — ${mark.said}. ${step.note}` : `${step.label} — ${mark.said}`;
+    const word = this.said(step.state);
+    const said = step.note ? `${step.label} — ${word}. ${step.note}` : `${step.label} — ${word}`;
     const face = html`<span
       class="sds-run__mark sds-run__mark--${step.state}${step.state === 'running' ? ' sds-spinner' : ''}"
     ><sds-icon name="${mark.icon}" size="em"></sds-icon></span>`;
@@ -175,7 +196,7 @@ export class SdsRun extends SdsElement {
     return html`<details class="sds-run" ?open="${this.open}">
   <summary class="sds-run__head"><span
     class="sds-run__verdict sds-run__verdict--${this.verdict}${this.verdict === 'running' ? ' sds-spinner' : ''}"
-  ><sds-icon name="${mark.icon}" label="${mark.said}" size="24"></sds-icon></span><span class="sds-run__headline"><span
+  ><sds-icon name="${mark.icon}" label="${this.said(this.verdict)}" size="24"></sds-icon></span><span class="sds-run__headline"><span
     class="sds-run__heading">${this.heading}</span>${
       this.note ? html`<span class="sds-run__note">${this.note}</span>` : nothing
     }</span><sds-icon class="sds-run__chevron" name="actions-chevron-down" size="em"></sds-icon></summary>
