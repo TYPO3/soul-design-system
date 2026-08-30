@@ -16,6 +16,10 @@
     --sds-bar-height: var(--height-header);
     --sds-bar-gap: var(--space-6);
     --sds-bar-end-gap: var(--space-3);
+    /* What a mark standing at the end of the row is not: an icon button has no
+       box at rest, so the air between its edge and its glyph reads as gap and
+       nothing reads as the button. This is that air, taken back. */
+    --sds-bar-mark-pull: calc((var(--control-icon-size) - var(--control-height)) / 2);
     --sds-bar-z: 30;
     --sds-bar-border: var(--border-hairline);
     --sds-bar-rule: var(--border-subtle);
@@ -102,6 +106,14 @@
        instead, and the bar is measured knowing it will not shrink. */
     .sds-search {
       flex-shrink: 0;
+    }
+
+    /* Pulled in by that air, the row is spaced between what a reader can see:
+       measured, the caret stood 38 from the mark beside it where the field
+       stood 28 from the word, and the difference was the ten pixels of nothing
+       on each side. The mark lands on the page measure the way the text does. */
+    .sds-btn--icon {
+      margin-inline: var(--sds-bar-mark-pull);
     }
   }
 

@@ -1170,6 +1170,7 @@
     --sds-bar-height: var(--height-header);
     --sds-bar-gap: var(--space-6);
     --sds-bar-end-gap: var(--space-3);
+    --sds-bar-mark-pull: calc((var(--control-icon-size) - var(--control-height)) / 2);
     --sds-bar-z: 30;
     --sds-bar-border: var(--border-hairline);
     --sds-bar-rule: var(--border-subtle);
@@ -1206,6 +1207,7 @@
     align-items:center;
     gap:var(--sds-bar-end-gap);
     .sds-search{flex-shrink:0}
+    .sds-btn--icon{margin-inline:var(--sds-bar-mark-pull)}
   }
   .sds-bar__lang{
     --sds-bar-lang-font: var(--font-mono);
