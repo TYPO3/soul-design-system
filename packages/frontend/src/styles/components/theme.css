@@ -20,8 +20,12 @@
     --sds-modes-border: var(--border-hairline);
     --sds-modes-radius: var(--radius-control);
     --sds-modes-edge: var(--border-subtle);
-    --sds-modes-font: var(--font-mono);
-    --sds-modes-font-size: calc(var(--tab-font-size) * var(--font-modifier-mono));
+    /* A control, and set like one: the words in it are Light and Dark, which a
+       person wrote, and the reader is choosing between them the way they
+       choose in any other control on the page. Mono and a step down read as a
+       machine's label and made the pair look smaller than the field beside it. */
+    --sds-modes-font: var(--font-sans);
+    --sds-modes-font-size: var(--control-font-size);
     --sds-modes-leading: var(--control-leading);
     --sds-mode-pad-x: var(--space-2);
     --sds-mode-gap: var(--space-1-5);
