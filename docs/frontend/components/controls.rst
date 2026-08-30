@@ -502,18 +502,24 @@ A TYPO3 icon, in the document rather than linked from it, so it inherits
 sds-theme
 =========
 
-Light or dark, as two segments with the chosen one filled — the same treatment
-as an active navigation item, because it is one.
+The mode the page is in, as one press that changes it — a state a reader
+flips rather than a choice they pick from a list.
 
 .. code-block:: html
 
    <sds-theme></sds-theme>
 
-Never a switch, and never one moon standing for the pair: there are three
-states, not two — light, dark, and the machine's, which is what a reader who
-has pressed neither gets. Pressing the current one gives the machine back.
-Each segment carries its own mark, so the pair still reads as two things to
-press rather than one state to flip.
+It is the system's own icon button and draws no control of its own: square,
+ghost, and carrying its sentence in ``title``, which is both the accessible
+name and the words the pointer reveals. The mark is the mode **in force** —
+the reader's choice, or the machine's until they have made one — and the
+sentence is what pressing will do. Two marks are drawn and one is faded out,
+so a press confirms the change without moving anything on the row.
+
+**A reader who has pressed it is on an explicit mode from then on.** Before the
+first press they are on the machine's, and the button reads it from
+``prefers-color-scheme`` so it never draws against the mode the page is
+actually in. Clearing the stored key is what gives the machine back.
 
 .. confval:: key
    :name: sds-theme-key
@@ -523,17 +529,6 @@ press rather than one state to flip.
    Where the choice is stored. The boot script in the document head has the
    same default, both ends reading one name; two products on one origin are
    two keys, and then each end is told which — see :doc:`/frontend/index`.
-
-.. confval:: compact
-   :name: sds-theme-compact
-   :type: boolean
-
-   The words dropped and the marks left standing, for a row that has run out of
-   room for them. Set from outside, because what is short of room is never the
-   control itself: in a bar it is ``sds-nav-main``, and these two words are the
-   first thing it sheds — before the search field, and long before a section.
-   The word a segment no longer draws is still said to a reader who cannot see
-   the mark.
 
 .. note::
 

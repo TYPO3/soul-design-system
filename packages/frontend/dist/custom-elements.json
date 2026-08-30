@@ -4728,7 +4728,6 @@
             "sds-bar__section",
             "sds-bar__section--drop",
             "sds-bar__toggle",
-            "sds-mode__label",
             "sds-pill",
             "sds-rail__group",
             "sds-rail__item",
@@ -8461,8 +8460,8 @@
           "customElement": true,
           "name": "SdsTheme",
           "tagName": "sds-theme",
-          "summary": "Light or dark, as two segments with the chosen one filled.",
-          "description": "Light or dark, as two segments with the chosen one filled.\n\nThe same treatment as an active navigation item, because it is one. Never a switch and never one moon standing for the pair: there are three states, not two — light, dark, and the machine's, which is what a reader who has pressed neither gets. Pressing the current one gives the machine back.\n\nEach segment carries its own glyph, and the words go where the row has no room for them: a mark is what is left when a label cannot be afforded.\n\nThe stored choice has to be read before the first paint or the page shows the other mode for a frame, so a line in the document head does that and this reads what it wrote. `localStorage`, under a key a consumer can name.",
+          "summary": "The mode the page is in, as one press that changes it.",
+          "description": "The mode the page is in, as one press that changes it.\n\nA state a reader flips rather than a choice they pick from a list, so it is the system's own icon button and not a control this file invents: square, ghost, and carrying its sentence in `title` — which is the accessible name and the words under the pointer, both from the one attribute.\n\nThe mark is the mode the page is *in*, and the sentence is what pressing will do. Two marks are drawn and one is faded out, so a press confirms the change that just happened rather than moving anything.\n\nThe stored choice has to be read before the first paint or the page shows the other mode for a frame, so a line in the document head does that and this reads what it wrote. `localStorage`, under a key a consumer can name.",
           "attributes": [
             {
               "name": "key",
@@ -8471,14 +8470,6 @@
                 "text": "string"
               },
               "fieldName": "key"
-            },
-            {
-              "name": "compact",
-              "description": "The words dropped, the glyphs left standing. Set from outside, because what has run out of room is the row and not the control — the bar sheds these two words before it sheds anything a reader came for.",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "compact"
             }
           ],
           "members": [
@@ -8491,16 +8482,6 @@
                 "text": "string"
               },
               "attribute": "key"
-            },
-            {
-              "kind": "field",
-              "name": "compact",
-              "privacy": "public",
-              "description": "The words dropped, the glyphs left standing. Set from outside, because what has run out of room is the row and not the control — the bar sheds these two words before it sheds anything a reader came for.",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "compact"
             }
           ],
           "events": [
@@ -8512,9 +8493,11 @@
             }
           ],
           "cssClasses": [
-            "sds-mode",
-            "sds-mode__label",
-            "sds-modes"
+            "sds-btn",
+            "sds-btn--ghost",
+            "sds-btn--icon",
+            "sds-theme__mark",
+            "sds-theme__toggle"
           ],
           "slots": []
         }

@@ -1495,25 +1495,18 @@
   sds-theme{display:inline-flex}
 }
 @layer components{
-  .sds-modes{--sds-modes-height: var(--control-height);--sds-modes-gap: var(--space-1);--sds-modes-font: var(--font-sans);--sds-modes-font-size: var(--control-font-size);--sds-modes-leading: var(--control-leading);--sds-mode-pad-x: var(--space-2);--sds-mode-gap: var(--space-1-5);--sds-mode-radius: var(--radius-control);--sds-mode-glyph: var(--control-icon-size);--sds-mode-ink: var(--text-secondary);--sds-mode-ink-hover: var(--text-primary);--sds-mode-ink-active: var(--text-on-accent);--sds-mode-fill-active: var(--accent);--sds-modes-duration: var(--duration-fast);--sds-modes-ease: var(--ease-out);display:inline-flex;gap:var(--sds-modes-gap);height:var(--sds-modes-height);font-family:var(--sds-modes-font);font-size:var(--sds-modes-font-size);line-height:var(--sds-modes-leading)}
-  .sds-mode:not(:has(.sds-mode__label)){inline-size:var(--sds-modes-height);padding-inline:0;justify-content:center}
-  .sds-mode{
-    font:inherit;
-    display:inline-flex;
-    align-items:center;
-    gap:var(--sds-mode-gap);
-    padding:0 var(--sds-mode-pad-x);
-    cursor:pointer;
-    color:var(--sds-mode-ink);
-    background:none;
-    border:0;
-    border-radius:var(--sds-mode-radius);
-    transition:background var(--sds-modes-duration) var(--sds-modes-ease),color var(--sds-modes-duration) var(--sds-modes-ease);
-    &:hover{color:var(--sds-mode-ink-hover)}
-    &.is-active{background:var(--sds-mode-fill-active);color:var(--sds-mode-ink-active)}
-    .sds-icon{--sds-icon-size: var(--sds-mode-glyph)}
+  .sds-theme__toggle{--sds-theme-mark-duration: var(--duration-fast);--sds-theme-mark-ease: var(--ease-out);position:relative}
+  .sds-theme__mark{position:absolute;inset:0;display:inline-flex;align-items:center;justify-content:center;opacity:0;transition:opacity var(--sds-theme-mark-duration) var(--sds-theme-mark-ease)}
+  .sds-theme__mark--light{opacity:1}
+  [data-theme=dark] .sds-theme__mark--light{opacity:0}
+  [data-theme=dark] .sds-theme__mark--dark{opacity:1}
+  @media(prefers-color-scheme:dark){
+    :root:not([data-theme=light]) .sds-theme__mark--light{opacity:0}
+    :root:not([data-theme=light]) .sds-theme__mark--dark{opacity:1}
   }
-  .sds-mode__label{white-space:nowrap}
+  @media(prefers-reduced-motion:reduce){
+    .sds-theme__mark{transition:none}
+  }
 }
 @layer base{
   sds-dropdown{display:inline-block}

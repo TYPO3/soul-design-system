@@ -1,11 +1,10 @@
 /* The colour mode switch.
 
-   The markup lives in `src/components/theme.ts`. Two segments with the chosen
-   one filled — the same treatment as an active navigation item, because it is
-   one. Never a switch and never a moon: a switch says on-or-off about a thing
-   with three states, and a moon says either which mode you are in or which one
-   you would get. No `parameters.dsCard`: it is drawn on the documentation
-   page. */
+   The markup lives in `src/components/theme.ts`. One press that changes the
+   mode, drawn as the system's own icon button: the mark is the mode in force
+   and the `title` is what pressing will do, so the sentence reaches a reader
+   who cannot see the mark and the one hovering it alike. No `parameters.dsCard`:
+   it is drawn on the documentation page. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

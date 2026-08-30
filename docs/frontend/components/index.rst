@@ -197,7 +197,7 @@ which group it was filed under.
      - an answer of more than one line
      - :ref:`Forms — sds-textarea <component-sds-textarea>`
    * - ``sds-theme``
-     - light or dark, as two segments with the chosen one filled
+     - the mode the page is in, as one press that changes it
      - :ref:`Controls — sds-theme <component-sds-theme>`
 
 What box an element is

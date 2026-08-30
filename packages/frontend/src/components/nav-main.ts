@@ -73,7 +73,6 @@ export class SdsNavMain extends SdsNav {
     open: { type: Boolean, state: true },
     opened: { type: Number, state: true },
     stack: { type: Array, state: true },
-    compactTheme: { type: Boolean, state: true },
     foldNav: { type: Boolean, state: true },
     foldSearch: { type: Boolean, state: true },
   };
@@ -120,22 +119,15 @@ export class SdsNavMain extends SdsNav {
   /** How far into the menu the drawer has been stepped: the entries walked
       through, the last of them being the level on screen. */
   declare stack: MenuEntry[];
-  declare compactTheme: boolean;
   declare foldNav: boolean;
   declare foldSearch: boolean;
 
   private readonly drawerId = `sds-bar-drawer-${++seq}`;
 
-  /** What the sections, the field and the mode pair's two words need in the
-      row. Zero means "not measured yet", and each can only be measured where
-      it is — standing in the row. */
+  /** What the sections and the field need in the row. Zero means "not measured
+      yet", and each can only be measured where it is — standing in the row. */
   private needNav = 0;
   private needSearch = 0;
-  private needWords = 0;
-  /** The mode control with its words and without them. The two are what a word
-      costs, and neither can be read in the state that does not have it. */
-  private wordyTheme = 0;
-  private quietTheme = 0;
   private watch?: ResizeObserver;
   private watched = false;
   /** The close a pointer asked for, still waiting out its grace. */
@@ -165,11 +157,6 @@ export class SdsNavMain extends SdsNav {
     this.open = false;
     this.opened = -1;
     this.stack = [];
-    /* The state a bar that never measures keeps. A prerendered page is this
-       snapshot, and a screen carrying no script never leaves it: started wordy
-       it stands wider than the page measure and the row wraps. Compact always
-       fits, and the words come back below once something has measured. */
-    this.compactTheme = true;
     this.foldNav = false;
     this.foldSearch = false;
   }
@@ -188,10 +175,6 @@ export class SdsNavMain extends SdsNav {
     void document.fonts?.ready.then(() => {
       this.needNav = 0;
       this.needSearch = 0;
-      this.needWords = 0;
-      this.wordyTheme = 0;
-      this.quietTheme = 0;
-      this.compactTheme = false;
       this.foldNav = false;
       this.foldSearch = false;
       void this.updateComplete.then(() => this.decide());
@@ -372,17 +355,6 @@ export class SdsNavMain extends SdsNav {
       return;
     }
     if (field && !this.foldSearch && !this.needSearch) this.needSearch = widthOf(field);
-    /* What the words cost is the difference between the control's two forms,
-       measured rather than added up from the labels and the air beside them:
-       that sum came out nine short, and nine is all it takes for the two
-       states to disagree about the same bar and fold each other forever. Each
-       form is measured in the frame that has it, so neither reading is stale. */
-    const mode = this.querySelector<HTMLElement>('sds-theme');
-    if (mode) {
-      if (mode.querySelector('.sds-mode__label')) this.wordyTheme = widthOf(mode);
-      else this.quietTheme = widthOf(mode);
-      if (this.wordyTheme && this.quietTheme) this.needWords = this.wordyTheme - this.quietTheme;
-    }
 
     /* Everything in the row that never folds. The two that do and the button
        that stands there once they have are taken back out, so the floor is the
@@ -392,7 +364,6 @@ export class SdsNavMain extends SdsNav {
     let used = standing.reduce((sum, el) => sum + widthOf(el), 0) + gap * (standing.length - 1);
     if (nav && !this.foldNav) used -= widthOf(nav) + gap;
     if (field && !this.foldSearch) used -= widthOf(field) + endGap;
-    if (!this.compactTheme) used -= this.needWords;
     const toggle = this.querySelector<HTMLElement>('.sds-bar__toggle');
     if (toggle) used -= widthOf(toggle) + endGap;
 
@@ -408,22 +379,15 @@ export class SdsNavMain extends SdsNav {
 
     /* The states, widest first, and the first that fits is the one. Ordered by
        what the bar can best do without, and read in order so that it is
-       monotonic: something put away stays away as the window narrows. Let the
-       words come back once the field has gone and they would appear at a width
-       narrower than the one that took them. */
+       monotonic: something put away stays away as the window narrows. */
     const fits = (need: number): boolean => need <= room;
-    let compactTheme = false;
     let foldSearch = false;
     let foldNav = false;
-    if (!fits(this.needWords + forSearch + forNav)) {
-      compactTheme = true;
-      if (!fits(forSearch + forNav)) {
-        foldSearch = wantsSearch;
-        if (!fits(forNav + forButton)) foldNav = Boolean(this.needNav);
-      }
+    if (!fits(forSearch + forNav)) {
+      foldSearch = wantsSearch;
+      if (!fits(forNav + forButton)) foldNav = Boolean(this.needNav);
     }
-    if (compactTheme === this.compactTheme && foldSearch === this.foldSearch && foldNav === this.foldNav) return;
-    this.compactTheme = compactTheme;
+    if (foldSearch === this.foldSearch && foldNav === this.foldNav) return;
     this.foldSearch = foldSearch;
     this.foldNav = foldNav;
     /* A drawer that has just given everything back would leave the toggle
@@ -655,8 +619,8 @@ export class SdsNavMain extends SdsNav {
     ${wantsSearch && !this.foldSearch ? this.field() : ''}
     ${this.languages.length ? this.languages_() : ''}
     ${this.themeKey
-      ? html`<sds-theme key="${this.themeKey}" ?compact="${this.compactTheme}"></sds-theme>`
-      : html`<sds-theme ?compact="${this.compactTheme}"></sds-theme>`}
+      ? html`<sds-theme key="${this.themeKey}"></sds-theme>`
+      : html`<sds-theme></sds-theme>`}
     ${drawer ? this.toggle_() : ''}
   </div>
   ${drawer

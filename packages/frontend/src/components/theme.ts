@@ -1,26 +1,26 @@
-/* sds-theme — light or dark, as two segments with the chosen one filled.
+/* sds-theme — the mode the page is in, as one press that changes it.
 
-   The same treatment as an active navigation item, because it is one. Never a
-   switch and never one moon standing for the pair: there are three states, not
-   two — light, dark, and the machine's, which is what a reader who has pressed
-   neither gets. Pressing the current one gives the machine back.
+   A state a reader flips rather than a choice they pick from a list, so it is
+   the system's own icon button and not a control this file invents: square,
+   ghost, and carrying its sentence in `title` — which is the accessible name
+   and the words under the pointer, both from the one attribute.
 
-   Each segment carries its own glyph, and the words go where the row has no
-   room for them: a mark is what is left when a label cannot be afforded.
+   The mark is the mode the page is *in*, and the sentence is what pressing
+   will do. Two marks are drawn and one is faded out, so a press confirms the
+   change that just happened rather than moving anything.
 
    The stored choice has to be read before the first paint or the page shows the
    other mode for a frame, so a line in the document head does that and this
    reads what it wrote. `localStorage`, under a key a consumer can name. */
 
-import { html, nothing, type TemplateResult } from 'lit';
+import { html, type TemplateResult } from 'lit';
 import './icon.ts';
 import { type IconId } from './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export type ThemeChoice = 'light' | 'dark';
 
-/** One mark per segment. Not a set of two states in one glyph: each says which
-    mode it *is*, so the pair still reads as two things to press. */
+/** The mark for each mode — the one drawn is the mode in force. */
 const GLYPH: Record<ThemeChoice, IconId> = {
   light: 'actions-brightness-high',
   dark: 'actions-moon',
@@ -43,8 +43,8 @@ export const themeBoot = (key = 'soul-theme'): string =>
 export class SdsTheme extends SdsElement {
   static override properties = {
     key: { type: String },
-    compact: { type: Boolean, reflect: true },
     current: { type: String, state: true },
+    machine: { type: String, state: true },
   };
 
   /** Where the choice is stored. Two products on one origin are two keys, and
@@ -52,17 +52,24 @@ export class SdsTheme extends SdsElement {
       what shows which side is pressed have to read the same name, or the choice
       is made here and looked for somewhere else on the next page. */
   declare key: string;
-  /** The words dropped, the glyphs left standing. Set from outside, because
-      what has run out of room is the row and not the control — the bar sheds
-      these two words before it sheds anything a reader came for. */
-  declare compact: boolean;
+  /** What the reader chose, or null while they have chosen nothing and the
+      machine's setting is what they are reading in. */
   declare current: ThemeChoice | null;
+  /** What the machine asks for, watched: it is the mode in force until a
+      press, and a button drawn against the wrong one is a button that lies
+      about the page it is standing on. */
+  declare machine: ThemeChoice;
 
   constructor() {
     super();
     this.key = 'soul-theme';
-    this.compact = false;
     this.current = null;
+    this.machine = 'light';
+  }
+
+  /** The mode actually in force, which is what the mark shows. */
+  private get inForce(): ThemeChoice {
+    return this.current ?? this.machine;
   }
 
   /* Watching the attribute, not owning it: `soul-boot.js` writes it before
@@ -71,19 +78,30 @@ export class SdsTheme extends SdsElement {
      the reader is not looking at. */
   #watch: MutationObserver | null = null;
 
+  #dark: MediaQueryList | null = null;
+
   override connectedCallback(): void {
     super.connectedCallback();
     if (typeof document === 'undefined') return;
     this.#read();
     this.#watch = new MutationObserver(() => this.#read());
     this.#watch.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    this.#dark = matchMedia('(prefers-color-scheme: dark)');
+    this.#machine();
+    this.#dark.addEventListener('change', this.#machine);
   }
 
   override disconnectedCallback(): void {
+    this.#dark?.removeEventListener('change', this.#machine);
+    this.#dark = null;
     this.#watch?.disconnect();
     this.#watch = null;
     super.disconnectedCallback();
   }
+
+  #machine = (): void => {
+    this.machine = this.#dark?.matches ? 'dark' : 'light';
+  };
 
   /* What the document already says. Reading the element's own idea of it
      would disagree with the paint. */
@@ -92,12 +110,12 @@ export class SdsTheme extends SdsElement {
     this.current = written === 'light' || written === 'dark' ? written : null;
   }
 
-  private choose(theme: ThemeChoice): void {
-    /* Pressing the one that is current gives the machine back. Without this
-       there is no way to undo a choice, and the machine's setting — which is
-       the default and the one most readers are on — becomes unreachable the
-       moment anyone presses anything. */
-    const next = this.current === theme ? null : theme;
+  /* One press, and it lands on the other mode explicitly. The machine's own
+     setting is what a reader has until they press — after that the page is
+     theirs, and `localStorage.removeItem` under the same key is what gives the
+     machine back to anyone who clears it. */
+  private flip(): void {
+    const next: ThemeChoice = this.inForce === 'dark' ? 'light' : 'dark';
     this.current = next;
 
     if (next) {
@@ -118,24 +136,30 @@ export class SdsTheme extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    /* The word is the name where it is drawn; where it is not, the same word
-       is said to a reader who cannot see the mark. */
-    const segment = (theme: ThemeChoice): TemplateResult => html`<button
-      type="button"
-      class="sds-mode${this.current === theme ? ' is-active' : ''}"
-      aria-pressed="${this.current === theme}"
-      aria-label="${this.compact ? theme : nothing}"
-      @click="${() => this.choose(theme)}"
-    ><sds-icon name="${GLYPH[theme]}"></sds-icon>${
-      this.compact ? '' : html`<span class="sds-mode__label">${theme}</span>`
-    }</button>`;
+    /* Both marks are drawn and the stylesheet fades one out against the mode
+       the document is in — not this element's idea of it. A page that runs no
+       script is the case that decides: rendered from state, the button draws
+       whatever the constructor happened to hold, and on a prerendered dark
+       page that is a sun. From the document, it is right before anything runs.
 
-    /* A group rather than a radio set: neither being pressed is a state, and
-       a radio group has no way to say it. */
-    return html`<div class="sds-modes" role="group" aria-label="Colour mode">
-  ${segment('light')}
-  ${segment('dark')}
-</div>`;
+       So the sentence cannot name a mode either, and does not: it says what
+       pressing does, the mark says where you are, and neither needs a script
+       to be true. The `title` is the whole accessible name of an icon-only
+       button, and the words the pointer reveals.
+
+       Each mark is a span around the glyph rather than the glyph itself: an
+       icon is inlined on the way out and what stands in the page is the
+       `<svg>` it drew, so a class on the element is one the page never sees. */
+    const mark = (theme: ThemeChoice): TemplateResult => html`<span
+      class="sds-theme__mark sds-theme__mark--${theme}"
+    ><sds-icon name="${GLYPH[theme]}"></sds-icon></span>`;
+
+    return html`<button
+      type="button"
+      class="sds-btn sds-btn--ghost sds-btn--icon sds-theme__toggle"
+      title="Switch colour mode"
+      @click="${() => this.flip()}"
+    >${mark('light')}${mark('dark')}</button>`;
   }
 }
 

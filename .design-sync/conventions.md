@@ -131,7 +131,7 @@ inline styles — do not mint a `sds-` name.
 | States | `sds-note` + `--ok` `--warn` `--error` `--info`, with `__icon` `__title` `__body` `__action`; `sds-loading` `sds-spinner` `sds-skeleton`; `sds-progress` `sds-progress--small` `sds-progress--pulsing` with `sds-progress__head` `sds-progress__caption` `sds-progress__value` `sds-progress__track` `sds-progress__fill` `sds-progress__note` — the fill is drawn to the length the component's own set carries and its ink is mixed from that same length, grey at the start and the status colour on arrival; `sds-progress--pulsing` sends a hatch travelling through the fill, which is work happening right now |
 | Reference | `sds-confval` with `__term` `__name` `__mark` `__detail` `__facts` `__body` — a hairline above each entry and no box around one; the facts stand in a row on the inset surface |
 | Brand | `sds-signet` `sds-lockup` `sds-wordmark` `sds-wordmark__brand` `sds-wordmark__pipe` `sds-wordmark__product` — a narrow bar drops the brand half and keeps the product's own name |
-| Chrome | `sds-modes`/`sds-mode`/`sds-mode__label` — each segment is a mark and its word; the word is what a bar with no room for it drops first |
+| Chrome | `sds-theme__toggle`/`sds-theme__mark` — the mode is one press, drawn as the system's own icon button; the two marks are stacked and one is faded out, so the swap moves nothing |
 
 ## Icons
 

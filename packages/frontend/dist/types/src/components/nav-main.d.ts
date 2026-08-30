@@ -58,10 +58,6 @@ export declare class SdsNavMain extends SdsNav {
             type: ArrayConstructor;
             state: boolean;
         };
-        compactTheme: {
-            type: BooleanConstructor;
-            state: boolean;
-        };
         foldNav: {
             type: BooleanConstructor;
             state: boolean;
@@ -112,20 +108,13 @@ export declare class SdsNavMain extends SdsNav {
     /** How far into the menu the drawer has been stepped: the entries walked
         through, the last of them being the level on screen. */
     stack: MenuEntry[];
-    compactTheme: boolean;
     foldNav: boolean;
     foldSearch: boolean;
     private readonly drawerId;
-    /** What the sections, the field and the mode pair's two words need in the
-        row. Zero means "not measured yet", and each can only be measured where
-        it is — standing in the row. */
+    /** What the sections and the field need in the row. Zero means "not measured
+        yet", and each can only be measured where it is — standing in the row. */
     private needNav;
     private needSearch;
-    private needWords;
-    /** The mode control with its words and without them. The two are what a word
-        costs, and neither can be read in the state that does not have it. */
-    private wordyTheme;
-    private quietTheme;
     private watch?;
     private watched;
     /** The close a pointer asked for, still waiting out its grace. */

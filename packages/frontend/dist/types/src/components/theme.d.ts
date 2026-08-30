@@ -19,11 +19,11 @@ export declare class SdsTheme extends SdsElement {
         key: {
             type: StringConstructor;
         };
-        compact: {
-            type: BooleanConstructor;
-            reflect: boolean;
-        };
         current: {
+            type: StringConstructor;
+            state: boolean;
+        };
+        machine: {
             type: StringConstructor;
             state: boolean;
         };
@@ -33,14 +33,18 @@ export declare class SdsTheme extends SdsElement {
         what shows which side is pressed have to read the same name, or the choice
         is made here and looked for somewhere else on the next page. */
     key: string;
-    /** The words dropped, the glyphs left standing. Set from outside, because
-        what has run out of room is the row and not the control — the bar sheds
-        these two words before it sheds anything a reader came for. */
-    compact: boolean;
+    /** What the reader chose, or null while they have chosen nothing and the
+        machine's setting is what they are reading in. */
     current: ThemeChoice | null;
+    /** What the machine asks for, watched: it is the mode in force until a
+        press, and a button drawn against the wrong one is a button that lies
+        about the page it is standing on. */
+    machine: ThemeChoice;
     constructor();
+    /** The mode actually in force, which is what the mark shows. */
+    private get inForce();
     connectedCallback(): void;
     disconnectedCallback(): void;
-    private choose;
+    private flip;
     protected render(): TemplateResult;
 }
