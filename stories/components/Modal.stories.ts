@@ -14,8 +14,8 @@ import '../../packages/frontend/src/components/overlay.ts';
 import '../../packages/frontend/src/components/button.ts';
 
 const ACTIONS = [
-  html`<sds-button variant="ghost" size="sm">Cancel</sds-button>`,
-  html`<sds-button variant="primary" size="sm">Publish</sds-button>`,
+  html`<sds-button variant="ghost">Cancel</sds-button>`,
+  html`<sds-button variant="primary">Publish</sds-button>`,
 ];
 
 const meta: Meta = {

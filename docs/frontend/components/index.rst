@@ -385,6 +385,13 @@ rather than on whatever is inside it.
      - ``sds-note`` with ``action``
      - the label pressed. A note with ``href`` announces nothing — the link is
        the answer
+   * - ``sds-dialog-confirm``
+     - ``sds-dialog`` with ``confirm-label``
+     - none — the press is the whole message
+   * - ``sds-dialog-cancel``
+     - ``sds-dialog``
+     - none. Anything that closed a dialog without confirming it: the cancel
+       button, the header X, Escape, a ``close()``
    * - ``sds-theme-change``
      - ``sds-theme``
      - ``{ theme }`` — ``"light"``, ``"dark"``, or ``null`` for the machine's

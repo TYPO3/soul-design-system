@@ -1606,6 +1606,38 @@
               "fieldName": "body"
             },
             {
+              "name": "confirm-label",
+              "description": "The label of the button that answers yes, and the whole of what a confirmation needs: written, the dialog draws its own pair and announces what was pressed, so asking a question takes no script at all.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "confirmLabel"
+            },
+            {
+              "name": "confirm-icon",
+              "description": "A glyph on that button, ahead of its label — the press that carries the consequence is the one worth marking. The way out stays a word: two marked buttons beside each other is a pair nothing distinguishes.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "confirmIcon"
+            },
+            {
+              "name": "cancel-label",
+              "description": "The way out, beside it.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "cancelLabel"
+            },
+            {
+              "name": "tone",
+              "description": "What kind of press the confirming one is.",
+              "type": {
+                "text": "'primary' | 'danger'"
+              },
+              "fieldName": "tone"
+            },
+            {
               "name": "size",
               "description": "How much room it takes, in both directions. `auto` is the content's own width up to the reading measure; a named size is the same shape wherever it is used, which is what keeps every dialog in the system one family.",
               "type": {
@@ -1662,6 +1694,46 @@
             },
             {
               "kind": "field",
+              "name": "confirmLabel",
+              "privacy": "public",
+              "description": "The label of the button that answers yes, and the whole of what a confirmation needs: written, the dialog draws its own pair and announces what was pressed, so asking a question takes no script at all.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "confirm-label"
+            },
+            {
+              "kind": "field",
+              "name": "confirmIcon",
+              "privacy": "public",
+              "description": "A glyph on that button, ahead of its label — the press that carries the consequence is the one worth marking. The way out stays a word: two marked buttons beside each other is a pair nothing distinguishes.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "confirm-icon"
+            },
+            {
+              "kind": "field",
+              "name": "cancelLabel",
+              "privacy": "public",
+              "description": "The way out, beside it.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "cancel-label"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "What kind of press the confirming one is.",
+              "type": {
+                "text": "'primary' | 'danger'"
+              },
+              "attribute": "tone"
+            },
+            {
+              "kind": "field",
               "name": "size",
               "privacy": "public",
               "description": "How much room it takes, in both directions. `auto` is the content's own width up to the reading measure; a named size is the same shape wherever it is used, which is what keeps every dialog in the system one family.",
@@ -1691,7 +1763,20 @@
               "attribute": "open"
             }
           ],
-          "events": [],
+          "events": [
+            {
+              "name": "sds-dialog-cancel",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "sds-dialog-confirm",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
           "cssClasses": [
             "sds-btn",
             "sds-btn--ghost",

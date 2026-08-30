@@ -87,12 +87,6 @@ and heads, a rail, a breadcrumb, a pager, a set of tabs and a swatch's value. A
 caption, a hint, an error, a footnote, an attribution, a badge and the
 annotation on a specimen card are about the thing beside them, and stay small.
 
-The site bar is the one exception, and the reason is arithmetic rather than
-taste: it carries the whole site on one line at every width, and it sheds
-rather than wraps. Set at the reading size it sheds its search field on a
-1440px desktop, which is a worse bar than a smaller one — so it has
-``--bar-font-size`` of its own, and nothing else may reach for it.
-
 What is not allowed is a step wedged between them. A single pixel is a
 rasterisation difference rather than a register a reader can tell apart — the
 finding that took the UI step off 15, and the same one that closed the run of

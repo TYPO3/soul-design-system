@@ -6097,28 +6097,64 @@ define("sds-modal", SdsModal);
 
 // packages/frontend/src/components/dialog.ts
 import { html as html50 } from "lit";
+var CONFIRM = "confirm";
 var SdsDialog = class extends SdsElement {
+  constructor() {
+    super();
+    /* What a button pointed at this one asks for. An id and an event, so neither
+       end holds the other and the question is opened from markup rather than
+       from a script that has to find both of them. */
+    this.onCommand = (event) => {
+      const command = event.detail?.command ?? "show";
+      if (command === "close") this.close();
+      else if (command === "toggle") this.open ? this.close() : this.show();
+      else this.show();
+    };
+    /* What the reader answered, read off the platform. Dispatched on every
+       close, because a question dismissed is an answer a caller has to act on
+       just as much as one pressed. */
+    this.onClose = () => {
+      const confirmed = this.dialog?.returnValue === CONFIRM;
+      this.open = false;
+      this.dispatchEvent(
+        confirmed ? new CustomEvent("sds-dialog-confirm", { bubbles: true, composed: true }) : new CustomEvent("sds-dialog-cancel", { bubbles: true, composed: true })
+      );
+    };
+    this.heading = "";
+    this.body = "";
+    this.actions = [];
+    this.confirmLabel = "";
+    this.confirmIcon = "";
+    this.cancelLabel = "Cancel";
+    this.tone = "primary";
+    this.size = "sm";
+    this.width = 0;
+    this.open = false;
+  }
   static {
     this.properties = {
       heading: { type: String },
       body: { type: String },
       actions: { type: Array },
+      confirmLabel: { type: String, attribute: "confirm-label" },
+      confirmIcon: { type: String, attribute: "confirm-icon" },
+      cancelLabel: { type: String, attribute: "cancel-label" },
+      tone: { type: String, reflect: true },
       size: { type: String, reflect: true },
       width: { type: Number, reflect: true },
       open: { type: Boolean, reflect: true }
     };
   }
-  constructor() {
-    super();
-    this.heading = "";
-    this.body = "";
-    this.actions = [];
-    this.size = "sm";
-    this.width = 0;
-    this.open = false;
-  }
   get dialog() {
     return this.querySelector("dialog");
+  }
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener("sds-command", this.onCommand);
+  }
+  disconnectedCallback() {
+    this.removeEventListener("sds-command", this.onCommand);
+    super.disconnectedCallback();
   }
   /** Open it modally: the platform makes the rest of the page inert, moves
       the focus in, and traps it until this closes. */
@@ -6133,12 +6169,29 @@ var SdsDialog = class extends SdsElement {
     this.dialog?.close();
     this.open = false;
   }
+  /** Open it and settle on what the reader chose — `show()` for a caller that
+      has to wait for the answer rather than hear about it. */
+  ask() {
+    return new Promise((settle) => {
+      const heard = (event) => {
+        this.removeEventListener("sds-dialog-confirm", heard);
+        this.removeEventListener("sds-dialog-cancel", heard);
+        settle(event.type === "sds-dialog-confirm");
+      };
+      this.addEventListener("sds-dialog-confirm", heard);
+      this.addEventListener("sds-dialog-cancel", heard);
+      this.show();
+    });
+  }
   updated() {
     const el = this.dialog;
     if (!el) return;
     if (!this.isConnected) return;
     try {
-      if (this.open && !el.open) el.showModal();
+      if (this.open && !el.open) {
+        el.returnValue = "";
+        el.showModal();
+      }
       if (!this.open && el.open) el.close();
     } catch {
       if (this.open) el.setAttribute("open", "");
@@ -6149,19 +6202,33 @@ var SdsDialog = class extends SdsElement {
       class="${modalClass(this.size)}"
       style="${this.width > 0 ? `width:${this.width}px` : ""}"
       aria-label="${this.heading}"
-      @close="${() => {
-      this.open = false;
-    }}"
+      @close="${this.onClose}"
     >
   <div class="sds-modal__head">
     <span>${this.heading}</span>
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
   </div>
   <div class="sds-modal__body">${this.body}</div>
-  <div class="sds-modal__foot">
-    ${lines(this.actions, 4)}
-  </div>
+  ${this.foot()}
 </dialog>`;
+  }
+  /* Buttons a caller wrote, or the pair a confirmation is: a `<form
+     method="dialog">`, which is the platform answering the question itself —
+     the press closes the dialog and leaves its value in `returnValue`, with no
+     handler in between. At the control size the rest of the system writes,
+     because what a dialog asks is the main action of the surface it opened. */
+  foot() {
+    if (this.actions.length || !this.confirmLabel) {
+      return html50`<div class="sds-modal__foot">
+    ${lines(this.actions, 4)}
+  </div>`;
+    }
+    const tone = this.tone === "danger" ? "danger" : "primary";
+    const glyph = this.confirmIcon ? html50`<sds-icon name="${this.confirmIcon}"></sds-icon>` : "";
+    return html50`<form method="dialog" class="sds-modal__foot">
+    <button class="${buttonClass({ variant: "ghost" })}" type="submit" value="cancel">${buttonLabel(this.cancelLabel)}</button>
+    <button class="${buttonClass({ variant: tone })}" type="submit" value="${CONFIRM}">${glyph}${buttonLabel(this.confirmLabel)}</button>
+  </form>`;
   }
 };
 define("sds-dialog", SdsDialog);

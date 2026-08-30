@@ -32,8 +32,8 @@ export const scene = (): TemplateResult => html`<sds-overlay></sds-overlay>
   heading="Publish the task skills?"
   .body="${html`This writes into <span class="sds-mono">.agents/skills</span> and records the setup. Nothing else is touched.`}"
   .actions="${[
-    buttonMarkup({ variant: 'ghost', size: 'sm' }, 'Cancel'),
-    buttonMarkup({ variant: 'primary', size: 'sm' }, 'Publish'),
+    buttonMarkup({ variant: 'ghost' }, 'Cancel'),
+    buttonMarkup({ variant: 'primary' }, 'Publish'),
   ]}"
 ></sds-modal>`;
 

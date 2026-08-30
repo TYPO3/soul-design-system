@@ -111,7 +111,7 @@
      whatever case it arrived in; the case is a decision about the bar. */
   .sds-bar__lang {
     --sds-bar-lang-font: var(--font-mono);
-    --sds-bar-lang-size: calc(var(--bar-font-size) * var(--font-modifier-mono));
+    --sds-bar-lang-size: calc(var(--tab-font-size) * var(--font-modifier-mono));
 
     .sds-btn__label {
       font-family: var(--sds-bar-lang-font);

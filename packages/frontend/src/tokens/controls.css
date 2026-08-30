@@ -94,16 +94,11 @@
     --diff-leading: var(--leading-code);
     --diff-tint: 14%;
 
-    /* Navigation — a rail, a breadcrumb, a pager, a set of tabs, a contents.
-       A reader has to read one of these to choose, which puts it with the text
-       and not with the notes about it. */
+    /* Navigation — a rail, a bar, a breadcrumb, a pager, a set of tabs, a
+       contents. A reader has to read one of these to choose, which puts it
+       with the text and not with the notes about it. */
     --nav-font-size: var(--font-size-body);
     --tab-font-size: var(--font-size-body);
-    /* The site bar is the exception, and the reason is arithmetic rather than
-       taste: it carries the whole site on one line at every width and sheds
-       rather than wraps. At the reading size it sheds its search field on a
-       1440px desktop, which is a worse bar than a smaller one. */
-    --bar-font-size: var(--font-size-small);
 
     /* Titled blocks. A block holding sentences is read, so it is set in the
        reading register wherever it stands: there is no second register for it

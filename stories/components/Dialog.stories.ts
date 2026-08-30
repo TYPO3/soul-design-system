@@ -13,16 +13,16 @@ import '../../packages/frontend/src/components/button.ts';
 import { type DialogProps, type SdsDialog } from '../../packages/frontend/src/components/dialog.ts';
 
 const ACTIONS = [
-  html`<sds-button variant="ghost" size="sm">Cancel</sds-button>`,
-  html`<sds-button variant="primary" size="sm">Publish</sds-button>`,
+  html`<sds-button variant="ghost">Cancel</sds-button>`,
+  html`<sds-button variant="primary">Publish</sds-button>`,
 ];
 
 /* The way out first, the press that cannot be undone last, and the label says
    what goes rather than "OK": a reader who cannot tell the tones apart still
    reads the consequence off the button. */
 const DESTRUCTIVE = [
-  html`<sds-button variant="ghost" size="sm">Cancel</sds-button>`,
-  html`<sds-button variant="danger" size="sm">Delete 3 pages</sds-button>`,
+  html`<sds-button variant="ghost">Cancel</sds-button>`,
+  html`<sds-button variant="danger">Delete 3 pages</sds-button>`,
 ];
 
 /* The button opens the dialog written after it. The sibling rather than the
@@ -31,6 +31,13 @@ const DESTRUCTIVE = [
 const opens = (e: Event): void => {
   const next = (e.currentTarget as HTMLElement).nextElementSibling;
   if (next?.tagName.toLowerCase() === 'sds-dialog') (next as SdsDialog).show();
+};
+
+/* What the page heard, written where a reader of the story can see it. A page
+   would act on the answer instead; this is the wiring made visible. */
+const said = (event: Event): void => {
+  const heard = (event.currentTarget as HTMLElement).nextElementSibling;
+  if (heard) heard.textContent = `heard ${event.type}`;
 };
 
 const meta: Meta<DialogProps> = {
@@ -101,6 +108,29 @@ export const Sizes: Story = {
       `,
     )}
   </div>`,
+};
+
+/** A confirmation with no script behind it: a button that names the dialog,
+    a label for the press that answers, and the two events a page listens for.
+    The pair is a `<form method="dialog">` — the platform closes the dialog and
+    says which button did it, so `sds-dialog-confirm` and `sds-dialog-cancel`
+    are the whole contract. */
+export const Confirm: Story = {
+  render: () => html`
+    <sds-button for="confirm-remove" variant="secondary">Remove the token…</sds-button>
+    <sds-dialog
+      id="confirm-remove"
+      heading="Remove this token?"
+      body="Anything using it stops answering immediately. Nothing puts it back."
+      confirm-label="Remove"
+      confirm-icon="actions-delete"
+      cancel-label="Keep it"
+      tone="danger"
+      @sds-dialog-confirm="${said}"
+      @sds-dialog-cancel="${said}"
+    ></sds-dialog>
+    <p class="sds-mono">nothing heard yet</p>
+  `,
 };
 
 /* No story that opens on load. A dialog that is already open when a page is

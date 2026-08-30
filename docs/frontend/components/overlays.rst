@@ -75,7 +75,42 @@ sds-dialog
 
    <sds-dialog id="confirm-delete" heading="Remove this token?"
      body="Anything using it stops answering immediately."
-     .actions="${[cancel, remove]}"></sds-dialog>
+     confirm-label="Remove" confirm-icon="actions-delete"
+     tone="danger"></sds-dialog>
+
+Asking a question
+=================
+
+A ``confirm-label`` is the whole of a confirmation: the dialog draws the pair
+itself — the way out first, the press that answers last — and says which one
+was pressed. Nothing above is bound from a script, which is the point: a
+question is markup, and the button that opens it names the dialog by id.
+
+The pair is a ``<form method="dialog">``, so the platform closes the dialog and
+records the press. Two events carry it, both bubbling and composed:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Event
+     - When
+   * - ``sds-dialog-confirm``
+     - the confirming button was pressed
+   * - ``sds-dialog-cancel``
+     - anything else closed it — the cancel button, the header X, Escape, a
+       ``close()``
+
+A dismissal is an answer, so the second one fires whatever closed the dialog
+and whether or not it was drawing its own pair. ``ask()`` is the same thing as
+a promise, for a caller that has to wait for the answer rather than hear about
+it:
+
+.. code-block:: js
+
+   if (await document.querySelector('#confirm-delete').ask()) remove(token);
+
+Set ``actions`` and those buttons are drawn instead: a question with more than
+two answers, or one whose press is a link, is markup a caller writes.
 
 .. confval:: heading
    :name: sds-dialog-heading
@@ -88,12 +123,42 @@ sds-dialog
    :name: sds-dialog-body
    :type: string | markup
 
+.. confval:: confirm-label
+   :name: sds-dialog-confirm-label
+   :type: string
+
+   The label of the button that answers yes. Written, the dialog draws its own
+   pair — see `Asking a question`_. Say what goes rather than "OK": a reader
+   who cannot tell the tones apart still reads the consequence off the button.
+
+.. confval:: confirm-icon
+   :name: sds-dialog-confirm-icon
+   :type: string
+
+   A glyph on that button, ahead of its label — an icon name, the same
+   vocabulary ``sds-icon`` takes. The press that carries the consequence is the
+   one worth marking; the way out stays a word, because two marked buttons
+   beside each other are a pair nothing tells apart.
+
+.. confval:: cancel-label
+   :name: sds-dialog-cancel-label
+   :type: string
+   :default: Cancel
+
+.. confval:: tone
+   :name: sds-dialog-tone
+   :type: "primary | danger"
+   :default: primary
+
+   What kind of press the confirming one is. ``danger`` is the press that
+   cannot be undone.
+
 .. confval:: actions
    :name: sds-dialog-actions
    :type: "markup[]"
 
-   Rendered buttons. **Ghost first, primary last** — the order the rest of the
-   system reads in.
+   Rendered buttons, where the pair cannot answer the question. **Ghost first,
+   primary last** — the order the rest of the system reads in.
 
 .. confval:: size
    :name: sds-dialog-size
@@ -116,8 +181,9 @@ sds-dialog
    :type: boolean
    :default: false
 
-``show()`` opens it modally and ``close()`` closes it; it answers ``sds-command``
-from a button that names it with ``for``.
+``show()`` opens it modally, ``ask()`` opens it and settles on the answer, and
+``close()`` closes it; it answers ``sds-command`` from a button that names it
+with ``for``.
 
 .. _component-sds-modal:
 

@@ -18,10 +18,9 @@ export type ModalSize = 'auto' | 'sm' | 'md' | 'lg';
 
 /** The classes a surface of that size is.
 
-    A size is a shape rather than a width: it says how wide the surface is and
-    how tall it may get, after which the body is what scrolls. Named rather than
-    interpolated — a word this layer has no size for would become a class
-    nothing defines. */
+    A size is a shape rather than a width: how wide the surface is, and how tall
+    before the body scrolls. Named rather than interpolated — a word this layer
+    has no size for would otherwise become a class nothing defines. */
 export const modalClass = (size: ModalSize): string =>
   size === 'sm' || size === 'md' || size === 'lg' ? `sds-modal sds-modal--${size}` : 'sds-modal';
 

@@ -18,8 +18,12 @@
     --sds-bar-nav-link-pad-x: var(--space-3);
     --sds-bar-nav-glyph: var(--control-icon-size);
     --sds-bar-nav-radius: var(--radius-control);
-    --sds-bar-nav-font: var(--font-mono);
-    --sds-bar-nav-font-size: calc(var(--bar-font-size) * var(--font-modifier-mono));
+    /* A section name is something a person wrote — the sans carries it, the
+       way it carries every other word in the system that no machine named. It
+       is also what lets the row hold the site at the reading size: mono spends
+       the same advance on every glyph and the bar has none to spare. */
+    --sds-bar-nav-font: var(--font-sans);
+    --sds-bar-nav-font-size: var(--nav-font-size);
     --sds-bar-nav-ink: var(--text-secondary);
     --sds-bar-nav-ink-hover: var(--text-primary);
     --sds-bar-nav-ink-active: var(--text-on-accent);
