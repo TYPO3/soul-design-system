@@ -1,6 +1,6 @@
 {
   "name": "@typo3/soul-frontend",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "The Soul design system as a frontend: tokens, the sds- class layer, and the Lit elements that upgrade it.",
   "keywords": [
     "design-system",
