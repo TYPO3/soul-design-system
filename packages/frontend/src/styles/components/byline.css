@@ -56,9 +56,9 @@
     letter-spacing: var(--sds-byline-tracking);
     padding-inline-start: var(--sds-byline-tracking);
   }
-  /* Two stacked labels, not prose. Body leading puts a 14px name in a 25px line
-     box, which drifts the pair apart and makes the block taller than any mark
-     it could stand beside. */
+  /* Two stacked labels, not prose. Body leading puts the name in a line box
+     half again its own size, which drifts the pair apart and makes the block
+     taller than any mark it could stand beside. */
   .sds-byline__who {
     display: flex;
     flex-direction: column;

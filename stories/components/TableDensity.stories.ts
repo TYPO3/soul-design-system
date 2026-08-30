@@ -88,13 +88,13 @@ const meta: Meta<TableProps> = {
 export default meta;
 type Story = StoryObj<TableProps>;
 
-/** 30px rows, 13px type. When the list *is* the work. */
+/** The least room a row can be read in. When the list *is* the work. */
 export const Compact: Story = { args: props('compact') };
 
-/** 38px rows. When one density has to serve both readings. */
+/** The default. When one density has to serve both readings. */
 export const Medium: Story = { args: props('medium') };
 
-/** 48px rows, 14px type. When the rows are read rather than scanned. */
+/** The most room. When the rows are read rather than scanned. */
 export const Airy: Story = { args: props('airy') };
 
 export const specimenHtml = (): string => spec(DENSITIES.map(densityRow), { gap: '24px' });

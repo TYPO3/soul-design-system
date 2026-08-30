@@ -11,9 +11,9 @@
      treatment as an active navigation item, because it is one. The group is
      bordered so the pair reads as one control rather than as two buttons. */
   .sds-modes {
-    /* The control height, and the segments fill what is left of it. Two 12px
-       words are the smallest thing in a header, and left to their own padding
-       they made the mode pair the shortest box on the line. */
+    /* The control height, and the segments fill what is left of it. Two words
+       in the small register are the least text in a header, and left to their
+       own padding they made the mode pair the shortest box on the line. */
     --sds-modes-height: var(--control-height);
     --sds-modes-pad: var(--space-0-5);
     --sds-modes-gap: var(--space-1);

@@ -151,8 +151,8 @@
       color: var(--sds-rail-ink-hover);
     }
     /* Sideways closed, down open — it points at what pressing it will do, and
-       keeps the control floor rather than the label's size: an 11px marker is a
-       smudge on the one control in the rail. */
+       keeps the control floor rather than the size of the words: a marker set
+       at those is a smudge on the one control in the rail. */
     > summary .sds-icon {
       --sds-icon-size: var(--sds-rail-glyph);
       transform: rotate(-90deg);

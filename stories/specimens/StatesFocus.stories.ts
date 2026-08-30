@@ -21,8 +21,8 @@ import { dsCard, indent, NNBSP, part, spec } from '../lib/specimen.ts';
 const RING =
   'outline:var(--border-emphasis) solid var(--accent); outline-offset:var(--focus-offset); box-shadow:0 0 0 var(--focus-halo) var(--accent-ring); border-radius:var(--radius-control);';
 
-/* Explicitly 16: these sit in 13–14px text, and an unsized icon follows the
-   text it is in — the floor is the point on a card about controls. */
+/* Explicitly 16: these sit in the small register, and an unsized icon follows
+   the text it is in — the floor is the point on a card about controls. */
 const icon = (name: IconId): string => part(html`<sds-icon name="${name}" size="16"></sds-icon>`);
 
 /* The controls are the system's own, in the state the system names. Only the

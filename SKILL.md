@@ -123,7 +123,7 @@ Breaking one of these breaks the system, not just the page.
 
 A container must not share its corner with its contents — that is why the card is one step larger.
 
-**Table density.** Compact (30px rows, 13px type) when the list *is* the work: the full tool table, label lists, changelogs. Airy (48px rows, 14px type) when the rows are read rather than scanned: three worked tools, prose-adjacent reference. Medium (38px) if one density must serve both. Never zebra stripes — background changes only on hover or selection, so a highlighted row means something.
+**Table density.** A density is room, not type — every row is set in the small register and what changes is the air around it. Compact when the list *is* the work: the full tool table, label lists, changelogs. Airy when the rows are read rather than scanned: three worked tools, prose-adjacent reference. Medium if one density must serve both. Never zebra stripes — background changes only on hover or selection, so a highlighted row means something.
 
 **Status colour** (`--status-ok`, `--status-warn`, `--status-error`) appears only inside code output, badges, result rows and status-about diagrams. Never as page furniture. One exception, and it is the whole of it: the press that cannot be undone takes `--status-error` as ink and a hairline, never as a fill, and its label names what goes rather than saying "OK".
 
@@ -261,7 +261,7 @@ Enough to produce a new diagram that sits in the set without adjustment. Every v
 
 ## Layout
 
-210px tool rail, 1080px content, 48px gutters. Section boundaries are full-bleed hairlines; content inside respects the measure. **1px grid gaps over a `--border-subtle` background** produce the hairline-separated card grid — the system's signature move.
+210px tool rail, a 1200px page measure, 48px gutters. Section boundaries are full-bleed hairlines; content inside respects the measure. **1px grid gaps over a `--border-subtle` background** produce the hairline-separated card grid — the system's signature move.
 
 The header is sticky, translucent canvas with an 8px backdrop blur; nothing else in the system is fixed, transparent or blurred. **It never wraps** — it sheds in a fixed order, widest first: 1120px mode-switch labels, 1040px transport line, 820px navigation into a panel, 620px `Soul Design System` off the wordmark. A header that wraps to two lines breaks the sticky offset everything below is measured against.
 

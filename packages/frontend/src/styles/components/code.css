@@ -105,9 +105,9 @@
     border-bottom: var(--sds-code-border) solid var(--sds-code-rule);
     color: var(--sds-code-head-ink);
 
-    /* The floor, not the label's size: the head sets in the label register at
-       11px, and the copy button and the diff's file mark are controls rather
-       than words. Same reason as the rail's fold marker. */
+    /* The floor, not the size of the words beside it: the copy button and the
+       diff's file mark are controls rather than labels. Same reason as the
+       rail's fold marker. */
     .sds-icon {
       --sds-icon-size: var(--sds-code-glyph);
     }

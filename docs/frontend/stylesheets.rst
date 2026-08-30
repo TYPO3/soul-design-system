@@ -145,8 +145,9 @@ a surface that needs one instance different sets a property on it instead of
 writing a class this system has never heard of.
 
 A value that reaches a declaration without passing through the set is the
-thing this prevents: ``line-height: 1.55`` in one component and
-``var(--leading-body)`` in every other is drift nothing can see.
+thing this prevents: ``line-height: 1.6`` in one component and
+``var(--leading-body)`` in every other is drift nothing can see — and it stays
+invisible for as long as the two happen to agree.
 ``make verify ARGS=sets`` holds every component to it. Two things are read
 straight, and only two: the focus ring, because there is one ring, and the
 colours that mean something — a component able to re-point those could draw an

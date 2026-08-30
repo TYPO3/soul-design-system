@@ -1,6 +1,6 @@
 /* Control scale.
 
-   Controls run tighter than prose — a 15px button next to 17px body text is
+   Controls run tighter than prose — a small button next to body copy is
    deliberate — but they run tighter on the *same* steps. Every size here is a
    `--font-size-*` from typography.css under the name the component knows it
    by, so a role can be retuned without inventing a step. A literal written
@@ -15,9 +15,9 @@
        control stops being chrome and becomes the thing on the page. */
     --control-font-size-lg: var(--font-size-body);
 
-    /* One height for all of them, declared rather than fallen out of padding: a
-       12px segment, a 13px label and a 15px input make three different boxes out
-       of the same padding, and a header shows all three on one line. A floor and
+    /* One height for all of them, declared rather than fallen out of padding:
+       a segment, a label and an input make three different boxes out of the
+       same padding, and a header shows all three on one line. A floor and
        not a ceiling — every control's padding comes in under it, and one whose
        content outgrows it, a field with two lines, still grows. */
     --control-height: 36px;
