@@ -15,11 +15,7 @@
        in the small register are the least text in a header, and left to their
        own padding they made the mode pair the shortest box on the line. */
     --sds-modes-height: var(--control-height);
-    --sds-modes-pad: var(--space-0-5);
     --sds-modes-gap: var(--space-1);
-    --sds-modes-border: var(--border-hairline);
-    --sds-modes-radius: var(--radius-control);
-    --sds-modes-edge: var(--border-subtle);
     /* A control, and set like one: the words in it are Light and Dark, which a
        person wrote, and the reader is choosing between them the way they
        choose in any other control on the page. Mono and a step down read as a
@@ -29,7 +25,10 @@
     --sds-modes-leading: var(--control-leading);
     --sds-mode-pad-x: var(--space-2);
     --sds-mode-gap: var(--space-1-5);
-    --sds-mode-radius: 2px;
+    /* The same corner every other filled mark in a row takes. It was a step
+       tighter while the segment sat inside a rounded box, which is what an
+       inner radius has to be — there is no outer one now. */
+    --sds-mode-radius: var(--radius-control);
     --sds-mode-glyph: var(--control-icon-size);
     --sds-mode-ink: var(--text-secondary);
     --sds-mode-ink-hover: var(--text-primary);
@@ -39,13 +38,13 @@
     --sds-modes-ease: var(--ease-out);
 
     /* Inline: it is a control, and a block-level box takes the whole row
-       wherever it is not a flex item — which is most places a header puts it. */
+       wherever it is not a flex item — which is most places a header puts it.
+       No box of its own: a pair inset inside a border draws its filled segment
+       shorter than every other mark on the row, and the mark is what says which
+       one is current. The segments fill the height instead. */
     display: inline-flex;
     gap: var(--sds-modes-gap);
-    padding: var(--sds-modes-pad);
     height: var(--sds-modes-height);
-    border: var(--sds-modes-border) solid var(--sds-modes-edge);
-    border-radius: var(--sds-modes-radius);
     font-family: var(--sds-modes-font);
     font-size: var(--sds-modes-font-size);
     line-height: var(--sds-modes-leading);
