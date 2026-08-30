@@ -135,10 +135,14 @@
     color: var(--sds-field-ink-filled);
   }
 
-  /* Error text sits under or beside the field — never as a tooltip. */
+  /* Error text sits under or beside the field — never as a tooltip, and at the
+     size the control is rather than the size of an aside. A hint can be
+     skipped; this is the sentence standing between a reader and the send, and
+     the summary at the top of the form says the same one in the reading
+     register. */
   .sds-field-error {
     --sds-field-error-gap: var(--space-1-5);
-    --sds-field-error-size: var(--aside-size);
+    --sds-field-error-size: var(--control-font-size);
     --sds-field-error-ink: var(--status-error);
 
     display: inline-flex;
@@ -170,11 +174,17 @@
     min-width: 0;
     max-width: 100%;
 
-    /* The label follows the control it names, where the control's own type
-       moves: only the compact one does, so only it is here. The hint follows
+    /* The label and the error follow the control they belong to, where the
+       control's own type moves: only the compact one does, so only it is here.
+       The error is assigned on its own box, because a set declared on an
+       element outranks the same property inherited into it. The hint follows
        nothing — an aside is read in one register wherever it stands. */
     &:has(> .sds-field--sm) {
       --sds-field-label-size: var(--control-font-size-sm);
+
+      .sds-field-error {
+        --sds-field-error-size: var(--control-font-size-sm);
+      }
     }
   }
   .sds-field-label {

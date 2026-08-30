@@ -83,8 +83,12 @@ run of text that *is* the thing takes the reading size; one that is *about*
 something else takes the small one.** So a control is set at 16 — what a button
 says has to be read before it can be pressed, and Safari zooms the page at
 anything under it the moment a field takes focus — and so are a table's rows
-and heads, a rail, a breadcrumb, a pager, a set of tabs and a swatch's value. A
-caption, a hint, an error, a footnote, an attribution, a badge and the
+and heads, a rail, a breadcrumb, a pager, a set of tabs and a swatch's value.
+So is the error under a control: a hint describes what the answer has to be
+and can be skipped, an error is the sentence standing between a reader and the
+send, and the summary at the top of the form says the same one in the reading
+register. It follows a compact control down, the way that control's label
+does. A caption, a hint, a footnote, an attribution, a badge and the
 annotation on a specimen card are about the thing beside them, and stay small.
 
 What is not allowed is a step wedged between them. A single pixel is a
@@ -95,8 +99,8 @@ finding that took the UI step off 15, and the same one that closed the run of
 Leading is a scale too
 ======================
 
-``--leading-*`` runs from closed to open — display, heading, tight, snug,
-body, code — and every role binds to one of them. It is the same rule the
+``--leading-*`` runs from closed to open — solid, display, heading, tight,
+snug, body, code — and every role binds to one of them. It is the same rule the
 sizes live by, and it was the last place in the type system still breaking it:
 a control, a row, an aside and a diff each wrote a bare number into
 ``controls.css``, so seven values were in use with no scale behind them and no
@@ -106,6 +110,14 @@ Two of the steps carry a load. ``--leading-tight`` is what a table row's three
 densities are drawn from, so moving it moves them; ``--leading-heading`` is
 also what a control sets in, because a control does not wrap and prose leading
 would make its height a function of the body scale.
+
+``--leading-solid`` is the closed end, and a button is what it is for. A
+button is a row of a glyph and a label, and at the heading step the label's
+line box stands taller than the mark beside it — two items of one row at two
+heights, for leading a control that never wraps has no use for. Set solid, the
+line box is the type size and the row is one height. It is a step rather than
+a number in the button because that is what this scale is: a bare ``1`` there
+is the same failure the scale was written to close.
 
 Prose runs at ``--leading-body``. It was 1.65 and read as a paragraph that had
 been pulled apart — open enough at 16px to break a column into separate lines

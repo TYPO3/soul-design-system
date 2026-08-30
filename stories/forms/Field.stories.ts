@@ -62,7 +62,7 @@ const meta: Meta<FieldProps> = {
       path: 'components/core/input.card.html',
       name: 'Fields & search',
       subtitle: 'A field is sunken; the accent only appears on focus',
-      viewport: '700x400',
+      viewport: '700x422',
     }),
   },
 };

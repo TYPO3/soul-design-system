@@ -26,7 +26,12 @@
     --sds-btn-font: var(--font-sans);
     --sds-btn-font-size: var(--control-font-size);
     --sds-btn-weight: var(--weight-semibold);
-    --sds-btn-leading: var(--control-leading);
+    /* A button is a row of a glyph and a label, so its line box is the glyph
+       box. At the heading step the label's line stands taller than the mark
+       beside it, and the two items of that row are different heights for no
+       reason a control that never wraps can use. The height is a floor of its
+       own, so nothing else moves. */
+    --sds-btn-leading: var(--leading-solid);
     /* The glyph, where the button is one. */
     --sds-btn-glyph: var(--control-icon-size);
     /* The three colours, at rest, under the pointer and under the press. The

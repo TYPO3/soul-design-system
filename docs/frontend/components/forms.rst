@@ -11,7 +11,7 @@ target, the platform's validation and how it all reads out arrive with it.
 Anything drawn instead looks right in a screenshot and cannot be typed in.
 
 .. specimen:: components/core/input.card.html
-   :viewport: 700x400
+   :viewport: 700x422
    :title: Fields & search
 
 .. _component-sds-field:
@@ -534,6 +534,11 @@ not a message.
 An element of its own rather than a slot on the field: an error is often
 written by whatever validated the value, which is not always what drew the box.
 ``sds-field`` renders one for you when it is given ``error``.
+
+It is set at the size the control is, not at the size of a hint, and it follows
+a compact control down the way that control's label does — the sentence is what
+stands between a reader and the send, and the form's summary says the same one
+in the reading register.
 
 .. important::
 
