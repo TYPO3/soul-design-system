@@ -297,6 +297,7 @@ the built stylesheets).
 | `forms` | a form of these elements submits what it shows, and a reset puts back what the markup said |
 | `states` | what the pointer changes on a control and what it may not: no box moves under it, and every colour a state draws with resolves |
 | `select` | the drawn list: what the keys do, what it says about itself, and the real `select` underneath still being what the form sends |
+| `dialog` | the question a dialog asks: the pair drawn from a label, the two events that say which button answered, and a size that caps the surface in both directions |
 | `dropdown` | the popover a dropdown opens: not clipped by a box that clips, placed under its button by either route, and closing the way the platform closes one |
 | `highlight` | every language `CodeLang` promises is actually registered |
 | `manager` | the Storybook shell itself boots |
