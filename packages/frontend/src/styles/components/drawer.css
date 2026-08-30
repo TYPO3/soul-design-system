@@ -112,8 +112,10 @@
       align-items: stretch;
       gap: var(--sds-drawer-step);
     }
+    /* Only the width it is held to changes. A row here is a target on a phone
+       and keeps the control height it has in the bar — what makes it read as a
+       menu row is the measure and the step below it, not a shorter box. */
     .sds-pill {
-      --sds-pill-pad-y: var(--sds-drawer-pad-item-y);
       --sds-pill-pad-x: var(--sds-drawer-pad-item-x);
     }
     /* `hidden` outranks the display a class gives: an author rule beats the

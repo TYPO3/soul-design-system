@@ -55,7 +55,12 @@
      the name of one place, and folding a name in half is the menu's decision
      to collapse, never the label's own. */
   .sds-pill {
-    --sds-pill-pad-y: var(--space-1-5);
+    /* Declared, not fallen out of the line box. One pill is one line, so its
+       leading is a control's rather than the page's — inherited, prose leading
+       drew a 16px name in a 24.8px box and the pill stood taller than every
+       other control in the row it was standing in. */
+    --sds-pill-height: var(--control-height);
+    --sds-pill-leading: var(--control-leading);
     --sds-pill-pad-x: var(--space-3);
     --sds-pill-radius: var(--radius-control);
     --sds-pill-ink: var(--text-secondary);
@@ -65,7 +70,11 @@
     --sds-pill-duration: var(--duration-fast);
     --sds-pill-ease: var(--ease-out);
 
-    padding: var(--sds-pill-pad-y) var(--sds-pill-pad-x);
+    display: inline-flex;
+    align-items: center;
+    block-size: var(--sds-pill-height);
+    padding-inline: var(--sds-pill-pad-x);
+    line-height: var(--sds-pill-leading);
     border-radius: var(--sds-pill-radius);
     color: var(--sds-pill-ink);
     text-decoration: none;
