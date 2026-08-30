@@ -268,7 +268,8 @@ match the drawings) · `grammars` (the theme's copies of the written grammars) �
 `marks` (the documents' signets against those same drawings) · `headers` (`@dsCard`, `@startingPoint`, literal metadata) · `heights`
 (specimens against the cards they embed) · `classes` (every class used is
 defined in the layer that can load it) · `coverage` (every component is shown)
-· `names` (every `sds-` name a document writes exists) · `refs` (every local
+· `names` (every `sds-` name a document writes exists) · `values` (every figure
+quoted beside a token is that token's) · `refs` (every local
 reference resolves) · `sets` (a component draws from its own property set) ·
 `breakpoints` (every width the layer changes at is one a
 document names) · `fit` (render, inside the declared viewport) · `ssr`
@@ -325,6 +326,7 @@ make test ARGS="tests/a11y.spec.ts --grep card"
 | a class name, in a sheet or on a card | `make verify ARGS=classes` |
 | a stylesheet, for its shape alone | `make verify ARGS=css` — `make css` fixes |
 | a document naming a class, an element or an event | `make verify ARGS=names` |
+| a token's value, or a comment or caption quoting one | `make verify ARGS=values` |
 | a new component, class or Guides page | `make verify ARGS=coverage` |
 | a card's height or its viewport | `make verify ARGS="fit heights"` |
 | a `@media` width, in any sheet | `make verify ARGS=breakpoints` |

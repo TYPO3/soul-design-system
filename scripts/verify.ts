@@ -63,6 +63,49 @@ function documents(): string[] {
   }
   return out;
 }
+/** Every token whose value is a plain measurement, resolved through whatever
+    chain of `var()` it is written as. A colour, a shadow or a font stack is
+    not a number and is left out — what drifts is the figure a sentence quotes
+    beside the name. */
+function tokenValues(): Map<string, string> {
+  const raw = new Map<string, string>();
+  const dir = join(FRONTEND, 'src', 'tokens');
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.css'))) {
+    for (const m of readFileSync(join(dir, file), 'utf8').matchAll(/^\s*(--[a-z0-9-]+):\s*([^;]+);/gm)) {
+      if (!raw.has(m[1] as string)) raw.set(m[1] as string, (m[2] as string).trim());
+    }
+  }
+  const resolve1 = (value: string, depth = 0): string => {
+    const m = /^var\((--[a-z0-9-]+)\)$/.exec(value.trim());
+    const next = m && raw.get(m[1] as string);
+    return next && depth < 8 ? resolve1(next, depth + 1) : value.trim();
+  };
+  const out = new Map<string, string>();
+  for (const [name, value] of raw) {
+    const done = resolve1(value);
+    if (/^-?\d+(\.\d+)?(px|em|ms)?$/.test(done)) out.set(name, done);
+  }
+  return out;
+}
+
+/** Where a figure is written beside a token name. Sources as well as
+    documents: a comment quoting a size drifts exactly like a sentence does,
+    and nothing renders either. */
+function quoting(): string[] {
+  const out = documents();
+  const walk = (dir: string): void => {
+    for (const entry of readdirSync(dir)) {
+      const path = join(dir, entry);
+      if (entry === 'node_modules' || entry === 'vendor') continue;
+      if (statSync(path).isDirectory()) walk(path);
+      else if (/\.(ts|css)$/.test(entry) && !entry.includes('generated')) out.push(path);
+    }
+  };
+  walk(join(ROOT, 'stories'));
+  walk(join(FRONTEND, 'src'));
+  return out;
+}
+
 const list = cards();
 const sp = screens();
 /* Screens go through the same checks as cards: they ship with the system and
@@ -322,6 +365,43 @@ const CHECKS: readonly Check[] = [
         problems.push(`"${name}" is written in ${where.join(', ')} and is neither a class nor an element`);
       }
       return { facts: `${used.size} names · ${docs.length} documents`, problems };
+    },
+  },
+
+  /* The fourth direction, and the one nothing else could see. A number
+     written beside a token name is a copy of that token, and the only copy no
+     task regenerates: a card captioned `--font-size-body 17` outlived the
+     token by two changes, and a comment explaining a 15px button outlived it
+     by more. The name is what ties them, so the name is what this reads. */
+  {
+    name: 'values',
+    label: 'every figure quoted beside a token is the token’s',
+    run() {
+      const tokens = tokenValues();
+      const files = quoting();
+      /* A number that follows the name across nothing but space and the
+         separators a caption uses. No colon, which is a declaration rather
+         than a quotation; nothing after the figure but the end of it, so a
+         paired caption naming two tokens and two numbers is left alone; and
+         `var(--x)` is a use rather than a quotation. */
+      const quoted = /(?<!var\()(--[a-z0-9-]+)(?![a-z0-9-])[ \t·,]{0,3}(-?\d+(?:\.\d+)?)\s*(px|em|ms)?(?![\w-])(?!\s*[/×*])/g;
+      const problems: string[] = [];
+      let seen = 0;
+      for (const path of files) {
+        const rel = relative(ROOT, path);
+        const text = readFileSync(path, 'utf8');
+        for (const m of text.matchAll(quoted)) {
+          const held = tokens.get(m[1] as string);
+          if (!held) continue;
+          seen += 1;
+          const written = `${m[2] as string}${m[3] ?? ''}`;
+          const bare = (v: string): string => v.replace(/px$/, '');
+          if (bare(written) === bare(held)) continue;
+          const line = text.slice(0, m.index).split('\n').length;
+          problems.push(`${rel}:${line} writes "${m[1]} ${written}" and the token is ${held}`);
+        }
+      }
+      return { facts: `${seen} figure(s) quoted · ${tokens.size} measured tokens · ${files.length} files`, problems };
     },
   },
 

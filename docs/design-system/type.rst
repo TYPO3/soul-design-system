@@ -140,7 +140,7 @@ page rather than a step in the outline, and it says nothing about level at
 all.
 
 .. specimen:: guidelines/type-display.card.html
-   :viewport: 700x184
+   :viewport: 700x200
    :title: Display & headings
 
 Body and lead

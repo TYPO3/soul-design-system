@@ -26,7 +26,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Display & headings',
       subtitle: 'Source Sans 3, 600, tight tracking — one per page',
-      viewport: '700x184',
+      viewport: '700x200',
     }),
   },
 };
@@ -38,7 +38,7 @@ export const specimenHtml = (): string =>
   specPad([
     `<div style="${DISPLAY}">It answers before</div>`,
     `<div style="${H2}">Three audiences, one server</div>`,
-    specCap('--font-size-display / --font-size-h2 · 58 / 34 px · 600 · -0.03em / -0.015em', 'margin-top:12px;'),
+    specCap('--font-size-display 58 px at --tracking-display · --font-size-h2 34 px at --tracking-heading · both at 600', 'margin-top:12px;'),
   ]);
 
 export const Specimen: Story = {
