@@ -18,10 +18,12 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Press one and the document follows; press the current one and the machine
-    gets its say back. That third state is the default most readers are on, and
-    a control with no way back to it takes it away. Storybook's toolbar writes
-    `data-theme` too, so the two disagree here. */
+/** One press steps to the next of three: the machine's setting, light, dark,
+    and round again. The machine's is the default most readers are on, so it is
+    a stop on the way rather than something only a cleared key gives back — a
+    control that reaches two of its three states takes the default away from
+    whoever tries it once. Storybook's toolbar writes `data-theme` too, so the
+    two disagree here. */
 export const Default: Story = {
   render: () => html`<sds-theme></sds-theme>`,
 };
@@ -29,12 +31,4 @@ export const Default: Story = {
 /** Two products on one origin are two keys. The default is `theme`. */
 export const OwnKey: Story = {
   render: () => html`<sds-theme key="companion-theme"></sds-theme>`,
-};
-
-/** The words dropped, the marks left standing. Set by whatever is short of
-    room — in a bar that is `sds-nav-main`, which sheds these two words before it
-    sheds anything a reader came for. The word is still said to a reader who
-    cannot see the mark. */
-export const Compact: Story = {
-  render: () => html`<sds-theme compact></sds-theme>`,
 };

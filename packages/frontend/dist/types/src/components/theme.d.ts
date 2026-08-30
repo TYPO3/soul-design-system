@@ -41,10 +41,10 @@ export declare class SdsTheme extends SdsElement {
         about the page it is standing on. */
     machine: ThemeChoice;
     constructor();
-    /** The mode actually in force, which is what the mark shows. */
+    /** What the reader is reading in, which is not always what they chose. */
     private get inForce();
     connectedCallback(): void;
     disconnectedCallback(): void;
-    private flip;
+    private step;
     protected render(): TemplateResult;
 }

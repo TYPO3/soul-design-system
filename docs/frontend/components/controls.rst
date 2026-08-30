@@ -511,15 +511,22 @@ flips rather than a choice they pick from a list.
 
 It is the system's own icon button and draws no control of its own: square,
 ghost, and carrying its sentence in ``title``, which is both the accessible
-name and the words the pointer reveals. The mark is the mode **in force** —
-the reader's choice, or the machine's until they have made one — and the
-sentence is what pressing will do. Two marks are drawn and one is faded out,
-so a press confirms the change without moving anything on the row.
+name and the words the pointer reveals. Three marks are drawn and two are
+faded out, so a press confirms the change without moving anything on the row.
 
-**A reader who has pressed it is on an explicit mode from then on.** Before the
-first press they are on the machine's, and the button reads it from
-``prefers-color-scheme`` so it never draws against the mode the page is
-actually in. Clearing the stored key is what gives the machine back.
+**There are three states, and one press steps to the next of them** — the
+machine's setting, light, dark, and round again. The machine's is the default
+most readers are on, so it is a stop on the way rather than something only a
+cleared key gives back: a control that reaches two of its three states takes
+the default away from whoever tries it once.
+
+Which mark stands is **what the document says**, decided in the stylesheet:
+no ``data-theme`` at all is the machine's, and the attribute names the other
+two. So the button is right before any script runs — a button drawn from its
+own state renders whatever it was constructed with, which on a prerendered
+dark page is a sun. The sentence in ``title`` names no state for the same
+reason; where a script has read the document, ``aria-label`` names both the
+state and where the press goes.
 
 .. confval:: key
    :name: sds-theme-key

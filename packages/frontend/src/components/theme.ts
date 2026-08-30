@@ -13,15 +13,23 @@
    other mode for a frame, so a line in the document head does that and this
    reads what it wrote. `localStorage`, under a key a consumer can name. */
 
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import { type IconId } from './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export type ThemeChoice = 'light' | 'dark';
 
-/** The mark for each mode — the one drawn is the mode in force. */
-const GLYPH: Record<ThemeChoice, IconId> = {
+/** What the button can be standing in, which is one more than a reader can
+    choose: the machine's setting is where they start and where the cycle
+    returns, and it is a state of its own rather than the absence of one. */
+type ThemeState = ThemeChoice | 'machine';
+const STATES: readonly ThemeState[] = ['machine', 'light', 'dark'];
+
+/** The mark for each — the one drawn is the state in force. The machine's is
+    a device, because what it says is "whatever this screen is set to". */
+const GLYPH: Record<ThemeState, IconId> = {
+  machine: 'actions-device-desktop',
   light: 'actions-brightness-high',
   dark: 'actions-moon',
 };
@@ -67,10 +75,16 @@ export class SdsTheme extends SdsElement {
     this.machine = 'light';
   }
 
-  /** The mode actually in force, which is what the mark shows. */
+  /** What the reader is reading in, which is not always what they chose. */
   private get inForce(): ThemeChoice {
     return this.current ?? this.machine;
   }
+
+  /** Whether the document has been read yet. Until it has — a page carrying no
+      script, or the frame before one runs — the button says only what pressing
+      does, which is true in every state; naming a state it has not read would
+      be a sentence that is wrong on two pages out of three. */
+  #seen = false;
 
   /* Watching the attribute, not owning it: `soul-boot.js` writes it before
      the paint and again when the machine's setting changes, and a second tab
@@ -108,14 +122,17 @@ export class SdsTheme extends SdsElement {
   #read(): void {
     const written = document.documentElement.dataset['theme'];
     this.current = written === 'light' || written === 'dark' ? written : null;
+    this.#seen = true;
   }
 
-  /* One press, and it lands on the other mode explicitly. The machine's own
-     setting is what a reader has until they press — after that the page is
-     theirs, and `localStorage.removeItem` under the same key is what gives the
-     machine back to anyone who clears it. */
-  private flip(): void {
-    const next: ThemeChoice = this.inForce === 'dark' ? 'light' : 'dark';
+  /* One press, and it steps to the next of three. The machine's setting is a
+     stop on the way round rather than something only a cleared key gives back:
+     a control that can reach two of its three states is a control that takes
+     the default away from whoever tries it once. */
+  private step(): void {
+    const at = STATES.indexOf(this.current ?? 'machine');
+    const to = STATES[(at + 1) % STATES.length] ?? 'machine';
+    const next: ThemeChoice | null = to === 'machine' ? null : to;
     this.current = next;
 
     if (next) {
@@ -150,16 +167,31 @@ export class SdsTheme extends SdsElement {
        Each mark is a span around the glyph rather than the glyph itself: an
        icon is inlined on the way out and what stands in the page is the
        `<svg>` it drew, so a class on the element is one the page never sees. */
-    const mark = (theme: ThemeChoice): TemplateResult => html`<span
-      class="sds-theme__mark sds-theme__mark--${theme}"
-    ><sds-icon name="${GLYPH[theme]}"></sds-icon></span>`;
+    const mark = (state: ThemeState): TemplateResult => html`<span
+      class="sds-theme__mark sds-theme__mark--${state}"
+    ><sds-icon name="${GLYPH[state]}"></sds-icon></span>`;
+
+    /* The sentence a reader who cannot see the mark is given. Where the state
+       has been read it names it and where the press goes; where it has not, it
+       says only what pressing does — which the `title` says anyway, and which
+       is true whichever of the three the page is standing in. */
+    const at = STATES.indexOf(this.current ?? 'machine');
+    const to = STATES[(at + 1) % STATES.length] ?? 'machine';
+    const said: Record<ThemeState, string> = {
+      machine: 'the machine’s setting',
+      light: 'light',
+      dark: 'dark',
+    };
 
     return html`<button
       type="button"
       class="sds-btn sds-btn--ghost sds-btn--icon sds-theme__toggle"
       title="Switch colour mode"
-      @click="${() => this.flip()}"
-    >${mark('light')}${mark('dark')}</button>`;
+      aria-label="${this.#seen
+        ? `Colour mode: ${said[STATES[at] ?? 'machine']}. Switch to ${said[to]}.`
+        : nothing}"
+      @click="${() => this.step()}"
+    >${mark('machine')}${mark('light')}${mark('dark')}</button>`;
   }
 }
 

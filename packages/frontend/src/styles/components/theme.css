@@ -29,26 +29,15 @@
     opacity: 0;
     transition: opacity var(--sds-theme-mark-duration) var(--sds-theme-mark-ease);
   }
-  /* Which mark stands is the document's mode, read the way every colour in
-     this system reads it: the explicit attribute wins in both directions, and
-     the machine's setting decides where a page has written none. A button that
-     asked its own state instead drew a sun on a prerendered dark page. */
-  .sds-theme__mark--light {
-    opacity: 1;
-  }
-  [data-theme="dark"] .sds-theme__mark--light {
-    opacity: 0;
-  }
+  /* Which mark stands is what the document says, and the three states are
+     three things the document already carries: no `data-theme` at all is the
+     machine's, and the attribute names the other two. A button that asked its
+     own state instead drew a sun on a prerendered dark page — this is right
+     before anything runs, which is the only time that matters. */
+  :root:not([data-theme]) .sds-theme__mark--machine,
+  [data-theme="light"] .sds-theme__mark--light,
   [data-theme="dark"] .sds-theme__mark--dark {
     opacity: 1;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .sds-theme__mark--light {
-      opacity: 0;
-    }
-    :root:not([data-theme="light"]) .sds-theme__mark--dark {
-      opacity: 1;
-    }
   }
 
   /* Colour and opacity are the whole of it, so there is nothing to stop for a
