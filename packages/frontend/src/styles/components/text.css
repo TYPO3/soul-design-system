@@ -1,5 +1,5 @@
-/* The registers a page writes in: the label over a block, and the mono the
-   machine is quoted in. */
+/* The registers a page writes in: the label over a block, the mono the machine
+   is quoted in, and the one that is heard and not seen. */
 
 @layer components {
   /* A section label: mono, uppercase, tracked out. */
@@ -46,5 +46,22 @@
     --sds-mono-font-size: inherit;
     --sds-mono-weight: inherit;
     --sds-mono-ink: inherit;
+  }
+
+  /* Said, not drawn: what a page owes the reading and the picture above it
+     already gives whoever can see it. `display: none` and `hidden` are both
+     out — those take it out of the reading too, which is the opposite of what
+     it is for. No set: nothing here is a value a design chooses, it is the
+     smallest box a browser still reads out of. */
+  .sds-said-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
   }
 }

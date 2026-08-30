@@ -53,6 +53,11 @@ the additional distance belongs to the heading whose level gives it meaning.
 A flow where a heading receives the same air as a paragraph has no hierarchy,
 whatever its type size says.
 
+The air is made for a heading that is **on the page**. One that is ``hidden``,
+and one written in the ``sds-said-only`` register so that it is heard and not
+seen, take none with them: the distance says which level is starting, and a
+gap opened for a heading nobody can see is one with no reason in it.
+
 The lower step follows a different ownership rule because authored blocks also
 appear inside components. :doc:`/frontend/documents` explains when the element
 keeps that step and when a container with its own gap takes it back.

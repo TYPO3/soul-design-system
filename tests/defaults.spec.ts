@@ -132,6 +132,8 @@ const HIDDEN = `<!doctype html>
   <div id="classed" class="sds-note" hidden>A block the class layer lays out.</div>
   <sds-note id="host" hidden>An element the base layer states a display for.</sds-note>
   <p id="findable" hidden="until-found">The one a find-in-page may open.</p>
+  <h2 id="said" class="sds-said-only">The name of the thing</h2>
+  <p id="after">What follows it.</p>
 </body>
 </html>`;
 
@@ -152,6 +154,35 @@ test('a hidden element stays hidden, whatever this system set a display to', asy
   /* Left alone: this one is hidden by `content-visibility`, and a page that
      wants find-in-page to reach it keeps it. */
   expect(await display('findable'), 'until-found is the browser’s to answer').not.toBe('none');
+});
+
+/* The same question from the other end. A page owes the reading things the
+   picture already gives whoever can see it, and the register that carries them
+   has to stay *in* the reading — which `display: none` and `hidden` do not, and
+   which is why it is neither. What it may not do is take room. */
+test('what is said and not drawn stays in the reading and takes no room', async ({ page }) => {
+  await page.route('**/hidden-fixture.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: HIDDEN }));
+  await page.goto('/hidden-fixture.html', { waitUntil: 'load' });
+
+  const said = page.locator('#said');
+  await expect(said, 'a said heading is still a heading in the tree')
+    .toHaveAccessibleName('The name of the thing');
+
+  const box = await said.evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    return { w: r.width, h: r.height, display: getComputedStyle(el).display };
+  });
+  expect(box.display, 'nothing that is read may be display:none').not.toBe('none');
+  expect(box.w, 'and it takes no width').toBeLessThanOrEqual(1);
+  expect(box.h, 'and no height').toBeLessThanOrEqual(1);
+
+  /* And no room in the flow either: the paragraph after it stands where it
+     would stand if the heading were not there at all. */
+  const top = await page.locator('#after').evaluate((el) => el.getBoundingClientRect().top);
+  await said.evaluate((el) => el.remove());
+  const without = await page.locator('#after').evaluate((el) => el.getBoundingClientRect().top);
+  expect(top, 'the page is laid out as though it were not there').toBe(without);
 });
 
 /* The rest of what arrives without a class: a link, a phrase in mono, a

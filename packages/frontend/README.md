@@ -190,7 +190,14 @@ it is a surface nobody will fix. Never invent an `sds-` name either — compose
 from the tokens instead. `soul.css` is the full list, and it is grouped the way
 the table above is: the page shell (`sds-shell`, `sds-body`, `sds-column`,
 `sds-bands`, `sds-page`), the type (`sds-display`, `sds-h1`…`sds-h3`,
-`sds-lead`, `sds-list`), and one family per component.
+`sds-lead`, `sds-list`), the registers a page writes in (`sds-label`,
+`sds-mono`, `sds-said-only`), and one family per component.
+
+`sds-said-only` is the one that draws nothing: what it carries stands in the
+reading order at the place it belongs and takes no room on the page — the name
+of a thing the lockup above already shows, the heading of a column whose head
+is a glyph. Not `hidden` and not `display: none`, which take a passage out of
+the reading as well.
 
 Every value is a token — `--surface-*`, `--text-*`, `--border-*`, `--accent`,
 `--status-*`, `--syntax-*`, `--font-*`, `--space-1…16`, `--radius-*`,

@@ -51,6 +51,22 @@ An icon-only control is the case worth naming: the label becomes the control's
 accessible name rather than being dropped, so a square button is still
 announced as what it does — see :doc:`/frontend/components/controls`.
 
+Some of a page is said and not drawn
+====================================
+
+A label answers for a control. What a *page* owes the reading is the other
+half: the name of the thing, where the lockup above already shows it; the
+heading of a column whose head is a glyph; the word that says which of forty
+alike rows this one is. ``sds-said-only`` is the register that carries it —
+the text stands in the reading order at the place it belongs and takes no room
+on the page.
+
+It is a register and not a way of hiding: ``display: none`` and the ``hidden``
+attribute take a passage out of the reading as well, which is the opposite of
+what this is for. Use it where the picture is the whole of what a reader who
+can see it needs, and never to say something *different* from what is drawn —
+two answers to one question is worse than one.
+
 Contrast holds everywhere
 =========================
 

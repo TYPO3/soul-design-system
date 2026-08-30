@@ -274,17 +274,19 @@
   }
 
   /* The air above a heading, said below whatever stands before it — which is
-     the only way to state it and keep to one direction. */
-  :has(+ :is(h2, .sds-h2)) {
+     the only way to state it and keep to one direction. Asked of a heading that
+     is *on the page*: one that is hidden or only said draws nothing, and the
+     air made for it was a gap with no reason anybody could see. */
+  :has(+ :is(h2, .sds-h2):not([hidden], .sds-said-only)) {
     margin-block-end: var(--space-10);
   }
-  :has(+ :is(h3, .sds-h3)) {
+  :has(+ :is(h3, .sds-h3):not([hidden], .sds-said-only)) {
     margin-block-end: var(--space-8);
   }
-  :has(+ h4) {
+  :has(+ h4:not([hidden], .sds-said-only)) {
     margin-block-end: var(--space-6);
   }
-  :has(+ :is(h5, h6)) {
+  :has(+ :is(h5, h6):not([hidden], .sds-said-only)) {
     margin-block-end: var(--space-5);
   }
 
