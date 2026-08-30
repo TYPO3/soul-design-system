@@ -136,70 +136,77 @@ export function sourcePage({ flat = false }: PageMode = {}): TemplateResult {
   ${skipLink()}
   ${siteBar(-1, '#source')}
 
+  <!-- The sections wrapper and nothing inside it: it is the distance *between*
+       sections, and the sections themselves are plain, so the flow contract
+       still grades what is in them — a heading close to its own text, a step
+       under a block. A stack in here would replace that grading with one gap,
+       which is what had four blocks reading as a single column. -->
   <main class="sds-page" id="main-content">
-    <div class="sds-stack">
-      <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
+    <div class="sds-sections">
+      <section>
+        <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
 
-      <div class="sds-row">
-        <h1 class="sds-h2"><span class="sds-mono">${SOURCE}</span></h1>
-        <!-- No glyph: the one that would mean this is the spinner, and a
-             spinner that does not turn says the opposite of what it is. The
-             word carries it, and the run below is where the turning is. -->
-        <sds-badge label="reading now"></sds-badge>
-      </div>
+        <div class="sds-row">
+          <h1 class="sds-h2"><span class="sds-mono">${SOURCE}</span></h1>
+          <!-- No glyph: the one that would mean this is the spinner, and a
+               spinner that does not turn says the opposite of what it is. The
+               word carries it, and the run below is where the turning is. -->
+          <sds-badge label="reading now"></sds-badge>
+        </div>
 
-      <p class="sds-lead">
-        One of the six sources, and one of the two this server may read over the
-        network. It is read on a schedule and answered from the index, so a
-        documentation lookup never waits for the site itself.
-      </p>
+        <p class="sds-lead">
+          One of the six sources, and one of the two this server may read over
+          the network. It is read on a schedule and answered from the index, so
+          a documentation lookup never waits for the site itself.
+        </p>
 
-      <!-- What can be done to it. What cannot be taken back stands at the far
-           end of the row, away from the press a reader came for. -->
-      <div class="sds-actions">
-        ${reread}
-        <sds-link label="Open the source" href="https://docs.typo3.org" external></sds-link>
-        <span class="sds-row__end">${stop}</span>
-      </div>
+        <!-- What can be done to it. What cannot be taken back stands at the far
+             end of the row, away from the press a reader came for. -->
+        <div class="sds-actions">
+          ${reread}
+          <sds-link label="Open the source" href="https://docs.typo3.org" external></sds-link>
+          <span class="sds-row__end">${stop}</span>
+        </div>
 
-      ${grid(READINGS.map(sdsStat), { flat, variant: 'dense' })}
-    </div>
+        ${grid(READINGS.map(sdsStat), { flat, variant: 'dense' })}
+      </section>
 
-    <div class="sds-stack">
-      <h2 class="sds-h3">The read going on now</h2>
-      <p>
-        The bar says how far; the stops say what it is going through. A step that
-        wrote something opens while it is in hand and closes once it is behind —
-        and the one that is still ahead offers nothing to open, because there is
-        nothing there yet.
-      </p>
-      ${inFlight()}
-    </div>
+      <section>
+        <h2 class="sds-h3">The read going on now</h2>
+        <p>
+          The bar says how far; the stops say what it is going through. A step
+          that wrote something opens while it is in hand and closes once it is
+          behind — and the one that is still ahead offers nothing to open,
+          because there is nothing there yet.
+        </p>
+        ${inFlight()}
+      </section>
 
-    <div class="sds-stack">
-      <h2 class="sds-h3">What is settled about it</h2>
-      <dl>
-        ${FACTS.map(([term, value]) => html`<dt>${term}</dt><dd>${value}</dd>`)}
-      </dl>
-    </div>
+      <section>
+        <h2 class="sds-h3">What is settled about it</h2>
+        <dl>
+          ${FACTS.map(([term, value]) => html`<dt>${term}</dt><dd>${value}</dd>`)}
+        </dl>
+      </section>
 
-    <div class="sds-stack">
-      <h2 class="sds-h3">Earlier reads</h2>
-      <p>
-        Folded to the one line that says what became of each. The one that
-        stopped says where it got to rather than what it meant to do, and the
-        index it did not swap in is the one still being answered from.
-      </p>
-      ${earlier()}
+      <section>
+        <h2 class="sds-h3">Earlier reads</h2>
+        <p>
+          Folded to the one line that says what became of each. The one that
+          stopped says where it got to rather than what it meant to do, and the
+          index it did not swap in is the one still being answered from.
+        </p>
+        ${earlier()}
 
-      <sds-note
-        tone="info"
-        heading="This is a source, not a service"
-        .body="${html`Nothing here is hosted for you to depend on. What this page can
-          report is what the server reached and when — if ${SOURCE} is slow, every
-          tool that declared it falls back to the next source it declared and says
-          so in the answer.`}"
-      ></sds-note>
+        <sds-note
+          tone="info"
+          heading="This is a source, not a service"
+          .body="${html`Nothing here is hosted for you to depend on. What this page
+            can report is what the server reached and when — if ${SOURCE} is slow,
+            every tool that declared it falls back to the next source it declared
+            and says so in the answer.`}"
+        ></sds-note>
+      </section>
     </div>
   </main>
 
