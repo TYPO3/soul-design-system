@@ -12,6 +12,10 @@
   .sds-bar__nav {
     /* Declared on the row: a section and the marker inside it are what reads
        this, and both stand in the row. */
+    /* Declared rather than fallen out of the text in it: everything standing
+       in this row is one control tall, and a pill whose height comes from its
+       own line box is the one that disagrees the moment the type moves. */
+    --sds-bar-nav-height: var(--control-height);
     --sds-bar-nav-row-gap: var(--space-1);
     --sds-bar-nav-gap: var(--space-2);
     --sds-bar-nav-pad-item-x: var(--space-2);
@@ -85,6 +89,7 @@
   .sds-bar__section {
     display: flex;
     align-items: center;
+    block-size: var(--sds-bar-nav-height);
     /* The same air at both ends of the block — by eye rather than by sum: a
        glyph's ink stops short of its own box, so an equal number leaves the
        marker looking further off the edge than the text is. */
