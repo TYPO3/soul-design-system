@@ -19,6 +19,9 @@
     --sds-footer-group-gap: var(--space-6);
     --sds-footer-list-gap: var(--space-1-5);
     --sds-footer-heading-gap: var(--space-3);
+    /* What a wrapped line falls to, which is not what names a list: the end
+       line and the row of marks read this, and they have no heading. */
+    --sds-footer-row-gap: var(--space-2);
     --sds-footer-end-gap: var(--space-5);
     --sds-footer-brand-width: 260px;
     --sds-footer-groups-width: 340px;
@@ -130,7 +133,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--sds-footer-heading-gap) var(--sds-footer-group-gap);
+    gap: var(--sds-footer-row-gap) var(--sds-footer-group-gap);
     font-size: var(--sds-footer-end-size);
     color: var(--sds-footer-ink-quiet);
   }
@@ -142,7 +145,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--sds-footer-heading-gap) var(--sds-footer-mark-gap);
+    gap: var(--sds-footer-row-gap) var(--sds-footer-mark-gap);
   }
   /* Alone on the line there is nothing to be at the far end *of*, and a set of
      marks against the right edge of a page that says nothing else reads as
