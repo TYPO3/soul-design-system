@@ -235,6 +235,26 @@ the status colours — and they still sit only in badges and result rows.
    :viewport: 1440x900
    :title: Status
 
+One source
+----------
+
+The page behind a row of the status list, and the only one here with **work
+going on in it**. Every other surface reports something that has already
+settled: an answer arrived, a release was cut, a source was reachable when it
+was last checked. This one is read while a job is running — a share above, the
+stops it is going through below, and what each one wrote inside the stop that
+wrote it.
+
+That is what makes it worth having rather than a fourth reference page. A
+layout only finds out what it is missing under a page that changes while it is
+open: what a stop that is still ahead offers (nothing to open), where the block
+a row opens onto begins, and what the row being worked on is told apart by when
+the two status colours are already spoken for.
+
+.. specimen:: screens/source.html
+   :viewport: 1440x900
+   :title: One source
+
 What the pages asked for
 ========================
 
@@ -271,6 +291,10 @@ was closed in the component rather than in the page:
    * - a form anybody can answer
      - ``sds-checkbox``, ``sds-radio``, ``sds-form-errors``, and
        ``sds-field`` grew the row a form owes a control
+   * - work being done rather than work to do
+     - ``sds-run`` — not a state on ``sds-steps``: an instruction is rendered
+       before the page is served and never changes, and a run arrives one stop
+       at a time, folds onto what each wrote, and ends on a verdict
 
 And four bugs the pages found, each of them older than the page that found it:
 a scrollable table that made every table narrower, a button with no ``type``
