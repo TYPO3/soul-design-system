@@ -94,9 +94,13 @@ ${indented}
 function screenShell(screen: DsScreen, body: string): string {
   const up = '../'.repeat(inRepo(screen.path).split('/').length - 1);
 
+  /* `both` writes no attribute, as it does on a card: the page stays in
+     whichever mode the reader is in. */
+  const theme = screen.theme === 'both' ? '' : ` data-theme="${screen.theme}"`;
+
   return `<!-- @startingPoint section="${screen.section}" subtitle="${screen.subtitle}" viewport="${screen.viewport}" -->
 <!doctype html>
-<html lang="en" data-theme="${screen.theme}">
+<html lang="en"${theme}>
 <head>
 <meta charset="utf-8" />
 <title>${screen.title}</title>

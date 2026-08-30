@@ -125,10 +125,11 @@ export interface DsCardInput {
       build when the content does not fit it, so this is a measurement
       rather than a preference. */
   viewport: string;
-  /** Which mode the card is pinned to. `both` pins neither and is not a default
-      in disguise: a card showing the two panes side by side, or a drawing
-      taking the mode it is placed in, must not have one forced on the document
-      around it — and nothing checks that it was. */
+  /** Which mode the card is pinned to, and `both` — the default — pins
+      neither: a card is a component shown to a reader, and a reader has a mode
+      already. Pinning is for the card whose *subject* is a mode — the two
+      panes side by side, a mark drawn for one ground — and then the pin is a
+      statement rather than a leftover. */
   theme?: 'light' | 'dark' | 'both';
   /** A class on the card's own `<body>`, for the ground a card is drawn on
       rather than anything in it — `spec-sunken` under the diagram figures.
@@ -147,7 +148,7 @@ export interface DsCard extends Required<DsCardInput> {
     story owns it. */
 export function dsCard(c: DsCardInput): DsCard {
   const [w, h] = c.viewport.split('x');
-  return { group: 'Components', theme: 'dark', bodyClass: '', ...c, width: Number(w), height: Number(h) };
+  return { group: 'Components', theme: 'both', bodyClass: '', ...c, width: Number(w), height: Number(h) };
 }
 
 export interface DsScreenInput {
@@ -158,7 +159,9 @@ export interface DsScreenInput {
   title: string;
   subtitle: string;
   viewport: string;
-  theme?: 'light' | 'dark';
+  /** As a card's, and `both` for the same reason: a screen is a page, and a
+      page is read in the mode its reader is in. */
+  theme?: 'light' | 'dark' | 'both';
 }
 
 export interface DsScreen extends Required<DsScreenInput> {
@@ -172,5 +175,5 @@ export interface DsScreen extends Required<DsScreenInput> {
     writing their markup a second time. */
 export function dsScreen(s: DsScreenInput): DsScreen {
   const [w, h] = s.viewport.split('x');
-  return { section: 'Screens', theme: 'dark', ...s, width: Number(w), height: Number(h) };
+  return { section: 'Screens', theme: 'both', ...s, width: Number(w), height: Number(h) };
 }
