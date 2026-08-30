@@ -57,7 +57,7 @@ import './components/byline.ts';
 import './components/note.ts';
 import './components/confval.ts';
 export { SdsElement, define } from './lib/element.js';
-export { SdsIcon, setIconSprite, iconIds, type IconId, type IconSize } from './components/icon.js';
+export { SdsIcon, setIconSprites, iconIds, type IconId, type IconSize } from './components/icon.js';
 export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.js';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.js';
 export { SdsDropdown, type DropdownProps, type DropdownChoice, type DropdownChosen } from './components/dropdown.js';

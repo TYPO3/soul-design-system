@@ -39,7 +39,9 @@ Choose how the files arrive
 
       Copy ``dist/`` from the frontend mirror to a public ``soul/`` directory,
       whole. The stylesheet resolves the fonts beside itself and the script
-      resolves the icon sprite inside it.
+      resolves ``assets/icons/sprites/`` inside it — one file per icon
+      category. A build that bundles the module away from those assets says
+      where they went with ``setIconSprites()``, which takes the directory.
 
       .. code-block:: html
 

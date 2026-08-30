@@ -792,3 +792,11 @@ export const ICON_IDS: readonly IconId[] = [
   "actions-workspace",
   "spinner-circle",
 ];
+
+/* The categories shipped, longest first: a sprite is one file per category,
+   and an identifier opens with the category it belongs to — which this
+   script checks before writing the list. */
+export const ICON_CATEGORIES: readonly string[] = [
+  "actions",
+  "spinner",
+];

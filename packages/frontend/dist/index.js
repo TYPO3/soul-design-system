@@ -2004,21 +2004,29 @@ var ICON_IDS = [
   "actions-workspace",
   "spinner-circle"
 ];
+var ICON_CATEGORIES = [
+  "actions",
+  "spinner"
+];
 
 // packages/frontend/src/components/icon.ts
 var DEFAULT_SIZE = "em";
 var INTRINSIC = 16;
 function bundledBeside() {
   try {
-    return new URL("./assets/icons/sprites/actions.svg", import.meta.url).href;
+    return new URL("./assets/icons/sprites/", import.meta.url).href;
   } catch {
-    return "assets/icons/sprites/actions.svg";
+    return "assets/icons/sprites/";
   }
 }
-var spriteUrl = bundledBeside();
-var setIconSprite = (url) => {
-  spriteUrl = url;
+var spriteDir = bundledBeside();
+var setIconSprites = (dir) => {
+  spriteDir = dir.endsWith("/") ? dir : `${dir}/`;
 };
+function spriteFor(id) {
+  const category = ICON_CATEGORIES.find((c) => id.startsWith(`${c}-`));
+  return `${spriteDir}${category ?? ICON_CATEGORIES[0]}.svg`;
+}
 var SdsIcon = class extends SdsElement {
   static {
     this.properties = {
@@ -2043,7 +2051,7 @@ var SdsIcon = class extends SdsElement {
     const cls = this.className || "sds-icon";
     const sized = this.size === "em" ? "" : ` style="width:${this.size}px;height:${this.size}px"`;
     return html`${unsafeHTML(
-      `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized} class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}"><use href="${spriteUrl}#${this.name}"></use></svg>`
+      `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized} class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}"><use href="${spriteFor(this.name)}#${this.name}"></use></svg>`
     )}`;
   }
 };
@@ -13359,7 +13367,7 @@ export {
   fieldRow,
   iconIds,
   pageNumbers,
-  setIconSprite,
+  setIconSprites,
   themeBoot
 };
 //# sourceMappingURL=index.js.map

@@ -19,12 +19,12 @@ import { readable } from './source.ts';
    Listing them here was a second list to keep in step with the package's `src/index.ts`,
    and it fell out of step the moment navigation was split into three. */
 import '../packages/frontend/src/index.ts';
-import { setIconSprite } from '../packages/frontend/src/components/icon.ts';
+import { setIconSprites } from '../packages/frontend/src/components/icon.ts';
 
 /* The icons reference a sprite embedded once per document, and by default it
    is resolved beside the module — right for the drop-in, wrong here, where
    Vite serves the module from the package and the assets from `/assets`. */
-setIconSprite('/assets/icons/sprites/actions.svg');
+setIconSprites('/assets/icons/sprites/');
 
 
 /* Write the theme onto <html> for the whole preview, not only for stories. The

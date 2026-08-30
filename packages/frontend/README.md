@@ -25,7 +25,10 @@ document links nothing extra: the bare elements a renderer emits are set by
 `soul.css` too, each by the sheet of the component it belongs to.
 
 Copy the directory whole. `soul.css` asks for `fonts/` beside itself and
-`soul.js` resolves the icon sprite against its own URL.
+`soul.js` resolves `assets/icons/sprites/` against its own URL — one sprite
+file per icon category, and an icon is drawn out of its own. A bundler moves
+the module away from those assets, so a build that bundles says where they went
+instead: `setIconSprites('/where/they/are/')`, the directory and not one file.
 
 ## Or as a package
 

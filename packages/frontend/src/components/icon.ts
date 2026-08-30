@@ -11,7 +11,7 @@
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { define, SdsElement } from '../lib/element.ts';
-import { ICON_IDS, type IconId } from './icons.generated.ts';
+import { ICON_CATEGORIES, ICON_IDS, type IconId } from './icons.generated.ts';
 
 export type { IconId };
 
@@ -32,25 +32,36 @@ const DEFAULT_SIZE: IconSize = 'em';
    rendered size, because they are the drawing's own. */
 const INTRINSIC = 16;
 
-/* Where the sprite is. Resolved against this module by default, which is right
-   for the drop-in; a consumer that bundles says where instead. Bundled to a
-   classic script `import.meta.url` is gone and `new URL()` would throw at
-   import time, so the fallback resolves against the document — often wrong, but
-   a blank glyph can be seen and fixed and a dead bundle is a blank page. */
+/* Where the sprites are — the *directory*, because there is one file per
+   category and an icon is drawn out of its own. Resolved against this module by
+   default, which is right for the drop-in; a consumer that bundles says where
+   instead. Bundled to a classic script `import.meta.url` is gone and `new URL()`
+   would throw at import time, so the fallback resolves against the document —
+   often wrong, but a blank glyph can be seen and fixed and a dead bundle is a
+   blank page. */
 function bundledBeside(): string {
   try {
-    return new URL('./assets/icons/sprites/actions.svg', import.meta.url).href;
+    return new URL('./assets/icons/sprites/', import.meta.url).href;
   } catch {
-    return 'assets/icons/sprites/actions.svg';
+    return 'assets/icons/sprites/';
   }
 }
 
-let spriteUrl = bundledBeside();
+let spriteDir = bundledBeside();
 
-/** Point the icons at a sprite this build serves somewhere else. */
-export const setIconSprite = (url: string): void => {
-  spriteUrl = url;
+/** Point the icons at the sprites this build serves somewhere else. The
+    directory, not one file: every category is a request of its own. */
+export const setIconSprites = (dir: string): void => {
+  spriteDir = dir.endsWith('/') ? dir : `${dir}/`;
 };
+
+/** Which sprite carries this glyph. An identifier opens with its own category —
+    `scripts/icons.ts` checks that before it writes the list — and the longest
+    match wins, so two categories sharing a start cannot take each other's. */
+function spriteFor(id: string): string {
+  const category = ICON_CATEGORIES.find((c) => id.startsWith(`${c}-`));
+  return `${spriteDir}${category ?? ICON_CATEGORIES[0]}.svg`;
+}
 
 export class SdsIcon extends SdsElement {
   static override properties = {
@@ -104,7 +115,7 @@ export class SdsIcon extends SdsElement {
     return html`${unsafeHTML(
       `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized}` +
         ` class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">` +
-        `<use href="${spriteUrl}#${this.name}"></use></svg>`,
+        `<use href="${spriteFor(this.name)}#${this.name}"></use></svg>`,
     )}`;
   }
 }

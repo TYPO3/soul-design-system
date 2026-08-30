@@ -202,29 +202,42 @@ test('the bar holds its room, and the jump its offset, before the script', async
 
 /* The other way the drop-in is taken: bundled. A bundler moves the module away
    from the assets beside it, so the reference resolved against the module points
-   at nothing. Saying where the sprite went is the only fix, and it has to be
-   reachable from the entry — a build that cannot say it ships every icon
-   blank. */
-test('a bundling consumer can say where the sprite went', async ({ page }) => {
-  await page.route('**/somewhere-else/actions.svg', (route) =>
-    route.fulfill({ path: 'packages/frontend/dist/assets/icons/sprites/actions.svg', contentType: 'image/svg+xml' }));
+   at nothing. Saying where the sprites went is the only fix, and it has to be
+   reachable from the entry — a build that cannot say it ships every icon blank.
+
+   The *directory*, because there is one sprite per category: a glyph from the
+   second one is what proves the element resolves its own file rather than
+   pointing everything at the first. */
+test('a bundling consumer can say where the sprites went', async ({ page }) => {
+  for (const category of ['actions', 'spinner']) {
+    await page.route(`**/somewhere-else/${category}.svg`, (route) =>
+      route.fulfill({
+        path: `packages/frontend/dist/assets/icons/sprites/${category}.svg`,
+        contentType: 'image/svg+xml',
+      }));
+  }
   await page.route('**/sprite-fixture.html', (route) =>
     route.fulfill({ contentType: 'text/html', body: HTML }));
   await page.goto('/sprite-fixture.html', { waitUntil: 'load' });
 
   /* The entry comes in as an argument: a literal specifier here would be a
      path this project has to resolve, and it is one the browser resolves. */
-  const href = await page.evaluate(async (entry) => {
-    const module = await import(entry) as { setIconSprite: (url: string) => void };
-    module.setIconSprite('/somewhere-else/actions.svg');
-    const icon = document.createElement('sds-icon');
-    icon.setAttribute('name', 'actions-check');
-    icon.id = 'repointed';
-    document.body.append(icon);
-    await (icon as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
-    return icon.querySelector('use')?.getAttribute('href');
+  const hrefs = await page.evaluate(async (entry) => {
+    const module = await import(entry) as { setIconSprites: (dir: string) => void };
+    module.setIconSprites('/somewhere-else/');
+    const drawn: (string | null | undefined)[] = [];
+    for (const [id, name] of [['repointed', 'actions-check'], ['other-category', 'spinner-circle']]) {
+      const icon = document.createElement('sds-icon');
+      icon.setAttribute('name', name as string);
+      icon.id = id as string;
+      document.body.append(icon);
+      await (icon as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
+      drawn.push(icon.querySelector('use')?.getAttribute('href'));
+    }
+    return drawn;
   }, '/dist/soul.js');
-  expect(href).toBe('/somewhere-else/actions.svg#actions-check');
+  expect(hrefs[0]).toBe('/somewhere-else/actions.svg#actions-check');
+  expect(hrefs[1], 'a second category is a second sprite').toBe('/somewhere-else/spinner.svg#spinner-circle');
 
   /* The copy button carries the same glyph from the default sprite, so this
      asks the one that was just appended. */

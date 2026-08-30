@@ -40,6 +40,19 @@ if (missing.length) {
   process.exit(1);
 }
 
+/* A sprite is one file per category, so the element has to know which category
+   an identifier belongs to — and the only thing it is given is the identifier.
+   That every identifier opens with its own category is what makes the lookup
+   possible, so it is checked here rather than assumed there. */
+const astray = ICONS.filter((i) => !i.identifier.startsWith(`${i.category}-`));
+if (astray.length) {
+  report.bad(
+    `identifier does not open with its own category, which is how a sprite is found: ` +
+      astray.map((i) => `${i.identifier} (${i.category})`).join(', '),
+  );
+  process.exit(1);
+}
+
 rmSync(OUT, { recursive: true, force: true });
 
 /* The package's own layout, mirrored. Three shapes, none rebuilt here: a single
@@ -82,6 +95,12 @@ writeFileSync(
     `export type IconId =\n${ICONS.map((i) => `  | '${i.identifier}'`).join('\n')};\n\n` +
     `export const ICON_IDS: readonly IconId[] = [\n` +
     ICONS.map((i) => `  ${JSON.stringify(i.identifier)},`).join('\n') +
+    `\n];\n\n` +
+    `/* The categories shipped, longest first: a sprite is one file per category,\n` +
+    `   and an identifier opens with the category it belongs to — which this\n` +
+    `   script checks before writing the list. */\n` +
+    `export const ICON_CATEGORIES: readonly string[] = [\n` +
+    [...CATEGORIES].sort((a, b) => b.length - a.length).map((c) => `  ${JSON.stringify(c)},`).join('\n') +
     `\n];\n`,
 );
 

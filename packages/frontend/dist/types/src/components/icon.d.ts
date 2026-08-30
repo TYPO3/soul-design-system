@@ -7,8 +7,9 @@ export type { IconId };
     written inside text is as big as that text and changes with it, because the
     floor is for a glyph standing on its own. */
 export type IconSize = 16 | 20 | 24 | 32 | 48 | 'em';
-/** Point the icons at a sprite this build serves somewhere else. */
-export declare const setIconSprite: (url: string) => void;
+/** Point the icons at the sprites this build serves somewhere else. The
+    directory, not one file: every category is a request of its own. */
+export declare const setIconSprites: (dir: string) => void;
 export declare class SdsIcon extends SdsElement {
     static properties: {
         name: {
