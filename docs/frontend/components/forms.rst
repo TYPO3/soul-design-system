@@ -892,6 +892,10 @@ name they share and that exactly one holds.
    stays: it is what names the group, and a set with an empty one is a group
    with no name at all. See :ref:`said-only <said-only>`.
 
+   ``required`` is written *inside* the legend, so it goes with it: a page that
+   draws the question itself draws whatever marks it as well, or the set is one
+   a reader is told about only after the form refuses to go.
+
 .. confval:: name
    :name: sds-radio-name
    :type: string
