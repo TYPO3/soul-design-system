@@ -15,7 +15,6 @@
 
     --border-hairline: 1px;
     --border-emphasis: 2px;
-    --rule-accent: 3px;
 
     /* The one focus ring, in the two values every surface that draws it needs
        besides `--border-emphasis`: how far the outline stands off the box, and

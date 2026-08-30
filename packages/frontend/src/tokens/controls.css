@@ -115,10 +115,6 @@
        this stays the small line that names it. */
     --aside-size: var(--font-size-small);
     --aside-leading: var(--leading-snug);
-    /* Seventy-four characters of that register, stated as the width it comes to
-       rather than as `64ch`: `ch` is the width of the "0" in whatever element the
-       token lands on, so one number would mean several widths. */
-    --aside-measure: 384px;
 
     /* One box, one padding. Every boxed block shares the horizontal value, so a
        card, a note, a modal and a code block start their text on the same edge
