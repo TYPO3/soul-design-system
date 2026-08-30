@@ -112,12 +112,12 @@
      is `md`, the same way a form's buttons are. */
   .sds-field--sm {
     --sds-field-height: var(--control-height-sm);
+    --sds-field-font-size: var(--control-font-size-sm);
     --sds-field-pad-y: var(--field-pad-y-sm);
     --sds-field-pad-x: var(--field-pad-x-sm);
   }
   .sds-field--lg {
     --sds-field-height: var(--control-height-lg);
-    --sds-field-font-size: var(--control-font-size-lg);
     --sds-field-pad-y: var(--field-pad-y-lg);
     --sds-field-pad-x: var(--field-pad-x-lg);
   }
@@ -171,10 +171,10 @@
     max-width: 100%;
 
     /* The label follows the control it names, where the control's own type
-       moves: only the large one does, so only it is here. The hint follows
+       moves: only the compact one does, so only it is here. The hint follows
        nothing — an aside is read in one register wherever it stands. */
-    &:has(> .sds-field--lg) {
-      --sds-field-label-size: var(--control-font-size-lg);
+    &:has(> .sds-field--sm) {
+      --sds-field-label-size: var(--control-font-size-sm);
     }
   }
   .sds-field-label {

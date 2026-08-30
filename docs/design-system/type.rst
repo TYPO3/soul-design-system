@@ -37,9 +37,9 @@ One scale, bound by role
 named for the register it *is*, never for the component that reaches for it.
 ``tokens/controls.css`` is where roles live — ``--control-font-size``,
 ``--nav-font-size``, ``--table-head-size`` — and each binds to a step above
-without writing another value. Controls still set tighter than prose, but they
-use the same steps. A size a component needs is one the scale already names,
-or the scale is what gains it.
+without writing another value. A control is set at the size the page is read
+at and runs tighter only in its leading and its box. A size a component needs
+is one the scale already names, or the scale is what gains it.
 
 Size tokens live under ``--font-size-*``. The ``--text-*`` namespace is
 reserved for text colour, so a token's name says whether it changes the
@@ -77,6 +77,21 @@ it, is the box around it and the face it is set in, never a pixel of size. The
 roles that used to hold a step each — a control size, a compact size, a meta
 size, a label size — are names in ``controls.css`` now, where a role can be
 repointed without the scale growing a step to hold it.
+
+Which of the two a thing takes is not a matter of how important it looks. **A
+run of text that *is* the thing takes the reading size; one that is *about*
+something else takes the small one.** So a control is set at 16 — what a button
+says has to be read before it can be pressed, and Safari zooms the page at
+anything under it the moment a field takes focus — and so are a table's rows
+and heads, a rail, a breadcrumb, a pager, a set of tabs and a swatch's value. A
+caption, a hint, an error, a footnote, an attribution, a badge and the
+annotation on a specimen card are about the thing beside them, and stay small.
+
+The site bar is the one exception, and the reason is arithmetic rather than
+taste: it carries the whole site on one line at every width, and it sheds
+rather than wraps. Set at the reading size it sheds its search field on a
+1440px desktop, which is a worse bar than a smaller one — so it has
+``--bar-font-size`` of its own, and nothing else may reach for it.
 
 What is not allowed is a step wedged between them. A single pixel is a
 rasterisation difference rather than a register a reader can tell apart — the

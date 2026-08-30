@@ -1,19 +1,19 @@
 /* Control scale.
 
-   Controls run tighter than prose — a small button next to body copy is
-   deliberate — but they run tighter on the *same* steps. Every size here is a
-   `--font-size-*` from typography.css under the name the component knows it
-   by, so a role can be retuned without inventing a step. A literal written
+   Controls are set at the size the page is read at and run tighter only in
+   their leading and their box. Every size here is a `--font-size-*` from
+   typography.css under the name the component knows it by, so a role can be retuned without inventing a step. A literal written
    into this file is a size the scale does not have, and that is what to catch
    in review. */
 
 @layer tokens {
   :root {
-    /* Buttons, fields, selects — anything you click or type in. */
-    --control-font-size: var(--font-size-small);
-    /* The one action a screen is for reads at body size — the step where a
-       control stops being chrome and becomes the thing on the page. */
-    --control-font-size-lg: var(--font-size-body);
+    /* Buttons, fields, selects — anything you click or type in, and all of it
+       at the size the page is read at. What a control says has to be read
+       before it can be acted on, and Safari zooms the page at anything under
+       16 the moment a field takes focus. Only the compact one runs small. */
+    --control-font-size: var(--font-size-body);
+    --control-font-size-sm: var(--font-size-small);
 
     /* One height for all of them, declared rather than fallen out of padding:
        a segment, a label and an input make three different boxes out of the
@@ -65,18 +65,19 @@
     --swatch-chip-size: 32px;
     --tile-art-size: 64px;
 
-    /* Tables. The head is a label and is sized as one, the same at every
-       density; only the rows breathe. Medium and airy read at one size and
-       differ in padding — the step between them is air, not type. */
-    --table-head-size: var(--font-size-small);
+    /* Tables. The head names the column and is read to understand the row, so
+       it is set at the row's own size and told apart by its case, its tracking
+       and its face. The same at every density; only the rows breathe. */
+    --table-head-size: var(--font-size-body);
     --table-head-tracking: 0.11em;
-    /* A density is room, not type. Below body there is one size, so a compact
-       row and an airy one are the same text with different air around it —
-       three type steps here could only ever hold the same number. */
+    /* A table a person reads is prose in columns and is set like it. Density
+       is room, and the one density that also changes the type is the one that
+       stops being read and starts being scanned. */
     --row-pad-compact: 6px;
     --row-pad-medium: 9px;
     --row-pad-airy: 14px;
-    --row-font-size: var(--font-size-small);
+    --row-font-size: var(--font-size-body);
+    --row-font-size-compact: var(--font-size-small);
 
     /* A row is not a paragraph: prose leading put every row two pixels over
        the height its density is named for, and a wrapped cell opened a gap a
@@ -85,19 +86,21 @@
        `--control-leading` because a cell wraps and a control does not. */
     --row-leading: var(--leading-tight);
 
-    /* A mono cell runs through the mono ratio, so a tool name and the prose
-       beside it read at the same optical size. Colour is what tells a name
-       from the meta beside it — that cell is read, not scanned past. */
-    --row-mono-size: calc(var(--row-font-size) * var(--font-modifier-mono));
-
     /* Code and diff. */
     --diff-font-size: var(--font-size-small);
     --diff-leading: var(--leading-code);
     --diff-tint: 14%;
 
-    /* Navigation. */
-    --nav-font-size: var(--font-size-small);
-    --tab-font-size: var(--font-size-small);
+    /* Navigation — a rail, a breadcrumb, a pager, a set of tabs, a contents.
+       A reader has to read one of these to choose, which puts it with the text
+       and not with the notes about it. */
+    --nav-font-size: var(--font-size-body);
+    --tab-font-size: var(--font-size-body);
+    /* The site bar is the exception, and the reason is arithmetic rather than
+       taste: it carries the whole site on one line at every width and sheds
+       rather than wraps. At the reading size it sheds its search field on a
+       1440px desktop, which is a worse bar than a smaller one. */
+    --bar-font-size: var(--font-size-small);
 
     /* Titled blocks. A block holding sentences is read, so it is set in the
        reading register wherever it stands: there is no second register for it

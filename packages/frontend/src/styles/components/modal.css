@@ -20,7 +20,14 @@
   }
 
   .sds-modal {
+    /* `auto`: the content says how wide, the reading measure says how wide it
+       may get, and the height stops only where the screen does. A named size
+       assigns all three — the room is what keeps it off the edges either
+       way. */
+    --sds-modal-width: fit-content;
     --sds-modal-measure: var(--measure-modal);
+    --sds-modal-height: calc(100vh - var(--space-16));
+    --sds-modal-room: var(--space-8);
     --sds-modal-pad-y: var(--block-pad-y);
     --sds-modal-pad-y-tight: var(--block-pad-y-tight);
     --sds-modal-pad-x: var(--block-pad-x);
@@ -38,10 +45,44 @@
     --sds-modal-backdrop: var(--surface-overlay);
     --sds-modal-title-weight: var(--weight-semibold);
 
-    max-width: var(--sds-modal-measure);
+    width: var(--sds-modal-width);
+    max-width: min(var(--sds-modal-measure), 100% - var(--sds-modal-room));
+    max-height: var(--sds-modal-height);
     border: var(--sds-modal-border) solid var(--sds-modal-edge);
     border-radius: var(--sds-modal-radius);
     background: var(--sds-modal-fill);
+  }
+
+  /* The scale, in both directions: a size is a width the surface takes and a
+     height it stops at, so two dialogs of one size are one shape whatever is
+     in them. The width is the room and the cap is what says how much of it —
+     which is also what leaves a narrow screen its gutter. */
+  .sds-modal--sm,
+  .sds-modal--md,
+  .sds-modal--lg {
+    --sds-modal-width: 100%;
+  }
+  .sds-modal--sm {
+    --sds-modal-measure: var(--modal-width-sm);
+    --sds-modal-height: var(--modal-height-sm);
+  }
+  .sds-modal--md {
+    --sds-modal-measure: var(--modal-width-md);
+    --sds-modal-height: var(--modal-height-md);
+  }
+  .sds-modal--lg {
+    --sds-modal-measure: var(--modal-width-lg);
+    --sds-modal-height: var(--modal-height-lg);
+  }
+
+  /* A height it stops at is only a stop if something inside gives, and that is
+     the body: head and foot stay where they are and the reading area scrolls.
+     A closed `<dialog>` is `display: none` from the platform, so the column is
+     stated where it cannot outrank that. */
+  .sds-modal:not(dialog),
+  dialog.sds-modal[open] {
+    display: flex;
+    flex-direction: column;
   }
 
   /* A native <dialog> carries the modal semantics; these give it the modal's
@@ -59,6 +100,7 @@
 
   .sds-modal__head {
     display: flex;
+    flex: none;
     align-items: center;
     justify-content: space-between;
     padding: var(--sds-modal-pad-y-tight) var(--sds-modal-pad-x);
@@ -67,6 +109,10 @@
     font-weight: var(--sds-modal-title-weight);
   }
   .sds-modal__body {
+    /* The one part that may be shorter than its content — a flex item does not
+       shrink below what it holds until it is told it may. */
+    min-height: 0;
+    overflow-y: auto;
     padding: var(--sds-modal-pad-y) var(--sds-modal-pad-x);
     font-size: var(--sds-modal-body-size);
     line-height: var(--sds-modal-body-leading);
@@ -80,6 +126,7 @@
   }
   .sds-modal__foot {
     display: flex;
+    flex: none;
     justify-content: flex-end;
     gap: var(--sds-modal-gap);
     padding: var(--sds-modal-pad-y-tight) var(--sds-modal-pad-x);

@@ -1599,15 +1599,23 @@
             },
             {
               "name": "body",
-              "description": "What the reader needs in order to answer it. A modal stops at `--measure-modal` because what is in one is read rather than looked at.",
+              "description": "What the reader needs in order to answer it. At `auto` a modal stops at `--measure-modal` because what is in one is read rather than looked at.",
               "type": {
                 "text": "string"
               },
               "fieldName": "body"
             },
             {
+              "name": "size",
+              "description": "How much room it takes, in both directions. `auto` is the content's own width up to the reading measure; a named size is the same shape wherever it is used, which is what keeps every dialog in the system one family.",
+              "type": {
+                "text": "ModalSize"
+              },
+              "fieldName": "size"
+            },
+            {
               "name": "width",
-              "description": "A width of its own, where the question needs one. Otherwise the measure decides, which is what keeps every dialog in the system the same shape.",
+              "description": "A width of its own, where the question needs one — the exception the scale cannot answer, and the one place a dialog carries a number.",
               "type": {
                 "text": "number"
               },
@@ -1637,7 +1645,7 @@
               "kind": "field",
               "name": "body",
               "privacy": "public",
-              "description": "What the reader needs in order to answer it. A modal stops at `--measure-modal` because what is in one is read rather than looked at.",
+              "description": "What the reader needs in order to answer it. At `auto` a modal stops at `--measure-modal` because what is in one is read rather than looked at.",
               "type": {
                 "text": "string"
               },
@@ -1654,9 +1662,19 @@
             },
             {
               "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "How much room it takes, in both directions. `auto` is the content's own width up to the reading measure; a named size is the same shape wherever it is used, which is what keeps every dialog in the system one family.",
+              "type": {
+                "text": "ModalSize"
+              },
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
               "name": "width",
               "privacy": "public",
-              "description": "A width of its own, where the question needs one. Otherwise the measure decides, which is what keeps every dialog in the system the same shape.",
+              "description": "A width of its own, where the question needs one — the exception the scale cannot answer, and the one place a dialog carries a number.",
               "type": {
                 "text": "number"
               },
@@ -1679,7 +1697,6 @@
             "sds-btn--ghost",
             "sds-btn--icon",
             "sds-btn--sm",
-            "sds-modal",
             "sds-modal__body",
             "sds-modal__foot",
             "sds-modal__head"
@@ -4225,15 +4242,23 @@
             },
             {
               "name": "body",
-              "description": "What the reader has to take in. It stops at `--measure-modal`, because what is in a modal is read.",
+              "description": "What the reader has to take in. At `auto` it stops at `--measure-modal`, because what is in a modal is read.",
               "type": {
                 "text": "string"
               },
               "fieldName": "body"
             },
             {
+              "name": "size",
+              "description": "How much room it takes, in both directions. `auto` is the content's own width up to the reading measure; the named sizes are the same shape wherever they are used, which is what keeps a system's surfaces one family.",
+              "type": {
+                "text": "'auto' | 'sm' | 'md' | 'lg'"
+              },
+              "fieldName": "size"
+            },
+            {
               "name": "width",
-              "description": "A width of its own where the content needs one. Otherwise the measure decides, which keeps every modal in the system the same shape.",
+              "description": "A width of its own where the content needs one — the exception the scale cannot answer, and the one place a modal carries a number.",
               "type": {
                 "text": "number"
               },
@@ -4255,7 +4280,7 @@
               "kind": "field",
               "name": "body",
               "privacy": "public",
-              "description": "What the reader has to take in. It stops at `--measure-modal`, because what is in a modal is read.",
+              "description": "What the reader has to take in. At `auto` it stops at `--measure-modal`, because what is in a modal is read.",
               "type": {
                 "text": "string"
               },
@@ -4272,9 +4297,19 @@
             },
             {
               "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "How much room it takes, in both directions. `auto` is the content's own width up to the reading measure; the named sizes are the same shape wherever they are used, which is what keeps a system's surfaces one family.",
+              "type": {
+                "text": "'auto' | 'sm' | 'md' | 'lg'"
+              },
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
               "name": "width",
               "privacy": "public",
-              "description": "A width of its own where the content needs one. Otherwise the measure decides, which keeps every modal in the system the same shape.",
+              "description": "A width of its own where the content needs one — the exception the scale cannot answer, and the one place a modal carries a number.",
               "type": {
                 "text": "number"
               },

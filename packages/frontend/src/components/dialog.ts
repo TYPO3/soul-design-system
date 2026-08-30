@@ -13,19 +13,24 @@ import { html, type TemplateResult } from 'lit';
 import './icon.ts';
 import './button.ts';
 import { lines } from '../lib/template.ts';
+import { modalClass, type ModalSize } from './modal.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface DialogProps {
   /** The question it asks, which is the whole reason it opened. */
   heading: string;
-  /** What the reader needs in order to answer it. A modal stops at
+  /** What the reader needs in order to answer it. At `auto` a modal stops at
       `--measure-modal` because what is in one is read rather than looked at. */
   body: string | TemplateResult;
   /** Rendered buttons. Ghost first, primary last — the destructive-free
       order the rest of the system reads in. */
   actions?: readonly TemplateResult[];
-  /** A width of its own, where the question needs one. Otherwise the measure
-      decides, which is what keeps every dialog in the system the same shape. */
+  /** How much room it takes, in both directions. `auto` is the content's own
+      width up to the reading measure; a named size is the same shape wherever
+      it is used, which is what keeps every dialog in the system one family. */
+  size?: ModalSize;
+  /** A width of its own, where the question needs one — the exception the
+      scale cannot answer, and the one place a dialog carries a number. */
   width?: number;
   /** Whether it stands over the page. It is a real `<dialog>`, so opening
       makes the rest inert and closing puts the focus back where it came
@@ -38,6 +43,7 @@ export class SdsDialog extends SdsElement {
     heading: { type: String },
     body: { type: String },
     actions: { type: Array },
+    size: { type: String, reflect: true },
     width: { type: Number, reflect: true },
     open: { type: Boolean, reflect: true },
   };
@@ -45,6 +51,7 @@ export class SdsDialog extends SdsElement {
   declare heading: string;
   declare body: string | TemplateResult;
   declare actions: readonly TemplateResult[];
+  declare size: ModalSize;
   declare width: number;
   declare open: boolean;
 
@@ -53,8 +60,9 @@ export class SdsDialog extends SdsElement {
     this.heading = '';
     this.body = '';
     this.actions = [];
-    /* Centred, 560px at most — the width the specimen documents. */
-    this.width = 330;
+    /* A dialog asking one question is the small one; anything else says so. */
+    this.size = 'sm';
+    this.width = 0;
     this.open = false;
   }
 
@@ -105,8 +113,8 @@ export class SdsDialog extends SdsElement {
        look. One surface, described once in `components.css`, whether it is
        drawn in a specimen or opened in a product. */
     return html`<dialog
-      class="sds-modal"
-      style="width:${this.width}px"
+      class="${modalClass(this.size)}"
+      style="${this.width > 0 ? `width:${this.width}px` : ''}"
       aria-label="${this.heading}"
       @close="${() => {
         this.open = false;

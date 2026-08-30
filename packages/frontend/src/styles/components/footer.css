@@ -18,7 +18,7 @@
     --sds-footer-column-gap: var(--space-12);
     --sds-footer-group-gap: var(--space-6);
     --sds-footer-list-gap: var(--space-1-5);
-    --sds-footer-heading-gap: var(--space-2);
+    --sds-footer-heading-gap: var(--space-3);
     --sds-footer-end-gap: var(--space-5);
     --sds-footer-brand-width: 260px;
     --sds-footer-groups-width: 340px;
@@ -86,9 +86,10 @@
     grid-template-columns: repeat(auto-fill, minmax(min(var(--sds-footer-track), 100%), 1fr));
     gap: var(--sds-footer-gap) var(--sds-footer-group-gap);
   }
-  /* A heading belongs to its list: nearer to the first entry than one column is
-     to the next, and near enough that the label over a set of links reads as
-     their name rather than as something set adrift over them. */
+  /* A heading belongs to its list, and names it only while it stands clear of
+     the entries under it: at their own distance it is read as the first of
+     them. Twice that, and still under the distance to the next column — the
+     two bounds it has to sit between. */
   .sds-footer__group {
     display: flex;
     flex-direction: column;

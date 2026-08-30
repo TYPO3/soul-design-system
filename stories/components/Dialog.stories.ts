@@ -25,27 +25,33 @@ const DESTRUCTIVE = [
   html`<sds-button variant="danger" size="sm">Delete 3 pages</sds-button>`,
 ];
 
-/* The button beside the dialog opens the one under it. Written once because
-   both stories are the same gesture. */
-const opens = (e: Event): void =>
-  (e.currentTarget as HTMLElement).parentElement?.querySelector<SdsDialog>('sds-dialog')?.show() ?? undefined;
+/* The button opens the dialog written after it. The sibling rather than the
+   first one in the parent, because the sizes story puts four pairs in one
+   row. */
+const opens = (e: Event): void => {
+  const next = (e.currentTarget as HTMLElement).nextElementSibling;
+  if (next?.tagName.toLowerCase() === 'sds-dialog') (next as SdsDialog).show();
+};
 
 const meta: Meta<DialogProps> = {
   title: 'Components/Dialog',
   tags: ['autodocs', '!dev'],
   argTypes: {
     heading: { control: 'text' },
+    size: { control: 'inline-radio', options: ['auto', 'sm', 'md', 'lg'] },
     width: { control: { type: 'number', step: 10 } },
   },
   args: {
     heading: 'Publish the task skills?',
-    width: 330,
+    size: 'sm',
+    width: 0,
   },
-  render: ({ heading, width }) => html`
+  render: ({ heading, size, width }) => html`
     <sds-button variant="primary" @click="${opens}">Publish…</sds-button>
     <sds-dialog
       heading="${heading}"
-      width="${width ?? 330}"
+      size="${size ?? 'sm'}"
+      width="${width ?? 0}"
       .body="${html`This writes into <span class="sds-mono">.agents/skills</span> and records the setup. Nothing else is touched.`}"
       .actions="${ACTIONS}"
     ></sds-dialog>
@@ -64,16 +70,37 @@ export const Default: Story = {};
     colour marks the press without having to explain it. A confirmation that
     only turns a button red has told the reader nothing they can act on. */
 export const Destructive: Story = {
-  args: { heading: 'Delete the Documentation section?', width: 360 },
-  render: ({ heading, width }) => html`
+  args: { heading: 'Delete the Documentation section?' },
+  render: ({ heading, size, width }) => html`
     <sds-button variant="secondary" @click="${opens}">Delete…</sds-button>
     <sds-dialog
       heading="${heading}"
-      width="${width ?? 360}"
+      size="${size ?? 'sm'}"
+      width="${width ?? 0}"
       .body="${html`Three pages and everything published under them go. Nothing puts them back.`}"
       .actions="${DESTRUCTIVE}"
     ></sds-dialog>
   `,
+};
+
+/** The scale, one button each: `sds-modal--sm` is a question, `sds-modal--md`
+    is the reading measure, `sds-modal--lg` is past it for what is operated
+    rather than read, and `auto` is whatever the content asks for. Each stops at
+    a height of its own, after which the body is what scrolls. */
+export const Sizes: Story = {
+  render: () => html`<div style="display:flex; flex-wrap:wrap; gap:var(--space-2)">
+    ${(['auto', 'sm', 'md', 'lg'] as const).map(
+      (size) => html`
+        <sds-button variant="secondary" @click="${opens}">${size}</sds-button>
+        <sds-dialog
+          heading="A dialog at ${size}"
+          size="${size}"
+          .body="${html`Every size is a width it takes and a height it stops at. Past that height the head and the foot stay where they are and this part scrolls.`}"
+          .actions="${ACTIONS}"
+        ></sds-dialog>
+      `,
+    )}
+  </div>`,
 };
 
 /* No story that opens on load. A dialog that is already open when a page is

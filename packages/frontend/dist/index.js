@@ -6058,6 +6058,7 @@ define("sds-embed", SdsEmbed);
 
 // packages/frontend/src/components/modal.ts
 import { html as html49 } from "lit";
+var modalClass = (size) => size === "sm" || size === "md" || size === "lg" ? `sds-modal sds-modal--${size}` : "sds-modal";
 var SdsModal = class extends SdsElement {
   static {
     this.properties = {
@@ -6066,6 +6067,7 @@ var SdsModal = class extends SdsElement {
       /** Rendered buttons. Ghost first, primary last — the destructive-free
           order the rest of the system reads in. */
       actions: { type: Array },
+      size: { type: String, reflect: true },
       width: { type: Number, reflect: true }
     };
   }
@@ -6074,10 +6076,12 @@ var SdsModal = class extends SdsElement {
     this.heading = "";
     this.body = "";
     this.actions = [];
-    this.width = 330;
+    this.size = "sm";
+    this.width = 0;
   }
   render() {
-    return html49`<div class="sds-modal" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:${this.width}px">
+    const width = this.width > 0 ? ` width:${this.width}px` : "";
+    return html49`<div class="${modalClass(this.size)}" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);${width}">
   <div class="sds-modal__head">
     <span>${this.heading}</span>
     <span style="color:var(--text-muted);"><sds-icon name="actions-close"></sds-icon></span>
@@ -6099,6 +6103,7 @@ var SdsDialog = class extends SdsElement {
       heading: { type: String },
       body: { type: String },
       actions: { type: Array },
+      size: { type: String, reflect: true },
       width: { type: Number, reflect: true },
       open: { type: Boolean, reflect: true }
     };
@@ -6108,7 +6113,8 @@ var SdsDialog = class extends SdsElement {
     this.heading = "";
     this.body = "";
     this.actions = [];
-    this.width = 330;
+    this.size = "sm";
+    this.width = 0;
     this.open = false;
   }
   get dialog() {
@@ -6140,8 +6146,8 @@ var SdsDialog = class extends SdsElement {
   }
   render() {
     return html50`<dialog
-      class="sds-modal"
-      style="width:${this.width}px"
+      class="${modalClass(this.size)}"
+      style="${this.width > 0 ? `width:${this.width}px` : ""}"
       aria-label="${this.heading}"
       @close="${() => {
       this.open = false;

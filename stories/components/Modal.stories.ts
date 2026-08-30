@@ -22,9 +22,10 @@ const meta: Meta = {
   title: 'Components/Modal',
   tags: ['autodocs', '!dev'],
   parameters: { layout: 'fullscreen' },
-  args: { heading: 'Publish the task skills?', width: 330 },
+  args: { heading: 'Publish the task skills?', size: 'sm', width: 0 },
   argTypes: {
     heading: { control: 'text' },
+    size: { control: 'inline-radio', options: ['auto', 'sm', 'md', 'lg'] },
     width: { control: { type: 'number', step: 10 } },
   },
 };
@@ -32,14 +33,15 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Centred, 560px at most, closed by a header X. Ghost action first, primary
-    last — the order the rest of the system reads in. */
+/** Centred, as wide as its size says, closed by a header X. Ghost action
+    first, primary last — the order the rest of the system reads in. */
 export const Default: Story = {
-  render: ({ heading, width }) => html`<div style="position:relative; height:210px; background:var(--surface-canvas);">
+  render: ({ heading, size, width }) => html`<div style="position:relative; height:210px; background:var(--surface-canvas);">
     <sds-overlay></sds-overlay>
     <sds-modal
       heading="${heading}"
-      width="${width ?? 330}"
+      size="${size ?? 'sm'}"
+      width="${width ?? 0}"
       .body="${html`This writes into <span class="sds-mono">.agents/skills</span> and records the setup. Nothing else is touched.`}"
       .actions="${ACTIONS}"
     ></sds-modal>

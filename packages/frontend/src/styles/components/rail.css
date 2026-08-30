@@ -15,7 +15,10 @@
     --sds-rail-pad-y: var(--space-1);
     --sds-rail-pad-x: var(--space-2);
     --sds-rail-indent: var(--space-3);
-    --sds-rail-label-gap: var(--space-2);
+    /* Twice what stands between two rows, counted to the text rather than to
+       the box the row draws: a name set at the rows' own distance is read as
+       the first row. */
+    --sds-rail-label-gap: var(--space-3-5);
     --sds-rail-radius: var(--radius-control);
     --sds-rail-glyph: var(--control-icon-size);
     --sds-rail-font: var(--font-mono);

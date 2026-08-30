@@ -74,7 +74,10 @@
     --sds-toc-step: var(--space-1);
     --sds-toc-indent: var(--space-3);
     --sds-toc-bleed: var(--space-2);
-    --sds-toc-label-gap: var(--space-2);
+    /* Clear of the entries under it, counted to their text and not to the box
+       each one fills: at their distance the name is read as the first of them,
+       and past 1296px the frame that would group them is gone. */
+    --sds-toc-label-gap: var(--space-4);
     --sds-toc-radius: var(--radius-control);
     --sds-toc-leading: var(--leading-heading);
     --sds-toc-ink: var(--text-secondary);

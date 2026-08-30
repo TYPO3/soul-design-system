@@ -155,7 +155,7 @@ Clear space, edges, motion
    :title: Edges & radii
 
 .. specimen:: guidelines/brand-motion.card.html
-   :viewport: 700x76
+   :viewport: 700x77
    :title: States & motion
 
 Never

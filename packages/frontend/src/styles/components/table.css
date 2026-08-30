@@ -37,8 +37,10 @@
   .sds-table {
     --sds-table-font-size: var(--row-font-size);
     --sds-table-pad: var(--row-pad-medium);
-    --sds-table-name-size: var(--row-mono-size);
-    --sds-table-meta-size: var(--row-mono-size);
+    /* Read off the row rather than named again per density: a mono cell is
+       the row's own size through the ratio, whichever size that is. */
+    --sds-table-name-size: calc(var(--sds-table-font-size) * var(--font-modifier-mono));
+    --sds-table-meta-size: calc(var(--sds-table-font-size) * var(--font-modifier-mono));
     --sds-table-cell-gap: var(--space-3);
     --sds-table-leading: var(--row-leading);
     --sds-table-border: var(--border-hairline);
@@ -142,6 +144,7 @@
   }
   .sds-table--compact {
     --sds-table-pad: var(--row-pad-compact);
+    --sds-table-font-size: var(--row-font-size-compact);
   }
   .sds-table--medium {
     --sds-table-pad: var(--row-pad-medium);

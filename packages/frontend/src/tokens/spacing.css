@@ -36,5 +36,16 @@
     /* A modal is centred and stops here. The specimen says so in words; this
        is where the number lives. */
     --measure-modal: 560px;
+
+    /* The sizes a modal is offered in, both directions at once: how wide each
+       one is, and how tall it may get before the body inside it is what gives.
+       `md` is the reading measure. `lg` is past it on purpose — what needs that
+       much room is operated rather than read, a table or a picker or a diff. */
+    --modal-width-sm: 360px;
+    --modal-width-md: var(--measure-modal);
+    --modal-width-lg: 800px;
+    --modal-height-sm: 50vh;
+    --modal-height-md: 70vh;
+    --modal-height-lg: 85vh;
   }
 }

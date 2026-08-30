@@ -26,6 +26,44 @@ Deliberately not one component: a dialog that had to be opened to be drawn
 would be undocumentable, and a surface that grabbed the focus would be unusable
 in a specimen.
 
+How big one is
+==============
+
+A size is a shape rather than a width: each one says how wide the surface is
+*and* how tall it may get, so two dialogs of the same size are the same box
+whatever is written in them. Past that height nothing grows — the head and the
+foot stay where they are and ``sds-modal__body`` is what scrolls.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Size
+     - Class
+     - Wide
+     - Tall, at most
+   * - ``auto``
+     - ``sds-modal``
+     - the content's own, up to ``--measure-modal 560px``
+     - what keeps it on the screen
+   * - ``sm``
+     - ``sds-modal--sm``
+     - ``--modal-width-sm 360px``
+     - ``--modal-height-sm``
+   * - ``md``
+     - ``sds-modal--md``
+     - ``--modal-width-md``, the reading measure
+     - ``--modal-height-md``
+   * - ``lg``
+     - ``sds-modal--lg``
+     - ``--modal-width-lg 800px``
+     - ``--modal-height-lg``
+
+``sm`` is the default, because a dialog asks one question. ``md`` is the width
+prose is read at. ``lg`` is past the reading measure on purpose: what needs that
+much room is operated rather than read — a table, a picker, a diff — and a
+question set that wide is one nobody finishes reading. Every size gives its
+gutter back on a narrow screen rather than running to the edges.
+
 .. _component-sds-dialog:
 
 sds-dialog
@@ -57,12 +95,21 @@ sds-dialog
    Rendered buttons. **Ghost first, primary last** — the order the rest of the
    system reads in.
 
+.. confval:: size
+   :name: sds-dialog-size
+   :type: "auto | sm | md | lg"
+   :default: sm
+
+   How much room it takes, in both directions — see `How big one is`_.
+
 .. confval:: width
    :name: sds-dialog-width
    :type: number
-   :default: 330
+   :default: 0
 
-   Centred, and bounded by the modal measure: what is inside one is read.
+   A width of its own, where the question needs one the scale has no size for.
+   The exception, and the one place a dialog carries a number; unset, the size
+   decides.
 
 .. confval:: open
    :name: sds-dialog-open
@@ -93,10 +140,15 @@ floating surface.
    :name: sds-modal-actions
    :type: "markup[]"
 
+.. confval:: size
+   :name: sds-modal-size
+   :type: "auto | sm | md | lg"
+   :default: sm
+
 .. confval:: width
    :name: sds-modal-width
    :type: number
-   :default: 330
+   :default: 0
 
 .. note::
 
