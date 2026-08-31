@@ -9,7 +9,7 @@
 
    Before the script it is the list with nothing marked, which is a contents. */
 
-import { html, nothing, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult, type PropertyValues } from 'lit';
 import { lines } from '../lib/template.ts';
 import { define, SdsElement } from '../lib/element.ts';
 import { branch, type MenuEntry } from './nav-base.ts';
@@ -78,14 +78,31 @@ export class SdsNavToc extends SdsElement {
     soon();
   }
 
+  /** The entries the list is actually drawing, by target. Read from the rows
+      rather than from the data: standing beside the column it shows two levels
+      and hides the rest, and which those are is the stylesheet's to say. Empty
+      before the first render, and then it says nothing rather than nothing is
+      drawn. */
+  private drawn(): Set<string> {
+    const out = new Set<string>();
+    for (const row of this.querySelectorAll<HTMLElement>('.sds-toc__item')) {
+      if (row.getClientRects().length) out.add(row.getAttribute('href') ?? '');
+    }
+    return out;
+  }
+
   /** The headings this list points at, in the order the page has them. An
       entry pointing anywhere but at this page is a link and not a place in it,
-      and is left out of the reading rather than made a target of. */
+      and is left out of the reading rather than made a target of — and so is
+      one the list is not drawing: marking a heading no row shows leaves every
+      visible entry unmarked, which is the list going blank inside a section. */
   private marks(): Mark[] {
+    const drawn = this.drawn();
     const found: Mark[] = [];
     for (const entry of this.entries.flatMap(branch)) {
       const href = entry.href ?? '';
       if (href.length < 2 || !href.startsWith('#')) continue;
+      if (drawn.size && !drawn.has(href)) continue;
       const node = document.getElementById(decodeURIComponent(href.slice(1)));
       if (node) found.push({ href, node });
     }
@@ -167,6 +184,31 @@ export class SdsNavToc extends SdsElement {
   >${entry.label}</a>
   ${under.length ? this.list(under) : nothing}
 </li>`;
+  }
+
+  /** Keep the marked entry where the reader can see it. Beside the column the
+      list is a box of its own and scrolls, and a page with more sections than
+      the box is tall marks one that is off its bottom edge — the list that
+      says where the reader is stops saying it exactly where it is needed.
+      Its own `scrollTop`, never `scrollIntoView`: that walks up every scroller
+      it finds and would take the page along with it. */
+  private follow(): void {
+    const here = this.querySelector<HTMLElement>('.sds-toc__item.is-active');
+    const box = here?.closest<HTMLElement>('.sds-toc');
+    if (!here || !box || box.scrollHeight - box.clientHeight < 2) return;
+    const pad = getComputedStyle(box);
+    const edge = box.getBoundingClientRect();
+    const row = here.getBoundingClientRect();
+    /* The least move that brings it inside, so a list already showing the
+       entry stands still and a reader who scrolled it is not fought. */
+    const above = row.top - (edge.top + (parseFloat(pad.paddingTop) || 0));
+    const below = row.bottom - (edge.bottom - (parseFloat(pad.paddingBottom) || 0));
+    if (above < 0) box.scrollTop += above;
+    else if (below > 0) box.scrollTop += below;
+  }
+
+  protected override updated(changed: PropertyValues): void {
+    if (changed.has('at') || changed.has('entries')) this.follow();
   }
 
   protected override render(): TemplateResult {

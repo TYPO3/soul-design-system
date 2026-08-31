@@ -1,4 +1,4 @@
-import { type TemplateResult } from 'lit';
+import { type TemplateResult, type PropertyValues } from 'lit';
 import { SdsElement } from '../lib/element.js';
 import { type MenuEntry } from './nav-base.js';
 export declare class SdsNavToc extends SdsElement {
@@ -31,9 +31,17 @@ export declare class SdsNavToc extends SdsElement {
         window; and on resize, which moves every heading at once. One reading a
         frame — a scroll fires far faster than anything can be drawn. */
     private watch;
+    /** The entries the list is actually drawing, by target. Read from the rows
+        rather than from the data: standing beside the column it shows two levels
+        and hides the rest, and which those are is the stylesheet's to say. Empty
+        before the first render, and then it says nothing rather than nothing is
+        drawn. */
+    private drawn;
     /** The headings this list points at, in the order the page has them. An
         entry pointing anywhere but at this page is a link and not a place in it,
-        and is left out of the reading rather than made a target of. */
+        and is left out of the reading rather than made a target of — and so is
+        one the list is not drawing: marking a heading no row shows leaves every
+        visible entry unmarked, which is the list going blank inside a section. */
     private marks;
     /** What is moving the headings: the nearest ancestor that scrolls, and the
         page where none does. A pane with a scrollbar of its own is where the
@@ -62,5 +70,13 @@ export declare class SdsNavToc extends SdsElement {
         not `page`: every entry here is the page, and what is marked is the part
         of it the reader is at. */
     private row;
+    /** Keep the marked entry where the reader can see it. Beside the column the
+        list is a box of its own and scrolls, and a page with more sections than
+        the box is tall marks one that is off its bottom edge — the list that
+        says where the reader is stops saying it exactly where it is needed.
+        Its own `scrollTop`, never `scrollIntoView`: that walks up every scroller
+        it finds and would take the page along with it. */
+    private follow;
+    protected updated(changed: PropertyValues): void;
     protected render(): TemplateResult;
 }

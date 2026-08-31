@@ -5769,14 +5769,30 @@ var SdsNavToc = class extends SdsElement {
     window.addEventListener("resize", soon, { passive: true, signal });
     soon();
   }
+  /** The entries the list is actually drawing, by target. Read from the rows
+      rather than from the data: standing beside the column it shows two levels
+      and hides the rest, and which those are is the stylesheet's to say. Empty
+      before the first render, and then it says nothing rather than nothing is
+      drawn. */
+  drawn() {
+    const out = /* @__PURE__ */ new Set();
+    for (const row of this.querySelectorAll(".sds-toc__item")) {
+      if (row.getClientRects().length) out.add(row.getAttribute("href") ?? "");
+    }
+    return out;
+  }
   /** The headings this list points at, in the order the page has them. An
       entry pointing anywhere but at this page is a link and not a place in it,
-      and is left out of the reading rather than made a target of. */
+      and is left out of the reading rather than made a target of — and so is
+      one the list is not drawing: marking a heading no row shows leaves every
+      visible entry unmarked, which is the list going blank inside a section. */
   marks() {
+    const drawn = this.drawn();
     const found = [];
     for (const entry of this.entries.flatMap(branch)) {
       const href = entry.href ?? "";
       if (href.length < 2 || !href.startsWith("#")) continue;
+      if (drawn.size && !drawn.has(href)) continue;
       const node = document.getElementById(decodeURIComponent(href.slice(1)));
       if (node) found.push({ href, node });
     }
@@ -5851,6 +5867,27 @@ var SdsNavToc = class extends SdsElement {
   >${entry.label}</a>
   ${under.length ? this.list(under) : nothing26}
 </li>`;
+  }
+  /** Keep the marked entry where the reader can see it. Beside the column the
+      list is a box of its own and scrolls, and a page with more sections than
+      the box is tall marks one that is off its bottom edge — the list that
+      says where the reader is stops saying it exactly where it is needed.
+      Its own `scrollTop`, never `scrollIntoView`: that walks up every scroller
+      it finds and would take the page along with it. */
+  follow() {
+    const here = this.querySelector(".sds-toc__item.is-active");
+    const box = here?.closest(".sds-toc");
+    if (!here || !box || box.scrollHeight - box.clientHeight < 2) return;
+    const pad = getComputedStyle(box);
+    const edge = box.getBoundingClientRect();
+    const row = here.getBoundingClientRect();
+    const above = row.top - (edge.top + (parseFloat(pad.paddingTop) || 0));
+    const below = row.bottom - (edge.bottom - (parseFloat(pad.paddingBottom) || 0));
+    if (above < 0) box.scrollTop += above;
+    else if (below > 0) box.scrollTop += below;
+  }
+  updated(changed) {
+    if (changed.has("at") || changed.has("entries")) this.follow();
   }
   render() {
     const label = this.label || HEADING;

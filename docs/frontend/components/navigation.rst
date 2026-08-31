@@ -311,6 +311,18 @@ lands a jumped-to heading on** — ``scroll-padding-top``, read off the scroller
 so the entry a press marks is the entry the scroll marks. Above the first
 heading nothing is marked: a page opens there and no section holds it.
 
+Only headings the list is **drawing** are read. Beside the column it carries
+two levels, and a reader standing at a third-level heading is still inside the
+section above it — read from the data instead, the list would mark a row that
+is not there and every visible entry would go blank at exactly the depth a long
+page has most of.
+
+Where the list is taller than the reserve it rests in, it **scrolls to keep the
+mark in view**, by the least it can and never past that: a list already showing
+the entry does not move under a reader who scrolled it. Its own scroll offset
+and nothing else — the page is what the reader is moving, and a list that took
+it along would be reading itself.
+
 An entry is **one line**, cut with an ellipsis where the column runs out. A
 list of places is scanned down its left edge, and an entry folded onto a second
 line is two places to that reading — so a heading is written short enough to
