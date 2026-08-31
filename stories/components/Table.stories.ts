@@ -13,6 +13,8 @@ import '../../packages/frontend/src/components/table.ts';
 import { type Column, type TableProps } from '../../packages/frontend/src/components/table.ts';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/icon.ts';
+import { buttonLabel } from '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/select.ts';
 import { BADGES } from './Badge.stories.ts';
@@ -27,11 +29,34 @@ export const TOOLS: readonly (readonly string[])[] = [
   ['typo3_server_scope', 'scope', 'this server', '—'],
 ];
 
+/** The list both ways in are shown with, so what is compared is the way in and
+    not the rows under it. */
+const CHECKOUTS = [
+  { name: '13.4-lts', php: '8.4', state: 'running', tone: 'ok', standing: 'main · 2 uncommitted changes' },
+  { name: '14.3-dev', php: '8.4', state: 'stopped', tone: 'default', standing: 'feature/soul · 7 uncommitted changes' },
+  { name: '12.4-lts', php: '8.2', state: 'stopped', tone: 'default', standing: 'main · clean' },
+] as const;
+
 const COLUMNS: readonly Column[] = [
   { head: 'Tool', cls: 'sds-td-name' },
   { head: 'Source' },
   { head: 'Versions', cls: 'sds-td-meta' },
+  /* The way in, at the end and with no head over it. */
+  { head: '', cls: 'sds-td-into' },
 ];
+
+/** The way into a row: the detail behind it, as the control that opens it.
+    An anchor carrying `href` and not a press handler, so the middle click, the
+    new tab and the copied address all work; and the same control at the same
+    place in every row, which is what makes it a column and not a decision. */
+const into = (name: string) =>
+  html`<sds-button
+    href="#"
+    variant="secondary"
+    size="sm"
+    title="Open ${name}"
+    .content="${html`${buttonLabel('Open')}<sds-icon name="actions-arrow-right"></sds-icon>`}"
+  ></sds-button>`;
 
 /* Held as one object so the meta args, the Default story and the specimen
    cannot drift: a CSF story with no args of its own inherits the meta's, but
@@ -41,9 +66,9 @@ const CARD_TABLE: TableProps = {
   density: 'medium',
   columns: COLUMNS,
   rows: [
-    { cells: ['typo3_rule_lookup', 'bundled knowledge', '12.4 · 13.4 · 14.3 · main'] },
-    { cells: ['typo3_icon_lookup', 'installation', 'follows the installation'], selected: true },
-    { cells: ['typo3_documentation_lookup', 'docs.typo3.org', 'requested release'] },
+    { cells: ['typo3_rule_lookup', 'bundled knowledge', '12.4 · 13.4 · 14.3 · main', into('typo3_rule_lookup')] },
+    { cells: ['typo3_icon_lookup', 'installation', 'follows the installation', into('typo3_icon_lookup')], selected: true },
+    { cells: ['typo3_documentation_lookup', 'docs.typo3.org', 'requested release', into('typo3_documentation_lookup')] },
   ],
 };
 
@@ -79,7 +104,7 @@ const meta: Meta<TableProps> = {
       path: 'components/data/data.card.html',
       name: 'Table, badges & status',
       subtitle: 'Long technical lists — compact rows, mono for anything the machine named',
-      viewport: '700x301',
+      viewport: '700x346',
     }),
   },
 };
@@ -157,6 +182,41 @@ export const Managed: Story = {
           ],
         },
       ],
+    }),
+};
+
+/** A list of things with a detail behind each of them, which is most long
+    tables. **The way in is a control at the end of the row**, in a column of
+    its own marked `sds-td-into`: no head over it, held to the control's width,
+    hard against the end edge — so it stands at the same place in every row of
+    every table and a reader travels down one column instead of reading for it.
+
+    An `sds-button` carrying `href`, which is an anchor: the middle click, the
+    new tab and the copied address all keep working, and it is one keyboard
+    stop per row. A press handler on the row gives back none of that, and a
+    link stretched over the whole row takes the row's text selection and the
+    tooltips of the cells it covers with it.
+
+    Everything else in the row stays what it was — a second link to somewhere
+    else, a control that acts on the row in place, a cell with a `title`. That
+    is the point of putting the way in beside them rather than over them. */
+export const Detail: Story = {
+  render: () =>
+    sdsTable({
+      columns: [
+        { head: 'Checkout', cls: 'sds-td-name' },
+        { head: 'PHP' },
+        { head: 'State' },
+        { head: '', cls: 'sds-td-into' },
+      ],
+      rows: CHECKOUTS.map(({ name, php, state, tone, standing }) => ({
+        cells: [
+          { value: name, note: standing },
+          php,
+          sdsBadge({ label: state, tone }),
+          into(name),
+        ],
+      })),
     }),
 };
 

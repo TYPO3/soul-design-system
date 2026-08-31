@@ -12,6 +12,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/badge.ts';
+import '../../packages/frontend/src/components/button.ts';
+import '../../packages/frontend/src/components/icon.ts';
+import { buttonLabel } from '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/note.ts';
@@ -36,22 +39,36 @@ const COLUMNS: readonly Column[] = [
   { head: 'What it needs' },
   { head: 'State' },
   { head: 'Last checked', cls: 'sds-td-meta' },
+  /* The way in, at the end and with no head over it. */
+  { head: '', cls: 'sds-td-into' },
 ];
 
+/** The way into a row: an anchor drawn as a control, at the same place in
+    every row. `SourcePage.stories.ts` is what the fifth one opens. */
+const into = (source: string): TemplateResult =>
+  html`<sds-button
+    href="#"
+    variant="secondary"
+    size="sm"
+    title="Open ${source}"
+    .content="${html`${buttonLabel('Open')}<sds-icon name="actions-arrow-right"></sds-icon>`}"
+  ></sds-button>`;
+
 const ROWS: readonly Row[] = [
-  { cells: ['knowledge', 'Nothing running — it ships with the server', badge('answering', 'ok'), `4${NNBSP}min ago`] },
-  { cells: ['checkout', 'Nothing running — the server’s own repository', badge('answering', 'ok'), `4${NNBSP}min ago`] },
-  { cells: ['packages', 'Files on disk, on your machine', badge('not ours to report', 'default'), '—'] },
-  { cells: ['installation', 'A booted installation, on your machine', badge('not ours to report', 'default'), '—'] },
+  { cells: ['knowledge', 'Nothing running — it ships with the server', badge('answering', 'ok'), `4${NNBSP}min ago`, into('knowledge')] },
+  { cells: ['checkout', 'Nothing running — the server’s own repository', badge('answering', 'ok'), `4${NNBSP}min ago`, into('checkout')] },
+  { cells: ['packages', 'Files on disk, on your machine', badge('not ours to report', 'default'), '—', into('packages')] },
+  { cells: ['installation', 'A booted installation, on your machine', badge('not ours to report', 'default'), '—', into('installation')] },
   {
     cells: [
       'docs.typo3.org',
       'Outbound reach from your machine',
       badge('slow · 2.4 s', 'warn'),
       `4${NNBSP}min ago`,
+      into('docs.typo3.org'),
     ],
   },
-  { cells: ['releases.typo3.org', 'Outbound reach from your machine', badge('unreachable', 'error'), `4${NNBSP}min ago`] },
+  { cells: ['releases.typo3.org', 'Outbound reach from your machine', badge('unreachable', 'error'), `4${NNBSP}min ago`, into('releases.typo3.org')] },
 ];
 
 const FACTS: readonly StatProps[] = [
@@ -106,7 +123,8 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
       <h2>The six sources</h2>
       <p>
         Two of them are yours and cannot be reported on from here, which is
-        stated in the table rather than left as a blank row.
+        stated in the table rather than left as a blank row. Every row opens
+        the source behind it, from the control at its end.
       </p>
       <sds-table density="medium" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
     </section>

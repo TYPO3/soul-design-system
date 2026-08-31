@@ -9,7 +9,7 @@ it sets in Source Code Pro at every size, verbatim, and none of it is
 title-cased or prettified on the way in.
 
 .. specimen:: components/data/data.card.html
-   :viewport: 700x301
+   :viewport: 700x346
    :title: Table, badges & status
 
 .. _component-sds-table:
@@ -57,7 +57,9 @@ sds-table
    :type: "{ head, cls? }[]"
 
    ``cls`` is the cell class for the whole column — ``sds-td-name`` for the
-   identifier the machine owns, ``sds-td-meta`` for anything secondary.
+   identifier the machine owns, ``sds-td-meta`` for anything secondary,
+   ``sds-td-into`` for the column at the end that carries the way into the
+   row.
 
 .. confval:: rows
    :name: sds-table-rows
@@ -86,7 +88,35 @@ sds-table
         ] }]}"
       ></sds-table>
 
-   A row somebody acts on carries the control itself, as the example does:
+   **The way into a row is a control at the end of it.** A list of things with
+   a detail behind each of them gets a column of its own, marked
+   ``sds-td-into``: no head over it — a head there would have to name the
+   button rather than a fact — held to what the control needs and hard against
+   the end edge. It stands at the same place in every row of every table, so a
+   reader travels down one column instead of reading for the way in.
+
+   .. code-block:: html
+
+      <sds-table
+        .columns="${[{ head: 'Checkout', cls: 'sds-td-name' }, { head: 'State' },
+                     { head: '', cls: 'sds-td-into' }]}"
+        .rows="${[{ cells: ['13.4-lts', 'running', html`
+          <sds-button href="/w/13-4-lts" variant="secondary" size="sm"
+                      title="Open 13.4-lts">Open<sds-icon
+                      name="actions-arrow-right"></sds-icon></sds-button>`] }]}"
+      ></sds-table>
+
+   ``sds-button`` carrying ``href`` is an **anchor**, which is the whole reason
+   it is one: the middle click, the new tab and the copied address all work,
+   and it is one keyboard stop per row. A press handler on the ``<tr>`` gives
+   back none of that and is invisible to the keyboard; a link stretched over
+   the whole row is a bigger target and takes the row's text selection and the
+   ``title`` of every cell it covers with it. The control at the end leaves the
+   rest of the row alone, which is what lets a cell keep a link of its own, a
+   tooltip, or a value somebody copies.
+
+   A row somebody acts on **in place** carries the control itself, as the   A row somebody acts on **in place** carries the control itself, as the
+   example above does:
    ``sds-button`` at ``size="sm"`` beside the name, an ``sds-link`` for an
    address, an ``sds-select`` that states ``label`` where it has no room for a
    caption and asks for what the column can give it with ``min-width``. None

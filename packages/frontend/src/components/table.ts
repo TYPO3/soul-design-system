@@ -16,7 +16,8 @@ export type Density = 'compact' | 'medium' | 'airy';
 export interface Column {
   head: string;
   /** The cell class for the whole column — `sds-td-name` for the identifier
-      the machine owns, `sds-td-meta` for anything secondary. */
+      the machine owns, `sds-td-meta` for anything secondary, `sds-td-into` for
+      the column at the end that carries the way into the row. */
   cls?: string;
 }
 

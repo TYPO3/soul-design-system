@@ -823,6 +823,7 @@
     td.sds-td-meta{font-family:var(--sds-table-font);font-size:var(--sds-table-meta-size);color:var(--sds-table-meta-ink)}
     .sds-td-note{display:block;margin-top:var(--sds-table-note-gap);font-family:var(--sds-table-font);font-size:var(--sds-table-meta-size);color:var(--sds-table-meta-ink)}
     tbody tr:hover{background:var(--sds-table-fill-hover)}
+    td.sds-td-into{width:1%;white-space:nowrap;text-align:end}
     tbody tr.is-selected{--sds-table-name-ink: var(--text-primary);--sds-table-meta-ink: var(--text-primary);background:var(--sds-table-fill-selected)}
   }
   .sds-table--compact{--sds-table-pad: var(--row-pad-compact);--sds-table-font-size: var(--row-font-size-compact)}

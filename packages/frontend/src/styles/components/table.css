@@ -130,6 +130,17 @@
     tbody tr:hover {
       background: var(--sds-table-fill-hover);
     }
+    /* The way into a row, as the control at the end of it. Its own column and
+       no head — a head over it would have to name the button rather than a
+       fact — held to what the control needs and hard against the end edge, so
+       the way in stands at the same place in every row of every table and a
+       reader travels down one column rather than reading for it. */
+    td.sds-td-into {
+      width: 1%;
+      white-space: nowrap;
+      text-align: end;
+    }
+
     /* The selected row leaves the scanning registers. `--text-muted` and
        `--text-link` are tuned against the canvas, and the accent fill moves the
        ground under them: each lands a hair under 4.5:1 on it. Nothing is wrong with
