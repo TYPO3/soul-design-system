@@ -102,8 +102,7 @@ export declare class SdsCode extends SdsElement {
         markers among the children, and `textContent` reads a comment's body
         like any other. */
     private get written();
-    private toClipboard;
-    private clipboard;
+    private take;
     private get copyButton();
     private line;
     private get given();

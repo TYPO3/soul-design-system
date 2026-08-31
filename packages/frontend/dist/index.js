@@ -918,10 +918,10 @@ var require_core = __commonJS({
     }
     var version = "11.11.1";
     var HTMLInjectionError = class extends Error {
-      constructor(reason, html64) {
+      constructor(reason, html65) {
         super(reason);
         this.name = "HTMLInjectionError";
-        this.html = html64;
+        this.html = html65;
       }
     };
     var escape = escapeHTML;
@@ -12954,6 +12954,38 @@ function highlight(lang, source) {
   return core_default.highlight(source, { language: lang, ignoreIllegals: true }).value;
 }
 
+// packages/frontend/src/lib/clipboard.ts
+var SAID = 1600;
+async function toClipboard(text) {
+  if (typeof navigator !== "undefined" && navigator.clipboard) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+    }
+  }
+  return selected(text);
+}
+function selected(text) {
+  if (typeof document === "undefined") return false;
+  const box = document.createElement("textarea");
+  box.value = text;
+  box.setAttribute("readonly", "");
+  box.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;padding:0;border:0;opacity:0";
+  document.body.append(box);
+  const was = document.activeElement;
+  box.select();
+  let done = false;
+  try {
+    done = document.execCommand("copy");
+  } catch {
+    done = false;
+  }
+  box.remove();
+  if (was instanceof HTMLElement) was.focus();
+  return done;
+}
+
 // packages/frontend/src/components/code.ts
 var isCaption3 = (node) => node.nodeType === 1 && node.matches(".sds-code__caption");
 var SdsCode = class extends SdsElement {
@@ -12971,11 +13003,6 @@ var SdsCode = class extends SdsElement {
        nothing keeps the two together. Kept apart from `taken`, which everything
        else here reads as the block itself. */
     this.captioned = null;
-    /* A button that cannot do its one job is worse than none, so a browser
-       without a clipboard gets none. Decided on connect rather than at render:
-       `renderStatic` runs in Node, where a guard on `navigator` itself would drop
-       the button from every specimen card. */
-    this.clipboard = true;
     this.lang = "";
     this.caption = "";
     this.source = "";
@@ -12998,7 +13025,6 @@ var SdsCode = class extends SdsElement {
     };
   }
   connectedCallback() {
-    if (typeof navigator !== "undefined") this.clipboard = Boolean(navigator.clipboard);
     const written = this.lifted();
     const caption = written.filter(isCaption3);
     const said = written.filter((node) => !isCaption3(node));
@@ -13022,20 +13048,20 @@ var SdsCode = class extends SdsElement {
   get written() {
     return (this.taken ?? []).filter((node) => node.nodeType !== 8).map((node) => node.textContent ?? "").join("");
   }
-  async toClipboard() {
-    try {
-      await navigator.clipboard.writeText(this.text);
-    } catch {
-      return;
-    }
+  async take() {
+    if (!await toClipboard(this.text)) return;
     this.copied = true;
     setTimeout(() => {
       this.copied = false;
-    }, 1600);
+    }, SAID);
   }
+  /* Always drawn where the block asked for one. Asking the browser whether it
+     has a clipboard and drawing nothing when it says no left no button at all
+     on every origin that is not a secure context, which is most of the ones a
+     design system is reviewed on — see `lib/clipboard.ts`. */
   get copyButton() {
-    if (!this.copy || !this.clipboard) return void 0;
-    return html59`<button type="button" class="sds-code__copy${this.copied ? " is-copied" : ""}" aria-label="Copy this block" @click="${() => void this.toClipboard()}"><span class="sds-code__glyph"><sds-icon name="actions-duplicate"></sds-icon></span><span class="sds-code__copied"><sds-icon name="actions-check"></sds-icon></span><span>${this.copied ? "copied" : "copy"}</span></button>`;
+    if (!this.copy) return void 0;
+    return html59`<button type="button" class="sds-code__copy${this.copied ? " is-copied" : ""}" aria-label="Copy this block" @click="${() => void this.take()}"><span class="sds-code__glyph"><sds-icon name="actions-duplicate"></sds-icon></span><span class="sds-code__copied"><sds-icon name="actions-check"></sds-icon></span><span>${this.copied ? "copied" : "copy"}</span></button>`;
   }
   /* The lines the free `comment()`, `shell()` and `ok()` helpers used to
      build. They were three exported functions that assembled markup a caller
@@ -13095,8 +13121,49 @@ var SdsCode = class extends SdsElement {
 };
 define("sds-code", SdsCode);
 
-// packages/frontend/src/components/diff.ts
+// packages/frontend/src/components/copy.ts
 import { html as html60 } from "lit";
+var SdsCopy = class extends SdsElement {
+  static {
+    this.properties = {
+      value: { type: String },
+      label: { type: String },
+      copied: { type: Boolean, state: true }
+    };
+  }
+  constructor() {
+    super();
+    this.value = "";
+    this.label = "";
+    this.copied = false;
+  }
+  async take() {
+    if (!await toClipboard(this.value)) return;
+    this.copied = true;
+    setTimeout(() => {
+      this.copied = false;
+    }, SAID);
+  }
+  render() {
+    const said = this.label ? `Copy ${this.label}` : "Copy this value";
+    const button = html60`<button
+      type="button"
+      class="sds-btn sds-btn--ghost sds-btn--icon sds-btn--sm sds-copy__button${this.copied ? " is-copied" : ""}"
+      title="${said}"
+      aria-label="${said}"
+      @click="${() => void this.take()}"
+    ><sds-icon name="${this.copied ? "actions-check" : "actions-duplicate"}"></sds-icon></button>`;
+    return html60`<span class="sds-copy">
+  <span class="sds-copy__value">${this.value}</span>
+  ${button}
+  <span class="sds-said-only" role="status">${this.copied ? said.replace(/^Copy/, "Copied") : ""}</span>
+</span>`;
+  }
+};
+define("sds-copy", SdsCopy);
+
+// packages/frontend/src/components/diff.ts
+import { html as html61 } from "lit";
 var SdsDiff = class extends SdsElement {
   static {
     this.properties = {
@@ -13114,12 +13181,12 @@ var SdsDiff = class extends SdsElement {
      block, so a newline inside the `<pre>` would add an empty line between
      every pair of rows. */
   line({ kind, text }) {
-    if (kind === "context") return html60`<span class="sds-diff__line">   ${text}</span>`;
+    if (kind === "context") return html61`<span class="sds-diff__line">   ${text}</span>`;
     const mark = kind === "add" ? "+" : "-";
-    return html60`<span class="sds-diff__line sds-diff__line--${kind}"><span class="sds-diff__mark">${mark}</span>  ${text}</span>`;
+    return html61`<span class="sds-diff__line sds-diff__line--${kind}"><span class="sds-diff__mark">${mark}</span>  ${text}</span>`;
   }
   render() {
-    return html60`<div class="sds-code">
+    return html61`<div class="sds-code">
   <div class="sds-code__head" style="justify-content:flex-start"><sds-icon name="${this.icon ?? "actions-code-compare"}"></sds-icon><span class="sds-code__path">${this.path}</span></div>
   <pre class="sds-diff">${this.body.map((l) => this.line(l))}</pre>
 </div>`;
@@ -13128,10 +13195,10 @@ var SdsDiff = class extends SdsElement {
 define("sds-diff", SdsDiff);
 
 // packages/frontend/src/components/quote.ts
-import { html as html62 } from "lit";
+import { html as html63 } from "lit";
 
 // packages/frontend/src/components/byline.ts
-import { html as html61 } from "lit";
+import { html as html62 } from "lit";
 var SdsByline = class extends SdsElement {
   static {
     this.properties = {
@@ -13162,12 +13229,12 @@ var SdsByline = class extends SdsElement {
     return (first + last).toUpperCase();
   }
   render() {
-    const who = this.href ? html61`<a class="sds-link" href="${this.href}">${this.name}</a>` : html61`${this.name}`;
-    return html61`<div class="sds-byline">
-  ${this.unmarked ? "" : html61`<span class="sds-byline__mark" aria-hidden="true">${this.mark}</span>`}
+    const who = this.href ? html62`<a class="sds-link" href="${this.href}">${this.name}</a>` : html62`${this.name}`;
+    return html62`<div class="sds-byline">
+  ${this.unmarked ? "" : html62`<span class="sds-byline__mark" aria-hidden="true">${this.mark}</span>`}
   <div class="sds-byline__who">
-    <span class="sds-byline__name">${who}${this.as ? html61` <span class="sds-byline__role">· ${this.as}</span>` : ""}</span>
-    ${this.meta ? html61`<span class="sds-label">${this.meta}</span>` : ""}
+    <span class="sds-byline__name">${who}${this.as ? html62` <span class="sds-byline__role">· ${this.as}</span>` : ""}</span>
+    ${this.meta ? html62`<span class="sds-label">${this.meta}</span>` : ""}
   </div>
 </div>`;
   }
@@ -13206,7 +13273,7 @@ var SdsQuote = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    return html62`<figure class="sds-quote">
+    return html63`<figure class="sds-quote">
   <blockquote class="sds-quote__body">${this.taken ?? this.content ?? this.body}</blockquote>
   <figcaption class="sds-quote__by"><sds-byline
     name="${this.by}"
@@ -13222,7 +13289,7 @@ var SdsQuote = class extends SdsElement {
 define("sds-quote", SdsQuote);
 
 // packages/frontend/src/components/confval.ts
-import { html as html63, nothing as nothing33 } from "lit";
+import { html as html64, nothing as nothing34 } from "lit";
 var SdsConfval = class extends SdsElement {
   constructor() {
     super();
@@ -13263,22 +13330,22 @@ var SdsConfval = class extends SdsElement {
     ];
   }
   fact({ label, value }) {
-    return html63`<dt class="sds-label">${label}</dt>
+    return html64`<dt class="sds-label">${label}</dt>
       <dd class="sds-mono">${value}</dd>`;
   }
   render() {
     const facts = this.stated;
-    const mark = this.anchor ? html63`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing33;
-    return html63`<dl class="sds-confval">
-  <dt class="sds-confval__term" id="${this.anchor || nothing33}">
+    const mark = this.anchor ? html64`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing34;
+    return html64`<dl class="sds-confval">
+  <dt class="sds-confval__term" id="${this.anchor || nothing34}">
     <code class="sds-confval__name">${this.name}</code>
-    ${this.required ? html63`<sds-badge label="required"></sds-badge>` : nothing33}
+    ${this.required ? html64`<sds-badge label="required"></sds-badge>` : nothing34}
     ${mark}
   </dt>
   <dd class="sds-confval__detail">
-    ${facts.length ? html63`<dl class="sds-confval__facts">
+    ${facts.length ? html64`<dl class="sds-confval__facts">
       ${lines(facts.map((f) => this.fact(f)), 6)}
-    </dl>` : nothing33}
+    </dl>` : nothing34}
     <div class="sds-confval__body">${this.taken ?? this.content ?? this.body}</div>
   </dd>
 </dl>`;
@@ -13341,6 +13408,7 @@ var TAGS3 = [
   "sds-nav-pagination",
   "sds-nav-pager",
   "sds-code",
+  "sds-copy",
   "sds-diff",
   "sds-quote",
   "sds-byline",
@@ -13358,6 +13426,7 @@ export {
   SdsCheckboxGroup,
   SdsCode,
   SdsConfval,
+  SdsCopy,
   SdsDialog,
   SdsDiff,
   SdsDropdown,

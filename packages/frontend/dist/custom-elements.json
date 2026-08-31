@@ -1598,6 +1598,90 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/copy.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsCopy",
+          "tagName": "sds-copy",
+          "summary": "A value the reader takes away.",
+          "description": "A value the reader takes away.\n\nA path, a database name, a password: what it says in the machine's own font, and the button that puts it on the clipboard, on one line.\n\n`sds-code` is the other shape and the wrong one here. It frames a fence and gives it a head, and around a single word that head is a bar with nothing in it but the word \"copy\" — four of them down a column is four frames for four words. A block is for a block.",
+          "attributes": [
+            {
+              "name": "value",
+              "description": "What is shown, and the whole of what the button writes.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "value"
+            },
+            {
+              "name": "label",
+              "description": "What the value is, so four buttons down a column can be told apart by somebody who cannot see which line each one is on. It is the tooltip and the accessible name from the one property — without it the button says only that it copies, which is true and names nothing.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "label"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "What is shown, and the whole of what the button writes.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "What the value is, so four buttons down a column can be told apart by somebody who cannot see which line each one is on. It is the tooltip and the accessible name from the one property — without it the button says only that it copies, which is true and names nothing.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "label"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-btn",
+            "sds-btn--ghost",
+            "sds-btn--icon",
+            "sds-btn--sm",
+            "sds-copy",
+            "sds-copy__button",
+            "sds-copy__value",
+            "sds-said-only"
+          ],
+          "slots": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsCopy",
+          "declaration": {
+            "name": "SdsCopy",
+            "module": "src/components/copy.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-copy",
+          "declaration": {
+            "name": "SdsCopy",
+            "module": "src/components/copy.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/dialog.ts",
       "declarations": [
         {

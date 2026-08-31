@@ -289,6 +289,62 @@ A fenced block, its head and its copy button.
    No line numbers unless something references them. A gutter nobody cites is
    decoration on the surface with the least room for it.
 
+.. _component-sds-copy:
+
+sds-copy
+========
+
+A value the reader takes away. A path, a database name, a password: what it
+says in the machine's own font, and the button that puts it on the clipboard,
+on one line.
+
+.. code-block:: html
+
+   <sds-copy label="Directory" value="~/projects/blog/.worktrees/14-3-dev"></sds-copy>
+
+:ref:`sds-code <component-sds-code>` is the other shape and the wrong one for
+this. It frames a fence and gives it a head, and around a single word that head
+is a bar with nothing in it but the word ``copy`` — four of them down a column
+is four frames for four words. A block is for a block.
+
+The shape it is used in is a **definition list**: the term over what it names,
+the value under it. That is what anything falls into when it names things, and
+it is why this element carries no term of its own.
+
+.. confval:: value
+   :name: sds-copy-value
+   :type: string
+   :required: true
+
+   What is shown, and the whole of what the button writes. Nothing frames it,
+   so nothing has to be stripped back off on the way to the clipboard.
+
+.. confval:: label
+   :name: sds-copy-label
+   :type: string
+
+   What the value is. It becomes ``Copy <label>`` — the tooltip and the
+   accessible name from the one property, so four buttons down a column can be
+   told apart by somebody who cannot see which line each one is on. Without it
+   the button says only that it copies, which is true and names nothing.
+
+The press is **always drawn**. ``navigator.clipboard`` exists only in a secure
+context, and a design system is looked at over http on a LAN address or a
+``.test`` domain as often as on localhost — asking for the API and drawing
+nothing where it is missing left no icon, no press and no hover on exactly the
+surfaces this is reviewed on. Where it is not there the value goes by the older
+way, which every browser has and no context withholds. The same is true of
+:ref:`sds-code <component-sds-code>`'s copy button, which had the same fault.
+
+The press is **one glyph**, and its sentence is in ``title`` — the accessible
+name and the words under the pointer from the one attribute. A value stands in
+a list of values, and the word ``Copy`` beside every one of them is the same
+word four times, which is furniture rather than a label.
+
+A press that worked says so — the glyph becomes a check, and a reader who
+cannot see that is told out loud, because a press that changed a glyph and
+nothing else is a press they never hear about.
+
 .. _component-sds-diff:
 
 sds-diff

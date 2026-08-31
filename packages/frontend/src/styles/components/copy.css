@@ -1,0 +1,52 @@
+/* sds-copy — a value the reader takes away, and the button that copies it. */
+
+@layer base {
+  sds-copy {
+    display: inline-block;
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  /* One line: the value, and the press beside it. A row rather than words with
+     a button after them — the button keeps its square whatever the value does,
+     and a path that has to wrap wraps under itself instead of pushing it off
+     the end. */
+  .sds-copy {
+    --sds-copy-gap: var(--space-2);
+    --sds-copy-font: var(--font-mono);
+    --sds-copy-size: var(--font-size-small);
+    --sds-copy-leading: var(--leading-heading);
+    --sds-copy-ink: var(--text-primary);
+    --sds-copy-ink-said: var(--status-ok);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sds-copy-gap);
+    max-width: 100%;
+  }
+  .sds-copy__value {
+    min-width: 0;
+    font-family: var(--sds-copy-font);
+    font-size: var(--sds-copy-size);
+    line-height: var(--sds-copy-leading);
+    color: var(--sds-copy-ink);
+    /* A path has no spaces to break at, so it breaks where it has to rather
+       than deciding the width of the column it stands in. */
+    overflow-wrap: anywhere;
+  }
+  /* The press never gives up room: squeezed, the path wraps under itself and
+     the button stays whole. A control shrunk to half a word is a control
+     nobody can read and nobody aims at. */
+  .sds-copy__button {
+    flex: none;
+  }
+  /* The mark, once it has happened. Colour and nothing else: the glyph and the
+     word already changed, and a button that also moved would be a third answer
+     to one press. */
+  .sds-copy__button.is-copied {
+    --sds-btn-ink: var(--sds-copy-ink-said);
+    --sds-btn-ink-hover: var(--sds-copy-ink-said);
+  }
+}

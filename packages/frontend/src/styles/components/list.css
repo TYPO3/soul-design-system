@@ -2,6 +2,28 @@
    are not sentences. */
 
 @layer components {
+  /* A block of facts, rather than a passage that names things. A prose
+     definition list is read, so it indents its values and leaves a step under
+     each pair; this is scanned down its terms, and the distance from a name to
+     what it is has to be shorter than the one to the next name — or the eye
+     pairs a value with the term below it. */
+  .sds-facts {
+    --sds-facts-step: var(--space-0-5);
+    --sds-facts-gap: var(--space-3);
+
+    margin-block: 0;
+
+    > dt {
+      margin-block-start: var(--sds-facts-gap);
+    }
+    > dt:first-child {
+      margin-block-start: 0;
+    }
+    > dd {
+      margin: var(--sds-facts-step) 0 0;
+    }
+  }
+
   /* What the element cannot say: the items stand apart. The document's own
      reset stays tight on purpose — a list of flags under a field is one block
      of text, and air between its lines would make it two. */

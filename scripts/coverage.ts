@@ -66,6 +66,10 @@ const ELSEWHERE = [
      a run arrives one stop at a time and ends on a verdict, and a document has
      nothing arriving. The instruction a manual does have is `sds-steps`. */
   'sds-run',
+  /* A value carried off to a terminal, a client or a login. What a manual has
+     is the block with the command in it, which is `sds-code` and its own copy
+     button; a bare value with a press beside it is application chrome. */
+  'sds-copy',
   /* Something a page opens over itself, which a document does not do. */
   'sds-modal',
   'sds-dialog',

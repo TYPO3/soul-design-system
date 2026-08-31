@@ -15,6 +15,7 @@ import './icon.ts';
 import { highlight } from '../lib/highlight.ts';
 import { lines } from '../lib/template.ts';
 import { define, SdsElement } from '../lib/element.ts';
+import { SAID, toClipboard } from '../lib/clipboard.ts';
 
 /** What a line in a code block IS, rather than markup someone assembled.
     `shell` is a command, and its `$` prompt is one of the three places
@@ -144,7 +145,6 @@ export class SdsCode extends SdsElement {
   }
 
   override connectedCallback(): void {
-    if (typeof navigator !== 'undefined') this.clipboard = Boolean(navigator.clipboard);
     const written = this.lifted();
     const caption = written.filter(isCaption);
     const said = written.filter((node) => !isCaption(node));
@@ -176,27 +176,21 @@ export class SdsCode extends SdsElement {
       .join('');
   }
 
-  private async toClipboard(): Promise<void> {
-    try {
-      await navigator.clipboard.writeText(this.text);
-    } catch {
-      /* Denied, or no permission in this context. Saying nothing is better
-         than a check mark for something that did not happen. */
-      return;
-    }
+  private async take(): Promise<void> {
+    /* Saying nothing is better than a check mark for something that did not
+       happen — but both ways have to have been tried first. */
+    if (!(await toClipboard(this.text))) return;
     this.copied = true;
-    setTimeout(() => { this.copied = false; }, 1600);
+    setTimeout(() => { this.copied = false; }, SAID);
   }
 
-  /* A button that cannot do its one job is worse than none, so a browser
-     without a clipboard gets none. Decided on connect rather than at render:
-     `renderStatic` runs in Node, where a guard on `navigator` itself would drop
-     the button from every specimen card. */
-  private clipboard = true;
-
+  /* Always drawn where the block asked for one. Asking the browser whether it
+     has a clipboard and drawing nothing when it says no left no button at all
+     on every origin that is not a secure context, which is most of the ones a
+     design system is reviewed on — see `lib/clipboard.ts`. */
   private get copyButton(): TemplateResult | undefined {
-    if (!this.copy || !this.clipboard) return undefined;
-    return html`<button type="button" class="sds-code__copy${this.copied ? ' is-copied' : ''}" aria-label="Copy this block" @click="${() => void this.toClipboard()}"><span class="sds-code__glyph"><sds-icon name="actions-duplicate"></sds-icon></span><span class="sds-code__copied"><sds-icon name="actions-check"></sds-icon></span><span>${this.copied ? 'copied' : 'copy'}</span></button>`;
+    if (!this.copy) return undefined;
+    return html`<button type="button" class="sds-code__copy${this.copied ? ' is-copied' : ''}" aria-label="Copy this block" @click="${() => void this.take()}"><span class="sds-code__glyph"><sds-icon name="actions-duplicate"></sds-icon></span><span class="sds-code__copied"><sds-icon name="actions-check"></sds-icon></span><span>${this.copied ? 'copied' : 'copy'}</span></button>`;
   }
 
   /* The lines the free `comment()`, `shell()` and `ok()` helpers used to
