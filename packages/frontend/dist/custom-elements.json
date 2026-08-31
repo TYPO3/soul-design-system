@@ -8806,6 +8806,100 @@
           }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/tree.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsTree",
+          "tagName": "sds-tree",
+          "summary": "A directory, as the shape it has on disk.",
+          "description": "A directory, as the shape it has on disk.\n\nWhat a document draws as preformatted text with spaces counted by hand, and what a project's own page shows of the files it is asking for. Written as a nested list, because that is what it is: a name, and what is under it.\n\nIt folds without a script. A `<details>` per directory, so a page rendered on a server and served to a reader who runs nothing still opens and closes — the reference this was taken from needed a framework's collapse and a second icon set for the same.",
+          "attributes": [
+            {
+              "name": "level",
+              "description": "How deep it stands open. Nothing is dropped below it: what is deeper is folded, which a reader can undo, rather than hidden, which they cannot.",
+              "type": {
+                "text": "number"
+              },
+              "fieldName": "level"
+            },
+            {
+              "name": "icons",
+              "description": "Whether a folder and a file are marked as such. Off by default: the fold says which is which wherever there is anything to fold, and a wall of glyphs down the left of a short tree is decoration.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "icons"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "entries",
+              "privacy": "public",
+              "description": "The tree, set from script — being a list, and a nested one.",
+              "type": {
+                "text": "readonly TreeEntry[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "level",
+              "privacy": "public",
+              "description": "How deep it stands open. Nothing is dropped below it: what is deeper is folded, which a reader can undo, rather than hidden, which they cannot.",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "level"
+            },
+            {
+              "kind": "field",
+              "name": "icons",
+              "privacy": "public",
+              "description": "Whether a folder and a file are marked as such. Off by default: the fold says which is which wherever there is anything to fold, and a wall of glyphs down the left of a short tree is decoration.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "icons"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-tree",
+            "sds-tree__fold",
+            "sds-tree__glyph",
+            "sds-tree__item",
+            "sds-tree__list",
+            "sds-tree__mark",
+            "sds-tree__name",
+            "sds-tree__note",
+            "sds-tree__row"
+          ],
+          "slots": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsTree",
+          "declaration": {
+            "name": "SdsTree",
+            "module": "src/components/tree.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-tree",
+          "declaration": {
+            "name": "SdsTree",
+            "module": "src/components/tree.ts"
+          }
+        }
+      ]
     }
   ]
 }

@@ -61,6 +61,7 @@ import './components/nav-pagination.ts';
 import './components/nav-pager.ts';
 import './components/code.ts';
 import './components/copy.ts';
+import './components/tree.ts';
 import './components/diff.ts';
 import './components/quote.ts';
 import './components/byline.ts';
@@ -139,6 +140,7 @@ export {
   type CodeLangName,
 } from './components/code.ts';
 export { SdsCopy, type CopyProps } from './components/copy.ts';
+export { SdsTree, type TreeProps, type TreeEntry } from './components/tree.ts';
 export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.ts';
 export { SdsQuote, type QuoteProps } from './components/quote.ts';
 export { SdsByline, type BylineProps } from './components/byline.ts';
@@ -211,6 +213,7 @@ export const TAGS = [
   'sds-nav-pager',
   'sds-code',
   'sds-copy',
+  'sds-tree',
   'sds-diff',
   'sds-quote',
   'sds-byline',

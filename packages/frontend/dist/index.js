@@ -918,10 +918,10 @@ var require_core = __commonJS({
     }
     var version = "11.11.1";
     var HTMLInjectionError = class extends Error {
-      constructor(reason, html65) {
+      constructor(reason, html66) {
         super(reason);
         this.name = "HTMLInjectionError";
-        this.html = html65;
+        this.html = html66;
       }
     };
     var escape = escapeHTML;
@@ -13179,8 +13179,61 @@ var SdsCopy = class extends SdsElement {
 };
 define("sds-copy", SdsCopy);
 
+// packages/frontend/src/components/tree.ts
+import { html as html61, nothing as nothing34 } from "lit";
+var SdsTree = class extends SdsElement {
+  static {
+    this.properties = {
+      entries: { type: Array },
+      level: { type: Number, reflect: true },
+      icons: { type: Boolean, reflect: true }
+    };
+  }
+  constructor() {
+    super();
+    this.entries = [];
+    this.level = 2;
+    this.icons = false;
+  }
+  /* The glyph for what a row is, where a caller asked for them. */
+  glyph(branch2) {
+    if (!this.icons) return nothing34;
+    return html61`<sds-icon class="sds-tree__glyph" name="${branch2 ? "actions-folder" : "actions-file"}"></sds-icon>`;
+  }
+  /* The name and whatever stands beside it — one row, whether it folds or not,
+     so a leaf's name begins where a directory's does. */
+  said(entry, branch2) {
+    return html61`<span class="sds-tree__mark">${branch2 ? html61`<sds-icon name="actions-chevron-down"></sds-icon>` : nothing34}</span>${this.glyph(branch2)}<span class="sds-tree__name">${entry.label}</span>${entry.note ? html61`<span class="sds-tree__note">${entry.note}</span>` : nothing34}`;
+  }
+  row(entry, depth) {
+    const under = entry.items ?? [];
+    if (!under.length) {
+      return html61`<li class="sds-tree__item">
+  <span class="sds-tree__row">${this.said(entry, false)}</span>
+</li>`;
+    }
+    return html61`<li class="sds-tree__item">
+  <details class="sds-tree__fold" ?open="${depth < this.level}">
+    <summary class="sds-tree__row">${this.said(entry, true)}</summary>
+    ${this.list(under, depth + 1)}
+  </details>
+</li>`;
+  }
+  list(entries, depth) {
+    return html61`<ul class="sds-tree__list">
+  ${lines(entries.map((entry) => this.row(entry, depth)), 2)}
+</ul>`;
+  }
+  render() {
+    return html61`<div class="sds-tree">
+  ${this.list(this.entries, 0)}
+</div>`;
+  }
+};
+define("sds-tree", SdsTree);
+
 // packages/frontend/src/components/diff.ts
-import { html as html61 } from "lit";
+import { html as html62 } from "lit";
 var SdsDiff = class extends SdsElement {
   static {
     this.properties = {
@@ -13198,12 +13251,12 @@ var SdsDiff = class extends SdsElement {
      block, so a newline inside the `<pre>` would add an empty line between
      every pair of rows. */
   line({ kind, text }) {
-    if (kind === "context") return html61`<span class="sds-diff__line">   ${text}</span>`;
+    if (kind === "context") return html62`<span class="sds-diff__line">   ${text}</span>`;
     const mark = kind === "add" ? "+" : "-";
-    return html61`<span class="sds-diff__line sds-diff__line--${kind}"><span class="sds-diff__mark">${mark}</span>  ${text}</span>`;
+    return html62`<span class="sds-diff__line sds-diff__line--${kind}"><span class="sds-diff__mark">${mark}</span>  ${text}</span>`;
   }
   render() {
-    return html61`<div class="sds-code">
+    return html62`<div class="sds-code">
   <div class="sds-code__head" style="justify-content:flex-start"><sds-icon name="${this.icon ?? "actions-code-compare"}"></sds-icon><span class="sds-code__path">${this.path}</span></div>
   <pre class="sds-diff">${this.body.map((l) => this.line(l))}</pre>
 </div>`;
@@ -13212,10 +13265,10 @@ var SdsDiff = class extends SdsElement {
 define("sds-diff", SdsDiff);
 
 // packages/frontend/src/components/quote.ts
-import { html as html63 } from "lit";
+import { html as html64 } from "lit";
 
 // packages/frontend/src/components/byline.ts
-import { html as html62 } from "lit";
+import { html as html63 } from "lit";
 var SdsByline = class extends SdsElement {
   static {
     this.properties = {
@@ -13246,12 +13299,12 @@ var SdsByline = class extends SdsElement {
     return (first + last).toUpperCase();
   }
   render() {
-    const who = this.href ? html62`<a class="sds-link" href="${this.href}">${this.name}</a>` : html62`${this.name}`;
-    return html62`<div class="sds-byline">
-  ${this.unmarked ? "" : html62`<span class="sds-byline__mark" aria-hidden="true">${this.mark}</span>`}
+    const who = this.href ? html63`<a class="sds-link" href="${this.href}">${this.name}</a>` : html63`${this.name}`;
+    return html63`<div class="sds-byline">
+  ${this.unmarked ? "" : html63`<span class="sds-byline__mark" aria-hidden="true">${this.mark}</span>`}
   <div class="sds-byline__who">
-    <span class="sds-byline__name">${who}${this.as ? html62` <span class="sds-byline__role">· ${this.as}</span>` : ""}</span>
-    ${this.meta ? html62`<span class="sds-label">${this.meta}</span>` : ""}
+    <span class="sds-byline__name">${who}${this.as ? html63` <span class="sds-byline__role">· ${this.as}</span>` : ""}</span>
+    ${this.meta ? html63`<span class="sds-label">${this.meta}</span>` : ""}
   </div>
 </div>`;
   }
@@ -13290,7 +13343,7 @@ var SdsQuote = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    return html63`<figure class="sds-quote">
+    return html64`<figure class="sds-quote">
   <blockquote class="sds-quote__body">${this.taken ?? this.content ?? this.body}</blockquote>
   <figcaption class="sds-quote__by"><sds-byline
     name="${this.by}"
@@ -13306,7 +13359,7 @@ var SdsQuote = class extends SdsElement {
 define("sds-quote", SdsQuote);
 
 // packages/frontend/src/components/confval.ts
-import { html as html64, nothing as nothing34 } from "lit";
+import { html as html65, nothing as nothing35 } from "lit";
 var SdsConfval = class extends SdsElement {
   constructor() {
     super();
@@ -13347,22 +13400,22 @@ var SdsConfval = class extends SdsElement {
     ];
   }
   fact({ label, value }) {
-    return html64`<dt class="sds-label">${label}</dt>
+    return html65`<dt class="sds-label">${label}</dt>
       <dd class="sds-mono">${value}</dd>`;
   }
   render() {
     const facts = this.stated;
-    const mark = this.anchor ? html64`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing34;
-    return html64`<dl class="sds-confval">
-  <dt class="sds-confval__term" id="${this.anchor || nothing34}">
+    const mark = this.anchor ? html65`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing35;
+    return html65`<dl class="sds-confval">
+  <dt class="sds-confval__term" id="${this.anchor || nothing35}">
     <code class="sds-confval__name">${this.name}</code>
-    ${this.required ? html64`<sds-badge label="required"></sds-badge>` : nothing34}
+    ${this.required ? html65`<sds-badge label="required"></sds-badge>` : nothing35}
     ${mark}
   </dt>
   <dd class="sds-confval__detail">
-    ${facts.length ? html64`<dl class="sds-confval__facts">
+    ${facts.length ? html65`<dl class="sds-confval__facts">
       ${lines(facts.map((f) => this.fact(f)), 6)}
-    </dl>` : nothing34}
+    </dl>` : nothing35}
     <div class="sds-confval__body">${this.taken ?? this.content ?? this.body}</div>
   </dd>
 </dl>`;
@@ -13426,6 +13479,7 @@ var TAGS3 = [
   "sds-nav-pager",
   "sds-code",
   "sds-copy",
+  "sds-tree",
   "sds-diff",
   "sds-quote",
   "sds-byline",
@@ -13493,6 +13547,7 @@ export {
   SdsTabs,
   SdsTextarea,
   SdsTheme,
+  SdsTree,
   TAGS3 as TAGS,
   buttonClass,
   define,

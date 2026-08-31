@@ -14,6 +14,7 @@ use TYPO3\Soul\GuidesTheme\Directives\BandDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ButtonBarDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ButtonDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
+use TYPO3\Soul\GuidesTheme\Directives\DirectoryTreeDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ExampleDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HalfDirective;
@@ -96,6 +97,12 @@ return static function (ContainerConfigurator $container): void {
         ->set(AccordionDirective::class)
         ->tag('phpdoc.guides.directive')
         ->set(AccordionItemDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* A directory as the shape it has on disk, spelled the way TYPO3
+           documentation spells it — see `DirectoryTreeDirective` for how a name
+           and what it is for are told apart without a syntax of its own. */
+        ->set(DirectoryTreeDirective::class)
         ->tag('phpdoc.guides.directive')
 
         /* An instruction and its stops, numbered by the set rather than by

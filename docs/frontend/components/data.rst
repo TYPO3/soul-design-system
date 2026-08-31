@@ -309,6 +309,61 @@ A fenced block, its head and its copy button.
    No line numbers unless something references them. A gutter nobody cites is
    decoration on the surface with the least room for it.
 
+.. specimen:: components/data/tree.card.html
+   :viewport: 700x602
+   :title: Directory tree
+
+.. _component-sds-tree:
+
+sds-tree
+========
+
+A directory, as the shape it has on disk. A nested list, because that is what a
+tree is: a name, and what is under it.
+
+.. code-block:: html
+
+   <sds-tree level="2" .entries="${[
+     { label: 'docs/', note: 'the sources', items: [{ label: 'Index.rst' }] },
+   ]}"></sds-tree>
+
+It folds **without a script**. A ``<details>`` per directory, so a page rendered
+on a server and served to a reader who runs nothing still opens and closes, and
+find-in-page opens the directory it lands in. What a document writes is
+:ref:`the directive <directives>`; this is the element under it.
+
+.. confval:: entries
+   :name: sds-tree-entries
+   :type: "{ label, note?, items? }[]"
+
+   ``label`` is what it is called. **A directory is written with its slash** —
+   that is how a reader tells an empty one from a file, and the only place it
+   can be said, because an entry with nothing under it looks the same either
+   way.
+
+   ``note`` is what it is for, beside the name. It is the annotation a tree
+   drawn as preformatted text lines up by counting spaces, which is the reason
+   those trees go stale: one name changes by a character and every line under
+   it is wrong.
+
+   ``items`` is what is under it. Nothing, and it is a leaf.
+
+.. confval:: level
+   :name: sds-tree-level
+   :type: integer
+   :default: 2
+
+   How deep it stands **open**. Nothing is dropped below it: what is deeper is
+   folded, which a reader can undo, rather than hidden, which they cannot.
+
+.. confval:: icons
+   :name: sds-tree-icons
+   :type: flag
+
+   Mark a directory and a file as such. Off by default: the fold says which is
+   which wherever there is anything to fold, and a wall of glyphs down the left
+   of a short tree is decoration.
+
 .. _component-sds-copy:
 
 sds-copy

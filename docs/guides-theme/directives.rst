@@ -899,6 +899,70 @@ page puts in it, and one press in it is the primary. What it emits is
 ``.sds-actions`` — the row in :doc:`/frontend/layout`, written by the theme
 the way ``band`` writes its section.
 
+directory-tree
+==============
+
+A directory, as the shape it has on disk — in the spelling a TYPO3 manual
+already uses, so a page written for the other theme renders here untouched.
+
+A nested list, because that is what a tree is. **The name is the first literal
+in an item, and the rest of the line is what it is for**: a filename is written
+as a literal anyway, and prose after it is prose about it, so there is no syntax
+of this directive's own to learn. An item with no literal is a name and nothing
+else.
+
+.. example:: What a project renders from, and what it gets back
+
+   .. directory-tree::
+      :level: 2
+
+      * ``docs/`` the sources, as a project already writes them
+
+        * ``Index.rst``
+        * ``guides.xml`` the theme, the mark and the versions
+
+      * ``site/`` what the render writes, and what is published
+
+        * ``index.html``
+        * ``styles/`` the drop-in, copied there by the finishing step
+
+          * ``soul.css``
+          * ``soul.js``
+
+The fold is ``<details>``, so it works before any script runs and find-in-page
+opens the directory it lands in. This replaces the tree drawn as a text block
+with its notes lined up by counting spaces — an alignment that goes wrong the
+moment one name changes by a character, and that a reader with a narrow window
+never sees straight at all.
+
+.. confval:: level
+   :name: directory-tree-level
+   :type: integer
+   :default: 2
+
+   How deep it stands **open**. Nothing is dropped below it: what is deeper is
+   folded, which a reader can undo. A level past the depth of the tree opens
+   the whole of it.
+
+   The theme this spelling comes from stops *drawing* below the level instead,
+   which takes away what a reader came for and gives them no way to ask for it.
+   A page that set it for that reason still renders here — with the deep part
+   folded rather than gone.
+
+.. confval:: show-file-icons
+   :name: directory-tree-show-file-icons
+   :type: flag
+
+   Mark a directory and a file as such. Off by default: the fold already says
+   which is which wherever there is anything to fold, and a wall of glyphs down
+   the left of a short tree is decoration. A directory with nothing in it is
+   told apart by the slash its name is written with.
+
+.. confval:: class
+   :name: directory-tree-class
+
+   Passed to the element, for the surface that has to place one.
+
 accordion
 =========
 

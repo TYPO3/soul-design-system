@@ -1,0 +1,16 @@
+{#
+    A directory, as the shape it has on disk.
+
+    Handed over as data rather than written between the tags: the element draws
+    the fold, the guide line and the marks, and a template writing a `<details>`
+    of its own has taken a copy of markup only the system may change.
+
+    `entries` is the nested list the directive read out of the document — see
+    `DirectoryTreeDirective` for how a name and what it is for are told apart.
+#}
+<sds-tree
+    level="{{ node.option('level') }}"
+    {%- if node.option('icons') %} icons{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+    entries="{{ node.option('entries')|json_encode }}"
+></sds-tree>

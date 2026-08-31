@@ -1,0 +1,141 @@
+/* sds-tree — a directory, as the shape it has on disk. */
+
+@layer base {
+  sds-tree {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-4);
+  }
+  sds-tree > .sds-tree {
+    margin-bottom: 0;
+  }
+  .sds-tree {
+    margin: 0 0 var(--space-4);
+  }
+}
+
+@layer components {
+  /* Apparatus rather than prose, like the contents list: a step down, set in
+     the machine's own font, because every name in it is a name on a disk. */
+  .sds-tree {
+    --sds-tree-font: var(--font-mono);
+    --sds-tree-font-note: var(--font-sans);
+    --sds-tree-size: var(--font-size-small);
+    --sds-tree-leading: var(--leading-heading);
+    --sds-tree-step: var(--space-1);
+    --sds-tree-gap: var(--space-2);
+    --sds-tree-indent: var(--space-4);
+    --sds-tree-mark: 16px;
+    --sds-tree-rule: var(--border-hairline);
+    --sds-tree-rule-ink: var(--border-subtle);
+    --sds-tree-ink: var(--text-primary);
+    --sds-tree-ink-note: var(--text-muted);
+    --sds-tree-ink-mark: var(--text-muted);
+    --sds-tree-fill-hover: var(--surface-raised);
+    --sds-tree-radius: var(--radius-control);
+    --sds-tree-pad: var(--space-2);
+    --sds-tree-duration: var(--duration-fast);
+    --sds-tree-ease: var(--ease-out);
+
+    font-size: var(--sds-tree-size);
+    line-height: var(--sds-tree-leading);
+  }
+  .sds-tree__list {
+    margin: 0;
+    padding-inline-start: 0;
+    list-style: none;
+
+    /* A line down the left of what is under a directory, at the fold mark's own
+       centre: the indent alone leaves a reader counting spaces, which is what a
+       tree drawn as text made them do. It carries the step two rows stand off
+       each other, so a first child is no closer than a sibling. */
+    .sds-tree__list {
+      margin-inline-start: calc(var(--sds-tree-pad) + var(--sds-tree-mark) / 2);
+      padding-block-start: var(--sds-tree-step);
+      padding-inline-start: var(--sds-tree-indent);
+      border-inline-start: var(--sds-tree-rule) solid var(--sds-tree-rule-ink);
+    }
+  }
+  .sds-tree__item {
+    margin-bottom: var(--sds-tree-step);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  /* One row, whether it folds or not, so a leaf's name begins where a
+     directory's does. Padded rather than bled: a row inside a `<details>` that
+     reached past it is a row cut off by the box it is in, which the rendered
+     pages are measured for. The whole tree steps in by that much instead. */
+  .sds-tree__row {
+    display: flex;
+    align-items: center;
+    gap: var(--sds-tree-gap);
+    padding: var(--sds-tree-step) var(--sds-tree-pad);
+    border-radius: var(--sds-tree-radius);
+    font-family: var(--sds-tree-font);
+    color: var(--sds-tree-ink);
+    /* The marker the browser draws on a summary, gone in both spellings. */
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+  /* Only a row that opens answers the pointer. A leaf lighting up would be a
+     press offered where there is none. */
+  summary.sds-tree__row {
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background: var(--sds-tree-fill-hover);
+    }
+  }
+  /* The fold mark keeps its box on every row, open or shut and leaf or not, or
+     the names step in and out as the tree opens. Sideways closed, down open: it
+     points at what pressing will do. */
+  .sds-tree__mark {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--sds-tree-mark);
+    color: var(--sds-tree-ink-mark);
+
+    .sds-icon {
+      --sds-icon-size: var(--sds-tree-mark);
+
+      transform: rotate(-90deg);
+      transition: transform var(--sds-tree-duration) var(--sds-tree-ease);
+    }
+  }
+  .sds-tree__fold[open] > .sds-tree__row .sds-tree__mark .sds-icon {
+    transform: none;
+  }
+  .sds-tree__glyph {
+    --sds-icon-size: var(--sds-tree-mark);
+
+    flex: none;
+    color: var(--sds-tree-ink-mark);
+  }
+  .sds-tree__name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  /* What the name is for. The sentence face and quiet, being the one thing in a
+     tree that is prose — and beside the name rather than lined up in a column,
+     which is the alignment a text tree pays for with spaces that go wrong the
+     moment a name changes. */
+  .sds-tree__note {
+    min-width: 0;
+    font-family: var(--sds-tree-font-note);
+    color: var(--sds-tree-ink-note);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sds-tree__mark .sds-icon {
+      transition: none;
+    }
+  }
+}

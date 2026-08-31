@@ -618,6 +618,60 @@ The fold is a ``<details>``, so it works with no script on the page and
 find-in-page opens the answer it lands in. One answer stands open, because the
 shape of an answer is worth seeing without pressing anything.
 
+Directory trees
+---------------
+
+A directory, as the shape it has on disk. A nested list, because that is what a
+tree is — and the name is the first literal in an item, with the rest of the
+line being what it is for.
+
+.. directory-tree::
+   :level: 2
+
+   * ``docs/`` the sources, as a project already writes them
+
+     * ``Index.rst``
+     * ``guides.xml`` the theme, the mark and the versions
+     * ``Introduction/``
+
+       * ``Index.rst``
+       * ``Installation.rst``
+
+   * ``site/`` what the render writes, and what is published
+
+     * ``index.html``
+     * ``_search.json`` the index the field in the bar fetches
+     * ``styles/`` the drop-in, copied there by the finishing step
+
+       * ``soul.css``
+       * ``soul.js``
+
+   * ``.github/workflows/publish.yml`` render, finish, publish
+
+Everything below the level is folded and nothing is dropped: a reader can undo
+a fold. Marked with ``:show-file-icons:``, and open to the bottom at a level
+past the depth of the tree:
+
+.. directory-tree::
+   :level: 9
+   :show-file-icons:
+
+   * ``config/``
+
+     * ``sites/``
+
+       * ``main/``
+
+         * ``config.yaml`` the one file a site is
+   * ``composer.json``
+
+An item with no literal in it is a name and nothing else:
+
+.. directory-tree::
+
+   * vendor
+   * public
+
 .. accordion::
    :group: what-it-holds
 
