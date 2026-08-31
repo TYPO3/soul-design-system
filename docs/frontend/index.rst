@@ -66,10 +66,16 @@ Two shapes
    :type: script
    :required: where there is a mode switch
 
-   Four lines, loaded **before** the stylesheet and **not** as a module. It
+   A line or two, loaded **before** the stylesheet and **not** as a module. It
    reads the stored choice and writes ``data-theme`` before the first paint;
    ``<sds-theme>`` then shows which side is pressed, because it reads what the
    document already says rather than its own idea of it.
+
+   Where nothing has been chosen it writes nothing, and that absence is the
+   third state: the page follows the machine, and the switch draws the mark
+   for it. An attribute resolved to a concrete mode instead would come back to
+   the switch as a choice a reader never made, leaving a stop it could not
+   return to.
 
    Leave it out and a switch still switches — the choice is simply forgotten
    on the next page, which on a site of many pages is every click. The choice

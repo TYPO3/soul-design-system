@@ -86,10 +86,12 @@ export class SdsTheme extends SdsElement {
       be a sentence that is wrong on two pages out of three. */
   #seen = false;
 
-  /* Watching the attribute, not owning it: `soul-boot.js` writes it before
-     the paint and again when the machine's setting changes, and a second tab
-     changes it too. Read once on connect and the switch would show the side
-     the reader is not looking at. */
+  /* Watching the attribute, not owning it: `soul-boot.js` writes the stored
+     choice before the paint, and a second tab changes it too. Read once on
+     connect and the switch would show the side the reader is not looking at.
+     What it never carries is the machine's setting — an attribute written for
+     that is a choice this element cannot tell from one, and the stop it can
+     never come back to. */
   #watch: MutationObserver | null = null;
 
   #dark: MediaQueryList | null = null;

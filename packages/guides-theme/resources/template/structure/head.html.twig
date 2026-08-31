@@ -1,10 +1,11 @@
 {#
     The head, once, for both layouts.
 
-    `soul-boot.js` is not a module and is loaded first: it writes `data-theme`
-    before the first paint, from the stored choice or the reader's own
-    setting. Without it the switch has nothing to show and the choice is lost
-    on the next page.
+    `soul-boot.js` is not a module and is loaded first: it writes the stored
+    choice into `data-theme` before the first paint. Without it the choice is
+    lost on the next page. It writes nothing where nobody has chosen — the
+    machine's setting is what the tokens answer with anyway, and an attribute
+    standing in for it is a choice the switch can never step back out of.
 #}
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />

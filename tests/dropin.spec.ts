@@ -284,3 +284,71 @@ test('the bundle survives being built into a classic script', async ({ page }) =
   expect(errors, 'the bundle should evaluate without throwing').toEqual([]);
   expect(upgraded, 'the elements should register').toBe(true);
 });
+
+/* The mode switch, as a page that copies the drop-in gets it.
+
+   `soul-boot.js` and `<sds-theme>` are two shipped files that have to agree on
+   what `data-theme` means, and nothing rendered against `src/` can catch them
+   disagreeing. Boot used to resolve the machine's setting into the attribute;
+   the element read that back as a choice, so the press that gives the machine
+   its setting back had it written straight on again. On a machine set to dark
+   that was a button which moved nothing, however often it was pressed. */
+test.describe('the mode switch a machine set to dark starts in', () => {
+  test.use({ colorScheme: 'dark' });
+
+  const SWITCH = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="/dist/soul-boot.js"></script>
+<link rel="stylesheet" href="/dist/soul.css" />
+<script type="module" src="/dist/soul.js"></script>
+</head>
+<body class="sds-app">
+  <sds-theme></sds-theme>
+</body>
+</html>`;
+
+  /** What the document says the mode is, which is what both files read. */
+  const written = (page: import('@playwright/test').Page) =>
+    page.evaluate(() => document.documentElement.dataset['theme'] ?? null);
+
+  test('one press steps to the next of three, and the third gives the machine back', async ({ page }) => {
+    await page.route('**/theme-fixture.html', (route) =>
+      route.fulfill({ contentType: 'text/html', body: SWITCH }));
+    await page.goto('/theme-fixture.html', { waitUntil: 'load' });
+    await page.evaluate(() => customElements.whenDefined('sds-theme'));
+
+    const press = page.locator('sds-theme button');
+
+    /* Nobody has chosen, so the attribute is not there and the mark is the
+       device: the page is in dark because the machine is, not because it was
+       told to be. */
+    await expect.poll(() => written(page)).toBeNull();
+    await expect(page.locator('.sds-theme__mark--machine')).toHaveCSS('opacity', '1');
+
+    await press.click();
+    await expect.poll(() => written(page)).toBe('light');
+
+    await press.click();
+    await expect.poll(() => written(page)).toBe('dark');
+
+    await press.click();
+    await expect.poll(() => written(page)).toBeNull();
+    expect(await page.evaluate(() => localStorage.getItem('soul-theme')),
+      'the machine’s setting is a stop, so nothing is stored at it').toBeNull();
+    await expect(page.locator('.sds-theme__mark--machine')).toHaveCSS('opacity', '1');
+  });
+
+  test('a stored choice is on the root before the first paint', async ({ page }) => {
+    await page.route('**/theme-fixture.html', (route) =>
+      route.fulfill({ contentType: 'text/html', body: SWITCH }));
+    await page.addInitScript(() => localStorage.setItem('soul-theme', 'light'));
+    await page.goto('/theme-fixture.html', { waitUntil: 'commit' });
+
+    /* Read before the module can have run: this is boot's whole job, and an
+       attribute that only arrives with `soul.js` is the flash it exists to
+       prevent. */
+    await expect.poll(() => written(page)).toBe('light');
+  });
+});

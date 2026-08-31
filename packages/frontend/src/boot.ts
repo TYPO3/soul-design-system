@@ -25,27 +25,11 @@ function chosen(): 'light' | 'dark' | null {
   }
 }
 
-/* Always an explicit mode: without `data-theme` the page still renders in the
-   reader's setting, but the switch cannot say which and shows neither side
-   pressed. Writing it turns a preference into a decision, and a decision does
-   not follow the machine at dusk — so the query is kept until somebody
-   chooses. */
-const query = matchMedia('(prefers-color-scheme: dark)');
-
-function follow(): void {
-  if (chosen()) return;
-  root.dataset['theme'] = query.matches ? 'dark' : 'light';
-}
-
+/* The attribute is the choice and nothing else. Absent is the machine's
+   setting — a state of its own, which the tokens answer through `light-dark()`
+   and the switch draws its own mark for. Resolving it to a concrete mode here
+   wrote a decision the reader never made: the switch read it back as a choice,
+   so the machine's setting was a stop it could never return to, and on a
+   machine set to dark the first press appeared to do nothing at all. */
 const stored = chosen();
-if (stored) {
-  root.dataset['theme'] = stored;
-} else {
-  follow();
-}
-
-query.addEventListener('change', follow);
-/* Fired when a reader gives the machine back. */
-document.addEventListener('sds-theme-change', (event) => {
-  if ((event as CustomEvent<{ theme: string | null }>).detail.theme === null) follow();
-});
+if (stored) root.dataset['theme'] = stored;
