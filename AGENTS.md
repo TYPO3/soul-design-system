@@ -300,7 +300,7 @@ the built stylesheets).
 | `dialog` | the question a dialog asks: the pair drawn from a label, the two events that say which button answered, a size that caps the surface in both directions, and the head every surface draws — where the title and the close stand, and the two strips being one band |
 | `run` | work being done: which rows are a control, what every state is called, and a fold the reader chose surviving the work moving on |
 | `copy` | a value carried off: what reaches the clipboard, what each button is called, and a press saying so in words as well as in the glyph |
-| `table` | the way into a row: the control at its end being an anchor rather than a handler, one keyboard stop per row, and the rest of the row left alone |
+| `table` | the way into a row: the control at its end being an anchor rather than a handler, one keyboard stop per row, the rest of the row left alone, and a column standing at the edge it is read down |
 | `toc` | the contents list: which section it marks where the list draws only some of them, and the mark staying inside a box too short to hold the list |
 | `dropdown` | the popover a dropdown opens: not clipped by a box that clips, placed under its button by either route, and closing the way the platform closes one |
 | `highlight` | every language `CodeLang` promises is actually registered |

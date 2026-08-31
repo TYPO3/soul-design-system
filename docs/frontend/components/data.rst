@@ -61,6 +61,26 @@ sds-table
    ``sds-td-into`` for the column at the end that carries the way into the
    row.
 
+   ``align`` is which edge the column is read down. ``end`` for a count, a date
+   or a duration: it stands at the right edge and is set in tabular figures, so
+   the digits line up under each other, and the **head goes with it** — a
+   heading over a column it does not stand at names the column beside it. There
+   is no third value: a centred column is scanned down neither edge.
+
+   ``fit`` holds a column to what it holds. A short hash, a version, a date:
+   left to its share of the table a seven-character cell sits in a third of it
+   and the column carrying the reading is pushed off to the side. What is not
+   held takes the slack, so a table says which column is the reading by holding
+   every other one.
+
+   .. code-block:: js
+
+      [
+        { head: 'Commit', cls: 'sds-td-name', fit: true },
+        { head: 'Subject' },
+        { head: 'When', cls: 'sds-td-meta', align: 'end', fit: true },
+      ]
+
 .. confval:: rows
    :name: sds-table-rows
    :type: "{ cells, selected?, style? }[]"
@@ -175,7 +195,7 @@ sds-table
    properties.
 
 .. specimen:: components/data/density.card.html
-   :viewport: 700x874
+   :viewport: 700x887
    :title: Table density
 
 .. warning::

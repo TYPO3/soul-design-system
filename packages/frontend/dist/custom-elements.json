@@ -8216,6 +8216,8 @@
             "sds-table",
             "sds-table--loading",
             "sds-table-scroll",
+            "sds-td-end",
+            "sds-td-fit",
             "sds-td-note"
           ],
           "slots": [

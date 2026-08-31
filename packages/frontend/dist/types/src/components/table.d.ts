@@ -1,12 +1,24 @@
 import { type TemplateResult } from 'lit';
 import { SdsElement } from '../lib/element.js';
 export type Density = 'compact' | 'medium' | 'airy';
+/** Which edge a column is read down. `end` for a count, a date or a duration —
+    scanned down its right edge, and set in tabular figures so the digits line
+    up under each other. There is no third: a centred column is scanned down
+    neither edge. The head goes with it, or it names the column beside it. */
+export type Align = 'start' | 'end';
 export interface Column {
     head: string;
     /** The cell class for the whole column — `sds-td-name` for the identifier
         the machine owns, `sds-td-meta` for anything secondary, `sds-td-into` for
         the column at the end that carries the way into the row. */
     cls?: string;
+    /** Which edge it is read down. `start` unless said, which is what text is. */
+    align?: Align;
+    /** Whether it is held to what it holds. A short hash, a version, a date: left
+        to its share of the table a seven-character cell sits in a third of it and
+        the column carrying the reading is pushed off to the side. The slack goes
+        to whatever is not held. */
+    fit?: boolean;
 }
 /** A cell with a second line under it: what the row is, and what is true about
     it right now — the branch a checkout stands on, the changes nobody has
@@ -102,6 +114,11 @@ export declare class SdsTable extends SdsElement {
     constructor();
     connectedCallback(): void;
     private stacked;
+    /** What a column puts on both its head and its cells: what kind of cell it
+        is, and which edge it is read down. One string, because the head and the
+        cells have to stand at the same edge and a class list built twice is a
+        class list that comes out different once. */
+    private marks;
     private cell;
     private bodyRow;
     private waitingRow;

@@ -6462,12 +6462,23 @@ var SdsTable = class extends SdsElement {
     if (written.length) this.taken = written;
     super.connectedCallback();
   }
+  /** What a column puts on both its head and its cells: what kind of cell it
+      is, and which edge it is read down. One string, because the head and the
+      cells have to stand at the same edge and a class list built twice is a
+      class list that comes out different once. */
+  marks(column, head = false) {
+    return [
+      head ? "" : column?.cls ?? "",
+      column?.align === "end" ? "sds-td-end" : "",
+      column?.fit ? "sds-td-fit" : ""
+    ].filter(Boolean).join(" ");
+  }
   cell(value, cls) {
     const inner = this.stacked(value) ? html52`${value.value}${value.note ? html52`<span class="sds-td-note">${value.note}</span>` : nothing29}` : value;
     return cls ? html52`<td class="${cls}">${inner}</td>` : html52`<td>${inner}</td>`;
   }
   bodyRow(row) {
-    const cells = lines(row.cells.map((v, i) => this.cell(v, this.columns[i]?.cls)), 6);
+    const cells = lines(row.cells.map((v, i) => this.cell(v, this.marks(this.columns[i]))), 6);
     return html52`<tr class="${row.selected ? "is-selected" : nothing29}" style="${row.style ?? nothing29}">
       ${cells}
     </tr>`;
@@ -6476,7 +6487,10 @@ var SdsTable = class extends SdsElement {
      as markup, and a single bar is the whole of the shape it knows. */
   waitingRow() {
     const cells = Math.max(this.columns.length, 1);
-    const bars = Array.from({ length: cells }, () => html52`<td><span class="sds-skeleton"></span></td>`);
+    const bars = Array.from({ length: cells }, (_, i) => {
+      const mark = this.marks(this.columns[i]);
+      return mark ? html52`<td class="${mark}"><span class="sds-skeleton"></span></td>` : html52`<td><span class="sds-skeleton"></span></td>`;
+    });
     return html52`<tr>
       ${lines(bars, 6)}
     </tr>`;
@@ -6488,7 +6502,10 @@ var SdsTable = class extends SdsElement {
     const body = this.loading ? Array.from({ length: Math.max(this.loadingRows, 1) }, () => this.waitingRow()) : this.rows.map((r) => this.bodyRow(r));
     const table = given ? html52`<table class="${cls}" style="${style}">${given}</table>` : html52`<table class="${cls}" style="${style}" aria-busy="${this.loading ? "true" : nothing29}">
   <thead><tr>
-    ${lines(this.columns.map((c) => html52`<th>${c.head}</th>`), 4)}
+    ${lines(this.columns.map((c) => {
+      const mark = this.marks(c, true);
+      return mark ? html52`<th class="${mark}">${c.head}</th>` : html52`<th>${c.head}</th>`;
+    }), 4)}
   </tr></thead>
   <tbody>
     ${lines(body, 4)}

@@ -13,12 +13,25 @@ import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 export type Density = 'compact' | 'medium' | 'airy';
 
+/** Which edge a column is read down. `end` for a count, a date or a duration —
+    scanned down its right edge, and set in tabular figures so the digits line
+    up under each other. There is no third: a centred column is scanned down
+    neither edge. The head goes with it, or it names the column beside it. */
+export type Align = 'start' | 'end';
+
 export interface Column {
   head: string;
   /** The cell class for the whole column — `sds-td-name` for the identifier
       the machine owns, `sds-td-meta` for anything secondary, `sds-td-into` for
       the column at the end that carries the way into the row. */
   cls?: string;
+  /** Which edge it is read down. `start` unless said, which is what text is. */
+  align?: Align;
+  /** Whether it is held to what it holds. A short hash, a version, a date: left
+      to its share of the table a seven-character cell sits in a third of it and
+      the column carrying the reading is pushed off to the side. The slack goes
+      to whatever is not held. */
+  fit?: boolean;
 }
 
 /** A cell with a second line under it: what the row is, and what is true about
@@ -131,7 +144,19 @@ export class SdsTable extends SdsElement {
   private stacked = (cell: CellValue): cell is Cell =>
     typeof cell === 'object' && cell !== null && 'value' in cell;
 
-  private cell(value: CellValue, cls: string | undefined): TemplateResult {
+  /** What a column puts on both its head and its cells: what kind of cell it
+      is, and which edge it is read down. One string, because the head and the
+      cells have to stand at the same edge and a class list built twice is a
+      class list that comes out different once. */
+  private marks(column: Column | undefined, head = false): string {
+    return [
+      head ? '' : (column?.cls ?? ''),
+      column?.align === 'end' ? 'sds-td-end' : '',
+      column?.fit ? 'sds-td-fit' : '',
+    ].filter(Boolean).join(' ');
+  }
+
+  private cell(value: CellValue, cls: string): TemplateResult {
     const inner = this.stacked(value)
       ? html`${value.value}${value.note ? html`<span class="sds-td-note">${value.note}</span>` : nothing}`
       : value;
@@ -139,7 +164,7 @@ export class SdsTable extends SdsElement {
   }
 
   private bodyRow(row: Row): TemplateResult {
-    const cells = lines(row.cells.map((v, i) => this.cell(v, this.columns[i]?.cls)), 6);
+    const cells = lines(row.cells.map((v, i) => this.cell(v, this.marks(this.columns[i]))), 6);
     /* A filled row is a selected one, never every other one. `nothing` and not
        an empty string: an attribute bound to it is dropped rather than written
        empty, so a row with neither is the bare `<tr>` a card is read as. */
@@ -152,7 +177,12 @@ export class SdsTable extends SdsElement {
      as markup, and a single bar is the whole of the shape it knows. */
   private waitingRow(): TemplateResult {
     const cells = Math.max(this.columns.length, 1);
-    const bars = Array.from({ length: cells }, () => html`<td><span class="sds-skeleton"></span></td>`);
+    const bars = Array.from({ length: cells }, (_, i) => {
+      const mark = this.marks(this.columns[i]);
+      return mark
+        ? html`<td class="${mark}"><span class="sds-skeleton"></span></td>`
+        : html`<td><span class="sds-skeleton"></span></td>`;
+    });
     return html`<tr>
       ${lines(bars, 6)}
     </tr>`;
@@ -178,7 +208,10 @@ export class SdsTable extends SdsElement {
       ? html`<table class="${cls}" style="${style}">${given}</table>`
       : html`<table class="${cls}" style="${style}" aria-busy="${this.loading ? 'true' : nothing}">
   <thead><tr>
-    ${lines(this.columns.map((c) => html`<th>${c.head}</th>`), 4)}
+    ${lines(this.columns.map((c) => {
+      const mark = this.marks(c, true);
+      return mark ? html`<th class="${mark}">${c.head}</th>` : html`<th>${c.head}</th>`;
+    }), 4)}
   </tr></thead>
   <tbody>
     ${lines(body, 4)}

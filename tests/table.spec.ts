@@ -132,6 +132,48 @@ test('one keyboard stop per row, in the order the row is read', async ({ page })
   await expect(page.locator('#site-1'), 'and the next row starts over').toBeFocused();
 });
 
+test('a column stands at the edge it is read down, head and cells alike', async ({ page }) => {
+  /* A table of its own: the one above was handed its rows as markup, which is
+     the other form and not what a column's options travel through. */
+  await page.evaluate(() => {
+    const table = document.createElement('sds-table') as HTMLElement & { columns: unknown; rows: unknown };
+    table.id = 'log';
+    table.columns = [
+      { head: 'Commit', cls: 'sds-td-name', fit: true },
+      { head: 'Subject' },
+      { head: 'When', cls: 'sds-td-meta', align: 'end', fit: true },
+    ];
+    table.rows = [
+      { cells: ['48723bc', 'Remove falsely committed files', '11 days ago'] },
+      { cells: ['f088fab', 'Release 14.0.1', '11 days ago'] },
+    ];
+    document.body.append(table);
+  });
+  await expect(page.locator('#log tbody tr')).toHaveCount(2);
+
+  const laid = await page.evaluate(() => {
+    const at = (sel: string) => {
+      const el = document.querySelector(sel) as HTMLElement;
+      const style = getComputedStyle(el);
+      return { align: style.textAlign, figures: style.fontVariantNumeric, width: Math.round(el.getBoundingClientRect().width) };
+    };
+    return {
+      whenHead: at('#log thead th:nth-child(3)'),
+      whenCell: at('#log tbody td:nth-child(3)'),
+      hash: at('#log tbody td:nth-child(1)'),
+      subject: at('#log tbody td:nth-child(2)'),
+    };
+  });
+
+  /* The head goes with the cells, or it names the column beside it. */
+  expect(laid.whenCell.align).toBe('end');
+  expect(laid.whenHead.align, 'a head over a column it does not stand at').toBe('end');
+  expect(laid.whenCell.figures, 'the right edge is only worth having when the digits line up').toContain('tabular-nums');
+
+  /* Held to what they hold, and the reading takes the slack. */
+  expect(laid.subject.width).toBeGreaterThan(laid.hash.width + laid.whenCell.width);
+});
+
 test('the row still lights up under the pointer, and a selected row still fills', async ({ page }) => {
   const lit = await page.evaluate(() => {
     const row = document.querySelector('#checkouts tbody tr') as HTMLElement;

@@ -128,6 +128,7 @@ export {
   type Column,
   type Row,
   type Density,
+  type Align,
 } from './components/table.ts';
 export {
   SdsCode,
