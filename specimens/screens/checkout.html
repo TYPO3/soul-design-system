@@ -187,6 +187,21 @@
           <button class="sds-btn sds-btn--danger" type="button"><span class="sds-btn__label">Remove this checkout</span></button>
         </span>
       </div>
+
+      <!-- A state that asks for something carries the press that answers it. A
+           mark beside the name says only that something is true, and leaves the
+           reader to work out which of the four presses above answers it. -->
+      <div class="sds-note sds-note--warn">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Warning" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">Two commits behind the branch</div>
+    <div class="sds-note__body"><span class="sds-mono">9f21c04</span> and
+          <span class="sds-mono">c77a13e</span> have landed on
+          <span class="sds-mono">feature/soul</span> since this was built. Until it
+          is built again the addresses below serve the older code.</div>
+  </div>
+  <div class="sds-note__action"><button class="sds-btn sds-btn--secondary sds-btn--sm" type="button"><span class="sds-btn__label">Bring it up to date</span></button></div>
+</div>
     </section>
 
     <section class="sds-band sds-band--quiet">
@@ -198,7 +213,9 @@
         <div class="sds-facts-group">
           <p class="sds-label">Repository</p>
           <dl class="sds-facts">
-            <dt>Branch</dt><dd><span class="sds-mono">feature/soul</span></dd><dt>Remote</dt><dd>In step. The branch moved last on Tuesday and this was on it.</dd><dt>Built</dt><dd>Two days ago, from <span class="sds-mono">48723bc</span></dd>
+            <dt>Branch</dt><dd><span class="sds-mono">feature/soul</span></dd><dt>Remote</dt><dd>In step with <span class="sds-mono">origin</span>, fetched an hour ago</dd><dt>Built</dt><dd>Two days ago, from <span class="sds-mono">48723bc</span>
+      <span class="sds-facts__note">Two commits have landed on the branch since.
+        Bringing it up to date builds them in.</span></dd>
           </dl>
         </div>
         <div class="sds-facts-group">
@@ -234,7 +251,7 @@
         <div class="sds-facts-group">
           <p class="sds-label">Runtime</p>
           <dl class="sds-facts">
-            <dt>PHP</dt><dd><span class="sds-mono">8.2</span> — the lowest the branch declares</dd><dt>Project type</dt><dd><span class="sds-mono">typo3-app</span></dd><dt>Served from</dt><dd><span class="sds-mono">.build/public</span></dd>
+            <dt>Disk</dt><dd>1.4 GB — the worktree, its vendor tree and the database</dd><dt>PHP</dt><dd><span class="sds-mono">8.2</span> — the lowest the branch declares</dd><dt>Project type</dt><dd><span class="sds-mono">typo3-app</span></dd><dt>Served from</dt><dd><span class="sds-mono">.build/public</span></dd>
           </dl>
         </div>
         <div class="sds-facts-group">
@@ -295,7 +312,20 @@
       <td class="sds-td-name sds-td-fit">—</td>
     </tr>
     <tr>
-      <td>Remove falsely committed files</td>
+      <td>Add the campaign site configuration</td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">2 hours ago</td>
+      <td class="sds-td-fit">R. Bhatt</td>
+      <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/9f21c04" target="_blank" rel="noreferrer">9f21c04 <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
+    </tr>
+    <tr>
+      <td>Fix the reCAPTCHA validation on the contact form</td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">yesterday</td>
+      <td class="sds-td-fit">M. Okafor</td>
+      <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/c77a13e" target="_blank" rel="noreferrer">c77a13e <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
+    </tr>
+    <tr>
+      <td>Remove falsely committed files
+        <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>serving</span></td>
       <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
       <td class="sds-td-fit">A. Lindqvist</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/48723bc" target="_blank" rel="noreferrer">48723bc <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
@@ -327,20 +357,8 @@
     <tr>
       <td>Use associative keys in FlexForm items</td>
       <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
-      <td class="sds-td-fit">R. Bhatt</td>
-      <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/39e8ef3" target="_blank" rel="noreferrer">39e8ef3 <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
-    </tr>
-    <tr>
-      <td>Update TypoScript conditions for v14</td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">12 days ago</td>
       <td class="sds-td-fit">A. Lindqvist</td>
-      <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/66243fc" target="_blank" rel="noreferrer">66243fc <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
-    </tr>
-    <tr>
-      <td>Update the frontend build to current dependencies</td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">12 days ago</td>
-      <td class="sds-td-fit">M. Okafor</td>
-      <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/909b288" target="_blank" rel="noreferrer">909b288 <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
+      <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/39e8ef3" target="_blank" rel="noreferrer">39e8ef3 <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
   </tbody>
 </table></div>
@@ -348,6 +366,27 @@
 
     <section class="sds-band sds-band--quiet">
       <h2 class="sds-h3">History</h2>
+      <details class="sds-run">
+  <summary class="sds-run__head"><span
+    class="sds-run__verdict sds-run__verdict--failed"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Failed" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg></span><span class="sds-run__headline"><span
+    class="sds-run__heading">Provisioning stopped</span><span class="sds-run__note">Failed at step 2 of 4 · 50s · an hour ago</span></span><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+  <div class="sds-run__body"><ol class="sds-run__list"><li class="sds-run__step sds-run__step--done">
+      <div class="sds-run__row" aria-label="Create the worktree — Done"><span
+      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Create the worktree</span><span class="sds-run__meta">2s</span></div>
+    </li><li class="sds-run__step sds-run__step--failed">
+      <details class="sds-run__fold" open>
+        <summary class="sds-run__row" aria-label="Install dependencies — Failed"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg><span
+      class="sds-run__mark sds-run__mark--failed"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg></span><span class="sds-run__label">Install dependencies</span><span class="sds-run__meta">48s</span></summary>
+        <pre class="sds-run__output"><span class="sds-run__line sds-run__line--note">→ composer install --no-dev</span><span class="sds-run__line sds-run__line--error">✗ typo3/cms-core 14.3.0 requires php ^8.3, this checkout runs 8.2</span><span class="sds-run__line sds-run__line--error">✗ nothing was installed</span></pre>
+      </details>
+    </li><li class="sds-run__step sds-run__step--ahead">
+      <div class="sds-run__row" aria-label="Build the frontend — Not started"><span
+      class="sds-run__mark sds-run__mark--ahead"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Build the frontend</span><span class="sds-run__meta"></span></div>
+    </li><li class="sds-run__step sds-run__step--ahead">
+      <div class="sds-run__row" aria-label="Provision the database — Not started"><span
+      class="sds-run__mark sds-run__mark--ahead"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Provision the database</span><span class="sds-run__meta"></span></div>
+    </li></ol></div>
+</details>
       <details class="sds-run">
   <summary class="sds-run__head"><span
     class="sds-run__verdict sds-run__verdict--done"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Done" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__headline"><span

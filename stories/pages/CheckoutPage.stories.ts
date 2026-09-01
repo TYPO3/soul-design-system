@@ -18,7 +18,9 @@ import { html, nothing, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/copy.ts';
 import '../../packages/frontend/src/components/dialog.ts';
+import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/icon.ts';
+import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/run.ts';
@@ -42,16 +44,22 @@ const TRAIL: readonly Crumb[] = [
   { label: NAME },
 ];
 
-/** What the checkout is, in the groups a reader asks after. Four of them in one
-    grid rather than four lists: every value on a side comes to rest at one
-    edge, and the rule over a group stands level with the one beside it. */
+/** What the checkout is, in the groups a reader asks after. Two on each side of
+    the split, so neither half ends halfway up the other and the labels mark a
+    boundary rather than sitting alone at the top of one column. */
 const REPOSITORY: readonly (readonly [string, TemplateResult])[] = [
   ['Branch', html`<span class="sds-mono">feature/soul</span>`],
-  ['Remote', html`In step. The branch moved last on Tuesday and this was on it.`],
-  ['Built', html`Two days ago, from <span class="sds-mono">48723bc</span>`],
+  ['Remote', html`In step with <span class="sds-mono">origin</span>, fetched an hour ago`],
+  [
+    'Built',
+    html`Two days ago, from <span class="sds-mono">48723bc</span>
+      <span class="sds-facts__note">Two commits have landed on the branch since.
+        Bringing it up to date builds them in.</span>`,
+  ],
 ];
 
 const RUNTIME: readonly (readonly [string, TemplateResult])[] = [
+  ['Disk', html`1.4${NNBSP}GB — the worktree, its vendor tree and the database`],
   ['PHP', html`<span class="sds-mono">8.2</span> — the lowest the branch declares`],
   ['Project type', html`<span class="sds-mono">typo3-app</span>`],
   ['Served from', html`<span class="sds-mono">.build/public</span>`],
@@ -116,14 +124,43 @@ const LOG: readonly Row[] = [
       '—',
     ],
   },
-  { cells: ['Remove falsely committed files', `11${NNBSP}days ago`, 'A. Lindqvist', at('48723bc')] },
+  { cells: ['Add the campaign site configuration', `2${NNBSP}hours ago`, 'R. Bhatt', at('9f21c04')] },
+  { cells: ['Fix the reCAPTCHA validation on the contact form', `yesterday`, 'M. Okafor', at('c77a13e')] },
+  {
+    cells: [
+      /* The one marker the log carries: what is being served. Everything above
+         it is in the branch and not in the instance, which is the comparison a
+         reader came to make and had to make in their head. */
+      html`Remove falsely committed files
+        <sds-badge label="serving" tone="ok"></sds-badge>`,
+      `11${NNBSP}days ago`,
+      'A. Lindqvist',
+      at('48723bc'),
+    ],
+  },
   { cells: ['Release 14.0.1', `11${NNBSP}days ago`, 'M. Okafor', at('f088fab')] },
   { cells: ['Check for the correct settings uid', `11${NNBSP}days ago`, 'A. Lindqvist', at('1a8ebfc')] },
   { cells: ['Comment form and reCAPTCHA validation', `11${NNBSP}days ago`, 'R. Bhatt', at('348084e')] },
   { cells: ['Escape markup in the JSON-LD output', `11${NNBSP}days ago`, 'M. Okafor', at('25f996d')] },
-  { cells: ['Use associative keys in FlexForm items', `11${NNBSP}days ago`, 'R. Bhatt', at('39e8ef3')] },
-  { cells: ['Update TypoScript conditions for v14', `12${NNBSP}days ago`, 'A. Lindqvist', at('66243fc')] },
-  { cells: ['Update the frontend build to current dependencies', `12${NNBSP}days ago`, 'M. Okafor', at('909b288')] },
+  { cells: ['Use associative keys in FlexForm items', `11${NNBSP}days ago`, 'A. Lindqvist', at('39e8ef3')] },
+];
+
+/** The provision that stopped. A page for managing an instance is opened when
+    something did not work, and a history of nothing but successes is a history
+    nobody comes for — so the shape of a failure is on the page: where it got
+    to, and what the step that failed wrote. */
+const REFUSED: readonly RunStep[] = [
+  { label: 'Create the worktree', state: 'done', meta: '2s' },
+  {
+    label: 'Install dependencies',
+    state: 'failed',
+    meta: '48s',
+    output: `→ composer install --no-dev
+✗ typo3/cms-core 14.3.0 requires php ^8.3, this checkout runs 8.2
+✗ nothing was installed`,
+  },
+  { label: 'Build the frontend', state: 'ahead' },
+  { label: 'Provision the database', state: 'ahead' },
 ];
 
 /** What a fetch goes through. Two of them have happened, so they are written
@@ -209,6 +246,19 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
           ${press(flat, { variant: 'danger' }, 'Remove this checkout', 'remove-checkout')}
         </span>
       </div>
+
+      <!-- A state that asks for something carries the press that answers it. A
+           mark beside the name says only that something is true, and leaves the
+           reader to work out which of the four presses above answers it. -->
+      <sds-note
+        tone="warn"
+        heading="Two commits behind the branch"
+        action="Bring it up to date"
+        .body="${html`<span class="sds-mono">9f21c04</span> and
+          <span class="sds-mono">c77a13e</span> have landed on
+          <span class="sds-mono">feature/soul</span> since this was built. Until it
+          is built again the addresses below serve the older code.`}"
+      ></sds-note>
     </section>
 
     <section class="sds-band sds-band--quiet">
@@ -251,6 +301,12 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet">
       <h2 class="sds-h3">History</h2>
+      ${sdsRun({
+        heading: 'Provisioning stopped',
+        verdict: 'failed',
+        note: 'Failed at step 2 of 4 · 50s · an hour ago',
+        steps: REFUSED,
+      })}
       ${sdsRun({
         heading: 'Fetched the data',
         verdict: 'done',
