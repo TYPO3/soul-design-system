@@ -15,7 +15,6 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
-import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/copy.ts';
 import '../../packages/frontend/src/components/dialog.ts';
@@ -24,18 +23,15 @@ import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/run.ts';
-import '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { buttonLabel, buttonMarkup, type ButtonProps } from '../../packages/frontend/src/components/button.ts';
 import { type Crumb } from '../../packages/frontend/src/components/nav-breadcrumb.ts';
 import { type RunStep } from '../../packages/frontend/src/components/run.ts';
-import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
-import { sdsStat } from '../components/Stat.stories.ts';
 import { sdsRun } from '../components/Run.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
-import { grid, type PageMode, skipLink } from '../lib/page.ts';
+import { type PageMode, skipLink } from '../lib/page.ts';
 
 /** The checkout this page is about. One constant: the heading, the trail, the
     addresses and the question before it is dropped all name the same thing. */
@@ -47,46 +43,25 @@ const TRAIL: readonly Crumb[] = [
   { label: NAME },
 ];
 
-/** What it stands at. Three figures and not a paragraph of them: the number is
-    what a reader came for and the line under it says what the number is of.
-    The one that is not clean carries its own note, because a fact somebody has
-    to act on is a fact somebody has to be told the shape of. */
-const STANDING: readonly StatProps[] = [
-  {
-    value: 'in step',
-    label: 'with the branch',
-    icon: 'actions-refresh',
-    note: 'Nothing to bring down. The branch moved last on Tuesday, and this checkout was on it.',
-  },
-  {
-    value: '1',
-    label: 'uncommitted change',
-    icon: 'actions-file-edit',
-    note: html`In <span class="sds-mono">config/sites/main/config.yaml</span>. It
-      survives everything on this page except removing the checkout.`,
-  },
-  {
-    value: '2',
-    unit: 'days',
-    label: 'since it was built',
-    icon: 'actions-clock',
-    note: 'Dependencies and the frontend build. Bringing it up to date builds it again.',
-  },
-];
-
-/** What it runs. A definition list, because each of these is a term and what it
-    is — the shape anything falls into when it names things. */
-const SERVING: readonly (readonly [string, TemplateResult])[] = [
+/** What the checkout is, as an overview is scanned: a name and what it is,
+    down one column. The three that change on their own stand first — a reader
+    opening this page is asking after those. */
+const ABOUT: readonly (readonly [string, TemplateResult])[] = [
+  ['Branch', html`<span class="sds-mono">feature/soul</span>`],
+  ['Remote', html`In step. The branch moved last on Tuesday and this was on it.`],
+  [
+    'Working copy',
+    html`One uncommitted change, in
+      <span class="sds-mono">config/sites/main/config.yaml</span>`,
+  ],
+  ['Built', html`Two days ago, from <span class="sds-mono">48723bc</span>`],
   ['PHP', html`<span class="sds-mono">8.2</span> — the lowest the branch declares`],
   ['Project type', html`<span class="sds-mono">typo3-app</span>`],
   ['Served from', html`<span class="sds-mono">.build/public</span>`],
-  ['Built', html`Two days ago, from <span class="sds-mono">48723bc</span>`],
 ];
 
-/** What a reader copies out of this page. Four values that are pasted into a
-    terminal, a client or a login — so each is `sds-copy`: the value in the
-    machine's own font with the button that takes it, on one line. A block
-    around a single word is a frame around a frame. */
+/** What a reader copies out of this page: four values pasted into a terminal,
+    a client or a login, each with the button that takes it. */
 const ACCESS: readonly (readonly [string, string])[] = [
   ['Directory', '~/projects/blog/.worktrees/14-3-dev'],
   ['Database', 'companion_14_3_dev'],
@@ -180,27 +155,20 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="checkout">
       <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
 
-      <!-- The name, and at the far end of its line the running site: what it is
-           doing and the two doors into it, which are one subject and not three
-           things hung off the name. A row inside the row, so the group keeps one
-           gap and the page writes no layout of its own. -->
+      <!-- The name, and at the far end of its line the two doors into the
+           running site: a reader who came to look at the thing itself came for
+           those and not for the presses that change it. A row inside the row,
+           so the pair keeps one gap and the page writes no layout. -->
       <div class="sds-row">
         <h1 class="sds-h2"><span class="sds-mono">${NAME}</span></h1>
         <span class="sds-row sds-row__end">
-          <sds-badge label="serving" tone="ok"></sds-badge>
           ${wayIn(flat, 'Open the site', 'https://14-3-dev.companion.test')}
           ${wayIn(flat, 'Backend', 'https://14-3-dev.companion.test/typo3')}
         </span>
       </div>
 
-      <p class="sds-lead">
-        <span class="sds-mono">feature/soul</span>, checked out two days ago
-        and served at an address of its own. It is in step with the branch and
-        carries one change nobody has committed.
-      </p>
-
-      <!-- What can be done to it, and the two ways in. What cannot be taken
-           back stands at the far end, away from the press a reader came for. -->
+      <!-- What can be done to it. What cannot be taken back stands at the far
+           end of the row, away from the press a reader came for. -->
       <div class="sds-actions">
         ${update}
         ${press(flat, { variant: 'secondary' }, 'Change what it runs')}
@@ -210,22 +178,17 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
           ${press(flat, { variant: 'danger' }, 'Remove this checkout', 'remove-checkout')}
         </span>
       </div>
-
-      ${grid(STANDING.map(sdsStat), { flat, variant: 'dense' })}
     </section>
 
     <section class="sds-band sds-band--quiet">
-      <h2 class="sds-h3">What it runs, and how to reach it</h2>
-      <p>
-        The left half is settled by the branch and changes when the branch
-        does. The right half is this checkout's own, and every line of it is a
-        value somebody pastes into a terminal or a login — so each carries the
-        button that takes it, rather than asking to be read off the screen.
-      </p>
+      <h2 class="sds-h3">Overview</h2>
+      <!-- Two lists and no paragraph between them: what each column holds is
+           what its terms say, and a screen is entered at the block a reader
+           came for rather than read from the top. -->
       <div class="sds-split">
         <div class="sds-column">
           <dl class="sds-facts">
-            ${SERVING.map(([term, said]) => html`<dt>${term}</dt><dd>${said}</dd>`)}
+            ${ABOUT.map(([term, said]) => html`<dt>${term}</dt><dd>${said}</dd>`)}
           </dl>
         </div>
         <div class="sds-column">
@@ -245,22 +208,12 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band">
-      <h2 class="sds-h3">The commits it stands on</h2>
-      <p>
-        What the branch has that the last build knows about. A commit is a row
-        of facts and not a paragraph, so it is a table — and it has no page
-        behind it, so the rows carry no way in.
-      </p>
+      <h2 class="sds-h3">Commits</h2>
       <sds-table scrollable .columns="${COMMITS}" .rows="${LOG}"></sds-table>
     </section>
 
     <section class="sds-band sds-band--quiet">
-      <h2 class="sds-h3">What has been done to it</h2>
-      <p>
-        Folded to the one line that says what became of each: what it was, how
-        long it took and when. The stops are there for whoever asks, and what
-        a stop wrote opens with it.
-      </p>
+      <h2 class="sds-h3">History</h2>
       ${sdsRun({
         heading: 'Fetched the data',
         verdict: 'done',

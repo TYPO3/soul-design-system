@@ -52,6 +52,50 @@ with a row of short slogans.
      - "Run the usual checks."
      - names the action a reader can reproduce
 
+A heading over data is a label
+=============================
+
+A heading that stands over a table, a list of facts, a set of figures or a log
+names what is under it in as few words as it takes: **Overview**, **Commits**,
+**History**, **Access**. It is scanned rather than read. A reader arrives at
+whichever block they came for and has to recognise it, not be told about it —
+and they arrive at it again tomorrow.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Write
+     - Avoid
+     - Why
+   * - "Overview"
+     - "What it runs, and how to reach it"
+     - a clause has to be parsed before the block can be recognised
+   * - "Commits"
+     - "The commits it stands on"
+     - the extra words say nothing the reader did not know on arrival
+   * - "History"
+     - "What has been done to it"
+     - a label is read once; a sentence is read every visit
+   * - "Overview"
+     - "What is settled about it"
+     - "settled" is a distinction the reader has to work out
+
+A heading over **prose** may be a sentence, because prose is read from the top
+and its heading is the first line of the argument. "What a degraded source
+costs you" is a good heading over three paragraphs and a bad one over a table.
+The test is what stands under the heading, not what kind of page it is on.
+
+**A block of data usually needs no description at all.** A paragraph saying why
+a table is arranged the way it is belongs in this documentation, where it is
+read once on purpose — above the table it is passed over on every visit, and it
+pushes the data it explains below the fold.
+
+The same goes for a mark nobody asked for. A badge over a detail page saying
+``serving`` on a page that only ever shows things that are serving is a word a
+reader stops on once, works out, and never needs again. A state worth showing
+is a state that varies, and it gets a name over it in the overview like every
+other fact.
+
 Names stay as written
 =====================
 

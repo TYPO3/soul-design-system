@@ -2,25 +2,32 @@
    are not sentences. */
 
 @layer components {
-  /* A block of facts, rather than a passage that names things. A prose
-     definition list is read, so it indents its values and leaves a step under
-     each pair; this is scanned down its terms, and the distance from a name to
-     what it is has to be shorter than the one to the next name — or the eye
-     pairs a value with the term below it. */
+  /* A block of facts, not a passage that names things. Two columns — the terms
+     down one edge and their values down the other — because this is scanned: a
+     reader runs down the names to the one they came for, and stacked they
+     would have to read every pair. No width is named, so the same list works
+     in half a split and across a page alike. */
   .sds-facts {
-    --sds-facts-step: var(--space-0-5);
-    --sds-facts-gap: var(--space-3);
+    --sds-facts-step: var(--space-2);
+    --sds-facts-gap: var(--space-6);
+    --sds-facts-term-ink: var(--text-muted);
+    --sds-facts-term-weight: var(--weight-regular);
 
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+    gap: var(--sds-facts-step) var(--sds-facts-gap);
     margin-block: 0;
 
+    /* Quiet, and not the semibold a passage gives a term: the value is what a
+       reader came for, and a column of bold names beside it reads as the
+       louder half of every pair. */
     > dt {
-      margin-block-start: var(--sds-facts-gap);
-    }
-    > dt:first-child {
-      margin-block-start: 0;
+      color: var(--sds-facts-term-ink);
+      font-weight: var(--sds-facts-term-weight);
     }
     > dd {
-      margin: var(--sds-facts-step) 0 0;
+      margin: 0;
+      min-width: 0;
     }
   }
 

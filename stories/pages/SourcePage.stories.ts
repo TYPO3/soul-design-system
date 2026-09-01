@@ -172,30 +172,19 @@ export function sourcePage({ flat = false }: PageMode = {}): TemplateResult {
       </section>
 
       <section>
-        <h2 class="sds-h3">The read going on now</h2>
-        <p>
-          The bar says how far; the stops say what it is going through. A step
-          that wrote something opens while it is in hand and closes once it is
-          behind — and the one that is still ahead offers nothing to open,
-          because there is nothing there yet.
-        </p>
+        <h2 class="sds-h3">Reading now</h2>
         ${inFlight()}
       </section>
 
       <section>
-        <h2 class="sds-h3">What is settled about it</h2>
-        <dl>
+        <h2 class="sds-h3">Overview</h2>
+        <dl class="sds-facts">
           ${FACTS.map(([term, value]) => html`<dt>${term}</dt><dd>${value}</dd>`)}
         </dl>
       </section>
 
       <section>
         <h2 class="sds-h3">Earlier reads</h2>
-        <p>
-          Folded to the one line that says what became of each. The one that
-          stopped says where it got to rather than what it meant to do, and the
-          index it did not swap in is the one still being answered from.
-        </p>
         ${earlier()}
 
         <sds-note
