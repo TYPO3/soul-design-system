@@ -120,7 +120,7 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="facts">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>Whether this is you</h2>
+          <h2>The starting point</h2>
           <p>
             The shape of the deployment before any of the story, so a reader
             can stop here if it is nothing like theirs. Everything in the table
@@ -136,7 +136,7 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="before">
       <div class="sds-split sds-split--center">
         <div class="sds-column">
-          <h2>What it was like before</h2>
+          <h2>Before</h2>
           <p>
             Twenty-two departments had each grown their own names for the same
             things. A page-tree icon meant “unpublished” in one and “scheduled”
@@ -176,7 +176,7 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="results">
-      <h2>What changed, and how it was measured</h2>
+      <h2>The change, and how it was measured</h2>
       <p>
         Four figures, each with what it was measured against and over how
         long. The fourth is the one that did not go our way, and it is here
@@ -188,7 +188,7 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="cost">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>What it took</h2>
+          <h2>The effort</h2>
           <p>
             Seven months, of which the first three were spent not on the tool
             at all but on agreeing which department’s names were going to win.

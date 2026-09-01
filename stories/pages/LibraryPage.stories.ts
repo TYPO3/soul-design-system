@@ -173,7 +173,7 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="facts">
-      <h2>What the set is</h2>
+      <h2>The set</h2>
       <p>
         Four figures rather than four adjectives. Every one of them is a
         count somebody can arrive at from the catalogue, which is the

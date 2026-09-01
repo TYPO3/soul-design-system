@@ -110,7 +110,7 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="report">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>Found something? Here is where it goes</h2>
+          <h2>Reporting something you found</h2>
           <p>
             A named team reads this address, acknowledges inside one working
             day and agrees a disclosure date with you. We do not ask for
@@ -138,7 +138,7 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="boundary">
-      <h2>What it touches</h2>
+      <h2>Its reach</h2>
       <p>
         Three things, and one of them leaves the machine. Stated as a table
         rather than as prose, because this is the section somebody copies

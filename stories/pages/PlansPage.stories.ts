@@ -190,7 +190,7 @@ export function plansPage({ flat = false }: PageMode = {}): TemplateResult {
            policy: a reader deciding needs the boundary at the moment they
            are deciding, and a tier list nobody can price out is a tier list
            that gets read as the whole cost. -->
-      <h2 class="sds-h3">What none of them include</h2>
+      <h2 class="sds-h3">Not included, in any of them</h2>
       <ul class="sds-list">
         <li>Hosting. It runs on your machine or in your pipeline, and that is where it stays.</li>
         <li>The work of a migration. Whoever does that is a person, not a subscription.</li>
@@ -200,7 +200,7 @@ export function plansPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="compare">
-      <h2>What actually differs</h2>
+      <h2>The differences</h2>
       <p>
         Seven questions, answered in words. A column of ticks says “yes” and
         leaves the reader to work out what to — which is how a comparison

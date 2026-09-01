@@ -169,7 +169,7 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
     <section class="sds-band" id="pipeline">
       <div class="sds-split sds-split--center">
         <div class="sds-column">
-          <h2>It runs where you already check things</h2>
+          <h2>In the tools you already use</h2>
           <p>
             One command against a checkout, in the pipeline that builds it. It
             reads and reports; it changes nothing, so a failing run is a
@@ -188,7 +188,7 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
     </section>
 
     <section class="sds-band sds-band--quiet" id="figures">
-      <h2>What it is worth, as far as anyone can say</h2>
+      <h2>The value, as far as anyone can say</h2>
       <p>
         Three figures with what they were measured against. The first is
         self-reported by four agencies, which is worth exactly what

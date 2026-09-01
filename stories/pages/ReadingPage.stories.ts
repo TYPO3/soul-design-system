@@ -48,9 +48,9 @@ const TRAIL: readonly Crumb[] = [
 
 const CONTENTS: readonly MenuEntry[] = [
   { label: 'The two registers', href: '#registers', current: true },
-  { label: 'What a block carries', href: '#blocks' },
+  { label: 'Inside a block', href: '#blocks' },
   { label: 'The vertical step', href: '#step' },
-  { label: 'Where a value comes from', href: '#values' },
+  { label: 'Behind a value', href: '#values' },
   { label: 'Questions', href: '#questions' },
 ];
 
@@ -134,7 +134,7 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
         rows: REGISTERS.map(([name, sizes, use]) => ({ cells: [name, sizes, use] })),
       })}
 
-      <h2 class="sds-h3" id="blocks">What a block carries</h2>
+      <h2 class="sds-h3" id="blocks">Inside a block</h2>
       <p>
         Anything with a heading over its own text is read, so its body is the
         page's own size. Only the title tells two kinds apart: a card and a
@@ -193,7 +193,7 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
         as: 'the rule the flow contract is built on',
       })}
 
-      <h2 class="sds-h3" id="values">Where a value comes from</h2>
+      <h2 class="sds-h3" id="values">Behind a value</h2>
       <p>
         A token, or it is a defect. The scale holds the sizes and the grid holds
         the gaps, and a component that needs something between two steps has

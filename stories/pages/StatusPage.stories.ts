@@ -132,7 +132,7 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="what-it-means">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>What a degraded source costs you</h2>
+          <h2>The cost of a degraded source</h2>
           <p>
             A tool that declared it falls back to the next source it declared and
             says so in the result. Nothing waits, nothing retries silently, and
@@ -162,7 +162,7 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="history">
-      <h2>What this page is not</h2>
+      <h2>The limits of this page</h2>
       <sds-note
         heading="It is one location asking, every five minutes"
         .body="${html`A source that answers here may be unreachable from your network, and

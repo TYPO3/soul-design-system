@@ -90,6 +90,27 @@ Empty and not found
    :viewport: 700x449
    :title: Empty & not found
 
+A status on a word
+==================
+
+``.sds-ok``, ``.sds-warn`` and ``.sds-error`` put a status colour on a word:
+a count in a table cell, a state in a line of prose. They set the colour and
+nothing else.
+
+Reach for one where a badge would be a pill around a single word. ``sds-badge``
+is the mark on a *thing* — a row, a card, a heading — and it draws a box,
+which in the middle of a sentence or a cell is furniture. The classes are the
+same three colours the badge uses, without the box.
+
+They are the only way a page may colour a word. A page that writes
+``color: var(--status-warn)`` into a stylesheet of its own has taken a copy of
+something only this layer may change, and the two drift the first time the
+palette moves.
+
+.. specimen:: guidelines/states-tone.card.html
+   :viewport: 700x345
+   :title: Status on a word
+
 Errors and degraded answers
 ===========================
 

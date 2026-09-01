@@ -243,7 +243,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="foundations">
-      <h2>What it is made of</h2>
+      <h2>Its parts</h2>
       <p>
         Four layers, and each of them is worth having on its own. A surface
         that takes only the tokens still cannot invent a colour; one that
@@ -275,7 +275,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="sources">
-      <h2>Where a rule comes from</h2>
+      <h2>Behind a rule</h2>
       <p>
         Four places, and every one of them is a file rather than a habit.
       </p>
@@ -288,7 +288,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="pipeline">
-      <h2>How a specimen gets made</h2>
+      <h2>Making a specimen</h2>
       <p>
         The documentation is generated from the components, in four steps
         that run on every change.
@@ -302,7 +302,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="questions">
-      <h2>What is asked before it is adopted</h2>
+      <h2>Before it is adopted</h2>
       <p>
         Three of them, folded: a page that argues has to answer these, and a
         reader who has none of them is already at the install step.

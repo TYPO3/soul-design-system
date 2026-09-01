@@ -76,7 +76,7 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="machine">
-      <h2>What it does to your machine</h2>
+      <h2>On your machine</h2>
       <p>
         The five that decide whether this can be installed at all. Opening one
         closes the last, so the list stays a list.
@@ -85,7 +85,7 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="running">
-      <h2>What running it costs</h2>
+      <h2>Running costs</h2>
       <sds-accordion name="running" .entries="${RUNNING}"></sds-accordion>
     </section>
 

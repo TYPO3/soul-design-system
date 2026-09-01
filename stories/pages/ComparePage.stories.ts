@@ -111,7 +111,7 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="matrix">
-      <h2>What each one can reach</h2>
+      <h2>The reach of each</h2>
       <p>
         Six sources, and the gaps are the reason this table exists. A
         comparison in which everything is present somewhere tells the reader

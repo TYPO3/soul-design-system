@@ -21,6 +21,20 @@
      of weight puts back the colour the smaller size took out: the face on its
      own reads as a lighter grey and the run goes under. It breaks where it has
      to — a path is one word, and one word wider than a phone scrolls the page. */
+  /* A word carrying a status, where a pill would be too loud for it.
+     `sds-badge` is the mark on a thing; this is the colour on a word — a count
+     in a table cell, a state in a line of prose. The three the palette means
+     something with, and a page may write no other colour on a word. */
+  .sds-ok {
+    color: var(--status-ok);
+  }
+  .sds-warn {
+    color: var(--status-warn);
+  }
+  .sds-error {
+    color: var(--status-error);
+  }
+
   .sds-mono,
   code,
   kbd,

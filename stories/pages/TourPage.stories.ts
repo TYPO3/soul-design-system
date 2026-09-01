@@ -161,7 +161,7 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="not">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>What the tour left out</h2>
+          <h2>Left out of the tour</h2>
           <p>
             Two things this does not do, said here rather than discovered
             later. A tour that only shows what works is a tour that gets
@@ -187,7 +187,7 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="next">
-      <h2>Where to go from here</h2>
+      <h2>Next</h2>
       <p>
         The tour ends where the reference begins. Everything above is one
         path through a surface that has several.

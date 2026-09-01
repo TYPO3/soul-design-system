@@ -113,7 +113,7 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="why">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>Why it exists</h2>
+          <h2>The problem it was built for</h2>
           <p>
             A coding agent asked about TYPO3 answers from whatever it read
             during training, which is a mixture of releases nobody can name.
@@ -137,7 +137,7 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="funding">
-      <h2>How it is paid for, and what happens if it stops</h2>
+      <h2>Funding, and the plan if it ends</h2>
       <p>
         Unpaid work, done in the open, under MIT. Nothing about
         it is sold and nothing about it is sponsored, which is worth stating

@@ -52,49 +52,59 @@ with a row of short slogans.
      - "Run the usual checks."
      - names the action a reader can reproduce
 
-A heading over data is a label
-=============================
+A heading names a subject, it does not ask
+=========================================
 
-A heading that stands over a table, a list of facts, a set of figures or a log
-names what is under it in as few words as it takes: **Overview**, **Commits**,
-**History**, **Access**. It is scanned rather than read. A reader arrives at
-whichever block they came for and has to recognise it, not be told about it —
-and they arrive at it again tomorrow.
+Written as a question, every heading turns its page into a list of FAQ entries.
+A reader scanning down a column of "What it returns", "What it leaves out",
+"What a result carries" can tell them apart only by reading each to the end —
+and the words doing the telling are the last two, which is where a scan does
+not reach.
+
+So a heading is a **noun phrase naming what is under it**, or an instruction
+where the section is one: "Install it", "Check what you got". What it is not is
+an interrogative — ``What``, ``Why``, ``How``, ``Whether``, ``Where``, ``When``
+— or a clause about ``it``.
 
 .. list-table::
    :header-rows: 1
 
    * - Write
      - Avoid
-     - Why
-   * - "Overview"
-     - "What it runs, and how to reach it"
-     - a clause has to be parsed before the block can be recognised
-   * - "Commits"
-     - "The commits it stands on"
-     - the extra words say nothing the reader did not know on arrival
-   * - "History"
-     - "What has been done to it"
-     - a label is read once; a sentence is read every visit
-   * - "Overview"
-     - "What is settled about it"
-     - "settled" is a distinction the reader has to work out
+   * - "The fallback"
+     - "What the fallback is"
+   * - "Its limits"
+     - "What it does not do"
+   * - "Inside a result"
+     - "What a result carries"
+   * - "Behind a rule"
+     - "Where a rule comes from"
+   * - "Making a specimen"
+     - "How a specimen gets made"
+   * - "The starting point"
+     - "Whether this is you"
 
-A heading over **prose** may be a sentence, because prose is read from the top
-and its heading is the first line of the argument. "What a degraded source
-costs you" is a good heading over three paragraphs and a bad one over a table.
-The test is what stands under the heading, not what kind of page it is on.
+The question a heading was hiding usually belongs in the first sentence under
+it, where it can be answered instead of posed. A page whose headings really are
+questions is a list of questions — and it says so, like the FAQ page does.
+
+Over data, shorter still
+------------------------
+
+A heading standing over a table, a list of facts, a set of figures or a log is
+scanned rather than read: **Overview**, **Commits**, **History**, **Access**. A
+reader arrives at whichever block they came for, has to recognise it, and
+arrives at it again tomorrow.
 
 **A block of data usually needs no description at all.** A paragraph saying why
 a table is arranged the way it is belongs in this documentation, where it is
 read once on purpose — above the table it is passed over on every visit, and it
 pushes the data it explains below the fold.
 
-The same goes for a mark nobody asked for. A badge over a detail page saying
-``serving`` on a page that only ever shows things that are serving is a word a
-reader stops on once, works out, and never needs again. A state worth showing
-is a state that varies, and it gets a name over it in the overview like every
-other fact.
+The same goes for a mark nobody asked for. A badge on a detail page saying
+``serving`` where nothing but serving things are shown is a word a reader stops
+on once, works out, and never needs again. A state worth drawing is one that
+varies, and it gets a name over it in the overview like every other fact.
 
 Names stay as written
 =====================

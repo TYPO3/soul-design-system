@@ -200,7 +200,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
             { label: 'Install', href: '#install' },
             { label: 'Settings', href: '#settings' },
             { label: 'Before you file an issue', href: '#trouble' },
-            { label: 'Where to go next', href: '#next' },
+            { label: 'Next', href: '#next' },
           ]}"
         ></sds-nav-toc>
       </div>
@@ -234,7 +234,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 
       <sds-accordion name="install-questions" .entries="${TROUBLE}"></sds-accordion>
 
-      <h2 class="sds-h3" id="next">Where to go next</h2>
+      <h2 class="sds-h3" id="next">Next</h2>
       <p>
         The signpost at the end of an overview, and the one place a card wall
         belongs: four ways on, read down as one block rather than compared as

@@ -155,7 +155,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="files">
-      <h2>What is published</h2>
+      <h2>The published files</h2>
       <p>
         Three files, and two of them are only there so the first can be
         checked. The hashes are shortened here and in full in
@@ -182,7 +182,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="after">
-      <h2>When it does not answer</h2>
+      <h2>No answer</h2>
       <sds-note
         tone="warn"
         heading="The client starts it and nothing appears"

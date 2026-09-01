@@ -37,9 +37,9 @@ const TRAIL: readonly Crumb[] = [
 /* The article's own sections. Flat, because a text that needs groups in its
    contents is two texts. */
 const CONTENTS: readonly MenuEntry[] = [
-  { label: 'What the fallback is', href: '#fallback', current: true },
-  { label: 'What it returns', href: '#returns' },
-  { label: 'What it leaves out', href: '#omits' },
+  { label: 'The fallback', href: '#fallback', current: true },
+  { label: 'The answer', href: '#returns' },
+  { label: 'Its limits', href: '#omits' },
   { label: 'Closing the gap', href: '#gap' },
   { label: 'Read on', href: '#read-on' },
 ];
@@ -107,7 +107,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
         zoomable
       ></sds-figure>
 
-      <h2 class="sds-h3" id="fallback">What the fallback is</h2>
+      <h2 class="sds-h3" id="fallback">The fallback</h2>
       <p>
         Three paths lead to the same registry and they are not equal. Where a
         console command exists it runs, and where it does not the runtime is
@@ -122,7 +122,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
         reason it answers with less.
       </p>
 
-      <h2 class="sds-h3" id="returns">What it returns</h2>
+      <h2 class="sds-h3" id="returns">The answer</h2>
       <p>
         Every entry a package declares in a file, and nothing that is registered
         while the application runs. For most installations that is the larger
@@ -141,7 +141,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
         anything about registries.
       </p>
 
-      <h2 class="sds-h3" id="omits">What it leaves out</h2>
+      <h2 class="sds-h3" id="omits">Its limits</h2>
       <sds-quote
         .body="${'A partial registry never looks complete: source, reason and the unread files travel with the result.'}"
         by="installation-fallback"

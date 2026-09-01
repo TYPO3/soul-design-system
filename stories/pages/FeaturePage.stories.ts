@@ -184,7 +184,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="result">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>What a result carries</h2>
+          <h2>Inside a result</h2>
           <p>
             Four fields beside the answer, and each of them is there to make a
             claim checkable: which source answered, which were declared, which
@@ -229,7 +229,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="limits">
-      <h2>What it does not do</h2>
+      <h2>Its limits</h2>
       <p>
         A source is a statement about where an answer came from. It is not a
         statement about whether the answer is right, and the two are worth
