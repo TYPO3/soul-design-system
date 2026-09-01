@@ -277,10 +277,8 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
         tone="warn"
         heading="The build is two commits behind the checkout"
         action="Bring it up to date"
-        .body="${html`<span class="sds-mono">9f21c04</span> and
-          <span class="sds-mono">c77a13e</span> are checked out here and
-          are not in the build. Until it is built again the addresses below serve
-          the code as it was at <span class="sds-mono">48723bc</span>.`}"
+        .body="${html`The addresses below serve
+          <span class="sds-mono">48723bc</span> until it is built again.`}"
       ></sds-note>
     </section>
 
