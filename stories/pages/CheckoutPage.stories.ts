@@ -42,13 +42,16 @@ const TRAIL: readonly Crumb[] = [
   { label: NAME },
 ];
 
-/** What the checkout is, as an overview is scanned: a name and what it is,
-    down one column. The three that change on their own stand first — a reader
-    opening this page is asking after those. */
-const ABOUT: readonly (readonly [string, TemplateResult])[] = [
+/** What the checkout is, in the groups a reader asks after. Four of them in one
+    grid rather than four lists: every value on a side comes to rest at one
+    edge, and the rule over a group stands level with the one beside it. */
+const REPOSITORY: readonly (readonly [string, TemplateResult])[] = [
   ['Branch', html`<span class="sds-mono">feature/soul</span>`],
   ['Remote', html`In step. The branch moved last on Tuesday and this was on it.`],
   ['Built', html`Two days ago, from <span class="sds-mono">48723bc</span>`],
+];
+
+const RUNTIME: readonly (readonly [string, TemplateResult])[] = [
   ['PHP', html`<span class="sds-mono">8.2</span> — the lowest the branch declares`],
   ['Project type', html`<span class="sds-mono">typo3-app</span>`],
   ['Served from', html`<span class="sds-mono">.build/public</span>`],
@@ -210,29 +213,33 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band sds-band--quiet">
       <h2 class="sds-h3">Overview</h2>
-      <!-- Two lists and no paragraph between them: what each column holds is
-           what its terms say, and a screen is entered at the block a reader
-           came for rather than read from the top. -->
-      <div class="sds-split">
-        <div class="sds-column">
+      <!-- One grid and not four lists: the values on a side come to rest at
+           one edge, and the rule over a group in the second row stands level
+           with the one beside it. Four lists drift apart by what they weigh. -->
+      <div class="sds-facts-set">
+        <div class="sds-facts-group">
+          <p class="sds-label">Repository</p>
           <dl class="sds-facts">
-            ${ABOUT.map(([term, said]) => html`<dt>${term}</dt><dd>${said}</dd>`)}
+            ${REPOSITORY.map(([term, said]) => html`<dt>${term}</dt><dd>${said}</dd>`)}
           </dl>
         </div>
-        <div class="sds-column">
-          <!-- One set holding two lists: the labels stand between them, where a
-               definition list cannot carry them, and the values still come to
-               rest at one edge because the lists borrow the set's columns. -->
-          <div class="sds-facts-set">
-            <p class="sds-label">Domains</p>
-            <dl class="sds-facts">
-              ${DOMAINS.map(([site, host]) => html`<dt>${site}</dt><dd>${taken(site, host)}</dd>`)}
-            </dl>
-            <p class="sds-label">Access</p>
-            <dl class="sds-facts">
-              ${ACCESS.map(([term, said, note]) => html`<dt>${term}</dt><dd>${taken(term, said, note)}</dd>`)}
-            </dl>
-          </div>
+        <div class="sds-facts-group">
+          <p class="sds-label">Domains</p>
+          <dl class="sds-facts">
+            ${DOMAINS.map(([site, host]) => html`<dt>${site}</dt><dd>${taken(site, host)}</dd>`)}
+          </dl>
+        </div>
+        <div class="sds-facts-group">
+          <p class="sds-label">Runtime</p>
+          <dl class="sds-facts">
+            ${RUNTIME.map(([term, said]) => html`<dt>${term}</dt><dd>${said}</dd>`)}
+          </dl>
+        </div>
+        <div class="sds-facts-group">
+          <p class="sds-label">Access</p>
+          <dl class="sds-facts">
+            ${ACCESS.map(([term, said, note]) => html`<dt>${term}</dt><dd>${taken(term, said, note)}</dd>`)}
+          </dl>
         </div>
       </div>
     </section>

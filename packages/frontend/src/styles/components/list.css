@@ -48,23 +48,65 @@
     }
   }
 
-  /* Two lists in one column, sharing one pair of columns. Apart they size
-     their terms separately and their values come to rest at two different
-     edges, which is the one thing a list meant to be scanned may not do — and
-     the label between them cannot go inside a `<dl>`, which takes only its own
-     terms and values. So the set holds the columns and the lists borrow them. */
+  /* Groups of facts, as one grid rather than four. Two things follow and
+     neither can be had otherwise: every value on a side rests at one edge,
+     the groups borrowing the set's columns; and the rule over a group in the
+     second row stands level with the one beside it, a grid row being as tall
+     as the tallest thing in it. Four lists drift by what they weigh. */
   .sds-facts-set {
-    display: grid;
-    grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+    --sds-facts-set-gap: var(--space-12);
+    --sds-facts-set-step: var(--space-5);
+    --sds-facts-set-label-gap: var(--space-3);
+    --sds-facts-set-rule: var(--border-hairline);
+    --sds-facts-set-rule-ink: var(--border-subtle);
+    --sds-facts-set-label-ink: var(--text-secondary);
 
-    > * {
-      grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, auto) minmax(0, 1fr));
+    column-gap: var(--sds-facts-set-gap);
+  }
+  /* One group: a label and the list under it, laid on the set's own columns. */
+  .sds-facts-group {
+    display: grid;
+    grid-column: span 2;
+    grid-template-columns: subgrid;
+    grid-template-rows: auto auto;
+    align-content: start;
+  }
+  .sds-facts-group > * {
+    grid-column: 1 / -1;
+  }
+  .sds-facts-group > .sds-facts {
+    display: grid;
+    grid-template-columns: subgrid;
+    margin-block: 0;
+  }
+  /* The rule is what makes a group read as one — the words alone are a quieter
+     row among the terms. Every group carries it, so the topmost pair rules
+     under the heading and each row below rules level across the set. */
+  .sds-facts-group > .sds-label {
+    margin-block: var(--sds-facts-set-step) var(--sds-facts-set-label-gap);
+    padding-block-start: var(--sds-facts-set-step);
+    border-block-start: var(--sds-facts-set-rule) solid var(--sds-facts-set-rule-ink);
+    color: var(--sds-facts-set-label-ink);
+  }
+  /* The first row rules against the heading above it and needs no step. */
+  .sds-facts-group:nth-child(-n + 2) > .sds-label {
+    margin-block-start: 0;
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+
+  /* One column below the width the page stops giving two of anything: the set
+     is one term column and one value column, and the groups stack. */
+  @media (max-width: 860px) {
+    .sds-facts-set {
+      grid-template-columns: minmax(0, auto) minmax(0, 1fr);
     }
-    /* Where `subgrid` is not understood the declaration is dropped and each
-       list keeps its own columns: the labels still read, the values still
-       stand under their terms, and only the one edge is lost. */
-    > .sds-facts {
-      grid-template-columns: subgrid;
+    .sds-facts-group:nth-child(2) > .sds-label {
+      margin-block-start: var(--sds-facts-set-step);
+      padding-block-start: var(--sds-facts-set-step);
+      border-block-start: var(--sds-facts-set-rule) solid var(--sds-facts-set-rule-ink);
     }
   }
 
