@@ -10,12 +10,15 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/copy.ts';
 import { type CopyProps } from '../../packages/frontend/src/components/copy.ts';
 
-export const sdsCopy = ({ value, label }: CopyProps) =>
-  html`<sds-copy value="${value}" label="${label ?? ''}"></sds-copy>`;
+export const sdsCopy = ({ value, label, ellipsis }: CopyProps) =>
+  html`<sds-copy value="${value}" label="${label ?? ''}" ellipsis="${ellipsis ?? 'none'}"></sds-copy>`;
+
+/** Long enough to be cut in a column of ordinary width. */
+const WORKTREE = '~/projects/blog/.worktrees/14-3-dev';
 
 /** What a page hands over: the four values a checkout is reached by. */
 export const ACCESS: readonly CopyProps[] = [
-  { label: 'Directory', value: '~/projects/blog/.worktrees/14-3-dev' },
+  { label: 'Directory', value: WORKTREE },
   { label: 'Database', value: 'companion_14_3_dev' },
   { label: 'Backend user', value: 'admin' },
   { label: 'Backend password', value: 'a-development-password' },
@@ -29,8 +32,9 @@ const meta: Meta<CopyProps> = {
   argTypes: {
     value: { control: 'text' },
     label: { control: 'text' },
+    ellipsis: { control: 'inline-radio', options: ['none', 'start', 'end'] },
   },
-  args: { label: 'Directory', value: '~/projects/blog/.worktrees/14-3-dev' },
+  args: { label: 'Directory', value: WORKTREE, ellipsis: 'none' },
 };
 
 export default meta;
@@ -46,6 +50,21 @@ export const InAList: Story = {
   render: () => html`<dl class="sds-facts">
     ${ACCESS.map((one) => html`<dt>${one.label}</dt><dd>${sdsCopy(one)}</dd>`)}
   </dl>`,
+};
+
+/** A column too narrow for what stands in it. Wrapped, cut at the front, cut
+    at the back — the same value three times, so which end is kept is the thing
+    being compared. The front is a path's answer: what a reader looks for is
+    the name it ends on. Nothing is lost either way; the press writes the whole
+    value and the pointer shows it. */
+export const Cut: Story = {
+  render: () => html`<div style="max-width:240px">
+    <dl class="sds-facts">
+      ${([undefined, 'start', 'end'] as const).map((side) => html`
+        <dt>${side ?? 'wrapped'}</dt>
+        <dd>${sdsCopy({ label: 'Directory', value: WORKTREE, ellipsis: side })}</dd>`)}
+    </dl>
+  </div>`,
 };
 
 /** A value with nothing to call it. The button then says only that it copies,

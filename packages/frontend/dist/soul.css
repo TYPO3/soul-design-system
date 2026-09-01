@@ -2052,6 +2052,8 @@
 @layer components{
   .sds-copy{--sds-copy-gap: var(--space-2);--sds-copy-font: var(--font-mono);--sds-copy-size: var(--font-size-small);--sds-copy-leading: var(--leading-heading);--sds-copy-ink: var(--text-primary);--sds-copy-ink-said: var(--status-ok);display:inline-flex;align-items:center;gap:var(--sds-copy-gap);max-width:100%}
   .sds-copy__value{min-width:0;font-family:var(--sds-copy-font);font-size:var(--sds-copy-size);line-height:var(--sds-copy-leading);color:var(--sds-copy-ink);overflow-wrap:anywhere}
+  .sds-copy--ellipsis-start .sds-copy__value,.sds-copy--ellipsis-end .sds-copy__value{overflow:hidden;overflow-wrap:normal;white-space:nowrap;text-overflow:ellipsis}
+  .sds-copy--ellipsis-start .sds-copy__value{direction:rtl}
   .sds-copy__button{flex:none}
   .sds-copy__button.is-copied{--sds-btn-ink: var(--sds-copy-ink-said);--sds-btn-ink-hover: var(--sds-copy-ink-said)}
 }

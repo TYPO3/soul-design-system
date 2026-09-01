@@ -6,7 +6,7 @@
    out of the clipboard rather than off the element that claims to have
    written it. */
 
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 const PAGE = `<!doctype html>
 <html lang="en" data-theme="dark">
@@ -23,6 +23,10 @@ const PAGE = `<!doctype html>
     <dd><sds-copy id="db" label="Database" value="companion_14_3_dev"></sds-copy></dd>
   </dl>
   <sds-copy id="bare" value="admin"></sds-copy>
+  <div style="width:160px">
+    <sds-copy id="head" label="Directory" ellipsis="start" value="~/projects/blog/.worktrees/14-3-dev"></sds-copy>
+    <sds-copy id="tail" label="Directory" ellipsis="end" value="~/projects/blog/.worktrees/14-3-dev"></sds-copy>
+  </div>
 </body>
 </html>`;
 
@@ -138,4 +142,59 @@ test('the value gives up the room, never the press', async ({ page }) => {
   expect(shape.wrap, 'a path has no spaces to break at').toBe('anywhere');
   /* The press keeps what it needs; the path wraps under itself instead. */
   expect(shape.button).toBeGreaterThanOrEqual(shape.loose);
+});
+
+test.describe('a value cut instead of wrapped', () => {
+  /* Which end survives, read off the characters themselves rather than off the
+     declarations that are supposed to cut them: the box is narrower than the
+     path, so one end of the string stands outside it and the other does not. */
+  const ends = (page: Page, id: string) => page.evaluate((sel) => {
+    const value = document.querySelector(`${sel} .sds-copy__value`) as HTMLElement;
+    /* The text itself, past the markers lit leaves around a binding. */
+    const bdi = value.querySelector('bdi') as HTMLElement;
+    const text = [...bdi.childNodes].find((n) => n.nodeType === Node.TEXT_NODE) as Text;
+    const box = value.getBoundingClientRect();
+    const at = (i: number) => {
+      const range = document.createRange();
+      range.setStart(text, i);
+      range.setEnd(text, i + 1);
+      return range.getBoundingClientRect();
+    };
+    const inside = (r: DOMRect) => r.left >= box.left - 1 && r.right <= box.right + 1;
+    return {
+      first: inside(at(0)),
+      last: inside(at(text.length - 1)),
+      clipped: value.scrollWidth > value.clientWidth,
+      lines: getComputedStyle(value).whiteSpace,
+      dots: getComputedStyle(value).textOverflow,
+    };
+  }, `#${id}`);
+
+  test('the front goes, and the name the path ends on stays', async ({ page }) => {
+    const shape = await ends(page, 'head');
+    expect(shape.lines, 'one line — a cut value that wrapped would be neither').toBe('nowrap');
+    expect(shape.dots).toBe('ellipsis');
+    expect(shape.clipped, 'the column is narrower than the path').toBe(true);
+    expect(shape.last, 'the segment a worktree is told apart by').toBe(true);
+    expect(shape.first, 'the front is what was given up').toBe(false);
+  });
+
+  test('or the back goes, and the root it begins at stays', async ({ page }) => {
+    const shape = await ends(page, 'tail');
+    expect(shape.clipped).toBe(true);
+    expect(shape.first).toBe(true);
+    expect(shape.last).toBe(false);
+  });
+
+  test('what is cut is still under the pointer, and still copies whole', async ({ page }) => {
+    await expect(page.locator('#head .sds-copy__value'))
+      .toHaveAttribute('title', '~/projects/blog/.worktrees/14-3-dev');
+    /* Nothing is hidden on a value that wraps, so nothing has to be said twice. */
+    await expect(page.locator('#dir .sds-copy__value')).not.toHaveAttribute('title', /./);
+
+    await page.locator('#head button').click();
+    expect(await page.evaluate(() => navigator.clipboard.readText()),
+      'the press writes the property, never what is drawn')
+      .toBe('~/projects/blog/.worktrees/14-3-dev');
+  });
 });

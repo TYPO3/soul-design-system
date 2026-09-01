@@ -13,6 +13,9 @@ import './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
 import { SAID, toClipboard } from '../lib/clipboard.ts';
 
+/** Which end of a value gives way, where it is drawn one line high. */
+export type CopyEllipsis = 'none' | 'start' | 'end';
+
 export interface CopyProps {
   /** What is shown, and the whole of what the button writes. */
   value: string;
@@ -21,23 +24,31 @@ export interface CopyProps {
       the accessible name from the one property — without it the button says
       only that it copies, which is true and names nothing. */
   label?: string;
+  /** Where the value is cut when the column is too narrow for it, instead of
+      wrapping: `start` keeps the name a path ends on, `end` keeps the root it
+      begins at. Off by default — a value that wraps under itself is still
+      readable whole, which a cut one is not. */
+  ellipsis?: CopyEllipsis;
 }
 
 export class SdsCopy extends SdsElement {
   static override properties = {
     value: { type: String },
     label: { type: String },
+    ellipsis: { type: String },
     copied: { type: Boolean, state: true },
   };
 
   declare value: string;
   declare label: string;
+  declare ellipsis: CopyEllipsis;
   declare copied: boolean;
 
   constructor() {
     super();
     this.value = '';
     this.label = '';
+    this.ellipsis = 'none';
     this.copied = false;
   }
 
@@ -64,11 +75,18 @@ export class SdsCopy extends SdsElement {
       @click="${() => void this.take()}"
     ><sds-icon name="${this.copied ? 'actions-check' : 'actions-duplicate'}"></sds-icon></button>`;
 
+    /* One line, cut at the end the caller named. What is hidden is still under
+       the pointer, and the press writes the property rather than what is drawn,
+       so a cut value copies whole. */
+    const cut = this.ellipsis === 'start' || this.ellipsis === 'end'
+      ? ` sds-copy--ellipsis-${this.ellipsis}`
+      : '';
+
     /* And said again where it can only be heard: the word above changed, but a
        word that changes in place is not announced, and `role="status"` on a
        node that was empty is. */
-    return html`<span class="sds-copy">
-  <span class="sds-copy__value">${this.value}</span>
+    return html`<span class="sds-copy${cut}">
+  <span class="sds-copy__value" title="${cut ? this.value : nothing}"><bdi>${this.value}</bdi></span>
   ${button}
   <span class="sds-said-only" role="status">${this.copied ? said.replace(/^Copy/, 'Copied') : ''}</span>
 </span>`;

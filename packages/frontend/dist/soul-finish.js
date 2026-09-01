@@ -622,14 +622,14 @@ ${o}`}};b("sds-image",kr);function $o({signet:e="",brand:t="",product:s="",href:
   </div>`:void 0,i=this.captioned?c`${this.captioned}`:this.caption?c`<div class="sds-code__caption">${this.caption}</div>`:void 0;return c`${i}<div class="sds-code">
   ${r}
   <pre class="sds-code__body">${this.taken||this.content||this.source?this.wrapped:q(this.body.map(n=>this.line(n)),0)}</pre>
-</div>`}};b("sds-code",da);var ha=class extends x{static{this.properties={value:{type:String},label:{type:String},copied:{type:Boolean,state:!0}}}constructor(){super(),this.value="",this.label="",this.copied=!1}async take(){await ua(this.value)&&(this.copied=!0,setTimeout(()=>{this.copied=!1},1600))}render(){let t=this.label?`Copy ${this.label}`:"Copy this value",s=c`<button
+</div>`}};b("sds-code",da);var ha=class extends x{static{this.properties={value:{type:String},label:{type:String},ellipsis:{type:String},copied:{type:Boolean,state:!0}}}constructor(){super(),this.value="",this.label="",this.ellipsis="none",this.copied=!1}async take(){await ua(this.value)&&(this.copied=!0,setTimeout(()=>{this.copied=!1},1600))}render(){let t=this.label?`Copy ${this.label}`:"Copy this value",s=c`<button
       type="button"
       class="sds-btn sds-btn--ghost sds-btn--icon sds-btn--sm sds-copy__button${this.copied?" is-copied":""}"
       title="${t}"
       aria-label="${t}"
       @click="${()=>{this.take()}}"
-    ><sds-icon name="${this.copied?"actions-check":"actions-duplicate"}"></sds-icon></button>`;return c`<span class="sds-copy">
-  <span class="sds-copy__value">${this.value}</span>
+    ><sds-icon name="${this.copied?"actions-check":"actions-duplicate"}"></sds-icon></button>`,r=this.ellipsis==="start"||this.ellipsis==="end"?` sds-copy--ellipsis-${this.ellipsis}`:"";return c`<span class="sds-copy${r}">
+  <span class="sds-copy__value" title="${r?this.value:m}"><bdi>${this.value}</bdi></span>
   ${s}
   <span class="sds-said-only" role="status">${this.copied?t.replace(/^Copy/,"Copied"):""}</span>
 </span>`}};b("sds-copy",ha);var pa=class extends x{static{this.properties={entries:{type:Array},level:{type:Number,reflect:!0},icons:{type:Boolean,reflect:!0}}}constructor(){super(),this.entries=[],this.level=2,this.icons=!1}glyph(t){return this.icons?c`<sds-icon class="sds-tree__glyph" name="${t?"actions-folder":"actions-file"}"></sds-icon>`:m}said(t,s){return c`<span class="sds-tree__mark">${s?c`<sds-icon name="actions-chevron-down"></sds-icon>`:m}</span>${this.glyph(s)}<span class="sds-tree__name">${t.label}</span>${t.note?c`<span class="sds-tree__note">${t.note}</span>`:m}`}row(t,s){let r=t.items??[];return r.length?c`<li class="sds-tree__item">

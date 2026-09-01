@@ -13139,12 +13139,13 @@ var SdsCode = class extends SdsElement {
 define("sds-code", SdsCode);
 
 // packages/frontend/src/components/copy.ts
-import { html as html60 } from "lit";
+import { html as html60, nothing as nothing33 } from "lit";
 var SdsCopy = class extends SdsElement {
   static {
     this.properties = {
       value: { type: String },
       label: { type: String },
+      ellipsis: { type: String },
       copied: { type: Boolean, state: true }
     };
   }
@@ -13152,6 +13153,7 @@ var SdsCopy = class extends SdsElement {
     super();
     this.value = "";
     this.label = "";
+    this.ellipsis = "none";
     this.copied = false;
   }
   async take() {
@@ -13170,8 +13172,9 @@ var SdsCopy = class extends SdsElement {
       aria-label="${said}"
       @click="${() => void this.take()}"
     ><sds-icon name="${this.copied ? "actions-check" : "actions-duplicate"}"></sds-icon></button>`;
-    return html60`<span class="sds-copy">
-  <span class="sds-copy__value">${this.value}</span>
+    const cut = this.ellipsis === "start" || this.ellipsis === "end" ? ` sds-copy--ellipsis-${this.ellipsis}` : "";
+    return html60`<span class="sds-copy${cut}">
+  <span class="sds-copy__value" title="${cut ? this.value : nothing33}"><bdi>${this.value}</bdi></span>
   ${button}
   <span class="sds-said-only" role="status">${this.copied ? said.replace(/^Copy/, "Copied") : ""}</span>
 </span>`;

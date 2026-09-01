@@ -36,6 +36,23 @@
        than deciding the width of the column it stands in. */
     overflow-wrap: anywhere;
   }
+  /* One line instead of a wrap, cut where the column runs out. Structure and
+     no value: what a cut costs is a value nobody can read whole, which is why
+     it is asked for rather than the way a value is always drawn. */
+  .sds-copy--ellipsis-start .sds-copy__value,
+  .sds-copy--ellipsis-end .sds-copy__value {
+    overflow: hidden;
+    overflow-wrap: normal;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  /* The cut at the front, which is how a path keeps the name it ends on. The
+     box runs the other way, so the line overflows at its start edge and the
+     dots are drawn there; the value inside it is an isolated run, so it is the
+     box that turns around and never the text. */
+  .sds-copy--ellipsis-start .sds-copy__value {
+    direction: rtl;
+  }
   /* The press never gives up room: squeezed, the path wraps under itself and
      the button stays whole. A control shrunk to half a word is a control
      nobody can read and nobody aims at. */

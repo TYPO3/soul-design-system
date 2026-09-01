@@ -1623,6 +1623,14 @@
                 "text": "string"
               },
               "fieldName": "label"
+            },
+            {
+              "name": "ellipsis",
+              "description": "Where the value is cut when the column is too narrow for it, instead of wrapping: `start` keeps the name a path ends on, `end` keeps the root it begins at. Off by default — a value that wraps under itself is still readable whole, which a cut one is not.",
+              "type": {
+                "text": "'none' | 'start' | 'end'"
+              },
+              "fieldName": "ellipsis"
             }
           ],
           "members": [
@@ -1645,6 +1653,16 @@
                 "text": "string"
               },
               "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "ellipsis",
+              "privacy": "public",
+              "description": "Where the value is cut when the column is too narrow for it, instead of wrapping: `start` keeps the name a path ends on, `end` keeps the root it begins at. Off by default — a value that wraps under itself is still readable whole, which a cut one is not.",
+              "type": {
+                "text": "'none' | 'start' | 'end'"
+              },
+              "attribute": "ellipsis"
             }
           ],
           "events": [],

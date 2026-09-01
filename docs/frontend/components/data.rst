@@ -423,6 +423,25 @@ the block stands beside nothing it is about.
    told apart by somebody who cannot see which line each one is on. Without it
    the button says only that it copies, which is true and names nothing.
 
+.. confval:: ellipsis
+   :name: sds-copy-ellipsis
+   :type: "none" | "start" | "end"
+   :default: "none"
+
+   Which end of the value gives way where the column is too narrow for it.
+   ``start`` cuts the front and keeps the name a path ends on, ``end`` cuts the
+   back and keeps the root it begins at; the default wraps the value under
+   itself instead, which is the only form that stays readable whole.
+
+   The side is the caller's because the answer is the value's: a worktree is
+   told apart by its last segment and a key by its first, and a component that
+   chose for both would be wrong about one of them. It draws
+   ``sds-copy--ellipsis-start`` or ``sds-copy--ellipsis-end`` on the row, and
+   the front cut is the row running the other way with the value isolated
+   inside it — so the box turns around and the value never does. What is cut is
+   still under the pointer, and the press writes the property rather than what
+   is drawn: a cut value reaches the clipboard whole.
+
 The press is **always drawn**. ``navigator.clipboard`` exists only in a secure
 context, and a design system is looked at over http on a LAN address or a
 ``.test`` domain as often as on localhost — asking for the API and drawing
