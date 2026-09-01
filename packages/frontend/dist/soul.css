@@ -836,6 +836,7 @@
     --sds-table-note-gap: var(--space-0-5);
     --sds-table-fill-hover: var(--surface-raised);
     --sds-table-graph-node: 10px;
+    --sds-table-graph-gap: var(--space-3);
     --sds-table-graph-ring: 2px;
     --sds-table-graph-ink: var(--text-muted);
     --sds-table-graph-rail: var(--border-strong);
@@ -861,7 +862,7 @@
     tbody tr:hover{background:var(--sds-table-fill-hover)}
     :is(th,td).sds-td-end{text-align:end;font-variant-numeric:tabular-nums}
     :is(th,td):is(.sds-td-fit,.sds-td-into){width:1%;white-space:nowrap}
-    :is(th,td).sds-td-graph{position:relative;width:1%;padding-inline-end:var(--sds-table-cell-gap)}
+    :is(th,td).sds-td-graph{position:relative;width:1%;padding-inline-end:var(--sds-table-graph-gap)}
     td.sds-td-graph:before{content:"";position:absolute;inset-block:0;inset-inline-start:calc(var(--sds-table-graph-node) / 2);border-inline-start:var(--sds-table-border) solid var(--sds-table-graph-rail)}
     tbody tr:first-child>.sds-td-graph:before{inset-block-start:50%}
     tbody tr:last-child>.sds-td-graph:before{inset-block-end:50%}

@@ -60,6 +60,7 @@
     --sds-table-note-gap: var(--space-0-5);
     --sds-table-fill-hover: var(--surface-raised);
     --sds-table-graph-node: 10px;
+    --sds-table-graph-gap: var(--space-3);
     --sds-table-graph-ring: 2px;
     /* A rail is read down, so it is drawn at the weight of something that is
        read and not of something that separates: the row rules are the quiet
@@ -166,10 +167,14 @@
        every row, so a reader follows one history rather than eight rows that
        happen to be under each other. It is a rail and not a graph — a history
        that forks is a drawing, and a table cell cannot hold one. */
+    /* Held to the node and a hair: a column carrying one dot does not take the
+       gap a column of words takes, and the subject beside it is what a reader
+       is running down — every pixel between them is one the eye crosses on
+       every row. */
     :is(th, td).sds-td-graph {
       position: relative;
       width: 1%;
-      padding-inline-end: var(--sds-table-cell-gap);
+      padding-inline-end: var(--sds-table-graph-gap);
     }
     td.sds-td-graph::before {
       content: "";
