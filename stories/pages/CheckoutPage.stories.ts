@@ -49,12 +49,13 @@ const TRAIL: readonly Crumb[] = [
     boundary rather than sitting alone at the top of one column. */
 const REPOSITORY: readonly (readonly [string, TemplateResult])[] = [
   ['Branch', html`<span class="sds-mono">feature/soul</span>`],
+  ['Checked out', html`<span class="sds-mono">9f21c04</span>, the tip of the branch`],
   ['Remote', html`In step with <span class="sds-mono">origin</span>, fetched an hour ago`],
   [
     'Built',
     html`Two days ago, from <span class="sds-mono">48723bc</span>
-      <span class="sds-facts__note">Two commits have landed on the branch since.
-        Bringing it up to date builds them in.</span>`,
+      <span class="sds-facts__note">The checkout has moved on twice since.
+        Bringing it up to date builds what is here.</span>`,
   ],
 ];
 
@@ -98,13 +99,18 @@ const taken = (label: string, value: string, note?: string): TemplateResult =>
     committed yet stands at the top of the same table rather than in a column
     beside it — it is the newest thing the worktree has and it is read first. */
 const COMMITS: readonly Column[] = [
+  /* The rail, and no head over it: a heading there would name the drawing. */
+  { head: '', cls: 'sds-td-graph' },
   { head: 'Subject' },
   { head: 'When', cls: 'sds-td-meta', align: 'end', fit: true },
-  /* A person's name, in the sentence face and held to itself: a name set in
-     the machine's font is a name being read as an identifier. */
   { head: 'Author', fit: true },
   { head: 'Commit', cls: 'sds-td-name', fit: true },
 ];
+
+/** A node on the rail. Hollow is a place rather than a commit — the working
+    copy, and the commit the worktree is standing on. */
+const node = (mark?: 'open' | 'current'): TemplateResult =>
+  html`<span class="sds-graph${mark ? ` sds-graph--${mark}` : ''}"></span>`;
 
 /** The hash, as the way to the commit itself. It is set in the link colour
     wherever it stands, and a hash that is not a link is that colour lying. */
@@ -115,34 +121,51 @@ const at = (sha: string): TemplateResult =>
     external
   ></sds-link>`;
 
+/** A ref pointing at a commit, before the subject the way a git client puts it:
+    it says what this commit *is* to the repository, which is read before what
+    it did. Neither is a result, so neither carries a status colour. */
+const ref = (label: string, icon: string): TemplateResult =>
+  html`<sds-badge label="${label}" icon="${icon}"></sds-badge>`;
+
 const LOG: readonly Row[] = [
   {
     cells: [
-      html`Uncommitted changes <span class="sds-warn">4 files</span>`,
-      'now',
-      'You',
+      node('open'),
+      /* The one row that is not a commit, and the one a reader looks at first:
+         it is what they have and have not put anywhere yet. */
+      html`<strong>Uncommitted changes <span class="sds-warn">4 files</span></strong>`,
+      '1 Sep 2026 13:53',
+      '—',
       '—',
     ],
   },
-  { cells: ['Add the campaign site configuration', `2${NNBSP}hours ago`, 'R. Bhatt', at('9f21c04')] },
-  { cells: ['Fix the reCAPTCHA validation on the contact form', `yesterday`, 'M. Okafor', at('c77a13e')] },
   {
     cells: [
-      /* The one marker the log carries: what is being served. Everything above
-         it is in the branch and not in the instance, which is the comparison a
-         reader came to make and had to make in their head. */
-      html`Remove falsely committed files
-        <sds-badge label="serving" tone="ok"></sds-badge>`,
-      `11${NNBSP}days ago`,
+      node('current'),
+      /* Where the worktree stands. Bold, like the row above it: what is bold
+         here is what is current, and everything older is set as it is read. */
+      html`<strong>${ref('feature/soul', 'actions-code-fork')} Add the campaign
+        site configuration</strong>`,
+      '1 Sep 2026 12:02',
+      'R. Bhatt',
+      at('9f21c04'),
+    ],
+  },
+  { cells: [node(), 'Fix the reCAPTCHA validation on the contact form', '31 Aug 2026 18:04', 'M. Okafor', at('c77a13e')] },
+  {
+    cells: [
+      node(),
+      html`${ref('built', 'actions-package')} Remove falsely committed files`,
+      '20 Aug 2026 09:18',
       'A. Lindqvist',
       at('48723bc'),
     ],
   },
-  { cells: ['Release 14.0.1', `11${NNBSP}days ago`, 'M. Okafor', at('f088fab')] },
-  { cells: ['Check for the correct settings uid', `11${NNBSP}days ago`, 'A. Lindqvist', at('1a8ebfc')] },
-  { cells: ['Comment form and reCAPTCHA validation', `11${NNBSP}days ago`, 'R. Bhatt', at('348084e')] },
-  { cells: ['Escape markup in the JSON-LD output', `11${NNBSP}days ago`, 'M. Okafor', at('25f996d')] },
-  { cells: ['Use associative keys in FlexForm items', `11${NNBSP}days ago`, 'A. Lindqvist', at('39e8ef3')] },
+  { cells: [node(), 'Release 14.0.1', '20 Aug 2026 08:47', 'M. Okafor', at('f088fab')] },
+  { cells: [node(), 'Check for the correct settings uid', '20 Aug 2026 08:12', 'A. Lindqvist', at('1a8ebfc')] },
+  { cells: [node(), 'Comment form and reCAPTCHA validation', '19 Aug 2026 17:40', 'R. Bhatt', at('348084e')] },
+  { cells: [node(), 'Escape markup in the JSON-LD output', '19 Aug 2026 16:02', 'M. Okafor', at('25f996d')] },
+  { cells: [node(), 'Use associative keys in FlexForm items', '19 Aug 2026 11:29', 'A. Lindqvist', at('39e8ef3')] },
 ];
 
 /** The provision that stopped. A page for managing an instance is opened when
@@ -252,12 +275,12 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
            reader to work out which of the four presses above answers it. -->
       <sds-note
         tone="warn"
-        heading="Two commits behind the branch"
+        heading="The build is two commits behind the checkout"
         action="Bring it up to date"
         .body="${html`<span class="sds-mono">9f21c04</span> and
-          <span class="sds-mono">c77a13e</span> have landed on
-          <span class="sds-mono">feature/soul</span> since this was built. Until it
-          is built again the addresses below serve the older code.`}"
+          <span class="sds-mono">c77a13e</span> are checked out here and
+          are not in the build. Until it is built again the addresses below serve
+          the code as it was at <span class="sds-mono">48723bc</span>.`}"
       ></sds-note>
     </section>
 

@@ -194,11 +194,11 @@
       <div class="sds-note sds-note--warn">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Warning" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
   <div class="sds-note__content">
-    <div class="sds-note__title">Two commits behind the branch</div>
+    <div class="sds-note__title">The build is two commits behind the checkout</div>
     <div class="sds-note__body"><span class="sds-mono">9f21c04</span> and
-          <span class="sds-mono">c77a13e</span> have landed on
-          <span class="sds-mono">feature/soul</span> since this was built. Until it
-          is built again the addresses below serve the older code.</div>
+          <span class="sds-mono">c77a13e</span> are checked out here and
+          are not in the build. Until it is built again the addresses below serve
+          the code as it was at <span class="sds-mono">48723bc</span>.</div>
   </div>
   <div class="sds-note__action"><button class="sds-btn sds-btn--secondary sds-btn--sm" type="button"><span class="sds-btn__label">Bring it up to date</span></button></div>
 </div>
@@ -213,9 +213,9 @@
         <div class="sds-facts-group">
           <p class="sds-label">Repository</p>
           <dl class="sds-facts">
-            <dt>Branch</dt><dd><span class="sds-mono">feature/soul</span></dd><dt>Remote</dt><dd>In step with <span class="sds-mono">origin</span>, fetched an hour ago</dd><dt>Built</dt><dd>Two days ago, from <span class="sds-mono">48723bc</span>
-      <span class="sds-facts__note">Two commits have landed on the branch since.
-        Bringing it up to date builds them in.</span></dd>
+            <dt>Branch</dt><dd><span class="sds-mono">feature/soul</span></dd><dt>Checked out</dt><dd><span class="sds-mono">9f21c04</span>, the tip of the branch</dd><dt>Remote</dt><dd>In step with <span class="sds-mono">origin</span>, fetched an hour ago</dd><dt>Built</dt><dd>Two days ago, from <span class="sds-mono">48723bc</span>
+      <span class="sds-facts__note">The checkout has moved on twice since.
+        Bringing it up to date builds what is here.</span></dd>
           </dl>
         </div>
         <div class="sds-facts-group">
@@ -299,6 +299,7 @@
       <h2 class="sds-h3">Commits</h2>
       <div class="sds-table-scroll"><table class="sds-table sds-table--medium">
   <thead><tr>
+    <th></th>
     <th>Subject</th>
     <th class="sds-td-end sds-td-fit">When</th>
     <th class="sds-td-fit">Author</th>
@@ -306,57 +307,66 @@
   </tr></thead>
   <tbody>
     <tr>
-      <td>Uncommitted changes <span class="sds-warn">4 files</span></td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">now</td>
-      <td class="sds-td-fit">You</td>
+      <td class="sds-td-graph"><span class="sds-graph sds-graph--open"></span></td>
+      <td><strong>Uncommitted changes <span class="sds-warn">4 files</span></strong></td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">1 Sep 2026 13:53</td>
+      <td class="sds-td-fit">—</td>
       <td class="sds-td-name sds-td-fit">—</td>
     </tr>
     <tr>
-      <td>Add the campaign site configuration</td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">2 hours ago</td>
+      <td class="sds-td-graph"><span class="sds-graph sds-graph--current"></span></td>
+      <td><strong><span class="sds-badge"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-code-fork"><g fill="currentColor"><path d="M11.5 2a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 11.5 2m0-1C10.122 1 9 2.122 9 3.5S10.122 6 11.5 6 14 4.878 14 3.5 12.878 1 11.5 1zM4.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 4.5 11m0-1C3.122 10 2 11.122 2 12.5S3.122 15 4.5 15 7 13.878 7 12.5 5.878 10 4.5 10zM4.5 2a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 4.5 2m0-1C3.122 1 2 2.122 2 3.5S3.122 6 4.5 6 7 4.878 7 3.5 5.878 1 4.5 1z"></path><path d="M4 5h1v6H4z"></path><path d="M11 5v1a1 1 0 0 1-1 1H6a2 2 0 0 0-2 2v2h1V9a1 1 0 0 1 1-1h4a2 2 0 0 0 2-2V5h-1z"></path></g></svg>feature/soul</span> Add the campaign
+        site configuration</strong></td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">1 Sep 2026 12:02</td>
       <td class="sds-td-fit">R. Bhatt</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/9f21c04" target="_blank" rel="noreferrer">9f21c04 <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
     <tr>
+      <td class="sds-td-graph"><span class="sds-graph"></span></td>
       <td>Fix the reCAPTCHA validation on the contact form</td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">yesterday</td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">31 Aug 2026 18:04</td>
       <td class="sds-td-fit">M. Okafor</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/c77a13e" target="_blank" rel="noreferrer">c77a13e <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
     <tr>
-      <td>Remove falsely committed files
-        <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>serving</span></td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
+      <td class="sds-td-graph"><span class="sds-graph"></span></td>
+      <td><span class="sds-badge"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-package"><g fill="currentColor"><path d="M8 0 5 1.5 2.5 2.8 0 4v8l8 4 8-4V4L8 0zm0 1.1 6.3 3.2-1.9.9-6.3-3.1 1.9-1zm-.5 13.5L1 11.4V5.1l6.5 3.2v6.3zM1.7 4.3l1.9-1 6.3 3.2-1.9.9-6.3-3.1zM15 11.4l-6.5 3.2V8.3l2-1v1.4L13 7.5V6.1l2-1v6.3z"></path></g></svg>built</span> Remove falsely committed files</td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">20 Aug 2026 09:18</td>
       <td class="sds-td-fit">A. Lindqvist</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/48723bc" target="_blank" rel="noreferrer">48723bc <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
     <tr>
+      <td class="sds-td-graph"><span class="sds-graph"></span></td>
       <td>Release 14.0.1</td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">20 Aug 2026 08:47</td>
       <td class="sds-td-fit">M. Okafor</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/f088fab" target="_blank" rel="noreferrer">f088fab <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
     <tr>
+      <td class="sds-td-graph"><span class="sds-graph"></span></td>
       <td>Check for the correct settings uid</td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">20 Aug 2026 08:12</td>
       <td class="sds-td-fit">A. Lindqvist</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/1a8ebfc" target="_blank" rel="noreferrer">1a8ebfc <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
     <tr>
+      <td class="sds-td-graph"><span class="sds-graph"></span></td>
       <td>Comment form and reCAPTCHA validation</td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">19 Aug 2026 17:40</td>
       <td class="sds-td-fit">R. Bhatt</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/348084e" target="_blank" rel="noreferrer">348084e <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
     <tr>
+      <td class="sds-td-graph"><span class="sds-graph"></span></td>
       <td>Escape markup in the JSON-LD output</td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">19 Aug 2026 16:02</td>
       <td class="sds-td-fit">M. Okafor</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/25f996d" target="_blank" rel="noreferrer">25f996d <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
     <tr>
+      <td class="sds-td-graph"><span class="sds-graph"></span></td>
       <td>Use associative keys in FlexForm items</td>
-      <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
+      <td class="sds-td-meta sds-td-end sds-td-fit">19 Aug 2026 11:29</td>
       <td class="sds-td-fit">A. Lindqvist</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/39e8ef3" target="_blank" rel="noreferrer">39e8ef3 <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
