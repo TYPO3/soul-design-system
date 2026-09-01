@@ -67,6 +67,16 @@ sds-table
    heading over a column it does not stand at names the column beside it. There
    is no third value: a centred column is scanned down neither edge.
 
+   ``sds-td-graph`` is the rail a history is read down: the column draws a line
+   through itself and each row puts a ``sds-graph`` node on it, hollow —
+   ``sds-graph--open`` — for a place rather than a commit, and
+   ``sds-graph--current`` for where the reader is standing, which is the loudest
+   node on the rail. It says so with weight and not with colour: the accent
+   marks three things and a history is not one of them. The rail begins at
+   the first node and ends at the last, because run past either it points at a
+   history the table is not showing. It is a rail and not a graph: a history
+   that forks is a drawing, and a table cell cannot hold one.
+
    ``fit`` holds a column to what it holds. A short hash, a version, a date:
    left to its share of the table a seven-character cell sits in a third of it
    and the column carrying the reading is pushed off to the side. What is not

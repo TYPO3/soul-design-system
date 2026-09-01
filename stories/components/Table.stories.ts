@@ -220,6 +220,62 @@ export const Detail: Story = {
     }),
 };
 
+/** A history, read down its rail. `sds-td-graph` is the column and `sds-graph`
+    the node on each row — hollow for a place rather than a commit: what is not
+    committed yet, and the one the reader is standing on. The rail begins at the
+    first node and ends at the last, because run past either it points at a
+    history the table is not showing.
+
+    It is a rail and not a graph. A history that forks is a drawing, and a table
+    cell cannot hold one — a table that has to show branches has outgrown this. */
+export const Log: Story = {
+  render: () =>
+    sdsTable({
+      columns: [
+        { head: '', cls: 'sds-td-graph' },
+        { head: 'Subject' },
+        { head: 'When', cls: 'sds-td-meta', align: 'end', fit: true },
+        { head: 'Commit', cls: 'sds-td-name', fit: true },
+      ],
+      rows: [
+        {
+          cells: [
+            html`<span class="sds-graph sds-graph--open"></span>`,
+            html`<strong>Uncommitted changes <span class="sds-warn">4 files</span></strong>`,
+            '1 Sep 2026 13:53',
+            '—',
+          ],
+        },
+        {
+          cells: [
+            html`<span class="sds-graph sds-graph--current"></span>`,
+            html`<strong><sds-badge label="feature/soul" icon="actions-code-fork"></sds-badge>
+              Add the campaign site configuration</strong>`,
+            '1 Sep 2026 12:02',
+            '9f21c04',
+          ],
+        },
+        {
+          cells: [
+            html`<span class="sds-graph"></span>`,
+            'Fix the reCAPTCHA validation on the contact form',
+            '31 Aug 2026 18:04',
+            'c77a13e',
+          ],
+        },
+        {
+          cells: [
+            html`<span class="sds-graph"></span>`,
+            html`<sds-badge label="built" icon="actions-package"></sds-badge>
+              Remove falsely committed files`,
+            '20 Aug 2026 09:18',
+            '48723bc',
+          ],
+        },
+      ],
+    }),
+};
+
 export const Compact: Story = { args: { ...CARD_TABLE, density: 'compact' } };
 export const Airy: Story = { args: { ...CARD_TABLE, density: 'airy' } };
 

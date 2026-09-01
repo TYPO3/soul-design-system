@@ -835,6 +835,11 @@
     --sds-table-meta-ink: var(--text-muted);
     --sds-table-note-gap: var(--space-0-5);
     --sds-table-fill-hover: var(--surface-raised);
+    --sds-table-graph-node: 10px;
+    --sds-table-graph-ring: 2px;
+    --sds-table-graph-ink: var(--text-muted);
+    --sds-table-graph-rail: var(--border-strong);
+    --sds-table-graph-here: var(--text-primary);
     --sds-table-fill-selected: var(--surface-accent-quiet);
     --sds-table-head-weight: var(--weight-regular);
     --sds-table-skeleton-fill: var(--surface-inset);
@@ -856,6 +861,13 @@
     tbody tr:hover{background:var(--sds-table-fill-hover)}
     :is(th,td).sds-td-end{text-align:end;font-variant-numeric:tabular-nums}
     :is(th,td):is(.sds-td-fit,.sds-td-into){width:1%;white-space:nowrap}
+    :is(th,td).sds-td-graph{position:relative;width:1%;padding-inline-end:var(--sds-table-cell-gap)}
+    td.sds-td-graph:before{content:"";position:absolute;inset-block:0;inset-inline-start:calc(var(--sds-table-graph-node) / 2);border-inline-start:var(--sds-table-border) solid var(--sds-table-graph-rail)}
+    tbody tr:first-child>.sds-td-graph:before{inset-block-start:50%}
+    tbody tr:last-child>.sds-td-graph:before{inset-block-end:50%}
+    .sds-graph{position:relative;display:block;inline-size:var(--sds-table-graph-node);block-size:var(--sds-table-graph-node);border-radius:50%;background:var(--sds-table-graph-ink)}
+    .sds-graph--open{background:var(--sds-table-fill-hover);box-shadow:inset 0 0 0 var(--sds-table-graph-ring) var(--sds-table-graph-ink)}
+    .sds-graph--current{background:var(--sds-table-fill-hover);box-shadow:inset 0 0 0 var(--sds-table-graph-ring) var(--sds-table-graph-here)}
     td.sds-td-into{text-align:end}
     tbody tr.is-selected{--sds-table-name-ink: var(--text-primary);--sds-table-meta-ink: var(--text-primary);background:var(--sds-table-fill-selected)}
   }
