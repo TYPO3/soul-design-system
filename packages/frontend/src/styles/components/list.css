@@ -10,13 +10,16 @@
   .sds-facts {
     --sds-facts-step: var(--space-2);
     --sds-facts-gap: var(--space-6);
+    --sds-facts-step-after: var(--space-6);
     --sds-facts-term-ink: var(--text-muted);
     --sds-facts-term-weight: var(--weight-regular);
 
     display: grid;
     grid-template-columns: minmax(0, auto) minmax(0, 1fr);
     gap: var(--sds-facts-step) var(--sds-facts-gap);
-    margin-block: 0;
+    /* Nothing above it — a list of facts begins where it is put — and the step
+       a block takes below, or a second group under the first reads as one. */
+    margin-block: 0 var(--sds-facts-step-after);
 
     /* Quiet, and not the semibold a passage gives a term: the value is what a
        reader came for, and a column of bold names beside it reads as the

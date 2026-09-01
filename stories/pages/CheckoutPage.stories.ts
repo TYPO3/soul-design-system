@@ -49,15 +49,20 @@ const TRAIL: readonly Crumb[] = [
 const ABOUT: readonly (readonly [string, TemplateResult])[] = [
   ['Branch', html`<span class="sds-mono">feature/soul</span>`],
   ['Remote', html`In step. The branch moved last on Tuesday and this was on it.`],
-  [
-    'Working copy',
-    html`One uncommitted change, in
-      <span class="sds-mono">config/sites/main/config.yaml</span>`,
-  ],
   ['Built', html`Two days ago, from <span class="sds-mono">48723bc</span>`],
   ['PHP', html`<span class="sds-mono">8.2</span> — the lowest the branch declares`],
   ['Project type', html`<span class="sds-mono">typo3-app</span>`],
   ['Served from', html`<span class="sds-mono">.build/public</span>`],
+];
+
+/** Every address the checkout answers on. A project with more than one site
+    configuration serves more than one, and a reader looking for the second one
+    has nowhere else to find it: the two doors at the top of the page open the
+    first, and this is the list. The term is the site the domain belongs to. */
+const DOMAINS: readonly (readonly [string, string])[] = [
+  ['main', '14-3-dev.companion.test'],
+  ['german', 'de.14-3-dev.companion.test'],
+  ['campaign', 'launch.14-3-dev.companion.test'],
 ];
 
 /** What a reader copies out of this page: four values pasted into a terminal,
@@ -72,27 +77,45 @@ const ACCESS: readonly (readonly [string, string])[] = [
 const taken = (label: string, value: string): TemplateResult =>
   html`<sds-copy label="${label}" value="${value}"></sds-copy>`;
 
+/** The log, in the order a git client puts it: the subject is what a reader
+    scans, the date and the hash are held to what they are, and what is not
+    committed yet stands at the top of the same table rather than in a column
+    beside it — it is the newest thing the worktree has and it is read first. */
 const COMMITS: readonly Column[] = [
-  /* Two columns hold a fixed shape and one holds the reading: the hash and the
-     date are held to what they are, and the subject takes everything left. */
-  { head: 'Commit', cls: 'sds-td-name', fit: true },
   { head: 'Subject' },
   { head: 'When', cls: 'sds-td-meta', align: 'end', fit: true },
+  /* A person's name, in the sentence face and held to itself: a name set in
+     the machine's font is a name being read as an identifier. */
+  { head: 'Author', fit: true },
+  { head: 'Commit', cls: 'sds-td-name', fit: true },
 ];
 
-/* No way into a row here: a commit on this page is a fact about the checkout
-   and not a record with a page of its own. The column at the end is what a
-   table gets when there is somewhere to go, and this is what it looks like
-   when there is not. */
+/** The hash, as the way to the commit itself. It is set in the link colour
+    wherever it stands, and a hash that is not a link is that colour lying. */
+const at = (sha: string): TemplateResult =>
+  html`<sds-link
+    href="https://github.com/typo3/blog/commit/${sha}"
+    label="${sha}"
+    external
+  ></sds-link>`;
+
 const LOG: readonly Row[] = [
-  { cells: ['48723bc', 'Remove falsely committed files', `11${NNBSP}days ago`] },
-  { cells: ['f088fab', 'Release 14.0.1', `11${NNBSP}days ago`] },
-  { cells: ['1a8ebfc', 'Check for the correct settings uid', `11${NNBSP}days ago`] },
-  { cells: ['348084e', 'Comment form and reCAPTCHA validation', `11${NNBSP}days ago`] },
-  { cells: ['25f996d', 'Escape markup in the JSON-LD output', `11${NNBSP}days ago`] },
-  { cells: ['39e8ef3', 'Use associative keys in FlexForm items', `11${NNBSP}days ago`] },
-  { cells: ['66243fc', 'Update TypoScript conditions for v14', `12${NNBSP}days ago`] },
-  { cells: ['909b288', 'Update the frontend build to current dependencies', `12${NNBSP}days ago`] },
+  {
+    cells: [
+      html`Uncommitted changes <span class="sds-warn">4 files</span>`,
+      'now',
+      'You',
+      '—',
+    ],
+  },
+  { cells: ['Remove falsely committed files', `11${NNBSP}days ago`, 'A. Lindqvist', at('48723bc')] },
+  { cells: ['Release 14.0.1', `11${NNBSP}days ago`, 'M. Okafor', at('f088fab')] },
+  { cells: ['Check for the correct settings uid', `11${NNBSP}days ago`, 'A. Lindqvist', at('1a8ebfc')] },
+  { cells: ['Comment form and reCAPTCHA validation', `11${NNBSP}days ago`, 'R. Bhatt', at('348084e')] },
+  { cells: ['Escape markup in the JSON-LD output', `11${NNBSP}days ago`, 'M. Okafor', at('25f996d')] },
+  { cells: ['Use associative keys in FlexForm items', `11${NNBSP}days ago`, 'R. Bhatt', at('39e8ef3')] },
+  { cells: ['Update TypoScript conditions for v14', `12${NNBSP}days ago`, 'A. Lindqvist', at('66243fc')] },
+  { cells: ['Update the frontend build to current dependencies', `12${NNBSP}days ago`, 'M. Okafor', at('909b288')] },
 ];
 
 /** What a fetch goes through. Two of them have happened, so they are written
@@ -192,6 +215,11 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
           </dl>
         </div>
         <div class="sds-column">
+          <p class="sds-label">Domains</p>
+          <dl class="sds-facts">
+            ${DOMAINS.map(([site, host]) => html`<dt>${site}</dt><dd>${taken(site, host)}</dd>`)}
+          </dl>
+          <p class="sds-label">Access</p>
           <dl class="sds-facts">
             ${ACCESS.map(([term, said]) => html`<dt>${term}</dt><dd>${taken(term, said)}</dd>`)}
           </dl>
