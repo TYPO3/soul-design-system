@@ -26,6 +26,8 @@
     --sds-tree-gap: var(--space-2);
     --sds-tree-indent: var(--space-4);
     --sds-tree-mark: 16px;
+    /* Half a row, which is where a turn meets the name it points at. */
+    --sds-tree-elbow: calc(var(--sds-tree-step) + var(--sds-tree-size) * var(--sds-tree-leading) / 2);
     --sds-tree-rule: var(--border-hairline);
     --sds-tree-rule-ink: var(--border-subtle);
     --sds-tree-ink: var(--text-primary);
@@ -45,15 +47,12 @@
     padding-inline-start: 0;
     list-style: none;
 
-    /* A line down the left of what is under a directory, at the fold mark's own
-       centre: the indent alone leaves a reader counting spaces, which is what a
-       tree drawn as text made them do. It carries the step two rows stand off
-       each other, so a first child is no closer than a sibling. */
+    /* What is under a directory is indented, and the spine and the elbows are
+       the item's own — see below. */
     .sds-tree__list {
       margin-inline-start: calc(var(--sds-tree-pad) + var(--sds-tree-mark) / 2);
       padding-block-start: var(--sds-tree-step);
       padding-inline-start: var(--sds-tree-indent);
-      border-inline-start: var(--sds-tree-rule) solid var(--sds-tree-rule-ink);
     }
   }
   .sds-tree__item {
@@ -61,6 +60,38 @@
 
     &:last-child {
       margin-bottom: 0;
+    }
+  }
+  /* The spine and the elbow, which are what make a list of names a tree: a line
+     down from the directory above and a turn into each name under it. Drawn per
+     item rather than once down the list, so the spine can stop at the last
+     one's turn instead of running past it into air. */
+  .sds-tree__list .sds-tree__list > .sds-tree__item {
+    position: relative;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      inset-inline-start: calc(-1 * var(--sds-tree-indent));
+      border-color: var(--sds-tree-rule-ink);
+      border-style: solid;
+      border-width: 0;
+    }
+    /* Down the whole item, and only to the turn on the last of them. */
+    &::before {
+      inset-block: calc(-1 * var(--sds-tree-step)) 0;
+      border-inline-start-width: var(--sds-tree-rule);
+    }
+    &:last-child::before {
+      inset-block-end: auto;
+      block-size: calc(var(--sds-tree-elbow) + var(--sds-tree-step));
+    }
+    /* And the turn itself, at the middle of the row it points at. */
+    &::after {
+      inset-block-start: var(--sds-tree-elbow);
+      inline-size: calc(var(--sds-tree-indent) - var(--sds-tree-mark) / 2);
+      border-block-start-width: var(--sds-tree-rule);
     }
   }
   /* One row, whether it folds or not, so a leaf's name begins where a
