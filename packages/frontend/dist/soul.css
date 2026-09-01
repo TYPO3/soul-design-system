@@ -262,12 +262,23 @@
     --sds-facts-step-after: var(--space-6);
     --sds-facts-term-ink: var(--text-muted);
     --sds-facts-term-weight: var(--weight-regular);
+    --sds-facts-note-gap: var(--space-0-5);
+    --sds-facts-note-ink: var(--text-muted);
+    --sds-facts-note-size: var(--aside-size);
+    --sds-facts-note-leading: var(--aside-leading);
     display:grid;
     grid-template-columns:minmax(0,auto) minmax(0,1fr);
     gap:var(--sds-facts-step) var(--sds-facts-gap);
     margin-block:0 var(--sds-facts-step-after);
     >dt{color:var(--sds-facts-term-ink);font-weight:var(--sds-facts-term-weight)}
     >dd{margin:0;min-width:0}
+    .sds-facts__note{display:block;margin-block-start:var(--sds-facts-note-gap);color:var(--sds-facts-note-ink);font-size:var(--sds-facts-note-size);line-height:var(--sds-facts-note-leading)}
+  }
+  .sds-facts-set{
+    display:grid;
+    grid-template-columns:minmax(0,auto) minmax(0,1fr);
+    >*{grid-column:1 / -1}
+    >.sds-facts{grid-template-columns:subgrid}
   }
   .sds-list{
     --sds-list-gap: var(--space-1);

@@ -201,15 +201,21 @@
           </dl>
         </div>
         <div class="sds-column">
-          <p class="sds-label">Domains</p>
-          <dl class="sds-facts">
-            <dt>main</dt><dd><span class="sds-copy">
+          <!-- One set holding two lists: the labels stand between them, where a
+               definition list cannot carry them, and the values still come to
+               rest at one edge because the lists borrow the set's columns. -->
+          <div class="sds-facts-set">
+            <p class="sds-label">Domains</p>
+            <dl class="sds-facts">
+              <dt>main</dt><dd><span class="sds-copy">
   <span class="sds-copy__value">14-3-dev.companion.test</span>
   <button
       type="button"
       class="sds-btn sds-btn--ghost sds-btn--icon sds-btn--sm sds-copy__button"
       title="Copy main"
-      aria-label="Copy main"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
+      aria-label="Copy main"
+      
+    ><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
   <span class="sds-said-only" role="status"></span>
 </span></dd><dt>german</dt><dd><span class="sds-copy">
   <span class="sds-copy__value">de.14-3-dev.companion.test</span>
@@ -217,7 +223,9 @@
       type="button"
       class="sds-btn sds-btn--ghost sds-btn--icon sds-btn--sm sds-copy__button"
       title="Copy german"
-      aria-label="Copy german"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
+      aria-label="Copy german"
+      
+    ><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
   <span class="sds-said-only" role="status"></span>
 </span></dd><dt>campaign</dt><dd><span class="sds-copy">
   <span class="sds-copy__value">launch.14-3-dev.companion.test</span>
@@ -225,19 +233,23 @@
       type="button"
       class="sds-btn sds-btn--ghost sds-btn--icon sds-btn--sm sds-copy__button"
       title="Copy campaign"
-      aria-label="Copy campaign"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
+      aria-label="Copy campaign"
+      
+    ><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
   <span class="sds-said-only" role="status"></span>
 </span></dd>
-          </dl>
-          <p class="sds-label">Access</p>
-          <dl class="sds-facts">
-            <dt>Directory</dt><dd><span class="sds-copy">
+            </dl>
+            <p class="sds-label">Access</p>
+            <dl class="sds-facts">
+              <dt>Directory</dt><dd><span class="sds-copy">
   <span class="sds-copy__value">~/projects/blog/.worktrees/14-3-dev</span>
   <button
       type="button"
       class="sds-btn sds-btn--ghost sds-btn--icon sds-btn--sm sds-copy__button"
       title="Copy Directory"
-      aria-label="Copy Directory"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
+      aria-label="Copy Directory"
+      
+    ><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
   <span class="sds-said-only" role="status"></span>
 </span></dd><dt>Database</dt><dd><span class="sds-copy">
   <span class="sds-copy__value">companion_14_3_dev</span>
@@ -245,7 +257,9 @@
       type="button"
       class="sds-btn sds-btn--ghost sds-btn--icon sds-btn--sm sds-copy__button"
       title="Copy Database"
-      aria-label="Copy Database"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
+      aria-label="Copy Database"
+      
+    ><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
   <span class="sds-said-only" role="status"></span>
 </span></dd><dt>Backend user</dt><dd><span class="sds-copy">
   <span class="sds-copy__value">admin</span>
@@ -253,7 +267,9 @@
       type="button"
       class="sds-btn sds-btn--ghost sds-btn--icon sds-btn--sm sds-copy__button"
       title="Copy Backend user"
-      aria-label="Copy Backend user"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
+      aria-label="Copy Backend user"
+      
+    ><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
   <span class="sds-said-only" role="status"></span>
 </span></dd><dt>Backend password</dt><dd><span class="sds-copy">
   <span class="sds-copy__value">a-development-password</span>
@@ -261,27 +277,20 @@
       type="button"
       class="sds-btn sds-btn--ghost sds-btn--icon sds-btn--sm sds-copy__button"
       title="Copy Backend password"
-      aria-label="Copy Backend password"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
+      aria-label="Copy Backend password"
+      
+    ><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></button>
   <span class="sds-said-only" role="status"></span>
-</span></dd>
-          </dl>
+</span><span class="sds-facts__note">Generated when the checkout is provisioned, and gone when it is. It reaches nothing outside this machine, which is why it can be shown.</span></dd>
+            </dl>
+          </div>
         </div>
       </div>
-      <div class="sds-note sds-note--info">
-  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
-  <div class="sds-note__content">
-    <div class="sds-note__title">The password is this checkout&#39;s, and only this checkout&#39;s</div>
-    <div class="sds-note__body">It is generated when the checkout is provisioned and goes
-          when the checkout does. Nothing here reaches anything outside your
-          machine, which is why it can be shown rather than hidden behind a
-          press.</div>
-  </div>
-</div>
     </section>
 
     <section class="sds-band">
       <h2 class="sds-h3">Commits</h2>
-      <div class="sds-table-scroll"><table class="sds-table sds-table--medium">
+      <div class="sds-table-scroll"><table class="sds-table sds-table--medium"  >
   <thead><tr>
     <th>Subject</th>
     <th class="sds-td-end sds-td-fit">When</th>
@@ -289,55 +298,55 @@
     <th class="sds-td-fit">Commit</th>
   </tr></thead>
   <tbody>
-    <tr>
+    <tr  >
       <td>Uncommitted changes <span class="sds-warn">4 files</span></td>
       <td class="sds-td-meta sds-td-end sds-td-fit">now</td>
       <td class="sds-td-fit">You</td>
       <td class="sds-td-name sds-td-fit">—</td>
     </tr>
-    <tr>
+    <tr  >
       <td>Remove falsely committed files</td>
       <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
       <td class="sds-td-fit">A. Lindqvist</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/48723bc" target="_blank" rel="noreferrer">48723bc <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
-    <tr>
+    <tr  >
       <td>Release 14.0.1</td>
       <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
       <td class="sds-td-fit">M. Okafor</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/f088fab" target="_blank" rel="noreferrer">f088fab <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
-    <tr>
+    <tr  >
       <td>Check for the correct settings uid</td>
       <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
       <td class="sds-td-fit">A. Lindqvist</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/1a8ebfc" target="_blank" rel="noreferrer">1a8ebfc <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
-    <tr>
+    <tr  >
       <td>Comment form and reCAPTCHA validation</td>
       <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
       <td class="sds-td-fit">R. Bhatt</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/348084e" target="_blank" rel="noreferrer">348084e <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
-    <tr>
+    <tr  >
       <td>Escape markup in the JSON-LD output</td>
       <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
       <td class="sds-td-fit">M. Okafor</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/25f996d" target="_blank" rel="noreferrer">25f996d <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
-    <tr>
+    <tr  >
       <td>Use associative keys in FlexForm items</td>
       <td class="sds-td-meta sds-td-end sds-td-fit">11 days ago</td>
       <td class="sds-td-fit">R. Bhatt</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/39e8ef3" target="_blank" rel="noreferrer">39e8ef3 <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
-    <tr>
+    <tr  >
       <td>Update TypoScript conditions for v14</td>
       <td class="sds-td-meta sds-td-end sds-td-fit">12 days ago</td>
       <td class="sds-td-fit">A. Lindqvist</td>
       <td class="sds-td-name sds-td-fit"><a class="sds-link sds-link--external" href="https://github.com/typo3/blog/commit/66243fc" target="_blank" rel="noreferrer">66243fc <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a></td>
     </tr>
-    <tr>
+    <tr  >
       <td>Update the frontend build to current dependencies</td>
       <td class="sds-td-meta sds-td-end sds-td-fit">12 days ago</td>
       <td class="sds-td-fit">M. Okafor</td>
@@ -349,61 +358,74 @@
 
     <section class="sds-band sds-band--quiet">
       <h2 class="sds-h3">History</h2>
-      <details class="sds-run">
+      <details class="sds-run" >
   <summary class="sds-run__head"><span
-    class="sds-run__verdict sds-run__verdict--done"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Done" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__headline"><span
+    class="sds-run__verdict sds-run__verdict--done"
+  ><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Done" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__headline"><span
     class="sds-run__heading">Fetched the data</span><span class="sds-run__note">All 3 steps · 16s · seven hours ago</span></span><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
   <div class="sds-run__body"><ol class="sds-run__list"><li class="sds-run__step sds-run__step--done">
-      <details class="sds-run__fold">
+      <details class="sds-run__fold"  >
         <summary class="sds-run__row" aria-label="Fetch the branch — Done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Fetch the branch</span><span class="sds-run__meta">3s</span></summary>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Fetch the branch</span><span class="sds-run__meta">3s</span></summary>
         <pre class="sds-run__output"><span class="sds-run__line sds-run__line--note">→ fetching origin</span><span class="sds-run__line sds-run__line--ok">✓ 4 objects, 2 refs updated</span></pre>
       </details>
     </li><li class="sds-run__step sds-run__step--done">
       <div class="sds-run__row" aria-label="Copy the database — Done"><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Copy the database</span><span class="sds-run__meta">8s</span></div>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Copy the database</span><span class="sds-run__meta">8s</span></div>
     </li><li class="sds-run__step sds-run__step--done">
       <div class="sds-run__row" aria-label="Import the files — Done"><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Import the files</span><span class="sds-run__meta">5s</span></div>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Import the files</span><span class="sds-run__meta">5s</span></div>
     </li></ol></div>
 </details>
-      <details class="sds-run">
+      <details class="sds-run" >
   <summary class="sds-run__head"><span
-    class="sds-run__verdict sds-run__verdict--done"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Done" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__headline"><span
+    class="sds-run__verdict sds-run__verdict--done"
+  ><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Done" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__headline"><span
     class="sds-run__heading">Fetched the data</span><span class="sds-run__note">All 3 steps · 14s · two days ago</span></span><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
   <div class="sds-run__body"><ol class="sds-run__list"><li class="sds-run__step sds-run__step--done">
-      <details class="sds-run__fold">
+      <details class="sds-run__fold"  >
         <summary class="sds-run__row" aria-label="Fetch the branch — Done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Fetch the branch</span><span class="sds-run__meta">3s</span></summary>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Fetch the branch</span><span class="sds-run__meta">3s</span></summary>
         <pre class="sds-run__output"><span class="sds-run__line sds-run__line--note">→ fetching origin</span><span class="sds-run__line sds-run__line--ok">✓ 4 objects, 2 refs updated</span></pre>
       </details>
     </li><li class="sds-run__step sds-run__step--done">
       <div class="sds-run__row" aria-label="Copy the database — Done"><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Copy the database</span><span class="sds-run__meta">8s</span></div>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Copy the database</span><span class="sds-run__meta">8s</span></div>
     </li><li class="sds-run__step sds-run__step--done">
       <div class="sds-run__row" aria-label="Import the files — Done"><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Import the files</span><span class="sds-run__meta">5s</span></div>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Import the files</span><span class="sds-run__meta">5s</span></div>
     </li></ol></div>
 </details>
-      <details class="sds-run">
+      <details class="sds-run" >
   <summary class="sds-run__head"><span
-    class="sds-run__verdict sds-run__verdict--done"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Done" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__headline"><span
+    class="sds-run__verdict sds-run__verdict--done"
+  ><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" role="img" aria-label="Done" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__headline"><span
     class="sds-run__heading">Checked it out</span><span class="sds-run__note">All 4 steps · 24s · two days ago</span></span><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
   <div class="sds-run__body"><ol class="sds-run__list"><li class="sds-run__step sds-run__step--done">
       <div class="sds-run__row" aria-label="Create the worktree — Done"><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Create the worktree</span><span class="sds-run__meta">2s</span></div>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Create the worktree</span><span class="sds-run__meta">2s</span></div>
     </li><li class="sds-run__step sds-run__step--done">
-      <details class="sds-run__fold">
+      <details class="sds-run__fold"  >
         <summary class="sds-run__row" aria-label="Install dependencies — Done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-end"><g fill="currentColor"><path d="M9.586 8 6.05 11.536l.707.707L11 8 6.757 3.757l-.707.707z"></path></g></svg><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Install dependencies</span><span class="sds-run__meta">14s</span></summary>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Install dependencies</span><span class="sds-run__meta">14s</span></summary>
         <pre class="sds-run__output"><span class="sds-run__line sds-run__line--note">→ composer install --no-dev</span><span class="sds-run__line sds-run__line--ok">✓ 128 packages</span></pre>
       </details>
     </li><li class="sds-run__step sds-run__step--done">
       <div class="sds-run__row" aria-label="Build the frontend — Done"><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Build the frontend</span><span class="sds-run__meta">6s</span></div>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Build the frontend</span><span class="sds-run__meta">6s</span></div>
     </li><li class="sds-run__step sds-run__step--done">
       <div class="sds-run__row" aria-label="Provision the database — Done"><span
-      class="sds-run__mark sds-run__mark--done"><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Provision the database</span><span class="sds-run__meta">2s</span></div>
+      class="sds-run__mark sds-run__mark--done"
+    ><svg width="16" height="16" style="width:NaNpx;height:NaNpx" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span><span class="sds-run__label">Provision the database</span><span class="sds-run__meta">2s</span></div>
     </li></ol></div>
 </details>
     </section>
@@ -415,10 +437,12 @@
   <dialog
       class="sds-modal sds-modal--sm"
       style=""
-      aria-label="Remove 14.3-dev?">
+      aria-label="Remove 14.3-dev?"
+      
+    >
   <div class="sds-modal__head">
     <span class="sds-modal__title">Remove 14.3-dev?</span>
-    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close" ><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
   </div>
   <div class="sds-modal__body">The worktree, its database and its address go. The one uncommitted change goes with them, and the branch itself is untouched.</div>
   <form method="dialog" class="sds-modal__foot">

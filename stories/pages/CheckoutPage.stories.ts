@@ -14,14 +14,13 @@
    Live and static from one composition — see `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/copy.ts';
 import '../../packages/frontend/src/components/dialog.ts';
 import '../../packages/frontend/src/components/icon.ts';
 import '../../packages/frontend/src/components/link.ts';
 import '../../packages/frontend/src/components/nav-breadcrumb.ts';
-import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/run.ts';
 import '../../packages/frontend/src/components/table.ts';
 import { buttonLabel, buttonMarkup, type ButtonProps } from '../../packages/frontend/src/components/button.ts';
@@ -67,15 +66,21 @@ const DOMAINS: readonly (readonly [string, string])[] = [
 
 /** What a reader copies out of this page: four values pasted into a terminal,
     a client or a login, each with the button that takes it. */
-const ACCESS: readonly (readonly [string, string])[] = [
+const ACCESS: readonly (readonly [string, string, string?])[] = [
   ['Directory', '~/projects/blog/.worktrees/14-3-dev'],
   ['Database', 'companion_14_3_dev'],
   ['Backend user', 'admin'],
-  ['Backend password', 'a-development-password'],
+  [
+    'Backend password',
+    'a-development-password',
+    'Generated when the checkout is provisioned, and gone when it is. It reaches nothing outside this machine, which is why it can be shown.',
+  ],
 ];
 
-const taken = (label: string, value: string): TemplateResult =>
-  html`<sds-copy label="${label}" value="${value}"></sds-copy>`;
+const taken = (label: string, value: string, note?: string): TemplateResult =>
+  html`<sds-copy label="${label}" value="${value}"></sds-copy>${
+    note ? html`<span class="sds-facts__note">${note}</span>` : nothing
+  }`;
 
 /** The log, in the order a git client puts it: the subject is what a reader
     scans, the date and the hash are held to what they are, and what is not
@@ -215,24 +220,21 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
           </dl>
         </div>
         <div class="sds-column">
-          <p class="sds-label">Domains</p>
-          <dl class="sds-facts">
-            ${DOMAINS.map(([site, host]) => html`<dt>${site}</dt><dd>${taken(site, host)}</dd>`)}
-          </dl>
-          <p class="sds-label">Access</p>
-          <dl class="sds-facts">
-            ${ACCESS.map(([term, said]) => html`<dt>${term}</dt><dd>${taken(term, said)}</dd>`)}
-          </dl>
+          <!-- One set holding two lists: the labels stand between them, where a
+               definition list cannot carry them, and the values still come to
+               rest at one edge because the lists borrow the set's columns. -->
+          <div class="sds-facts-set">
+            <p class="sds-label">Domains</p>
+            <dl class="sds-facts">
+              ${DOMAINS.map(([site, host]) => html`<dt>${site}</dt><dd>${taken(site, host)}</dd>`)}
+            </dl>
+            <p class="sds-label">Access</p>
+            <dl class="sds-facts">
+              ${ACCESS.map(([term, said, note]) => html`<dt>${term}</dt><dd>${taken(term, said, note)}</dd>`)}
+            </dl>
+          </div>
         </div>
       </div>
-      <sds-note
-        tone="info"
-        heading="The password is this checkout's, and only this checkout's"
-        .body="${html`It is generated when the checkout is provisioned and goes
-          when the checkout does. Nothing here reaches anything outside your
-          machine, which is why it can be shown rather than hidden behind a
-          press.`}"
-      ></sds-note>
     </section>
 
     <section class="sds-band">

@@ -13,6 +13,10 @@
     --sds-facts-step-after: var(--space-6);
     --sds-facts-term-ink: var(--text-muted);
     --sds-facts-term-weight: var(--weight-regular);
+    --sds-facts-note-gap: var(--space-0-5);
+    --sds-facts-note-ink: var(--text-muted);
+    --sds-facts-note-size: var(--aside-size);
+    --sds-facts-note-leading: var(--aside-leading);
 
     display: grid;
     grid-template-columns: minmax(0, auto) minmax(0, 1fr);
@@ -31,6 +35,36 @@
     > dd {
       margin: 0;
       min-width: 0;
+    }
+    /* What is true about the value and not part of it: a line under it, in the
+       register an aside is set in. It goes here rather than in a note at the
+       foot of the block, where it stands beside nothing it is about. */
+    .sds-facts__note {
+      display: block;
+      margin-block-start: var(--sds-facts-note-gap);
+      color: var(--sds-facts-note-ink);
+      font-size: var(--sds-facts-note-size);
+      line-height: var(--sds-facts-note-leading);
+    }
+  }
+
+  /* Two lists in one column, sharing one pair of columns. Apart they size
+     their terms separately and their values come to rest at two different
+     edges, which is the one thing a list meant to be scanned may not do — and
+     the label between them cannot go inside a `<dl>`, which takes only its own
+     terms and values. So the set holds the columns and the lists borrow them. */
+  .sds-facts-set {
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+
+    > * {
+      grid-column: 1 / -1;
+    }
+    /* Where `subgrid` is not understood the declaration is dropped and each
+       list keeps its own columns: the labels still read, the values still
+       stand under their terms, and only the one edge is lost. */
+    > .sds-facts {
+      grid-template-columns: subgrid;
     }
   }
 

@@ -382,9 +382,19 @@ this. It frames a fence and gives it a head, and around a single word that head
 is a bar with nothing in it but the word ``copy`` — four of them down a column
 is four frames for four words. A block is for a block.
 
-The shape it is used in is a **definition list**: the term over what it names,
-the value under it. That is what anything falls into when it names things, and
-it is why this element carries no term of its own.
+The shape it is used in is a **definition list**, and where it is a block of
+them the list is ``.sds-facts``: the terms down one edge and their values down
+the other. That is what anything falls into when it names things, and it is why
+this element carries no term of its own.
+
+Two lists in one column go in a ``.sds-facts-set``, with the labels between
+them. Apart they size their term columns separately and their values come to
+rest at two different edges, which is the one thing a list meant to be scanned
+may not do; the set holds one pair of columns and the lists borrow them. The
+label cannot go inside the ``<dl>`` — a definition list takes only its own
+terms and values, and a browser and an audit both say so. A line saying what is true
+about a value is ``sds-facts__note``, under the value: a note at the foot of
+the block stands beside nothing it is about.
 
 .. confval:: value
    :name: sds-copy-value
