@@ -95,3 +95,21 @@ boxes joined by arrows.
 .. specimen:: guidelines/diagrams-fallback.card.html
    :viewport: 1400x1034
    :title: Fallback — a sequence without a flowchart
+
+Drawing another one
+===================
+
+The rules above written as something to hand to a drawing tool, with the file
+contract and the negative constraints around them. It is here in full rather
+than behind a link because it is handed over rather than read: copy the whole
+block and replace ``[CLAIM]`` and ``[CONSEQUENCE]``, which are the only two
+fields that change. Rewriting the numbers or the two states starts a second
+grammar, and a set in two grammars has to be relearned at every drawing.
+
+A diagram is the one drawing that is not generated as a picture. What is handed
+back is the SVG itself, because the colours in it are tokens and the shapes are
+read out for the cards above by ``make diagrams``.
+
+.. literalinclude:: diagram-prompt.md
+   :language: markdown
+   :caption: The diagram prompt — replace only the claim and its consequence
