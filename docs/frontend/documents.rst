@@ -133,10 +133,11 @@ A heading gets its air from the block *before* it — the only way to state a
 distance in one direction — and a heading wrapped in a section has no sibling
 outside it, so every section ran into the next at the step between two
 paragraphs. The Guides theme draws the box itself as ``.sds-section``, and the
-section carries the step: the level of the heading the next one opens decides
-how much, and the last block inside a section owes its edge nothing. Nothing
-in a document says any of this — a heading is a section — and
-``tests/guides.spec.ts`` measures it on the rendered page.
+section carries the step: one distance above every section that is not the
+first in its box, whatever level the heading it opens is written at, and the
+last block inside a section owes its edge nothing. Nothing in a document says
+any of this — a heading is a section — and ``tests/guides.spec.ts`` measures it
+on the rendered page.
 
 What is on this page
 ====================
