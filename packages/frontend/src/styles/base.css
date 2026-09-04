@@ -26,16 +26,18 @@
 
   /* ------------------------------------------------------------- text -- */
 
+  /* No measure here. A paragraph stands in a component's box — a card, a note,
+     a field, a modal — as often as in a document, and a limit written on the
+     element leaves a narrow box unaffected and a wide one with a column of
+     text and a wasteland beside it. How wide a text is read at is the
+     passage's decision, and `sds-prose` is the passage saying so. */
   p {
     font-size: var(--font-size-body);
     line-height: var(--leading-body);
-    max-width: var(--measure-prose);
     color: var(--text-secondary);
   }
 
-  /* The same ink for the other things made of words. Not the same limit: a
-     paragraph carries the measure because a paragraph is a paragraph anywhere,
-     and how wide the rest of a text is read at is the passage's decision. */
+  /* The same ink for the other things made of words. */
   li,
   dd {
     color: var(--text-secondary);

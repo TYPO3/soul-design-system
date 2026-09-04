@@ -5,6 +5,16 @@
    the measure the text is read at, which is the box's decision and not any
    element's, and the names a renderer writes for nodes with no element. */
 
+/* The measure, on the element the base layer deliberately leaves unbounded.
+   Here rather than there because the width is this box's, and weightless
+   through `:where()` so a paragraph wearing a class of its own — a lead, which
+   is read at fewer characters — still sets its own. */
+@layer base {
+  :where(.sds-prose) p {
+    max-width: var(--sds-prose-measure);
+  }
+}
+
 /* In the component's own layer, because what it draws is a renderer's own name
    rather than an element: renamed, the stylesheet would only work with the
    templates that renamed it. */

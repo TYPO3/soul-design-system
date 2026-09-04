@@ -184,18 +184,26 @@ out — the one the rest of the system keeps for a machine's own words.
 The measure
 ===========
 
-A paragraph is held to ``--measure-prose``. The token holds 620px, which is
-where the number is written down and what the rest of these pages call the
-reading measure of sixty-six characters. Blocks are not held to it.
+A paragraph inside ``.sds-prose`` is held to ``--measure-prose``. The token
+holds 620px, which is where the number is written down and what the rest of
+these pages call the reading measure of sixty-six characters. Blocks are not
+held to it.
 
 A reference is sentences *and* a forty-column table, a command nobody wants
 wrapped, and a diagram. Clamping those to the width of comfortable reading is
 how a documentation page ends up with three horizontal scrollbars — so the
 column keeps no limit of its own, and the limit is carried by the things made
-of words: the paragraph, in ``base.css``, because a paragraph is a paragraph
-wherever it stands, and the blocks that are read rather than scanned — a
+of words: the paragraph, and the blocks that are read rather than scanned — a
 quotation, a topic, a note under a statement — each in its own file, off that
 same token.
+
+The paragraph's half of that is the passage's rule rather than the element's.
+A bare ``p`` has no measure: it stands in a card, a note, a field or a modal
+as often as in a document, and a width written onto the element would leave
+every one of those boxes with a column of text and a wasteland beside it.
+``prose.css`` states it for the paragraphs inside the passage, weightlessly,
+so a paragraph carrying a class of its own — ``.sds-lead``, read at fewer
+characters — still keeps the measure that class gives it.
 
 Everything else runs to the column it was given, and a table wider than that
 scrolls inside itself rather than taking the layout with it.

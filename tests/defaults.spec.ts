@@ -29,6 +29,11 @@ const HTML = `<!doctype html>
   <h2 id="two-at-three" class="sds-h3">Level two, third size</h2>
   <h1 id="one-at-display" class="sds-display">Level one, display size</h1>
   <p id="p-as-lead" class="sds-lead">A paragraph set as a lead.</p>
+
+  <div class="sds-prose">
+    <p id="prose-p">A paragraph inside a passage.</p>
+    <p id="lead-in-prose" class="sds-lead">A lead inside one.</p>
+  </div>
 </body>
 </html>`;
 
@@ -36,6 +41,10 @@ const HTML = `<!doctype html>
     scale rather than as strings. */
 const size = async (page: import('@playwright/test').Page, id: string): Promise<number> =>
   page.locator(`#${id}`).evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+
+/** How wide it actually drew, which is the only way a measure can be read. */
+const width = async (page: import('@playwright/test').Page, id: string): Promise<number> =>
+  page.locator(`#${id}`).evaluate((el) => el.getBoundingClientRect().width);
 
 test.beforeEach(async ({ page }) => {
   await page.route('**/defaults-fixture.html', (route) =>
@@ -90,10 +99,12 @@ test('bare elements are already dressed, with no wrapper class', async ({ page }
   expect(await under('bare-h4'), 'a heading sits close to its own text').toBe('8px');
   expect(await under('bare-h1'), 'and carries the next heading’s air where one follows').toBe('40px');
 
-  /* Body copy is held to a measure. A paragraph that runs the width of a
-     1280px viewport is unreadable however well it is set. */
-  const width = await page.locator('#bare-p').evaluate((el) => el.getBoundingClientRect().width);
-  expect(width).toBeLessThan(900);
+  /* And no measure on one. A paragraph stands in a component's box as often as
+     in a document, so the reading width is the passage's decision rather than
+     the element's — which makes it a class, and the class is `.sds-prose`. */
+  const bare = await width(page, 'bare-p');
+  expect(bare, 'a bare paragraph runs to the box it was given').toBeGreaterThan(900);
+  expect(await width(page, 'prose-p'), 'and is held inside a passage').toBeLessThan(900);
 });
 
 test('a class always overrides the element it sits on', async ({ page }) => {
@@ -107,14 +118,17 @@ test('a class always overrides the element it sits on', async ({ page }) => {
   /* A paragraph set as a lead takes the lead's size and its shorter measure —
      shorter in *characters*, which is what a measure is. The tokens are stated
      in pixels and the two are close enough there that comparing them directly
-     proves nothing, so each is divided by its own font size. */
+     proves nothing, so each is divided by its own font size. Both inside the
+     passage, because that is where body copy has a measure to be shorter than —
+     and a lead that lost its own there is what the passage's rule is written
+     weightless to prevent. */
   const leadSize = await size(page, 'p-as-lead');
-  const proseSize = await size(page, 'bare-p');
+  const proseSize = await size(page, 'prose-p');
   expect(leadSize).toBeGreaterThan(proseSize);
 
-  const lead = await page.locator('#p-as-lead').evaluate((el) => el.getBoundingClientRect().width);
-  const prose = await page.locator('#bare-p').evaluate((el) => el.getBoundingClientRect().width);
-  expect(lead / leadSize, 'a lead is held to fewer characters than body copy').toBeLessThan(prose / proseSize);
+  const lead = await width(page, 'lead-in-prose') / (await size(page, 'lead-in-prose'));
+  const prose = await width(page, 'prose-p') / proseSize;
+  expect(lead, 'a lead is held to fewer characters than body copy').toBeLessThan(prose);
 });
 
 /* The other half of that rule, from the side the platform owns. Three ways to
