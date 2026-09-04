@@ -56,3 +56,6 @@ node_modules/
 
 # the sync target: a maintainer's, not the repository's
 /.design-sync/config.local.json
+
+# .vscode
+.vscode/
