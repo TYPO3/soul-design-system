@@ -1,10 +1,20 @@
 /* sds-nav-pagination and sds-nav-pager — a set in pages, and the way on. */
 
 @layer base {
+  /* The pager states its own distance above it, the way a section does. What
+     runs into it is a document box or a section, and each gives its step up at
+     its own edge — so a pager with no lead sits on the last line of the text it
+     is the way out of. */
   sds-nav-pager {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-block: var(--space-12) var(--space-4);
+  }
+  sds-nav-pager > .sds-pager {
+    margin-block: 0;
+  }
+  .sds-pager {
+    margin-block: var(--space-12) var(--space-4);
   }
   sds-nav-pagination {
     display: block;
@@ -87,9 +97,10 @@
   }
 
   /* The other one: the page before and the page after, at the foot of a page
-     read in order. A rule over it and the air under that rule, and nothing
-     below — the step to whatever follows is the one every block carries, so a
-     pager at the end of a column trims it like any other last child. */
+     read in order. A rule with the lead above it and this air under it, and
+     nothing below — the step to whatever follows is the one every block
+     carries, so a pager at the end of a column trims it like any other last
+     child. */
   .sds-pager {
     --sds-pager-rule: var(--border-hairline);
     --sds-pager-edge: var(--border-subtle);

@@ -1351,7 +1351,9 @@
   .sds-crumbs__here{color:var(--sds-crumbs-here-ink);font-weight:var(--sds-crumbs-here-weight)}
 }
 @layer base{
-  sds-nav-pager{display:block;min-width:0;margin-bottom:var(--space-4)}
+  sds-nav-pager{display:block;min-width:0;margin-block:var(--space-12) var(--space-4)}
+  sds-nav-pager>.sds-pager{margin-block:0}
+  .sds-pager{margin-block:var(--space-12) var(--space-4)}
   sds-nav-pagination{display:block;min-width:0;margin-bottom:var(--space-4)}
   sds-nav-pagination>.sds-pagination{margin-bottom:0}
   .sds-pagination{margin:0 0 var(--space-4)}
