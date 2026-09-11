@@ -1,0 +1,12 @@
+{#- One page of a tree, and whatever the tree holds below it. The link is
+    resolved from the page being rendered and lands on the twin of the page it
+    names: a format's name is the extension every reference in it resolves to. -#}
+{%- autoescape false -%}
+{%- set below -%}
+{% for child in node.children %}{{ renderNode(child)|md_tidy }}
+{% endfor %}
+{%- for section in node.sections %}{{ renderNode(section)|md_tidy }}
+{% endfor -%}
+{%- endset -%}
+{{ ('[' ~ node.value.toString|md_escape ~ '](' ~ renderLink(node.url, node.value.id) ~ ')' ~ "\n" ~ below)|md_indent('- ', '  ') }}
+{% endautoescape %}

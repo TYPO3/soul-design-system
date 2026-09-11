@@ -130,10 +130,12 @@ export const PACKAGES: readonly Package[] = [
         'resources/dist/soul-finish.js',
       ].filter((path) => !existsSync(join(pkg, path)));
 
-      /* Counted rather than listed: a template that stops being copied renders
-         the core's own markup, which looks like a styling bug and is not one. */
+      /* Counted rather than listed, and every format at once: a template that
+         stops being copied renders the core's own markup, which looks like a
+         styling bug and is not one — and one of the Markdown set going missing
+         is a twin that says the same in text nobody wrote. */
       const twig = (dir: string): number =>
-        (existsSync(dir) ? [...walk(dir)].filter((f) => f.endsWith('.html.twig')).length : 0);
+        (existsSync(dir) ? [...walk(dir)].filter((f) => f.endsWith('.twig')).length : 0);
       const here = twig(join(this.at(tree) ?? '', 'resources', 'template'));
       const there = twig(join(pkg, 'resources', 'template'));
       if (here !== there) missing.push(`${here - there} template(s) did not make it into the package`);

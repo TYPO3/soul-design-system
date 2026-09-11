@@ -1,0 +1,8 @@
+{#- Nothing is folded in a file of text: the answers stand under their
+    questions. -#}
+{%- autoescape false -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

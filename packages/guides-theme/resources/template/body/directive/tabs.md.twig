@@ -1,0 +1,10 @@
+{#- Tabs are one thing shown at a time, which a file of text cannot do. Each
+    panel stands under the label that opened it. -#}
+{%- autoescape false -%}
+{%- for tab in node.tabs -%}
+**{{ renderNode(tab.content)|md_line }}**
+
+{{ renderNode(tab.value)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

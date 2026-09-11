@@ -7,8 +7,8 @@
    down. `packages/guides-theme/acceptance/` is the subject, rendered by the server this
    suite starts, because a stale render hides the regression this looks for. */
 
-import { readdirSync, statSync } from 'node:fs';
-import { join, relative, sep } from 'node:path';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 
 import { test, expect, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
@@ -1650,5 +1650,175 @@ test.describe('what a page is measured for', () => {
       }
     }
     expect(tooLong).toEqual([]);
+  });
+});
+
+/* The twin — the same document written a second time as Markdown, which the
+   theme registers as an output format of its own.
+
+   What can go wrong is never the shape of one file: it is the pairing. A page
+   whose alternate points at nothing, a twin that lost the document it was
+   written from, a link inside one that leads back into the HTML — each of
+   those is a reader that is a program, following a link into nothing. */
+test.describe('the markdown twin', () => {
+  const rendered = pages(SITE_DIR).filter((path) => !path.startsWith('_cards/'));
+  const twin = (path: string): string => path.replace(/\.html$/, '.md');
+  const read = (dir: string, path: string): string => readFileSync(join(dir, path), 'utf8');
+
+  test('every page names its twin, and the twin holds the same document', () => {
+    expect(rendered.length, 'the site should have pages in it').toBeGreaterThan(1);
+
+    const wrong: string[] = [];
+    for (const path of rendered) {
+      const html = read(SITE_DIR, path);
+      const alternate = /<link rel="alternate" type="text\/markdown" href="([^"]+)"/.exec(html)?.[1];
+      const canonical = /<link rel="canonical" href="([^"]+)"/.exec(html)?.[1];
+      const name = path.split('/').at(-1) as string;
+      if (alternate !== twin(name)) wrong.push(`${path}: alternate is ${alternate}`);
+      if (canonical !== name) wrong.push(`${path}: canonical is ${canonical}`);
+
+      let markdown = '';
+      try {
+        markdown = read(SITE_DIR, twin(path));
+      } catch {
+        wrong.push(`${path}: no twin at ${twin(path)}`);
+        continue;
+      }
+
+      /* The page's own title, as the twin's first heading. A twin that came
+         out empty, or that starts somewhere other than the document, is a
+         file nothing would notice was wrong. */
+      const heading = /^#\s+(.+)$/m.exec(markdown)?.[1]?.trim();
+      const h1 = /<h1[^>]*>([\s\S]*?)<\/h1>/.exec(html)?.[1]
+        ?.replace(/<a class="sds-permalink"[\s\S]*?<\/a>/, '')
+        .replace(/<[^>]+>/g, '')
+        .replace(/&#0?39;/g, "'")
+        .replace(/&amp;/g, '&')
+        .trim();
+      if (!heading) wrong.push(`${twin(path)}: no heading`);
+      else if (h1 && heading.replace(/\\/g, '') !== h1) wrong.push(`${twin(path)}: "${heading}" is not "${h1}"`);
+    }
+    expect(wrong).toEqual([]);
+  });
+
+  /* Every Markdown template turns Twig's HTML escaping off, because a twin is
+     not a page and nothing in it is escaped for a browser. One that forgets
+     says `&amp;` where the document said `&`, which is a file that still
+     reads almost right — so the run is checked rather than the templates. */
+  test('nothing in a twin is escaped for a browser', () => {
+    const escaped: string[] = [];
+    for (const path of rendered.map(twin)) {
+      /* Code is not prose: a block showing HTML carries `&amp;` because the
+         page it is showing has to, and a twin reproducing it is right. */
+      const prose = read(SITE_DIR, path).replace(/^```[\s\S]*?^```/gm, '').replace(/`[^`\n]*`/g, '');
+      const found = [...prose.matchAll(/&(amp|lt|gt|quot|#0?39|nbsp);/g)];
+      if (found.length) escaped.push(`${path}: ${found.map(([whole]) => whole).join(' ')}`);
+    }
+    expect(escaped).toEqual([]);
+  });
+
+  /* Every block in a twin is separated by its container, not by the template
+     that wrote it. One that forgets leaves a heading, a fence or a rule on
+     the line under a sentence — which is a heading a parser reads as text, a
+     fence that never opens, and a rule that turns the line above it into a
+     heading it never was. */
+  test('a block in a twin stands apart from the one before it', () => {
+    const glued: string[] = [];
+    for (const path of rendered.map(twin)) {
+      const lines = read(SITE_DIR, path).split('\n');
+      /* The rail of the block being read, because a block is closed by one at
+         least as long as the one that opened it — a prompt handed over whole
+         carries fences of its own, and the block around it is longer. */
+      let rail = 0;
+      lines.forEach((line, at) => {
+        const fence = /^(`{3,})/.exec(line)?.[1]?.length ?? 0;
+        if (rail) {
+          if (fence >= rail) rail = 0;
+          return;
+        }
+        if (at > 0 && lines[at - 1]?.trim() !== '' && /^(#{1,6} |`{3,}|---$)/.test(line)) {
+          glued.push(`${path}:${at + 1}: ${line.slice(0, 40)}`);
+        }
+        if (fence) rail = fence;
+      });
+    }
+    expect(glued).toEqual([]);
+  });
+
+  /* The one failure this format has that reads as no failure at all: a node
+     renders through the mapping of a class it inherits from — every kind of
+     link and both marks are compound inline nodes — and the twin comes out
+     with every word in it and none of its marks. */
+  test('a twin keeps the marks the document was written with', () => {
+    const written = readFileSync(join(ACCEPTANCE_DIR, 'index.md'), 'utf8');
+    const marks = [
+      '*emphasis*',
+      '**strong emphasis**',
+      '`an inline literal`',
+      '[link to the renderer](https://docs.phpdoc.org/components/guides/guides/)',
+    ];
+    expect(marks.filter((mark) => !written.includes(mark))).toEqual([]);
+  });
+
+  /* The way in for a reader that arrived with no navigation: the site's own
+     table of contents at the publish root, naming the twins. */
+  test('the publish root carries a table of contents of the twins', () => {
+    const llms = read(SITE_DIR, 'llms.txt');
+    expect(llms.startsWith('# '), 'llms.txt opens with the project name').toBe(true);
+    expect(llms, 'llms.txt says what the project is').toMatch(/^> \S/m);
+
+    const wrong: string[] = [];
+    const links = [...llms.matchAll(/\[[^\]]*\]\(([^)\s]+)\)/g)].map(([, href]) => href as string);
+    expect(links.length, 'llms.txt lists the pages').toBeGreaterThan(1);
+    for (const href of links) {
+      if (!href.endsWith('.md')) wrong.push(`llms.txt → ${href} (not a twin)`);
+      else if (!existsSync(resolve(SITE_DIR, href))) wrong.push(`llms.txt → ${href}`);
+    }
+    expect(wrong).toEqual([]);
+  });
+
+  /* A fragment is where a reference lands, and a twin has to be a place. The
+     document's own anchors are written into it — the labels it declared and
+     the heading of every section — rather than left to the reader to derive
+     from the words, because every reader derives them differently: one
+     apostrophe in a heading and the link is nowhere. */
+  test('every fragment a twin points at is a place in the twin it points to', () => {
+    const wrong: string[] = [];
+    const anchors = (text: string): string[] => [...text.matchAll(/<a id="([^"]+)"><\/a>/g)].map(([, id]) => id as string);
+
+    for (const path of rendered.map(twin)) {
+      const markdown = read(SITE_DIR, path);
+      for (const [, href] of markdown.matchAll(/\[[^\]]*\]\(([^)\s]+)\)/g)) {
+        const [target, fragment] = (href as string).split('#');
+        if (fragment === undefined || /^(https?:|mailto:)/.test(href as string)) continue;
+        const at = target ? resolve(SITE_DIR, dirname(path), target) : join(SITE_DIR, path);
+        if (!existsSync(at)) continue;
+        if (!anchors(readFileSync(at, 'utf8')).includes(fragment)) wrong.push(`${path} → ${href}`);
+      }
+    }
+    expect(wrong).toEqual([]);
+  });
+
+  test('a link inside a twin leads to another twin', () => {
+    const wrong: string[] = [];
+    for (const path of rendered.map(twin)) {
+      const markdown = read(SITE_DIR, path);
+      /* Links, and not the pictures written the same way with a `!` in
+         front: a picture is an asset of the site and stays one. */
+      for (const [, mark, href] of markdown.matchAll(/(!?)\[[^\]]*\]\(([^)\s]+)\)/g)) {
+        if (mark === '!' || /^(https?:|mailto:|#)/.test(href ?? '')) continue;
+        const target = (href as string).split('#')[0] as string;
+        if (!target) continue;
+        /* A rendered specimen card is the one thing a twin points at that
+           is not a document: it is a picture of one, and it has no twin
+           because there is nothing in it to write down. */
+        if (!target.endsWith('.md') && !target.includes('_cards/')) {
+          wrong.push(`${path} → ${href} (leaves the twin)`);
+          continue;
+        }
+        if (!existsSync(resolve(SITE_DIR, dirname(path), target))) wrong.push(`${path} → ${href}`);
+      }
+    }
+    expect(wrong).toEqual([]);
   });
 });

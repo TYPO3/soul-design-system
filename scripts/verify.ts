@@ -330,6 +330,16 @@ const CHECKS: readonly Check[] = [
     run: () => child('scripts/coverage.ts'),
   },
 
+  /* The same question one layer down, and in the other language: a node the
+     theme renders is rendered twice, once as the page and once as the twin,
+     and a mapping that never reaches its node reads as a page that merely
+     came out plain. See scripts/formats.ts for both failures. */
+  {
+    name: 'formats',
+    label: 'every node the theme renders is written in both formats',
+    run: () => child('scripts/formats.ts'),
+  },
+
   /* The third direction: a name a document writes. Prose is where a name
      outlives the code that had it — nothing renders it, so nothing breaks —
      and a page naming an element the registry has never heard of teaches a

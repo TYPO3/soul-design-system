@@ -1,0 +1,16 @@
+{#- The words a project defines. The list the parser built is what it holds;
+    the anchors are the page's, and a file of text has no use for them. -#}
+{%- autoescape false -%}
+{%- set entries = terms(node.value) -%}
+{%- if entries is empty -%}
+{{ renderNode(node.value) }}
+{%- else -%}
+{%- for entry in entries -%}
+{%- set term -%}**{{ renderNode(entry.term)|md_line }}**{% for classifier in entry.classifiers %} : {{ renderNode(classifier)|md_line }}{% endfor %}{%- endset -%}
+{%- set body -%}{% for definition in entry.children %}{{ renderNode(definition)|md_tidy }}
+
+{% endfor %}{%- endset -%}
+{{ (term ~ "\n\n" ~ body)|md_indent('- ', '  ') }}
+{% endfor %}
+{% endif -%}
+{%- endautoescape -%}

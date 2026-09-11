@@ -1,0 +1,10 @@
+{#- A figure and what bounds it. Every part of it is a property, so the
+    sentence is written here — nothing between the tags says what it is. -#}
+{%- autoescape false -%}
+**{{ (node.option('value') ~ (node.option('unit') ? ' ' ~ node.option('unit') : '') ~ (node.option('of') ? ' of ' ~ node.option('of') : ''))|md_escape }}**{% if node.option('label') %} — {{ node.option('label')|md_escape }}{% endif %}
+
+{% for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

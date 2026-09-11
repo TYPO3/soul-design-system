@@ -1,0 +1,14 @@
+{#- One stop of an instruction: what it is called, and the work it asks for.
+    The number in front of it is the set's — see `steps.md.twig`. -#}
+{%- autoescape false -%}
+{%- if node.option('anchor') %}<a id="{{ node.option('anchor') }}"></a>
+
+{% endif -%}
+{%- if node.option('heading') %}**{{ node.option('heading')|md_escape }}**{% if node.option('optional') %} (optional){% endif %}
+
+{% endif -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

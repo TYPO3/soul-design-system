@@ -1,0 +1,8 @@
+{#- A grid is how a set is placed, which a file of text has no way to say.
+    What it holds stands one after another, in the order it was written. -#}
+{%- autoescape false -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

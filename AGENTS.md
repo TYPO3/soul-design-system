@@ -268,6 +268,7 @@ match the drawings) · `grammars` (the theme's copies of the written grammars) �
 `marks` (the documents' signets against those same drawings) · `headers` (`@dsCard`, `@startingPoint`, literal metadata) · `heights`
 (specimens against the cards they embed) · `classes` (every class used is
 defined in the layer that can load it) · `coverage` (every component is shown)
+· `formats` (every node the theme renders is written as a page and as a twin)
 · `names` (every `sds-` name a document writes exists) · `values` (every figure
 quoted beside a token is that token's) · `refs` (every local
 reference resolves) · `sets` (a component draws from its own property set) ·
@@ -307,7 +308,7 @@ the built stylesheets).
 | `highlight` | every language `CodeLang` promises is actually registered |
 | `manager` | the Storybook shell itself boots |
 | `search` | a hit in the site index resolves from a page below the root |
-| `guides` | the rendered site, opened — the theme's findings, and the page with no script |
+| `guides` | the rendered site, opened — the theme's findings, the page with no script, and the Markdown twin beside every page |
 
 Never disable an addon, a spec or a threshold to get a green run.
 
@@ -334,6 +335,7 @@ make test ARGS="tests/a11y.spec.ts --grep card"
 | a document naming a class, an element or an event | `make verify ARGS=names` |
 | a token's value, or a comment or caption quoting one | `make verify ARGS=values` |
 | a new component, class or Guides page | `make verify ARGS=coverage` |
+| a directive, a node or a template of the Guides theme | `make verify ARGS=formats`, then `make guides` |
 | a card's height or its viewport | `make verify ARGS="fit heights"` |
 | a `@media` width, in any sheet | `make verify ARGS=breakpoints` |
 | `packages/frontend/src/` with `packages/frontend/dist/` committed against it | `make verify ARGS=dist` |
@@ -377,10 +379,12 @@ declarations into their own stylesheet is the failure this system exists to
 prevent, and anything the classes can do the element must be able to emit.
 
 **Add a directive to the Guides theme** — the directive in
-`packages/guides-theme/src/Directives/` and whatever node it returns, its
-template under `resources/template/body/directive/`, the registration in
+`packages/guides-theme/src/Directives/` and whatever node it returns, its two
+templates under `resources/template/body/directive/` — `.html.twig` for the
+page and `.md.twig` for the twin, beside each other — the registration in
 `resources/config/soul.php`, **the node's template in the `templates` list in
-`SoulExtension.php`** — a node with none renders as its own text, which is a
+`SoulExtension.php` and in `resources/template/markdown.php`** — a node with
+none renders as its own text, which is a
 page that comes out looking merely unstyled — a page of
 `packages/guides-theme/acceptance/` that
 uses it, its section in `docs/guides-theme/directives.rst` with a rendered

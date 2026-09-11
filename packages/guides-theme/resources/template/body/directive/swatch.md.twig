@@ -1,0 +1,6 @@
+{#- A colour is a chip, a name and a value, and two of those three are the
+    chip. What is left is the pair, which is a row of a list. -#}
+{%- autoescape false -%}
+- {% if node.option('name') %}**{{ node.option('name')|md_escape }}** {% endif %}{{ node.option('value')|md_code }}{% if node.option('resolved') %} — {{ node.option('resolved')|md_code }}{% endif %}
+
+{% endautoescape %}

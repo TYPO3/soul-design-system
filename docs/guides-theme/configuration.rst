@@ -259,6 +259,54 @@ The way on
    somewhere else, and a way onward from a page that is not on the way is a
    path this theme invented.
 
+The twin
+--------
+
+.. confval:: markdown
+   :type: boolean
+   :default: true
+
+   The same documents, written a second time as Markdown — ``page.md`` beside
+   ``page.html``, with every page naming its own twin:
+
+   .. code-block:: html
+
+      <link rel="alternate" type="text/markdown" href="stylesheets.md" />
+      <link rel="canonical" href="stylesheets.html" />
+
+   It is a second *output format*, not a conversion of the page. The renderer
+   writes both from the same parsed document, node by node, so a directive
+   decides what it is in Markdown the same way it decides what it is in HTML —
+   and what has no shape in Markdown, like a grid or a band, is what it holds
+   rather than a box drawn in characters. The format's name is the file
+   extension every reference inside it resolves to, which is what makes the
+   twin a site of its own: a link from one twin lands on the next twin, and
+   nothing following those links is ever handed a page.
+
+   Written as GitHub Flavoured Markdown, because that is the dialect with a
+   table, a fenced block that carries its language, a footnote and an alert —
+   an admonition comes out as ``> [!WARNING]``. The document's own anchors are
+   written into it too, one ``<a id>`` above every heading and wherever a
+   label was declared: a reader that had to derive them from the words would
+   derive them its own way, and a reference carrying a fragment has to land.
+
+   The same setting writes ``llms.txt`` at the publish root — the site's own
+   table of contents, which is what a reader that arrived with no navigation
+   is otherwise missing. It is the toctree: a heading per section, a line per
+   page with the sentence that page opens with, and every link a twin.
+
+   A twin is written at its page's own path, so a project that keeps a
+   ``.md`` file as an *asset* beside a document of the same name — a prompt, a
+   snippet, something handed over whole — has it overwritten by the twin of
+   that document. Name one or the other something else; this site keeps its
+   prompts under names no page carries.
+
+   On unless a project says otherwise, and that is the decision: a reader that
+   is a program — an agent following a link, a model asked to read the manual
+   — is a reader this theme has, and it is served a page whose navigation,
+   scripts and framing are none of what it came for. Off is for a project that
+   does not want to publish its documents twice.
+
 The footer
 ----------
 

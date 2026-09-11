@@ -1,0 +1,12 @@
+{#- A digression with a heading. Quoted rather than left in the flow, for the
+    reason the HTML draws it as a panel: it is beside the argument. -#}
+{%- autoescape false -%}
+{%- set body -%}**{{ renderNode(node.title)|md_line }}**
+
+{% for child in node.children %}{{ renderNode(child)|md_tidy }}
+
+{% endfor %}
+{%- endset -%}
+{{ body|md_quote }}
+
+{% endautoescape %}

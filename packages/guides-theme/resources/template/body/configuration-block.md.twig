@@ -1,0 +1,10 @@
+{#- The same setting written in two languages. Both stand here, each under
+    the label its tab carried — a reader of the file chooses by reading. -#}
+{%- autoescape false -%}
+{%- for tab in node.tabs -%}
+**{{ tab.label|md_escape }}**
+
+{{ renderNode(tab.content)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

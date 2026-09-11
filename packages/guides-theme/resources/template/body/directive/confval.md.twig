@@ -1,0 +1,29 @@
+{#
+    A configuration value: the name a reader searches for, what it takes, and
+    what it is for.
+
+    The facts are a list rather than the row the element draws them in — a row
+    is a shape, and the pairs are what it is made of.
+#}
+{%- autoescape false -%}
+{%- if node.anchor %}<a id="{{ node.anchor }}"></a>
+
+{% endif -%}
+**{{ node.plainContent|md_code }}**
+
+{% set facts %}
+{%- if node.type %}- Type: {{ renderNode(node.type)|md_line }}
+{% endif -%}
+{%- if node.default is not null %}- Default: {{ renderNode(node.default)|md_line }}
+{% endif -%}
+{%- if node.required %}- Required
+{% endif -%}
+{%- for key, option in node.additionalOptions %}- {{ key|md_escape }}: {{ renderNode(option)|md_line }}
+{% endfor -%}
+{% endset %}
+{%- if facts|trim %}{{ facts|md_tidy }}
+
+{% endif -%}
+{{ renderNode(node.value)|md_tidy }}
+
+{% endautoescape %}

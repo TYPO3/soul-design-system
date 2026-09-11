@@ -1,0 +1,13 @@
+{#- A digression with a heading — the same block `structure/sidebar.md.twig`
+    holds under the other name. Quoted, because it stands beside the argument
+    rather than in it. -#}
+{%- autoescape false -%}
+{%- set body -%}**{{ node.name|md_escape }}**
+
+{% for child in node.children %}{{ renderNode(child)|md_tidy }}
+
+{% endfor %}
+{%- endset -%}
+{{ body|md_quote }}
+
+{% endautoescape %}

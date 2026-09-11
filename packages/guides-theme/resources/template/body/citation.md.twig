@@ -1,0 +1,9 @@
+{#- A citation, as the footnote GFM has: the label a reference in the text
+    carries, and the passage it stands for. -#}
+{%- autoescape false -%}
+{%- set body -%}{% for child in node.children %}{{ renderNode(child)|md_tidy }}
+
+{% endfor %}{%- endset -%}
+{{ body|md_indent('[^' ~ node.name ~ ']: ', '    ') }}
+
+{% endautoescape %}

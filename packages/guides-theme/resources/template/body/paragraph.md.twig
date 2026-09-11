@@ -1,0 +1,6 @@
+{%- autoescape false -%}
+{%- set text = renderNode(node.value)|md_tidy -%}
+{%- if text %}{{ text }}
+
+{% endif -%}
+{%- endautoescape -%}

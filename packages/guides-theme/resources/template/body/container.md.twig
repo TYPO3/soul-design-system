@@ -1,0 +1,23 @@
+{#
+    A container, and the one the parser builds without being asked: a line
+    block.
+
+    Its lines keep the breaks the author wrote — a hard break each, which is
+    what a verse or an address is — and a `.. container::` is what it holds,
+    because a box with a class on it is a shape and a file of text has none.
+#}
+{%- autoescape false -%}
+{%- if 'line' in node.classes -%}
+{%- set line -%}{% for child in node.children %}{{ renderNode(child) }}{% endfor %}{%- endset -%}
+{{- line|md_break -}}
+{%- elseif 'line-block' in node.classes -%}
+{%- set lines -%}{% for child in node.children %}{{ renderNode(child) }}{% endfor %}{%- endset -%}
+{{ lines|md_tidy|trim('\\', 'right') }}
+
+{% else -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endif -%}
+{%- endautoescape -%}

@@ -1,0 +1,10 @@
+{#- One column of a split. Its heading is a heading; the column is not. -#}
+{%- autoescape false -%}
+{%- if node.option('heading') %}## {{ node.option('heading')|md_escape }}
+
+{% endif -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

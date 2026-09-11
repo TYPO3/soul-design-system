@@ -1,0 +1,7 @@
+{#- The flags of a command, and what each one does — a definition list under
+    this system's own names, and a pair here. -#}
+{%- autoescape false -%}
+{%- set body -%}{{ renderNode(node.value) }}{%- endset -%}
+{{ ('**' ~ node.plainContent|md_escape ~ '**' ~ "\n\n" ~ body)|md_indent('- ', '  ') }}
+
+{% endautoescape %}

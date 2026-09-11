@@ -35,6 +35,15 @@ project finds out about the hard way:
 - ``_search.json``, because the field in the bar fetches an index that nothing
   in the render writes.
 
+What it *does* do beyond the pages is write them twice. ``page.md`` lands
+beside every ``page.html`` — the same document as Markdown, for the reader
+that is a program — and each page names its own twin in the head. It is a
+second output format rather than a step afterwards, so the two are written
+from one parsed document and a link inside a twin lands on the next twin.
+``llms.txt`` lands at the publish root with them — the toctree as a list of
+those twins, for a reader that arrived with no navigation. ``markdown`` in
+:doc:`configuration` is the setting, and the reasoning with it.
+
 ``--fail-on-error`` is the renderer's own half of the safety net: a reference
 it could not resolve becomes a red build rather than a line in a log. It says
 nothing about the references a theme or a copy step introduced, which is the

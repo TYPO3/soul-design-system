@@ -1,0 +1,7 @@
+{#- Two columns are a shape. What stood in them is not. -#}
+{%- autoescape false -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

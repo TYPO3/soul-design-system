@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use League\Tactician\CommandBus;
 use phpDocumentor\Guides\Code\Highlighter\Highlighter;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
 use phpDocumentor\Guides\RestructuredText\Parser\Productions\DirectiveContentRule;
@@ -31,10 +32,14 @@ use TYPO3\Soul\GuidesTheme\Navigation\Menu;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Navigation\Sections;
+use TYPO3\Soul\GuidesTheme\NodeRenderers\GeneralDirectiveMarkdownRenderer;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
+use TYPO3\Soul\GuidesTheme\Renderer\LlmsRenderer;
+use TYPO3\Soul\GuidesTheme\Renderer\MarkdownRenderer;
 use TYPO3\Soul\GuidesTheme\Twig\AnchorExtension;
 use TYPO3\Soul\GuidesTheme\Twig\DiffExtension;
 use TYPO3\Soul\GuidesTheme\Twig\LinkExtension;
+use TYPO3\Soul\GuidesTheme\Twig\MarkdownExtension;
 use TYPO3\Soul\GuidesTheme\Twig\ThemeExtension;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -171,10 +176,40 @@ return static function (ContainerConfigurator $container): void {
         ->set(DiffExtension::class)
         ->tag('twig.extension')
 
+        /* The second output format: the same documents written as Markdown,
+           for a reader that is a program. The node renderers it draws on are
+           the ones tagged for `md`, which is the whole of what a format is
+           here — see `MarkdownRenderer`. */
+        ->set(MarkdownRenderer::class)
+        ->args(['$commandBus' => service(CommandBus::class)])
+        ->tag('phpdoc.renderer.typerenderer', [
+            'noderender_tag' => 'phpdoc.guides.noderenderer.md',
+            'format' => 'md',
+        ])
+
+        /* And the twin's own table of contents at the publish root, for a
+           reader that arrived with no navigation — one file for the whole
+           project, which is why it is a renderer of its own rather than a
+           template. See `LlmsRenderer`. */
+        ->set(LlmsRenderer::class)
+        ->tag('phpdoc.renderer.typerenderer', ['format' => 'llms'])
+
+        /* A directive the core reaches by name rather than by node class, in
+           the second format — see `GeneralDirectiveMarkdownRenderer` for why a
+           miss renders the passage instead of a warning. */
+        ->set(GeneralDirectiveMarkdownRenderer::class)
+        ->tag('phpdoc.guides.noderenderer.md')
+
+        /* And what a Markdown template cannot say in Twig: the blank line
+           between two blocks, the prefix on a nested one, a fence longer than
+           what it holds — see `MarkdownExtension`. */
+        ->set(MarkdownExtension::class)
+        ->tag('twig.extension')
+
         ->set(ThemeExtension::class)
         ->args([
             '%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%',
-            '%soul.footer%', '%soul.navigation%', '%soul.pager%',
+            '%soul.footer%', '%soul.navigation%', '%soul.pager%', '%soul.markdown%',
             service(Menu::class), service(Rail::class), service(Pager::class), service(Sections::class),
         ])
         ->tag('twig.extension');

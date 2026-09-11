@@ -1,0 +1,8 @@
+{#- What one item holds. The marker in front of it is the list's — see
+    `body/list/list.md.twig`. -#}
+{%- autoescape false -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

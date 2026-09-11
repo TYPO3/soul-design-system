@@ -1,0 +1,7 @@
+{#- A row of presses is a row on a page and a run of links here. -#}
+{%- autoescape false -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

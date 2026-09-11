@@ -1,0 +1,7 @@
+{#- The passages a page's footnotes and citations refer to, at the foot of it. -#}
+{%- autoescape false -%}
+{%- for child in node.value -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

@@ -1,0 +1,15 @@
+{#
+    A toctree, as the list of pages it is.
+
+    The one piece of navigation a Markdown file keeps, because it is not the
+    site's furniture: it is what this page says comes below it, and it is how
+    a program reading the twin finds the rest of the twin.
+#}
+{%- autoescape false -%}
+{%- if not node.getOption('hidden', false) -%}
+{%- if node.caption %}**{{ renderNode(node.caption)|md_line }}**
+
+{% endif -%}
+{% for entry in node.menuEntries %}{{ renderNode(entry) }}{% endfor %}
+{% endif -%}
+{%- endautoescape -%}

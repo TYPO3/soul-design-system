@@ -53,6 +53,52 @@ The `<extension>` element is load-bearing: `theme="soul"` selects a theme that
 has to exist first, and that element is what makes it exist. `input-format` is
 `rst` or `md`, and picking one is all a project does about it.
 
+## What a project can set
+
+Everything below goes inside that `<extension>` element, and every one of them
+is optional — a theme configured with nothing renders a site that says the
+project's own title.
+
+| Setting | |
+| --- | --- |
+| `<signet>` | A path to the mark in the bar, relative to the documentation root and readable by the renderer, so it is copied into the output with the documents |
+| `<favicon href sizes>` | The mark in the tab, one element per file, because a mark drawn at three optical sizes is three files and the browser picks by `sizes`. With none, the signet is the tab icon |
+| `<product>` | The name in the bar where it is not the project's own title — a manual documenting one product inside a larger project |
+| `<brand>` | Whose product it is, as the first half of a lockup with the accent rule between the two |
+| `<home>` | What the bar links back to, where that is not the project's index |
+| `<pager>` | `true` puts the pages either side of this one at the end of the column, in the order the toctree flattens to. Off by default: a reference nobody reads front to back is a reference where that path is a row of noise |
+| `<markdown>` | `false` stops the theme writing the Markdown twin. On by default — see below |
+| `<navigation><link href label external/></navigation>` | The handful of places the bar carries. With none, it is the top level of the toctree; a `label` is only for a link the tree has no page for |
+| `<footer><group title><link href label external/></group></footer>` | A column of the footer pointing somewhere the tree does not. The other columns are the toctree itself and configure nothing |
+| `<footer><social href label/></footer>` | An account somewhere else. There is no glyph to set: the URL names the service and the mark is read out of it |
+| `<footer><note>` | The line that says what this site is |
+
+## The twin
+
+The renderer writes every document twice: `page.md` lands beside `page.html`,
+and each page names its own in the head.
+
+```html
+<link rel="alternate" type="text/markdown" href="stylesheets.md" />
+<link rel="canonical" href="stylesheets.html" />
+```
+
+It is a second **output format** and not a conversion of the page — both are
+written from the same parsed document, node by node, so a directive says what
+it is in Markdown the same way it says what it is in HTML. A format's name is
+the file extension every reference inside it resolves to, which makes the twin
+a site of its own: a link in one twin lands on the next, and nothing following
+those links is handed a page. It is GitHub Flavoured Markdown, so a table is a
+table, a block carries its language, and an admonition arrives as
+`> [!WARNING]`.
+
+`llms.txt` lands at the publish root with them: the toctree as a list of those
+twins, a heading per section and a line per page with the sentence that page
+opens with. It is the way in for a reader that arrived with no navigation.
+
+The reader all of it is for is a program: an agent following a link, a model
+asked to read the manual. `<markdown>false</markdown>` turns it off.
+
 ## What an author can write
 
 Everything below is registered by the extension, so a project that selected the
@@ -166,7 +212,8 @@ is published, so a reader with no JavaScript gets the whole of it.
 | --- | --- |
 | `src/` | the extension, the directives and their nodes, the Twig extension |
 | `resources/config/` | the container configuration that registers all of it |
-| `resources/template/` | the overrides, by the paths the renderer looks them up under |
+| `resources/template/` | the overrides, by the paths the renderer looks them up under — `*.html.twig` for the page and `*.md.twig` for the twin, beside each other |
+| `resources/template/markdown.php` | which template each node is written with in the Markdown format |
 | `resources/highlight/` | the grammars the highlighter does not ship, as the JSON it loads a language from — generated, and registered by `Grammars` |
 | `resources/dist/` | the drop-in: `soul.css`, `soul.js`, `soul-boot.js`, the faces, the icon sprites — and `soul-finish.js` |
 

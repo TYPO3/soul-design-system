@@ -1,0 +1,8 @@
+{#- One level of the tree, and the levels under it. Included by itself: a
+    nesting the document decided is a depth no template can name. -#}
+{%- autoescape false -%}
+{%- for entry in entries -%}
+{{ '                              '|slice(0, depth * 2) }}{{ entry.label }}{% if entry.note %}  — {{ entry.note }}{% endif %}
+{% if entry.items %}{% include 'body/directive/directory-tree-level.md.twig' with { entries: entry.items, depth: depth + 1 } only %}{% endif %}
+{%- endfor -%}
+{%- endautoescape -%}

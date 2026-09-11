@@ -1,0 +1,15 @@
+{#
+    The document, and nothing around it.
+
+    No bar, no rail, no footer: what the HTML page puts around the article is
+    the site's navigation, and a reader who followed a link to this file has
+    that navigation in the links inside it.
+#}
+{%- autoescape false -%}
+{%- set body -%}
+{% for child in node.children %}{{ renderNode(child)|md_tidy }}
+
+{% endfor %}
+{%- endset -%}
+{{ body|md_tidy }}
+{% endautoescape %}

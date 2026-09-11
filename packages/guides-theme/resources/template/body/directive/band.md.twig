@@ -1,0 +1,11 @@
+{#- A band is a stripe of the page, and a stripe is not a thing Markdown has.
+    What survives is its title, which is a heading, and what stood in it. -#}
+{%- autoescape false -%}
+{%- if node.option('title') %}## {{ node.option('title')|md_escape }}
+
+{% endif -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

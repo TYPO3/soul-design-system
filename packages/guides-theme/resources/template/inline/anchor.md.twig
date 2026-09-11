@@ -1,0 +1,6 @@
+{#- A label the document wrote, kept so a reference into this page has
+    something to land on. Markdown has no anchor of its own, and a link
+    carrying a fragment nothing answers is the reader that follows it —
+    a program — losing the passage it was sent to. -#}
+{%- autoescape false -%}<a id="{{ node.value }}"></a>
+{%- endautoescape -%}

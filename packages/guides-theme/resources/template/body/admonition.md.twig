@@ -1,0 +1,25 @@
+{#
+    An admonition as a GitHub alert.
+
+    GFM has five, and the twelve the core parses map onto them the way the
+    HTML's four tones do — `important` on the quiet side of the line, because
+    that is what Sphinx means by it. A title the author wrote is theirs and is
+    a label, so it stands above the passage rather than replacing the word.
+#}
+{%- autoescape false -%}
+{%- set alert = {
+    'note': 'NOTE', 'seealso': 'NOTE', 'hint': 'TIP', 'tip': 'TIP',
+    'important': 'IMPORTANT', 'attention': 'WARNING', 'caution': 'WARNING',
+    'warning': 'WARNING', 'danger': 'CAUTION', 'error': 'CAUTION',
+}[node.name]|default('NOTE') -%}
+{%- set body -%}
+[!{{ alert }}]
+{% if node.title %}**{{ renderNode(node.title)|md_line }}**
+
+{% endif %}{% for child in node.children %}{{ renderNode(child)|md_tidy }}
+
+{% endfor %}
+{%- endset -%}
+{{ body|md_quote }}
+
+{% endautoescape %}

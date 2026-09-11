@@ -1,0 +1,10 @@
+{#- `.. topic::` as the parser leaves it under its own name: a digression with
+    a heading of its own, quoted for the reason the HTML draws it apart. -#}
+{%- autoescape false -%}
+{%- set body -%}**{{ renderNode(node.content)|md_line }}**
+
+{{ renderNode(node.value) }}
+{%- endset -%}
+{{ body|md_quote }}
+
+{% endautoescape %}

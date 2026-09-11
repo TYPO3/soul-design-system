@@ -1,0 +1,12 @@
+{#
+    A directory, as the shape it has on disk.
+
+    Its own fenced block, because what a tree says is where a name stands, and
+    a paragraph cannot hold that. The entries are the nested data the directive
+    read out of the document — the same data the element is handed.
+#}
+{%- autoescape false -%}
+{%- set lines -%}{% include 'body/directive/directory-tree-level.md.twig' with { entries: node.option('entries'), depth: 0 } only %}{%- endset -%}
+{{ lines|md_fence }}
+
+{% endautoescape %}

@@ -23,6 +23,19 @@
       {%- if icon.type %} type="{{ icon.type }}"{% endif %}
       {%- if icon.sizes %} sizes="{{ icon.sizes }}"{% endif %} />
 {%- endfor %}
+{#- The same document as Markdown, beside the page.
+
+    The renderer writes both: `md` is an output format and a format's name is
+    the file extension, so the twin is `<this page>.md` and every link inside
+    it points at the twin of the page it names. The canonical is the other half
+    of that pair — it says which of the two representations the document *is* —
+    so both are written together or neither is, and a project that turned the
+    twin off has one representation and nothing to say about it. -#}
+{%- set twin = soul.markdown and env.hasCurrentFileName ? env.currentFileName|split('/')|last : '' %}
+{%- if twin %}
+<link rel="alternate" type="text/markdown" href="{{ twin }}.md" />
+<link rel="canonical" href="{{ twin }}.html" />
+{%- endif %}
 <script src="{{ root }}styles/soul-boot.js"></script>
 {#- The variable faces a page opens in. The preload starts them before the
     stylesheet is parsed; `font-display: optional` keeps a late response from

@@ -1,0 +1,13 @@
+{#- A question, and the blocks folded behind it. Nothing is folded in a file
+    of text: the answer stands under the question it answers. -#}
+{%- autoescape false -%}
+{%- if node.option('anchor') %}<a id="{{ node.option('anchor') }}"></a>
+
+{% endif -%}
+**{{ node.option('question')|md_escape }}**
+
+{% for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

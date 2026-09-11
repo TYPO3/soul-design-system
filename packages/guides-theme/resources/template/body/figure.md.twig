@@ -1,0 +1,9 @@
+{#- A picture and the claim under it. The claim is a line of its own rather
+    than the image's title, which is a tooltip only a mouse can read. -#}
+{%- autoescape false -%}
+{%- set source = node.image.value is external_target ? node.image.value : asset(node.image.value) -%}
+![{{ node.image.option('alt')|default('')|md_escape }}]({{ source }})
+{% if node.document %}
+{{ renderNode(node.document)|md_line }}
+{% endif %}
+{% endautoescape %}

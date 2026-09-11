@@ -1,0 +1,13 @@
+{#
+    A list, and the marker is written here rather than by the item.
+
+    An item does not know whether it is the third of an ordered set or a bullet
+    of an unordered one, and it does not know what its own marker is worth in
+    spaces — which is what the blocks under it have to be moved in by, or they
+    leave the item they belong to.
+#}
+{%- autoescape false -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_indent(node.isOrdered ? (loop.index0 + (node.start ?? 1)) ~ '. ' : '- ') }}
+{% endfor %}
+{% endautoescape %}

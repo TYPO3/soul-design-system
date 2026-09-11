@@ -44,6 +44,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         private readonly array $footer,
         private readonly array $navigation,
         private readonly bool $pager,
+        private readonly bool $markdown,
         private readonly Menu $menu,
         private readonly Rail $rail,
         private readonly Pager $pages,
@@ -63,6 +64,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
                 'footer' => $this->footer,
                 'navigation' => $this->navigation,
                 'pager' => $this->pager,
+                'markdown' => $this->markdown,
             ],
         ];
     }

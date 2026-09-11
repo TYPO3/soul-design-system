@@ -1,0 +1,7 @@
+{%- autoescape false -%}
+{%- set body -%}**{{ node.versionLabel|md_escape }}**
+
+{{ renderNode(node.value) }}{%- endset -%}
+{{ body|md_quote }}
+
+{% endautoescape %}

@@ -1,0 +1,20 @@
+{#
+    A code block, fenced in the language it was written in.
+
+    No colouring: a fence carries the language as a word and whatever reads
+    this file decides what to do with it — which is the same contract the HTML
+    has, where the server writes the colour into the markup. A raw block is
+    written through, because raw is what its author asked for.
+#}
+{%- autoescape false -%}
+{%- if node.raw -%}
+{{ node.value }}
+
+{% else -%}
+{%- if node.caption %}{{ renderNode(node.caption)|md_line }}
+
+{% endif -%}
+{{ node.value|md_fence(node.language|default('')) }}
+
+{% endif -%}
+{%- endautoescape -%}

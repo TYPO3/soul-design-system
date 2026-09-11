@@ -1,0 +1,7 @@
+{#- A press is a link with a shape. The shape is the component's. -#}
+{%- autoescape false -%}
+{%- set href = node.option('href') ? renderLink(node.option('href')) : linkUrl(node.link) -%}
+{%- set label = node.title.toString|md_escape -%}
+{% if href %}[{{ label }}]({{ href }}){% else %}{{ label }}{% endif %}
+
+{% endautoescape %}

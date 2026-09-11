@@ -1,0 +1,4 @@
+{%- autoescape false -%}
+{%- set source = node.value is external_target ? node.value : asset(node.value) -%}
+![{{ node.altText|default('')|md_escape }}]({{ source }})
+{%- endautoescape -%}

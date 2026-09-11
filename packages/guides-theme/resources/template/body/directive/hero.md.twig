@@ -1,0 +1,9 @@
+{#- The claim, and the picture beside it. In a column of text there is no
+    beside, so the picture follows what it illustrates. -#}
+{%- autoescape false -%}
+{{ renderNode(node.children|first)|md_tidy }}
+
+{% if node.option('src') %}![{{ node.option('alt')|default('')|md_escape }}]({{ asset(node.option('src')) }})
+
+{% endif -%}
+{%- endautoescape -%}

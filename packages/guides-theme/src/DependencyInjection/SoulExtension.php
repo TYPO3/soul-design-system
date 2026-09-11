@@ -130,6 +130,12 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                    rendering, unless a site puts its documentation under a
                    marketing page that is not part of it. */
                 ->scalarNode('home')->defaultNull()->end()
+                /* The same documents written again as Markdown, `page.md`
+                   beside `page.html`, each page naming its twin. On by
+                   default: a reader that is a program is a reader this theme
+                   has. `<markdown>false</markdown>` is for a project that
+                   will not publish its documents twice. */
+                ->booleanNode('markdown')->defaultTrue()->end()
                 /* The way on from a page: the pages either side of it in the
                    order the tree reads, at the end of the column.
 
@@ -284,7 +290,20 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => StepsNode::class, 'file' => 'body/directive/steps.html.twig', 'format' => 'html'],
                 ['node' => StepNode::class, 'file' => 'body/directive/step.html.twig', 'format' => 'html'],
                 ['node' => ExampleNode::class, 'file' => 'body/directive/example.html.twig', 'format' => 'html'],
+                /* And the same documents as Markdown, node for node. The
+                   format's name is the file extension the renderer writes and
+                   the one every reference inside it resolves to, so the twin
+                   is a site of its own rather than a file beside a page. */
+                ...$this->markdown(),
             ],
+            /* The two the renderer writes by default, and ours where the
+               project has not turned it off. Read out of the raw config
+               rather than taken from `load()`: a format has to be declared
+               before the container is compiled, and by the time a setting has
+               been processed the render is already configured. */
+            'output_format' => $this->wants($container, 'markdown')
+                ? ['html', 'interlink', 'md', 'llms']
+                : ['html', 'interlink'],
         ]);
     }
 
@@ -310,9 +329,46 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
         $container->setParameter('soul.footer', $footer);
         $container->setParameter('soul.navigation', $config['navigation'] ?? []);
         $container->setParameter('soul.pager', $config['pager']);
+        /* The head names the twin, and may only name one that is written. */
+        $container->setParameter('soul.markdown', $config['markdown']);
 
         $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
         $loader->load('soul.php');
+    }
+
+    /**
+     * The Markdown map, as the renderer takes its templates — written out
+     * rather than through the core's `templateArray()`, a function in another
+     * package's file scope that exists only where that file was loaded.
+     *
+     * @return list<array{node: string, file: string, format: string}>
+     */
+    private function markdown(): array
+    {
+        $templates = [];
+        /** @var array<class-string, string> $map */
+        $map = require dirname(__DIR__, 2) . '/resources/template/markdown.php';
+        foreach ($map as $node => $file) {
+            $templates[] = ['node' => $node, 'file' => $file, 'format' => 'md'];
+        }
+
+        return $templates;
+    }
+
+    /**
+     * A setting as the project wrote it, before anything has processed it —
+     * XML carries no types, so `false` arrives as the word. Nothing written
+     * is the default the tree above states.
+     */
+    private function wants(ContainerBuilder $container, string $setting, bool $unwritten = true): bool
+    {
+        foreach ($container->getExtensionConfig($this->getAlias()) as $config) {
+            if (isset($config[$setting])) {
+                return filter_var($config[$setting], FILTER_VALIDATE_BOOL);
+            }
+        }
+
+        return $unwritten;
     }
 
     /**

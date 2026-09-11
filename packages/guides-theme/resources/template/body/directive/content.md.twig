@@ -1,0 +1,5 @@
+{#- A directive Markdown has no shape for: what was written in it, which is
+    the half of it a file of text can carry. -#}
+{%- autoescape false -%}
+{{ renderNode(node.value) }}
+{%- endautoescape -%}
