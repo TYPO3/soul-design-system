@@ -8,16 +8,16 @@ export interface CheckboxProps {
     /** On or off. The property is the state, so a form reset puts back what
         the markup said rather than what was last pressed. */
     checked?: boolean;
-    /** Neither on nor off: the box stands for a set only some of which is
-        ticked. Ticking it resolves to on, the way the platform resolves it. */
+    /** Neither on nor off: the box stands for a set with only some of it on.
+        A tick resolves to on, the way the platform resolves it. */
     indeterminate?: boolean;
-    /** What it is called when the form is sent. */
+    /** The name it travels under when the form submits. */
     name?: string;
-    /** What it sends when it is on. `on` where nothing is written, which is
-        the platform's own default. */
+    /** What it sends when it is on. `on` where a caller writes nothing, which
+        is the platform's own default. */
     value?: string;
-    /** It has to be ticked before the form goes. Said to everyone, not drawn
-        as a mark beside the label. */
+    /** It must be on before the form goes. Said to everyone, not drawn as a
+        mark beside the label. */
     required?: boolean;
     /** Present but not available, and the real attribute so nothing can press
         it. */

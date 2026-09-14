@@ -1,20 +1,20 @@
 import { type TemplateResult } from 'lit';
 import { type FieldSize } from '../lib/field-box.js';
 import { SdsFormElement } from '../lib/form-element.js';
-/** Which way a reader may drag the corner. `vertical` is the default because a
+/** Which way a reader can drag the corner. `vertical` is the default because a
     box that widens breaks the column it stands in. */
 export type TextareaResize = 'vertical' | 'none' | 'both';
 export interface TextareaProps {
-    /** Lines. What the box is *worth* asking for, not a limit on the answer. */
+    /** Lines. The room the box *deserves*, not a limit on the answer. */
     rows?: number;
     /** What is in it — its value when `filled`, its placeholder when not. */
     value?: string;
     /** The visible label, which turns this into a control in a *form*: label
         above, hint under, error under both. */
     caption?: string;
-    /** What it is called for anything that cannot see what it sits beside. */
+    /** Its name, for anything that cannot see what it sits beside. */
     label?: string;
-    /** What the value is called when the form is sent. */
+    /** The name the value travels under when the form submits. */
     name?: string;
     /** The control's id, so the label points at it and an error summary can. */
     fieldId?: string;
@@ -29,9 +29,9 @@ export interface TextareaProps {
     disabled?: boolean;
     /** Shown and sent, and not editable. */
     readonly?: boolean;
-    /** How much may be typed — the browser's own limit. */
+    /** How much a reader can type — the browser's own limit. */
     maxlength?: number;
-    /** What the browser may fill in. */
+    /** What the browser can fill in. */
     autocomplete?: string;
     /** Which way the corner drags. */
     resize?: TextareaResize;
@@ -40,7 +40,7 @@ export interface TextareaProps {
     size?: FieldSize;
     /** The width it asks for, in pixels. The attribute is `min-width`. */
     minWidth?: number;
-    /** The value is the reader's, not a prompt. Typing sets it too. */
+    /** The value is the reader's, not a prompt. A keystroke sets it too. */
     filled?: boolean;
     /** Force the states a still picture cannot hold. */
     focused?: boolean;

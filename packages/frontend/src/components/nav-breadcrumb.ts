@@ -1,12 +1,12 @@
 /* sds-nav-breadcrumb — where the page sits, as a trail.
 
-   The last entry is the page itself and is not a link, and says so with
-   `aria-current="page"` rather than leaving it to be inferred from position.
+   The last entry is the page itself and not a link. It says so with
+   `aria-current="page"` rather than leaves the position to say it.
 
-   No active mark, unlike every other navigation here: the trail is read as a
-   path and its end is where the reader already is, so spending the accent there
-   would leave nothing to mark what they came to do. The separator is a
-   character, not an icon — punctuation between two words, at their size. */
+   No active mark, unlike every other navigation here. A reader reads the trail
+   as a path and its end is where they already are. The accent there leaves
+   nothing to mark what they came to do. The separator is a character, not an
+   icon — punctuation between two words, at their size. */
 
 import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';
@@ -18,10 +18,10 @@ export interface Crumb {
 }
 
 export interface CrumbsProps {
-  /** The trail, from the root to the page being read — set from script,
-      being a list. The last entry is the page itself and is not a link. */
+  /** The trail, from the root to the open page — set from script, as a
+      list. The last entry is the page itself and not a link. */
   items: readonly Crumb[];
-  /** What the trail is called for a reader who cannot see it is one. */
+  /** The trail's name for a reader who cannot see it is one. */
   label?: string;
 }
 

@@ -8,14 +8,14 @@ export interface Choice {
     hint?: string;
 }
 export interface RadioProps {
-    /** What is being asked. Rendered as the `<legend>`. */
+    /** The question. Rendered as the `<legend>`. */
     legend: string;
     /** Where the page already draws the question — a dialog's title, a heading
-        over the set. The legend is said and not drawn, so the set is still named
-        and the question is not on the page twice. */
+        over the set. The legend then speaks and does not draw, so the set keeps
+        its name and the question is not on the page twice. */
     legendSaidOnly?: boolean;
-    /** What the answer is called when the form is sent. One name for the whole
-        set — that is what makes it one choice rather than several. */
+    /** The name the answer travels under when the form submits. One name for
+        the whole set — that is what makes it one choice rather than several. */
     name: string;
     /** The options, each with its label and what it sends — set from script,
         being a list. */
@@ -25,7 +25,7 @@ export interface RadioProps {
     /** What the whole set commits to, under the legend. A choice carries its
         own where one answer needs saying and the others do not. */
     hint?: string;
-    /** One of them has to be picked before the form goes. */
+    /** The reader must pick one of them before the form goes. */
     required?: boolean;
 }
 export declare class SdsRadio extends SdsFormElement {

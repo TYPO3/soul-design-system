@@ -1,12 +1,12 @@
 /* sds-checkbox — one thing that is either so or not.
 
    The platform's own control in this system's colours, not a box with a glyph
-   in it: the stylesheet takes the paint and leaves the keyboard, the tap
-   target, the indeterminate state and how it all reads out with the input. A
-   set where exactly one may be true is `sds-radio` — a different
+   in it. The stylesheet takes the paint and leaves the rest with the input:
+   the keyboard, the tap target, the indeterminate state, the read-out. A set
+   where exactly one can be true is `sds-radio` — a different
    question, a different control.
 
-   A real `<label>` wraps both, so the words are part of the target: a 16px box
+   A real `<label>` wraps both, so the words are part of the target. A 16px box
    is hard to hit and the sentence beside it is not. */
 
 import { html, nothing, type TemplateResult } from 'lit';
@@ -21,16 +21,16 @@ export interface CheckboxProps {
   /** On or off. The property is the state, so a form reset puts back what
       the markup said rather than what was last pressed. */
   checked?: boolean;
-  /** Neither on nor off: the box stands for a set only some of which is
-      ticked. Ticking it resolves to on, the way the platform resolves it. */
+  /** Neither on nor off: the box stands for a set with only some of it on.
+      A tick resolves to on, the way the platform resolves it. */
   indeterminate?: boolean;
-  /** What it is called when the form is sent. */
+  /** The name it travels under when the form submits. */
   name?: string;
-  /** What it sends when it is on. `on` where nothing is written, which is
-      the platform's own default. */
+  /** What it sends when it is on. `on` where a caller writes nothing, which
+      is the platform's own default. */
   value?: string;
-  /** It has to be ticked before the form goes. Said to everyone, not drawn
-      as a mark beside the label. */
+  /** It must be on before the form goes. Said to everyone, not drawn as a
+      mark beside the label. */
   required?: boolean;
   /** Present but not available, and the real attribute so nothing can press
       it. */
@@ -71,18 +71,18 @@ export class SdsCheckbox extends SdsFormElement {
   }
 
   /* What the markup said, which is what a reset puts back. `?checked` writes
-     the `checked` *attribute* — the input's default — so mirroring the live
-     state into it would make a reset restore the last click instead. */
+     the `checked` *attribute* — the input's default — so a mirror of the live
+     state into it makes a reset restore the last click instead. */
   #initial?: boolean;
 
   protected override willUpdate(): void {
     this.#initial ??= this.checked;
   }
 
-  /* The live state is written onto the control after the render, never as a
-     binding. A `.checked` binding is serialised by the static renderer as
-     `checked="false"` — which in HTML means checked — so every box on every
-     generated card came out ticked. `?checked` stays: it writes the *default*,
+  /* The live state goes onto the control after the render, never as a
+     binding. The static renderer writes a `.checked` binding as
+     `checked="false"`, which in HTML means checked. So every box on every
+     generated card came out on. `?checked` stays: it writes the *default*,
      which is what a reset puts back. */
   protected override updated(): void {
     const input = this.querySelector('input');
@@ -95,9 +95,9 @@ export class SdsCheckbox extends SdsFormElement {
     this.checked = this.#initial ?? false;
   }
 
-  /* Ticking is what makes it checked. A caller that had to write the state
-     back is a caller that will forget once — and a mixed box that is ticked is
-     no longer mixed, which the input has already decided by the time this runs. */
+  /* A tick is what makes it checked. A caller that had to write the state
+     back is a caller that will forget once. A mixed box with a tick is no
+     longer mixed, which the input has already decided by the time this runs. */
   private onChange(event: Event): void {
     this.checked = (event.target as HTMLInputElement).checked;
     this.indeterminate = false;

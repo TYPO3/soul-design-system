@@ -1,18 +1,18 @@
 import { type TemplateResult } from 'lit';
 import './icon.ts';
 import { SdsElement } from '../lib/element.js';
-/** Which end of a value gives way, where it is drawn one line high. */
+/** Which end of a value gives way, where it draws one line high. */
 export type CopyEllipsis = 'none' | 'start' | 'end';
 export interface CopyProps {
-    /** What is shown, and the whole of what the button writes. */
+    /** What shows, and the whole of what the button writes. */
     value: string;
-    /** What the value is, so four buttons down a column can be told apart by
-        somebody who cannot see which line each one is on. It is the tooltip and
-        the accessible name from the one property — without it the button says
-        only that it copies, which is true and names nothing. */
+    /** What the value is, so somebody who cannot see which line each button is
+        on can tell four of them apart. It is the tooltip and the accessible
+        name from the one property. Without it the button says only that it
+        copies, which is true and names nothing. */
     label?: string;
-    /** Where the value is cut when the column is too narrow for it, instead of
-        wrapping: `start` keeps the name a path ends on, `end` keeps the root it
+    /** Where the cut goes when the column is too narrow for the value, instead
+        of a wrap. `start` keeps the name a path ends on, `end` keeps the root it
         begins at. Off by default — a value that wraps under itself is still
         readable whole, which a cut one is not. */
     ellipsis?: CopyEllipsis;

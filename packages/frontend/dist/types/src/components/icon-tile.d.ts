@@ -4,13 +4,13 @@ import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 export interface IconTileProps {
     /** Which glyph. `name` because that is what `sds-icon` calls it, and one
-        identifier should not be spelt two ways across two elements. */
+        identifier must not have two spellings across two elements. */
     name: IconId;
-    /** What is written under it, where the set shows something other than the
+    /** What stands under it, where the set shows something other than the
         identifier. The identifier otherwise, which is what a reader retypes. */
     caption?: string;
-    /** Where the tile goes. Without one it is still a tile: a wall documenting a
-        set rather than indexing it presses nowhere. */
+    /** Where the tile goes. Without one it is still a tile: a wall that
+        documents a set rather than indexes it presses nowhere. */
     href?: string;
     /** The one fact the drawing cannot show — that it mirrors, that it is new,
         that it is going. One word, in the corner the glyph does not use. */

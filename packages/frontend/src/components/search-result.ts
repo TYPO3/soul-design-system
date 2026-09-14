@@ -1,13 +1,13 @@
 /* sds-result — one hit in a list of them.
 
-   What was found, **where it is**, the sentence it was found in, and what kind
-   of thing it is. The second is what a list of titles and snippets leaves out,
-   and the reader opens a page to learn it. The hit is an anchor: the whole of
-   it is the link, named by its heading.
+   The find, **where it is**, the sentence around it, and what kind of thing it
+   is. The second is what a list of titles and snippets leaves out, and the
+   reader opens a page to learn it. The hit is an anchor: the whole of it is
+   the link, named by its heading.
 
-   The match is marked here, not by the caller: what is highlighted has to be
-   what was searched for, and a page marking by hand marks what it thinks it
-   searched for. Not `sds-card`: that invites, this answers. */
+   The mark on the match happens here, not in the caller. The highlight must
+   be the query, and a page that marks by hand marks what it thinks the query
+   was. Not `sds-card`: that invites, this answers. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './badge.ts';
@@ -15,7 +15,7 @@ import { art, exported } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface SearchResultProps {
-  /** What the page is called. The whole row is the link to it, not the title
+  /** The page's name. The whole row is the link to it, not the title
       alone. */
   heading: string;
   /** Where the hit goes, already resolved — a path out of the index is
@@ -24,11 +24,11 @@ export interface SearchResultProps {
   /** Where it is, as the site's own trail — `Documentation · Tools`. Mono,
       because a path is a machine-named thing. */
   path?: string;
-  /** The sentence it was found in, cut from the text and not written for the
+  /** The sentence around the find, cut from the text and not written for the
       list. */
   snippet?: string;
-  /** What was searched for. Every occurrence of it in the snippet and the
-      heading is marked. */
+  /** The query. Every occurrence of it in the snippet and the heading gets a
+      mark. */
   match?: string;
   /** What kind of thing it is — reference, guide, changelog. */
   kind?: string;
@@ -80,9 +80,9 @@ export class SdsSearchResult extends SdsElement {
 
   /** The text with every occurrence of the query in a `<mark>`.
 
-      Split rather than replaced, so nothing is ever inserted as markup: what
-      comes back is text nodes and elements, and a query containing `<` is a
-      query and not a tag. */
+      Split rather than replaced, so nothing ever lands as markup. What comes
+      back is text nodes and elements, and a query with `<` in it is a query
+      and not a tag. */
   private marked(text: string): unknown {
     const needle = this.match.trim();
     if (!needle || !text) return text;
@@ -100,10 +100,10 @@ export class SdsSearchResult extends SdsElement {
     return out;
   }
 
-  /* Beside the text rather than over it: a hit is read as a line, and a
-     picture on top of one would make a list of them a grid of cards. Empty
-     `alt` where the caller wrote none — the title names the target already,
-     and a second name for it is the same page announced twice. */
+  /* Beside the text rather than over it. A reader reads a hit as a line, and
+     a picture on top of one makes a list of them a grid of cards. Empty `alt`
+     where the caller wrote none — the title names the target already, and a
+     second name for it is the same page announced twice. */
   private thumb(): unknown {
     if (!this.src) return nothing;
     const kind = exported(this.src) ? ' sds-result__thumb--exported' : '';
@@ -111,9 +111,9 @@ export class SdsSearchResult extends SdsElement {
   }
 
   /* What kind of thing it is, where it is and what it holds for, on one line.
-     The line is dropped rather than left empty: a source that reports none of
-     the three is a source with no structure to report, and a blank first row
-     is a hole above every title in the list. */
+     The line goes rather than stays empty. A source that reports none of the
+     three has no structure to report. A blank first row is a hole above
+     every title in the list. */
   private above(): unknown {
     if (!this.kind && !this.path && !this.meta) return nothing;
     return html`<span class="sds-row">
@@ -123,11 +123,11 @@ export class SdsSearchResult extends SdsElement {
     </span>`;
   }
 
-  /** The whole hit is the link, so the hit *is* an anchor — one element rather
-      than a title's anchor stretched over the row by a pseudo-element, which
-      is what a card does and what costs a reader the ability to select the
-      text. Named by its heading: without that the link's name is everything in
-      the row read out at once. Nowhere to go, no anchor. */
+  /** The whole hit is the link, so the hit *is* an anchor. One element rather
+      than a title's anchor stretched over the row by a pseudo-element. That
+      is what a card does, and it costs a reader the text selection. Named by
+      its heading: without that the link's name is everything in the row read
+      out at once. Nowhere to go, no anchor. */
   protected override render(): TemplateResult {
     const body = html`${this.thumb()}
   <span class="sds-result__body">

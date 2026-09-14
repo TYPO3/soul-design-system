@@ -1,8 +1,8 @@
-/* sds-lightbox — a drawing at the size it was drawn.
+/* sds-lightbox — a drawing at its own size.
 
    The behaviour is the platform's `<dialog>`, as `sds-dialog` uses it. The
-   surface is not the modal's: a modal stops at `--measure-modal` because what
-   is inside one is read, and a drawing is looked at.
+   surface is not the modal's: a modal stops at `--measure-modal` because a
+   reader reads what is inside one, and looks at a drawing.
 
      <sds-button for="the-drawing">Open the drawing</sds-button>
      <sds-lightbox id="the-drawing" src="…" alt="…"></sds-lightbox>
@@ -18,15 +18,15 @@ import { art, exported } from '../lib/art.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface LightboxProps {
-  /** The drawing being looked at. Reached with `zoomable` on a figure or an
-      image rather than written by hand. */
+  /** The drawing on show. Reached with `zoomable` on a figure or an image
+      rather than written by hand. */
   src: string;
   /** What it shows, for a reader who does not get it. */
   alt: string;
   /** What the drawing claims, in the head — the same sentence the figure
       carries, so opening it is not a change of subject. */
   caption?: string;
-  /** Whether it stands over the page. It is the modal’s behaviour around a
+  /** If it stands over the page. It is the modal’s behaviour around a
       drawing rather than a question, so it stops at no measure. */
   open?: boolean;
 }
@@ -67,9 +67,9 @@ export class SdsLightbox extends SdsElement {
   }
 
   /* What a button pointed at this one asks for. `sds-figure` opens its own
-     viewer by calling `show()`, because it owns it; anything else names this
-     element by id and sends the command, so opening a drawing is written in
-     markup rather than in a script that has to find both ends. */
+     viewer with `show()`, because it owns it. Anything else names this
+     element by id and sends the command. So markup opens a drawing rather
+     than a script that has to find both ends. */
   private readonly onCommand = (event: CustomEvent<SdsCommand>): void => {
     const command = event.detail?.command ?? 'show';
     if (command === 'close') this.close();

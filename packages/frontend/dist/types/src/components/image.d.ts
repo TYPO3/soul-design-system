@@ -5,16 +5,16 @@ export interface ImageProps {
     src: string;
     /** What the picture shows, for a reader who cannot see it. Empty where the
         text beside it already says the same thing — a mark in a lockup whose
-        wordmark spells the name — and the picture is hidden rather than
-        announced without a name. */
+        wordmark spells the name. The picture then hides rather than announces
+        itself without a name. */
     alt: string;
     /** A size in pixels, for a picture no stylesheet sizes. Both, and the file's
-        own coordinate system keeps the proportions inside them: a 5:4 mark given
-        a square box is drawn 5:4 and centred, never stretched to fit. */
+        own coordinate system keeps the proportions inside them. A 5:4 mark in a
+        square box draws 5:4 and centred, never stretched to fit. */
     width?: number;
     height?: number;
-    /** Pressable, opening the picture at the size it was made. The trigger is a
-        link to the file, so a surface running no script still opens it and the
+    /** Pressable, and it opens the picture at its own size. The trigger is a
+        link to the file, so a surface with no script still opens it. The
         element only takes the press over once it has upgraded. What a picture
         shrunk into its column asks for, and what a mark in a lockup never does. */
     zoomable?: boolean;
@@ -57,10 +57,11 @@ export declare class SdsImage extends SdsElement {
     cls: string;
     constructor();
     /** What a server wrote between the tags, dropped. The element takes no
-        content — the picture follows from `src` — but it does take a fallback:
-        the same picture in the class layer, for a surface rendering before any
-        script and for a reader who runs none. The element redraws it and the
-        server's copy goes, or light DOM leaves two pictures in one box. */
+        content — the picture follows from `src` — but it does take a fallback.
+        That is the same picture in the class layer, for a surface that renders
+        before any script and for a reader who runs none. The element redraws
+        it and the server's copy goes, or light DOM leaves two pictures in one
+        box. */
     connectedCallback(): void;
     protected render(): TemplateResult;
 }

@@ -4,8 +4,8 @@ import './icon.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 export interface CardProps {
-    /** What the entry is called. The whole card links to it, so this is the
-        line a reader is choosing by. */
+    /** The name of the entry. The whole card links to it, so this is the line
+        a reader chooses by. */
     heading: string;
     /** What is behind the title. Blocks out of a document, a sentence out of a
         property — both land in the same part. */
@@ -19,14 +19,14 @@ export interface CardProps {
     /** What the picture shows, for a reader who does not get it. Empty where
         it carries nothing the heading has not already said. */
     alt?: string;
-    /** The tracked-out line over the title: what a set of cards is named or
-        numbered as — `CHAPTER 02`, `FOR EDITORS` — or when the entry is from,
-        which is the same register and the same line. */
+    /** The tracked-out line over the title: the name or number of a set of
+        cards — `CHAPTER 02`, `FOR EDITORS`. Or the entry's date, which is the
+        same register and the same line. */
     label?: string;
     /** What kind of entry it is. A badge, because it is a fact about the entry
         rather than a result — no tone. It shares the line with the label. */
     tag?: string;
-    /** A glyph above the label, where a set is told apart before it is read. */
+    /** A glyph above the label, where a set tells its cards apart at a glance. */
     icon?: IconId;
     /** One line under a hairline: what the reader gets there, who it is for,
         what state it is in. A label register, so it does not compete. */

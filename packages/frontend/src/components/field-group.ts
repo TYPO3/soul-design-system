@@ -1,10 +1,10 @@
 /* sds-field-group — a control and what stands with it, as one thing.
 
-   A field, a row of actions, a hint: each owes no step by its own contract —
-   a container or a set spaces them — and a page that wanted the set was
-   writing a stack, which is layout wearing no name. This is the name: the
-   group pays the normal step between its parts and the flow step around
-   itself, so a surface addresses one thing instead of building it. */
+   A field, a row of actions, a hint. Each owes no step by its own contract —
+   a container or a set spaces them. A page that wanted the set wrote a stack,
+   which is layout with no name. This is the name. The group pays the normal
+   step between its parts and the flow step around itself, so a surface
+   addresses one thing instead of builds it. */
 
 import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';

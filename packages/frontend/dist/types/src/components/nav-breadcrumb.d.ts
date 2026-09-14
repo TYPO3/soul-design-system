@@ -6,10 +6,10 @@ export interface Crumb {
     href?: string;
 }
 export interface CrumbsProps {
-    /** The trail, from the root to the page being read — set from script,
-        being a list. The last entry is the page itself and is not a link. */
+    /** The trail, from the root to the open page — set from script, as a
+        list. The last entry is the page itself and not a link. */
     items: readonly Crumb[];
-    /** What the trail is called for a reader who cannot see it is one. */
+    /** The trail's name for a reader who cannot see it is one. */
     label?: string;
 }
 export declare class SdsNavBreadcrumb extends SdsElement {

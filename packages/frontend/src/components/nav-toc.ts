@@ -1,9 +1,9 @@
 /* sds-nav-toc — what is on this page, and where in it the reader is.
 
-   The sections of the page being read, as the entry every navigation of this
-   system is given. It is the one list whose current entry nothing rendering
-   the page can name: a heading is current because the reader has scrolled to
-   it, so the element reads the page and the data only says where it starts.
+   The sections of the open page, as the entry every navigation of this system
+   takes. It is the one list whose current entry no renderer can name: a
+   heading is current because the reader scrolled to it. So the element reads
+   the page, and the data only says where it starts.
 
      .entries = [{ label: 'Space scale', href: '#space-scale' }]
 
@@ -14,7 +14,7 @@ import { lines } from '../lib/template.ts';
 import { define, SdsElement } from '../lib/element.ts';
 import { branch, type MenuEntry } from './nav-base.ts';
 
-/** What a list of a page's own sections is called where nobody named it. */
+/** The name of a list of a page's own sections, where nobody named it. */
 const HEADING = 'On this page';
 
 /** A heading the list points at, and the entry that points at it. */
@@ -30,14 +30,15 @@ export class SdsNavToc extends SdsElement {
     at: { type: String, state: true },
   };
 
-  /** The heading over the list, and what the navigation is called. */
+  /** The heading over the list, and the name of the navigation. */
   declare label: string;
 
   /** The sections of the page, nested as deep as the page nests them. */
   declare entries: MenuEntry[];
 
-  /** Where the reader is, as the href of that section — empty until the page
-      has been read, which is where a server stops and the data has the say. */
+  /** Where the reader is, as the href of that section. Empty until the
+      element reads the page, which is where a server stops and the data has
+      the say. */
   declare at: string;
 
   private watching?: AbortController;
@@ -61,10 +62,10 @@ export class SdsNavToc extends SdsElement {
     super.disconnectedCallback();
   }
 
-  /** Follow the page. On the document and on the way down, because a scroll
-      event does not bubble and the column may be the scroller rather than the
-      window; and on resize, which moves every heading at once. One reading a
-      frame — a scroll fires far faster than anything can be drawn. */
+  /** Follow the page. On the document and on the way down: a scroll event
+      does not bubble, and the column can be the scroller rather than the
+      window. On resize too, which moves every heading at once. One reading a
+      frame — a scroll fires far faster than a paint. */
   private watch(): void {
     this.watching?.abort();
     this.watching = new AbortController();
@@ -78,11 +79,10 @@ export class SdsNavToc extends SdsElement {
     soon();
   }
 
-  /** The entries the list is actually drawing, by target. Read from the rows
-      rather than from the data: standing beside the column it shows two levels
-      and hides the rest, and which those are is the stylesheet's to say. Empty
-      before the first render, and then it says nothing rather than nothing is
-      drawn. */
+  /** The entries the list draws, by target. Read from the rows rather than
+      from the data. Beside the column it shows two levels and hides the rest,
+      and which those are is the stylesheet's to say. Empty before the first
+      render, and then it says nothing rather than nothing is on the page. */
   private drawn(): Set<string> {
     const out = new Set<string>();
     for (const row of this.querySelectorAll<HTMLElement>('.sds-toc__item')) {
@@ -92,10 +92,10 @@ export class SdsNavToc extends SdsElement {
   }
 
   /** The headings this list points at, in the order the page has them. An
-      entry pointing anywhere but at this page is a link and not a place in it,
-      and is left out of the reading rather than made a target of — and so is
-      one the list is not drawing: marking a heading no row shows leaves every
-      visible entry unmarked, which is the list going blank inside a section. */
+      entry that points away from this page is a link and not a place in it,
+      so it stays out. So does one the list does not draw. A mark on a heading
+      no row shows leaves every visible entry unmarked, which is the list gone
+      blank inside a section. */
   private marks(): Mark[] {
     const drawn = this.drawn();
     const found: Mark[] = [];
@@ -109,9 +109,9 @@ export class SdsNavToc extends SdsElement {
     return found;
   }
 
-  /** What is moving the headings: the nearest ancestor that scrolls, and the
+  /** What moves the headings: the nearest ancestor that scrolls, and the
       page where none does. A pane with a scrollbar of its own is where the
-      reading is happening, and the top of the window is not on it. */
+      reader reads, and the top of the window is not on it. */
   private scroller(node: Element): Element {
     for (let up = node.parentElement; up; up = up.parentElement) {
       const flow = getComputedStyle(up).overflowY;
@@ -120,9 +120,9 @@ export class SdsNavToc extends SdsElement {
     return document.scrollingElement ?? document.documentElement;
   }
 
-  /** Where a heading jumped to comes to rest: the top of the scroller, plus
-      the offset it keeps for whatever stands over it — `scroll-padding-top`,
-      which is how the bar is answered for every target on the page at once.
+  /** Where a heading comes to rest after a jump: the top of the scroller,
+      plus the offset it keeps for whatever stands over it. That offset is
+      `scroll-padding-top`, which answers the bar for every target at once.
       Measured against that line, the entry a press marks is the entry the
       scroll marks. */
   private line(box: Element): number {
@@ -133,17 +133,17 @@ export class SdsNavToc extends SdsElement {
   }
 
   /** As far down as the reader can get. The last heading can stand below the
-      line and never reach it, and the list would mark the section above while
-      the reader is looking at the last one. Nothing to scroll is no foot to
-      arrive at, every section being in view at once. */
+      line and never reach it. The list then marks the section above while the
+      reader looks at the last one. Nothing to scroll is no foot to arrive at,
+      with every section in view at once. */
   private ended(box: Element): boolean {
     const rest = box.scrollHeight - box.clientHeight;
     return rest > 2 && rest - box.scrollTop < 2;
   }
 
   /** Which section the reader is in: the last heading that has passed the
-      line, and none while none has — a page opens above its first heading, and
-      a list marking something there answers a question nobody asked. */
+      line, and none while none has. A page opens above its first heading, and
+      a mark there answers a question nobody asked. */
   private read(): void {
     const marks = this.marks();
     const first = marks[0];
@@ -158,8 +158,8 @@ export class SdsNavToc extends SdsElement {
     this.at = this.ended(box) ? (marks[marks.length - 1] as Mark).href : at;
   }
 
-  /** The entry the reader is in. The page wins once it has been read, and the
-      data is what a card, a story and a server-rendered page have instead. */
+  /** The entry the reader is in. The page wins once the element has read it.
+      The data is what a card, a story and a server-rendered page have instead. */
   private isCurrent(entry: MenuEntry): boolean {
     return this.at ? entry.href === this.at : Boolean(entry.current);
   }
@@ -171,8 +171,8 @@ export class SdsNavToc extends SdsElement {
   }
 
   /** One section, and whatever hangs under it. `aria-current="location"` and
-      not `page`: every entry here is the page, and what is marked is the part
-      of it the reader is at. */
+      not `page`: every entry here is the page, and the mark is the part of it
+      the reader is at. */
   private row(entry: MenuEntry): TemplateResult {
     const here = this.isCurrent(entry);
     const under = entry.items ?? [];
@@ -187,11 +187,11 @@ export class SdsNavToc extends SdsElement {
   }
 
   /** Keep the marked entry where the reader can see it. Beside the column the
-      list is a box of its own and scrolls, and a page with more sections than
-      the box is tall marks one that is off its bottom edge — the list that
-      says where the reader is stops saying it exactly where it is needed.
-      Its own `scrollTop`, never `scrollIntoView`: that walks up every scroller
-      it finds and would take the page along with it. */
+      list is a box of its own and scrolls. A page with more sections than the
+      box is tall marks one off its bottom edge. The list then says nothing
+      about where the reader is, exactly where that matters. Its own `scrollTop`,
+      never `scrollIntoView`: that walks up every scroller it finds and takes
+      the page along with it. */
   private follow(): void {
     const here = this.querySelector<HTMLElement>('.sds-toc__item.is-active');
     const box = here?.closest<HTMLElement>('.sds-toc');
@@ -199,8 +199,8 @@ export class SdsNavToc extends SdsElement {
     const pad = getComputedStyle(box);
     const edge = box.getBoundingClientRect();
     const row = here.getBoundingClientRect();
-    /* The least move that brings it inside, so a list already showing the
-       entry stands still and a reader who scrolled it is not fought. */
+    /* The least move that brings it inside. A list that already shows the
+       entry stands still and does not fight a reader who scrolled it. */
     const above = row.top - (edge.top + (parseFloat(pad.paddingTop) || 0));
     const below = row.bottom - (edge.bottom - (parseFloat(pad.paddingBottom) || 0));
     if (above < 0) box.scrollTop += above;
@@ -213,11 +213,11 @@ export class SdsNavToc extends SdsElement {
 
   protected override render(): TemplateResult {
     const label = this.label || HEADING;
-    /* A `<nav>` that says which one it is: a page carries this and the rail
-       and the trail, and "navigation, navigation, navigation" is what a screen
-       reader announces without it. The label over the list is a label over
-       links rather than a heading over prose, which is the register a rail
-       names its own pages in. */
+    /* A `<nav>` that says which one it is. A page carries this, the rail and
+       the trail, and a screen reader without the name announces "navigation,
+       navigation, navigation". The label over the list is a label over links
+       rather than a heading over prose, the register a rail names its own
+       pages in. */
     return html`<nav class="sds-toc" aria-label="${label}">
   <p class="sds-label">${label}</p>
   ${this.list(this.entries)}

@@ -3,26 +3,25 @@ import './badge.ts';
 import { SdsElement } from '../lib/element.js';
 export interface Fact {
     /** What the source called it — `type`, `default`, or an option of the
-        author's own. It is set as a label and never title-cased: the value
-        beside it is what the machine reads, and the key is what it is called. */
+        author's own. It sets as a label and never title-cased. The value beside
+        it is what the machine reads, and the key is its name. */
     label: string;
     value: string;
 }
 export interface ConfvalProps {
-    /** The name being documented, verbatim. Mono at every size, like everything
-        else the machine named. */
+    /** The documented name, verbatim. Mono at every size, like everything else
+        the machine named. */
     name: string;
-    /** Where a link to this value lands. Also what the mark beside the name
-        points at, so a reader can take the address of one entry out of a page
-        of forty without reading the source. */
+    /** Where a link to this value lands, and what the mark beside the name
+        points at. So a reader can take the address of one entry out of a page
+        of forty and never open the source. */
     anchor?: string;
-    /** Stated where it is true and left off where it is not: a reference of
+    /** Stated where it is true and left off where it is not. A reference of
         fifty values, half of them marked "optional", says nothing twice as
         loudly. */
     required?: boolean;
-    /** What the value takes. Text rather than markup, because a type is written
-        `array<string>` as often as not and anything parsing that as tags eats
-        half of it. */
+    /** What the value takes. Text rather than markup, because a type reads
+        `array<string>` as often as not and a tag parser eats half of it. */
     type?: string;
     /** What happens if the reader leaves it alone. */
     default?: string;
@@ -68,8 +67,8 @@ export declare class SdsConfval extends SdsElement {
     constructor();
     connectedCallback(): void;
     /** The two the directive names first, then whatever else the source set.
-        Order is fixed rather than alphabetical: a reader comparing two entries
-        compares them line by line. */
+        The order stays fixed rather than alphabetical: a reader who compares
+        two entries compares them line by line. */
     private get stated();
     private fact;
     protected render(): TemplateResult;

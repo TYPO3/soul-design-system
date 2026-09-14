@@ -5,8 +5,8 @@
    unless something references them: a gutter nobody cites is decoration on the
    surface with the least room for it.
 
-   Every class this frame emits is defined in `components.css`. `_specimen.css`
-   is outside the `styles.css` closure, so a class borrowed from there renders
+   `components.css` defines every class this frame emits. `_specimen.css`
+   is outside the `styles.css` closure, so a class from there renders
    unstyled anywhere that is not a specimen card. */
 
 import { html, type TemplateResult } from 'lit';
@@ -32,10 +32,10 @@ export interface CodeLine {
   code?: string;
 }
 
-/** The languages this system supports in a code block. Declared, not surveyed:
-    adding one means the highlighter knows the identifier and a specimen proves
-    it reads right — `stories/lib/languages.ts` is that specimen, and is typed
-    against this union so a language cannot be declared without one. */
+/** The languages this system supports in a code block. A declaration, not a
+    survey. A new one means the highlighter knows the identifier and a
+    specimen proves it reads right. `stories/lib/languages.ts` is that
+    specimen, typed against this union, so no language exists without one. */
 export type CodeLangName =
   | 'bash'
   | 'css'
@@ -56,30 +56,29 @@ export type CodeLangName =
   | 'yaml';
 
 /** The same, open at the edges, because the value arrives from a Markdown
-    fence and refusing to print a word is not a service — the union catches the
-    near miss, `yml` for `yaml`, which a highlighter answers in silence. */
+    fence, and a refusal to print a word is not a service. The union catches
+    the near miss, `yml` for `yaml`, which a highlighter answers in silence. */
 export type CodeLang = CodeLangName | (string & {});
 
 export interface CodeBlockProps {
   /** The language, lower case as a fence writes it; the upper case belongs to
-      `sds-code__lang`. The attribute is `code-lang` deliberately: `lang` is a
-      global attribute naming the *human* language, so `lang="json"` sends every
-      screen reader to a language tag that does not exist, and inherits to the
-      whole block from there. */
+      `sds-code__lang`. The attribute is `code-lang` on purpose. `lang` is a
+      global attribute for the *human* language. `lang="json"` sends every
+      screen reader to a language tag that does not exist, and the whole block
+      inherits it. */
   lang?: CodeLang;
-  /** An affordance for the head that is not the copy button — a filename, a
-      count. Set `copy` instead for copying; the component owns that. */
+  /** An affordance for the head that is not the copy button: a filename, a
+      count. For a copy, set `copy` instead; the component owns that. */
   action?: TemplateResult;
-  /** What the block is, in a sentence, above it. It may also be written between
-      the tags as `<div class="sds-code__caption">` — the form for a caption
-      carrying markup, and for a page read before the element upgrades. Either
-      way it belongs to the element: see `captioned`. */
+  /** What the block is, in a sentence, above it. It can also stand between
+      the tags as `<div class="sds-code__caption">`. That is the form for a
+      caption with markup, and for a page read before the element upgrades.
+      Either way it belongs to the element: see `captioned`. */
   caption?: string;
-  /** A block as text, highlighted by `lang` exactly as content between the
-      tags is. The two are the same block from two kinds of caller: content
-      for a renderer that already holds markup, this for one that holds the
-      source — a story, or a page that has to render statically, where
-      children are not carried at all. */
+  /** A block as text, coloured by `lang` exactly as content between the tags
+      is. The two are the same block from two kinds of caller. Content for a
+      renderer that holds markup, this for one that holds the source. That is
+      a story, or a static render, which carries no children at all. */
   source?: string;
   /** The block as lines, each with its own kind — set from script, being a
       list. Content between the tags is the same block from a caller that
@@ -90,11 +89,11 @@ export interface CodeBlockProps {
   copy?: boolean;
 }
 
-/* A caption written between the tags, told apart by the class the component
-   would emit for it: light DOM has no slot to name it with, and a class the
-   stylesheet defines is what makes the caption read right before the upgrade.
-   Not an element of its own — one sentence would need its appearance stated
-   twice. `nodeType` before `matches`, as in `given`: text nodes are children. */
+/* A caption between the tags, told apart by the class the component emits
+   for it. Light DOM has no slot to name it with, and a class the stylesheet
+   defines makes the caption read right before the upgrade. Not an element
+   of its own: one sentence needs its appearance stated once. `nodeType`
+   before `matches`, as in `given`: text nodes are children. */
 const isCaption = (node: Node): boolean =>
   node.nodeType === 1 && (node as Element).matches('.sds-code__caption');
 
@@ -103,9 +102,9 @@ export class SdsCode extends SdsElement {
     lang: { type: String, reflect: true, attribute: 'code-lang' },
     caption: { type: String },
     source: { type: String },
-    /* Styled lines, which no attribute can carry — a shell prompt, a comment
-       and a result are three different spans, and flattening them to a string
-       would throw away the only thing the component does. */
+    /* Styled lines, which no attribute can carry. A shell prompt, a comment
+       and a result are three different spans. A flat string throws away the
+       only thing the component does. */
     body: { type: Array },
     action: { type: Object },
     copy: { type: Boolean, reflect: true },
@@ -120,18 +119,18 @@ export class SdsCode extends SdsElement {
   declare copy: boolean;
   declare copied: boolean;
 
-  /* Content written between the tags, taken before Lit renders over it: light
-     DOM means `render()` replaces the children, and the children are the whole
-     point where a renderer wrote the block. Lifted on connect and handed back
-     as nodes — Lit renders a node as a child value, and re-rendering moves the
-     same nodes rather than copying them. */
+  /* Content between the tags, taken before Lit renders over it. Light DOM
+     means `render()` replaces the children, and the children are the whole
+     point where a renderer wrote the block. Lifted on connect and handed
+     back as nodes. Lit renders a node as a child value, and a re-render
+     moves the same nodes and does not copy them. */
   private taken: Node[] | null = null;
 
-  /* The caption, where it too was written between the tags — as nodes, because
-     it carries a literal, a link or an emphasis and an attribute would flatten
-     all three. Inside the element, so the block places it; drawn beside it,
-     nothing keeps the two together. Kept apart from `taken`, which everything
-     else here reads as the block itself. */
+  /* The caption, where it too stood between the tags, as nodes. It carries a
+     literal, a link or an emphasis, and an attribute flattens all three.
+     Inside the element, so the block places it. Beside it, nothing keeps the
+     two together. Apart from `taken`, which everything else here reads as
+     the block itself. */
   private captioned: Node[] | null = null;
 
   constructor() {
@@ -153,11 +152,11 @@ export class SdsCode extends SdsElement {
     super.connectedCallback();
   }
 
-  /** Whatever the block would put on the clipboard: what it says, and none of
-      what frames it. Read from the content, not the rendering — light DOM means
-      the element's own text is the head too, so a paste would begin with the
-      language and the word on the button. The `$` goes for the same reason it
-      is a span of its own: it is the prompt, and in a shell it is an error. */
+  /** What the block puts on the clipboard: what it says, and none of its
+      frame. Read from the content, not the rendering. In light DOM the
+      element's own text is the head too, so a paste starts with the language
+      and the word on the button. The `$` goes, for the reason it is a span
+      of its own. It is the prompt, and in a shell it is an error. */
   private get text(): string {
     const said = this.taken
       ? this.written
@@ -165,8 +164,8 @@ export class SdsCode extends SdsElement {
     return said.replace(/^\n+/, '').replace(/\n+$/, '');
   }
 
-  /** The text between the tags. Comments are skipped, and they are not the
-      author's: a template that interpolates its content leaves Lit's own
+  /** The text between the tags, without the comments, which are not the
+      author's. A template that interpolates its content leaves Lit's own
       markers among the children, and `textContent` reads a comment's body
       like any other. */
   private get written(): string {
@@ -177,17 +176,17 @@ export class SdsCode extends SdsElement {
   }
 
   private async take(): Promise<void> {
-    /* Saying nothing is better than a check mark for something that did not
-       happen — but both ways have to have been tried first. */
+    /* Silence is better than a check mark for something that did not happen.
+       But both ways have to have run first. */
     if (!(await toClipboard(this.text))) return;
     this.copied = true;
     setTimeout(() => { this.copied = false; }, SAID);
   }
 
-  /* Always drawn where the block asked for one. Asking the browser whether it
-     has a clipboard and drawing nothing when it says no left no button at all
-     on every origin that is not a secure context, which is most of the ones a
-     design system is reviewed on — see `lib/clipboard.ts`. */
+  /* Always drawn where the block asked for one. A question to the browser
+     about its clipboard, with no button on a no, left no button on every
+     origin outside a secure context. That is most of the ones a design
+     system gets its review on; see `lib/clipboard.ts`. */
   private get copyButton(): TemplateResult | undefined {
     if (!this.copy) return undefined;
     return html`<button type="button" class="sds-code__copy${this.copied ? ' is-copied' : ''}" aria-label="Copy this block" @click="${() => void this.take()}"><span class="sds-code__glyph"><sds-icon name="actions-duplicate"></sds-icon></span><span class="sds-code__copied"><sds-icon name="actions-check"></sds-icon></span><span>${this.copied ? 'copied' : 'copy'}</span></button>`;
@@ -195,8 +194,8 @@ export class SdsCode extends SdsElement {
 
   /* The lines the free `comment()`, `shell()` and `ok()` helpers used to
      build. They were three exported functions that assembled markup a caller
-     then handed back in — which made the component's own output something any
-     caller could half-write. A line is data now, and only this file turns it
+     then handed back in. That made the component's own output something any
+     caller can half-write. A line is data now, and only this file turns it
      into spans. */
   private line({ kind, text, code }: CodeLine): TemplateResult {
     const tail = code ? html` <span class="sds-code__cmd">${code}</span>` : undefined;
@@ -212,18 +211,17 @@ export class SdsCode extends SdsElement {
     }
   }
 
-  /* Whether the block arrived already coloured. A build that highlights on its
-     own hands in finished markup, and colouring it again would flatten the
-     spans back to text and rebuild them from fewer grammars. `hljs-` is the
-     signal because `components.css` maps those classes and nothing else. Kept
-     wrapper and all: the `<code>` holds which lines are numbered. */
+  /* If the block arrived with its colour. A build that highlights on its own
+     hands in complete markup. A second pass flattens the spans back to text
+     and rebuilds them from fewer grammars. `hljs-` is the signal because
+     `components.css` maps those classes and nothing else. Wrapper and all:
+     the `<code>` holds which lines carry numbers. */
   private get given(): boolean {
     /* Markup handed over as a property is what a renderer wrote, arriving
        where there are no children to read it out of — see `SdsElement`. */
     if (this.content) return true;
-    /* `nodeType` rather than `instanceof Element`: this getter is reached in
-       Node when a page renders statically, where the constructor it would be
-       compared against does not exist. */
+    /* `nodeType` and not `instanceof Element`. A static render reaches this
+       getter in Node, where that constructor does not exist. */
     return (this.taken ?? []).some((node) => {
       if (node.nodeType !== 1) return false;
       const el = node as Element;
@@ -231,15 +229,15 @@ export class SdsCode extends SdsElement {
     });
   }
 
-  /* Content written between the tags, in the `<code>` a code block is supposed
-     to have. The element renders that wrapper and its `language-` class from
-     `lang`, so a caller cannot say the language twice and have the two
-     disagree — one paints the head, the other decides the highlighting. It
-     colours the block too, unless the colour arrived with it; see `given`. */
+  /* Content between the tags, in the `<code>` a code block has. The element
+     renders that wrapper and its `language-` class from `lang`. So a caller
+     cannot say the language twice and have the two disagree. One paints the
+     head, the other decides the colour. It colours the block too, unless the
+     colour arrived with it; see `given`. */
   private get wrapped(): TemplateResult {
-    /* `taken` where there was content, the source text where there was not —
-       what is highlighted is `text`, which is already whichever of the two
-       this block was given. */
+    /* `taken` where there was content, the source text where there was not.
+       The colour goes onto `text`, which is already whichever of the two this
+       block got. */
     const written = this.taken ?? this.content ?? this.text;
     if (this.given) return html`${written}`;
     if (!this.lang) return html`<code>${written}</code>`;
@@ -258,10 +256,10 @@ export class SdsCode extends SdsElement {
     ${affordance}
   </div>`
       : undefined;
-    /* Above the frame and inside the element: a reader meets the caption before
-       the block rather than in its chrome, but it is the block's, so the
-       element places it. Nodes win over the attribute where there are both —
-       they are what a renderer wrote, markup and all. */
+    /* Above the frame and inside the element. A reader meets the caption
+       before the block, not in its chrome, but it is the block's, so the
+       element places it. Nodes win over the attribute where there are both.
+       They are what a renderer wrote, markup and all. */
     const caption = this.captioned
       ? html`${this.captioned}`
       : this.caption

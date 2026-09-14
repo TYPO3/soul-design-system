@@ -1,10 +1,10 @@
 /* sds-radio — one answer out of a few, all of them visible.
 
-   The set is the component and a single button is not: what makes one a choice
-   is the set it belongs to, the name they share and that exactly one holds, and
-   rendering them one at a time leaves the caller to keep the three in step. So
-   the element is named for the control and takes the whole question, with
-   `<fieldset>` and `<legend>` carrying the grouping.
+   The set is the component and a single button is not. What makes one a choice
+   is the set it belongs to, the name they share and that exactly one holds.
+   Rendered one at a time, the caller keeps the three in step. So the element
+   takes the control's name and the whole question, with `<fieldset>` and
+   `<legend>` for the group.
 
    Where the answers are many, or the reader knows the one they want, that is a
    select. Above roughly five the set stops being scannable. */
@@ -22,14 +22,14 @@ export interface Choice {
 }
 
 export interface RadioProps {
-  /** What is being asked. Rendered as the `<legend>`. */
+  /** The question. Rendered as the `<legend>`. */
   legend: string;
   /** Where the page already draws the question — a dialog's title, a heading
-      over the set. The legend is said and not drawn, so the set is still named
-      and the question is not on the page twice. */
+      over the set. The legend then speaks and does not draw, so the set keeps
+      its name and the question is not on the page twice. */
   legendSaidOnly?: boolean;
-  /** What the answer is called when the form is sent. One name for the whole
-      set — that is what makes it one choice rather than several. */
+  /** The name the answer travels under when the form submits. One name for
+      the whole set — that is what makes it one choice rather than several. */
   name: string;
   /** The options, each with its label and what it sends — set from script,
       being a list. */
@@ -39,7 +39,7 @@ export interface RadioProps {
   /** What the whole set commits to, under the legend. A choice carries its
       own where one answer needs saying and the others do not. */
   hint?: string;
-  /** One of them has to be picked before the form goes. */
+  /** The reader must pick one of them before the form goes. */
   required?: boolean;
 }
 
@@ -74,19 +74,19 @@ export class SdsRadio extends SdsFormElement {
   }
 
   /* The answer the markup came with, which is what a reset puts back.
-     `?checked` writes the `checked` *attribute* — the input's default — so
-     mirroring the chosen value into it would make a reset restore the last
-     click instead of the answer the page was drawn with. */
+     `?checked` writes the `checked` *attribute*, the input's default. A
+     mirror of the chosen value into it makes a reset restore the last click
+     instead of the answer the page came with. */
   #initial?: string;
 
   protected override willUpdate(): void {
     this.#initial ??= this.value;
   }
 
-  /* The live state is written onto the control after the render, never as a
-     binding. A `.checked` binding is serialised by the static renderer as
-     `checked="false"` — which in HTML means checked — so every box on every
-     generated card came out ticked. `?checked` stays: it writes the *default*,
+  /* The live state goes onto the control after the render, never as a
+     binding. The static renderer writes a `.checked` binding as
+     `checked="false"`, which in HTML means checked. So every box on every
+     generated card came out on. `?checked` stays: it writes the *default*,
      which is what a reset puts back. */
   protected override updated(): void {
     for (const input of this.querySelectorAll('input')) input.checked = input.value === this.value;

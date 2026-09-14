@@ -1,8 +1,8 @@
 /* sds-form-errors — what stopped the form, at the top of it.
 
-   Marking the fields is enough for a reader who sees the whole form at once and
-   nothing at all for one who does not: a phone is sent back to a page that
-   looks unchanged, a screen reader is told nothing happened.
+   A mark on the fields is enough for a reader who sees the whole form, and
+   nothing at all for one who does not. A phone comes back to a page that
+   looks unchanged, and a screen reader hears that nothing happened.
 
    So the summary is where the reader lands — first, focusable, announced, every
    entry a link to the field it is about. It renders `sds-note` rather than
@@ -21,16 +21,16 @@ export interface FormError {
 }
 
 export interface FormErrorsProps {
-  /** What went wrong, each naming the field it belongs to — set from script,
-      being a list. The summary is what a reader is sent to; the field says
-      it again where the value is. */
+  /** What went wrong, each with the field it belongs to — set from script, as
+      a list. The summary is where the reader lands; the field says it again
+      where the value is. */
   errors: readonly FormError[];
   /** What the form calls itself, so the heading names the thing that failed
-      rather than saying "there were errors". */
+      rather than says "there were errors". */
   heading?: string;
   /** This is the result of a submit the reader just made, so send them to it.
-      Left off, the summary is drawn and takes nothing — which is what a page
-      returned by a server with its errors already in it needs. */
+      Left off, the summary draws and takes nothing — which is what a page from
+      a server with its errors already in it needs. */
   announce?: boolean;
 }
 
@@ -52,18 +52,18 @@ export class SdsFormErrors extends SdsElement {
     this.announce = false;
   }
 
-  /** Move the reader to the summary. A summary nobody is sent to is a summary
+  /** Move the reader to the summary. A summary nobody lands on is a summary
       nobody reads. */
   focusSummary(): void {
     (this.querySelector('.sds-form-errors') as HTMLElement | null)?.focus();
   }
 
   protected override updated(): void {
-    /* Taking the focus is right after a submit and wrong on load, and the
-       element cannot tell those apart — it is created by the same render in
-       both cases. So the page says which happened, and the default is the one
-       that moves nobody: a form sent back by a server with its errors already
-       in it must not pull a reader out of wherever they were. */
+    /* The focus is right after a submit and wrong on load. The element
+       cannot tell those apart: the same render creates it in both cases. So
+       the page says which happened, and the default is the one that moves
+       nobody. A form from a server with its errors already in it must not
+       pull a reader out of wherever they were. */
     if (this.announce && this.errors.length) this.focusSummary();
   }
 
@@ -73,9 +73,9 @@ export class SdsFormErrors extends SdsElement {
     const count = this.errors.length;
     const heading = this.heading || `${count} ${count === 1 ? 'answer needs' : 'answers need'} changing`;
 
-    /* `tabindex="-1"` so the focus can be sent here and nowhere else; `role`
-       and `aria-live` so it is announced when it appears rather than only when
-       it is reached. */
+    /* `tabindex="-1"` so the focus can land here and nowhere else. `role` and
+       `aria-live` so a screen reader announces it when it appears, not only
+       when the reader reaches it. */
     return html`<div class="sds-form-errors" tabindex="-1" role="alert" aria-live="assertive">
   <sds-note
     tone="error"

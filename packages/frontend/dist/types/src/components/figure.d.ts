@@ -7,8 +7,8 @@ export interface FigureProps {
     alt: string;
     /** The claim, in a sentence. */
     caption?: string | TemplateResult;
-    /** Pressable, opening the drawing at the size it was drawn. The trigger is a
-        link to the file, so a surface running no script still opens it and the
+    /** Pressable, and it opens the drawing at its own size. The trigger is a
+        link to the file, so a surface with no script still opens it. The
         element only takes the press over once it has upgraded. Worth it for
         anything drawn wider than its column, pointless for a photograph. */
     zoomable?: boolean;
@@ -39,12 +39,12 @@ export declare class SdsFigure extends SdsElement {
     alt: string;
     caption: string | TemplateResult;
     /** The picture's own size, where a document declared one. A figure fills its
-        column and needs neither; a drawing that states a width in the source is
-        stating a fact about the file, and dropping it left the renderer writing
-        the `<img>` itself to keep it. */
+        column and needs neither. A drawing that states a width in the source
+        states a fact about the file. An element that dropped it left the
+        renderer to write the `<img>` itself. */
     width?: number;
-    /** The drawing’s own height in pixels, so the space it needs is held
-        before it loads and the page does not jump under the reader. */
+    /** The drawing’s own height in pixels, so the page holds the space before
+        it loads and does not jump under the reader. */
     height?: number;
     zoomable: boolean;
     private taken;

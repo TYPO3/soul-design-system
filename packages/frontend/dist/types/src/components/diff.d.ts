@@ -10,8 +10,8 @@ export interface DiffLine {
 export interface DiffProps {
     /** The file the diff is of — a path, so it sets in mono. */
     path: string;
-    /** A glyph beside the path, where the kind of file is worth saying before
-        the change is read. */
+    /** A glyph beside the path, where the kind of file deserves a word before
+        the change. */
     icon?: IconId;
     /** The change as lines, each added, removed or unchanged — set from
         script, being a list. */

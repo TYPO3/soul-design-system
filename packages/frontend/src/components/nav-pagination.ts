@@ -1,12 +1,12 @@
 /* sds-nav-pagination — where a list continues.
 
-   Numbered, and every number an `href`: a page reachable only by scrolling is
+   Numbered, and every number an `href`: a page reachable only by a scroll is
    one a reader cannot send to anyone. The address is a whole URL with `{n}`
-   where the number goes, because a list is as often at `?q=…&page=2&sort=date`
-   as at the end of a path. Every number also fires `sds-change`, for a surface
-   that pages in place and calls `preventDefault()` — not a second mode.
+   where the number goes. A list is as often at `?q=…&page=2&sort=date` as at
+   the end of a path. Every number also fires `sds-change`, for a surface that
+   pages in place and calls `preventDefault()` — not a second mode.
 
-   The row is told the total and the page size and divides, so nothing hands
+   The row gets the total and the page size and divides, so nothing hands
    over the same fact twice. The current page is text, not a link. */
 
 import { html, type TemplateResult } from 'lit';
@@ -19,47 +19,46 @@ export interface PaginationProps {
   count: number;
   /** How many go on one page. */
   perPage?: number;
-  /** One-based, the way it is written in the page. */
+  /** One-based, the way the page writes it. */
   current?: number;
   /** A page's whole address, with `{n}` where its number goes —
       `/news/page/{n}/`, `?q=typo3&page={n}&sort=date`. `#page-{n}` by default,
       so the element works on a surface that has no routes yet. A template with
-      no `{n}` in it is a prefix and the number is appended. */
+      no `{n}` in it is a prefix and the number follows it. */
   href?: string;
-  /** What was counted, in the label register — "entries", "results". Left off,
-      the row ends with the bare number. */
+  /** The counted thing, in the label register — "entries", "results". Left
+      off, the row ends with the bare number. */
   label?: string;
 }
 
-/** What `sds-change` carries: the page that was asked for, one-based. */
+/** What `sds-change` carries: the page the press asked for, one-based. */
 export interface PageChange {
   page: number;
 }
 
 /** A page's address: the number written into the template where `{n}` stands.
-    The whole address and not a prefix the number is stuck onto — a page lives
-    at `?q=typo3&page=2&sort=date` as readily as at the end of a path, and a
-    caller that can only append has to reorder the query it already has. */
+    The whole address and not a prefix with the number on the end. A page
+    lives at `?q=typo3&page=2&sort=date` as readily as at the end of a path.
+    A caller that can only append has to reorder the query it has. */
 export function pageHref(href: string, page: number): string {
   return href.includes('{n}') ? href.replace(/\{n\}/g, String(page)) : `${href}${page}`;
 }
 
-/** Grouped in threes. Written out rather than left to `toLocaleString`: the
-    same row is rendered in a browser and outside one, and a separator that
-    follows whichever locale the machine was started with makes those two
-    different markup. */
+/** Grouped in threes. Written out rather than left to `toLocaleString`. The
+    same row renders in a browser and outside one, and a separator that
+    follows the machine's locale makes those two different markup. */
 const grouped = (n: number): string => String(n).replace(/\B(?=(\d{3})+$)/g, ',');
 
 /** How many pages a list of `count` runs to at `perPage` each. Never fewer
-    than one: a list with nothing in it is still on its first page, and a row
+    than one. A list with nothing in it is still on its first page, and a row
     with zero pages has no number to draw itself around. */
 export function pageCount(count: number, perPage: number): number {
   return Math.max(1, Math.ceil(count / Math.max(1, perPage)));
 }
 
 /** The numbers a row shows: the ends, the neighbours of the current one, and
-    `0` where a run was left out. Two gaps at most, and never a gap standing in
-    for a single number — "1 … 3" is longer than "1 2 3" and says less. */
+    `0` where a run is out. Two gaps at most, and never a gap in place of a
+    single number — "1 … 3" is longer than "1 2 3" and says less. */
 export function pageNumbers(pages: number, current: number): readonly number[] {
   const keep = new Set<number>();
   for (let i = 1; i <= pages; i++) {
@@ -99,14 +98,14 @@ export class SdsNavPagination extends SdsElement {
     this.label = '';
   }
 
-  /** What the row is drawn from, and the one place the division happens. */
+  /** What the row draws from, and the one place the division happens. */
   get pages(): number {
     return pageCount(this.count, this.perPage);
   }
 
-  /** Say which page was asked for, and let the answer decide what the press
-      does. Cancelable, because stopping the navigation is the only way a
-      surface that pages in place can take the press over, and it is the same
+  /** Say which page the press asked for, and let the answer decide what the
+      press does. Cancelable, because a stop of the navigation is the only way
+      a surface that pages in place can take the press over. It is the same
       press either way. */
   private ask(event: Event, to: number): void {
     const change = new CustomEvent<PageChange>('sds-change', {
@@ -126,9 +125,9 @@ export class SdsNavPagination extends SdsElement {
     const cls = `sds-pagination__step${off ? ' is-disabled' : ''}`;
     const glyph = html`<sds-icon name="${icon}"></sds-icon>`;
     const inner = icon === 'actions-chevron-start' ? html`${glyph}${label}` : html`${label}${glyph}`;
-    /* Disabled is a span, not a link with the pointer taken away: a step with
-       nowhere to go is not a target, and leaving it in the tab order is a stop
-       that answers nothing. */
+    /* Disabled is a span, not a link with the pointer taken away. A step with
+       nowhere to go is not a target, and in the tab order it is a stop that
+       answers nothing. */
     return off
       ? html`<span class="${cls}" aria-disabled="true">${inner}</span>`
       : html`<a class="${cls}" href="${pageHref(this.href, to)}" rel="${icon === 'actions-chevron-start' ? 'prev' : 'next'}" @click="${(event: Event) => this.ask(event, to)}">${inner}</a>`;

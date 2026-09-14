@@ -9,16 +9,16 @@ export interface FormError {
     for?: string;
 }
 export interface FormErrorsProps {
-    /** What went wrong, each naming the field it belongs to — set from script,
-        being a list. The summary is what a reader is sent to; the field says
-        it again where the value is. */
+    /** What went wrong, each with the field it belongs to — set from script, as
+        a list. The summary is where the reader lands; the field says it again
+        where the value is. */
     errors: readonly FormError[];
     /** What the form calls itself, so the heading names the thing that failed
-        rather than saying "there were errors". */
+        rather than says "there were errors". */
     heading?: string;
     /** This is the result of a submit the reader just made, so send them to it.
-        Left off, the summary is drawn and takes nothing — which is what a page
-        returned by a server with its errors already in it needs. */
+        Left off, the summary draws and takes nothing — which is what a page from
+        a server with its errors already in it needs. */
     announce?: boolean;
 }
 export declare class SdsFormErrors extends SdsElement {
@@ -38,7 +38,7 @@ export declare class SdsFormErrors extends SdsElement {
     heading: string;
     announce: boolean;
     constructor();
-    /** Move the reader to the summary. A summary nobody is sent to is a summary
+    /** Move the reader to the summary. A summary nobody lands on is a summary
         nobody reads. */
     focusSummary(): void;
     protected updated(): void;

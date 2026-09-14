@@ -2,11 +2,11 @@
 
    `accent` names the source of an answer; the status tones are the result of
    one. Status colour belongs here, in code output, in result rows and in
-   status-about diagrams — never as page furniture, where a colour that means
-   "something is wrong" would be saying so about the page itself.
+   status-about diagrams. Never as page furniture, where a colour that means
+   "something is wrong" says so about the page itself.
 
-   The three result tones carry a glyph as well as a colour: colour alone
-   would leave the meaning to anyone who cannot tell three hues apart. */
+   The three result tones carry a glyph and a colour. Colour alone leaves the
+   meaning to anyone who cannot tell three hues apart. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';
@@ -19,13 +19,13 @@ export interface BadgeProps {
   /** The word it says, and the whole of what a badge is. */
   label: string;
   /** What it means. `default` is a plain fact, `accent` says where an answer
-      came from, and `ok`, `warn` and `error` are the result of one — those
+      came from. `ok`, `warn` and `error` are the result of one, and those
       three carry their own glyph. */
   tone?: BadgeTone;
   /** An explicit glyph, overriding the tone's own. The status tones already
       carry one; `default` and `accent` carry none, because most badges are a
       word and nothing more. Give one where the icon adds a fact the word does
-      not — the source an answer came from, the kind of thing being counted. */
+      not — the source an answer came from, the kind of thing in the count. */
   icon?: IconId;
 }
 

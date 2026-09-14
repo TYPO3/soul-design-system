@@ -1,35 +1,35 @@
-/* sds-grid — the wall a set is read in.
+/* sds-grid — the wall a reader reads a set in.
 
-   What goes between the tags is whatever is read side by side: cards, planes,
-   a column of links. What the element carries is the one decision the
-   set makes about itself, and it is not a column count — the grid reflows by a
+   What goes between the tags is whatever stands side by side: cards, planes,
+   a column of links. What the element carries is the one decision the set
+   makes about itself, and it is not a column count. The grid reflows by a
    minimum width, so a page says what its items hold and names no breakpoint.
 
-   A component rather than a `div` wearing the class, for the reason every
-   surface here is one: it is the system's own name for its own node, and a
-   page that writes one has taken a copy of what only the system may change. */
+   A component rather than a `div` with the class, for the reason every
+   surface here is one. It is the system's own name for its own node. A page
+   that writes one has a copy of what only the system can change. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';
 
-/** How wide the set runs, or whether it runs as a wall at all. `flush` is the
-    gutter taken out — the cards share a hairline and the set reads as one
-    block, which is a shape rather than a distance and so is a name here rather
+/** How wide the set runs, or if it runs as a wall at all. `flush` is the
+    gutter taken out: the cards share a hairline and the set reads as one
+    block. That is a shape rather than a distance, so it is a name here rather
     than a number. `default` is a name too: the width every set gets unless it
-    says otherwise is a decision, and an unnamed one cannot be asked for. */
+    says otherwise is a decision, and nobody can ask for an unnamed one. */
 export type GridVariant = 'default' | 'wide' | 'dense' | 'flush';
 
 export interface GridProps {
-  /** How much room one item holds. `default` is the reading width, `wide`
-      for cards carrying a picture, `dense` for a set read as a list, `flush`
-      for a wall with no air around it. */
+  /** How much room one item holds. `default` is the reading width. `wide` is
+      for cards with a picture, `dense` for a set read as a list, `flush` for
+      a wall with no air around it. */
   variant?: GridVariant;
 }
 
 /** The class each variant is. Written out rather than assembled from a
-    fragment: a name no search finds is a name no check can see going stale,
-    and the check that every class the system defines is drawn somewhere reads
-    exactly this file to find them. */
+    fragment. A name no search finds is a name no check can see go stale. The
+    check that every class the system defines appears somewhere reads exactly
+    this file to find them. */
 const VARIANT: Record<GridVariant, string> = {
   default: '',
   wide: 'sds-grid--wide',
@@ -38,13 +38,13 @@ const VARIANT: Record<GridVariant, string> = {
 };
 
 /**
- * The columns a count of items may be laid out in.
+ * The columns a count of items can stand in.
  *
- * `auto-fit` fills a row and drops what is left over onto the next one, so
- * four items in a three-wide row wrap as three and one — one on its own beside
- * two tracks of nothing, and in a flush set a bite out of the wall.
- * A last row is even enough when it is full, or one short of full: four across
- * three becomes two and two, five across three stays three and two.
+ * `auto-fit` fills a row and drops the rest onto the next one. So four items
+ * in a three-wide row wrap as three and one. That is one on its own beside two
+ * tracks of nothing, and in a flush set a bite out of the wall. A last row is even
+ * enough when it is full, or one short of full. Four across three becomes
+ * two and two, five across three stays three and two.
  */
 export function evenColumns(count: number, fits: number): number {
   for (let columns = Math.min(fits, count); columns > 1; columns--) {
@@ -58,7 +58,7 @@ export class SdsGrid extends SdsElement {
   static override properties = {
     variant: { type: String },
     /** The columns the last measurement settled on. Zero is "not measured",
-        which renders the reflowing grid the stylesheet declares — the state a
+        which renders the grid the stylesheet declares. That is the state a
         page arrives in and the only one a reader with no script ever sees. */
     columns: { type: Number, state: true },
   };
@@ -82,9 +82,9 @@ export class SdsGrid extends SdsElement {
     const written = this.lifted();
     if (written.length) this.taken = written;
     super.connectedCallback();
-    /* The room, not the grid: measured off the grid it would read back its own
-       answer and settle wherever it happened to start. The host draws nothing,
-       so what the row actually has is what the parent gives it. */
+    /* The room, not the grid: measured off the grid it reads back its own
+       answer and settles wherever it started. The host draws nothing, so what
+       the row has is what the parent gives it. */
     this.watch = new ResizeObserver(() => this.decide());
     if (this.parentElement) this.watch.observe(this.parentElement);
     void this.updateComplete.then(() => this.decide());
@@ -95,11 +95,11 @@ export class SdsGrid extends SdsElement {
     super.disconnectedCallback();
   }
 
-  /** What the sheet would draw, and what to draw instead.
+  /** What the sheet draws on its own, and what to draw instead.
 
-      The minimum is read off the grid rather than repeated here: the three
-      widths differ in exactly that number, and a copy of it in TypeScript is
-      the copy that goes stale. */
+      The minimum comes off the grid rather than a copy here. The three widths
+      differ in exactly that number, and a copy of it in TypeScript is the
+      copy that goes stale. */
   private decide(): void {
     const grid = this.firstElementChild as HTMLElement | null;
     if (!grid) return;
@@ -129,9 +129,9 @@ export class SdsGrid extends SdsElement {
 
   protected override render(): TemplateResult {
     const modifier = VARIANT[this.variant] ?? '';
-    /* Written as a style rather than a class, because it is a measurement and
-       not a name: no page and no stylesheet can state it, and a class per
-       column count would be the breakpoints this grid exists to avoid. */
+    /* A style rather than a class, because it is a measurement and not a
+       name. No page and no stylesheet can state it, and a class per column
+       count is the breakpoints this grid exists to avoid. */
     const columns = this.columns > 0 ? `grid-template-columns:repeat(${this.columns},minmax(0,1fr))` : nothing;
     return html`<div class="${modifier ? `sds-grid ${modifier}` : 'sds-grid'}" style="${columns}">${this.taken ?? this.content}</div>`;
   }

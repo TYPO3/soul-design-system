@@ -3,11 +3,11 @@ import { SdsElement } from '../lib/element.js';
 /** How the chip carries the value. `fill` is a surface, `line` a hairline. */
 export type SwatchKind = 'fill' | 'line';
 export interface SwatchProps {
-    /** What paints the chip — a token as it is written, or a literal where the
-        value belongs to a mode this page is not being read in. */
+    /** What paints the chip — a token as written, or a literal where the value
+        belongs to a mode this page is not in. */
     value: string;
-    /** What it is called. The token where there is one, because that is the name
-        a design writes; the human name where a set has no tokens. */
+    /** Its name. The token where there is one, because that is the name a
+        design writes; the human name where a set has no tokens. */
     name: string;
     /** What the name resolves to, written out. A token alone documents half the
         system: the value is the half that says what the mode did with it. */

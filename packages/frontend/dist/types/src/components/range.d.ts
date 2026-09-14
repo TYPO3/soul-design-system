@@ -4,9 +4,9 @@ export interface RangeProps {
     /** The visible label. Without one the slider is bare — right where the
         surface around it says what it moves — and it still owes `label`. */
     caption?: string;
-    /** What it is called for anything that cannot see what it sits beside. */
+    /** Its name, for anything that cannot see what it sits beside. */
     label?: string;
-    /** What the value is called when the form is sent. */
+    /** The name the value travels under when the form submits. */
     name?: string;
     /** The ends of the run and the distance between two stops. Strings, so a
         caller writes them the way the attribute takes them. */

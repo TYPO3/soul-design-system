@@ -21,18 +21,18 @@ export declare class SdsTabs extends SdsNav {
             reflect: boolean;
         };
         /** The word that makes sets follow each other. Named for what it does
-            rather than for what the set is called: a page showing one setting in
-            four places asks the reader to choose a language once, and a set
-            writing nothing here is a set nobody else moves. */
+            rather than for the set's name. A page that shows one setting in four
+            places asks the reader to choose a language once. A set with nothing
+            here is a set nobody else moves. */
         sync: {
             type: StringConstructor;
             reflect: boolean;
         };
     };
-    /** A name shared by every set that moves together: picking a tab in one picks
-        the same label in all of them. Left unset rather than empty — `reflect`
-        writes `sync=""`, and a set following nobody would answer to `[sync]`, for
-        a stylesheet, for a test, and for the registry below. */
+    /** A name every set that moves together shares: a tab picked in one picks
+        the same label in all of them. Unset rather than empty. `reflect` writes
+        `sync=""`, and a set that follows nobody then answers to `[sync]` — for a
+        stylesheet, for a test, and for the registry below. */
     sync?: string;
     protected readonly block = "sds-tabs";
     protected readonly item = "sds-tab";
@@ -45,7 +45,7 @@ export declare class SdsTabs extends SdsNav {
     connectedCallback(): void;
     disconnectedCallback(): void;
     protected choose(index: number): void;
-    /** Where the choice is kept. One key per group, so two sets that agree
+    /** Where the choice lives. One key per group, so two sets that agree
         about nothing on the same origin do not overwrite each other. */
     private get store();
     private get labels();
@@ -54,7 +54,7 @@ export declare class SdsTabs extends SdsNav {
     private follow;
     private recalled;
     private recall;
-    /** Tell each panel whether it is the one. */
+    /** Tell each panel if it is the one. */
     private show;
     private onKey;
     protected render(): TemplateResult;

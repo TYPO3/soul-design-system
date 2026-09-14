@@ -8,11 +8,11 @@ export interface SwitchProps {
     /** On or off. The property is the state, so a form reset puts back what the
         markup said rather than what was last pressed. */
     checked?: boolean;
-    /** What it is called when a form carries it after all — a settings page is
-        still a form. */
+    /** Its name when a form carries it after all — a settings page is still a
+        form. */
     name?: string;
-    /** What it sends when it is on. `on` where nothing is written, which is the
-        platform's own default. */
+    /** What it sends when it is on. `on` where a caller writes nothing, which
+        is the platform's own default. */
     value?: string;
     /** Present but not available, and the real attribute so nothing can press
         it. */

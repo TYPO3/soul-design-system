@@ -11,7 +11,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),N=u,x=y),v===void 0&&(
     ${this.above()}
     <h3 class="sds-result__title">${this.marked(this.heading)}</h3>
     ${this.snippet?r`<p class="sds-result__text">${this.marked(this.snippet)}</p>`:c}
-  </span>`;return this.href?r`<a class="sds-result" href="${this.href}" aria-label="${this.heading}">${t}</a>`:r`<article class="sds-result">${t}</article>`}};p("sds-search-result",et);var mr="Every page of this site was searched \u2014 its titles and its opening lines. What is not indexed is the body of a page, so a word used once deep in one of them will not be found.",tt=class extends h{static{this.properties={items:{type:Array},match:{type:String},empty:{type:String}}}constructor(){super(),this.items=[],this.match="",this.empty=mr}nothing(){let t=this.match.trim();return r`<div class="sds-hits__empty">
+  </span>`;return this.href?r`<a class="sds-result" href="${this.href}" aria-label="${this.heading}">${t}</a>`:r`<article class="sds-result">${t}</article>`}};p("sds-search-result",et);var mr="The search covered every page of this site \u2014 its titles and its opening lines. The index does not hold the body of a page, so a word used once deep in one of them does not appear.",tt=class extends h{static{this.properties={items:{type:Array},match:{type:String},empty:{type:String}}}constructor(){super(),this.items=[],this.match="",this.empty=mr}nothing(){let t=this.match.trim();return r`<div class="sds-hits__empty">
     <div class="sds-surface-title">Nothing here matches${t?r` “${t}”`:""}</div>
     ${this.empty.trim()?r`<p>${this.empty}</p>`:""}
   </div>`}render(){return r`<div class="sds-hits">

@@ -1,10 +1,10 @@
 /* sds-accordion — questions with their answers folded behind them.
 
-   `<details>` and `<summary>`, like the rail's sections: the fold works before
+   `<details>` and `<summary>`, like the rail's sections. The fold works before
    any script runs, the keyboard reaches it, and find-in-page opens the one it
    lands in. A button drawn to look like a summary looks identical and has none
    of that. Exclusive through `name` rather than a listener, so the platform
-   closes the others; `multiple` where the answers are meant to be compared.
+   closes the others; `multiple` where a reader compares the answers.
 
    For a list of questions. Where the folded part is the point — a log, a stack
    trace — one `<details>` in the document needs no component. */
@@ -13,9 +13,9 @@ import { html, nothing, type TemplateResult } from 'lit';
 import './accordion-item.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
-/** One question. `open` is for the one a page wants standing open — the first
-    answer on a page of them, usually, so the shape of an answer is visible
-    without pressing anything. */
+/** One question. `open` is for the one a page wants open. Usually the first
+    answer on a page of them, so the shape of an answer is visible before any
+    press. */
 export interface Entry {
   question: string;
   answer: string | TemplateResult;
@@ -26,14 +26,14 @@ export interface Entry {
 
 export interface AccordionProps {
   /** The questions, where a page has them as data. An answer that is blocks —
-      what a documentation renderer hands over — is written between the tags as
+      what a documentation renderer hands over — goes between the tags as
       `sds-accordion-item` instead, and then this stays empty. */
   entries: readonly Entry[];
   /** More than one at a time. The platform's own exclusivity is otherwise on,
       and it is on because a list is easier to read than a wall. */
   multiple?: boolean;
-  /** What the set is called, where the page has several. Two exclusive groups
-      on one page must not close each other's answers. */
+  /** The set's name, where the page has several. Two exclusive groups on one
+      page must not close each other's answers. */
   name?: string;
 }
 
@@ -83,10 +83,10 @@ export class SdsAccordion extends SdsElement {
 </div>`;
   }
 
-  /* A set is named once and `<details name>` wants that name on every answer in
-     it, so the items written between the tags are told rather than a page
-     saying it on each. Nothing runs here outside a browser: what a renderer
-     writes ahead of one, it writes onto the items itself. */
+  /* A set has one name and `<details name>` wants that name on every answer in
+     it. So the items between the tags hear it from here rather than from a
+     page that says it on each. Nothing runs here outside a browser: what a
+     renderer writes ahead of one, it writes onto the items itself. */
   protected override updated(): void {
     const group = this.multiple ? '' : this.name;
     for (const item of this.querySelectorAll(':scope > .sds-accordion > sds-accordion-item')) {

@@ -1,11 +1,11 @@
 /* sds-file — the one native control that looks like nothing else on a page.
 
    A file input is a button and a sentence the browser draws itself, in the
-   platform's own chrome, and no amount of markup replaces it: the picker only
-   opens for a press the user made on a real one. So the real one stays and its
-   button is painted — `::file-selector-button` is that button, and the
-   sentence beside it is the browser's, in its own language, saying what is
-   chosen.
+   platform's own chrome. No amount of markup replaces it: the picker only
+   opens for a press the user made on a real one. So the real one stays and
+   the paint goes on its button. `::file-selector-button` is that button, and
+   the sentence beside it is the browser's, in its own language, with the
+   chosen file.
 
    What is deliberately not here is a drawn box with a hidden input behind it.
    It photographs well, drops nothing, and loses the keyboard. */
@@ -19,21 +19,21 @@ export interface FileProps {
   /** The visible label, above the control. A file picker with none is a
       button whose own words are the browser's and say only "Choose File". */
   caption?: string;
-  /** What it is called for anything that cannot see what it sits beside. */
+  /** Its name, for anything that cannot see what it sits beside. */
   label?: string;
-  /** What the files are called when the form is sent. */
+  /** The name the files travel under when the form submits. */
   name?: string;
   /** Which kinds the picker offers first — `image/*`, `.pdf,.md`. A filter and
-      not a guarantee: what arrives is still checked where it lands. */
+      not a guarantee: the server still checks what arrives. */
   accept?: string;
   /** More than one at a time. */
   multiple?: boolean;
   /** What to attach, under the control. Say the kinds and the size limit here
       rather than after the upload failed. */
   hint?: string;
-  /** What is wrong with what was chosen. Sets the invalid state with it. */
+  /** What is wrong with the chosen file. Sets the invalid state with it. */
   error?: string;
-  /** Something has to be chosen before the form goes. Said in words. */
+  /** The reader must choose something before the form goes. Said in words. */
   required?: boolean;
   /** Present but not available. */
   disabled?: boolean;
@@ -79,8 +79,8 @@ export class SdsFile extends SdsFormElement {
     this.fieldId = '';
   }
 
-  /* What the caller said is wrong is what the browser refuses to submit past,
-     reported on the control itself rather than on the element around it. */
+  /* What the caller said is wrong is what the browser refuses to submit past.
+     Reported on the control itself rather than on the element around it. */
   protected override updated(): void {
     this.setValidity(this.error, 'input');
   }

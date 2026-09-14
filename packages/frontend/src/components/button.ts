@@ -5,9 +5,9 @@
    button's label is often enough.
 
    `buttonMarkup` is what the element renders, exported for the caller that has
-   no element: `renderStatic` cannot flatten an element that was given children.
+   no element: `renderStatic` cannot flatten an element with children.
    `buttonClass` one layer down, because the class list is the contract with
-   `components.css` and a surface writing plain markup needs it. */
+   `components.css` and a surface that writes plain markup needs it. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';
@@ -17,34 +17,33 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 export type ButtonSize = 'md' | 'sm' | 'lg';
 
 export interface ButtonProps {
-  /** What kind of press it is. `primary` starts the work the view is for,
-      `secondary` stands beside it, `ghost` belongs in a bar or a head where a
-      filled box would be one weight too many, and `danger` is the press that
-      cannot be undone. */
+  /** What kind of press it is. `primary` starts the work the view is for.
+      `secondary` stands beside it. `ghost` belongs in a bar or a head, where a
+      filled box is one weight too many. `danger` is the press with no way
+      back. */
   variant?: ButtonVariant;
   /** `sm` for a control inside another surface, `lg` for the one action a
       screen is for — a landing's single call, never a row of them. */
   size?: ButtonSize;
-  /** No label at all — the icon is the whole control, which then requires
+  /** No label at all — the icon is the whole control, which then needs
       `title`, because nothing else names it. */
   iconOnly?: boolean;
-  /** The tooltip, and the accessible name where the label cannot carry it —
-      required with `icon-only`, because a glyph names nothing on its own. */
+  /** The tooltip, and the accessible name where the label cannot carry it.
+      A must with `icon-only`, because a glyph names nothing on its own. */
   title?: string;
-  /** The real attribute, so the pointer, the keyboard and anything reading
-      the page all agree it cannot be pressed. Never a class that only looks
-      it. */
+  /** The real attribute, so the pointer, the keyboard and a screen reader
+      all agree that it takes no press. Never a class that only looks it. */
   disabled?: boolean;
-  /** What pressing it does to a form around it. `button` by default, which is
-      the whole reason the property exists: a `<button>` with no type inside a
-      `<form>` submits it, so a filter or a Cancel drawn with this element sends
-      the form the moment it is pressed. A real submit says so — and then Enter
-      in a text field submits too, which only that button should carry. */
+  /** What a press does to a form around it. `button` by default, which is
+      the whole reason the property exists. A `<button>` with no type inside a
+      `<form>` submits it, so a Cancel drawn with this element sends the form.
+      A real submit says so — and then Enter in a text field submits too,
+      which only that button must carry. */
   type?: 'button' | 'submit' | 'reset';
   /** Where it goes, for the press that is a link rather than an action. It
-      renders an `<a>` and nothing else changes: same classes, same shape, and
-      the browser's own middle-click, hover target and status line, none of
-      which a `<button>` with a handler on it has. */
+      renders an `<a>` and nothing else changes: same classes, same shape. The
+      browser adds its own middle-click, hover target and status line, which
+      a `<button>` with a handler has none of. */
   href?: string;
   /** What that link is to this page — `prev`, `next`, `external`. Only with
       `href`, being the anchor's own attribute. */
@@ -54,7 +53,7 @@ export interface ButtonProps {
 export function buttonClass({ variant = 'primary', size = 'md', iconOnly = false, disabled = false }: ButtonProps): string {
   const cls = ['sds-btn', `sds-btn--${variant}`];
   /* Named rather than interpolated: the size arrives as an attribute, and a
-     word this layer does not have would become a class nothing defines. */
+     word this layer does not have becomes a class nothing defines. */
   if (size === 'sm' || size === 'lg') cls.push(`sds-btn--${size}`);
   if (iconOnly) cls.push('sds-btn--icon');
   if (disabled) cls.push('is-disabled');
@@ -65,16 +64,16 @@ const LABEL = 'sds-btn__label';
 
 /** The label as the one node it is.
 
-    `.sds-btn` is a flex row, so a word and a version in mono written beside
-    each other become two items placed by their boxes — and two faces never
-    centre onto one baseline, at any size or leading. In one item they share a
-    line box and are aligned as the text they are. */
+    `.sds-btn` is a flex row, so a word and a version in mono beside each
+    other become two items placed by their boxes. Two faces never centre onto
+    one baseline that way, at any size or leading. In one item they share a
+    line box and align as the text they are. */
 export const buttonLabel = (body: unknown): TemplateResult =>
   html`<span class="${LABEL}">${body}</span>`;
 
-/* The same control as an anchor. A link cannot be disabled — a control that
-   must not be followed is one that is not written — so the state is dropped
-   here rather than drawn as a grey link the browser follows anyway. */
+/* The same control as an anchor. A link has no disabled state: a control
+   nobody must follow is one nobody writes. So the state stops here, rather
+   than as a grey link the browser follows anyway. */
 function linkMarkup(props: ButtonProps, body: unknown): TemplateResult {
   const cls = buttonClass({ ...props, disabled: false });
   const href = props.href ?? '';
@@ -90,23 +89,23 @@ function linkMarkup(props: ButtonProps, body: unknown): TemplateResult {
 
 /** The markup a button is, given whatever stands inside it. */
 export function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult {
-  /* A string cannot hold a glyph, so it is a label whole and is written as
-     one. Markup can, and there whoever wrote it says where the label is. */
+  /* A string cannot hold a glyph, so it is a label whole and gets the span.
+     Markup can, and there whoever wrote it says where the label is. */
   const inner = typeof body === 'string' && body ? buttonLabel(body) : body;
-  /* A press that goes somewhere is a link and is written as one. The class
-     layer has always allowed it — the skip link is an `<a class="sds-btn">` —
-     and an element that could not emit it left every such control to be
-     hand-written, which is the drift this system exists to stop. */
+  /* A press that goes somewhere is a link and renders as one. The class
+     layer has always let it — the skip link is an `<a class="sds-btn">`. An
+     element that cannot emit it leaves every such control hand-written,
+     which is the drift this system exists to stop. */
   if (props.href) return linkMarkup(props, inner);
   const cls = buttonClass(props);
   /* Written always, because the default is a decision: without it a button in
      a form is a submit button. See `type` above for what that costs. */
   const type = props.type ?? 'button';
-  /* Both optional attributes are branched rather than bound: an omitted one
-     still leaves the space in front of it in Lit's SSR output —
-     `<button class="…" >` — and this markup is written to files that have to
-     match the browser's byte for byte. Four lines to say two things, and the
-     alternative is a space nothing can see and every diff can. */
+  /* Both optional attributes branch rather than bind. An omitted one still
+     leaves the space in front of it in Lit's SSR output: `<button class="…"
+     >`. This markup goes to files that must match the browser's byte for
+     byte. Four lines to say two things, and the alternative is a space
+     nothing can see and every diff can. */
   if (props.title) {
     return props.disabled
       ? html`<button class="${cls}" type="${type}" title="${props.title}" disabled>${inner}</button>`
@@ -119,8 +118,8 @@ export function buttonMarkup(props: ButtonProps, body: unknown): TemplateResult 
 
 /* Written between the tags, a glyph arrives as a node beside the words. It
    stays a sibling — the row's gap is what it is for — and everything else is
-   one label. A label a caller wrote themselves is left alone, or an upgrade
-   would put a second span around the one already in the markup. */
+   one label. A label a caller wrote themselves stays as it is, or an upgrade
+   puts a second span around the one already in the markup. */
 const isGlyph = (node: Node): boolean => {
   const el = node as Element;
   return el.tagName?.toLowerCase() === 'sds-icon' || (el.classList?.contains('sds-icon') ?? false);
@@ -129,8 +128,8 @@ const isGlyph = (node: Node): boolean => {
 function labelled(nodes: Node[]): unknown[] {
   const out: unknown[] = [];
   let run: Node[] = [];
-  /* A run of nothing but whitespace is not a label: flex draws no such item,
-     and wrapped it would become one — a gap either side of nothing. */
+  /* A run of nothing but whitespace is not a label. Flex draws no such item,
+     and wrapped it becomes one — a gap either side of nothing. */
   const close = (): void => {
     if (run.some((node) => !isBlank(node))) out.push(buttonLabel(run));
     run = [];
@@ -147,9 +146,9 @@ function labelled(nodes: Node[]): unknown[] {
 
 /** What a press asks of something else on the page.
 
-    `source` is the button, because a handler that hears the command usually
-    needs to know where it came from — which of three buttons was pressed, and
-    where the focus goes back to. */
+    `source` is the button. A handler that hears the command usually needs
+    to know where it came from: which of three buttons, and where the focus
+    goes back to. */
 export interface SdsCommand {
   command: string;
   source: Element;
@@ -176,21 +175,21 @@ export class SdsButton extends SdsElement {
   /** Where it goes, where the press is a link rather than an action. */
   declare href: string;
   declare rel: string;
-  /** The id of what this button acts on — the label element's spelling for the
-      same relationship, and the one a reader of the markup already knows. */
+  /** The id of what this button acts on — the label element's spelling for
+      the same relationship, which a reader of the markup already knows. */
   declare for: string;
-  /** What it asks of it. `show` unless something else is written, since a
+  /** What it asks of it. `show` unless a caller says otherwise, since a
       button pointed at a viewer or a dialog is almost always the one that
       opens it. */
   declare command: string;
-  /** That the label is one glyph and the button is the square. Inferred where
-      the label can be read, which it cannot be when it arrives as markup rather
-      than nodes — see `SdsElement`, and a button that loses its shape there is
-      a round control gone rectangular in a bar. So a caller can also say it. */
+  /** That the label is one glyph and the button is the square. Inferred from
+      the label where it arrives as nodes. As markup it cannot be — see
+      `SdsElement` — and a button that loses its shape there is a round
+      control gone rectangular in a bar. So a caller can also say it. */
   declare iconOnly: boolean;
 
   /* The label, taken before Lit renders over it — the element renders light
-     DOM, so `render()` would otherwise replace exactly what it is for. */
+     DOM, so `render()` otherwise replaces exactly what it is for. */
   private taken: Node[] = [];
 
   constructor() {
@@ -219,9 +218,9 @@ export class SdsButton extends SdsElement {
   }
 
   /* The press, sent to whatever the button names. An id and an event, so
-     neither end holds the other and a page wires the two in markup. Dispatched
-     **on the target**, the way the platform's own invokers do it, so what
-     answers listens to itself — and it bubbles, so a page that wants every
+     neither end holds the other and a page wires the two in markup. It fires
+     **on the target**, the way the platform's own invokers do, so what
+     answers listens to itself. It bubbles, so a page that wants every
      command still hears them. Without `for` the button keeps its own click. */
   private readonly onPress = (): void => {
     if (!this.for || this.disabled) return;
@@ -237,8 +236,8 @@ export class SdsButton extends SdsElement {
   };
 
   protected override render(): TemplateResult {
-    /* Icon-only is the square, and it is a fact about the content rather than
-       a property to set: a button whose whole label is one glyph is one. */
+    /* Icon-only is the square, and a fact about the content rather than a
+       property. A button whose whole label is one glyph is one. */
     const iconOnly =
       this.iconOnly ||
       (this.taken.every(

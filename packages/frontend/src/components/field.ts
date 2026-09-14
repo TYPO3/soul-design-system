@@ -2,8 +2,8 @@
 
    Sunken, never outlined on the canvas, and the accent appears on it in exactly
    one place: focus. A real `<input>` inside the box, so the ring comes from
-   `:focus-within` and the browser does the rest — anything drawn instead looks
-   right in a screenshot and cannot be typed in or read out.
+   `:focus-within` and the browser does the rest. A drawn one looks right in a
+   screenshot and takes no text and no screen reader.
 
    An answer of more than one line is `sds-textarea` and a list of answers is
    `sds-select`. Both share this box and little else.
@@ -30,27 +30,27 @@ export interface FieldProps {
   size?: FieldSize;
   /** What is in the field — its value when `filled`, its placeholder when not. */
   value?: string;
-  /** A glyph inside the box, at the start: what is searched, what is
-      measured, what kind of value belongs here. */
+  /** A glyph inside the box, at the start: the thing to search, the unit
+      to measure, what kind of value belongs here. */
   icon?: IconId;
   /** Force the focus state for a still picture. Live focus needs nothing. */
   focused?: boolean;
   /** The box says the value is wrong. What is wrong is `error`, and a state
       drawn with no sentence beside it leaves a reader stuck. */
   invalid?: boolean;
-  /** The value is the user's, not a prompt. Typing sets it too. */
+  /** The value is the user's, not a prompt. A keystroke sets it too. */
   filled?: boolean;
-  /** What the control is called, for anything that cannot see what it sits
-      beside. A field with no visible label of its own owes one here. */
+  /** The control's name, for anything that cannot see what it sits beside.
+      A field with no visible label of its own owes one here. */
   label?: string;
-  /** The narrowest the box may get, in pixels, for a field in a row that
+  /** The narrowest the box can get, in pixels, for a field in a row that
       shrinks. The attribute is `min-width`. */
   minWidth?: number;
   /** The visible label, which turns this into a field in a *form*. A bare field
       is right where the surface says what it is for — a header, a filter row.
-      In a form nothing does, and a placeholder leaves exactly when it is
-      needed. Set this and the element renders label, control, hint and error
-      instead of the control alone. */
+      In a form nothing does, and a placeholder leaves exactly when the reader
+      needs it. Set this and the element renders label, control, hint and
+      error instead of the control alone. */
   caption?: string;
   /** What the answer has to be, under the control. Never inside it. */
   hint?: string;
@@ -63,7 +63,7 @@ export interface FieldProps {
   required?: boolean;
   /** The control's id, so the label points at it and an error summary can. */
   fieldId?: string;
-  /** What the value is called when the form is sent. */
+  /** The name the value travels under when the form submits. */
   name?: string;
   /** `email`, `tel`, `url`, `number`, `date` — what the browser validates and
       which keyboard a phone offers. */
@@ -71,17 +71,18 @@ export interface FieldProps {
   /** Present, and not on offer. The real attribute, so nothing can type in it
       and the form sends nothing for it. */
   disabled?: boolean;
-  /** The value is shown and sent but not editable — what a form already knows
-      and the reader may not change. Still focusable, still copyable: a disabled
-      control is neither, which is why the two are different words. */
+  /** The value shows and submits but takes no edit: what a form already
+      knows and the reader must not change. Still focusable, still copyable.
+      A disabled control is neither, which is why the two are different
+      words. */
   readonly?: boolean;
   /** What stands inside the box before the value: a currency, a scheme, the
       fixed head of an address. Part of the field rather than of the value —
-      nothing is typed there and nothing is sent for it. */
+      nobody types there and the form sends nothing for it. */
   prefix?: string;
   /** The same after it: a unit, a domain, an extension. */
   suffix?: string;
-  /** What the browser may fill in — `email`, `street-address`, `off`. A form
+  /** What the browser can fill in — `email`, `street-address`, `off`. A form
       that names them is a form filled in once instead of every time. */
   autocomplete?: string;
   /** Which keyboard a phone offers where `type` does not decide it —
@@ -92,7 +93,7 @@ export interface FieldProps {
   min?: string;
   max?: string;
   step?: string;
-  /** How much may be typed, and the shape it has to have. Both are the
+  /** How much a reader can type, and the shape it must have. Both are the
       browser's own validation, before anything of ours runs. */
   maxlength?: number;
   pattern?: string;
@@ -184,7 +185,7 @@ export class SdsField extends SdsFormElement {
   }
 
   /* The value the markup came with, which is what a reset puts back. Read once,
-     before anything is typed. */
+     before the first keystroke. */
   #initial?: string;
 
   protected override willUpdate(): void {
@@ -203,15 +204,15 @@ export class SdsField extends SdsFormElement {
     this.filled = !!this.#initial;
   }
 
-  /* Typing is what makes a value the user's. `is-filled` used to be a state
-     a caller set and then had to unset, which nothing typing into the field
-     could ever do. */
+  /* A keystroke is what makes a value the user's. `is-filled` used to be a
+     state a caller set and then had to unset, which no keystroke into the
+     field can do. */
   private onInput(event: Event): void {
     const control = event.target as HTMLInputElement;
     this.value = control.value;
     this.filled = control.value !== '';
-    /* Typing answers whatever was wrong. The caller decides what is wrong
-       next; leaving the old sentence standing would block the form on a value
+    /* A keystroke answers whatever was wrong. The caller decides what is
+       wrong next; the old sentence left in place blocks the form on a value
        nobody has judged yet. */
     this.error = '';
     this.dispatchEvent(new CustomEvent<string>('sds-input', { detail: control.value, bubbles: true, composed: true }));
@@ -223,30 +224,30 @@ export class SdsField extends SdsFormElement {
 
   private control(): TemplateResult {
     const cls = fieldBox(this);
-    /* A width, not a floor. This was `min-width`, and `min-width` wins over
-       every other width rule in CSS: a field asking for 260px in a header with
-       240px left pushed the page sideways, and nothing in the row looked
-       wrong. What a caller gives is the width it wants; what it gets is that
-       or the room there is. */
+    /* A width, not a floor. This was `min-width`, which wins over every other
+       width rule in CSS. A field that asked for 260px in a header with 240px
+       left pushed the page sideways, and nothing in the row looked wrong.
+       What a caller gives is the width it wants; what it gets is that or the
+       room there is. */
     const box = `width:${this.minWidth}px; max-width:100%`;
 
     /* Only where a caller gave one. A field in a header has no id and no name
-       and never needed either; a field in a form has both, and the label above
+       and never needed either. A field in a form has both, and the label above
        it points at the first. */
     const id = this.fieldId || nothing;
     const name = this.name || nothing;
     const invalid = this.invalid || this.error ? 'true' : nothing;
     const disabled = this.disabled || this.inheritedDisabled;
 
-    /* The caret is drawn only where one was asked for, which is only ever a
-       specimen: a still picture cannot hold a real one, and the accent on a
-       focused field is the thing being documented. */
+    /* The caret draws only on request, which only a specimen makes. A still
+       picture cannot hold a real one, and the accent on a focused field is
+       the thing to document. */
     const caret = this.focused
       ? html`<span style="width:2px; height:15px; background:var(--accent);"></span>`
       : nothing;
 
-    /* What stands in the box beside the value and is not part of it. Nothing is
-       typed into one and nothing is sent for it. */
+    /* What stands in the box beside the value and is not part of it. Nobody
+       types into one and the form sends nothing for it. */
     const affix = (text: string): TemplateResult | typeof nothing =>
       text ? html`<span class="sds-field__affix">${text}</span>` : nothing;
 

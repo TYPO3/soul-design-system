@@ -1,14 +1,14 @@
 /* sds-range — a value picked along a run of them.
 
-   For a quantity where the *position* is the answer and the exact number is
-   not: a zoom, a weight, a threshold somebody is feeling their way to. Where
-   the number is what the reader knows, that is a field with `type="number"`,
-   which can be typed into and pasted.
+   For a quantity where the *position* is the answer and the number is not: a
+   zoom, a weight, a threshold somebody feels their way to. Where the
+   number is what the reader knows, that is a field with `type="number"`,
+   which takes a keystroke and a paste.
 
-   The platform's own `<input type="range">`, painted here — so it is
-   draggable, arrow-keyable and reads out as a slider, and only the track and
-   the thumb are ours. The read-out is an `<output>`, because a slider with no
-   number beside it is a value nobody can report. */
+   The platform's own `<input type="range">`, painted here. So it drags, takes
+   the arrow keys and reads out as a slider, and only the track and the thumb
+   are ours. The read-out is an `<output>`, because a slider with no number
+   beside it is a value nobody can report. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { define } from '../lib/element.ts';
@@ -18,9 +18,9 @@ export interface RangeProps {
   /** The visible label. Without one the slider is bare — right where the
       surface around it says what it moves — and it still owes `label`. */
   caption?: string;
-  /** What it is called for anything that cannot see what it sits beside. */
+  /** Its name, for anything that cannot see what it sits beside. */
   label?: string;
-  /** What the value is called when the form is sent. */
+  /** The name the value travels under when the form submits. */
   name?: string;
   /** The ends of the run and the distance between two stops. Strings, so a
       caller writes them the way the attribute takes them. */
@@ -104,9 +104,9 @@ export class SdsRange extends SdsFormElement {
   protected override render(): TemplateResult {
     const id = this.fieldId || nothing;
     /* The attribute is the *default* the reset restores. Where the thumb
-       actually stands is written onto the control after the render, in
-       `updated` — a `.value` binding is serialised by the static renderer and
-       would put the live number back into the default. */
+       stands goes onto the control after the render, in `updated`. The static
+       renderer writes a `.value` binding out, which puts the live number back
+       into the default. */
     const slider = html`<input
     class="sds-range__slider"
     type="range"

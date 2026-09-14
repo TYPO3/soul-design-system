@@ -4,9 +4,9 @@ import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 export type NoteTone = 'info' | 'ok' | 'warn' | 'error';
 export interface NoteProps {
-    /** What kind of aside it is. `info` is a fact worth pulling out, `ok` a
-        result, `warn` something to know before acting, `error` something
-        already wrong. */
+    /** What kind of aside it is. `info` is a fact that deserves the pull-out,
+        `ok` a result, `warn` something to know before the next step, `error`
+        something already wrong. */
     tone?: NoteTone;
     /** The fact, in a line. Sentence case, and never a category name.
   
@@ -16,7 +16,7 @@ export interface NoteProps {
     /** What it means for the reader. A template where it names a path or a
         command, which sets in mono inside the sentence.
   
-        Or nothing, when the body is written between the tags instead. */
+        Or nothing, when the body stands between the tags instead. */
     body?: string | TemplateResult;
     /** An explicit glyph, where the tone's own says less than the note does. */
     icon?: IconId;
@@ -25,12 +25,12 @@ export interface NoteProps {
         dialog, and a message offering none is the note this was before. */
     action?: string;
     /** Where that action goes, where it is a place rather than a decision. The
-        button is drawn as a link and a press announces nothing — the browser's
+        button draws as a link and a press announces nothing — the browser's
         own navigation is the whole of it. */
     href?: string;
     /** What the glyph says out loud, because a colour cannot be the only carrier
-        of a meaning. Each tone names its own word and a caller may say a truer
-        one: a renderer collapsing many admonition types onto four tones knows
+        of a meaning. Each tone names its own word and a caller can say a truer
+        one. A renderer that folds many admonition types onto four tones knows
         which this was, so `caution` and `danger` stay apart after both are
         `warn`. */
     label?: string;

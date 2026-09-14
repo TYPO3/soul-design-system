@@ -1,12 +1,12 @@
 /* sds-figure — a picture and the claim it makes.
 
-   The caption is not optional and not a title: a picture whose point has to be
-   inferred means something slightly different to every reader, so the sentence
-   under it states the claim — the one the picture would be replaced by.
+   The caption is not optional and not a title. A picture with no stated point
+   means something different to every reader. So the sentence under it states
+   the claim — the one that stands in for the picture.
 
-   The element does not ask what is in the frame: it shows the file it is
-   given, as an image, and the ground under it is the one drawn for colours
-   that do not follow the page. `src/lib/art.ts` holds why. */
+   The element does not ask what is in the frame. It shows the file it gets,
+   as an image, and the ground under it is the one for colours that do not
+   follow the page. `src/lib/art.ts` holds why. */
 
 import { html, type TemplateResult } from 'lit';
 import { art, exported } from '../lib/art.ts';
@@ -20,18 +20,17 @@ export interface FigureProps {
   alt: string;
   /** The claim, in a sentence. */
   caption?: string | TemplateResult;
-  /** Pressable, opening the drawing at the size it was drawn. The trigger is a
-      link to the file, so a surface running no script still opens it and the
+  /** Pressable, and it opens the drawing at its own size. The trigger is a
+      link to the file, so a surface with no script still opens it. The
       element only takes the press over once it has upgraded. Worth it for
       anything drawn wider than its column, pointless for a photograph. */
   zoomable?: boolean;
 }
 
-/* A caption written between the tags, told apart from the picture by the class
-   the component itself would emit for it — the marker `sds-code` and
-   `sds-embed` both use, and for the same reasons: light DOM has no slot to
-   name it with, and a class the stylesheet already defines is what makes the
-   caption read in the window before the upgrade. */
+/* A caption between the tags, told apart from the picture by the class the
+   component emits for it. The marker `sds-code` and `sds-embed` both use, for
+   the same reasons. Light DOM has no slot to name it with, and a class the
+   stylesheet already defines makes the caption read before the upgrade. */
 const isCaption = (node: Node): boolean =>
   node.nodeType === 1 && (node as Element).matches('.sds-figure__caption');
 
@@ -54,24 +53,24 @@ export class SdsFigure extends SdsElement {
   declare alt: string;
   declare caption: string | TemplateResult;
   /** The picture's own size, where a document declared one. A figure fills its
-      column and needs neither; a drawing that states a width in the source is
-      stating a fact about the file, and dropping it left the renderer writing
-      the `<img>` itself to keep it. */
+      column and needs neither. A drawing that states a width in the source
+      states a fact about the file. An element that dropped it left the
+      renderer to write the `<img>` itself. */
   declare width?: number;
-  /** The drawing’s own height in pixels, so the space it needs is held
-      before it loads and the page does not jump under the reader. */
+  /** The drawing’s own height in pixels, so the page holds the space before
+      it loads and does not jump under the reader. */
   declare height?: number;
   declare zoomable: boolean;
 
   /* The picture a renderer wrote, taken before Lit renders over it. `src` is
-     the form a story or a product surface uses; a renderer writing HTML cannot,
-     because the picture has to be on the page before any script runs or a
+     the form a story or a product surface uses. A renderer that writes HTML
+     cannot. The picture must be on the page before any script runs, or a
      reader gets a caption under an empty frame. Kept exactly as `sds-code`
      keeps a block that arrived coloured. */
   private taken: Node[] | null = null;
 
-  /* And its caption, where that was written between the tags too: a caption
-     from a document carries markup — a literal, a link, an emphasis — and an
+  /* And its caption, where that stood between the tags too. A caption from a
+     document carries markup — a literal, a link, an emphasis — and an
      attribute is a string. */
   private captioned: Node[] | null = null;
 
@@ -94,17 +93,17 @@ export class SdsFigure extends SdsElement {
 
   protected override render(): TemplateResult {
     /* What a renderer wrote, where it wrote one. The two forms answer the
-       same question and the nodes win, because they are already in the page:
-       rewriting them from `src` would replace a picture the reader can see
-       with a second request for the same file. */
+       same question and the nodes win, because they are already in the page.
+       A rewrite from `src` replaces a picture the reader can see with a
+       second request for the same file. */
     const given = this.taken ?? this.content;
     const picture = given
       ? html`${given}`
       : art(this.src, this.alt, { width: this.width, height: this.height });
 
     /* The viewer carries the claim into its head, where the caption is a
-       sentence; a caption written between the tags is markup and the viewer
-       takes an attribute, so that one arrives as the alt text instead. */
+       sentence. A caption between the tags is markup and the viewer takes an
+       attribute, so that one arrives as the alt text instead. */
     const press = this.zoomable
       ? zoom(this, picture, {
           src: this.src,
@@ -114,9 +113,9 @@ export class SdsFigure extends SdsElement {
       : null;
 
     /* Whichever form the caption arrived in, nodes first. Kept as it came
-       rather than wrapped: a renderer writes the `<figcaption>` itself, which
-       is the tag it has to be inside this `<figure>`, and wrapping it would
-       nest one caption in another. */
+       rather than wrapped. A renderer writes the `<figcaption>` itself, which
+       is the tag it must be inside this `<figure>`, and a wrapper nests one
+       caption in another. */
     const caption = this.captioned
       ? html`${this.captioned}`
       : this.caption

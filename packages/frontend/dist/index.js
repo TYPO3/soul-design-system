@@ -28,9 +28,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// node_modules/highlight.js/lib/core.js
+// ../../../node_modules/highlight.js/lib/core.js
 var require_core = __commonJS({
-  "node_modules/highlight.js/lib/core.js"(exports, module) {
+  "../../../node_modules/highlight.js/lib/core.js"(exports, module) {
     function deepFreeze(obj) {
       if (obj instanceof Map) {
         obj.clear = obj.delete = obj.set = function() {
@@ -2033,9 +2033,9 @@ var SdsIcon = class extends SdsElement {
       name: { type: String, reflect: true },
       size: { type: Number, reflect: true },
       /** Only for an icon that stands without a label. SKILL.md lists the four
-          that may: answered, version-bound, not bootable, a stated boundary.
-          Everything else sits beside its own text and is hidden from assistive
-          tech rather than read out twice. */
+          that can: answered, version-bound, not bootable, a stated boundary.
+          Everything else sits beside its own text and hides from assistive
+          tech rather than reads out twice. */
       label: { type: String }
     };
   }
@@ -2141,9 +2141,9 @@ var SdsSearchResult = class extends SdsElement {
   }
   /** The text with every occurrence of the query in a `<mark>`.
   
-        Split rather than replaced, so nothing is ever inserted as markup: what
-        comes back is text nodes and elements, and a query containing `<` is a
-        query and not a tag. */
+        Split rather than replaced, so nothing ever lands as markup. What comes
+        back is text nodes and elements, and a query with `<` in it is a query
+        and not a tag. */
   marked(text) {
     const needle = this.match.trim();
     if (!needle || !text) return text;
@@ -2159,19 +2159,19 @@ var SdsSearchResult = class extends SdsElement {
     out.push(text.slice(at));
     return out;
   }
-  /* Beside the text rather than over it: a hit is read as a line, and a
-     picture on top of one would make a list of them a grid of cards. Empty
-     `alt` where the caller wrote none — the title names the target already,
-     and a second name for it is the same page announced twice. */
+  /* Beside the text rather than over it. A reader reads a hit as a line, and
+     a picture on top of one makes a list of them a grid of cards. Empty `alt`
+     where the caller wrote none — the title names the target already, and a
+     second name for it is the same page announced twice. */
   thumb() {
     if (!this.src) return nothing;
     const kind = exported(this.src) ? " sds-result__thumb--exported" : "";
     return html4`<div class="sds-result__thumb${kind}">${art(this.src, this.alt)}</div>`;
   }
   /* What kind of thing it is, where it is and what it holds for, on one line.
-     The line is dropped rather than left empty: a source that reports none of
-     the three is a source with no structure to report, and a blank first row
-     is a hole above every title in the list. */
+     The line goes rather than stays empty. A source that reports none of the
+     three has no structure to report. A blank first row is a hole above
+     every title in the list. */
   above() {
     if (!this.kind && !this.path && !this.meta) return nothing;
     return html4`<span class="sds-row">
@@ -2180,11 +2180,11 @@ var SdsSearchResult = class extends SdsElement {
       ${this.meta ? html4`<span class="sds-result__meta">${this.meta}</span>` : nothing}
     </span>`;
   }
-  /** The whole hit is the link, so the hit *is* an anchor — one element rather
-      than a title's anchor stretched over the row by a pseudo-element, which
-      is what a card does and what costs a reader the ability to select the
-      text. Named by its heading: without that the link's name is everything in
-      the row read out at once. Nowhere to go, no anchor. */
+  /** The whole hit is the link, so the hit *is* an anchor. One element rather
+      than a title's anchor stretched over the row by a pseudo-element. That
+      is what a card does, and it costs a reader the text selection. Named by
+      its heading: without that the link's name is everything in the row read
+      out at once. Nowhere to go, no anchor. */
   render() {
     const body = html4`${this.thumb()}
   <span class="sds-result__body">
@@ -2198,7 +2198,7 @@ var SdsSearchResult = class extends SdsElement {
 define("sds-search-result", SdsSearchResult);
 
 // packages/frontend/src/components/search-hits.ts
-var SEARCHED = "Every page of this site was searched \u2014 its titles and its opening lines. What is not indexed is the body of a page, so a word used once deep in one of them will not be found.";
+var SEARCHED = "The search covered every page of this site \u2014 its titles and its opening lines. The index does not hold the body of a page, so a word used once deep in one of them does not appear.";
 var SdsSearchHits = class extends SdsElement {
   static {
     this.properties = {
@@ -2213,9 +2213,9 @@ var SdsSearchHits = class extends SdsElement {
     this.match = "";
     this.empty = SEARCHED;
   }
-  /** An answer of nothing is an answer: which pages were read, and what of
-      them is not indexed — so a search that found nothing can be told from one
-      that broke. */
+  /** An answer of nothing is an answer: which pages the search covered, and
+      what the index leaves out. So a reader can tell a search that found
+      nothing from one that broke. */
   nothing() {
     const asked = this.match.trim();
     return html5`<div class="sds-hits__empty">
@@ -2287,14 +2287,14 @@ var SdsSearch = class extends SdsElement {
   constructor() {
     super();
     this.panelId = `sds-search-${++seq}`;
-    /** The anchor this drop is placed against, named per instance: one name
-        shared by every field on a page resolves to whichever the browser met
-        last, and a bar can hold a second search in its drawer. */
+    /** The anchor this drop stands against, named per instance. One name for
+        every field on a page resolves to whichever the browser met last. A bar
+        can hold a second search in its drawer. */
     this.anchor = `--${this.panelId}`;
-    /* A press anywhere else closes it, which is the popover's own light dismiss
-       rather than a listener here. Not `blur` either way: a press on a result
-       blurs the field before the link is followed, so closing there is a race
-       the panel wins about as often as the reader does. */
+    /* A press anywhere else closes it, the popover's own light dismiss, not a
+       listener here. Not `blur` either way. A press on a result blurs the
+       field before the link fires. A close there is a race the panel wins
+       about as often as the reader does. */
     this.onToggle = (event) => {
       const open = event.newState === "open";
       if (!open) this.open = false;
@@ -2329,8 +2329,8 @@ var SdsSearch = class extends SdsElement {
     this.following = void 0;
     super.disconnectedCallback();
   }
-  /* The drop is drawn only while there is something in it, so it is shown the
-     moment it exists rather than by an attribute a template could carry. */
+  /* The drop draws only while there is something in it. So it shows the
+     moment it exists, not by an attribute a template carries. */
   updated() {
     const drop = this.querySelector(".sds-search__panel");
     if (drop && !drop.matches(":popover-open")) drop.showPopover();
@@ -2346,10 +2346,10 @@ var SdsSearch = class extends SdsElement {
     }
   }
   /** Where the site's root is, from this page. The index lists every page as
-      the build sees them, and a reader is rarely standing in the root — so a
-      path out of it is resolved against the index's own address, which *is*
-      the root. Left to the browser, a hit one directory down names a page that
-      does not exist — and a picture beside it a file that is not there. */
+      the build sees them, and a reader rarely stands in the root. So a path
+      out of it resolves against the index's own address, which *is* the
+      root. Left to the browser, a hit one directory down names a page that
+      does not exist. A picture beside it names a file that is not there. */
   from(path) {
     return new URL(path, new URL(".", new URL(this.index, location.href))).href;
   }
@@ -2363,19 +2363,19 @@ var SdsSearch = class extends SdsElement {
     this.open = this.query.trim().length > 0;
     await this.load();
   }
-  /** The links in the drop, in the order they are read.
+  /** The links in the drop, in the reader's order.
   
-        Asked of the markup rather than kept as a list, because what is in the
-        panel is drawn by `sds-search-result` and the class is the contract between
-        them — the same contract the stylesheet works through. */
+        Asked of the markup, not kept as a list. `sds-search-result` draws what
+        is in the panel, and the class is the contract between them, the same
+        contract the stylesheet works through. */
   links() {
     return [...this.querySelectorAll(".sds-search__panel a")];
   }
   /** In the field: down goes into the list, Escape gives the page back.
   
-        Focus moves for real rather than a row being marked as though it had —
-        these are links, and a reader who has arrowed to one should be able to
-        open it in a new tab like any other. */
+        Focus moves for real, and no row gets a mark as if it had. These are
+        links, and a reader who arrowed to one can open it in a new tab like
+        any other. */
   onFieldKey(event) {
     if (event.key === "Escape") {
       this.open = false;
@@ -2385,9 +2385,9 @@ var SdsSearch = class extends SdsElement {
     event.preventDefault();
     this.links()[0]?.focus();
   }
-  /** In the drop: the arrows walk it, and up from the first goes back to what
-      was typed. Escape closes from anywhere in it, which is where a reader who
-      changed their mind is standing. */
+  /** In the drop: the arrows walk it, and up from the first goes back to the
+      typed text. Escape closes from anywhere in it, which is where a reader
+      who changed their mind stands. */
   onPanelKey(event) {
     const field = this.querySelector(".sds-input");
     if (event.key === "Escape") {
@@ -2409,10 +2409,10 @@ var SdsSearch = class extends SdsElement {
     if (to && this.contains(to)) return;
     this.open = false;
   }
-  /* The field says it is a combobox, because that is the only way it may say
-     the rest: `aria-expanded` and `aria-controls` are not attributes a plain
-     text input carries, and axe reports the pair without the role as a serious
-     violation. It is also what this is — a box you type in that offers a list
+  /* The field says it is a combobox, because that is the only way it can say
+     the rest. `aria-expanded` and `aria-controls` are not attributes of a
+     plain text input, and axe reports the pair without the role as a serious
+     violation. It is also what this is: a box you type in, with a list
      underneath. */
   render() {
     const hits = this.hits;
@@ -2442,13 +2442,13 @@ var SdsSearch = class extends SdsElement {
   ${open ? this.panel(hits) : nothing2}
 </div>`;
   }
-  /** What the index has, as what a result is drawn from. The only place the
-        two vocabularies meet: a page has a title and a URL, a hit has a heading
-        and an href, and nothing below here knows about an index.
+  /** What the index has, as what a result draws from. The only place the two
+        vocabularies meet. A page has a title and a URL, a hit has a heading and
+        an href, and nothing below here knows about an index.
   
-        The whole sentence the index kept: how much of it a reader is shown is
-        the drop's question and not this one's, and the class layer answers it —
-        a hit under a field gives two lines of it, a page of results the lot. */
+        The whole sentence the index kept. How much of it a reader sees is the
+        drop's question and not this one's, and the class layer answers it. A
+        hit under a field gives two lines of it, a page of results the lot. */
   hitOf(entry) {
     return {
       heading: entry.title,
@@ -2458,12 +2458,12 @@ var SdsSearch = class extends SdsElement {
       src: entry.image ? this.from(entry.image) : ""
     };
   }
-  /** The drop, and what is in it. The box is this element's — where it hangs
-        and how far it may grow are questions about the field it belongs to —
-        and `sds-search-hits` draws the answer inside it, hits or none.
+  /** The drop, and what is in it. The box is this element's. Where it hangs
+        and how far it can grow are questions about the field it belongs to.
+        `sds-search-hits` draws the answer inside it, hits or none.
   
-        The query is handed over rather than the marking done here, because what
-        is highlighted has to be what was actually searched. */
+        The query goes over, and the mark does not happen here. The highlight
+        has to be the real search term. */
   panel(hits) {
     return html6`<div
   class="sds-search__panel"
@@ -2506,21 +2506,20 @@ var SdsTheme = class extends SdsElement {
     this.current = null;
     this.machine = "light";
   }
-  /** What the reader is reading in, which is not always what they chose. */
+  /** What the reader reads in, which is not always what they chose. */
   get inForce() {
     return this.current ?? this.machine;
   }
-  /** Whether the document has been read yet. Until it has — a page carrying no
-      script, or the frame before one runs — the button says only what pressing
-      does, which is true in every state; naming a state it has not read would
-      be a sentence that is wrong on two pages out of three. */
+  /** If this element has read the document yet. Until it has — a page with no
+      script, or the frame before one runs — the button says only what a press
+      does. That is true in every state. A state it has not read is a
+      sentence that is wrong on two pages out of three. */
   #seen = false;
-  /* Watching the attribute, not owning it: `soul-boot.js` writes the stored
+  /* Watches the attribute, does not own it. `soul-boot.js` writes the stored
      choice before the paint, and a second tab changes it too. Read once on
-     connect and the switch would show the side the reader is not looking at.
-     What it never carries is the machine's setting — an attribute written for
-     that is a choice this element cannot tell from one, and the stop it can
-     never come back to. */
+     connect, the switch shows the wrong side. The attribute never carries
+     the machine's setting. An attribute for that is a choice this element
+     cannot tell from one, and a stop with no way back. */
   #watch = null;
   #dark = null;
   connectedCallback() {
@@ -2543,17 +2542,17 @@ var SdsTheme = class extends SdsElement {
   #machine = () => {
     this.machine = this.#dark?.matches ? "dark" : "light";
   };
-  /* What the document already says. Reading the element's own idea of it
-     would disagree with the paint. */
+  /* What the document already says. The element's own idea of it disagrees
+     with the paint. */
   #read() {
     const written = document.documentElement.dataset["theme"];
     this.current = written === "light" || written === "dark" ? written : null;
     this.#seen = true;
   }
   /* One press, and it steps to the next of three. The machine's setting is a
-     stop on the way round rather than something only a cleared key gives back:
-     a control that can reach two of its three states is a control that takes
-     the default away from whoever tries it once. */
+     stop on the way round, not something only a cleared key gives back. A
+     control that reaches two of its three states takes the default away from
+     whoever tries it once. */
   step() {
     const at = STATES.indexOf(this.current ?? "machine");
     const to = STATES[(at + 1) % STATES.length] ?? "machine";
@@ -2649,12 +2648,12 @@ var SdsButton = class extends SdsElement {
   constructor() {
     super();
     /* The label, taken before Lit renders over it — the element renders light
-       DOM, so `render()` would otherwise replace exactly what it is for. */
+       DOM, so `render()` otherwise replaces exactly what it is for. */
     this.taken = [];
     /* The press, sent to whatever the button names. An id and an event, so
-       neither end holds the other and a page wires the two in markup. Dispatched
-       **on the target**, the way the platform's own invokers do it, so what
-       answers listens to itself — and it bubbles, so a page that wants every
+       neither end holds the other and a page wires the two in markup. It fires
+       **on the target**, the way the platform's own invokers do, so what
+       answers listens to itself. It bubbles, so a page that wants every
        command still hears them. Without `for` the button keeps its own click. */
     this.onPress = () => {
       if (!this.for || this.disabled) return;
@@ -2744,14 +2743,14 @@ var SdsDropdown = class extends SdsElement {
   constructor() {
     super();
     this.panelId = `sds-dropdown-panel-${++seq2}`;
-    /** The anchor this panel is placed against, named per instance. One name
-        shared by every dropdown on a page resolves to whichever one the browser
-        met last, so each states its own and reads only that. */
+    /** The anchor this panel stands against, named per instance. One name for
+        every dropdown on a page resolves to whichever the browser met last. So
+        each states its own and reads only that. */
     this.anchor = `--${this.panelId}`;
-    /** What the browser did, read back rather than assumed. Light dismiss and
-        Escape are the platform's here, so a press outside or a key this element
-        never saw still arrives as a state change — and `aria-expanded`, the
-        marker and the placement all follow this one event. */
+    /** What the browser did, read back, not assumed. Light dismiss and Escape
+        are the platform's here. So a press outside or a key this element never
+        saw still arrives as a state change. `aria-expanded`, the marker and
+        the placement all follow this one event. */
     this.onToggle = (event) => {
       this.open = event.newState === "open";
       this.following?.();
@@ -2793,8 +2792,8 @@ var SdsDropdown = class extends SdsElement {
   get button() {
     return this.querySelector(".sds-dropdown__button");
   }
-  /** The whole name, with the label still in it. Dropping the visible word
-      would leave a control nobody can ask for by the name they can see. */
+  /** The whole name, with the label still in it. Without the visible word,
+      nobody can ask for the control by the name they can see. */
   get called() {
     return this.name && this.label ? `${this.name}: ${this.label}` : this.name || this.label;
   }
@@ -2803,7 +2802,7 @@ var SdsDropdown = class extends SdsElement {
   get commands() {
     return this.choices.length > 0 && this.choices.every((choice) => !choice.href);
   }
-  /** The rows a key can move between: what is drawn and not disabled. */
+  /** The rows a key can move between: the drawn ones that take a press. */
   rows() {
     return [...this.querySelectorAll('.sds-dropdown__item:not([aria-disabled="true"])')];
   }
@@ -2835,9 +2834,9 @@ var SdsDropdown = class extends SdsElement {
     rows[to]?.focus();
   }
   /** What a press reports, and what it does not do. An entry with a target is
-      a link and stays one — the event is said beside the navigation rather than
-      instead of it, so a page that never listens still works. Preventing the
-      event is how an app takes the navigation over. */
+      a link and stays one. The event stands beside the navigation, not
+      instead of it, so a page that never listens still works.
+      `preventDefault()` is how an app takes the navigation over. */
   choose(choice, index, event) {
     if (choice.disabled) {
       event.preventDefault();
@@ -2953,9 +2952,9 @@ var SdsLink = class _SdsLink extends SdsElement {
     this.external = false;
     this.bare = false;
   }
-  /** Whether a glyph is about direction rather than about the thing. A glyph
+  /** If a glyph is about direction rather than about the thing. A glyph
       leads its label and a direction glyph follows it, which is a property of
-      the glyph — so the component decides. A boolean here would be a caller's
+      the glyph — so the component decides. A boolean here is a caller's
       chance to put an arrow in front of a word. */
   static leads(icon) {
     return !/^actions-(arrow|chevron|caret)-/.test(icon);
@@ -3160,7 +3159,7 @@ var SdsField = class extends SdsFormElement {
     this.pattern = "";
   }
   /* The value the markup came with, which is what a reset puts back. Read once,
-     before anything is typed. */
+     before the first keystroke. */
   #initial;
   willUpdate() {
     this.#initial ??= this.filled ? this.value : "";
@@ -3175,9 +3174,9 @@ var SdsField = class extends SdsFormElement {
     this.value = this.#initial || this.value;
     this.filled = !!this.#initial;
   }
-  /* Typing is what makes a value the user's. `is-filled` used to be a state
-     a caller set and then had to unset, which nothing typing into the field
-     could ever do. */
+  /* A keystroke is what makes a value the user's. `is-filled` used to be a
+     state a caller set and then had to unset, which no keystroke into the
+     field can do. */
   onInput(event) {
     const control = event.target;
     this.value = control.value;
@@ -3229,14 +3228,13 @@ var SdsSelect = class extends SdsFormElement {
   constructor() {
     super();
     this.listId = `sds-select-list-${++seq3}`;
-    /** The anchor the list is placed against, named per instance. One name shared
-        by every select on a page resolves to whichever the browser met last. */
+    /** The anchor the list stands against, named per instance. One name for
+        every select on a page resolves to whichever the browser met last. */
     this.anchor = `--${this.listId}`;
-    /** What the browser did, read back rather than assumed. Light dismiss and
-        Escape are the platform's, so a press outside or a key this element never
-        saw still arrives as a state change — and so does a press on the button,
-        which opens the popover through `popovertarget` and never comes past
-        `show`. */
+    /** What the browser did, read back, not assumed. Light dismiss and Escape
+        are the platform's, so a press outside or a key this element never saw
+        still arrives as a state change. So does a press on the button, which
+        opens the popover through `popovertarget` and never comes past `show`. */
     this.onToggle = (event) => {
       this.shown = event.newState === "open";
       this.following?.();
@@ -3250,9 +3248,9 @@ var SdsSelect = class extends SdsFormElement {
         this.following = place(this.list, this.button, "start", "--sds-select-list-gap");
       }
     };
-    /** What has been typed at the list in the last second, and what it matched.
-        Type-ahead is how a reader who knows the answer gets to it, and the only
-        way a long list is usable at all from the keyboard. */
+    /** The typed text at the list in the last second, and what it matched.
+        Type-ahead is how a reader who knows the answer gets to it. It is the
+        only way to use a long list from the keyboard. */
     this.#typed = "";
     this.#typedAt = 0;
     this.caption = "";
@@ -3291,10 +3289,10 @@ var SdsSelect = class extends SdsFormElement {
       focused: { type: Boolean, reflect: true },
       invalid: { type: Boolean, reflect: true },
       open: { type: Boolean, reflect: true },
-      /** Whether the popover is showing — read back from the browser, which owns
-          that. Kept apart from `open`, which is a still picture's state and takes
-          the popover away: one property doing both would re-add the attribute the
-          moment the list opened, and close it again. */
+      /** If the popover shows, read back from the browser, which owns that.
+          Apart from `open`, which is a still picture's state and takes the
+          popover away. One property for both re-adds the attribute the moment
+          the list opens, and closes it again. */
       shown: { type: Boolean, state: true },
       /** Which entry the keys are on while the list is open. Not the chosen one:
           a reader walking the list has moved nothing until they say so. */
@@ -3320,8 +3318,8 @@ var SdsSelect = class extends SdsFormElement {
   get entries() {
     return this.options.map((entry) => typeof entry === "string" ? { label: entry } : entry);
   }
-  /** Which entries a key may land on. A disabled one is read out and stepped
-      over, the way the platform steps over one. */
+  /** Which entries a key can land on. A disabled one reads out, and the keys
+      step over it, the way the platform does. */
   get reachable() {
     return this.entries.flatMap((option, at) => option.disabled ? [] : [at]);
   }
@@ -3330,14 +3328,14 @@ var SdsSelect = class extends SdsFormElement {
     return option.value ?? option.label;
   }
   /** What the closed box says. The chosen entry's *label*, which is not always
-      its value — and the prompt while nothing is chosen. */
+      its value. And the prompt while there is no choice. */
   get says() {
     if (!this.filled) return this.value;
     const chosen = this.entries.find((option) => this.sends(option) === this.value);
     return chosen?.label ?? this.value;
   }
-  /** Whether the list is in front of the reader, however it got there: opened
-      by them, or drawn open by a card that can press nothing. */
+  /** If the list is in front of the reader, by either route. The reader
+      opened it, or a card that can press nothing drew it open. */
   get listed() {
     return this.open || this.shown;
   }
@@ -3363,17 +3361,17 @@ var SdsSelect = class extends SdsFormElement {
       this.querySelector(`#${this.listId}-${this.active}`)?.scrollIntoView({ block: "nearest" });
     }
   }
-  /** Where the keys start: on whatever is chosen, or on the first answer there
-      is. A list that opens at the top every time makes a reader find their own
+  /** Where the keys start: on the choice, or on the first answer there is. A
+      list that opens at the top every time makes a reader find their own
       answer again before they can move off it. */
   aim() {
     const at = this.entries.findIndex((option) => this.sends(option) === this.value);
     this.active = at >= 0 && !this.entries[at]?.disabled ? at : this.reachable[0] ?? -1;
   }
   /* Open and close move this element's own state first and the popover second.
-     `toggle` is queued rather than fired where it is caused, so a key pressed
-     straight after another one would arrive while this still believed the list
-     was shut — and be read as a second press to open it. */
+     The browser queues `toggle` and does not fire it at its cause. So a key
+     straight after another one arrives while this still holds the list shut,
+     and reads as a second press to open it. */
   show() {
     if (this.disabled || this.inheritedDisabled || this.shown) return;
     this.shown = true;
@@ -3614,8 +3612,8 @@ var SdsTextarea = class extends SdsFormElement {
     this.focused = false;
     this.invalid = false;
   }
-  /* What the markup came with: what the element is drawn holding, and what a
-     reset puts back. Read once, before anything is typed. */
+  /* What the markup came with: what the element holds at first, and what a
+     reset puts back. Read once, before the first keystroke. */
   #initial;
   willUpdate() {
     this.#initial ??= this.filled ? this.value : "";
@@ -3672,16 +3670,16 @@ var SdsSwitch = class extends SdsFormElement {
     this.disabled = false;
   }
   /* What the markup said, which is what a reset puts back. `?checked` writes
-     the `checked` *attribute* — the input's default — so mirroring the live
-     state into it would make a reset restore the last press instead. */
+     the `checked` *attribute* — the input's default — so a mirror of the live
+     state into it makes a reset restore the last press instead. */
   #initial;
   willUpdate() {
     this.#initial ??= this.checked;
   }
-  /* The live state is written onto the control after the render, never as a
-     binding. A `.checked` binding is serialised by the static renderer as
-     `checked="false"` — which in HTML means checked — so every box on every
-     generated card came out ticked. `?checked` stays: it writes the *default*,
+  /* The live state goes onto the control after the render, never as a
+     binding. The static renderer writes a `.checked` binding as
+     `checked="false"`, which in HTML means checked. So every box on every
+     generated card came out on. `?checked` stays: it writes the *default*,
      which is what a reset puts back. */
   updated() {
     const input = this.querySelector("input");
@@ -3821,8 +3819,8 @@ var SdsFile = class extends SdsFormElement {
     this.disabled = false;
     this.fieldId = "";
   }
-  /* What the caller said is wrong is what the browser refuses to submit past,
-     reported on the control itself rather than on the element around it. */
+  /* What the caller said is wrong is what the browser refuses to submit past.
+     Reported on the control itself rather than on the element around it. */
   updated() {
     this.setValidity(this.error, "input");
   }
@@ -3886,24 +3884,24 @@ var SdsProgress = class extends SdsElement {
     if (written.length) this.taken = written;
     super.connectedCallback();
   }
-  /** The whole, which a caller counting from a total it has not got yet may
-      report as zero — and a share of nothing is a division this cannot do. */
+  /** The whole. A caller that counts from a total it has not got yet can
+      report zero. A share of nothing is a division this cannot do. */
   get whole() {
     return this.max > 0 ? this.max : 100;
   }
-  /** Where it stands, clamped: work that overruns its own estimate draws a
-      full bar, never one running out of its track, and a value that is not a
+  /** Where it stands, clamped. Work that overruns its own estimate draws a
+      full bar, never one that runs out of its track. A value that is not a
       number at all is nothing done rather than a bar of `NaN`. */
   get at() {
     if (!Number.isFinite(this.value)) return 0;
     return Math.min(Math.max(this.value, 0), this.whole);
   }
-  /** The number a reader is given. Rounded, because a percentage carrying two
+  /** The number a reader gets. Rounded, because a percentage with two
       decimals is a measurement and this is a position. */
   get percent() {
     return Math.round(this.at / this.whole * 100);
   }
-  /** What the read-out says, and what a screen reader is given in place of the
+  /** What the read-out says, and what a screen reader gets in place of the
       bare number. Empty where the caller asked for no read-out. */
   said() {
     if (this.readout === "count") {
@@ -3988,16 +3986,16 @@ var SdsCheckbox = class extends SdsFormElement {
     this.disabled = false;
   }
   /* What the markup said, which is what a reset puts back. `?checked` writes
-     the `checked` *attribute* — the input's default — so mirroring the live
-     state into it would make a reset restore the last click instead. */
+     the `checked` *attribute* — the input's default — so a mirror of the live
+     state into it makes a reset restore the last click instead. */
   #initial;
   willUpdate() {
     this.#initial ??= this.checked;
   }
-  /* The live state is written onto the control after the render, never as a
-     binding. A `.checked` binding is serialised by the static renderer as
-     `checked="false"` — which in HTML means checked — so every box on every
-     generated card came out ticked. `?checked` stays: it writes the *default*,
+  /* The live state goes onto the control after the render, never as a
+     binding. The static renderer writes a `.checked` binding as
+     `checked="false"`, which in HTML means checked. So every box on every
+     generated card came out on. `?checked` stays: it writes the *default*,
      which is what a reset puts back. */
   updated() {
     const input = this.querySelector("input");
@@ -4008,9 +4006,9 @@ var SdsCheckbox = class extends SdsFormElement {
   restore() {
     this.checked = this.#initial ?? false;
   }
-  /* Ticking is what makes it checked. A caller that had to write the state
-     back is a caller that will forget once — and a mixed box that is ticked is
-     no longer mixed, which the input has already decided by the time this runs. */
+  /* A tick is what makes it checked. A caller that had to write the state
+     back is a caller that will forget once. A mixed box with a tick is no
+     longer mixed, which the input has already decided by the time this runs. */
   onChange(event) {
     this.checked = event.target.checked;
     this.indeterminate = false;
@@ -4062,16 +4060,16 @@ var SdsCheckboxGroup = class extends SdsFormElement {
     this.hint = "";
   }
   /* What the markup ticked, which is what a reset puts back. `?checked` writes
-     the boxes' *defaults*; mirroring the live set into them would make a reset
+     the boxes' *defaults*; a mirror of the live set into them makes a reset
      restore the last click. */
   #initial;
   willUpdate() {
     this.#initial ??= this.values;
   }
-  /* The live state is written onto the control after the render, never as a
-     binding. A `.checked` binding is serialised by the static renderer as
-     `checked="false"` — which in HTML means checked — so every box on every
-     generated card came out ticked. `?checked` stays: it writes the *default*,
+  /* The live state goes onto the control after the render, never as a
+     binding. The static renderer writes a `.checked` binding as
+     `checked="false"`, which in HTML means checked. So every box on every
+     generated card came out on. `?checked` stays: it writes the *default*,
      which is what a reset puts back. */
   updated() {
     for (const input of this.querySelectorAll("input")) input.checked = this.values.includes(input.value);
@@ -4138,17 +4136,17 @@ var SdsRadio = class extends SdsFormElement {
     this.required = false;
   }
   /* The answer the markup came with, which is what a reset puts back.
-     `?checked` writes the `checked` *attribute* — the input's default — so
-     mirroring the chosen value into it would make a reset restore the last
-     click instead of the answer the page was drawn with. */
+     `?checked` writes the `checked` *attribute*, the input's default. A
+     mirror of the chosen value into it makes a reset restore the last click
+     instead of the answer the page came with. */
   #initial;
   willUpdate() {
     this.#initial ??= this.value;
   }
-  /* The live state is written onto the control after the render, never as a
-     binding. A `.checked` binding is serialised by the static renderer as
-     `checked="false"` — which in HTML means checked — so every box on every
-     generated card came out ticked. `?checked` stays: it writes the *default*,
+  /* The live state goes onto the control after the render, never as a
+     binding. The static renderer writes a `.checked` binding as
+     `checked="false"`, which in HTML means checked. So every box on every
+     generated card came out on. `?checked` stays: it writes the *default*,
      which is what a reset puts back. */
   updated() {
     for (const input of this.querySelectorAll("input")) input.checked = input.value === this.value;
@@ -4198,11 +4196,11 @@ var SdsNote = class _SdsNote extends SdsElement {
   constructor() {
     super();
     /* What a caller wrote between the tags, taken before Lit renders over it —
-       see `SdsElement.lifted()` for why it is asked exactly once. */
+       see `SdsElement.lifted()` for why the question comes exactly once. */
     this.taken = null;
     /* The press, where the action is a decision rather than a place. It carries
-       the label rather than an id: a page listening above several notes reads
-       what was pressed without holding a reference to any of them. A link
+       the label rather than an id. A page that listens above several notes
+       reads the pressed one and holds a reference to none of them. A link
        navigates, and says nothing here. */
     this.onPress = () => {
       if (this.href) return;
@@ -4280,7 +4278,7 @@ var SdsFormErrors = class extends SdsElement {
     this.heading = "";
     this.announce = false;
   }
-  /** Move the reader to the summary. A summary nobody is sent to is a summary
+  /** Move the reader to the summary. A summary nobody lands on is a summary
       nobody reads. */
   focusSummary() {
     this.querySelector(".sds-form-errors")?.focus();
@@ -4348,15 +4346,15 @@ var SdsNav = class extends SdsElement {
     return navInside(item);
   }
   /** Which entry is the current one: the entry that says so, and `active`
-      where none does. Data wins — a list naming the page it is on is stating a
-      fact, while `active` is a position in a set, and believing both at once
-      is how two items come out marked. */
+      where none does. Data wins. A list that names the page it is on states a
+      fact, while `active` is a position in a set. Trust in both at once is
+      how two items come out marked. */
   at() {
     const named = this.items.findIndex((item) => asEntry(item).current);
     return named >= 0 ? named : this.active;
   }
   /** The class an item carries, active included. An entry the current one sits
-      under is marked too: a section is where the reader is, without being the
+      under gets the mark too: a section is where the reader is, but not the
       page they are on. */
   class_(index) {
     const here = index === this.at() || Boolean(asEntry(this.items[index]).here);
@@ -4408,9 +4406,9 @@ var SdsLightbox = class extends SdsElement {
   constructor() {
     super();
     /* What a button pointed at this one asks for. `sds-figure` opens its own
-       viewer by calling `show()`, because it owns it; anything else names this
-       element by id and sends the command, so opening a drawing is written in
-       markup rather than in a script that has to find both ends. */
+       viewer with `show()`, because it owns it. Anything else names this
+       element by id and sends the command. So markup opens a drawing rather
+       than a script that has to find both ends. */
     this.onCommand = (event) => {
       const command = event.detail?.command ?? "show";
       if (command === "close") this.close();
@@ -4513,9 +4511,9 @@ var SdsImage = class extends SdsElement {
       width: { type: Number, reflect: true },
       height: { type: Number, reflect: true },
       zoomable: { type: Boolean, reflect: true },
-      /* The class the caller wrote, read as a property rather than off the host:
+      /* The class the caller wrote, read as a property rather than off the host.
          `this.className` exists only where there is a DOM, and these render in
-         Node too. Declaring the attribute is what carries it through both. */
+         Node too. The declared attribute carries it through both. */
       cls: { attribute: "class", type: String }
     };
   }
@@ -4529,10 +4527,11 @@ var SdsImage = class extends SdsElement {
     this.cls = "";
   }
   /** What a server wrote between the tags, dropped. The element takes no
-      content — the picture follows from `src` — but it does take a fallback:
-      the same picture in the class layer, for a surface rendering before any
-      script and for a reader who runs none. The element redraws it and the
-      server's copy goes, or light DOM leaves two pictures in one box. */
+      content — the picture follows from `src` — but it does take a fallback.
+      That is the same picture in the class layer, for a surface that renders
+      before any script and for a reader who runs none. The element redraws
+      it and the server's copy goes, or light DOM leaves two pictures in one
+      box. */
   connectedCallback() {
     this.lifted();
     super.connectedCallback();
@@ -4595,19 +4594,19 @@ var SdsNavMain = class extends SdsNav {
     this.block = "sds-bar";
     this.item = "sds-pill";
     this.drawerId = `sds-bar-drawer-${++seq4}`;
-    /** What the sections and the field need in the row. Zero means "not measured
-        yet", and each can only be measured where it is — standing in the row. */
+    /** What the sections and the field need in the row. Zero means "no
+        measurement yet". Each measures only where it is: in the row. */
     this.needNav = 0;
     this.needSearch = 0;
     this.watched = false;
     /** Which way the drawer has just stepped, and how tall it was before it did.
-        Both are read once, by the render that has to show the step. */
+        The render that shows the step reads both once. */
     this.stepped = null;
     this.stood = 0;
     /** The links a server wrote between the tags, moved into the row. A rendered
-        site resolves its own navigation before the page is sent, and passing that
-        back through `items` would encode and resolve it a second time — so they
-        are kept as written, `target`, `rel` and current mark intact. */
+        site resolves its own navigation before it sends the page. A pass back
+        through `items` encodes and resolves it a second time. So they stay as
+        written, `target`, `rel` and current mark intact. */
     this.taken = [];
     this.onOutside = (event) => {
       if (!this.open && this.opened < 0) return;
@@ -4616,9 +4615,9 @@ var SdsNavMain = class extends SdsNav {
       this.opened = -1;
       this.reset();
     };
-    /* A drawer opened to get somewhere has done its job when a page is chosen.
-       Only a link: everything else in there — a fold, a heading, the field — is
-       the reader still looking. */
+    /* A drawer opened to get somewhere has done its job on the choice of a
+       page. Only a link: everything else in there, a fold, a heading, the
+       field, is the reader still on the way. */
     this.onFollow = (event) => {
       if (event.target?.closest("a")) this.open = false;
     };
@@ -4678,11 +4677,10 @@ var SdsNavMain = class extends SdsNav {
     document.removeEventListener("pointerdown", this.onOutside);
     super.disconnectedCallback();
   }
-  /** Where the drawer opens: on the level the reader is standing on, which is
-      the entry holding the page they are reading. A menu that always opened at
-      the top would ask somebody three sections deep to walk back down to where
-      they already were — and the way up is one press, which the way down is
-      not. */
+  /** Where the drawer opens: on the reader's own level, the entry that holds
+      their page. A menu that always opens at the top asks somebody three
+      sections deep to walk back down to where they were. The way up is one
+      press, and the way down is not. */
   path() {
     const walk = (entry, trail) => {
       for (const child of entry.items ?? []) {
@@ -4720,15 +4718,15 @@ var SdsNavMain = class extends SdsNav {
     }
     this.walk(event);
   }
-  /** The rows of whichever list the key was pressed in: a panel under one
-      section, or the drawer holding the whole menu. */
+  /** The rows of the list the key press happened in: a panel under one
+      section, or the drawer with the whole menu. */
   list(from) {
     const drawer = from.closest(".sds-bar__drawer");
     const scope = drawer ?? from.closest(".sds-bar__section");
     if (!scope) return [];
     const rows = drawer ? (
-      /* The folds count as rows: a tree read with the arrows is read as it
-         stands, and a closed section is one line until it is opened. */
+      /* The folds count as rows. The arrows read a tree as it stands, and a
+         closed section is one line until it opens. */
       scope.querySelectorAll(".sds-rail__group > summary, .sds-rail__item, .sds-pill, .sds-bar__link")
     ) : scope.querySelectorAll(".sds-bar__panel .sds-bar__link");
     return [...rows].filter((row) => {
@@ -4738,7 +4736,7 @@ var SdsNavMain = class extends SdsNav {
     });
   }
   /** Down a list of pages and back up it. The arrow that opens a panel steps
-      into it in the same breath, and Tab is left alone: it is how a reader
+      into it in the same breath. Tab stays as it is: it is how a reader
       leaves. */
   walk(event) {
     const keys = ["ArrowDown", "ArrowUp", "Home", "End"];
@@ -4822,10 +4820,9 @@ var SdsNavMain = class extends SdsNav {
     return html35`<sds-search index="${this.index}"></sds-search>`;
   }
   /** The languages, as the one control at this end that is not a mode. The
-      button says the code the reader is in and nothing else — the row is short
-      of width before it is short of anything, and the names are one press
-      away, each in its own language. Hung from the end, or a list opened from
-      the corner runs off the page. */
+      button says the reader's code and nothing else. The row is short of
+      width first, and the names are one press away, each in its own language.
+      Hung from the end, or a list from the corner runs off the page. */
   languages_() {
     const current = this.languages.find((entry) => entry.current) ?? this.languages[0];
     return html35`<sds-dropdown
@@ -4837,9 +4834,9 @@ var SdsNavMain = class extends SdsNav {
       .choices="${this.languages}"
     ></sds-dropdown>`;
   }
-  /** The sections of the menu that stand in the row. Which of a site's
-      sections are its front doors is the one thing its tree cannot say, so the
-      menu says it; with none named, every section is one. */
+  /** The sections of the menu that stand in the row. Which sections are the
+      front doors is the one thing a tree cannot say, so the menu says it. With
+      none named, every section is one. */
   doors() {
     const sections = [...this.menu.items ?? []];
     const named = sections.filter((entry) => entry.front);
@@ -4851,10 +4848,10 @@ var SdsNavMain = class extends SdsNav {
         panel works before any script and the bar only has to say which one is
         open.
   
-        A pointer opens it too, and on the whole section rather than the marker
-        alone: a menu that only answers a press asks a reader who is already
-        moving to stop and aim. Nothing is lost without it — the marker is the
-        control, and the pointer is a shortcut to the same state. */
+        A pointer opens it too, on the whole section and not the marker alone. A
+        menu that answers only a press asks a reader in motion to stop and aim.
+        Nothing goes without it. The marker is the control, and the pointer is a
+        shortcut to the same state. */
   door(entry, at) {
     const here = Boolean(entry.current || entry.here);
     const pill = html35`<a
@@ -4885,11 +4882,11 @@ var SdsNavMain = class extends SdsNav {
       </details>
     </div>`;
   }
-  /** A page in a panel. Two levels and no more: the row is the site's own, the
-      panel is one section's pages, and a third level under a bar is a sitemap
-      hanging off a menu — what the drawer opens is where a whole tree is read.
-      Where the rows break into columns is the stylesheet's: a wall is one list,
-      and how many columns it takes is a question about the room. */
+  /** A page in a panel. Two levels and no more. The row is the site's own, and
+      the panel is one section's pages. A third level under a bar is a sitemap
+      on a menu; the drawer is where a reader reads a whole tree. The
+      stylesheet decides where the rows break into columns. A wall is one
+      list, and its column count is a question about the room. */
   page(entry) {
     return html35`<a
       class="${entry.current ? "sds-bar__link is-active" : "sds-bar__link"}"
@@ -4897,11 +4894,11 @@ var SdsNavMain = class extends SdsNav {
       aria-current="${entry.current ? "page" : nothing18}"
     >${entry.label}</a>`;
   }
-  /** A pointer over a section opens it, and leaving closes it — but only while
-      the sections are standing in the row. In the drawer they are a list being
-      scrolled past, and a panel that opens under a finger on its way somewhere
-      is a menu answering a movement nobody made. A mouse only, for the same
-      reason: a tap is a press, and the marker beside the link is what a press
+  /** A pointer over a section opens it, and a pointer off it closes it, only
+      while the sections stand in the row. In the drawer they are a list a
+      reader scrolls past. A panel that opens under a finger on its way
+      somewhere answers a movement nobody made. A mouse only, for the same
+      reason. A tap is a press, and the marker beside the link is what a press
       is for. */
   hover(at, event) {
     if (this.foldNav || event.pointerType !== "mouse") return;
@@ -4915,8 +4912,8 @@ var SdsNavMain = class extends SdsNav {
     }, GRACE);
   }
   /** Which panel a press left open. The event fires for the bar's own render
-      as well as for a reader's press, and saying the same thing twice is what
-      keeps the two from arguing. */
+      and for a reader's press. The same statement twice keeps the two in
+      agreement. */
   fold(event, at) {
     const open = event.target.open;
     if (open) this.opened = at;
@@ -4925,13 +4922,12 @@ var SdsNavMain = class extends SdsNav {
   /** One level of the menu: what the drawer shows once the row has given the
         sections up.
   
-        A level and not the tree. A phone is a window onto a long list, and the
-        whole site unfolded into one column is forty rows a reader scrolls past
-        to reach the four that are the site. So the drawer starts at the top
-        level and steps *into* a section — the way in is a control of its own,
-        beside the link, because a section is both a page to read and a place to
-        go through. The way back is the row above the list, naming what it
-        returns to rather than saying "back" to a reader who has forgotten. */
+        A level and not the tree: the whole site in one column is forty rows a
+        reader scrolls past for the four that matter. So the drawer starts at
+        the top level and steps *into* a section. The way in is a control of
+        its own, beside the link, because a section is both a page and a place
+        to go through. The way back is the row above the list, with the name
+        of its target, not "back". */
   level() {
     const inside = this.stack[this.stack.length - 1];
     const entry = inside ?? this.menu;
@@ -4951,9 +4947,9 @@ var SdsNavMain = class extends SdsNav {
     ${lines(rows.map((row) => this.step(row)), 4)}
   </nav>`;
   }
-  /** One row of a level: where it goes, and — where it holds pages — the way
-      into them. Two controls rather than one, for the reason the row above the
-      page has two: the label is the page, and the marker is what is under it. */
+  /** One row of a level: where it goes, and, where it holds pages, the way
+      into them. Two controls, for the reason the row above the page has two.
+      The label is the page, and the marker is what is under it. */
   step(entry, own = false) {
     const link = html35`<a
       class="${entry.current ? "sds-bar__link is-active" : "sds-bar__link"}"
@@ -4977,7 +4973,7 @@ var SdsNavMain = class extends SdsNav {
   }
   /** The sections as parts, and which of them the reader is in. Four shapes
       arrive here: as the menu, lifted from the page, handed over as markup, or
-      as data. Empty rather than absent where nothing was lifted, so the
+      as data. Empty, not absent, where the lift found nothing, so the
       fallback is the length and not a `??` that a `[]` never reaches.
       `lifted()` runs in a browser only. */
   sections() {
@@ -5067,12 +5063,12 @@ var SdsNavMain = class extends SdsNav {
     this.travel();
     this.decide();
   }
-  /** The step, shown as one. The level arrives from the side it was reached
-        from and the drawer grows into its new height rather than jumping to it,
-        both in the one duration and curve the system moves anything in — read
-        from the tokens, so a change there reaches this too.
+  /** The step, shown as one. The level arrives from the side of its approach,
+        and the drawer grows into its new height instead of a jump. Both in the
+        one duration and curve the system moves anything in, read from the
+        tokens, so a change there reaches this too.
   
-        Held still for a reader who asked for that: what goes is the travel, not
+        Held still for a reader who asked for that. What goes is the travel, not
         the answer. */
   travel() {
     const how = this.stepped;
@@ -5119,15 +5115,15 @@ var SdsAccordionItem = class extends SdsElement {
   static {
     this.properties = {
       question: { type: String, reflect: true },
-      /** Standing open. For the first answer on a page of them, usually, so the
-          shape of an answer is visible without pressing anything. */
+      /** Open. For the first answer on a page of them, usually, so the shape
+          of an answer is visible before any press. */
       open: { type: Boolean, reflect: true },
       /** The set this answer folds in — `<details name>`, which is the platform's
-          own exclusivity. Empty where the set was told `multiple`. */
+          own exclusivity. Empty where the set says `multiple`. */
       name: { type: String, reflect: true },
       /** The address of this one answer. It lands on the answer and not on the
-          question: a fold whose content is jumped *into* is opened by the
-          platform, and one jumped *at* stays shut. */
+          question. The platform opens a fold when a jump lands *inside* it, and
+          one the jump lands *at* stays shut. */
       anchor: { type: String, reflect: true }
     };
   }
@@ -5137,9 +5133,9 @@ var SdsAccordionItem = class extends SdsElement {
     super.connectedCallback();
   }
   /* The browser unfolds an answer a fragment points into and scrolls to it,
-     before any of this runs — and then the upgrade writes that answer again
-     and the arrival is gone with the node it happened to. Made once more here,
-     by the element that took it away. */
+     before any of this runs. Then the upgrade writes that answer again, and
+     the arrival goes with the node it happened to. Made once more here, by
+     the element that took it away. */
   firstUpdated() {
     if (!this.anchor || globalThis.location?.hash !== `#${this.anchor}`) return;
     this.open = true;
@@ -5198,10 +5194,10 @@ var SdsAccordion = class extends SdsElement {
     ) : held}
 </div>`;
   }
-  /* A set is named once and `<details name>` wants that name on every answer in
-     it, so the items written between the tags are told rather than a page
-     saying it on each. Nothing runs here outside a browser: what a renderer
-     writes ahead of one, it writes onto the items itself. */
+  /* A set has one name and `<details name>` wants that name on every answer in
+     it. So the items between the tags hear it from here rather than from a
+     page that says it on each. Nothing runs here outside a browser: what a
+     renderer writes ahead of one, it writes onto the items itself. */
   updated() {
     const group = this.multiple ? "" : this.name;
     for (const item of this.querySelectorAll(":scope > .sds-accordion > sds-accordion-item")) {
@@ -5238,8 +5234,8 @@ var SdsRun = class extends SdsElement {
       stateWords: { type: Object, attribute: "state-words" }
     };
   }
-  /** Which rows the reader has opened or closed against what the state would
-      do. Nobody else has an answer for that, so it is the one piece of state
+  /** Which rows the reader has opened or closed against what the state does.
+      Nobody else has an answer for that, so it is the one piece of state
       this element keeps. */
   #decided = /* @__PURE__ */ new Map();
   constructor() {
@@ -5251,12 +5247,12 @@ var SdsRun = class extends SdsElement {
     this.open = false;
     this.stateWords = {};
   }
-  /** What a state is called here. The page's word where it has one, and the
-      English the marks were written with where it has not. */
+  /** The name of a state here. The page's word where it has one, and the
+      English of the marks where it has not. */
   said(state) {
     return this.stateWords[state] ?? MARKS[state].said;
   }
-  /** The stops in the order they are given, under the group each one named.
+  /** The stops in the order they arrive, under the group each one named.
       A run with no groups is one list, which is the sequence. */
   get sets() {
     const held = /* @__PURE__ */ new Map();
@@ -5268,20 +5264,19 @@ var SdsRun = class extends SdsElement {
     });
     return [...held].map(([name, steps]) => ({ name, steps }));
   }
-  /* What a step is writing runs on, so its end is what is shown. */
+  /* What a step writes runs on, so the reader sees its end. */
   updated() {
     const output = this.querySelector(".sds-run__step--running .sds-run__output");
     if (output) output.scrollTop = output.scrollHeight;
   }
-  /** A press is the reader's answer to "should this stand open?", and the
-        answer is the opposite of what stands now — the press itself flips it.
-        The press and not `toggle`: that one fires for a row this element opened
-        by itself, which would count as opened by hand and stay open long after
-        the work had moved on.
+  /** A press is the reader's answer to "must this stand open?", and the
+        answer is the opposite of what stands now. The press and not `toggle`.
+        That one fires for a row this element opened by itself, which then
+        counts as opened by hand and stays open too long.
   
-        The platform's own toggle is taken off it, because it runs *after* this
-        element has already rendered the answer and undoes it. One thing decides
-        whether a row stands open, and it is the answer kept here. */
+        The platform's own toggle stops here, because it runs *after* this
+        element has rendered the answer and undoes it. One thing decides if a
+        row stands open, and it is the answer kept here. */
   decide(event, at, open) {
     if (!event.target.closest(".sds-run__row")) return;
     event.preventDefault();
@@ -5346,7 +5341,7 @@ import { html as html39, nothing as nothing22 } from "lit";
 var SdsStep = class extends SdsElement {
   constructor() {
     super();
-    /** What was written between the tags, taken before Lit renders over them. */
+    /** What stood between the tags, taken before Lit renders over them. */
     this.taken = null;
     this.heading = "";
     this.optional = false;
@@ -5354,15 +5349,15 @@ var SdsStep = class extends SdsElement {
   }
   static {
     this.properties = {
-      /** What is done here, in one line. Spelt `heading` because that is what
-          every title in this system is called, and not `title`, which is the
-          global attribute a browser draws as a tooltip. */
+      /** What happens here, in one line. Spelt `heading` because that is the
+          name of every title in this system. Not `title`, which is the global
+          attribute a browser draws as a tooltip. */
       heading: { type: String, reflect: true },
-      /** A stop that may be skipped. The disc is left unfilled and the word
-          stands beside the title, because an empty ring says nothing out loud. */
+      /** A stop a reader can skip. The disc stays unfilled and the word stands
+          beside the title, because an empty ring says nothing out loud. */
       optional: { type: Boolean, reflect: true },
       /** Where a page links to this one stop. It lands on the stop itself: a step
-          is not folded away, so there is nothing to open first. */
+          has no fold, so there is nothing to open first. */
       anchor: { type: String, reflect: true }
     };
   }
@@ -5429,9 +5424,9 @@ var seq5 = 0;
 var SdsTabItem = class extends SdsElement {
   constructor() {
     super();
-    /** Whether a set of tabs is deciding which panel is shown. A panel decides
-        for itself until one is — which is what a panel is on a page where nothing
-        switches it, and hiding every one there leaves content in the document and
+    /** If a set of tabs decides which panel shows. A panel decides for itself
+        until one does, which is what a panel is on a page where nothing
+        switches it. Every one hidden there is content in the document and
         invisible in it. The set claims them the moment it exists. */
     this.managed = false;
     this.taken = null;
@@ -5479,27 +5474,27 @@ var SdsTabs = class _SdsTabs extends SdsNav {
     this.item = "sds-tab";
     /** The panels written between the tags. */
     this.panels = [];
-    /* What was chosen before, applied once there is something to match it
-       against — the items arrive with the markup or a frame later, and asking
-       before they are there would silently settle on nothing. */
+    /* The earlier choice, applied once there is something to match it
+       against. The items arrive with the markup or a frame later, and a
+       question before they are there settles on nothing, in silence. */
     this.recalled = false;
   }
   static {
     this.properties = {
       /* Lit merges what a subclass declares with what it inherits; the type
-         does not, so the base's are named again here. */
+         does not, so the base's stand here again. */
       ...SdsNav.properties,
       /** The word that makes sets follow each other. Named for what it does
-          rather than for what the set is called: a page showing one setting in
-          four places asks the reader to choose a language once, and a set
-          writing nothing here is a set nobody else moves. */
+          rather than for the set's name. A page that shows one setting in four
+          places asks the reader to choose a language once. A set with nothing
+          here is a set nobody else moves. */
       sync: { type: String, reflect: true }
     };
   }
   static {
     /* Every set on the page that follows a word, so one of them can reach the
        others. A registry rather than an event on the document: what agrees is
-       these elements, and a page may hold sets that agree about nothing. */
+       these elements, and a page can hold sets that agree about nothing. */
     this.agreeing = /* @__PURE__ */ new Set();
   }
   /** Take the items written between the tags, if any are there yet. */
@@ -5540,7 +5535,7 @@ var SdsTabs = class _SdsTabs extends SdsNav {
     this.show();
     this.agree();
   }
-  /** Where the choice is kept. One key per group, so two sets that agree
+  /** Where the choice lives. One key per group, so two sets that agree
       about nothing on the same origin do not overwrite each other. */
   get store() {
     return `sds-tabs:${this.sync}`;
@@ -5549,9 +5544,9 @@ var SdsTabs = class _SdsTabs extends SdsNav {
     return this.items.map(navLabel);
   }
   /* **A preference is an order, not a word.** A reader who picks bash in the
-     one block that offers it has not stopped preferring PHP to YAML
-     everywhere else, so what is kept is every word they have chosen, most
-     recent first, and a set takes the first of them it has. */
+     one block that offers it still prefers PHP to YAML everywhere else. So
+     the store holds every word they chose, most recent first, and a set
+     takes the first of them it has. */
   get preferred() {
     const kept = localStorage.getItem(this.store);
     if (!kept) return [];
@@ -5562,7 +5557,7 @@ var SdsTabs = class _SdsTabs extends SdsNav {
     }
   }
   /* Tell the sets that follow the same word, and remember it for the next
-     page. A manual is read across ten of them, and choosing the language
+     page. A reader reads a manual across ten of them, and a language chosen
      again on each is the same annoyance one level up. */
   agree() {
     if (!this.sync) return;
@@ -5573,10 +5568,10 @@ var SdsTabs = class _SdsTabs extends SdsNav {
       if (other !== this && other.sync === this.sync) other.follow(label);
     }
   }
-  /* Move because another set did, without saying it back. By the word and not
-     by the position: a block offering YAML and TypoScript has no PHP, and one
-     that does not have the word keeps the panel it is showing rather than
-     falling back to its first. */
+  /* Move because another set did, and do not say it back. By the word and not
+     by the position. A block that offers YAML and TypoScript has no PHP. One
+     without the word keeps the panel it shows rather than falls back to its
+     first. */
   follow(label) {
     const at = this.labels.indexOf(label);
     if (at === -1) return false;
@@ -5589,7 +5584,7 @@ var SdsTabs = class _SdsTabs extends SdsNav {
     this.recalled = true;
     for (const label of this.preferred) if (this.follow(label)) return;
   }
-  /** Tell each panel whether it is the one. */
+  /** Tell each panel if it is the one. */
   show() {
     this.panels.forEach((panel, i) => {
       panel.active = i === this.active;
@@ -5649,9 +5644,9 @@ var SdsNavRail = class extends SdsElement {
     if (written.length) this.taken = written;
     super.connectedCallback();
   }
-  /** Every page in the rail, folds flattened: a rail has one current page
-      wherever it sits, and a caller thinking in "third item of the second
-      group" is thinking about the markup. */
+  /** Every page in the rail, folds flattened. A rail has one current page
+      wherever it sits, and a caller who thinks in "third item of the second
+      group" thinks about the markup. */
   flat() {
     return (this.entry.items ?? []).flatMap(branch);
   }
@@ -5660,9 +5655,9 @@ var SdsNavRail = class extends SdsElement {
   }
   /** One page, and whatever hangs under it.
   
-        A page that holds pages is a row like any other with the marker that
-        opens them beside it — the same pair the bar's row draws, so a reader
-        meets one shape and not two. What it holds is set in by a step, because
+        A page that holds pages is a row like any other, with the marker that
+        opens them beside it. The same pair the bar's row draws, so a reader
+        meets one shape and not two. What it holds stands in by a step, because
         a list where everything starts on the same edge says nothing about what
         belongs to what. */
   row(entry) {
@@ -5679,8 +5674,8 @@ var SdsNavRail = class extends SdsElement {
   }
   /** What stands in a row: the glyph where the entry asked for one, and the
       name in a node of its own. The rail is one fixed width and its rows are
-      names a machine gave, so the name is the half that gives — and it can
-      only be cut in a box of its own. */
+      names a machine gave, so the name is the half that gives. A cut needs a
+      box of its own. */
   inside(entry) {
     return html43`${entry.icon ? html43`<sds-icon name="${entry.icon}"></sds-icon>` : nothing25}<span class="sds-rail__label">${entry.label}</span>`;
   }
@@ -5753,10 +5748,10 @@ var SdsNavToc = class extends SdsElement {
     cancelAnimationFrame(this.queued);
     super.disconnectedCallback();
   }
-  /** Follow the page. On the document and on the way down, because a scroll
-      event does not bubble and the column may be the scroller rather than the
-      window; and on resize, which moves every heading at once. One reading a
-      frame — a scroll fires far faster than anything can be drawn. */
+  /** Follow the page. On the document and on the way down: a scroll event
+      does not bubble, and the column can be the scroller rather than the
+      window. On resize too, which moves every heading at once. One reading a
+      frame — a scroll fires far faster than a paint. */
   watch() {
     this.watching?.abort();
     this.watching = new AbortController();
@@ -5769,11 +5764,10 @@ var SdsNavToc = class extends SdsElement {
     window.addEventListener("resize", soon, { passive: true, signal });
     soon();
   }
-  /** The entries the list is actually drawing, by target. Read from the rows
-      rather than from the data: standing beside the column it shows two levels
-      and hides the rest, and which those are is the stylesheet's to say. Empty
-      before the first render, and then it says nothing rather than nothing is
-      drawn. */
+  /** The entries the list draws, by target. Read from the rows rather than
+      from the data. Beside the column it shows two levels and hides the rest,
+      and which those are is the stylesheet's to say. Empty before the first
+      render, and then it says nothing rather than nothing is on the page. */
   drawn() {
     const out = /* @__PURE__ */ new Set();
     for (const row of this.querySelectorAll(".sds-toc__item")) {
@@ -5782,10 +5776,10 @@ var SdsNavToc = class extends SdsElement {
     return out;
   }
   /** The headings this list points at, in the order the page has them. An
-      entry pointing anywhere but at this page is a link and not a place in it,
-      and is left out of the reading rather than made a target of — and so is
-      one the list is not drawing: marking a heading no row shows leaves every
-      visible entry unmarked, which is the list going blank inside a section. */
+      entry that points away from this page is a link and not a place in it,
+      so it stays out. So does one the list does not draw. A mark on a heading
+      no row shows leaves every visible entry unmarked, which is the list gone
+      blank inside a section. */
   marks() {
     const drawn = this.drawn();
     const found = [];
@@ -5798,9 +5792,9 @@ var SdsNavToc = class extends SdsElement {
     }
     return found;
   }
-  /** What is moving the headings: the nearest ancestor that scrolls, and the
+  /** What moves the headings: the nearest ancestor that scrolls, and the
       page where none does. A pane with a scrollbar of its own is where the
-      reading is happening, and the top of the window is not on it. */
+      reader reads, and the top of the window is not on it. */
   scroller(node) {
     for (let up = node.parentElement; up; up = up.parentElement) {
       const flow = getComputedStyle(up).overflowY;
@@ -5808,9 +5802,9 @@ var SdsNavToc = class extends SdsElement {
     }
     return document.scrollingElement ?? document.documentElement;
   }
-  /** Where a heading jumped to comes to rest: the top of the scroller, plus
-      the offset it keeps for whatever stands over it — `scroll-padding-top`,
-      which is how the bar is answered for every target on the page at once.
+  /** Where a heading comes to rest after a jump: the top of the scroller,
+      plus the offset it keeps for whatever stands over it. That offset is
+      `scroll-padding-top`, which answers the bar for every target at once.
       Measured against that line, the entry a press marks is the entry the
       scroll marks. */
   line(box) {
@@ -5820,16 +5814,16 @@ var SdsNavToc = class extends SdsElement {
     return top + (Number.isFinite(pad) ? pad : 0) + 1;
   }
   /** As far down as the reader can get. The last heading can stand below the
-      line and never reach it, and the list would mark the section above while
-      the reader is looking at the last one. Nothing to scroll is no foot to
-      arrive at, every section being in view at once. */
+      line and never reach it. The list then marks the section above while the
+      reader looks at the last one. Nothing to scroll is no foot to arrive at,
+      with every section in view at once. */
   ended(box) {
     const rest = box.scrollHeight - box.clientHeight;
     return rest > 2 && rest - box.scrollTop < 2;
   }
   /** Which section the reader is in: the last heading that has passed the
-      line, and none while none has — a page opens above its first heading, and
-      a list marking something there answers a question nobody asked. */
+      line, and none while none has. A page opens above its first heading, and
+      a mark there answers a question nobody asked. */
   read() {
     const marks = this.marks();
     const first = marks[0];
@@ -5843,8 +5837,8 @@ var SdsNavToc = class extends SdsElement {
     }
     this.at = this.ended(box) ? marks[marks.length - 1].href : at;
   }
-  /** The entry the reader is in. The page wins once it has been read, and the
-      data is what a card, a story and a server-rendered page have instead. */
+  /** The entry the reader is in. The page wins once the element has read it.
+      The data is what a card, a story and a server-rendered page have instead. */
   isCurrent(entry) {
     return this.at ? entry.href === this.at : Boolean(entry.current);
   }
@@ -5854,8 +5848,8 @@ var SdsNavToc = class extends SdsElement {
 </ul>`;
   }
   /** One section, and whatever hangs under it. `aria-current="location"` and
-      not `page`: every entry here is the page, and what is marked is the part
-      of it the reader is at. */
+      not `page`: every entry here is the page, and the mark is the part of it
+      the reader is at. */
   row(entry) {
     const here = this.isCurrent(entry);
     const under = entry.items ?? [];
@@ -5869,11 +5863,11 @@ var SdsNavToc = class extends SdsElement {
 </li>`;
   }
   /** Keep the marked entry where the reader can see it. Beside the column the
-      list is a box of its own and scrolls, and a page with more sections than
-      the box is tall marks one that is off its bottom edge — the list that
-      says where the reader is stops saying it exactly where it is needed.
-      Its own `scrollTop`, never `scrollIntoView`: that walks up every scroller
-      it finds and would take the page along with it. */
+      list is a box of its own and scrolls. A page with more sections than the
+      box is tall marks one off its bottom edge. The list then says nothing
+      about where the reader is, exactly where that matters. Its own `scrollTop`,
+      never `scrollIntoView`: that walks up every scroller it finds and takes
+      the page along with it. */
   follow() {
     const here = this.querySelector(".sds-toc__item.is-active");
     const box = here?.closest(".sds-toc");
@@ -5931,23 +5925,23 @@ var SdsFooter = class _SdsFooter extends SdsElement {
     return item.icon ? html45`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>` : html45`<sds-link label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}"></sds-link>`;
   }
   /* What a column names, where that is a page. Not `sds-link`: the heading
-     keeps the label's register and the label's colour, and at the links' it
+     keeps the label's register and the label's colour. At the links' it
      reads as the first entry of the list it names. The trail above a heading
-     is written the same way and for the same reason — see `.sds-crumbs a`. */
+     takes the same route for the same reason — see `.sds-crumbs a`. */
   static heading(group) {
     return group.href ? html45`<a class="sds-label sds-footer__heading" href="${group.href}">${group.label}</a>` : html45`<div class="sds-label">${group.label}</div>`;
   }
-  /* A mark, at the end of the line where marks are looked for: the glyph
-     alone, at the size a mark is read at, named for whoever cannot see it.
-     One with no glyph in the set is the labelled link it always was — the
-     alternative is an account nobody can reach. */
+  /* A mark, at the end of the line where a reader looks for marks. The glyph
+     alone, at a mark's size, named for whoever cannot see it. One with no
+     glyph in the set is the labelled link it always was — the alternative is
+     an account nobody can reach. */
   static mark(item) {
     return item.icon ? html45`<sds-link bare label="${item.label}" href="${item.href ?? "#"}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>` : _SdsFooter.link(item);
   }
-  /* The mark and the name, in the lockup the bar draws — one construction, so
-     the two ends of a site cannot say the name two ways. The mark is hidden
-     from a reader who cannot see it rather than announced: the wordmark beside
-     it already spells what it says. */
+  /* The mark and the name, in the lockup the bar draws. One construction, so
+     the two ends of a site cannot say the name two ways. The mark hides from
+     a reader who cannot see it rather than announces itself: the wordmark
+     beside it already spells what it says. */
   lockup() {
     if (!this.signet && !this.product) return "";
     return html45`<span class="sds-lockup">
@@ -5998,8 +5992,8 @@ var PLANE = {
 var SdsSurface = class extends SdsElement {
   constructor() {
     super();
-    /* The statement, where it was written between the tags. A plane on a product
-       surface holds a sentence somebody composed, which fits in a property; one
+    /* The statement, where it stood between the tags. A plane on a product
+       surface holds a sentence somebody composed, which fits in a property. One
        in a document holds whatever the passage was — paragraphs, a list, a block
        of its own — and that is markup or it is nothing. */
     this.taken = null;
@@ -6090,13 +6084,13 @@ var SdsFigure = class extends SdsElement {
   constructor() {
     super();
     /* The picture a renderer wrote, taken before Lit renders over it. `src` is
-       the form a story or a product surface uses; a renderer writing HTML cannot,
-       because the picture has to be on the page before any script runs or a
+       the form a story or a product surface uses. A renderer that writes HTML
+       cannot. The picture must be on the page before any script runs, or a
        reader gets a caption under an empty frame. Kept exactly as `sds-code`
        keeps a block that arrived coloured. */
     this.taken = null;
-    /* And its caption, where that was written between the tags too: a caption
-       from a document carries markup — a literal, a link, an emphasis — and an
+    /* And its caption, where that stood between the tags too. A caption from a
+       document carries markup — a literal, a link, an emphasis — and an
        attribute is a string. */
     this.captioned = null;
     this.src = "";
@@ -6151,14 +6145,14 @@ var SdsEmbed = class extends SdsElement {
     super();
     /* The frame a renderer wrote, taken before Lit renders over it. */
     this.taken = null;
-    /* And its caption, where that was written between the tags too. Kept apart
+    /* And its caption, where that stood between the tags too. Kept apart
        from `taken`, which everything else here reads as the frame itself. */
     this.captioned = null;
     /* The page's mode, watched so the frame follows a switch. */
     this.#watch = null;
-    /* A frame is a document of its own and inherits nothing: a card made for
-       both modes carries no `data-theme`, so left alone it answers the machine's
-       setting inside a page that chose the other one — scrollbar included. The
+    /* A frame is a document of its own and inherits nothing. A card made for
+       both modes carries no `data-theme`. On its own it then answers the
+       machine's setting inside a page that chose the other one. The
        frame belongs to this element, so this element paints it, and a page with
        no theme control has frames all the same. */
     this.#paint = () => {
@@ -6217,9 +6211,9 @@ var SdsEmbed = class extends SdsElement {
     this.#paint();
   }
   #paint;
-  /** Whether the frame is the size it was made for rather than the column's. A
-      size alone says fixed; a ratio beside it is the answer that means "fill
-      the column", so it wins and the size is what the document is asked for. */
+  /** If the frame has the document's own size rather than the column's. A
+      size alone says fixed. A ratio beside it means "fill the column", so it
+      wins and the size becomes the document's request. */
   get fixed() {
     return !this.ratio && this.width > 0 && this.height > 0;
   }
@@ -6290,8 +6284,8 @@ var SdsDialog = class extends SdsElement {
   constructor() {
     super();
     /* What a button pointed at this one asks for. An id and an event, so neither
-       end holds the other and the question is opened from markup rather than
-       from a script that has to find both of them. */
+       end holds the other. Markup opens the question, not a script that has to
+       find both of them. */
     this.onCommand = (event) => {
       const command = event.detail?.command ?? "show";
       if (command === "close") this.close();
@@ -6401,10 +6395,10 @@ var SdsDialog = class extends SdsElement {
 </dialog>`;
   }
   /* Buttons a caller wrote, or the pair a confirmation is: a `<form
-     method="dialog">`, which is the platform answering the question itself —
-     the press closes the dialog and leaves its value in `returnValue`, with no
-     handler in between. At the control size the rest of the system writes,
-     because what a dialog asks is the main action of the surface it opened. */
+     method="dialog">`, which is the platform's own answer. The press closes
+     the dialog and leaves its value in `returnValue`, with no handler in
+     between. At the control size the rest of the system writes, because what
+     a dialog asks is the main action of the surface it opened. */
   foot() {
     if (this.actions.length || !this.confirmLabel) {
       return html51`<div class="sds-modal__foot">
@@ -6426,17 +6420,17 @@ import { html as html52, nothing as nothing29 } from "lit";
 var SdsTable = class extends SdsElement {
   constructor() {
     super();
-    /* The table a document wrote, taken before Lit renders over it. A cell there
-       carries a link, a literal, an emphasis — none of which survives a JSON
-       attribute — and `colspan`, `rowspan` and a caption have no property at
-       all. What is handed over is the table's own children, so the element still
-       draws the `<table>` and still decides its density. A `<thead>` outside a
-       `<table>` is dropped by the parser, so those children reach here from a
-       `<template>` or a property and never from markup typed into a page. */
+    /* The table a document wrote, taken before Lit renders over it. A cell
+       there carries a link, a literal, an emphasis, and none survives a JSON
+       attribute. `colspan`, `rowspan` and a caption have no property at all.
+       The hand-over is the table's own children, so the element still draws
+       the `<table>` and decides its density. The parser drops a `<thead>`
+       outside a `<table>`. So those children come from a `<template>` or a
+       property, never from markup typed into a page. */
     this.taken = null;
-    /* The one of the three that is a plain object of this system's own: a string
-       is not an object at all, and a template carries Lit's marker and its
-       values rather than a value. */
+    /* The one of the three that is a plain object of this system's own. A
+       string is not an object at all. A template carries Lit's marker and its
+       values, not a value. */
     this.stacked = (cell) => typeof cell === "object" && cell !== null && "value" in cell;
     this.density = "medium";
     this.scrollable = false;
@@ -6463,9 +6457,9 @@ var SdsTable = class extends SdsElement {
     super.connectedCallback();
   }
   /** What a column puts on both its head and its cells: what kind of cell it
-      is, and which edge it is read down. One string, because the head and the
-      cells have to stand at the same edge and a class list built twice is a
-      class list that comes out different once. */
+      is, and its edge. One string, because the head and the cells have to
+      stand at the same edge. A class list built twice comes out different
+      once. */
   marks(column, head = false) {
     return [
       head ? "" : column?.cls ?? "",
@@ -6483,7 +6477,7 @@ var SdsTable = class extends SdsElement {
       ${cells}
     </tr>`;
   }
-  /* One bar per declared column. Where the table has none its rows were coming
+  /* One bar per declared column. Where the table has none, its rows arrive
      as markup, and a single bar is the whole of the shape it knows. */
   waitingRow() {
     const cells = Math.max(this.columns.length, 1);
@@ -6683,7 +6677,7 @@ var SdsGrid = class extends SdsElement {
     this.properties = {
       variant: { type: String },
       /** The columns the last measurement settled on. Zero is "not measured",
-          which renders the reflowing grid the stylesheet declares — the state a
+          which renders the grid the stylesheet declares. That is the state a
           page arrives in and the only one a reader with no script ever sees. */
       columns: { type: Number, state: true }
     };
@@ -6700,11 +6694,11 @@ var SdsGrid = class extends SdsElement {
     this.watch?.disconnect();
     super.disconnectedCallback();
   }
-  /** What the sheet would draw, and what to draw instead.
+  /** What the sheet draws on its own, and what to draw instead.
   
-        The minimum is read off the grid rather than repeated here: the three
-        widths differ in exactly that number, and a copy of it in TypeScript is
-        the copy that goes stale. */
+        The minimum comes off the grid rather than a copy here. The three widths
+        differ in exactly that number, and a copy of it in TypeScript is the
+        copy that goes stale. */
   decide() {
     const grid = this.firstElementChild;
     if (!grid) return;
@@ -6774,13 +6768,13 @@ var SdsNavPagination = class extends SdsElement {
     this.href = "#page-{n}";
     this.label = "";
   }
-  /** What the row is drawn from, and the one place the division happens. */
+  /** What the row draws from, and the one place the division happens. */
   get pages() {
     return pageCount(this.count, this.perPage);
   }
-  /** Say which page was asked for, and let the answer decide what the press
-      does. Cancelable, because stopping the navigation is the only way a
-      surface that pages in place can take the press over, and it is the same
+  /** Say which page the press asked for, and let the answer decide what the
+      press does. Cancelable, because a stop of the navigation is the only way
+      a surface that pages in place can take the press over. It is the same
       press either way. */
   ask(event, to) {
     const change = new CustomEvent("sds-change", {
@@ -6835,7 +6829,7 @@ var SdsNavPager = class _SdsNavPager extends SdsElement {
     this.label = "Pages either side of this one";
   }
   /* `buttonMarkup` rather than `<sds-button>`, the way `sds-nav-pagination` draws
-     its own steps: an element given children draws none of them outside a
+     its own steps. An element with children draws none of them outside a
      browser, and a link that goes somewhere has nothing to upgrade for. The
      markup is the button's own, exported from the button. */
   static step(href, body, rel) {
@@ -6864,11 +6858,11 @@ define("sds-nav-pager", SdsNavPager);
 import { html as html59 } from "lit";
 import { unsafeHTML as unsafeHTML4 } from "lit/directives/unsafe-html.js";
 
-// node_modules/highlight.js/es/core.js
+// ../../../node_modules/highlight.js/es/core.js
 var import_core = __toESM(require_core(), 1);
 var core_default = import_core.default;
 
-// node_modules/highlight.js/es/languages/bash.js
+// ../../../node_modules/highlight.js/es/languages/bash.js
 function bash(hljs) {
   const regex = hljs.regex;
   const VAR = {};
@@ -7262,7 +7256,7 @@ function bash(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/css.js
+// ../../../node_modules/highlight.js/es/languages/css.js
 var MODES = (hljs) => {
   return {
     IMPORTANT: {
@@ -8199,7 +8193,7 @@ function css(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/diff.js
+// ../../../node_modules/highlight.js/es/languages/diff.js
 function diff(hljs) {
   const regex = hljs.regex;
   return {
@@ -8252,7 +8246,7 @@ function diff(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/javascript.js
+// ../../../node_modules/highlight.js/es/languages/javascript.js
 var IDENT_RE = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS = [
   "as",
@@ -8953,7 +8947,7 @@ function javascript(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/json.js
+// ../../../node_modules/highlight.js/es/languages/json.js
 function json(hljs) {
   const ATTRIBUTE = {
     className: "attr",
@@ -8993,7 +8987,7 @@ function json(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/markdown.js
+// ../../../node_modules/highlight.js/es/languages/markdown.js
 function markdown(hljs) {
   const regex = hljs.regex;
   const INLINE_HTML = {
@@ -9225,7 +9219,7 @@ function markdown(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/php.js
+// ../../../node_modules/highlight.js/es/languages/php.js
 function php(hljs) {
   const regex = hljs.regex;
   const NOT_PERL_ETC = /(?![A-Za-z0-9])(?![$])/;
@@ -9826,7 +9820,7 @@ function php(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/plaintext.js
+// ../../../node_modules/highlight.js/es/languages/plaintext.js
 function plaintext(hljs) {
   return {
     name: "Plain text",
@@ -9838,7 +9832,7 @@ function plaintext(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/scss.js
+// ../../../node_modules/highlight.js/es/languages/scss.js
 var MODES2 = (hljs) => {
   return {
     IMPORTANT: {
@@ -10760,7 +10754,7 @@ function scss(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/sql.js
+// ../../../node_modules/highlight.js/es/languages/sql.js
 function sql(hljs) {
   const regex = hljs.regex;
   const COMMENT_MODE = hljs.COMMENT("--", "$");
@@ -11403,7 +11397,7 @@ function sql(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/twig.js
+// ../../../node_modules/highlight.js/es/languages/twig.js
 function twig(hljs) {
   const regex = hljs.regex;
   const FUNCTION_NAMES = [
@@ -11642,7 +11636,7 @@ function twig(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/typescript.js
+// ../../../node_modules/highlight.js/es/languages/typescript.js
 var IDENT_RE2 = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS2 = [
   "as",
@@ -12456,7 +12450,7 @@ function typescript(hljs) {
   return tsLanguage;
 }
 
-// node_modules/highlight.js/es/languages/xml.js
+// ../../../node_modules/highlight.js/es/languages/xml.js
 function xml(hljs) {
   const regex = hljs.regex;
   const TAG_NAME_RE = regex.concat(/[\p{L}_]/u, regex.optional(/[\p{L}0-9_.-]*:/u), /[\p{L}0-9_.-]*/u);
@@ -12682,7 +12676,7 @@ function xml(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/yaml.js
+// ../../../node_modules/highlight.js/es/languages/yaml.js
 function yaml(hljs) {
   const LITERALS3 = "true false yes no null";
   const URI_CHARACTERS = "[\\w#;/?:@&=+$,.~*'()[\\]]+";
@@ -13008,17 +13002,17 @@ var isCaption3 = (node) => node.nodeType === 1 && node.matches(".sds-code__capti
 var SdsCode = class extends SdsElement {
   constructor() {
     super();
-    /* Content written between the tags, taken before Lit renders over it: light
-       DOM means `render()` replaces the children, and the children are the whole
-       point where a renderer wrote the block. Lifted on connect and handed back
-       as nodes — Lit renders a node as a child value, and re-rendering moves the
-       same nodes rather than copying them. */
+    /* Content between the tags, taken before Lit renders over it. Light DOM
+       means `render()` replaces the children, and the children are the whole
+       point where a renderer wrote the block. Lifted on connect and handed
+       back as nodes. Lit renders a node as a child value, and a re-render
+       moves the same nodes and does not copy them. */
     this.taken = null;
-    /* The caption, where it too was written between the tags — as nodes, because
-       it carries a literal, a link or an emphasis and an attribute would flatten
-       all three. Inside the element, so the block places it; drawn beside it,
-       nothing keeps the two together. Kept apart from `taken`, which everything
-       else here reads as the block itself. */
+    /* The caption, where it too stood between the tags, as nodes. It carries a
+       literal, a link or an emphasis, and an attribute flattens all three.
+       Inside the element, so the block places it. Beside it, nothing keeps the
+       two together. Apart from `taken`, which everything else here reads as
+       the block itself. */
     this.captioned = null;
     this.lang = "";
     this.caption = "";
@@ -13032,9 +13026,9 @@ var SdsCode = class extends SdsElement {
       lang: { type: String, reflect: true, attribute: "code-lang" },
       caption: { type: String },
       source: { type: String },
-      /* Styled lines, which no attribute can carry — a shell prompt, a comment
-         and a result are three different spans, and flattening them to a string
-         would throw away the only thing the component does. */
+      /* Styled lines, which no attribute can carry. A shell prompt, a comment
+         and a result are three different spans. A flat string throws away the
+         only thing the component does. */
       body: { type: Array },
       action: { type: Object },
       copy: { type: Boolean, reflect: true },
@@ -13049,17 +13043,17 @@ var SdsCode = class extends SdsElement {
     if (said.length) this.taken = said;
     super.connectedCallback();
   }
-  /** Whatever the block would put on the clipboard: what it says, and none of
-      what frames it. Read from the content, not the rendering — light DOM means
-      the element's own text is the head too, so a paste would begin with the
-      language and the word on the button. The `$` goes for the same reason it
-      is a span of its own: it is the prompt, and in a shell it is an error. */
+  /** What the block puts on the clipboard: what it says, and none of its
+      frame. Read from the content, not the rendering. In light DOM the
+      element's own text is the head too, so a paste starts with the language
+      and the word on the button. The `$` goes, for the reason it is a span
+      of its own. It is the prompt, and in a shell it is an error. */
   get text() {
     const said = this.taken ? this.written : this.source || this.body.map(({ text, code }) => code ? `${text} ${code}` : text).join("\n");
     return said.replace(/^\n+/, "").replace(/\n+$/, "");
   }
-  /** The text between the tags. Comments are skipped, and they are not the
-      author's: a template that interpolates its content leaves Lit's own
+  /** The text between the tags, without the comments, which are not the
+      author's. A template that interpolates its content leaves Lit's own
       markers among the children, and `textContent` reads a comment's body
       like any other. */
   get written() {
@@ -13072,18 +13066,18 @@ var SdsCode = class extends SdsElement {
       this.copied = false;
     }, SAID);
   }
-  /* Always drawn where the block asked for one. Asking the browser whether it
-     has a clipboard and drawing nothing when it says no left no button at all
-     on every origin that is not a secure context, which is most of the ones a
-     design system is reviewed on — see `lib/clipboard.ts`. */
+  /* Always drawn where the block asked for one. A question to the browser
+     about its clipboard, with no button on a no, left no button on every
+     origin outside a secure context. That is most of the ones a design
+     system gets its review on; see `lib/clipboard.ts`. */
   get copyButton() {
     if (!this.copy) return void 0;
     return html59`<button type="button" class="sds-code__copy${this.copied ? " is-copied" : ""}" aria-label="Copy this block" @click="${() => void this.take()}"><span class="sds-code__glyph"><sds-icon name="actions-duplicate"></sds-icon></span><span class="sds-code__copied"><sds-icon name="actions-check"></sds-icon></span><span>${this.copied ? "copied" : "copy"}</span></button>`;
   }
   /* The lines the free `comment()`, `shell()` and `ok()` helpers used to
      build. They were three exported functions that assembled markup a caller
-     then handed back in — which made the component's own output something any
-     caller could half-write. A line is data now, and only this file turns it
+     then handed back in. That made the component's own output something any
+     caller can half-write. A line is data now, and only this file turns it
      into spans. */
   line({ kind, text, code }) {
     const tail = code ? html59` <span class="sds-code__cmd">${code}</span>` : void 0;
@@ -13098,11 +13092,11 @@ var SdsCode = class extends SdsElement {
         return html59`${text}${tail}`;
     }
   }
-  /* Whether the block arrived already coloured. A build that highlights on its
-     own hands in finished markup, and colouring it again would flatten the
-     spans back to text and rebuild them from fewer grammars. `hljs-` is the
-     signal because `components.css` maps those classes and nothing else. Kept
-     wrapper and all: the `<code>` holds which lines are numbered. */
+  /* If the block arrived with its colour. A build that highlights on its own
+     hands in complete markup. A second pass flattens the spans back to text
+     and rebuilds them from fewer grammars. `hljs-` is the signal because
+     `components.css` maps those classes and nothing else. Wrapper and all:
+     the `<code>` holds which lines carry numbers. */
   get given() {
     if (this.content) return true;
     return (this.taken ?? []).some((node) => {
@@ -13111,11 +13105,11 @@ var SdsCode = class extends SdsElement {
       return el.matches('[class*="hljs-"]') || el.querySelector('[class*="hljs-"]') !== null;
     });
   }
-  /* Content written between the tags, in the `<code>` a code block is supposed
-     to have. The element renders that wrapper and its `language-` class from
-     `lang`, so a caller cannot say the language twice and have the two
-     disagree — one paints the head, the other decides the highlighting. It
-     colours the block too, unless the colour arrived with it; see `given`. */
+  /* Content between the tags, in the `<code>` a code block has. The element
+     renders that wrapper and its `language-` class from `lang`. So a caller
+     cannot say the language twice and have the two disagree. One paints the
+     head, the other decides the colour. It colours the block too, unless the
+     colour arrived with it; see `given`. */
   get wrapped() {
     const written = this.taken ?? this.content ?? this.text;
     if (this.given) return html59`${written}`;
@@ -13203,7 +13197,7 @@ var SdsTree = class extends SdsElement {
     if (!this.icons) return nothing34;
     return html61`<sds-icon class="sds-tree__glyph" name="${branch2 ? "actions-folder" : "actions-file"}"></sds-icon>`;
   }
-  /* The name and whatever stands beside it — one row, whether it folds or not,
+  /* The name and whatever stands beside it — one row, with a fold or without,
      so a leaf's name begins where a directory's does. */
   said(entry, branch2) {
     return html61`<span class="sds-tree__mark">${branch2 ? html61`<sds-icon name="actions-chevron-down"></sds-icon>` : nothing34}</span>${this.glyph(branch2)}<span class="sds-tree__name">${entry.label}</span>${entry.note ? html61`<span class="sds-tree__note">${entry.note}</span>` : nothing34}`;
@@ -13250,9 +13244,9 @@ var SdsDiff = class extends SdsElement {
     this.path = "";
     this.body = [];
   }
-  /* Diff rows carry no newline between them: each `sds-diff__line` is a
-     block, so a newline inside the `<pre>` would add an empty line between
-     every pair of rows. */
+  /* Diff rows carry no newline between them. Each `sds-diff__line` is a
+     block, so a newline inside the `<pre>` adds an empty line between every
+     pair of rows. */
   line({ kind, text }) {
     if (kind === "context") return html62`<span class="sds-diff__line">   ${text}</span>`;
     const mark = kind === "add" ? "+" : "-";
@@ -13318,10 +13312,10 @@ define("sds-byline", SdsByline);
 var SdsQuote = class extends SdsElement {
   constructor() {
     super();
-    /* The sentence, where it was written between the tags. A product surface
-       quotes a line somebody composed and a property carries it; a document
-       quotes the passage it found, and out of a document that carries links and
-       emphasis — which is markup or it is nothing. */
+    /* The sentence, where it stood between the tags. A product surface quotes
+       a line somebody composed and a property carries it. A document quotes the
+       passage it found, with links and emphasis in it — which is markup or it
+       is nothing. */
     this.taken = null;
     this.body = "";
     this.by = "";
@@ -13393,8 +13387,8 @@ var SdsConfval = class extends SdsElement {
     super.connectedCallback();
   }
   /** The two the directive names first, then whatever else the source set.
-      Order is fixed rather than alphabetical: a reader comparing two entries
-      compares them line by line. */
+      The order stays fixed rather than alphabetical: a reader who compares
+      two entries compares them line by line. */
   get stated() {
     return [
       ...this.type ? [{ label: "type", value: this.type }] : [],

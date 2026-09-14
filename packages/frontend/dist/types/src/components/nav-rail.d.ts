@@ -12,38 +12,37 @@ export declare class SdsNavRail extends SdsElement {
             state: boolean;
         };
     };
-    /** What this is the list of, and the list. A rail holding one section of a
+    /** What this is the list of, and the list. A rail with one section of a
         site is that section: its label stands over the pages as the way to the
-        section's own page, and an entry with no label has no heading — which is
+        section's own page. An entry with no label has no heading, which is
         right where the rail is the whole navigation there is. */
     entry: MenuEntry;
     /** Which row a reader pressed, where the rows are choices rather than links.
-        -1 until they have: a list that names its own current page is stating a
-        fact about the page, and a press is the only thing allowed to overrule
-        it. */
+        -1 until they have. A list that names its own current page states a fact
+        about the page, and only a press can overrule it. */
     picked: number;
     /** The rows a server wrote between the tags. A renderer that has resolved
         its own tree writes the classes below, so the two shapes are one shape. */
     private taken;
     constructor();
     connectedCallback(): void;
-    /** Every page in the rail, folds flattened: a rail has one current page
-        wherever it sits, and a caller thinking in "third item of the second
-        group" is thinking about the markup. */
+    /** Every page in the rail, folds flattened. A rail has one current page
+        wherever it sits, and a caller who thinks in "third item of the second
+        group" thinks about the markup. */
     private flat;
     private isCurrent;
     /** One page, and whatever hangs under it.
   
-        A page that holds pages is a row like any other with the marker that
-        opens them beside it — the same pair the bar's row draws, so a reader
-        meets one shape and not two. What it holds is set in by a step, because
+        A page that holds pages is a row like any other, with the marker that
+        opens them beside it. The same pair the bar's row draws, so a reader
+        meets one shape and not two. What it holds stands in by a step, because
         a list where everything starts on the same edge says nothing about what
         belongs to what. */
     private row;
     /** What stands in a row: the glyph where the entry asked for one, and the
         name in a node of its own. The rail is one fixed width and its rows are
-        names a machine gave, so the name is the half that gives — and it can
-        only be cut in a box of its own. */
+        names a machine gave, so the name is the half that gives. A cut needs a
+        box of its own. */
     private inside;
     private one;
     protected render(): TemplateResult;

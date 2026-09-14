@@ -1,27 +1,24 @@
-/* sds-select — one answer out of a list the reader does not need to see.
+/* sds-select: one answer out of a list the reader does not need to see.
 
-   Its own element rather than a shape a field takes: a select and a text field
-   share a box and nothing else. What a select has is a list, with headings and
-   entries that are on it but not on offer; what it has not is anything to type,
-   a length, a pattern, a keyboard to choose.
+   Its own element, not a shape a field takes. A select and a text field
+   share a box and nothing else. A select has a list, with headings, and
+   entries on it but not on offer. It has nothing to type, no length, no
+   pattern, no keyboard to choose.
 
-   The list is drawn here rather than left to the browser, which is the one
-   place this system rebuilds a native control. A native `<select>` opens a
-   window the page has no reach into: it is the operating system's colours, on
-   the operating system's canvas, so a dark page opens a light list and the
-   headings of a grouped one come out in a grey nothing here chose.
+   This element draws the list, the one place this system rebuilds a native
+   control. A native `<select>` opens a window in the operating system's
+   colours, out of the page's reach. So a dark page opens a light list.
 
-   What that costs is everything the platform was doing, and all of it is put
-   back by hand: `role="combobox"` over `role="listbox"`, the arrows, Home and
-   End, type-ahead, Enter and Escape, and `aria-activedescendant` so the focus
-   never leaves the button a reader arrived on. The list is a popover, so the
-   top layer holds it — no ancestor's overflow clips it and a press outside is
-   the platform's own dismissal.
+   The cost is everything the platform did, and this file puts it all back.
+   `role="combobox"` over `role="listbox"`, the arrows, Home and End,
+   type-ahead, Enter and Escape, and `aria-activedescendant`, so the focus
+   stays on the button. The list is a popover in the top layer, so no
+   ancestor's overflow clips it, and a press outside is the platform's own
+   dismissal.
 
-   The real `<select>` stays underneath and carries the value. It is what the
-   form submits, it is what a page with no script still shows and operates —
-   the drawn list is hidden until this element upgrades — and it is why nothing
-   here has to reimplement a form control's other half. */
+   The real `<select>` stays underneath and carries the value. The form
+   submits it, and a page with no script shows and operates it. The drawn
+   list hides until this element upgrades. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { define } from '../lib/element.ts';
@@ -31,8 +28,8 @@ import { anchored, place } from '../lib/flyout.ts';
 import { SdsFormElement } from '../lib/form-element.ts';
 import './icon.ts';
 
-/** One entry. A bare string is the label and the value at once, which is what
-    most lists are; the object carries the three things a string cannot. */
+/** One entry. A bare string is the label and the value at once, which most
+    lists are. The object carries the three things a string cannot. */
 export interface SelectOption {
   label: string;
   /** What it sends, where that is not the label. */
@@ -50,25 +47,25 @@ export interface SelectProps {
       above, hint under, error under both. Without one it is the bare box —
       right in a header or a filter row, where the surface says what it is for. */
   caption?: string;
-  /** What the control is called for anything that cannot see what it sits
-      beside. A select with no visible label of its own owes one here. */
+  /** The control's name for anything that cannot see what it sits beside. A
+      select with no visible label of its own owes one here. */
   label?: string;
-  /** What the answer is called when the form is sent. */
+  /** The answer's name in the form data. */
   name?: string;
   /** The control's id, so the label points at it and an error summary can. */
   fieldId?: string;
-  /** The chosen value — or, while nothing is chosen, what the closed box says
-      instead. That entry is on the list and disabled, so it is what the reader
-      sees and never what they can pick. */
+  /** The chosen value. Or, while there is no choice, what the closed box says
+      instead. That entry is on the list and disabled, so the reader sees it
+      and never picks it. */
   value?: string;
   /** The list. */
   options?: readonly (string | SelectOption)[];
   /** What the answer has to be, under the control. Never inside it. */
   hint?: string;
-  /** What is wrong with what is chosen. Sets the invalid state with it, and the
+  /** What is wrong with the choice. Sets the invalid state with it, and the
       browser refuses to submit past it. */
   error?: string;
-  /** Something has to be chosen. Said in words beside the label. */
+  /** A choice is mandatory. A word beside the label says so. */
   required?: boolean;
   /** Present, and not on offer. */
   disabled?: boolean;
@@ -77,20 +74,20 @@ export interface SelectProps {
   /** The width it asks for, in pixels — and what it gets is that or the room
       there is. The attribute is `min-width`. */
   minWidth?: number;
-  /** Something has been chosen. Choosing sets it. */
+  /** A choice exists. A choice sets it. */
   filled?: boolean;
   /** Force the focus state for a still picture. */
   focused?: boolean;
   /** The box says the answer is wrong, with no sentence of its own. */
   invalid?: boolean;
-  /** The list, drawn standing open, for a card — which is a picture and runs
-      no script, so it can neither press the button nor hold a popover. Never
-      set on a page: what opens the list there is the reader. */
+  /** The list, drawn open, for a card. A card is a picture and runs no
+      script, so it can neither press the button nor hold a popover. Never
+      set on a page: the reader opens the list there. */
   open?: boolean;
 }
 
-/** Distinct ids per instance: the button names the list it opens and the option
-    it is on, and two selects on one page must not both call them the same. */
+/** Distinct ids per instance. The button names the list it opens and the
+    option it is on. Two selects on one page must not share those names. */
 let seq = 0;
 
 export class SdsSelect extends SdsFormElement {
@@ -111,10 +108,10 @@ export class SdsSelect extends SdsFormElement {
     focused: { type: Boolean, reflect: true },
     invalid: { type: Boolean, reflect: true },
     open: { type: Boolean, reflect: true },
-    /** Whether the popover is showing — read back from the browser, which owns
-        that. Kept apart from `open`, which is a still picture's state and takes
-        the popover away: one property doing both would re-add the attribute the
-        moment the list opened, and close it again. */
+    /** If the popover shows, read back from the browser, which owns that.
+        Apart from `open`, which is a still picture's state and takes the
+        popover away. One property for both re-adds the attribute the moment
+        the list opens, and closes it again. */
     shown: { type: Boolean, state: true },
     /** Which entry the keys are on while the list is open. Not the chosen one:
         a reader walking the list has moved nothing until they say so. */
@@ -141,8 +138,8 @@ export class SdsSelect extends SdsFormElement {
   declare active: number;
 
   private readonly listId = `sds-select-list-${++seq}`;
-  /** The anchor the list is placed against, named per instance. One name shared
-      by every select on a page resolves to whichever the browser met last. */
+  /** The anchor the list stands against, named per instance. One name for
+      every select on a page resolves to whichever the browser met last. */
   private readonly anchor = `--${this.listId}`;
   /** What stops the placement this element made, where it made one. */
   private following?: () => void;
@@ -192,8 +189,8 @@ export class SdsSelect extends SdsFormElement {
     return this.options.map((entry) => (typeof entry === 'string' ? { label: entry } : entry));
   }
 
-  /** Which entries a key may land on. A disabled one is read out and stepped
-      over, the way the platform steps over one. */
+  /** Which entries a key can land on. A disabled one reads out, and the keys
+      step over it, the way the platform does. */
   private get reachable(): number[] {
     return this.entries.flatMap((option, at) => (option.disabled ? [] : [at]));
   }
@@ -204,15 +201,15 @@ export class SdsSelect extends SdsFormElement {
   }
 
   /** What the closed box says. The chosen entry's *label*, which is not always
-      its value — and the prompt while nothing is chosen. */
+      its value. And the prompt while there is no choice. */
   private get says(): string {
     if (!this.filled) return this.value;
     const chosen = this.entries.find((option) => this.sends(option) === this.value);
     return chosen?.label ?? this.value;
   }
 
-  /** Whether the list is in front of the reader, however it got there: opened
-      by them, or drawn open by a card that can press nothing. */
+  /** If the list is in front of the reader, by either route. The reader
+      opened it, or a card that can press nothing drew it open. */
   private get listed(): boolean {
     return this.open || this.shown;
   }
@@ -228,24 +225,23 @@ export class SdsSelect extends SdsFormElement {
   protected override updated(): void {
     const control = this.querySelector('select');
     if (control) {
-      /* The `selected` attributes are the list's *defaults*, which is what a
-         reset puts back; where the choice actually stands is written here. */
+      /* The `selected` attributes are the list's *defaults*, which a reset
+         puts back. The live choice stands here. */
       if (this.filled) control.value = this.value;
-      /* Once this element has upgraded there are two controls in the markup and
-         only one of them is the reader's. The other is taken out of the reading
-         and out of the tab order — set here rather than in the template, so what
-         a page with no script receives is a plain working `<select>`. */
+      /* Once this element has upgraded there are two controls in the markup,
+         and only one is the reader's. The other leaves the reading and the tab
+         order. Set here, not in the template, so a page with no script gets a
+         plain working `<select>`. */
       control.tabIndex = -1;
       control.setAttribute('aria-hidden', 'true');
-      /* And it stops being the one that has to be answered: a control the
-         browser cannot focus, because nothing here can be looked at, is a form
-         that refuses to send with nothing on screen saying why. The requirement
-         moves to the element's own validity, reported on the button. */
+      /* And it stops as the one that demands an answer. A control the browser
+         cannot focus is a form that refuses to send with no reason on screen.
+         The demand moves to the element's own validity, on the button. */
       control.required = false;
     }
-    /* What the caller said is wrong, and — failing that — the answer that is
-       missing. Both are validities the browser holds and refuses to submit
-       past, reported on the button the reader can actually see. */
+    /* What the caller said is wrong, or else the absent answer. Both are
+       validities the browser holds and refuses to submit past, on the button
+       the reader can see. */
     const missing = this.required && !this.filled;
     if (this.error) this.setValidity(this.error, '.sds-select__button');
     else if (missing) this.setValidity('Choose one of the answers on the list', '.sds-select__button', 'valueMissing');
@@ -257,19 +253,18 @@ export class SdsSelect extends SdsFormElement {
     }
   }
 
-  /** Where the keys start: on whatever is chosen, or on the first answer there
-      is. A list that opens at the top every time makes a reader find their own
+  /** Where the keys start: on the choice, or on the first answer there is. A
+      list that opens at the top every time makes a reader find their own
       answer again before they can move off it. */
   private aim(): void {
     const at = this.entries.findIndex((option) => this.sends(option) === this.value);
     this.active = at >= 0 && !this.entries[at]?.disabled ? at : (this.reachable[0] ?? -1);
   }
 
-  /** What the browser did, read back rather than assumed. Light dismiss and
-      Escape are the platform's, so a press outside or a key this element never
-      saw still arrives as a state change — and so does a press on the button,
-      which opens the popover through `popovertarget` and never comes past
-      `show`. */
+  /** What the browser did, read back, not assumed. Light dismiss and Escape
+      are the platform's, so a press outside or a key this element never saw
+      still arrives as a state change. So does a press on the button, which
+      opens the popover through `popovertarget` and never comes past `show`. */
   private readonly onToggle = (event: Event): void => {
     this.shown = (event as ToggleEvent).newState === 'open';
     this.following?.();
@@ -285,9 +280,9 @@ export class SdsSelect extends SdsFormElement {
   };
 
   /* Open and close move this element's own state first and the popover second.
-     `toggle` is queued rather than fired where it is caused, so a key pressed
-     straight after another one would arrive while this still believed the list
-     was shut — and be read as a second press to open it. */
+     The browser queues `toggle` and does not fire it at its cause. So a key
+     straight after another one arrives while this still holds the list shut,
+     and reads as a second press to open it. */
   private show(): void {
     if (this.disabled || this.inheritedDisabled || this.shown) return;
     this.shown = true;
@@ -312,9 +307,9 @@ export class SdsSelect extends SdsFormElement {
     this.active = rows[to] as number;
   }
 
-  /** What has been typed at the list in the last second, and what it matched.
-      Type-ahead is how a reader who knows the answer gets to it, and the only
-      way a long list is usable at all from the keyboard. */
+  /** The typed text at the list in the last second, and what it matched.
+      Type-ahead is how a reader who knows the answer gets to it. It is the
+      only way to use a long list from the keyboard. */
   #typed = '';
   #typedAt = 0;
 
@@ -324,8 +319,8 @@ export class SdsSelect extends SdsFormElement {
     this.#typedAt = now;
     const wanted = this.#typed.toLowerCase();
     const rows = this.reachable;
-    /* From the one after the current, so repeating a letter walks the entries
-       that start with it rather than sticking on the first. */
+    /* From the one after the current, so a repeated letter walks the entries
+       that start with it and does not stick on the first. */
     const from = rows.indexOf(this.active) + 1;
     const order = [...rows.slice(from), ...rows.slice(0, from)];
     const hit = order.find((at) => (this.entries[at] as SelectOption).label.toLowerCase().startsWith(wanted));
@@ -341,8 +336,8 @@ export class SdsSelect extends SdsFormElement {
 
     if (event.key === 'Escape') {
       /* The browser closes the popover and puts the focus back on the button.
-         What is left is keeping the key here: a select inside a dialog would
-         otherwise close the dialog around it in the same press. */
+         What remains is to keep the key here. Otherwise a select inside a
+         dialog closes the dialog around it in the same press. */
       if (this.shown) event.stopPropagation();
       return;
     }
@@ -357,7 +352,7 @@ export class SdsSelect extends SdsFormElement {
         else if (event.key === 'End') this.active = this.reachable.at(-1) ?? -1;
         return;
       }
-      /* Typing on a closed select moves the answer without opening it, which is
+      /* A key on a closed select moves the answer without an open, which is
          what a native one does. */
       if (this.typeahead(event.key, now)) event.preventDefault();
       return;
@@ -386,8 +381,8 @@ export class SdsSelect extends SdsFormElement {
         this.commit();
         return;
       case 'Tab':
-        /* Leaving with an answer under the keys takes it: a list walked to an
-           entry and Tabbed away from would otherwise throw the walk away. */
+        /* An exit with an answer under the keys takes it. Otherwise a Tab away
+           from an entry throws the walk away. */
         this.commit();
         return;
       default:
@@ -408,12 +403,11 @@ export class SdsSelect extends SdsFormElement {
     this.filled = true;
     this.active = at;
     /* A choice is an answer to whatever was wrong. The caller decides what is
-       wrong next; leaving the old sentence standing would block the form on a
-       value nobody has judged yet. */
+       wrong next. The old sentence in place blocks the form on a value nobody
+       has judged yet. */
     this.error = '';
-    /* The real control is what the form reads, so it is moved before anything
-       is announced — a listener that reads the form data must not see the old
-       answer. */
+    /* The form reads the real control, so it moves before any announcement.
+       A listener that reads the form data must not see the old answer. */
     const control = this.querySelector('select');
     if (control) control.value = this.value;
     this.dispatchEvent(new CustomEvent<string>('sds-change', { detail: this.value, bubbles: true, composed: true }));
@@ -488,9 +482,9 @@ export class SdsSelect extends SdsFormElement {
     const disabled = this.disabled || this.inheritedDisabled;
     const id = this.fieldId || nothing;
 
-    /* The button carries the id and the label points at it: a `<label for>` has
-       to name something a reader can reach, and the `<select>` under this is
-       hidden the moment the element upgrades. */
+    /* The button carries the id and the label points at it. A `<label for>`
+       has to name something a reader can reach, and the `<select>` under this
+       hides the moment the element upgrades. */
     const control = html`<span class="${cls}" style="${box}" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">${this.native()}<button
     type="button"
     class="sds-select__button"

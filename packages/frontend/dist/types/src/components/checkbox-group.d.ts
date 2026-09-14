@@ -3,7 +3,7 @@ import { SdsFormElement } from '../lib/form-element.js';
 /** One box of the set. */
 export interface CheckChoice {
     label: string;
-    /** What it sends when it is ticked. The label where there is none. */
+    /** What it sends when it is on. The label where there is none. */
     value?: string;
     /** What ticking it commits to, where the label cannot say it in a line. */
     hint?: string;
@@ -11,19 +11,19 @@ export interface CheckChoice {
     disabled?: boolean;
 }
 export interface CheckboxGroupProps {
-    /** What is being asked. Rendered as the `<legend>`. */
+    /** The question. Rendered as the `<legend>`. */
     legend: string;
     /** Where the page already draws the question — a dialog's title, a heading
-        over the set. The legend is said and not drawn, so the set is still named
-        and the question is not on the page twice. */
+        over the set. The legend then speaks and does not draw, so the set keeps
+        its name and the question is not on the page twice. */
     legendSaidOnly?: boolean;
-    /** What the answers are called when the form is sent. One name for the whole
-        set, so a server reads them as a list. */
+    /** The name the answers travel under when the form submits. One name for the
+        whole set, so a server reads them as a list. */
     name: string;
     /** The boxes, each with its label and what it sends — set from script, being
         a list. */
     choices: readonly CheckChoice[];
-    /** Which of them are ticked, by value or by label where a choice has none. */
+    /** Which of them are on, by value or by label where a choice has none. */
     values?: readonly string[];
     /** What the whole set commits to, under the legend. */
     hint?: string;

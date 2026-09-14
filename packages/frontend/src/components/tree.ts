@@ -1,13 +1,11 @@
 /* sds-tree — a directory, as the shape it has on disk.
 
-   What a document draws as preformatted text with spaces counted by hand, and
-   what a project's own page shows of the files it is asking for. Written as a
+   What a document draws as preformatted text with hand-counted spaces, and
+   what a project's own page shows of the files it asks for. Written as a
    nested list, because that is what it is: a name, and what is under it.
 
-   It folds without a script. A `<details>` per directory, so a page rendered on
-   a server and served to a reader who runs nothing still opens and closes —
-   the reference this was taken from needed a framework's collapse and a second
-   icon set for the same. */
+   It folds without a script. A `<details>` per directory, so a page from a
+   server still opens and closes for a reader who runs nothing. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
@@ -16,9 +14,9 @@ import { define, SdsElement } from '../lib/element.ts';
 
 /** One name in the tree, and whatever is under it. */
 export interface TreeEntry {
-  /** What it is called. A directory is written with its slash — that is how a
-      reader tells an empty one from a file, and the only place it can be said:
-      an entry with nothing under it looks the same either way. */
+  /** Its name. A directory carries its slash. That is how a reader tells an
+      empty one from a file, and the only place to say it. An entry with
+      nothing under it looks the same either way. */
   label: string;
   /** What it is for, beside the name. The annotation a tree drawn as text
       lines up with spaces, and the reason those trees go stale. */
@@ -30,11 +28,11 @@ export interface TreeEntry {
 export interface TreeProps {
   /** The tree, set from script — being a list, and a nested one. */
   entries?: readonly TreeEntry[];
-  /** How deep it stands open. Nothing is dropped below it: what is deeper is
-      folded, which a reader can undo, rather than hidden, which they cannot. */
+  /** How deep it stands open. Nothing below it goes: what is deeper folds,
+      which a reader can undo, rather than hides, which they cannot. */
   level?: number;
-  /** Whether a folder and a file are marked as such. Off by default: the fold
-      says which is which wherever there is anything to fold, and a wall of
+  /** If a folder and a file carry a mark that says so. Off by default. The
+      fold says which is which wherever there is anything to fold. A wall of
       glyphs down the left of a short tree is decoration. */
   icons?: boolean;
 }
@@ -63,7 +61,7 @@ export class SdsTree extends SdsElement {
     return html`<sds-icon class="sds-tree__glyph" name="${branch ? 'actions-folder' : 'actions-file'}"></sds-icon>`;
   }
 
-  /* The name and whatever stands beside it — one row, whether it folds or not,
+  /* The name and whatever stands beside it — one row, with a fold or without,
      so a leaf's name begins where a directory's does. */
   private said(entry: TreeEntry, branch: boolean): TemplateResult {
     return html`<span class="sds-tree__mark">${

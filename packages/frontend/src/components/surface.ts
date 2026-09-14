@@ -1,12 +1,12 @@
 /* sds-surface — a plane holding a statement.
 
-   The system has no shadows, so a plane is told apart by its fill and a
-   hairline and by nothing else. A container must not share its corner with
+   The system has no shadows, so its fill and a hairline tell a plane apart,
+   and nothing else. A container must not share its corner with
    its contents, which is why `--radius-card` (6px) is one step larger than
    `--radius-control` (4px). Nothing here sets either by hand.
 
-   All three planes are its answers, the unfilled one included: what tells
-   this element from `sds-card` is not the box but where it goes — a card is
+   All three planes are its answers, the unfilled one included. What tells
+   this element from `sds-card` is not the box but where it goes. A card is
    a way into something, a surface stays and states. One box, one owner. */
 
 import { html, nothing, type TemplateResult } from 'lit';
@@ -16,15 +16,16 @@ import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 /** `raised` sits on the canvas and has to read as a plane. `sunken` is machine
     output: code, logs, structured content. `plain` is the hairline with no
-    fill, for a statement that stands on the canvas without leaving it. The
-    filled two are named for their fill — the tokens are `--surface-raised`
-    and `--surface-sunken` — rather than for the box, which is the same box. */
+    fill, for a statement that stands on the canvas and stays in it. The
+    filled two take their names from their fill — the tokens are
+    `--surface-raised` and `--surface-sunken` — not from the box, which is the
+    same box. */
 export type Plane = 'plain' | 'raised' | 'sunken';
 
-/** The class each plane is. `raised` writes `sds-panel`, which is the name the
-    class layer has always had for that fill and which a template writes by
-    hand — see the theme's sidebar. Renaming it would move one name into two
-    places to make a second name agree with a token. */
+/** The class each plane is. `raised` writes `sds-panel`, the name the class
+    layer has always had for that fill and which a template writes by hand —
+    see the theme's sidebar. A new name moves one name into two places to
+    make a second name agree with a token. */
 const PLANE: Record<Plane, string> = {
   plain: 'sds-plane',
   raised: 'sds-panel',
@@ -36,17 +37,17 @@ export interface SurfaceProps {
       panel above the page, `sunken` a well for machine output. */
   plane?: Plane;
   /** What the surface states, at the top of it. Written `heading` on the
-      element — `title` is the global attribute and would become a tooltip. */
+      element — `title` is the global attribute and becomes a tooltip. */
   title: string;
   /** The statement itself. Markup where a caller holds it, a sentence where
       a property is all there is. */
   body: string | TemplateResult;
   style?: string;
-  /** The tracked-out line over the title, where a set of these is numbered or
-      named as a set — `AUDIENCE 01`, `SOURCE`, `STEP 02`. */
+  /** The tracked-out line over the title, where a set of these has numbers
+      or names as a set — `AUDIENCE 01`, `SOURCE`, `STEP 02`. */
   label?: string;
-  /** A glyph above the label, where a set of cards is told apart before it is
-      read. It stands beside the card's own title, never alone. */
+  /** A glyph above the label, where a set of cards tells its cards apart at a
+      glance. It stands beside the card's own title, never alone. */
   icon?: IconId;
 }
 
@@ -66,16 +67,16 @@ export class SdsSurface extends SdsElement {
   declare label: string;
   declare icon?: IconId;
   /** What the surface states, at the top of it. Written `heading` on the
-      element and in the class: `title` is the global attribute and would
-      become a tooltip. */
+      element and in the class: `title` is the global attribute and becomes
+      a tooltip. */
   declare heading: string;
   declare body: string | TemplateResult;
-  /** Sizing for the plane where one instance needs it, written `box-style`.
+  /** A size for the plane where one instance needs it, written `box-style`.
       Nothing by default: the element fills the cell a wall stretches for it. */
   declare boxStyle: string;
 
-  /* The statement, where it was written between the tags. A plane on a product
-     surface holds a sentence somebody composed, which fits in a property; one
+  /* The statement, where it stood between the tags. A plane on a product
+     surface holds a sentence somebody composed, which fits in a property. One
      in a document holds whatever the passage was — paragraphs, a list, a block
      of its own — and that is markup or it is nothing. */
   private taken: Node[] | null = null;
@@ -96,13 +97,13 @@ export class SdsSurface extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    /* Over the title rather than in it: a set of cards that is numbered or
-       sourced says so in the label register, and a title that carries the
+    /* Over the title rather than in it. A set of cards with numbers or
+       sources says so in the label register. A title that carries the
        number reads as part of the sentence. */
     const label = this.label ? html`<div class="sds-label">${this.label}</div>` : undefined;
-    /* Above the label rather than beside the title: a glyph on the title's
-       line competes with it for the start of the card, and a set of cards is
-       scanned down its left edge. */
+    /* Above the label rather than beside the title. A glyph on the title's
+       line competes with it for the start of the card. A reader scans a set
+       of cards down its left edge. */
     const icon = this.icon
       ? html`<div class="sds-surface-icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`
       : undefined;

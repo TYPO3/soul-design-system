@@ -1,15 +1,15 @@
 /* sds-textarea — an answer of more than one line.
 
    Its own element and not a taller field, for the reason a select is its own
-   element: what it shares with a text field is the sunken box, and what it does
-   not share is everything a caller writes. A textarea has lines, it has a
-   direction it may be dragged in, its value can hold a newline, and it has
-   nothing a `pattern` or an `inputmode` could mean.
+   element. What it shares with a text field is the sunken box, and what it does
+   not share is everything a caller writes. A textarea has lines and a direction
+   to drag it in, its value can hold a newline, and `pattern` and `inputmode`
+   mean nothing to it.
 
-   A real `<textarea>`, assembled as a string: Lit refuses a binding between the
-   tags of a raw text element, and its content is the only place a value lives
+   A real `<textarea>`, assembled as a string. Lit refuses a binding between the
+   tags of a raw text element. Its content is the only place a value lives
    where a file with no script still shows it. So the listener sits on the box
-   around it and is reached by bubbling. */
+   around it, and the event bubbles up to it. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -18,26 +18,26 @@ import { fieldBox, type FieldSize } from '../lib/field-box.ts';
 import { fieldRow } from '../lib/field-row.ts';
 import { SdsFormElement } from '../lib/form-element.ts';
 
-/** What has to be escaped in an attribute value or in text content — the value
-    a user typed goes into both. */
+/** The characters an attribute value and text content cannot hold raw — the
+    value a user typed goes into both. */
 const esc = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-/** Which way a reader may drag the corner. `vertical` is the default because a
+/** Which way a reader can drag the corner. `vertical` is the default because a
     box that widens breaks the column it stands in. */
 export type TextareaResize = 'vertical' | 'none' | 'both';
 
 export interface TextareaProps {
-  /** Lines. What the box is *worth* asking for, not a limit on the answer. */
+  /** Lines. The room the box *deserves*, not a limit on the answer. */
   rows?: number;
   /** What is in it — its value when `filled`, its placeholder when not. */
   value?: string;
   /** The visible label, which turns this into a control in a *form*: label
       above, hint under, error under both. */
   caption?: string;
-  /** What it is called for anything that cannot see what it sits beside. */
+  /** Its name, for anything that cannot see what it sits beside. */
   label?: string;
-  /** What the value is called when the form is sent. */
+  /** The name the value travels under when the form submits. */
   name?: string;
   /** The control's id, so the label points at it and an error summary can. */
   fieldId?: string;
@@ -52,9 +52,9 @@ export interface TextareaProps {
   disabled?: boolean;
   /** Shown and sent, and not editable. */
   readonly?: boolean;
-  /** How much may be typed — the browser's own limit. */
+  /** How much a reader can type — the browser's own limit. */
   maxlength?: number;
-  /** What the browser may fill in. */
+  /** What the browser can fill in. */
   autocomplete?: string;
   /** Which way the corner drags. */
   resize?: TextareaResize;
@@ -63,7 +63,7 @@ export interface TextareaProps {
   size?: FieldSize;
   /** The width it asks for, in pixels. The attribute is `min-width`. */
   minWidth?: number;
-  /** The value is the reader's, not a prompt. Typing sets it too. */
+  /** The value is the reader's, not a prompt. A keystroke sets it too. */
   filled?: boolean;
   /** Force the states a still picture cannot hold. */
   focused?: boolean;
@@ -135,8 +135,8 @@ export class SdsTextarea extends SdsFormElement {
     this.invalid = false;
   }
 
-  /* What the markup came with: what the element is drawn holding, and what a
-     reset puts back. Read once, before anything is typed. */
+  /* What the markup came with: what the element holds at first, and what a
+     reset puts back. Read once, before the first keystroke. */
   #initial?: string;
 
   protected override willUpdate(): void {
@@ -144,12 +144,11 @@ export class SdsTextarea extends SdsFormElement {
   }
 
   protected override updated(): void {
-    /* The control is assembled as a string, so any attribute that changes —
-       the placeholder leaving, the invalid mark arriving — replaces the element
-       and with it whatever was typed. Its content is the *default* a reset puts
-       back; what is actually in it is written here, after the render. The guard
-       is what keeps the caret still: assigning the same string moves it to the
-       end. */
+    /* The control is a string, so any attribute that changes replaces the
+       element and with it the typed text. Its content is the *default* a
+       reset puts back; the real
+       value goes in here, after the render. The guard keeps the caret still:
+       the same string assigned again moves it to the end. */
     const area = this.querySelector('textarea');
     const written = this.filled ? this.value : '';
     if (area && area.value !== written) area.value = written;
@@ -165,8 +164,8 @@ export class SdsTextarea extends SdsFormElement {
     const area = event.target as HTMLTextAreaElement;
     this.value = area.value;
     this.filled = area.value !== '';
-    /* Typing answers whatever was wrong. The caller decides what is wrong
-       next; leaving the old sentence standing would block the form on a value
+    /* A keystroke answers whatever was wrong. The caller decides what is
+       wrong next; the old sentence left in place blocks the form on a value
        nobody has judged yet. */
     this.error = '';
     this.dispatchEvent(new CustomEvent<string>('sds-input', { detail: area.value, bubbles: true, composed: true }));

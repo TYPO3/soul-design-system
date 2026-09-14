@@ -5,9 +5,9 @@ import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
 /** A link in a column. `external` gets the glyph and opens away; `icon` is
     for the marks a footer is the usual home of — a repository, a chat, a
-    feed. In a column the glyph leads the label; as a mark in `marks` it is
-    the whole of the link, which is the one place in this system a brand glyph
-    stands alone. */
+    feed. In a column the glyph leads the label. As a mark in `marks` it is
+    the whole of the link, the one place in this system a brand glyph stands
+    alone. */
 export interface FooterLink {
     label: string;
     href?: string;
@@ -15,10 +15,10 @@ export interface FooterLink {
     icon?: IconId;
 }
 /** One column: what it collects, and what is in it. `href` is the page the
-    heading itself names, where the thing it collects has one — a section with
-    a page of its own is reachable from its column or from nowhere, and
-    repeating its name as the first entry under it is a column saying the same
-    word twice. */
+    heading itself names, where the thing it collects has one. A section with
+    a page of its own is reachable from its column or from nowhere. Its name
+    again as the first entry under it is a column that says the same word
+    twice. */
 export interface FooterGroup {
     label: string;
     href?: string;
@@ -26,35 +26,35 @@ export interface FooterGroup {
 }
 export interface FooterProps {
     /** The columns, where there are any. A page with none is a page with none:
-        the block goes and what is left closes up. */
+        the block goes and the rest closes up. */
     groups: readonly FooterGroup[];
     /** What this is. Stated, never implied — and never whose it is. */
     note: string;
     /** The machine's name for it, set as the machine's. A product, a package,
         a repository — verbatim, and never title-cased. It is the name in the
-        lockup: the end of a site says which site, and the mark alone is a
-        picture the reader has to already know. */
+        lockup. The end of a site says which site, and the mark alone is a
+        picture the reader must already know. */
     product?: string;
-    /** The mark, as the file it is drawn in — the same file the bar carries, and
-        shown the same way, which is linked like every other picture. */
+    /** The mark, as the file that holds the drawing. The same file the bar
+        carries, shown the same way: linked like every other picture. */
     signet?: string;
     /** Whose product it is, where that is a second name — the first half of the
         lockup, with the accent rule between the two. The bar's own form. */
     brand?: string;
-    /** What the reader is reading, where that has a version. It stands in the
-        closing line rather than in the bar: a version is a fact about the site
+    /** What the reader reads, where that has a version. It stands in the
+        closing line rather than in the bar. A version is a fact about the site
         and not a control, and at the top it takes room from the ones that are.
-        Mono, being something the machine names. */
+        Mono, as something the machine names. */
     version?: string;
     /** Whose it is and from when. A separate line from the note because it is a
-        separate claim, and a footer that runs the two together reads as though
-        the sentence were part of the notice. */
+        separate claim. A footer that runs the two together reads as though the
+        sentence were part of the notice. */
     copyright?: string;
     /** What has to travel with it: a licence, a version, a legal page. */
     meta?: readonly FooterLink[];
     /** Where else it lives — a repository, a chat, a feed. At the far end of the
-        line, because they are the one thing in a footer a reader looks for by
-        position rather than by reading. */
+        line: they are the one thing in a footer a reader finds by position
+        rather than by the words. */
     marks?: readonly FooterLink[];
 }
 export declare class SdsFooter extends SdsElement {

@@ -1,14 +1,14 @@
 /* sds-footer — how a page ends.
 
-   One shape, and every part of it falls away when nothing is set: a site of
-   many pages owes the rest of itself in columns, a single screen owes what it
+   One shape, and every part of it falls away when nothing sets it. A site of
+   many pages owes the rest of itself in columns. A single screen owes what it
    is and the way out of it, and that is the same footer with less in it. No
-   variant to choose — a page states what it has, and the ending it gets is
-   what it stated.
+   variant to choose — a page states what it has, and gets the ending it
+   stated.
 
-   The last thing said is what the product is, never whose it is — a required
-   property rather than a slot a page may forget to fill, because a page that
-   says nothing about itself leaves a reader to guess. */
+   The last thing said is what the product is, never whose it is. A property
+   the type demands rather than a slot a page can forget: a page that says
+   nothing about itself leaves a reader to guess. */
 
 import { html, type TemplateResult } from 'lit';
 import './link.ts';
@@ -18,9 +18,9 @@ import { define, SdsElement } from '../lib/element.ts';
 
 /** A link in a column. `external` gets the glyph and opens away; `icon` is
     for the marks a footer is the usual home of — a repository, a chat, a
-    feed. In a column the glyph leads the label; as a mark in `marks` it is
-    the whole of the link, which is the one place in this system a brand glyph
-    stands alone. */
+    feed. In a column the glyph leads the label. As a mark in `marks` it is
+    the whole of the link, the one place in this system a brand glyph stands
+    alone. */
 export interface FooterLink {
   label: string;
   href?: string;
@@ -29,10 +29,10 @@ export interface FooterLink {
 }
 
 /** One column: what it collects, and what is in it. `href` is the page the
-    heading itself names, where the thing it collects has one — a section with
-    a page of its own is reachable from its column or from nowhere, and
-    repeating its name as the first entry under it is a column saying the same
-    word twice. */
+    heading itself names, where the thing it collects has one. A section with
+    a page of its own is reachable from its column or from nowhere. Its name
+    again as the first entry under it is a column that says the same word
+    twice. */
 export interface FooterGroup {
   label: string;
   href?: string;
@@ -41,35 +41,35 @@ export interface FooterGroup {
 
 export interface FooterProps {
   /** The columns, where there are any. A page with none is a page with none:
-      the block goes and what is left closes up. */
+      the block goes and the rest closes up. */
   groups: readonly FooterGroup[];
   /** What this is. Stated, never implied — and never whose it is. */
   note: string;
   /** The machine's name for it, set as the machine's. A product, a package,
       a repository — verbatim, and never title-cased. It is the name in the
-      lockup: the end of a site says which site, and the mark alone is a
-      picture the reader has to already know. */
+      lockup. The end of a site says which site, and the mark alone is a
+      picture the reader must already know. */
   product?: string;
-  /** The mark, as the file it is drawn in — the same file the bar carries, and
-      shown the same way, which is linked like every other picture. */
+  /** The mark, as the file that holds the drawing. The same file the bar
+      carries, shown the same way: linked like every other picture. */
   signet?: string;
   /** Whose product it is, where that is a second name — the first half of the
       lockup, with the accent rule between the two. The bar's own form. */
   brand?: string;
-  /** What the reader is reading, where that has a version. It stands in the
-      closing line rather than in the bar: a version is a fact about the site
+  /** What the reader reads, where that has a version. It stands in the
+      closing line rather than in the bar. A version is a fact about the site
       and not a control, and at the top it takes room from the ones that are.
-      Mono, being something the machine names. */
+      Mono, as something the machine names. */
   version?: string;
   /** Whose it is and from when. A separate line from the note because it is a
-      separate claim, and a footer that runs the two together reads as though
-      the sentence were part of the notice. */
+      separate claim. A footer that runs the two together reads as though the
+      sentence were part of the notice. */
   copyright?: string;
   /** What has to travel with it: a licence, a version, a legal page. */
   meta?: readonly FooterLink[];
   /** Where else it lives — a repository, a chat, a feed. At the far end of the
-      line, because they are the one thing in a footer a reader looks for by
-      position rather than by reading. */
+      line: they are the one thing in a footer a reader finds by position
+      rather than by the words. */
   marks?: readonly FooterLink[];
 }
 
@@ -116,29 +116,29 @@ export class SdsFooter extends SdsElement {
   }
 
   /* What a column names, where that is a page. Not `sds-link`: the heading
-     keeps the label's register and the label's colour, and at the links' it
+     keeps the label's register and the label's colour. At the links' it
      reads as the first entry of the list it names. The trail above a heading
-     is written the same way and for the same reason — see `.sds-crumbs a`. */
+     takes the same route for the same reason — see `.sds-crumbs a`. */
   private static heading(group: FooterGroup): TemplateResult {
     return group.href
       ? html`<a class="sds-label sds-footer__heading" href="${group.href}">${group.label}</a>`
       : html`<div class="sds-label">${group.label}</div>`;
   }
 
-  /* A mark, at the end of the line where marks are looked for: the glyph
-     alone, at the size a mark is read at, named for whoever cannot see it.
-     One with no glyph in the set is the labelled link it always was — the
-     alternative is an account nobody can reach. */
+  /* A mark, at the end of the line where a reader looks for marks. The glyph
+     alone, at a mark's size, named for whoever cannot see it. One with no
+     glyph in the set is the labelled link it always was — the alternative is
+     an account nobody can reach. */
   private static mark(item: FooterLink): TemplateResult {
     return item.icon
       ? html`<sds-link bare label="${item.label}" href="${item.href ?? '#'}" ?external="${item.external ?? false}" icon="${item.icon}"></sds-link>`
       : SdsFooter.link(item);
   }
 
-  /* The mark and the name, in the lockup the bar draws — one construction, so
-     the two ends of a site cannot say the name two ways. The mark is hidden
-     from a reader who cannot see it rather than announced: the wordmark beside
-     it already spells what it says. */
+  /* The mark and the name, in the lockup the bar draws. One construction, so
+     the two ends of a site cannot say the name two ways. The mark hides from
+     a reader who cannot see it rather than announces itself: the wordmark
+     beside it already spells what it says. */
   private lockup(): TemplateResult | '' {
     if (!this.signet && !this.product) return '';
     return html`<span class="sds-lockup">
@@ -156,9 +156,9 @@ export class SdsFooter extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    /* What the site is, before the list of its pages: a footer opening with
-       the mark and the sentence reads as the end of that site, and one opening
-       with a column of links reads as more navigation. */
+    /* What the site is, before the list of its pages. A footer that opens
+       with the mark and the sentence reads as the end of that site. One that
+       opens with a column of links reads as more navigation. */
     const brand = this.lockup();
     const said = brand || this.note
       ? html`<div class="sds-footer__brand">
@@ -167,9 +167,9 @@ export class SdsFooter extends SdsElement {
     </div>`
       : '';
 
-    /* Each block goes when there is nothing in it, rather than standing as an
-       empty box the next one is spaced away from: a footer of one line is one
-       line, not a line under a hand's width of nothing. */
+    /* Each block goes when there is nothing in it, rather than stands as an
+       empty box with a gap under it. A footer of one line is one line, not a
+       line under a hand's width of nothing. */
     const closing = this.copyright || this.version || this.meta.length || this.marks.length;
     const top = said || this.groups.length;
 

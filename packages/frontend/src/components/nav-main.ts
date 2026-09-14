@@ -1,13 +1,13 @@
-/* sds-nav-main — the bar at the top of a page, and what it does as it runs out.
+/* sds-nav-main: the bar at the top of a page, and what it does as it runs out.
 
-   It is handed the site's whole menu, finished: every entry with its label,
-   its target, what is under it and what is true of it on this page. The bar
-   then draws as much of that as it can — the front doors in the row, the pages
-   of one of them in a panel under it, and the whole tree in a drawer once the
-   row has nothing left to give. One list, read three ways.
+   The bar gets the site's whole menu. Every entry with its label, its target,
+   what is under it and what is true of it on this page. It draws as much of
+   that as it can. The front doors in the row, and the pages of one of them in
+   a panel under it. The whole tree in a drawer once the row has nothing
+   left. One list, read three ways.
 
-   Measured, never declared: a bar holds a product name for as long as the
-   product is called, so a breakpoint written here is wrong on the next site. */
+   A measurement, never a declaration. A bar holds a product name as long as
+   the product has one, so a breakpoint here is wrong on the next site. */
 
 import { html, nothing, type TemplateResult, type PropertyValues } from 'lit';
 import { lines } from '../lib/template.ts';
@@ -21,15 +21,15 @@ import './overlay.ts';
 import './search.ts';
 import './theme.ts';
 
-/** Where a section's pages stop being a drop under it and become a wall across
-    the bar. Eight is what a reader takes in without scanning; more than that in
-    one column is a list they read rather than a set they pick from. */
+/** Where a section's pages stop as a drop under it and become a wall across
+    the bar. Eight is what a reader takes in at a glance. More than that in
+    one column is a list to read, not a set to pick from. */
 const WALL = 8;
 
 /** How long a panel stays open after the pointer has left the section. The way
-    to a panel crosses the row it hangs from, so a menu that closes the moment
-    the pointer is off the pill is one that cannot be reached with a mouse at
-    all. Long enough to cross a gap, short enough not to hang over the page. */
+    to a panel crosses the row it hangs from. A menu that closes the moment
+    the pointer is off the pill is out of reach for a mouse. Long enough to
+    cross a gap, short enough not to hang over the page. */
 const GRACE = 200;
 
 /** Distinct ids per instance: the toggle names the drawer it opens, and two
@@ -83,49 +83,49 @@ export class SdsNavMain extends SdsNav {
   /** Where the mark goes: the way home, from anywhere on the site. */
   declare home: string;
   /** The mark, as a file to link. The 20–31px drawing, since that is the size
-      a bar gives it — a mark picked for another box is redrawn, never scaled. */
+      a bar gives it. A mark for another box is a new drawing, never a scale. */
   declare signet: string;
   /** Who publishes this, which is the word that stays across every site. */
   declare brand: string;
-  /** What this one is called, set beside the brand. A site with only a brand
-      leaves it off rather than repeating the brand in a lighter weight. */
+  /** The product's name, beside the brand. A site with only a brand leaves it
+      off, and does not repeat the brand in a lighter weight. */
   declare product: string;
-  /** Whether the bar carries a search field. A field with no `index` searches
-      nothing, which is a specimen rather than a site. */
+  /** If the bar carries a search field. A field with no `index` searches
+      nothing, which is a specimen, not a site. */
   declare search: boolean;
-  /** Where the index is, relative to the page. Setting it is asking for the
-      field as well — a site that has an index has a search. */
+  /** Where the index is, relative to the page. It asks for the field as
+      well: a site with an index has a search. */
   declare index: string;
-  /** The site, as one entry with everything under it: the front doors in the
+  /** The site, as one entry with everything under it. The front doors in the
       row, the pages of one of them in the panel below it, and the whole of it
-      in the drawer. The same entry a rail is given, one level up — a section
-      holds pages, and the site holds sections. */
+      in the drawer. The same entry a rail gets, one level up. A section holds
+      pages, and the site holds sections. */
   declare menu: MenuEntry;
-  /** The same page in other languages, each entry naming its own — `lang` is
-      what makes a reader hear "Deutsch" in German rather than in the voice the
-      page is set in. With none, the bar carries no language control at all: a
-      site in one language does not ask which one. */
+  /** The same page in other languages, each entry with its own `lang`. That
+      makes a reader hear "Deutsch" in German, not in the voice of the page.
+      With none, the bar carries no language control: a site in one language
+      does not ask which one. */
   declare languages: readonly DropdownChoice[];
-  /** What the toggle is called, for a reader who cannot see it is a menu. */
+  /** The toggle's name, for a reader who cannot see that it is a menu. */
   declare label: string;
-  /** Where `sds-theme` keeps the reader's choice, where it keeps one. Written
-      onto it only when a bar names one: an empty attribute is a name too, and
-      it is not the one the pre-paint script reads. */
+  /** Where `sds-theme` keeps the reader's choice, where it keeps one. Set on
+      it only when a bar names one. An empty attribute is a name too, and not
+      the one the pre-paint script reads. */
   declare themeKey: string;
   declare open: boolean;
-  /** Which section has its panel open, or -1. One at a time: two panels over
-      one page is a reader working out which of them the bar is answering. */
+  /** Which section has its panel open, or -1. One at a time. Two panels over
+      one page leave a reader to work out which one the bar answers. */
   declare opened: number;
-  /** How far into the menu the drawer has been stepped: the entries walked
-      through, the last of them being the level on screen. */
+  /** How far into the menu the drawer has stepped: the entries on the way,
+      the last of them the level on screen. */
   declare stack: MenuEntry[];
   declare foldNav: boolean;
   declare foldSearch: boolean;
 
   private readonly drawerId = `sds-bar-drawer-${++seq}`;
 
-  /** What the sections and the field need in the row. Zero means "not measured
-      yet", and each can only be measured where it is — standing in the row. */
+  /** What the sections and the field need in the row. Zero means "no
+      measurement yet". Each measures only where it is: in the row. */
   private needNav = 0;
   private needSearch = 0;
   private watch?: ResizeObserver;
@@ -133,13 +133,13 @@ export class SdsNavMain extends SdsNav {
   /** The close a pointer asked for, still waiting out its grace. */
   private leaving?: ReturnType<typeof setTimeout>;
   /** Which way the drawer has just stepped, and how tall it was before it did.
-      Both are read once, by the render that has to show the step. */
+      The render that shows the step reads both once. */
   private stepped: 'in' | 'out' | null = null;
   private stood = 0;
   /** The links a server wrote between the tags, moved into the row. A rendered
-      site resolves its own navigation before the page is sent, and passing that
-      back through `items` would encode and resolve it a second time — so they
-      are kept as written, `target`, `rel` and current mark intact. */
+      site resolves its own navigation before it sends the page. A pass back
+      through `items` encodes and resolves it a second time. So they stay as
+      written, `target`, `rel` and current mark intact. */
   private taken: Element[] = [];
 
   constructor() {
@@ -163,15 +163,14 @@ export class SdsNavMain extends SdsNav {
 
   override connectedCallback(): void {
     /* Before Lit renders into this element, because after it the children are
-       its own output. Whitespace and comments are dropped: what a row is made
-       of is its links. */
+       its own output. Whitespace and comments go: a row is its links. */
     const written = this.lifted().filter((node): node is Element => node.nodeType === 1);
     if (written.length) this.taken = written;
     super.connectedCallback();
     this.watch = new ResizeObserver(() => this.decide());
-    /* Measured in the fallback face, the sections come out narrower than they
-       will be — so the answer is asked for again once the real one is there,
-       from the one state they can be measured in. */
+    /* In the fallback face, the sections measure narrower than they will be.
+       So the bar asks again once the real face is there, from the one state
+       that gives a measurement. */
     void document.fonts?.ready.then(() => {
       this.needNav = 0;
       this.needSearch = 0;
@@ -197,18 +196,17 @@ export class SdsNavMain extends SdsNav {
     this.reset();
   };
 
-  /* A drawer opened to get somewhere has done its job when a page is chosen.
-     Only a link: everything else in there — a fold, a heading, the field — is
-     the reader still looking. */
+  /* A drawer opened to get somewhere has done its job on the choice of a
+     page. Only a link: everything else in there, a fold, a heading, the
+     field, is the reader still on the way. */
   private readonly onFollow = (event: Event): void => {
     if ((event.target as Element | null)?.closest('a')) this.open = false;
   };
 
-  /** Where the drawer opens: on the level the reader is standing on, which is
-      the entry holding the page they are reading. A menu that always opened at
-      the top would ask somebody three sections deep to walk back down to where
-      they already were — and the way up is one press, which the way down is
-      not. */
+  /** Where the drawer opens: on the reader's own level, the entry that holds
+      their page. A menu that always opens at the top asks somebody three
+      sections deep to walk back down to where they were. The way up is one
+      press, and the way down is not. */
   private path(): MenuEntry[] {
     const walk = (entry: MenuEntry, trail: MenuEntry[]): MenuEntry[] | null => {
       for (const child of entry.items ?? []) {
@@ -233,7 +231,7 @@ export class SdsNavMain extends SdsNav {
   private onKey(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
       if (this.opened >= 0) {
-        /* The panel first, and the focus to the fold that opened it: escape
+        /* The panel first, and the focus to the fold that opened it. Escape
            puts a reader back where they pressed, not at the top of the bar. */
         const at = this.opened;
         this.opened = -1;
@@ -251,24 +249,24 @@ export class SdsNavMain extends SdsNav {
     this.walk(event);
   }
 
-  /** The rows of whichever list the key was pressed in: a panel under one
-      section, or the drawer holding the whole menu. */
+  /** The rows of the list the key press happened in: a panel under one
+      section, or the drawer with the whole menu. */
   private list(from: Element): HTMLElement[] {
     const drawer = from.closest('.sds-bar__drawer');
     const scope = drawer ?? from.closest('.sds-bar__section');
     if (!scope) return [];
-    /* In a section it is the panel's pages and not the section's own link: the
-       pill is in the row a reader tabs along, and stepping down into a list
-       that begins with the thing above it is a step that goes nowhere. */
+    /* In a section it is the panel's pages and not the section's own link.
+       The pill is in the row a reader tabs along. A step down into a list
+       that starts with the thing above it is a step that goes nowhere. */
     const rows = drawer
-      ? /* The folds count as rows: a tree read with the arrows is read as it
-           stands, and a closed section is one line until it is opened. */
+      ? /* The folds count as rows. The arrows read a tree as it stands, and a
+           closed section is one line until it opens. */
         scope.querySelectorAll<HTMLElement>('.sds-rail__group > summary, .sds-rail__item, .sds-pill, .sds-bar__link')
       : scope.querySelectorAll<HTMLElement>('.sds-bar__panel .sds-bar__link');
-    /* A row inside a closed fold is not a row: the browser will not focus it,
+    /* A row inside a closed fold is not a row. The browser will not focus it,
        and a list that counts it steps onto nothing. Skipped contents keep
-       their boxes, so the fold has to be asked rather than the geometry — and
-       the fold's own summary is the row that stands for it. */
+       their boxes, so the question goes to the fold, not the geometry. The
+       fold's own summary is the row that stands for it. */
     return [...rows].filter((row) => {
       if (!row.getClientRects().length) return false;
       const shut = row.closest('details:not([open])');
@@ -277,7 +275,7 @@ export class SdsNavMain extends SdsNav {
   }
 
   /** Down a list of pages and back up it. The arrow that opens a panel steps
-      into it in the same breath, and Tab is left alone: it is how a reader
+      into it in the same breath. Tab stays as it is: it is how a reader
       leaves. */
   private walk(event: KeyboardEvent): void {
     const keys = ['ArrowDown', 'ArrowUp', 'Home', 'End'];
@@ -315,9 +313,9 @@ export class SdsNavMain extends SdsNav {
 
   protected override choose(index: number): void {
     super.choose(index);
-    /* Choosing is what the drawer was opened for. It closes whether or not the
-       item moved anything, because a panel left standing over the page after a
-       press reads as a press that did nothing. */
+    /* A choice is what the drawer opened for. It closes even if the item
+       moved nothing. A panel over the page after a press reads as a press
+       that did nothing. */
     this.open = false;
   }
 
@@ -335,19 +333,19 @@ export class SdsNavMain extends SdsNav {
 
     const nav = this.querySelector<HTMLElement>('.sds-bar__nav');
     if (nav && !this.foldNav && !this.needNav) {
-      /* From the items, not from the box around them: in the drawer that box
-         is as wide as the bar, and in the row only as wide as it was allowed
-         to be. The items are their own width in both. */
+      /* From the items, not from the box around them. In the drawer that box
+         is as wide as the bar, and in the row only as wide as it got. The
+         items are their own width in both. */
       const items = boxes(nav);
       if (!items.length) return;
       const itemGap = parseFloat(getComputedStyle(nav).columnGap) || 0;
       this.needNav = items.reduce((sum, el) => sum + widthOf(el), 0) + itemGap * (items.length - 1);
     }
-    /* A field just put back in the row has not drawn itself yet: the host
-       stands there at no width and the gap beside it is measured anyway, which
-       is one gap the folded state does not have. The two then disagree by that
-       gap and fold each other back and forth forever, so the answer waits for
-       the box. */
+    /* A field just put back in the row has not drawn itself yet. The host
+       stands there at no width, and the gap beside it counts anyway, one gap
+       the folded state does not have. The two then disagree by that gap and
+       fold each other back and forth forever. So the answer waits for the
+       box. */
     const host = this.querySelector<HTMLElement & { updateComplete?: Promise<unknown> }>('sds-search');
     const field = this.querySelector<HTMLElement>('.sds-search');
     if (host && !field) {
@@ -356,10 +354,9 @@ export class SdsNavMain extends SdsNav {
     }
     if (field && !this.foldSearch && !this.needSearch) this.needSearch = widthOf(field);
 
-    /* Everything in the row that never folds. The two that do and the button
-       that stands there once they have are taken back out, so the floor is the
-       same number in every state and there is no width where two of them
-       disagree and it oscillates. */
+    /* Everything in the row that never folds. The two that do, and the button
+       that stands there once they have, come back out. So the floor is the
+       same number in every state, and no width makes two states disagree. */
     const standing = boxes(row);
     let used = standing.reduce((sum, el) => sum + widthOf(el), 0) + gap * (standing.length - 1);
     if (nav && !this.foldNav) used -= widthOf(nav) + gap;
@@ -368,18 +365,18 @@ export class SdsNavMain extends SdsNav {
     if (toggle) used -= widthOf(toggle) + endGap;
 
     const room = row.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - used;
-    /* A square of the control height, said by the stylesheet — asked of the
-       token rather than of the button, which is not there to be measured in
-       the state that is deciding whether to draw it. */
+    /* A square of the control height, from the stylesheet. The token answers,
+       not the button, which is not there in the state that decides if it
+       draws. */
     const button = parseFloat(getComputedStyle(this).getPropertyValue('--control-height')) || 0;
     const wantsSearch = this.search || Boolean(this.index);
     const forNav = this.needNav ? this.needNav + gap : 0;
     const forSearch = wantsSearch ? this.needSearch + endGap : 0;
     const forButton = button + endGap;
 
-    /* The states, widest first, and the first that fits is the one. Ordered by
-       what the bar can best do without, and read in order so that it is
-       monotonic: something put away stays away as the window narrows. */
+    /* The states, widest first, and the first that fits is the one. In the
+       order of what the bar can best do without, so the result is monotonic.
+       What goes away stays away as the window narrows. */
     const fits = (need: number): boolean => need <= room;
     let foldSearch = false;
     let foldNav = false;
@@ -390,8 +387,8 @@ export class SdsNavMain extends SdsNav {
     if (foldSearch === this.foldSearch && foldNav === this.foldNav) return;
     this.foldSearch = foldSearch;
     this.foldNav = foldNav;
-    /* A drawer that has just given everything back would leave the toggle
-       pressed with nothing to press it for. */
+    /* A drawer that has just given everything back leaves the toggle pressed
+       with nothing to press it for. */
     if (!foldNav && !foldSearch) this.open = false;
   }
 
@@ -400,10 +397,9 @@ export class SdsNavMain extends SdsNav {
   }
 
   /** The languages, as the one control at this end that is not a mode. The
-      button says the code the reader is in and nothing else — the row is short
-      of width before it is short of anything, and the names are one press
-      away, each in its own language. Hung from the end, or a list opened from
-      the corner runs off the page. */
+      button says the reader's code and nothing else. The row is short of
+      width first, and the names are one press away, each in its own language.
+      Hung from the end, or a list from the corner runs off the page. */
   private languages_(): TemplateResult {
     const current = this.languages.find((entry) => entry.current) ?? this.languages[0];
     return html`<sds-dropdown
@@ -416,9 +412,9 @@ export class SdsNavMain extends SdsNav {
     ></sds-dropdown>`;
   }
 
-  /** The sections of the menu that stand in the row. Which of a site's
-      sections are its front doors is the one thing its tree cannot say, so the
-      menu says it; with none named, every section is one. */
+  /** The sections of the menu that stand in the row. Which sections are the
+      front doors is the one thing a tree cannot say, so the menu says it. With
+      none named, every section is one. */
   private doors(): MenuEntry[] {
     const sections = [...(this.menu.items ?? [])];
     const named = sections.filter((entry) => entry.front);
@@ -431,10 +427,10 @@ export class SdsNavMain extends SdsNav {
       panel works before any script and the bar only has to say which one is
       open.
 
-      A pointer opens it too, and on the whole section rather than the marker
-      alone: a menu that only answers a press asks a reader who is already
-      moving to stop and aim. Nothing is lost without it — the marker is the
-      control, and the pointer is a shortcut to the same state. */
+      A pointer opens it too, on the whole section and not the marker alone. A
+      menu that answers only a press asks a reader in motion to stop and aim.
+      Nothing goes without it. The marker is the control, and the pointer is a
+      shortcut to the same state. */
   private door(entry: MenuEntry, at: number): TemplateResult {
     const here = Boolean(entry.current || entry.here);
     const pill = html`<a
@@ -445,12 +441,11 @@ export class SdsNavMain extends SdsNav {
       aria-current="${entry.current ? 'page' : here ? 'true' : nothing}"
     >${entry.label}</a>`;
     const under = entry.items ?? [];
-    /* Wrapped whether or not it holds anything: the section is the shape the
-       row draws, and one shape marks the current one. */
+    /* Wrapped even if it holds nothing. The section is the shape the row
+       draws, and one shape marks the current one. */
     if (!under.length) return html`<div class="sds-bar__section">${pill}</div>`;
-    /* A drop where the section is a handful of pages, a wall where it is more
-       than a reader takes in at a glance: the same panel, laid out by what is
-       in it. */
+    /* A drop where the section is a few pages, a wall where it is more than a
+       glance takes in. The same panel, laid out by its content. */
     const wall = under.length > WALL;
     return html`<div
       class="${wall ? 'sds-bar__section' : 'sds-bar__section sds-bar__section--drop'}"
@@ -471,11 +466,11 @@ export class SdsNavMain extends SdsNav {
     </div>`;
   }
 
-  /** A page in a panel. Two levels and no more: the row is the site's own, the
-      panel is one section's pages, and a third level under a bar is a sitemap
-      hanging off a menu — what the drawer opens is where a whole tree is read.
-      Where the rows break into columns is the stylesheet's: a wall is one list,
-      and how many columns it takes is a question about the room. */
+  /** A page in a panel. Two levels and no more. The row is the site's own, and
+      the panel is one section's pages. A third level under a bar is a sitemap
+      on a menu; the drawer is where a reader reads a whole tree. The
+      stylesheet decides where the rows break into columns. A wall is one
+      list, and its column count is a question about the room. */
   private page(entry: MenuEntry): TemplateResult {
     return html`<a
       class="${entry.current ? 'sds-bar__link is-active' : 'sds-bar__link'}"
@@ -484,11 +479,11 @@ export class SdsNavMain extends SdsNav {
     >${entry.label}</a>`;
   }
 
-  /** A pointer over a section opens it, and leaving closes it — but only while
-      the sections are standing in the row. In the drawer they are a list being
-      scrolled past, and a panel that opens under a finger on its way somewhere
-      is a menu answering a movement nobody made. A mouse only, for the same
-      reason: a tap is a press, and the marker beside the link is what a press
+  /** A pointer over a section opens it, and a pointer off it closes it, only
+      while the sections stand in the row. In the drawer they are a list a
+      reader scrolls past. A panel that opens under a finger on its way
+      somewhere answers a movement nobody made. A mouse only, for the same
+      reason. A tap is a press, and the marker beside the link is what a press
       is for. */
   private hover(at: number, event: PointerEvent): void {
     if (this.foldNav || event.pointerType !== 'mouse') return;
@@ -501,8 +496,8 @@ export class SdsNavMain extends SdsNav {
   }
 
   /** Which panel a press left open. The event fires for the bar's own render
-      as well as for a reader's press, and saying the same thing twice is what
-      keeps the two from arguing. */
+      and for a reader's press. The same statement twice keeps the two in
+      agreement. */
   private fold(event: Event, at: number): void {
     const open = (event.target as HTMLDetailsElement).open;
     if (open) this.opened = at;
@@ -512,13 +507,12 @@ export class SdsNavMain extends SdsNav {
   /** One level of the menu: what the drawer shows once the row has given the
       sections up.
 
-      A level and not the tree. A phone is a window onto a long list, and the
-      whole site unfolded into one column is forty rows a reader scrolls past
-      to reach the four that are the site. So the drawer starts at the top
-      level and steps *into* a section — the way in is a control of its own,
-      beside the link, because a section is both a page to read and a place to
-      go through. The way back is the row above the list, naming what it
-      returns to rather than saying "back" to a reader who has forgotten. */
+      A level and not the tree: the whole site in one column is forty rows a
+      reader scrolls past for the four that matter. So the drawer starts at
+      the top level and steps *into* a section. The way in is a control of
+      its own, beside the link, because a section is both a page and a place
+      to go through. The way back is the row above the list, with the name
+      of its target, not "back". */
   private level(): TemplateResult {
     const inside = this.stack[this.stack.length - 1];
     const entry = inside ?? this.menu;
@@ -537,9 +531,9 @@ export class SdsNavMain extends SdsNav {
   </nav>`;
   }
 
-  /** One row of a level: where it goes, and — where it holds pages — the way
-      into them. Two controls rather than one, for the reason the row above the
-      page has two: the label is the page, and the marker is what is under it. */
+  /** One row of a level: where it goes, and, where it holds pages, the way
+      into them. Two controls, for the reason the row above the page has two.
+      The label is the page, and the marker is what is under it. */
   private step(entry: MenuEntry, own = false): TemplateResult {
     const link = html`<a
       class="${entry.current ? 'sds-bar__link is-active' : 'sds-bar__link'}"
@@ -562,7 +556,7 @@ export class SdsNavMain extends SdsNav {
 
   /** The sections as parts, and which of them the reader is in. Four shapes
       arrive here: as the menu, lifted from the page, handed over as markup, or
-      as data. Empty rather than absent where nothing was lifted, so the
+      as data. Empty, not absent, where the lift found nothing, so the
       fallback is the length and not a `??` that a `[]` never reaches.
       `lifted()` runs in a browser only. */
   private sections(): { parts: unknown[]; at: number } {
@@ -579,8 +573,8 @@ export class SdsNavMain extends SdsNav {
         at: this.taken.findIndex((el) => el.matches('.is-active, [aria-current]')),
       };
     }
-    /* Markup handed over whole is one part, and nothing in here can say which
-       section is inside it — the renderer that wrote it marked its own. */
+    /* Markup handed over whole is one part. Nothing in here can say which
+       section is inside it. The renderer that wrote it marked its own. */
     if (this.content) return { parts: [this.content], at: -1 };
     return { parts: this.items_(), at: this.active < this.items.length ? this.active : -1 };
   }
@@ -595,8 +589,8 @@ export class SdsNavMain extends SdsNav {
 
   private toggle_(): TemplateResult {
     /* Not `actions-menu`, which is an app launcher and at 16px reads as a
-       keypad; the set has no hamburger and this is not the place to draw one.
-       So it says what it opens: the pages of this site, listed. */
+       keypad. The set has no hamburger, and this is not the place to draw one.
+       So it says what it opens: the pages of this site, as a list. */
     return html`<button
       type="button"
       class="sds-bar__toggle"
@@ -637,24 +631,24 @@ export class SdsNavMain extends SdsNav {
   }
 
   protected override willUpdate(changed: PropertyValues<SdsNavMain>): void {
-    /* A different set of sections is a different width, and neither can be
-       measured while it is in the drawer. Forgetting the measurement puts them
-       back in the row for one frame, which is the state they can be taken in. */
+    /* A different set of sections is a different width, and the drawer gives
+       no measurement. A dropped measurement puts them back in the row for one
+       frame, the state that gives one. */
     if (changed.has('items') || changed.has('menu')) {
       this.needNav = 0;
       this.foldNav = false;
     }
-    /* A different site is a different level to open on, and the first menu a
-       bar is given is the one that decides where its drawer starts. */
+    /* A different site is a different level to open on. The first menu a bar
+       gets decides where its drawer starts. */
     if (changed.has('menu')) this.stack = this.path();
-    /* A panel is opened over a row that is standing there. Once the sections
-       are in the drawer instead, there is no fold on the page to be open. */
+    /* A panel opens over a row that stands there. Once the sections are in the
+       drawer instead, there is no fold on the page to open. */
     if (changed.has('foldNav') && this.foldNav) this.opened = -1;
-    /* Which way the step went, measured before the level is replaced: a level
-       that simply appears is a list that changed while the reader was looking
-       at it, and nothing says whether they went in or came back. */
-    /* Asked only where it can be answered: in Node there is nothing to
-       measure and nothing that moves. */
+    /* Which way the step went, measured before the new level replaces the
+       old. A level that appears is a list that changed under the reader's
+       eyes, and nothing says if they went in or came back. */
+    /* Asked only where an answer exists. In Node there is nothing to measure
+       and nothing that moves. */
     if (changed.has('stack') && typeof document !== 'undefined') {
       const before = changed.get('stack');
       this.stepped = before && before.length > this.stack.length ? 'out' : 'in';
@@ -663,9 +657,9 @@ export class SdsNavMain extends SdsNav {
   }
 
   protected override updated(): void {
-    /* The row rather than this element: what is measured is what lays the
-       items out. Once, or every render hands the observer a target it is
-       already watching and it answers its own callback. */
+    /* The row, not this element: the measurement is of what lays the items
+       out. Once, or every render hands the observer a target it already
+       watches, and it answers its own callback. */
     if (!this.watched) {
       const row = this.querySelector<HTMLElement>('.sds-bar');
       if (row && this.watch) {
@@ -677,12 +671,12 @@ export class SdsNavMain extends SdsNav {
     this.decide();
   }
 
-  /** The step, shown as one. The level arrives from the side it was reached
-      from and the drawer grows into its new height rather than jumping to it,
-      both in the one duration and curve the system moves anything in — read
-      from the tokens, so a change there reaches this too.
+  /** The step, shown as one. The level arrives from the side of its approach,
+      and the drawer grows into its new height instead of a jump. Both in the
+      one duration and curve the system moves anything in, read from the
+      tokens, so a change there reaches this too.
 
-      Held still for a reader who asked for that: what goes is the travel, not
+      Held still for a reader who asked for that. What goes is the travel, not
       the answer. */
   private travel(): void {
     const how = this.stepped;
@@ -699,9 +693,8 @@ export class SdsNavMain extends SdsNav {
     const easing = style.getPropertyValue('--ease-out').trim();
     if (!duration || !easing) return;
 
-    /* The way in is forwards, which is the end of the line the page reads
-       towards — so the level comes from there and the way back from the
-       start. */
+    /* The way in is forwards, the end of the line the page reads towards. So
+       the level comes from there, and the way back from the start. */
     const away = parseFloat(style.getPropertyValue('--space-6')) || 24;
     const forwards = style.direction === 'rtl' ? -away : away;
     const from = how === 'in' ? forwards : -forwards;

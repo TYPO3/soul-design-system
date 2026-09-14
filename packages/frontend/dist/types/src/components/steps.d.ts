@@ -11,8 +11,8 @@ export interface Step {
 }
 export interface StepsProps {
     /** The stops, where a page holds them as data. An instruction whose stops are
-        blocks — what a documentation renderer hands over — is written between the
-        tags as `sds-step` instead, and then this stays empty. */
+        blocks — what a documentation renderer hands over — goes between the tags
+        as `sds-step` instead, and then this stays empty. */
     steps: readonly Step[];
 }
 export declare class SdsSteps extends SdsElement {

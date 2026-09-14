@@ -1,11 +1,11 @@
-/* sds-field-error — what is said when a field is wrong.
+/* sds-field-error — what a page says when a field is wrong.
 
    Under or beside the field, never as a tooltip: an error the pointer has to
    find is an error the keyboard never surfaces at all. It carries its own
    glyph, because colour alone is not a message.
 
-   Its own element rather than a slot on the field: an error is often written
-   by whatever validated the value, which is not always what drew the box. */
+   Its own element rather than a slot on the field. Whatever validated the
+   value often writes the error, and that is not always what drew the box. */
 
 import { html, type TemplateResult } from 'lit';
 import './icon.ts';

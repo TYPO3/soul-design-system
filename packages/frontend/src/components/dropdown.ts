@@ -1,22 +1,21 @@
-/* sds-dropdown — a button, and the short list it opens under itself.
+/* sds-dropdown: a button, and the short list it opens under itself.
 
-   What is in the list decides what the list is. Entries that carry a target
-   are pages, so they are links in a disclosure and Tab walks them too; entries
-   that carry none are commands, so they are a menu. The arrows open the panel
-   and walk it either way — what the two kinds differ in is the announcement,
-   and announcing menu commands over a list of pages is a promise the panel
-   cannot keep.
+   The entries decide what the list is. Entries with a target are pages, so
+   they are links in a disclosure, and Tab walks them too. Entries without
+   are commands, so they are a menu. The arrows open the panel and walk it
+   either way. The two kinds differ in the announcement. Menu commands over
+   a list of pages is a promise the panel cannot keep.
 
-   The panel is a popover, so the top layer holds it: no ancestor's overflow
-   clips it and nothing on the page can be stacked over it. Opening, light
-   dismiss, Escape and the focus going back to the button are the platform's
-   too. Placement is the one part that is not — where the engine has anchor
-   positioning the stylesheet does it, and where it has not this places it.
+   The panel is a popover in the top layer. No ancestor's overflow clips it,
+   and nothing on the page stacks over it. The open, light dismiss, Escape
+   and the focus back on the button are the platform's too. Placement is the
+   one part that is not. The stylesheet does it where the engine has anchor
+   positioning, and this file does it where it has not.
 
-   The button is written from `buttonClass` rather than as `<sds-button>`: what
-   a dropdown says about itself — expanded, and what it controls — belongs on
-   the `<button>`, and an attribute set on a custom element never reaches it.
-   That is what those exports are for. */
+   The button comes from `buttonClass`, not from `<sds-button>`. What a
+   dropdown says about itself, expanded and what it controls, belongs on the
+   `<button>`, and an attribute on a custom element never reaches it. That
+   is what those exports are for. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
@@ -28,7 +27,7 @@ import { type IconId } from './icon.ts';
 
 /** One entry of the list. */
 export interface DropdownChoice {
-  /** What it is called, which is the whole of what a reader picks by. */
+  /** Its name, the whole of what a reader picks by. */
   label: string;
   /** Where it goes. An entry that has one is a page and becomes a link; an
       entry with none is a command and reports itself instead. */
@@ -39,10 +38,10 @@ export interface DropdownChoice {
   current?: boolean;
   /** Present but not available — said to everyone, never drawn alone. */
   disabled?: boolean;
-  /** Its own language, for an entry naming one: a reader is told "Deutsch" in
-      German rather than in the voice the page is set in. */
+  /** Its own language, for an entry that names one. A reader hears "Deutsch"
+      in German, not in the voice of the page. */
   lang?: string;
-  /** Opened away from this page, which is said rather than only styled. */
+  /** Opens away from this page, in words and not only in style. */
   external?: boolean;
 }
 
@@ -56,24 +55,24 @@ export interface DropdownProps {
   /** What the button says. A dropdown whose entries are settings names the
       setting rather than the value, and lets `current` mark the one in force. */
   label?: string;
-  /** What the control is called, where the label is too short to say it — a
-      language code standing in for "Language". It is said in front of the
-      label rather than instead of it: an accessible name that drops the word a
-      reader can see is a name they cannot ask for by voice. */
+  /** The control's name, where the label is too short to say it: a language
+      code for "Language". It stands in front of the label, not instead of
+      it. An accessible name without the word a reader can see is a name they
+      cannot ask for by voice. */
   name?: string;
-  /** The entries, in the order they are read. */
+  /** The entries, in the reader's order. */
   choices?: readonly DropdownChoice[];
   /** Which side the panel hangs from. `end` where the button is at the end of
       a row, so the list opens back over the row rather than out from it. A
       side with no room for the panel is the placement's own business. */
   align?: 'start' | 'end';
-  /** The button's own variant, passed through — the trigger is a real button of
-      this system and not a second kind of control that looks like one. */
+  /** The button's own variant, passed through. The trigger is a real button
+      of this system, not a second kind of control that looks like one. */
   variant?: 'primary' | 'secondary' | 'ghost';
   /** The button's size, passed through the same way. */
   size?: 'md' | 'sm' | 'lg';
-  /** The label is dropped and the glyph stands alone, which then requires
-      `title` on the button — so the accessible name is `label` either way. */
+  /** The label drops and the glyph stands alone. The button then needs
+      `title`, so the accessible name is `label` either way. */
   iconOnly?: boolean;
   /** A glyph on the button itself. */
   icon?: IconId;
@@ -107,9 +106,9 @@ export class SdsDropdown extends SdsElement {
   declare open: boolean;
 
   private readonly panelId = `sds-dropdown-panel-${++seq}`;
-  /** The anchor this panel is placed against, named per instance. One name
-      shared by every dropdown on a page resolves to whichever one the browser
-      met last, so each states its own and reads only that. */
+  /** The anchor this panel stands against, named per instance. One name for
+      every dropdown on a page resolves to whichever the browser met last. So
+      each states its own and reads only that. */
   private readonly anchor = `--${this.panelId}`;
   /** What stops the placement this element made, where it made one. */
   private following?: () => void;
@@ -140,10 +139,10 @@ export class SdsDropdown extends SdsElement {
     return this.querySelector<HTMLElement>('.sds-dropdown__button');
   }
 
-  /** What the browser did, read back rather than assumed. Light dismiss and
-      Escape are the platform's here, so a press outside or a key this element
-      never saw still arrives as a state change — and `aria-expanded`, the
-      marker and the placement all follow this one event. */
+  /** What the browser did, read back, not assumed. Light dismiss and Escape
+      are the platform's here. So a press outside or a key this element never
+      saw still arrives as a state change. `aria-expanded`, the marker and
+      the placement all follow this one event. */
   private readonly onToggle = (event: Event): void => {
     this.open = (event as ToggleEvent).newState === 'open';
     this.following?.();
@@ -153,8 +152,8 @@ export class SdsDropdown extends SdsElement {
     }
   };
 
-  /** The whole name, with the label still in it. Dropping the visible word
-      would leave a control nobody can ask for by the name they can see. */
+  /** The whole name, with the label still in it. Without the visible word,
+      nobody can ask for the control by the name they can see. */
   private get called(): string {
     return this.name && this.label ? `${this.name}: ${this.label}` : this.name || this.label;
   }
@@ -165,25 +164,25 @@ export class SdsDropdown extends SdsElement {
     return this.choices.length > 0 && this.choices.every((choice) => !choice.href);
   }
 
-  /** The rows a key can move between: what is drawn and not disabled. */
+  /** The rows a key can move between: the drawn ones that take a press. */
   private rows(): HTMLElement[] {
     return [...this.querySelectorAll<HTMLElement>('.sds-dropdown__item:not([aria-disabled="true"])')];
   }
 
   private onKey(event: KeyboardEvent): void {
     /* The browser closes the popover and puts the focus back on the button
-       that opened it. What is left to do is keep the key here: a dropdown
-       inside the bar would otherwise close the drawer around it in the same
-       press, and a reader who asked for one thing would lose two. */
+       that opened it. What remains is to keep the key here. Otherwise a
+       dropdown inside the bar closes the drawer around it in the same press,
+       and a reader who asked for one thing loses two. */
     if (event.key === 'Escape') {
       if (this.open) event.stopPropagation();
       return;
     }
 
-    /* Both kinds, though only one is a menu: a reader standing on the button
-       presses down before they try anything else, and a panel that answers
-       that in one list and not in the other is a control they have to learn
-       twice. The keys are taken from the page only where this acts on them. */
+    /* Both kinds, though only one is a menu. A reader on the button presses
+       down before they try anything else. A panel that answers that in one
+       list and not in the other is a control to learn twice. The keys leave
+       the page only where this acts on them. */
     if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
     const rows = this.rows();
     if (!rows.length) return;
@@ -213,9 +212,9 @@ export class SdsDropdown extends SdsElement {
   }
 
   /** What a press reports, and what it does not do. An entry with a target is
-      a link and stays one — the event is said beside the navigation rather than
-      instead of it, so a page that never listens still works. Preventing the
-      event is how an app takes the navigation over. */
+      a link and stays one. The event stands beside the navigation, not
+      instead of it, so a page that never listens still works.
+      `preventDefault()` is how an app takes the navigation over. */
   private choose(choice: DropdownChoice, index: number, event: Event): void {
     if (choice.disabled) {
       event.preventDefault();
@@ -230,10 +229,10 @@ export class SdsDropdown extends SdsElement {
       }),
     );
     if (!told) event.preventDefault();
-    /* Choosing is what the panel was opened for. It closes whether or not
-       anything moved, because a panel still standing reads as a press that did
-       nothing. Asked of the panel rather than of the state: the browser owns
-       whether a popover is open, and `open` is this element reading that back. */
+    /* A choice is what the panel opened for. It closes even if nothing moved,
+       because a panel still open reads as a press that did nothing. Asked of
+       the panel, not of the state. The browser owns a popover's open state,
+       and `open` is this element's read-back of it. */
     this.panel?.hidePopover();
   }
 
@@ -281,10 +280,9 @@ export class SdsDropdown extends SdsElement {
       : html`${this.icon ? html`<sds-icon name="${this.icon}"></sds-icon>` : ''}${buttonLabel(this.label)}<span
         class="sds-dropdown__marker"
       ><sds-icon name="actions-chevron-down"></sds-icon></span>`;
-    /* `popovertarget` rather than a handler: the browser opens it, closes it on
-       a press outside or on Escape, puts the focus back on this button, and
-       draws it in the top layer where no ancestor's overflow can clip it. All
-       of that used to be written here, and none of it was as correct. */
+    /* `popovertarget`, not a handler. The browser opens it, closes it on a
+       press outside or on Escape, and puts the focus back on this button. It
+       draws it in the top layer, where no ancestor's overflow can clip it. */
     return html`<div class="sds-dropdown" @keydown="${(e: KeyboardEvent) => this.onKey(e)}">
   <button
     type="button"

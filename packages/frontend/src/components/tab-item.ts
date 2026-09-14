@@ -4,17 +4,17 @@
 
      <sds-tabs><sds-tab-item label="standalone">…</sds-tab-item></sds-tabs>
 
-   Light DOM, so `render()` would replace what was written between the tags: it
-   is lifted on connect and handed back as nodes. Which item shows is
-   `sds-tabs`'s answer — nothing here reads its own position. */
+   Light DOM, so `render()` replaces what stood between the tags: connect lifts
+   it and hands it back as nodes. Which item shows is `sds-tabs`'s answer —
+   nothing here reads its own position. */
 
 import { html, type TemplateResult } from 'lit';
 import { type IconId } from './icon.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 /* Enough to point a tab at its panel and back. A tab and the panel it
-   controls have to name each other for a screen reader to follow the pair,
-   and neither id is anybody's to write. */
+   controls must name each other, or a screen reader cannot follow the pair.
+   Neither id is anybody's to write. */
 let seq = 0;
 
 export class SdsTabItem extends SdsElement {
@@ -26,18 +26,17 @@ export class SdsTabItem extends SdsElement {
     active: { type: Boolean, reflect: true },
   };
 
-  /** What the tab is called. The panel it names goes between the tags. */
+  /** The tab's name. The panel it names goes between the tags. */
   declare label: string;
-  /** A glyph before the label, where a set of tabs is told apart before it
-      is read. */
+  /** A glyph before the label, where a set of tabs tells its tabs apart at a
+      glance. */
   declare icon?: IconId;
-  /** Whether this is the tab being read. One at a time, which the set
-      enforces. */
+  /** If this is the open tab. One at a time, which the set enforces. */
   declare active: boolean;
 
-  /** Whether a set of tabs is deciding which panel is shown. A panel decides
-      for itself until one is — which is what a panel is on a page where nothing
-      switches it, and hiding every one there leaves content in the document and
+  /** If a set of tabs decides which panel shows. A panel decides for itself
+      until one does, which is what a panel is on a page where nothing
+      switches it. Every one hidden there is content in the document and
       invisible in it. The set claims them the moment it exists. */
   managed = false;
 
@@ -63,9 +62,9 @@ export class SdsTabItem extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    /* Hidden rather than unrendered: what is in the other panels stays in the
-       document, so a find-in-page reaches it and switching back costs nothing
-       — and anything with state in there keeps it. */
+    /* Hidden rather than unrendered. What is in the other panels stays in the
+       document, so a find-in-page reaches it and a switch back costs nothing.
+       Anything with state in there keeps it. */
     return html`<div class="sds-tab__panel" role="tabpanel" id="${this.panelId}" aria-labelledby="${this.tabId}" ?hidden="${this.managed && !this.active}">${this.taken ?? this.content}</div>`;
   }
 }

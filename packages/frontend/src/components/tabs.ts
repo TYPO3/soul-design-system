@@ -2,12 +2,12 @@
 
    The active item is a filled block, never a tint: a tint reads as "hovered" or
    "disabled" depending on what is under it. A tab is a label and a panel, and
-   `sds-tab-item` holds the two together — written apart, keeping them in step
-   is the caller's problem and this is a row of words.
+   `sds-tab-item` holds the two together. Written apart, the caller has to keep
+   them in step and this is a row of words.
 
    A real tablist, so each tab names the panel it controls and the arrow keys
    move between them. `tabsBarMarkup` is the bar alone, for the card:
-   `renderStatic` can flatten no element that was given children. */
+   `renderStatic` can flatten no element with children. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
@@ -46,19 +46,19 @@ export function tabsBarMarkup(
 export class SdsTabs extends SdsNav {
   static override properties = {
     /* Lit merges what a subclass declares with what it inherits; the type
-       does not, so the base's are named again here. */
+       does not, so the base's stand here again. */
     ...SdsNav.properties,
     /** The word that makes sets follow each other. Named for what it does
-        rather than for what the set is called: a page showing one setting in
-        four places asks the reader to choose a language once, and a set
-        writing nothing here is a set nobody else moves. */
+        rather than for the set's name. A page that shows one setting in four
+        places asks the reader to choose a language once. A set with nothing
+        here is a set nobody else moves. */
     sync: { type: String, reflect: true },
   };
 
-  /** A name shared by every set that moves together: picking a tab in one picks
-      the same label in all of them. Left unset rather than empty — `reflect`
-      writes `sync=""`, and a set following nobody would answer to `[sync]`, for
-      a stylesheet, for a test, and for the registry below. */
+  /** A name every set that moves together shares: a tab picked in one picks
+      the same label in all of them. Unset rather than empty. `reflect` writes
+      `sync=""`, and a set that follows nobody then answers to `[sync]` — for a
+      stylesheet, for a test, and for the registry below. */
   declare sync?: string;
 
   protected override readonly block = 'sds-tabs';
@@ -66,7 +66,7 @@ export class SdsTabs extends SdsNav {
 
   /* Every set on the page that follows a word, so one of them can reach the
      others. A registry rather than an event on the document: what agrees is
-     these elements, and a page may hold sets that agree about nothing. */
+     these elements, and a page can hold sets that agree about nothing. */
   static readonly agreeing = new Set<SdsTabs>();
 
   /** The panels written between the tags. */
@@ -84,10 +84,10 @@ export class SdsTabs extends SdsNav {
       const label = panel.getAttribute('label') ?? '';
       return (icon ? { label, icon } : label) as NavItem;
     });
-    /* Told that something is now deciding which of them is shown. A panel that
-       nobody manages draws itself open — see `sds-tab-item` — which is what a
-       page rendered ahead of the browser needs and what a set of tabs must
-       take over the moment it exists. */
+    /* Told that something now decides which of them shows. A panel that nobody
+       manages draws itself open — see `sds-tab-item`. That is what a page
+       rendered ahead of the browser needs, and what a set of tabs must take
+       over the moment it exists. */
     for (const panel of this.panels) {
       panel.managed = true;
       panel.remove();
@@ -95,11 +95,10 @@ export class SdsTabs extends SdsNav {
     return true;
   }
 
-  /* Children written into a template arrive with it; children produced by a
-     `.map()` in the template around this one arrive after it has connected.
-     Both are the same set of tabs, so the second is waited for rather than
-     rendered as an empty bar — which is what a set of tabs built from data
-     used to be. */
+  /* Children written into a template arrive with it; children from a `.map()`
+     in the template around this one arrive after it has connected. Both are
+     the same set of tabs, so this waits for the second rather than renders an
+     empty bar. */
   private arriving?: MutationObserver;
 
   override connectedCallback(): void {
@@ -127,7 +126,7 @@ export class SdsTabs extends SdsNav {
     this.agree();
   }
 
-  /** Where the choice is kept. One key per group, so two sets that agree
+  /** Where the choice lives. One key per group, so two sets that agree
       about nothing on the same origin do not overwrite each other. */
   private get store(): string {
     return `sds-tabs:${this.sync}`;
@@ -138,9 +137,9 @@ export class SdsTabs extends SdsNav {
   }
 
   /* **A preference is an order, not a word.** A reader who picks bash in the
-     one block that offers it has not stopped preferring PHP to YAML
-     everywhere else, so what is kept is every word they have chosen, most
-     recent first, and a set takes the first of them it has. */
+     one block that offers it still prefers PHP to YAML everywhere else. So
+     the store holds every word they chose, most recent first, and a set
+     takes the first of them it has. */
   private get preferred(): string[] {
     const kept = localStorage.getItem(this.store);
     if (!kept) return [];
@@ -148,13 +147,13 @@ export class SdsTabs extends SdsNav {
       return JSON.parse(kept) as string[];
     } catch {
       /* Somebody else's value under our key, or one from a version that wrote
-         a bare word. Neither is worth breaking a page over. */
+         a bare word. Neither is a reason to break a page. */
       return [kept];
     }
   }
 
   /* Tell the sets that follow the same word, and remember it for the next
-     page. A manual is read across ten of them, and choosing the language
+     page. A reader reads a manual across ten of them, and a language chosen
      again on each is the same annoyance one level up. */
   private agree(): void {
     if (!this.sync) return;
@@ -166,10 +165,10 @@ export class SdsTabs extends SdsNav {
     }
   }
 
-  /* Move because another set did, without saying it back. By the word and not
-     by the position: a block offering YAML and TypoScript has no PHP, and one
-     that does not have the word keeps the panel it is showing rather than
-     falling back to its first. */
+  /* Move because another set did, and do not say it back. By the word and not
+     by the position. A block that offers YAML and TypoScript has no PHP. One
+     without the word keeps the panel it shows rather than falls back to its
+     first. */
   private follow(label: string): boolean {
     const at = this.labels.indexOf(label);
     if (at === -1) return false;
@@ -178,9 +177,9 @@ export class SdsTabs extends SdsNav {
     return true;
   }
 
-  /* What was chosen before, applied once there is something to match it
-     against — the items arrive with the markup or a frame later, and asking
-     before they are there would silently settle on nothing. */
+  /* The earlier choice, applied once there is something to match it
+     against. The items arrive with the markup or a frame later, and a
+     question before they are there settles on nothing, in silence. */
   private recalled = false;
 
   private recall(): void {
@@ -189,7 +188,7 @@ export class SdsTabs extends SdsNav {
     for (const label of this.preferred) if (this.follow(label)) return;
   }
 
-  /** Tell each panel whether it is the one. */
+  /** Tell each panel if it is the one. */
   private show(): void {
     this.panels.forEach((panel, i) => { panel.active = i === this.active; });
   }
@@ -221,10 +220,10 @@ export class SdsTabs extends SdsNav {
     });
 
     /* The bar off the panels where there are panels, and off the labels alone
-       where there are not: in Node there are no children to lift, see
-       `SdsElement`, so `items` is what says them. What a prerendered set cannot
-       have is the wiring — no `tablist`, and buttons that do nothing until it
-       upgrades, which is honest, since nothing could switch anyway. */
+       where there are not. In Node there are no children to lift, see
+       `SdsElement`, so `items` says them. What a prerendered set cannot have
+       is the wiring: no `tablist`, and buttons that do nothing until it
+       upgrades. That is honest, since nothing can switch anyway. */
     const tabs: TabHandle[] = this.panels.length
       ? this.panels.map((panel, i) => ({
           ...named(this.items[i]),

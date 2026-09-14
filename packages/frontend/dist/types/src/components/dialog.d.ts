@@ -3,20 +3,20 @@ import './icon.ts';
 import { type ModalSize } from './modal.js';
 import { SdsElement } from '../lib/element.js';
 /** What kind of press the confirming button is: the work the question is for,
-    or the one that cannot be undone. */
+    or the one with no way back. */
 export type DialogTone = 'primary' | 'danger';
 export interface DialogProps {
     /** The question it asks, which is the whole reason it opened. */
     heading: string;
-    /** What the reader needs in order to answer it. At `auto` a modal stops at
-        `--measure-modal` because what is in one is read rather than looked at. */
+    /** What the reader needs to answer it. At `auto` a modal stops at
+        `--measure-modal` because a reader reads what is in one, not looks at it. */
     body: string | TemplateResult;
     /** Rendered buttons. Ghost first, primary last — the destructive-free
         order the rest of the system reads in. */
     actions?: readonly TemplateResult[];
     /** The label of the button that answers yes, and the whole of what a
-        confirmation needs: written, the dialog draws its own pair and announces
-        what was pressed, so asking a question takes no script at all. */
+        confirmation needs. With it, the dialog draws its own pair and announces
+        the press, so a question takes no script at all. */
     confirmLabel?: string;
     /** A glyph on that button, ahead of its label — the press that carries the
         consequence is the one worth marking. The way out stays a word: two
@@ -27,15 +27,14 @@ export interface DialogProps {
     /** What kind of press the confirming one is. */
     tone?: DialogTone;
     /** How much room it takes, in both directions. `auto` is the content's own
-        width up to the reading measure; a named size is the same shape wherever
-        it is used, which is what keeps every dialog in the system one family. */
+        width up to the reading measure. A named size is the same shape
+        everywhere, which keeps every dialog in the system one family. */
     size?: ModalSize;
     /** A width of its own, where the question needs one — the exception the
         scale cannot answer, and the one place a dialog carries a number. */
     width?: number;
-    /** Whether it stands over the page. It is a real `<dialog>`, so opening
-        makes the rest inert and closing puts the focus back where it came
-        from. */
+    /** If it stands over the page. It is a real `<dialog>`, so an open makes
+        the rest inert and a close puts the focus back where it came from. */
     open?: boolean;
 }
 export declare class SdsDialog extends SdsElement {

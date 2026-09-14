@@ -14,35 +14,34 @@ export interface CodeLine {
         second argument to a free function; it is a field now. */
     code?: string;
 }
-/** The languages this system supports in a code block. Declared, not surveyed:
-    adding one means the highlighter knows the identifier and a specimen proves
-    it reads right — `stories/lib/languages.ts` is that specimen, and is typed
-    against this union so a language cannot be declared without one. */
+/** The languages this system supports in a code block. A declaration, not a
+    survey. A new one means the highlighter knows the identifier and a
+    specimen proves it reads right. `stories/lib/languages.ts` is that
+    specimen, typed against this union, so no language exists without one. */
 export type CodeLangName = 'bash' | 'css' | 'diff' | 'html' | 'javascript' | 'json' | 'markdown' | 'php' | 'scss' | 'sql' | 'text' | 'tsconfig' | 'twig' | 'typescript' | 'typoscript' | 'xml' | 'yaml';
 /** The same, open at the edges, because the value arrives from a Markdown
-    fence and refusing to print a word is not a service — the union catches the
-    near miss, `yml` for `yaml`, which a highlighter answers in silence. */
+    fence, and a refusal to print a word is not a service. The union catches
+    the near miss, `yml` for `yaml`, which a highlighter answers in silence. */
 export type CodeLang = CodeLangName | (string & {});
 export interface CodeBlockProps {
     /** The language, lower case as a fence writes it; the upper case belongs to
-        `sds-code__lang`. The attribute is `code-lang` deliberately: `lang` is a
-        global attribute naming the *human* language, so `lang="json"` sends every
-        screen reader to a language tag that does not exist, and inherits to the
-        whole block from there. */
+        `sds-code__lang`. The attribute is `code-lang` on purpose. `lang` is a
+        global attribute for the *human* language. `lang="json"` sends every
+        screen reader to a language tag that does not exist, and the whole block
+        inherits it. */
     lang?: CodeLang;
-    /** An affordance for the head that is not the copy button — a filename, a
-        count. Set `copy` instead for copying; the component owns that. */
+    /** An affordance for the head that is not the copy button: a filename, a
+        count. For a copy, set `copy` instead; the component owns that. */
     action?: TemplateResult;
-    /** What the block is, in a sentence, above it. It may also be written between
-        the tags as `<div class="sds-code__caption">` — the form for a caption
-        carrying markup, and for a page read before the element upgrades. Either
-        way it belongs to the element: see `captioned`. */
+    /** What the block is, in a sentence, above it. It can also stand between
+        the tags as `<div class="sds-code__caption">`. That is the form for a
+        caption with markup, and for a page read before the element upgrades.
+        Either way it belongs to the element: see `captioned`. */
     caption?: string;
-    /** A block as text, highlighted by `lang` exactly as content between the
-        tags is. The two are the same block from two kinds of caller: content
-        for a renderer that already holds markup, this for one that holds the
-        source — a story, or a page that has to render statically, where
-        children are not carried at all. */
+    /** A block as text, coloured by `lang` exactly as content between the tags
+        is. The two are the same block from two kinds of caller. Content for a
+        renderer that holds markup, this for one that holds the source. That is
+        a story, or a static render, which carries no children at all. */
     source?: string;
     /** The block as lines, each with its own kind — set from script, being a
         list. Content between the tags is the same block from a caller that
@@ -91,14 +90,14 @@ export declare class SdsCode extends SdsElement {
     private captioned;
     constructor();
     connectedCallback(): void;
-    /** Whatever the block would put on the clipboard: what it says, and none of
-        what frames it. Read from the content, not the rendering — light DOM means
-        the element's own text is the head too, so a paste would begin with the
-        language and the word on the button. The `$` goes for the same reason it
-        is a span of its own: it is the prompt, and in a shell it is an error. */
+    /** What the block puts on the clipboard: what it says, and none of its
+        frame. Read from the content, not the rendering. In light DOM the
+        element's own text is the head too, so a paste starts with the language
+        and the word on the button. The `$` goes, for the reason it is a span
+        of its own. It is the prompt, and in a shell it is an error. */
     private get text();
-    /** The text between the tags. Comments are skipped, and they are not the
-        author's: a template that interpolates its content leaves Lit's own
+    /** The text between the tags, without the comments, which are not the
+        author's. A template that interpolates its content leaves Lit's own
         markers among the children, and `textContent` reads a comment's body
         like any other. */
     private get written();

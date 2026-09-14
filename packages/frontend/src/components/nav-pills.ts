@@ -1,9 +1,9 @@
 /* sds-nav-pills — navigation for the sections of a page.
 
-   The active item is a filled block, never a tint: a tint reads as "hovered"
+   The active item is a filled block, never a tint. A tint reads as "hovered"
    or "disabled" depending on what is under it, and this system already
    spends hover on a colour change. The accent marks the active item — one of
-   the exactly three places `--accent` may appear at all. */
+   the exactly three places `--accent` can appear at all. */
 
 import { html, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';

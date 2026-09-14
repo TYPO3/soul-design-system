@@ -5,22 +5,22 @@ import { SdsElement } from '../lib/element.js';
 export interface LinkProps {
     /** The words that are the link. Always the thing itself, never “here”. */
     label: string;
-    /** Where it goes. Always present on a real link: anything else looks like
-        one, cannot be focused or opened in a new tab, and is invisible to
-        whatever reads the page as a document. */
+    /** Where it goes. Always present on a real link. Anything else looks like
+        one, takes no focus and no new tab, and is invisible to whatever reads
+        the page as a document. */
     href?: string;
     /** Opens away from this surface: gets the glyph, and says so to the
-        browser as well as to the eye. */
+        browser and to the eye. */
     external?: boolean;
-    /** A glyph before the label — a repository, a chat, a feed. In running text
-        it never replaces the label: the glyphs that say something about a result
-        may stand alone, and a word in a sentence may not be a picture. */
+    /** A glyph before the label — a repository, a chat, a feed. In prose it
+        never replaces the label. The glyphs that say something about a result
+        can stand alone, and a word in a sentence must not be a picture. */
     icon?: IconId;
-    /** The label names the link without being drawn, and the glyph is the whole
+    /** The label names the link and stays invisible, and the glyph is the whole
         of it. For a mark that stands where a reader looks for marks — the row of
-        accounts at the end of a footer — and nowhere a link sits in a sentence.
-        Drawn at 24, because alone it is a target as well as a picture, and the
-        external glyph goes: two marks on one link say one thing twice. */
+        accounts at the end of a footer. Nowhere a link sits in a sentence. Drawn
+        at 24, because alone it is a target and a picture. The external glyph
+        goes: two marks on one link say one thing twice. */
     bare?: boolean;
 }
 export declare class SdsLink extends SdsElement {
@@ -50,9 +50,9 @@ export declare class SdsLink extends SdsElement {
     icon?: IconId;
     bare: boolean;
     constructor();
-    /** Whether a glyph is about direction rather than about the thing. A glyph
+    /** If a glyph is about direction rather than about the thing. A glyph
         leads its label and a direction glyph follows it, which is a property of
-        the glyph — so the component decides. A boolean here would be a caller's
+        the glyph — so the component decides. A boolean here is a caller's
         chance to put an arrow in front of a word. */
     private static leads;
     protected render(): TemplateResult;

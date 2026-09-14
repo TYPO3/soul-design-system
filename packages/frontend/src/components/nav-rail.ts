@@ -2,7 +2,7 @@
 
    One entry with its pages under it: the entry's label is the heading over the
    list, and what it holds is the list. Rows are often things the machine named,
-   so they set in mono verbatim, and the current one is a filled block in the
+   so they set in mono verbatim. The current one is a filled block in the
    accent, never a tint.
 
      .entry = { label: 'Components', items: [{ label: 'sds-badge', href: '…' }] }
@@ -23,16 +23,15 @@ export class SdsNavRail extends SdsElement {
     picked: { type: Number, state: true },
   };
 
-  /** What this is the list of, and the list. A rail holding one section of a
+  /** What this is the list of, and the list. A rail with one section of a
       site is that section: its label stands over the pages as the way to the
-      section's own page, and an entry with no label has no heading — which is
+      section's own page. An entry with no label has no heading, which is
       right where the rail is the whole navigation there is. */
   declare entry: MenuEntry;
 
   /** Which row a reader pressed, where the rows are choices rather than links.
-      -1 until they have: a list that names its own current page is stating a
-      fact about the page, and a press is the only thing allowed to overrule
-      it. */
+      -1 until they have. A list that names its own current page states a fact
+      about the page, and only a press can overrule it. */
   declare picked: number;
 
   /** The rows a server wrote between the tags. A renderer that has resolved
@@ -53,9 +52,9 @@ export class SdsNavRail extends SdsElement {
     super.connectedCallback();
   }
 
-  /** Every page in the rail, folds flattened: a rail has one current page
-      wherever it sits, and a caller thinking in "third item of the second
-      group" is thinking about the markup. */
+  /** Every page in the rail, folds flattened. A rail has one current page
+      wherever it sits, and a caller who thinks in "third item of the second
+      group" thinks about the markup. */
   private flat(): MenuEntry[] {
     return (this.entry.items ?? []).flatMap(branch);
   }
@@ -66,9 +65,9 @@ export class SdsNavRail extends SdsElement {
 
   /** One page, and whatever hangs under it.
 
-      A page that holds pages is a row like any other with the marker that
-      opens them beside it — the same pair the bar's row draws, so a reader
-      meets one shape and not two. What it holds is set in by a step, because
+      A page that holds pages is a row like any other, with the marker that
+      opens them beside it. The same pair the bar's row draws, so a reader
+      meets one shape and not two. What it holds stands in by a step, because
       a list where everything starts on the same edge says nothing about what
       belongs to what. */
   private row(entry: MenuEntry): TemplateResult {
@@ -86,8 +85,8 @@ export class SdsNavRail extends SdsElement {
 
   /** What stands in a row: the glyph where the entry asked for one, and the
       name in a node of its own. The rail is one fixed width and its rows are
-      names a machine gave, so the name is the half that gives — and it can
-      only be cut in a box of its own. */
+      names a machine gave, so the name is the half that gives. A cut needs a
+      box of its own. */
   private inside(entry: MenuEntry): TemplateResult {
     return html`${entry.icon ? html`<sds-icon name="${entry.icon}"></sds-icon>` : nothing}<span class="sds-rail__label">${entry.label}</span>`;
   }
@@ -103,15 +102,15 @@ export class SdsNavRail extends SdsElement {
 
   protected override render(): TemplateResult {
     /* A rail is navigation, so it is a `<nav>` and says what it is a
-       navigation of — a page can hold this one and the sections in the bar,
-       and "navigation, navigation" is what a screen reader announces without
-       it. */
+       navigation of. A page can hold this one and the sections in the bar,
+       and a screen reader without the name announces "navigation,
+       navigation". */
     const label = this.entry.label;
     const written = this.taken.length ? this.taken : this.content;
     const under = this.entry.items ?? [];
-    /* The folds go last, whatever order the tree put them in: a page is a row
-       and a fold is a row with rows under it, so one standing between the
-       pages breaks the column a reader is scanning. */
+    /* The folds go last, whatever order the tree put them in. A page is a row
+       and a fold is a row with rows under it. One between the pages breaks
+       the column a reader scans. */
     const rows = written
       ? [written]
       : [

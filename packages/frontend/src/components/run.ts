@@ -1,10 +1,10 @@
-/* sds-run — work being done, as the stops it is made of.
+/* sds-run — work in progress, as the stops it consists of.
 
-   Not `sds-steps`, and the difference is not the drawing. An instruction is
-   rendered before it is served and never changes; a run arrives one stop at a
-   time, each one carrying what it wrote, and the whole has a verdict at the end
-   that an instruction has no place for. So it is an application's component,
-   beside `sds-progress` — see `ELSEWHERE` in `scripts/coverage.ts`.
+   Not `sds-steps`, and the difference is not the drawing. An instruction
+   renders before the server sends it and never changes. A run arrives one stop
+   at a time, each with what it wrote. The whole ends in a verdict that an
+   instruction has no place for. So it is an application's component, beside
+   `sds-progress` — see `ELSEWHERE` in `scripts/coverage.ts`.
 
    The share, where the work reports one, is `sds-progress` above it. A run
    whose end is not a number — which is most of them — draws no bar at all. */
@@ -19,10 +19,10 @@ export type RunState = 'ahead' | 'running' | 'done' | 'failed';
 /** What became of the whole. `running` while any of it is still in hand. */
 export type RunVerdict = 'running' | 'done' | 'failed';
 
-/** The mark a state draws, and what that mark is called. Named as well as
-    drawn: the shape and the colour are one claim, and neither of them reaches
-    a reader who is told rather than shown. The word is the English one until a
-    page says otherwise — `stateWords` is where it says it. */
+/** The mark a state draws, and the name of that mark. Named and drawn: the
+    shape and the colour are one claim, and neither reaches a reader who hears
+    the page rather than sees it. The word is the English one until a page
+    says otherwise — `stateWords` is where it says it. */
 const MARKS: Record<RunState, { icon: string; said: string }> = {
   ahead: { icon: 'actions-circle', said: 'Not started' },
   /* The set's own spinner — a faint ring and the arc that travels round it,
@@ -33,10 +33,10 @@ const MARKS: Record<RunState, { icon: string; said: string }> = {
   failed: { icon: 'actions-exclamation-circle', said: 'Failed' },
 };
 
-/** What a page calls the states, where English is not what it is written in.
-    Partial: a page names the ones it has a word for and the rest stay as they
-    are, so a language arriving one string at a time is never half a run with
-    no words at all. */
+/** What a page calls the states, where the page is not in English. Partial:
+    a page names the ones it has a word for and the rest stay as they are. So
+    a language that arrives one string at a time is never half a run with no
+    words at all. */
 export type RunWords = Partial<Record<RunState, string>>;
 
 /** One stop of the work. */
@@ -46,20 +46,20 @@ export interface RunStep {
   state: RunState;
   /** A quiet word at the far end of the row — a duration, a count. */
   meta?: string;
-  /** What is happening to it right now, in words. A mark is a shape and a
-      colour, and a reader waiting on a queue is owed a sentence. */
+  /** What happens to it right now, in words. A mark is a shape and a
+      colour, and a reader who waits on a queue is owed a sentence. */
   note?: string;
   /** What it wrote. A stop that wrote nothing does not open: a control that
       opens onto an empty box is a promise the row cannot keep. */
   output?: string;
   /** Which set it belongs to, where the work is many jobs at once rather than
-      one sequence. Stops carrying none are one run, read in order. */
+      one sequence. Stops with none are one run, read in order. */
   group?: string;
 }
 
 export interface RunProps {
-  /** What the run is, in one line — or what has become of it, which is what a
-      set of jobs says at the top: "Some checks haven't completed yet". */
+  /** What the run is, in one line — or what became of it. A set of jobs says
+      that at the top: "Some checks haven't completed yet". */
   heading: string;
   /** What became of the whole. It is the mark beside the heading. */
   verdict: RunVerdict;
@@ -67,18 +67,18 @@ export interface RunProps {
   note?: string;
   /** The stops, set from script — being a list, and one that changes. */
   steps: readonly RunStep[];
-  /** Whether the whole stands open. A run being watched is written `open`; one
-      in a list of past runs is not, and the head is then the whole of it. */
+  /** If the whole stands open. A run a reader watches gets `open`; one in a
+      list of past runs does not, and the head is then the whole of it. */
   open?: boolean;
-  /** What the states are called, where the page is not in English. Every state
-      is a word as well as a mark, and the word is the only one of the two a
-      reader who is told rather than shown ever gets. */
+  /** The names of the states, where the page is not in English. Every state
+      is a word and a mark. The word is the only one of the two a reader who
+      hears the page ever gets. */
   stateWords?: RunWords;
 }
 
-/** What the lines this system wrote are told apart by. The tools are handed no
-    terminal, so nothing they write carries colour of its own, and colouring it
-    by guessing at its meaning is reading tea leaves. */
+/** What tells the lines this system wrote apart. The tools get no terminal,
+    so nothing they write carries colour of its own. A colour from a guess at
+    the meaning is a guess. */
 const TONES: readonly { mark: string; tone: string }[] = [
   { mark: '→', tone: 'note' },
   { mark: '✗', tone: 'error' },
@@ -102,8 +102,8 @@ export class SdsRun extends SdsElement {
   declare open: boolean;
   declare stateWords: RunWords;
 
-  /** Which rows the reader has opened or closed against what the state would
-      do. Nobody else has an answer for that, so it is the one piece of state
+  /** Which rows the reader has opened or closed against what the state does.
+      Nobody else has an answer for that, so it is the one piece of state
       this element keeps. */
   #decided = new Map<number, boolean>();
 
@@ -114,18 +114,18 @@ export class SdsRun extends SdsElement {
     this.note = '';
     this.steps = [];
     /* False, because that is what an absent boolean attribute means. A default
-       of `true` is one a page cannot turn off by leaving the word out. */
+       of `true` is one a page cannot turn off when it leaves the word out. */
     this.open = false;
     this.stateWords = {};
   }
 
-  /** What a state is called here. The page's word where it has one, and the
-      English the marks were written with where it has not. */
+  /** The name of a state here. The page's word where it has one, and the
+      English of the marks where it has not. */
   private said(state: RunState): string {
     return this.stateWords[state] ?? MARKS[state].said;
   }
 
-  /** The stops in the order they are given, under the group each one named.
+  /** The stops in the order they arrive, under the group each one named.
       A run with no groups is one list, which is the sequence. */
   private get sets(): readonly { name: string; steps: readonly (RunStep & { at: number })[] }[] {
     const held = new Map<string, (RunStep & { at: number })[]>();
@@ -138,21 +138,20 @@ export class SdsRun extends SdsElement {
     return [...held].map(([name, steps]) => ({ name, steps }));
   }
 
-  /* What a step is writing runs on, so its end is what is shown. */
+  /* What a step writes runs on, so the reader sees its end. */
   protected override updated(): void {
     const output = this.querySelector('.sds-run__step--running .sds-run__output');
     if (output) output.scrollTop = output.scrollHeight;
   }
 
-  /** A press is the reader's answer to "should this stand open?", and the
-      answer is the opposite of what stands now — the press itself flips it.
-      The press and not `toggle`: that one fires for a row this element opened
-      by itself, which would count as opened by hand and stay open long after
-      the work had moved on.
+  /** A press is the reader's answer to "must this stand open?", and the
+      answer is the opposite of what stands now. The press and not `toggle`.
+      That one fires for a row this element opened by itself, which then
+      counts as opened by hand and stays open too long.
 
-      The platform's own toggle is taken off it, because it runs *after* this
-      element has already rendered the answer and undoes it. One thing decides
-      whether a row stands open, and it is the answer kept here. */
+      The platform's own toggle stops here, because it runs *after* this
+      element has rendered the answer and undoes it. One thing decides if a
+      row stands open, and it is the answer kept here. */
   private decide(event: Event, at: number, open: boolean): void {
     if (!(event.target as HTMLElement).closest('.sds-run__row')) return;
     event.preventDefault();

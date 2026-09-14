@@ -1,14 +1,14 @@
 /* sds-confval — one configuration value in a reference.
 
    Three things at once: the name a reader searches for, the facts a machine
-   would check against, and prose that runs to whole blocks. So the name is
-   mono and carries the anchor, the facts sit in a grid of their own where a
-   long union type wraps without pushing the label out of line, and the
-   description is ordinary paragraphs under both.
+   checks against, and prose that runs to whole blocks. So the name is mono
+   and carries the anchor. The facts sit in a grid of their own, where a long
+   union type wraps and the label stays in line. The description is ordinary
+   paragraphs under both.
 
-   A hairline above each entry and nothing around it: forty of these in a row
-   are a reference and have to read as a list, and a box drawn round each one
-   turns that list into forty cards. */
+   A hairline above each entry and nothing around it. Forty of these in a row
+   are a reference and must read as a list. A box round each one turns that
+   list into forty cards. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './badge.ts';
@@ -17,27 +17,26 @@ import { define, SdsElement } from '../lib/element.ts';
 
 export interface Fact {
   /** What the source called it — `type`, `default`, or an option of the
-      author's own. It is set as a label and never title-cased: the value
-      beside it is what the machine reads, and the key is what it is called. */
+      author's own. It sets as a label and never title-cased. The value beside
+      it is what the machine reads, and the key is its name. */
   label: string;
   value: string;
 }
 
 export interface ConfvalProps {
-  /** The name being documented, verbatim. Mono at every size, like everything
-      else the machine named. */
+  /** The documented name, verbatim. Mono at every size, like everything else
+      the machine named. */
   name: string;
-  /** Where a link to this value lands. Also what the mark beside the name
-      points at, so a reader can take the address of one entry out of a page
-      of forty without reading the source. */
+  /** Where a link to this value lands, and what the mark beside the name
+      points at. So a reader can take the address of one entry out of a page
+      of forty and never open the source. */
   anchor?: string;
-  /** Stated where it is true and left off where it is not: a reference of
+  /** Stated where it is true and left off where it is not. A reference of
       fifty values, half of them marked "optional", says nothing twice as
       loudly. */
   required?: boolean;
-  /** What the value takes. Text rather than markup, because a type is written
-      `array<string>` as often as not and anything parsing that as tags eats
-      half of it. */
+  /** What the value takes. Text rather than markup, because a type reads
+      `array<string>` as often as not and a tag parser eats half of it. */
   type?: string;
   /** What happens if the reader leaves it alone. */
   default?: string;
@@ -88,8 +87,8 @@ export class SdsConfval extends SdsElement {
   }
 
   /** The two the directive names first, then whatever else the source set.
-      Order is fixed rather than alphabetical: a reader comparing two entries
-      compares them line by line. */
+      The order stays fixed rather than alphabetical: a reader who compares
+      two entries compares them line by line. */
   private get stated(): Fact[] {
     return [
       ...(this.type ? [{ label: 'type', value: this.type }] : []),
@@ -105,9 +104,9 @@ export class SdsConfval extends SdsElement {
 
   protected override render(): TemplateResult {
     const facts = this.stated;
-    /* The mark is `#` and not a glyph: it is the character an address is
-       written with, it needs no sprite, and it is the one thing on the line
-       that is already mono. */
+    /* The mark is `#` and not a glyph. It is the character of an address, it
+       needs no sprite, and it is the one thing on the line that is already
+       mono. */
     const mark = this.anchor
       ? html`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>`
       : nothing;

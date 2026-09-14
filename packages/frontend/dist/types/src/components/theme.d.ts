@@ -7,9 +7,9 @@ export interface ThemeChange {
     theme: ThemeChoice | null;
 }
 /** The line a document runs before its first paint, so a stored choice is in
-    place before anything is drawn. Returned as source rather than run here:
+    place before anything renders. Returned as source rather than run here:
     it belongs in the head, and by the time an element exists it is too late.
-    The same default `soul-boot.js` has, both ends reading one name.
+    The same default `soul-boot.js` has, so both ends read one name.
 
         <script>${themeBoot()}</script> */
 export declare const themeBoot: (key?: string) => string;
@@ -28,20 +28,19 @@ export declare class SdsTheme extends SdsElement {
             state: boolean;
         };
     };
-    /** Where the choice is stored. Two products on one origin are two keys, and
-        the default is `soul-boot.js`'s: what writes the mode before the paint and
-        what shows which side is pressed have to read the same name, or the choice
-        is made here and looked for somewhere else on the next page. */
+    /** Where the choice lives. Two products on one origin are two keys, and the
+        default is the one `soul-boot.js` has. The boot line and this button
+        must read the same name, or the next page looks for the choice
+        somewhere else. */
     key: string;
-    /** What the reader chose, or null while they have chosen nothing and the
-        machine's setting is what they are reading in. */
+    /** What the reader chose, or null while they have chosen nothing and read
+        in the machine's setting. */
     current: ThemeChoice | null;
-    /** What the machine asks for, watched: it is the mode in force until a
-        press, and a button drawn against the wrong one is a button that lies
-        about the page it is standing on. */
+    /** What the machine asks for, watched. It is the mode in force until a
+        press, and a button drawn against the wrong one lies about its page. */
     machine: ThemeChoice;
     constructor();
-    /** What the reader is reading in, which is not always what they chose. */
+    /** What the reader reads in, which is not always what they chose. */
     private get inForce();
     connectedCallback(): void;
     disconnectedCallback(): void;

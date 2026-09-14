@@ -1,14 +1,14 @@
 /* sds-steps — an instruction read from the top, numbered down one rail.
 
-   For work that has an order: the numbers are the claim that step two follows
-   step one, and a set of things to do in any order is a list instead. What each
-   stop holds is whatever it takes to do it — a command, a file to edit, the
-   output that says it worked — which is why a stop's content goes between its
+   For work that has an order. The numbers are the claim that step two follows
+   step one, and a set of things to do in any order is a list instead. Each
+   stop holds whatever it takes to do it: a command, a file to edit, the
+   output that says it worked. That is why a stop's content goes between its
    tags and not into a property.
 
-   A list said in ARIA rather than as `<ol>`, so a reader is told how many stops
-   there are and which one this is; `styles/components/steps.css` carries why the
-   markup cannot be the platform's own. */
+   A list said in ARIA rather than as `<ol>`, so a reader hears how many stops
+   there are and which one this is. `styles/components/steps.css` carries why
+   the markup cannot be the platform's own. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import './step.ts';
@@ -25,8 +25,8 @@ export interface Step {
 
 export interface StepsProps {
   /** The stops, where a page holds them as data. An instruction whose stops are
-      blocks — what a documentation renderer hands over — is written between the
-      tags as `sds-step` instead, and then this stays empty. */
+      blocks — what a documentation renderer hands over — goes between the tags
+      as `sds-step` instead, and then this stays empty. */
   steps: readonly Step[];
 }
 

@@ -1,13 +1,13 @@
-/* sds-search-hits — what a query was answered with.
+/* sds-search-hits — the answer to a query.
 
-   The list and the sentence a search with nothing to show gives, in one
-   element that is handed the hits rather than finding them. `sds-search` does
-   the finding: it owns the index, the field and the keys, and what it knows
-   about a hit ends where this begins.
+   The list, and the sentence a search with nothing to show gives, in one
+   element that takes the hits and finds none. `sds-search` does the search: it
+   owns the index, the field and the keys, and what it knows about a hit ends
+   where this begins.
 
-   Split out because an answer is the part worth looking at on its own — a
-   story can hand it four hits, none, or a hit with a picture, and none of that
-   needs an index behind it or a query typed into a field. */
+   Split out because an answer is the part to look at on its own. A story can
+   hand it four hits, none, or a hit with a picture. None of that needs an
+   index behind it or a query typed into a field. */
 
 import { html, type TemplateResult } from 'lit';
 import './search-result.ts';
@@ -15,20 +15,21 @@ import { type SearchResultProps } from './search-result.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface SearchHitsProps {
-  /** The hits, in the order they are read. */
+  /** The hits, in the reader's order. */
   items: SearchResultProps[];
-  /** What was searched for. Marked in every hit, and named in the sentence an
-      empty answer gives. */
+  /** The query. Marked in every hit, and named in the sentence an empty
+      answer gives. */
   match?: string;
-  /** What was searched, said where the hits would have been. The default is
-      what a site index holds; a caller searching something else says so. */
+  /** What the search covered, said where the hits stand otherwise. The default
+      is what a site index holds; a caller that searches something else says
+      so. */
   empty?: string;
 }
 
 const SEARCHED =
-  'Every page of this site was searched — its titles and its opening lines. ' +
-  'What is not indexed is the body of a page, so a word used once deep in one ' +
-  'of them will not be found.';
+  'The search covered every page of this site — its titles and its opening ' +
+  'lines. The index does not hold the body of a page, so a word used once ' +
+  'deep in one of them does not appear.';
 
 export class SdsSearchHits extends SdsElement {
   static override properties = {
@@ -48,9 +49,9 @@ export class SdsSearchHits extends SdsElement {
     this.empty = SEARCHED;
   }
 
-  /** An answer of nothing is an answer: which pages were read, and what of
-      them is not indexed — so a search that found nothing can be told from one
-      that broke. */
+  /** An answer of nothing is an answer: which pages the search covered, and
+      what the index leaves out. So a reader can tell a search that found
+      nothing from one that broke. */
   private nothing(): TemplateResult {
     const asked = this.match.trim();
     return html`<div class="sds-hits__empty">

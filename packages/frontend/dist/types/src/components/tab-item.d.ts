@@ -18,17 +18,16 @@ export declare class SdsTabItem extends SdsElement {
             reflect: boolean;
         };
     };
-    /** What the tab is called. The panel it names goes between the tags. */
+    /** The tab's name. The panel it names goes between the tags. */
     label: string;
-    /** A glyph before the label, where a set of tabs is told apart before it
-        is read. */
+    /** A glyph before the label, where a set of tabs tells its tabs apart at a
+        glance. */
     icon?: IconId;
-    /** Whether this is the tab being read. One at a time, which the set
-        enforces. */
+    /** If this is the open tab. One at a time, which the set enforces. */
     active: boolean;
-    /** Whether a set of tabs is deciding which panel is shown. A panel decides
-        for itself until one is — which is what a panel is on a page where nothing
-        switches it, and hiding every one there leaves content in the document and
+    /** If a set of tabs decides which panel shows. A panel decides for itself
+        until one does, which is what a panel is on a page where nothing
+        switches it. Every one hidden there is content in the document and
         invisible in it. The set claims them the moment it exists. */
     managed: boolean;
     /** The id its tab points at, and the id its tab carries. */

@@ -1,14 +1,13 @@
 /* sds-checkbox-group — tick any of these, under one question.
 
-   `sds-checkbox` is one fact standing on its own; this is the other shape a
-   set of boxes takes, and it is a different question: several answers under a
-   legend, any number of them true. Written as loose checkboxes it is a heading
-   that happens to sit above some rows — nothing binds them, so nothing reads
-   them out as one question either.
+   `sds-checkbox` is one fact on its own. This is the other shape a set of boxes
+   takes, and a different question: several answers under a legend, any number
+   of them true. As loose checkboxes it is a heading above some rows.
+   Nothing binds them, so nothing reads them out as one question either.
 
-   The set is the component, as it is for `sds-radio`, and for the same reason:
-   the legend, the shared name and what is ticked are three things a caller
-   would otherwise keep in step by hand. */
+   The set is the component, as it is for `sds-radio`, and for the same reason.
+   The legend, the shared name and the ticks are three things a caller
+   otherwise keeps in step by hand. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { define } from '../lib/element.ts';
@@ -17,7 +16,7 @@ import { SdsFormElement } from '../lib/form-element.ts';
 /** One box of the set. */
 export interface CheckChoice {
   label: string;
-  /** What it sends when it is ticked. The label where there is none. */
+  /** What it sends when it is on. The label where there is none. */
   value?: string;
   /** What ticking it commits to, where the label cannot say it in a line. */
   hint?: string;
@@ -26,19 +25,19 @@ export interface CheckChoice {
 }
 
 export interface CheckboxGroupProps {
-  /** What is being asked. Rendered as the `<legend>`. */
+  /** The question. Rendered as the `<legend>`. */
   legend: string;
   /** Where the page already draws the question — a dialog's title, a heading
-      over the set. The legend is said and not drawn, so the set is still named
-      and the question is not on the page twice. */
+      over the set. The legend then speaks and does not draw, so the set keeps
+      its name and the question is not on the page twice. */
   legendSaidOnly?: boolean;
-  /** What the answers are called when the form is sent. One name for the whole
-      set, so a server reads them as a list. */
+  /** The name the answers travel under when the form submits. One name for the
+      whole set, so a server reads them as a list. */
   name: string;
   /** The boxes, each with its label and what it sends — set from script, being
       a list. */
   choices: readonly CheckChoice[];
-  /** Which of them are ticked, by value or by label where a choice has none. */
+  /** Which of them are on, by value or by label where a choice has none. */
   values?: readonly string[];
   /** What the whole set commits to, under the legend. */
   hint?: string;
@@ -72,7 +71,7 @@ export class SdsCheckboxGroup extends SdsFormElement {
   }
 
   /* What the markup ticked, which is what a reset puts back. `?checked` writes
-     the boxes' *defaults*; mirroring the live set into them would make a reset
+     the boxes' *defaults*; a mirror of the live set into them makes a reset
      restore the last click. */
   #initial?: readonly string[];
 
@@ -80,10 +79,10 @@ export class SdsCheckboxGroup extends SdsFormElement {
     this.#initial ??= this.values;
   }
 
-  /* The live state is written onto the control after the render, never as a
-     binding. A `.checked` binding is serialised by the static renderer as
-     `checked="false"` — which in HTML means checked — so every box on every
-     generated card came out ticked. `?checked` stays: it writes the *default*,
+  /* The live state goes onto the control after the render, never as a
+     binding. The static renderer writes a `.checked` binding as
+     `checked="false"`, which in HTML means checked. So every box on every
+     generated card came out on. `?checked` stays: it writes the *default*,
      which is what a reset puts back. */
   protected override updated(): void {
     for (const input of this.querySelectorAll('input')) input.checked = this.values.includes(input.value);

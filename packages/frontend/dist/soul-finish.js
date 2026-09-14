@@ -34,7 +34,7 @@ And the inner template was:
     ${this.above()}
     <h3 class="sds-result__title">${this.marked(this.heading)}</h3>
     ${this.snippet?c`<p class="sds-result__text">${this.marked(this.snippet)}</p>`:m}
-  </span>`;return this.href?c`<a class="sds-result" href="${this.href}" aria-label="${this.heading}">${t}</a>`:c`<article class="sds-result">${t}</article>`}};b("sds-search-result",cr);var qu="Every page of this site was searched \u2014 its titles and its opening lines. What is not indexed is the body of a page, so a word used once deep in one of them will not be found.",lr=class extends x{static{this.properties={items:{type:Array},match:{type:String},empty:{type:String}}}constructor(){super(),this.items=[],this.match="",this.empty=qu}nothing(){let t=this.match.trim();return c`<div class="sds-hits__empty">
+  </span>`;return this.href?c`<a class="sds-result" href="${this.href}" aria-label="${this.heading}">${t}</a>`:c`<article class="sds-result">${t}</article>`}};b("sds-search-result",cr);var qu="The search covered every page of this site \u2014 its titles and its opening lines. The index does not hold the body of a page, so a word used once deep in one of them does not appear.",lr=class extends x{static{this.properties={items:{type:Array},match:{type:String},empty:{type:String}}}constructor(){super(),this.items=[],this.match="",this.empty=qu}nothing(){let t=this.match.trim();return c`<div class="sds-hits__empty">
     <div class="sds-surface-title">Nothing here matches${t?c` “${t}”`:""}</div>
     ${this.empty.trim()?c`<p>${this.empty}</p>`:""}
   </div>`}render(){return c`<div class="sds-hits">
