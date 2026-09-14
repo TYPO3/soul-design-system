@@ -1,12 +1,12 @@
-/* sds-list — a list that is read rather than scanned, and the one whose items
+/* sds-list — a list a reader reads rather than scans, and the one whose items
    are not sentences. */
 
 @layer components {
-  /* A block of facts, not a passage that names things. Two columns — the terms
-     down one edge and their values down the other — because this is scanned: a
-     reader runs down the names to the one they came for, and stacked they
-     would have to read every pair. No width is named, so the same list works
-     in half a split and across a page alike. */
+  /* A block of facts, not a passage that names things. Two columns, the terms
+     down one edge and their values down the other, because a reader scans
+     this. They run down the names to the one they came for; stacked, they
+     have to read every pair. No width stands here, so the same list works in
+     half a split and across a page alike. */
   .sds-facts {
     --sds-facts-step: var(--space-2);
     --sds-facts-gap: var(--space-6);
@@ -21,11 +21,11 @@
     display: grid;
     grid-template-columns: minmax(0, auto) minmax(0, 1fr);
     gap: var(--sds-facts-step) var(--sds-facts-gap);
-    /* Nothing above it — a list of facts begins where it is put — and the step
-       a block takes below, or a second group under the first reads as one. */
+    /* Nothing above it, as a list of facts begins where it stands. The step a
+       block takes below, or a second group under the first reads as one. */
     margin-block: 0 var(--sds-facts-step-after);
 
-    /* Quiet, and not the semibold a passage gives a term: the value is what a
+    /* Quiet, and not the semibold a passage gives a term. The value is what a
        reader came for, and a column of bold names beside it reads as the
        louder half of every pair. */
     > dt {
@@ -37,8 +37,8 @@
       min-width: 0;
     }
     /* What is true about the value and not part of it: a line under it, in the
-       register an aside is set in. It goes here rather than in a note at the
-       foot of the block, where it stands beside nothing it is about. */
+       register of an aside. It goes here rather than in a note at the foot of
+       the block, where it stands beside nothing it is about. */
     .sds-facts__note {
       display: block;
       margin-block-start: var(--sds-facts-note-gap);
@@ -49,10 +49,10 @@
   }
 
   /* Groups of facts, as one grid rather than four. Two things follow and
-     neither can be had otherwise: every value on a side rests at one edge,
-     the groups borrowing the set's columns; and the rule over a group in the
-     second row stands level with the one beside it, a grid row being as tall
-     as the tallest thing in it. Four lists drift by what they weigh. */
+     neither comes otherwise. Every value on a side rests at one edge, as the
+     groups borrow the set's columns. The rule over a group in the second row
+     stands level with the one beside it. A grid row is as tall as the
+     tallest thing in it. Four lists drift by what they weigh. */
   .sds-facts-set {
     --sds-facts-set-gap: var(--space-12);
     --sds-facts-set-step: var(--space-5);
@@ -97,7 +97,7 @@
     border-block-start: 0;
   }
 
-  /* One column below the width the page stops giving two of anything: the set
+  /* One column below the width where the page gives two of nothing. The set
      is one term column and one value column, and the groups stack. */
   @media (max-width: 860px) {
     .sds-facts-set {
@@ -111,8 +111,8 @@
   }
 
   /* What the element cannot say: the items stand apart. The document's own
-     reset stays tight on purpose — a list of flags under a field is one block
-     of text, and air between its lines would make it two. */
+     reset stays tight on purpose. A list of flags under a field is one block
+     of text, and air between its lines makes it two. */
   .sds-list {
     --sds-list-gap: var(--space-1);
 
@@ -121,11 +121,11 @@
     }
   }
 
-  /* And a list whose items are not sentences: every one is marked by being a
-     link, and a disc in front of it is a bullet drawn on a menu. The indent goes
-     with the markers at the top level only — below it the step is what says a
+  /* And a list whose items are not sentences. Every one is a link and that is
+     its mark; a disc in front of it is a bullet drawn on a menu. The indent goes
+     with the markers at the top level only. Below it the step is what says a
      section belongs to the one above. The markers go from every level, because
-     the nested rule above would otherwise hand them straight back. */
+     the nested rule above otherwise hands them straight back. */
   .sds-list--plain {
     padding-inline-start: 0;
   }

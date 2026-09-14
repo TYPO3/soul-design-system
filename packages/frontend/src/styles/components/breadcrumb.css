@@ -1,9 +1,9 @@
 /* sds-nav-breadcrumb — the way back up, as a line. */
 
 @layer base {
-  /* A block, and the step it carries is the flow's own: the trail is the way
+  /* A block, and the step it carries is the flow's own. The trail is the way
      back up, not part of the title, so it stands off the group by the full
-     step — and a container that pays the gap takes it back. */
+     step. A container that pays the gap takes it back. */
   sds-nav-breadcrumb {
     display: block;
     min-width: 0;
@@ -40,9 +40,9 @@
     font-size: var(--sds-crumbs-font-size);
     color: var(--sds-crumbs-ink);
 
-    /* Not `.sds-link`: a trail of five link-coloured words above a heading reads
-       as the loudest thing on the page, and the one thing it must not compete
-       with is the title of the page it names. */
+    /* Not `.sds-link`. A trail of five link-coloured words above a heading reads
+       as the loudest thing on the page. The one thing it must not compete with
+       is the title of the page it names. */
     a {
       color: inherit;
       text-decoration: none;

@@ -15,7 +15,7 @@
 }
 
 @layer components {
-  /* Apparatus rather than prose, like the contents list: a step down, set in
+  /* Apparatus rather than prose, like the contents list. A step down, set in
      the machine's own font, because every name in it is a name on a disk. */
   .sds-tree {
     --sds-tree-font: var(--font-mono);
@@ -47,7 +47,7 @@
     padding-inline-start: 0;
     list-style: none;
 
-    /* What is under a directory is indented, and the spine and the elbows are
+    /* What is under a directory steps in, and the spine and the elbows are
        the item's own — see below. */
     .sds-tree__list {
       margin-inline-start: calc(var(--sds-tree-pad) + var(--sds-tree-mark) / 2);
@@ -62,10 +62,10 @@
       margin-bottom: 0;
     }
   }
-  /* The spine and the elbow, which are what make a list of names a tree: a line
+  /* The spine and the elbow, which are what make a list of names a tree. A line
      down from the directory above and a turn into each name under it. Drawn per
-     item rather than once down the list, so the spine can stop at the last
-     one's turn instead of running past it into air. */
+     item rather than once down the list. So the spine can stop at the last
+     one's turn and never run past it into air. */
   .sds-tree__list .sds-tree__list > .sds-tree__item {
     position: relative;
 
@@ -94,10 +94,10 @@
       border-block-start-width: var(--sds-tree-rule);
     }
   }
-  /* One row, whether it folds or not, so a leaf's name begins where a
-     directory's does. Padded rather than bled: a row inside a `<details>` that
-     reached past it is a row cut off by the box it is in, which the rendered
-     pages are measured for. The whole tree steps in by that much instead. */
+  /* One row, with a fold or without, so a leaf's name begins where a
+     directory's does. Padded rather than bled. A row inside a `<details>` that
+     reaches past it is a row the box it is in cuts off, which the rendered
+     pages measure for. The whole tree steps in by that much instead. */
   .sds-tree__row {
     display: flex;
     align-items: center;
@@ -113,7 +113,7 @@
       display: none;
     }
   }
-  /* Only a row that opens answers the pointer. A leaf lighting up would be a
+  /* Only a row that opens answers the pointer. A leaf that lights up is a
      press offered where there is none. */
   summary.sds-tree__row {
     cursor: pointer;
@@ -123,9 +123,9 @@
       background: var(--sds-tree-fill-hover);
     }
   }
-  /* The fold mark keeps its box on every row, open or shut and leaf or not, or
-     the names step in and out as the tree opens. Sideways closed, down open: it
-     points at what pressing will do. */
+  /* The fold mark keeps its box on every row, open or shut and leaf or not.
+     Otherwise the names step in and out as the tree opens. Sideways closed,
+     down open: it points at what a press will do. */
   .sds-tree__mark {
     flex: none;
     display: inline-flex;
@@ -154,9 +154,9 @@
     min-width: 0;
     overflow-wrap: anywhere;
   }
-  /* What the name is for. The sentence face and quiet, being the one thing in a
-     tree that is prose — and beside the name rather than lined up in a column,
-     which is the alignment a text tree pays for with spaces that go wrong the
+  /* What the name is for. The sentence face and quiet, as the one thing in a
+     tree that is prose. Beside the name rather than lined up in a column. That
+     alignment is what a text tree pays for with spaces that go wrong the
      moment a name changes. */
   .sds-tree__note {
     min-width: 0;

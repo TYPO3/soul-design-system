@@ -10,9 +10,9 @@
 @layer components {
   /* An item is a control: a link where it goes somewhere, a button where it
      switches something on this page. The button carries a browser default font,
-     border and background that a link does not, so the three items are levelled
-     here rather than three times below. Left alone: colour, padding and the
-     active block, which are each navigation's own. */
+     border and background that a link does not. The three items level here
+     rather than three times below. Left alone: colour, padding and the active
+     block, which are each navigation's own. */
   button.sds-pill,
   button.sds-tab,
   button.sds-rail__item {
@@ -23,7 +23,7 @@
     text-align: start;
   }
 
-  /* An item may carry a glyph before its label, which is the only reason these
+  /* An item can carry a glyph before its label, which is the only reason these
      are flex rather than inline text. */
   .sds-pill,
   .sds-tab,
@@ -35,10 +35,10 @@
     gap: var(--sds-item-gap);
   }
 
-  /* Pill nav for sections. Active is a filled block, not a tint. Wraps: in a
-     header the menu measures and becomes a panel, but standing on a page as a
-     filter there is nothing to collapse into — a second line costs the page
-     30px, where a row that will not fold pushes a phone sideways. */
+  /* Pill nav for sections. Active is a filled block, not a tint. Wraps. In a
+     header the menu measures and becomes a panel, but on a page as a filter
+     there is nothing to collapse into. A second line costs the page 30px,
+     where a row that will not fold pushes a phone sideways. */
   .sds-pills {
     --sds-pills-gap: var(--space-1);
     --sds-pills-font: var(--font-mono);
@@ -51,14 +51,14 @@
     font-size: var(--sds-pills-font-size);
   }
   /* Its own set and not the row's: a pill stands in the bar's drawer as well,
-     where there is no row above it. One pill is one line — two words in it are
-     the name of one place, and folding a name in half is the menu's decision
-     to collapse, never the label's own. */
+     where there is no row above it. One pill is one line. Two words in it are
+     the name of one place. A name folded in half is the menu's decision to
+     collapse, never the label's own. */
   .sds-pill {
-    /* Declared, not fallen out of the line box. One pill is one line, so its
-       leading is a control's rather than the page's — inherited, prose leading
-       drew a 16px name in a 24.8px box and the pill stood taller than every
-       other control in the row it was standing in. */
+    /* Declared, not left to the line box. One pill is one line, so its leading
+       is a control's rather than the page's. Inherited, prose leading drew a
+       16px name in a 24.8px box, and the pill stood taller than every other
+       control in its row. */
     --sds-pill-height: var(--control-height);
     --sds-pill-leading: var(--control-leading);
     --sds-pill-pad-x: var(--space-3);

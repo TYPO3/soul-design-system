@@ -1,7 +1,7 @@
 /* sds-link — a word that goes somewhere, with or without a mark. */
 
 @layer base {
-  /* A part, and one that sets in the line rather than beside it: a link is a
+  /* A part, and one that sets in the line rather than beside it. A link is a
      word, and a word takes the box its sentence gives it. */
   sds-link {
     display: inline;
@@ -26,10 +26,10 @@
       text-decoration: var(--sds-link-line-hover);
     }
   }
-  /* An offer that changes something here rather than going somewhere is a
-     button, and it still reads as the link it is — same rule as the navigation
-     items, which are links or buttons by what pressing them does. The browser
-     defaults a button carries and an anchor does not are levelled here. */
+  /* An offer that changes something here rather than goes somewhere is a
+     button, and it still reads as the link it is. Same rule as the navigation
+     items, which are links or buttons by what a press does. The browser
+     defaults a button carries and an anchor does not level here. */
   button.sds-link {
     font: inherit;
     border: 0;
@@ -39,7 +39,7 @@
   }
 
   /* An external link carries actions-window-open after the label, and the same
-     row holds wherever a link carries any glyph. `sds-icon` as well as
+     row holds wherever a link carries any glyph. `sds-icon` and also
      `.sds-icon`, because the class arrives only on upgrade and a link that
      becomes a flex row then moves its own label. */
   .sds-link--external,
@@ -48,9 +48,9 @@
     align-items: center;
     gap: var(--sds-link-gap);
   }
-  /* A mark standing on its own: the glyph is the link, so there is no word to
-     underline and no line box to size it from. What it is called is on the
-     element for whoever cannot see it. */
+  /* A mark on its own. The glyph is the link, so there is no word to
+     underline and no line box to size it from. Its name is on the element
+     for whoever cannot see it. */
   .sds-link--bare {
     --sds-link-gap: 0;
     --sds-link-line-hover: none;

@@ -1,10 +1,10 @@
-/* sds-classifier — the kind a term may be given, `term : noun`. */
+/* sds-classifier — the kind a term can carry, `term : noun`. */
 
 @layer components {
-  /* The kind is not the term: it drops to the register the definition is
-     written in, so a reader scanning the column sees the words being defined
-     and not what they are. The colon that introduces it is its punctuation and
-     reads the same set — one register, two nodes. */
+  /* The kind is not the term. It drops to the register of the definition, so
+     a reader who scans the column sees the defined words and not what they
+     are. The colon that introduces it is its punctuation and reads the same
+     set — one register, two nodes. */
   .sds-classifier,
   .sds-classifier__mark {
     --sds-classifier-weight: var(--weight-regular);

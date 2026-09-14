@@ -8,9 +8,9 @@
 
 @layer components {
   /* The button and its panel as one box. The panel is a popover and leaves for
-     the top layer when it opens, so this box positions nothing — it is the
-     anchor the panel is placed against and the ancestor its set is read from,
-     both of which survive the move. */
+     the top layer when it opens, so this box positions nothing. It is the
+     anchor the panel sits against and the ancestor its set reads from, and
+     both survive the move. */
   .sds-dropdown {
     --sds-dropdown-panel-min: 12rem;
     --sds-dropdown-panel-max: var(--width-sidebar);
@@ -48,8 +48,8 @@
   /* The marker that says this button opens something, rather than acts. It
      turns to point at the panel it has opened, so the control says which state
      it is in without a second word. A box of its own, like every other glyph
-     in this system: a class written on an element is gone from the card, where
-     the element is replaced by what it drew. */
+     in this system. A class written on an element is absent from the card,
+     where what the element drew stands in its place. */
   .sds-dropdown__button {
     .sds-dropdown__marker {
       --sds-icon-size: var(--sds-dropdown-marker-size);
@@ -64,9 +64,9 @@
   }
 
   /* The list, in the top layer. Everything undone here is the browser's own
-     idea of a popover — centred in the viewport, framed, with padding of its
-     own — and every one of those is this component's decision to make. The
-     edges are left at `auto` because what sets them is the placement below. */
+     idea of a popover: centred in the viewport, framed, with padding of its
+     own. Every one of those is this component's decision to make. The edges
+     stay at `auto` because what sets them is the placement below. */
   .sds-dropdown__panel {
     display: flex;
     flex-direction: column;
@@ -78,10 +78,10 @@
     border-radius: var(--sds-dropdown-panel-radius);
     box-shadow: var(--sds-dropdown-panel-shadow);
 
-    /* Everything that makes it a flyout hangs off the attribute, so the list
-       drawn by a surface that runs no script is a list in the flow. What is
-       undone here is the browser's own idea of a popover — centred in the
-       viewport, framed, padded — each of which this component decides. */
+    /* Everything that makes it a flyout hangs off the attribute. So the list
+       a surface with no script draws is a list in the flow. What goes here is
+       the browser's own idea of a popover — centred in the viewport, framed,
+       padded — each of which this component decides. */
     &[popover] {
       position: fixed;
       inset: auto;
@@ -94,25 +94,25 @@
       }
     }
 
-    /* In the flow it is still a list that came out of a button, so it stands
-       off it by what the flyout is placed at rather than against it. */
+    /* In the flow it is still a list that came out of a button. So it stands
+       off it by the flyout's distance rather than against it. */
     .sds-dropdown__button + &:not([popover]) {
       margin-block-start: var(--sds-dropdown-panel-gap);
     }
   }
 
   /* Placed by the engine where it can be: the edges, from the button's own.
-     `anchor()` rather than `position-area` — an area is a box the panel is
-     fitted into, and a list wider than the control it came from is then pushed
-     off its own anchor. These are the same edges, and the same retreat from
-     them, that `lib/flyout.ts` writes where there is no anchoring at all. */
+     `anchor()` rather than `position-area`. An area is a box the panel fits
+     into, and a list wider than the control it came from then lands off its
+     own anchor. These are the same edges, and the same retreat from them,
+     that `lib/flyout.ts` writes where there is no anchoring at all. */
   @supports (anchor-name: --sds-dropdown) {
     .sds-dropdown__panel[popover] {
       inset-block-start: calc(anchor(end) + var(--sds-dropdown-panel-gap));
       inset-inline-start: anchor(start);
       /* A button near the side the panel grows towards leaves less room than
-         the panel is wide, and a panel that has left the viewport cannot be
-         scrolled back onto it — so it is hung from the other edge instead. */
+         the panel is wide. A panel that has left the viewport cannot scroll
+         back onto it, so it hangs from the other edge instead. */
       position-try-fallbacks: flip-inline;
     }
     sds-dropdown[align="end"] .sds-dropdown__panel[popover] {
@@ -122,7 +122,7 @@
   }
 
   /* One row. A link and a command draw the same, because what a reader picks
-     is the label either way — the difference is what it is announced as. */
+     is the label either way. The difference is the announcement. */
   .sds-dropdown__item {
     font: inherit;
     font-size: var(--sds-dropdown-item-size);
@@ -149,7 +149,7 @@
     }
 
     /* The one in force. Marked with the accent down its start edge rather than
-       with a tick at the end: the edge is where a reader scanning a column of
+       with a tick at the end. The edge is where a reader who scans a column of
        labels already is, and it costs the row no width. */
     &.is-active {
       color: var(--sds-dropdown-item-ink-active);
@@ -157,9 +157,9 @@
       box-shadow: inset 2px 0 0 0 var(--sds-dropdown-item-mark);
     }
 
-    /* The one ring, on the box rather than off it — the same thing a search hit
-       does, and for the same reason: a row is already air around its words, so
-       a ring standing off lies in the gap the list keeps and runs over the
+    /* The one ring, on the box rather than off it. The same thing a search hit
+       does, and for the same reason. A row is already air around its words. A
+       ring that stands off lies in the gap the list keeps and runs over the
        panel's own edge at the ends. */
     &:focus-visible {
       outline-offset: 0;

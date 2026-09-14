@@ -2,15 +2,15 @@
 
    Order matters: tokens declare the values, components consume them.
 
-   The tokens stay one level up in `tokens/` — they are their own layer and
+   The tokens stay one level up in `tokens/`. They are their own layer, and
    the upload bundle puts them beside this file, so the build rewrites these
    `../` imports back to siblings.
-   Everything reachable from here is what a rendered design receives —
-   the specimen chrome in _specimen.css is deliberately outside this
+   Everything reachable from here is what a rendered design receives.
+   The specimen chrome in _specimen.css is deliberately outside this
    closure, because cards are documentation, not product. */
 
 /* The order the cascade resolves in, declared once. A later layer wins over an
-   earlier one whatever the specificity and wherever the rule stands, so where
+   earlier one whatever the specificity and wherever the rule stands. So where
    a rule lives decides what it can overrule — not what line it is on. */
 @layer tokens, reset, base, layout, components, state;
 

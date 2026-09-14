@@ -9,8 +9,8 @@
 
 @layer components {
   /* A site's footer rather than a surface's, and every part of it falls away
-     where nothing is set. A ground and no rule above it: a hairline between two
-     areas of the same ground says only that something ends. */
+     where nothing sets it. A ground and no rule above it: a hairline between
+     two areas of the same ground says only that something ends. */
   .sds-footer {
     --sds-footer-fill: var(--surface-sunken);
     --sds-footer-pad-y: var(--space-10);
@@ -19,7 +19,7 @@
     --sds-footer-group-gap: var(--space-6);
     --sds-footer-list-gap: var(--space-1-5);
     --sds-footer-heading-gap: var(--space-3);
-    /* What a wrapped line falls to, which is not what names a list: the end
+    /* What a wrapped line falls to, which is not what names a list. The end
        line and the row of marks read this, and they have no heading. */
     --sds-footer-row-gap: var(--space-2);
     --sds-footer-end-gap: var(--space-5);
@@ -38,10 +38,9 @@
     --sds-footer-duration: var(--duration-fast);
     --sds-footer-ease: var(--ease-out);
     /* The footer is a page row: full-bleed, its contents held to the measure.
-       The inset is computed on the row and never inherited ready-made — the
-       `%` and the animated gutter both resolve where they are written — and
-       the gutter is the page's token, so the step arrives without the footer
-       being named in the layout. */
+       The inset computes on the row and never arrives ready-made. The `%` and
+       the animated gutter both resolve where they stand. The gutter is the
+       page's token, so the step arrives and the layout never names the footer. */
     --page-gutter: var(--gutter-page);
     --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
     --sds-footer-inset: var(--page-inset);
@@ -54,8 +53,8 @@
     gap: var(--sds-footer-gap);
     transition: --page-gutter var(--sds-footer-duration) var(--sds-footer-ease);
   }
-  /* The mark beside the columns rather than over them, so the two read as one
-     row and a narrow window stacks them with no rule saying when. Twice the
+  /* The mark beside the columns rather than over them. So the two read as one
+     row, and a narrow window stacks them with no rule to say when. Twice the
      columns' own gap: at their distance the sentence about the site reads as
      the first list in the directory. */
   .sds-footer__top {
@@ -71,18 +70,18 @@
   }
   /* The sentence that says what this is: the one thing in a footer somebody
      reads rather than scans. It sits at the top on its own measure rather than
-     in the line at the bottom, where fine print is what a page uses to be
-     forgiven for what it says. */
+     in the line at the bottom. Fine print there is how a page asks forgiveness
+     for what it says. */
   .sds-footer__note {
     margin: 0;
     font-size: var(--sds-footer-note-size);
     line-height: var(--sds-footer-note-leading);
     color: var(--sds-footer-ink-quiet);
   }
-  /* `auto-fill`, where every other set of columns here is `auto-fit`: an empty
-     track is kept rather than collapsed, so two columns stay two columns instead
-     of being stretched half a page apart. A footer's lists are read as a block
-     at the bottom of the page, not as one column per quarter of the measure. */
+  /* `auto-fill`, where every other set of columns here is `auto-fit`. An empty
+     track stays rather than collapses, so two columns stay two columns and do
+     not stretch half a page apart. A footer's lists read as a block at the
+     bottom of the page, not as one column per quarter of the measure. */
   .sds-footer__groups {
     flex: 1 1 var(--sds-footer-groups-width);
     display: grid;
@@ -90,7 +89,7 @@
     gap: var(--sds-footer-gap) var(--sds-footer-group-gap);
   }
   /* A heading belongs to its list, and names it only while it stands clear of
-     the entries under it: at their own distance it is read as the first of
+     the entries under it. At their own distance it reads as the first of
      them. Twice that, and still under the distance to the next column — the
      two bounds it has to sit between. */
   .sds-footer__group {
@@ -105,28 +104,28 @@
     gap: var(--sds-footer-list-gap);
     font-size: var(--sds-footer-link-size);
   }
-  /* A footer is a directory, not a place the accent appears — `--accent` marks
+  /* A footer is a directory, not a place the accent appears. `--accent` marks
      three things and a list of every page is not one of them. It is also what
-     the ground costs: the link orange is 4.29:1 on the sunken plane, which is
+     the ground costs. The link orange is 4.29:1 on the sunken plane, which is
      the finding `--syntax-key` already carries for the same colour. */
   .sds-footer :is(a, .sds-link) {
     color: var(--sds-footer-ink);
   }
-  /* The colour only: the underline is the link's own, and stating it again here
-     put one under a mark that is a glyph and has no word to carry it. */
+  /* The colour only. The underline is the link's own. Said again here, it
+     lands under a mark that is a glyph and has no word to carry it. */
   .sds-footer :is(a, .sds-link):hover {
     color: var(--sds-footer-ink-hover);
   }
   /* A heading that is also a page, where the section it names has one. It keeps
-     the label's colour rather than taking the links': at theirs it is the first
+     the label's colour rather than takes the links'. At theirs it is the first
      entry of its own list, and what it names is the list. The underline under
      the pointer is the whole of the affordance, and every link here has it. */
   .sds-footer .sds-footer__heading {
     color: var(--sds-footer-ink-quiet);
   }
   /* The line under the columns: what this is, and the notices that have to
-     travel with it. Set apart by space and not by a rule — a hairline between
-     two areas of one ground is a horizontal rule across the window, which is
+     travel with it. Set apart by space and not by a rule. A hairline between
+     two areas of one ground is a horizontal rule across the window. That is
      what the footer changed its ground to avoid in the first place. */
   .sds-footer__end {
     padding-top: var(--sds-footer-end-gap);
@@ -137,9 +136,9 @@
     font-size: var(--sds-footer-end-size);
     color: var(--sds-footer-ink-quiet);
   }
-  /* The marks, at the far end of that line: glyphs rather than words, so they
-     are spaced as a row of marks and not as a run of links — close enough to
-     read as one set, far enough that each is its own target. */
+  /* The marks, at the far end of that line. Glyphs rather than words, so they
+     space as a row of marks and not as a run of links. Close enough to read
+     as one set, far enough that each is its own target. */
   .sds-footer__marks {
     margin-inline-start: auto;
     display: flex;
@@ -147,7 +146,7 @@
     align-items: center;
     gap: var(--sds-footer-row-gap) var(--sds-footer-mark-gap);
   }
-  /* Alone on the line there is nothing to be at the far end *of*, and a set of
+  /* Alone on the line there is nothing to be at the far end *of*. A set of
      marks against the right edge of a page that says nothing else reads as
      something that lost what it belonged to. */
   .sds-footer__marks:only-child {
@@ -159,9 +158,9 @@
     padding-top: 0;
   }
 
-  /* The closing line wraps here, and a set of marks pushed to the far end of a
-     line it is alone on sits against the right edge under text that starts at
-     the left. There is no end to be at once the line broke. */
+  /* The closing line wraps here. A set of marks pushed to the far end of its
+     own line sits against the right edge under text that starts at the left.
+     There is no end to be at once the line broke. */
   @media (max-width: 640px) {
     .sds-footer__marks {
       margin-inline-start: 0;

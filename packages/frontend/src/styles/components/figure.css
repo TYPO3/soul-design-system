@@ -1,9 +1,9 @@
 /* sds-figure — a picture and the claim it makes. */
 
 @layer base {
-  /* And it fills what it is given: a wall stretches the cell to the tallest in
-     the row, where a block box stops at its own caption and leaves a frame
-     shorter than the drawing beside it. */
+  /* And it fills what it gets. A wall stretches the cell to the tallest in
+     the row. A block box stops at its own caption and leaves a frame shorter
+     than the drawing beside it. */
   sds-figure {
     display: block;
     min-width: 0;
@@ -18,26 +18,26 @@
   }
 
   /* A bare `<figure>` is this component without its element, and its caption
-     labels the picture rather than continuing the sentence. The step below is
-     the flow contract's, like every other block — a document used to set it one
-     size wider, which is a second distance for the same relation. Never the
-     caption an element renders: there the stack's gap is already that distance. */
+     labels the picture rather than continues the sentence. The step below is
+     the flow contract's, like every other block. A second distance for the same
+     relation is one too many. Never the caption an element renders: there the
+     stack's gap is already that distance. */
   figure:not([class*="sds-"]) > figcaption {
     padding-block-start: var(--space-2);
     font-size: var(--font-size-small);
     color: var(--text-muted);
   }
   /* A caption a renderer wrote is a block, so what arrives inside it is a
-     paragraph carrying the gap that belongs between two — under the last line
-     of a label, where there is nothing to be apart from. */
+     paragraph with the gap that belongs between two. Under the last line of a
+     label, where there is nothing to be apart from. */
   figcaption > :last-child {
     margin-bottom: 0;
   }
 
   /* The picture before its element upgrades, and on a page that runs none.
      The renderer wrote it carrying `sds-art`, so it is already the right size
-     in the column. What is missing is the frame and the stack it makes with
-     the caption: an undefined element is inline, so the two sit on one line. */
+     in the column. What is absent is the frame and the stack it makes with
+     the caption. An undefined element is inline, so the two sit on one line. */
   sds-figure:not(:defined) {
     display: flex;
     flex-direction: column;
@@ -45,9 +45,9 @@
     margin: 0 0 var(--space-4);
   }
   sds-figure:not(:defined) > .sds-art {
-    /* The border counts against the width the picture is capped at, not on
-       top of it: a hairline added outside `max-width: 100%` is two pixels of
-       the column the picture does not have. */
+    /* The border counts against the width the picture stops at, not on top of
+       it. A hairline outside `max-width: 100%` is two pixels of the column the
+       picture does not have. */
     box-sizing: border-box;
     border: var(--border-hairline) solid var(--border-subtle);
     border-radius: var(--radius-card);
@@ -58,8 +58,8 @@
 @layer components {
   /* A drawing, and what it claims. The frame is sunken because a diagram is
      machine output in the sense a log is — generated from the thing it describes.
-     The caption is the claim in words and is not optional: a drawing whose point
-     has to be inferred means something different to each reader. */
+     The caption is the claim in words and is not optional: a drawing with no
+     stated point means something different to each reader. */
   .sds-figure {
     --sds-figure-gap: var(--space-3);
     --sds-figure-border: var(--border-hairline);
@@ -76,19 +76,19 @@
     gap: var(--sds-figure-gap);
   }
   /* No padding: a drawing carries its own margin, so a frame that adds another
-     indents it twice and it arrives smaller than it was drawn. The frame is a
-     hairline and a corner; the fill is the ground under an image that does not
-     fill it, and the clip keeps a full-bleed one inside the corner. */
+     indents it twice and it arrives smaller than drawn. The frame is a hairline
+     and a corner. The fill is the ground under an image that does not fill it,
+     and the clip keeps a full-bleed one inside the corner. */
   .sds-figure__frame {
     border: var(--sds-figure-border) solid var(--sds-figure-edge);
     border-radius: var(--sds-figure-radius);
     background: var(--sds-figure-fill);
     overflow: hidden;
   }
-  /* A picture that was never prepared to be referenced keeps the colours it was
-     exported with, so the ground under it is one those colours were drawn for.
-     The one surface in the system that does not follow the reader into dark:
-     below light line art, a dark ground is the page contradicting the picture. */
+  /* A picture with no group to reference keeps its exported colours, so the
+     ground under it is the one those colours are for. The one surface in the
+     system that does not follow the reader into dark. Below light line art, a
+     dark ground is the page in contradiction with the picture. */
   .sds-figure__frame--exported {
     --sds-figure-fill: var(--surface-art);
   }

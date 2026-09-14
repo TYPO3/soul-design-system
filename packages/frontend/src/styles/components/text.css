@@ -1,5 +1,5 @@
-/* The registers a page writes in: the label over a block, the mono the machine
-   is quoted in, and the one that is heard and not seen. */
+/* The registers a page writes in. The label over a block, the mono a quote
+   from the machine takes, and the one a reader hears and does not see. */
 
 @layer components {
   /* A section label: mono, uppercase, tracked out. */
@@ -17,14 +17,14 @@
   }
 
   /* Inline mono for anything the machine named — tool names, paths, flags,
-     versions. The optical ratio sets it under the sentence around it, so a step
-     of weight puts back the colour the smaller size took out: the face on its
+     versions. The optical ratio sets it under the sentence around it. So a step
+     of weight puts back the colour the smaller size took out. The face on its
      own reads as a lighter grey and the run goes under. It breaks where it has
      to — a path is one word, and one word wider than a phone scrolls the page. */
-  /* A word carrying a status, where a pill would be too loud for it.
-     `sds-badge` is the mark on a thing; this is the colour on a word — a count
-     in a table cell, a state in a line of prose. The three the palette means
-     something with, and a page may write no other colour on a word. */
+  /* A word with a status, where a pill is too loud for it. `sds-badge` is the
+     mark on a thing; this is the colour on a word. A count in a table cell, a
+     state in a line of prose. The three the palette means something with,
+     and a page must write no other colour on a word. */
   .sds-ok {
     color: var(--status-ok);
   }
@@ -51,10 +51,10 @@
     overflow-wrap: anywhere;
   }
   /* Inside a block the machine wrote, the block has already decided the size,
-     the weight and the colour — `<code>` there is the element `<pre>` is
-     required to contain, not a phrase standing out of a sentence. Without this
-     the ratio above applies a second time and the step of weight sets a whole
-     block in medium, which is a block asking to be read as emphasis. */
+     the weight and the colour. `<code>` there is the element `<pre>` must
+     contain, not a phrase that stands out of a sentence. Without this the
+     ratio above applies a second time. The step of weight then sets a whole
+     block in medium, which is a block that asks to read as emphasis. */
   .sds-code__body code,
   .sds-diff code {
     --sds-mono-font-size: inherit;

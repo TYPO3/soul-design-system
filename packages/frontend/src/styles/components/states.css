@@ -14,10 +14,10 @@
   }
 
   /* The admonition before its element upgrades, for the reason the code block
-     is: an undefined element is inline. Less is restored, and that is the
-     point — an admonition is paragraphs and paragraphs read. Only standing
-     apart is missing, so this draws the box and stops: a hairline pretending
-     to carry a tone is the colour-only meaning the component avoids. */
+     is: an undefined element is inline. Less comes back, and that is the
+     point — an admonition is paragraphs and paragraphs read. Only the box is
+     absent, so this draws the box and stops. A hairline that pretends to
+     carry a tone is the colour-only meaning the component avoids. */
   sds-note:not(:defined) {
     display: block;
     margin: 0 0 var(--space-4);
@@ -51,13 +51,13 @@
     --sds-note-body-leading: var(--leading-body);
     --sds-note-body-ink: var(--text-secondary);
     --sds-note-body-lead: var(--space-1);
-    /* The note's first line, which is what the glyph and the action are both
-       hung on. Written out rather than read as `1lh`: the two boxes that hang
-       on it set neither the size nor the leading it is made of, and a title
-       makes it a different line — see the condition below. */
+    /* The note's first line, which the glyph and the action both hang on.
+       Written out rather than read as `1lh`. The two boxes that hang on it
+       set neither the size nor the leading it consists of. A title makes it
+       a different line — see the condition below. */
     --sds-note-line: calc(var(--sds-note-body-size) * var(--sds-note-body-leading));
-    /* Whether the row may break, and the width below which it does. Both are
-       the note with an action; the condition below is where they are set. */
+    /* If the row can break, and the width below which it does. Both are the
+       note with an action; the condition below sets them. */
     --sds-note-wrap: nowrap;
     --sds-note-say-min: auto;
 
@@ -69,8 +69,8 @@
     background: var(--sds-note-fill);
     padding: var(--sds-note-pad-y) var(--sds-note-pad-x);
 
-    /* A note carrying an action may break, at the width where the sentence
-       stops giving way: under it the button goes, rather than squeezing the
+    /* A note with an action can break, at the width where the sentence no
+       longer gives way. Under it the button goes, rather than squeezes the
        words down to nothing beside it. */
     &:has(.sds-note__action) {
       --sds-note-wrap: wrap;
@@ -83,10 +83,10 @@
       --sds-note-line: calc(var(--sds-note-title-size) * var(--sds-note-title-leading));
     }
   }
-  /* The glyph is centred on the *title's* line, so it is given that line and
-     centres in it: an icon in a flex row otherwise measures whatever
-     line-height it inherited, and one left on the baseline of a line it shares
-     with nothing sits above the middle of every other box in the row. */
+  /* The glyph centres on the *title's* line, so it gets that line and centres
+     in it. An icon in a flex row otherwise measures whatever line-height it
+     inherited. One left on the baseline of a line it shares with nothing sits
+     above the middle of every other box in the row. */
   .sds-note__icon {
     flex: none;
     display: flex;
@@ -96,7 +96,7 @@
     line-height: var(--sds-note-title-leading);
     color: var(--sds-note-mark-ink);
 
-    /* The floor, not the surrounding text's size: a note sits in a page whose
+    /* The floor, not the text's size around it. A note sits in a page whose
        body copy is 16px, and an icon that follows it is larger than the title it
        stands beside. Same reason the code head pins its own. */
     .sds-icon {
@@ -104,9 +104,9 @@
     }
   }
   /* Everything beside the glyph. `min-width: 0` because a flex item's floor is
-     its widest content, and a note in a document can hold a code block — which
-     would otherwise make its longest line the width of the note, and the note
-     the width of the page. Same reason `.sds-code` states it. */
+     its widest content, and a note in a document can hold a code block. That
+     otherwise makes its longest line the width of the note, and the note the
+     width of the page. Same reason `.sds-code` states it. */
   .sds-note__content {
     flex: 1 1 var(--sds-note-say-min);
     min-width: 0;
@@ -132,7 +132,7 @@
     }
     /* A body written between the tags is blocks, not a sentence: paragraphs, a
        list, a code block. They bring their own margins from the document layer,
-       and the outermost two would push the note's own padding out of true. */
+       and the outermost two push the note's own padding out of true. */
     > :first-child {
       margin-top: 0;
     }
@@ -142,10 +142,10 @@
   }
 
   /* The one thing to do about it, at the far edge of the line the sentence
-     opens with — and under it, at that same edge, where the box is too narrow
-     to hold both. It is given that line and centres in it, the way the glyph
-     opposite does: a button is taller than a line, so it hangs either side of
-     it into the note's own padding rather than pushing the row open. */
+     opens with. Under it, at that same edge, where the box is too narrow to
+     hold both. It gets that line and centres in it, the way the glyph opposite
+     does. A button is taller than a line, so it hangs either side of it into
+     the note's own padding rather than pushes the row open. */
   .sds-note__action {
     flex: none;
     display: flex;
@@ -154,7 +154,7 @@
     margin-inline-start: auto;
   }
 
-  /* A degraded but usable answer tints the whole block; error and success
+  /* A degraded but usable answer tints the whole block. Error and success
      colour the icon only, so a page of results does not read as an alarm. */
   .sds-note--warn {
     --sds-note-edge: var(--border-accent-quiet);
@@ -195,14 +195,14 @@
     animation: sds-spin 1.1s linear infinite;
   }
 
-  /* Skeletons only where the shape is known — a table, a list. Never for a
+  /* Skeletons only where the shape is certain — a table, a list. Never for a
      single value. */
   .sds-skeleton {
     --sds-skeleton-height: 9px;
     --sds-skeleton-fill: var(--surface-inset);
-    /* Where bars stand in a stack, whoever stacks them offsets each one: a
-       block of them pulsing in unison reads as the page blinking rather than
-       as work still coming. */
+    /* Where bars stand in a stack, whoever stacks them offsets each one. A
+       block of them that pulse in unison reads as a page that blinks rather
+       than as work still to come. */
     --sds-skeleton-delay: 0s;
 
     display: block;
@@ -248,7 +248,7 @@
       transition: none;
     }
     /* A card is the one thing here that moves under the pointer. Held still by
-       the distance it is written from; the fill and the hairline still answer. */
+       the distance it draws from; the fill and the hairline still answer. */
     .sds-card:has(> .sds-card__body) {
       --sds-card-lift: 0px;
       transition: none;
@@ -256,14 +256,14 @@
     .sds-card:has(> .sds-card__body)::before {
       transition: none;
     }
-    /* And a tile, which moves for the same reason and is held still the same
-       way — by the distance it is written from. */
+    /* And a tile, which moves for the same reason and stands still the same
+       way — by the distance it draws from. */
     .sds-icon-tile {
       --sds-icon-tile-lift: 0px;
       transition: none;
     }
-    /* The plane under a hit is there or it is not — nothing moves either way,
-       but a fade is still travel over a list somebody is scanning. */
+    /* The plane under a hit is there or it is not. Nothing moves either way,
+       but a fade is still travel over a list somebody scans. */
     .sds-result {
       transition: none;
     }

@@ -1,9 +1,9 @@
 /* Specimen chrome — for the cards only.
 
-   The annotation layer the specimen cards are drawn with: captions, swatch
-   grids, the small notes under an example. Deliberately NOT imported by
-   styles.css, because a design built with this system must not inherit it — a
-   rendered design gets the token and component layers only.
+   The annotation layer the specimen cards draw with: captions, swatch grids,
+   the small notes under an example. Deliberately NOT imported by styles.css,
+   because a design built with this system must not inherit it. A rendered
+   design gets the token and component layers only.
 
    One definition each, under one prefix, so nothing here collides with
    `sds-` or means one thing on a card and another in the system. */
@@ -20,8 +20,8 @@ body {
 }
 
 /* A specimen that shows a finished artefact — a diagram, an exported image —
-   puts it on the sunken plane so the artefact's own canvas reads as a figure
-   with clear space around it, instead of dissolving into the card. Without
+   puts it on the sunken plane. So the artefact's own canvas reads as a figure
+   with clear space around it, and does not dissolve into the card. Without
    this a diagram drawn at --surface-canvas sits on exactly its own colour
    and loses every boundary. */
 .spec-sunken {
@@ -38,21 +38,21 @@ body {
 }
 
 /* Every stack here states its own step, so what it holds gives up the one the
-   element layer gives it — the same trade `layout.css` makes, restated because
-   these classes are outside that closure. */
+   element layer gives it. The same trade `layout.css` makes, said again
+   because these classes are outside that closure. */
 :is(.spec, .spec-col, .spec-row, .spec-box, .spec-pane, .spec-sw) > * {
   margin-block: 0;
 }
-/* And the last block of any box a specimen builds by hand, however deep it
-   wrapped it: a step under the last one is air at the bottom of a card, which
-   is the one place nothing follows. */
+/* And the last block of any box a specimen builds by hand, at any depth. A
+   step under the last one is air at the bottom of a card, which is the one
+   place nothing follows. */
 :is(.spec, .spec-col, .spec-row, .spec-box, .spec-pane, .spec-sw) [class*="sds-"]:last-child {
   margin-block-end: 0;
 }
 
 /* Just the card's padding, no layout opinion — for specimens that lay
    themselves out (a grid of type samples, a row of state chips). */
-/* One value: a card is a photograph of a design, and air that is wider at the
+/* One value. A card is a photograph of a design. Air that is wider at the
    sides than at the top is a frame with an opinion in it. */
 .spec-pad {
   padding: 20px;
@@ -65,7 +65,7 @@ body {
   flex-wrap: wrap;
 }
 
-/* The uppercase mono caption that names what an example is showing.
+/* The uppercase mono caption that names what an example shows.
    This is annotation, never product text. */
 .spec-cap {
   font-family: var(--font-mono);
@@ -74,9 +74,9 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* Paints a hover state for a card. A specimen cannot be pointed at, so a state
-   that exists only under the pointer is drawn here, in the annotation layer,
-   rather than by giving the component a property no product would use.
+/* Paints a hover state for a card. A specimen takes no pointer. So a state
+   that exists only under the pointer draws here, in the annotation layer,
+   rather than through a property no product uses.
    Mirrors `.sds-link:hover`; if that changes, this has to follow. */
 .spec-hover .sds-link {
   color: var(--text-link-hover);
@@ -94,7 +94,7 @@ body {
   font-weight: var(--weight-semibold);
 }
 
-/* A rule being stated: normal size, where a note beside it is small. */
+/* A stated rule: normal size, where a note beside it is small. */
 .spec-rule {
   font-size: var(--font-size-body);
   line-height: var(--leading-body);
@@ -106,7 +106,7 @@ body {
 }
 
 /* A section heading inside a specimen. Mono and muted, never upper case and
-   tracked out: that is what `.sds-eyebrow` draws, and a card wearing it hands
+   tracked out. That is what `.sds-eyebrow` draws, and a card with it hands
    a reader product vocabulary that was only ever annotation. */
 .spec-h {
   font-family: var(--font-mono);
@@ -115,9 +115,9 @@ body {
   color: var(--text-secondary);
 }
 
-/* The name over a group of swatches or samples, opened as the comment it is —
-   the one mark no component in this system draws, so nothing on a card can be
-   mistaken for something the system ships. */
+/* The name over a group of swatches or samples, opened as the comment it is.
+   The one mark no component in this system draws, so nothing on a card can
+   pass for something the system ships. */
 .spec-lbl {
   font-family: var(--font-mono);
   font-size: calc(var(--font-size-small) * var(--font-modifier-mono));

@@ -1,6 +1,6 @@
 /* sds-progress — how far a running job has got.
 
-   The fill takes its colour from the distance itself — grey where there is
+   The fill takes its colour from the distance itself. Grey where there is
    nothing to report yet, mixed the whole way to the colour of a finished run
    as it approaches one. A flat colour at every moment and no threshold to
    invent: how near the result is *is* what a bar says. Not the accent, which
@@ -22,15 +22,15 @@
 
 @layer components {
   .sds-progress {
-    /* Where it stands, as a length the fill is drawn to. The one property a
+    /* Where it stands, as a length the fill draws to. The one property a
        surface sets from outside; everything else here is the component's. */
     --sds-progress-at: 0%;
     --sds-progress-track-h: 8px;
     --sds-progress-radius: var(--radius-pill);
     --sds-progress-track-fill: var(--surface-inset);
-    /* The two ends of the ink, mixed by how far the work has got: quiet grey
-       where there is nothing to report yet, turning the whole way to the
-       colour of a finished run as it gets there. */
+    /* The two ends of the ink, mixed by how far the work has got. Quiet grey
+       where there is nothing to report yet, and the whole way to the colour of
+       a finished run as it gets there. */
     --sds-progress-ink-early: var(--text-muted);
     --sds-progress-ink-late: var(--status-ok);
     --sds-progress-fill: color-mix(
@@ -50,10 +50,10 @@
     --sds-progress-note-ink: var(--text-muted);
     --sds-progress-duration: var(--duration-fast);
     --sds-progress-ease: var(--ease-out);
-    /* The hatch a working bar carries: half a stripe pair across the stripe,
-       and the same distance measured along the bar, which is the way a
-       background travels. Its ink is the page under the fill, so the stripes
-       lighten on a light page and darken on a dark one. */
+    /* The hatch a busy bar carries. Half a stripe pair across the stripe, and
+       the same distance measured along the bar, which is the way a background
+       travels. Its ink is the page under the fill, so the stripes lighten on a
+       light page and darken on a dark one. */
     --sds-progress-hatch-angle: 45deg;
     --sds-progress-hatch-band: 5px;
     --sds-progress-hatch-step: calc(var(--sds-progress-hatch-band) * 2 / sin(var(--sds-progress-hatch-angle)));
@@ -67,7 +67,7 @@
   }
 
   /* What the work is on the left and where it stands on the right, on one
-     baseline — the row a control states its question and its answer in. */
+     baseline. The row a control states its question and its answer in. */
   .sds-progress__head {
     display: flex;
     align-items: baseline;
@@ -79,7 +79,7 @@
     color: var(--sds-progress-caption-ink);
   }
   /* Mono and tabular: the number counts up in place, and proportional digits
-     would move the whole read-out sideways every time it did. */
+     move the whole read-out sideways every time it does. */
   .sds-progress__value {
     font-family: var(--sds-progress-value-font);
     font-size: var(--sds-progress-value-size);
@@ -87,8 +87,8 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* The fill is a square-ended block cut by the track's own corner, so a bar
-     one pixel in is a sliver of that corner rather than a pill floating in a
+  /* The fill is a square-ended block cut by the track's own corner. So a bar
+     one pixel in is a sliver of that corner rather than a pill afloat in a
      groove it does not touch. */
   .sds-progress__track {
     display: block;
@@ -113,7 +113,7 @@
     color: var(--sds-progress-note-ink);
   }
 
-  /* Something is happening right now — the one thing a bar standing still
+  /* Something happens right now — the one thing a bar that stands still
      cannot say, and what tells a slow run from a stalled one. The stripes
      travel the way the work does; the bar itself does not move. */
   .sds-progress--pulsing .sds-progress__fill {
@@ -137,8 +137,8 @@
     }
   }
 
-  /* A bar standing in a row of other things: the track alone gets thinner, so
-     the read-out over it is the same line it is anywhere else. */
+  /* A bar in a row of other things. The track alone gets thinner, so the
+     read-out over it is the same line it is anywhere else. */
   .sds-progress--small {
     --sds-progress-track-h: 4px;
     --sds-progress-gap: var(--space-1-5);
@@ -149,8 +149,8 @@
     .sds-progress__fill {
       transition: none;
     }
-    /* The hatch stays and stops travelling: a working bar still reads as one,
-       and what goes is the only thing here that was moving. */
+    /* The hatch stays and stands still: a busy bar still reads as one, and
+       what goes is the only thing here that moved. */
     .sds-progress--pulsing .sds-progress__fill {
       animation: none;
     }

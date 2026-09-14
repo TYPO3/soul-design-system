@@ -1,10 +1,10 @@
 /* sds-switch — a setting that takes effect where it stands.
 
-   The platform's checkbox with the paint taken and the picture put back: a
-   track that carries the state as a fill, and a knob that is a gradient in the
-   track's own background rather than a box of its own. A child element is not
-   available — an input has no children — and a pseudo-element on an input is
-   the one thing browsers have never agreed on. */
+   The platform's checkbox with the paint taken and the picture put back. A
+   track that carries the state as a fill. A knob that is a gradient in the
+   track's own background rather than a box of its own. An input has no
+   children, so there is no child element. A pseudo-element on an input is the
+   one thing browsers have never agreed on. */
 
 @layer base {
   sds-switch {
@@ -45,7 +45,7 @@
     gap: var(--sds-switch-gap);
     cursor: pointer;
 
-    /* Unavailable is the whole row, as it is for a checkbox: a full-strength
+    /* Unavailable is the whole row, as it is for a checkbox. A full-strength
        sentence beside a greyed track reads as a label that lost its control. */
     &:has(.sds-switch__track:disabled) {
       opacity: var(--sds-switch-disabled-opacity);
@@ -62,14 +62,14 @@
     }
   }
 
-  /* On is `--text-primary`, the colour a ticked box is filled with — never the
-     accent, which marks three things and a page of settings is not one. */
+  /* On is `--text-primary`, the fill of a ticked box. Never the accent, which
+     marks three things, and a page of settings is not one. */
   .sds-switch__track {
     appearance: none;
     flex: none;
     width: var(--sds-switch-track-w);
     height: var(--sds-switch-track-h);
-    /* Centred in the line box its label sets, the way the checkbox is: `1lh` is
+    /* Centred in the line box its label sets, the way the checkbox is. `1lh` is
        that box, so the track stays on the first line if the control leading or
        the label's size ever moves. */
     font-size: var(--sds-switch-font-size);
@@ -103,10 +103,10 @@
     }
   }
 
-  /* Its own parts and not the checkbox's, though the two rows look alike: the
-     `--sds-check-*` set is declared on `.sds-check` and travels down from
-     there, so a switch borrowing those class names read no set at all and its
-     label set at whatever the page inherits. */
+  /* Its own parts and not the checkbox's, though the two rows look alike. The
+     `--sds-check-*` set stands on `.sds-check` and travels down from there. A
+     switch that borrowed those class names read no set at all, and its label
+     set at whatever the page inherits. */
   .sds-switch__body {
     display: flex;
     flex-direction: column;

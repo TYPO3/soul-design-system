@@ -16,7 +16,7 @@
     --sds-rail-pad-x: var(--space-2);
     --sds-rail-indent: var(--space-3);
     /* Twice what stands between two rows, counted to the text rather than to
-       the box the row draws: a name set at the rows' own distance is read as
+       the box the row draws. A name set at the rows' own distance reads as
        the first row. */
     --sds-rail-label-gap: var(--space-3-5);
     --sds-rail-radius: var(--radius-control);
@@ -39,8 +39,8 @@
     font-size: var(--sds-rail-font-size);
 
     /* What the rail is a list of, where a renderer names it. `.sds-label` sets the
-       type and nothing else — everywhere else it labels a box that brings its own
-       spacing, and here it is a heading standing directly on its list. */
+       type and nothing else. Everywhere else it labels a box that brings its own
+       spacing, and here it is a heading directly on its list. */
     > .sds-label {
       display: block;
       margin-bottom: var(--sds-rail-label-gap);
@@ -48,9 +48,9 @@
     }
   }
   /* An item is a row of the rail, so it says so itself. The `inline-flex` it
-     shares with a pill carried only as long as every item was a flex item of the
-     column — a group's are not, and inside a block box eight inline items flow as
-     a paragraph and pair up two to a line. */
+     shares with a pill carried only while every item was a flex item of the
+     column. A group's are not, and inside a block box eight inline items flow
+     as a paragraph and pair up two to a line. */
   .sds-rail__item {
     display: flex;
     padding: var(--sds-rail-pad-y) var(--sds-rail-pad-x);
@@ -66,8 +66,8 @@
       color: var(--sds-rail-ink-active);
     }
   }
-  /* The name is the half that gives, and gives by ending rather than overflowing:
-     the rail is one fixed width and its rows are identifiers with nowhere to
+  /* The name is the half that gives, and it ends rather than overflows. The
+     rail is one fixed width and its rows are identifiers with nowhere to
      break, so a long one lies over whatever is beside it. Its own box, because
      the cut is a block container's and a row's bare text is not one. */
   .sds-rail__label {
@@ -76,8 +76,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  /* And the marker over a filled row is in that block, so it is drawn in the
-     block's own ink rather than reading as a glyph left on top of it. */
+  /* And the marker over a filled row is in that block. So it draws in the
+     block's own ink rather than reads as a glyph left on top of it. */
   .sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary,
   .sds-rail__group:has(> .sds-rail__item.is-active) > .sds-rail__fold > summary:hover {
     color: var(--sds-rail-ink-active);
@@ -109,19 +109,19 @@
   }
 
   /* A rail long enough to need sections. The row is a page like any other and
-     the marker beside it opens what it holds — the same pair the bar's row
+     the marker beside it opens what it holds. The same pair the bar's row
      draws, so a reader meets one shape and not two. The fold is a `<details>`,
-     so it works before any script does, and `display: contents` lets its marker
+     so it works before any script does. `display: contents` lets its marker
      stand on the row's line while what it holds falls below. */
   .sds-rail__group {
     position: relative;
     display: flex;
     flex-direction: column;
 
-    /* The marker stands *on* the row rather than beside it, so the row is one box:
-       what fills for the current page and what the focus ring goes round takes the
-       marker with it, the way the bar's block does. The row keeps the room free at
-       its end, so a long title never runs under the glyph. */
+    /* The marker stands *on* the row rather than beside it, so the row is one box.
+       The fill for the current page and the focus ring take the marker with
+       them, the way the bar's block does. The row keeps the room free at its
+       end, so a long title never runs under the glyph. */
     > .sds-rail__item {
       padding-inline-end: calc(var(--sds-rail-glyph) + var(--sds-rail-indent));
     }
@@ -153,9 +153,9 @@
     > summary:hover {
       color: var(--sds-rail-ink-hover);
     }
-    /* Sideways closed, down open — it points at what pressing it will do, and
-       keeps the control floor rather than the size of the words: a marker set
-       at those is a smudge on the one control in the rail. */
+    /* Sideways closed, down open — it points at what a press will do. It keeps
+       the control floor rather than the size of the words. A marker set at
+       those is a smudge on the one control in the rail. */
     > summary .sds-icon {
       --sds-icon-size: var(--sds-rail-glyph);
       transform: rotate(-90deg);
@@ -163,8 +163,8 @@
     }
     /* The box the browser puts between a fold and the pages it holds, which
        `display: contents` above does not reach through. It sets its pages in by
-       one step: a column where everything starts on the same edge says nothing
-       about what belongs to what — and the step is the indent, never a second
+       one step. A column where everything starts on the same edge says nothing
+       about what belongs to what. The step is the indent, never a second
        heading. */
     &::details-content {
       display: flex;

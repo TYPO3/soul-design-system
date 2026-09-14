@@ -16,9 +16,9 @@
     margin: 0 0 var(--space-4);
   }
 
-  /* The caption names the table from above it and quietly: a label for the
-     block, not a row of it, and read from the start like everything else here
-     rather than centred the way a browser sets one. */
+  /* The caption names the table from above it and quietly. A label for the
+     block, not a row of it. It starts at the left edge like everything else
+     here, not centred the way a browser sets one. */
   caption {
     margin-bottom: var(--space-2);
     font-size: var(--font-size-small);
@@ -28,11 +28,11 @@
 }
 
 @layer components {
-  /* Density is a choice about the work, not about loudness: compact when the
-     list *is* the work, airy when the rows are read rather than scanned. Each
-     density assigns four numbers and draws nothing. A bare `<table>` is the
-     same table — a renderer with no element behind it puts a class on nothing,
-     and two sets of numbers is how one stops agreeing with the other. */
+  /* Density is a choice about the work, not about loudness. Compact when the
+     list *is* the work, airy when a reader reads the rows rather than scans
+     them. Each density assigns four numbers and draws nothing. A bare `<table>`
+     is the same table. A renderer with no element behind it puts a class on
+     nothing, and two sets of numbers is how one drifts from the other. */
   table,
   .sds-table {
     --sds-table-font-size: var(--row-font-size);
@@ -41,10 +41,10 @@
        the row's own size through the ratio, whichever size that is. */
     --sds-table-name-size: calc(var(--sds-table-font-size) * var(--font-modifier-mono));
     --sds-table-meta-size: calc(var(--sds-table-font-size) * var(--font-modifier-mono));
-    /* The air between two columns. It went unseen for as long as every column
-       took its share of the table and stood in the middle of it; a column held
-       to its content stands at the edge of its own, and 12px between a hash and
-       the sentence beside it reads as one word. */
+    /* The air between two columns. Nobody saw it while every column took its
+       share of the table and stood in the middle of it. A column held to its
+       content stands at the edge of its own. 12px between a hash and the
+       sentence beside it reads as one word. */
     --sds-table-cell-gap: var(--space-6);
     --sds-table-leading: var(--row-leading);
     --sds-table-border: var(--border-hairline);
@@ -62,9 +62,9 @@
     --sds-table-graph-node: 10px;
     --sds-table-graph-gap: var(--space-3);
     --sds-table-graph-ring: 2px;
-    /* A rail is read down, so it is drawn at the weight of something that is
-       read and not of something that separates: the row rules are the quiet
-       lines on this surface and the rail may not be one of them. */
+    /* A reader reads a rail down, so it draws at the weight of text and not
+       of a separator. The row rules are the quiet lines on this surface, and
+       the rail must not be one of them. */
     --sds-table-graph-ink: var(--text-muted);
     --sds-table-graph-rail: var(--border-strong);
     --sds-table-graph-here: var(--text-primary);
@@ -103,9 +103,9 @@
       border-bottom: var(--sds-table-border) solid var(--sds-table-rule);
       color: var(--sds-table-ink);
       /* And a cell sits in the middle of its row. On a baseline, a cell next
-         to a name carrying its second line — or next to a control taller than
-         a line — hangs from the top of a row it does not fill, which reads as
-         a row that failed to line up rather than as one fact beside another. */
+         to a two-line name or a tall control hangs from the top of a row it
+         does not fill. That reads as a row that failed to line up rather than
+         as one fact beside another. */
       vertical-align: middle;
     }
 
@@ -126,10 +126,10 @@
       color: var(--sds-table-meta-ink);
     }
 
-    /* What is true about a row right now, under the name it is read by: the
-       same register a meta cell is set in, one line down. A line inside the
-       cell rather than a column of its own, whose head would have to name a
-       relationship instead of a fact — and the row centres on both lines. */
+    /* What is true about a row right now, under the name a reader reads it
+       by. The same register as a meta cell, one line down. A line inside the
+       cell rather than a column of its own, whose head has to name a
+       relationship instead of a fact. The row centres on both lines. */
     .sds-td-note {
       display: block;
       margin-top: var(--sds-table-note-gap);
@@ -143,11 +143,11 @@
     tbody tr:hover {
       background: var(--sds-table-fill-hover);
     }
-    /* Which edge a column is read down. A count, a date and a duration are
-       scanned down their right edge and stand at it; everything else is read
-       from the start, and there is no third — a centred column is scanned down
-       neither edge. Tabular figures come with the end, because that edge is
-       only worth having when the digits line up under each other. */
+    /* Which edge a reader reads a column down. A count, a date and a duration
+       scan down their right edge and stand at it. Everything else reads from
+       the start, and there is no third — a centred column scans down neither
+       edge. Tabular figures come with the end, because that edge only pays
+       when the digits line up under each other. */
     :is(th, td).sds-td-end {
       text-align: end;
       font-variant-numeric: tabular-nums;
@@ -156,21 +156,21 @@
     /* A column held to what it holds rather than to its share of the table: a
        commit's short hash, a version, a date. `1%` is the whole of it — a width
        under anything the content needs, which auto layout raises to the content
-       and no further, so the column carrying the reading takes the slack
-       instead of a seven-character cell sitting in a third of the table. */
+       and no further. So the column with the prose takes the slack, and no
+       seven-character cell sits in a third of the table. */
     :is(th, td):is(.sds-td-fit, .sds-td-into) {
       width: 1%;
       white-space: nowrap;
     }
 
-    /* The rail a log is read down: a line through the column and a node on
-       every row, so a reader follows one history rather than eight rows that
+    /* The rail a reader reads a log down. A line through the column and a node
+       on every row. So a reader follows one history rather than eight rows that
        happen to be under each other. It is a rail and not a graph — a history
        that forks is a drawing, and a table cell cannot hold one. */
-    /* Held to the node and a hair: a column carrying one dot does not take the
-       gap a column of words takes, and the subject beside it is what a reader
-       is running down — every pixel between them is one the eye crosses on
-       every row. */
+    /* Held to the node and a hair. A column with one dot does not take the
+       gap a column of words takes. The subject beside it is what a reader runs
+       down, and every pixel between them is one the eye crosses on every
+       row. */
     :is(th, td).sds-td-graph {
       position: relative;
       width: 1%;
@@ -183,8 +183,8 @@
       inset-inline-start: calc(var(--sds-table-graph-node) / 2);
       border-inline-start: var(--sds-table-border) solid var(--sds-table-graph-rail);
     }
-    /* The rail begins at the first node and ends at the last: run past either
-       and it points at a history the table is not showing. */
+    /* The rail begins at the first node and ends at the last. Run past either,
+       it points at a history the table does not show. */
     tbody tr:first-child > .sds-td-graph::before {
       inset-block-start: 50%;
     }
@@ -192,7 +192,7 @@
       inset-block-end: 50%;
     }
     /* The node itself. Hollow is a place rather than a commit — the working
-       copy, and the one the reader is standing on. */
+       copy, and the one the reader stands on. */
     .sds-graph {
       position: relative;
       display: block;
@@ -205,27 +205,27 @@
       background: var(--sds-table-fill-hover);
       box-shadow: inset 0 0 0 var(--sds-table-graph-ring) var(--sds-table-graph-ink);
     }
-    /* Where the reader is standing. The loudest node on the rail, in the ink a
-       line of text is set in — the accent marks three things and a history is
-       not one of them, so what says "here" says it with weight. */
+    /* Where the reader stands. The loudest node on the rail, in the ink of a
+       line of text. The accent marks three things and a history is not one of
+       them, so what says "here" says it with weight. */
     .sds-graph--current {
       background: var(--sds-table-fill-hover);
       box-shadow: inset 0 0 0 var(--sds-table-graph-ring) var(--sds-table-graph-here);
     }
 
     /* The way into a row, as the control at the end of it. Its own column and
-       no head — a head over it would have to name the button rather than a
-       fact — so the way in stands at the same place in every row of every table
-       and a reader travels down one column rather than reading for it. */
+       no head, because a head over it has to name the button rather than a
+       fact. So the way in stands at the same place in every row of every
+       table. A reader travels down one column rather than reads for it. */
     td.sds-td-into {
       text-align: end;
     }
 
-    /* The selected row leaves the scanning registers. `--text-muted` and
-       `--text-link` are tuned against the canvas, and the accent fill moves the
-       ground under them: each lands a hair under 4.5:1 on it. Nothing is wrong with
-       either token or with the fill — the pair only meets on this row, which is
-       also the one row with no reason to be set for scanning. */
+    /* The selected row leaves the scan registers. `--text-muted` and
+       `--text-link` sit against the canvas, and the accent fill moves the
+       ground under them: each lands a hair under 4.5:1 on it. Nothing is wrong
+       with either token or with the fill. The pair only meets on this row,
+       which is also the one row with no reason to set for a scan. */
     tbody tr.is-selected {
       --sds-table-name-ink: var(--text-primary);
       --sds-table-meta-ink: var(--text-primary);
@@ -244,9 +244,9 @@
     --sds-table-pad: var(--row-pad-airy);
   }
 
-  /* A table waiting for its answer. The head is already there — the columns
-     are known before the rows are — and the body is drawn as bars, which is
-     the one case a skeleton is honest: the shape is not being guessed at. */
+  /* A table that waits for its answer. The head is already there — the columns
+     come before the rows do — and the body draws as bars. That is the one
+     case a skeleton is honest: the shape is no guess. */
   .sds-table--loading {
     /* Nothing here answers yet, so nothing lights up under the pointer. */
     --sds-table-fill-hover: transparent;
@@ -255,9 +255,9 @@
       --sds-skeleton-height: var(--sds-table-skeleton-height);
       --sds-skeleton-fill: var(--sds-table-skeleton-fill);
 
-      /* Inline, so the cell keeps the line box its text will have: a bar is
-         shorter than a line, and a block one would let the table change height
-         the moment the answer arrived. */
+      /* Inline, so the cell keeps the line box its text will have. A bar is
+         shorter than a line, and a block one lets the table change height
+         the moment the answer arrives. */
       display: inline-block;
       vertical-align: middle;
       width: var(--sds-table-skeleton-wide);
@@ -282,16 +282,16 @@
   }
 
   /* A table wider than the column it sits in. The scroller is a box **around**
-     the table, never the table itself: `display: block` takes the element out of
-     table layout, and the row groups left inside generate an anonymous table box
-     that shrink-wraps — narrowing every table that was not too wide. As a wrapper
-     nothing changes, and the table overflows only where its minimum is wider. */
+     the table, never the table itself. `display: block` takes the element out of
+     table layout. The row groups left inside then generate an anonymous table
+     box that shrink-wraps, which narrows every table that was not too wide. As
+     a wrapper nothing changes, and the table overflows only where it must. */
   .sds-table-scroll {
     max-width: 100%;
     overflow-x: auto;
 
-    /* The wrapper carries the step for both of them. Left here it would be dead
-       air inside the scroller and nothing below it. */
+    /* The wrapper carries the step for both of them. Left here it is dead air
+       inside the scroller and nothing below it. */
     > .sds-table {
       margin-bottom: 0;
     }

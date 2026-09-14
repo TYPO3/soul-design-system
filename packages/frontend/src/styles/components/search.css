@@ -8,8 +8,8 @@
 
 @layer components {
   /* The block the element draws, and the box the panel hangs from. Without one
-     the drop finds whatever is positioned above it — which in a bar is the bar,
-     so it hung off the header's right edge rather than off the field. */
+     the drop finds whatever positioned box is above it. In a bar that is the
+     bar, so it hung off the header's right edge rather than off the field. */
   .sds-search {
     --sds-search-width: 260px;
     --sds-search-panel-width: min(420px, 90vw);
@@ -35,9 +35,9 @@
       width: 100%;
     }
     /* Hung from the end of the field rather than from the start of it. A box
-       given both edges *and* a width keeps the start edge, which is how this
-       drop came to hang off the left of the field and grow right past it — so
-       it is given the one edge it is anchored to, below. */
+       with both edges *and* a width keeps the start edge. That is how this drop
+       came to hang off the left of the field and grow right past it. So it
+       gets the one edge it anchors to, below. */
     .sds-search__panel {
       width: var(--sds-search-panel-width);
       max-height: var(--sds-search-panel-height);
@@ -46,22 +46,22 @@
          that carry theirs. */
       padding: var(--sds-search-panel-pad);
       /* Framed and raised, unlike the bar's drop. That one is the header's row
-         continued, so it is the canvas and is bounded by the page edges it spans;
-         this one floats over the text, and a box laid over a page has to be a
-         plane above it — unframed and in the page's own colour it reads as the
-         page itself having changed rather than as something laid on top. */
+         continued, so it is the canvas and the page edges it spans bound it.
+         This one floats over the text, and a box over a page has to be a plane
+         above it. Unframed and in the page's own colour it reads as a change in
+         the page itself rather than as something on top. */
       background: var(--sds-search-fill);
       border: var(--sds-search-border) solid var(--sds-search-edge);
       border-radius: var(--sds-search-radius);
-      /* And how far off the page it is, said the one way this system says it: a
+      /* And how far off the page it is, said the one way this system says it. A
          surface that has left the page carries a shadow, and this drop stands at
          the same distance as the one the bar opens. */
       box-shadow: var(--sds-search-shadow);
 
-      /* A popover, so the top layer holds it — nothing on the page can be
-         stacked over it and no ancestor's overflow clips it. All of it hangs
-         off the attribute, so a surface that writes these classes and runs no
-         script still draws the drop, in the flow where it stands. */
+      /* A popover, so the top layer holds it — nothing on the page can stack
+         over it and no ancestor's overflow clips it. All of it hangs off the
+         attribute. So a surface that writes these classes and runs no script
+         still draws the drop, in the flow where it stands. */
       &[popover] {
         position: fixed;
         inset: auto;
@@ -79,15 +79,15 @@
      measures the field and writes the same edges by the same rule. */
   @supports (anchor-name: --sds-search) {
     /* Written out to the same depth the rule above has. Nesting is scope and
-       never weight, but it is still specificity: `.sds-search__panel` alone
-       loses to the nested `inset: auto` it is meant to replace, in the same
-       layer, and the drop then sits in the corner of the viewport. */
+       never weight, but it is still specificity. `.sds-search__panel` alone
+       loses to the nested `inset: auto` it has to replace, in the same layer.
+       The drop then sits in the corner of the viewport. */
     .sds-search .sds-search__panel[popover] {
       inset-block-start: calc(anchor(end) + var(--sds-search-panel-gap));
       inset-inline-end: anchor(end);
       /* A field near the start of the page has less room on that side than the
-         drop is wide, and a drop that has left the viewport cannot be scrolled
-         back onto it — so it is hung from the field's other edge instead. */
+         drop is wide. A drop that has left the viewport cannot scroll back onto
+         it, so it hangs from the field's other edge instead. */
       position-try-fallbacks: flip-inline;
     }
   }
@@ -98,9 +98,9 @@
     --sds-result-thumb: var(--sds-search-thumb);
     --sds-result-title-size: var(--sds-search-title-size);
   }
-  /* Two lines of the sentence, and the rest cut. A drop is passed through on the
-     way to a page: what is being read here is which page it is, and a paragraph
-     per row is a page of reading in front of the one that was asked for. */
+  /* Two lines of the sentence, and the rest cut. A reader passes through a drop
+     on the way to a page. What they read here is which page it is. A
+     paragraph per row is a page of text in front of the one they asked for. */
   .sds-search__panel .sds-result__text {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -108,10 +108,10 @@
     line-clamp: var(--sds-search-snippet-lines);
     overflow: hidden;
   }
-  /* An empty answer is a sentence, not a box in a box: whatever it hangs in is
+  /* An empty answer is a sentence, not a box in a box. Whatever it hangs in is
      already the plane, and a second hairline inside it reads as a card that
      failed to fill. The measure goes too — the drop is narrower than a reading
-     column and would wrap the sentence twice over. */
+     column and wraps the sentence twice over. */
   .sds-hits__empty {
     --sds-hits-empty-pad: var(--space-3);
 

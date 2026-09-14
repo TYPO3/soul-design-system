@@ -1,4 +1,4 @@
-/* sds-confval — one setting: what it is called, what it takes, what it does. */
+/* sds-confval — one setting: its name, what it takes, what it does. */
 
 @layer base {
   sds-confval {
@@ -16,12 +16,12 @@
 
 @layer components {
   /* One configuration value, and the list it stands in. A hairline above each
-     entry and no box around it: a reference is dozens of these in a column, and
-     drawn as boxes it stops being a list. */
+     entry and no box around it. A reference is dozens of these in a column, and
+     drawn as boxes it is no longer a list. */
   .sds-confval {
-    /* An entry is made of words, so it wraps where words wrap — and the rule
-       above it with them: drawn to the full column, a hairline would separate
-       two paragraphs of text with a line half of which has nothing under it. */
+    /* An entry consists of words, so it wraps where words wrap, and the rule
+       above it with them. Drawn to the full column, a hairline separates two
+       paragraphs of text with a line half of which has nothing under it. */
     --sds-confval-measure: var(--measure-prose);
     --sds-confval-gap: var(--space-3);
     --sds-confval-term-gap: var(--space-2);
@@ -60,8 +60,8 @@
     font-weight: var(--sds-confval-name-weight);
     color: var(--sds-confval-name-ink);
   }
-  /* The address of this one entry, in the character an address is written with.
-     Quiet until it is wanted rather than absent until hover: a mark that appears
+  /* The address of this one entry, in the character of an address. Quiet until
+     the reader wants it rather than absent until hover. A mark that appears
      under the pointer is a mark a touch reader never finds. */
   .sds-confval__mark {
     font-family: var(--sds-confval-mark-font);
@@ -77,10 +77,10 @@
     margin: 0;
   }
 
-  /* What a machine would check, set apart from the prose that explains it and
-     kept to one line where it fits: a reference is dozens of entries deep, and
+  /* What a machine checks, set apart from the prose that explains it and kept
+     to one line where it fits. A reference is dozens of entries deep, and
      three facts stacked in each is a page of column. Shrink-wrapped, because a
-     fact is as wide as it is, and it wraps rather than scrolling. */
+     fact is as wide as it is, and it wraps rather than scrolls. */
   .sds-confval__facts {
     display: flex;
     flex-wrap: wrap;
@@ -100,14 +100,14 @@
       margin: 0;
       max-width: none;
     }
-    /* The air between two facts, against the air inside one: a label belongs to
-       the value on its right, and equal gaps would leave that to be guessed. */
+    /* The air between two facts, against the air inside one. A label belongs to
+       the value on its right, and equal gaps leave that to a guess. */
     dt ~ dt {
       margin-inline-start: var(--sds-confval-facts-pad-x);
     }
-    /* A label is muted against the canvas it was measured on. Eleven pixels on the
-       inset surface is the one place that drops under contrast, so it steps up a
-       register rather than the surface losing its fill. */
+    /* A label mutes against the canvas it measured on. Eleven pixels on the
+       inset surface is the one place that drops under contrast. So it steps up
+       a register rather than the surface loses its fill. */
     .sds-label {
       --sds-label-ink: var(--sds-confval-facts-label-ink);
     }

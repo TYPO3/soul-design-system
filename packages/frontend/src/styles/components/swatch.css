@@ -1,9 +1,9 @@
 /* sds-swatch — a colour, its name and the value it resolves to. */
 
 @layer base {
-  /* And it fills what it is given: a wall stretches the cell to the tallest in
-     the row, where a block box stops at its own two lines and leaves a row
-     shorter than the colour beside it. */
+  /* And it fills what it gets. A wall stretches the cell to the tallest in
+     the row. A block box stops at its own two lines and leaves a row shorter
+     than the colour beside it. */
   sds-swatch {
     display: block;
     min-width: 0;
@@ -19,10 +19,10 @@
 }
 
 @layer components {
-  /* One colour, stated as a fact. A row and not a tile: a palette is read down
-     its names, and a wall of squares is a set nobody can quote from. The chip is
-     the subject; the two lines beside it are what gets typed somewhere else, so
-     both are machine text. */
+  /* One colour, stated as a fact. A row and not a tile. A reader reads a
+     palette down its names, and a wall of squares is a set nobody can quote
+     from. The chip is the subject; the two lines beside it are what somebody
+     types somewhere else, so both are machine text. */
   .sds-swatch {
     --sds-swatch-chip-size: var(--swatch-chip-size);
     --sds-swatch-gap: var(--space-3);
@@ -41,9 +41,9 @@
     gap: var(--sds-swatch-gap);
     min-width: 0;
   }
-  /* The hairline round the chip is the system's own, not the value being shown —
-     without it a swatch the colour of the page would be an empty square, which
-     is the one case a palette has to be able to draw. */
+  /* The hairline round the chip is the system's own, not the value on show.
+     Without it a swatch the colour of the page is an empty square, which is
+     the one case a palette must be able to draw. */
   .sds-swatch__chip {
     flex: none;
     width: var(--sds-swatch-chip-size);
@@ -68,8 +68,8 @@
     gap: var(--sds-swatch-line-gap);
     min-width: 0;
   }
-  /* The name breaks inside the word: a token is one word, and a set of these is
-     laid out in columns narrower than the longest of them. */
+  /* The name breaks inside the word. A token is one word, and a set of these
+     stands in columns narrower than the longest of them. */
   .sds-swatch__name {
     font-family: var(--sds-swatch-font);
     font-size: var(--sds-swatch-name-size);

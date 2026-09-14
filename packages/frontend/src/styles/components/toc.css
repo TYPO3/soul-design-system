@@ -13,46 +13,46 @@
     margin: 0 0 var(--space-6);
   }
 
-  /* Nothing at every other width: the box is in the markup on every page and
-     is not in the layout until the rule below puts it there, so no template
-     decides twice where it stands. `.sds-prose` is structure, not a guard: it
-     places the aside a document writes beside its column, and one standing
-     outside a passage stays the box it is. */
+  /* Nothing at every other width. The box is in the markup on every page and
+     not in the layout until the rule below puts it there. So no template
+     decides twice where it stands. `.sds-prose` is structure, not a guard. It
+     places the aside a document writes beside its column, and one outside a
+     passage stays the box it is. */
   .sds-prose .sds-aside {
     display: contents;
   }
 
-  /* At full measure the list leaves the flow and stands beside the column, so
+  /* At full measure the list leaves the flow and stands beside the column. So
      the page reads rail, text, contents with the same width either side. 1296px
-     is where the page stops growing and the one width with room to give: the
-     column keeps its measure after giving up 258px. */
+     is where the page stops and the one width with room to give: the column
+     keeps its measure after it gives up 258px. */
   @media (min-width: 1296px) {
-    /* The column gives the width up rather than the box taking it, so the
-       breadcrumb and the pager narrow with the text: a column that is one width
+    /* The column gives the width up rather than the box takes it, so the
+       breadcrumb and the pager narrow with the text. A column that is one width
        at the top of the page and another at the bottom is two columns. */
     .sds-body__main:has(> .sds-prose .sds-aside) {
       position: relative;
       padding-inline-end: calc(var(--width-sidebar) + var(--space-12));
     }
-    /* The box is the reserve: the column's own padding, top to bottom, so the
+    /* The box is the reserve: the column's own padding, top to bottom. So the
        list starts where the rail starts and can rest anywhere down the page. Out
        of the flow entirely rather than floated, because a float begins where it
-       stands — written under three paragraphs of introduction, the list began
-       three paragraphs down and left a hole above it. */
+       stands. Under three paragraphs of introduction, the list began three
+       paragraphs down and left a hole above it. */
     .sds-prose .sds-aside {
       display: block;
       position: absolute;
       /* Wider than the column it draws, by what a row's fill and the ring around
          it stand in. The list scrolls when it is long, and a scroll container
-         paints nothing outside itself — the ring was cut off at three sides of
-         an entry. The inset gives that room back, so the text stands where it
-         stood and only the block behind it is wider. */
+         paints nothing outside itself. The ring lost three sides of an entry.
+         The inset gives that room back, so the text stands where it stood and
+         only the block behind it is wider. */
       inset-block: calc(-1 * var(--space-1-5)) 0;
       inset-inline-end: calc(-1 * var(--space-4));
       width: calc(var(--width-sidebar) + var(--space-4) * 2);
     }
     /* The element the list arrives in is a box of its own, and a sticky box
-       travels inside its parent: left at the list's own height it gives the
+       travels inside its parent. Left at the list's own height it gives the
        list nowhere to rest. At the reserve's height the travel is the column. */
     .sds-prose .sds-aside sds-nav-toc {
       block-size: 100%;
@@ -61,9 +61,9 @@
 }
 
 @layer components {
-  /* What is on this page: the sections of the page being read, as a list to jump
-     from. Apparatus rather than prose — a step down in size and set in the
-     secondary ink, so a reader uses it or reads past it, and both are easier
+  /* What is on this page: the sections of the open page, as a list to jump
+     from. Apparatus rather than prose. A step down in size and in the
+     secondary ink, so a reader uses it or reads past it. Both are easier
      when it is not a paragraph. */
   .sds-toc {
     --sds-toc-font-size: var(--font-size-small);
@@ -75,8 +75,8 @@
     --sds-toc-indent: var(--space-3);
     --sds-toc-bleed: var(--space-2);
     /* Clear of the entries under it, counted to their text and not to the box
-       each one fills: at their distance the name is read as the first of them,
-       and past 1296px the frame that would group them is gone. */
+       each one fills. At their distance the name reads as the first of them,
+       and past 1296px there is no frame to group them. */
     --sds-toc-label-gap: var(--space-4);
     --sds-toc-radius: var(--radius-control);
     --sds-toc-leading: var(--leading-heading);
@@ -88,7 +88,7 @@
     --sds-toc-duration: var(--duration-fast);
     --sds-toc-ease: var(--ease-out);
 
-    /* Apparatus rather than prose: ruled above and below, a step down and
+    /* Apparatus rather than prose. Ruled above and below, a step down and
        held to the reading measure, so a reader uses it or reads past it. No
        rule at the left edge — that mark belongs to the quotation. */
     padding: var(--sds-toc-frame-pad) 0;
@@ -103,23 +103,23 @@
     }
   }
   /* No markers. A contents is a list of places, and a bullet before each one is
-     punctuation for a sentence nobody is reading. */
+     punctuation for a sentence nobody reads. */
   .sds-toc__list {
     margin: 0;
     padding-inline-start: 0;
     list-style: none;
 
-    /* Indented, and standing off the entry it hangs under by the step two entries
-       stand off each other: one gap whatever level an entry is on, because the
-       indent already says which — a group set tighter than its neighbours is a
-       rhythm the eye reads before it reads any of the words. */
+    /* Indented, and off the entry it hangs under by the step two entries stand
+       off each other. One gap whatever level an entry is on, because the indent
+       already says which. A group set tighter than its neighbours is a rhythm
+       the eye reads before it reads any of the words. */
     .sds-toc__list {
       padding-block-start: var(--sds-toc-step);
       padding-inline-start: var(--sds-toc-indent);
     }
-    /* One step between entries. The row is a row and no longer a line of prose, so
-       nothing is left between two of them: the fill of one meets the fill of the
-       next, and a list of places reads as a block of them. */
+    /* One step between entries. The row is a row and no longer a line of prose,
+       so nothing stays between two of them. The fill of one meets the fill of
+       the next, and a list of places reads as a block of them. */
     > li {
       margin-bottom: var(--sds-toc-step);
     }
@@ -128,11 +128,11 @@
       margin-bottom: 0;
     }
   }
-  /* A row rather than a line of text, so the current one can be filled. It
+  /* A row rather than a line of text, so the current one can take a fill. It
      bleeds by exactly its padding — the text stands where it stood, only the
-     fill grew — and carries a row's own leading. One entry is one line, ending
-     where the column does: a list of places is scanned down its left edge, so
-     the heading it names is short or the cut says so. */
+     fill grew — and carries a row's own leading. One entry is one line, and it
+     ends where the column does. A reader scans a list of places down its left
+     edge, so the heading it names is short or the cut says so. */
   .sds-toc__item {
     display: block;
     margin-inline: calc(-1 * var(--sds-toc-bleed));
@@ -153,7 +153,7 @@
       text-decoration: underline;
     }
   }
-  /* One step quieter a level down, because the indent alone does not say it: a
+  /* One step quieter a level down, because the indent alone does not say it. A
      sub-entry and the second line of a wrapped entry start at different places
      and read as the same thing. */
   .sds-toc__list .sds-toc__list .sds-toc__item {
@@ -164,8 +164,8 @@
   }
   /* The section under the reader — a filled block in the accent, which is what
      this system marks a current navigation item with everywhere else. A step of
-     ink alone was the first answer here and it was one step in dark and half of
-     one in light: the fill is the mark that reads the same in both. */
+     ink alone was the first answer here. It was one step in dark and half of
+     one in light, and the fill is the mark that reads the same in both. */
   .sds-toc__item.is-active,
   .sds-toc__list .sds-toc__list .sds-toc__item.is-active {
     background: var(--sds-toc-fill-active);
@@ -174,7 +174,7 @@
   }
 
   /* At full measure the list rests in the aside's reserve, at the rail's line
-     and bounded the way the rail is bounded. The frame goes: its rules set a
+     and with the rail's bounds. The frame goes: its rules set a
      block apart from the text around it, and there is no text around it here.
      In this layer because the frame is — the resting form must win it back. */
   @media (min-width: 1296px) {
@@ -194,9 +194,9 @@
       overflow-y: auto;
     }
     /* Two levels of them. The column is where a reader jumps from, and a
-       fourth-level heading is not a jump anybody makes from a rail: drawn, the
-       levels below the second are identical muted lines a step apart, each with
-       less measure than the one above and nothing but that step saying which
+       fourth-level heading is not a jump anybody makes from a rail. Drawn, the
+       levels below the second are identical muted lines a step apart. Each has
+       less measure than the one above and nothing but that step to say which
        is which. The list in the flow keeps all six. */
     .sds-prose .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list {
       display: none;

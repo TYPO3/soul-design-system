@@ -15,7 +15,7 @@
 }
 
 @layer components {
-  /* Who wrote it, and when. The mark is initials — a face is a file to fetch,
+  /* Who wrote it, and when. The mark is initials. A face is a file to fetch,
      keep in step and licence, and none of that is what a byline is for. */
   .sds-byline {
     /* 32px is exactly the two lines beside it — the mark measures the block it
@@ -38,8 +38,8 @@
     align-items: center;
     gap: var(--sds-byline-gap);
   }
-  /* Tracking is added after the last letter as well, so it comes back as
-     padding on the left, where centring halves it and the monogram lands on
+  /* Tracking lands after the last letter as well. So it comes back as
+     padding on the left, where the centre halves it and the monogram lands on
      the middle of the circle. */
   .sds-byline__mark {
     flex: none;
@@ -57,8 +57,8 @@
     padding-inline-start: var(--sds-byline-tracking);
   }
   /* Two stacked labels, not prose. Body leading puts the name in a line box
-     half again its own size, which drifts the pair apart and makes the block
-     taller than any mark it could stand beside. */
+     half again its own size. That drifts the pair apart and makes the block
+     taller than any mark it can stand beside. */
   .sds-byline__who {
     display: flex;
     flex-direction: column;

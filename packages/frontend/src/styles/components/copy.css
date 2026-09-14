@@ -10,8 +10,8 @@
 
 @layer components {
   /* One line: the value, and the press beside it. A row rather than words with
-     a button after them — the button keeps its square whatever the value does,
-     and a path that has to wrap wraps under itself instead of pushing it off
+     a button after them. The button keeps its square whatever the value does.
+     A path that has to wrap wraps under itself and does not push it off
      the end. */
   .sds-copy {
     --sds-copy-gap: var(--space-2);
@@ -32,13 +32,13 @@
     font-size: var(--sds-copy-size);
     line-height: var(--sds-copy-leading);
     color: var(--sds-copy-ink);
-    /* A path has no spaces to break at, so it breaks where it has to rather
-       than deciding the width of the column it stands in. */
+    /* A path has no spaces to break at. So it breaks where it has to rather
+       than decides the width of the column it stands in. */
     overflow-wrap: anywhere;
   }
   /* One line instead of a wrap, cut where the column runs out. Structure and
-     no value: what a cut costs is a value nobody can read whole, which is why
-     it is asked for rather than the way a value is always drawn. */
+     no value. What a cut costs is a value nobody can read whole. So it comes
+     on request rather than as the way every value draws. */
   .sds-copy--ellipsis-start .sds-copy__value,
   .sds-copy--ellipsis-end .sds-copy__value {
     overflow: hidden;
@@ -48,7 +48,7 @@
   }
   /* The cut at the front, which is how a path keeps the name it ends on. The
      box runs the other way, so the line overflows at its start edge and the
-     dots are drawn there; the value inside it is an isolated run, so it is the
+     dots draw there. The value inside it is an isolated run, so it is the
      box that turns around and never the text. */
   .sds-copy--ellipsis-start .sds-copy__value {
     direction: rtl;
@@ -60,8 +60,8 @@
     flex: none;
   }
   /* The mark, once it has happened. Colour and nothing else: the glyph and the
-     word already changed, and a button that also moved would be a third answer
-     to one press. */
+     word already changed, and a button that also moves is a third answer to
+     one press. */
   .sds-copy__button.is-copied {
     --sds-btn-ink: var(--sds-copy-ink-said);
     --sds-btn-ink-hover: var(--sds-copy-ink-said);

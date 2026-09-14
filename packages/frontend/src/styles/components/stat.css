@@ -1,9 +1,9 @@
 /* sds-stat — a figure and what it is a figure of. */
 
 @layer base {
-  /* And it fills what it is given: a wall stretches the cell to the tallest in
-     the row, where a block box stops at its own note — a figure whose ground
-     ends halfway down a flush wall. */
+  /* And it fills what it gets. A wall stretches the cell to the tallest in
+     the row. A block box stops at its own note — a figure whose ground ends
+     halfway down a flush wall. */
   sds-stat {
     display: block;
     min-width: 0;
@@ -20,8 +20,8 @@
 
 @layer components {
   /* No layout of its own: a set of figures is a set read side by side, which is
-     what `sds-grid` is. A second grid here would be the same decision made
-     twice, and only one of the two would learn what the wall learns next. */
+     what `sds-grid` is. A second grid here is the same decision made twice,
+     and only one of the two learns what the wall learns next. */
   .sds-stat {
     --sds-stat-gap: var(--space-1);
     --sds-stat-pad-y: var(--block-pad-y);
@@ -48,7 +48,7 @@
   }
   /* Muted and never in a status colour, for the reason a card's glyph is: a
      figure is a subject, not a result. A box of its own inside the figure's
-     line, and on the number's baseline, where it reads as part of the figure
+     line, and on the number's baseline. There it reads as part of the figure
      rather than as a mark above it. */
   .sds-stat__icon {
     display: inline-flex;
@@ -63,8 +63,8 @@
     color: var(--sds-stat-value-ink);
   }
   /* What qualifies the figure — the unit it is in, or the whole it is out of.
-     A step down and a shade back, because it is read after the number and never
-     instead of it; the figure keeps the weight it was given. */
+     A step down and a shade back, because a reader reads it after the number
+     and never instead of it. The figure keeps its weight. */
   .sds-stat__unit {
     font-size: var(--sds-stat-unit-size);
     font-weight: var(--sds-stat-unit-weight);
@@ -76,10 +76,10 @@
     color: var(--sds-stat-note-ink);
   }
 
-  /* A tile in a flush wall pads and paints itself: the wall's ground is the
+  /* A tile in a flush wall pads and paints itself. The wall's ground is the
      line between tiles, so whatever a tile does not paint reads as a rule
-     drawn across it. Only in a wall — a figure standing anywhere else has no
-     box, and a set of numbers stays bare. */
+     drawn across it. Only in a wall — a figure anywhere else has no box, and
+     a set of numbers stays bare. */
   .sds-grid--flush .sds-stat {
     padding: var(--sds-stat-pad-y) var(--sds-stat-pad-x);
     background: var(--sds-stat-fill);

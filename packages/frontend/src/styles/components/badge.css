@@ -2,7 +2,7 @@
 
 @layer base {
   /* An inline box sits on the line by its baseline, and a badge has none to
-     offer, so the element and the class both align to the middle or the two
+     offer. So the element and the class both align to the middle, or the two
      of them stand a fraction of a pixel apart. */
   sds-badge {
     display: inline-flex;
@@ -19,8 +19,8 @@
     --sds-badge-radius: var(--radius-control);
     --sds-badge-font: var(--font-mono);
     --sds-badge-font-size: calc(var(--badge-font-size) * var(--font-modifier-mono));
-    /* The icon's box and not the font's: a badge with a glyph and one without
-       are then the same height, which is what lets a tone be the only thing
+    /* The icon's box and not the font's. A badge with a glyph and one without
+       are then the same height. That is what lets a tone be the only thing
        that differs between them. */
     --sds-badge-leading: var(--control-icon-size);
     --sds-badge-ink: var(--text-secondary);
@@ -32,8 +32,8 @@
     gap: var(--sds-badge-gap);
     /* As wide as its word, wherever it lands. A flex column stretches an item
        with no definite cross size, and a badge stretched across a reading
-       column reads as an empty field. A definite width stops that without
-       touching how it aligns in a row. */
+       column reads as an empty field. A definite width stops that and leaves
+       how it aligns in a row alone. */
     width: fit-content;
     padding: var(--sds-badge-pad-y) var(--sds-badge-pad-x);
     border: var(--sds-badge-border) solid var(--sds-badge-edge);
@@ -43,14 +43,14 @@
     font-family: var(--sds-badge-font);
     font-size: var(--sds-badge-font-size);
     line-height: var(--sds-badge-leading);
-    /* An inline-flex box takes its baseline from its first flex item, so a
+    /* An inline-flex box takes its baseline from its first flex item. So a
        badge that starts with an icon has no text baseline to offer and sits
-       4px off the ones that do. Aligning to the middle makes a badge's
-       position independent of whether it carries a glyph. */
+       4px off the ones that do. Aligned to the middle, a badge's position
+       is the same with a glyph and without. */
     vertical-align: middle;
-    /* A badge is one short fact and is read as one line. Left to wrap it breaks
+    /* A badge is one short fact and reads as one line. Left to wrap it breaks
        at whatever the text offers — a hyphen in a version, a space between two
-       words — and a two-line badge is taller than the row it sits in. */
+       words. A two-line badge is taller than the row it sits in. */
     white-space: nowrap;
   }
 

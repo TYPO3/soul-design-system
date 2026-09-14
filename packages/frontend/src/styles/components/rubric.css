@@ -1,5 +1,5 @@
 /* sds-rubric — the one heading a reference uses that no contents lists. Set
-   exactly like `h4`, the level it would have been; the whole difference is
+   exactly like `h4`, the level it stands in for; the whole difference is
    that it is not one. */
 
 @layer components {

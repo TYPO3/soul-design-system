@@ -21,9 +21,9 @@
 @layer components {
   /* A list of hits, and one hit in it.
 
-     Separated by a hairline rather than boxed. A hit is read, discarded and the
-     next one is read, which is what a list is for and what a grid of cards
-     prevents — and what tells two of them apart at a glance is the line. */
+     A hairline between them rather than a box. A reader reads a hit, discards
+     it and reads the next, which is what a list is for and what a grid of
+     cards prevents. What tells two of them apart at a glance is the line. */
   .sds-hits {
     --sds-hits-gap: var(--space-2);
     --sds-hits-bleed: var(--space-3);
@@ -34,14 +34,14 @@
     display: flex;
     flex-direction: column;
     gap: var(--sds-hits-gap);
-    /* Pulled out by the air a hit keeps inside itself, so the words start where
+    /* Pulled out by the air a hit keeps inside itself. So the words start where
        the column does and only the plane under the pointer runs wider. */
     margin-inline: calc(-1 * var(--sds-hits-bleed));
 
-    /* The line is the list's: it separates two hits, so a hit composed on its own
-       carries none and the list neither opens nor closes with one. Drawn in the
-       gap rather than on a box, so the plane a hit takes under the pointer never
-       meets it, and held to the words' edge rather than the plane's — a rule that
+    /* The line is the list's. It separates two hits, so a hit on its own carries
+       none and the list neither opens nor closes with one. Drawn in the gap
+       rather than on a box, so the plane a hit takes under the pointer never
+       meets it. Held to the words' edge rather than the plane's. A rule that
        runs wider than the text it divides belongs to the page, not to the list. */
     > * + * .sds-result::before {
       content: "";
@@ -51,10 +51,10 @@
       border-top: var(--sds-hits-border) solid var(--sds-hits-rule);
     }
   }
-  /* One hit, and the whole of it is the link: the element renders an `<a>` here,
-     so the target is a box rather than a pseudo-element stretched over one, the
-     text in it can still be selected, and the ring is the one every other
-     focusable thing draws. Named by its heading — see the component. */
+  /* One hit, and the whole of it is the link. The element renders an `<a>` here,
+     so the target is a box rather than a pseudo-element stretched over one. A
+     reader can still select the text in it, and the ring is the one every
+     other focusable thing draws. Named by its heading — see the component. */
   .sds-result {
     --sds-result-thumb: 120px;
     --sds-result-pad: var(--space-3);
@@ -82,8 +82,8 @@
     position: relative;
     display: flex;
     gap: var(--sds-result-gap);
-    /* One step on every side: the plane a hit takes under the pointer is a box,
-       and a box whose air is deeper one way than the other reads as a mistake
+    /* One step on every side. The plane a hit takes under the pointer is a box.
+       A box whose air is deeper one way than the other reads as an error
        rather than as a decision. */
     padding: var(--sds-result-pad);
     border-radius: var(--sds-result-radius);
@@ -96,10 +96,10 @@
 
     background: var(--sds-result-fill-hover);
   }
-  /* The one ring, on the box rather than off it — the one thing this surface
-     changes about it, and the reason is the box: a hit is already air around its
-     words, so a ring standing off would sit in the gap the list keeps for the
-     line, and its corner would be a rounder one than the plane it rings. */
+  /* The one ring, on the box rather than off it. The one thing this surface
+     changes about it, and the reason is the box. A hit is already air around
+     its words, so a ring that stands off sits in the gap the list keeps for
+     the line. Its corner is a rounder one than the plane it rings. */
   a.sds-result:focus-visible {
     outline-offset: 0;
   }
@@ -107,20 +107,20 @@
     display: flex;
     flex-direction: column;
     gap: var(--sds-result-line-gap);
-    /* A flex item's floor is its content, so a long path in the line above holds
+    /* A flex item's floor is its content. So a long path in the line above holds
        the whole hit wider than the drop it hangs in. */
     min-width: 0;
     flex: 1;
 
     /* The line above the title is a `.sds-row`, which carries the step it owes a
        page it stands in. Here it stands in a hit, and the hit's own gap is the
-       distance — said by the hit, because composing the two is what the hit did. */
+       distance. The hit says so, because the hit is what composed the two. */
     > .sds-row {
       margin-block: 0;
     }
   }
   /* The picture a hit carries. Fixed and never taller than it is wide, so a list
-     of them has one left edge whatever shape the files are; smaller in the drop,
+     of them has one left edge whatever shape the files are. Smaller in the drop,
      where the sentence beside it has a fifth of a page to run in. */
   .sds-result__thumb {
     flex: none;
@@ -136,9 +136,9 @@
       object-fit: cover;
     }
   }
-  /* A drawing keeps the colours it was exported with, so it gets the ground
-     those were drawn for — and is fitted rather than cropped, because a diagram
-     with its edges cut off is a diagram nobody can read at this size. */
+  /* A drawing keeps its exported colours, so it gets the ground those are for.
+     It fits rather than crops, because a diagram with its edges cut off is a
+     diagram nobody can read at this size. */
   .sds-result__thumb--exported {
     --sds-result-thumb-fill: var(--surface-art);
 
@@ -146,9 +146,9 @@
       object-fit: contain;
     }
   }
-  /* Link-coloured, unlike a card's title: a hit exists to be opened, a card
-     exists to be read and sometimes opened. Never underlined — the box under the
-     pointer is the answer, and one word answering as well is two answers to one
+  /* Link-coloured, unlike a card's title: a reader opens a hit, and reads a
+     card and sometimes opens it. Never underlined — the box under the pointer
+     is the answer, and one word that answers as well is two answers to one
      question. It balances for the reason a heading does. */
   .sds-result__title {
     margin: 0;
@@ -157,9 +157,9 @@
     color: var(--sds-result-title-ink);
     text-wrap: balance;
   }
-  /* One register for the whole line: a third treatment on it would make three
+  /* One register for the whole line: a third treatment on it makes three
      facts read as three kinds of thing. Beside the path rather than at the far
-     end — the words below stop at a measure, and a fact flung to the page edge
+     end. The words below stop at a measure, and a fact flung to the page edge
      belongs to nothing. */
   .sds-result__path,
   .sds-result__meta {
@@ -177,9 +177,9 @@
     color: var(--sds-result-text-ink);
   }
 
-  /* What was searched for, inside what was found: the quiet accent tint and the
-     page's own text colour, not the accent itself and not a status colour. A
-     match is neither the one thing the page is about nor a result of anything. */
+  /* The query, inside the find. The quiet accent tint and the page's own text
+     colour, not the accent itself and not a status colour. A match is neither
+     the one thing the page is about nor a result of anything. */
   .sds-mark {
     --sds-mark-fill: var(--surface-accent-quiet);
     --sds-mark-ink: var(--text-primary);

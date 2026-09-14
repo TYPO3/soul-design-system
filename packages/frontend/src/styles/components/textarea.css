@@ -2,7 +2,7 @@
 
    Everything the box is, it is in `field.css`: this is only what more than one
    line changes about it. Its own file, because a component's whole contract
-   sits in one place — the element's display, the part it draws, the rules that
+   sits in one place. The element's display, the part it draws, the rules that
    only mean anything together. */
 
 @layer base {
@@ -13,11 +13,11 @@
 }
 
 @layer components {
-  /* A box holding more than one line stops centring its contents — and gives
+  /* A box with more than one line no longer centres its contents, and gives
      them prose leading. The control leading is for a single line inside a
      declared height; stacked lines of someone's own writing are prose. */
   .sds-field--multi {
-    /* Derived from the field's set, which is declared on this same element: a
+    /* Derived from the field's set, which stands on this same element: a
        textarea *is* that box with the lines stacked. */
     --sds-textarea-leading: var(--leading-body);
     --sds-textarea-resize: vertical;
@@ -32,7 +32,7 @@
   }
 
   /* Which way the corner drags. A box that widens breaks the column it stands
-     in, which is why `vertical` is what a caller gets without asking. */
+     in, which is why `vertical` is what a caller gets by default. */
   sds-textarea[resize="none"] .sds-field--multi {
     --sds-textarea-resize: none;
   }

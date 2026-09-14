@@ -1,8 +1,8 @@
 /* What floats over the page, and the wash under it. */
 
 @layer base {
-  /* It draws nothing where it stands — what it opens is in the top layer or
-     fixed to the viewport, so a box here is one nothing would ever fill. */
+  /* It draws nothing where it stands. What it opens is in the top layer or
+     fixed to the viewport, so a box here is one nothing ever fills. */
   sds-modal,
   sds-overlay {
     display: contents;
@@ -21,7 +21,7 @@
 
   .sds-modal {
     /* `auto`: the content says how wide, the reading measure says how wide it
-       may get, and the height stops only where the screen does. A named size
+       can get, and the height stops only where the screen does. A named size
        assigns all three — the room is what keeps it off the edges either
        way. */
     --sds-modal-width: fit-content;
@@ -51,8 +51,8 @@
     background: var(--sds-modal-fill);
   }
 
-  /* The scale, in both directions: a size is a width the surface takes and a
-     height it stops at, so two dialogs of one size are one shape whatever is
+  /* The scale, in both directions. A size is a width the surface takes and a
+     height it stops at. So two dialogs of one size are one shape whatever is
      in them. The width is the room and the cap is what says how much of it —
      which is also what leaves a narrow screen its gutter. */
   .sds-modal--sm,
@@ -74,9 +74,9 @@
   }
 
   /* A height it stops at is only a stop if something inside gives, and that is
-     the body: head and foot stay where they are and the reading area scrolls.
-     A closed `<dialog>` is `display: none` from the platform, so the column is
-     stated where it cannot outrank that. */
+     the body. Head and foot stay where they are and the reading area scrolls.
+     A closed `<dialog>` is `display: none` from the platform, so the column
+     stands where it cannot outrank that. */
   .sds-modal:not(dialog),
   dialog.sds-modal[open] {
     display: flex;
@@ -96,19 +96,19 @@
     }
   }
 
-  /* The row a surface is titled and closed by, and a set of its own because two
+  /* The row that titles and closes a surface. A set of its own because two
      surfaces draw it: this one and the lightbox, which is no `.sds-modal`. Every
-     value it used to read off that set arrived at the lightbox as nothing, so
-     the caption stood on the border with the close button in the corner. */
+     value read off that set arrives at the lightbox as nothing. The caption
+     then stands on the border with the close button in the corner. */
   .sds-modal__head {
     --sds-modal-head-pad-y: var(--block-pad-y-tight);
     --sds-modal-head-pad-x: var(--block-pad-x);
     --sds-modal-head-gap: var(--control-gap);
     --sds-modal-head-border: var(--border-hairline);
-    /* A strip is one control tall: the foot is a row of buttons at the control
+    /* A strip is one control tall. The foot is a row of buttons at the control
        height, and this is that band with its own rule counted in. Without the
-       floor the head fell short by the difference between two control sizes —
-       a title crowding the top edge under a foot that had room. */
+       floor the head fell short by the difference between two control sizes.
+       A title against the top edge, under a foot that had room. */
     --sds-modal-head-height: calc(var(--control-height) + var(--block-pad-y-tight) * 2 + var(--sds-modal-head-border));
     --sds-modal-head-rule: var(--border-subtle);
     --sds-modal-head-size: var(--block-title-size);
@@ -122,9 +122,9 @@
     justify-content: space-between;
     gap: var(--sds-modal-head-gap);
     min-height: var(--sds-modal-head-height);
-    /* The close is a square around a glyph, so its box reaches the padding edge
-       while the mark inside stands half a square further in than the title does
-       on the left. The end padding gives that half back, and the two marks sit
+    /* The close is a square around a glyph, so its box reaches the padding edge.
+       The mark inside stands half a square further in than the title does on
+       the left. The end padding gives that half back, and the two marks sit
        the same distance from their own edges. */
     padding: var(--sds-modal-head-pad-y)
       calc(var(--sds-modal-head-pad-x) - (var(--sds-modal-head-close) - var(--sds-modal-head-glyph)) / 2)
@@ -133,22 +133,22 @@
     font-size: var(--sds-modal-head-size);
     font-weight: var(--sds-modal-head-weight);
 
-    /* The title is what gives: a flex item's automatic minimum is its own
+    /* The title is what gives. A flex item's automatic minimum is its own
        content, so a heading nobody shortened pushes the close off the surface
-       instead of wrapping under it. */
+       instead of wraps under it. */
     .sds-modal__title {
       min-width: 0;
     }
 
     /* And the close never gives. Squeezed, the square is a rectangle and the
-       mark stops being centred in the box that is its target. */
+       mark is no longer in the middle of the box that is its target. */
     .sds-modal__close {
       flex: none;
     }
   }
   .sds-modal__body {
-    /* The one part that may be shorter than its content — a flex item does not
-       shrink below what it holds until it is told it may. */
+    /* The one part that can be shorter than its content. A flex item does not
+       shrink below what it holds until a rule permits it. */
     min-height: 0;
     overflow-y: auto;
     padding: var(--sds-modal-pad-y) var(--sds-modal-pad-x);

@@ -1,10 +1,10 @@
 /* sds-eyebrow — the line over a title, saying what kind of thing it opens. */
 
-/* Flush against what it opens: the register's own leading is the air between
-   an eyebrow and its title, so it carries no step at all — and the air a
-   heading takes above the pair lands before the eyebrow, not inside the
-   title. The last two rules out-rank the heading-air rules in `base`, which
-   would otherwise put a section's whole step between the pair. */
+/* Flush against what it opens. The register's own leading is the air between
+   an eyebrow and its title, so it carries no step at all. The air a heading
+   takes above the pair lands before the eyebrow, not inside the title. The
+   last two rules out-rank the heading-air rules in `base`, which otherwise
+   put a section's whole step between the pair. */
 @layer base {
   sds-eyebrow {
     display: block;
@@ -23,8 +23,8 @@
 }
 
 @layer components {
-  /* The label register, as a block: an eyebrow is scanned before the title
-     and never read instead of it, so it keeps the register's size and ink. */
+  /* The label register, as a block. A reader scans an eyebrow before the
+     title and never reads it instead, so it keeps the register's size and ink. */
   .sds-eyebrow {
     --sds-eyebrow-font: var(--font-mono);
     --sds-eyebrow-font-size: calc(var(--font-size-small) * var(--font-modifier-mono));

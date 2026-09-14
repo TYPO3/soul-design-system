@@ -1,9 +1,9 @@
 /* sds-select — the field's box, the drawn list, and the real one under it.
 
    The `<select>` is what the form submits and what a page with no script shows
-   and operates, so the two halves swap on `:defined`: before this element
+   and operates. So the two halves swap on `:defined`. Before this element
    upgrades the native control is the control, and after it the drawn list is.
-   A card is a picture that runs no script, which is why `open` — a state a
+   A card is a picture that runs no script. That is why `open` — a state a
    still render has to hold, like the field's `focused` — swaps them too. */
 
 @layer base {
@@ -15,9 +15,9 @@
 
 @layer components {
   .sds-select {
-    /* Derived from the field's set, which is declared on this same element:
-       a select *is* that box, and the two would otherwise drift apart on the
-       day the box changes. */
+    /* Derived from the field's set, which stands on this same element. A
+       select *is* that box, and the two otherwise drift apart on the day the
+       box changes. */
     --sds-select-ink: var(--sds-field-ink);
     --sds-select-ink-filled: var(--sds-field-ink-filled);
     --sds-select-glyph: var(--sds-field-glyph);
@@ -43,7 +43,7 @@
     --sds-select-option-ink-active: var(--text-primary);
     --sds-select-option-fill-active: var(--surface-sunken);
     --sds-select-option-mark: var(--accent);
-    /* The same figure every other unavailable control is drawn at, stated here
+    /* The same figure every other unavailable control draws at, stated here
        because a set reads from itself and never from another component's. */
     --sds-select-option-disabled-opacity: 0.5;
     --sds-select-group-size: var(--font-size-small);
@@ -56,7 +56,7 @@
     color: var(--sds-select-ink-filled);
   }
 
-  /* The whole box, whichever half is showing: the native control before this
+  /* The whole box, whichever half shows: the native control before this
      element upgrades, the drawn button after it. Both leave room at the end
      for the chevron. */
   .sds-select__native,
@@ -84,17 +84,17 @@
     }
   }
   /* The chosen label, cut rather than wrapped: the box has one line and a
-     second one would push the row it stands in open. */
+     second one pushes the row it stands in open. */
   .sds-select__value {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  /* Centred by its own box and not by where it would have stood: an absolutely
-     positioned flex child keeps the container's alignment as its static
-     position, which is one more thing to be right about than a box that spans
-     the height and centres what is in it. */
+  /* Centred by its own box and not by its static position. An absolutely
+     positioned flex child keeps the container's alignment as that position.
+     That is one more thing to be right about than a box that spans the height
+     and centres what is in it. */
   .sds-select__mark {
     position: absolute;
     inset-block: 0;
@@ -106,7 +106,7 @@
   }
 
   /* The list. A popover, so the top layer holds it: no ancestor's overflow
-     clips it and nothing on the page can be stacked over it. Placed by the
+     clips it and nothing on the page can stack over it. Placed by the
      stylesheet where the engine has anchor positioning, and by `lib/flyout.ts`
      where it has not. */
   .sds-select__list {
@@ -118,7 +118,7 @@
     background: var(--sds-select-list-fill);
     box-shadow: var(--sds-select-list-shadow);
     overflow-y: auto;
-    /* As wide as the control it came out of, and no wider: a list that is a
+    /* As wide as the control it came out of, and no wider. A list that is a
        different width from the closed box reads as a second control. */
     min-width: anchor-size(width);
     max-height: var(--sds-select-list-max);
@@ -137,9 +137,9 @@
     color: var(--sds-select-option-ink);
     cursor: pointer;
 
-    /* One state, and the pointer and the keys share it: `aria-activedescendant`
-       means the focus never leaves the button, so what a reader is on has to be
-       drawn rather than left to `:focus`. */
+    /* One state, and the pointer and the keys share it. `aria-activedescendant`
+       means the focus never leaves the button, so what a reader is on needs a
+       drawn mark rather than `:focus`. */
     &.is-active {
       background: var(--sds-select-option-fill-active);
       color: var(--sds-select-option-ink-active);
@@ -158,7 +158,7 @@
   }
 
   /* The mark on the answer in force. It holds its box while it is invisible, so
-     the labels of a list do not shift by a glyph when one is chosen. */
+     the labels of a list do not shift by a glyph on a choice. */
   .sds-select__tick {
     --sds-icon-size: var(--sds-select-glyph);
 
@@ -169,8 +169,8 @@
   }
 
   /* A heading in the list. `role="presentation"`, because the entries under it
-     are read out as one flat run and a group nothing announces is a label the
-     eye uses and the ear never hears twice. */
+     read out as one flat run. A group nothing announces is a label the eye
+     uses and the ear never hears twice. */
   .sds-select__group {
     display: block;
     padding: var(--sds-select-group-pad-y) var(--sds-select-option-pad-x) var(--sds-select-group-lead);
@@ -183,14 +183,14 @@
 
 /* Which half is the control: the swap between a page that runs script and one
    that does not, which is state. The drawn one is the default and the native
-   one is the fallback, rather than the other way round — a card is these
+   one is the fallback, rather than the other way round. A card is these
    templates' markup with the element flattened away, so there is no
    `sds-select` tag left in it to key a rule on. */
 @layer state {
-  /* The `<select>` stays in the layout rather than leaving it: `display: none`
-     takes a control out of everything the browser can focus, and a `required`
-     one it cannot focus is a form that refuses to send with nothing on screen
-     to say why. */
+  /* The `<select>` stays in the layout rather than leaves it. `display: none`
+     takes a control out of everything the browser can focus. A `required` one
+     it cannot focus is a form that refuses to send with nothing on screen to
+     say why. */
   .sds-select__native {
     position: absolute;
     inset: 0;
@@ -200,8 +200,8 @@
   }
 
   /* Before the element upgrades — a page that runs no script — the native
-     control is the whole of it, and the drawn one is not there to be tabbed
-     into. */
+     control is the whole of it. The drawn one is not there for a tab to
+     reach. */
   sds-select:not(:defined) {
     .sds-select__native {
       position: static;
@@ -215,10 +215,10 @@
     }
   }
 
-  /* A card holds the list open, having no way to press anything. It is placed
-     by hand here: the anchor positioning the popover uses derives a containing
-     block from the button, and an inset written into that lands offset by
-     whatever the button was inset by. */
+  /* A card holds the list open, with no way to press anything. The placement
+     is by hand here. The anchor positioning the popover uses derives a
+     containing block from the button. An inset written into that lands
+     offset by the button's own inset. */
   .sds-select.is-open > .sds-select__list {
     position: absolute;
     position-area: none;

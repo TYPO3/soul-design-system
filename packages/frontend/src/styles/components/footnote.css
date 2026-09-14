@@ -10,8 +10,8 @@
 }
 
 @layer components {
-  /* The label hangs beside the text rather than above it, so a column of them
-     lines up and an eye run down the edge finds one — the only thing anybody
+  /* The label hangs beside the text rather than above it. So a column of them
+     lines up, and an eye run down the edge finds one — the only thing anybody
      does with these. One step down from the text around it: this is the
      source, not the argument. */
   .sds-footnote {

@@ -1,10 +1,10 @@
 /* Soul Design System — components.
 
-   The things this system draws, one file each, encoding SKILL.md's rules:
-   shadows only under what leaves the page — on it a hairline separates, and
-   the focus ring is a state rather than depth; interaction never changes
-   size, though a linked card may lift 2px; one accent — the active nav item,
-   the shell prompt, the wordmark pipe; and mono is semantic, for whatever
+   The things this system draws, one file each, with SKILL.md's rules in them.
+   Shadows only under what leaves the page; on it a hairline separates, and
+   the focus ring is a state rather than depth. Interaction never changes
+   size, though a linked card can lift 2px. One accent — the active nav item,
+   the shell prompt, the wordmark pipe. And mono is semantic, for whatever
    the machine reads, writes or names.
 
    The order is the order the layer resolves in, not the alphabet. */

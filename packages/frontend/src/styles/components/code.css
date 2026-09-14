@@ -21,7 +21,7 @@
     margin: 0 0 var(--space-4);
   }
 
-  /* The plane goes on the `<code>` and not the host, or the frame would swallow
+  /* The plane goes on the `<code>` and not the host, or the frame swallows
      the caption beside it. */
   sds-code:not(:defined) {
     display: block;
@@ -29,10 +29,10 @@
   }
 
   /* The sunken box machine output sits in, said once for the two ways it
-     arrives without this element: a bare `<pre>` a renderer wrote, and the
+     arrives without this element. A bare `<pre>` a renderer wrote, and the
      `<code>` inside a host whose script has not run. Never the ones the
-     component renders into — `sds-code` and `sds-diff` carry the frame around
-     them, and a box here would draw a second one inside it. */
+     component renders into. `sds-code` and `sds-diff` carry the frame around
+     them, and a box here draws a second one inside it. */
   pre:not(.sds-code__body, .sds-diff),
   sds-code:not(:defined) > code {
     padding: var(--space-3) var(--space-4);
@@ -65,7 +65,7 @@
 @layer components {
   /* A code block is a control-scale object: --radius-control, not the card
      radius. Sunken, because it is machine output. And it never widens the
-     column it sits in: its longest line is its min-content width, a floor a
+     column it sits in. Its longest line is its min-content width, a floor a
      flex column measures the page against — the body scrolls instead. */
   .sds-code {
     --sds-code-pad-y: var(--block-pad-y);
@@ -121,16 +121,16 @@
     letter-spacing: var(--sds-code-head-tracking);
     text-transform: uppercase;
   }
-  /* The file a diff is of, in the same head and the same register — but not
-     upper case, because a path is a name the machine owns and typing it in
-     another case makes it a different path. */
+  /* The file a diff is of, in the same head and the same register. But not
+     upper case, because a path is a name the machine owns, and in another
+     case it is a different path. */
   .sds-code__path {
     font-family: var(--sds-code-font);
     font-size: var(--sds-code-head-size);
     letter-spacing: var(--sds-code-head-tracking);
     color: var(--sds-code-head-ink);
   }
-  /* Copying a block is the component's job, not the page's. */
+  /* The copy of a block is the component's job, not the page's. */
   .sds-code__copy {
     display: inline-flex;
     align-items: center;
@@ -154,16 +154,15 @@
     }
   }
   /* Copied is a changed glyph, not a changed colour on the same one: the check
-     replaces the duplicate rather than sitting beside it. */
+     replaces the duplicate rather than sits beside it. */
   .sds-code__glyph,
   .sds-code__copied {
     display: inline-flex;
   }
-  /* Both halves, and both are needed. Hiding the check at rest without showing
-     it again on `is-copied` leaves a button that only ever loses a glyph — the
-     duplicate goes and nothing arrives, which is how this shipped for one
-     commit. The two selectors have the same specificity, so the second wins on
-     order. */
+  /* Both halves, and both matter. A check hidden at rest and never shown again
+     on `is-copied` leaves a button that only ever loses a glyph. The duplicate
+     goes and nothing arrives. The two selectors have the same specificity, so
+     the second wins on order. */
   .sds-code__copy .sds-code__copied {
     display: none;
   }
@@ -183,7 +182,7 @@
     color: var(--sds-code-body-ink);
     overflow-x: auto;
   }
-  /* The shell prompt is one of the three places the accent is allowed. */
+  /* The shell prompt is one of the three places the accent can appear. */
   .sds-code__prompt {
     color: var(--accent);
   }
@@ -198,7 +197,7 @@
   }
 
   /* What the block is, above it — outside the frame and beside it, never under
-     it. So it carries the three values it draws with itself: the frame's set is
+     it. So it carries the three values it draws with itself. The frame's set is
      on the box below, and a property travels down and never sideways. Read from
      there, a caption was the page's own body text at the page's own ink. */
   .sds-code__caption {
@@ -212,13 +211,13 @@
   }
 
   /* The highlighter's classes, mapped onto the three syntax colours this system
-     names and onto nothing else. A stylesheet giving each of the thirty
-     highlight.js emits its own would be inventing colours the system never
-     decided; everything unlisted reads as ordinary code text. */
+     names and onto nothing else. A stylesheet that gives each of the thirty
+     highlight.js emits its own invents colours the system never decided.
+     Everything unlisted reads as ordinary code text. */
   .hljs-keyword,
   .hljs-selector-tag,
-  /* A selector's class and pseudo are the same thing its tag is — what the rule
-     is aimed at — so they read as one and not as three. */
+  /* A selector's class and pseudo are the same thing its tag is — the rule's
+     target — so they read as one and not as three. */
   .hljs-selector-class,
   .hljs-selector-pseudo,
   .hljs-built_in,
@@ -248,9 +247,9 @@
   }
 
   /* Ordinary code text, said out loud. Unlisted classes already read this way,
-     so these are here because the decision was made rather than defaulted into —
-     `punctuation` in particular, which JSON emits for every brace and comma and
-     which a theme is always tempted to grey out. Structure is not annotation. */
+     so these are here as a decision rather than a default. `punctuation` in
+     particular, which JSON emits for every brace and comma and which a theme
+     always wants to grey out. Structure is not annotation. */
   .hljs-number,
   .hljs-literal,
   .hljs-variable,
@@ -262,7 +261,7 @@
     color: var(--syntax-text);
   }
 
-  /* Diff: the one place a status colour may fill a whole line. */
+  /* Diff: the one place a status colour can fill a whole line. */
   .sds-diff {
     --sds-diff-pad-x: var(--space-4);
     --sds-diff-font: var(--font-mono);

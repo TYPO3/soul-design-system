@@ -1,11 +1,11 @@
 /* sds-steps — an instruction read from the top: numbered stops down one rail,
    each carrying the blocks that do the work.
 
-   A list, and said as one — `role="list"` on the set, `role="listitem"` on every
-   stop — so a reader is told how many steps there are and which one this is.
-   Not `<ol>` and `<li>`: an element draws its box inside itself, which leaves
-   one generic between a list and its items, and that is a list the platform
-   stops counting. The number is a counter drawn in the disc.
+   A list, and said as one: `role="list"` on the set, `role="listitem"` on every
+   stop. So a reader hears how many steps there are and which one this is.
+   Not `<ol>` and `<li>`. An element draws its box inside itself, which leaves
+   one generic between a list and its items. That is a list the platform no
+   longer counts. The number is a counter drawn in the disc.
 
    For an instruction. Things to do in no particular order are a list. */
 
@@ -30,7 +30,7 @@
 @layer components {
   .sds-steps {
     --sds-steps-measure: var(--measure-prose);
-    /* Wider than the line it is centred on, so the number reads as a marker
+    /* Wider than the line it centres on, so the number reads as a marker
        rather than as the first word of the title. */
     --sds-steps-mark-size: 24px;
     --sds-steps-mark-text: var(--font-size-small);
@@ -38,13 +38,13 @@
     --sds-steps-mark-border: var(--border-hairline);
     --sds-steps-mark-radius: var(--radius-pill);
     /* Filled, with the number knocked out of it. A wash the colour of a field
-       reads as unfilled in one mode and filled in the other, which leaves the
+       reads as unfilled in one mode and filled in the other. That leaves the
        stop below with nothing to differ from. Not the accent: that marks three
        things and a step is none of them. */
     --sds-steps-mark-ink: var(--surface-canvas);
     --sds-steps-mark-fill: var(--text-secondary);
     --sds-steps-mark-line: var(--text-secondary);
-    /* A stop that may be skipped: the ring, unfilled. The word beside the title
+    /* A stop a reader can skip: the ring, unfilled. The word beside the title
        is what says so out loud — an empty disc says it to nobody. */
     --sds-steps-mark-ink-quiet: var(--text-muted);
     --sds-steps-mark-fill-quiet: transparent;
@@ -66,17 +66,17 @@
     --sds-steps-rail-ink: var(--border-strong);
     --sds-steps-rail-gap: var(--space-2);
     /* What lifts the disc onto the title's first line, the way the accordion's
-       marker is lifted onto its question: half of what it overhangs that line
-       by. Derived, so a changed title size takes the disc with it. */
+       marker lifts onto its question. Half of what it overhangs that line by.
+       Derived, so a changed title size takes the disc with it. */
     --sds-steps-mark-rise: calc(
       (var(--sds-steps-title-size) * var(--sds-steps-title-leading) - var(--sds-steps-mark-size)) /
       2
     );
 
     counter-reset: sds-step;
-    /* The distance between stops as a gap and not a margin: a stop arrives
-       inside an element of its own, so it is the only child of that element and
-       every `:last-child` written here would match all of them. */
+    /* The distance between stops as a gap and not a margin. A stop arrives
+       inside an element of its own, so it is the only child of that element.
+       Every `:last-child` written here matches all of them. */
     display: flex;
     flex-direction: column;
     gap: var(--sds-steps-step-gap);
@@ -85,18 +85,18 @@
     line-height: var(--sds-steps-body-leading);
     color: var(--sds-steps-body-ink);
   }
-  /* Scoped to the set, and every rule below with it: a stop draws a number, a
+  /* Scoped to the set, and every rule below with it. A stop draws a number, a
      number is a place in a set, and one written outside a set has none. Left
-     unscoped it drew a bare digit against a disc with no size — which is what
-     this repository's own manual rendered when `step` was shown on its own. */
+     unscoped it drew a bare digit against a disc with no size. That is what
+     this repository's own manual rendered for `step` on its own. */
   .sds-steps .sds-steps__step {
     counter-increment: sds-step;
     position: relative;
     min-width: 0;
     padding-inline-start: calc(var(--sds-steps-mark-size) + var(--sds-steps-gap));
 
-    /* The number, in its disc. Absolute rather than a column of a grid, so what
-       a step holds is its own blocks in their own rhythm and not a run of grid
+    /* The number, in its disc. Absolute rather than a column of a grid. So what
+       a step holds is its own blocks in their own rhythm. Not a run of grid
        items the set decided the shape of. */
     &::before {
       content: counter(sds-step);
@@ -120,8 +120,8 @@
       font-variant-numeric: tabular-nums;
       line-height: 1;
     }
-    /* The rail, from under this disc to just above the next one — which stands
-       a gap below this box, so the line is drawn past its own bottom edge. */
+    /* The rail, from under this disc to just above the next one. That stands
+       a gap below this box, so the line draws past its own bottom edge. */
     &::after {
       content: "";
       position: absolute;
@@ -156,9 +156,9 @@
     font-weight: var(--sds-steps-title-weight);
     line-height: var(--sds-steps-title-leading);
 
-    /* What says a stop may be skipped, in the label register every other block
-       states itself in. A word rather than a badge: a badge is a box taller
-       than the line it stands on, and it would take the title off the disc. */
+    /* What says a reader can skip a stop, in the label register every other
+       block states itself in. A word rather than a badge. A badge is a box
+       taller than the line it stands on, and it takes the title off the disc. */
     > .sds-label {
       margin-inline-start: var(--sds-steps-note-gap);
     }

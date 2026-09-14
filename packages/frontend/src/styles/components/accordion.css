@@ -1,9 +1,9 @@
 /* sds-accordion — a list of questions, each with its answer folded behind it.
 
-   `<details>` for the rail's reason: it folds before any script runs, so a page
+   `<details>` for the rail's reason. It folds before any script runs, so a page
    whose bundle never arrives is a list of questions and not a wall of answers.
-   Separated by hairlines rather than boxed — what a reader scans is the *list*,
-   found by reading down one column and not by comparing six containers. */
+   Hairlines between them rather than boxes. What a reader scans is the *list*,
+   down one column, and not six containers side by side. */
 
 @layer base {
   sds-accordion-item {
@@ -25,9 +25,9 @@
 
 @layer components {
   /* The line above every question and one under the set, rather than a line
-     under each and a `:first-child` for the top: an answer that arrives in an
-     element of its own is the first child of that element, and every line in the
-     list would double. */
+     under each and a `:first-child` for the top. An answer that arrives in an
+     element of its own is the first child of that element, and every line in
+     the list doubles. */
   .sds-accordion {
     --sds-accordion-measure: var(--measure-prose);
     --sds-accordion-pad-y: var(--space-4);
@@ -59,15 +59,15 @@
     border-top: var(--sds-accordion-border) solid var(--sds-accordion-rule);
 
     /* The fold, on the box the browser puts around an answer. A row from `0fr` to
-       `1fr` is the answer's own height without measuring it, which is what a
-       pixel height would need a script for; `content-visibility` is carried along
-       so the closed answer still leaves the tree at the end. Where the box has no
-       name yet the fold is instant, and nothing else changes. */
+       `1fr` is the answer's own height with no measurement, where a pixel height
+       needs a script. `content-visibility` travels along, so the closed answer
+       still leaves the tree at the end. Where the box has no name yet the fold
+       is instant, and nothing else changes. */
     &::details-content {
       display: grid;
       grid-template-rows: 0fr;
-      /* Clipped, or a collapsed answer is still drawn. The margin is the ring: an
-         answer holds links and a code block with a copy on it, and a clip on the
+      /* Clipped, or a collapsed answer still draws. The margin is the ring. An
+         answer holds links and a code block with a copy on it. A clip on the
          edge exactly cuts the ring off the ones that sit against it. */
       overflow: clip;
       overflow-clip-margin: 5px;
@@ -94,7 +94,7 @@
     gap: var(--sds-accordion-gap);
     padding: var(--sds-accordion-pad-y) 0;
     /* The pair every block with a title carries, so a question follows the
-       register it stands in instead of naming a size of its own. It was the one
+       register it stands in and names no size of its own. It was the one
        head set below its own body, which reads as a caption over an article. */
     font-size: var(--sds-accordion-head-size);
     font-weight: var(--sds-accordion-head-weight);
@@ -109,7 +109,7 @@
       color: var(--sds-accordion-head-ink-hover);
     }
     /* The ring, turned inward. A question is full-bleed and its box ends on the
-       hairlines above and below, so the ring as drawn everywhere else lands on
+       hairlines above and below. So the ring as drawn everywhere else lands on
        both; inset, it stands in the row's own padding. */
     &:focus-visible {
       outline-offset: calc(-1 * (var(--border-emphasis) + var(--focus-offset)));
@@ -120,9 +120,9 @@
        pressing it will do. */
     .sds-icon {
       --sds-icon-size: var(--sds-accordion-glyph);
-      /* Centred on the first line rather than nudged onto it: the question is
-         the same size as the answer under it, and a typed offset would only ever
-         suit one line height. */
+      /* Centred on the first line rather than nudged onto it. The question is
+         the same size as the answer under it, and a typed offset only ever
+         suits one line height. */
       margin-top: calc((1lh - var(--sds-accordion-glyph)) / 2);
       color: var(--sds-accordion-mark-ink);
       transform: rotate(-90deg);
@@ -135,8 +135,8 @@
     transform: none;
   }
   .sds-accordion__body {
-    /* A grid item's own floor is its content, which is what keeps a collapsed
-       row from reaching zero. */
+    /* A grid item's own floor is its content, which is what stops a collapsed
+       row short of zero. */
     min-height: 0;
     padding: 0 0 0 calc(var(--sds-accordion-glyph) + var(--sds-accordion-gap));
     font-size: var(--sds-accordion-body-size);
@@ -149,8 +149,8 @@
       margin-bottom: 0;
     }
     /* The space under an answer, drawn rather than padded. Padding is outside the
-       height a row can shrink, so as `padding-bottom` it was a floor the fold
-       stopped on and then jumped off — the same step, at the start of every open
+       height a row can shrink. As `padding-bottom` it was a floor the fold
+       stopped on and then jumped off. The same step, at the start of every open
        and the end of every close. */
     &::after {
       content: "";
@@ -159,10 +159,10 @@
     }
   }
   /* An answer reached by its own address arrives open, and the one it closed
-     arrives shut. A fold that plays out on arrival is the ground moving under a
-     reader who pressed nothing, and the scroll that was aimed at it lands where
-     the page stood rather than where it settles. Stated on the set, because what
-     moves the ground is the other answer closing. */
+     arrives shut. A fold that plays out on arrival is the ground in motion under
+     a reader who pressed nothing. The scroll aimed at it lands where the page
+     stood rather than where it settles. Stated on the set, because what moves
+     the ground is the other answer as it closes. */
   .sds-accordion:has(:target) .sds-accordion__item::details-content {
     transition: none;
   }

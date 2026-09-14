@@ -16,8 +16,8 @@
 
 @layer components {
   /* What stands in it owes no step by its own contract, so the group is the
-     set that pays one — the normal step, because its parts are read as
-     neighbours on a page, not as rows of a form. */
+     set that pays one. The normal step, because its parts read as neighbours
+     on a page, not as rows of a form. */
   .sds-field-group {
     --sds-field-group-gap: var(--space-4);
 

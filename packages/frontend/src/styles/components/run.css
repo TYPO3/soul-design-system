@@ -1,9 +1,9 @@
-/* sds-run — work being done, as the stops it is made of.
+/* sds-run — work in progress, as the stops it consists of.
 
-   Read as a log and not as an instruction: rows sit against each other and are
-   told apart by a hairline, the durations line up in a column of their own, and
-   nothing in a row may widen the box — a step writing two hundred characters
-   scrolls inside its own block rather than pushing the times out of sight.
+   Read as a log and not as an instruction. Rows sit against each other with a
+   hairline between them, and the durations line up in a column of their own.
+   Nothing in a row can widen the box. A step that writes two hundred
+   characters scrolls inside its own block and pushes no time out of sight.
    `components/steps.css` is the other one, and the reason they are two is in
    `run.ts`. */
 
@@ -46,19 +46,19 @@
     --sds-run-note-leading: var(--aside-leading);
     --sds-run-note-ink: var(--text-muted);
 
-    /* A row. Dense on purpose — this is scanned, not read. */
+    /* A row. Dense on purpose — a reader scans this, not reads it. */
     --sds-run-row-pad-y: var(--space-2);
     --sds-run-row-pad-x: var(--space-2);
     --sds-run-row-gap: var(--space-3);
     --sds-run-row-ink: var(--text-secondary);
     --sds-run-row-ink-strong: var(--text-primary);
     --sds-run-row-fill-hover: var(--surface-inset);
-    /* The row the work is on. A band and not a colour: the two settled states
-       are what the status colours are for, and a third one competing with them
+    /* The row the work is on. A band and not a colour. The two settled states
+       are what the status colours are for. A third in competition with them
        is a row nobody can pick out of the column. */
     --sds-run-row-fill-busy: var(--surface-inset);
-    /* The two columns the marks stand in, as a length and not as `1em`: the
-       block a row opens onto is set smaller than the row, and it has to line up
+    /* The two columns the marks stand in, as a length and not as `1em`. The
+       block a row opens onto sets smaller than the row, and it has to line up
        with the row's own words. */
     --sds-run-mark: var(--font-size-body);
     --sds-run-meta-size: var(--font-size-small);
@@ -68,8 +68,8 @@
        the text rule holds — and quiet text is still text. */
     --sds-run-said-ink-busy: var(--text-secondary);
 
-    /* What a state draws with. `busy` is the page's own ink and it turns:
-       what says this is the one in hand is the movement, and the accent marks
+    /* What a state draws with. `busy` is the page's own ink and it turns. The
+       movement is what says this is the one in hand, and the accent marks
        three things of which a step is none. */
     --sds-run-ink-ahead: var(--border-strong);
     --sds-run-ink-busy: var(--text-primary);
@@ -87,8 +87,8 @@
     --sds-run-output-pad-x: var(--space-3);
     --sds-run-output-height: 18rem;
     /* Where the row's own words start: the two mark columns, their gaps and the
-       row's inset. What a step wrote is set to begin there, so it hangs under
-       what it is called rather than reading as a block belonging to the list. */
+       row's inset. What a step wrote begins there, so it hangs under its name
+       rather than reads as a block that belongs to the list. */
     --sds-run-output-inset: calc(var(--sds-run-row-pad-x) + 2 * var(--sds-run-mark) + 2 * var(--sds-run-row-gap));
     --sds-run-gutter: 3ch;
     --sds-run-gutter-gap: var(--space-3);
@@ -116,7 +116,7 @@
       display: none;
     }
     /* The chevron at the far end, which is where a whole block's fold sits in
-       this system — the row's own is at the start, beside what it opens. */
+       this system. The row's own is at the start, beside what it opens. */
     > .sds-run__chevron {
       margin-inline-start: auto;
     }
@@ -152,7 +152,7 @@
   }
 
   /* The stops. Bounded, because a run of forty steps inside a page is a page
-     with no end — what does not fit scrolls here rather than growing the box. */
+     with no end. What does not fit scrolls here rather than grows the box. */
   .sds-run__body {
     border-top: var(--sds-run-border) solid var(--sds-run-edge);
     max-height: var(--sds-run-list-height);
@@ -186,7 +186,7 @@
     &::-webkit-details-marker {
       display: none;
     }
-    /* A row with nothing to open keeps the column the chevron stands in, so
+    /* A row with nothing to open keeps the column the chevron stands in. So
        every mark in the list is at the same place down the page. */
     > .sds-run__mark:first-child {
       grid-column-start: 2;
@@ -226,8 +226,8 @@
     min-width: 0;
     overflow-wrap: anywhere;
   }
-  /* What is happening to it, said in words beside the name rather than left to
-     the mark. Cut where the column ends: it is a phrase, and a row that wraps
+  /* What happens to it, said in words beside the name rather than left to
+     the mark. Cut where the column ends. It is a phrase, and a row that wraps
      is a row the column below it no longer lines up with. */
   .sds-run__said {
     grid-column: 4;
@@ -246,10 +246,10 @@
        jump sideways while it counts up. */
     font-variant-numeric: tabular-nums;
   }
-  /* Every row states its own ink, so the four are read against each other
-     rather than three of them against a default. The one in hand is the page's
-     own ink and a band under the row; what has not been reached is set back;
-     what failed is worth reading, and what is behind us is the ordinary row. */
+  /* Every row states its own ink, so the four read against each other rather
+     than three of them against a default. The one in hand is the page's own
+     ink and a band under the row. What is still ahead stands back. What
+     failed deserves a read, and what is behind us is the ordinary row. */
   .sds-run__step--ahead {
     color: var(--sds-run-said-ink);
   }
@@ -299,8 +299,8 @@
     max-height: var(--sds-run-output-height);
     margin: 0;
     overflow: auto;
-    /* The numbers hang to the left of that line, in the margin, so what lines
-       up with the row's words is the text a reader is actually reading. */
+    /* The numbers hang to the left of that line, in the margin. So what lines
+       up with the row's words is the text a reader reads. */
     padding: var(--sds-run-output-pad-y) var(--sds-run-output-pad-x) var(--sds-run-output-pad-y)
       calc(var(--sds-run-output-inset) - var(--sds-run-gutter) - var(--sds-run-gutter-gap));
     background: var(--sds-run-output-fill);

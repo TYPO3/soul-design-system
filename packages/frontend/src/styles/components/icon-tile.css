@@ -59,7 +59,7 @@
       transform var(--sds-icon-tile-duration) var(--sds-icon-tile-ease);
 
     /* A rise and a fill under the pointer, as a card has. Only where it goes
-       somewhere: a tile that documents a set rather than indexing it does not
+       somewhere. A tile that documents a set rather than indexes it does not
        move, and the keyboard gets the same answer the pointer does. */
     &[href]:hover,
     &[href]:focus-visible {
@@ -68,9 +68,9 @@
       transform: translateY(var(--sds-icon-tile-lift));
     }
   }
-  /* The subject, given the room that makes it the thing being looked at. A
-     stated height and not an aspect ratio: the tiles across a row have to agree
-     where their names start, and a wall that reflows has no column count to
+  /* The subject, with the room that makes it the thing to look at. A stated
+     height and not an aspect ratio. The tiles across a row have to agree
+     where their names start. A wall that reflows has no column count to
      work one out from. */
   .sds-icon-tile__art {
     display: flex;
@@ -78,9 +78,9 @@
     justify-content: center;
     min-height: var(--sds-icon-tile-art-size);
   }
-  /* Held back: a wall is found by shape, and a column of identifiers at full
-     strength is a column of text with drawings between it. Machine text all the
-     same, never the label register — uppercasing it would hand back a different
+  /* Held back. A reader finds a wall by shape, and a column of identifiers at
+     full strength is a column of text with drawings between it. Machine text
+     all the same, never the label register — in upper case it is a different
      string. It breaks inside the word: cut off, a name is unusable. */
   .sds-icon-tile__name {
     font-family: var(--sds-icon-tile-font);
@@ -91,9 +91,9 @@
     overflow-wrap: anywhere;
   }
   /* The one fact the drawing cannot show, in the corner it does not use. It
-     shares the tile's own corner on the outside and squares off on the inside,
-     which is what keeps it read as part of the frame rather than as a chip
-     dropped on top of it. */
+     shares the tile's own corner on the outside and squares off on the inside.
+     That keeps it read as part of the frame rather than as a chip dropped on
+     top of it. */
   .sds-icon-tile__tag {
     position: absolute;
     inset-block-start: 0;

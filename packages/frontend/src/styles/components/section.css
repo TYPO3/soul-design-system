@@ -1,7 +1,7 @@
 /* sds-section — one titled part of a document, and the air it opens with.
 
-   No element renders it: the class is written by a renderer around each
-   titled part, or by a page composing a document by hand. What a section is,
+   No element renders it. A renderer writes the class around each titled
+   part, or a page that composes a document by hand does. What a section is,
    is its contents; what it owns is the boundary. */
 
 @layer components {
@@ -9,14 +9,14 @@
     --sds-section-step: var(--space-12);
     --sds-section-mark-ink: var(--text-accent-quiet);
 
-    /* One rule and one distance, stated above the section itself: whatever
+    /* One rule and one distance, stated above the section itself. Whatever
        stood before it, a section that is not the first in its box stands off
-       by the same step, and no selector asks a neighbour anything. */
+       by the same step. No selector asks a neighbour anything. */
     &:not(:first-child) {
       margin-block-start: var(--sds-section-step);
     }
     /* The last block inside owes the section's edge nothing: the step is the
-       section's, and a block still carrying its own would add to it. */
+       section's, and a block that still carries its own adds to it. */
     > :last-child {
       margin-block-end: 0;
     }
@@ -28,10 +28,10 @@
   }
 
   /* A heading names a place, and the id the renderer puts on the section is
-     the only thing that says where. The permalink is how that place is handed
-     over — the glyph `sds-confval` already carries beside a name, so a page
-     has one idiom for "link to this" and not two. Relative, because it stands
-     beside headings from the display size down to the label register. */
+     the only thing that says where. The permalink is how a reader hands that
+     place over. The glyph `sds-confval` already carries beside a name, so a
+     page has one idiom for "link to this" and not two. Relative, because it
+     stands beside headings from the display size down to the label register. */
   .sds-permalink {
     --sds-permalink-gap: var(--space-2);
     --sds-permalink-font: var(--font-mono);

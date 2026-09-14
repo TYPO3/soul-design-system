@@ -35,10 +35,10 @@
 
 @layer components {
   /* A document from somewhere else. The frame is the figure's, because an embed
-     is the same kind of thing on the page; what it does not share is how it is
-     sized, since a picture arrives with its own proportions and an iframe does
-     not. So two shapes: a player has a ratio and fills the column, a specimen
-     keeps the size it was measured at, and the element writes which. */
+     is the same kind of thing on the page. What it does not share is the size:
+     a picture arrives with its own proportions and an iframe does not. So two
+     shapes. A player has a ratio and fills the column, a specimen keeps its
+     measured size, and the element writes which. */
   .sds-embed {
     --sds-embed-gap: var(--space-3);
     --sds-embed-border: var(--border-hairline);
@@ -60,8 +60,8 @@
     background: var(--sds-embed-fill);
     overflow: hidden;
 
-    /* The default browser border on an iframe is an inset ridge that predates
-       every rule in this file, and it draws inside the corner rather than around
+    /* The default browser border on an iframe is an inset ridge older than
+       every rule in this file. It draws inside the corner rather than around
        it. The frame is the border here. */
     > iframe {
       display: block;
@@ -70,17 +70,17 @@
   }
   /* Fills the column and holds its shape at every width. `aspect-ratio` is on
      the frame and the document inside takes both dimensions from it, so the
-     ratio is stated once — the `width` and `height` a player is embedded with
-     are its native size and not its shape. */
+     ratio stands once. The `width` and `height` a player embeds with are its
+     native size and not its shape. */
   .sds-embed__frame--fluid > iframe {
     width: 100%;
     height: 100%;
   }
-  /* The size it was made for, and no other. A card was measured at the viewport
-     its header declares, so a frame that narrowed it would be showing a layout
-     nothing ever checked. Below that width it scrolls, which is what a wide
-     table gets here for the same reason; above it the frame stops at the
-     document rather than stretching a plane out beside it. */
+  /* The document's own size, and no other. A card measured at the viewport its
+     header declares, so a frame that narrows it shows a layout nothing ever
+     checked. Below that width it scrolls, which is what a wide table gets here
+     for the same reason. Above it the frame stops at the document rather than
+     stretches a plane out beside it. */
   .sds-embed__frame--fixed {
     width: max-content;
     max-width: 100%;

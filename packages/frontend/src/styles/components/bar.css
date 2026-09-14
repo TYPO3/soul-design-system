@@ -8,7 +8,7 @@
 }
 
 @layer components {
-  /* The bar stays: it is the frame the page is read inside. Sticky and not fixed,
+  /* The bar stays: it is the frame a reader reads the page inside. Sticky, not fixed,
      so the page below needs no offset — a fixed header is a height every surface
      has to know. The one translucent, blurred thing in a system with no shadows:
      solid it reads as a lid, transparent it lets letters run through the mark. */
@@ -16,9 +16,9 @@
     --sds-bar-height: var(--height-header);
     --sds-bar-gap: var(--space-6);
     --sds-bar-end-gap: var(--space-3);
-    /* What a mark standing at the end of the row is not: an icon button has no
-       box at rest, so the air between its edge and its glyph reads as gap and
-       nothing reads as the button. This is that air, taken back. */
+    /* What a mark at the end of the row is not. An icon button has no box at
+       rest. So the air between its edge and its glyph reads as gap, and nothing
+       reads as the button. This is that air, taken back. */
     --sds-bar-mark-pull: calc((var(--control-icon-size) - var(--control-height)) / 2);
     --sds-bar-z: 30;
     --sds-bar-border: var(--border-hairline);
@@ -28,10 +28,9 @@
     --sds-bar-duration: var(--duration-fast);
     --sds-bar-ease: var(--ease-out);
     /* The bar is a page row: full-bleed, its contents held to the measure.
-       The inset is computed on the row and never inherited ready-made — the
-       `%` and the animated gutter both resolve where they are written — and
-       the gutter is the page's token, so the step arrives without the bar
-       being named in the layout. */
+       The inset computes on the row and never arrives ready-made. The `%` and
+       the animated gutter both resolve where they stand. The gutter is the
+       page's token, so the step arrives and the layout never names the bar. */
     --page-gutter: var(--gutter-page);
     --page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);
     --sds-bar-inset: var(--page-inset);
@@ -39,7 +38,7 @@
     position: sticky;
     top: 0;
     z-index: var(--sds-bar-z);
-    /* A floor rather than a height, and a row that may wrap: for one frame
+    /* A floor rather than a height, and a row that can wrap. For one frame
        between a resize and the element's measurement the row is over-full, and
        two rows beat pills painted over the controls. At rest it never wraps. */
     min-height: var(--sds-bar-height);
@@ -53,33 +52,33 @@
     background: var(--sds-bar-fill);
     backdrop-filter: var(--sds-bar-blur);
     border-bottom: var(--sds-bar-border) solid var(--sds-bar-rule);
-    /* The gutter is crossed rather than jumped, and the height goes with it:
-       both step at a band, and a bar that snaps beside a page that eases is
-       two answers to one resize. */
+    /* The gutter eases rather than jumps, and the height goes with it. Both
+       step at a band, and a bar that snaps beside a page that eases is two
+       answers to one resize. */
     transition:
       --page-gutter var(--sds-bar-duration) var(--sds-bar-ease),
       min-height var(--sds-bar-duration) var(--sds-bar-ease);
 
-    /* Nothing else in the bar may set a floor either. A flex item's default
+    /* Nothing else in the bar can set a floor either. A flex item's default
        minimum is its own content, so one long word stops the row shrinking and
        pushes the page sideways. */
     > * {
       min-width: 0;
     }
   }
-  /* And the element, because a sticky box travels inside its parent: with the
+  /* And the element, because a sticky box travels inside its parent. With the
      bar in an element of its own the parent is that element, exactly as tall,
-     and there is nothing to travel. Both, so the bar sticks whether it arrived
-     as a component or as the markup one drew. */
+     and there is nothing to travel. Both, so the bar sticks as a component and
+     as the markup one drew. */
   sds-nav-main {
     position: sticky;
     top: 0;
     z-index: 30;
   }
   /* Before the element upgrades, and on a page where it never will: the room the
-     bar is about to take. The host draws nothing until its script has run, so
-     without a floor the page is laid out once without a bar and again with one,
-     under a reader who has already started reading. */
+     bar is about to take. The host draws nothing until its script has run.
+     Without a floor the page lays out once without a bar and again with one,
+     under a reader who has already started. */
   sds-nav-main:not(:defined) {
     --sds-bar-height: var(--height-header);
 
@@ -87,9 +86,9 @@
   }
   /* The bar rests over the top of the page, so anything jumped to arrives behind
      it. One offset on the scroller answers that for every target, where a
-     `scroll-margin` per target is a rule each new one has to be told. Asked with
-     `:has()`: a page carrying no bar of ours keeps its own — and the element is
-     asked too, standing over the page a frame before it draws anything. */
+     `scroll-margin` per target is a rule each new one has to hear. Asked with
+     `:has()`: a page with no bar of ours keeps its own. The element counts
+     too, as it stands over the page a frame before it draws anything. */
   html:has(.sds-bar, sds-nav-main) {
     /* Declared here and not with the bar: what reads it is the page, which is
        the bar's ancestor, and a property only ever travels down. */
@@ -99,9 +98,9 @@
   }
 
   /* The cluster that sits against the right edge. It does not shrink — it
-     sheds, which is what the media query below does. Shrinking it squeezes its
-     own contents out of it instead, and a box 64px narrower than what is inside
-     it is a header that overflows without anything in the row looking wrong. */
+     sheds, which is what the media query below does. Shrunk, it squeezes its
+     own contents out of it instead. A box 64px narrower than what is inside
+     it is a header that overflows while nothing in the row looks wrong. */
   .sds-bar__end {
     flex: none;
     margin-inline-start: auto;
@@ -109,26 +108,26 @@
     align-items: center;
     gap: var(--sds-bar-end-gap);
 
-    /* In the bar the field keeps its size. It used to be the one thing that gave
-       before anything was dropped, which bought the row 100px and cost the reader
-       a box too narrow to read what they had typed — it goes to the drawer whole
-       instead, and the bar is measured knowing it will not shrink. */
+    /* In the bar the field keeps its size. A field that gives before the row
+       sheds buys the row 100px and costs the reader a box too narrow to read
+       what they typed. It goes to the drawer whole instead, and the bar
+       measures in the knowledge that it will not shrink. */
     .sds-search {
       flex-shrink: 0;
     }
 
-    /* Pulled in by that air, the row is spaced between what a reader can see:
-       measured, the caret stood 38 from the mark beside it where the field
-       stood 28 from the word, and the difference was the ten pixels of nothing
-       on each side. The mark lands on the page measure the way the text does. */
+    /* Pulled in by that air, the row spaces between what a reader can see.
+       Measured, the caret stood 38 from the mark beside it where the field
+       stood 28 from the word. The difference was the ten pixels of nothing on
+       each side. The mark lands on the page measure the way the text does. */
     .sds-btn--icon {
       margin-inline: var(--sds-bar-mark-pull);
     }
   }
 
-  /* The language control's button. A subtag standing among words is set as a
-     mark rather than as a word — upper-case and in the mono face, so `de` in a
-     row of English reads as a code and not as a misspelling. The data keeps
+  /* The language control's button. A subtag among words sets as a mark rather
+     than as a word. Upper-case and in the mono face, so `de` in a row of
+     English reads as a code and not as a spelling error. The data keeps
      whatever case it arrived in; the case is a decision about the bar. */
   .sds-bar__lang {
     --sds-bar-lang-font: var(--font-mono);
@@ -142,7 +141,7 @@
   }
 
   /* What the bar sheds as the page narrows. After the rules it narrows and in
-     the same layer as them: a later layer wins inside a media query too, so a
+     the same layer as them. A later layer wins inside a media query too, so a
      component whose breakpoints live one layer down has breakpoints that never
      take effect. */
   @media (max-width: 1140px) {
@@ -151,17 +150,17 @@
     }
   }
   @media (max-width: 460px) {
-    /* The brand half of the wordmark, never the signet and never the product:
-       the name of the thing the reader came for is what tells them which page
-       they are on, and whose it is is what the signet beside it already says. */
+    /* The brand half of the wordmark, never the signet and never the product.
+       The name of the thing the reader came for tells them which page they are
+       on. Whose it is, the signet beside it already says. */
     .sds-bar .sds-wordmark__brand,
     .sds-bar .sds-wordmark__pipe {
       display: none;
     }
-    /* One name left is the mark itself, at the mark's own weight — the same
-       lockup a site with no brand draws, rather than the quiet half standing
-       alone with nothing for it to be quiet beside. The weight arrives by
-       inheritance, the brand half being hidden and not removed. */
+    /* One name left is the mark itself, at the mark's own weight. The same
+       lockup a site with no brand draws, rather than the quiet half alone with
+       nothing for it to be quiet beside. The weight arrives by inheritance,
+       as the brand half hides and does not go. */
     .sds-bar .sds-wordmark__product {
       font-weight: inherit;
       color: inherit;

@@ -13,8 +13,8 @@
     margin: 0 0 var(--space-4);
   }
 
-  /* A bare `<blockquote>` is this component without its element, so it is drawn
-     here: a rule at the edge and a step in, never italics — a quotation is
+  /* A bare `<blockquote>` is this component without its element, so it draws
+     here. A rule at the edge and a step in, never italics — a quotation is
      somebody else's sentences, not an emphasis on yours. */
   blockquote {
     padding-inline-start: var(--space-4);
@@ -26,14 +26,14 @@
   }
 
   /* The element draws the rule and the indent on the figure around it instead.
-     Left standing, both are drawn twice and the sentence sits one indent
-     further in than the byline answerable for it. */
+     Left in place, both draw twice and the sentence sits one indent further
+     in than the byline answerable for it. */
   .sds-quote__body {
     padding-inline-start: 0;
     border-inline-start: 0;
   }
   /* The attribution is a byline and brings its own type, so a document's
-     caption rule may not set it at caption size and mute it. */
+     caption rule must not set it at caption size and mute it. */
   .sds-quote__by {
     font-size: inherit;
     color: inherit;
@@ -42,10 +42,10 @@
 
 @layer components {
   /* A sentence borrowed from somewhere, set apart by measure and a rule at its
-     start — position, which is what this system separates with. No quotation mark
-     is drawn: a punctuation character at 40px is ornament wearing a glyph. The
+     start — position, which is what this system separates with. No quotation
+     mark: a punctuation character at 40px is ornament in a glyph's clothes. The
      rule is structural, so no radius and `--border-strong` rather than the
-     accent; 3px, because at 2px it was the faintest thing in the block it holds. */
+     accent. 3px, because at 2px it was the faintest thing in the block it holds. */
   .sds-quote {
     --sds-quote-inset: var(--space-5);
     --sds-quote-gap: var(--space-3);
@@ -63,11 +63,11 @@
     padding-inline-start: var(--sds-quote-inset);
     border-inline-start: var(--sds-quote-rule) solid var(--sds-quote-edge);
   }
-  /* A borrowed sentence is a statement, not running text: set at the size of a
-     section heading and led like one, because at reading leading the same words
-     spread into a paragraph that happened to be indented. The weight stays the
-     paragraph's — size is what sets it apart from the text, and weight is what
-     keeps the heading it can stand under louder than it. */
+  /* A borrowed sentence is a statement, not prose. Set at the size of a section
+     heading and led like one. At reading leading the same words spread into
+     a paragraph with an indent. The weight stays the paragraph's. Size is
+     what sets it apart from the text, and weight is what keeps the heading it
+     can stand under louder than it. */
   .sds-quote__body {
     margin: 0;
     max-width: var(--sds-quote-measure);
@@ -78,14 +78,14 @@
   }
   /* The attribution is a byline and brings its own type — the caption is only
      where it sits. Set in caption size it said the sentence outranked whoever is
-     answerable for it, which is the opposite of why the source is required. */
+     answerable for it, which is the opposite of why the source is a must. */
   .sds-quote__by {
     margin: 0;
 
-    /* And it is the container of whatever it wraps: what stands in it carries the
+    /* And it is the container of whatever it wraps. What stands in it carries the
        step it owes a page, and here the quote's own gap is the distance. Said
-       about the last thing rather than about a byline — the caption holds what it
-       is given, and naming one element is a rule that needs another next time. */
+       about the last thing rather than about a byline. The caption holds what it
+       gets, and a rule that names one element needs another next time. */
     > :last-child {
       margin-bottom: 0;
     }

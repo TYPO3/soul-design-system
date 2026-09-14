@@ -1,8 +1,8 @@
-/* sds-lightbox — a drawing opened at the size it was drawn. */
+/* sds-lightbox — a drawing opened at its own size. */
 
 @layer base {
-  /* It draws nothing where it stands — what it opens is in the top layer or
-     fixed to the viewport, so a box here is one nothing would ever fill. */
+  /* It draws nothing where it stands. What it opens is in the top layer or
+     fixed to the viewport, so a box here is one nothing ever fills. */
   sds-dialog,
   sds-lightbox {
     display: contents;
@@ -10,11 +10,11 @@
 }
 
 @layer components {
-  /* A drawing at the size it was drawn, and not a modal with the cap taken off:
-     a modal stops at `--measure-modal` because what is in one is read, and a
-     drawing is looked at. So this is its own surface — as much of the screen as
-     it can take without touching the edges. `display` waits for `[open]`, or the
-     base rule would leave the viewer on the page permanently. */
+  /* A drawing at its own size, and not a modal with the cap taken off. A modal
+     stops at `--measure-modal` because a reader reads what is in one, and
+     looks at a drawing. So this is its own surface — as much of the screen as
+     it can take clear of the edges. `display` waits for `[open]`, or the base
+     rule leaves the viewer on the page permanently. */
   dialog.sds-lightbox {
     --sds-lightbox-width: min(92vw, 1400px);
     --sds-lightbox-inset: 4vh;
@@ -30,10 +30,10 @@
     padding: 0;
     width: var(--sds-lightbox-width);
     max-width: none;
-    /* The height is the gap between the two edges rather than a length, because a
-       `<dialog>` given a length keeps the platform's `margin: auto` and stops
-       being centred in the block direction — the stage would sit against the top
-       of the screen with the whole margin under it. */
+    /* The height is the gap between the two edges rather than a length. A
+       `<dialog>` with a length keeps the platform's `margin: auto` and no longer
+       centres in the block direction. The stage then sits against the top of
+       the screen with the whole margin under it. */
     inset-block: var(--sds-lightbox-inset);
     height: auto;
     max-height: none;
@@ -50,10 +50,10 @@
   dialog.sds-lightbox::backdrop {
     background: var(--sds-lightbox-backdrop);
   }
-  /* A modal has the whole screen, but the platform only makes the rest inert —
-     a wheel over the backdrop still moves the page behind the picture. The
-     stable gutter keeps the scrollbar's width reserved, or locking the document
-     would jump the page sideways as the viewer opens. */
+  /* A modal has the whole screen, but the platform only makes the rest inert.
+     A wheel over the backdrop still moves the page behind the picture. The
+     stable gutter keeps the scrollbar's width reserved, or the locked document
+     jumps the page sideways as the viewer opens. */
   html:has(dialog.sds-modal[open], dialog.sds-lightbox[open]) {
     overflow: hidden;
     scrollbar-gutter: stable;
@@ -67,18 +67,18 @@
     overflow: hidden;
     background: var(--sds-lightbox-stage-fill);
   }
-  /* A picture that was never prepared to be referenced keeps the colours it was
-     exported with, so the ground under it is one those colours were drawn for.
-     The one surface in the system that does not follow the reader into dark:
-     below light line art, a dark ground is the page contradicting the picture. */
+  /* A picture with no group to reference keeps its exported colours, so the
+     ground under it is the one those colours are for. The one surface in the
+     system that does not follow the reader into dark. Below light line art, a
+     dark ground is the page in contradiction with the picture. */
   .sds-lightbox__art--exported {
     --sds-lightbox-stage-fill: var(--surface-art);
   }
 
-  /* The picture is fitted into what the head leaves rather than drawn at the
-     width of it: the stage is bounded in both directions, so a drawing that is
-     taller than wide stands whole and in the middle instead of scrolling with
-     its foot cut off. `scale-down` is why a small picture is not blown up. */
+  /* The picture fits into what the head leaves rather than draws at the width
+     of it. The stage has bounds in both directions. So a drawing that is
+     taller than wide stands whole and in the middle, and never scrolls with
+     its foot cut off. `scale-down` is why a small picture stays small. */
   .sds-lightbox__art > .sds-art {
     width: 100%;
     height: 100%;

@@ -1,8 +1,8 @@
 /* The planes: the frame every boxed component shares, and the filled ones. */
 
 @layer base {
-  /* And it fills what it is given: a wall stretches the cell to the tallest in
-     the row, where a block box stops at its own prose and leaves a plane that
+  /* And it fills what it gets. A wall stretches the cell to the tallest in
+     the row. A block box stops at its own prose and leaves a plane that
      ends before the one beside it. */
   sds-surface {
     display: block;
@@ -53,10 +53,10 @@
     --sds-plane-fill: var(--surface-sunken);
   }
 
-  /* A rendering put on a page to be looked at rather than read — what a piece of
-     markup produces, beside the markup. Dashed and unfilled: the frame is not
-     part of the page, and what stands in it keeps the ground it would really
-     stand on. The one dashed line in the system, which is what lets it say that
+  /* A rendering on a page for a reader to look at rather than read — what a
+     piece of markup produces, beside the markup. Dashed and unfilled: the frame
+     is not part of the page, and what stands in it keeps the ground it really
+     stands on. The one dashed line in the system, which is what lets it say that
      and nothing else. */
   .sds-example {
     --sds-plane-pad-y: var(--block-pad-y);
@@ -104,14 +104,14 @@
     color: var(--sds-surface-body-ink);
 
     /* The statement ends where the plane does — a block that brought its own step
-       would leave air under the last line. */
+       leaves air under the last line. */
     > :last-child {
       margin-bottom: 0;
     }
   }
-  /* A glyph above the label, where a set of cards is told apart at a glance
-     before it is read. Muted, and never in a status colour: a card is a subject,
-     not a result, and colour here would say something the words do not. */
+  /* A glyph above the label, where a set of cards tells its cards apart at a
+     glance. Muted, and never in a status colour: a card is a subject, not a
+     result, and colour here says something the words do not. */
   .sds-surface-icon {
     --sds-surface-icon-ink: var(--text-secondary);
     --sds-surface-icon-gap: var(--space-2-5);
@@ -119,8 +119,8 @@
     color: var(--sds-surface-icon-ink);
     margin-bottom: var(--sds-surface-icon-gap);
   }
-  /* The glyph carries the gap on its own, so a card with no label between them
-     is not spaced differently from one that has a label. */
+  /* The glyph carries the gap on its own. So a card with no label between them
+     has the same distance as one that has a label. */
   .sds-surface-icon + .sds-surface-title {
     margin-top: 0;
   }

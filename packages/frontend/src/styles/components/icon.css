@@ -8,14 +8,14 @@
 
 @layer components {
   /* An icon follows the text colour and size it sits in — an <img> can inherit
-     neither, so the SVG is inlined. A number is for a glyph standing alone:
-     16 is the floor, then 20, 24 or a whole multiple. Inline, because a glyph
-     stands in a line as often as in a row — the element states `inline-flex`,
+     neither, so the SVG inlines. A number is for a glyph on its own: 16 is
+     the floor, then 20, 24 or a whole multiple. Inline, because a glyph
+     stands in a line as often as in a row. The element states `inline-flex`,
      this `inline-block`: the same box from outside, 1em square, on the baseline. */
   .sds-icon,
   sds-icon {
-    /* On the tag as well as the class: before the element upgrades there is no
-       class, and the reserved box is read from the same name either way. */
+    /* On the tag and the class. Before the element upgrades there is no
+       class, and the reserved box comes from the same name either way. */
     --sds-icon-size: 1em;
     --sds-icon-ink-muted: var(--text-secondary);
 
@@ -40,10 +40,10 @@
     color: var(--sds-icon-ink-muted);
   }
 
-  /* Before the script lands there is no element, only a tag saying which glyph
-     and how big — and an empty box takes the size of what is not in it. The
+  /* Before the script lands there is no element, only a tag that says which
+     glyph and how big. An empty box takes the size of what is not in it. The
      sizes mirror the ones above, unsized case included, so nothing jumps.
-     `:where()`, or this would out-weigh `.sds-icon--20` and cause the jump it
+     `:where()`, or this out-weighs `.sds-icon--20` and causes the jump it
      prevents. */
   :where(sds-icon:not(:defined)) {
     width: var(--sds-icon-size);

@@ -1,11 +1,11 @@
 /* sds-button — the variants and the heights.
 
-   Everything a button is, it is through a property of its own: the set is
-   derived once at the top from the control tokens, and every declaration
-   below reads only that set. A variant, a size and a state assign values and
-   draw nothing — so there is no `--primary:hover` for a later rule to
-   outweigh, a size is a handful of numbers, and a surface that needs one
-   button different sets a property instead of writing a new class. */
+   Everything a button is, it is through a property of its own. The set derives
+   once at the top from the control tokens, and every declaration below reads
+   only that set. A variant, a size and a state assign values and draw
+   nothing. So there is no `--primary:hover` for a later rule to outweigh, and
+   a size is a handful of numbers. A surface that needs one button different
+   sets a property instead of writes a new class. */
 
 @layer base {
   sds-button {
@@ -28,7 +28,7 @@
     --sds-btn-weight: var(--weight-semibold);
     /* A button is a row of a glyph and a label, so its line box is the glyph
        box. At the heading step the label's line stands taller than the mark
-       beside it, and the two items of that row are different heights for no
+       beside it. The two items of that row are then different heights for no
        reason a control that never wraps can use. The height is a floor of its
        own, so nothing else moves. */
     --sds-btn-leading: var(--leading-solid);
@@ -71,20 +71,20 @@
       color var(--sds-btn-duration) var(--sds-btn-ease);
 
     /* One state, whatever the variant — drawn from the three above rather than
-       swapped into them. A property whose default reads the one that would be
-       assigned from it is a cycle, and a cycle is invalid at computed value:
-       the border went to `none` and the button shrank under the pointer, and
-       the ink fell back to whatever the page inherits. */
+       swapped into them. A property whose default reads the one that takes its
+       value is a cycle, and a cycle is invalid at computed value. The border
+       went to `none` and the button shrank under the pointer, and the ink fell
+       back to whatever the page inherits. */
     &:hover {
       border-color: var(--sds-btn-edge-hover);
       background: var(--sds-btn-fill-hover);
       color: var(--sds-btn-ink-hover);
     }
 
-    /* And the press, written after the pointer because a pressed button is a
-       hovered one and the later rule of equal weight is the one that draws.
-       Nothing moves: the finger gets a colour, the same as everything else
-       here, and a card can show neither. */
+    /* And the press, written after the pointer. A pressed button is a hovered
+       one, and the later rule of equal weight is the one that draws. Nothing
+       moves: the finger gets a colour, the same as everything else here, and a
+       card can show neither. */
     &:active {
       border-color: var(--sds-btn-edge-active);
       background: var(--sds-btn-fill-active);
@@ -100,8 +100,8 @@
 
   /* Everything a caller wrote that is not a glyph, in one item. Written beside
      each other the parts of a label are items of their own, and this row places
-     an item by its box — so a word and a version in mono, being two faces, sit
-     on two baselines. Here they share a line box and set as one line of text. */
+     an item by its box. So a word and a version in mono, as two faces, sit on
+     two baselines. Here they share a line box and set as one line of text. */
   .sds-btn__label {
     display: block;
   }
@@ -126,14 +126,14 @@
     --sds-btn-ink: var(--text-secondary);
     --sds-btn-ink-hover: var(--text-primary);
     /* The one variant with no box of its own, so the press is the only moment
-       it has a ground at all — without it a ghost answers a finger with
-       nothing until the work lands. */
+       it has a ground at all. Without it a ghost answers a finger with nothing
+       until the work lands. */
     --sds-btn-fill-active: var(--surface-sunken);
   }
 
-  /* The press that cannot be undone. Status colour as ink and a hairline and
-     never as a fill: a filled red button outranks the accent, and the accent is
-     the one thing on a page allowed to do that. The colour marks the press; the
+  /* The press with no way back. Status colour as ink and a hairline and never
+     as a fill. A filled red button outranks the accent, and the accent is the
+     one thing on a page that can do that. The colour marks the press; the
      label is what says what goes. */
   .sds-btn--danger {
     --sds-btn-ink: var(--status-error);
@@ -159,8 +159,8 @@
   }
 
   /* Icon-only is a square, and always carries a title= — the label is not
-     optional just because it is not painted. The side is the height the size
-     already states, so a marked button and a worded one stand the same in a
+     optional just because it has no paint. The side is the height the size
+     already states. So a marked button and a worded one stand the same in a
      row whichever size they are. */
   .sds-btn--icon {
     --sds-btn-pad-y: 0;
@@ -170,8 +170,8 @@
     justify-content: center;
 
     /* A glyph inside a label is as big as that label. A glyph that IS the
-       control is not a label at all, so it keeps the floor — at `sm` the mark
-       would otherwise be the small step, lost in a 28px box. */
+       control is not a label at all, so it keeps the floor. At `sm` the mark
+       is otherwise the small step, lost in a 28px box. */
     .sds-icon {
       --sds-icon-size: var(--sds-btn-glyph);
     }

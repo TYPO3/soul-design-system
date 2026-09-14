@@ -1,5 +1,5 @@
-/* sds-hlist — short items an author asked to be read across. Columns rather
-   than a grid, because a list flows. */
+/* sds-hlist — short items an author wants read across. Columns rather than
+   a grid, because a list flows. */
 
 @layer components {
   .sds-hlist {

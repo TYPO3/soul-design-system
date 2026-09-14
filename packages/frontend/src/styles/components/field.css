@@ -1,4 +1,4 @@
-/* The controls a form is made of: the field, the box it draws, the check
+/* The controls a form consists of: the field, the box it draws, the check
    and the set of choices. */
 
 @layer base {
@@ -61,10 +61,10 @@
       border-color var(--sds-field-duration) var(--sds-field-ease),
       box-shadow var(--sds-field-duration) var(--sds-field-ease);
 
-    /* The one exception the ring makes, and it is the box's own doing: a field
-       that has taken focus already carries the accent as its border, so an
-       outline two pixels outside it would be the same line drawn twice. The halo
-       stays, at the width it has everywhere. */
+    /* The one exception the ring makes, and it is the box's own doing. A field
+       with focus already carries the accent as its border, so an outline two
+       pixels outside it is the same line drawn twice. The halo stays, at the
+       width it has everywhere. */
     &.is-focused,
     &:focus-within {
       --sds-field-edge: var(--accent);
@@ -77,10 +77,9 @@
     &.is-filled {
       --sds-field-ink: var(--sds-field-ink-filled);
     }
-    /* Not on offer, at the strength every other unavailable control in the
-       system is drawn at. The box keeps its shape: a field that also loses its
-       border reads as a gap in the form rather than as a question that is
-       closed. */
+    /* Not on offer, at the strength of every other unavailable control in the
+       system. The box keeps its shape. A field that also loses its border reads
+       as a gap in the form rather than as a closed question. */
     &.is-disabled,
     &:has(> .sds-input:disabled) {
       opacity: var(--sds-field-disabled-opacity);
@@ -107,7 +106,7 @@
   }
 
   /* The three heights a button has, so a field and the button beside it stand on
-     one line: `sm` inside another surface — a toolbar, a table head, a filter
+     one line. `sm` inside another surface — a toolbar, a table head, a filter
      row — and `lg` where the field is what the screen is for. What a form asks
      is `md`, the same way a form's buttons are. */
   .sds-field--sm {
@@ -126,7 +125,7 @@
   .sds-input {
     all: unset;
     /* `all` takes the box model back with the paint, so the one thing the reset
-       states for everything has to be said again here. */
+       states for everything stands again here. */
     box-sizing: border-box;
     flex: 1;
     min-width: 0;
@@ -135,11 +134,10 @@
     color: var(--sds-field-ink-filled);
   }
 
-  /* Error text sits under or beside the field — never as a tooltip, and at the
-     size the control is rather than the size of an aside. A hint can be
-     skipped; this is the sentence standing between a reader and the send, and
-     the summary at the top of the form says the same one in the reading
-     register. */
+  /* Error text sits under or beside the field, never as a tooltip. At the
+     size the control is rather than the size of an aside. A reader can skip a
+     hint; this is the sentence between a reader and the send. The summary at
+     the top of the form says the same one in the reading register. */
   .sds-field-error {
     --sds-field-error-gap: var(--space-1-5);
     --sds-field-error-size: var(--control-font-size);
@@ -152,11 +150,11 @@
     color: var(--sds-field-error-ink);
   }
 
-  /* A field in a form is a field plus everything a form owes it: a real
-     `<label>` above — nothing else here says what the field is for, and a
-     placeholder leaves as soon as it is needed — the hint below the control,
-     the error under both, never a tooltip. `min-width: 0`, or the row's floor
-     is the control's own stated width and it pushes the page sideways. */
+  /* A field in a form is a field plus everything a form owes it. A real
+     `<label>` above: nothing else here says what the field is for, and a
+     placeholder leaves the moment the reader needs it. The hint below the
+     control, the error under both, never a tooltip. `min-width: 0`, or the
+     row's floor is the control's own stated width and pushes the page sideways. */
   .sds-field-row {
     --sds-field-row-gap: var(--space-1-5);
     --sds-field-label-size: var(--control-font-size);
@@ -175,10 +173,10 @@
     max-width: 100%;
 
     /* The label and the error follow the control they belong to, where the
-       control's own type moves: only the compact one does, so only it is here.
-       The error is assigned on its own box, because a set declared on an
+       control's own type moves. Only the compact one does, so only it is here.
+       The error gets its value on its own box, because a set declared on an
        element outranks the same property inherited into it. The hint follows
-       nothing — an aside is read in one register wherever it stands. */
+       nothing — an aside reads in one register wherever it stands. */
     &:has(> .sds-field--sm) {
       --sds-field-label-size: var(--control-font-size-sm);
 
@@ -191,9 +189,9 @@
     font-size: var(--sds-field-label-size);
     color: var(--sds-field-label-ink);
   }
-  /* Which fields are required is stated on the required ones, in words. An
-     asterisk is a convention that has to be explained in a legend somewhere, and
-     the legend is always the thing that gets cut. */
+  /* A field that needs an answer says so, in words. An asterisk is a
+     convention a legend somewhere has to explain, and the legend is always the
+     thing that goes. */
   .sds-field-req {
     font-family: var(--sds-field-req-font);
     font-size: var(--sds-field-req-size);
@@ -210,7 +208,7 @@
   /* A checkbox and a radio: the real input, painted here rather than left to the
      browser. `appearance: none` takes the paint and nothing else — the keyboard,
      the tap target, the value it posts and how it reads out are still the
-     input's. What it replaces is a grey the platform picks on its own, which
+     input's. What it replaces is a grey the platform picks on its own. That
      sits beside a field of this system's making and matches none of it. */
   .sds-check {
     --sds-check-size: 16px;
@@ -265,8 +263,8 @@
     width: var(--sds-check-size);
     height: var(--sds-check-size);
     /* Centred in the line box its label sets, which is why the mark carries the
-       type tokens without drawing a glyph: `1lh` is that box, and the mark stays
-       on the first line if the control leading or the label's size ever moves. A
+       type tokens and draws no glyph. `1lh` is that box, and the mark stays on
+       the first line if the control leading or the label's size ever moves. A
        hand-written margin is right for one pair of numbers and silently wrong
        for the next. */
     font-size: var(--sds-check-font-size);
@@ -284,9 +282,9 @@
     }
     /* Ticked fills with `--text-primary`, because the accent marks three things
        and a ticked box is not one of them. The dot and the tick are that fill
-       inverted: `difference` against white gets both modes out of one declaration,
-       where a drawn glyph needs a light copy, a dark one and a rule choosing. The
-       knockout that would also do it is a mask, and a mask clips the focus ring. */
+       inverted. `difference` against white gets both modes out of one
+       declaration. A drawn glyph needs a light copy, a dark one and a rule to
+       choose. A knockout also does it, but it is a mask, and a mask clips the ring. */
     &:checked,
     &[type="checkbox"]:indeterminate {
       background-color: var(--sds-check-fill-on);
@@ -305,13 +303,13 @@
     /* Neither on nor off. `:indeterminate` on a radio is every button of a group
        with nothing chosen, which is why this one names its type. */
     &[type="checkbox"]:indeterminate {
-      /* colour-literal: the same white the tick is drawn in */
+      /* colour-literal: the same white the tick draws in */
       background-image: linear-gradient(#fff, #fff);
       background-size: 8px 2px;
     }
   }
-  /* Control leading on the label, so the box beside it is centred on one line
-     and the hint below is the label's own rather than a second row. */
+  /* Control leading on the label, so the box beside it centres on one line.
+     The hint below is the label's own rather than a second row. */
   .sds-check__body {
     display: flex;
     flex-direction: column;
@@ -330,7 +328,7 @@
   }
 
   /* A set of them. `<fieldset>` carries the grouping and the legend, and the
-     browser's own border and padding are taken away rather than styled. */
+     browser's own border and padding go rather than take a style. */
   .sds-choices {
     --sds-choices-gap: var(--space-3);
     --sds-choices-legend-gap: var(--space-4);
@@ -343,9 +341,9 @@
     flex-direction: column;
     gap: var(--sds-choices-gap);
 
-    /* The rendered `<legend>` is lifted out of the fieldset's content box and is
-       no flex item, so the column's `gap` never reached it and the question sat on
-       the first answer. The margin is that gap, written by hand — and the shorter
+    /* The rendered `<legend>` stands outside the fieldset's content box and is
+       no flex item. So the column's `gap` never reached it and the question sat
+       on the first answer. The margin is that gap, written by hand. The shorter
        one where a hint follows, which belongs to the question and not to the set. */
     > .sds-field-label {
       padding: 0;
@@ -356,10 +354,10 @@
     }
   }
 
-  /* The form itself: one column, at the measure a form is filled in rather than
-     the measure a page is read at. A row of fields side by side is faster to
-     scan and slower to complete, and this is the surface where completing is
-     the point. */
+  /* The form itself: one column, at the measure a reader fills a form in rather
+     than the measure they read a page at. A row of fields side by side is faster
+     to scan and slower to complete, and this is the surface where completion
+     is the point. */
   .sds-form {
     --sds-form-gap: var(--space-5);
     --sds-form-measure: var(--measure-lead);
@@ -377,10 +375,10 @@
   }
 
   /* What stopped the form, at the top of it. The box is `sds-note`, because a
-     failure looks like one thing here; what is left is the part a note has no
-     shape for — a list of links, one per failure, pointing at its field. It is
-     focusable because a summary nobody is sent to is a summary nobody reads.
-     The ring as everywhere, on the radius this box is drawn at. */
+     failure looks like one thing here. The rest is the part a note has no
+     shape for: a list of links, one per failure, each at its field. It is
+     focusable because a summary nobody lands on is a summary nobody reads.
+     The ring as everywhere, on the radius this box draws at. */
   .sds-form-errors {
     --sds-form-errors-gap: var(--space-1);
     --sds-form-errors-lead: var(--space-1-5);

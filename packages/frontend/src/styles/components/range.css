@@ -2,9 +2,9 @@
 
    The track and the thumb are the two parts a browser draws itself, and each
    one is a vendor pseudo-element with no shared spelling. They stand as rules
-   of their own rather than in one selector list: a list holding a pseudo-element
-   the browser does not know is a list the browser drops whole, which would take
-   the other engine's rule with it. */
+   of their own rather than in one selector list. A list with a pseudo-element
+   the browser does not know is a list the browser drops whole, and the other
+   engine's rule goes with it. */
 
 @layer base {
   sds-range {
@@ -36,7 +36,7 @@
   }
 
   /* The question on the left, where it stands on every other control, and the
-     number on the right — a slider with nothing beside it is a value nobody can
+     number on the right. A slider with nothing beside it is a value nobody can
      read back or report. */
   .sds-range__head {
     display: flex;
@@ -61,7 +61,7 @@
       cursor: not-allowed;
     }
     /* The ring the whole system draws, on the part the eye is on. The input's
-       own box is the full width of the row, so an outline round it would be a
+       own box is the full width of the row, so an outline round it is a
        rectangle nowhere near the thumb. */
     &:focus {
       outline: none;
@@ -85,7 +85,7 @@
     appearance: none;
     width: var(--sds-range-thumb);
     height: var(--sds-range-thumb);
-    /* The thumb sits on the track's own box in this engine and is centred by
+    /* The thumb sits on the track's own box in this engine and centres by
        hand: half the difference, minus the hairline the track draws. */
     margin-top: calc((var(--sds-range-track-h) - var(--sds-range-thumb)) / 2);
     background: var(--sds-range-thumb-fill);

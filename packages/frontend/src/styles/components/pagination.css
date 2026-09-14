@@ -3,7 +3,7 @@
 @layer base {
   /* The pager states its own distance above it, the way a section does. What
      runs into it is a document box or a section, and each gives its step up at
-     its own edge — so a pager with no lead sits on the last line of the text it
+     its own edge. So a pager with no lead sits on the last line of the text it
      is the way out of. */
   sds-nav-pager {
     display: block;
@@ -30,10 +30,10 @@
 }
 
 @layer components {
-  /* Where a list continues. Numbered, and every number an `href`: a list somebody
-     may come back to needs a place to come back to, and "load more" has no
-     address. The page they are on is the active item of a navigation and drawn as
-     one — accent, filled — and text rather than a link, like the end of a trail. */
+  /* Where a list continues. Numbered, and every number an `href`. A list somebody
+     can come back to needs a place to come back to, and "load more" has no
+     address. The page they are on is the active item of a navigation and draws
+     as one: accent, filled. Text rather than a link, like the end of a trail. */
   .sds-pagination {
     --sds-pagination-gap: var(--space-1);
     --sds-pagination-item-gap: var(--space-1-5);
@@ -76,14 +76,14 @@
     background: var(--sds-pagination-fill-active);
     color: var(--sds-pagination-ink-active);
   }
-  /* A step with nowhere to go stays in place rather than disappearing: a row of
-     controls that changes width as it is used is a row that moves under the
+  /* A step with nowhere to go stays in place rather than goes. A row of
+     controls that changes width in use is a row that moves under the
      pointer. */
   .sds-pagination__step.is-disabled {
     color: var(--sds-pagination-ink-quiet);
     pointer-events: none;
   }
-  /* The gap where numbers were left out. Not a control, and never the thing a
+  /* The gap where numbers are out. Not a control, and never the thing a
      reader tries to press. */
   .sds-pagination__gap {
     padding: var(--sds-pagination-pad-y) var(--sds-pagination-gap);
@@ -98,8 +98,8 @@
 
   /* The other one: the page before and the page after, at the foot of a page
      read in order. A rule with the lead above it and this air under it, and
-     nothing below — the step to whatever follows is the one every block
-     carries, so a pager at the end of a column trims it like any other last
+     nothing below. The step to whatever follows is the one every block
+     carries. A pager at the end of a column trims it like any other last
      child. */
   .sds-pager {
     --sds-pager-rule: var(--border-hairline);
@@ -115,13 +115,13 @@
     border-top: var(--sds-pager-rule) solid var(--sds-pager-edge);
 
     /* Which end each control sits at, said on the next rather than between the
-       two: a page with only a next would otherwise have it on the left. */
+       two. A page with only a next otherwise has it on the left. */
     > .sds-pager__next {
       margin-inline-start: auto;
     }
 
-    /* Where the two labels no longer fit on one line they take two, and the
-       air between them closes to the step a stacked pair carries. */
+    /* Where the two labels no longer fit on one line they take two. The air
+       between them closes to the step a stacked pair carries. */
     @media (max-width: 860px) {
       flex-wrap: wrap;
       gap: var(--sds-pager-gap-narrow);

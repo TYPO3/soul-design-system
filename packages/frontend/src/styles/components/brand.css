@@ -2,7 +2,7 @@
 
 @layer components {
   /* The signet is NOT an icon. It ships as three drawings, each made in the box
-     it is for — 32, 24, 16 — so `.sds-icon` would force all three to one size.
+     it is for — 32, 24, 16 — so `.sds-icon` forces all three to one size.
      Size it at the element, to one of the three or a whole multiple, because
      that is where a drawing's edges land on whole pixels. */
   .sds-signet {
@@ -16,15 +16,15 @@
   }
 
   /* Signet, wordmark, one orange pipe — the third and last place the accent
-     may appear. A lockup is a signet and a wordmark on one baseline, in the
-     page's ink with no link decoration: it is nearly always the link home,
+     can appear. A lockup is a signet and a wordmark on one baseline, in the
+     page's ink with no link decoration. It is nearly always the link home,
      and the signet draws itself in `currentColor`. */
   .sds-lockup {
     /* The mark in a lockup is 24, said by the lockup rather than by every page
-       that writes one: a signet is crisp only at the size its file is drawn
-       for, and a number left to the call site drifts into 20 in one header and
-       22 in the next. The element states the same size, so a surface with no
-       stylesheet gets it. */
+       that writes one. A signet is crisp only at its own file's size. A number
+       left to the call site drifts into 20 in one header and 22 in the next.
+       The element states the same size, so a surface with no stylesheet gets
+       it. */
     --sds-lockup-signet-size: 24px;
     --sds-lockup-gap: var(--space-2-5);
     --sds-lockup-ink: var(--text-primary);
@@ -43,8 +43,8 @@
       height: var(--sds-lockup-signet-size);
     }
   }
-  /* One line, always. A mark is read as a mark because it is one shape; folded
-     over two lines it is two words that happen to be near each other, and in a
+  /* One line, always. A mark reads as a mark because it is one shape. Folded
+     over two lines it is two words that happen to be near each other. In a
      bar of a fixed height the second one is half outside it. */
   .sds-wordmark {
     --sds-wordmark-gap: var(--space-1-5);
@@ -65,15 +65,15 @@
     color: var(--sds-wordmark-ink);
     white-space: nowrap;
 
-    /* One name is the whole mark, so it is set heavier than the brand half
-       that has a quiet half to be read against. Asked of the brand rather
+    /* One name is the whole mark, so it sets heavier than the brand half
+       that has a quiet half to read against. Asked of the brand rather
        than declared at the call site, so the bar's narrow width — which hides
        that half — arrives at the same weight. */
     &:not(:has(.sds-wordmark__brand)) {
       font-weight: var(--sds-wordmark-solo-weight);
     }
   }
-  /* Whose it is. It keeps its letters whatever the bar does — the half that
+  /* Whose it is. It keeps its letters whatever the bar does. The half that
      gives is the one below, and a half that gives twice is a lockup with two
      ellipses in it. */
   .sds-wordmark__brand {
@@ -85,10 +85,10 @@
     align-self: stretch;
     background: var(--sds-wordmark-pipe-fill);
   }
-  /* The half that gives, and gives by ending rather than overflowing: the bar
-     puts a floor of zero under everything in it, so a lockup narrower than its
-     own name spills its letters over whatever is beside it. Cut with an ellipsis,
-     the mark stays in the box it was given. */
+  /* The half that gives, and it ends rather than overflows. The bar puts a
+     floor of zero under everything in it. A lockup narrower than its own
+     name spills its letters over whatever is beside it. Cut with an ellipsis,
+     the mark stays in the box it has. */
   .sds-wordmark__product {
     font-weight: var(--sds-wordmark-product-weight);
     color: var(--sds-wordmark-product-ink);

@@ -1,14 +1,14 @@
-/* sds-nav-main's drawer: one button, and everything the row could not hold.
+/* sds-nav-main's drawer: one button, and everything the row cannot hold.
 
-   What a phone gets — the field and the site's whole menu behind one press, in
-   the order the row let them go, and one level at a time with the way back
+   What a phone gets. The field and the site's whole menu behind one press, in
+   the order the row let them go. One level at a time, with the way back
    above it. The row it grew out of is `bar-nav.css`. */
 
 @layer components {
   .sds-bar {
-    /* Declared on the bar: the button that opens the menu, the menu and the
-       wash under it are three boxes beside each other, and a property only
-       ever travels down. */
+    /* Declared on the bar. The button that opens the menu, the menu and the
+       wash under it are three boxes beside each other. A property only ever
+       travels down. */
     --sds-drawer-gap: var(--space-4);
     --sds-drawer-pad-y: var(--space-4);
     --sds-drawer-row-gap: var(--space-1);
@@ -33,10 +33,10 @@
     --sds-drawer-ease: var(--ease-out);
 
     /* What an open drawer stands on. It is the canvas and it spans the page, so
-       nothing about its own surface says it is in front — and the system has no
-       shadow to say it with. The page is pushed back instead: the same wash a
-       modal sits on, addressed rather than drawn again, hung from where the drawer
-       hangs and covering everything under it. */
+       nothing about its own surface says it is in front. The system has no
+       shadow to say it with. The page steps back instead. The same wash a
+       modal sits on, addressed rather than drawn again, hung from where the
+       drawer hangs, over everything under it. */
     .sds-overlay {
       top: 100%;
       bottom: auto;
@@ -46,11 +46,11 @@
   }
 
   /* A square of the control height, like every other button that is a mark
-     rather than a word — it stands in a row with the search field and the mode
+     rather than a word. It stands in a row with the search field and the mode
      pair and has no reason to be the one box that is shorter. */
   .sds-bar__toggle {
     display: inline-flex;
-    /* A square, and squarely the last thing in the row that may give: it is the
+    /* A square, and squarely the last thing in the row that can give. It is the
        way to everything the bar has already put away, and a 12px-wide one is a
        button nobody can hit. */
     flex: none;
@@ -76,14 +76,14 @@
       border-color: var(--sds-drawer-edge-open);
     }
     /* The floor a control gives a glyph, the same one the rail's fold marker
-       and the code block's head use: a button's mark is not a word. */
+       and the code block's head use. A button's mark is not a word. */
     .sds-icon {
       --sds-icon-size: var(--sds-drawer-glyph);
     }
   }
   /* What the button opens: the bar's own row, continued under it. One drawer and
-     not two, because a reader on a phone looking for the way somewhere presses
-     once — the field and the site's whole menu are in here, in the order the row
+     not two, because a reader on a phone who looks for the way somewhere presses
+     once. The field and the site's whole menu are in here, in the order the row
      let them go. Full width, and on the canvas because that is the colour the bar
      is: a drop in the cooler raised white is two surfaces. */
   .sds-bar__drawer {
@@ -102,29 +102,29 @@
     max-height: var(--sds-drawer-height);
     overflow-y: auto;
 
-    /* A column in here, and the field as wide as the drawer: what is laid out is a
+    /* A column in here, and the field as wide as the drawer. The layout is a
        list of places to go, not a row that happened to wrap. It takes the rail's
-       measure rather than the row's, because the pages of a section hang inside
-       this list and the two levels are one tree — they share a measure, and what
+       measure rather than the row's. The pages of a section hang inside this
+       list and the two levels are one tree. They share a measure, and what
        separates them is the indent below. */
     .sds-bar__nav {
       flex-direction: column;
       align-items: stretch;
       gap: var(--sds-drawer-step);
     }
-    /* Only the width it is held to changes. A row here is a target on a phone
-       and keeps the control height it has in the bar — what makes it read as a
+    /* Only the width it stops at changes. A row here is a target on a phone
+       and keeps the control height it has in the bar. What makes it read as a
        menu row is the measure and the step below it, not a shorter box. */
     .sds-pill {
       --sds-pill-pad-x: var(--sds-drawer-pad-item-x);
     }
   }
 
-  /* One level of the menu, which is what a phone gets instead of the whole tree:
-     a column of rows, the way back above them where the reader has stepped in.
-     The rows are the panel's rows — same measure, same mark for the page they
-     are on — because a menu that changes shape between two widths is two menus
-     to learn. */
+  /* One level of the menu, which is what a phone gets instead of the whole tree.
+     A column of rows, the way back above them where the reader has stepped in.
+     The rows are the panel's rows, same measure and same mark for the page they
+     are on. A menu that changes shape between two widths is two menus to
+     learn. */
   .sds-bar__level {
     display: flex;
     flex-direction: column;
@@ -174,7 +174,7 @@
     color: var(--sds-drawer-ink-hover);
   }
   /* The way back is a row of its own above the list, and it names what it goes
-     back to: "back" alone asks a reader who has stepped twice to remember where
+     back to. "Back" alone asks a reader who has stepped twice to remember where
      they were. The rule under it is the level's own edge. */
   .sds-bar__back {
     margin-block-end: var(--sds-drawer-row-gap);

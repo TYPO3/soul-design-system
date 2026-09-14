@@ -8,8 +8,8 @@
 
 @layer components {
   /* The system's own icon button draws the box, the corner and every state it
-     answers with; what is left here is the pair of marks inside it. Stacked,
-     because a crossfade needs both in the same place and a button that changes
+     answers with. What remains here is the pair of marks inside it. Stacked,
+     because a crossfade needs both in the same place. A button that changes
      width as its glyph changes is a button that moves under the finger. */
   .sds-theme__toggle {
     --sds-theme-mark-duration: var(--duration-fast);
@@ -17,9 +17,9 @@
 
     position: relative;
   }
-  /* Taken out of the flow rather than laid on a grid: the button's own display
-     is the button's business, and a rule here that has to beat it is a rule
-     that breaks the day the two files change order. */
+  /* Taken out of the flow rather than laid on a grid. The button's own display
+     is the button's business. A rule here that has to beat it is a rule that
+     breaks the day the two files change order. */
   .sds-theme__mark {
     position: absolute;
     inset: 0;
@@ -29,10 +29,10 @@
     opacity: 0;
     transition: opacity var(--sds-theme-mark-duration) var(--sds-theme-mark-ease);
   }
-  /* Which mark stands is what the document says, and the three states are
-     three things the document already carries: no `data-theme` at all is the
+  /* Which mark stands is what the document says. The three states are three
+     things the document already carries: no `data-theme` at all is the
      machine's, and the attribute names the other two. A button that asked its
-     own state instead drew a sun on a prerendered dark page — this is right
+     own state instead drew a sun on a prerendered dark page. This is right
      before anything runs, which is the only time that matters. */
   :root:not([data-theme]) .sds-theme__mark--machine,
   [data-theme="light"] .sds-theme__mark--light,
@@ -41,7 +41,7 @@
   }
 
   /* Colour and opacity are the whole of it, so there is nothing to stop for a
-     reader who asked for less — except the fade itself, which is motion the
+     reader who asked for less. Except the fade itself, which is motion the
      way a dissolve is. It goes; the mark still changes. */
   @media (prefers-reduced-motion: reduce) {
     .sds-theme__mark {

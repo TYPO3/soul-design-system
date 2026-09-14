@@ -1,14 +1,14 @@
 /* sds-prose — the box a passage of a document stands in.
 
    Almost nothing, on purpose. What a renderer emits without a class is a bare
-   element, and a bare element is set by the layer that owns it. What is left is
-   the measure the text is read at, which is the box's decision and not any
-   element's, and the names a renderer writes for nodes with no element. */
+   element, and the layer that owns a bare element sets it. What remains is
+   the measure of the text, which is the box's decision and not any element's.
+   And the names a renderer writes for nodes with no element. */
 
 /* The measure, on the element the base layer deliberately leaves unbounded.
-   Here rather than there because the width is this box's, and weightless
-   through `:where()` so a paragraph wearing a class of its own — a lead, which
-   is read at fewer characters — still sets its own. */
+   Here rather than there because the width is this box's. Weightless through
+   `:where()`, so a paragraph with a class of its own — a lead, which reads at
+   fewer characters — still sets its own. */
 @layer base {
   :where(.sds-prose) p {
     max-width: var(--sds-prose-measure);
@@ -16,7 +16,7 @@
 }
 
 /* In the component's own layer, because what it draws is a renderer's own name
-   rather than an element: renamed, the stylesheet would only work with the
+   rather than an element. Renamed, the stylesheet only works with the
    templates that renamed it. */
 @layer components {
   .sds-prose {
@@ -25,10 +25,10 @@
     --sds-prose-indent: var(--space-5);
 
     /* `| a line` — an address, a stanza, a signature: text where the break is
-       part of what is said. So nothing here may close one up. An indented run
-       keeps its step, and an empty line keeps a line's height, which is the
-       whole reason a stanza has a gap in it. The parser sets these two names,
-       not a template, so they are the one pair here this system cannot rename. */
+       part of the text. So nothing here can close one up. An indented run
+       keeps its step. An empty line keeps a line's height, which is the whole
+       reason a stanza has a gap in it. The parser sets these two names, not a
+       template, so they are the one pair here this system cannot rename. */
     .line-block {
       margin-bottom: var(--sds-prose-step);
 
