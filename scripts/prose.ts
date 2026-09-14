@@ -394,7 +394,8 @@ for (const row of rows) {
   const key = row.name as keyof typeof counts;
   const list = found[key];
   report.row(list.length ? 'bad' : 'ok', row.name, row.label, `${counts[key]} files · ${list.length} findings`);
-  for (const f of list) report.detail(f);
+  // Under the gate the summary prints them, after the facts line the gate reads first.
+  if (!report.REPORTING) for (const f of list) report.detail(f);
   problems.push(...list.map((f) => `${key}: ${f}`));
 }
 

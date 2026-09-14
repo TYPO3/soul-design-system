@@ -608,6 +608,15 @@ const CHECKS: readonly Check[] = [
     run: () => ({ ...child('scripts/php.ts', '--check'), fix: 'make php' }),
   },
 
+  /* Every text in the tree, against the standard and the terse rule. After
+     the shape checks and before the bundle, because a sentence past its limit
+     costs nothing to find and the bundle costs a build. */
+  {
+    name: 'prose',
+    label: 'the written text against ASD-STE100 and the terse rule',
+    run: () => child('scripts/prose.ts'),
+  },
+
   {
     name: 'conventions',
     label: 'the header names what the build defines',

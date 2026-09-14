@@ -170,10 +170,12 @@ escapes the register that owns it.
 
 ## Writing
 
-Every text follows ASD-STE100 and the terse rule: `docs/design-system/writing.rst`
-is the rule, `make prose` is the check. The product's own writing is the
-model. Declarative, third person, present tense. The software is the subject.
-Never "we". "You" only for the reader's own machine.
+Every text follows ASD-STE100 and the terse rule. `docs/design-system/writing.rst`
+is the rule, `make verify ARGS=prose` is the check.
+
+The product's own writing is the model. Declarative, third person, present
+tense. The software is the subject. Never "we". "You" only for the reader's
+own machine.
 
 - 25 words in a sentence, 20 in an instruction. 6 sentences in a paragraph.
 - Active voice, no -ing verb forms, `must` and `can` and `will`.
@@ -469,4 +471,4 @@ define. A name it needs and cannot find is a gap in the system, closed there.
   coverage`.
 - No class invented outside the stylesheets: not in a template, a theme or a
   page.
-- `make prose` is green over every text you wrote.
+- `make verify ARGS=prose` is green over every text you wrote.
