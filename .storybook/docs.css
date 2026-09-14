@@ -1,10 +1,10 @@
-/* Make the docs preview block sit on the surface its contents were designed
-   for. Storybook paints `.sbdocs-preview` from its own docs theme, which is
-   white and knows nothing about `data-theme`, so in dark mode a component
-   styled for the canvas lands on white and reads as broken.
+/* Make the docs preview block sit on the surface its contents are for.
+   Storybook paints `.sbdocs-preview` from its own docs theme, which is white
+   and knows nothing about `data-theme`. So in dark mode a component styled
+   for the canvas lands on white and reads as broken.
 
-   Only the preview block is retaken. The prose and tables around it are
-   Storybook's own UI, and on our tokens their dark text would sit on a dark
+   Only the preview block changes hands. The prose and tables around it are
+   Storybook's own UI, and on our tokens their dark text sits on a dark
    canvas. */
 
 /* `.sbdocs.sbdocs-preview`, not `.sbdocs-preview`: Storybook styles this
@@ -24,9 +24,9 @@
 }
 
 /* The zoom/reset strip above a story. Storybook gives it a generated class and
-   nothing stable to aim at, so it is addressed structurally: the direct child
+   nothing stable to aim at. So the selector is structural: the direct child
    of the preview that is not the story. `--surface-raised`, because that is
-   what it is here — a control surface told apart by a hairline. */
+   what it is here — a control surface a hairline tells apart. */
 .sbdocs.sbdocs-preview > div:not(.docs-story) {
   background: var(--surface-raised);
   border-bottom-color: var(--border-subtle);

@@ -1,11 +1,11 @@
-/* The sizes a page is looked at.
+/* The sizes a reader looks at a page at.
 
-   Ordinary screens with ordinary names, because that is what somebody reaching
-   for this menu is thinking: show me the phone. Naming each entry after the
-   rule it lands on reads as jargon in a list used ten times an hour.
+   Ordinary screens with ordinary names, because that is what somebody who
+   reaches for this menu thinks: show me the phone. An entry named after the
+   rule it lands on reads as jargon in a list in use ten times an hour.
 
-   What the names cost is the guarantee they used to carry: the `max-width`
-   queries cut the scale into bands, and a list missing one makes that state
+   What the names cost is the guarantee they used to carry. The `max-width`
+   queries cut the scale into bands, and a list without one makes that state
    unreachable with nothing to say so. `tests/viewports.spec.ts` reads the
    queries out of the stylesheets and holds this list to every band. */
 
@@ -13,9 +13,9 @@ import type { Viewport, ViewportMap } from 'storybook/viewport';
 
 interface Size {
   /* The key, and what a URL carries: `?globals=viewport:phone`. A word rather
-     than the width, because a key that reads as an array index is ordered as
-     one — `Object.entries` sorts `'1440'` and `'860'` ascending, and the
-     toolbar lists the phone first with the whole order upside down. */
+     than the width, because a key that reads as an array index sorts as one.
+     `Object.entries` sorts `'1440'` and `'860'` ascending, and the toolbar
+     lists the phone first with the whole order upside down. */
   key: string;
   name: string;
   width: number;

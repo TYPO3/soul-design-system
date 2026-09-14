@@ -1,17 +1,17 @@
-/* The markup a story shows, laid out so it can be read.
+/* The markup a story shows, laid out for a reader.
 
-   Storybook serialises the rendered fragment with `innerHTML`, so the source
-   panel carries whatever whitespace the template literal happened to have — a
-   story written on one line documents itself on one line, and a list built by
+   Storybook serialises the rendered fragment with `innerHTML`. So the source
+   panel carries whatever whitespace the template literal happened to have. A
+   story written on one line documents itself on one line, and a list from
    `.map` arrives with no break in it at all. This lays the fragment out again,
-   but only where a break cannot reach the render: beside an element the page
+   but only where a break cannot reach the render. Beside an element the page
    lays out as a block, or where whitespace already stood. Two inline elements
    written flush stay flush, because the space a break leaves between them is a
-   space the reader would copy along with the markup. */
+   space the reader copies along with the markup. */
 
 const STEP = '  ';
 
-/** Where a line stops being read and starts being scanned. */
+/** Where a reader stops with the words and starts to scan. */
 const WIDTH = 100;
 
 const HTML = 'http://www.w3.org/1999/xhtml';
@@ -21,10 +21,10 @@ const escText = (s: string): string =>
 
 const escAttr = (s: string): string => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 
-/** What no layout of a markup may change: its tags, their attributes and the
-    text between them, read off the parsed tree so that two spellings of one
+/** What no layout of a markup can change: its tags, their attributes and the
+    text between them. Read off the parsed tree, so that two spellings of one
     thing — `&nbsp;` and the character, `copy` and `copy=""` — compare equal.
-    The whitespace between tags is what this file writes, so it is left out. */
+    The whitespace between tags is what this file writes, so it stays out. */
 function skeleton(root: ParentNode): string {
   const parts: string[] = [];
   const walk = (parent: ParentNode): void => {
@@ -63,9 +63,9 @@ let bench: HTMLElement | undefined;
 const GAPLESS = new Set(['flex', 'inline-flex', 'grid', 'inline-grid']);
 
 /** The box a custom element draws, taken from the one the story just put on
-    the page. Almost always the element itself; for the few that draw nothing
-    where they stand it is the first child — and reading a rendered one rather
-    than building one keeps a layout question from running a constructor. */
+    the page. Almost always the element itself. For the few that draw nothing
+    where they stand it is the first child. A rendered one rather than a new
+    one keeps a layout question away from a constructor. */
 function drawn(tag: string): string | undefined {
   const live = document.querySelector(tag);
   if (!live) return undefined;
@@ -76,9 +76,9 @@ function drawn(tag: string): string | undefined {
 }
 
 /** An element with its class and its own style, laid out off-screen. Plain
-    tags only: this is what the browser and the stylesheet together say a
-    `div.sds-grid` is — and a story that writes `display:flex` on the spot is
-    answered by the same question. */
+    tags only. This is what the browser and the stylesheet together say a
+    `div.sds-grid` is. The same question answers a story that writes
+    `display:flex` on the spot. */
 function probed(tag: string, cls: string, style: string): string {
   if (!bench) {
     bench = document.createElement('div');
@@ -93,10 +93,10 @@ function probed(tag: string, cls: string, style: string): string {
   return display;
 }
 
-/** How the page lays this element out — asked of the page, not kept as a list
-    here, which would be a second copy of the stylesheet. An element nothing
-    can be asked about has no answer, and the caller then takes the reading
-    under which no break happens. */
+/** How the page lays this element out. Asked of the page, not kept as a list
+    here, which is a second copy of the stylesheet. An element with no answer
+    has no answer, and the caller then takes the reading under which no break
+    happens. */
 function display(n: Node | undefined | null): string | undefined {
   if (!n || n.nodeType !== Node.ELEMENT_NODE) return undefined;
   const el = n as Element;
@@ -118,8 +118,8 @@ function isBlock(n: ChildNode | undefined): boolean {
   return d !== undefined && !d.startsWith('inline') && d !== 'none' && d !== 'contents';
 }
 
-/** Whether a break at this boundary is one the render cannot see: whitespace
-    stood here already, one side is laid out as a block, or the two sit in a
+/** If a break at this boundary is one the render cannot see. Whitespace
+    stood here already, one side lays out as a block, or the two sit in a
     layout that drops the gaps between its children. */
 const breakable = (before: ChildNode | undefined, after: ChildNode | undefined): boolean =>
   /\s$/.test(text(before)) ||
@@ -130,9 +130,9 @@ const breakable = (before: ChildNode | undefined, after: ChildNode | undefined):
 
 function openTag(el: Element, depth: number): string {
   const tag = el.tagName.toLowerCase();
-  /* Every attribute keeps its value, `copy=""` included. Writing an empty one
-     as the bare name reads better for a flag and lies about the rest: a story
-     passes `tag=""` for a card that has no tag, and `tag` is not that. */
+  /* Every attribute keeps its value, `copy=""` included. An empty one as the
+     bare name reads better for a flag and lies about the rest. A story passes
+     `tag=""` for a card that has no tag, and `tag` is not that. */
   const attrs = [...el.attributes].map((a) => `${a.name}="${escAttr(a.value)}"`);
   const flat = `<${tag}${attrs.map((a) => ` ${a}`).join('')}>`;
   if (attrs.length < 2 || depth * STEP.length + flat.length <= WIDTH) return flat;
@@ -148,8 +148,8 @@ interface Laid {
   closeEdge: boolean;
 }
 
-/** Group the children into runs, given what each one renders as — rendered
-    once by the caller, because a tree re-rendered at every level it sits under
+/** Group the children into runs, given what each one renders as. The caller
+    renders once, because a tree rendered again at every level it sits under
     is the same page laid out a thousand times. */
 function lay(kids: readonly ChildNode[], rendered: readonly string[]): Laid {
   const chunks: string[] = [];
@@ -174,14 +174,15 @@ function lay(kids: readonly ChildNode[], rendered: readonly string[]): Laid {
 
 function element(el: Element, depth: number): string {
   const tag = el.tagName.toLowerCase();
-  /* A drawing is not composed markup: an inlined icon is one blob a reader
-     skips, and inside `<svg>` the whitespace rules are not the ones above. */
+  /* A drawing is no composition of markup. An inline icon is one blob a
+     reader skips, and inside `<svg>` the whitespace rules are not the ones
+     above. */
   if (el.namespaceURI !== HTML) return el.outerHTML;
 
   const open = openTag(el, depth);
   /* A void element closes itself, and which ones do is the parser's answer,
-     not a list kept here: serialise the element without its children and see
-     whether the closing tag comes back. */
+     not a list kept here. Serialise the element without its children and see
+     if the closing tag comes back. */
   if (!(el.cloneNode(false) as Element).outerHTML.endsWith(`</${tag}>`)) return open;
 
   const kids = [...el.childNodes];
@@ -207,8 +208,8 @@ function node(n: ChildNode, depth: number): string {
 }
 
 /** The `docs.source.transform` hook: the same markup, laid out. What comes
-    back out with a different skeleton is not laid out at all — a panel that is
-    nearly right is worse than one that is merely dense — and so is anything
+    back out with a different skeleton stays as it was. A panel that is
+    nearly right is worse than one that is merely dense. So does anything
     that holds no element, which is a snippet in some other language. */
 export function readable(code: string): string {
   if (typeof document === 'undefined') return code;

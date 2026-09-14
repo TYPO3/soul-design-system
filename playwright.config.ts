@@ -1,19 +1,19 @@
 /* Playwright — the tests that need a real browser.
 
    The repo already drives Chromium for `fit`, `shots` and `diff`, which
-   measure *pixels*. These tests measure something the screenshots cannot:
-   that every story renders at all, that the custom elements produce the same
-   markup the static cards ship, and that the specimens survive an axe pass.
+   measure *pixels*. These tests measure something the screenshots cannot.
+   That every story renders at all. That the custom elements produce the same
+   markup the static cards ship. That the specimens survive an axe pass.
 
    Tests run against a built Storybook, not `storybook dev`. A built
-   Storybook is deterministic and starts in a second; the dev server
+   Storybook is deterministic and starts in a second. The dev server
    recompiles on demand, so a slow first story looks like a flaky test. The
    trade is that `make test` builds first — `reuseExistingServer` keeps that
    to once per session locally.
 
-   The port below is container-internal and never published: the suite starts
+   The port below is container-internal and never public: the suite starts
    its own server inside the same container it runs in. Nothing on the host
-   can collide with it, and it cannot collide with the running stack — that
+   can collide with it, and it cannot collide with the running stack. That
    is why it is a fixed number and the stack's are not. */
 
 import { defineConfig, devices } from '@playwright/test';
@@ -23,7 +23,7 @@ export const BASE_URL = `http://localhost:${PORT}`;
 
 /* The rendered documentation, on a port of its own.
 
-   Storybook serves the sources of this system; the site is what a renderer
+   Storybook serves the sources of this system. The site is what a renderer
    made out of them, and the only place a template meets markup nobody here
    wrote. It cannot be a route in the first server — the pages resolve their
    assets relative to a publish root, which is the property under test. */
@@ -34,9 +34,9 @@ export const SITE_URL = `http://localhost:${SITE_PORT}`;
 export const SITE_DIR = '.out/site';
 
 /* The theme's control surface is a second site, so it gets a second root and a
-   server of its own. Inside the publish root it would be a directory somebody
-   has to remember to take back out before uploading — and a page one level
-   below a root does not resolve its assets the way a published one does. */
+   server of its own. Inside the publish root it is a directory somebody has
+   to remember to take back out before the upload. And a page one level below
+   a root does not resolve its assets the way a public one does. */
 export const ACCEPTANCE_PORT = 6109;
 export const ACCEPTANCE_URL = `http://localhost:${ACCEPTANCE_PORT}`;
 export const ACCEPTANCE_DIR = '.out/acceptance';
@@ -51,7 +51,7 @@ export default defineConfig({
     : [['list']],
 
   /* Both under the one ignored root, rather than the two directories Playwright
-     would otherwise scatter at the repo root — see `.gitignore`. */
+     otherwise scatters at the repo root — see `.gitignore`. */
   outputDir: './.out/test-results',
 
   use: {
@@ -60,15 +60,15 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
 
-  /* One browser. This system is documented, not shipped to end users across
-     a matrix — and everything under test is markup and class names, which do
-     not differ between engines. Adding webkit here would buy runtime, not
+  /* One browser. This system is documentation, not a product for end users
+     across a matrix. Everything under test is markup and class names, which
+     do not differ between engines. Webkit here buys runtime, not
      information. */
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
 
   webServer: [
     {
-      /* The binaries directly, not through npm or npx: the container runs as
+      /* The binaries directly, not through npm or npx. The container runs as
          the host's UID with no home of its own, and npm wants a cache it can
          write. There is nothing npm adds here anyway. */
       command: `node_modules/.bin/storybook build -o .out/storybook && node scripts/serve.ts ${PORT} .out/storybook`,
@@ -79,12 +79,12 @@ export default defineConfig({
       stderr: 'pipe',
     },
     {
-      /* Rendered here rather than expected to be lying around. A suite that
-         opens whatever the last `make guides` left behind reports on a tree
-         nobody has any more, and the one thing this spec exists to catch —
-         a template that stopped emitting what it used to — is exactly what
-         a stale render hides. The renderer is PHP over a handful of
-         documents and costs about a second. */
+      /* Rendered here rather than found on disk. A suite that opens whatever
+         the last `make guides` left behind reports on a tree nobody has any
+         more. The one thing this spec exists to catch — a template that no
+         longer emits what it used to — is exactly what a stale render hides.
+         The renderer is PHP over a handful of documents and costs about a
+         second. */
       command: `node scripts/embed.ts && node scripts/guides.ts && node scripts/serve.ts ${SITE_PORT} ${SITE_DIR}`,
       url: SITE_URL,
       reuseExistingServer: !process.env['CI'],
