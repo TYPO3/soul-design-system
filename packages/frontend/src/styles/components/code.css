@@ -100,7 +100,7 @@
     --sds-code-no-ink: var(--text-muted);
     --sds-code-no-ink-cited: var(--text-primary);
     --sds-code-no-weight-cited: var(--weight-semibold);
-    --sds-code-row-fill-cited: var(--surface-inset);
+    --sds-code-row-fill-cited: var(--surface-raised);
 
     min-width: 0;
     max-width: 100%;
@@ -223,9 +223,11 @@
     color: var(--sds-code-no-ink);
     user-select: none;
   }
-  /* The cited line lit across the block, quietly: the inset surface, which
-     is a step off the sunken one and no colour. Out to the frame's edges,
-     because a tint that stops at the text is a highlighter's stroke. */
+  /* The cited line lit across the block, quietly: the raised surface, a
+     step up from the sunken one and no colour. Up and not down, because the
+     syntax colours hold their contrast on a lighter ground and lose it on a
+     darker one. Out to the frame's edges: a tint that stops at the text is a
+     highlighter's stroke. */
   .sds-code__row--cited {
     margin-inline: calc(-1 * var(--sds-code-pad-x));
     padding-inline: var(--sds-code-pad-x);
