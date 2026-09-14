@@ -83,7 +83,8 @@ exists to avoid.
      - the blocks a renderer emits that no element covers, under names this
        system defines because the theme writes their markup. ``sds-topic``
        with ``sds-topic__title``, ``sds-rubric``, ``sds-docinfo``. ``sds-hlist``
-       with ``sds-hlist--3`` to ``sds-hlist--6``. ``sds-options`` with
+       with ``sds-hlist--3``, ``sds-hlist--4``, ``sds-hlist--5`` and
+       ``sds-hlist--6``. ``sds-options`` with
        ``sds-options__name``. ``sds-classifier`` with
        ``sds-classifier__mark`` for a term's kind and its colon
    * - What stays the renderer's
