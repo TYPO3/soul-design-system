@@ -1,12 +1,12 @@
 {#
     The level is the depth the parser found, and six is as deep as Markdown
-    counts. A heading is one line: what an author wrapped over two is joined.
+    counts. A heading is one line: what an author wrapped over two joins up.
 
-    The section's own anchor is written above it — the page's own title
-    included, which is a place references point at too — because a reader of
-    this file has to *derive* one from the words otherwise, and every reader
-    derives it differently. "The bar's sections" is one apostrophe away from
-    a link that lands nowhere.
+    The section's own anchor stands above it, the page's own title included,
+    which is a place references point at too. Otherwise a reader of this file
+    has to *derive* one from the words, and every reader derives it
+    differently. "The bar's sections" is one apostrophe away from a link that
+    lands nowhere.
 #}
 {%- autoescape false -%}
 {%- if node.id %}<a id="{{ node.id }}"></a>

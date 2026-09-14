@@ -2,20 +2,20 @@
     The way on from this page: the pages either side of it, at the end of the
     column.
 
-    Nothing of the renderer's is being replaced here — its own prev/next block
-    has been commented out of the core template for years, and there is no
-    `next` or `prev` to read. So the order comes from `Navigation\Pager`: the
-    tree flattened, which is the order the rail lists and the order somebody
-    reading a manual front to back would take.
+    Nothing of the renderer's gives way here. Its own prev/next block has sat
+    commented out of the core template for years, and there is no `next` or
+    `prev` to read. So the order comes from `Navigation\Pager`: the tree
+    flattened. That is the order the rail lists and the order somebody takes
+    through a manual front to back.
 
-    What that order becomes is `sds-nav-pager`'s, not this file's. Which end each
-    control sits at, which glyph carries the direction and what a reader who
-    cannot see it hears are decisions about a component, and a template that
-    made them would be a second place they could be made differently.
+    What that order becomes is `sds-nav-pager`'s, not this file's. Which end
+    each control sits at, which glyph carries the direction and what a reader
+    who cannot see it hears are decisions about a component. A template that
+    makes them is a second place to make them differently.
 
-    Handed over as four attributes and not as one object: a label and a target
+    Handed over as four attributes and not as one object. A label and a target
     each fit in a string, so nothing of this renderer's data model reaches the
-    component, and a caller working from some other tree fills the same four.
+    component. A caller who works from some other tree fills the same four.
 #}
 {%- set steps = pager() -%}
 {%- if steps.previous or steps.next %}

@@ -1,11 +1,11 @@
 {#
     The head, once, for both layouts.
 
-    `soul-boot.js` is not a module and is loaded first: it writes the stored
-    choice into `data-theme` before the first paint. Without it the choice is
-    lost on the next page. It writes nothing where nobody has chosen — the
-    machine's setting is what the tokens answer with anyway, and an attribute
-    standing in for it is a choice the switch can never step back out of.
+    `soul-boot.js` is not a module and loads first: it writes the stored
+    choice into `data-theme` before the first paint. Without it the choice
+    goes on the next page. It writes nothing where nobody has chosen. The
+    machine's setting is what the tokens answer with anyway. An attribute
+    that stands in for it is a choice the switch can never step back out of.
 #}
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,10 +14,10 @@
 <title>{{ title }}
     {%- if env.projectNode.title and title != env.projectNode.title %} — {{ env.projectNode.title }}{% endif -%}</title>
 {#- The mark in the tab. One `<link>` per file the project configured, and the
-    browser picks by the size it needs — which is how a mark drawn at three
-    optical sizes reaches the slot it was drawn for. Written with `asset()`
-    like the signet is, so the path is resolved from the page being rendered
-    and a page below the root reaches the same file. -#}
+    browser picks by the size it needs. That is how a mark drawn at three
+    optical sizes reaches the slot it exists for. Written with `asset()` like
+    the signet is. So the path resolves from the page in hand, and a page
+    below the root reaches the same file. -#}
 {%- for icon in soul.favicons %}
 <link rel="icon" href="{{ asset('/' ~ icon.href) }}"
       {%- if icon.type %} type="{{ icon.type }}"{% endif %}
@@ -25,12 +25,12 @@
 {%- endfor %}
 {#- The same document as Markdown, beside the page.
 
-    The renderer writes both: `md` is an output format and a format's name is
-    the file extension, so the twin is `<this page>.md` and every link inside
-    it points at the twin of the page it names. The canonical is the other half
-    of that pair — it says which of the two representations the document *is* —
-    so both are written together or neither is, and a project that turned the
-    twin off has one representation and nothing to say about it. -#}
+    The renderer writes both. `md` is an output format and a format's name is
+    the file extension, so the twin is `<this page>.md`. Every link inside it
+    points at the twin of the page it names. The canonical is the other half
+    of that pair — it says which of the two representations the document
+    *is*. So both stand together or neither does, and a project that turned
+    the twin off has one representation and nothing to say about it. -#}
 {%- set twin = soul.markdown and env.hasCurrentFileName ? env.currentFileName|split('/')|last : '' %}
 {%- if twin %}
 <link rel="alternate" type="text/markdown" href="{{ twin }}.md" />
@@ -38,8 +38,8 @@
 {%- endif %}
 <script src="{{ root }}styles/soul-boot.js"></script>
 {#- The variable faces a page opens in. The preload starts them before the
-    stylesheet is parsed; `font-display: optional` keeps a late response from
-    replacing the fallback after paint. Each file covers every used weight. -#}
+    stylesheet parses; `font-display: optional` keeps a late response out of
+    the fallback's place after paint. Each file covers every used weight. -#}
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="{{ root }}styles/fonts/source-sans-3-latin-wght-normal.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin

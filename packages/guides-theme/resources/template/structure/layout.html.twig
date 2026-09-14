@@ -7,16 +7,16 @@
     `structure/document.html.twig` decides which body by the page's own
     `:layout:` field.
 
-    `soul.js` is deferred and optional: the colour of a code block is already
-    in the markup the server wrote, and every element here upgrades markup that
-    reads without it. A reader with no JavaScript loses the copy button, the
-    search field and the fold in the rail — not the page.
+    `soul.js` loads deferred and is optional. The colour of a code block is
+    already in the markup the server wrote, and every element here upgrades
+    markup that reads without it. A reader with no JavaScript loses the copy
+    button, the search field and the fold in the rail — not the page.
 #}
-{#- Where the site root is, from here: `renderLink` resolves a document
-    relative to the page being rendered, so the path to `index` minus its
-    filename is the prefix everything at the root needs. Set before the head,
-    because the head needs it too — the drop-in is copied into the output
-    rather than parsed from the source, so `asset()` cannot see it. -#}
+{#- Where the site root is, from here. `renderLink` resolves a document
+    relative to the page in hand. So the path to `index` minus its filename
+    is the prefix everything at the root needs. Set before the head, because
+    the head needs it too. The drop-in goes into the output as a copy rather
+    than out of the source as a parse, so `asset()` cannot see it. -#}
 {%- set root = renderLink('/index') == '#' ? '' : renderLink('/index')|replace({'index.html': ''}) -%}
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +26,7 @@
 {%~ endblock %}
 </head>
 <body class="sds-app">
-{#- Before the shell, because it is the first thing a keyboard reaches and the
+{#- Before the shell, because it is the first thing a keyboard reaches. The
     bar, the rail and the breadcrumbs all stand between the top of the page and
     the text of it. The target is `structure/document.html.twig`'s `<main>`. -#}
 <a class="sds-skip sds-btn sds-btn--secondary" href="#main-content">Skip to content</a>

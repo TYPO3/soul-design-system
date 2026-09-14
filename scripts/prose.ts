@@ -255,11 +255,12 @@ function tokens(source: string, ext: string): Token[] {
     const rest = source.slice(i, i + 3);
     if ((slash && rest.startsWith('/*')) || (ext === '.twig' && rest.startsWith('{#'))) {
       const close = rest.startsWith('{#') ? '#}' : '*/';
-      const open = rest.startsWith('/**') ? 3 : 2;
+      // `{#-` and `-#}` are Twig's whitespace control, not a dash in the text.
+      const open = rest.startsWith('/**') || rest === '{#-' ? 3 : 2;
       const end = source.indexOf(close, i + open);
       const stop = end < 0 ? source.length : end;
       const col = i - source.lastIndexOf('\n', i - 1) - 1;
-      out.push({ kind: 'comment', text: source.slice(i + open, stop), line, base: col + open + 1 });
+      out.push({ kind: 'comment', text: source.slice(i + open, stop).replace(/-$/, ''), line, base: col + open + 1 });
       advance(stop + close.length);
       continue;
     }
