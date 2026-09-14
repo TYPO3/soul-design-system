@@ -99,7 +99,7 @@ test('the confirming press is the one that says so', async ({ page }) => {
   await page.locator('#open').click();
   await page.locator(`${foot('confirm')} button`).nth(1).click();
   await expect(page.locator(box('confirm'))).toBeHidden();
-  expect(await heard(page)).toEqual(['sds-dialog-confirm:confirm']);
+  await expect.poll(() => heard(page)).toEqual(['sds-dialog-confirm:confirm']);
 });
 
 /* A question dismissed is an answer a caller has to act on, so all three of
@@ -113,14 +113,14 @@ test('the cancel button, the header X and Escape are all a cancel', async ({ pag
   await page.locator(`#confirm .sds-modal__head .sds-btn--icon`).click();
   await expect(page.locator(box('confirm'))).toBeHidden();
 
-  /* Open before the key goes, or the key lands on the page and nothing
-     hears it. A press has no box to wait on the way a click has. */
   await page.locator('#open').click();
   await expect(page.locator(box('confirm'))).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.locator(box('confirm'))).toBeHidden();
 
-  expect(await heard(page)).toEqual([
+  /* Polled, not read once. The element speaks on the platform's `close`,
+     which comes in a task of its own after the box has gone. */
+  await expect.poll(() => heard(page)).toEqual([
     'sds-dialog-cancel:confirm',
     'sds-dialog-cancel:confirm',
     'sds-dialog-cancel:confirm',
@@ -139,7 +139,7 @@ test('an answered question does not answer the next one', async ({ page }) => {
   await page.keyboard.press('Escape');
   await expect(page.locator(box('confirm'))).toBeHidden();
 
-  expect(await heard(page)).toEqual(['sds-dialog-confirm:confirm', 'sds-dialog-cancel:confirm']);
+  await expect.poll(() => heard(page)).toEqual(['sds-dialog-confirm:confirm', 'sds-dialog-cancel:confirm']);
 });
 
 test('ask() settles on the press', async ({ page }) => {
