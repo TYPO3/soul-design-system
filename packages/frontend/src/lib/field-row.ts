@@ -1,9 +1,9 @@
 /* The row a form owes a control: label above, hint under, error under both.
 
-   A contract and not a layout — the `for` and the control's own id are the same
-   string, so a press on the words reaches the control and an error summary can
-   send a reader straight to it. Written out in each element, the day one of
-   them gained a part the others would quietly not have it. */
+   A contract and not a layout. The `for` and the control's own id are the same
+   string. So a press on the words reaches the control, and an error summary
+   can send a reader straight to it. Written out in each element, the day one of
+   them gains a part the others quietly do not have it. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import '../components/field-error.ts';
@@ -24,7 +24,7 @@ export interface FieldRow {
 }
 
 /** The control wrapped in what a form owes it. Without a caption there is no
-    row at all: the bare control is right where the surface around it says what
+    row at all. The bare control is right where the surface around it says what
     it is for — a header, a toolbar, a filter row. */
 export function fieldRow(row: FieldRow, control: TemplateResult): TemplateResult {
   if (!row.caption) return control;

@@ -15,6 +15,6 @@ export interface FieldRow {
     required?: boolean;
 }
 /** The control wrapped in what a form owes it. Without a caption there is no
-    row at all: the bare control is right where the surface around it says what
+    row at all. The bare control is right where the surface around it says what
     it is for — a header, a toolbar, a filter row. */
 export declare function fieldRow(row: FieldRow, control: TemplateResult): TemplateResult;

@@ -1,12 +1,12 @@
-/* The press that opens a picture at the size it was made.
+/* The press that opens a picture at its own size.
 
-   Three parts that hold only together: the trigger is a real link to the file,
-   so a surface running no script still opens it; the element takes the press
-   over once it has upgraded; and the viewer is a sibling of the trigger rather
-   than inside it — a `<dialog>` within the link would be opened by the press
-   that follows the href. Written once because `sds-figure` and `sds-image`
-   make the same promise, and a promise kept in two places is kept differently
-   by the second change to touch it. */
+   Three parts that hold only together. The trigger is a real link to the file,
+   so a surface with no script still opens it. The element takes the press over
+   once it has upgraded. The viewer is a sibling of the trigger rather than
+   inside it — the press that follows the href opens a `<dialog>` within the
+   link. Written once because `sds-figure` and `sds-image` make the same
+   promise, and the second change to touch a promise kept in two places keeps
+   it differently. */
 
 import { html, type TemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -29,9 +29,9 @@ export interface ZoomParts {
   viewer: TemplateResult;
 }
 
-/* One handler per host rather than one per render: a binding whose function
-   changes identity has Lit take the listener off the trigger and put it back
-   on at every update, for a press that behaves the same either way. */
+/* One handler per host rather than one per render. A binding whose function
+   changes identity makes Lit swap the listener at every update, for a press
+   that behaves the same either way. */
 const openers = new WeakMap<Element, (event: Event) => void>();
 
 function opener(host: Element): (event: Event) => void {
@@ -39,7 +39,7 @@ function opener(host: Element): (event: Event) => void {
   if (known) return known;
   const open = (event: Event): void => {
     const viewer = host.querySelector('sds-lightbox') as SdsLightbox | null;
-    /* Only where there is something to take the press over with: if the viewer
+    /* Only where there is something to take the press over with. If the viewer
        has not upgraded, the browser follows the href and the reader still gets
        the picture. */
     if (!viewer?.show) return;
@@ -51,7 +51,7 @@ function opener(host: Element): (event: Event) => void {
 }
 
 /** Wrap `picture` in the press that opens it, and name the viewer that host
-    owns. `host` is the element rendering both — the viewer is found under it. */
+    owns. `host` is the element that renders both — the viewer stands under it. */
 export function zoom(host: Element, picture: TemplateResult, options: ZoomOptions): ZoomParts {
   const { src, alt, caption } = options;
   return {

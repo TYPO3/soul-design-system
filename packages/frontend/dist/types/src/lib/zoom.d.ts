@@ -15,5 +15,5 @@ export interface ZoomParts {
     viewer: TemplateResult;
 }
 /** Wrap `picture` in the press that opens it, and name the viewer that host
-    owns. `host` is the element rendering both — the viewer is found under it. */
+    owns. `host` is the element that renders both — the viewer stands under it. */
 export declare function zoom(host: Element, picture: TemplateResult, options: ZoomOptions): ZoomParts;

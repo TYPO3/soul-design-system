@@ -1,10 +1,10 @@
-/* Composing templates without losing the line breaks.
+/* Templates composed with their line breaks intact.
 
-   Lit concatenates an array binding with nothing between the items, so
+   Lit concatenates an array binding with nothing between the items. So
    `${items.map(...)}` is one unbroken line — invisible in a browser, and a
-   card that cannot be diffed. `lines` interleaves the separator Lit will not:
-   a plain string in a binding renders as a text node, so `'\n  '` is exactly
-   the newline and indent it looks like. */
+   card no diff can read. `lines` puts in the separator Lit will not. A plain
+   string in a binding renders as a text node, so `'\n  '` is exactly the
+   newline and indent it looks like. */
 
 import type { TemplateResult } from 'lit';
 

@@ -1578,14 +1578,14 @@ var SdsElement = class extends LitElement {
     return this;
   }
   /** Asked once. These elements render into themselves, so after the first
-      render the children are the element's own output — and `connectedCallback`
-      runs again every time an element is moved in the document. A second look
-      lifts that output and treats it as what the author wrote. */
+      render the children are the element's own output. `connectedCallback`
+      runs again every time an element moves in the document, and a second
+      look lifts that output as what the author wrote. */
   #looked = false;
-  /** Lit renders *after* whatever children it finds rather than emptying the
-      container, so an element arriving with its own prerendered markup would
-      hold two copies. The marker says the build wrote that markup; content a
-      caller wrote carries none and stays. */
+  /** Lit renders *after* whatever children it finds and does not empty the
+      container. So an element that arrives with its own prerendered markup
+      holds two copies. The marker says the build wrote that markup; content
+      a caller wrote carries none and stays. */
   connectedCallback() {
     if (this.querySelector(`:scope > template[${CONTENT}]`)) {
       for (const node of [...this.childNodes]) node.remove();
@@ -3034,9 +3034,9 @@ function fieldRow(row, control) {
 var SdsFormElement = class extends SdsElement {
   constructor() {
     super();
-    /** Whether an ancestor `<fieldset disabled>` has turned this off. The
-        element's own `disabled` is a property it renders; this is the other half,
-        which nothing but the platform can tell it. */
+    /** If an ancestor `<fieldset disabled>` has turned this off. The element's
+        own `disabled` is a property it renders; this is the other half, which
+        nothing but the platform can tell it. */
     this.inheritedDisabled = false;
     if (typeof this.attachInternals === "function") this.internals = this.attachInternals();
   }
@@ -3075,18 +3075,18 @@ var SdsFormElement = class extends SdsElement {
     this.requestUpdate();
   }
   /** What the markup said, put back. The browser resets the real control inside
-      at the same time and to the same value — this is the element's own copy of
-      the state agreeing with it. */
+      at the same time and to the same value. This is the element's own copy of
+      the state, in step with it. */
   formResetCallback() {
     this.restore();
   }
   restore() {
   }
   /** A message the browser refuses to submit past, reported on the real
-        control inside — so the bubble points at the box and not at the element
+        control inside. So the bubble points at the box and not at the element
         around it. An empty message clears it.
   
-        Called after a render and never during one: there is no element to anchor
+        Called after a render and never during one. There is no element to anchor
         to before the first, and in Node there is no `querySelector` at all. */
   setValidity(message, selector = "input, select, textarea", flag = "customError") {
     if (!this.internals) return;
@@ -12888,7 +12888,7 @@ var TYPOSCRIPT = {
   case_insensitive: false,
   contains: [
     { className: "comment", begin: "/\\*", end: "\\*/" },
-    /* Only at the start of a line: TypoScript has no trailing comment, and a
+    /* Only at the start of a line. TypoScript has no trailing comment, and a
        `#` in the middle of one is a colour in a value. */
     { className: "comment", begin: "^[ \\t]*(?:#|//).*$" },
     /* A condition, and the `[END]`, `[ELSE]` and `[GLOBAL]` that close one.
@@ -12897,7 +12897,7 @@ var TYPOSCRIPT = {
     { className: "meta", begin: "^[ \\t]*@import\\b.*$" },
     /* Ahead of the copy operator, which begins on the same character. */
     { className: "meta", begin: "<INCLUDE_TYPOSCRIPT:", end: ">" },
-    /* The object path being assigned to — the whole of it, up to whichever
+    /* The object path that takes the value — the whole of it, up to whichever
        operator or brace follows. */
     { className: "attr", begin: "^[ \\t]*[\\w.-]+(?=[ \\t]*(?::?=<?|<|>|\\{|\\())" },
     /* An object type, which is what an all-caps word standing alone on the
@@ -12918,7 +12918,7 @@ var TYPOSCRIPT = {
       contains: [CONSTANT]
     },
     /* A value written over several lines, which is the one place a newline is
-       part of what was said rather than the end of it. */
+       part of the value rather than the end of it. */
     { className: "string", begin: "\\([ \\t]*$", end: "^[ \\t]*\\)", contains: [CONSTANT] },
     CONSTANT
   ]
@@ -12945,9 +12945,9 @@ var GRAMMARS = {
   xml,
   yaml,
   /* A written grammar is the mode tree itself, and highlight.js takes a
-     function returning one. Its aliases are entries of their own rather than
-     left to the library: `highlights` answers from this map, and a name the
-     highlighter knew and this did not would print a block uncoloured. The
+     function that returns one. Its aliases are entries of their own rather
+     than left to the library. `highlights` answers from this map, and a name
+     the highlighter knows and this does not prints a block uncoloured. The
      cast is the whole of what `Mode` gives up — the library types a
      definition against helpers no grammar here uses. */
   ...Object.fromEntries(Object.entries(WRITTEN).flatMap(

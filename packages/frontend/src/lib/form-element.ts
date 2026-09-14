@@ -2,17 +2,16 @@
 
    `ElementInternals` is what makes a custom element a member of the form
    rather than a box that happens to contain one. From it come the four things
-   a hand-rolled control never gets right — a reset that reaches the element and
-   not only the input inside it, a `<fieldset disabled>` that actually disables
-   what is under it, a validity the browser refuses to submit past and reports
-   on the right box, and `form`, `labels` and `checkValidity()` answering on the
+   a hand-rolled control never gets right. A reset that reaches the element and
+   not only the input inside it. A `<fieldset disabled>` that disables what is
+   under it. A validity the browser refuses to submit past and reports on the
+   right box. And `form`, `labels` and `checkValidity()` that answer on the
    element the way they answer on an `<input>`.
 
    What internals deliberately do **not** carry here is the value. Every control
    in this system renders a real named `<input>`, `<select>` or `<textarea>` into
-   the light DOM, and that is what the browser submits — including on a page
-   that was rendered ahead of time and runs no script at all. Calling
-   `setFormValue` as well would send every answer twice. */
+   the light DOM. That is what the browser submits, on a prerendered page with
+   no script too. A `setFormValue` call on top sends every answer twice. */
 
 import { SdsElement } from './element.ts';
 
@@ -26,7 +25,7 @@ export class SdsFormElement extends SdsElement {
   static formAssociated = true;
 
   /** Absent in Node: `@lit-labs/ssr` constructs these elements to render them
-      and has no `attachInternals`. Everything below is guarded on it, so a
+      and has no `attachInternals`. Everything below checks for it. So a
       control renders on the server as the markup it is and gains the form
       behaviour when it upgrades. */
   protected readonly internals?: Internals;
@@ -68,9 +67,9 @@ export class SdsFormElement extends SdsElement {
     return this.internals?.reportValidity() ?? true;
   }
 
-  /** Whether an ancestor `<fieldset disabled>` has turned this off. The
-      element's own `disabled` is a property it renders; this is the other half,
-      which nothing but the platform can tell it. */
+  /** If an ancestor `<fieldset disabled>` has turned this off. The element's
+      own `disabled` is a property it renders; this is the other half, which
+      nothing but the platform can tell it. */
   protected inheritedDisabled = false;
 
   formDisabledCallback(disabled: boolean): void {
@@ -79,8 +78,8 @@ export class SdsFormElement extends SdsElement {
   }
 
   /** What the markup said, put back. The browser resets the real control inside
-      at the same time and to the same value — this is the element's own copy of
-      the state agreeing with it. */
+      at the same time and to the same value. This is the element's own copy of
+      the state, in step with it. */
   formResetCallback(): void {
     this.restore();
   }
@@ -88,10 +87,10 @@ export class SdsFormElement extends SdsElement {
   protected restore(): void {}
 
   /** A message the browser refuses to submit past, reported on the real
-      control inside — so the bubble points at the box and not at the element
+      control inside. So the bubble points at the box and not at the element
       around it. An empty message clears it.
 
-      Called after a render and never during one: there is no element to anchor
+      Called after a render and never during one. There is no element to anchor
       to before the first, and in Node there is no `querySelector` at all. */
   protected setValidity(
     message: string,

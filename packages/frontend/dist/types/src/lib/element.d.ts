@@ -1,23 +1,23 @@
 import { LitElement } from 'lit';
 /** The name the prerenderer keeps a caller's own content under.
 
-    An element rendered ahead of the browser has its output as its children, so
-    without an inert `<template>` holding the original it would read that output
-    back as what it was given — a card whose summary is the whole card. */
+    An element rendered ahead of the browser has its output as its children.
+    Without an inert `<template>` that holds the original, it reads that output
+    back as its content — a card whose summary is the whole card. */
 export declare const CONTENT = "data-sds-content";
 export declare class SdsElement extends LitElement {
     #private;
     protected createRenderRoot(): HTMLElement | DocumentFragment;
     /** What a caller wrote between the tags, for a renderer that cannot write
         between them. `@lit-labs/ssr` never runs `connectedCallback`, so there are
-        no children to lift in Node; a property is the one channel both sides
+        no children to lift in Node. A property is the one channel both sides
         have, and it carries markup, which an attribute cannot. Every component
         reads `this.taken ?? this.content`. */
     content?: unknown;
-    /** Lit renders *after* whatever children it finds rather than emptying the
-        container, so an element arriving with its own prerendered markup would
-        hold two copies. The marker says the build wrote that markup; content a
-        caller wrote carries none and stays. */
+    /** Lit renders *after* whatever children it finds and does not empty the
+        container. So an element that arrives with its own prerendered markup
+        holds two copies. The marker says the build wrote that markup; content
+        a caller wrote carries none and stays. */
     connectedCallback(): void;
     protected lifted(): Node[];
 }
@@ -25,8 +25,8 @@ export declare class SdsElement extends LitElement {
     among its bindings. Neither is content a caller wrote, and an element that
     counts one as content renders a part nobody asked for. */
 export declare const isBlank: (node: Node) => boolean;
-/** Register an element once. Re-registering a tag throws, which would turn a
-    hot reload or a doubly-imported bundle into a hard error; and there is no
-    registry in Node, where these modules are imported for their template
+/** Register an element once. A second registration of a tag throws, which
+    turns a hot reload or a twice-imported bundle into a hard error. And there
+    is no registry in Node, which imports these modules for their template
     functions alone. */
 export declare function define(tag: string, ctor: CustomElementConstructor): void;

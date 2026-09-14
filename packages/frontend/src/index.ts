@@ -1,9 +1,9 @@
 /* The bundle entry — what `window.SDS` becomes, and what the package exports.
-   Importing it registers every element; importing one component module
+   An import of it registers every element; an import of one component module
    registers that one and whatever it composes.
 
    `renderStatic` is deliberately NOT re-exported: it pulls in `@lit-labs/ssr`,
-   which the browser entry would drag in for a function no browser ever calls. */
+   which the browser entry then drags in for a function no browser ever calls. */
 
 /* The registrations. The re-exports below are classes and types; these bare
    imports are what actually run each module. */
@@ -155,9 +155,9 @@ export { SdsSearchHits, type SearchHitsProps } from './components/search-hits.ts
 export { SdsNavPagination, pageNumbers, type PaginationProps } from './components/nav-pagination.ts';
 export { SdsNavPager, type PagerProps } from './components/nav-pager.ts';
 
-/** Every tag this bundle registers. The design agent's adherence config is
-    generated from the bundle, so this list is what makes a component
-    discoverable rather than merely present. */
+/** Every tag this bundle registers. The design agent's adherence config comes
+    from the bundle, so this list is what makes a component discoverable
+    rather than merely present. */
 export const TAGS = [
   'sds-icon',
   'sds-theme',

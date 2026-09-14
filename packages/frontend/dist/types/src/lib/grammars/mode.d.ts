@@ -1,7 +1,6 @@
 export interface Mode {
     /** Other names the same grammar answers to. Both highlighters read this
-        field, so an alias is stated once and neither end has a list of its
-        own. */
+        field, so an alias stands once and neither end has a list of its own. */
     aliases?: string[];
     /** The colour, without the `hljs-` the emitter adds. */
     className?: string;
