@@ -42,6 +42,7 @@ const TASKS: Record<string, Task> = {
   fit: { cmd: node('scripts/fit.ts'), help: 'does every card fit its declared viewport' },
   ssr: { cmd: node('scripts/ssr.ts'), help: 'does every element render outside a browser' },
   coverage: { cmd: node('scripts/coverage.ts'), help: 'is every component shown in a story, a class and the Guides render' },
+  prose: { cmd: node('scripts/prose.ts'), help: 'the written text against ASD-STE100 and the terse rule' },
   php: { cmd: node('scripts/php.ts'), help: 'format the theme’s PHP against typo3/coding-standards — ARGS=--check to only report' },
   css: { cmd: node('scripts/css.ts'), help: 'format the stylesheets against biome.jsonc — ARGS=--check to only report' },
 

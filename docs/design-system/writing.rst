@@ -4,34 +4,102 @@
 Writing
 ========
 
-The system has a voice as deliberately as it has a type scale. A page should
-sound like the software explaining what it knows: direct, bounded and free of
-the promotional language that makes a precise limitation hard to find.
+The system has a voice as deliberately as it has a type scale. A page sounds
+like the software that explains what it knows: direct, bounded and short.
+
+Two rules bind every text in this tree. The first is ASD-STE100, Simplified
+Technical English. The second is the terse rule: say it once, and cut what the
+reader already has. ``make verify ARGS=prose`` measures what a machine can
+measure. Review holds the rest.
+
+The standard
+============
+
+ASD-STE100 is a controlled language for technical documents. The standard is
+free to get from ASD, and its dictionary is the authority for every word this
+page does not name. The rules below are the ones this tree holds a text to.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Rule
+     - Limit
+   * - A sentence in a paragraph
+     - 25 words
+   * - A sentence in an instruction: a list item, a table cell, a step
+     - 20 words
+   * - A paragraph
+     - 6 sentences, one topic
+   * - An instruction
+     - One action, in the imperative. A condition stands before it: "If the
+       gate is red, read the row."
+   * - Voice
+     - Active. The subject does the work: "The renderer writes the markup."
+   * - Tense
+     - Simple present. Simple past only for a thing that happened once.
+   * - Verb forms
+     - No -ing verb forms: "when the gate runs", not ``when running the
+       gate``. A noun that ends in -ing is a name and stays.
+   * - Necessity
+     - ``must`` for a rule, ``can`` for an ability, ``will`` for a future fact.
+       Not ``shall``, ``should``, ``may``, ``might``, ``could`` or ``would``.
+   * - Words
+     - One meaning per word, and the approved word: "make sure", not
+       ``ensure``; "before", not ``prior to``; "use", not ``utilize``.
+   * - Noun clusters
+     - Three nouns at most in a row. Cut a longer cluster with "of" or a
+       hyphen.
+   * - Articles
+     - Every noun that takes one gets one. Do not cut "the" to save a word.
+
+A technical name stays as its source spells it, in mono, and counts as one
+word: ``sds-code``, ``make verify``, ``--space-4``.
+
+The terse rule
+==============
+
+The standard limits the sentence. The terse rule limits what the page says.
+
+- Say a rule once, and link to it from everywhere else.
+- Cut what the line below already shows.
+- Cut the story: what it used to be, who asked, when it broke.
+- Cut the second example. One example shows the shape.
+- Cut the aside. A sentence that starts with "Note that" is one to delete.
+- Keep the reason. A rule without its reason is a preference.
+
+What the check measures
+=======================
+
+``scripts/prose.ts`` reads every document, every comment in a source file and
+every sentence a component or a task prints. It finds:
+
+- a sentence over its limit, and a paragraph over six sentences;
+- the passive voice, ``is written`` and ``was given``;
+- an -ing verb form after a preposition or an auxiliary, ``by running``;
+- a modal verb the standard does not approve;
+- a word this tree replaced, with the approved word to write instead.
+
+The list of replaced words is ``WORDS_REPLACED`` in the same file. A word the
+dictionary does not approve goes on that list the day review finds it. A noun
+that ends in -ing goes on ``ING_NOUNS`` if it is a name.
 
 The software is the subject
 ===========================
 
-Write in the present tense and usually make the software, command or document
-the subject: "The renderer writes the markup before the browser opens it."
-This names who does the work and keeps the sentence true outside the page on
-which it appears.
+Make the software, the command or the document the subject: "The renderer
+writes the markup before the browser opens it." Then the sentence stays true
+outside the page it stands on.
 
-Avoid ``we``. It can mean the maintainers, TYPO3, a consuming project or the
-reader and leaves ownership to be guessed. Use ``you`` only when the reader is
-acting on their own machine; instructions may say "Open the rendered page",
-while a product claim should state what the product does.
+Do not write ``we``. It can mean the maintainers, TYPO3, a consumer or the
+reader. Write ``you`` only for an action on the reader's own machine: "Open
+the rendered page."
 
 Precision before promotion
 ==========================
 
-A claim names the boundary that makes it true: the source consulted, the
-versions covered, the prerequisite assumed or the part deliberately left out.
-A limitation belongs beside the claim it limits, not in a footnote after the
-reader has already acted on it.
-
-Long sentences are allowed when their clauses depend on one another. Split
-independent facts, but do not replace the connection between cause and effect
-with a row of short slogans.
+A claim names the boundary that makes it true: the source, the versions, the
+prerequisite, the part it leaves out. A limitation stands beside the claim it
+limits, not in a footnote.
 
 .. list-table::
    :header-rows: 1
@@ -41,30 +109,24 @@ with a row of short slogans.
      - Why
    * - "The renderer reads reStructuredText and Markdown."
      - "We support all common formats."
-     - names the actor and the actual boundary
+     - names the actor and the boundary
    * - "The search reads the generated site index."
      - "Powerful, seamless search."
-     - states the mechanism instead of praising it
+     - states the mechanism
    * - "No page matched this address."
      - "Something went wrong."
-     - gives the boundary instead of hiding it behind a mood
-   * - "Run ``make verify`` before committing."
+     - gives the boundary
+   * - "Run ``make verify`` before a commit."
      - "Run the usual checks."
-     - names the action a reader can reproduce
+     - names an action a reader can repeat
 
-A heading names a subject, it does not ask
-=========================================
+A heading names a subject
+=========================
 
-Written as a question, every heading turns its page into a list of FAQ entries.
-A reader scanning down a column of "What it returns", "What it leaves out",
-"What a result carries" can tell them apart only by reading each to the end —
-and the words doing the telling are the last two, which is where a scan does
-not reach.
-
-So a heading is a **noun phrase naming what is under it**, or an instruction
-where the section is one: "Install it", "Check what you got". What it is not is
-an interrogative — ``What``, ``Why``, ``How``, ``Whether``, ``Where``, ``When``
-— or a clause about ``it``.
+A heading is a noun phrase that names what stands under it, or an instruction
+if the section is one: "Install it". It is not a question and not a clause
+about ``it``. A column of "What it returns", "What it leaves out" differs only
+in its last words, and a scan does not reach them.
 
 .. list-table::
    :header-rows: 1
@@ -75,72 +137,41 @@ an interrogative — ``What``, ``Why``, ``How``, ``Whether``, ``Where``, ``When`
      - "What the fallback is"
    * - "Its limits"
      - "What it does not do"
-   * - "Inside a result"
-     - "What a result carries"
-   * - "Behind a rule"
-     - "Where a rule comes from"
    * - "Making a specimen"
-     - "How a specimen gets made"
-   * - "The starting point"
-     - "Whether this is you"
+     - ``How a specimen gets made``
 
-The question a heading was hiding usually belongs in the first sentence under
-it, where it can be answered instead of posed. A page whose headings really are
-questions is a list of questions — and it says so, like the FAQ page does.
+The question a heading hid belongs in the first sentence under it. A heading
+over a table, a list of facts or a log is one word if it can be: **Overview**,
+**Commits**, **Access**. A block of data needs no paragraph over it. The reason
+for its shape belongs in this documentation.
 
-Over data, shorter still
-------------------------
-
-A heading standing over a table, a list of facts, a set of figures or a log is
-scanned rather than read: **Overview**, **Commits**, **History**, **Access**. A
-reader arrives at whichever block they came for, has to recognise it, and
-arrives at it again tomorrow.
-
-**A block of data usually needs no description at all.** A paragraph saying why
-a table is arranged the way it is belongs in this documentation, where it is
-read once on purpose — above the table it is passed over on every visit, and it
-pushes the data it explains below the fold.
-
-The same goes for a mark nobody asked for. A badge on a detail page saying
-``serving`` where nothing but serving things are shown is a word a reader stops
-on once, works out, and never needs again. A state worth drawing is one that
-varies, and it gets a name over it in the overview like every other fact.
+A manual heading fits on one line of the 210px local contents. Keep it to a
+noun phrase or one short clause.
 
 Names stay as written
 =====================
 
-Headings use sentence case. Tool names, package names, paths, configuration
-keys and commands keep the spelling their source gives them and are set in
-mono: ``@typo3/soul-frontend``, ``data-theme`` and ``make verify``. Never title
-case, translate or prettify a machine-named string.
+Headings use sentence case. A tool name, a package name, a path, a key and a
+command keep the spelling of their source, in mono: ``@typo3/soul-frontend``,
+``data-theme``, ``make verify``. Do not title-case, translate or prettify a
+machine-named string.
 
-A manual heading must also scan on one line in the 210px local contents, which
-gives every entry one line and ends what does not fit in an ellipsis. Keep it
-to a noun phrase or one short clause. A second clause belongs in the opening
-sentence below it; ``text-wrap: balance`` can shape a concise heading, but it
-cannot make a long one easier to scan.
-
-The repository, shipped strings and published documentation are written in
-English, whatever language the conversation around them uses. One shared
-vocabulary keeps search terms, examples and reviews referring to the same
-thing; a second language in the tree divides that vocabulary.
+Every text in the tree is English, whatever language the conversation uses.
+One vocabulary keeps search terms, examples and reviews on the same thing.
 
 Values and inventories
 ======================
 
-A value the design depends on is the rule and is written exactly: 16px is an
-icon floor and 140ms is an interaction duration. "Small" or "quick" would
-hide the constraint a consumer has to reproduce.
+A value the design depends on is the rule. Write it exactly: 16px is the icon
+floor, 140ms is a transition. "Small" and "quick" hide the constraint.
 
-An inventory count is different. Do not copy the current number of elements,
-cards, checks or icons into prose; name the thing and point to the source that
-lists it. The count is correct only until the next item lands, while the
-directory, task help or component index remains the authority.
+A count is different. Do not write how many elements, cards, checks or icons
+there are. Name the thing and the source that lists it. A count is correct
+until the next item lands; the directory stays correct.
 
 No emoji
 ========
 
-Emoji bring a platform-specific drawing and meaning into a vocabulary the
-system otherwise controls. Status uses a named icon plus text, or the mono
-check where that glyph is already part of machine output. See :doc:`icons` and
-:doc:`accessibility` for the visual and accessible halves of that rule.
+An emoji is a platform's drawing with a platform's meaning. Status is a named
+icon and text, or the mono check where that glyph is part of machine output.
+See :doc:`icons` and :doc:`accessibility`.

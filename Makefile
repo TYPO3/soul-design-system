@@ -37,7 +37,7 @@ RUN := $(TASK) node scripts/task.ts
 
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they are defined.
-TASKS := verify test cards embed chrome typecheck fit ssr coverage php css build dist split guides fonts icons \
+TASKS := verify test cards embed chrome typecheck fit ssr coverage prose php css build dist split guides fonts icons \
          diagrams baseline shots diff look design-project design-sync design-status design-plan design-synced
 
 # The long-running ones. `app` is among them: it holds the environment every
