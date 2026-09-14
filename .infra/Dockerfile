@@ -80,11 +80,6 @@ RUN npm ci --no-audit --no-fund --ignore-scripts \
 RUN mkdir -p /image && cp package.json package-lock.json /image/
 COPY .infra/Dockerfile /image/Dockerfile
 
-# The nested Storybook volume is seeded from here and must be writable by the
-# arbitrary UID Compose assigns. Everything else below /app comes from the
-# checkout mount and keeps the checkout owner's permissions.
-RUN mkdir -p /app/.out/storybook && chmod -R a+rwX /app/.out
-
 # Source is never copied into the image. Compose mounts the checkout at /app;
 # keeping a second copy here made every source edit a new image and then hid
 # that copy behind the mount. Only node_modules survives as a nested volume.

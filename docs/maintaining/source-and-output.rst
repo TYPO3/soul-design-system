@@ -115,6 +115,13 @@ Generated work that Git does not keep belongs under ``.out/``. The rendered
 site, built Storybook, design-agent bundle, test results and assembled packages
 can then be removed together with ``make clean`` without touching source.
 
+The built Storybook is also what is published: ``make test`` builds it to open
+it, and on ``main`` the site job takes that same build and serves it below the
+documentation, at `/storybook/ <https://typo3.github.io/soul-design-system/storybook/>`__.
+It is served from a sub-path there, which is why a story writes every path
+relative to the preview page — ``assets/…``, ``specimens/screens/…`` — and
+``make cards`` counts the climb in when it writes a card or a screen.
+
 Some generated artefacts are committed because a consumer needs them without
 this repository's toolchain. ``packages/frontend/dist/`` is the drop-in a
 project installs or copies, the generated fonts travel with that package, and

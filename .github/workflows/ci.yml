@@ -81,13 +81,7 @@ jobs:
       # the tree is bind-mounted, and output written as root cannot be read
       # back by the steps that follow.
       - name: Bring up the container the tasks run in
-        run: |
-          # A fresh checkout has no `.out/`, and Docker creates a missing
-          # bind-mount path as root — which leaves the whole directory
-          # unwritable for the UID below. `make` does this too; this is the
-          # one compose call that does not go through it.
-          mkdir -p .out/storybook
-          SDS_UID=$(id -u) SDS_GID=$(id -g) docker compose -f .infra/docker-compose.yml up -d app
+        run: SDS_UID=$(id -u) SDS_GID=$(id -g) docker compose -f .infra/docker-compose.yml up -d app
 
       # The line that decides whether the tree is consistent; everything else
       # in this file exists to make it run.
@@ -107,6 +101,17 @@ jobs:
             .out/playwright-report/
             .out/test-results/
           retention-days: 7
+
+      # The built Storybook, which the suite above assembled to open it — the
+      # one build of this tree, tested, and the site job below publishes it
+      # under the documentation. Only where that job runs, so a branch push
+      # stores nothing; a day, because the deployment is minutes behind.
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook
+          path: .out/storybook/
+          retention-days: 1
 
   # The packages, into the repositories they are installed from. Every push to
   # `main`, and every release tag: a mirror that waits for somebody to start it

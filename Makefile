@@ -54,15 +54,8 @@ SURFACES := \
 	'dist|(watching the frontend package)|rebuilds the drop-in on every edit' \
 	'app|(idle)|every make task runs in here'
 
-.PHONY: help tasks $(TASKS) release notes mounts start status stop restart logs shell clean
+.PHONY: help tasks $(TASKS) release notes start status stop restart logs shell clean
 .DEFAULT_GOAL := help
-
-# A bind-mount path the host does not have is created by Docker, as root —
-# and `.out/storybook` is one, so a tree that has generated nothing yet ends
-# up with a root-owned `.out/` that the container cannot write into. Made
-# here first, by whoever ran make, which is who the container runs as.
-mounts:
-	@mkdir -p .out/storybook
 
 # Written out rather than read from the container: a help screen that first
 # builds a Docker image is not a help screen. `make tasks` asks the
@@ -110,7 +103,6 @@ tasks:
 	@$(RUN) --help
 
 # ARGS reaches the task inside the container: `make cards ARGS=--check`.
-$(TASKS) tasks start shell release notes: mounts
 $(TASKS):
 	@$(RUN) $@ $(ARGS)
 

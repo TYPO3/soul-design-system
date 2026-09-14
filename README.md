@@ -84,7 +84,7 @@ they stand on.
 
 | Output | Command | What it is |
 | --- | --- | --- |
-| Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens |
+| Storybook | `make start` | the documentation surface — guidelines, components with live controls, screens. `make test` builds it into `.out/storybook/`, and that build is published below the site at [/storybook/](https://typo3.github.io/soul-design-system/storybook/) |
 | `specimens/` | `make cards` | every specimen card and screen, rendered from the stories that compose them |
 | `.out/site/` | `make guides` | the documentation, rendered from `docs/` by phpDocumentor Guides through this system's own theme |
 | `.out/acceptance/` | `make guides` | every node the renderer can emit, in a root of its own — what the theme is checked against, and published never |

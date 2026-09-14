@@ -357,10 +357,14 @@ run is a step, never the answer to "is it green".
 `.github/workflows/ci.yml` runs `make verify` and `make test` on every push, in
 the same image. On `main` and behind that gate it mirrors the packages, then
 renders and deploys `.out/site/` — from the theme it has just pushed, with no
-container, because a reader has none either. All of it is a net under the rule,
-not a replacement for it: a red run there is a commit already pushed, and
-whoever reads it has to work out what the tree looked like instead of watching
-it fail in front of them.
+container, because a reader has none either. The Storybook the suite built on
+the way, `.out/storybook/`, goes out under that site at `storybook/`: one Pages
+site per repository, and one build of it, the one that was tested. That is why
+every path a story writes is relative to the preview page — `assets/…`,
+`specimens/screens/…` — and a card gets its climb counted in by `make cards`.
+All of it is a net under the rule, not a replacement for it: a red run there
+is a commit already pushed, and whoever reads it has to work out what the tree
+looked like instead of watching it fail in front of them.
 
 ## Recipes
 

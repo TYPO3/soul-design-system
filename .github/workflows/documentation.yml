@@ -69,6 +69,19 @@ jobs:
       - name: Finish the site
         run: node ${{ runner.temp }}/renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js .out/site
 
+      # Storybook, below the documentation at `storybook/`: a repository has
+      # one Pages site, and this is it. Not built here — the gate built it in
+      # the container, `make test` opened it, and this job publishes that
+      # build rather than a second one from an `npm ci` a reader never runs.
+      # A site put back by hand has no gate in front of it and so no
+      # artifact; it goes out without Storybook, and the next push to `main`
+      # brings it back.
+      - if: github.event_name == 'push'
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook
+          path: .out/site/storybook
+
       # Pages serves this artifact as it stands, but a repository ever switched
       # back to the branch-based build runs Jekyll over it, and Jekyll drops
       # every path beginning with an underscore — `_cards/`, `_images/`,
