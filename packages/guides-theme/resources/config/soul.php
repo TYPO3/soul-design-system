@@ -17,6 +17,7 @@ use TYPO3\Soul\GuidesTheme\Directives\ButtonDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
 use TYPO3\Soul\GuidesTheme\Directives\DirectoryTreeDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ExampleDirective;
+use TYPO3\Soul\GuidesTheme\Directives\FactsDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HalfDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
@@ -102,6 +103,10 @@ return static function (ContainerConfigurator $container): void {
         ->set(AccordionDirective::class)
         ->tag('phpdoc.guides.directive')
         ->set(AccordionItemDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* A block of facts, from the field list a document already writes. */
+        ->set(FactsDirective::class)
         ->tag('phpdoc.guides.directive')
 
         /* A directory as the shape it has on disk, spelt the way TYPO3

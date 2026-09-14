@@ -1,0 +1,9 @@
+{#- The pairs, one per line. -#}
+{%- autoescape false -%}
+{%- for list in node.children -%}
+{%- for item in list.children -%}
+- **{{ item.term|md_escape }}:** {% for definition in item.children %}{{ renderNode(definition)|md_tidy }}{% endfor %}
+
+{% endfor -%}
+{%- endfor -%}
+{%- endautoescape -%}

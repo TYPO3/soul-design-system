@@ -81,6 +81,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
+use TYPO3\Soul\GuidesTheme\Nodes\FactsNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
@@ -185,6 +186,7 @@ return [
     ButtonBarNode::class => 'body/directive/button-bar.md.twig',
     AccordionNode::class => 'body/directive/accordion.md.twig',
     AccordionItemNode::class => 'body/directive/accordion-item.md.twig',
+    FactsNode::class => 'body/directive/facts.md.twig',
     DirectoryTreeNode::class => 'body/directive/directory-tree.md.twig',
     StepsNode::class => 'body/directive/steps.md.twig',
     StepNode::class => 'body/directive/step.md.twig',

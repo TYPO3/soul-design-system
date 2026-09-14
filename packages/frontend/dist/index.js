@@ -918,10 +918,10 @@ var require_core = __commonJS({
     }
     var version = "11.11.1";
     var HTMLInjectionError = class extends Error {
-      constructor(reason, html66) {
+      constructor(reason, html67) {
         super(reason);
         this.name = "HTMLInjectionError";
-        this.html = html66;
+        this.html = html67;
       }
     };
     var escape2 = escapeHTML;
@@ -13415,8 +13415,40 @@ var SdsQuote = class extends SdsElement {
 };
 define("sds-quote", SdsQuote);
 
-// packages/frontend/src/components/confval.ts
+// packages/frontend/src/components/facts.ts
 import { html as html65, nothing as nothing35 } from "lit";
+var SdsFacts = class extends SdsElement {
+  constructor() {
+    super();
+    /* What a caller wrote between the tags, taken before Lit renders over it —
+       see `SdsElement.lifted()` for why the question comes exactly once. */
+    this.taken = null;
+    this.entries = [];
+  }
+  static {
+    this.properties = {
+      entries: { type: Array }
+    };
+  }
+  connectedCallback() {
+    const written = this.lifted();
+    if (written.length) this.taken = written;
+    super.connectedCallback();
+  }
+  render() {
+    const pairs = this.entries.map(
+      ({ term, value, note }) => html65`<dt>${term}</dt>
+  <dd>${value}${note ? html65`<span class="sds-facts__note">${note}</span>` : nothing35}</dd>`
+    );
+    return html65`<dl class="sds-facts">
+  ${this.taken ?? this.content ?? pairs}
+</dl>`;
+  }
+};
+define("sds-facts", SdsFacts);
+
+// packages/frontend/src/components/confval.ts
+import { html as html66, nothing as nothing36 } from "lit";
 var SdsConfval = class extends SdsElement {
   constructor() {
     super();
@@ -13457,22 +13489,22 @@ var SdsConfval = class extends SdsElement {
     ];
   }
   fact({ label, value }) {
-    return html65`<dt class="sds-label">${label}</dt>
+    return html66`<dt class="sds-label">${label}</dt>
       <dd class="sds-mono">${value}</dd>`;
   }
   render() {
     const facts = this.stated;
-    const mark = this.anchor ? html65`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing35;
-    return html65`<dl class="sds-confval">
-  <dt class="sds-confval__term" id="${this.anchor || nothing35}">
+    const mark = this.anchor ? html66`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing36;
+    return html66`<dl class="sds-confval">
+  <dt class="sds-confval__term" id="${this.anchor || nothing36}">
     <code class="sds-confval__name">${this.name}</code>
-    ${this.required ? html65`<sds-badge label="required"></sds-badge>` : nothing35}
+    ${this.required ? html66`<sds-badge label="required"></sds-badge>` : nothing36}
     ${mark}
   </dt>
   <dd class="sds-confval__detail">
-    ${facts.length ? html65`<dl class="sds-confval__facts">
+    ${facts.length ? html66`<dl class="sds-confval__facts">
       ${lines(facts.map((f) => this.fact(f)), 6)}
-    </dl>` : nothing35}
+    </dl>` : nothing36}
     <div class="sds-confval__body">${this.taken ?? this.content ?? this.body}</div>
   </dd>
 </dl>`;
@@ -13541,6 +13573,7 @@ var TAGS3 = [
   "sds-quote",
   "sds-byline",
   "sds-note",
+  "sds-facts",
   "sds-confval"
 ];
 export {
@@ -13561,6 +13594,7 @@ export {
   SdsElement,
   SdsEmbed,
   SdsEyebrow,
+  SdsFacts,
   SdsField,
   SdsFieldError,
   SdsFieldGroup,

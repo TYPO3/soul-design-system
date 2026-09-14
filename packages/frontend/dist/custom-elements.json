@@ -2495,6 +2495,61 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/facts.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsFacts",
+          "tagName": "sds-facts",
+          "summary": "A block of facts, scanned down the terms.",
+          "description": "A block of facts, scanned down the terms.\n\nTwo columns, the terms down one edge and their values down the other. A reader scans this: down the names to the one they came for. The pairs stand between the tags as `<dt>` and `<dd>`, since a value carries a link, a badge or a literal, and no property can. `entries` is the same block from a caller that holds the strings, and from a static render, which has no children.",
+          "attributes": [],
+          "members": [
+            {
+              "kind": "field",
+              "name": "entries",
+              "privacy": "public",
+              "description": "The pairs, where a caller holds them as data or a static render has no children. Between the tags otherwise.",
+              "type": {
+                "text": "readonly FactsEntry[]"
+              }
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-facts",
+            "sds-facts__note"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsFacts",
+          "declaration": {
+            "name": "SdsFacts",
+            "module": "src/components/facts.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-facts",
+          "declaration": {
+            "name": "SdsFacts",
+            "module": "src/components/facts.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/field-error.ts",
       "declarations": [
         {

@@ -24,6 +24,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
+use TYPO3\Soul\GuidesTheme\Nodes\FactsNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
@@ -285,6 +286,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => ButtonBarNode::class, 'file' => 'body/directive/button-bar.html.twig', 'format' => 'html'],
                 ['node' => AccordionNode::class, 'file' => 'body/directive/accordion.html.twig', 'format' => 'html'],
                 ['node' => AccordionItemNode::class, 'file' => 'body/directive/accordion-item.html.twig', 'format' => 'html'],
+                ['node' => FactsNode::class, 'file' => 'body/directive/facts.html.twig', 'format' => 'html'],
                 ['node' => DirectoryTreeNode::class, 'file' => 'body/directive/directory-tree.html.twig', 'format' => 'html'],
                 ['node' => StepsNode::class, 'file' => 'body/directive/steps.html.twig', 'format' => 'html'],
                 ['node' => StepNode::class, 'file' => 'body/directive/step.html.twig', 'format' => 'html'],

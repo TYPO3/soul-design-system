@@ -58,6 +58,9 @@ copy.
    * - ``steps``, ``step``
      - an instruction read from the top, numbered down one rail
      - ``sds-steps``
+   * - ``facts``
+     - a block of facts, scanned down the terms
+     - ``sds-facts``
    * - ``example``
      - a piece of markup and, under it, what it renders as
      - ``sds-code`` in ``.sds-example``
@@ -1070,6 +1073,30 @@ preference. An answer is paragraphs, lists and code blocks, which no
 attribute carries. The node is ``sds-accordion-item`` itself, and the
 template writes none of its markup, the same arrangement as the cards
 above.
+
+facts
+=====
+
+A block of facts, scanned down the terms. The body is a field list, which
+is the shape a name-and-value pair already has in the source.
+
+.. example:: The facts of a change
+
+   .. facts::
+
+      :Change: `1482 <https://example.org/c/1482>`__ · patch set 2
+      :Target: ``main`` · ``2.4``
+      :Read: 2026-09-11, in a worktree of its own
+
+The field's name is the term and its body the value, and a value carries a
+link, a literal or a badge. The element is ``sds-facts`` in
+:doc:`/frontend/components/data`.
+
+.. confval:: class
+   :name: facts-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
 
 steps
 =====

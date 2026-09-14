@@ -211,6 +211,37 @@ sds-table
    selection and nowhere else. That is what makes a filled row mean
    something.
 
+.. _component-sds-facts:
+
+sds-facts
+=========
+
+A block of facts, scanned down the terms. Two columns, the terms down one
+edge and their values down the other. A reader scans this: down the names
+to the one they came for. Stacked, they read every pair.
+
+.. code-block:: html
+
+   <sds-facts>
+     <dt>Target</dt>
+     <dd><span class="sds-mono">main</span> · <span class="sds-mono">2.4</span></dd>
+     <dt>State</dt>
+     <dd><sds-badge label="mergeable" tone="ok"></sds-badge></dd>
+   </sds-facts>
+
+   <sds-facts entries='[{ "term": "Read", "value": "2026-09-11", "note": "in a worktree of its own" }]'></sds-facts>
+
+The pairs stand between the tags as ``<dt>`` and ``<dd>``, because a value
+carries a link, a badge or a literal, and no property can. A line about a
+value that is not part of it is ``sds-facts__note``, under the value.
+
+.. confval:: entries
+   :name: sds-facts-entries
+   :type: "{ term, value, note? }[]"
+
+   The pairs as data, from a caller that holds the strings or a static
+   render, which has no children. ``note`` is the line under the value.
+
 .. _component-sds-code:
 
 sds-code
@@ -415,9 +446,9 @@ head is a bar with nothing in it but the word ``copy``. Four of them down a
 column is four frames for four words. A block is for a block.
 
 The shape it stands in is a **definition list**. A block of them is
-``.sds-facts``: the terms down one edge, their values down the other. That
-is what anything falls into when it names things, and why this element has
-no term of its own.
+:ref:`sds-facts <component-sds-facts>`: the terms down one edge, their
+values down the other. That is what anything falls into when it names
+things, and why this element has no term of its own.
 
 Two lists in one column go in a ``.sds-facts-set``, with the labels between
 them. Apart, they size their term columns on their own. Their values then

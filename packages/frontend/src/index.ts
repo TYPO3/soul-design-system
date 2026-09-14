@@ -66,6 +66,7 @@ import './components/diff.ts';
 import './components/quote.ts';
 import './components/byline.ts';
 import './components/note.ts';
+import './components/facts.ts';
 import './components/confval.ts';
 
 export { SdsElement, define } from './lib/element.ts';
@@ -145,6 +146,7 @@ export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './compone
 export { SdsQuote, type QuoteProps } from './components/quote.ts';
 export { SdsByline, type BylineProps } from './components/byline.ts';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
+export { SdsFacts, type FactsProps, type FactsEntry } from './components/facts.ts';
 export { SdsConfval, type ConfvalProps, type Fact } from './components/confval.ts';
 export { SdsCard, type CardProps } from './components/card.ts';
 export { SdsIconTile, type IconTileProps } from './components/icon-tile.ts';
@@ -218,5 +220,6 @@ export const TAGS = [
   'sds-quote',
   'sds-byline',
   'sds-note',
+  'sds-facts',
   'sds-confval',
 ] as const;

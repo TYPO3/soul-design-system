@@ -1,0 +1,20 @@
+{#
+    A block of facts, addressed rather than drawn.
+
+    The body is a field list, and the element takes its pairs between the
+    tags as `<dt>` and `<dd>`. A value here carries a link, a literal or a
+    badge, and no property can. The `<dl>` itself, its columns and its step
+    are the element's.
+#}
+<sds-facts{% if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- for list in node.children -%}
+        {%- for item in list.children -%}
+    <dt>{{ item.term }}</dt>
+    <dd>
+        {%- for definition in item.children -%}
+            {{ renderNode(definition) }}
+        {%- endfor -%}
+    </dd>
+        {%- endfor -%}
+    {%- endfor -%}
+</sds-facts>

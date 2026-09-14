@@ -707,6 +707,18 @@ fragment points into.
 
       This one's open leaves the one above it exactly as it was.
 
+The facts of a thing
+====================
+
+A field list becomes the block a reader scans down the terms. A value
+carries a literal and a link, which is why the pairs stand between the tags.
+
+.. facts::
+
+   :Change: `1482 <https://example.org/c/1482>`__ · patch set 2
+   :Target: ``main`` · ``2.4``
+   :Read: 2026-09-11, in a worktree of its own
+
 An instruction, step by step
 ============================
 
