@@ -1,7 +1,9 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["packages/frontend/src/styles/**/*.css", "packages/frontend/src/tokens/*.css"]
+    // A worktree checked out under `.claude/` carries a copy of this file,
+    // which Biome reads as a second root and refuses to run beside.
+    "includes": ["packages/frontend/src/styles/**/*.css", "packages/frontend/src/tokens/*.css", "!.claude/**"]
   },
   "formatter": {
     "enabled": true,
