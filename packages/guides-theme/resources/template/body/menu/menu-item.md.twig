@@ -1,6 +1,6 @@
-{#- One page of a tree, and whatever the tree holds below it. The link is
-    resolved from the page being rendered and lands on the twin of the page it
-    names: a format's name is the extension every reference in it resolves to. -#}
+{#- One page of a tree, and whatever the tree holds below it. The link
+    resolves from the page in hand and lands on the twin of the page it names.
+    A format's name is the extension every reference in it resolves to. -#}
 {%- autoescape false -%}
 {%- set below -%}
 {% for child in node.children %}{{ renderNode(child)|md_tidy }}

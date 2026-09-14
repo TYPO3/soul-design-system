@@ -1,10 +1,10 @@
 {#
-    A code block, fenced in the language it was written in.
+    A code block, fenced in its own language.
 
-    No colouring: a fence carries the language as a word and whatever reads
-    this file decides what to do with it — which is the same contract the HTML
-    has, where the server writes the colour into the markup. A raw block is
-    written through, because raw is what its author asked for.
+    No colour. A fence carries the language as a word, and whatever reads this
+    file decides what to do with it. That is the same contract the HTML has,
+    where the server writes the colour into the markup. A raw block goes
+    through as it is, because raw is what its author asked for.
 #}
 {%- autoescape false -%}
 {%- if node.raw -%}

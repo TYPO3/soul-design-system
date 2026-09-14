@@ -2,12 +2,12 @@
     A `toctree` that prints itself — the pages under this one, in the flow of
     the document rather than in the rail.
 
-    The rail already carries this tree, so the two must not look alike: one is
+    The rail already carries this tree, so the two must not look alike. One is
     where the reader is, the other is a list they read. It speaks the contents
-    apparatus's own classes — the element next door marks the reader's place,
-    which a list of other pages has no place to mark — and the difference is
-    what the entries point at: documents rather than sections, so their
-    children are `children`.
+    apparatus's own classes. The element next door marks the reader's place,
+    which a list of other pages has no place to mark. The difference is what
+    the entries point at: documents rather than sections, so their children
+    are `children`.
 #}
 <nav class="sds-toc" aria-label="{{ node.caption ? renderNode(node.caption)|striptags|trim : 'Contents' }}">
     {%- if node.caption %}

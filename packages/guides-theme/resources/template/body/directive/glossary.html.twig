@@ -1,16 +1,16 @@
 {#
-    `.. glossary::` — the words a project defines, and where they are defined.
+    `.. glossary::` — the words a project defines, and where it defines them.
 
     The core writes the definition list into a div and stops, so a page can
     name forty terms and point at none of them. Each term gets the id its own
-    words make and the mark a heading carries, which is the whole difference
+    words make and the mark a heading carries. That is the whole difference
     between a list of definitions and a glossary a sentence elsewhere can link
     into.
 
     Rebuilt rather than handed to `renderNode`, because the id belongs on the
     `<dt>` and nothing else can put it there. A body that holds no terms — a
-    paragraph, a nested directive — falls back to the core's rendering rather
-    than coming out empty.
+    paragraph, a nested directive — falls back to the core's render rather
+    than comes out empty.
 #}
 {%- set entries = terms(node.value) -%}
 {%- if entries is empty -%}

@@ -1,4 +1,4 @@
-{#- A text role, by its own name — the same lookup the HTML does, so a project
+{#- A text role, by its own name — the same lookup the HTML does. A project
     that writes a role writes a file for each format and nothing else. -#}
 {%- autoescape false -%}
 {%- include [('inline/textroles/' ~ node.type ~ '.md.twig'), 'inline/textroles/unknown.md.twig'] -%}

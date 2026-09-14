@@ -1,15 +1,15 @@
 {#
     `.. topic::` as the reStructuredText parser builds it — the spelling an
-    author actually writes, and a different node from the one `body/topic`
-    renders. Both are overridden because both are reachable, and a theme that
-    covered one of them would look right until somebody wrote the other.
+    author writes, and a different node from the one `body/topic` renders.
+    Both have an override because both are reachable. A theme that covers one
+    of them looks right until somebody writes the other.
 
-    Same shape, same reasoning: see `body/topic.html.twig` for why an `<aside>`
+    Same shape, same reason: see `body/topic.html.twig` for why an `<aside>`
     on `.sds-panel` and not an admonition.
 
     The classes from the source come along. An author who wrote `:class:` on a
-    topic meant it for their own stylesheet, and dropping it silently is the
-    one thing a theme must not do with what it does not understand.
+    topic meant it for their own stylesheet. To drop it silently is the one
+    thing a theme must not do with what it does not understand.
 #}
 <aside class="sds-topic sds-panel{% if node.classes %} {{ node.classesString }}{% endif %}">
     <p class="sds-topic__title">{{ renderNode(node.content) }}</p>

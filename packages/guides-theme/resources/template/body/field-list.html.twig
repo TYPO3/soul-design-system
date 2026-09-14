@@ -3,11 +3,11 @@
     document, and any other name-and-value pair the source states.
 
     The core's own markup, with one thing added: a class. Without it this is a
-    bare `<table>`, and a bare table in a document is a data table — ruled
-    rows, a header in the label register, columns that share the width. A
-    docinfo block is neither ruled nor a header; it is two columns of which the
-    first is a label. The class is what lets `sds-prose` tell the two apart,
-    and it is the name the core would have written itself had it written one.
+    bare `<table>`. A bare table in a document is a data table — ruled rows, a
+    header in the label register, columns that share the width. A docinfo
+    block has no rules and no header; it is two columns of which the first is
+    a label. The class is what lets `sds-prose` tell the two apart, and it is
+    the name the core itself picks for one.
 #}
 <table class="sds-docinfo{% if node.classes %} {{ node.classesString }}{% endif %}">
     {% for item in node.children %}

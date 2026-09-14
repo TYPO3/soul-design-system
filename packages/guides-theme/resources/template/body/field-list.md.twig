@@ -1,6 +1,6 @@
 {#- What a page states about itself — the author, the version, the date. A
-    table in the HTML, because that is two columns; a list here, because a
-    Markdown table with two cells a row is a table pretending. -#}
+    table in the HTML, because that is two columns. A list here, because a
+    Markdown table with two cells a row is a table in name only. -#}
 {%- autoescape false -%}
 {%- for item in node.children -%}
 {%- set body -%}{% for definition in item.children %}{{ renderNode(definition)|md_tidy }}

@@ -3,23 +3,23 @@
 
     The core gives this node a tab markup of its own: a `role="tablist"` of
     buttons, a panel each, and `display: none` on all but the first. The
-    switching is a script the renderer does not ship, so left alone it is a row
-    of buttons that do nothing above a block that cannot be reached.
+    switch is a script the renderer does not ship. Left alone it is a row of
+    buttons that do nothing above a block nobody can reach.
 
     It is the same content as `.. tabs::` and it becomes the same element, for
-    the reason that decides every other template here: a reader must not have
-    to learn which directive an author reached for. What is dropped is the
+    the reason that decides every other template here. A reader must not have
+    to learn which directive an author reached for. What drops out is the
     tablist markup — `sds-tabs` builds its own, with the arrow keys — and the
     panel ids, which only that script used.
 
-    **The labels are a property**, for the reason `body/directive/tabs` states:
-    an element rendered before the browser has no items to read them off, so a
+    **The labels are a property**, for the reason `body/directive/tabs` states.
+    An element rendered before the browser has no items to read them off. A
     set that says them only on its panels arrives with an empty bar.
 
-    `sync` is what this directive is for and `.. tabs::` is not: the same
-    setting appears on a page four times, and the language is chosen once. The
-    word is fixed here rather than offered to an author — two blocks of the
-    same document that did not agree would be the bug this prevents.
+    `sync` is what this directive is for and `.. tabs::` is not. The same
+    setting appears on a page four times, and the reader chooses the language
+    once. The word stands fixed here rather than on offer to an author. Two
+    blocks of the same document that disagree is the bug this prevents.
 #}
 {%- set labels = [] -%}
 {%- for tab in node.tabs -%}

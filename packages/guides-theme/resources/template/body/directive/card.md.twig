@@ -1,5 +1,5 @@
 {#- A card is a frame around a heading, a passage and where it goes. The
-    frame is the component's; what is left is a linked heading. -#}
+    frame is the component's; what remains is a linked heading. -#}
 {%- autoescape false -%}
 {%- set href = node.option('href') ? renderLink(node.option('href')) : linkUrl(node.link) -%}
 {%- set heading = node.title.toString|md_escape -%}

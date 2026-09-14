@@ -3,37 +3,34 @@
 
     Two nodes share this template because they are the same thing: a document
     of somebody else's, shown inside this one. A video has a title and nothing
-    else to say; a specimen names the card and the size it was measured at,
-    because that number is checked by `make fit` and a reader who wants to know
-    what they are looking at should not have to open the source.
+    else to say. A specimen names the card and the size of its measurement,
+    because `make fit` checks that number. A reader who wants to know what
+    they look at must not have to open the source.
 
     **The element, and nothing but the address of it.** What the two need is a
-    frame that is sized, bordered and captioned the way every other block on
-    the page is, and `sds-embed` is where that is decided once — see its own
-    file for the two shapes and why an embed has to state which one it is. Left
-    to the renderer this was a raw frame with the browser's 1996 ridge around
-    it, as wide as its `width` attribute said and running straight out of any
-    column narrower than that.
+    frame with the size, the border and the caption every other block on the
+    page has. `sds-embed` is where that decision happens once. See its own
+    file for the two shapes and why an embed has to state which one it is.
+    Left to the renderer this was a raw frame with the browser's 1996 ridge
+    around it, as wide as its `width` attribute said. It ran straight out of
+    any column narrower than that.
 
-    The `<iframe>` used to be written here and lifted by the element. It is a
-    property now, like everything else: `make guides` renders each element
-    before the page is published — `scripts/lib/prerender.ts` — so a reader
-    with no JavaScript has the frame without this file having to draw one.
+    The `<iframe>` is a property, like everything else. `make guides` renders
+    each element before the page goes out — `scripts/lib/prerender.ts` — so a
+    reader with no JavaScript has the frame, and this file draws none.
 
-    Not lazy, and that is the element's decision rather than this file's: a
-    specimen is the evidence on the page, and a frame that loads on scroll is
-    a frame that is blank in every screenshot the gate takes — which is the one
+    Not lazy, and that is the element's decision rather than this file's. A
+    specimen is the evidence on the page. A frame that loads on scroll is a
+    frame that is blank in every screenshot the gate takes. That is the one
     place somebody looks at all of them at once.
 #}
 {%- if node.hasOption('specimen') -%}
-{#- Fixed. The card declares the viewport it was measured at and this is that
-    number, so the frame keeps it and scrolls where the column is narrower;
-    a card reflowed to fit would be documenting a layout nothing checked.
+{#- Fixed. The card declares the viewport of its measurement and this is that
+    number. So the frame keeps it and scrolls where the column is narrower. A
+    card reflowed to fit documents a layout nothing checked.
 
-    The caption is a sentence and arrives as one. It used to carry the viewport
-    in `.sds-mono`, which is a register this file was choosing on the page's
-    behalf — what a caption says belongs to the document, how it is set belongs
-    to the component. -#}
+    The caption is a sentence and arrives as one. What a caption says belongs
+    to the document, and how it sets belongs to the component. -#}
 <sds-embed src="{{ asset(node.url) }}"
     label="{{ node.option('title')|default('Specimen') }}"
     caption="{{ node.option('title')|default('Specimen') }} · {{ node.option('viewport') }}"
@@ -42,8 +39,8 @@
 ></sds-embed>
 {%- else -%}
 {#- Fluid. A player's `width` and `height` are its native size and not the
-    size it wants: it fills the column it is given and holds the shape those
-    two state, which is the one thing about it that must not change. -#}
+    size it wants. It fills the column it gets and holds the shape those two
+    state, which is the one thing about it that must not change. -#}
 <sds-embed src="{{ node.url }}"
     ratio="{{ node.option('width')|default(560) }} / {{ node.option('height')|default(315) }}"
     {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}

@@ -7,11 +7,11 @@
     alternating instead of as a wall.
 
     The document's nodes stand in the band itself. A box between the two takes
-    the band's own rule off them — the last block's step is given up at the
-    edge of the band, and a wrapper in between kept it, so every band was one
-    step deeper below its content than above it. The heading is plain: the
-    document layer is what sets a heading, and a class here would be the one
-    `h2` on the page ignoring it.
+    the band's own rule off them. The last block gives its step up at the edge
+    of the band, and a wrapper in between kept it. So every band was one step
+    deeper below its content than above it. The heading is plain. The document
+    layer is what sets a heading, and a class here is the one `h2` on the page
+    that ignores it.
 #}
 <section class="sds-band{% if node.option('quiet') %} sds-band--quiet{% endif %}"
          {%- if node.option('id') %} id="{{ node.option('id') }}"{% endif %}>

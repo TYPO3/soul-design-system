@@ -2,14 +2,15 @@
     The rail shows the section the reader is in, while the bar carries the site.
 
     Both are the same entry read at a different level, worked out in
-    `Navigation\Menu` because a template cannot derive ancestry: the section is
+    `Navigation\Menu` because a template cannot derive ancestry. The section is
     the one entry marked `here` or `current`, and `Navigation\Rail` is that
-    slice of it. The element is handed the entry and owns all of its markup —
-    its label is the heading, its pages are the list, and a page with pages of
+    slice of it. The element gets the entry and owns all of its markup. Its
+    label is the heading, its pages are the list, and a page with pages of
     its own is a fold.
 
-    Nothing where the section is a single page: an absent rail is not an empty
-    one, and the bar naming the section is the whole of what there is to say.
+    Nothing where the section is a single page. An absent rail is not an empty
+    one, and the bar's name for the section is the whole of what there is to
+    say.
 #}
 {%- set section = rail() -%}
 {%- if section -%}

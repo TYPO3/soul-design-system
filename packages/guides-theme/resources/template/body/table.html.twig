@@ -1,20 +1,20 @@
 {#
     A table, addressed rather than drawn.
 
-    What a document writes is the table's own children — the caption, the
+    What a document writes is the table's own children. The caption, the
     column widths a `:widths:` option worked out, the head and the body, cells
-    and all, because a cell carries a link or a literal and no property could.
+    and all. A cell carries a link or a literal, and no property can.
     The `<table>` itself, its density and the box it scrolls in are the
-    element's, which is what keeps a page of this theme and a page of a product
+    element's. That is what keeps a page of this theme and a page of a product
     the same table.
 
     Always scrollable: `sds-table` gives a table the column, and one whose
     own minimum is wider than that has to go somewhere. The box is around the
-    table and never the table itself — `overflow-x` on a `<table>` needs
+    table and never the table itself. `overflow-x` on a `<table>` needs
     `display: block`, which leaves table layout and shrink-wraps every table
     that was not too wide in the first place.
 
-    What is not carried over is the core's own class list — `colwidths-auto`,
+    What does not come through is the core's own class list — `colwidths-auto`,
     `align-*`, `grid-*`. No stylesheet here defines them, so they drew nothing
     before and name nothing now.
 #}

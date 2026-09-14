@@ -4,34 +4,34 @@
     The decisions behind this template are in `guides-theme/GAPS.md`.
 
     **The colour is the server's.** `guides-code` highlights with a PHP port of
-    highlight.js, so what lands in the page already carries `hljs-` classes —
-    the ones `components.css` maps onto this system's three syntax colours. A
-    reader with no JavaScript sees a coloured block, which is the point of a
-    generator that ships HTML.
+    highlight.js, so what lands in the page already carries `hljs-` classes.
+    Those are the ones `components.css` maps onto this system's three syntax
+    colours. A reader with no JavaScript sees a coloured block, which is the
+    point of a generator that ships HTML.
 
-    **The language may be missing, and that must not be fatal.** A fenced block
-    in Markdown can carry no language at all, and the Markdown parser leaves it
-    null rather than falling back to the configured default. The highlighter's
-    filter declares a string, so without the `default` here the whole render
+    **The language can be absent, and that must not be fatal.** A fenced block
+    in Markdown can carry no language at all. The Markdown parser leaves it
+    null rather than falls back to the configured default. The highlighter's
+    filter declares a string. So without the `default` here the whole render
     dies on the first bare fence with a TypeError three packages deep. `text`
     escapes the block and colours nothing, which is the honest answer when
     nobody said what it is.
 
     The caption sits above the block and inside the element, where this system
-    already puts it — see `sds-code`. It is written between the tags rather
-    than handed to the `caption` attribute because a caption node carries
-    markup, and an attribute is a string.
+    already puts it — see `sds-code`. It stands between the tags rather than
+    in the `caption` attribute because a caption node carries markup, and an
+    attribute is a string.
 #}
 {% if node.raw %}
     {{ node.value|raw }}
 {%- elseif node.language == 'diff' -%}
-    {#- A diff is machine output in the same frame and a different body: the
+    {#- A diff is machine output in the same frame and a different body. The
         rows carry status colour, which is the one place in this system a fill
         marks a line. It arrives as the language an author already writes, so
-        no page is rewritten to get it, and the caption names the file the way
-        the element's `path` does. The rows are read by `diff_rows` because
+        no page needs a rewrite to get it. The caption names the file the way
+        the element's `path` does. `diff_rows` reads the rows because
         `sds-diff__line` is the element's name for its own node — a template
-        writing one has made it public API. -#}
+        that writes one has made it public API. -#}
     <sds-diff body="{{ node.value|diff_rows|json_encode }}"
         {%- if node.caption %} path="{{ renderNode(node.caption)|striptags|trim }}"{% endif -%}
         {%- if node.classes %} class="{{ node.classesString }}"{% endif -%}
@@ -39,21 +39,21 @@
 {%- else -%}
     {#- The element, not a hand-built frame.
 
-        `sds-code` takes what it is given and, when the colour is already
-        there, hands it back untouched — wrapper and all, so the language, the
-        starting line and the emphasised lines survive. What it adds is the
+        `sds-code` takes what it gets and, when the colour is already there,
+        hands it back untouched. Wrapper and all, so the language, the first
+        line's number and the emphasised lines survive. What it adds is the
         head and the copy button, which is the whole reason to use an element
         rather than a `<pre>`.
 
-        The caption is a property. It says what the block is, and where that
-        sentence sits and how it is set is the element's — this template used
-        to write `.sds-code__caption` itself, which is the component's own name
-        for its own part and not something a renderer should have to know.
+        The caption is a property. It says what the block is. Where that
+        sentence sits and how it sets is the element's. `.sds-code__caption`
+        is the component's own name for its own part and not something a
+        renderer must know.
 
-        The block is still written between the tags, because it is the one
-        thing here an attribute cannot hold, and it is written with nothing in
-        front of it: the element copies what it finds to the clipboard, so a
-        newline would land at the top of every pasted block. -#}
+        The block still stands between the tags, because it is the one thing
+        here an attribute cannot hold. And it stands with nothing in front of
+        it. The element copies what it finds to the clipboard, so a newline
+        lands at the top of every pasted block. -#}
     <sds-code code-lang="{{ node.language|default('text') }}" copy
         {%- if node.caption %} caption="{{ renderNode(node.caption)|striptags|trim }}"{% endif -%}
         {%- if node.classes %} class="{{ node.classesString }}"{% endif -%}

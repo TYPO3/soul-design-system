@@ -2,42 +2,41 @@
     A picture, and the claim under it.
 
     The core writes a bare `<figure>` with the image inside it and a
-    `<figcaption>` under it — correct markup, and nothing in this system: no
-    frame around the picture, no ground under one that does not fill it, and a
-    caption set as running text at the size of the prose beside it. That is the
-    one thing this theme exists to stop, so the node comes out as `sds-figure`,
-    which is where those three are decided for everything else that shows a
-    picture.
+    `<figcaption>` under it. Correct markup, and nothing in this system. No
+    frame around the picture, and no ground under one that does not fill it. A
+    caption set as prose at the size of the prose beside it. That is the one
+    thing this theme exists to stop. So the node comes out as `sds-figure`,
+    which decides those three for everything else that shows a picture.
 
-    The picture is drawn into the page by the finishing step — `soul-finish.js`,
-    over the rendered output — and not by a template writing the element's own
-    markup. That is what lets this address the component: a figure whose picture
-    waits for a script would be a caption under an empty box for a reader who
-    runs none, and by the time the page is published there is no waiting left.
+    The finish step draws the picture into the page — `soul-finish.js`, over
+    the rendered output — and not a template that writes the element's own
+    markup. That is what lets this address the component. A figure whose
+    picture waits for a script is a caption under an empty box for a reader
+    who runs none. By the time the page goes out there is no wait left.
 
-    `sds-art` is what makes it sit in the frame — one rule shared by the drawing
+    `sds-art` is what makes it sit in the frame. One rule shared by the drawing
     and the photograph, because how a picture fills its surface is the same
-    question for both. `align` is not carried over: a figure in a measure this
-    narrow has nothing to float beside, which is the same answer the sidebar
-    gets.
+    question for both. `align` does not come through: a figure in a measure
+    this narrow has nothing to float beside, which is the same answer the
+    sidebar gets.
 
     Nothing here says which mode the picture arrives in, because there is only
-    one: every picture is linked, so a drawing renders in a document of its own
-    and keeps the colours its file declares. It does not follow the reader into
-    dark, and the frame under it does not either — see `--surface-art`. The
-    published rule says why the alternative is not taken.
+    one. Every picture is a link, so a drawing renders in a document of its
+    own and keeps the colours its file declares. It does not follow the reader
+    into dark, and the frame under it does not either — see `--surface-art`.
+    The published rule says why the alternative loses.
 
-    A file somewhere else is linked whatever it is: a reference reads the file
+    A file somewhere else is a link whatever it is: a reference reads the file
     itself, which a browser will not do across origins.
 #}
 {%- set caption = node.document ? renderNode(node.document)|striptags|trim : '' -%}
 {%- set source = node.image.value is external_target ? node.image.value : asset(node.image.value) -%}
-{#- A picture is drawn at the width of the column it stands in, which is not
-    the width a diagram was drawn for. `:zoomable:` gives that back — the frame
-    becomes the press and the viewer carries the claim into its own head — and
-    the author writes it, because most pictures are read where they stand. The
-    option is read off the figure: the core hands the image node a fixed list
-    and one it has never heard of is not on it. -#}
+{#- A picture draws at the width of the column it stands in, which is not
+    the width a diagram exists for. `:zoomable:` gives that back. The frame
+    becomes the press and the viewer carries the claim into its own head. The
+    author writes it, because most pictures read where they stand. The option
+    comes off the figure. The core hands the image node a fixed list, and one
+    it has never heard of is not on it. -#}
 <sds-figure
     src="{{ source }}"
     alt="{{ node.image.option('alt')|default('') }}"

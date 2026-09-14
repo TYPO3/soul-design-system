@@ -2,25 +2,25 @@
     A picture on its own — `.. image::`, which is a figure with nothing claimed
     under it.
 
-    The core writes a bare `<img>` into the prose, and a picture standing on the
-    page ground with no edge around it is the same failure `figure.html.twig`
-    exists to stop: a drawing exported on white sits in a hole in dark, and one
-    that does not fill its column has nothing saying where it ends. So the node
-    comes out as `sds-figure` too — the frame, the ground and `sds-art` are
-    decided once, for everything that shows a picture.
+    The core writes a bare `<img>` into the prose. A picture on the page
+    ground with no edge around it is the same failure `figure.html.twig`
+    exists to stop. A drawing exported on white sits in a hole in dark. One
+    that does not fill its column has nothing that says where it ends. So
+    the node comes out as `sds-figure` too. The frame, the ground and
+    `sds-art` have one decision, for everything that shows a picture.
 
     What it does not get is a caption, and that is the whole difference between
-    the two directives: a figure is a picture an author made a claim about, an
+    the two directives. A figure is a picture an author made a claim about, an
     image is one they dropped in. The element draws the frame without one.
 
-    Dropped in is also why the SVG under an `.. image::` is the one least likely
-    to have been written for this system at all. It does not have to be: the
-    picture is linked, so whatever is in the file is what arrives.
+    Dropped in is also why the SVG under an `.. image::` is the one least
+    likely to exist for this system at all. It does not have to. The picture
+    is a link, so whatever is in the file is what arrives.
 
     `:target:` stays a link around the picture, where the core put it as well.
-    `:zoomable:` opens it at full size and is the author's to write; `:align:`
-    and `:title:` are dropped — a column this narrow has nothing to float
-    beside, and a tooltip is a label only a mouse can read.
+    `:zoomable:` opens it at full size and is the author's to write. `:align:`
+    and `:title:` drop out — a column this narrow has nothing to float beside,
+    and a tooltip is a label only a mouse can read.
 #}
 {%- set source = node.value is external_target ? node.value : asset(node.value) -%}
 {%- if node.target %}<a href="{{ node.target.url }}">{% endif -%}
@@ -29,10 +29,10 @@
     alt="{{ node.option('alt')|default('') }}"
     {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}
     {%- if node.hasOption('height') %} height="{{ node.option('height') }}"{% endif -%}
-    {#- Opened at full size where the author asked for it, and nowhere else:
-        most pictures in a document are read at the width they stand in. Never
+    {#- Opens at full size where the author asked for it, and nowhere else.
+        Most pictures in a document read at the width they stand in. Never
         under a `:target:` — that link is already around the whole picture, and
-        the press would be a second anchor inside it. -#}
+        the press is a second anchor inside it. -#}
     {%- if node.hasOption('zoomable') and not node.target %} zoomable{% endif -%}
     {%- if node.classesString %} class="{{ node.classesString }}"{% endif -%}
 ></sds-figure>

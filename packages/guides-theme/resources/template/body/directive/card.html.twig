@@ -1,38 +1,38 @@
 {#
     One card, and the element draws all of it.
 
-    **Every option is a property.** The directive says what the card is — the
-    title, where it goes, the kind, the label, the picture — and each of those
+    **Every option is a property.** The directive says what the card is: the
+    title, where it goes, the kind, the label, the picture. Each of those
     lands on `sds-card` as an attribute. Nothing here says what a card looks
-    like: not the frame, not the row above the title, not what a title is
-    wrapped in. That is the whole point of there being a component. This
-    template used to spell `.sds-card__body` and `.sds-card__title` because the
-    element read its own parts back to find them, which made every internal name
-    public API and left the element framing markup this file had already built —
-    a card that could not be changed on one side without the other.
+    like: not the frame, not the row above the title, not what wraps a title.
+    That is the whole point of a component.
 
-    What paid for that arrangement was the reader with no JavaScript, and it is
-    not needed any more: `make guides` renders every element in the output ahead
-    of the browser — `scripts/lib/prerender.ts` — so a property reaches a page
-    that runs no script at all.
+    A template that spells `.sds-card__body` and `.sds-card__title` makes
+    every internal name public API. It leaves the element to frame markup this
+    file already built — a card that cannot change on one side without the
+    other.
 
-    The body is the one thing still written between the tags, because it is the
-    one thing an attribute cannot hold: out of a document it is paragraphs, and
-    sometimes a list.
+    `make guides` renders every element in the output ahead of the browser —
+    `scripts/lib/prerender.ts` — so a property reaches a page that runs no
+    script at all.
+
+    The body is the one thing that still stands between the tags. It is the
+    one thing an attribute cannot hold: out of a document it is paragraphs,
+    and sometimes a list.
 
     The title is where TYPO3 documentation puts the target: `.. card::
     :ref:`Installation <installation>``. So the words of it are the heading and
-    the reference is where the card goes, and the element decides what a title
-    is wrapped in and how far the link reaches — which is over the whole card.
-    `:href:` is the same thing said as a path, and wins where both are written.
+    the reference is where the card goes. The element decides what wraps a
+    title and how far the link reaches, which is over the whole card.
+    `:href:` is the same thing said as a path, and wins where both stand.
 #}
-{#- The picture goes by the name every other directive that takes a file uses:
-    what an option is called belongs to the language it is written in, and
+{#- The picture goes by the name every other directive that takes a file
+    uses. An option's name belongs to the language it stands in, and
     `.. figure::` and `.. image::` already gave the file that name.
 
-    Resolved here and not in the element: what a path means is the renderer's
-    business — which document it was written in, and whether it points out of
-    the site — and the element is handed the URL that came of it. -#}
+    Resolved here and not in the element. What a path means is the renderer's
+    business — which document it stands in, and if it points out of the site.
+    The element gets the URL that came of it. -#}
 {%- set src = node.option('src') -%}
 {%- set source = src ? (src is external_target ? src : asset(src)) : '' -%}
 {%- set href = node.option('href') ? renderLink(node.option('href')) : linkUrl(node.link) -%}

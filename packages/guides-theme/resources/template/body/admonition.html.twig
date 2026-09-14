@@ -5,26 +5,26 @@
     splits these into note-like and warning-like, and `important` sits on the
     quiet side of that line: it is emphasis, not a hazard. An author writing
     `.. important::` today means what Sphinx means by it, so a mapping that
-    made it an alarm would change what their page says. `tip` is the one type
+    makes it an alarm changes what their page says. `tip` is the one type
     that is unambiguously "here is something that helps", which is the tone
     `ok` names.
 
     Everything unlisted is `info`. That is not a fallback so much as the
-    generic form's answer: `.. admonition:: A title of its own` arrives with
+    generic form's answer. `.. admonition:: A title of its own` arrives with
     its title slugified into the type name, so the lookup misses by design.
 
     **No category heading.** Ten of these carry no title at all — the core
-    emits `<div class="admonition note"><p>…</p></div>` and nothing else — and
-    printing "Note" over each one would be exactly the category name
-    `sds-note` forbids its heading to be. The word goes to the glyph, which
-    says it out loud without drawing it, and it is the *type's* word rather
-    than the tone's: `caution` and `danger` both become `warn`, and a reader
-    who cannot see the colour still hears which one this was.
+    emits `<div class="admonition note"><p>…</p></div>` and nothing else. A
+    "Note" over each one is exactly the category name `sds-note` forbids its
+    heading to be. The word goes to the glyph, which says it out loud and
+    draws nothing. And it is the *type's* word rather than the tone's.
+    `caution` and `danger` both become `warn`, and a reader who cannot see
+    the colour still hears which one this was.
 
     The title, where there is one, is the author's and it is a label. It goes
-    in as text: `heading` is an attribute, so markup inside it would arrive as
+    in as text. `heading` is an attribute, so markup inside it arrives as
     visible angle brackets rather than as emphasis. A title that leans on
-    inline markup is a title doing a paragraph's job.
+    inline markup is a title that does a paragraph's job.
 #}
 {%- set tone = {
     'tip':        'ok',

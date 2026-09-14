@@ -3,7 +3,7 @@
 
     Its own fenced block, because what a tree says is where a name stands, and
     a paragraph cannot hold that. The entries are the nested data the directive
-    read out of the document — the same data the element is handed.
+    read out of the document — the same data the element gets.
 #}
 {%- autoescape false -%}
 {%- set lines -%}{% include 'body/directive/directory-tree-level.md.twig' with { entries: node.option('entries'), depth: 0 } only %}{%- endset -%}

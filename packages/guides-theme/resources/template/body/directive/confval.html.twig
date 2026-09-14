@@ -3,21 +3,21 @@
     what happens if they leave it alone.
 
     The element draws all of it — see `card.html.twig` for why every option
-    is a property and no markup of a component is written here. What used to
-    stand in this file was a hand-built definition list carrying a class no
-    stylesheet defined, which is how a reference ended up styled by the
-    document layer's `dt` and `dd` and by nothing that knew what it was.
+    is a property and no markup of a component stands here. A hand-built
+    definition list with a class no stylesheet defines gets its style from
+    the document layer's `dt` and `dd`. Nothing that knows what it is touches
+    it.
 
     The core template labels the default `Type:` — the same word it uses for
     the type, two lines above. That is an upstream defect and this is where it
-    stops being one.
+    stops.
 
     **The facts go in as text**, through `plain` — see `ThemeExtension`.
-    `:type:` and `:default:` are parsed inline, so they can hold a link, and an
-    attribute flattens one to its words. That is the trade: a type is written
-    `array<string>` as often as it is written as a reference, and markup in a
-    value that reads `<string>` is markup that eats half the type. The
-    description keeps every block it was written with.
+    `:type:` and `:default:` parse inline, so they can hold a link, and an
+    attribute flattens one to its words. That is the trade. A type reads
+    `array<string>` as often as it reads as a reference. Markup in a value
+    that reads `<string>` is markup that eats half the type. The
+    description keeps every block the author wrote.
 #}
 {%- set facts = [] -%}
 {%- for key, option in node.additionalOptions -%}

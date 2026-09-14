@@ -1,17 +1,17 @@
 {#
     `.. example::` — the source, and under it that source rendered.
 
-    The block is drawn by the template every other code block is drawn by, so
-    it is highlighted on the server and carries the copy button: what a reader
-    takes away is the body that produced the thing below it.
+    The template that draws every other code block draws this one. So it gets
+    its colour on the server and carries the copy button. What a reader takes
+    away is the body that produced the thing below it.
 
-    `.sds-example` is the frame: dashed and unfilled, which is what says the
-    box is not part of the page and leaves what is inside it on the ground it
-    would really stand on. Nothing is invented — the class layer draws it.
+    `.sds-example` is the frame: dashed and unfilled. That is what says the box
+    is not part of the page, and leaves what is inside it on the ground it
+    really stands on. Nothing new — the class layer draws it.
 
     The blocks stand in it directly. They carry their own step, and the frame
-    takes the last one off — a container between them would state one distance
-    for a heading and a paragraph alike, and mostly wrap a single child.
+    takes the last one off. A container between them states one distance for
+    a heading and a paragraph alike, and mostly wraps a single child.
 #}
 {{ renderNode(node.source) }}
 <div class="sds-example{% if node.option('class') %} {{ node.option('class') }}{% endif %}">

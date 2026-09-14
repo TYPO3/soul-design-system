@@ -1,6 +1,6 @@
 {#- A reference, and where it points in this format: the twin of the page it
-    named, because a format's name is the extension every link inside it
-    resolves to. A link with nothing to point at is its own words. -#}
+    named. A format's name is the extension every link inside it resolves
+    to. A link with nothing to point at is its own words. -#}
 {%- autoescape false -%}
 {%- set text -%}{% for child in node.children %}{{ renderNode(child) }}{% endfor %}{%- endset -%}
 {%- if node.url and text|trim -%}[{{ text|trim }}]({{ node.url }}){%- else -%}{{ text|trim }}{%- endif -%}
