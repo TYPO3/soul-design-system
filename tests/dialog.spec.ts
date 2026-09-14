@@ -113,7 +113,10 @@ test('the cancel button, the header X and Escape are all a cancel', async ({ pag
   await page.locator(`#confirm .sds-modal__head .sds-btn--icon`).click();
   await expect(page.locator(box('confirm'))).toBeHidden();
 
+  /* Open before the key goes, or the key lands on the page and nothing
+     hears it. A press has no box to wait on the way a click has. */
   await page.locator('#open').click();
+  await expect(page.locator(box('confirm'))).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.locator(box('confirm'))).toBeHidden();
 
@@ -132,6 +135,7 @@ test('an answered question does not answer the next one', async ({ page }) => {
   await expect(page.locator(box('confirm'))).toBeHidden();
 
   await page.locator('#open').click();
+  await expect(page.locator(box('confirm'))).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.locator(box('confirm'))).toBeHidden();
 
