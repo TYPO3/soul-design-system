@@ -198,6 +198,52 @@ copy the drop-in: :doc:`../frontend/quickstart`, and
 A stylesheet of the design's own does not travel. If the design needed a
 declaration the system has no name for, close that gap in the component here.
 
+In Claude Code, in a project of your own
+========================================
+
+Claude Code designs a page from a skill it has loaded, and ``SKILL.md`` at
+the root of this repository is one. It carries the build rules and the
+recipe for a page that goes out as one file: a review, a report, a
+claude.ai Artifact. With it loaded, an agent that writes such a page writes
+it on this system and not on a palette of its own.
+
+.. steps::
+
+   .. step:: Put the skill where Claude Code reads skills
+
+      .. code-block:: bash
+
+         git clone https://github.com/TYPO3/soul-design-system.git ~/.claude/skills/soul-design-system
+
+      A clone, because the skill names files beside itself:
+      ``packages/frontend/dist/soul-inline.css`` and
+      ``packages/frontend/dist/soul-finish.js``, both in git. A checkout you
+      already have works the same through a symbolic link at that path. The
+      directory under ``.claude/skills/`` of one project holds it for that
+      project alone.
+
+   .. step:: Name it in the project
+
+      One line in the project's ``CLAUDE.md``:
+
+      .. code-block:: text
+
+         A page for the TYPO3 community, a review or a report among them,
+         follows the Soul design system: load the soul-design-system skill
+         before you write markup.
+
+      Claude Code loads a skill when a task matches its description, and this
+      line makes the match. Without it the agent reads the built-in design
+      guidance first and reaches for the system only if it finds one.
+
+   .. step:: Ask for the page
+
+      Name the document and its job, as `How to ask for a surface
+      <#how-to-ask-for-a-surface>`__ says. The agent writes the elements,
+      renders them with ``soul-finish.js``, pastes the sheet, and publishes.
+      What to check in the result is the list above, plus: the page carries no
+      script, and its title stands before the sheet.
+
 The uploaded system, kept current
 =================================
 

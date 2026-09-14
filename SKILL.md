@@ -1,6 +1,6 @@
 ---
 name: soul-design-system
-description: Build any surface to the Soul Design System — documentation pages, product UI, README diagrams, release notes. Load this before you write markup, CSS or SVG.
+description: Build any surface to the Soul Design System — documentation pages, product UI, README diagrams, release notes, and a review or report that goes out as one file, a claude.ai Artifact among them. Load this before you write markup, CSS or SVG.
 ---
 
 # Soul Design System — build rules
@@ -422,11 +422,73 @@ from the nearest one.
 A renderer, a theme or a template set writes no class the stylesheets do not
 define. A name it needs and cannot find is a gap in the system, closed there.
 
+## A page that is one file
+
+A review, a report, a claude.ai Artifact: a page that goes out as one file,
+under a host that admits nothing beside it. It links nothing. It carries the
+system inside it, and the host's frame around it. The tokens, the two
+families and the page layouts decide the palette, the type and the layout
+before the first line. A design plan of the page's own is the deviation to
+name.
+
+1. **The `<title>` first**, then one `<style>` with `soul-inline.css` pasted
+   whole. That is `soul.css` with the two families inside it and, at its
+   end, the hand-back a host's own reset needs. Never a `<link>` to it: the
+   host blocks the fetch, and the page arrives with no stylesheet. The title
+   stands before the sheet because a host reads it out of the first bytes.
+2. **Write the elements**, as on any page. `<body class="sds-app">`,
+   `sds-shell`, `sds-body`, then `<main class="sds-body__main"
+   id="main-content">` with the document in an `<article class="sds-prose">`.
+   No bar, no rail, no footer and no `sds-theme`: the host draws the frame
+   and owns the mode switch. The page follows `data-theme` on the root as
+   every page does. `specimens/screens/review.html` is the page to start
+   from.
+3. **Prerender it.** `node <dist>/soul-finish.js <dir> --no-drop-in
+   --no-search` renders every element in every `.html` under that directory,
+   in place, icons inlined. The page then holds its markup before a script
+   runs, and none runs.
+4. **Link no script.** `soul.js` resolves its icon sprite against its own
+   URL, and a `<use>` across origins draws nothing. So the page is what the
+   prerender wrote. Write no `copy` on `sds-code`, because its button needs
+   a script. `sds-accordion` folds anyway: it is a `<details>`.
+
+`<dist>` is `packages/frontend/dist/` in this checkout,
+`node_modules/@typo3/soul-frontend/dist/` in a project that installed the
+package, or `https://cdn.jsdelivr.net/npm/@typo3/soul-frontend@<version>/dist/`
+with `curl`. The three hold the same files.
+
+Everything that fits in a string is an attribute, and a list is JSON in
+one: `entries='[{"label":"Evidence","href":"#evidence"}]'`,
+`body='[{"kind":"add","text":"…"}]'`. A table's rows stand between its tags
+as `<thead>` and `<tbody>`. A drawing follows the rule above and goes into
+`sds-figure` as a data URI, `src="data:image/svg+xml;base64,…"`, because
+the host fetches nothing beside the page. It arrives in its exported
+colours, as every picture does.
+
+A review is a document, not a page of a site: no bar, no rail, nothing to
+navigate. Its head is its own.
+
+| The part of a review | The element |
+| --- | --- |
+| what kind of document, of what | `sds-eyebrow` over the `h1`, the lead in `.sds-lead` |
+| the facts of the change: the number, the commit, the target, the votes | `sds-facts`, the pairs between its tags. The change and the issue as `sds-link`, a vote as `sds-badge`, a hash in `.sds-mono` |
+| the summary | `<sds-surface plane="raised" heading="Summary">`, first: what the change does, then the recommendation with a link to each finding it rests on |
+| the counts, as sentences | four `<sds-surface plane="plain" label="…">` in `<sds-grid variant="dense">`, one per weight, each a sentence with the number as its first word |
+| the contents | `sds-nav-toc` with `entries` nested as the parts nest. In a `<div class="sds-aside">`, which rests beside the column where the page has the room |
+| the findings | `<sds-register name="findings" prefix="F" todo-prefix="T">` with `.groups` from `FINDING_GROUPS`. One `sds-entry` per finding between its tags: `heading`, `group`, `origin`, `todo`, the evidence between the tags. The register numbers them, groups them, writes the overview and the work |
+| a caveat beside the findings | `sds-note` with the tone it deserves |
+| the change | `sds-diff` with its `path` |
+| a finding at the code | `sds-code` with `source`, `start` and `remarks`. The sentences stand under the block, each with the line it cites; never a comment in the code's own voice |
+| a trace, a command, a test | `sds-code` with `code-lang` and a `caption`. `start` where the text cites a line, and the numbers draw |
+| the mechanism, the fault | `sds-figure` with a drawing under the diagram rule. One claim, the accent on the one thing it is about; status colour where it is about a fault |
+| what stays out of the way | `sds-accordion`, one `question` per entry |
+
 ## Where things are
 
 | Need | File |
 | --- | --- |
 | Everything, one import | `styles.css` |
+| Everything, one file to paste | `packages/frontend/dist/soul-inline.css` |
 | Token values | `tokens/colors.css`, `fonts.css`, `typography.css`, `spacing.css`, `radius.css`, `motion.css` |
 | Colour, type, spacing, brand specimens | `guidelines/*.card.html` |
 | Focus, loading, empty, error | `guidelines/states-*.card.html` |
@@ -458,3 +520,5 @@ define. A name it needs and cannot find is a gap in the system, closed there.
 - No class invented outside the stylesheets: not in a template, a theme or a
   page.
 - `make verify ARGS=prose` is green over every text you wrote.
+- A page that is one file: the title first, the sheet pasted, every element
+  prerendered, no script, no `spec-*`.
