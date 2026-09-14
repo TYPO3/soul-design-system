@@ -88,6 +88,28 @@ Two shapes
    scope class: the link *is* the opt-in. That is what lets a bare ``<p>`` or
    ``<h2>`` take its style without a class from the editor.
 
+.. confval:: soul-inline.css
+   :type: stylesheet
+   :required: false
+
+   The same sheet with the two families inside it as data URLs. For a page
+   that goes out as one file: a report, a review, a page under a host's
+   content security policy. Paste it into a ``<style>``. A ``<link>`` to it
+   is a fetch such a host blocks.
+
+   Its last two rules stand outside every layer. A host of that kind writes a
+   reset of its own outside the layers. An unlayered rule beats every layered
+   one whatever its specificity, so the page stands in the host's face, at
+   the host's size, in light only. ``revert-layer`` on the root's
+   ``color-scheme`` and on the body's margin, font, colour and background
+   hands them back to the layers. On a page with no such reset the two rules
+   change nothing.
+
+   Run ``soul-finish.js`` over the page before it goes out, and link no
+   script. ``soul.js`` resolves its icon sprite against its own URL, and a
+   ``<use>`` across origins draws nothing. ``SKILL.md`` carries the whole
+   recipe.
+
 What it needs of a browser
 ==========================
 

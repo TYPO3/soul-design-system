@@ -24,6 +24,13 @@ and the elements upgrade it where there is behaviour. A page whose content
 is a document links nothing extra. `soul.css` sets the bare elements a
 renderer emits too, each in the sheet of its component.
 
+**Or one file, pasted.** `soul-inline.css` is `soul.css` with the two
+families inside it, for a page that goes out as one file. Paste it into a
+`<style>`. The host of such a page writes a reset of its own outside every
+layer. So the sheet's last two rules stand outside them too, and hand the
+root and the body back. Run `soul-finish.js` over the page, so the elements
+arrive rendered, and link no script.
+
 Copy the directory whole. `soul.css` asks for `fonts/` beside itself, and
 `soul.js` resolves `assets/icons/sprites/` against its own URL. One sprite
 file per icon category, and each icon comes out of its own. A bundler
@@ -232,6 +239,7 @@ stylesheet is the outcome this system exists to prevent. Say so upstream.
 | `src/styles/` | `styles.css` is the entry point; `components.css` is the `sds-` vocabulary |
 | `src/components/` | the Lit elements, each with the template function it renders |
 | `dist/` | the built drop-in, plus `soul-finish.js` for a documentation build |
+| `dist/soul-inline.css` | the stylesheet as one file, the faces inside it, for a page that links nothing |
 | `dist/custom-elements.json` | every element as a manifest: what each tag takes, says, holds and draws |
 | `dist/soul-check.js` | `npx soul-check`, the rule above as an exit code |
 | `fonts/`, `assets/` | the faces, the icon sprites and the drawings a page references |

@@ -163,6 +163,45 @@ test('an icon takes the same space before the script and after', async ({ page }
   expect(await boxes('sds-icon'), 'the reserved box must be the one the element renders').toEqual(before);
 });
 
+/* The sheet a page carries when it links nothing, under the host such a page
+   goes out into. The host writes a reset outside every layer, and that beats
+   the whole stylesheet. The page then stands in the host's face, at the
+   host's size, in light only. The two rules at the end of the sheet hand the
+   root and the body back, and the faces arrive inside it. */
+test('the one-file sheet holds under a host reset outside the layers', async ({ page }) => {
+  await page.route('**/inline-fixture.html', (route) => route.fulfill({
+    contentType: 'text/html',
+    body: `<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8">
+<style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,sans-serif;background:#faf9f5;color:#141413}</style>
+</head><body>
+<link rel="stylesheet" href="/dist/soul-inline.css">
+<main class="sds-page"><h1>Held</h1><p>Body <code>make verify</code></p></main>
+</body></html>`,
+  }));
+  await page.goto('/inline-fixture.html', { waitUntil: 'load' });
+  await page.evaluate(() => document.fonts.ready);
+
+  const got = await page.evaluate(() => {
+    const root = getComputedStyle(document.documentElement);
+    const body = getComputedStyle(document.body);
+    return {
+      scheme: root.colorScheme,
+      font: body.fontFamily,
+      size: body.fontSize,
+      ground: body.backgroundColor,
+      canvas: root.getPropertyValue('--surface-canvas').trim(),
+      sans: document.fonts.check('16px "Source Sans 3"'),
+      mono: document.fonts.check('16px "Source Code Pro"'),
+    };
+  });
+  expect(got.scheme, 'the root follows data-theme again').toBe('dark');
+  expect(got.font, 'the body is in the system face').toMatch(/^"Source Sans 3"/);
+  expect(got.size, 'the body is at the system size, not the host’s').not.toBe('14px');
+  expect(got.ground, 'the ground is the canvas, not the host’s').not.toBe('rgb(250, 249, 245)');
+  expect(got.sans, 'the sans face arrived inside the sheet').toBe(true);
+  expect(got.mono, 'the mono face arrived inside the sheet').toBe(true);
+});
+
 /* The same rule one level up, where it costs the whole page rather than one
    glyph. The bar is the first thing on every surface built on this system.
    An empty host is inline until the bundle lands, so the page lays out once

@@ -165,16 +165,16 @@ const HEADER = `/* Soul, as one stylesheet: the tokens, and the sds- classes the
    are in git, and a sheet on a single line is a file two changes can never
    merge into — see the head of `lib/css.ts`. The bytes a reader pays for it
    are one newline per rule. */
-const perRule: esbuild.Plugin = {
+const perRule = (header: string, tail = ''): esbuild.Plugin => ({
   name: 'rule-per-line',
   setup(build) {
     build.onEnd((result) => {
       const out = build.initialOptions.outfile;
       if (result.errors.length || !out) return;
-      writeFileSync(out, HEADER + rulePerLine(readFileSync(out, 'utf8')));
+      writeFileSync(out, header + rulePerLine(readFileSync(out, 'utf8')) + tail);
     });
   },
-};
+});
 
 /* One stylesheet: the faces, the tokens and the class layer inlined, with
    the woff2 files copied beside it and their URLs rewritten to match. */
@@ -185,7 +185,36 @@ const cssOptions: esbuild.BuildOptions = {
   minify: true,
   loader: { '.woff2': 'copy' },
   assetNames: 'fonts/[name]',
-  plugins: [perRule],
+  plugins: [perRule(HEADER)],
+};
+
+const INLINE_HEADER = `/* Soul, as the one file a page can carry: soul.css with the faces inside it.
+
+   For a host that admits nothing beside the page, and no origin of yours.
+   Paste it into a <style>, and the two families arrive with it. The two
+   rules at the end stand outside every layer on purpose: such a host writes
+   a reset of its own outside the layers, which beats every layered rule.
+   revert-layer hands the root and the body back. Where there is no such
+   reset, the two rules change nothing. */
+`;
+
+/* The hand-back. On the root the mode, so `light-dark()` follows the
+   reader and `data-theme` again; on the body the ground, the ink and the
+   face. `font` is the shorthand, so every longhand goes back at once. */
+const INLINE_TAIL = `:root{color-scheme:revert-layer}
+body{margin:revert-layer;font:revert-layer;color:revert-layer;background:revert-layer}
+`;
+
+/* The same sheet with the woff2 files as data URLs. A page under a content
+   security policy loads no font from a directory beside itself, and one file
+   can travel where a directory cannot. */
+const inlineOptions: esbuild.BuildOptions = {
+  entryPoints: [join(FRONTEND, 'src/styles/styles.css')],
+  outfile: join(OUT, 'soul-inline.css'),
+  bundle: true,
+  minify: true,
+  loader: { '.woff2': 'dataurl' },
+  plugins: [perRule(INLINE_HEADER, INLINE_TAIL)],
 };
 
 /* The pre-paint line, and the only thing here that is not a module. It has to
@@ -268,6 +297,7 @@ if (WATCH) {
   const contexts = await Promise.all([
     esbuild.context(watched(jsOptions, 'dist/soul.js')),
     esbuild.context(watched(cssOptions, 'dist/soul.css')),
+    esbuild.context(watched(inlineOptions, 'dist/soul-inline.css')),
     esbuild.context(watched(bootOptions, 'dist/soul-boot.js')),
     /* The finish step too, or a watch run leaves the drop-in without the one
        file a documentation build calls. The gate, which compares a fresh build
@@ -284,6 +314,7 @@ if (WATCH) {
 
 const drop = await esbuild.build(jsOptions);
 await esbuild.build(cssOptions);
+await esbuild.build(inlineOptions);
 await esbuild.build(bootOptions);
 await esbuild.build(finishOptions);
 await esbuild.build(checkOptions);
@@ -295,6 +326,7 @@ const modules = Object.keys(bundle.metafile.inputs).length;
 const BUILT: readonly (readonly [file: string, what: string])[] = [
   ['dist/soul.js', `${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile?.inputs ?? {}).length} modules`],
   ['dist/soul.css', `${kb('soul.css')}, faces and tokens inlined`],
+  ['dist/soul-inline.css', `${kb('soul-inline.css')}, the same sheet with the faces inside it`],
   ['dist/soul-boot.js', `${kb('soul-boot.js')}, the pre-paint line, not a module`],
   ['dist/soul-finish.js', `${kb('soul-finish.js')}, the step after a render, for Node`],
   ['dist/soul-check.js', `${kb('soul-check.js')}, the rule a consumer runs, for Node`],
