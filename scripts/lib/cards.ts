@@ -3,8 +3,8 @@
    A specimen card is any .html under `specimens/components/` or
    `specimens/guidelines/` whose FIRST
    line is a @dsCard comment. That line is the contract with the Design
-   System pane: it supplies the group, the label, the subtitle and the
-   viewport the card is rendered at. Everything downstream — the bundle, the
+   System pane. It supplies the group, the label, the subtitle and the
+   viewport the card renders at. Everything downstream — the bundle, the
    fit check, the screenshots — reads cards through here, so there is one
    parser and not five. */
 
@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 /* The frontend package: the tokens, the class layer and the elements, plus
-   what is built from them. It is the one place under `packages/` this repo's
+   what comes out of them. It is the one place under `packages/` this repo's
    own tooling reads and writes — everything else here is about it. */
 export const FRONTEND = join(ROOT, 'packages', 'frontend');
 
@@ -34,7 +34,7 @@ const ATTR_RE = /(\w+)="([^"]*)"/g;
 interface Specimen {
   /** Absolute path on disk. */
   path: string;
-  /** Path from the repo root — what a message should print. */
+  /** Path from the repo root — what a message must print. */
   rel: string;
   text: string;
   subtitle: string;
@@ -57,8 +57,8 @@ export interface Screen extends Specimen {
 
 /* Where the specimen trees sit in this repo. A card's declared path — what a
    story writes into `parameters.dsCard` — is the path the **bundle** uses, and
-   that is a contract. Where the file lives here is nobody else's business, so
-   the difference is said once, in this pair, and everything that touches the
+   that is a contract. Where the file lives here is nobody else's business. So
+   the difference stands once, in this pair, and everything that touches the
    disk goes through it. */
 export const SPECIMENS = 'specimens';
 
@@ -102,8 +102,8 @@ const sizeOf = (viewport: string): [number, number] => {
 const stemOf = (path: string): string => (path.split('/').pop() ?? '').replace(/\.html$/, '');
 
 /** Every card, sorted by path, with its marker parsed. Files without a
-    `@dsCard` first line are not cards and are skipped in silence — `verify`
-    is where a missing marker is an error. */
+    `@dsCard` first line are not cards and stay out in silence — `verify` is
+    where an absent marker is an error. */
 export function cards(): Card[] {
   const found: string[] = [];
   for (const root of ['components', 'guidelines']) {
@@ -204,23 +204,23 @@ export function byGroup<T extends { group: string }>(list: readonly T[]): Map<st
 }
 
 /* The specimen cards, where the documents can reach them. A guideline page
-   embeds the card that renders the rule it states, and a card is a whole
-   document with a stylesheet of its own, so it has to be copied into the
-   source: `asset()` only carries what a parsed document points at. The links
-   inside are rewritten on the way, counted rather than written down. */
+   embeds the card that renders the rule it states. A card is a whole document
+   with a stylesheet of its own, so it has to go into the source. `asset()`
+   only carries what a parsed document points at. The links inside change on
+   the way, counted rather than written down. */
 export function embedCards(source: string): number {
   const out = join(source, '_cards');
   rmSync(out, { recursive: true, force: true });
-  /* Screens as well as cards. A guideline page about layout embeds whole
-     pages, and they are specimens by the same definition — a rendering of a
-     rule, kept beside the rule. */
+  /* Screens and cards. A guideline page about layout embeds whole pages, and
+     they are specimens by the same definition — a rendering of a rule, kept
+     beside the rule. */
   let written = 0;
   for (const card of [...cards(), ...screens()]) {
     const rel = relative(join(ROOT, 'specimens'), card.path);
     const target = join(out, rel);
     mkdirSync(join(target, '..'), { recursive: true });
-    /* Two levels: `_cards/<group>/<file>` in the output, so the climb is
-       counted from where each card lands rather than assumed flat. */
+    /* Two levels: `_cards/<group>/<file>` in the output, so the climb counts
+       from where each card lands rather than assumes flat. */
     const up = '../'.repeat(rel.split('/').length);
     writeFileSync(target, readFileSync(card.path, 'utf8')
       .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/styles\.css"/g, `href="${up}styles/soul.css"`)
@@ -234,8 +234,8 @@ export function embedCards(source: string): number {
 /* The marks a document tree points at, from the drawings the frontend holds.
    Copied for the reason the cards are: `asset()` only carries what a parsed
    document points at, so the file has to sit beside the documents. It is
-   generated rather than kept there by hand because a mark shown outside the
-   box it was drawn for lands between whole pixels, and nothing else can see it. */
+   generated rather than kept there by hand because a mark outside its own
+   box lands between whole pixels, and nothing else can see it. */
 export function embedMarks(source: string, marks: Readonly<Record<string, string>>, check = false): string[] {
   const out = join(source, '_images');
   if (!check) mkdirSync(out, { recursive: true });
@@ -256,7 +256,7 @@ export function embedMarks(source: string, marks: Readonly<Record<string, string
   return stale;
 }
 
-/* The chrome a specimen card is drawn with, into a rendered root. Not part of
+/* The chrome a specimen card draws with, into a rendered root. Not part of
    the drop-in and it must not be — a design built with this system inherits the
    token and component layers only — but a page that embeds a card needs it, and
    nothing in a document points at it, so no renderer carries it in. */
@@ -264,7 +264,7 @@ export function cardChrome(root: string): void {
   const styles = join(root, 'styles');
   mkdirSync(styles, { recursive: true });
   cpSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), join(styles, '_specimen.css'));
-  /* And the photography those cards are drawn with, from the same place and for
+  /* And the photography those cards draw with, from the same place and for
      the same reason: story fixtures rather than drop-in. */
   cpSync(join(FRONTEND, 'assets', 'placeholders'), join(styles, 'assets', 'placeholders'), { recursive: true });
 }

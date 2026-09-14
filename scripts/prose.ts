@@ -71,7 +71,7 @@ const PASSIVE = new RegExp(`\\b(?:is|are|was|were|be|been|being|get|gets|got)\\s
 
 /* An -ing word after one of these is a verb form. The list below names the
    nouns that end in -ing and are not. */
-const ING = /(?:^|\b(?:by|of|for|when|while|before|after|without|is|are|was|were|keep|keeps|kept|stop|stops|start|starts|avoid|worth|from|than|and|or|on|in|instead of|means|about|through)\s+)([a-z]{3,}ing)\b/gi;
+const ING = /(?:^|\b(?i:by|of|for|when|while|before|after|without|is|are|was|were|keep|keeps|kept|stop|stops|start|starts|avoid|worth|from|than|and|or|on|in|instead of|means|about|through)\s+)([A-Za-z][a-z]{2,}ing)\b/g;
 const ING_NOUNS = new Set(['thing', 'string', 'nothing', 'anything', 'everything', 'something', 'during', 'sibling', 'ceiling', 'padding', 'spacing', 'kerning', 'leading', 'heading', 'setting', 'building', 'ring', 'wing', 'king', 'morning', 'evening', 'warning', 'opening', 'ending', 'beginning', 'meaning', 'listing', 'spring', 'bring', 'sing', 'sting', 'swing', 'cling', 'fling', 'rendering', 'landing', 'pricing', 'housing', 'clothing', 'writing', 'drawing', 'lining', 'tracking', 'timing', 'binding', 'encoding', 'wording', 'coupling', 'lettering', 'wrapping', 'marking', 'crossing', 'nesting', 'spelling', 'tooling', 'dumping', 'loading', 'rounding', 'lighting', 'starting', 'finishing']);
 
 interface Finding {
@@ -253,7 +253,7 @@ function tokens(source: string, ext: string): Token[] {
   };
   while (i < source.length) {
     const rest = source.slice(i, i + 3);
-    if (slash && (rest.startsWith('/*') || rest.startsWith('{#'))) {
+    if ((slash && rest.startsWith('/*')) || (ext === '.twig' && rest.startsWith('{#'))) {
       const close = rest.startsWith('{#') ? '#}' : '*/';
       const open = rest.startsWith('/**') ? 3 : 2;
       const end = source.indexOf(close, i + open);

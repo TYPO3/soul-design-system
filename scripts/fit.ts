@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /* Does every card fit the viewport its @dsCard line declares?
 
-   The card is rendered at its declared width with the height unconstrained and
-   asked how tall its content is. Over the declared height the product card
-   crops it — a modal losing its buttons — and too much slack is dead space.
+   The card renders at its declared width with the height unconstrained, and
+   the question is how tall its content is. Over the declared height the
+   product card crops it, and too much slack is dead space.
 
-   Height is not the only way to lose content: a cell with `overflow: hidden`
+   Height is not the only way to lose content. A cell with `overflow: hidden`
    silently cuts whatever is wider than it inside a card of correct height. So
-   every element that clips is asked whether anything is clipped — only those,
-   since content painting outside a `visible` box is ordinary. */
+   every element that clips answers if anything falls outside it — only those,
+   since content that paints outside a `visible` box is ordinary. */
 import { cards, screens, type Card, type Screen } from './lib/cards.ts';
 import { openCard, withPage } from './lib/browser.ts';
 import * as report from './lib/report.ts';
@@ -17,28 +17,24 @@ import * as report from './lib/report.ts';
     thing that tells them apart here, so it is the discriminator. */
 const isScreen = (c: Card | Screen): c is Screen => 'section' in c;
 
-/* Nothing. A card is padded by `.spec-pad` and the measurement reads the
-   bottom of that padding, so a card whose declared height is its content has
-   the same air below as above — and any pixel over that is air on one side
-   only. It is a note rather than a failure: over-declaring crops nothing. */
 /* Nothing. The measurement reads the bottom of `.spec-pad`, so a card whose
-   declared height is its content has the same air below it as above, and any
-   pixel past that is air on one side only. A note rather than a failure:
-   over-declaring crops nothing, it just draws the card off-centre. */
+   declared height is its content has the same air below it as above. Any
+   pixel past that is air on one side only. A note rather than a failure: an
+   over-declared height crops nothing, it just draws the card off-centre. */
 const SLACK = 0;
 const list = [...cards(), ...screens()];
 
 const results = await withPage(async ({ map }) =>
   map(list, async (page, card) => {
-    /* A card is a fragment: render it tall and ask how much it actually
-       fills, so an over-declared height shows up as slack. A screen is a
-       whole page, usually with min-height:100vh — measured that way it would
-       always report the tall viewport back. For screens the question is
-       different anyway: does the page overflow the size it declares? */
-    /* A screen is a whole page and a page scrolls, so height here would only
-       ever mean "longer than one viewport", which is not a fault. Width is the
-       question: a page wider than the screen it declares is broken at that
-       size, and `tests/pages.spec.ts` measures the rest. */
+    /* A card is a fragment: render it tall and ask how much it fills, so an
+       over-declared height shows up as slack. A screen is a whole page,
+       usually with min-height:100vh — measured that way it always reports
+       the tall viewport back. For screens the question is different anyway:
+       does the page overflow the size it declares? */
+    /* A screen is a whole page and a page scrolls. Height here only ever
+       means "longer than one viewport", which is not a fault. Width is the
+       question: a page wider than the screen it declares fails at that size,
+       and `tests/pages.spec.ts` measures the rest. */
     if (isScreen(card)) {
       await openCard(page, card);
       const wide = await page.evaluate(() =>
@@ -55,11 +51,10 @@ const results = await withPage(async ({ map }) =>
         if (r.width > 0 && r.height > 0) bottom = Math.max(bottom, r.bottom);
       }
       /* Down, not up. Content rarely ends on a whole pixel — a pane of two
-         rows measures 229.28 — and a card declaring the ceiling of that leaves
-         the fraction showing under whatever painted last, which on a card of
-         edge-to-edge bands is a line of the canvas below the final band.
+         rows measures 229.28. A card that declares the ceiling of that leaves
+         the fraction visible under whatever painted last, a line of canvas.
          Declared down, the last thing painted runs a fraction past the edge
-         and covers it, and nothing a reader could see is lost. */
+         and covers it, and nothing a reader can see goes. */
       return Math.floor(Math.max(bottom, d.scrollHeight === 2400 ? 0 : d.scrollHeight));
     });
     const clipped = await page.evaluate(() => {
@@ -92,9 +87,9 @@ for (const { card, content, clipped, wide } of results) {
   }
   for (const hit of clipped ?? []) cropped.push(`${card.rel}: clipped — ${hit}`);
 }
-/* The names in the facts line rather than under it: the gate keeps a passing
-   child's first line and drops the rest, so a count with the cards left out is
-   a finding only whoever runs this task alone would ever see. */
+/* The names in the facts line rather than under it. The gate keeps a passing
+   child's first line and drops the rest. A count with the cards left out is a
+   finding only whoever runs this task alone ever sees. */
 report.summary(
   `${list.length} cards and screens · ${slack.length ? `air under ${slack.join(', ')}` : 'none carrying air under them'}`,
   cropped,

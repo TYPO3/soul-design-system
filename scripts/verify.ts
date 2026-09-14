@@ -1,15 +1,14 @@
 #!/usr/bin/env node
-/* The repo's own gate. Run it before shipping anything.
+/* The repo's own gate. Run it before you ship anything.
 
-   Each check has a name and `--help` lists them; naming any runs only those —
-   `make verify ARGS="refs fit"`. A partial run says so in its last line and
-   never claims consistency, and an unrecognised name is an error: a filtered
-   run that silently checked nothing reads exactly like a clean one.
+   Each check has a name and `--help` lists them. A name on the command line
+   runs only that check: `make verify ARGS="refs fit"`. A partial run says so
+   in its last line and never claims consistency. An unknown name is an error,
+   because a filtered run that checked nothing in silence reads like a clean one.
 
    A check is one row: its verdict, its numbers, and what it found only when
    it found something. What a child task reports is the contract in
-   `lib/report.ts` — never a substring of its prose, which is how `fit` once
-   passed its summary line to nobody. */
+   `lib/report.ts`, never a substring of its prose. */
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
@@ -19,7 +18,7 @@ import { FRONTEND, cards, ROOT, screens } from './lib/cards.ts';
 import { definedClasses, stylesheets } from './lib/css.ts';
 import * as report from './lib/report.ts';
 
-/** The marker has to be the very first line, so that is what is tested. */
+/** The marker has to be the very first line, so that is what the test reads. */
 const firstLine = (text: string): string => text.split('\n', 1)[0] ?? '';
 const ENTITY_RE = /&(?:#[0-9]+|#x[0-9a-f]+|[a-z][a-z0-9]+);/i;
 
@@ -43,7 +42,7 @@ function definedEvents(): Set<string> {
   return events;
 }
 
-/** What is read as instruction: the root files, the manual, and what a package
+/** What counts as instruction: the root files, the manual, and what a package
     carries into its own repository. Not `.design-sync/conventions.md` — the
     `conventions` check holds that one against the built bundle, which is the
     same question asked harder. */
@@ -64,9 +63,9 @@ function documents(): string[] {
   return out;
 }
 /** Every token whose value is a plain measurement, resolved through whatever
-    chain of `var()` it is written as. A colour, a shadow or a font stack is
-    not a number and is left out — what drifts is the figure a sentence quotes
-    beside the name. */
+    chain of `var()` it consists of. A colour, a shadow or a font stack is not
+    a number and stays out. What drifts is the figure a sentence quotes beside
+    the name. */
 function tokenValues(): Map<string, string> {
   const raw = new Map<string, string>();
   const dir = join(FRONTEND, 'src', 'tokens');
@@ -88,9 +87,9 @@ function tokenValues(): Map<string, string> {
   return out;
 }
 
-/** Where a figure is written beside a token name. Sources as well as
-    documents: a comment quoting a size drifts exactly like a sentence does,
-    and nothing renders either. */
+/** Where a figure stands beside a token name. Sources and documents both: a
+    comment that quotes a size drifts exactly like a sentence does, and
+    nothing renders either. */
 function quoting(): string[] {
   const out = documents();
   const walk = (dir: string): void => {
@@ -136,7 +135,7 @@ function child(script: string, ...args: string[]): Result {
 }
 
 interface Check {
-  /** How it is asked for: `make verify ARGS=classes`. */
+  /** How a caller asks for it: `make verify ARGS=classes`. */
   name: string;
   /** What it holds, in its row and in `--help`. */
   label: string;
@@ -146,13 +145,12 @@ interface Check {
 }
 
 /* Every check, in the order the gate runs them. Nothing here reads a value
-   another one computed — a check is the unit that can be run alone. */
+   another one computed — a check is the unit that can run alone. */
 const CHECKS: readonly Check[] = [
-  /* What is generated from an npm package. All of it is committed now — a
-     package is packed from a checkout — so this is no longer about a clone
-     that skipped `npm ci`, but about a tree where a generator half ran or
-     something was deleted. Empty, every card renders in system-ui with no
-     glyph to draw from, which looks like a design bug and is not one. */
+  /* What comes out of an npm package. All of it is in git now, as a package
+     packs from a checkout. So this is about a tree where a generator half ran
+     or a file went. Empty, every card renders in system-ui with no glyph to
+     draw from, which looks like a design bug and is not one. */
   {
     name: 'assets',
     label: 'the generated fonts and icons are there',
@@ -166,26 +164,26 @@ const CHECKS: readonly Check[] = [
       for (const [dir, script] of GENERATED) {
         const n = existsSync(join(FRONTEND, dir)) ? readdirSync(join(FRONTEND, dir)).length : 0;
         counts.push(`${n} ${dir}`);
-        if (n === 0) problems.push(`${dir}/ is empty or missing — run \`${script}\``);
+        if (n === 0) problems.push(`${dir}/ is empty or absent — run \`${script}\``);
       }
       return { facts: counts.join(' · '), problems };
     },
   },
 
-  /* The drawings' viewBoxes and shapes are read out of the files into two
-     modules. A recomposed drawing that did not go through `make diagrams`
-     ships a wrapper sized to the old coordinate system — squashed by a
-     fraction, and nothing else would notice. */
+  /* The drawings' viewBoxes and shapes come out of the files into two
+     modules. A redrawn drawing that did not go through `make diagrams` ships
+     a wrapper sized to the old coordinate system. Squashed by a fraction, and
+     nothing else notices. */
   {
     name: 'diagrams',
     label: 'the modules match the drawings',
     run: () => ({ ...child('scripts/diagrams.ts', '--check'), fix: 'make diagrams' }),
   },
 
-  /* A code block is coloured twice — by highlight.js in the page and by its
-     PHP port on the way out — and the languages neither ships are written
-     once, here, and copied to the theme that registers them. Out of step, a
-     block changes colour the moment its script runs. */
+  /* A code block gets its colour twice: from highlight.js in the page and
+     from its PHP port on the way out. The languages neither ships stand once,
+     here, with a copy in the theme that registers them. Out of step, a block
+     changes colour the moment its script runs. */
   {
     name: 'grammars',
     label: 'the theme’s grammars match the written ones',
@@ -194,9 +192,8 @@ const CHECKS: readonly Check[] = [
 
   /* A tree points at its mark from `guides.xml`, and the file has to sit beside
      the documents for the renderer to carry it. That copy is the one place the
-     wrong optical size can get in without anything noticing: a signet named
-     for 16 and drawn at 24 is scaled by 1.5, and every edge in it lands on a
-     half pixel. */
+     wrong optical size can get in unseen. A signet named for 16 and drawn at
+     24 scales by 1.5, and every edge in it lands on a half pixel. */
   {
     name: 'marks',
     label: 'the documents’ marks match the drawings',
@@ -225,12 +222,9 @@ const CHECKS: readonly Check[] = [
   },
 
   /* A page embeds a card at a size it states itself, and the card states its
-     own in `@dsCard`. Nothing ties the two together, so a card that grows keeps
-     rendering into the old box — cropped on the page and correct in the pane,
-     which is the worst way to be wrong. Three had already drifted when this was
-     first written, against the MDX pages the documentation was then; it read
-     those long after the last one became reStructuredText, which is to say it
-     guarded nothing. */
+     own in `@dsCard`. Nothing ties the two together. So a card that grows keeps
+     its render in the old box: cropped on the page and correct in the pane.
+     That is the worst way to be wrong. */
   {
     name: 'heights',
     label: 'the specimens match the cards they embed',
@@ -256,7 +250,7 @@ const CHECKS: readonly Check[] = [
           const vp = /:viewport:\s*(\d+x\d+)/.exec(options)?.[1] ?? DEFAULT_VIEWPORT;
           const want = declared.get(src);
           if (!want) problems.push(`${relative(ROOT, page)}: embeds ${src}, which is not a generated card`);
-          else if (want !== vp) problems.push(`${relative(ROOT, page)}: ${src} is embedded at ${vp}, the card declares ${want}`);
+          else if (want !== vp) problems.push(`${relative(ROOT, page)}: embeds ${src} at ${vp}, the card declares ${want}`);
         }
       }
       return { facts: `${embedded} embedded`, problems };
@@ -270,9 +264,9 @@ const CHECKS: readonly Check[] = [
       const defined = definedClasses();
       const problems: string[] = [];
       /* Every class in every card and screen, against the stylesheets, with no
-         exemption. A `<style>` block whose names counted as defined would be
-         the escape hatch a page's own layout goes through, and a name in one is
-         a name no other surface can use. */
+         exemption. A `<style>` block whose names count as defined is the
+         escape hatch a page's own layout goes through. A name in one is a name
+         no other surface can use. */
       const used = new Map<string, string[]>();
       for (const c of all) {
         if (c.text.includes('<style>')) {
@@ -304,10 +298,10 @@ const CHECKS: readonly Check[] = [
         }
       }
       /* Names that are markers rather than hooks. `language-*` is the fence's
-         grammar, written onto the `<code>` the way every Markdown renderer
-         writes it: it says what the block is for anything reading the DOM, and
-         the colour is on the `hljs-` spans inside. There is nothing for it to
-         be defined as — the one class here deliberately not a style. */
+         grammar, on the `<code>` the way every Markdown renderer writes it. It
+         says what the block is for anything that reads the DOM, and the colour
+         is on the `hljs-` spans inside. No definition fits it — the one class
+         here that is deliberately not a style. */
       const MARKERS = [/^language-[\w-]+$/];
 
       for (const [cls, where] of [...used].sort()) {
@@ -320,31 +314,30 @@ const CHECKS: readonly Check[] = [
     },
   },
 
-  /* The other direction of the same rule. `classes` catches a name that is
-     used and not defined; this catches one that is defined and never drawn, an
-     element with no story, and an implementation that builds a page out of
+  /* The other direction of the same rule. `classes` catches a name in use
+     with no definition. This catches one with a definition and no drawing, and
+     an element with no story. And an implementation that builds a page out of
      names of its own. See scripts/coverage.ts for what each surface proves. */
   {
     name: 'coverage',
-    label: 'every component is shown',
+    label: 'every component has its three places',
     run: () => child('scripts/coverage.ts'),
   },
 
-  /* The same question one layer down, and in the other language: a node the
-     theme renders is rendered twice, once as the page and once as the twin,
-     and a mapping that never reaches its node reads as a page that merely
-     came out plain. See scripts/formats.ts for both failures. */
+  /* The same question one layer down, and in the other language. A node the
+     theme renders renders twice, once as the page and once as the twin. A
+     mapping that never reaches its node reads as a page that merely came out
+     plain. See scripts/formats.ts for both failures. */
   {
     name: 'formats',
-    label: 'every node the theme renders is written in both formats',
+    label: 'every node the theme renders has a page and a twin',
     run: () => child('scripts/formats.ts'),
   },
 
   /* The third direction: a name a document writes. Prose is where a name
-     outlives the code that had it — nothing renders it, so nothing breaks —
-     and a page naming an element the registry has never heard of teaches a
-     reader to write markup that stays inert. `conventions` asked this of one
-     file; every other document was unheld. */
+     outlives the code that had it, as nothing renders it and nothing breaks.
+     A page that names an element the registry has never heard of teaches a
+     reader to write markup that stays inert. */
   {
     name: 'names',
     label: 'every sds- name a document writes exists',
@@ -353,10 +346,9 @@ const CHECKS: readonly Check[] = [
       for (const tag of TAGS) defined.add(tag);
       for (const event of definedEvents()) defined.add(event);
       const docs = documents();
-      /* `sds-x__y` is how the rule about part names is stated, about no
-         component in particular. A confval's `:name:` is spelt out of the
-         element and the property it documents — an anchor, not a name the
-         system defines. */
+      /* `sds-x__y` is how the rule about part names reads, about no component
+         in particular. A confval's `:name:` comes from the element and the
+         property it documents — an anchor, not a name the system defines. */
       const used = new Map<string, string[]>();
       for (const path of docs) {
         const rel = relative(ROOT, path);
@@ -372,17 +364,15 @@ const CHECKS: readonly Check[] = [
       const problems: string[] = [];
       for (const [name, where] of [...used].sort()) {
         if (defined.has(name)) continue;
-        problems.push(`"${name}" is written in ${where.join(', ')} and is neither a class nor an element`);
+        problems.push(`"${name}" appears in ${where.join(', ')} and is neither a class nor an element`);
       }
       return { facts: `${used.size} names · ${docs.length} documents`, problems };
     },
   },
 
-  /* The fourth direction, and the one nothing else could see. A number
-     written beside a token name is a copy of that token, and the only copy no
-     task regenerates: a card captioned `--font-size-body 17` outlived the
-     token by two changes, and a comment explaining a 15px button outlived it
-     by more. The name is what ties them, so the name is what this reads. */
+  /* The fourth direction, and the one nothing else can see. A number beside
+     a token name is a copy of that token, and the only copy no task
+     regenerates. The name is what ties them, so the name is what this reads. */
   {
     name: 'values',
     label: 'every figure quoted beside a token is the token’s',
@@ -391,8 +381,8 @@ const CHECKS: readonly Check[] = [
       const files = quoting();
       /* A number that follows the name across nothing but space and the
          separators a caption uses. No colon, which is a declaration rather
-         than a quotation; nothing after the figure but the end of it, so a
-         paired caption naming two tokens and two numbers is left alone; and
+         than a quotation. Nothing after the figure but the end of it, so a
+         paired caption with two tokens and two numbers stays as it is. And
          `var(--x)` is a use rather than a quotation. */
       const quoted = /(?<!var\()(--[a-z0-9-]+)(?![a-z0-9-])[ \t·,]{0,3}(-?\d+(?:\.\d+)?)\s*(px|em|ms)?(?![\w-])(?!\s*[/×*])/g;
       const problems: string[] = [];
@@ -429,7 +419,7 @@ const CHECKS: readonly Check[] = [
           if (!ref || /^(https?:|data:|#)/.test(ref)) continue;
           refs++;
           /* A fragment names something inside the file, not a second file: a
-             referenced drawing is written `…/mark.svg#soul-ref`. */
+             referenced drawing reads `…/mark.svg#soul-ref`. */
           if (!existsSync(resolve(dirname(c.path), ref.replace(/#.*$/, '')))) {
             problems.push(`${c.rel}: ${ref} does not resolve`);
           }
@@ -440,14 +430,14 @@ const CHECKS: readonly Check[] = [
   },
 
   /* Every component is a property set, and its own declarations read that set
-     and nothing else. A value reaching a declaration past the set is how
+     and nothing else. A value that reaches a declaration past the set is how
      `line-height: 1.55` ends up in one component and `--leading-body` in every
-     other — and it is the difference between a surface retheming one instance
-     by setting a property and one writing a class this system never heard of.
+     other. It is the difference between a surface that sets a property for
+     one instance and one that writes a class this system never heard of.
 
-     Two things are read straight because they are the system's and not the
-     component's: the focus ring, which is one ring, and the colours that mean
-     something — a component able to re-point those could draw an error green.
+     Two things read straight because they are the system's and not the
+     component's. The focus ring, which is one ring, and the colours that mean
+     something. A component that can re-point those can draw an error green.
      Two files are not a component at all and say so here. */
   {
     name: 'sets',
@@ -471,16 +461,16 @@ const CHECKS: readonly Check[] = [
         const css = readFileSync(join(dir, file), 'utf8');
         const own = new Set([...css.matchAll(/^\s*(--sds-[a-z0-9-]+)\s*:/gm)].map((m) => m[1] as string));
         /* Only what the component draws. A file opens `@layer base` as well, to
-           state the flow contract its element and its class share, and that step
+           state the flow contract its element and its class share. That step
            is the system's own value rather than anything this component set. */
         const drawnOnly = css.split('@layer components {').slice(1).join('@layer components {');
         for (const line of drawnOnly.split('\n')) {
           const text = line.trim();
           if (!text || text.startsWith('/*') || text.startsWith('*')) continue;
-          /* Assignments are where the set is built, and one may share a line
-             with the selector it is written on. Taken out before the rest is
-             read, or `.sds-panel { --fill: var(--surface-raised); }` reads as a
-             declaration reaching past its own set. */
+          /* Assignments are where the set takes shape, and one can share a line
+             with its selector. Taken out before the rest, or `.sds-panel {
+             --fill: var(--surface-raised); }` reads as a declaration that
+             reaches past its own set. */
           const drawn = text.replace(/--[a-z][a-z0-9-]*\s*:[^;}]*;?/g, '');
           for (const m of drawn.matchAll(/var\((--[a-z0-9-]+)/g)) {
             const name = m[1] as string;
@@ -495,11 +485,11 @@ const CHECKS: readonly Check[] = [
   },
 
   /* The widths the design changes at, against the page that names them. There
-     is no way to write a breakpoint once — a media query reads no custom
-     property — so the set is prose and the stylesheets repeat it, which is
+     is no way to write a breakpoint once, as a media query reads no custom
+     property. So the set is prose and the stylesheets repeat it, which is
      exactly the drift this asks about. A sixth width is a state of the layout
-     nobody described and nothing selects; a named one nothing uses is a band
-     that was removed in one place. */
+     nobody described and nothing selects. A named one nothing uses is a band
+     that went in one place. */
   {
     name: 'breakpoints',
     label: 'every width the layer changes at is a width a document names',
@@ -525,7 +515,7 @@ const CHECKS: readonly Check[] = [
         }
       }
       for (const at of [...named].sort((a, b) => b - a)) {
-        if (!used.has(at)) problems.push(`${at}px is named in docs/frontend/layout.rst and no stylesheet uses it`);
+        if (!used.has(at)) problems.push(`docs/frontend/layout.rst names ${at}px and no stylesheet uses it`);
       }
       return { facts: `${used.size} width(s) · ${named.size} named`, problems };
     },
@@ -547,35 +537,35 @@ const CHECKS: readonly Check[] = [
 
   /* A release is one tag and one version. Packagist reads the theme's off that
      tag, npm reads the frontend's out of a manifest, and the site renders its
-     own into a footer — so the number is written down in several files, and
-     this is what keeps the copies from drifting into a published version
-     nobody meant. The rendered one is the copy a reader actually sees. */
+     own into a footer. So the number stands in several files, and this is
+     what keeps the copies from a drift into a published version nobody meant.
+     The rendered one is the copy a reader sees. */
   {
     name: 'version',
     label: 'this tree names one version',
     run: () => ({ ...child('scripts/release.ts', '--check'), fix: 'make release ARGS=<version>' }),
   },
 
-  /* The drop-in is committed, so it can go stale against its own source. */
+  /* The drop-in is in git, so it can go stale against its own source. */
   {
     name: 'dist',
     label: 'the committed drop-in matches its source',
     run: () => ({ ...child('scripts/dist.ts', '--check'), fix: 'make dist, and commit it' }),
   },
 
-  /* The theme is published as a package of its own, assembled rather than
-     split out of the history — it has to contain the drop-in, which does not
-     live in `guides-theme/`. Assembling it here is what keeps a renamed
-     template or a moved file from being found at release time. */
+  /* The theme ships as a package of its own, assembled rather than split out
+     of the history. It has to contain the drop-in, which does not live in
+     `guides-theme/`. Assembled here, a renamed template or a moved file shows
+     up now and not at release time. */
   {
     name: 'split',
     label: 'each package assembles into something installable',
     run: () => ({ ...child('scripts/split.ts', '--check'), fix: 'make split ARGS=--check' }),
   },
 
-  /* The cards are generated from their stories. A card edited by hand looks
-     fine in review and is silently reverted by the next `make cards` — so a
-     stale card is a failure, not a warning. */
+  /* The cards come from their stories. A card edited by hand looks fine in
+     review, and the next `make cards` reverts it in silence. So a stale card
+     is a failure, not a warning. */
   {
     name: 'cards',
     label: 'every card matches its story, and has one',
@@ -583,7 +573,7 @@ const CHECKS: readonly Check[] = [
   },
 
   /* Types are the contract the components and the card generator share. Node
-     strips them without checking them, so nothing else would ever notice. */
+     strips them and checks nothing, so nothing else ever notices. */
   {
     name: 'types',
     label: 'the contract the components and the generator share',
@@ -592,26 +582,26 @@ const CHECKS: readonly Check[] = [
       const lines = (tsc.stdout ?? '').trim().split('\n').filter(Boolean);
       if (tsc.status === 0) return { facts: 'no type errors' };
       /* Ten is enough to see the shape of a break; the count says what is
-         behind them, so nothing is dropped without saying so. */
+         behind them, so nothing goes unsaid. */
       const shown = lines.slice(0, 10);
       if (lines.length > shown.length) shown.push(`… and ${lines.length - shown.length} more — run \`make typecheck\``);
       return { facts: `${lines.length} type error(s)`, problems: shown };
     },
   },
 
-  /* The stylesheets have a written shape — `docs/frontend/stylesheets.rst` —
-     and this is the part of it a rule can hold: the safety rules, the indent,
-     and the colour-literal ban outside `tokens/`. */
+  /* The stylesheets have a written shape, `docs/frontend/stylesheets.rst`.
+     This is the part of it a rule can hold: the safety rules, the indent, and
+     the colour-literal ban outside `tokens/`. */
   {
     name: 'css',
     label: 'the stylesheets against their shape',
     run: () => ({ ...child('scripts/css.ts', '--check'), fix: 'make css' }),
   },
 
-  /* The renderer is written in PHP, and nothing else here reads it. Without
-     this the one part of the repository in another language is also the one
-     part with no shape agreed on — and a theme meant to be read by people
-     who work on TYPO3 every day is the last place to invent a house style. */
+  /* The renderer is PHP, and nothing else here reads it. Without this the one
+     part of the repository in another language is also the one part with no
+     agreed shape. A theme for people who work on TYPO3 every day is the last
+     place to invent a house style. */
   {
     name: 'php',
     label: 'the theme’s sources against the coding standard',
@@ -644,8 +634,8 @@ if (asked.includes('--help') || asked.includes('-h')) {
   process.exit(0);
 }
 
-/* An unknown name stops the run. Skipping it would leave a filtered run that
-   checked less than it was asked to and still printed a tick. */
+/* An unknown name stops the run. Skipped, it leaves a filtered run that
+   checked less than the caller asked for and still printed a tick. */
 const unknownName = asked.find((a) => !CHECKS.some((c) => c.name === a));
 if (unknownName) {
   report.open('verify', 'the gate');
@@ -659,15 +649,15 @@ const selected = asked.length ? CHECKS.filter((c) => asked.includes(c.name)) : C
 
 report.open('verify', asked.length ? `${selected.map((c) => c.name).join(', ')} — not the gate` : 'the gate');
 
-/* `conventions` reads the assembled bundle, so it is what makes the build run
-   — and it runs here rather than inside the check, so the full gate prints in
-   the order it always has. */
+/* `conventions` reads the assembled bundle, so it is what makes the build run.
+   The build runs here rather than inside the check, so the full gate prints
+   in the order it always has. */
 if (selected.some((c) => c.bundle)) {
   const built = child('scripts/build.ts');
   report.row(built.problems ? 'bad' : 'ok', 'bundle', 'assembled, for the checks that read it', built.facts);
   if (built.problems) {
     for (const p of built.problems) report.detail(p);
-    report.close('bad', 'the bundle did not build — nothing below it can be trusted');
+    report.close('bad', 'the bundle did not build — nothing below it is reliable');
     process.exit(1);
   }
 }

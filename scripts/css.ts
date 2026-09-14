@@ -6,7 +6,7 @@
 
    Biome carries the form and the safety rules — `biome.json` scopes it to the
    handwritten sheets. The one rule it does not have is this system's own and
-   is checked here: no colour literal outside `tokens/`. An exception writes
+   lives here: no colour literal outside `tokens/`. An exception writes
    `colour-literal:` and its reason on the line above. */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -30,7 +30,7 @@ const out = `${run.stdout ?? ''}\n${run.stderr ?? ''}`;
 const problems: string[] = [];
 
 /* Biome's summary counts; its diagnostics name file and position. Only those
-   lines are kept — the framed diffs are what `make css` is for. */
+   lines stay — the framed diffs are what `make css` is for. */
 const checked = /Checked (\d+) file/.exec(out)?.[1] ?? '?';
 for (const line of out.split('\n')) {
   const m = /^(?:::error.*?::)?(.+\.css):(\d+):\d+\s+(?:lint|format|parse)\S*\s+(.*)$/.exec(line.trim());
@@ -43,7 +43,7 @@ if (run.status !== 0 && !problems.length) {
 
 /* The system's own rules — see AGENTS.md for both. A mask and a knockout
    glyph are alpha and blend tricks rather than colours, and each says so
-   where it stands; a comment is five lines, ten for the one at the top. */
+   where it stands. A comment is five lines, ten for the one at the top. */
 const sheets = (dir: string): string[] => readdirSync(dir, { withFileTypes: true })
   .flatMap((e) => (e.isDirectory() ? sheets(join(dir, e.name)) : e.name.endsWith('.css') ? [join(dir, e.name)] : []));
 let literals = 0;
@@ -79,5 +79,5 @@ report.summary(
   check ? `${checked} files · ${literals} stated literal(s) · ${problems.length} problem(s)` : `${checked} files formatted · ${problems.length} problem(s) left`,
   problems,
 );
-if (check && problems.length) report.detail(report.dim('run `make css`, and by hand whatever it could not fix'));
+if (check && problems.length) report.detail(report.dim('run `make css`, and by hand whatever it cannot fix'));
 process.exit(problems.length ? 1 : 0);

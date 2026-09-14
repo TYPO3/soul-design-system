@@ -3,7 +3,7 @@
 
    Used as the refactor safety net: capture a baseline, change things,
    capture again, `make diff`. A card whose pixels moved is a card whose
-   meaning may have moved with it.
+   meaning can have moved with it.
 
      node scripts/shoot.ts [outdir]
 */

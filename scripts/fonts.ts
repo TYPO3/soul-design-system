@@ -2,10 +2,10 @@
 /* Materialise fonts/ from the @fontsource-variable packages.
 
    The brand faces are a dependency, not a checked-in binary: npm owns the
-   version and `fonts/` is generated. It still has to be real files on disk,
+   version and `fonts/` is output. It still has to be real files on disk,
    because a rendered design resolves `styles.css` and cannot reach into
    node_modules. Only the styles and subsets this system uses, and only woff2.
-   Run by the container entrypoint whenever `fonts/` is missing.
+   The container entrypoint runs it whenever `fonts/` is absent.
 
      make fonts
 */
@@ -43,13 +43,13 @@ for (const { pkg, family, styles } of FAMILIES) {
   const slug = pkg.split('/')[1];
   for (const style of styles) {
     /* The complete stylesheet carries unicode-range; the per-subset files
-       omit it. The ranges keep the browser from fetching both subsets. */
+       omit it. The ranges stop the browser from a fetch of both subsets. */
     const cssName = `wght${style === 'italic' ? '-italic' : ''}.css`;
     let css;
     try {
       css = readFileSync(join(base, cssName), 'utf8');
     } catch {
-      throw new Error(`${pkg}/${cssName} is missing — does that style exist upstream?`);
+      throw new Error(`${pkg}/${cssName} is absent — does that style exist upstream?`);
     }
     for (const subset of SUBSETS) {
       const fileName = `${slug}-${subset}-wght-${style}.woff2`;
@@ -85,7 +85,7 @@ ${versions}
 
    Both families are SIL Open Font License 1.1; the licence text ships
    beside this file. Latin and latin-ext, variable woff2 only. Regenerate with
-   \`make fonts\` after changing the face list in the script. */
+   \`make fonts\` after a change to the face list in the script. */
 
 ${blocks.join('\n\n')}
 `);

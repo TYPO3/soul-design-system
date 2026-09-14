@@ -4,11 +4,11 @@
      make release ARGS=0.2.0     write it into every file that carries it
      make release ARGS=--check   the gate: do they all still say the same
 
-   A release is a tag here, and both packages take it: the mirrors carry the
+   A release is a tag here, and both packages take it. The mirrors carry the
    tag over, Packagist reads the theme's version straight off it, and npm reads
-   the frontend's out of a manifest instead — which is why the number is
-   written down at all, and why the copies are held against each other.
-   Nothing is committed: git is not in the image, and a release is a decision. */
+   the frontend's out of a manifest instead. That is why the number stands
+   in a file at all, and why the copies check against each other. No commit
+   happens here: git is not in the image, and a release is a decision. */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -17,9 +17,9 @@ import * as report from './lib/report.ts';
 
 type Json = Record<string, unknown>;
 
-/** Every place the version is written, and the path to it. The lock file names
-    it three times — its own, the workspace root's, and the one package in it —
-    and `npm ci` refuses to install against a lock that disagrees. */
+/** Every place the version stands, and the path to it. The lock file names it
+    three times: its own, the workspace root's, and the one package in it.
+    `npm ci` refuses to install against a lock that disagrees. */
 const PLACES: readonly { file: string; path: readonly string[] }[] = [
   { file: 'package.json', path: ['version'] },
   { file: 'package-lock.json', path: ['version'] },
@@ -29,14 +29,14 @@ const PLACES: readonly { file: string; path: readonly string[] }[] = [
 ];
 
 /** And the one outside a manifest. The site renders it into its footer, so it
-    is the copy of this number a reader actually sees — and the only one that
-    would still say `-dev` on the day the release is announced. */
+    is the copy of this number a reader sees. It is also the only one that
+    still says `-dev` on the day of the release announcement. */
 const RENDERED: readonly { file: string; where: string; re: RegExp }[] = [
   { file: 'docs/guides.xml', where: 'project version', re: /(<project\b[^>]*\bversion=")([^"]*)(")/ },
 ];
 
-/** The theme takes its version from the tag and must not carry one of its own:
-    a field here is a second number, and the one nothing regenerates. */
+/** The theme takes its version from the tag and must not carry one of its own.
+    A field here is a second number, and the one nothing regenerates. */
 const THEME = 'packages/guides-theme/composer.json';
 
 const SEMVER = /^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?$/;
@@ -58,11 +58,11 @@ const inside = (path: readonly string[]): string => path.reduce(
   (text, step, i) => (i === 0 ? step : i === path.length - 1 ? `${text}.${step}` : `${text}[${JSON.stringify(step)}]`), '');
 const spot = ({ file, path }: { file: string; path: readonly string[] }): string => `${file} → ${inside(path)}`;
 
-/** How the tag is spelt. The manifests carry the number, the tag carries a `v`
-    in front of it, and a release is the two saying the same thing. */
+/** The tag's spelling. The manifests carry the number, the tag carries a `v`
+    in front of it, and a release is the two that say the same thing. */
 const tagged = (version: string): string => `v${version}`;
 
-/** Newer, in the one direction a release may go. A prerelease sorts under the
+/** Newer, in the one direction a release can go. A prerelease sorts under the
     version it leads to, which is what takes 0.1.0-dev to 0.1.0. */
 function newer(next: string, than: string): boolean {
   const [, a1 = '0', a2 = '0', a3 = '0', pre = ''] = SEMVER.exec(next) ?? [];
@@ -76,8 +76,8 @@ function newer(next: string, than: string): boolean {
 const argv = process.argv.slice(2);
 
 /* Which files a release touches, for the host to stage. One name per line and
-   nothing else: `make release` reads this, so the list lives here rather than
-   being spelt a second time in the Makefile. */
+   nothing else: `make release` reads this, so the list lives here and not a
+   second time in the Makefile. */
 if (argv.includes('--paths')) {
   for (const file of new Set([...PLACES, ...RENDERED].map((p) => p.file))) console.log(file);
   process.exit(0);
@@ -106,7 +106,7 @@ if (argv.includes('--check')) {
   for (const place of RENDERED) {
     const value = place.re.exec(readFileSync(join(ROOT, place.file), 'utf8'))?.[2];
     const wrong = value === undefined
-      ? `${place.file} → ${place.where} is not there — the site would render without one`
+      ? `${place.file} → ${place.where} is not there — the site renders without one`
       : SEMVER.test(value) ? '' : `${place.file} → ${place.where} is "${value}", which is not a version`;
     if (value !== undefined) found.add(value);
     if (wrong) problems.push(wrong);
@@ -144,7 +144,7 @@ if (!SEMVER.test(asked)) {
   process.exit(1);
 }
 if (!newer(asked, current)) {
-  report.bad(`${asked} is not newer than ${current} — a released version is never rewritten`);
+  report.bad(`${asked} is not newer than ${current} — a released version never changes`);
   process.exit(1);
 }
 
@@ -173,6 +173,6 @@ for (const place of RENDERED) {
   report.row('ok', place.file, place.where, `${was} → ${asked}`);
 }
 
-/* What happens to these files is the host's half of `make release` — it has the
+/* What happens to these files is the host's half of `make release`. It has the
    git this image does not, and it says what it did when it has done it. */
-report.close('ok', `${asked} is written into every file that carries it, and nothing is committed here`);
+report.close('ok', `${asked} stands in every file that carries it, and no commit happens here`);

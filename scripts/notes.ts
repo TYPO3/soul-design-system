@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-/* What the release page says, written from the commits it was cut from.
+/* What the release page says, written from the commits behind the tag.
 
-     make notes                 what the next release would say
+     make notes                 what the next release will say
      make notes ARGS=v0.1.1     what a tag said
 
-   The log arrives on stdin because git is not in this image — the split
-   `make release` already makes: the host has the history, the container turns
-   it into the document. `.github/workflows/ci.yml` pipes the same command into
-   the same script and hands the file to `gh release create`, so what a
+   The log arrives on stdin because git is not in this image. The same split
+   `make release` makes: the host has the history, the container turns it
+   into the document. `.github/workflows/ci.yml` pipes the same command into
+   the same script and hands the file to `gh release create`. So what a
    maintainer reads here is what the page will carry. */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -26,10 +26,10 @@ const FIELD = '\x1f';
 
 /** A tag this repository releases under, told apart from any other tag. */
 const RELEASED = /^v\d/;
-/** `<scope>: <sentence>`, which is how every commit here is written. */
+/** `<scope>: <sentence>`, which is the shape of every commit here. */
 const SCOPE = /^([a-z][a-z0-9-]*): (.+)$/;
 /** The version bump: what the tag points at, not something that changed. The
-    digit is the whole test — `release:` is a scope like any other, and only a
+    digit is the whole test. `release:` is a scope like any other, and only a
     subject that is a version is the commit `make release` wrote. */
 const BUMP = /^release: \d/;
 
@@ -50,10 +50,10 @@ interface Commit {
   text: string;
 }
 
-report.open('notes', 'what a release says on the page it is published to');
+report.open('notes', 'what a release says on its page');
 
 if (process.stdin.isTTY) {
-  report.bad(`the log is read from stdin — \`make notes\`, or \`${LOG} | node scripts/notes.ts\``);
+  report.bad(`the log comes from stdin — \`make notes\`, or \`${LOG} | node scripts/notes.ts\``);
   process.exit(1);
 }
 
@@ -70,7 +70,7 @@ const version = (asked ?? String(root['version'])).replace(/^v/, '');
 const tag = `v${version}`;
 
 /* Where the range starts. A tag that is not in the log yet is the normal case
-   on a desk — the notes are read before the release is cut — and the tip is
+   on a desk, as a maintainer reads the notes before the release. The tip is
    then whatever the branch is at. */
 const at = log.findIndex((commit) => commit.tags.includes(tag));
 const pending = at < 0;
@@ -88,10 +88,10 @@ const groups = new Map<string, Commit[]>();
 for (const commit of changes) groups.set(commit.scope, [...(groups.get(commit.scope) ?? []), commit]);
 const ordered = [...groups].sort(([a], [b]) => rank(a).localeCompare(rank(b)));
 
-/* Every package, as the command that installs it and the page it is published
-   to — read from the manifests rather than spelt here, so a package added to
+/* Every package, as the command that installs it and the page it ships to.
+   Read from the manifests rather than spelt here, so a package added to
    `PACKAGES` is a package this document already names. The frontend comes
-   first: it is the system, and the theme is one way of publishing with it. */
+   first: it is the system, and the theme is one way to publish with it. */
 const installs = PACKAGES.map((pkg) => {
   const dir = pkg.at(ROOT);
   if (!dir) return undefined;
@@ -127,7 +127,7 @@ const body = [
   ...installs.map((pkg) => pkg.command),
   '```',
   '',
-  'No install is needed for a page that only links files: `packages/frontend/dist/` in this tag is the',
+  'A page that only links files needs no install: `packages/frontend/dist/` in this tag is the',
   'drop-in — the stylesheet, the script and the faces beside them, copied somewhere public and linked.',
   '',
 ];
@@ -161,7 +161,7 @@ report.align([...changes.map((c) => ({ name: c.scope, label: c.text })),
 for (const [, commits] of ordered) for (const commit of commits) report.row('ok', commit.scope, commit.text, commit.sha);
 for (const commit of range.filter((c) => !changes.includes(c))) report.row('skip', commit.scope, commit.text, commit.sha);
 
-if (pending) report.note(`${tag} is not a tag here yet — this is what it would say, from the branch as it stands`);
-if (!changes.length) report.note(`nothing changed since ${previous || 'the first commit'} — the page would carry the install and the links alone`);
+if (pending) report.note(`${tag} is not a tag here yet — this is what it will say, from the branch as it stands`);
+if (!changes.length) report.note(`nothing changed since ${previous || 'the first commit'} — the page carries the install and the links alone`);
 
 report.close('ok', `${NOTES.replace(`${ROOT}/`, '')} — ${tag}${previous ? `, from ${previous}` : ''}`);

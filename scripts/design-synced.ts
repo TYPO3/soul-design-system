@@ -3,8 +3,8 @@
 
    Run this immediately after a successful upload, and only then. It promotes
    the anchor that was just pushed to the local cache, which is what `make
-   design-status` and `make design-plan` compare against. Skip it and both keep
-   answering from the previous upload — confidently and wrongly.
+   design-status` and `make design-plan` compare against. Skip it and both
+   still answer from the previous upload — with confidence, and wrong.
 
      make design-synced
 */

@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-/* Is every node the theme renders written in both formats, and does every
-   mapping reach the node it was written for?
+/* Does every node the theme renders have a page and a twin, and does every
+   mapping reach the node it stands for?
 
      make verify ARGS=formats
 
-   Two failures the render cannot report: a node mapped for the page and not
-   the twin renders its content without its shape, silently; and a renderer
-   supports the class it is mapped for *and everything below it*, so a
-   mapping under one of its own ancestors is never reached and a twin loses
-   its marks. Asked in PHP — the class hierarchy is what is being asked. */
+   Two failures the render cannot report. A node mapped for the page and not
+   the twin renders its content without its shape, in silence. A renderer
+   supports the class it maps *and everything below it*. So a mapping under
+   one of its own ancestors never runs and a twin loses its marks. Asked in
+   PHP — the class hierarchy is the question. */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -18,9 +18,9 @@ import * as report from './lib/report.ts';
 
 const THEME = join(ROOT, 'packages', 'guides-theme');
 
-/* The theme's own answer, asked of the theme: `prepend()` is where a node's
-   template is declared, so this reads what the renderer would be handed
-   rather than what the source looks like. */
+/* The theme's own answer, asked of the theme. `prepend()` is where a node's
+   template stands, so this reads what the renderer gets rather than what
+   the source looks like. */
 const ASK = `
 require 'vendor/autoload.php';
 use Symfony\\Component\\DependencyInjection\\ContainerBuilder;
@@ -68,22 +68,22 @@ echo json_encode([
 ]);
 `;
 
-report.open('formats', 'every node the theme renders is written in both formats');
+report.open('formats', 'every node the theme renders has a page and a twin');
 
 /* The autoloader lives in a gitignored `vendor/`, the way the fixer does —
    see `scripts/php.ts`, which installs it on its own first run. */
 if (!existsSync(join(THEME, 'vendor', 'autoload.php'))) {
-  report.fact('installing the theme’s dependencies', 'first run only');
+  report.fact('the theme’s dependencies install', 'first run only');
   const install = spawnSync('composer', ['install', '--no-interaction', '--no-progress'], { cwd: THEME, encoding: 'utf8' });
   if (install.status !== 0) {
-    report.summary('the theme’s dependencies could not be installed', [`${install.stdout ?? ''}${install.stderr ?? ''}`]);
+    report.summary('the theme’s dependencies did not install', [`${install.stdout ?? ''}${install.stderr ?? ''}`]);
     process.exit(1);
   }
 }
 
 const asked = spawnSync('php', ['-r', ASK], { cwd: THEME, encoding: 'utf8' });
 if (asked.status !== 0) {
-  report.summary('the theme could not be asked what it maps', `${asked.stdout ?? ''}${asked.stderr ?? ''}`.split('\n').filter(Boolean));
+  report.summary('the theme did not answer what it maps', `${asked.stdout ?? ''}${asked.stderr ?? ''}`.split('\n').filter(Boolean));
   process.exit(1);
 }
 
@@ -103,9 +103,9 @@ try {
 
 const short = (name: string): string => name.split('\\').at(-1) ?? name;
 const problems = [
-  ...answer.missing.map((node) => `${short(node)} is rendered as a page and not as a twin — add it to resources/template/markdown.php`),
+  ...answer.missing.map((node) => `${short(node)} renders as a page and not as a twin — add it to resources/template/markdown.php`),
   ...answer.shadowed.map(({ format, node, above }) =>
-    `${short(node)} is never reached in the ${format} map: ${short(above)} stands above it and supports it too`),
+    `${short(node)} never runs in the ${format} map: ${short(above)} stands above it and supports it too`),
 ];
 
 report.summary(

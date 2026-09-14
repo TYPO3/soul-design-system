@@ -1,7 +1,7 @@
 /* Break a minified stylesheet back onto one rule per line.
 
-   `dist/` is committed, and a minified stylesheet is one line, so every change
-   to it is a change to *the* line: two people touching different components
+   `dist/` is in git, and a minified stylesheet is one line, so every change
+   to it is a change to *the* line. Two people who touch different components
    collide on a hunk neither wrote, and git has no common ground to merge with.
    A rule to a line gives the generated side the grain the source has.
 
@@ -81,7 +81,7 @@ function statements(src: string): Node[] {
 }
 
 /** A block whose statements are all declarations prints as the minifier wrote
-    it; one holding rules of its own — a media query, a layer, keyframes —
+    it. One with rules of its own — a media query, a layer, keyframes —
     opens, indents what it wraps, and closes. */
 function render(nodes: Node[], indent: string): string[] {
   const lines: string[] = [];
@@ -119,10 +119,9 @@ export function stylesheets(dir = join(FRONTEND, 'src', 'styles')): string[] {
   });
 }
 
-/** Every class the system defines — including the sheet `styles.css`
-    deliberately does not import: a name is defined if some sheet in the system
-    defines it, and a surface told otherwise is told a lie about its own
-    repository. */
+/** Every class the system defines, the sheet `styles.css` deliberately does
+    not import included. A name exists if some sheet in the system defines it,
+    and a surface that hears otherwise hears a lie about its own repository. */
 export function definedClasses(): Set<string> {
   const defined = new Set<string>();
   for (const sheet of stylesheets()) {

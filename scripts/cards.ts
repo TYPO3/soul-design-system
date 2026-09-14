@@ -2,7 +2,7 @@
 /* Generate the component specimen cards from their stories.
 
    Truth runs story → card: a story composes the specimen out of the component's
-   own templates, and the card is written from it. One source, three renderers —
+   own templates, and the card comes from it. One source, three renderers —
    the browser, Storybook, this. A card cannot contain `<sds-button>`, because
    the pane opens these with `styles.css` and no JavaScript.
 
@@ -23,8 +23,8 @@ const STORIES = join(ROOT, 'stories');
 
 interface StoryModule {
   default?: { parameters?: { dsCard?: DsCard; dsScreen?: DsScreen } };
-  /** The composed specimen markup. A story file opts into card generation by
-      exporting this alongside `parameters.dsCard`. */
+  /** The composed specimen markup. A story file that exports this beside
+      `parameters.dsCard` gets a card. */
   specimenHtml?: () => string;
   /** The composed page. The same opt-in one level up: a screen is a whole
       surface rather than one component shown by itself. */
@@ -38,11 +38,11 @@ export interface CardResult {
   existed: boolean;
 }
 
-/* A picture in a specimen is written the way Storybook serves it — `assets/`,
-   beside the preview page, with no climb: the built Storybook is published
-   below the documentation, where a climb lands outside it. Where a card lands
-   is not a story's business either, so the climb is counted here from the
-   same `up` the stylesheets use. */
+/* A picture in a specimen reads the way Storybook serves it — `assets/`,
+   beside the preview page, with no climb. The built Storybook sits below the
+   documentation, where a climb lands outside it. Where a card lands is not a
+   story's business either, so the climb counts here from the same `up` the
+   stylesheets use. */
 const withAssets = (html: string, up: string): string =>
   html.replace(/(src|href)="(?:\.\.\/)*(?:packages\/frontend\/)?assets\//g, `$1="${up}packages/frontend/assets/`);
 
@@ -52,15 +52,15 @@ const withAssets = (html: string, up: string): string =>
    stylesheets. `styles.css` is linked exactly as a consuming surface links
    it; `_specimen.css` draws the captions and goes no further. */
 function shell(card: DsCard, body: string): string {
-  /* From where the file lands, not from what it is called. A card declares
-     the path the bundle knows it by; in this repo it sits one level deeper,
-     under `specimens/`, and a stylesheet link counted from the declared name
-     would climb one step short and resolve to nothing. */
+  /* From where the file lands, not from its name. A card declares the path
+     the bundle knows it by; in this repo it sits one level deeper, under
+     `specimens/`. A stylesheet link counted from the declared name climbs one
+     step short and resolves to nothing. */
   const up = '../'.repeat(inRepo(card.path).split('/').length - 1);
-  /* A card is opened from disk, where a reference to another file is refused
-     before it is fetched — so the artwork goes where the reference was, the
-     same swap `renderStatic` makes for the component cards. Before the paths
-     are counted: what is inlined has no path left to count. */
+  /* A card opens from disk, where the browser refuses a reference to another
+     file before any fetch. So the artwork goes where the reference was, the
+     same swap `renderStatic` makes for the component cards. Before the path
+     count: what is inline has no path left to count. */
   // Pre-aware: the body of a code block is content, not formatting.
   const indented = indent(withAssets(inlineArtRefs(body), up), 2);
   /* The diagram cards sit their figures on the sunken plane, which is the
@@ -116,8 +116,8 @@ ${indent(withAssets(body, up), 0)}
 
 /* Every story file under `stories/`, at whatever depth. The folder per group is
    a filing decision and nothing else — Storybook builds its tree from each
-   story's `title` — so moving one moves nothing a reader sees. Read flat, this
-   would quietly stop generating a card the moment its file moved. */
+   story's `title` — so a moved file moves nothing a reader sees. Read flat,
+   this quietly loses a card the moment its file moves. */
 function storyFiles(dir: string, prefix = ''): string[] {
   return readdirSync(dir, { withFileTypes: true })
     .flatMap((entry) => {
@@ -145,9 +145,9 @@ export async function buildCards({ check = false } = {}): Promise<CardResult[]> 
       throw new Error(`${file}: declares parameters.dsScreen but exports no screenHtml() to generate the page from`);
     }
 
-    /* Declared, then resolved. `orphans()` compares what was written against
-       what is on disk, and the two have to be the same vocabulary — so a
-       result carries the repo path, which is also the one worth printing. */
+    /* Declared, then resolved. `orphans()` compares the written set against
+       what is on disk, and the two have to be the same vocabulary. So a
+       result carries the repo path, which is also the one to print. */
     const path = inRepo(card ? card.path : (screen as DsScreen).path);
     const out = join(ROOT, path);
     const next = card
@@ -170,10 +170,9 @@ export async function buildCards({ check = false } = {}): Promise<CardResult[]> 
 }
 
 /** Card files on disk that no story produces — the rule that keeps the
-    arrangement from quietly coming apart. A card whose story is deleted, or one
-    written by hand, stays on disk and keeps being shipped: the pane renders it,
-    `make fit` measures it and the diff compares it, and nothing anywhere says
-    it has no source. */
+    arrangement whole. A card whose story went, or one written by hand, stays
+    on disk and ships every time. The pane renders it, `make fit` measures it
+    and the diff compares it, and nothing anywhere says it has no source. */
 function orphans(generated: readonly CardResult[]): string[] {
   const written = new Set(generated.map((r) => r.path));
   return [...cards(), ...screens()].map((c) => c.rel).filter((rel) => !written.has(rel)).sort();
@@ -197,8 +196,8 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   }
 
   /* And where the documents can reach them, so a tree that has just generated
-     its cards is one the render can be pointed at. Not on `--check`: that run
-     is a question about the tree and answers it without changing one. */
+     its cards is one the render can point at. Not on `--check`: that run is a
+     question about the tree and answers it and changes nothing. */
   if (!check) {
     for (const project of PROJECTS) report.fact(project.name, `${embedCards(project.source)} cards beside it`);
   }

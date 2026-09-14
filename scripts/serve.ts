@@ -58,10 +58,10 @@ const server = createServer(handler).listen(PORT, () => {
   report.summary(`http://localhost:${PORT}/`);
 });
 
-/* Shut down when told to. Node's default on SIGTERM ends the process and leaves
-   whatever was mid-flight to the kernel, which is good enough until a request
-   is still streaming a font. `closeAllConnections` is the part that matters:
-   without it a keep-alive socket holds the server open, `close()` never
+/* Shut down on request. Node's default on SIGTERM ends the process and leaves
+   whatever was mid-flight to the kernel. That is good enough until a request
+   still streams a font. `closeAllConnections` is the part that matters.
+   Without it a keep-alive socket holds the server open, `close()` never
    resolves, and the runner waits out its grace period and kills it. */
 for (const signal of ['SIGINT', 'SIGTERM'] as const) {
   process.once(signal, () => {
@@ -70,11 +70,11 @@ for (const signal of ['SIGINT', 'SIGTERM'] as const) {
   });
 }
 
-/* And go when whoever started this is gone. A signal covers a run that ends,
-   not one that is *killed*, which leaves this bound to the port: the next run
-   finds a server answering, reuses it, and is served a stale build. Orphaned
-   means re-parented to PID 1, which the container runs, so this is a reliable
-   signal rather than a guess. The timer is unref'd. */
+/* And go when whoever started this has gone. A signal covers a run that ends,
+   not one under a *kill*, which leaves this bound to the port. The next run
+   then finds a server that answers, reuses it, and gets a stale build.
+   Orphaned means re-parented to PID 1, which the container runs, so this is
+   a reliable signal rather than a guess. The timer is unref'd. */
 const parent = process.ppid;
 setInterval(() => {
   if (process.ppid === parent) return;

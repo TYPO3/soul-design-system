@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /* Check that every name in .design-sync/conventions.md still exists.
 
-   That file is inlined into the design agent's prompt and trusted completely:
-   name a class that does not resolve and the agent writes markup that silently
-   does nothing. So the names are checked against the built stylesheets rather
-   than against memory. It never rewrites the file — drift is reported for a
+   That file goes into the design agent's prompt, and the agent trusts it. Name
+   a class that does not resolve and the agent writes markup that silently
+   does nothing. So the names check against the built stylesheets rather
+   than against memory. It never rewrites the file. Drift is a report for a
    human to resolve, because the prose is theirs.
 
      make verify
@@ -35,10 +35,10 @@ const css = readFileSync(join(OUT, '_ds_bundle.css'), 'utf8')
 
 const definedClasses = new Set([...css.matchAll(/\.([a-zA-Z][\w-]*)/g)].flatMap((m) => (m[1] ? [m[1]] : [])));
 
-/* Tags are named in the same prose and the same backticks but never appear in
-   the CSS, the elements putting their classes on what they produce. So the
-   authority is the bundle that registers them, checked against the `@ds-bundle`
-   header — a tag nothing registers is the same failure as a class nothing
+/* Tags stand in the same prose and the same backticks but never appear in
+   the CSS. The elements put their classes on what they produce. So the
+   authority is the bundle that registers them, read from the `@ds-bundle`
+   header. A tag nothing registers is the same failure as a class nothing
    defines: the agent writes it and it stays an unknown element forever. */
 interface BundleHeader {
   components?: { tag?: string }[];
@@ -51,7 +51,7 @@ try {
   const parsed = JSON.parse(header[1]) as BundleHeader;
   for (const c of parsed.components ?? []) if (c.tag) definedTags.add(c.tag);
 } catch {
-  report.note('could not read the bundle header — element tags unchecked');
+  report.note('the bundle header did not read — element tags unchecked');
 }
 const definedTokens = new Set([...css.matchAll(/(--[a-z0-9-]+)\s*:/g)].flatMap((m) => (m[1] ? [m[1]] : [])));
 
@@ -59,10 +59,10 @@ const definedTokens = new Set([...css.matchAll(/(--[a-z0-9-]+)\s*:/g)].flatMap((
    (`sds-code__head|__body`), or as a family base followed by its modifiers
    in a table row (`sds-btn` + `--primary` `--secondary`). */
 const named = new Set<string>();
-/* `--scroll` in a table row is a modifier, not a token, but is spelled exactly
-   like one and the token check below would look for a custom property by that
-   name. A modifier is whatever the row logic already consumed as one — a
-   hand-kept list of words to ignore fails every time a new modifier is added. */
+/* `--scroll` in a table row is a modifier, not a token, but reads exactly
+   like one. The token check below then looks for a custom property by that
+   name. A modifier is whatever the row logic already consumed as one. A
+   hand-kept list of words to ignore fails at every new modifier. */
 const modifiers = new Set<string>();
 for (const line of doc.split('\n')) {
   const ticked = [...line.matchAll(/`([^`]+)`/g)].flatMap((m) => (m[1] ? [m[1]] : []));
@@ -90,7 +90,7 @@ for (const line of doc.split('\n')) {
 }
 named.delete('sds-');   // the prose names the prefix itself
 
-/* Token prefixes are written with a trailing star (`--surface-*`). */
+/* Token prefixes carry a trailing star (`--surface-*`). */
 const prefixes = [...doc.matchAll(/`(--[a-z0-9-]*)\*`/g)].flatMap((m) => (m[1] ? [m[1]] : []));
 const exactTokens = [...doc.matchAll(/`(--[a-z][a-z0-9-]+)`/g)].flatMap((m) => (m[1] ? [m[1]] : []))
   .filter((t) => definedTokens.size && !modifiers.has(t) && !/^--(modifier)$/.test(t));
@@ -101,8 +101,8 @@ const namedTags = [...named].filter((c) => definedTags.has(c));
 /* And the other direction, for tags only. A tag the bundle registers but this
    file never mentions is the quieter failure: the element exists and works, and
    nothing ever reaches for it, because the only document the agent reads does
-   not say it is there. Classes are not checked this way — the stylesheet
-   carries internal names the prose deliberately does not list. */
+   not say it is there. Classes get no such check — the stylesheet carries
+   internal names the prose deliberately does not list. */
 const unnamedTags = [...definedTags].filter((t) => !named.has(t)).sort();
 const missingPrefixes = [...new Set(prefixes)]
   .filter((p) => ![...definedTokens].some((d) => d.startsWith(p))).sort();

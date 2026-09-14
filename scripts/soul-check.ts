@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-/* Markup that rebuilt a component instead of addressing it.
+/* Markup that rebuilt a component instead of addressed it.
 
    Shipped with the package, because the rule it holds is one only a consumer's
-   own tree can break: `<div class="sds-btn">` draws a button that cannot grow
+   own tree can break. `<div class="sds-btn">` draws a button that cannot grow
    a part, follow a rename or answer a form. Instructions reach an agent on its
-   first draft; a check reaches every draft, including the ones written in a
-   session that loaded no instruction at all.
+   first draft. A check reaches every draft, the ones from a session that
+   loaded no instruction at all included.
 
      npx soul-check src/           # or any set of paths; the tree by default
 */
@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as report from './lib/report.ts';
 
-/** Where markup is written. A class in a stylesheet is a definition, not a use. */
+/** Where markup lives. A class in a stylesheet is a definition, not a use. */
 const MARKUP = ['.html', '.htm', '.php', '.twig', '.vue', '.svelte', '.astro',
   '.jsx', '.tsx', '.js', '.mjs', '.ts', '.hbs', '.liquid', '.mustache', '.ejs'];
 
@@ -30,7 +30,7 @@ interface Declaration {
   cssClasses?: string[];
 }
 
-/** The manifest, from beside this file — or from the package it was built in. */
+/** The manifest, from beside this file — or from the package it came from. */
 function catalogue(): Declaration[] {
   const here = dirname(fileURLToPath(import.meta.url));
   const candidates = [
@@ -62,11 +62,11 @@ function* walk(path: string): Generator<string> {
   }
 }
 
-report.open('check', 'markup that rebuilds a component instead of addressing it');
+report.open('check', 'markup that rebuilds a component instead of addresses it');
 
 /* Every class family an element draws, and which element that is. One family
-   can have more than one — an icon is drawn wherever a component composes one
-   — and the first is the one whose own name it carries. */
+   can have more than one, as an icon draws wherever a component composes one.
+   The first is the one whose own name it carries. */
 const owner = new Map<string, string>();
 for (const d of catalogue()) {
   if (!d.tagName) continue;
@@ -76,12 +76,12 @@ for (const d of catalogue()) {
   }
 }
 
-/* A manifest older than this check names no classes, and the walk below would
-   then pass every tree it is pointed at. A check that finds nothing has to be
-   distinguishable from one that cannot look. */
+/* A manifest older than this check names no classes, and the walk below then
+   passes every tree it gets. A check that finds nothing has to look different
+   from one that cannot look. */
 if (!owner.size) {
   report.summary('the manifest beside this file names no classes',
-    ['it was written by an older build — run `make dist`, or update the package']);
+    ['an older build wrote it — run `make dist`, or update the package']);
   process.exit(1);
 }
 

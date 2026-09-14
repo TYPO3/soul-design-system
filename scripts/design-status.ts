@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-/* What would a sync change?
+/* What does a sync change?
 
-   Compares the freshly built `_ds_sync.json` against the anchor of the last
-   upload — the file the design project itself stores, a hash per card, so the
+   Compares the fresh `_ds_sync.json` against the anchor of the last upload.
+   That is the file the design project itself stores, a hash per card. So the
    answer is "which cards moved" rather than "which files did I touch". With no
-   cached anchor it prints what a first upload would push and exits 0.
+   cached anchor it prints what a first upload pushes and exits 0.
 
      make design-status
 */
@@ -17,7 +17,7 @@ import * as report from './lib/report.ts';
 const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
 const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
 
-report.open('design-status', 'what a sync would change');
+report.open('design-status', 'what a sync changes');
 
 if (!existsSync(BUILT)) {
   report.summary('no build here', ['run `make build` first']);
@@ -28,7 +28,7 @@ const cards = Object.keys(local.renderHashes).sort();
 
 if (!existsSync(ANCHOR)) {
   report.note('no reference state cached — /design-sync reads the real state from the project and uploads only what changed');
-  report.summary(`${cards.length} cards would be uploaded, all of them`);
+  report.summary(`${cards.length} cards go up, all of them`);
   process.exit(0);
 }
 
@@ -40,29 +40,28 @@ const removed = Object.keys(was).filter((n) => !(n in local.renderHashes)).sort(
 const styling = remote.styleSha !== local.styleSha;
 
 /* Screens ship with the system and are what a consuming project seeds from,
-   so a changed screen is a changed upload. An anchor from before they were
-   hashed has no `screenHashes` at all — treat that as "unknown", not as
-   "unchanged", or the first sync after this lands would report nothing. */
+   so a changed screen is a changed upload. An anchor from before their hashes
+   has no `screenHashes` at all. Treat that as "unknown", not as "unchanged",
+   or the first sync after this lands reports nothing. */
 const wasScreens = remote.screenHashes as Record<string, string> | undefined;
 const nowScreens = (local.screenHashes ?? {}) as Record<string, string>;
 const screensChanged = wasScreens
   ? Object.keys(nowScreens).filter((n) => wasScreens[n] !== nowScreens[n]).sort()
   : Object.keys(nowScreens).sort();
 
-/* An element's contract is what the agent is given as the component API, so a
-   moved property is a moved upload — and an anchor from before they were
-   hashed is unknown rather than unchanged, same as the screens above. */
+/* An element's contract is what the agent gets as the component API, so a
+   moved property is a moved upload. An anchor from before their hashes is
+   unknown rather than unchanged, same as the screens above. */
 const wasElements = remote.elementHashes as Record<string, string> | undefined;
 const nowElements = (local.elementHashes ?? {}) as Record<string, string>;
 const elementsChanged = wasElements
   ? Object.keys(nowElements).filter((n) => wasElements[n] !== nowElements[n]).sort()
   : Object.keys(nowElements).sort();
 
-/* Everything the rows above do not already speak for: the tokens' values, the
-   fonts, the illustrations, the guidelines, and the README the conventions
-   header is folded into. `auxSha` stood here and hashed the names in `tokens/`
-   alone, so all of it changed without the anchor noticing — a rewritten header
-   reached the design agent's prompt while this reported nothing to do. */
+/* Everything the rows above do not already speak for. The tokens' values, the
+   fonts, the illustrations, the guidelines, and the README that holds the
+   conventions header. A hash of the token names alone stood here once, and
+   all of it changed unseen by the anchor. */
 const SPOKEN_FOR = /^(components|screens)\//;
 const CARRIED = '_ds_needs_recompile'; // its own step in the plan, and constant
 const wasFiles = remote.fileHashes as Record<string, string> | undefined;
@@ -71,7 +70,7 @@ const otherChanged = Object.keys(nowFiles)
   .filter((f) => !SPOKEN_FOR.test(f) && f !== CARRIED && (!wasFiles || wasFiles[f] !== nowFiles[f]))
   .sort();
 
-/* One row per top directory rather than six hundred paths: the answer wanted
+/* One row per top directory rather than six hundred paths. The answer wanted
    here is which part of the system moved, and the plan holds the list. */
 const byArea = new Map<string, number>();
 for (const f of otherChanged) {

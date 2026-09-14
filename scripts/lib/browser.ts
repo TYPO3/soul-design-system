@@ -1,16 +1,16 @@
 /* Shared Playwright plumbing.
 
-   Playwright rather than a `google-chrome` command line: it resolves its own
-   browser on every OS, and it can measure the page instead of guessing at
-   pixels — the fit check asks the document how tall it is rather than
-   scanning a screenshot for the last painted row. */
+   Playwright rather than a `google-chrome` command line. It resolves its own
+   browser on every OS, and it can measure the page instead of guess at
+   pixels. The fit check asks the document how tall it is rather than scans a
+   screenshot for the last painted row. */
 
 import { chromium, type Browser, type Page } from 'playwright';
 import { pathToFileURL } from 'node:url';
 
 import * as report from './report.ts';
 
-/** What a card needs to be opened: where it is and how big it declares itself. */
+/** What a card needs to open: where it is and how big it declares itself. */
 export interface Openable {
   path: string;
   width: number;
@@ -26,17 +26,17 @@ export interface Mapper {
     ships. What fixes it is a different page — see `map` below. */
 export class FacesMissing extends Error {}
 
-/* The pages `map` has run out of attempts on. What is measured there is
-   measured in the fallback, and saying so beats both crashing and lying: one
-   page in this repository has an `<iframe>` in it, and a `file://` frame stops
-   its parent using its own faces however long anything waits. */
+/* The pages `map` has run out of tries on. The measurement there is in the
+   fallback, and to say so beats both a crash and a lie. One page in this
+   repository has an `<iframe>` in it, and a `file://` frame stops its parent
+   from its own faces, whatever the wait. */
 const lenient = new WeakSet<Page>();
 
-/** Which of the shipped families the document is not actually using, asked the
-    one way that cannot be answered wrongly: the same string in the family and
-    in a family that does not exist. Equal widths mean the fallback is drawing
-    both. `document.fonts` is no use — it reports every face `loaded` and
-    `check()` true while the paint uses something else. */
+/** Which of the shipped families the document does not use, asked the one
+    way that has no wrong answer. The same string in the family and in a
+    family that does not exist. Equal widths mean the fallback draws both.
+    `document.fonts` is no use — it reports every face `loaded` and `check()`
+    true while the paint uses something else. */
 export const missingFaces = (page: Page): Promise<string[]> =>
   page.evaluate(() => {
     const probe = document.createElement('span');
@@ -56,10 +56,10 @@ export const missingFaces = (page: Page): Promise<string[]> =>
 /** Force the design faces for deterministic measurements. `optional` leaves
     real navigation free to keep its fallback when a face arrives late. */
 export async function loadFonts(page: Page): Promise<void> {
-  /* Every declared face, asked again until the *probe* is satisfied. Looping on
-     `face.status` was looping on the answer this file already says cannot be
-     trusted: it reads `loaded` while the paint uses something else, so the loop
-     ended happy and the page was measured in the fallback. */
+  /* Every declared face, asked again until the *probe* agrees. A loop on
+     `face.status` is a loop on the answer this file already says is
+     unreliable. It reads `loaded` while the paint uses something else, so the
+     loop ended happy and the page measured in the fallback. */
   for (let attempt = 0; attempt < 10; attempt++) {
     await page.evaluate(async () => {
       await Promise.all([...document.fonts].map((face) => face.load().catch(() => face)));
@@ -69,10 +69,10 @@ export async function loadFonts(page: Page): Promise<void> {
   }
 }
 
-/** Wait until the page has stopped arriving. A card references its sprite and
-    its drawings as files, and an `<img>` or a `<use>` that is still being
-    fetched paints nothing — the screenshot then differs from the last run for
-    no reason anybody changed, which is a safety net that cries wolf. */
+/** Wait until the page has all arrived. A card references its sprite and its
+    drawings as files, and an `<img>` or a `<use>` still in flight paints
+    nothing. The screenshot then differs from the last run for no reason
+    anybody changed, which is a safety net that cries wolf. */
 export async function settled(page: Page): Promise<void> {
   await page.waitForFunction(() => {
     const images = [...document.images].every((img) => img.complete);
@@ -83,16 +83,16 @@ export async function settled(page: Page): Promise<void> {
 }
 
 /** Launch a browser, hand it over, and close it whatever happens. `finally`
-    covers the script throwing but not the script being *killed*, which is the
-    case that leaves a browser re-parented to the container's init until the
-    container goes. So the signals are handled here, once: a script that
-    launches chromium by itself is a script that can orphan one. */
+    covers a throw but not a *kill*. That is the case that leaves a browser
+    re-parented to the container's init until the container goes. So the
+    signals get their handler here, once: a script that launches chromium by
+    itself is a script that can orphan one. */
 export async function withBrowser<R>(fn: (browser: Browser) => Promise<R>): Promise<R> {
-  /* Rasterising the same page twice has to give the same bytes. Left to
-     itself Chromium picks a colour profile from the host, positions glyphs at
-     subpixel offsets and antialiases text against the ground it thinks it has
-     — all of which vary, and each of which turns a rounded corner into a pixel
-     that differs by one between two runs of an unchanged tree. */
+  /* The same page twice has to give the same bytes. On its own Chromium
+     picks a colour profile from the host and positions glyphs at subpixel
+     offsets. It antialiases text against the ground it thinks it has. All of
+     those vary, and each turns a rounded corner into a pixel that differs by
+     one between two runs of an unchanged tree. */
   const browser = await chromium.launch({
     args: [
       '--force-color-profile=srgb',
@@ -104,8 +104,8 @@ export async function withBrowser<R>(fn: (browser: Browser) => Promise<R>): Prom
 
   const shut = (signal: NodeJS.Signals) => {
     void browser.close().finally(() => {
-      /* The conventional exit code for a signal, so a `make` that is
-         interrupted reports interrupted rather than failed. */
+      /* The conventional exit code for a signal, so a `make` that stops on a
+         signal reports interrupted rather than failed. */
       process.exit(128 + (signal === 'SIGINT' ? 2 : 15));
     });
   };
@@ -128,13 +128,12 @@ export async function withPage<R>(fn: (tools: Mapper) => Promise<R>): Promise<R>
       return await fn({
         async map(items, job) {
           const out = new Array(items.length);
-          /* One page at a time. Six of them fetching nine `file://` faces at
-             once is a race, and the loser lays out in the fallback silently —
-             which is what made a run of identical shots report ten to twenty
-             changed cards, then two to four once the retry was added. Serial,
-             nothing races: the fallback is left only where it cannot be won,
-             and two runs of the same tree differ in nothing or in one pixel of
-             corner antialiasing. It costs `shots` six seconds and `fit` eight. */
+          /* One page at a time. Six of them that fetch nine `file://` faces at
+             once is a race, and the loser lays out in the fallback in silence.
+             Serial, nothing races. The fallback stays only where nothing can
+             win it. Two runs of the same tree differ in nothing or in one
+             pixel of corner antialiasing. It costs `shots` six seconds and
+             `fit` eight. */
           for (const [i, item] of items.entries()) {
             for (let attempt = 0; ; attempt++) {
               const page = await ctx.newPage();
@@ -158,7 +157,7 @@ export async function withPage<R>(fn: (tools: Mapper) => Promise<R>): Promise<R>
   });
 }
 
-/** Load a card and its webfonts, so type is measured deterministically. */
+/** Load a card and its webfonts, so type measures the same every time. */
 export async function openCard(
   page: Page,
   card: Openable,
@@ -172,7 +171,7 @@ export async function openCard(
   await loadFonts(page);
   const missing = await missingFaces(page);
   if (missing.length) {
-    const said = `${card.path} is set in neither ${missing.join(' nor ')}`;
+    const said = `${card.path} sets in neither ${missing.join(' nor ')}`;
     if (!lenient.has(page)) throw new FacesMissing(said);
     report.note(`measured in the fallback face — ${said}`);
   }

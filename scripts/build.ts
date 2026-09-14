@@ -2,7 +2,7 @@
 /* Assemble the claude.ai/design upload bundle from this repo.
 
    This system is HTML and CSS, so the standard design-sync converter does not
-   apply; the output contract is the same either way and this produces it.
+   apply. The output contract is the same either way and this produces it.
 
      node scripts/build.ts [outdir]
 */
@@ -22,17 +22,17 @@ const NS = 'SDS';
 const sha12 = (b: string | Buffer): string => createHash('sha256').update(b).digest('hex').slice(0, 12);
 const read = (p: string): string => readFileSync(join(FRONTEND, p), 'utf8');
 /* The class layer is four sheets — reset, base, layout, components — in that
-   order, and the last one is an index of a file per component. Anything
-   hashing or shipping "the stylesheet" takes all of them, imports pulled in:
-   the bundle is flat and an `@import` in it would point outside itself. */
+   order, and the last one is an index of a file per component. Anything that
+   hashes or ships "the stylesheet" takes all of them, imports pulled in. The
+   bundle is flat and an `@import` in it points outside itself. */
 const SHEETS = ['reset.css', 'base.css', 'layout.css', 'components.css'];
 const sheets = (): string =>
   SHEETS.map((f) => inlineImports(join(FRONTEND, 'src', 'styles', f), (p) => readFileSync(p, 'utf8'))).join('\n');
 
 /* Point a page at the bundle's flat root. The repo keeps its stylesheets in
-   the frontend package and the bundle keeps them at its root, so what has to be
-   written is the climb back. Counted from the directory a page lands in, never
-   written out: a literal is a second place that has to stay true every time
+   the frontend package and the bundle keeps them at its root. So what has to
+   change is the climb back. Counted from the directory a page lands in, never
+   written out. A literal is a second place that has to stay true every time
    either tree moves, and it cannot be wrong loudly. */
 function rewriteRefs(txt: string, dir: string): string {
   const up = '../'.repeat(relative(OUT, dir).split(sep).filter(Boolean).length);
@@ -40,15 +40,15 @@ function rewriteRefs(txt: string, dir: string): string {
     .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/styles\.css"/g, `href="${up}styles.css"`)
     .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/_specimen\.css"/g, `href="${up}_specimen.css"`)
     /* Either attribute. A diagram is an `<img src>` and the link to its own
-       file is an `<a href>`, and a rule that knew only about `src` shipped the
-       second one with the climb it had in the repo — which lands outside the
+       file is an `<a href>`. A rule that knew only about `src` shipped the
+       second one with the climb it had in the repo, which lands outside the
        bundle. */
     .replace(/(src|href)="(?:\.\.\/)+packages\/frontend\/assets\//g, `$1="${up}assets/`);
 }
 
 /* Every local reference in the bundle has to resolve inside the bundle.
    `make verify` checks the repo's own links and cannot see this, because the
-   tree it walks is not the tree that ships: a path into `src/styles/` resolves
+   tree it walks is not the tree that ships. A path into `src/styles/` resolves
    perfectly there and to nothing here. */
 function unresolvedRefs(): string[] {
   const bad: string[] = [];
@@ -60,13 +60,13 @@ function unresolvedRefs(): string[] {
       const ref = m[1];
       if (!ref || /^(https?:|data:|#)/.test(ref)) continue;
       /* A fragment names something inside the file, not a second file. A
-         referenced drawing is written `…/mark.svg#soul-ref`, and resolving that
-         whole string looks for a file with a `#` in its name and reports every
-         drawing in the bundle as missing. */
+         referenced drawing reads `…/mark.svg#soul-ref`. That whole string
+         resolves to a file with a `#` in its name and reports every drawing
+         in the bundle as absent. */
       const target = resolve(dirname(join(OUT, rel)), ref.replace(/#.*$/, ''));
-      /* Leaving the bundle is its own failure, and it has to be asked before
-         existence: one climb too many lands in the repo, where `assets/` and
-         `src/` both exist — so the file is found, the check passes, and what
+      /* A path out of the bundle is its own failure, and the question comes
+         before existence. One climb too many lands in the repo, where `assets/`
+         and `src/` both exist. So the file exists, the check passes, and what
          ships resolves to nothing on anybody else's disk. */
       if (!target.startsWith(OUT + sep)) {
         bad.push(`${rel} → ${ref} (climbs out of the bundle)`);
@@ -130,13 +130,13 @@ function opening(doc: string): string {
 function elementDts(e: ElementDoc): string {
   const out = [`/** <${e.tag}> — ${e.purpose}`, ' *', ` *  Registered as \`${e.className}\` by \`${ELEMENTS_JS}\`. Address the element;`,
     ' *  the classes in `_ds_bundle.css` are what it emits, not a second way to build.', ' */', ''];
-  /* What a value of this shape is stands in the source; here it is only that
-     the value is not a string, so the property is set from script rather than
-     written as an attribute. */
+  /* What a value of this shape is stands in the source. Here it is only that
+     the value is not a string, so a script sets the property rather than an
+     attribute. */
   const named = [...new Set(e.props.flatMap((p) => [...p.type.matchAll(/\b[A-Z]\w*/g)].map((m) => m[0])))];
   if (named.length) {
-    out.push(`/* Declared in ${e.source} — opaque here: a property taking one of these is set`,
-      '   from script, never written as an attribute. */');
+    out.push(`/* Declared in ${e.source} — opaque here: a script sets a property that takes one`,
+      '   of these, never an attribute. */');
     for (const n of named) out.push(`type ${n} = unknown;`);
     out.push('');
   }
@@ -166,9 +166,9 @@ function elementJsx(e: ElementDoc): string {
 
 /** The same contract as something to write, which is what an agent reads. */
 function elementPrompt(e: ElementDoc): string {
-  /* Shape-true rather than invented: what a page can write is what a string
-     holds, in the order the element declares it, and a body an element takes
-     between its tags is not shown twice. */
+  /* Shape-true rather than invented. What a page can write is what a string
+     holds, in the order the element declares it. A body an element takes
+     between its tags appears once. */
   const shown = e.props
     .filter((p) => p.lit === 'string' && !(e.takesContent && p.name === 'body'))
     .slice(0, 3);
@@ -177,8 +177,8 @@ function elementPrompt(e: ElementDoc): string {
     `Registered as \`${e.className}\` by \`${ELEMENTS_JS}\`, and written as an element:`, '',
     '```html', `<${e.tag}${attrs}>${e.takesContent ? '…' : ''}</${e.tag}>`, '```', ''];
   /* What the element says about itself beyond its first line. A table of
-     attributes cannot carry a rule about when to reach for the thing, and an
-     agent handed only the table rebuilds what it was not told it had. */
+     attributes cannot carry a rule about when to reach for the thing. An
+     agent with only the table rebuilds what nobody told it it had. */
   if (e.notes.length) out.push('## How it behaves', '', ...e.notes.flatMap((p) => [p, '']));
   if (e.props.length) {
     out.push('## Attributes', '', '| Attribute | Type | What it is |', '| --- | --- | --- |');
@@ -200,10 +200,9 @@ function countFiles(dir: string): number {
   return n;
 }
 
-/* Every path that gets uploaded, relative to the bundle root. Recorded in
+/* Every path the upload carries, relative to the bundle root. Recorded in
    the anchor so the next sync can compute deletes for ANY file, not just
-   whole components — renaming the font files left 19 orphans in the project
-   that a component-level diff could never have seen. */
+   whole components. A component-level diff cannot see a renamed font file. */
 export function uploadFiles(dir: string, base: string = dir, out: string[] = []): string[] {
   for (const e of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
     const p = join(dir, e.name);
@@ -224,14 +223,14 @@ rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 const list = cards();
 
-// styling closure
+// the stylesheet closure
 cpSync(join(FRONTEND, 'src', 'tokens'), join(OUT, 'tokens'), { recursive: true });
 for (const d of ['fonts', 'assets']) cpSync(join(FRONTEND, d), join(OUT, d), { recursive: true });
 writeFileSync(join(OUT, '_ds_bundle.css'), sheets());
 cpSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), join(OUT, '_specimen.css'));
-/* The repo keeps its stylesheets in `styles/` and the tokens one level up;
-   the bundle is flat, with `styles.css`, `_ds_bundle.css` and `tokens/` all
-   at its root. So both kinds of import are rewritten on the way out — the
+/* The repo keeps its stylesheets in `styles/` and the tokens one level up.
+   The bundle is flat, with `styles.css`, `_ds_bundle.css` and `tokens/` all
+   at its root. So both kinds of import change on the way out — the
    component layer to its bundle name, and the tokens back to siblings. */
 const styles = read('src/styles/styles.css')
   .replace(/@import "reset\.css";\n@import "base\.css";\n@import "layout\.css";\n@import "components\.css";/, '@import "./_ds_bundle.css";')
@@ -242,11 +241,11 @@ const styles = read('src/styles/styles.css')
 
 writeFileSync(join(OUT, 'styles.css'), styles);
 
-/* The elements are the drop-in's own file, copied. Building them a second time
-   here would be a second set of options over one source, and the one that ships
-   would be the one nothing tests: `make dist` is checked against `src/`, the
-   suite links exactly this file, and it resolves the icon sprite against its own
-   URL — which holds because `assets/` sits beside it here as it does there. */
+/* The elements are the drop-in's own file, copied. A second build here is a
+   second set of options over one source, and the one that ships is the one
+   nothing tests. `make dist` checks against `src/`, the suite links exactly
+   this file, and it resolves the icon sprite against its own URL. That holds
+   because `assets/` sits beside it here as it does there. */
 const bundleSrc = join(FRONTEND, 'dist', 'soul.js');
 if (!existsSync(bundleSrc)) {
   report.summary('no drop-in to ship', ['run `make dist` first — the bundle is its `soul.js`']);
@@ -254,10 +253,10 @@ if (!existsSync(bundleSrc)) {
 }
 const bundleJs = readFileSync(bundleSrc, 'utf8');
 
-/* Every registered tag ships its contract, because the app compiles the header
-   below into the component API the design agent is given — and an agent given
-   no API writes the class layer by hand, which is the fallback and not the
-   system. A tag with no contract is a component nobody can address. */
+/* Every registered tag ships its contract. The app compiles the header below
+   into the component API the design agent gets. An agent with no API writes
+   the class layer by hand, which is the fallback and not the system. A tag
+   with no contract is a component nobody can address. */
 const els = elements();
 const byTag = new Map(els.map((e) => [e.tag, e]));
 const uncontracted = TAGS.filter((t) => !byTag.has(t));
@@ -281,7 +280,7 @@ for (const e of els) {
 const header = {
   namespace: NS,
   /* Written in the shape the sync kit stamps, and measured not to be what fills
-     `_ds_manifest.json` — a sync sending all of these complete was read back
+     `_ds_manifest.json`. A sync that sent all of these complete came back
      with `"components": []`. `sourcePath` names the wrapper because that is the
      source now; `tag` is this repository's own, and what `verify` holds the
      conventions header against. */
@@ -296,9 +295,9 @@ const header = {
 };
 /* Under its own name it ships byte for byte, so what a design links is what a
    project installs. `_ds_bundle.js` is the app's name and the app rebuilds it
-   from sources it can compile — ours are none of them, and what it leaves there
-   registers nothing — so that copy carries the header this repository checks
-   and nothing depends on it surviving. */
+   from sources it can compile. Ours are none of them, and what it leaves there
+   registers nothing. So that copy carries the header this repository checks,
+   and nothing depends on its survival. */
 writeFileSync(join(OUT, ELEMENTS_JS), bundleJs);
 writeFileSync(join(OUT, '_ds_bundle.js'), `/* @ds-bundle: ${JSON.stringify(header)} */\n${bundleJs}`);
 
@@ -318,9 +317,8 @@ for (const c of list) {
 // starting points: screens a consuming project can seed a design from.
 const sp = screens();
 /* Hashed like the cards are. Without this the anchor knows nothing about a
-   screen, so `make design-status` reports "nothing to do" while all three of them
-   have changed — which is what it said on the build that first shipped them
-   without a stylesheet. */
+   screen, so `make design-status` reports "nothing to do" while all three of
+   them have changed. */
 const screenHashes: Record<string, string> = {};
 if (sp.length) {
   mkdirSync(join(OUT, 'screens'), { recursive: true });
@@ -334,18 +332,18 @@ if (sp.length) {
 // written guidance
 mkdirSync(join(OUT, 'guidelines'), { recursive: true });
 cpSync(join(ROOT, 'SKILL.md'), join(OUT, 'guidelines/build-rules.md'));
-/* The two prompts, as something to act on rather than read about: a design
-   adopting this system needs a mark and pictures, and the alternative is the
-   agent inventing both from the cards. They live beside the pages that print
-   them, a prompt being the same file however it is reached. */
+/* The two prompts, as something to act on rather than read about. A design
+   that adopts this system needs a mark and pictures, and the alternative is an
+   agent that invents both from the cards. They live beside the pages that
+   print them, as a prompt is the same file on every route to it. */
 cpSync(join(ROOT, 'docs/design-system/signet-prompt.md'), join(OUT, 'guidelines/signet-prompt.md'));
 cpSync(join(ROOT, 'docs/design-system/illustration-prompt.md'), join(OUT, 'guidelines/illustration-prompt.md'));
 
 // README: the conventions header, then a generated index of every card
 const conv = join(ROOT, '.design-sync/conventions.md');
-/* The screens are named where the header puts the marker rather than after it:
-   only the first 32,000 characters reach the agent's prompt, and a page is
-   started from a screen before any of the class vocabulary is needed. */
+/* The screens stand where the header puts the marker rather than after it.
+   Only the first 32,000 characters reach the agent's prompt, and a page
+   starts from a screen before it needs any of the class vocabulary. */
 const SCREEN_MARK = '<!-- @startingPoints -->';
 const screenBlock = sp.length
   ? [
@@ -374,7 +372,7 @@ if (readme.length > 31900) {
   report.note(`the README is ${readme.length} chars — the app inlines only the first 32,000`);
 }
 
-/* Before the anchor, which vouches for the bundle: nothing should vouch for
+/* Before the anchor, which vouches for the bundle: nothing must vouch for
    one whose own pages cannot find their stylesheet. */
 const badRefs = unresolvedRefs();
 if (badRefs.length) {
@@ -387,11 +385,9 @@ writeFileSync(join(OUT, '_ds_needs_recompile'), JSON.stringify({ by: 'design-syn
 writeFileSync(join(OUT, '.ds-build-meta.json'),
   JSON.stringify({ componentCount: list.length, shape: 'css-design-system' }, null, 2));
 /* A hash per uploaded file, so a re-sync can push what moved instead of all of
-   it. This replaces an `auxSha` that hashed the *names* in `tokens/` and
-   nothing else, under which an edited token value, a redrawn icon and a
-   rewritten conventions header all produced a byte-identical anchor. The
-   anchor's own name is missing because it cannot hash itself, and a stale one
-   from a previous build is skipped for the same reason; readers add it back. */
+   it. The anchor's own name is absent because it cannot hash itself. A stale
+   one from a previous build stays out for the same reason; readers add it
+   back. */
 const fileHashes: Record<string, string> = {};
 for (const rel of uploadFiles(OUT).sort()) {
   if (rel !== '_ds_sync.json') fileHashes[rel] = sha12(readFileSync(join(OUT, rel)));

@@ -23,7 +23,7 @@ const flag = (name: string): string | undefined =>
 const OPTIONS: readonly (readonly [flag: string, what: string])[] = [
   ['--drop-in=<dir>', 'where the stylesheets and the script are (default: beside this file)'],
   ['--no-drop-in', 'the output already has them'],
-  ['--styles=<name>', 'what the directory is called at the site root (default: styles — the theme links this name)'],
+  ['--styles=<name>', 'the directory\'s name at the site root (default: styles — the theme links this name)'],
   ['--search=<name>', 'the index the bar fetches (default: _search.json)'],
   ['--no-search', 'write no index; the field then finds nothing'],
 ];
@@ -44,13 +44,13 @@ if (!existsSync(root) || !statSync(root).isDirectory()) {
   process.exit(1);
 }
 
-/* Beside this file, because the drop-in is what this file is shipped in: a
-   consumer who copied the directory has the stylesheets by having this. */
+/* Beside this file, because the drop-in is what ships this file. A consumer
+   who copied the directory has the stylesheets along with this. */
 const drop = argv.includes('--no-drop-in')
   ? undefined
   : resolve(flag('drop-in') ?? dirname(fileURLToPath(import.meta.url)));
 
-/* Said here rather than left to the reference check, which would report every
+/* Said here rather than left to the reference check, which reports every
    page in the site instead of the one directory that was wrong. */
 if (drop && !existsSync(join(drop, 'soul.css'))) {
   report.summary(`${drop} holds no soul.css`, ['name the drop-in with --drop-in=<dir>, or --no-drop-in if the output already has it']);
@@ -67,7 +67,7 @@ const problems = broken.length
   ? [
     ...broken.slice(0, 12),
     ...(broken.length > 12 ? [`… and ${broken.length - 12} more`] : []),
-    'a site is published on its own — anything pointing out of it is a page with no stylesheet on the server, and no error anywhere',
+    'a site ships on its own. A reference out of it is a page with no stylesheet on the server, and no error anywhere',
   ]
   : [];
 report.summary(

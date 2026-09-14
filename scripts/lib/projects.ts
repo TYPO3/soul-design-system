@@ -9,7 +9,7 @@ import { join } from 'node:path';
 import { GENERATED, ROOT } from './cards.ts';
 
 export interface Project {
-  /** What it is called in the log. */
+  /** Its name in the log. */
   name: string;
   /** The documents, and the `guides.xml` beside them. */
   source: string;
@@ -18,8 +18,8 @@ export interface Project {
   /** What that root is, for whoever ran the render. */
   what: string;
   /** The marks its `guides.xml` points at, as `<file in _images/>: <asset>`.
-      A signet is crisp only in the box it was drawn for, so the file a tree
-      names is copied from the drawing rather than kept beside it by hand. */
+      A signet is crisp only in its own box. So the file a tree names comes
+      from the drawing rather than stays beside it by hand. */
   marks?: Readonly<Record<string, string>>;
 }
 
@@ -30,9 +30,9 @@ export const PROJECTS: readonly Project[] = [
     name: 'docs',
     source: join(ROOT, 'docs'),
     out: join(GENERATED, 'site'),
-    what: 'the publish root, and everything in it is published',
-    /* The bar draws at 24 and the two favicon slots are 16 and 32, which is
-       why three sizes are named and which asset each one is. */
+    what: 'the publish root, and everything in it goes public',
+    /* The bar draws at 24 and the two favicon slots are 16 and 32. That is
+       why three sizes stand here, and which asset each one is. */
     marks: {
       'signet.svg': 'design-system-signet-m.svg',
       'signet-s.svg': 'design-system-signet-s.svg',
@@ -40,10 +40,10 @@ export const PROJECTS: readonly Project[] = [
     },
   },
   /* The acceptance test for the theme: every node the renderer can emit, once,
-     where it can be looked at. A control surface rather than a published one,
-     so it is a root of its own beside the publish root and not a directory
-     inside it — what is published is then the whole of what was rendered
-     there, with nothing to remember to take back out. */
+     where a reader can look at it. A control surface rather than a public one.
+     So it is a root of its own beside the publish root and not a directory
+     inside it. What goes public is then the whole of what rendered there, with
+     nothing to remember to take back out. */
   {
     name: 'acceptance',
     source: join(ROOT, 'packages', 'guides-theme', 'acceptance'),

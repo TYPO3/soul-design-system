@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-/* Produce the exact upload plan, in the order it must be executed.
+/* Produce the exact upload plan, in the order it must run.
 
-   An agent performs the upload and must not work out what to push, or in what
+   An agent does the upload and must not work out what to push, or in what
    order. Neither is a preference, and every step below carries its own `why`
-   rather than a second copy of them here. The two that read as one: the anchor
-   goes last because it vouches for everything before it, and the sync ends in
-   two checks because a write landing and the app rebuilding are different
-   facts — the first is true for days while the pane serves a stale index.
+   rather than a second copy of them here. The two that read as one. The anchor
+   goes last because it vouches for everything before it. The sync ends in
+   two checks because a landed write and a rebuilt app are different facts.
+   The first is true for days while the pane serves a stale index.
 */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -21,19 +21,19 @@ const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
 const OUT = join(ROOT, '.design-sync/.cache/upload-plan.json');
 const SENTINEL = '_ds_needs_recompile';
 
-/* The sentinel has no file extension, and that is enough to lose it: uploaded
-   the ordinary way `write_files` answers `written: 1` and the file is not there
+/* The sentinel has no file extension, and that is enough to lose it. Uploaded
+   the ordinary way, `write_files` answers `written: 1` and the file is not there
    afterwards. Nothing fails, so a sync looks complete while the one file whose
-   job is to say "recompile" never arrives. Naming the type explicitly makes it
-   stick, and it is passed inline. */
-/* Its content carries the moment, because it used to be the same 24 bytes every
-   sync and the project stopped rebuilding: three syncs left it armed, the
-   manifest byte-identical and `updatedAt` hours stale. A file that says
-   "something changed" cannot say it by never changing. */
+   job is to say "recompile" never arrives. An explicit type makes it stick,
+   and it travels inline. */
+/* Its content carries the moment. The same 24 bytes every sync left the
+   project with no rebuild: three syncs left it armed, the manifest
+   byte-identical and `updatedAt` hours stale. A file that says "something
+   changed" cannot say it with the same bytes. */
 const SENTINEL_UPLOAD = {
   mimeType: 'text/plain',
   data: JSON.stringify({ by: 'design-sync-cli', at: new Date().toISOString() }),
-  note: 'inline with an explicit mimeType — an extensionless localPath upload is dropped silently',
+  note: 'inline with an explicit mimeType — an extensionless localPath upload goes astray in silence',
 };
 
 report.open('design-plan', 'the ordered upload plan, with deletes');
@@ -48,7 +48,7 @@ if (!local.fileHashes) {
   process.exit(1);
 }
 
-/* Which project this pushes to is yours, not the repository's: the id makes the
+/* Which project this pushes to is yours, not the repository's. The id makes the
    *second* sync land where the first did, and without one every run is a fresh
    project. Not a credential, but per-person, so a clone does not inherit
    somebody else's. Three places, in order: the environment, an untracked local
@@ -71,16 +71,16 @@ const projectId = readProjectId();
 const localPaths = pathsOf(local);
 const content = localPaths.filter((f) => f !== SENTINEL && f !== ANCHOR_FILE);
 
-/* The app replaced `_ds_bundle.js` with a stub of its own for as long as it
-   found no component source it could parse, which the wrappers ended: it now
-   reads back byte-identical to the upload. Kept anyway, because a hash
-   comparison cannot see a file the far side rewrites, and one file a sync is
-   the whole price of never discovering that silently. */
+/* The app replaced `_ds_bundle.js` with a stub of its own while it found no
+   component source it can parse, and the wrappers ended that. It now reads
+   back byte-identical to the upload. Kept anyway. A hash comparison cannot
+   see a file the far side rewrites. One file a sync is the whole price of a
+   loud answer to that. */
 const ALWAYS = new Set([ '_ds_bundle.js' ]);
 
 /* Deletes need the previous file list. Without a cached anchor we cannot
-   know what is up there, so we say so instead of guessing — an unfounded
-   delete is worse than a missed one. */
+   know what is up there, so we say so and guess nothing. An unfounded delete
+   is worse than a missed one. */
 let deletes: string[] = [];
 let deletable = true;
 let moved: string[] | null = null;
@@ -93,8 +93,8 @@ if (existsSync(ANCHOR)) {
   } else {
     deletable = false; // anchor predates file tracking
   }
-  /* Only what moved, and only against an anchor that hashed every file: it is
-     written last precisely so that finding it means everything before it
+  /* Only what moved, and only against an anchor that hashed every file. It
+     goes last precisely so that its presence means everything before it
      landed. An older anchor vouches for no content, so that sync sends all. */
   const was = hashesOf(remote);
   if (was) moved = content.filter((f) => ALWAYS.has(f) || was[f] !== local.fileHashes[f]);
@@ -103,23 +103,23 @@ if (existsSync(ANCHOR)) {
 }
 const upload = moved ?? content;
 
-/* Asked before anything is written, because it cannot be answered afterwards:
-   the type is fixed when a project is created, so a push into an ordinary one
-   lands every file and never becomes a design system. The symptom is a pane
-   with nothing in it, which is what a lost sentinel looks like too. */
+/* Asked before any write, because there is no answer afterwards. The type
+   never changes after creation, so a push into an ordinary one lands every
+   file and never becomes a design system. The symptom is a pane with nothing
+   in it, which is what a lost sentinel looks like too. */
 const preflight = projectId
   ? [{
-      action: 'verify', why: 'the target must already be a design system — the type is fixed at creation',
+      action: 'verify', why: 'the target must already be a design system — the type never changes after creation',
       method: 'get_project', projectId,
       expect: { type: 'PROJECT_TYPE_DESIGN_SYSTEM', canEdit: true },
       onMismatch: 'stop, write nothing, and report it: an ordinary project cannot become a design system. Create one with create_project, then set it here with `make design-project ARGS="<new uuid> --force"`.',
       alsoRecord: 'the project\'s current updatedAt, from list_projects — step 7 has nothing to compare against without it',
     }]
   : [{
-      action: 'create', why: 'no project id — create a NEW design system rather than reusing anything',
+      action: 'create', why: 'no project id — create a NEW design system rather than reuse anything',
       method: 'create_project',
       then: 'report the new id and set it here: `make design-project ARGS=<uuid>`',
-      note: 'never adopt an existing project for a first import: a fresh design system starts empty, so this upload is everything in it and nothing of the owner\'s is overwritten or deleted.',
+      note: 'never adopt an existing project for a first import. A fresh design system starts empty, so this upload is everything in it and touches nothing of the owner\'s.',
     }];
 
 const plan = {
@@ -135,8 +135,9 @@ const plan = {
   steps: [
     { step: 1, action: 'write', why: 'sentinel fences the manifest machinery', files: [SENTINEL], ...SENTINEL_UPLOAD },
     /* The tool's own maximum is 256 files and a call of exactly that answers
-       HTTP 500 — it is the count and not the payload, since 23 files carrying
-       2.4 MB go through. A 500 here is answered by resizing, never by stopping. */
+       HTTP 500. It is the count and not the payload, since 23 files with
+       2.4 MB go through. The answer to a 500 here is a smaller batch, never a
+       stop. */
     {
       step: 2, action: 'write', files: upload,
       why: `${moved ? 'the files this build moved' : 'all content'}, chunked at <=100 files and <=2 MB`,
@@ -144,26 +145,25 @@ const plan = {
     { step: 3, action: 'delete', why: 'files this build no longer produces', paths: deletes },
     { step: 4, action: 'write', why: 'sentinel re-armed so the app rebuilds its manifest', files: [SENTINEL], ...SENTINEL_UPLOAD },
     { step: 5, action: 'write', why: 'the anchor vouches for everything above — always last', files: [ANCHOR_FILE] },
-    /* The one write whose failure is silent, read back before anybody is told
-       the sync worked. An extensionless upload can answer `written: 1` and put
-       nothing there, and a pane with no manifest shows no cards at all — which
-       reads as a broken design system rather than a missing 24 bytes. */
+    /* The one write that fails in silence, read back before anybody hears the
+       sync worked. An extensionless upload can answer `written: 1` and put
+       nothing there. A pane with no manifest shows no cards at all, which
+       reads as a broken design system rather than 24 absent bytes. */
     {
       step: 6, action: 'verify', why: 'a write count is not proof — read the sentinel back',
       method: 'get_file', path: SENTINEL,
-      onMissing: `404 means the sync did not land: re-run step 4 with the mimeType above, then reopen the design system in the app.`,
-      proves: 'that the write landed, and nothing more — an armed sentinel the app has never read looks exactly like one it has just acted on. Step 7 is what says the sync arrived.',
+      onMissing: `404 means the sync did not land. Re-run step 4 with the mimeType above, then reopen the design system in the app.`,
+      proves: 'that the write landed, and nothing more. An armed sentinel the app has never read looks exactly like one it has just acted on. Step 7 is what says the sync arrived.',
     },
-    /* The files being current is not the sync being done: the app compiles the
-       manifest and the adherence config itself, when somebody opens the project
-       and finds a sentinel whose bytes it has not seen. Three syncs once passed
-       every step above while the pane served a morning-old index. */
+    /* Current files are not a complete sync. The app compiles the manifest and
+       the adherence config itself, when somebody opens the project and finds a
+       sentinel whose bytes it has not seen. */
     {
       step: 7, action: 'verify', why: 'the app rebuilt — which is the sync arriving',
       needs: 'the project opened or reloaded by whoever owns it; nothing here can trigger it',
       method: 'list_projects',
       expect: 'updatedAt later than this upload, against the one recorded in preflight',
-      then: 'read `_ds_manifest.json` and check `components` is not empty — that list is the API the design agent is handed',
+      then: 'read `_ds_manifest.json` and check `components` is not empty — that list is the API the design agent gets',
       onUnchanged: 'the sentinel did not register. Do not report the sync as arrived: say the files are current and the rebuild has not run.',
     },
   ],
@@ -177,28 +177,28 @@ report.align([{ name: '', label: 'the order it uploads in' }]);
 report.fact('written to', '.design-sync/.cache/upload-plan.json');
 report.fact('project', projectId ?? '(none set — see below)');
 report.fact('before it writes', projectId
-  ? 'get_project — the target is a design system, or nothing is written'
+  ? 'get_project — the target is a design system, or nothing goes up'
   : 'create_project — there is no target yet');
-report.fact('the order it uploads in', `1 sentinel · 2 ${upload.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor · 6 read the sentinel back · 7 the app rebuilt`);
+report.fact('the order it uploads in', `1 sentinel · 2 ${upload.length} files · 3 ${deletes.length} deletes · 4 sentinel · 5 anchor · 6 sentinel read back · 7 app rebuilt`);
 if (moved) report.fact('held back', `${content.length - upload.length} file(s) already at the uploaded state`);
 if (deletes.length) {
   report.fact('to delete', `${deletes.slice(0, 6).join(', ')}${deletes.length > 6 ? `, … (+${deletes.length - 6})` : ''}`);
 }
 if (!projectId) {
-  report.note('with no project id every sync creates a new project instead of updating the one that is there');
+  report.note('with no project id every sync creates a new project instead of an update to the one that is there');
   report.detail('the anchor, the deletes and the whole update path hang on it. Set it once:');
   report.detail('export SDS_DESIGN_PROJECT=<uuid>');
   report.detail('or .design-sync/config.local.json  {"projectId": "<uuid>"}');
   report.detail('No project yet? `/design-sync` creates one and names the id.');
 }
 if (!deletable) {
-  report.note('no reference state with a file list — deletes were NOT computed');
+  report.note('no reference state with a file list — the plan holds NO deletes');
   report.detail('Fetch the anchor from the project and run again:');
   report.detail('DesignSync get_file  _ds_sync.json  ->  .design-sync/.cache/remote-sync.json');
   report.detail('If it carries no "fileHashes" (an upload from before this change), hold list_files against the build once.');
 }
 if (!moved) {
-  report.note('the reference state hashes no files \u2014 every file is uploaded this once');
+  report.note('the reference state hashes no files \u2014 every file goes up this once');
   report.detail('An anchor written before per-file hashes can say what is up there, not what is in it.');
 }
 report.fact('after a successful upload', 'make design-synced');

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Build what a consumer takes: a drop-in, and a package.
 
-   The repo needs no build — Node runs the `.ts` sources by stripping types.
+   The repo needs no build — Node strips the types and runs the `.ts` sources.
    Two audiences do. **The drop-in** is `soul.js`, `soul.css` and the assets
    beside them: copy the directory somewhere public and link two files, Lit
    bundled in. **The package** is `index.js` plus types and keeps `lit`
@@ -23,16 +23,16 @@ import { manifest } from './lib/manifest.ts';
 import * as report from './lib/report.ts';
 
 /* `--check` builds beside the committed output and compares. The drop-in is
-   in git so a consumer can take it over a plain clone; committed and
-   unchecked it would be a copy that goes stale against its own source, which
-   is the failure this system exists to prevent. */
+   in git so a consumer can take it over a plain clone. In git and unchecked,
+   it is a copy that goes stale against its own source, which is the failure
+   this system exists to prevent. */
 const CHECK = process.argv.includes('--check');
-/* `--watch` keeps the drop-in current while a source file is being edited, so
-   the surfaces that link it are never a `make dist` behind. Types are left out
-   of it: nothing in the running stack reads them, they are the slowest step by
+/* `--watch` keeps the drop-in current while somebody edits a source file, so
+   the surfaces that link it are never a `make dist` behind. Types stay out of
+   it. Nothing in the running stack reads them, they are the slowest step by
    an order of magnitude, and `verify` builds them anyway. */
 const WATCH = process.argv.includes('--watch');
-/* Beside `dist/` rather than under `.out/` with everything else generated: the
+/* Beside `dist/` rather than under `.out/` with everything else generated. The
    check compares bytes, and both the generated tsconfig below and esbuild's
    sourcemaps name their sources relatively. Only a sibling of the real output
    produces the same paths. */
@@ -52,9 +52,9 @@ function* walkDts(dir: string): Generator<string> {
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 
-/* One ESM file. The components are small and import each other; splitting
-   them would only give a consumer more requests for the same bytes, and the
-   entry registers every element anyway. */
+/* One ESM file. The components are small and import each other. Split, they
+   only give a consumer more requests for the same bytes, and the entry
+   registers every element anyway. */
 const bundle = await esbuild.build({
   entryPoints: [join(FRONTEND, 'src', 'index.ts')],
   outfile: join(OUT, 'index.js'),
@@ -67,9 +67,9 @@ const bundle = await esbuild.build({
 });
 
 /* Types come from tsc, which needs its own config: the repo's tsconfig is
-   `noEmit` and allows `.ts` import specifiers, and neither is publishable.
+   `noEmit` and permits `.ts` import specifiers, and neither is publishable.
    `rewriteRelativeImportExtensions` turns those specifiers into `.js` on the
-   way out, which is what lets one set of sources serve both Node's stripper
+   way out. That is what lets one set of sources serve both Node's stripper
    and a published package. */
 const tsconfig = {
   extends: '../../../tsconfig.json',
@@ -79,17 +79,17 @@ const tsconfig = {
     emitDeclarationOnly: true,
     rewriteRelativeImportExtensions: true,
     allowImportingTsExtensions: true,
-    /* Both explicit: with the config inside dist/, tsc would otherwise infer
-       the root as dist/ and reject every source above it. The climb is to the
+    /* Both explicit: with the config inside dist/, tsc otherwise infers the
+       root as dist/ and rejects every source above it. The climb is to the
        package, not the repo — `src/` sits beside this output. */
     rootDir: '..',
     outDir: 'types',
   },
   include: ['../src/**/*.ts'],
 };
-/* Written into dist/ rather than the repo root: it is generated, it is only
-   meaningful next to the output it describes, and a root full of generated
-   config is how a root stops being readable. */
+/* Written into dist/ rather than the repo root. It is output, and it only
+   means something next to the output it describes. A root full of generated
+   config is a root nobody can read. */
 const cfgPath = join(OUT, 'tsconfig.json');
 writeFileSync(cfgPath, `${JSON.stringify(tsconfig, null, 2)}\n`);
 
@@ -105,9 +105,9 @@ if (tsc.status !== 0) {
 
 /* The sources import each other with explicit `.ts` specifiers, which is what
    lets one set of files serve Node's type stripper and Vite alike. A published
-   `.d.ts` must not carry them — a consumer's TypeScript rejects the spelling
-   outright — and `rewriteRelativeImportExtensions` does not reach declaration
-   emit, so it is done here. */
+   `.d.ts` must not carry them, as a consumer's TypeScript rejects the spelling
+   outright. `rewriteRelativeImportExtensions` does not reach declaration
+   emit, so it happens here. */
 let rewritten = 0;
 for (const file of walkDts(join(OUT, 'types'))) {
   const before = readFileSync(file, 'utf8');
@@ -118,10 +118,10 @@ for (const file of walkDts(join(OUT, 'types'))) {
   }
 }
 
-/* The catalogue, written from the same sources the bundle is built from and
-   beside it, because a drop-in is copied as a directory: a manifest left at
-   the package root would not travel with the files it describes. Hung on this
-   build so a watch keeps it current — it reads what these inputs are. */
+/* The catalogue, written from the same sources as the bundle and beside it,
+   because a drop-in travels as a directory. A manifest left at the package
+   root does not travel with the files it describes. Hung on this build so a
+   watch keeps it current — it reads what these inputs are. */
 const catalogue: esbuild.Plugin = {
   name: 'custom-elements',
   setup(build) {
@@ -133,7 +133,7 @@ const catalogue: esbuild.Plugin = {
 };
 
 /* The drop-in. Lit inside, one stylesheet, and the files both of them ask
-   for sitting beside them at the paths they already use. */
+   for beside them at the paths they already use. */
 const jsOptions: esbuild.BuildOptions = {
   entryPoints: [join(FRONTEND, 'src', 'index.ts')],
   outfile: join(OUT, 'soul.js'),
@@ -147,9 +147,9 @@ const jsOptions: esbuild.BuildOptions = {
 };
 
 /* What the stylesheet says about itself, because it is the file an outside
-   reader finds first: 140 kB of class selectors, and nothing in it saying an
-   element emitted every one of them. Minifying strips comments, so it is put
-   back after the sheet is written. */
+   reader finds first. 140 kB of class selectors, and nothing in it to say an
+   element emitted every one of them. The minifier strips comments, so this
+   goes back after the sheet exists. */
 const HEADER = `/* Soul, as one stylesheet: the tokens, and the sds- classes the elements draw.
 
    These classes are what the elements render — not a second way to build one.
@@ -157,14 +157,14 @@ const HEADER = `/* Soul, as one stylesheet: the tokens, and the sds- classes the
    with; a hand-written <div class="sds-card"> is the fallback for a surface
    that runs no JavaScript, and it cannot grow a part the element later moves.
 
-   Every tag, with what it takes, what it says and whether it holds content:
+   Every tag, with what it takes, what it says and if it holds content:
    custom-elements.json, beside this file. */
 `;
 
-/* The stylesheets are minified and then broken back onto one rule per line.
-   They are committed, and a sheet on a single line is a file two changes can
-   never merge into — see the head of `lib/css.ts`. The bytes a reader pays
-   for it are one newline per rule. */
+/* The stylesheets minify and then break back onto one rule per line. They
+   are in git, and a sheet on a single line is a file two changes can never
+   merge into — see the head of `lib/css.ts`. The bytes a reader pays for it
+   are one newline per rule. */
 const perRule: esbuild.Plugin = {
   name: 'rule-per-line',
   setup(build) {
@@ -188,10 +188,10 @@ const cssOptions: esbuild.BuildOptions = {
   plugins: [perRule],
 };
 
-/* The pre-paint line, and the only thing here that is not a module: it has to
-   run before the page is painted, and `type=module` is deferred whether you ask
-   for it or not. So it ships as a classic script, built on its own — the head
-   of `src/boot.ts` says what leaving it out costs. */
+/* The pre-paint line, and the only thing here that is not a module. It has to
+   run before the first paint, and `type=module` defers, asked or not. So it
+   ships as a classic script, built on its own — the head of
+   `src/boot.ts` says what its absence costs. */
 const bootOptions: esbuild.BuildOptions = {
   entryPoints: [join(FRONTEND, 'src', 'boot.ts')],
   outfile: join(OUT, 'soul-boot.js'),
@@ -219,7 +219,7 @@ const finishOptions: esbuild.BuildOptions = {
 };
 
 /* The rule, as something a consumer can run: `npx soul-check`. Built like the
-   step above and for the same reason — a project has a Node and nothing of
+   step above and for the same reason. A project has a Node and nothing of
    this repository's toolchain. esbuild keeps the source's own shebang, which
    is what npm links the command through. */
 const checkOptions: esbuild.BuildOptions = {
@@ -233,10 +233,10 @@ const checkOptions: esbuild.BuildOptions = {
   legalComments: 'none',
 };
 
-/* What a page fetches, and the list beside it — with the files that list
-   names, because a lookup is a promise about paths and it travels with them.
-   Only the illustrations stay out: nothing here names them, and the theme
-   package takes them from `assets/` where they are kept. */
+/* What a page fetches, and the list beside it, with the files that list
+   names. A lookup is a promise about paths and it travels with them. Only the
+   illustrations stay out: nothing here names them, and the theme package
+   takes them from `assets/` where they live. */
 const NOT_IN_THE_DROP_IN = ['placeholders'];
 const copyAssets = (): void => cpSync(join(FRONTEND, 'assets'), join(OUT, 'assets'), {
   recursive: true,
@@ -247,9 +247,9 @@ if (WATCH) {
   const stamp = (what: string, errors = 0): void =>
     report.fact(new Date().toTimeString().slice(0, 8), errors ? `${what} failed — ${errors} error(s)` : `rebuilt ${what}`);
 
-  /* Say something on every pass. esbuild rebuilds silently, and a watcher you
-     cannot tell is alive is the next thing to go wrong without saying so —
-     the output would simply stop changing. */
+  /* Say something on every pass. esbuild rebuilds in silence. A watcher you
+     cannot tell is alive is the next thing to go wrong unseen — the output
+     simply stops. */
   const announce = (what: string): esbuild.Plugin => ({
     name: 'announce',
     setup(build) {
@@ -258,10 +258,10 @@ if (WATCH) {
   });
 
   /* esbuild watches what it imported, which is `src/` and the faces. The
-     assets are copied rather than imported, so nothing would notice a new
-     icon — they get their own watch. */
-  /* Appended, never assigned: a spread that replaced `plugins` would drop the
-     rewrite above and leave the watched sheets on one line. */
+     assets copy rather than import, so nothing notices a new icon — they get
+     their own watch. */
+  /* Appended, never assigned: a spread that replaces `plugins` drops the
+     rewrite above and leaves the watched sheets on one line. */
   const watched = (o: esbuild.BuildOptions, what: string): esbuild.BuildOptions =>
     ({ ...o, plugins: [...(o.plugins ?? []), announce(what)] });
 
@@ -269,9 +269,9 @@ if (WATCH) {
     esbuild.context(watched(jsOptions, 'dist/soul.js')),
     esbuild.context(watched(cssOptions, 'dist/soul.css')),
     esbuild.context(watched(bootOptions, 'dist/soul-boot.js')),
-    /* The finishing step too, or a watch run leaves the drop-in without the
-       one file a documentation build calls — and the gate, which compares a
-       fresh build against this directory, reports it as out of date. */
+    /* The finish step too, or a watch run leaves the drop-in without the one
+       file a documentation build calls. The gate, which compares a fresh build
+       against this directory, then reports it as out of date. */
     esbuild.context(watched(finishOptions, 'dist/soul-finish.js')),
     esbuild.context(watched(checkOptions, 'dist/soul-check.js')),
   ]);

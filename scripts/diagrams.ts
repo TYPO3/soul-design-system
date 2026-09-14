@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /* Read the referenced artwork into the modules that need it — `make diagrams`,
-   or `ARGS=--check` to ask whether they are still in step.
+   or `ARGS=--check` to ask if they are still in step.
 
-   Artwork is referenced rather than linked so its colours are the page's
-   tokens, and the files then owe two things. The viewBox, since `<use>` carries
-   the shapes and not the size and a drawing names a `<g>`, which carries none —
-   kept by hand a viewBox drifts, and a drifted one is a drawing squashed by a
-   fraction. And the markup, because a card opened from disk resolves a
-   reference to nothing; only the static render path imports that, so `soul.js`
-   never pays for it. */
+   A page references artwork rather than links it, so its colours are the
+   page's tokens, and the files then owe two things. The viewBox, since `<use>`
+   carries the shapes and not the size, and a drawing names a `<g>`, which
+   carries none. Kept by hand a viewBox drifts, and a drifted one is a drawing
+   squashed by a fraction. And the markup, because a card opened from disk
+   resolves a reference to nothing. Only the static render path imports that,
+   so `soul.js` never pays for it. */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -19,30 +19,30 @@ const ASSETS = join(FRONTEND, 'assets');
 const DIR = join(ASSETS, 'diagrams');
 
 /** The group `<use>` points at in a drawing. Every one of them names it the
-    same: pointing at the root `<svg>` would clone the `<title>` and `<desc>`
-    into a wrapper that already carries the alt text, and read the drawing out
-    twice. A mark has no `<title>` to clone and names its root instead, which
-    is what lets the same file be opened on its own and used as a favicon. */
+    same. A reference to the root `<svg>` clones the `<title>` and `<desc>`
+    into a wrapper that already carries the alt text. The drawing then reads
+    out twice. A mark has no `<title>` to clone and names its root instead. That
+    is what lets the same file open on its own and serve as a favicon. */
 const GROUP = /<g id="soul-ref">([\s\S]*)<\/g>/;
 
-/** A mark says it may be referenced by naming its root. */
+/** A mark names its root to say a reference can point at it. */
 const ROOTED = /<svg\b[^>]*\sid="soul-ref"/;
 
 const viewBoxOf = (file: string, text: string): string => {
   const viewBox = /<svg[^>]*\sviewBox="([^"]+)"/.exec(text)?.[1];
-  if (!viewBox) throw new Error(`${file}: no viewBox on the root <svg> — artwork without one cannot be referenced`);
+  if (!viewBox) throw new Error(`${file}: no viewBox on the root <svg> — no reference can point at artwork without one`);
   return viewBox;
 };
 
-/* A double dash inside a comment is illegal XML, and an SVG is parsed as XML
-   the moment it is fetched, so the file renders nothing anywhere and the only
+/* A double dash inside a comment is illegal XML, and an SVG parses as XML the
+   moment a fetch brings it. So the file renders nothing anywhere and the only
    sign of it is a blank space. Easy to write by accident, because the token
-   names these files are full of are spelled with two: a note explaining
-   `var(--token, #hex)` breaks the drawing it is explaining. */
+   names these files are full of carry two. A note that explains
+   `var(--token, #hex)` breaks the drawing it explains. */
 const wellFormed = (file: string, text: string): void => {
   for (const comment of text.matchAll(/<!--([\s\S]*?)-->/g)) {
     if ((comment[1] ?? '').includes('--')) {
-      throw new Error(`${file}: a comment carries a double dash — that is malformed XML, and the file draws nothing wherever it is fetched`);
+      throw new Error(`${file}: a comment carries a double dash — that is invalid XML, and the file draws nothing wherever it lands`);
     }
   }
 };
@@ -60,10 +60,10 @@ const drawings = readdirSync(DIR)
   });
 
 /* A mark goes into the card whole, as a nested `<svg>` rather than loose
-   shapes: that is what carries the coordinate system across, since the wrapper
-   states a size and no viewBox. What comes out is the drawing and nothing else
-   — the wrapper already says what the picture is, and the `id` goes too, or a
-   card showing one mark twice ships it twice. */
+   shapes. That is what carries the coordinate system across, since the wrapper
+   states a size and no viewBox. What comes out is the drawing and nothing
+   else. The wrapper already says what the picture is, and the `id` goes too,
+   or a card with one mark twice ships it twice. */
 const CARRIED = [
   [/<\?xml[^>]*\?>\s*/g, ''],
   [/\s*<!--[\s\S]*?-->/g, ''],

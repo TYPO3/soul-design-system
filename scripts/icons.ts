@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /* Materialise assets/icons/ from the @typo3/icons package.
 
-   The identifiers below are the core's own — the same strings
-   `typo3_icon_lookup` returns — so design and runtime name the same thing, and
-   taking them from the package makes drift impossible. A missing icon is
-   contributed upstream, never drawn locally and never substituted, so this
-   FAILS on a declared identifier the package does not have.
+   The identifiers below are the core's own, the same strings
+   `typo3_icon_lookup` returns. So design and runtime name the same thing, and
+   the package as the source makes drift impossible. An absent icon goes
+   upstream, never drawn here and never substituted, so this FAILS on a
+   declared identifier the package does not have.
 
      make icons
 */
@@ -15,10 +15,10 @@ import { dirname, join } from 'node:path';
 import { FRONTEND, ROOT } from './lib/cards.ts';
 import * as report from './lib/report.ts';
 
-/* Which categories this system ships. Everything else about an icon —
-   whether it exists, where its file is, which sprite carries it, what a
-   deprecated spelling resolves to — comes from the package's own manifest.
-   Nothing here scans a directory or guesses a path from an identifier. */
+/* Which categories this system ships. Everything else about an icon comes
+   from the package's own manifest. If it exists, where its file is, which
+   sprite carries it, what a deprecated spelling resolves to. Nothing here
+   scans a directory or guesses a path from an identifier. */
 const CATEGORIES = ['actions', 'spinner'] as const;
 
 const PKG = join(ROOT, 'node_modules', '@typo3', 'icons');
@@ -41,13 +41,13 @@ if (missing.length) {
 }
 
 /* A sprite is one file per category, so the element has to know which category
-   an identifier belongs to — and the only thing it is given is the identifier.
-   That every identifier opens with its own category is what makes the lookup
-   possible, so it is checked here rather than assumed there. */
+   an identifier belongs to. The only thing it gets is the identifier. That
+   every identifier opens with its own category is what makes the lookup
+   possible, so the check is here rather than an assumption there. */
 const astray = ICONS.filter((i) => !i.identifier.startsWith(`${i.category}-`));
 if (astray.length) {
   report.bad(
-    `identifier does not open with its own category, which is how a sprite is found: ` +
+    `identifier does not open with its own category, which is how the lookup finds a sprite: ` +
       astray.map((i) => `${i.identifier} (${i.category})`).join(', '),
   );
   process.exit(1);
@@ -58,8 +58,8 @@ rmSync(OUT, { recursive: true, force: true });
 /* The package's own layout, mirrored. Three shapes, none rebuilt here: a single
    file for whatever reaches for one, the sprite for a whole category, and the
    manifest as the lookup. The manifest's paths are relative to itself, so the
-   files have to sit where it says — flattening them and keeping it verbatim
-   would ship a lookup that resolves to nothing. */
+   files have to sit where it says. Flat files under a verbatim manifest ship
+   a lookup that resolves to nothing. */
 mkdirSync(join(OUT, 'svgs'), { recursive: true });
 mkdirSync(join(OUT, 'sprites'), { recursive: true });
 for (const category of CATEGORIES) {
@@ -67,8 +67,8 @@ for (const category of CATEGORIES) {
   copyFileSync(join(PKG, 'dist', 'sprites', `${category}.svg`), join(OUT, 'sprites', `${category}.svg`));
 }
 
-/* Filtered to what is actually here. Copied verbatim it would name 404 icons
-   this system does not ship — the same shape of lie as a stale token. */
+/* Filtered to what is here. Copied verbatim it names 404 icons this system
+   does not ship — the same shape of lie as a stale token. */
 const shipped = new Set(ICONS.map((i) => i.identifier));
 writeFileSync(join(OUT, 'icons.json'), `${JSON.stringify({
   icons: Object.fromEntries(ICONS.map((i) => [i.identifier, i])),
@@ -79,11 +79,11 @@ copyFileSync(join(PKG, 'LICENSE'), join(OUT, 'LICENSE-TYPO3.Icons.txt'));
 
 const version = JSON.parse(readFileSync(join(PKG, 'package.json'), 'utf8')).version;
 
-/* Two generated modules, split by who may pay for them. `icons.generated.ts` is
-   the identifiers and their type, small enough for the browser bundle, and
-   `IconId` makes a misspelling a compile error rather than a throw at render
-   time. `icons.svg.generated.ts` is every glyph as a string and must never
-   reach the bundle, which splitting it keeps true by construction. */
+/* Two generated modules, split by who can pay for them. `icons.generated.ts`
+   is the identifiers and their type, small enough for the browser bundle.
+   `IconId` makes a spelling error a compile error rather than a throw at
+   render time. `icons.svg.generated.ts` is every glyph as a string and must
+   never reach the bundle, which the split keeps true by construction. */
 const header = (what: string): string =>
   `/* GENERATED by scripts/icons.ts — @typo3/icons@${version}, MIT. Do not edit.\n` +
   `   ${what}\n` +

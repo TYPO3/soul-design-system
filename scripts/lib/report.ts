@@ -5,7 +5,7 @@
    carries nothing on its own: piped, redirected or in CI the same characters
    say the same thing.
 
-   `SDS_REPORT=1` switches a task to the contract `verify` reads — the first
+   `SDS_REPORT=1` switches a task to the contract `verify` reads. The first
    line is its facts, every line after it is detail the gate shows only when
    the task failed. Set it by hand to see exactly what the gate sees. */
 
@@ -31,7 +31,7 @@ const MARK: Record<State, string> = {
 export const REPORTING = process.env.SDS_REPORT === '1';
 
 /* The two columns every row shares. Set from the whole list before the first
-   row, so the facts line up down the page instead of following the longest
+   row. So the facts line up down the page and do not follow the longest
    label on the way past. */
 let nameWidth = 0;
 let labelWidth = 0;
@@ -41,8 +41,8 @@ export function align(rows: readonly { name: string; label: string }[]): void {
   labelWidth = Math.max(0, ...rows.map((r) => r.label.length));
 }
 
-/* Whether anything has been said since the title. A task that found nothing
-   worth a line closes straight under it rather than on an empty one. */
+/* If anything has come out since the title. A task that found nothing that
+   deserves a line closes straight under it rather than on an empty one. */
 let spoke = false;
 
 /** The task's opening line: what ran, and what it is for. */
@@ -75,7 +75,7 @@ export function fact(text: string, value = ''): void {
   console.log(value ? `  ${text.padEnd(labelWidth)}  ${dim(value)}` : `  ${text}`);
 }
 
-/** Worth reading, not worth failing over. */
+/** A line to read, not a reason to fail. */
 export function note(text: string): void {
   if (REPORTING) return;
   spoke = true;
@@ -96,8 +96,8 @@ export function close(state: State, message: string): void {
 }
 
 /** The contract: the facts the gate puts in its row, then what went wrong.
-    Outside the gate the same two things read as a task's own closing lines —
-    `shown` for a task that has already printed them under the rows they
+    Outside the gate the same two things read as a task's own closing lines.
+    `shown` is for a task that has already printed them under the rows they
     belong to, which must still report them to the gate. */
 export function summary(facts: string, problems: readonly string[] = [], { shown = false } = {}): void {
   if (REPORTING) {

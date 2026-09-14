@@ -2,8 +2,8 @@
 /* One entry point, one way to run anything: in the container.
 
    The map below is what each task runs. The `Makefile` is how a human gets into
-   a container and knows nothing about the tasks, so there is one place to
-   change a command and one to change how it is launched. From the host this
+   a container and knows nothing about the tasks. So there is one place to
+   change a command and one to change how it launches. From the host this
    hands the task to `docker compose` — the `SDS_IN_CONTAINER` check below.
 
      make verify            # the normal way in
@@ -14,7 +14,7 @@ import * as report from './lib/report.ts';
 
 interface Task {
   /** What runs inside the container. Every task has one: the long-running
-      services are not tasks and are brought up by `make start`. */
+      services are not tasks and come up with `make start`. */
   cmd: string[];
   /** Keep stdin attached — `shell` is the only one that needs it. */
   interactive?: boolean;
@@ -26,10 +26,10 @@ const node = (file: string, ...args: string[]): string[] => ['node', file, ...ar
 /* Every task, and what it actually runs inside the container. Anything not
    listed here is not a thing you can run — which is the point. */
 const TASKS: Record<string, Task> = {
-  // The long-running surfaces are brought up by `make start`, not from here.
+  // The long-running surfaces come up with `make start`, not from here.
 
   // The gate and what feeds it
-  /* No `sh -c` wrapper: `ARGS` has to reach the script, and appended to a
+  /* No `sh -c` wrapper. `ARGS` has to reach the script. Appended to a
      wrapped command it lands on the shell instead — a filtered gate that
      silently ran all of it. `verify.ts` builds the bundle itself, for the one
      check that reads it. `make verify ARGS=--help` lists the names. */
@@ -47,14 +47,14 @@ const TASKS: Record<string, Task> = {
   css: { cmd: node('scripts/css.ts'), help: 'format the stylesheets against biome.jsonc — ARGS=--check to only report' },
 
   // The documentation site
-  guides: { cmd: node('scripts/guides.ts'), help: 'render the documents with the installed theme — ARGS names one project, e.g. docs' },
+  guides: { cmd: node('scripts/guides.ts'), help: 'render the documents with the installed theme — ARGS names one project, for example docs' },
 
   // Build artefacts
   build: { cmd: node('scripts/build.ts'), help: 'assemble .out/bundle/, the upload payload' },
   dist: { cmd: node('scripts/dist.ts'), help: 'build the publishable ESM package and its types' },
-  split: { cmd: node('scripts/split.ts'), help: 'assemble the Guides theme as the package it is published as, into .out/split/' },
+  split: { cmd: node('scripts/split.ts'), help: 'assemble the Guides theme as the package it ships as, into .out/split/' },
   release: { cmd: node('scripts/release.ts'), help: 'write the version every manifest carries, and print the commands that tag it — make release ARGS=0.2.0' },
-  notes: { cmd: node('scripts/notes.ts'), help: 'what the release page will say, from the commits it is cut from — the log arrives on stdin' },
+  notes: { cmd: node('scripts/notes.ts'), help: 'what the release page will say, from the commits behind the tag — the log arrives on stdin' },
   fonts: { cmd: node('scripts/fonts.ts'), help: 'regenerate fonts/ from @fontsource' },
   icons: { cmd: node('scripts/icons.ts'), help: 'regenerate assets/icons/ from @typo3/icons' },
   diagrams: { cmd: node('scripts/diagrams.ts'), help: 'read the drawings’ viewBoxes into src/components/diagrams.generated.ts' },
@@ -66,12 +66,12 @@ const TASKS: Record<string, Task> = {
   diff: { cmd: node('scripts/diff.ts'), help: 'compare after against baseline' },
   look: { cmd: node('scripts/look.ts'), help: 'photograph one page in both modes — make look ARGS=screens/feature.html' },
 
-  /* Sync to claude.ai/design, and every one of them says so in its name:
+  /* Sync to claude.ai/design, and every one of them says so in its name.
      `status`, `plan`, `project` and `synced` are words this repository uses
      for other things, and a task called `plan` reads as the repository's own. */
   'design-project': { cmd: node('scripts/design-project.ts'), help: 'which claude.ai design system a sync uploads into — ARGS=<uuid> sets it, ARGS=--forget starts over' },
   'design-sync': { cmd: ['sh', '-c', 'node scripts/verify.ts && node scripts/design-status.ts && node scripts/design-plan.ts'], help: 'build + verify + what-would-change + upload plan' },
-  'design-status': { cmd: node('scripts/design-status.ts'), help: 'what a sync would change' },
+  'design-status': { cmd: node('scripts/design-status.ts'), help: 'what a sync changes' },
   'design-plan': { cmd: node('scripts/design-plan.ts'), help: 'the ordered upload plan, with deletes' },
   'design-synced': { cmd: node('scripts/design-synced.ts'), help: 'record that the uploaded design system holds this build' },
 
@@ -85,14 +85,14 @@ function usage() {
 
 const name = process.argv[2];
 if (!name || name === '--help') {
-  report.open('tasks', 'everything this repository can be asked to do');
+  report.open('tasks', 'everything this repository can do on request');
   usage();
   process.exit(name ? 0 : 1);
 }
 
 const task = TASKS[name];
 if (!task) {
-  report.open('tasks', 'everything this repository can be asked to do');
+  report.open('tasks', 'everything this repository can do on request');
   report.bad(`there is no task called "${name}"`);
   console.log();
   usage();
@@ -108,12 +108,12 @@ if (process.env['SDS_IN_CONTAINER']) {
   process.exit(r.status ?? 1);
 }
 
-/* On the host: hand it to compose. The image is built on demand and compose
+/* On the host: hand it to compose. The image builds on demand and compose
    caches it, so this is a no-op while the dependencies have not moved. The
-   comparison is written out rather than negated, so a machine without Docker
-   gets the sentence below instead of a raw spawn error. */
+   comparison stands written out rather than negated, so a machine without
+   Docker gets the sentence below instead of a raw spawn error. */
 if (spawnSync('docker', ['--version'], { stdio: 'ignore' }).status !== 0) {
-  report.bad('Docker is required — this repo runs nothing on the host');
+  report.bad('this repo needs Docker — it runs nothing on the host');
   process.exit(1);
 }
 
@@ -125,8 +125,8 @@ process.env['SDS_GID'] ??= String(process.getgid?.() ?? 1000);
 
 /* `--build` on every run. Compose does not rebuild for `run` by default, so
    without it an edited Dockerfile or a changed lockfile silently keeps the
-   old image — and the failure that produces looks like a bug in the code
-   rather than a stale layer. The cache check is cheap when nothing moved. */
+   old image. The failure that produces looks like a bug in the code rather
+   than a stale layer. The cache check is cheap when nothing moved. */
 const args = ['compose', '-f', '.infra/docker-compose.yml', 'run', '--rm', '--build', ...(task.interactive ? [] : ['-T']), 'app', 'node', 'scripts/task.ts', name, ...passthrough];
 const child = spawn('docker', args, { stdio: 'inherit', env: process.env });
 child.on('exit', (code) => process.exit(code ?? 0));

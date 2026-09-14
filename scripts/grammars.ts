@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /* Write the grammars this system wrote itself where the server can load them
-   — `make grammars`, or `ARGS=--check` to ask whether the copy is in step.
+   — `make grammars`, or `ARGS=--check` to ask if the copy is in step.
 
-   A code block is coloured twice: in the browser by highlight.js, and on the
-   rendered site by its PHP port, which reads a language as JSON. The modes
-   under `src/lib/grammars/` are the one source of both, and this puts a copy
-   of each beside the theme that registers it — the theme is published as a
-   Composer package of its own, and nothing on the way out builds. */
+   A code block gets its colour twice. In the browser from highlight.js, and
+   on the rendered site from its PHP port, which reads a language as JSON. The
+   modes under `src/lib/grammars/` are the one source of both. This puts a copy
+   of each beside the theme that registers it. The theme ships as a Composer
+   package of its own, and nothing on the way out builds. */
 import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -15,8 +15,8 @@ import { ROOT } from './lib/cards.ts';
 import * as report from './lib/report.ts';
 
 /** Where the theme looks. The suffix is the only thing a JSON file can say
-    about itself: it carries no comment, and a reader who opens one has to be
-    told from the name that editing it is reverted by the next run. */
+    about itself. It carries no comment, and the name has to tell a reader who
+    opens one that the next run reverts any edit. */
 const DIR = join(ROOT, 'packages', 'guides-theme', 'resources', 'highlight');
 const SUFFIX = '.generated.json';
 
@@ -50,8 +50,8 @@ for (const [name, json] of written) {
   }
 }
 
-/* A grammar that was dropped leaves a file the theme would still register,
-   and a language nothing tests is a colour nobody chose. */
+/* A grammar that went leaves a file the theme still registers, and a
+   language nothing tests is a colour nobody chose. */
 for (const file of present) {
   if (expected.has(file)) continue;
   if (check) problems.push(`${file}: no grammar behind it any more`);

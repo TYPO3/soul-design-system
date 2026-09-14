@@ -1,25 +1,24 @@
 #!/usr/bin/env node
-/* A package under `packages/`, mirrored into the repository it is published
-   from.
+/* A package under `packages/`, mirrored into the repository it ships from.
 
      make split ARGS=guides-theme   replay its commits into .out/split/guides-theme
      make split ARGS=frontend       the same, for the npm package
      make split ARGS=--check        assemble both and prove they are whole
 
    Packagist reads the `composer.json` at the root of a repository, and npm
-   installs from one — so everything under `packages/` is pushed to a repository
-   of its own. That is what the directory means, and the only thing it means.
+   installs from one. So everything under `packages/` goes to a repository of
+   its own. That is what the directory means, and the only thing it means.
 
    **Assembled per commit rather than split out of the history.** `splitsh-lite`
-   reproduces a subdirectory's commits exactly, which cannot work for the theme:
-   its package has to hold a directory this tree does not have in that place —
-   the drop-in a page links. So each commit that touches a package is replayed,
-   with the author, the date and the message it had here and a `Split-From:`
-   trailer saying where the mirror stopped. A commit that changes nothing over
+   reproduces a subdirectory's commits exactly, which cannot work for the theme.
+   Its package has to hold a directory this tree does not have in that place:
+   the drop-in a page links. So each commit that touches a package replays,
+   with the author, the date and the message it had here. A `Split-From:`
+   trailer says where the mirror stopped. A commit that changes nothing over
    there is not a commit over there, unless a tag points at it.
 
-   Nothing is pushed. The remote is printed with the commands that do it,
-   because publishing is a decision and not a build step. */
+   Nothing goes up. The remote prints with the commands that push it, because
+   a publish is a decision and not a build step. */
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -36,8 +35,8 @@ const flag = (name: string): string | undefined =>
 
 const BRANCH = flag('branch') ?? 'main';
 
-/** How big a package came out — the one fact worth stating about an assembly
-    that otherwise only speaks up when it is incomplete. */
+/** How big a package came out — the one fact that deserves a line about an
+    assembly that otherwise only speaks up when it is incomplete. */
 const size = (pkg: string): string => {
   const files = [...walk(pkg)];
   const bytes = files.reduce((n, f) => n + statSync(join(pkg, f)).size, 0);
@@ -47,8 +46,8 @@ const size = (pkg: string): string => {
 /* ---- where they go, for whoever has to authenticate to it ---- */
 
 /* One name and one address per line. The workflow rewrites these into an
-   https URL carrying a token — a runner has no key for an SSH remote — and
-   asking here is what keeps the addresses written once. */
+   https URL with a token, as a runner has no key for an SSH remote. The
+   question here is what keeps the addresses in one place. */
 if (argv.includes('--remotes')) {
   for (const pack of PACKAGES) console.log(`${pack.name} ${pack.remote}`);
   process.exit(0);
@@ -87,11 +86,11 @@ if (packs.length === 0) {
 }
 
 if (spawnSync('git', ['--version']).status !== 0) {
-  report.bad('mirroring needs git, and the container image has none — run `node scripts/split.ts` on the host, or the split workflow');
+  report.bad('a mirror needs git, and the container image has none — run `node scripts/split.ts` on the host, or the split workflow');
   process.exit(1);
 }
 
-report.open('split', 'mirror each package into the repository it is published from');
+report.open('split', 'mirror each package into the repository it ships from');
 report.align(PACKAGES.map((p) => ({ name: p.name, label: 'nothing to mirror' })));
 
 const git = (args: string[], cwd = ROOT): string => {
@@ -100,8 +99,8 @@ const git = (args: string[], cwd = ROOT): string => {
   return run.stdout.trim();
 };
 
-/* A tag is a release, and a release has to exist as a commit before it can be
-   tagged — even where the package itself did not change in it. */
+/* A tag is a release. A release has to exist as a commit before a tag can
+   point at it, even where the package itself did not change in it. */
 const tags = new Map<string, string>();
 for (const tag of git(['tag', '--list']).split('\n').filter(Boolean)) {
   tags.set(git(['rev-list', '-1', tag]), tag);
@@ -112,12 +111,12 @@ for (const pack of packs) {
   const remote = flag('remote') ?? pack.remote;
 
   /* Reused where it is already a repository, so a second run replays only what
-     has happened since. Cloned where the remote can be read, because the mirror
-     continues that history rather than replacing it. */
+     has happened since. Cloned where the remote answers, because the mirror
+     continues that history rather than replaces it. */
   if (!existsSync(join(out, '.git'))) {
     rmSync(out, { recursive: true, force: true });
     if (spawnSync('git', ['clone', '--quiet', remote, out]).status !== 0) {
-      report.note(`${pack.name}: ${remote} could not be read — mirroring from the first commit`);
+      report.note(`${pack.name}: ${remote} did not answer — the mirror starts from the first commit`);
       mkdirSync(out, { recursive: true });
       git(['init', '--quiet', '--initial-branch', BRANCH], out);
     }
@@ -144,8 +143,8 @@ for (const pack of packs) {
   let empty = 0;
 
   for (const sha of replay) {
-    /* The tree as it was, and only the parts the package is made of: an archive
-       of the whole commit would copy the design system once per commit. */
+    /* The tree as it was, and only the parts the package consists of. An
+       archive of the whole commit copies the design system once per commit. */
     rmSync(tree, { recursive: true, force: true });
     mkdirSync(tree, { recursive: true });
     const present = [...git(['ls-tree', '--name-only', sha, '--', ...pack.concerns]).split('\n').filter(Boolean), 'LICENSE'];
@@ -158,8 +157,8 @@ for (const pack of packs) {
     pack.assemble(tree, staged);
     if (!existsSync(join(staged, pack.manifest))) continue;
 
-    /* The working tree replaced wholesale, so a file deleted here is deleted
-       there. `.git` is what the mirror is, and stays. */
+    /* The working tree replaced wholesale, so a file gone here goes there.
+       `.git` is what the mirror is, and stays. */
     for (const entry of readdirSync(out)) {
       if (entry !== '.git') rmSync(join(out, entry), { recursive: true, force: true });
     }
@@ -187,10 +186,10 @@ for (const pack of packs) {
   rmSync(staged, { recursive: true, force: true });
 
   /* Every tag against the whole mirror, rather than only against what this run
-     replayed. A tag on a commit that was already mirrored — which is what a
-     release cut from a commit that is on `main` is — belongs to no range this
-     run walks, and `git push --tags` would then push a tag nobody applied. It
-     fails at nothing and the release reaches no package manager. */
+     replayed. A tag on a commit the mirror already has — a release cut from a
+     commit on `main` — belongs to no range this run walks. `git push --tags`
+     then pushes a tag nobody applied. It fails at nothing and the release
+     reaches no package manager. */
   const placed: string[] = [];
   if (spawnSync('git', ['rev-parse', '--verify', '--quiet', 'HEAD'], { cwd: out }).status === 0) {
     const mirrored = new Map<string, string>();
