@@ -173,6 +173,44 @@ out. Every state in Guidelines → States carries exactly that.
    :viewport: 1440x900
    :title: Answer
 
+A review
+--------
+
+The document a reviewer hands back. It is a document and not a page of a
+site: no bar and no rail, because nothing on it leads anywhere else. Its head
+is its own: what kind of review, the title, and the facts of the change in an
+``sds-facts`` list.
+
+The summary stands first, because that is what the author came for. It is
+an ``sds-surface``: what the change does, and the recommendation with a link
+to each finding it rests on. Under it four statements, one per weight, each
+a sentence on a plain surface. Then the context, the mechanism, the error,
+and the change as ``sds-diff`` with its paths traced in a table.
+
+The findings are one ``sds-register`` with an ``sds-entry`` per finding,
+``F`` before a finding and ``T`` before the thing to do. The register numbers
+them and groups them by weight: what blocks, what goes back, what is worth
+a change, and what the review found sound. It opens with every one of them
+in a table, each row a jump to its entry. The work they ask for stands in a
+second.
+
+The remarks stand under the code they cite, in ``sds-code``. Then the
+evidence: the probes on parent and change, the suites, the test coverage.
+Then the scope: what the review raised and dropped, the follow-ups, the
+surfaces it ran. The long parts fold into the appendix.
+
+Five parts, and the contents list nests the way they do.
+
+Its contents rest beside the column in the ``sds-aside`` a document writes,
+the same as on a documentation page.
+
+This is also the page an agent starts from for a report it publishes as one
+file. ``SKILL.md`` carries that recipe.
+
+.. specimen:: screens/review.html
+   :viewport: 1440x900
+   :title: Review
+
 The tool reference
 ------------------
 
@@ -278,6 +316,12 @@ closed in the component:
    * - work in progress, not work to do
      - ``sds-run``, not a state on ``sds-steps``. An instruction never
        changes; a run arrives one stop at a time and ends on a verdict
+   * - one thing a review found, and the list of them a reader cites
+     - ``sds-entry`` and ``sds-register``. The number in a rail, the kind as
+       a word in the head. The register numbers, groups, and lists the work
+   * - a finding at a line of code
+     - ``remarks`` on ``sds-code``. A sentence in the sans face on a strip
+       across the block. In the comment colour a reader reads past it
 
 The pages also found four older bugs. A scrollable table that made every
 table narrower. A button with no ``type`` that submitted its form. A field

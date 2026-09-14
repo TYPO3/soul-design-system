@@ -1,0 +1,948 @@
+<!-- @startingPoint section="Screens" subtitle="A review carries its verdict first, its findings by weight, and the evidence for each" viewport="1440x900" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Soul Design System — review</title>
+<link rel="stylesheet" href="../../packages/frontend/src/styles/styles.css" />
+</head>
+<body class="sds-app">
+<div class="sds-shell">
+  <div class="sds-body">
+  <main class="sds-body__main" id="main-content">
+    <!-- One document, read from the top. No bar and no rail: nothing here leads
+         anywhere else, and the head is the document's own. The contents rest
+         beside the column where the page has the room, in the aside a document
+         writes; narrower, the list stands where it is written. The flow
+         contract carries every step between these blocks, so there is no stack. -->
+    <article class="sds-prose">
+      <!-- Every titled part is a section, nested as the headings nest, the way a
+           rendered document is. A section owns its boundary, so the step between
+           two parts is one distance stated once, whatever stands last in either. -->
+      <section class="sds-section" id="review">
+        <div class="sds-eyebrow">Extension review · dev-companion · patch set 2</div>
+        <h1>Label lookups cached for the length of a request</h1>
+        <p class="sds-lead">
+          A review of change 1482, with an inventory of every lookup that reads a file and
+          one question: does the cache survive a language switch?
+        </p>
+
+        <dl class="sds-facts">
+  <dt>Change</dt>
+  <dd><a class="sds-link" href="#change-1482">1482 · [BUGFIX] Cache label lookups for the length of a request</a></dd><dt>Patch set</dt>
+  <dd>2 · <span class="sds-mono">3f9c2e1a7d0</span> · 3 files, +64 −9</dd><dt>Issue</dt>
+  <dd><a class="sds-link" href="#issue-2071">#2071</a> · Bug · "a page with forty labels answers in 130 ms"</dd><dt>Target</dt>
+  <dd><span class="sds-mono">main</span> · <span class="sds-mono">2.4</span></dd><dt>State</dt>
+  <dd><span class="sds-row"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>mergeable</span><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>Verified +1</span><span>no votes, no comments, no chain</span></span></dd><dt>Read</dt>
+  <dd>2026-09-11 in a worktree of its own, probes on 2026-09-14</dd>
+</dl>
+
+        <div class="sds-panel" >
+  
+  
+  <div class="sds-surface-title">Summary</div>
+  <div class="sds-surface-body"><p>
+      The change fixes a real, measured fault: every label lookup read its catalogue file
+      again, and a page with forty labels spent 124 of its 131 ms on the same three
+      files. An array on the service, alive for one request, answers the second lookup of a
+      key without a read. The idea is right and small.
+    </p>
+    <p>
+      <strong>Recommendation:</strong> not ready to merge. The unit suite for the class fails
+      (<a href="#findings-1-1">F1.1</a>), and a lookup after a language switch answers in the
+      language before it (<a href="#findings-1-2">F1.2</a>), which no test can see
+      (<a href="#findings-2-2">F2.2</a>). Key the cache on the language too, adapt the four
+      tests that expect the second read, and bring the two tests in
+      <a href="#appendix">A.1</a>. Nothing else in the change stops it.
+    </p></div>
+</div>
+        <div class="sds-grid sds-grid--dense" ><div class="sds-plane" >
+  
+  <div class="sds-label">Blocks</div>
+  <div class="sds-surface-title"></div>
+  <div class="sds-surface-body"><strong>Two.</strong> A red suite, and a language switch that answers in the old language.</div>
+</div><div class="sds-plane" >
+  
+  <div class="sds-label">Sent back</div>
+  <div class="sds-surface-title"></div>
+  <div class="sds-surface-body"><strong>Two.</strong> A miss reads again, and no test can fail on the cache.</div>
+</div><div class="sds-plane" >
+  
+  <div class="sds-label">Worth a change</div>
+  <div class="sds-surface-title"></div>
+  <div class="sds-surface-body"><strong>Four.</strong> In the change; none of them stops it.</div>
+</div><div class="sds-plane" >
+  
+  <div class="sds-label">Checked</div>
+  <div class="sds-surface-title"></div>
+  <div class="sds-surface-body"><strong>Two.</strong> The cache lives one request, and the other lookups stay as they are.</div>
+</div></div>
+      </section>
+
+      <!-- After the head and before the parts, which is where the list stands
+           on a narrow page. Wide, the box is the column's reserve and the list
+           rests beside the column wherever the reader is. Between two sections,
+           so no heading loses the step a sibling before it reads. -->
+      <div class="sds-aside">
+        <nav class="sds-toc" aria-label="On this page">
+  <p class="sds-label">On this page</p>
+  <ul class="sds-toc__list">
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#change">The change</a>
+  <ul class="sds-toc__list">
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#context">Context</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#mechanism">How a lookup answers</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#error">The error</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#does">What it does</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#paths">Paths traced</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#findings">Findings</a>
+  <ul class="sds-toc__list">
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#findings-todo">To do</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#findings-blocks">Blocks submission</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#findings-back">Sent back</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#findings-change">Worth a change</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#findings-ok">Checked and correct</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#remarks">Remarks at the code</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#evidence">Evidence</a>
+  <ul class="sds-toc__list">
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#probes">Probes</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#suites">Suites</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#coverage">Test coverage</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#scope">Scope</a>
+  <ul class="sds-toc__list">
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#dropped">Raised and dropped</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#follow-ups">Follow-ups</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#surfaces">Surfaces and runs</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-toc__item"
+    href="#appendix">Appendix</a>
+  
+</li>
+</ul>
+</nav>
+      </div>
+
+      <section class="sds-section" id="change">
+        <h2>The change</h2>
+        <p>
+          What the change is, where it stands, and how the review read it. Then how the code
+          it touches works, what went wrong, and what the change does about it.
+        </p>
+
+        <section class="sds-section" id="context">
+          <h3>Context</h3>
+          <p>
+            Issue #2071 came in from a reader of the tool reference: a page that resolves forty
+            labels answers in 130 ms, and the trace shows the same file read forty times.
+            The change is small on purpose. It adds an array to the lookup service and reads
+            from it before it reads from the file.
+          </p>
+          <p>
+            Patch set 2 is a rebase of set 1 with a changelog entry. It stands alone: no chain
+            above it, no votes, no comments, and the pipeline reports green. The pipeline runs
+            the functional suites and not the unit suite for <span class="sds-mono">Lookup</span>,
+            which is where F1.1 comes from.
+          </p>
+          <p>
+            The review read commit <span class="sds-mono">3f9c2e1a7d0</span> in a worktree of its
+            own, with no rebase, 4 commits behind <span class="sds-mono">origin/main</span>. Every
+            suite result and every probe in this document is against that commit and its parent.
+          </p>
+        </section>
+
+        <section class="sds-section" id="mechanism">
+          <h3>How a lookup answers</h3>
+          <p>
+            A tool answers from a source, and the source of <span class="sds-mono">typo3_label_lookup</span>
+            is the catalogue files of the installation. The service resolves a key to a file,
+            reads that file for one language, and returns the label. Nothing between the call
+            and the file kept an answer, so every call was a read. The other lookups keep theirs
+            somewhere, and where they keep it decides what a change to one of them can touch.
+          </p>
+          <figure class="sds-figure">
+  <div class="sds-figure__frame sds-figure__frame--exported">
+    <a class="sds-zoom" href="../../packages/frontend/assets/diagrams/lookup-cache.svg" title="Open the picture at full size"><img class="sds-art" src="../../packages/frontend/assets/diagrams/lookup-cache.svg" alt="Two rows of the same four stops: the call, the array on the service, the catalogue reader, and the file. The first lookup passes through all four and reads the file. The second hits the array and goes no further."></a>
+  </div>
+  <figcaption class="sds-figure__caption">The first lookup of a key reads the file; the second stops at the array. Forty labels on a page are three reads, not forty.</figcaption>
+  <dialog
+      class="sds-lightbox"
+      aria-label="The first lookup of a key reads the file; the second stops at the array. Forty labels on a page are three reads, not forty.">
+  <div class="sds-modal__head">
+    <span class="sds-modal__title">The first lookup of a key reads the file; the second stops at the array. Forty labels on a page are three reads, not forty.</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
+  </div>
+  <div class="sds-lightbox__art sds-lightbox__art--exported">
+    <img class="sds-art" src="../../packages/frontend/assets/diagrams/lookup-cache.svg" alt="Two rows of the same four stops: the call, the array on the service, the catalogue reader, and the file. The first lookup passes through all four and reads the file. The second hits the array and goes no further.">
+  </div>
+</dialog>
+</figure>
+          <div class="sds-table-scroll"><table class="sds-table sds-table--medium">
+  <thead><tr>
+    <th>Tool</th>
+    <th>Reads</th>
+    <th>Cached where</th>
+    <th>Per request</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">typo3_label_lookup</span></td>
+      <td class="sds-td-meta">LabelLookup::resolve()</td>
+      <td>this change</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>with the change</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">typo3_icon_lookup</span></td>
+      <td class="sds-td-meta">IconLookup::resolve()</td>
+      <td><span class="sds-mono">IconRegistry</span>, since 2.1</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>yes</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">typo3_schema_lookup</span></td>
+      <td class="sds-td-meta">SchemaLookup::table()</td>
+      <td>the installation’s own</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>yes</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">typo3_hint_lookup</span></td>
+      <td class="sds-td-meta">HintLookup::find()</td>
+      <td>a static, per process</td>
+      <td><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>reads once</span></td>
+    </tr>
+  </tbody>
+</table></div>
+        </section>
+
+        <section class="sds-section" id="error">
+          <h3>The error</h3>
+          <p>
+            Every call of <span class="sds-mono">typo3_label_lookup</span> reads the catalogue
+            again. A page that resolves forty labels reads the same three files forty times, and
+            the read is most of the answer.
+          </p>
+          <div class="sds-code__caption">The trace from the issue</div><div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">text</span>
+    
+  </div>
+  <pre class="sds-code__body"><code class="language-text"># typo3_label_lookup · page 12 · 40 labels
+read Resources/Private/Language/locallang.xlf (de)   3.1 ms
+read Resources/Private/Language/locallang.xlf (de)   3.0 ms
+read Resources/Private/Language/locallang.xlf (de)   3.2 ms
+…
+40 reads · 3 files · 124 ms of a 131 ms answer</code></pre>
+</div>
+        </section>
+
+        <section class="sds-section" id="does">
+          <h3>What it does</h3>
+          <p>
+            <span class="sds-mono">resolve()</span> keeps what it answered in an array on the
+            service, which lives as long as the request. The second lookup of a key returns from
+            there and reads no file.
+          </p>
+          <div class="sds-code">
+  <div class="sds-code__head" style="justify-content:flex-start"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-code-compare"><g fill="currentColor"><path d="M12.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 12.5 11m0-1c-1.378 0-2.5 1.122-2.5 2.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5zM3.5 2a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 3.5 2m0-1C2.122 1 1 2.122 1 3.5S2.122 6 3.5 6 6 4.878 6 3.5 4.878 1 3.5 1z"></path><path d="m8.914 3 1.622-1.621-.708-.707L7 3.5l2.828 2.828.708-.707L8.914 4H12v7h1V3zM6.172 9.672l-.708.707L7.086 12H4V5H3v8h4.086l-1.622 1.621.708.708L9 12.5z"></path></g></svg><span class="sds-code__path">Classes/Lookup/LabelLookup.php</span></div>
+  <pre class="sds-diff"><span class="sds-diff__line">       public function resolve(string $key, string $language): ?string</span><span class="sds-diff__line">       {</span><span class="sds-diff__line sds-diff__line--add"><span class="sds-diff__mark">+</span>          if (isset($this-&gt;cache[$key])) {</span><span class="sds-diff__line sds-diff__line--add"><span class="sds-diff__mark">+</span>              return $this-&gt;cache[$key];</span><span class="sds-diff__line sds-diff__line--add"><span class="sds-diff__mark">+</span>          }</span><span class="sds-diff__line">           $catalogue = $this-&gt;reader-&gt;read($this-&gt;fileFor($key), $language);</span><span class="sds-diff__line sds-diff__line--del"><span class="sds-diff__mark">-</span>          return $catalogue-&gt;get($key);</span><span class="sds-diff__line sds-diff__line--add"><span class="sds-diff__mark">+</span>          return $this-&gt;cache[$key] = $catalogue-&gt;get($key);</span><span class="sds-diff__line">       }</span></pre>
+</div>
+        </section>
+
+        <section class="sds-section" id="paths">
+          <h3>Paths traced</h3>
+          <p>Every way through the changed method, followed by hand and then by probe.</p>
+          <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Scenario</th>
+    <th>Flow</th>
+    <th>Result</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>First lookup of a key</td>
+      <td><span class="sds-mono">resolve()</span> → <span class="sds-mono">reader-&gt;read()</span> → <span class="sds-mono">get()</span> → into the array</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>one read</span></td>
+    </tr>
+    <tr>
+      <td>Second lookup, same key, same language</td>
+      <td>the array answers</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>no read</span></td>
+    </tr>
+    <tr>
+      <td>Second lookup, same key, other language</td>
+      <td>the array answers, in the first language</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>wrong answer</span></td>
+    </tr>
+    <tr>
+      <td>Key with no label</td>
+      <td><span class="sds-mono">null</span> goes into the array; <span class="sds-mono">isset()</span> is false for it</td>
+      <td><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>reads again</span></td>
+    </tr>
+    <tr>
+      <td>A second request</td>
+      <td>a new service, an empty array</td>
+      <td><span class="sds-badge">unchanged</span></td>
+    </tr>
+    <tr>
+      <td><span class="sds-mono">typo3_icon_lookup</span>, <span class="sds-mono">typo3_schema_lookup</span></td>
+      <td>not touched</td>
+      <td><span class="sds-badge">unchanged</span></td>
+    </tr>
+  </tbody>
+</table></div>
+        </section>
+      </section>
+
+      <section class="sds-section" id="findings">
+        <h2>Findings</h2>
+        <p>
+          By weight, and numbered by it: what stops the change, what goes back to its author,
+          what is worth a change, and what the review opened and found sound. Without the
+          last group the author cannot tell what a review looked at from what it never
+          reached. Every finding in one table first, each row a jump to its entry, and the
+          work they ask for in a second.
+        </p>
+        <div class="sds-register">
+  <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th class="sds-td-fit"></th>
+    <th>Entry</th>
+    <th class="sds-td-fit">Kind</th>
+    <th>Origin</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F1.1</td>
+      <td><a href="#findings-1-1">The unit suite for the lookup fails: 6 of 41 tests</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>blocks</span></td>
+      <td>introduced by this change</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F1.2</td>
+      <td><a href="#findings-1-2">A lookup after a language switch answers in the language before it</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>blocks</span></td>
+      <td>introduced by this change</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F2.1</td>
+      <td><a href="#findings-2-1">A missing key reads the catalogue on every call</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>sent back</span></td>
+      <td>introduced by this change</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F2.2</td>
+      <td><a href="#findings-2-2">No test can fail on what the change claims</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>sent back</span></td>
+      <td>introduced by this change</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F3.1</td>
+      <td><a href="#findings-3-1">The reader is a new instance per call</a></td>
+      <td class="sds-td-fit"><span class="sds-badge">worth a change</span></td>
+      <td>older than the change</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F3.2</td>
+      <td><a href="#findings-3-2">The changelog entry names no visible change</a></td>
+      <td class="sds-td-fit"><span class="sds-badge">worth a change</span></td>
+      <td>introduced by this change</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F3.3</td>
+      <td><a href="#findings-3-3">The array has no bound</a></td>
+      <td class="sds-td-fit"><span class="sds-badge">worth a change</span></td>
+      <td>introduced by this change</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F3.4</td>
+      <td><a href="#findings-3-4">Two trailers in the message</a></td>
+      <td class="sds-td-fit"><span class="sds-badge">worth a change</span></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F4.1</td>
+      <td><a href="#findings-4-1">The cache lives exactly one request</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>checked</span></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F4.2</td>
+      <td><a href="#findings-4-2">The other lookups stay as they are</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>checked</span></td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table></div>
+  <section class="sds-section" id="findings-todo">
+    <h3>To do</h3>
+    <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th class="sds-td-fit"></th>
+    <th>To do</th>
+    <th class="sds-td-fit">Kind</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-1-1">T1.1</a></td>
+      <td>Adapt the four tests that expect the second read, and run the suite before the next patch set.</td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>blocks</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-1-2">T1.2</a></td>
+      <td>Key the cache on the key and the language, or keep one array per language.</td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>blocks</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-2-1">T2.1</a></td>
+      <td>Use array_key_exists(), or make the docblock say that a miss reads again.</td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>sent back</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-2-2">T2.2</a></td>
+      <td>Bring the two tests in A.1, which fail on the parent.</td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>sent back</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-3-1">T3.1</a></td>
+      <td>Construct the reader once, in the constructor.</td>
+      <td class="sds-td-fit"><span class="sds-badge">worth a change</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-3-2">T3.2</a></td>
+      <td>Put the number into the entry: 131 ms to 11 ms, forty reads to three.</td>
+      <td class="sds-td-fit"><span class="sds-badge">worth a change</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-3-4">T3.4</a></td>
+      <td>Drop the second Signed-off-by trailer.</td>
+      <td class="sds-td-fit"><span class="sds-badge">worth a change</span></td>
+    </tr>
+  </tbody>
+</table></div>
+  </section>
+  <section class="sds-section" id="findings-blocks">
+    <h3>Blocks submission</h3>
+    <article class="sds-entry" id="findings-1-1">
+  <span class="sds-entry__number">F1.1</span>
+  <h3 class="sds-entry__title">The unit suite for the lookup fails: 6 of 41 tests</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>blocks</span>
+    <span class="sds-entry__origin">introduced by this change</span>
+  </div>
+  <div class="sds-entry__body"><p>Every case that resolves one key twice fails. The change does not touch the
+      suite, so nobody ran it, and the pre-merge pipeline goes red on it.</p>
+      <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">bash</span>
+    
+  </div>
+  <pre class="sds-code__body"><span class="sds-code__prompt">$</span> <span class="sds-code__cmd">vendor/bin/phpunit tests/Unit/Lookup</span>
+Tests: 41, Assertions: 97, Failures: 6.</pre>
+</div>
+      <p>Four of the six expect the second read the change removes on purpose: adapt those. The
+      other two are F1.2.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">T1.1</span>Adapt the four tests that expect the second read, and run the suite before the next patch set.</p>
+</article><article class="sds-entry" id="findings-1-2">
+  <span class="sds-entry__number">F1.2</span>
+  <h3 class="sds-entry__title">A lookup after a language switch answers in the language before it</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>blocks</span>
+    <span class="sds-entry__origin">introduced by this change</span>
+  </div>
+  <div class="sds-entry__body"><p>The cache keys on <span class="sds-mono">$key</span> alone. The first answer for a key stays,
+      whatever language the next call names. Probe P2 shows it, and the two remaining
+      failures in F1.1 are this. Key on the key and the language, or keep one array per
+      language.</p>
+      <figure class="sds-figure">
+  <div class="sds-figure__frame sds-figure__frame--exported">
+    <a class="sds-zoom" href="../../packages/frontend/assets/diagrams/cache-key.svg" title="Open the picture at full size"><img class="sds-art" src="../../packages/frontend/assets/diagrams/cache-key.svg" alt="Two calls for the same key, one in German and one in English, both reach the same slot of the array. The German call writes the slot; the English call reads it and answers in German."></a>
+  </div>
+  <figcaption class="sds-figure__caption">Both calls reach one slot. The German call fills it, and the English call answers from it, in German.</figcaption>
+  <dialog
+      class="sds-lightbox"
+      aria-label="Both calls reach one slot. The German call fills it, and the English call answers from it, in German.">
+  <div class="sds-modal__head">
+    <span class="sds-modal__title">Both calls reach one slot. The German call fills it, and the English call answers from it, in German.</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
+  </div>
+  <div class="sds-lightbox__art sds-lightbox__art--exported">
+    <img class="sds-art" src="../../packages/frontend/assets/diagrams/cache-key.svg" alt="Two calls for the same key, one in German and one in English, both reach the same slot of the array. The German call writes the slot; the English call reads it and answers in German.">
+  </div>
+</dialog>
+</figure></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">T1.2</span>Key the cache on the key and the language, or keep one array per language.</p>
+</article>
+  </section><section class="sds-section" id="findings-back">
+    <h3>Sent back</h3>
+    <article class="sds-entry" id="findings-2-1">
+  <span class="sds-entry__number">F2.1</span>
+  <h3 class="sds-entry__title">A missing key reads the catalogue on every call</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>sent back</span>
+    <span class="sds-entry__origin">introduced by this change</span>
+  </div>
+  <div class="sds-entry__body"><p><span class="sds-mono">isset()</span> is false for a cached <span class="sds-mono">null</span>, so a key with no
+      label goes to the file each time (probe P3). The docblock says the opposite: that the
+      request keeps a miss. <span class="sds-mono">array_key_exists()</span> does what the docblock says. Either
+      the code or the sentence moves.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">T2.1</span>Use array_key_exists(), or make the docblock say that a miss reads again.</p>
+</article><article class="sds-entry" id="findings-2-2">
+  <span class="sds-entry__number">F2.2</span>
+  <h3 class="sds-entry__title">No test can fail on what the change claims</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>sent back</span>
+    <span class="sds-entry__origin">introduced by this change</span>
+  </div>
+  <div class="sds-entry__body"><p>The coverage table below has the detail. In short: the one test named for
+      the cache counts no reads and passes on the parent too, the language test never
+      resolves one key twice, and a missing key has no test at all. A.1 is two tests that
+      fail on the parent.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">T2.2</span>Bring the two tests in A.1, which fail on the parent.</p>
+</article>
+  </section><section class="sds-section" id="findings-change">
+    <h3>Worth a change</h3>
+    <article class="sds-entry" id="findings-3-1">
+  <span class="sds-entry__number">F3.1</span>
+  <h3 class="sds-entry__title">The reader is a new instance per call</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge">worth a change</span>
+    <span class="sds-entry__origin">older than the change</span>
+  </div>
+  <div class="sds-entry__body"><p><span class="sds-mono">LabelLookup</span> constructs its reader in <span class="sds-mono">resolve()</span>. The
+      service is a singleton, and the reader carries no state, so one reader in the
+      constructor is the same object with one construction fewer per label.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">T3.1</span>Construct the reader once, in the constructor.</p>
+</article><article class="sds-entry" id="findings-3-2">
+  <span class="sds-entry__number">F3.2</span>
+  <h3 class="sds-entry__title">The changelog entry names no visible change</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge">worth a change</span>
+    <span class="sds-entry__origin">introduced by this change</span>
+  </div>
+  <div class="sds-entry__body"><p>An answer that took 131 ms takes 11 ms, and a page with forty
+      labels reads three files instead of forty. The entry says "performance". The number
+      is the sentence a reader of the release page wants.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">T3.2</span>Put the number into the entry: 131 ms to 11 ms, forty reads to three.</p>
+</article><article class="sds-entry" id="findings-3-3">
+  <span class="sds-entry__number">F3.3</span>
+  <h3 class="sds-entry__title">The array has no bound</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge">worth a change</span>
+    <span class="sds-entry__origin">introduced by this change</span>
+  </div>
+  <div class="sds-entry__body"><p>One request resolves at most a few hundred keys, so this costs nothing
+      today. A sentence in the docblock that says so is enough; a bound is not.</p></div>
+  
+</article><article class="sds-entry" id="findings-3-4">
+  <span class="sds-entry__number">F3.4</span>
+  <h3 class="sds-entry__title">Two trailers in the message</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge">worth a change</span>
+    
+  </div>
+  <div class="sds-entry__body"><p><span class="sds-mono">Signed-off-by</span> stands twice. Nothing reads it twice; one goes.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">T3.4</span>Drop the second Signed-off-by trailer.</p>
+</article>
+  </section><section class="sds-section" id="findings-ok">
+    <h3>Checked and correct</h3>
+    <article class="sds-entry" id="findings-4-1">
+  <span class="sds-entry__number">F4.1</span>
+  <h3 class="sds-entry__title">The cache lives exactly one request</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>checked</span>
+    
+  </div>
+  <div class="sds-entry__body"><p>The service is request-scoped, and probe P5 shows a second request reads
+      again. Nothing survives into the next answer.</p></div>
+  
+</article><article class="sds-entry" id="findings-4-2">
+  <span class="sds-entry__number">F4.2</span>
+  <h3 class="sds-entry__title">The other lookups stay as they are</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>checked</span>
+    
+  </div>
+  <div class="sds-entry__body"><p><span class="sds-mono">typo3_icon_lookup</span> and <span class="sds-mono">typo3_schema_lookup</span> cache
+      already, in the registry and in the installation; the change reads neither. The hint
+      lookup is a case of its own: the follow-up under Scope.</p></div>
+  
+</article>
+  </section>
+</div>
+      </section>
+
+      <section class="sds-section" id="remarks">
+        <h2>Remarks at the code</h2>
+        <p>
+          The hunks the findings point at, with each remark under the block at the line it cites. Line
+          numbers are those of the patched file, and each remark goes into the review tool as
+          it stands. A number in brackets names the finding.
+        </p>
+        <div class="sds-code__caption">Classes/Lookup/LabelLookup.php, from line 41</div><div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">php</span>
+    
+  </div>
+  <pre class="sds-code__body"><code class="language-php" style="--sds-code-no-width:2ch"><span class="sds-code__row"><span class="sds-code__no">41</span>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resolve</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> <span class="hljs-variable">$key</span>, <span class="hljs-keyword">string</span> <span class="hljs-variable">$language</span></span>): ?<span class="hljs-title">string</span></span></span><span class="sds-code__row"><span class="sds-code__no">42</span><span class="hljs-function">    </span>{</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">43</span>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable language_">$this</span>-&gt;cache[<span class="hljs-variable">$key</span>])) {</span><span class="sds-code__row"><span class="sds-code__no">44</span>            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;cache[<span class="hljs-variable">$key</span>];</span><span class="sds-code__row"><span class="sds-code__no">45</span>        }</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">46</span>        <span class="hljs-variable">$catalogue</span> = <span class="hljs-variable language_">$this</span>-&gt;reader-&gt;<span class="hljs-title function_ invoke__">read</span>(<span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">fileFor</span>(<span class="hljs-variable">$key</span>), <span class="hljs-variable">$language</span>);</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">47</span>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;cache[<span class="hljs-variable">$key</span>] = <span class="hljs-variable">$catalogue</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$key</span>);</span><span class="sds-code__row"><span class="sds-code__no">48</span>    }</span></code></pre>
+  <dl class="sds-code__remarks">
+    <dt>43</dt>
+    <dd>The key has no language. A lookup after a switch answers in the language before it; probe P2 shows that. Key on both. [F1.2]</dd>
+    <dt>46</dt>
+    <dd>This read runs again for a key with no label: isset() is false for a cached null. The docblock says the opposite; one of the two has to move. [F2.1]</dd>
+    <dt>47</dt>
+    <dd>The one path that changed, and no test fails on it yet. A.1 is one. [F2.2]</dd>
+  </dl>
+</div>
+        <div class="sds-code__caption">Classes/Lookup/LabelLookup.php, from line 60</div><div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">php</span>
+    
+  </div>
+  <pre class="sds-code__body"><code class="language-php" style="--sds-code-no-width:2ch"><span class="sds-code__row"><span class="sds-code__no">60</span>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reader</span>(<span class="hljs-params"></span>): <span class="hljs-title">CatalogueReader</span></span></span><span class="sds-code__row"><span class="sds-code__no">61</span><span class="hljs-function">    </span>{</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">62</span>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CatalogueReader</span>(<span class="hljs-variable language_">$this</span>-&gt;files);</span><span class="sds-code__row"><span class="sds-code__no">63</span>    }</span></code></pre>
+  <dl class="sds-code__remarks">
+    <dt>62</dt>
+    <dd>A new reader per call, in a service the container holds once. The constructor is the place; the reader carries no state of its own. [F3.1]</dd>
+  </dl>
+</div>
+      </section>
+
+      <section class="sds-section" id="evidence">
+        <h2>Evidence</h2>
+        <p>
+          What the review ran, on the change and on its parent, so every finding above has a
+          number behind it.
+        </p>
+
+        <section class="sds-section" id="probes">
+          <h3>Probes, parent against change</h3>
+          <p>
+            The probe in A.2, run against the change and against its parent. A probe that
+            turns green proves the fix; one that turns red is a regression the suites did not
+            see.
+          </p>
+          <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Probe</th>
+    <th>Parent</th>
+    <th>Change</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>P1 · <span class="sds-mono">resolve()</span> twice, one key, one language</td>
+      <td class="sds-td-meta"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>fail</span> 2 reads</td>
+      <td class="sds-td-meta"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>ok</span> 1 read</td>
+    </tr>
+    <tr>
+      <td>P2 · <span class="sds-mono">resolve()</span> twice, <span class="sds-mono">de</span> then <span class="sds-mono">en</span></td>
+      <td class="sds-td-meta"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>ok</span> answers in <span class="sds-mono">en</span></td>
+      <td class="sds-td-meta"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>fail</span> answers in <span class="sds-mono">de</span></td>
+    </tr>
+    <tr>
+      <td>P3 · a key with no label, twice</td>
+      <td class="sds-td-meta"><span class="sds-badge">unchanged</span> 2 reads</td>
+      <td class="sds-td-meta"><span class="sds-badge">unchanged</span> 2 reads</td>
+    </tr>
+    <tr>
+      <td>P4 · page 12, 40 labels</td>
+      <td class="sds-td-meta"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>fail</span> 40 reads, 131 ms</td>
+      <td class="sds-td-meta"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>ok</span> 3 reads, 11 ms</td>
+    </tr>
+    <tr>
+      <td>P5 · two requests in one process</td>
+      <td class="sds-td-meta"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>ok</span> 2 reads</td>
+      <td class="sds-td-meta"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>ok</span> 2 reads</td>
+    </tr>
+  </tbody>
+</table></div>
+        </section>
+
+        <section class="sds-section" id="suites">
+          <h3>Suites on the worktree</h3>
+          <p>Commit <span class="sds-mono">3f9c2e1a7d0</span>, every suite from a clean checkout.</p>
+          <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Suite</th>
+    <th>Scope</th>
+    <th>Result</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">unit</td>
+      <td><span class="sds-mono">tests/Unit/Lookup</span></td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>6 of 41 fail</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">functional</td>
+      <td><span class="sds-mono">tests/Functional/Tools</span></td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>88 pass</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">cgl</td>
+      <td>every PHP file</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>0 fixable</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">phpstan</td>
+      <td>level 8, 412 files</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>no errors</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">e2e</td>
+      <td>—</td>
+      <td><span class="sds-badge">not run</span></td>
+    </tr>
+  </tbody>
+</table></div>
+        </section>
+
+        <section class="sds-section" id="coverage">
+          <h3>Test coverage</h3>
+          <p>
+            What the tests of the changed class claim, against what each one checks. A test
+            that passes on the parent too proves nothing about the change.
+          </p>
+          <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Test</th>
+    <th>Claims</th>
+    <th>Checks</th>
+    <th></th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">resolveReturnsTheLabel</td>
+      <td>a key resolves</td>
+      <td>one call, one label</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>holds</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">resolveReadsTheCatalogueOnce</td>
+      <td>the cache works</td>
+      <td>nothing: it counts no reads, and passes on the parent too</td>
+      <td><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>claims more</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">resolveHonoursTheLanguage</td>
+      <td>a switch answers in the new language</td>
+      <td>one lookup per language, on two keys</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>misses F1.2</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">—</td>
+      <td>a missing key</td>
+      <td>no test</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>none</span></td>
+    </tr>
+  </tbody>
+</table></div>
+        </section>
+      </section>
+
+      <section class="sds-section" id="scope">
+        <h2>Scope</h2>
+        <p>
+          What the review considered and set aside, what it leaves for a change of its own,
+          and what it ran.
+        </p>
+
+        <section class="sds-section" id="dropped">
+          <h3>Raised and dropped</h3>
+          <ul>
+            <li>
+              <strong>A cache across requests.</strong> Raised because the files change
+              rarely. Dropped: a label edited while the server runs then arrives after a
+              restart, which is the fault the follow-up below names in the hint lookup.
+            </li>
+            <li>
+              <strong>The cache in the reader instead of the lookup.</strong> Raised because
+              the reader is where the cost is. Dropped: the reader is a new instance per call
+              (F3.1), so a cache there lives one call.
+            </li>
+            <li>
+              <strong>A bound on the array.</strong> Raised in F3.3 and dropped there: a
+              request resolves a few hundred keys at most.
+            </li>
+          </ul>
+        </section>
+
+        <section class="sds-section" id="follow-ups">
+          <h3>Follow-ups, not this change</h3>
+          <div class="sds-note sds-note--warn">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Warning" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">N1 · The hint lookup reads its file once per process, not per request</div>
+    <div class="sds-note__body">HintLookup keeps its catalogue in a static, so a hint edited while the server runs arrives after a restart. Right for a build, wrong for a watch. A change of its own.</div>
+  </div>
+</div>
+        </section>
+
+        <section class="sds-section" id="surfaces">
+          <h3>Surfaces and runs</h3>
+          <dl class="sds-facts">
+  <dt>Worktree</dt>
+  <dd><span class="sds-mono">review/1482</span>, no rebase, 4 commits behind <span class="sds-mono">origin/main</span></dd><dt>Read</dt>
+  <dd>the three changed files, the class’s tests, the changelog entry, the issue</dd><dt>Suites</dt>
+  <dd>unit for <span class="sds-mono">Lookup</span>, functional for <span class="sds-mono">Tools</span>, cgl, phpstan</dd><dt>Probes</dt>
+  <dd>five, on parent and change, in A.2</dd><dt>Not run</dt>
+  <dd>e2e, the full unit suite</dd>
+</dl>
+        </section>
+      </section>
+
+      <section class="sds-section" id="appendix">
+        <h2>Appendix</h2>
+        <div class="sds-accordion">
+  <details
+    class="sds-accordion__item"
+    name="appendix">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>A.1 · The two tests, written for this review and removed again</summary>
+    <div class="sds-accordion__body"><div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">php</span>
+    
+  </div>
+  <pre class="sds-code__body"><code class="language-php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">aSecondLookupReadsNoFile</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+</span>{
+    <span class="hljs-variable language_">$this</span>-&gt;subject-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;de&#x27;</span>);
+    <span class="hljs-variable language_">$this</span>-&gt;subject-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;de&#x27;</span>);
+    <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">assertSame</span>(<span class="hljs-number">1</span>, <span class="hljs-variable">$this</span>-&gt;reader-&gt;reads);
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">aLookupAfterALanguageSwitchAnswersInTheNewLanguage</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+</span>{
+    <span class="hljs-variable language_">$this</span>-&gt;subject-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;de&#x27;</span>);
+    <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">assertSame</span>(<span class="hljs-string">&#x27;Nothing found&#x27;</span>, <span class="hljs-variable">$this</span>-&gt;subject-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;en&#x27;</span>));
+}</code></pre>
+</div></div>
+  </details><details
+    class="sds-accordion__item"
+    name="appendix">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>A.2 · The probe</summary>
+    <div class="sds-accordion__body"><div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">php</span>
+    
+  </div>
+  <pre class="sds-code__body"><code class="language-php"><span class="hljs-variable">$lookup</span> = <span class="hljs-variable">$container</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-title class_">LabelLookup</span>::<span class="hljs-variable language_">class</span>);
+<span class="hljs-variable">$reader</span> = <span class="hljs-variable">$container</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-title class_">CatalogueReader</span>::<span class="hljs-variable language_">class</span>);
+
+<span class="hljs-variable">$lookup</span>-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;de&#x27;</span>);
+<span class="hljs-variable">$lookup</span>-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;de&#x27;</span>);
+<span class="hljs-title function_ invoke__">printf</span>(<span class="hljs-string">&quot;P1 reads after two lookups: %d\n&quot;</span>, <span class="hljs-variable">$reader</span>-&gt;reads);
+
+<span class="hljs-variable">$en</span> = <span class="hljs-variable">$lookup</span>-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;en&#x27;</span>);
+<span class="hljs-title function_ invoke__">printf</span>(<span class="hljs-string">&quot;P2 after a switch to en: %s\n&quot;</span>, <span class="hljs-variable">$en</span>);</code></pre>
+</div></div>
+  </details>
+</div>
+      </section>
+
+    </article>
+  </main>
+  </div>
+</div>
+</body>
+</html>

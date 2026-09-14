@@ -7,6 +7,8 @@
     drawing from, because `<use>` does not bring a size across. */
 export const DIAGRAM_VIEWBOX: Readonly<Record<string, string>> = {
   "answer-sources": "0 0 1200 750",
+  "cache-key": "0 0 1200 560",
   "installation-fallback": "0 0 1200 786",
+  "lookup-cache": "0 0 1200 620",
   "system-overview": "0 0 1200 726",
 };
