@@ -69,12 +69,12 @@ One system, from design to delivery
       the TYPO3 community builds around the CMS.
 
       Soul covers the surfaces those projects use to present themselves,
-      explain their work and provide an interface: product pages, guides and
+      explain their work and give an interface. Product pages, guides and
       application UI belong to the same system.
 
       Soul does not define the TYPO3 backend, typo3.org or another official
-      TYPO3 surface. Those products have their own owners and design rules,
-      and adopting this system is not a claim on any of them.
+      TYPO3 surface. Those products have their own owners and design rules.
+      A project on this system makes no claim on any of them.
 
    .. half::
 
@@ -94,24 +94,23 @@ elements connected to the same sources.
       :label: Across community projects
       :icon: actions-eye
 
-      Product pages, guides and working interfaces use the same navigation,
-      type, controls and states. The next project feels familiar before its
+      Product pages, guides and interfaces use the same navigation, type,
+      controls and states. The next project feels familiar before its
       content is familiar.
 
    .. card:: Changes keep their source
       :label: Across design and code
       :icon: actions-code-merge
 
-      A colour changes in a token, a component changes in its element, and a
-      specimen is regenerated from the story. The hand-off carries evidence
-      instead of a second interpretation.
+      A colour changes in a token, a component changes in its element, and
+      the story regenerates the specimen. The hand-off carries evidence, not
+      a second interpretation.
 
 .. band:: One contract, whichever route a project takes
    :id: layers
 
-Three layers, and a surface reaches for whichever one it needs. Each is
-written in terms of the one under it, so a page that mixes them is still one
-system.
+Three layers, and a surface takes whichever one it needs. Each one rests on
+the one under it, so a page that mixes them is still one system.
 
 .. table:: Choose the entry point the surface needs
    :widths: auto
@@ -119,13 +118,13 @@ system.
    ==========  ==========================  ===================================
    Layer       Written as                  Reach for it when
    ==========  ==========================  ===================================
-   Tokens      ``var(--surface-raised)``   a value is needed at all
+   Tokens      ``var(--surface-raised)``   the surface needs a value at all
    Classes     ``class="sds-card"``        a server produces the markup
    Elements    ``<sds-note tone="warn">``  the surface has behaviour or state
    ==========  ==========================  ===================================
 
 :doc:`frontend/index` says what each layer holds and which of them a given
-surface should be written in.
+surface takes.
 
 .. band:: Start where the work is
    :quiet:
@@ -151,5 +150,5 @@ each toolchain to speak the same visual language.
       :icon: actions-template
       :action: Copy the example project
 
-      Start from a complete Guides project, then replace its content while the
-      shell, search, navigation and publishing workflow stay in place.
+      Start from a complete Guides project, then replace its content. The
+      shell, search, navigation and publish workflow stay in place.

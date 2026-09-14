@@ -4,22 +4,22 @@
 Sources and generated output
 ============================
 
-A change moves from an authoritative source, through a named task, into the
-artefacts that readers and consuming projects use. Edit the source on the left
-of this map; use the output on the right to inspect or ship the result.
+A change moves from a source, through a named task, into the artefacts that
+readers and consumers use. Edit the source on the left of this map. Use the
+output on the right to inspect or ship the result.
 
-That direction is one-way. Rules are decided and reviewed in this repository,
-where their specimens and pages can be rendered; generated bundles and package
-mirrors are consumers, not another place to author the system. A change made
-at an output returns through its source and generator. Two writing ends would
-turn one design decision into competing copies.
+That direction is one-way. This repository decides and reviews the rules,
+where their specimens and pages render. Generated bundles and package
+mirrors are consumers, not a second place to write the system. A change at
+an output returns through its source and generator. Two writing ends turn
+one design decision into two copies.
 
-The build owns the delivery boundary. ``scripts/build.ts`` decides what enters
-the design upload, and the package assembly in ``scripts/lib/packages.ts``
-decides what leaves through each package. Keeping another inventory here would
-let the prose stay unchanged while the executable boundary moved.
-:doc:`package-splits` explains why those packages leave through generated
-mirrors and how their assembled history is tested and published.
+The build owns the delivery boundary. ``scripts/build.ts`` decides what
+enters the design upload. The package assembly in
+``scripts/lib/packages.ts`` decides what leaves through each package. A
+second inventory here lets the prose stand still while the executable
+boundary moves. :doc:`package-splits` says why those packages leave through
+mirrors and how the gate tests their history.
 
 .. list-table::
    :header-rows: 1
@@ -43,7 +43,7 @@ mirrors and how their assembled history is tested and published.
    * - specimens and starting points
      - ``stories/``
      - ``make cards``
-     - ``specimens/`` and the copies embedded beside documents
+     - ``specimens/`` and the copies beside documents
    * - published documentation
      - ``docs/``
      - ``make guides``
@@ -57,91 +57,89 @@ The frontend source
 ===================
 
 ``packages/frontend/src/`` is the design system implementation. Tokens hold
-the values, ``styles/components.css`` holds the ``sds-`` class vocabulary, and
-the Lit elements emit that vocabulary into light DOM. None of those layers is
-generated from another: they are peers which have to agree through their
-shared names and markup.
+the values, ``styles/components.css`` holds the ``sds-`` class vocabulary,
+and the Lit elements emit that vocabulary into light DOM. No layer comes
+from another. They are peers that agree through shared names and markup.
 
 ``styles/styles.css`` is the package entry for tokens and components, bare
-elements included: a ``<p>`` a renderer emitted is set by the sheet that owns
-it, which leaves almost nothing scoped to ``.sds-prose``.
-``styles/_specimen.css`` stays separate because card chrome is evidence around
-a design, not part of the design.
+elements included. The sheet that owns a ``<p>`` from a renderer sets it,
+which leaves almost nothing with a ``.sds-prose`` scope.
+``styles/_specimen.css`` stays separate because card chrome is evidence
+around a design, not part of the design.
 
 Sources beside it
 =================
 
-``stories/`` is source because every specimen and starting point is generated
+``stories/`` is source, because every specimen and starting point comes
 from a story. Change the story or the component template it calls, then run
-``make cards``. A hand edit under ``specimens/`` is replaced by that task and
-is rejected by the gate.
+``make cards``. That task replaces a hand edit under ``specimens/``, and the
+gate rejects one.
 
-The first-line ``@dsCard`` and ``@startingPoint`` markers are metadata inside
-an HTML comment, not rendered text. Their values therefore use literal Unicode
-characters rather than HTML character references: nothing decodes an entity
-before the Design System pane or repository tooling reads it. The ``headers``
-check rejects a character reference in either marker so both consumers receive
-the same string.
+The first-line ``@dsCard`` and ``@startingPoint`` markers are metadata
+inside an HTML comment, not rendered text. So their values use literal
+Unicode characters, not HTML character references. Nothing decodes an
+entity before the Design System pane or the tooling reads it. The
+``headers`` check rejects a character reference in either marker, so both
+consumers get the same string.
 
-The generated cards are static HTML rather than unresolved custom elements.
-The design surface opens them with the stylesheets and no JavaScript, so the
-card generator renders the same Lit templates ahead of time. Both routes still
-arrive at the class vocabulary in ``components.css``; the static consumer does
-not create another component implementation.
+The generated cards are static HTML, not unresolved custom elements. The
+design surface opens them with the stylesheets and no JavaScript, so the
+card generator renders the same Lit templates ahead of time. Both routes
+arrive at the class vocabulary in ``components.css``. The static consumer
+does not create a second component implementation.
 
-That static rendering deliberately removes Lit's hydration markers.
-``renderStatic()`` fails if one survives, because a marker is valid HTML and
-visually empty: a rendered review would never reveal that the exported markup
-still carries framework scaffolding. The failure keeps a change in Lit's SSR
-output from silently becoming part of every specimen.
+That static render removes Lit's hydration markers on purpose.
+``renderStatic()`` fails if one survives. A marker is valid HTML and
+invisible, so a visual review never shows that the exported markup carries
+framework scaffolding. The failure keeps a change in Lit's SSR output out
+of every specimen.
 
-Readable generated HTML is indented by ``indent()`` in
-``stories/lib/specimen.ts``, except inside ``<pre>``. Whitespace is content
-there; adding the surrounding block's indentation would move every displayed
-line to the right. Keep code bodies at the indentation they are meant to show
-while the specimen helper positions the surrounding markup without touching
-those lines.
+``indent()`` in ``stories/lib/specimen.ts`` indents the generated HTML,
+except inside ``<pre>``. Whitespace is content there, and the block's
+indentation moves every displayed line to the right. Keep code bodies at
+the indentation they show. The specimen helper positions the markup around
+them and leaves those lines alone.
 
 ``docs/`` is the source of the published manual. The theme under
-``packages/guides-theme/`` maps its reStructuredText and Markdown onto the same
-components and class vocabulary. ``make guides`` renders the pair together,
-so a documentation change is checked against the package a consuming project
-installs.
+``packages/guides-theme/`` maps its reStructuredText and Markdown onto the
+same components and class vocabulary. ``make guides`` renders the pair
+together, so a documentation change gets its check against the package a
+consumer installs.
 
 Where generated work belongs
 ============================
 
-Generated work that Git does not keep belongs under ``.out/``. The rendered
-site, built Storybook, design-agent bundle, test results and assembled packages
-can then be removed together with ``make clean`` without touching source.
+Generated work that git does not keep belongs under ``.out/``. The rendered
+site, the built Storybook, the design-agent bundle, test results and
+assembled packages then go together with ``make clean``, and no source goes
+with them.
 
-The built Storybook is also what is published: ``make test`` builds it to open
-it, and on ``main`` the site job takes that same build and serves it below the
-documentation, at `/storybook/ <https://typo3.github.io/soul-design-system/storybook/>`__.
-It is served from a sub-path there, which is why a story writes every path
-relative to the preview page — ``assets/…``, ``specimens/screens/…`` — and
-``make cards`` counts the climb in when it writes a card or a screen.
+The built Storybook is also what goes out. ``make test`` builds it to open
+it, and on ``main`` the site job takes that same build and serves it below
+the documentation, at `/storybook/ <https://typo3.github.io/soul-design-system/storybook/>`__.
+It sits on a sub-path there. That is why a story writes every path relative
+to the preview page: ``assets/…``, ``specimens/screens/…``. ``make cards``
+counts the climb in when it writes a card or a screen.
 
-Some generated artefacts are committed because a consumer needs them without
+Some generated artefacts are in git because a consumer needs them without
 this repository's toolchain. ``packages/frontend/dist/`` is the drop-in a
-project installs or copies, the generated fonts travel with that package, and
-``specimens/`` is the static evidence read by the design surface. Their place
-in Git changes how they are delivered, not where they are authored.
+project installs or copies. The generated fonts travel with that package.
+``specimens/`` is the static evidence the design surface reads. Their place
+in git changes how they ship, not where you write them.
 
-The bundle under ``.out/bundle/`` is flat even though the repository is not.
-Paths are rewritten when it is assembled, so a card or screen never carries a
-hard-coded climb back to the bundle root. Change the source layout in the
-generator rather than compensating inside generated cards.
+The bundle under ``.out/bundle/`` is flat, and the repository is not. The
+assembly rewrites paths, so a card or screen never carries a hard-coded
+climb back to the bundle root. Change the source layout in the generator,
+not inside generated cards.
 
 How to work on a change
 =======================
 
-Find the source in the map, run the narrow task that regenerates its output,
-and inspect the result there. ``make verify`` is the final boundary: it checks
-that generated artefacts still match their sources and that the packages
-assemble without relying on the rest of the checkout.
+Find the source in the map, run the narrow task that regenerates its
+output, and inspect the result there. ``make verify`` is the final
+boundary. It checks that generated artefacts still match their sources, and
+that the packages assemble without the rest of the checkout.
 
-The task list itself is authoritative in ``TASKS`` inside
-``scripts/task.ts``. Run ``make`` for the descriptions and ``make verify
-ARGS=--help`` for the named checks rather than copying either list into a
-document.
+``TASKS`` in ``scripts/task.ts`` is the task list. Run ``make`` for the
+descriptions and ``make verify ARGS=--help`` for the named checks. Do not
+copy either list into a document.
