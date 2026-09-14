@@ -29,7 +29,6 @@
      element of its own is the first child of that element, and every line in
      the list doubles. */
   .sds-accordion {
-    --sds-accordion-measure: var(--measure-prose);
     --sds-accordion-pad-y: var(--space-4);
     --sds-accordion-gap: var(--space-3);
     --sds-accordion-foot: var(--space-5);
@@ -52,7 +51,6 @@
 
     display: flex;
     flex-direction: column;
-    max-width: var(--sds-accordion-measure);
     border-bottom: var(--sds-accordion-border) solid var(--sds-accordion-rule);
   }
   .sds-accordion__item {
@@ -135,9 +133,11 @@
     transform: none;
   }
   .sds-accordion__body {
-    /* A grid item's own floor is its content, which is what stops a collapsed
-       row short of zero. */
+    /* A grid item's own floor is its content. In height that stops a collapsed
+       row short of zero. In width a code block's longest line widens the body
+       past the box, and the fold's clip cuts what the block can scroll. */
     min-height: 0;
+    min-width: 0;
     padding: 0 0 0 calc(var(--sds-accordion-glyph) + var(--sds-accordion-gap));
     font-size: var(--sds-accordion-body-size);
     line-height: var(--sds-accordion-body-leading);
