@@ -4,10 +4,10 @@
 Navigation
 ==========
 
-Getting around a page, a site and a list. Three of these share one base and
-therefore one shape: an item is a **control**, not a picture of one —
-focusable, pressable, and announcing ``sds-change`` when it becomes current. An
-item that goes somewhere says ``href`` and is left to the browser.
+The way around a page, a site and a list. Three of these share one base and
+so one shape. An item is a **control**, not a picture of one: focusable,
+pressable, and it announces ``sds-change`` when it becomes current. An item
+that goes somewhere says ``href``, and the browser handles it.
 
 .. specimen:: components/navigation/navigation.card.html
    :viewport: 700x163
@@ -18,11 +18,11 @@ item that goes somewhere says ``href`` and is left to the browser.
 One entry, for every navigation
 ===============================
 
-A bar, a rail, a trail, a row of pills and the columns of a footer are the same
-list read at different sizes, so they are given the same entry. Whoever renders
-the page knows where an entry goes, what is under it and what is true of it on
-this page; a component works none of that out, and a second shape for the same
-list is a second place to keep in step.
+A bar, a rail, a trail, a row of pills and the columns of a footer are the
+same list at different sizes. So they get the same entry. Whoever renders
+the page knows where an entry goes, what is under it and what is true of it
+on this page. A component works none of that out. A second shape for the
+same list is a second place to keep in step.
 
 .. code-block:: ts
 
@@ -42,10 +42,10 @@ list is a second place to keep in step.
    :name: navigation-items
    :type: "(string | MenuEntry)[]"
 
-   What ``sds-nav-pills``, ``sds-nav-main`` and ``sds-tabs`` are lists of. A bare
-   string is a label and nothing else — what a set of choices is, where there is
-   nowhere to go. ``sds-nav-rail`` takes one ``entry`` instead, its pages being what
-   is under it.
+   What ``sds-nav-pills``, ``sds-nav-main`` and ``sds-tabs`` are lists of.
+   A bare string is a label and nothing else: a set of choices with nowhere
+   to go. ``sds-nav-rail`` takes one ``entry`` instead, with its pages under
+   it.
 
 .. confval:: active
    :name: navigation-active
@@ -53,37 +53,36 @@ list is a second place to keep in step.
    :default: 0
 
    Which item is current, by position, where nothing in the list says so
-   itself. An entry marked ``current`` wins: a list naming the page it is on is
-   stating a fact, while ``active`` is a position in a set, and believing both
-   at once is how two items come out marked.
+   itself. An entry marked ``current`` wins. A list that names its page
+   states a fact, while ``active`` is a position in a set. To believe both
+   at once marks two items.
 
-   The current item is a **filled block, never a tint**: a tint reads as
-   "hovered" or "disabled" depending on what is under it, and this system
-   already spends hover on a colour change.
+   The current item is a **filled block, never a tint**. A tint reads as
+   "hovered" or "disabled" by what is under it, and hover already spends a
+   colour change.
 
-   Where an item carries a marker — a section in the bar with pages under it —
-   the block is the *pair*: the fill wraps the name and the marker, and so does
-   the focus ring. A fill around half of a control is what makes the other half
+   Where an item carries a marker, a section in the bar with pages under it,
+   the block is the *pair*. The fill wraps the name and the marker, and so
+   does the focus ring. A fill around half of a control makes the other half
    look like something that arrived with the row.
 
 .. note::
 
-   ``aria-current``, not ``aria-selected``, for the ones that navigate:
-   selection belongs to a tablist, and a tablist owes its panel an
-   ``aria-controls``. Current-within-a-set is what is true of a pill or a rail
-   item. An entry that is only ``here`` — a section the reader is inside
-   without being the page they are reading — is marked ``aria-current="true"``
-   rather than ``page``.
+   ``aria-current``, not ``aria-selected``, for the ones that navigate.
+   Selection belongs to a tablist, and a tablist owes its panel an
+   ``aria-controls``. Current within a set is what is true of a pill or a
+   rail item. An entry that is only ``here``, a section the reader is inside
+   without the page, gets ``aria-current="true"``, not ``page``.
 
 .. _component-sds-nav-main:
 
 sds-nav-main
-==========
+============
 
 The bar at the top of a page: the mark, the site's menu, and the controls at
-the end of the row. It is the whole bar and not a part of one — a page
-addresses it and writes no ``.sds-bar`` of its own, because what a header does
-as the page narrows is measured, and a row written by hand cannot fold.
+the end of the row. It is the whole bar, not a part of one. A page addresses
+it and writes no ``.sds-bar`` of its own. The element measures what a header
+does as the page narrows, and a row by hand cannot fold.
 
 .. code-block:: html
 
@@ -97,61 +96,58 @@ as the page narrows is measured, and a row written by hand cannot fold.
      <a class="sds-pill" href="/frontend/">Frontend</a>
    </sds-nav-main>
 
-**One list, drawn as much of as the width allows.** The bar is handed the site
-— every section, its pages, and the page the reader is on marked wherever it
-sits — and decides only how much of that it can show. The front doors stand in
-the row; a section that holds pages carries the marker that opens them under
-it, as a drop where they are a handful and as a wall across the bar where they
-are more than a reader takes in at a glance; and once the row can hold nothing
-more, the same list is behind one button, because a reader on a phone looking
-for the way somewhere presses once.
+**One list, drawn as far as the width permits.** The bar gets the site,
+every section, its pages, and the reader's page marked wherever it sits. It
+decides only how much of that it can show. The front doors stand in the
+row. A section with pages carries the marker that opens them under it. A
+drop for a few, a wall across the bar for more than a glance takes in.
+
+Once the row holds nothing more, the same list stands behind one button,
+because a reader on a phone presses once.
 
 **On a phone it is one level at a time.** The drawer opens on the site's own
-sections and steps *into* one — the marker beside the link is the way through,
-and the row above the list names what it goes back to. A phone is a window onto
-a long list, and the whole tree unfolded into one column is forty rows to
-scroll past to reach the four that are the site.
+sections and steps *into* one. The marker beside the link is the way
+through, and the row above the list names the way back. A phone is a window
+onto a long list. The whole tree in one column is forty rows to scroll past
+for the four that are the site.
 
-**What no longer fits is put away, never dropped.** As the row runs out of room
-the field goes first — a field squeezed to a stub is a control that is there
-and cannot be used — and the sections after it. What the drawer then opens is
-the menu and not the row it could not hold: the way somewhere else is what a
-reader opens a menu for, and the section they are already in is the one answer
-they did not ask for.
+**What no longer fits goes away, never drops.** As the row runs out of room,
+the field goes first, because a field squeezed to a stub is a control nobody
+can use. Then the sections after it. The drawer then opens the menu, not the
+row that lost its room. The way somewhere else is what a reader opens a menu
+for. The section they are in is the one answer they did not ask for.
 
 **A panel and the drawer are the same construction.** A panel is a
-``<details>`` under the row, so it folds before any script runs and a page
-whose script never arrives still opens a section; both stand on the canvas the
-bar is drawn on and carry ``--shadow-flyout``, because a second kind of surface
-is a second thing to learn, and a shadow is how this system says a surface has
-left the page.
+``<details>`` under the row, so it folds before a script runs, and a page
+with no script still opens a section. Both stand on the bar's canvas and
+carry ``--shadow-flyout``. A second kind of surface is a second thing to
+learn, and a shadow is how this system says a surface has left the page.
 
-**The page a reader is on is marked quietly in both.** A rail is a column read
-down to find where you are, and there the current page is a filled block; a
-menu is opened to *leave* that page, so the same block would shout the one row
-nobody is going to press. The ink alone carries it, and ``aria-current`` says
-it outright to whoever is not reading colour.
+**Both mark the reader's page, without noise.** A reader reads a rail down
+to find where they are, and there the current page is a filled block. A
+reader opens a menu to *leave* that page, so the same block shouts the one
+row nobody presses. The ink alone carries it, and ``aria-current`` says it
+to whoever does not read colour.
 
-An open drawer is the bar's row continued, so it is the canvas and it spans the
-page — nothing about its own surface says it is in front, and the system has no
-shadow to say it with. The page under it is washed instead, in the plane a
-modal sits on, and pressing that wash is a way back out alongside the toggle
-and the escape key.
+An open drawer continues the bar's row. So it is the canvas and it spans the
+page. Nothing about its own surface says it is in front, and the system has
+no shadow for that. The page under it takes a wash instead, in the plane a
+modal sits on. A press on that wash is a way out, beside the toggle and the
+Escape key.
 
-**The decision is measured, not declared.** A bar holds a product name for as
-long as the product is called, so a breakpoint would be wrong on the next site:
-the element measures what the sections and the field need against the room the
-row has left, with the button that appears in their place taken out of the sum.
-Nothing in the measurement depends on which state it is in, so there is no
-width at which the two disagree and it oscillates.
+**The decision is a measurement, not a declaration.** A bar holds a product
+name as long as the product has one, so a breakpoint is wrong on the next
+site. The element measures what the sections and the field need against the
+room the row has left, without the button that stands in their place.
+Nothing in the measurement depends on the state, so there is no width at
+which the two disagree.
 
-**It holds its room before it draws anything.** The bar is the first thing on
-the page and the element is empty until its script has run, so the stylesheet
-gives the host the header's height and the page keeps ``scroll-padding-top``
-from that moment — otherwise the page is laid out once without a bar and again
-with one, under a reader who has already started reading, and a heading jumped
-to in between lands underneath it. Nothing about it is stated by the page: it
-is the same reservation ``sds-icon`` makes for a glyph.
+**It holds its room before it draws.** The bar is the first thing on the
+page, and the element is empty until its script has run. So the stylesheet
+gives the host the header's height, and the page keeps ``scroll-padding-top``
+from that moment. Otherwise the page lays out once without a bar and again
+with one, under a reader who has started to read. It is the same
+reservation ``sds-icon`` makes for a glyph.
 
 .. confval:: home
    :name: sds-nav-main-home
@@ -163,10 +159,10 @@ is the same reservation ``sds-icon`` makes for a glyph.
    :name: sds-nav-main-signet
    :type: string
 
-   The mark, as the file it is drawn in. It is linked like every other picture
-   in this system — see :doc:`/design-system/artwork` — and it is the same
-   construction the footer draws, so the two ends of a site cannot say the name
-   two ways.
+   The mark, as the file of its drawing. A link, like every other picture
+   in this system; see :doc:`/design-system/artwork`. It is the same
+   construction the footer draws, so the two ends of a site say the name one
+   way.
 
 .. confval:: brand
    :name: sds-nav-main-brand
@@ -176,10 +172,9 @@ is the same reservation ``sds-icon`` makes for a glyph.
    :name: sds-nav-main-product
    :type: string
 
-   The name, in the machine's own spelling and never title-cased. With a
-   ``brand`` beside it the accent rule is drawn between the two; alone, the
-   name is the mark itself rather than the quiet half of a lockup with nothing
-   next to it.
+   The name, in the machine's own spelling, never title case. With a
+   ``brand`` beside it, the accent rule stands between the two. Alone, the
+   name is the mark itself, not the quiet half of a lockup.
 
 .. confval:: search
    :name: sds-nav-main-search
@@ -189,29 +184,29 @@ is the same reservation ``sds-icon`` makes for a glyph.
    :name: sds-nav-main-index
    :type: string
 
-   Where the search index is, relative to the page; setting it asks for the
-   field as well, a site with an index having a search. ``search`` alone draws
-   a field with nothing behind it, which is a specimen rather than a site.
+   Where the search index is, relative to the page. It asks for the field
+   as well, since a site with an index has a search. ``search`` alone draws
+   a field with nothing behind it, which is a specimen, not a site.
 
 .. confval:: menu
    :name: sds-nav-main-menu
    :type: MenuEntry
 
-   The site, as one entry with everything under it. The bar works nothing out
-   from it: whoever renders the page knows which entries are its front doors,
-   which one the reader is inside and which page they are on, and says so with
-   ``front``, ``here`` and ``current``. What the bar decides is only how much
-   of it fits — see :ref:`the contract <menu-entry>` above.
+   The site, as one entry with everything under it. The bar works nothing
+   out from it. Whoever renders the page knows the front doors, the section
+   the reader is in and the page they are on. It says so with ``front``,
+   ``here`` and ``current``. The bar decides only how much fits; see
+   :ref:`the contract <menu-entry>` above.
 
-   A site whose sections hold nothing may hand a flat ``items`` instead, which
-   is the same list with the second level left out.
+   A site whose sections hold nothing can hand a flat ``items`` instead:
+   the same list without the second level.
 
 .. confval:: label
    :name: sds-nav-main-label
    :type: string
    :default: "Menu"
 
-   What the toggle is called, for a reader who cannot see it is a menu.
+   The toggle's name, for a reader who cannot see that it is a menu.
 
 .. confval:: theme-key
    :name: sds-nav-main-theme-key
@@ -221,18 +216,18 @@ is the same reservation ``sds-icon`` makes for a glyph.
 
 .. note::
 
-   Links written between the tags are kept exactly as written — ``target``,
-   ``rel`` and the current mark intact. It is the shape for a renderer that
-   has resolved its navigation and has no tree to hand over; one that has a
-   tree gives it as ``menu`` and gets the panels and the drawer with it.
+   Links between the tags stay exactly as written: ``target``, ``rel`` and
+   the current mark intact. That is the shape for a renderer with a resolved
+   navigation and no tree. One with a tree gives it as ``menu`` and gets the
+   panels and the drawer with it.
 
 .. _component-sds-nav-pills:
 
 sds-nav-pills
-=========
+=============
 
-Navigation for the sections of a page. The accent marks the active item — one
-of the exactly three places ``--accent`` may appear at all.
+Navigation for the sections of a page. The accent marks the active item,
+one of the exactly three places ``--accent`` can appear.
 
 .. code-block:: html
 
@@ -241,10 +236,10 @@ of the exactly three places ``--accent`` may appear at all.
 .. _component-sds-nav-rail:
 
 sds-nav-rail
-========
+============
 
-The navigation rail beside a column: one entry, with its pages under it. Items
-are often things the machine named, so they set in mono, verbatim.
+The navigation rail beside a column: one entry, with its pages under it.
+Items are often names the machine gave, so they set in mono, verbatim.
 
 .. code-block:: html
 
@@ -253,10 +248,10 @@ are often things the machine named, so they set in mono, verbatim.
      { label: 'tools', items: [{ label: 'search', href: '#search' }] },
    ] }}"></sds-nav-rail>
 
-A page that holds pages of its own is a ``<details>``, so the fold works before
-any script runs and the one holding the current page starts open — at whatever
-depth that page sits. Data rather than composed elements, unlike the tabs: what
-a fold holds is links and no content of its own.
+A page with pages of its own is a ``<details>``. So the fold works before a
+script runs, and the one with the current page starts open, at whatever
+depth that page sits. Data, not composed elements, unlike the tabs: a fold
+holds links and no content of its own.
 
 .. confval:: entry
    :name: sds-nav-rail-entry
@@ -264,23 +259,23 @@ a fold holds is links and no content of its own.
    :required: true
 
    What this is the list of, and the list. The entry's label is the heading
-   over it, and the way to the section's own page where it has one; left empty
-   there is no heading, which is right where the rail is the whole navigation
-   there is.
+   over it, and the way to the section's own page where it has one. Empty,
+   there is no heading, which is right where the rail is the whole
+   navigation.
 
-   Which row is current is the entry that says ``current``, never a count from
-   the outside: a rail has one current page wherever it sits, and a caller
-   thinking in "third item of the second group" is thinking about the markup.
+   The current row is the entry that says ``current``, never a count from
+   outside. A rail has one current page wherever it sits. A caller who
+   thinks in "third item of the second group" thinks about the markup.
 
 .. _component-sds-nav-toc:
 
 sds-nav-toc
-========
+===========
 
-What is on this page, and where in it the reader is. The sections of the page
-being read, as a list to jump from — and the one navigation in the system that
-finds its own current entry, because a heading is current when the reader has
-scrolled to it and nothing rendering the page can know that.
+What is on this page, and where in it the reader is. The sections of the
+page, as a list to jump from. It is the one navigation in the system that
+finds its own current entry. A heading is current when the reader has
+scrolled to it, and nothing that renders the page can know that.
 
 .. code-block:: html
 
@@ -289,12 +284,13 @@ scrolled to it and nothing rendering the page can know that.
      { label: 'Reading rhythm', href: '#reading-rhythm' },
    ]}"></sds-nav-toc>
 
-The list has **two forms, and the markup around it chooses which**. On its own
-it is a block where it stands. Inside a ``.sds-aside`` that is itself inside a
-``.sds-prose``, it leaves the flow from 1296px and rests beside the column at
-the line the rail rests at — the column gives the width up rather than the box
-taking it, and it carries two levels there against all six in the flow.
-:doc:`/frontend/documents` carries the reason and the width; both boxes are in
+The list has **two forms, and the markup around it chooses**. On its own it
+is a block where it stands. Inside a ``.sds-aside`` inside a ``.sds-prose``,
+it leaves the flow from 1296px and rests beside the column at the rail's
+line. The column gives the width up. It carries two levels there, against
+all six in the flow.
+
+:doc:`/frontend/documents` has the reason and the width. Both boxes are in
 ``styles.css``, so a product surface can ask for either.
 
 .. code-block:: html
@@ -306,72 +302,68 @@ taking it, and it carries two levels there against all six in the flow.
      …
    </article>
 
-The entry marked is the **last heading to have passed the line the browser
-lands a jumped-to heading on** — ``scroll-padding-top``, read off the scroller,
-so the entry a press marks is the entry the scroll marks. Above the first
-heading nothing is marked: a page opens there and no section holds it.
+The marked entry is **the last heading past the line a jumped-to heading
+lands on**: ``scroll-padding-top``, read off the scroller. So the entry a
+press marks is the entry the scroll marks. Above the first heading nothing
+has the mark. A page opens there, and no section holds it.
 
-Only headings the list is **drawing** are read. Beside the column it carries
-two levels, and a reader standing at a third-level heading is still inside the
-section above it — read from the data instead, the list would mark a row that
-is not there and every visible entry would go blank at exactly the depth a long
-page has most of.
+Only the headings the list **draws** count. Beside the column it carries two
+levels, and a reader at a third-level heading is still inside the section
+above it. From the data instead, the list marks a row that is not there.
+Every visible entry then goes blank at the depth a long page has most of.
 
-Where the list is taller than the reserve it rests in, it **scrolls to keep the
-mark in view**, by the least it can and never past that: a list already showing
-the entry does not move under a reader who scrolled it. Its own scroll offset
-and nothing else — the page is what the reader is moving, and a list that took
-it along would be reading itself.
+Where the list is taller than its reserve, it **scrolls to keep the mark in
+view**, by the least it can and never past that. A list that already shows
+the entry does not move under a reader who scrolled it. Its own scroll
+offset and nothing else. The page is what the reader moves, and a list that
+went along reads itself.
 
 An entry is **one line**, cut with an ellipsis where the column runs out. A
-list of places is scanned down its left edge, and an entry folded onto a second
-line is two places to that reading — so a heading is written short enough to
-scan, and the cut is what says it was not —
-:doc:`/design-system/writing` carries that rule.
+reader scans a list of places down its left edge, and an entry on a second
+line is two places to that scan. So a heading is short enough to scan, and
+the cut says it was not; :doc:`/design-system/writing` has that rule.
 
-The mark is the **filled block in the accent** every current navigation item in
-this system gets. A step of ink was the first answer and it was one step in
-dark and half of one in light — a mark on a list this quiet has to read the
-same in both. The row bleeds by exactly what it is padded with, so the fill is
-the only thing that grew: the text stands where it stood and the entry keeps
-its measure, which is what a column beside a page has least of.
+The mark is the **filled block in the accent** every current navigation
+item in this system gets. The row bleeds by exactly its padding, so the
+fill is the only thing that grew. The text stands where it stood, and the
+entry keeps its measure, which a column beside a page has least of.
 
-The mark **fades across** rather than appearing, at ``--duration-fast`` — the
-same change a pill and the mode switch make. It is worth more here: those move
-because somebody pressed them, and the press is the announcement, while this
-one moves under a reader who is looking at the text.
+The mark **fades across** instead of an appearance, at ``--duration-fast``,
+the same change a pill and the mode switch make. It matters more here.
+Those move because somebody pressed them, and the press is the
+announcement. This one moves under a reader who looks at the text.
 
 .. confval:: entries
    :name: sds-nav-toc-entries
    :type: MenuEntry[]
    :required: true
 
-   The sections, nested as deep as the page nests them. An entry pointing at
-   this page — an ``href`` that is a fragment — is a place the reader can be
-   in; anything else is a link and is never marked.
+   The sections, nested as deep as the page nests them. An entry that points
+   at this page, an ``href`` that is a fragment, is a place the reader can
+   be in. Anything else is a link and never gets the mark.
 
-   ``current`` on an entry is what a card, a story and a server-rendered page
-   have instead of a reader. The page wins the moment it has been read.
+   ``current`` on an entry is what a card, a story and a server-rendered
+   page have instead of a reader. The page wins the moment the element reads it.
 
 .. confval:: label
    :name: sds-nav-toc-label
    :type: string
    :default: "On this page"
 
-   The heading over the list, and what the navigation is called.
+   The heading over the list, and the name of the navigation.
 
 .. note::
 
-   ``aria-current="location"``, not ``page``: every entry here **is** the page,
-   and what is marked is the part of it the reader is at.
+   ``aria-current="location"``, not ``page``. Every entry here **is** the
+   page, and the mark is the part of it the reader is at.
 
    Before the script, and on a page where it never runs, it is the list with
-   nothing marked — which is a contents, and what the page had without it.
+   nothing marked. That is a contents, which the page had without it.
 
 .. _component-sds-nav-breadcrumb:
 
 sds-nav-breadcrumb
-==========
+==================
 
 Where the page sits, as a trail.
 
@@ -386,9 +378,9 @@ Where the page sits, as a trail.
    :type: "{ label, href? }[]"
    :required: true
 
-   The last entry is the page itself and is drawn as text whether or not a
-   caller gave it an ``href`` — a trail whose last step is a link is a trail
-   that was pasted from the one above it.
+   The last entry is the page itself and draws as text, with or without an
+   ``href`` from the caller. A trail whose last step is a link is a trail
+   pasted from the one above it.
 
 .. confval:: label
    :name: sds-nav-breadcrumb-label
@@ -397,10 +389,10 @@ Where the page sits, as a trail.
 
 .. note::
 
-   The one navigation here with **no active mark**. The trail is read as a path
-   and its end is where the reader already is, so spending the accent there
-   would leave nothing to mark what they came to do. The separator is a
-   character rather than an icon: punctuation between two words, at their size.
+   The one navigation here with **no active mark**. A reader reads the trail
+   as a path, and its end is where they already are. The accent there
+   leaves nothing to mark what they came to do. The separator is a
+   character, not an icon: punctuation between two words, at their size.
 
 .. _component-sds-tabs:
 .. _component-sds-tab-item:
@@ -408,9 +400,9 @@ Where the page sits, as a trail.
 sds-tabs, sds-tab-item
 ======================
 
-Switching the content of a panel rather than the page. A tab is a label and a
-panel, and the pair is the whole component — written apart, keeping them in
-step is the caller's problem and the bar is a row of words.
+A switch of a panel's content, not of the page. A tab is a label and a
+panel, and the pair is the whole component. Apart, the caller keeps them in
+step, and the bar is a row of words.
 
 .. code-block:: html
 
@@ -428,52 +420,52 @@ step is the caller's problem and the bar is a row of words.
    :type: string
    :required: true
 
-   On ``sds-tab-item``. The bar takes its labels off the panels, so a composed
-   set says everything once.
+   On ``sds-tab-item``. The bar takes its labels off the panels, so a
+   composed set says everything once.
 
 .. confval:: icon
    :name: sds-tabs-sds-tab-item-icon
    :type: icon id
 
-   For a tab whose subject has one — a file type, a tool — never as decoration
-   on a set that reads fine without.
+   For a tab whose subject has one, a file type, a tool. Never as
+   decoration on a set that reads fine without.
 
 .. confval:: active
    :name: sds-tabs-sds-tab-item-active
    :type: boolean
    :default: false
 
-   On ``sds-tab-item``: the panel that is showing. The set writes it, not a
-   page — a set claims its panels the moment it exists, and a panel nothing has
-   claimed shows regardless, which is what a panel is where nothing switches
+   On ``sds-tab-item``: the panel that shows. The set writes it, not a page.
+   A set claims its panels the moment it exists, and a panel nothing has
+   claimed shows in any case. That is what a panel is where nothing switches
    it.
 
 .. confval:: sync
    :name: sds-tabs-sync
    :type: string
 
-   On ``sds-tabs``. A word, and every set carrying the same one follows the
-   choice made in any of them. For a page stating one thing in several places —
-   the same setting in YAML and PHP, the same command for three shells — where
-   choosing it once is the point and choosing it four times is the annoyance.
+   On ``sds-tabs``. A word, and every set with the same one follows the
+   choice made in any of them. For a page that states one thing in several
+   places, the same setting in YAML and PHP, the same command for three
+   shells. One choice is the point, and four are the annoyance.
 
-   Sets are matched **by the label, not the position**: a set offering YAML and
-   TypoScript has no PHP, and one that has none of the chosen words keeps the
-   panel it is showing rather than falling back to its first. The choice
-   outlives the page and is an order rather than a word — picking ``bash`` where
-   it was offered does not stop a reader preferring PHP to YAML where it was
-   not. A set writing no ``sync`` follows nothing and is followed by nothing.
+   Sets match **by the label, not the position**. A set with YAML and
+   TypoScript has no PHP, and one with none of the chosen words keeps the
+   panel it shows. The choice outlives the page and is an order, not a
+   word. A pick of ``bash`` where it was on offer does not stop a reader who
+   prefers PHP to YAML where it was not. A set with no ``sync`` follows
+   nothing, and nothing follows it.
 
-A real tablist: each tab names the panel it controls, the arrow keys move
-between them, Home and End go to the ends, and the focus follows the selection.
-Panels that are not current are **hidden rather than unrendered**, so
-find-in-page reaches them and anything with state in there keeps it.
+A real tablist. Each tab names the panel it controls, and the arrow keys
+move between them. Home and End go to the ends, and the focus follows the
+selection. A panel that is not current **hides and does not go**, so
+find-in-page reaches it and anything with state in there keeps it.
 
 .. note::
 
    A panel decides for itself until a set of tabs claims it. That is what a
-   panel is on a page where nothing switches it — and hiding every one there
-   would leave content in the document and invisible in it.
+   panel is on a page where nothing switches it. A hide of every one there
+   leaves content in the document and invisible in it.
 
 .. _component-sds-accordion:
 .. _component-sds-accordion-item:
@@ -494,17 +486,17 @@ Questions with their answers folded behind them.
      </sds-accordion-item>
    </sds-accordion>
 
-``<details>`` and ``<summary>``, like the rail's groups: the fold works before
-any script runs, the keyboard reaches it, and find-in-page opens the one it
-lands in. A button drawn to look like a summary looks identical and has none of
+``<details>`` and ``<summary>``, like the rail's groups. The fold works
+before a script runs, the keyboard reaches it, and find-in-page opens the
+one it lands in. A button drawn as a summary looks the same and has none of
 that.
 
 .. confval:: entries
    :name: sds-accordion-sds-accordion-item-entries
    :type: "{ question, answer, open?, anchor? }[]"
 
-   Where a page has the questions as data. An answer that is blocks — what a
-   documentation renderer hands over — goes between the tags as
+   Where a page has the questions as data. An answer of blocks, what a
+   documentation renderer hands over, goes between the tags as
    ``sds-accordion-item`` instead, and then this stays empty.
 
 .. confval:: multiple
@@ -512,15 +504,15 @@ that.
    :type: boolean
    :default: false
 
-   More than one open at a time. The platform's own exclusivity is otherwise
-   on, and it is on because a list is easier to read than a wall.
+   More than one open at a time. Otherwise the platform's own exclusivity
+   is on, because a list is easier to read than a wall.
 
 .. confval:: name
    :name: sds-accordion-sds-accordion-item-name
    :type: string
    :default: "sds-accordion"
 
-   What the set is called. Two exclusive groups on one page must not close each
+   The set's name. Two exclusive groups on one page must not close each
    other's answers. The set tells its items, so a page says it once.
 
 .. confval:: question
@@ -528,36 +520,36 @@ that.
    :type: string
    :required: true
 
-   On ``sds-accordion-item``. What is asked, in the summary. The answer is
-   whatever stands between the tags, because paragraphs, lists and code blocks
-   are what no attribute can carry.
+   On ``sds-accordion-item``. The question, in the summary. The answer is
+   whatever stands between the tags, because paragraphs, lists and code
+   blocks are what no attribute can carry.
 
 .. confval:: open
    :name: sds-accordion-sds-accordion-item-open
    :type: boolean
    :default: false
 
-   On ``sds-accordion-item``. Standing open — for the first answer on a page of
-   them, so the shape of an answer is visible without pressing anything.
+   On ``sds-accordion-item``. Open at the start, for the first answer on a
+   page of them, so the shape of an answer shows without a press.
 
 .. confval:: anchor
    :name: sds-accordion-sds-accordion-item-anchor
    :type: string
 
-   On ``sds-accordion-item``. The address of this one answer, and it lands on
-   the **answer** rather than on the question: a fragment pointing *into* a
-   ``<details>`` is what unfolds it, and one pointing *at* the element leaves it
-   shut. So there is no rule forcing the fold and nothing watching the hash.
+   On ``sds-accordion-item``. The address of this one answer. It lands on
+   the **answer**, not on the question. A fragment that points *into* a
+   ``<details>`` unfolds it, and one that points *at* the element leaves it
+   shut. So no rule forces the fold, and nothing watches the hash.
 
 .. note::
 
-   For a *list* of questions. Where the folded part is the point — a log, a
-   stack trace — one ``<details>`` in the document needs no component.
+   For a *list* of questions. Where the folded part is the point, a log, a
+   stack trace, one ``<details>`` in the document needs no component.
 
 .. _component-sds-nav-pagination:
 
 sds-nav-pagination
-==============
+==================
 
 Where a list continues.
 
@@ -571,9 +563,9 @@ Where a list continues.
    :type: number
    :required: true
 
-   How many there are in all — the list, not the page. The row is told the
-   total and the page size and divides, so nothing hands over the same fact
-   twice.
+   How many there are in all, in the list, not on the page. The row gets
+   the total and the page size and divides, so nobody hands over the same
+   fact twice.
 
 .. confval:: per-page
    :name: sds-nav-pagination-per-page
@@ -585,41 +577,40 @@ Where a list continues.
    :type: number
    :default: 1
 
-   One-based, the way it is written in the page. The current page is text, not
-   a link.
+   One-based, as the page writes it. The current page is text, not a link.
 
 .. confval:: href
    :name: sds-nav-pagination-href
    :type: string
    :default: "#page-{n}"
 
-   A page's **whole** address, with ``{n}`` where its number goes. A list is as
-   often at ``?q=…&page=2&sort=date`` as at the end of a path, and a caller
-   that can only append has to reorder the query it already has. A template
-   with no ``{n}`` is treated as a prefix.
+   A page's **whole** address, with ``{n}`` where its number goes. A list is
+   as often at ``?q=…&page=2&sort=date`` as at the end of a path. A caller
+   who can only append has to reorder the query. A template with no
+   ``{n}`` counts as a prefix.
 
 .. confval:: label
    :name: sds-nav-pagination-label
    :type: string
 
-   What was counted, in the label register. Left off, the row ends with the
-   bare number.
+   What the count is of, in the label register. Without it the row ends
+   with the bare number.
 
 .. note::
 
-   Every number is an ``href``: a page reachable only by scrolling is one a
-   reader cannot send to anyone. A surface that pages **in place** listens for
-   ``sds-change`` and calls ``preventDefault()`` — the same press, not a second
-   mode.
+   Every number is an ``href``. A page reachable only by scroll is one a
+   reader cannot send to anyone. A surface that pages **in place** listens
+   for ``sds-change`` and calls ``preventDefault()``: the same press, not a
+   second mode.
 
 .. _component-sds-nav-pager:
 
 sds-nav-pager
-=========
+=============
 
-The way on from a page, where a page is read in order: the one behind and the
-one ahead, and nothing between them. Not ``sds-nav-pagination`` — that numbers a
-set a reader moves around inside, this is a line they are walking along.
+The way on from a page in a sequence: the one behind and the one ahead, and
+nothing between them. Not ``sds-nav-pagination``. That numbers a set a
+reader moves around inside. This is a line they walk along.
 
 .. code-block:: html
 
@@ -634,9 +625,10 @@ set a reader moves around inside, this is a line they are walking along.
    :name: sds-nav-pager-previous-label
    :type: string
 
-   Both halves or neither: a control with a target and no name cannot be read,
-   and one with a name and no target does nothing. Missing, that end of the row
-   is empty — an inert control is a control a reader tries.
+   Both halves or neither. A control with a target and no name has no
+   read-out, and one with a name and no target does nothing. With one
+   absent, that end of the row is empty. An inert control is a control a
+   reader tries.
 
 .. confval:: next-href
    :name: sds-nav-pager-next-href
@@ -651,28 +643,28 @@ set a reader moves around inside, this is a line they are walking along.
    :type: string
    :default: "Pages either side of this one"
 
-   What the row is called for a reader who cannot see that it is one.
+   The row's name, for a reader who cannot see that it is one.
 
 .. note::
 
-   Four strings and not one object per side. A label and a target each fit in
-   an attribute, so no caller's idea of what a page *is* reaches the component:
-   a documentation renderer walking a toctree and an application reading a
-   database fill exactly the same four.
+   Four strings, not one object per side. A label and a target each fit in
+   an attribute, so no caller's idea of a page reaches the component. A
+   documentation renderer that walks a toctree and an application that
+   reads a database fill exactly the same four.
 
-   The direction is carried by the glyph, whose own accessible name is
-   ``Previous page`` / ``Next page``. It joins the page title rather than
-   replacing it — a name written over the whole control would say a sentence
-   the reader cannot see in place of the one they can.
+   The glyph carries the direction, and its own accessible name is
+   ``Previous page`` / ``Next page``. It joins the page title, not replaces
+   it. A name over the whole control says a sentence the reader cannot see
+   in place of the one they can.
 
 .. _component-sds-search:
 
 sds-search
 ==========
 
-Finding a page in a site that has no server. A rendered site is files, so the
-index is a file too: a small JSON the build writes, fetched the first time
-somebody types.
+The search for a page in a site with no server. A rendered site is files,
+so the index is a file too: a small JSON the build writes, fetched the first
+time somebody types.
 
 .. code-block:: html
 
@@ -683,9 +675,9 @@ somebody types.
    :type: string
    :required: true
 
-   Where the index is. Hits are resolved against the index's own address rather
-   than against the current page — the index lists every page as the build sees
-   them, and a reader is rarely standing in the root.
+   Where the index is. Hits resolve against the index's own address, not
+   against the current page. The index lists every page as the build sees
+   them, and a reader rarely stands in the root.
 
 .. confval:: label
    :name: sds-search-label
@@ -697,47 +689,48 @@ somebody types.
    :type: "md" | "sm" | "lg"
    :default: "md"
 
-   The height of the box, ``sds-field``'s own three — the box *is* one, so what
-   a size changes is decided there. A bar running its controls at ``sm`` runs
-   the search at ``sm`` too, or the row has two heights standing in it.
+   The height of the box, ``sds-field``'s own three. The box *is* one, so
+   the field decides what a size changes. A bar with its controls at ``sm``
+   runs the search at ``sm`` too, or the row has two heights.
 
-The field is a combobox: down goes into the list, the arrows walk it, up from
-the first goes back to what was typed, and Escape gives the page back. What was
-found is drawn by ``sds-search-hits`` rather than rebuilt in the drop, and a
-query that matched nothing gets that element's sentence in the same box.
+The field is a combobox. Down goes into the list, the arrows walk it, up
+from the first goes back to the typed text, and Escape gives the page back.
+``sds-search-hits`` draws what the search found, not a rebuild in the drop.
+A query with no match gets that element's sentence in the same box.
 
-**The drop hangs from the end of the field**, which is where a bar usually puts
-its search, and from the start edge instead where that leaves it off the page —
-a field near the start of a narrow window is the common case, and a drop in the
-top layer that has left the window cannot be scrolled back onto it. Both routes
-place it that way: ``sds-dropdown``'s panel and this one share
-``src/lib/flyout.ts``, and the stylesheet does it where the engine can anchor.
+**The drop hangs from the end of the field**, where a bar usually puts its
+search. From the start edge instead where that leaves it off the page. A
+field near the start of a narrow window is the common case. A drop in the
+top layer that has left the window cannot scroll back. Both routes
+place it that way. ``sds-dropdown``'s panel and this one share
+``src/lib/flyout.ts``, and the stylesheet does it where the engine can
+anchor.
 
-An entry in the index is ``{ title, url, text }``, and may carry ``image`` —
-the picture the page has, named from the root like ``url`` and resolved the
-same way. It becomes the hit's thumbnail.
+An entry in the index is ``{ title, url, text }``, and can carry ``image``:
+the page's picture, named from the root like ``url`` and resolved the same
+way. It becomes the hit's thumbnail.
 
 A hit in the drop carries the same four things it carries anywhere, but the
-sentence is **cut to two lines** there: a drop under a field is passed through
-on the way to a page, and a paragraph per row is a page of reading in front of
-the one that was asked for. A page of results shows the sentence whole.
+sentence **stops at two lines** there. A drop under a field is a passage on
+the way to a page. A paragraph per row is a page of text in front of the one
+the reader asked for. A page of results shows the sentence whole.
 
 .. important::
 
-   Without JavaScript neither the element nor the field is there. A search box
-   that cannot search is worse than an honest absence — and the rail still
-   lists every page.
+   Without JavaScript neither the element nor the field is there. A search
+   box that cannot search is worse than an honest absence, and the rail
+   still lists every page.
 
 .. _component-sds-search-hits:
 
 sds-search-hits
 ===============
 
-What a query was answered with: the hits, in the order they are read, and the
-sentence a search with nothing to show gives. It is handed the hits rather than
-finding them — ``sds-search`` owns the index, the field and the keys, and what
-it knows about a hit ends where this begins. A page of results and a drop under
-a field therefore draw the same list.
+The answer to a query: the hits, in the reader's order, and the sentence a search
+with nothing to show gives. It gets the hits, and does not find them.
+``sds-search`` owns the index, the field and the keys, and what it knows
+about a hit ends where this starts. So a page of results and a drop under a
+field draw the same list.
 
 .. code-block:: html
 
@@ -751,46 +744,47 @@ a field therefore draw the same list.
    :type: "SearchResultProps[]"
    :required: true
 
-   One entry per hit, in the order they are read. Every field ``sds-search-result``
+   One entry per hit, in the reader's order. Every field ``sds-search-result``
    takes is a field here, the thumbnail among them.
 
 .. confval:: match
    :name: sds-search-hits-match
    :type: string
 
-   What was searched for. Handed to every hit, so the marking happens once and
-   in one place, and named in the heading of an empty answer.
+   The search term. Handed to every hit, so the mark happens once and in
+   one place, and named in the heading of an empty answer.
 
 .. confval:: empty
    :name: sds-search-hits-empty
    :type: string
    :default: "what a site index holds"
 
-   What was searched, said where the hits would have been. The default names
-   the titles and opening lines a site index keeps; a caller searching
+   What the search read, said where the hits stand otherwise. The default names
+   the titles and opening lines a site index keeps. A caller who searches
    something else says what that was. Blank leaves the heading alone.
 
 .. note::
 
-   An answer of nothing is an answer, and says which pages were read and what
-   of them is not indexed — so a query that matched nothing can be told from a
-   search that broke.
+   An answer of nothing is an answer. It says which pages the search read
+   and what of them is not in the index. So a query with no match differs
+   from a search that broke.
 
-   **The hairline between two hits is the list's**, and it is drawn in the gap
-   rather than on either box: the plane a hit takes under the pointer therefore
-   never meets it, and it is held to the words' own edge rather than the
-   plane's. A hit composed on its own carries none, and the list neither opens
-   nor closes with one — what closes it is whatever it was put in: the drop's
-   own frame, or the band a page of results stands in.
+   **The hairline between two hits is the list's**, drawn in the gap, not
+   on either box. So the plane a hit takes under the pointer never meets
+   it, and it stops at the words' own edge, not the plane's. A hit on its
+   own carries none, and the list neither opens nor closes with one. What
+   closes it is its container: the drop's own frame, or the band a page of
+   results stands in.
 
 .. _component-sds-search-result:
 
 sds-search-result
 =================
 
-One hit in a list of them: what was found, **where it is**, the sentence it was
-found in, and what kind of thing it is. The second is what a list of titles and
-snippets leaves out, and the reader opens a page to learn it.
+One hit in a list of them. What the search found, **where it is**, the
+sentence it stands in, and what kind of thing it is. The second is what a
+list of titles and snippets leaves out, and the reader opens a page to learn
+it.
 
 .. code-block:: html
 
@@ -820,25 +814,26 @@ snippets leaves out, and the reader opens a page to learn it.
    :name: sds-search-result-snippet
    :type: string
 
-   The sentence it was found in, cut from the text and not written for the list.
+   The sentence the search found it in, cut from the text, not written for
+   the list.
 
 .. confval:: match
    :name: sds-search-result-match
    :type: string
 
-   What was searched for. **The marking happens here**, not in the caller: what
-   is highlighted has to be what was searched for, and a page marking by hand
-   marks what it thinks it searched for — the two part the first time a query is
-   normalised.
+   The search term. **The mark happens here**, not in the caller. The
+   highlight has to be the search term, and a page that marks by hand marks
+   what it thinks it searched for. The two part at the first normalised
+   query.
 
 .. confval:: kind
    :name: sds-search-result-kind
    :type: string
 
-   What kind of thing it is — reference, guide, changelog. Optional, like the
-   path and the release it shares its line with: where a source reports none of
-   the three, the line is dropped rather than drawn empty, so a list of hits
-   has no hole above its titles.
+   What kind of thing it is: reference, guide, changelog. Optional, like the
+   path and the release on its line. Where a source reports none of the
+   three, the line drops instead of an empty draw. So a list of hits has no
+   hole above its titles.
 
 .. confval:: meta
    :name: sds-search-result-meta
@@ -850,36 +845,35 @@ snippets leaves out, and the reader opens a page to learn it.
    :name: sds-search-result-src
    :type: string
 
-   The picture the thing found carries. Beside the words and never over them —
-   a hit stays a line, so a list of them is still read down one edge. A
-   photograph is cropped to the same box whatever shape the file is; a drawing
-   keeps the colours it was exported with and is fitted rather than cropped.
+   The picture the found thing carries. Beside the words and never over
+   them. A hit stays a line, so a reader still reads a list of them down one
+   edge. A photograph crops to the same box whatever shape the file is. A
+   drawing keeps the colours of its export and fits instead of a crop.
 
 .. confval:: alt
    :name: sds-search-result-alt
    :type: string
 
    Leave it empty where the picture repeats the title, which is most of the
-   time: the heading beside it already names the target.
+   time. The heading beside it already names the target.
 
 .. note::
 
-   **The hit is the link.** It renders an ``<a>`` around the whole row rather
-   than a title's anchor stretched over one — the target is a box, the text in
-   it can still be selected, and the ring is the one every other focusable
-   thing draws. The link is named by its heading: without that its name would
-   be everything in the row read out at once. With no ``href`` it is an
-   ``<article>`` and goes nowhere.
+   **The hit is the link.** It renders an ``<a>`` around the whole row, not
+   a title's anchor over one. The target is a box, the text in it stays
+   selectable, and the ring is the one every other focusable thing draws.
+   The heading names the link. Without that, its name is everything in the
+   row at once. With no ``href`` it is an ``<article>`` and goes nowhere.
 
 .. _component-sds-footer:
 
 sds-footer
 ==========
 
-How a page ends. A **site** says where the rest of itself is, grouped so the
-columns read as sections; a **screen** with no site around it says what it is
-and the way out. One shape either way: every part of it falls away where
-nothing was set, so the second is the first with less in it.
+How a page ends. A **site** says where the rest of itself is, in columns
+that read as sections. A **screen** with no site around it says what it is
+and the way out. One shape either way. Every part of it falls away where
+nothing sets it, so the second is the first with less in it.
 
 .. code-block:: html
 
@@ -899,44 +893,43 @@ nothing was set, so the second is the first with less in it.
    :name: sds-footer-groups
    :type: "{ label, href?, items }[]"
 
-   The columns. They reflow by their own minimum, so no breakpoint decides how
-   many fit.
+   The columns. They reflow by their own minimum, so no breakpoint decides
+   how many fit.
 
-   ``href`` makes the heading the page it names, where what the column collects
-   is a section with a page of its own: that page is reachable from its column
-   or from nowhere, and repeating its name as the first entry under it is a
-   column saying the same word twice. The heading keeps the label's colour
-   rather than taking the links' — at theirs it reads as the first entry of the
-   list it names. A column that collects links belonging together rather than a
-   section leaves it out.
+   ``href`` makes the heading the page it names, where the column collects
+   a section with a page of its own. That page is reachable from its column
+   or from nowhere. Its name as the first entry under it is a column that
+   says the same word twice. The heading keeps the label's colour, not
+   the links'. At theirs it reads as the first entry of the list it names.
+   A column of links that belong together, not a section, leaves it out.
 
 .. confval:: note
    :name: sds-footer-note
    :type: string
    :required: true
 
-   What this is. Stated, never implied — and never whose it is. A required
-   property rather than a slot a page may forget to fill, because a page that
-   says nothing about itself leaves a reader to guess.
+   What this is. Stated, never implied, and never whose it is. A mandatory
+   property, not a slot a page can forget, because a page that says nothing
+   about itself leaves a reader to guess.
 
-   It sits under the lockup rather than in the line at the bottom: it is the
-   one thing in a footer somebody reads rather than scans, and fine print is
-   what a page uses to be forgiven for what it says.
+   It sits under the lockup, not in the line at the bottom. It is the one
+   thing in a footer somebody reads instead of scans. Fine print is what a
+   page uses to excuse what it says.
 
 .. confval:: product
    :name: sds-footer-product
    :type: string
 
-   The machine's name for it, set as the machine's: a product, a package, a
-   repository — verbatim, and never title-cased. It is the name in the lockup:
-   a reader who scrolled this far has left the bar behind, and the mark alone
-   is a picture they have to already know.
+   The machine's name for it, set as the machine's. A product, a package, a
+   repository, verbatim, and never title case. It is the name in the
+   lockup. A reader who scrolled this far has left the bar behind, and the
+   mark alone is a picture they have to know already.
 
 .. confval:: signet
    :name: sds-footer-signet
    :type: string
 
-   The mark, as the file it is drawn in — the same file the bar carries, and
+   The mark, as the file of its drawing: the same file the bar carries,
    shown the same way.
 
 .. confval:: brand
@@ -944,54 +937,54 @@ nothing was set, so the second is the first with less in it.
    :type: string
 
    Whose product it is, where that is a second name: the first half of the
-   lockup, with the accent rule between the two. Left out, the mark is one
-   name and there is nothing to separate.
+   lockup, with the accent rule between the two. Without it, the mark is
+   one name, and there is nothing to separate.
 
 .. confval:: copyright
    :name: sds-footer-copyright
    :type: string
 
-   Whose it is and from when. A separate line from the note because it is a
-   separate claim.
+   Whose it is and from when. A separate line from the note, because it is
+   a separate claim.
 
 .. confval:: version
    :name: sds-footer-version
    :type: string
 
-   What the reader is reading, where the site has a version. It stands in the
-   closing line, set in mono like anything the machine names.
+   What the reader reads, where the site has a version. It stands in the
+   closing line, in mono like everything the machine names.
 
 .. confval:: meta
    :name: sds-footer-meta
    :type: "FooterLink[]"
 
-   What has to travel with it: a licence, a legal page, the manual it was
-   built from.
+   What has to travel with it: a licence, a legal page, the manual behind
+   it.
 
 .. confval:: marks
    :name: sds-footer-marks
    :type: "FooterLink[]"
 
-   Where else it lives — a repository, a chat, a feed. At the far end of the
-   line, because they are the one thing in a footer a reader looks for by
-   position rather than by reading.
+   Where else it lives: a repository, a chat, a feed. At the far end of the
+   line. They are the one thing in a footer a reader looks for by position,
+   not by a read.
 
    Drawn as the marks they are: the glyph at 24, no word beside it and no
-   external glyph after it. The label is what the link is called and is on the
-   element for whoever cannot see it. This is the one place a brand glyph
-   stands alone — in a column the same link is labelled, because there it is
-   read rather than looked for. An entry with no mark in the set keeps its
-   label, so an account is never a link nobody can name.
+   external glyph after it. The label is the link's name, on the element
+   for whoever cannot see it. This is the one place a brand glyph stands
+   alone. In a column the same link has its label, because a reader reads
+   it there. An entry with no mark in the set keeps its label, so an
+   account is never a link nobody can name.
 
 .. note::
 
-   A footer is a directory, and **not** a place the accent appears: its links
-   carry the page's own secondary ink. The other shape is ``sds-nav-pager`` —
-   one row with the way out of this page, which is all a single screen owes its
-   reader. See :doc:`/frontend/layout`.
+   A footer is a directory, and **not** a place for the accent. Its links
+   carry the page's own secondary ink. The other shape is ``sds-nav-pager``:
+   one row with the way out of this page, which is all a single screen owes
+   its reader. See :doc:`/frontend/layout`.
 
 .. seealso::
 
    :doc:`/frontend/layout` for where a rail, a bar and a footer stand on the
-   page, and :doc:`/guides-theme/configuration` for the navigation a rendered
-   site builds all of this from.
+   page, and :doc:`/guides-theme/configuration` for the navigation a
+   rendered site builds all of this from.

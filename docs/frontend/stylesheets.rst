@@ -4,13 +4,12 @@
 How the stylesheets are written
 ===============================
 
-The class layer is one vocabulary written by many hands, and it reads as one
-file only because every file follows the same few rules. This page is those
-rules: what each layer may hold, how a distance travels, what a component's
-file looks like inside, and what nesting may and may not do. The pages around
-this one say what the classes *are*; this one says how their stylesheets are
-written — so the reason can live here once instead of being retold in every
-file it governs.
+The class layer is one vocabulary from many hands, and it reads as one file
+because every file follows the same few rules. This page holds those rules:
+what each layer holds, how a distance travels, what a component's file looks
+like inside, and what nesting can do. The pages around this one say what the
+classes *are*. This one says how to write their stylesheets, so the reason
+stands here once.
 
 The layers
 ==========
@@ -20,9 +19,9 @@ The layers
    @layer tokens, reset, base, layout, components, state;
 
 Declared once, at the top of ``styles.css``. A later layer wins over an
-earlier one whatever the specificity and wherever the rule stands — so where
-a rule lives decides what it can overrule, not what line it is on and not how
-loud its selector is.
+earlier one, whatever the specificity and wherever the rule stands. So the
+layer a rule lives in decides what it can overrule, not its line and not the
+weight of its selector.
 
 .. list-table::
    :header-rows: 1
@@ -32,7 +31,7 @@ loud its selector is.
    * - ``tokens``
      - the values: colour, type, controls, spacing, radius, motion
    * - ``reset``
-     - what is taken back from the browser, for every element alike
+     - what the system takes back from the browser, for every element
    * - ``base``
      - what a bare element is, and the flow contract below
    * - ``layout``
@@ -40,35 +39,33 @@ loud its selector is.
    * - ``components``
      - the ``sds-`` vocabulary, one file per component
    * - ``state``
-     - the last word, held in reserve — something that must overrule a
-       component does it from here, not with a louder selector
+     - the last word, in reserve. What must overrule a component does it
+       from here, not with a louder selector
 
-``hidden`` is the one rule standing in ``state`` for the whole system. Every
-layer above states a ``display`` for something — a bare element, a container, a
-component's box — and an author rule beats the browser's own, so the platform's
-word for "not now" was overruled wherever it met one. It is put back there for
-every element at once, which is why nothing built on this system needs an
-``!important`` to hide one. ``hidden="until-found"`` is left as it is: the
-browser answers that one with ``content-visibility``, and a page that wants
-find-in-page to reach a collapsed passage keeps it.
+``hidden`` is the one rule in ``state`` for the whole system. Every layer
+above states a ``display`` for something, and an author rule beats the
+browser's own. So the platform's word for "not now" lost wherever it met one.
+``state`` puts it back for every element at once, which is why nothing on
+this system needs an ``!important`` to hide one. ``hidden="until-found"``
+stays as it is. The browser answers that one with ``content-visibility``,
+and a page that wants find-in-page to reach a collapsed passage keeps it.
 
 A page of prose links nothing extra. What a renderer emits without a class is
-a bare element, and a bare element is set by the layer that owns it — the sheet
-of the component it belongs to, or ``base.css`` where it belongs to none. What
-is scoped to a passage is what is left after that, and it is little:
-``components/prose.css`` holds the box itself and the two names the parser
-writes on a line block, where the break is the content. See :doc:`documents`.
+a bare element, and the layer that owns it sets it. That is the sheet of its
+component, or ``base.css`` where it belongs to none. Little stays scoped to
+a passage. ``components/prose.css`` holds the box itself and the two names
+the parser writes on a line block. See :doc:`documents`.
 
 The flow contract
 =================
 
-**Every distance is stated once, by the thing that owes it.** A block carries
-the step below itself; a container that spaces its children takes those steps
-back; no rule reaches past a tag to find a block, and no distance is
-assembled from two halves.
+**Every distance stands once, on the thing that owes it.** A block carries
+the step below itself. A container that spaces its children takes those
+steps back. No rule reaches past a tag to find a block, and no distance is
+two halves.
 
-An element that stands in a flow therefore has three rules in ``base``, in
-its component's own file, that only mean anything together:
+So an element in a flow has three rules in ``base``, in its component's own
+file, that only mean anything together:
 
 .. code-block:: css
 
@@ -86,33 +83,31 @@ its component's own file, that only mean anything together:
      }
    }
 
-The element carries the step, the box it always renders inside itself gives
-that step up, and the same box standing alone carries it. That is the price
-of one vocabulary rendered two ways — upgraded by an element where script
-runs, written as bare classes where none does — measuring the same either
-way.
+The element carries the step. The box it always renders inside itself gives
+that step up. The same box on its own carries it. That is the price of one
+vocabulary rendered two ways. An element renders it where script runs, bare
+classes where none does, at the same measure either way.
 
-The rules sit in ``base`` and not in the component's own layer: a container
-in ``layout`` takes the step back, and a step stated in ``components`` would
-win over the container that already paid the gap.
+The rules sit in ``base`` and not in the component's own layer. A container
+in ``layout`` takes the step back, and a step in ``components`` wins over the
+container that already paid the gap.
 
-Two kinds of element opt out, each by being what it is. One that stands in a
-line of text or a row of controls is inline and carries no step at all — a
-distance below a control belongs to the block standing around it. And a
-region that only ever stands in the page — a bar, a rail, a footer — owes no
-step either: a container or a set spaces it, so its ``base`` lines state the
-display and ``min-width: 0`` and nothing more.
+Two kinds of element opt out, each by what it is. One that stands in a line
+of text or a row of controls is inline and carries no step. A distance below
+a control belongs to the block around it. A region that only stands in the
+page, a bar, a rail, a footer, owes no step either. A container or a set
+spaces it, so its ``base`` lines state the display and ``min-width: 0`` and
+nothing more.
 
-Because the contract is this page's to explain, the files that follow it do
-not retell it: a ``@layer base`` block holding these three rules is the
-pattern, recognised rather than narrated.
+This page explains the contract, so the files that follow it do not. A
+``@layer base`` block with these three rules is the pattern.
 
 What a component is made of
 ===========================
 
 **Everything a component is, it is through a property of its own.** Each one
-declares its set at the top of its own stylesheet, derived from the tokens
-every component shares, and every declaration under it reads only that set:
+declares its set at the top of its own stylesheet, derived from the shared
+tokens. Every declaration under it reads only that set:
 
 .. code-block:: css
 
@@ -129,14 +124,12 @@ every component shares, and every declaration under it reads only that set:
      }
    }
 
-**A state draws from the other half of the set rather than assigning into the
-half at rest.** Writing ``--sds-btn-fill: var(--sds-btn-fill-hover)`` under
-``&:hover`` reads the property whose own default reads it back, and that is a
-cycle: every property in it is invalid at computed value, every declaration
-reading one of them drops, and nothing anywhere says so. The button did exactly
-that — under the pointer its border went to ``none`` and the box shrank by it,
-and its ink fell back to whatever the page inherits, which over the accent fill
-is text nobody can read. ``tests/states.spec.ts`` is what holds it now.
+**A state draws from the other half of the set. It does not assign into the
+half at rest.** ``--sds-btn-fill: var(--sds-btn-fill-hover)`` under
+``&:hover`` reads the property whose own default reads it back, and that is
+a cycle. Every property in it is invalid at computed value, every declaration
+that reads one drops, and nothing says so. ``tests/states.spec.ts`` holds
+it.
 
 A variant and a size then **assign values and draw nothing**:
 
@@ -147,64 +140,60 @@ A variant and a size then **assign values and draw nothing**:
      --sds-btn-fill-hover: var(--accent-hover);
    }
 
-Three things follow. There is no ``.sds-btn--primary:hover`` rule for a later
-one to outweigh — the state is written once, whatever the variant. A size is a
-handful of numbers rather than the same declarations repeated per variant. And
-a surface that needs one instance different sets a property on it instead of
-writing a class this system has never heard of.
+Three things follow. There is no ``.sds-btn--primary:hover`` rule for a
+later one to outweigh: the state stands once, whatever the variant. A
+size is a few numbers, not the same declarations per variant. And a surface
+that needs one instance different sets a property on it instead of a class
+this system never heard of.
 
-A value that reaches a declaration without passing through the set is the
-thing this prevents: ``line-height: 1.6`` in one component and
-``var(--leading-body)`` in every other is drift nothing can see — and it stays
-invisible for as long as the two happen to agree.
-``make verify ARGS=sets`` holds every component to it. Two things are read
-straight, and only two: the focus ring, because there is one ring, and the
-colours that mean something — a component able to re-point those could draw an
-error green.
+A value that reaches a declaration without the set is what this prevents.
+``line-height: 1.6`` in one component and ``var(--leading-body)`` in every
+other is drift nothing can see, for as long as the two agree. ``make verify
+ARGS=sets`` holds every component to it. Two things read straight, and only
+two: the focus ring, because there is one ring, and the colours that mean
+something. A component that can re-point those can draw an error green.
 
-The one thing the check cannot see is **where** a set is declared. A property
+The one thing the check cannot see is **where** a set stands. A property
 travels down: never sideways to a box beside the one that declared it, never
-up to the page around it. A set therefore sits on an ancestor of everything
-that reads it — which is why a tab panel standing beside its row carries its
-own, and why the offset the page scrolls to is declared on the page rather
-than on the bar that causes it.
+up to the page around it. So a set sits on an ancestor of everything that
+reads it. That is why a tab panel beside its row carries its own. And why
+the page declares the offset it scrolls to, not the bar that causes it.
 
 Nested, and no heavier for it
 =============================
 
-The stylesheets are written with **native CSS nesting**: what belongs to one
-subject stands inside its block. A component's states and conditions are read
-where the component is, instead of being found by searching the file for its
-name — the ``&:hover`` above is the shape. Two lines hold it:
+The stylesheets use **native CSS nesting**: what belongs to one subject
+stands inside its block. A reader finds a component's states and conditions
+where the component is, not by a search of the file for its name. The
+``&:hover`` above is the shape. Two lines hold it:
 
-- **A name is written whole.** Native nesting joins selectors, never strings —
-  there is no ``&-part`` — and that suits this system: every check reads names
-  literally, and a name assembled from pieces is a name no search finds. A
-  variant is a full class and a top-level rule; nesting it as ``&.sds-btn--primary``
-  would also make it a class heavier than it was.
+- **A name stands whole.** Native nesting joins selectors, never strings.
+  There is no ``&-part``, and that suits this system. Every check reads
+  names literally, and a name from pieces is a name no search finds. A
+  variant is a full class and a top-level rule. As ``&.sds-btn--primary`` it
+  is also a class heavier than it was.
 - **Nesting is scope, never weight.** A nested rule re-enters through
   ``:is()``, which carries the parent's full specificity. So a rule moves
-  inside a block only when the selector it desugars to is the selector it
-  already had flat: ``&:hover`` inside ``.sds-btn`` *is* ``.sds-btn:hover``
-  and moves; a descendant rule like ``.sds-btn--icon .sds-icon`` nests
-  losslessly under its owner; a part addressed as a bare class would come out
-  a descendant and a class heavier, and stays where it is. What is written
-  weightless — ``:where()`` — stays written out, because zero specificity is
-  the point.
+  inside a block only when the selector it desugars to is the one it had
+  flat. ``&:hover`` inside ``.sds-btn`` *is* ``.sds-btn:hover`` and moves. A
+  descendant rule like ``.sds-btn--icon .sds-icon`` nests under its owner
+  without loss. A part addressed as a bare class comes out a descendant and
+  a class heavier, and stays where it is. What is weightless, ``:where()``,
+  stays written out, because zero specificity is the point.
 
 Weightless on purpose
 =====================
 
 Between layers, weight does not decide. A component's plainest class beats
 the loudest selector in ``base``, because ``components`` stands later in the
-layer order — which is why the bare-element rules are written at their
-natural weight: a plain ``a:hover`` in ``base`` cannot answer over any
-component that states the same property, however either one is spelt.
+layer order. So the bare-element rules keep their natural weight: a plain
+``a:hover`` in ``base`` cannot answer over a component that states the same
+property.
 
-Weight decides *within* a layer, and that is the whole of what ``:where()`` is
-for here: a condition or a scope that adds no weight to the rule it qualifies.
-The glyph before its element upgrades is the model, and the reason stands
-beside it in ``components/icon.css``:
+Weight decides *within* a layer, and that is what ``:where()`` is for here.
+A condition or a scope that adds no weight to the rule it qualifies. The
+glyph before its element upgrades is the model, and the reason stands beside
+it in ``components/icon.css``:
 
 .. code-block:: css
 
@@ -215,37 +204,34 @@ beside it in ``components/icon.css``:
      height: var(--sds-icon-size);
    }
 
-``components/direction.css`` is the same move on a scope: what mirrors under
-``:dir(rtl)`` weighs what it would weigh without the condition, so no rule
-starts winning an argument in one direction that it loses in the other.
+``components/direction.css`` is the same move on a scope. What mirrors under
+``:dir(rtl)`` weighs what it weighs without the condition. So no rule wins
+in one direction and loses in the other.
 
-A condition that must *win* something in its own layer is the other case — it
-is written at full weight, in the layer whose turn it is to speak.
+A condition that must *win* in its own layer is the other case. Write it at
+full weight, in the layer whose turn it is to speak.
 
 The written form
 ================
 
-``make css`` holds the form — Biome, configured in ``biome.jsonc`` at the
-repository root and run by the gate as the ``css`` check. The formatter's
-word is final and not negotiated per file: one declaration to a line,
-two-space indentation, and how a long value breaks. What it lints on top are
-the safety rules — a duplicate property, an unknown property, unit or
-pseudo-class — with one of its rules turned off where it contradicts this
-system, and the reason written beside the switch.
+``make css`` holds the form: Biome, configured in ``biome.jsonc`` at the
+repository root, and the gate's ``css`` check. The formatter's word is final
+and not per file: one declaration to a line, two-space indentation, and how
+a long value breaks. On top it lints the safety rules, a duplicate property,
+an unknown property, unit or pseudo-class. One of its rules is off where it
+contradicts this system, with the reason beside the switch.
 
 One rule is this system's own, and the task checks it itself: **no colour
-literal outside** ``tokens/`` — the tokens are where the literals live, and
-every other sheet reads them. The exceptions are alpha and blend tricks
-rather than colours, and each states its reason in a ``colour-literal:``
-comment above the declaration it covers, the way the knockout glyphs and
-the mask do.
+literal outside** ``tokens/``. The tokens hold the literals, and every other
+sheet reads them. The exceptions are alpha and blend tricks, not colours.
+Each states its reason in a ``colour-literal:`` comment above the
+declaration it covers, the way the knockout glyphs and the mask do.
 
-What no rule can hold stays convention, written here and held in review: a
+What no rule can hold stays convention, written here and held in review. A
 component's set stands first under its rubric comments, then a blank line,
-then what is drawn, then the nested rules; and the shared sheets are
-organised by concern, so a selector there may reopen under a new heading —
-the one liberty a component file does not have, because its blocks are its
-subjects.
+then what it draws, then the nested rules. The shared sheets follow their
+concerns, so a selector there can reopen under a new heading. A component
+file has no such liberty, because its blocks are its subjects.
 
 .. seealso::
 

@@ -5,14 +5,14 @@ Components
 ==========
 
 Every element in this system renders **light DOM** and emits the ``sds-``
-classes the stylesheet defines. There is no shadow root to pierce, no slot to
-name and nothing to theme twice: the element is a shorter, safer way to write
-markup the class layer already describes.
+classes the stylesheet defines. There is no shadow root, no slot and nothing
+to theme twice. The element is a shorter, safer way to write markup the
+class layer already describes.
 
-The reference pages follow the concerns named in the navigation rather than
-the implementation directories. That grouping is for browsing; the index
-below remains alphabetical, because somebody looking up an element already
-knows its name and should not have to know which concern owns it.
+The reference pages follow the concerns in the navigation, not the
+implementation directories. That grouping is for a browse. The index below
+is alphabetical, because a reader who looks up an element knows its name and
+not its concern.
 
 .. toctree::
    :titlesonly:
@@ -28,8 +28,8 @@ knows its name and should not have to know which concern owns it.
 Element index
 =============
 
-Alphabetical, because a reader looking one up already knows its name and not
-which group it was filed under.
+Alphabetical, because a reader who looks one up knows its name and not its
+group.
 
 .. list-table::
    :header-rows: 1
@@ -99,7 +99,7 @@ which group it was filed under.
      - what stopped the form, at the top of it
      - :ref:`Forms — sds-form-errors <component-sds-form-errors>`
    * - ``sds-grid``
-     - the wall a set is read in
+     - the wall a reader reads a set in
      - :ref:`Content — sds-grid <component-sds-grid>`
    * - ``sds-icon``
      - one icon from the set, in the document rather than linked
@@ -111,7 +111,7 @@ which group it was filed under.
      - a picture, and nothing around it
      - :ref:`Media — sds-image <component-sds-image>`
    * - ``sds-lightbox``
-     - a drawing opened at the size it was drawn
+     - a drawing open at the size of its drawing
      - :ref:`Media — sds-lightbox <component-sds-lightbox>`
    * - ``sds-link``
      - a link, and always an ``<a>`` with an ``href``
@@ -126,7 +126,7 @@ which group it was filed under.
      - the bar at the top of a page
      - :ref:`Navigation — sds-nav-main <component-sds-nav-main>`
    * - ``sds-nav-pager``
-     - the way on from a page that is read in order
+     - the way on from a page in a sequence
      - :ref:`Navigation — sds-nav-pager <component-sds-nav-pager>`
    * - ``sds-nav-pagination``
      - where a list continues
@@ -159,16 +159,16 @@ which group it was filed under.
      - a value picked along a run of them
      - :ref:`Forms — sds-range <component-sds-range>`
    * - ``sds-search``
-     - finding a page in a site that has no server
+     - the search for a page in a site with no server
      - :ref:`Navigation — sds-search <component-sds-search>`
    * - ``sds-search-hits``
-     - what a query was answered with
+     - the answer to a query
      - :ref:`Navigation — sds-search-hits <component-sds-search-hits>`
    * - ``sds-search-result``
      - one hit in a list of them
      - :ref:`Navigation — sds-search-result <component-sds-search-result>`
    * - ``sds-run``
-     - work being done, as the stops it is made of
+     - work in progress, as its stops
      - :ref:`Controls — sds-run <component-sds-run>`
    * - ``sds-select``
      - one answer out of a list the reader does not need to see
@@ -206,49 +206,47 @@ which group it was filed under.
 What box an element is
 ======================
 
-Each of these is stated in the component's own stylesheet, in a ``@layer
-base`` block above the one that draws it — the flow contract, whose three
-rules :doc:`/frontend/stylesheets` explains. A contract split across a shared
-list and a component file is a contract that drifts into two layers, which is
-how a byline once kept a step nothing could take off it.
+Each component's own stylesheet states this, in a ``@layer base`` block
+above the one that draws it: the flow contract, whose three rules
+:doc:`/frontend/stylesheets` explains. A contract split across a shared list
+and a component file drifts into two layers.
 
-**Every element is the box it draws.** A custom element is ``inline`` until it
-is told otherwise, and an inline tag around a block makes itself the box a row
-lays out while the block sits inside it — gap, alignment and margin then all
-land one level too high. So the stylesheet states a display for every element,
-and the class it draws states the same one: where no script runs the element is
-gone and the class is what is left, and the page measures the same either way.
+**Every element is the box it draws.** A custom element is ``inline`` until
+told otherwise. An inline tag around a block makes itself the box a row lays
+out, while the block sits inside it. Gap, alignment and margin then all land
+one level too high. So the stylesheet states a display for every element,
+and the class it draws states the same one. Where no script runs, only the
+class remains, and the page measures the same either way.
 
-An element that stands in a flow is a block and carries the step below it,
-which is why what it draws inside gives that step up. An element that stands in
-a line of text or a row of controls is inline. Either way a distance is read off
-the element it belongs to rather than assembled from two of them, and no rule in
-this system reaches past a tag to find a block.
+An element in a flow is a block and carries the step below it. That is why
+what it draws inside gives that step up. An element in a line of text or a
+row of controls is inline. Either way a reader reads a distance off the
+element it belongs to, not off two of them. No rule in this system reaches
+past a tag to find a block.
 
-Four elements are ``display: contents`` — ``sds-dialog``, ``sds-lightbox``,
-``sds-modal`` and ``sds-overlay``. What they draw is in the top layer or fixed
-to the viewport, so a box where they stand is one nothing would ever fill. That
-is the whole list, and it is stated rather than defaulted to.
+Four elements are ``display: contents``: ``sds-dialog``, ``sds-lightbox``,
+``sds-modal`` and ``sds-overlay``. What they draw is in the top layer or
+fixed to the viewport, so a box where they stand is one nothing fills. That
+is the whole list, and each states it.
 
 What a component is made of
 ===========================
 
-**Everything a component is, it is through a property of its own** — a set
-declared at the top of its stylesheet that every declaration below reads, so
-a variant assigns values and draws nothing, and a surface that needs one
-instance different sets a property instead of inventing a class. The shape,
-its reasons and the nesting rules are :doc:`/frontend/stylesheets`; what
-matters here is the consequence: any single instance can be re-themed by
-setting its ``--sds-<name>-*`` properties on an ancestor, and nothing else
-about it can be.
+**Everything a component is, it is through a property of its own.** A set
+at the top of its stylesheet that every declaration below reads. So a
+variant assigns values and draws nothing, and a surface that needs one
+instance different sets a property instead of a new class. The shape, its
+reasons and the nesting rules are :doc:`/frontend/stylesheets`. The
+consequence matters here: an ancestor can re-theme any single instance
+through its ``--sds-<name>-*`` properties, and through nothing else.
 
 Addressed, never rebuilt
 ========================
 
-**Everything that fits in a string is a property.** Between the tags goes only
-what an attribute cannot carry — and that is *content*, never structure: the
-paragraphs of a summary, the blocks behind a question, the picture a renderer
-already wrote.
+**Everything that fits in a string is a property.** Between the tags goes
+only what an attribute cannot carry, and that is *content*, never structure.
+The paragraphs of a summary, the blocks behind a question, the picture a
+renderer already wrote.
 
 .. code-block:: html
 
@@ -262,23 +260,24 @@ already wrote.
      <div class="sds-card__body">…</div>
    </article>
 
-A ``sds-x__y`` class is ``sds-x``'s own name for its own node. A page may write
-``.sds-card`` and ``.sds-note--warn``; it may not write ``.sds-card__foot``,
-because the day that node changes, every hand-written copy of it is a surface
-nobody will fix.
+A ``sds-x__y`` class is ``sds-x``'s own name for its own node. A page can
+write ``.sds-card`` and ``.sds-note--warn``. It must not write
+``.sds-card__foot``: the day that node changes, every hand-written copy is a
+surface nobody fixes.
 
 .. important::
 
-   If an element cannot say something a page needs, the gap is closed **in the
-   element**. A consumer writing three declarations into their own stylesheet
-   is the outcome this system exists to prevent — see :doc:`/design-system/index`.
+   If an element cannot say something a page needs, close the gap **in the
+   element**. A consumer who writes three declarations into their own
+   stylesheet is the outcome this system exists to prevent; see
+   :doc:`/design-system/index`.
 
 Properties and attributes
 =========================
 
-Strings, numbers and booleans are attributes and a server writes them
-directly. Anything that is a list or a piece of markup is a **property**, set
-from JavaScript or from a template that binds one:
+Strings, numbers and booleans are attributes, and a server writes them. A
+list or a piece of markup is a **property**, set from JavaScript or from a
+template that binds one:
 
 .. code-block:: html
 
@@ -286,13 +285,13 @@ from JavaScript or from a template that binds one:
      .columns="${[{ head: 'Tool' }, { head: 'Answers', cls: 'sds-td-meta' }]}"
      .rows="${[{ cells: ['search', 'yes'] }]}"></sds-table>
 
-A renderer that holds markup rather than data has the other route: write the
+A renderer that holds markup, not data, has the other route: write the
 markup between the tags and let the element take it. That is how the Guides
-theme emits a code block that is already coloured, a rail that is already
-resolved, and a figure whose picture is on the page before any script runs.
+theme emits a code block with its colour and a rail with its links resolved.
+And a figure whose picture is on the page before a script runs.
 
-Where a property's name is more than one word, its attribute is spelled out
-rather than left to be lower-cased:
+Where a property's name is more than one word, its attribute has its own
+spelling:
 
 .. list-table::
    :header-rows: 1
@@ -324,16 +323,15 @@ rather than left to be lower-cased:
 
 .. note::
 
-   ``box-style`` carries layout for the plane itself, which is the box that
-   draws the frame. A ``style`` on the element sizes the block standing around
-   it instead — the two are different boxes and the property says which one is
-   meant.
+   ``box-style`` carries layout for the plane itself, the box that draws the
+   frame. A ``style`` on the element sizes the block around it instead. The
+   two are different boxes, and the property says which one you mean.
 
 Names that had to differ
 ========================
 
-Each of these is a global HTML or ARIA attribute that a component would
-otherwise have quietly overridden.
+Each of these is a global HTML or ARIA attribute a component must not
+override.
 
 .. list-table::
    :header-rows: 1
@@ -343,12 +341,12 @@ otherwise have quietly overridden.
      - Because
    * - ``heading``
      - ``title``
-     - ``title`` is the global attribute, and would put a tooltip on the whole
+     - ``title`` is the global attribute, and puts a tooltip on the whole
        component
    * - ``as``
      - ``role``
      - ``role`` is the ARIA attribute, so ``role="maintainer"`` claims a role
-       that does not exist — and axe says so
+       that does not exist, and axe says so
    * - ``code-lang``
      - ``lang``
      - ``lang`` names the *human* language, so ``lang="json"`` sends every
@@ -357,8 +355,8 @@ otherwise have quietly overridden.
 What an element announces
 =========================
 
-Every event below bubbles and is composed, so a page listens on the element
-rather than on whatever is inside it.
+Every event below bubbles and crosses roots, so a page listens on the
+element, not on what is inside it.
 
 .. list-table::
    :header-rows: 1
@@ -368,11 +366,11 @@ rather than on whatever is inside it.
      - ``detail``
    * - ``sds-change``
      - ``sds-nav-pills``, ``sds-nav-main``, ``sds-nav-rail``, ``sds-tabs``
-     - ``{ index, label }`` — the item that became current
+     - ``{ index, label }``, the item that became current
    * - ``sds-change``
      - ``sds-nav-pagination``
      - ``{ page }``, one-based. **Cancelable**: call ``preventDefault()`` to
-       page in place instead of following the link
+       page in place and not follow the link
    * - ``sds-change``
      - ``sds-checkbox``, ``sds-switch``, ``sds-radio``,
        ``sds-checkbox-group``, ``sds-select``, ``sds-file``
@@ -382,51 +380,50 @@ rather than on whatever is inside it.
      - what is in the field, or where the thumb now stands
    * - ``sds-command``
      - ``sds-button`` with ``for``
-     - ``{ command, source }`` — dispatched **on the element named by**
-       ``for``, the way the platform's own invokers do it
+     - ``{ command, source }``, sent **to the element named by** ``for``,
+       the way the platform's own invokers do it
    * - ``sds-note-action``
      - ``sds-note`` with ``action``
-     - the label pressed. A note with ``href`` announces nothing — the link is
+     - the label pressed. A note with ``href`` announces nothing: the link is
        the answer
    * - ``sds-dialog-confirm``
      - ``sds-dialog`` with ``confirm-label``
-     - none — the press is the whole message
+     - none. The press is the whole message
    * - ``sds-dialog-cancel``
      - ``sds-dialog``
-     - none. Anything that closed a dialog without confirming it: the cancel
+     - none. Anything that closed a dialog without a confirm: the cancel
        button, the header X, Escape, a ``close()``
    * - ``sds-theme-change``
      - ``sds-theme``
-     - ``{ theme }`` — ``"light"``, ``"dark"``, or ``null`` for the machine's
+     - ``{ theme }``: ``"light"``, ``"dark"``, or ``null`` for the machine's
 
-Wiring one control to another is markup:
+One control wires to another in markup:
 
 .. code-block:: html
 
    <sds-button for="the-drawing">Open the drawing</sds-button>
    <sds-lightbox id="the-drawing" src="/art/pipeline.svg" alt="…"></sds-lightbox>
 
-An id and an event, so neither end holds the other. ``command`` says what is
-being asked — ``show`` unless something else is written, and ``close`` or
+An id and an event, so neither end holds the other. ``command`` says what
+the press asks for: ``show`` unless written otherwise, and ``close`` or
 ``toggle`` where that is what the press means.
 
 Before the script, and without one
 ==================================
 
-These elements are written to survive both. A page rendered ahead of the
-browser holds its markup already, the element upgrades it in place rather than
-drawing it a second time, and a reader who runs no script keeps everything but
-the behaviour.
+These elements survive both. A prerendered page holds its markup already.
+The element upgrades it in place instead of a second draw, and a reader with
+no script keeps everything but the behaviour.
 
-Two things follow for anything rendering in Node — the specimen cards, the
-Guides site, a static export:
+Two things follow for anything that renders in Node: the specimen cards, the
+Guides site, a static export.
 
-- Content between the tags is lifted on connect, which never happens outside a
-  browser. The same content arrives as the ``content`` property instead, and
-  every element reads whichever it was given.
-- A card carries no JavaScript at all, so ``renderStatic`` flattens each
-  element to the markup it renders. An element that was handed children cannot
-  be flattened — the body goes in as a property there.
+- The element lifts the content between the tags on connect, which never
+  happens outside a browser. The same content arrives as the ``content``
+  property instead, and every element reads whichever it got.
+- A card carries no JavaScript, so ``renderStatic`` flattens each element to
+  the markup it renders. An element with children has no flat form; the body
+  goes in as a property there.
 
 .. seealso::
 

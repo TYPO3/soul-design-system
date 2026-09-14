@@ -4,24 +4,24 @@
 Content
 =======
 
-The blocks a page is built out of: a plane, a way into something, an entry in a
-list, a figure, a borrowed sentence, and the two that state what an answer
-carries besides the answer.
+The blocks of a page. A plane, a way into something, an entry in a list, a
+figure, a borrowed sentence. And the two that state what an answer carries
+besides the answer.
 
-None of them draws a shadow. The system has none: a plane is told apart by its
-fill and a hairline, and a container never shares its corner with its contents
-— which is why the card radius is one step larger than the control radius, and
-why nothing here sets either by hand.
+None of them draws a shadow. The system has none. A fill and a hairline
+tell a plane apart, and a container never shares its corner with its
+contents. That is why the card radius is one step larger than the control
+radius, and why nothing here sets either by hand.
 
 .. _component-sds-eyebrow:
 
 sds-eyebrow
 ===========
 
-The line over a title, saying what kind of thing it opens — ``FEATURE``,
-``STEP 02``, ``THE GLYPH SET``. The label register standing as a block: it
-sits flush, the register's own leading being the air, so a hero composes
-loose and the eyebrow still hugs its heading.
+The line over a title, which says what kind of thing it opens: ``FEATURE``,
+``STEP 02``, ``THE GLYPH SET``. The label register as a block. It sits
+flush, with the register's own leading as the air, so a hero composes loose
+and the eyebrow still hugs its heading.
 
 .. code-block:: html
 
@@ -33,19 +33,19 @@ loose and the eyebrow still hugs its heading.
    :type: string
    :required: true
 
-   What kind of thing the title opens. It is the whole of the element — there
-   is nothing else an eyebrow says.
+   What kind of thing the title opens. It is the whole of the element. An
+   eyebrow says nothing else.
 
-``sds-label`` stays the word in a line — a stat's caption, a row's tag, a
-column heading. What turns the register into an eyebrow is standing over a
-title, and that is a thing to say in markup rather than a position to infer.
+``sds-label`` stays the word in a line: a stat's caption, a row's tag, a
+column heading. Its place over a title turns the register into an eyebrow.
+That is a thing to say in markup, not a position to infer.
 
 .. _component-sds-surface:
 
 sds-surface
 ===========
 
-A plane holding a statement.
+A plane that holds a statement.
 
 .. code-block:: html
 
@@ -57,13 +57,13 @@ A plane holding a statement.
    :type: "plain" | "raised" | "sunken"
    :default: "raised"
 
-   The filled two are named for their fill: ``raised`` sits on the canvas and
-   has to read as a plane; ``sunken`` is machine output — code, logs,
-   structured content. ``plain`` is the hairline with no fill, for a statement
-   that stands on the canvas without leaving it.
+   The filled two take the name of their fill. ``raised`` sits on the canvas
+   and has to read as a plane. ``sunken`` is machine output: code, logs,
+   structured content. ``plain`` is the hairline with no fill, for a
+   statement on the canvas that does not leave it.
 
-   What tells this element from ``sds-card`` is not the box but where it
-   goes: a card is a way into something, a surface stays and states.
+   Not the box but the destination tells this element from ``sds-card``. A
+   card is a way into something; a surface stays and states.
 
 .. confval:: heading
    :name: sds-surface-heading
@@ -75,41 +75,41 @@ A plane holding a statement.
    :name: sds-surface-body
    :type: string | markup
 
-   It may also be written **between the tags**, which is the form a document
-   uses: a plane on a product surface holds a sentence somebody composed and a
-   property carries it, while a passage set beside an argument is paragraphs, a
-   list or a block of its own — markup, or nothing.
+   It can also stand **between the tags**, which is the form a document
+   uses. A plane on a product surface holds one composed sentence, and a
+   property carries it. A passage beside an argument is paragraphs, a list
+   or a block of its own: markup, or nothing.
 
 .. confval:: label
    :name: sds-surface-label
    :type: string
 
-   The tracked-out line **over** the title, where a set of these is numbered or
-   named as a set. A title carrying the number reads as part of the sentence.
+   The tracked-out line **over** the title, where a set of these has numbers
+   or names. A title that carries the number reads as part of the sentence.
 
 .. confval:: icon
    :name: sds-surface-icon
    :type: icon id
 
-   A glyph above the label, where a set is told apart before it is read. It
-   never stands alone.
+   A glyph above the label, where a reader tells a set apart before they
+   read it. It never stands alone.
 
 .. confval:: box-style
    :name: sds-surface-box-style
    :type: string
 
-   Layout for the one instance that needs its plane sized — the box that
-   draws the frame, not the host around it. Nothing is set by default: the
-   element fills the cell a wall stretches for it, like every other block.
+   Layout for the one instance that needs a sized plane: the box that draws
+   the frame, not the host around it. It has no default. The element fills
+   the cell a wall stretches for it, like every other block.
 
 .. _component-sds-card:
 
 sds-card
 ========
 
-A way into something: a chapter, a product, a news entry, a page. A picture at
-the top, the row saying what kind of thing it is and when, the title that goes
-there, the prose, and a foot carrying the call to action.
+A way into something: a chapter, a product, a news entry, a page. A picture
+at the top, then the row that says what kind of thing it is and when. The
+title that goes there, the prose, and a foot with the call to action.
 
 .. code-block:: html
 
@@ -118,38 +118,38 @@ there, the prose, and a foot carrying the call to action.
      <p>The workflow that renders the site and puts it where readers are.</p>
    </sds-card>
 
-**The whole card is the target and the title is the link.** The anchor is
-stretched over the frame by the class layer, so the name a reader hears is the
-title while the hit area is the card. One link, therefore: the call to action
-is words rather than a second anchor to the same place.
+**The whole card is the target, and the title is the link.** The class layer
+stretches the anchor over the frame, so the name a reader hears is the title
+while the hit area is the card. One link, so the call to action is words,
+not a second anchor to the same place.
 
-Only a card with that link rises under the pointer or keyboard focus. The 2px
-lift, raised fill and light across the top hairline answer that the whole plane
-can be opened; a card that goes nowhere stays still. In a flush grid the lift
-is removed because moving one tile would tear the shared rules, and reduced
-motion removes the travel while preserving the visual response.
+Only a card with that link rises under the pointer or keyboard focus. The
+2px lift, the raised fill and the light across the top hairline answer that
+the whole plane opens. A card that goes nowhere stays still. In a flush grid
+the lift goes, because one moved tile tears the shared rules. Reduced motion
+removes the travel and keeps the visual response.
 
 .. confval:: heading
    :name: sds-card-heading
    :type: string
 
-   Left empty there is no heading at all — a card holding a byline or a figure
-   names itself inside its own body, and an empty heading is a level in the
-   document outline with nothing under it.
+   Empty, there is no heading at all. A card with a byline or a figure names
+   itself inside its own body. An empty heading is a level in the outline
+   with nothing under it.
 
 .. confval:: body
    :name: sds-card-body
    :type: string | markup
 
-   A sentence as a property lands in a paragraph; blocks written between the
-   tags land in a container, because a document's summary is paragraphs and
-   often a list.
+   A sentence as a property lands in a paragraph. Blocks between the tags
+   land in a container, because a document's summary is paragraphs and often
+   a list.
 
 .. confval:: href
    :name: sds-card-href
    :type: string
 
-   Where the card goes. Without one the title is a title and the card is not a
+   Where the card goes. Without one the title is a title, and the card is no
    target either.
 
 .. confval:: src
@@ -167,16 +167,15 @@ motion removes the travel while preserving the visual response.
    :name: sds-card-label
    :type: string
 
-   The tracked-out line over the title: what a set of cards is named or
-   numbered as, or when the entry is from — the same register and the same
-   line.
+   The tracked-out line over the title: the name or number of a set of
+   cards, or the date of the entry. The same register and the same line.
 
 .. confval:: tag
    :name: sds-card-tag
    :type: string
 
    What kind of thing it is. Drawn as a badge beside the label, with no tone,
-   because it is a fact about the card rather than a result.
+   because it is a fact about the card, not a result.
 
 .. confval:: icon
    :name: sds-card-icon
@@ -186,31 +185,31 @@ motion removes the travel while preserving the visual response.
    :name: sds-card-footer
    :type: string
 
-   One line under a hairline: what the reader gets there, who it is for, what
-   state it is in.
+   One line under a hairline: what the reader gets there, who it is for,
+   what state it is in.
 
 .. confval:: action
    :name: sds-card-action
    :type: string
 
-   The call to action, in words. Drawn only where there is an ``href``, since
-   it says the card goes there.
+   The call to action, in words. Drawn only with an ``href``, since it says
+   the card goes there.
 
 .. note::
 
-   ``sds-card`` invites and ``sds-search-result`` answers — a way into something and a
-   hit in a search are not the same shape; see :doc:`navigation`. One entry in
-   a list of them is this element too, turned down to the badge, the date and
-   the two lines that decide whether it is opened.
+   ``sds-card`` invites and ``sds-search-result`` answers. A way into
+   something and a hit in a search have different shapes; see
+   :doc:`navigation`. One entry in a list of them is this element too, turned
+   down to the badge, the date and the two lines that decide the open.
 
 .. _component-sds-grid:
 
 sds-grid
 ========
 
-The wall a set is read in. What goes between the tags is whatever is read side
-by side — cards, planes, a column of links — because a grid of two is not a
-grid of six.
+The wall a reader reads a set in. Between the tags goes whatever they read
+side by side: cards, planes, a column of links. A grid of two is not a grid
+of six.
 
 .. code-block:: html
 
@@ -224,32 +223,33 @@ grid of six.
    :type: "default" | "wide" | "dense" | "flush"
    :default: "default"
 
-   How wide the set runs, or whether it runs as a wall at all. ``flush`` is the
-   gutter taken out — the cards share a hairline and the set reads as one block.
+   How wide the set runs, or if it runs as a wall at all. ``flush`` takes the
+   gutter out: the cards share a hairline, and the set reads as one block.
 
 .. note::
 
    **No column count.** The grid reflows by a minimum width, so a page says
-   what its items hold and no page names a breakpoint. What the element adds on
-   top is evenness: four items in a three-wide row would wrap as three and one,
-   so it lays them out two and two.
+   what its items hold and names no breakpoint. The element adds evenness on
+   top. Four items in a three-wide row wrap as three and one, so it lays
+   them out two and two.
 
 .. _component-sds-stat:
 
 sds-stat
 ========
 
-A number stated as a fact: the value first and largest, the label under it, and
-the line saying what the number is bounded by.
+A number as a fact: the value first and largest, the label under it, and the
+line that says what bounds the number.
 
 .. code-block:: html
 
    <sds-stat value="240" unit="ms" label="median answer" icon="actions-clock"
      note="Measured over the last release, on a warm index."></sds-stat>
 
-A figure is rarely read alone. A set of them goes into ``sds-grid`` above, like
-any other set read side by side — the stat carries the number and the grid
-decides how many stand in a row, so four never wrap as three and one.
+A reader rarely reads a figure alone. A set of them goes into ``sds-grid``
+above, like any other set read side by side. The stat carries the number,
+and the grid decides how many stand in a row, so four never wrap as three
+and one.
 
 .. code-block:: html
 
@@ -258,12 +258,12 @@ decides how many stand in a row, so four never wrap as three and one.
      <sds-stat value="0" label="writes" note="…"></sds-stat>
    </sds-grid>
 
-``dense`` is the width a figure holds: a number and the line under it stands
-four or five across, where a card carrying a paragraph takes the room of two.
-Every other width works, and so does ``flush`` — there the figures share a
-hairline and the wall gives each one its ground. **The frame is the wall's, not
-the stat's**: a figure anywhere else stays bare, so a set of numbers on a page
-is not a row of boxes.
+``dense`` is the width a figure holds. A number and the line under it stand
+four or five across, where a card with a paragraph takes the room of two.
+Every other width works, and so does ``flush``: there the figures share a
+hairline, and the wall gives each one its ground. **The frame is the wall's,
+not the stat's.** A figure anywhere else stays bare, so a set of numbers on
+a page is not a row of boxes.
 
 .. specimen:: components/data/stat.card.html
    :viewport: 700x670
@@ -274,75 +274,73 @@ is not a row of boxes.
    :type: string
    :required: true
 
-   Concrete — ``5``, ``240``, ``12.4+`` — never "many". Set in sans: mono
-   means the machine named the thing, and a count is a fact about the software
-   rather than a string it returns.
+   Concrete, ``5``, ``240``, ``12.4+``, never "many". Set in sans. Mono
+   means the machine named the thing, and a count is a fact about the
+   software, not a string it returns.
 
 .. confval:: unit
    :name: sds-stat-unit
    :type: string
 
-   What the figure is in — ``ms``, ``%``, ``kB``. Its own property rather than
-   part of the value: the element sets it a step down and joins it with the
-   narrow no-break space a number may not be split from, and a page that has
-   to know that codepoint is a page that will forget it.
+   What the figure is in: ``ms``, ``%``, ``kB``. Its own property, not part
+   of the value. The element sets it a step down and joins it with the narrow
+   no-break space a number must not split from. A page that has to know that
+   codepoint is a page that forgets it.
 
 .. confval:: label
    :name: sds-stat-label
    :type: string
    :required: true
 
-   What was counted, in the label register.
+   What the count is of, in the label register.
 
 .. confval:: of
    :name: sds-stat-of
    :type: string
 
-   The whole the figure is a part of, said after it — ``2 of 3`` — a step down
-   and a shade back, the way a unit is. **Only where the figure really is a
-   part**: a measurement is out of nothing. It is words and not a bar, because
-   a set of figures is read across its notes, and a drawing under one of them
-   pushes that line out of step with the rest.
+   The whole the figure is a part of, after it, ``2 of 3``, a step down and
+   a shade back, the way a unit is. **Only where the figure is a part.** A
+   measurement is out of nothing. It is words and not a bar. A reader reads
+   a set of figures across its notes, and a drawing under one of them pushes
+   that line out of step.
 
 .. confval:: icon
    :name: sds-stat-icon
    :type: IconId
 
-   A glyph on the figure's own line, before the number — beside it rather than
-   over it, because a glyph on a line of its own floats above the one thing the
-   tile is for. Muted and never in a status colour, for the reason a card's is:
-   a figure is a subject, not a result.
+   A glyph on the figure's own line, before the number. Beside it, not over
+   it: a glyph on a line of its own floats above the one thing the tile is
+   for. Muted and never in a status colour, for the reason a card's is. A
+   figure is a subject, not a result.
 
 .. confval:: note
    :name: sds-stat-note
    :type: string | markup
 
-   What the figure is bounded by. **Without one the number is a boast** — and
-   this is the whole reason the component exists rather than two divs.
+   What bounds the figure. **Without one the number is a boast**, and that
+   is the whole reason the component exists.
 
 .. _component-sds-swatch:
 
 sds-swatch
 ==========
 
-One colour, stated as a fact: the chip, what the colour is called, and the
-value that name resolves to.
+One colour as a fact: the chip, the name of the colour, and the value that
+name resolves to.
 
 .. code-block:: html
 
    <sds-swatch value="var(--accent)" name="--accent" resolved="#FF8700"></sds-swatch>
 
-All three, because none of them is enough alone. A chip says nothing a reader
-can type. A token name says nothing about what the mode did with it. A hex out
-of context says nothing about where the colour may be used. **A swatch missing
-one of them documents part of a colour.**
+All three, because none of them is enough alone. A chip says nothing a
+reader can type. A token name says nothing about what the mode did with it.
+A hex out of context says nothing about where the colour can appear. **A
+swatch without one of them documents part of a colour.**
 
-A palette is a set, so it goes into ``sds-grid`` like any other, and at the
-grid's ordinary minimum. What one swatch needs is its longest value with the
-chip beside it — a ``light-dark()`` pair is the long one — and ``wide``
-reserves enough more than that to cost a track wherever the column is narrow:
-beside a guideline page's contents it drew one column where there was room for
-two.
+A palette is a set, so it goes into ``sds-grid`` like any other, at the
+grid's ordinary minimum. One swatch needs its longest value with the chip
+beside it, and a ``light-dark()`` pair is the long one. ``wide`` reserves
+more than that and costs a track wherever the column is narrow.
 
 .. code-block:: html
 
@@ -357,49 +355,47 @@ two.
    :type: string
    :required: true
 
-   What paints the chip — a token as it is written, or a literal where the
-   value belongs to a mode the page is not being read in. **Anything that is
-   not a colour is dropped rather than painted**: the value arrives from a
-   document somebody else wrote, and a style attribute is not where an element
-   finds out what it turns out to be. The name and the value stay readable
-   either way, which is what the reader came for.
+   What paints the chip: a token as written, or a literal where the value
+   belongs to a mode the page is not in. **Anything that is not a colour
+   drops out, and nothing paints it.** The value arrives from a document somebody else
+   wrote, and a style attribute is not where an element finds out what it
+   is. The name and the value stay readable either way.
 
 .. confval:: name
    :name: sds-swatch-name
    :type: string
 
-   What the colour is called. The token where there is one, because that is
-   the name a design writes; the human name where the palette has no tokens.
+   The name of the colour. The token where there is one, because that is
+   the name a design writes. The human name where the palette has no tokens.
 
 .. confval:: resolved
    :name: sds-swatch-resolved
    :type: string
 
-   What that name resolves to, written out — and a pair is written as the
-   pair, ``light-dark(#FFFFFF, #171614)``. Showing one half of a token
-   documents one mode and claims to document the system.
+   What that name resolves to, in full. A pair stands as the pair,
+   ``light-dark(#FFFFFF, #171614)``. One half of a token documents one mode
+   and claims the system.
 
 .. confval:: kind
    :name: sds-swatch-kind
    :type: string
 
-   ``fill`` or ``line``. A hairline is a colour too and cannot be shown as a
-   fill: at one pixel a value is invisible, and filled it is a different job
-   being done by the same number. ``line`` makes the chip its own edge, at the
-   emphasis width, with the page's own ground standing inside it.
+   ``fill`` or ``line``. A hairline is a colour too and cannot show as a
+   fill. At one pixel a value is invisible, and as a fill it is a different
+   job by the same number. ``line`` makes the chip its own edge, at the
+   emphasis width, with the page's own ground inside it.
 
-The chip keeps the system's hairline round it whatever it is painted with.
-Without that, a swatch the colour of the page it is documented on would be a
-missing square rather than a white one — which is the one case a palette has
-to be able to draw.
+The chip keeps the system's hairline round it, whatever paints it. Without
+that, a swatch in the colour of its page is a missing square, not a white
+one. That is the one case a palette has to draw.
 
 .. _component-sds-icon-tile:
 
 sds-icon-tile
 =============
 
-One glyph in a wall of them, with the identifier under it — a set that is
-scanned rather than read.
+One glyph in a wall of them, with the identifier under it. A reader scans a
+set like this and does not read it.
 
 .. code-block:: html
 
@@ -408,62 +404,60 @@ scanned rather than read.
      <sds-icon-tile name="actions-arrow-right" tag="mirrors"></sds-icon-tile>
    </sds-grid>
 
-**Not a card.** A card is read — a title, a paragraph, a way on — and a wall of
-four hundred of them is four hundred titles standing between a reader and the
-one drawing they came for. Here the glyph fills the box and the name is held
-back, because a set like this is found by shape and the name only matters once
-the shape has been found.
+**Not a card.** A reader reads a card: a title, a paragraph, a way on. A
+wall of four hundred of them is four hundred titles between a reader and
+the one drawing they came for. Here the glyph fills the box and the name
+holds back. A reader finds a set like this by shape, and the name matters
+only after the shape.
 
-The glyph is drawn at one size, which is not the tile's decision: a wall is
-scanned at one distance, two sizes in it are two walls, and a tile drawn larger
-than its neighbours is a tile claiming to matter more.
+The glyph has one size, and the tile does not decide it. A reader scans a
+wall at one distance. Two sizes in it are two walls, and a tile larger than
+its neighbours claims to matter more.
 
 .. confval:: name
    :name: sds-icon-tile-name
    :type: string
    :required: true
 
-   Which glyph, as ``sds-icon`` spells it — one identifier is not written two
-   ways across two elements. An identifier the set does not hold leaves the box
-   empty rather than throwing: a wall arrives from a catalogue, and one bad row
-   must not take the other rows with it.
+   Which glyph, as ``sds-icon`` spells it. One identifier has one spelling
+   across two elements. An identifier the set does not hold leaves the box
+   empty and throws nothing. A wall arrives from a catalogue, and one bad
+   row must not take the other rows with it.
 
 .. confval:: caption
    :name: sds-icon-tile-caption
    :type: string
 
-   What is written under the glyph, where the set shows something other than
-   the identifier. The identifier otherwise — which is what a reader retypes.
+   The text under the glyph, where the set shows something other than the
+   identifier. Otherwise the identifier, which is what a reader retypes.
 
 .. confval:: href
    :name: sds-icon-tile-href
    :type: string
 
    Where the tile goes, and the whole tile is the target. Without one it is
-   still a tile: a wall documenting a set rather than indexing it presses
-   nowhere, and an anchor with no target is a stop the keyboard makes for
-   nothing.
+   still a tile. A wall that documents a set presses nowhere, and an anchor
+   with no target is a stop the keyboard makes for nothing.
 
 .. confval:: tag
    :name: sds-icon-tile-tag
    :type: string
 
-   The one fact the drawing cannot show — that it mirrors, that it is new, that
-   it is going. One word, in the corner the glyph does not use.
+   The one fact the drawing cannot show: that it mirrors, that it is new,
+   that it goes. One word, in the corner the glyph does not use.
 
 .. _component-sds-quote:
 
 sds-quote
 =========
 
-A sentence borrowed from somewhere, with where it came from. The attribution is
-required, and that is the whole of why this is a component: an unattributed
-quotation in a product's own writing reads as the product quoting itself for
-emphasis.
+A sentence from somewhere else, with its source. The attribution is
+mandatory, and that is the whole reason for the component. A quotation with
+no source in a product's own writing reads as the product quoting itself.
 
-The attribution is a ``sds-byline``, not a caption — authorship looks the
-same wherever it is claimed, and the source of a borrowed sentence is not a
-smaller kind of thing than the author of the page it sits in.
+The attribution is a ``sds-byline``, not a caption. Authorship looks the
+same wherever it stands, and the source of a borrowed sentence is not a
+smaller thing than the author of the page.
 
 .. code-block:: html
 
@@ -476,10 +470,10 @@ smaller kind of thing than the author of the page it sits in.
    :type: string | markup
    :required: true
 
-   Long enough to be worth borrowing, short enough to stand at heading size:
-   a borrowed sentence is a statement and is set like one. No quotation marks
-   are drawn — the block is set apart by its measure, its size and a rule at
-   its start, which is position rather than ornament.
+   Long enough to be worth the borrow, short enough to stand at heading
+   size. A borrowed sentence is a statement and reads like one. No
+   quotation marks. Its measure, its size and a rule at its start set the
+   block apart, which is position, not ornament.
 
 .. confval:: by
    :name: sds-quote-by
@@ -498,7 +492,7 @@ smaller kind of thing than the author of the page it sits in.
    :name: sds-quote-href
    :type: string
 
-   Where it can be read in full. The attribution carries the link.
+   Where to read it in full. The attribution carries the link.
 
 .. confval:: meta
    :name: sds-quote-meta
@@ -510,19 +504,19 @@ smaller kind of thing than the author of the page it sits in.
    :name: sds-quote-initials
    :type: string
 
-   The mark, drawn only where these are given. A byline derives initials from
-   the name because a byline is a person; a quote does not, because half of
-   what is worth quoting is a document, and a monogram of a filename is a
-   person invented for a source that has none.
+   The mark, drawn only with these given. A byline derives initials from
+   the name, because a byline is a person. A quote does not. Half of what is
+   worth a quote is a document, and a monogram of a filename is a person
+   invented for a source with none.
 
 .. _component-sds-byline:
 
 sds-byline
 ==========
 
-Who wrote it, and when — a component rather than a row a page assembles,
-because the order is the point: who, then what they are to the subject, then
-when. A page that puts the date first has published a date.
+Who wrote it, and when. A component, not a row a page assembles, because the
+order is the point: who, then what they are to the subject, then when. A
+page that puts the date first has published a date.
 
 .. code-block:: html
 
@@ -541,30 +535,30 @@ when. A page that puts the date first has published a date.
    :name: sds-byline-meta
    :type: string
 
-   When, and anything else in the label register: a release, a reading time, a
-   revision.
+   When, and anything else in the label register: a release, a reading time,
+   a revision.
 
 .. confval:: initials
    :name: sds-byline-initials
    :type: string
 
-   The mark. Taken from the name where it is not given, and two letters at
-   most. Never a photograph: a face is a file to fetch, keep in step and hold a
-   licence for, and none of that says who is answerable.
+   The mark. Derived from the name if not given, and two letters at most.
+   Never a photograph. A face is a file to fetch, keep in step and licence,
+   and none of that says who answers for the page.
 
 .. confval:: href
    :name: sds-byline-href
    :type: string
 
-   Where the name leads — a profile, or the source it is attributed to.
+   Where the name leads: a profile, or the source of the attribution.
 
 .. confval:: unmarked
    :name: sds-byline-unmarked
    :type: boolean
 
-   No monogram, for an attribution that is not a person: a document, a release
-   note, a file. Initials derived from a filename are a person invented for a
-   source that has none.
+   No monogram, for an attribution that is not a person: a document, a
+   release note, a file. Initials from a filename are a person invented for
+   a source with none.
 
 .. _component-sds-steps:
 .. _component-sds-step:
@@ -572,12 +566,11 @@ when. A page that puts the date first has published a date.
 sds-steps, sds-step
 ===================
 
-An instruction read from the top, numbered down one rail. Work *to do*: it is
-rendered before the page is served and nothing about it changes afterwards.
-Work being **done** — stops arriving one at a time, each carrying what it
-wrote, the whole ending on a verdict — is
-:ref:`sds-run <component-sds-run>`, and it is an application's component
-rather than a document's.
+An instruction read from the top, numbered down one rail. Work *to do*: it
+renders before the page ships, and nothing about it changes afterwards. Work
+**in progress**, stops that arrive one at a time and end on a verdict, is
+:ref:`sds-run <component-sds-run>`, an application's component, not a
+document's.
 
 .. code-block:: html
 
@@ -593,65 +586,64 @@ rather than a document's.
      </sds-step>
    </sds-steps>
 
-For work that has an order. The numbers are the claim that step two follows
-step one, so a set of things to do in any order is a list and not this. They
-are the set's own count as well: a stop put in the middle renumbers everything
-under it, and nothing writes a figure.
+For work with an order. The numbers claim that step two follows step one,
+so a set of things to do in any order is a list and not this. They are the
+set's own count as well. A stop in the middle renumbers everything under
+it, and nothing writes a figure.
 
-**It is a list said in ARIA rather than in** ``<ol>``. Every element in this
-system draws its class box inside itself, which leaves one generic standing
-between a list and its items — and that is a list a browser stops counting.
-So the set carries ``role="list"``, every stop carries ``role="listitem"``, and
-a reader is told how many steps there are and which one this is.
+**It is a list in ARIA, not in** ``<ol>``. Every element in this system
+draws its class box inside itself. That leaves one generic between a list
+and its items, and a browser stops the count at that. So the set carries
+``role="list"``, every stop carries ``role="listitem"``, and a reader hears
+how many steps there are and which one this is.
 
-**A stop belongs to a set, and everything a stop draws is scoped to one.** The
-disc, the rail and the title register are declared under ``.sds-steps``, so an
-``sds-step`` standing on its own is the blocks it holds and nothing else — no
-disc and no number, because a number is a place in a set and outside one there
-is none to state.
+**A stop belongs to a set, and everything a stop draws has a set's scope.**
+The disc, the rail and the title register stand under ``.sds-steps``. So an
+``sds-step`` on its own is the blocks it holds and nothing else. No disc and
+no number, because a number is a place in a set.
 
 .. confval:: steps
    :name: sds-steps-steps
    :type: "{ heading, body, optional?, anchor? }[]"
 
-   Where a page holds the instruction as data. A stop whose content is blocks —
-   what a documentation renderer hands over — goes between the tags as
-   ``sds-step`` instead, and then this stays empty.
+   Where a page holds the instruction as data. A stop with blocks for
+   content, what a documentation renderer hands over, goes between the tags
+   as ``sds-step`` instead, and then this stays empty.
 
 .. confval:: heading
    :name: sds-steps-heading
    :type: string
 
-   On ``sds-step``. What is done at this stop, in one line. Spelt ``heading``
-   like every other title here, and not ``title``, which is the global
-   attribute a browser draws as a tooltip. It is not a heading in the outline:
-   what says where a reader is in an instruction is the number, and a page whose
-   outline is its steps has buried its own sections under them.
+   On ``sds-step``. What happens at this stop, in one line. Spelt
+   ``heading`` like every other title here, not ``title``, the global
+   attribute a browser draws as a tooltip. It is not a heading in the
+   outline. The number says where a reader is in an instruction, and a page
+   whose outline is its steps has buried its own sections.
 
 .. confval:: optional
    :name: sds-steps-optional
    :type: boolean
    :default: false
 
-   A stop that may be skipped. The disc is left unfilled and the word stands
-   beside the title — an unfilled ring says nothing to a reader who cannot see
-   it, which is why the drawing is never the whole of the claim.
+   A stop a reader can skip. The disc stays unfilled and the word stands
+   beside the title. An unfilled ring says nothing to a reader who cannot
+   see it, which is why the drawing is never the whole claim.
 
 .. confval:: anchor
    :name: sds-steps-anchor
    :type: string
 
-   The address of this one stop, for a page that links to it. It lands on the
-   stop itself: unlike an answer in an accordion, a step is not folded away, so
-   there is nothing to open before it can be read.
+   The address of this one stop, for a page that links to it. It lands on
+   the stop itself. Unlike an answer in an accordion, a step has no fold,
+   so nothing has to open before a read.
 
 .. _component-sds-note:
 
 sds-note
 ========
 
-What an answer carries besides the answer: a glyph in the status colour, a
-title that states the fact, and a bounded line of prose saying what the fact
+What an answer carries besides the answer. A glyph in the status colour, a
+title that states the fact, and a bounded line that says what the fact
 costs the reader.
 
 .. code-block:: html
@@ -662,68 +654,66 @@ costs the reader.
 
    <sds-note body="Two worktrees look finished." action="Clean up"></sds-note>
 
-Pressing an action dispatches ``sds-note-action`` with the label, on the note
-itself. With ``href`` set there is nothing to announce: following the link is
-the answer.
+A press on the action dispatches ``sds-note-action`` with the label, on the
+note itself. With ``href`` set there is nothing to announce: the link is the
+answer.
 
 .. confval:: tone
    :name: sds-note-tone
    :type: "info" | "ok" | "warn" | "error"
    :default: "info"
 
-   Not decoration: ``ok`` names where an answer came from, ``warn`` a degraded
-   one, ``error`` none, ``info`` a fact about the surface. Only ``warn`` tints
-   the block.
+   Not decoration. ``ok`` names where an answer came from, ``warn`` a
+   degraded one, ``error`` none, ``info`` a fact about the surface. Only
+   ``warn`` tints the block.
 
 .. confval:: heading
    :name: sds-note-heading
    :type: string
 
    The fact, in a line. Sentence case, and never a category name. Optional,
-   because a note whose body is a document's own prose has nothing to head it
-   with.
+   because a note whose body is a document's own prose has no head for it.
 
 .. confval:: body
    :name: sds-note-body
    :type: string | markup
 
-   Or nothing, when the body is written between the tags instead.
+   Or nothing, when the body stands between the tags instead.
 
 .. confval:: icon
    :name: sds-note-icon
    :type: icon id
 
    An explicit glyph, where the tone's own says less than the note does. The
-   glyph is never dropped: a colour alone leaves the meaning to whoever can
-   tell the tones apart.
+   glyph never drops. A colour alone leaves the meaning to whoever can tell
+   the tones apart.
 
 .. confval:: action
    :name: sds-note-action
    :type: string
 
    The one thing to do about what the note says, as the label on a button
-   after the sentence. One and no more: a message offering two answers is a
-   dialog. The button is the note's own — a secondary at ``sm`` — so every
+   after the sentence. One and no more: a message with two answers is a
+   dialog. The button is the note's own, a secondary at ``sm``. So every
    message a surface shows offers its answer as the same control in the same
-   place, and on a narrow box it goes under the sentence rather than squeezing
-   it.
+   place. On a narrow box it goes under the sentence.
 
 .. confval:: href
    :name: sds-note-href
    :type: string
 
-   Where that action goes, where it is a place rather than a decision. The
-   button is drawn as a link, which brings the browser's own middle-click,
-   hover target and status line with it, and pressing it dispatches nothing.
+   Where that action goes, where it is a place and not a decision. The
+   button renders as a link, with the browser's own middle-click, hover
+   target and status line, and a press dispatches nothing.
 
 .. confval:: label
    :name: sds-note-label
    :type: string
 
-   What the glyph says out loud. Each tone names its own word, and a caller may
-   say a truer one — a renderer collapsing many admonition types onto these
-   tones knows which this was, so ``caution`` and ``danger`` stay apart after
-   both became ``warn``.
+   What the glyph says out loud. Each tone names its own word, and a caller
+   can say a truer one. A renderer that collapses many admonition types onto
+   these tones knows which this was, so ``caution`` and ``danger`` stay
+   apart after both became ``warn``.
 
 .. seealso::
 

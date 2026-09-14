@@ -4,9 +4,9 @@
 Controls
 ========
 
-What a reader presses, follows or reads a state off. Everything here is small,
-everything here appears in a bar or a row of actions, and everything here is a
-real ``<button>`` or ``<a>`` underneath.
+What a reader presses, follows or reads a state off. Everything here is
+small, appears in a bar or a row of actions, and is a real ``<button>`` or
+``<a>`` underneath.
 
 .. specimen:: components/core/buttons.card.html
    :viewport: 700x410
@@ -17,8 +17,8 @@ real ``<button>`` or ``<a>`` underneath.
 sds-button
 ==========
 
-The action that starts work. **One primary per view** — a second makes neither
-mean anything.
+The action that starts work. **One primary per view.** A second makes
+neither mean anything.
 
 .. code-block:: html
 
@@ -27,42 +27,40 @@ mean anything.
      <sds-icon name="actions-filter"></sds-icon>
    </sds-button>
 
-The label is content rather than a property, because a button's label is often
-a name in mono, a count, or a glyph — none of which fits in a string.
+The label is content, not a property. A button's label is often a name in
+mono, a count, or a glyph, and none of those fits in a string.
 
 .. confval:: variant
    :name: sds-button-variant
    :type: "primary" | "secondary" | "ghost" | "danger"
    :default: "primary"
 
-   ``primary`` is the action that starts work, ``secondary`` stands beside it,
-   ``ghost`` is the one that belongs in a bar or a head where a filled box
-   would be the loudest thing on the surface. ``danger`` is the press that
-   cannot be undone: status colour as ink and a hairline, never a fill, and a
-   label that names what goes. It stands last, after the way out — see
-   :doc:`/design-system/colours` for why it is the one control that carries a
-   status colour.
+   ``primary`` is the action that starts work. ``secondary`` stands beside
+   it. ``ghost`` belongs in a bar or a head, where a filled box is the
+   loudest thing on the surface. ``danger`` is the press with no undo:
+   status colour as ink and a hairline, never a fill, and a label that names
+   what goes. It stands last, after the way out. :doc:`/design-system/colours`
+   says why it is the one control with a status colour.
 
 .. confval:: size
    :name: sds-button-size
    :type: "md" | "sm" | "lg"
    :default: "md"
 
-   ``sm`` is for a control inside another surface — a table head, a code
-   block's chrome — not for making a page fit. ``lg`` is the one action a
-   screen is for, a landing's single call: beside a second large button
-   neither of them is the one, and that is what ``md`` is for.
+   ``sm`` is for a control inside another surface, a table head, a code
+   block's chrome, not to make a page fit. ``lg`` is the one action a screen
+   is for, a landing's single call. Beside a second large button neither is
+   the one, and that is what ``md`` is for.
 
 .. confval:: type
    :name: sds-button-type
    :type: "button" | "submit" | "reset"
    :default: "button"
 
-   The default is the whole reason the property exists. A ``<button>`` with no
-   type inside a ``<form>`` **submits it**, so a filter or a Cancel drawn with
-   this element would send the form the moment it was pressed. A real submit
-   says so — and then Enter in a text field submits too, which only that button
-   should carry.
+   The default is the whole reason for the property. A ``<button>`` with no
+   type inside a ``<form>`` **submits it**. So a filter or a Cancel drawn
+   with this element sends the form on the press. A real submit says so, and
+   then Enter in a text field submits too, which only that button carries.
 
 .. confval:: disabled
    :name: sds-button-disabled
@@ -76,48 +74,46 @@ a name in mono, a count, or a glyph — none of which fits in a string.
    :type: boolean
    :default: false
 
-   That the label is one glyph and the button is the square. It is inferred
-   where the label can be read, and a caller says it where the label arrives as
-   markup rather than as nodes — a button that loses its shape there is a round
-   control gone rectangular in a bar.
+   The label is one glyph, and the button is the square. The element infers
+   it where it can read the label. A caller says it where the label arrives
+   as markup, or the button loses its shape in a bar.
 
 .. confval:: title
    :name: sds-button-title
    :type: string
 
-   Required by an icon-only button, because nothing else names it.
+   An icon-only button must have one, because nothing else names it.
 
 .. confval:: href
    :name: sds-button-href
    :type: string
 
-   Where it goes, for the press that is a link rather than an action. It renders
-   an ``<a>`` and nothing else changes — same classes, same shape, and the
-   browser's own middle-click, hover target and status line, none of which a
-   ``<button>`` with a handler on it has. A link cannot be disabled, so
-   ``disabled`` is dropped there: a control that must not be followed is one
-   that is not written.
+   Where it goes, for the press that is a link. It renders an ``<a>`` and
+   nothing else changes: same classes, same shape. The browser adds its own
+   middle-click, hover target and status line, which a ``<button>`` with a
+   handler does not have. A link has no disabled state, so ``disabled``
+   drops there. A control nobody must follow is one nobody writes.
 
 .. confval:: rel
    :name: sds-button-rel
    :type: string
 
-   What that link is to this page — ``prev``, ``next``, ``external``. Only with
-   ``href``, being the anchor's own attribute.
+   What that link is to this page: ``prev``, ``next``, ``external``. Only
+   with ``href``, as the anchor's own attribute.
 
 .. confval:: for
    :name: sds-button-for
    :type: string
 
-   The id of what this button acts on. Pressing it dispatches ``sds-command``
-   **on that element**; without it the button keeps its own click.
+   The id of what this button acts on. A press dispatches ``sds-command``
+   **on that element**. Without it the button keeps its own click.
 
 .. confval:: command
    :name: sds-button-command
    :type: string
    :default: "show"
 
-   What it asks of it — ``show``, ``close``, ``toggle``, or a word a page's own
+   What it asks: ``show``, ``close``, ``toggle``, or a word a page's own
    listener understands.
 
 .. code-block:: html
@@ -136,117 +132,120 @@ A button, and the short list it opens under itself.
    :viewport: 700x546
    :title: Dropdown
 
-The card draws the control open — the button pressed, its list standing under
-it — as a box in the flow, which is the one state a specimen can hold: it runs
-no script, and nothing static opens a popover. Everything that makes the panel
-a flyout hangs off the attribute, so what a surface with no JavaScript writes
-is exactly what is drawn here, down to the distance the list stands off its
-button.
+The card draws the control open, the button pressed and its list under it,
+as a box in the flow. That is the one state a specimen can hold: it runs no
+script, and nothing static opens a popover. Everything that makes the panel
+a flyout hangs off the attribute. So what a surface with no JavaScript
+writes is exactly what the card draws, down to the distance of the list
+from its button.
 
 .. code-block:: html
 
    <sds-dropdown label="Language" name="Language"></sds-dropdown>
 
-**What is in the list decides what the list is.** Entries carrying ``href`` are
-pages, so the panel is a disclosure holding links and Tab walks them as well;
-entries carrying none are commands, so it is a menu with ``role="menu"``. The
-element asks the entries rather than the caller, because a caller who has to
-say which one it is can say the wrong one — and announcing menu commands over a
-list of pages is a promise the panel cannot keep.
+**The entries decide what the list is.** Entries with ``href`` are pages, so
+the panel is a disclosure of links, and Tab walks them as well. Entries
+without one are commands, so it is a menu with ``role="menu"``. The element
+asks the entries, not the caller. A caller who has to say which one it is can
+say the wrong one. Menu commands over a list of pages is a promise the panel
+cannot keep.
 
-The arrows belong to both. From the button they open the panel and step into it
-from the end the key came from, and inside it they walk the rows and stop at the
-ends rather than wrapping; ``Home`` and ``End`` go straight there. A reader
-standing on the button presses down before they try anything else, and a panel
-that answers that in one list and not in the other is a control they have to
-learn twice.
+The arrows belong to both. From the button they open the panel and step into
+it from the end the key came from. Inside it they walk the rows and stop at
+the ends. ``Home`` and ``End`` go straight there. A reader on the button
+presses down before anything else. A panel that answers that in one list and
+not in the other is a control to learn twice.
 
-The trigger is a real button of this system, drawn from the same classes, so it
-takes the variants and sizes every other one does. What a dropdown says about
-itself — expanded, and which panel it controls — is written on the ``<button>``
-itself, which is why it is not an ``<sds-button>`` with attributes on it.
+The trigger is a real button of this system, from the same classes, so it
+takes the variants and sizes every other one does. What a dropdown says
+about itself, expanded, and which panel it controls, stands on the
+``<button>`` itself. That is why it is not an ``<sds-button>`` with
+attributes.
 
-**The panel is a popover.** The top layer holds it, so no ancestor's overflow
-clips it and nothing on the page can be stacked over it; opening, the press
-outside that closes it, Escape and the focus returning to the button are the
-platform's. Placement is the one part that is not: where the engine has anchor
-positioning the stylesheet does it, and where it has not the element measures
-the button and writes the edges itself — ``src/lib/flyout.ts``, which
-``sds-search`` uses for its own drop. Both routes write the same two edges from
-``anchor()``, rather than a ``position-area``: an area is a box the panel is
-fitted into, and a list wider than the control it came from is pushed off its
-own anchor.
+**The panel is a popover.** The top layer holds it, so no ancestor's
+overflow clips it and nothing on the page stacks over it. The open, the
+press outside that closes it, Escape and the focus back on the button are
+the platform's. Placement is the one part that is not.
 
-The window is the one edge the top layer does not answer for. A button standing
-near the side the panel grows towards leaves less room than the panel is wide,
-and what leaves the window is gone — nothing in that layer scrolls back into
-view. So the panel hangs from the button's other edge instead, on both routes:
-``position-try-fallbacks: flip-inline`` where the engine anchors, and the same
-question asked of the measurement where it does not. ``align`` says which side
-it starts from and is a preference — staying on the page is not one.
+Where the engine has anchor positioning, the stylesheet does it. Where it
+has not, the element measures the button and writes the edges itself:
+``src/lib/flyout.ts``, which ``sds-search`` uses for its own drop. Both
+routes write the same two edges from ``anchor()``, not a ``position-area``.
+An area is a box the panel fits into, and it pushes a list wider than its
+control off its own anchor.
+
+The window is the one edge the top layer does not answer for. A button near
+the side the panel grows towards leaves less room than the panel needs. What
+leaves the window is out of reach. So the panel hangs from the button's
+other edge instead, on both routes. ``position-try-fallbacks: flip-inline``
+where the engine anchors, and the same question of the measurement where it
+does not.
+
+``align`` says which side it starts from and is a preference. To stay on
+the page is not one.
 
 .. confval:: choices
    :name: sds-dropdown-choices
    :type: DropdownChoice[]
 
-   The entries, in the order they are read. Set from script, being a list:
-   ``label``, and then ``href`` for a page, ``icon`` for a glyph before the
-   label, ``current`` for the one in force, ``disabled``, ``external``, and
-   ``lang`` where the entry names a language — that last one is what makes a
-   reader hear "Deutsch" in German rather than in the voice of the page.
+   The entries, in the order a reader reads them. Set from script, as a list. ``label``, then
+   ``href`` for a page, ``icon`` for a glyph before the label, ``current``
+   for the one in force, ``disabled``, ``external``. And ``lang`` where the
+   entry names a language. That last one makes a reader hear "Deutsch" in
+   German, not in the voice of the page.
 
 .. confval:: label
    :name: sds-dropdown-label
    :type: string
 
    What the button says. A dropdown whose entries are settings names the
-   setting rather than the value, and lets ``current`` mark the one in force.
+   setting, not the value, and lets ``current`` mark the one in force.
 
 .. confval:: name
    :name: sds-dropdown-name
    :type: string
 
-   What the control is called, where the label is too short to say it — a
-   language code standing in for "Language". It is said **in front of** the
-   label rather than instead of it: an accessible name that drops the word a
-   reader can see is a name they cannot ask for by voice.
+   The control's name, where the label is too short to say it: a language
+   code for "Language". It stands **in front of** the label, not
+   instead of it. An accessible name that drops the word a reader can see is
+   a name they cannot ask for by voice.
 
 .. confval:: align
    :name: sds-dropdown-align
    :type: "start" | "end"
    :default: "start"
 
-   Which side the panel hangs from. ``end`` where the button sits at the end of
-   a row, so the list opens back over the row rather than out from it. A side
-   with no room for the panel is the placement's business rather than the
-   caller's: the panel hangs from the button's other edge instead.
+   Which side the panel hangs from. ``end`` where the button sits at the end
+   of a row, so the list opens back over the row. A side with no room for
+   the panel is the placement's business: the panel hangs from the button's
+   other edge instead.
 
 .. confval:: variant
    :name: sds-dropdown-variant
    :type: "primary" | "secondary" | "ghost"
    :default: "secondary"
 
-   The button's own variant, and ``size`` beside it takes the button's sizes.
+   The button's own variant. ``size`` beside it takes the button's sizes.
 
 .. confval:: icon-only
    :name: sds-dropdown-icon-only
    :type: boolean
 
-   The label is dropped and ``icon`` stands alone, which then requires ``name``
-   — nothing else says what the control is.
+   The label drops and ``icon`` stands alone. Then ``name`` is mandatory:
+   nothing else says what the control is.
 
-Choosing an entry dispatches ``sds-dropdown-choose`` with the entry and its
-position. A page that never listens still works: an entry with a target is a
-link and stays one, so the event is said **beside** the navigation rather than
-instead of it. Preventing it is how an app takes the navigation over.
+A chosen entry dispatches ``sds-dropdown-choose`` with the entry and its
+position. A page that never listens still works. An entry with a target is a
+link and stays one, so the event stands **beside** the navigation, not
+instead of it. ``preventDefault()`` is how an app takes the navigation over.
 
 .. _component-sds-link:
 
 sds-link
 ========
 
-A link. Always an ``<a>`` with an ``href``, the external one included: anything
-else looks like a link, cannot be focused or opened in a new tab, and is
+A link. Always an ``<a>`` with an ``href``, the external one included.
+Anything else looks like a link, takes no focus, opens in no new tab, and is
 invisible to whatever reads the page as a document.
 
 .. code-block:: html
@@ -259,8 +258,8 @@ invisible to whatever reads the page as a document.
    :type: string
    :required: true
 
-   The words. A link is never a bare glyph — a row of marks is a row of
-   pictures the reader has to already know.
+   The words. A link is never a bare glyph. A row of marks is a row of
+   pictures the reader has to know already.
 
 .. confval:: href
    :name: sds-link-href
@@ -272,17 +271,17 @@ invisible to whatever reads the page as a document.
    :type: boolean
    :default: false
 
-   Opens away from this surface: gets the glyph, and says so to the browser as
-   well as to the eye.
+   Opens away from this surface. It gets the glyph, and says so to the
+   browser and to the eye.
 
 .. confval:: icon
    :name: sds-link-icon
    :type: icon id
 
-   A glyph beside the label — a repository, a chat, a feed. Whether it leads or
-   follows is the component's decision and not the caller's: an arrow, a
-   chevron or a caret says where pressing goes and follows the label;
-   everything else says what the link is and leads it.
+   A glyph beside the label: a repository, a chat, a feed. The component
+   decides if it leads or follows. An arrow, a chevron or a caret says where
+   the press goes and follows the label. Everything else says what the link
+   is and leads it.
 
 .. confval:: bare
    :name: sds-link-bare
@@ -290,9 +289,9 @@ invisible to whatever reads the page as a document.
    :default: false
 
    The mark alone, with ``icon``: drawn at 24, the ``label`` carried for
-   whoever cannot see it, and the external glyph dropped — two marks on one
+   whoever cannot see it, and the external glyph dropped. Two marks on one
    link say one thing twice. For a row of accounts at the end of a footer,
-   where a reader looks for marks by position, and nowhere a link stands in a
+   where a reader looks for marks by position. Nowhere a link stands in a
    sentence.
 
 .. _component-sds-badge:
@@ -300,8 +299,8 @@ invisible to whatever reads the page as a document.
 sds-badge
 =========
 
-A small, named piece of state. ``accent`` names where an answer came from; the
-status tones are the result of one.
+A small, named piece of state. ``accent`` names where an answer came from.
+The status tones are the result of one.
 
 .. code-block:: html
 
@@ -318,8 +317,8 @@ status tones are the result of one.
    :type: "default" | "accent" | "ok" | "warn" | "error"
    :default: "default"
 
-   The three result tones carry a glyph as well as a colour, because colour
-   alone leaves the meaning to anyone who cannot tell three hues apart.
+   The three result tones carry a glyph and a colour. Colour alone
+   leaves the meaning to anyone who cannot tell three hues apart.
 
 .. confval:: icon
    :name: sds-badge-icon
@@ -329,28 +328,28 @@ status tones are the result of one.
 
 .. warning::
 
-   Status colour belongs in a badge, in code output, in a result row and in a
-   diagram that is about status. Never as page furniture — a colour meaning
-   "something is wrong" on a header says it about the page.
+   Status colour belongs in a badge, in code output, in a result row and in
+   a diagram about status. Never as page furniture. A colour for "something
+   is wrong" on a header says it about the page.
 
 .. _component-sds-progress:
 
 sds-progress
 ============
 
-How far a running job has got — a share, not a sequence of stops. ``sds-steps``
-is the one that claims step two follows step one; this claims a distance, and
-it is driven entirely from outside: set ``value`` as the work reports and the
-bar travels to the new width in ``--duration-fast``.
+How far a running job has got: a share, not a sequence of stops.
+``sds-steps`` claims that step two follows step one. This claims a distance,
+and the outside drives it. Set ``value`` as the work reports, and the bar
+travels to the new width in ``--duration-fast``.
 
-**The fill takes its colour from that same distance.** The ink is mixed from
-the share itself — grey where there is nothing to report yet, turning the whole
-way to ``--status-ok`` as the work approaches a finished run — so the colour
-says what the length says, moves as gradually as the bar does and needs no
-threshold invented for it. A flat colour at every moment, never a gradient. It
-never passes through red or amber: a job at a fifth is not failing, and a
-colour saying so would be the one thing on the page claiming something went
-wrong.
+**The fill takes its colour from that same distance.** The ink comes from
+the share itself: grey with nothing to report, and the whole way to
+``--status-ok`` as the work approaches a complete run. So the colour says
+what the length says, moves as slowly as the bar does, and needs no
+threshold. A flat colour at every moment, never a gradient.
+
+It never passes through red or amber. A job at a fifth is not a failure. A
+colour that says so is the one thing on the page that claims a fault.
 
 .. specimen:: components/core/progress.card.html
    :viewport: 700x515
@@ -368,25 +367,24 @@ wrong.
    :name: sds-progress-caption
    :type: string
 
-   What the work is, over the bar. Without one the bar is bare — right where
-   the surface around it names the job — and it still owes ``label``.
+   What the work is, over the bar. Without one the bar is bare, right where
+   the surface around it names the job, and it still owes ``label``.
 
 .. confval:: label
    :name: sds-progress-label
    :type: string
 
-   What it is called for anything that cannot see what it sits beside. The
-   track is the ``progressbar``, and a bar with no name reads out as a number
-   out of a hundred of nothing.
+   Its name for anything that cannot see what it sits beside. The track is
+   the ``progressbar``, and a bar with no name reads out as a number out of
+   a hundred of nothing.
 
 .. confval:: value
    :name: sds-progress-value
    :type: number
    :default: 0
 
-   Where it stands, in the same unit as ``max``. Clamped to the run, so work
-   that overruns its own estimate draws a full bar rather than one running out
-   of its track.
+   Where it stands, in the unit of ``max``. Clamped to the run, so work that
+   overruns its own estimate draws a full bar, not one out of its track.
 
 .. confval:: max
    :name: sds-progress-max
@@ -400,72 +398,73 @@ wrong.
    :type: "percent" | "count" | "none"
    :default: "percent"
 
-   How the position is said. ``count`` gives the two numbers themselves — "3
-   of 12 files" — where what is being counted is the useful part, and a
-   percentage of twelve is arithmetic the reader has to undo.
+   How it says the position. ``count`` gives the two numbers themselves, "3
+   of 12 files", where the count is the useful part. A percentage of twelve
+   is arithmetic the reader has to undo.
 
 .. confval:: unit
    :name: sds-progress-unit
    :type: string
 
-   What the numbers count, said after them in a ``count`` read-out.
+   What the numbers count, after them in a ``count`` read-out.
 
 .. confval:: note
    :name: sds-progress-note
    :type: string
 
-   What the work is doing right now. Over 2s this is the line that has to say
-   why; the same line may be written between the tags where it carries a link
-   or a name in mono.
+   What the work does right now. Over 2s this line has to say why. The same
+   line can stand between the tags where it carries a link or a name in
+   mono.
 
 .. confval:: size
    :name: sds-progress-size
    :type: "medium" | "small"
    :default: "medium"
 
-   ``small`` thins the track alone, for a bar standing in a row of other
-   things. The read-out over it is the same line it is anywhere else.
+   ``small`` thins the track alone, for a bar in a row of other things. The
+   read-out over it is the same line it is anywhere else.
 
 .. confval:: pulsing
    :name: sds-progress-pulsing
    :type: boolean
    :default: false
 
-   That work is happening **right now**: a hatch travels through the filled
-   part while the bar itself stands still, which is the one thing a bar at rest
-   cannot say. Reach for it where reports arrive far apart — a bar that has not
-   moved in ten seconds and one that has stalled look the same otherwise. Turn
-   it off the moment the work stops, and when the run is done: a bar working at
-   a standstill claims something nobody measured. It sets ``aria-busy`` while
-   it runs. Reduced motion keeps the hatch and stops it travelling, so a
-   working bar still reads as one — and the note under the bar, never the
-   movement alone, is what says what is happening.
+   Work happens **right now**: a hatch travels through the filled part while
+   the bar stands still, the one thing a bar at rest cannot say. Use it where
+   reports arrive far apart. A bar with no movement for ten seconds and a
+   stalled one look the same otherwise. Turn it off the moment the work
+   stops, and at the end of the run. A bar at work at a standstill claims
+   something nobody measured.
 
-   The stripes are the system's second and last gradient, beside the lit frame
-   of a card under the pointer: one ink at two strengths, carrying motion
-   rather than colour. See :doc:`/design-system/colours`.
+   It sets ``aria-busy`` while it runs. Reduced motion keeps the hatch and
+   stops its travel, so a working bar still reads as one. The note under the
+   bar, never the movement alone, says what happens.
+
+   The stripes are the system's second and last gradient, beside the lit
+   frame of a card under the pointer. One ink at two strengths, for motion,
+   not colour. See :doc:`/design-system/colours`.
 
 .. note::
 
-   **Where the share is not known there is nothing to fill.** That is
-   ``.sds-loading`` with a spinner, which claims no distance at all — see
-   :doc:`the states guideline </design-system/states>`. A bar that advances by
-   itself is telling the reader something the work never said.
+   **Where the share is unknown, there is nothing to fill.** That is
+   ``.sds-loading`` with a spinner, which claims no distance; see :doc:`the
+   states guideline </design-system/states>`. A bar that advances by itself
+   tells the reader something the work never said.
 
 .. _component-sds-run:
 
 sds-run
 =======
 
-Work being **done**, as the stops it is made of. ``sds-progress`` above says how
-far; this says what the work is going through, and it is the one component in
-the system that changes while a reader is watching it.
+Work **in progress**, as its stops. ``sds-progress`` above says how far.
+This says what the work goes through, and it is the one component in the
+system that changes while a reader watches it.
 
 Not :ref:`sds-steps <component-sds-steps>`, and the difference is not the
-drawing. An instruction is rendered before the page is served and never
-changes. A run arrives one stop at a time, each stop carries what it wrote, the
+drawing. An instruction renders before the page ships and never changes. A
+run arrives one stop at a time, and each stop carries what it wrote. The
 stops fold, and the whole ends on a **verdict** an instruction has no place
-for. Nothing in a document is still running, which is why this element is an
+for. Nothing in a document still runs, which is why this element is an
 application's and appears in no rendered page here.
 
 .. code-block:: html
@@ -484,7 +483,7 @@ application's and appears in no rendered page here.
    :type: string
    :required: true
 
-   What the run is, in one line — or what has become of it, which is what a set
+   What the run is, in one line. Or what became of it, which is what a set
    of jobs says at the top: "Some checks haven't completed yet".
 
 .. confval:: verdict
@@ -492,8 +491,8 @@ application's and appears in no rendered page here.
    :type: "running | done | failed"
    :default: running
 
-   What became of the whole. It is the mark beside the heading, and it is the
-   one thing a folded run still says.
+   What became of the whole. It is the mark beside the heading, and the one
+   thing a folded run still says.
 
 .. confval:: note
    :name: sds-run-note
@@ -506,70 +505,68 @@ application's and appears in no rendered page here.
    :type: "{ label, state, meta?, note?, output?, group? }[]"
    :required: true
 
-   The stops, set from script — being a list, and one that changes. ``state`` is
-   ``ahead``, ``running``, ``done`` or ``failed``; ``meta`` is the quiet word at
-   the far end of the row, a duration or a count; ``note`` is what is happening
-   to it *in words*, which is what a queue owes a reader that a mark cannot say;
+   The stops, set from script, as a list that changes. ``state`` is
+   ``ahead``, ``running``, ``done`` or ``failed``. ``meta`` is the quiet word
+   at the far end of the row, a duration or a count. ``note`` is what happens
+   to it *in words*, which a queue owes a reader that a mark cannot say.
    ``output`` is what it wrote.
 
 .. confval:: group
    :name: sds-run-group
    :type: string
 
-   Named on a step, not on the run. Where the work is many jobs at once rather
-   than one sequence, the order says nothing and the state is what sorts them —
-   so the stops carry the group they belong to, and each group folds under a
-   name that carries its own count. Stops naming none are one run, read in
-   order.
+   Named on a step, not on the run. Where the work is many jobs at once, the
+   order says nothing and the state sorts them. So the stops carry their
+   group, and each group folds under a name with its own count. Stops with
+   no group are one run, in order.
 
 .. confval:: open
    :name: sds-run-open
    :type: boolean
    :default: false
 
-   Whether the whole stands unfolded. A run being watched is written ``open``;
-   one in a list of past runs is not, and the head is then the whole of it.
+   If the whole stands unfolded. A run under watch is ``open``. One in a
+   list of past runs is not, and the head is then the whole of it.
 
 .. confval:: state-words
    :name: sds-run-state-words
    :type: "{ ahead?, running?, done?, failed? }"
 
-   What the states are called, where the page is not in English. Partial: a
-   page names the ones it has a word for and the rest keep theirs, so a
-   language arriving one string at a time is never a run with no words at all.
+   The names of the states, where the page is not in English. Partial: a
+   page names the ones it has a word for, and the rest keep theirs. So a
+   language that arrives one string at a time is never a run with no words.
 
-**A stop that wrote nothing does not open.** It draws no chevron and takes no
-press: a control that opens onto an empty box is a promise the row cannot keep.
-What did write something opens by itself while it is in hand and closes once it
-is behind — and a press is the reader's answer to that question, kept for as
-long as the run is on screen.
+**A stop that wrote nothing does not open.** It draws no chevron and takes
+no press. A control that opens onto an empty box is a promise the row cannot
+keep. A stop that wrote something opens by itself while it is in hand and
+closes once it is behind. A press is the reader's answer to that question,
+kept for as long as the run is on screen.
 
-**The mark is named, not only drawn.** A shape and a colour are one claim, and
-neither reaches a reader who is told rather than shown, so every state carries
-its word — see :doc:`/design-system/accessibility`. The word is English until
-``state-words`` says otherwise: it is the only part of a run this element
-writes rather than is handed, and a page in another language would otherwise
-draw its own labels and announce somebody else's.
+**The mark has a name, not only a drawing.** A shape and a colour are one
+claim, and neither reaches a reader who hears the page. So every state
+carries its word; see :doc:`/design-system/accessibility`. The word is
+English until ``state-words`` says otherwise. It is the only part of a run
+this element writes itself. Without the words, a page in another language
+draws its own labels and announces somebody else's.
 
-**The row in hand carries a band and the page's own ink**, never the accent:
-that marks three things and a step is none of them. What says this is the one
-being worked on is the movement, which is what the two settled ends have no
-need of.
+**The row in hand carries a band and the page's own ink**, never the accent.
+The accent marks three things, and a step is none of them. The movement says
+that this is the row under work, which the two settled ends have no need of.
 
 .. note::
 
    The share is ``sds-progress``, above it, where the work reports one. Most
-   runs cannot: a job of five steps knows which step it is on and nothing about
-   how long the fourth will take, and a bar that advances by itself is telling
-   the reader something the work never said.
+   runs cannot. A job of five steps knows its step and nothing about how long
+   the fourth takes. A bar that advances by itself tells the reader something
+   the work never said.
 
 .. _component-sds-icon:
 
 sds-icon
 ========
 
-A TYPO3 icon, in the document rather than linked from it, so it inherits
-``currentColor``. Colour following the UI is the whole icon rule.
+A TYPO3 icon, in the document, not linked from it, so it inherits
+``currentColor``. Colour that follows the UI is the whole icon rule.
 
 .. code-block:: html
 
@@ -581,8 +578,8 @@ A TYPO3 icon, in the document rather than linked from it, so it inherits
    :type: icon id
    :required: true
 
-   An identifier from the set this system ships. An unknown one throws rather
-   than rendering blank: a missing glyph reads as a design decision, and the
+   An identifier from the set this system ships. An unknown one throws
+   instead of a blank. A missing glyph reads as a design decision, and the
    fix is a one-line edit and ``make icons``.
 
 .. confval:: size
@@ -591,67 +588,65 @@ A TYPO3 icon, in the document rather than linked from it, so it inherits
    :default: "em"
 
    ``em`` is the default because an icon almost always sits inside something
-   that has a text size — a button's label, a badge, a table cell — and
-   matching it is what makes a glyph look placed rather than dropped in. A
-   number is for a glyph standing on its own, and **16 is the floor**.
+   with a text size: a button's label, a badge, a table cell. A match makes
+   a glyph look placed, not dropped in. A number is for a glyph on its own,
+   and **16 is the floor**.
 
 .. confval:: label
    :name: sds-icon-label
    :type: string
 
-   For an icon that stands without text beside it, and only for that. Anything
-   sitting beside its own label is hidden from assistive technology rather than
-   read out twice.
+   For an icon without text beside it, and only for that. An icon beside its
+   own label hides from assistive technology, so nothing reads twice.
 
 .. seealso::
 
-   :doc:`/design-system/icons` for the set, where a missing one comes from, and
-   which state glyphs may stand alone in running text.
+   :doc:`/design-system/icons` for the set, where a missing one comes from,
+   and which state glyphs can stand alone in text.
 
 .. _component-sds-theme:
 
 sds-theme
 =========
 
-The mode the page is in, as one press that changes it — a state a reader
-flips rather than a choice they pick from a list.
+The mode the page is in, as one press that changes it: a state a reader
+flips, not a choice from a list.
 
 .. code-block:: html
 
    <sds-theme></sds-theme>
 
-It is the system's own icon button and draws no control of its own: square,
-ghost, and carrying its sentence in ``title``, which is both the accessible
-name and the words the pointer reveals. Three marks are drawn and two are
-faded out, so a press confirms the change without moving anything on the row.
+It is the system's own icon button and draws no control of its own. Square,
+ghost, and with its sentence in ``title``, which is both the accessible name
+and the words the pointer reveals. It draws three marks and fades two out,
+so a press confirms the change without movement on the row.
 
-**There are three states, and one press steps to the next of them** — the
-machine's setting, light, dark, and round again. The machine's is the default
-most readers are on, so it is a stop on the way rather than something only a
-cleared key gives back: a control that reaches two of its three states takes
-the default away from whoever tries it once.
+**There are three states, and one press steps to the next.** The machine's
+setting, light, dark, and round again. The machine's is the default most
+readers are on, so it is a stop on the way, not something only a cleared key
+gives back. A control that reaches two of its three states takes the default
+away from whoever tries it once.
 
-Which mark stands is **what the document says**, decided in the stylesheet:
-no ``data-theme`` at all is the machine's, and the attribute names the other
-two. So the button is right before any script runs — a button drawn from its
-own state renders whatever it was constructed with, which on a prerendered
-dark page is a sun. The sentence in ``title`` names no state for the same
-reason; where a script has read the document, ``aria-label`` names both the
-state and where the press goes.
+**The document says which mark stands**, and the stylesheet decides it. No
+``data-theme`` is the machine's, and the attribute names the other two. So
+the button is right before a script runs. A button drawn from its own state
+renders its construction value, which on a prerendered dark page is a sun. The sentence in ``title`` names no state for the same reason.
+Where a script has read the document, ``aria-label`` names both the state
+and where the press goes.
 
 .. confval:: key
    :name: sds-theme-key
    :type: string
    :default: "soul-theme"
 
-   Where the choice is stored. The boot script in the document head has the
-   same default, both ends reading one name; two products on one origin are
-   two keys, and then each end is told which — see :doc:`/frontend/index`.
+   Where the choice lives. The boot script in the document head has the same
+   default, both ends on one name. Two products on one origin are two keys,
+   and then each end gets its own; see :doc:`/frontend/index`.
 
 .. note::
 
-   The element reads ``data-theme`` off the document rather than keeping an
-   idea of its own, and watches it: the boot script writes it before the first
-   paint, the machine's setting changes it, and a second tab changes it too.
-   Same-origin frames on the page are painted with it, which is what keeps a
-   specimen from staying light inside a dark page.
+   The element reads ``data-theme`` off the document, keeps no idea of its
+   own, and watches it. The boot script writes it before the first paint,
+   the machine's setting changes it, and a second tab changes it too.
+   Same-origin frames on the page get it as well, which keeps a specimen
+   from a light state inside a dark page.

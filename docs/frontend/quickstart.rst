@@ -5,19 +5,18 @@ Quick start
 ===========
 
 Put a working Soul surface in a page, then choose how the files reach it.
-The markup is the same with a bundler or with the drop-in: ``soul.css`` carries
-the tokens and class layer, and the JavaScript registers the ``sds-*``
-elements.
+The markup is the same with a bundler or with the drop-in. ``soul.css``
+carries the tokens and the class layer, and the JavaScript registers the
+``sds-*`` elements.
 
-Choose how the files arrive
-===========================
+How the files arrive
+====================
 
 .. tabs::
 
    .. tab:: From the package
 
-      Install the frontend mirror and Lit in a project that already has a
-      bundler:
+      Install the frontend mirror and Lit in a project with a bundler:
 
       .. code-block:: bash
 
@@ -33,14 +32,14 @@ Choose how the files arrive
          import '@typo3/soul-frontend/dist/soul.css';
 
       The package entry leaves Lit external, so the application and the
-      elements share the same reactive-element registry.
+      elements share one reactive-element registry.
 
    .. tab:: From the drop-in
 
-      Copy ``dist/`` from the frontend mirror to a public ``soul/`` directory,
-      whole. The stylesheet resolves the fonts beside itself and the script
-      resolves ``assets/icons/sprites/`` inside it — one file per icon
-      category. A build that bundles the module away from those assets says
+      Copy ``dist/`` from the frontend mirror to a public ``soul/``
+      directory, whole. The stylesheet resolves the fonts beside itself. The
+      script resolves ``assets/icons/sprites/`` inside it, one file per icon
+      category. A build that moves the module away from those assets says
       where they went with ``setIconSprites()``, which takes the directory.
 
       .. code-block:: html
@@ -49,29 +48,30 @@ Choose how the files arrive
          <link rel="stylesheet" href="/soul/soul.css">
          <script type="module" src="/soul/soul.js"></script>
 
-      ``soul-boot.js`` belongs before the stylesheet where the page has a mode
-      switch. Leave it out when the page follows the reader's system setting
-      and offers no switch of its own.
+      ``soul-boot.js`` belongs before the stylesheet where the page has a
+      mode switch. Leave it out when the page follows the reader's system
+      setting and offers no switch.
 
 Write the surface
 =================
 
 .. note::
 
-   What each element takes is ``dist/custom-elements.json`` in the package,
-   compiled from the components themselves: every tag with its attributes,
-   their types, the events it sends, the classes it draws and whether it takes
-   content. Point an editor or a generating tool at that file —
-   :doc:`components/index` is the same contract written for a reader.
+   ``dist/custom-elements.json`` in the package says what each element
+   takes, compiled from the components themselves. Every tag with its
+   attributes, their types, the events it sends, the classes it draws and if
+   it takes content. Point an editor or a generator at that file.
+   :doc:`components/index` is the same contract for a reader.
 
-   ``npx soul-check src/`` holds the other half in the project's own tree: a
+   ``npx soul-check src/`` holds the other half in the project's own tree. A
    class an element draws, written by hand, is a component rebuilt, and the
-   check names it with the element to write instead. Put it beside the tests —
-   a rule that only exists as prose is one every fresh session rediscovers.
+   check names it with the element to write instead. Put it beside the
+   tests. A rule that exists only as prose is one every fresh session finds
+   again.
 
-Put ``sds-app`` on the application root, then address the elements the surface
-needs. A complete page adds the shell, skip link and one of the bodies described
-in :doc:`layout` around this content:
+Put ``sds-app`` on the application root, then address the elements the
+surface needs. A complete page adds the shell, the skip link and one of the
+bodies in :doc:`layout` around this content:
 
 .. code-block:: html
    :caption: surface.html
@@ -88,12 +88,12 @@ in :doc:`layout` around this content:
      </section>
    </div>
 
-The result is a surface on the canvas, an information note with its labelled glyph,
-and a primary press rendered as a real link. The custom elements render light
-DOM and emit the same ``sds-`` classes a server-rendered surface writes.
+The result is a surface on the canvas, an information note with its labelled
+glyph, and a primary press as a real link. The custom elements render light
+DOM and emit the same ``sds-`` classes a server writes.
 
-Use classes where no script runs
-================================
+Classes where no script runs
+============================
 
 A server that already knows the answer can write the class layer directly.
 It needs ``soul.css`` and no JavaScript:
@@ -105,8 +105,8 @@ It needs ``soul.css`` and no JavaScript:
    </a>
 
 Prefer the element where there is behaviour, state or structure it owns.
-Prefer the class where the server has already produced final markup and
-nothing in the page will change it.
+Prefer the class where the server has produced final markup and nothing in
+the page changes it.
 
 Where to continue
 =================
