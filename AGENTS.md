@@ -90,6 +90,7 @@ caller and the documents are not comments.
 | Why packages leave through mirrors, and how they stay installable | `docs/maintaining/package-splits.rst` |
 | How a maintainer authenticates and publishes a package mirror | `MAINTAINERS.md` |
 | How to *design with* the system: the build rules | `SKILL.md` |
+| How to write a text: the standard, the terse rule, the limits | `docs/design-system/writing.rst` |
 | How to write a stylesheet: layers, flow contract, sets, nesting | `docs/frontend/stylesheets.rst` |
 | Why a design rule exists | its page under `docs/design-system/` or `docs/frontend/` |
 | Drawing a signet to the construction | `docs/design-system/signet-prompt.md` |
