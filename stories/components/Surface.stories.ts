@@ -1,13 +1,13 @@
 /* The three planes: plain, raised and sunken.
 
    The markup lives in `src/components/surface.ts`. They differ only in fill,
-   because the system has no shadows — a plane is told apart by its fill and a
+   because the system has no shadows. A plane stands apart by its fill and a
    hairline and by nothing else, and all three are one element's answers. What
    goes somewhere is `sds-card`, and that is a different question than a fill.
-   The fills alone, with nothing else varying, are `guidelines/colors-surfaces`.
+   The fills alone, with nothing else in play, are `guidelines/colors-surfaces`.
 
    The card shows the planes *and* the overlays over them, because that claim
-   is about the pair too: without a shadow an overlay needs a plane under it to
+   is about the pair too. With no shadow an overlay needs a plane under it to
    be an overlay of anything. What floats has a page of its own. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -26,7 +26,7 @@ export const sdsSurface = ({ plane = 'raised', title, body, label, icon }: Surfa
   html`<sds-surface plane="${plane}" heading="${title}" .body="${body}" label="${label ?? ''}" icon="${ifDefined(icon)}"></sds-surface>`;
 
 /** A plane with a wash and a modal over it — the only arrangement in which
-    the no-shadow claim can be read at all. The card is generated from this. */
+    the no-shadow claim reads at all. The card comes from this. */
 export const scene = (): TemplateResult => html`<sds-overlay></sds-overlay>
 <sds-modal
   heading="Publish the task skills?"
@@ -54,9 +54,9 @@ const meta: Meta<SurfaceProps> = {
       options: [undefined, 'actions-database', 'actions-book', 'actions-extension', 'actions-tag'],
     },
   },
-  /* The narrow no-break space before a unit is the system's own typography —
-     `6 px`, `560 PX` all set with U+202F so a number cannot be split from
-     its unit across a line. It belongs in the copy, not in CSS. */
+  /* The narrow no-break space before a unit is the system's own typography.
+     `6 px`, `560 PX` all use U+202F, so a number and its unit stay on one
+     line. It belongs in the copy, not in CSS. */
   args: { plane: 'raised', title: 'Raised', body: 'Raised fill, for when it sits on the canvas and has to read as a plane.' },
   parameters: {
     dsCard: dsCard({
@@ -71,8 +71,8 @@ const meta: Meta<SurfaceProps> = {
 export default meta;
 type Story = StoryObj<SurfaceProps>;
 
-/** The hairline with no fill, for a statement that stands on the canvas
-    without leaving it. */
+/** The hairline with no fill, for a statement that stands on the canvas and
+    stays on it. */
 export const Plain: Story = { args: { plane: 'plain', title: 'Plain', body: 'Hairline border, no fill — the canvas itself, framed.' } };
 
 /** A raised fill, for when it sits on the canvas and has to read as a plane. */
@@ -81,10 +81,10 @@ export const Raised: Story = { args: { plane: 'raised', title: 'Raised', body: '
 /** Machine output: code, logs, structured content. */
 export const Sunken: Story = { args: { plane: 'sunken', title: 'Sunken', body: 'For machine output: code, logs, structured content.' } };
 
-/** A glyph above the label, for a set of cards that is scanned before it is
-    read. It sits over the label rather than on the title's line, because a set
-    is scanned down its left edge and a glyph beside a title competes with it.
-    Muted, never in a status colour: a card is a subject, not a result. */
+/** A glyph above the label, for a set of cards a reader scans before they
+    read. It sits over the label rather than on the title's line. A reader
+    scans a set down its left edge, and a glyph beside a title competes with
+    it. Muted, never in a status colour: a card is a subject, not a result. */
 export const WithIcon: Story = {
   args: {
     plane: 'raised',
@@ -97,7 +97,7 @@ export const WithIcon: Story = {
 
 /** The form a document uses: the statement between the tags. A plane on a
     product surface holds a sentence somebody composed and a property carries
-    it; a passage set beside an argument is paragraphs, a list, a block of its
+    it. A passage beside an argument is paragraphs, a list, a block of its
     own, and that is markup or it is nothing. */
 export const FromContent: Story = {
   render: () => html`<sds-surface heading="What a topic is" box-style="max-width:520px">
@@ -114,8 +114,8 @@ export const FromContent: Story = {
 export const specimenHtml = (): string =>
   spec([
     /* The unfilled plane first, drawn by the element that owns all three.
-       Three boxes differing in one thing each is the whole of the claim —
-       side by side in the system's own wall, each filling the cell it
+       Three boxes that differ in one thing each is the whole of the claim.
+       Side by side in the system's own wall, each fills the cell it
        stretches. */
     `<div class="sds-grid sds-grid--dense">\n${indent(
       [Plain, Raised, Sunken].map((s) => part(sdsSurface(s.args as SurfaceProps))).join('\n'),

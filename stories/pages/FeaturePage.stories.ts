@@ -1,13 +1,13 @@
 /* A feature, read in full.
 
-   The page a product site owes each of its claims: what the thing is, how it
+   The page a product site owes each of its claims. What the thing is, how it
    works, what it changes, what it costs, and what it does not do. It decides
-   whether a system can hold marketing at all — everything else reports.
+   if a system can hold marketing at all — everything else reports.
 
-   Two rules follow, and both are the system's: a page that argues needs its
-   **ground** to change between sections, which is `.sds-band`, and it has to
-   end where every other page ends, which is `sds-footer`. Nothing on it is
-   written twice. See `lib/page.ts`. */
+   Two rules follow, and both are the system's. A page that argues needs its
+   **ground** to change between sections, which is `.sds-band`. And it has to
+   end where every other page ends, which is `sds-footer`. Nothing on it
+   stands twice. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -66,8 +66,8 @@ const CONSEQUENCES = [
   {
     icon: 'actions-database' as const,
     label: 'in every result',
-    heading: 'The source is named, not implied',
-    body: 'A tool declares what it may read and returns which of them answered. Two answers that disagree can be told apart by where they came from rather than by which was asked for last.',
+    heading: 'The source has a name, not a hint',
+    body: 'A tool declares what it can read and returns which of them answered. Two answers that disagree stand apart by where they came from, not by which came last.',
   },
   {
     icon: 'actions-circle-half' as const,
@@ -79,7 +79,7 @@ const CONSEQUENCES = [
     icon: 'actions-tag' as const,
     label: 'across releases',
     heading: 'A binding, or none at all',
-    body: 'Every answer holds for named releases. Where a claim cannot be bound to one, it is not returned — an unbounded rule is a rule that is wrong somewhere.',
+    body: 'Every answer holds for named releases. A claim with no release to bind it to does not come back. An unbounded rule is a rule that is wrong somewhere.',
   },
 ];
 
@@ -95,7 +95,7 @@ const RELATED = [
     icon: 'actions-book' as const,
     label: 'documentation',
     heading: 'Sources and preconditions',
-    body: 'The five sources in full, and what the server does when one of them cannot be reached.',
+    body: 'The five sources in full, and what the server does when one of them is out of reach.',
     link: 'Read the documentation',
   },
   {
@@ -116,7 +116,7 @@ const INSTALL: readonly CodeLine[] = [
 /** The page. `flat` composes the form a static file can hold. */
 export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a button's label is content, and
-     `renderStatic` flattens no element that was given children. */
+     `renderStatic` flattens no element with children. */
   const start = flat
     ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>${buttonLabel('Install the server')}`)}${buttonMarkup({ variant: 'secondary' }, 'Open the tool reference')}`
     : html`<sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Install the server</sds-button>
@@ -135,9 +135,9 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-eyebrow label="Feature"></sds-eyebrow>
       <h1 class="sds-display">Every answer says where it came from</h1>
       <p class="sds-lead">
-        A tool declares the sources it may answer from. The answer carries the
+        A tool declares the sources it can answer from. The answer carries the
         one that answered, the releases it holds for, and what it leaves out —
-        and a result that cannot name its source is not returned at all.
+        and a result that cannot name its source does not come back at all.
       </p>
       <div class="sds-actions">${start}</div>
       ${grid(SOURCE_FACTS.map(sdsStat), { flat, variant: 'dense' })}
@@ -155,7 +155,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-figure
         src="assets/diagrams/answer-sources.svg"
         alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach."
-        caption="A tool declares its sources, so whether an answer is reachable is known before the question is asked."
+        caption="A tool declares its sources, so the reach of an answer is known before the question."
         zoomable
       ></sds-figure>
       <sds-note
@@ -182,8 +182,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
           <h2>Inside a result</h2>
           <p>
             Four fields beside the answer, and each of them is there to make a
-            claim checkable: which source answered, which were declared, which
-            releases it holds for, and what the answer does not cover.
+            claim checkable: which source answered, which the tool declared,
+            which releases it holds for, and what the answer does not cover.
           </p>
           <sds-note
             tone="warn"
@@ -195,9 +195,9 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         <div class="sds-column">
           <sds-code caption="A degraded result" code-lang="json" source="${RESULT}" copy></sds-code>
           <p>
-            <span class="sds-mono">declared</span> is what the tool was allowed
-            to read; <span class="sds-mono">answeredBy</span> is what it
-            reached. The two differing is the whole of what “degraded” means
+            <span class="sds-mono">declared</span> is what the tool can read;
+            <span class="sds-mono">answeredBy</span> is what it reached. A
+            difference between the two is the whole of what “degraded” means
             here.
           </p>
         </div>
@@ -207,8 +207,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="consequences">
       <h2>Three consequences</h2>
       <p>
-        The declaration is one line in a tool. What it buys is spread across
-        every answer that tool ever gives.
+        The declaration is one line in a tool. What it buys reaches every
+        answer that tool ever gives.
       </p>
       ${grid(
         CONSEQUENCES.map(
@@ -227,8 +227,8 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
       <h2>Its limits</h2>
       <p>
         A source is a statement about where an answer came from. It is not a
-        statement about whether the answer is right, and the two are worth
-        keeping apart.
+        statement about the answer's correctness, and the two must stay
+        apart.
       </p>
       <sds-note
         heading="It does not rank the sources against each other"
@@ -290,9 +290,9 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Feature',
   excludeStories: ['featurePage', 'screenHtml'],
@@ -310,10 +310,10 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the ground changes between sections at the full width of
-    the screen while the text stays on one measure, the menu collapses when the
-    header runs out, the drawing follows the mode switch, and the table scrolls
-    rather than widening the page. */
+/** Click through it. The ground changes between sections at the full width
+    of the screen while the text stays on one measure. The menu collapses when
+    the header runs out, the drawing follows the mode switch, and the table
+    scrolls rather than widens the page. */
 export const Page: Story = {
   name: 'Feature',
   render: () => featurePage(),

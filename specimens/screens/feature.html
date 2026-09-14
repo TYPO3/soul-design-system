@@ -168,9 +168,9 @@
       <div class="sds-eyebrow">Feature</div>
       <h1 class="sds-display">Every answer says where it came from</h1>
       <p class="sds-lead">
-        A tool declares the sources it may answer from. The answer carries the
+        A tool declares the sources it can answer from. The answer carries the
         one that answered, the releases it holds for, and what it leaves out —
-        and a result that cannot name its source is not returned at all.
+        and a result that cannot name its source does not come back at all.
       </p>
       <div class="sds-actions"><button class="sds-btn sds-btn--primary" type="button"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-play"><g fill="currentColor"><path d="M5 3.9 11.2 8 5 12.1V3.9m0-1c-.5 0-1 .4-1 1v8.3c0 .6.5 1 1 1 .2 0 .4-.1.6-.2l6.2-4.1c.6-.4.6-1.3 0-1.7L5.6 3c-.2-.1-.4-.1-.6-.1z"></path></g></svg><span class="sds-btn__label">Install the server</span></button><button class="sds-btn sds-btn--secondary" type="button"><span class="sds-btn__label">Open the tool reference</span></button></div>
       <div class="sds-grid sds-grid--dense"><div class="sds-stat">
@@ -184,7 +184,7 @@
 </div><div class="sds-stat">
   <div class="sds-stat__value"><span class="sds-stat__icon"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-file-shield"><g fill="currentColor"><path d="M15 8v3.5c0 1.542-1.898 2.833-2.994 3.393C11.119 14.433 9 13.161 9 11.5V8h6m1-1H8v4.5c0 2.812 4 4.5 4 4.5s4-1.688 4-4.5V7z"></path><path d="M7.845 14H3V2h7v2.5c0 .3.2.5.5.5H13v1h1V3.9c0-.3-.1-.5-.3-.7l-1.9-1.9c-.2-.2-.4-.3-.7-.3H2.5c-.3 0-.5.2-.5.5v13c0 .3.2.5.5.5h6.207a6.7 6.7 0 0 1-.862-1zM11 2l2 2h-2V2z"></path></g></svg></span>0</div>
   <div class="sds-label">writes</div>
-  <div class="sds-stat__note">Every source is read. Nothing is written back, and nothing is executed to answer.</div>
+  <div class="sds-stat__note">Every source is a read. Nothing goes back, and nothing runs to answer.</div>
 </div><div class="sds-stat">
   <div class="sds-stat__value"><span class="sds-stat__icon"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-clock"><g fill="currentColor"><path d="M8 2.6c3.1 0 5.4 2.4 5.4 5.4S11 13.4 8 13.4 2.5 11.1 2.5 8 4.9 2.6 8 2.6M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 4.1V8l4.1 2.5c.2-.3.4-.5.5-.9L8 7.4V4c-.3 0-.7.1-1 .1z"></path></g></svg></span>240<span class="sds-stat__unit"> ms</span></div>
   <div class="sds-label">typical answer</div>
@@ -205,12 +205,12 @@
   <div class="sds-figure__frame sds-figure__frame--exported">
     <a class="sds-zoom" href="../../packages/frontend/assets/diagrams/answer-sources.svg" title="Open the picture at full size"><img class="sds-art" src="../../packages/frontend/assets/diagrams/answer-sources.svg" alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach."></a>
   </div>
-  <figcaption class="sds-figure__caption">A tool declares its sources, so whether an answer is reachable is known before the question is asked.</figcaption>
+  <figcaption class="sds-figure__caption">A tool declares its sources, so the reach of an answer is known before the question.</figcaption>
   <dialog
       class="sds-lightbox"
-      aria-label="A tool declares its sources, so whether an answer is reachable is known before the question is asked.">
+      aria-label="A tool declares its sources, so the reach of an answer is known before the question.">
   <div class="sds-modal__head">
-    <span class="sds-modal__title">A tool declares its sources, so whether an answer is reachable is known before the question is asked.</span>
+    <span class="sds-modal__title">A tool declares its sources, so the reach of an answer is known before the question.</span>
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
   </div>
   <div class="sds-lightbox__art sds-lightbox__art--exported">
@@ -284,8 +284,8 @@
           <h2>Inside a result</h2>
           <p>
             Four fields beside the answer, and each of them is there to make a
-            claim checkable: which source answered, which were declared, which
-            releases it holds for, and what the answer does not cover.
+            claim checkable: which source answered, which the tool declared,
+            which releases it holds for, and what the answer does not cover.
           </p>
           <div class="sds-note sds-note--warn">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Warning" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
@@ -310,9 +310,9 @@
 <span class="hljs-punctuation">}</span></code></pre>
 </div>
           <p>
-            <span class="sds-mono">declared</span> is what the tool was allowed
-            to read; <span class="sds-mono">answeredBy</span> is what it
-            reached. The two differing is the whole of what “degraded” means
+            <span class="sds-mono">declared</span> is what the tool can read;
+            <span class="sds-mono">answeredBy</span> is what it reached. A
+            difference between the two is the whole of what “degraded” means
             here.
           </p>
         </div>
@@ -322,14 +322,14 @@
     <section class="sds-band" id="consequences">
       <h2>Three consequences</h2>
       <p>
-        The declaration is one line in a tool. What it buys is spread across
-        every answer that tool ever gives.
+        The declaration is one line in a tool. What it buys reaches every
+        answer that tool ever gives.
       </p>
       <div class="sds-grid"><div class="sds-panel">
   <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-database"><g fill="currentColor"><path d="M2 3.5v9C2 14.142 5.019 15 8 15s6-.858 6-2.5v-9C14 .218 2 .218 2 3.5zM8 2c3.006 0 5 .903 5 1.5-.002.597-1.995 1.5-5 1.5s-4.998-.903-5-1.5C3 2.903 4.994 2 8 2zm5 4.5c-.002.597-1.995 1.5-5 1.5s-4.998-.903-5-1.5V4.932c1.13.701 3.067 1.067 5 1.067 1.933 0 3.87-.366 5-1.067V6.5zm0 1.432v1.569C12.998 10.098 11.005 11 8 11s-4.998-.902-5-1.5V7.933C4.13 8.634 6.067 9 8 9c1.933 0 3.87-.366 5-1.068zM8 14c-3.006 0-5-.902-5-1.5v-1.568C4.13 11.634 6.067 12 8 12c1.933 0 3.87-.366 5-1.068V12.5c0 .598-1.994 1.5-5 1.5z"></path></g></svg></div>
   <div class="sds-label">in every result</div>
-  <div class="sds-surface-title">The source is named, not implied</div>
-  <div class="sds-surface-body">A tool declares what it may read and returns which of them answered. Two answers that disagree can be told apart by where they came from rather than by which was asked for last.</div>
+  <div class="sds-surface-title">The source has a name, not a hint</div>
+  <div class="sds-surface-body">A tool declares what it can read and returns which of them answered. Two answers that disagree stand apart by where they came from, not by which came last.</div>
 </div><div class="sds-panel">
   <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-circle-half"><g fill="currentColor"><path d="M8 1.5C4.4 1.5 1.5 4.4 1.5 8s2.9 6.5 6.5 6.5v-13z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></div>
   <div class="sds-label">when it degrades</div>
@@ -339,7 +339,7 @@
   <div class="sds-surface-icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-tag"><g fill="currentColor"><path d="M6.657 1H1v5.656l8.485 8.485 5.657-5.657L6.657 1zM1.99 6.232V1.99h4.243l7.495 7.494-4.243 4.243L1.99 6.232z"></path><path d="M3.475 3.475A1.75 1.75 0 1 0 5.952 5.95a1.75 1.75 0 0 0-2.477-2.475zm.707.707a.75.75 0 1 1 1.061 1.06.75.75 0 0 1-1.061-1.06zM6.126 8.602l2.475-2.475 3.535 3.536-2.475 2.474z"></path></g></svg></div>
   <div class="sds-label">across releases</div>
   <div class="sds-surface-title">A binding, or none at all</div>
-  <div class="sds-surface-body">Every answer holds for named releases. Where a claim cannot be bound to one, it is not returned — an unbounded rule is a rule that is wrong somewhere.</div>
+  <div class="sds-surface-body">Every answer holds for named releases. A claim with no release to bind it to does not come back. An unbounded rule is a rule that is wrong somewhere.</div>
 </div></div>
     </section>
 
@@ -347,8 +347,8 @@
       <h2>Its limits</h2>
       <p>
         A source is a statement about where an answer came from. It is not a
-        statement about whether the answer is right, and the two are worth
-        keeping apart.
+        statement about the answer's correctness, and the two must stay
+        apart.
       </p>
       <div class="sds-note sds-note--info">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
@@ -396,7 +396,7 @@
       <span class="sds-label">documentation</span>
     </div>
     <h3 class="sds-card__title"><a href="#">Sources and preconditions</a></h3>
-    <p class="sds-card__text">The five sources in full, and what the server does when one of them cannot be reached.</p>
+    <p class="sds-card__text">The five sources in full, and what the server does when one of them is out of reach.</p>
   </div>
   <div class="sds-card__foot">
     
@@ -475,7 +475,7 @@
       </div><div class="sds-footer__group">
         <div class="sds-label">Project</div>
         <div class="sds-footer__links">
-          <a class="sds-link" href="#">What is written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
+          <a class="sds-link" href="#">What stands written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
         </div>
       </div><div class="sds-footer__group">
         <div class="sds-label">Community</div>

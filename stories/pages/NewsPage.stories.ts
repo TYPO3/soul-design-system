@@ -5,9 +5,9 @@
    with different rows, so what it proves is the set and not any one entry.
 
    The filter is real, and the state it makes reachable is the one a list page
-   is usually missing: a filter that matches nothing. Which entries are shown is
-   the *page's* state — a component that filtered its own contents would decide
-   what a list means. See `lib/page.ts`. */
+   usually lacks: a filter that matches nothing. Which entries show is the
+   *page's* state. A component that filters its own contents decides what a
+   list means. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
@@ -28,8 +28,8 @@ import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'News' }];
 
-/** How many entries a page of this list holds. The row of numbers under it is
-    told the same figure and divides — nothing here states how many pages that
+/** How many entries a page of this list holds. The row of numbers under it
+    gets the same figure and divides — nothing here states how many pages that
     comes to. */
 const PER_PAGE = 6;
 
@@ -43,14 +43,14 @@ const ENTRIES: readonly Entry[] = [
     tag: 'release',
     label: '9 August 2026 · 1.4.0',
     heading: 'Answers now name the source that answered',
-    body: 'Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.',
+    body: 'Every tool declares what it can read, and the result says which of the five reached it. So a partial answer stands apart from a complete one, and nobody asks twice.',
     src: 'placeholders/tool-source-answer.png',
     alt: '',
   },
   {
     tag: 'guide',
     label: '24 July 2026',
-    heading: 'Reading the package registry when the installation will not boot',
+    heading: 'The package registry, read while the installation will not boot',
     body: 'The fallback returns every declared entry and none of the dynamically registered ones. What makes it usable is that the shortfall travels with the result.',
     src: 'placeholders/tool-package-registry.png',
     alt: '',
@@ -58,7 +58,7 @@ const ENTRIES: readonly Entry[] = [
   {
     tag: 'project',
     label: '2 July 2026',
-    heading: 'One line leaves the machine, and it is drawn as the exception',
+    heading: 'One line leaves the machine, and it draws as the exception',
     body: 'Everything that answers a question is already on the developer’s disk. The single read-only path to the documentation is in the diagram rather than in a footnote.',
     src: 'placeholders/tool-external-path.png',
     alt: '',
@@ -67,7 +67,7 @@ const ENTRIES: readonly Entry[] = [
     tag: 'release',
     label: '18 June 2026 · 1.3.0',
     heading: 'Changelog lookups bind down to 7.0',
-    body: 'A question about an old installation is answered with what held then, or not at all. Where the bundled knowledge stops, the tool says so instead of answering from the nearest release it has.',
+    body: 'A question about an old installation gets the answer that held then, or none. Where the bundled knowledge stops, the tool says so instead of an answer from the nearest release it has.',
     src: 'placeholders/tool-changelog-history.png',
     alt: '',
   },
@@ -75,37 +75,37 @@ const ENTRIES: readonly Entry[] = [
     tag: 'guide',
     label: '30 May 2026',
     heading: 'Writing a task skill that fails at registration',
-    body: 'A skill declares the sources it needs. One that cannot reach any of them says so when the server starts, which is the difference between a broken setup and a wrong answer.',
+    body: 'A skill declares the sources it needs. One that cannot reach any of them says so when the server starts. That is the difference between a broken setup and a wrong answer.',
     src: 'placeholders/tool-registration.png',
     alt: '',
   },
   {
     tag: 'project',
     label: '12 May 2026',
-    heading: 'What is written down, and what is not',
-    body: 'The decisions kept in the repository, the ones kept in the knowledge base, and why the two lists are deliberately not the same.',
+    heading: 'What stands written down, and what does not',
+    body: 'The decisions in the repository, the ones in the knowledge base, and why the two lists differ on purpose.',
     src: 'placeholders/tool-written-record.png',
     alt: '',
   },
   {
     tag: 'guide',
     label: '28 April 2026',
-    heading: 'Searching all sources without hiding where the answer came from',
-    body: 'A broad search may reach several bundled indexes. The result keeps each match beside its source, so overlap can be inspected instead of silently merged away.',
+    heading: 'A search of all sources that keeps where the answer came from',
+    body: 'A broad search can reach several bundled indexes. The result keeps each match beside its source, so overlap is visible instead of silently merged away.',
     src: 'placeholders/tool-search.png',
     alt: '',
   },
   {
     tag: 'project',
     label: '15 April 2026',
-    heading: 'Comparing two answers without flattening their differences',
-    body: 'The comparison holds each result to the release and source that produced it. A missing field remains a gap rather than becoming an empty value that looks equal.',
+    heading: 'Two answers compared, with their differences intact',
+    body: 'The comparison holds each result to the release and source that produced it. An absent field stays a gap rather than becomes an empty value that looks equal.',
     src: 'placeholders/tool-compare.png',
     alt: '',
   },
 ];
 
-/** The ways to narrow the list. `security` is in the row on purpose: a filter
+/** The ways to narrow the list. `security` is in the row on purpose. A filter
     that matches nothing is a state every list page has and most of them draw
     as a blank column. */
 const FILTERS = [
@@ -119,7 +119,7 @@ const FILTERS = [
 export interface NewsMode extends PageMode {
   /** Which filter is current, by position in `FILTERS`. */
   filter?: number;
-  /** Called when another is chosen. Absent in the static rendering, where
+  /** Called on a choice of another. Absent in the static rendering, where
       there is no script to call it. */
   onFilter?: (index: number) => void;
 }
@@ -129,9 +129,9 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
   const current = FILTERS[filter] ?? FILTERS[0];
   const shown = current?.tag ? ENTRIES.filter((e) => e.tag === current.tag) : ENTRIES;
   /* The page shows a page of the list, not the list. A row of numbers under
-     every entry there is says the second page exists and puts nothing on it,
-     and the count the row divides is then a total nothing on the screen
-     agrees with. */
+     every entry there is says the second page exists and puts nothing on it.
+     The count the row divides is then a total nothing on the screen agrees
+     with. */
   const page = shown.slice(0, PER_PAGE);
 
   const list = shown.length
@@ -200,7 +200,7 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
         <div class="sds-column">
           <h2>Follow along</h2>
           <p>
-            Releases are announced here and in the repository. The feed carries
+            Releases appear here and in the repository. The feed carries
             the same entries in the same order, with the release each one holds
             for in its title.
           </p>
@@ -225,9 +225,9 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/News',
   excludeStories: ['newsPage', 'screenHtml'],
@@ -245,16 +245,16 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the filter narrows the list for real, `security` reaches
-    the empty state and the offer inside it puts the list back, the drawings
+/** Click through it. The filter narrows the list for real, and `security`
+    reaches the empty state, whose offer puts the list back. The drawings
     follow the mode switch, and the row of numbers says where the list
     continues. */
 export const Page: Story = {
   name: 'News',
   render: () => {
-    /* The page is a function of which filter is current, so pressing one
-       re-renders it. A component that filtered its own contents would be a
-       component that decided what a list means. */
+    /* The page is a function of which filter is current, so a press on one
+       re-renders it. A component that filters its own contents is a
+       component that decides what a list means. */
     const host = document.createElement('div');
     const draw = (filter: number): void => {
       render(newsPage({ filter, onFilter: draw }), host);

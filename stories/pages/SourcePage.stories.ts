@@ -1,15 +1,15 @@
-/* One source, in full — and the only page in this system where work is
-   happening while it is read.
+/* One source, in full — and the only page in this system where work goes on
+   while a reader reads it.
 
    The status page lists the six sources and says which are reachable; this is
    the one behind a row of it. What it has that no other page has is a job in
-   flight: a share above and the stops it is going through below, with what each
-   one wrote. Every other surface here reports something that has already
-   settled, which is why `sds-progress` and `sds-run` had no page until now.
+   flight. A share above and the stops below, with what each one wrote. Every
+   other surface here reports something that has already settled, which is why
+   `sds-progress` and `sds-run` had no page until now.
 
-   The run's stops are `Run.stories.ts`'s own, imported rather than copied: a
-   second set that said it slightly differently would be a page documenting a
-   different job from the component it is showing.
+   The run's stops are `Run.stories.ts`'s own, imported rather than copied. A
+   second set that said it a little differently is a page that documents a
+   different job from the component it shows.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -44,10 +44,10 @@ const TRAIL: readonly Crumb[] = [
   { label: SOURCE },
 ];
 
-/** What the source stands at. Three figures rather than a paragraph of them:
-    the number is what a reader came for and the line under it says what the
-    number is of. The slow one carries its own note, because a figure that is
-    worse than it was is a fact somebody has to be told the shape of. */
+/** What the source stands at. Three figures rather than a paragraph of them.
+    The number is what a reader came for, and the line under it says what the
+    number is of. The slow one carries its own note, because a figure worse
+    than it was is a fact that needs its shape said. */
 const READINGS: readonly StatProps[] = [
   {
     value: '2.4',
@@ -67,12 +67,12 @@ const READINGS: readonly StatProps[] = [
     unit: 'min',
     label: 'since the last full read',
     note: html`Read on a schedule and answered from the index — the server never
-      fetches while you are waiting for an answer.`,
+      fetches while you wait for an answer.`,
   },
 ];
 
-/** What is settled about it. A definition list, because each of these is a term
-    and what it is: the shape anything falls into when it names things. */
+/** What stands settled about it. A definition list, because each of these is
+    a term and what it is: the shape anything falls into when it names things. */
 const FACTS: readonly (readonly [string, TemplateResult])[] = [
   ['Endpoint', html`<span class="sds-mono">https://docs.typo3.org/sitemap.xml</span>`],
   ['Cached at', html`<span class="sds-mono">~/.cache/typo3-dev-companion/docs/</span>`],
@@ -81,9 +81,9 @@ const FACTS: readonly (readonly [string, TemplateResult])[] = [
     <span class="sds-mono">14.3</span> and <span class="sds-mono">main</span>`],
 ];
 
-/** The read that is going on, as the share and the stops it is made of. The bar
-    is the share and the run is the work: a job that could not report a share
-    would carry the run alone, which is most of them. */
+/** The read in progress, as the share and the stops it consists of. The bar is
+    the share and the run is the work. A job that cannot report a share
+    carries the run alone, which is most of them. */
 const inFlight = (): TemplateResult => html`<sds-progress
     caption="Reading ${SOURCE}"
     value="3"
@@ -119,9 +119,9 @@ const earlier = (): TemplateResult => html`${sdsRun({
 /** The page. `flat` composes the form a static file can hold. */
 export function sourcePage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a button's label is content, and
-     `renderStatic` flattens no element that was given children. The static form
-     loses the press that opens the dialog with it, which is honest — a file
-     nothing runs opens nothing. */
+     `renderStatic` flattens no element with children. The static form loses
+     the press that opens the dialog with it, which is honest — a file nothing
+     runs opens nothing. */
   const reread = flat
     ? buttonMarkup(
         { variant: 'primary' },
@@ -129,8 +129,8 @@ export function sourcePage({ flat = false }: PageMode = {}): TemplateResult {
       )
     : html`<sds-button variant="primary"><sds-icon name="actions-refresh"></sds-icon>Read it again</sds-button>`;
   const stop = flat
-    ? buttonMarkup({ variant: 'danger' }, 'Stop reading this source')
-    : html`<sds-button variant="danger" for="stop-reading">Stop reading this source</sds-button>`;
+    ? buttonMarkup({ variant: 'danger' }, 'Stop the read of this source')
+    : html`<sds-button variant="danger" for="stop-reading">Stop the read of this source</sds-button>`;
 
   return html`<div class="sds-shell">
   ${skipLink()}
@@ -155,9 +155,9 @@ export function sourcePage({ flat = false }: PageMode = {}): TemplateResult {
         </div>
 
         <p class="sds-lead">
-          One of the six sources, and one of the two this server may read over
-          the network. It is read on a schedule and answered from the index, so
-          a documentation lookup never waits for the site itself.
+          One of the six sources, and one of the two this server can read over
+          the network. The read runs on a schedule and the index answers, so a
+          documentation lookup never waits for the site itself.
         </p>
 
         <!-- What can be done to it. What cannot be taken back stands at the far
@@ -215,9 +215,9 @@ export function sourcePage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Source',
   excludeStories: ['sourcePage', 'screenHtml'],
@@ -226,7 +226,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/source.html',
       title: 'Dev Companion — one source',
-      subtitle: 'The one page with work going on in it — a share, the stops it is made of, and what each one wrote',
+      subtitle: 'The one page with work in progress — a share, the stops it consists of, and what each one wrote',
       viewport: '1440x900',
     }),
   },
@@ -235,8 +235,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the stops fold onto what they wrote and stay where you put
-    them, the earlier reads open, and the press that cannot be taken back asks
+/** Click through it. The stops fold onto what they wrote and stay where you
+    put them. The earlier reads open, and the press with no way back asks
     first. */
 export const Page: Story = {
   name: 'Source',

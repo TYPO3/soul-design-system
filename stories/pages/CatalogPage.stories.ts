@@ -1,14 +1,14 @@
 /* The catalog page.
 
-   Several hundred small, uniform things a reader arrives at knowing half the
-   name of. They are found by shape, so the wall is tiles and not cards: the
-   drawing is what the box is made of and the identifier under it is held back
-   until the shape has been found. Search is the control the page is built
-   around, and the set is paged — a wall of every item is half a megabyte spent
-   before the reader has narrowed anything.
+   Several hundred small, uniform things a reader arrives at with half the
+   name. A reader finds them by shape, so the wall is tiles and not cards. The
+   drawing is the box, and the identifier under it holds back until the shape
+   turns up. Search is the control at the centre of the page, and the set
+   comes in pages. A wall of every item is half a megabyte spent before the
+   reader has narrowed anything.
 
    Live and static from one composition — see `lib/page.ts`. The facets narrow
-   the wall for real: which items are shown is the page's state, never the
+   the wall for real: which items show is the page's state, never the
    wall's. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -40,18 +40,18 @@ const TRAIL: readonly Crumb[] = [
 const PER_PAGE = 24;
 
 /** How many the set holds in all — the figure the pager divides and the count
-    line is read against. A catalog showing a page of a set has to say what the
-    set is, or the reader cannot tell a filter from an end. */
+    line stands against. A catalog that shows a page of a set has to say what
+    the set is. Otherwise the reader cannot tell a filter from an end. */
 const IN_ALL = 392;
 
-/** One entry: what it is called, which part of the set it belongs to, and
-    whether it turns with the reading direction. No sentence about it — a wall
-    is scanned, and prose per tile is what makes it a page of cards. */
+/** One entry: its name, which part of the set it belongs to, and if it turns
+    with the reading direction. No sentence about it — a reader scans a wall,
+    and prose per tile is what makes it a page of cards. */
 interface Glyph {
   name: IconId;
   group: string;
   /** Mirrored in right-to-left, which is the one thing about the drawing a
-      reader cannot see by looking at it. */
+      reader cannot see in it. */
   bidi?: boolean;
 }
 
@@ -142,7 +142,7 @@ export function catalogPage({ flat = false, facet = 0, onFacet }: CatalogPagePro
           @sds-change="${(e: CustomEvent<NavChange>) => onFacet?.(e.detail.index)}"
         ></sds-nav-pills>`;
 
-  /** The control the page is built around. One template for both renderings —
+  /** The control at the centre of the page. One template for both renderings —
       the group receives it between the tags or as a property. */
   const finder = (): TemplateResult => html`<sds-field
       size="lg"
@@ -166,8 +166,8 @@ export function catalogPage({ flat = false, facet = 0, onFacet }: CatalogPagePro
       <h1>Glyphs</h1>
       <p class="sds-lead">
         Every mark <span class="sds-mono">typo3_icon_lookup</span> can answer
-        with. Type what the thing does, not what it looks like — the drawings
-        are indexed by purpose as well as by name.
+        with. Type what the thing does, not what it looks like — the index
+        holds the drawings by purpose and by name.
       </p>
       <!-- The control the page is built around, at the size a field is when
            it is what the screen is for rather than one row of a form. The
@@ -207,9 +207,9 @@ export function catalogPage({ flat = false, facet = 0, onFacet }: CatalogPagePro
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Catalog',
   excludeStories: ['catalogPage', 'screenHtml'],
@@ -227,15 +227,15 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the facets narrow the wall for real, the field takes
-    typing, every tile is one target, and the row of numbers says where the set
+/** Click through it. The facets narrow the wall for real, and the field takes
+    text. Every tile is one target, and the row of numbers says where the set
     continues. */
 export const Page: Story = {
   name: 'Catalog',
   render: () => {
-    /* The page is a function of which facet is current, so pressing one
-       re-renders it. A wall that filtered its own contents would be a
-       component deciding what a set means. */
+    /* The page is a function of which facet is current, so a press on one
+       re-renders it. A wall that filters its own contents is a component that
+       decides what a set means. */
     const host = document.createElement('div');
     const draw = (facet: number): void => {
       render(catalogPage({ facet, onFacet: draw }), host);

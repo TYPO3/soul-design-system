@@ -3,8 +3,8 @@
    The markup lives in `src/components/accordion.ts`. No `parameters.dsCard`: a
    card is a still picture and half of this is what pressing it does.
 
-   Two things read rather than looked at: it is a real `<details>`, so it folds
-   before any script and find-in-page opens the answer it lands in; and it is
+   Two things read rather than looked at. It is a real `<details>`, so it folds
+   before any script and find-in-page opens the answer it lands in. And it is
    exclusive through `name` rather than a listener. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -13,17 +13,17 @@ import '../../packages/frontend/src/components/accordion.ts';
 import '../../packages/frontend/src/components/code.ts';
 import { type AccordionProps, type Entry } from '../../packages/frontend/src/components/accordion.ts';
 
-/** One question, written out. The demos below are composed of these rather than
-    handed the same questions as a property: a property leaves no markup, and
-    the source panel under a story that passes one shows an element with nothing
-    in it — which is the one thing a reader came to copy. */
+/** One question, written out. The demos below consist of these rather than
+    take the same questions as a property. A property leaves no markup. The
+    source panel under a story that passes one shows an empty element, which
+    is the one thing a reader came to copy. */
 export const sdsAccordionItem = ({ question, answer, open }: Entry) =>
   html`<sds-accordion-item question="${question}" ?open="${Boolean(open)}">${answer}</sds-accordion-item>`;
 
-/** The set as a page writes it. Demos only: a screen is exported as a card with
-    no browser behind it, and an element given content between its tags cannot
-    be — see `renderStatic` in `lib/render.ts`. That is what `sdsAccordion` is
-    for, and it is the form the screens take. */
+/** The set as a page writes it. Demos only. A screen exports as a card with no
+    browser behind it, and an element with content between its tags cannot —
+    see `renderStatic` in `lib/render.ts`. That is what `sdsAccordion` is for,
+    and it is the form the screens take. */
 const composed = ({ entries, multiple = false, name }: AccordionProps) =>
   html`<sds-accordion ?multiple="${multiple}" name="${name ?? 'sds-accordion'}">
   ${entries.map((entry) => sdsAccordionItem(entry))}
@@ -37,16 +37,16 @@ export const sdsAccordion = ({ entries, multiple = false, name }: AccordionProps
 export const QUESTIONS: readonly Entry[] = [
   {
     question: 'Does it send anything anywhere?',
-    answer: html`One path leaves the machine and it is drawn as the exception: a
-      read from <span class="sds-mono">docs.typo3.org</span>, made only when a tool
-      was asked for a documentation page. Everything else is answered from bundled
+    answer: html`One path leaves the machine and it draws as the exception: a
+      read from <span class="sds-mono">docs.typo3.org</span>, only on a request
+      for a documentation page. Everything else gets its answer from bundled
       knowledge, from files on disk, or from the installation.`,
     open: true,
   },
   {
     question: 'Does it write to my installation?',
-    answer: html`No. Every source is read, and the package files are read rather
-      than executed. The one thing written anywhere is what you ask for
+    answer: html`No. Every source is a read, and the package files get a read
+      rather than a run. The one thing written anywhere is what you ask for
       explicitly — the task skills, into <span class="sds-mono">.agents/skills</span>.`,
   },
   {
@@ -58,12 +58,12 @@ export const QUESTIONS: readonly Entry[] = [
   {
     question: 'What happens when the installation will not boot?',
     answer: html`The tool reads the package registry from disk instead and says so
-      in the result. It returns every declared entry and none of the dynamically
-      registered ones, and the answer states that rather than looking complete.`,
+      in the result. It returns every declared entry and none of the ones
+      registered at run time, and the answer states that rather than looks complete.`,
   },
   {
     question: 'Which TYPO3 versions does it work with?',
-    answer: 'Every version still receiving support, and one release past it. A version that has reached its end of life is named in the result rather than refused, so an installation nobody has updated yet still gets an answer.',
+    answer: 'Every version still in support, and one release past it. A version past its end of life stands named in the result rather than refused. So an installation nobody has updated yet still gets an answer.',
   },
 ];
 
@@ -88,9 +88,9 @@ type Story = StoryObj<AccordionProps>;
     listener here to get wrong. */
 export const Default: Story = {};
 
-/** More than one at a time, for a set whose answers are meant to be compared
-    rather than found. It is also the quieter fold: exclusive closes one answer
-    while another opens, and the question under the pointer moves. */
+/** More than one at a time, for a set whose answers a reader compares rather
+    than finds. It is also the quieter fold: exclusive closes one answer while
+    another opens, and the question under the pointer moves. */
 export const Multiple: Story = {
   args: {
     multiple: true,
@@ -98,16 +98,16 @@ export const Multiple: Story = {
   },
 };
 
-/** All closed. Correct where the questions are the page and the reader is
-    scanning for one; the default set above stands its first answer open so the
-    shape of an answer is visible without pressing anything. */
+/** All closed. Correct where the questions are the page and the reader scans
+    for one. The default set above stands its first answer open, so the shape
+    of an answer is visible before any press. */
 export const AllClosed: Story = {
   args: { entries: QUESTIONS.map((entry) => ({ ...entry, open: false })) },
 };
 
-/** What an item can hold, which is the reason the answer goes between the tags:
-    paragraphs, a list, a code block — none of it fits in an attribute, and all
-    of it is what a documentation renderer hands over. */
+/** What an item can hold, which is the reason the answer goes between the
+    tags. Paragraphs, a list, a code block — none of it fits in an attribute,
+    and all of it is what a documentation renderer hands over. */
 export const Blocks: Story = {
   render: () => html`<sds-accordion name="composed">
     <sds-accordion-item question="What can an answer hold?" open>
@@ -121,7 +121,7 @@ export const Blocks: Story = {
     <sds-accordion-item question="Who decides which one is open?">
       <p>
         The platform. Every answer in a set carries the set's name, so opening
-        this one closed the one above it, and no listener anywhere was involved.
+        this one closed the one above it, and no listener anywhere took part.
       </p>
     </sds-accordion-item>
   </sds-accordion>`,
@@ -129,9 +129,9 @@ export const Blocks: Story = {
 
 /** The other way in, for a page that already holds its questions as data: the
     set takes them as `entries` and writes the items itself. It is also the only
-    form a screen can take, because a card is exported without a browser. The
-    panel below shows an empty element and says the truth — a property leaves no
-    markup, which is why every demo above is written out. */
+    form a screen can take, because a card exports with no browser. The panel
+    below shows an empty element and says the truth — a property leaves no
+    markup, which is why every demo above stands written out. */
 export const FromData: Story = {
   render: (args) => sdsAccordion({ ...args, name: args.name ?? 'from-data' }),
 };

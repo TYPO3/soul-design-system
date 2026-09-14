@@ -1,11 +1,11 @@
 /* What an answer carries besides the answer.
 
    The markup lives in `src/components/note.ts`. Four tones, and each of them
-   is a different thing to say about a result: where it came from, that it is
-   degraded but usable, that there is none, or a fact about the surface rather
-   than about any result at all.
+   is a different thing to say about a result. Where it came from, that it
+   runs degraded but usable, that there is none. Or a fact about the surface
+   rather than about any result at all.
 
-   No `parameters.dsCard`: the notes are drawn on the States cards under
+   No `parameters.dsCard`: the notes stand on the States cards under
    `guidelines/`, beside the other things a surface says when it cannot simply
    answer. */
 
@@ -30,8 +30,8 @@ export const sdsNote = ({ tone, heading, body, icon, action, href }: NoteProps) 
 const meta: Meta<NoteProps> = {
   title: 'Components/Note',
   tags: ['autodocs', '!dev'],
-  /* `.icon` as a property and not an attribute: an empty `icon=""` is a name
-     no icon has, and the element would have taken it over the tone's own. */
+  /* `.icon` as a property and not an attribute. An empty `icon=""` is a name
+     no icon has, and the element takes it over the tone's own. */
   render: ({ tone, heading, body, icon, action, href }) =>
     html`<sds-note tone="${tone ?? 'info'}" .icon="${icon}" heading="${heading}" .body="${body}"
       action="${action ?? ''}" href="${href ?? ''}"></sds-note>`,
@@ -61,14 +61,14 @@ export const Answered: Story = {};
 export const Degraded: Story = {
   args: {
     tone: 'warn',
-    heading: 'Your installation could not be booted — packages were read instead',
-    body: html`So this answer omits anything a running extension would add.
-      <span class="sds-mono">ddev start</span> would close the gap.`,
+    heading: 'Your installation did not boot — the packages answered instead',
+    body: html`So this answer omits anything an extension adds at run time.
+      <span class="sds-mono">ddev start</span> closes the gap.`,
   },
 };
 
-/** No answer at all. It says what was looked for and where, so the next thing
-    to try is in the message rather than in the documentation. */
+/** No answer at all. It says what the search was for and where, so the next
+    thing to try is in the message rather than in the documentation. */
 export const Failed: Story = {
   args: {
     tone: 'error',
@@ -78,8 +78,8 @@ export const Failed: Story = {
   },
 };
 
-/** A fact about the surface rather than about a result: the icon is muted,
-    because nothing here has gone wrong. */
+/** A fact about the surface rather than about a result: the icon stays
+    muted, because nothing here has gone wrong. */
 export const Aside: Story = {
   args: {
     tone: 'info',
@@ -91,9 +91,9 @@ export const Aside: Story = {
 };
 
 /** A message that carries the one thing to do about it. The label is a
-    property rather than a button written between the tags, so every message a
-    product shows offers its answer as the same control in the same place — and
-    a note that says something nobody can act on still carries none. */
+    property rather than a button between the tags. So every message a product
+    shows offers its answer as the same control in the same place. A note
+    nobody can act on still carries none. */
 export const Actionable: Story = {
   args: {
     tone: 'info',
@@ -103,8 +103,8 @@ export const Actionable: Story = {
   },
 };
 
-/** The same message where the answer is a place rather than a decision: it
-    draws a link, and pressing it announces nothing — following it is the
+/** The same message where the answer is a place rather than a decision. It
+    draws a link, and a press on it announces nothing. The link itself is the
     answer, and the browser's own middle-click and status line come with it. */
 export const ActionElsewhere: Story = {
   args: {
@@ -117,10 +117,10 @@ export const ActionElsewhere: Story = {
 };
 
 /** The form a renderer uses: the body between the tags, and no heading at all.
-    `.body` is prose a product surface composed and it exports; content between
-    the tags is a document's own markup, which an attribute would flatten. Most
-    admonitions carry no title, so the word goes to the glyph. This form cannot
-    be exported — see `FromContent` in `Code.stories.ts`. */
+    `.body` is prose a product surface composed and it exports. Content between
+    the tags is a document's own markup, which an attribute flattens. Most
+    admonitions carry no title, so the word goes to the glyph. This form has
+    no export — see `FromContent` in `Code.stories.ts`. */
 export const FromContent: Story = {
   render: () => html`<sds-note tone="warn" label="Caution">
     <p>A cache that is warm from before the change answers with what was true

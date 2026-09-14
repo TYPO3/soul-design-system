@@ -171,10 +171,10 @@
 
     <main class="sds-body__main" id="main-content">
       <nav class="sds-crumbs" aria-label="Breadcrumb">
-  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><a href="#">News</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">Reading the package registry</span>
+  <a href="#">Overview</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><a href="#">News</a><span class="sds-crumbs__sep" aria-hidden="true">/</span><span class="sds-crumbs__here" aria-current="page">The package registry, read from disk</span>
 </nav>
       <div class="sds-eyebrow">guide · 13.4 · 14.3</div>
-      <h1>Reading the package registry when the installation will not boot</h1>
+      <h1>The package registry, read while the installation will not boot</h1>
       <p class="sds-lead">
         A tool that needs a booted installation and cannot have one does not
         fail. It reads the files instead, answers with less, and says so — and
@@ -193,12 +193,12 @@
   <div class="sds-figure__frame sds-figure__frame--exported">
     <a class="sds-zoom" href="../../packages/frontend/assets/diagrams/installation-fallback.svg" title="Open the picture at full size"><img class="sds-art" src="../../packages/frontend/assets/diagrams/installation-fallback.svg" alt="Three paths through the registry: the console command and the booted runtime return every entry, the package-file fallback returns the declared ones and none of the dynamically registered ones."></a>
   </div>
-  <figcaption class="sds-figure__caption">Each square is one entry the registry could return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.</figcaption>
+  <figcaption class="sds-figure__caption">Each square is one entry the registry can return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.</figcaption>
   <dialog
       class="sds-lightbox"
-      aria-label="Each square is one entry the registry could return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.">
+      aria-label="Each square is one entry the registry can return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.">
   <div class="sds-modal__head">
-    <span class="sds-modal__title">Each square is one entry the registry could return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.</span>
+    <span class="sds-modal__title">Each square is one entry the registry can return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.</span>
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
   </div>
   <div class="sds-lightbox__art sds-lightbox__art--exported">
@@ -217,14 +217,14 @@
       <p>
         The third path exists because the first two can be unavailable — a
         failsafe installation, a missing database, an extension that throws
-        while it is being loaded. It reads the package files from disk. It never
+        while it loads. It reads the package files from disk. It never
         executes them, which is the reason it can answer at all and also the
         reason it answers with less.
       </p>
 
       <h2 class="sds-h3" id="returns">The answer</h2>
       <p>
-        Every entry a package declares in a file, and nothing that is registered
+        Every entry a package declares in a file, and nothing that registers
         while the application runs. For most installations that is the larger
         part of the registry, which is precisely what makes the shortfall
         dangerous: a partial answer that looks complete is worse than no answer,
@@ -239,17 +239,17 @@
   <pre class="sds-code__body"><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;answeredBy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;packages&quot;</span><span class="hljs-punctuation">,</span>
   <span class="hljs-attr">&quot;declared&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;installation&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;packages&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;reason&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;the installation could not be booted&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;reason&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;the installation did not boot&quot;</span><span class="hljs-punctuation">,</span>
   <span class="hljs-attr">&quot;omitted&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;dynamically registered entries, never read&quot;</span>
 <span class="hljs-punctuation">}</span></code></pre>
 </div>
 
       <p>
         <span class="sds-mono">answeredBy</span> is what reached the question and
-        <span class="sds-mono">declared</span> is what the tool was allowed to
-        read. The two differing is the whole definition of a degraded answer in
-        this server, and it is a comparison a caller can make without knowing
-        anything about registries.
+        <span class="sds-mono">declared</span> is what the tool can read. A
+        difference between the two is the whole definition of a degraded
+        answer in this server, and a caller can make that comparison with no
+        knowledge of registries.
       </p>
 
       <h2 class="sds-h3" id="omits">Its limits</h2>
@@ -266,8 +266,8 @@
       <p>
         Dynamic registrations are the whole of the difference — entries an
         extension adds in its own bootstrap, which exist only once something has
-        run. No file on disk names them, so no amount of reading files finds
-        them, and a tool that pretended otherwise would be inventing.
+        run. No file on disk names them, so no number of file reads finds
+        them, and a tool that pretends otherwise invents.
       </p>
 
       <div class="sds-note sds-note--warn">
@@ -281,8 +281,8 @@
 
       <h2 class="sds-h3" id="gap">Closing the gap</h2>
       <p>
-        Nothing has to be configured. The fallback is chosen because the two
-        paths above it were unavailable, so making one of them available is the
+        Nothing needs configuration. The fallback runs because the two paths
+        above it were unavailable, so one of them made available is the
         entire fix — and the next answer says <span class="sds-mono">installation</span>
         rather than <span class="sds-mono">packages</span>.
       </p>
@@ -355,7 +355,7 @@
       </div><div class="sds-footer__group">
         <div class="sds-label">Project</div>
         <div class="sds-footer__links">
-          <a class="sds-link" href="#">What is written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
+          <a class="sds-link" href="#">What stands written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
         </div>
       </div><div class="sds-footer__group">
         <div class="sds-label">Community</div>

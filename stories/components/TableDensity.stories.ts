@@ -1,11 +1,10 @@
 /* Table density.
 
-   The card's whole claim is that row height is what "compact" means, and it
-   can only make that claim if the three tables are otherwise identical.
-   Hand-written they were three copies of the same forty lines; this renders
-   one dataset through `tableTemplate` three times, so they cannot drift
-   apart and quietly turn the comparison into a comparison of something
-   else. */
+   The card's whole claim is that row height is what "compact" means. It can
+   only make that claim if the three tables are otherwise identical. By hand
+   they were three copies of the same forty lines. This renders one dataset
+   through `tableTemplate` three times, so they cannot drift apart and
+   quietly turn the comparison into a comparison of something else. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -36,7 +35,7 @@ export const DENSITIES: readonly DensitySpec[] = [
   {
     density: 'compact',
     label: `COMPACT · ${px(30, 'PX')} ROWS`,
-    note: 'Padding 6, text 13. Backend register — about 20 rows above the fold. Scanning beats reading. Right when the list <em>is</em> the work.',
+    note: 'Padding 6, text 13. Backend register — about 20 rows above the fold. A scan beats a read. Right when the list <em>is</em> the work.',
   },
   {
     density: 'medium',
@@ -88,13 +87,13 @@ const meta: Meta<TableProps> = {
 export default meta;
 type Story = StoryObj<TableProps>;
 
-/** The least room a row can be read in. When the list *is* the work. */
+/** The least room a row reads in. When the list *is* the work. */
 export const Compact: Story = { args: props('compact') };
 
 /** The default. When one density has to serve both readings. */
 export const Medium: Story = { args: props('medium') };
 
-/** The most room. When the rows are read rather than scanned. */
+/** The most room. When a reader reads the rows rather than scans them. */
 export const Airy: Story = { args: props('airy') };
 
 export const specimenHtml = (): string => spec(DENSITIES.map(densityRow), { gap: '24px' });

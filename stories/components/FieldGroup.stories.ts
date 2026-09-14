@@ -1,8 +1,8 @@
 /* A control and what stands with it, as one thing.
 
-   The markup lives in `src/components/field-group.ts`. No `parameters.dsCard`:
-   what the group draws is a field and a row of buttons, both already on
-   cards — what it *adds* is the distances between them, and those are read
+   The markup lives in `src/components/field-group.ts`. No `parameters.dsCard`.
+   What the group draws is a field and a row of buttons, both already on
+   cards. What it *adds* is the distances between them, and those read
    beside a title on a page. `Pages/Library` shows it there. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -31,6 +31,6 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** The group pays the steps its parts owe: a field and a row of actions each
-    carry none of their own, and standing loose they touch. */
+/** The group pays the steps its parts owe. A field and a row of actions each
+    carry none of their own, and loose they touch. */
 export const Default: Story = {};

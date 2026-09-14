@@ -1,14 +1,14 @@
 /* What it reads, and what it never sends.
 
-   The page procurement reads, and the one place where an open project can be
-   more convincing than a hosted one: every claim here can be checked by
-   somebody who has the source. So it is built out of things a reader can go
-   and verify — a reporting address, a named team, an advisory history, a
-   stated retention — and not out of badges.
+   The page procurement reads, and the one place where an open project beats
+   a hosted one. Somebody who has the source can check every claim here. So
+   the page consists of things a reader can go and check, and not of badges.
+   An address for reports, a named team, an advisory history, a stated
+   retention.
 
-   The reporting address comes first. On most pages of this kind it is a line
-   in the footer, which is where a researcher who found something gives up
-   looking; here it is the first thing under the heading, because that is the
+   The address for reports comes first. On most pages of this kind it is a
+   line in the footer, where a researcher who found something gives up the
+   search. Here it is the first thing under the heading, because it is the
    only part of this page with a deadline attached.
 
    Live and static from one composition — see `lib/page.ts`. */
@@ -29,24 +29,24 @@ import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
-/** What the tool is allowed to touch, as the three columns a questionnaire
-    asks for: the thing, what it may do to it, and what survives the run. Three
-    rows and not four — what is kept is a column here, because it is the same
-    question asked of every one of them. */
+/** What the tool can touch, as the three columns a questionnaire asks for.
+    The thing, what it can do to it, and what survives the run. Three rows and
+    not four — what survives is a column here, because it is the same question
+    for every one of them. */
 const BOUNDARY_COLUMNS: readonly Column[] = [
   { head: 'What it touches', cls: 'sds-td-name' },
   { head: 'Access', cls: 'sds-td-meta' },
   { head: 'When', cls: 'sds-td-meta' },
-  { head: 'What is kept', cls: 'sds-td-meta' },
+  { head: 'What survives', cls: 'sds-td-meta' },
 ];
 
 const BOUNDARIES: readonly Row[] = [
   { cells: ['your project directory', 'read', 'while a tool answers', 'nothing'] },
   { cells: ['the bundled index', 'read', 'always available', 'ships with the release'] },
-  { cells: ['docs.typo3.org', 'one host, read', 'only when that tool is called', 'nothing'] },
+  { cells: ['docs.typo3.org', 'one host, read', 'only on a call to that tool', 'nothing'] },
 ];
 
-/** The advisories, which are the strongest thing this page has: an open
+/** The advisories, which are the strongest thing this page has. An open
     project can show its whole history, and a reader who sees three of them
     fixed in days believes the fourth will be too. */
 const ADVISORY_COLUMNS: readonly Column[] = [
@@ -99,7 +99,7 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-eyebrow label="for security, data protection and procurement"></sds-eyebrow>
       <h1 class="sds-display">It reads four things and sends one</h1>
       <p class="sds-lead">
-        Every claim on this page can be checked against the source, which is
+        You can check every claim on this page against the source, which is
         the whole argument for an open tool. What follows is the boundary,
         the history, and the way to tell us we got it wrong.
       </p>
@@ -110,7 +110,7 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="report">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>Reporting something you found</h2>
+          <h2>Report something you found</h2>
           <p>
             A named team reads this address, acknowledges inside one working
             day and agrees a disclosure date with you. We do not ask for
@@ -148,13 +148,13 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
       <p>
         Read means read: the process has no write path into your tree, which
         is checkable in the source rather than promised here. The bundled
-        index is built once per release from public sources and is the only
+        index comes from public sources once per release and is the only
         thing that answers when nothing else is reachable — and it says so in
-        the answer. The one host is fetched by a single tool, only when that
-        tool is the one called.
+        the answer. A single tool fetches the one host, only when that tool
+        is the one called.
       </p>
       <p>
-        Nothing is kept between runs: no account, no log of what was asked,
+        Nothing survives between runs: no account, no log of the questions,
         no cache of your project. This is why there is nothing here to export
         and nothing to delete — the process ends and takes its memory with
         it.
@@ -169,7 +169,7 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
             Drawn rather than described, because “it only calls out for
             documentation” is the kind of sentence a reader has to take on
             trust. The single outbound path is the exception in the picture,
-            and it is read-only.
+            and it only reads.
           </p>
           <sds-note
             tone="info"
@@ -199,9 +199,9 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
       </p>
       <sds-table density="medium" scrollable .columns="${ADVISORY_COLUMNS}" .rows="${ADVISORIES}"></sds-table>
       <p>
-        Advisories are published after a fix is available and never before.
+        An advisory comes out after a fix is available and never before.
         Every one of them names the versions affected rather than the ones
-        fixed, because a reader is checking what they run.
+        fixed, because a reader checks what they run.
       </p>
     </section>
 
@@ -236,9 +236,9 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
           html`<sds-surface
             plane="raised"
             label="retention"
-            heading="Nothing is kept"
+            heading="Nothing survives"
             .body="${html`<p>
-              No state survives the process. There is no log of what was asked, which is
+              No state survives the process. There is no log of the questions, which is
               also why we cannot produce one for an audit.
             </p>`}"
           ></sds-surface>`,
@@ -262,9 +262,9 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Security',
   excludeStories: ['securityPage', 'screenHtml'],
@@ -282,9 +282,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the block copies itself, the drawing opens at the size it
-    was made, the table scrolls rather than widening the page, and every
-    severity reads without seeing its colour. */
+/** Click through it. The block copies itself, and the drawing opens at the
+    size of its construction. The table scrolls rather than widens the page,
+    and every severity reads with no view of its colour. */
 export const Page: Story = {
   name: 'Security',
   render: () => securityPage(),

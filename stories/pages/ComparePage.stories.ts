@@ -1,12 +1,12 @@
 /* The comparison.
 
-   The archetype is drawn everywhere as three columns and a matrix in which
-   everything is present somewhere, so nothing looks missing. This one takes the
-   opposite position: a comparison is useful only where it says what each side
+   The archetype stands everywhere as three columns and a matrix in which
+   everything is present somewhere, so nothing looks absent. This one takes the
+   opposite position. A comparison is useful only where it says what each side
    **cannot** do, so the gaps are real and are the point.
 
-   The marks carry an accessible name, never a bare glyph — a matrix of ticks
-   read out as nothing is one only sighted readers can use, and an absent thing
+   The marks carry an accessible name, never a bare glyph. A matrix of ticks
+   read out as nothing is one only sighted readers can use. An absent thing
    is an em dash and a name. Live and static — see `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -33,7 +33,7 @@ const yes = (what: string): TemplateResult =>
   html`<sds-icon name="actions-check-circle" label="${what}: yes"></sds-icon>`;
 
 /** Absent. An em dash rather than a cross: nothing failed here, the capability
-    is simply not part of this way of running it. */
+    is simply not part of this way to run it. */
 const no = (what: string): TemplateResult =>
   html`<span class="sds-label" aria-label="${what}: no">—</span>`;
 
@@ -69,8 +69,8 @@ const WAYS = [
   {
     label: 'no project',
     heading: 'From a checkout',
-    body: 'The server answering about itself and about the documentation. No installation is involved, so nothing about one is claimed.',
-    note: 'For writing task skills and for reading the rules the server holds.',
+    body: 'The server answers about itself and about the documentation. No installation takes part, so it claims nothing about one.',
+    note: 'For task skills, and for the rules the server holds.',
   },
 ];
 
@@ -90,8 +90,8 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
       <h1>Which way to run it</h1>
       <p class="sds-lead">
-        The same server, started from three places. They differ in what is
-        running around it, which is the only thing that decides what it can
+        The same server, started from three places. They differ in what
+        runs around it, which is the only thing that decides what it can
         answer — there is no edition, no tier, and nothing to buy.
       </p>
     </section>
@@ -115,13 +115,13 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
       <p>
         Six sources, and the gaps are the reason this table exists. A
         comparison in which everything is present somewhere tells the reader
-        nothing they could not have guessed.
+        nothing they cannot guess.
       </p>
       <sds-table density="airy" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
       <p>
         A dash is not a failure. It is a source that is not reachable from
-        there${NNBSP}— and a tool that would need it says so at registration
-        rather than answering from the next one down without mentioning it.
+        there${NNBSP}— and a tool that needs it says so at registration
+        rather than answers from the next one down and says nothing.
       </p>
     </section>
 
@@ -132,8 +132,8 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
           <p>
             The other two exist because a machine sometimes cannot boot a
             TYPO3 installation — a pipeline, a review of a project you do not
-            run, a skill being written against nothing in particular. Neither is
-            a smaller version of the first; each answers less and says so.
+            run, a skill in the making against nothing in particular. Neither
+            is a smaller version of the first; each answers less and says so.
           </p>
           <div class="sds-actions">
             ${start}
@@ -157,9 +157,9 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Compare',
   excludeStories: ['comparePage', 'screenHtml'],
@@ -168,7 +168,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/compare.html',
       title: 'TYPO3 Dev Companion — which way to run it',
-      subtitle: 'A comparison whose gaps are the point, and whose marks are readable without seeing them',
+      subtitle: 'A comparison whose gaps are the point, and whose marks read with no view of them',
       viewport: '1440x900',
     }),
   },
@@ -177,7 +177,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the matrix scrolls rather than widening the page, every
+/** Click through it. The matrix scrolls rather than widens the page. Every
     mark carries the name of the column it is in, and the mode switch moves all
     of it. */
 export const Page: Story = {

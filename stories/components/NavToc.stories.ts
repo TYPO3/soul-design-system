@@ -2,10 +2,10 @@
 
    The markup lives in `src/components/nav-toc.ts`, over the contract every
    navigation in the system shares in `nav-base.ts`. The sections of the page
-   being read, as a list to jump from — apparatus, so its links are drawn as
-   the footer's are and never as the ones in a sentence.
+   in hand, as a list to jump from. Apparatus, so its links draw as the
+   footer's do and never as the ones in a sentence.
 
-   It is the one navigation that finds its own current entry: a heading is
+   It is the one navigation that finds its own current entry. A heading is
    current because the reader has scrolled to it, which is a fact about the
    page and not about the data. `Reading` is that story — the list beside a
    page tall enough to scroll, which is the only way to see it work.
@@ -50,9 +50,9 @@ type Story = StoryObj<TocArgs>;
 export const Default: Story = {};
 
 /** Two levels, which is what the column beside a page carries. A section with
-    sections of its own nests, and the level below is a step quieter — the
-    indent alone does not say it, a sub-entry and the second line of a wrapped
-    entry starting at different places and reading as the same thing. */
+    sections of its own nests, and the level below is a step quieter. The
+    indent alone does not say it. A sub-entry and the second line of a wrapped
+    entry start at different places and read as the same thing. */
 export const Nested: Story = {
   args: {
     entries: [
@@ -72,24 +72,24 @@ export const Nested: Story = {
 };
 
 /* The sections the reading story is a list of, and the page they are on. Long
-   enough that each one can be scrolled to on its own, which is what the
-   element is reading. */
+   enough that a reader can scroll to each one on its own, which is what the
+   element reads. */
 const READING = [
   { label: 'Where a token lives', anchor: 'lives' },
   { label: 'What a scale is for', anchor: 'scale-for' },
   { label: 'The grid under the gaps', anchor: 'grid' },
 ];
 
-/** The list beside a page, following the reader. The entry marked is the last
-    heading to have passed the line the reading rests on — the top of whatever
-    is scrolling, plus the offset it keeps for anything standing over it. So
-    the entry a press marks is the entry the scroll marks, and above the first
-    heading nothing is marked: the page opens there and no section holds it. */
+/** The list beside a page, and it follows the reader. The marked entry is the
+    last heading past the line the reader rests on. That is the top of whatever
+    scrolls, plus the offset it keeps for anything above it. So the entry a
+    press marks is the entry the scroll marks. Above the first heading nothing
+    carries a mark: the page opens there and no section holds it. */
 export const Reading: Story = {
-  /* The text scrolls in a pane of its own, so a story on a docs page that is
-     as tall as it likes still has something to scroll. It is also the case
-     worth showing: the element reads the scroller its headings are in, and the
-     top of the window is not the top of a pane. */
+  /* The text scrolls in a pane of its own. So a story on a docs page that is
+     as tall as it likes still has something to scroll. It is also the case to
+     show. The element reads the scroller its headings are in, and the top of
+     the window is not the top of a pane. */
   render: ({ label }) => html`<div style="display:flex; gap:48px; height:420px">
     <div style="flex:1 1 auto; min-width:0; max-width:640px; height:100%; overflow-y:auto">
       ${READING.map(

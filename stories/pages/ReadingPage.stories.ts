@@ -1,14 +1,13 @@
 /* The page that shows its own measure.
 
    Every other page story is an archetype of something a product needs. This
-   one is the reference for the rhythm they are all set to: the registers stand
-   under each other in one column, each block that has a title stands beside
-   one that does not, and nothing on it is drawn to make a point it does not
-   also do.
+   one is the reference for the rhythm they all follow. The registers stand
+   under each other in one column. Each block that has a title stands beside
+   one that does not, and nothing on it makes a point it does not also do.
 
-   It is the reference the visual harness compares against: `make baseline`
+   It is the reference the visual harness compares against. `make baseline`
    before a change and `make diff` after it read this page as the rhythm's
-   record, which is why it holds one of everything rather than one of the
+   record. That is why it holds one of everything rather than one of the
    interesting ones. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -43,7 +42,7 @@ import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
-  { label: 'How this is set' },
+  { label: 'How this page sets' },
 ];
 
 const CONTENTS: readonly MenuEntry[] = [
@@ -58,7 +57,7 @@ const CONTENTS: readonly MenuEntry[] = [
     step is for, and what it is never for. */
 const REGISTERS = [
   ['Display', '58 / 44 / 34', 'A page opener and the two headings under it. Once each.'],
-  ['Reading', '20 / 19 / 16', 'A third heading, a lead, and the paragraph everything else is measured against.'],
+  ['Reading', '20 / 19 / 16', 'A third heading, a lead, and the paragraph that is the measure for everything else.'],
   ['Dense', '14 / 13', 'Every control, every table row, and everything the machine wrote.'],
   ['Label', '12 / 11', 'A machine name, a table head, a caption. Never a sentence.'],
 ] as const;
@@ -67,21 +66,21 @@ const REGISTERS = [
 const FACTS = [
   { value: '10', label: 'type steps', note: 'every size on every surface' },
   { value: '14', label: 'space steps', note: 'halved below 16px, thinning above 24' },
-  { value: '1', label: 'register for a block', note: 'it is read, so it is set at the page' },
+  { value: '1', label: 'register for a block', note: 'a reader reads it, so it takes the page\u2019s size' },
 ];
 
 const QUESTIONS: readonly Entry[] = [
   {
     question: 'Is a block smaller than the text around it?',
-    answer: html`It is not. A block holding sentences is read, so it is set at
-      the page's own size wherever it stands — an admonition is the paragraph
-      above it with a border around it. What stays small is what the machine
-      wrote, and a caption, which is a label rather than a sentence.`,
+    answer: html`It is not. A block that holds sentences takes the page's own
+      size wherever it stands — an admonition is the paragraph above it with a
+      border around it. What stays small is what the machine wrote, and a
+      caption, which is a label rather than a sentence.`,
     open: true,
   },
   {
     question: 'Where does a value that is not on the scale come from?',
-    answer: html`Nowhere it is allowed to. A size that is not a
+    answer: html`Nowhere it can. A size that is not a
       <span class="sds-mono">--font-size-*</span> and a gap that is not a
       <span class="sds-mono">--space-*</span> are both values somebody typed,
       and the only route onto a surface is a token or a component&rsquo;s own
@@ -89,7 +88,7 @@ const QUESTIONS: readonly Entry[] = [
   },
   {
     question: 'What decides how much air a heading gets above it?',
-    answer: `Its level. The step above a heading is what says which one it is — the size only confirms it, and at the fourth level the size has stopped changing altogether.`,
+    answer: `Its level. The step above a heading says which one it is, and the size only confirms it. At the fourth level the size no longer changes at all.`,
   },
 ];
 
@@ -107,20 +106,20 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
     <main class="sds-body__main" id="main-content">
       ${sdsNavBreadcrumb({ items: TRAIL })}
       ${sdsEyebrow({ label: 'reference' })}
-      <h1>How this page is set</h1>
+      <h1>How this page sets</h1>
       <p class="sds-lead">
         Every size on it comes off one scale and every gap off one grid. That
         is not a house style — it is the only thing that lets a reader tell a
-        heading from a title from a label without reading any of them first.
+        heading from a title from a label before they read any of them.
       </p>
 
       <h2 class="sds-h3" id="registers">The two registers</h2>
       <p>
-        Running text is the reading register: a paragraph at 16px, held to a
+        Prose is the reading register: a paragraph at 16px, held to a
         measure, with headings above it that get quieter as they get deeper.
         Anything the machine wrote — a control, a table row, a code block —
-        runs on the same scale a few steps down, because it is scanned rather
-        than read.
+        runs on the same scale a few steps down, because a reader scans it
+        rather than reads it.
       </p>
       <p>
         The mistake the scale exists to prevent is a third voice — a size chosen
@@ -136,8 +135,8 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
 
       <h2 class="sds-h3" id="blocks">Inside a block</h2>
       <p>
-        Anything with a heading over its own text is read, so its body is the
-        page's own size. Only the title tells two kinds apart: a card and a
+        A reader reads anything with a heading over its own text, so its body
+        is the page's own size. Only the title tells two kinds apart: a card and a
         result carry the louder one, because their title is somewhere you can go
         rather than something you read.
       </p>
@@ -145,7 +144,7 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
       ${sdsNote({
         tone: 'info',
         icon: 'actions-info',
-        heading: 'A block is read at the page it stands on',
+        heading: 'A block reads at the page it stands on',
         body: `There is no second register to rebind and nothing to keep in step. What
           is dense is what the machine wrote — a control, a row, a code block, the
           line about the thing beside it — and each of those says so itself.`,
@@ -183,7 +182,7 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
       </p>
       <p>
         Get that pair backwards and the heading floats between two sections
-        belonging to neither, which is the most common way a page with correct
+        and belongs to neither. That is the most common way a page with correct
         sizes still reads as a list of fragments.
       </p>
 
@@ -197,12 +196,12 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
       <p>
         A token, or it is a defect. The scale holds the sizes and the grid holds
         the gaps, and a component that needs something between two steps has
-        found either a missing step or a decision it should not be making alone.
+        found either a missing step or a decision it must not make alone.
       </p>
 
       <sds-code
         code-lang="css"
-        source="${`/* a block is read, so it is set at the page it stands on */
+        source="${`/* a reader reads a block, so it takes the page it stands on */
 --block-title-size: var(--font-size-body);
 --entry-title-size: var(--font-size-h3);
 --block-body-size:  var(--font-size-body);
@@ -231,9 +230,9 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Reading',
   excludeStories: ['readingPage', 'screenHtml'],
@@ -241,8 +240,8 @@ const meta: Meta = {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/reading.html',
-      title: 'TYPO3 Dev Companion — how this page is set',
-      subtitle: 'Every register under one another in one column — the reference the rest are set to',
+      title: 'TYPO3 Dev Companion — how this page sets',
+      subtitle: 'Every register under one another in one column — the reference the rest follow',
       viewport: '1440x900',
     }),
   },
@@ -251,8 +250,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Read it top to bottom: the step above a heading says which level it is
-    before its size does, the two block registers stand side by side, and the
+/** Read it top to bottom. The step above a heading says which level it is
+    before its size does. The two block registers stand side by side, and the
     fold at the foot opens with no script. */
 export const Page: Story = {
   name: 'Reading',

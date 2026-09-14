@@ -1,12 +1,12 @@
 /* A way into something — a chapter, a product, a news entry, a page.
 
-   The markup lives in `src/components/card.ts`. No `parameters.dsCard`: a card
-   is judged in a set of them, at the width a document gives it, and a card file
-   is a fragment at a fixed size. The set is `Grid.stories.ts` — a grid of
-   two is not a grid of six, and that is a decision the grid makes, not the
-   card. The acceptance render is where one meets a real page.
+   The markup lives in `src/components/card.ts`. No `parameters.dsCard`. A card
+   earns its review in a set of them, at the width a document gives it. A
+   card file is a fragment at a fixed size. The set is `Grid.stories.ts` — a
+   grid of two is not a grid of six, and that is a decision the grid makes,
+   not the card. The acceptance render is where one meets a real page.
 
-   The story that matters is `Written`: out of a document the body is blocks,
+   The story that matters is `Written`. Out of a document the body is blocks,
    not a sentence, and an element that assumes a sentence loses the list under
    it. */
 
@@ -38,7 +38,7 @@ const CHAPTER: CardProps = {
 
 const WITH_FOOT: CardProps = {
   heading: 'Directives',
-  body: 'The markup this theme adds to reStructuredText: the bands a landing page is built out of, the grid, and the cards in it.',
+  body: 'The markup this theme adds to reStructuredText: the bands of a landing page, the grid, and the cards in it.',
   footer: 'Reference',
   action: 'Read it',
 };
@@ -46,19 +46,19 @@ const WITH_FOOT: CardProps = {
 const PROMOTIONAL: CardProps = {
   label: 'Package',
   heading: 'Render your manual with it',
-  body: 'One Composer package, three commands, and a documentation site set with this system — the same components the product surface is built from.',
+  body: 'One Composer package, three commands, and a documentation site set with this system. The same components as the product surface.',
   src: 'assets/placeholders/tool-registration.png',
   alt: '',
   action: 'Start here',
 };
 
-/* One entry in a list of them: what kind it is, when it is from, and the two
-   lines that decide whether it is opened. The same component turned down. */
+/* One entry in a list of them. What kind it is, when it is from, and the two
+   lines that decide if a reader opens it. The same component turned down. */
 const ENTRY: CardProps = {
   tag: 'release',
   label: '9 August 2026 · 1.4.0',
   heading: 'Answers now name the source that answered',
-  body: 'Every tool declares what it may read, and the result says which of the five reached it — so a partial answer can be told from a complete one without asking twice.',
+  body: 'Every tool declares what it can read, and the result says which of the five reached it. So a partial answer stands apart from a complete one, and nobody asks twice.',
   src: 'assets/placeholders/tool-source-answer.png',
   alt: '',
 };
@@ -66,8 +66,8 @@ const ENTRY: CardProps = {
 const ENTRY_NO_ART: CardProps = {
   tag: 'project',
   label: '2 July 2026',
-  heading: 'What is written down, and what is not',
-  body: 'The decisions this server keeps in the repository, the ones it keeps in the knowledge base, and why the two lists are not the same.',
+  heading: 'What stands written down, and what does not',
+  body: 'The decisions this server keeps in the repository, the ones in the knowledge base, and why the two lists differ.',
 };
 
 const meta: Meta<CardProps> = {
@@ -99,9 +99,10 @@ type Story = StoryObj<CardProps>;
 /** A title that goes somewhere and the prose that says what is behind it. */
 export const Default: Story = { args: CHAPTER };
 
-/** With a foot: a line about the target on one side and, on the other, the
-    words that say what pressing the card does. It sits at the bottom of the
-    frame however long the prose ran, so a row of cards lines its feet up. */
+/** With a foot. A line about the target on one side and, on the other, the
+    words that say what a press on the card does. It sits at the bottom of the
+    frame whatever the length of the prose, so a row of cards lines its feet
+    up. */
 export const WithFoot: Story = { args: WITH_FOOT };
 
 /** The promotional register — a glyph, the row over the title, a picture and
@@ -110,7 +111,7 @@ export const WithFoot: Story = { args: WITH_FOOT };
 export const Promotional: Story = { args: { ...PROMOTIONAL, icon: 'actions-extension' } };
 
 /** Where there is nowhere to go, the title is a title, the card is not a
-    target and the action is not drawn: nothing here would answer a press. */
+    target and the action does not draw. Nothing here answers a press. */
 export const NoTarget: Story = { args: { ...WITH_FOOT, href: '' } };
 
 /** One entry in a list of them — a release, an article, a note. The badge says
@@ -118,10 +119,10 @@ export const NoTarget: Story = { args: { ...WITH_FOOT, href: '' } };
     is the card it already was. */
 export const Entry: Story = { args: ENTRY };
 
-/** The set is where an entry is actually judged: the titles line up, and a card
-    with a picture sits beside one without. A list where only some entries have
-    a drawing is the arrangement a real one always is, and the one a component
-    that assumes a drawing gets wrong. */
+/** The set is where an entry earns its review: the titles line up, and a card
+    with a picture sits beside one without. A list where only some entries
+    have a drawing is the arrangement a real one always is. A component that
+    assumes a drawing gets it wrong. */
 export const Entries: Story = {
   render: () => html`<sds-grid>
     ${[ENTRY, ENTRY_NO_ART, { ...ENTRY_NO_ART, tag: 'guide', label: '18 June 2026', heading: 'Writing a task skill that fails at registration' }].map(sdsCard)}

@@ -1,12 +1,12 @@
 /* The bar at the top of a page, and its run-width.
 
    The markup lives in `src/components/header.ts`. A row while there is room for
-   one; a button and a drawer holding what there was not — decided by measuring
-   rather than by a breakpoint set for every surface at once.
+   one; a button and a drawer that hold what there was not. A measurement
+   decides, rather than a breakpoint set for every surface at once.
 
-   Drag the canvas narrower and watch it change its mind: the mode pair drops
-   its words first, then the field goes, then the sections — and what the drawer
-   opens is the whole menu, not the row it could not hold. No
+   Drag the canvas narrower and watch it change its mind. The mode pair drops
+   its words first, then the field goes, then the sections. What the drawer
+   opens is the whole menu, not the row it cannot hold. No
    `parameters.dsCard`: a card is a still picture, and the whole of this is what
    happens between two widths. */
 
@@ -54,10 +54,10 @@ const MENU: MenuEntry = {
   ],
 };
 
-/* A bar with nothing under it is half a specimen: the drawer opens over the
-   page, so a story with no page is a panel that has nowhere to go and a box
-   that scrolls instead. The height is the drawer's room, and it is written
-   here rather than in the system — no page owes a header a minimum. */
+/* A bar with nothing under it is half a specimen. The drawer opens over the
+   page. A story with no page is a panel that has nowhere to go and a box
+   that scrolls instead. The height is the drawer's room, and it stands here
+   rather than in the system — no page owes a header a minimum. */
 const under = (bar: TemplateResult, body: TemplateResult): TemplateResult =>
   html`<div class="sds-shell" style="min-height: 420px">
   ${bar}
@@ -66,7 +66,7 @@ const under = (bar: TemplateResult, body: TemplateResult): TemplateResult =>
 
 const sentence = html`<main class="sds-page" id="main-content">
     <h1 class="sds-h3">A page under the bar</h1>
-    <p>Narrow the canvas until the button appears, then press it: what the row could not hold is in one drawer over this page.</p>
+    <p>Narrow the canvas until the button appears, then press it. What the row cannot hold is in one drawer over this page.</p>
   </main>`;
 
 const meta: Meta = {
@@ -78,10 +78,10 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Everything a bar carries: the mark, the sections, the version of what is
-    being read, a search and the mode pair. What the row cannot hold goes into
-    the drawer in that order — the field before the sections, because a field
-    squeezed to a stub is a control that is there and cannot be used. */
+/** Everything a bar carries: the mark, the sections, the version of the page
+    in hand, a search and the mode pair. What the row cannot hold goes into
+    the drawer in that order. The field before the sections, because a field
+    squeezed to a stub is a control that is there and out of use. */
 export const Bar: Story = {
   render: () => under(
     html`<sds-nav-main
@@ -99,7 +99,7 @@ export const Bar: Story = {
 
 /** The bar above with no brand set. One name is the whole mark, so it takes the
     mark's full weight rather than the quiet weight a product carries beside a
-    brand — and there is no pipe, the accent rule having nothing to separate.
+    brand. And there is no pipe, as the accent rule has nothing to separate.
     The bar at its narrowest hides the brand and lands on this same lockup. */
 export const NoBrand: Story = {
   render: () => under(
@@ -116,9 +116,10 @@ export const NoBrand: Story = {
 };
 
 /** The same row, written by a server instead of passed as a property. A
-    rendered site resolves its own links before the page is sent, so it writes
-    the pills and the element takes them over: without the script they are still
-    a row of links, with it they fold like any other. Same class either way. */
+    rendered site resolves its own links before the page goes out, so it writes
+    the pills and the element takes them over. Without the script they are
+    still a row of links, with it they fold like any other. Same class either
+    way. */
 export const WrittenByAServer: Story = {
   render: () => under(
     html`<sds-nav-main home="#overview" signet="${SIGNET}" brand="TYPO3" product="Soul Design System">
@@ -131,8 +132,8 @@ export const WrittenByAServer: Story = {
   ),
 };
 
-/** Eleven sections rather than four. Nothing about the fold is declared, so a
-    longer set simply folds sooner. */
+/** Eleven sections rather than four. Nothing declares the fold, so a longer
+    set simply folds sooner. */
 export const ManySections: Story = {
   render: () => under(
     html`<sds-nav-main
@@ -149,9 +150,9 @@ export const ManySections: Story = {
 
 /** Given the site rather than a row of links: one entry with its sections
     under it, each with its own pages. A section that holds pages carries the
-    marker that opens them under the row, and the same entry is the whole tree
-    the drawer opens once the row has given the sections up — the bar draws as
-    much of the one list as the width allows. */
+    marker that opens them under the row. The same entry is the whole tree the
+    drawer opens once the row has given the sections up. The bar draws as
+    much of the one list as the width permits. */
 export const WithAMenu: Story = {
   render: () => under(
     html`<sds-nav-main
@@ -164,7 +165,7 @@ export const WithAMenu: Story = {
   ></sds-nav-main>`,
     html`<main class="sds-page" id="main-content">
     <h1 class="sds-h3">sds-header</h1>
-    <p>Press the marker beside a section to open its pages, then narrow the canvas until the one button is all that is left.</p>
+    <p>Press the marker beside a section to open its pages. Then narrow the canvas until the one button is all that remains.</p>
   </main>`,
   ),
 };

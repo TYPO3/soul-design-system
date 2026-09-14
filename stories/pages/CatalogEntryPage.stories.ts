@@ -1,10 +1,10 @@
 /* One entry of a catalog, in full.
 
    What the reader came for is the identifier and the confidence that this is
-   the right one — so the name is set as the machine text it is, and the item
-   is shown in both modes rather than on two colours somebody typed in. Every
-   ground here is the system's own, forced onto a subtree: a page that hardcodes
-   `#ffffff` has left the theme and will not follow it when it moves.
+   the right one. So the name stands as the machine text it is, and the item
+   shows in both modes rather than on two colours somebody typed in. Every
+   ground here is the system's own, forced onto a subtree. A page that
+   hardcodes `#ffffff` has left the theme and will not follow it when it moves.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -28,12 +28,12 @@ import { dsScreen, NNBSP, part, px } from '../lib/specimen.ts';
 import { type PageMode, skipLink } from '../lib/page.ts';
 
 /** The entry this page is about. One constant, because every heading, every
-    code block and the pager either side of it name the same thing — spelling
-    it out per place is how a page ends up documenting two items. */
+    code block and the pager either side of it name the same thing. Spelt out
+    per place, a page ends up with two items in it. */
 const GLYPH = 'actions-document-edit';
 
-/* Written as the characters they are, with real newlines: the element takes a
-   source verbatim, so an entity here would arrive as an entity. */
+/* As the characters they are, with real newlines: the element takes a
+   source verbatim, so an entity here arrives as an entity. */
 const ELEMENT = `<sds-icon name="${GLYPH}"></sds-icon>`;
 
 const RENDERED =
@@ -61,9 +61,9 @@ const RAIL: readonly MenuEntry[] = [
   { label: 'Glossary', href: '#glossary' },
 ];
 
-/** The releases it can be asked for in. Facts about the entry rather than
-    results, so no tone — a badge either way, because a version is a thing the
-    reader matches against theirs and not a sentence they read. */
+/** The releases it answers in. Facts about the entry rather than results, so
+    no tone. A badge either way, because a version is a thing the reader
+    matches against theirs and not a sentence they read. */
 const RELEASES: readonly string[] = ['12.4', '13.4', '14.3', 'main'];
 
 /** Every size the system draws a glyph at, and what each one is for. The scale
@@ -73,7 +73,7 @@ const SIZES: readonly { size: IconSize; label: string; use: string }[] = [
   { size: 16, label: px(16), use: 'The floor. A glyph in a table cell, a badge, a dense row' },
   { size: 20, label: px(20), use: 'A control’s own mark — a button, a field, a rail item' },
   { size: 24, label: px(24), use: 'A glyph standing alone on a line of its own' },
-  { size: 32, label: px(32), use: 'A module in a navigation, a card told apart before it is read' },
+  { size: 32, label: px(32), use: 'A module in a navigation, a card told apart before the reader reads it' },
   { size: 48, label: px(48), use: 'An empty state, or the subject of a page like this one' },
 ];
 
@@ -91,8 +91,8 @@ const sizeRows = (): readonly Row[] =>
   }));
 
 /** The item on one ground, with the mode forced onto that subtree. Both panes
-    are the same call: a glyph that reads in one mode and not the other is what
-    this pair is here to catch, and neither ground is written as a colour. */
+    are the same call. A glyph that reads in one mode and not the other is
+    what this pair is here to catch. Neither ground is a colour value. */
 const pane = (theme: 'light' | 'dark'): TemplateResult =>
   html`<sds-surface
     data-theme="${theme}"
@@ -109,9 +109,9 @@ const pane = (theme: 'light' | 'dark'): TemplateResult =>
 /** The page. `flat` composes the form a static file can hold. */
 export function catalogEntryPage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a pane's body is content, and
-     `renderStatic` flattens no element that was given children. The grid takes
-     them as a property instead, which is the one channel a renderer outside a
-     browser has. */
+     `renderStatic` flattens no element with children. The grid takes them as
+     a property instead, which is the one channel a renderer outside a browser
+     has. */
   const panes = [pane('light'), pane('dark')];
   const modes = flat
     ? html`<sds-grid .content="${panes}"></sds-grid>`
@@ -130,8 +130,8 @@ export function catalogEntryPage({ flat = false }: PageMode = {}): TemplateResul
       <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
       <h1><span class="sds-mono">${GLYPH}</span></h1>
       <p class="sds-lead">
-        Open a record for editing. The pencil on a sheet is the backend’s one
-        mark for “change this”, and nothing else in the set may wear it.
+        Open a record for an edit. The pencil on a sheet is the backend’s one
+        mark for “change this”, and nothing else in the set can wear it.
       </p>
       <div class="sds-row">
         <span class="sds-label">Answers for</span>
@@ -142,13 +142,13 @@ export function catalogEntryPage({ flat = false }: PageMode = {}): TemplateResul
       <h2 class="sds-h3">In both modes</h2>
       <p>
         The same call on either ground, and each pane forces the mode on itself
-        rather than painting one. A glyph that goes flat in dark is a glyph
+        rather than paints one. A glyph that goes flat in dark is a glyph
         drawn against one background, and this is where that shows.
       </p>
 
       ${modes}
 
-      <h2 class="sds-h3">Every size it is drawn at</h2>
+      <h2 class="sds-h3">Every size it draws at</h2>
       <p>
         The scale is 16, 20, 24 and whole multiples of it — never 18, never 22.
         Below 16 there is no glyph, because a mark nobody can make out is a
@@ -167,7 +167,7 @@ export function catalogEntryPage({ flat = false }: PageMode = {}): TemplateResul
       <sds-code code-lang="html" source="${ELEMENT}" copy></sds-code>
 
       <p>
-        Where a surface runs no script, that same tag is rendered ahead of time
+        Where a surface runs no script, that same tag renders ahead of time
         and the glyph is already in the page — the identifier travels with it,
         so a reader of the markup can still tell which mark they have.
       </p>
@@ -177,7 +177,7 @@ export function catalogEntryPage({ flat = false }: PageMode = {}): TemplateResul
       <sds-note
         tone="info"
         heading="A glyph is asked for by name"
-        .body="${html`The identifier is the contract — the drawing behind it may be redrawn
+        .body="${html`The identifier is the contract — the drawing behind it can change
           and the name will not move. Copy the name, never the path to the file it
           happens to live in today.`}"
       ></sds-note>
@@ -196,9 +196,9 @@ export function catalogEntryPage({ flat = false }: PageMode = {}): TemplateResul
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Catalog entry',
   excludeStories: ['catalogEntryPage', 'screenHtml'],
@@ -216,9 +216,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: both panes hold their mode while the switch moves the page
-    around them, the block copies itself, and the pager goes on through the
-    set. */
+/** Click through it. Both panes hold their mode while the switch moves the
+    page around them, the block copies itself, and the pager goes on through
+    the set. */
 export const Page: Story = {
   name: 'Catalog entry',
   render: () => catalogEntryPage(),

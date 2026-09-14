@@ -1,9 +1,9 @@
 /* A directory, as the shape it has on disk.
 
    The markup lives in `src/components/tree.ts`. The card is the tree a project
-   is actually given — the one `docs/guides-theme/installation.rst` draws as
-   preformatted text with the annotations lined up by counting spaces, which is
-   the thing this replaces. */
+   gets. `docs/guides-theme/installation.rst` drew it as preformatted text
+   with the annotations lined up by spaces, which is the thing this
+   replaces. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -31,7 +31,7 @@ export const SITE: readonly TreeEntry[] = [
   },
   {
     label: 'site/',
-    note: 'what the render writes, and what is published',
+    note: 'what the render writes, and what goes out',
     items: [
       { label: 'index.html' },
       { label: '_search.json', note: 'the index the field in the bar fetches' },
@@ -75,16 +75,16 @@ const meta: Meta<TreeProps> = {
 export default meta;
 type Story = StoryObj<TreeProps>;
 
-/** Two levels open. Nothing is dropped below that — what is deeper is folded,
-    which a reader can undo, rather than hidden, which they cannot. */
+/** Two levels open. Nothing drops below that — what is deeper folds, which a
+    reader can undo, rather than hides, which they cannot. */
 export const Default: Story = {};
 
 /** Marked. A folder and a file glyph where the tree is long enough that the
-    fold alone does not say which is which — and off by default, because a wall
+    fold alone does not say which is which. Off by default, because a wall
     of glyphs down the left of a short tree is decoration. */
 export const Marked: Story = { args: { entries: SITE, level: 3, icons: true } };
 
-/** Shut but for the top. Everything under the first level is folded, which is
+/** Shut but for the top. Everything under the first level folds, which is
     the form a long tree takes on a page that is about something else. */
 export const Folded: Story = { args: { entries: SITE, level: 1 } };
 
@@ -92,7 +92,7 @@ export const Folded: Story = { args: { entries: SITE, level: 1 } };
     much stands open, not how much exists. */
 export const Whole: Story = { args: { entries: SITE, level: 9 } };
 
-/* The card, as a story, so what the picture is of can be opened and pressed. */
+/* The card, as a story, so a reader can open and press what the picture shows. */
 export const Specimen: Story = {
   parameters: { layout: 'fullscreen' },
   render: () => html`${unsafeHTML(specimenHtml())}`,

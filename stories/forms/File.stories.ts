@@ -2,7 +2,7 @@
 
    The markup lives in `src/components/file.ts`. A file input is a button and a
    sentence the browser draws itself, and the picker only opens for a press on
-   a real one — so the real one stays and its button is painted through
+   a real one. So the real one stays and its button takes its paint through
    `::file-selector-button`.
 
    What is deliberately not here is a drawn box with a hidden input behind it.
@@ -55,7 +55,7 @@ export default meta;
 type Story = StoryObj<FileProps>;
 
 /** The button is ours; the sentence beside it is the browser's, in its own
-    language, saying what is chosen. */
+    language, and says the choice. */
 export const Default: Story = {};
 
 /** More than one at a time. */
@@ -70,7 +70,7 @@ export const Multiple: Story = {
   },
 };
 
-/** What is wrong with what was chosen, under the control. Never a tooltip. */
+/** What is wrong with the choice, under the control. Never a tooltip. */
 export const Invalid: Story = {
   args: {
     caption: 'Attach a screenshot',

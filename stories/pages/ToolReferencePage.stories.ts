@@ -1,11 +1,11 @@
 /* The tool reference.
 
    Compact density — 30px rows, 14px type — because here the list *is* the work
-   and scanning beats reading. Density is a judgement about the reader, and this
-   is the surface that judgement was written for.
+   and a scan beats a read. Density is a judgement about the reader, and this
+   is the surface that judgement exists for.
 
-   Live matters more here than on any other page: the tabs filter the list
-   rather than drawing a row of words above a table that never changes. See
+   Live matters more here than on any other page. The tabs filter the list
+   rather than draw a row of words above a table that never changes. See
    `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -25,9 +25,9 @@ import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
 import { dsScreen, NNBSP, part, px } from '../lib/specimen.ts';
 import { type PageMode, skipLink } from '../lib/page.ts';
 
-/** What a tool is, as the reference reads it: what it is called, what it
-    does, where its answers come from, which releases they hold for, and how
-    it last answered. */
+/** What a tool is, as the reference reads it. Its name, what it does, where
+    its answers come from, which releases they hold for, and how it last
+    answered. */
 interface Tool {
   name: string;
   verb: 'lookup' | 'scope';
@@ -57,7 +57,7 @@ const COLUMNS: readonly Column[] = [
   { head: 'State' },
 ];
 
-/** A row per tool. The state is a badge rather than a word: it is the result
+/** A row per tool. The state is a badge rather than a word. It is the result
     of the last call, and a result carries a colour and a glyph everywhere
     else in this system. */
 const rows = (tools: readonly Tool[]): readonly Row[] =>
@@ -84,10 +84,10 @@ const VIEWS: readonly { label: string; tools: readonly Tool[] }[] = [
 
 /** The page. `flat` composes the form a static file can hold. */
 export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResult {
-  /* The one place the two renderings differ: a tab's panel is written between
-     the tags, and `renderStatic` flattens no element that was given children.
-     Same bar function underneath, so the static file is the markup the
-     element renders — and it holds the first view, which is the whole list. */
+  /* The one place the two renderings differ: a tab's panel stands between
+     the tags, and `renderStatic` flattens no element with children. Same bar
+     function underneath, so the static file is the markup the element
+     renders — and it holds the first view, which is the whole list. */
   const first = VIEWS[0] as (typeof VIEWS)[number];
   const list = flat
     ? html`${tabsBarMarkup(VIEWS.map(({ label }) => ({ label })), 0)}<div class="sds-tab__panel">${table(first.tools)}</div>`
@@ -142,9 +142,9 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Tool reference',
   excludeStories: ['toolReferencePage', 'screenHtml'],
@@ -162,8 +162,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the tabs filter the list, the field takes typing, the
-    table scrolls rather than widening the page, and the mode switch moves all
+/** Click through it. The tabs filter the list, the field takes text, the
+    table scrolls rather than widens the page, and the mode switch moves all
     of it. */
 export const Page: Story = {
   name: 'Tool reference',

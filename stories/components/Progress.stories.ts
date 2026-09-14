@@ -1,12 +1,12 @@
 /* How far a running job has got.
 
    The markup lives in `src/components/progress.ts`. A share, not a sequence of
-   stops: reach for `sds-steps` where the claim is that step two follows step
-   one, and for this where the claim is a distance. Where the distance is not
-   known there is nothing to fill — that is `.sds-loading` with a spinner.
+   stops. Reach for `sds-steps` where the claim is that step two follows step
+   one, and for this where the claim is a distance. Where the distance is
+   unknown there is nothing to fill — that is `.sds-loading` with a spinner.
 
-   Press the buttons under `Driven from outside`: nothing here moves on its
-   own, `value` is the whole of the interface, and the ink follows it the whole
+   Press the buttons under `Driven from outside`. Nothing here moves on its
+   own, and `value` is the whole of the interface. The ink follows it the whole
    way — grey at the start, the colour of a finished run as it gets there. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -56,7 +56,7 @@ const meta: Meta<ProgressProps> = {
     dsCard: dsCard({
       path: 'components/core/progress.card.html',
       name: 'A job with a distance in it',
-      subtitle: 'The share as a length, the position as a number, and the line saying what is running',
+      subtitle: 'The share as a length, the position as a number, and the line that says what runs',
       viewport: '700x515',
     }),
   },
@@ -65,12 +65,12 @@ const meta: Meta<ProgressProps> = {
 export default meta;
 type Story = StoryObj<ProgressProps>;
 
-/** The name of the work on the left, where it stands on the right: a filled
+/** The name of the work on the left, where it stands on the right. A filled
     length on its own is a position nobody can read back or report. */
 export const Default: Story = {};
 
-/** The two numbers themselves, where what is being counted is the useful part.
-    A percentage of twelve files is arithmetic the reader has to undo. */
+/** The two numbers themselves, where the count is the useful part. A
+    percentage of twelve files is arithmetic the reader has to undo. */
 export const Count: Story = {
   args: {
     caption: 'Uploading the release',
@@ -86,9 +86,9 @@ export const Count: Story = {
     says the work has started — an empty bar claims neither. */
 export const Empty: Story = { args: { caption: 'Booting the installation', value: 0, note: '' } };
 
-/** Done, where the ink has arrived at the colour it has been mixing toward all
-    the way up. The bar stays — a job that finishes by disappearing leaves the
-    reader working out whether it finished or the page dropped it. */
+/** Done, where the ink has arrived at the colour it mixed toward all the way
+    up. The bar stays — a job that finishes and vanishes leaves the reader to
+    work out if it finished or the page dropped it. */
 export const Complete: Story = {
   args: { caption: 'Rendering the manual', value: 100, note: '12 chapters, 1 search index.' },
 };
@@ -99,18 +99,18 @@ export const Small: Story = {
   args: { caption: 'Reading packages', value: 68, size: 'small', note: '' },
 };
 
-/** Work is happening right now, which a bar standing still cannot say: a hatch
+/** Work goes on right now, which a bar that stands still cannot say. A hatch
     travels through the filled part while the number waits for the next report.
-    Turn it off the moment the work stops — one travelling at a standstill
-    claims something nobody measured — and leave it off when the run is done.
-    Not in the card: moving stripes photograph as whatever frame they were
-    caught in, and every screenshot of the card would differ from the last. */
+    Turn it off the moment the work stops, as one that travels at a standstill
+    claims something nobody measured. Leave it off when the run is over. Not
+    in the card: stripes in motion photograph as whatever frame catches them,
+    and every screenshot of the card differs from the last. */
 export const Pulsing: Story = {
   args: {
     caption: 'Booting the installation',
     value: 18,
     pulsing: true,
-    note: 'Waiting on the container — the next report is the extension scan.',
+    note: 'On hold for the container — the next report is the extension scan.',
   },
 };
 
@@ -120,10 +120,10 @@ export const Bare: Story = {
   args: { caption: '', label: 'Rendering the manual', value: 42, note: '' },
 };
 
-/** Driven from outside, which is the whole interface: `value` is set and the
+/** Driven from outside, which is the whole interface: `value` changes and the
     bar travels to the new width in `--duration-fast`. Nothing counts on its
-    own — a bar that advances by itself is a bar telling the reader something
-    the work never said. */
+    own — a bar that advances by itself is a bar that tells the reader
+    something the work never said. */
 export const Driven: Story = {
   render: () => {
     const move = (by: number) => (event: Event): void => {

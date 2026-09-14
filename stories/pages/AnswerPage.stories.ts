@@ -1,10 +1,10 @@
 /* An answer.
 
    The narrowest whole surface the system has: one question, one answer, and
-   everything the answer is bound to. That binding is the page — the source it
-   came from, the versions it holds for, what it leaves out, and the state the
-   installation was in when it was asked. An answer without those is a guess
-   somebody typed confidently.
+   everything that binds the answer. That binding is the page. The source it
+   came from, the versions it holds for, what it leaves out. And the state of
+   the installation at the time of the question. An answer without those is a
+   guess somebody typed with confidence.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -22,7 +22,7 @@ import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { type PageMode, skipLink } from '../lib/page.ts';
 
 /** The change the answer is about. A constant that depended on a value the
-    setup defines later now resolves empty, so the dependency is inverted. */
+    setup defines later now resolves empty, so the dependency turns around. */
 const CHANGE: readonly DiffLine[] = [
   { kind: 'context', text: 'page.10.value = {$site.title}' },
   { kind: 'del', text: 'site.title = {$page.brand}' },
@@ -33,7 +33,7 @@ const CHANGE: readonly DiffLine[] = [
 /** The page. `flat` composes the form a static file can hold. */
 export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a button's label is content, and
-     `renderStatic` flattens no element that was given children. */
+     `renderStatic` flattens no element with children. */
   const copy = flat
     ? buttonMarkup(
         { variant: 'secondary', size: 'sm' },
@@ -74,7 +74,7 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
       ></sds-note>
 
       <p>
-        Constants are resolved once, before the setup is parsed, so a constant can
+        Constants resolve once, before the setup parses, so a constant can
         no longer depend on a value the setup defines later. Where that dependency
         existed, the constant now resolves empty rather than to the stale value.
       </p>
@@ -97,9 +97,9 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Answer',
   excludeStories: ['answerPage', 'screenHtml'],

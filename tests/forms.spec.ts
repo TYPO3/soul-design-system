@@ -163,7 +163,7 @@ test('a set can say its question without drawing it', async ({ page }) => {
 
   const set = page.locator('fieldset.sds-choices');
   await expect(set, 'the set still takes its name from its own legend')
-    .toHaveAccessibleName('What may we attach to the report?');
+    .toHaveAccessibleName('What can we attach to the report?');
 
   /* Drawn once. The heading above it is what a reader sees; the legend takes
      no room, so the first answer stands where the heading leaves it. */

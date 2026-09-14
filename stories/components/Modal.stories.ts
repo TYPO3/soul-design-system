@@ -1,10 +1,10 @@
 /* The modal surface.
 
-   The markup lives in `src/components/modal.ts`. This is the surface alone:
-   opening one, making the rest of the page inert and returning the focus is
+   The markup lives in `src/components/modal.ts`. This is the surface alone.
+   To open one, make the rest of the page inert and return the focus is
    `sds-dialog`, which uses the platform's `<dialog>` to get all three.
 
-   No `parameters.dsCard`: it is drawn on the surfaces card, over the plane it
+   No `parameters.dsCard`: it stands on the surfaces card, over the plane it
    needs to be a modal *of*. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';

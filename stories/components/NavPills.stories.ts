@@ -4,7 +4,7 @@
    navigations share. One rule across all three: the active item is a filled
    block, never a tint.
 
-   For the sections of a page. Pressing one makes it current and says so with
+   For the sections of a page. A press makes one current and says so with
    `sds-change`; one that goes somewhere is a link and the browser decides. No
    `parameters.dsCard`: the three share one card. */
 
@@ -43,8 +43,8 @@ export const WithIcons: Story = {
   },
 };
 
-/** An item that goes somewhere is a link and says `href`. Navigating away is
-    not a state this element keeps, so the browser is left to it. */
+/** An item that goes somewhere is a link and says `href`. The way away is
+    not a state this element keeps, so the browser has it. */
 export const Links: Story = {
   args: {
     items: [

@@ -1,12 +1,12 @@
 /* A setting that takes effect where it stands.
 
    The markup lives in `src/components/switch.ts`. The decision is when to
-   reach for one: a checkbox answers a question the form asks and is sent when
-   the form is sent; a switch turns something on now. A reader who has to press
-   Save after flipping one has been told the wrong thing by the control.
+   reach for one. A checkbox answers a question the form asks and goes out
+   with the form; a switch turns something on now. A reader who has to press
+   Save after a flip heard the wrong thing from the control.
 
    The track is the platform's own checkbox with the paint taken, under
-   `role="switch"` — so the keyboard, the tap target and how it reads out are
+   `role="switch"`. So the keyboard, the tap target and how it reads out are
    the input's. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -42,8 +42,8 @@ const meta: Meta<SwitchProps> = {
 export default meta;
 type Story = StoryObj<SwitchProps>;
 
-/** On is `--text-primary`, the colour a ticked box is filled with — never the
-    accent, which marks three things and a page of settings is not one. */
+/** On is `--text-primary`, the fill of a ticked box. Never the accent, which
+    marks three things, and a page of settings is not one. */
 export const Default: Story = {};
 
 /** Off. The knob slides rather than the track redrawing, so the two states are

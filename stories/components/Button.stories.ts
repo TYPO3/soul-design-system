@@ -1,12 +1,12 @@
 /* Buttons.
 
    The markup lives in `src/components/button.ts`; this composes the specimen
-   the card is generated from. Edit the component there, the specimen here, the
-   card nowhere.
+   the card comes from. Edit the component there, the specimen here, the card
+   nowhere.
 
    The label is content, so a story writes a button the way a surface does. The
-   card cannot — `renderStatic` flattens no element given children — so it is
-   composed from `buttonMarkup`, the same function the element renders. */
+   card cannot — `renderStatic` flattens no element with children — so it
+   consists of `buttonMarkup`, the same function the element renders. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -80,15 +80,15 @@ export const Primary: Story = { args: { variant: 'primary', size: 'md', label: '
 export const Secondary: Story = { args: { variant: 'secondary', size: 'md', label: 'Copy', icon: 'actions-duplicate', disabled: false } };
 export const Ghost: Story = { args: { variant: 'ghost', size: 'md', label: 'Cancel', disabled: false } };
 
-/** The press that cannot be undone. It is the one control in the system that
-    carries a status colour, and it carries it as ink and a hairline rather than
-    as a fill — a filled red button outranks the accent, which is the one thing
-    on a page allowed to do that. The label names what goes, so the consequence
-    is readable by somebody who cannot tell the tones apart. */
+/** The press with no way back. It is the one control in the system that
+    carries a status colour. It carries it as ink and a hairline rather
+    than as a fill. A filled red button outranks the accent, which is the one
+    thing on a page permitted to do that. The label names what goes, so
+    somebody who cannot tell the tones apart still reads the consequence. */
 export const Danger: Story = { args: { variant: 'danger', size: 'md', label: 'Delete the branch', icon: 'actions-delete', disabled: false } };
 
 /** Disabled is the real attribute, so the pointer, the keyboard and anything
-    reading the page all agree it cannot be pressed. */
+    that reads the page all agree nobody can press it. */
 export const Disabled: Story = { args: { variant: 'secondary', size: 'md', label: 'Disabled', disabled: true } };
 
 /** The one action a screen is for — a landing's single call. Beside a second
@@ -104,10 +104,10 @@ export const SmallWithIcon: Story = { args: { variant: 'secondary', size: 'sm', 
     property: a button whose whole label is one glyph is one. */
 export const IconOnly: Story = { args: { variant: 'secondary', size: 'sm', label: '', icon: 'actions-close', title: 'Close', disabled: false } };
 
-/** The label is markup, which is the reason it is content: a glyph, a word,
+/** The label is markup, which is the reason it is content. A glyph, a word,
     and a version in mono are one label and no string can hold them. The icon
     takes the size of the text it sits in, so this reads right at both sizes
-    without anyone saying a number. */
+    and nobody says a number. */
 export const RichLabel: Story = {
   render: () => html`
     <sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Run the checks</sds-button>
@@ -119,7 +119,7 @@ const SETTINGS: ButtonArgs = { variant: 'secondary', size: 'sm', label: '', icon
 const LARGE_ICON: ButtonArgs = { variant: 'secondary', size: 'lg', label: '', icon: 'actions-play', title: 'Play', disabled: false };
 
 /** The specimen card, composed from the stories above. This is what
-    `components/core/buttons.card.html` is generated from — `scripts/cards.ts`
+    `components/core/buttons.card.html` comes from — `scripts/cards.ts`
     calls it directly, so it returns markup rather than a story. */
 export const specimenHtml = (): string =>
   spec([
@@ -152,7 +152,7 @@ export const specimenHtml = (): string =>
           part(html`<sds-link label="docs.typo3.org" href="https://docs.typo3.org" external></sds-link>`),
         ],
         'LINKS UNDERLINE ON HOVER · EXTERNAL CARRIES actions-window-open',
-        /* The size belongs to the row, not to the component: `sds-link` sets
+        /* The size belongs to the row, not to the component. `sds-link` sets
            colour and hover only and takes its size from whatever it sits in,
            and here it sits among 14px controls. */
         { divided: true, style: 'font-size:var(--font-size-small);' },

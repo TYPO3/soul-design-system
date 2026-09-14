@@ -1,13 +1,13 @@
-/* What a query was answered with.
+/* What a query got as its answer.
 
    The markup lives in `src/components/search-hits.ts`. It is the part of a
-   search worth looking at on its own: the hits, in the order they are read,
+   search that stands on its own. The hits, in the order a reader reads them,
    and the sentence a search with nothing to show gives.
 
-   No `parameters.dsCard`: `Pages/Search` is where a list of answers is judged,
-   against the field and the facets above it. What is judged here is the list
-   with no index behind it and nothing typed into anything — four hits, none,
-   or hits carrying a picture, handed straight to the element. */
+   No `parameters.dsCard`: `Pages/Search` is where a list of answers gets its
+   review, against the field and the facets above it. Here it is the list
+   with no index behind it and nothing typed into anything. Four hits, none,
+   or hits with a picture, handed straight to the element. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -24,14 +24,14 @@ const HITS: readonly SearchResultProps[] = [
     path: 'Documentation · Tools',
     heading: 'typo3_label_lookup',
     snippet:
-      'Reads labels from the installation. Where it cannot be booted the tool reads the package files instead and says which labels that leaves out.',
+      'Reads labels from the installation. Where that cannot boot, the tool reads the package files instead and says which labels that leaves out.',
     meta: '13.4 · 14.3',
     href: '#',
   },
   {
     kind: 'guide',
     path: 'News · Guides',
-    heading: 'Reading the package registry when the installation will not boot',
+    heading: 'The package registry, read while the installation will not boot',
     snippet:
       'The fallback returns every declared entry — labels among them — and none of the dynamically registered ones. The shortfall travels with the result.',
     meta: '24 July 2026',
@@ -40,9 +40,9 @@ const HITS: readonly SearchResultProps[] = [
   {
     kind: 'changelog',
     path: 'Documentation · Changelog',
-    heading: 'Label overrides resolve before the extension is loaded',
+    heading: 'Label overrides resolve before the extension loads',
     snippet:
-      'A label defined in TypoScript and overridden by an extension now resolves in the order the core documents, which changed in 13.4.',
+      'A label from TypoScript that an extension overrides now resolves in the order the core documents, which changed in 13.4.',
     meta: '13.4',
     href: '#',
   },
@@ -52,8 +52,8 @@ const meta: Meta<SearchHitsProps> = {
   title: 'Components/SearchHits',
   tags: ['autodocs', '!dev'],
   parameters: { layout: 'padded' },
-  /* `empty` is left unset rather than blanked: the element's own sentence is
-     what a site index holds, and `empty=""` is a caller saying there is
+  /* `empty` stays unset rather than blank. The element's own sentence is
+     what a site index holds, and `empty=""` is a caller who says there is
      nothing to add to the heading. */
   render: ({ items, match, empty }) =>
     html`<sds-search-hits
@@ -68,15 +68,15 @@ const meta: Meta<SearchHitsProps> = {
 export default meta;
 type Story = StoryObj<SearchHitsProps>;
 
-/** Three answers to one query. The marking is the element's own — the query
-    is handed to the list, which hands it to every hit, so what is highlighted
-    is what was searched rather than what a page thought it searched. */
+/** Three answers to one query. The marks are the element's own. The list gets
+    the query and hands it to every hit. So the marks stand on the search
+    term rather than on what a page thought it searched. */
 export const Answers: Story = {};
 
 /** Two of them carry the picture their page does, and one does not. The box is
-    the same wherever there is a file for it; where there is none the hit keeps
-    the column's own edge rather than indenting past a box holding nothing,
-    which is a hole with a hit beside it. */
+    the same wherever there is a file for it. Where there is none the hit
+    keeps the column's own edge. An indent past an empty box is a hole with a
+    hit beside it. */
 export const WithThumbnails: Story = {
   args: {
     items: HITS.map((hit, at) =>
@@ -86,18 +86,18 @@ export const WithThumbnails: Story = {
   },
 };
 
-/** Nothing found, which is an answer and says so: what was searched, and what
-    of it is not indexed — so a query that matched nothing can be told from a
+/** Nothing found, which is an answer and says so. The search term, and what
+    of it the index lacks, so a query that matched nothing stands apart from a
     search that broke. */
 export const Nothing: Story = { args: { items: [], match: 'labeller' } };
 
-/** Searching something other than a site. The sentence is the caller's,
-    because only the caller knows what was asked. */
+/** A search of something other than a site. The sentence is the caller's,
+    because only the caller knows the question. */
 export const NothingElsewhere: Story = {
   args: {
     items: [],
     match: 'labeller',
     empty:
-      'Your installation was reached and searched, and no label in it matches. Bundled knowledge is searched separately and holds three answers for the same query.',
+      'The search reached your installation, and no label in it matches. Bundled knowledge is a separate search and holds three answers for the same query.',
   },
 };

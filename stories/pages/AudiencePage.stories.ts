@@ -1,15 +1,15 @@
 /* The same software, argued to one audience.
 
-   Three very different people have to be convinced of the same thing, and a
-   landing page that tries to convince all three convinces none: an editor
-   reading about API stability skips, a developer reading about "getting out of
-   your way" leaves. So the page is written for one of them and says at the top
-   which one, with the way across for whoever landed on the wrong one.
+   Three very different people have to believe the same thing, and a landing
+   page that tries to convince all three convinces none. An editor who reads
+   about API stability skips, a developer who reads about "out of your way"
+   leaves. So the page speaks to one of them and says at the top which one.
+   The way across is there for whoever landed on the wrong one.
 
-   This is the agency, which is the audience a hosted product has no version
-   of — they are not the buyer and not the user, they carry the thing for years
-   after both have moved on. What convinces them is not what it does but what
-   it costs them to keep.
+   This is the agency, the audience a hosted product has no version of. They
+   are not the buyer and not the user; they carry the thing for years after
+   both have moved on. What convinces them is not what it does but what it
+   costs them to keep.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -30,13 +30,13 @@ import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
 import { sdsStat } from '../components/Stat.stories.ts';
 
-/** Who this page is written for, and the others it is not. The switch is at
-    the top rather than the bottom: somebody who landed on the wrong one has
+/** Who this page speaks to, and the others it does not. The switch is at the
+    top rather than the bottom. Somebody who landed on the wrong one has
     already decided by the time they reach a footer. */
 const AUDIENCES: readonly { label: string; lead: string }[] = [
   { label: 'agencies', lead: 'You will still be maintaining this in 2031.' },
   { label: 'developers', lead: 'It answers before it guesses, and says which.' },
-  { label: 'editors', lead: 'It knows what the thing is called. You do not have to.' },
+  { label: 'editors', lead: 'It knows the name of the thing. You do not have to.' },
 ];
 
 /** The jobs this audience actually has, each said as the job rather than as
@@ -46,27 +46,27 @@ const JOBS: readonly { label: string; heading: string; body: string }[] = [
   {
     label: 'handover',
     heading: 'The person who knew the project leaves',
-    body: 'Every convention that lived in one developer’s head becomes a question somebody has to ask. The answers here are in the installation rather than in that person, so a handover is a directory listing rather than a fortnight.',
+    body: 'Every convention that lived in one developer’s head becomes a question somebody has to ask. The answers here are in the installation rather than in that person. A handover is a directory listing rather than a fortnight.',
   },
   {
     label: 'the long tail',
     heading: 'Sixty sites, four releases between them',
-    body: 'A client on 11.5 and a client on 14.3 are two different sets of names. Asked about either, it answers for the release that client is actually on rather than for the newest one you happen to know.',
+    body: 'A client on 11.5 and a client on 14.3 are two different sets of names. It answers for the release that client is on, not for the newest one you happen to know.',
   },
   {
     label: 'margin',
     heading: 'Support hours you cannot bill',
-    body: 'The questions that eat a retainer are small, repeated, and answerable — what an identifier is called, whether a field still exists, what changed in a minor. Those are exactly the ones this takes.',
+    body: 'The questions that eat a retainer are small, repeated, and answerable. The name of an identifier, if a field still exists, what changed in a minor. Those are exactly the ones this takes.',
   },
   {
     label: 'onboarding',
     heading: 'A new developer on an old project',
-    body: 'The first fortnight of a project nobody on the team wrote is spent finding out what the last team called things. It runs against their checkout on day one.',
+    body: 'The first fortnight of a project nobody on the team wrote goes on the names the last team gave things. It runs against their checkout on day one.',
   },
 ];
 
-/** One figure this audience asked for, with what it was measured against.
-    A number an agency cannot put in a calculation is a number they discount. */
+/** One figure this audience asked for, with the measure behind it. A number
+    an agency cannot put in a calculation is a number they discount. */
 const FACTS: readonly StatProps[] = [
   {
     value: '3.5',
@@ -79,7 +79,7 @@ const FACTS: readonly StatProps[] = [
     value: '0',
     label: 'per-seat charges',
     icon: 'actions-users',
-    note: 'Priced per organisation. A tool an agency has to count seats for is a tool that gets installed on two machines and shared.',
+    note: 'Priced per organisation. A tool an agency has to count seats for is a tool that lands on two machines, shared.',
   },
   {
     value: '4',
@@ -92,7 +92,7 @@ const FACTS: readonly StatProps[] = [
 /** What an agency writes into their own pipeline. Code because that is the
     medium this audience checks a claim in — a screenshot proves nothing to
     somebody who has to run it in CI. */
-const CI = `# in your pipeline, against the checkout that is being built
+const CI = `# in your pipeline, against the checkout in the build
 dev-companion check --project . --release auto
 
   ✓ 61 identifiers resolved
@@ -172,8 +172,8 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
           <h2>In the tools you already use</h2>
           <p>
             One command against a checkout, in the pipeline that builds it. It
-            reads and reports; it changes nothing, so a failing run is a
-            finding rather than a rollback.
+            reads and reports; it changes nothing, so a red run is a finding
+            rather than a rollback.
           </p>
           <p>
             The interesting line is the second one: an identifier that exists
@@ -190,10 +190,9 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
     <section class="sds-band sds-band--quiet" id="figures">
       <h2>The value, as far as anyone can say</h2>
       <p>
-        Three figures with what they were measured against. The first is
-        self-reported by four agencies, which is worth exactly what
-        self-reporting is worth${NNBSP}— it says so rather than being rounded up
-        into a claim.
+        Three figures, each with its measure. The first is what four agencies
+        report of themselves, which is worth exactly that${NNBSP}— it says so
+        rather than rounds up into a claim.
       </p>
       ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
     </section>
@@ -204,8 +203,8 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
           <h2>The objection this audience actually has</h2>
           <p>
             Not privacy and not price. It is dependency: another thing in the
-            stack that has to be kept alive, explained to a client, and
-            replaced when it stops being maintained.
+            stack somebody has to keep alive, explain to a client, and replace
+            when its maintenance stops.
           </p>
           <sds-note
             tone="info"
@@ -250,9 +249,9 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Audience',
   excludeStories: ['audiencePage', 'screenHtml'],
@@ -270,13 +269,13 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the switch at the top changes who the page is written
-    for, the block copies itself, and the way across sits before the footer
-    rather than in it. */
+/** Click through it. The switch at the top changes who the page speaks to.
+    The block copies itself, and the way across sits before the footer rather
+    than in it. */
 export const Page: Story = {
   name: 'Audience',
   render: () => {
-    /* Which reader the page is written for is the page's state, so pressing a
+    /* Which reader the page speaks to is the page's state, so a press on a
        name re-renders it. */
     const host = document.createElement('div');
     const draw = (audience: number): void => {

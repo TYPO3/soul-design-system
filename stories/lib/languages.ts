@@ -1,14 +1,14 @@
 /* One block of every language this system colours.
 
-   The list is typed against `CodeLangName`, so a language declared without an
-   example does not compile — which is the half of "declared, not surveyed" a
-   union alone cannot hold. The suite reads the same samples: a snippet nobody
-   looks at proves the grammar is registered and nothing about whether it reads
-   right, and a snippet nobody tests goes stale in a story.
+   The list has the type `CodeLangName`, so a language declared with no example
+   does not compile. That is the half of "declared, not surveyed" a union
+   alone cannot hold. The suite reads the same samples. A snippet nobody looks
+   at proves the grammar registered and nothing about how it reads, and a
+   snippet nobody tests goes stale in a story.
 
-   Each one is real, and short enough to be taken in at a glance: a comment, a
-   name, a value. Not a tour of the language — the block is showing a palette
-   of three colours, not teaching PHP. */
+   Each one is real, and short enough for one glance: a comment, a name, a
+   value. Not a tour of the language — the block shows a palette of three
+   colours, and does not teach PHP. */
 
 import type { CodeLangName } from '../../packages/frontend/src/components/code.ts';
 
@@ -42,7 +42,7 @@ vendor/bin/typo3 cache:flush`,
 
   javascript: `import { finish } from './soul-finish.js';
 
-// Every element drawn before the page is published.
+// Every element drawn before the page goes out.
 const pages = await finish('site');
 console.log(\`\${pages.length} page(s) carry their elements\`);`,
 
@@ -65,7 +65,7 @@ Run \`composer require typo3/soul-guides-theme\`, then **select the theme**:
   php: `<?php
 namespace TYPO3\\CMS\\Core;
 
-// The scope a question is answered in.
+// The scope a question gets its answer in.
 final class Version
 {
     public function __construct(private readonly string $number) {}
@@ -135,11 +135,11 @@ page.10.settings.lang = de
 domains: [labels, xlf]`,
 };
 
-/** The names, in the order the samples are written — for a control that offers
-    the set rather than a free text field, and for a page showing all of them. */
+/** The names, in the order of the samples. For a control that offers the set
+    rather than a free text field, and for a page that shows all of them. */
 export const LANGUAGES = Object.keys(SAMPLES) as readonly CodeLangName[];
 
-/** The sample for whatever a caller was given, which is an open string: the
-    control offers the set, and a story told a language nobody wrote one for
-    shows an empty block rather than throwing. */
+/** The sample for whatever a caller got, which is an open string. The control
+    offers the set, and a story told a language nobody wrote one for shows an
+    empty block rather than throws. */
 export const sampleOf = (lang: string): string => SAMPLES[lang as CodeLangName] ?? '';

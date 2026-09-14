@@ -1,10 +1,10 @@
 /* The landing page.
 
    A whole surface and a **Starting Point** a consuming project seeds a design
-   from, so it has to be finished rather than a sketch: a page that stops after
+   from, so it has to be complete rather than a sketch. A page that stops after
    the pitch teaches nothing about how the system sets a table or a grid.
 
-   It carries no stylesheet of its own and no inline layout: the shell, the bar,
+   It carries no stylesheet of its own and no inline layout. The shell, the bar,
    the bands and the grids are the system's classes, and so is where each sheds.
    Bands rather than one column of sections, because a page that argues needs
    its ground to change. See `lib/page.ts`. */
@@ -36,7 +36,7 @@ const AUDIENCES = [
   {
     label: 'audience 01',
     heading: 'Product designer',
-    body: 'Starting points to open, tokens to draw against, and a specimen for every rule — so a decision is looked up rather than remembered.',
+    body: 'Starting points to open, tokens to draw against, and a specimen for every rule. A decision is a lookup, not a memory.',
   },
   {
     label: 'audience 02',
@@ -46,7 +46,7 @@ const AUDIENCES = [
   {
     label: 'audience 03',
     heading: 'Backend developer',
-    body: 'The same class names a template writes by hand. Neither layer is a fallback for the other, and both are checked against the same file.',
+    body: 'The same class names a template writes by hand. Neither layer is a fallback for the other, and one file checks both.',
   },
 ];
 
@@ -72,7 +72,7 @@ const COMPONENTS: readonly {
 }[] = [
   {
     name: 'sds-code',
-    body: 'A fenced block, its head and its copy button. It highlights what it is given rather than leaving that to the page — fourteen grammars, one of them TYPO3’s own, and a caption where a renderer has one to place.',
+    body: 'A fenced block, its head and its copy button. It colours its own content rather than leaves that to the page. Fourteen grammars, one of them TYPO3’s own, and a caption where a renderer has one.',
     marks: ['element', 'class layer', '14 grammars'],
     columns: [{ head: 'Property', cls: 'sds-td-name' }, { head: 'Required' }, { head: 'Meaning' }],
     rows: [
@@ -85,12 +85,12 @@ const COMPONENTS: readonly {
   },
   {
     name: 'sds-nav-rail',
-    body: 'The tool rail: a flat list, or one long enough to need sections. A section is a `details`, so it folds before any script has run and a closed rail is a few lines rather than a screen of them.',
+    body: 'The tool rail: a flat list, or one long enough to need sections. A section is a `details`, so it folds before any script runs. A closed rail is a few lines rather than a screen of them.',
     marks: ['element', 'class layer', 'works unscripted'],
     columns: [{ head: 'Property', cls: 'sds-td-name' }, { head: 'Required' }, { head: 'Meaning' }],
     rows: [
       { cells: ['items', 'yes', 'Labels, or entries with an href, an icon, or a group of their own.'] },
-      { cells: ['active', 'no', 'Which item is current. Pressing one moves it and says so.'] },
+      { cells: ['active', 'no', 'Which item is current. A press on one moves it and says so.'] },
       { cells: ['open', 'no', 'Per group. A group holding the current item opens regardless.'] },
     ],
     source: '<sds-nav-rail active="1" items=\'[\n  "overview",\n  { "label": "tools", "items": ["typo3_icon_lookup"] }\n]\'></sds-nav-rail>',
@@ -123,7 +123,7 @@ const SOURCES = [
   {
     label: 'source 03',
     heading: 'The guidelines',
-    body: 'Written pages, drawn from the artwork files themselves — the construction, the sizes and the clear space are measured, not described.',
+    body: 'Written pages, drawn from the artwork files themselves. The construction, the sizes and the clear space come from a measurement, not a description.',
   },
   {
     label: 'source 04',
@@ -135,12 +135,12 @@ const SOURCES = [
 const PIPELINE = [
   {
     label: 'step 01',
-    heading: 'A story is written',
-    body: 'The component, with the properties it is being shown at. Nothing is hand-built beside it — a specimen that rebuilds the markup documents the rebuild.',
+    heading: 'A story exists',
+    body: 'The component, with the properties it shows at. Nothing hand-built stands beside it — a specimen that rebuilds the markup documents the rebuild.',
   },
   {
     label: 'step 02',
-    heading: 'The card is rendered',
+    heading: 'The card renders',
     body: 'Server-side, to flat HTML at the size it declares, with every element replaced by what it produced.',
   },
   {
@@ -151,7 +151,7 @@ const PIPELINE = [
   {
     label: 'step 04',
     heading: 'The diff catches the rest',
-    body: 'A card that moved is a picture that changed, and it is reviewed as one.',
+    body: 'A card that moved is a picture that changed, and a review reads it as one.',
   },
 ];
 
@@ -162,7 +162,7 @@ const INSTALL: readonly CodeLine[] = [
 ];
 
 /** What a team asks before it takes the system on. Folded, and the first one
-    open, so the shape of an answer is visible without pressing anything. */
+    open, so the shape of an answer is visible before any press. */
 const ADOPTION: readonly Entry[] = [
   {
     question: 'Do we have to use the web components?',
@@ -175,22 +175,22 @@ const ADOPTION: readonly Entry[] = [
   {
     question: 'What happens to our own stylesheet?',
     answer: html`It shrinks to what is genuinely yours. Anything you find
-      yourself declaring twice is a gap in a component, and closing it there is
-      the whole arrangement — a system everybody patches locally is a system
-      nobody can change centrally.`,
+      yourself declare twice is a gap in a component, and the fix belongs
+      there. A system everybody patches locally is a system nobody can change
+      centrally.`,
   },
   {
     question: 'Which framework does it need?',
-    answer: 'None. Two files, no build step, and nothing about the page it is on — the elements register themselves and the tokens are custom properties.',
+    answer: 'None. Two files, no build step, and nothing about the page it is on. The elements register themselves and the tokens are custom properties.',
   },
 ];
 
 /** The page. `flat` composes the form a static file can hold. */
 export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
-  /* The two places the renderings differ, and both for the same reason: a
-     button's label and a tab's panel are written between the tags, and
-     `renderStatic` flattens no element that was given children. Same
-     functions underneath, so the file is the markup the elements render. */
+  /* The two places the renderings differ, and both for the same reason. A
+     button's label and a tab's panel stand between the tags, and
+     `renderStatic` flattens no element with children. Same functions
+     underneath, so the file is the markup the elements render. */
   const start = flat
     ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-play"></sds-icon>${buttonLabel('Start a design')}`)}${buttonMarkup({ variant: 'secondary' }, 'Browse the components')}`
     : html`<sds-button variant="primary"><sds-icon name="actions-play"></sds-icon>Start a design</sds-button>
@@ -221,9 +221,9 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           <h1 class="sds-display">A system, not a stylesheet</h1>
           <p class="sds-lead">
             Tokens, a class layer and the elements over it — one vocabulary,
-            whether a surface runs JavaScript or is rendered by PHP. Every rule
-            it holds is shown on a card generated from the component that holds
-            it.
+            on a surface that runs JavaScript and on one PHP renders. Every
+            rule it holds shows on a card generated from the component that
+            holds it.
           </p>
           <div class="sds-actions">${start}</div>
         </div>
@@ -245,7 +245,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="foundations">
       <h2>Its parts</h2>
       <p>
-        Four layers, and each of them is worth having on its own. A surface
+        Four layers, and each of them stands on its own. A surface
         that takes only the tokens still cannot invent a colour; one that
         takes only the classes still gets both modes.
       </p>
@@ -257,7 +257,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
         <h2>Three components in full</h2>
         <p>
           One per plane: a block the machine writes, the navigation beside a
-          page, and the navigation above it. Each is documented from the
+          page, and the navigation above it. Each documents itself from the
           element that renders it.
         </p>
         ${COMPONENTS.map(
@@ -290,8 +290,8 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="pipeline">
       <h2>Making a specimen</h2>
       <p>
-        The documentation is generated from the components, in four steps
-        that run on every change.
+        The documentation comes out of the components, in four steps that
+        run on every change.
       </p>
       ${grid(
         PIPELINE.map(
@@ -302,7 +302,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="questions">
-      <h2>Before it is adopted</h2>
+      <h2>Before the decision</h2>
       <p>
         Three of them, folded: a page that argues has to answer these, and a
         reader who has none of them is already at the install step.
@@ -343,7 +343,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
 
 /* No generated page in front of this one — the exception to the `['autodocs',
    '!dev']` every component carries. What a layout documents is what it does at
-   a given width, which a docs page cannot show: the viewport tool renders in
+   a given width, which a docs page cannot show. The viewport tool renders in
    the story view alone. Untagged, the story itself is what the sidebar lists,
    hoisted to a single leaf by `name` below. */
 const meta: Meta = {
@@ -354,7 +354,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/landing.html',
       title: 'Soul Design System',
-      subtitle: 'The first page: the pitch, who it is for, what it is made of, and how to start',
+      subtitle: 'The first page: the pitch, who it is for, what it consists of, and how to start',
       viewport: '1440x900',
     }),
   },
@@ -363,9 +363,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the menu collapses when the header runs out and opens
-    where it did, the install block switches, a table scrolls rather than
-    widening the page, and the mode switch moves all of it. */
+/** Click through it. The menu collapses when the header runs out and opens
+    where it did. The install block switches, a table scrolls rather than
+    widens the page, and the mode switch moves all of it. */
 export const Page: Story = {
   name: 'Landing',
   render: () => landingPage(),

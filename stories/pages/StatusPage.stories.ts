@@ -1,12 +1,12 @@
-/* What is answering, and what is not.
+/* What answers, and what does not.
 
    The page every project puts up after the first outage and nobody designs
-   before it. Here nothing is a service the reader depends on being up, so what
-   it honestly reports is the *sources* and which are reachable.
+   before it. Here nothing is a service the reader depends on, so what it
+   honestly reports is the *sources* and which are reachable.
 
    Which makes it the one page where status colours belong on the page rather
-   than inside a result — still in badges and result rows, never as furniture.
-   No component was added for it: a status page with its own vocabulary is one
+   than inside a result. Still in badges and result rows, never as furniture.
+   No new component for it: a status page with its own vocabulary is one
    nobody can compare to the rest of the site. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -73,13 +73,13 @@ const ROWS: readonly Row[] = [
 
 const FACTS: readonly StatProps[] = [
   {
-    /* The whole is its own property, so the figure is a share the element can
+    /* The whole is its own property. So the figure is a share the element can
        draw rather than a sentence a page happened to type into a value. */
     value: '2',
     of: '3',
     label: 'network sources answering',
     icon: 'actions-globe',
-    note: html`One is slow and one is unreachable from the checker. Both are read-only
+    note: html`One is slow and one is unreachable from the checker. Both only read,
       and neither stops a tool that does not need them.`,
   },
   {
@@ -113,7 +113,7 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
       </div>
       <p class="sds-lead">
         Nothing here is a service you depend on being up: the server runs on
-        your machine. What this page can report is which of the sources it may
+        your machine. What this page can report is which of the sources it can
         read are reachable from outside, and one of them is not.
       </p>
       ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
@@ -122,8 +122,8 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="sources">
       <h2>The six sources</h2>
       <p>
-        Two of them are yours and cannot be reported on from here, which is
-        stated in the table rather than left as a blank row. Every row opens
+        Two of them are yours and out of this page's reach, which the table
+        states rather than leaves as a blank row. Every row opens
         the source behind it, from the control at its end.
       </p>
       <sds-table density="medium" scrollable .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>
@@ -165,7 +165,7 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
       <h2>The limits of this page</h2>
       <sds-note
         heading="It is one location asking, every five minutes"
-        .body="${html`A source that answers here may be unreachable from your network, and
+        .body="${html`A source that answers here can be unreachable from your network, and
           the reverse. The tool’s own result is the authority for the machine it
           ran on — this page is a hint about the sources, not a verdict.`}"
       ></sds-note>
@@ -183,9 +183,9 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Status',
   excludeStories: ['statusPage', 'screenHtml'],
@@ -194,7 +194,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/status.html',
       title: 'TYPO3 Dev Companion — status',
-      subtitle: 'The sources rather than a service: what is reachable, what is degraded, and what this cannot report',
+      subtitle: 'The sources rather than a service: what is reachable, what runs degraded, and what this cannot report',
       viewport: '1440x900',
     }),
   },

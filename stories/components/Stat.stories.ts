@@ -1,9 +1,9 @@
 /* A figure stated as a fact.
 
-   The markup lives in `src/components/stat.ts`. What a single stat looks like
-   is the type scale, which `Guidelines → Type` already draws — so the card is
-   generated from the set: four figures read against each other, which is the
-   only form in which a stat shows what it is for.
+   The markup lives in `src/components/stat.ts`. A single stat looks like the
+   type scale, which `Guidelines → Type` already draws. So the card comes from
+   the set. Four figures read against each other, which is the only form in
+   which a stat shows what it is for.
 
    The stories are the two ways one can be wrong: without its bound, and with
    a value that is a claim rather than a count. */
@@ -46,11 +46,11 @@ export const SOURCE_FACTS: readonly StatProps[] = [
     value: '0',
     label: 'writes',
     icon: 'actions-file-shield',
-    note: 'Every source is read. Nothing is written back, and nothing is executed to answer.',
+    note: 'Every source is a read. Nothing goes back, and nothing runs to answer.',
   },
   {
-    /* The unit is its own property: the element sets it a step down and joins
-       it with the narrow no-break space a number may not be split from. */
+    /* The unit is its own property. The element sets it a step down and joins
+       it with the narrow no-break space that keeps a number in one piece. */
     value: '240',
     unit: 'ms',
     label: 'typical answer',
@@ -90,36 +90,36 @@ type Story = StoryObj<StatProps>;
     means nothing until it says which five. */
 export const Default: Story = { args: SOURCE_FACTS[0] as StatProps };
 
-/** A measurement carries the state it was measured in, for the same reason an
+/** A measurement carries the state it comes from, for the same reason an
     answer carries its source. */
 export const Measurement: Story = { args: SOURCE_FACTS[3] as StatProps };
 
-/** Zero is worth stating where it is the property being claimed. */
+/** Zero belongs on the page where it is the property the claim is about. */
 export const Zero: Story = { args: SOURCE_FACTS[2] as StatProps };
 
-/** Without a note. Allowed, and rarely right: a figure alone is a number the
-    reader has to take on trust. */
+/** Without a note. Permitted, and rarely right: a figure alone is a number
+    the reader has to take on trust. */
 export const Unbounded: Story = { args: { value: '5', label: 'sources' } };
 
-/** A figure that is a part of something states the whole, in the register a
-    unit is set in. Only where the number really is a share: a measurement is
-    out of nothing. Words rather than a bar, so every figure in a set keeps
-    the same three lines and their notes start together. */
+/** A figure that is a part of something states the whole, in the unit's
+    register. Only where the number really is a share: a measurement is out
+    of nothing. Words rather than a bar, so every figure in a set keeps the
+    same three lines and their notes start together. */
 export const Share: Story = {
   args: {
     value: '2',
     of: '3',
     label: 'network sources answering',
     icon: 'actions-globe',
-    note: 'One is slow and one is unreachable from the checker. Both are read-only and neither is required to answer.',
+    note: 'One is slow and one is unreachable from the checker. Both only read, and neither has to answer.',
   },
 };
 
-/** One of each kind, which is what a set is in practice: a count, a share of a
-    stated whole, a measurement in a unit, and a zero that is the claim. They
-    are read against each other, so the set is the specimen and not any one of
-    them — and every kind keeps the same three lines, which is what lets the
-    notes be compared across the row. */
+/** One of each kind, which is what a set is in practice. A count, a share of
+    a stated whole, a measurement in a unit, and a zero that is the claim. A
+    reader reads them against each other, so the set is the specimen and not
+    any one of them. Every kind keeps the same three lines, which is what lets
+    a reader compare the notes across the row. */
 const MIXED: readonly StatProps[] = [
   SOURCE_FACTS[0] as StatProps,
   {
@@ -127,17 +127,16 @@ const MIXED: readonly StatProps[] = [
     of: '3',
     label: 'network sources answering',
     icon: 'actions-globe',
-    note: 'One is slow and one is unreachable from the checker. Neither is required to answer.',
+    note: 'One is slow and one is unreachable from the checker. Neither has to answer.',
   },
   SOURCE_FACTS[3] as StatProps,
   SOURCE_FACTS[2] as StatProps,
 ];
 
-/** The set. `sds-grid` lays it out, like any other set read side by side, and
-    `dense` is the width a figure holds: a number and the line under it, four
-    or five across, where a card carrying a paragraph would take the room of
-    two. */
-/* Named rather than exported as `Set`: the export would shadow the global one
+/** The set. `sds-grid` lays it out, like any other set read side by side.
+    `dense` is the width a figure holds: a number and the line under it. Four
+    or five across, where a card with a paragraph takes the room of two. */
+/* Named rather than exported as `Set`: that export shadows the global one
    for the whole module, and the sidebar reads the name either way. */
 export const AsASet: Story = {
   name: 'Set',
@@ -145,7 +144,7 @@ export const AsASet: Story = {
 };
 
 /** The same set as one wall. The gutter is out, so the figures share a
-    hairline and the ground under each is the wall's, not the stat's — which is
+    hairline and the ground under each is the wall's, not the stat's. That is
     why a figure anywhere else is still bare. Nothing about the stat changes. */
 export const Wall: Story = {
   render: () => grid(MIXED.map(sdsStat), { variant: 'flush' }),
@@ -153,8 +152,8 @@ export const Wall: Story = {
 
 /** The card, which is the two stories above one under the other: what a set
     decides is only visible against the same figures decided differently.
-    `flat` is the form a card can take — a set handed its items as a property,
-    an element given children being one a static render cannot flatten. */
+    `flat` is the form a card can take: a set with its items as a property.
+    A static render cannot flatten an element with children. */
 export const specimenHtml = (): string =>
   spec([
     part(grid(MIXED.map(sdsStat), { flat: true, variant: 'dense' })),

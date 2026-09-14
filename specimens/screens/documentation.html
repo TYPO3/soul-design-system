@@ -121,7 +121,7 @@
     <span class="sds-rail__item"><span class="sds-rail__label">decisions</span></span>
     <details class="sds-rail__fold">
       <summary aria-label="Pages in decisions"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
-      <a class="sds-rail__item" href="#written"><span class="sds-rail__label">What is written down</span></a>
+      <a class="sds-rail__item" href="#written"><span class="sds-rail__label">What stands written down</span></a>
     </details>
   </div>
 </nav>
@@ -207,8 +207,8 @@
       <h2 class="sds-h3" id="settings">Settings</h2>
       <p>
         What a project has to set, and what it can leave alone. One entry per
-        value: the name it is written under, the facts a machine checks, and a
-        sentence saying what happens either way.
+        value: the name it goes under, the facts a machine checks, and a
+        sentence that says what happens either way.
       </p>
 
       <dl class="sds-confval">
@@ -242,7 +242,7 @@
       <dt class="sds-label">unit</dt>
       <dd class="sds-mono">seconds</dd>
     </dl>
-    <div class="sds-confval__body">How long a rendered page may be served from cache.
+    <div class="sds-confval__body">How long a rendered page can come from cache.
       <span class="sds-mono">0</span> disables caching, which is a development
       setting and never a production one.</div>
   </dd>
@@ -251,8 +251,8 @@
       <h2 class="sds-h3" id="trouble">Before you file an issue</h2>
       <p>
         The three questions the install step raises, kept on the page it raises
-        them on. Folded, because a reader who has none of them is reading the
-        next section instead of scrolling past three answers.
+        them on. Folded, because a reader who has none of them reads the next
+        section instead of three answers on the way past.
       </p>
 
       <div class="sds-accordion">
@@ -261,7 +261,7 @@
     name="install-questions"
     open
   >
-    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>The client starts it and nothing is registered</summary>
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>The client starts it and nothing registers</summary>
     <div class="sds-accordion__body" >The binary ran with a PHP older than 8.2 and exited before it
       announced anything. Run <span class="sds-mono">php -v</span> as the client
       runs it — a shell and a desktop client rarely have the same one.</div>
@@ -271,18 +271,18 @@
     
   >
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>It answers, but not about my installation</summary>
-    <div class="sds-accordion__body" >Nothing was found to read. The server takes the project root as
+    <div class="sds-accordion__body" >It found nothing to read. The server takes the project root as
       an argument and falls back to bundled knowledge without it, which is the
-      answer you are getting.</div>
+      answer you get.</div>
   </details><details
     class="sds-accordion__item"
     name="install-questions"
     
   >
-    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>A tool says the installation would not boot</summary>
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>A tool says the installation did not boot</summary>
     <div class="sds-accordion__body" >It read the package registry from disk instead, and the answer
-      says so rather than looking complete: every declared package is in it and
-      none of the dynamically registered ones.</div>
+      says so rather than looks complete: every declared package is in it and
+      none of the ones registered at run time.</div>
   </details>
 </div>
 
@@ -299,7 +299,7 @@
     <div class="sds-card__icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-book"><g fill="currentColor"><path d="M12 1H3v14h9a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm0 12v1H4V2h8v9h-1v2h1z"></path><path d="M11 3.25a.25.25 0 0 0-.25-.25h-5.5a.25.25 0 0 0-.25.25v2.5c0 .138.112.25.25.25h5.5a.25.25 0 0 0 .25-.25v-2.5zM5 12h2v1H5z"></path></g></svg></div>
     
     <h3 class="sds-card__title"><a href="#tools">The tool surface</a></h3>
-    <p class="sds-card__text">Every tool the server registers, what it is asked and what it answers with.</p>
+    <p class="sds-card__text">Every tool the server registers, the question it takes and what it answers with.</p>
   </div>
   <div class="sds-card__foot">
     
@@ -311,7 +311,7 @@
     <div class="sds-card__icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-database"><g fill="currentColor"><path d="M2 3.5v9C2 14.142 5.019 15 8 15s6-.858 6-2.5v-9C14 .218 2 .218 2 3.5zM8 2c3.006 0 5 .903 5 1.5-.002.597-1.995 1.5-5 1.5s-4.998-.903-5-1.5C3 2.903 4.994 2 8 2zm5 4.5c-.002.597-1.995 1.5-5 1.5s-4.998-.903-5-1.5V4.932c1.13.701 3.067 1.067 5 1.067 1.933 0 3.87-.366 5-1.067V6.5zm0 1.432v1.569C12.998 10.098 11.005 11 8 11s-4.998-.902-5-1.5V7.933C4.13 8.634 6.067 9 8 9c1.933 0 3.87-.366 5-1.068zM8 14c-3.006 0-5-.902-5-1.5v-1.568C4.13 11.634 6.067 12 8 12c1.933 0 3.87-.366 5-1.068V12.5c0 .598-1.994 1.5-5 1.5z"></path></g></svg></div>
     
     <h3 class="sds-card__title"><a href="#tools">The bundled knowledge</a></h3>
-    <p class="sds-card__text">What ships inside the package, how it is versioned, and what it is not.</p>
+    <p class="sds-card__text">What ships inside the package, how it takes a version, and what it is not.</p>
   </div>
   <div class="sds-card__foot">
     
@@ -323,7 +323,7 @@
     <div class="sds-card__icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-extension"><g fill="currentColor"><path d="M13.408 3.546 7.913 1.087a1.002 1.002 0 0 0-.817 0L1.592 3.545c-.36.161-.592.519-.592.914v7.102a1 1 0 0 0 .594.914l5.496 2.439a1.003 1.003 0 0 0 .812 0l5.504-2.446a1 1 0 0 0 .594-.914V4.459a1 1 0 0 0-.592-.913zM7.504 2l4.89 2.187L7.5 6.449 2.607 4.188 7.504 2zM2 5.01l5 2.31v6.46l-5-2.219V5.01zm6 8.766V7.32l5-2.31v6.545l-5 2.221z"></path></g></svg></div>
     
     <h3 class="sds-card__title"><a href="#tools">Writing a task skill</a></h3>
-    <p class="sds-card__text">The shape of a skill, and the one rule that decides whether it earns a file.</p>
+    <p class="sds-card__text">The shape of a skill, and the one rule that decides if it earns a file.</p>
   </div>
   <div class="sds-card__foot">
     
@@ -334,7 +334,7 @@
   <div class="sds-card__body">
     <div class="sds-card__icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-tag"><g fill="currentColor"><path d="M6.657 1H1v5.656l8.485 8.485 5.657-5.657L6.657 1zM1.99 6.232V1.99h4.243l7.495 7.494-4.243 4.243L1.99 6.232z"></path><path d="M3.475 3.475A1.75 1.75 0 1 0 5.952 5.95a1.75 1.75 0 0 0-2.477-2.475zm.707.707a.75.75 0 1 1 1.061 1.06.75.75 0 0 1-1.061-1.06zM6.126 8.602l2.475-2.475 3.535 3.536-2.475 2.474z"></path></g></svg></div>
     
-    <h3 class="sds-card__title"><a href="#tools">What is written down</a></h3>
+    <h3 class="sds-card__title"><a href="#tools">What stands written down</a></h3>
     <p class="sds-card__text">Decisions, requirements and the records that hold them together.</p>
   </div>
   <div class="sds-card__foot">

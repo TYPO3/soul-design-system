@@ -1,16 +1,15 @@
 /* The page that is not there.
 
    The one surface nobody designs and everybody ships, and the rules already say
-   what it owes: name what was asked, say it answered, say what it does not
+   what it owes. Name the request, say it answered, say what it does not
    cover, offer the nearest real thing. A 404 that says "page not found" over a
    large number has done none of that.
 
-   And it is said as a page says things: the address that was asked is the
-   headline, what answered is the lead under it, and the search field is the
-   nearest real thing. A box holding a smaller title would make the one
-   statement on the page quieter than the cards below it. The chrome stays: a
-   reader arriving here needs the way out every other page has. See
-   `lib/page.ts`. */
+   And it speaks as a page speaks. The requested address is the headline, what
+   answered is the lead under it, and the search field is the nearest real
+   thing. A box with a smaller title makes the one statement on the page
+   quieter than the cards below it. The chrome stays: a reader who arrives
+   here needs the way out every other page has. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -22,8 +21,8 @@ import { dsScreen, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
 /** Where a reader who landed here probably meant to be. Named pages rather
-    than a link to the front page: "go home" is the offer that helps nobody who
-    was following a link to something specific. */
+    than a link to the front page. "Go home" is the offer that helps nobody
+    who followed a link to something specific. */
 const NEAREST = [
   {
     icon: 'actions-list-alternative' as const,
@@ -60,8 +59,8 @@ export function notFoundPage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-eyebrow label="404 · nothing at this address"></sds-eyebrow>
       <h1>There is no page at this address</h1>
       <p class="sds-lead">
-        <span class="sds-mono">/tools/typo3_label_lookup/v2</span> was read and the site
-        has nothing at it. Nothing here was removed — this path has never existed, so it
+        The site read <span class="sds-mono">/tools/typo3_label_lookup/v2</span> and
+        has nothing at it. Nothing here went away — this path has never existed, so it
         is not a link that rotted but one that was never right.
       </p>
 
@@ -81,8 +80,8 @@ export function notFoundPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="nearest">
       <h2>The nearest real things</h2>
       <p>
-        Three pages rather than a link to the front page: whoever followed a
-        link to something specific is not helped by being sent to the start.
+        Three pages rather than a link to the front page: the start helps
+        nobody who followed a link to something specific.
       </p>
       ${grid(
         NEAREST.map(
@@ -105,9 +104,9 @@ export function notFoundPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Not found',
   excludeStories: ['notFoundPage', 'screenHtml'],
@@ -116,7 +115,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/not-found.html',
       title: 'TYPO3 Dev Companion — not found',
-      subtitle: 'A boundary is an answer: what was asked, what answered, and the nearest real thing',
+      subtitle: 'A boundary is an answer: the request, what answered, and the nearest real thing',
       viewport: '1440x900',
     }),
   },

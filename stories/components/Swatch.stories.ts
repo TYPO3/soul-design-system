@@ -1,13 +1,13 @@
 /* One colour, stated as a fact.
 
-   The markup lives in `src/components/swatch.ts`. No `parameters.dsCard`: what
-   the colours *are* is drawn by `Guidelines → Colours`, which is the specimen
+   The markup lives in `src/components/swatch.ts`. No `parameters.dsCard`.
+   `Guidelines → Colours` draws what the colours *are*, which is the specimen
    layer's own scaffolding. This is the same job on a product surface, where a
    page documents a palette that is not this system's.
 
-   The stories are the three things a swatch has to survive: a value that is
+   The stories are the three things a swatch has to survive. A value that is
    one pixel wide, a value the same colour as the page, and a value nobody
-   should be allowed to smuggle a declaration through. */
+   must smuggle a declaration through. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -23,8 +23,8 @@ export const sdsSwatch = ({ value, name, resolved, kind }: SwatchProps) =>
     kind="${kind ?? 'fill'}"
   ></sds-swatch>`;
 
-/** The set the guide page shows, in the order it shows them. Exported so the
-    page composes these rather than keeping a copy of its own. */
+/** The set the guide page shows, in the order it shows them. An export, so
+    the page composes these rather than keeps a copy of its own. */
 export const PALETTE: readonly SwatchProps[] = [
   { value: 'var(--accent)', name: '--accent', resolved: '#FF8700' },
   { value: 'var(--surface-canvas)', name: '--surface-canvas', resolved: 'light-dark(#FBFAF7, #131210)' },
@@ -56,39 +56,39 @@ type Story = StoryObj<SwatchProps>;
     part of a colour. */
 export const Default: Story = { args: PALETTE[0] as SwatchProps };
 
-/** A hairline is a colour too, and it cannot be shown as a fill: at one pixel
-    a value is invisible, and filled it is a different job being done by the
-    same number. The chip becomes its own edge. */
+/** A hairline is a colour too, and it cannot show as a fill. At one pixel a
+    value is invisible, and as a fill it is a different job done by the same
+    number. The chip becomes its own edge. */
 export const Hairline: Story = { args: PALETTE[5] as SwatchProps };
 
-/** A value the same colour as the page it is documented on. The chip keeps the
-    system's own hairline for exactly this: without it the square would be
-    missing rather than white. */
+/** A value the same colour as the page it stands on. The chip keeps the
+    system's own hairline for exactly this: without it the square is absent
+    rather than white. */
 export const SameAsThePage: Story = {
   name: 'The colour of the page',
   args: { value: 'var(--surface-canvas)', name: '--surface-canvas', resolved: '#131210' },
 };
 
-/** A pair of values that hold both modes at once. The token is the pair, and
-    writing it out is what makes the swatch document the system rather than the
-    mode the reader happens to be in. */
+/** A pair of values that hold both modes at once. The token is the pair. In
+    full, it makes the swatch document the system rather than the mode the
+    reader happens to be in. */
 export const BothModes: Story = {
   name: 'A token that is a pair',
   args: PALETTE[3] as SwatchProps,
 };
 
-/** Anything that is not a colour is dropped rather than painted. The value
-    arrives from a document somebody else wrote, and a style attribute is not a
-    place to find out what it turns out to be — the name and the value are
-    still readable, which is what the reader came for. */
+/** Anything that is not a colour drops rather than paints. The value arrives
+    from a document somebody else wrote. A style attribute is not a place to
+    find out what it turns out to be. The name and the value are still
+    readable, which is what the reader came for. */
 export const NotAColour: Story = {
   name: 'A value that is not a colour',
   args: { value: 'red; position:fixed; inset:0', name: '--not-a-colour', resolved: 'dropped' },
 };
 
-/** The set, which is how a palette is actually read: laid out by `sds-grid`
+/** The set, which is how a reader reads a palette. `sds-grid` lays it out
     like every other set read side by side, and at the grid's ordinary minimum.
-    What one swatch needs is its longest value with the chip beside it; `wide`
+    What one swatch needs is its longest value with the chip beside it. `wide`
     reserves enough more than that to cost a track wherever the column is
     narrow, which is what it did beside a guideline page's contents. */
 export const Palette: Story = {

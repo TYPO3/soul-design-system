@@ -1,11 +1,11 @@
 /* What every page of one site has in common.
 
-   A page layout is the system's; what a *site* repeats is not — its sections,
-   its columns of links, the line saying what the product is. A copy per page is
-   where those start to disagree, and a footer with four columns on one page and
-   five on the next is not a decision anybody made. So the chrome is written
-   once and each page says which section it is in. Nothing here is a
-   component. */
+   A page layout is the system's; what a *site* repeats is not. Its sections,
+   its columns of links, the line that says what the product is. A copy per
+   page is where those start to disagree. A footer with four columns on one
+   page and five on the next is not a decision anybody made. So the chrome
+   stands here once and each page says which section it is in. Nothing here is
+   a component. */
 
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/footer.ts';
@@ -14,11 +14,11 @@ import { type FooterGroup, type FooterLink } from '../../packages/frontend/src/c
 import { type DropdownChoice } from '../../packages/frontend/src/components/dropdown.ts';
 import { type MenuEntry } from '../../packages/frontend/src/components/nav-base.ts';
 
-/* The site, as the one entry every navigation on it is given: the sections
+/* The site, as the one entry every navigation on it gets: the sections
    under it, and the pages under those. They are other pages rather than places
-   on this one, and a static screen carries no site around it — so the targets
-   are stubs and the menu is documented by what it does at width, which is the
-   same on every page that has one. */
+   on this one, and a static screen carries no site around it. So the targets
+   are stubs, and what the menu does at width documents it, which is the same
+   on every page that has one. */
 export const SITE: MenuEntry = {
   label: 'Dev Companion',
   items: [
@@ -55,16 +55,16 @@ export const SITE: MenuEntry = {
 };
 
 /** The site with one of its sections marked, which is what a page hands its
-    bar: the same entry, said from where the reader is standing. */
+    bar. The same entry, said from where the reader stands. */
 export const siteMenu = (at: number): MenuEntry => ({
   ...SITE,
   items: (SITE.items ?? []).map((section, i) => (i === at ? { ...section, here: true } : section)),
 });
 
-/* The same site, said in the languages it is written in. A page belongs to one
-   of them and the bar names the rest — so the control is site chrome like the
-   sections and the columns are, and the targets are stubs for the same reason
-   they are above. */
+/* The same site, said in its languages. A page belongs to one of them and the
+   bar names the rest. So the control is site chrome like the sections and
+   the columns are, and the targets are stubs for the same reason they are
+   above. */
 export const SITE_LANGUAGES: readonly DropdownChoice[] = [
   { label: 'English', href: '#', lang: 'en', current: true },
   { label: 'Deutsch', href: '#', lang: 'de' },
@@ -100,13 +100,13 @@ export const SITE_GROUPS: readonly FooterGroup[] = [
   {
     label: 'Project',
     items: [
-      { label: 'What is written down', href: '#' },
+      { label: 'What stands written down', href: '#' },
       { label: 'Reporting a wrong answer', href: '#' },
       { label: 'Contributing', href: '#' },
     ],
   },
-  /* Where a mark says what the link is rather than decorating it. Every one of
-     them keeps its label: four glyphs in this system may stand alone, and all
+  /* Where a mark says what the link is rather than decorates it. Every one of
+     them keeps its label: four glyphs in this system can stand alone, and all
      four say something about a result. */
   {
     label: 'Community',
@@ -128,7 +128,7 @@ export const SITE_GROUPS: readonly FooterGroup[] = [
 ];
 
 /** The line that has to be on every page. It says what the product is and who
-    it is for; it never says whose it is, which is what the copyright beside it
+    it is for. It never says whose it is, which is what the copyright beside it
     is already for. */
 export const SITE_NOTE =
   'A development tool for the people who build, extend and run TYPO3 projects.';
@@ -138,10 +138,10 @@ export const SITE_META: readonly FooterLink[] = [
   { label: 'docs.typo3.org', href: 'https://docs.typo3.org', external: true },
 ];
 
-/** The header, with this page's section marked. It is handed the site and the
-    languages it is written in — the row, the panel under a section and the
-    drawer are all that one entry, read at whatever width there is. The same
-    element the guides theme renders, search included, because this is the bar
+/** The header, with this page's section marked. It gets the site and its
+    languages. The row, the panel under a section and the drawer are all that
+    one entry, read at whatever width there is. The same element the guides
+    theme renders, search included, because this is the bar
     `tests/pages.spec.ts` opens at every width. */
 export const siteBar = (active: number, home = '#'): TemplateResult =>
   html`<sds-nav-main

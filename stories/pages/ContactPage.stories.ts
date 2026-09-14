@@ -1,14 +1,13 @@
 /* The form, and the two states that follow it.
 
    What a form page carries is not the controls but the three states a form is
-   in, most being drawn in the first alone:
+   in. Most pages draw the first alone. The form: labels above, hints under,
+   nothing silently mandatory. It failed: a summary at the top, focused, each
+   entry a link to its field. It went out: what went out, what happens next,
+   and how long that takes.
 
-     the form      labels above, hints under, nothing silently required
-     it failed     a summary at the top, focused, each entry a link to its field
-     it was sent   what was sent, what happens next, and how long that takes
-
-   The submit is real, so the error state is reachable by pressing a button
-   rather than by a second story. See `lib/page.ts`. */
+   The submit is real, so a press on a button reaches the error state, rather
+   than a second story. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
@@ -40,9 +39,9 @@ const TRAIL: readonly Crumb[] = [
 const RELEASES = ['12.4', '13.4', '14.3', 'main'];
 
 const REPLY = [
-  { label: 'Email', value: 'email', hint: 'One reply, to the address above. Nothing else is sent there.' },
+  { label: 'Email', value: 'email', hint: 'One reply, to the address above. Nothing else goes there.' },
   { label: 'In the repository', value: 'repository', hint: 'The report becomes an issue, and the thread is public.' },
-  { label: 'No reply', value: 'none', hint: 'It is read and filed. Nothing comes back.' },
+  { label: 'No reply', value: 'none', hint: 'A person reads and files it. Nothing comes back.' },
 ];
 
 const CHANNELS = [
@@ -56,12 +55,12 @@ const CHANNELS = [
     icon: 'actions-book' as const,
     label: 'documentation',
     heading: 'A page that is wrong',
-    body: 'Documentation is not answered from here. The page itself carries the way to report what it says.',
+    body: 'Documentation gets no answer from here. The page itself carries the way to report what it says.',
   },
   {
     icon: 'actions-shield' as const,
     label: 'security',
-    heading: 'Something that should not be public',
+    heading: 'Something that must not be public',
     body: 'A finding that affects an installation goes to the security address instead, and never through this form.',
   },
 ];
@@ -83,7 +82,7 @@ export interface ContactMode extends PageMode {
 /** The page. `flat` composes the form a static file can hold. */
 export function contactPage({ flat = false, state = 'form', errors = [], announce = false, onSubmit, onAgain }: ContactMode = {}): TemplateResult {
   /* The one place the two renderings differ: a button's label is content, and
-     `renderStatic` flattens no element that was given children. */
+     `renderStatic` flattens no element with children. */
   const send = flat
     ? buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-paperplane"></sds-icon>${buttonLabel('Send the report')}`)
     : html`<sds-button variant="primary" @click="${() => onSubmit?.()}"><sds-icon name="actions-paperplane"></sds-icon>Send the report</sds-button>`;
@@ -164,9 +163,9 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
               page showed it, and the address is used for the reply alone.`}"
           ></sds-note>
           <p>
-            It is read by a person, usually within two working days. A report
+            A person reads it, usually within two working days. A report
             about bundled knowledge that turns out to be wrong becomes a
-            changelog entry, and the entry names the release it was fixed in —
+            changelog entry, and the entry names the release with the fix —
             not the person who reported it.
           </p>
           <div class="sds-row">
@@ -193,8 +192,8 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
       <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
       <h1>Report a wrong answer</h1>
       <p class="sds-lead">
-        An answer that names its source can be checked, and one that is wrong
-        can be fixed in the source rather than argued about. This form is how
+        You can check an answer that names its source, and one that is wrong
+        gets its fix in the source rather than an argument. This form is how
         the second half of that happens.
       </p>
     </section>
@@ -208,10 +207,10 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
         <div class="sds-column">
           <sds-eyebrow label="What happens to it"></sds-eyebrow>
           <p>
-            It is read by a person. Where the answer came from bundled
-            knowledge, the fix is a change to that knowledge and ships with the
-            next release; where it came from your installation, the reply says
-            what the tool read and why it read that.
+            A person reads it. Where the answer came from bundled knowledge,
+            the fix is a change to that knowledge and ships with the next
+            release. Where it came from your installation, the reply says what
+            the tool read and why it read that.
           </p>
           <sds-note
             heading="Nothing is collected that you did not attach"
@@ -220,8 +219,9 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
               carries an analytics script.`}"
           ></sds-note>
           <p>
-            Typical turnaround is two working days${NNBSP}— longer where the answer
-            has to be reproduced against a release the project no longer runs.
+            Typical turnaround is two working days${NNBSP}— longer where we have
+            to reproduce the answer against a release the project no longer
+            runs.
           </p>
         </div>
       </div>
@@ -231,7 +231,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
       <h2>Three things that go elsewhere</h2>
       <p>
         This form is for an answer that was wrong. These are not that, and
-        sending them here makes them slower rather than faster.
+        here they get slower rather than faster.
       </p>
       ${grid(
         CHANNELS.map(
@@ -252,9 +252,9 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Contact',
   excludeStories: ['contactPage', 'screenHtml'],
@@ -276,14 +276,14 @@ type Story = StoryObj;
     form whose failures are a fixture proves the box is red and nothing else. */
 function check(host: HTMLElement): FormError[] {
   /* Read off the control itself and not off the element's `value`, which is
-     the placeholder until something is typed. What is in the box is what the
+     the placeholder until the reader types. What is in the box is what the
      reader answered. */
   const value = (id: string): string =>
     (host.querySelector(`#${id}`) as HTMLInputElement | HTMLTextAreaElement | null)?.value ?? '';
 
   const found: FormError[] = [];
   const email = value('email');
-  if (!email.trim()) found.push({ message: 'An email address is needed for a reply by email', for: 'email' });
+  if (!email.trim()) found.push({ message: 'A reply by email needs an email address', for: 'email' });
   else if (!email.includes('@')) found.push({ message: `“${email}” is not an email address`, for: 'email' });
   if (!value('message').trim()) found.push({ message: 'The message is empty — say what the tool answered', for: 'message' });
   return found;
@@ -301,7 +301,7 @@ export const Page: Story = {
         contactPage({
           state,
           errors,
-          /* Pressed by the reader, so the summary is where they are sent. */
+          /* The reader pressed it, so the summary is where they go. */
           announce: true,
           onSubmit: () => {
             const found = check(host);
@@ -318,20 +318,20 @@ export const Page: Story = {
 };
 
 /** The state after a submit that found something. The summary is first,
-    focusable and announced; the fields it names carry the same sentence, so
+    focusable and announced. The fields it names carry the same sentence, so
     what is wrong is legible from either end of the form. */
 export const Failed: Story = {
   render: () =>
     contactPage({
       state: 'failed',
       errors: [
-        { message: 'An email address is needed for a reply by email', for: 'email' },
+        { message: 'A reply by email needs an email address', for: 'email' },
         { message: 'The message is empty — say what the tool answered', for: 'message' },
       ],
     }),
 };
 
-/** What it says when it worked: what was sent, what happens to it, how long
+/** What it says when it worked: what went out, what happens to it, how long
     that takes, and a reference. A page that says "thank you" and stops has
     taken something and given nothing back. */
 export const Sent: Story = { render: () => contactPage({ state: 'sent' }) };

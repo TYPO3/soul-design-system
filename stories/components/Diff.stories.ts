@@ -1,18 +1,18 @@
 /* A file's changes.
 
    The markup lives in `src/components/diff.ts`. With the code block it shares
-   the one permission the rest of the system does not have: status colour may
-   fill a whole line, at 14%, so a changed line reads as changed without
-   becoming the loudest thing on the surface. No line numbers unless something
-   references them. No `parameters.dsCard`: it is drawn on the code card. */
+   the one permission the rest of the system does not have. Status colour can
+   fill a whole line, at 14%, so a changed line reads as changed and is not
+   the loudest thing on the surface. No line numbers unless something
+   references them. No `parameters.dsCard`: it stands on the code card. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../../packages/frontend/src/components/diff.ts';
 import { type DiffLine, type DiffProps } from '../../packages/frontend/src/components/diff.ts';
 
-/** The change the code card shows. Exported so the card composes this one
-    rather than keeping a second copy of it. */
+/** The change the code card shows. An export, so the card composes this one
+    rather than keeps a second copy of it. */
 export const DIFF: readonly DiffLine[] = [
   { kind: 'context', text: '"domains": ["labels", "xlf"],' },
   { kind: 'del', text: '"versions": ["12.4"]' },

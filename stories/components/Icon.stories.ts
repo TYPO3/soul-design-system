@@ -1,11 +1,11 @@
 /* Icons.
 
-   The markup lives in `src/components/icon.ts`. No `parameters.dsCard`: the set
-   and its rules are documented under Guidelines → Icons, and this page is the
-   component — what a caller passes and what comes back.
+   The markup lives in `src/components/icon.ts`. No `parameters.dsCard`. The
+   set and its rules have their page under Guidelines → Icons, and this page
+   is the component — what a caller passes and what comes back.
 
-   The SVG is inlined rather than linked because an `<img>` cannot inherit
-   `currentColor`, and the icon rule is that colour follows the UI. */
+   The SVG goes inline rather than as a link because an `<img>` cannot
+   inherit `currentColor`, and the icon rule is that colour follows the UI. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -52,16 +52,16 @@ export const Muted: Story = {
   args: { name: 'actions-info-circle', className: 'sds-icon sds-icon--muted' },
 };
 
-/** An icon with a `title` is announced and stands alone. Only four may:
+/** An icon with a `title` announces itself and stands alone. Only four can:
     answered, version-bound, not bootable, and a stated boundary. Everything
-    else sits beside its own label and is hidden from assistive tech rather
-    than read out twice. */
+    else sits beside its own label and hides from assistive tech rather than
+    reads out twice. */
 export const Labelled: Story = {
   args: { name: 'actions-check-circle', title: 'answered' },
 };
 
-/** Every identifier this system ships, at the 16px floor the whole set is
-    drawn on. The core's own names throughout. */
+/** Every identifier this system ships, at the 16px floor the whole set sits
+    on. The core's own names throughout. */
 export const TheSet: Story = {
   render: () => html`<div style="display:flex; flex-wrap:wrap; gap:14px;">
     ${iconIds.map((id) => sdsIcon({ name: id }))}

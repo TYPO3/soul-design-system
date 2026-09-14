@@ -1,7 +1,7 @@
 /* Badges.
 
    The markup lives in `src/components/badge.ts`. No `parameters.dsCard`, so no
-   card: badges are shown on the table card, where they first appear in the
+   card: badges stand on the table card, where they first appear in the
    product. A story is free to be documentation only.
 
    `accent` names the source of an answer and the status tones are the result of
@@ -49,29 +49,29 @@ type Story = StoryObj<BadgeProps>;
     flag, a count. */
 export const Default: Story = { args: { label: 'readOnlyHint', tone: 'default' } };
 
-/** Where an answer came from. The one place a badge may carry the accent. */
+/** Where an answer came from. The one place a badge can carry the accent. */
 export const Accent: Story = { args: { label: 'bundled knowledge', tone: 'accent' } };
 
-/** Answered. The glyph is not decoration: colour alone would leave the
-    meaning to anyone who can see the difference between three hues. */
+/** Answered. The glyph is not decoration: colour alone leaves the meaning
+    to anyone who can see the difference between three hues. */
 export const Ok: Story = { args: { label: 'answered', tone: 'ok' } };
 
-/** A degraded but usable answer — what was reached, and what that leaves out. */
+/** A degraded but usable answer — what it reached, and what that leaves out. */
 export const Warn: Story = { args: { label: 'degraded', tone: 'warn' } };
 
 /** No answer, and the reason. */
 export const ErrorTone: Story = { args: { label: 'not booted', tone: 'error' } };
 
-/** A badge may carry any icon, not only the one its tone implies. Worth it
-    when the glyph adds a fact the word does not — here, that the knowledge
+/** A badge can carry any icon, not only the one its tone implies. Worth it
+    when the glyph adds a fact the word does not. Here, that the knowledge
     came from a bundled database rather than from the installation. */
 export const WithIcon: Story = {
   args: { label: 'bundled knowledge', tone: 'accent', icon: 'actions-database' },
 };
 
-/** All five together, which is how the difference is actually judged. The
-    gap is the row's: a badge sets no margin, because what it sits among —
-    a table cell, a heading, a line of prose — decides its spacing. */
+/** All five together, which is how the difference earns its review. The gap
+    is the row's. A badge sets no margin, because what it sits among — a
+    table cell, a heading, a line of prose — decides its spacing. */
 export const Tones: Story = {
   render: () => html`<div style="display:flex; flex-wrap:wrap; gap:var(--space-2)">${BADGES.map(sdsBadge)}</div>`,
 };

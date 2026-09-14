@@ -1,13 +1,13 @@
 /* The search results.
 
-   The one list page where every rule about answers applies directly: say which
-   sources were read, how many were found, and where none were, that the source
-   answered rather than that nothing exists.
+   The one list page where every rule about answers applies directly. Say which
+   sources the search read, how many hits it found, and where it found none,
+   that the source answered rather than that nothing exists.
 
    So it carries three things most result pages do not. The query stays in the
-   field, because a search that clears its own box makes refining it retyping
-   it; the facets say how many are behind each; and a facet that answered with
-   nothing says so where its list would have been — a note, because `info` is
+   field, because a search that clears its own box makes every refinement a
+   retype. The facets say how many are behind each. And a facet that answered
+   with nothing says so where its list belongs. A note, because `info` is
    this system's word for a fact about the surface, and nothing here failed.
    See `lib/page.ts`. */
 
@@ -38,13 +38,13 @@ const HITS: readonly (SearchResultProps & { kind: string })[] = [
     path: 'Documentation · Tools',
     heading: 'typo3_label_lookup',
     snippet:
-      'Reads labels from the installation. Where it cannot be booted the tool reads the package files instead and says which labels that leaves out.',
+      'Reads labels from the installation. Where that cannot boot, the tool reads the package files instead and says which labels that leaves out.',
     meta: '13.4 · 14.3',
   },
   {
     kind: 'guide',
     path: 'News · Guides',
-    heading: 'Reading the package registry when the installation will not boot',
+    heading: 'The package registry, read while the installation will not boot',
     snippet:
       'The fallback returns every declared entry — labels among them — and none of the dynamically registered ones. The shortfall travels with the result.',
     meta: '24 July 2026',
@@ -53,9 +53,9 @@ const HITS: readonly (SearchResultProps & { kind: string })[] = [
   {
     kind: 'changelog',
     path: 'Documentation · Changelog',
-    heading: 'Label overrides resolve before the extension is loaded',
+    heading: 'Label overrides resolve before the extension loads',
     snippet:
-      'A label defined in TypoScript and overridden by an extension now resolves in the order the core documents, which changed in 13.4.',
+      'A label from TypoScript that an extension overrides now resolves in the order the core documents, which changed in 13.4.',
     meta: '13.4',
     src: 'placeholders/tool-changelog-history.png',
   },
@@ -69,7 +69,7 @@ const HITS: readonly (SearchResultProps & { kind: string })[] = [
   },
 ];
 
-/** The sources the query was put to, and how many each answered with. A facet
+/** The sources the query went to, and how many each answered with. A facet
     with no count is a guess the reader has to make. */
 const FACETS = [
   { label: `everything${NNBSP}· 4`, kind: '' },
@@ -157,9 +157,9 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
         <div class="sds-column">
           <h2>The sources searched</h2>
           <p>
-            Four sources, and the last of them is your own installation — which
-            is searched only where one has been reached. A facet that says zero
-            has been asked; a facet that is missing was never available.
+            Four sources, and the last of them is your own installation — in
+            the search only where one is in reach. A facet that says zero got
+            the question; a facet that is absent was never available.
           </p>
         </div>
         <div class="sds-column">
@@ -179,9 +179,9 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Search',
   excludeStories: ['searchPage', 'screenHtml'],
@@ -190,7 +190,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/search.html',
       title: 'TYPO3 Dev Companion — search',
-      subtitle: 'What was found, what was searched, and what a source answering with nothing looks like',
+      subtitle: 'The hits, the sources, and what a source that answers with nothing looks like',
       viewport: '1440x900',
     }),
   },
@@ -199,10 +199,10 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the facets narrow the list and say how many are behind
-    each of them, the query stays in the field so refining it is not retyping
-    it, and `your installation · 0` reaches the state where a source was asked
-    and answered with nothing. */
+/** Click through it. The facets narrow the list and say how many are behind
+    each of them. The query stays in the field, so a refinement is not a
+    retype. And `your installation · 0` reaches the state where a source got
+    the question and answered with nothing. */
 export const Page: Story = {
   name: 'Search',
   render: () => {

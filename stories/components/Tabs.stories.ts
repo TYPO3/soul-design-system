@@ -1,7 +1,7 @@
 /* Tabs.
 
    The markup lives in `src/components/tabs.ts` and `tab-item.ts`. A tab is a
-   label and a panel, and the component holds the two together — the stories
+   label and a panel, and the component holds the two together. The stories
    below are the composed form, because that is the component.
 
    No `parameters.dsCard`: the three navigations share one card, composed in
@@ -33,7 +33,7 @@ export const Default: Story = {
         <p>Clone it, install once, then point a project at the binary.</p>
       </sds-tab-item>
       <sds-tab-item label="as a dependency">
-        <p>Require it, and the binary arrives in <span class="sds-mono">vendor/bin</span>.</p>
+        <p>Add it, and the binary arrives in <span class="sds-mono">vendor/bin</span>.</p>
       </sds-tab-item>
       <sds-tab-item label="ddev">
         <p>Run it inside the container the site runs in, so the versions agree.</p>
@@ -42,7 +42,7 @@ export const Default: Story = {
   `,
 };
 
-/** A tab may carry a glyph where its subject has one — never as decoration on
+/** A tab can carry a glyph where its subject has one — never as decoration on
     a set that reads fine without. */
 export const WithIcons: Story = {
   render: () => html`
@@ -60,8 +60,8 @@ export const WithIcons: Story = {
   `,
 };
 
-/** Anything may be in a panel, components included — the item holds nodes,
-    not a string. What is not showing stays in the document, so a find-in-page
+/** Anything can be in a panel, components included — the item holds nodes,
+    not a string. What is not on show stays in the document, so a find-in-page
     reaches it. */
 export const Composed: Story = {
   render: () => html`
@@ -78,11 +78,11 @@ export const Composed: Story = {
   `,
 };
 
-/** Sets that agree. A page showing one setting in several places asks the
-    reader to choose a language once, so a set carrying `sync` moves the others
-    carrying the same word — by the label and not by the position, and the
-    choice is remembered for the next page. A set writing no `sync` is nobody
-    else's business, which is why the third one below stays put. */
+/** Sets that agree. A page that shows one setting in several places asks the
+    reader to choose a language once. So a set with `sync` moves the others
+    with the same word, by the label and not by the position. The choice
+    holds for the next page. A set with no `sync` is nobody else's
+    business, which is why the third one below stays put. */
 export const Synced: Story = {
   render: () => html`
     <sds-tabs sync="story">

@@ -1,14 +1,14 @@
 /* What it costs.
 
    The page a marketing site gets wrong most reliably, and always in the same
-   two ways: the tiers are adjectives instead of what you get, and the question
-   every reader actually has — *what happens when I stop paying* — is answered
-   nowhere. Both are fixed here by putting the answer on the page rather than
-   in a policy somebody has to go and find.
+   two ways. The tiers are adjectives instead of what you get. And the question
+   every reader has — *what happens when I stop the payment* — has no answer
+   anywhere. The fix for both is the answer on the page rather than in a
+   policy somebody has to go and find.
 
-   Three tiers, and the middle one is marked. Not because it is the one to sell
-   but because it is the one most readers land on, and a set of three with none
-   marked makes every reader do the comparison from scratch.
+   Three tiers, and the middle one carries a mark. Not because it is the one
+   to sell but because it is the one most readers land on. A set of three with
+   none marked makes every reader do the comparison from scratch.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -27,7 +27,7 @@ import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
 
-/** One way of having it. The price is a figure and a period, never "from" —
+/** One way to have it. The price is a figure and a period, never "from" —
     a price a reader cannot add up is not a price. */
 interface Plan {
   name: string;
@@ -84,11 +84,11 @@ const PLANS: readonly Plan[] = [
   },
 ];
 
-/** What differs, as the reader would check it: one row per capability, one
-    column per plan, and the answers are words rather than ticks — a tick says
-    "yes" and a reader still has to guess what to. */
+/** What differs, as the reader checks it: one row per capability, one column
+    per plan, and the answers are words rather than ticks. A tick says "yes"
+    and a reader still has to guess what to. */
 const COLUMNS: readonly Column[] = [
-  { head: 'What you are asking about', cls: 'sds-td-name' },
+  { head: 'What you ask about', cls: 'sds-td-name' },
   { head: 'Community' },
   { head: 'Extended' },
   { head: 'Audited' },
@@ -99,7 +99,7 @@ const ROWS: readonly Row[] = [
   { cells: ['Releases answered for', 'in active support', 'down to 7.0', 'down to 7.0'] },
   { cells: ['Index rebuilt', 'every release', 'every release', 'every release, signed'] },
   { cells: ['Reply to an issue', 'best effort', 'two working days', 'one working day'] },
-  { cells: ['Record of what was read', 'none kept', 'none kept', 'seven years'] },
+  { cells: ['Record of the reads', 'none kept', 'none kept', 'seven years'] },
   { cells: ['Runs offline', 'yes', 'yes', 'yes'] },
   { cells: ['What leaves your machine', 'nothing', 'nothing', 'nothing'] },
 ];
@@ -108,12 +108,12 @@ const ROWS: readonly Row[] = [
     first stands open, because it is the one nobody asks out loud. */
 const QUESTIONS: readonly Entry[] = [
   {
-    question: 'What happens when I stop paying?',
-    answer: html`The tool keeps working, at the Community level: every tool,
-      every source, and answers for the releases still in active support. What
-      you lose is the answers for releases that have left it, and the reply
-      time. Nothing is deleted, nothing is locked, and no record of yours is
-      held back — there is nothing of yours on our side to hold.`,
+    question: 'What happens when I stop the payment?',
+    answer: html`The tool goes on, at the Community level: every tool, every
+      source, and answers for the releases still in active support. What you
+      lose is the answers for releases that have left it, and the reply time.
+      We delete nothing, we lock nothing, and we hold back no record of
+      yours — there is nothing of yours on our side to hold.`,
     open: true,
   },
   {
@@ -130,9 +130,9 @@ const QUESTIONS: readonly Entry[] = [
   },
   {
     question: 'Can I pay for one release only?',
-    answer: html`No, and it is worth saying why rather than leaving it as a
-      gap: the index is built once for all of them, so a subscription for one
-      release would cost us the same and cost you a negotiation.`,
+    answer: html`No, and the reason belongs here rather than in a gap. The
+      index builds once for all of them, so a subscription for one release
+      costs us the same and costs you a negotiation.`,
   },
 ];
 
@@ -144,9 +144,9 @@ const planBody = (one: Plan): TemplateResult => html`<p>${one.who}</p>
     ${one.adds.map((line) => html`<li>${line}</li>`)}
   </ul>`;
 
-/** One plan. A card, because the whole of it goes somewhere — and the price
-    is in the label register above the name, where a set of them is read down
-    one edge rather than compared across three. */
+/** One plan. A card, because the whole of it goes somewhere. The price is in
+    the label register above the name. There a reader reads a set of them down
+    one edge rather than compares them across three. */
 const plan = (one: Plan): TemplateResult => html`<sds-card
   label="${one.price}${NNBSP}· ${one.period}"
   heading="${one.name}"
@@ -192,7 +192,7 @@ export function plansPage({ flat = false }: PageMode = {}): TemplateResult {
            that gets read as the whole cost. -->
       <h2 class="sds-h3">Not included, in any of them</h2>
       <ul class="sds-list">
-        <li>Hosting. It runs on your machine or in your pipeline, and that is where it stays.</li>
+        <li>A host. It runs on your machine or in your pipeline, and that is where it stays.</li>
         <li>The work of a migration. Whoever does that is a person, not a subscription.</li>
         <li>Training. The manual is free and stays free; a course is somebody's time.</li>
         <li>Anything the free one does not already do. There is no feature behind the price.</li>
@@ -238,9 +238,9 @@ export function plansPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Plans',
   excludeStories: ['plansPage', 'screenHtml'],
@@ -249,7 +249,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/plans.html',
       title: 'TYPO3 Dev Companion — what it costs',
-      subtitle: 'Three tiers with one marked, a comparison answered in words, and what happens when you stop paying',
+      subtitle: 'Three tiers with one marked, a comparison answered in words, and what happens when you stop the payment',
       viewport: '1440x900',
     }),
   },
@@ -258,8 +258,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the marked tier reads as one of the set rather than as a
-    bigger box, the table scrolls rather than widening the page, and the
+/** Click through it. The marked tier reads as one of the set rather than as
+    a bigger box. The table scrolls rather than widens the page, and the
     answers fold with no script. */
 export const Page: Story = {
   name: 'Plans',

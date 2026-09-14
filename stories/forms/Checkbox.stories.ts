@@ -3,10 +3,10 @@
    The markup lives in `src/components/checkbox.ts` and `checkbox-group.ts`. Two
    elements and one subject, so one file, the way the steps, the accordion and
    the tabs each hold a set and its item together. No `parameters.dsCard` of its
-   own: the box and its states are drawn in `components.css`, and the form card
-   is where they are shown — in the company a checkbox is used in.
+   own. `components.css` draws the box and its states, and the form card is
+   where they show — in the company a checkbox keeps.
 
-   The two decisions are here — the label is part of the target, and the tick is
+   The two decisions are here. The label is part of the target. And the tick is
    `--text-primary`, because the accent marks three things and a form of ticked
    boxes is not one. */
 
@@ -67,22 +67,22 @@ export const Default: Story = {};
 export const Checked: Story = { args: { label: 'Send me the answer by email', checked: true } };
 
 /** What the form receives. These render into the light DOM, so the `<input>`
-    is a real descendant of the `<form>` and is submitted with the rest: `name`
-    is what it is called there, `value` what it sends when ticked. A box with
-    no `value` sends `on` — the platform's answer, not this system's — and an
-    unticked box sends nothing at all. */
+    is a real descendant of the `<form>` and submits with the rest. `name` is
+    its name there, `value` what it sends when ticked. A box with no `value`
+    sends `on` — the platform's answer, not this system's — and an unticked
+    box sends nothing at all. */
 export const Named: Story = {
   args: { label: 'Attach the server scope', name: 'scope', value: 'server', checked: true },
 };
 
-/** A set of them under one question, which is its own element. Written as loose
-    boxes it is a heading that happens to sit above some rows — nothing binds
-    them, so nothing reads them out as one question either. The legend, the
-    shared name and what is ticked are three things a caller would otherwise
-    keep in step by hand. */
+/** A set of them under one question, which is its own element. As loose boxes
+    it is a heading that happens to sit above some rows. Nothing binds them,
+    so nothing reads them out as one question either. The legend, the shared
+    name and the ticked ones are three things a caller otherwise keeps in step
+    by hand. */
 export const Group: Story = {
   render: () => sdsCheckboxGroup({
-    legend: 'What may we send you?',
+    legend: 'What can we send you?',
     name: 'send',
     hint: 'Each one is its own answer, and none of them decides another.',
     values: ['releases', 'security'],
@@ -99,7 +99,7 @@ export const Group: Story = {
     where one answer needs saying and the others do not. */
 export const GroupHinted: Story = {
   render: () => sdsCheckboxGroup({
-    legend: 'Which digests should we send?',
+    legend: 'Which digests must we send?',
     name: 'digest',
     hint: 'One message per digest, on Fridays. Unsubscribe from any of them.',
     choices: [
@@ -111,14 +111,14 @@ export const GroupHinted: Story = {
 };
 
 /** Where the page already asks the question — a dialog's title, a heading over
-    the set — the legend is said and not drawn. It stays: an empty one leaves
-    the group with no name at all, which is worse than asking twice. Here the
-    heading above the set is what a reader sees. */
+    the set — the legend speaks and does not draw. It stays: an empty one
+    leaves the group with no name at all, which is worse than the question
+    twice. Here the heading above the set is what a reader sees. */
 export const GroupQuestionAbove: Story = {
   render: () => html`<div>
-    <h3 class="sds-h3">What may we attach to the report?</h3>
+    <h3 class="sds-h3">What can we attach to the report?</h3>
     ${sdsCheckboxGroup({
-      legend: 'What may we attach to the report?',
+      legend: 'What can we attach to the report?',
       legendSaidOnly: true,
       name: 'scope',
       values: ['versions'],
@@ -131,9 +131,9 @@ export const GroupQuestionAbove: Story = {
   </div>`,
 };
 
-/** Mixed: the box answers for a set only some of which is ticked, and ticking
+/** Mixed: the box answers for a set with only some ticks in it, and a tick on
     it resolves to on. The input has no attribute for this — it is a property
-    and nothing else, so a surface running no script shows an empty box. */
+    and nothing else, so a surface with no script shows an empty box. */
 export const Mixed: Story = {
   args: { label: 'Attach every source in the scope', indeterminate: true },
 };
@@ -143,13 +143,13 @@ export const Mixed: Story = {
 export const WithHint: Story = {
   args: {
     label: 'Attach the server scope to this report',
-    hint: 'Sends the versions, the reachable sources and which tools are degraded. No file contents and no credentials.',
+    hint: 'Sends the versions, the reachable sources and which tools run degraded. No file contents and no credentials.',
     checked: true,
   },
 };
 
-/** Required, said in words by the field above it rather than by an asterisk
-    this control would have to explain. */
+/** Mandatory, said in words by the field above it rather than by an asterisk
+    this control has to explain. */
 export const Required: Story = {
   args: { label: 'I have read what this sends', required: true },
 };
@@ -157,5 +157,5 @@ export const Required: Story = {
 /** Not available. The paint is this system's and the tab order is the
     browser's — a disabled input leaves it either way. */
 export const Disabled: Story = {
-  args: { label: 'Attach the installation log', hint: 'Available once an installation has been reached.', disabled: true },
+  args: { label: 'Attach the installation log', hint: 'Available once an installation is in reach.', disabled: true },
 };

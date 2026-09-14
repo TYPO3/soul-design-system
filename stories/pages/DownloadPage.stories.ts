@@ -1,13 +1,13 @@
-/* Getting it, and knowing what you got.
+/* Get it, and know what you got.
 
    The page a project owes anyone about to run its code, drawn everywhere as a
    button and a version number. What it carries is the three questions a reader
-   asks first: which of these is mine, is this the file the project published,
+   asks first. Which of these is mine, is this the file the project published,
    and what happens if it does not work.
 
-   Hence the checksums, the mono they are set in, and the verification block
-   being a command rather than a sentence saying to verify. No new components:
-   inventing one where it is not needed is how a system gets a second list. */
+   Hence the checksums, the mono they stand in, and the check as a command
+   rather than a sentence that says to check. No new components: one invented
+   where none is necessary is how a system gets a second list. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -37,7 +37,7 @@ const WAYS: readonly { label: string; body: readonly CodeLine[] }[] = [
   {
     label: 'composer',
     body: [
-      { kind: 'comment', text: '# in the project the server should read' },
+      { kind: 'comment', text: '# in the project the server must read' },
       { kind: 'shell', text: 'composer require --dev typo3/support-app' },
       { kind: 'ok', text: 'registered 8 tools in', code: '.mcp.json' },
     ],
@@ -98,16 +98,16 @@ const FILES: { columns: readonly Column[]; rows: readonly Row[] } = {
 };
 
 const VERIFY: readonly CodeLine[] = [
-  { kind: 'comment', text: '# compare what you got against what was published' },
+  { kind: 'comment', text: '# compare what you got against the published file' },
   { kind: 'shell', text: 'sha256sum -c checksums.txt' },
   { kind: 'ok', text: 'typo3-support-app.phar:', code: 'OK' },
 ];
 
 /** The page. `flat` composes the form a static file can hold. */
 export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
-  /* The two places the renderings differ, and both for the same reason: a
-     button's label and a tab's panel are written between the tags, and
-     `renderStatic` flattens no element that was given children. */
+  /* The two places the renderings differ, and both for the same reason. A
+     button's label and a tab's panel stand between the tags, and
+     `renderStatic` flattens no element with children. */
   const start = flat
     ? html`${buttonMarkup({ variant: 'primary' }, html`<sds-icon name="actions-download"></sds-icon>${buttonLabel('Download 1.4.0')}`)}${buttonMarkup({ variant: 'secondary' }, 'Read the install guide')}`
     : html`<sds-button variant="primary"><sds-icon name="actions-download"></sds-icon>Download 1.4.0</sds-button>
@@ -158,7 +158,7 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
       <h2>The published files</h2>
       <p>
         Three files, and two of them are only there so the first can be
-        checked. The hashes are shortened here and in full in
+        checked. The hashes stand short here and in full in
         <span class="sds-mono">checksums.txt</span>.
       </p>
       <sds-table density="compact" scrollable .columns="${FILES.columns}" .rows="${FILES.rows}"></sds-table>
@@ -171,8 +171,8 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
           <p>
             One command, and it answers about the file on your disk rather than
             about the page you downloaded it from. A signature is worth more than
-            a hash on the same server as the file — the key is published with the
-            releases and changes when it is rotated, never quietly.
+            a hash on the same server as the file — the key ships with the
+            releases and changes on a rotation, never quietly.
           </p>
         </div>
         <div class="sds-column">
@@ -198,9 +198,9 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
           <span class="sds-mono">ddev start</span> closes the gap for a DDEV project.`}"
       ></sds-note>
       <p>
-        Neither of those is a bug worth reporting until the scope has been
-        read — it says which sources were reachable, and that is the answer to
-        both questions.
+        Neither of those is a bug to report until you have read the scope —
+        it says which sources were reachable, and that is the answer to both
+        questions.
       </p>
       <div class="sds-actions">
         <sds-link label="Read the install guide" href="#"></sds-link>
@@ -214,9 +214,9 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Get started',
   excludeStories: ['downloadPage', 'screenHtml'],
@@ -225,7 +225,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/get-started.html',
       title: 'TYPO3 Dev Companion — get started',
-      subtitle: 'Which file is yours, whether it is the published one, and what to do when it does not answer',
+      subtitle: 'Which file is yours, if it is the published one, and what to do when it does not answer',
       viewport: '1440x900',
     }),
   },
@@ -234,8 +234,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the three ways switch, the blocks copy themselves, the
-    table scrolls rather than widening the page, and the mode switch moves all
+/** Click through it. The three ways switch, the blocks copy themselves, the
+    table scrolls rather than widens the page, and the mode switch moves all
     of it. */
 export const Page: Story = {
   name: 'Get started',

@@ -1,8 +1,8 @@
 /* The dialog.
 
-   `sds-modal` draws the surface and is what the card documents, a card being a
+   `sds-modal` draws the surface and is what the card documents, as a card is a
    still picture with nothing to open. `sds-dialog` is the behaviour, on the
-   platform's `<dialog>`: the page goes inert, the focus moves in and comes
+   platform's `<dialog>`. The page goes inert, the focus moves in and comes
    back, and Escape works because the platform makes it work. No
    `parameters.dsCard`, which is why the two are two components. */
 
@@ -17,8 +17,8 @@ const ACTIONS = [
   html`<sds-button variant="primary">Publish</sds-button>`,
 ];
 
-/* The way out first, the press that cannot be undone last, and the label says
-   what goes rather than "OK": a reader who cannot tell the tones apart still
+/* The way out first, the press with no way back last, and the label says
+   what goes rather than "OK". A reader who cannot tell the tones apart still
    reads the consequence off the button. */
 const DESTRUCTIVE = [
   html`<sds-button variant="ghost">Cancel</sds-button>`,
@@ -34,7 +34,7 @@ const opens = (e: Event): void => {
 };
 
 /* What the page heard, written where a reader of the story can see it. A page
-   would act on the answer instead; this is the wiring made visible. */
+   acts on the answer instead; this is the wiring made visible. */
 const said = (event: Event): void => {
   const heard = (event.currentTarget as HTMLElement).nextElementSibling;
   if (heard) heard.textContent = `heard ${event.type}`;
@@ -69,13 +69,13 @@ export default meta;
 type Story = StoryObj<DialogProps>;
 
 /** Click the button: the page behind goes inert, the focus moves in, and
-    Escape closes it — none of which is written here. */
+    Escape closes it — none of which stands written here. */
 export const Default: Story = {};
 
-/** The surface the danger button belongs to. The dialog carries the weight:
-    the question names what goes and the body says what that costs, so the
-    colour marks the press without having to explain it. A confirmation that
-    only turns a button red has told the reader nothing they can act on. */
+/** The surface the danger button belongs to. The dialog carries the weight.
+    The question names what goes and the body says what that costs, so the
+    colour marks the press and explains nothing. A confirmation that only
+    turns a button red has told the reader nothing they can act on. */
 export const Destructive: Story = {
   args: { heading: 'Delete the Documentation section?' },
   render: ({ heading, size, width }) => html`
@@ -90,10 +90,10 @@ export const Destructive: Story = {
   `,
 };
 
-/** The scale, one button each: `sds-modal--sm` is a question, `sds-modal--md`
-    is the reading measure, `sds-modal--lg` is past it for what is operated
-    rather than read, and `auto` is whatever the content asks for. Each stops at
-    a height of its own, after which the body is what scrolls. */
+/** The scale, one button each. `sds-modal--sm` is a question, `sds-modal--md`
+    is the reading measure, `sds-modal--lg` is past it for what a reader
+    operates rather than reads. `auto` is whatever the content asks for. Each
+    stops at a height of its own, after which the body is what scrolls. */
 export const Sizes: Story = {
   render: () => html`<div style="display:flex; flex-wrap:wrap; gap:var(--space-2)">
     ${(['auto', 'sm', 'md', 'lg'] as const).map(
@@ -110,7 +110,7 @@ export const Sizes: Story = {
   </div>`,
 };
 
-/** A confirmation with no script behind it: a button that names the dialog,
+/** A confirmation with no script behind it. A button that names the dialog,
     a label for the press that answers, and the two events a page listens for.
     The pair is a `<form method="dialog">` — the platform closes the dialog and
     says which button did it, so `sds-dialog-confirm` and `sds-dialog-cancel`
@@ -133,8 +133,8 @@ export const Confirm: Story = {
   `,
 };
 
-/* No story that opens on load. A dialog that is already open when a page is
-   opened is a dialog nobody asked for — it takes the focus, it makes
-   everything behind it inert, and it demonstrates none of what the component
-   does, which is what happens when somebody presses the button. The surface
-   itself is `sds-modal`, and that has its own page. */
+/* No story that opens on load. A dialog already open when a page opens is a
+   dialog nobody asked for. It takes the focus and makes everything behind it
+   inert. And it shows none of what the component does, which is what happens
+   when somebody presses the button. The surface itself is `sds-modal`, and
+   that has its own page. */

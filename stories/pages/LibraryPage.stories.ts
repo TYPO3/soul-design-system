@@ -1,10 +1,10 @@
 /* The front door to a large set.
 
-   Not a product pitch — `LandingScreen` is that. A reader arriving here is
-   looking for one thing out of hundreds, so the first control is the search
+   Not a product pitch — `LandingScreen` is that. A reader who arrives here
+   looks for one thing out of hundreds. So the first control is the search
    and the first thing under it is the set itself. What a page like this owes
-   is counts: "official", "flexible" and "open source" are adjectives anybody
-   would write, and a reader cannot check one of them. A figure they can.
+   is counts. "Official", "flexible" and "open source" are adjectives anybody
+   can write, and a reader cannot check one of them. A figure they can.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -28,8 +28,8 @@ import { grid, type PageMode, skipLink } from '../lib/page.ts';
 import { sdsStat } from '../components/Stat.stories.ts';
 
 /** What the set holds, in figures a reader can check against the catalogue.
-    Every one of them is a count of something on this site — a figure nobody
-    can arrive at by counting is a claim wearing a number. */
+    Every one of them is a count of something on this site. A figure no count
+    arrives at is a claim in a number's clothes. */
 const FACTS: readonly StatProps[] = [
   {
     value: '392',
@@ -58,13 +58,13 @@ const FACTS: readonly StatProps[] = [
   },
 ];
 
-/** The way into the set, in the shape a reader picks by: the part of the
-    interface they are building, not the part of the file tree it lives in. */
+/** The way into the set, in the shape a reader picks by. The part of the
+    interface they build, not the part of the file tree it lives in. */
 const WAYS: readonly { icon: IconId; heading: string; body: string; action: string }[] = [
   {
     icon: 'actions-document-edit',
     heading: 'Records',
-    body: 'Opening, editing, moving, translating and locking the things a page is made of.',
+    body: 'Open, edit, move, translate and lock the things a page consists of.',
     action: 'Browse records',
   },
   {
@@ -87,8 +87,8 @@ const WAYS: readonly { icon: IconId; heading: string; body: string; action: stri
   },
 ];
 
-/** The set itself, above the fold. Six drawings rather than a decorative grid:
-    a reader who can see what the marks look like knows within a second whether
+/** The set itself, above the fold. Six drawings rather than a decorative grid.
+    A reader who can see what the marks look like knows within a second if
     this is the set they came for. */
 const SHOWN: readonly IconId[] = [
   'actions-document-edit',
@@ -113,7 +113,7 @@ const searchField = (): TemplateResult => html`<sds-field
 /** The page. `flat` composes the form a static file can hold. */
 export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a button's label is content, and
-     `renderStatic` flattens no element that was given children. */
+     `renderStatic` flattens no element with children. */
   const actions = flat
     ? html`${buttonMarkup({ variant: 'primary', size: 'lg' }, html`<sds-icon name="actions-list"></sds-icon>${buttonLabel('Browse all 392')}`)}${buttonMarkup(
         { variant: 'secondary', size: 'lg' },
@@ -150,8 +150,8 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
           <sds-eyebrow label="the glyph set"></sds-eyebrow>
           <h1 class="sds-display">One mark per thing the backend does</h1>
           <p class="sds-lead">
-            Search by what the thing does, not by what it looks like. Every
-            drawing is indexed by purpose as well as by name, so
+            Search by what the thing does, not by what it looks like. The
+            index holds every drawing by purpose and by name, so
             <span class="sds-mono">bin</span> finds
             <span class="sds-mono">actions-delete</span>.
           </p>
@@ -185,8 +185,8 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="ways">
       <h2>Start where you are building</h2>
       <p>
-        The set is grouped by the part of the interface it serves, not by the
-        part of the repository it lives in. Somebody adding a toolbar wants
+        The set groups by the part of the interface it serves, not by the
+        part of the repository it lives in. Somebody who adds a toolbar wants
         the first of these and will never think to open the fourth.
       </p>
       ${grid(ways, { flat, variant: 'flush' })}
@@ -197,9 +197,9 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
         <div class="sds-column">
           <h2>One tag, wherever it goes</h2>
           <p>
-            The identifier is the contract. The drawing behind it may be
-            redrawn; the name will not move, and nothing has to be copied into
-            your own tree for it to render.
+            The identifier is the contract. The drawing behind it can change;
+            the name will not move, and nothing has to go into your own tree
+            for it to render.
           </p>
           <div class="sds-actions">
             ${flat
@@ -230,9 +230,9 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Library',
   excludeStories: ['libraryPage', 'screenHtml'],
@@ -250,7 +250,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the field takes typing, the tiles are each one target,
+/** Click through it. The field takes text, the tiles are each one target,
     the card wall is one block rather than four boxes, and the block copies
     itself. */
 export const Page: Story = {

@@ -3,11 +3,11 @@
    The markup lives in `src/components/rail.ts`, over the contract every
    navigation in the system shares in `nav-base.ts`. 210px wide, and items are
    tool names, so they set in mono verbatim: never title-cased, never
-   prettified. `typo3_icon_lookup` is what `typo3_icon_lookup` is called.
+   prettified. `typo3_icon_lookup` is the name of `typo3_icon_lookup`.
 
    One entry with its pages under it — the entry's label is the heading, and a
-   page holding pages of its own is a fold. The current page is named by the
-   data rather than counted from the outside.
+   page that holds pages of its own is a fold. The data names the current
+   page, rather than a count from the outside.
 
    No `parameters.dsCard`: the three share one card, composed in
    `Navigation.stories.ts`. */
@@ -72,7 +72,7 @@ export const Grouped: Story = {
         },
         {
           label: 'decisions',
-          items: [{ label: 'what is written down', href: '#written' }],
+          items: [{ label: 'what stands written down', href: '#written' }],
         },
       ],
     },

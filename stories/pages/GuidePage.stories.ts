@@ -1,11 +1,11 @@
 /* The guideline page.
 
-   What a construction rule looks like when it is written down: the values a
-   drawing has to hold, the palette it may use, and the two grounds it has to
-   survive. Everything here is a fact somebody will check their own work
-   against, so nothing is prose that could have been a number — and no ground,
-   no colour and no size is typed into the page, because a guideline that
-   hardcodes what it documents stops being true the day the system moves.
+   What a construction rule looks like on a page. The values a drawing has to
+   hold, the palette it can use, and the two grounds it has to survive.
+   Everything here is a fact somebody will check their own work against, so
+   nothing is prose that can be a number. No ground, no colour and no size
+   stands typed into the page. A guideline that hardcodes what it documents
+   stops being true the day the system moves.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -49,22 +49,22 @@ const RAIL: readonly MenuEntry[] = [
 ];
 
 /** What a drawing has to hold. One entry per value: the name somebody scans
-    for, the facts a machine would check, and a sentence saying what happens
+    for, the facts a machine checks, and a sentence that says what happens
     either way. A `<dl>` of the same pairs says the first two and drops the
-    third, which is the one a contributor actually needs. */
+    third, which is the one a contributor needs. */
 const CONSTRUCTION: readonly ConfvalProps[] = [
   {
     name: 'canvas',
     type: '16 × 16',
     default: 'no other size',
-    body: html`Every glyph is drawn on the same square, whatever size it is
-      rendered at. A drawing made on a larger canvas and scaled down lands
-      between pixels, and the whole set stops sitting on one baseline.`,
+    body: html`Every glyph sits on the same square, whatever size it renders
+      at. A drawing made on a larger canvas and scaled down lands between
+      pixels, and the whole set leaves its one baseline.`,
   },
   {
     name: 'protective space',
     type: '1 unit',
-    body: html`The ring of the canvas nothing may enter. It is what keeps a
+    body: html`The ring of the canvas nothing can enter. It is what keeps a
       glyph the same optical size as its neighbours when one is a circle and
       the next is a square.`,
   },
@@ -87,14 +87,14 @@ const CONSTRUCTION: readonly ConfvalProps[] = [
   },
 ];
 
-/** The palette a drawing may use, which is the page's own and not a second
-    one: a guideline that lists colours a design cannot resolve is documenting
-    a system that does not exist. */
+/** The palette a drawing can use, which is the page's own and not a second
+    one. A guideline that lists colours a design cannot resolve documents a
+    system that does not exist. */
 const COLOURS = PALETTE;
 
 /** One ground, with the mode forced onto that subtree. Both panes are the same
-    call — a glyph that reads in one mode and goes flat in the other is what
-    this pair exists to catch, and neither ground is written as a colour. */
+    call. A glyph that reads in one mode and goes flat in the other is what
+    this pair exists to catch. Neither ground is a colour value. */
 const pane = (theme: 'light' | 'dark'): TemplateResult =>
   html`<sds-surface
     data-theme="${theme}"
@@ -109,14 +109,14 @@ const pane = (theme: 'light' | 'dark'): TemplateResult =>
     </div>`}"
   ></sds-surface>`;
 
-/* Written as the characters it is, with real newlines: the element takes this
-   verbatim, so an entity here would arrive as an entity. */
+/* As the characters it is, with real newlines: the element takes this
+   verbatim, so an entity here arrives as an entity. */
 const SOURCE = '<svg viewBox="0 0 16 16">\n  <path d="…" fill="currentColor"/>\n</svg>';
 
 /** The page. `flat` composes the form a static file can hold. */
 export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a pane's body is content, and
-     `renderStatic` flattens no element that was given children. */
+     `renderStatic` flattens no element with children. */
   const grounds = grid([pane('light'), pane('dark')], { flat });
   const palette = grid(COLOURS.map(sdsSwatch), { flat });
 
@@ -197,7 +197,7 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
       <h2 class="sds-h3" id="grounds">Both grounds</h2>
       <p>
         The same drawings on either ground, and each pane forces its mode on
-        itself rather than painting one. A glyph that goes flat in dark was
+        itself rather than paints one. A glyph that goes flat in dark was
         drawn against a single background, and this is where that shows before
         a reader finds it.
       </p>
@@ -207,7 +207,7 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
       <h2 class="sds-h3" id="source">The source</h2>
       <p>
         What a finished drawing looks like. The viewBox is the canvas, the fill
-        is inherited, and there is nothing else in the file — no width, no
+        comes from the page, and there is nothing else in the file — no width, no
         height, no metadata an editor left behind.
       </p>
 
@@ -226,9 +226,9 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Guide',
   excludeStories: ['guidePage', 'screenHtml'],
@@ -246,9 +246,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the rail folds, the contents mark where the reader is,
-    both panes hold their mode while the switch moves the page around them, and
-    the block copies itself. */
+/** Click through it. The rail folds, and the contents mark where the reader
+    is. Both panes hold their mode while the switch moves the page around
+    them, and the block copies itself. */
 export const Page: Story = {
   name: 'Guide',
   render: () => guidePage(),

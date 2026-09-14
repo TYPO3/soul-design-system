@@ -1,13 +1,13 @@
 /* The documentation page.
 
    A tool rail, a 1200px page measure, 48px gutters — the layout where the
-   documentation *is* the product presentation: a visitor gets the pitch and
-   keeps scrolling into the reference without a seam.
+   documentation *is* the product presentation. A visitor gets the pitch and
+   scrolls on into the reference with no seam.
 
    Live and static from one composition — see `lib/page.ts`. The live one is the
-   point of this file: the rail folds, the pills answer, the field takes typing,
-   and every story is opened by the test suite. It carries no stylesheet of its
-   own, which is what makes it a composition rather than a design. */
+   point of this file. The rail folds, the pills answer, the field takes text,
+   and the test suite opens every story. It carries no stylesheet of its own,
+   which is what makes it a composition rather than a design. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -51,17 +51,17 @@ const RAIL: readonly MenuEntry[] = [
       { label: 'typo3_schema_lookup', href: '#schema' },
     ],
   },
-  { label: 'decisions', items: [{ label: 'What is written down', href: '#written' }] },
+  { label: 'decisions', items: [{ label: 'What stands written down', href: '#written' }] },
   { label: 'Settings', href: '#settings' },
 ];
 
-/* The site the bar is handed: its sections, and under the one the reader is in
+/* The site the bar gets: its sections, and under the one the reader is in
    the pages the rail beside the text lists. One entry, read twice — the bar
    draws what fits of it, the rail draws the section. */
-/** The section the reader is in. The bar carries it as one entry of the site
-    and the rail is the same entry read one level down — its label is the
-    heading over the list. One object, because a rail that has drifted from the
-    bar above it is two navigations, and the renderer derives both from one. */
+/** The section the reader is in. The bar carries it as one entry of the site.
+    The rail is the same entry read one level down — its label is the heading
+    over the list. One object, because a rail that has drifted from the bar
+    above it is two navigations, and the renderer derives both from one. */
 const SECTION: MenuEntry = { label: 'overview', href: '#overview', here: true, items: RAIL };
 
 const MENU: MenuEntry = {
@@ -74,30 +74,30 @@ const MENU: MenuEntry = {
   ],
 };
 
-/** The signpost under the overview, as a wall rather than a set: four ways on
-    that a reader picks from by reading down, not by comparing. */
+/** The signpost under the overview, as a wall rather than a set. Four ways
+    on, and a reader picks one on the way down, not in a comparison. */
 const NEXT: readonly { icon: IconId; heading: string; body: string; action: string }[] = [
   {
     icon: 'actions-book',
     heading: 'The tool surface',
-    body: 'Every tool the server registers, what it is asked and what it answers with.',
+    body: 'Every tool the server registers, the question it takes and what it answers with.',
     action: 'Read the reference',
   },
   {
     icon: 'actions-database',
     heading: 'The bundled knowledge',
-    body: 'What ships inside the package, how it is versioned, and what it is not.',
+    body: 'What ships inside the package, how it takes a version, and what it is not.',
     action: 'See what is in it',
   },
   {
     icon: 'actions-extension',
     heading: 'Writing a task skill',
-    body: 'The shape of a skill, and the one rule that decides whether it earns a file.',
+    body: 'The shape of a skill, and the one rule that decides if it earns a file.',
     action: 'Write one',
   },
   {
     icon: 'actions-tag',
-    heading: 'What is written down',
+    heading: 'What stands written down',
     body: 'Decisions, requirements and the records that hold them together.',
     action: 'Read the records',
   },
@@ -109,11 +109,11 @@ const INSTALL: readonly CodeLine[] = [
   { kind: 'ok', text: 'published 9 task skills to', code: '.agents/skills' },
 ];
 
-/** What the install step raises, answered where it is raised. The first stands
-    open, so the shape of an answer is visible without pressing anything. */
+/** What the install step raises, answered where it comes up. The first stands
+    open, so the shape of an answer is visible before any press. */
 const TROUBLE: readonly Entry[] = [
   {
-    question: 'The client starts it and nothing is registered',
+    question: 'The client starts it and nothing registers',
     answer: html`The binary ran with a PHP older than 8.2 and exited before it
       announced anything. Run <span class="sds-mono">php -v</span> as the client
       runs it — a shell and a desktop client rarely have the same one.`,
@@ -121,27 +121,27 @@ const TROUBLE: readonly Entry[] = [
   },
   {
     question: 'It answers, but not about my installation',
-    answer: html`Nothing was found to read. The server takes the project root as
+    answer: html`It found nothing to read. The server takes the project root as
       an argument and falls back to bundled knowledge without it, which is the
-      answer you are getting.`,
+      answer you get.`,
   },
   {
-    question: 'A tool says the installation would not boot',
+    question: 'A tool says the installation did not boot',
     answer: html`It read the package registry from disk instead, and the answer
-      says so rather than looking complete: every declared package is in it and
-      none of the dynamically registered ones.`,
+      says so rather than looks complete: every declared package is in it and
+      none of the ones registered at run time.`,
   },
 ];
 
 /** The page. `flat` composes the form a static file can hold. */
 export function documentationPage({ flat = false }: PageMode = {}): TemplateResult {
   /* The one place the two renderings differ: a button's label is content, and
-     `renderStatic` flattens no element that was given children. Same function
+     `renderStatic` flattens no element with children. Same function
      underneath, so the static file is the markup the element renders. */
   /* Same reason as the buttons: the cards are content, and `renderStatic`
-     flattens no element that was given children. So the static file hands them
-     to the same element as a property, which is the one channel a renderer
-     outside a browser has. */
+     flattens no element with children. So the static file hands them to the
+     same element as a property, which is the one channel a renderer outside
+     a browser has. */
   const cards = NEXT.map(
     (one) => html`<sds-card
       icon="${one.icon}"
@@ -219,8 +219,8 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
       <h2 class="sds-h3" id="settings">Settings</h2>
       <p>
         What a project has to set, and what it can leave alone. One entry per
-        value: the name it is written under, the facts a machine checks, and a
-        sentence saying what happens either way.
+        value: the name it goes under, the facts a machine checks, and a
+        sentence that says what happens either way.
       </p>
 
       ${SETTINGS.map((one) => sdsConfval(one))}
@@ -228,8 +228,8 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
       <h2 class="sds-h3" id="trouble">Before you file an issue</h2>
       <p>
         The three questions the install step raises, kept on the page it raises
-        them on. Folded, because a reader who has none of them is reading the
-        next section instead of scrolling past three answers.
+        them on. Folded, because a reader who has none of them reads the next
+        section instead of three answers on the way past.
       </p>
 
       <sds-accordion name="install-questions" .entries="${TROUBLE}"></sds-accordion>
@@ -257,9 +257,9 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Documentation',
   excludeStories: ['documentationPage', 'screenHtml'],

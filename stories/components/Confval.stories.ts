@@ -1,11 +1,11 @@
 /* One configuration value in a reference.
 
    The markup lives in `src/components/confval.ts`. The card is the shape a
-   page of these has to hold: two entries in a column, so what is being judged
-   is the rhythm between them rather than one entry on its own.
+   page of these has to hold. Two entries in a column, so the review is of the
+   rhythm between them rather than one entry on its own.
 
-   `sdsConfval` is exported because the documentation page composes a run of
-   these, and a page writing the element's attributes a second time is a page
+   `sdsConfval` is an export because the documentation page composes a run of
+   these. A page that writes the element's attributes a second time is a page
    that drifts from the card. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -17,8 +17,8 @@ import { type ConfvalProps } from '../../packages/frontend/src/components/confva
 import { DIVIDER, dsCard, part, spec, specCap } from '../lib/specimen.ts';
 
 /** The element, addressed. The description goes in as a property rather than
-    between the tags: a card is rendered outside a browser, where an element
-    never sees the children it was written with. */
+    between the tags. A card renders outside a browser, where an element never
+    sees its children. */
 export const sdsConfval = ({ name, anchor, required, type, default: unset, facts, body }: ConfvalProps): TemplateResult =>
   html`<sds-confval
     name="${name}"
@@ -30,8 +30,8 @@ export const sdsConfval = ({ name, anchor, required, type, default: unset, facts
     .body="${body ?? ''}"
   ></sds-confval>`;
 
-/** A settings reference, as one would be written: the value that has to be
-    set, and the one that is safe to leave alone. Exported so the
+/** A settings reference, as one reads in practice: the value a project has to
+    set, and the one that is safe to leave alone. An export, so the
     documentation page shows these rather than a second set of its own. */
 export const SETTINGS: readonly ConfvalProps[] = [
   {
@@ -49,7 +49,7 @@ export const SETTINGS: readonly ConfvalProps[] = [
     type: 'int',
     default: '86400',
     facts: [{ label: 'unit', value: 'seconds' }],
-    body: html`How long a rendered page may be served from cache.
+    body: html`How long a rendered page can come from cache.
       <span class="sds-mono">0</span> disables caching, which is a development
       setting and never a production one.`,
   },
@@ -90,7 +90,7 @@ export const Required: Story = {};
     absent rather than replaced by the word "optional". */
 export const Optional: Story = { args: SETTINGS[1] as ConfvalProps };
 
-/** An option the directive does not name is set the same way and prints the
+/** An option the directive does not name goes in the same way and prints the
     same way — the label is whatever the source called it. */
 export const Options: Story = {
   args: {
@@ -106,7 +106,7 @@ export const Options: Story = {
   },
 };
 
-/** A value with nothing to state about it but its name: no facts, no badge,
+/** A value with nothing to state about it but its name. No facts, no badge,
     and the entry is the name and the sentence under it. */
 export const Bare: Story = {
   args: {
@@ -118,12 +118,12 @@ export const Bare: Story = {
   },
 };
 
-/** The form a renderer uses: the description written between the tags,
-    because out of a document it is blocks. This form cannot be exported —
-    see `FromContent` in `Code.stories.ts`. */
+/** The form a renderer uses: the description between the tags, because out
+    of a document it is blocks. This form has no export — see `FromContent`
+    in `Code.stories.ts`. */
 export const FromContent: Story = {
   render: () => html`<sds-confval name="cache.lifetime" anchor="confval-cache" type="int" default="86400">
-    <p>How long a rendered page may be served from cache, in seconds.</p>
+    <p>How long a rendered page can come from cache, in seconds.</p>
     <sds-note tone="warn" label="Warning">
       <p>A confval holds a whole block, including an admonition. Anything that
         assumes its description is one line of text is wrong about the node.</p>

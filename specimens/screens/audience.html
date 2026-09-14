@@ -191,22 +191,22 @@
   
   <div class="sds-label">handover</div>
   <div class="sds-surface-title">The person who knew the project leaves</div>
-  <div class="sds-surface-body"><p>Every convention that lived in one developer’s head becomes a question somebody has to ask. The answers here are in the installation rather than in that person, so a handover is a directory listing rather than a fortnight.</p></div>
+  <div class="sds-surface-body"><p>Every convention that lived in one developer’s head becomes a question somebody has to ask. The answers here are in the installation rather than in that person. A handover is a directory listing rather than a fortnight.</p></div>
 </div><div class="sds-panel">
   
   <div class="sds-label">the long tail</div>
   <div class="sds-surface-title">Sixty sites, four releases between them</div>
-  <div class="sds-surface-body"><p>A client on 11.5 and a client on 14.3 are two different sets of names. Asked about either, it answers for the release that client is actually on rather than for the newest one you happen to know.</p></div>
+  <div class="sds-surface-body"><p>A client on 11.5 and a client on 14.3 are two different sets of names. It answers for the release that client is on, not for the newest one you happen to know.</p></div>
 </div><div class="sds-panel">
   
   <div class="sds-label">margin</div>
   <div class="sds-surface-title">Support hours you cannot bill</div>
-  <div class="sds-surface-body"><p>The questions that eat a retainer are small, repeated, and answerable — what an identifier is called, whether a field still exists, what changed in a minor. Those are exactly the ones this takes.</p></div>
+  <div class="sds-surface-body"><p>The questions that eat a retainer are small, repeated, and answerable. The name of an identifier, if a field still exists, what changed in a minor. Those are exactly the ones this takes.</p></div>
 </div><div class="sds-panel">
   
   <div class="sds-label">onboarding</div>
   <div class="sds-surface-title">A new developer on an old project</div>
-  <div class="sds-surface-body"><p>The first fortnight of a project nobody on the team wrote is spent finding out what the last team called things. It runs against their checkout on day one.</p></div>
+  <div class="sds-surface-body"><p>The first fortnight of a project nobody on the team wrote goes on the names the last team gave things. It runs against their checkout on day one.</p></div>
 </div></div>
     </section>
 
@@ -216,8 +216,8 @@
           <h2>In the tools you already use</h2>
           <p>
             One command against a checkout, in the pipeline that builds it. It
-            reads and reports; it changes nothing, so a failing run is a
-            finding rather than a rollback.
+            reads and reports; it changes nothing, so a red run is a finding
+            rather than a rollback.
           </p>
           <p>
             The interesting line is the second one: an identifier that exists
@@ -231,7 +231,7 @@
     <span class="sds-code__lang">bash</span>
     <button type="button" class="sds-code__copy" aria-label="Copy this block"><span class="sds-code__glyph"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-duplicate"><g fill="currentColor"><path d="M14 4h-2V1H1v11h3v3h11V4h-1zM4 4v7H2V2h9v2H4zm10 10H5V5h9v9z"></path></g></svg></span><span class="sds-code__copied"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check"><g fill="currentColor"><path d="m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z"></path></g></svg></span><span>copy</span></button>
   </div>
-  <pre class="sds-code__body"><code class="language-bash"><span class="hljs-comment"># in your pipeline, against the checkout that is being built</span>
+  <pre class="sds-code__body"><code class="language-bash"><span class="hljs-comment"># in your pipeline, against the checkout in the build</span>
 dev-companion check --project . --release auto
 
   ✓ 61 identifiers resolved
@@ -245,10 +245,9 @@ dev-companion check --project . --release auto
     <section class="sds-band sds-band--quiet" id="figures">
       <h2>The value, as far as anyone can say</h2>
       <p>
-        Three figures with what they were measured against. The first is
-        self-reported by four agencies, which is worth exactly what
-        self-reporting is worth — it says so rather than being rounded up
-        into a claim.
+        Three figures, each with its measure. The first is what four agencies
+        report of themselves, which is worth exactly that — it says so
+        rather than rounds up into a claim.
       </p>
       <div class="sds-grid sds-grid--dense"><div class="sds-stat">
   <div class="sds-stat__value"><span class="sds-stat__icon"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-clock"><g fill="currentColor"><path d="M8 2.6c3.1 0 5.4 2.4 5.4 5.4S11 13.4 8 13.4 2.5 11.1 2.5 8 4.9 2.6 8 2.6M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 4.1V8l4.1 2.5c.2-.3.4-.5.5-.9L8 7.4V4c-.3 0-.7.1-1 .1z"></path></g></svg></span>3.5<span class="sds-stat__unit"> h</span></div>
@@ -257,7 +256,7 @@ dev-companion check --project . --release auto
 </div><div class="sds-stat">
   <div class="sds-stat__value"><span class="sds-stat__icon"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-users"><g fill="currentColor"><path d="M5 12H1c0-1.5.7-1.9.7-1.9.8-.2 1.4-.6 2-.8h.1c0-.2.2-.5.2-1.2-.4-.4-.8-1-.8-1.5V5.4C3.3 4.6 4 4 4.8 4h.4c.9 0 1.5.6 1.5 1.4v1.1c-.1.9-1 1.8-.7 1.5 0 .8.1 1.1.2 1.3.2.1 1.1.4 1.3.5L8 12H5zM9.8 9.3c0-.2.2-.5.2-1.2-.4-.4-.8-1-.8-1.5V5.4c.1-.8.8-1.4 1.6-1.4h.4c.9 0 1.5.6 1.5 1.4v1.1c-.1.8-1 1.8-.7 1.4 0 .8.1 1.1.2 1.3.5.2 1.1.5 1.9.8 0 0 .6.3.9 1.9H9.2l-.5-2.2s1-.4 1.1-.4z"></path></g></svg></span>0</div>
   <div class="sds-label">per-seat charges</div>
-  <div class="sds-stat__note">Priced per organisation. A tool an agency has to count seats for is a tool that gets installed on two machines and shared.</div>
+  <div class="sds-stat__note">Priced per organisation. A tool an agency has to count seats for is a tool that lands on two machines, shared.</div>
 </div><div class="sds-stat">
   <div class="sds-stat__value"><span class="sds-stat__icon"><svg width="16" height="16" style="width:24px;height:24px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-tag"><g fill="currentColor"><path d="M6.657 1H1v5.656l8.485 8.485 5.657-5.657L6.657 1zM1.99 6.232V1.99h4.243l7.495 7.494-4.243 4.243L1.99 6.232z"></path><path d="M3.475 3.475A1.75 1.75 0 1 0 5.952 5.95a1.75 1.75 0 0 0-2.477-2.475zm.707.707a.75.75 0 1 1 1.061 1.06.75.75 0 0 1-1.061-1.06zM6.126 8.602l2.475-2.475 3.535 3.536-2.475 2.474z"></path></g></svg></span>4</div>
   <div class="sds-label">releases answered for at once</div>
@@ -271,8 +270,8 @@ dev-companion check --project . --release auto
           <h2>The objection this audience actually has</h2>
           <p>
             Not privacy and not price. It is dependency: another thing in the
-            stack that has to be kept alive, explained to a client, and
-            replaced when it stops being maintained.
+            stack somebody has to keep alive, explain to a client, and replace
+            when its maintenance stops.
           </p>
           <div class="sds-note sds-note--info">
   <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
@@ -336,7 +335,7 @@ dev-companion check --project . --release auto
       </div><div class="sds-footer__group">
         <div class="sds-label">Project</div>
         <div class="sds-footer__links">
-          <a class="sds-link" href="#">What is written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
+          <a class="sds-link" href="#">What stands written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
         </div>
       </div><div class="sds-footer__group">
         <div class="sds-label">Community</div>

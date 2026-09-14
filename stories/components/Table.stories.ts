@@ -1,7 +1,7 @@
 /* Table, badges and status.
 
    The markup lives in `src/components/table.ts`. `tableTemplate` is also what
-   `TableDensity.stories.ts` renders three times — the density card exists to
+   `TableDensity.stories.ts` renders three times. The density card exists to
    compare row heights, so it must be the same table each time or it compares
    nothing at all. */
 
@@ -20,7 +20,7 @@ import '../../packages/frontend/src/components/select.ts';
 import { BADGES } from './Badge.stories.ts';
 import { DIVIDER, dsCard, part, px, spec, specCap, specRow } from '../lib/specimen.ts';
 
-/** The tool list every table specimen in this system is built from. Real tool
+/** The tool list behind every table specimen in this system. Real tool
     names, verbatim and in mono — never title-cased or prettified. */
 export const TOOLS: readonly (readonly string[])[] = [
   ['typo3_rule_lookup', 'lookup', 'bundled knowledge', '12.4 · 13.4 · 14.3 · main'],
@@ -29,8 +29,8 @@ export const TOOLS: readonly (readonly string[])[] = [
   ['typo3_server_scope', 'scope', 'this server', '—'],
 ];
 
-/** The list both ways in are shown with, so what is compared is the way in and
-    not the rows under it. */
+/** The list both ways in show with, so the comparison is the way in and not
+    the rows under it. */
 const CHECKOUTS = [
   { name: '13.4-lts', php: '8.4', state: 'running', tone: 'ok', standing: 'main · 2 uncommitted changes' },
   { name: '14.3-dev', php: '8.4', state: 'stopped', tone: 'default', standing: 'feature/soul · 7 uncommitted changes' },
@@ -46,8 +46,8 @@ const COLUMNS: readonly Column[] = [
 ];
 
 /** The way into a row: the detail behind it, as the control that opens it.
-    An anchor carrying `href` and not a press handler, so the middle click, the
-    new tab and the copied address all work; and the same control at the same
+    An anchor with `href` and not a press handler, so the middle click, the
+    new tab and the copied address all work. And the same control at the same
     place in every row, which is what makes it a column and not a decision. */
 const into = (name: string) =>
   html`<sds-button
@@ -59,9 +59,9 @@ const into = (name: string) =>
   ></sds-button>`;
 
 /* Held as one object so the meta args, the Default story and the specimen
-   cannot drift: a CSF story with no args of its own inherits the meta's, but
-   `specimenHtml()` is called by the card generator outside Storybook, where
-   nothing merges them for it. */
+   cannot drift. A CSF story with no args of its own inherits the meta's. But
+   the card generator calls `specimenHtml()` outside Storybook, where nothing
+   merges them for it. */
 const CARD_TABLE: TableProps = {
   density: 'medium',
   columns: COLUMNS,
@@ -117,21 +117,21 @@ type Story = StoryObj<TableProps>;
     changes for a reason. */
 export const Default: Story = {};
 
-/** Waiting for the answer. The head is the columns — known before the rows
-    are — and the body is bars at the height the rows will have, so nothing
-    moves when it arrives. Nothing under 200ms: a flash of skeleton reads as a
-    state change rather than as work in flight. */
+/** The wait for the answer. The head is the columns, known before the rows.
+    The body is bars at the height the rows will have, so nothing moves when
+    it arrives. Nothing under 200ms: a flash of skeleton reads as a state
+    change rather than as work in flight. */
 export const Loading: Story = {
   args: { ...CARD_TABLE, rows: [], loading: true, loadingRows: 4 },
 };
 
-/** A row somebody acts on. The cells carry what they have to — a name with
-    the button that acts on it, the version as the control that changes it, the
-    address as a real link — and the identity carries its own second line, so
+/** A row somebody acts on. The cells carry what they have to. A name with
+    the button that acts on it, the version as the control that changes it,
+    the address as a real link. The identity carries its own second line. So
     what is true about a checkout right now stands under its name instead of
-    taking a column whose head would have to name a relationship.
+    in a column whose head has to name a relationship.
 
-    The controls are the system's own at the size a row has room for: a select
+    The controls are the system's own at the size a row has room for. A select
     in a cell states `label` rather than a caption, and asks for the width the
     column can give it. */
 export const Managed: Story = {
@@ -187,19 +187,19 @@ export const Managed: Story = {
 
 /** A list of things with a detail behind each of them, which is most long
     tables. **The way in is a control at the end of the row**, in a column of
-    its own marked `sds-td-into`: no head over it, held to the control's width,
-    hard against the end edge — so it stands at the same place in every row of
-    every table and a reader travels down one column instead of reading for it.
+    its own marked `sds-td-into`. No head over it, held to the control's width,
+    hard against the end edge. So it stands at the same place in every row of
+    every table, and a reader travels down one column instead of a search.
 
-    An `sds-button` carrying `href`, which is an anchor: the middle click, the
-    new tab and the copied address all keep working, and it is one keyboard
-    stop per row. A press handler on the row gives back none of that, and a
-    link stretched over the whole row takes the row's text selection and the
-    tooltips of the cells it covers with it.
+    An `sds-button` with `href`, which is an anchor. The middle click, the new
+    tab and the copied address all still work, and it is one keyboard stop per
+    row. A press handler on the row gives back none of that. A link over the
+    whole row takes the row's text selection and the tooltips of the cells it
+    covers with it.
 
-    Everything else in the row stays what it was — a second link to somewhere
+    Everything else in the row stays what it was. A second link to somewhere
     else, a control that acts on the row in place, a cell with a `title`. That
-    is the point of putting the way in beside them rather than over them. */
+    is the point of the way in beside them rather than over them. */
 export const Detail: Story = {
   render: () =>
     sdsTable({
@@ -221,10 +221,10 @@ export const Detail: Story = {
 };
 
 /** A history, read down its rail. `sds-td-graph` is the column and `sds-graph`
-    the node on each row — hollow for a place rather than a commit: what is not
-    committed yet, and the one the reader is standing on. The rail begins at the
-    first node and ends at the last, because run past either it points at a
-    history the table is not showing.
+    the node on each row. Hollow for a place rather than a commit: what has no
+    commit yet, and the one the reader stands on. The rail begins at the first
+    node and ends at the last. Run past either, it points at a history the
+    table does not show.
 
     It is a rail and not a graph. A history that forks is a drawing, and a table
     cell cannot hold one — a table that has to show branches has outgrown this. */
@@ -280,7 +280,7 @@ export const Compact: Story = { args: { ...CARD_TABLE, density: 'compact' } };
 export const Airy: Story = { args: { ...CARD_TABLE, density: 'airy' } };
 
 /** The form a renderer uses: the table's own children between the tags. A cell
-    of a document carries a link, a literal or an emphasis, `colspan` and a
+    of a document carries a link, a literal or an emphasis. `colspan` and a
     caption have no property at all, and a page has to hold the rows before any
     script runs. What the table *is* — the class, the density, the box it
     scrolls in — stays the element's either way. */

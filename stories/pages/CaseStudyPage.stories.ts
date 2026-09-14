@@ -1,14 +1,14 @@
 /* One deployment, in full.
 
-   A reference page earns nothing unless a reader can check it, so the two
-   things that decide whether this works are near the top: who this was, in
-   figures they can compare themselves against, and what it cost — including
-   the part that went wrong. A case study with no bad month in it reads as
-   marketing, and marketing is what a reader is already discounting.
+   A reference page earns nothing unless a reader can check it. So the two
+   things that decide if this works are near the top. Who this was, in figures
+   they can compare themselves against, and what it cost — the part that went
+   wrong included. A case study with no bad month in it reads as marketing,
+   and a reader already discounts marketing.
 
-   The headline is the outcome rather than the name. Somebody scanning a list
-   of these is looking for their own situation, and "City of Kastrup adopts
-   the Dev Companion" describes nobody's situation but ours.
+   The headline is the outcome rather than the name. Somebody who scans a list
+   of these looks for their own situation, and "City of Kastrup adopts the Dev
+   Companion" describes nobody's situation but ours.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -38,9 +38,9 @@ const TRAIL: readonly Crumb[] = [
   { label: 'Kastrup' },
 ];
 
-/** The box a reader checks themselves against before reading a word of the
-    story. It is a table rather than prose because that is how it gets
-    scanned, and because every line in it is a fact somebody could dispute. */
+/** The box a reader checks themselves against before they read a word of the
+    story. A table rather than prose, because a reader scans it, and because
+    every line in it is a fact somebody can dispute. */
 const FACTS_COLUMNS: readonly Column[] = [
   { head: 'What', cls: 'sds-td-name' },
   { head: 'This deployment' },
@@ -56,16 +56,16 @@ const FACTS: readonly Row[] = [
   { cells: ['What it replaced', 'A wiki and two shared spreadsheets'] },
 ];
 
-/** The results, each with what it was measured against and over how long. A
-    figure with no method beside it is decoration, and a reader who cannot
-    reproduce a number stops believing the other three. */
+/** The results, each with its measure and over how long. A figure with no
+    method beside it is decoration, and a reader who cannot reproduce a number
+    no longer believes the other three. */
 const RESULTS: readonly StatProps[] = [
   {
     value: '4',
     unit: 'h',
     label: 'to answer a naming question',
     icon: 'actions-clock',
-    note: 'Down from two days. Measured as the time from question asked in the team channel to a linked answer, over 61 questions between March and June.',
+    note: 'Down from two days. The time from a question in the team channel to a linked answer, over 61 questions between March and June.',
   },
   {
     value: '71',
@@ -78,14 +78,14 @@ const RESULTS: readonly StatProps[] = [
     value: '0',
     label: 'changes written by the tool',
     icon: 'actions-file-shield',
-    note: 'It reads. The audit at the end of the pilot found no write path, which is what the security office needed before the rollout.',
+    note: 'It reads. The audit at the end of the pilot found no write path. That is what the security office needed before the rollout.',
   },
   {
     value: '1',
     of: '3',
     label: 'departments still on the old way',
     icon: 'actions-users',
-    note: 'Stated because it is true: the two with their own conventions found the answers less useful and were not pushed.',
+    note: 'Stated because it is true: the two with their own conventions found the answers less useful, and nobody pushed them.',
   },
 ];
 
@@ -107,9 +107,9 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
 
     <section class="sds-band" id="case">
       <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
-      <!-- The outcome, not the name. Somebody scanning a list of these is
-           looking for their own situation. -->
-      <h1>How 340 editors stopped asking each other what an icon was called</h1>
+      <!-- The outcome, not the name. Somebody who scans a list of these
+           looks for their own situation. -->
+      <h1>How 340 editors stopped asking each other for the name of an icon</h1>
       <p class="sds-lead">
         A municipal administration with fourteen sites, one installation and
         no shared vocabulary. What changed, what it cost, and the two
@@ -124,7 +124,7 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
           <p>
             The shape of the deployment before any of the story, so a reader
             can stop here if it is nothing like theirs. Everything in the table
-            is a fact somebody at Kastrup could dispute.
+            is a fact somebody at Kastrup can dispute.
           </p>
         </div>
         <div class="sds-column">
@@ -176,10 +176,10 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band" id="results">
-      <h2>The change, and how it was measured</h2>
+      <h2>The change, and its measure</h2>
       <p>
-        Four figures, each with what it was measured against and over how
-        long. The fourth is the one that did not go our way, and it is here
+        Four figures, each with its measure and over how long. The fourth is
+        the one that did not go our way, and it is here
         for the same reason the first three are.
       </p>
       ${grid(RESULTS.map(sdsStat), { flat, variant: 'dense' })}
@@ -190,8 +190,8 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
         <div class="sds-column">
           <h2>The effort</h2>
           <p>
-            Seven months, of which the first three were spent not on the tool
-            at all but on agreeing which department’s names were going to win.
+            Seven months, of which the first three went not on the tool at
+            all but on the question of which department’s names win.
             That is the work this makes visible rather than the work it saves.
           </p>
           <sds-note
@@ -234,9 +234,9 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Case study',
   excludeStories: ['caseStudyPage', 'screenHtml'],
@@ -254,9 +254,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the picture opens at the size it was made, the quote sits
-    where the doubt is rather than at the end, and every figure carries the
-    method it was measured by. */
+/** Click through it. The picture opens at the size of its construction. The
+    quote sits where the doubt is rather than at the end, and every figure
+    carries its method. */
 export const Page: Story = {
   name: 'Case study',
   render: () => caseStudyPage(),

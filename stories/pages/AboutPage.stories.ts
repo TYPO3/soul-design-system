@@ -1,13 +1,13 @@
 /* Who is behind it.
 
-   The page a project owes anyone deciding whether to run its code, most often
-   written as a mission statement. What a reader is asking is narrower: who
-   maintains this, what are they answerable for, how is it paid for, and what
-   happens if they stop.
+   The page a project owes anyone who decides if they run its code, most often
+   a mission statement. What a reader asks is narrower. Who maintains this,
+   what are they answerable for, who pays for it, and what happens if they
+   stop.
 
    So the page is people, a decision record and a funding line, and no
    photographs — `sds-byline` marks a person with initials. Nothing new was
-   needed: a person is a card with a byline in it. See `lib/page.ts`. */
+   necessary: a person is a card with a byline in it. See `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -41,13 +41,13 @@ const PEOPLE = [
     name: 'Core Team',
     role: 'reviewers',
     since: 'since 2026',
-    answerable: 'Whether an answer matches what the core actually does. A rule nobody from the core has read is a rule this project does not ship.',
+    answerable: 'If an answer matches what the core does. A rule nobody from the core has read is a rule this project does not ship.',
   },
   {
     name: 'Everyone who reported one',
     role: 'contributors',
     since: '41 so far',
-    answerable: 'The wrong answers that became changelog entries. The entry names the release it was fixed in, never the person who found it.',
+    answerable: 'The wrong answers that became changelog entries. The entry names the release with the fix, never the person who found it.',
   },
 ];
 
@@ -56,20 +56,20 @@ const FACTS: readonly StatProps[] = [
     value: '41',
     label: 'wrong answers fixed',
     icon: 'actions-check',
-    note: `Reported by readers, each one a changelog entry naming the release it was fixed in.`,
+    note: `Reports from readers, each one a changelog entry that names the release with the fix.`,
   },
   {
     value: '0',
     label: 'analytics scripts',
     icon: 'actions-file-shield',
-    note: 'On this site and in the server. What is known about a reader is what they typed into a form.',
+    note: 'On this site and in the server. What we know about a reader is what they typed into a form.',
   },
   {
     value: '2',
     unit: 'days',
     label: 'typical reply',
     icon: 'actions-clock',
-    note: 'Longer where an answer has to be reproduced against a release the project no longer runs.',
+    note: 'Longer where we have to reproduce an answer against a release the project no longer runs.',
   },
 ];
 
@@ -113,7 +113,7 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="why">
       <div class="sds-split">
         <div class="sds-column">
-          <h2>The problem it was built for</h2>
+          <h2>The problem it exists for</h2>
           <p>
             A coding agent asked about TYPO3 answers from whatever it read
             during training, which is a mixture of releases nobody can name.
@@ -137,12 +137,11 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
     </section>
 
     <section class="sds-band sds-band--quiet" id="funding">
-      <h2>Funding, and the plan if it ends</h2>
+      <h2>The money, and the plan if it ends</h2>
       <p>
-        Unpaid work, done in the open, under MIT. Nothing about
-        it is sold and nothing about it is sponsored, which is worth stating
-        plainly rather than leaving to be inferred from the absence of a
-        pricing page.
+        Unpaid work, done in the open, under MIT. Nobody sells any of it and
+        nobody sponsors any of it. That belongs here in plain words rather
+        than in the absence of a pricing page.
       </p>
       <sds-note
         heading="It says what it is on every page, and where an answer came from"
@@ -169,9 +168,9 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/About',
   excludeStories: ['aboutPage', 'screenHtml'],
@@ -180,7 +179,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/about.html',
       title: 'TYPO3 Dev Companion — who is behind it',
-      subtitle: 'Who is answerable, why it exists, how it is paid for, and what happens if it stops',
+      subtitle: 'Who is answerable, why it exists, who pays for it, and what happens if it stops',
       viewport: '1440x900',
     }),
   },
@@ -189,8 +188,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** A page of people with no photographs on it, which is the decision worth
-    looking at here. */
+/** A page of people with no photographs on it, which is the decision to look
+    at here. */
 export const Page: Story = {
   name: 'About',
   render: () => aboutPage(),

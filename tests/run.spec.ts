@@ -118,7 +118,7 @@ test('many jobs at once sort by state, and each group folds', async ({ page }) =
 
   /* A queue is a mark apart from work in hand and a whole answer apart, so the
      row says which it is in words. */
-  await expect(row(page, 'Build PHP (8.4)').locator('.sds-run__said')).toHaveText('Waiting to run this check');
+  await expect(row(page, 'Build PHP (8.4)').locator('.sds-run__said')).toHaveText('In the queue for this check');
 });
 
 test('a run nobody watches is the head and nothing else', async ({ page }) => {

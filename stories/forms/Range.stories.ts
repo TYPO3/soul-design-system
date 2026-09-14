@@ -2,9 +2,9 @@
 
    The markup lives in `src/components/range.ts`. Reach for one where the
    *position* is the answer and the exact number is not — a zoom, a threshold
-   somebody is feeling their way to. Where the number is what the reader
-   already knows, that is a field with `type="number"`, which can be typed into
-   and pasted.
+   somebody feels their way to. Where the number is what the reader already
+   knows, that is a field with `type="number"`, which takes a keystroke and a
+   paste.
 
    Drag one below, and walk it with the arrow keys: it is the platform's own
    slider with the track and the thumb repainted. */
@@ -59,9 +59,9 @@ const meta: Meta<RangeProps> = {
 export default meta;
 type Story = StoryObj<RangeProps>;
 
-/** The question on the left and the number on the right: a slider with nothing
+/** The question on the left and the number on the right. A slider with nothing
     beside it is a value nobody can read back or report. The read-out is an
-    `<output>` pointing at the control. */
+    `<output>` that points at the control. */
 export const Default: Story = {};
 
 /** What the number means, beside the read-out. */
@@ -75,7 +75,7 @@ export const WithUnit: Story = {
     step: '10',
     value: '960',
     unit: 'px',
-    hint: 'The viewport the specimen is photographed in.',
+    hint: 'The viewport of the specimen’s photograph.',
   },
 };
 

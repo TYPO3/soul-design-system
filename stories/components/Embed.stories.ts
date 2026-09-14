@@ -1,12 +1,12 @@
 /* A document from somewhere else, in a frame this page controls.
 
-   The markup lives in `src/components/embed.ts`. No `parameters.dsCard`: what
-   this decides is how a frame behaves at widths a card cannot have, and a
+   The markup lives in `src/components/embed.ts`. No `parameters.dsCard`. What
+   this decides is how a frame behaves at widths a card cannot have. A
    picture at one fixed viewport shows two boxes and none of the point. Read
-   the stories by dragging the frame narrower.
+   the stories with the frame dragged narrower.
 
-   Every `src` is a document this repository serves: a story reaching a video
-   host would fetch it in every run, on a machine that may have no network. */
+   Every `src` is a document this repository serves. A story that reaches a
+   video host fetches it in every run, on a machine that can have no network. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -25,10 +25,10 @@ const sdsEmbed = ({ src, label, ratio, width, height, caption, allow, allowfulls
     ?allowfullscreen="${allowfullscreen ?? false}"
   ></sds-embed>`;
 
-/* Storybook serves the screens at the depth they are stored at, so their
-   own links climb to the right place — and relative to the preview page,
-   because the built Storybook is published below the documentation, where a
-   root path names somebody else's root. */
+/* Storybook serves the screens at the depth of their storage, so their own
+   links climb to the right place. And relative to the preview page, because
+   the built Storybook sits below the documentation, where a root path names
+   somebody else's root. */
 const SCREEN = {
   src: 'specimens/screens/landing.html',
   label: 'The landing screen, rendered',
@@ -57,19 +57,19 @@ export default meta;
 type Story = StoryObj<EmbedProps>;
 
 /** Fills the column and holds `16 / 9` while it does. This is what a video, a
-    map or anything else with no size of its own wants: the player is as wide
+    map or anything else with no size of its own wants. The player is as wide
     as there is room for, and never wider than that. */
 export const Default: Story = { args: SCREEN };
 
-/** The size it was made for, and no other: a card declares the viewport it was
-    measured at, and this is that number. Narrower, the frame scrolls rather
-    than reflowing — a specimen at a width nothing checked documents a layout
-    that may not exist. */
+/** The size it exists for, and no other: a card declares the viewport of its
+    measurement, and this is that number. Narrower, the frame scrolls rather
+    than reflows — a specimen at a width nothing checked documents a layout
+    that can not exist. */
 export const Fixed: Story = {
   args: {
     src: 'specimens/guidelines/colors-surfaces.card.html',
     label: 'The surface planes, in both modes',
-    /* Cleared, and not merely left out: Storybook merges a story's arguments
+    /* Cleared, and not merely left out. Storybook merges a story's arguments
        over the ones the file declares, so an unset key here is the shape the
        story above asked for. A size beside a ratio is a caller with two
        answers to one question, and the ratio is the one that wins. */
@@ -80,17 +80,17 @@ export const Fixed: Story = {
   },
 };
 
-/** Without a caption. Allowed, and the frame still has a name: `label`
+/** Without a caption. Permitted, and the frame still has a name. `label`
     becomes the frame's accessible name, which is all a screen reader has to
     say what it is about to enter. */
 export const Uncaptioned: Story = {
   args: { src: SCREEN.src, label: SCREEN.label, ratio: SCREEN.ratio, caption: '' },
 };
 
-/** The frame a renderer wrote, kept. A generator shipping HTML writes the
-    `<iframe>` so the reader has the document before any script runs, and the
-    element lifts that node rather than writing a second one — fetched once, and
-    the caption placed where the component puts captions. */
+/** The frame a renderer wrote, kept. A generator that ships HTML writes the
+    `<iframe>` so the reader has the document before any script runs. The
+    element lifts that node rather than writes a second one — fetched once,
+    and the caption where the component puts captions. */
 export const Given: Story = {
   render: () => html`<sds-embed width="700" height="240"
     ><iframe src="specimens/guidelines/colors-borders.card.html" width="700" height="240" title="The border tokens"></iframe

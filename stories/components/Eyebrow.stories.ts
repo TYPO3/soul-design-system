@@ -1,8 +1,8 @@
 /* The line over a title.
 
-   The markup lives in `src/components/eyebrow.ts`. No `parameters.dsCard`:
-   what an eyebrow draws is the label register, already on the type cards —
-   what it *is* only shows over a heading, and `Pages/Feature` opens with
+   The markup lives in `src/components/eyebrow.ts`. No `parameters.dsCard`.
+   What an eyebrow draws is the label register, already on the type cards.
+   What it *is* only shows over a heading, and `Pages/Feature` opens with
    one. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';

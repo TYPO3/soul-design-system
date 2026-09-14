@@ -1,15 +1,15 @@
 /* The tour.
 
    A feature presentation that is not three cards in a row. Cards compare —
-   they put four things beside each other for a reader to pick from. A tour is
-   read in order, because the second step means nothing until the first one has
-   happened, and that is what a row of cards cannot say.
+   they put four things beside each other for a reader to pick from. A reader
+   reads a tour in order, because the second step means nothing until the
+   first one has happened. That is what a row of cards cannot say.
 
-   So the steps alternate sides down the page: the eye crosses the column at
-   every one, which is what makes a sequence read as a sequence rather than as
-   a list that happens to be numbered. Each carries the picture of the thing it
-   describes, openable at the size it was made — a screenshot scaled into half
-   a column is a screenshot nobody can read.
+   So the steps alternate sides down the page. The eye crosses the column at
+   every one. That makes a sequence read as a sequence rather than as a list
+   that happens to carry numbers. Each carries the picture of the thing
+   it describes, and a press opens it at full size. A screenshot scaled into
+   half a column is a screenshot nobody can read.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -28,7 +28,7 @@ import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { type PageMode, skipLink } from '../lib/page.ts';
 
 /** One step of the tour: what happens, what it looks like, and the one fact a
-    reader would otherwise have to take on trust. */
+    reader otherwise has to take on trust. */
 interface Step {
   /** Numbered, because the order is the content. */
   label: string;
@@ -47,7 +47,7 @@ const STEPS: readonly Step[] = [
     heading: 'It reads your installation, once',
     body: html`The server starts as a subprocess of your editor and asks the
       project what it is: which release, which packages, which of them actually
-      booted. Nothing is written back, and nothing leaves the machine — the
+      booted. Nothing goes back, and nothing leaves the machine — the
       first answer is available before the index has finished.`,
     src: 'assets/placeholders/tool-package-registry.png',
     alt: 'The package registry as the server reads it, with three packages marked as not booted',
@@ -58,7 +58,7 @@ const STEPS: readonly Step[] = [
     heading: 'You ask in the words you already use',
     body: html`A question is a sentence, not a query language. “which icon means
       delete” and “actions-delete” reach the same answer, because the index
-      carries what a thing is for beside what it is called.`,
+      carries what a thing is for beside its name.`,
     src: 'assets/placeholders/tool-search.png',
     alt: 'A search for “delete” returning three identifiers with their purposes',
     fact: `typically 18${NNBSP}ms`,
@@ -69,14 +69,14 @@ const STEPS: readonly Step[] = [
     body: html`Every result names its source and the releases it holds for.
       That is the difference between an answer and a guess: a reader can check
       it, and a reader who cannot check an answer has to trust the tool, which
-      is the thing this is trying to avoid.`,
+      is the thing this exists to avoid.`,
     src: 'assets/placeholders/tool-source-answer.png',
     alt: 'An answer with its source and version binding shown beneath it',
     fact: '4 releases · 1 source named',
   },
   {
     label: 'step 04',
-    heading: 'What changed is shown as what changed',
+    heading: 'What changed arrives as what changed',
     body: html`Where an answer is about a difference between two releases, it
       arrives as the difference — the lines that moved, in the file they moved
       in, rather than a paragraph describing them.`,
@@ -141,7 +141,7 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
       <p>
         Where the four steps below end up. It is here rather than at the foot
         of the page because a reader who opens it needs nothing else, and one
-        who would rather read has the same four steps under it.
+        who prefers to read has the same four steps under it.
       </p>
       <!-- A framed document rather than a picture of one: what is in the
            frame keeps its own layout and answers a pointer, so the reader is
@@ -205,9 +205,9 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Tour',
   excludeStories: ['tourPage', 'screenHtml'],
@@ -216,7 +216,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/tour.html',
       title: 'TYPO3 Dev Companion — the tour',
-      subtitle: 'A sequence rather than a row of cards — steps alternating sides, each picture openable at the size it was made',
+      subtitle: 'A sequence rather than a row of cards — steps on alternate sides, and every picture opens at full size',
       viewport: '1440x900',
     }),
   },
@@ -225,8 +225,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: every picture opens at the size it was made and closes on
-    Escape, the frame holds a real page, and the steps cross the column. */
+/** Click through it. Every picture opens at full size and closes on Escape,
+    the frame holds a real page, and the steps cross the column. */
 export const Page: Story = {
   name: 'Tour',
   render: () => tourPage(),

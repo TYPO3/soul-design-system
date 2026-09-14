@@ -1,6 +1,6 @@
 /* An instruction read from the top, numbered down one rail.
 
-   The markup lives in `src/components/steps.ts`. The card is generated from
+   The markup lives in `src/components/steps.ts`. The card comes from
    `Specimen` below: an instruction is a still picture, unlike the accordion
    beside it, so there is one.
 
@@ -16,10 +16,10 @@ import '../../packages/frontend/src/components/code.ts';
 import { type Step, type StepsProps } from '../../packages/frontend/src/components/steps.ts';
 import { dsCard, part, spec, specCap } from '../lib/specimen.ts';
 
-/** One stop, written out. The demos below are composed of these rather than
-    handed the same stops as a property: a property leaves no markup, and the
-    source panel under a story that passes one shows an element with nothing in
-    it — which is the one thing a reader came to copy. */
+/** One stop, written out. The demos below consist of these rather than take
+    the same stops as a property. A property leaves no markup. The source
+    panel under a story that passes one shows an empty element, which is the
+    one thing a reader came to copy. */
 export const sdsStep = ({ heading, body, optional, anchor }: Step) =>
   html`<sds-step heading="${heading}" anchor="${anchor ?? ''}" ?optional="${Boolean(optional)}">${body}</sds-step>`;
 
@@ -29,10 +29,9 @@ const composed = ({ steps }: StepsProps) =>
   ${steps.map((step) => sdsStep(step))}
 </sds-steps>`;
 
-/** The other way in: the set is handed its stops and writes them itself. It is
-    also the only form a card can take, an element given content between its
-    tags being one a static render cannot see — see `renderStatic` in
-    `lib/render.ts`. */
+/** The other way in: the set gets its stops and writes them itself. It is
+    also the only form a card can take. A static render cannot see an element
+    with content between its tags — see `renderStatic` in `lib/render.ts`. */
 export const sdsSteps = ({ steps }: StepsProps) => html`<sds-steps .steps="${steps}"></sds-steps>`;
 
 /** A command, in the block a command belongs in. */
@@ -92,13 +91,13 @@ export default meta;
 type Story = StoryObj<StepsProps>;
 
 /** A set is its stops: one `sds-step` per stop, and the set says nothing about
-    any of them. The numbers are the set's own count, so a stop inserted in the
-    middle renumbers everything under it and no page had to say a number. */
+    any of them. The numbers are the set's own count. A stop inserted in the
+    middle renumbers everything under it, and no page had to say a number. */
 export const Default: Story = {};
 
-/** Nothing optional in it, which is the ordinary case: an instruction whose
-    every stop has to happen is an instruction a reader can follow without
-    deciding anything. */
+/** Nothing optional in it, which is the ordinary case. An instruction whose
+    every stop has to happen is an instruction a reader can follow with no
+    decision. */
 export const Required: Story = {
   args: { steps: INSTALL.filter((step) => !step.optional) },
 };
@@ -109,30 +108,30 @@ export const Short: Story = {
   args: { steps: INSTALL.slice(0, 2) },
 };
 
-/** What a stop can hold, which is the reason its content goes between the tags:
-    prose, a command, a list — none of it fits in an attribute, and all of it is
-    what a documentation renderer hands over. */
+/** What a stop can hold, which is the reason its content goes between the
+    tags. Prose, a command, a list — none of it fits in an attribute, and all
+    of it is what a documentation renderer hands over. */
 export const Blocks: Story = {
   render: () => html`<sds-steps>
     <sds-step heading="Write the story">
-      <p>The card is generated from it, so the story is where a component is
-        shown rather than described.</p>
+      <p>The card comes from it, so the story is where a component shows
+        rather than where a text describes it.</p>
       <ul>
         <li>the element and its classes</li>
-        <li>the story every card is generated from</li>
+        <li>the story every card comes from</li>
       </ul>
     </sds-step>
     <sds-step heading="Run the gate" anchor="run-the-gate">
-      <p>Nothing is finished before it is green.</p>
+      <p>Nothing is complete before it is green.</p>
       ${command('make verify')}
     </sds-step>
   </sds-steps>`,
 };
 
-/** The form a page uses when it already holds its instruction as data — and the
-    only form a card can take, because a card is rendered without a browser. The
+/** The form a page uses when it already holds its instruction as data. And the
+    only form a card can take, because a card renders with no browser. The
     panel below shows an empty element and says the truth: a property leaves no
-    markup, which is why every demo above is written out. */
+    markup, which is why every demo above stands written out. */
 export const FromData: Story = {
   render: (args) => sdsSteps(args),
 };

@@ -1,14 +1,14 @@
 /* What holds until when.
 
-   The page a self-hosted project cannot do without and that is almost always
-   built as a bare table with colours in it. Two things fix most of it: the
-   date the page was last true, at the top where a reader meets it, and a
-   phase that is a word and a glyph rather than a fill — a support state
-   carried by colour alone is a support state half the readers cannot read.
+   The page a self-hosted project cannot do without, and almost always a bare
+   table with colours in it. Two things fix most of it. The date the page was
+   last true, at the top where a reader meets it. And a phase that is a word
+   and a glyph rather than a fill. A support state in colour alone is a
+   support state half the readers cannot read.
 
-   The order is the reader's, not the release history's: what to run now, then
-   how long each release has, then what it needs under it, then what is being
-   worked on. The archive is last because it is for an audit rather than for a
+   The order is the reader's, not the release history's. What to run now, then
+   how long each release has, then what it needs under it, then what is in
+   progress. The archive is last because it is for an audit rather than for a
    decision.
 
    Live and static from one composition — see `lib/page.ts`. */
@@ -31,13 +31,13 @@ import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
 import { sdsStat } from '../components/Stat.stories.ts';
 
-/** The date this page was last true. Stated rather than implied: a roadmap
+/** The date this page was last true. Stated rather than implied. A roadmap
     with no date on it is worse than no roadmap, because a reader cannot tell
     a plan from a leftover. */
 const AS_OF = '15 August 2026';
 
 /** The four phases a release passes through, and what each one gets. A phase
-    is a word, a glyph and a colour together — the badge carries all three, so
+    is a word, a glyph and a colour together. The badge carries all three, so
     nothing here is readable only to somebody who can see the fill. */
 const PHASES: readonly { label: string; tone: BadgeTone; means: string }[] = [
   { label: 'active', tone: 'ok', means: 'Everything: features, fixes and security. The one to be on.' },
@@ -46,9 +46,9 @@ const PHASES: readonly { label: string; tone: BadgeTone; means: string }[] = [
   { label: 'ended', tone: 'error', means: 'Nothing, including security. An install on this is an install at risk.' },
 ];
 
-/** One release. The dates are the fact; the phase is worked out from them
-    rather than kept by hand, which is how a page like this goes stale while
-    still looking maintained. */
+/** One release. The dates are the fact. The phase follows from them rather
+    than sits in a hand-kept field, which is how a page like this goes stale
+    and still looks maintained. */
 interface Release {
   version: string;
   released: string;
@@ -86,7 +86,7 @@ const releaseRows = (): readonly Row[] =>
   }));
 
 /** What a release needs under it. The second table, because it decides the
-    upgrade window as much as the dates do — an install that cannot move its
+    upgrade window as much as the dates do. An install that cannot move its
     PHP cannot move its release either. */
 const PHP_COLUMNS: readonly Column[] = [
   { head: 'Release', cls: 'sds-td-name' },
@@ -105,8 +105,8 @@ const PHP_ROWS: readonly Row[] = [
   { cells: ['11.5', 'tested', 'no', 'no', 'no'] },
 ];
 
-/** The three figures a planner is actually after, so they are not left to be
-    read out of a table of ten dates. */
+/** The three figures a planner is after, so nobody has to read them out of a
+    table of ten dates. */
 const FACTS: readonly StatProps[] = [
   {
     value: '14.3',
@@ -119,7 +119,7 @@ const FACTS: readonly StatProps[] = [
     unit: 'months',
     label: 'until 13.4 leaves security',
     icon: 'actions-clock',
-    note: 'Long enough to plan an upgrade, short enough to start planning it now.',
+    note: 'Long enough to plan an upgrade, short enough to start the plan now.',
   },
   {
     value: '2',
@@ -130,27 +130,27 @@ const FACTS: readonly StatProps[] = [
   },
 ];
 
-/** In progress. Themes and a state — never a date: a date on
-    something unbuilt is a promise the page cannot keep, and one broken
-    promise costs more than the whole page is worth. */
+/** In progress. Themes and a state — never a date. A date on something
+    unbuilt is a promise the page cannot keep, and one broken promise costs
+    more than the whole page is worth. */
 const COMING: readonly { label: string; tone: BadgeTone; heading: string; body: string }[] = [
   {
     label: 'in development',
     tone: 'ok',
     heading: 'Answers across two releases at once',
-    body: 'Asking what changed between 12.4 and 14.3 currently means asking twice and reading both. The work is in joining them into one answer that says which half came from where.',
+    body: 'A question about what changed between 12.4 and 14.3 currently takes two questions and two answers. The work is one answer that says which half came from where.',
   },
   {
     label: 'being decided',
     tone: 'default',
-    heading: 'Reading a site package for its own conventions',
-    body: 'Whether a project’s own naming should be indexed beside the core’s. It answers a real question and it doubles the surface that can be wrong, which is why it is not started.',
+    heading: 'A site package read for its own conventions',
+    body: 'If a project’s own names belong in the index beside the core’s. It answers a real question and it doubles the surface that can be wrong. So it has not started.',
   },
   {
     label: 'not planned',
     tone: 'warn',
     heading: 'Writing anything back to an installation',
-    body: 'Listed here because it is asked for often. Everything this reads is read-only by design, and a tool that edits is a different tool with a different risk.',
+    body: 'Listed here because the question comes often. Everything this touches stays untouched by design, and a tool that edits is a different tool with a different risk.',
   },
 ];
 
@@ -190,9 +190,9 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-eyebrow label="releases and support"></sds-eyebrow>
       <h1 class="sds-display">What holds, and until when</h1>
       <p class="sds-lead">
-        Every release, the phase it is in, and the date it stops getting
-        fixes. Dates already reached are facts; everything after the next
-        release is a plan, and this page says which is which.
+        Every release, the phase it is in, and the date its fixes stop.
+        Dates already reached are facts; everything after the next release
+        is a plan, and this page says which is which.
       </p>
       <!-- The date the page was last true, at the top where a reader meets
            it. A roadmap with no date is worse than none: nobody can tell a
@@ -209,8 +209,8 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="now">
       <h2>Running it</h2>
       <p>
-        Three figures, so the answer does not have to be read out of a table
-        of ten dates.
+        Three figures, so nobody has to read the answer out of a table of
+        ten dates.
       </p>
       ${grid(FACTS.map(sdsStat), { flat, variant: 'dense' })}
       <div class="sds-actions">${upgrade}</div>
@@ -229,9 +229,9 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band sds-band--quiet" id="dates">
       <h2>Every release</h2>
       <p>
-        The row in support is marked. Two of these get nothing at all,
-        including security — an installation on one of them is an
-        installation at risk, and saying so is the point of the table.
+        The row in support carries a mark. Two of these get nothing at all,
+        security included. An installation on one of them is an installation
+        at risk, and to say so is the point of the table.
       </p>
       <sds-table density="medium" scrollable .columns="${RELEASE_COLUMNS}" .rows="${releaseRows()}"></sds-table>
     </section>
@@ -239,7 +239,7 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
     <section class="sds-band" id="php">
       <h2>Requirements</h2>
       <p>
-        The upgrade window is set by this as much as by the dates: an install
+        This sets the upgrade window as much as the dates do. An install
         that cannot move its PHP cannot move its release either. Answers are
         words rather than ticks, so a cell means something on its own.
       </p>
@@ -263,9 +263,9 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Releases',
   excludeStories: ['releasesPage', 'screenHtml'],
@@ -274,7 +274,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/releases.html',
       title: 'TYPO3 Dev Companion — releases and support',
-      subtitle: 'Dated at the top, phases as word and glyph rather than fill, and what is not planned said out loud',
+      subtitle: 'Dated at the top, phases as word and glyph rather than fill, and what has no plan said out loud',
       viewport: '1440x900',
     }),
   },
@@ -283,9 +283,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the supported row is marked rather than coloured, every
-    phase reads without seeing its fill, and the tables scroll rather than
-    widening the page. */
+/** Click through it. The supported row carries a mark rather than a colour.
+    Every phase reads with no view of its fill, and the tables scroll rather
+    than widen the page. */
 export const Page: Story = {
   name: 'Releases',
   render: () => releasesPage(),

@@ -1,12 +1,12 @@
 /* The breadcrumb trail.
 
    The markup lives in `src/components/crumbs.ts`. No `parameters.dsCard`: a
-   trail is four words and two slashes, and a card of it would show the type
+   trail is four words and two slashes, and a card of it shows the type
    scale a second time. Where it belongs is above a page title, which is what
-   `Pages/Feature` shows it doing.
+   `Pages/Feature` shows.
 
-   The stories worth having are the two edges — a trail one step deep, and one
-   deep enough to wrap — because everything between them is the same row. */
+   The stories to have are the two edges — a trail one step deep, and one
+   deep enough to wrap. Everything between them is the same row. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -37,8 +37,8 @@ export default meta;
 type Story = StoryObj<CrumbsProps>;
 
 /** The usual depth. The last entry is the page, so it is text and not a
-    link — and it says `aria-current="page"` rather than leaving that to be
-    inferred from its position. */
+    link. And it says `aria-current="page"` rather than leaves that to its
+    position. */
 export const Default: Story = { args: { items: TRAIL } };
 
 /** One step up from the front page. A trail this short still earns its place:
@@ -48,7 +48,7 @@ export const Shallow: Story = {
 };
 
 /** Deep enough to wrap on a narrow screen — two lines, and nothing clipped. A
-    trail that is cut short is a lie about where the reader is. */
+    trail cut short is a lie about where the reader is. */
 export const Deep: Story = {
   args: {
     items: [
@@ -61,8 +61,8 @@ export const Deep: Story = {
   },
 };
 
-/** An href a caller left off the last entry is ignored: the end of a trail is
-    the page it is on, whatever it was given. */
+/** An href on the last entry counts for nothing. The end of a trail is the
+    page it is on, whatever the caller gave it. */
 export const LastIsNeverALink: Story = {
   args: { items: [{ label: 'Overview', href: '#' }, { label: 'Features', href: '#pretend' }] },
 };

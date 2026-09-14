@@ -1,12 +1,12 @@
 /* One answer out of a list the reader does not need to see.
 
    The markup lives in `src/components/select.ts`. It shares the field's sunken
-   box and nothing else: what a select has is a list — with headings, and
-   entries that are on it but not on offer — and what it has not is anything to
+   box and nothing else. What a select has is a list, with headings and with
+   entries that are on it but not on offer. What it has not is anything to
    type into.
 
    Open one below. The list is the platform's, which is the list a phone opens
-   full-screen and a keyboard walks by typing. */
+   full-screen and a keyboard walks by letter. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -83,16 +83,16 @@ type Story = StoryObj<SelectProps>;
 export const Default: Story = {};
 
 /** Nothing chosen yet, said in the list rather than in a placeholder a closed
-    box has nowhere to put. The entry is disabled, so it is what the reader
-    sees and never what they can pick — and a `required` select is blocked by
-    the browser until they pick another. */
+    box has nowhere to put. The entry carries `disabled`, so it is what the
+    reader sees and never what they can pick. The browser blocks a `required`
+    select until they pick another. */
 export const Unchosen: Story = {
   args: { value: 'Choose a release', filled: false, minWidth: 240, options: ['12.4', '13.4', '14.3', 'main'] },
 };
 
 /** Headings, and answers that are on the list and not on offer. A release out
-    of support is worth showing: a reader who cannot find it at all does not
-    learn that it is gone. */
+    of support belongs on it: a reader who cannot find it at all does not
+    learn that it went. */
 export const Grouped: Story = {
   args: { value: '13.4', filled: true, minWidth: 240, options: RELEASES },
 };
@@ -106,7 +106,7 @@ export const InAForm: Story = {
     filled: true,
     minWidth: 280,
     options: RELEASES,
-    hint: 'Answers are checked against the release you pick.',
+    hint: 'Answers hold for the release you pick.',
     required: true,
   },
 };
@@ -128,19 +128,19 @@ export const Invalid: Story = {
     on one line. */
 export const Small: Story = { args: { size: 'sm', value: '13.4', filled: true, minWidth: 140 } };
 
-/* The list, drawn standing open. A card is a picture and runs no script, so it
-   can neither press the button nor hold a popover — this is the same kind of
-   state as the field's `focused`, and it is never set on a page. */
+/* The list, drawn open. A card is a picture and runs no script, so it can
+   neither press the button nor hold a popover. This is the same kind of
+   state as the field's `focused`, and no page ever sets it. */
 
-/** What the reader sees while they are choosing: the headings, the answer in
-    force with its mark, the one the keys are on, and the one that is on the
-    list without being on offer. */
+/** What the reader sees while they choose. The headings, the answer in force
+    with its mark, the one the keys are on, and the one on the list and not
+    on offer. */
 export const OpenForSpecimen: Story = {
   args: { value: '13.4', filled: true, minWidth: 240, options: RELEASES, open: true },
 };
 
 /** The open list stands over whatever is under it, so the card reserves the
-    room a page would have had. */
+    room a page has. */
 const OPEN_ROOM = 300;
 
 export const specimenHtml = (): string =>

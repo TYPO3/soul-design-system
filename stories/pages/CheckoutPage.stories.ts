@@ -1,15 +1,15 @@
 /* One checkout, in full — the page behind a row of the list.
 
    `Table.stories.ts` draws the list and gives every row its way in; this is
-   what the way in leads to. It is the shape any record's page falls into: what
-   it is called, what may be done to it, what it stands at, what it is made of,
-   and what has been done to it — in that order, because a reader arrives
-   knowing which record and not knowing which of those they came for.
+   what the way in leads to. It is the shape any record's page falls into. Its
+   name, what a reader can do to it, what it stands at, what it consists of,
+   and what happened to it. In that order, because a reader arrives with the
+   record in mind and not which of those they came for.
 
-   Nothing here is a class of this page's own. Two things it would have been
-   tempting to invent are the ones worth naming: a value somebody copies is an
-   `sds-code` block with its term as the caption, and a list of commits is a
-   table, because a commit is a row of facts and not a paragraph.
+   Nothing here is a class of this page's own. Two things tempt an invention,
+   and those two deserve a name. A value somebody copies is an `sds-code` block
+   with its term as the caption. A list of commits is a table, because a
+   commit is a row of facts and not a paragraph.
 
    Live and static from one composition — see `lib/page.ts`. */
 
@@ -35,7 +35,7 @@ import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { type PageMode, skipLink } from '../lib/page.ts';
 
 /** The checkout this page is about. One constant: the heading, the trail, the
-    addresses and the question before it is dropped all name the same thing. */
+    addresses and the question before it goes all name the same thing. */
 const NAME = '14.3-dev';
 
 const TRAIL: readonly Crumb[] = [
@@ -45,8 +45,8 @@ const TRAIL: readonly Crumb[] = [
 ];
 
 /** What the checkout is, in the groups a reader asks after. Two on each side of
-    the split, so neither half ends halfway up the other and the labels mark a
-    boundary rather than sitting alone at the top of one column. */
+    the split, so neither half ends halfway up the other. The labels then mark
+    a boundary rather than sit alone at the top of one column. */
 const REPOSITORY: readonly (readonly [string, TemplateResult])[] = [
   ['Branch', html`<span class="sds-mono">feature/soul</span>`],
   ['Checked out', html`<span class="sds-mono">9f21c04</span>, the tip of the branch`],
@@ -55,7 +55,7 @@ const REPOSITORY: readonly (readonly [string, TemplateResult])[] = [
     'Built',
     html`Two days ago, from <span class="sds-mono">48723bc</span>
       <span class="sds-facts__note">The checkout has moved on twice since.
-        Bringing it up to date builds what is here.</span>`,
+        An update builds what is here.</span>`,
   ],
 ];
 
@@ -67,8 +67,8 @@ const RUNTIME: readonly (readonly [string, TemplateResult])[] = [
 ];
 
 /** Every address the checkout answers on. A project with more than one site
-    configuration serves more than one, and a reader looking for the second one
-    has nowhere else to find it: the two doors at the top of the page open the
+    configuration serves more than one, and a reader after the second one has
+    nowhere else to find it. The two doors at the top of the page open the
     first, and this is the list. The term is the site the domain belongs to. */
 const DOMAINS: readonly (readonly [string, string])[] = [
   ['main', '14-3-dev.companion.test'],
@@ -76,8 +76,8 @@ const DOMAINS: readonly (readonly [string, string])[] = [
   ['campaign', 'launch.14-3-dev.companion.test'],
 ];
 
-/** What a reader copies out of this page: four values pasted into a terminal,
-    a client or a login, each with the button that takes it. */
+/** What a reader copies out of this page. Four values for a terminal, a
+    client or a login, each with the button that takes it. */
 const ACCESS: readonly (readonly [string, string, string?])[] = [
   ['Directory', '~/projects/blog/.worktrees/14-3-dev'],
   ['Database', 'companion_14_3_dev'],
@@ -85,7 +85,7 @@ const ACCESS: readonly (readonly [string, string, string?])[] = [
   [
     'Backend password',
     'a-development-password',
-    'Generated when the checkout is provisioned, and gone when it is. It reaches nothing outside this machine, which is why it can be shown.',
+    'Generated with the checkout, and gone with it. It reaches nothing outside this machine, which is why it can show.',
   ],
 ];
 
@@ -94,12 +94,13 @@ const taken = (label: string, value: string, note?: string): TemplateResult =>
     note ? html`<span class="sds-facts__note">${note}</span>` : nothing
   }`;
 
-/** The log, in the order a git client puts it: the subject is what a reader
-    scans, the date and the hash are held to what they are, and what is not
-    committed yet stands at the top of the same table rather than in a column
-    beside it — it is the newest thing the worktree has and it is read first. */
+/** The log, in the order a git client puts it. The subject is what a reader
+    scans, and the date and the hash stay at their own width. What is not in a
+    commit yet stands at the top of the same table rather than in a column
+    beside it. It is the newest thing the worktree has and a reader reads it
+    first. */
 const COMMITS: readonly Column[] = [
-  /* The rail, and no head over it: a heading there would name the drawing. */
+  /* The rail, and no head over it: a heading there names the drawing. */
   { head: '', cls: 'sds-td-graph' },
   { head: 'Subject' },
   { head: 'When', cls: 'sds-td-meta', align: 'end', fit: true },
@@ -108,12 +109,12 @@ const COMMITS: readonly Column[] = [
 ];
 
 /** A node on the rail. Hollow is a place rather than a commit — the working
-    copy, and the commit the worktree is standing on. */
+    copy, and the commit the worktree stands on. */
 const node = (mark?: 'open' | 'current'): TemplateResult =>
   html`<span class="sds-graph${mark ? ` sds-graph--${mark}` : ''}"></span>`;
 
-/** The hash, as the way to the commit itself. It is set in the link colour
-    wherever it stands, and a hash that is not a link is that colour lying. */
+/** The hash, as the way to the commit itself. It sets in the link colour
+    wherever it stands, and a hash that is not a link is that colour as a lie. */
 const at = (sha: string): TemplateResult =>
   html`<sds-link
     href="https://github.com/typo3/blog/commit/${sha}"
@@ -121,9 +122,10 @@ const at = (sha: string): TemplateResult =>
     external
   ></sds-link>`;
 
-/** A ref pointing at a commit, before the subject the way a git client puts it:
-    it says what this commit *is* to the repository, which is read before what
-    it did. Neither is a result, so neither carries a status colour. */
+/** A ref that points at a commit, before the subject the way a git client puts
+    it. It says what this commit *is* to the repository, which a reader reads
+    before what it did. Neither is a result, so neither carries a status
+    colour. */
 const ref = (label: string, icon: string): TemplateResult =>
   html`<sds-badge label="${label}" icon="${icon}"></sds-badge>`;
 
@@ -131,8 +133,8 @@ const LOG: readonly Row[] = [
   {
     cells: [
       node('open'),
-      /* The one row that is not a commit, and the one a reader looks at first:
-         it is what they have and have not put anywhere yet. */
+      /* The one row that is not a commit, and the one a reader looks at first.
+         It is what they have and have not put anywhere yet. */
       html`<strong>Uncommitted changes <span class="sds-warn">4 files</span></strong>`,
       '1 Sep 2026 13:53',
       '—',
@@ -143,7 +145,8 @@ const LOG: readonly Row[] = [
     cells: [
       node('current'),
       /* Where the worktree stands. Bold, like the row above it: what is bold
-         here is what is current, and everything older is set as it is read. */
+         here is what is current, and everything older sets as a reader reads
+         it. */
       html`<strong>${ref('feature/soul', 'actions-code-fork')} Add the campaign
         site configuration</strong>`,
       '1 Sep 2026 12:02',
@@ -168,10 +171,10 @@ const LOG: readonly Row[] = [
   { cells: [node(), 'Use associative keys in FlexForm items', '19 Aug 2026 11:29', 'A. Lindqvist', at('39e8ef3')] },
 ];
 
-/** The provision that stopped. A page for managing an instance is opened when
-    something did not work, and a history of nothing but successes is a history
-    nobody comes for — so the shape of a failure is on the page: where it got
-    to, and what the step that failed wrote. */
+/** The provision that stopped. A reader opens a page that manages an instance
+    when something did not work. A history of nothing but successes is a
+    history nobody comes for. So the shape of a failure is on the page: where
+    it got to, and what the step that failed wrote. */
 const REFUSED: readonly RunStep[] = [
   { label: 'Create the worktree', state: 'done', meta: '2s' },
   {
@@ -186,9 +189,9 @@ const REFUSED: readonly RunStep[] = [
   { label: 'Provision the database', state: 'ahead' },
 ];
 
-/** What a fetch goes through. Two of them have happened, so they are written
-    once and read twice — a second set that said it slightly differently would
-    be a page documenting a different job from the one it is showing. */
+/** What a fetch goes through. Two of them have happened, so they stand once
+    and read twice. A second set that says it slightly differently is a page
+    that documents a different job from the one it shows. */
 const FETCH: readonly RunStep[] = [
   { label: 'Fetch the branch', state: 'done', meta: '3s', output: '→ fetching origin\n✓ 4 objects, 2 refs updated' },
   { label: 'Copy the database', state: 'done', meta: '8s' },
@@ -202,9 +205,9 @@ const CHECKOUT: readonly RunStep[] = [
   { label: 'Provision the database', state: 'done', meta: '2s' },
 ];
 
-/** A way in, as the control it is: the running site and its backend, at the
-    top of the page and at its end, where a reader who came to look at the thing
-    itself finds them before the presses that change it. */
+/** A way in, as the control it is: the site and its backend, at the top of
+    the page and at its end. A reader who came to look at the thing itself
+    finds them before the presses that change it. */
 const wayIn = (flat: boolean, label: string, href: string): TemplateResult => {
   const body = html`${buttonLabel(label)}<sds-icon name="actions-window-open"></sds-icon>`;
   return flat
@@ -214,9 +217,9 @@ const wayIn = (flat: boolean, label: string, href: string): TemplateResult => {
 };
 
 /** A press, in both renderings. A button's label is content, and `renderStatic`
-    flattens no element that was given children — so the static form is the
-    markup the element would have rendered, and the dialog it cannot open is
-    honestly not opened. */
+    flattens no element with children. So the static form is the markup the
+    element renders, and the dialog it cannot open stays closed, with
+    honesty. */
 const press = (flat: boolean, props: ButtonProps, label: string, opens?: string): TemplateResult =>
   flat
     ? buttonMarkup(props, label)
@@ -365,9 +368,9 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Checkout',
   excludeStories: ['checkoutPage', 'screenHtml'],
@@ -376,7 +379,7 @@ const meta: Meta = {
     dsScreen: dsScreen({
       path: 'screens/checkout.html',
       title: 'Dev Companion — one checkout',
-      subtitle: 'The page behind a row: what it is called, what may be done to it, what it stands at, and what has been done to it',
+      subtitle: 'The page behind a row: its name, its controls, where it stands, and what happened to it',
       viewport: '1440x900',
     }),
   },
@@ -386,7 +389,7 @@ export default meta;
 type Story = StoryObj;
 
 /** Click through it: the values copy, the past runs open onto their stops, and
-    the press that cannot be taken back asks first. */
+    the press with no way back asks first. */
 export const Page: Story = {
   name: 'Checkout',
   render: () => checkoutPage(),

@@ -1,12 +1,12 @@
-/* Work being done, as the stops it is made of.
+/* Work in progress, as the stops it consists of.
 
-   The markup lives in `src/components/run.ts`. Not the instruction beside it:
-   an instruction is rendered before it is served and never changes, and this
+   The markup lives in `src/components/run.ts`. Not the instruction beside it.
+   An instruction renders before the server sends it and never changes. This
    arrives one stop at a time, carries what each one wrote, and ends on a
-   verdict. The two are told apart in the element's own file.
+   verdict. The element's own file tells the two apart.
 
-   The card is the sequence, because that is the shape a reader has to be able
-   to recognise: the row in hand carries a band, what wrote something opens,
+   The card is the sequence, because that is the shape a reader has to
+   recognise. The row in hand carries a band, what wrote something opens,
    and the durations line up in a column. The set of jobs is a story below —
    the same rows under groups that fold. */
 
@@ -28,17 +28,17 @@ export const sdsRun = ({ heading, verdict, note, steps, open, stateWords }: RunP
     .stateWords="${stateWords ?? {}}"
   ></sds-run>`;
 
-/* What a step wrote. Written as the characters they are: the lines this system
-   put there are told from the lines the tools wrote, and nothing else is —
-   a tool handed no terminal writes no colour, and guessing at its meaning is
-   reading tea leaves. */
+/* What a step wrote, as the characters they are. The lines this system put
+   there stand apart from the lines the tools wrote, and nothing else does. A
+   tool with no terminal writes no colour, and a guess at its meaning is a
+   guess. */
 const INDEX_OUTPUT = `→ reading the sitemap at docs.typo3.org
 → 18412 pages listed, 0 refused
 ✓ sitemap read in 412ms`;
 
 const BUILD_OUTPUT = `→ building the index
 12880 of 18412 pages
-→ 4 pages have no title and are indexed by their path`;
+→ 4 pages have no title and stand in the index by their path`;
 
 /** One read of a source, as the stops it goes through. Exported so the page
     that shows a source composes these rather than a second copy of them. */
@@ -51,8 +51,8 @@ export const READ: readonly RunStep[] = [
 ];
 
 /** The same work, stopped. What failed wrote why, and the stop after it never
-    happened — which is a run saying where it got to rather than what it wanted
-    to do. */
+    happened. That is a run that says where it got to rather than what it
+    wanted to do. */
 export const REFUSED: readonly RunStep[] = [
   { label: 'Fetch the sitemap', state: 'done', meta: '0.4s' },
   {
@@ -61,19 +61,19 @@ export const REFUSED: readonly RunStep[] = [
     meta: '2m 11s',
     output: `→ 12880 of 18412 pages
 ✗ docs.typo3.org stopped answering after 12880 pages
-✗ the index was not swapped in — the one from 06:12 is still being answered from`,
+✗ the index did not swap in — the one from 06:12 still answers`,
   },
   { label: 'Build the index', state: 'ahead' },
   { label: 'Swap it in', state: 'ahead' },
 ];
 
 /** Many jobs at once, which is the other shape. Nothing here follows anything
-    else, so the order says nothing and the state is what sorts them — and each
+    else, so the order says nothing and the state is what sorts them. Each
     row says in words what a mark cannot. */
 const CHECKS: readonly RunStep[] = [
-  { group: '3 queued', label: 'Build PHP (8.3)', state: 'ahead', note: 'Waiting to run this check' },
-  { group: '3 queued', label: 'Build PHP (8.4)', state: 'ahead', note: 'Waiting to run this check' },
-  { group: '3 queued', label: 'Build PHP (8.5)', state: 'ahead', note: 'Waiting to run this check' },
+  { group: '3 queued', label: 'Build PHP (8.3)', state: 'ahead', note: 'In the queue for this check' },
+  { group: '3 queued', label: 'Build PHP (8.4)', state: 'ahead', note: 'In the queue for this check' },
+  { group: '3 queued', label: 'Build PHP (8.5)', state: 'ahead', note: 'In the queue for this check' },
   { group: '2 in progress', label: 'Build frontend', state: 'running', meta: '24s', note: 'Started now' },
   { group: '2 in progress', label: 'Build PHP (8.2)', state: 'running', meta: '18s', note: 'Started now' },
   { group: '1 failed', label: 'Lint', state: 'failed', meta: '31s', note: 'Two files are off the standard' },
@@ -104,14 +104,14 @@ const meta: Meta<RunProps> = {
 export default meta;
 type Story = StoryObj<RunProps>;
 
-/** A run in hand. The stop being worked on is open and its output follows to
-    the end; the ones behind it are closed, because what a reader wants from a
+/** A run in hand. The stop in progress is open and its output follows to the
+    end. The ones behind it stand closed, because what a reader wants from a
     finished step is that it finished. */
 export const Default: Story = {};
 
-/** Stopped, and the run says where. The stop that failed stands open — it is
-    the one thing on the page worth reading — and what came after it never
-    happened rather than being drawn as though it might still. */
+/** Stopped, and the run says where. The stop that failed stands open, as it
+    is the one thing on the page to read. What came after it never happened,
+    and the card does not draw it as though it still can. */
 export const Failed: Story = {
   args: {
     heading: 'The read stopped',
@@ -122,8 +122,8 @@ export const Failed: Story = {
   },
 };
 
-/** Done, folded away. This is the shape a past run takes in a list of them:
-    the verdict and how long, and the stops are there for whoever asks. */
+/** Done, folded away. This is the shape a past run takes in a list of them.
+    The verdict and how long, and the stops are there for whoever asks. */
 export const Settled: Story = {
   args: {
     heading: 'Read docs.typo3.org',
@@ -135,7 +135,7 @@ export const Settled: Story = {
 };
 
 /** Many jobs at once, grouped by what has become of them. The order says
-    nothing here — nothing waits for anything — so the groups carry the count
+    nothing here, as nothing waits for anything. So the groups carry the count
     and fold, and each row says in words what the mark cannot. */
 export const Grouped: Story = {
   args: {
@@ -147,7 +147,7 @@ export const Grouped: Story = {
 };
 
 /** With the share above it, where the work reports one. The bar is
-    `sds-progress` and not something this component grew: a run whose end is
+    `sds-progress` and not something this component grew. A run whose end is
     not a number — which is most of them — draws no bar at all. */
 export const WithProgress: Story = {
   render: (args) => html`<div class="sds-stack">
@@ -164,12 +164,12 @@ export const WithProgress: Story = {
   </div>`,
 };
 
-/* Both ends of a run on one card, because what a reader has to be able to tell
-   apart is the one in hand from the one that stopped — and the marks, the band
-   and the two tones in the output only mean anything against each other. */
+/* Both ends of a run on one card. What a reader has to tell apart is the one
+   in hand from the one that stopped. The marks, the band and the two tones in
+   the output only mean anything against each other. */
 export const specimenHtml = (): string =>
   spec([
-    specCap('In hand — the stop being worked on stands open, the ones behind it are closed'),
+    specCap('In hand — the stop in progress stands open, the ones behind it stand closed'),
     part(sdsRun({
       heading: 'Reading docs.typo3.org',
       verdict: 'running',

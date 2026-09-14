@@ -4,9 +4,9 @@
    one tile on its own says nothing, because what it is for is only visible in
    the wall — which is what `Pages/Catalog` shows.
 
-   The stories are the decisions a wall makes: how big the glyph is drawn,
-   whether the tile goes anywhere, and what happens to an identifier too long
-   for the column it landed in. */
+   The stories are the decisions a wall makes. How big the glyph draws, if
+   the tile goes anywhere, and what happens to an identifier too long for the
+   column it landed in. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -22,8 +22,8 @@ export const sdsIconTile = ({ name, caption, href, tag }: IconTileProps) =>
     tag="${tag ?? ''}"
   ></sds-icon-tile>`;
 
-/** The set the catalog page shows, in the order it shows them. Exported so the
-    page composes these rather than keeping a copy of its own. */
+/** The set the catalog page shows, in the order it shows them. An export, so
+    the page composes these rather than keeps a copy of its own. */
 export const GLYPHS: readonly IconTileProps[] = [
   { name: 'actions-document-edit', href: '#glyph' },
   { name: 'actions-document-view', href: '#glyph' },
@@ -31,9 +31,9 @@ export const GLYPHS: readonly IconTileProps[] = [
   { name: 'actions-file-pdf', href: '#glyph' },
   { name: 'actions-folder-add', href: '#glyph' },
   { name: 'actions-code-merge', href: '#glyph' },
-  /* The two optional parts, in the wall rather than beside it: what a corner
-     mark and a short caption cost is the row they stand in, and a tile shown
-     on its own answers neither question. */
+  /* The two optional parts, in the wall rather than beside it. What a corner
+     mark and a short caption cost is the row they stand in, and a tile on its
+     own answers neither question. */
   { name: 'actions-arrow-end', href: '#glyph', tag: 'BiDi' },
   { name: 'actions-chevron-start', href: '#glyph', tag: 'BiDi' },
   { name: 'actions-history', href: '#glyph', caption: 'Version history' },
@@ -64,27 +64,27 @@ export const Default: Story = { args: GLYPHS[0] as IconTileProps };
     and a tile carrying two facts is a tile that has become a card. */
 export const Tagged: Story = { args: GLYPHS[7] as IconTileProps };
 
-/** Something other than the identifier under it, where the set is named for
+/** Something other than the identifier under it, where the set has names for
     readers rather than for the machine. Rare: what a reader takes away from a
     wall like this is usually the string they have to type. */
 export const Captioned: Story = {
   args: { name: 'actions-document-edit', caption: 'Edit record', href: '#glyph' },
 };
 
-/** Going nowhere. Still a tile: a wall that documents a set rather than
-    indexing it presses nowhere, so nothing rises under the pointer and the
-    keyboard is not stopped at something that does not answer. */
+/** Goes nowhere. Still a tile. A wall that documents a set rather than
+    indexes it presses nowhere. So nothing rises under the pointer, and the
+    keyboard does not stop at something that does not answer. */
 export const Inert: Story = { args: { name: 'actions-document-edit' } };
 
 /** The wall, which is the only place one of these means anything. `dense` is
-    the width a tile holds — the drawing and a name under it, six or seven
-    across, where a card carrying a paragraph would take the room of two. */
+    the width a tile holds: the drawing and a name under it. Six or seven
+    across, where a card with a paragraph takes the room of two. */
 export const Wall: Story = {
   render: () => html`<sds-grid variant="dense">${GLYPHS.map(sdsIconTile)}</sds-grid>`,
 };
 
 /** An identifier longer than the column it landed in breaks inside the word
-    rather than being cut off. A name with its end missing is one the reader
+    rather than loses its end. A name with its end missing is one the reader
     cannot use, which is the only reason it is on the tile at all. */
 export const LongName: Story = {
   name: 'A name too long for its column',

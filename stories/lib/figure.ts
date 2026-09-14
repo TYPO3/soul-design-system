@@ -1,11 +1,11 @@
 /* The diagram cards' own scaffolding.
 
-   Most of the diagram specimens are the same card: a drawing named by its file,
-   with two notes under it saying what the drawing had to survive.
+   Most of the diagram specimens are the same card. A drawing named by its file,
+   with two notes under it that say what the drawing had to survive.
 
-   The drawing is referenced rather than linked, which is the part that must not
-   drift — through an `<img>` it would show in the light it was drawn in
-   whatever mode the card was shot in, and these are shot in both. Written out
+   The drawing is a reference rather than a link, which is the part that must
+   not drift. Through an `<img>` it shows in the light of its construction
+   whatever mode the shot is in, and these shots are in both. Written out
    rather than through `sds-figure`, because what these document is the drawing
    and not the frame. The plane is the card's ground, so it goes on `<body>`. */
 
@@ -14,8 +14,7 @@ import { DIAGRAM_VIEWBOX } from '../../packages/frontend/src/components/diagrams
 import { REF } from '../../packages/frontend/src/lib/art.ts';
 import { indent } from './specimen.ts';
 
-/** A drawing: what it is called, and what it draws for a reader who cannot
-    see it. */
+/** A drawing: its name, and what it draws for a reader who cannot see it. */
 export interface Figure {
   file: string;
   alt: string;

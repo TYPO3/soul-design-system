@@ -1,13 +1,13 @@
 /* One answer out of a few, all of them visible.
 
-   The markup lives in `src/components/radio.ts`. No `parameters.dsCard`:
-   what a card would show is three radios, and what is worth documenting is
-   when to reach for this at all — which is a comparison with `sds-field
-   select` rather than a picture.
+   The markup lives in `src/components/radio.ts`. No `parameters.dsCard`.
+   What a card shows is three radios. What deserves a document is when to
+   reach for this at all — a comparison with `sds-field select` rather than a
+   picture.
 
-   A few, and visible. Above roughly five answers the set stops being scannable
-   and becomes a list, and a list the reader must read to answer one question
-   is a select. */
+   A few, and visible. Above roughly five answers the set is no longer a scan
+   but a list. A list the reader must read to answer one question is a
+   select. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -29,7 +29,7 @@ const sdsRadio = ({ legend, name, choices, value, hint, required }: RadioProps) 
 const REPLY = [
   { label: 'Email', hint: 'One reply, to the address above.' },
   { label: 'In the repository', hint: 'The report becomes an issue, and the thread is public.' },
-  { label: 'No reply', hint: 'The report is read and filed. Nothing comes back.' },
+  { label: 'No reply', hint: 'A person reads and files the report. Nothing comes back.' },
 ];
 
 const meta: Meta<RadioProps> = {
@@ -43,22 +43,22 @@ const meta: Meta<RadioProps> = {
     value: { control: 'text' },
     required: { control: 'boolean' },
   },
-  args: { legend: 'How should we come back to you?', name: 'reply', choices: REPLY, value: 'Email' },
+  args: { legend: 'How must we come back to you?', name: 'reply', choices: REPLY, value: 'Email' },
 };
 
 export default meta;
 type Story = StoryObj<RadioProps>;
 
-/** The question is the legend and the answers are the set. Each may carry
-    what choosing it means — which is the whole reason this is not a select. */
+/** The question is the legend and the answers are the set. Each can carry
+    what its choice means — which is the whole reason this is not a select. */
 export const Default: Story = {};
 
-/** Nothing chosen. Legal, and worth avoiding where one answer is the ordinary
-    one: an unset group makes every reader decide something the form could
-    have decided for them. */
+/** Nothing chosen. Legal, and to avoid where one answer is the ordinary one.
+    An unset group makes every reader decide something the form can decide for
+    them. */
 export const Unset: Story = { args: { value: '' } };
 
-/** Required, and with what the answer is for under the question. */
+/** Mandatory, and with what the answer is for under the question. */
 export const Required: Story = {
   args: {
     required: true,
@@ -76,9 +76,9 @@ export const Plain: Story = {
   },
 };
 
-/** The comparison worth making. Four answers with consequences are a group;
-    twelve releases are a select, because the reader knows the one they want
-    and does not need to read the others. */
+/** The comparison to make. Four answers with consequences are a group. Twelve
+    releases are a select, because the reader knows the one they want and does
+    not need to read the others. */
 export const OrASelect: Story = {
   render: () => html`<div style="display:flex; gap:var(--space-12); flex-wrap:wrap; align-items:flex-start">
     ${sdsRadio({ legend: 'How should we come back to you?', name: 'reply-a', choices: REPLY, value: 'Email' })}

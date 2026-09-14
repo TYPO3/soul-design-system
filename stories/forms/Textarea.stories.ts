@@ -1,10 +1,10 @@
 /* An answer of more than one line.
 
    The markup lives in `src/components/textarea.ts`. Its own element and not a
-   taller field, for the reason a select is its own element: what it shares with
-   a text field is the sunken box, and what it does not share is everything a
-   caller writes — lines, a direction it may be dragged in, a value that can
-   hold a newline, and nothing a `pattern` or an `inputmode` could mean.
+   taller field, for the reason a select is its own element. What it shares
+   with a text field is the sunken box. What it does not share is everything a
+   caller writes. Lines, a direction to drag it in, a value that can hold a
+   newline, and nothing a `pattern` or an `inputmode` can mean.
 
    Type in the one below and drag its corner. It is a real `<textarea>`. */
 
@@ -53,7 +53,7 @@ const meta: Meta<TextareaProps> = {
     filled: { control: 'boolean' },
   },
   args: {
-    caption: 'What did the tool answer, and what should it have answered?',
+    caption: 'What did the tool answer, and what was the correct answer?',
     fieldId: 'message',
     name: 'message',
     rows: 5,
@@ -66,15 +66,15 @@ export default meta;
 type Story = StoryObj<TextareaProps>;
 
 /** The row a form owes it: label above, hint under, error under both. The value
-    is a placeholder until something is typed — `filled` is what makes it an
-    answer, and typing sets it. */
+    is a placeholder until the reader types — `filled` is what makes it an
+    answer, and a keystroke sets it. */
 export const Default: Story = {};
 
 /** The value the markup came with is the element's *default*, which is what a
     reset puts back. Type into it and press reset in a form: what returns is
-    this text, not the last thing that was typed. */
+    this text, not the last keystroke. */
 export const Filled: Story = {
-  args: { value: 'typo3_icon_lookup answered “not registered” for an icon that is.\n\nIt should have resolved the alias first.', filled: true },
+  args: { value: 'typo3_icon_lookup answered “not registered” for an icon that is.\n\nThe alias must resolve first.', filled: true },
 };
 
 /** `error` sets the sentence *and* the invalid state, and the browser refuses
@@ -84,7 +84,7 @@ export const Invalid: Story = {
 };
 
 /** Which way the corner drags. A box that widens breaks the column it stands
-    in, which is why `vertical` is what a caller gets without asking. */
+    in, which is why `vertical` is what a caller gets by default. */
 export const Fixed: Story = {
   args: { caption: 'The exact wording', value: 'Two lines are the whole of it.', filled: true, rows: 3, resize: 'none' },
 };

@@ -4,8 +4,8 @@
    outlined on the canvas, and the accent appears on it in one place: focus.
 
    Type in the ones below and tab between them — they are controls. The two
-   stories that force a state are marked as what they are, a still picture
-   being unable to hold focus or invalidity. */
+   stories that force a state carry a mark that says so, as a still picture
+   cannot hold focus or invalidity. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -16,9 +16,9 @@ import { type FieldProps, type FieldSize } from '../../packages/frontend/src/com
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { DIVIDER, dsCard, part, spec, specCap, specRow } from '../lib/specimen.ts';
 
-/* `label` is not optional in practice: a control with no visible label of its
+/* `label` is not optional in practice. A control with no visible label of its
    own has no accessible name without it, and every field on the card is one.
-   The stories pass it, and the a11y pass is what says whether they did. */
+   The stories pass it, and the a11y pass is what says if they did. */
 const sdsField = ({ value = '', icon, label, focused, invalid, filled, disabled, readonly, prefix, suffix, minWidth = 220, size = 'md' }: FieldProps) =>
   html`<sds-field
     size="${size}"
@@ -71,12 +71,12 @@ export default meta;
 type Story = StoryObj<FieldProps>;
 
 /** A real input in a sunken box. Click it: the ring is `:focus-within`, and
-    the value becomes the user's as soon as anything is typed. */
+    the value becomes the user's as soon as they type. */
 export const Default: Story = { args: { value: 'Type to search 48 pages', icon: 'actions-search', label: 'Search the documentation' } };
 
 /** What stands in the box beside the value and is not part of it: a unit, a
-    currency, the fixed head of an address. Nothing is typed into one and
-    nothing is sent for it. */
+    currency, the fixed head of an address. Nobody types into one and nothing
+    goes out for it. */
 export const Affixed: Story = {
   args: { value: '16', filled: true, prefix: 'line-height', suffix: 'px', icon: undefined, minWidth: 240, label: 'Line height' },
 };
@@ -88,14 +88,14 @@ export const Readonly: Story = {
   args: { value: 'typo3/cms-core', filled: true, readonly: true, icon: undefined, minWidth: 240, label: 'Package' },
 };
 
-/** Not on offer, at the strength every other unavailable control is drawn at.
-    The box keeps its shape: one that loses its border too reads as a gap in
-    the form rather than as a question that is closed. */
+/** Not on offer, at the strength every other unavailable control draws at.
+    The box keeps its shape. One that loses its border too reads as a gap in
+    the form rather than as a closed question. */
 export const Disabled: Story = {
   args: { value: 'Sign in to search your projects', disabled: true, icon: 'actions-search', minWidth: 300, label: 'Search your projects' },
 };
 
-/** Error text sits under or beside the field, never as a tooltip: an error
+/** Error text sits under or beside the field, never as a tooltip. An error
     the pointer has to find is an error the keyboard never surfaces. */
 export const Invalid: Story = {
   render: (args) => html`<div style="display:flex; flex-direction:column; gap:var(--space-2); align-items:flex-start">
@@ -107,7 +107,7 @@ export const Invalid: Story = {
 
 /** The three heights a button has, so a field and the button beside it stand
     on one line. `sm` is for a field inside another surface — a toolbar, a
-    table head, a filter row — and never for making a form fit. */
+    table head, a filter row — and never to make a form fit. */
 export const Small: Story = {
   args: { size: 'sm', value: 'Filter tools', icon: 'actions-filter', minWidth: 180, label: 'Filter tools' },
 };
@@ -118,11 +118,11 @@ export const Large: Story = {
   args: { size: 'lg', value: 'Search the manual', icon: 'actions-search', minWidth: 300, label: 'Search the manual' },
 };
 
-/* The two below force a state that a live control holds only while it is
-   held. They exist because the specimen card is a photograph. */
+/* The two below force a state that a live control holds only while the
+   reader holds it. They exist because the specimen card is a photograph. */
 
 /** Focus, painted. The live state needs none of this — the ring is the
-    browser's, and this only stands in where nothing can be pressed. */
+    browser's, and this only stands in where nobody can press. */
 export const FocusedForSpecimen: Story = {
   args: { value: 'icon lookup', icon: 'actions-search', focused: true, label: 'Search the documentation' },
 };

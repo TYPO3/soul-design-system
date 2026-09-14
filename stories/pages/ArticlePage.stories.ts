@@ -1,11 +1,11 @@
 /* The article.
 
-   What the list page links to, and the archetype every long read is: a title,
-   who is answerable for it, one column of running text with the things a text
-   needs standing in it, and a way to reach any part of it from the top.
+   What the list page links to, and the archetype every long read is. A title
+   and who is answerable for it. One column of prose with the things a text
+   needs in it, and a way to reach any part of it from the top.
 
-   The rail is that way, and it is the same `sds-nav-rail` the documentation page
-   uses — a second component called "table of contents" would be that one under
+   The rail is that way, and it is the same `sds-nav-rail` the documentation
+   page uses. A second component called "table of contents" is that one under
    another name. What the page does not carry is bullet lists and definition
    lists: those are document flow. See `lib/page.ts`. */
 
@@ -31,7 +31,7 @@ import { grid, type PageMode, skipLink } from '../lib/page.ts';
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
   { label: 'News', href: '#' },
-  { label: 'Reading the package registry' },
+  { label: 'The package registry, read from disk' },
 ];
 
 /* The article's own sections. Flat, because a text that needs groups in its
@@ -48,7 +48,7 @@ const CONTENTS: readonly MenuEntry[] = [
 const RESULT = `{
   "answeredBy": "packages",
   "declared": ["installation", "packages"],
-  "reason": "the installation could not be booted",
+  "reason": "the installation did not boot",
   "omitted": "dynamically registered entries, never read"
 }`;
 
@@ -87,7 +87,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
     <main class="sds-body__main" id="main-content">
       <sds-nav-breadcrumb .items="${TRAIL}"></sds-nav-breadcrumb>
       <sds-eyebrow label="guide · 13.4 · 14.3"></sds-eyebrow>
-      <h1>Reading the package registry when the installation will not boot</h1>
+      <h1>The package registry, read while the installation will not boot</h1>
       <p class="sds-lead">
         A tool that needs a booted installation and cannot have one does not
         fail. It reads the files instead, answers with less, and says so — and
@@ -99,7 +99,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-figure
         src="assets/diagrams/installation-fallback.svg"
         alt="Three paths through the registry: the console command and the booted runtime return every entry, the package-file fallback returns the declared ones and none of the dynamically registered ones."
-        caption="Each square is one entry the registry could return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that."
+        caption="Each square is one entry the registry can return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that."
         zoomable
       ></sds-figure>
 
@@ -113,14 +113,14 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       <p>
         The third path exists because the first two can be unavailable — a
         failsafe installation, a missing database, an extension that throws
-        while it is being loaded. It reads the package files from disk. It never
+        while it loads. It reads the package files from disk. It never
         executes them, which is the reason it can answer at all and also the
         reason it answers with less.
       </p>
 
       <h2 class="sds-h3" id="returns">The answer</h2>
       <p>
-        Every entry a package declares in a file, and nothing that is registered
+        Every entry a package declares in a file, and nothing that registers
         while the application runs. For most installations that is the larger
         part of the registry, which is precisely what makes the shortfall
         dangerous: a partial answer that looks complete is worse than no answer,
@@ -131,10 +131,10 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
 
       <p>
         <span class="sds-mono">answeredBy</span> is what reached the question and
-        <span class="sds-mono">declared</span> is what the tool was allowed to
-        read. The two differing is the whole definition of a degraded answer in
-        this server, and it is a comparison a caller can make without knowing
-        anything about registries.
+        <span class="sds-mono">declared</span> is what the tool can read. A
+        difference between the two is the whole definition of a degraded
+        answer in this server, and a caller can make that comparison with no
+        knowledge of registries.
       </p>
 
       <h2 class="sds-h3" id="omits">Its limits</h2>
@@ -146,8 +146,8 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       <p>
         Dynamic registrations are the whole of the difference — entries an
         extension adds in its own bootstrap, which exist only once something has
-        run. No file on disk names them, so no amount of reading files finds
-        them, and a tool that pretended otherwise would be inventing.
+        run. No file on disk names them, so no number of file reads finds
+        them, and a tool that pretends otherwise invents.
       </p>
 
       <sds-note
@@ -159,8 +159,8 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
 
       <h2 class="sds-h3" id="gap">Closing the gap</h2>
       <p>
-        Nothing has to be configured. The fallback is chosen because the two
-        paths above it were unavailable, so making one of them available is the
+        Nothing needs configuration. The fallback runs because the two paths
+        above it were unavailable, so one of them made available is the
         entire fix — and the next answer says <span class="sds-mono">installation</span>
         rather than <span class="sds-mono">packages</span>.
       </p>
@@ -193,9 +193,9 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Article',
   excludeStories: ['articlePage', 'screenHtml'],
@@ -213,9 +213,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: the contents move with the reader, the drawing opens at
-    the size it was drawn, the blocks copy themselves, and below 860px the rail
-    goes behind the toggle in the header rather than off the page. */
+/** Click through it. The contents move with the reader, the drawing opens at
+    the size of its construction, and the blocks copy themselves. Below 860px
+    the rail goes behind the toggle in the header rather than off the page. */
 export const Page: Story = {
   name: 'Article',
   render: () => articlePage(),

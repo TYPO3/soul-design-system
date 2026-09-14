@@ -1,10 +1,10 @@
 /* A button, and the short list it opens under itself.
 
    The markup lives in `src/components/dropdown.ts`. What is in the list decides
-   what the list is: entries with a target are pages and become links a reader
-   Tabs through, entries without are commands and become a menu the arrows
-   walk. Announcing menu commands over a list of pages is a promise the panel
-   cannot keep, so the element asks the entries rather than the caller. */
+   what the list is. Entries with a target are pages and become links a reader
+   Tabs through; entries without are commands and become a menu the arrows
+   walk. A menu of commands announced over a list of pages is a promise the
+   panel cannot keep. So the element asks the entries rather than the caller. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
@@ -44,14 +44,14 @@ const ACTIONS: DropdownChoice[] = [
   { label: 'Move to trash', icon: 'actions-delete', disabled: true },
 ];
 
-/** Entries that carry a target. A disclosure holding links: Tab walks them,
-    every row is a real anchor with the browser's own middle-click and status
-    line, and a page that never listens for the event still works. */
+/** Entries that carry a target. A disclosure that holds links. Tab walks
+    them, and every row is a real anchor with the browser's own middle-click
+    and status line. A page that never listens for the event still works. */
 export const Pages: Story = {
   render: () => html`<sds-dropdown label="Language" .choices="${LANGUAGES}"></sds-dropdown>`,
 };
 
-/** Entries that carry none. A menu of commands: the arrows walk the rows, Home
+/** Entries that carry none. A menu of commands. The arrows walk the rows, Home
     and End reach the ends, and Escape puts the reader back on the button they
     pressed. Nothing here navigates — each row reports itself and the page
     decides. */
@@ -60,7 +60,7 @@ export const Commands: Story = {
 };
 
 /** The name a reader hears, where the label is too short to say what the
-    control is. It is said in front of the label rather than instead of it: an
+    control is. It stands in front of the label rather than instead of it. An
     accessible name that drops the visible word leaves a control nobody can ask
     for by the name they can see. */
 export const ShortLabel: Story = {
@@ -68,8 +68,7 @@ export const ShortLabel: Story = {
 };
 
 /** Hung from the end, for the button that sits in a corner — which is where a
-    bar puts one. A list that always opened to the start would run off the
-    page. */
+    bar puts one. A list that always opens to the start runs off the page. */
 export const FromTheEnd: Story = {
   render: () => html`<div style="display:flex;justify-content:flex-end">
   <sds-dropdown align="end" label="Language" .choices="${LANGUAGES}"></sds-dropdown>
@@ -87,16 +86,16 @@ export const Variants: Story = {
 </div>`,
 };
 
-/** The glyph alone, which then requires the name — nothing else says what the
+/** The glyph alone, which then needs the name — nothing else says what the
     control is. */
 export const IconOnly: Story = {
   render: () => html`<sds-dropdown icon-only icon="actions-menu" name="Actions" .choices="${ACTIONS}"></sds-dropdown>`,
 };
 
 /* The box the element draws around both halves, and the reason every part
-   below stands in one: the set is declared on it, and a property travels down
-   and never sideways — a button or a panel outside it reads none of the set
-   and comes out as unpadded text. */
+   below stands in one. The set sits on it, and a property travels down and
+   never sideways. A button or a panel outside it reads none of the set and
+   comes out as unpadded text. */
 const box = (inside: TemplateResult) => html`<div class="sds-dropdown">
   ${inside}
 </div>`;
@@ -132,7 +131,7 @@ const opened = (label: string, entries: readonly DropdownChoice[]) =>
   part(box(html`${button(label, 'secondary', true)}${list(entries)}`));
 
 /** The specimen card, composed from the stories above. This is what
-    `components/core/dropdown.card.html` is generated from. */
+    `components/core/dropdown.card.html` comes from. */
 export const specimenHtml = (): string =>
   spec([
     specRow(
@@ -146,7 +145,7 @@ export const specimenHtml = (): string =>
   ]);
 
 /** The card, as Storybook shows it. The same string the generator ships, so a
-    difference between the two would have to be a difference in this file. */
+    difference between the two has to be a difference in this file. */
 export const Specimen: Story = {
   parameters: { layout: 'fullscreen' },
   render: () => html`${unsafeHTML(specimenHtml())}`,

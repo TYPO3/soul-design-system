@@ -1,8 +1,8 @@
 /* The questions page.
 
-   The archetype most likely to become a wall of answers written out in full,
-   until the page is longer than the documentation it was to save the reader
-   from. So it is a *list of questions* with the answers folded behind them:
+   The archetype most likely to become a wall of answers in full. Then the
+   page is longer than the documentation it exists to save the reader from.
+   So it is a *list of questions* with the answers folded behind them.
    `sds-accordion` is a real `<details>`, so the fold works with no script and
    find-in-page opens the answer it lands in.
 
@@ -31,7 +31,7 @@ const RUNNING: readonly Entry[] = [
   {
     question: 'What does it need installed?',
     answer: html`PHP 8.2 or newer, and a TYPO3 project it can read. No daemon, no
-      database of its own, and no network unless a tool is asked for a
+      database of its own, and no network unless a tool gets a request for a
       documentation page.`,
     open: true,
   },
@@ -43,13 +43,13 @@ const RUNNING: readonly Entry[] = [
   },
   {
     question: 'Can it run in CI?',
-    answer: 'Yes, and it answers less there: nothing boots, so the tools that need a running installation fall back to reading package files and say what that leaves out.',
+    answer: 'Yes, and it answers less there. Nothing boots, so the tools that need a live installation fall back to the package files. They say what that leaves out.',
   },
   {
     question: 'What happens to a wrong answer I report?',
-    answer: html`It is read by a person. Where the answer came from bundled
-      knowledge the fix ships with the next release and the changelog names the
-      release it was fixed in.`,
+    answer: html`A person reads it. Where the answer came from bundled
+      knowledge the fix ships with the next release and the changelog names
+      that release.`,
   },
 ];
 
@@ -71,14 +71,14 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
       <p class="sds-lead">
         The ones that arrive by email every week, answered here so they do not
         have to be. Every answer holds for the releases named in it; where one
-        does not hold any more it is changed rather than left standing.
+        no longer holds, it changes rather than stands.
       </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="machine">
       <h2>On your machine</h2>
       <p>
-        The five that decide whether this can be installed at all. Opening one
+        The five that decide if this installs at all. An open one
         closes the last, so the list stays a list.
       </p>
       <sds-accordion name="machine" .entries="${QUESTIONS}"></sds-accordion>
@@ -120,9 +120,9 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
 </div>`;
 }
 
-/* Untagged for the reason written out in `LandingScreen.stories.ts`: a whole
-   layout has no variants to collect, and the widths it is documented at are
-   reachable only in the story view. */
+/* Untagged for the reason `LandingScreen.stories.ts` gives. A whole layout
+   has no variants to collect, and the widths it documents are reachable only
+   in the story view. */
 const meta: Meta = {
   title: 'Pages/Questions',
   excludeStories: ['faqPage', 'screenHtml'],
@@ -140,8 +140,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Click through it: opening one answer closes the last within its group and
-    leaves the other group alone, the marker turns rather than moves, and the
+/** Click through it. An open answer closes the last within its group and
+    leaves the other group alone. The marker turns rather than moves, and the
     whole thing works the same with the bundle blocked. */
 export const Page: Story = {
   name: 'Questions',

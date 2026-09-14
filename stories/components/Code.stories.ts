@@ -1,11 +1,11 @@
 /* The code block.
 
    The markup lives in `src/components/code.ts`. With the diff it shares the one
-   permission the rest of the system does not have: status colour may fill a
+   permission the rest of the system does not have: status colour can fill a
    whole line. Everywhere else it marks a badge and never becomes furniture.
 
    The card shows the block and the diff together, because that permission is
-   what it documents; the change is imported from `Diff.stories.ts`. */
+   what it documents; the change comes from `Diff.stories.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -45,8 +45,8 @@ const meta: Meta<CodeBlockProps> = {
   argTypes: {
     /* The languages the system declares support for, as a menu. It was a text
        field, which offered no idea that a set exists and let `yml` through
-       without a murmur. The type stays open — a fence can say anything — but
-       the control shows what is stood behind, read from the samples so the
+       without a murmur. The type stays open — a fence can say anything. But
+       the control shows what stands behind it, read from the samples, so the
        menu cannot offer a language nothing here sets. */
     lang: { control: 'select', options: LANGUAGES },
     copy: { control: 'boolean' },
@@ -56,7 +56,7 @@ const meta: Meta<CodeBlockProps> = {
     dsCard: dsCard({
       path: 'components/code/code.card.html',
       name: 'Code block & diff',
-      subtitle: 'The one place status colour is allowed to fill a whole line',
+      subtitle: 'The one place status colour can fill a whole line',
       viewport: '700x370',
     }),
   },
@@ -69,11 +69,11 @@ type Story = StoryObj<CodeBlockProps>;
     whole system where `--accent` appears. */
 export const Shell: Story = { args: BASH };
 
-/** The form a renderer uses: the body is written between the tags. `.body` is
+/** The form a renderer uses: the body stands between the tags. `.body` is
     data the element turns into spans and renders anywhere, the static export
-    included; content between the tags is markup somebody else produced, and the
-    element frames it on upgrade. That one is a browser affordance —
-    `renderStatic` refuses it rather than exporting an empty frame. */
+    included. Content between the tags is markup somebody else produced, and
+    the element frames it on upgrade. That one is a browser affordance —
+    `renderStatic` refuses it rather than exports an empty frame. */
 export const FromContent: Story = {
   render: () => html`<sds-code code-lang="json" copy>${unsafeHTML(
     '{\n  "domains": ["labels", "xlf"],\n  "versions": ["12.4", "13.4", "14.3"]\n}',
@@ -82,14 +82,14 @@ export const FromContent: Story = {
 
 /** The colour is the component's: a renderer that names a language and leaves
     the block in one grey has done half the job. Only the languages the system
-    declares are registered, and the palette is its three syntax colours — a
-    language it does not colour prints what was written rather than a guess. */
+    declares register, and the palette is its three syntax colours. A language
+    it does not colour prints the text as written rather than a guess. */
 export const Highlighted: Story = {
   render: () => html`
     <sds-code code-lang="php" copy>&lt;?php
 namespace TYPO3\CMS\Core;
 
-// The scope a question is answered in.
+// The scope a question gets its answer in.
 final class Version
 {
     public function __construct(private readonly string $number) {}
@@ -102,10 +102,10 @@ domains: [labels, xlf]</sds-code>
 };
 
 /** The other direction: the colour arrives with the block. A documentation
-    build decides it once and ships HTML carrying `hljs-` classes, which are the
-    classes `components.css` maps — so the block below is painted by a component
-    that highlighted nothing. What it hands back is what it was given, `<code>`
-    and all: the wrapper carries which lines are numbered and emphasised. */
+    build decides it once and ships HTML with `hljs-` classes, which are the
+    classes `components.css` maps. So a component that highlighted nothing
+    paints the block below. What it hands back is what it got, `<code>` and
+    all: the wrapper carries which lines have numbers and emphasis. */
 export const AlreadyColoured: Story = {
   render: () => html`<sds-code code-lang="php" copy>${unsafeHTML(
     '<code class="language-php line-numbers" data-start="12">'
@@ -120,14 +120,14 @@ export const AlreadyColoured: Story = {
 };
 
 /** Every language this system colours, each in a block of its own. The point
-    is the palette rather than the languages: the same three colours across
-    every grammar, and whatever a fourth would have marked reading as ordinary
-    code. A block that sets in one grey here is a grammar that quietly stopped
-    being registered — which looks exactly like a language nobody declared.
+    is the palette rather than the languages. The same three colours across
+    every grammar, and whatever a fourth marks reads as ordinary code. A block
+    that sets in one grey here is a grammar that quietly lost its registration,
+    which looks exactly like a language nobody declared.
 
-    Blocks as siblings and no wrapper: the step between them is the element's
-    own, and a story that reached for a gap would be documenting a distance
-    the system does not have. */
+    Blocks as siblings and no wrapper. The step between them is the element's
+    own, and a story that reaches for a gap documents a distance the system
+    does not have. */
 export const Languages: Story = {
   render: () => html`${LANGUAGES.map(
     (lang) => sdsCode({ lang, source: SAMPLES[lang], body: [], copy: true }),
@@ -143,20 +143,20 @@ export const Language: Story = {
 
 /** A caption says what the block is, above it — where a reader meets it
     before the block rather than in the block's own chrome. Above the frame
-    and inside the element: where a caption sits is the block's decision, so
-    it is the block that places it, and a page that moves one moves both. */
+    and inside the element. Where a caption sits is the block's decision, so
+    the block places it, and a page that moves one moves both. */
 export const Captioned: Story = {
   render: () => html`<sds-code code-lang="bash" caption="Installing as a dependency of an existing project" copy>composer require typo3/cms-core
 vendor/bin/typo3 cache:flush</sds-code>`,
 };
 
-/** The same caption, written between the tags, which is the form a renderer
-    needs: a caption node carries markup where the attribute is a string, and a
-    page that has not run the script has markup that already reads. Written in
-    the class the component emits, so it stays out of the block, the
-    highlighting and the clipboard. */
+/** The same caption between the tags, which is the form a renderer needs. A
+    caption node carries markup where the attribute is a string, and a page
+    that has not run the script has markup that already reads. In the class
+    the component emits, so it stays out of the block, the colour and the
+    clipboard. */
 export const CaptionedFromContent: Story = {
-  render: () => html`<sds-code code-lang="bash" copy><div class="sds-code__caption">Installing as a dependency of an existing <code>composer.json</code></div>composer require typo3/cms-core
+  render: () => html`<sds-code code-lang="bash" copy><div class="sds-code__caption">As a dependency of an existing <code>composer.json</code></div>composer require typo3/cms-core
 vendor/bin/typo3 cache:flush</sds-code>`,
 };
 

@@ -164,14 +164,14 @@
       <p class="sds-lead">
         The ones that arrive by email every week, answered here so they do not
         have to be. Every answer holds for the releases named in it; where one
-        does not hold any more it is changed rather than left standing.
+        no longer holds, it changes rather than stands.
       </p>
     </section>
 
     <section class="sds-band sds-band--quiet" id="machine">
       <h2>On your machine</h2>
       <p>
-        The five that decide whether this can be installed at all. Opening one
+        The five that decide if this installs at all. An open one
         closes the last, so the list stays a list.
       </p>
       <div class="sds-accordion">
@@ -180,16 +180,16 @@
     name="machine"
     open>
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Does it send anything anywhere?</summary>
-    <div class="sds-accordion__body">One path leaves the machine and it is drawn as the exception: a
-      read from <span class="sds-mono">docs.typo3.org</span>, made only when a tool
-      was asked for a documentation page. Everything else is answered from bundled
+    <div class="sds-accordion__body">One path leaves the machine and it draws as the exception: a
+      read from <span class="sds-mono">docs.typo3.org</span>, only on a request
+      for a documentation page. Everything else gets its answer from bundled
       knowledge, from files on disk, or from the installation.</div>
   </details><details
     class="sds-accordion__item"
     name="machine">
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Does it write to my installation?</summary>
-    <div class="sds-accordion__body">No. Every source is read, and the package files are read rather
-      than executed. The one thing written anywhere is what you ask for
+    <div class="sds-accordion__body">No. Every source is a read, and the package files get a read
+      rather than a run. The one thing written anywhere is what you ask for
       explicitly — the task skills, into <span class="sds-mono">.agents/skills</span>.</div>
   </details><details
     class="sds-accordion__item"
@@ -203,13 +203,13 @@
     name="machine">
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>What happens when the installation will not boot?</summary>
     <div class="sds-accordion__body">The tool reads the package registry from disk instead and says so
-      in the result. It returns every declared entry and none of the dynamically
-      registered ones, and the answer states that rather than looking complete.</div>
+      in the result. It returns every declared entry and none of the ones
+      registered at run time, and the answer states that rather than looks complete.</div>
   </details><details
     class="sds-accordion__item"
     name="machine">
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Which TYPO3 versions does it work with?</summary>
-    <div class="sds-accordion__body">Every version still receiving support, and one release past it. A version that has reached its end of life is named in the result rather than refused, so an installation nobody has updated yet still gets an answer.</div>
+    <div class="sds-accordion__body">Every version still in support, and one release past it. A version past its end of life stands named in the result rather than refused. So an installation nobody has updated yet still gets an answer.</div>
   </details>
 </div>
     </section>
@@ -223,7 +223,7 @@
     open>
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>What does it need installed?</summary>
     <div class="sds-accordion__body">PHP 8.2 or newer, and a TYPO3 project it can read. No daemon, no
-      database of its own, and no network unless a tool is asked for a
+      database of its own, and no network unless a tool gets a request for a
       documentation page.</div>
   </details><details
     class="sds-accordion__item"
@@ -236,14 +236,14 @@
     class="sds-accordion__item"
     name="running">
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>Can it run in CI?</summary>
-    <div class="sds-accordion__body">Yes, and it answers less there: nothing boots, so the tools that need a running installation fall back to reading package files and say what that leaves out.</div>
+    <div class="sds-accordion__body">Yes, and it answers less there. Nothing boots, so the tools that need a live installation fall back to the package files. They say what that leaves out.</div>
   </details><details
     class="sds-accordion__item"
     name="running">
     <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>What happens to a wrong answer I report?</summary>
-    <div class="sds-accordion__body">It is read by a person. Where the answer came from bundled
-      knowledge the fix ships with the next release and the changelog names the
-      release it was fixed in.</div>
+    <div class="sds-accordion__body">A person reads it. Where the answer came from bundled
+      knowledge the fix ships with the next release and the changelog names
+      that release.</div>
   </details>
 </div>
     </section>
@@ -301,7 +301,7 @@
       </div><div class="sds-footer__group">
         <div class="sds-label">Project</div>
         <div class="sds-footer__links">
-          <a class="sds-link" href="#">What is written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
+          <a class="sds-link" href="#">What stands written down</a><a class="sds-link" href="#">Reporting a wrong answer</a><a class="sds-link" href="#">Contributing</a>
         </div>
       </div><div class="sds-footer__group">
         <div class="sds-label">Community</div>

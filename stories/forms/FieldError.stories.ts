@@ -1,13 +1,13 @@
-/* What is said when a field is wrong.
+/* What a field says when it is wrong.
 
    The markup lives in `src/components/field-error.ts`. Under or beside the
    field, never as a tooltip: an error the pointer has to find is an error the
    keyboard never surfaces at all.
 
-   Its own element rather than a slot on the field, because an error is often
-   written by whatever validated the value, which is not always what drew the
-   box. No `parameters.dsCard`: it is shown on the fields card, beside the
-   field it belongs to. */
+   Its own element rather than a slot on the field. Whatever validated the
+   value often writes the error, and that is not always what drew the box.
+   No `parameters.dsCard`: it stands on the fields card, beside the field it
+   belongs to. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

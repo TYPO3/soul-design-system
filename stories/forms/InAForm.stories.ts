@@ -1,12 +1,12 @@
 /* Every control at once, inside a real `<form>`.
 
    The other stories show one control and what it looks like. This one is the
-   question a page has before it ships any of them: what does the form actually
-   send, what does a reset put back, and what happens to everything inside a
+   question a page has before it ships any of them. What does the form send,
+   what does a reset put back, and what happens to everything inside a
    `<fieldset disabled>`. None of the three shows in a screenshot, and all three
    are what `ElementInternals` buys — so the suite drives this page.
 
-   Press Send and the page prints what the browser would have posted. */
+   Press Send and the page prints what the browser posts. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, render, type TemplateResult } from 'lit';
@@ -18,12 +18,12 @@ import '../../packages/frontend/src/components/range.ts';
 import '../../packages/frontend/src/components/select.ts';
 import '../../packages/frontend/src/components/switch.ts';
 
-/** What the browser would post, read off the form itself — not off what the
+/** What the browser posts, read off the form itself — not off what the
     elements believe. A control that holds the right value and sends nothing is
     the failure this page exists to make visible. */
 function posted(form: HTMLFormElement): string {
   const pairs = [...new FormData(form).entries()].map(([k, v]) => `${k}=${v instanceof File ? v.name || '(none)' : v}`);
-  return pairs.length ? pairs.join('\n') : 'the form would send nothing';
+  return pairs.length ? pairs.join('\n') : 'the form sends nothing';
 }
 
 function panel(onSubmit: (form: HTMLFormElement) => void, sent: string): TemplateResult {
@@ -48,7 +48,7 @@ function panel(onSubmit: (form: HTMLFormElement) => void, sent: string): Templat
   ></sds-select>
 
   <sds-checkbox-group
-    legend="What may we attach?"
+    legend="What can we attach?"
     name="scope"
     .values="${['versions']}"
     .choices="${[
@@ -93,11 +93,11 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/** Change anything, press Send, and read what would have gone. Then press
-    Reset: every control goes back to what the *markup* said, not to what was
-    last clicked. The fieldset at the bottom is disabled, and nothing under it
-    is sent — that reaches the elements through `formDisabledCallback` rather
-    than through an attribute somebody wrote on each one. */
+/** Change anything, press Send, and read what went. Then press Reset: every
+    control goes back to what the *markup* said, not to the last click. The
+    fieldset at the bottom carries `disabled`, and nothing under it goes out.
+    That reaches the elements through `formDisabledCallback` rather than
+    through an attribute somebody wrote on each one. */
 export const Default: Story = {
   name: 'In a form',
   render: () => {
