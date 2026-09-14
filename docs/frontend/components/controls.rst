@@ -253,6 +253,11 @@ invisible to whatever reads the page as a document.
    <sds-link label="The changelog" href="/changelog"></sds-link>
    <sds-link label="On GitHub" href="https://github.com/…" external></sds-link>
 
+In a sentence, a paragraph, a list item or a cell, it carries an underline at
+rest, as every link there does. It has nothing to stand apart from, and the
+link ink alone does not say that a word is a link. Outside prose the
+underline arrives with the pointer.
+
 .. confval:: label
    :name: sds-link-label
    :type: string

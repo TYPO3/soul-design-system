@@ -302,14 +302,21 @@
     --sds-link-gap: var(--space-1-5);
     --sds-link-ink: var(--text-link);
     --sds-link-ink-hover: var(--text-link-hover);
+    --sds-link-line: none;
+    --sds-link-line-ink: color-mix(in srgb, currentColor 40%, transparent);
+    --sds-link-line-ink-hover: currentColor;
+    --sds-link-line-offset: var(--space-0-5);
     --sds-link-line-hover: underline;
     --sds-link-duration: var(--duration-fast);
     --sds-link-ease: var(--ease-out);
     color:var(--sds-link-ink);
-    text-decoration:none;
+    text-decoration:var(--sds-link-line);
+    text-decoration-color:var(--sds-link-line-ink);
+    text-underline-offset:var(--sds-link-line-offset);
     transition:color var(--sds-link-duration) var(--sds-link-ease);
-    &:hover{color:var(--sds-link-ink-hover);text-decoration:var(--sds-link-line-hover)}
+    &:hover{color:var(--sds-link-ink-hover);text-decoration:var(--sds-link-line-hover);text-decoration-color:var(--sds-link-line-ink-hover)}
   }
+  :is(p,li,dd,td,th) .sds-link{--sds-link-line: underline}
   button.sds-link{font:inherit;border:0;background:none;padding:0;cursor:pointer}
   .sds-link--external,.sds-link:has(.sds-icon,sds-icon){display:inline-flex;align-items:center;gap:var(--sds-link-gap)}
   .sds-link--bare{--sds-link-gap: 0;--sds-link-line-hover: none;line-height:0}

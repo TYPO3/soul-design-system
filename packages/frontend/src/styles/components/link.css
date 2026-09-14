@@ -13,18 +13,32 @@
     --sds-link-gap: var(--space-1-5);
     --sds-link-ink: var(--text-link);
     --sds-link-ink-hover: var(--text-link-hover);
+    --sds-link-line: none;
+    --sds-link-line-ink: color-mix(in srgb, currentColor 40%, transparent);
+    --sds-link-line-ink-hover: currentColor;
+    --sds-link-line-offset: var(--space-0-5);
     --sds-link-line-hover: underline;
     --sds-link-duration: var(--duration-fast);
     --sds-link-ease: var(--ease-out);
 
     color: var(--sds-link-ink);
-    text-decoration: none;
+    text-decoration: var(--sds-link-line);
+    text-decoration-color: var(--sds-link-line-ink);
+    text-underline-offset: var(--sds-link-line-offset);
     transition: color var(--sds-link-duration) var(--sds-link-ease);
 
     &:hover {
       color: var(--sds-link-ink-hover);
       text-decoration: var(--sds-link-line-hover);
+      text-decoration-color: var(--sds-link-line-ink-hover);
     }
+  }
+  /* Inside prose a link has nothing to stand apart from, so it carries the
+     underline at rest that the base layer gives every link there. This layer
+     wins over that one, so the rule stands here again; `base.css` says why
+     colour alone cannot mark the word. */
+  :is(p, li, dd, td, th) .sds-link {
+    --sds-link-line: underline;
   }
   /* An offer that changes something here rather than goes somewhere is a
      button, and it still reads as the link it is. Same rule as the navigation
