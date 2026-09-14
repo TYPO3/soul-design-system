@@ -3,7 +3,7 @@
 :date: 2026-09-14
 
 .. meta::
-   :description: The nodes that only appear when software is being documented, each one rendered as a page and as a twin.
+   :description: The nodes that appear only in software documentation, each one rendered as a page and as a twin.
    :keywords: reference, confval, option, tabs
 
 =========

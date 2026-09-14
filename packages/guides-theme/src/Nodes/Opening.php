@@ -15,16 +15,16 @@ use phpDocumentor\Guides\Nodes\ParagraphNode;
 /**
  * What a page says it is about, in one line.
  *
- * The author's own words where there are any — an `:abstract:` field, or a
- * `description` written into `.. meta::` — and the first sentence of the
- * first paragraph where there are none: what a page opens with is what it
- * says it is about. Read once here, because it is written in two places — the
- * line under a page in `llms.txt` and the `description` a twin opens with —
- * and a reader that follows one to the other should find the same sentence.
+ * The author's own words where there are any: an `:abstract:` field, or a
+ * `description` in `.. meta::`. The first sentence of the first paragraph
+ * where there are none, as what a page opens with is what it says it is
+ * about. Read once here, because it stands in two places: the line under a
+ * page in `llms.txt` and the `description` a twin opens with. A reader that
+ * follows one to the other must find the same sentence.
  */
 final class Opening
 {
-    /** As long a note as a line of a list can carry and still be scanned. */
+    /** As long a note as a line of a list can carry and still read at a glance. */
     private const NOTE = 200;
 
     public static function of(?DocumentNode $document): string
