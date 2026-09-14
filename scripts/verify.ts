@@ -300,9 +300,10 @@ const CHECKS: readonly Check[] = [
       /* Names that are markers rather than hooks. `language-*` is the fence's
          grammar, on the `<code>` the way every Markdown renderer writes it. It
          says what the block is for anything that reads the DOM, and the colour
-         is on the `hljs-` spans inside. No definition fits it — the one class
-         here that is deliberately not a style. */
-      const MARKERS = [/^language-[\w-]+$/];
+         is on the `hljs-` spans inside. Those are the highlighter's scopes,
+         and the stylesheet maps the ones it colours: an unlisted one reads as
+         ordinary text by that sheet's own rule. A sub-scope ends in `_`. */
+      const MARKERS = [/^language-[\w-]+$/, /^hljs-/, /_$/];
 
       for (const [cls, where] of [...used].sort()) {
         if (MARKERS.some((rx) => rx.test(cls))) continue;
