@@ -1,37 +1,37 @@
 /* Control scale.
 
-   Controls are set at the size the page is read at and run tighter only in
-   their leading and their box. Every size here is a `--font-size-*` from
-   typography.css under the name the component knows it by, so a role can be retuned without inventing a step. A literal written
-   into this file is a size the scale does not have, and that is what to catch
-   in review. */
+   Controls set at the page's reading size and run tighter only in their
+   leading and their box. Every size here is a `--font-size-*` from
+   typography.css under the name the component knows it by. So a role can
+   change and the scale gains no step. A literal in this file is a size the
+   scale does not have, and that is what to catch in review. */
 
 @layer tokens {
   :root {
     /* Buttons, fields, selects — anything you click or type in, and all of it
-       at the size the page is read at. What a control says has to be read
-       before it can be acted on, and Safari zooms the page at anything under
-       16 the moment a field takes focus. Only the compact one runs small. */
+       at the page's reading size. A reader reads what a control says before
+       they act on it. Safari zooms the page at anything under 16 the moment
+       a field takes focus. Only the compact one runs small. */
     --control-font-size: var(--font-size-body);
     --control-font-size-sm: var(--font-size-small);
 
-    /* One height for all of them, declared rather than fallen out of padding:
-       a segment, a label and an input make three different boxes out of the
+    /* One height for all of them, declared rather than left to the padding.
+       A segment, a label and an input make three different boxes out of the
        same padding, and a header shows all three on one line. A floor and
-       not a ceiling — every control's padding comes in under it, and one whose
+       not a ceiling. Every control's padding comes in under it, and one whose
        content outgrows it, a field with two lines, still grows. */
     --control-height: 36px;
     --control-height-sm: 28px;
     --control-height-lg: 44px;
 
-    /* Controls do not carry prose leading: it puts a 14px label in a 22px line
-       box, most of a small control's height before any padding is added, and
-       it makes every control's height a function of the body scale. The
-       heading step, because a control does not wrap. */
+    /* Controls do not carry prose leading. It puts a 14px label in a 22px line
+       box, most of a small control's height before any padding. And it makes
+       every control's height a function of the body scale. The heading step,
+       because a control does not wrap. */
     --control-leading: var(--leading-heading);
 
     /* Padding comes in under the height, which is what makes the height a
-       floor rather than a ceiling: at the reading size the vertical pair no
+       floor rather than a ceiling. At the reading size the vertical pair no
        longer did, and a button stood over the field beside it on one line. */
     --control-pad-y: 6px;
     --control-pad-x: 15px;
@@ -43,14 +43,14 @@
     /* The icon square itself. 16 is the system's floor and the size every
        control assumes; sizes go 16, 20, 24, never 18 or 22. */
     --control-icon-size: 16px;
-    /* The next step up, for the glyph that is the whole of a large control: 16
-       in a 44px square is a mark lost in its box. */
+    /* The next step up, for the glyph that is the whole of a large control.
+       16 in a 44px square is a mark lost in its box. */
     --control-icon-size-lg: 20px;
 
-    /* A field's padding is not a button's at the same height: a button's stands
-       around a label, a field's stands in front of what somebody types, and the
+    /* A field's padding is not a button's at the same height. A button's stands
+       around a label. A field's stands in front of what somebody types, and the
        caret starts where it ends. One pair per control height, so the three
-       sizes are read here rather than out of three rules. */
+       sizes stand here rather than in three rules. */
     --field-pad-y: var(--space-1-5);
     --field-pad-x: var(--control-pad-x-sm);
     --field-pad-y-sm: var(--space-1);
@@ -61,37 +61,38 @@
     /* Badges — mono, because a badge names a machine thing. */
     --badge-font-size: var(--font-size-small);
 
-    /* How big a thing is drawn, which is not how far it stands from the next
-       one. A sample of a colour, and the room a glyph is given in a wall of
-       them: both would follow the spacing scale if they borrowed it, and a
-       spacing scale is retuned for reasons that have nothing to do with either. */
+    /* How big a thing draws, which is not how far it stands from the next
+       one. A sample of a colour, and the room a glyph gets in a wall of them.
+       Both follow the spacing scale if they borrow it, and a spacing scale
+       changes for reasons that have nothing to do with either. */
     /* Drawn against the two lines of mono beside it — the name and the value.
        At 32px the sample was a third shorter than the text it is the subject
-       of. It stops under their height rather than at it: taller than the pair,
-       it would set the row for a swatch with one line too, and a chip twice its
-       own words is the same fault the other way round. */
+       of. It stops under their height rather than at it. Taller than the pair,
+       it sets the row for a swatch with one line too. A chip twice its own
+       words is the same fault the other way round. */
     --swatch-chip-size: 40px;
     --tile-art-size: 64px;
 
-    /* Tables. The head names the column and is read to understand the row, so
-       it is set at the row's own size and told apart by its case, its tracking
-       and its face. The same at every density; only the rows breathe. */
+    /* Tables. The head names the column and a reader reads it to understand
+       the row. So it sets at the row's own size, and its case, its tracking
+       and its face tell it apart. The same at every density; only the rows
+       breathe. */
     --table-head-size: var(--font-size-body);
     --table-head-tracking: 0.11em;
-    /* A table a person reads is prose in columns and is set like it. Density
-       is room, and the one density that also changes the type is the one that
-       stops being read and starts being scanned. */
+    /* A table a person reads is prose in columns and sets like it. Density
+       is room, and the one density that also changes the type is the one a
+       reader scans rather than reads. */
     --row-pad-compact: 6px;
     --row-pad-medium: 9px;
     --row-pad-airy: 14px;
     --row-font-size: var(--font-size-body);
     --row-font-size-compact: var(--font-size-small);
 
-    /* A row is not a paragraph: prose leading put every row two pixels over
-       the height its density is named for, and a wrapped cell opened a gap a
+    /* A row is not a paragraph. Prose leading put every row two pixels over
+       the height its density stands for. A wrapped cell opened a gap a
        scanner reads as the distance between two rows. This is the number the
-       three heights above are drawn from, and it stays over
-       `--control-leading` because a cell wraps and a control does not. */
+       three heights above come from, and it stays over `--control-leading`
+       because a cell wraps and a control does not. */
     --row-leading: var(--leading-tight);
 
     /* Code and diff. */
@@ -105,8 +106,8 @@
     --nav-font-size: var(--font-size-body);
     --tab-font-size: var(--font-size-body);
 
-    /* Titled blocks. A block holding sentences is read, so it is set in the
-       reading register wherever it stands: there is no second register for it
+    /* Titled blocks. A reader reads a block of sentences, so it sets in the
+       reading register wherever it stands. There is no second register for it
        and nothing to rebind. What is dense is what the machine wrote — a
        control, a row, a code block, an aside — and each says so itself. */
     --block-title-size: var(--font-size-body);
@@ -117,15 +118,15 @@
 
     /* A line *about* the thing beside it — a caption, a hint, an error, an
        attribution, the note under a value. It is not the block's body and does
-       not follow it into a document: what is being read there is the block, and
-       this stays the small line that names it. */
+       not follow it into a document. The block is what a reader reads there,
+       and this stays the small line that names it. */
     --aside-size: var(--font-size-small);
     --aside-leading: var(--leading-snug);
 
-    /* One box, one padding. Every boxed block shares the horizontal value, so a
+    /* One box, one padding. Every boxed block shares the horizontal value. So a
        card, a note, a modal and a code block start their text on the same edge
-       however they are stacked. Only the vertical changes, and only between a
-       strip above or below a body and the body itself. */
+       in any stack. Only the vertical changes, and only between a strip above
+       or below a body and the body itself. */
     --block-pad-x: var(--space-5);
     --block-pad-y: var(--space-4);
     --block-pad-y-tight: var(--space-2);

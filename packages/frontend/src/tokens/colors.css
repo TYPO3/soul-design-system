@@ -1,6 +1,6 @@
-/* Every semantic colour is declared once, with both values.
-   light-dark() resolves against the element's color-scheme, so the two
-   modes cannot drift apart — there is no second block to forget. */
+/* Every semantic colour stands once, with both values. `light-dark()`
+   resolves against the element's color-scheme, so the two modes cannot
+   drift apart — there is no second block to forget. */
 
 @layer tokens {
   :root {
@@ -19,11 +19,11 @@
     --surface-inset: light-dark(#efebe3, #221f1b);
     --surface-accent-quiet: light-dark(#fff6ec, #1c1a16);
     --surface-overlay: light-dark(rgba(28, 26, 23, 0.45), rgba(6, 6, 5, 0.62));
-    /* Depth, for the surfaces that genuinely leave the page — everything that
-       stays on it separates with a hairline. Two layers each, a tight edge and
-       the room under it, since one shadow is either a hard edge or a haze. The
-       steps are the offset in pixels, and 64 is where it stops travelling:
-       past a window's height it spreads instead of reading as a second window. */
+    /* Depth, for the surfaces that leave the page — everything that stays on
+       it separates with a hairline. Two layers each, a tight edge and the room
+       under it, since one shadow is either a hard edge or a haze. The steps
+       are the offset in pixels, and 64 is where it stops. Past a window's
+       height it spreads and no longer reads as a second window. */
     --shadow-2:
       0 1px 2px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25)),
       0 1px 2px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
@@ -43,10 +43,10 @@
       0 0 4px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25)),
       0 32px 64px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
 
-    /* And what a surface actually writes: the job, not the distance. The scale
-       above is the raw material — `--orange-*` to these `--accent` — and a rule
-       naming a step has decided how far off the page something is instead of
-       what it is. */
+    /* And what a surface writes: the job, not the distance. The scale above is
+       the raw material, as `--orange-*` is to `--accent`. A rule that names a
+       step has decided how far off the page something is instead of what it
+       is. */
     --shadow-basic: var(--shadow-2);
     --shadow-strong: var(--shadow-4);
     --shadow-tooltip: var(--shadow-8);
@@ -54,9 +54,9 @@
     --shadow-dialog: var(--shadow-28);
     --shadow-window: var(--shadow-64);
     /* The ground under a picture that brought its own colours. It does not flip,
-       for the reason `--text-on-accent` does not: a drawing exported elsewhere is
-       light whatever the page is, and a dark ground under light line art is the
-       page contradicting the picture. */
+       for the reason `--text-on-accent` does not. A drawing exported elsewhere is
+       light whatever the page is. A dark ground under light line art is the
+       page in contradiction with the picture. */
     --surface-art: #f4f2ee;
 
     /* Borders — hairlines do the structural work. */
@@ -82,8 +82,8 @@
        taking it. */
     --accent-active: light-dark(#cc6d00, #ffb866);
     --accent-ring: light-dark(rgba(255, 135, 0, 0.35), rgba(255, 135, 0, 0.45));
-    /* The accent as light rather than as ink: what a hairline is lit with where
-       a surface answers a pointer. Carried at part strength so the frame it
+    /* The accent as light rather than as ink: what lights a hairline where a
+       surface answers a pointer. Carried at part strength so the frame it
        starts is a glow and not a drawn orange line. */
     --accent-glow: light-dark(rgba(255, 135, 0, 0.3), rgba(255, 163, 56, 0.26));
 
@@ -92,19 +92,19 @@
     --status-warn: light-dark(#986200, #d9a441);
     --status-error: light-dark(#a33328, #d4685c);
     --syntax-string: light-dark(#3f6b2b, #9cc27f);
-    /* #A85400 and not the link's #B35A00: a keyword sits on the sunken plane
+    /* #A85400 and not the link's #B35A00. A keyword sits on the sunken plane
        rather than on the canvas, where that orange lands at 4.24:1 — under the
-       line, on product text, found by running axe over a whole page rather than
-       over a specimen. */
+       line, on product text. An axe run over a whole page found it, which a
+       run over a specimen never did. */
     --syntax-key: light-dark(#a85400, #ffa338);
     --syntax-comment: light-dark(#726c63, #878076);
     /* Code that is not one of the three: a number, a name, a brace. The
-       highlighter emits a class for those too, and the palette has to name the
-       ordinary case or a theme is three colours and a raw value. */
+       highlighter emits a class for those too. The palette has to name the
+       ordinary case, or a theme is three colours and a raw value. */
     --syntax-text: var(--text-primary);
   }
 
-  /* Forcing a mode on any subtree — every token above follows automatically. */
+  /* A mode forced on any subtree — every token above follows. */
   [data-theme="light"] {
     color-scheme: light;
   }

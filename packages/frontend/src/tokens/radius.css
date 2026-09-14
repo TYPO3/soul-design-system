@@ -1,11 +1,11 @@
 @layer tokens {
   :root {
     /* 0px is structural — full-bleed rules, section edges, table lines.
-       4px is for anything a person clicks, types in, or picks up: a tool
-       should feel like it is on your side, not like a spec sheet. */
+       4px is for anything a person clicks, types in, or picks up. A tool
+       must feel like it is on your side, not like a spec sheet. */
     --radius-none: 0px;
     /* one radius for everything interactive: buttons, fields, selects, tabs,
-       badges. Two tokens would drift; there is only this one. */
+       badges. Two tokens drift; there is only this one. */
     --radius-control: 4px;
     /* a card is one step larger than the controls it contains — a container
        must not share its corner with its contents. Code blocks are
@@ -17,10 +17,10 @@
     --border-emphasis: 2px;
 
     /* The one focus ring, in the two values every surface that draws it needs
-       besides `--border-emphasis`: how far the outline stands off the box, and
+       besides `--border-emphasis`. How far the outline stands off the box, and
        how wide the halo behind it is. A surface that has to turn the ring
-       inwards or drop the halo says so with these — never with a number of its
-       own, which is how a card came to be ringed at 5px while the rule said 3. */
+       inwards or drop the halo says so with these. Never with a number of its
+       own, which is how a card came to a 5px ring while the rule said 3. */
     --focus-offset: 2px;
     --focus-halo: 3px;
   }

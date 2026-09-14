@@ -1,10 +1,10 @@
 @layer tokens {
   :root {
-    /* A 4px base, halved below 16 and thinning out above 24. The half-steps are
-       not a loosening of the grid but the part of it that was missing: a glyph
-       beside a word, a label over its value and a control's inner air are read
-       at distances 4px is too coarse for, and where the scale had no step the
-       value got typed instead. Above 16 nothing has ever needed one. */
+    /* A 4px base, halved below 16 and thinner above 24. The half-steps do not
+       loosen the grid; they are the part of it that was absent. A glyph beside
+       a word, a label over its value and a control's inner air read at
+       distances 4px is too coarse for. Where the scale had no step, somebody
+       typed the value instead. Above 16 nothing has ever needed one. */
     --space-0-5: 2px;
     --space-1: 4px;
     --space-1-5: 6px;
@@ -22,25 +22,25 @@
     --space-19: 76px;
 
     --gutter-page: 48px;
-    /* The measure a page runs at: the bar, the body, the column and the foot are
-       all held to it and centred on it, so a page is one width. Nothing that is
-       *read* runs this wide — prose, a lead and display type are each held to
-       their own measure. This is what is scanned: tables, grids of cards, a
-       band's two columns, which is the part short of room. */
+    /* The measure a page runs at. The bar, the body, the column and the foot
+       all stop at it and centre on it, so a page is one width. Nothing a
+       reader *reads* runs this wide — prose, a lead and display type each
+       keep their own measure. This is for what a reader scans: tables, grids
+       of cards, a band's two columns, which is the part short of room. */
     --width-page: 1200px;
     --width-sidebar: 210px;
     /* The bar. Room to stand on a desktop; a phone gives the height back to
-       the page, which is the thing being read. */
+       the page, which is the thing a reader reads. */
     --height-header: 72px;
 
-    /* A modal is centred and stops here. The specimen says so in words; this
+    /* A modal centres and stops here. The specimen says so in words; this
        is where the number lives. */
     --measure-modal: 560px;
 
-    /* The sizes a modal is offered in, both directions at once: how wide each
-       one is, and how tall it may get before the body inside it is what gives.
-       `md` is the reading measure. `lg` is past it on purpose — what needs that
-       much room is operated rather than read, a table or a picker or a diff. */
+    /* The sizes a modal comes in, both directions at once. How wide each one
+       is, and how tall it can get before the body inside it gives. `md` is the
+       reading measure. `lg` is past it on purpose. What needs that much room
+       is a tool rather than a text: a table, a picker, a diff. */
     --modal-width-sm: 360px;
     --modal-width-md: var(--measure-modal);
     --modal-width-lg: 800px;
