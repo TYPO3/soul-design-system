@@ -34,23 +34,10 @@ a later reader copies the exception.
 
 **Every text in this tree follows ASD-STE100 and the terse rule.**
 `docs/design-system/writing.rst` is the rule, and `make verify ARGS=prose`
-is the check. The limits that count while you write:
-
-- 25 words in a sentence, 20 in an instruction: a list item, a table cell, a
-  step.
-- 6 sentences in a paragraph, one topic.
-- Active voice, simple present, no -ing verb forms.
-- `must`, `can` and `will`. Not `shall`, `should`, `may`, `might`, `could`
-  or `would`.
-- One meaning per word, and the approved word: "make sure", not `ensure`.
-- Say it once. Cut the story, the second example and the aside. Keep the
-  reason.
-
-The rule binds documents, comments and every string a component or a task
-prints. A technical name in mono counts as one word and keeps its spelling.
-The standard's dictionary is the authority for a word the page does not name.
-`WORDS_REPLACED` in `scripts/prose.ts` is where a word goes when review finds
-it.
+is the check. The rule binds documents, comments and every string a
+component or a task prints. It stands on that one page, and nowhere else.
+`WORDS_REPLACED` in `scripts/prose.ts` is where a word goes when review
+finds it.
 
 ## No document counts the parts
 

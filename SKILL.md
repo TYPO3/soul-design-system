@@ -171,22 +171,8 @@ escapes the register that owns it.
 ## Writing
 
 Every text follows ASD-STE100 and the terse rule. `docs/design-system/writing.rst`
-is the rule, `make verify ARGS=prose` is the check.
-
-The product's own writing is the model. Declarative, third person, present
-tense. The software is the subject. Never "we". "You" only for the reader's
-own machine.
-
-- 25 words in a sentence, 20 in an instruction. 6 sentences in a paragraph.
-- Active voice, no -ing verb forms, `must` and `can` and `will`.
-- Every claim has a boundary: which versions, which source, what it leaves
-  out. The limit stands beside the claim.
-- Numbers are concrete: "PHP 8.2+", "12.4, 13.4, 14.3 and main". Never "the
-  latest versions".
-- Everything ships in English, whatever the conversation's language. The
-  knowledge base matches lexically.
-- A design value is exact. A count does not go into prose: name the index,
-  task help or directory that owns the list.
+is the rule, `make verify ARGS=prose` is the check. The page holds the
+limits, the voice and the words; nothing here repeats them.
 
 ## States
 

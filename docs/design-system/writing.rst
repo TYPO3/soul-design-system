@@ -119,6 +119,9 @@ limits, not in a footnote.
    * - "Run ``make verify`` before a commit."
      - "Run the usual checks."
      - names an action a reader can repeat
+   * - "PHP 8.2 or newer; 12.4, 13.4, 14.3 and main."
+     - "The latest versions."
+     - a number a reader can check
 
 A heading names a subject
 =========================
