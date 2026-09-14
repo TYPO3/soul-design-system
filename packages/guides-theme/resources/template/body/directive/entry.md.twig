@@ -1,0 +1,16 @@
+{#- One entry. Its title in bold, the group and the origin after it, the
+    blocks under it, and the thing to do as the last line. -#}
+{%- autoescape false -%}
+{%- if node.option('anchor') %}<a id="{{ node.option('anchor') }}"></a>
+
+{% endif -%}
+**{{ node.option('heading')|md_escape }}**{% if node.option('group') or node.option('origin') %} ({{ [node.option('group'), node.option('origin')]|filter(v => v)|join(', ')|md_escape }}){% endif %}
+
+{% for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- if node.option('todo') %}To do: {{ node.option('todo')|md_escape }}
+
+{% endif -%}
+{%- endautoescape -%}

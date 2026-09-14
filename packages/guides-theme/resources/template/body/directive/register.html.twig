@@ -1,0 +1,18 @@
+{#
+    A register, addressed rather than drawn.
+
+    The entries stand between the tags as the author wrote them. The
+    numbering, the groups, the overview and the list of work are the
+    element's, and the prerender writes them before a reader arrives. The
+    groups travel as JSON, the form the element takes them in.
+#}
+<sds-register
+    {%- if node.option('name') %} name="{{ node.option('name') }}"{% endif %}
+    {%- if node.option('prefix') %} prefix="{{ node.option('prefix') }}"{% endif %}
+    {%- if node.option('todo-prefix') %} todo-prefix="{{ node.option('todo-prefix') }}"{% endif %}
+    {%- if node.option('groups') %} groups="{{ node.option('groups') }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-register>

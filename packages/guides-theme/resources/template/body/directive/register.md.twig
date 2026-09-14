@@ -1,0 +1,8 @@
+{#- The entries as written. A file of text has no register to number them,
+    so they stand in the order the author gave, each under its own title. -#}
+{%- autoescape false -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

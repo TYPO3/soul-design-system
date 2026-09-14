@@ -16,12 +16,14 @@ use TYPO3\Soul\GuidesTheme\Directives\ButtonBarDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ButtonDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
 use TYPO3\Soul\GuidesTheme\Directives\DirectoryTreeDirective;
+use TYPO3\Soul\GuidesTheme\Directives\EntryDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ExampleDirective;
 use TYPO3\Soul\GuidesTheme\Directives\FactsDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HalfDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
 use TYPO3\Soul\GuidesTheme\Directives\QuoteDirective;
+use TYPO3\Soul\GuidesTheme\Directives\RegisterDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SplitDirective;
 use TYPO3\Soul\GuidesTheme\Directives\StatDirective;
@@ -105,8 +107,13 @@ return static function (ContainerConfigurator $container): void {
         ->set(AccordionItemDirective::class)
         ->tag('phpdoc.guides.directive')
 
-        /* A block of facts, from the field list a document already writes. */
+        /* A block of facts, and a list a reader cites. The register numbers
+           its entries when the page renders, so a document writes none. */
         ->set(FactsDirective::class)
+        ->tag('phpdoc.guides.directive')
+        ->set(RegisterDirective::class)
+        ->tag('phpdoc.guides.directive')
+        ->set(EntryDirective::class)
         ->tag('phpdoc.guides.directive')
 
         /* A directory as the shape it has on disk, spelt the way TYPO3

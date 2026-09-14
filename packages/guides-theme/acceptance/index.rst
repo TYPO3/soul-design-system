@@ -719,6 +719,55 @@ carries a literal and a link, which is why the pairs stand between the tags.
    :Target: ``main`` · ``2.4``
    :Read: 2026-09-11, in a worktree of its own
 
+A list a reader cites
+=====================
+
+The entries stand in the order written. The register numbers them when the
+page renders and groups them. Every one goes into one table first, and the
+work they ask for into a second. No line of this page says a number.
+
+.. register::
+   :name: findings
+   :prefix: F
+   :todo-prefix: T
+   :findings:
+
+   .. entry:: The reader is a new instance per call
+      :group: change
+      :origin: older than the change
+      :todo: Construct the reader once, in the constructor.
+
+      The service is a singleton, so one reader in the constructor is the
+      same object with one construction fewer per label.
+
+   .. entry:: The unit suite for the lookup fails
+      :group: blocks
+      :origin: introduced by this change
+      :todo: Adapt the four tests that expect the second read.
+
+      Every case that resolves one key twice fails.
+
+      .. code-block:: bash
+
+         vendor/bin/phpunit tests/Unit/Lookup
+
+   .. entry:: The key stays the file's own identifier
+      :group: ok
+
+      Checked against a catalogue with a dotted key.
+
+Without ``:findings:`` or ``:groups:`` the entries count up as written, and
+without a prefix an entry is ``1``.
+
+.. register::
+   :name: dropped
+
+   .. entry:: A cache across requests
+      :origin: raised in review
+
+      Dropped: a label edited while the server runs then arrives after a
+      restart.
+
 An instruction, step by step
 ============================
 

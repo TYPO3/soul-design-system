@@ -80,12 +80,14 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonBarNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
+use TYPO3\Soul\GuidesTheme\Nodes\EntryNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
 use TYPO3\Soul\GuidesTheme\Nodes\FactsNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
 use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode as SoulQuoteNode;
+use TYPO3\Soul\GuidesTheme\Nodes\RegisterNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StepNode;
@@ -187,6 +189,8 @@ return [
     AccordionNode::class => 'body/directive/accordion.md.twig',
     AccordionItemNode::class => 'body/directive/accordion-item.md.twig',
     FactsNode::class => 'body/directive/facts.md.twig',
+    RegisterNode::class => 'body/directive/register.md.twig',
+    EntryNode::class => 'body/directive/entry.md.twig',
     DirectoryTreeNode::class => 'body/directive/directory-tree.md.twig',
     StepsNode::class => 'body/directive/steps.md.twig',
     StepNode::class => 'body/directive/step.md.twig',

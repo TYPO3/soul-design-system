@@ -30,8 +30,11 @@ import { TAGS } from '../../packages/frontend/src/index.ts';
 const element = (tags: readonly string[]): RegExp =>
   new RegExp(`<(${tags.join('|')})(?![-\\w])((?:"[^"]*"|'[^']*'|[^>"'])*)>([\\s\\S]*?)</\\1>`);
 
-/** What one element becomes, with content that is already complete. */
-function one(tag: string, attrs: string, written: string): string {
+/** What one element becomes, with content that is already complete.
+    `authored` is the same content as the author wrote it, before anything
+    in it rendered. An element that reads its children rather than places
+    them renders them itself from that. */
+function one(tag: string, attrs: string, written: string, authored: string): string {
   const rendered = renderUpgradable(
     /* `unsafeStatic` for the tag and the attributes, both values here where a
        Lit template fixes them at authoring time. The tag came out of this
@@ -43,7 +46,7 @@ function one(tag: string, attrs: string, written: string): string {
        exactly what a story gives it. */
     staticHtml`<${unsafeStatic(tag)}${unsafeStatic(attrs)} .content=${
       written ? html`${unsafeHTML(written)}` : undefined
-    }></${unsafeStatic(tag)}>`,
+    } .authored=${authored || undefined}></${unsafeStatic(tag)}>`,
   );
 
   /* SSR renders the element with its own tag, and that tag is the one already
@@ -97,7 +100,7 @@ export function prerender(page: string, tags: readonly string[] = TAGS): string 
       if (!found) return done + rest;
 
       const [whole, tag = '', attrs = '', inner = ''] = found;
-      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(inner).trim()));
+      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(inner).trim(), inner.trim()));
       rest = rest.slice(found.index + whole.length);
     }
   };

@@ -61,6 +61,9 @@ copy.
    * - ``facts``
      - a block of facts, scanned down the terms
      - ``sds-facts``
+   * - ``register``, ``entry``
+     - a list a reader cites: numbered, addressed, and the work it asks for
+     - ``sds-register``
    * - ``example``
      - a piece of markup and, under it, what it renders as
      - ``sds-code`` in ``.sds-example``
@@ -1094,6 +1097,133 @@ link, a literal or a badge. The element is ``sds-facts`` in
 
 .. confval:: class
    :name: facts-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+register
+========
+
+A list a reader cites: numbered, addressed, and scanned at a glance first.
+The entries stand in the body in any order. The register numbers them when
+the page renders, sorts them into their groups, and writes every one into
+one table first. Every entry with a ``:todo:`` goes into a second table, the
+work the list asks for. No line of the document says a number.
+
+.. example:: A review's findings, two of them
+
+   .. register::
+      :name: findings
+      :prefix: F
+      :todo-prefix: T
+      :findings:
+
+      .. entry:: The unit suite for the lookup fails
+         :group: blocks
+         :origin: introduced by this change
+         :todo: Adapt the four tests that expect the second read.
+
+         Every case that resolves one key twice fails.
+
+      .. entry:: The key stays the file's own identifier
+         :group: ok
+
+         Checked against a catalogue with a dotted key.
+
+.. confval:: name
+   :name: register-name
+   :type: string
+   :default: "register"
+
+   What the group sections and the entries' addresses start with,
+   ``findings-blocks`` and ``findings-1-1``, so two registers on one page
+   keep apart.
+
+.. confval:: prefix
+   :name: register-prefix
+   :type: string
+
+   What stands before every entry's number, ``F`` for findings. Nothing
+   unless the register says so: an entry is ``1.1`` by itself.
+
+.. confval:: todo-prefix
+   :name: register-todo-prefix
+   :type: string
+
+   What stands before the number of what is to do, ``T`` for the work a
+   finding asks for.
+
+.. confval:: findings
+   :name: register-findings
+   :type: flag
+
+   The four groups of a review's findings, in the order a review reads
+   them: *Blocks submission*, *Sent back*, *Worth a change*, *Checked and
+   correct*. Their keys are ``blocks``, ``back``, ``change`` and ``ok``.
+
+.. confval:: groups
+   :name: register-groups
+   :type: string
+
+   Any other set of groups, as the JSON the element takes:
+   ``[{ "key": "…", "heading": "…", "label": "…", "tone": "…" }]``. An
+   entry whose group the register does not name stands last, in the order
+   written. Without groups the entries count up as written.
+
+.. confval:: class
+   :name: register-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+The element is ``sds-register`` in :doc:`/frontend/components/content`,
+which says how it numbers and what it draws.
+
+entry
+=====
+
+One entry of a register. Its title is the argument, what it holds the
+body, and everything that fits in a string an option.
+
+.. example:: One entry, on its own
+
+   .. entry:: The reader is a new instance per call
+      :group: change
+      :origin: older than the change
+      :todo: Construct the reader once, in the constructor.
+
+      The service is a singleton, so one reader in the constructor is the
+      same object with one construction fewer per label.
+
+.. confval:: group
+   :name: entry-group
+   :type: string
+
+   The key of the group it belongs to, for the register that groups.
+
+.. confval:: origin
+   :name: entry-origin
+   :type: string
+
+   Where it came from, in a few words: ``introduced by this change``,
+   ``older than the change``.
+
+.. confval:: todo
+   :name: entry-todo
+   :type: string
+
+   What is to do about it, in one sentence. It stands as the entry's last
+   line, and the register lists it with the work of the other entries.
+
+.. confval:: name
+   :name: entry-name
+   :type: string
+
+   The address of this one entry, where the register's own, made from the
+   number, is not the one a page wants to cite.
+
+.. confval:: class
+   :name: entry-class
    :type: string
 
    Carried onto the element, for the reason the grid's is.

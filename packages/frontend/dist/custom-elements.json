@@ -2436,6 +2436,256 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/entry.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsEntry",
+          "tagName": "sds-entry",
+          "summary": "One numbered, addressed entry of a register.",
+          "description": "One numbered, addressed entry of a register.\n\nThe number in a rail on the left. Beside it, indented as one block: the title, the kind with the origin, and what the entry holds as paragraphs, evidence, a table. The indent is the scope: a reader sees where an entry begins and ends. The kind is the reader's first question. So it stands on its own line under the title, as a word and never as a colour alone.\n\nNo box around it, because twenty of these in a row are a list; the line between two of them is the register's. A review's finding is one of these, and so is the thing to do that it asks for.",
+          "attributes": [
+            {
+              "name": "number",
+              "description": "Its place in the register, as the register numbers it: `1.1`. In mono, because a reader cites it.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "number"
+            },
+            {
+              "name": "prefix",
+              "description": "What stands before the number, `F` for a finding, where a register says so. Nothing unless it does.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "prefix"
+            },
+            {
+              "name": "heading",
+              "description": "The entry, in a line. Sentence case, and never a category name.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "heading"
+            },
+            {
+              "name": "label",
+              "description": "The kind of entry it is, as the word on its badge: `blocks`, `sent back`. A register hands it down from its groups.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "tone",
+              "description": "The tone under that word.",
+              "type": {
+                "text": "BadgeTone"
+              },
+              "fieldName": "tone"
+            },
+            {
+              "name": "group",
+              "description": "The key of the group it belongs to, for the register that groups.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "group"
+            },
+            {
+              "name": "origin",
+              "description": "Where it came from, in a few words: `introduced by this change`, `older than the change`. A fault the change did not make weighs on the change differently.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "origin"
+            },
+            {
+              "name": "anchor",
+              "description": "The address of this one entry, so a remark at the code can point at it.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "anchor"
+            },
+            {
+              "name": "todo",
+              "description": "What is to do about it, in one sentence, for whoever acts on it. A register collects these into the list of what is to do. An entry with none is a fact, and one with one is work.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "todo"
+            },
+            {
+              "name": "todo-prefix",
+              "description": "What stands before the number of that work, `T` where a register says so. Nothing unless it does.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "todoPrefix"
+            },
+            {
+              "name": "body",
+              "description": "What the entry holds, as prose. Or nothing, when the blocks stand between the tags instead: paragraphs, a code block, a table.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "body"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "number",
+              "privacy": "public",
+              "description": "Its place in the register, as the register numbers it: `1.1`. In mono, because a reader cites it.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "number"
+            },
+            {
+              "kind": "field",
+              "name": "prefix",
+              "privacy": "public",
+              "description": "What stands before the number, `F` for a finding, where a register says so. Nothing unless it does.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "prefix"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "The entry, in a line. Sentence case, and never a category name.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "The kind of entry it is, as the word on its badge: `blocks`, `sent back`. A register hands it down from its groups.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "The tone under that word.",
+              "type": {
+                "text": "BadgeTone"
+              },
+              "attribute": "tone"
+            },
+            {
+              "kind": "field",
+              "name": "group",
+              "privacy": "public",
+              "description": "The key of the group it belongs to, for the register that groups.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "group"
+            },
+            {
+              "kind": "field",
+              "name": "origin",
+              "privacy": "public",
+              "description": "Where it came from, in a few words: `introduced by this change`, `older than the change`. A fault the change did not make weighs on the change differently.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "origin"
+            },
+            {
+              "kind": "field",
+              "name": "anchor",
+              "privacy": "public",
+              "description": "The address of this one entry, so a remark at the code can point at it.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "anchor"
+            },
+            {
+              "kind": "field",
+              "name": "todo",
+              "privacy": "public",
+              "description": "What is to do about it, in one sentence, for whoever acts on it. A register collects these into the list of what is to do. An entry with none is a fact, and one with one is work.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "todo"
+            },
+            {
+              "kind": "field",
+              "name": "todoPrefix",
+              "privacy": "public",
+              "description": "What stands before the number of that work, `T` where a register says so. Nothing unless it does.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "todo-prefix"
+            },
+            {
+              "kind": "field",
+              "name": "body",
+              "privacy": "public",
+              "description": "What the entry holds, as prose. Or nothing, when the blocks stand between the tags instead: paragraphs, a code block, a table.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "body"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-entry",
+            "sds-entry__body",
+            "sds-entry__meta",
+            "sds-entry__number",
+            "sds-entry__origin",
+            "sds-entry__title",
+            "sds-entry__todo"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsEntry",
+          "declaration": {
+            "name": "SdsEntry",
+            "module": "src/components/entry.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-entry",
+          "declaration": {
+            "name": "SdsEntry",
+            "module": "src/components/entry.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/eyebrow.ts",
       "declarations": [
         {
@@ -6447,6 +6697,128 @@
           "declaration": {
             "name": "SdsRange",
             "module": "src/components/range.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/register.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsRegister",
+          "tagName": "sds-register",
+          "summary": "A list a reader cites: numbered, addressed, and scanned at a glance before the entries.",
+          "description": "A list a reader cites: numbered, addressed, and scanned at a glance before the entries.\n\nThe entries stand between the tags. The register numbers them, sorts them into their groups where it has any, and writes every one into one table first. A row is a jump, with the kind in the word and the tone the entry draws. Every entry with a `todo` goes into a second table: the work the list asks for, numbered as its entry is. So no page counts entries or lists work by hand, and no overview can say what an entry does not.\n\nThe entries arrive three ways, and each gives the same register. Elements in a browser; `entries`, where a static render has no children; and the markup the author wrote, under a prerender.",
+          "attributes": [
+            {
+              "name": "name",
+              "description": "The name the group sections and the entries' addresses start with: `findings-blocks`, `findings-1-1`. So two registers on one page keep apart.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "name"
+            },
+            {
+              "name": "prefix",
+              "description": "What stands before every entry's number, `F` for findings. Nothing unless the register says so.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "prefix"
+            },
+            {
+              "name": "todo-prefix",
+              "description": "What stands before the number of what is to do, `T` where the register says so.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "todoPrefix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "entries",
+              "privacy": "public",
+              "description": "The entries, where a static render has no children to take. Between the tags otherwise, as `sds-entry` elements.",
+              "type": {
+                "text": "readonly EntryProps[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "groups",
+              "privacy": "public",
+              "description": "The groups, in order. With them an entry is `1.1`, its group's place and its own; without them the entries count up as written, `1`, `2`.",
+              "type": {
+                "text": "readonly RegisterGroup[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "The name the group sections and the entries' addresses start with: `findings-blocks`, `findings-1-1`. So two registers on one page keep apart.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "prefix",
+              "privacy": "public",
+              "description": "What stands before every entry's number, `F` for findings. Nothing unless the register says so.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "prefix"
+            },
+            {
+              "kind": "field",
+              "name": "todoPrefix",
+              "privacy": "public",
+              "description": "What stands before the number of what is to do, `T` where the register says so.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "todo-prefix"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-entry",
+            "sds-register",
+            "sds-register__entries",
+            "sds-section",
+            "sds-td-meta"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsRegister",
+          "declaration": {
+            "name": "SdsRegister",
+            "module": "src/components/register.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-register",
+          "declaration": {
+            "name": "SdsRegister",
+            "module": "src/components/register.ts"
           }
         }
       ]

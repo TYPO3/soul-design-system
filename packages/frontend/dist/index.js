@@ -918,10 +918,10 @@ var require_core = __commonJS({
     }
     var version = "11.11.1";
     var HTMLInjectionError = class extends Error {
-      constructor(reason, html67) {
+      constructor(reason, html69) {
         super(reason);
         this.name = "HTMLInjectionError";
-        this.html = html67;
+        this.html = html69;
       }
     };
     var escape2 = escapeHTML;
@@ -13447,8 +13447,248 @@ var SdsFacts = class extends SdsElement {
 };
 define("sds-facts", SdsFacts);
 
-// packages/frontend/src/components/confval.ts
+// packages/frontend/src/components/entry.ts
 import { html as html66, nothing as nothing36 } from "lit";
+var SdsEntry = class extends SdsElement {
+  constructor() {
+    super();
+    /* What a caller wrote between the tags, taken before Lit renders over it —
+       see `SdsElement.lifted()` for why the question comes exactly once. */
+    this.taken = null;
+    this.number = "";
+    this.prefix = "";
+    this.heading = "";
+    this.label = "";
+    this.tone = "default";
+    this.group = "";
+    this.origin = "";
+    this.anchor = "";
+    this.todo = "";
+    this.todoPrefix = "";
+    this.body = "";
+  }
+  static {
+    this.properties = {
+      number: { type: String },
+      prefix: { type: String },
+      heading: { type: String },
+      label: { type: String },
+      tone: { type: String },
+      group: { type: String },
+      origin: { type: String },
+      anchor: { type: String },
+      todo: { type: String },
+      todoPrefix: { type: String, attribute: "todo-prefix" },
+      body: { type: String }
+    };
+  }
+  connectedCallback() {
+    const written = this.lifted();
+    if (written.length) this.taken = written;
+    super.connectedCallback();
+  }
+  render() {
+    return html66`<article class="sds-entry" id="${this.anchor || nothing36}">
+  <span class="sds-entry__number">${this.number ? `${this.prefix}${this.number}` : ""}</span>
+  <h3 class="sds-entry__title">${this.heading}</h3>
+  ${this.label || this.origin ? html66`<div class="sds-entry__meta">
+    ${this.label ? html66`<sds-badge label="${this.label}" tone="${this.tone}"></sds-badge>` : nothing36}
+    ${this.origin ? html66`<span class="sds-entry__origin">${this.origin}</span>` : nothing36}
+  </div>` : nothing36}
+  <div class="sds-entry__body">${this.taken ?? this.content ?? this.body}</div>
+  ${this.todo ? html66`<p class="sds-entry__todo"><span class="sds-entry__number">${this.number ? `${this.todoPrefix}${this.number}` : ""}</span>${this.todo}</p>` : nothing36}
+</article>`;
+  }
+};
+define("sds-entry", SdsEntry);
+
+// packages/frontend/src/components/register.ts
+import { html as html67, nothing as nothing37 } from "lit";
+import { unsafeHTML as unsafeHTML5 } from "lit/directives/unsafe-html.js";
+var FINDING_GROUPS = [
+  { key: "blocks", heading: "Blocks submission", label: "blocks", tone: "error" },
+  { key: "back", heading: "Sent back", label: "sent back", tone: "warn" },
+  { key: "change", heading: "Worth a change", label: "worth a change", tone: "default" },
+  { key: "ok", heading: "Checked and correct", label: "checked", tone: "ok" }
+];
+var FACT = /\s([\w-]+)="([^"]*)"/g;
+var unescape = (text) => text.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+var SdsRegister = class extends SdsElement {
+  constructor() {
+    super();
+    /* The entries written between the tags, taken before Lit renders over
+       them. Elements, which the register moves into their groups. */
+    this.taken = null;
+    this.entries = [];
+    this.groups = [];
+    this.name = "register";
+    this.prefix = "";
+    this.todoPrefix = "";
+  }
+  static {
+    this.properties = {
+      entries: { type: Array },
+      groups: { type: Array },
+      name: { type: String },
+      prefix: { type: String },
+      todoPrefix: { type: String, attribute: "todo-prefix" }
+    };
+  }
+  connectedCallback() {
+    const written = this.lifted().filter((node) => node.nodeType === 1);
+    if (written.length) this.taken = written;
+    super.connectedCallback();
+  }
+  anchorFor(number) {
+    return `${this.name}-${number.replace(".", "-")}`;
+  }
+  /** The attributes an entry gets from its place, for a form that carries
+      them as attributes. */
+  facts(placed, group) {
+    return {
+      number: placed.number,
+      anchor: placed.anchor,
+      prefix: this.prefix,
+      "todo-prefix": this.todoPrefix,
+      label: group?.label ?? "",
+      tone: group?.tone ?? "default"
+    };
+  }
+  /* From elements in a browser. Attributes rather than properties: a child
+     has not always upgraded when its parent renders. The place goes back as
+     attributes for the same reason. */
+  fromElements(elements) {
+    return elements.filter((el) => el.tagName.toLowerCase() === "sds-entry").map((el) => ({
+      heading: el.getAttribute("heading") ?? "",
+      group: el.getAttribute("group") ?? "",
+      origin: el.getAttribute("origin") ?? "",
+      todo: el.getAttribute("todo") ?? "",
+      anchor: el.getAttribute("anchor") ?? "",
+      render: (placed, group) => {
+        for (const [key, value] of Object.entries(this.facts(placed, group))) el.setAttribute(key, value);
+        return el;
+      }
+    }));
+  }
+  /* From the property, where a static render has no children. */
+  fromEntries(entries) {
+    return entries.map((e) => ({
+      heading: e.heading,
+      group: e.group ?? "",
+      origin: e.origin ?? "",
+      todo: e.todo ?? "",
+      anchor: e.anchor ?? "",
+      render: (placed, group) => {
+        const f = this.facts(placed, group);
+        return html67`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${e.heading}" group="${e.group ?? ""}" origin="${e.origin ?? ""}" anchor="${f["anchor"]}" todo="${e.todo ?? ""}" .body="${e.body ?? ""}"></sds-entry>`;
+      }
+    }));
+  }
+  /* From the markup as the author wrote it, under a prerender. Each entry's
+     facts stand on its tag, and its content between them. The register
+     renders each entry itself, once, with the place it gives it. */
+  fromMarkup(markup) {
+    return [...markup.matchAll(/<sds-entry\b([^>]*)>([\s\S]*?)<\/sds-entry>/g)].map(([, tag = "", inner = ""]) => {
+      const facts = {};
+      for (const [, key, value] of tag.matchAll(FACT)) facts[key] = unescape(value);
+      return {
+        heading: facts["heading"] ?? "",
+        group: facts["group"] ?? "",
+        origin: facts["origin"] ?? "",
+        todo: facts["todo"] ?? "",
+        anchor: facts["anchor"] ?? "",
+        render: (placed, group) => {
+          const f = this.facts(placed, group);
+          return html67`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${facts["heading"] ?? ""}" group="${facts["group"] ?? ""}" origin="${facts["origin"] ?? ""}" anchor="${f["anchor"]}" todo="${facts["todo"] ?? ""}" .content="${html67`${unsafeHTML5(inner)}`}"></sds-entry>`;
+        }
+      };
+    });
+  }
+  get read() {
+    if (this.taken) return this.fromElements(this.taken);
+    if (this.entries.length) return this.fromEntries(this.entries);
+    return this.authored ? this.fromMarkup(this.authored) : [];
+  }
+  /** Every entry with its place. Grouped, an entry is its group's place
+      and its own; an entry whose group the register does not name stands
+      last, in the order written. Ungrouped, the entries count up. */
+  get placed() {
+    const read = this.read;
+    const place2 = (entries, group, at) => entries.map((e, i) => {
+      const number = group ? `${at}.${i + 1}` : `${i + 1}`;
+      const anchor = e.anchor || this.anchorFor(number);
+      const placed = { number, anchor, heading: e.heading, group, origin: e.origin, todo: e.todo };
+      return { ...placed, out: e.render(placed, group) };
+    });
+    if (!this.groups.length) return place2(read, null, 0);
+    const known = new Set(this.groups.map((g) => g.key));
+    return [
+      ...this.groups.flatMap((group, i) => place2(read.filter((e) => e.group === group.key), group, i + 1)),
+      ...place2(read.filter((e) => !known.has(e.group)), null, 0)
+    ];
+  }
+  badge(group) {
+    return group?.label ? html67`<sds-badge label="${group.label}" tone="${group.tone ?? "default"}"></sds-badge>` : "";
+  }
+  get columns() {
+    return [
+      { head: "", cls: "sds-td-meta", fit: true },
+      { head: "Entry" },
+      ...this.groups.length ? [{ head: "Kind", fit: true }] : [],
+      { head: "Origin" }
+    ];
+  }
+  row(entry) {
+    const cells = [
+      `${this.prefix}${entry.number}`,
+      html67`<a href="#${entry.anchor}">${entry.heading}</a>`
+    ];
+    if (this.groups.length) cells.push(this.badge(entry.group));
+    cells.push(entry.origin || "\u2014");
+    return { cells };
+  }
+  get todoColumns() {
+    return [
+      { head: "", cls: "sds-td-meta", fit: true },
+      { head: "To do" },
+      ...this.groups.length ? [{ head: "Kind", fit: true }] : []
+    ];
+  }
+  /** The work an entry asks for, numbered as the entry is, with the prefix
+      that tells the two apart. The number is the way back to the entry. */
+  todoRow(entry) {
+    const cells = [
+      html67`<a href="#${entry.anchor}">${this.todoPrefix}${entry.number}</a>`,
+      entry.todo
+    ];
+    if (this.groups.length) cells.push(this.badge(entry.group));
+    return { cells };
+  }
+  render() {
+    const placed = this.placed;
+    const todos = placed.filter((e) => e.todo);
+    const groups = this.groups.length ? [...this.groups, null] : [null];
+    return html67`<div class="sds-register">
+  <sds-table density="compact" scrollable .columns="${this.columns}" .rows="${placed.map((e) => this.row(e))}"></sds-table>
+  ${todos.length ? html67`<section class="sds-section" id="${this.name}-todo">
+    <h3>To do</h3>
+    <sds-table density="compact" scrollable .columns="${this.todoColumns}" .rows="${todos.map((e) => this.todoRow(e))}"></sds-table>
+  </section>` : nothing37}
+  ${groups.map((group) => {
+      const own = placed.filter((e) => e.group === group);
+      if (!own.length) return nothing37;
+      return group ? html67`<section class="sds-section" id="${this.name}-${group.key}">
+    <h3>${group.heading}</h3>
+    ${own.map((e) => e.out)}
+  </section>` : html67`<div class="sds-register__entries">${own.map((e) => e.out)}</div>`;
+    })}
+</div>`;
+  }
+};
+define("sds-register", SdsRegister);
+
+// packages/frontend/src/components/confval.ts
+import { html as html68, nothing as nothing38 } from "lit";
 var SdsConfval = class extends SdsElement {
   constructor() {
     super();
@@ -13489,22 +13729,22 @@ var SdsConfval = class extends SdsElement {
     ];
   }
   fact({ label, value }) {
-    return html66`<dt class="sds-label">${label}</dt>
+    return html68`<dt class="sds-label">${label}</dt>
       <dd class="sds-mono">${value}</dd>`;
   }
   render() {
     const facts = this.stated;
-    const mark = this.anchor ? html66`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing36;
-    return html66`<dl class="sds-confval">
-  <dt class="sds-confval__term" id="${this.anchor || nothing36}">
+    const mark = this.anchor ? html68`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing38;
+    return html68`<dl class="sds-confval">
+  <dt class="sds-confval__term" id="${this.anchor || nothing38}">
     <code class="sds-confval__name">${this.name}</code>
-    ${this.required ? html66`<sds-badge label="required"></sds-badge>` : nothing36}
+    ${this.required ? html68`<sds-badge label="required"></sds-badge>` : nothing38}
     ${mark}
   </dt>
   <dd class="sds-confval__detail">
-    ${facts.length ? html66`<dl class="sds-confval__facts">
+    ${facts.length ? html68`<dl class="sds-confval__facts">
       ${lines(facts.map((f) => this.fact(f)), 6)}
-    </dl>` : nothing36}
+    </dl>` : nothing38}
     <div class="sds-confval__body">${this.taken ?? this.content ?? this.body}</div>
   </dd>
 </dl>`;
@@ -13574,9 +13814,12 @@ var TAGS3 = [
   "sds-byline",
   "sds-note",
   "sds-facts",
+  "sds-entry",
+  "sds-register",
   "sds-confval"
 ];
 export {
+  FINDING_GROUPS,
   SdsAccordion,
   SdsAccordionItem,
   SdsBadge,
@@ -13593,6 +13836,7 @@ export {
   SdsDropdown,
   SdsElement,
   SdsEmbed,
+  SdsEntry,
   SdsEyebrow,
   SdsFacts,
   SdsField,
@@ -13623,6 +13867,7 @@ export {
   SdsQuote,
   SdsRadio,
   SdsRange,
+  SdsRegister,
   SdsRun,
   SdsSearchHits,
   SdsSearchResult,

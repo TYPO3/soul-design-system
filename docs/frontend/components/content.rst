@@ -715,6 +715,196 @@ answer.
    these tones knows which this was, so ``caution`` and ``danger`` stay
    apart after both became ``warn``.
 
+.. _component-sds-entry:
+
+sds-entry
+=========
+
+One numbered, addressed entry of a register. The number in a rail on the
+left. Beside it, indented as one block: the title, the kind with the
+origin, and what the entry holds as paragraphs, evidence, a table. The
+indent is the scope: a reader sees where an entry begins and ends.
+
+.. specimen:: components/content/register.card.html
+   :viewport: 700x1680
+   :title: Register
+
+.. code-block:: html
+
+   <sds-entry number="1.2" prefix="F" heading="A lookup after a language switch answers in the language before it"
+              label="blocks" tone="error" origin="introduced by this change" anchor="findings-1-2"
+              todo="Key the cache on the language too." todo-prefix="T">
+     <p>The cache keys on the key alone. Probe P2 shows it.</p>
+   </sds-entry>
+
+No box around an entry, and alone no rule either. Twenty entries in a row
+are a list, and a box round each turns that list into twenty cards. In a
+register, a hairline stands between two entries and none above the first
+or under the last. Nothing carries a tone. The kind stands in the head as a
+word, and a coloured edge is the meaning left to colour. The title is an
+entry's, at ``--entry-title-size``, because an entry is where an overview
+sends a reader.
+
+A page writes an entry inside a register, which numbers it, addresses it
+and hands it the kind. Alone, the entry takes all of that as attributes.
+
+.. confval:: heading
+   :name: sds-entry-heading
+   :type: string
+   :required: true
+
+   The entry, in a line. Sentence case, and never a category name.
+
+.. confval:: number
+   :name: sds-entry-number
+   :type: string
+
+   Its place, as the register numbers it: ``1.1``. In mono, because a
+   reader cites it.
+
+.. confval:: prefix
+   :name: sds-entry-prefix
+   :type: string
+
+   What stands before the number, ``F`` for a finding, where a register says
+   so. Nothing unless it does: an entry is ``1.2`` by itself.
+
+.. confval:: label
+   :name: sds-entry-label
+   :type: string
+
+   The kind of entry it is, as the word on its badge: ``blocks``, ``sent
+   back``. A register hands it down from its groups.
+
+.. confval:: tone
+   :name: sds-entry-tone
+   :type: "default" | "accent" | "ok" | "warn" | "error"
+   :default: "default"
+
+   The tone under that word.
+
+.. confval:: group
+   :name: sds-entry-group
+   :type: string
+
+   The key of the group it belongs to, for the register that groups.
+
+.. confval:: origin
+   :name: sds-entry-origin
+   :type: string
+
+   Where it came from, in a few words: ``introduced by this change``,
+   ``older than the change``. A fault the change did not make weighs on the
+   change differently, and a review says which is which.
+
+.. confval:: anchor
+   :name: sds-entry-anchor
+   :type: string
+
+   The address of this one entry, so a remark at the code can point at it.
+   A register gives one from the number where the entry has none.
+
+.. confval:: todo
+   :name: sds-entry-todo
+   :type: string
+
+   What is to do about it, in one sentence, for whoever acts on it. It
+   stands as the entry's last line with its own number, and a register
+   collects these into the list of what is to do. An entry with none is a
+   fact, and one with one is work.
+
+.. confval:: todo-prefix
+   :name: sds-entry-todo-prefix
+   :type: string
+
+   What stands before the number of that work, ``T`` where a register says
+   so. So ``F1.2`` is the finding and ``T1.2`` the thing to do.
+
+.. confval:: body
+   :name: sds-entry-body
+   :type: string | markup
+
+   What the entry holds, as prose. Or nothing, when the blocks stand between
+   the tags instead.
+
+.. _component-sds-register:
+
+sds-register
+============
+
+A list a reader cites: numbered, addressed, and scanned at a glance before
+the entries. The entries stand between its tags, in any order. The register
+numbers them by group and place where it has groups, and counts them up
+where it has none. It writes every one into one table first, each row a
+jump to its entry, and the work the entries ask for into a second. So no
+page counts entries or lists work by hand, and no overview can say what an
+entry does not.
+
+.. code-block:: html
+
+   <sds-register name="findings" prefix="F" todo-prefix="T"
+                 groups='[{ "key": "blocks", "heading": "Blocks submission", "label": "blocks", "tone": "error" }]'>
+     <sds-entry heading="The unit suite fails" group="blocks" origin="introduced by this change"
+                todo="Adapt the four tests that expect the second read.">
+       <p>…</p>
+     </sds-entry>
+   </sds-register>
+
+The entry becomes ``F1.1``, its work ``T1.1``, and both answer to
+``findings-1-1``. Each group is an ``sds-section``, and its address is the
+register's ``name`` and the group's key: ``findings-blocks``, so a contents
+list can point at it. The list of work is ``findings-todo``.
+``FINDING_GROUPS`` exports the four groups of a review's findings: *Blocks
+submission*, *Sent back*, *Worth a change*, *Checked and correct*.
+
+Without groups and without a prefix, the entries are ``1``, ``2``, ``3``:
+the plain list, with the same overview over it.
+
+Under a prerender the register reads the entries as the author wrote them
+and renders each one itself. So a page with no script carries the same
+numbers.
+
+.. confval:: groups
+   :name: sds-register-groups
+   :type: "{ key, heading, label?, tone? }[]"
+
+   The groups, in order. ``key`` is what an entry names in ``group``,
+   ``heading`` stands over the group, and ``label`` with ``tone`` is the
+   word every entry in it draws. An entry whose group the register does not
+   name stands last, in the order written.
+
+.. confval:: prefix
+   :name: sds-register-prefix
+   :type: string
+
+   What stands before every entry's number. Nothing unless the register
+   says so.
+
+.. confval:: todo-prefix
+   :name: sds-register-todo-prefix
+   :type: string
+
+   What stands before the number of what is to do.
+
+.. confval:: name
+   :name: sds-register-name
+   :type: string
+   :default: "register"
+
+   What the group sections and the entries' addresses start with, so two
+   registers on one page keep apart.
+
+.. confval:: entries
+   :name: sds-register-entries
+   :type: "EntryProps[]"
+
+   The entries as a property, where a static render has no children to take:
+   a story, a card. Between the tags otherwise.
+
+.. seealso::
+
+   :doc:`/design-system/screens` for the review these stand in.
+
 .. seealso::
 
    :doc:`/design-system/states` for what an empty, a failed and a loading

@@ -1,0 +1,19 @@
+{#
+    One entry of a register.
+
+    The title, the group, the origin and the thing to do are properties,
+    because each fits in a string. What the entry holds stands between the
+    tags: paragraphs, a code block, a table. The number and the address the
+    register gives it arrive when the page renders, so nothing here says one.
+#}
+<sds-entry
+    heading="{{ node.option('heading') }}"
+    {%- if node.option('group') %} group="{{ node.option('group') }}"{% endif %}
+    {%- if node.option('origin') %} origin="{{ node.option('origin') }}"{% endif %}
+    {%- if node.option('todo') %} todo="{{ node.option('todo') }}"{% endif %}
+    {%- if node.option('anchor') %} anchor="{{ node.option('anchor') }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-entry>

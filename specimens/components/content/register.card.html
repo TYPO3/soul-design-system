@@ -1,0 +1,140 @@
+<!-- @dsCard group="Components" viewport="700x1680" subtitle="A list a reader cites: numbered, addressed, grouped, and the work it asks for" name="Register" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/styles.css" />
+<link rel="stylesheet" href="../../../packages/frontend/src/styles/_specimen.css" />
+</head>
+<body>
+  <div class="spec">
+    <div class="sds-register">
+      <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+      <thead><tr>
+        <th class="sds-td-fit"></th>
+        <th>Entry</th>
+        <th class="sds-td-fit">Kind</th>
+        <th>Origin</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="sds-td-meta sds-td-fit">F1.1</td>
+          <td><a href="#findings-1-1">The unit suite for the lookup fails: 6 of 41 tests</a></td>
+          <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>blocks</span></td>
+          <td>introduced by this change</td>
+        </tr>
+        <tr>
+          <td class="sds-td-meta sds-td-fit">F2.1</td>
+          <td><a href="#findings-2-1">A missing key caches null for the whole request</a></td>
+          <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>sent back</span></td>
+          <td>introduced by this change</td>
+        </tr>
+        <tr>
+          <td class="sds-td-meta sds-td-fit">F3.1</td>
+          <td><a href="#findings-3-1">The reader is a new instance per call</a></td>
+          <td class="sds-td-fit"><span class="sds-badge">worth a change</span></td>
+          <td>older than the change</td>
+        </tr>
+        <tr>
+          <td class="sds-td-meta sds-td-fit">F4.1</td>
+          <td><a href="#findings-4-1">The key stays the file’s own identifier</a></td>
+          <td class="sds-td-fit"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>checked</span></td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table></div>
+      <section class="sds-section" id="findings-todo">
+        <h3>To do</h3>
+        <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+      <thead><tr>
+        <th class="sds-td-fit"></th>
+        <th>To do</th>
+        <th class="sds-td-fit">Kind</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="sds-td-meta sds-td-fit"><a href="#findings-1-1">T1.1</a></td>
+          <td>Adapt the four tests that expect the second read, and run the suite.</td>
+          <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>blocks</span></td>
+        </tr>
+        <tr>
+          <td class="sds-td-meta sds-td-fit"><a href="#findings-2-1">T2.1</a></td>
+          <td>Say so in the docblock, or read again on a miss.</td>
+          <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>sent back</span></td>
+        </tr>
+        <tr>
+          <td class="sds-td-meta sds-td-fit"><a href="#findings-3-1">T3.1</a></td>
+          <td>Construct the reader once, in the constructor.</td>
+          <td class="sds-td-fit"><span class="sds-badge">worth a change</span></td>
+        </tr>
+      </tbody>
+    </table></div>
+      </section>
+      <section class="sds-section" id="findings-blocks">
+        <h3>Blocks submission</h3>
+        <article class="sds-entry" id="findings-1-1">
+      <span class="sds-entry__number">F1.1</span>
+      <h3 class="sds-entry__title">The unit suite for the lookup fails: 6 of 41 tests</h3>
+      <div class="sds-entry__meta">
+        <span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>blocks</span>
+        <span class="sds-entry__origin">introduced by this change</span>
+      </div>
+      <div class="sds-entry__body"><p>Every case that resolves one key twice fails. Four of them expect the second
+          read the change removes on purpose. The other two are 1.2.</p>
+          <div class="sds-code">
+      <div class="sds-code__head">
+        <span class="sds-code__lang">bash</span>
+    
+      </div>
+      <pre class="sds-code__body"><span class="sds-code__prompt">$</span> <span class="sds-code__cmd">vendor/bin/phpunit tests/Unit/Lookup</span>
+Tests: 41, Assertions: 97, Failures: 6.</pre>
+    </div></div>
+      <p class="sds-entry__todo"><span class="sds-entry__number">T1.1</span>Adapt the four tests that expect the second read, and run the suite.</p>
+    </article>
+      </section><section class="sds-section" id="findings-back">
+        <h3>Sent back</h3>
+        <article class="sds-entry" id="findings-2-1">
+      <span class="sds-entry__number">F2.1</span>
+      <h3 class="sds-entry__title">A missing key caches null for the whole request</h3>
+      <div class="sds-entry__meta">
+        <span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>sent back</span>
+        <span class="sds-entry__origin">introduced by this change</span>
+      </div>
+      <div class="sds-entry__body"><p>The docblock says a lookup reads again. It does not: <span class="sds-mono">null</span> goes into
+          the array like any answer. Right for a request, and worth one sentence where the
+          docblock says otherwise.</p></div>
+      <p class="sds-entry__todo"><span class="sds-entry__number">T2.1</span>Say so in the docblock, or read again on a miss.</p>
+    </article>
+      </section><section class="sds-section" id="findings-change">
+        <h3>Worth a change</h3>
+        <article class="sds-entry" id="findings-3-1">
+      <span class="sds-entry__number">F3.1</span>
+      <h3 class="sds-entry__title">The reader is a new instance per call</h3>
+      <div class="sds-entry__meta">
+        <span class="sds-badge">worth a change</span>
+        <span class="sds-entry__origin">older than the change</span>
+      </div>
+      <div class="sds-entry__body"><p><span class="sds-mono">LabelLookup</span> constructs its reader in <span class="sds-mono">resolve()</span>. The
+          service is a singleton, so one reader in the constructor is the same object with one
+          construction fewer per label.</p></div>
+      <p class="sds-entry__todo"><span class="sds-entry__number">T3.1</span>Construct the reader once, in the constructor.</p>
+    </article>
+      </section><section class="sds-section" id="findings-ok">
+        <h3>Checked and correct</h3>
+        <article class="sds-entry" id="findings-4-1">
+      <span class="sds-entry__number">F4.1</span>
+      <h3 class="sds-entry__title">The key stays the file’s own identifier</h3>
+      <div class="sds-entry__meta">
+        <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>checked</span>
+    
+      </div>
+      <div class="sds-entry__body"><p>Checked against a catalogue with a dotted key: the cache keys on the string
+          the file names, with no normalisation in between.</p></div>
+  
+    </article>
+      </section>
+    </div>
+    <div class="spec-cap">THE REGISTER NUMBERS AND GROUPS · THE OVERVIEW AND THE WORK ARE TABLES · THE NUMBER IN A RAIL · THE KIND IS A WORD</div>
+  </div>
+</body>
+</html>

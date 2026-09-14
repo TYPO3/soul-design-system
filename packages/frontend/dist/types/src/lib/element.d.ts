@@ -14,6 +14,11 @@ export declare class SdsElement extends LitElement {
         have, and it carries markup, which an attribute cannot. Every component
         reads `this.taken ?? this.content`. */
     content?: unknown;
+    /** The same content as the author wrote it, before anything in it
+        rendered. For an element that reads facts out of its children and
+        renders them itself: a set that numbers its entries. In Node the markup
+        is the only form the children have. */
+    authored?: string;
     /** Lit renders *after* whatever children it finds and does not empty the
         container. So an element that arrives with its own prerendered markup
         holds two copies. The marker says the build wrote that markup; content

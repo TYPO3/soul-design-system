@@ -30,6 +30,12 @@ export class SdsElement extends LitElement {
       reads `this.taken ?? this.content`. */
   declare content?: unknown;
 
+  /** The same content as the author wrote it, before anything in it
+      rendered. For an element that reads facts out of its children and
+      renders them itself: a set that numbers its entries. In Node the markup
+      is the only form the children have. */
+  declare authored?: string;
+
   /** Asked once. These elements render into themselves, so after the first
       render the children are the element's own output. `connectedCallback`
       runs again every time an element moves in the document, and a second
