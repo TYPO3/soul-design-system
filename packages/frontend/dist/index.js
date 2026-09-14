@@ -924,7 +924,7 @@ var require_core = __commonJS({
         this.html = html66;
       }
     };
-    var escape = escapeHTML;
+    var escape2 = escapeHTML;
     var inherit = inherit$1;
     var NO_MATCH = /* @__PURE__ */ Symbol("nomatch");
     var MAX_KEYWORD_HITS = 7;
@@ -1291,7 +1291,7 @@ var require_core = __commonJS({
           if (err.message && err.message.includes("Illegal")) {
             return {
               language: languageName,
-              value: escape(codeToHighlight),
+              value: escape2(codeToHighlight),
               illegal: true,
               relevance: 0,
               _illegalBy: {
@@ -1306,7 +1306,7 @@ var require_core = __commonJS({
           } else if (SAFE_MODE) {
             return {
               language: languageName,
-              value: escape(codeToHighlight),
+              value: escape2(codeToHighlight),
               illegal: false,
               relevance: 0,
               errorRaised: err,
@@ -1320,7 +1320,7 @@ var require_core = __commonJS({
       }
       function justTextHighlightResult(code) {
         const result = {
-          value: escape(code),
+          value: escape2(code),
           illegal: false,
           relevance: 0,
           _top: PLAINTEXT_LANGUAGE,
@@ -12997,6 +12997,24 @@ function selected(text) {
 }
 
 // packages/frontend/src/components/code.ts
+function perLine(markup) {
+  const out = [];
+  const open = [];
+  let line = "";
+  for (const [token] of markup.matchAll(/<span[^>]*>|<\/span>|\n|[^<\n]+|</g)) {
+    if (token === "\n") {
+      out.push(line + "</span>".repeat(open.length));
+      line = open.join("");
+      continue;
+    }
+    if (token === "</span>") open.pop();
+    else if (token.startsWith("<span")) open.push(token);
+    line += token;
+  }
+  out.push(line + "</span>".repeat(open.length));
+  return out;
+}
+var escape = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 var isCaption3 = (node) => node.nodeType === 1 && node.matches(".sds-code__caption");
 var SdsCode = class extends SdsElement {
   constructor() {
@@ -13019,6 +13037,8 @@ var SdsCode = class extends SdsElement {
     this.body = [];
     this.copy = false;
     this.copied = false;
+    this.remarks = [];
+    this.start = 0;
   }
   static {
     this.properties = {
@@ -13031,7 +13051,9 @@ var SdsCode = class extends SdsElement {
       body: { type: Array },
       action: { type: Object },
       copy: { type: Boolean, reflect: true },
-      copied: { type: Boolean, state: true }
+      copied: { type: Boolean, state: true },
+      remarks: { type: Array },
+      start: { type: Number }
     };
   }
   connectedCallback() {
@@ -13087,6 +13109,8 @@ var SdsCode = class extends SdsElement {
         return html59`<span class="sds-code__comment">${text}</span>${tail}`;
       case "ok":
         return html59`<span class="sds-code__ok">✓</span> ${text}${tail}`;
+      case "remark":
+        return html59`<span class="sds-code__remark"><span class="sds-code__remark-text">${text}</span></span>`;
       default:
         return html59`${text}${tail}`;
     }
@@ -13112,9 +13136,45 @@ var SdsCode = class extends SdsElement {
   get wrapped() {
     const written = this.taken ?? this.content ?? this.text;
     if (this.given) return html59`${written}`;
+    if (this.remarks.length || this.start) return this.lined;
     if (!this.lang) return html59`<code>${written}</code>`;
     const coloured = highlight(this.lang, this.text);
     return coloured === null ? html59`<code class="language-${this.lang}">${written}</code>` : html59`<code class="language-${this.lang}">${unsafeHTML4(coloured)}</code>`;
+  }
+  /** Where the block's lines start, as the numbers say: `start`, or one
+      where nothing set it and a remark still counts. */
+  get first() {
+    return this.start || 1;
+  }
+  /** The row a cited line is, held inside the block. A line the block does
+      not have lands at the nearer edge, so a wrong number is a thing a
+      reader sees, and not nothing. */
+  rowOf(line, rows) {
+    return Math.min(Math.max(line - this.first, 0), rows - 1);
+  }
+  /* The block as numbered lines. Built as markup, because the colour is
+     markup and every line has to become a block with its number in front.
+     A line a remark cites carries a mark: the number in the page's ink. The
+     gutter is as wide as the last number, and the width goes onto the
+     element as a property. */
+  get lined() {
+    const coloured = this.lang ? highlight(this.lang, this.text) : null;
+    const rows = perLine(coloured ?? escape(this.text));
+    const cited = new Set(this.remarks.map(({ line }) => this.rowOf(line, rows.length)));
+    const digits = String(this.first + rows.length - 1).length;
+    const markup = rows.map((row, at) => `<span class="sds-code__row${cited.has(at) ? " sds-code__row--cited" : ""}"><span class="sds-code__no">${this.first + at}</span>${row}</span>`).join("");
+    return html59`<code class="${this.lang ? `language-${this.lang}` : ""}" style="--sds-code-no-width:${digits}ch">${unsafeHTML4(markup)}</code>`;
+  }
+  /* The remarks under the block, each with the number of its line. Prose,
+     and outside the machine's box: the block stays what the machine wrote,
+     and the number is the way from the sentence to the line. */
+  get remarked() {
+    if (!this.remarks.length) return void 0;
+    const rows = this.text.split("\n").length;
+    return html59`<dl class="sds-code__remarks">${this.remarks.map(({ line, text }) => html59`
+    <dt>${this.first + this.rowOf(line, rows)}</dt>
+    <dd>${text}</dd>`)}
+  </dl>`;
   }
   render() {
     const affordance = this.action ?? this.copyButton;
@@ -13125,7 +13185,8 @@ var SdsCode = class extends SdsElement {
     const caption = this.captioned ? html59`${this.captioned}` : this.caption ? html59`<div class="sds-code__caption">${this.caption}</div>` : void 0;
     return html59`${caption}<div class="sds-code">
   ${head}
-  <pre class="sds-code__body">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
+  <pre class="sds-code__body">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>${this.remarked ? html59`
+  ${this.remarked}` : ""}
 </div>`;
   }
 };

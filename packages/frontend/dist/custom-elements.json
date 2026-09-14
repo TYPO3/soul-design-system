@@ -1321,6 +1321,14 @@
                 "text": "boolean"
               },
               "fieldName": "copy"
+            },
+            {
+              "name": "start",
+              "description": "The number the first line has in its file. With it the block draws the numbers, because something cites them: a caption, a finding. A remark cites one too, so remarks draw them from one where there is no `start`. Without either there is no gutter, as nothing refers to one.",
+              "type": {
+                "text": "number"
+              },
+              "fieldName": "start"
             }
           ],
           "members": [
@@ -1381,6 +1389,25 @@
                 "text": "boolean"
               },
               "attribute": "copy"
+            },
+            {
+              "kind": "field",
+              "name": "remarks",
+              "privacy": "public",
+              "description": "Sentences about lines of the block, for a block that arrives as `source` or as text between the tags. They stand under the block, each with the number of its line, and the line carries a mark. None goes to the clipboard: they are about the block, not part of it.",
+              "type": {
+                "text": "readonly Remark[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "start",
+              "privacy": "public",
+              "description": "The number the first line has in its file. With it the block draws the numbers, because something cites them: a caption, a finding. A remark cites one too, so remarks draw them from one where there is no `start`. Without either there is no gutter, as nothing refers to one.",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "start"
             }
           ],
           "events": [],
@@ -1395,8 +1422,12 @@
             "sds-code__glyph",
             "sds-code__head",
             "sds-code__lang",
+            "sds-code__no",
             "sds-code__ok",
-            "sds-code__prompt"
+            "sds-code__prompt",
+            "sds-code__remarks",
+            "sds-code__row",
+            "sds-code__row--cited"
           ],
           "slots": [
             {

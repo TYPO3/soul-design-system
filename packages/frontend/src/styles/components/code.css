@@ -88,6 +88,19 @@
     --sds-code-copy-gap: var(--space-1-5);
     --sds-code-duration: var(--duration-fast);
     --sds-code-ease: var(--ease-out);
+    --sds-code-remark-font: var(--font-sans);
+    --sds-code-remark-size: var(--font-size-small);
+    --sds-code-remark-leading: var(--leading-body);
+    --sds-code-remark-ink: var(--text-secondary);
+    --sds-code-remark-no-ink: var(--text-primary);
+    --sds-code-remark-step: var(--space-1-5);
+    --sds-code-remark-gap: var(--space-3);
+    --sds-code-no-width: 0ch;
+    --sds-code-no-gap: var(--space-3);
+    --sds-code-no-ink: var(--text-muted);
+    --sds-code-no-ink-cited: var(--text-primary);
+    --sds-code-no-weight-cited: var(--weight-semibold);
+    --sds-code-row-fill-cited: var(--surface-inset);
 
     min-width: 0;
     max-width: 100%;
@@ -194,6 +207,60 @@
   }
   .sds-code__ok {
     color: var(--status-ok);
+  }
+  /* A line with its number, where something cites the numbers. The gutter
+     is as wide as the last number, right-aligned, in the muted ink. Out of
+     a selection, because a number is not part of the code. A line a remark
+     cites carries its number in the page's ink, which is the mark. */
+  .sds-code__row {
+    display: block;
+  }
+  .sds-code__no {
+    display: inline-block;
+    width: var(--sds-code-no-width);
+    margin-inline-end: var(--sds-code-no-gap);
+    text-align: end;
+    color: var(--sds-code-no-ink);
+    user-select: none;
+  }
+  /* The cited line lit across the block, quietly: the inset surface, which
+     is a step off the sunken one and no colour. Out to the frame's edges,
+     because a tint that stops at the text is a highlighter's stroke. */
+  .sds-code__row--cited {
+    margin-inline: calc(-1 * var(--sds-code-pad-x));
+    padding-inline: var(--sds-code-pad-x);
+    background: var(--sds-code-row-fill-cited);
+
+    > .sds-code__no {
+      color: var(--sds-code-no-ink-cited);
+      font-weight: var(--sds-code-no-weight-cited);
+    }
+  }
+  /* The remarks under the block, in the frame and under a rule: prose about
+     the machine's lines, outside the machine's box. The number of the line
+     in the code's face and the page's ink is the way from the sentence to
+     the line. The sentence is in the sans. */
+  .sds-code__remarks {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: var(--sds-code-remark-step) var(--sds-code-remark-gap);
+    margin: 0;
+    padding: var(--sds-code-pad-y) var(--sds-code-pad-x);
+    border-top: var(--sds-code-border) solid var(--sds-code-rule);
+    font-family: var(--sds-code-remark-font);
+    font-size: var(--sds-code-remark-size);
+    line-height: var(--sds-code-remark-leading);
+    color: var(--sds-code-remark-ink);
+
+    > dt {
+      font-family: var(--sds-code-font);
+      font-size: var(--sds-code-body-size);
+      color: var(--sds-code-remark-no-ink);
+    }
+    > dd {
+      margin: 0;
+      min-width: 0;
+    }
   }
 
   /* What the block is, above it — outside the frame and beside it, never under

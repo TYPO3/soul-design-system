@@ -160,6 +160,32 @@ export const CaptionedFromContent: Story = {
 vendor/bin/typo3 cache:flush</sds-code>`,
 };
 
+/** A reader's sentences about lines of the block: a review's findings
+    at the code, ready for the review tool. `start` is the first line's number
+    in its file, so a remark counts as the file does. Not code, so not mono,
+    and none of it goes to the clipboard. */
+export const Remarked: Story = {
+  render: () => html`<sds-code
+    code-lang="php"
+    caption="Classes/Version.php, from line 12"
+    source="${`final class Version
+{
+    public function __construct(private readonly string $number) {}
+
+    public function major(): int
+    {
+        return (int)explode('.', $this->number)[0];
+    }
+}`}"
+    start="12"
+    .remarks="${[
+      { line: 14, text: 'A version has a shape, and a string does not check it. Take a value object, or check the number here.' },
+      { line: 18, text: 'A string with no dot gives the whole string, and the cast makes a number of it: what the caller wants.' },
+    ]}"
+    copy
+  ></sds-code>`,
+};
+
 export const specimenHtml = (): string =>
   spec(
     [

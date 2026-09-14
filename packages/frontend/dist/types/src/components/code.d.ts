@@ -4,8 +4,10 @@ import { SdsElement } from '../lib/element.js';
 /** What a line in a code block IS, rather than markup someone assembled.
     `shell` is a command, and its `$` prompt is one of the three places
     `--accent` appears. `ok` is a success line, marked with the mono font's `✓`
-    because emoji are forbidden outright. `comment` and `plain` are literal. */
-export type CodeKind = 'plain' | 'shell' | 'comment' | 'ok';
+    because emoji are forbidden outright. `comment` and `plain` are literal.
+    `remark` is a reader's sentence in the run of lines: not code, so not
+    mono, and it wraps. */
+export type CodeKind = 'plain' | 'shell' | 'comment' | 'ok' | 'remark';
 export interface CodeLine {
     kind: CodeKind;
     text: string;
@@ -23,6 +25,13 @@ export type CodeLangName = 'bash' | 'css' | 'diff' | 'html' | 'javascript' | 'js
     fence, and a refusal to print a word is not a service. The union catches
     the near miss, `yml` for `yaml`, which a highlighter answers in silence. */
 export type CodeLang = CodeLangName | (string & {});
+/** A sentence about one line of a block, by whoever reads it: a review's
+    finding at the code. `line` counts as the file does, from `start`. The
+    block marks that line's number and lists the sentence under itself. */
+export interface Remark {
+    line: number;
+    text: string;
+}
 export interface CodeBlockProps {
     /** The language, lower case as a fence writes it; the upper case belongs to
         `sds-code__lang`. The attribute is `code-lang` on purpose. `lang` is a
@@ -50,6 +59,16 @@ export interface CodeBlockProps {
     /** The button that puts the block on the clipboard. The component owns it:
         an `action` of a caller’s own is for something else. */
     copy?: boolean;
+    /** Sentences about lines of the block, for a block that arrives as
+        `source` or as text between the tags. They stand under the block, each
+        with the number of its line, and the line carries a mark. None goes to
+        the clipboard: they are about the block, not part of it. */
+    remarks?: readonly Remark[];
+    /** The number the first line has in its file. With it the block draws
+        the numbers, because something cites them: a caption, a finding. A
+        remark cites one too, so remarks draw them from one where there is no
+        `start`. Without either there is no gutter, as nothing refers to one. */
+    start?: number;
 }
 export declare class SdsCode extends SdsElement {
     static properties: {
@@ -78,6 +97,12 @@ export declare class SdsCode extends SdsElement {
             type: BooleanConstructor;
             state: boolean;
         };
+        remarks: {
+            type: ArrayConstructor;
+        };
+        start: {
+            type: NumberConstructor;
+        };
     };
     lang: CodeLang;
     caption: string;
@@ -86,6 +111,8 @@ export declare class SdsCode extends SdsElement {
     action?: TemplateResult;
     copy: boolean;
     copied: boolean;
+    remarks: readonly Remark[];
+    start: number;
     private taken;
     private captioned;
     constructor();
@@ -106,5 +133,14 @@ export declare class SdsCode extends SdsElement {
     private line;
     private get given();
     private get wrapped();
+    /** Where the block's lines start, as the numbers say: `start`, or one
+        where nothing set it and a remark still counts. */
+    private get first();
+    /** The row a cited line is, held inside the block. A line the block does
+        not have lands at the nearer edge, so a wrong number is a thing a
+        reader sees, and not nothing. */
+    private rowOf;
+    private get lined();
+    private get remarked();
     protected render(): TemplateResult;
 }

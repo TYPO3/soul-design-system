@@ -20,8 +20,10 @@ import { SAID, toClipboard } from '../lib/clipboard.ts';
 /** What a line in a code block IS, rather than markup someone assembled.
     `shell` is a command, and its `$` prompt is one of the three places
     `--accent` appears. `ok` is a success line, marked with the mono font's `✓`
-    because emoji are forbidden outright. `comment` and `plain` are literal. */
-export type CodeKind = 'plain' | 'shell' | 'comment' | 'ok';
+    because emoji are forbidden outright. `comment` and `plain` are literal.
+    `remark` is a reader's sentence in the run of lines: not code, so not
+    mono, and it wraps. */
+export type CodeKind = 'plain' | 'shell' | 'comment' | 'ok' | 'remark';
 
 export interface CodeLine {
   kind: CodeKind;
@@ -60,6 +62,14 @@ export type CodeLangName =
     the near miss, `yml` for `yaml`, which a highlighter answers in silence. */
 export type CodeLang = CodeLangName | (string & {});
 
+/** A sentence about one line of a block, by whoever reads it: a review's
+    finding at the code. `line` counts as the file does, from `start`. The
+    block marks that line's number and lists the sentence under itself. */
+export interface Remark {
+  line: number;
+  text: string;
+}
+
 export interface CodeBlockProps {
   /** The language, lower case as a fence writes it; the upper case belongs to
       `sds-code__lang`. The attribute is `code-lang` on purpose. `lang` is a
@@ -87,7 +97,42 @@ export interface CodeBlockProps {
   /** The button that puts the block on the clipboard. The component owns it:
       an `action` of a caller’s own is for something else. */
   copy?: boolean;
+  /** Sentences about lines of the block, for a block that arrives as
+      `source` or as text between the tags. They stand under the block, each
+      with the number of its line, and the line carries a mark. None goes to
+      the clipboard: they are about the block, not part of it. */
+  remarks?: readonly Remark[];
+  /** The number the first line has in its file. With it the block draws
+      the numbers, because something cites them: a caption, a finding. A
+      remark cites one too, so remarks draw them from one where there is no
+      `start`. Without either there is no gutter, as nothing refers to one. */
+  start?: number;
 }
+
+/* Highlighted markup as one entry per line. A span the highlighter opened on
+   one line closes at the break and opens again on the next. A remark goes
+   between two lines, and a span across the break swallows it. */
+function perLine(markup: string): string[] {
+  const out: string[] = [];
+  const open: string[] = [];
+  let line = '';
+  for (const [token] of markup.matchAll(/<span[^>]*>|<\/span>|\n|[^<\n]+|</g)) {
+    if (token === '\n') {
+      out.push(line + '</span>'.repeat(open.length));
+      line = open.join('');
+      continue;
+    }
+    if (token === '</span>') open.pop();
+    else if (token.startsWith('<span')) open.push(token);
+    line += token;
+  }
+  out.push(line + '</span>'.repeat(open.length));
+  return out;
+}
+
+/** Text as markup: the three characters that read as tags, escaped. */
+const escape = (text: string): string =>
+  text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 /* A caption between the tags, told apart by the class the component emits
    for it. Light DOM has no slot to name it with, and a class the stylesheet
@@ -109,6 +154,8 @@ export class SdsCode extends SdsElement {
     action: { type: Object },
     copy: { type: Boolean, reflect: true },
     copied: { type: Boolean, state: true },
+    remarks: { type: Array },
+    start: { type: Number },
   };
 
   declare lang: CodeLang;
@@ -118,6 +165,8 @@ export class SdsCode extends SdsElement {
   declare action?: TemplateResult;
   declare copy: boolean;
   declare copied: boolean;
+  declare remarks: readonly Remark[];
+  declare start: number;
 
   /* Content between the tags, taken before Lit renders over it. Light DOM
      means `render()` replaces the children, and the children are the whole
@@ -141,6 +190,8 @@ export class SdsCode extends SdsElement {
     this.body = [];
     this.copy = false;
     this.copied = false;
+    this.remarks = [];
+    this.start = 0;
   }
 
   override connectedCallback(): void {
@@ -206,6 +257,8 @@ export class SdsCode extends SdsElement {
         return html`<span class="sds-code__comment">${text}</span>${tail}`;
       case 'ok':
         return html`<span class="sds-code__ok">✓</span> ${text}${tail}`;
+      case 'remark':
+        return html`<span class="sds-code__remark"><span class="sds-code__remark-text">${text}</span></span>`;
       default:
         return html`${text}${tail}`;
     }
@@ -240,11 +293,55 @@ export class SdsCode extends SdsElement {
        block got. */
     const written = this.taken ?? this.content ?? this.text;
     if (this.given) return html`${written}`;
+    if (this.remarks.length || this.start) return this.lined;
     if (!this.lang) return html`<code>${written}</code>`;
     const coloured = highlight(this.lang, this.text);
     return coloured === null
       ? html`<code class="language-${this.lang}">${written}</code>`
       : html`<code class="language-${this.lang}">${unsafeHTML(coloured)}</code>`;
+  }
+
+  /** Where the block's lines start, as the numbers say: `start`, or one
+      where nothing set it and a remark still counts. */
+  private get first(): number {
+    return this.start || 1;
+  }
+
+  /** The row a cited line is, held inside the block. A line the block does
+      not have lands at the nearer edge, so a wrong number is a thing a
+      reader sees, and not nothing. */
+  private rowOf(line: number, rows: number): number {
+    return Math.min(Math.max(line - this.first, 0), rows - 1);
+  }
+
+  /* The block as numbered lines. Built as markup, because the colour is
+     markup and every line has to become a block with its number in front.
+     A line a remark cites carries a mark: the number in the page's ink. The
+     gutter is as wide as the last number, and the width goes onto the
+     element as a property. */
+  private get lined(): TemplateResult {
+    const coloured = this.lang ? highlight(this.lang, this.text) : null;
+    const rows = perLine(coloured ?? escape(this.text));
+    const cited = new Set(this.remarks.map(({ line }) => this.rowOf(line, rows.length)));
+    const digits = String(this.first + rows.length - 1).length;
+    const markup = rows
+      .map((row, at) =>
+        `<span class="sds-code__row${cited.has(at) ? ' sds-code__row--cited' : ''}">` +
+        `<span class="sds-code__no">${this.first + at}</span>${row}</span>`)
+      .join('');
+    return html`<code class="${this.lang ? `language-${this.lang}` : ''}" style="--sds-code-no-width:${digits}ch">${unsafeHTML(markup)}</code>`;
+  }
+
+  /* The remarks under the block, each with the number of its line. Prose,
+     and outside the machine's box: the block stays what the machine wrote,
+     and the number is the way from the sentence to the line. */
+  private get remarked(): TemplateResult | undefined {
+    if (!this.remarks.length) return undefined;
+    const rows = this.text.split('\n').length;
+    return html`<dl class="sds-code__remarks">${this.remarks.map(({ line, text }) => html`
+    <dt>${this.first + this.rowOf(line, rows)}</dt>
+    <dd>${text}</dd>`)}
+  </dl>`;
   }
 
   protected override render(): TemplateResult {
@@ -268,7 +365,8 @@ export class SdsCode extends SdsElement {
 
     return html`${caption}<div class="sds-code">
   ${head}
-  <pre class="sds-code__body">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>
+  <pre class="sds-code__body">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>${this.remarked ? html`
+  ${this.remarked}` : ''}
 </div>`;
   }
 }

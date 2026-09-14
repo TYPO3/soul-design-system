@@ -272,8 +272,36 @@ A fenced block, its head and its copy button.
    Styled lines, which no attribute can carry. ``shell`` is a command, and
    its ``$`` prompt is one of the three places ``--accent`` appears. ``ok``
    is a success line, with the mono font's check, because emoji are out.
-   ``comment`` and ``plain`` are literal. ``code`` sets a fragment inside the
-   line as a command: a path, a flag, a tool name.
+   ``comment`` and ``plain`` are literal. ``remark`` is a reader's sentence
+   in the run of lines; ``remarks`` is the form a page writes. ``code`` sets a fragment inside
+   the line as a command: a path, a flag, a tool name.
+
+.. confval:: remarks
+   :name: sds-code-remarks
+   :type: "{ line, text }[]"
+
+   Sentences about lines of the block: a review's findings at the code,
+   each one ready for the review tool. ``line`` counts as the file does,
+   from ``start``. The block draws the numbers, marks the cited line's
+   number in the page's ink, and lists the sentences under itself, each
+   with its number. A line the block does not have lands at the nearer
+   edge, so a wrong number is a thing a reader sees.
+
+   A remark is prose, so it stands outside the machine's box. The block
+   stays what the machine wrote, and the number is the way from the
+   sentence to the line. None of it goes to the clipboard.
+
+   For a block that arrives as ``source`` or as text between the tags. A
+   block that arrives with its colour stays as it is, remarks included.
+
+.. confval:: start
+   :name: sds-code-start
+   :type: number
+
+   The number the first line has in its file. With it the block draws the
+   numbers, because something cites them: a caption, a finding. A remark
+   cites one too, so remarks draw them from one where there is no
+   ``start``. Without either there is no gutter, as nothing refers to one.
 
 .. confval:: caption
    :name: sds-code-caption
