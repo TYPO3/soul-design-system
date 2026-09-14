@@ -53,7 +53,7 @@ export const InTheBar: Story = {
   render: () => html`<div class="sds-shell" style="min-height: 420px">
   <sds-nav-main
     home="#overview"
-    signet="../assets/design-system-signet-m.svg"
+    signet="assets/design-system-signet-m.svg"
     brand="TYPO3"
     product="Soul Design System"
     index="_search.json"

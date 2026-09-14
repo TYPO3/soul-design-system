@@ -200,7 +200,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
   ${skipLink()}
   <sds-nav-main
     home="#overview"
-    signet="../assets/design-system-signet-m.svg"
+    signet="assets/design-system-signet-m.svg"
     brand="TYPO3"
     product="Soul Design System"
     .items="${[
@@ -228,7 +228,7 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
           <div class="sds-actions">${start}</div>
         </div>
         <div class="sds-column">
-          <sds-figure src="../assets/placeholders/design-system-workbench.png" alt=""></sds-figure>
+          <sds-figure src="assets/placeholders/design-system-workbench.png" alt=""></sds-figure>
         </div>
       </div>
     </section>

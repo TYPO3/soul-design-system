@@ -27,7 +27,7 @@ const CHAPTERS: readonly CardProps[] = [
     label: 'Chapter 02',
     heading: 'Directives',
     body: 'The markup this theme adds: the bands a landing page is built out of, the grid, and the cards standing in it.',
-    src: '/assets/placeholders/tool-registration.png',
+    src: 'assets/placeholders/tool-registration.png',
     alt: '',
     action: 'Read it',
   },
@@ -53,7 +53,7 @@ const CHAPTERS: readonly CardProps[] = [
   {
     heading: 'Markup',
     body: 'Everything a renderer emits that carries no class at all, and the stylesheet that meets it.',
-    src: '/assets/placeholders/community-reference.png',
+    src: 'assets/placeholders/community-reference.png',
     alt: '',
   },
 ];

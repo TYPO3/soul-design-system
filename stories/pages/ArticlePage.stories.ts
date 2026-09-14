@@ -75,10 +75,6 @@ const RELATED = [
 
 /** The page. `flat` composes the form a static file can hold. */
 export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
-  /* Storybook serves `assets/` at its root; a file under `screens/` reaches
-     the same directory one level up. */
-  const assets = flat ? '../assets' : '/assets';
-
   return html`<div class="sds-shell">
   ${skipLink()}
   ${siteBar(4, '#article')}
@@ -101,7 +97,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
       <sds-byline name="Benjamin Kott" as="maintainer" meta="24${NNBSP}July 2026 · 6${NNBSP}min"></sds-byline>
 
       <sds-figure
-        src="${assets}/diagrams/installation-fallback.svg"
+        src="assets/diagrams/installation-fallback.svg"
         alt="Three paths through the registry: the console command and the booted runtime return every entry, the package-file fallback returns the declared ones and none of the dynamically registered ones."
         caption="Each square is one entry the registry could return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that."
         zoomable

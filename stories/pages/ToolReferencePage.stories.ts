@@ -99,7 +99,7 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
   ${skipLink()}
   <sds-nav-main
     home="#tools"
-    signet="../assets/design-system-signet-m.svg"
+    signet="assets/design-system-signet-m.svg"
     brand="TYPO3"
     product="Dev Companion"
     .items="${[

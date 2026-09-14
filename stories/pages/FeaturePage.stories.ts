@@ -115,11 +115,6 @@ const INSTALL: readonly CodeLine[] = [
 
 /** The page. `flat` composes the form a static file can hold. */
 export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
-  /* Storybook serves `assets/` at its root; a file under `screens/` reaches
-     the same directory one level up. The path is the page's to know — an
-     element that guessed it would be wrong on one of the two surfaces. */
-  const assets = flat ? '../assets' : '/assets';
-
   /* The one place the two renderings differ: a button's label is content, and
      `renderStatic` flattens no element that was given children. */
   const start = flat
@@ -158,7 +153,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         need outbound reach.
       </p>
       <sds-figure
-        src="${assets}/diagrams/answer-sources.svg"
+        src="assets/diagrams/answer-sources.svg"
         alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach."
         caption="A tool declares its sources, so whether an answer is reachable is known before the question is asked."
         zoomable

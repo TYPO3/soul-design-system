@@ -15,11 +15,12 @@ import '../../packages/frontend/src/components/lightbox.ts';
 import '../../packages/frontend/src/components/button.ts';
 import { type LightboxProps } from '../../packages/frontend/src/components/lightbox.ts';
 
-/* Storybook serves `assets/` at `/assets`; a page under `screens/` reaches the
-   same files at `../assets`. The path is the caller's, which is why this
-   element takes one rather than deriving it. */
+/* Written the way Storybook serves it, beside the preview page; a card or a
+   screen gets the climb to the same files counted in when it is written out.
+   The path is the caller's, which is why this element takes one rather than
+   deriving it. */
 const SOURCES = {
-  src: '/assets/diagrams/answer-sources.svg',
+  src: 'assets/diagrams/answer-sources.svg',
   alt: 'The five sources a tool can answer from, plotted against how much of the machine has to be running.',
   caption: 'Every source declares a precondition, so an answer is known to be reachable before the question is asked.',
 };

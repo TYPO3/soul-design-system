@@ -31,7 +31,7 @@ const drawing = ({ file, alt }: Figure): string => {
     /* The name from the one place that writes it. Spelled out here once, it
        went stale the first time it changed and the card shipped a reference
        into nothing — which every check reads as a card of the right height. */
-    `<svg viewBox="${viewBox}" role="img" aria-label="${alt}" class="spec-figure spec-figure--framed"><use href="../../assets/diagrams/${file}#${REF}"></use></svg>`,
+    `<svg viewBox="${viewBox}" role="img" aria-label="${alt}" class="spec-figure spec-figure--framed"><use href="assets/diagrams/${file}#${REF}"></use></svg>`,
   )}
 </div>`;
 };

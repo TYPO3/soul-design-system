@@ -80,7 +80,7 @@ export const Answers: Story = {};
 export const WithThumbnails: Story = {
   args: {
     items: HITS.map((hit, at) =>
-      at === 0 ? hit : { ...hit, src: `/assets/placeholders/${at === 1 ? 'tool-package-registry' : 'tool-changelog-history'}.png`, alt: '' },
+      at === 0 ? hit : { ...hit, src: `assets/placeholders/${at === 1 ? 'tool-package-registry' : 'tool-changelog-history'}.png`, alt: '' },
     ),
     match: QUERY,
   },

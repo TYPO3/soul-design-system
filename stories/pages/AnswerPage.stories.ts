@@ -45,7 +45,7 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
   ${skipLink()}
   <sds-nav-main
     home="#answer"
-    signet="../assets/design-system-signet-m.svg"
+    signet="assets/design-system-signet-m.svg"
     brand="TYPO3"
     product="Dev Companion"
     tone="default"

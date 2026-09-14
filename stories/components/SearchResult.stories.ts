@@ -86,7 +86,7 @@ export const Bare: Story = {
 export const Thumbnail: Story = {
   args: {
     ...HIT,
-    src: '/assets/placeholders/tool-package-registry.png',
+    src: 'assets/placeholders/tool-package-registry.png',
     alt: '',
   },
 };
@@ -96,5 +96,5 @@ export const Thumbnail: Story = {
     box instead of cropped, because a diagram with its edges cut off says
     nothing at this size. */
 export const Drawing: Story = {
-  args: { ...HIT, src: '/assets/diagrams/answer-sources.svg', alt: '' },
+  args: { ...HIT, src: 'assets/diagrams/answer-sources.svg', alt: '' },
 };

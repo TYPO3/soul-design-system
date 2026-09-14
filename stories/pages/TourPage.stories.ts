@@ -49,7 +49,7 @@ const STEPS: readonly Step[] = [
       project what it is: which release, which packages, which of them actually
       booted. Nothing is written back, and nothing leaves the machine — the
       first answer is available before the index has finished.`,
-    src: '../assets/placeholders/tool-package-registry.png',
+    src: 'assets/placeholders/tool-package-registry.png',
     alt: 'The package registry as the server reads it, with three packages marked as not booted',
     fact: 'read-only · 0 requests out',
   },
@@ -59,7 +59,7 @@ const STEPS: readonly Step[] = [
     body: html`A question is a sentence, not a query language. “which icon means
       delete” and “actions-delete” reach the same answer, because the index
       carries what a thing is for beside what it is called.`,
-    src: '../assets/placeholders/tool-search.png',
+    src: 'assets/placeholders/tool-search.png',
     alt: 'A search for “delete” returning three identifiers with their purposes',
     fact: `typically 18${NNBSP}ms`,
   },
@@ -70,7 +70,7 @@ const STEPS: readonly Step[] = [
       That is the difference between an answer and a guess: a reader can check
       it, and a reader who cannot check an answer has to trust the tool, which
       is the thing this is trying to avoid.`,
-    src: '../assets/placeholders/tool-source-answer.png',
+    src: 'assets/placeholders/tool-source-answer.png',
     alt: 'An answer with its source and version binding shown beneath it',
     fact: '4 releases · 1 source named',
   },
@@ -80,7 +80,7 @@ const STEPS: readonly Step[] = [
     body: html`Where an answer is about a difference between two releases, it
       arrives as the difference — the lines that moved, in the file they moved
       in, rather than a paragraph describing them.`,
-    src: '../assets/placeholders/tool-changelog-history.png',
+    src: 'assets/placeholders/tool-changelog-history.png',
     alt: 'A changelog entry rendered as a diff, with two lines removed and two added',
     fact: 'down to 7.0',
   },
@@ -149,7 +149,7 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
            address that differs between the two renderings: beside the static
            file it is a sibling, and in the story it is served from the root. -->
       <sds-embed
-        src="${flat ? 'answer.html' : '/screens/answer.html'}"
+        src="${flat ? 'answer.html' : 'specimens/screens/answer.html'}"
         label="The answer this run ends at, live in the page"
         ratio="16 / 10"
         caption="The end of the run, running. Scroll it: the source and the version binding are under the answer."

@@ -126,10 +126,6 @@ export interface NewsMode extends PageMode {
 
 /** The page. `flat` composes the form a static file can hold. */
 export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}): TemplateResult {
-  /* Storybook serves `assets/` at its root; a file under `screens/` reaches
-     the same directory one level up. The path is the page's to know. */
-  const assets = flat ? '../assets' : '/assets';
-
   const current = FILTERS[filter] ?? FILTERS[0];
   const shown = current?.tag ? ENTRIES.filter((e) => e.tag === current.tag) : ENTRIES;
   /* The page shows a page of the list, not the list. A row of numbers under
@@ -146,7 +142,7 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
               .body="${entry.body}"
               tag="${entry.tag}"
               label="${entry.label ?? ''}"
-              src="${entry.src ? `${assets}/${entry.src}` : ''}"
+              src="${entry.src ? `assets/${entry.src}` : ''}"
               alt="${entry.alt ?? ''}"
               href="#"
             ></sds-card>`,

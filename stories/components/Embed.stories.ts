@@ -25,10 +25,12 @@ const sdsEmbed = ({ src, label, ratio, width, height, caption, allow, allowfulls
     ?allowfullscreen="${allowfullscreen ?? false}"
   ></sds-embed>`;
 
-/* Storybook serves the screens at the path their own links climb from, which
-   is why this is `/screens/…` and not the directory they are kept in. */
+/* Storybook serves the screens at the depth they are stored at, so their
+   own links climb to the right place — and relative to the preview page,
+   because the built Storybook is published below the documentation, where a
+   root path names somebody else's root. */
 const SCREEN = {
-  src: '/screens/landing.html',
+  src: 'specimens/screens/landing.html',
   label: 'The landing screen, rendered',
   ratio: '16 / 9',
   caption: 'A frame that holds its shape shows the same thing in a column of any width.',
@@ -65,7 +67,7 @@ export const Default: Story = { args: SCREEN };
     that may not exist. */
 export const Fixed: Story = {
   args: {
-    src: '/guidelines/colors-surfaces.card.html',
+    src: 'specimens/guidelines/colors-surfaces.card.html',
     label: 'The surface planes, in both modes',
     /* Cleared, and not merely left out: Storybook merges a story's arguments
        over the ones the file declares, so an unset key here is the shape the
@@ -91,7 +93,7 @@ export const Uncaptioned: Story = {
     the caption placed where the component puts captions. */
 export const Given: Story = {
   render: () => html`<sds-embed width="700" height="240"
-    ><iframe src="/guidelines/colors-borders.card.html" width="700" height="240" title="The border tokens"></iframe
+    ><iframe src="specimens/guidelines/colors-borders.card.html" width="700" height="240" title="The border tokens"></iframe
     ><div class="sds-embed__caption">Borders · <span class="sds-mono">700x240</span></div></sds-embed
   >`,
 };
@@ -103,7 +105,7 @@ export const InAColumn: Story = {
   render: () => html`<div class="sds-prose" style="padding:var(--space-6); max-width:900px">
     ${sdsEmbed({ ...SCREEN, caption: 'The landing screen, at the shape it was drawn for.' })}
     ${sdsEmbed({
-      src: '/guidelines/type-scale.card.html',
+      src: 'specimens/guidelines/type-scale.card.html',
       label: 'The type scale',
       width: 700,
       height: 230,

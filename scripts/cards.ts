@@ -38,12 +38,13 @@ export interface CardResult {
   existed: boolean;
 }
 
-/* A picture in a specimen is written the way the story sees it — `../packages/frontend/assets/`,
-   one climb out of a folder. Where the file lands is not a story's business, so
-   the climb is counted here from the same `up` the stylesheets use; a story
-   that stated a depth would be one more place to keep true. */
+/* A picture in a specimen is written the way Storybook serves it — `assets/`,
+   beside the preview page, with no climb: the built Storybook is published
+   below the documentation, where a climb lands outside it. Where a card lands
+   is not a story's business either, so the climb is counted here from the
+   same `up` the stylesheets use. */
 const withAssets = (html: string, up: string): string =>
-  html.replace(/(src|href)="(?:\.\.\/)+(?:packages\/frontend\/)?assets\//g, `$1="${up}packages/frontend/assets/`);
+  html.replace(/(src|href)="(?:\.\.\/)*(?:packages\/frontend\/)?assets\//g, `$1="${up}packages/frontend/assets/`);
 
 /* The document shell — deliberately the same six lines every card already
    carried: the `@dsCard` marker the pane reads, the theme pinned on <html>

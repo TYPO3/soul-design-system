@@ -23,8 +23,10 @@ import { setIconSprites } from '../packages/frontend/src/components/icon.ts';
 
 /* The icons reference a sprite embedded once per document, and by default it
    is resolved beside the module — right for the drop-in, wrong here, where
-   Vite serves the module from the package and the assets from `/assets`. */
-setIconSprites('/assets/icons/sprites/');
+   Vite serves the module from the package and the assets beside the preview
+   page. Relative, like every path a story writes: the built Storybook is
+   published below the documentation, where `/assets` is somebody else's. */
+setIconSprites('assets/icons/sprites/');
 
 
 /* Write the theme onto <html> for the whole preview, not only for stories. The

@@ -164,7 +164,7 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
   ${skipLink()}
   <sds-nav-main
     home="#overview"
-    signet="../assets/design-system-signet-m.svg"
+    signet="assets/design-system-signet-m.svg"
     brand="TYPO3"
     product="Dev Companion"
     search

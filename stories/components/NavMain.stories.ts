@@ -15,7 +15,7 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/nav-main.ts';
 import { type MenuEntry } from '../../packages/frontend/src/components/nav-base.ts';
 
-const SIGNET = '../assets/design-system-signet-m.svg';
+const SIGNET = 'assets/design-system-signet-m.svg';
 
 const SECTIONS = [
   { label: 'overview', href: '#overview' },

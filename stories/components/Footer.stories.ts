@@ -48,7 +48,7 @@ const meta: Meta<FooterProps> = {
     meta: SITE_META,
     marks: SITE_MARKS,
     copyright: '© 2026 the Dev Companion authors',
-    signet: '/assets/design-system-signet-m.svg',
+    signet: 'assets/design-system-signet-m.svg',
     brand: 'TYPO3',
     product: 'Dev Companion',
   },

@@ -181,7 +181,7 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
         </div>
         <div class="sds-column">
           <sds-figure
-            src="../assets/diagrams/answer-sources.svg"
+            src="assets/diagrams/answer-sources.svg"
             alt="Five sources feeding the server, with one arrow leaving the machine towards the documentation"
             caption="Five sources, four of them on your disk. The one that leaves is drawn as the exception it is."
             zoomable

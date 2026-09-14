@@ -10,11 +10,12 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/image.ts';
 import { type ImageProps } from '../../packages/frontend/src/components/image.ts';
 
-/* Storybook serves `assets/` at `/assets`; a page under `screens/` reaches the
-   same files at `../assets`. The path is the caller's, which is why this
-   element takes one rather than deriving it. */
+/* Written the way Storybook serves it, beside the preview page; a card or a
+   screen gets the climb to the same files counted in when it is written out.
+   The path is the caller's, which is why this element takes one rather than
+   deriving it. */
 const MARK = {
-  src: '/assets/design-system-signet-l.svg',
+  src: 'assets/design-system-signet-l.svg',
   alt: 'The Soul Design System signet',
   width: 64,
   height: 64,
@@ -47,7 +48,7 @@ export const Default: Story = { args: MARK };
     every picture is linked, and the file name is not a decision it makes. */
 export const Photograph: Story = {
   args: {
-    src: '/assets/placeholders/tool-search.png',
+    src: 'assets/placeholders/tool-search.png',
     alt: 'A cut-paper magnifier lying across three overlapping paper squares, one of them a field of halftone dots, with a single orange ring at the end of the handle.',
     width: 240,
     height: 240,
@@ -60,7 +61,7 @@ export const Photograph: Story = {
     makes its claim in a sentence — a picture without one asks for it here. */
 export const Zoomable: Story = {
   args: {
-    src: '/assets/diagrams/answer-sources.svg',
+    src: 'assets/diagrams/answer-sources.svg',
     alt: 'The five sources plotted against how much of the machine has to be running.',
     width: 0,
     height: 0,
@@ -77,7 +78,7 @@ export const InABox: Story = {
       (size) => html`<div style="display:flex; flex-direction:column; align-items:center; gap:var(--space-2)">
         <sds-image
           class="sds-signet"
-          src="${size < 20 ? '/assets/design-system-signet-s.svg' : size < 32 ? '/assets/design-system-signet-m.svg' : '/assets/design-system-signet-l.svg'}"
+          src="${size < 20 ? 'assets/design-system-signet-s.svg' : size < 32 ? 'assets/design-system-signet-m.svg' : 'assets/design-system-signet-l.svg'}"
           alt=""
           width="${size}"
           height="${size}"
@@ -93,7 +94,7 @@ export const InABox: Story = {
     signet is, and `.sds-signet` is the same name the fallback markup uses. */
 export const InALockup: Story = {
   render: () => html`<a class="sds-lockup" href="#">
-    <sds-image class="sds-signet" src="/assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
+    <sds-image class="sds-signet" src="assets/design-system-signet-m.svg" alt="" width="24" height="24"></sds-image>
     <span class="sds-wordmark"><span class="sds-wordmark__brand">TYPO3</span><span class="sds-wordmark__pipe" aria-hidden="true"></span><span class="sds-wordmark__product">Soul Design System</span></span>
   </a>`,
 };
@@ -108,7 +109,7 @@ export const AFamily: Story = {
     ${['light', 'dark'].map(
       (mode) => html`<div data-theme="${mode}" style="background:var(--surface-canvas); padding:var(--space-5); display:flex; gap:var(--space-6); align-items:center">
         ${['design-system', 'dev-companion', 'tryout'].map(
-          (product) => html`<sds-image src="/assets/${product}-signet-l.svg" alt="The ${product} signet" width="48" height="48"></sds-image>`,
+          (product) => html`<sds-image src="assets/${product}-signet-l.svg" alt="The ${product} signet" width="48" height="48"></sds-image>`,
         )}
       </div>`,
     )}

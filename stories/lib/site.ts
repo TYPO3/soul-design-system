@@ -146,7 +146,7 @@ export const SITE_META: readonly FooterLink[] = [
 export const siteBar = (active: number, home = '#'): TemplateResult =>
   html`<sds-nav-main
     home="${home}"
-    signet="../assets/design-system-signet-m.svg"
+    signet="assets/design-system-signet-m.svg"
     brand="TYPO3"
     product="Dev Companion"
     search
@@ -157,4 +157,4 @@ export const siteBar = (active: number, home = '#'): TemplateResult =>
 /** The end of the site. */
 export const siteFooter = (): TemplateResult =>
   html`<sds-footer .groups="${SITE_GROUPS}" note="${SITE_NOTE}" version="1.4.0" .meta="${SITE_META}"
-    signet="../assets/design-system-signet-m.svg" brand="TYPO3" product="Dev Companion"></sds-footer>`;
+    signet="assets/design-system-signet-m.svg" brand="TYPO3" product="Dev Companion"></sds-footer>`;

@@ -63,26 +63,20 @@ const config: StorybookConfig = {
     sidebarOnboardingChecklist: false,
     menuOnboardingChecklist: false,
   },
-  /* The guideline specimens are iframed into the MDX pages exactly as the
-     pane renders them, so they are served as real files and resolve their
-     own `../styles.css` the way the pane resolves it. Mapped entry by entry
-     rather than serving the repo root, which would copy the build output
-     into itself. */
+  /* The specimens are iframed into the stories exactly as the pane renders
+     them, so they are served as real files and resolve their own stylesheet
+     the way the pane resolves it. Mapped entry by entry rather than serving
+     the repo root, which would copy the build output into itself. */
   staticDirs: [
-    /* Served at the path a card declares, not at the path it is stored under:
-       the card's own links climb to `/styles/` and `/assets/`, and those are
-       counted from the declared depth. `specimens/` is where the repo keeps
-       them and stops at the file system. */
-    { from: '../specimens/guidelines', to: '/guidelines' },
-    { from: '../specimens/components', to: '/components' },
-    { from: '../specimens/screens', to: '/screens' },
+    /* At the depth they are stored at, because a card's own links climb from
+       there: `specimens/guidelines/x.card.html` links
+       `../../packages/frontend/src/styles/styles.css`, and the climb has to
+       land inside this build. Served one level up it only landed at all
+       because a browser stops climbing at the root — which is the site's
+       root once the build is published below the documentation. */
+    { from: '../specimens', to: '/specimens' },
+    /* The pictures at the path a story writes, relative to the preview page. */
     { from: '../packages/frontend/assets', to: '/assets' },
-    { from: '../packages/frontend/fonts', to: '/fonts' },
-    { from: '../packages/frontend/src/tokens', to: '/tokens' },
-    /* The whole directory, at the path the cards resolve to: a guideline
-       card served at /guidelines/x.card.html links
-       `../packages/frontend/src/styles/styles.css`. */
-    { from: '../packages/frontend/src/styles', to: '/styles' },
     /* The faces and the pictures at the paths a generated card climbs to: a
        card states where a file is in the repository, because it is also opened
        from disk in the design pane, where nothing is served at all. Neither is

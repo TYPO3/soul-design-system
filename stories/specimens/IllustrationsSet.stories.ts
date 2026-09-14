@@ -35,7 +35,7 @@ const RULES: readonly string[] = [
 ];
 
 const image = ({ file, subject }: (typeof IMAGES)[number]): string => `<figure style="margin:0; min-width:0;">
-  <img src="../assets/placeholders/${file}" width="1200" height="750" alt="" style="display:block; width:100%; height:auto; border:1px solid var(--border-subtle);" />
+  <img src="assets/placeholders/${file}" width="1200" height="750" alt="" style="display:block; width:100%; height:auto; border:1px solid var(--border-subtle);" />
   <figcaption style="display:flex; justify-content:space-between; gap:8px; margin-top:6px;">
     <span class="spec-cap">${file}</span>
     <span class="spec-note" style="text-align:right;">${subject}</span>

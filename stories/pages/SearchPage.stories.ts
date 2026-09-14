@@ -89,10 +89,6 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
   const current = FACETS[facet] ?? FACETS[0];
   const shown = current?.kind ? HITS.filter((hit) => hit.kind === current.kind) : HITS;
 
-  /* Storybook serves `assets/` at its root; a file under `screens/` reaches
-     it one level up. */
-  const assets = flat ? '../assets' : '/assets';
-
   /* The same list the search field drops under itself, handed the hits a page
      of results has instead of the ones an index answered with. A picture where
      the entry carries one — a hit is a line either way. */
@@ -102,7 +98,7 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
           .items="${shown.map((hit) => ({
             ...hit,
             href: '#',
-            src: hit.src ? `${assets}/${hit.src}` : '',
+            src: hit.src ? `assets/${hit.src}` : '',
           }))}"
         ></sds-search-hits>`
     : html`<sds-note

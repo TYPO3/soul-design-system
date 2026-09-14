@@ -150,7 +150,7 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
         </div>
         <div class="sds-column">
           <sds-image
-            src="../assets/placeholders/community-folders.png"
+            src="assets/placeholders/community-folders.png"
             alt="Two departments' folder structures side by side, with the same icons used for different states"
             zoomable
           ></sds-image>

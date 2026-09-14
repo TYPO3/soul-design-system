@@ -16,11 +16,12 @@ import { type FigureProps } from '../../packages/frontend/src/components/figure.
 const sdsFigure = ({ src, alt, caption, zoomable = false }: FigureProps) =>
   html`<sds-figure src="${src}" alt="${alt}" .caption="${caption ?? ''}" ?zoomable="${zoomable}"></sds-figure>`;
 
-/* Storybook serves `assets/` at `/assets`; a page under `screens/` reaches the
-   same files at `../assets`. The path is the caller's, which is why this
-   element takes one rather than deriving it. */
+/* Written the way Storybook serves it, beside the preview page; a card or a
+   screen gets the climb to the same files counted in when it is written out.
+   The path is the caller's, which is why this element takes one rather than
+   deriving it. */
 const SOURCES = {
-  src: '/assets/diagrams/answer-sources.svg',
+  src: 'assets/diagrams/answer-sources.svg',
   alt: 'The five sources a tool can answer from, plotted against how much of the machine has to be running.',
   caption: 'Every source declares a precondition, so an answer is known to be reachable before the question is asked.',
 };
@@ -51,7 +52,7 @@ export const Default: Story = { args: SOURCES };
     where a drawing is wider than its column, and this is shown whole. */
 export const Photograph: Story = {
   args: {
-    src: '/assets/placeholders/tool-search.png',
+    src: 'assets/placeholders/tool-search.png',
     alt: 'A cut-paper magnifier lying across three overlapping paper squares, one of them a field of halftone dots, with a single orange ring at the end of the handle.',
     caption: 'One prompt makes the whole set, so a new subject joins the others instead of starting a second style.',
   },
@@ -75,7 +76,7 @@ export const Zoomable: Story = { args: { ...SOURCES, zoomable: true } };
     lifts both into its frame rather than requesting the file again. */
 export const Given: Story = {
   render: () => html`<sds-figure
-    ><img class="sds-art" src="/assets/placeholders/tool-search.png" alt="A cut-paper magnifier lying across three overlapping paper squares."
+    ><img class="sds-art" src="assets/placeholders/tool-search.png" alt="A cut-paper magnifier lying across three overlapping paper squares."
     ><figcaption class="sds-figure__caption"><p>The caption a document wrote, with its markup — a <code>literal</code> in it — intact.</p></figcaption></sds-figure
   >`,
 };
