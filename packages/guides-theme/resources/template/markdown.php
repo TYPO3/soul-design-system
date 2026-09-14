@@ -48,7 +48,18 @@ use phpDocumentor\Guides\Nodes\LiteralBlockNode;
 use phpDocumentor\Guides\Nodes\MathNode;
 use phpDocumentor\Guides\Nodes\Menu\MenuEntryNode;
 use phpDocumentor\Guides\Nodes\Menu\MenuNode;
+use phpDocumentor\Guides\Nodes\Metadata\AddressNode;
+use phpDocumentor\Guides\Nodes\Metadata\AuthorNode;
+use phpDocumentor\Guides\Nodes\Metadata\AuthorsNode;
+use phpDocumentor\Guides\Nodes\Metadata\ContactNode;
+use phpDocumentor\Guides\Nodes\Metadata\CopyrightNode;
+use phpDocumentor\Guides\Nodes\Metadata\DateNode;
 use phpDocumentor\Guides\Nodes\Metadata\MetadataNode;
+use phpDocumentor\Guides\Nodes\Metadata\MetaNode;
+use phpDocumentor\Guides\Nodes\Metadata\NavigationTitleNode;
+use phpDocumentor\Guides\Nodes\Metadata\OrganizationNode;
+use phpDocumentor\Guides\Nodes\Metadata\RevisionNode;
+use phpDocumentor\Guides\Nodes\Metadata\TopicNode as MetadataTopicNode;
 use phpDocumentor\Guides\Nodes\ParagraphNode;
 use phpDocumentor\Guides\Nodes\QuoteNode;
 use phpDocumentor\Guides\Nodes\SectionNode;
@@ -81,19 +92,29 @@ use TYPO3\Soul\GuidesTheme\Nodes\StepsNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SurfaceNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SwatchNode;
 
-/* What a page says about itself rather than in itself. The head of an HTML
-   page carries it; a Markdown file has no head, and a `:author:` printed as a
-   paragraph would read as the document's first sentence. */
-$blank = 'structure/blank.md.twig';
-
 return [
     // The document, and the shape of it
     DocumentNode::class => 'structure/document.md.twig',
     SectionNode::class => 'structure/section.md.twig',
     TitleNode::class => 'structure/header-title.md.twig',
     SidebarNode::class => 'structure/sidebar.md.twig',
-    MetadataNode::class => $blank,
     AnchorNode::class => 'inline/anchor.md.twig',
+
+    /* What a page says about itself, as the front matter the twin opens with
+       — one field per node, and the base class last: a field that means
+       something to the renderer and nothing to a reader is written nowhere. */
+    AuthorNode::class => 'structure/header/author.md.twig',
+    AuthorsNode::class => 'structure/header/authors.md.twig',
+    OrganizationNode::class => 'structure/header/organization.md.twig',
+    AddressNode::class => 'structure/header/address.md.twig',
+    ContactNode::class => 'structure/header/contact.md.twig',
+    DateNode::class => 'structure/header/date.md.twig',
+    CopyrightNode::class => 'structure/header/copyright.md.twig',
+    RevisionNode::class => 'structure/header/revision.md.twig',
+    NavigationTitleNode::class => 'structure/header/navigation-title.md.twig',
+    MetadataTopicNode::class => 'structure/header/topic.md.twig',
+    MetaNode::class => 'structure/header/meta.md.twig',
+    MetadataNode::class => 'structure/blank.md.twig',
 
     // Blocks
     ParagraphNode::class => 'body/paragraph.md.twig',

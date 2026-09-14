@@ -1665,6 +1665,20 @@ test.describe('the markdown twin', () => {
   const twin = (path: string): string => path.replace(/\.html$/, '.md');
   const read = (dir: string, path: string): string => readFileSync(join(dir, path), 'utf8');
 
+  /* The two halves of a twin: the front matter it opens with, read as the
+     `key: value` lines it is written as (a quoted value is a JSON string),
+     and the document under it. */
+  const halves = (markdown: string): { fields: Record<string, string>; body: string } => {
+    const match = /^---\n([\s\S]*?)\n---\n/.exec(markdown);
+    if (!match) return { fields: {}, body: markdown };
+    const fields: Record<string, string> = {};
+    for (const line of (match[1] as string).split('\n')) {
+      const [, key, value] = /^([^:]+): (.*)$/.exec(line) ?? [];
+      if (key !== undefined) fields[key] = value?.startsWith('"') ? (JSON.parse(value) as string) : (value as string);
+    }
+    return { fields, body: markdown.slice(match[0].length) };
+  };
+
   test('every page names its twin, and the twin holds the same document', () => {
     expect(rendered.length, 'the site should have pages in it').toBeGreaterThan(1);
 
@@ -1725,7 +1739,7 @@ test.describe('the markdown twin', () => {
   test('a block in a twin stands apart from the one before it', () => {
     const glued: string[] = [];
     for (const path of rendered.map(twin)) {
-      const lines = read(SITE_DIR, path).split('\n');
+      const lines = halves(read(SITE_DIR, path)).body.split('\n');
       /* The rail of the block being read, because a block is closed by one at
          least as long as the one that opened it — a prompt handed over whole
          carries fences of its own, and the block around it is longer. */
@@ -1758,6 +1772,53 @@ test.describe('the markdown twin', () => {
       '[link to the renderer](https://docs.phpdoc.org/components/guides/guides/)',
     ];
     expect(marks.filter((mark) => !written.includes(mark))).toEqual([]);
+  });
+
+  /* What the page carries in its head, the twin carries as front matter — and
+     it is the first byte of the file, because that is the only place front
+     matter is read as such. A twin that dropped it is still a document; one
+     that names the wrong page is a reader sent to a page that is not the one
+     it was reading. */
+  test('a twin opens with what the page says about itself', () => {
+    const wrong: string[] = [];
+    const llms = read(SITE_DIR, 'llms.txt');
+    for (const path of rendered) {
+      const html = read(SITE_DIR, path);
+      const markdown = read(SITE_DIR, twin(path));
+      const { fields } = halves(markdown);
+      if (!markdown.startsWith('---\n')) wrong.push(`${twin(path)}: no front matter`);
+
+      const name = path.split('/').at(-1) as string;
+      const title = /<title>([^<]*?)(?: — [^<]*)?<\/title>/.exec(html)?.[1]?.replace(/&#0?39;/g, "'").replace(/&amp;/g, '&');
+      if (fields.title !== title) wrong.push(`${twin(path)}: title is "${fields.title}", the page's is "${title}"`);
+      if (fields.canonical !== name) wrong.push(`${twin(path)}: canonical is ${fields.canonical}`);
+
+      /* The line under the page in llms.txt is the same sentence, read by
+         the same code: a reader following one to the other finds one page
+         described one way. */
+      const listed = new RegExp(`\\]\\(${twin(path).replace(/[.]/g, '\\.')}\\): (.*)$`, 'm').exec(llms)?.[1]?.replace(/\\(.)/g, '$1');
+      if (listed !== undefined && listed !== fields.description) {
+        wrong.push(`${twin(path)}: description is "${fields.description}", llms.txt says "${listed}"`);
+      }
+    }
+    expect(wrong).toEqual([]);
+  });
+
+  /* Every field the author wrote above the title reaches the front matter
+     under its own name, and one the page carries only for the renderer —
+     where it stands in the menu is a fact about the page, whether a search
+     may index it is not — is written nowhere. */
+  test('the fields a page was written with reach its front matter', () => {
+    const { fields } = halves(readFileSync(join(ACCEPTANCE_DIR, 'nodes.md'), 'utf8'));
+    expect(fields).toEqual({
+      title: 'Reference',
+      description: 'The nodes that only appear when software is being documented, each one rendered as a page and as a twin.',
+      canonical: 'nodes.html',
+      'navigation-title': 'Reference',
+      author: "The theme's own suite",
+      date: '2026-09-14',
+      keywords: 'reference, confval, option, tabs',
+    });
   });
 
   /* The way in for a reader that arrived with no navigation: the site's own

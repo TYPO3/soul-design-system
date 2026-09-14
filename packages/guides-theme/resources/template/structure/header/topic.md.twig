@@ -1,0 +1,7 @@
+{#- A field with a body — `:abstract:`, `:dedication:`. The abstract is
+    what the page says it is about, and is already the `description` above
+    (see `Opening`); written again under its own name it is the same sentence
+    twice. -#}
+{%- autoescape false -%}
+{%- if node.title != 'abstract' %}{{ node.title }}: {{ node.body|md_yaml }}{% endif %}
+{% endautoescape %}

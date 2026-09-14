@@ -290,10 +290,37 @@ The twin
    label was declared: a reader that had to derive them from the words would
    derive them its own way, and a reference carrying a fragment has to land.
 
+   What the page carries in its head, the twin carries as front matter, and
+   it is the first byte of the file because that is the only place front
+   matter is read as such:
+
+   .. code-block:: yaml
+
+      ---
+      title: "How the stylesheets are written"
+      description: "The class layer is one vocabulary written by many hands, …"
+      canonical: stylesheets.html
+      navigation-title: "Stylesheets"
+      ---
+
+   ``title`` is the page's; ``canonical`` is the page this file is the twin
+   of, the same relative name the page writes in its own ``rel="canonical"``,
+   so the pair points both ways. ``description`` is what the page says it is
+   about: an ``:abstract:`` field or a ``description`` written into ``..
+   meta::`` where the author wrote one, and the first sentence of the first
+   paragraph where they did not. Every other field written above the title —
+   ``:author:``, ``:date:``, ``:copyright:``, the rest of ``.. meta::`` —
+   lands under its own name; a field that speaks to the renderer and says
+   nothing to a reader, like ``:orphan:`` or ``:nosearch:``, is written
+   nowhere. Every value is quoted, because the plain form is a list of
+   exceptions — ``yes`` is a boolean, ``2024`` a number — that a title falls
+   into one day without anyone reading it.
+
    The same setting writes ``llms.txt`` at the publish root — the site's own
    table of contents, which is what a reader that arrived with no navigation
    is otherwise missing. It is the toctree: a heading per section, a line per
-   page with the sentence that page opens with, and every link a twin.
+   page with the same ``description`` its twin opens with, and every link a
+   twin.
 
    A twin is written at its page's own path, so a project that keeps a
    ``.md`` file as an *asset* beside a document of the same name — a prompt, a

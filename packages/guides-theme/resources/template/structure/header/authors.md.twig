@@ -1,0 +1,4 @@
+{#- The same field as a list, where the page names more than one. -#}
+{%- autoescape false -%}
+authors: [{% for author in node.authorNodes %}{{ author.value|md_yaml }}{% if not loop.last %}, {% endif %}{% endfor %}]
+{% endautoescape %}

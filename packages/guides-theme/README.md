@@ -92,9 +92,18 @@ those links is handed a page. It is GitHub Flavoured Markdown, so a table is a
 table, a block carries its language, and an admonition arrives as
 `> [!WARNING]`.
 
+What the page carries in its head, the twin opens with as front matter —
+`title`, `description`, `canonical` (the page this file is the twin of, so the
+pair points both ways) and every field the author wrote above the title under
+its own name: `:author:`, `:date:`, `:copyright:`, `:navigation-title:`, the
+keys of `.. meta::`. The description is the author's `:abstract:` or `meta`
+description where there is one and the first sentence of the page where there
+is not. A field that speaks only to the renderer, like `:orphan:`, is written
+nowhere.
+
 `llms.txt` lands at the publish root with them: the toctree as a list of those
-twins, a heading per section and a line per page with the sentence that page
-opens with. It is the way in for a reader that arrived with no navigation.
+twins, a heading per section and a line per page with the same description its
+twin opens with. It is the way in for a reader that arrived with no navigation.
 
 The reader all of it is for is a program: an agent following a link, a model
 asked to read the manual. `<markdown>false</markdown>` turns it off.

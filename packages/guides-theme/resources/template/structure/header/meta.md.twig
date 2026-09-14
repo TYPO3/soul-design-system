@@ -1,0 +1,5 @@
+{#- A `.. meta::` field under the name the author gave it. A `description`
+    is the front matter's own — see `Opening` — and is not written twice. -#}
+{%- autoescape false -%}
+{%- if node.key != 'description' %}{{ node.key }}: {{ node.value|md_yaml }}{% endif %}
+{% endautoescape %}

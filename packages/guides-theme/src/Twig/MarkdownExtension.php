@@ -6,6 +6,7 @@ namespace TYPO3\Soul\GuidesTheme\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use TYPO3\Soul\GuidesTheme\Nodes\Opening;
 
 /**
  * What a Markdown template cannot do with the language it is written in.
@@ -32,6 +33,8 @@ final class MarkdownExtension extends AbstractExtension
             new TwigFilter('md_line', $this->line(...)),
             new TwigFilter('md_cell', $this->cell(...)),
             new TwigFilter('md_break', $this->lineBreak(...)),
+            new TwigFilter('md_yaml', $this->yaml(...)),
+            new TwigFilter('md_opening', Opening::of(...)),
         ];
     }
 
@@ -152,6 +155,17 @@ final class MarkdownExtension extends AbstractExtension
         $text = $this->tidy($text);
 
         return trim((string)preg_replace('/\n/', ' ', (string)preg_replace('/\n{2,}/', '<br>', $text)));
+    }
+
+    /**
+     * A value in the front matter, as one YAML scalar. Always quoted: a JSON
+     * string is a YAML double-quoted scalar to the letter, and the plain form
+     * is a list of exceptions — `yes` is a boolean, `2024` a number, `a: b` a
+     * map — that a title falls into one day without anyone reading it.
+     */
+    public function yaml(?string $text): string
+    {
+        return json_encode($text ?? '', JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
     }
 
     /**

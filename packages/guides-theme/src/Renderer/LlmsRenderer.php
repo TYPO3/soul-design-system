@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace TYPO3\Soul\GuidesTheme\Renderer;
 
 use phpDocumentor\Guides\Handlers\RenderCommand;
-use phpDocumentor\Guides\Nodes\CompoundNode;
 use phpDocumentor\Guides\Nodes\DocumentNode;
 use phpDocumentor\Guides\Nodes\DocumentTree\DocumentEntryNode;
-use phpDocumentor\Guides\Nodes\InlineCompoundNode;
 use phpDocumentor\Guides\Nodes\Node;
-use phpDocumentor\Guides\Nodes\ParagraphNode;
 use phpDocumentor\Guides\RenderContext;
 use phpDocumentor\Guides\Renderer\TypeRenderer;
 use phpDocumentor\Guides\Renderer\UrlGenerator\UrlGeneratorInterface;
+use TYPO3\Soul\GuidesTheme\Nodes\Opening;
 use TYPO3\Soul\GuidesTheme\Twig\MarkdownExtension;
 
 /**
@@ -27,9 +25,6 @@ use TYPO3\Soul\GuidesTheme\Twig\MarkdownExtension;
  */
 final class LlmsRenderer implements TypeRenderer
 {
-    /** As long a note as a line of a list can carry and still be scanned. */
-    private const NOTE = 200;
-
     /* The twin's own escaping, because a title is text and a `]` in one is
        the end of a link. */
     public function __construct(
@@ -59,7 +54,10 @@ final class LlmsRenderer implements TypeRenderer
         $root = $project->getRootDocumentEntry();
         $lines = ['# ' . $this->markdown->escape($project->getTitle() ?? $root->getTitle()->toString())];
 
-        $summary = $this->opening($documents[$root->getFile()] ?? null);
+        /* The line under a page is what its twin opens with as `description`
+           — see `Opening` — so a reader following one to the other finds the
+           same sentence. */
+        $summary = Opening::of($documents[$root->getFile()] ?? null);
         if ($summary !== '') {
             $lines[] = '';
             $lines[] = '> ' . $this->markdown->escape($summary);
@@ -106,7 +104,7 @@ final class LlmsRenderer implements TypeRenderer
     private function line(RenderContext $context, DocumentEntryNode $entry, array $documents): string
     {
         $url = $this->urlGenerator->createFileUrl($context, $entry->getFile());
-        $note = $this->opening($documents[$entry->getFile()] ?? null);
+        $note = Opening::of($documents[$entry->getFile()] ?? null);
 
         $title = $this->markdown->escape($entry->getTitle()->toString());
 
@@ -142,61 +140,5 @@ final class LlmsRenderer implements TypeRenderer
             $entry->getChildren(),
             static fn(Node $child): bool => $child instanceof DocumentEntryNode,
         ));
-    }
-
-    /**
-     * What a page opens with: the first paragraph is what it says it is about,
-     * and its first sentence is as much of that as a list entry can carry.
-     */
-    private function opening(?DocumentNode $document): string
-    {
-        if ($document === null) {
-            return '';
-        }
-
-        foreach ($document->getChildren() as $child) {
-            $text = $this->sentence($child);
-            if ($text !== '') {
-                return $text;
-            }
-        }
-
-        return '';
-    }
-
-    /** The first sentence of the first paragraph below a node. */
-    private function sentence(Node $node): string
-    {
-        if ($node instanceof ParagraphNode) {
-            $text = '';
-            foreach ($node->getChildren() as $child) {
-                if ($child instanceof InlineCompoundNode) {
-                    $text .= $child->toString();
-                }
-            }
-
-            $text = trim((string)preg_replace('/\s+/', ' ', $text));
-            if ($text === '') {
-                return '';
-            }
-
-            $stop = strpos($text, '. ');
-            $text = $stop === false ? $text : substr($text, 0, $stop + 1);
-
-            return mb_strlen($text) > self::NOTE ? rtrim(mb_substr($text, 0, self::NOTE - 1)) . '…' : $text;
-        }
-
-        if (!$node instanceof CompoundNode) {
-            return '';
-        }
-
-        foreach ($node->getChildren() as $child) {
-            $text = $this->sentence($child);
-            if ($text !== '') {
-                return $text;
-            }
-        }
-
-        return '';
     }
 }

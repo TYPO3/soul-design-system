@@ -1,0 +1,4 @@
+{#- One field of the front matter: who wrote the page. -#}
+{%- autoescape false -%}
+author: {{ node.value|md_yaml }}
+{% endautoescape %}
